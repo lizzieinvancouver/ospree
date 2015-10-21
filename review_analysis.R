@@ -1,11 +1,41 @@
-# Budburst Lit review initial look
+# Budburst Lit review analysis.
+# started for 'data_simple', now working with data_detailed from the main xlsx sheet
+
+# Tim Todo: understand how to use head, summary, plot functions in R with data_simple, and also look at data_detailed. How many species do we have, how many papers are entered?
 
 library(gdata) # for read.xls
 library(scales) # for alpha
 
-d <- read.xls("~/Dropbox/Work/Harvard/budburst review/Archive/growthchambers_litreview_2015-02-02.xlsx", sheet = 6)
+#d <- read.xls("~/Dropbox/Work/Harvard/budburst review/Archive/growthchambers_litreview_2015-09-25.xlsx", sheet = 6)
 
-tapply(d$temp_day, d$datasetID, mean)
+setwd("~/Documents/git/budreview")
+d <- read.csv("data_simple.csv")
+
+de <- read.csv("data_detailed.csv")
+
+# Todo: make a numeric version, deal with 'natural' and 'ambient'
+
+d$temp_day <- sub("natural", "", d$temp_day)
+d$temp_day <- sub("ambient", "", d$temp_day)
+d$temp_day <- as.numeric(as.character(d$temp_day))
+
+d$temp_night <- sub("natural", "", d$temp_night)
+d$temp_night <- sub("ambient", "", d$temp_night)
+d$temp_night <- as.numeric(as.character(d$temp_night))
+
+
+d$photoperiod_day <- sub("natural", "", d$photoperiod_day)
+d$photoperiod_day <- sub("ambient", "", d$photoperiod_day)
+d$photoperiod_day <- as.numeric(as.character(d$photoperiod_day))
+
+
+d$photoperiod_night <- sub("natural", "", d$photoperiod_night)
+d$photoperiod_night <- sub("ambient", "", d$photoperiod_night)
+d$photoperiod_night <- as.numeric(as.character(d$photoperiod_night))
+
+
+
+tapply(d$temp_day, d$datasetID, mean, na.rm=T)
 tapply(d$temp_night, d$datasetID, mean) 
 
 d.cutt <- d[d$material == "cuttings",]
@@ -17,7 +47,7 @@ d.seed <- d.seed[order(d.seed$temp_day),]
 cols = alpha(c("red", "blue"), 0.5)
 
 
-pdf("Lit review check.pdf", height = 8, width = 6)
+pdf("graphs/Lit review check.pdf", height = 8, width = 6)
 
 par(mfrow = c(2, 1))
 
@@ -78,7 +108,7 @@ plot(d.seed$photoperiod_day, pch = "-", col = cols[1], cex = 2,
 abline(h = mean(d.seed[,"photoperiod_day"],na.rm=T), col = cols[1], lty = 2)
 legend("topleft", bty = "n", "Seedlings or other material")
 
-dev.off()
+dev.off(); system("open 'graphs/Lit review check.pdf' -a /Applications/Preview.app")
 
 # Short days: 10 hr, 8:00 to 16:00
 # long days: 12 hr, 7:00 to 19:00
@@ -93,4 +123,7 @@ dev.off()
 # temp mid may
 # Cool: 7 - 17
 # early may: 5 - 15
+
+# DAN todo: start looking at data_detailed, and analyzing the responses 
+# response ~ photo + temp + (1|species) + (1|study) 
 
