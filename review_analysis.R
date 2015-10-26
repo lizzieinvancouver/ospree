@@ -2,7 +2,8 @@
 # Budburst Lit review analysis.
 # started for 'data_simple', now working with data_detailed from the main xlsx sheet
 
-# Tim Todo: understand how to use head, summary, plot functions in R with data_simple, and also look at data_detailed. How many species do we have, how many papers are entered?
+# Tim Todo: understand how to use head, summary, plot functions in R with data_simple, and also look at data_detailed. 
+#How many species do we have, how many papers are entered?
 
 library(gdata) # for read.xls
 library(scales) # for alpha
