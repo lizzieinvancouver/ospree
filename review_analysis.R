@@ -128,3 +128,45 @@ dev.off(); system("open 'graphs/Lit review check.pdf' -a /Applications/Preview.a
 # DAN todo: start looking at data_detailed, and analyzing the responses 
 # response ~ photo + temp + (1|species) + (1|study) 
 
+summary(de)
+
+
+
+de$photoperiod_day <- sub("continuous", 24, de$photoperiod_day)
+de$photoperiod_day <- sub("ambient", "", de$photoperiod_day)
+de$photoperiod_day <- sub("shortday", 10, de$photoperiod_day)
+de$photoperiod_day <- sub("longday", 14, de$photoperiod_day)
+
+de$photoperiod_day <- as.numeric(as.character(de$photoperiod_day))
+
+
+de$forcetemp <- sub("ambient", "", de$forcetemp)
+de$forcetemp <- sub("24, 13", 24, de$forcetemp)
+de$forcetemp <- sub("meandaily", "", de$forcetemp)
+
+de$forcetemp <- as.numeric(as.character(de$forcetemp))
+
+
+data.frame(table(de$respvar))
+
+# one approach: scale each response within study, look at general response
+scaledresp <- vector()
+for(i in unique(de$respvar)){
+  dx <- de[de$respvar == i,]
+  
+  scaledresp <- c(scaledresp, scale(dx$response))
+  
+}
+
+de$scaledresp = scaledresp
+
+
+m1 <- lm(scaledresp ~ forcetemp * photoperiod_day, data = de)
+
+
+summary.aov(m1)
+library(lme4)
+
+m2 <- lmer(scaledresp ~ forcetemp * photoperiod_day + (1|species) + (1|study), data = de)
+summary(m2)
+ranef
