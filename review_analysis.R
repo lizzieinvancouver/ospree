@@ -171,3 +171,6 @@ library(lme4)
 m2 <- lmer(scaledresp ~ forcetemp * photoperiod_day + (1|species) + (1|study), data = de)
 summary(m2)
 ranef
+
+####### How many studies have multiple chilling levels, and are they close to ours?
+
