@@ -54,6 +54,8 @@ d$scaledresp = scaledresp
 
 m1 <- lm(scaledresp ~ forcetemp * photoperiod_day, data = d)
 
+summary(m1)
+
 d$sp <- paste(d$genus, d$species)
 d$exp <- paste(d$datasetID, d$study)
 
@@ -90,4 +92,5 @@ sjp.lmer(m4, type = "fe")
 
 
 ####### How many studies have multiple chilling levels, and are they close to ours?
-
+hist(d$forcetemp)
+hist(d$photoperiod_day)
