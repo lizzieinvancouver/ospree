@@ -7,7 +7,7 @@ rm(list=ls())
 options(stringsAsFactors=FALSE)
 
 #setwd("~/Dropbox/Documents/Work/Wolkovich/retreat")
-#get_pheno_est <- function(dat,percentbb){
+#get_dbb_est <- function(dat,percentbb){
 #  dat_final <- data.frame(matrix(data=NA,nrow=0,ncol=0))
 dat<-read.csv("growthchambers_litreview_2016-01-15.csv")
 head(dat)
