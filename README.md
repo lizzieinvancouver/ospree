@@ -1,5 +1,5 @@
 # `OSPRÉE`
-`Observed Spring Phenology Responses in Experimental Environments`
+`Observed Spring Phenology Responses in Éxperimental Environments`
 
 ## Where to find things
 
