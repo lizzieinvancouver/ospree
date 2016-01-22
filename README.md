@@ -11,3 +11,4 @@ Observed Spring Phenology Responses in Experimeental Environments
 ### Arboretum Teamwork site
 [Overview of tasks to do](https://arboretum.teamwork.com/projects/186739/overview)
 
+[How to Scrape 101](https://arboretum.teamwork.com/notebooks/105260)
