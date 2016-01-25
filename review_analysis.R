@@ -9,7 +9,7 @@ library(sjPlot) # visualizing fixed and random effects
 
 setwd("~/Documents/git/budreview")
 
-d <- read.csv(dir()[grep("growthchambers_litreview_2016", dir())]) # Get the latest 
+d <- read.csv("growthchambers_litreview.csv") # Get the latest 
 
 # response ~ photo + temp + (1|species) + (1|study) 
 
