@@ -6,7 +6,7 @@
 ### Google Drive
 [All PDF references](https://drive.google.com/open?id=0B8nEumYJJb_4cS15ejVlX0Rkdms)
 
-[PDFs to scrape](https://drive.google.com/open?id=0B8nEumYJJb_4cS15ejVlX0Rkdms)
+[PDFs to scrape](https://drive.google.com/drive/folders/0B3mqIwM06lEDelB3cXVwN09wbms) > Ospree Papers To Do - yourname
 
 ### Arboretum Teamwork site
 [Overview of tasks to do](https://arboretum.teamwork.com/projects/186739/overview)
