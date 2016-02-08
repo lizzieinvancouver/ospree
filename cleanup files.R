@@ -63,6 +63,8 @@ unique(detailedID_exp)
 
 head(d)
 
+#d.data_detailed = dat
+
 length(unique(paste(d.data_detailed$genus, d.data_detailed$species)))
 sort(summary(factor(paste(d.data_detailed$genus, d.data_detailed$species))), decreasing = T)
 
@@ -79,10 +81,10 @@ plot(world)
 map(col = "lightgrey")
 points(
       jitter(
-      as.numeric(as.character(d.data_detailed$population.long))), 
+      as.numeric(as.character(d.data_detailed$provenance.long))), 
       jitter(
-      as.numeric(as.character(d.data_detailed$population.lat))),
-      pch = 16, cex = 1,
+      as.numeric(as.character(d.data_detailed$provenance.lat))),
+      pch = 16, cex = 1.5,
       col = alpha("midnightblue", 0.1)
       )
 
