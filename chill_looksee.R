@@ -9,7 +9,10 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # setup stuff
-setwd("~/Documents/git/projects/treegarden/budburstreview/analyses/")
+#setwd("~/Documents/git/projects/treegarden/budburstreview/analyses/")
+setwd("~/Documents/git")
+
+
 library(ggplot2)
 
 # f(x)s
@@ -21,7 +24,7 @@ percentfilled <- function(dataframe, colname){
 
 
 # get the data 
-dater <- read.csv("budreview/growthchambers_litreview_2016-01-15.csv", header=TRUE)
+dater <- read.csv("budreview/growthchambers_litreview.csv", header=TRUE)
 dim(dater)
 dater.agg <- aggregate(dater["respvar"], dater[c("datasetID", "chilltemp", "chilldays",
     "fieldchill", "chillphotoperiod")], FUN=length)
@@ -51,3 +54,13 @@ ggplot(dater, aes(x=datasetID, y=as.numeric(chilltemp), color=datasetID)) + geom
 ggplot(dater, aes(x=datasetID, y=as.numeric(chillphotoperiod), color=datasetID)) + geom_point()
 
 ggplot(dater, aes(x=datasetID, y=chilltemp, color=datasetID)) + geom_point()
+
+# Lots of cleanup needed. 
+
+ggplot(dater, 
+	aes(x=as.numeric(as.character(dater$chilldays)), 
+	y=as.numeric(as.character(dater$chilltemp)), 
+	cex=log(as.numeric(as.character(dater$n))))) +
+	 xlab("Chilling Days") + ylab("Chilling Temperature °C") + geom_point()
+
+dev.print(device=pdf, file = "budreview/graphs/ChillSummary.pdf")

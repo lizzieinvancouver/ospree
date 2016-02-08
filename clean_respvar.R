@@ -6,10 +6,10 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 #JS set working directory: 
-setwd("/Users/jsamaha/Documents/git/budreview")
+setwd("~/Documents/git/budreview")
 
 #name data frame:
-scrapedata <- read.csv ("growthchambers_litreview_2016-01-15.csv")
+scrapedata <- read.csv ("growthchambers_litreview.csv")
 
 names(table(scrapedata$respvar))
 
@@ -54,3 +54,5 @@ scrapedata$respvar[scrapedata$respvar == "shootlengthcm"] <- "elongation"
 scrapedata$respvar[scrapedata$respvar == ""] <- ""
 scrapedata$respvar[scrapedata$respvar == ""] <- ""
 scrapedata$respvar[scrapedata$respvar == ""] <- ""
+
+write.csv(scrapedata, file = "growthchambers_litreview_clean1.csv", row.names=F)
