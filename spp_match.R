@@ -4,7 +4,9 @@
 require('Taxonstand')
 
 ##read in csv file with spp names
-dat <- read.csv("~/Documents/budreview/growthchambers_litreview_2016-01-15.csv")
+setwd("~/Documents/git/budreview")
+
+dat <- read.csv("growthchambers_litreview.csv") 
 dat$taxa <- paste(dat$genus,dat$species,sep=" ")
 
 ##checking number of study reps and experiment reps for each species
@@ -18,8 +20,8 @@ taxa <- unique(taxa)
 clean_names <- TPL(taxa)
 
 
-
-
+# Manual cleanup needed for these
+clean_names[clean_names$Plant.Name.Index == FALSE,]
 
 
 
