@@ -308,6 +308,7 @@ germinatedsummarydatesloc<-
         sem=sd(daysfromstart)/sqrt(length(daysfromstart)))
 
 #plot of germ day vs. species by populaiton
+
 plot1a <-ggplot(germinatedsummarydatesloc, aes(x=sp,y=mean, color=location, shape=origin))+
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(position=pd, size=3.6)+
@@ -454,8 +455,7 @@ hlm$b<-gsub("\\)","",as.character(hlm$b)) #remove the paranthesis
 hlm$gr<-as.numeric(hlm$b) #this columm now has the slope coef in numeric form
 hlmn<-subset(hlm, gr!="NA") #removes NA values (i.e. where there is only one height measurment, hence no growth rate could be calulated)
 hlms<-merge(hlmn, germs, by.x=("n"), by.y=("trayloc"), all.y=FALSE)
-#print(model$n[model$c<0],) # tests for negative values. Some of the values are negative for plants that didn't grow much, and so do;
-#measurment error, they seem to decrease in height. If difference was <1cm, the values were kept in. 
+#print(model$n[model$c<0],) # tests for negative values
 
 germinatedsummarygrloc<-
   ddply(hlms, c( "origin", "sp", "location"), summarise,
@@ -495,7 +495,7 @@ plot3c<-ggplot(germinatedsummarygrts, aes(x=(as.factor(temp)),y=mean, color=orig
   facet_grid(sp~strat)+
   ylab("growth rate")+
   xlab("mean temp (C)")+
-  ggtitle("Germ date vs. temp by continent and strat for each sp")
+  ggtitle("growth rate vs. temp by continent and strat for each sp")
 
 germinatedsummaryheight<-
   ddply(gh, c( "origin", "sp", "temp", "strat" ,"mdaysfromgerm"), summarise,
@@ -519,8 +519,9 @@ for(i in 1:length(species)){
     facet_grid(temp~strat)+
     ylab("height (cm)")+
     xlab("days since germination")+
-    ggtitle(paste(species[i], " height vs. days since germ  by color=continent, column=strat(days), row=temp(C)"))
-  ggsave("heightbyspecies.pdf")
+    ggtitle(paste(species[i], " height vs. age by  column=strat(days), row=temp(C)"))
+  print(a)
+  #ggsave("heightbyspecies.pdf")
 }
 dev.off()
 
