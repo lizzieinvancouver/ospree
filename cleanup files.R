@@ -48,7 +48,7 @@ system(paste(paste("mv ~/Dropbox/Work/Harvard/Budburst_Review/Budburst_Refs/", t
 
 head(d)
 
-hist(d$Year, breaks = 50)
+hist(as.numeric(as.character(d$year)), breaks = 50)
 
 sort(summary(d$Journal))
 
@@ -59,11 +59,12 @@ detailedID_exp <- unique(paste(d.data_detailed$datasetID, d.data_detailed$study)
 unique(detailedID_exp)
 
 
-#########
+#############################
+# Mapping 
 
 head(d)
 
-#d.data_detailed = dat
+#d.data_detailed = d
 
 length(unique(paste(d.data_detailed$genus, d.data_detailed$species)))
 sort(summary(factor(paste(d.data_detailed$genus, d.data_detailed$species))), decreasing = T)
@@ -75,16 +76,67 @@ sort(summary(d.data_detailed$respvar))
 
 library(maps)
 library(scales)
-plot(world)
 
 
-map(col = "lightgrey")
+# summary data by study, with n responses
+
+nd <- data.frame(n=tapply(d$datasetID, d$datasetID, length))
+nd$lat <- as.numeric(as.character(d[match(rownames(nd), d$datasetID), "provenance.lat"]))
+nd$long <- as.numeric(as.character(d[match(rownames(nd), d$datasetID), "provenance.long"]))
+nd$resp <- d[match(rownames(nd), d$datasetID), "respvar"]
+
+# colors for responses
+colz = alpha(c("midnightblue", "darkred","darkgreen"), 0.6)
+ccolz = rep(colz[1], nrow(nd))
+ccolz[nd$resp == "percentbudburst"] = colz[2]
+ccolz[nd$resp == "daystobudburst"] = colz[3]
+
+
+map(fill = F, col = "grey60" )
 points(
-      jitter(
-      as.numeric(as.character(d.data_detailed$provenance.long))), 
-      jitter(
-      as.numeric(as.character(d.data_detailed$provenance.lat))),
-      pch = 16, cex = 1.5,
-      col = alpha("midnightblue", 0.1)
-      )
+    nd$long, 
+    nd$lat,
+    lwd = 3,
+  pch = 1, cex = log(nd$n)/1.5,
+  col = ccolz
+  )
 
+dev.print(pdf, "figures/Big Map.pdf", width = 15, height = 10)
+system("open 'figures/Big Map.pdf' -a /Applications/Preview.app")
+
+
+       
+# europe
+par(xpd=F)
+map(fill = F, col = "grey60",
+    xlim = c(-13, 40), ylim = c(34, 72))
+points(
+  nd$long, 
+  nd$lat,
+  lwd = 4,
+  pch = 1, cex = log(nd$n)/1.5,
+  col = ccolz
+)
+
+
+levs <- hist(log(nd$n)/1.5, breaks = 3, plot=F)
+
+par(xpd=T)
+
+legend(-30, 62, bty = "n",
+       #title = "N",
+       pch = 1, pt.lwd = 4,
+       legend = ceiling(exp(levs$mids*1.5)),
+        pt.cex = levs$mids,
+       y.intersp = 2
+        ) 
+
+legend(-30, 52, bty = "n",
+       #title = "N",
+       pch = 1, pt.lwd = 4, pt.cex = 3,
+       legend = c("Other","Percent budburst","Days to budburst"),
+       y.intersp = 2,
+       col = colz)
+
+dev.print(pdf, "figures/Euro Map.pdf", width = 10, height = 8)
+system("open 'figures/Euro Map.pdf' -a /Applications/Preview.app")

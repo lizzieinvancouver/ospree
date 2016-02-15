@@ -9,7 +9,7 @@ options(stringsAsFactors = FALSE)
 setwd("~/Documents/git/budreview")
 
 #name data frame:
-scrapedata <- read.csv ("growthchambers_litreview.csv")
+scrapedata <- read.csv ("growthchambers_litreview-CLEANED.csv")
 
 names(table(scrapedata$respvar))
 
