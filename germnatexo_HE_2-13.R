@@ -559,18 +559,46 @@ germs$uniqind<- do.call(paste, c(germs[c("sp", "individual")], sep="_")) #create
 
 #making a global model with species, location, and individual:
 moddategsli<-lmer(daysfromstart~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategsli, file="gmoddategsli.Rdata")
+save(moddategsli, file="moddategsli.Rdata")
 #global model with species and location as random effects, but removing the individual:
-moddategsl<-lmer(daysfromstart~origin*temp +(1|sp/location), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategsl, file="gmoddatesgsl.Rdata")
+moddategsl<-lmer(daysfromstart~origin*temp*strat +(1|sp/location), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+save(moddategsl, file="moddatesgsl.Rdata")
 #global model with just sp as the random effect:
-moddategs<-lmer(daysfromstart~origin*temp +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategs,  file="gmoddatesgsl.Rdata")
+moddategs<-lmer(daysfromstart~origin*temp*strat +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+save(moddategs,  file="moddatesgsl.Rdata")
 #modeling species as a fixed effect: 
 
+#now doing individually by species:
+moddateliPLALAN<-lmer(daysfromstart~origin*temp*strat +(1|location/uniqind), data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+save(moddateliPLALAN,  file="moddateliPLALAN.Rdata")
+
+## now modeling germ rate
+modrategsli<-lmer(germinated~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+save(modrategsli,  file="modrategsli.Rdata")
+
+modrategsl<-lmer(germinated~origin*temp*strat +(1|sp/location), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+save(modrategsl,  file="modrategsl.Rdata")
+
+modrategs<-lmer(germinated~origin*temp*strat +(1|sp), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+save(modrategs,  file="modrategs.Rdata")
+
+modrateliPLALAN<-lmer(germinated~origin*temp*strat +(1|location/uniqind), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+save(modrateliPLALAN,  file="modrateliPLALAN.Rdata")
+
+
+## modeling growth rate 
+modgrowthgsli<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+save(modgrowthgsli,  file="modgrowthgsli.Rdata")
+
+modgrowthgsl<-lmer(gr~origin*temp*strat +(1|sp/location), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+save(modgrowthgsl,  file="modgrowthgsl.Rdata")
+
+modgrowthgs<-lmer(gr~origin*temp*strat +(1|sp), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+save(modgrowthgs,  file="modgrowthgs.Rdata")
+
+modgrowthsliPLALAN<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp=="PLALAN"))
+save(modgrowthsliPLALAN,  file="modgrowthsliPLALAN.Rdata")
 
 summary(mod3)
 #plot(asimplemodel) # some model diagnostics
-anova(mod2, mod3)#compares models. Loglik: more negative, better. AIC: higher = better. Takes fewer expl. variables into account 
-
-View(germs)
+anova(mod2, mod3)#compares models. Loglik: more negative, better. AIC: lower = better. Takes fewer expl. variables into account 
