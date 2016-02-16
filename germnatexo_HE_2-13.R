@@ -544,3 +544,33 @@ plot4a<-ggplot(subset(gh, sp=="DACGLO"), aes(x=(mdaysfromgerm),y=plantheight, co
   xlab("mdaysfromgerm")+
   ggtitle("DACGLO height vs. days since germ  by color=continent, column=strat(days), row=temp(C)")
 ggsave("heightbyspecies.pdf")
+
+
+
+# Models ------------------------------------------------------------------
+
+germs$uniqind<-NA
+germs$uniqind<- do.call(paste, c(germs[c("sp", "individual")], sep="_")) #creates a column that defines the individual 
+
+#asimplemodel <- lm(daysfromstart~origin*temp, data=subset(germs, germinated==1))
+
+## DATE OF GERMINATION MODELS:
+
+
+#making a global model with species, location, and individual:
+moddategsli<-lmer(daysfromstart~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+save(moddategsli, file="gmoddategsli.Rdata")
+#global model with species and location as random effects, but removing the individual:
+moddategsl<-lmer(daysfromstart~origin*temp +(1|sp/location), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+save(moddategsl, file="gmoddatesgsl.Rdata")
+#global model with just sp as the random effect:
+moddategs<-lmer(daysfromstart~origin*temp +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+save(moddategs,  file="gmoddatesgsl.Rdata")
+#modeling species as a fixed effect: 
+
+
+summary(mod3)
+#plot(asimplemodel) # some model diagnostics
+anova(mod2, mod3)#compares models. Loglik: more negative, better. AIC: higher = better. Takes fewer expl. variables into account 
+
+View(germs)
