@@ -1,5 +1,4 @@
 # Fixing merge issues
-library(gdata)
 
 setwd("~/Documents/git/budreview")
 
@@ -9,51 +8,53 @@ d <- read.csv("growthchambers_litreview-CLEANING.csv")
 
 # Then double-check to see if any papers ended up in master twice.
 
-# unique id's for things which should not have changed between the entry periods.
+# unique id's for things which should *not* have changed between the entry periods. Don't add too many variables, or won't find actual duplicates.
+names(d)
 
-d$uniqeid = 
-  apply(d[,c(2,3,5,6,7,8,9,18,19,20,21,22,23,24,25,26,27,28,50,51)], 1,
+d$uniqueid = 
+  apply(d[,c("datasetID","study","genus","species","population","population.detail",
+              "forcetemp","photoperiod_day","chilltemp","chilldays",
+                "respvar","response","response.time","n","response..pre.treatment.",
+                    "error.type","resp_error", "number.longdays","dormancy_induction_temp","freeze.treatment.time"
+                      )], 1,
         function(x)
           paste(x
               , collapse = "_")
                   )
 
+summary(duplicated(d$uniqueid)) # should be >10k, would rather still have some duplicates than throw out non-duplicates by mistake
+
+
 # Start with the last block. Add any from previous blocks which are unique
+nrow(d) # with many duplicates
 
-a <- d[d$CleanBlock == max(d$CleanBlock),]
+a <- d[d$CleanBlock == max(d$CleanBlock,na.rm = T),]
 
+nrow(a)
+
+# duplicates in the last block still!? Manually remove later.
+summary(duplicated(a$uniqueid)) # 
 
 a1 <- d[d$CleanBlock == 1,]
 a2 <- d[d$CleanBlock == 2,]
 a3 <- d[d$CleanBlock == 3,]
 a4 <- d[d$CleanBlock == 4,]
 
-# test with first 500 rows
-a1test = a1[1:500,]
-a2test = a2[1:500,]
-a3test = a3[1:500,]
-a4test = a4[1:500,]
-atest = a[1:500,]
+# look at duplicates  
+summary(!a4$uniqueid %in% a$uniqueid)
+summary(!a3$uniqueid %in% a$uniqueid)
+summary(!a2$uniqueid %in% a$uniqueid)
+summary(!a1$uniqueid %in% a$uniqueid)
 
-atest <- rbind(atest, a1test[!atest$uniqeid %in% a1test$uniqeid,])
-summary(!atest$uniqeid %in% a2test$uniqeid)
-atest <- rbind(atest, a2test[!atest$uniqeid %in% a2test$uniqeid,])
-summary(!atest$uniqeid %in% a3test$uniqeid)
-atest <- rbind(atest, a2test[!atest$uniqeid %in% a2test$uniqeid,])
-summary(!atest$uniqeid %in% a4test$uniqeid)
-
-summary(!a$uniqeid %in% a1$uniqeid)
-summary(!a$uniqeid %in% a2$uniqeid)
-summary(!a$uniqeid %in% a3$uniqeid)
-summary(!a$uniqeid %in% a4$uniqeid)
-
-a <- rbind(a, a1[!a$uniqeid %in% a1$uniqeid,])
-a <- rbind(a, a2[!a$uniqeid %in% a2$uniqeid,])
-a <- rbind(a, a3[!a$uniqeid %in% a3$uniqeid,])
-a <- rbind(a, a4[!a$uniqeid %in% a4$uniqeid,])
+a <- rbind(a, a1[!a1$uniqueid %in% a$uniqueid,])
+a <- rbind(a, a2[!a2$uniqueid %in% a$uniqueid,])
+a <- rbind(a, a3[!a3$uniqueid %in% a$uniqueid,])
+a <- rbind(a, a4[!a4$uniqueid %in% a$uniqueid,])
 
 dim(a)
 
 a <- a[a$datasetID != "<<<<<<< HEAD" & a$datasetID != "=======" & a$datasetID != "<<<<<<< Updated upstream" & !is.na(a$datasetID),]
-    
+
+length(unique(as.character(a$datasetID)))
+
 write.csv(a, "growthchambers_litreview-CLEANED.csv", row.names=F)
