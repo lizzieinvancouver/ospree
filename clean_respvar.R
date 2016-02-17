@@ -9,9 +9,14 @@ options(stringsAsFactors = FALSE)
 setwd("~/Documents/git/budreview")
 
 #name data frame:
-scrapedata <- read.csv ("growthchambers_litreview-CLEANED.csv")
+scrapedata <- read.csv ("growthchambers_litreview.csv")
 
-names(table(scrapedata$respvar))
+
+sort(table(scrapedata$respvar), T)
+names(table(scrapedata$respvar)) # 61 values now
+
+sort(with(scrapedata[scrapedata$respvar=="daystobudburst",], table(datasetID)), T)
+sort(with(scrapedata[scrapedata$respvar=="percentbudburst",], table(datasetID)), T)
 
 #Fixing obvious typos and synonmyms:
 scrapedata$respvar[scrapedata$respvar == "days to budbreak (on  50% of plants)"] <- "daysto50%budburst"
@@ -19,6 +24,8 @@ scrapedata$respvar[scrapedata$respvar == "daysto50perbudburst"] <- "daysto50%bud
 scrapedata$respvar[scrapedata$respvar == "daystodudburst"] <- "daystobudburst"
 scrapedata$respvar[scrapedata$respvar == "daystobudbust"] <- "daystobudburst"
 scrapedata$respvar[scrapedata$respvar == "daystobudset"] <- "daystobudburst"
+scrapedata$respvar[scrapedata$respvar == "baystobudset"] <- "daystobudburst"
+
 
 scrapedata$respvar[scrapedata$respvar == "percentbudsburst"] <- "percentbudburst"
 scrapedata$respvar[scrapedata$respvar == "percent_apicalbudburst"] <- "percentbudburst"
@@ -30,6 +37,7 @@ scrapedata$respvar[scrapedata$respvar == "percentapicalbudburst"] <- "percentbud
 scrapedata$respvar[scrapedata$respvar == "percentbloom"] <- "percentbudburst"
 scrapedata$respvar[scrapedata$respvar == "percentflowering"] <- "percentbudburst"
 scrapedata$respvar[scrapedata$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
+scrapedata$respvar[scrapedata$respvar == "percentunfolding"] <- "percentbudburst"
 
 scrapedata$respvar[scrapedata$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
 scrapedata$respvar[scrapedata$respvar == "cumulative growth increment"] <- "cumulativegrowthincrement"
