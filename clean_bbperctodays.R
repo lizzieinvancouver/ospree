@@ -21,12 +21,12 @@ colnames(dat_final) <- c("datasetID","study","treatment","dbb","maxperc_bb","min
 
 ##Sites that use percent budburst
 percbbsites<-dat[which(dat$respvar=="percentbudburst"),] # Make sure this is after Jehane's script 
-dim(percbbsites)
+
+# dim(percbbsites)
 
 dataset <- unique(percbbsites$datasetID)
 
-
-for(i in 1:length(dataset)){ # i = 1
+for(i in 1:length(dataset)){ # i = 2
 
   dat1 <- percbbsites[which(percbbsites$datasetID==dataset[i]),]
 
@@ -39,39 +39,56 @@ for(j in 1:length(study)){ # j = 1
   treat=unique(dat2$treatment)
 	dat2$response <- as.numeric(as.character(dat2$response))
 
-  for(k in 1:length(treat)) { # k = 1
-  dat3 <- dat2[which(dat2$treatment==treat[k]),]
+  for(k in 1:length(treat)) { # k = 1 # Do we need to loop within treatment, not just study?
+  
+    dat3 <- dat2[which(dat2$treatment==treat[k]),]
 
-  maxperc_bb<-max(as.numeric(dat3$response))#maxpercent budburst
-  minperc_bb<-min(as.numeric(dat3$response))#minpercent budburst- hopefully zero
+    # Check if this can be estimated at all.
+    if(length(dat3$response)>1 & is.numeric(dat3$response.time)) {
+    
+    
+    maxperc_bb<-max(as.numeric(dat3$response)) # maxpercent budburst
+    minperc_bb<-min(as.numeric(dat3$response)) # minpercent budburst - hopefully zero
 
   if(length(dat3[which(dat3$response==50),]$response.time)==1){dbb<-dat3[which(dat3$response==50),]$response.time}else#days to 50%bb if there is exactly one measurement at 50% bb
   
   if(length(dat3[which(dat3$response==50),]$response.time)==0){ # If there are no 50's
-  
-    dbb<-dat3[which(abs(dat3$response - 50) == min(abs(dat3$response-50))),]$response.time#choose closest value to 50 for percent 
+    
+      dbb<-dat3[which(abs(dat3$response - 50) == min(abs(dat3$response-50))),]$response.time#choose closest value to 50 for percent 
 
     dbb_perc<-dat3[which(abs(dat3$response-50)==min(abs(dat3$response-50))),]$response
-
+  # will be all zeros if both max and min are zero
+      
     } #percent
   if(dbb_perc > 55 | dbb_perc < 45 & length(dat3$response)>1){ ###need to fix this so that it uses the latest 0 and the earliest max percent as start and end points for percent                      
     dat3$response=round(dat3$response, digits=0)
-    dat4<-dat3[which(dat3$response==min(dat3$response, na.rm=TRUE)):min(which(dat3$response==max(dat3$response,na.rm=TRUE)),na.rm=TRUE),]
+    dat4<-dat3[c(which(dat3$response==min(dat3$response, na.rm=TRUE)), min(which(dat3$response==max(dat3$response,na.rm=TRUE)),na.rm=TRUE)),]
+    
+    if(is.numeric(dat4$response.time)){
     mod<-lm(as.numeric(dat4$response.time)~as.numeric(dat4$response))  #only use days to bb estimate if the percent is >45 or <55. If not, then use regression to get estimate for days to 50 percent
-    dbb<-coef(mod)[1]+coef(mod)[2]*50}
+    dbb<-coef(mod)[1]+coef(mod)[2]*50
+    }
+  }
   
   if(dbb_perc>55|dbb_perc<45 & length(na.omit(dat3$response))<2){ ###need to fix this so that it uses the latest 0 and the earliest max percent as start and end points for percent                      
     dat3$response=round(dat3$response, digits=0)
-    dat4<-dat3[which(dat3$response==min(dat3$response, na.rm=TRUE)):min(which(dat3$response==max(dat3$response,na.rm=TRUE)),na.rm=TRUE),]
+    dat4<-dat3[c(which(dat3$response==min(dat3$response, na.rm=TRUE)), min(which(dat3$response==max(dat3$response,na.rm=TRUE))),na.rm=TRUE),]
     mod<-lm(as.numeric(dat4$response.time)~as.numeric(dat4$response))  #only use days to bb estimate if the percent is >45 or <55. If not, then use regression to get estimate for days to 50 percent
     dbb<-coef(mod)[1]+coef(mod)[2]*50}
-    sum_dbb<-cbind(dataset[i],study[j],treat[k],dbb,maxperc_bb,minperc_bb)
-    colnames(sum_dbb) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb")
-}
-dat_final<- rbind(dat_final,sum_dbb)
-}
-return(dat_final)
+   
+     sum_dbb<-cbind(dataset[i],study[j],treat[k],dbb,maxperc_bb,minperc_bb)
+    
+     colnames(sum_dbb) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb")
+   
+     dat_final<- rbind(dat_final,sum_dbb)  
+     }
+    
+    
+  } 
+  
+  }
 
-#}
+
+}
 
 ##
