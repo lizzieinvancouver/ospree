@@ -9,6 +9,9 @@ library(sjPlot) # visualizing fixed and random effects
 
 setwd("~/Documents/git/budreview")
 
+# Run the prep script (slow, uncomment if haven't run in a while)
+# source("Prep_all_data.R") 
+
 d <- read.csv("growthchambers_litreview_clean1.csv") # after running Jehane's code (and eventually Beth and Ailene's, too)
 
 d <- d[2:51]
