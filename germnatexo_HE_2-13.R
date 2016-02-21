@@ -611,6 +611,58 @@ plot5c<-ggplot(subset(germindsummarygr, sd!="NA"), aes(x=as.factor(mean),y=(cv),
 print(plot5c)
 dev.off()
 
+##averaging across each species
+
+#germindsummarys$cvn<-ifelse(germindsummarys$cv!="NaN", germindsummarys$cv, 0) #setting undefined cv values (resulting from mean==0) to zero
+
+
+germsummarysp<-
+  ddply(subset(germindsummarys, cv!="NaN"), c("origin" , "sp" ), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+        
+
+germsummarygrp<-
+  ddply(subset(germindsummarygr, cv!="NaN"), c( "origin" , "sp"), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+
+germsummarydatep<-
+  ddply(subset(germindsummarydate, cv!="NaN"), c("origin" , "sp"), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+
+pdf("plasticity.pdf")
+
+plastica<-ggplot(germsummarydatep, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual germ date")+
+  xlab("species")+
+  ggtitle("mean coef of variation of germ date vs. species by continent")
+print(plastica)
+
+plasticb<-ggplot(germsummarysp, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual percent germination")+
+  xlab("species")+
+  ggtitle("mean coef of variation of percent germination vs. species by continent")
+print(plasticb)
+
+plasticc<-ggplot(germsummarygrp, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual growth rate (cm/day)")+
+  xlab("species")+
+  ggtitle("mean coef of variation of growth rate vs. species by continent")
+print(plasticc)
+
+dev.off()
+
 # Models ------------------------------------------------------------------
 
 germs$uniqind<-NA
@@ -619,6 +671,10 @@ germs$uniqind<- do.call(paste, c(germs[c("sp", "individual")], sep="_")) #create
 #asimplemodel <- lm(daysfromstart~origin*temp, data=subset(germs, germinated==1))
 
 #------------------------------DATE OF GERMINATION MODELs-------
+
+#global model with species as fixed effect:
+moddatesf<-lme(daysfromstart~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+
 
 #making a global model with species, location, and individual:
 moddategsli<-lmer(daysfromstart~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
@@ -660,6 +716,8 @@ summary(moddatelPLAMAJ)
 
 #------------------------------Germ Rate Models---------------------------------------------------------------
 
+#germ rate with species as fixed effect: 
+modratesf<-lme(germinated~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
 
 modrategsli<-lmer(germinated~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
 save(modrategsli,  file="modrategsli.Rdata")
@@ -687,6 +745,11 @@ modrateliCHEMAJ<-lme(germinated~origin*temp*strat, random=~1|location/uniqind, d
 save(modrateliCHEMAJ,  file="modrateliCHAMAJ.Rdata") #not sig better than model w/ ind and loc removed (p=1)
 
 #-----------------------Growth Rate Models ---------------------
+
+#growth rate response model with speceis as fixed:
+modgrowthsf<-lme(gr~origin*temp*strat*sp, random=~1|location/uniqind, data=hlms)
+
+
 
 modgrowthgsli<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
 save(modgrowthgsli,  file="modgrowthgsli.Rdata")
