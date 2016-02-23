@@ -70,7 +70,7 @@ germid$temp[germid$temp=="HM"] <- round((16*17.33+27.33*8)/24, digits=1)
 germid$temp[germid$temp=="HH"] <- round((16*22+32*8)/24, digits=1)
 
 germid$temp <- as.numeric(germid$temp)
-germid$temp<- round(as.numeric(germid$temp, digits=1)
+
 
 #add column to for current germ rate, setting germinated seeds to 1, ungerminated to 0
 germid$germinated <- germid$doy
