@@ -107,6 +107,7 @@ percentgerms
 
 pd<-position_dodge(.4)
 
+
 # comparing day of germination for filter/soil and Europe/USA
 ggplot(germid,aes(x=sp,y=daysfromstart, fill=substrate))+geom_boxplot() # Compare germination rates between the substrates
 ggplot(germid[which(germid$sp!= "PLAMED" & germid$sp!="PLACOR" & germid$substrate=="Soil"),],aes(x=sp,y=daysfromstart, fill=origin))+ylab("Germination Date for Soil")+geom_boxplot() #Compare germination rates between continents for soil plantings
@@ -669,19 +670,19 @@ germs$uniqind<- do.call(paste, c(germs[c("sp", "individual")], sep="_")) #create
 
 #------------------------------DATE OF GERMINATION MODELs-------
 
-#global model with species as fixed effect:
-moddatesf<-lme(daysfromstart~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-
-
-#making a global model with species, location, and individual:
-moddategsli<-lmer(daysfromstart~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategsli, file="moddategsli.Rdata")
-#global model with species and location as random effects, but removing the individual:
-moddategsl<-lmer(daysfromstart~origin*temp*strat +(1|sp/location), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategsl, file="moddatesgsl.Rdata")
-#global model with just sp as the random effect:
-moddategs<-lmer(daysfromstart~origin*temp*strat +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
-save(moddategs,  file="moddatesgsl.Rdata")
+# #global model with species as fixed effect:
+# moddatesf<-lme(daysfromstart~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+# 
+# 
+# #making a global model with species, location, and individual:
+# moddategsli<-lmer(daysfromstart~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddategsli, file="moddategsli.Rdata")
+# #global model with species and location as random effects, but removing the individual:
+# moddategsl<-lmer(daysfromstart~origin*temp*strat +(1|sp/location), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddategsl, file="moddatesgsl.Rdata")
+# #global model with just sp as the random effect:
+# moddategs<-lmer(daysfromstart~origin*temp*strat +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddategs,  file="moddatesgsl.Rdata")
 
 #Modelling each species separately
 moddateliPLALAN<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
@@ -703,39 +704,39 @@ qqnorm(moddateliTAROFF, main="normal qq plot for TAROFF germ date")
 qqnorm(moddateliDACGLO, main="normal qq plot for DACGLO germ date")
 dev.off()
 
-
-#taking out individual, because doesn't significant help the model (alpha =.15)
-#But taking out location also doesn't significantly hurt the model (alpha=.15), and (it's actually marginally better without location)
-moddatelPLALAN<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelPLALAN,  file="moddatelPLALAN.Rdata")
-moddatelPLAMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelPLAMAJ,  file="moddatelPLAMAJ.Rdata")
-moddatelRUMCRI<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="RUMCRI" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelRUMCRI,  file="moddatelRUMCRI.Rdata")
-moddatelDACGLO<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="DACGLO" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelDACGLO,  file="moddatelDACGLO.Rdata")
-moddatelCAPBUR<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelCAPBUR,  file="moddatelCAPBUR.Rdata")
-moddatelCHEMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelCHEMAJ,  file="moddatelCHEMAJ.Rdata")
-moddatelTAROFF<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
-save(moddatelTAROFF,  file="moddatelTAROFF.Rdata")
-
-summary(moddatelPLAMAJ)
+# 
+# #taking out individual, because doesn't significant help the model (alpha =.15)
+# #But taking out location also doesn't significantly hurt the model (alpha=.15), and (it's actually marginally better without location)
+# moddatelPLALAN<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelPLALAN,  file="moddatelPLALAN.Rdata")
+# moddatelPLAMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelPLAMAJ,  file="moddatelPLAMAJ.Rdata")
+# moddatelRUMCRI<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="RUMCRI" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelRUMCRI,  file="moddatelRUMCRI.Rdata")
+# moddatelDACGLO<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="DACGLO" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelDACGLO,  file="moddatelDACGLO.Rdata")
+# moddatelCAPBUR<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelCAPBUR,  file="moddatelCAPBUR.Rdata")
+# moddatelCHEMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelCHEMAJ,  file="moddatelCHEMAJ.Rdata")
+# moddatelTAROFF<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
+# save(moddatelTAROFF,  file="moddatelTAROFF.Rdata")
+# 
+# summary(moddatelPLAMAJ)
 
 #------------------------------Germ Rate Models---------------------------------------------------------------
 
-#germ rate with species as fixed effect: 
-modratesf<-lme(germinated~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
-
-modrategsli<-lmer(germinated~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
-save(modrategsli,  file="modrategsli.Rdata")
-
-modrategsl<-lmer(germinated~origin*temp*strat +(1|sp/location), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
-save(modrategsl,  file="modrategsl.Rdata")
-
-modrategs<-lmer(germinated~origin*temp*strat +(1|sp), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
-save(modrategs,  file="modrategs.Rdata")
+# #germ rate with species as fixed effect: 
+# modratesf<-lme(germinated~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+# 
+# modrategsli<-lmer(germinated~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+# save(modrategsli,  file="modrategsli.Rdata")
+# 
+# modrategsl<-lmer(germinated~origin*temp*strat +(1|sp/location), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+# save(modrategsl,  file="modrategsl.Rdata")
+# 
+# modrategs<-lmer(germinated~origin*temp*strat +(1|sp), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+# save(modrategs,  file="modrategs.Rdata")
 
 #Now modelling the individual: 
 modrateliPLALAN<-lme(germinated~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
@@ -767,19 +768,19 @@ dev.off()
 
 #-----------------------Growth Rate Models ---------------------
 
-#growth rate response model with speceis as fixed:
-modgrowthsf<-lme(gr~origin*temp*strat*sp, random=~1|location/uniqind, data=hlms)
-
-
-
-modgrowthgsli<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
-save(modgrowthgsli,  file="modgrowthgsli.Rdata")
-
-modgrowthgsl<-lmer(gr~origin*temp*strat +(1|sp/location), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
-save(modgrowthgsl,  file="modgrowthgsl.Rdata")
-
-modgrowthgs<-lmer(gr~origin*temp*strat +(1|sp), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
-save(modgrowthgs,  file="modgrowthgs.Rdata")
+# #growth rate response model with speceis as fixed:
+# modgrowthsf<-lme(gr~origin*temp*strat*sp, random=~1|location/uniqind, data=hlms)
+# 
+# 
+# 
+# modgrowthgsli<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+# save(modgrowthgsli,  file="modgrowthgsli.Rdata")
+# 
+# modgrowthgsl<-lmer(gr~origin*temp*strat +(1|sp/location), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+# save(modgrowthgsl,  file="modgrowthgsl.Rdata")
+# 
+# modgrowthgs<-lmer(gr~origin*temp*strat +(1|sp), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
+# save(modgrowthgs,  file="modgrowthgs.Rdata")
 
 modgrowthsliPLALAN<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="PLALAN"))
 save(modgrowthsliPLALAN,  file="modgrowthsliPLALAN.Rdata") # modgrowthsliPLALAN is worse when loc removed (p=.001) and worse when ind removed (.0036)
