@@ -65,7 +65,7 @@ germid$location<-do.call(paste, c(germid[c("origin", "location")], sep="--"))
 ## Assign the treatments an average temp
 # 18/8, 22.67/12.67C, 27.33/17.33, and 32/22
 germid$temp[germid$temp=="LL"] <- (16*8+18*8)/24
-germid$temp[germid$temp=="LM"] <- (16*12.67+m23.67*8)/24
+germid$temp[germid$temp=="LM"] <- (16*12.67+22.67*8)/24
 germid$temp[germid$temp=="HM"] <- (16*27.33+17.33*8)/24
 germid$temp[germid$temp=="HH"] <- (16*22+32*8)/24
 
@@ -695,6 +695,18 @@ moddateliCAPBUR<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind
 moddateliCHEMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
 moddateliTAROFF<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
 
+#creating qqplots
+pdf("moddate_qqplot.pdf")
+qqnorm(moddateliPLALAN, main="normal qq plot for PLALAN germ date")
+qqnorm(moddateliPLAMAJ, main="normal qq plot for PLAMAJ germ date")
+qqnorm(moddateliCAPBUR, main="normal qq plot for CAPBUR germ date")
+qqnorm(moddateliCHEMAJ, main="normal qq plot for CHEMAJ germ date")
+qqnorm(moddateliRUMCRI, main="normal qq plot for RUMCRI germ date")
+qqnorm(moddateliTAROFF, main="normal qq plot for TAROFF germ date")
+qqnorm(moddateliDACGLO, main="normal qq plot for DACGLO germ date")
+dev.off()
+
+
 #taking out individual, because doesn't significant help the model (alpha =.15)
 #But taking out location also doesn't significantly hurt the model (alpha=.15), and (it's actually marginally better without location)
 moddatelPLALAN<-lme(daysfromstart~origin*temp*strat, random=~1|location, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
@@ -744,6 +756,18 @@ save(modrateliCAPBUR,  file="modrateliCAPBUR.Rdata") #not sig better when loc is
 modrateliCHEMAJ<-lme(germinated~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
 save(modrateliCHEMAJ,  file="modrateliCHAMAJ.Rdata") #not sig better than model w/ ind and loc removed (p=1)
 
+#creating qqplots
+pdf("modrate_qqplot.pdf")
+qqnorm(modrateliPLALAN, main="normal qq plot for PLALAN germ rate")
+qqnorm(modrateliPLAMAJ, main="normal qq plot for PLAMAJ germ rate")
+qqnorm(modrateliCAPBUR, main="normal qq plot for CAPBUR germ rate")
+qqnorm(modrateliCHEMAJ, main="normal qq plot for CHEMAJ germ rate")
+qqnorm(modrateliRUMCRI, main="normal qq plot for RUMCRI germ rate")
+qqnorm(modrateliTAROFF, main="normal qq plot for TAROFF germ rate")
+qqnorm(modrateliDACGLO, main="normal qq plot for DACGLO germ rate")
+dev.off()
+
+
 #-----------------------Growth Rate Models ---------------------
 
 #growth rate response model with speceis as fixed:
@@ -775,6 +799,17 @@ save(modgrowthsliCHEMAJ,  file="modgrowthsliCHEMAJ.Rdata") # not different from 
 modgrowthsliRUMCRI<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="RUMCRI"))
 save(modgrowthsliRUMCRI,  file="modgrowthsliRUMCRI.Rdata") #not different from model without ind (p=1), or loc (p=.2166)
 
+#qqplots:
+pdf("modgrowth_qqplot.pdf")
+qqnorm(modgrowthsliPLALAN, main="normal qq plot for PLALAN growth rate")
+qqnorm(modgrowthsliPLAMAJ, main="normal qq plot for PLAMAJ growth rate")
+qqnorm(modgrowthsliCAPBUR, main="normal qq plot for CAPBUR growth rate")
+qqnorm(modgrowthsliCHEMAJ, main="normal qq plot for CHEMAJ growth rate")
+qqnorm(modgrowthsliRUMCRI, main="normal qq plot for RUMCRI growth rate")
+qqnorm(modgrowthsliTAROFF, main="normal qq plot for TAROFF growth rate")
+qqnorm(modgrowthsliDACGLO, main="normal qq plot for DACGLO growth rate")
+dev.off()
+
 
 #--------------------------------------------------------------------------------------------------------------
 #using lme:
@@ -796,3 +831,70 @@ ggplot(subset(germindsummarys, sd!="NA"), aes(x=as.factor(mean),y=(sd), color=or
   #xlab(paste(indparent[i]," mean germination rate for "))+
   ggtitle("coef of variation vs. mean by continent for ind percent germination")
 print(plot5b)
+
+
+# Congenerics -------------------------------------------------------------
+germcon<- subset(germs, location=="Europe--Le Tretien, Switzerland" | location=="Europe--Vlieland, The Netherlands")
+
+
+conrate<-
+  ddply(germcon, c( "uniqind", "origin" , "sp"), summarise,
+        mean=mean(germinated), sd=sd(germinated),
+        cv=sd(germinated)/mean(germinated))
+
+congr<-
+  ddply(hlms, c( "uniqind", "origin" , "sp"), summarise,
+        mean=mean(gr), sd=sd(gr),
+        cv=sd(gr)/mean(gr))
+
+condate<-
+  ddply(subset(germcon, germinated==1), c( "uniqind", "origin" , "sp"), summarise,
+        mean=mean(daysfromstart), sd=sd(daysfromstart),
+        cv=sd(daysfromstart)/mean(daysfromstart))
+
+condatecv<-
+  ddply(subset(condate, cv!="NaN"), c("origin" , "sp" ), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+
+
+congrcv<-
+  ddply(subset(congr, cv!="NaN"), c( "origin" , "sp"), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+
+condatecv<-
+  ddply(subset(condate, cv!="NaN"), c("origin" , "sp"), summarise,
+        mean=mean(cv), sd=sd(cv),
+        sem=sd(cv)/sqrt(length(cv)))
+
+pdf("plasticity.pdf")
+
+conplastica<-ggplot(condatecv, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual germ date")+
+  xlab("species")+
+  ggtitle("mean coef of variation of germ date vs. species by continent")
+print(plastica)
+
+plasticb<-ggplot(germsummarysp, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual percent germination")+
+  xlab("species")+
+  ggtitle("mean coef of variation of percent germination vs. species by continent")
+print(plasticb)
+
+plasticc<-ggplot(germsummarygrp, aes(x=as.factor(sp),y=(mean), color=origin))+  
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
+  geom_point(size=3, alhpa=.2, position=pd)+
+  geom_line(size=.6) +
+  ylab("mean coefficient of Variation of individual growth rate (cm/day)")+
+  xlab("species")+
+  ggtitle("mean coef of variation of growth rate vs. species by continent")
+print(plasticc)
+
+dev.off()
