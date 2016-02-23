@@ -64,16 +64,13 @@ germid$location<-do.call(paste, c(germid[c("origin", "location")], sep="--"))
 
 ## Assign the treatments an average temp
 # 18/8, 22.67/12.67C, 27.33/17.33, and 32/22
-germid$temp[germid$temp=="LL"] <- (16*8+18*8)/24
-germid$temp[germid$temp=="LM"] <- (16*12.67+22.67*8)/24
-germid$temp[germid$temp=="HM"] <- (16*17.33+27.33*8)/24
-germid$temp[germid$temp=="HH"] <- (16*22+32*8)/24
+germid$temp[germid$temp=="LL"] <- round((16*8+18*8)/24, digits=1)
+germid$temp[germid$temp=="LM"] <- round((16*12.67+22.67*8)/24, digits=1)
+germid$temp[germid$temp=="HM"] <- round((16*17.33+27.33*8)/24, digits=1)
+germid$temp[germid$temp=="HH"] <- round((16*22+32*8)/24, digits=1)
 
 germid$temp <- as.numeric(germid$temp)
-
-
-##adding in a step here to round the average temp since you are likely using it as a factor in your analysis, not a continuous variable##EJF
-germid$temp <- round(germid$temp,digits=0)
+germid$temp<- round(as.numeric(germid$temp, digits=1)
 
 #add column to for current germ rate, setting germinated seeds to 1, ungerminated to 0
 germid$germinated <- germid$doy
