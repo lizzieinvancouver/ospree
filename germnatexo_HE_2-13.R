@@ -66,7 +66,7 @@ germid$location<-do.call(paste, c(germid[c("origin", "location")], sep="--"))
 # 18/8, 22.67/12.67C, 27.33/17.33, and 32/22
 germid$temp[germid$temp=="LL"] <- (16*8+18*8)/24
 germid$temp[germid$temp=="LM"] <- (16*12.67+22.67*8)/24
-germid$temp[germid$temp=="HM"] <- (16*27.33+17.33*8)/24
+germid$temp[germid$temp=="HM"] <- (16*17.33+27.33*8)/24
 germid$temp[germid$temp=="HH"] <- (16*22+32*8)/24
 
 germid$temp <- as.numeric(germid$temp)
@@ -838,39 +838,39 @@ germcon<- subset(germs, location=="Europe--Le Tretien, Switzerland" | location==
 
 
 conrate<-
-  ddply(germcon, c( "uniqind", "origin" , "sp"), summarise,
+  ddply(germcon, c( "uniqind", "location" , "sp"), summarise,
         mean=mean(germinated), sd=sd(germinated),
         cv=sd(germinated)/mean(germinated))
 
 congr<-
-  ddply(hlms, c( "uniqind", "origin" , "sp"), summarise,
+  ddply(hlms, c( "uniqind", "location" , "sp"), summarise,
         mean=mean(gr), sd=sd(gr),
         cv=sd(gr)/mean(gr))
 
 condate<-
-  ddply(subset(germcon, germinated==1), c( "uniqind", "origin" , "sp"), summarise,
+  ddply(subset(germcon, germinated==1), c( "uniqind", "location" , "sp"), summarise,
         mean=mean(daysfromstart), sd=sd(daysfromstart),
         cv=sd(daysfromstart)/mean(daysfromstart))
 
 condatecv<-
-  ddply(subset(condate, cv!="NaN"), c("origin" , "sp" ), summarise,
+  ddply(subset(condate, cv!="NaN"), c("location" , "sp" ), summarise,
         mean=mean(cv), sd=sd(cv),
         sem=sd(cv)/sqrt(length(cv)))
 
 
 congrcv<-
-  ddply(subset(congr, cv!="NaN"), c( "origin" , "sp"), summarise,
+  ddply(subset(congr, cv!="NaN"), c( "location" , "sp"), summarise,
         mean=mean(cv), sd=sd(cv),
         sem=sd(cv)/sqrt(length(cv)))
 
 condatecv<-
-  ddply(subset(condate, cv!="NaN"), c("origin" , "sp"), summarise,
+  ddply(subset(condate, cv!="NaN"), c("location" , "sp"), summarise,
         mean=mean(cv), sd=sd(cv),
         sem=sd(cv)/sqrt(length(cv)))
 
 pdf("plasticity.pdf")
 
-conplastica<-ggplot(condatecv, aes(x=as.factor(sp),y=(mean), color=origin))+  
+conplastica<-ggplot(condatecv, aes(x=as.factor(sp),y=(mean), color=location))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(size=3, alhpa=.2, position=pd)+
   geom_line(size=.6) +
