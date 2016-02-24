@@ -140,25 +140,44 @@ plot2b <-ggplot(germinatedsummarys, aes(x=sp,y=mean, color=origin))+
   ggtitle("percent germ vs. species by continent")
 
 
+
 ##Looking more closely at location 
 germinatedlocsummarys<-
-  ddply(subset(germs, sp!="PLAMED", sp!="PLACOR"), c( "location", "origin" , "sp" ), summarise,
+  ddply(subset(germs, sp!="PLAMED" & sp!="PLACOR"), c( "location", "origin" , "sp" ), summarise,
         mean=mean(germinated), sd=sd(germinated),
         sem=sd(germinated)/sqrt(length(germinated)))
 
 #for filter:
 germinatedlocsummaryf<-
-  ddply(subset(germs, sp!="PLAMED", sp!="PLACOR"), c( "location", "origin" , "sp" ), summarise,
+  ddply(subset(germs, sp!="PLAMED" & sp!="PLACOR"), c( "location", "origin" , "sp" ), summarise,
         mean=mean(germinated), sd=sd(germinated),
         sem=sd(germinated)/sqrt(length(germinated)))
 
+germinatedsummarys$location<-5
+plot12bsumm<-rbind(germinatedsummarys, germinatedlocsummarys)
+
 #plot of germ day vs. species by populaiton
-plot1b <-ggplot(germinatedlocsummarys, aes(x=sp,y=mean, color=location, shape=origin))+
+plot1b <-ggplot(germinatedlocsummarys, aes(x=sp,y=mean, group=location, shape=origin))+
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(position=pd, size=3.6)+
   ylab("percent germ")+
   xlab("species")+
   ggtitle("Percent germination vs. species by population")
+
+#combining plot 1b and 2b 
+plot12b <-ggplot(plot12bsumm, aes(x=sp,y=mean, group=location, shape=origin))+
+  geom_errorbar(data=subset(plot12bsumm, location!="5"),aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.6) + 
+  geom_point(data=subset(plot12bsumm, location!="5"), position=pd, size=3.6, alpha=.6)+
+  geom_point(data=subset(plot12bsumm, location=="5"), aes(color=origin), position=position_dodge(.6), size=4.5)+
+  geom_errorbar(data=subset(plot12bsumm, location=="5"), aes(ymin=mean-sem, ymax=mean+sem, color=origin), width=.2, position=pd, size=1.5)+ 
+  ylab("percent germ")+
+  xlab("species")+
+  ggtitle("percent germ vs. species. Local populations in gray, continental mean in color")
+
+#Printing figure 1a
+pdf("figure1a.pdf", width=10.5, height=8)
+print(plot12b)
+dev.off()
 
 # plot germination percentages by location for soil
 ggplot(germinatedlocsummarys,aes(x=sp,y=mean, colour=location))+ 
@@ -317,7 +336,6 @@ plot1a <-ggplot(germinatedsummarydatesloc, aes(x=sp,y=mean, color=location, shap
   ylab("germ date")+
   xlab("species")+
   ggtitle("Germ date vs. species by population")
-
 #calculations to collapse population into continent
 germinatedsummarydates<-
   ddply(subset(germsn, sp!="PLAMED" & sp!="PLACOR"), c( "origin", "sp"), summarise,
@@ -332,6 +350,22 @@ plot2a <-ggplot(germinatedsummarydates, aes(x=sp,y=mean, color=origin))+
   xlab("species")+
   ggtitle("Germ date vs. species by continent")
 
+#Combining plot1a and 2a:
+germinatedsummarydates$location<-5
+plot12asumm<-rbind(germinatedsummarydates, germinatedsummarydatesloc)
+
+plot12a <-ggplot(plot12asumm, aes(x=sp,y=mean, shape=origin, group=location))+
+  geom_errorbar(data=subset(plot12asumm, location!="5"), aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.6) + 
+  geom_point(data=subset(plot12asumm, location!="5"), position=pd, size=3.6, alpha=.6)+
+  geom_point(data=subset(plot12asumm, location=="5"), aes(color=origin), position=pd, size=4.5, alpha=.8)+
+  geom_errorbar(data=subset(plot12asumm, location=="5"), aes(ymin=mean-sem, ymax=mean+sem, color=origin), alpha=.8, width=.2, position=pd, size=.8)+
+  ylab("germ date")+
+  xlab("species")+
+  ggtitle("Germ date vs. species. Local population in gray, continental averages in color")
+
+pdf("figure1b.pdf", width=11, height=8)
+print(plot12a)
+dev.off()
 
 #Calculations for date of germination for each species 
 
@@ -484,6 +518,22 @@ plot2c <-ggplot(germinatedsummarygr, aes(x=sp,y=mean, color=origin))+
   ylab("growth rate")+
   xlab("species")+
   ggtitle("growth rate vs. species by continent")
+
+#combining continental averages and location graphs: 
+germinatedsummarygr$location<-5
+plot12csumm<-rbind(germinatedsummarygr, germinatedsummarygrloc)
+
+plot12a <-ggplot(plot12asumm, aes(x=sp,y=mean, shape=origin, group=location))+
+  geom_errorbar(data=subset(plot12csumm, location!="5"), aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.6) + 
+  geom_point(data=subset(plot12csumm, location!="5"), position=pd, size=3.6, alpha=.6)+
+  geom_point(data=subset(plot12csumm, location=="5"), aes(color=origin), position=pd, size=4.5, alpha=.8)+
+  geom_errorbar(data=subset(plot12csumm, location=="5"), aes(ymin=mean-sem, ymax=mean+sem, color=origin), alpha=.8, width=.2, position=pd, size=1)+
+  ylab("growth rate (cm/day)")+
+  xlab("species")+
+  ggtitle("Germ date vs. species. Local population in gray, continental averages in color")
+pdf("figure1c.pdf", height=8, width=11)
+print(plot12a)
+dev.off()
 
 germinatedsummarygrts<-
   ddply(hlms, c( "origin", "sp", "temp", "strat"), summarise,
