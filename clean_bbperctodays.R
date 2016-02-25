@@ -13,7 +13,7 @@ setwd("~/Documents/git/budreview")
 
 dat<-read.csv("growthchambers_litreview_clean1.csv") # after response variables cleaned
 
-#get_dbb_est <- function(dat){
+dat$response.time = as.numeric(as.character(dat$response.time))
 
 dat_final <- data.frame(matrix(data=NA,nrow=0,ncol=6))
 
@@ -26,7 +26,7 @@ percbbsites<-dat[which(dat$respvar=="percentbudburst"),] # Make sure this is aft
 
 dataset <- unique(percbbsites$datasetID)
 
-for(i in 1:length(dataset)){ # i = 2
+for(i in 1:length(dataset)){ # i = 10
 
   dat1 <- percbbsites[which(percbbsites$datasetID==dataset[i]),]
 
@@ -43,13 +43,12 @@ for(j in 1:length(study)){ # j = 1
   
     dat3 <- dat2[which(dat2$treatment==treat[k]),]
 
-    # Check if this can be estimated at all.
-    if(length(dat3$response)>1 & is.numeric(dat3$response.time)) {
-    
-    
     maxperc_bb<-max(as.numeric(dat3$response)) # maxpercent budburst
     minperc_bb<-min(as.numeric(dat3$response)) # minpercent budburst - hopefully zero
-
+    
+    # Check if this can be estimated at all.
+    if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time) & length(unique(dat3$response.time))>1) {
+    
   if(length(dat3[which(dat3$response==50),]$response.time)==1){dbb<-dat3[which(dat3$response==50),]$response.time}else#days to 50%bb if there is exactly one measurement at 50% bb
   
   if(length(dat3[which(dat3$response==50),]$response.time)==0){ # If there are no 50's
@@ -62,33 +61,34 @@ for(j in 1:length(study)){ # j = 1
     } #percent
   if(dbb_perc > 55 | dbb_perc < 45 & length(dat3$response)>1){ ###need to fix this so that it uses the latest 0 and the earliest max percent as start and end points for percent                      
     dat3$response=round(dat3$response, digits=0)
-    dat4<-dat3[c(which(dat3$response==min(dat3$response, na.rm=TRUE)), min(which(dat3$response==max(dat3$response,na.rm=TRUE)),na.rm=TRUE)),]
+    dat4 <- dat3[c(which(dat3$response==min(dat3$response, na.rm=TRUE)), min(which(dat3$response==max(dat3$response,na.rm=TRUE)),na.rm=TRUE)),]
     
-    if(is.numeric(dat4$response.time)){
     mod<-lm(as.numeric(dat4$response.time)~as.numeric(dat4$response))  #only use days to bb estimate if the percent is >45 or <55. If not, then use regression to get estimate for days to 50 percent
     dbb<-coef(mod)[1]+coef(mod)[2]*50
-    }
+     
   }
   
   if(dbb_perc>55|dbb_perc<45 & length(na.omit(dat3$response))<2){ ###need to fix this so that it uses the latest 0 and the earliest max percent as start and end points for percent                      
     dat3$response=round(dat3$response, digits=0)
     dat4<-dat3[c(which(dat3$response==min(dat3$response, na.rm=TRUE)), min(which(dat3$response==max(dat3$response,na.rm=TRUE))),na.rm=TRUE),]
     mod<-lm(as.numeric(dat4$response.time)~as.numeric(dat4$response))  #only use days to bb estimate if the percent is >45 or <55. If not, then use regression to get estimate for days to 50 percent
-    dbb<-coef(mod)[1]+coef(mod)[2]*50}
+    dbb<-coef(mod)[1]+coef(mod)[2]*50
+    
+    } else dbb = NA
    
      sum_dbb<-cbind(dataset[i],study[j],treat[k],dbb,maxperc_bb,minperc_bb)
     
      colnames(sum_dbb) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb")
    
      dat_final<- rbind(dat_final,sum_dbb)  
-     }
-    
-    
-  } 
+     
+    } 
   
   }
-
+}
 
 }
 
-##
+dbb = dat_final
+
+save(list=c('dbb'), file = "Days to BB.Rdata")
