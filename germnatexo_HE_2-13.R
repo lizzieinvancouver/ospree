@@ -254,7 +254,7 @@ ggplot(subset(germinatedsotsummarys, sp=="PLALAN"),aes(x=(as.factor(treatment)),
   ggtitle("Effect of treatment on percent germination of seeds on soil")
 
 
-#set up multipanel plot to look at germination date for each species  
+#set up multipanel plot to look at percent germination for each species  
 plot3b<-ggplot(subset(germinatedsotsummarys, sp!="PLAMED" & sp!="PLACOR"), aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
@@ -262,7 +262,9 @@ plot3b<-ggplot(subset(germinatedsotsummarys, sp!="PLAMED" & sp!="PLACOR"), aes(x
   ylab("percent germ")+
   xlab("mean temp (C)")+
   ggtitle("percent germ vs. temp by continent and strat for each sp")
-
+pdf("figure2.pdf", width=8, height=11)
+print(plot3b)
+dev.off()
 
 #For loop doesn't work: 
 pdf(file="germ rate by species.pdf")
@@ -390,11 +392,12 @@ plot3a<-ggplot(subset(germinatedsummarydatests, sp!="PLAMED" & sp!="PLACOR"), ae
     geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
     geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
     facet_grid(sp~strat)+
-    ylab("germ date")+
+    ylab("Days to germination")+
     xlab("mean temp (C)")+
     ggtitle("Germ date vs. temp by continent and strat for each sp")
-
-
+pdf("figure3.pdf", width=8, height=11)
+print(plot3a)
+dev.off()
 #Now aggregating the species 
 germinatedsummarydates<-
   ddply(subset(germsn, sp!="PLAMED" | sp!="PLACOR"), c( "origin", "treatment"), summarise,
@@ -545,10 +548,13 @@ plot3c<-ggplot(germinatedsummarygrts, aes(x=(as.factor(temp)),y=mean, color=orig
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
   facet_grid(sp~strat)+
-  ylab("growth rate")+
+  ylab("growth rate (cm/day)")+
   xlab("mean temp (C)")+
   ggtitle("growth rate vs. temp by continent and strat for each sp")
 
+pdf("figure4.pdf", width=8, height=11)
+print(plot3c)
+dev.off()
 germinatedsummaryheight<-
   ddply(gh, c( "origin", "sp", "temp", "strat" ,"mdaysfromgerm"), summarise,
         mean=mean(plantheight), sd=sd(plantheight),
@@ -562,16 +568,31 @@ gh$ots<-do.call(paste, c(gh[c("strat", "sp" ,"origin", "temp", "mdaysfromgerm")]
 mgh<-merge(hm, gh, by="ots", all.y=TRUE)
 
 
+mf_labeller <- function(var, value){
+  value <- as.character(value)
+  if (var=="strat") { 
+    value[value=="30"] <- "30 days"
+    value[value=="60"]   <- "60 days"
+  }
+  if (var=="temp") { 
+    value[value=="11.3"] <- "11.3 °C"
+    value[value=="16"]   <- "16 °C"
+    value[value=="20.7"]   <- "20.7 °C"
+    value[value=="25.3"]   <- "25.3 °C"
+  }
+  return(value)
+}
+
 species<-unique(gh$sp)
-pdf(file="heightbyspecies.pdf")
+pdf(file="supplement.pdf")
 for(i in 1:length(species)){
   a<-ggplot(subset(gh, sp==species[i]), aes(x=(mdaysfromgerm),y=plantheight, color=origin, group=trayloc))+  
     geom_line(size=.6, alpha=.2) +geom_point(position=pd, size=1.6, alpha=.2)+ 
     geom_smooth(aes(group = origin), size = 1, method = "lm", se = FALSE, alpha=1)+
-    facet_grid(temp~strat)+
+    facet_grid(temp~strat, labeller=mf_labeller)+
     ylab("height (cm)")+
     xlab("days since germination")+
-    ggtitle(paste(species[i], " height vs. age by  column=strat(days), row=temp(C)"))
+    ggtitle(paste(species[i], " height vs. age by stratification length and temperature"))
   print(a)
   #ggsave("heightbyspecies.pdf")
 }
@@ -611,7 +632,7 @@ germindsummarygr<-
         cv=sd(gr)/mean(gr))
 
 germindsummarydate<-
-  ddply(germsn, c( "uniqind", "origin" , "sp"), summarise,
+  ddply(subset(germsn, sp!="PLAMED" & sp!="PLACOR"), c( "uniqind", "origin" , "sp"), summarise,
         mean=mean(daysfromstart), sd=sd(daysfromstart),
         cv=sd(daysfromstart)/mean(daysfromstart))
 
@@ -686,31 +707,33 @@ plastica<-ggplot(germsummarydatep, aes(x=as.factor(sp),y=(mean), color=origin))+
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(size=3, alhpa=.2, position=pd)+
   geom_line(size=.6) +
-  ylab("mean coefficient of Variation of individual germ date")+
+  ylab("mean CV of days to germination")+
   xlab("species")+
-  ggtitle("mean coef of variation of germ date vs. species by continent")
+  ggtitle(" (B) mean coef of variation of germ date vs. species by continent")
 print(plastica)
 
 plasticb<-ggplot(germsummarysp, aes(x=as.factor(sp),y=(mean), color=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(size=3, alhpa=.2, position=pd)+
   geom_line(size=.6) +
-  ylab("mean coefficient of Variation of individual percent germination")+
+  ylab("mean CV of percent germination")+
   xlab("species")+
-  ggtitle("mean coef of variation of percent germination vs. species by continent")
+  ggtitle("(A) mean coef of variation of percent germination vs. species by continent")
 print(plasticb)
 
 plasticc<-ggplot(germsummarygrp, aes(x=as.factor(sp),y=(mean), color=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
   geom_point(size=3, alhpa=.2, position=pd)+
   geom_line(size=.6) +
-  ylab("mean coefficient of Variation of individual growth rate (cm/day)")+
+  ylab("mean CV of growth rate (cm/day)")+
   xlab("species")+
-  ggtitle("mean coef of variation of growth rate vs. species by continent")
+  ggtitle("(C) mean coef of variation of growth rate vs. species by continent")
 print(plasticc)
 
 dev.off()
-
+pdf("figure5.pdf", width=8, height=11)
+multiplot(plasticb, plastica, plasticc)
+dev.off()
 # Models ------------------------------------------------------------------
 
 germs$uniqind<-NA
@@ -734,14 +757,14 @@ germs$uniqind<- do.call(paste, c(germs[c("sp", "individual")], sep="_")) #create
 # moddategs<-lmer(daysfromstart~origin*temp*strat +(1|sp), data=subset(germs, germinated==1 & sp!="PLAMED" & sp!="PLACOR"))
 # save(moddategs,  file="moddatesgsl.Rdata")
 
-#Modelling each species separately
-moddateliPLALAN<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliPLAMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliRUMCRI<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="RUMCRI" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliDACGLO<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="DACGLO" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliCAPBUR<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliCHEMAJ<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliTAROFF<-lme(daysfromstart~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
+#Modelling each species separately, with temp as factor, and the log of days from start 
+moddateliPLALAN<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliPLAMAJ<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliRUMCRI<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="RUMCRI" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliDACGLO<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="DACGLO" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliCAPBUR<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliCHEMAJ<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliTAROFF<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
 
 #creating qqplots
 pdf("moddate_qqplot.pdf")
