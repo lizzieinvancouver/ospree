@@ -17,10 +17,10 @@ library(nlme)
 library(plyr)
 library(reshape2)
 library(Rmisc)
-library(lme4)
+#library(lme4)
 library(scales)
 library(nlme)
-library(lmerTest)
+#library(lmerTest)
 ## point to files on computer
 setwd("C:/Users/Harold/Documents/github/eysterthesis")
 
@@ -28,6 +28,8 @@ setwd("C:/Users/Harold/Documents/github/eysterthesis")
 height<- read.csv("input/height_data_2-13-16.csv", header=TRUE) #Read the height file
 germ <- read.csv("input/Germ_Data_2-9-16.csv", header=TRUE) #read the germination file
 id<- read.csv("input/id_Data-2-4-16.csv", header=TRUE) #read the id file
+lab1<-read.csv("label.csv", header=TRUE) #read in the graph labeling file
+
 
 ## basic data cleaning
 #rename the columns
@@ -174,8 +176,8 @@ plot12b <-ggplot(plot12bsumm, aes(x=sp,y=mean, group=location, shape=origin))+
   xlab("Species")
   #ggtitle("percent germination vs. species. Local populations in gray, continental mean in color")
 
-#Printing figure 1a
-pdf("figure1a.pdf", width=11, height=8)
+#Printing figure 4a
+pdf("figure4.pdf", width=11, height=8)
 print(plot12b)
 dev.off()
 
@@ -233,7 +235,7 @@ spp <- unique(germid$sp)
 ##new summaries with sp, origin, and treatment 
 #for soil: 
 germinatedsotsummarys<-
-  ddply(germs, c( "sp", "origin", "strat", "temp"), summarise,
+  ddply(subset(germs, sp!="PLACOR" & sp!="PLAMED"), c( "sp", "origin", "strat", "temp"), summarise,
         mean=mean(germinated), sd=sd(germinated),
         sem=sd(germinated)/sqrt(length(germinated)))
 
@@ -253,16 +255,34 @@ ggplot(subset(germinatedsotsummarys, sp=="PLALAN"),aes(x=(as.factor(treatment)),
   xlab("treatment (temp_strat)")+
   ggtitle("Effect of treatment on percent germination of seeds on soil")
 
+#setting up facit grid labelling
+
+mf_labeller <- function(var, value){
+  value <- as.character(value)
+  if (var=="strat") { 
+    value[value=="30"] <- "30 days"
+    value[value=="60"]   <- "60 days"
+  }
+  if (var=="temp") { 
+    value[value=="11.3"] <- "11.3 °C"
+    value[value=="16"]   <- "16 °C"
+    value[value=="20.7"]   <- "20.7 °C"
+    value[value=="25.3"]   <- "25.3 °C"
+  }
+  return(value)
+}
 
 #set up multipanel plot to look at percent germination for each species  
-plot3b<-ggplot(subset(germinatedsotsummarys, sp!="PLAMED" & sp!="PLACOR"), aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
+plot3b<-ggplot(germinatedsotsummarys, aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-  facet_grid(sp~strat)+
-  ylab("percent germ")+
+  facet_grid(sp~strat, scale="free_y")+
+  ylab("Percent germination")+
   xlab("mean temp (C)")+
-  ggtitle("percent germ vs. temp by continent and strat for each sp")
-pdf("figure2.pdf", width=8, height=11)
+  ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
+  geom_text(aes(x, y, label=labs, group=NULL, color=NULL),data=lab1)
+  #ggtitle("percent germ vs. temp by continent and strat for each sp")
+pdf("figure5.pdf", width=8, height=11)
 print(plot3b)
 dev.off()
 
@@ -365,7 +385,8 @@ plot12a <-ggplot(plot12asumm, aes(x=sp,y=mean, shape=origin, group=location))+
   xlab("Species")
   #ggtitle("Germ date vs. species. Local population in gray, continental averages in color")
 
-pdf("figure1b.pdf", width=11, height=8)
+#printing figure 
+pdf("figure6.pdf", width=11, height=8)
 print(plot12a)
 dev.off()
 
@@ -387,15 +408,19 @@ ggplot(subset(germinatedsummarydatests,sp==spp[1]), aes(x=(as.factor(temp)),y=me
   ggtitle("Germ date vs. temp by continent and strat")
 
 
-  #set up multipanel plot to look at germination date for each species  
+  #set up multipanel plot to look at germination date for each species 
+lab2<-lab1
+lab2$y<-20
 plot3a<-ggplot(subset(germinatedsummarydatests, sp!="PLAMED" & sp!="PLACOR"), aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
     geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
     geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-    facet_grid(sp~strat)+
+    facet_grid(sp~strat, scales="free_y")+
     ylab("Days to germination")+
     xlab("mean temp (C)")+
-    ggtitle("Germ date vs. temp by continent and strat for each sp")
-pdf("figure3.pdf", width=8, height=11)
+    ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
+    geom_text(aes(x, y, label=labs, group=NULL, color=NULL),data=lab2)
+    #ggtitle("Germ date vs. temp by continent and strat for each sp")
+pdf("figure7.pdf", width=8, height=11)
 print(plot3a)
 dev.off()
 #Now aggregating the species 
@@ -526,35 +551,40 @@ plot2c <-ggplot(germinatedsummarygr, aes(x=sp,y=mean, color=origin))+
 germinatedsummarygr$location<-5
 plot12csumm<-rbind(germinatedsummarygr, germinatedsummarygrloc)
 
-plot12a <-ggplot(plot12asumm, aes(x=sp,y=mean, shape=origin, group=location))+
-  geom_errorbar(data=subset(plot12csumm, location!="5"), aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.6) + 
-  geom_point(data=subset(plot12csumm, location!="5"), position=pd, size=3.6, alpha=.6)+
+plot12c <-ggplot(plot12csumm, aes(x=sp,y=mean, shape=origin, group=location))+
+  geom_errorbar(data=subset(plot12csumm, location!="5"), aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.4) + 
+  geom_point(data=subset(plot12csumm, location!="5"), position=pd, size=3.6, alpha=.4)+
   geom_point(data=subset(plot12csumm, location=="5"), aes(color=origin), position=pd, size=4.5, alpha=.8)+
   geom_errorbar(data=subset(plot12csumm, location=="5"), aes(ymin=mean-sem, ymax=mean+sem, color=origin), alpha=.8, width=.2, position=pd, size=1)+
   ylab("growth rate (cm/day)")+
-  xlab("species")+
-  ggtitle("Germ date vs. species. Local population in gray, continental averages in color")
-pdf("figure1c.pdf", height=8, width=11)
-print(plot12a)
+  xlab("species")
+  #ggtitle("Growth rate vs. species. Local population in gray, continental averages in color")
+pdf("figure8.pdf", height=8, width=11)
+print(plot12c)
 dev.off()
 
 germinatedsummarygrts<-
   ddply(hlms, c( "origin", "sp", "temp", "strat"), summarise,
         mean=mean(gr), sd=sd(gr),
         sem=sd(gr)/sqrt(length(gr)))
-
+lab3<-lab2
+lab3$y<-c(0.08)
+lab3[5:6, 2] <- .4
 #set up multipanel plot to look at growth rate for each species  
 plot3c<-ggplot(germinatedsummarygrts, aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-  facet_grid(sp~strat)+
+  facet_grid(sp~strat, scale="free_y")+
   ylab("growth rate (cm/day)")+
-  xlab("mean temp (C)")+
-  ggtitle("growth rate vs. temp by continent and strat for each sp")
+  xlab("Mean temperature (C)")+
+  ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
+  geom_text(aes(x, y, label=labs, group=NULL, color=NULL),data=lab3)
+  #ggtitle("growth rate vs. temp by continent and strat for each sp")
 
-pdf("figure4.pdf", width=8, height=11)
+pdf("figure9.pdf", width=8, height=11)
 print(plot3c)
 dev.off()
+
 germinatedsummaryheight<-
   ddply(gh, c( "origin", "sp", "temp", "strat" ,"mdaysfromgerm"), summarise,
         mean=mean(plantheight), sd=sd(plantheight),
@@ -731,7 +761,7 @@ plasticc<-ggplot(germsummarygrp, aes(x=as.factor(sp),y=(mean), color=origin))+
 print(plasticc)
 
 dev.off()
-pdf("figure5.pdf", width=8, height=11)
+pdf("figure10.pdf", width=8, height=11)
 multiplot(plasticb, plastica, plasticc)
 dev.off()
 # Models ------------------------------------------------------------------
@@ -762,7 +792,7 @@ moddateliPLALAN<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|
 moddateliPLAMAJ<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
 moddateliRUMCRI<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="RUMCRI" & sp!="PLAMED" & sp!="PLACOR"))
 moddateliDACGLO<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="DACGLO" & sp!="PLAMED" & sp!="PLACOR"))
-moddateliCAPBUR<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
+moddateliCAPBUR<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR" & temp!="11.3"))
 moddateliCHEMAJ<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="CHEMAJ" & sp!="PLAMED" & sp!="PLACOR"))
 moddateliTAROFF<-lme(log(daysfromstart)~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, germinated==1 & sp=="TAROFF" & sp!="PLAMED" & sp!="PLACOR"))
 
@@ -800,7 +830,7 @@ dev.off()
 #------------------------------Germ Rate Models---------------------------------------------------------------
 
 # #germ rate with species as fixed effect: 
-# modratesf<-lme(germinated~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
+#modratesf<-lme(germinated~origin*temp*strat*sp, random=~1|location/uniqind, data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
 # 
 # modrategsli<-lmer(germinated~origin*temp*strat +(1|sp/location/uniqind), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
 # save(modrategsli,  file="modrategsli.Rdata")
@@ -810,6 +840,33 @@ dev.off()
 # 
 # modrategs<-lmer(germinated~origin*temp*strat +(1|sp), data=subset(germs, sp!="PLAMED" & sp!="PLACOR"))
 # save(modrategs,  file="modrategs.Rdata")
+
+##Modeling with GLM:
+#first averaging for each population
+germrateloc<-
+  ddply(germs, c( "sp", "origin", "strat", "temp", "location"), summarise,
+        mean=mean(germinated), sd=sd(germinated),
+        sem=sd(germinated)/sqrt(length(germinated)))
+
+germrateind<-
+  ddply(germs, c( "sp", "origin", "strat", "temp", "uniqind"), summarise,
+        mean=mean(germinated), sd=sd(germinated),
+        sem=sd(germinated)/sqrt(length(germinated)))
+
+lmratePLALAN<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="PLALAN"))
+lmratePLAMAJ<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="PLAMAJ"))
+lmrateCAPBUR<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="CAPBUR"))
+lmrateCHEMAJ<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="CHEMAJ"))
+lmrateDACGLO<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="DACGLO"))
+lmrateRUMCRI<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="RUMCRI"))
+lmrateTAROFF<-lm(mean~origin*as.factor(temp)*strat, data=subset(germrateloc, sp=="TAROFF"))
+
+anova(lmratePLAMAJ)
+#qqplot is light-tailed 
+plot(lmratePLALAN)
+
+ggplot(subset(germrateloc, sp=="PLALAN"), aes(mean)) + 
+    geom_histogram()
 
 #Now modelling the individual: 
 modrateliPLALAN<-lme(germinated~origin*temp*strat, random=~1|location/uniqind, data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
@@ -829,9 +886,11 @@ save(modrateliCHEMAJ,  file="modrateliCHAMAJ.Rdata") #not sig better than model 
 
 #lmer:
 modrateliPLALANrb<-lmer(germinated~origin*as.factor(temp)*strat+(1|location/uniqind), family=binomial(link="logit"), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+modrateliPLALANr<-lmer(germinated~origin*as.factor(temp)*strat+(1|location/uniqind), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+
 library(MASS)
 library(lmerTest)
-modrateliPLALANg<-glmmPQL(germinated~origin*as.factor(temp)*strat+(1|location/uniqind), family=binomial(link="logit"), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
+modrateliPLALANg<-glmmPQL(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, family=binomial(link="logit"), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
 
 #using type 1. see https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/ 
 #Kenward-Roger and Satterthwaite give nearly identicall DenDF, but perhaps KR is better. see: Schaalje, G., McBride, J. and Fellingham, G. (2002). Journal of Agricultural, Biological, and Enviromental Statistics 7, 512-524. 
@@ -854,10 +913,16 @@ dev.off()
 #-----------------------Growth Rate Models ---------------------
 
 # #growth rate response model with speceis as fixed:
-# modgrowthsf<-lme(gr~origin*temp*strat*sp, random=~1|location/uniqind, data=hlms)
-# 
-# 
-# 
+#subsetting to remove variables that have missing data 
+hlmss1<-subset(hlms, (sp=="CHEMAJ" & temp!="25.3") | sp=="DACGLO" | sp=="PLALAN" | sp=="PLAMAJ" | sp=="RUMCRI" | sp=="TAROFF" | (sp=="CAPBUR" & temp!="11.3" & temp!="25.3"))
+modgrowthsf1<-lme(gr~origin*as.factor(temp)*strat*sp, random=~1|location/uniqind, data=subset(hlms, temp!=11.3 & temp!=25.3)   )
+modgrowthsf2<-lme(gr~origin*as.factor(temp)*strat*sp, random=~1|location/uniqind, data=subset(hlms, sp!="CAPBUR" & sp!="CHEMAJ")   )
+anova.lme(modgrowthsf2)
+anova.lme(modgrowthsf1)
+sink(file="modgrowthsf2")
+summary(modgrwothsf2)
+sink()
+dev.off()
 # modgrowthgsli<-lmer(gr~origin*temp*strat +(1|sp/location/uniqind), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
 # save(modgrowthgsli,  file="modgrowthgsli.Rdata")
 # 
@@ -867,19 +932,19 @@ dev.off()
 # modgrowthgs<-lmer(gr~origin*temp*strat +(1|sp), data=subset(hlms, sp!="PLAMED" & sp!="PLACOR"))
 # save(modgrowthgs,  file="modgrowthgs.Rdata")
 
-modgrowthsliPLALAN<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="PLALAN"))
+modgrowthsliPLALAN<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="PLALAN"))
 save(modgrowthsliPLALAN,  file="modgrowthsliPLALAN.Rdata") # modgrowthsliPLALAN is worse when loc removed (p=.001) and worse when ind removed (.0036)
-modgrowthsliPLAMAJ<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="PLAMAJ"))
+modgrowthsliPLAMAJ<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="PLAMAJ"))
 save(modgrowthsliPLAMAJ,  file="modgrowthsliPLAMAJ.Rdata") # this model is the same as model w/o ind (p=1), or when loc is removed (p=.3307) (but actually slightly better w/o ind)
-modgrowthsliDACGLO<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="DACGLO"))
+modgrowthsliDACGLO<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="DACGLO"))
 save(modgrowthsliDACGLO,  file="modgrowthsliDACGLO.Rdata") # not different from model without loc or ind (p=1)
-modgrowthsliCAPBUR<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="CAPBUR"))
+modgrowthsliCAPBUR<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="CAPBUR" & temp!="11.3" & temp!="25.3" ))
 save(modgrowthsliCAPBUR,  file="modgrowthsliCAPBUR.Rdata")# not different from model without loc or ind (p=1)
-modgrowthsliTAROFF<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="TAROFF"))
+modgrowthsliTAROFF<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="TAROFF"))
 save(modgrowthsliTAROFF,  file="modgrowthsliTAROFF.Rdata")  # not different from model without loc or ind (p=1)
-modgrowthsliCHEMAJ<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="CHEMAJ"))
+modgrowthsliCHEMAJ<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="CHEMAJ" & temp!=11.3))
 save(modgrowthsliCHEMAJ,  file="modgrowthsliCHEMAJ.Rdata") # not different from model without loc or ind (p=1)
-modgrowthsliRUMCRI<-lme(gr~origin*temp*strat, random=~1|location/uniqind, data=subset(hlms, sp=="RUMCRI"))
+modgrowthsliRUMCRI<-lme(gr~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(hlms, sp=="RUMCRI"))
 save(modgrowthsliRUMCRI,  file="modgrowthsliRUMCRI.Rdata") #not different from model without ind (p=1), or loc (p=.2166)
 
 #qqplots:

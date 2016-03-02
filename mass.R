@@ -11,11 +11,14 @@ modrateliPLALANgl<-glmer(germinated~origin*as.factor(temp)*strat+(1|location/uni
 Anova(modrateliPLALANgl)
 anova(modrateliPLALANgl)
 
-modrateliPLALAN<-lmer(germinated~origin*as.factor(temp)*strat+(1|location/uniqind), family=binomial(link="logit"), data=subset(germs, sp=="PLALAN"))
+
+modrateliPLALAN<-lmer(germinated~origin*as.factor(temp)*strat+(1|location/uniqind), family=binomial(link="logit"), data=subset(germs, sp==""))
 df.KR <- get_ddf_Lb(modrateliPLALAN4, fixef(modrateliPLALAN4))
 modrateliPLALANg<-glmmPQL(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
 summary(modrateliPLALANg)
 summary(modrateliPLALANr)
 View(germs)
 library(ez)
-modrateliCAPBURg<-glmmPQL(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, family=binomial(link="logit"), data=subset(germs, sp=="CAPBUR" & sp!="PLAMED" & sp!="PLACOR"))
+modrateliCAPBURg<-glmmPQL(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, family=binomial(link="logit"), data=subset(germs, sp=="PLAMAJ" & sp!="PLAMED" & sp!="PLACOR"))
+
+modrateliPLALANn<-lme(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, data=subset(germs, sp=="PLALAN"))
