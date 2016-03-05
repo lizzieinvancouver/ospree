@@ -276,7 +276,7 @@ mf_labeller <- function(var, value){
 plot3b<-ggplot(germinatedsotsummarys, aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-  facet_grid(sp~strat, scale="free_y")+
+  facet_grid(sp~strat, scale="free_y")+theme_bw()+
   ylab("Percent germination")+
   xlab("mean temp (C)")+
   ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
@@ -411,10 +411,15 @@ ggplot(subset(germinatedsummarydatests,sp==spp[1]), aes(x=(as.factor(temp)),y=me
   #set up multipanel plot to look at germination date for each species 
 lab2<-lab1
 lab2$y<-20
+lab2[13:14, 2] <- 11
+lab2[3:4, 2] <- 40
+lab2[5:6, 2]<-11
+lab2[11:12, 2]<-28
+lab2[1:2, 2]<-25
 plot3a<-ggplot(subset(germinatedsummarydatests, sp!="PLAMED" & sp!="PLACOR"), aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
     geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
     geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-    facet_grid(sp~strat, scales="free_y")+
+    facet_grid(sp~strat, scales="free_y")+theme_bw()+
     ylab("Days to germination")+
     xlab("mean temp (C)")+
     ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
@@ -574,7 +579,7 @@ lab3[5:6, 2] <- .4
 plot3c<-ggplot(germinatedsummarygrts, aes(x=(as.factor(temp)),y=mean, color=origin, group=origin))+  
   geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.2, position=pd, size=.8) + 
   geom_line(size=.6) +geom_point(position=pd, size=1.6)+ 
-  facet_grid(sp~strat, scale="free_y")+
+  facet_grid(sp~strat, scale="free_y")+theme_bw()+
   ylab("growth rate (cm/day)")+
   xlab("Mean temperature (C)")+
   ggtitle("Stratification length (days)") +theme(plot.title=element_text(size=10))+
@@ -731,36 +736,31 @@ germsummarydatep<-
         mean=mean(cv), sd=sd(cv),
         sem=sd(cv)/sqrt(length(cv)))
 
-pdf("plasticity.pdf")
 
 plastica<-ggplot(germsummarydatep, aes(x=as.factor(sp),y=(mean), color=origin))+  
-  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
-  geom_point(size=3, alhpa=.2, position=pd)+
-  geom_line(size=.6) +
-  ylab("mean CV of days to germination")+
-  xlab("species")+
-  ggtitle(" (B) mean coef of variation of germ date vs. species by continent")
-print(plastica)
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.5) + 
+  geom_point(size=3, alpha=.7, position=pd)+
+  geom_line(size=.6) + theme_bw()+
+  ylab("Mean CV of days to germination")+
+  xlab("Species")+
+  ggtitle("B")
 
 plasticb<-ggplot(germsummarysp, aes(x=as.factor(sp),y=(mean), color=origin))+  
-  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
-  geom_point(size=3, alhpa=.2, position=pd)+
-  geom_line(size=.6) +
-  ylab("mean CV of percent germination")+
-  xlab("species")+
-  ggtitle("(A) mean coef of variation of percent germination vs. species by continent")
-print(plasticb)
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.5) + 
+  geom_point(size=3, alpha=.7, position=pd)+
+  geom_line(size=.6) + theme_bw()+
+  ylab("Mean CV of percent germination")+
+  xlab("Species")+
+  ggtitle("A")
 
 plasticc<-ggplot(germsummarygrp, aes(x=as.factor(sp),y=(mean), color=origin))+  
-  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8) + 
-  geom_point(size=3, alhpa=.2, position=pd)+
-  geom_line(size=.6) +
-  ylab("mean CV of growth rate (cm/day)")+
-  xlab("species")+
-  ggtitle("(C) mean coef of variation of growth rate vs. species by continent")
-print(plasticc)
+  geom_errorbar(aes(ymin=mean-sem, ymax=mean+sem), width=.4, position=pd, size=.8, alpha=.5) + 
+  geom_point(size=3, alpha=.7, position=pd)+
+  geom_line(size=.6) + theme_bw()+
+  ylab("Mean CV  of growth rate")+
+  xlab("Species")+
+  ggtitle("C")
 
-dev.off()
 pdf("figure10.pdf", width=8, height=11)
 multiplot(plasticb, plastica, plasticc)
 dev.off()
@@ -890,6 +890,8 @@ modrateliPLALANr<-lmer(germinated~origin*as.factor(temp)*strat+(1|location/uniqi
 
 library(MASS)
 library(lmerTest)
+mod<-glm(germinated~origin*as.factor(temp)*strat, family=binomial(link="logit"), data=subset(germs, sp=="CAPBUR"))
+
 modrateliPLALANg<-glmmPQL(germinated~origin*as.factor(temp)*strat, random=~1|location/uniqind, family=binomial(link="logit"), data=subset(germs, sp=="PLALAN" & sp!="PLAMED" & sp!="PLACOR"))
 
 #using type 1. see https://mcfromnz.wordpress.com/2011/03/02/anova-type-iiiiii-ss-explained/ 
