@@ -7,7 +7,7 @@ library(lme4)
 library(sjPlot) # visualizing fixed and random effects
 
 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/budreview") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("Prep_all_data.R") 
@@ -66,6 +66,19 @@ plot(density(yr[!is.na(yr)]))
 # 
 # detailedID_exp <- unique(paste(d.data_detailed$datasetID, d.data_detailed$study))
 # unique(detailedID_exp)
+
+#############################
+# Counting
+d$latbi <- paste(d$genus, d$species)
+length(unique(d$latbi))
+d$datasetIDstudy <- paste(d$datasetID, d$study)
+length(unique(d$datasetIDstudy))
+
+# ranges
+range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE)
+range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
+range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+hist(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
 
 
 #############################
