@@ -2,6 +2,7 @@
 
 
 library(gdata) # for read.xls
+library(maps)
 library(scales) # for alpha
 library(lme4)
 library(sjPlot) # visualizing fixed and random effects
@@ -52,9 +53,9 @@ d <- read.csv("growthchambers_litreview_clean1.csv")
 
 
 head(d)
-yr <- as.numeric(d$year)
+yr <- as.numeric(as.character(d$year))
 
-hist(yr, breaks = 50, xaxt="n")
+hist(yr, breaks = 50, xaxt="n", col = "lightblue")
 axis(1, at = seq(min(yr, na.rm=T), max(yr, na.rm=T), by = 3))
 
 plot(density(yr[!is.na(yr)]))
@@ -99,10 +100,6 @@ unique(d$respvar)
 sort(summary(d$respvar))
 
 
-library(maps)
-library(scales)
-
-
 # summary data by study, with n responses
 
 nd <- data.frame(n=tapply(d$datasetID, d$datasetID, length))
@@ -116,18 +113,46 @@ ccolz = rep(colz[1], nrow(nd))
 ccolz[nd$resp == "percentbudburst"] = colz[2]
 ccolz[nd$resp == "daystobudburst"] = colz[3]
 
-
-map(fill = F, col = "grey60" )
-points(
-    nd$long, 
-    nd$lat,
-    lwd = 3,
-  pch = 1, cex = log(nd$n)/1.5,
-  col = ccolz
-  )
-
-dev.print(pdf, "figures/Big Map.pdf", width = 15, height = 10)
-system("open 'figures/Big Map.pdf' -a /Applications/Preview.app")
+  pdf("figures/Big_Map_0.pdf", width = 15, height = 8)
+  
+  # nd$long[nd$long < -52 & nd$long > -55]
+  # nd[nd$long == -52.35,]
+  # nd[nd$lat == 31.683,] # Fixing one latitude in Atlantic Ocean..
+  nd$lat[nd$lat == 31.683 & !is.na(nd$lat)] = -31.683
+  
+  # ylim = c(-62, 90) for full version
+  map(fill = F, col = "grey60", interior = F, ylim = c(16, 90))
+  points(
+      nd$long, 
+      nd$lat,
+      lwd = 3,
+    pch = 1, cex = log(nd$n)/1.2,
+    col = ccolz
+    )
+  
+  levs <- hist(log(nd$n)/1.2, breaks = 3, plot=F)
+  
+  par(xpd=T)
+  
+  legend(-100, 15, bty = "n",# x = -180, y = 0 for full version
+         title = "N",
+         pch = 1, pt.lwd = 4,
+         legend = c(5, 50, 500),#ceiling(exp(levs$mids*1.2)),
+         pt.cex = levs$mids,
+         y.intersp = 1.75,
+         x.intersp = 2
+         
+  ) 
+  
+  legend(25, 15, bty = "n", # x = -150, y = 0 for full version
+         title = "Response",
+         pch = 1, pt.lwd = 4, pt.cex = 3,
+         legend = c("Other","Percent budburst","Days to budburst"),
+         y.intersp = 1.75,
+         x.intersp = 2,
+         col = colz)
+  
+  dev.off();system("open 'figures/Big_Map_0.pdf' -a /Applications/Preview.app")
 
 
        
