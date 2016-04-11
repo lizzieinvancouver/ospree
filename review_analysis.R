@@ -14,7 +14,7 @@ setwd("~/Documents/git/budreview")
 
 d <- read.csv("growthchambers_litreview_clean1.csv") # after running Jehane's code (and eventually Beth and Ailene's, too)
 
-d <- d[2:51]
+# d <- d[2:51]
 # response ~ photo + temp + (1|species) + (1|study) 
 
 # summary(d)
@@ -33,6 +33,8 @@ d$forcetemp <- sub("meandaily", "", d$forcetemp)
 
 d$forcetemp <- as.numeric(as.character(d$forcetemp))
 
+d$sp <- paste(d$genus, d$species)
+d$exp <- paste(d$datasetID, d$study)
 
 # data.frame(table(d$respvar))
 
@@ -43,80 +45,89 @@ d$respvar <- sub("daystodudburst", "daystobudburst", d$respvar)
 d$respvar <- sub("daystobudbust", "daystobudburst", d$respvar)
 
 
+
 d$response = as.numeric(as.character(d$response))
+d$response.time <- as.numeric(as.character(d$response.time))
+d$forcetemp <- as.numeric(as.character(d$forcetemp))
+
+summary(d[d$respvar == "percentbudburst","response"])
+# Get rid of 999's!!!!
+
+d$response[which(d$response >= 999)] = NA
+
 # one approach: scale each response within study, look at general response
 scaledresp <- vector()
-for(i in unique(d$respvar)){ # i = "percentbudburst"
-  dx <- d[d$respvar == i,]
-  
-  scaledresp <- c(scaledresp, scale(dx$response))
-  
+scaledrespt <- vector()
+
+for(i in unique(d$exp)){ # i = "percentbudburst"
+  dx <- d[d$exp == i,]
+  for(j in unique(dx$respvar)){
+    dxx <- dx[dx$respvar == j,]
+    
+    scaledresp <- c(scaledresp, scale(dxx$response))
+    scaledrespt <- c(scaledrespt, scale(dxx$response.time))
+  }
 }
 
 d$scaledresp = scaledresp
+d$scaledrespt = scaledrespt
 
 ##########################
+# Models: 
+# 1. across all responses, no significant effect. Need to look for each response, within each study. Not meaningful if don't distinguish different types of responses
 
 m1 <- lm(scaledresp ~ forcetemp * photoperiod_day, data = d)
 
 summary(m1)
 
-d$sp <- paste(d$genus, d$species)
-d$exp <- paste(d$datasetID, d$study)
+# 2. by species, by study, for just pct bb
+m2bb <- lmer(scaledresp ~ forcetemp * photoperiod_day + (1 | sp) + (1|exp), data = d[d$respvar == "percentbudburst",])
 
+summary(m2bb)
 
-d$response.time <- as.numeric(as.character(d$response.time))
-d$forcetemp <- as.numeric(as.character(d$forcetemp))
+sjp.lmer(m2bb, type = "re")
 
+sjp.lmer(m2bb, type = "fe", showIntercept = F)
 
-m2 <- lmer(response ~ forcetemp * photoperiod_day + (1 | sp) + (1|exp), data = d[d$respvar == "percentbudburst",])
+sjt.lmer(m2bb)
 
-summary(m2)
-
-sjp.lmer(m2, type = "re")
-
-sjp.lmer(m2, type = "fe")
-
-sjt.lmer(m2)
 
 # Same, for day to budburst. Response or response.time? .time
 
-m2 <- lmer(response.time ~ forcetemp * photoperiod_day + (1 | sp) + (1|exp), data = d[d$respvar == "daystobudburst",])
+m2d <- lmer(scaledrespt ~ forcetemp * photoperiod_day + (1 | sp) + (1|exp), data = d[d$respvar == "daystobudburst",])
 
-summary(m2)
+summary(m2d)
 
-sjp.lmer(m2, type = "re")
+sjp.lmer(m2d, type = "re")
 
-sjp.lmer(m2, type = "fe")
+sjp.lmer(m2d, type = "fe", showIntercept = F)
 
-sjt.lmer(m2)
+sjt.lmer(m2d)
 
-m3 <- lmer(response.time ~ forcetemp * photoperiod_day + (1|sp) + (1|datasetID), data = d)
+# trying with paper instead of study. Need different models for each response var, not pooled across
+m3 <- lmer(scaledresp ~ forcetemp * photoperiod_day + (1|sp) + (1|exp) + (1|respvar), data = d)
 
 summary(m3)
 
 sjp.lmer(m3, type = "re")
 
-sjp.lmer(m3, type = "fe")
+sjp.lmer(m3, type = "fe", showIntercept = F)
 
 # Now add latitude, chilling
 
-d$provenance.lat = as.numeric(as.character(d$provenance.lat))
+d$provenance.lat = abs(as.numeric(as.character(d$provenance.lat)))
 d$chilltemp = as.numeric(as.character(d$chilltemp))
 d$chilldays = as.numeric(as.character(d$chilldays))
 
-m4 <- lmer(response ~ forcetemp * photoperiod_day + chilltemp + chilldays + abs(provenance.lat) + (1 | sp) + (1|exp), data = d[d$respvar == "daystobudburst",])
+m4d <- lmer(response.time ~ forcetemp * photoperiod_day + chilltemp + chilldays + provenance.lat + (1 | sp) + (1|exp), data = d[d$respvar == "daystobudburst",])
 
-summary(m4)
-sjp.lmer(m4,type='fe')
+summary(m4d)
+sjp.lmer(m4d, type='fe', showIntercept = F)
 
-m4 <- lmer(response.time ~ forcetemp * photoperiod_day + (1|sp), data = d)
+m4bb <- lmer(response ~ forcetemp * photoperiod_day + chilltemp + chilldays + provenance.lat + (1 | sp) + (1|exp), data = d[d$respvar == "percentbudburst",])
 
-summary(m4)
-
-sjp.lmer(m4, type = "re")
-
-sjp.lmer(m4, type = "fe")
+summary(m4bb)
+sjp.lmer(m4bb, type='fe', showIntercept = F)
 
 
 ####### How many studies have multiple chilling levels, and are they close to ours?
