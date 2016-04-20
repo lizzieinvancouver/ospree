@@ -1,0 +1,23 @@
+18 April 2016
+
+Links from Ben for daily temperature data at a finer spatial resolution and going back beyond 1980:
+
+For Europe:
+E-OBS
+
+For North America:
+Probably the Best One for us:
+Livneh:
+http://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0129374;view=html
+
+Others:
+Maurer Dataset:
+http://www.engr.scu.edu/~emaurer/data.shtml
+Daily Data To download:
+http://hydro.engr.scu.edu/files/gridded_obs/daily/ncfiles_2010/
+
+Daymet:
+https://daymet.ornl.gov
+
+For Asia: try something call Aphrodite:
+http://www.chikyu.ac.jp/precip/english/products.html
