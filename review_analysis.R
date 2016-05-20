@@ -14,6 +14,17 @@ setwd("~/Documents/git/budreview")
 
 d <- read.csv("growthchambers_litreview_clean1.csv") # after running Jehane's code (and eventually Beth and Ailene's, too)
 
+# Sumarizing for climate work
+# What years do we need at each continent?
+
+tapply(d$year, toupper(d$continent), function(x) sort(unique(x)))
+
+# Asia: 1958-1959, 1986-2013
+# Europe: 1958-1959, 1971-present
+# NA: 1936, 1947, 1957, 1959, 1963, 1972-present, 
+# downloaded 1957, 1959, 1963, 1972
+# SA: 2004-2009
+
 # d <- d[2:51]
 # response ~ photo + temp + (1|species) + (1|study) 
 
