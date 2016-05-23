@@ -29,7 +29,7 @@ eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all n
 
 nam <- d %>% # start with the data frame
   distinct(datasetID) %>% # establishing grouping variables
-  filter(continent == 'north america') %>%
+  filter(continent == 'north america'& year >= 1950) %>%
   select(datasetID, provenance.lat, provenance.long, year)
 
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
@@ -71,7 +71,7 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # start and end days, in days since baseline date. Set to GMT to avoid daylight savings insanity
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
-  endday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz = "GMT")
+  endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   
@@ -91,16 +91,21 @@ for(i in 1:nrow(nam)){ # i = 1
   lo <- nam[i,"provenance.long"]
   la <- nam[i,"provenance.lat"]
   
+  # make sure longitudes are negative, need to be for North America
+  if(lo > 0) { lo = lo*-1 }
+  
   yr <- as.numeric(nam[i,"year"])
+  
+  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
   
   prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="")
   thismo <- paste(yr, formatC(1:4, width=2, flag="0"), sep="")
   
-  # now loop over prev year
-  
+  # now loop over these year-month combo files
   mins <- maxs <- vector()
   
-  for(j in c(prevmo, thismo)){ # j = "198609"
+  for(j in c(prevmo, thismo)){ # j = "199709"
     
     jx <- nc_open(nafiles[grep(j, nafiles)])
   
@@ -114,13 +119,10 @@ for(i in 1:nrow(nam)){ # i = 1
     
     }
   
-  # get temperature values for this range
-  
-  tempval[[as.character(nam[i,"datasetID"])]] <- data.frame(Tmin = mins, Tmax =maxs)
-  
+  tempval[[as.character(nam[i,"datasetID"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
+                                                            Tmin = mins, Tmax =maxs)
   
   }
-
 
 
 # interporlate to hourly, based on max min 
@@ -177,9 +179,8 @@ for(i in names(tempval)){ # i = "rinne97"
    
   }
 
-
-
-
+save(file="~/Documents/git/budreview/input/ChillCalcs.RData", 
+     list = c('chillcalcs', 'tempval'))
 
 
 
