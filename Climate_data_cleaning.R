@@ -1,0 +1,215 @@
+# Pieces for code for reading in and pulling data from netCDF files for Dan
+# EJ Forrestel
+# 20 May 2016
+
+library(ncdf4)
+library(dplyr)
+library(Interpol.T)
+
+setwd("~/Documents/git/budreview")
+
+d <- read.csv("growthchambers_litreview_clean1.csv") # after running Jehane's code (and eventually Beth and Ailene's, too)
+
+# make two data frames. North America and Europe, the lat longs and years.
+
+d$continent <- tolower(d$continent)
+d$datasetID <- as.character(d$datasetID)
+d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
+d$provenance.long <- as.numeric(as.character(d$provenance.long))
+d$year <- as.numeric(as.character(d$year))
+
+d <- as_data_frame(d)
+
+eur <- d %>% # start with the data frame
+  distinct(datasetID) %>% # establishing grouping variables
+  filter(continent == 'europe' & year >= 1950) %>%
+  select(datasetID, provenance.lat, provenance.long, year)
+
+eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+
+nam <- d %>% # start with the data frame
+  distinct(datasetID) %>% # establishing grouping variables
+  filter(continent == 'north america') %>%
+  select(datasetID, provenance.lat, provenance.long, year)
+
+nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+# these will need manual cleaning. for now use as is
+
+
+# Which days do we want? For year-1, start at sept 1
+# End day will be different for different studies. Will need to go back through papers and extract field sample date! For now just use Jan 1 of the study year.
+startday = format(strptime("2015-09-01", "%Y-%m-%d"), "%j") # day 245 for leap years, 244 for non leap years
+endday = 1
+
+
+##reading in netCDF files
+setwd("~/Documents/Climate")
+
+# Europe first
+
+eur.tempmn <- nc_open("tn_0.25deg_reg_v12.0.nc")
+eur.tempmx <- nc_open("tx_0.25deg_reg_v12.0.nc")
+
+tempval <- list() 
+for(i in 1:nrow(eur)){ # i = 1
+  
+  # find this location
+  lo <- eur[i,"provenance.long"]
+  la <- eur[i,"provenance.lat"]
+  
+  ndiff.long.cell <- abs(eur.tempmn$dim$longitude$vals-as.numeric(lo))
+  ndiff.lat.cell <- abs(eur.tempmn$dim$latitude$vals-as.numeric(la))
+  nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell))[1] 
+  nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell))[1]
+
+  xdiff.long.cell <- abs(eur.tempmx$dim$longitude$vals-as.numeric(lo))
+  xdiff.lat.cell <- abs(eur.tempmx$dim$latitude$vals-as.numeric(la))
+  xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell))[1]
+  xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell))[1]
+  
+  yr <- as.numeric(eur[i,"year"])
+  
+  # start and end days, in days since baseline date. Set to GMT to avoid daylight savings insanity
+  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  endday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz = "GMT")
+  st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
+  en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
+  
+  # get temperature values for this range
+  mins <- ncvar_get(eur.tempmn,'tn',start=c(nlong.cell,nlat.cell,st),count=c(1,1,en-st+1))
+  maxs <- ncvar_get(eur.tempmx,'tx',start=c(xlong.cell,xlat.cell,st),count=c(1,1,en-st+1))
+  
+  tempval[[as.character(eur[i,"datasetID"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
+                                                  Tmin = mins, Tmax = maxs)
+  }
+
+nafiles <- dir()[grep("livneh", dir())]
+
+for(i in 1:nrow(nam)){ # i = 1
+  
+  # find this location
+  lo <- nam[i,"provenance.long"]
+  la <- nam[i,"provenance.lat"]
+  
+  yr <- as.numeric(nam[i,"year"])
+  
+  prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="")
+  thismo <- paste(yr, formatC(1:4, width=2, flag="0"), sep="")
+  
+  # now loop over prev year
+  
+  mins <- maxs <- vector()
+  
+  for(j in c(prevmo, thismo)){ # j = "198609"
+    
+    jx <- nc_open(nafiles[grep(j, nafiles)])
+  
+    diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))
+    diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
+    long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
+    lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
+  
+    mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
+    maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
+    
+    }
+  
+  # get temperature values for this range
+  
+  tempval[[as.character(nam[i,"datasetID"])]] <- data.frame(Tmin = mins, Tmax =maxs)
+  
+  
+  }
+
+
+
+# interporlate to hourly, based on max min 
+# Build a calibration table, here we don't actually have hourly data, use best guess
+
+calibration_l = list(
+  Average = data.frame(time_min = rep(5, 12),
+                       time_max = rep(14, 12),
+                       time_suns = rep(17, 12),
+                       C_m = rep(0.35, 12))
+)
+
+
+chillcalcs <- vector()
+
+for(i in names(tempval)){ # i = "rinne97"
+  
+  xx <- tempval[[i]]
+  year = format(xx$Date, "%Y")
+  month = format(xx$Date, "%m")
+  day = format(xx$Date, "%d")
+  
+  Tmin = data.frame(year, month, day, T = xx$Tmin)
+  Tmax = data.frame(year, month, day, T = xx$Tmax)
+  
+  hrly = vector()
+  
+  for(j in 1:nrow(xx)){
+    
+    xy <- Th_interp(Tmin, Tmax, 
+                    day = j,
+                    tab_calibr = calibration_l$Average)
+    
+    hrly = rbind(hrly,
+                 data.frame(
+                   date = xx[j,'Date'],
+                   Temp = xy$Th,
+                   Year = Tmin$year[j], 
+                   JDay = as.numeric(format(xx[j,'Date'], "%j")),
+                   month = Tmin$month[j],
+                   day = Tmin$day[j],
+                   Hour = 1:24
+                 )
+    )
+    
+  }
+  
+  # Skip if NA for temperature data
+  if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
+  
+    chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
+  } else { chillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+    chillcalcs <- rbind(chillcalcs, data.frame(datasetID = i, chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
+   
+  }
+
+
+
+
+
+
+
+
+
+
+# scratch
+
+days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
+daysd <- strptime("1950-01-01", "%Y-%m-%d") + days*60*60*24 # convert to actual days
+
+
+
+
+nafiles <- dir()[grep("livneh", dir())]
+
+for(i in nafiles){ # i = "livneh_NAmerExt_15Oct2014.195906.nc"
+  
+  xx <- nc_open(i)
+  tx <- ncvar_get(xx, 'Tmax')
+  tn <- ncvar_get(xx, 'Tmin')
+  
+  }
+
+
+###### Below is from Beth
+
+###reading in netCDF as raster files
+##reading in raster files of relevant layers
+landfrac.r <- raster("landfrac/b.e11.BRCP85C5CNBDRD.f09_g16.017.clm2.h0.QRUNOFF.208101-210012.nc",varname="landfrac")
+##reading in land fraction as a raster and rotating to make it match BEST data orientation; from (0,360) to (-180,180)
+landfrac.r <- rotate(landfrac.r)
+#image(landfrac.r)
