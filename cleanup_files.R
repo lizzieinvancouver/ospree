@@ -1,12 +1,10 @@
 # cleanup script for budburst review
 
-
 library(gdata) # for read.xls
 library(maps)
 library(scales) # for alpha
 library(lme4)
 library(sjPlot) # visualizing fixed and random effects
-
 
 setwd("~/Documents/git/budreview") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
 
@@ -80,6 +78,46 @@ range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
 hist(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+
+
+#############################
+# Which do we need to revisit?
+
+# do we have dates for all fieldchill = Y studies?
+
+nodate <- unique(d[d$fieldchill == 'yes' & d$fieldsample.date == "",'datasetID'])
+
+revisit <- d[match(nodate, d$datasetID),1:3]
+revisit$getfieldsampledate = 'x'
+
+# Fix missing years
+
+noyear <- unique(d[d$year == "",'datasetID'])
+
+revisit2 <- d[match(noyear, d$datasetID),1:3]
+revisit2$getyear = "x"
+
+revisit <- merge(revisit2, revisit, all = T)
+
+# Fix missing lat long
+
+nolat <- unique(d[is.na(as.numeric(as.character(d$provenance.lat))),'datasetID'])
+revisit3 <- d[match(nolat, d$datasetID),1:3]
+revisit3$getlatlong = "x"
+
+revisit <- merge(revisit3, revisit, all = T)
+
+# Fix response or response.time 
+fixresp <- unique(d[d$response == "" & d$response.time == "" | 
+                  d$response == "no response" & d$response.time == "no response" | 
+                    is.na(d$response) & is.na(d$response.time),'datasetID'])
+
+revisit4 <- d[match(fixresp, d$datasetID),1:3]
+revisit4$fixresponse = "x"
+revisit <- merge(revisit4, revisit, all = T)
+
+
+write.csv(revisit, file = "Papers to Revisit.csv", row.names = F)
 
 
 #############################
