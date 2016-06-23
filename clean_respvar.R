@@ -6,7 +6,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 #JS set working directory: 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/ospree")
 
 #name data frame:
 scrapedata <- read.csv ("growthchambers_litreview.csv")

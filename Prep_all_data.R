@@ -1,6 +1,6 @@
 # Review data prep
 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/ospree")
 
 # 1. Clean up response variable names
 

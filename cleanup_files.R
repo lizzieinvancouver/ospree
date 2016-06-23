@@ -6,7 +6,7 @@ library(scales) # for alpha
 library(lme4)
 library(sjPlot) # visualizing fixed and random effects
 
-setwd("~/Documents/git/budreview") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
+setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("Prep_all_data.R") 
@@ -116,6 +116,7 @@ revisit4 <- d[match(fixresp, d$datasetID),1:3]
 revisit4$fixresponse = "x"
 revisit <- merge(revisit4, revisit, all = T)
 
+revisit[is.na(revisit)] = ""
 
 write.csv(revisit, file = "Papers to Revisit.csv", row.names = F)
 
