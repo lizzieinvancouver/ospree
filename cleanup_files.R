@@ -6,7 +6,11 @@ library(scales) # for alpha
 library(lme4)
 library(sjPlot) # visualizing fixed and random effects
 
+<<<<<<< Updated upstream
 setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
+=======
+setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/ospree/ospree")
+>>>>>>> Stashed changes
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("Prep_all_data.R") 
