@@ -12,5 +12,5 @@ source("clean_respvar.R")
 
 # 3. Make table of taxonomy for phylogenetic work
 
-source("clean_spp_match.R") # Slow, checking sp names against The Plant List
+#source("clean_spp_match.R") # Slow, checking sp names against The Plant List
 

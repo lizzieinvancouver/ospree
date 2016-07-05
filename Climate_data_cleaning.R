@@ -1,14 +1,14 @@
-# Pieces for code for reading in and pulling data from netCDF files for Dan
-# EJ Forrestel
-# 20 May 2016
+# Calculating chilling units in field and from experimental work, for summing to a 'totalchill' variable. 
+# Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
 
 library(ncdf4)
 library(dplyr)
 library(Interpol.T)
+library(chillR)
 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/ospree")
 
-d <- read.csv("growthchambers_litreview_clean1.csv") # after running Jehane's code (and eventually Beth and Ailene's, too)
+d <- read.csv("ospree_clean1.csv")
 
 # make two data frames. North America and Europe, the lat longs and years.
 
@@ -20,6 +20,7 @@ d$year <- as.numeric(as.character(d$year))
 
 d <- as_data_frame(d)
 
+# European studies
 eur <- d %>% # start with the data frame
   distinct(datasetID) %>% # establishing grouping variables
   filter(continent == 'europe' & year >= 1950) %>%
@@ -27,6 +28,7 @@ eur <- d %>% # start with the data frame
 
 eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
+# North America studies
 nam <- d %>% # start with the data frame
   distinct(datasetID) %>% # establishing grouping variables
   filter(continent == 'north america'& year >= 1950) %>%
@@ -35,20 +37,16 @@ nam <- d %>% # start with the data frame
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 # these will need manual cleaning. for now use as is
 
-
 # Which days do we want? For year-1, start at sept 1
 # End day will be different for different studies. Will need to go back through papers and extract field sample date! For now just use Jan 1 of the study year.
 startday = format(strptime("2015-09-01", "%Y-%m-%d"), "%j") # day 245 for leap years, 244 for non leap years
-endday = 1
+endday = 1 # Jan 1. This will now be based on field sample date if known, otherwise 
 
-
-##reading in netCDF files
-setwd("~/Documents/Climate")
-
+##reading in netCDF files. Working off of external hard drive
 # Europe first
 
-eur.tempmn <- nc_open("tn_0.25deg_reg_v12.0.nc")
-eur.tempmx <- nc_open("tx_0.25deg_reg_v12.0.nc")
+eur.tempmn <- nc_open("/Volumes/Expand/Climate/tn_0.25deg_reg_v12.0.nc")
+eur.tempmx <- nc_open("/Volumes/Expand/Climate/tx_0.25deg_reg_v12.0.nc")
 
 tempval <- list() 
 for(i in 1:nrow(eur)){ # i = 1
@@ -71,13 +69,25 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # start and end days, in days since baseline date. Set to GMT to avoid daylight savings insanity
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  
+  # TODO! now this can be changed to field sample date !!!
+  # use d$fieldsample.date
   endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+  
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   
-  # get temperature values for this range
-  mins <- ncvar_get(eur.tempmn,'tn',start=c(nlong.cell,nlat.cell,st),count=c(1,1,en-st+1))
-  maxs <- ncvar_get(eur.tempmx,'tx',start=c(xlong.cell,xlat.cell,st),count=c(1,1,en-st+1))
+  # get temperature values for this range.
+  # check the dim of the net cdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
+  mins <- ncvar_get(eur.tempmn,'tn', 
+                    start=c(nlong.cell,nlat.cell,st), 
+                    count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+                    ) 
+  
+  maxs <- ncvar_get(eur.tempmx,'tx',
+                    start=c(xlong.cell,xlat.cell,st),
+                    count=c(1,1,en-st+1)
+                    )
   
   tempval[[as.character(eur[i,"datasetID"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
                                                   Tmin = mins, Tmax = maxs)
@@ -126,7 +136,7 @@ for(i in 1:nrow(nam)){ # i = 1
 
 
 # interporlate to hourly, based on max min 
-# Build a calibration table, here we don't actually have hourly data, use best guess
+# Build a calibration table, here we don't actually have hourly data, use best guess, just the average temperatures within this study, with a minimum at 5am, max at 2pm,  
 
 calibration_l = list(
   Average = data.frame(time_min = rep(5, 12),
@@ -183,6 +193,7 @@ save(file="~/Documents/git/budreview/input/ChillCalcs.RData",
      list = c('chillcalcs', 'tempval'))
 
 
+##### Now add experimental chilling, using chillday and chilltemp.
 
 
 

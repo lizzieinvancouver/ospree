@@ -1,4 +1,5 @@
 # cleanup script for budburst review
+# Also makes summaries of what data we have
 
 library(gdata) # for read.xls
 library(maps)
@@ -13,46 +14,26 @@ setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/osp
 
 d <- read.csv("ospree_clean1.csv") 
 
-################# For cleaning up excluded references
-
-# tomove <- d[d$Status == "n", "Filename"]
-# 
-# for(i in 1:length(tomove)){
-# 	
-# system(paste(paste("mv ~/Dropbox/Work/Harvard/Budburst_Review/Budburst_Refs/", tomove[i], sep = ""), 
-# 				paste("~/Dropbox/Work/Harvard/Budburst_Review/Excluded_Refs/", tomove[i], sep = ""))
-# 				)
-# 				}
-# 
-
 head(d)
 yr <- as.numeric(as.character(d$year))
 
-hist(yr, breaks = 50, xaxt="n", col = "lightblue")
+hist(yr, breaks = 50, xaxt="n", col = "lightblue", main = "Years of Publication")
 axis(1, at = seq(min(yr, na.rm=T), max(yr, na.rm=T), by = 3))
-
-plot(density(yr[!is.na(yr)]))
-
-# sort(summary(d$Journal))
-# 
-# head(d.data_detailed)
-# detailedID
-# 
-# detailedID_exp <- unique(paste(d.data_detailed$datasetID, d.data_detailed$study))
-# unique(detailedID_exp)
 
 #############################
 # Counting
 d$latbi <- paste(d$genus, d$species)
-length(unique(d$latbi))
+length(unique(d$latbi)) # unique species
 d$datasetIDstudy <- paste(d$datasetID, d$study)
-length(unique(d$datasetIDstudy))
+length(unique(d$datasetIDstudy)) # unique studies
 
 # ranges
-range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE)
+range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE) 
 range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
-hist(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+hist(as.numeric(as.character(d$photoperiod_day)),
+     main = "Photoperiod frequency", xlab = "Hour",
+     )
 
 
 #############################
@@ -208,3 +189,24 @@ legend(-30, 52, bty = "n",
 
 dev.off()
 system("open 'figures/Euro_Map.pdf' -a /Applications/Preview.app")
+
+
+################# For cleaning up excluded references. Moves PDFs for studies marked in the study file as 'n' for 'no, do not include' into a different folder
+# tomove <- d[d$Status == "n", "Filename"]
+# 
+# for(i in 1:length(tomove)){
+# 	
+# system(paste(paste("mv ~/Dropbox/Work/Harvard/Budburst_Review/Budburst_Refs/", tomove[i], sep = ""), 
+# 				paste("~/Dropbox/Work/Harvard/Budburst_Review/Excluded_Refs/", tomove[i], sep = ""))
+# 				)
+# 				}
+# 
+
+# For study file
+# sort(summary(d$Journal))
+# 
+# head(d.data_detailed)
+# detailedID
+# 
+# detailedID_exp <- unique(paste(d.data_detailed$datasetID, d.data_detailed$study))
+# unique(detailedID_exp)
