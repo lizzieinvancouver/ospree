@@ -9,7 +9,7 @@ options(stringsAsFactors = FALSE)
 setwd("~/Documents/git/ospree")
 
 #name data frame:
-scrapedata <- read.csv ("growthchambers_litreview.csv")
+scrapedata <- read.csv ("ospree.csv")
 
 
 sort(table(scrapedata$respvar), T)
@@ -63,4 +63,4 @@ scrapedata$respvar[scrapedata$respvar == ""] <- ""
 scrapedata$respvar[scrapedata$respvar == ""] <- ""
 scrapedata$respvar[scrapedata$respvar == ""] <- ""
 
-write.csv(scrapedata, file = "growthchambers_litreview_clean1.csv", row.names=F)
+write.csv(scrapedata, file = "ospree_clean1.csv", row.names=F)

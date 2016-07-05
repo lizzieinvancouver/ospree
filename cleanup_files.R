@@ -6,39 +6,12 @@ library(scales) # for alpha
 library(lme4)
 library(sjPlot) # visualizing fixed and random effects
 
-<<<<<<< Updated upstream
-setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/budreview/budreview")
-=======
 setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/ospree/ospree")
->>>>>>> Stashed changes
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("Prep_all_data.R") 
 
-d <- read.csv("growthchambers_litreview_clean1.csv") 
-
-# d <- d.source <- read.xls("~/Dropbox/Work/Harvard/Budburst_Review/growthchambers_litreview_2016-01-15.xlsx", 2)
-# d.study <- read.xls("~/Dropbox/Work/Harvard/Budburst_Review/growthchambers_litreview_2016-01-15.xlsx", 3)
-# d.data_simple <- read.xls("~/Dropbox/Work/Harvard/Budburst_Review/growthchambers_litreview_2016-01-15.xlsx", 4)
-# d.data_detailed <- read.xls("~/Dropbox/Work/Harvard/Budburst_Review/growthchambers_litreview_2016-01-15.xlsx", 5)
-
-# Make a summary table, checking for completeness of datasets entered in all four sheets
-
-# sourceID <- d.source$DatasetID # change to lowercase in next round
-# studyID <- unique(d.study$datasetID)
-# simpleID <- unique(d.data_simple$datasetID)
-# detailedID <- unique(d.data_detailed$datasetID)
-# 
-# done <- data.frame(sourceID)
-# 
-# done$study <- sourceID %in% studyID
-# done$simple <- sourceID %in% simpleID
-# done$detailed <- sourceID %in% detailedID
-# 
-# done[done==F] = ""
-# done[done==T] = "X"
-# 
-# write.csv(done, file="~/Dropbox/Work/Harvard/Budburst_Review/Summary_of_Completed.csv", row.names=F)
+d <- read.csv("ospree_clean1.csv") 
 
 ################# For cleaning up excluded references
 
@@ -51,8 +24,6 @@ d <- read.csv("growthchambers_litreview_clean1.csv")
 # 				)
 # 				}
 # 
-##### random other checks
-
 
 head(d)
 yr <- as.numeric(as.character(d$year))
