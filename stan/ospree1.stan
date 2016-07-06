@@ -21,14 +21,14 @@ transformed data { 			// 6 two-way interaction terms
 	vector[N] inter_fp; 	// forcing x photo           
 	vector[N] inter_fl;           
 	vector[N] inter_pl;           
-	vector[N] inter_wc;           
+	vector[N] inter_fc;           
 	vector[N] inter_pc;           
 	vector[N] inter_lc;           
 
 	inter_fp	<- force .* photo;  
 	inter_fl	<- force .* lat;  
 	inter_pl	<- photo .* lat;  
-	inter_wc   <- force .* chill;  
+	inter_fc   <- force .* chill;  
 	inter_pc   <- photo .* chill;  
 	inter_lc   <- lat .* chill;  
 
@@ -43,7 +43,7 @@ parameters {
   real b_inter_fp_0; // overall forcing x photoperiod effect  
   real b_inter_fl_0; // overall forcing x lat effect  
   real b_inter_pl_0; // overall photoperiod x lat effect  
-  real b_inter_wc_0; // overall forcing x chill effect  
+  real b_inter_fc_0; // overall forcing x chill effect  
   real b_inter_pc_0; // overall photoperiod x chill effect  
   real b_inter_lc_0; // overall lat x chill effect  
 
@@ -52,34 +52,26 @@ parameters {
   real mu_b_force_sp[n_sp]; 
   real mu_b_photo_sp[n_sp];
   real mu_b_lat_sp[n_sp];
-  real mu_b_chill1_sp[n_sp];
-  real mu_b_chill2_sp[n_sp];
+  real mu_b_chill_sp[n_sp];
   real mu_b_inter_fp_sp[n_sp];
   real mu_b_inter_fl_sp[n_sp];
   real mu_b_inter_pl_sp[n_sp];
   real mu_b_inter_fc_sp[n_sp];
-  real mu_b_inter_wc2_sp[n_sp];
   real mu_b_inter_pc_sp[n_sp];
-  real mu_b_inter_pc2_sp[n_sp];
   real mu_b_inter_lc_sp[n_sp];
-  real mu_b_inter_sc2_sp[n_sp];
       
   real<lower=0> sigma_a_sp; 
   real<lower=0> sigma_a_lab; 
   real<lower=0> sigma_b_force_sp; 
   real<lower=0> sigma_b_photo_sp;
   real<lower=0> sigma_b_lat_sp;
-  real<lower=0> sigma_b_chill1_sp;
-  real<lower=0> sigma_b_chill2_sp;
+  real<lower=0> sigma_b_chill_sp;
   real<lower=0> sigma_b_inter_fp_sp;
   real<lower=0> sigma_b_inter_fl_sp;
   real<lower=0> sigma_b_inter_pl_sp;
   real<lower=0> sigma_b_inter_fc_sp;
-  real<lower=0> sigma_b_inter_wc2_sp;
   real<lower=0> sigma_b_inter_pc_sp;
-  real<lower=0> sigma_b_inter_pc2_sp;
   real<lower=0> sigma_b_inter_lc_sp;
-  real<lower=0> sigma_b_inter_sc2_sp;
 
   real<lower=0> sigma_y; 
   }
@@ -107,7 +99,7 @@ transformed parameters {
 		b_force_sp[k] 	<- b_force_0 + mu_b_force_sp[k];
 		b_photo_sp[k] 	<- b_photo_0 + mu_b_photo_sp[k];
 		b_lat_sp[k] 	<- b_lat_0 + mu_b_lat_sp[k];
-		b_chill_sp[k] 	<- b_chill1_0 + mu_b_chill1_sp[k];
+		b_chill_sp[k] 	<- b_chill_0 + mu_b_chill_sp[k];
 		b_inter_fp_sp[k] <- b_inter_fp_0 + mu_b_inter_fp_sp[k];
 		b_inter_fl_sp[k] <- b_inter_fl_0 + mu_b_inter_fl_sp[k];
 		b_inter_pl_sp[k] <- b_inter_pl_0 + mu_b_inter_pl_sp[k];										
@@ -130,11 +122,11 @@ transformed parameters {
 					b_force_sp[sp[i]] * force[i] + // indexed with species
 					b_photo_sp[sp[i]] * photo[i]+
 					b_lat_sp[sp[i]] * lat[i] +
-					b_chill_sp[sp[i]] * chill1[i] +
+					b_chill_sp[sp[i]] * chill[i] +
 					b_inter_fp_sp[sp[i]] * inter_fp[i]+
 					b_inter_fl_sp[sp[i]] * inter_fl[i]+
 					b_inter_pl_sp[sp[i]] * inter_pl[i]+
-					b_inter_fc_sp[sp[i]] * inter_wc2[i]+
+					b_inter_fc_sp[sp[i]] * inter_fc[i]+
 					b_inter_pc_sp[sp[i]] * inter_pc[i]+
 					b_inter_lc_sp[sp[i]] * inter_lc[i]
 					;
@@ -145,7 +137,7 @@ model {
 	a_0 ~ normal(0, 100); // ~~ 26 for budburst, 37 for leafout
 	b_force_0 ~ normal(0, 100);
 	b_photo_0 ~ normal(0, 100);
-	b_chill1_0 ~ normal(0, 100);
+	b_chill_0 ~ normal(0, 100);
 	b_inter_fp_0 ~ normal(0, 100);
   	b_inter_fl_0 ~ normal(0, 100);
   	b_inter_pl_0 ~ normal(0, 100);
@@ -167,7 +159,7 @@ model {
 	mu_b_inter_lc_sp ~ normal(0, sigma_b_inter_lc_sp);
 		
 	sigma_a_sp ~ normal(0, 20); 
-	sigma_a_kab ~ normal(0, 20); 
+	sigma_a_lab ~ normal(0, 20); 
 	sigma_b_force_sp ~ normal(0, 20); 
 	sigma_b_photo_sp ~ normal(0, 20); 
 	sigma_b_lat_sp ~ normal(0, 20); 
