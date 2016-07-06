@@ -102,7 +102,7 @@ for(i in 1:nrow(eur)){ # i = 1
 
 drive="/Volumes/Expand/Climate/"
 nafiles <- dir(drive)[grep("livneh", dir(drive))]
-
+#nafiles<-dir()[grep("livneh", dir())]
 for(i in 1:nrow(nam)){ # i = 1
   
   # find this location
@@ -114,20 +114,49 @@ for(i in 1:nrow(nam)){ # i = 1
   
   yr <- as.numeric(nam[i,"year"])
   
-  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
-  if(is.na(nam[i,"fieldsample.date"])==FALSE){ endday <- strptime(nam[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
-  if(is.na(nam[i,"fieldsample.date"])==TRUE){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+  # using d$fieldsample.date
+  if(nam[i,"fieldsample.date"]!=""){endday <- strptime(nam[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
+  if(nam[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")#if no sampling date given, use april 30
   }
-  prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="")
-  thismo <- paste(yr, formatC(1:4, width=2, flag="0"), sep="")
-  
-  # now loop over these year-month combo files
+  if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))<=9){#when sampling occurred in same year as study and when collection occurred before that year's sept chilling,
+    stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
+    endmo<-substr(endday,6,7);#month of sampling date
+    thismo <- paste(yr, formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
+    chillmo<-c(prevmo, thismo)
+    }
+  if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study only
+    stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
+    chillmo<-prevmo
+     }
+  if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
+    stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    prevmo <- paste(yr, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
+    chillmo<-prevmo
+  }
+  if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
+    stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
+    chillmo<-prevmo
+  }
+  if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
+    stday <- strptime(paste(as.numeric(substr(endday,1,4))-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(9:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
+    endmo<-substr(endday,6,7);#month of sampling date
+    thismo <- paste(as.numeric(substr(endday,1,4)), formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
+    chillmo<-c(prevmo, thismo)
+  }
+ 
+  #check
+  #print(nam[i,]);print(paste("startday:",stday));print(endday);print(chillmo)
+    # now loop over these year-month combo files
   mins <- maxs <- vector()
   
-  for(j in c(prevmo, thismo)){ # j = "199709"
+  for(j in c(chillmo)){ # j = "200009"
+    file <- file.path(drive,nafiles[grep(j, nafiles)])
+    jx <- nc_open(file)
     
-    jx <- nc_open(nafiles[grep(j, nafiles)])
-  
     diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
     long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
@@ -135,14 +164,11 @@ for(i in 1:nrow(nam)){ # i = 1
   
     mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
     maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
-    
     }
   
-  tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
-                                                            Tmin = mins, Tmax =maxs)
-  
+  tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Date = as.character(seq(stday, endday, by = "day")),
+                                                            Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
   }
-
 
 # interporlate to hourly, based on max min 
 # Build a calibration table, here we don't actually have hourly data, use best guess, just the average temperatures within this study, with a minimum at 5am, max at 2pm,  
@@ -157,12 +183,13 @@ calibration_l = list(
 
 chillcalcs <- vector()
 
-for(i in names(tempval)){ # i = "rinne97"
+for(i in names(tempval)){ # i = "boyer.1983-12-21"
   
   xx <- tempval[[i]]
-  year = format(xx$Date, "%Y")
-  month = format(xx$Date, "%m")
-  day = format(xx$Date, "%d")
+  xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
+  year = as.numeric(format(xx$Date, "%Y"))
+  month = as.numeric(format(xx$Date, "%m"))
+  day = as.numeric(format(xx$Date, "%d"))
   
   Tmin = data.frame(year, month, day, T = xx$Tmin)
   Tmax = data.frame(year, month, day, T = xx$Tmax)
@@ -198,9 +225,9 @@ for(i in names(tempval)){ # i = "rinne97"
    
   }
 
-save(file="~/Documents/git/budreview/input/ChillCalcs.RData", 
-     list = c('chillcalcs', 'tempval'))
-
+#save(file="input/ChillCalcs.RData", 
+ #    list = c('chillcalcs', 'tempval'))
+write.csv(input/chillcalcs,"fieldchillcalcs.csv")
 
 ##### Now add experimental chilling, using chillday and chilltemp.
 
