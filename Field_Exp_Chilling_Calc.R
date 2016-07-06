@@ -227,9 +227,17 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
-write.csv(input/chillcalcs,"fieldchillcalcs.csv")
+write.csv(input/chillcalcs,"fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
+####
+head(d)
+###read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
 
+chillcalcs<-read.csv("input/fieldchillcalcs.csv", header=T)
 ##### Now add experimental chilling, using chillday and chilltemp.
+#use chilltemp and chillday
+chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
+} else { chillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+chillcalcs <- rbind(chillcalcs, data.frame(datasetID = i, chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
 
 
 # scratch
