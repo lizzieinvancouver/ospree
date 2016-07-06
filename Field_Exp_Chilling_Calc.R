@@ -227,7 +227,7 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
-write.csv(input/chillcalcs,"fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
+write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
 ####
 head(d)
 ###read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
