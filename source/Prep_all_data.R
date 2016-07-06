@@ -4,7 +4,7 @@ setwd("~/Documents/git/ospree")
 
 # 1. Clean up response variable names
 
-source("clean_respvar.R")
+source("source/clean_respvar.R")
 
 # 2. Convert percent budburst to days to budburst
 

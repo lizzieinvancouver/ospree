@@ -1,16 +1,15 @@
 # cleanup script for budburst review
 # Also makes summaries of what data we have
 
-library(gdata) # for read.xls
 library(maps)
 library(scales) # for alpha
 library(lme4)
-library(sjPlot) # visualizing fixed and random effects
+#library(sjPlot) # visualizing fixed and random effects
 
 setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/ospree/ospree")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
-# source("Prep_all_data.R") 
+# source("source/Prep_all_data.R") 
 
 d <- read.csv("ospree_clean1.csv") 
 
