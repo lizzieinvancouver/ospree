@@ -14,7 +14,9 @@ setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/osp
 
 d <- read.csv("ospree_clean1.csv") 
 
+d <- d[d$woody=="yes",]
 head(d)
+
 yr <- as.numeric(as.character(d$year))
 
 hist(yr, breaks = 50, xaxt="n", col = "lightblue", main = "Years of Publication")
