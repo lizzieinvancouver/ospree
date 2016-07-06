@@ -1,5 +1,8 @@
 # Calculating chilling units in field and from experimental work, for summing to a 'totalchill' variable. 
 # Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
+# Ailene Ettinger added code for experimental chilling calculations on 5 July 2016
+rm(list=ls()) 
+options(stringsAsFactors=FALSE)
 
 library(ncdf4)
 library(dplyr)
@@ -19,28 +22,34 @@ d$provenance.long <- as.numeric(as.character(d$provenance.long))
 d$year <- as.numeric(as.character(d$year))
 
 d <- as_data_frame(d)
-
+##add new column that combines datasetID and field sample.date for later indexing
+d$ID_fieldsample.date<-paste(d$datasetID,d$fieldsample.date, sep=".")
 # European studies
+#want table with lat, long, year, field sample date for each study. there could  be multiple field sample dates for each study
+#the below is dan's code for selecting out european studies using the dplyr package (does not work on Ailene's computer)
 eur <- d %>% # start with the data frame
-  distinct(datasetID) %>% # establishing grouping variables
-  filter(continent == 'europe' & year >= 1950) %>%
-  select(datasetID, provenance.lat, provenance.long, year)
-
+  distinct(ID_fieldsample.date,.keep_all = TRUE) %>% # establishing grouping variables
+  filter(continent == 'europe' & year >= 1950) %>%#select out europe
+  select(datasetID, provenance.lat, provenance.long, year,fieldsample.date)
 eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+#remove some sites that have errors to fix:
+#verheul07 field sample date is 1900 even though year is 2005
+eur <- eur %>% ##
+  filter(datasetID != 'verheul07' )
 
 # North America studies
 nam <- d %>% # start with the data frame
-  distinct(datasetID) %>% # establishing grouping variables
+  distinct(ID_fieldsample.date,.keep_all = TRUE) %>% # establishing grouping variables
   filter(continent == 'north america'& year >= 1950) %>%
-  select(datasetID, provenance.lat, provenance.long, year)
+  select(datasetID, provenance.lat, provenance.long, year,fieldsample.date)
 
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 # these will need manual cleaning. for now use as is
 
 # Which days do we want? For year-1, start at sept 1
 # End day will be different for different studies. Will need to go back through papers and extract field sample date! For now just use Jan 1 of the study year.
-startday = format(strptime("2015-09-01", "%Y-%m-%d"), "%j") # day 245 for leap years, 244 for non leap years
-endday = 1 # Jan 1. This will now be based on field sample date if known, otherwise 
+#startday = format(strptime("2015-09-01", "%Y-%m-%d"), "%j") # day 245 for leap years, 244 for non leap years
+#endday = 1 # Jan 1. This will now be based on field sample date if known, otherwise 
 
 ##reading in netCDF files. Working off of external hard drive
 # Europe first
@@ -72,11 +81,14 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # TODO! now this can be changed to field sample date !!!
   # use d$fieldsample.date
-  endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+  if(eur[i,"fieldsample.date"]!=""){ endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
+  if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+  }
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
-  
+  if(en<st){en=st}
+  if(endday<stday){endday=stday}
   # get temperature values for this range.
   # check the dim of the net cdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
   mins <- ncvar_get(eur.tempmn,'tn', 
@@ -92,8 +104,8 @@ for(i in 1:nrow(eur)){ # i = 1
   tempval[[as.character(eur[i,"datasetID"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
                                                   Tmin = mins, Tmax = maxs)
   }
-
-nafiles <- dir()[grep("livneh", dir())]
+drive="/Volumes/Expand/Climate/"
+nafiles <- dir(drive)[grep("livneh", dir(drive))]
 
 for(i in 1:nrow(nam)){ # i = 1
   
@@ -107,8 +119,9 @@ for(i in 1:nrow(nam)){ # i = 1
   yr <- as.numeric(nam[i,"year"])
   
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
-  endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
-  
+  if(is.na(nam[i,"fieldsample.date"])==FALSE){ endday <- strptime(nam[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
+  if(is.na(nam[i,"fieldsample.date"])==TRUE){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+  }
   prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="")
   thismo <- paste(yr, formatC(1:4, width=2, flag="0"), sep="")
   
