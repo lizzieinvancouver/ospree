@@ -55,12 +55,12 @@ ospree.bb.lab[which(ospree.bb.lab$response>1),28:31]
 # deal with NAs for now ...
 ospr.stan <- ospree.bb.lab
 
-ospr.stan$totalchill <- as.numeric(ospr.stan$Total_Chilling_Hours)
+ospr.stan$totalchill <- as.numeric(ospr.stan$Total_Chilling_Hours) 
 ospr.stan$forcetemp <- as.numeric(ospr.stan$forcetemp)
 ospr.stan$photoperiod_day <- as.numeric(ospr.stan$photoperiod_day)
 ospr.stan$provenance.lat <- as.numeric(ospr.stan$provenance.lat)
 ospr.stan$spp <- as.numeric(as.factor(ospr.stan$spp))
-ospr.stan$response <- as.numeric(ospr.stan$response)
+ospr.stan$responsedays <- as.numeric(ospr.stan$responsedays)
 
 ospr.stan <- subset(ospr.stan, select=c("responsedays", "totalchill", "forcetemp", 
     "photoperiod_day", "provenance.lat", "spp", "labgroup"))
@@ -90,6 +90,51 @@ if(dostan){
   sf <- summary(osp.r)$summary
   
   ssm.r <- as.shinystan(osp.r)
-  # launch_shinystan(ssm.f)
+  # launch_shinystan(ssm.r)
   savestan("real")
+}
+
+
+## try the model without latitude
+# ... though I am not sure that's the problem
+# and now that I have run the model I don't think it is ... 
+
+# deal with NAs for now ...
+ospr.stan <- ospree.bb.lab
+
+ospr.stan$totalchill <- as.numeric(ospr.stan$Total_Chilling_Hours)
+ospr.stan$forcetemp <- as.numeric(ospr.stan$forcetemp)
+ospr.stan$photoperiod_day <- as.numeric(ospr.stan$photoperiod_day)
+ospr.stan$spp <- as.numeric(as.factor(ospr.stan$spp))
+ospr.stan$responsedays <- as.numeric(ospr.stan$responsedays)
+
+ospr.stan <- subset(ospr.stan, select=c("responsedays", "totalchill", "forcetemp", 
+    "photoperiod_day", "spp", "labgroup"))
+
+ospr.stan.noNA <- ospr.stan[complete.cases(ospr.stan),]
+
+dim(ospr.stan.noNA)
+
+datalist.real <- with(ospr.stan.noNA, 
+    list(y = responsedays, 
+         chill = as.numeric(totalchill),  
+         force = as.numeric(forcetemp), 
+         photo = as.numeric(photoperiod_day), 
+         sp = as.numeric(as.factor(spp)),
+         lab = as.numeric(as.factor(labgroup)),
+         N = nrow(ospr.stan.noNA),
+         n_sp = length(unique(spp)),
+         n_lab = length(unique(labgroup))
+         )
+)
+
+if(dostan){
+  osp.r.nolat <- stan('stan/ospreeM1_nolat.stan', data = datalist.real, 
+                 iter = 3003
+                  ) 
+  sf <- summary(osp.r.nolat)$summary
+  
+  ssm.r <- as.shinystan(osp.r.nolat)
+  # launch_shinystan(osp.r.nolat)
+  savestan("real.nolat")
 }
