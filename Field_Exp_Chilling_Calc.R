@@ -11,7 +11,7 @@ library(chillR)
 
 setwd("~/Documents/git/ospree")
 
-d <- read.csv("ospree_clean1.csv")
+d <- read.csv("ospree_clean.csv")
 
 # make two data frames. North America and Europe, the lat longs and years.
 
@@ -229,7 +229,7 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
 #######################
 ########Merge field and experimental chilling calculations with the rest of the data
-dat <- read.csv("ospree_clean1.csv")
+dat <- read.csv("ospree_clean.csv")
 #use only woody species
 dat2<-subset(dat,woody=="yes")
 #Make a column that indexes the study and field sample date, in order to calculate field chilling
