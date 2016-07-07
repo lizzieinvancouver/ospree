@@ -1,17 +1,22 @@
 # cleanup script for budburst review
 # Also makes summaries of what data we have
 
+## housekeeping
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
+
 library(maps)
 library(scales) # for alpha
 library(lme4)
 #library(sjPlot) # visualizing fixed and random effects
 
-setwd("~/Documents/git/ospree") # setwd("~/Documents/git/projects/treegarden/ospree/ospree")
+setwd("~/Documents/git/ospree")
+# setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("source/Prep_all_data.R") 
 
-d <- read.csv("ospree_clean1.csv") 
+d <- read.csv("ospree_clean.csv") 
 
 d <- d[d$woody=="yes",]
 head(d)
@@ -54,7 +59,7 @@ noyear <- unique(d[d$year == "",'datasetID'])
 revisit2 <- d[match(noyear, d$datasetID),1:3]
 revisit2$getyear = "x"
 
-revisit <- merge(revisit2, revisit, all = T)
+revisit <- merge(revisit2, revisit, all = TRUE)
 
 # Fix missing lat long
 
@@ -62,21 +67,56 @@ nolat <- unique(d[is.na(as.numeric(as.character(d$provenance.lat))),'datasetID']
 revisit3 <- d[match(nolat, d$datasetID),1:3]
 revisit3$getlatlong = "x"
 
-revisit <- merge(revisit3, revisit, all = T)
+revisit <- merge(revisit3, revisit, all = TRUE)
 
 # Fix response or response.time 
 fixresp <- unique(d[d$response == "" & d$response.time == "" | 
-                  d$response == "no response" & d$response.time == "no response" | 
-                    is.na(d$response) & is.na(d$response.time),'datasetID'])
+    d$response == "no response" & d$response.time == "no response" | 
+    is.na(d$response) & is.na(d$response.time),'datasetID'])
 
 revisit4 <- d[match(fixresp, d$datasetID),1:3]
 revisit4$fixresponse = "x"
-revisit <- merge(revisit4, revisit, all = T)
+revisit <- merge(revisit4, revisit, all = TRUE)
 
 revisit[is.na(revisit)] = ""
 
-write.csv(revisit, file = "Papers to Revisit.csv", row.names = F)
+write.csv(revisit, file = "revisiting/Papers to Revisit.csv", row.names = FALSE)
 
+# ambient or range for forcetemp
+revisit.amb <- d[which(grepl("ambi", d$forcetemp)==TRUE),]
+revisit.hyp <- d[which(grepl("-", d$forcetemp)==TRUE),]
+revisit.com <- d[which(grepl(",", d$forcetemp)==TRUE),] # Check; mainly Skuterud paper here, Fig 4 is mean across temps, but Fig 3 has data across forcing temps....
+
+forcetempissues <- rbind(revisit.amb, revisit.hyp, revisit.com)
+
+forcetempissues.print <- subset(forcetempissues, select=c("datasetID", "study", "forcetemp"))
+forcetempissues.print <- forcetempissues.print[!duplicated(forcetempissues.print),]
+write.csv(forcetempissues.print, file = "revisiting/revisit_temp.csv", row.names = FALSE)
+
+
+#############################
+# More thinking about what's missing
+d.nolat <- subset(d, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 399 rows
+d.noforce <- subset(d, is.na(forcetemp)==TRUE | forcetemp=="") # only 521 rows
+d.nophoto <- subset(d, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 628
+d$latbi <- paste(d$genus, d$species, sep="_")
+d.nolatbi <- subset(d, is.na(latbi)==TRUE | latbi=="") # all studies are done on some named thing!
+
+# Now let's make them numeric and see what happens ...
+d.num <- d
+
+d.num$provenance.lat <- as.numeric(d.num$provenance.lat)
+d.num$forcetemp <- as.numeric(d.num$forcetemp)
+d.num$photoperiod_day <- as.numeric(d.num$photoperiod_day)
+
+d.num.nolat <- subset(d.num, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 479 rows
+d.num.noforce <- subset(d.num, is.na(forcetemp)==TRUE | forcetemp=="") # 3124 rows
+d.num.nophoto <- subset(d.num, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 3770
+
+unique(d$provenance.lat)
+unique(d$photoperiod_day)
+unique(d$forcetemp)
+unique(d$latbi)
 
 #############################
 # Mapping 
