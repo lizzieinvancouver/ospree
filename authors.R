@@ -10,6 +10,7 @@ options(stringsAsFactors = FALSE)
 # library(plyr)
 library(reshape)
 library(cluster) # for agnes command
+library(plyr)
 
 setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
 
@@ -31,16 +32,6 @@ aut.long.sm <- subset(aut.long, value!="")
 aut.long.sm$author <- gsub( ",.*$", "", aut.long.sm$value)
 names(aut.long.sm) <- c("datasetid", "authornum", "fullname", "author")
 
-# also while I am here, clean up wide format
-aut.sm$aut1 <- gsub( ",.*$", "", aut.sm$aut1)
-aut.sm$aut2 <- gsub( ",.*$", "", aut.sm$aut2)
-aut.sm$aut3 <- gsub( ",.*$", "", aut.sm$aut3)
-aut.sm$aut4 <- gsub( ",.*$", "", aut.sm$aut4)
-aut.sm$aut5 <- gsub( ",.*$", "", aut.sm$aut5)
-aut.sm$aut6 <- gsub( ",.*$", "", aut.sm$aut6)
-aut.sm$aut7 <- gsub( ",.*$", "", aut.sm$aut7)
-
-
 ## clustering analysis
 autmat <- table(aut.long.sm$author, aut.long.sm$datasetid)
 aut.clust <- agnes(dist(autmat), diss=TRUE, method="average") # this should be applying UPGMA method
@@ -48,7 +39,6 @@ aut.hclust <- hclust(dist(autmat), method="average") # also this should be apply
 
 plot(aut.clust)
 cutree(aut.hclust, k=4)
-
 
 aut.hclust.1 <- hclust(dist(autmat)) # cannot use average method and cutree, I don't think
 cutree(aut.hclust, h=c(1.5, 2, 2.5, 3))
@@ -70,19 +60,32 @@ k.means.fit <- kmeans(autmat.rev, 6)
 plot(autmat.rev, col = k.means.fit$cluster)
 points(k.means.fit$centers, col = 1:5, pch = 8)
 
-## Below taken from: https://www.biostars.org/p/86563/
+## count up interactions for each paper
+datersets <- unique(aut.long.sm$datasetid)
+output <- matrix(ncol=2, nrow=0)
 
-library(gplots)
+for (i in c(1:length(datersets))){
+    subby <- subset(aut.long.sm, datasetid==datersets[i])
+    ifelse((nrow(subby)>1)==TRUE,
+        output <- rbind(output, t(combn(sort(tolower(subby$author)), m=2))),
+        output <- output)
+}
+output <- stripwhite(output)
+output.df <- as.data.frame(output)
 
-# get a color palette equal to the number of clusters
-clusterCols <- rainbow(length(unique(chopchop)))
+# output.df$combos <- paste(output.df[,1], output.df[,2], sep="")
 
-# create vector of colors for side bar
-myClusterSideBar <- clusterCols[chopchop]
+# get column for combinations -- regardless of order of names across columns
+output.df.comb <- data.frame(output.df, stringsAsFactors = FALSE) %>% 
+   mutate(key = paste0(pmin(V1, V2), pmax(V1, V2), sep = ""))
 
-# choose a color palette for the heat map
-myheatcol <- rev(redgreen(75))
+output.df.comb.nodups <- output.df.comb[!duplicated(output.df.comb$key),]
 
-# draw the heat map
-heatmap.2(autmat.rev, main="Hierarchical Cluster", Rowv=as.dendrogram(aut.rev.hclust), Colv=NA, dendrogram="row", scale="row", col=myheatcol, density.info="none", trace="none")
+countz <- ddply(output.df.comb,.(key), summarize, freq=length(key))
+
+fulldf <- merge(countz, output.df.comb.nodups, by="key")
+
+# write the wide format out to try in gephi
+write.csv(fulldf, "refs/aut.sm.csv", row.names=FALSE)
+
 
