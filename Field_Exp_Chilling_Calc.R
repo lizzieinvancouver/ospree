@@ -228,20 +228,54 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
-####
-head(d)
-###read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-
+#######################
+########Merge field chilling calculations with the rest of the data
+###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
 chillcalcs<-read.csv("input/fieldchillcalcs.csv", header=T)
-##### Now add experimental chilling, using chillday and chilltemp.
-#use chilltemp and chillday
-chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
-} else { chillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
-chillcalcs <- rbind(chillcalcs, data.frame(datasetID = i, chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
+dat <- read.csv("ospree_clean1.csv")
+#use only woody species
+dat2<-subset(dat,woody=="yes")
+#Make a column that indexes the study and field sample date, in order to calculate field chilling
+dat2$ID_fieldsample.date<-paste(dat2$datasetID,dat2$fieldsample.date, sep=".")
+#Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
+dat2$chilltreat<-paste(dat2$chilltemp,dat2$chillphotoperiod, dat2$chilldays,sep=".")
+
+##### Calculate experimental chilling, using chillday and chilltemp.
+###there are many non-numeric values in the chilltemp and chilldays columns- these are unusable currently so remove:
+dat2$chilltemp<-as.numeric(dat2$chilltemp)
+dat2$chilldays<-as.numeric(dat2$chilldays)
+
+expchillcalcs <- vector()
+###First, need file with hrly temperature data for each row in dataframe
+for(i in 1:nrow(dat2)){
+  # Skip if NA for temperature data
+  if(!is.na(dat2$chilltemp[i]) & dat2$chilldays[i] !=0 & !is.na(dat2$chilldays[i])) {
+    yr<-as.numeric(dat2$year[i]) 
+    if(is.na(yr)){yr<-2016}#temporary fix for when years are not currently listed!
+  hrly =
+      data.frame(
+      Temp = rep(as.numeric(dat2$chilltemp[i]),times=24*round(as.numeric(dat2$chilldays[i], digits=0))),
+      Year = rep(yr, times=24*round(as.numeric(dat2$chilldays[i],digits=0))),
+      JDay = sort(rep(as.numeric(seq(1:round(as.numeric(dat2$chilldays[i],digits=0)))),times=24))
+)
+     expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
+  } else { expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+  expchillcalcs <- rbind(expchillcalcs, data.frame(datasetID = dat2$ID_fieldsample.date[i], chilltreat = dat2$chilltreat[i],expchillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
+  
+}
+colnames(expchillcalcs)[3:5]<-c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
+
+###Merge field and experimental chilling data with the rest of the data
+##The below code is not working! I'm getting lots of extra lines of data after i merge the experimental chilling data in...
+#Add experimental chilling
+dat3<-merge(dat2,expchillcalcs,by.x=c("ID_fieldsample.date","chilltreat"),by.y=c("datasetID","chilltreat"))
+
+#Add field chilling calculations to datafile
+dat3<-merge(dat3,chillcalcs,by.x="ID_fieldsample.date",by.y="datasetID", all.x=TRUE)
+
 
 
 # scratch
-
 days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
 daysd <- strptime("1950-01-01", "%Y-%m-%d") + days*60*60*24 # convert to actual days
 
