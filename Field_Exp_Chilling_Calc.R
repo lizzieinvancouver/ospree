@@ -281,6 +281,11 @@ dat3<-merge(dat2,expchillcalcs,by.x=c("datasetID","ID_chilltreat"),by.y=c("datas
 #Add field chilling calculations to datafile, form some reason this merge creates 469 extra rows of data...
 dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)
 #dat4.dplyr<-left_join(dat3,chillcalcs, by = c("ID_fieldsample.date"))
+###Now add column for total chilling (field plus experimental)
+dat4$Total_Chilling_Hours<-dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
+dat4$Total_Utah_Model<-dat4$Exp_Utah_Model+dat4$Field_Utah_Model
+dat4$Total_Field_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions
+write.csv(dat4,"input/ospree_clean1_withchill.csv",row.names=FALSE, eol="\r\n")
 
 # scratch
 days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
