@@ -97,7 +97,7 @@ for(i in 1:nrow(eur)){ # i = 1
                     )
   
   tempval[[as.character(eur[i,"ID_fieldsample.date"])]] <- data.frame(Date = seq(stday, endday, by = "day"),
-                                                  Tmin = mins, Tmax = maxs)
+                                                  Tmin = mins, Tmax = maxs)#need to add lat and long here to this output table
 }
 
 drive="/Volumes/Expand/Climate/"
@@ -147,9 +147,6 @@ for(i in 1:nrow(nam)){ # i = 1
     thismo <- paste(as.numeric(substr(endday,1,4)), formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
     chillmo<-c(prevmo, thismo)
   }
- 
-  #check
-  #print(nam[i,]);print(paste("startday:",stday));print(endday);print(chillmo)
     # now loop over these year-month combo files
   mins <- maxs <- vector()
   
@@ -167,7 +164,8 @@ for(i in 1:nrow(nam)){ # i = 1
     }
   
   tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Date = as.character(seq(stday, endday, by = "day")),
-                                                            Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
+                          Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#need to add lat and long here to this output table
+}
   }
 
 # interporlate to hourly, based on max min 
@@ -222,19 +220,15 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
     chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
   } else { chillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
     chillcalcs <- rbind(chillcalcs, data.frame(datasetID = i, chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
-   
+    #need to add lat and long here to this  chillcalcs output table
+}
   }
 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
 #######################
-########Merge field chilling calculations with the rest of the data
-###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-chillcalcs<-read.csv("input/fieldchillcalcs.csv", header=T)
-chillcalcs<- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
-
-colnames(chillcalcs)<-c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
+########Merge field and experimental chilling calculations with the rest of the data
 dat <- read.csv("ospree_clean1.csv")
 #use only woody species
 dat2<-subset(dat,woody=="yes")
@@ -252,7 +246,6 @@ chilldat <- dat2 %>% # start with the data frame
 chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
 chilldat$chilldays<-as.numeric(chilldat$chilldays)
 chilldat<- chilldat[apply(chilldat, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
-
 
 expchillcalcs <- vector()
 ###First, need file with hrly temperature data for each row in dataframe
@@ -277,12 +270,17 @@ colnames(expchillcalcs)[3:5]<-c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill
 ###Merge field and experimental chilling data with the rest of the data
 #Add experimental chilling
 dat3<-merge(dat2,expchillcalcs,by.x=c("datasetID","ID_chilltreat"),by.y=c("datasetID","ID_chilltreat"), all.x=T)
-#dat3.dplyr<-left_join(dat2,expchillcalcs, by = c("datasetID","ID_chilltreat"))
-#Add field chilling calculations to datafile, form some reason this merge creates 469 extra rows of data...
-dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)
-#dat4.dplyr<-left_join(dat3,chillcalcs, by = c("ID_fieldsample.date"))
+#Add field chilling calculations to datafile, 
+###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
+chillcalcs<-read.csv("input/fieldchillcalcs.csv", header=T)
+chillcalcs<- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+colnames(chillcalcs)<-c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
+##need to add lat and long here to the chillcalcs table and merge on these columns as well
+#"skuterud94.1993-11-25","fu13.2010-12-01","fu13.2011-12-01","sonsteby14.2012-10-17","heide15.2014-10-29"   
+dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)#also need to merge on provenenca late/long as there are 5 studies with differente provenances that have different field chilling.
+
 ###Now add column for total chilling (field plus experimental)
-###This needs to be calculated differently- if there is no experimental chilling- just use field chilling. if there is no field chilling, just use experimental chilling
+###First, total chilling= exp and field
 dat4$Total_Chilling_Hours<-dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
 dat4$Total_Utah_Model<-dat4$Exp_Utah_Model+dat4$Field_Utah_Model
 dat4$Total_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions
@@ -291,15 +289,15 @@ dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is
 dat4[which(is.na(dat4$Exp_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Exp_Utah_Model)),]$Field_Utah_Model
 dat4[which(is.na(dat4$Exp_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Exp_Chill_portions)),]$Field_Chill_portions
 #For sites with no field chilling, should we use only experimental chilling? not sure if this is ok...
+dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Exp_Chilling_Hours
+dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
+dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
 
 write.csv(dat4,"input/ospree_clean1_withchill.csv",row.names=FALSE, eol="\r\n")
 
 # scratch
 days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
 daysd <- strptime("1950-01-01", "%Y-%m-%d") + days*60*60*24 # convert to actual days
-
-
-
 
 nafiles <- dir()[grep("livneh", dir())]
 
