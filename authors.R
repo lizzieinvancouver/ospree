@@ -3,6 +3,12 @@
 
 ## looking at author clustering in OSPREE ##
 
+##########################################################################
+### To do !!! ###
+## Toss one entry with no dataset ID, rerun ##
+## Understand why kmeans gives slightly different answers each time ... ##
+##########################################################################
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -11,6 +17,8 @@ options(stringsAsFactors = FALSE)
 library(reshape)
 library(cluster) # for agnes command
 library(plyr)
+library(dplyr)
+
 
 setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
 
@@ -41,24 +49,25 @@ plot(aut.clust)
 cutree(aut.hclust, k=4)
 
 aut.hclust.1 <- hclust(dist(autmat)) # cannot use average method and cutree, I don't think
-cutree(aut.hclust, h=c(1.5, 2, 2.5, 3))
 
 ## wait, do we want the reverse?
 autmat.rev <- table(aut.long.sm$datasetid,aut.long.sm$author)
 
 aut.rev.hclust <- hclust(dist(autmat.rev), method="average") # also this should be applying UPGMA method
 
-plot(aut.rev.clust)
+plot(aut.rev.hclust)
 cutree(aut.rev.hclust, k=6)
 
 aut.rev.hclust <- hclust(dist(autmat.rev)) # cannot use average method and cutree, I don't think
 chopchop <- cutree(aut.rev.hclust, h=c(1, 1.5, 2, 2.5, 3))
 chopchop <- cutree(aut.rev.hclust, k=4)
 
-## try kmeans
+## try kmeans (it worries me that I get way too many different answers with this each run of it) 
 k.means.fit <- kmeans(autmat.rev, 6)
 plot(autmat.rev, col = k.means.fit$cluster)
 points(k.means.fit$centers, col = 1:5, pch = 8)
+
+write.csv(as.data.frame(k.means.fit$cluster), "refs/kmeans6.csv") 
 
 ## count up interactions for each paper
 datersets <- unique(aut.long.sm$datasetid)
