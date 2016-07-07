@@ -282,9 +282,16 @@ dat3<-merge(dat2,expchillcalcs,by.x=c("datasetID","ID_chilltreat"),by.y=c("datas
 dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)
 #dat4.dplyr<-left_join(dat3,chillcalcs, by = c("ID_fieldsample.date"))
 ###Now add column for total chilling (field plus experimental)
+###This needs to be calculated differently- if there is no experimental chilling- just use field chilling. if there is no field chilling, just use experimental chilling
 dat4$Total_Chilling_Hours<-dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
 dat4$Total_Utah_Model<-dat4$Exp_Utah_Model+dat4$Field_Utah_Model
-dat4$Total_Field_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions
+dat4$Total_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions
+#For sites with no experimental chilling, just use field chilling:
+dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Field_Chilling_Hours
+dat4[which(is.na(dat4$Exp_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Exp_Utah_Model)),]$Field_Utah_Model
+dat4[which(is.na(dat4$Exp_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Exp_Chill_portions)),]$Field_Chill_portions
+#For sites with no field chilling, should we use only experimental chilling? not sure if this is ok...
+
 write.csv(dat4,"input/ospree_clean1_withchill.csv",row.names=FALSE, eol="\r\n")
 
 # scratch
