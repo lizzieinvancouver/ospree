@@ -293,7 +293,7 @@ dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(
 dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
 dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
 
-write.csv(dat4,"input/ospree_clean1_withchill.csv",row.names=FALSE, eol="\r\n")
+write.csv(dat4,"input/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
 
 # scratch
 days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
