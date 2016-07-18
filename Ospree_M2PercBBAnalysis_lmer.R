@@ -7,7 +7,7 @@ options(stringsAsFactors = FALSE)
 
 library(lme4)
 library(car)
-setwd("~/GitHub/ospree")
+setwd("~/git/ospree")
 
 
 ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)

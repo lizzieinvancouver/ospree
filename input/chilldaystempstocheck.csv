@@ -1,0 +1,89 @@
+"datasetID","chilltemp","chilldays"
+"basler14","ambient",NA
+"biran73","5/14/97",NA
+"biran73","5/20/97",NA
+"biran73","5/27/97",NA
+"biran73","6/30/97",NA
+"caffarra11b","8, 10",NA
+"cannell83",NA,"25 degreedays"
+"cannell83",NA,"51 degreedays"
+"cannell83",NA,"56 degreedays"
+"cannell83",NA,"58 degreedays"
+"cannell83",NA,"60 degreedays"
+"cannell83",NA,"62 degreedays"
+"cannell83",NA,"68 degreedays"
+"cannell83",NA,"80 degreedays"
+"cannell83",NA,"95 degreedays"
+"cannell83",NA,"115 degreedays"
+"cannell83",NA,"129 degreedays"
+"cannell83",NA,"165 degreedays"
+"cannell83",NA,"14 degreedays"
+"cannell83",NA,"32 degreedays"
+"cannell83",NA,"38 degreedays"
+"cannell83",NA,"61 degreedays"
+"cannell83",NA,"71 degreedays"
+"cannell83",NA,"81 degreedays"
+"cannell83",NA,"87 degreedays"
+"cannell83",NA,"119 degreedays"
+"cannell83",NA,"185 degreedays"
+"cannell83",NA,"37 degreedays"
+"cannell83",NA,"50 degreedays"
+"cannell83",NA,"65 degreedays"
+"cannell83",NA,"70 degreedays"
+"cannell83",NA,"86 degreedays"
+"cannell83",NA,"94 degreedays"
+"cannell83",NA,"118 degreedays"
+"charrier11","ambient","ambient"
+"cook05","ambient",NA
+"falusi90","<16","winter"
+"falusi90",">16","winter"
+"falusi97","ambient",NA
+"fu13","ambient",NA
+"gianfagna85","ambient",NA
+"gomory15","ambient",NA
+"granhus09","Chilling treatment at 0.7 ± 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C",NA
+"gunderson12","ambient",NA
+"heide93","ambient",NA
+"heide93a","ambient","1991-10-15"
+"heide93a","ambient","1991-11-15"
+"heide93a","ambient","1991-12-15"
+"heide93a","ambient","1992-01-15"
+"heide93a","ambient","1992-02-15"
+"heide93a","ambient","1992-03-15"
+"heide93a","ambient","1991-03-15"
+"howe95","ambient",NA
+"jones12","4, 0, -4",NA
+"jones12","8, 4, 0",NA
+"jones12","0, 4, 8",NA
+"jones12","-4, 0, 4",NA
+"jones12","8, 8, -4",NA
+"jones12","-4, 8, 8",NA
+"karlsson03","ambient",NA
+"lamb37","-3, 3",NA
+"laube14a","ambient",NA
+"li05","6,.5","21,21"
+"man10","neg 3,2","30,30"
+"myking98","ambient","1996-11-15"
+"myking98","ambient","1996-12-15"
+"myking98","ambient","1997-01-15"
+"myking98","ambient","1997-02-15"
+"myking98","ambient","1997-03-15"
+"myking98","ambient","1997-04-15"
+"nerd95","ambient + 9",NA
+"nerd95","ambient",NA
+"okie11","ambient plus days at 4C",NA
+"okie11","ambient",NA
+"pagter15","elevated",NA
+"pagter15","ambient",NA
+"partanen01","negative 23 to 13 degrees Celsius",NA
+"partanen98","ambient",NA
+"Sanz-Perez09","ambient",NA
+"sanzperez10","ambient",NA
+"schnabel87","ambient","ambient"
+"skre08","High",NA
+"skre08","Low",NA
+"skuterud94","mean of 0, 3, 6","40,55,60 (mean across these presented)"
+"skuterud94","mean of 0, 3, 6","mean of 39, 55, 67, 98, 111"
+"sonsteby09b","ambient",NA
+"spiers74","ambient",NA
+"worrall67","ambient",NA
