@@ -25,3 +25,7 @@ y2$ID.chilldays<-paste(y2$datasetID,y2$chilldays)
 y3 <- y2 %>% # start with the data frame
   distinct(ID.chilldays,.keep_all = TRUE) %>% # establishing grouping variables
   select(datasetID, chilldays)
+
+##merge the two
+z<-merge(x3,y3, all=TRUE)
+write.csv(z,"input/chilldaystempstocheck.csv",row.names=FALSE, eol="\r\n")
