@@ -7,8 +7,10 @@ options(stringsAsFactors = FALSE)
 
 library(lme4)
 library(car)
+
 setwd("~/git/ospree")
 
+if(length(grep("danflynn", getwd())>0)) { setwd("~/Documents/git/ospree") } # set to DF working directory if DF computer.
 
 ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
 

@@ -10,8 +10,10 @@ library(scales) # for alpha
 library(lme4)
 #library(sjPlot) # visualizing fixed and random effects
 
-setwd("~/Documents/git/ospree")
-# setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+# set to DF working directory if DF computer.
+if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
+  setwd("~/Documents/git/ospree") 
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("source/Prep_all_data.R") 
@@ -38,8 +40,9 @@ range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
 hist(as.numeric(as.character(d$photoperiod_day)),
-     main = "Photoperiod frequency", xlab = "Hour",
+     main = "Photoperiod frequency", xlab = "Hour"
      )
+
 
 
 #############################

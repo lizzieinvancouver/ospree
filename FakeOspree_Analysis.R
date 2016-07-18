@@ -14,6 +14,9 @@ options(mc.cores = parallel::detectCores())
 
 load("FakeOspree.RData")
 
+# Thin the data, see if goes faster
+fake <- fake[sample(1:nrow(fake), 999),]
+
 datalist.f <- with(fake, 
     list(y = bb, 
          chill = as.numeric(chill), 
@@ -28,8 +31,8 @@ datalist.f <- with(fake,
          )
 )
 if(dostan){
-  osp.f <- stan('stan/ospree1.stan', data = datalist.f, 
-                 iter = 3883
+  osp.f <- stan('stan/ospreeM1.stan', data = datalist.f, 
+                 iter = 2882
                   ) 
   sf <- summary(osp.f)$summary
   
@@ -48,26 +51,23 @@ if(!exists('osp.f')){
 
 launch_shinystan(ssm.f) 
 
-sf[grep("^a_sp\\[", rownames(sf)),] # 
-sf[grep("^a_sp\\[", rownames(sf)),] # 
+sf[grep("^a_sp\\[", rownames(sf)),"mean"] # 
 sf[grep("^a_0", rownames(sf)),] # 
 
-sf[grep("^b_force_sp\\[", rownames(sf)),] # 
-sf[grep("^b_force_0", rownames(sf)),] # 
-sf[grep("^mu_b_force_sp\\[", rownames(sf)),] # 0
-
-sf[grep("^b_photo_sp\\[", rownames(sf)),] # 
-sf[grep("^b_photo_0", rownames(sf)),] # 
-
-sf[grep("^b_chill_sp\\[", rownames(sf)),] #
+summary(sf[grep("^b_chill_sp\\[", rownames(sf)),"mean"] ) # this is correct, near -3
 sf[grep("^b_chill_0", rownames(sf)),] # 
 
-sf[grep("^b_inter_fc_sp\\[", rownames(sf)),] # 
+summary(sf[grep("^b_force_sp\\[", rownames(sf)),"mean"]) # correct, near -2
+sf[grep("^b_force_0", rownames(sf)),] # 
+sf[grep("^mu_b_force_sp\\[", rownames(sf)),"mean"] # near 0
+
+summary(sf[grep("^b_photo_sp\\[", rownames(sf)),"mean"] ) # correct, near -1
+sf[grep("^b_photo_0", rownames(sf)),] # 
+
+summary(sf[grep("^b_inter_fc_sp\\[", rownames(sf)),"mean"] )# correct, near 0.5
 sf[grep("^b_inter_fc_0", rownames(sf)),] # 
 
-plot(sf['b_force_0','mean'], sf['b_chill_0','mean'])
-
-plotlet("b_force_sp", "b_photo_sp", 
+plotlet("b_force_sp", "b_photo_sp", # not structured as correlated in these data
 #         xlim = c(-24, -23),
 #         ylim = c(-18, -17),
         dat = sf)
@@ -81,47 +81,39 @@ plot(density(sf[grep("^b_force_sp\\[", rownames(sf)),'mean']),
 
 
 
-
-###### Posterior predictive checks -- Todo. Below is based on bud burst experiment checks.
+###### Posterior predictive checks -- 
 # pull out coefficients at each level
 
 nlab = length(unique(fake$lab)) # 20 lab groups
 nsp = length(unique(fake$sp)) # 100 species
-
-# (ntot = nsite*nwarm*nphoto) # 8 rows. But will be looping over individuals and species below
-# 
-# # Build up the data frame
-# site = gl(nsite, rep, length = ntot)
-
-warm = gl(nwarm, rep*nsite, length = ntot)
-photo = gl(nphoto, rep*nsite*nwarm, length = ntot)
-
-treatcombo = paste(warm, photo, sep = "_")
-
-(d <- data.frame(site, warm, photo, treatcombo))
-
+ntot = 
 # Extracting fitted values from the stan fit object
-sitediff = sf[grep("^b_site_0", rownames(sf)),'mean']
-warmdiff = sf[grep("^b_warm_0", rownames(sf)),'mean']
-photodiff = sf[grep("^b_photo_0", rownames(sf)),'mean']
-
-# interactions. 9 two-way interactions
-sitewarm = sf[grep("^b_inter_ws_0", rownames(sf)),'mean']
-sitephoto = sf[grep("^b_inter_ps_0", rownames(sf)),'mean']
-warmphoto = sf[grep("^b_inter_wp_0", rownames(sf)),'mean']
+chillcoef = sf[grep("^b_chill_0", rownames(sf)),'mean']
+forcecoef = sf[grep("^b_force_0", rownames(sf)),'mean']
+photocoef = sf[grep("^b_photo_0", rownames(sf)),'mean']
+latcoef =  sf[grep("^b_lat_0", rownames(sf)),'mean']
+chillforce =  sf[grep("^b_inter_fc_0", rownames(sf)),'mean']
+chillphoto =  sf[grep("^b_inter_pc_0", rownames(sf)),'mean']
+chilllat =  sf[grep("^b_inter_lc_0", rownames(sf)),'mean']
+forcephoto =  sf[grep("^b_inter_fp_0", rownames(sf)),'mean']
+forcelat =  sf[grep("^b_inter_fl_0", rownames(sf)),'mean']
+photolat =  sf[grep("^b_inter_pl_0", rownames(sf)),'mean']
 
 ######## SD for each treatment
-sitediff.sd = sf[grep("^b_site_0", rownames(sf)),'sd'] 
-warmdiff.sd = sf[grep("^b_warm_0", rownames(sf)),'sd']  
-photodiff.sd = sf[grep("^b_photo_0", rownames(sf)),'sd'] 
-sitewarm.sd = sf[grep("^b_inter_ws_0", rownames(sf)),'sd'] 
-sitephoto.sd = sf[grep("^b_inter_ps_0", rownames(sf)),'sd'] 
-warmphoto.sd = sf[grep("^b_inter_wp_0", rownames(sf)),'sd'] 
+chillcoef.sd = sf[grep("^b_chill_0", rownames(sf)),'sd'] 
+forcecoef.sd = sf[grep("^b_force_0", rownames(sf)),'sd']  
+photocoef.sd = sf[grep("^b_photo_0", rownames(sf)),'sd'] 
+latcoef.sd =  sf[grep("^b_lat_0", rownames(sf)),'sd'] 
+chillforce.sd = sf[grep("^b_inter_fc_0", rownames(sf)),'sd'] 
+chillphoto.sd = sf[grep("^b_inter_pc_0", rownames(sf)),'sd'] 
+chilllat.sd = sf[grep("^b_inter_lc_0", rownames(sf)),'sd'] 
+forcephoto.sd = sf[grep("^b_inter_fp_0", rownames(sf)),'sd'] 
+forcelat.sd = sf[grep("^b_inter_fl_0", rownames(sf)),'sd'] 
+photolat.sd = sf[grep("^b_inter_pl_0", rownames(sf)),'sd'] 
 
-mm <- model.matrix(~(site+warm+photo)^2, data.frame(warm, photo))
 
 ############ !
-spint <- sf[grep("^a_sp\\[", rownames(sf)),'mean'] # Was centered on 35 in fake data, why now 61?
+spint <- sf[grep("^a_sp\\[", rownames(sf)),'mean'] # Was centered on 80 in fake data generating, now on 40
 
 poster <- vector() # to hold the posterior predictive checks
 
@@ -130,10 +122,17 @@ for(i in 1:nsp){ # loop over species, as these are the random effect modeled.
   
   indx <- which(splookup == i)
   
+  force = rnorm(ntot, 0, 1)
+  photo = rnorm(ntot, 0, 1)
+  chill = rnorm(ntot, 0, 1)
+  lat = rnorm(ntot, 0, 1)
+  
+  mm <- model.matrix(~(chill+force+photo+lat)^2, data.frame(chill, force, photo, lat))
+  
   coeff <- data.frame(
       sf[rownames(sf) %in% paste("a_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_site_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_warm_sp_ind[", indx, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_chill_sp_ind[", indx, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_force_sp_ind[", indx, "]", sep = ""),'mean'],
       sf[rownames(sf) %in% paste("b_photo_sp_ind[", indx, "]", sep = ""),'mean'],
       sf[rownames(sf) %in% paste("b_inter_ws_sp_ind[", indx, "]", sep = ""),'mean'],
       sf[rownames(sf) %in% paste("b_inter_ps_sp_ind[", indx, "]", sep = ""),'mean'],
@@ -142,11 +141,11 @@ for(i in 1:nsp){ # loop over species, as these are the random effect modeled.
     
     for(j in 1:nind){ # simulate data for each individual, using these coefficients
       
-      bb <- rnorm(n = length(warm), mean = mm %*% as.numeric(coeff[j,]), sd = 0.1)
+      bb <- rnorm(n = length(force), mean = mm %*% as.numeric(coeff[j,]), sd = 0.1)
     
       
       posterx <- data.frame(bb, sp = i, ind = paste(i, j, sep="_"),
-                        site, warm, photo)
+                        chill, force, photo)
     
     poster <- rbind(poster, posterx)  
   }

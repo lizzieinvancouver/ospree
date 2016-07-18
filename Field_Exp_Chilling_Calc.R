@@ -227,13 +227,14 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
+
 #######################
 ########Merge field and experimental chilling calculations with the rest of the data
 dat <- read.csv("ospree_clean.csv")
 #use only woody species
-dat2<-subset(dat,woody=="yes")
+dat2<-subset(dat, woody=="yes")
 #Make a column that indexes the study and field sample date, in order to calculate field chilling
-dat2$ID_fieldsample.date<-paste(dat2$datasetID,dat2$fieldsample.date, sep=".")
+dat2$ID_fieldsample.date <- paste(dat2$datasetID, dat2$fieldsample.date, sep=".")
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
 dat2$ID_chilltreat<-paste(dat2$datasetID,dat2$chilltemp,dat2$chilldays,sep=".")
 
@@ -279,8 +280,9 @@ colnames(chillcalcs)<-c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah
 #"skuterud94.1993-11-25","fu13.2010-12-01","fu13.2011-12-01","sonsteby14.2012-10-17","heide15.2014-10-29"   
 dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)#also need to merge on provenenca late/long as there are 5 studies with differente provenances that have different field chilling.
 
-###Now add column for total chilling (field plus experimental)
-###First, total chilling= exp and field
+### Now add column for total chilling (field plus experimental)
+### First, total chilling= exp and field
+
 dat4$Total_Chilling_Hours<-dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
 dat4$Total_Utah_Model<-dat4$Exp_Utah_Model+dat4$Field_Utah_Model
 dat4$Total_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions

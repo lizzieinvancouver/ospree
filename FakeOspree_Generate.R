@@ -16,8 +16,6 @@ ntot = 50 # Values per species.
 baseinter = 80 # baseline intercept across all species. Days to budburst (assume Julian days)
 spint <- baseinter + c(1:nsp)-mean(1:nsp) # different intercepts by species
 
-
-
 fake <- vector()
 
 for(i in 1:nsp){ # loop over species. i = 1
@@ -93,10 +91,23 @@ for(i in 1:nlab){
 
 ggplot(fake, aes(chill, bb, color = as.factor(sp))) + geom_point() + geom_smooth(method = 'lm', se=F)
 
-summary(lm(bb ~ (chill+force+photo+lat)^2, data = fake)) # sanity check. 
+ggplot(fake, aes(force, bb, color = as.factor(lab))) + geom_point() + geom_smooth(method = 'lm', se=F)
+ggplot(fake, aes(force, bb, color = as.factor(sp))) + geom_point() + geom_smooth(method = 'lm', se=F)
 
-summary(m1 <- lmer(bb ~ (chill+force+photo+lat)^2 + (1|sp) + (1|lab), data = fake)) 
-ranef(m1)
+# Not quite right, because missing species and lab group
+summary(lm1 <- lm(bb ~ (chill+force+photo+lat)^2, data = fake)) # sanity check. 
+
+# Fixed effects should be very close to coefficients used in simulating data
+summary(lme1 <- lmer(bb ~ (chill+force+photo+lat)^2 + (1|sp) + (1|lab), data = fake)) 
+ranef(lme1)
+fixef(lme1)
+
+summary(lme2 <- lmer(bb ~ (chill+force+photo+lat)^2 + (1|sp), data = fake)) 
+ranef(lme2)
+
+
+AIC(lm1, lme1, lme2) # full mixed effect model much better, good!
+
 
 save(list=c("fake"), file = "FakeOspree.RData")
 

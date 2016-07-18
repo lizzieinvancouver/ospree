@@ -9,30 +9,32 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
+  setwd("~/Documents/git/ospree") 
+  } else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 # Name data frame:
-scrapedata <- read.csv ("ospree.csv")
+d <- read.csv("ospree.csv")
 
-sort(table(scrapedata$respvar), TRUE)
-names(table(scrapedata$respvar)) # 87 values now
+sort(table(d$respvar), TRUE)
+names(table(d$respvar)) # 87 values now
 
-sort(with(scrapedata[scrapedata$respvar=="daystobudburst",], table(datasetID)), TRUE)
-sort(with(scrapedata[scrapedata$respvar=="percentbudburst",], table(datasetID)), TRUE)
+sort(with(d[d$respvar=="daystobudburst",], table(datasetID)), TRUE)
+sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
 
 ##
 ##  Convert some inverted stuff
 ##
 
-scrapedata$response.time[scrapedata$respvar=="1/daysto25%budburst"] <-
-    1/as.numeric(scrapedata$response[scrapedata$respvar=="1/daysto25%budburst"])
-scrapedata$response.time[scrapedata$respvar=="1/daysto50%budburst"] <-
-    1/as.numeric(scrapedata$response[scrapedata$respvar=="1/daysto50%budburst"])
-scrapedata$response[scrapedata$respvar=="1/daysto25%budburst"] <- "25per"
-scrapedata$response[scrapedata$respvar=="1/daysto50%budburst"] <- "50per"
+d$response.time[d$respvar=="1/daysto25%budburst"] <-
+    1/as.numeric(d$response[d$respvar=="1/daysto25%budburst"])
+d$response.time[d$respvar=="1/daysto50%budburst"] <-
+    1/as.numeric(d$response[d$respvar=="1/daysto50%budburst"])
+d$response[d$respvar=="1/daysto25%budburst"] <- "25per"
+d$response[d$respvar=="1/daysto50%budburst"] <- "50per"
 
-scrapedata$respvar[scrapedata$respvar=="1/daysto25%budburst"] <- "daysto25%budburst"
-scrapedata$respvar[scrapedata$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
+d$respvar[d$respvar=="1/daysto25%budburst"] <- "daysto25%budburst"
+d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
 
 # Still need to deal with :
 # "dateofbudburst"
@@ -40,201 +42,248 @@ scrapedata$respvar[scrapedata$respvar=="1/daysto50%budburst"] <- "daysto50%budbu
 # "percentbudset"   
 
 # for now, dayofbudbreak is equivalent to daystobudbreak ... 
-subset(scrapedata$fieldsample.date, scrapedata$respvar=="dayofbudbreak")
-subset(scrapedata$response.time, scrapedata$respvar=="dayofbudbreak")
+subset(d$fieldsample.date, d$respvar=="dayofbudbreak")
+subset(d$response.time, d$respvar=="dayofbudbreak")
 
 ##
 ## Fixing obvious typos and synonmyms
 ##
 
 # Days to budburst
-scrapedata$respvar[scrapedata$respvar == "days to budbreak (on  50% of plants)"] <- "daysto50%budburst"
-scrapedata$respvar[scrapedata$respvar == "daysto50perbudburst"] <- "daysto50%budburst"
-scrapedata$respvar[scrapedata$respvar == "daystodudburst"] <- "daystobudburst"
-scrapedata$respvar[scrapedata$respvar == "daystobudbust"] <- "daystobudburst"
-scrapedata$respvar[scrapedata$respvar == "daystobudset"] <- "daystobudburst"
-scrapedata$respvar[scrapedata$respvar == "baystobudset"] <- "daystobudburst"
-scrapedata$respvar[scrapedata$respvar == "baystobudburst"] <- "daystobudburst"
-scrapedata$respvar[scrapedata$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
+d$respvar[d$respvar == "days to budbreak (on  50% of plants)"] <- "daysto50%budburst"
+d$respvar[d$respvar == "daysto50perbudburst"] <- "daysto50%budburst"
+d$respvar[d$respvar == "daystodudburst"] <- "daystobudburst"
+d$respvar[d$respvar == "daystobudbust"] <- "daystobudburst"
+d$respvar[d$respvar == "daystobudset"] <- "daystobudburst"
+d$respvar[d$respvar == "baystobudset"] <- "daystobudburst"
+d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
+d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
 
 # Days to something else
-scrapedata$respvar[scrapedata$respvar == "daysto50percentflowering"] <- "daysto50flowering"
+d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
 
   
 # Percent something
-scrapedata$respvar[scrapedata$respvar == "percentbudsburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percent_apicalbudburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "% plants with budburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "perbudburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percent_lateralbudburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percentlateralbudburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percentapicalbudburst"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percentbloom"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percentflowering"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
-scrapedata$respvar[scrapedata$respvar == "percentunfolding"] <- "percentbudburst"
+d$respvar[d$respvar == "percentbudsburst"] <- "percentbudburst"
+d$respvar[d$respvar == "percent_apicalbudburst"] <- "percentbudburst"
+d$respvar[d$respvar == "% plants with budburst"] <- "percentbudburst"
+d$respvar[d$respvar == "perbudburst"] <- "percentbudburst"
+d$respvar[d$respvar == "percent_lateralbudburst"] <- "percentbudburst"
+d$respvar[d$respvar == "percentlateralbudburst"] <- "percentbudburst"
+d$respvar[d$respvar == "percentapicalbudburst"] <- "percentbudburst"
+d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
+d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
+d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
+d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
 
 # Growth of some sort
-scrapedata$respvar[scrapedata$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
-scrapedata$respvar[scrapedata$respvar == "cumulative growth increment"] <- "cumulativegrowthincrement"
-scrapedata$respvar[scrapedata$respvar == "cumulative leaf no. increment"] <- "cumulativeleafincrement"
-scrapedata$respvar[scrapedata$respvar == "cumulative leaf increment"] <- "cumulativeleafincrement"
-scrapedata$respvar[scrapedata$respvar == "numofnewleaves"] <- "numberofleaves"
+d$respvar[d$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
+d$respvar[d$respvar == "cumulative growth increment"] <- "cumulativegrowthincrement"
+d$respvar[d$respvar == "cumulative leaf no. increment"] <- "cumulativeleafincrement"
+d$respvar[d$respvar == "cumulative leaf increment"] <- "cumulativeleafincrement"
+d$respvar[d$respvar == "numofnewleaves"] <- "numberofleaves"
 
 #responses reported as scores (for examples, scores on the BBCH scale) should be reported as "budstage"
-scrapedata$respvar[scrapedata$respvar == "leafemergencescore"] <- "budstage"
+d$respvar[d$respvar == "leafemergencescore"] <- "budstage"
 #"budphenology" seems to be integers from 1 through 8, so included in "budstage"
-scrapedata$respvar[scrapedata$respvar == "budphenology"] <- "budstage"
-scrapedata$respvar[scrapedata$respvar == "daystoleafunfolding"] <- "daystoleafout"
+d$respvar[d$respvar == "budphenology"] <- "budstage"
+d$respvar[d$respvar == "daystoleafunfolding"] <- "daystoleafout"
 
 #"elongation_heightgrowth" has values from 20-95 for populus seedlings, "elongation_height" has values from 0-9 for betula seedlings. Can we assume all elongation is in centimeters, and combine them? Unclear.
-scrapedata$respvar[scrapedata$respvar == "elongation (cm)"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "elongation_height"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "elongation_heightgrowth"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "shootelongation"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "shootlength"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "shootlengthcm"] <- "elongation"
+d$respvar[d$respvar == "elongation (cm)"] <- "elongation"
+d$respvar[d$respvar == "elongation_height"] <- "elongation"
+d$respvar[d$respvar == "elongation_heightgrowth"] <- "elongation"
+d$respvar[d$respvar == "shootelongation"] <- "elongation"
+d$respvar[d$respvar == "shootlength"] <- "elongation"
+d$respvar[d$respvar == "shootlengthcm"] <- "elongation"
 
 # more cleaning
-scrapedata$respvar[scrapedata$respvar == "daystoantithesis"] <- "daystoanthesis"
-scrapedata$respvar[scrapedata$respvar == "elongationcm"] <- "elongation"
-scrapedata$respvar[scrapedata$respvar == "heightcm"] <- "height"
-scrapedata$respvar[scrapedata$respvar ==  "inflorescencesperplant"] <- "inflorescenceperplant"
-scrapedata$respvar[scrapedata$respvar ==  "petiolelengthcm"] <- "petiolelength"
+d$respvar[d$respvar == "daystoantithesis"] <- "daystoanthesis"
+d$respvar[d$respvar == "elongationcm"] <- "elongation"
+d$respvar[d$respvar == "heightcm"] <- "height"
+d$respvar[d$respvar ==  "inflorescencesperplant"] <- "inflorescenceperplant"
+d$respvar[d$respvar ==  "petiolelengthcm"] <- "petiolelength"
 
 
-scrapedata$respvar[scrapedata$respvar == ""] <- NA
-scrapedata$respvar[scrapedata$respvar == ""] <- NA
-scrapedata$respvar[scrapedata$respvar == ""] <- NA
+d$respvar[d$respvar == ""] <- NA
+d$respvar[d$respvar == ""] <- NA
+d$respvar[d$respvar == ""] <- NA
 
 ##
 ## Assigning 87 response variables to a higher level
 ## AKA, making fewer response variables!
 ##
 
-scrapedata$respvar.simple <- NA
+d$respvar.simple <- NA
 
 # thermal time
-scrapedata$respvar.simple[scrapedata$respvar == ">2_ degreedaystobudburst"] <- "thermaltime"
-scrapedata$respvar.simple[scrapedata$respvar == "degreedays>0tobudburst"] <- "thermaltime"
-scrapedata$respvar.simple[scrapedata$respvar == "degreedays>0tobudburst"] <- "thermaltime"
-scrapedata$respvar.simple[scrapedata$respvar == "thermaltimetobudburst"] <- "thermaltime"
-scrapedata$respvar.simple[scrapedata$respvar == "degreedaystobudburst"] <- "thermaltime"
+d$respvar.simple[d$respvar == ">2_ degreedaystobudburst"] <- "thermaltime"
+d$respvar.simple[d$respvar == "degreedays>0tobudburst"] <- "thermaltime"
+d$respvar.simple[d$respvar == "degreedays>0tobudburst"] <- "thermaltime"
+d$respvar.simple[d$respvar == "thermaltimetobudburst"] <- "thermaltime"
+d$respvar.simple[d$respvar == "degreedaystobudburst"] <- "thermaltime"
 
 
 # daystobudburst
 # "dateofbudburst" still not dealt with ... 
-scrapedata$respvar.simple[scrapedata$respvar == "daystobudburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto25%budburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto50%budburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "dayofbudbreak"] <- "daystobudburst"  #see notes above
-scrapedata$respvar.simple[scrapedata$respvar == "daysto10percentbudburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto20%budburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto50%budburst"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "daystoleafout"] <- "daystobudburst"
-scrapedata$respvar.simple[scrapedata$respvar == "leafunfoldingdate"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daystobudburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daysto25%budburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "dayofbudbreak"] <- "daystobudburst"  #see notes above
+d$respvar.simple[d$respvar == "daysto10percentbudburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daysto20%budburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "daystoleafout"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "leafunfoldingdate"] <- "daystobudburst"
 
 # daystoflower
-scrapedata$respvar.simple[scrapedata$respvar == "daystoflower"] <- "daystoflower"
-scrapedata$respvar.simple[scrapedata$respvar == "daystoflowering"] <- "daystoflower"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto10flowering"] <- "daystoflower"
-scrapedata$respvar.simple[scrapedata$respvar == "daysto50flowering"] <- "daystoflower"
-scrapedata$respvar.simple[scrapedata$respvar == "daystoanthesis"] <- "daystoflower"
-scrapedata$respvar.simple[scrapedata$respvar == "daystopanicle"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daystoflower"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daystoflowering"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daysto10flowering"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daysto50flowering"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daystoanthesis"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daystopanicle"] <- "daystoflower"
 
 # percentbudburst
-scrapedata$respvar.simple[scrapedata$respvar == "percentbudburst"] <- "percentbudburst"
+d$respvar.simple[d$respvar == "percentbudburst"] <- "percentbudburst"
 
 # percentflower
-scrapedata$respvar.simple[scrapedata$respvar == "percentflower"] <- "percentflower"
-scrapedata$respvar.simple[scrapedata$respvar == "percentcuttingswithflowerbuds"] <- "percentflower"
-scrapedata$respvar.simple[scrapedata$respvar == "percentnodesflowering"] <- "percentflower"
-scrapedata$respvar.simple[scrapedata$respvar == "percentflowerbuds"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentflower"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentcuttingswithflowerbuds"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentnodesflowering"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentflowerbuds"] <- "percentflower"
 
 # growth
-scrapedata$respvar.simple[scrapedata$respvar == "averagegrowth"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "apicalbudgrowth"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "budlength"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "budwidth"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "elongation"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "lengthofinternodescm"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "leafincrement"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "mmper14days"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "lengthoftrusscm"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "totalgrowth"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "stemelongationcm"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "shootelongationcm"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "shootgrowthcm"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "petiolelength"] <- "growth"
-scrapedata$respvar.simple[scrapedata$respvar == "yieldgrams"] <- "growth"
+d$respvar.simple[d$respvar == "averagegrowth"] <- "growth"
+d$respvar.simple[d$respvar == "apicalbudgrowth"] <- "growth"
+d$respvar.simple[d$respvar == "budlength"] <- "growth"
+d$respvar.simple[d$respvar == "budwidth"] <- "growth"
+d$respvar.simple[d$respvar == "elongation"] <- "growth"
+d$respvar.simple[d$respvar == "lengthofinternodescm"] <- "growth"
+d$respvar.simple[d$respvar == "leafincrement"] <- "growth"
+d$respvar.simple[d$respvar == "mmper14days"] <- "growth"
+d$respvar.simple[d$respvar == "lengthoftrusscm"] <- "growth"
+d$respvar.simple[d$respvar == "totalgrowth"] <- "growth"
+d$respvar.simple[d$respvar == "stemelongationcm"] <- "growth"
+d$respvar.simple[d$respvar == "shootelongationcm"] <- "growth"
+d$respvar.simple[d$respvar == "shootgrowthcm"] <- "growth"
+d$respvar.simple[d$respvar == "petiolelength"] <- "growth"
+d$respvar.simple[d$respvar == "yieldgrams"] <- "growth"
 
 # phenstage
-scrapedata$respvar.simple[scrapedata$respvar == "growthstage"] <- "phenstage"
-scrapedata$respvar.simple[scrapedata$respvar == "budstage"] <- "phenstage"
+d$respvar.simple[d$respvar == "growthstage"] <- "phenstage"
+d$respvar.simple[d$respvar == "budstage"] <- "phenstage"
 
 # phenstageper.probonestudy
-scrapedata$respvar.simple[scrapedata$respvar == "percentstage01"] <- "phenstageper.probonestudy"
-scrapedata$respvar.simple[scrapedata$respvar == "percentstage02"] <- "phenstageper.probonestudy"
-scrapedata$respvar.simple[scrapedata$respvar == "percentstage03"] <- "phenstageper.probonestudy"
-scrapedata$respvar.simple[scrapedata$respvar == "percentstage04"] <- "phenstageper.probonestudy"
-scrapedata$respvar.simple[scrapedata$respvar == "percentstage06"] <- "phenstageper.probonestudy"
+d$respvar.simple[d$respvar == "percentstage01"] <- "phenstageper.probonestudy"
+d$respvar.simple[d$respvar == "percentstage02"] <- "phenstageper.probonestudy"
+d$respvar.simple[d$respvar == "percentstage03"] <- "phenstageper.probonestudy"
+d$respvar.simple[d$respvar == "percentstage04"] <- "phenstageper.probonestudy"
+d$respvar.simple[d$respvar == "percentstage06"] <- "phenstageper.probonestudy"
 
 # flowernumber
-scrapedata$respvar.simple[scrapedata$respvar == "flowerperplant"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "flowers"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "flowersperinflorescence"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "flowersperplant"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "flowerspertruss"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "growthincrement"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "height"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "inflorescenceperplant"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "plantsflowering"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "inflorescences"] <- "flowernumber"
-scrapedata$respvar.simple[scrapedata$respvar == "numberflowerbuds"] <- "flowernumber"
+d$respvar.simple[d$respvar == "flowerperplant"] <- "flowernumber"
+d$respvar.simple[d$respvar == "flowers"] <- "flowernumber"
+d$respvar.simple[d$respvar == "flowersperinflorescence"] <- "flowernumber"
+d$respvar.simple[d$respvar == "flowersperplant"] <- "flowernumber"
+d$respvar.simple[d$respvar == "flowerspertruss"] <- "flowernumber"
+d$respvar.simple[d$respvar == "growthincrement"] <- "flowernumber"
+d$respvar.simple[d$respvar == "height"] <- "flowernumber"
+d$respvar.simple[d$respvar == "inflorescenceperplant"] <- "flowernumber"
+d$respvar.simple[d$respvar == "plantsflowering"] <- "flowernumber"
+d$respvar.simple[d$respvar == "inflorescences"] <- "flowernumber"
+d$respvar.simple[d$respvar == "numberflowerbuds"] <- "flowernumber"
 
 # othernums
-scrapedata$respvar.simple[scrapedata$respvar == "numberofbuds"] <- "othernums"
-scrapedata$respvar.simple[scrapedata$respvar == "numberofleaves"] <- "othernums"
-scrapedata$respvar.simple[scrapedata$respvar == "numberofnodes"] <- "othernums"
-scrapedata$respvar.simple[scrapedata$respvar == "numberofstolons"] <- "othernums"
-scrapedata$respvar.simple[scrapedata$respvar == "stolonsperplant"] <- "othernums"
+d$respvar.simple[d$respvar == "numberofbuds"] <- "othernums"
+d$respvar.simple[d$respvar == "numberofleaves"] <- "othernums"
+d$respvar.simple[d$respvar == "numberofnodes"] <- "othernums"
+d$respvar.simple[d$respvar == "numberofstolons"] <- "othernums"
+d$respvar.simple[d$respvar == "stolonsperplant"] <- "othernums"
 
 # otherpercents
-scrapedata$respvar.simple[scrapedata$respvar == "percentfruiting"] <- "otherpercents"
-scrapedata$respvar.simple[scrapedata$respvar == "percentrooting"] <- "otherpercents"
-scrapedata$respvar.simple[scrapedata$respvar == "percentrunnering"] <- "otherpercents"
+d$respvar.simple[d$respvar == "percentfruiting"] <- "otherpercents"
+d$respvar.simple[d$respvar == "percentrooting"] <- "otherpercents"
+d$respvar.simple[d$respvar == "percentrunnering"] <- "otherpercents"
 
 # fruitmass
-scrapedata$respvar.simple[scrapedata$respvar == "freshfruitg"] <- "fruitmass"
-scrapedata$respvar.simple[scrapedata$respvar == "fruitmassperplant"] <- "fruitmass"
+d$respvar.simple[d$respvar == "freshfruitg"] <- "fruitmass"
+d$respvar.simple[d$respvar == "fruitmassperplant"] <- "fruitmass"
 
 # notsureabout
-scrapedata$respvar.simple[scrapedata$respvar == "budprojectedarea"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "critical.daylength.hrs"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "cumulativegrowthincrement"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "cumulativeleafincrement"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "leaves"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "nodes"] <- "notsureabout"
-scrapedata$respvar.simple[scrapedata$respvar == "plantheightatflowerbudappearance"] <- "notsureabout"
+d$respvar.simple[d$respvar == "budprojectedarea"] <- "notsureabout"
+d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout"
+d$respvar.simple[d$respvar == "cumulativegrowthincrement"] <- "notsureabout"
+d$respvar.simple[d$respvar == "cumulativeleafincrement"] <- "notsureabout"
+d$respvar.simple[d$respvar == "leaves"] <- "notsureabout"
+d$respvar.simple[d$respvar == "nodes"] <- "notsureabout"
+d$respvar.simple[d$respvar == "plantheightatflowerbudappearance"] <- "notsureabout"
    
 # other
-scrapedata$respvar.simple[scrapedata$respvar == "percentbudburst_dormancy"] <- "other"
-scrapedata$respvar.simple[scrapedata$respvar == "weeksofleafproduction"] <- "other"
-scrapedata$respvar.simple[scrapedata$respvar == "survival"] <- "other"
-scrapedata$respvar.simple[scrapedata$respvar == "DARD"] <- "other"
-scrapedata$respvar.simple[scrapedata$respvar == ""] <- "other"
+d$respvar.simple[d$respvar == "percentbudburst_dormancy"] <- "other"
+d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
+d$respvar.simple[d$respvar == "survival"] <- "other"
+d$respvar.simple[d$respvar == "DARD"] <- "other"
+d$respvar.simple[d$respvar == ""] <- "other"
 
 # check your work .... 
-checking <- subset(scrapedata, is.na(respvar.simple)==TRUE)
+checking <- subset(d, is.na(respvar.simple)==TRUE)
 unique(checking$respvar)
 
-write.csv(scrapedata, file = "ospree_clean.csv", row.names=FALSE)
 
 
-stop(print("cleaning response variables done for now, but we need to check how many times one study has multiple variables ...."))
+
+#############################
+# Which studies have multiple respvar but only one respvar.simple?
+d$datasetIDstudy <- paste(d$datasetID, d$study)
+
+studyresp <- with(d, paste(datasetIDstudy, respvar))
+studyresps <- with(d, paste(datasetIDstudy, respvar.simple))
+
+# unique(studyresp)
+# unique(studyresps)
+
+# which studies have multiple respvars for one respvar.simple?
+xx <- tapply(studyresp, studyresps, function(x)
+  length(unique(x)) > 1)
+
+multiresp <- names(xx)[xx==T]
+
+# make a flag for this 
+d$multiresp <- !is.na(match(studyresps, multiresp))
+
+# which studies have multiple original respvars and each one is a separate respvar.simple?
+xx <- data.frame(datasetIDstudy = d$datasetIDstudy, studyresp, studyresps)
+
+# i="yazdaniha64 exp1"
+# i = "falusi90 exp1"
+# i = "ashby62 exp1"
+
+multibothresp <- vector()
+
+for(i in unique(d$datasetIDstudy)){
+  xz <- xx[xx$datasetIDstudy == i,]
+  
+  ta <- table(xz$studyresp, xz$studyresps)
+  
+  multibothresp <- 
+    c(multibothresp, 
+      identical(nrow(ta), ncol(ta)) & nrow(ta) > 1
+    )
+  
+}
+# these are the studies fit this criterion
+(mb <- unique(d$datasetIDstudy)[multibothresp])
+
+d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
+
+
+write.csv(d, file = "ospree_clean.csv", row.names=FALSE)
+
+
 
 # scratch
-incaseneeded <- format(as.Date(scrapedata$fieldsample.date, format="%Y-%m-%d"), "%j")
-# subset(scrapedata[,1:20], scrapedata$respvar=="dayofbudbreak")
+incaseneeded <- format(as.Date(d$fieldsample.date, format="%Y-%m-%d"), "%j")
+# subset(d[,1:20], d$respvar=="dayofbudbreak")
 
 

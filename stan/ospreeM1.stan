@@ -137,6 +137,7 @@ model {
 	a_0 ~ normal(0, 100); // ~~ 26 for budburst, 37 for leafout
 	b_force_0 ~ normal(0, 100);
 	b_photo_0 ~ normal(0, 100);
+	b_lat_0 ~ normal(0, 100);
 	b_chill_0 ~ normal(0, 100);
 	b_inter_fp_0 ~ normal(0, 100);
   	b_inter_fl_0 ~ normal(0, 100);
