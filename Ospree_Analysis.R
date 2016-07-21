@@ -14,7 +14,11 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 
-setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
+
+if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer.
+  setwd("~/Documents/git/ospree") 
+} else setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
+
 source('stan/savestan.R')
 # get latest .Rdata file
 

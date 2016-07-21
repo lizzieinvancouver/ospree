@@ -7,11 +7,15 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(dplyr)
-setwd("~/git/ospree") # setwd("~/Documents/git/ospree")
+
+if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer.
+  setwd("~/Documents/git/ospree") 
+} else setwd("~/git/ospree") # setwd("~/Documents/git/ospree")
+
 ospree <- read.csv("ospree_clean.csv", header=TRUE)
 
-ospree$chilltemp.num<-as.numeric(ospree$chilltemp)
-ospree$chilldays.num<-as.numeric(ospree$chilldays)
+ospree$chilltemp.num <- as.numeric(ospree$chilltemp)
+ospree$chilldays.num <- as.numeric(ospree$chilldays)
 
 ##check which cells are NOT numeric:
 x <- ospree[which(is.na(ospree$chilltemp.num)),]
@@ -35,4 +39,5 @@ y3 <- y2 %>% # start with the data frame
 
 ##merge the two
 z <- merge(x3, y3, all=TRUE)
+
 write.csv(z,"input/chilldaystempstocheck.csv",row.names=FALSE, eol="\r\n")

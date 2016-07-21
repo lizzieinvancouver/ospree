@@ -8,9 +8,9 @@ options(stringsAsFactors = FALSE)
 library(lme4)
 library(car)
 
-setwd("~/git/ospree")
-
-if(length(grep("danflynn", getwd())>0)) { setwd("~/Documents/git/ospree") } # set to DF working directory if DF computer.
+if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer.
+  setwd("~/Documents/git/ospree") 
+  } else setwd("~/git/ospree")
 
 ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
 
@@ -53,26 +53,29 @@ ospree.percbb$forcetemp_z <- (as.numeric(ospree.percbb$forcetemp)-
 ospree.percbb$photoper_z <- (as.numeric(ospree.percbb$photoperiod_day)-
                                   mean(as.numeric(ospree.percbb$photoperiod_day),na.rm=TRUE))/sd(as.numeric(ospree.percbb$photoperiod_day),na.rm=TRUE)
 
-##look at how centering changes the dstribution:
-quartz()
+##look at how centering changes the distribution:
+#quartz()
 par(mfrow=c(1,2))
-hist(ospree.percbb$responsedays);hist(ospree.percbb$responsedays_cent)
+hist(ospree.percbb$responsedays);hist(ospree.percbb$responsedays_cent)  # some response days over 300??
 
-quartz()
+#quartz()
 par(mfrow=c(1,2))
 hist(ospree.percbb$totalchill);hist(ospree.percbb$totalchill_cent)
 
-quartz()
+#quartz()
 par(mfrow=c(1,2))
 hist(ospree.percbb$forcetemp);hist(ospree.percbb$forcetemp_cent)
 
 ###Try fitting model with lmer:
 ##First a simple model:
-mod<-lmer(response~responsedays+(responsedays|datasetID/spp),data=ospree.percbb)
+
+mod <- lmer(response~responsedays+(responsedays|datasetID/spp), data=ospree.percbb)
+
 #this model does not converge...get a warning message
 #difficult to put any random slopes in...
-#try with just species as random effect and crossed random effect of dataset ID
-mod2<-lmer(response~responsedays+(responsedays|spp)+(1|datasetID),data=ospree.percbb)
+
+#try with just species as random effect and crossed random effect of dataset ID. ** Species 
+mod2 <- lmer(response~responsedays+(responsedays|spp)+(1|datasetID),data=ospree.percbb)
 summary(mod2)#as days to budburst increases, perc budburst increases! but 
 ranef(mod2)
 ##Now add chilling, forcing, and photoperiod interactions with days: can't do random slopes- doesn't converge

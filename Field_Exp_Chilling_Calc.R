@@ -49,8 +49,10 @@ nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all n
 ##reading in netCDF files. Working off of external hard drive
 # Europe first
 
-eur.tempmn <- nc_open("/Volumes/Expand/Climate/tn_0.25deg_reg_v12.0.nc")
-eur.tempmx <- nc_open("/Volumes/Expand/Climate/tx_0.25deg_reg_v12.0.nc")
+climatedrive = "~/Documents/Climate/" # "/Volumes/Expand/Climate/"
+
+eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v12.0.nc"))
+eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
 
 tempval <- list() 
 for(i in 1:nrow(eur)){ # i = 1
@@ -76,8 +78,7 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # using d$fieldsample.date
   if(eur[i,"fieldsample.date"]!=""){ endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
-  if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
-  }
+  if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
@@ -100,9 +101,16 @@ for(i in 1:nrow(eur)){ # i = 1
                                                   Tmin = mins, Tmax = maxs)#need to add lat and long here to this output table
 }
 
-drive="/Volumes/Expand/Climate/"
-nafiles <- dir(drive)[grep("livneh", dir(drive))]
-#nafiles<-dir()[grep("livneh", dir())]
+
+nc_close(eur.tempmx)
+nc_close(eur.tempmn)
+
+######################################################
+# North America
+######################################################
+
+nafiles <- dir(climatedrive)[grep("livneh", dir(climatedrive))]
+
 for(i in 1:nrow(nam)){ # i = 1
   
   # find this location
@@ -116,8 +124,8 @@ for(i in 1:nrow(nam)){ # i = 1
   
   # using d$fieldsample.date
   if(nam[i,"fieldsample.date"]!=""){endday <- strptime(nam[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
-  if(nam[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")#if no sampling date given, use april 30
-  }
+  if(nam[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")} #if no sampling date given, use april 30
+  
   if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))<=9){#when sampling occurred in same year as study and when collection occurred before that year's sept chilling,
     stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
     prevmo <- paste(yr-1, formatC(9:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
@@ -125,21 +133,25 @@ for(i in 1:nrow(nam)){ # i = 1
     thismo <- paste(yr, formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
     chillmo<-c(prevmo, thismo)
     }
+  
   if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study only
     stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
     prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
     chillmo<-prevmo
      }
-  if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
+
+    if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
     stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
     prevmo <- paste(yr, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
     chillmo<-prevmo
   }
+  
   if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
     stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
     prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
     chillmo<-prevmo
   }
+  
   if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
     stday <- strptime(paste(as.numeric(substr(endday,1,4))-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
     prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(9:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
@@ -151,7 +163,7 @@ for(i in 1:nrow(nam)){ # i = 1
   mins <- maxs <- vector()
   
   for(j in c(chillmo)){ # j = "200009"
-    file <- file.path(drive,nafiles[grep(j, nafiles)])
+    file <- file.path(climatedrive,nafiles[grep(j, nafiles)])
     jx <- nc_open(file)
     
     diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))
@@ -166,7 +178,10 @@ for(i in 1:nrow(nam)){ # i = 1
   tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Date = as.character(seq(stday, endday, by = "day")),
                           Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#need to add lat and long here to this output table
 }
-  }
+
+######################################################
+# Interpolation
+######################################################
 
 # interporlate to hourly, based on max min 
 # Build a calibration table, here we don't actually have hourly data, use best guess, just the average temperatures within this study, with a minimum at 5am, max at 2pm,  
@@ -222,17 +237,18 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
     chillcalcs <- rbind(chillcalcs, data.frame(datasetID = i, chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
     #need to add lat and long here to this  chillcalcs output table
 }
-  }
 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
 
-#######################
-########Merge field and experimental chilling calculations with the rest of the data
+############################################################################################
+# Merge field and experimental chilling calculations with the rest of the data
+############################################################################################
+
 dat <- read.csv("ospree_clean.csv")
 #use only woody species
-dat2<-subset(dat, woody=="yes")
+dat2 <- subset(dat, woody=="yes")
 #Make a column that indexes the study and field sample date, in order to calculate field chilling
 dat2$ID_fieldsample.date <- paste(dat2$datasetID, dat2$fieldsample.date, sep=".")
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
@@ -244,12 +260,15 @@ dat2$ID_chilltreat<-paste(dat2$datasetID,dat2$chilltemp,dat2$chilldays,sep=".")
 chilldat <- dat2 %>% # start with the data frame
   distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
   select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
+
 chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
 chilldat$chilldays<-as.numeric(chilldat$chilldays)
 chilldat<- chilldat[apply(chilldat, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
 expchillcalcs <- vector()
+
 ###First, need file with hrly temperature data for each row in dataframe
+
 for(i in 1:nrow(chilldat)){
   # Skip if NA for chilltemp or chilldays data
   if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i])) {
@@ -268,17 +287,33 @@ for(i in 1:nrow(chilldat)){
 }
 colnames(expchillcalcs)[3:5]<-c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
 
+
 ###Merge field and experimental chilling data with the rest of the data
-#Add experimental chilling
-dat3<-merge(dat2,expchillcalcs,by.x=c("datasetID","ID_chilltreat"),by.y=c("datasetID","ID_chilltreat"), all.x=T)
+# Add experimental chilling. Right number of rows still
+dat3 <- merge(dat2, expchillcalcs, 
+              by.x = c("datasetID","ID_chilltreat"),
+              by.y=c("datasetID","ID_chilltreat"),
+              all.x=T)
+
 #Add field chilling calculations to datafile, 
 ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-chillcalcs<-read.csv("input/fieldchillcalcs.csv", header=T)
-chillcalcs<- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
-colnames(chillcalcs)<-c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
+chillcalcs <- read.csv("input/fieldchillcalcs.csv", header=T)
+chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+
+colnames(chillcalcs) <- c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
 ##need to add lat and long here to the chillcalcs table and merge on these columns as well
 #"skuterud94.1993-11-25","fu13.2010-12-01","fu13.2011-12-01","sonsteby14.2012-10-17","heide15.2014-10-29"   
-dat4<-merge(dat3,chillcalcs,by="ID_fieldsample.date",all.x=TRUE)#also need to merge on provenenca late/long as there are 5 studies with differente provenances that have different field chilling.
+
+# wrong number of rows produced. Partly but not completely due to non-woody studies in the chillcals file. Still 469 still too many after merge
+(todrop <- chillcalcs$ID_fieldsample.date[!chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date])
+
+chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
+
+
+dat4 <- merge(dat3, chillcalcs, 
+              by = "ID_fieldsample.date",
+              all.x = TRUE,
+              all.y = FALSE) 
 
 ### Now add column for total chilling (field plus experimental)
 ### First, total chilling= exp and field
