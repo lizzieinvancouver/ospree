@@ -243,6 +243,7 @@ for(i in names(tempval)){ # i = "boyer.1983-12-21"
 write.csv(chillcalcs,"input/fieldchillcalcs.csv",row.names=FALSE, eol="\r\n")
 
 ############################################################################################
+# Start here if field chill calcs from the climate data have already been done
 # Merge field and experimental chilling calculations with the rest of the data
 ############################################################################################
 
@@ -269,23 +270,32 @@ expchillcalcs <- vector()
 
 ###First, need file with hrly temperature data for each row in dataframe
 
-for(i in 1:nrow(chilldat)){
+for(i in 1:nrow(chilldat)) {
   # Skip if NA for chilltemp or chilldays data
   if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i])) {
-    yr<-as.numeric(chilldat$year[i]) 
-    if(is.na(yr)){yr<-2016}#temporary fix for when years are not currently listed!
+    yr <- as.numeric(chilldat$year[i]) 
+    if(is.na(yr)){ yr <- 2016} #temporary fix for when years are not currently listed!
   hrly =
       data.frame(
-      Temp = rep(as.numeric(chilldat$chilltemp[i]),times=24*round(as.numeric(chilldat$chilldays[i], digits=0))),
-      Year = rep(yr, times=24*round(as.numeric(chilldat$chilldays[i],digits=0))),
-      JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i],digits=0)))),times=24))
-)
-     expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
-  } else { expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
-  expchillcalcs <- rbind(expchillcalcs, data.frame(datasetID= chilldat$datasetID[i],ID_chilltreat = chilldat$ID_chilltreat[i],expchillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
+        Temp = rep(as.numeric(chilldat$chilltemp[i]), 
+                   times = 24 * round(as.numeric(chilldat$chilldays[i], digits=0))),
+        Year = rep(yr, 
+                   times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
+        JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
+      )
   
-}
-colnames(expchillcalcs)[3:5]<-c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
+     expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
+     
+  } else { expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+  
+  expchillcalcs <- rbind(expchillcalcs, 
+                         data.frame(datasetID = chilldat$datasetID[i], 
+                                    ID_chilltreat = chilldat$ID_chilltreat[i],
+                                    expchillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
+  
+  }
+
+colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
 
 
 ###Merge field and experimental chilling data with the rest of the data
@@ -298,29 +308,40 @@ dat3 <- merge(dat2, expchillcalcs,
 #Add field chilling calculations to datafile, 
 ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
 chillcalcs <- read.csv("input/fieldchillcalcs.csv", header=T)
-chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA. 192 rows now.
 
 colnames(chillcalcs) <- c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
+
 ##need to add lat and long here to the chillcalcs table and merge on these columns as well
+
 #"skuterud94.1993-11-25","fu13.2010-12-01","fu13.2011-12-01","sonsteby14.2012-10-17","heide15.2014-10-29"   
 
 # wrong number of rows produced. Partly but not completely due to non-woody studies in the chillcals file. Still 469 still too many after merge
 (todrop <- chillcalcs$ID_fieldsample.date[!chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date])
 
-chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
+# Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
+(nochillcalcs <- unique(dat3$ID_fieldsample.date[!dat3$ID_fieldsample.date %in% chillcalcs$ID_fieldsample.date]))
 
+chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
+# now 153 rows
 
 dat4 <- merge(dat3, chillcalcs, 
               by = "ID_fieldsample.date",
-              all.x = TRUE,
-              all.y = FALSE) 
+              all.x = TRUE
+              ) 
+
+dat4 <- merge(chillcalcs, dat3,
+              by = "ID_fieldsample.date",
+              all.x = T,
+              all.y = F) 
 
 ### Now add column for total chilling (field plus experimental)
-### First, total chilling= exp and field
+### First, total chilling = exp and field
 
-dat4$Total_Chilling_Hours<-dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
-dat4$Total_Utah_Model<-dat4$Exp_Utah_Model+dat4$Field_Utah_Model
-dat4$Total_Chill_portions<-dat4$Exp_Chill_portions+dat4$Field_Chill_portions
+dat4$Total_Chilling_Hours <- dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
+dat4$Total_Utah_Model <- dat4$Exp_Utah_Model+dat4$Field_Utah_Model
+dat4$Total_Chill_portions <- dat4$Exp_Chill_portions+dat4$Field_Chill_portions
+
 #For sites with no experimental chilling, just use field chilling:
 dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Field_Chilling_Hours
 dat4[which(is.na(dat4$Exp_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Exp_Utah_Model)),]$Field_Utah_Model

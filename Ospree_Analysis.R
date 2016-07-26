@@ -4,6 +4,7 @@
 ## Try to run REAL Ospree data ##
 ## With Stan! ##
 
+############################################
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -14,18 +15,18 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 
-
-if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer.
+# Setting working directory. Add in your own path in an if statement for your file structure
+if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
 } else setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
 
 source('stan/savestan.R')
-# get latest .Rdata file
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("input/ospree_clean1_withchill.csv", header=TRUE)
+#ospree <- read.csv("input/ospree_clean1_withchill.csv", header=TRUE)
+ospree <- read.csv("input/ospree_clean1.csv", header=TRUE)
 
 bbvars <- c("daystobudburst", "daysto50percentbudburst", "daysto20%budburst",
     "dayofbudbreak", "dateofbudburst", "baystobudburst", 
