@@ -22,6 +22,7 @@ d$provenance.long <- as.numeric(as.character(d$provenance.long))
 d$year <- as.numeric(as.character(d$year))
 
 d <- as_data_frame(d)
+
 ##add new column that combines datasetID and field sample.date for later indexing
 
 d$ID_fieldsample.date<-paste(d$datasetID,d$fieldsample.date, sep=".")
@@ -30,14 +31,14 @@ d$ID_fieldsample.date<-paste(d$datasetID,d$fieldsample.date, sep=".")
 #want table with lat, long, year, field sample date for each study. there could  be multiple field sample dates for each study
 #selecting out european studies using the dplyr package
 eur <- d %>% # start with the data frame
-  distinct(ID_fieldsample.date,.keep_all = TRUE) %>% # establishing grouping variables
+  distinct(ID_fieldsample.date, .keep_all = TRUE) %>% # establishing grouping variables
   filter(continent == 'europe' & year >= 1950) %>%#select out europe
   select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
 eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
 # North America studies
 nam <- d %>% # start with the data frame
-  distinct(ID_fieldsample.date,.keep_all = TRUE) %>% # establishing grouping variables
+  distinct(ID_fieldsample.date, .keep_all = TRUE) %>% # establishing grouping variables
   filter(continent == 'north america'& year >= 1950) %>%
   select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
 
@@ -46,7 +47,7 @@ nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all n
 
 # Which days do we want? For year-1, start at sept 1
 
-##reading in netCDF files. Working off of external hard drive
+## reading in netCDF files. Working off of external hard drive or from downloaded climate data
 # Europe first
 
 climatedrive = "~/Documents/Climate/" # "/Volumes/Expand/Climate/"
@@ -299,7 +300,7 @@ colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chi
 
 
 ###Merge field and experimental chilling data with the rest of the data
-# Add experimental chilling. Right number of rows still
+# Add experimental chilling. Right number of rows still, 11984
 dat3 <- merge(dat2, expchillcalcs, 
               by.x = c("datasetID","ID_chilltreat"),
               by.y=c("datasetID","ID_chilltreat"),
@@ -323,17 +324,17 @@ colnames(chillcalcs) <- c("ID_fieldsample.date","Field_Chilling_Hours","Field_Ut
 (nochillcalcs <- unique(dat3$ID_fieldsample.date[!dat3$ID_fieldsample.date %in% chillcalcs$ID_fieldsample.date]))
 
 chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
-# now 153 rows
 
-dat4 <- merge(dat3, chillcalcs, 
-              by = "ID_fieldsample.date",
-              all.x = TRUE
-              ) 
+# now 173 rows
 
-dat4 <- merge(chillcalcs, dat3,
-              by = "ID_fieldsample.date",
-              all.x = T,
-              all.y = F) 
+# dat4 <- merge(dat3, chillcalcs, 
+#               by = "ID_fieldsample.date",
+#               all.x = TRUE
+#               ) 
+
+# Merge manually
+
+dat4 <- data.frame(dat3, chillcalcs[match(dat3$ID_fieldsample.date, chillcalcs$ID_fieldsample.date),])
 
 ### Now add column for total chilling (field plus experimental)
 ### First, total chilling = exp and field
