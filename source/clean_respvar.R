@@ -4,6 +4,9 @@
 ## An R script to clean the "respvar" column of the bud burst data
 ## Updated 7 July 2016 for more cleaning! ##
 
+## Edits made to respvar.simple column by Cat 
+## Updated 1 August 2016 ##
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -158,7 +161,10 @@ d$respvar.simple[d$respvar == "averagegrowth"] <- "growth"
 d$respvar.simple[d$respvar == "apicalbudgrowth"] <- "growth"
 d$respvar.simple[d$respvar == "budlength"] <- "growth"
 d$respvar.simple[d$respvar == "budwidth"] <- "growth"
+d$respvar.simple[d$respvar == "cumulativegrowthincrement"] <- "growth"
 d$respvar.simple[d$respvar == "elongation"] <- "growth"
+d$respvar.simple[d$respvar == "growthincrement"] <- "growth"
+d$respvar.simple[d$respvar == "height"] <- "growth"
 d$respvar.simple[d$respvar == "lengthofinternodescm"] <- "growth"
 d$respvar.simple[d$respvar == "leafincrement"] <- "growth"
 d$respvar.simple[d$respvar == "mmper14days"] <- "growth"
@@ -187,14 +193,14 @@ d$respvar.simple[d$respvar == "flowers"] <- "flowernumber"
 d$respvar.simple[d$respvar == "flowersperinflorescence"] <- "flowernumber"
 d$respvar.simple[d$respvar == "flowersperplant"] <- "flowernumber"
 d$respvar.simple[d$respvar == "flowerspertruss"] <- "flowernumber"
-d$respvar.simple[d$respvar == "growthincrement"] <- "flowernumber"
-d$respvar.simple[d$respvar == "height"] <- "flowernumber"
 d$respvar.simple[d$respvar == "inflorescenceperplant"] <- "flowernumber"
 d$respvar.simple[d$respvar == "plantsflowering"] <- "flowernumber"
 d$respvar.simple[d$respvar == "inflorescences"] <- "flowernumber"
 d$respvar.simple[d$respvar == "numberflowerbuds"] <- "flowernumber"
 
 # othernums
+d$respvar.simple[d$respvar == "cumulativeleafincrement"] <- "othernums"
+d$respvar.simple[d$respvar == "leaves"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofbuds"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofleaves"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofnodes"] <- "othernums"
@@ -213,9 +219,6 @@ d$respvar.simple[d$respvar == "fruitmassperplant"] <- "fruitmass"
 # notsureabout
 d$respvar.simple[d$respvar == "budprojectedarea"] <- "notsureabout"
 d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout"
-d$respvar.simple[d$respvar == "cumulativegrowthincrement"] <- "notsureabout"
-d$respvar.simple[d$respvar == "cumulativeleafincrement"] <- "notsureabout"
-d$respvar.simple[d$respvar == "leaves"] <- "notsureabout"
 d$respvar.simple[d$respvar == "nodes"] <- "notsureabout"
 d$respvar.simple[d$respvar == "plantheightatflowerbudappearance"] <- "notsureabout"
    
@@ -278,7 +281,7 @@ for(i in unique(d$datasetIDstudy)){
 d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
 
 
-write.csv(d, file = "ospree_clean.csv", row.names=FALSE)
+write.csv(d, file = "ospree_clean_respvar.csv", row.names=FALSE)
 
 
 
