@@ -17,6 +17,7 @@ Export the bibtex file into an openoffice/libreoffice csv file
 At this point I also did the following:
 - removed all {\ { } “ ‘ from the authors field
 - changed Hanninen, Heikki and Hanninen, Risto to always be HanninenH, Heikki and HanninenR, Risto. It’s not pretty but it works!
+- DF manually changed resulting file in one instance, castro-d\iez to castro-diez. Changed ref/aut.sm.csv.
 
 (3) I then grab the authors column, paste it into an empty TXT and re-read it into Excel, asking for the delimiters of & and semicolon (I could do this in R). I add the resulting new seven columns and name them aut1 … aut7.
 
@@ -37,7 +38,7 @@ I could then just follow along here (see full code at bottom of page):
 http://www.vesnam.com/Rblog/viznets2/
 
 I wrote out both file versions …
-I am pretty sure both the size of color of the circle display the betweeness in the current figures (because I manually changed this in Gephi), but I believe the automatic opening of gexf fie in Gephi gives you the color being degree and the size being betweeness.
+I am pretty sure both the size of color of the circle display the betweeness in the current figures (because I manually changed this in Gephi), but I believe the automatic opening of gexf file in Gephi gives you the color being degree and the size being betweeness.
 
 Degree is: The degree of a vertex is its most basic structural property, the number of its adjacent edges. 
 
@@ -45,3 +46,4 @@ Betweenness is: The vertex and edge betweenness are (roughly) defined by the num
 
 Note that I used forceatlas and nooverlap to help with visualization and I added the node labels.
 
+DF: To make PDF of these, I tried to open .gexf files using gephi https://gephi.org/users/download/ but failed… Edge lengths are zero?

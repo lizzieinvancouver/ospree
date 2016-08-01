@@ -9,11 +9,13 @@ options(stringsAsFactors = FALSE)
 
 ## packages
 library(igraph)
-library(rgexf)
+library(rgexf) # install.packages("rgexf") # for write.gexf
 library(plyr)
 
 # Set working directory: 
 setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+#setwd("~/Documents/git/ospree")
+
 
 authorfile <- read.csv("refs/aut.sm.csv", header=TRUE)
 names(authorfile) <- c("combo", "freq", "name1", "name2")
@@ -71,6 +73,16 @@ summary(gD)
 
 # Create a dataframe nodes: 1st column - node ID, 2nd column -node name
 nodes_df <- data.frame(ID = c(1:vcount(gD)), NAME = V(gD)$name)
+
+# Trying with first letter capitalization
+nodes_df_cap <- nodes_df
+
+# Strip leading blanks
+nodes_df_cap$NAME <-  sub("+ ", "", nodes_df_cap$NAME)
+
+# Capitalize first letter
+nodes_df_cap$NAME <- paste(toupper(substr(nodes_df_cap$NAME, 1, 1)), substr(nodes_df_cap$NAME, 2, nchar(nodes_df_cap$NAME)), sep="")
+
 # Create a dataframe edges: 1st column - source node ID, 2nd column -target node ID
 edges_df <- as.data.frame(get.edges(gD, c(1:ecount(gD))))
 
@@ -96,14 +108,18 @@ nodes_coord <- cbind(nodes_coord, rep(0, times = nrow(nodes_coord)))
 approxVals <- approx(c(1, 5), n = length(unique(V(gD)$betweenness)))
 # And we will assign a node size for each node based on its betweenness centrality
 nodes_size <- sapply(V(gD)$betweenness, function(x) approxVals$y[which(sort(unique(V(gD)$betweenness)) == x)])
-#
+
+
 # Define node color
 # We'll interpolate node colors based on the node degree using the "colorRampPalette" function from the "grDevices" library
 library("grDevices")
-# This function returns a function corresponding to a collor palete of "bias" number of elements
+
+# This function returns a function corresponding to a color palete of "bias" number of elements
 F2 <- colorRampPalette(c("#F5DEB3", "#FF0000"), bias = length(unique(V(gD)$degree)), space = "rgb", interpolate = "linear")
+
 # Now we'll create a color for each degree
 colCodes <- F2(length(unique(V(gD)$degree)))
+
 # And we will assign a color for each node based on its degree
 nodes_col <- sapply(V(gD)$degree, function(x) colCodes[which(sort(unique(V(gD)$degree)) == x)])
 # Transform it into a data frame (we have to transpose it first)
@@ -125,7 +141,7 @@ edges_att_viz <-list(color = edges_col_df)
 # Write the network into a gexf (Gephi) file
 write.gexf(nodes = nodes_df, edges = edges_df, nodesAtt = nodes_att, edgesWeight = E(gD)$weight, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "labgroups/gephi/lagroups_weights.gexf")
 # And without edge weights
-write.gexf(nodes = nodes_df, edges = edges_df, nodesAtt = nodes_att, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "labgroups/gephi/lagroups.gexf")
+write.gexf(nodes = nodes_df_cap, edges = edges_df, nodesAtt = nodes_att, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "labgroups/gephi/lagroups.gexf")
 
 
 
