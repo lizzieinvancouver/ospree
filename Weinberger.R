@@ -29,7 +29,7 @@ source('stan/savestan.R')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
+ospree <- read.csv("ospree_clean_respvar.csv", header=TRUE)
 
 ## Variation in Field Sample Dates
 woody<- ospree %>%
@@ -39,21 +39,23 @@ woody<- ospree %>%
   filter(woody=="yes")%>%
   unite(genus.species, genus, species, sep=".") 
 woody <- woody %>%
-  group_by(datasetID, study, genus.species) %>%
+  group_by(datasetID, study, genus.species, respvar.simple) %>%
   mutate(fieldsample.date = replace(fieldsample.date,
                                     fieldsample.date<0, NA))%>%
   mutate(photoperiod_day = replace(photoperiod_day,
                                     photoperiod_day<0, NA))%>%
   mutate(forcetemp = replace(forcetemp,forcetemp<0, NA))
 
+respvar<-as.data.frame(table(woody$respvar.simple))
+
 field<-woody %>% ## studies with field sampling dates
-  select(fieldsample.date,datasetID,study,genus.species)%>%
+  select(fieldsample.date,datasetID,study,genus.species, respvar.simple)%>%
   group_by(fieldsample.date,datasetID)%>%
   filter(!is.na(fieldsample.date))%>%
   filter(row_number()==1)
 
 none.field<-woody%>% ## studies without field sampling dates
-  select(datasetID,study, genus.species,fieldsample.date)%>%
+  select(datasetID,study, genus.species,fieldsample.date, respvar.simple)%>%
   filter(is.na(fieldsample.date))%>%
   group_by(datasetID)%>%
   arrange(datasetID)%>%
@@ -75,13 +77,13 @@ weinberger<-full_join(woody,fieldsample,by="datasetID")%>%
 
 ## Variation in Experimental Chilling
 chill<-woody %>% 
-  select(Exp_Chilling_Hours,datasetID,study,genus.species)%>%
+  select(Exp_Chilling_Hours,datasetID,study,genus.species, respvar.simple)%>%
   group_by(Exp_Chilling_Hours,datasetID)%>%
   filter(!is.na(Exp_Chilling_Hours))%>%
   filter(row_number()==1)
 
 none.chill<-woody%>%
-  select(datasetID,study,genus.species,Exp_Chilling_Hours)%>%
+  select(datasetID,study,genus.species,Exp_Chilling_Hours, respvar.simple)%>%
   filter(is.na(Exp_Chilling_Hours))%>%
   group_by(datasetID)%>%
   arrange(datasetID)%>%
@@ -101,13 +103,13 @@ weinberger<-full_join(weinberger,chilling,by="datasetID")%>%
 
 ## Variation in Photoperiod
 photo<-woody %>% 
-  select(photoperiod_day,datasetID,study,genus.species)%>%
+  select(photoperiod_day,datasetID,study,genus.species, respvar.simple)%>%
   group_by(photoperiod_day,datasetID)%>%
   filter(!is.na(photoperiod_day))%>%
   filter(row_number()==1)
 
 none.photo<-woody%>%
-  select(datasetID,study,genus.species,photoperiod_day)%>%
+  select(datasetID,study,genus.species,photoperiod_day, respvar.simple)%>%
   filter(is.na(photoperiod_day))%>%
   group_by(datasetID)%>%
   arrange(datasetID)%>%
@@ -127,13 +129,13 @@ weinberger<-full_join(weinberger,photo.day,by="datasetID")%>%
   
 ## Variation in Forcing
 forcing<-woody %>% 
-  select(forcetemp,datasetID,study,genus.species)%>%
+  select(forcetemp,datasetID,study,genus.species, respvar.simple)%>%
   group_by(forcetemp,datasetID)%>%
   filter(!is.na(forcetemp))%>%
   filter(row_number()==1)
 
 none.force<-woody%>%
-  select(datasetID,study,genus.species,forcetemp)%>%
+  select(datasetID,study,genus.species,forcetemp, respvar.simple)%>%
   filter(is.na(forcetemp))%>%
   group_by(datasetID)%>%
   arrange(datasetID)%>%
@@ -151,15 +153,15 @@ weinberger<-full_join(weinberger,forcetemp.day,by="datasetID")%>%
   arrange(datasetID)%>%
   filter(row_number()==1)
 
-## Variation in Forcing
+## Variation in Experimental Chilling
 expchill<-woody %>% 
-  select(Exp_Chilling_Hours,datasetID,study,genus.species)%>%
+  select(Exp_Chilling_Hours,datasetID,study,genus.species, respvar.simple)%>%
   group_by(Exp_Chilling_Hours,datasetID)%>%
   filter(!is.na(Exp_Chilling_Hours))%>%
   filter(row_number()==1)
 
 none.expchill<-woody%>%
-  select(datasetID,study,genus.species,Exp_Chilling_Hours)%>%
+  select(datasetID,study,genus.species,Exp_Chilling_Hours, respvar.simple)%>%
   filter(is.na(Exp_Chilling_Hours))%>%
   group_by(datasetID)%>%
   arrange(datasetID)%>%
@@ -177,3 +179,4 @@ weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
+write.table(weinberger, file="studytype.csv", sep=",", col.names=NA, qmethod="double")

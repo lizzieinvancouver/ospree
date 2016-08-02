@@ -13,11 +13,11 @@ options(stringsAsFactors = FALSE)
 
 # Set working directory: 
 if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
-  setwd("~/Documents/git/ospree") 
+  setwd("~/Documents/git/ospree/input") 
   } else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 # Name data frame:
-d <- read.csv("ospree.csv")
+d <- read.csv("ospree_clean_withchill.csv")
 
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 87 values now
@@ -27,7 +27,8 @@ sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
 
 ##
 ##  Convert some inverted stuff
-##
+## Error messages for response.time -- "NAs are not allowed in subscripted assignments"
+## Working on fixing -- Cat 
 
 d$response.time[d$respvar=="1/daysto25%budburst"] <-
     1/as.numeric(d$response[d$respvar=="1/daysto25%budburst"])
@@ -38,6 +39,13 @@ d$response[d$respvar=="1/daysto50%budburst"] <- "50per"
 
 d$respvar[d$respvar=="1/daysto25%budburst"] <- "daysto25%budburst"
 d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
+
+## Convert DARD Calculation to daystobudburst
+## Same error message as above
+d$response.time[d$respvar=="DARD"] <-
+  100/as.numeric(d$response.time[d$respvar=="DARD"])
+
+d$respvar.simple[d$respvar == "DARD"] <- "daystobudburst"
 
 # Still need to deal with :
 # "dateofbudburst"
@@ -129,6 +137,7 @@ d$respvar.simple[d$respvar == "degreedaystobudburst"] <- "thermaltime"
 
 # daystobudburst
 # "dateofbudburst" still not dealt with ... 
+d$respvar.simple[d$respvar == "budprojectedarea"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystobudburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto25%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
@@ -149,6 +158,7 @@ d$respvar.simple[d$respvar == "daystopanicle"] <- "daystoflower"
 
 # percentbudburst
 d$respvar.simple[d$respvar == "percentbudburst"] <- "percentbudburst"
+d$respvar.simple[d$respvar == "percentbudburst_dormancy"] <- "percentbudburst"
 
 # percentflower
 d$respvar.simple[d$respvar == "percentflower"] <- "percentflower"
@@ -162,6 +172,7 @@ d$respvar.simple[d$respvar == "apicalbudgrowth"] <- "growth"
 d$respvar.simple[d$respvar == "budlength"] <- "growth"
 d$respvar.simple[d$respvar == "budwidth"] <- "growth"
 d$respvar.simple[d$respvar == "cumulativegrowthincrement"] <- "growth"
+d$respvar.simple[d$respvar == "nodes"] <- "growth"
 d$respvar.simple[d$respvar == "elongation"] <- "growth"
 d$respvar.simple[d$respvar == "growthincrement"] <- "growth"
 d$respvar.simple[d$respvar == "height"] <- "growth"
@@ -169,6 +180,7 @@ d$respvar.simple[d$respvar == "lengthofinternodescm"] <- "growth"
 d$respvar.simple[d$respvar == "leafincrement"] <- "growth"
 d$respvar.simple[d$respvar == "mmper14days"] <- "growth"
 d$respvar.simple[d$respvar == "lengthoftrusscm"] <- "growth"
+d$respvar.simple[d$respvar == "plantheightatflowerbudappearance"] <- "growth"
 d$respvar.simple[d$respvar == "totalgrowth"] <- "growth"
 d$respvar.simple[d$respvar == "stemelongationcm"] <- "growth"
 d$respvar.simple[d$respvar == "shootelongationcm"] <- "growth"
@@ -217,17 +229,12 @@ d$respvar.simple[d$respvar == "freshfruitg"] <- "fruitmass"
 d$respvar.simple[d$respvar == "fruitmassperplant"] <- "fruitmass"
 
 # notsureabout
-d$respvar.simple[d$respvar == "budprojectedarea"] <- "notsureabout"
-d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout"
-d$respvar.simple[d$respvar == "nodes"] <- "notsureabout"
-d$respvar.simple[d$respvar == "plantheightatflowerbudappearance"] <- "notsureabout"
-   
+d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not Woody
+
 # other
-d$respvar.simple[d$respvar == "percentbudburst_dormancy"] <- "other"
 d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
 d$respvar.simple[d$respvar == "survival"] <- "other"
-d$respvar.simple[d$respvar == "DARD"] <- "other"
-d$respvar.simple[d$respvar == ""] <- "other"
+d$respvar.simple[d$respvar == ""] <- "other" ## Not Woody 
 
 # check your work .... 
 checking <- subset(d, is.na(respvar.simple)==TRUE)
