@@ -1,10 +1,9 @@
-## Started 6 July 2016 ##
-## By Lizzie, and Dan and others ##
+## Started 7 July 2016 ##
+## By Cat and Lizzie##
 
-## Try to run REAL Ospree data ##
-## With Stan! ##
-
-## Cat Additions 7 July 2016 ##
+## An R script to organize the studies by experiment type for the bud burst data. ##
+## Studies were organized by number of field sampling dates, photoperiods, ##
+## forcing temperatures, and experimental chilling hours. ##
 
 ## housekeeping
 rm(list=ls()) 
@@ -22,7 +21,7 @@ ipak <- function(pkg){
 packages <- c("ggplot2", "dplyr","tidyr","rstan","shinystan")
 ipak(packages)
 
-setwd("~/Documents/git/ospree")
+setwd("~/Documents/git/ospree/input")
 source('stan/savestan.R')
 # get latest .Rdata file
 
@@ -73,32 +72,6 @@ fieldsample<-full_join(samplingdates,none.field,by="datasetID")%>% ## table of n
 
 weinberger<-full_join(woody,fieldsample,by="datasetID")%>%
   arrange(datasetID) %>%
-  filter(row_number()==1)
-
-## Variation in Experimental Chilling
-chill<-woody %>% 
-  select(Exp_Chilling_Hours,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(Exp_Chilling_Hours,datasetID)%>%
-  filter(!is.na(Exp_Chilling_Hours))%>%
-  filter(row_number()==1)
-
-none.chill<-woody%>%
-  select(datasetID,study,genus.species,Exp_Chilling_Hours, respvar.simple)%>%
-  filter(is.na(Exp_Chilling_Hours))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-chillinghours<-as.data.frame(table(chill$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("chillinghours.count"=Freq)
-
-chilling<-full_join(chillinghours,none.chill,by="datasetID")%>%
-  select(datasetID,chillinghours.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,chilling,by="datasetID")%>%
-  arrange(datasetID)%>%
   filter(row_number()==1)
 
 ## Variation in Photoperiod
