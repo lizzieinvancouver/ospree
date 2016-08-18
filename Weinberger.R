@@ -22,7 +22,9 @@ packages <- c("ggplot2", "dplyr","tidyr","rstan","shinystan")
 ipak(packages)
 
 setwd("~/Documents/git/ospree/input")
-source('stan/savestan.R')
+#setwd("~/git/ospree/input")
+
+source('../stan/savestan.R')
 # get latest .Rdata file
 
 rstan_options(auto_write = TRUE)
