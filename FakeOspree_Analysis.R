@@ -57,116 +57,126 @@ ssm.f <- as.shinystan(osp.f)
 launch_shinystan(ssm.f) 
 
 sf[grep("^a_sp\\[", rownames(sf)),"mean"] # 
-sf[grep("^a_0", rownames(sf)),] # 
 
-summary(sf[grep("^b_chill_sp\\[", rownames(sf)),"mean"] ) # should be near -3
-sf[grep("^b_chill_0", rownames(sf)),] # 
+summary(sf[grep("^b_chill\\[", rownames(sf)),"mean"] ) # should be near -3
+sf[grep("^b_chill", rownames(sf)),] # slopes at species level
 
-summary(sf[grep("^b_force_sp\\[", rownames(sf)),"mean"]) # should be near -2
-sf[grep("^b_force_0", rownames(sf)),] # 
-sf[grep("^mu_b_force_sp\\[", rownames(sf)),"mean"] # near 0
+summary(sf[grep("^b_force\\[", rownames(sf)),"mean"]) # should be near -2
+sf[grep("^b_force", rownames(sf)),] # 
 
-summary(sf[grep("^b_photo_sp\\[", rownames(sf)),"mean"] ) # correct, near -1
-sf[grep("^b_photo_0", rownames(sf)),] # 
+summary(sf[grep("^b_photo\\[", rownames(sf)),"mean"] ) #  near -1
+sf[grep("^b_photo", rownames(sf)),] # 
 
-summary(sf[grep("^b_inter_fc_sp\\[", rownames(sf)),"mean"] )# correct, near 0.5
-sf[grep("^b_inter_fc_0", rownames(sf)),] # 
+# summary(sf[grep("^b_inter_fc\\[", rownames(sf)),"mean"] )# correct, near 0.5
+# sf[grep("^b_inter_fc", rownames(sf)),] # 
 
-# plotlet("b_force_sp", "b_photo_sp", # not structured as correlated in these data
-# #         xlim = c(-24, -23),
-# #         ylim = c(-18, -17),
-#         dat = sf)
+# plotlet function at bottom of script.
+# This displays the species-level parameter estimates from the model
+plotlet("b_force", "b_photo", # not structured as correlated in these data
+#         xlim = c(-24, -23),
+#         ylim = c(-18, -17),
+        dat = sf)
 
 plot(density(sf[grep("^a_sp\\[", rownames(sf)),'mean']),
      main = "Species level intercepts",
      col = "midnightblue")
 
-plot(density(sf[grep("^b_force_sp\\[", rownames(sf)),'mean']),
+plot(density(sf[grep("^b_force\\[", rownames(sf)),'mean']),
      main = "Species level forcing effects")
-
-
 
 ###### Posterior predictive checks -- 
 # pull out coefficients at each level
 
-nlab = length(unique(fake$lab)) # 20 lab groups
+# nlab = length(unique(fake$lab)) # 20 lab groups
 nsp = length(unique(fake$sp)) # 100 species
 ntot = 50
 # Extracting fitted values from the stan fit object
-chillcoef = sf[grep("^b_chill_0", rownames(sf)),'mean']
-forcecoef = sf[grep("^b_force_0", rownames(sf)),'mean']
-photocoef = sf[grep("^b_photo_0", rownames(sf)),'mean']
-latcoef =  sf[grep("^b_lat_0", rownames(sf)),'mean']
-chillforce =  sf[grep("^b_inter_fc_0", rownames(sf)),'mean']
-chillphoto =  sf[grep("^b_inter_pc_0", rownames(sf)),'mean']
-chilllat =  sf[grep("^b_inter_lc_0", rownames(sf)),'mean']
-forcephoto =  sf[grep("^b_inter_fp_0", rownames(sf)),'mean']
-forcelat =  sf[grep("^b_inter_fl_0", rownames(sf)),'mean']
-photolat =  sf[grep("^b_inter_pl_0", rownames(sf)),'mean']
+chillcoef = sf[grep("^b_chill", rownames(sf)),'mean']
+forcecoef = sf[grep("^b_force", rownames(sf)),'mean']
+photocoef = sf[grep("^b_photo", rownames(sf)),'mean']
+latcoef =  sf[grep("^b_lat", rownames(sf)),'mean']
+# chillforce =  sf[grep("^b_inter_fc", rownames(sf)),'mean']
+# chillphoto =  sf[grep("^b_inter_pc", rownames(sf)),'mean']
+# chilllat =  sf[grep("^b_inter_lc", rownames(sf)),'mean']
+# forcephoto =  sf[grep("^b_inter_fp", rownames(sf)),'mean']
+# forcelat =  sf[grep("^b_inter_fl", rownames(sf)),'mean']
+# photolat =  sf[grep("^b_inter_pl", rownames(sf)),'mean']
 
 ######## SD for each treatment
-chillcoef.sd = sf[grep("^b_chill_0", rownames(sf)),'sd'] 
-forcecoef.sd = sf[grep("^b_force_0", rownames(sf)),'sd']  
-photocoef.sd = sf[grep("^b_photo_0", rownames(sf)),'sd'] 
-latcoef.sd =  sf[grep("^b_lat_0", rownames(sf)),'sd'] 
-chillforce.sd = sf[grep("^b_inter_fc_0", rownames(sf)),'sd'] 
-chillphoto.sd = sf[grep("^b_inter_pc_0", rownames(sf)),'sd'] 
-chilllat.sd = sf[grep("^b_inter_lc_0", rownames(sf)),'sd'] 
-forcephoto.sd = sf[grep("^b_inter_fp_0", rownames(sf)),'sd'] 
-forcelat.sd = sf[grep("^b_inter_fl_0", rownames(sf)),'sd'] 
-photolat.sd = sf[grep("^b_inter_pl_0", rownames(sf)),'sd'] 
+chillcoef.sd = sf[grep("^b_chill", rownames(sf)),'sd'] 
+forcecoef.sd = sf[grep("^b_force", rownames(sf)),'sd']  
+photocoef.sd = sf[grep("^b_photo", rownames(sf)),'sd'] 
+latcoef.sd =  sf[grep("^b_lat", rownames(sf)),'sd'] 
+# chillforce.sd = sf[grep("^b_inter_fc", rownames(sf)),'sd'] 
+# chillphoto.sd = sf[grep("^b_inter_pc", rownames(sf)),'sd'] 
+# chilllat.sd = sf[grep("^b_inter_lc", rownames(sf)),'sd'] 
+# forcephoto.sd = sf[grep("^b_inter_fp", rownames(sf)),'sd'] 
+# forcelat.sd = sf[grep("^b_inter_fl", rownames(sf)),'sd'] 
+# photolat.sd = sf[grep("^b_inter_pl", rownames(sf)),'sd'] 
 
 
 ############ !
-spint <- sf[grep("^a_sp\\[", rownames(sf)),'mean'] # Was centered on 80 in fake data generating, now on 40
+spint <- sf[grep("^a_sp\\[", rownames(sf)),'mean'] # Was centered on 80 in fake data generating, perfect here: mean(spint)
 
 poster <- vector() # to hold the posterior predictive checks
 
 for(i in 1:nsp){ # loop over species, as these are the random effect modeled. 
   # Within species, have a loop for individuals
+  # i = 1
   
-  indx <- which(splookup == i)
-  
+  # initialize with random normal values
+  chill = rnorm(ntot, 0, 1)
   force = rnorm(ntot, 0, 1)
   photo = rnorm(ntot, 0, 1)
-  chill = rnorm(ntot, 0, 1)
   lat = rnorm(ntot, 0, 1)
   
-  mm <- model.matrix(~(chill+force+photo+lat)^2, data.frame(chill, force, photo, lat))
+  # Set up the model matrix. This will have ntot rows (number of values per species in this case)
+  # add ^2 to right side of parenthetical formula for two-way interactions
+  mm <- model.matrix(~(chill+force+photo+lat), data.frame(chill, force, photo, lat))
   
-  coeff <- data.frame(
-      sf[rownames(sf) %in% paste("a_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_chill_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_force_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_photo_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_inter_ws_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_inter_ps_sp_ind[", indx, "]", sep = ""),'mean'],
-      sf[rownames(sf) %in% paste("b_inter_wp_sp_ind[", indx, "]", sep = ""),'mean']
+  # For species i, pull out the model estimates for intercept, chilling, forcing, photoperiod, and latitude effects.
+  coeff <- c(
+      sf[rownames(sf) %in% paste("a_sp[", i, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_chill[", i, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_force[", i, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_photo[", i, "]", sep = ""),'mean'],
+      sf[rownames(sf) %in% paste("b_lat[", i, "]", sep = ""),'mean']
   )
     
-    for(j in 1:nind){ # simulate data for each individual, using these coefficients
-      
-      bb <- rnorm(n = length(force), mean = mm %*% as.numeric(coeff[j,]), sd = 0.1)
+  # make posterior predictions for each value per species. Matrix multiplication %*% takes the initial random values and multiplies by the posterior estimates of our predictors in the coeff object
+      bb <- rnorm(n = length(force), mean = mm %*% coeff, sd = 0.1)
     
+      # Save the values for this species in a small data frame
+      posterx <- data.frame(bb, sp = i, 
+                        chill, force, photo, lat)
       
-      posterx <- data.frame(bb, sp = i, ind = paste(i, j, sep="_"),
-                        chill, force, photo)
-    
+    # Put these together with the results for all species
     poster <- rbind(poster, posterx)  
-  }
 }
 
+
+# Should be on 1:1 line
 
 plot(fake$bb, poster$bb,
      xlab = "Simulated data",
      ylab = "Posterior predictive check",
-     xlim = c(-10, 90),
-     ylim = c(-10, 90),
+     xlim = c(0, 150),
+     ylim = c(0, 150),
      pch = 16,
      col = alpha('midnightblue', 0.2)
      )
 abline(a=0, b=1, lty=3)
 
+identical(fake$sp, poster$sp)
+
+fp <- data.frame(fake, posterior = poster$bb)
+fp <- fp[!is.na(match(fp$sp, sample(1:100, 5))),] # take 5 random species to look at
+
+# across species doing a very good job, within species still variable but ok
+ggplot(fp,
+       aes(bb, posterior, color = chill)) +
+  facet_grid(.~sp) +
+  geom_point() 
 
 
 ##################################################################################################################################################################################################
