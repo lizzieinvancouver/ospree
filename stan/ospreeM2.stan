@@ -1,14 +1,12 @@
 // OSPREE analysis
 // flynn@fas.harvard.edu
 // 2 level model for budburst day or percent budburst as a function of forcing temperature, chilling units, photoperiod, and latitude in a meta-analysis of 100+ studies
-// Levels: Species and Study (labgroup)
+// Levels: Species. No labgroup level, see if model behaves.
 
 data {
 	int<lower=1> N;
 	int<lower=1> n_sp;
-	int<lower=1> n_lab;
 	int<lower=1, upper=n_sp> sp[N];
-	int<lower=1, upper=n_lab> lab[N]; 
 	vector[N] y; 		// response
 	vector[N] chill; 	// predictor
 	vector[N] force; 	// predictor
@@ -48,7 +46,6 @@ parameters {
   real b_inter_lc_0; // overall lat x chill effect  
 
   real mu_a_sp[n_sp];
-  real mu_a_lab[n_lab]; // labgroup 
   real mu_b_force_sp[n_sp]; 
   real mu_b_photo_sp[n_sp];
   real mu_b_lat_sp[n_sp];
@@ -61,7 +58,6 @@ parameters {
   real mu_b_inter_lc_sp[n_sp];
       
   real<lower=0> sigma_a_sp; 
-  real<lower=0> sigma_a_lab; 
   real<lower=0> sigma_b_force_sp; 
   real<lower=0> sigma_b_photo_sp;
   real<lower=0> sigma_b_lat_sp;
@@ -80,7 +76,6 @@ transformed parameters {
 	real y_hat[N];
 	
 	real a_sp[n_sp]; // intercept for species
-	real a_lab[n_lab]; // intercept for labgroup
   	real b_force_sp[n_sp]; // slope of forcing effect at species level
 	real b_photo_sp[n_sp]; // slope of photoperiod effect, at species level
 	real b_lat_sp[n_sp]; // slope of photoperiod effect, at species level
@@ -109,16 +104,10 @@ transformed parameters {
 
 		}
 	
-	// lab group level
-	for (j in 1:n_lab) {
-		a_lab[j] = a_0 + mu_a_lab[j];
-		}
-	
 	// row level 
 	for(i in 1:N){
 
 		y_hat[i] = a_sp[sp[i]] + // indexed with species
-					a_lab[lab[i]] + // indexed with labgroup
 					b_force_sp[sp[i]] * force[i] + // indexed with species
 					b_photo_sp[sp[i]] * photo[i]+
 					b_lat_sp[sp[i]] * lat[i] +
@@ -147,7 +136,6 @@ model {
   	b_inter_lc_0 ~ normal(0, 100);
   	
 	mu_a_sp ~ normal(0, sigma_a_sp); // 20 d on either lat at sp level
-	mu_a_lab ~ normal(0, sigma_a_lab); 
 	mu_b_force_sp ~ normal(0, sigma_b_force_sp); 
 	mu_b_photo_sp ~ normal(0, sigma_b_photo_sp);
 	mu_b_lat_sp ~ normal(0, sigma_b_lat_sp);
@@ -160,7 +148,6 @@ model {
 	mu_b_inter_lc_sp ~ normal(0, sigma_b_inter_lc_sp);
 		
 	sigma_a_sp ~ normal(0, 20); 
-	sigma_a_lab ~ normal(0, 20); 
 	sigma_b_force_sp ~ normal(0, 20); 
 	sigma_b_photo_sp ~ normal(0, 20); 
 	sigma_b_lat_sp ~ normal(0, 20); 

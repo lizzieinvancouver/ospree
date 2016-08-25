@@ -1,5 +1,5 @@
 # Fake data testing of Ospree 
-dostan = TRUE
+dostan = FALSE # Set to false to use stored runs
 
 library(rstan)
 library(ggplot2)
@@ -12,10 +12,10 @@ source('stan/savestan.R')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-load("FakeOspree.RData")
+load("FakeOspreeNoLab.RData")
 
-# Thin the data, see if goes faster
-fake <- fake[sample(1:nrow(fake), 999),]
+# If very slow, thin the data. But first try with whole data set
+# fake <- fake[sample(1:nrow(fake), 999),]
 
 datalist.f <- with(fake, 
     list(y = bb, 
@@ -24,22 +24,24 @@ datalist.f <- with(fake,
          photo = as.numeric(photo),
          lat = as.numeric(lat),
          sp = as.numeric(sp),
-         lab = as.numeric(lab),
+#         lab = as.numeric(lab),
          N = nrow(fake),
-         n_sp = length(unique(sp)),
-         n_lab = length(unique(lab))
+         n_sp = length(unique(sp))
+#        n_lab = length(unique(lab))
          )
 )
-if(dostan){
-  osp.f <- stan('stan/ospreeM1.stan', data = datalist.f, 
+
+if(dostan){ # M2: no labgroup
+  osp.f <- stan('stan/ospreeM4.stan', data = datalist.f, 
                  iter = 2882
                   ) 
   sf <- summary(osp.f)$summary
   
   ssm.f <- as.shinystan(osp.f)
   # launch_shinystan(ssm.f)
-  savestan("Fake")
+  savestan("Fake NoLab")
 }
+
 
 # Load lastest fake data output. Grep for both Fake and Stan Output.
 if(!exists('osp.f')){
@@ -49,15 +51,18 @@ if(!exists('osp.f')){
   load(sort(dir()[fakes], T)[1])
 }
 
+sf <- summary(osp.f)$summary
+ssm.f <- as.shinystan(osp.f)
+
 launch_shinystan(ssm.f) 
 
 sf[grep("^a_sp\\[", rownames(sf)),"mean"] # 
 sf[grep("^a_0", rownames(sf)),] # 
 
-summary(sf[grep("^b_chill_sp\\[", rownames(sf)),"mean"] ) # this is correct, near -3
+summary(sf[grep("^b_chill_sp\\[", rownames(sf)),"mean"] ) # should be near -3
 sf[grep("^b_chill_0", rownames(sf)),] # 
 
-summary(sf[grep("^b_force_sp\\[", rownames(sf)),"mean"]) # correct, near -2
+summary(sf[grep("^b_force_sp\\[", rownames(sf)),"mean"]) # should be near -2
 sf[grep("^b_force_0", rownames(sf)),] # 
 sf[grep("^mu_b_force_sp\\[", rownames(sf)),"mean"] # near 0
 
@@ -67,10 +72,10 @@ sf[grep("^b_photo_0", rownames(sf)),] #
 summary(sf[grep("^b_inter_fc_sp\\[", rownames(sf)),"mean"] )# correct, near 0.5
 sf[grep("^b_inter_fc_0", rownames(sf)),] # 
 
-plotlet("b_force_sp", "b_photo_sp", # not structured as correlated in these data
-#         xlim = c(-24, -23),
-#         ylim = c(-18, -17),
-        dat = sf)
+# plotlet("b_force_sp", "b_photo_sp", # not structured as correlated in these data
+# #         xlim = c(-24, -23),
+# #         ylim = c(-18, -17),
+#         dat = sf)
 
 plot(density(sf[grep("^a_sp\\[", rownames(sf)),'mean']),
      main = "Species level intercepts",
@@ -86,7 +91,7 @@ plot(density(sf[grep("^b_force_sp\\[", rownames(sf)),'mean']),
 
 nlab = length(unique(fake$lab)) # 20 lab groups
 nsp = length(unique(fake$sp)) # 100 species
-ntot = 
+ntot = 50
 # Extracting fitted values from the stan fit object
 chillcoef = sf[grep("^b_chill_0", rownames(sf)),'mean']
 forcecoef = sf[grep("^b_force_0", rownames(sf)),'mean']

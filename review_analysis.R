@@ -7,7 +7,7 @@ library(sjPlot) # visualizing fixed and random effects
 
 #d <- read.xls("~/Dropbox/Work/Harvard/budburst review/Archive/growthchambers_litreview_2015-09-25.xlsx", sheet = 6)
 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/ospree")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("Prep_all_data.R") 

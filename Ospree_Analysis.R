@@ -18,24 +18,22 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
-} else setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
+  } else setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
 
 source('stan/savestan.R')
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-#ospree <- read.csv("input/ospree_clean1_withchill.csv", header=TRUE)
-ospree <- read.csv("input/ospree_clean1.csv", header=TRUE)
+ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
 
 bbvars <- c("daystobudburst", "daysto50percentbudburst", "daysto20%budburst",
-    "dayofbudbreak", "dateofbudburst", "baystobudburst", 
     "daysto10percentbudburst","daysto50%budburst", "daystoleafout")
 
 ospree.bb <- ospree[which(ospree$respvar %in% bbvars),]
 
 dim(ospree)
-dim(ospree.bb) # not so much data
+dim(ospree.bb) # not so much data, 2392 rows if just do days to budburst
 
 kmeans <- read.csv("refs/kmeans6.csv", header=TRUE, skip=1,
     col.names=c("datID", "labgroup"))
@@ -70,6 +68,8 @@ ospr.stan$responsedays <- as.numeric(ospr.stan$responsedays)
 ospr.stan <- subset(ospr.stan, select=c("responsedays", "totalchill", "forcetemp", 
     "photoperiod_day", "provenance.lat", "spp", "labgroup"))
 
+# Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, photoperiod, and where we have a response in days and total chilling. There are NA in each of these columns, including labgroup!
+
 ospr.stan.noNA <- ospr.stan[complete.cases(ospr.stan),]
 
 dim(ospr.stan.noNA)
@@ -89,7 +89,7 @@ datalist.real <- with(ospr.stan.noNA,
 )
 
 if(dostan){
-  osp.r <- stan('stan/ospree1.stan', data = datalist.real, 
+  osp.r <- stan('stan/ospreeM1.stan', data = datalist.real, 
                  iter = 1666
                   ) 
   sf <- summary(osp.r)$summary
