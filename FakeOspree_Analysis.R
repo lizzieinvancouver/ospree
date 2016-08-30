@@ -6,13 +6,14 @@ library(ggplot2)
 library(shinystan)
 
 setwd("~/Documents/git/ospree")
+# setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 source('stan/savestan.R')
 # get latest .Rdata file
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-load("FakeOspreeNoLab.RData")
+load("FakeOspreeNoLab.RData") # create data using FakeOspree_Generate.R first!
 
 # If very slow, thin the data. But first try with whole data set
 # fake <- fake[sample(1:nrow(fake), 999),]
