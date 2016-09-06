@@ -66,11 +66,11 @@ ospr.stan$spp <- as.numeric(as.factor(ospr.stan$spp))
 ospr.stan$responsedays <- as.numeric(ospr.stan$responsedays)
 
 ospr.stan <- subset(ospr.stan, select=c("responsedays", "totalchill", "forcetemp", 
-    "photoperiod_day", "provenance.lat", "spp", "labgroup"))
+    "photoperiod_day", "provenance.lat", "spp"))
 
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, photoperiod, and where we have a response in days and total chilling. There are NA in each of these columns, including labgroup!
 
-ospr.stan.noNA <- ospr.stan[complete.cases(ospr.stan),]
+ospr.stan.noNA <- ospr.stan[complete.cases(ospr.stan),] # 1234 rows ....
 
 dim(ospr.stan.noNA)
 
@@ -81,16 +81,16 @@ datalist.real <- with(ospr.stan.noNA,
          photo = as.numeric(photoperiod_day), 
          lat = as.numeric(provenance.lat), 
          sp = as.numeric(as.factor(spp)),
-         lab = as.numeric(as.factor(labgroup)),
+        #  lab = as.numeric(as.factor(labgroup)),
          N = nrow(ospr.stan.noNA),
-         n_sp = length(unique(spp)),
-         n_lab = length(unique(labgroup))
+         n_sp = length(unique(spp))
+       #  n_lab = length(unique(labgroup))
          )
 )
 
 if(dostan){
-  osp.r <- stan('stan/ospreeM1.stan', data = datalist.real, 
-                 iter = 1666
+  osp.r <- stan('stan/ospreeM4.stan', data = datalist.real, 
+                 iter = 3333
                   ) 
   sf <- summary(osp.r)$summary
   
