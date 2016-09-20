@@ -3,7 +3,7 @@
 rm(list=ls()) 
 options(stringsAsFactors=FALSE)
 setwd("~/GitHub/ospree")
-d <- read.csv("ospree_clean.csv")
+d <- read.csv("output/ospree_clean.csv")
 head(d)
 d$genus.species<-paste(d$genus,d$species,sep=".")
 d_percbb<-d[d$respvar=="percentbudburst"|d$respvar=="percentstage01"|d$respvar=="percentstage02"|d$respvar=="percentstage03"|d$respvar=="percentstage04",]#4923 rows 

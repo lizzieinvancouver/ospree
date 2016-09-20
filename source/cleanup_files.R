@@ -18,7 +18,7 @@ if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF co
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("source/Prep_all_data.R") 
 
-d <- read.csv("ospree_clean.csv") 
+d <- read.csv("output/ospree_clean.csv") 
 
 d <- d[d$woody=="yes",]
 head(d)
@@ -229,16 +229,7 @@ legend(-30, 52, bty = "n",
        legend = c("Other","Percent budburst","Days to budburst"),
        y.intersp = 2,
        x.intersp = 2,
-       col = colz)
-
-dev.off()
-system("open 'figures/Euro_Map.pdf' -a /Applications/Preview.app")
-
-
-################# For cleaning up excluded references. Moves PDFs for studies marked in the study file as 'n' for 'no, do not include' into a different folder
-# tomove <- d[d$Status == "n", "Filename"]
-# 
-# for(i in 1:length(tomove)){
+       col = colz)# for(i in 1:length(tomove)){
 # 	
 # system(paste(paste("mv ~/Dropbox/Work/Harvard/Budburst_Review/Budburst_Refs/", tomove[i], sep = ""), 
 # 				paste("~/Dropbox/Work/Harvard/Budburst_Review/Excluded_Refs/", tomove[i], sep = ""))

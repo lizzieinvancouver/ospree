@@ -18,7 +18,7 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
-  } else setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
+  } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/")
 
 source('stan/savestan.R')
 

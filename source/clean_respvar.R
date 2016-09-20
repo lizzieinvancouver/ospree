@@ -17,7 +17,7 @@ if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF co
   } else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 # Name data frame:
-d <- read.csv("ospree_clean_withchill.csv")
+d <- read.csv("output/ospree_clean_withchill.csv")
 
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 87 values now

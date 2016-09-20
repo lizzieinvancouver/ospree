@@ -11,7 +11,7 @@ library(chillR)
 
 setwd("~/Documents/git/ospree")
 
-d <- read.csv("ospree_clean.csv")
+d <- read.csv("output/ospree_clean.csv")
 
 # make two data frames. North America and Europe, the lat longs and years.
 
@@ -352,7 +352,7 @@ dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(
 dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
 dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
 
-write.csv(dat4,"input/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
+write.csv(dat4,"output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
 
 # scratch
 days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950

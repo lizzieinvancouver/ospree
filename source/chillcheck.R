@@ -12,7 +12,7 @@ if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF co
   setwd("~/Documents/git/ospree") 
 } else setwd("~/git/ospree") # setwd("~/Documents/git/ospree")
 
-ospree <- read.csv("ospree_clean.csv", header=TRUE)
+ospree <- read.csv("output/ospree_clean.csv", header=TRUE)
 
 ospree$chilltemp.num <- as.numeric(ospree$chilltemp)
 ospree$chilldays.num <- as.numeric(ospree$chilldays)
