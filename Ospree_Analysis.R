@@ -25,7 +25,7 @@ source('stan/savestan.R')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
+ospree <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 bbvars <- c("daystobudburst", "daysto50percentbudburst", "daysto20%budburst",
     "daysto10percentbudburst","daysto50%budburst", "daystoleafout")
@@ -46,11 +46,12 @@ ospree.bb.lab$spp <- paste(ospree.bb.lab$genus, ospree.bb.lab$species, sep="")
 ospree.bb.lab <- subset(ospree.bb.lab, is.na(spp)==FALSE)
 
 # deal with response vs. responsetime (quick fix for now)
-resp1 <- subset(ospree.bb.lab, response==1) # most of are data is like this
+resp1 <- subset(ospree.bb.lab, response==1) # most of are data are like this
 resp1.timeNA <- subset(resp1, is.na(response.time)==TRUE) # about 20 rows have this
 
 ospree.bb.lab$responsedays <- ospree.bb.lab$response.time
-ospree.bb.lab$responsedays[which(ospree.bb.lab$response>1 & ospree.bb.lab$response.time=="")] <- ospree.bb.lab$response
+ospree.bb.lab$responsedays[which(ospree.bb.lab$response>1 & ospree.bb.lab$response.time=="")] <-
+    ospree.bb.lab$response[which(ospree.bb.lab$response>1 & ospree.bb.lab$response.time=="")]
 
 # just to think on ...
 ospree.bb.lab[which(ospree.bb.lab$response>1),28:31]
@@ -89,8 +90,8 @@ datalist.real <- with(ospr.stan.noNA,
 )
 
 if(dostan){
-  osp.r <- stan('stan/ospreeM4.stan', data = datalist.real, 
-                 iter = 3333
+  osp.r <- stan('stan/M1_daysBB_simple_winter.stan', data = datalist.real, 
+                 iter = 3123
                   ) 
   sf <- summary(osp.r)$summary
   
