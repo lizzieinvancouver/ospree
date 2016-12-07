@@ -154,4 +154,5 @@ weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
-write.table(weinberger, file="studytype.csv", sep=",", col.names=NA, qmethod="double")
+write.csv(weinberger, file="/output/studytype.csv", sep=",", col.names=NA, qmethod="double",
+          row.names=FALSE)
