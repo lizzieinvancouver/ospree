@@ -5,31 +5,18 @@
 ## Studies were organized by number of field sampling dates, photoperiods, ##
 ## forcing temperatures, and experimental chilling hours. ##
 
-## housekeeping
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
+# Clear workspace
+rm(list=ls()) # remove everything currently held in the R memory
+options(stringsAsFactors=FALSE)
+graphics.off()
 
-dostan = TRUE
-
-# Install Packages
-ipak <- function(pkg){
-  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new.pkg)) 
-    install.packages(new.pkg, dependencies = TRUE)
-  sapply(pkg, require, character.only = TRUE)
-}
-packages <- c("ggplot2", "dplyr","tidyr","rstan","shinystan")
-ipak(packages)
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(lubridate)
 
 setwd("~/Documents/git/ospree/input")
-#setwd("~/git/ospree/input")
-
-source('../stan/savestan.R')
-# get latest .Rdata file
-
-rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())
-
 ospree <- read.csv("ospree_clean_respvar.csv", header=TRUE)
 
 ## Variation in Field Sample Dates
@@ -146,7 +133,7 @@ expchilling<-as.data.frame(table(expchill$datasetID)) %>%
   rename("datasetID"=Var1)%>%
   rename("expchill.count"=Freq)
 
-expchill.hours<-full_join(expchilling,none.chill,by="datasetID")%>%
+expchill.hours<-full_join(expchilling,none.expchill,by="datasetID")%>%
   select(datasetID,expchill.count)%>%
   arrange(datasetID)
 
@@ -154,5 +141,5 @@ weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
-write.csv(weinberger, file="/output/studytype.csv", sep=",", col.names=NA, qmethod="double",
+write.csv(weinberger, file="~/Documents/git/ospree/output/studytype.csv",
           row.names=FALSE)
