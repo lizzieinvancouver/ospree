@@ -84,7 +84,7 @@ datalist.real <- with(ospr.stan.noNA,
          sp = as.numeric(as.factor(spp)),
         #  lab = as.numeric(as.factor(labgroup)),
          N = nrow(ospr.stan.noNA),
-         n_sp = length(unique(spp))
+         n_sp = length(unique(spp)) # CHECK: that this agrees with sp just above
        #  n_lab = length(unique(labgroup))
          )
 )
