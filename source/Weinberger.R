@@ -16,7 +16,7 @@ library(tidyr)
 library(ggplot2)
 library(lubridate)
 
-setwd("~/Documents/git/ospree/input")
+setwd("~/Documents/git/ospree/analyses/input")
 ospree <- read.csv("ospree_clean_respvar.csv", header=TRUE)
 
 ## Variation in Field Sample Dates
@@ -61,6 +61,32 @@ fieldsample<-full_join(samplingdates,none.field,by="datasetID")%>% ## table of n
 
 weinberger<-full_join(woody,fieldsample,by="datasetID")%>%
   arrange(datasetID) %>%
+  filter(row_number()==1)
+
+## Number of Species
+species<-woody %>% 
+  select(genus.species,datasetID,study, respvar.simple)%>%
+  group_by(genus.species,datasetID)%>%
+  filter(!is.na(genus.species))%>%
+  filter(row_number()==1)
+
+none.species<-woody%>%
+  select(datasetID,study,genus.species,respvar.simple)%>%
+  filter(is.na(genus.species))%>%
+  group_by(datasetID)%>%
+  arrange(datasetID)%>%
+  filter(row_number()==1)
+
+gen.spp<-as.data.frame(table(species$datasetID)) %>%
+  rename("datasetID"=Var1)%>%
+  rename("species.count"=Freq)
+
+genus.species<-full_join(gen.spp,none.species,by="datasetID")%>%
+  select(datasetID,species.count)%>%
+  arrange(datasetID)
+
+weinberger<-full_join(weinberger,genus.species,by="datasetID")%>%
+  arrange(datasetID)%>%
   filter(row_number()==1)
 
 ## Variation in Photoperiod
@@ -141,5 +167,17 @@ weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
-write.csv(weinberger, file="~/Documents/git/ospree/output/studytype.csv",
+write.csv(weinberger, file="~/Documents/git/ospree/analyses/output/studytype.csv",
           row.names=FALSE)
+
+# Create a more concise table
+studytype<- weinberger %>%
+  group_by(study, genus.species, respvar.simple, datasetID)%>%
+  ungroup()%>%
+  dplyr::select(datasetID, samplingdates.count, species.count, photoperiods.count, forcetemps.count, expchill.count) %>%
+  group_by(datasetID) %>%
+  arrange(datasetID) %>%
+  filter(row_number()==1) 
+studytype[is.na(studytype)] <- 0
+
+write.csv(studytype, file="~/Documents/git/ospree/analyses/output/studytype.table.csv")
