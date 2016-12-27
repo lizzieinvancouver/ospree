@@ -20,8 +20,11 @@ m$collection[m$collection=="C1"] <- "12/21/13"
 m$collection[m$collection=="C2"] <- "02/10/14"
 m$collection[m$collection=="C3"] <- "03/21/14"
 View(m)
+### convert to daystobudburst in excel
+
+
+
 library(xlsx)
 write.xlsx(x = m, file = "Zohner_intermediate.xlsx",
            sheetName = "intermediate", row.names = FALSE)
-### now updating new table
-z<-read.csv("zohner_formated.csv", header = TRUE)
+
