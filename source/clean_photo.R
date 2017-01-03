@@ -18,19 +18,19 @@ d$photoperiod_night[d$photoperiod_night == "shortday"] <- 14.5
 d$photoperiod_night[d$photoperiod_night == "longday"] <- 13
 
 ## Blanks
-# cannell83 - does not specify for Figure 3
-# charrier11 - does not specify
-# chavarria09 - doesn't specify
-# falusi96 - doesn't specify for exp2 but does specify for exp3
-# gianfagna85 - doesn't specify
+# cannell83 - does not specify for Figure 3, can assume ambient
+# chavarria09 - doesn't specify, can't assume ambient
+# falusi96 - doesn't specify for exp2 but does specify for exp3 - SD is 9, LD is 13
+# gianfagna85 - doesn't specify, can't assume ambient
 # hawerroth13 - "in fitotrons without light.." - changed to 0
-# manson91 - doesn't specify
-# morin10 - doesn't specify
-# nishimoto95 - doesn't specify
+# manson91 - doesn't specify, can't assume ambient
+# nishimoto95 - doesn't specify, can't assume ambient
 
 ## Should we change 'constant' to 24 h?
 # cronje03 - fixed to constant - irradiance 215 umol m-2 s2
 # devries82 - constant - 8, 16, 24 Wm-2
+
+d$photoperiod_day[d$photoperiod_day == "constant"] <- 24
 
 ## Ambient
 # gansert02
