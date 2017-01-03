@@ -13,11 +13,11 @@ options(stringsAsFactors = FALSE)
 
 # Set working directory: 
 if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
-  setwd("~/Documents/git/ospree/input") 
-  } else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+  setwd("~/Documents/git/ospree/analyses/input") 
+  } else setwd("~/Documents/git/ospree/analyses/output")
 
 # Name data frame:
-d <- read.csv("output/ospree_clean_withchill.csv")
+d <- read.csv("ospree_clean_withchill.csv")
 
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 87 values now
@@ -48,13 +48,13 @@ d$response.time[d$respvar=="DARD"] <-
 d$respvar.simple[d$respvar == "DARD"] <- "daystobudburst"
 
 # Still need to deal with :
-# "dateofbudburst"
 # for above, values of 95 to 137 it looks like ... but no field sampling date
 # "percentbudset"   
 
 # for now, dayofbudbreak is equivalent to daystobudbreak ... 
 subset(d$fieldsample.date, d$respvar=="dayofbudbreak")
 subset(d$response.time, d$respvar=="dayofbudbreak")
+# "dateofbudburst" has been converted to dayofbudbreak so will treat as daystobudbreak for now
 
 ##
 ## Fixing obvious typos and synonmyms
@@ -86,6 +86,7 @@ d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
 d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
+d$respvar[is.na(d$respvar)] <- "percentbudburst"
 
 # Growth of some sort
 d$respvar[d$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
@@ -93,6 +94,7 @@ d$respvar[d$respvar == "cumulative growth increment"] <- "cumulativegrowthincrem
 d$respvar[d$respvar == "cumulative leaf no. increment"] <- "cumulativeleafincrement"
 d$respvar[d$respvar == "cumulative leaf increment"] <- "cumulativeleafincrement"
 d$respvar[d$respvar == "numofnewleaves"] <- "numberofleaves"
+d$respvar[d$respvar == "leaves"] <- "numberofleaves"
 
 #responses reported as scores (for examples, scores on the BBCH scale) should be reported as "budstage"
 d$respvar[d$respvar == "leafemergencescore"] <- "budstage"
@@ -147,6 +149,7 @@ d$respvar.simple[d$respvar == "daysto20%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystoleafout"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "leafunfoldingdate"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "dateofbudburst"] <- "daystobudburst"
 
 # daystoflower
 d$respvar.simple[d$respvar == "daystoflower"] <- "daystoflower"
@@ -289,6 +292,8 @@ d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
 
 
 write.csv(d, file = "ospree_clean_respvar.csv", row.names=FALSE)
+
+simple.count<-as.data.frame(table(d$respvar.simple))
 
 
 
