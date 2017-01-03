@@ -194,6 +194,7 @@ d$respvar.simple[d$respvar == "yieldgrams"] <- "growth"
 # phenstage
 d$respvar.simple[d$respvar == "growthstage"] <- "phenstage"
 d$respvar.simple[d$respvar == "budstage"] <- "phenstage"
+d$respvar.simple[d$respvar.simple == "phenstageper.probonestudy"]<- "phenstage"
 
 # phenstageper.probonestudy
 d$respvar.simple[d$respvar == "percentstage01"] <- "phenstageper.probonestudy"
