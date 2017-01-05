@@ -240,7 +240,7 @@ for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed t
 #next will need to parse out 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
-write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
+write.csv(chillcalcs,"analyses/input/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
 
 ############################################################################################
 # Start here if field chill calcs from the climate data have already been done
