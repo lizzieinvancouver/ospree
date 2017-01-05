@@ -1,5 +1,5 @@
 # Fake data testing of Ospree 
-dostan = FALSE # Set to false to use stored runs
+dostan = TRUE # Set to false to use stored runs
 
 library(rstan)
 library(ggplot2)
@@ -13,7 +13,7 @@ source('stan/savestan.R')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-load("FakeOspreeNoLab.RData") # create data using FakeOspree_Generate.R first!
+load("FakeOspree.RData") # create data using FakeOspree_Generate.R first!
 
 # If very slow, thin the data. But first try with whole data set
 # fake <- fake[sample(1:nrow(fake), 999),]
