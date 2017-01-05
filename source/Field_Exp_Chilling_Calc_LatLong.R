@@ -11,7 +11,7 @@ library(chillR)
 
 setwd("~/Documents/git/ospree")
 
-d <- read.csv("output/ospree_clean.csv")
+d <- read.csv("analyses/output/ospree_clean.csv")
 
 # make two data frames. North America and Europe, the lat longs and years.
 
@@ -23,9 +23,9 @@ d$year <- as.numeric(as.character(d$year))
 
 d <- as_data_frame(d)
 
-##add new column that combines datasetID and field sample.date for later indexing
+##add new column that combines datasetID, provenance.lat, provenance.long, and field sample.date for later indexing
 
-d$ID_fieldsample.date<-paste(d$datasetID,d$fieldsample.date, sep=".")
+d$ID_fieldsample.date<-paste(d$datasetID,d$provenance.lat,d$provenance.long,d$fieldsample.date, sep=".")
 
 # European studies
 #want table with lat, long, year, field sample date for each study. there could  be multiple field sample dates for each study
@@ -33,14 +33,14 @@ d$ID_fieldsample.date<-paste(d$datasetID,d$fieldsample.date, sep=".")
 eur <- d %>% # start with the data frame
   distinct(ID_fieldsample.date, .keep_all = TRUE) %>% # establishing grouping variables
   filter(continent == 'europe' & year >= 1950) %>%#select out europe
-  select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
+  dplyr::select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
 eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
 # North America studies
 nam <- d %>% # start with the data frame
   distinct(ID_fieldsample.date, .keep_all = TRUE) %>% # establishing grouping variables
   filter(continent == 'north america'& year >= 1950) %>%
-  select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
+  dplyr::select(datasetID, provenance.lat, provenance.long, year,fieldsample.date, ID_fieldsample.date)
 
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 # these will need manual cleaning. for now use as is
@@ -49,8 +49,7 @@ nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all n
 
 ## reading in netCDF files. Working off of external hard drive or from downloaded climate data
 # Europe first
-
-climatedrive = "~/Documents/Climate/" # "/Volumes/Expand/Climate/"
+climatedrive = "/Volumes/Dan3/Climate" # "/Volumes/Dan3/Climate/" (Dan3 is name of device, change with new device)
 
 eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v12.0.nc"))
 eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
@@ -179,9 +178,6 @@ for(i in 1:nrow(nam)){ # i = 1
   tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),
                           Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#Ailene tried adding lat/long to this output table on 5 jan 2017 but i'm not sure if it will work
 }
-#To do with Caitlin: check dimensions and names of tempval at this point. if it is just a 2d dataframe (which i think it is), then the following should work:
-#ALthernatively: change names(tempval) to be dataset id ocbined with provenance lat-long 
-tempval$dlatlong<-paste(names(tempval),tempval$Lat,tempval$Long,sep=".")
 ######################################################
 # Interpolation
 ######################################################
@@ -199,7 +195,7 @@ calibration_l = list(
 
 chillcalcs <- vector()
 
-for(i in unique(tempval$dlatlong)){ #this used to be i in names(tempval)- Ailene changed this to accomodate multiple prov lat/longs per dataset id not sure it will work!
+for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed this to accomodate multiple prov lat/longs per dataset id not sure it will work!
   
   xx <- tempval[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
@@ -244,7 +240,7 @@ for(i in unique(tempval$dlatlong)){ #this used to be i in names(tempval)- Ailene
 #next will need to parse out 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
-write.csv(chillcalcs,"input/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
+write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
 
 ############################################################################################
 # Start here if field chill calcs from the climate data have already been done
