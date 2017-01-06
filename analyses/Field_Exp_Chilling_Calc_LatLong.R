@@ -9,7 +9,7 @@ library(dplyr)
 library(Interpol.T)
 library(chillR)
 
-setwd("~/Documents/git/ospree")
+setwd("~/git/ospree")
 
 d <- read.csv("analyses/input/ospree_master_clean.csv")
 #d2<-d#only pull climate data for sites that are woody species?
