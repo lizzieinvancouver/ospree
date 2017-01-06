@@ -11,8 +11,6 @@ library(chillR)
 
 setwd("~/Documents/git/ospree")
 
-df <- read.csv("analyses/input/ospree_cleaning.csv")
-d <-read.csv("analyses/input/ospree_cleanest.csv")
 d <- read.csv("analyses/output/ospree_clean.csv")
 #d2<-d#only pull climate data for sites that are woody species?
 #d <- subset(d2, woody=="yes")#should we add this?
