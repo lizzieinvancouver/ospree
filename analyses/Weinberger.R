@@ -23,7 +23,7 @@ ospree <- read.csv("ospree_clean_respvar.csv", header=TRUE)
 woody<- ospree %>%
   dplyr::select(datasetID,study,genus,species,woody,ID_fieldsample.date,fieldsample.date,
          Exp_Chilling_Hours,photoperiod_day,photoperiod_night,
-         Total_Chilling_Hours,respvar.simple,response.time,forcetemp) %>%
+         Total_Chilling_Hours,respvar.simple,response.time,forcetemp, provenance.lat, provenance.long) %>%
   filter(woody=="yes")%>%
   unite(genus.species, genus, species, sep=".") 
 woody <- woody %>%
@@ -167,6 +167,58 @@ weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
+## Variation in Provenance Latitude
+provlat<-woody %>% 
+  dplyr::select(provenance.lat,datasetID,study,genus.species, respvar.simple)%>%
+  group_by(provenance.lat,datasetID)%>%
+  filter(!is.na(provenance.lat))%>%
+  filter(row_number()==1)
+
+none.provlat<-woody%>%
+  dplyr::select(datasetID,study,genus.species,provenance.lat, respvar.simple)%>%
+  filter(is.na(provenance.lat))%>%
+  group_by(datasetID)%>%
+  arrange(datasetID)%>%
+  filter(row_number()==1)
+
+provenancelat<-as.data.frame(table(provlat$datasetID)) %>%
+  rename("datasetID"=Var1)%>%
+  rename("latitude.count"=Freq)
+
+latitude<-full_join(provenancelat,none.provlat,by="datasetID")%>%
+  dplyr::select(datasetID,latitude.count)%>%
+  arrange(datasetID)
+
+weinberger<-full_join(weinberger,latitude,by="datasetID")%>%
+  arrange(datasetID) %>%
+  filter(row_number()==1)
+
+## Variation in Provenance Longitude
+provlong<-woody %>% 
+  dplyr::select(provenance.long,datasetID,study,genus.species, respvar.simple)%>%
+  group_by(provenance.long,datasetID)%>%
+  filter(!is.na(provenance.long))%>%
+  filter(row_number()==1)
+
+none.provlong<-woody%>%
+  dplyr::select(datasetID,study,genus.species,provenance.long, respvar.simple)%>%
+  filter(is.na(provenance.long))%>%
+  group_by(datasetID)%>%
+  arrange(datasetID)%>%
+  filter(row_number()==1)
+
+provenancelong<-as.data.frame(table(provlong$datasetID)) %>%
+  rename("datasetID"=Var1)%>%
+  rename("longitude.count"=Freq)
+
+longitude<-full_join(provenancelong,none.provlong,by="datasetID")%>%
+  dplyr::select(datasetID,longitude.count)%>%
+  arrange(datasetID)
+
+weinberger<-full_join(weinberger,longitude,by="datasetID")%>%
+  arrange(datasetID) %>%
+  filter(row_number()==1)
+
 write.csv(weinberger, file="~/Documents/git/ospree/analyses/output/studytype.csv",
           row.names=FALSE)
 
@@ -174,10 +226,12 @@ write.csv(weinberger, file="~/Documents/git/ospree/analyses/output/studytype.csv
 studytype<- weinberger %>%
   group_by(study, genus.species, respvar.simple, datasetID)%>%
   ungroup()%>%
-  dplyr::select(datasetID, samplingdates.count, species.count, photoperiods.count, forcetemps.count, expchill.count) %>%
+  dplyr::select(datasetID, samplingdates.count, species.count, photoperiods.count, forcetemps.count, 
+                expchill.count, latitude.count, longitude.count) %>%
   group_by(datasetID) %>%
   arrange(datasetID) %>%
   filter(row_number()==1) 
 studytype[is.na(studytype)] <- 0
 
-write.csv(studytype, file="~/Documents/git/ospree/analyses/output/studytype.table.csv")
+write.csv(studytype, file="~/Documents/git/ospree/analyses/output/studytype.table.csv",
+          row.names = FALSE)
