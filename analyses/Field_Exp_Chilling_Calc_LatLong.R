@@ -11,7 +11,7 @@ library(chillR)
 
 setwd("~/Documents/git/ospree")
 
-d <- read.csv("analyses/output/ospree_clean.csv")
+d <- read.csv("analyses/input/ospree_master_clean.csv")
 #d2<-d#only pull climate data for sites that are woody species?
 #d <- subset(d2, woody=="yes")#should we add this?
 
@@ -242,7 +242,7 @@ for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed t
 #next will need to parse out 
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
-write.csv(chillcalcs,"analyses/input/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
+write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
 
 ############################################################################################
 # Start here if field chill calcs from the climate data have already been done
@@ -330,6 +330,7 @@ chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample
 #               all.x = TRUE
 #               ) 
 dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date",type="full",match="all")
+dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date", match="all") #Added by Cat
 
 # Merge manually
 
@@ -349,6 +350,8 @@ dat4[which(is.na(dat4$Exp_Chill_portions)),]$Total_Chill_portions<-dat4[which(is
 dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Exp_Chilling_Hours
 dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
 dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
+
+write.csv(dat4,"~/Documents/git/ospree/analyses/output/ospree_clean_final.csv",row.names=FALSE, eol="\r\n") #Added by Cat
 
 write.csv(dat4,"output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
 
