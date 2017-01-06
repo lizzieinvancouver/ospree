@@ -11,7 +11,7 @@ library(chillR)
 
 setwd("~/git/ospree")
 
-d <- read.csv("analyses/input/ospree_master_clean.csv")
+d <- read.csv("analyses/output/ospree_clean.csv")
 #d2<-d#only pull climate data for sites that are woody species?
 #d <- subset(d2, woody=="yes")#should we add this?
 
@@ -79,7 +79,7 @@ for(i in 1:nrow(eur)){ # i = 1
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
   
   # using d$fieldsample.date
-  if(eur[i,"fieldsample.date"]!=""){ endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
+  if(eur[i,"fieldsample.date"]!=""){endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
   if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
