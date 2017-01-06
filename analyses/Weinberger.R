@@ -16,8 +16,8 @@ library(tidyr)
 library(ggplot2)
 library(lubridate)
 
-setwd("~/Documents/git/ospree/analyses/input")
-ospree <- read.csv("ospree_master_clean.csv", header=TRUE)
+setwd("~/Documents/git/ospree/analyses/output")
+ospree <- read.csv("ospree_clean_final.csv", header=TRUE)
 
 ## Variation in Field Sample Dates
 woody<- ospree %>%
