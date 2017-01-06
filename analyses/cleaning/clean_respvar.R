@@ -12,12 +12,12 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
-  setwd("~/Documents/git/ospree/analyses/input") 
-  } else setwd("~/Documents/git/ospree/analyses/output")
+if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+} else 
+setwd("~/Documents/git/ospree")
 
 # Name data frame:
-d <- read.csv("ospree_clean_withchill.csv")
+d <- read.csv("output/ospree_clean_withchill.csv")
 
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 87 values now

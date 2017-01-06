@@ -10,6 +10,7 @@ rm(list=ls())
 options(stringsAsFactors=FALSE)
 
 setwd("~/Documents/git/budreview")
+# setwd("~/Documents/git/projects/treegarden/budreview/ospree")
 
 dat<-read.csv("growthchambers_litreview_clean1.csv") # after response variables cleaned
 
