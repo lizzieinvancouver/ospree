@@ -78,7 +78,7 @@ for(i in 1:nrow(eur)){ # i = 1
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
   
   # using d$fieldsample.date
-  if(eur[i,"fieldsample.date"]!=""){ endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
+  if(eur[i,"fieldsample.date"]!=""){endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
   if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))

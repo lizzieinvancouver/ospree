@@ -9,11 +9,13 @@ library(dplyr)
 library(Interpol.T)
 library(chillR)
 
-setwd("~/Documents/git/ospree")
+setwd("~/git/ospree")
+d2 <- read.csv("analyses/output/ospree_clean.csv")#old version
+d3 <- read.csv("analyses/input/ospree_master_clean.csv")#new version
+colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
+d3$fieldsample.date<-strftime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
-d <- read.csv("analyses/output/ospree_clean.csv")
-#d2<-d#only pull climate data for sites that are woody species?
-#d <- subset(d2, woody=="yes")#should we add this?
+d <- subset(d3, woody=="yes")
 
 # make two data frames. North America and Europe, the lat longs and years.
 
@@ -23,6 +25,7 @@ d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
 d$provenance.long <- as.numeric(as.character(d$provenance.long))
 d$year <- as.numeric(as.character(d$year))
 
+d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y") #needed for new version
 d <- as_data_frame(d)
 
 ##add new column that combines datasetID, provenance.lat, provenance.long, and field sample.date for later indexing
