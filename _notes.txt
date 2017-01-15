@@ -1,0 +1,22 @@
+Started 14 January 2017
+By Lizzie (so far)
+
+Trying to organize OSPREE issues …
+
+*1* One cleaned file to rule them all (or at least just 1-3 files).
+
+Ailene is using ospree_clean, which no longer exists — instead we have:
+(1) ospree_clean_photo
+(2) ospree_clean_respvar
+(3) ospree_master_clean
+(4) ospree
+
+Also, note that Dan has files from August in mergearchive (outside analyses), which are probably where we should be building any cleaning files from.
+
+We need way fewer files (or a really good README) to not lose any work.
+
+*2* What is up with Revisiting folder? Can we delete?
+
+*3* Tim’s notes within notes folder … can anyone read this file?
+
+*4* data folder, let’s go through this together
