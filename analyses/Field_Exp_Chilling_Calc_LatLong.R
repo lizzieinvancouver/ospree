@@ -252,9 +252,25 @@ write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALS
 # Merge field and experimental chilling calculations with the rest of the data
 ############################################################################################
 
-dat <- read.csv("analyses/output/ospree_clean.csv")
+dat <- read.csv("analyses/input/ospree_master_clean.csv") # change to master clean file? - CC
+colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
+dat$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
+
 #use only woody species
 dat2 <- subset(dat, woody=="yes")
+
+# make two data frames. North America and Europe, the lat longs and years.
+
+dat2$continent <- tolower(dat2$continent)
+dat2$datasetID <- as.character(dat2$datasetID)
+dat2$provenance.lat <- as.numeric(as.character(dat2$provenance.lat))
+dat2$provenance.long <- as.numeric(as.character(dat2$provenance.long))
+dat2$year <- as.numeric(as.character(dat2$year))
+
+dat2$fieldsample.date<-as.character(as.Date(dat2$fieldsample.date,"%m/%d/%y")) #needed for new version
+dat2 <- as_data_frame(dat2)
+
+
 #Make a column that indexes the study, provenance latitude,provenance longitude, and field sample date, in order to calculate field chilling
 dat2$ID_fieldsample.date<-paste(dat2$datasetID,dat2$provenance.lat,dat2$provenance.long,dat2$fieldsample.date, sep="_")
 
