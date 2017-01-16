@@ -9,7 +9,7 @@ library(dplyr)
 library(Interpol.T)
 library(chillR)
 
-setwd("~/git/ospree")
+setwd("~/Documents/git/ospree")
 d2 <- read.csv("analyses/output/ospree_clean.csv")#old version
 d3 <- read.csv("analyses/input/ospree_master_clean.csv")#new version
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
@@ -25,7 +25,7 @@ d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
 d$provenance.long <- as.numeric(as.character(d$provenance.long))
 d$year <- as.numeric(as.character(d$year))
 
-d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y") #needed for new version
+d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y")) #needed for new version
 d <- as_data_frame(d)
 
 ##add new column that combines datasetID, provenance.lat, provenance.long, and field sample.date for later indexing
@@ -54,7 +54,7 @@ nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all n
 
 ## reading in netCDF files. Working off of external hard drive or from downloaded climate data
 # Europe first
-climatedrive = "/Volumes/Dan3/Climate" # "/Volumes/Dan3/Climate/" (Dan3 is name of device, change with new device)
+climatedrive = "/Volumes/Ospree Climate" # "/Volumes/Ospree Climate (Ospree Climate is name of new external drive, change with new device)
 
 eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v12.0.nc"))
 eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
