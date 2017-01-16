@@ -13,7 +13,7 @@ setwd("~/Documents/git/ospree")
 d2 <- read.csv("analyses/output/ospree_clean.csv")#old version
 d3 <- read.csv("analyses/input/ospree_master_clean.csv")#new version
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-d3$fieldsample.date<-strftime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
+d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
 d <- subset(d3, woody=="yes")
 
