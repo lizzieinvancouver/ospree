@@ -75,5 +75,4 @@ names(zohner) <- names(clean)
 final <- rbind(zohner, clean)
 
 write.csv(final, "~/Documents/git/ospree/analyses/output/ospree_master_clean.csv", row.names=FALSE)
-write.csv(final, "~/Documents/git/ospree/analyses/input/ospree_master_clean.csv", row.names=FALSE)
 

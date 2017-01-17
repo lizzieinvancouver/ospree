@@ -1,8 +1,12 @@
 # Fixing merge issues
+# Made adjustments for setting the working directory - Cat 17 Jan 2017
+## housekeeping
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
 
-setwd("~/Documents/git/budreview")
+setwd("~/Documents/git/ospree/mergearchive")
 
-d <- read.csv("growthchambers_litreview_CLEANING.csv") 
+d <- read.csv("growthchambers_litreview-CLEANING.csv") 
 
 # Look at each cleaning block. Make unique identifiers for rows. Make master list, and put only unique rows in it.
 
@@ -32,7 +36,7 @@ nrow(d) # with many duplicates
 
 d$CleanBlock = d$Group
 
-a <- d[d$CleanBlock == max(d$CleanBlock,na.rm = T),]
+a <- d[d$CleanBlock == max(d$CleanBlock,na.rm = TRUE),]
 
 nrow(a)
 
