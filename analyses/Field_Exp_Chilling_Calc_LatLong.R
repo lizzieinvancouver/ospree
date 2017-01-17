@@ -252,7 +252,7 @@ write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALS
 # Merge field and experimental chilling calculations with the rest of the data
 ############################################################################################
 
-dat <- read.csv("analyses/input/ospree_master_clean.csv") # change to master clean file? - CC
+dat <- read.csv("analyses/output/ospree_master_clean.csv") # change to master clean file? - CC
 colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
 dat$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
