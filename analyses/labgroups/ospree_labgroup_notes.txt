@@ -5,6 +5,12 @@ Notes on working on question of which authors publish together, including:
 (a) Getting bibtex file into usable author data!
 (b) Gephi stuff
 
+<><><>
+Note!
+<><><>
+That this is all a bit of a pain, if you’re just adding a reference or two, best to just add them to ospreebib.csv by hand, then re-build aut.sm.csv (from authors.R). 
+
+
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 Getting bibtex file into usable author data!
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -47,3 +53,12 @@ Betweenness is: The vertex and edge betweenness are (roughly) defined by the num
 Note that I used forceatlas and nooverlap to help with visualization and I added the node labels.
 
 DF: To make PDF of these, I tried to open .gexf files using gephi https://gephi.org/users/download/ but failed… Edge lengths are zero?
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+Now, back to categories!
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+For now (14 January 2017) I made categories based on labgroups.pdf. I did this visually by hand and saved it in aut.names.categorized.csv. I only listed the names that were part of clusters with 9 or more names.
+
+As I did it by hand, we should check my work. Here’s the totals I think we should have:
+
+chuinejones	10heide		17hanninenh	24herter		10cookcronje	9bonhomme	9

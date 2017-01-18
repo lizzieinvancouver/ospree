@@ -20,7 +20,7 @@ library(plyr)
 library(dplyr)
 
 
-setwd("~/Documents/git/projects/treegarden/budreview/budreview/")
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/labgroups")
 
 ## useful f(x)s
 stripwhite <- function(x) {
@@ -31,7 +31,7 @@ stripwhite <- function(x) {
 }
 
 # get the data
-dater <- read.csv("refs/ospreebib.csv", header=TRUE)
+dater <- read.csv("input/ospreebib.csv", header=TRUE)
 
 # and make it long format
 aut.sm <- subset(dater, select=c("aut1", "aut2", "aut3", "aut4", "aut5", "aut6", "aut7",  "Custom3"))
@@ -67,7 +67,7 @@ k.means.fit <- kmeans(autmat.rev, 6)
 plot(autmat.rev, col = k.means.fit$cluster)
 points(k.means.fit$centers, col = 1:5, pch = 8)
 
-write.csv(as.data.frame(k.means.fit$cluster), "refs/kmeans6.csv") 
+# write.csv(as.data.frame(k.means.fit$cluster), "output/kmeans6.csv") 
 
 ## count up interactions for each paper
 datersets <- unique(aut.long.sm$datasetid)
@@ -95,6 +95,6 @@ countz <- ddply(output.df.comb,.(key), summarize, freq=length(key))
 fulldf <- merge(countz, output.df.comb.nodups, by="key")
 
 # write the wide format out to try in gephi
-write.csv(fulldf, "refs/aut.sm.csv", row.names=FALSE)
+write.csv(fulldf, "output/aut.sm.csv", row.names=FALSE)
 
 

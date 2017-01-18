@@ -13,11 +13,11 @@ library(rgexf) # install.packages("rgexf") # for write.gexf
 library(plyr)
 
 # Set working directory: 
-setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/labgroups")
 #setwd("~/Documents/git/ospree")
 
 
-authorfile <- read.csv("refs/aut.sm.csv", header=TRUE)
+authorfile <- read.csv("output/aut.sm.csv", header=TRUE)
 names(authorfile) <- c("combo", "freq", "name1", "name2")
 
 auts <- subset(authorfile, select=c("name1", "name2", "freq"))
@@ -139,9 +139,12 @@ edges_att_viz <-list(color = edges_col_df)
 
 
 # Write the network into a gexf (Gephi) file
-write.gexf(nodes = nodes_df, edges = edges_df, nodesAtt = nodes_att, edgesWeight = E(gD)$weight, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "labgroups/gephi/lagroups_weights.gexf")
+write.gexf(nodes = nodes_df, edges = edges_df, nodesAtt = nodes_att, edgesWeight = E(gD)$weight, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "gephi/lagroups_weights.gexf")
 # And without edge weights
-write.gexf(nodes = nodes_df_cap, edges = edges_df, nodesAtt = nodes_att, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "labgroups/gephi/lagroups.gexf")
+write.gexf(nodes = nodes_df_cap, edges = edges_df, nodesAtt = nodes_att, edgesAtt = edges_att, nodesVizAtt = nodes_att_viz, edgesVizAtt = edges_att_viz, defaultedgetype = "undirected", output = "gephi/lagroups.gexf")
+
+# also write out the authors names as formatted here
+write.csv(nodes_df, "output/aut.names.csv", row.names=FALSE)
 
 
 
