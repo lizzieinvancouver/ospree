@@ -1,11 +1,16 @@
 # Fixing merge issues
-# Made adjustments for setting the working directory - Cat 17 Jan 2017
+## Originally by Dan Flynn, updates by Cat and XX in January 2017 ##
+
+# This file works to check for any studies that may have been entered twice #
+# Great idea, but seems to critically understand why Dan Flynn though <10K was goal
+# at line 36 ... we should probably build a new version of this that we understand. ##
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-setwd("~/Documents/git/ospree/mergearchive")
-
+# setwd("~/Documents/git/ospree/mergearchive")
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/mergearchive/")
 d <- read.csv("growthchambers_litreview-CLEANING.csv") 
 
 # Look at each cleaning block. Make unique identifiers for rows. Make master list, and put only unique rows in it.
@@ -65,4 +70,4 @@ a <- a[a$datasetID != "<<<<<<< HEAD" & a$datasetID != "=======" & a$datasetID !=
 
 length(unique(as.character(a$datasetID)))
 
-write.csv(a, "growthchambers_litreview-CLEANED.csv", row.names=F)
+write.csv(a, "growthchambers_litreview-CLEANED.csv", row.names=FALSE)

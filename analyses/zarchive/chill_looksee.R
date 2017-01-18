@@ -9,8 +9,8 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # setup stuff
-#setwd("~/Documents/git/projects/treegarden/budburstreview/analyses/")
-setwd("~/Documents/git")
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
+# setwd("~/Documents/git")
 
 
 library(ggplot2)
