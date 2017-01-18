@@ -40,4 +40,7 @@ df$respvar.simple[df$respvar == "fruits"] <- "othernums"
 df <- within(df, respvar[datasetID== 'jones12' & respvar == 'percentstage04'] <- 'flowers')
 df$respvar.simple[df$respvar == "flowers"] <- "percentflower"
 
+# viheraaarnio06 update respvar.simple from NA to percentbudset
+df <- within(df, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
+
 write.csv(df, "~/Documents/git/ospree/analyses/output/ospree_master_clean.csv", row.names = FALSE)
