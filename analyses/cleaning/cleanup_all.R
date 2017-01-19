@@ -43,4 +43,20 @@ df$respvar.simple[df$respvar == "flowers"] <- "percentflower"
 # viheraaarnio06 update respvar.simple from NA to percentbudset
 df <- within(df, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
 
+############# Now fix forcetemp columns ########################
+# Using work from Liz Stebbins
+setwd("~/Documents/git/ospree/analyses/output")
+df<- read.csv("ospree_master_clean.csv")
+
+# charrier11 - change ambient to 25 for both forcetemp and forcetemp_night
+df <- within(df, forcetemp[datasetID== 'charrier11' & forcetemp == 'ambient'] <- 25)
+# cronje03 - change blank to 25
+df <- within(df, forcetemp[datasetID== 'cronje03' & forcetemp == ''] <- 25)
+## REVISIT FALUSI96 PAPER! ##
+
+
+
+
+
+
 write.csv(df, "~/Documents/git/ospree/analyses/output/ospree_master_clean.csv", row.names = FALSE)
