@@ -9,15 +9,15 @@ library(lme4)
 library(car)
 
 if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer.
-  setwd("~/Documents/git/ospree") 
+  setwd("~/git/ospree") 
   } else setwd("~/git/ospree")
 
-ospree <- read.csv("input/ospree_clean_withchill.csv", header=TRUE)
+ospree <- read.csv("analyses/output/ospree_clean_withchill.csv", header=TRUE)
 
 ospree.percbb <- ospree[which(ospree$respvar.simple=="percentbudburst"),]
 
 dim(ospree)
-dim(ospree.percbb) # 3371 rows
+dim(ospree.percbb) # 3339  rows
 
 ospree.percbb$spp <- paste(ospree.percbb$genus, ospree.percbb$species, sep=".")
 
@@ -54,21 +54,20 @@ ospree.percbb$photoper_z <- (as.numeric(ospree.percbb$photoperiod_day)-
                                   mean(as.numeric(ospree.percbb$photoperiod_day),na.rm=TRUE))/sd(as.numeric(ospree.percbb$photoperiod_day),na.rm=TRUE)
 
 ##look at how centering changes the distribution:
-#quartz()
+quartz()
 par(mfrow=c(1,2))
 hist(ospree.percbb$responsedays);hist(ospree.percbb$responsedays_cent)  # some response days over 300??
 
-#quartz()
+quartz()
 par(mfrow=c(1,2))
 hist(ospree.percbb$totalchill);hist(ospree.percbb$totalchill_cent)
 
-#quartz()
+quartz()
 par(mfrow=c(1,2))
 hist(ospree.percbb$forcetemp);hist(ospree.percbb$forcetemp_cent)
 
 ###Try fitting model with lmer:
 ##First a simple model:
-
 mod <- lmer(response~responsedays+(responsedays|datasetID/spp), data=ospree.percbb)
 
 #this model does not converge...get a warning message
@@ -96,7 +95,7 @@ summary(mod.cfp_cent)#as days to budburst increases, perc budburst increases
 ########Now look at days to budburst model
 ospree.days <- ospree[which(ospree$respvar.simple=="daystobudburst"),]
 
-dim(ospree.days) # 2827 rows
+dim(ospree.days) # 2617 rows
 
 ospree.days$spp <- paste(ospree.days$genus, ospree.days$species, sep=".")
 # deal with response vs. responsetime (quick fix for now)
