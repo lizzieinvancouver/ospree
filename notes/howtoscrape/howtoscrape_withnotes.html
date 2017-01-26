@@ -1,0 +1,692 @@
+
+				<html>
+					<head>
+						<title>How to scrape</title>
+						<style>
+							body {
+								font-family:Arial Unicode MS, sans-serif, sans !important;
+								font-size: 13px !important;
+							}
+							/*
+
+	Any user content such as Messages/Comments/Notebooks need to use these consistant styles
+
+*/
+
+span.bqhandle {
+	background-color:#BEBEBE;
+	clear: both;
+	text-align:center;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	font-family: arial, sans-serif;
+	font-size: 14px;
+	font-weight:bold;
+	height: 10px;
+	line-height: 3px;
+	border-radius:2px;
+	margin-bottom: 0;
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	outline-color: #222;
+	outline-style: none;
+	outline-width: 0;
+	padding-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0;
+	position: relative;
+	width: 20px;
+}
+
+span.bqhandle:hover {
+	background-color:#888;
+}
+
+blockquote.bqCollapsed {
+	display:none;
+}
+
+blockquote.bqExpanded {
+	display:block;
+}
+
+/* Formatting */
+body .sectionContent div.formatted, body .sectionContent div.redactor-editor, body .sectionContent div.fr-view {
+  font-family: Helvetica, arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: #333;  
+  word-break: break-word; 
+}
+
+body .sectionContent div.fr-wrapper span.fr-placeholder {
+  padding-left:0 !important;
+  padding-top:0 !important;
+}
+
+.generic-theme.fr-box.fr-basic .fr-wrapper .fr-placeholder {
+  top: 10px;
+  left: 10px;
+  padding:0!important;
+}
+
+.notebook-theme.fr-box.fr-basic .fr-wrapper .fr-placeholder {
+  top: 10px;
+  left: 10px;
+  padding:0 !important;
+}
+
+@-moz-document url-prefix() {
+  body .sectionContent div.formatted, body .sectionContent div.redactor-editor{        
+    
+  }
+}
+
+body .sectionContent form div.redactor-editor p, body .sectionContent form div.fr-view p {
+  font-family: Helvetica, arial, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  color: #333 !important;   
+  margin: 0 0 15px 0;
+}
+
+body .sectionContent div.formatted a, body .sectionContent div.redactor-editor a, body .sectionContent div.fr-view a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+body .sectionContent div.formatted a:hover, body .sectionContent div.redactor-editor a:hover, body .sectionContent div.fr-view a:hover {
+  text-decoration:underline;
+}
+
+body .sectionContent div.formatted a.absent, body .sectionContent div.redactor-editor a.absent, body .sectionContent div.fr-view a.absent {
+  color: #cc0000;
+}
+
+body .sectionContent div.formatted a.anchor, body .sectionContent div.redactor-editor a.anchor, body .sectionContent div.fr-view a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+body .sectionContent div.formatted h1, body .sectionContent div.formatted h2, body .sectionContent div.formatted h3, body .sectionContent div.formatted h4, body .sectionContent div.formatted h5, body .sectionContent div.formatted h6,
+body .sectionContent div.fr-view h1, body .sectionContent div.fr-view h2, body .sectionContent div.fr-view h3, body .sectionContent div.fr-view h4, body .sectionContent div.fr-view h5, body .sectionContent div.fr-view h6,
+body .sectionContent ul.fr-dropdown-list h1, body .sectionContent ul.fr-dropdown-list h2, body .sectionContent ul.fr-dropdown-list h3, body .sectionContent ul.fr-dropdown-list h4, body .sectionContent ul.fr-dropdown-list h5, body .sectionContent ul.fr-dropdown-list h6
+ {
+  margin: 20px 0 10px !important;
+  font-weight:bold!important;
+  padding: 0 !important;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative;
+  font-family: Helvetica, arial, sans-serif !important;
+  background:none !important;
+  border:none !important;
+}
+
+/* Froala editor specific */
+body .sectionContent ul.fr-dropdown-list h1 {
+  font-size: 28px!important;
+}
+
+body .sectionContent ul.fr-dropdown-list h2 {
+  font-size: 24px!important;    
+} 
+
+body .sectionContent ul.fr-dropdown-list h3 {
+  font-size: 18px!important;
+}
+
+body .sectionContent ul.fr-dropdown-list h4 {
+  font-size: 16px!important;
+} 
+
+body .sectionContent div.formatted h2:first-child, body .sectionContent div.formatted h1:first-child, body .sectionContent div.formatted h1:first-child + h2, body .sectionContent div.formatted h3:first-child, body .sectionContent div.formatted h4:first-child, body .sectionContent div.formatted h5:first-child, body .sectionContent div.formatted h6:first-child {
+  margin-top: 10px !important;
+  padding-top: 0 !important;
+}
+
+body .sectionContent div.formatted h1:hover a.anchor, body .sectionContent div.formatted h2:hover a.anchor, body .sectionContent div.formatted h3:hover a.anchor, body .sectionContent div.formatted h4:hover a.anchor, body .sectionContent div.formatted h5:hover a.anchor, body .sectionContent div.formatted h6:hover a.anchor {
+  text-decoration: none;
+}
+
+body .sectionContent div.formatted h1 tt, body .sectionContent div.formatted h1 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h2 tt, body .sectionContent div.formatted h2 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h3 tt, body .sectionContent div.formatted h3 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h4 tt, body .sectionContent div.formatted h4 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h5 tt, body .sectionContent div.formatted h5 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h6 tt, body .sectionContent div.formatted h6 code {
+  font-size: inherit;
+}
+
+body .sectionContent div.formatted h1 {
+  font-size: 28px !important;
+  color: black;
+}
+
+body .sectionContent div.formatted h2 {
+  font-size: 24px !important;
+  border-bottom: 1px solid #CCC;
+  color: black !important;
+}
+
+body .sectionContent div.formatted h3 {
+  font-size: 18px !important;
+}
+
+body .sectionContent div.formatted h4 {
+  font-size: 16px !important;
+}
+
+body .sectionContent div.formatted h5 {
+  font-size: 14px !important;
+}
+
+body .sectionContent div.formatted h6 {
+  color: #777 !important;
+  font-size: 14px !important;
+}
+
+body .sectionContent div.formatted p div {
+  margin: 0 0 10px 0;  
+}
+
+body .sectionContent div.formatted p {
+  margin:10px 0px;
+  word-break: break-word;
+}
+
+
+
+body .sectionContent div.formatted hr {
+  border: 0 none;
+  background-color: #CCC;
+  height: 2px;
+  padding: 0;
+}
+
+body .sectionContent div.formatted  > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body .sectionContent div.formatted  > h1:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body .sectionContent div.formatted  > h1:first-child + h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body .sectionContent div.formatted  > h3:first-child, body .sectionContent div.formatted  > h4:first-child, body .sectionContent div.formatted  > h5:first-child, body .sectionContent div.formatted  > h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body .sectionContent div.formatted a:first-child h1, body .sectionContent div.formatted a:first-child h2, body .sectionContent div.formatted a:first-child h3, body .sectionContent div.formatted a:first-child h4, body .sectionContent div.formatted a:first-child h5, body .sectionContent div.formatted a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+body .sectionContent div.formatted h1 p, body .sectionContent div.formatted h2 p, body .sectionContent div.formatted h3 p, body .sectionContent div.formatted h4 p, body .sectionContent div.formatted h5 p, body .sectionContent div.formatted h6 p {
+  margin-top: 0;
+}
+
+body .sectionContent div.formatted li p.first {
+  display: inline-block !important;
+}
+
+body .sectionContent div.formatted ul, body .sectionContent div.formatted ol, body .sectionContent .redactor-editor ul, body .sectionContent .redactor-editor ol, body .sectionContent .fr-view ul, body .sectionContent .fr-view ol {
+  padding-left: 30px !important;
+  margin-top:10px !important;
+  margin-bottom:10px !important;
+}
+
+body .sectionContent div.formatted ol ol li {
+  list-style-type: lower-alpha;
+}
+body .sectionContent div.formatted ol ol ol li {
+  list-style-type: lower-roman;
+}
+
+body .sectionContent div.formatted ul :first-child, body .sectionContent div.formatted ol :first-child, body .sectionContent .redactor-editor ul :first-child, body .sectionContent .redactor-editor ol :first-child, body .sectionContent .fr-view ul :first-child, body .sectionContent .fr-view ol :first-child {
+  margin-top: 0 !important;
+}
+
+body .sectionContent div.formatted ul :last-child, body .sectionContent div.formatted ol :last-child, body .sectionContent .redactor-editor ul :last-child, body .sectionContent .redactor-editor ol :last-child, body .sectionContent .fr-view ul :last-child, body .sectionContent .fr-view ol :last-child {
+  margin-bottom: 10px !important;
+}
+
+body .sectionContent div.formatted ul :last-child li, body .sectionContent div.formatted ol :last-child li {
+  margin-top:5px !important;
+  margin-bottom:5px !important;
+  line-height: 1.1 !important;
+}
+
+body .sectionContent div.formatted dl {
+  padding: 0 !important;
+}
+
+body .sectionContent div.formatted dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+body .sectionContent div.formatted dl dt:first-child {
+  padding: 0;
+}
+
+body .sectionContent div.formatted dl dt > :first-child {
+  margin-top: 0;
+}
+
+body .sectionContent div.formatted dl dt > :last-child {
+  margin-bottom: 0;
+}
+
+body .sectionContent div.formatted dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+body .sectionContent div.formatted dl dd > :first-child {
+  margin-top: 0;
+}
+
+body .sectionContent div.formatted dl dd > :last-child {
+  margin-bottom: 0;
+}
+
+body .sectionContent div.formatted blockquote, body .sectionContent .redactor-editor blockquote, body .sectionContent .fr-view blockquote {
+  border-left: 4px solid #DDD;
+  padding: 5px 10px !important;
+  color: #777;
+}
+
+body .sectionContent div.formatted blockquote p, body .sectionContent .redactor-editor blockquote p, body .sectionContent .fr-view blockquote p {
+  font-size:14px !important;
+  color: #777;
+}
+
+body .sectionContent div.formatted blockquote > :first-child, body .sectionContent .redactor-editor blockquote > :first-child, body .sectionContent .fr-view blockquote > :first-child {
+  margin-top: 0;
+}
+
+body .sectionContent div.formatted blockquote > :last-child, body .sectionContent .redactor-editor blockquote > :last-child, body .sectionContent .fr-view blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+body .sectionContent div.formatted table, body .sectionContent div.formatted .fr-view table {
+  padding: 0;
+  word-break: normal; 
+}
+
+body .sectionContent div.formatted table tr, body .sectionContent div.formatted .fr-view table tr {
+  border-top: 1px solid #CCC;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+body .sectionContent div.formatted table tr:nth-child(2n), body .sectionContent div.formatted .fr-view table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+body .sectionContent div.formatted table tr th, body .sectionContent div.formatted .fr-view table tr th {
+  font-weight: bold;
+  border: 1px solid #CCC;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+body .sectionContent div.formatted table tr td, body .sectionContent div.formatted .fr-view table tr td {
+  border: 1px solid #CCC;
+  text-align: left;
+  margin: 0;
+  padding: 6px 13px;
+}
+
+body .sectionContent div.formatted table tr th :first-child, body .sectionContent div.formatted table tr td :first-child, body .sectionContent div.formatted .fr-view table tr td :first-child {
+  margin-top: 0;
+}
+
+body .sectionContent div.formatted table tr th :last-child, body .sectionContent div.formatted table tr td :last-child, body .sectionContent div.formatted .fr-view table tr td :last-child {
+  margin-bottom: 0;
+}
+
+body .sectionContent div.formatted p img {
+  max-width: 100%;
+}
+
+body .sectionContent div.t_ContentContainer div.formatted img {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
+body .sectionContent div.formatted span.frame {
+  display: block;
+  overflow: hidden;
+}
+
+body .sectionContent div.formatted span.frame > span {
+  border: 1px solid #DDD;
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin: 13px 0 0;
+  padding: 7px;
+  width: auto;
+}
+
+body .sectionContent div.formatted span.frame span img {
+  display: block;
+  float: left;
+}
+
+body .sectionContent div.formatted span.frame span span {
+  clear: both;
+  color: #333;
+  display: block;
+  padding: 5px 0 0;
+}
+
+body .sectionContent div.formatted span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+body .sectionContent div.formatted span.align-center > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: center;
+}
+
+body .sectionContent div.formatted span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+
+body .sectionContent div.formatted span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+
+body .sectionContent div.formatted span.align-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px 0 0;
+  text-align: right;
+}
+
+body .sectionContent div.formatted span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+
+body .sectionContent div.formatted span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left;
+}
+
+span.float-left span {
+  margin: 13px 0 0;
+}
+
+body .sectionContent div.formatted span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right;
+}
+
+body .sectionContent div.formatted span.float-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: right;
+}
+
+body .sectionContent div.formatted code, body .sectionContent div.formatted tt, body .sectionContent div.redactor-editor pre, body .sectionContent .fr-view pre {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: pre-wrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+body .sectionContent div.formatted pre code, body .sectionContent div.formatted .fr-view pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
+  border: none;
+  background: transparent;
+}
+
+body .sectionContent div.formatted pre, body .sectionContent div.formatted .fr-view pre {
+  background-color: #f8f8f8;
+  border: 1px solid #CCC;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+  white-space: pre-wrap;
+}
+
+body .sectionContent div.formatted .highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #CCC;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+body .sectionContent div.redactor-editor code, body .sectionContent div.fr-view code {
+  border: 1px solid #eaeaea !important;
+  background-color: #f8f8f8 !important;
+  border-radius: 3px !important;
+}
+
+body .sectionContent div.formatted pre code, body .sectionContent div.formatted pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+nobr {
+  white-space: normal !important;
+}
+
+body .sectionContent div.formatted table.borderless, body .sectionContent div.formatted table.borderless td, body .sectionContent div.formatted table.borderless th {
+  border:none !important;
+  padding:0px !important;
+  margin:0px !important;
+  background-color:transparent !important;
+}
+
+/* Diff Classes */
+span.diff-html-changed {
+  font-family: "Andale Mono" monospace;
+  font-size:80%;
+}
+
+span.diff-html-removed {
+  font-size:100%;
+  text-decoration:line-through;
+  color:#999;
+}
+
+span.diff-html-added {
+  font-size:100%;
+  background-color: #ccffcc; /* light green */
+}
+
+span.diff-html-added img {
+  border:10px solid #ccffcc;
+}
+
+*[dir="rtl"] {
+  direction: rtl !important;
+  unicode-bidi: embed !important;  
+  text-align:right!important;
+}
+
+.atwho-inserted {
+    display: inline-block;
+    border:1px solid #DBDBDB;
+    background-color:#E1E1E1;
+    color:#444;
+    border-radius: 5px;
+    font-size:12px;
+    padding:1px 2px;
+} body.pdf div.sectionContent div.formatted pre {
+	overflow:visible; /*Fixes issue in PDF export */
+}
+
+p {
+	font-family:Lucida Sans Unicode,Arial, sans-serif, sans !important;
+}
+						</style>
+						<meta charset="UTF-8" />
+					</head>
+
+					<body>
+						
+						
+							<div style="margin:0 0 20px 0;border-bottom:1px solid #333;background-color:#FAFAFA;border-bottom:1px solid #DDEBFF;overflow:hidden;padding:10px 20px;">
+								
+									<h3 style="margin:0;padding:10px 0px;color:#666">Description</h3>
+									<div><p>Meta-analysis 101!</p>
+</div>
+								
+							</div>
+						
+
+						<div class="sectionContent" style="padding:0 20px;">
+							<div class="formatted">
+								<p>To to W: drive &gt; WeldShare &gt; Wolkovich Lab &gt; Budburst Review &gt; meta_analysis_labmembers &gt; your folder</p>
+<p>In your folder, you'll find a zip file for ImageJ; install this. Add the Figure_Calibration.class, which will help for giving x and y calibrations to images.</p>
+<p>You each have an Excel workbook to add data to. Tim and I will manually merge data afterwards.</p>
+<p><em>meta_general</em> - metadata for each sheet</p>
+<p><em>source</em> - list of the paper we are working with. Bibliographic information and notes on usefulness for our purposes.<strong>Note the "<span style="text-decoration: underline;">ToDo</span>" column</strong>, which tells you which figure or table to focus on. You may find other figures are better, these were from our initial quick read. Also pay attention to <span style="text-decoration: underline;">datasetID</span> column, which tells you how you should enter the identifying information for each paper.</p>
+<p><em>study</em> - Details on each experiment within each paper; possibly only one line for a paper, if only one experiment is relevant. This sheet is useful for our overview of what kind of experimental manipulations were done.</p>
+<p><em>data_simple</em> - Aggregated data on each experimental treatment combination.</p>
+<p><em>data_detailed</em> - Detailed data for the experiment, with all relevant information filled out.</p>
+<ul>
+<li>Responses may be pre/post treatment, time, or other. Temporal responses, such as days to 50% budburst, are fairly common. An example of an other type of response would be percent budburst, again fairly common.</li>
+</ul>
+<p><em>scratch</em> - For temporary formatting and manipulating data scraped from ImageJ.</p>
+<p>The two most important tabs to fill out are study and data_detailed. We can aggregate data down to get the data_simple version later.</p>
+<p>Open your PDF and find the designated figure or table as noted in the source tab of the worksheet. Also note the datasetID column in source; use this as you fill out data_detailed and study.</p>
+<p>Take a screen shot and import into ImageJ, following Tim's instructions from lab meeting. Use the scratch tab to get data into the right format, and then copy into data_detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.</p>
+<p>For a screen share walk-through on this process, see these tutorials:</p>
+<p><a href="https://www.youtube.com/watch?v=QsYqqNEUHK0" target="_blank">Data Scraping_01</a></p>
+<p><a href="https://www.youtube.com/watch?v=0J3z0j2FzEs" target="_blank">Data Scraping_02</a></p> 
+							</div>
+						</div>
+
+						<h2 style="margin-left:20px;font-size:16px">Comments on this notebook</h2><ol><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 03 2016 at 13:17 by Elizabeth Wolkovich</div>
+							<div class="formatted">
+								<strong>Notes from Lizzie's first attempt:</strong><br>To add the the Figure_Calibration.class: In ImageJ go to plugins, navigate to the Figure_Calibration.class, click on it and follow through a few clicks to add the plugin<br><br>Also, I had some trouble getting the measurements to show up after calibrating, switching to the pointer and clicking. I think I needed to set the preferences on my pointer tool to auto-measure (I think).<br><br>Here's what I am using to convert to decimal latitude and longitude: <a rel="noreferrer" target="_blank" href="http://andrew.hedges.name/experiments/convert_lat_long/">http://andrew.hedges.name/experiments/convert_lat_long/</a> (a little easier for me) and remember to add NEGATIVE to your longitude if it's West:<br><br><img src="https://s3.amazonaws.com/tw-inlineimages/164702/186739/105260/5590e4d7e4d9782aa6158de4fd867917.gif"><br>Also, you can check where things are by just typing in lat and long into Google maps.<br><br>Finally, I used this: <a target="_blank" href="http://www.timeanddate.com/date/duration.html">http://www.timeanddate.com/date/duration.html</a> to calculate the number of days between two dates for calculating dormancy. Note that I do NOT include the end date in my calculations.<br><br><strong>But here's my question: </strong>What goes in 'response' -- it seems to just be 1 if we are doing daystobudburst? 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 04 2016 at 10:28 by Tim Savas</div>
+							<div class="formatted">
+								<i>Also, I had some trouble getting the measurements to show up after calibrating, switching to the pointer and clicking. I think I needed to set the preferences on my pointer tool to auto-measure (I think).</i><i></i><br><br>I think you're describing a similar problem I had. After doing the figure calibration and selecting the yellow pointer tool, you start clicking inside the figure but no points appear. The reason for this is that the "rectangle" you drew for the figure calibration is still masking the figure, and until you click out of it, you can't draw points under it. It's hard to see! So to get rid of the invisible rectangle, just click the mouse once outside of its edge.<br><br>Side note: After drawing all of your points onto a figure, you can press Command-M to bring up the resulting table of values. I do this in the video tutorial––and whenever I scrape––but didn't describe the key command!<br><br><i><br>What goes in 'response' -- it seems to just be 1 if we are doing daystobudburst?</i><i></i><br><br>Yes, when "daystobudburst" is the response variable, we've been entering 1 into the "response" column. Meanwhile the "daystobudburst" values scraped from the paper will go into "response time." My original thinking was that temporal data (days to...) should be kept in the response time column, though if any folks have done otherwise, it should be a straightforward fix.<br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 04 2016 at 17:18 by Jehane Samaha</div>
+							<div class="formatted">
+								Hello! I've been doing okay on ImageJ-- once I figured out Command-M, everything was smooth!<br><br>My questions are more about how to interpret written information in the papers, and which columns call for which pieces of information. Bear with me :)<br><br>Side issue: Dan's little yellow sticky notes on the column headings aren't working for me, fyi-- I can't read the full text of the note, just the first few words. Is anyone else having this trouble with excel? I've never had this issue before.<br><br>I'm focusing for now on filling out the columns required in data_detailed.<br><br><strong>Columns:</strong><br><u>Population</u>: I've been treating this as the location of the population, not the study site. I've been approximating coordinates using google earth-- for example, for a cultivar from "Norway" with no other information given. Is it okay to make that estimation? I'm not planning to enter altitude information though unless the paper gives it?<br><u>Material</u>:  Is this referring to the material that undergoes dormancy, the material that is forced, or the material that is observed? In the paper I'm working on, they induce dormancy in whole plants, then force cuttings indoors, then record bud burst for the uppermost 5 buds. In the spreadsheet, I see  "Seedling, cutting,   potted sapling", and then I also see "shoots," "apical bud," and many other terms in the example data given in "data detailed."<br><u>Other Treatment</u>: what types of treatments should go here (applied to the plant? the cutting?) Also, if there is more than one "other treatment," should we list them with commas in the cells? (I think being clearer on "Material" will help with this one, too).<br><u>Columns for Times and Temperatures</u>: These columns seem to be either repetitive or in the wrong order or vague. I'm confused about what the difference between "chilltemp" and "dormancy induction temp" is-- and why does one call for a number while another calls for a descriptor? I have many similar questions. For example, the difference between "chilldays" and "dormancy induction days"-- and for these, I could use a more precise definition of each. For example, is "dormancy induction" days at a certain temperature? And when dormancy is induced at ambient temperatures outside, how should the start date be defined? <br><u>Response Columns:</u> More info, please! Tim's answer to Lizzie (above) was very helpful. More like that, for each column, would be great (i.e. what type of data you expect to go into each column). Also, I feel confused as to how to specify what units/ what type of data it is that we are putting in.<br><br>Lemme know if you have questions about my questions :)<br>Thanks!<br>~Jehane<br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 05 2016 at 11:11 by Ailene Ettinger</div>
+							<div class="formatted">
+								Hi all<br>I have a few questions so far- I also emailed these to you, tim and dan, as i wasn’t sure how you prefer to answer these, since two of them are specific to my papers (i.e. should they be included?) and one is more general:<br><br>1)One study that I’m looking at (Odium and Colombo 1989) is about budset at the end of the growing season (not leaf-out or flowering, as you mention in the overview document). do you still want this included? <br>2) Another study (Rinne et al 1997) looks at effects of long-term chilling and short-term freezing on bud burst, but does not manipulate photoperiod. do you still want it included?<br>3) more general question- for the Length of various treatments- i assume you want this in # of days?<br>4) One study reports results as both % budburst and days to budburst. Do you only want the days to budburst?<br>Thank you!<br>-Ailene 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 05 2016 at 11:58 by Tim Savas</div>
+							<div class="formatted">
+								<i>1)One study that I’m looking at (Odium and Colombo 1989) is about budset at the end of the growing season (not leaf-out or flowering, as you mention in the overview document). do you still want this included? </i><br><br>I would say not to include this paper. I'll run it by Dan to see what he thinks.<br><br><i>2) Another study (Rinne et al 1997) looks at effects of long-term chilling and short-term freezing on bud burst, but does not manipulate photoperiod. do you still want it included?</i><br><br><i></i>I think we should keep this. I've gone through a paper or two about short-term freezing events, and a good handful more focused on chilling effects than photoperiod. If it's giving you trouble, maybe I can help out at the retreat? :)<br><br><i>3) more general question- for the Length of various treatments- i assume you want this in # of days?</i><br><i></i><br><i></i>Yes, days is our go-to. Often a figure will be in weeks, in which case I convert it to days. The "response time" column is where these values can go.<br><br><i>4) One study reports results as both % budburst and days to budburst. Do you only want the days to budburst?</i><br><br><i></i>Sounds like a good paper! I scrape and record both when they're available. Those units are the best two to find in a paper/figure, so they're worth keeping. If I saw "days to budburst" and "cm elongation above above bud," or something similarly obscure, that's a case where I'd likely just take the days to budburst data. Nothing personal against cm elongation above bud... 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 05 2016 at 16:04 by Ailene Ettinger</div>
+							<div class="formatted">
+								A few more questions:<br>1) Ruesink98 records the percentage of cuttings with flower buds (but does not record leaf out or budburst). Do you want this study included? <br>2) If figures show standard error, do you want us to scrape that data as well?<br>3) how/do you want us to deal with significant digits/rounding? for example, should we round to the nearest day for all our scrubbed data, if <br>thanks!<br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 05 2016 at 16:29 by Tim Savas</div>
+							<div class="formatted">
+								<i>1) Ruesink98 records the percentage of cuttings with flower buds (but does not record leaf out or budburst). Do you want this study included? </i><br><br>I've just taken a look at this paper. Yes, I would include those data!<i><br></i><br><i>2) If figures show standard error, do you want us to scrape that data as well?</i><br><br><i></i>Aha, I'm realizing we did not go over this during the meeting. If it's there and *clear enough* to scrape, error can be recorded. Often times the SE bars are in the way of each other or not quite discernible, in which case we've decided to avoid them. But if the bars are clear, record them. Values can go in "resp_error" and just SE in "error type."<br><br><i>3) how/do you want us to deal with significant digits/rounding? for example, should we round to the nearest day for all our scrubbed data, if </i><br><br>Not sure if you're whole message got through but I think I've got it! Sure, when you scrape a figure, "day" values might come out fragmented, e.g. 84.248 days. Before doing any rounding, I would take a look at the methods section and see if they describe the time interval in question––they might say "we took measurements every 10 days," or "we moved samples inside every 30 days to test chilling." I almost always find something along those lines, which then informs how I should alter or round those fragmented "day" values.<br><br>On the other hand, you might be dealing with day values not related to any set time interval hiding in the materials and methods section. For that, I would say just to keep the entire number and we'll decide on significant digits to keep soon enough.<br><br>Side note to all: I have our papers handy on my computer and can easily pull them up. So feel free to mention an author/year in a question––like 1^–– and I'll likely respond with a better answer :)<br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 07 2016 at 13:35 by Tim Savas</div>
+							<div class="formatted">
+								
+
+Hello fellow data scrapers, 
+<br><br>I’ve attached a better "meta_general" tab for your spreadsheet. It contains more thorough descriptions of each column in the sheet, specifically data_detailed. I recommend taking a quick look-over.
+<br><br>I'd also like to suggest hiding the following columns. They pertain to a select few papers I’ve worked on, which you *likely* won’t need, or at least in the meantime shouldn’t have bloating an otherwise simpler spreadsheet.
+<br><br>Hide: G; O-R; Y; Z-AD 
+<br><br>You may have already noticed that the data_detailed sheet is not so intuitively organized. The order of the columns should better reflect the time line of any experiment: dormancy induction, freeze treatment, chill treatment, force treatment. Instead, you’ll see that the dormancy induction columns (O-R) are sandwiched between the forcing temperature (M, N) and photoperiod columns (S, T)––which are themselves placed before chilling treatment columns. [scratches brow in puzzlement]
+<br><br>It’s too late to hand out a new, well-ordered data_detailed sheet for you to work on, but if anyone is interested, I could make a simple input/output table to help you quickly reorder the columns on your own, for example:
+<br><br>N, force temp night : AD
+<br>O, dormancy induction_temp : V
+<br>...
+<br><br>Let me know if that would help and I’d be happy to create it, the one caveat being that we should *all* undertake the reordering.
+<br><br><br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 20 2016 at 19:50 by Elizabeth Wolkovich</div>
+							<div class="formatted">
+								<div><strong>Update on fields in the xls (especially chilling):</strong></div><ul><li><strong>fieldchill</strong>: Was there chilling that occurred in the field that occurred before clipping? ambient (ambient=chilled); OR fieldchamber; OR leave blank if no information (e.g., if seedlings)</li><li><strong>chilldays</strong>: chilling days in an experiment OR (if not an experiment) chilling days in field reported OR (if not reported) days since November 1 (or either given in study or southern hemisphere: maybe May 1)<ul><li>Maybe switch to October 1 and April 1...</li><li>Maybe just give date clipped and calculate (best idea)?</li><li>Add column for start date if given (sapling brought outside)?</li></ul></li><li><strong>chilltemp</strong>: chilling temperatures (for experiments <i>only</i>)</li><li><strong>chillphotoperiod</strong>: chilling photoperiod (for experiments <i>only</i>)</li><li><strong>dormancy</strong> (infrequent) -- experiments explicitly on dormancy</li><li><strong>freezing</strong> (infrequent) -- experiments explicitly on freezing (that pulled out of chilling and put in freezer)</li><li><strong>number.longdays </strong>(infrequent) -- only for Tim and Dan</li><li><strong>response..pre.treatment.</strong> and <strong>response..post.treatment.</strong> (infrequent) -- you'll know if you need this</li></ul> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 26 2016 at 13:01 by Tim Savas</div>
+							<div class="formatted">
+								One thought after our decision to find weather data for the chilling experiments. On occasion the paper will report their own winter weather data for the site. (How diligent of them.) Heide93 is a good example of this. I've attached a screenshot of their figure. I would image that we should scrape and use this when it's available. I'm just uncertain as to which column these values would go in. Perhaps we add a new one?<br><br> 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Jan 26 2016 at 13:20 by Elizabeth Wolkovich</div>
+							<div class="formatted">
+								I'd suggest we not scrape weather data until we decide to do it for all studies. We probably will run into issues if we use different weather data sources for different sites as opposed to just pulling data from a common source, where cross-site issues have been at least examined. So for now it just seems worth noting it. 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Feb 02 2016 at 23:06 by Tim Savas</div>
+							<div class="formatted">
+								Hello Dan! I just want to be clear about lat/long data. Which is more valuable to us: the site of the experiment, or the origin of the population sampled? I am currently scraping a paper where both would be valuable: they're testing chilling requirements (good for recording site of experiment) with about ten different populations of a single species (good for recording origin of samples, which they do include in the pub). Hope this question is clear, let me know otherwise :) 
+							</div>
+						</li><li><div style="color:#888;border-bottom:1px solid black;font-weight:bold;font-size:13px;padding-bottom:5px;margin-bottom:10px;">Written on Feb 03 2016 at 19:26 by Tim Savas</div>
+							<div class="formatted">
+								^ Saw those new growing lat/long columns. Thanks! 
+							</div>
+						</li></ol> 
+					</body>
+				</html>
+			
