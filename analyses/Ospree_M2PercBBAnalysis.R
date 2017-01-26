@@ -1,6 +1,6 @@
 ## Started 7 July 2016 ##
 ## By Ailene, after modifying Dan and Lizzie's code ##
-
+##updated 24 January 2017 by Ailene, to include new version of database
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -11,14 +11,14 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 
-setwd("~/GitHub/ospree")
-source('stan/savestan.R')
+setwd("~/git/ospree")
+source('analyses/stan/savestan.R')
 # get latest .Rdata file
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("input/ospree_clean1_withchill.csv", header=TRUE)
+ospree <- read.csv("output/ospree_clean1_withchill.csv", header=TRUE)
 
 percbbvars <- c("percentbudburst", "percentstage01", "percentstage02","percentstage03","percentstage04")
 

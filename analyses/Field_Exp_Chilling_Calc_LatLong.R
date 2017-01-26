@@ -9,7 +9,7 @@ library(dplyr)
 library(Interpol.T)
 library(chillR)
 
-setwd("~/Documents/git/ospree")
+setwd("~/git/ospree")
 d2 <- read.csv("analyses/output/ospree_clean.csv")#old version
 d3 <- read.csv("analyses/output/ospree_master_clean.csv")#new version
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
@@ -254,7 +254,7 @@ write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALS
 
 dat <- read.csv("analyses/output/ospree_master_clean.csv") # change to master clean file? - CC
 colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-dat$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
+dat$fieldsample.date<-strptime(strptime(dat$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
 #use only woody species
 dat2 <- subset(dat, woody=="yes")
@@ -282,7 +282,7 @@ dat2$ID_chilltreat<-paste(dat2$datasetID,dat2$chilltemp,dat2$chilldays,sep=".")
 #want table with datasetID chilling days, chilling temperature,  treat for each study. 
 chilldat <- dat2 %>% # start with the data frame
   distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
-  select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
+  dplyr::select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
 
 chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
 chilldat$chilldays<-as.numeric(chilldat$chilldays)
@@ -321,7 +321,7 @@ colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chi
 
 
 ###Merge field and experimental chilling data with the rest of the data
-# Add experimental chilling. Right number of rows = 11984
+# Add experimental chilling. Right number of rows = 12924
 dat3 <- merge(dat2, expchillcalcs, 
               by.x = c("datasetID","ID_chilltreat"),
               by.y=c("datasetID","ID_chilltreat"),
@@ -329,32 +329,32 @@ dat3 <- merge(dat2, expchillcalcs,
 
 #Add field chilling calculations to datafile, 
 ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-chillcalcs <- read.csv("analyses/input/fieldchillcalcslatlong.csv", header=T)
+chillcalcs <- read.csv("analyses/output/fieldchillcalcslatlong.csv", header=T)
 chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA. 354 rows now.
 
 colnames(chillcalcs) <- c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
 
-(todrop <- chillcalcs$ID_fieldsample.date[!chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date])#we lose 50 from heide07, heide07, heide77, kinet93,kronenberg76,lieten97,smeets80, smeets82,sonsteby06, sonsteby09a,sonsteby09b,verheul07,voipio01,bradford10,durner84
+#(todrop <- chillcalcs$ID_fieldsample.date[!chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date])#we lose 50 from heide07, heide07, heide77, kinet93,kronenberg76,lieten97,smeets80, smeets82,sonsteby06, sonsteby09a,sonsteby09b,verheul07,voipio01,bradford10,durner84
 
 # Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
 (nochillcalcs <- unique(dat3$ID_fieldsample.date[!dat3$ID_fieldsample.date %in% chillcalcs$ID_fieldsample.date]))
 
 chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
 
-# now 304 rows
+# now 280 rows
 
 #When doing either of the merges below, we get 549 extra rows. still not sure why!
 #dat4 <- merge(dat3, chillcalcs, 
 #               by = "ID_fieldsample.date",
 #               all.x = TRUE
 #               ) 
-dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date",type="full",match="all")
+dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date",match="all")
 dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date", match="all") #Added by Cat
 
 # Merge manually
 
 dat4a <- data.frame(dat3, chillcalcs[match(dat3$ID_fieldsample.date, chillcalcs$ID_fieldsample.date),])
-
+#dat4<-dat4a
 ### Now add column for total chilling (field plus experimental)
 ### First, total chilling = exp and field
 dat4$Total_Chilling_Hours <- dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
@@ -372,7 +372,7 @@ dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(
 
 write.csv(dat4,"~/Documents/git/ospree/analyses/output/ospree_clean_final.csv",row.names=FALSE, eol="\r\n") #Added by Cat
 
-write.csv(dat4,"output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
+write.csv(dat4,"analyses/output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
 
 
 
