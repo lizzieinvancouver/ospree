@@ -18,7 +18,7 @@ source('analyses/stan/savestan.R')
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("output/ospree_clean1_withchill.csv", header=TRUE)
+ospree <- read.csv("analyses/output/ospree_clean_withchill.csv", header=TRUE)
 
 percbbvars <- c("percentbudburst", "percentstage01", "percentstage02","percentstage03","percentstage04")
 
@@ -32,7 +32,7 @@ ospree.percbb$spp <- paste(ospree.percbb$genus, ospree.percbb$species, sep=".")
 ospree.percbb <- subset(ospree.percbb, is.na(spp)==FALSE)
 
 # deal with response vs. responsetime (quick fix for now)
-resp1 <- subset(ospree.percbb, response==1) # most of are data is like this
+resp1 <- subset(ospree.percbb, response==1) # most of are data are like this
 resp1.timeNA <- subset(resp1, is.na(response.time)==TRUE) # about 20 rows have this
 
 ospree.percbb$responsedays <- ospree.percbb$response.time

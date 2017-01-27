@@ -13,11 +13,28 @@ if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF co
   } else setwd("~/git/ospree")
 
 ospree <- read.csv("analyses/output/ospree_clean_withchill.csv", header=TRUE)
-
-ospree.percbb <- ospree[which(ospree$respvar.simple=="percentbudburst"),]
-
+ospree<-subset(ospree, woody=="yes")
+#First, just explore a bit:
 dim(ospree)
-dim(ospree.percbb) # 3339  rows
+head(ospree)
+sort(unique(ospree$respvar.simple))#the different response variables
+#Look at just days to bb data:
+ospree.daysbb <- ospree[which(ospree$respvar.simple=="daystobudburst"),]
+ospree.daysbb$response<-as.numeric(ospree.daysbb$response)
+ospree.daysbb$Total_Chilling_Hours<-as.numeric(ospree.daysbb$Total_Chilling_Hours)
+ospree.daysbb$forcetemp<-as.numeric(ospree.daysbb$forcetemp)
+
+quartz()
+hist(ospree.daysbb$response)
+plot(ospree.daysbb$Total_Chilling_Hours,ospree.daysbb$response.time)
+plot(ospree.daysbb$Total_Chilling_Hours,ospree.daysbb$response, ylim=c(0,5))
+
+ospree.percbb <- ospree[which(ospree$respvar=="percentbudburst"),]
+quartz()
+plot(ospree.percbb$Total_Chilling_Hours,ospree.percbb$response)
+
+
+dim(ospree.percbb) # 3281  rows
 
 ospree.percbb$spp <- paste(ospree.percbb$genus, ospree.percbb$species, sep=".")
 
@@ -69,7 +86,7 @@ hist(ospree.percbb$forcetemp);hist(ospree.percbb$forcetemp_cent)
 ###Try fitting model with lmer:
 ##First a simple model:
 mod <- lmer(response~responsedays+(responsedays|datasetID/spp), data=ospree.percbb)
-
+summary(mod)
 #this model does not converge...get a warning message
 #difficult to put any random slopes in...
 
@@ -137,6 +154,9 @@ ospree.days$photoper_z <- (as.numeric(ospree.days$photoperiod_day)-
                                mean(as.numeric(ospree.days$photoperiod_day),na.rm=TRUE))/sd(as.numeric(ospree.days$photoperiod_day),na.rm=TRUE)
 ospree.days$lat_z <- (as.numeric(ospree.days$provenance.lat)-
   mean(as.numeric(ospree.days$provenance.lat),na.rm=TRUE))/sd(as.numeric(ospree.days$provenance.lat),na.rm=TRUE)
+
+
+
 ##now fit the model, using centered predictors:
 daysmod_cent<-lmer(responsedays~totalchill_cent+forcetemp_cent+photoper_cent+lat_cent+
                      totalchill_cent:forcetemp_cent+totalchill_cent:photoper_cent+
