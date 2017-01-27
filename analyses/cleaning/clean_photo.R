@@ -6,10 +6,13 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-setwd("~/Documents/git/ospree/analyses/input")
+if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+} else 
+setwd("~/Documents/git/ospree")
+
 
 # Name data frame:
-d <- read.csv("ospree_clean_respvar.csv")
+d <- read.csv("output/ospree_clean_respvar.csv")
 
 # Fixing by datasetID -- basler12
 d$photoperiod_day[d$photoperiod_day == "shortday"] <- 9.5
