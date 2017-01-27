@@ -7,20 +7,14 @@
 ## Edits made to respvar.simple column by Cat 
 ## Updated 1 August 2016 ##
 
-## housekeeping
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
+## Updates by Lizzie on 27 Jan 2017 ##
+## As of 27 Jan 2017 this file is now SOURCED from cleanmerge_all.R ##
+## So to run this you need to start there ##
 
-# Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else 
-setwd("~/Documents/git/ospree")
-
-# Name data frame:
-d <- read.csv("output/ospree_clean_withchill.csv")
+# See cleanmerge_all.R for started text #
 
 sort(table(d$respvar), TRUE)
-names(table(d$respvar)) # 87 values now
+names(table(d$respvar)) # 88 values as of 27 Jan 2017
 
 sort(with(d[d$respvar=="daystobudburst",], table(datasetID)), TRUE)
 sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
@@ -242,7 +236,7 @@ d$respvar.simple[d$respvar == ""] <- "other" ## Not Woody
 
 # check your work .... 
 checking <- subset(d, is.na(respvar.simple)==TRUE)
-unique(checking$respvar)
+unique(checking$respvar) 
 
 
 
@@ -291,12 +285,13 @@ for(i in unique(d$datasetIDstudy)){
 
 d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
 
+ospree_clean_respvar <- d
 
+stop("Not an error, just stopping here to say we're now done cleaning respvar. The d item in your workspace is now all cleaned up for its respvar. Yay!")
+
+##
 write.csv(d, file = "ospree_clean_respvar.csv", row.names=FALSE)
-
 simple.count<-as.data.frame(table(d$respvar.simple))
-
-
 
 # scratch
 incaseneeded <- format(as.Date(d$fieldsample.date, format="%Y-%m-%d"), "%j")

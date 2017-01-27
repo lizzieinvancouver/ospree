@@ -1,6 +1,10 @@
 # Started 18 January 2017 - Cat
 ## Removing duplicate rows and errors
 
+## Notes on 27 Jan 2017 from Lizzie ##
+## The code for guerriero90 issues through viheraaarnio06 update respvar.simple stuff should go into clean_respvar.R, right? ##
+## The rest of the code should be in a new file that cleans forcetemp and is sourced in cleanmerge_all.R ##
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)

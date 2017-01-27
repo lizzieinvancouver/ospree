@@ -4,7 +4,7 @@
 ##calculate max %bb per treatment per spp
 
 # Edited DF
-# Run this after running Jehane's script 
+# Run this after running Jehane's script (Lizzie thinks this is clean_respvar.R) 
 
 rm(list=ls()) 
 options(stringsAsFactors=FALSE)

@@ -1,18 +1,11 @@
 ## Started 3 January 2017 - Cat ##
 ## An R script to clean the "photoperiod_day" and "photoperiod_night" columns of the bud burst data
 
-## housekeeping
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
+## Updates by Lizzie on 27 Jan 2017 ##
+## As of 27 Jan 2017 this file is now SOURCED from cleanmerge_all.R ##
+## So to run this you need to start there ##
 
-# Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else 
-setwd("~/Documents/git/ospree")
-
-
-# Name data frame:
-d <- read.csv("output/ospree_clean_respvar.csv")
+# See cleanmerge_all.R for started text #
 
 # Fixing by datasetID -- basler12
 d$photoperiod_day[d$photoperiod_day == "shortday"] <- 9.5
@@ -34,7 +27,7 @@ d <- within(d, photoperiod_day[datasetID== 'hawerroth13'] <- 0)
 # cronje03 - fixed to constant - irradiance 215 umol m-2 s2
 d<-within(d, photoperiod_day[datasetID=='cronje03']<-'constant')
 # devries82 - constant - 8, 16, 24 Wm-2
-d<-within(d, photoperiod_day[datasetID=='devries82' & respvar=='plantheightatflowerbudappearance']<-constant)
+d<-within(d, photoperiod_day[datasetID=='devries82' & respvar=='plantheightatflowerbudappearance']<-'constant') # Lizzie changed this constant to 'constant' because the code was not running, need Cat to check
 
 d$photoperiod_day[d$photoperiod_day == "constant"] <- 24
 d$photoperiod_night[d$photoperiod_day==24]<-0
@@ -43,5 +36,7 @@ d$photoperiod_night[d$photoperiod_day==24]<-0
 # gansert02
 # hawkins12 - ambient for exp1
 
+stop("Not an error, just stopping here to say we're now done cleaning photo. The d item in your workspace is now all cleaned up for its photoperiod_day and photoperiod_night columns. Zippitydoodah ...")
+
 # Make new data sheet
-write.csv(d, file = "ospree_clean_photo.csv", row.names=FALSE)
+# write.csv(d, file = "ospree_clean_photo.csv", row.names=FALSE)
