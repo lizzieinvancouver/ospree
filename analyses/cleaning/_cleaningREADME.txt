@@ -19,9 +19,9 @@ It:
 
 5. Then, with that cleaned, we source the clean_photo code code.
 
-6-7. We should eventually then add in the next two cleaning reps.
+6-8. We should eventually then add in the next three cleaning reps.
 
-8. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
+9. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
 
 
 <><><><>
