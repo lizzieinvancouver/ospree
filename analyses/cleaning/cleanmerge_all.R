@@ -11,7 +11,7 @@ options(stringsAsFactors = FALSE)
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else 
-setwd("~/Documents/git/ospree")
+setwd("~/Documents/git/ospree/analyses")
 
 # Load libraries
 library(dplyr)
@@ -23,7 +23,7 @@ d <- read.csv("input/ospree.csv")
 # 2. Need to deal with some basic cleaning ... what are these columns and what should we do with them? 
 unique(d$X.1)
 unique(d$X.2)
-unique(d$X.3)
+unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
 # 3. Add in Zohner data ... (need to rewrite code in zohner_addingtomaindata.R so that it works here, and move any code that cleans columns and deals with multiresp to clean_respvar.R ... ##
 
@@ -43,11 +43,11 @@ source("cleaning/clean_photo.R")
 
 # 7. Convert percent budburst to days to budburst
 
-# source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here ysing dataframe d created above?
+# source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
 # 8. Clean up woody species
 
-# source ("clean_woody_sps.R") # need to rewrite this a little (Nacho)
+# source("clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
 # 9. Write out the final file! (I have not run this yet .... ) 
 
