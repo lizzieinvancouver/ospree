@@ -1,7 +1,14 @@
-# Calculating chilling units in field and from experimental work, for summing to a 'totalchill' variable. 
-# Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
-# Ailene Ettinger added code for experimental chilling calculations on 5 July 2016
-rm(list=ls()) 
+#Calculating chilling units in field and from experimental work
+#This code calcluates the field chilling column from any chilling that occurred in the field (before material was brought into an experiment)
+#It will be added to experimental chilling to make a 'totalchill' variable. 
+#Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
+#Ailene Ettinger added code for experimental chilling calculations on 5 July 2016
+#Ailene and Cat modified January 2017 to include lat/longs collected from different subpopulations
+#(Provenance lat/long
+#This code requires global climate data to be pulled from an external hard drive. 
+#the climate data is used to calculate chilling units, which are then written to a csv file.
+#somewhere in this code, dupilcate rows are created for some studies and Ailene needs to figure out why!
+#rm(list=ls()) 
 options(stringsAsFactors=FALSE)
 
 library(ncdf4)
@@ -10,8 +17,8 @@ library(Interpol.T)
 library(chillR)
 
 setwd("~/git/ospree")
-#d2 <- read.csv("analyses/output/ospree_clean.csv")#old version
-d3 <- read.csv("analyses/output/ospree_master_clean.csv")#new version
+d3 <- read.csv("analyses/output/ospree_master_clean.csv")#
+#this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
 d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
@@ -49,7 +56,8 @@ nam <- d %>% # start with the data frame
 
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 # these will need manual cleaning. for now use as is
-
+#no duplicates here: checked
+#duplicated(nam$ID_fieldsample.date); duplicated(eur$ID_fieldsample.date)
 # Which days do we want? For year-1, start at sept 1
 
 ## reading in netCDF files. Working off of external hard drive or from downloaded climate data
@@ -103,7 +111,7 @@ for(i in 1:nrow(eur)){ # i = 1
                     )
   
   tempval[[as.character(eur[i,"ID_fieldsample.date"])]] <- data.frame(Lat = la,Long = lo,Date = seq(stday, endday, by = "day"),
-                                                  Tmin = mins, Tmax = maxs)#Ailene tried adding lat/long to this output table on 5 jan 2017 but i'm not sure if it will work
+                                                  Tmin = mins, Tmax = maxs)#
 }
 
 
@@ -181,7 +189,7 @@ for(i in 1:nrow(nam)){ # i = 1
     }
   
   tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),
-                          Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#Ailene tried adding lat/long to this output table on 5 jan 2017 but i'm not sure if it will work
+                          Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#
 }
 ######################################################
 # Interpolation
@@ -246,157 +254,3 @@ for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed t
 #save(file="input/ChillCalcs.RData", 
  #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
-
-############################################################################################
-# Start here if field chill calcs from the climate data have already been done
-# Merge field and experimental chilling calculations with the rest of the data
-############################################################################################
-
-dat <- read.csv("analyses/output/ospree_master_clean.csv") # change to master clean file? - CC
-colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-dat$fieldsample.date<-strptime(strptime(dat$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
-
-#use only woody species
-dat2 <- subset(dat, woody=="yes")
-
-# make two data frames. North America and Europe, the lat longs and years.
-
-dat2$continent <- tolower(dat2$continent)
-dat2$datasetID <- as.character(dat2$datasetID)
-dat2$provenance.lat <- as.numeric(as.character(dat2$provenance.lat))
-dat2$provenance.long <- as.numeric(as.character(dat2$provenance.long))
-dat2$year <- as.numeric(as.character(dat2$year))
-
-dat2$fieldsample.date<-as.character(as.Date(dat2$fieldsample.date,"%m/%d/%y")) #needed for new version
-dat2 <- as_data_frame(dat2)
-
-
-#Make a column that indexes the study, provenance latitude,provenance longitude, and field sample date, in order to calculate field chilling
-dat2$ID_fieldsample.date<-paste(dat2$datasetID,dat2$provenance.lat,dat2$provenance.long,dat2$fieldsample.date, sep="_")
-
-#Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
-dat2$ID_chilltreat<-paste(dat2$datasetID,dat2$chilltemp,dat2$chilldays,sep=".")
-
-##### Calculate experimental chilling, using chillday and chilltemp.
-###there are many non-numeric values in the chilltemp and chilldays columns- these are unusable currently so remove:
-#want table with datasetID chilling days, chilling temperature,  treat for each study. 
-chilldat <- dat2 %>% # start with the data frame
-  distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
-  dplyr::select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
-
-chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
-chilldat$chilldays<-as.numeric(chilldat$chilldays)
-chilldat<- chilldat[apply(chilldat, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
-
-expchillcalcs <- vector()
-
-###First, need file with hrly temperature data for each row in dataframe
-
-for(i in 1:nrow(chilldat)) {
-  # Skip if NA for chilltemp or chilldays data
-  if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i])) {
-    yr <- as.numeric(chilldat$year[i]) 
-    if(is.na(yr)){ yr <- 2016} #temporary fix for when years are not currently listed!
-  hrly =
-      data.frame(
-        Temp = rep(as.numeric(chilldat$chilltemp[i]), 
-                   times = 24 * round(as.numeric(chilldat$chilldays[i], digits=0))),
-        Year = rep(yr, 
-                   times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
-        JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
-      )
-  
-     expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
-     
-  } else { expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
-  
-  expchillcalcs <- rbind(expchillcalcs, 
-                         data.frame(datasetID = chilldat$datasetID[i], 
-                                    ID_chilltreat = chilldat$ID_chilltreat[i],
-                                    expchillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
-  
-  }
-
-colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
-
-
-###Merge field and experimental chilling data with the rest of the data
-# Add experimental chilling. Right number of rows = 12924
-dat3 <- merge(dat2, expchillcalcs, 
-              by.x = c("datasetID","ID_chilltreat"),
-              by.y=c("datasetID","ID_chilltreat"),
-              all.x=T)
-
-#Add field chilling calculations to datafile, 
-###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-chillcalcs <- read.csv("analyses/output/fieldchillcalcslatlong.csv", header=T)
-chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA. 354 rows now.
-
-colnames(chillcalcs) <- c("ID_fieldsample.date","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
-
-#(todrop <- chillcalcs$ID_fieldsample.date[!chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date])#we lose 50 from heide07, heide07, heide77, kinet93,kronenberg76,lieten97,smeets80, smeets82,sonsteby06, sonsteby09a,sonsteby09b,verheul07,voipio01,bradford10,durner84
-
-# Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
-(nochillcalcs <- unique(dat3$ID_fieldsample.date[!dat3$ID_fieldsample.date %in% chillcalcs$ID_fieldsample.date]))
-
-chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
-
-# now 280 rows
-
-#When doing either of the merges below, we get 549 extra rows. still not sure why!
-#dat4 <- merge(dat3, chillcalcs, 
-#               by = "ID_fieldsample.date",
-#               all.x = TRUE
-#               ) 
-dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date",match="all")
-dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date", match="all") #Added by Cat
-
-# Merge manually
-
-dat4a <- data.frame(dat3, chillcalcs[match(dat3$ID_fieldsample.date, chillcalcs$ID_fieldsample.date),])
-#dat4<-dat4a
-### Now add column for total chilling (field plus experimental)
-### First, total chilling = exp and field
-dat4$Total_Chilling_Hours <- dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
-dat4$Total_Utah_Model <- dat4$Exp_Utah_Model+dat4$Field_Utah_Model
-dat4$Total_Chill_portions <- dat4$Exp_Chill_portions+dat4$Field_Chill_portions
-
-#For sites with no experimental chilling, just use field chilling:
-dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Exp_Chilling_Hours)),]$Field_Chilling_Hours
-dat4[which(is.na(dat4$Exp_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Exp_Utah_Model)),]$Field_Utah_Model
-dat4[which(is.na(dat4$Exp_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Exp_Chill_portions)),]$Field_Chill_portions
-#For sites with no field chilling, should we use only experimental chilling? not sure if this is ok...
-dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Exp_Chilling_Hours
-dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
-dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
-
-write.csv(dat4,"~/Documents/git/ospree/analyses/output/ospree_clean_final.csv",row.names=FALSE, eol="\r\n") #Added by Cat
-
-write.csv(dat4,"analyses/output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
-
-
-
-
-# scratch
-days <- ncvar_get(eur.tempmn,"time") # since jan 1 1950
-daysd <- strptime("1950-01-01", "%Y-%m-%d") + days*60*60*24 # convert to actual days
-
-nafiles <- dir()[grep("livneh", dir())]
-
-for(i in nafiles){ # i = "livneh_NAmerExt_15Oct2014.195906.nc"
-  
-  xx <- nc_open(i)
-  tx <- ncvar_get(xx, 'Tmax')
-  tn <- ncvar_get(xx, 'Tmin')
-  
-  }
-
-
-###### Below is from Beth
-
-###reading in netCDF as raster files
-##reading in raster files of relevant layers
-landfrac.r <- raster("landfrac/b.e11.BRCP85C5CNBDRD.f09_g16.017.clm2.h0.QRUNOFF.208101-210012.nc",varname="landfrac")
-##reading in land fraction as a raster and rotating to make it match BEST data orientation; from (0,360) to (-180,180)
-landfrac.r <- rotate(landfrac.r)
-#image(landfrac.r)
