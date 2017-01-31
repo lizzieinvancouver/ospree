@@ -35,19 +35,23 @@ source("cleaning/clean_respvar.R")
 
 source("cleaning/clean_photo.R")
 
-# 5. Clean response and response time?
+# 5. Clean up forcetemp
+
+source("cleaning/clean_forcetemp.R")
+
+# 6. Clean response and response time?
 
 # source("cleaning/clean_responsetime.R")
 
-# 6. Convert percent budburst to days to budburst
+# 7. Convert percent budburst to days to budburst
 
 # source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
-# 7. Clean up woody species
+# 8. Clean up woody species
 
 # source("clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
-# 8. Write out the final file! (I have not run this yet .... ) 
+# 9. Write out the final file! (I have not run this yet .... ) 
 
 # write.csv("output/ospree_clean.csv", row.names=FALSE) ##
 
