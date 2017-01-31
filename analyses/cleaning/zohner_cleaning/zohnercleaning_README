@@ -1,0 +1,16 @@
+Read me explaining what Dan B did with the Zohner data:
+Zohner sent Lizzie his data in a spread sheet Zohner_NCC)data.xlsx which is in the ospree/data/zohnerdata folder
+I used a combination of r code and direct excel editing to move the raw data in data/zohnerdata/Zohner_NCC_data.xlsx to output/zohner_formated
+
+First using the zohnermerge.R script I
+-subsetted to Zohner's data only
+-reformatted photoperiod treatments to match  ospree.xls ds
+-added nightime length
+-formated colelction date column to match  ospree.xls ds
+then I output a "zohnerintermediate.xls" file.
+
+I copied this intermediate file in a new ds "zohner-formatted" and adjusted all the columns by hand.
+Which was manually filling in columns with repeating entries---things like "$Entered.By" which were all the same throughout the column. After the formatting matched, I mannually copied my the zohner_formatted.csv data into the orignial datasheet ospree.xlsx.
+
+But wait there's more-- then I was asked to backconvert the respvar degreedaystobudbust back to daystobudburst, which I did directly in the ospree.xlsx sheet by dividing the respvar by 16 after clarifying with Zohner what his methods were.
+
