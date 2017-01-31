@@ -7,6 +7,8 @@
 
 # Added TODO notes throughout #
 
+# SHOULD WE rename the `1' entries as "timeonly" or such?!
+
 # Here's the issue ...
 # Some data were XY graphs with days on X and percent budburst or something else on the Y
 # These data should have been entered with X in response.time columnn and Y in response.
@@ -27,7 +29,7 @@ respvar.perc <- c("percentbudburst", "percentflower", "otherpercents")
 respvar.other <- c("thermaltime", "phenstage", "flowernumber", "growth", "othernums")
  
 areone.time <- areone[which(areone$respvar.simple %in% respvar.time),]
-hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks okay -- (TODO) need to check on some rogue entries and maybe a negative?!
+hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
 
 areone.perc <- areone[which(areone$respvar.simple %in% respvar.perc),]
 areone.perc # TODO, these look okay to me, could double check (20 rows total)

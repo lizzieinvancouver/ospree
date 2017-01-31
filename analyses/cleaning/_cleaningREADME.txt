@@ -13,15 +13,15 @@ It:
 
 2. There are some weird issues we should deal with. Can we delete these columns? If so, delete them here. 
 
-3. Here we should just merge in the zohner data, I cannot see where zohner_formatted is created so I got a little stuck, but I left lots of notes in zohner_addingtomaindata.R that should help. 
+* Zohner data already merged in! We just need to decide what to do with remaining code.
 
-4. Next, we source the clean_respvar code.
+3. Next, we source the clean_respvar code.
 
-5. Then, with that cleaned, we source the clean_photo code code.
+4. Then, with that cleaned, we source the clean_photo code code.
 
-6-8. We should eventually then add in the next three cleaning reps.
+5-7. We should eventually then add in the next three cleaning reps.
 
-9. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
+8. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
 
 
 <><><><>

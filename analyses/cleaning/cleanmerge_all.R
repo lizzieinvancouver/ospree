@@ -25,31 +25,29 @@ unique(d$X.1)
 unique(d$X.2)
 unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
-# 3. Add in Zohner data ... (need to rewrite code in zohner_addingtomaindata.R so that it works here, and move any code that cleans columns and deals with multiresp to clean_respvar.R ... ##
+# To do: Check if we still need zohner_checkifweneed.R now that cleaning happens here.
 
-# source("zohner_addingtomaindata.R")
-
-# 4. Clean up response variable names
+# 3. Clean up response variable names
 
 source("cleaning/clean_respvar.R")
 
-# 5. Clean up photoperiod #
+# 4. Clean up photoperiod #
 
 source("cleaning/clean_photo.R")
 
-# 6. Clean response and response time?
+# 5. Clean response and response time?
 
 # source("cleaning/clean_responsetime.R")
 
-# 7. Convert percent budburst to days to budburst
+# 6. Convert percent budburst to days to budburst
 
 # source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
-# 8. Clean up woody species
+# 7. Clean up woody species
 
 # source("clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
-# 9. Write out the final file! (I have not run this yet .... ) 
+# 8. Write out the final file! (I have not run this yet .... ) 
 
 # write.csv("output/ospree_clean.csv", row.names=FALSE) ##
 
