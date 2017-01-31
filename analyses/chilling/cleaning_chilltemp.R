@@ -1,8 +1,7 @@
 #Cleaning columns for chilling calculations:fieldsample.dat, chilltemp, and chilldays###############################################
 #Started by Ailene January 30, 2017
-dat <- read.csv("analyses/output/ospree_master_clean.csv") #this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code, after the chilltemps and chilldays have been cleaning with cleanin_chilltemp.R
-
-colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
+dat <- read.csv("analyses/output/ospree_master_clean.csv") #should use the cleaned data file created from Lizzie's "cleanmerge_all.R"" code, after the chilltemps and chilldays have been cleaned with cleaning_chilltemp.R" code
+colnames(dat)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for the chilling code to work
 dat$fieldsample.date<-strptime(strptime(dat$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
 
 #use only woody species

@@ -6,6 +6,8 @@
 # Merge field and experimental chilling calculations with the rest of the data
 ############################################################################################
 #First, calculate field chilling data
+options(stringsAsFactors=FALSE)
+setwd("~/git/ospree")
 
 #d <- read.csv("analyses/output/ospree_master_clean.csv") ##this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code
 dat <- read.csv("analyses/output/ospree_master_clean.csv") #this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code, after the chilltemps and chilldays have been cleaning with cleanin_chilltemp.R
