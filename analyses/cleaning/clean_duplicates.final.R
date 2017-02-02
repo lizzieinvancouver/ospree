@@ -23,7 +23,7 @@ if(is.data.frame(d)){
   
 
 ## select target variables for which we will search for duplicates:
-tar.var<-c("datasetID","study","genus","species","population",
+tar.var<-c("datasetID","study","genus","species","population",'provenance',"long","lat",
            "forcetemp","photoperiod_day","chilltemp","chilldays")
 resp.var<-c("response","response.time")
 
