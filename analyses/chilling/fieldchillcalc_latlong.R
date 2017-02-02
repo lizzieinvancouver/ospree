@@ -17,8 +17,7 @@ library(Interpol.T)
 library(chillR)
 
 setwd("~/git/ospree")
-d3 <- read.csv("analyses/output/ospree_clean.csv")#
-#this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code
+d3 <- read.csv("analyses/output/ospree_clean.csv")#this file should use the datafile created from the "cleaning_chilltemp.R" code. For now, use cleaned data file created from Lizzie's "cleanmerge_all.R" code
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
 d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 

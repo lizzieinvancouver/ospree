@@ -25,5 +25,3 @@ unique(dat2$chilltemp)#Need to fix
 #dat2[which(dat2$chilltemp=="<16"),]#falusi90
 
 #chilldat$chilldays<-as.numeric(chilldat$chilldays)
-#write.csv(dat4,"analyses/output/ospree_clean_withchill.csv",row.names=FALSE, eol="\r\n")
-           

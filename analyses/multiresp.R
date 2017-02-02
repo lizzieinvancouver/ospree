@@ -5,4 +5,4 @@
 #This should go before nacho's code
 #Started by Ailene Ettinger
 #2 Feb 2017
-#start with output/ospree_clean_withchill
+#start with output/ospree_clean_withchill.csv file
