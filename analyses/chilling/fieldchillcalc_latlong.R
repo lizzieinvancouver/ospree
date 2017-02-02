@@ -17,10 +17,10 @@ library(Interpol.T)
 library(chillR)
 
 setwd("~/git/ospree")
-d3 <- read.csv("analyses/output/ospree_master_clean.csv")#
+d3 <- read.csv("analyses/output/ospree_clean.csv")#
 #this file should use the cleaned data file created from Lizzie's "cleanmerge_all.R" code
 colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%m/%d/%Y"),format = "%Y-%m-%d")
+d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 
 d <- subset(d3, woody=="yes")
 
@@ -84,10 +84,13 @@ for(i in 1:nrow(eur)){ # i = 1
   xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell))[1]
   xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell))[1]
   
-  yr <- as.numeric(eur[i,"year"])
+  yr <- as.numeric(eur[i,"year"])#need to add month
   
   # start and end days, in days since baseline date. Set to GMT to avoid daylight savings insanity
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  if(eur[i,"fieldsample.date"]!="" & as.numeric(substr(eur[i,"fieldsample.date"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date"]!="" & as.numeric(substr(eur[i,"fieldsample.date"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date"]==""){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   
   # using d$fieldsample.date
   if(eur[i,"fieldsample.date"]!=""){endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
@@ -117,7 +120,6 @@ for(i in 1:nrow(eur)){ # i = 1
 
 nc_close(eur.tempmx)
 nc_close(eur.tempmn)
-
 ######################################################
 # North America
 ######################################################
@@ -208,7 +210,7 @@ calibration_l = list(
 
 chillcalcs <- vector()
 
-for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed this to accomodate multiple prov lat/longs per dataset id not sure it will work!
+for(i in names(tempval)){ 
   
   xx <- tempval[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
@@ -244,13 +246,12 @@ for(i in names(tempval)){ #this used to be i in names(tempval)- Ailene changed t
   # Skip if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
   
-    chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 39 chill portions by Jan 20 last year.
-  } else { chillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
-    chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
-    #i think this will work: lat and long are part of dataset id column chillcalcs output table
+    chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
+  } else { chillcalc <- data.frame("Season"=NA,"End_year"=NA,"Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+    chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
+
 
 #next will need to parse out 
 #save(file="input/ChillCalcs.RData", 
- #    list = c('chillcalcs', 'tempval'))
 write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
