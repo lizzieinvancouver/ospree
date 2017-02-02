@@ -231,33 +231,33 @@ d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth
 # Additional Edits made by Cat - 31 Jan 2017
 # ghelardini10 issues - removed 8 rows not affiliated with study
 for(i in d){
-  df <- d[!(d$datasetID == "ghelardini10" & d$material == "root cuttings") &
+  d <- d[!(d$datasetID == "ghelardini10" & d$material == "root cuttings") &
             !(d$datasetID == "ghelardini10" & d$Entered.By == "DF"),]
 }
 
 # guerriero90 issues - changed respvar.simple from 'phenstageper.probonestudy' to 'leaves'
-df <- within(df, respvar[datasetID== 'guerriero90' & respvar == 'percentstage06'] <- 'leaves')
-df$respvar.simple[df$respvar == "leaves"] <- "othernums"
+d <- within(d, respvar[datasetID== 'guerriero90' & respvar == 'percentstage06'] <- 'leaves')
+d$respvar.simple[d$respvar == "leaves"] <- "othernums"
 
 # jones12 issues
 # phenstage01 - percentbudburst
 # phenstage02 - leaves to othernums
 # phenstage03 - fruits to othernums
 # phenstage04 - flowers to percentflower
-df <- within(df, respvar[datasetID== 'jones12' & respvar == 'percentstage01'] <- 'percentbudburst')
-df$respvar.simple[df$respvar == "percentbudburst"] <- "percentbudburst"
+d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage01'] <- 'percentbudburst')
+d$respvar.simple[d$respvar == "percentbudburst"] <- "percentbudburst"
 
-df <- within(df, respvar[datasetID== 'jones12' & respvar == 'percentstage02'] <- 'leaves')
-df$respvar.simple[df$respvar == "leaves"] <- "othernums"
+d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage02'] <- 'leaves')
+d$respvar.simple[d$respvar == "leaves"] <- "othernums"
 
-df <- within(df, respvar[datasetID== 'jones12' & respvar == 'percentstage03'] <- 'fruits')
-df$respvar.simple[df$respvar == "fruits"] <- "othernums"
+d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage03'] <- 'fruits')
+d$respvar.simple[df$respvar == "fruits"] <- "othernums"
 
-df <- within(df, respvar[datasetID== 'jones12' & respvar == 'percentstage04'] <- 'flowers')
-df$respvar.simple[df$respvar == "flowers"] <- "percentflower"
+d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage04'] <- 'flowers')
+d$respvar.simple[d$respvar == "flowers"] <- "percentflower"
 
 # viheraaarnio06 update respvar.simple from NA to percentbudset
-df <- within(df, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
+d <- within(df, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
 
 
 # check your work .... 
