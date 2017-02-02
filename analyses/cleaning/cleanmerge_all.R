@@ -48,7 +48,7 @@ source("cleaning/clean_forcetemp.R")
 
 # source("cleaning/clean_responsetime.R")
 
-# 7. Convert percent budburst to days to budburst (can probably move) 
+# 7. Convert percent budburst to days to budburst (will possibly move) 
 
 # source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
@@ -58,7 +58,7 @@ source("cleaning/clean_forcetemp.R")
 
 # 9. Write out the final file! (I have not run this yet .... ) 
 
-# write.csv("output/ospree_clean.csv", row.names=FALSE) ##
+write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 
 
 
