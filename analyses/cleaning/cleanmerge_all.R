@@ -62,8 +62,10 @@ source("cleaning/clean_responsetime.R")
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
+# 9. Fix mistakes in chilltemp column
+source("clean_chilltemp.R")
 
-# 9. Write out the final file! (I have not run this yet .... ) 
+# 10. Write out the final file! (I have not run this yet .... ) 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 
