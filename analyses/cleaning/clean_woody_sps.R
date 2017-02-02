@@ -3,21 +3,22 @@
 ##'1/22/2017
 ##'Ignacio Morales-Castilla
 ##'
-
+##' Updated on Jan 31st to clean from dataframe d, that should already be in the workspace
 
 ## to start
-rm(list=ls())
+#rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 
 ## read in file
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/input")
-setwd("~ospree/analyses/input/")
-dat<-read.csv("ospree.csv")
-head(dat)
+#setwd("~ospree/analyses/input/")
+#d<-read.csv("ospree.csv")
+if(is.data.frame(d)){
+
 
 ## set output folder
-out.folder<-"~ospree/analyses/output/"
+#out.folder<-"~ospree/analyses/output/"
 
 ## fill blanks with NAs
 #dat[dat==""]<-NA
@@ -26,10 +27,10 @@ out.folder<-"~ospree/analyses/output/"
 #str(dat)
 
 ## summarize unique species
-sps<-sort(unique(paste(dat$genus,dat$species,sep="_")))
+sps<-sort(unique(paste(d$genus,dat$species,sep="_")))
 
 ## summarize unique genus
-genus<-sort(unique(dat$genus))
+genus<-sort(unique(d$genus))
 
 ## genus is non-woody (in ospree)
 genus<-cbind(genus,non.woody=rep("no",length(genus)))
@@ -37,12 +38,13 @@ genus[c(10,13,22,23,40,41,42,43,46),2]<-"yes"
 is.non.woody<-genus[which(genus[,2]=="yes"),1]
 
 ## remove non-woody species and save
-dat.woody<-dat[-which(dat$genus%in%is.non.woody),]
-write.csv(dat.woody,paste(out.folder,"ospree.woody.only.csv",sep=""))
+d.woody<-d[-which(d$genus%in%is.non.woody),]
+write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
 
 ## alternatively, correct the "woody" column within ospree
 #dat$woody[which(dat$genus%in%is.non.woody)]<-"no"
 #write.csv(dat,paste(out.folder,"ospree.woody.corrected.csv",sep=""))
 
+}
 
 
