@@ -104,8 +104,8 @@ if(type=="BB_analysis"){
   d.subset.1<-subset(d,respvar.simple=="daystobudburst"& !is.na(response.time))
   d.subset.2<-subset(d,!is.na(dbb))
   d.subsetted<-rbind(d.subset.1,d.subset.2)
-  d.subsetted$response.time[!is.na(d.subsetted$dbb)]<-d.subsetted$dbb
-}
+  d.subsetted$response.time[which(!is.na(d.subsetted$dbb))]<-d.subsetted$dbb[which(!is.na(d.subsetted$dbb))]
+  }
 
 if(type=="add.columns"){
   d.subsetted<-d
@@ -123,4 +123,9 @@ return(d.subsetted)
 d.subset<-subsetting.daysBB(d,90,"BB_analysis")
 d<-d.subset
 
-#write.csv(d,"ospree_BBanalysis.csv")
+#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
+#write.csv(d,"ospree_clean_withchill_BB.csv")
+
+
+
+
