@@ -54,6 +54,7 @@ d$respvar[d$respvar == "baystobudset"] <- "daystobudburst"
 d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
 d$respvar[d$respvar == "days to budbust"] <- "daystobudburst"
+d$respvar[d$respvar == "dateofbudburst"] <- "daystobudburst"
 
 # Days to something else
 d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
