@@ -25,6 +25,11 @@ unique(d$X.1)
 unique(d$X.2)
 unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
+# NEED TO CHECK, see issue # 71
+d$X.1 <- NULL
+d$X.2 <- NULL
+d$X.3 <- NULL
+
 # To do: Check if we still need zohner_checkifweneed.R now that cleaning happens here.
 
 # 3. Clean up response variable names
@@ -43,7 +48,7 @@ source("cleaning/clean_forcetemp.R")
 
 # source("cleaning/clean_responsetime.R")
 
-# 7. Convert percent budburst to days to budburst
+# 7. Convert percent budburst to days to budburst (can probably move) 
 
 # source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
