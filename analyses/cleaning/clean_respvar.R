@@ -12,7 +12,6 @@
 ## So to run this you need to start there ##
 
 # See cleanmerge_all.R for started text #
-#d<-read.csv("analyses/input/ospree.csv", header=TRUE)
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 88 values as of 2 Feb 2017
 
@@ -102,10 +101,10 @@ d$respvar[d$respvar == "heightcm"] <- "height"
 d$respvar[d$respvar ==  "inflorescencesperplant"] <- "inflorescenceperplant"
 d$respvar[d$respvar ==  "petiolelengthcm"] <- "petiolelength"
 
-
-d$respvar[d$respvar == ""] <- NA
-d$respvar[d$respvar == ""] <- NA
-d$respvar[d$respvar == ""] <- NA
+#Ailene tried removing the below 3 lines of code that replace blank respvars with NAs- not sure why they are here.
+#d$respvar[d$respvar == ""] <- NA
+#d$respvar[d$respvar == ""] <- NA
+#d$respvar[d$respvar == ""] <- NA
 
 ##
 ## Assigning 87 response variables to a higher level
@@ -227,7 +226,7 @@ d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not
 # other
 d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
 d$respvar.simple[d$respvar == "survival"] <- "other"
-d$respvar.simple[d$respvar == ""] <- "other" ## Not Woody 
+d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
 
 # Additional Edits made by Cat - 31 Jan 2017
 # ghelardini10 issues - removed 8 rows not affiliated with study
