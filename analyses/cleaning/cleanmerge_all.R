@@ -54,7 +54,7 @@ source("cleaning/clean_forcetemp.R")
 
 # 8. Clean up woody species
 
-source("clean_woody_sps.R") # need to rewrite this a little (Nacho)
+source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
 # 8b. Remove duplicate lines
 

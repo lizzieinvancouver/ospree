@@ -27,7 +27,7 @@ if(is.data.frame(d)){
 #str(dat)
 
 ## summarize unique species
-sps<-sort(unique(paste(d$genus,dat$species,sep="_")))
+sps<-sort(unique(paste(d$genus,d$species,sep="_")))
 
 ## summarize unique genus
 genus<-sort(unique(d$genus))
