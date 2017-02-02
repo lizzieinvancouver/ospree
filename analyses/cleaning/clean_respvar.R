@@ -12,17 +12,15 @@
 ## So to run this you need to start there ##
 
 # See cleanmerge_all.R for started text #
-
+#d<-read.csv("analyses/input/ospree.csv", header=TRUE)
 sort(table(d$respvar), TRUE)
-names(table(d$respvar)) # 88 values as of 27 Jan 2017
+names(table(d$respvar)) # 88 values as of 2 Feb 2017
 
 sort(with(d[d$respvar=="daystobudburst",], table(datasetID)), TRUE)
 sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
 
 ##
 ##  Convert some inverted stuff
-## Error messages for response.time -- "NAs are not allowed in subscripted assignments"
-## Working on fixing -- Cat 
 
 d$response.time[d$respvar=="1/daysto25%budburst"] <-
     1/as.numeric(d$response[d$respvar=="1/daysto25%budburst"])
@@ -33,13 +31,6 @@ d$response[d$respvar=="1/daysto50%budburst"] <- "50per"
 
 d$respvar[d$respvar=="1/daysto25%budburst"] <- "daysto25%budburst"
 d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
-
-## Convert DARD Calculation to daystobudburst
-## Same error message as above
-d$response.time[d$respvar=="DARD"] <-
-  100/as.numeric(d$response.time[d$respvar=="DARD"])
-
-d$respvar.simple[d$respvar == "DARD"] <- "daystobudburst"
 
 # Still need to deal with :
 # for above, values of 95 to 137 it looks like ... but no field sampling date
@@ -63,6 +54,7 @@ d$respvar[d$respvar == "daystobudset"] <- "daystobudburst"
 d$respvar[d$respvar == "baystobudset"] <- "daystobudburst"
 d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
+d$respvar[d$respvar == "days to budbust"] <- "daystobudburst"
 
 # Days to something else
 d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
@@ -80,7 +72,6 @@ d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
 d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
-d$respvar[is.na(d$respvar)] <- "percentbudburst"
 
 # Growth of some sort
 d$respvar[d$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
@@ -132,7 +123,7 @@ d$respvar.simple[d$respvar == "degreedaystobudburst"] <- "thermaltime"
 
 
 # daystobudburst
-# "dateofbudburst" still not dealt with ... 
+# "dateofbudburst" still not dealt with ...issue #75
 d$respvar.simple[d$respvar == "budprojectedarea"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystobudburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto25%budburst"] <- "daystobudburst"
@@ -144,6 +135,10 @@ d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystoleafout"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "leafunfoldingdate"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "dateofbudburst"] <- "daystobudburst"
+## Convert DARD Calculation to daystobudburst
+d$response.time[d$respvar=="DARD"] <-
+  100/as.numeric(d$response.time[d$respvar=="DARD"])#
+d$respvar.simple[d$respvar == "DARD"] <- "daystobudburst"#daily average rate of development.
 
 # daystoflower
 d$respvar.simple[d$respvar == "daystoflower"] <- "daystoflower"
@@ -293,6 +288,8 @@ multiresp <- names(xx)[xx==T]
 d$multiresp <- !is.na(match(studyresps, multiresp))
 
 # which studies have multiple original respvars and each one is a separate respvar.simple?
+#the code below creates a column for "multibothresp"
+#As of 2 Feb 2017 we decided that the column for "multibothresp"
 xx <- data.frame(datasetIDstudy = d$datasetIDstudy, studyresp, studyresps)
 
 # i="yazdaniha64 exp1"
