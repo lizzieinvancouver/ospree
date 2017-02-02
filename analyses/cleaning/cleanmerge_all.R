@@ -20,12 +20,14 @@ library(tidyr)
 # 1. Get the data
 d <- read.csv("input/ospree.csv")
 
-# 2. Need to deal with some basic cleaning ... what are these columns and what should we do with them? 
+# 2. Need to deal with some basic cleaning ... what are these columns and what should we do with them?
+unique(d$X)
 unique(d$X.1)
 unique(d$X.2)
 unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
 # NEED TO CHECK, see issue # 71
+d$X <- NULL
 d$X.1 <- NULL
 d$X.2 <- NULL
 d$X.3 <- NULL
@@ -46,7 +48,7 @@ source("cleaning/clean_forcetemp.R")
 
 # 6. Clean response and response time?
 
-# source("cleaning/clean_responsetime.R")
+source("cleaning/clean_responsetime.R")
 
 # 7. Convert percent budburst to days to budburst (will possibly move) 
 
@@ -54,7 +56,7 @@ source("cleaning/clean_forcetemp.R")
 
 # 8. Clean up woody species
 
-source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
+# source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
 # 8b. Remove duplicate lines
 
