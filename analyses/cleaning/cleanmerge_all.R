@@ -26,7 +26,7 @@ unique(d$X.1)
 unique(d$X.2)
 unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
-# NEED TO CHECK, see issue # 71
+# Should be deleted
 d$X <- NULL
 d$X.1 <- NULL
 d$X.2 <- NULL
