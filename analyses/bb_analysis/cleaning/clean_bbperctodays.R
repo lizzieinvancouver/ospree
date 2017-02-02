@@ -10,11 +10,11 @@ rm(list=ls())
 options(stringsAsFactors=FALSE)
 
 ## read data
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/input")
+#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
 # setwd("~/Documents/git/projects/treegarden/budreview/ospree")
-d<-read.csv("ospree.csv",as.is=T)
+d<-read.csv("ospree_clean_withchill.csv",as.is=T)
 
-subsetting.daysBB<-function(d,target.percent){
+subsetting.daysBB<-function(d,target.percent,type=c("add.columns","only.percentBB","BB_analysis")){
 ## generate new columns in dataset to store days to budburst results
 d$response.time = as.numeric(as.character(d$response.time))
 d$dbb=rep(NA,nrow(d))
@@ -100,13 +100,27 @@ print(i)
   }
 }
 
+if(type=="BB_analysis"){
+  d.subset.1<-subset(d,respvar.simple=="daystobudburst"& !is.na(response.time))
+  d.subset.2<-subset(d,!is.na(dbb))
+  d.subsetted<-rbind(d.subset.1,d.subset.2)
+  d.subsetted$response.time[!is.na(d.subsetted$dbb)]<-d.subsetted$dbb
+}
 
-d.subsetted<-subset(d,!is.na(dbb))
+if(type=="add.columns"){
+  d.subsetted<-d
+}
+
+
+if(type=="only.percentBB"){
+  d.subsetted<-subset(d,!is.na(dbb))
+}
+
 return(d.subsetted)
 
 }
 
-d.subset<-subsetting.daysBB(d,90)
+d.subset<-subsetting.daysBB(d,90,"BB_analysis")
+d<-d.subset
 
-
-#save(list=c('dbb'), file = "Days to BB.Rdata")
+#write.csv(d,"ospree_BBanalysis.csv")
