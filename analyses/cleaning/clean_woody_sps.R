@@ -4,16 +4,19 @@
 ##'Ignacio Morales-Castilla
 ##'
 ##' Updated on Jan 31st to clean from dataframe d, that should already be in the workspace
-
+##' Updated on Feb 2nd
+##' 
 ## to start
 #rm(list=ls())
-options(stringsAsFactors = FALSE)
-
+#options(stringsAsFactors = FALSE)
 
 ## read in file
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/input")
+#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
+#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/zarchive")
+
+
 #setwd("~ospree/analyses/input/")
-#d<-read.csv("ospree.csv")
+#d<-read.csv("ospree_clean_withchill.csv")
 if(is.data.frame(d)){
 
 
@@ -33,13 +36,27 @@ sps<-sort(unique(paste(d$genus,d$species,sep="_")))
 genus<-sort(unique(d$genus))
 
 ## genus is non-woody (in ospree)
-genus<-cbind(genus,non.woody=rep("no",length(genus)))
-genus[c(10,13,22,23,40,41,42,43,46),2]<-"yes"
-is.non.woody<-genus[which(genus[,2]=="yes"),1]
+is.non.woody<-c("Colchicum","Dahlia","Fragaria","Opuntia","Pharbitis"    
+  ,"Schlumbergera","Sedum","Silene","Sinapis","Sorghum")  
 
-## remove non-woody species and save
+## remove non-woody species
 d.woody<-d[-which(d$genus%in%is.non.woody),]
-write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
+
+## correct species misspellings
+unique.spp<-sort(unique(d.woody$species))
+
+d.woody[which(d.woody$species==""),"species"]<-"simsii"
+d.woody[which(d.woody$species==" coccifera"),"species"]<-"coccifera"
+d.woody[which(d.woody$species==" faginea"),"species"]<-"faginea"
+d.woody[which(d.woody$species==" japonica"),"species"]<-"japonica"
+d.woody[which(d.woody$species=="jezoensis hondoensis"),"species"]<-"jezoensis"
+d.woody[which(d.woody$species=="psuedoplatanus"),"species"]<-"pseudoplatanus"
+d.woody[which(d.woody$species=="pumila Mill."),"species"]<-"pumila"
+d.woody[which(d.woody$species=="sylvatica L"),"species"]<-"sylvatica"
+
+## save
+#write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
+d<-d.woody
 
 ## alternatively, correct the "woody" column within ospree
 #dat$woody[which(dat$genus%in%is.non.woody)]<-"no"
