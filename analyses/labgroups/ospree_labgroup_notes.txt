@@ -59,6 +59,6 @@ Now, back to categories!
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 For now (14 January 2017) I made categories based on labgroups.pdf. I did this visually by hand and saved it in aut.names.categorized.csv. I only listed the names that were part of clusters with 9 or more names.
 
-As I did it by hand, we should check my work. Here’s the totals I think we should have:
+As I did it by hand, we should check my work. Here’s the totals I think we should have (okay as of 2 Feb 2017, see authors_backconvert.R):
 
 chuinejones	10heide		17hanninenh	24herter		10cookcronje	9bonhomme	9

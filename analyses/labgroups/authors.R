@@ -6,7 +6,6 @@
 ##########################################################################
 ### To do !!! ###
 ## Toss one entry with no dataset ID, rerun ##
-## Understand why kmeans gives slightly different answers each time ... ##
 ##########################################################################
 
 ## housekeeping
@@ -39,6 +38,8 @@ aut.long <- melt(aut.sm, id.var="Custom3")
 aut.long.sm <- subset(aut.long, value!="")
 aut.long.sm$author <- gsub( ",.*$", "", aut.long.sm$value)
 names(aut.long.sm) <- c("datasetid", "authornum", "fullname", "author")
+
+write.csv(aut.long.sm, "output/aut.long.sm.csv", row.names=FALSE) # we need this for back-conversion
 
 ## clustering analysis
 autmat <- table(aut.long.sm$author, aut.long.sm$datasetid)
