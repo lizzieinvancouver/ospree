@@ -12,6 +12,8 @@ if(length(grep("ailene", getwd()))>0){setwd("/Users/aileneettinger/git/ospree/an
   }
 else setwd("~/Documents/git/ospree/analyses")
 
+setwd("~/Documents/git/ospree/analyses")
+
 # Load libraries
 library(dplyr)
 library(tidyr)
