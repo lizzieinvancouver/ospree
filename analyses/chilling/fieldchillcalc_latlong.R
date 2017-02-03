@@ -4,21 +4,11 @@
 #Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
 #Ailene Ettinger added code for experimental chilling calculations on 5 July 2016
 #Ailene and Cat modified January 2017 to include lat/longs collected from different subpopulations
-#(Provenance lat/long
+#(Provenance lat/long0
 #This code requires global climate data to be pulled from an external hard drive. 
 #the climate data is used to calculate chilling units, which are then written to a csv file.
-#somewhere in this code, dupilcate rows are created for some studies and Ailene needs to figure out why!
-#rm(list=ls()) 
-options(stringsAsFactors=FALSE)
-
-library(ncdf4)
-library(dplyr)
-library(Interpol.T)
-library(chillR)
-
-setwd("~/git/ospree")
-d3 <- read.csv("analyses/output/ospree_clean.csv")#this file should use the datafile created from the "cleaning_chilltemp.R" code. For now, use cleaned data file created from Lizzie's "cleanmerge_all.R" code
-colnames(d3)[17]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
+d3<-d
+colnames(d3)[which(colnames(d)=="fieldsample.date")]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
 d3$fieldsample.date<-strptime(strptime(d3$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 
 d <- subset(d3, woody=="yes")
@@ -250,7 +240,4 @@ for(i in names(tempval)){
     chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
 
-
-#next will need to parse out 
-#save(file="input/ChillCalcs.RData", 
 write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
