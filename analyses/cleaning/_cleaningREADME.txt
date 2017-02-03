@@ -11,7 +11,7 @@ Please update me as you go!
 It:
 1. Reads in ospree.csv, which should be the data_detailed tab from data/ospree.xlsx
 
-2. There are some weird issues we should deal with. Can we delete these columns? If so, delete them here. 
+2. There are some weird columns that get read in. We delete these. 
 
 * Zohner data already merged in! We just need to decide what to do with remaining code.
 
@@ -23,11 +23,14 @@ It:
 
 6. source clean_woody_sps.R to remove non-woody species
 
-7. We should eventually then add in the next 2 cleaning reps. (response time, bubburst)
+7. The we source clean_responsetime.R which cleans response and response time coulumns.
 
-8. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
+8. Fix minor mistakes in chilltemp column
 
-9. Fix minor mistakes in chilltemp column
+9. Remove duplicate lines
+
+10. Write it all out!
+
 
 <><><><>
 Look at before retreat if possible … 

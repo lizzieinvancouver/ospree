@@ -20,13 +20,7 @@ library(tidyr)
 # 1. Get the data
 d <- read.csv("input/ospree.csv")
 
-# 2. Need to deal with some basic cleaning ... what are these columns and what should we do with them?
-unique(d$X)
-unique(d$X.1)
-unique(d$X.2)
-unique(d$X.3) # d$X.3 <- NULL  # should delete columns
-
-# Should be deleted
+# 2. Need to deal with some basic cleaning, delete a few extraneous columns
 d$X <- NULL
 d$X.1 <- NULL
 d$X.2 <- NULL
@@ -50,23 +44,16 @@ source("cleaning/clean_forcetemp.R")
 
 source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
 
-#7
+# 7. Clean response and response time columns.
 source("cleaning/clean_responsetime.R")
 
-# 8. Convert percent budburst to days to budburst (will possibly move) 
+# 8. Fix mistakes in chilltemp column
+source("cleaning/clean_chilltemp.R")
 
-# source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
-
-# 9b. Remove duplicate lines
+# 9. Remove duplicate lines
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
-<<<<<<< HEAD
-=======
-# 9. Fix mistakes in chilltemp column
-source("clean_chilltemp.R")
-
->>>>>>> origin/master
 # 10. Write out the final file! (I have not run this yet .... ) 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
