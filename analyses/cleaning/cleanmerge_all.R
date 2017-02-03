@@ -46,24 +46,22 @@ source("cleaning/clean_photo.R")
 
 source("cleaning/clean_forcetemp.R")
 
-# 6. Clean response and response time?
+# 6. get rid of non-woodys
 
+source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
+
+#7
 source("cleaning/clean_responsetime.R")
 
-# 7. Convert percent budburst to days to budburst (will possibly move) 
+# 8. Convert percent budburst to days to budburst (will possibly move) 
 
 # source("cleaning/clean_bbperctodays.R") # Ailene, can you update this file to run as a source code here using dataframe d created above?
 
-# 8. Clean up woody species
-
-# source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
-
-# 8b. Remove duplicate lines
+# 9b. Remove duplicate lines
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
-
-# 9. Write out the final file! (I have not run this yet .... ) 
+# 10. Write out the final file! (I have not run this yet .... ) 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 

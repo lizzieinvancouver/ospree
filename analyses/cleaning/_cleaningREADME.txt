@@ -19,7 +19,11 @@ It:
 
 4. Then, with that cleaned, we source the clean_photo code code.
 
-5-7. We should eventually then add in the next three cleaning reps.
+5. The we source clean_forcetemp
+
+6. source clean_woody_sps.R to remove non-woody species
+
+7. We should eventually then add in the next 2 cleaning reps. (response time, bubburst)
 
 8. Once 1 is functional we can write this out. Call it what you like but we must delete or archive the other random output files that we no longer need!
 

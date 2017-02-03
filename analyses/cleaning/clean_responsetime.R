@@ -24,8 +24,6 @@ unique(areone$respvar.simple)
 
 areone.rows <- which(d$response==1) # will use later
 
-
-
 # Onward
 respvar.time <- c("daystobudburst", "daystoflower", "thermaltime")
 respvar.perc <- c("percentbudburst", "percentflower", "otherpercents")
@@ -33,66 +31,45 @@ respvar.other <- c("phenstage", "flowernumber", "growth", "othernums")
  ## checking respvar.time related issues
 areone.time <- areone[which(areone$respvar.simple %in% respvar.time),]
 hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
-range(areone.time$response.time,na.rm=TRUE)
+
 negative.time<-subset(areone.time, response.time<0)
 unique(negative.time$datasetID)
 checkers1<-c("caffarra11b","calme94","heide12","heide93a","howe95")  
 negatives<-negative.time[which(negative.time$datasetID %in% checkers1),]
-negatives[,c(1,25:27)]
-nrow(negatives)
-calme94<-subset(negative.time,datasetID=="calme94")
-unique(calme94$figure.table..if.applicable)
-caraffara11b<-subset(negative.time,datasetID=="carraffara11b")
-unique(caraffara11b$figure.table..if.applicable)
-heide12<-subset(negative.time,datasetID=="heide12")
-unique(heide12$figure.table..if.applicable)
-heide93a<-subset(negative.time,datasetID=="heide93a")
-unique(heide93a$figure.table..if.applicable)
-howe95<-subset(negative.time,datasetID=="howe95")
-unique(howe95$figure.table..if.applicable)
-###issues with:"caffarra11b" "calme94"     "heide12"     "heide93a"    "howe95" 
-#calme94 seems to be wrong species (says Q. rub should be b. allegheniensis) and should be 0 based on figure?
-#caraffara11b had no respose under these treatment
-#heide12...it seems like no flowering in duration of experiement under these condition >60 ot 90 respectibrlu
-#heide 1993a doesn't exist in the folders but I looked online and is same scenario as above
-#howe95 should be days to budset or better days to percent budset, the ones in my list did not set buds 
+View(negatives[,c(1,25:27,31)])
 
 areone.perc <- areone[which(areone$respvar.simple %in% respvar.perc),]
-areone.perc # TODO, these look okay to me, could double check (20 rows total)
 View(areone.perc[,c(1,25:27,31)])
 unique(areone.perc$datasetID)
-View(filter(areone.perc,datasetID=="smeets82"))
-
-##here are the issues with
-#"falusi96" should be mean days to reach phenostage 3 
-#"lyndon77" this is non woody
-#"nerd95"  non woody
-#"ruesink98" correct, 1 refers to 1%
-#"smeets82" non woody
 
 areone.other <- areone[which(areone$respvar.simple %in% respvar.other),]
 dim(areone.other)
 unique(areone.other$datasetID) 
 # need to go through each one ... for example sonsteby13 is looks to be an example of where this `1' idea fails us.
-
-# We should go through each entry somehow:[1] "cannell83"    "darrow36"     "gunderson12"  "heide01"      "heide11"      "kronenberg76" "pettersen71" "sonsteby06"   "sonsteby13"  
-
-checkers2<-c("cannell83" ,   "darrow36"  ,   "gunderson12" , "heide01"    ,  "heide11"    ,  "kronenberg76",
-"pettersen71" , "sonsteby06"  , "sonsteby13") 
+checkers2<-c("cannell83"   ,   "gunderson12" ,   "heide11"    ,  
+"pettersen71"  , "sonsteby13") 
 View(areone.other[which(areone.other$datasetID %in% checkers2),])
-View(filter(areone.other,datasetID=="gunderson12"))
-View(filter(areone.other,datasetID=="heide11"))
-View(filter(areone.other,datasetID=="pettersen71"))
-# and make a note like ...
-#canell83: this indeed refers to budstage 1, but the variable is weird. see paper
-#darrow36: not woody
-#gunderson12: This one's weird. It sould be mean "score" for stage 4. higher score means more leave fully emerge. 6 mean 100% reached leaf out.
-#heide01: not woody
-#heide11: This describes reaching 1 cumultive growth increment not sure how it converts 
-#kronenberg76-couldn't find paper...also not woody
-#petterson71 this is days until 1mm of growth/14 days 
-#sosteby06 not woody
-# checked sonsteby13 and 1 appears to be a true 1, leave alone
+
+####all issues from above:
+#calme94- Betula and Quercus are switched!
+##change the following from >[experiment duration] to no response in $reponse.time
+#caffarra11b  #heide12. #heide93a #howe95. transform negative value to zero in calme 94 
+d<- within(d, response.time[datasetID=="calme94" & response.time==-1.8]<-0)
+d<- within(d, response.time[datasetID=="caffara11b" & response.time==""]<-"no response")
+d<- within(d, response.time[datasetID=="heide12" & response.time==">60"]<-"no response")
+d<- within(d, response.time[datasetID=="heide12" & response.time==">90"]<-"no response")
+d<- within(d, response.time[datasetID=="heide93a" & response.time==">50"]<-"no response")
+d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no response")
+View(filter(d,datasetID=="heide12"))
+
+#"falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
+#canell83: would need to fix this is respvar by calculating thermal time from figure 3
+#gunderson12: in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge")
+#heide11: This is fine
+#petterson71 This is fine 
+#  sonsteby13 This is fine
+#ruesink98" This is fine
+
 ##
 ## Now fix, what we should fix ##
 ##
