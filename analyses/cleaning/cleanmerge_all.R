@@ -26,7 +26,7 @@ unique(d$X.1)
 unique(d$X.2)
 unique(d$X.3) # d$X.3 <- NULL  # should delete columns
 
-# NEED TO CHECK, see issue # 71
+# Should be deleted
 d$X <- NULL
 d$X.1 <- NULL
 d$X.2 <- NULL
@@ -61,6 +61,12 @@ source("cleaning/clean_responsetime.R")
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
+<<<<<<< HEAD
+=======
+# 9. Fix mistakes in chilltemp column
+source("clean_chilltemp.R")
+
+>>>>>>> origin/master
 # 10. Write out the final file! (I have not run this yet .... ) 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
