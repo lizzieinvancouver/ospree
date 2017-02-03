@@ -253,13 +253,13 @@ d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage02'] <- '
 d$respvar.simple[d$respvar == "leaves"] <- "othernums"
 
 d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage03'] <- 'fruits')
-d$respvar.simple[df$respvar == "fruits"] <- "othernums"
+d$respvar.simple[d$respvar == "fruits"] <- "othernums"
 
 d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage04'] <- 'flowers')
 d$respvar.simple[d$respvar == "flowers"] <- "percentflower"
 
 # viheraaarnio06 update respvar.simple from NA to percentbudset
-d <- within(df, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
+d <- within(d, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
 
 
 # check your work .... 
