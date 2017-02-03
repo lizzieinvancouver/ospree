@@ -54,6 +54,7 @@ d$respvar[d$respvar == "baystobudset"] <- "daystobudburst"
 d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
 d$respvar[d$respvar == "days to budbust"] <- "daystobudburst"
+d$respvar[d$respvar == "dateofbudburst"] <- "daystobudburst"
 
 # Days to something else
 d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
@@ -71,6 +72,7 @@ d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
 d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
+d$respvar[d$datasetID=="junttila12" & d$figure.table..if.applicable. == "fig1" & d$respvar=="percentbudburst"] <- "percentbudburst_dormancy"#mistake we noticed in the database (all other rows from this study and figure are entered as "percentbudburst_dormancy)
 
 # Growth of some sort
 d$respvar[d$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
@@ -278,6 +280,8 @@ studyresps <- with(d, paste(datasetIDstudy, respvar.simple))
 # unique(studyresps)
 
 # which studies have multiple respvars for one respvar.simple?
+#this makes a new column with a flag (=="TRUE") for rows that had multiple respvars but only one respvar.simple
+#this is dealt with in multresp.R
 xx <- tapply(studyresp, studyresps, function(x)
   length(unique(x)) > 1)
 
