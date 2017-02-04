@@ -3,8 +3,8 @@
 
 #First, calculate field chilling data
 
-colnames(d)[which(colnames(d)=="fieldsample.date")]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-d$fieldsample.date<-strptime(strptime(d$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
+#colnames(d)[which(colnames(d)=="fieldsample.date")]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
+#d$fieldsample.date<-strptime(strptime(d$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 #use only woody species
 dat2 <- subset(d, woody=="yes")
 # make two data frames. North America and Europe, the lat longs and years.
