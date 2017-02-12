@@ -1,0 +1,55 @@
+Started 12 February 2017
+OSPREE to do
+
+
+<><><><><><><><><>
+Where we’re at with issues:
+<><><><><><><><><>
+**
+** To do now:
+
+Ailene:
+#59 - Check the provenance.lat and provenance.long of some collection locations
+#8 and #9 - Can you check if Dan Flynn actually changed these in the .csv file? (That is, check if they are changed in ospree.csv) and update the comment with what you find out. We’ll go from there. 
+#70 - Source the chill cleaning files
+#83 - Let’s discuss on our next Skype! 
+#81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
+#24 - non-numeric chilltemps in ospree_clean
+
+
+Cat:
+#72 - convert degree days to days if possible … Cat, were you working on this? If so, can you update the issue with where you’re at. 
+#86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltim studies?)
+
+Me:
+#21 - Bibtex issues
+#42 - Merging and cleaning
+#29 - response and response time issue
+#67 - go through cleanup_files.R
+#58 - Deal with labgroups
+
+Dan:
+#85 - Finish figures on experimental relationships with latitude 
+
+
+Nacho:
+#87 - Make figures based on rstanarm models and the model I built
+
+
+**
+** To do soon:
+#73 - estimate ambient forcing temperatures (was anyone doing this?!)
+#79 - check duplicates
+#84 - Go through all cleaning files line by line
+
+
+**
+** To do later:
+
+#80 - Clean other columns that we may someday use (low priority)
+#82 - deal with multiple varieties, cultivars, populations
+#30 
+#76 - Fix non-matching authors for labgroups
+#56 - Create a common subset of the rows for the paper
+#57 - Something hierarchical that is not quite species?
+#51 - Add flowering data!
