@@ -48,7 +48,7 @@ Nacho:
 
 #80 - Clean other columns that we may someday use (low priority)
 #82 - deal with multiple varieties, cultivars, populations
-#30 
+#30 - response again (NA issue)
 #76 - Fix non-matching authors for labgroups
 #56 - Create a common subset of the rows for the paper
 #57 - Something hierarchical that is not quite species?
