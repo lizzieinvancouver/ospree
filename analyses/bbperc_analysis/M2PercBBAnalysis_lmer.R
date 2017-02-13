@@ -100,7 +100,7 @@ summary(mod.cfp)#as days to budburst increases, perc budburst increases, but
 #there's a warning about scaling of variables so...
 
 ##fit same model, but using centered predictors:
-mod.cfp_cent<-lmer(response~responsedays_cent+responsedays_cent:totalchill_cent+responsedays_cent:forcetemp_cent+responsedays_cent:photoper_cent+(1|spp)+(1|datasetID),data=ospree.percbb)
+mod.cfp_cent<-lmer(response~responsedays_cent+totalchill_cent+photoper_cent+forcetemp_cent+responsedays_cent:forcetemp_cent+responsedays_cent:totalchill_cent+responsedays_cent:photoper_cent+(1|spp)+(1|datasetID),data=ospree.percbb)
 summary(mod.cfp_cent)#as days to budburst increases, perc budburst increases
 ###So,according to this model, increasing the days to budburst leads to increases in percent budburst
 #Interaction between days and chilling is negative, suggesting that chilling decreases the positive effect of days on %budburst

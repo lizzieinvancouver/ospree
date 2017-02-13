@@ -9,7 +9,7 @@ First using the zohnermerge.R script I
 -formated colelction date column to match  ospree.xls ds
 then I output a "zohnerintermediate.xls" file.
 
-I copied this intermediate file in a new ds "zohner-formatted" and adjusted all the columns by hand.
+I copied this intermediate file in a new datasheet "zohner-formatted" and adjusted all the columns by hand.
 Which was manually filling in columns with repeating entries---things like "$Entered.By" which were all the same throughout the column. After the formatting matched, I mannually copied my the zohner_formatted.csv data into the orignial datasheet ospree.xlsx.
 
 But wait there's more-- then I was asked to backconvert the respvar degreedaystobudbust back to daystobudburst, which I did directly in the ospree.xlsx sheet by dividing the respvar by 16 after clarifying with Zohner what his methods were.

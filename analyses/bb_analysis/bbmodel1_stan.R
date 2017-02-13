@@ -4,12 +4,14 @@
 ## Try to run REAL Ospree data ##
 ## With Stan! ##
 
+## Take 2: February 2017! ##
+
 ############################################
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-dostan = TRUE
+# dostan = TRUE
 
 library(rstan)
 library(ggplot2)
@@ -18,59 +20,61 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
-  } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/")
+  } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
 
 source('stan/savestan.R')
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-ospree <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
+# get the data
 
-bbvars <- c("daystobudburst", "daysto50percentbudburst", "daysto20%budburst",
-    "daysto10percentbudburst","daysto50%budburst", "daystoleafout")
+# make sure this is the correct file (we're still cleaning as I write this!) 
+bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+labgroups <- read.csv("output/labgroups.csv", header=TRUE)
 
-ospree.bb <- ospree[which(ospree$respvar %in% bbvars),]
+# merge in labgroup (we could do this elsewhere someday
+bb.wlab <- merge(bb, labgroups, by="datasetID", all.x=TRUE)
 
-dim(ospree)
-dim(ospree.bb) # not so much data, 2392 rows if just do days to budburst
+columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
+    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", "cat")
 
-kmeans <- read.csv("refs/kmeans6.csv", header=TRUE, skip=1,
-    col.names=c("datID", "labgroup"))
+bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 
-ospree.bb.lab <- merge(ospree.bb, kmeans, by.x="datasetID",
-   by.y="datID", all.x=TRUE)
+# make a bunch of things numeric (eek!)
+bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
+bb.wlab.sm$photo <- as.numeric(bb.wlab.sm$photoperiod_day)
+bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Chilling_Hours)
+bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
 
-ospree.bb.lab$spp <- paste(ospree.bb.lab$genus, ospree.bb.lab$species, sep="")
-
-ospree.bb.lab <- subset(ospree.bb.lab, is.na(spp)==FALSE)
-
-# deal with response vs. responsetime (quick fix for now)
-resp1 <- subset(ospree.bb.lab, response==1) # most of are data are like this
-resp1.timeNA <- subset(resp1, is.na(response.time)==TRUE) # about 20 rows have this
-
-ospree.bb.lab$responsedays <- ospree.bb.lab$response.time
-ospree.bb.lab$responsedays[which(ospree.bb.lab$response>1 & ospree.bb.lab$response.time=="")] <-
-    ospree.bb.lab$response[which(ospree.bb.lab$response>1 & ospree.bb.lab$response.time=="")]
-
-# just to think on ...
-ospree.bb.lab[which(ospree.bb.lab$response>1),28:31]
+bb.wlab.sm$photo.cen <- scale(bb.wlab.sm$photo, center=TRUE, scale=TRUE)
+bb.wlab.sm$force.cen <- scale(bb.wlab.sm$force, center=TRUE, scale=TRUE)
+bb.wlab.sm$chill.cen <- scale(bb.wlab.sm$chill, center=TRUE, scale=TRUE)
 
 # deal with NAs for now ...
-ospr.stan <- ospree.bb.lab
-
-ospr.stan$totalchill <- as.numeric(ospr.stan$Total_Chilling_Hours) 
-ospr.stan$forcetemp <- as.numeric(ospr.stan$forcetemp)
-ospr.stan$photoperiod_day <- as.numeric(ospr.stan$photoperiod_day)
-ospr.stan$provenance.lat <- as.numeric(ospr.stan$provenance.lat)
-ospr.stan$spp <- as.numeric(as.factor(ospr.stan$spp))
-ospr.stan$responsedays <- as.numeric(ospr.stan$responsedays)
-
-ospr.stan <- subset(ospr.stan, select=c("responsedays", "totalchill", "forcetemp", 
-    "photoperiod_day", "provenance.lat", "spp"))
+ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill.cen", "photo.cen", "force.cen", "genus"))
+dim(subset(bb.wlab.sm, is.na(chill.cen)==FALSE & is.na(photo.cen)==FALSE & is.na(force.cen)==FALSE))
+ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
+ospr.stan$genus <- as.numeric(as.factor(ospr.stan$genus))
 
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, photoperiod, and where we have a response in days and total chilling. There are NA in each of these columns, including labgroup!
 
+## remove NAs individually .... (not needed currently)
+y = ospr.stan$resp[which(is.na(ospr.stan$resp)==FALSE)]
+chill = ospr.stan$chill[which(is.na(ospr.stan$chill)==FALSE)]
+force = ospr.stan$force[which(is.na(ospr.stan$force)==FALSE)]
+photo = ospr.stan$photo[which(is.na(ospr.stan$photo)==FALSE)]
+sp = ospr.stan$genus[which(is.na(ospr.stan$genus)==FALSE)]
+N = length(y)
+n_sp = length(unique(sp))
+
+m1.bb <- stan('stan/M1_daysBB_2level.stan', data = c("y", "chill", "force",
+    "photo", "sp", "N", "n_sp"), iter = 2000, chains=4) 
+
+###
+## older code
+###
+ospr.stan <- ospree.bb.lab
 ospr.stan.noNA <- ospr.stan[complete.cases(ospr.stan),] # 1234 rows ....
 
 dim(ospr.stan.noNA)

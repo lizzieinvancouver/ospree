@@ -240,4 +240,4 @@ for(i in names(tempval)){
     chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
 
-write.csv(chillcalcs,"analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")
+write.csv(chillcalcs,"~/Documents/git/ospree/analyses/output/fieldchillcalcslatlong.csv",row.names=FALSE, eol="\r\n")

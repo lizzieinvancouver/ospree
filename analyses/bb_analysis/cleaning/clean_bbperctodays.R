@@ -11,8 +11,8 @@ options(stringsAsFactors=FALSE)
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-# setwd("~/Documents/git/projects/treegarden/budreview/ospree")
-d<-read.csv("ospree_clean_withchill.csv",as.is=T)
+# setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/output")
+d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
 
 subsetting.daysBB<-function(d,target.percent,type=c("add.columns","only.percentBB","BB_analysis")){
 ## generate new columns in dataset to store days to budburst results
