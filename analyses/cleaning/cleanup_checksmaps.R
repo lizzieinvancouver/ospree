@@ -1,5 +1,9 @@
-# cleanup script for budburst review
-# Also makes summaries of what data we have
+## Started by DBFlynn in summer 2016 ##
+## Small updated by Lizzie in 2017 ##
+
+# This file does two main things:
+# (1) Makes some summaries of how clean things are (including making 'papers to revisit' lists) 
+# (2) Also makes summaries of what data we have including maps of data!
 
 ## housekeeping
 rm(list=ls()) 
@@ -13,7 +17,7 @@ library(lme4)
 # set to DF working directory if DF computer.
 if(length(grep("danflynn", getwd())>0)) { # set to DF working directory if DF computer. 
   setwd("~/Documents/git/ospree") 
-} else setwd("~/Documents/git/projects/treegarden/budreview/ospree")
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
 
 # Run the prep script (slow, uncomment if haven't run in a while)
 # source("source/Prep_all_data.R") 
@@ -47,6 +51,9 @@ hist(as.numeric(as.character(d$photoperiod_day)),
 
 #############################
 # Which do we need to revisit?
+# Note that as of Feb 2017 -- we think we have looked at ALL of these
+# So I (Lizzie) stopped the files from writing out (since we tossed those folders because ...
+# we looked at all that). Whoop!
 
 # do we have dates for all fieldchill = Y studies?
 
@@ -83,7 +90,7 @@ revisit <- merge(revisit4, revisit, all = TRUE)
 
 revisit[is.na(revisit)] = ""
 
-write.csv(revisit, file = "revisiting/Papers to Revisit.csv", row.names = FALSE)
+# write.csv(revisit, file = "revisit.csv", row.names = FALSE)
 
 # ambient or range for forcetemp
 revisit.amb <- d[which(grepl("ambi", d$forcetemp)==TRUE),]
@@ -94,14 +101,14 @@ forcetempissues <- rbind(revisit.amb, revisit.hyp, revisit.com)
 
 forcetempissues.print <- subset(forcetempissues, select=c("datasetID", "study", "forcetemp"))
 forcetempissues.print <- forcetempissues.print[!duplicated(forcetempissues.print),]
-write.csv(forcetempissues.print, file = "revisiting/revisit_temp.csv", row.names = FALSE)
+# write.csv(forcetempissues.print, file = "revisiting/revisit_temp.csv", row.names = FALSE)
 
 
 #############################
 # More thinking about what's missing
-d.nolat <- subset(d, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 399 rows
-d.noforce <- subset(d, is.na(forcetemp)==TRUE | forcetemp=="") # only 521 rows
-d.nophoto <- subset(d, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 628
+d.nolat <- subset(d, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 10 rows (was 399 in July 2016!)
+d.noforce <- subset(d, is.na(forcetemp)==TRUE | forcetemp=="") # only 257 rows (was 521)
+d.nophoto <- subset(d, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 315 (was 628)
 d$latbi <- paste(d$genus, d$species, sep="_")
 d.nolatbi <- subset(d, is.na(latbi)==TRUE | latbi=="") # all studies are done on some named thing!
 
@@ -112,9 +119,9 @@ d.num$provenance.lat <- as.numeric(d.num$provenance.lat)
 d.num$forcetemp <- as.numeric(d.num$forcetemp)
 d.num$photoperiod_day <- as.numeric(d.num$photoperiod_day)
 
-d.num.nolat <- subset(d.num, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 479 rows
-d.num.noforce <- subset(d.num, is.na(forcetemp)==TRUE | forcetemp=="") # 3124 rows
-d.num.nophoto <- subset(d.num, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 3770
+d.num.nolat <- subset(d.num, is.na(provenance.lat)==TRUE | provenance.lat=="") # only 10 (was 479) rows
+d.num.noforce <- subset(d.num, is.na(forcetemp)==TRUE | forcetemp=="") # 0 (was 3124) rows ... really?
+d.num.nophoto <- subset(d.num, is.na(photoperiod_day)==TRUE | photoperiod_day=="") # 0 (was 3770) rows ... really?
 
 unique(d$provenance.lat)
 unique(d$photoperiod_day)
