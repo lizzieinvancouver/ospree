@@ -1,28 +1,30 @@
-##cleaning up species names for the budburst review
-##EJ Forrestel, 20 January 2016
+## Started 20 January 2016 ##
+## By EJ Forrestel, updates by Lizzie in Feb 2017 ##
 
-require('Taxonstand')
+## Cleaning up species names in OSPREE ##
 
-##read in csv file with spp names
-setwd("~/Documents/git/budreview")
+library('Taxonstand')
 
-dat <- read.csv("growthchambers_litreview.csv") 
-dat$taxa <- paste(dat$genus,dat$species,sep=" ")
+# You need to run cleanmerge_all through step 6 before running this #
+# Well, I guess you can run it before step 6, but we're not working with non-woody species #
+
+d$taxa <- paste(d$genus,d$species,sep=" ")
 
 ##checking number of study reps and experiment reps for each species
-dat$sp_study <- paste(dat$genus,dat$species,dat$datasetID,dat$study,sep="_")
-sp_study <- table(dat$sp_study)
+d$sp_study <- paste(d$genus,d$species,d$datasetID,d$study,sep="_")
+sp_study <- table(d$sp_study)
 sp_study <- cbind(names(sp_study),sp_study)
-taxa <- paste(dat$genus,dat$species,sep=" ")
+taxa <- paste(d$genus,d$species,sep=" ")
 taxa <- unique(taxa)
 
 ##matching to TPL 1.1
-clean_names <- TPL(taxa)
-
+clean_names <- TPL(taxa) # patience, patience
 
 # Manual cleanup needed for these
 mancheck <- clean_names[clean_names$Plant.Name.Index == FALSE,]
 manchecksp <- paste(mancheck$Genus, mancheck$Species)
+
+## Checks on names, need to update! ##
 
 # Actinidia deliciosa = valid on IPNI, Actinidiaceae
 # Pieris japonica = valid on IPNI, Ericaceae
@@ -31,17 +33,13 @@ manchecksp <- paste(mancheck$Genus, mancheck$Species)
 # Populus deltoides = valid,also basionym of Aigeiros deltoides, Salicaceae. 
 
 # "Acer psuedoplatanus" misspelling of "Acer pseudoplatanus"
-dat[dat$taxa=="Acer psuedoplatanus","species"] = "pseudoplatanus"
+d[d$taxa=="Acer psuedoplatanus","species"] = "pseudoplatanus"
 
 # decudia to decidua
-dat[dat$taxa=="Larix decudia","species"] = "decidua"
+d[d$taxa=="Larix decudia","species"] = "decidua"
 
 # Pseduotsuga to Pseudotsuga - Douglas fir
-dat[dat$taxa=="Pseduotsuga menziesii","genus"] = "Pseudotsuga"
+d[d$taxa=="Pseduotsuga menziesii","genus"] = "Pseudotsuga"
 
-# Write out taxa for next step
-
-
-##use geosphere to pull daily latitudes and photoperiods
 
  

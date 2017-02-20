@@ -26,8 +26,6 @@ d$X.1 <- NULL
 d$X.2 <- NULL
 d$X.3 <- NULL
 
-# To do: Check if we still need zohner_checkifweneed.R now that cleaning happens here.
-
 # 3. Clean up response variable names
 
 source("cleaning/clean_respvar.R")
@@ -54,7 +52,7 @@ source("cleaning/clean_chilltemp.R")
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
-# 10. Write out the final file! (I have not run this yet .... ) 
+# 10. Write out the final file! 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 
