@@ -119,6 +119,34 @@ q+geom_point()+labs(title="Chilling Portions Exp. Chilling", x=" Latititude", y=
 plottingCH<-gather(treat, maxmin,value, maxECH:minECH)
 q<-ggplot(plottingCH, aes(x=meanprov, y=value, color=maxmin)) 
 q+geom_point()+labs(title="Chilling Hours Exp. Chilling", x=" Latititude", y="Chilling")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)
-
 ###Next step lms for chilling
+
+##Utah
+Modmax3<-lm(maxTU~meanprov,data=treat)
+summary(Modmax3)
+Modmin3<-lm(minTU~meanprov,data=treat)
+summary(Modmin3)
+Modmax4<-lm(maxEU~meanprov,data=treat)
+summary(Modmax4)
+Modmin4<-lm(minEU~meanprov,data=treat)
+summary(Modmin4)
+### chill hours
+Modmax5<-lm(maxTCH~meanprov,data=treat)
+summary(Modmax5)
+Modmin5<-lm(minTCH~meanprov,data=treat)
+summary(Modmin5)
+Modmax6<-lm(maxECH~meanprov,data=treat)
+summary(Modmax6)
+Modmin6<-lm(minECH~meanprov,data=treat)
+summary(Modmin6)
+###chill portion
+Modmax7<-lm(maxTCP~meanprov,data=treat)
+summary(Modmax7)
+Modmin7<-lm(minTCP~meanprov,data=treat)
+summary(Modmin7)
+Modmax8<-lm(maxECP~meanprov,data=treat)
+summary(Modmax8)
+Modmin8<-lm(minECP~meanprov,data=treat)
+summary(Modmin8)
+
 ###instead of removing southern hemisphere I could, make absolute value
