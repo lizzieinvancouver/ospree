@@ -30,7 +30,7 @@ respvar.perc <- c("percentbudburst", "percentflower", "otherpercents")
 respvar.other <- c("phenstage", "flowernumber", "growth", "othernums")
  ## checking respvar.time related issues
 areone.time <- areone[which(areone$respvar.simple %in% respvar.time),]
-hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
+# hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
 
 negative.time<-subset(areone.time, response.time<0)
 unique(negative.time$datasetID)

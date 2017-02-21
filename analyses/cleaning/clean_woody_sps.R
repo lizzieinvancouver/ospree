@@ -52,16 +52,22 @@ d.woody[which(d.woody$species==" japonica"),"species"]<-"japonica"
 d.woody[which(d.woody$species=="jezoensis hondoensis"),"species"]<-"jezoensis"
 d.woody[which(d.woody$species=="psuedoplatanus"),"species"]<-"pseudoplatanus"
 d.woody[which(d.woody$species=="pumila Mill."),"species"]<-"pumila"
-d.woody[which(d.woody$species=="sylvatica L"),"species"]<-"sylvatica"
+d.woody[which(d.woody$species=="sylvatica L"),"species"] <- "sylvatica"
+d.woody[which(d.woody$species=="decudia"),"species"] <- "decidua"
+d.woody[which(d.woody$species=="setchuensis"),"species"] <- "setchuenensis"
+d.woody[which(d.woody$species=="amerciana"),"species"] <- "americana"
+
+# genus problems
+d.woody[which(d.woody$genus=="Pseduotsuga"),"genus"] = "Pseudotsuga"
+
 
 ## save
 #write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
-d<-d.woody
+d <-d.woody
 
 ## alternatively, correct the "woody" column within ospree
 #dat$woody[which(dat$genus%in%is.non.woody)]<-"no"
 #write.csv(dat,paste(out.folder,"ospree.woody.corrected.csv",sep=""))
 
 }
-
 

@@ -38,9 +38,13 @@ source("cleaning/clean_photo.R")
 
 source("cleaning/clean_forcetemp.R")
 
-# 6. get rid of non-woodys
+# 6. Get rid of non-woodys and clean species names
 
-source("cleaning/clean_woody_sps.R") # need to rewrite this a little (Nacho)
+source("cleaning/clean_woody_sps.R") 
+
+# Run the below every so often (commented out because it is slow) 
+# This checks the species list against www.theplantlist.org ... ask for manchecksp to see non-matches
+# source("cleaning/clean_spp_match.R") 
 
 # 7. Clean response and response time columns.
 source("cleaning/clean_responsetime.R")
@@ -57,8 +61,4 @@ source("cleaning/clean_chilltemp.R")
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 
 
-
-# X. Make table of taxonomy for possible phylogenetic work
-
-#source("cleaning/clean_spp_match.R") # Slow, checking sp names against The Plant List
 

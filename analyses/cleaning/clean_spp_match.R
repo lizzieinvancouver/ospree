@@ -24,22 +24,18 @@ clean_names <- TPL(taxa) # patience, patience
 mancheck <- clean_names[clean_names$Plant.Name.Index == FALSE,]
 manchecksp <- paste(mancheck$Genus, mancheck$Species)
 
-## Checks on names, need to update! ##
+## Notes on names ##
 
+# Notes from January 2016
 # Actinidia deliciosa = valid on IPNI, Actinidiaceae
 # Pieris japonica = valid on IPNI, Ericaceae
 # Quercus faginea = valid, possibly hybridparent of Quercus x subpyrenaica, Fagaceae
 # Betula pendula = valid, synonym includes Betula alba var. pendula, Betulaceae
-# Populus deltoides = valid,also basionym of Aigeiros deltoides, Salicaceae. 
+# Populus deltoides = valid,also basionym of Aigeiros deltoides, Salicaceae.
 
-# "Acer psuedoplatanus" misspelling of "Acer pseudoplatanus"
-d[d$taxa=="Acer psuedoplatanus","species"] = "pseudoplatanus"
-
-# decudia to decidua
-d[d$taxa=="Larix decudia","species"] = "decidua"
-
-# Pseduotsuga to Pseudotsuga - Douglas fir
-d[d$taxa=="Pseduotsuga menziesii","genus"] = "Pseudotsuga"
+# Notes from February 2017
+# Hamamelis japonica = seems okay according to IPNI
+# Liquidambar orientalis = seems okay according to IPNI
 
 
  
