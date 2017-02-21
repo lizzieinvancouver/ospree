@@ -21,6 +21,9 @@ library(shinystan)
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
   } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
+if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/analyses") 
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
 
 source('stan/savestan.R')
 
@@ -70,6 +73,11 @@ n_sp = length(unique(sp))
 
 m1.bb <- stan('stan/M1_daysBB_2level.stan', data = c("y", "chill", "force",
     "photo", "sp", "N", "n_sp"), iter = 2000, chains=4) 
+
+#launch_shinystan(m1.bb)
+#summary(m1.bb)
+#saveRDS(m1.bb,file="stan/M1_daysBB_2level.stan.rds")
+
 
 ###
 ## older code

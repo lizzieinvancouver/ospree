@@ -13,11 +13,17 @@ options(stringsAsFactors = FALSE)
 # libraries
 library(rstanarm)
 library(ggplot2)
+library(shinystan)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
   } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
+
+if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/analyses") 
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
+
 
 # get the data
 
@@ -60,8 +66,7 @@ m1 <- stan_lmer(resp ~ force + photo + chill + force*photo + force*chill + photo
 
 m1.nolabgroup  <- stan_lmer(resp ~ force.cen + photo.cen + chill.cen + force.cen*photo.cen + force.cen*chill.cen + 
     photo.cen*chill.cen + (force.cen + photo.cen + chill.cen + force.cen*photo.cen + force.cen*chill.cen +
-    photo.cen*chill.cen | genus), data = bb.wlab.sm)
-
+    photo.cen*chill.cen | genus), data = bb.wlab.sm, adapt_delta=0.99,cores=2, QR = TRUE)
 
 
 m1.fp.nolabgroup <- stan_lmer(resp ~ force.cen*photo.cen + (1 | genus), data = bb.wlab.sm, cores=4, QR = TRUE)
@@ -77,10 +82,11 @@ save(m1.chill, file="output/m1.chill.Rdata")
 save(m1.fp.nolabgroup.full, file="output/m1.fp.nolabgroup.full.Rdata")
 
 save(m1.nolabgroup, file="output/m1.nolabgroup.Rdata")
-
+str(m1.nolabgroup)
 
 launch_shinystan(m1.chill)
 launch_shinystan(m1.force)
+launch_shinystan(m1.nolabgroup)
 
 summary(m1.chill)
 summary(m1.photo)
