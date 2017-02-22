@@ -7,7 +7,7 @@
 
 # Added TODO notes throughout (but then forgot so some are missing) #
 
-# SHOULD WE rename the `1' entries as "timeonly" or such?!
+# Note: We renamed the `1' entries as "timeonly" or such?!
 
 # Here's the issue ...
 # Some data were XY graphs with days on X and percent budburst or something else on the Y
