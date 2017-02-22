@@ -7,11 +7,9 @@ options(stringsAsFactors = FALSE)
 
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else {
-    (length(grep("ailene", getwd()))>0)
-    setwd("/Users/aileneettinger/git/ospree/analyses")
-}
-
+} else if
+    (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+}else 
 setwd("~/Documents/git/ospree/analyses")
 
 # Load libraries
