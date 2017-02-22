@@ -46,3 +46,4 @@ head(ospree[ospree$datasetID=="campbell75",1:15])#for boyer, the "southeast geor
 #Questions
 #use "growing lat long instead to calculate chilling? problem is, we didn't really use that field (10075 NAs, versus only 288 NAs in provanance lat)
 #what journal is boyer from?
+#several of my files remove woody species- no need to do this, though right?
