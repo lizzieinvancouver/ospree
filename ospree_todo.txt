@@ -1,5 +1,5 @@
 Started 12 February 2017
-Updated 22 February 2017
+Last updated 28 February 2017
 OSPREE to do
 
 
@@ -13,20 +13,17 @@ Ailene:
 #59 - Check the provenance.lat and provenance.long of some collection locations (almost done)
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #24 - non-numeric chilltemps in ospree_clean
-
+#88 - Add growing lat/long to chilling code estimates
 
 Cat:
 #72 - convert degree days to days if possible … Cat, were you working on this? If so, can you update the issue with where you’re at. (If you can change any, make a file to change them in bb_analysis cleaning… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
 #86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltime studies?)
-#73 - estimate ambient forcing temperatures
 
 
 Me:
 #42 - Merging and cleaning: delete the extra cleaning BB file in main cleaning folders
 #29 - response and response time issue
-#67 - go through cleanup_files.R
 #58 - Deal with labgroups
-#8 and #9 - Dan Flynn did actually changed these in the .csv file? (That is, check if they are changed in ospree.csv) — I should update the notes! (And maybe we need a methods or major notes file …)
 
 Dan:
 Next time: look at figures on experimental relationships with latitude 
