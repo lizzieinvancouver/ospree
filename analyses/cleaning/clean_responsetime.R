@@ -1,13 +1,9 @@
 ## Started 28 Jan 2017 ##
-## By Lizzie ##
+## By Lizzie with heroic efforts by Dan B. ##
 ## Oh no, I am working on a weekend! But will stop soon ##
 
-## Eventually we should use this code to clean responsetime ##
-## I (Lizzie) think we will need to fix each entry on a case-by-case basis sadly ...
-
-# Added TODO notes throughout (but then forgot so some are missing) #
-
-# Note: We renamed the `1' entries as "timeonly" or such?!
+## This code cleans responsetime ##
+## In many cases we needed to fix each entry on a case-by-case basis sadly ... so this is a bit long. ##
 
 # Here's the issue ...
 # Some data were XY graphs with days on X and percent budburst or something else on the Y
@@ -32,23 +28,22 @@ respvar.other <- c("phenstage", "flowernumber", "growth", "othernums")
 areone.time <- areone[which(areone$respvar.simple %in% respvar.time),]
 # hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
 
-negative.time<-subset(areone.time, response.time<0)
+negative.time <- subset(areone.time, response.time<0)
 unique(negative.time$datasetID)
-checkers1<-c("caffarra11b","calme94","heide12","heide93a","howe95")  
-negatives<-negative.time[which(negative.time$datasetID %in% checkers1),]
-View(negatives[,c(1,25:27,31)])
+checkers1 <- c("caffarra11b","calme94","heide12","heide93a","howe95")  
+negatives <- negative.time[which(negative.time$datasetID %in% checkers1),]
+# negatives[,c(1,25:27,31)] 
 
 areone.perc <- areone[which(areone$respvar.simple %in% respvar.perc),]
-View(areone.perc[,c(1,25:27,31)])
+# areone.perc[,c(1,25:27,31)]
 unique(areone.perc$datasetID)
 
 areone.other <- areone[which(areone$respvar.simple %in% respvar.other),]
 dim(areone.other)
 unique(areone.other$datasetID) 
 # need to go through each one ... for example sonsteby13 is looks to be an example of where this `1' idea fails us.
-checkers2<-c("cannell83"   ,   "gunderson12" ,   "heide11"    ,  
-"pettersen71"  , "sonsteby13") 
-View(areone.other[which(areone.other$datasetID %in% checkers2),])
+checkers2 <- c("cannell83", "gunderson12","heide11", "pettersen71","sonsteby13") 
+areone.other[which(areone.other$datasetID %in% checkers2),]
 
 ####all issues from above:
 #calme94- Betula and Quercus are switched!
@@ -60,14 +55,14 @@ d<- within(d, response.time[datasetID=="heide12" & response.time==">60"]<-"no re
 d<- within(d, response.time[datasetID=="heide12" & response.time==">90"]<-"no response")
 d<- within(d, response.time[datasetID=="heide93a" & response.time==">50"]<-"no response")
 d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no response")
-View(filter(d,datasetID=="heide12"))
+filter(d,datasetID=="heide12")
 
-#"falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
+#falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
 #canell83: would need to fix this is respvar by calculating thermal time from figure 3
 #gunderson12: in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge")
 #heide11: This is fine
 #petterson71 This is fine 
-#  sonsteby13 This is fine
+#sonsteby13 This is fine
 #ruesink98" This is fine
 
 ##
