@@ -66,7 +66,7 @@ m1 <- stan_lmer(resp ~ force + photo + chill + force*photo + force*chill + photo
 
 m1.nolabgroup  <- stan_lmer(resp ~ force.cen + photo.cen + chill.cen + force.cen*photo.cen + force.cen*chill.cen + 
     photo.cen*chill.cen + (force.cen + photo.cen + chill.cen + force.cen*photo.cen + force.cen*chill.cen +
-    photo.cen*chill.cen | genus), data = bb.wlab.sm, adapt_delta=0.99,cores=2, QR = TRUE)
+    photo.cen*chill.cen | genus), data = bb.wlab.sm, adapt_delta=0.99,cores=4, QR = TRUE)
 
 
 m1.fp.nolabgroup <- stan_lmer(resp ~ force.cen*photo.cen + (1 | genus), data = bb.wlab.sm, cores=4, QR = TRUE)
