@@ -5,27 +5,25 @@
 
 colnames(d)[which(colnames(d)=="fieldsample.date")]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
 d$fieldsample.date<-strptime(strptime(d$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
-#use only woody species
-dat2 <- subset(d, woody=="yes")
+
 # make two data frames. North America and Europe, the lat longs and years.
-           
-dat2$continent <- tolower(dat2$continent)
-dat2$datasetID <- as.character(dat2$datasetID)
-dat2$provenance.lat <- as.numeric(as.character(dat2$provenance.lat))
-dat2$provenance.long <- as.numeric(as.character(dat2$provenance.long))
-dat2$year <- as.numeric(as.character(dat2$year))
-dat2$fieldsample.date<-as.character(as.Date(dat2$fieldsample.date,"%m/%d/%y")) #needed for new version
-dat2<- as_data_frame(dat2)
+d$continent <- tolower(d$continent)
+d$datasetID <- as.character(d$datasetID)
+d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
+d$provenance.long <- as.numeric(as.character(d$provenance.long))
+d$year <- as.numeric(as.character(d$year))
+d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y")) #needed for new version
+d<- as_data_frame(d)
            
 #Make a column that indexes the study, provenance latitude,provenance longitude, and field sample date, in order to calculate field chilling
-dat2$ID_fieldsample.date<-paste(dat2$datasetID,dat2$provenance.lat,dat2$provenance.long,dat2$fieldsample.date, sep="_")
+d$ID_fieldsample.date<-paste(d$datasetID,d$provenance.lat,d$provenance.long,d$fieldsample.date, sep="_")
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
-dat2$ID_chilltreat<-paste(dat2$datasetID,dat2$chilltemp,dat2$chilldays,sep=".")
+d$ID_chilltreat<-paste(d$datasetID,d$chilltemp,d$chilldays,sep=".")
            
 ##### Calculate experimental chilling, using chillday and chilltemp.
 ##there are many non-numeric values in the chilltemp and chilldays columns- these are unusable currently so remove:
 #want table with datasetID chilling days, chilling temperature,  treat for each study. 
-chilldat <- dat2 %>% # start with the data frame
+chilldat <- d %>% # start with the data frame
 distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
   dplyr::select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
 chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
@@ -63,7 +61,7 @@ for(i in 1:nrow(chilldat)) {
            
 #Merge field and experimental chilling data with the rest of the data
 #Add experimental chilling. Right number of rows = 12898 rows, 61 columns
-           dat3 <- merge(dat2, expchillcalcs, 
+           dat3 <- merge(d, expchillcalcs, 
            by.x = c("datasetID","ID_chilltreat"),
            by.y=c("datasetID","ID_chilltreat"),
            all.x=T)

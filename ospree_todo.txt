@@ -1,4 +1,5 @@
 Started 12 February 2017
+Last updated 28 February 2017
 OSPREE to do
 
 
@@ -9,37 +10,34 @@ Where we’re at with issues:
 ** To do now:
 
 Ailene:
-#59 - Check the provenance.lat and provenance.long of some collection locations
-#8 and #9 - Can you check if Dan Flynn actually changed these in the .csv file? (That is, check if they are changed in ospree.csv) and update the comment with what you find out. We’ll go from there. 
-#70 - Source the chill cleaning files
-#83 - Let’s discuss on our next Skype! 
+#59 - Check the provenance.lat and provenance.long of some collection locations (almost done)
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #24 - non-numeric chilltemps in ospree_clean
+#88 - Add growing lat/long to chilling code estimates
 
 
 Cat:
-#72 - convert degree days to days if possible … Cat, were you working on this? If so, can you update the issue with where you’re at. 
-#86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltim studies?)
+#72 - convert degree days to days if possible … Cat, were you working on this? If so, can you update the issue with where you’re at. (If you can change any, make a file to change them in bb_analysis cleaning… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
+#86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltime studies?)
+
 
 Me:
-#21 - Bibtex issues
-#42 - Merging and cleaning
+#42 - Merging and cleaning: delete the extra cleaning BB file in main cleaning folders
 #29 - response and response time issue
-#67 - go through cleanup_files.R
 #58 - Deal with labgroups
 
+
 Dan:
-#85 - Finish figures on experimental relationships with latitude 
+Next time: look at figures on experimental relationships with latitude 
+#29 - response and response time issue
 
 
 Nacho:
 #87 - Make figures based on rstanarm models and the model I built
-
+#79 - check duplicates
 
 **
 ** To do soon:
-#73 - estimate ambient forcing temperatures (was anyone doing this?!)
-#79 - check duplicates
 #84 - Go through all cleaning files line by line
 
 

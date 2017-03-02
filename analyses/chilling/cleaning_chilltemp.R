@@ -1,7 +1,7 @@
 #Cleaning columns for chilling calculations:fieldsample.dat, chilltemp, and chilldays###############################################
 #Started by Ailene January 30, 2017
 
-d<- subset(d, woody=="yes")
+d<- subset(d, woody=="yes")#not necessary anymore, i think?
 # See cleanmerge_all.R for started text #
 unique(d$chilltemp)#Need to fix several things here- go back to the papers to figure these out
 #d[which(d$chilltemp=="High"),]#this is skre08
