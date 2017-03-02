@@ -39,12 +39,8 @@ d[d$datasetID=="boyer" & d$population=="Southeast Virginia",]$provenance.long<--
 #(i think Alabama Agricultural Experiment STation, Auburn Unviersity, AL: )
 d[d$datasetID=="boyer" & d$study=="exp2",]$growing.lat<-32.5172108
 d[d$datasetID=="boyer" & d$study=="exp2",]$growing.long<--85.9572927
-#no field chilling for exp1 so leave that as is.
 
-
-
-head(ospree[ospree$datasetID=="campbell75",1:15])#for campbell75
-#Cloverdale population (45.37,-124.5) should be 46,-122.81 (was in the ocean)
+#Campbell75 Cloverdale population (45.37,-124.5) should be 46,-122.81 (was in the ocean)
 #Port Townsend population (48.2, -123.25 ) should be 48.117039,-122.760447 (was in the ocean)
 #Questions
 #use "growing lat long instead to calculate chilling? problem is, we didn't really use that field (10075 NAs, versus only 288 NAs in provanance lat)
