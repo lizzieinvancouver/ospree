@@ -16,6 +16,8 @@ library(arm)
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
+if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+} else 
 setwd("~/Documents/git/ospree/analyses")
 d<-read.csv("output/ospree_clean_withchill.csv",as.is=TRUE)
 
@@ -24,8 +26,10 @@ d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermal
 d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
 dbb<-subset(d,respvar.simple=="daystobudburst")
 # attempting to convert response.time to daystobudburst using two methods, both have same error
-dbb <- within(dbb, response.time[datasetID == 'ghelardini10']<- dbb$response/dbb$forcetemp)
-dbb <- within(dbb, response.time[datasetID == 'heide93'] <- as.numeric(as.character(response)) / as.numeric(as.character(forcetemp)))
+dbb$response.time[which(dbb$datasetID=="ghelardini10")] <-
+    as.numeric(dbb$response[which(dbb$datasetID=="ghelardini10")])/as.numeric(dbb$forcetemp[which(dbb$datasetID=="ghelardini10")])
+dbb$response.time[which(dbb$datasetID=="heide93")] <-
+    as.numeric(dbb$response[which(dbb$datasetID=="heide93")])/as.numeric(dbb$forcetemp[which(dbb$datasetID=="heide93")])
 # if you subset the dataframe down and make a new dataframe, then it will work... example below
 dg<-filter(dbb, datasetID=='ghelardini10')
 dg$response<-as.numeric(as.character(dg$response))
