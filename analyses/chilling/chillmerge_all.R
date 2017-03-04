@@ -23,21 +23,24 @@ library(chillR)
 # 1. Get the data
 d <- read.csv("output/ospree_clean.csv")
 
-# 2. Clean the  chilltemp column
+# 2. Clean the chilltemp column
 
 source("chilling/cleaning_chilltemp.R")
 
-# 2. Estimate field chilling (using provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
+#3. Clean the provenance.latitude and provenance.longitude columns, to get appropriate locations
+source("chilling/cleaning_provlatlong.R")
+
+# 4. Estimate field chilling (using provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
 #Skip this setp if you don't have the climate data drive
 source("chilling/fieldchillcalc_latlong.R")
 
-# 3. Merge in field chilling estimates with experimental chilling 
+# 5. Merge in field chilling estimates with experimental chilling 
 #(If you want to avoid connecting to the external hard drive, then start here)
 dat<-read.csv("output/fieldchillcalcslatlong.csv")
 
 source("chilling/totalchillcalc.R")
 
-# 4. Write out the file with total chilling estimates- (I have not done this yet!)
+# 6. Write out the file with total chilling estimates- (I have not done this yet!)
 
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
