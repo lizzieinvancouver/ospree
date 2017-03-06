@@ -31,8 +31,19 @@ source("chilling/cleaning_chilltemp.R")
 source("chilling/cleaning_provlatlong.R")
 
 # 4. Estimate field chilling (using provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
-#Skip this setp if you don't have the climate data drive
+
+# 4a: summarize lat/longs needed to pull climate data from europe and north america
 source("chilling/fieldchillcalc_latlong.R")
+
+# 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
+#Skip this step if you don't have the climate data drive
+climatedrive = "/Volumes/Ospree Climate" # "/Volumes/Ospree Climate (Ospree Climate is name of new external drive, change with new device)
+source("chilling/pullclimate.R")
+#could separately source europe and north america- for now left together
+
+# 4c: Interpolate hourly temperatures from the daily values 
+# & chilling using three different metrics
+source("chilling/interpolclimate.R")
 
 # 5. Merge in field chilling estimates with experimental chilling 
 #(If you want to avoid connecting to the external hard drive, then start here)

@@ -1,5 +1,5 @@
 #Calculates Total Chilling by merging in field chilling from "fieldchillcalc_latlong.R", 
-#This code adds this field chilling to experimental chilling to calculate total chilling
+#This code adds the field chilling to experimental chilling to calculate total chilling
 
 #First, calculate field chilling data
 
