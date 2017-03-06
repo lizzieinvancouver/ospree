@@ -47,7 +47,8 @@ for(i in names(tempval)){
     )
     
   }
-  
+ #Need to add chilling treatments to some experiments (i.e. when design is a warming experiment X degrees above ambient)
+  #These include:skre08, pagter15 (in chilltemp column, says "ambient + XXC")
   # Skip if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     

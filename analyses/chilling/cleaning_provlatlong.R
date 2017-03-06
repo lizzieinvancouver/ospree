@@ -23,6 +23,13 @@ d[d$datasetID=="skre08" & d$population=="Iceland",]$provenance.long<-21.892008
 #Similarly, Melbu population (formerly 68.61667,14.61667) should be 68.501210, 14.800709
 d[d$datasetID=="skre08" & d$population=="Melbu",]$provenance.lat<-68.501210
 d[d$datasetID=="skre08" & d$population=="Melbu",]$provenance.long<-14.800709
+#also, it seems that all provenances were grown in Bergen:
+#in reality, the seedlings were kept in Tromsø (69◦N, which is ~2000km north of Bergen) "for three months, 
+#but around 1November they were transferred to Norwegian Forest Research Institute, Bergen.
+#I use the google maps lat/long for bergen to get these lat/longs
+d[d$datasetID=="skre08",]$growing.lat<-60.3927286
+d[d$datasetID=="skre08",]$growing.long<-5.2868622
+#there are climate data available for skre08 but these would have to be scraped...
 
 #head(ospree[ospree$datasetID=="boyer",1:15])#for boyer, the "southeast georgia" population maps to water. should be 32, -82
 d[d$datasetID=="boyer" & d$population=="Southeast Georgia",]$provenance.lat<-32#lat ok
