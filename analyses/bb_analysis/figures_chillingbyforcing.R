@@ -15,28 +15,10 @@ library(ggplot2)
 library(arm)
 
 ## read data
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else 
-setwd("~/Documents/git/ospree/analyses")
-d<-read.csv("output/ospree_clean_withchill.csv",as.is=TRUE)
+setwd("~/Documents/git/ospree/analyses/bb_analysis")
+source("cleaning/clean_thermaltimetodays.R")
 
-## First create a simple forcing unit
-d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
-d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
-dbb<-subset(d,respvar.simple=="daystobudburst")
-# attempting to convert response.time to daystobudburst using two methods, both have same error
-dbb$response.time[which(dbb$datasetID=="ghelardini10")] <-
-    as.numeric(dbb$response[which(dbb$datasetID=="ghelardini10")])/as.numeric(dbb$forcetemp[which(dbb$datasetID=="ghelardini10")])
-dbb$response.time[which(dbb$datasetID=="heide93")] <-
-    as.numeric(dbb$response[which(dbb$datasetID=="heide93")])/as.numeric(dbb$forcetemp[which(dbb$datasetID=="heide93")])
-# if you subset the dataframe down and make a new dataframe, then it will work... example below
-dg<-filter(dbb, datasetID=='ghelardini10')
-dg$response<-as.numeric(as.character(dg$response))
-dg$forcetemp<-as.numeric(as.character(dg$forcetemp))
-dg$response.time<-dg$response/dg$forcetemp
-
-#dataset <- unique(dbb$datasetID)
+# Create new forcing unit
 dbb$resp = as.numeric(as.character(dbb$response.time))
 dbb$force = as.numeric(as.character(dbb$forcetemp))
 dbb$force_units <- dbb$resp * dbb$force
@@ -56,23 +38,27 @@ study$total <- rowSums(study > 1) # study where multiple predictors were manipul
 study$total<-as.numeric(study$total - 1)
 study<-study[which(study$total>=0),]
 df<- full_join(dbb, study)
+# study number indicates how many factors a study manipulated - 
+# e.g. asby62 had different sampling dates, latitudes, and photoperiods so has a value of 3 for studytype
 ggplot((df), aes(x=force_units, y=Total_Chill_portions)) + xlab("Forcing Units") + ylab("Total Chill Portions") +
   geom_point(aes(col=factor(total)))
 
-######### Work on thermaltime ############## really ugly right now, still working out
-# able to fix ghelardini (see above for daystobudburst section) unsure whether to change in ospree and which cells to fix
-dtt<-subset(d,respvar.simple=="thermaltime") # basler12, ghelardini10, heide93, karlsson03, laube14a, and skuterud94
-dtt$chill = as.numeric(as.character(dtt$Total_Chill_portions)) # only heide93 and skuterud94 have chilling units
+### Work on thermaltime figures - really ugly, not enough info to show meaningful relationship
+dtt<-subset(d,respvar.simple=="thermaltime") # basler12, karlsson03, laube14a, and skuterud94
+dtt$chill = as.numeric(as.character(dtt$Total_Chill_portions)) # only skuterud94 has chilling units
 dtt$photo = as.numeric(as.character(dtt$photoperiod_day))
 dtt$thermal = as.numeric(as.character(dtt$response.time)) # excludes skuterud and laube14a
 dtt$lat = as.numeric(as.character(dtt$provenance.lat))
+# unable to convert basler12, karlsson03, laube14a, and skuterud94 to daystobudburst
 
 #dtt<-dtt[which(dtt$chill!="NA"),]
 #dtt<-dtt[which(dtt$photo!="NA"),]
 #dtt<-dtt[which(dtt$thermal!="NA"),]
 #dtt<-dtt[which(dtt$lat!="NA"),]
 
-ggplot((dtt), aes(x=chill, y=thermal)) + xlab("Chilling Hours") + ylab("Thermal Time") + geom_point(aes(col=datasetID))
+# Not enough data to show any sort of interesting relationship...
+ggplot((dtt), aes(x=thermal, y=chill)) + xlab("Thermal Time") + ylab("Total Chill Portions") + 
+  geom_point()
 ggplot((dtt), aes(x=photo, y=thermal)) + xlab("Photoperiod") + ylab("Thermal Time") + geom_point(aes(col=datasetID))
 ggplot((dtt), aes(x=lat, y=thermal)) + xlab("Latitude") + ylab("Thermal Time") + geom_point(aes(col=datasetID))
 
