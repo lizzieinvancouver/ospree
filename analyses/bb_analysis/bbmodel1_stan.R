@@ -33,7 +33,7 @@ options(mc.cores = parallel::detectCores())
 # get the data
 
 # make sure this is the correct file (we're still cleaning as I write this!) 
-bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+bb <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 labgroups <- read.csv("output/labgroups.csv", header=TRUE)
 
 # merge in labgroup (we could do this elsewhere someday
@@ -71,12 +71,21 @@ sp = ospr.stan$genus[which(is.na(ospr.stan$genus)==FALSE)]
 N = length(y)
 n_sp = length(unique(sp))
 
+## remove outliers: some values of y > 600 - maybe driving huge estimated values for alpha
+chill = chill[which(y<300)]
+force = force[which(y<300)]
+photo = photo[which(y<300)]
+sp = sp[which(y<300)]
+y = y[which(y<300)]
+N = length(y)
+n_sp = length(unique(sp))
+
 m1.bb <- stan('stan/M1_daysBB_2level.stan', data = c("y", "chill", "force",
     "photo", "sp", "N", "n_sp"), iter = 2000, chains=4) 
 
 #launch_shinystan(m1.bb)
 #summary(m1.bb)
-#saveRDS(m1.bb,file="stan/M1_daysBB_2level.stan.rds")
+saveRDS(m1.bb,file="stan/M1_daysBB_2level.stan_tryNacho.rds")
 
 
 ###
