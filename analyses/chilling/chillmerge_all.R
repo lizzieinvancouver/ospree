@@ -37,8 +37,9 @@ source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #Skip this step if you don't have the climate data drive
-climatedrive = "/Volumes/Ospree Climate" # "/Volumes/Ospree Climate (Ospree Climate is name of new external drive, change with new device)
+climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of new external drive, change with new device)
 source("chilling/pullclimate.R")
+# climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate"
 #could separately source europe and north america- for now left together
 
 # 4c: Interpolate hourly temperatures from the daily values 
