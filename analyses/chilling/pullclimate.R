@@ -27,13 +27,13 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # start and end days, in days since baseline date (#sept 1) Set to GMT to avoid daylight savings insanity
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
-  if(eur[i,"fieldsample.date"]!="" & as.numeric(substr(eur[i,"fieldsample.date"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
-  if(eur[i,"fieldsample.date"]!="" & as.numeric(substr(eur[i,"fieldsample.date"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
-  if(eur[i,"fieldsample.date"]==""){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date2"]==""){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   
-  # using d$fieldsample.date
-  if(eur[i,"fieldsample.date"]!=""){endday <- strptime(eur[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
-  if(eur[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
+  # using fieldsample.date2
+  if(eur[i,"fieldsample.date2"]!=""){endday <- strptime(eur[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
+  if(eur[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
@@ -52,7 +52,7 @@ for(i in 1:nrow(eur)){ # i = 1
                     count=c(1,1,en-st+1)
   )
   
-  tempval[[as.character(eur[i,"ID_fieldsample.date"])]] <- data.frame(Lat = la,Long = lo,Date = seq(stday, endday, by = "day"),
+  tempval[[as.character(eur[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long = lo,Date = seq(stday, endday, by = "day"),
                                                                       Tmin = mins, Tmax = maxs)#
 }
 
@@ -80,8 +80,8 @@ for(i in 1:nrow(nam)){ # i = 1
   yr <- as.numeric(nam[i,"year"])
   
   # using d$fieldsample.date
-  if(nam[i,"fieldsample.date"]!=""){endday <- strptime(nam[i,"fieldsample.date"],"%Y-%m-%d", tz = "GMT")}
-  if(nam[i,"fieldsample.date"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")} #if no sampling date given, use april 30
+  if(nam[i,"fieldsample.date2"]!=""){endday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
+  if(nam[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")} #if no sampling date given, use april 30
   
   if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))<=9){#when sampling occurred in same year as study and when collection occurred before that year's sept chilling,
     stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
@@ -132,7 +132,7 @@ for(i in 1:nrow(nam)){ # i = 1
     maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
   }
   
-  tempval[[as.character(nam[i,"ID_fieldsample.date"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),
+  tempval[[as.character(nam[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),
                                                                       Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])#
 }
 

@@ -1,22 +1,18 @@
 #Calculates Total Chilling by merging in field chilling from "fieldchillcalc_latlong.R", 
 #This code adds the field chilling to experimental chilling to calculate total chilling
 
+###I think the next 10 lines of code (commented out) are old and unnecessary)
 #First, calculate field chilling data
-
-colnames(d)[which(colnames(d)=="fieldsample.date")]<-"fsdate_tofix"#the date format in this new file needs to be changed, for this code to work
-d$fieldsample.date<-strptime(strptime(d$fsdate_tofix, format = "%d-%b-%Y"),format = "%Y-%m-%d")
-
-# make two data frames. North America and Europe, the lat longs and years.
-d$continent <- tolower(d$continent)
-d$datasetID <- as.character(d$datasetID)
-d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
-d$provenance.long <- as.numeric(as.character(d$provenance.long))
-d$year <- as.numeric(as.character(d$year))
-d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y")) #needed for new version
-d<- as_data_frame(d)
-           
+#d$continent <- tolower(d$continent)
+#d$datasetID <- as.character(d$datasetID)
+#d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
+#d$provenance.long <- as.numeric(as.character(d$provenance.long))
+#d$year <- as.numeric(as.character(d$year))
+#d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y")) #needed for new version
+#d<- as_data_frame(d)
 #Make a column that indexes the study, provenance latitude,provenance longitude, and field sample date, in order to calculate field chilling
-d$ID_fieldsample.date<-paste(d$datasetID,d$provenance.lat,d$provenance.long,d$fieldsample.date, sep="_")
+#d$ID_fieldsample.date2<-paste(d$datasetID,d$chill.lat,d$chill.long,d$fieldsample.date2, sep="_")
+
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
 d$ID_chilltreat<-paste(d$datasetID,d$chilltemp,d$chilldays,sep=".")
            
@@ -70,14 +66,14 @@ for(i in 1:nrow(chilldat)) {
            chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
            chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA. 256 rows now.
            
-           colnames(chillcalcs) <- c("ID_fieldsample.date","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
+           colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
            #fieldchillcalcs has 256 rows and 6 columns
            # Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
-           (nochillcalcs <- unique(dat3$ID_fieldsample.date[!dat3$ID_fieldsample.date %in% chillcalcs$ID_fieldsample.date]))
+           (nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2]))
            
-           chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date %in% dat3$ID_fieldsample.date,]
+           chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date2 %in% dat3$ID_fieldsample.date2,]
            
-           dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date",match="all")
+           dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date2",match="all")
            #dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date", match="all") #Added by Cat
            
            ### Now add column for total chilling (field plus experimental)
