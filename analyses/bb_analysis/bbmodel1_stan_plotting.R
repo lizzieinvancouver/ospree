@@ -26,14 +26,16 @@ source('stan/savestan.R')
 
 # Load fitted stan model
 m1.bb<-readRDS("stan/M1_daysBB_2level.stan.rds")
+m1.bb<-readRDS("stan/M1_daysBB_2level.stan_tryNacho.rds")
 
 # explore results in shinystan
 #launch_shinystan(m1.bb)
 
 # Data to plot from model
-str(m1.bb@sim$samples[[1]])
+#str(m1.bb@sim$samples[[1]])
 
-hist(m1.bb@sim$samples[[1]]$a_0,30)
+hist(m1.bb@sim$samples[1:4]$a_0,30)
+abline(v=mean(m1.bb@sim$samples[[1]]$a_0),col='red')
 hist(m1.bb@sim$samples[[1]]$b_force_0,30)
 abline(v=median(m1.bb@sim$samples[[1]]$b_force_0),col='red')
 
@@ -46,7 +48,7 @@ max(y)
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 
 par(mar=c(5,7,3,2))
-plot(x=NULL,y=NULL,xlim=c(-150,150),yaxt='n',ylim=c(0,8),
+plot(x=NULL,y=NULL,xlim=c(-30000,150),yaxt='n',ylim=c(0,8),
      xlab="MOdel estimate change in days to BB",ylab="",main="M1_daysBB_2level.stan")
 axis(2, at=1:7, labels=rownames(summary(m1.bb)$summary)[7:1],las=1)
 abline(v=0,lty=2,col="darkgrey")
