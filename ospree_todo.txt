@@ -9,31 +9,37 @@ Where we’re at with issues:
 **
 ** To do now:
 
+Review:
+- Chilling x forcing plots
+- Dan’s plots on experimental relationships with latitude 
+- #91 - ALL, row.names=FALSE when you write out data
+
 Ailene:
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #24 - non-numeric chilltemps in ospree_clean
-#88 - Add growing lat/long to chilling code estimates
+#88 - Add growing lat/long to chilling code estimates (closed, but I am leaving it here until the code runs on my machine)
 
 
 Cat:
 #72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
-#86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltime studies?)
+#93 - BB>200
 
 
 Me:
 #42 - Merging and cleaning: delete the extra cleaning BB file in main cleaning folders
 #29 - response and response time issue
 #58 - Deal with labgroups
-
+#90 - Make fake data for Stan models
 
 Dan:
-Next time: look at figures on experimental relationships with latitude 
 #29 - response and response time issue
+#93 - BB>200
 
 
 Nacho:
 #87 - Make figures based on rstanarm models and the model I built
 #79 - check duplicates
+#92 - master file for cleaning BB? 
 
 **
 ** To do soon:
