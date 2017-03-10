@@ -16,7 +16,7 @@ Ailene:
 
 
 Cat:
-#72 (closed) - convert degree days to days if possible … Cat, were you working on this? If so, can you update the issue with where you’re at. (If you can change any, make a file to change them in bb_analysis cleaning… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
+#72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
 #86 - Finish chilling units by forcing units figures (Cat — maybe make one set for days to BB and one set using just thermaltime studies?)
 
 
