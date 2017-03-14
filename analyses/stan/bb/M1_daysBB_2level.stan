@@ -1,8 +1,8 @@
 // OSPREE analysis
 // Started by flynn@fas.harvard.edu, code updated by Lizzie in Feb 2017 to try running.
 // 2 level model for budburst day or percent budburst as a function of forcing temperature, chilling units, photoperiod in a meta-analysis of 100+ studies
-// Level: Species (actually genus) only
-//
+// Level: Species (actually genus) only on SLOPES and INTERCEPTS
+// Includes: Interactions 
 
 data {
 	int<lower=1> N;
