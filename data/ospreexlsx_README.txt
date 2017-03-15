@@ -60,4 +60,5 @@ Exp 3: Study starts in fall 1990
 exp 1 1988, exp 2 1990 (if started in 89, measured in 90) and exp 3 1991
 
 
-
+Swartz1981- 
+actual paper measure time to % bud burst in Growing Degree Hours. It seems this was converted to days to % budburst when input into our datasheet in ospree.xlsx
