@@ -10,8 +10,6 @@ Where we’re at with issues:
 ** To do now:
 
 Review:
-- Chilling x forcing plots
-- Dan’s plots on experimental relationships with latitude 
 - #91 - ALL, row.names=FALSE when you write out data
 
 Ailene:
