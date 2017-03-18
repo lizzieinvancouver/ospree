@@ -18,7 +18,7 @@ The files here do the following:
 
 3.fieldchillcalc_latlong.R: summarizes the lat/longs needed to pull climate data from europe and north america. These are the “growing” lat/longs if listed in the database, or, if no growing lat/long is given, then they are the provenance lat/long
 
-4. pullclimate.R: pulls in climate data (netcdf files, from an external hard drive) using the provenance lat/long columns and calculates field chilling experienced before the material was collected for the experiment. 
+4. pullclimate_eur.R & pullclimate_nam.R: pulls in climate data for europe and north america, respectively, as netcdf files, from an external hard drive, using the provenance lat/long columns and calculates field chilling experienced before the material was collected for the experiment. 
 
 5. interpolclimate.R: Interpolate hourly temperatures from the daily values & chilling using three different metrics. Generates a new csv file with the just the chilling estimates for those studies with field sample dates: fieldchillcalcslatlong.csv
 

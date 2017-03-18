@@ -6,7 +6,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else if
     (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
 }else 
@@ -39,10 +39,14 @@ source("chilling/fieldchillcalc_latlong.R")
 #Skip this step if you don't have the climate data drive
 climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of new external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate"
-source("chilling/pullclimate.R")
-#could separately source europe and north america- for now left together
 
-# 4c: Interpolate hourly temperatures from the daily values 
+# 4c. pull climate data from europe
+source("chilling/pullclimate_eur.R")
+
+# 4d: pull climate data from north america
+source("chilling/pullclimate_nam.R")
+
+# 4e: Interpolate hourly temperatures from the daily values 
 # & chilling using three different metrics
 source("chilling/interpolclimate.R")
 
