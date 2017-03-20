@@ -61,4 +61,5 @@ exp 1 1988, exp 2 1990 (if started in 89, measured in 90) and exp 3 1991
 
 
 Swartz1981- 
-actual paper measure time to % bud burst in Growing Degree Hours. It seems this was converted to days to % budburst when input into our datasheet in ospree.xlsx
+actual paper measure time to % bud burst in Growing Degree Hours. It seems this was converted to days to % budburst when input into our datasheet in ospree.xlsx.
+**Actually, I think that it has been converted from growing degree hours to %budburst in the original figure, to growing degree days in our data sheet…it seems values from the figure have simply been divided by 24.
