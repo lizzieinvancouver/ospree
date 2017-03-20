@@ -82,6 +82,10 @@ getemptytime <- subset(d, response.time=="" | is.na(response.time)==TRUE)
 names(getemptytime) #there is no respvar.time
 notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] 
 unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong column, some are just empty ... TODO -- go through each to figure out issue ...
+#to check: "ashby62" "basler12 "basler14" "boyer" "caffarra11b" "cook05""laube14b" "skuterud94" "zohner16"
+View(filter(notwheretheyshouldbe,datasetID=="basler14"))
+#ashby62 in paper is weeks to bud burst
+#basler12-ok empty time response.time correspond with NA's in orrginal paper
 
 ##
 ## Now fix, what we should fix ##
