@@ -19,10 +19,9 @@ if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treeg
 d<-read.csv("output/ospree_clean_withchill.csv",as.is=TRUE)
 
 ## Can change ghelardini10 & heide93 from thermaltime to daystobudburst
+# Add note for page number for thermal time conversion equation
 d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
 d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
-
-d<-within(d, respvar.simple[datasetID=="karlsson03" & respvar.simple=="thermaltime"]<-"daystobudburst")
 
 dbb<-subset(d,respvar.simple=="daystobudburst")
 
