@@ -80,7 +80,7 @@ getemptytime <- subset(d, response.time=="" | is.na(response.time)==TRUE)
 #notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] Lizzie's original line
 
 names(getemptytime) #there is no respvar.time
-notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% response.time),] #this doesnt work either, ask Lizzie to double check
+notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] 
 unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong column, some are just empty ... TODO -- go through each to figure out issue ...
 
 ##
