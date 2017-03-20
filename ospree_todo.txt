@@ -11,6 +11,7 @@ Where we’re at with issues:
 
 Review:
 - #91 - ALL, row.names=FALSE when you write out data
+- #95 - Whatever happened with multiresp.R?
 
 Ailene:
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
@@ -19,7 +20,7 @@ Ailene:
 
 
 Cat:
-#72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response time only, write “timeonly” in the response column, see clean_responsetime, line 78). 
+#72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response timeonly, make sure anything that needs to be moved or have “timeonly” added happens in clean_responsetime.R, see line 78… and check with Dan). 
 #93 - BB>200
 
 
