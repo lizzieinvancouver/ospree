@@ -8,14 +8,14 @@
 # bb ~ force + photo + chill
 # and only random intercepts for species!
 
-library(lme4)
+# Note to self: could improve code, so easier to see distribution for a and sigma_y
 
 # nlab = 10 # number of labgroups
 nsp = 20 # number of species
 
 ntot = 50 # numbers of obs per species. 
 
-#  with species
+#  with species  (note to self: This is not the best, better to draw from a distribution)
 baseinter <- 20 # baseline intercept (days to BB) across all species
 spint <- baseinter + c(1:nsp)-mean(1:nsp) # different intercepts by species
 
@@ -67,29 +67,3 @@ for(i in 1:nsp){ # loop over species. i = 1
   
     testdat <- rbind(testdat, testdatx)  
 }
-
-# sanity check
-summary(lme1 <- lmer(bb ~ chill+force+photo + (1|sp), data = testdat)) 
-ranef(lme1)
-fixef(lme1)
-
-
-##
-# try the model
-datalist.td <- with(testdat, 
-    list(y = bb, 
-         chill = as.numeric(chill), 
-         force = as.numeric(force), 
-         photo = as.numeric(photo),
-         sp = as.numeric(sp),
-         N = nrow(testdat),
-         n_sp = length(unique(sp))
-         )
-)
-
-library(rstan)
-setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
-
-osp.td <- stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = datalist.td, 
-                 iter = 100
-                  ) 

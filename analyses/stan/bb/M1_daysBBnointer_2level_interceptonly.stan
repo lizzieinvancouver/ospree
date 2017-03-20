@@ -15,8 +15,7 @@ data {
 	}
 
 parameters {
-  real mu_a_sp[n_sp];
-      
+  real mu_a_sp;   
   real<lower=0> sigma_a_sp; 
   real<lower=0> sigma_y; 
 
