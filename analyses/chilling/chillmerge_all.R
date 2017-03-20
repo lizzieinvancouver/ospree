@@ -39,6 +39,7 @@ source("chilling/fieldchillcalc_latlong.R")
 #Skip this step if you don't have the climate data drive
 climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of new external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate"
+# climatedrive = "/Volumes/My Book for Mac/ospreeclimate"
 
 # 4c. pull climate data from europe
 source("chilling/pullclimate_eur.R")
