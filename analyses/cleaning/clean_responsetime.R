@@ -82,11 +82,21 @@ getemptytime <- subset(d, response.time=="" | is.na(response.time)==TRUE)
 names(getemptytime) #there is no respvar.time
 notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] 
 unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong column, some are just empty ... TODO -- go through each to figure out issue ...
-#to check: "ashby62" "basler12 "basler14" "boyer" "caffarra11b" "cook05""laube14b" "skuterud94" "zohner16"
-View(filter(notwheretheyshouldbe,datasetID=="basler14"))
-#ashby62 in paper is weeks to bud burst
-#basler12-ok empty time response.time correspond with NA's in orrginal paper
 
+
+#These two lines used to look at subset of each dataserID in above list
+#View(filter(notwheretheyshouldbe,datasetID=="skuterud94"))
+#View(filter(d,datasetID=="skuterud94")) #to compare to regular data set
+###findings
+#ashby62 need transformation as below, but also...in paper is weeks to bud burst
+#basler12-ok
+#basler14- not sure why projected bud area was chosen as respvar. there is a mesurement of days to bb on figure
+#boyer-ok
+#caffara11b-ok
+#cook05-paper is in rate of budburst( 1/days). data not inputted into ospreee
+#laube14b- should be response-time only and move values to response time ###fixed below
+#skuterud94-figure 4 entries ok, figure 5 entries as above ###fixed below
+#zohner16-ok
 ##
 ## Now fix, what we should fix ##
 ##
@@ -97,12 +107,25 @@ fixashby62 <- which(d$response.time=="" & d$datasetID=="ashby62" &
 length(fixashby62)
 nrow(subset(notwheretheyshouldbe, datasetID=="ashby62"))
 
+fixlaube14b<-which(d$response.time=="" & d$datasetID=="laube14b" &
+                   d$respvar.simple %in% respvar.time)
+length(fixlaube14b)
+nrow(subset(notwheretheyshouldbe, datasetID=="laube14b"))
+
+fixskuterud94<-which(d$response.time=="" & d$datasetID=="skuterud94" & d$figure.table..if.applicable.== "fig5" &
+                     d$respvar.simple %in% respvar.time)
+length(fixskuterud94)
+nrow(subset(notwheretheyshouldbe, datasetID=="skuterud94" & figure.table..if.applicable.=="fig5"))
+
 # fix two pieces:
 # (1) move response to response time
 d$response.time[fixashby62] <- d$response[fixashby62]
+d$response.time[fixlaube14b] <- d$response[fixlaube14b]
+d$response.time[fixskuterud94] <- d$response[fixskuterud94]
 # (2) make response timeonly
 d$response[fixashby62] <- "timeonly"
-
+d$response[fixlaube14b] <- "timeonly"
+d$response[fixskuterud94] <- "timeonly"
 
 
 #################################################################
