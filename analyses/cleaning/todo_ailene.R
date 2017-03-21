@@ -45,5 +45,10 @@ head(ospree[ospree$datasetID=="campbell75",1:15])#for boyer, the "southeast geor
 #Port Townsend population (48.2, -123.25 ) should be 48.117039,-122.760447 (was in the ocean)
 #Questions
 #use "growing lat long instead to calculate chilling? problem is, we didn't really use that field (10075 NAs, versus only 288 NAs in provanance lat)
-#what journal is boyer from?
-#several of my files remove woody species- no need to do this, though right?
+##YES!
+#Checking changes to chilling calculation fiel (re Lizzie's quesitons 3/21/2017)
+#I think several of the changes may be for studies that now use growing lat/long instead of provenance lat/long to calculate chilling. 
+#Check partanen01, calme94, heide93,for this
+head(ospree[ospree$datasetID=="partanen01",]$provenance.lat)
+head(ospree[ospree$datasetID=="calme94",]$growing.lat)
+head(ospree[ospree$datasetID=="heide93",]$provenance.lat)
