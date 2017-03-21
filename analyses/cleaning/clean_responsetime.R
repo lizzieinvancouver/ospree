@@ -77,23 +77,20 @@ d$response[which(d$response==1 & d$respvar.simple %in% respvar.time)] <- "timeon
 ## Entries that are time but are not in response.time ##
 ########################################################
 getemptytime <- subset(d, response.time=="" | is.na(response.time)==TRUE)
-#notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] Lizzie's original line
-
-names(getemptytime) #there is no respvar.time
 notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] 
 unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong column, some are just empty ... TODO -- go through each to figure out issue ...
 
 
 #These two lines used to look at subset of each dataserID in above list
 #View(filter(notwheretheyshouldbe,datasetID=="skuterud94"))
-#View(filter(d,datasetID=="skuterud94")) #to compare to regular data set
+#View(filter(d,datasetID=="ashby62")) #to compare to regular data set
 ###findings
-#ashby62 need transformation as below, but also...in paper is weeks to bud burst
+#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7
 #basler12-ok
 #basler14- not sure why projected bud area was chosen as respvar. there is a mesurement of days to bb on figure
 #boyer-ok
 #caffara11b-ok
-#cook05-paper is in rate of budburst( 1/days). data not inputted into ospreee
+#cook05-paper is in rate of budburst( 1/days). data not inputed into ospreee
 #laube14b- should be response-time only and move values to response time ###fixed below
 #skuterud94-figure 4 entries ok, figure 5 entries as above ###fixed below
 #zohner16-ok
@@ -109,6 +106,7 @@ nrow(subset(notwheretheyshouldbe, datasetID=="ashby62"))
 
 fixlaube14b<-which(d$response.time=="" & d$datasetID=="laube14b" &
                    d$respvar.simple %in% respvar.time)
+
 length(fixlaube14b)
 nrow(subset(notwheretheyshouldbe, datasetID=="laube14b"))
 
@@ -119,12 +117,19 @@ nrow(subset(notwheretheyshouldbe, datasetID=="skuterud94" & figure.table..if.app
 
 # fix two pieces:
 # (1) move response to response time
-d$response.time[fixashby62] <- d$response[fixashby62]
-d$response.time[fixlaube14b] <- d$response[fixlaube14b]
-d$response.time[fixskuterud94] <- d$response[fixskuterud94]
 # (2) make response timeonly
+d$response.time[fixashby62] <- d$response[fixashby62]
 d$response[fixashby62] <- "timeonly"
+
+###trying to multply response.time by 7 for ashby...none of the follwoign wor
+#d<-within(d, response.time[response=="timeonly" & datasetID=="ashby62"]<-(response.time)*7)
+#response.time[d$response=="timeonly"& datasetID=="ashby86"]<-as.numberic(as.character)d$response.time*7
+#d$response.time[fixashby62]<-as.numeric(as.character(d$response.time))[fixashby62]*7
+#check<-filter(d,datasetID=="ashby62")
+#View(check)
+d$response.time[fixlaube14b] <- d$response[fixlaube14b]
 d$response[fixlaube14b] <- "timeonly"
+d$response.time[fixskuterud94] <- d$response[fixskuterud94]
 d$response[fixskuterud94] <- "timeonly"
 
 
