@@ -86,7 +86,7 @@ ospree.sub.no.dup<-subset(ospree.sub.no.dup,to.remove!=1)
 
 
 ## save file without duplicated values !!!CAUTION!!!
-# write.csv(ospree[-lines.to.rem,],"ospree_master_clean.csv") ## be careful as this substitutes ospree_master_clean
+# write.csv(ospree[-lines.to.rem,],"ospree_master_clean.csv",row.names=F) ## be careful as this substitutes ospree_master_clean
 d<-ospree.sub.no.dup
 
 
