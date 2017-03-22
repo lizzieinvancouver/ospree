@@ -1,13 +1,14 @@
 ###Cat to double check forcing columns
 ##To do:
 ## Find any columns with 'ambient' or non-numerics and fix
-rm(list=ls()) 
-options(stringsAsFactors=FALSE)
+#rm(list=ls()) 
+#options(stringsAsFactors=FALSE)
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-setwd("~/Documents/git/ospree/analyses")
-d<-read.csv("output/ospree_clean.csv",as.is=T)
+#setwd("~/Documents/git/ospree/analyses")
+#d<-read.csv("output/ospree_clean.csv",as.is=T)
+if(is.data.frame(d)){
 
 # man10 - fix from 0 ramped up 3 degrees every 6 days
 d <- within(d, forcetemp[datasetID == 'man10' & response.time == 28 & response == 100] <- 22)
@@ -43,7 +44,10 @@ d <- within(d, forcetemp[datasetID == 'howe95'] <- 24.5)
 # in other experiments, didn't change anything
 
 # gunderson12: treatments were in relation to "thermal provenance" so I left them at ambient +2, +4																									
+} else {
+  print("Error: d not a data.frame")
+}
 
-
+stop("Not an error, ambient forcing to days now... getting closer")
 #setwd("~Documents/git/ospree/analyses/output")
 #write.csv(d,"ospree_clean_withforce.csv")

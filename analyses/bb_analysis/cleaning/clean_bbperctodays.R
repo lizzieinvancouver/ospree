@@ -6,13 +6,15 @@
 # Edited DF
 # Run this after running Jehane's script (Lizzie thinks this is clean_respvar.R) 
 
-rm(list=ls()) 
-options(stringsAsFactors=FALSE)
+#rm(list=ls()) 
+#options(stringsAsFactors=FALSE)
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
 # setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/output")
-d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
+#d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
+
+if(is.data.frame(d)){
 
 subsetting.daysBB<-function(d,target.percent,type=c("add.columns","only.percentBB","BB_analysis")){
 ## generate new columns in dataset to store days to budburst results
@@ -33,7 +35,7 @@ percbbsites<-subset(d,respvar=="percentbudburst")
 dataset <- unique(percbbsites$datasetID)
 
 for(i in 1:length(dataset)){ # i = 2
-print(i)
+#print(i)
   dat1 <- percbbsites[which(percbbsites$datasetID==dataset[i]),]
   
   study<-unique(dat1$study)
@@ -123,6 +125,11 @@ return(d.subsetted)
 d.subset<-subsetting.daysBB(d,90,"BB_analysis")
 d<-d.subset
 
+} else {
+  print("Error: d not a data.frame")
+}
+
+stop("Not an error, now BB data is all cleaned, ready to analyze and save")
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
 #write.csv(d,"ospree_clean_withchill_BB.csv")
 
