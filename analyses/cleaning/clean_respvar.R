@@ -18,13 +18,13 @@ names(table(d$respvar)) # 88 values as of 2 Feb 2017
 sort(with(d[d$respvar=="daystobudburst",], table(datasetID)), TRUE)
 sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
 
-##
+##$response.tim
 ##  Convert some inverted stuff
 
 d$response.time[d$respvar=="1/daysto25%budburst"] <-
-    1/as.numeric(d$response[d$respvar=="1/daysto25%budburst"])
+    1/as.numeric(d$response.time[d$respvar=="1/daysto25%budburst"])
 d$response.time[d$respvar=="1/daysto50%budburst"] <-
-    1/as.numeric(d$response[d$respvar=="1/daysto50%budburst"])
+    1/as.numeric(d$response.time[d$respvar=="1/daysto50%budburst"])
 d$response[d$respvar=="1/daysto25%budburst"] <- "25per"
 d$response[d$respvar=="1/daysto50%budburst"] <- "50per"
 
