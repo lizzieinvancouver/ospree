@@ -21,7 +21,7 @@ sort(with(d[d$respvar=="percentbudburst",], table(datasetID)), TRUE)
 ##$response.tim
 ##  Convert some inverted stuff
 
-d$response[d$respvar=="1/daysto25%budburst"] <-
+d$response.time[d$respvar=="1/daysto25%budburst"] <-
     1/as.numeric(d$response[d$respvar=="1/daysto25%budburst"])
 d$response.time[d$respvar=="1/daysto50%budburst"] <-
     1/as.numeric(d$response.time[d$respvar=="1/daysto50%budburst"])
