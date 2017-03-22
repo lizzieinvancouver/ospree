@@ -29,6 +29,7 @@ Me:
 #29 - response and response time issue
 #58 - Deal with labgroups
 #90 - Make fake data for Stan models
+#WTF: cook05 and swartz81
 
 Dan:
 #29 - response and response time issue

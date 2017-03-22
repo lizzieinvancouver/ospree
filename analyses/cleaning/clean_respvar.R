@@ -124,8 +124,6 @@ d$respvar.simple[d$respvar == "degreedaystobudburst"] <- "thermaltime"
 
 
 # daystobudburst
-# "dateofbudburst" still not dealt with ...issue #75
-d$respvar.simple[d$respvar == "budprojectedarea"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystobudburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto25%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
@@ -160,6 +158,7 @@ d$respvar.simple[d$respvar == "percentnodesflowering"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentflowerbuds"] <- "percentflower"
 
 # growth
+d$respvar.simple[d$respvar == "budprojectedarea"] <- "growth"
 d$respvar.simple[d$respvar == "averagegrowth"] <- "growth"
 d$respvar.simple[d$respvar == "apicalbudgrowth"] <- "growth"
 d$respvar.simple[d$respvar == "budlength"] <- "growth"
