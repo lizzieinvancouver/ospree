@@ -67,7 +67,9 @@ d <-d.woody
 
 ## alternatively, correct the "woody" column within ospree
 #dat$woody[which(dat$genus%in%is.non.woody)]<-"no"
-#write.csv(dat,paste(out.folder,"ospree.woody.corrected.csv",sep=""))
+#write.csv(dat,paste(out.folder,"ospree.woody.corrected.csv",sep="",),row.names=F)
 
 }
+rm(d.woody)
+stop("Not an error, just stopping here to say we're now done removing non-woody species. The d item in your workspace is now all cleaned up. Yay!")
 

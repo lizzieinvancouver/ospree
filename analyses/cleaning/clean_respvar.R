@@ -318,6 +318,7 @@ d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
 
 ospree_clean_respvar <- d
 
+rm(checking,ospree_clean_respvar,xx,xz)
 stop("Not an error, just stopping here to say we're now done cleaning respvar. The d item in your workspace is now all cleaned up for its respvar. Yay!")
 
 ##
