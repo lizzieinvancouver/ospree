@@ -79,18 +79,14 @@ d$response[which(d$response==1 & d$respvar.simple %in% respvar.time)] <- "timeon
 getemptytime <- subset(d, response.time=="" | is.na(response.time)==TRUE)
 notwheretheyshouldbe <- getemptytime[which(getemptytime$respvar.simple %in% respvar.time),] 
 unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong column, some are just empty ... TODO -- go through each to figure out issue ...
+#These lines used to look at subset of each dataserID in above list
+#View(filter(notwheretheyshouldbe,datasetID=="cronje03"))
 
-
-#These two lines used to look at subset of each dataserID in above list
-#View(filter(notwheretheyshouldbe,datasetID=="skuterud94"))
-#View(filter(d,datasetID=="ashby62")) #to compare to regular data set
 ###findings
-#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7
+#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7###fixed below
 #basler12-ok
-#basler14- not sure why projected bud area was chosen as respvar. there is a mesurement of days to bb on figure
 #boyer-ok
 #caffara11b-ok
-#cook05-paper is in rate of budburst( 1/days). data not inputed into ospreee
 #laube14b- should be response-time only and move values to response time ###fixed below
 #skuterud94-figure 4 entries ok, figure 5 entries as above ###fixed below
 #zohner16-ok
@@ -118,15 +114,8 @@ nrow(subset(notwheretheyshouldbe, datasetID=="skuterud94" & figure.table..if.app
 # fix two pieces:
 # (1) move response to response time
 # (2) make response timeonly
-d$response.time[fixashby62] <- d$response[fixashby62]
+d$response.time[fixashby62] <- as.numeric(d$response[fixashby62])*7 
 d$response[fixashby62] <- "timeonly"
-
-###trying to multply response.time by 7 for ashby...none of the follwoign wor
-#d<-within(d, response.time[response=="timeonly" & datasetID=="ashby62"]<-(response.time)*7)
-#response.time[d$response=="timeonly"& datasetID=="ashby86"]<-as.numberic(as.character)d$response.time*7
-#d$response.time[fixashby62]<-as.numeric(as.character(d$response.time))[fixashby62]*7
-#check<-filter(d,datasetID=="ashby62")
-#View(check)
 d$response.time[fixlaube14b] <- d$response[fixlaube14b]
 d$response[fixlaube14b] <- "timeonly"
 d$response.time[fixskuterud94] <- d$response[fixskuterud94]
@@ -139,8 +128,16 @@ d$response[fixskuterud94] <- "timeonly"
 getempty <- subset(d, response=="" | is.na(response)==TRUE)
 subset(getempty, is.na(response.time)==TRUE) # no NAs
 whynoresponse <- getempty[which(!getempty$response.time==""),]
-
 unique(whynoresponse$datasetID) # need to go through each one ... again, make notes about ones we're not changing and change the others (and check your subsetting!)
+# "gianfagna85"-"make time only
+#"laube14a" make time only
+#"linkosalo06" make time only
+#"nienstaedt66" maketimeonly
+#"nishimoto95" make time only
+#"skre08" maketime only      
+# "spiers74" maketime only
+#"zohner16" make time only
+#View(filter(whynoresponse,datasetID=="zohner16"))
 
 ##
 ## Now fix, what we should fix ##
@@ -151,10 +148,51 @@ unique(whynoresponse$datasetID) # need to go through each one ... again, make no
 length(d$response[which(d$response=="" & d$datasetID=="campbell75" &
     !d$response.time=="")])
 nrow(subset(whynoresponse, datasetID=="campbell75"))
+length(d$response[which(d$response=="" & d$datasetID=="gianfagna85" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="gianfagna85"))
+length(d$response[which(d$response=="" & d$datasetID=="laube14a" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="laube14a"))
+length(d$response[which(d$response=="" & d$datasetID=="linkosalo06" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="linkosalo06"))
+length(d$response[which(d$response=="" & d$datasetID=="nienstaedt66" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="nienstaedt66"))
+length(d$response[which(d$response=="" & d$datasetID=="nishimoto95" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="nishimoto95"))
+length(d$response[which(d$response=="" & d$datasetID=="skre08" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="skre08"))
+length(d$response[which(d$response=="" & d$datasetID=="spiers74" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="spiers74"))
+length(d$response[which(d$response=="" & d$datasetID=="zohner16" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="zohner16"))
+
 
 # now overwrite the response cells here
 d$response[which(d$response=="" & d$datasetID=="campbell75" &
     !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="gianfagna85" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="laube14a" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="linkosalo06" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="nienstaedt66" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="nishimoto95" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="skre08" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="spiers74" &
+                   !d$response.time=="")] <- "timeonly"
+d$response[which(d$response=="" & d$datasetID=="zohner16" &
+                   !d$response.time=="")] <- "timeonly"
 
 
 #######################################################
