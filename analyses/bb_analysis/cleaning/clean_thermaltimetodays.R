@@ -33,7 +33,7 @@ dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, k
 d$response.time[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <-
   as.numeric(d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")])/
   as.numeric(d$forcetemp[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")])
-d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <- 1
+d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="heide93" & respvar.simple=="thermaltime"]<-"daystobudburst")
 
 ## Can change karlsson03 from thermaltime to daystobudburst
@@ -43,6 +43,7 @@ d<-within(d, respvar.simple[datasetID=="heide93" & respvar.simple=="thermaltime"
 d$response.time[which(d$datasetID=="karlsson03")] <-
   as.numeric(d$response.time[which(d$datasetID=="karlsson03")])/(
   as.numeric(d$forcetemp[which(d$datasetID=="karlsson03")]) - 2)
+d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="karlsson03"]<-"daystobudburst")
 
 
