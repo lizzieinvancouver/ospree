@@ -50,7 +50,7 @@ d<-within(d, respvar.simple[datasetID=="heide93" & respvar.simple=="thermaltime"
 d$response.time[which(d$datasetID=="karlsson03")] <-
   as.numeric(d$response.time[which(d$datasetID=="karlsson03")])/(
     as.numeric(d$forcetemp[which(d$datasetID=="karlsson03")]) - 2)
-d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <- "timeonly"
+d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="karlsson03"]<-"daystobudburst")
 
 
