@@ -11,13 +11,22 @@ Where we’re at with issues:
 
 Review:
 - #91 - ALL, row.names=FALSE when you write out data
-- #95 - Whatever happened with multiresp.R?
+- #56 - Create a common subset of the rows for the paper (I think this is sort of done?)
+
+Cleaning and merging discussion:
+(a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file)
+(b) chilling folder looks good! Any thoughts/comments?
+(c) bb_analysis/cleaning needs work … to discuss together
+
+Cleaning files and folders:
+cleaning/todo_ailene.R
+
 
 Ailene:
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #24 - non-numeric chilltemps in ospree_clean
 #88 - Add growing lat/long to chilling code estimates (closed, but I am leaving it here until the code runs on my machine)
-
+#95 - Whatever happened with multiresp.R?
 
 Cat:
 #72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response timeonly, make sure anything that needs to be moved or have “timeonly” added happens in clean_responsetime.R, see line 78… and check with Dan). 
@@ -29,16 +38,21 @@ Me:
 #29 - response and response time issue
 #58 - Deal with labgroups
 #90 - Make fake data for Stan models
+#76 - Fix non-matching authors for labgroups
 
 Dan:
 #29 - response and response time issue
 #93 - BB>200: Finalize notes on Schwartz81
+#96 - add metadata to plot file (R file)
+#97 - finish BB cleaning
 
 
 Nacho:
 #87 - Make figures based on rstanarm models and the model I built
 #79 - check duplicates
 #92 - master file for cleaning BB? 
+#95 - Whatever happened with multiresp.R?
+#97 - finish BB cleaning
 
 **
 ** To do soon:
@@ -51,7 +65,5 @@ Nacho:
 #80 - Clean other columns that we may someday use (low priority)
 #82 - deal with multiple varieties, cultivars, populations
 #30 - response again (NA issue)
-#76 - Fix non-matching authors for labgroups
-#56 - Create a common subset of the rows for the paper
 #57 - Something hierarchical that is not quite species?
 #51 - Add flowering data!
