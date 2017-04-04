@@ -16,7 +16,7 @@ Review:
 Cleaning and merging discussion:
 (a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file)
 (b) chilling folder looks good! Any thoughts/comments?
-(c) bb_analysis/cleaning needs work … to discuss together
+(c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R)
 
 Cleaning files and folders:
 cleaning/todo_ailene.R
@@ -34,8 +34,8 @@ Cat:
 
 
 Me:
-#42 - Merging and cleaning: delete the extra cleaning BB file in main cleaning folders
-#29 - response and response time issue
+#42 - Merging and cleaning: need to have all the source files working! And then check all the files
+#29 - response and response time issue (with Dan currently)
 #58 - Deal with labgroups
 #90 - Make fake data for Stan models
 #76 - Fix non-matching authors for labgroups

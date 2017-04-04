@@ -34,6 +34,11 @@ dater <- read.csv("input/ospreebib.csv", header=TRUE)
 
 # and make it long format
 aut.sm <- subset(dater, select=c("aut1", "aut2", "aut3", "aut4", "aut5", "aut6", "aut7",  "Custom3"))
+# fix some missing datasetIDs (matching to datasetID in ospree.csv)
+dater[which(dater$Custom3==""),] # here's the list
+dater$Custom3[which(dater$Custom3=="" & dater$Identifier=="zohner2016")] <- "zohner16"
+dater[which(dater$Custom3=="" & dater$Identifier=="Sonsteby:2009aa"),] <- "sonsteby09a" # note, there is a sonsteby09a and a sonsteby09b, but this is a strawberry one so I didn't try to figure it out for sure, since it will disappear later 
+# okay, back to formatting to long
 aut.long <- melt(aut.sm, id.var="Custom3")
 aut.long.sm <- subset(aut.long, value!="")
 aut.long.sm$author <- gsub( ",.*$", "", aut.long.sm$value)
@@ -72,6 +77,7 @@ points(k.means.fit$centers, col = 1:5, pch = 8)
 
 ## count up interactions for each paper
 datersets <- unique(aut.long.sm$datasetid)
+subset(aut.long.sm, datasetid=="") # note to self! It all seems to be two papers!
 output <- matrix(ncol=2, nrow=0)
 
 for (i in c(1:length(datersets))){
