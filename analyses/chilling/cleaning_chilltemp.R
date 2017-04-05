@@ -4,16 +4,16 @@
 d<- subset(d, woody=="yes")#not necessary anymore, i think?
 # See cleanmerge_all.R for started text #
 unique(d$chilltemp)#Need to fix several things here- go back to the papers to figure these out
-d[which(d$datasetID=="skre08" & d$chilltemp=="High"),]$chilltemp<-"ambient + 4"#this is skre08 + 4 degrees C
+d[which(d$datasetID=="skre08" & d$chilltemp=="High"),]$chilltemp<-"ambient + 4"#this is skre08 + 4 degrees C; does not specify
 d[which(d$datasetID=="skre08" & d$chilltemp=="Low"),]$chilltemp<-"ambient"#this is skre08
 d[which(d$datasetID=="skuterud94" & d$chilltemp=="mean of 0, 3, 6"),]$chilltemp<-mean(c(0,3))#this is skuterud94, and there is a mistake in the way the data were entered- these data are from figure 5 in the paper, which is just m ean of 0 and 3 C treatments, so i list the mean of these two
 d[which(d$chilltemp=="negative 23 to 13 degrees Celsius"),]$chilltemp<-"ambient"#partanen01, after re-reading paper, the plants were just exposed to ambient conditions (which ranged from negative 23 to 13 degrees Celsius)
 d[which(d$chilltemp=="elevated"),]$fieldchill<-"yes"#pagter15, this 
 d[which(d$chilltemp=="elevated"),]$chilltemp<-"ambient + 0.76"#pagter15, amount of air warming reported in paper
-#d[which(d$chilltemp=="ambient plus days at 4C"),]#okie11 exp2
-#d[which(d$chilltemp=="neg 3,2"),]#man10
-#d[which(d$chilltemp=="6,.5"),]#li05
-#d[which(d$chilltemp=="-3, 3"),]#lamb37
+d[which(d$chilltemp=="ambient plus days at 4C"),]$chilltemp<-4#okie11 exp2
+d[which(d$chilltemp=="neg 3,2"),]$chilltemp<--0.5 #man10 - can we change to -0.5? seedlings were chilled for one month at -3, and one month at 2, took the average
+d[which(d$chilltemp=="6,.5"),]$chilltemp<-3.25 #li05 - can we change to 3.25? seedlings were chilled for 3 weeks at 6, and 3 weeks at 0.5, took the average
+d[which(d$chilltemp=="-3, 3"),]$chilltemp<-1 #lamb37 - 26.6F for 8 hr and 37.4 for 16 hr - take average (33.8F) converted - 1degC
 #d[which(d$chilltemp=="8, 8, -4"),]#jones12
 #d[which(d$chilltemp=="8, 4, 0"),]#jones12
 #d[which(d$chilltemp=="4, 0, -4"),]#jones12
