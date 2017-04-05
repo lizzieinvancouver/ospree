@@ -205,11 +205,83 @@ shouldbeone <- weirdresponsecolumn[which(weirdresponsecolumn$respvar.simple %in%
 # check it out
 unique(shouldbeone$datasetID)
 # shouldbeone[,c(1, 25:27)] # TODO: need to go through each one ... again, make notes about ones we're not changing and change the others (and check your subsetting!)
+#View(filter(shouldbeone,datasetID=="boyer"))
+###Dan has noew fixed
+#"boyer": ->time only, no response    done   
+#"cook05" response=50per-> "timeonly"     done
+#"cronje03" "response=25per-> "timeonly" done
+#"heide12"  response->response.time and response shouldd be timeonly done
+#"sonsteby14"  same as heide12 done
+#"spiers74" okay...time only, no respone  done
+#"webb78"   time only, no response   done
+#"zohner16" time only, no response done
+
+###### ask Lizzie about
+#"falusi90" respose is actually % budburst, respone time    
+#"ghelardini10" cat says this is fine, see her for details ask lizzie about this
+# "heide93" cats says same as ghelardin10   
 
 ##
+##check subsetting
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="boyer"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="boyer"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="cook05"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="cook05"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="cronje03"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="cronje03"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="heide12"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="heide12"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="sonsteby14"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="sonsteby14"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="spiers74"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="spiers74"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="webb78"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="webb78"))
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="zohner16"& d$respvar.simple %in%
+                          respvar.time)])
+nrow(subset(shouldbeone, datasetID=="zohner16"))
+
 ## Now fix, what we should fix ##
 ##
-
+###Fix Boyer
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="boyer"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+d$response.time[which(d$response=="timeonly" & d$response.time==""& d$datasetID=="boyer")]<-"no response"
+##Fix cook05
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="cook05"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+#fix cronje03
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="cronje03"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+#fixheide12
+fixheide12<-which(d$response!=1 & d$response!="timeonly" & d$datasetID=="heide12"& d$respvar.simple %in%
+                    respvar.time)
+d$response.time[fixheide12] <- as.numeric(d$response[fixheide12]) 
+d$response[fixheide12] <- "timeonly"
+View(subset(d,datasetID=="heide12"))  
+#fix sonsteby14
+fixsonsteby14<-which(d$response!=1 & d$response!="timeonly" & d$datasetID=="sontsteby14"& d$respvar.simple %in%
+                    respvar.time)
+d$response.time[fixsonsteby14] <- as.numeric(d$response[fixsonsteby14]) 
+d$response[fixsonsteby14] <- "timeonly"
+##fix spiers74
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="timeonly"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+##fixwebb78
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="webb78"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+d$response.time[which(d$response=="timeonly" & d$response.time==">100"& d$datasetID=="webb78")]<-"no response"
+#fixzohner16
+d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="zohner16"& d$respvar.simple %in%
+                   respvar.time)]<-"timeonly"
+d$response.time[which(d$response=="timeonly" & d$response.time==""& d$datasetID=="zohner16")]<-"no response"
 
 
 ###############################################################
