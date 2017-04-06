@@ -11,11 +11,10 @@ Where we’re at with issues:
 
 Review:
 - #91 - ALL, row.names=FALSE when you write out data
-- #56 - Create a common subset of the rows for the paper (I think this is sort of done?)
 
 Cleaning and merging discussion:
-(a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file)
-(b) chilling folder looks good! Any thoughts/comments?
+(a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file) - can delete this file and all references to it, now handled in chilling folder
+(b) chilling folder looks good!
 (c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R)
 
 Cleaning files and folders:
