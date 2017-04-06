@@ -22,6 +22,7 @@ d[which(d$chilltemp=="0, 4, 8"),]$chilltemp <- 4 #jones12
 d[which(d$chilltemp=="-4, 8, 8"),]$chilltemp <- 4 #jones12
 d[which(d$chilltemp=="-4, 0, 4"),]$chilltemp <- 0 #jones12
 #d[which(d$chilltemp=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"),]#granhus09
-#d[which(d$chilltemp=="<16"),]#falusi90
+d[which(d$chilltemp=="<16"),]$chilltemp <- ambient #falusi90 - per lab meeting discussion
+d[which(d$chilltemp==">16"),]$chilltemp <- 16 #falusi90 - per lab meeting discussion
 
 stop("Not an error, just stopping here to say we're now done cleaning the chilltemp column. The d item in your workspace is now all cleaned up and ready to pull climate data in to estimate field chilling. Yay!")
