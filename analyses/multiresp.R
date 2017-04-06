@@ -9,7 +9,7 @@
 d<-read.csv("output/ospree_clean_withchill.csv", header=T )
 
 multdatsets_days<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="daystobudburst"])#only 3 studies for which there are multiple response variables and days to budburst
-multdatsets_percbb<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="percentbudburst"])#only 1 study for which there are multiple response variables and days to budburst
+multdatsets_percbb<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="percentbudburst"])#only 1 study for which there are multiple response variables and percent to budburst
 
 #Trying to figure out where the data for percbb are coming from and what they are
 XX<-as.data.frame(cbind(d$figure.table..if.applicable.[d$multiresp==TRUE & d$datasetIDstudy==multdatsets_percbb],d$respvar[d$multiresp==TRUE & d$datasetIDstudy==multdatsets_percbb],d$respvar.simple[d$multiresp==TRUE & d$datasetIDstudy==multdatsets_percbb],d$response[d$multiresp==TRUE & d$datasetIDstudy==multdatsets_percbb],d$chilltemp[d$multiresp==TRUE & d$datasetIDstudy==multdatsets_percbb]))
