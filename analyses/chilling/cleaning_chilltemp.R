@@ -2,8 +2,9 @@
 #Started by Ailene January 30, 2017
 
 d<- subset(d, woody=="yes")#not necessary anymore, i think?
-# See cleanmerge_all.R for started text #
 unique(d$chilltemp)#Need to fix several things here- go back to the papers to figure these out
+#This code fixes a mistake in the database, where things were misentered in the chilltemp column
+d$chilltemp[d$datasetID=="junttila12" & d$figure.table..if.applicable. == "table2"] <- ""#table 2 shows unchilled data= this was misenetered as chilltemp=4 previously
 d[which(d$datasetID=="skre08" & d$chilltemp=="High"),]$chilltemp<-"ambient + 4"#this is skre08 + 4 degrees C; does not specify
 d[which(d$datasetID=="skre08" & d$chilltemp=="Low"),]$chilltemp<-"ambient"#this is skre08
 d[which(d$datasetID=="skuterud94" & d$chilltemp=="mean of 0, 3, 6"),]$chilltemp<-mean(c(0,3))#this is skuterud94, and there is a mistake in the way the data were entered- these data are from figure 5 in the paper, which is just m ean of 0 and 3 C treatments, so i list the mean of these two
