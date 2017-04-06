@@ -16,16 +16,14 @@ Cleaning and merging discussion:
 (a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file) - can delete this file and all references to it, now handled in chilling folder
 (b) chilling folder looks good!
 (c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R)
+LIZZIE EMAIL NACHO!!!
 
 Cleaning files and folders:
-cleaning/todo_ailene.R
+cleaning/todo_ailene.R - Lizzie takes a look and processes
 
 
 Ailene:
-#81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #24 - non-numeric chilltemps in ospree_clean
-#88 - Add growing lat/long to chilling code estimates (closed, but I am leaving it here until the code runs on my machine)
-#95 - Whatever happened with multiresp.R?
 
 Cat:
 #72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response timeonly, make sure anything that needs to be moved or have “timeonly” added happens in clean_responsetime.R, see line 78… and check with Dan). 
@@ -36,17 +34,17 @@ Me:
 #42 - Merging and cleaning: need to have all the source files working! And then check all the files
 #29 - response and response time issue (with Dan currently)
 #58 - Deal with labgroups
-#90 - Make fake data for Stan models
+#90 - Make fake data for Stan models - check for 0, 1s
 #76 - Fix non-matching authors for labgroups
+#84 - Go through all cleaning files line by line - Lizzie assigns to people
 
 Dan:
 #29 - response and response time issue
-#93 - BB>200: Finalize notes on Schwartz81
-#96 - add metadata to plot file (R file)
-#97 - finish BB cleaning
+#93 - BB>200: Finalize notes on Swarts81
 
 
 Nacho:
+#81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #87 - Make figures based on rstanarm models and the model I built
 #79 - check duplicates
 #92 - master file for cleaning BB? 
@@ -55,8 +53,14 @@ Nacho:
 
 **
 ** To do soon:
-#84 - Go through all cleaning files line by line
-
+convert photoperiod to long days or short days?
+remove chilling from model to check?
+remove photoperiod from model to check?
+should we look at subsets of data? - just look at studies that only looked at all three?
+assign chilling to different values for each site?
+Lizzie - redo the ggplot figures by species and for one species try to visualize by datasetID the treatments/data
+figure out chilling threshold for each species — how on earth to do this??
+what is the common photoperiod and throw out outliers
 
 **
 ** To do later:
