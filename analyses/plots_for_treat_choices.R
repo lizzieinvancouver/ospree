@@ -1,4 +1,8 @@
-### goal: plots ot understand experimental condition choices by region
+###Started by Dan B in February 2017####
+#goal: Produce plots to evaluate correlation between latitude of study
+# choices for high and low expiermental treatment (forcing temperature, chilling,and photo period)
+#graph outputs are saved in ospree/anayses/figures
+
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 graphics.off()
