@@ -15,12 +15,10 @@ Review:
 Cleaning and merging discussion:
 (a) check out: cleaning/_cleaningREADME.txt, esp. 8-9 (9 is still not used in main cleaning file) - can delete this file and all references to it, now handled in chilling folder
 (b) chilling folder looks good!
-(c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R)
-LIZZIE EMAIL NACHO!!!
+(c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R). Nacho should be on this.
 
 Cleaning files and folders:
 cleaning/todo_ailene.R - Lizzie takes a look and processes
-
 
 Ailene:
 #24 - non-numeric chilltemps in ospree_clean
