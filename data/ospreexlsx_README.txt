@@ -9,7 +9,7 @@ See ~/analyses/cleaning/_cleaningREADME.txt for starters.
 Extra notes on some papers
 <><><><><><><><><><><><><><>
 
-Falusi 1990 (see also github issue #8)
+<><> Falusi 1990 (see also github issue #8) <><>
 
 Year is not given (seriously).
 Here's what we do know:
@@ -49,7 +49,7 @@ But with no luck.
 
 
 
-Falusi 1996 (see also github issue #9)
+<><> Falusi 1996 (see also github issue #9) <><>
 
 Exp 1 (which is the only exp from this paper missing a year): No year given (maybe it's 1988? -- just guessing based on year progression of next two experiments -- but we should check)
 Exp 2: Study starts in 1989
@@ -57,10 +57,20 @@ Exp 3: Study starts in fall 1990
 
 **So we changed this as follows**
 
+
 exp 1 1988, exp 2 1990 (if started in 89, measured in 90) and exp 3 1991
 
+Some coding notes from Ailene if you want to check any of this:
+ospree<-read.csv("input/ospree.csv", header=TRUE)
+falusi<-ospree[ospree$datasetID=="falusi96",]
+table(falusi$study,falusi$year)
+falusi2<-ospree[ospree$datasetID=="falusi90",]
+table(falusi2$study,falusi2$year)
+dim(falusi2)
 
-Swartz1981
+
+<><> Swartz1981 <><>
+
 actual paper measure time to % bud burst in Growing Degree Hours. It seems this was converted to days to % budburst when input into our datasheet in ospree.xlsx.
 **Actually, I think that it has been converted from growing degree hours to %budburst in the original figure, to growing degree days in our data sheet…it seems values from the figure have simply been divided by 24.***
 ***We checked this as a group by re-extracting these data. Problematic because highly variable based on scale of capture. We think, our data was converted from growing degree hours to growing degree days by dividing figure values by 24.
