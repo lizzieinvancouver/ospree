@@ -183,14 +183,13 @@ d$respvar.simple[d$respvar == "yieldgrams"] <- "growth"
 # phenstage
 d$respvar.simple[d$respvar == "growthstage"] <- "phenstage"
 d$respvar.simple[d$respvar == "budstage"] <- "phenstage"
-d$respvar.simple[d$respvar.simple == "phenstageper.probonestudy"]<- "phenstage"
 
-# phenstageper.probonestudy
-d$respvar.simple[d$respvar == "percentstage01"] <- "phenstageper.probonestudy"
-d$respvar.simple[d$respvar == "percentstage02"] <- "phenstageper.probonestudy"
-d$respvar.simple[d$respvar == "percentstage03"] <- "phenstageper.probonestudy"
-d$respvar.simple[d$respvar == "percentstage04"] <- "phenstageper.probonestudy"
-d$respvar.simple[d$respvar == "percentstage06"] <- "phenstageper.probonestudy"
+# phenstageper
+d$respvar.simple[d$respvar == "percentstage01"] <- "phenstageper" # from jones12
+d$respvar.simple[d$respvar == "percentstage02"] <- "phenstageper" # from jones12
+d$respvar.simple[d$respvar == "percentstage03"] <- "phenstageper" # from jones12
+d$respvar.simple[d$respvar == "percentstage04"] <- "phenstageper" # from jones12
+d$respvar.simple[d$respvar == "percentstage06"] <- "phenstageper" # from guerriero90
 
 # flowernumber
 d$respvar.simple[d$respvar == "flowerperplant"] <- "flowernumber"
