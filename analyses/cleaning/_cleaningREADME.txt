@@ -28,11 +28,9 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 7. The we source clean_responsetime.R which cleans response and response time columns.
 
-8. Fix minor mistakes in chilltemp column (with clean_chilltemp.R)
+8. Remove duplicate lines (with clean_duplicates.final.R)
 
-9. Remove duplicate lines (with clean_duplicates.final.R)
-
-10. Write it all out!
+9. Write it all out!
 
 
 <><><><>

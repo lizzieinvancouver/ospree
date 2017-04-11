@@ -49,14 +49,11 @@ source("cleaning/clean_woody_sps.R")
 # 7. Clean response and response time columns.
 source("cleaning/clean_responsetime.R")
 
-# 8. Fix mistakes in chilltemp column
-source("cleaning/clean_chilltemp.R")
-
-# 9. Remove duplicate lines
+# 8. Remove duplicate lines
 
 #source("clean_duplicates.final.R") ## should be checked before activation
 
-# 10. Write out the final file! 
+# 9. Write out the final file! 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
 
