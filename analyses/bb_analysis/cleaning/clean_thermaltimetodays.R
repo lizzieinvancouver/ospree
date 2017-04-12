@@ -54,8 +54,10 @@ d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <
 d<-within(d, respvar.simple[datasetID=="karlsson03"]<-"daystobudburst")
 
 ### Charrier11 - uses MTB (Mean Time until Budburst) which is calculated in hours
-# TS entered data and divided by 24 for Figure 2 to get entries
+# TS entered data and divided by 24 for Figure 2 entries
 # Cannot figure out what is going on with entries for Table 1
+# I believe it should be the same calculations as with Figure 2 - divide by 24
+
 
 } else {
   print("Error: d is not a data.frame")
