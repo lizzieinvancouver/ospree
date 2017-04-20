@@ -3,10 +3,6 @@
 
 ## looking at author clustering in OSPREE ##
 
-##########################################################################
-### To do !!! ###
-## Toss one entry with no dataset ID, rerun ##
-##########################################################################
 
 ## housekeeping
 rm(list=ls()) 
@@ -32,21 +28,61 @@ stripwhite <- function(x) {
 # get the data
 dater <- read.csv("input/ospreebib.csv", header=TRUE)
 
-# and make it long format
-aut.sm <- subset(dater, select=c("aut1", "aut2", "aut3", "aut4", "aut5", "aut6", "aut7",  "Custom3"))
 # fix some missing datasetIDs (matching to datasetID in ospree.csv)
 dater[which(dater$Custom3==""),] # here's the list
 dater$Custom3[which(dater$Custom3=="" & dater$Identifier=="zohner2016")] <- "zohner16"
 dater[which(dater$Custom3=="" & dater$Identifier=="Sonsteby:2009aa"),] <- "sonsteby09a" # note, there is a sonsteby09a and a sonsteby09b, but this is a strawberry one so I didn't try to figure it out for sure, since it will disappear later 
-# okay, back to formatting to long
-aut.long <- melt(aut.sm, id.var="Custom3")
-aut.long.sm <- subset(aut.long, value!="")
+
+# and make it long format
+aut.sm <- subset(dater, select=c("aut1", "aut2", "aut3", "aut4", "aut5", "aut6", "aut7",  "Custom3"))
+
+aut.long.sm <- melt(aut.sm, id.var="Custom3")
 aut.long.sm$author <- gsub( ",.*$", "", aut.long.sm$value)
 names(aut.long.sm) <- c("datasetid", "authornum", "fullname", "author")
 
 write.csv(aut.long.sm, "output/aut.long.sm.csv", row.names=FALSE) # we need this for back-conversion
 
-## clustering analysis
+
+
+## count up interactions for each paper
+datersets <- unique(aut.long.sm$datasetid)
+subset(aut.long.sm, datasetid=="")
+output <- matrix(ncol=2, nrow=0)
+
+aut.long.smer <- subset(aut.long.sm, fullname !="")
+
+
+# during the below we lose lamb37, nienstaedt66, webb78 because they are sole-author papers
+# and the combn command requires at least two authors
+for (i in c(1:length(datersets))){
+    subby <- subset(aut.long.smer, datasetid==datersets[i])
+    ifelse((nrow(subby)>1)==TRUE,
+        output <- rbind(output, t(combn(sort(tolower(subby$author)), m=2))),
+        output <- output)
+}
+output <- stripwhite(output)
+output.df <- as.data.frame(output)
+
+# output.df$combos <- paste(output.df[,1], output.df[,2], sep="")
+
+# get column for combinations -- regardless of order of names across columns
+output.df.comb <- data.frame(output.df, stringsAsFactors = FALSE) %>% 
+   mutate(key = paste0(pmin(V1, V2), pmax(V1, V2), sep = ""))
+
+output.df.comb.nodups <- output.df.comb[!duplicated(output.df.comb$key),]
+
+countz <- ddply(output.df.comb,.(key), summarize, freq=length(key))
+
+fulldf <- merge(countz, output.df.comb.nodups, by="key")
+
+# write the wide format out to try in gephi
+write.csv(fulldf, "output/aut.sm.csv", row.names=FALSE)
+
+
+
+########################
+## clustering analysis #
+########################
 autmat <- table(aut.long.sm$author, aut.long.sm$datasetid)
 aut.clust <- agnes(dist(autmat), diss=TRUE, method="average") # this should be applying UPGMA method
 aut.hclust <- hclust(dist(autmat), method="average") # also this should be applying UPGMA method
@@ -73,35 +109,9 @@ k.means.fit <- kmeans(autmat.rev, 6)
 plot(autmat.rev, col = k.means.fit$cluster)
 points(k.means.fit$centers, col = 1:5, pch = 8)
 
-# write.csv(as.data.frame(k.means.fit$cluster), "output/kmeans6.csv") 
-
-## count up interactions for each paper
-datersets <- unique(aut.long.sm$datasetid)
-subset(aut.long.sm, datasetid=="") # note to self! It all seems to be two papers!
-output <- matrix(ncol=2, nrow=0)
-
-for (i in c(1:length(datersets))){
-    subby <- subset(aut.long.sm, datasetid==datersets[i])
-    ifelse((nrow(subby)>1)==TRUE,
-        output <- rbind(output, t(combn(sort(tolower(subby$author)), m=2))),
-        output <- output)
-}
-output <- stripwhite(output)
-output.df <- as.data.frame(output)
-
-# output.df$combos <- paste(output.df[,1], output.df[,2], sep="")
-
-# get column for combinations -- regardless of order of names across columns
-output.df.comb <- data.frame(output.df, stringsAsFactors = FALSE) %>% 
-   mutate(key = paste0(pmin(V1, V2), pmax(V1, V2), sep = ""))
-
-output.df.comb.nodups <- output.df.comb[!duplicated(output.df.comb$key),]
-
-countz <- ddply(output.df.comb,.(key), summarize, freq=length(key))
-
-fulldf <- merge(countz, output.df.comb.nodups, by="key")
-
-# write the wide format out to try in gephi
-write.csv(fulldf, "output/aut.sm.csv", row.names=FALSE)
+# write.csv(as.data.frame(k.means.fit$cluster), "output/kmeans6.csv")
 
 
+############################
+## end clustering analysis #
+############################

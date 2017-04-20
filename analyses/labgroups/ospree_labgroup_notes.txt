@@ -62,3 +62,15 @@ For now (14 January 2017) I made categories based on labgroups.pdf. I did this v
 As I did it by hand, we should check my work. Here’s the totals I think we should have (okay as of 2 Feb 2017, see authors_backconvert.R):
 
 chuinejones	10heide		17hanninenh	24herter		10cookcronje	9bonhomme	9
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+Updating work on 14 April 2017
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+So, somewhere along the way I discovered that note all the authors matched up when you went to merge my lab group creations back into OSPREE. I tracked down a couple issues, including:
+
+(a) The datasetID codes were missing for a couple entries in the ospree.bib so I added them.
+(b) Some datasets were dropped when I asked for all possible combinations. This doesn’t matter because these were sole author papers by people part of no major group.
+(c) Nonetheless I updated lots of the code and ran the Gephi analysis again, but I did not update the categorizations (i.e., the work in ‘Now, back to categories!’ above). 
+
+… Because I don’t think we can use the lab groups info in a hierarchical model! If we do want to use though we should check what changed with all my work just now and double-check the work. 

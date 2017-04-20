@@ -42,7 +42,7 @@ autsid.sm <- subset(autsid, select=c(datasetID, author))
 
 # check for overlap
 setdiff(unique(autsid$author), unique(auts$author))
-setdiff(unique(auts$author),unique(autsid$author)) # none
+setdiff(unique(auts$author),unique(autsid$author)) 
 
 # now back-convert to datasetID
 labgroups <- merge(auts, autsid.sm, by="author", all.y=TRUE)
