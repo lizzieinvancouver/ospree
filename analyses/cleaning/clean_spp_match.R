@@ -37,5 +37,8 @@ manchecksp <- paste(mancheck$Genus, mancheck$Species)
 # Hamamelis japonica = seems okay according to IPNI
 # Liquidambar orientalis = seems okay according to IPNI
 
+# Notes from April 2017
+# If you run this twice in a row (from start of cleanmerge_all.R through to end of this script), you get slightly different results. I checked a few names though and think we're good. I think the issue is something about not connecting to the theplantlist server consistently. 
+
 
  
