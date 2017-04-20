@@ -64,13 +64,36 @@ As I did it by hand, we should check my work. Here’s the totals I think we sho
 chuinejones	10heide		17hanninenh	24herter		10cookcronje	9bonhomme	9
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
-Updating work on 14 April 2017
+Updating work on 20 April 2017
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-So, somewhere along the way I discovered that note all the authors matched up when you went to merge my lab group creations back into OSPREE. I tracked down a couple issues, including:
+So, somewhere along the way I discovered that not all the authors matched up when you went to merge my lab group creations back into OSPREE. I tracked down a couple issues, including:
 
 (a) The datasetID codes were missing for a couple entries in the ospree.bib so I added them.
 (b) Some datasets were dropped when I asked for all possible combinations. This doesn’t matter because these were sole author papers by people part of no major group.
-(c) Nonetheless I updated lots of the code and ran the Gephi analysis again, but I did not update the categorizations (i.e., the work in ‘Now, back to categories!’ above). 
+(c) Nonetheless I updated lots of the code and ran the Gephi analysis again, but I did not update the categorizations (i.e., the work in ‘Now, back to categories!’ above). A quick comparison of the labgroups.pdf from the 18 Jan 2017 commit (f9eb0b30bb537177956a022476452b7c71f1e684) and my new commit (on 20 April 2017, 072ab7a3077e05b0f23f3af5c48d48f5988b464c) suggests no big differences. 
 
 … Because I don’t think we can use the lab groups info in a hierarchical model! If we do want to use though we should check what changed with all my work just now and double-check the work. 
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+Notes on merging in labgroups
+<><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+Note that you do need to adjust two names for matching to the main database currently:
+bb$datasetID[bb$datasetID=="Sanz-Perez09"] <- "sanzperez10"
+bb$datasetID[bb$datasetID=="Heide03"] <- "heide03"
+
+And currently how many rows per lab group? 
+
+table(bb.wlab$cat)
+   bonhomme chuinejones  cookcronje   hanninenh       heide      herter       other 
+         46         110         132         321        2200         23        1223 
+
+quick calculations of datsetIDs:
+bonhomme:	1
+chuinejones:	4
+cookcronje: 	2
+hanninenh: 	10 
+heide:		14
+herter:		1
+other: 		26
