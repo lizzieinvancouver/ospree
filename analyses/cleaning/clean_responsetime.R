@@ -55,8 +55,7 @@ d<- within(d, response.time[datasetID=="heide12" & response.time==">60"]<-"no re
 d<- within(d, response.time[datasetID=="heide12" & response.time==">90"]<-"no response")
 d<- within(d, response.time[datasetID=="heide93a" & response.time==">50"]<-"no response")
 d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no response")
-filter(d,datasetID=="heide12")
-
+#filter(d,datasetID=="heide12")
 #falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
 #canell83: would need to fix this is respvar by calculating thermal time from figure 3
 #gunderson12: in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge")
@@ -65,9 +64,6 @@ filter(d,datasetID=="heide12")
 #sonsteby13 This is fine
 #ruesink98" This is fine
 
-##
-## Now fix, what we should fix ##
-##
 
 ## Rewrite entries where 1 means, "only response.time entry"
 d$response[which(d$response==1 & d$respvar.simple %in% respvar.time)] <- "timeonly"
@@ -265,7 +261,7 @@ fixheide12<-which(d$response!=1 & d$response!="timeonly" & d$datasetID=="heide12
                     respvar.time)
 d$response.time[fixheide12] <- as.numeric(d$response[fixheide12]) 
 d$response[fixheide12] <- "timeonly"
-View(subset(d,datasetID=="heide12"))  
+#View(subset(d,datasetID=="heide12"))  
 #fix sonsteby14
 fixsonsteby14<-which(d$response!=1 & d$response!="timeonly" & d$datasetID=="sontsteby14"& d$respvar.simple %in%
                     respvar.time)
