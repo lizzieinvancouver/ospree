@@ -74,3 +74,17 @@ dim(falusi2)
 actual paper measure time to % bud burst in Growing Degree Hours. It seems this was converted to days to % budburst when input into our datasheet in ospree.xlsx.
 **Actually, I think that it has been converted from growing degree hours to %budburst in the original figure, to growing degree days in our data sheet…it seems values from the figure have simply been divided by 24.***
 ***We checked this as a group by re-extracting these data. Problematic because highly variable based on scale of capture. We think, our data was converted from growing degree hours to growing degree days by dividing figure values by 24.
+
+2 May 2017 - CC
+*** Swartz81 - uses Utah model:
+“Effective chilling hours (units) in refrigeration or field, were calculated by the method of Richardson et al (1974) [Utah chill unit model]"
+* The figure x axis says base is 4.5 degC but caption clarifies they used 5 degC refrigerators. However, both 4.5 degC and 5 degC are considered 1 chill unit under the Utah model.
+* Utah Chill Unit Model - 5 degC/hr = 1 chill unit
+* Response.time = Growing Degree Hours/24
+* No need to change!
+
+
+<><> Charrier11 <><>
+*** Charrier11 - uses MTB (Mean Time until Budburst) which is calculated as number of hours at 25 degC
+* TS entered data and divided by 24 for Figure 2 entries - which is correct to get days to budburst
+* Table 1 entries are just taken directly from table, and do not need to be changed
