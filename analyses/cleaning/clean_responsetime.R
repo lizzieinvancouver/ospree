@@ -14,35 +14,40 @@
 
 #################################### 
 ## Let's start with the 1 entries ##
+## We'll check if they should be 1 #
 ####################################
 areone <- d[which(d$response==1),]
 unique(areone$respvar.simple)
 
-areone.rows <- which(d$response==1) # will use later
+areone.rows <- which(d$response==1) # will use for indexing later
 
-# Onward
+## Start work to break down into respvar categories, to help with sorting ##
 respvar.time <- c("daystobudburst", "daystoflower", "thermaltime")
 respvar.perc <- c("percentbudburst", "percentflower", "otherpercents")
 respvar.other <- c("phenstage", "flowernumber", "growth", "othernums")
- ## checking respvar.time related issues
+# Checking respvar.time related issues
 areone.time <- areone[which(areone$respvar.simple %in% respvar.time),]
-# hist(as.numeric(areone.time$response.time), breaks=30) ## hmm, looks generally okay -- (TODO) need to check on some rogue entries and maybe a negative?!
+# hist(as.numeric(areone.time$response.time), breaks=30) # Whoops! Some negative entries?
 
+# Dealing with negative entries
 negative.time <- subset(areone.time, response.time<0)
 unique(negative.time$datasetID)
-checkers1 <- c("caffarra11b","calme94","heide12","heide93a","howe95")  
+checkers1 <- unique(negative.time$datasetID)
 negatives <- negative.time[which(negative.time$datasetID %in% checkers1),]
 # negatives[,c(1,25:27,31)] 
 
+# Checking respvar.perc related issues
 areone.perc <- areone[which(areone$respvar.simple %in% respvar.perc),]
 # areone.perc[,c(1,25:27,31)]
 unique(areone.perc$datasetID)
 
+# Checking respvar.other related issues
 areone.other <- areone[which(areone$respvar.simple %in% respvar.other),]
 dim(areone.other)
-unique(areone.other$datasetID) 
-# need to go through each one ... for example sonsteby13 is looks to be an example of where this `1' idea fails us.
-checkers2 <- c("cannell83", "gunderson12","heide11", "pettersen71","sonsteby13") 
+unique(areone.other$datasetID)
+
+## Now we go through each one ... for example sonsteby13 is looks to be an example of where this `1' idea fails us.
+checkers2 <- unique(areone.other$datasetID)
 areone.other[which(areone.other$datasetID %in% checkers2),]
 
 ####all issues from above:

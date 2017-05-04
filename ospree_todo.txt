@@ -48,6 +48,11 @@ Nacho:
 
 **
 ** To do soon:
+My 23 Apr 2017 notes:
+- Subset to 3-way only expts.
+- Nah, subset to 2-way only exits, and then break up chilling into levels and see if we can model that
+- Do varcomp analysis versus 2 or 3-way ANOVA analysis …?
+
 convert photoperiod to long days or short days?
 remove chilling from model to check?
 remove photoperiod from model to check?
