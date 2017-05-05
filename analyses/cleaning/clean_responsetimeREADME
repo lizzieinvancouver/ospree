@@ -1,6 +1,22 @@
 This is a readme for the clean_responsetime.R file
 Built by Dan B, On April 24 2017 to recap response_time cleaning
 **indicated should be fixed elsewhere
+
+
+<><><><><><><><><><><><><><><><>
+START Lizzie’s queries:
+
+Can we change “this is fine” to “this is fine: do not change” or “this is correct, do not change” or such?
+
+What is up with things like howe95 that get changed to no response — what does a 1 mean if the variable is daystobudburst and the response.time is no response? We should explain in the R file briefly. 
+
+Confusing commenting on line 85 (maybe a character return is missing?) — is ashby62 fixed or not?
+
+Lines 85-91: If any entry is okay, can we again make the ‘ok’ longer and more explanatory (see options above)?
+
+END Lizzie’s queries.
+<><><><><><><><><><><><><><><><>
+
 _______________________________________
 respose=1,Negative values in response time: check if these are fixed in later code
 "caffarra11b"-fixed
