@@ -20,25 +20,21 @@ Cleaning and merging discussion:
 Ailene:
 #24 - non-numeric chilltemps in ospree_clean
 
-Cat:
-#72 (Lizzie re-opened) - convert degree days to days if possible … (… and, if you need to add in response timeonly, make sure anything that needs to be moved or have “timeonly” added happens in clean_responsetime.R, see line 78… and check with Dan). 
-#93 - BB>200
-
+Cat: has closed #72, #93, #56
 
 Me:
 #42 - Merging and cleaning: need to have all the source files working! And then check all the files
-#29 - response and response time issue (with Dan currently)
+#29 - response and response time issue (with Lizzie and Dan together currently)
 #58 - Deal with labgroups
 #90 - Make fake data for Stan models - check for 0, 1s
 #76 - Fix non-matching authors for labgroups
 #84 - Go through all cleaning files line by line - Lizzie assigns to people
 
 Dan:
-#29 - response and response time issue
-#93 - BB>200: Finalize notes on Swarts81
+#29 - response and response time issue (close!) 
 
 
-Nacho:
+Nacho: (Lizzie needs to update … next time!)
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #87 - Make figures based on rstanarm models and the model I built
 #79 - check duplicates
