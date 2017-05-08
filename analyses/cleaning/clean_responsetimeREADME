@@ -8,10 +8,6 @@ START Lizzie’s queries:
 
 Can we change “this is fine” to “this is fine: do not change” or “this is correct, do not change” or such?
 
-What is up with things like howe95 that get changed to no response — what does a 1 mean if the variable is daystobudburst and the response.time is no response? We should explain in the R file briefly. 
-
-Confusing commenting on line 85 (maybe a character return is missing?) — is ashby62 fixed or not?
-
 Lines 85-91: If any entry is okay, can we again make the ‘ok’ longer and more explanatory (see options above)?
 
 END Lizzie’s queries.
@@ -19,19 +15,19 @@ END Lizzie’s queries.
 
 _______________________________________
 respose=1,Negative values in response time: check if these are fixed in later code
-"caffarra11b"-fixed
-"calme94"-fixed     
-"heide12"-fixed     
-"heide93a"-fixed    
-"howe95"-fixed 
+"caffarra11b"-fixed (was blank in paper) 
+"calme94"-fixed (negative, fixed)  
+"heide12"-fixed (paper says response > 90 days, we re-coded as no response)     
+"heide93a"-fixed (paper says response > 50 days, we re-coded as no response) 
+"howe95"-fixed (paper says response > 60 days, we re-coded as no response) 
 ---------------------------------------
 1 in response, but resp.varsimple is in %budbust
-**falusi96- For data from table 2, change to mean days to reach phenostage 3
+**falusi96- For data from table 2, change to mean days to reach phenostage 3 (fix in clean_responsetime.R wherever it first shows up as an issue)
 ruesink98"- OK
 -------------------------------------------
 Are 1 in response, but other in respvar.simple 
-**cannell83- would need to fix this is respvar by calculating thermal time from figure 3
-**gunderson12- in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge")
+**cannell83- would need to fix this is respvar by calculating thermal time from figure 3 (check clean_thermaltimetodays.R) 
+**gunderson12- in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge") (check clean_thermaltimetodays.R) 
 "heide11"-OK
 "pettersen71"-OK
 "sonsteby13" -OK
@@ -60,7 +56,7 @@ zohner16-fixed
 boyer-fixed
 "cook05-fixed
 cronje03-fixed
-**falusi90- respose is actually % budburst
+**falusi90- respose is actually % budburst (fix in clean_responsetime.R wherever it first shows up as an issue)
 **ghelardini10-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 
 heide12-fixed
 **heide93-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 

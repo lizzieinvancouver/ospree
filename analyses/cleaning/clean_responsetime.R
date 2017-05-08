@@ -87,7 +87,7 @@ unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong colum
 ##
 
 ## Findings:
-#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7###fixed below
+#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7
 #basler12-ok
 #boyer-ok
 #caffara11b-ok
