@@ -5,10 +5,6 @@
 
 # Edited by Dan Flynn, then lots of edits in early 2017 by Nacho Morales-Castilla #
 
-##To do:
-##convert 50% bb to days to bb
-##calculate max %bb per treatment per spp
-
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
 # setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/output")
@@ -54,7 +50,7 @@ for(i in 1:length(dataset)){ # i = 2
   treat=unique(dat2$treatment)
 	dat2$response <- as.numeric(as.character(dat2$response))
   
-	for(k in 1:length(treat)) { # k = 6 # Do we need to loop within treatment, not just study?
+	for(k in 1:length(treat)) { # k = 6 # This for loop cleans each treatment within studies with more than one treatment
   print(paste(i,j,k))
     dat3 <- dat2[which(dat2$treatment==treat[k]),]
     
@@ -75,7 +71,9 @@ for(i in 1:length(dataset)){ # i = 2
       d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
       d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
       
-      }
+      } 
+      # If there are more than 1 rows with values within 25% of target percent and values in the 
+      # response variable are not equal to the targetted % we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
         index<-rownames(dat3[values.in.target,])  
         d[index,"dbb"]<-dat3[values.in.target,"response.time"]
@@ -84,6 +82,8 @@ for(i in 1:length(dataset)){ # i = 2
         d[index,"dist.50bb"]<-abs(dat3[values.in.target,"response"]-target.percent)
         
       }
+      # If there are more than 1 rows with values within 25% of target percent and at least one value in the 
+      # response variable is equal to the targetted % in the function we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))>0){  
         index<-rownames(dat3[which(dat3$response==target.percent),])  
         d[index,"dbb"]<-dat3[which(dat3$response==target.percent),"response.time"]
