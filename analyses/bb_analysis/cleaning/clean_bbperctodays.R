@@ -1,13 +1,13 @@
-###Ailene Ettinger, January 2016, script to convert files with 50% bb to "days to bb" and calculate max %bb per treatment per spp
+### Started by Ailene Ettinger ###
+### January 2016 ###
+## Script to convert files with 50% bb to "days to bb" and calculate max %bb per treatment per spp ##
+## Sourced in bb_cleanmergeall.R ##
+
+# Edited by Dan Flynn, then lots of edits in early 2017 by Nacho Morales-Castilla #
+
 ##To do:
 ##convert 50% bb to days to bb
 ##calculate max %bb per treatment per spp
-
-# Edited DF
-# Run this after running Jehane's script (Lizzie thinks this is clean_respvar.R) 
-
-#rm(list=ls()) 
-#options(stringsAsFactors=FALSE)
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
