@@ -15,15 +15,14 @@ options(stringsAsFactors = FALSE)
 
 
 ## reading in data
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output/")
 #setwd("~/GitHub/ospree/analyses/output/")
 
-#d <- read.csv("ospree_master_clean.csv") 
+#d <- read.csv("ospree_clean.csv") 
 if(is.data.frame(d)){
   
 
 ## select target variables for which we will search for duplicates:
-tar.var<-c("datasetID","study","genus","species","population",'provenance',"long","lat",
+tar.var<-c("datasetID","study","genus","species","varetc","year","population","provenance.long","provenance.lat",
            "forcetemp","photoperiod_day","chilltemp","chilldays")
 resp.var<-c("response","response.time")
 
@@ -32,22 +31,24 @@ ospree.sub<-d[,c(tar.var,resp.var)]
 
 ## remove duplicated rows in a simple way
 ospree.sub.no.dup<-d[!duplicated(ospree.sub),]
+#dim(ospree.sub)
 #dim(ospree.sub.no.dup)
 
-## Alternative: looking at which duplicates among target variables have very similar response variables
-## and optionally remove these lines too. I'm not sure about this.
+
+## Additionally: looking at which duplicates among target variables have very similar response variables
+## and optionally remove these lines too.
 
 # generate a vector with names of predictors that may be duplicated
 ospree.sub.no.dup$vector.duplicates<-apply(ospree.sub.no.dup[,c("datasetID","study","genus","species","population",
                               "forcetemp","photoperiod_day","chilltemp","chilldays"
                               #"respvar","response","response.time"
-                              #, "n","response..pre.treatment."
-                              #  , "error.type","resp_error", "number.longdays","dormancy_induction_temp_day","freeze.treatment.time"
+                              , "n","response..pre.treatment."
+                              , "error.type","resp_error", "number.longdays","dormancy_induction_temp_day","freeze.treatment.time"
                               
 )], 1,function(x) paste(x, collapse = "_"))
 
 # filter the vector to include only those lines that appear more than once in the dataset
-duplicate.blocks<-names(which(table(vector.duplicates)>1))
+duplicate.blocks<-names(which(table(ospree.sub.no.dup$vector.duplicates)>1))
 
 # add a new column that will be used to identify which lines to remove
 ospree.sub.no.dup$to.remove<-rep(0,nrow(ospree.sub.no.dup))
@@ -80,6 +81,7 @@ for(i in 1:length(duplicate.blocks)){
   }
   
 }
+
 
 # subsetting
 ospree.sub.no.dup<-subset(ospree.sub.no.dup,to.remove!=1)
