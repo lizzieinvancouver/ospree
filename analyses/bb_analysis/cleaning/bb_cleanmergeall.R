@@ -35,7 +35,7 @@ source("bb_analysis/cleaning/clean_bbperctodays.R")
 
 
 # 5. Write out the final file! 
-write.csv(d, "output/ospree_clean_withchill_BB", row.names=FALSE) ##
+write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
 
 
 

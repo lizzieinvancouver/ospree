@@ -38,7 +38,7 @@ Nacho: (Lizzie needs to update … next time!)
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
 #87 - Make figures based on rstanarm models and the model I built
 #79 - check duplicates
-#92 - master file for cleaning BB? 
+#92 - master file for cleaning BB?
 #95 - Whatever happened with multiresp.R?
 #97 - finish BB cleaning
 
