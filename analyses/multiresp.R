@@ -5,14 +5,14 @@
 #This should go before nacho's code
 #Started by Ailene Ettinger
 #2 Feb 2017 ## 
-## continued by Nacho on 21st April, celebrating Earth's Day!
+## continued by Nacho on 21st April, celebrating Earth's Day! (Go Earth! Don't let us humans keep you down.)
 # Following Lizzie's recs @ issue 81 in Git
 #(1) select daystobudburst if given (aka if daystobudburst is an option for the study, select that one)
 #(2) select highest percent if no daystobudburst
 #(3) check that n across different response types is not grossly different (aka >25 off)
 
 #start with output/ospree_clean_withchill.csv file
-d<-read.csv("output/ospree_clean_withchill.csv", header=T )
+d<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 multdatsets_days<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="daystobudburst"])#only 3 studies for which there are multiple response variables and days to budburst
 multdatsets_percbb<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="percentbudburst"])#only 1 study for which there are multiple response variables and percent to budburst
