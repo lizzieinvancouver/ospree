@@ -16,12 +16,14 @@ library(tidyr)
 library(ggplot2)
 library(lubridate)
 
-setwd("~/Documents/git/ospree/analyses/output")
-ospree <- read.csv("ospree_clean_final.csv", header=TRUE)
+if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+} else
+setwd("~/Documents/git/ospree/analyses")
+ospree <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 ## Variation in Field Sample Dates
 woody<- ospree %>%
-  dplyr::select(datasetID,study,genus,species,woody,ID_fieldsample.date,fieldsample.date,
+  dplyr::select(datasetID,study,genus,species,woody,fieldsample.date,fieldsample.date,
          Exp_Chilling_Hours,photoperiod_day,photoperiod_night,
          Total_Chilling_Hours,respvar.simple,response.time,forcetemp, provenance.lat, provenance.long) %>%
   filter(woody=="yes")%>%
@@ -219,19 +221,19 @@ weinberger<-full_join(weinberger,longitude,by="datasetID")%>%
   arrange(datasetID) %>%
   filter(row_number()==1)
 
-write.csv(weinberger, file="~/Documents/git/ospree/analyses/output/studytype.csv",
+write.csv(weinberger, file="output/studytype.csv",
           row.names=FALSE)
 
 # Create a more concise table
 studytype<- weinberger %>%
   group_by(study, genus.species, respvar.simple, datasetID)%>%
   ungroup()%>%
-  dplyr::select(datasetID, samplingdates.count, species.count, photoperiods.count, forcetemps.count, 
+  dplyr::select(datasetID, study, samplingdates.count, species.count, photoperiods.count, forcetemps.count, 
                 expchill.count, latitude.count, longitude.count) %>%
   group_by(datasetID) %>%
   arrange(datasetID) %>%
   filter(row_number()==1) 
 studytype[is.na(studytype)] <- 0
 
-write.csv(studytype, file="~/Documents/git/ospree/analyses/output/studytype.table.csv",
+write.csv(studytype, file="output/studytype.table.csv",
           row.names = FALSE)
