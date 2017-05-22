@@ -16,30 +16,30 @@ END Lizzie’s queries.
 _______________________________________
 respose=1,Negative values in response time: check if these are fixed in later code
 "caffarra11b"-fixed (was blank in paper) 
-"calme94"-fixed (negative, fixed)  
+**”calme94"-fixed (negative, fixed-betula and quercus changed 
 "heide12"-fixed (paper says response > 90 days, we re-coded as no response)     
 "heide93a"-fixed (paper says response > 50 days, we re-coded as no response) 
 "howe95"-fixed (paper says response > 60 days, we re-coded as no response) 
 ---------------------------------------
 1 in response, but resp.varsimple is in %budbust
-**falusi96- For data from table 2, change to mean days to reach phenostage 3 (fix in clean_responsetime.R wherever it first shows up as an issue)
+falusi96- For data from table 2, changed to meandaystostage3(buds scales separated and green tip visible)— fixed
 ruesink98"- OK
 -------------------------------------------
 Are 1 in response, but other in respvar.simple 
 **cannell83- would need to fix this is respvar by calculating thermal time from figure 3 (check clean_thermaltimetodays.R) 
-**gunderson12- in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge") (check clean_thermaltimetodays.R) 
-"heide11"-OK
-"pettersen71"-OK
-"sonsteby13" -OK
+gunderson12- OK, do not change
+"heide11"-OK, do not change
+"pettersen71"-OK, do not change
+"sonsteby13" -OK, do not change
 -------------------------------------------
  Entries that are time but are not in response.time
-*ashby62-fixed but other problems, it seem Betula and Quercus entries are misplaced
-#basler12-ok
-#boyer-ok
+*ashby62-fixed
+#basler12-ok, do not change
+#boyer-ok, do not change
 #caffara11b-ok
 #laube14b- fixed
 #skuterud94-figure 4 entries ok, figure 5 entries fixed
-#zohner16-ok
+#zohner16-ok do not change
 --------------------------------------------
 ## Entries with nothing in response, but data in response.time ##
 campbell75-fixed   
@@ -56,7 +56,7 @@ zohner16-fixed
 boyer-fixed
 "cook05-fixed
 cronje03-fixed
-**falusi90- respose is actually % budburst (fix in clean_responsetime.R wherever it first shows up as an issue)
+falusi90-fixed
 **ghelardini10-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 
 heide12-fixed
 **heide93-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 
@@ -67,11 +67,7 @@ zohner16-fixed
 
 Overall, I checked 0.377624 rows of the full dataset.
 Dataset ID's that still need attention:
-falusi96
 cannell83
-gunderson12
-ashby62
-falusi90
 ghelardini10?
 heide93?
 

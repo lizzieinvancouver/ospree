@@ -52,23 +52,31 @@ checkers2 <- unique(areone.other$datasetID)
 ## Now we go through each one ... and change it if we should, or make a note if not ##
 ##
 
-#calme94- Betula and Quercus are switched!
+#calme94- Betula and Quercus are switched!fixed below
 ##change the following from >[experiment duration] to no response in $reponse.time
 #caffarra11b  #heide12. #heide93a #howe95. transform negative value to zero in calme 94 
 d<- within(d, response.time[datasetID=="calme94" & response.time==-1.8]<-0)
+View(subset(d,datasetID=="calme94" ))
+d<- within(d, genus[datasetID=="calme94" & species=="rubra"]<-"Betula")
+d<- within(d, genus[datasetID=="calme94" & species=="alleghaniensis"]<-"Quercus")
+d<- within(d, species[datasetID=="calme94" & genus=="Quercus"]<-"rubra")
+d<- within(d, species[datasetID=="calme94" & genus=="Betula"]<-"alleghaniensis")
+
 d<- within(d, response.time[datasetID=="caffara11b" & response.time==""]<-"no response")
 d<- within(d, response.time[datasetID=="heide12" & response.time==">60"]<-"no response")
 d<- within(d, response.time[datasetID=="heide12" & response.time==">90"]<-"no response")
 d<- within(d, response.time[datasetID=="heide93a" & response.time==">50"]<-"no response")
 d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no response")
-#filter(d,datasetID=="heide12")
+
 #falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
-#canell83: would need to fix this is respvar by calculating thermal time from figure 3
-#gunderson12: in clean_bbperctodays.R extract budstage 3. In paper: "at 3, buds were just open and leaf tips were beginning to emerge")
-#heide11: This is fine
-#petterson71: This is fine 
-#sonsteby13: This is fine
-#ruesink98: This is fine
+d<-within(d, respvar[datasetID=="falusi96" & figure.table..if.applicable.=="table 2"]<-"meandaystostage3")
+
+#canell83: would need to fix this is respvar by calculating thermal time from figure 3-NOT FIXED
+#gunderson12: This is fine, do not change
+#heide11: This is fine, do not change
+#petterson71: This is fine, do not change 
+#sonsteby13: This is fine, do not change
+#ruesink98: This is fine, do not change
 
 
 ## Rewrite entries where 1 means, "only response.time entry"
@@ -87,13 +95,13 @@ unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong colum
 ##
 
 ## Findings:
-#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7
-#basler12-ok
-#boyer-ok
-#caffara11b-ok
+#ashby62 need transformation as below, but also...in paper is weeks to bud burst should*by 7 #### fixed below
+#basler12-ok, do not chnage
+#boyer-ok, do not change
+#caffara11b-ok, do not change
 #laube14b- should be response-time only and move values to response time ###fixed below
 #skuterud94-figure 4 entries ok, figure 5 entries as above ###fixed below
-#zohner16-ok
+#zohner16-ok, do not change
 
 ## Now fixing:
 # for the ones that we decide were entered in the wrong column do this (and, IMPORTANT!) check you subsetted correctly by comparing, e.g.,
@@ -135,6 +143,7 @@ unique(whynoresponse$datasetID)
 ##
 
 ## Findings: 
+#campell75-make time only
 # "gianfagna85"-"make time only
 #"laube14a" make time only
 #"linkosalo06" make time only
@@ -206,25 +215,25 @@ shouldbeone <- weirdresponsecolumn[which(weirdresponsecolumn$respvar.simple %in%
 # check it out
 unique(shouldbeone$datasetID)
 # shouldbeone[,c(1, 25:27)]
-
+View(filter(shouldbeone,datasetID=="falusi90"))
 ##
 ## Now we go through each one ... and change it if we should, or make a note if not ##
 ##
 
 ## Findings: 
 ## Dan has now fixed (Whoop!) 
-#"boyer": ->time only, no response    done   
-#"cook05" response=50per-> "timeonly"     done
-#"cronje03" "response=25per-> "timeonly" done
+#"boyer": ->time only, no response   fixed below   
+#"cook05" response=50per-> "timeonly"     fixed below
+#"cronje03" "response=25per-> "timeonly" fixed below
 #"heide12"  response->response.time and response shouldd be timeonly done
-#"sonsteby14"  same as heide12 done
-#"spiers74" okay...time only, no respone  done
-#"webb78"   time only, no response   done
-#"zohner16" time only, no response done
+#"sonsteby14"  same as heide12 fixed below
+#"spiers74" ...time only, no respone  fixed below
+#"webb78"   time only, no response   fixed below
+#"zohner16" time only, no response fixed below
+#"falusi90" respose is actually % budburst, fixed below 
 
 ## ask Lizzie about
-#"falusi90" respose is actually % budburst, respone time    
-#"ghelardini10" cat says this is fine, see her for details ask lizzie about this
+  #"ghelardini10" cat says this is fine, see her for details ask lizzie about this
 # "heide93" cats says same as ghelardin10   
 
 ##
@@ -290,6 +299,15 @@ d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="zohner16
 d$response.time[which(d$response=="timeonly" & d$response.time=="" &
     d$datasetID=="zohner16")]<-"no response"
 
+#fix falusi90 make respvar and respvar.simple =percentbudburst
+unique(d$respvar)
+length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="falusi90" &
+                          d$respvar.simple %in% respvar.time)])
+nrow(subset(shouldbeone, datasetID=="falusi90"))
+d<- within(d, respvar[datasetID=="falusi90" & respvar=="daystobudburst"]<-"percentbudburst")
+d<- within(d, respvar.simple[datasetID=="falusi90" & respvar=="percentbudburst"]<-"percentbudburst")
+#View(subset(d, datasetID=="falusi90"))
+
 
 ###############################################################
 ## Which rows have been looked at through all these queries? ##
@@ -302,3 +320,5 @@ checked.rows.nodups <- checked.rows[!duplicated(checked.rows)]
 checkedwhat <- d[checked.rows.nodups,]
 
 nrow(checkedwhat)/nrow(d)
+stop("Not an error, just stopping here to say we're now done cleaning responsetime. The d item in your workspace is now all cleaned up for its response.time column Zippitydoodah ...")
+
