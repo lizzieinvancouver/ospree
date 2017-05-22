@@ -90,6 +90,16 @@ d <- within(d, photoperiod_day[datasetID == 'heide15' & respvar == 'nodes'
                                & response.time == 35 & response == 7.1] <- 11)
 d <- within(d, photoperiod_day[datasetID == 'heide15' & respvar == 'nodes'
                                & response.time == 42  & response == 7.1] <-10)
+#Dan B steps in for a moment to adjust night time in accordance to day time (if he can)
+View(subset(d,datasetID=="heide15"))
+d<- within(d, genus[datasetID=="calme94" & species=="rubra"]<-"Betula")d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 11])<-13
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 12]<-12)
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 13]<-11)
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 10]<-14)
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 14]<-10)
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 11]<-13)
+d <- within(d, photoperiod_night[datasetID == 'heide15' & photoperiod_day== 15]<-9)
+##back to Cat's code:
 
 # thielges75 - fix one row
 d <- within(d, photoperiod_day[datasetID == 'thielges75' & photoperiod_day == 
