@@ -1,6 +1,6 @@
 #Calculates Total Chilling by merging in field chilling from "fieldchillcalc_latlong.R", 
 #This code adds the field chilling to experimental chilling to calculate total chilling
-
+#by Ailene
 ###I think the next 10 lines of code (commented out) are old and unnecessary)
 #First, calculate field chilling data
 #d$continent <- tolower(d$continent)
@@ -21,18 +21,20 @@ d$ID_chilltreat<-paste(d$datasetID,d$chilltemp,d$chilldays,sep=".")
 #want table with datasetID chilling days, chilling temperature,  treat for each study. 
 chilldat <- d %>% # start with the data frame
 distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
-  dplyr::select(datasetID, chilltemp, chilldays, year,ID_chilltreat)
-chilldat$chilltemp<-as.numeric(chilldat$chilltemp)
+  dplyr::select(datasetID, chilltemp, chilldays, year,ID_chilltreat,chillbyhand)
+byhand<-chilldat[which(chilldat$chillbyhand==1),]#38 rows of chilldat that need to be calculated by hand
+chilldat$chilltemp<-as.numeric(chilldat$chilltemp)#this replaces any non-numeric chilltemp values with NA
 chilldat$chilldays<-as.numeric(chilldat$chilldays)
+chilldat[which(is.na(chilldat$year)),]$year<-2016 #temporary fix for when years are not currently listed!
 chilldat<- chilldat[apply(chilldat, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+chilldat<-rbind(chilldat,byhand)
 expchillcalcs <- vector()
 ###First, need file with hrly temperature data for each row in dataframe
            
 for(i in 1:nrow(chilldat)) {
- # Skip if NA for chilltemp or chilldays data
-  if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i])) {
+ # First, calculate chilling when chilltemp and chilldays do not ==NA (i.e. )
+  if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i]) & chilldat$chillbyhand[i]==0) {
   yr <- as.numeric(chilldat$year[i]) 
-  if(is.na(yr)){ yr <- 2016} #temporary fix for when years are not currently listed!
    hrly =
    data.frame(
     Temp = rep(as.numeric(chilldat$chilltemp[i]), 
@@ -44,7 +46,59 @@ for(i in 1:nrow(chilldat)) {
            
     expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
            
-    } else { expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+  } else if (chilldat$chillbyhand[i]==1) {
+    yr <- as.numeric(chilldat$year[i]) 
+    if(chilldat$datasetID[i]=="jones12"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        temptreats<-strsplit(chilldat$chilltemp[i],",")
+        temp1<-as.numeric(temptreats[[1]][1])
+        temp2<-as.numeric(temptreats[[1]][2])
+        temp3<-as.numeric(temptreats[[1]][3])
+    hrly =
+        data.frame(
+          Temp = c(rep(temp1, times = 24 * as.numeric(chilldat$chilldays[i])/3),rep(temp2, times = 24 * as.numeric(chilldat$chilldays[i])/3),rep(temp3, times = 24 * as.numeric(chilldat$chilldays[i])/3)),
+          Year = rep(yr, times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
+          JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
+        )
+    expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
+    }
+    if(chilldat$datasetID[i]=="lamb37"){#lamb37 - 26.6F for 8 hr and 37.4 for 16 hr
+      temptreats<-strsplit(chilldat$chilltemp[i],",")
+      temp1<-as.numeric(temptreats[[1]][1])
+      temp2<-as.numeric(temptreats[[1]][2])
+      hrly =
+        data.frame(
+          Temp = rep(c(rep(temp1, times = 8),rep(temp2, times = 16)),times=as.numeric(chilldat$chilldays[i])),
+          Year = rep(yr, times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
+          JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
+        )
+      expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
+    }
+    if(chilldat$datasetID[i]=="li05"){##li05 - seedlings were chilled for 3 weeks at 6, and 3 weeks at 0.5
+      temptreats<-strsplit(chilldat$chilltemp[i],",")
+      temp1<-as.numeric(temptreats[[1]][1])
+      temp2<-as.numeric(temptreats[[1]][2])
+      hrly =
+        data.frame(
+          Temp = c(rep(temp1, times = 24 * as.numeric(chilldat$chilldays[i])/2),rep(temp2, times = 24 * as.numeric(chilldat$chilldays[i])/2)),
+          Year = rep(yr, times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
+          JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
+        )
+      expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
+    }
+    if(chilldat$datasetID[i]=="man10"){#man10- seedlings were chilled for one month at -3, and one month at 2
+      temptreats<-strsplit(chilldat$chilltemp[i],",")
+      temp1<-as.numeric(temptreats[[1]][1])
+      temp2<-as.numeric(temptreats[[1]][2])
+      hrly =
+        data.frame(
+          Temp = c(rep(temp1, times = 24 * as.numeric(chilldat$chilldays[i])/2),rep(temp2, times = 24 * as.numeric(chilldat$chilldays[i])/2)),
+          Year = rep(yr, times = 24 * round(as.numeric(chilldat$chilldays[i],digits=0))),
+          JDay = sort(rep(as.numeric(seq(1:round(as.numeric(chilldat$chilldays[i], digits=0)))), times = 24))
+        )
+      expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
+    }
+    
+  } else {expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
            
            expchillcalcs <- rbind(expchillcalcs, 
            data.frame(datasetID = chilldat$datasetID[i], 

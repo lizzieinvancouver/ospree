@@ -30,7 +30,7 @@ source("chilling/cleaning_chilltemp.R")
 #3. Clean the provenance.latitude and provenance.longitude columns, to get appropriate locations
 source("chilling/cleaning_provlatlong.R")
 
-# 4. Estimate field chilling (using provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
+# 4. Estimate field chilling (using growing or provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
 
 # 4a: summarize lat/longs needed to pull climate data from europe and north america
 source("chilling/fieldchillcalc_latlong.R")
@@ -51,7 +51,7 @@ source("chilling/pullclimate_nam.R")
 # & chilling using three different metrics
 source("chilling/interpolclimate.R")
 
-# 5. Merge in field chilling estimates with experimental chilling 
+# 5. Calculate experimental chilling and merge in field chilling estimates with experimental chilling 
 #(If you want to avoid connecting to the external hard drive, then start here)
 dat<-read.csv("output/fieldchillcalcslatlong.csv")
 

@@ -46,10 +46,10 @@ d[d$datasetID=="boyer" & d$population=="Southeast Virginia",]$provenance.long<--
 #(i think Alabama Agricultural Experiment STation, Auburn Unviersity, AL: )
 d[d$datasetID=="boyer" & d$study=="exp2",]$growing.lat<-32.5172108
 d[d$datasetID=="boyer" & d$study=="exp2",]$growing.long<--85.9572927
-
 #Campbell75 Cloverdale population (45.37,-124.5) should be 46,-122.81 (was in the ocean)
 #Port Townsend population (48.2, -123.25 ) should be 48.117039,-122.760447 (was in the ocean)
-#Questions
-#use "growing lat long instead to calculate chilling? problem is, we didn't really use that field (10075 NAs, versus only 288 NAs in provanance lat)
-#what journal is boyer from?
-#several of my files remove woody species- no need to do this, though right?
+d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.lat<-46
+d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<--122.81
+d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48.117039
+d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<--122.760447
+
