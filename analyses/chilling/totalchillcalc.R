@@ -1,23 +1,11 @@
 #Calculates Total Chilling by merging in field chilling from "fieldchillcalc_latlong.R", 
 #This code adds the field chilling to experimental chilling to calculate total chilling
 #by Ailene
-###I think the next 10 lines of code (commented out) are old and unnecessary)
-#First, calculate field chilling data
-#d$continent <- tolower(d$continent)
-#d$datasetID <- as.character(d$datasetID)
-#d$provenance.lat <- as.numeric(as.character(d$provenance.lat))
-#d$provenance.long <- as.numeric(as.character(d$provenance.long))
-#d$year <- as.numeric(as.character(d$year))
-#d$fieldsample.date<-as.character(as.Date(d$fieldsample.date,"%m/%d/%y")) #needed for new version
-#d<- as_data_frame(d)
-#Make a column that indexes the study, provenance latitude,provenance longitude, and field sample date, in order to calculate field chilling
-#d$ID_fieldsample.date2<-paste(d$datasetID,d$chill.lat,d$chill.long,d$fieldsample.date2, sep="_")
 
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
 d$ID_chilltreat<-paste(d$datasetID,d$chilltemp,d$chilldays,sep=".")
            
 ##### Calculate experimental chilling, using chillday and chilltemp.
-##there are many non-numeric values in the chilltemp and chilldays columns- these are unusable currently so remove:
 #want table with datasetID chilling days, chilling temperature,  treat for each study. 
 chilldat <- d %>% # start with the data frame
 distinct(ID_chilltreat,.keep_all = TRUE) %>% # establishing grouping variables
@@ -108,8 +96,6 @@ for(i in 1:nrow(chilldat)) {
            }
            
            colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
-#Need to add in chilling calculations for sites that have "ambient plud 4 etc.."
-#(I think this is only "ambient + 4"#this is skre08 + 4 degrees C)
 #Merge field and experimental chilling data with the rest of the data
 #Add experimental chilling. Right number of rows = 12898 rows, 61 columns
            dat3 <- merge(d, expchillcalcs, 
@@ -120,7 +106,7 @@ for(i in 1:nrow(chilldat)) {
            #Add field chilling calculations to datafile. #still 12898 rows, now 64 columns (3 ways of estimating experimental chilling)
            ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
            chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
-           chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA. 256 rows now.
+           chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.
            
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
            #fieldchillcalcs has 256 rows and 6 columns
