@@ -56,6 +56,8 @@ source("chilling/interpolclimate.R")
 # 5. Calculate experimental chilling and merge in field chilling estimates with experimental chilling 
 #(If you want to avoid interpolating hourly climate and calculating field chilling, then start here)
 dat<-read.csv("output/fieldchillcalcslatlong.csv")
+#Or,temporarily: (this .RData workspace is old)
+#load("output/fieldclimate.RData")
 
 source("chilling/totalchillcalc.R")
 

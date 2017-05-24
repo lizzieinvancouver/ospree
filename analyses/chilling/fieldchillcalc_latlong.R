@@ -20,11 +20,16 @@ d[which(is.na(d$chill.long)),]$chill.long<-d[which(is.na(d$chill.long)),]$proven
 d$year <- as.numeric(as.character(d$year))
 
 d$fieldsample.date2<-as.character(as.Date(d$fieldsample.date2,"%m/%d/%y")) #needed for new version
+#add column for when experimental chilling is added to field chilling (this gets done in the interpolclimate.R file and we need to be able to merge it back in- only 2 studies do this so I am adding it by hand)
+d$addexpwarm<-0
+d[d$chilltemp=="ambient + 4",]$addexpwarm<-"ambplus4"
+d[d$chilltemp=="ambient + 0.76",]$addexpwarm<-"ambplus0.76"
+
 d2 <- as_data_frame(d)
 
 ##add new column that combines datasetID,chill.lat, chill.long, and field sample.date for later indexing
 
-d2$ID_fieldsample.date2<-paste(d2$datasetID,d2$chill.lat,d2$chill.long,d2$fieldsample.date2, sep="_")
+d2$ID_fieldsample.date2<-paste(d2$datasetID,d2$chill.lat,d2$chill.long,d2$fieldsample.date2,d2$addexpwarm, sep="_")
 
 # European studies
 #want table with lat, long, year, field sample date for each study. there could  be multiple field sample dates for each study
