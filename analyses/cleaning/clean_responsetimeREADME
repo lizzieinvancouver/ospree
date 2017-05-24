@@ -2,17 +2,6 @@ This is a readme for the clean_responsetime.R file
 Built by Dan B, On April 24 2017 to recap response_time cleaning
 **indicated should be fixed elsewhere
 
-
-<><><><><><><><><><><><><><><><>
-START Lizzie’s queries:
-
-Can we change “this is fine” to “this is fine: do not change” or “this is correct, do not change” or such?
-
-Lines 85-91: If any entry is okay, can we again make the ‘ok’ longer and more explanatory (see options above)?
-
-END Lizzie’s queries.
-<><><><><><><><><><><><><><><><>
-
 _______________________________________
 respose=1,Negative values in response time: check if these are fixed in later code
 "caffarra11b"-fixed (was blank in paper) 
