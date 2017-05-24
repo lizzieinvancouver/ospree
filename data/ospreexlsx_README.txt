@@ -20,6 +20,11 @@ This paper is on potted seedlings and how warm spells during some dormancy-relat
 Note that this MUST BE CONSIDERED if ever calculating *cumulative forcing.*
 
 
+<><> thielges75 <><> 
+
+Doesn't seem to say year, but the paper was presented in 1975 and samples were taken in late September so we could add 1974 to year and 30 Sep 74 to fieldsample.date
+
+
 <><> Falusi 1990 (see also github issue #8) <><>
 
 Year is not given (seriously).

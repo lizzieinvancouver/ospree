@@ -4,6 +4,8 @@
 ## Trying to create a master cleaning file ... ##
 ## And away we go! ##
 
+## Note! We found some errors in chilling entries; all those are cleaned in clean_chilltemp.R ##
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
