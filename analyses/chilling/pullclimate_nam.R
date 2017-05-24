@@ -74,6 +74,7 @@ for(i in 1:nrow(nam)){ # i = 1
 
 # If you want to (as Lizzie does) you can write out tempval, which is all the climate pulled in a list form
 # save(tempval, file="output/fieldclimate.RData")
+write.csv(tempval, "output/tempval_all.csv", row.names=FALSE, eol="\r\n")
 
 stop("Not an error, just stopping here to say we're now done pulling daily climate data for North America! Next step is to interpolate these to hourly data and estimate chilling from the hourly data.")
 

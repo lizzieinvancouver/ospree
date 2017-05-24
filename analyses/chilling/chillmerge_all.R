@@ -49,10 +49,12 @@ source("chilling/pullclimate_nam.R")
 
 # 4e: Interpolate hourly temperatures from the daily values 
 # & chilling using three different metrics
+#(If you want to avoid connecting to the external hard drive, then start here)
+dat<-read.csv("output/tempval_all.csv")
 source("chilling/interpolclimate.R")
 
 # 5. Calculate experimental chilling and merge in field chilling estimates with experimental chilling 
-#(If you want to avoid connecting to the external hard drive, then start here)
+#(If you want to avoid interpolating hourly climate and calculating field chilling, then start here)
 dat<-read.csv("output/fieldchillcalcslatlong.csv")
 
 source("chilling/totalchillcalc.R")

@@ -108,7 +108,8 @@ for(i in 1:nrow(chilldat)) {
            }
            
            colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
-           
+#Need to add in chilling calculations for sites that have "ambient plud 4 etc.."
+#(I think this is only "ambient + 4"#this is skre08 + 4 degrees C)
 #Merge field and experimental chilling data with the rest of the data
 #Add experimental chilling. Right number of rows = 12898 rows, 61 columns
            dat3 <- merge(d, expchillcalcs, 

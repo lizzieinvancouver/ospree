@@ -1,7 +1,7 @@
 ######################################################
 # Interpolation
 ######################################################
-# interporlate daily climate data to hourly, based on max min 
+# interpolate daily climate data to hourly, based on max min 
 # Then use this to summarize chilling, using 3 metrics
 # Build a calibration table, here we don't actually have hourly data, use best guess, just the average temperatures within this study, with a minimum at 5am, max at 2pm,  
 
@@ -49,7 +49,10 @@ for(i in names(tempval)){
   }
  #Need to add chilling treatments to some experiments (i.e. when design is a warming experiment X degrees above ambient)
   #These include:skre08, pagter15 (in chilltemp column, says "ambient + XXC")
-  # Skip if NA for temperature data
+ 
+  
+  
+   # Skip if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     
     chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
