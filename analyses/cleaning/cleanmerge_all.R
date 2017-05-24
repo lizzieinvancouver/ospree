@@ -1,5 +1,5 @@
 ## Clean the OSPREE data ##
-## By Dan Flynn, Lizzie and more! ###
+## By Dan Flynn, Lizzie, Ailene, Cat C., Dan B., Nacho and more! ###
 
 ## Trying to create a master cleaning file ... ##
 ## And away we go! ##

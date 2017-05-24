@@ -56,7 +56,7 @@ checkers2 <- unique(areone.other$datasetID)
 ##change the following from >[experiment duration] to no response in $reponse.time
 #caffarra11b  #heide12. #heide93a #howe95. transform negative value to zero in calme 94 
 d<- within(d, response.time[datasetID=="calme94" & response.time==-1.8]<-0)
-View(subset(d,datasetID=="calme94" ))
+# View(subset(d,datasetID=="calme94" ))
 d<- within(d, genus[datasetID=="calme94" & species=="rubra"]<-"Betula")
 d<- within(d, genus[datasetID=="calme94" & species=="alleghaniensis"]<-"Quercus")
 d<- within(d, species[datasetID=="calme94" & genus=="Quercus"]<-"rubra")
@@ -215,7 +215,7 @@ shouldbeone <- weirdresponsecolumn[which(weirdresponsecolumn$respvar.simple %in%
 # check it out
 unique(shouldbeone$datasetID)
 # shouldbeone[,c(1, 25:27)]
-View(filter(shouldbeone,datasetID=="falusi90"))
+
 ##
 ## Now we go through each one ... and change it if we should, or make a note if not ##
 ##
@@ -306,7 +306,6 @@ length(d$response[which(d$response!=1 & d$response!="timeonly" & d$datasetID=="f
 nrow(subset(shouldbeone, datasetID=="falusi90"))
 d<- within(d, respvar[datasetID=="falusi90" & respvar=="daystobudburst"]<-"percentbudburst")
 d<- within(d, respvar.simple[datasetID=="falusi90" & respvar=="percentbudburst"]<-"percentbudburst")
-#View(subset(d, datasetID=="falusi90"))
 
 
 ###############################################################
