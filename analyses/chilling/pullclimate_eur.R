@@ -57,6 +57,5 @@ for(i in 1:nrow(eur)){ # i = 1
 
 nc_close(eur.tempmx)
 nc_close(eur.tempmn)
-write.csv(tempval, "output/tempval_eur.csv", row.names=FALSE, eol="\r\n")
 
 stop("Not an error, just stopping here to say we're now done pulling daily climate data for Europe!")
