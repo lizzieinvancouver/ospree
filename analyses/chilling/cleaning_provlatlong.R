@@ -53,3 +53,21 @@ d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<--122
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48.117039
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<--122.760447
 
+#Add continent to those that do not have it
+unique(d[d$continent=="",]$datasetID)
+d[d$datasetID=="caffarra11a",]$continent<-"europe"
+d[d$datasetID=="caffarra11b",]$continent<-"europe"
+d[d$datasetID=="cook05",]$continent<-"Africa"
+d[d$datasetID=="devries82",]$continent<-"europe"
+d[d$datasetID=="falusi03",]$continent<-"europe"
+d[d$datasetID=="falusi90",]$continent<-"europe"
+d[d$datasetID=="falusi96",]$continent<-"europe"
+d[d$datasetID=="Heide03",]$continent<-"europe"
+d[d$datasetID=="heide05",]$continent<-"europe"
+d[d$datasetID=="heide05" & d$population.detail=="USA",]$continent<-"North America"
+d[d$datasetID=="heide11",]$continent<-"europe"
+d[d$datasetID=="myking95",]$continent<-"europe"
+d[d$datasetID=="pettersen71",]$continent<-"europe"
+d[d$datasetID=="viheraaarnio06",]$continent<-"europe"
+d[d$datasetID=="worrall67",]$continent<-"North America"
+
