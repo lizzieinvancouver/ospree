@@ -1,4 +1,4 @@
-﻿Started 22 March 2017
+Started 22 March 2017
 by Cat 
 Follow-up by Nacho (11 April 2017)
 
@@ -33,4 +33,15 @@ It:
 
 4. sources clean_bbperctodays.R, which transforms %bb to days
 
-5. saves the file for BB analyses
+5. sources clean_moreduplicates.R which removes some data with same response variable 
+
+6. saves the file for BB analyses
+
+
+<><><><><><><><><><><><><><>
+Consider: 
+<><><><><><><><><><><><><><>
+For our analyses, we should think about how to handle the following columns: 
+	varetc
+	population (etc.) 
+	and related variables 

@@ -10,10 +10,10 @@ options(stringsAsFactors = FALSE)
 
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} 
-if(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
-} else {
-  setwd("~/Documents/git/ospree/analyses")}
+} else if
+(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
+} else 
+  setwd("~/Documents/git/ospree/analyses")
 
 
 # Load libraries
@@ -33,8 +33,10 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 # 4. Clean/convert percentBB to days
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
+# 5. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)
+# source("bb_analysis/cleaning/clean_moreduplicates.R")
 
-# 5. Write out the final file! 
+# 6. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
 
 

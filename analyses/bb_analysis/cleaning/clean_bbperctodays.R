@@ -43,7 +43,7 @@ for(i in 1:length(dataset)){ # i = 2
                           dat1$freeze.treatment.photoperiod_night,dat1$freeze.treatment.temp_day,
                           dat1$freeze.treatment.temp_night,dat1$fieldchill,dat1$chilltemp,dat1$chillphotoperiod,
                           dat1$chilldays,dat1$number.longdays,dat1$photoperiod_day,dat1$photoperiod_night,dat1$forcetemp,
-                          dat1$forcetemp_night, dat1$irradiance,dat1$humidity, dat$fieldsample.date,sep = ".")
+                          dat1$forcetemp_night, dat1$irradiance,dat1$humidity, dat1$fieldsample.date,sep = ".")
 
   for(j in 1:length(study)){ # j = 1
   dat2<-dat1[which(dat1$study==study[j]),]

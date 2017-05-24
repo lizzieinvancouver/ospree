@@ -15,16 +15,14 @@ Where we’re at with issues:
 
 Cleaning and merging discussion:
 
-(*) Help Dan with git issues. 
 (*) bb_analysis/cleaning …
-(*) #81 multiresp issue!
-(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79)
-(*) Discuss what to delete in clean_moreduplicates.R (this should or could close issue #52 also) 
+(*) #81 multiresp issue! - Ailene should work on this 
+(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79) — LIZZIE (and send back to Nacho)
+(*) Discuss what to delete in clean_moreduplicates.R (this should or could close issue #52 also) — LIZZIE 
 (*) check out: cleaning/_cleaningREADME.txt
 (*) #84 - Go through all cleaning files line by line
 
 Ailene:
-#24 - non-numeric chilltemps in ospree_clean
 
 Cat: has closed #72, #93, #56
 
