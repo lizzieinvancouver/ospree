@@ -13,9 +13,13 @@ Review:
 - #91 - ALL, row.names=FALSE when you write out data
 
 Cleaning and merging discussion:
-(a) check out: cleaning/_cleaningREADME.txt, esp. 8 (clean duplicates) 
-(b) chilling folder looks good!
-(c) bb_analysis/cleaning needs work … to discuss together (and see all the files in just bb_analysis, like bb_mergeall.R). Nacho should be on this.
+(x) #98: some studies missing year!
+(X) #81 multiuser issue!
+(a) how to clean R code, see the code I added, please add to it!
+(b) Discuss what to delete in clean_moreduplicates.R and how to adjust clean_duplicates.R in main cleaning file (issue #79)
+(c) check out: cleaning/_cleaningREADME.txt, esp. 8 (clean duplicates) 
+(d) someone to look at chilling folder code (double-check)….
+(e) bb_analysis/cleaning …
 
 Ailene:
 #24 - non-numeric chilltemps in ospree_clean
