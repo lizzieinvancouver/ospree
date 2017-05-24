@@ -36,7 +36,7 @@ source("chilling/cleaning_provlatlong.R")
 source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
-#Skip this step if you don't have the climate data drive
+#Skip head to 4e if you do not have the climate data drive
 climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of new external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate"
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate"
@@ -51,7 +51,7 @@ source("chilling/pullclimate_nam.R")
 # & chilling using three different metrics
 #(If you want to avoid connecting to the external hard drive, then start here)
 #load this .RData workspace)
-load("output/fieldclimate.RData")
+#load("output/fieldclimate.RData")
 source("chilling/interpolclimate.R")
 
 # 5. Calculate experimental chilling and merge in field chilling estimates with experimental chilling 
@@ -64,4 +64,8 @@ source("chilling/totalchillcalc.R")
 
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
-dim(dat4)
+
+#Check for duplications and other things in the new ospree_clean_withchill.csv file
+dat4<-read.csv("output/ospree_clean_withchill.csv", header=T)
+
+dim(dat4);dim(d)

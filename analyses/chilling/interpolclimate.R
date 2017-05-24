@@ -61,9 +61,6 @@ for(i in names(tempval)){
   chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
 
-
-
-
 write.csv(chillcalcs, "output/fieldchillcalcslatlong.csv", row.names=FALSE, eol="\r\n")
 
 stop("Not an error, just stopping here to say we're now done interpolating climate and estimating the field chilling. A new file called fieldchillcalcslatlong.csv has been written to the output folder. Yay!")
