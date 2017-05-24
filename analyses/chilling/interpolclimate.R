@@ -19,6 +19,11 @@ for(i in names(tempval)){
   
   xx <- tempval[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
+  #Need to add chilling treatments to some experiments (i.e. when design is a warming experiment X degrees above ambient)
+  #These include:skre08, pagter15 (in chilltemp column, says "ambient + XXC")
+  if(grpep("ambplus0.76",i)==TRUE){xx$Tmin<-xx$Tmin+0.76;xx$Tmax<-xx$Tmax+0.76}# pagter15
+  if(grpep("ambplus4",i)==TRUE){xx$Tmin<-xx$Tmin+4;xx$Tmax<-xx$Tmax+4}#skre08
+        
   year = as.numeric(format(xx$Date, "%Y"))
   month = as.numeric(format(xx$Date, "%m"))
   day = as.numeric(format(xx$Date, "%d"))
@@ -47,18 +52,16 @@ for(i in names(tempval)){
     )
     
   }
- #Need to add chilling treatments to some experiments (i.e. when design is a warming experiment X degrees above ambient)
-  #These include:skre08, pagter15 (in chilltemp column, says "ambient + XXC")
- 
-  
-  
    # Skip if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     
     chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
   } else { chillcalc <- data.frame("Season"=NA,"End_year"=NA,"Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
+  
   chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
+
+
 
 
 write.csv(chillcalcs, "output/fieldchillcalcslatlong.csv", row.names=FALSE, eol="\r\n")
