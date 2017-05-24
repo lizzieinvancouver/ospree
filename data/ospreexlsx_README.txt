@@ -11,7 +11,7 @@ Extra notes on some papers
 
 <><><> Falusi03 and Falusi97 <><><>
 
-Varies by material (apical, median, small or basal bud) — currently in clean_duplicates.R we delete down to one observation per treatment.
+Varies by material (apical, median, small or basal bud).
 
 <><> Granhus et al. 2009 <><>
 
@@ -92,7 +92,9 @@ actual paper measure time to % bud burst in Growing Degree Hours. It seems this 
 ***We checked this as a group by re-extracting these data. Problematic because highly variable based on scale of capture. We think, our data was converted from growing degree hours to growing degree days by dividing figure values by 24.
 
 2 May 2017 - CC
-*** Swartz81 - uses Utah model:
+
+*** Swartz81 <><> uses Utah model:
+
 “Effective chilling hours (units) in refrigeration or field, were calculated by the method of Richardson et al (1974) [Utah chill unit model]"
 * The figure x axis says base is 4.5 degC but caption clarifies they used 5 degC refrigerators. However, both 4.5 degC and 5 degC are considered 1 chill unit under the Utah model.
 * Utah Chill Unit Model - 5 degC/hr = 1 chill unit
@@ -101,6 +103,18 @@ actual paper measure time to % bud burst in Growing Degree Hours. It seems this 
 
 
 <><> Charrier11 <><>
+
 *** Charrier11 - uses MTB (Mean Time until Budburst) which is calculated as number of hours at 25 degC
 * TS entered data and divided by 24 for Figure 2 entries - which is correct to get days to budburst
 * Table 1 entries are just taken directly from table, and do not need to be changed
+
+
+<><> cannell83 <><>
+
+No response time, but there is in Figure 3. Would extract thermaltime from X axis of Fig 3 (note that we'd still be up against some issues in converting to budburst) but could be useful for Picea-specific studies and/or if we ever analyze bud length data. 
+
+
+
+<><> general <><>
+
+Some notes on years in https://github.com/lizzieinvancouver/ospree/issues/98. 
