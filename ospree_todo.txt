@@ -9,17 +9,19 @@ Where we’re at with issues:
 **
 ** To do now:
 
-Review:
+** Review! ** 
 - #91 - ALL, row.names=FALSE when you write out data
+- how to clean R code, see the code I added, please add to it!
 
 Cleaning and merging discussion:
-(x) #98: some studies missing year!
-(X) #81 multiuser issue!
-(a) how to clean R code, see the code I added, please add to it!
-(b) Discuss what to delete in clean_moreduplicates.R and how to adjust clean_duplicates.R in main cleaning file (issue #79)
-(c) check out: cleaning/_cleaningREADME.txt, esp. 8 (clean duplicates) 
-(d) someone to look at chilling folder code (double-check)….
-(e) bb_analysis/cleaning …
+
+(*) Help Dan with git issues. 
+(*) bb_analysis/cleaning …
+(*) #81 multiresp issue!
+(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79)
+(*) Discuss what to delete in clean_moreduplicates.R (this should or could close issue #52 also) 
+(*) check out: cleaning/_cleaningREADME.txt
+(*) #84 - Go through all cleaning files line by line
 
 Ailene:
 #24 - non-numeric chilltemps in ospree_clean
@@ -32,25 +34,24 @@ Me:
 #58 - Deal with labgroups
 #90 - Make fake data for Stan models - check for 0, 1s
 #76 - Fix non-matching authors for labgroups
-#84 - Go through all cleaning files line by line - Lizzie assigns to people
+#84 - Go through all cleaning files line by line 
 
 Dan:
 #29 - response and response time issue (close!) 
-
+#84 - Go through all cleaning files line by line
 
 Nacho: (Lizzie needs to update … next time!)
 #81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
-#87 - Make figures based on rstanarm models and the model I built
-#79 - check duplicates
-#92 - master file for cleaning BB?
 #95 - Whatever happened with multiresp.R?
 #97 - finish BB cleaning
+#79 - check duplicates
+#84 - Go through all cleaning files line by line
 
 **
 ** To do soon:
 My 23 Apr 2017 notes:
 - Subset to 3-way only expts.
-- Nah, subset to 2-way only exits, and then break up chilling into levels and see if we can model that
+- Nah, subset to 2-way only expts, and then break up chilling into levels and see if we can model that
 - Do varcomp analysis versus 2 or 3-way ANOVA analysis …?
 
 convert photoperiod to long days or short days?

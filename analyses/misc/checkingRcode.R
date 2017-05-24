@@ -22,3 +22,5 @@ otherID[which(otherID$Var1 %in% daystobbID$Var1),]
 # Delete (or comment out) any code that is operating system or R system specific (e.g., quartz() or view() or such)
 
 # When you are done with any code you *MUST* run it (ideally from both source -- if it is sourced -- and directly from the code) to make sure it runs. This is good practice for all code. It's easy to fix errors the day you make them, and takes longer to do it later while you're thinking 'but I swear this was all set!' #
+
+# Also, delete any old comments that no longer apply and add any names of people you know have worked a lot on the code (do these things for your own code also)! #
