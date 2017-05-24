@@ -28,7 +28,7 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 7. The we source clean_responsetime.R which cleans response and response time columns.
 
-8. Remove duplicate lines (with clean_duplicates.final.R)
+8. Remove duplicate lines (with clean_duplicates.R) — this removes duplicate rows which could have been entered due to data being repeated across figures, two people accidentally entering the same paper or a copy/paste mistake. 
 
 9. Write it all out!
 

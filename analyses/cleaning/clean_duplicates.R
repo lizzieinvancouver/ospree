@@ -41,20 +41,18 @@ ospree.sub<-d[,c(tar.var,resp.var)]
 ## remove duplicated rows in a simple way
 ospree.sub.no.dup<-d[!duplicated(ospree.sub),]
 #dim(ospree.sub)
-#dim(ospree.sub.no.dup)
+#dim(ospree.sub.no.dup) # as of 24 May 2017 we delete 104 rows here
 
 
 ## Additionally: looking at which duplicates among target variables have very similar response variables
 ## and optionally remove these lines too.
 
 # generate a vector with names of predictors that may be duplicated
-ospree.sub.no.dup$vector.duplicates<-apply(ospree.sub.no.dup[,c("datasetID","study","genus","species","population",
-                              "forcetemp","photoperiod_day","chilltemp","chilldays"
+ospree.sub.no.dup$vector.duplicates<-apply(ospree.sub.no.dup[,c(tar.var,
                               #"respvar","response","response.time"
-                              , "n","response..pre.treatment."
-                              , "error.type","resp_error", "number.longdays","dormancy_induction_temp_day","freeze.treatment.time"
-                              
-)], 1,function(x) paste(x, collapse = "_"))
+                              "n","response..pre.treatment.",
+                              "error.type","resp_error", "number.longdays"
+                              )], 1,function(x) paste(x, collapse = "_"))
 
 # filter the vector to include only those lines that appear more than once in the dataset
 duplicate.blocks<-names(which(table(ospree.sub.no.dup$vector.duplicates)>1))
@@ -90,14 +88,14 @@ for(i in 1:length(duplicate.blocks)){
   }
   
 }
-
+# as of 24 May 2017 this block of the code removes 103 rows
 
 # subsetting
 ospree.sub.no.dup<-subset(ospree.sub.no.dup,to.remove!=1)
 
 
-## save file without duplicated values !!!CAUTION!!!
-# write.csv(ospree[-lines.to.rem,],"ospree_master_clean.csv",row.names=FALSE) ## be careful as this substitutes ospree_master_clean
+## move on without duplicated values
+    
 d<-ospree.sub.no.dup
 
 
