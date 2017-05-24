@@ -102,7 +102,8 @@ for(i in 1:nrow(chilldat)) {
            by.x = c("datasetID","ID_chilltreat"),
            by.y=c("datasetID","ID_chilltreat"),
            all.x=T)
-           dat3$ID_fieldsample.date2<-paste(dat3$datasetID,dat3$chill.lat,dat3$chill.long,dat3$fieldsample.date2, sep="_")
+        
+           dat3$ID_fieldsample.date2<-paste(dat3$datasetID,dat3$chill.lat,dat3$chill.long,dat3$fieldsample.date2,d2$addexpwarm, sep="_")
            #Add field chilling calculations to datafile. #still 12898 rows, now 64 columns (3 ways of estimating experimental chilling)
            ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
            chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
