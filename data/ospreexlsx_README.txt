@@ -9,6 +9,13 @@ See ~/analyses/cleaning/_cleaningREADME.txt for starters.
 Extra notes on some papers
 <><><><><><><><><><><><><><>
 
+<><> Granhus et al. 2009 <><>
+
+This paper is on potted seedlings and how warm spells during some dormancy-related period impact budburst. During chilling pots were exposed to ONE (1) 14 day warm periods (8C or 12C). Ailene and Lizzie decided 14 days were included in chill days 0-175 (if you look at figure 1 they are trying to show you a 14 day spell happening at different periods in each treatment).
+
+Note that this MUST BE CONSIDERED if ever calculating *cumulative forcing.*
+
+
 <><> Falusi 1990 (see also github issue #8) <><>
 
 Year is not given (seriously).

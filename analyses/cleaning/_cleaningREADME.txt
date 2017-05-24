@@ -34,6 +34,13 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 
 <><><><>
+What gets cleaned elsewhere?
+<><><><>
+
+**Chilling** Small errors in chilling are cleaned in chilling folder.
+
+
+<><><><>
 Wait! What are these other files?
 <><><><>
 
