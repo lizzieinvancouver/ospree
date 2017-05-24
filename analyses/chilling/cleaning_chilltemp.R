@@ -42,6 +42,6 @@ d[which(d$chilltemp=="4, 0, -4"),]$chillbyhand<-1 #jones12
 d[which(d$chilltemp=="0, 4, 8"),]$chillbyhand<-1#jones12
 d[which(d$chilltemp=="-4, 8, 8"),]$chillbyhand<-1#jones12
 d[which(d$chilltemp=="-4, 0, 4"),]$chillbyhand<-1 #jones12
-#d[which(d$chilltemp=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"),]#granhus09
+d[which(d$chilltemp=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"),]$chilldays<-161#granhus09: the chilling for these sites were entered in wrong. AFter re-reading the paper, Lizzie and Ailene realized that all treatments had a 161 (=175-1) day chilling periodignoring this for now since it shouldn't affect chilling calculations.
 
 stop("Not an error, just stopping here to say we're now done cleaning the chilltemp column. The d item in your workspace is now all cleaned up and ready to pull climate data in to estimate field chilling. Yay!")
