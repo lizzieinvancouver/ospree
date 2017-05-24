@@ -1,13 +1,9 @@
 # Fixing merge issues
-## Originally by Dan Flynn, updates by Cat and XX in January 2017 ##
+## Originally by Dan Flynn, updates by Cat, Nacho, Lizzie in January-May 2017 ##
 
 # This file works to check for any studies that may have been entered twice #
-# Great idea, but seems to critically understand why Dan Flynn though <10K was goal
-# at line 36 ... we should probably build a new version of this that we understand. ##
 
 ## Nacho is taking over in 26th Jan 2017 -- deal with identify/remove duplicates
-## Dan Flynn's 10K threshold seemed to be selected in order to not remove >~10% of the data, makes sense?
-
 
 ## housekeeping
 #rm(list=ls()) 
@@ -22,9 +18,22 @@ if(is.data.frame(d)){
   
 
 ## select target variables for which we will search for duplicates:
-tar.var<-c("datasetID","study","genus","species","varetc","year","population","provenance.long","provenance.lat",
-           "forcetemp","photoperiod_day","chilltemp","chilldays")
-resp.var<-c("response","response.time")
+tar.var<-c("datasetID","study","genus","species","varetc","year","population",
+           "provenance.long","provenance.lat", "population.altitude.m",
+           "growing.lat", "growing.long", "irradiance", "irradiance.units",
+           "fieldsample.date","dormancy_induction_days",
+           "dormancy_induction_photoperiod_day", "dormancy_induction_photoperiod_night",
+           "dormancy_induction_temp_day", "dormancy_induction_temp_night", 
+           "forcetemp", "photoperiod_day","freeze.treatment.temp_day",
+           "freeze.treatment.temp_night", "field.chill.units",
+           "chilltemp","chilldays", "other.treatment", "material")
+resp.var<-c("respvar", "response","response.time")
+
+# Notes from Lizzie (not comprehensive, but a few quick ones): 
+# falusi03 varies by material (apical, median, small or basal bud), we should probably delete these elsewhere for some analyses
+# falusi 97 also varies by material
+# heide05 appears to have been entered twice, the delete code is working, yaaayyy!
+# myking95 also appears to be duplicated data (across figure numers), success again!
 
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
 ospree.sub<-d[,c(tar.var,resp.var)]
@@ -64,7 +73,7 @@ for(i in 1:length(duplicate.blocks)){
   if(length(unique(d.subset$respvar))<nrow(d.subset) & sum(is.na(unique(d.subset$respvar)))==0){
     for(j in 1:length(unique(resp.duplicated))){
       d.subset.j<-subset(d.subset,respvar==unique(resp.duplicated)[j])
-      dists<-as.matrix(dist(d.subset.j$response,upper=F))
+      dists<-as.matrix(dist(d.subset.j$response,upper=FALSE))
       dists[dists==0]<-NA
       
       for(h in 2:nrow(d.subset.j)){
@@ -88,7 +97,7 @@ ospree.sub.no.dup<-subset(ospree.sub.no.dup,to.remove!=1)
 
 
 ## save file without duplicated values !!!CAUTION!!!
-# write.csv(ospree[-lines.to.rem,],"ospree_master_clean.csv",row.names=F) ## be careful as this substitutes ospree_master_clean
+# write.csv(ospree[-lines.to.rem,],"ospree_master_clean.csv",row.names=FALSE) ## be careful as this substitutes ospree_master_clean
 d<-ospree.sub.no.dup
 
 
