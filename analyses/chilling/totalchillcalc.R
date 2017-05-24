@@ -92,25 +92,24 @@ for(i in 1:nrow(chilldat)) {
            data.frame(datasetID = chilldat$datasetID[i], 
            ID_chilltreat = chilldat$ID_chilltreat[i],
            expchillcalc[c("Chilling_Hours","Utah_Model","Chill_portions")]))
-           
            }
            
            colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
 #Merge field and experimental chilling data with the rest of the data
-#Add experimental chilling. Right number of rows = 12898 rows, 61 columns
+#Add experimental chilling. Right number of rows = 12862 rows, 63 columns
            dat3 <- merge(d, expchillcalcs, 
            by.x = c("datasetID","ID_chilltreat"),
            by.y=c("datasetID","ID_chilltreat"),
            all.x=T)
         
            dat3$ID_fieldsample.date2<-paste(dat3$datasetID,dat3$chill.lat,dat3$chill.long,dat3$fieldsample.date2,d2$addexpwarm, sep="_")
-           #Add field chilling calculations to datafile. #still 12898 rows, now 64 columns (3 ways of estimating experimental chilling)
+           #Add field chilling calculations to datafile. #still 12862 rows, now 64 columns (3 ways of estimating experimental chilling)
            ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
            chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
-           chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.
+           chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.dim: 235   6
            
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
-           #fieldchillcalcs has 256 rows and 6 columns
+           #fieldchillcalcs has 235 rows and 6 columns
            # Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
            (nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2]))
            
