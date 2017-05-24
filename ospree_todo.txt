@@ -17,10 +17,10 @@ Cleaning and merging discussion:
 
 (*) bb_analysis/cleaning …
 (*) #81 multiresp issue! - Ailene should work on this 
-(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79) — LIZZIE (and send back to Nacho)
-(*) Discuss what to delete in clean_moreduplicates.R (this should or could close issue #52 also) — LIZZIE 
+(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79) — Lizzie and Nacho
+(*) Finalize clean_moreduplicates.R (Lizzie and Nacho)
 (*) check out: cleaning/_cleaningREADME.txt
-(*) #84 - Go through all cleaning files line by line
+(*) #84 - Go through all cleaning files line by line (everyone!)
 
 Ailene:
 
