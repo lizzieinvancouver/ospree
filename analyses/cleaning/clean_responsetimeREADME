@@ -5,7 +5,7 @@ Built by Dan B, On April 24 2017 to recap response_time cleaning
 _______________________________________
 respose=1,Negative values in response time: check if these are fixed in later code
 "caffarra11b"-fixed (was blank in paper) 
-**”calme94"-fixed (negative, fixed-betula and quercus changed 
+calme94"-fixed (negative, fixed-betula and quercus changed 
 "heide12"-fixed (paper says response > 90 days, we re-coded as no response)     
 "heide93a"-fixed (paper says response > 50 days, we re-coded as no response) 
 "howe95"-fixed (paper says response > 60 days, we re-coded as no response) 
@@ -22,7 +22,7 @@ gunderson12- OK, do not change
 "sonsteby13" -OK, do not change
 -------------------------------------------
  Entries that are time but are not in response.time
-*ashby62-fixed
+ashby62-fixed
 #basler12-ok, do not change
 #boyer-ok, do not change
 #caffara11b-ok
