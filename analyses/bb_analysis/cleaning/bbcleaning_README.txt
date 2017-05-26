@@ -5,12 +5,13 @@ Follow-up by Nacho (11 April 2017)
 ################ Clarification notes from Cat
 Additional metadata for bb_analysis/cleaning
 
-For converting thermal time to days to budburst, was able to convert heide93 Figure 3 & 4 and
+For converting thermal time to days to budburst, was able to convert
 karlsson03 Figure 1. 
 
 The degree days equation they used was > 0 degC
 The equation for heide93 is simply…
 daystobudburst = degree days / force temp 
+However, this was not needed because percent bud burst was already converted to days to bud burst. Changing thermal time would result in duplicated results. See clean_thermaltimetodays.R for more information. 
 
 The degree days equation they used was > 2 degC
 The equation for karlsson03 is…
