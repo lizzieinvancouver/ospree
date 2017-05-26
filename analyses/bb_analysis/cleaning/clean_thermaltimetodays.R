@@ -32,16 +32,12 @@ dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, k
 # Both thermal time and percentbudburst were entered for ghelardini10
 # Cannot figure out laube14a or skuterud94
 
-
-## Can change heide93 from thermaltime to daystobudburst
+######## Changes made my Cat - 26 May 2017 #######################
+# heide93 is already converted from percentbudburst so thermaltime does not to be converted or else would result in duplicated results!
+## If thermaltime is needed to be used in the future...
 # On pg 533, 2nd paragraph, equation can be found. Use 0 degC as base temp so to convert
 # from degree days to days, simply divide the degree days by the forcetemp
 # daystobudburst = response/forcetemp
-d$response.time[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <-
-  as.numeric(d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")])/
-  as.numeric(d$forcetemp[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")])
-d$response[which(d$datasetID=="heide93" & d$respvar.simple=="thermaltime")] <- "timeonly"
-d<-within(d, respvar.simple[datasetID=="heide93" & respvar.simple=="thermaltime"]<-"daystobudburst")
 
 ## Can change karlsson03 from thermaltime to daystobudburst
 # On pg 620, Fig 1 caption, equation can be found. Use 2 degC as base temp
