@@ -53,3 +53,4 @@ d[which(d$chilltemp=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild s
 
 
 stop("Not an error, just stopping here to say we're now done cleaning the chilltemp column. The d item in your workspace is now all cleaned up and ready to pull climate data in to estimate field chilling. Yay!")
+
