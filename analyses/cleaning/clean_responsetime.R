@@ -71,7 +71,8 @@ d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no res
 #falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
 d<-within(d, respvar[datasetID=="falusi96" & figure.table..if.applicable.=="table 2"]<-"meandaystostage3")
 
-#canell83: would need to fix this is respvar by calculating thermal time from figure 3-NOT FIXED
+#canell83: would need to fix this is respvar by calculating thermal time from figure 3- No need to change here.
+#see note to above in  ospreexlsx_README.txt
 #gunderson12: This is fine, do not change
 #heide11: This is fine, do not change
 #petterson71: This is fine, do not change 
@@ -233,8 +234,8 @@ unique(shouldbeone$datasetID)
 #"falusi90" respose is actually % budburst, fixed below 
 
 ## ask Lizzie about
-  #"ghelardini10" cat says this is fine, see her for details ask lizzie about this
-# "heide93" cats says same as ghelardin10   
+  #"ghelardini10" handled in multiresp code
+# "heide93" handled in thermaltime or multiresp code   
 
 ##
 ##check subsetting

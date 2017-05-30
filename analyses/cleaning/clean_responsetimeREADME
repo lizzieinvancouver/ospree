@@ -15,7 +15,7 @@ falusi96- For data from table 2, changed to meandaystostage3(buds scales separat
 ruesink98"- OK
 -------------------------------------------
 Are 1 in response, but other in respvar.simple 
-**cannell83- would need to fix this is respvar by calculating thermal time from figure 3 (check clean_thermaltimetodays.R) 
+**cannell83- would need to fix this is respvar by calculating thermal time from figure 3 (check clean_thermaltimetodays.R) Leave this for now, see note about it in ospreexlsx_README.txt
 gunderson12- OK, do not change
 "heide11"-OK, do not change
 "pettersen71"-OK, do not change
@@ -46,9 +46,9 @@ boyer-fixed
 "cook05-fixed
 cronje03-fixed
 falusi90-fixed
-**ghelardini10-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 
+**ghelardini10-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R).. should be fixed in multiresp.R
 heide12-fixed
-**heide93-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R) 
+**heide93-cat says this is fine, see her for details ask lizzie about this (check clean_thermaltimetodays.R). will be handled in thermaltime or multiresp code
 sonsteby14-fixed
 spiers74-fixed
 webb78-fixed     
@@ -56,7 +56,7 @@ zohner16-fixed
 
 Overall, I checked 0.377624 rows of the full dataset.
 Dataset ID's that still need attention:
-cannell83
-ghelardini10?
-heide93?
+cannell83--see note about it in ospreexlsx_README.txt
+ghelardini10?-- handled in multiresp.R
+heide93-- handeled in in thermaltime or multiresp code
 
