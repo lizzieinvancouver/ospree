@@ -28,7 +28,7 @@ d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
 
 dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, karlsson03,
 #laube14a, skuterud94
-# Both thermal time and daystobudburst were entered for basler12, 
+# Both thermal time ("degreedaystobudburst") and daystobudburst were entered for basler12, 
 # Both thermal time and percentbudburst were entered for ghelardini10
 # Cannot figure out laube14a or skuterud94
 

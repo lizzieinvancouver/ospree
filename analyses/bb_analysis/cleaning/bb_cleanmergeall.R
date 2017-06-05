@@ -12,6 +12,8 @@ options(stringsAsFactors = FALSE)
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else if
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
+} else if
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
 } else 
   setwd("~/Documents/git/ospree/analyses")
 
