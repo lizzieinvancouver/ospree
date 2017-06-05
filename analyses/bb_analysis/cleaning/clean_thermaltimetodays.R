@@ -26,10 +26,10 @@ if(is.data.frame(d)){
 d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
 d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
 
-dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, karlsson03,
+#dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, karlsson03,
 #laube14a, skuterud94
-# Both thermal time ("degreedaystobudburst") and daystobudburst were entered for basler12, 
-# Both thermal time and percentbudburst were entered for ghelardini10
+# Both thermal time ("degreedaystobudburst") and daystobudburst were entered for basler12: this should be fixed in multiresponse
+# Both thermal time and percentbudburst were entered for ghelardini10- this should be fixed in multiresponse
 # Cannot figure out laube14a or skuterud94
 
 ######## Changes made my Cat - 26 May 2017 #######################

@@ -18,7 +18,7 @@ The equation for karlsson03 is…
 daystobudburst = degree days / (force temp - 2)
 #################
 
-The goal of this folder is to cleaning the response variable BB and centralize in 
+The goal of this folder is to clean the response variable BB and centralize in 
 bb_cleanmergeall.R
 
 <><><><><><><><><><><><><><>
@@ -32,7 +32,7 @@ It:
 
 3. sources clean_ambientforcing.R, which cleans the forcing predictor variable
 
-4. sources clean_bbperctodays.R, which transforms %bb to days
+4. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
 
 5. sources clean_moreduplicates.R which removes some data with same response variable 
 

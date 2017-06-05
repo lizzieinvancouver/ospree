@@ -62,7 +62,7 @@ for(i in 1:length(dataset)){ # i = 2
     # Check if this can be estimated at all.
     if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time)) {
     
-      # Check how many values are within 25% of target percent, if at lest one we proceed
+      # Check how many values are within 25% of target percent, if at least one we proceed
       values.in.target<-which(dat3$response>(target.percent-target.percent*0.25)&dat3$response<(target.percent+target.percent*0.25))
       if(length(values.in.target)==1){
       index<-rownames(dat3[values.in.target,])  
