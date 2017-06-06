@@ -25,6 +25,7 @@ library(tidyr)
 # 1. Get the data (that has already been cleaned for respvar and chilling)
 d <- read.csv("output/ospree_clean_withchill.csv")
 
+#2. multiresponse should go here
 
 # 2. Need to deal with thermal time to days
 source("bb_analysis/cleaning/clean_thermaltimetodays.R")
