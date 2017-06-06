@@ -1,5 +1,6 @@
 ## Estimate total chilling and add to the OSPREE data ##
 ## By Ailene Ettinger, Dan Flynn, Lizzie and more! ###
+## See _chillingREADME.txt in same folder for more info ##
 
 ## housekeeping
 rm(list=ls()) 
@@ -37,9 +38,9 @@ source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #Skip head to 4e if you do not have the climate data drive
-climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of new external drive, change with new device)
-# climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate"
-# climatedrive = "/Volumes/My Book for Mac/ospreeclimate"
+climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
+# climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
+# climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 
 # 4c. pull climate data from europe
 source("chilling/pullclimate_eur.R")
@@ -66,6 +67,6 @@ write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
 
 #Check for duplications and other things in the new ospree_clean_withchill.csv file
-dat4<-read.csv("output/ospree_clean_withchill.csv", header=T)
+dat4<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 dim(dat4);dim(d)

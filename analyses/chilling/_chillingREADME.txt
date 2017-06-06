@@ -4,8 +4,10 @@ I, your happy README file am here to help.
 Everything in this folder is related to calculating total chilling (field chilling plus experimental chilling) in our dataset.
 chillmerge_all.R the file that puts it all together, using the below files that are sourced.
 
-Ailene did much of this code, so ask her for clarification if you need it!
+Ailene did much of this code (July 2016-June 2017), so ask her for clarification if you need it!
 aettinger@fas.harvard.edu, ailene.ettinger@gmail.com
+
+Want info on what data we used (and why)? See ospree/notes/dailyclimatdata.txt
 
 <><><><><><><><><><><><><><>
 Please update me as you go! 
@@ -18,7 +20,7 @@ The files here do the following:
 
 3.fieldchillcalc_latlong.R: summarizes the lat/longs needed to pull climate data from europe and north america. These are the “growing” lat/longs if listed in the database, or, if no growing lat/long is given, then they are the provenance lat/long
 
-4. pullclimate_eur.R & pullclimate_nam.R: pulls in climate data for europe and north america, respectively, as netcdf files, from an external hard drive, using the provenance lat/long columns and calculates field chilling experienced before the material was collected for the experiment. If you do not have the external hard drive, or do not want to take the time to pull the data (it takes ~5-10 minutes) then you can get around this by loading the RData file listed in chillmerge_all
+4. pullclimate_eur.R & pullclimate_nam.R: pulls in climate data for europe and north america, respectively, as netcdf files, from an external hard drive, using the provenance lat/long columns and calculates field chilling experienced before the material was collected for the experiment. If you do not have the external hard drive, or do not want to take the time to pull the data (it can take ~5-10 minutes) then you can get around this by loading the RData file listed in chillmerge_all
 
 5. interpolclimate.R: Interpolate hourly temperatures from the daily values & chilling using three different metrics. Generates a new csv file with the just the chilling estimates for those studies with field sample dates: fieldchillcalcslatlong.csv
 
@@ -58,7 +60,7 @@ unique(ospree[ospree$datasetID=="skre08",]$provenance.lat)#The "Iceland" populat
 #Iceland pop should be: 64.517928, 21.892008 (the ones which were 64.38333,21.66667)
 #Similarly, Melbu population (formerly 68.61667,14.61667) should be 68.501210, 14.800709
 head(ospree[ospree$datasetID=="boyer",1:15])#for boyer, the "southeast georgia" population maps to water. should be 32, -82
-#also, southeast virgina population is not located in southeast virginia (currenty 32, 81;its in southeast georgia)- should be more like 37, -77
+#also, southeast virgina population is not located in southeast virginia (currently 32, 81;its in southeast georgia)- should be more like 37, -77
 #34,-94 (Southeast Arkansas) should be: 34,-92
 #34,-84 (North Georgia) is fine
 head(ospree[ospree$datasetID=="campbell75",1:15])#for boyer, the "southeast georgia" population maps to water. should be 32, -82

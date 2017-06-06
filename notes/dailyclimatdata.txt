@@ -1,4 +1,21 @@
-18 April 2016
+Started 18 April 2016
+By Lizzie
+
+
+<><><><><><><><><><><><><><><><><>
+Daily climate data …
+<><><><><><><><><><><><><><><><><>
+
+To date (June 2017) we have used:
+
+Livneh dataset for North America (see below) with data from 1955-2013
+E-OBS for Europe
+
+We pulled climate data in July 2016 and continued working on through 2017 to calculate chilling (and possibly more).
+
+<><><><><><><><><><><><><><><><><>
+Info from Ben Cook rec’d in 2016
+<><><><><><><><><><><><><><><><><>
 
 Links from Ben for daily temperature data at a finer spatial resolution and going back beyond 1980:
 
