@@ -25,21 +25,21 @@ library(tidyr)
 # 1. Get the data (that has already been cleaned for respvar and chilling)
 d <- read.csv("output/ospree_clean_withchill.csv")
 
-#2. multiresponse should go here
-
-# 2. Need to deal with thermal time to days
+# 2. multiresponse should go here
+#source("bb_analysis/cleaning/multiresp.R)
+# 3. Need to deal with thermal time to days
 source("bb_analysis/cleaning/clean_thermaltimetodays.R")
 
-# 3. Clean ambient forcing
+# 4. Clean ambient forcing
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
-# 4. Clean/convert percentBB to days
+# 5. Clean/convert percentBB to days
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
-# 5. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)
+# 6. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)
 # source("bb_analysis/cleaning/clean_moreduplicates.R")
 
-# 6. Write out the final file! 
+# 7. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
 
 

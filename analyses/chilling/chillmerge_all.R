@@ -64,9 +64,3 @@ source("chilling/totalchillcalc.R")
 # 6. Write out the file with total chilling estimates
 
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
-
-
-#Check for duplications and other things in the new ospree_clean_withchill.csv file
-dat4<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
-
-dim(dat4);dim(d)
