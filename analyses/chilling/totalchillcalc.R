@@ -109,14 +109,20 @@ for(i in 1:nrow(chilldat)) {
            chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.dim: 235   6
            
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
-           #fieldchillcalcs has 235 rows and 6 columns
-           # Some will be missing because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95). Others should have it: viheraaarni06 for example. Those without dates do not have field chilling, because do not have a field sample date.
-           (nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2]))
+           #Check the sites that are missing chilling calculations because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95) or because they are too recent (Zohner16).
+           #Also, any site without field sample dates do not have field chilling, because do not have a field sample date.
+           #nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2]))
            
            chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date2 %in% dat3$ID_fieldsample.date2,]
+           #found 2 duplicate chilling calculation for laube14a: laube14a_48.403008_11.711811_2012-01-30_0 and laube14a_48.403008_11.711811_2012-03-14_0. For some reason, there are 2 years listed for this one- 2010/2011 and 2011/2012. since field sample date was january 2012, it should just be te 2011-2012 season. Remove
+           chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-01-30_0" & chillcalcs$End_year==2011),]
+           chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-03-14_0" & chillcalcs$End_year==2011),]
            
            dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date2",match="all")
-           #dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date", match="all") #Added by Cat
+           #108 rows aded in this join....not sure why. look for duplicates in dat3
+           ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
+           length(dat3$ID_fieldsample.date2[duplicated(dat3$ID_fieldsample.date2)])
+           #dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date2", match="all") #Added by Cat
            
            ### Now add column for total chilling (field plus experimental)
            ### First, total chilling = exp and field

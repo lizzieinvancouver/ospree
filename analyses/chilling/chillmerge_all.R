@@ -61,7 +61,7 @@ source("chilling/interpolclimate.R")
 
 source("chilling/totalchillcalc.R")
 
-# 6. Write out the file with total chilling estimates- (I have not done this yet!)
+# 6. Write out the file with total chilling estimates
 
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
