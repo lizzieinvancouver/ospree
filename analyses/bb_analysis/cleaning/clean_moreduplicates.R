@@ -71,17 +71,32 @@ for(i in 1:length(duplicate.blocks)){
       dists<-as.matrix(dist(d.subset.j$response,upper=FALSE))
       dists[dists==0]<-NA
       
-      for(h in 2:nrow(d.subset.j)){
-        if(sum(dists[h,]<as.numeric(d.subset.j$response[h])*0.005,na.rm=T)>0){
-          if(d.subset.j$response.time[h]%in%d.subset.j$response.time[-h]){
-          print(paste(i,j,h))
-          bbdat.sub.no.dup$to.remove[which(row.names(bbdat.sub.no.dup)==row.names(d.subset.j[h,]))]<-1
-          }
-      }
-      }
-  }
   
-
+      for(h in 1:nrow(d.subset.j)){
+        if(sum(dists[h,]<as.numeric(d.subset.j$response[h])*0.005,na.rm=T)>0){
+          index.dists<-which(dists[h,]<as.numeric(d.subset.j$response[h])*0.005)
+          
+          for(k in 1:length(index.dists)){
+            if(dist(c(d.subset.j$response.time[h],as.numeric(d.subset.j$response.time[index.dists[k]])))<as.numeric(d.subset.j$response.time[h])*0.005){
+              print(paste(i,j,h,k))
+              to.rem<-index.dists[k]
+              storing<-list()
+              
+              if(length(index.dists)>0 & 
+                 as.numeric(row.names(d.subset.j[index.dists[k],]))>as.numeric(row.names(d.subset.j[h,]))){
+                
+                bbdat.sub.no.dup$to.remove[which(row.names(bbdat.sub.no.dup)==row.names(d.subset.j[index.dists[k],]))]<-1
+                
+              }
+              
+            }
+            
+          }
+        }
+      }
+    }
+    
+    
   }
   
 }
