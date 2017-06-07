@@ -2,6 +2,8 @@
 # This requires you to work off of external hard drive
 
 nafiles <- dir(climatedrive)[grep("livneh", dir(climatedrive))]
+#loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
+#the climate data that we are pulling is daily min and max temperature
 
 for(i in 1:nrow(nam)){ # i = 1
   
@@ -13,8 +15,8 @@ for(i in 1:nrow(nam)){ # i = 1
   if(lo > 0) { lo = lo*-1 }
   
   yr <- as.numeric(nam[i,"year"])
-  
-  # using d$fieldsample.date
+  # start and end days of the climate data we need to calculate chilling, for the focal lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
+  # using d$fieldsample.date2 (this is the same as fieldsampledate, but formatted as  "%Y-%m-%d")
   if(nam[i,"fieldsample.date2"]!=""){endday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
   if(nam[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")} #if no sampling date given, use april 30
   
@@ -51,7 +53,8 @@ for(i in 1:nrow(nam)){ # i = 1
     thismo <- paste(as.numeric(substr(endday,1,4)), formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
     chillmo<-c(prevmo, thismo)
   }
-  # now loop over these year-month combo files
+  # now loop over these year-month combo files and get temperature values for this date range.
+
   mins <- maxs <- vector()
   
   for(j in c(chillmo)){ # j = "200009"

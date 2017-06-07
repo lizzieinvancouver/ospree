@@ -1,9 +1,10 @@
 # Read in netCDF files to pull climate data from europe
-# This requires you to work off of external hard drive
+# This requires you to work off of the external hard drive with climate data
 
 eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v12.0.nc"))
 eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
-
+#loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
+#the climate data that we are pulling is daily min and max temperature
 tempval <- list() 
 for(i in 1:nrow(eur)){ # i = 1
   
@@ -21,15 +22,17 @@ for(i in 1:nrow(eur)){ # i = 1
   xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell))[1]
   xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell))[1]
   
-  yr <- as.numeric(eur[i,"year"])#need to add month
+  yr <- as.numeric(eur[i,"year"])#
   
-  # start and end days, in days since baseline date (#sept 1) Set to GMT to avoid daylight savings insanity
-  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  # start and end days of the climate data we need for the lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
+  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")#start day for chilling is september 1
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   if(eur[i,"fieldsample.date2"]==""){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   
-  # using fieldsample.date2
+  # using fieldsample.date2, which is the same as fieldsampledate, but formatted as  "%Y-%m-%d"
+  #field sample date2 is the end day for chilling calculations
+
   if(eur[i,"fieldsample.date2"]!=""){endday <- strptime(eur[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
   if(eur[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}
   
@@ -38,8 +41,8 @@ for(i in 1:nrow(eur)){ # i = 1
   if(en<st){en=st}
   if(endday<stday){endday=stday}
   
-  # get temperature values for this range.
-  # check the dim of the net cdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
+  # get temperature values for this date range.
+  # check the dim of the netcdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
   mins <- ncvar_get(eur.tempmn,'tn', 
                     start=c(nlong.cell,nlat.cell,st), 
                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
