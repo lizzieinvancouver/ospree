@@ -22,9 +22,13 @@ if(is.data.frame(d)){
 ## select target variables for which we will search for duplicates:
 tar.var<-c("datasetID","study","genus","species","varetc","year","population",
            "provenance.long","provenance.lat", "population.altitude.m",
-           "growing.lat", "growing.long", 
-           "fieldsample.date", "forcetemp", "photoperiod_day",
-           "field.chill.units","chilltemp","chilldays")
+           "growing.lat", "growing.long", "irradiance", "irradiance.units",
+           "fieldsample.date","dormancy_induction_days",
+           "dormancy_induction_photoperiod_day", "dormancy_induction_photoperiod_night",
+           "dormancy_induction_temp_day", "dormancy_induction_temp_night", 
+           "forcetemp", "photoperiod_day","freeze.treatment.temp_day",
+           "freeze.treatment.temp_night", "field.chill.units",
+           "chilltemp","chilldays", "other.treatment", "material")
    
 resp.var<-c("respvar", "response","response.time")
 
@@ -101,6 +105,10 @@ for(i in 1:length(duplicate.blocks)){
   
 }
 
+
+# checking data entries to be removed
+#toberemoved<-subset(bbdat.sub.no.dup,to.remove==1)
+#dim(toberemoved)
 
 # subsetting
 bbdat.sub.no.dup<-subset(bbdat.sub.no.dup,to.remove!=1)

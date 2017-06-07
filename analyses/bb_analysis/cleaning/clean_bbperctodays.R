@@ -131,7 +131,7 @@ d<-d.subset
 
 stop("Not an error, now BB data is all cleaned, ready to analyze and save")
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-#write.csv(d,"ospree_clean_withchill_BB.csv")
+#write.csv(d,"ospree_clean_withchill_BB.csv",row.names=F)
 
 
 
