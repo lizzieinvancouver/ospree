@@ -1,9 +1,9 @@
 ######################################################
 # Interpolation
 ######################################################
-# interpolate daily climate data to hourly, based on max min 
+# interpolate daily climate data to hourly, based on max and min 
 # Then use this to summarize chilling, using 3 metrics
-# Build a calibration table, here we don't actually have hourly data, use best guess, just the average temperatures within this study, with a minimum at 5am, max at 2pm,  
+# Build a calibration table, here since we don't actually have hourly data, use best guess: with a minimum at 5am, max at 2pm,  
 
 calibration_l = list(
   Average = data.frame(time_min = rep(5, 12),
@@ -19,8 +19,7 @@ for(i in names(tempval)){
   
   xx <- tempval[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
-  #Need to add chilling treatments to some experiments (i.e. when design is a warming experiment X degrees above ambient)
-  #These include:skre08, pagter15 (in chilltemp column, says "ambient + XXC")
+  #add interpolated climate data for studies with warming treatments (ambient plus 0.76, ambient plus 4 degrees)
   if(length(grep("ambplus0.76",i))==1){xx$Tmin<-xx$Tmin+0.76;xx$Tmax<-xx$Tmax+0.76}# pagter15
   if(length(grep("ambplus4",i))==1){xx$Tmin<-xx$Tmin+4;xx$Tmax<-xx$Tmax+4}#skre08
         
@@ -35,7 +34,7 @@ for(i in names(tempval)){
   
   for(j in 1:nrow(xx)){
     
-    xy <- Th_interp(Tmin, Tmax, 
+    xy <- Th_interp(Tmin, Tmax, #function that creates 24 values of hourly temperature from minimum and maximum daily values.
                     day = j,
                     tab_calibr = calibration_l$Average)
     
@@ -52,7 +51,7 @@ for(i in names(tempval)){
     )
     
   }
-   # Skip if NA for temperature data
+   # Skip interpolation if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     
     chillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
@@ -60,7 +59,7 @@ for(i in names(tempval)){
   
   chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
-
+#save the field chilling calculations in a separate file
 write.csv(chillcalcs, "output/fieldchillcalcslatlong.csv", row.names=FALSE, eol="\r\n")
 
 stop("Not an error, just stopping here to say we're now done interpolating climate and estimating the field chilling. A new file called fieldchillcalcslatlong.csv has been written to the output folder. Yay!")
