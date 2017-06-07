@@ -1,8 +1,6 @@
 #For experiments when multiple different percentages used yield single respvar.simple
-#Goal is to select out the highest percentage of budburst only
-#just days to budburst or percbb are cases when there are multiple percentages of budburst.
-#This code that goes into budburst cleaning. 
-#This should go before nacho's code
+#Goal is to select out the highest percentage of budburst only, and remove sites that contain duplicate data in two forms
+#(i.e. days to budburst and percbb). these are cases when there are multiple percentages of budburst.
 #Started by Ailene Ettinger
 #2 Feb 2017 ## 
 ## continued by Nacho on 21st April, celebrating Earth's Day! (Go Earth! Don't let us humans keep you down.)
@@ -12,10 +10,11 @@
 #(3) check that n across different response types is not grossly different (aka >25 off)
 
 #start with output/ospree_clean_withchill.csv file
-d<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
+#d<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 multdatsets_days<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="daystobudburst"])#only 3 studies for which there are multiple response variables and days to budburst
 multdatsets_percbb<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="percentbudburst"])#only 1 study for which there are multiple response variables and percent to budburst
+#multdatsets_tt<-unique(d$datasetIDstudy[d$multiresp==TRUE & d$respvar.simple=="thermaltime"])#should add studies with thermal time too?
 
 #Trying to figure out where the data for percbb are coming from and what they are
 # we generate a subset XX of data for studies with multiple response variables and percent to budburst

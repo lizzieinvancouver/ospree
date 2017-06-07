@@ -28,15 +28,17 @@ Please update me as you go!
 It:
 1. Reads in output/ospree_clean_withchill.csv, which should have been cleaned previously
 
-2. sources clean_thermaltimetodays.R, which homogenizes time to days 
+2. source bb_analysis/cleaning/multiresp.R, which flags any studies that have both percent bud burst and days to budburst, and studies thermal time and days to budburst studies
 
-3. sources clean_ambientforcing.R, which cleans the forcing predictor variable
+3. sources clean_thermaltimetodays.R, which homogenizes thermal time to days 
 
-4. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
+4. sources clean_ambientforcing.R, which cleans the forcing predictor variable
 
-5. sources clean_moreduplicates.R which removes some data with same response variable 
+5. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
 
-6. saves the file for BB analyses
+6. sources clean_moreduplicates.R which removes some data with same response variable 
+
+7. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
 
 
 <><><><><><><><><><><><><><>

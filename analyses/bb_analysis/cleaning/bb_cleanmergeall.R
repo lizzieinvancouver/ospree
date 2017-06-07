@@ -25,8 +25,9 @@ library(tidyr)
 # 1. Get the data (that has already been cleaned for respvar and chilling)
 d <- read.csv("output/ospree_clean_withchill.csv")
 
-# 2. multiresponse should go here
-#source("bb_analysis/cleaning/multiresp.R)
+# 2. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
+source("bb_analysis/cleaning/multiresp.R")
+
 # 3. Need to deal with thermal time to days
 source("bb_analysis/cleaning/clean_thermaltimetodays.R")
 
