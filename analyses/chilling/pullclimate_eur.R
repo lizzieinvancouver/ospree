@@ -26,8 +26,8 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # start and end days of the climate data we need for the lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
   stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")#start day for chilling is september 1
-  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
-  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is after september 1, then we use the chilling from the current year.
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is before september 1, then we use the chilling from the previous year.
   if(eur[i,"fieldsample.date2"]==""){stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   
   # using fieldsample.date2, which is the same as fieldsampledate, but formatted as  "%Y-%m-%d"
