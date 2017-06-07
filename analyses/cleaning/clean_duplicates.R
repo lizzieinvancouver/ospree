@@ -61,7 +61,7 @@ duplicate.blocks<-names(which(table(ospree.sub.no.dup$vector.duplicates)>1))
 ospree.sub.no.dup$to.remove<-rep(0,nrow(ospree.sub.no.dup))
 
 # run loop for each unique block identifying which lines are too similar in their response variable
-for(i in 1:length(duplicate.blocks)){
+for(i in 1:length(duplicate.blocks)){ #i=1020;j=1;h=2
   
   block.i<-duplicate.blocks[i]
   d.subset<-subset(ospree.sub.no.dup,vector.duplicates==block.i)
@@ -74,14 +74,29 @@ for(i in 1:length(duplicate.blocks)){
       dists<-as.matrix(dist(d.subset.j$response,upper=FALSE))
       dists[dists==0]<-NA
       
-      for(h in 2:nrow(d.subset.j)){
-        if(sum(dists[h,]<as.numeric(d.subset.j$response[h])*0.005,na.rm=T)>0){
-          if(d.subset.j$response.time[h]%in%d.subset.j$response.time[-h]){
-          print(paste(i,j,h))
-          ospree.sub.no.dup$to.remove[which(row.names(ospree.sub.no.dup)==row.names(d.subset.j[h,]))]<-1
+      storing<-list()
+      for(h in 1:nrow(d.subset.j)){
+        if(sum(dists[h,]<as.numeric(d.subset.j$response[h])*0.0025,na.rm=T)>0){
+          index.dists<-which(dists[h,]<as.numeric(d.subset.j$response[h])*0.0025)
+          
+          for(k in 1:length(index.dists)){
+          if(dist(c(d.subset.j$response.time[h],as.numeric(d.subset.j$response.time[index.dists[k]])))<as.numeric(d.subset.j$response.time[h])*0.005){
+            print(paste(i,j,h,k))
+            to.rem<-index.dists[k]
+            storing<-list()
+            
+            if(length(index.dists)>0 & 
+               as.numeric(row.names(d.subset.j[index.dists[k],]))>as.numeric(row.names(d.subset.j[h,]))){
+              
+          ospree.sub.no.dup$to.remove[which(row.names(ospree.sub.no.dup)==row.names(d.subset.j[index.dists[k],]))]<-1
+          
           }
-      }
-      }
+          
+          }
+      
+          }
+        }
+        }
   }
   
 
@@ -90,9 +105,13 @@ for(i in 1:length(duplicate.blocks)){
 }
 # as of 24 May 2017 this block of the code removes 103 rows
 
+# checking what is going to be deleted
+#todelete.subset<-subset(ospree.sub.no.dup,to.remove==1)
+#dim(todelete.subset)
+
+
 # subsetting
 ospree.sub.no.dup<-subset(ospree.sub.no.dup,to.remove!=1)
-
 
 ## move on without duplicated values
     
