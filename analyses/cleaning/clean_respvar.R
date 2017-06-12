@@ -108,7 +108,6 @@ d$respvar[d$respvar ==  "petiolelengthcm"] <- "petiolelength"
 #d$respvar[d$respvar == ""] <- NA
 #d$respvar[d$respvar == ""] <- NA
 
-##
 ## Assigning 87 response variables to a higher level
 ## AKA, making fewer response variables!
 ##
@@ -315,17 +314,32 @@ for(i in unique(d$datasetIDstudy)){
 
 d$multibothresp <- !is.na(match(d$datasetIDstudy, mb))
 
+#On June 12, 2017 we decided that we need to add two columns that do the following, slightly different thing:
+#multi_respvar: identifies studies that have multiple response variables in the respvar column
+#multi_respvar.simple: identifies studies that have multiple response variables in the respvar.simple column
+#However, my code identified no studies with multiple response variables of either type within a study...
+yy <- tapply(d$respvar, d$datasetIDstudy,function(x)
+  length(unique(x)) > 1)
+
+multi_respvar <- names(yy)[yy==T]
+
+yz <- tapply(d$respvar.simple, d$datasetIDstudy, function(x)
+  length(unique(x))> 1 )
+
+multi_respvar.simple <- names(yz)[yz==T]
+
+# make a flag for these 
+d$multi_respvar <- !is.na(match(d$datasetIDstudy,multi_respvar))
+d$multi_respvar.simple <- !is.na(match(d$datasetIDstudy,multi_respvar.simple))
+
+
 ospree_clean_respvar <- d
 
-rm(checking,ospree_clean_respvar,xx,xz)
+rm(checking,ospree_clean_respvar,xx,xz,yy,yz)
 stop("Not an error, just stopping here to say we're now done cleaning respvar. The d item in your workspace is now all cleaned up for its respvar. Yay!")
 
 ##
 write.csv(d, file = "ospree_clean_respvar.csv", row.names=FALSE)
 simple.count<-as.data.frame(table(d$respvar.simple))
-
-# scratch
-incaseneeded <- format(as.Date(d$fieldsample.date, format="%Y-%m-%d"), "%j")
-# subset(d[,1:20], d$respvar=="dayofbudbreak")
 
 
