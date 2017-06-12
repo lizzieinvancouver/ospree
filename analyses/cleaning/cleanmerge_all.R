@@ -57,7 +57,7 @@ source("cleaning/clean_responsetime.R")
 
 # 8. Remove duplicate lines
 
-#source("clean_duplicates.final.R") ## should be checked before activation
+source("cleaning/clean_duplicates.R") ## should be checked before activation
 
 # 9. Write out the final file! 
 
