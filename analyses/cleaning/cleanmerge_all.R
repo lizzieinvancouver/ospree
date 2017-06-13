@@ -57,11 +57,12 @@ source("cleaning/clean_responsetime.R")
 
 # 8. Remove duplicate lines
 
-source("cleaning/clean_duplicates.R") ## should be checked before activation
+source("cleaning/clean_duplicates.R") 
 
 # 9. Write out the final file! 
 
-write.csv(d, "output/ospree_clean.csv", row.names=FALSE) ##
+write.csv(d, "output/ospree_clean.csv", row.names=FALSE)
+
 
 
 

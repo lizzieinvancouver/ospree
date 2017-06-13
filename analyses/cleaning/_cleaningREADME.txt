@@ -30,6 +30,9 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 8. Remove duplicate lines (with clean_duplicates.R) — this removes duplicate rows which could have been entered due to data being repeated across figures, two people accidentally entering the same paper or a copy/paste mistake. 
 
+From Nacho: The code (1) flags which lines have very similar responses (within 0.25%) to each target line within a block. (2) If there are, it will ask if those lines are also similar to the target in response.time.(3) In the end it assigns a value of 1 in to.remove to subsequent lines that are very similar in both response and response.time to the target. (For even more details see issue #79.)
+
+
 9. Write it all out!
 
 

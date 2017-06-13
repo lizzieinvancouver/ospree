@@ -1,9 +1,9 @@
 # Fixing merge issues
 ## Originally by Dan Flynn, updates by Cat, Nacho, Lizzie in January-May 2017 ##
+## Nacho is taking over in 26th Jan 2017 -- deal with identify/remove duplicates
 
 # This file works to check for any studies that may have been entered twice #
-
-## Nacho is taking over in 26th Jan 2017 -- deal with identify/remove duplicates
+# A few more notes on this in _cleaningREADME.txt and issue 79 on github #
 
 ## housekeeping
 #rm(list=ls()) 
@@ -41,7 +41,7 @@ ospree.sub<-d[,c(tar.var,resp.var)]
 ## remove duplicated rows in a simple way
 ospree.sub.no.dup<-d[!duplicated(ospree.sub),]
 #dim(ospree.sub)
-#dim(ospree.sub.no.dup) # as of 24 May 2017 we delete 104 rows here
+#dim(ospree.sub.no.dup) # as of 13 June 2017 we delete 104 rows here
 
 
 ## Additionally: looking at which duplicates among target variables have very similar response variables
@@ -103,8 +103,8 @@ for(i in 1:length(duplicate.blocks)){ #i=1020;j=1;h=2
   }
   
 }
-# as of 24 May 2017 this block of the code removes 103 rows
-
+# as of 13 June 2017 we delete 14 rows here
+    
 # checking what is going to be deleted
 #todelete.subset<-subset(ospree.sub.no.dup,to.remove==1)
 #dim(todelete.subset)
