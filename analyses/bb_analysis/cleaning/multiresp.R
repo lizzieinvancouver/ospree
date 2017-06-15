@@ -92,8 +92,10 @@ for(i in 1:n){
 
 ## this would remove identified rows from global dataset: Check before activating!!
 to.remove<-c(unique(unlist(off.vals.to.remove)))
+if(length(to.remove)>0){
 d<-d[-to.remove,]
 #dim(d)
+}
 
 #look at days and repeat the above procedure
 #Trying to figure out where the data for percbb are coming from and what they are
@@ -226,6 +228,7 @@ for(j in study.i){ #j=study.i[1]
   }
   }
 }
+stop("Not an error, just stopping here to say we have successfully applied multiresp!")
 
 #dim(d)
 
