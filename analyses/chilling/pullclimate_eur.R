@@ -7,7 +7,7 @@ eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
 #the climate data that we are pulling is daily min and max temperature
 tempval <- list() 
 for(i in 1:nrow(eur)){ # i = 1
-  
+  print(i)
   # find this location
   lo <- eur[i,"chill.long"]
   la <- eur[i,"chill.lat"]
