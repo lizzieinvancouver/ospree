@@ -31,10 +31,13 @@ for(i in 1:nrow(eur)){ # i = 1
   
   # start and end days of the climate data we need for the lat/long. 
   #This is in days since baseline date (Jan 1) Set to GMT to avoid daylight savings insanity
+  lastyr<-2014#last year for which there are climate data in our current dataset
   stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#start day for climate data in PNP must be Jan 1, i think and go for full year
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is after september 1, then we use the chilling from the current year only.
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is before september 1, then we pull the climate from the previous year, too.
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],1,4))>lastyr){endday <- strptime(paste(lastyr, "12-31", sep="-"),"%Y-%m-%d", tz="GMT")}#If year of field sample date is after the last year of climate data, then just pull data from the last year available
   if(eur[i,"fieldsample.date2"]==""){stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}
+  #add a line of code here that makes 2014 the last year, if 2015 would be the year that 
   
   # using fieldsample.date2, which is the same as fieldsampledate, but formatted as  "%Y-%m-%d"
   # field sample date2 is the end day for chilling calculations, but for pnp we will pull climate throughout 
@@ -52,7 +55,7 @@ for(i in 1:nrow(eur)){ # i = 1
   mins <- ncvar_get(eur.tempmn,'tn', 
                     start=c(nlong.cell,nlat.cell,st), 
                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
-  ) 
+  ) ###This is where lizzie gets the error, start plus count exceeds dimension bounds
   
   maxs <- ncvar_get(eur.tempmx,'tx',
                     start=c(xlong.cell,xlat.cell,st),
