@@ -37,7 +37,7 @@ source("chilling/cleaning_provlatlong.R")
 source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
-#Skip head to 4e if you do not have the climate data drive
+#Skip ahead to 4e if you do not have the climate data drive
  climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
