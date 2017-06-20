@@ -25,4 +25,8 @@ lat<-studytype%>%
   filter(latitude.count>=2)%>%
   dplyr::select(datasetID, latitude.count, longitude.count)
 
+##added by Dan
+reduced<-filter(studytype, respvar.simple=="daystobudburst")
+unique(reduced$datasetID)
+
 write.csv(lat, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv")
