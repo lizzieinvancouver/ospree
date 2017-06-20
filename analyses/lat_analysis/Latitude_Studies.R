@@ -19,6 +19,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 } else
 setwd("~/Documents/git/ospree/analyses")
 studytype <- read.csv("output/studytype.csv", header=TRUE)
+ospree<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
 # Subset down to find all studies with multiple latitudes
 lat<-studytype%>%
@@ -28,8 +29,15 @@ lat<-studytype%>%
 ##added by Dan
 reduced<-filter(studytype, respvar.simple=="daystobudburst")
 unique(reduced$datasetID)
-reduced%>%
+reduced<-studytype%>%
   filter(latitude.count>=2)%>%
-  dplyr::select(datasetID, latitude.count, longitude.count)
+  filter(respvar.simple=="daystobudburst")%>%
+  dplyr::select(datasetID, latitude.count, longitude.count) %>%
+  group_by(datasetID)%>%
+  filter(row_number()==1)
 
-write.csv(lat, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv")
+#write.csv(reduced, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv", row.names = FALSE)
+
+
+datasets<-unique(reduced$datasetID)
+osp<- ospree %>% filter(datasetID %in% datasets)
