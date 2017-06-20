@@ -1,7 +1,7 @@
 # Read in netCDF files to pull climate data from europe
 # This requires you to work off of the external hard drive with climate data
 # This code pulls data for the calendar yar before and after the field sample date
-# because PNP requires full year of data to run
+# because PMP requires full year of data to run
 # To use, run through steps 1-4b in chillmerge_all.R; 
 # then use this file and pullclimate_nam_pnp.R
 # Ailene got a start on this: June 13, 2017
