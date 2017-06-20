@@ -16,6 +16,10 @@ However, this was not needed because percent bud burst was already converted to 
 The degree days equation they used was > 2 degC
 The equation for karlsson03 is…
 daystobudburst = degree days / (force temp - 2)
+
+
+As of June 2017, ”daystoleafout" (these are from fu13, laube14b, and worrall67) and "leafunfoldingdate" (morin10) are also included in this  bud-burst cleaning code.
+
 #################
 
 The goal of this folder is to clean the response variable BB and centralize in 

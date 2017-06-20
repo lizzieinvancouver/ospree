@@ -34,7 +34,7 @@ source("bb_analysis/cleaning/clean_thermaltimetodays.R")
 # 4. Clean ambient forcing
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
-# 5. Clean/convert percentBB to days
+# 5. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
 # 6. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)

@@ -16,7 +16,7 @@
 # "freeze.treatment.temp_day", "freeze.treatment.temp_night",
 # "material" , "other.treatment"
 
-#d <- read.csv("ospree_clean.csv") 
+#d <- read.csv("ospree_clean.csv")#Note from Ailene: this should be updated to "output/"ospree_clean_withchill.csv" 
 if(is.data.frame(d)){
   
 ## select target variables for which we will search for duplicates:
