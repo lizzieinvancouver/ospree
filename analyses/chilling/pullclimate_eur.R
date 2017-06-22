@@ -1,8 +1,8 @@
 # Read in netCDF files to pull climate data from europe
 # This requires you to work off of the external hard drive with climate data
 
-eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v12.0.nc"))
-eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v12.0.nc"))
+eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v15.0.nc"))
+eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v15.0.nc"))
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 tempval <- list() 
