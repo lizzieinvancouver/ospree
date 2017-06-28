@@ -1,10 +1,12 @@
 ###The purpose of this script is to find out why we loose data based on forcing for bb analysis
 ### began June 19, 2017 by Dan
+###first run bb_analysis.R to line 51
+
+3485-3077 #=408 rows lost due to lack of forcing
 lost.force<-subset(bb, is.na(force)==TRUE)
-unique(lost.force$datasetID)
+unique(lost.force$datasetID) ##11 studies
 ##Not recoverable###############
 #"ashby62" Forcing not reported, experiment conducted in greenhouse   
-#"boyer" greenhouse for bud break timing study, with no T reported
 # "skuterud94"  mean of 9, 12, 15, we don't know which individuals were in which chambers base on figure 4.
 
 #####Possibly recoverable from climate data#############################################
