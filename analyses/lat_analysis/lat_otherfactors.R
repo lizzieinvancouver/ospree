@@ -51,4 +51,4 @@ xx<-filter(xx, xx$prov>=2)
 xx<-dplyr::select(xx, datasetID, genus, species, prov, sample, force, photo, chill)
 xx<-xx[!duplicated(xx),]
 
-write.csv(xx, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/study_breakdown.csv"), row.names = FALSE)
+#write.csv(xx, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/study_breakdown.csv"), row.names = FALSE)
