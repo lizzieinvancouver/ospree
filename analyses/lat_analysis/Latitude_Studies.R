@@ -20,7 +20,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 setwd("~/Documents/git/ospree/analyses")
 ospree<-read.csv("output/ospree_clean_withchill_bb.csv", header=TRUE)
 
-## Find studies with multiple Latitudes
+## Find studies with multiple provenance latitudes
 d<-ospree%>%
   dplyr::select(datasetID, genus, species, provenance.lat, provenance.long)%>%
   group_by(datasetID,provenance.lat)%>%
@@ -35,5 +35,25 @@ check$total<-ifelse(check$count>=2, check$count, NA)
 check<-na.omit(check)
 check<-dplyr::select(check, -total)
 
+## Find studies with multiple growing latitudes
+dg<-ospree%>%
+  dplyr::select(datasetID, genus, species, growing.lat, growing.long)%>%
+  group_by(datasetID,growing.lat)%>%
+  arrange(datasetID)
+dg <- within(dg, { count <- ave(growing.lat, datasetID, species, FUN=function(x) length(unique(x)))})
+dg<- dg[!duplicated(dg), ]
+
+dg<-ungroup(dg)
+check.grow<-dg%>%dplyr::select(datasetID, count)
+check.grow<-check.grow[!duplicated(check.grow),]
+check.grow$total<-ifelse(check.grow$count>=2, check.grow$count, NA)
+check.grow<-na.omit(check.grow)
+check.grow<-dplyr::select(check.grow, -total)
 
 #write.csv(check, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv", row.names = FALSE)
+#write.csv(check.grow, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/growlat_studies.csv", row.names = FALSE)
+
+
+
+
+
