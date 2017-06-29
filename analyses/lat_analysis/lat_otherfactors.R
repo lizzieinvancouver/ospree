@@ -12,6 +12,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(lubridate)
+library(lme4)
+library(arm)
 
 # Set working directory
 
@@ -34,7 +36,9 @@ check<-check[!duplicated(check),]
 check$total<-ifelse(check$count>=2, check$count, NA)
 check<-na.omit(check)
 check<-dplyr::select(check, -total)
+check<-check[which(check$datasetID!="schnabel87"),]  ## Doesn't have multiple provenance latitudes
 
+#write.csv(check, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv"), row.names = FALSE)
 
 ## What else was manipulated?
 datasets<-unique(check$datasetID)
@@ -50,5 +54,53 @@ xx <- within(xx, { chill <- ave(Total_Chilling_Hours, datasetID, species, FUN=fu
 xx<-filter(xx, xx$prov>=2)
 xx<-dplyr::select(xx, datasetID, genus, species, prov, sample, force, photo, chill)
 xx<-xx[!duplicated(xx),]
+xx<-xx[which(xx$datasetID!="schnabel87"),] ## Doesn't have multiple provenance latitudes
 
 #write.csv(xx, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/study_breakdown.csv"), row.names = FALSE)
+
+########### How much data do we have then? ##############
+
+df<-ospree%>% filter(datasetID %in% datasets) # 1577 obs
+lats<-unique(df$provenance.lat) # 86 different latitudes
+
+## initial graphs...
+df<-filter(df, provenance.lat>=0) ## remove South Africa study
+
+ggplot((df), aes(x=response.time, y=as.numeric(provenance.lat))) + geom_point(aes(col=species))
+
+
+### Check out a map?
+library(ggmap)
+library(maps)
+library(mapdata)
+library(mapproj)
+library(grid)
+library(rworldmap)
+library(gridExtra)
+
+worldMap <- getMap()
+
+# European Countries
+europeanUnion <- c("Austria","Belgium","Bulgaria","Croatia","Cyprus",
+                   "Czech Rep.","Denmark","Estonia","Finland","France",
+                   "Germany","Greece","Hungary","Ireland","Italy","Latvia",
+                   "Lithuania","Luxembourg","Malta","Netherlands","Norway","Poland",
+                   "Portugal","Romania","Slovakia","Slovenia","Spain",
+                   "Sweden","Switzerland", "United Kingdom")
+indEU <- which(worldMap$NAME%in%europeanUnion)
+europeCoords <- lapply(indEU, function(i){
+  df <- data.frame(worldMap@polygons[[i]]@Polygons[[1]]@coords)
+  df$region =as.character(worldMap$NAME[i])
+  colnames(df) <- list("long", "lat", "region")
+  return(df)
+})
+
+europeCoords <- do.call("rbind", europeCoords)
+
+eur <- ggplot(europeCoords) + geom_polygon(data = europeCoords, aes(x = long, y = lat, group=region), 
+                                           color="grey", fill="white") + coord_map(xlim = c(-13, 35),  ylim = c(32, 71))
+
+eur.map <- eur + 
+  geom_point(aes(provenance.long, provenance.lat,  color=response.time),position="jitter", data=df) + scale_color_gradient(low = "blue", high="red")
+plot(eur.map)
+
