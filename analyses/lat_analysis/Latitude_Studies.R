@@ -18,26 +18,22 @@ library(lubridate)
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else
 setwd("~/Documents/git/ospree/analyses")
-studytype <- read.csv("output/studytype.csv", header=TRUE)
-ospree<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
+ospree<-read.csv("output/ospree_clean_withchill_bb.csv", header=TRUE)
 
-# Subset down to find all studies with multiple latitudes
-lat<-studytype%>%
-  filter(latitude.count>=2)%>%
-  dplyr::select(datasetID, latitude.count, longitude.count)
+## Find studies with multiple Latitudes
+d<-ospree%>%
+  dplyr::select(datasetID, genus, species, provenance.lat, provenance.long)%>%
+  group_by(datasetID,provenance.lat)%>%
+  arrange(datasetID)
+d <- within(d, { count <- ave(provenance.lat, datasetID, species, FUN=function(x) length(unique(x)))})
+d<- d[!duplicated(d), ]
 
-##added by Dan
-reduced<-filter(studytype, respvar.simple=="daystobudburst")
-unique(reduced$datasetID)
-reduced<-studytype%>%
-  filter(latitude.count>=2)%>%
-  filter(respvar.simple=="daystobudburst")%>%
-  dplyr::select(datasetID, latitude.count, longitude.count) %>%
-  group_by(datasetID)%>%
-  filter(row_number()==1)
-
-#write.csv(reduced, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv", row.names = FALSE)
+d<-ungroup(d)
+check<-d%>%dplyr::select(datasetID, count)
+check<-check[!duplicated(check),]
+check$total<-ifelse(check$count>=2, check$count, NA)
+check<-na.omit(check)
+check<-dplyr::select(check, -total)
 
 
-datasets<-unique(reduced$datasetID)
-osp<- ospree %>% filter(datasetID %in% datasets)
+#write.csv(check, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_studies.csv", row.names = FALSE)
