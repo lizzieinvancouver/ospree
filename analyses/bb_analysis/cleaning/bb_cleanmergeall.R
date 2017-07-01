@@ -41,7 +41,7 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
 # 7. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)
-#source("bb_analysis/cleaning/clean_moreduplicates.R")
+source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 1 July 2017 this deletes 3 rows
 
 # 8. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##

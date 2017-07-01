@@ -10,6 +10,9 @@
 # setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/output")
 #d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
 
+targetvalue <- 80 # we want value closest to this
+acceptablerange <- 0.40 # meaning 40% around 90%
+
 if(is.data.frame(d)){
 
 subsetting.daysBB<-function(d,target.percent,type=c("add.columns","only.percentBB","BB_analysis")){
@@ -62,8 +65,8 @@ for(i in 1:length(dataset)){ # i = 2
     # Check if this can be estimated at all.
     if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time)) {
     
-      # Check how many values are within 25% of target percent, if at least one we proceed
-      values.in.target<-which(dat3$response>(target.percent-target.percent*0.25)&dat3$response<(target.percent+target.percent*0.25))
+      # Check how many values are within 35% of target percent, if at least one we proceed
+      values.in.target<-which(dat3$response>(target.percent-target.percent*acceptablerange)&dat3$response<(target.percent+target.percent*acceptablerange))
       if(length(values.in.target)==1){
       index<-rownames(dat3[values.in.target,])  
       d[index,"dbb"]<-dat3[values.in.target,"response.time"]
@@ -72,7 +75,7 @@ for(i in 1:length(dataset)){ # i = 2
       d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
       
       } 
-      # If there are more than 1 rows with values within 25% of target percent and values in the 
+      # If there are more than 1 rows with values within the acceptable range (e.g. 25 or 40%) of target percent and values in the 
       # response variable are not equal to the targetted % we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
         index<-rownames(dat3[values.in.target,])  
@@ -82,7 +85,7 @@ for(i in 1:length(dataset)){ # i = 2
         d[index,"dist.50bb"]<-abs(dat3[values.in.target,"response"]-target.percent)
         
       }
-      # If there are more than 1 rows with values within 25% of target percent and at least one value in the 
+      # If there are more than 1 rows with values within within the acceptable range of target percent and at least one value in the 
       # response variable is equal to the targetted % in the function we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))>0){  
         index<-rownames(dat3[which(dat3$response==target.percent),])  
@@ -122,7 +125,7 @@ return(d.subsetted)
 
 }
 
-d.subset<-subsetting.daysBB(d,90,"BB_analysis")
+d.subset<-subsetting.daysBB(d, targetvalue, "BB_analysis") 
 d<-d.subset
 
 } else {
