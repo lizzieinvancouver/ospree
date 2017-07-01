@@ -9,7 +9,7 @@ Daily climate data …
 To date (June 2017) we have used:
 
 Livneh dataset for North America (see below) with data from 1955-2013
-E-OBS for Europe
+E-OBS for Europe: http://www.ecad.eu/download/ensembles/download.php (as of June 2017)
 
 We pulled climate data in July 2016 and continued working on through 2017 to calculate chilling (and possibly more).
 
