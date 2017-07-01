@@ -3,6 +3,10 @@
 
 # Load from bb_cleanmergeall.R
 
+# Load libraries
+library(geosphere)
+
+# And away we go
 amb<-d[which(d$photoperiod_day=="ambient"),]
 unique(amb$datasetID)
 # "charrier11"  "fu13"        "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
