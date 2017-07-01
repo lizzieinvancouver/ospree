@@ -10,40 +10,19 @@ Where we’re at with issues:
 ** To do now:
 
 ** Review! ** 
-- #91 - ALL, row.names=FALSE when you write out data
 - how to clean R code, see the code I added, please add to it!
 
 Cleaning and merging discussion:
 
-(*) bb_analysis/cleaning …
-(*) #81 multiresp issue! - Ailene should work on this 
-(*) Discuss how to adjust clean_duplicates.R in main cleaning file (issue #79) — Lizzie and Nacho
-(*) Finalize clean_moreduplicates.R (Lizzie and Nacho)
-(*) check out: cleaning/_cleaningREADME.txt
+(*) check out: cleaning README files (if we have time)
 (*) #84 - Go through all cleaning files line by line (everyone!)
+(*) #106 - phenstage, discuss if needed
 
-Ailene:
-
-Cat: has closed #72, #93, #56
-
-Me:
-#42 - Merging and cleaning: need to have all the source files working! And then check all the files
-#29 - response and response time issue (with Lizzie and Dan together currently)
-#58 - Deal with labgroups
-#90 - Make fake data for Stan models - check for 0, 1s
-#76 - Fix non-matching authors for labgroups
-#84 - Go through all cleaning files line by line 
-
-Dan:
-#29 - response and response time issue (close!) 
-#84 - Go through all cleaning files line by line
-
-Nacho: (Lizzie needs to update … next time!)
-#81 - DaystoBB Cleaning: remove rows with multiresponse=TRUE (select highest percentage)
-#95 - Whatever happened with multiresp.R?
-#97 - finish BB cleaning
-#79 - check duplicates
-#84 - Go through all cleaning files line by line
+As of 5 July 2017, I tagged what we should discuss, but as a reminder go through these issues slowly:
+#95 (multiresp, summary towards end)
+#84 (clean everything … everyone should check this!)
+#81 (multiresp part 2, see my notes from 1 July, also check that notes on 24 May are all handled)
+#42 (merging and cleaning)
 
 **
 ** To do soon:
