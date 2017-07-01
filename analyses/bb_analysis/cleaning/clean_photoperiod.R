@@ -1,21 +1,7 @@
 ## 22 June 2017 - Cat
 ## Checking where lost photoperiod data is going
 
-
-# Clear workspace
-rm(list=ls()) # remove everything currently held in the R memory
-options(stringsAsFactors=FALSE)
-graphics.off()
-
-# Load libraries
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(geosphere)
-
-# Set Working Directory
-setwd("~/Documents/git/ospree/analyses/output")
-d<-read.csv("ospree_clean_withchill_BB.csv", header=TRUE)
+# Load from bb_cleanmergeall.R
 
 amb<-d[which(d$photoperiod_day=="ambient"),]
 unique(amb$datasetID)

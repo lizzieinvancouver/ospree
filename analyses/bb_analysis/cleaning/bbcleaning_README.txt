@@ -26,7 +26,9 @@ It:
 
 7. sources clean_moreduplicates.R which removes some data with same response variable 
 
-8. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
+8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB.
+
+9. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
 
 
 <><><><><><><><><><><><><><>
