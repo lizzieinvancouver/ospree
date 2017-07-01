@@ -2,7 +2,43 @@ Started 22 March 2017
 by Cat 
 Follow-up by Nacho (11 April 2017)
 
-################ Clarification notes from Cat
+
+The goal of this folder is to clean the response variable BB and centralize in 
+bb_cleanmergeall.R
+
+<><><><><><><><><><><><><><>
+Please update me as you go! 
+<><><><><><><><><><><><><><>
+
+It:
+1. Reads in output/ospree_clean_withchill.csv, which should have been cleaned previously
+
+2. Sources clean_thermaltimetodays.R, which homogenizes thermal time to days (but only for cases where we don’t have the same data as daystobudburst or percbudburst with response.time)
+
+3. Sources clean_phenstage.R, which relabels a little data that is budburst
+
+4. source bb_analysis/cleaning/multiresp.R, which flags any studies that have both percent bud burst and days to budburst, and studies thermal time and days to budburst studies
+
+
+5. sources clean_ambientforcing.R, which cleans the forcing predictor variable
+
+6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
+
+7. sources clean_moreduplicates.R which removes some data with same response variable 
+
+8. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
+
+
+<><><><><><><><><><><><><><>
+Consider: 
+<><><><><><><><><><><><><><>
+For our analyses, we should think about how to handle the following columns: 
+	varetc
+	population (etc.) 
+	and related variables 
+
+
+################ Clarification notes from Cat #################
 Additional metadata for bb_analysis/cleaning
 
 For converting thermal time to days to budburst, was able to convert
@@ -21,34 +57,3 @@ daystobudburst = degree days / (force temp - 2)
 As of June 2017, ”daystoleafout" (these are from fu13, laube14b, and worrall67) and "leafunfoldingdate" (morin10) are also included in this  bud-burst cleaning code.
 
 #################
-
-The goal of this folder is to clean the response variable BB and centralize in 
-bb_cleanmergeall.R
-
-<><><><><><><><><><><><><><>
-Please update me as you go! 
-<><><><><><><><><><><><><><>
-
-It:
-1. Reads in output/ospree_clean_withchill.csv, which should have been cleaned previously
-
-2. source bb_analysis/cleaning/multiresp.R, which flags any studies that have both percent bud burst and days to budburst, and studies thermal time and days to budburst studies
-
-3. sources clean_thermaltimetodays.R, which homogenizes thermal time to days 
-
-4. sources clean_ambientforcing.R, which cleans the forcing predictor variable
-
-5. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
-
-6. sources clean_moreduplicates.R which removes some data with same response variable 
-
-7. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
-
-
-<><><><><><><><><><><><><><>
-Consider: 
-<><><><><><><><><><><><><><>
-For our analyses, we should think about how to handle the following columns: 
-	varetc
-	population (etc.) 
-	and related variables 

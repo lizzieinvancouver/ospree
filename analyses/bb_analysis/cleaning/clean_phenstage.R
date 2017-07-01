@@ -1,24 +1,10 @@
 ## 26 June 2017 - Cat
 # What's going on with this phenstage madness?
 
-# Clear workspace
-rm(list=ls()) # remove everything currently held in the R memory
-options(stringsAsFactors=FALSE)
-graphics.off()
-
-# Load libraries
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(geosphere)
-
-# Set Working Directory
-setwd("~/Documents/git/ospree/analyses/output")
-d<-read.csv("ospree_clean_withchill.csv", header=TRUE)
+# Load from bb_cleanmergeall.R
 
 phenstage <- d[which(d$respvar.simple=="phenstage"),]
 unique(phenstage$datasetID)
-
 datasets<-unique(phenstage$datasetID)
 xx<-d[which(d$datasetID==datasets),] # cannell83, gansert02, gunderson12, pagter15, pettersen71, sonsteby13
 unique(xx$respvar.simple)
@@ -27,7 +13,13 @@ daysto<-xx%>%filter(respvar.simple=="daystobudburst")
 ### Let's check...
 # cannell83: not a useful daystobudburst conversion
 
-# gansert02: we could use budstages 2-3... fixing gives 3 observations
+# gansert02: we could use budstages 2-3 (QUESTION: Do you mean 2-7 ... that's what the code does) ... fixing gives 3 observations
+# QUESTION: would the below two lines of code do what you did below? You can try:
+d[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7),] # to see what rows it alters ... 
+d$respvar.simple[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "daystobudburst"
+d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "timeonly"
+
+# DELETE below? (And if my above code works, then repeat for pagter) 
 gansert<-xx%>%filter(datasetID=="gansert02")
 gansert$response<-ifelse(gansert$response>=2 & gansert$response<7, gansert$response, NA)
 gansert<-gansert[which(!is.na(gansert$response)),]
