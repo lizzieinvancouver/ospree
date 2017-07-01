@@ -1,6 +1,6 @@
 # For experiments when multiple different response variables that:
-# (1) Were multiple response variables in respvar column, that collapsed into one response variable in respvar.simple column, that is multiresp=TRUE (see clean_respvar.R) ... but only dealing with budburst related stuff here!
-# (2) Papers contained the same data in more than one response variable (e.g., a table with daystobudburst and a figure with percentbudburst versus daystobudburst for same exact study).
+# (Aim 1) Were multiple response variables in respvar column, that collapsed into one response variable in respvar.simple column, that is multiresp=TRUE (see clean_respvar.R) ... but only dealing with budburst related stuff here!
+# (Aim 2) Papers contained the same data in more than one response variable (e.g., a table with daystobudburst and a figure with percentbudburst versus daystobudburst for same exact study).
 
 # Started by Ailene Ettinger
 # 2 Feb 2017 ## 
@@ -18,6 +18,8 @@
 #start with output/ospree_clean_withchill.csv file
 #d<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 #dim(d)
+
+# I believe most of this deals with Aim 2 ..
 
 target.multiresp<-c("multi_respvar","multi_respvar.simple")
 i=1
@@ -52,7 +54,7 @@ multdatsets_percbb <- as.character(multdatsets_percbb)
 multdatsets_tt <- as.character(multdatsets_tt)
 
 # remove junttila from target studies
-# Juntilla has two names for the same variable, but it is okay because they are from two different experiments
+# Juntilla has two names for the same variable, but it is okay because they are from two different experiments (this is handled at the bottom)
 # So, to repeat, no changes need to juntilla
 if(sum(grepl("junttila",multdatsets_days))>0){
   juntt<-which(grepl("junttila",multdatsets_days))
@@ -190,6 +192,15 @@ if(length(list.rows.2remove.Y)>0){
   #dim(d)
 }
 
+
+# Now deal with the Aim 1 issues:
+problemchildren1 <- subset(d, multiresp==TRUE & respvar.simple=="percentbudburst")
+unique(problemchildren1$datasetID)
+d$respvar[which(d$datasetID=="junttila12" & d$respvar=="percentbudburst_dormancy")] <- "percentbudburst"
+
+problemchildren2 <- subset(d, multiresp==TRUE & respvar.simple=="daystobudburst")
+unique(problemchildren2$datasetID)
+d <- d[-which(d$datasetID=="spiers74" & d$respvar=="daysto10percentbudburst"),] 
 
 stop("Not an error, just stopping here to say we have successfully applied multiresp!")
 
