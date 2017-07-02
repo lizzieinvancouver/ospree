@@ -1,0 +1,256 @@
+Software Version : 5.5.0.7
+
+Data Files :
+C:\Home\igarciadeco\Projets\2013_test_PMP\Lizzie\fu13_clim_pmp.txt
+C:\Home\igarciadeco\Projets\2013_test_PMP\Lizzie\fu13_bb_pmp.txt
+C:\Home\igarciadeco\Projets\2013_test_PMP\Lizzie\fu13_bb_pmp_fit.txt
+
+Metropolis Parameters
+Nb very global search = 	10
+Nb global search = 	20
+Initial metropolis temperature = 	1000
+Temperature climb rate = 	5
+Ntr loops = 	20
+Nst loops = 	15
+SUMMARY TABLE OF ALL REPETITIONS
+
+Repetition	1	2	3	4	5
+Model Type	Meta Model	Meta Model	Meta Model	Meta Model	Meta Model
+T0<1>	-121.0	-121.0	-121.0	-121.0	-121.0
+SStar<1>	153.566	32.178	15.548	182.139	173.464
+T0<2>	282.1	159.5	321.6	19.5	176.3
+SStar<2>	20.517	30.725	21.409	23.043	35.129
+Phase Function<1,1>	[Chuine, Tmean]	[Chuine, Tmean]	[Chuine, Tmean]	[Chuine, Tmean]	[Chuine, Tmean]
+a<1,1>	0.35713	1.68472	9.43686	0.25011	0.49023
+b<1,1>	9.99200	-26.41129	-18.64939	12.99357	-16.33150
+c<1,1>	26.60820	7.68348	8.41374	29.31507	-4.79384
+Phase Function<2,1>	[Sigmoid, Tmean]	[Sigmoid, Tmean]	[Sigmoid, Tmean]	[Sigmoid, Tmean]	[Sigmoid, Tmean]
+d<2,1>	-40.00000	-0.67519	-40.00000	-10.33039	-1.38393
+e<2,1>	-8.89044	5.54431	5.92252	6.07670	4.34146
+Phase Function<2,2>	[Triangular, -DL-]	[Triangular, -DL-]	[Triangular, -DL-]	[Triangular, -DL-]	[Triangular, -DL-]
+Topt<2,2>	22.38352	16.52877	15.46557	16.83707	16.35936
+Tmin<2,2>	6.75095	8.11447	9.42808	6.72456	0.00000
+Tmax<2,2>	1000.00000	1000.00000	1000.00000	1000.00000	1000.00000
+-------	-------	-------	-------	-------	-------
+SStot	566	566	566	566	566
+SSres	470.89943	470.14152	466.87371	471.9447	465.6013
+RMSE	6.2643131	6.2592699	6.2374789	6.2712619	6.2289733
+EFF	0.16802221	0.16936128	0.17513478	0.16617543	0.17738287
+NbObs	12	12	12	12	12
+
+
+
+
+repetition:	1
+SStot:	566
+SSres:	470.89943
+RMSE:	6.2643131
+EFF:	0.16802221
+NbObs:	12
+
+
+model parameter estimates
+Model Type:	Meta Model
+T0<1>:	-121.0
+SStar<1>:	153.566
+T0<2>:	282.1
+SStar<2>:	20.517
+Phase Function<1,1>:	[Chuine, Tmean]
+a<1,1>:	0.35713
+b<1,1>:	9.99200
+c<1,1>:	26.60820
+Phase Function<2,1>:	[Sigmoid, Tmean]
+d<2,1>:	-40.00000
+e<2,1>:	-8.89044
+Phase Function<2,2>:	[Triangular, -DL-]
+Topt<2,2>:	22.38352
+Tmin<2,2>:	6.75095
+Tmax<2,2>:	1000.00000
+
+
+Phases sequence = [   1:<year>   2:<doy>   ]
+station_code	provenance/family	year	predicted <1>	observed <1>	used to fit <1>	predicted <2>	observed <2>	used to fit <2>
+1	1	2011	365.0	-9999.0	0	112.7	122.0	1
+2	1	2011	365.0	-9999.0	0	112.7	121.0	1
+3	1	2011	365.0	-9999.0	0	112.7	117.0	1
+4	1	2011	365.0	-9999.0	0	112.7	103.0	1
+5	1	2011	365.0	-9999.0	0	112.7	99.0	1
+6	1	2012	365.0	-9999.0	0	110.1	112.0	1
+7	1	2012	365.0	-9999.0	0	110.1	112.0	1
+8	1	2012	365.0	-9999.0	0	110.1	110.0	1
+9	1	2012	365.0	-9999.0	0	110.1	108.0	1
+10	1	2012	365.0	-9999.0	0	105.7	107.0	1
+11	1	2012	365.0	-9999.0	0	105.4	104.0	1
+12	1	2012	365.0	-9999.0	0	105.4	105.0	1
+
+
+repetition:	2
+SStot:	566
+SSres:	470.14152
+RMSE:	6.2592699
+EFF:	0.16936128
+NbObs:	12
+
+
+model parameter estimates
+Model Type:	Meta Model
+T0<1>:	-121.0
+SStar<1>:	32.178
+T0<2>:	159.5
+SStar<2>:	30.725
+Phase Function<1,1>:	[Chuine, Tmean]
+a<1,1>:	1.68472
+b<1,1>:	-26.41129
+c<1,1>:	7.68348
+Phase Function<2,1>:	[Sigmoid, Tmean]
+d<2,1>:	-0.67519
+e<2,1>:	5.54431
+Phase Function<2,2>:	[Triangular, -DL-]
+Topt<2,2>:	16.52877
+Tmin<2,2>:	8.11447
+Tmax<2,2>:	1000.00000
+
+
+Phases sequence = [   1:<year>   2:<doy>   ]
+station_code	provenance/family	year	predicted <1>	observed <1>	used to fit <1>	predicted <2>	observed <2>	used to fit <2>
+1	1	2011	365.0	-9999.0	0	112.3	122.0	1
+2	1	2011	365.0	-9999.0	0	112.3	121.0	1
+3	1	2011	365.0	-9999.0	0	112.3	117.0	1
+4	1	2011	365.0	-9999.0	0	112.3	103.0	1
+5	1	2011	365.0	-9999.0	0	112.3	99.0	1
+6	1	2012	365.0	-9999.0	0	114.5	112.0	1
+7	1	2012	365.0	-9999.0	0	109.4	112.0	1
+8	1	2012	365.0	-9999.0	0	109.4	110.0	1
+9	1	2012	365.0	-9999.0	0	107.5	108.0	1
+10	1	2012	365.0	-9999.0	0	106.1	107.0	1
+11	1	2012	365.0	-9999.0	0	104.0	104.0	1
+12	1	2012	365.0	-9999.0	0	104.2	105.0	1
+
+
+repetition:	3
+SStot:	566
+SSres:	466.87371
+RMSE:	6.2374789
+EFF:	0.17513478
+NbObs:	12
+
+
+model parameter estimates
+Model Type:	Meta Model
+T0<1>:	-121.0
+SStar<1>:	15.548
+T0<2>:	321.6
+SStar<2>:	21.409
+Phase Function<1,1>:	[Chuine, Tmean]
+a<1,1>:	9.43686
+b<1,1>:	-18.64939
+c<1,1>:	8.41374
+Phase Function<2,1>:	[Sigmoid, Tmean]
+d<2,1>:	-40.00000
+e<2,1>:	5.92252
+Phase Function<2,2>:	[Triangular, -DL-]
+Topt<2,2>:	15.46557
+Tmin<2,2>:	9.42808
+Tmax<2,2>:	1000.00000
+
+
+Phases sequence = [   1:<year>   2:<doy>   ]
+station_code	provenance/family	year	predicted <1>	observed <1>	used to fit <1>	predicted <2>	observed <2>	used to fit <2>
+1	1	2011	365.0	-9999.0	0	112.4	122.0	1
+2	1	2011	365.0	-9999.0	0	112.4	121.0	1
+3	1	2011	365.0	-9999.0	0	112.4	117.0	1
+4	1	2011	365.0	-9999.0	0	112.4	103.0	1
+5	1	2011	365.0	-9999.0	0	112.4	99.0	1
+6	1	2012	365.0	-9999.0	0	113.6	112.0	1
+7	1	2012	365.0	-9999.0	0	110.1	112.0	1
+8	1	2012	365.0	-9999.0	0	110.1	110.0	1
+9	1	2012	365.0	-9999.0	0	107.2	108.0	1
+10	1	2012	365.0	-9999.0	0	105.8	107.0	1
+11	1	2012	365.0	-9999.0	0	105.7	104.0	1
+12	1	2012	365.0	-9999.0	0	105.7	105.0	1
+
+
+repetition:	4
+SStot:	566
+SSres:	471.9447
+RMSE:	6.2712619
+EFF:	0.16617543
+NbObs:	12
+
+
+model parameter estimates
+Model Type:	Meta Model
+T0<1>:	-121.0
+SStar<1>:	182.139
+T0<2>:	19.5
+SStar<2>:	23.043
+Phase Function<1,1>:	[Chuine, Tmean]
+a<1,1>:	0.25011
+b<1,1>:	12.99357
+c<1,1>:	29.31507
+Phase Function<2,1>:	[Sigmoid, Tmean]
+d<2,1>:	-10.33039
+e<2,1>:	6.07670
+Phase Function<2,2>:	[Triangular, -DL-]
+Topt<2,2>:	16.83707
+Tmin<2,2>:	6.72456
+Tmax<2,2>:	1000.00000
+
+
+Phases sequence = [   1:<year>   2:<doy>   ]
+station_code	provenance/family	year	predicted <1>	observed <1>	used to fit <1>	predicted <2>	observed <2>	used to fit <2>
+1	1	2011	365.0	-9999.0	0	112.7	122.0	1
+2	1	2011	365.0	-9999.0	0	112.7	121.0	1
+3	1	2011	365.0	-9999.0	0	112.7	117.0	1
+4	1	2011	365.0	-9999.0	0	112.7	103.0	1
+5	1	2011	365.0	-9999.0	0	112.7	99.0	1
+6	1	2012	365.0	-9999.0	0	114.9	112.0	1
+7	1	2012	365.0	-9999.0	0	110.0	112.0	1
+8	1	2012	365.0	-9999.0	0	110.0	110.0	1
+9	1	2012	365.0	-9999.0	0	106.9	108.0	1
+10	1	2012	365.0	-9999.0	0	105.8	107.0	1
+11	1	2012	365.0	-9999.0	0	105.2	104.0	1
+12	1	2012	365.0	-9999.0	0	105.2	105.0	1
+
+
+repetition:	5
+SStot:	566
+SSres:	465.6013
+RMSE:	6.2289733
+EFF:	0.17738287
+NbObs:	12
+
+
+model parameter estimates
+Model Type:	Meta Model
+T0<1>:	-121.0
+SStar<1>:	173.464
+T0<2>:	176.3
+SStar<2>:	35.129
+Phase Function<1,1>:	[Chuine, Tmean]
+a<1,1>:	0.49023
+b<1,1>:	-16.33150
+c<1,1>:	-4.79384
+Phase Function<2,1>:	[Sigmoid, Tmean]
+d<2,1>:	-1.38393
+e<2,1>:	4.34146
+Phase Function<2,2>:	[Triangular, -DL-]
+Topt<2,2>:	16.35936
+Tmin<2,2>:	0.00000
+Tmax<2,2>:	1000.00000
+
+
+Phases sequence = [   1:<year>   2:<doy>   ]
+station_code	provenance/family	year	predicted <1>	observed <1>	used to fit <1>	predicted <2>	observed <2>	used to fit <2>
+1	1	2011	365.0	-9999.0	0	112.2	122.0	1
+2	1	2011	365.0	-9999.0	0	112.2	121.0	1
+3	1	2011	365.0	-9999.0	0	112.2	117.0	1
+4	1	2011	365.0	-9999.0	0	112.2	103.0	1
+5	1	2011	365.0	-9999.0	0	112.2	99.0	1
+6	1	2012	365.0	-9999.0	0	113.4	112.0	1
+7	1	2012	365.0	-9999.0	0	110.4	112.0	1
+8	1	2012	365.0	-9999.0	0	110.4	110.0	1
+9	1	2012	365.0	-9999.0	0	107.2	108.0	1
+10	1	2012	365.0	-9999.0	0	106.2	107.0	1
+11	1	2012	365.0	-9999.0	0	106.0	104.0	1
+12	1	2012	365.0	-9999.0	0	105.2	105.0	1

@@ -1,0 +1,22 @@
+<Model name="Meta Model">
+  <Phases>
+    <Phase id="0" usedToFit="False" phenoDataColumn="-1">
+      <T0 mode="0" value="0" t0DataColumn="-1" photomode="0"/>
+      <TempSamplingFunc value=""/>
+      <SStar fixed="False" value="0"/>
+      <PhaseLinkMode value="0"/>
+      <OverlapFunction name="Negative Exponential">
+        <Param id="0" fixed="False" name="z" value="0.000000"/>
+        <Param id="1" fixed="False" name="w" value="0.00"/>
+      </OverlapFunction>
+      <Functions>
+        <Function id="0" name="GDD" weatherDataColumn="0">
+          <UseDayLengthAsVar value="False"/>
+          <VarLinkMode value="0"/>
+          <Weight value="1"/>
+          <Param id="0" fixed="False" name="Tb" value="0.00000"/>
+        </Function>
+      </Functions>
+    </Phase>
+  </Phases>
+</Model>
