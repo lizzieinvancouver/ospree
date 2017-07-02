@@ -1,10 +1,10 @@
-common.cols <- ("datasetID" ,  "study", "genus" ,  "species", "woody" ,
+common.cols <- c("datasetID" , "ID_chilltreat",  "study", "genus" ,  "species", "woody" ,
     "continent", "year", "provenance.lat", "provenance.long"  , "fieldchill",
      "fieldsample.date", "chilltemp","chilldays","chillphotoperiod",
-     "forcetemp", "photoperiod_day", "respvar", "respvar.simple", "response",
-     "response.time")
+     "forcetemp", "forcetemp_night", "photoperiod_day", "respvar", "respvar.simple", "response",
+     "response.time", "fieldsample.date2", "ID_fieldsample.date2")
 
-common.cols.wchill <- ("datasetID" ,  "study", "genus" , "species", "woody" ,
+common.cols.wchill <- c("datasetID" ,  "study", "genus" , "species", "woody" ,
     "continent", "year", "provenance.lat", "provenance.long"  , "fieldchill",
      "fieldsample.date", "chilltemp","chilldays","chillphotoperiod",
      "forcetemp", "photoperiod_day", "respvar", "respvar.simple", "response",
