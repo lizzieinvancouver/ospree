@@ -67,6 +67,8 @@ tapply(dfs$fieldsample.date,list(dfs$material,dfs$chilldat),length)#
 head(dfs[which(dfs$year>2012),])#no rows of data are later than 2014, so i don't think we're missing any data because of it being too recent
 head(dfs[which(dfs$datasetID=="heide15"),])#has field sample dates in 2014 (same as zohner)
 head(dfs[which(dfs$datasetID=="zohner16"),])#
+dim(dfs[which(dfs$datasetID=="zohner16"),])#864 rows
+
 #not sure why there are no climate data available for zohner...
 
 
