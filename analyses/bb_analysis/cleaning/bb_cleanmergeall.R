@@ -21,6 +21,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 # Load libraries
 library(dplyr)
 library(tidyr)
+library(geosphere)
 
 # 1. Get the data (that has already been cleaned for respvar and chilling)
 d <- read.csv("output/ospree_clean_withchill.csv")
@@ -40,7 +41,7 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
-# 7. Clean duplicate responses across treatments/categories (see bbcleaning_README.txt)
+# 7. Clean duplicate responses across treatments/categories
 source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 1 July 2017 this deletes 3 rows
 
 # 8. Clean photoperiod entries to try to get as much data as possible
