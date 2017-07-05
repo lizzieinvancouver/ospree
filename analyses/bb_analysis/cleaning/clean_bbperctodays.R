@@ -132,7 +132,10 @@ d<-d.subset
   print("Error: d not a data.frame")
 }
 
-stop("Not an error, now BB data is all cleaned, ready to analyze and save")
+stop("Not an error, now BB data is all cleaned, ready to analyze and save;
+     No need to worry about the warnings below, they inform that the dataset has empty
+     elements that are assigned NA values by default"
+)
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
 #write.csv(d,"ospree_clean_withchill_BB.csv",row.names=F)
 

@@ -121,3 +121,7 @@ d<-bbdat.sub.no.dup
 } else {
   print("Error: input file is not a data.frame")
 }
+
+stop("Not an error, more duplicates are all cleaned;
+     No need to worry about the warnings below, they inform that the dataset has empty
+     elements that are assigned NA values by default")
