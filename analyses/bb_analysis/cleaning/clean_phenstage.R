@@ -19,27 +19,11 @@ d[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7),] # to see what
 d$respvar.simple[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "daystobudburst"
 d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "timeonly"
 
-# DELETE below? (And if my above code works, then repeat for pagter) 
-gansert<-xx%>%filter(datasetID=="gansert02")
-gansert$response<-ifelse(gansert$response>=2 & gansert$response<7, gansert$response, NA)
-gansert<-gansert[which(!is.na(gansert$response)),]
-gansert02<-gansert%>%group_by(fieldsample.date,species)%>%
-  arrange(fieldsample.date)%>%filter(row_number()==1)
-gansert02$respvar.simple<-"daystobudburst"
-gansert02$response<-"timeonly"
-
 # gunderson12: budburst is defined as stage 4 which is plotted in Figure 2 and is already recorded in ospree dataset
 
 # pagter15: Between budstage 1 and 2 is considered budburst - gives 5 observations
-pagter<-xx%>%filter(datasetID=="pagter15")
-pagter$response<-ifelse(pagter$response>=1, pagter$response, NA)
-pagter<-pagter[which(!is.na(pagter$response)),]
-pagter15<-pagter%>%
-  group_by(provenance.lat, fieldsample.date, chilldays)%>%
-  arrange(provenance.lat) %>%
-  filter(row_number()==1)
-pagter15$respvar.simple<-"daystobudburst"
-pagter15$response<-"timeonly"
+d$respvar.simple[which(d$datasetID=="pagter15" & d$response>=1)]<-"daystobudburst"
+d$response[which(d$datasetID=="pagter15" & d$response>=1)] <- "timeonly"
 
 # pettersen71: flowers - can't fix
 
