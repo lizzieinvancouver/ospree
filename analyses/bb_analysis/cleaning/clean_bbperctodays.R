@@ -54,7 +54,7 @@ for(i in 1:length(dataset)){ # i = 2
 	dat2$response <- as.numeric(as.character(dat2$response))
   
 	for(k in 1:length(treat)) { # k = 6 # This for loop cleans each treatment within studies with more than one treatment
-  print(paste(i,j,k))
+  #print(paste(i,j,k))
     dat3 <- dat2[which(dat2$treatment==treat[k]),]
     
     maxperc_bb<-max(as.numeric(dat3$response)) # maxpercent budburst
@@ -107,7 +107,8 @@ for(i in 1:length(dataset)){ # i = 2
 
 if(type=="BB_analysis"){
   d.subset.1<-subset(d,respvar.simple=="daystobudburst"& !is.na(response.time))
-  d.subset.2<-subset(d,!is.na(dbb))
+  #d.subset.2<-subset(d,!is.na(dbb))
+  d.subset.2<-subset(d,respvar.simple!="percentbudburst")
   d.subsetted<-rbind(d.subset.1,d.subset.2)
   d.subsetted$response.time[which(!is.na(d.subsetted$dbb))]<-d.subsetted$dbb[which(!is.na(d.subsetted$dbb))]
   }

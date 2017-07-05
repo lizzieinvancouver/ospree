@@ -21,10 +21,7 @@
 
 # I believe most of this deals with Aim 2 ..
 
-target.multiresp<-c("multi_respvar","multi_respvar.simple")
-i=1
-target.multiresp<-target.multiresp[i]
-
+target.multiresp<-"multi_respvar"
 
 # just for your records: if we include both multiresp and multibothresp, there are 0 studies meeting that condition so we do not need the below old code: 
 #if(target.multiresp=="all"){
