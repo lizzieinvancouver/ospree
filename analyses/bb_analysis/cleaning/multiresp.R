@@ -2,7 +2,7 @@
 # (Aim 1) Were multiple response variables in respvar column, that collapsed into one response variable in respvar.simple column, that is multiresp=TRUE (see clean_respvar.R) ... but only dealing with budburst related stuff here!
 # (Aim 2) Papers contained the same data in more than one response variable (e.g., a table with daystobudburst and a figure with percentbudburst versus daystobudburst for same exact study).
 
-# Started by Ailene Ettinger
+## Started by Ailene Ettinger ##
 # 2 Feb 2017 ## 
 ## Continued by Nacho on 21st April, celebrating Earth's Day! (Go Earth! Don't let us humans keep you down.)
 # Following Lizzie's recs @ issue 81 in Git:
@@ -10,16 +10,18 @@
 # (2) select highest percent if no daystobudburst (e.g., two response variables and one is daysto10perbudburst and other is daysto50perbudburst) 
 # (3) check that n across different response types is not grossly different (aka >25 off)
 
-## Continued by Nacho on 29th Jun 
+## Continued by Nacho on 29 Jun 2017 ##
 # Following Lizzie's recs @ issue 95 in Git (noted above)
 
-# SOURCED in bb_cleanmergeall.R 
+## Note from Lizzie! 7 July 2017 ##
+# For Aim 1 we do currently delete a little unique data, but it is for 10% budburst, which seems lower than we want for a days to budburst analysis. But note that PERCENT budburst studies would want to go get these data, perhaps. See notes for spiers74 below. #
 
+# SOURCED in bb_cleanmergeall.R 
 #start with output/ospree_clean_withchill.csv file
 #d<-read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 #dim(d)
 
-# I believe most of this deals with Aim 2 ..
+# Most of this deals with Aim 2 ..
 
 target.multiresp<-"multi_respvar"
 
@@ -127,8 +129,8 @@ if(length(list.rows.2remove)>0){
   #dim(d)
 }
 
-# Lizzie's checking code:
-# d$respvar[d$datasetID=="ghelardini10"] # Problem, we should end up selecting percentbudburst, not thermaltimetobudburst. Checking with Cat on this now as I think the issue may be with thermaltime code (need to comment out lines 26-27).
+# Sample of Lizzie's checking code:
+# d$respvar[d$datasetID=="ghelardini10"] 
 # goo$respvar[goo$datasetID=="ghelardini10"]
 
 #look at days and repeat the above procedure
@@ -180,7 +182,7 @@ for(i in 1:length(multdatsets_percbb)){#i=2
 
 list.rows.2remove.Y<-as.numeric(c(unique(unlist(rows.to.remove.1)),unique(unlist(rows.to.remove.2))))
 
-# as of 2 July 2017, above does nothing (which is okay by me)
+# as of 7 July 2017, above does nothing (which is okay by Lizzie!)
 list.rows.2remove.Y
 
 ## this would remove identified rows from global dataset: Check before activating!!
@@ -197,7 +199,8 @@ d$respvar[which(d$datasetID=="junttila12" & d$respvar=="percentbudburst_dormancy
 
 problemchildren2 <- subset(d, multiresp==TRUE & respvar.simple=="daystobudburst")
 unique(problemchildren2$datasetID)
-d <- d[-which(d$datasetID=="spiers74" & d$respvar=="daysto10percentbudburst"),] 
+d <- d[-which(d$datasetID=="spiers74" & d$respvar=="daysto10percentbudburst"),]
+# Note that above (at least from looking at the original paper) we do lose some data here -- more of the treatments made it to 10% budburst than to 50%, but 10% is really low, so it seems okay to me to exclude these for the analysis at hand. 
 
 stop("Not an error, just stopping here to say we have successfully applied multiresp!")
 

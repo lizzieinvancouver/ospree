@@ -13,18 +13,17 @@ Please update me as you go!
 It:
 1. Reads in output/ospree_clean_withchill.csv, which should have been cleaned previously
 
-2. Sources clean_thermaltimetodays.R, which homogenizes thermal time to days (but only for cases where we don’t have the same data as daystobudburst or percbudburst with response.time)
+2. Sources clean_thermaltimetodays.R, which homogenizes thermaltime to days (but only for cases where we don’t have the same data as daystobudburst or percbudburst with response.time)
 
-3. Sources clean_phenstage.R, which relabels a little data that is budburst
+3. Sources clean_phenstage.R, which relabels a little data that is budburst. Yay. 
 
-4. source bb_analysis/cleaning/multiresp.R, which flags any studies that have both percent bud burst and days to budburst, and studies thermal time and days to budburst studies
-
+4. source bb_analysis/cleaning/multiresp.R, flags any studies that have both percent budburst and days to budburst, and studies thermal time and days to budburst studies. It then removes studies with more than one response variable for the same treatments, keeping first daystobudburst, then percentbudburst, then thermaltime. It also deals with two studies where creation of respvar.simple collapsed two different response variables (see the file for more info). 
 
 5. sources clean_ambientforcing.R, which cleans the forcing predictor variable
 
-6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target bud burst level (i.e. 90%). 
+6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target budburst level (i.e. 90%) with surrounding acceptable range. 
 
-7. sources clean_moreduplicates.R which removes some data with same response variable 
+7. sources clean_moreduplicates.R which removes some data that appears duplicated (very little!). 
 
 8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB.
 

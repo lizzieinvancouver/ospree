@@ -42,7 +42,7 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 source("bb_analysis/cleaning/clean_bbperctodays.R")
 
 # 7. Clean duplicate responses across treatments/categories
-source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 1 July 2017 this deletes 3 rows
+source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 7 July 2017 this deletes >3000 rows (up from 3 a week ago)
 
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
