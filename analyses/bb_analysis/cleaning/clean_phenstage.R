@@ -14,7 +14,6 @@ daysto<-xx%>%filter(respvar.simple=="daystobudburst")
 # cannell83: not a useful daystobudburst conversion
 
 # gansert02: we could use budstages 2-3 (QUESTION: Do you mean 2-7 ... that's what the code does) ... fixing gives 3 observations
-# QUESTION: would the below two lines of code do what you did below? You can try:
 d[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7),] # to see what rows it alters ... 
 d$respvar.simple[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "daystobudburst"
 d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "timeonly"
