@@ -38,7 +38,7 @@ d <- within(d, forcetemp[datasetID == 'howe95'] <- 24.5)
 # skuterud94 now - is thermal time, does not explicitly say which forcing temp
 # for each tx (mean 9, 12, 15)
 
-# basler12 - is another thermal time study, currently "meandaily"
+# basler12 - is another thermal time study, currently "meandaily", cannot be fixed
 
 # guak98: does not specify the "ambient" temperature but increased by 4 
 # in other experiments, didn't change anything
