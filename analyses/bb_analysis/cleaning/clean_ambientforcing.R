@@ -9,6 +9,67 @@
 #setwd("~/Documents/git/ospree/analyses")
 #d<-read.csv("output/ospree_clean.csv",as.is=T)
 if(is.data.frame(d)){
+  
+amb<-d[which(d$forcetemp=="ambient"),]
+unique(amb$datasetID)
+### "boyer"       "cannell83"   "falusi96"    "fu13"        "guak98"      "gunderson12" "lamb37"     
+### "morin10"     "sanzperez10" "sonsteby13" 
+blank<- d[which(d$forcetemp==""),]
+unique(blank$datasetID)
+## "ashby62"  "gansert02"  "hawkins12"  "ruesink98"
+
+# ashby62: not enough information
+
+# gansert02: ambient, maybe we can use climate data to calculate
+
+# hawkins12: complicated thermal time equation - maybe use climate data instead?
+
+# ruesink98: flower data... not sure how it got through
+
+# boyer: not enough information - assumed ambient, maybe could use climate data to calculate
+
+# cannell83: ambient - maybe could use climate data to calculate
+
+# falusi96: not enough information - assumed ambient, maybe could use climate data to calculate
+
+# fu13: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
+
+# guak98: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
+
+# gunderson12: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
+
+# lamb37: not enough information - assumes ambient, maybe could use climate data to calculate
+
+# morin10: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
+
+# sanperez10: uses ambient temperature, recorded mean temperature per month - can extract data from there
+d$response.time<-as.numeric(as.character(d$response.time))
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=0 & d$response.time<=30
+                  & d$irradiance==100)] <- 6.2
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=0 & d$response.time<=30
+                  & d$irradiance==20)] <- 5.2
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=0 & d$response.time<=30
+                  & d$irradiance==5)] <- 5.4
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=31 & d$response.time<=59
+                  & d$irradiance==100)] <- 6.4
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=31 & d$response.time<=59
+                  & d$irradiance==20)] <- 4.8
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=31 & d$response.time<=59
+                  & d$irradiance==5)] <- 5.2
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=60 & d$response.time<=90
+                  & d$irradiance==100)] <- 8.9
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=60 & d$response.time<=90
+                  & d$irradiance==20)] <- 7.1
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=60 & d$response.time<=90
+                  & d$irradiance==5)] <- 7.5
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=91 & d$response.time<=120 
+                  & d$irradiance==100)] <- 10.7
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=91 & d$response.time<=120
+                  & d$irradiance==20)] <- 9.2
+d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time>=91 & d$response.time<=120
+                  & d$irradiance==5)] <- 9.7
+
+# sonsteby13: flower bud study... not sure why it made it through
 
 # man10 - fix from 0 ramped up 3 degrees every 6 days
 d <- within(d, forcetemp[datasetID == 'man10' & response.time == 28 & response == 100] <- 22)
