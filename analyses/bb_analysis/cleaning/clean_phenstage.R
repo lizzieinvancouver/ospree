@@ -13,10 +13,10 @@ daysto<-xx%>%filter(respvar.simple=="daystobudburst")
 ### Let's check...
 # cannell83: not a useful daystobudburst conversion
 
-# gansert02: we could use budstages 2-3 (QUESTION: Do you mean 2-7 ... that's what the code does) ... fixing gives 3 observations
-d[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7),] # to see what rows it alters ... 
-d$respvar.simple[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "daystobudburst"
-d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<7)] <- "timeonly"
+# gansert02: we could use budstages 2-3 
+d[which(d$datasetID=="gansert02" & d$response>=2 & d$response<3),] 
+d$respvar.simple[which(d$datasetID=="gansert02" & d$response>=2 & d$response<3)] <- "daystobudburst"
+d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<3)] <- "timeonly"
 
 # gunderson12: budburst is defined as stage 4 which is plotted in Figure 2 and is already recorded in ospree dataset
 
