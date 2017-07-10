@@ -18,12 +18,13 @@ unique(amb$datasetID)
 #"hawkins12"   "lamb37"      **"linkosalo06" "morin10"     "partanen98" 
 # "schnabel87"  "sonsteby14"  **"cannell83"   **"ruesink98"   **"sonsteby13" 
 # **"yazdaniha64"
-View(subset(amb, datasetID=="schnabel87"))
+
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
 # "gianfagna85" "nishimoto95" "falusi96" 
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
+
 d$photoperiod_day[which(d$datasetID=="charrier11" & d$figure.table..if.applicable.== "table 1")] <- 16
 d$photoperiod_night[which(d$datasetID=="charrier11" & d$figure.table..if.applicable.== "table 1")] <- 8
 
@@ -31,7 +32,7 @@ d$photoperiod_night[which(d$datasetID=="charrier11" & d$figure.table..if.applica
 # transparent polycarbonate plate (4 mm thick) at the top (light absorption = 15% (De Boeck et al., 2006)).
 # "winter 2009 to spring 2010 and winter 2010 to spring 2011", too vague to calculate?
 
-# gansert02: 
+# gansert02:
 daylength(35.3583 , "1998-04-29")
 d$photoperiod_day[which(d$datasetID=="gansert02" & d$photoperiod_day=="ambient")] <- 14
 d$photoperiod_night[which(d$datasetID=="gansert02" & d$photoperiod_day==14)] <- 10
@@ -86,33 +87,73 @@ d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
 # partanen98: can determine from Figure 2!
 # before extracting data, photoperiod ranges from 8-11 hrs
 # ambient treatment
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time>=77 &
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time>=77 &
                           d$response.time<=87 & d$other.treatment=="Ambient photoperiod")] <- 10
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==10 & d$repsonse.time>=77 &
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==10 & d$response.time>=77 &
                           d$response.time<=87 & d$other.treatment=="Ambient photoperiod")] <- 14
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time>=69 &
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time>=69 &
                           d$response.time<=73 & d$other.treatment=="Ambient photoperiod")] <- 9
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==9 & d$repsonse.time>=77 &
-                          d$response.time<=87 & d$other.treatment=="Ambient photoperiod")] <- 15
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time==97
-                        & d$other.treatment=="Ambient photoperiod")] <- 11
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==11 & d$repsonse.time==97
-                          & d$other.treatment=="Ambient photoperiod")] <- 13
-# photoperiod lengthening from 6h
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time==97
-                        & d$other.treatment=="Photoperiod lengthening from 6h")] <- 22
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==11 & d$repsonse.time==97
-                          & d$other.treatment=="Photoperiod lengthening from 6h")] <- 2
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time>=69 &
-                         d$response.time<=73 & d$other.treatment=="Photoperiod lengthening from 6h")] <- 17
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==11 & d$repsonse.time>=69 &
-                            d$response.time<=73 & d$other.treatment=="Photoperiod lengthening from 6h")] <- 7
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$repsonse.time==87
-                        & d$other.treatment=="Photoperiod lengthening from 6h")] <- 20
-d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==11 & d$repsonse.time==87 
-                          & d$other.treatment=="Photoperiod lengthening from 6h")] <- 4
-#################### The above code for partanen98 is not making any changes - can't figure out why!!! - Cat #######
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==9 & d$response.time>=69 &
+                          d$response.time<=73 & d$other.treatment=="Ambient photoperiod")] <- 15
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
 
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time==97
+                        & d$other.treatment=="Ambient photoperiod")] <- 11
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==11 & d$response.time==97
+                          & d$other.treatment=="Ambient photoperiod")] <- 13
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
+# photoperiod lengthening from 6h
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time==97
+                        & d$other.treatment=="Photoperiod lengthening from 6h")] <- 22
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==22 & d$response.time==97
+                          & d$other.treatment=="Photoperiod lengthening from 6h")] <- 2
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time>=69 &
+                         d$response.time<=73 & d$other.treatment=="Photoperiod lengthening from 6h")] <- 17
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==17 & d$response.time>=69 &
+                            d$response.time<=73 & d$other.treatment=="Photoperiod lengthening from 6h")] <- 7
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+################
+
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time==87
+                        & d$other.treatment=="Photoperiod lengthening from 6h")] <- 20
+d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==20 & d$response.time==87 
+                          & d$other.treatment=="Photoperiod lengthening from 6h")] <- 4
+#[Dan] checking
+A<-(subset(d,datasetID=="partanen98"))
+table(A$photoperiod_day)
+table(A$photoperiod_night)
+View(A)
+##hmm still 3 left that are ambient, now I sahall find them
+AA<-subset(A,photoperiod_day=="ambient") ### the three remaining are here. I don't know what to do with
+#...climate data so I'll send it back to Cat....Dan out#####
+################
+#################### The above code for partanen98 is not making any changes - can't figure out why!!! - Cat #######
 
 # schnabel87: ambient entries are in field comparisons to experiment - do we want to keep?
 sch.1<-daylength(46.206, "1984-10-11") # 11.1698
