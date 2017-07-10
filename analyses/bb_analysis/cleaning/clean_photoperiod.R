@@ -1,5 +1,6 @@
 ## 22 June 2017 - Cat
 ## Checking where lost photoperiod data is going
+###10 July 2017 checked by Dan
 
 # Load from bb_cleanmergeall.R
 
@@ -12,7 +13,12 @@ unique(amb$datasetID)
 # "charrier11"  "fu13"        "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
 # "morin10"     "partanen98"  "schnabel87"  "sonsteby14"  "chavarria09" "falusi96"    "guak98"     
 # "jones12"     "rinne97"     "sanzperez10"
-
+#### my (Dan) query returned a slightly diferent list
+# "charrier11"  "fu13"        **"gansert02"   "gomory15"    "gunderson12"
+#"hawkins12"   "lamb37"      **"linkosalo06" "morin10"     "partanen98" 
+# "schnabel87"  "sonsteby14"  **"cannell83"   **"ruesink98"   **"sonsteby13" 
+# **"yazdaniha64"
+View(subset(amb, datasetID=="schnabel87"))
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
 # "gianfagna85" "nishimoto95" "falusi96" 
@@ -104,6 +110,8 @@ d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambien
 # sonsteby14: Figure 5 has ambient, should be changed to 24 hour photoperiod
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 24
 d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 0
+######[Dan] Only photoperiod night was changed above, do we also want to change photoperiod day?
+
 
 # chavarria09: not enough information and cannot calculate using geosphere package
 
