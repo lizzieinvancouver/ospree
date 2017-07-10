@@ -25,27 +25,11 @@
 
 target.multiresp<-"multi_respvar"
 
-# just for your records: if we include both multiresp and multibothresp, there are 0 studies meeting that condition so we do not need the below old code: 
-#if(target.multiresp=="all"){
-# both multiresp and multibothresp
-#multdatsets_days<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$multi_respvar.simple==TRUE & d$respvar.simple=="daystobudburst"]) # flags 0 studies
-#multdatsets_percbb<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$multi_respvar.simple==TRUE & d$respvar.simple=="percentbudburst"]) # flags 0 studies
-#multdatsets_tt<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$multi_respvar.simple==TRUE & d$respvar.simple=="thermaltime"]) # flags 0 studies
-#}
 
-if(target.multiresp=="multi_respvar"){
   # only multiresp
   multdatsets_days<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$respvar.simple=="daystobudburst"])# 26 studies for which there are multiple response variables and days to budburst
   multdatsets_percbb<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$respvar.simple=="percentbudburst"])# 28 study for which there are multiple response variables and percent to budburst
   multdatsets_tt<-unique(d$datasetIDstudy[d$multi_respvar==TRUE & d$respvar.simple=="thermaltime"])# 6 studies should add studies with thermal time too?
-}
-
-if(target.multiresp=="multi_respvar.simple"){
-  # only multibothresp
-  multdatsets_days<-unique(d$datasetIDstudy[d$multi_respvar.simple==TRUE & d$respvar.simple=="daystobudburst"])# 26 studies for which there are multiple response variables and days to budburst
-  multdatsets_percbb<-unique(d$datasetIDstudy[d$multi_respvar.simple==TRUE & d$respvar.simple=="percentbudburst"])# 28 study for which there are multiple response variables and percent to budburst
-  multdatsets_tt<-unique(d$datasetIDstudy[d$multi_respvar.simple==TRUE & d$respvar.simple=="thermaltime"])#6 studies flagged; should add studies with thermal time too?
-}
 
 # replacing factors for character (not needed but just in case)
 multdatsets_days <- as.character(multdatsets_days)
@@ -71,7 +55,6 @@ if(sum(grepl("junttila",multdatsets_tt))>0){
 # Trying to figure out where the data for percbb are coming from and what they are
 # we generate a subset XX of data for studies with multiple response variables and percent to budburst
 
-if(target.multiresp=="multi_respvar"){
   XX<-as.data.frame(cbind(d$figure.table..if.applicable.[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
                           d$respvar[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
                           d$respvar.simple[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
@@ -79,17 +62,6 @@ if(target.multiresp=="multi_respvar"){
                           d$chilltemp[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
                           d$datasetIDstudy[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
                           seq(1,nrow(d),1)[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_percbb]))
-}
-
-if(target.multiresp=="multi_respvar.simple"){
-  XX<-as.data.frame(cbind(d$figure.table..if.applicable.[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          d$respvar[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          d$respvar.simple[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          d$response[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          d$chilltemp[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          d$datasetIDstudy[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb],
-                          seq(1,nrow(d),1)[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_percbb]))
-}
 
 colnames(XX)<-c("fig","respvar","respvar.simple","response", "chilltemp","study","row.ID")
 #XX[order(XX$fig),] head(XX)
@@ -135,7 +107,6 @@ if(length(list.rows.2remove)>0){
 
 #look at days and repeat the above procedure
 #Trying to figure out where the data for percbb are coming from and what they are
-if(target.multiresp=="multi_respvar"){
   YY<-as.data.frame(cbind(d$figure.table..if.applicable.[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days],
                           d$respvar[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days],
                           d$respvar.simple[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days],
@@ -143,17 +114,6 @@ if(target.multiresp=="multi_respvar"){
                           d$chilltemp[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days],
                           d$datasetIDstudy[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days],
                           seq(1,nrow(d),1)[d$multi_respvar==TRUE & d$datasetIDstudy%in%multdatsets_days]))
-}
-
-if(target.multiresp=="multi_respvar.simple"){
-  YY<-as.data.frame(cbind(d$figure.table..if.applicable.[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          d$respvar[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          d$respvar.simple[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          d$response[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          d$chilltemp[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          d$datasetIDstudy[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days],
-                          seq(1,nrow(d),1)[d$multi_respvar.simple==TRUE & d$datasetIDstudy%in%multdatsets_days]))
-}
 
 colnames(YY)<-c("fig","respvar","respvar.simple","response", "chilltemp","study","row.ID")
 #YY[order(YY$fig),] 

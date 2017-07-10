@@ -106,7 +106,7 @@ for(i in 1:length(dataset)){ # i = 2
 }
 
 if(type=="BB_analysis"){
-  d.subset.1<-subset(d,respvar.simple=="daystobudburst"& !is.na(response.time))
+  d.subset.1<-subset(d,respvar.simple=="percentbudburst" & !is.na(response.time))
   #d.subset.2<-subset(d,!is.na(dbb))
   d.subset.2<-subset(d,respvar.simple!="percentbudburst")
   d.subsetted<-rbind(d.subset.1,d.subset.2)
