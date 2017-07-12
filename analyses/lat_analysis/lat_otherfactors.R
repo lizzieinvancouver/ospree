@@ -18,7 +18,9 @@ library(arm)
 # Set working directory
 
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else
+}else if
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+}else
   setwd("~/Documents/git/ospree/analyses")
 ospree<-read.csv("output/ospree_clean_withchill_bb.csv", header=TRUE)
 
