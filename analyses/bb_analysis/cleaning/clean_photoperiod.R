@@ -18,10 +18,15 @@ unique(amb$datasetID)
 #"hawkins12"   "lamb37"      **"linkosalo06" "morin10"     "partanen98" 
 # "schnabel87"  "sonsteby14"  **"cannell83"   **"ruesink98"   **"sonsteby13" 
 # **"yazdaniha64"
-
+#### Ailene'squery on 7/14/2017 returned a slightly diferent list (more entries, iwth a few addtiaonal ones)
+# [1] "chavarria09" "falusi96"    "guak98"      "jones12"     "rinne97"    
+#[6] "sanzperez10" "cannell83"   "charrier11"  "fu13"        "gansert02"  
+#[11] "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
+#[16] "morin10"     "partanen98"  "ruesink98"   "schnabel87"  "sonsteby13" 
+#[21] "sonsteby14"  "yazdaniha64"
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
-# "gianfagna85" "nishimoto95" "falusi96" 
+# "gianfagna85" "nishimoto95" "falusi96" "manson91"#monson 91 added by 7/14/2017 when ailene checked
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
@@ -131,6 +136,7 @@ d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==20 & d$
 ##hmm still 3 left that are ambient, now I sahall find them
 AA<-subset(d,photoperiod_day=="ambient") ### the three remaining are here. I don't know what to do with
 #...climate data so I'll send it back to Cat....Dan out#####
+#as of July 13, 2017 there were 16 different studies that contain "ambient" still
 ################
 
 # schnabel87: ambient entries are in field comparisons to experiment - do we want to keep?
@@ -219,6 +225,9 @@ d$photoperiod_day[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 1
 d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 11
 
 
+#Ailene's checking notes July 13, 2017:
+#sanzperez10 says in notes above that they used shade cloth, so "not sure if we can calculate" was this the final decision?
+#fu13:from the notes above, it seems to me that plants recieved only ambinet sunilght so should be able calculate photoperiod
 
 
 

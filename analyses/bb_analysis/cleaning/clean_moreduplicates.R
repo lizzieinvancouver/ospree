@@ -105,7 +105,6 @@ for(i in 1:length(duplicate.blocks)){
   
 }
 
-
 # checking data entries to be removed
 #toberemoved<-subset(bbdat.sub.no.dup,to.remove==1)
 #dim(toberemoved)

@@ -54,8 +54,8 @@ cdater$Tmean <- rowMeans(cbind(cdater$Tmin, cdater$Tmax))
 
 # okay, we only want to work with phenology data for which we have climate data ...
 dat <- dater[which(dater$datasetID %in% unique(cdater$datasetID)),]
-cdat <- cdater[which(cdater$datasetID %in% unique(dat$datasetID)),]
 
+cdat <- cdater[which(cdater$datasetID %in% unique(dat$datasetID)),]
 # sigh
 dim(dater)
 dim(dat)
@@ -87,14 +87,22 @@ dat$uniqueID <- paste(dat$datasetID, dat$fieldsample.date2, dat$forcetemp, dat$c
 subset(dat, is.na(month)==TRUE) # WTF
 dat <- subset(dat, is.na(month)==FALSE)
 dat$year <- dat$sample.year
-dat$year[dat$month>8] <- dat$sample.year[dat>8]+1
+dat$year[dat$month>8] <- dat$sample.year[dat$month>8]+1
 dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
-
-
-
-
-
-##
+#Ailene started ading code here on July 12, 2017
+#Now modify the climate data so that it switches from field conditions currently in cdat to 
+#experimental conditions. 
+head(dat[dat$datasetID=="ashby62",])
+head(cdat[cdat$datasetID=="ashby62",])
+#how many studies have chilltemp, chilldays, anc chillphotoperiod:
+chilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
+expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
+cdat$Tmin.chill<-NA#create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
+cdat$Tax.chill<-NA##create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
+expchillstudies<-unique(expchilldat$datasetID)#list of studies that do manipulate chilling:
+for (i in 1:length(expchillstudies)){
+  
+}
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
 ## It is just doing Fagus sylvatica .... 
 ##
