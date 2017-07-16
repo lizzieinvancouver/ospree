@@ -21,8 +21,8 @@ d$response[which(d$datasetID=="gansert02" & d$response>=2 & d$response<3)] <- "t
 # gunderson12: budburst is defined as stage 4 which is plotted in Figure 2 and is already recorded in ospree dataset
 
 # pagter15: Between budstage 1 and 2 is considered budburst - gives 5 observations
-d$respvar.simple[which(d$datasetID=="pagter15" & d$response>=1)]<-"daystobudburst"
-d$response[which(d$datasetID=="pagter15" & d$response>=1)] <- "timeonly"
+d$respvar.simple[which(d$datasetID=="pagter15" & d$response>=1 & d$response<2)] <-"daystobudburst"
+d$response[which(d$datasetID=="pagter15" & d$response>=1 & d$response<2)] <- "timeonly"
 
 # pettersen71: flowers - can't fix
 
