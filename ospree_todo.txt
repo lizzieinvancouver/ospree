@@ -8,25 +8,22 @@ Where we’re at with issues:
 <><><><><><><><><>
 **
 ** To do now:
-
-** Review! ** 
-- how to clean R code, see the code I added, please add to it!
-
 Cleaning and merging discussion:
-
-(*) check out: cleaning README files (if we have time)
+(*) check out: cleaning README files (if I have time)
 (*) #84 - Go through all cleaning files line by line (everyone!)
-(*) #106 - phenstage, discuss if needed
 
-As of 5 July 2017, I tagged what we should discuss, but as a reminder go through these issues slowly:
-#95 (multiresp, summary towards end)
-#84 (clean everything … everyone should check this!)
-#81 (multiresp part 2, see my notes from 1 July, also check that notes on 24 May are all handled)
-#42 (merging and cleaning)
+Ailene: 
+- #103: Did she figure out why we’re losing the Zohner data or any other details … 
+- #84: Questions to Cat on 10 Jun, all set? 
+
+Cat:
+- #106 (phenstage) — should be closable once Cat checks it.
+- #84 (all cleaning) - photoperiod issues
+
 
 **
-** To do soon:
-My 23 Apr 2017 notes:
+** 
+My 23 Apr 2017 notes for analyses:
 - Subset to 3-way only expts.
 - Nah, subset to 2-way only expts, and then break up chilling into levels and see if we can model that
 - Do varcomp analysis versus 2 or 3-way ANOVA analysis …?
