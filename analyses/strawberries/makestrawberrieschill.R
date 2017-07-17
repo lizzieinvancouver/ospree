@@ -20,6 +20,9 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 library(dplyr)
 library(tidyr)
 library(plyr)
+library(ncdf4)
+library(Interpol.T)
+library(chillR)
 
 # 1. Get the data
 d <- read.csv("input/ospree.csv")
@@ -73,7 +76,7 @@ source("chilling/fieldchillcalc_latlong.R")
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 #climatedrive = "smb://128.103.155.31/WeldShare/Wolkovich Lab/Budburst Review - Ospree/Climate Data" # Access to the data from Weld Share (From Nacho's computer)
-climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data" ##access from Dan's comp
+climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data/" ##access from Dan's comp
 
 
 # 4c. pull climate data from europe
@@ -86,7 +89,8 @@ source("chilling/pullclimate_nam.R")
 # & chilling using three different metrics
 #(If you want to avoid connecting to the external hard drive, then start here)
 #load this .RData workspace)
-load("output/fieldclimate.RData")
+#load("output/fieldclimate.RData")
+
 source("chilling/interpolclimate.R")
 
 # 5. Calculate experimental chilling and merge in field chilling estimates with experimental chilling 
