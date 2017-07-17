@@ -1,7 +1,7 @@
 ## Clean the BB data within OSPREE ##
 ## started Nacho ###
 
-## Making a master cleaning file for BudBreak analyses ... ##
+## Making a master cleaning file for Budbreak analyses ... ##
 ## And away we go! ##
 
 ## housekeeping

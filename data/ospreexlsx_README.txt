@@ -113,7 +113,9 @@ actual paper measure time to % bud burst in Growing Degree Hours. It seems this 
 
 No response time, but there is in Figure 3. Would extract thermaltime from X axis of Fig 3 (note that we'd still be up against some issues in converting to budburst) but could be useful for Picea-specific studies and/or if we ever analyze bud length data. 
 
+<><> gianfagna85 <><>
 
+Is a little weird, seems to be focused on flower bud development of apples but says that bud break is defined as “the time when at least 50% of the buds had reached the green-tipped stage of development.” 
 
 <><> general <><>
 

@@ -1,34 +1,23 @@
 ## 22 June 2017 - Cat
 ## Checking where lost photoperiod data is going
-###10 July 2017 checked by Dan
+## 10 July 2017 checked by Dan
 
-# Load from bb_cleanmergeall.R
-
-# Load libraries
-library(geosphere)
+# Load from bb_cleanmergeall.R (including library(geosphere) which happens there)
 
 # And away we go
 amb<-d[which(d$photoperiod_day=="ambient"),]
 unique(amb$datasetID)
 
 phot_amb <- subset(d , photoperiod_day=="ambient" | photoperiod_night=="ambient")
-# "charrier11"  "fu13"        "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
-# "morin10"     "partanen98"  "schnabel87"  "sonsteby14"  "chavarria09" "falusi96"    "guak98"     
-# "jones12"     "rinne97"     "sanzperez10"
-#### my (Dan) query returned a slightly diferent list
-# "charrier11"  "fu13"        **"gansert02"   "gomory15"    "gunderson12"
-#"hawkins12"   "lamb37"      **"linkosalo06" "morin10"     "partanen98" 
-# "schnabel87"  "sonsteby14"  **"cannell83"   **"ruesink98"   **"sonsteby13" 
-# **"yazdaniha64"
-#### Ailene'squery on 7/14/2017 returned a slightly diferent list (more entries, iwth a few addtiaonal ones)
-# [1] "chavarria09" "falusi96"    "guak98"      "jones12"     "rinne97"    
+#### Ailene'squery on 14 July 2017 returned this list
+#[1] "chavarria09" "falusi96"    "guak98"      "jones12"     "rinne97"    
 #[6] "sanzperez10" "cannell83"   "charrier11"  "fu13"        "gansert02"  
 #[11] "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
 #[16] "morin10"     "partanen98"  "ruesink98"   "schnabel87"  "sonsteby13" 
 #[21] "sonsteby14"  "yazdaniha64"
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
-# "gianfagna85" "nishimoto95" "falusi96" "manson91"#monson 91 added by 7/14/2017 when ailene checked
+# "gianfagna85" "nishimoto95" "falusi96" "manson91"
 
 # gianfagna85: flower buds, not leaf buds
 
@@ -63,8 +52,7 @@ d$photoperiod_night[which(d$datasetID=="gansert02" & d$photoperiod_day==14)] <- 
 
 # gomory15: "In spring 2011, budburst phenology was scored on each plant at approx. 
 # two-week intervals between March 1 and June 29"
-### Should we use calculations? If we decide to make it binary maybe?
-## Use two growing.lats
+# Taking average (as we do elsewhere)...
 low.initial<-daylength(48.44820, "2011-03-01") # 10.9715
 low.start<-daylength(48.44820, "2011-04-14") # 13.56398
 low.end<-daylength(48.44820, "2011-04-26") # 14.23436
@@ -83,7 +71,7 @@ d$photoperiod_night[which(d$datasetID=="gomory15" & d$growing.long==18.36271)] <
 d$photoperiod_day[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 14
 d$photoperiod_night[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 10
 
-# gunderson12: clear panels on growth chamber kept outside, use coordinates and day of year from figure 2 to calculate?
+# gunderson12: clear panels on growth chamber kept outside, use coordinates and day of year from figure 2 to calculate
 oak.start<-daylength(35.931428, "2002-03-01") # 11.3705
 oak.end<-daylength(35.931428, "2002-05-05") # 13.7482
 gund<-c(11.3705, 13.7482)
@@ -92,8 +80,7 @@ gund.photo<-mean(gund) # 13 hr photo
 d$photoperiod_day[which(d$datasetID=="gunderson12")] <- 13
 d$photoperiod_night[which(d$datasetID=="gunderson12")] <- 11
 
-
-#hawkins12: http://weatherimages.org/latlon-sun.html - daylength values
+#hawkins12
 south.hawk<-daylength(48.43, "1998-04-07") # 13.1584
 central.hawk<-daylength(50.68, "1998-04-27") # 14.4765
 north.hawk<-daylength(53.90, "1998-05-03") # 15.1800
@@ -158,13 +145,7 @@ d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient"
 d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==20 & d$response.time==87 
                           & d$other.treatment=="Photoperiod lengthening from 6h")] <- 4
 
-##hmm still 3 left that are ambient, now I sahall find them
-AA<-subset(d,photoperiod_day=="ambient") ### the three remaining are here. I don't know what to do with
-#...climate data so I'll send it back to Cat....Dan out#####
-#as of July 13, 2017 there were 16 different studies that contain "ambient" still
-################
-
-# schnabel87: ambient entries are in field comparisons to experiment - do we want to keep?
+# schnabel87: ambient entries are in field comparisons to experiment - we will keep these!
 sch.1<-daylength(46.206, "1984-10-11") # 11.1698
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="11-Oct-1984")] <- 11
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="11-Oct-1984")] <- 13
@@ -201,9 +182,6 @@ d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambi
 sch.12<-daylength(46.206, "1985-3-14") # 11.7643
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
-
-
-
 
 # sonsteby14: Figure 5 has ambient, should be changed to 24 hour photoperiod
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 24
