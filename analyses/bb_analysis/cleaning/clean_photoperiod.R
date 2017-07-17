@@ -32,11 +32,11 @@ unique(blank$datasetID)
 
 # gianfagna85: flower buds, not leaf buds
 
-# falusi96: does not specify ambient, plants in nursery with not enough information on conditions
+# falusi96: does not specify ambient, plants in nursery with not enough information on conditions - can't even assume ambient
 
-# nishimoto95: not enough information
+# nishimoto95: not enough information - can't even assume ambient
 
-# manson91: only specifies chilling and forcing temperatures, fails to mention photoperiod effects or indicate ambient
+# manson91: only specifies chilling and forcing temperatures, fails to mention photoperiod effects or indicate ambient - can't even assume ambient
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
@@ -45,7 +45,16 @@ d$photoperiod_night[which(d$datasetID=="charrier11" & d$figure.table..if.applica
 
 # fu13: "The experimental climate-controlled chambers were sunlit, facing south with a 
 # transparent polycarbonate plate (4 mm thick) at the top (light absorption = 15% (De Boeck et al., 2006)).
-# "winter 2009 to spring 2010 and winter 2010 to spring 2011", too vague to calculate?
+# "winter 2009 to spring 2010 and winter 2010 to spring 2011".
+fu10<-d[which(d$datasetID=="fu13" & d$year==2010),]
+mean(fu10$response.time)
+fu11<-d[which(d$datasetID=="fu13" & d$year==2011),]
+mean(fu11$response.time)
+daylength(51.317, "2010-04-07") # -> 13
+daylength(51.317, "2011-04-10") # -> 13
+d$photoperiod_day[which(d$datasetID=="fu13")] <- 13
+d$photoperiod_night[which(d$datasetID=="fu13")] <- 11
+
 
 # gansert02:
 daylength(35.3583 , "1998-04-29")
@@ -59,25 +68,29 @@ d$photoperiod_night[which(d$datasetID=="gansert02" & d$photoperiod_day==14)] <- 
 low.initial<-daylength(48.44820, "2011-03-01") # 10.9715
 low.start<-daylength(48.44820, "2011-04-14") # 13.56398
 low.end<-daylength(48.44820, "2011-04-26") # 14.23436
-gom.photo<-mean(10.9715, 13.56398, 14.23436) # 10.9715 -> 11 hr photo
+gom<-c(10.9715, 13.56398, 14.23436)
+gom.photo<-mean(gom) #  13 hr photo
 
 high.initial<-daylength(49.01791, "2011-03-01") # 10.9490
 high.start<-daylength(49.01791, "2011-05-06") # 14.8131
 high.end<-daylength(49.01791, "2011-05-21") # 15.5071
-gom.high<-mean(10.9490, 14.8131, 15.5071) #10.949 -> 11 hr photo
+gomz<-c(10.9490, 14.8131, 15.5071)
+gom.high<-mean(gomz) #14 hr photo
 
-# both growing latitudes have the same photoperiod...
-d$photoperiod_day[which(d$datasetID=="gomory15")] <- 11
-d$photoperiod_night[which(d$datasetID=="gomory15")] <- 13
+d$photoperiod_day[which(d$datasetID=="gomory15" & d$growing.long==18.36271)] <- 13
+d$photoperiod_night[which(d$datasetID=="gomory15" & d$growing.long==18.36271)] <- 11
+
+d$photoperiod_day[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 14
+d$photoperiod_night[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 10
 
 # gunderson12: clear panels on growth chamber kept outside, use coordinates and day of year from figure 2 to calculate?
 oak.start<-daylength(35.931428, "2002-03-01") # 11.3705
 oak.end<-daylength(35.931428, "2002-05-05") # 13.7482
+gund<-c(11.3705, 13.7482)
+gund.photo<-mean(gund) # 13 hr photo
 
-gund.photo<-mean(11.3705, 13.7482) #11.3705 -> 11 hr photo
-
-d$photoperiod_day[which(d$datasetID=="gunderson12")] <- 11
-d$photoperiod_night[which(d$datasetID=="gunderson12")] <- 13
+d$photoperiod_day[which(d$datasetID=="gunderson12")] <- 13
+d$photoperiod_night[which(d$datasetID=="gunderson12")] <- 11
 
 
 #hawkins12: http://weatherimages.org/latlon-sun.html - daylength values
@@ -92,13 +105,13 @@ d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==50.68)] <- 9
 d$photoperiod_day[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 15
 d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
 
-# lamb37: not enough information
+# lamb37: not enough information - can't even assume ambient
 
 # linkosalo06: too complicated - used different colored filters to alter irradiance and had changing
-# daylengths depending on length of twilight
+# daylengths depending on length of twilight - can't even assume ambient
 d$photoperiod_night[which(d$datasetID=="linkosalo06" & d$photoperiod_day=="ambient")] <- "ambient"
 
-# morin10: not enough information
+# morin10: not enough information - can't even assume ambient
 d$photoperiod_night[which(d$datasetID=="morin10" & d$photoperiod_day=="ambient")] <- "ambient"
 
 # partanen98: can determine from Figure 2!
@@ -196,36 +209,45 @@ d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambi
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 24
 d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 0
 
-# cannell83: not enough information
+# cannell83: not enough information - can't even assume ambient
 
-# chavarria09: not enough information and cannot calculate using geosphere package
+# chavarria09: not enough information and cannot calculate using geosphere package - can't even assume ambient
 
-# falusi96: not enough information for experiment 1 & 2
+# falusi96: not enough information for experiment 1 & 2 - can't even assume ambient
 # exp 1 is in ambient nursery - only manipulated provenance latitude
-# exp 2 - not enough information
+# exp 2 - not enough information - can't even assume ambient
 
 # guak98: Should be able to calculate
 guak.start<-daylength(44.5659, "1996-2-17") # 10.5147
 guak.end<-daylength(44.5659, "1996-4-8") # 13.1222
+guak<-c(10.5147,13.1222)
+guak.photo<-mean(guak) # 12 hr photo
 
-guak.photo<-mean(10.5147,13.1222) # 10.5147 -> 11 hr photo
+d$photoperiod_day[which(d$datasetID=="guak98")] <- 12
+d$photoperiod_night[which(d$datasetID=="guak98")] <- 12
 
-d$photoperiod_day[which(d$datasetID=="guak98")] <- 11
-d$photoperiod_night[which(d$datasetID=="guak98")] <- 13
+# jones12: not enough information - can't even assume ambient
 
-# jones12: not enough information
-
-# rinne97: does not specify, not even ambient. Can't fix.
+# rinne97: does not specify, not even ambient. Can't fix. - can't even assume ambient
 
 # ruesink98: is flower buds not leaf buds...
 
 # sonsteby13: is alson flower buds not leaf buds...
 
 # sanzperez10: uses ambient light but also uses shade cloth to manipulate percentage of sunlight... not sure if we can calculate
+# percentage of light is 100%, 20%, or 5%, for the purposes of this study we will convert only the 100% light treatments
+daylength(40.47, "2004-01-24")
+daylength(40.47, "2004-04-10")
+daylength(40.47, "2004-06-26")
+sanz<-c(9.830631, 13.06944, 15.05556)
+mean(sanz)
+d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$datasetID=="sanzperez10" & d$irradiance==100)] <- 13
+d$photoperiod_night[which(d$photoperiod_day==13 & d$datasetID=="sanzperez10" & d$irradiance==100)] <- 11
 
-# gianfagna85: not enough information
 
-# nishimoto85: not enough information
+# gianfagna85: not enough information - can't even assume ambient
+
+# nishimoto85: not enough information - can't even assume ambient
 
 # yazdaniha64: 60 days and 100 days, latitude is 41.143
 daylength(41.143, "1964-02-24")
@@ -235,15 +257,6 @@ d$photoperiod_night[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 
 daylength(41.143, "1964-04-06")
 d$photoperiod_day[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 13
 d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 11
-
-
-#Ailene's checking notes July 13, 2017:
-#sanzperez10 says in notes above that they used shade cloth, so "not sure if we can calculate" was this the final decision?
-#fu13:from the notes above, it seems to me that plants recieved only ambinet sunilght so should be able calculate photoperiod
-
-
-
-
 
 
 
