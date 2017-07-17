@@ -73,15 +73,14 @@ source("chilling/fieldchillcalc_latlong.R")
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 #climatedrive = "smb://128.103.155.31/WeldShare/Wolkovich Lab/Budburst Review - Ospree/Climate Data" # Access to the data from Weld Share (From Nacho's computer)
-#climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data" ##access from Dan's comp
-
+climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data" ##access from Dan's comp
 
 
 # 4c. pull climate data from europe
-#source("chilling/pullclimate_eur.R")
+source("chilling/pullclimate_eur.R")
 
 # 4d: pull climate data from north america
-#source("chilling/pullclimate_nam.R")
+source("chilling/pullclimate_nam.R")
 
 # 4e: Interpolate hourly temperatures from the daily values 
 # & chilling using three different metrics
