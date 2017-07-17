@@ -30,7 +30,7 @@ if(is.data.frame(d)){
 #laube14a, skuterud94
 # Both thermal time ("degreedaystobudburst") and daystobudburst were entered for basler12: this should be fixed in multiresponse
 # Both thermal time and percentbudburst were entered for ghelardini10- this should be fixed in multiresponse
-# Cannot figure out laube14a or skuterud94
+# Cannot figure out laube14a (does not seem to give equation for 'median forcing requirements' at all, if we did get it would need crafty approach to deal with ramping of temperatures) or skuterud94
 
 ######## Changes made my Cat - 26 May 2017 #######################
 # heide93 is already converted from percentbudburst so thermaltime does not to be converted or else would result in duplicated results!

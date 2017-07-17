@@ -95,7 +95,8 @@ d <- within(d, forcetemp[datasetID == 'campbell75' & study== "exp1"] <- 20)
 d <- within(d, forcetemp[datasetID == 'howe95'] <- 24.5)
 
 # laube14a - currently listed as 7-27.5, need to calculate thermaltime in order to extract 
-# this information. Adding this to Issue #72
+# this information. Does not seem to give equation for 'median forcing requirements' at all
+# if we did get it would need crafty approach to deal with ramping of temperatures
 
 # skuterud94 now - is thermal time, does not explicitly say which forcing temp
 # for each tx (mean 9, 12, 15)
