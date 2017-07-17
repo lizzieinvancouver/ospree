@@ -33,7 +33,7 @@ sort(unique(bb$latbi))
 # which studies don't have fieldsample.date (see notes in github issue #98)
 nofs <- subset(bb, fieldsample.date==""| is.na(fieldsample.date)==TRUE)
 
-# 97 total studies
+# 97 total studies (as of July 2017: 133!)
 unique(paste(bb$datasetID, bb$study))
 
 # make a bunch of things numeric (eek!)
