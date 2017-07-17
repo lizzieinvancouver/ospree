@@ -15,7 +15,7 @@ It:
 
 2. There are some weird columns that get read in. We delete these. Poof… and they are gone!
 
-3. In July 2017 we realized we left year off the Zonher data, but we need it! So we’re adding it in here with a couple lines of code. Quickest to just deal with the 3 unique sample dates.
+3. In July 2017 we realized we left year off the Zonher data, but we need it! So we’re adding it in here, it should be year of experiment, which is 2014.
 
 4. Next, we source the clean_respvar.R code.
 
