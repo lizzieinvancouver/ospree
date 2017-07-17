@@ -10,6 +10,8 @@ library(geosphere)
 # And away we go
 amb<-d[which(d$photoperiod_day=="ambient"),]
 unique(amb$datasetID)
+
+phot_amb <- subset(d , photoperiod_day=="ambient" | photoperiod_night=="ambient")
 # "charrier11"  "fu13"        "gomory15"    "gunderson12" "hawkins12"   "lamb37"      "linkosalo06"
 # "morin10"     "partanen98"  "schnabel87"  "sonsteby14"  "chavarria09" "falusi96"    "guak98"     
 # "jones12"     "rinne97"     "sanzperez10"
@@ -27,6 +29,14 @@ unique(amb$datasetID)
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
 # "gianfagna85" "nishimoto95" "falusi96" "manson91"#monson 91 added by 7/14/2017 when ailene checked
+
+# gianfagna85: flower buds, not leaf buds
+
+# falusi96: does not specify ambient, plants in nursery with not enough information on conditions
+
+# nishimoto95: not enough information
+
+# manson91: only specifies chilling and forcing temperatures, fails to mention photoperiod effects or indicate ambient
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
@@ -86,8 +96,10 @@ d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
 
 # linkosalo06: too complicated - used different colored filters to alter irradiance and had changing
 # daylengths depending on length of twilight
+d$photoperiod_night[which(d$datasetID=="linkosalo06" & d$photoperiod_day=="ambient")] <- "ambient"
 
 # morin10: not enough information
+d$photoperiod_night[which(d$datasetID=="morin10" & d$photoperiod_day=="ambient")] <- "ambient"
 
 # partanen98: can determine from Figure 2!
 # before extracting data, photoperiod ranges from 8-11 hrs
