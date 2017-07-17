@@ -81,3 +81,9 @@ tapply(d_nfs$fieldsample.date,list(d_nfs$material,d_nfs$chilldat),length)#
 #38 rows are trees
 17+757+96#870 are cuttings
 #
+#try to figure out why no chilling data for Zohner data do not 
+zohner<-d[d$datasetID=="zohner16",]#there are field sample dates, lat/longs...
+load("output/fieldclimate.RData")#load the pulled climate data to see if it is actually pulling zohner data...
+names(tempval)#no zohner listed there..
+d <- read.csv("output/ospree_clean.csv")
+unique(d$datasetID)#includeszohner16

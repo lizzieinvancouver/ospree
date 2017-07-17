@@ -94,15 +94,39 @@ dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
 #experimental conditions. 
 head(dat[dat$datasetID=="ashby62",])
 head(cdat[cdat$datasetID=="ashby62",])
-#how many studies have chilltemp, chilldays, anc chillphotoperiod:
+#how many studies have chilltemp, chilldays, and chillphotoperiod:
 chilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
 expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
 cdat$Tmin.chill<-NA#create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
 cdat$Tax.chill<-NA##create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
-expchillstudies<-unique(expchilldat$datasetID)#list of studies that do manipulate chilling:
+cdat
+expchillstudies<-unique(expchilldat$datasetID)#list of studies that do manipulate chilling:13 studies
+#dim(dat[-which(dat$chillphotoperiod==""|dat$chillphotoperiod=="ambient"),])#463 rows
+#dim(dat[-which(dat$chilldays==""|dat$chillphotoperiod=="ambient"),])#463 rows
+#For studies that do experimental chilling, fill in the experimental chilling data and dates
 for (i in 1:length(expchillstudies)){
+ tempcdat<-cdat[cdat$datasetID==expchillstudies[i],]
+ tempdat<-dat[dat$datasetID==expchillstudies[i],] 
+ #which(tempcdat$Date>tempcdat$fieldsample.date2)
+#try creating new dataframe with same dimensions as cdat, using the data from tempdat
+ chilltemps<-unique(tempdat$chilltemp)
+ chilldays<-unique(tempdat$chilldays)
+ 
+ for (j in 1:length(chilltemps)){}
+ expchillcdat<-
+#t
+  #tempalldat<-left_join(tempcdat,tempdat, by=c("datasetID","fieldsample.date2"))
+  
+  chilltemp<-unique(expchilldat[expchilldat$datasetID==expchillstudies[i],]$chilltemp)
+  chilldays<-unique(expchilldat[expchilldat$datasetID==expchillstudies[i],]$chilltemp)
   
 }
+
+###Try a different approach instead of for loop. merge cdat and dat, then create new colummns
+alldat<-left_join(cdat,dat)
+#lots of rows added by this join, so something is funny about the matching
+head(alldat)
+
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
 ## It is just doing Fagus sylvatica .... 
 ##

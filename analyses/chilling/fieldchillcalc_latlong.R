@@ -18,7 +18,7 @@ d$chill.long<-as.numeric(as.character(d$growing.long))
 d[which(is.na(d$chill.lat)),]$chill.lat<-d[which(is.na(d$chill.lat)),]$provenance.lat
 d[which(is.na(d$chill.long)),]$chill.long<-d[which(is.na(d$chill.long)),]$provenance.long
 d$year <- as.numeric(as.character(d$year))
-
+#instead of this, pull the year from fieldsample.date2? This will solve the problem of studies that have year blank but do have a field sample data
 d$fieldsample.date2<-as.character(as.Date(d$fieldsample.date2,"%m/%d/%y")) #needed for new version
 #add column for when experimental chilling is added to field chilling (this gets done in the interpolclimate.R file and we need to be able to merge it back in- only 2 studies do this so I am adding it by hand)
 d$addexpwarm<-0
