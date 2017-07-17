@@ -32,34 +32,35 @@ d$X.1 <- NULL
 d$X.2 <- NULL
 d$X.3 <- NULL
 
-# 3. Clean up response variable names
+# 3. Add year to the Zohner data, somehow this got left off 
+d$year[which(d$datasetID=="zohner16" & d$fieldsample.date=="21-Dec-2013")] <- 2013
+d$year[which(d$datasetID=="zohner16" & d$fieldsample.date=="10-Feb-2014")] <- 2014
+d$year[which(d$datasetID=="zohner16" & d$fieldsample.date=="21-Mar-2014")] <- 2014
 
+# 4. Clean up response variable names
 source("cleaning/clean_respvar.R")
 
-# 4. Clean up photoperiod #
-
+# 5. Clean up photoperiod #
 source("cleaning/clean_photo.R")
 
-# 5. Clean up forcetemp
-
+# 6. Clean up forcetemp
 source("cleaning/clean_forcetemp.R")
 
-# 6. Get rid of non-woodys and clean species names
-
+# 7. Get rid of non-woodys and clean species names
 source("cleaning/clean_woody_sps.R") 
 
 # Run the below every so often (commented out because it is slow) 
 # This checks the species list against www.theplantlist.org ... ask for manchecksp to see non-matches
 # source("cleaning/clean_spp_match.R") 
 
-# 7. Clean response and response time columns.
+# 8. Clean response and response time columns.
 source("cleaning/clean_responsetime.R")
 
-# 8. Remove duplicate lines
+# 9. Remove duplicate lines
 
 source("cleaning/clean_duplicates.R") 
 
-# 9. Write out the final file! 
+# 10. Write out the final file! 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE)
 
