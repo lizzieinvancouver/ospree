@@ -31,9 +31,13 @@ unique(flo2$genus) #only 2
 dim(flo2) ## 610and ~500 are from one study
 
 ####last hope "flowernumber"
-flo3<-filter(ds, respvar.simple=="flowernumber")
+flo3<-filter(ds1, respvar.simple=="flowernumber")
 unique(flo3$genus) #1
 dim(flo3) #163
+
+phen<- filter(ds1, respvar.simple=="phenstage")
+table(phen$respvar)
+unique(phen$respvar)
 
 ###doubtful flowering data is useful for any kind of analysis############################## 
 ###Try it with just Ribes
