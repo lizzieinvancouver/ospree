@@ -89,43 +89,73 @@ dat <- subset(dat, is.na(month)==FALSE)
 dat$year <- dat$sample.year
 dat$year[dat$month>8] <- dat$sample.year[dat$month>8]+1
 dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
-#Ailene started ading code here on July 12, 2017
-#Now modify the climate data so that it switches from field conditions currently in cdat to 
-#experimental conditions. 
-head(dat[dat$datasetID=="ashby62",])
-head(cdat[cdat$datasetID=="ashby62",])
-#how many studies have chilltemp, chilldays, and chillphotoperiod:
-chilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
-expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
-cdat$Tmin.chill<-NA#create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
-cdat$Tax.chill<-NA##create new column for daily Tmin under experimental conditions; this will remain NA for studies that do not manipulate chilling 
-cdat
-expchillstudies<-unique(expchilldat$datasetID)#list of studies that do manipulate chilling:13 studies
-#dim(dat[-which(dat$chillphotoperiod==""|dat$chillphotoperiod=="ambient"),])#463 rows
-#dim(dat[-which(dat$chilldays==""|dat$chillphotoperiod=="ambient"),])#463 rows
-#For studies that do experimental chilling, fill in the experimental chilling data and dates
-for (i in 1:length(expchillstudies)){
- tempcdat<-cdat[cdat$datasetID==expchillstudies[i],]
- tempdat<-dat[dat$datasetID==expchillstudies[i],] 
- #which(tempcdat$Date>tempcdat$fieldsample.date2)
-#try creating new dataframe with same dimensions as cdat, using the data from tempdat
- chilltemps<-unique(tempdat$chilltemp)
- chilldays<-unique(tempdat$chilldays)
- 
- for (j in 1:length(chilltemps)){}
- expchillcdat<-
-#t
-  #tempalldat<-left_join(tempcdat,tempdat, by=c("datasetID","fieldsample.date2"))
-  
-  chilltemp<-unique(expchilldat[expchilldat$datasetID==expchillstudies[i],]$chilltemp)
-  chilldays<-unique(expchilldat[expchilldat$datasetID==expchillstudies[i],]$chilltemp)
-  
-}
 
-###Try a different approach instead of for loop. merge cdat and dat, then create new colummns
-alldat<-left_join(cdat,dat)
-#lots of rows added by this join, so something is funny about the matching
-head(alldat)
+#Ailene started adding code here on July 12, 2017
+#Now we need to modify the climate data so that it switches from field conditions currently in cdat to 
+#experimental conditions after the field sampling date. 
+#how many studies have chilltemp, chilldays, and chillphotoperiod:
+dat$ID_chilltreat2<-paste(dat$datasetID,dat$chilltemp,dat$chilldays,dat$chillphotoperiod,sep=".")
+noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
+expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
+expchillstudies<-sort(unique(expchilldat$datasetID))#list of studies that do manipulate chilling:19 studies
+expchilltreats<-sort(unique(expchilldat$ID_chilltreat2))#list of all study-chilling treatment combinations
+noexpchillstudies<-unique(noexpchilldat$datasetID)[is.na(match(unique(noexpchilldat$datasetID),expchillstudies))]#studies that do no experimental chilling
+
+#For studies that do experimental chilling, fill in the experimental chilling data and dates
+
+#Things the below code does not yet deal with:
+#1.multiple values for chilling treatments in a single row (e.g. "-4, 0, 4","-4, 8, 8","0, 4, 8", "-3,2")
+#2.ambient + X chilling treatments (e.g. "ambient + 0.76","ambient + 4")
+#3.ambient photoperiod
+
+daily_chilltemp<-data.frame()
+for (i in 1:length(expchilltreats)){
+  tempdat<-dat[dat$ID_chilltreat2==expchilltreats[i],] 
+  startdate<-unique(tempdat$fieldsample.date2)
+  for(j in 1:length(startdate)){
+    tempdat2<-tempdat[tempdat$fieldsample.date2==startdate[j],]
+    datasetID<-unique(tempdat2$datasetID)
+    ID_chilltreat2<-unique(tempdat2$ID_chilltreat2)
+    chilltemp<-unique(tempdat2$chilltemp)
+    chilldays<-unique(tempdat2$chilldays)
+    chillphoto<-unique(tempdat2$chillphotoperiod)
+    if(chilldays==""){next}
+    enddate<-as.Date(startdate[j])+as.numeric(chilldays)
+    if(as.Date(startdate[j])==as.Date(enddate)){next}
+    aa<-data.frame(matrix(, nrow=as.numeric(chilldays),ncol=0))
+    aa$datasetID<-rep(datasetID, times=chilldays)
+    aa$ID_chilltreat2<-rep(ID_chilltreat2, times=chilldays)
+    aa$fieldsample.date2<-rep(startdate[j],times=chilldays)
+    aa$date<-seq(as.Date(startdate[j])+1,as.Date(enddate), by=1)
+    aa$tmin<-rep(chilltemp, times=chilldays)
+    aa$tmax<-rep(chilltemp, times=chilldays)
+    aa$daylength<-rep(chillphoto, times=chilldays)
+    daily_chilltemp<-rbind(daily_chilltemp,aa)
+    }
+}
+#We need to add lat/long to this file
+chill.latlong <- dat %>% # start with the data frame
+  distinct(ID_chilltreat2, .keep_all = TRUE) %>% # select all unique chilltreatments
+  select(datasetID,ID_chilltreat2, provenance.lat, provenance.long, year,fieldsample.date2)
+daily_chilltemp2<-join(daily_chilltemp,chill.latlong)#add lat/long to daily_chilltemp dataframe
+daily_chilltemp3<-dplyr::select(daily_chilltemp2, datasetID, ID_chilltreat2, provenance.lat,provenance.long,fieldsample.date2,date,tmin,tmax,year,daylength)
+
+#Now we need to combine this daily_chilltemp3 file in with the cdat file (replacing some values), when appropriate.
+#Approach: 
+#For studies that have no chilling treatments (e.g.),use cdat for the climate data:
+#skip this for now...
+#cdat_noexpchill<-cdat[is.na(match(cdat$datasetID,noexpchillstudies)),]
+
+#For studies that have chilling treatments (e.g.),
+
+#daily_ambtemp<-dplyr::select(cdat, datasetID, ID_chilltreat2, lat,long,fieldsample.date2,date,Tmin,Tmax,year,daylength)
+
+#1. Remove rows from cdat when Date >fieldsample.date2 (because should already be in chilling treatment) 
+
+cdat2<-cdat[-as.Date(cdat$date)>as.Date(cdat$fieldsample.date2),]
+#2. When Date>field sampledate2, use daily_chilltemp data
+
+#not sure what the difference is between the "date" column and the "Date" column in cdat...
 
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
 ## It is just doing Fagus sylvatica .... 
