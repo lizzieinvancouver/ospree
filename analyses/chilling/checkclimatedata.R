@@ -1,4 +1,7 @@
 #Checking for anomolies in climate data
+#This code was used by Ailene to check that tmin is always less than tmax, after reports from lizzie that there were anomalies in the climate data we pulled.
+#no anomolies were found!
+#this code does not need to be used regularly, but may be worth running if new climate data are pulled.
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
