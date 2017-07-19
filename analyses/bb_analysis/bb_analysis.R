@@ -18,6 +18,7 @@ setwd("~/Documents/git/ospree/analyses")
 
 # get the data 
 bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+# bb.all <- read.csv("output/ospree_clean_withchill_BB_2017Jun22.csv", header=TRUE)
 
 columnstokeep <- c("datasetID", "study", "genus", "species", "varetc", "woody", "forcetemp", "material",
     "photoperiod_day", "respvar", "respvar.simple", "response", "response.time", "fieldsample.date",
@@ -48,13 +49,14 @@ bb$expchillpor <- as.numeric(bb$Exp_Chill_portions)
 bb$exputah <- as.numeric(bb$Exp_Utah_Model)
 
 # where do we lose data? It's still mainly because of chilling.
-dim(subset(bb, is.na(force)==FALSE))
-dim(subset(bb, is.na(photo)==FALSE))
-dim(subset(bb, is.na(chillhrs)==FALSE))
-dim(subset(bb, is.na(chillhrs)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE))
+dim(subset(bb, is.na(force)==FALSE)) # was: 3077; now: 7893
+dim(subset(bb, is.na(photo)==FALSE)) # was: 2921; now: 8545
+dim(subset(bb, is.na(chillhrs)==FALSE)) # was: 2142; now: 6290
+dim(subset(bb, is.na(chillhrs)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE)) # was: 1577, now: 4552
 
 bb.sm <- subset(bb, is.na(chillhrs)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE)
 
+length(unique(bb.sm$datasetID)) # was 33, now 48!
 
 ## Let's talk about species ...
 

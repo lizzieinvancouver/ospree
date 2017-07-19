@@ -8,18 +8,26 @@ Where we’re at with issues:
 <><><><><><><><><>
 **
 ** To do now:
-Cleaning and merging discussion:
-(*) check out: cleaning README files (if I have time)
-(*) #84 - Go through all cleaning files line by line (everyone!)
 
-Ailene: 
-- #103: Did she figure out why we’re losing the Zohner data or any other details … 
-- #84: Questions to Cat on 10 Jun, all set? 
-
-Cat:
-- #106 (phenstage) — should be closable once Cat checks it.
-- #84 (all cleaning) - photoperiod issues
-
+**
+** 
+19 July 2017
+- Dan is working on strawberry questions (3 different types of varieties)
+- Dan and Cat are working on: variation in photoperiod sensitivity (will return with hypotheses) 
+- Nacho: Spatial distribution of trees … use OSPREE data project forward for budbreak … then compare with realized distribution. 	
+	- Compare with our final model versus predictions from full-blown phenological models
+	- See how our model, versus best model, versus observed niche compare…. if they work well, maybe you can predict to other species. 
+- Dan: Conceptual piece on how people actually have done experiments. Home-site studies versus using them for global studies…. 
+- Ailene votes ditto for conceptual paper: remember this was for a growth chamber study
+- Lizzie suggests, for conceptual: What has changed in experimental design before/after climate change.
+- Ailene: Compare field and experimental chilling: are results similar? 
+- Ailene: How and when is photoperiod important? (Big question!) Does altering photoperiod affect responses, does it reduce chilling or photoperiod? 
+- Look at CU vs. FU at budburst … 	
+- Nacho: How does our model vary across space?
+- Dan & Ailene: treat photo, forcing and chilling all as random effects 
+- Do models: GDD vs. chilling * photoperiod
+- Take out photoperiod, just look at chilling x forcing…. 
+- Conceptual paper first and then we can publish it once crazy model is done. 
 
 **
 ** 
