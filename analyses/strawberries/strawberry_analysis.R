@@ -5,8 +5,27 @@ library(ggplot2)
 library(lme4)
 library(dplyr)
 
+
+# Set working directory: 
+if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+} else if
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+}else 
+  setwd("~/Documents/git/ospree/analyses")
+
+
+####Question does selectting on flowering time (ever bearing, June or Day Neutral) influence the control of the leaves? http://strawberryplants.org/2010/05/strawberry-varieties/
+#1 classify varieties as midseaon, everbearing, or daylength neutral
+#2 mixed model for flowering
+#3mixed model for leafing
+
 berries<-read.csv("output/strawberries.csv")
+###what are the varieties
+table(berries$varetc)
+
+###what are the respvars
 table(berries$respvar.simple)
+
 berries$forcetemp <- as.numeric(berries$forcetemp)
 berries$photoperiod_day <- as.numeric(berries$photoperiod_day)
 berries$Total_Utah_Model<-as.numeric(berries$Total_Utah_Model)
@@ -17,10 +36,11 @@ berries$response <- as.numeric(berries$response)
 
 condition1<-c("percentbudburst","percentflower")
 straw <- filter(berries, respvar.simple %in% condition1)
+table(straw$varetc)
 
-mixed<-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+responsedays:Total_Utah_Model+(1+respvar|respvar), data=straw)
-summary(mixed)
-coef(mixed)
+#mixed<-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+responsedays:Total_Utah_Model+(1+respvar|respvar), data=straw)
+#summary(mixed)
+#coef(mixed)
 ###i Think this is wrong, but why
 
 
@@ -29,12 +49,14 @@ coef(mixed)
 bud<-filter(straw, respvar.simple=="percentbudburst")
 buddy<-filter(bud, response.time!="")
 
-flo<-filter(straw, respvar=="inflorescences") ##what is this variable? there are 200 percent value and respvar simpl eis just flowers. Its actually "number not percent"
+flo<-filter(straw, respvar=="flowers") ##what is this variable? there are 200 percent value and respvar simpl eis just flowers. Its actually "number not percent"
 
 
 floy<-filter(flo, response.time!="")
 unique(floy$datasetID)
 unique(buddy$datasetID)
+table(floy$varetc)
+table(buddy$varetc)
 
 ### a few fun exploratory models with just forcing and photoperoid
 #####%budburst
