@@ -91,9 +91,16 @@ dat$year[dat$month>8] <- dat$sample.year[dat$month>8]+1
 dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
 
 #Ailene started adding code here on July 12, 2017
-#Now we need to modify the climate data so that it switches from field conditions currently in cdat to 
+#General approach is:
+#1. Create two daily climate datasets to pull from:
+#a) ambient climate data (which Lizzie pulled together already)
+#b) experimental climate data (uses chilling temp, days, and photoperiod to create daily experimental climate data)
+#2. Using the percent budburst data only, expand each row of data (which is a budburst event) to include daily climate data up to that date,
+#choosing ambient climate data or experimental climate data, as appropriate
+#Lizzie has already done part 1a with the above code.
+#For part 1b, we need to modify the climate data so that it switches from field conditions currently in cdat to 
 #experimental conditions after the field sampling date. 
-#how many studies have chilltemp, chilldays, and chillphotoperiod:
+#First look to see how many studies have chilltemp, chilldays, and chillphotoperiod:
 dat$ID_chilltreat2<-paste(dat$datasetID,dat$chilltemp,dat$chilldays,dat$chillphotoperiod,sep=".")
 noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
 expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
@@ -102,12 +109,12 @@ expchilltreats<-sort(unique(expchilldat$ID_chilltreat2))#list of all study-chill
 noexpchillstudies<-unique(noexpchilldat$datasetID)[is.na(match(unique(noexpchilldat$datasetID),expchillstudies))]#studies that do no experimental chilling
 
 #For studies that do experimental chilling, fill in the experimental chilling data and dates
-
 #Things the below code does not yet deal with:
 #1.multiple values for chilling treatments in a single row (e.g. "-4, 0, 4","-4, 8, 8","0, 4, 8", "-3,2")
 #2.ambient + X chilling treatments (e.g. "ambient + 0.76","ambient + 4")
 #3.ambient photoperiod
-
+#Other random problems observed: 
+#1. for jones12, climatedata starts several months after field sample date- shoulden't it start before?
 daily_chilltemp<-data.frame()
 for (i in 1:length(expchilltreats)){
   tempdat<-dat[dat$ID_chilltreat2==expchilltreats[i],] 
@@ -133,29 +140,53 @@ for (i in 1:length(expchilltreats)){
     daily_chilltemp<-rbind(daily_chilltemp,aa)
     }
 }
-#We need to add lat/long to this file
+#Add lat/long to this file
 chill.latlong <- dat %>% # start with the data frame
   distinct(ID_chilltreat2, .keep_all = TRUE) %>% # select all unique chilltreatments
-  select(datasetID,ID_chilltreat2, provenance.lat, provenance.long, year,fieldsample.date2)
+  select(datasetID,ID_chilltreat2, provenance.lat, provenance.long,fieldsample.date2)
 daily_chilltemp2<-join(daily_chilltemp,chill.latlong)#add lat/long to daily_chilltemp dataframe
-daily_chilltemp3<-dplyr::select(daily_chilltemp2, datasetID, ID_chilltreat2, provenance.lat,provenance.long,fieldsample.date2,date,tmin,tmax,year,daylength)
+daily_chilltemp3<-dplyr::select(daily_chilltemp2, datasetID, ID_chilltreat2, provenance.lat,provenance.long,fieldsample.date2,date,tmin,tmax,daylength)
+colnames(daily_chilltemp3)<-c("datasetID","ID_chilltreat2","lat","long","fieldsample.date2","Date","Tmin","Tmax","daylength")
 
-#Now we need to combine this daily_chilltemp3 file in with the cdat file (replacing some values), when appropriate.
-#Approach: 
-#For studies that have no chilling treatments (e.g.),use cdat for the climate data:
-#skip this for now...
-#cdat_noexpchill<-cdat[is.na(match(cdat$datasetID,noexpchillstudies)),]
+#not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
+daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)
 
-#For studies that have chilling treatments (e.g.),
+#Make monster daily climate file with daily data for each budburst event date.
+#The below loop takes a while....
+#First, select out budburst data
+dat.percbb<-dat[dat$respvar.simple=="percentbudburst",]
+dailyclim.percbb<-data.frame()
+for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
+  x<-dat.percbb[i,]#focal budburst event
+  colnames(x)[9:10]<-c("lat","long")#match columnames to climate data column names
+  #If no experimental chilling for focal budburst event, use ambient climate data
+  if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
+    x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
+    x.all<-join(x,x.dailyclim)
+  }
+  else if(!is.na(as.numeric(x$chilltemp))){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
+    x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
+    #Remove rows from ambient climate when Date >fieldsample.date2 (because should be in chilling treatment) 
+    x.ambclim2<-x.ambclim[!as.Date(x.ambclim$Date)>as.Date(x.ambclim$fieldsample.date2),]
+    #select experimental chilling climate data
+    x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID &daily_chilltemp3$ID_chilltreat2==x$ID_chilltreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & daily_chilltemp3$lat==x$lat & daily_chilltemp3$long==x$long,] 
+    #make columns match ambient and expclim by removing ID_chilltreat2 column
+    x.expclim<-x.expclim[,-which(colnames(x.expclim)=="ID_chilltreat2")]
+    x.expclim$Date<-as.Date(x.expclim$Date)
+    x.ambclim2$Date<-as.Date(x.ambclim2$Date)
+    x.allclim<-rbind(x.ambclim2,x.expclim)
+    x.dailyclim<-x.allclim[order(x.allclim$Date),] 
+    x.all<-join(x,x.dailyclim)
+  }
+  else if(is.na(as.numeric(x$chilltemp))){next}#for now, ignore those studies for which we have to calculate chilling "by hand" (e.g. chilltemp= "ambient + .5" or "4, 0, -4")
+  
+  dailyclim.percbb<-rbind(dailyclim.percbb,x.all)
+  }
 
-#daily_ambtemp<-dplyr::select(cdat, datasetID, ID_chilltreat2, lat,long,fieldsample.date2,date,Tmin,Tmax,year,daylength)
+#What do we need "stn" to be?
+write.csv("output/pmp/percbb.csv", rownames=FALSE)
 
-#1. Remove rows from cdat when Date >fieldsample.date2 (because should already be in chilling treatment) 
 
-cdat2<-cdat[-as.Date(cdat$date)>as.Date(cdat$fieldsample.date2),]
-#2. When Date>field sampledate2, use daily_chilltemp data
-
-#not sure what the difference is between the "date" column and the "Date" column in cdat...
 
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
 ## It is just doing Fagus sylvatica .... 
