@@ -49,6 +49,7 @@ cdater$Date <- substr(cdater$Date, 1, 10)
 cdater$date <- as.Date(cdater$Date, format="%Y-%m-%d")
 cdater$year <- as.numeric(format(cdater$date , "%Y"))
 cdater$doy <- as.numeric(format(cdater$date , "%j"))
+#Move this to the end
 # makes Tmean while we'here ... should check this
 cdater$Tmean <- rowMeans(cbind(cdater$Tmin, cdater$Tmax))
 
@@ -94,41 +95,113 @@ dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
 #General approach is:
 #1. Create two daily climate datasets to pull from:
 #a) ambient climate data (which Lizzie pulled together already)
-#b) experimental climate data (uses chilling temp, days, and photoperiod to create daily experimental climate data)
-#2. Using the percent budburst data only, expand each row of data (which is a budburst event) to include daily climate data up to that date,
-#choosing ambient climate data or experimental climate data, as appropriate
-#Lizzie has already done part 1a with the above code.
-#For part 1b, we need to modify the climate data so that it switches from field conditions currently in cdat to 
-#experimental conditions after the field sampling date. 
-#First look to see how many studies have chilltemp, chilldays, and chillphotoperiod:
-dat$ID_chilltreat2<-paste(dat$datasetID,dat$chilltemp,dat$chilldays,dat$chillphotoperiod,sep=".")
-noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
-expchilldat<-dat[-which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that DO need experimental chilling calculated
-expchillstudies<-sort(unique(expchilldat$datasetID))#list of studies that do manipulate chilling:19 studies
-expchilltreats<-sort(unique(expchilldat$ID_chilltreat2))#list of all study-chilling treatment combinations
-noexpchillstudies<-unique(noexpchilldat$datasetID)[is.na(match(unique(noexpchilldat$datasetID),expchillstudies))]#studies that do no experimental chilling
+#b) experimental chilling data (uses chilltemp, chilldays, chillphotoperiod to create daily experimental chilling data)
+#2. Using the budburst data only, expand each row of data (which is a budburst event) to include 
+#daily climate data up to that date,choosing ambient climate data or experimental chilling data, as appropriate,
+#and then filling in daily experimental climate data for forcing, if necessary
 
-#For studies that do experimental chilling, fill in the experimental chilling data and dates
+#Lizzie has already done part 1a with the above code.
+#For part 1b, we need to modify the climate data so that it switches from field (ambient) conditions currently in cdat to 
+#experimental chilling conditions after the field sampling date. 
+#First look to see how many studies have experimental climate (either/both chilling (chilltemp, chilldays, chillphotoperiod) and forcing (forctemp)):
+dat$ID_exptreat2<-paste(dat$datasetID,dat$chilltemp,dat$chilldays,dat$chillphotoperiod,dat$forcetemp,dat$forcetemp_night,sep=".")
+noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
+noexpclimdat<-noexpchilldat[which(noexpchilldat$forcetemp==""|noexpchilldat$forcetemp=="ambient"|noexpchilldat$forcetemp=="meandaily"),]#studies that do NOT need experimental chilling AND ALSO do not need experimental forcing calculated
+unique(noexpclimdat$photoperiod_day)#some studies manipulate ONLY photoperiod- ignore these for now
+expclimdat<-dat[-which(dat$chilltemp=="" & dat$forcetemp==""),]#156 rows removed
+#dim(expclimdat)#4451   rows
+#which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="")#no rows
+#which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="ambient")#no rows
+expclimdat<-expclimdat[-which(expclimdat$chilltemp=="" & expclimdat$forcetemp=="ambient"),]#
+#dim(expclimdat)#4211   rows
+expclimstudies<-sort(unique(expclimdat$datasetID))#list of studies that do manipulate chilling and/or forcing:45 studies
+expclimtreats<-sort(unique(expclimdat$ID_exptreat2))#list of all study-chilling&forcing treatment combinations: 320
+noexpclimstudies<-unique(noexpclimdat$datasetID)[is.na(match(unique(noexpclimdat$datasetID),expclimstudies))]#studies that do no experimental climate or photoperiod manipulation: only 2 ("ashby62"   "hawkins12")
+
+#For studies that do experimental chilling, fill in the experimental climate data and dates
 #Things the below code does not yet deal with:
 #1.multiple values for chilling treatments in a single row (e.g. "-4, 0, 4","-4, 8, 8","0, 4, 8", "-3,2")
 #2.ambient + X chilling treatments (e.g. "ambient + 0.76","ambient + 4")
 #3.ambient photoperiod
+#4. studies that manipulate ONLY photoperiod
 #Other random problems observed: 
-#1. for jones12, climatedata starts several months after field sample date- shoulden't it start before?
+#1. before July 21, 2017: for jones12, climatedata starts several months after field sample date- shoulden't it start before?
+#(Ailene may have fixed this by changing pull climate code- check after Lizzie pulls the climate data again)
 daily_chilltemp<-data.frame()
-for (i in 1:length(expchilltreats)){
-  tempdat<-dat[dat$ID_chilltreat2==expchilltreats[i],] 
+for (i in 1:length(expclimtreats)){
+  tempdat<-dat[dat$ID_exptreat2==expclimtreats[i],] 
   startdate<-unique(tempdat$fieldsample.date2)
   for(j in 1:length(startdate)){
     tempdat2<-tempdat[tempdat$fieldsample.date2==startdate[j],]
     datasetID<-unique(tempdat2$datasetID)
-    ID_chilltreat2<-unique(tempdat2$ID_chilltreat2)
+    ID_exptreat2<-unique(tempdat2$ID_exptreat2)
     chilltemp<-unique(tempdat2$chilltemp)
     chilldays<-unique(tempdat2$chilldays)
     chillphoto<-unique(tempdat2$chillphotoperiod)
-    if(chilldays==""){next}
+    if(chilltemp==""|chilltemp=="ambient"){next}
+      #in this case, there is no experimental chilling, so we 
+      #skip ahead to the next treatment. there may still be experimental forcing but we will calculate this in the monster loop below
+      if(chilldays==""){next}
     enddate<-as.Date(startdate[j])+as.numeric(chilldays)
     if(as.Date(startdate[j])==as.Date(enddate)){next}
+    aa<-data.frame(matrix(, nrow=as.numeric(chilldays),ncol=0))
+    aa$datasetID<-rep(datasetID, times=chilldays)
+    aa$ID_exptreat2<-rep(ID_exptreat2, times=chilldays)
+    aa$fieldsample.date2<-rep(startdate[j],times=chilldays)
+    aa$date<-seq(as.Date(startdate[j])+1,as.Date(enddate), by=1)
+    aa$tmin<-rep(chilltemp, times=chilldays)
+    aa$tmax<-rep(chilltemp, times=chilldays)
+    aa$daylength<-rep(chillphoto, times=chilldays)
+    aa$lastchilldate<-max(aa$date)#last date that chilling treatment occurred- this will be useful for calculating forcing later
+    daily_chilltemp<-rbind(daily_chilltemp,aa)
+    }
+}
+
+#Add lat/long to this file
+chill.latlong <- dat %>% # start with the data frame
+  distinct(ID_exptreat2, .keep_all = TRUE) %>% # select all unique chilltreatments
+  select(datasetID,ID_exptreat2, provenance.lat, provenance.long,fieldsample.date2)
+daily_chilltemp2<-join(daily_chilltemp,chill.latlong)#add lat/long to daily_chilltemp dataframe
+daily_chilltemp3<-dplyr::select(daily_chilltemp2, datasetID, ID_exptreat2, provenance.lat,provenance.long,fieldsample.date2,date,tmin,tmax,daylength,lastchilldate)
+colnames(daily_chilltemp3)<-c("datasetID","ID_exptreat2","lat","long","fieldsample.date2","Date","Tmin","Tmax","daylength","lastchilldate")
+
+#save this daily chilling climate file, since it has a column for the last chilldate for each study combination
+#Nacho needs this for calculating growing degree days
+write.csv(daily_chilltemp3,"output/daily_expchill.csv", row.names=FALSE)
+
+#not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
+daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)
+#format the 
+daily_ambtemp$Date<-as.Date(daily_ambtemp$Date)
+daily_chilltemp3$Date<-as.Date(daily_chilltemp3$Date)
+#Make monster daily climate file with daily data for each budburst event date.
+#The below loop takes a while....
+#Things to add:
+#photoperiod may be modified in some cases without forcing or chilling- check this
+#Add to the expierminal climate dataframe forcing data. this can go to the end of the year (Dec 31)
+#Check the climate pulling code to make srue that it starts on january 1.
+#add forcing photoperiod.
+##4.  multiple values for forcing treatments (e.g. "mean of 9, 12, 15","7-27.5")
+#5. ambient + X forcing treatments (e.g. "ambient+2","ambient+4")
+#6. studies that manipulate ONLY photoperiod
+#First, select out budburst data
+
+dat.percbb<-dat[dat$respvar.simple=="percentbudburst",]#dat$respvar.simple=="percentbudburst",]#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""
+dailyclim.percbb<-data.frame()
+for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
+  x<-dat.percbb[i,]#focal budburst event
+  colnames(x)[9:10]<-c("lat","long")#match column names to climate data column names
+  #If no experimental chilling for focal budburst event, use ambient climate data
+  if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
+    x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
+    x.all<-join(x,x.dailyclim)
+    #add forcing use studies that have something numeric in the response.time column to get forcing
+    tempdat2$response.time<-as.numeric(tempdat2$response.time)
+    tempdat3<-tempdat2[which(!is.na(tempdat2$response.time)),]
+    
+    forcetemp<-unique(tempdat2$forcetemp)
+    forcedays<-unique(tempdat2$response.time)#this should be the number of days in the response.time column
+    forcephoto<-unique(tempdat2$chillphotoperiod)
     aa<-data.frame(matrix(, nrow=as.numeric(chilldays),ncol=0))
     aa$datasetID<-rep(datasetID, times=chilldays)
     aa$ID_chilltreat2<-rep(ID_chilltreat2, times=chilldays)
@@ -137,32 +210,8 @@ for (i in 1:length(expchilltreats)){
     aa$tmin<-rep(chilltemp, times=chilldays)
     aa$tmax<-rep(chilltemp, times=chilldays)
     aa$daylength<-rep(chillphoto, times=chilldays)
-    daily_chilltemp<-rbind(daily_chilltemp,aa)
-    }
-}
-#Add lat/long to this file
-chill.latlong <- dat %>% # start with the data frame
-  distinct(ID_chilltreat2, .keep_all = TRUE) %>% # select all unique chilltreatments
-  select(datasetID,ID_chilltreat2, provenance.lat, provenance.long,fieldsample.date2)
-daily_chilltemp2<-join(daily_chilltemp,chill.latlong)#add lat/long to daily_chilltemp dataframe
-daily_chilltemp3<-dplyr::select(daily_chilltemp2, datasetID, ID_chilltreat2, provenance.lat,provenance.long,fieldsample.date2,date,tmin,tmax,daylength)
-colnames(daily_chilltemp3)<-c("datasetID","ID_chilltreat2","lat","long","fieldsample.date2","Date","Tmin","Tmax","daylength")
-
-#not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
-daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)
-
-#Make monster daily climate file with daily data for each budburst event date.
-#The below loop takes a while....
-#First, select out budburst data
-dat.percbb<-dat[dat$respvar.simple=="percentbudburst",]
-dailyclim.percbb<-data.frame()
-for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
-  x<-dat.percbb[i,]#focal budburst event
-  colnames(x)[9:10]<-c("lat","long")#match columnames to climate data column names
-  #If no experimental chilling for focal budburst event, use ambient climate data
-  if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
-    x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
-    x.all<-join(x,x.dailyclim)
+    aa$lastchilldate<-max(aa$date)#last date that chilling treatment occurred- this will be useful for calculating forcing later
+    
   }
   else if(!is.na(as.numeric(x$chilltemp))){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
     x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
@@ -179,13 +228,26 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
     x.all<-join(x,x.dailyclim)
   }
   else if(is.na(as.numeric(x$chilltemp))){next}#for now, ignore those studies for which we have to calculate chilling "by hand" (e.g. chilltemp= "ambient + .5" or "4, 0, -4")
-  
+  #dailyclim.percbb$Date<-as.Date(dailyclim.percbb$Date)
+  x.all$Date<-as.Date(x.all$Date)
   dailyclim.percbb<-rbind(dailyclim.percbb,x.all)
   }
 
-#What do we need "stn" to be?
-write.csv("output/pmp/percbb.csv", rownames=FALSE)
+#save file with everything, just to have
+write.csv(dailyclim.percbb,"output/pmp/percbb.csv", rownames=FALSE)
+#save budburst data and climate data as separate txt files, with 
+#stn="uniqueID" column- combination of many things to make it a unique identifier for each row. put species in population.  
+dailyclim.percbb$genus.species<-paste(dailyclim.percbb$genus, dailyclim.percbb$species, sep=".")
+dailyclim.percbb$year2<-as.numeric(format(dailyclim.percbb$Date , "%Y"))#year for climate data
+dailyclim.percbb$doy2<-as.numeric(format(dailyclim.percbb$Date , "%j"))#doy for climate data
+dailyclim.percbb$Tmean<-(as.numeric(dailyclim.percbb$Tmin)+as.numeric(dailyclim.percbb$Tmax))/2
+clim_pmp<-dplyr::select(dailyclim.percbb,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+colnames(clim_pmp)<-c("stn","latitude","longotude","year","doy2","Tmin","Tmax","Tmean")
 
+bb_pmp<-dplyr::select(dailyclim.percbb, uniqueID,genus.species,year, doy)#pmp needs one files with only bud burst dates
+
+write.table(clim_pmp, "output/pmp/percbb_clim_pmp.txt", rownames=FALSE,sep="\t")
+write.table(bb_pmp, "output/pmp/percbb_bb_pmp.txt", rownames=FALSE,sep="\t") 
 
 
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
