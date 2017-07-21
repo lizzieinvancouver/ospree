@@ -37,10 +37,35 @@ berries$response <- as.numeric(berries$response)
 condition1<-c("percentbudburst","percentflower")
 straw <- filter(berries, respvar.simple %in% condition1)
 table(straw$varetc)
+###assign them to varclass
+#View(filter(straw, varetc==""))
 
-#mixed<-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+responsedays:Total_Utah_Model+(1+respvar|respvar), data=straw)
+straw$vartype<-NA
+straw$vartype[straw$varetc == "Abundance"] <- "June"
+straw$vartype[straw$varetc == "Alta"] <- "everbearing"
+straw$vartype[straw$varetc == "As"] <- "everbearing"
+straw$vartype[straw$varetc == "Florene"] <- "June"
+straw$vartype[straw$varetc == "Frida"] <- "June"
+straw$vartype[straw$varetc == "Grytoy"] <- "everbearing"
+straw$vartype[straw$varetc == "Hardanger"] <- "everbearing"
+straw$vartype[straw$varetc == "Haugastol"] <- "everbearing"
+straw$vartype[straw$varetc == "Honeoye"] <- "June"
+straw$vartype[straw$varetc == "Jonsok"] <- "June"
+straw$vartype[straw$varetc == "Korona"] <- "June"
+straw$vartype[straw$varetc == "Namsos"] <- "everbearing"
+straw$vartype[straw$varetc == "Ostara"] <- "everbearing"
+straw$vartype[straw$varetc == "Rabunda"] <- "everbearing"
+straw$vartype[straw$varetc == "Revada"] <- "everbearing"
+straw$vartype[straw$varetc == "Tribute"] <- "dayneutral"
+straw$vartype[straw$varetc == "RH30"] <- "dayneutral"
+straw$vartype[straw$varetc == "Senga Sengana"] <- "June"
+straw$vartype[straw$datasetID == "verheul07"] <- "June"
+
+table(straw$vartype)
+        
+#mixed<-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1|vartype), data=straw)
 #summary(mixed)
-#coef(mixed)
+coef(mixed)
 ###i Think this is wrong, but why
 
 
@@ -60,12 +85,12 @@ table(buddy$varetc)
 
 ### a few fun exploratory models with just forcing and photoperoid
 #####%budburst
-mod <- lm(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+responsedays:Total_Utah_Model, data=buddy)
+mod <-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1+vartype|1), data=buddy)
 summary(mod)
+coef(mod)
 
 ###percent flower
-mod2 <- lm(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+responsedays:Total_Utah_Model, data=floy)
-summary(mod2)
+mod2 <-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1|vartype), data=floy)
 table(floy$forcetemp) #Why is floy rank deficient in force temp, they dont work as a mixed model either
 
 #### investigate mod and mod2
