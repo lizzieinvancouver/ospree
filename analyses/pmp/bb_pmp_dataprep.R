@@ -198,21 +198,19 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
   #If no experimental chilling for focal budburst event, use ambient climate data
   if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
     #if no experimental forcing, no need to add anything:
+    x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
     if(x$forcetemp=="ambient"){
-      x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
       }
     #for study that warms 4 degrees above ambient:
     if(x$forcetemp=="ambient + 4"){
-      x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,] 
       x.dailyclim$Tmin<-x.dailyclim$Tmin+4
       x.dailyclim$Tmax<-x.dailyclim$Tmax+4
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
-      
       }
     #if there is other experimental forcing,  add it using the forcetemp, field sample date and response.time columns
     if(x$forcetemp!="ambient"){
@@ -301,7 +299,11 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
   bbdates.percbb<-rbind(bbdates.percbb,x.bb)
   }
 dim(dailyclim.percbb)#55814 rows- not as big as it should be i think...
-#save file with everything, just to have
+#some checks of this file:
+unique(dailyclim.percbb$datasetID)#11 different studies
+dim(dailyclim.percbb)#871991     36#HUGE! but this makes sense given that the origianl percbb data file was 1561 rows (1561*2*365=1139530)
+head(sort(unique(dailyclim.percbb$Date)))#11 different studies
+#save file with everything, just to have- this file is too big for github!
 write.csv(dailyclim.percbb,"output/pmp/percbb.csv", row.names=FALSE)
 #save budburst data and climate data as separate txt files, with 
 #stn="uniqueID" column- combination of many things to make it a unique identifier for each row. put species in population.  
@@ -310,8 +312,14 @@ dailyclim.percbb$doy2<-as.numeric(format(dailyclim.percbb$Date , "%j"))#doy for 
 dailyclim.percbb$Tmin<-as.numeric(dailyclim.percbb$Tmin)
 dailyclim.percbb$Tmax<-as.numeric(dailyclim.percbb$Tmax)
 dailyclim.percbb$Tmean<-(as.numeric(dailyclim.percbb$Tmin)+as.numeric(dailyclim.percbb$Tmax))/2
-clim_pmp<-dplyr::select(dailyclim.percbb,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmp)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+#Because the file is so big, I'll break it into 2 files
+dailyclim.percbbA<-dailyclim.percbb[dailyclim.percbb$datasetID=="falusi03"|dailyclim.percbb$datasetID=="falusi97"|dailyclim.percbb$datasetID=="guak98"|dailyclim.percbb$datasetID=="heide93",]
+dailyclim.percbbB<-dailyclim.percbb[dailyclim.percbb$datasetID=="partanen05"|dailyclim.percbb$datasetID=="pop2000"|dailyclim.percbb$datasetID=="ramos99"|dailyclim.percbb$datasetID=="Sanz-Perez09"|dailyclim.percbb$datasetID=="sanzperez10"|dailyclim.percbb$datasetID=="spann04"|dailyclim.percbb$datasetID=="swartz81",]
+
+clim_pmpA<-dplyr::select(dailyclim.percbbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+colnames(clim_pmpA)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+clim_pmpB<-dplyr::select(dailyclim.percbbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+colnames(clim_pmpB)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
 
 #budburst data
 bbdates.percbb$genus.species<-paste(bbdates.percbb$genus, bbdates.percbb$species, sep=".")
@@ -319,7 +327,9 @@ bbdates.percbb$year2<-as.numeric(format(bbdates.percbb$bbdate , "%Y"))#year for 
 bbdates.percbb$doy2<-as.numeric(format(bbdates.percbb$bbdate , "%j"))#doy forbudburst event
 bb_pmp<-dplyr::select(bbdates.percbb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
 colnames(bb_pmp)<-c("stn","species","year","doy")
-write.table(clim_pmp, "output/pmp/percbb_clim_pmp.txt", row.names=FALSE,sep="\t")
+write.table(clim_pmpA, "output/pmp/percbb_clim_pmpA.txt", row.names=FALSE,sep="\t")
+write.table(clim_pmpB, "output/pmp/percbb_clim_pmpB.txt", row.names=FALSE,sep="\t")
+
 write.table(bb_pmp, "output/pmp/percbb_bb_pmp.txt", row.names=FALSE,sep="\t") 
 
 
