@@ -1,0 +1,1434 @@
+"stn"	"species"	"year"	"doy"
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 15    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 15    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 15    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 15    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 15    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 15    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi03 1996-09-18 25    12"	"Fagus.sylvatica"	1996	322
+"falusi03 1996-10-24 25    12"	"Fagus.sylvatica"	1996	358
+"falusi03 1996-11-20 25    12"	"Fagus.sylvatica"	1997	19
+"falusi03 1996-12-18 25    12"	"Fagus.sylvatica"	1997	47
+"falusi03 1997-02-17 25    12"	"Fagus.sylvatica"	1997	108
+"falusi03 1997-03-24 25    12"	"Fagus.sylvatica"	1997	143
+"falusi97 1993-09-18 15  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-09-18 25  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-09-18 15  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-09-18 25  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-10-21 15  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-10-21 25  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-10-21 15  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-10-21 25  0  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1994-09-18 15  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 15  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 15  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 15  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 25  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 25  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 25  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1994-09-18 25  0  12"	"Fagus.sylvatica"	1994	321
+"falusi97 1993-12-24 15  54  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-12-24 25  54  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-12-24 15  54  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1993-12-24 25  54  12"	"Fagus.sylvatica"	1994	16
+"falusi97 1995-01-06 15  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 15  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 15  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 15  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 25  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 25  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 25  67  12"	"Fagus.sylvatica"	1995	66
+"falusi97 1995-01-06 25  67  12"	"Fagus.sylvatica"	1995	66
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	218
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	158
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	172
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	179
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	185
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	192
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	199
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	206
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	213
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	158
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	172
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	179
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	185
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	192
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	199
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	207
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	213
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	249
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	158
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	167
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	171
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	174
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	177
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	180
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	182
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	186
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	188
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	191
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	194
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	197
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	200
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	203
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	207
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	209
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	212
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	215
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	221
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	158
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	167
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	171
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	174
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	177
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	180
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	182
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	186
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	188
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	191
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	194
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	197
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	200
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	203
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	207
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	209
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	212
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	215
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	221
+"guak98 1995-06-07 ambient + 4    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"guak98 1995-06-07 ambient    12"	"Pseudotsuga.menziesii"	1995	228
+"heide93 1990-02-15 21    8"	"Betula.pendula"	1990	64
+"heide93 1990-03-15 21    24"	"Betula.pendula"	1990	92
+"heide93 1989-11-15 21    8"	"Betula.pendula"	1989	337
+"heide93 1989-12-15 21    24"	"Betula.pendula"	1990	2
+"heide93 1990-01-15 21    8"	"Betula.pendula"	1990	33
+"heide93 1990-02-15 21    24"	"Betula.pendula"	1990	64
+"heide93 1990-03-15 21    8"	"Betula.pendula"	1990	92
+"heide93 1989-11-15 15    24"	"Betula.pendula"	1989	344
+"heide93 1989-12-15 15    8"	"Betula.pendula"	1990	9
+"heide93 1990-01-15 15    24"	"Betula.pendula"	1990	40
+"heide93 1990-02-15 15    8"	"Betula.pendula"	1990	71
+"heide93 1990-03-15 15    24"	"Betula.pendula"	1990	99
+"heide93 1989-11-15 15    8"	"Betula.pendula"	1989	344
+"heide93 1989-12-15 15    24"	"Betula.pendula"	1990	9
+"heide93 1990-01-15 15    8"	"Betula.pendula"	1990	40
+"heide93 1990-02-15 15    24"	"Betula.pendula"	1990	71
+"heide93 1990-03-15 15    8"	"Betula.pendula"	1990	99
+"heide93 1989-11-15 9    24"	"Betula.pendula"	1989	361
+"heide93 1989-12-15 9    8"	"Betula.pendula"	1990	26
+"heide93 1990-03-15 9    24"	"Prunus.padus"	1990	116
+"heide93 1989-11-15 9    8"	"Prunus.padus"	1989	361
+"heide93 1989-12-15 9    24"	"Prunus.padus"	1990	26
+"heide93 1990-01-15 9    8"	"Prunus.padus"	1990	57
+"heide93 1990-02-15 9    24"	"Prunus.padus"	1990	88
+"heide93 1990-03-15 9    8"	"Prunus.padus"	1990	116
+"heide93 1989-11-15 21    24"	"Populus.tremula"	1989	337
+"heide93 1989-12-15 21    8"	"Populus.tremula"	1990	2
+"heide93 1990-01-15 21    24"	"Populus.tremula"	1990	33
+"heide93 1990-02-15 21    8"	"Populus.tremula"	1990	64
+"heide93 1990-03-15 21    24"	"Populus.tremula"	1990	92
+"heide93 1989-11-15 21    8"	"Populus.tremula"	1989	337
+"heide93 1989-12-15 21    24"	"Populus.tremula"	1990	2
+"heide93 1990-01-15 21    8"	"Populus.tremula"	1990	33
+"heide93 1990-02-15 21    24"	"Populus.tremula"	1990	64
+"heide93 1990-03-15 21    8"	"Populus.tremula"	1990	92
+"heide93 1989-11-15 15    24"	"Populus.tremula"	1989	344
+"heide93 1989-12-15 15    8"	"Populus.tremula"	1990	9
+"heide93 1990-01-15 15    24"	"Populus.tremula"	1990	40
+"heide93 1990-02-15 15    8"	"Populus.tremula"	1990	71
+"heide93 1990-03-15 15    24"	"Populus.tremula"	1990	99
+"heide93 1989-11-15 15    8"	"Populus.tremula"	1989	344
+"heide93 1989-12-15 15    24"	"Populus.tremula"	1990	9
+"heide93 1990-01-15 15    8"	"Populus.tremula"	1990	40
+"heide93 1990-02-15 15    24"	"Populus.tremula"	1990	71
+"heide93 1990-03-15 15    8"	"Populus.tremula"	1990	99
+"heide93 1989-11-15 9    24"	"Populus.tremula"	1989	361
+"heide93 1989-12-15 9    8"	"Populus.tremula"	1990	26
+"heide93 1990-01-15 9    24"	"Populus.tremula"	1990	57
+"heide93 1990-02-15 9    8"	"Populus.tremula"	1990	88
+"heide93 1990-03-15 9    24"	"Populus.tremula"	1990	116
+"heide93 1989-11-15 9    8"	"Populus.tremula"	1989	361
+"heide93 1989-12-15 9    24"	"Populus.tremula"	1990	26
+"heide93 1990-01-15 9    8"	"Populus.tremula"	1990	57
+"heide93 1990-02-15 9    24"	"Populus.tremula"	1990	88
+"heide93 1990-03-15 9    8"	"Populus.tremula"	1990	116
+"heide93 1989-11-15 21    24"	"Alnus.incana"	1989	337
+"heide93 1989-12-15 21    8"	"Alnus.incana"	1990	2
+"heide93 1990-01-15 21    24"	"Alnus.incana"	1990	33
+"heide93 1990-02-15 21    8"	"Alnus.incana"	1990	64
+"heide93 1990-03-15 21    24"	"Alnus.incana"	1990	92
+"heide93 1989-11-15 21    8"	"Alnus.incana"	1989	337
+"heide93 1989-12-15 21    24"	"Alnus.incana"	1990	2
+"heide93 1990-01-15 21    8"	"Alnus.incana"	1990	33
+"heide93 1990-02-15 21    24"	"Alnus.incana"	1990	64
+"heide93 1991-01-15 15    8"	"Populus.tremula"	1991	40
+"heide93 1991-02-15 15    24"	"Populus.tremula"	1991	71
+"heide93 1991-03-15 15    8"	"Populus.tremula"	1991	99
+"heide93 1990-11-15 9    24"	"Populus.tremula"	1990	361
+"heide93 1990-12-15 9    8"	"Populus.tremula"	1991	26
+"heide93 1991-01-15 9    24"	"Populus.tremula"	1991	57
+"heide93 1991-02-15 9    8"	"Populus.tremula"	1991	88
+"heide93 1991-03-15 9    24"	"Populus.tremula"	1991	116
+"heide93 1990-11-15 9    8"	"Populus.tremula"	1990	361
+"heide93 1990-12-15 9    24"	"Populus.tremula"	1991	26
+"heide93 1991-01-15 9    8"	"Populus.tremula"	1991	57
+"heide93 1991-02-15 9    24"	"Populus.tremula"	1991	88
+"heide93 1991-03-15 9    8"	"Populus.tremula"	1991	116
+"heide93 1990-11-15 21    24"	"Alnus.incana"	1990	337
+"heide93 1990-12-15 21    8"	"Alnus.incana"	1991	2
+"heide93 1991-01-15 21    24"	"Alnus.incana"	1991	33
+"heide93 1991-02-15 21    8"	"Alnus.incana"	1991	64
+"heide93 1991-03-15 21    24"	"Alnus.incana"	1991	92
+"heide93 1990-11-15 21    8"	"Alnus.incana"	1990	337
+"heide93 1990-12-15 21    24"	"Alnus.incana"	1991	2
+"heide93 1991-01-15 21    8"	"Alnus.incana"	1991	33
+"heide93 1991-02-15 21    24"	"Alnus.incana"	1991	64
+"heide93 1991-03-15 21    8"	"Alnus.incana"	1991	92
+"heide93 1990-11-15 15    24"	"Alnus.incana"	1990	344
+"heide93 1990-12-15 15    8"	"Alnus.incana"	1991	9
+"heide93 1991-01-15 15    24"	"Alnus.incana"	1991	40
+"heide93 1991-02-15 15    8"	"Alnus.incana"	1991	71
+"heide93 1991-03-15 15    24"	"Alnus.incana"	1991	99
+"heide93 1990-11-15 15    8"	"Alnus.incana"	1990	344
+"heide93 1990-12-15 15    24"	"Alnus.incana"	1991	9
+"heide93 1991-01-15 15    8"	"Alnus.incana"	1991	40
+"heide93 1991-02-15 15    24"	"Alnus.incana"	1991	71
+"heide93 1991-03-15 15    8"	"Alnus.incana"	1991	99
+"heide93 1990-11-15 9    24"	"Alnus.incana"	1990	361
+"heide93 1990-12-15 9    8"	"Alnus.incana"	1991	26
+"heide93 1991-01-15 9    24"	"Alnus.incana"	1991	57
+"heide93 1991-02-15 9    8"	"Alnus.incana"	1991	88
+"heide93 1991-03-15 9    24"	"Alnus.incana"	1991	116
+"heide93 1990-11-15 9    8"	"Alnus.incana"	1990	361
+"heide93 1990-12-15 9    24"	"Alnus.incana"	1991	26
+"heide93 1991-01-15 9    8"	"Alnus.incana"	1991	57
+"heide93 1991-02-15 9    24"	"Alnus.incana"	1991	88
+"heide93 1991-03-15 9    8"	"Alnus.incana"	1991	116
+"heide93 1990-11-15 21    24"	"Alnus.glutinosa"	1990	337
+"heide93 1990-12-15 21    8"	"Alnus.glutinosa"	1991	2
+"heide93 1991-01-15 21    24"	"Alnus.glutinosa"	1991	33
+"heide93 1989-11-15 21    24"	"Betula.pubescens"	1989	337
+"heide93 1989-12-15 21    8"	"Betula.pubescens"	1990	2
+"heide93 1990-01-15 21    24"	"Betula.pubescens"	1990	33
+"heide93 1990-02-15 21    8"	"Betula.pubescens"	1990	64
+"heide93 1990-03-15 21    24"	"Betula.pubescens"	1990	92
+"heide93 1989-11-15 21    8"	"Betula.pubescens"	1989	337
+"heide93 1989-12-15 21    24"	"Betula.pubescens"	1990	2
+"heide93 1990-01-15 21    8"	"Betula.pubescens"	1990	33
+"heide93 1990-02-15 21    24"	"Betula.pubescens"	1990	64
+"heide93 1990-03-15 21    8"	"Betula.pubescens"	1990	92
+"heide93 1989-11-15 15    24"	"Betula.pubescens"	1989	344
+"heide93 1989-12-15 15    8"	"Betula.pubescens"	1990	9
+"heide93 1990-01-15 15    24"	"Betula.pubescens"	1990	40
+"heide93 1990-02-15 15    8"	"Betula.pubescens"	1990	71
+"heide93 1990-03-15 15    24"	"Betula.pubescens"	1990	99
+"heide93 1989-11-15 15    8"	"Betula.pubescens"	1989	344
+"heide93 1989-12-15 15    24"	"Betula.pubescens"	1990	9
+"heide93 1990-01-15 15    8"	"Betula.pubescens"	1990	40
+"heide93 1990-02-15 15    24"	"Betula.pubescens"	1990	71
+"heide93 1990-03-15 15    8"	"Betula.pubescens"	1990	99
+"heide93 1989-11-15 9    24"	"Betula.pubescens"	1989	361
+"heide93 1989-12-15 9    8"	"Betula.pubescens"	1990	26
+"heide93 1990-01-15 9    24"	"Betula.pubescens"	1990	57
+"heide93 1990-02-15 9    8"	"Betula.pubescens"	1990	88
+"heide93 1990-03-15 9    24"	"Betula.pubescens"	1990	116
+"heide93 1989-11-15 9    8"	"Betula.pubescens"	1989	361
+"heide93 1989-12-15 9    24"	"Betula.pubescens"	1990	26
+"heide93 1990-01-15 9    8"	"Betula.pubescens"	1990	57
+"heide93 1990-02-15 9    24"	"Betula.pubescens"	1990	88
+"heide93 1990-03-15 9    8"	"Betula.pubescens"	1990	116
+"heide93 1989-11-15 21    24"	"Betula.pendula"	1989	337
+"heide93 1989-12-15 21    8"	"Betula.pendula"	1990	2
+"heide93 1990-01-15 21    24"	"Betula.pendula"	1990	33
+"heide93 1990-01-15 9    24"	"Betula.pendula"	1990	57
+"heide93 1990-02-15 9    8"	"Betula.pendula"	1990	88
+"heide93 1990-03-15 9    24"	"Betula.pendula"	1990	116
+"heide93 1989-11-15 9    8"	"Betula.pendula"	1989	361
+"heide93 1989-12-15 9    24"	"Betula.pendula"	1990	26
+"heide93 1990-01-15 9    8"	"Betula.pendula"	1990	57
+"heide93 1990-02-15 9    24"	"Betula.pendula"	1990	88
+"heide93 1990-03-15 9    8"	"Betula.pendula"	1990	116
+"heide93 1989-11-15 21    24"	"Prunus.padus"	1989	337
+"heide93 1989-12-15 21    8"	"Prunus.padus"	1990	2
+"heide93 1990-01-15 21    24"	"Prunus.padus"	1990	33
+"heide93 1990-02-15 21    8"	"Prunus.padus"	1990	64
+"heide93 1990-03-15 21    24"	"Prunus.padus"	1990	92
+"heide93 1989-11-15 21    8"	"Prunus.padus"	1989	337
+"heide93 1989-12-15 21    24"	"Prunus.padus"	1990	2
+"heide93 1990-01-15 21    8"	"Prunus.padus"	1990	33
+"heide93 1990-02-15 21    24"	"Prunus.padus"	1990	64
+"heide93 1990-03-15 21    8"	"Prunus.padus"	1990	92
+"heide93 1989-11-15 15    24"	"Prunus.padus"	1989	344
+"heide93 1989-12-15 15    8"	"Prunus.padus"	1990	9
+"heide93 1990-01-15 15    24"	"Prunus.padus"	1990	40
+"heide93 1990-02-15 15    8"	"Prunus.padus"	1990	71
+"heide93 1990-03-15 15    24"	"Prunus.padus"	1990	99
+"heide93 1989-11-15 15    8"	"Prunus.padus"	1989	344
+"heide93 1989-12-15 15    24"	"Prunus.padus"	1990	9
+"heide93 1990-01-15 15    8"	"Prunus.padus"	1990	40
+"heide93 1990-02-15 15    24"	"Prunus.padus"	1990	71
+"heide93 1990-03-15 15    8"	"Prunus.padus"	1990	99
+"heide93 1989-11-15 9    24"	"Prunus.padus"	1989	361
+"heide93 1989-12-15 9    8"	"Prunus.padus"	1990	26
+"heide93 1990-01-15 9    24"	"Prunus.padus"	1990	57
+"heide93 1990-02-15 9    8"	"Prunus.padus"	1990	88
+"heide93 1990-03-15 21    8"	"Alnus.incana"	1990	92
+"heide93 1989-11-15 15    24"	"Alnus.incana"	1989	344
+"heide93 1989-12-15 15    8"	"Alnus.incana"	1990	9
+"heide93 1990-01-15 15    24"	"Alnus.incana"	1990	40
+"heide93 1990-02-15 15    8"	"Alnus.incana"	1990	71
+"heide93 1990-03-15 15    24"	"Alnus.incana"	1990	99
+"heide93 1989-11-15 15    8"	"Alnus.incana"	1989	344
+"heide93 1989-12-15 15    24"	"Alnus.incana"	1990	9
+"heide93 1990-01-15 15    8"	"Alnus.incana"	1990	40
+"heide93 1990-02-15 15    24"	"Alnus.incana"	1990	71
+"heide93 1990-03-15 15    8"	"Alnus.incana"	1990	99
+"heide93 1989-11-15 9    24"	"Alnus.incana"	1989	361
+"heide93 1989-12-15 9    8"	"Alnus.incana"	1990	26
+"heide93 1990-01-15 9    24"	"Alnus.incana"	1990	57
+"heide93 1990-02-15 9    8"	"Alnus.incana"	1990	88
+"heide93 1990-03-15 9    24"	"Alnus.incana"	1990	116
+"heide93 1989-11-15 9    8"	"Alnus.incana"	1989	361
+"heide93 1989-12-15 9    24"	"Alnus.incana"	1990	26
+"heide93 1990-01-15 9    8"	"Alnus.incana"	1990	57
+"heide93 1990-02-15 9    24"	"Alnus.incana"	1990	88
+"heide93 1990-03-15 9    8"	"Alnus.incana"	1990	116
+"heide93 1989-11-15 21    24"	"Alnus.glutinosa"	1989	337
+"heide93 1989-12-15 21    8"	"Alnus.glutinosa"	1990	2
+"heide93 1990-01-15 21    24"	"Alnus.glutinosa"	1990	33
+"heide93 1990-02-15 21    8"	"Alnus.glutinosa"	1990	64
+"heide93 1990-03-15 21    24"	"Alnus.glutinosa"	1990	92
+"heide93 1989-11-15 21    8"	"Alnus.glutinosa"	1989	337
+"heide93 1989-12-15 21    24"	"Alnus.glutinosa"	1990	2
+"heide93 1990-01-15 21    8"	"Alnus.glutinosa"	1990	33
+"heide93 1990-02-15 21    24"	"Alnus.glutinosa"	1990	64
+"heide93 1990-03-15 21    8"	"Alnus.glutinosa"	1990	92
+"heide93 1989-11-15 15    24"	"Alnus.glutinosa"	1989	344
+"heide93 1989-12-15 15    8"	"Alnus.glutinosa"	1990	9
+"heide93 1990-01-15 15    24"	"Alnus.glutinosa"	1990	40
+"heide93 1990-02-15 15    8"	"Alnus.glutinosa"	1990	71
+"heide93 1990-03-15 15    24"	"Alnus.glutinosa"	1990	99
+"heide93 1989-11-15 15    8"	"Alnus.glutinosa"	1989	344
+"heide93 1989-12-15 15    24"	"Alnus.glutinosa"	1990	9
+"heide93 1990-01-15 15    8"	"Alnus.glutinosa"	1990	40
+"heide93 1990-02-15 15    24"	"Alnus.glutinosa"	1990	71
+"heide93 1990-03-15 15    8"	"Alnus.glutinosa"	1990	99
+"heide93 1989-11-15 9    24"	"Alnus.glutinosa"	1989	361
+"heide93 1989-12-15 9    8"	"Alnus.glutinosa"	1990	26
+"heide93 1990-01-15 9    24"	"Alnus.glutinosa"	1990	57
+"heide93 1990-02-15 9    8"	"Alnus.glutinosa"	1990	88
+"heide93 1990-03-15 9    24"	"Alnus.glutinosa"	1990	116
+"heide93 1989-11-15 9    8"	"Alnus.glutinosa"	1989	361
+"heide93 1989-12-15 9    24"	"Alnus.glutinosa"	1990	26
+"heide93 1990-01-15 9    8"	"Alnus.glutinosa"	1990	57
+"heide93 1990-02-15 9    24"	"Alnus.glutinosa"	1990	88
+"heide93 1990-03-15 9    8"	"Alnus.glutinosa"	1990	116
+"heide93 1990-11-15 21    24"	"Betula.pubescens"	1990	337
+"heide93 1990-12-15 21    8"	"Betula.pubescens"	1991	2
+"heide93 1991-01-15 21    24"	"Betula.pubescens"	1991	33
+"heide93 1991-02-15 21    8"	"Betula.pubescens"	1991	64
+"heide93 1991-03-15 21    24"	"Betula.pubescens"	1991	92
+"heide93 1990-11-15 21    8"	"Betula.pubescens"	1990	337
+"heide93 1990-12-15 21    24"	"Betula.pubescens"	1991	2
+"heide93 1991-01-15 21    8"	"Betula.pubescens"	1991	33
+"heide93 1991-02-15 21    24"	"Betula.pubescens"	1991	64
+"heide93 1991-03-15 21    8"	"Betula.pubescens"	1991	92
+"heide93 1990-11-15 15    24"	"Betula.pubescens"	1990	344
+"heide93 1990-12-15 15    8"	"Betula.pubescens"	1991	9
+"heide93 1991-01-15 15    24"	"Betula.pubescens"	1991	40
+"heide93 1991-02-15 15    8"	"Betula.pubescens"	1991	71
+"heide93 1991-03-15 15    24"	"Betula.pubescens"	1991	99
+"heide93 1990-11-15 15    8"	"Betula.pubescens"	1990	344
+"heide93 1990-12-15 15    24"	"Betula.pubescens"	1991	9
+"heide93 1991-01-15 15    8"	"Betula.pubescens"	1991	40
+"heide93 1991-02-15 15    24"	"Betula.pubescens"	1991	71
+"heide93 1991-03-15 15    8"	"Betula.pubescens"	1991	99
+"heide93 1990-11-15 9    24"	"Betula.pubescens"	1990	361
+"heide93 1990-12-15 9    8"	"Betula.pubescens"	1991	26
+"heide93 1991-01-15 9    24"	"Betula.pubescens"	1991	57
+"heide93 1991-02-15 9    8"	"Betula.pubescens"	1991	88
+"heide93 1991-03-15 9    24"	"Betula.pubescens"	1991	116
+"heide93 1990-11-15 9    8"	"Betula.pubescens"	1990	361
+"heide93 1990-12-15 9    24"	"Betula.pubescens"	1991	26
+"heide93 1991-01-15 9    8"	"Betula.pubescens"	1991	57
+"heide93 1991-02-15 9    24"	"Betula.pubescens"	1991	88
+"heide93 1991-03-15 9    8"	"Betula.pubescens"	1991	116
+"heide93 1990-11-15 21    24"	"Betula.pendula"	1990	337
+"heide93 1990-12-15 21    8"	"Betula.pendula"	1991	2
+"heide93 1991-01-15 21    24"	"Betula.pendula"	1991	33
+"heide93 1991-02-15 21    8"	"Betula.pendula"	1991	64
+"heide93 1991-03-15 21    24"	"Betula.pendula"	1991	92
+"heide93 1990-11-15 21    8"	"Betula.pendula"	1990	337
+"heide93 1990-12-15 21    24"	"Betula.pendula"	1991	2
+"heide93 1991-01-15 21    8"	"Betula.pendula"	1991	33
+"heide93 1991-02-15 21    24"	"Betula.pendula"	1991	64
+"heide93 1991-03-15 21    8"	"Betula.pendula"	1991	92
+"heide93 1990-11-15 15    24"	"Betula.pendula"	1990	344
+"heide93 1990-12-15 15    8"	"Betula.pendula"	1991	9
+"heide93 1991-01-15 15    24"	"Betula.pendula"	1991	40
+"heide93 1991-02-15 15    8"	"Betula.pendula"	1991	71
+"heide93 1991-03-15 15    24"	"Betula.pendula"	1991	99
+"heide93 1990-11-15 15    8"	"Betula.pendula"	1990	344
+"heide93 1990-12-15 15    24"	"Betula.pendula"	1991	9
+"heide93 1991-01-15 15    8"	"Betula.pendula"	1991	40
+"heide93 1991-02-15 15    24"	"Betula.pendula"	1991	71
+"heide93 1991-03-15 15    8"	"Betula.pendula"	1991	99
+"heide93 1990-11-15 9    24"	"Betula.pendula"	1990	361
+"heide93 1990-12-15 9    8"	"Betula.pendula"	1991	26
+"heide93 1991-01-15 9    24"	"Betula.pendula"	1991	57
+"heide93 1991-02-15 9    8"	"Betula.pendula"	1991	88
+"heide93 1991-03-15 9    24"	"Betula.pendula"	1991	116
+"heide93 1990-11-15 9    8"	"Betula.pendula"	1990	361
+"heide93 1990-12-15 9    24"	"Betula.pendula"	1991	26
+"heide93 1991-01-15 9    8"	"Betula.pendula"	1991	57
+"heide93 1991-02-15 9    24"	"Betula.pendula"	1991	88
+"heide93 1991-03-15 9    8"	"Betula.pendula"	1991	116
+"heide93 1990-11-15 21    24"	"Prunus.padus"	1990	337
+"heide93 1990-12-15 21    8"	"Prunus.padus"	1991	2
+"heide93 1991-01-15 21    24"	"Prunus.padus"	1991	33
+"heide93 1991-02-15 21    8"	"Prunus.padus"	1991	64
+"heide93 1991-03-15 21    24"	"Prunus.padus"	1991	92
+"heide93 1990-11-15 21    8"	"Prunus.padus"	1990	337
+"heide93 1990-12-15 21    24"	"Prunus.padus"	1991	2
+"heide93 1991-01-15 21    8"	"Prunus.padus"	1991	33
+"heide93 1991-02-15 21    24"	"Prunus.padus"	1991	64
+"heide93 1991-03-15 21    8"	"Prunus.padus"	1991	92
+"heide93 1990-11-15 15    24"	"Prunus.padus"	1990	344
+"heide93 1990-12-15 15    8"	"Prunus.padus"	1991	9
+"heide93 1991-01-15 15    24"	"Prunus.padus"	1991	40
+"heide93 1991-02-15 15    8"	"Prunus.padus"	1991	71
+"heide93 1991-03-15 15    24"	"Prunus.padus"	1991	99
+"heide93 1990-11-15 15    8"	"Prunus.padus"	1990	344
+"heide93 1990-12-15 15    24"	"Prunus.padus"	1991	9
+"heide93 1991-01-15 15    8"	"Prunus.padus"	1991	40
+"heide93 1991-02-15 15    24"	"Prunus.padus"	1991	71
+"heide93 1991-03-15 15    8"	"Prunus.padus"	1991	99
+"heide93 1990-11-15 9    24"	"Prunus.padus"	1990	361
+"heide93 1990-12-15 9    8"	"Prunus.padus"	1991	26
+"heide93 1991-01-15 9    24"	"Prunus.padus"	1991	57
+"heide93 1991-02-15 9    8"	"Prunus.padus"	1991	88
+"heide93 1991-03-15 9    24"	"Prunus.padus"	1991	116
+"heide93 1990-11-15 9    8"	"Prunus.padus"	1990	361
+"heide93 1990-12-15 9    24"	"Prunus.padus"	1991	26
+"heide93 1991-01-15 9    8"	"Prunus.padus"	1991	57
+"heide93 1991-02-15 9    24"	"Prunus.padus"	1991	88
+"heide93 1991-03-15 9    8"	"Prunus.padus"	1991	116
+"heide93 1990-11-15 21    24"	"Populus.tremula"	1990	337
+"heide93 1990-12-15 21    8"	"Populus.tremula"	1991	2
+"heide93 1991-01-15 21    24"	"Populus.tremula"	1991	33
+"heide93 1991-02-15 21    8"	"Populus.tremula"	1991	64
+"heide93 1991-03-15 21    24"	"Populus.tremula"	1991	92
+"heide93 1990-11-15 21    8"	"Populus.tremula"	1990	337
+"heide93 1990-12-15 21    24"	"Populus.tremula"	1991	2
+"heide93 1991-01-15 21    8"	"Populus.tremula"	1991	33
+"heide93 1991-02-15 21    24"	"Populus.tremula"	1991	64
+"heide93 1991-03-15 21    8"	"Populus.tremula"	1991	92
+"heide93 1990-11-15 15    24"	"Populus.tremula"	1990	344
+"heide93 1990-12-15 15    8"	"Populus.tremula"	1991	9
+"heide93 1991-01-15 15    24"	"Populus.tremula"	1991	40
+"heide93 1991-02-15 15    8"	"Populus.tremula"	1991	71
+"heide93 1991-03-15 15    24"	"Populus.tremula"	1991	99
+"heide93 1990-11-15 15    8"	"Populus.tremula"	1990	344
+"heide93 1990-12-15 15    24"	"Populus.tremula"	1991	9
+"heide93 1991-02-15 21    8"	"Alnus.glutinosa"	1991	64
+"heide93 1991-03-15 21    24"	"Alnus.glutinosa"	1991	92
+"heide93 1990-11-15 21    8"	"Alnus.glutinosa"	1990	337
+"heide93 1990-12-15 21    24"	"Alnus.glutinosa"	1991	2
+"heide93 1991-01-15 21    8"	"Alnus.glutinosa"	1991	33
+"heide93 1991-02-15 21    24"	"Alnus.glutinosa"	1991	64
+"heide93 1991-03-15 21    8"	"Alnus.glutinosa"	1991	92
+"heide93 1990-11-15 15    24"	"Alnus.glutinosa"	1990	344
+"heide93 1990-12-15 15    8"	"Alnus.glutinosa"	1991	9
+"heide93 1991-01-15 15    24"	"Alnus.glutinosa"	1991	40
+"heide93 1991-02-15 15    8"	"Alnus.glutinosa"	1991	71
+"heide93 1991-03-15 15    24"	"Alnus.glutinosa"	1991	99
+"heide93 1990-11-15 15    8"	"Alnus.glutinosa"	1990	344
+"heide93 1990-12-15 15    24"	"Alnus.glutinosa"	1991	9
+"heide93 1991-01-15 15    8"	"Alnus.glutinosa"	1991	40
+"heide93 1991-02-15 15    24"	"Alnus.glutinosa"	1991	71
+"heide93 1991-03-15 15    8"	"Alnus.glutinosa"	1991	99
+"heide93 1990-11-15 9    24"	"Alnus.glutinosa"	1990	361
+"heide93 1990-12-15 9    8"	"Alnus.glutinosa"	1991	26
+"heide93 1991-01-15 9    24"	"Alnus.glutinosa"	1991	57
+"heide93 1991-02-15 9    8"	"Alnus.glutinosa"	1991	88
+"heide93 1991-03-15 9    24"	"Alnus.glutinosa"	1991	116
+"heide93 1990-11-15 9    8"	"Alnus.glutinosa"	1990	361
+"heide93 1990-12-15 9    24"	"Alnus.glutinosa"	1991	26
+"heide93 1991-01-15 9    8"	"Alnus.glutinosa"	1991	57
+"heide93 1991-02-15 9    24"	"Alnus.glutinosa"	1991	88
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"heide93 1991-03-15 9    8"	"Alnus.glutinosa"	1991	116
+"partanen05 1993-02-07 20   ambient 5"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 5"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 5"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 5"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 5"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 5"	"Picea.abies"	1993	365
+"partanen05 1993-05-10 20   ambient 5"	"Picea.abies"	1994	16
+"partanen05 1992-09-14 20   ambient 10"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 10"	"Picea.abies"	1992	300
+"partanen05 1992-10-12 20   ambient 10"	"Picea.abies"	1992	327
+"partanen05 1992-10-26 20   ambient 10"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 10"	"Picea.abies"	1993	17
+"partanen05 1992-11-23 20   ambient 10"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 10"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 10"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 10"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 10"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 10"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 10"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 10"	"Picea.abies"	1993	308
+"partanen05 1993-04-17 20   ambient 10"	"Picea.abies"	1993	336
+"partanen05 1993-05-01 20   ambient 10"	"Picea.abies"	1993	364
+"partanen05 1993-05-10 20   ambient 10"	"Picea.abies"	1994	15
+"partanen05 1992-09-14 20   ambient 15"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 15"	"Picea.abies"	1992	300
+"partanen05 1992-10-12 20   ambient 15"	"Picea.abies"	1992	328
+"partanen05 1992-10-26 20   ambient 15"	"Picea.abies"	1992	356
+"partanen05 1992-11-09 20   ambient 15"	"Picea.abies"	1993	17
+"partanen05 1992-11-23 20   ambient 15"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 15"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 15"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 15"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 15"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 15"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 15"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 15"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 15"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 15"	"Picea.abies"	1993	365
+"partanen05 1993-05-10 20   ambient 15"	"Picea.abies"	1994	15
+"partanen05 1992-09-14 20   ambient 20"	"Picea.abies"	1992	271
+"partanen05 1992-09-28 20   ambient 20"	"Picea.abies"	1992	299
+"partanen05 1992-10-12 20   ambient 20"	"Picea.abies"	1992	328
+"partanen05 1992-10-26 20   ambient 20"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 20"	"Picea.abies"	1993	17
+"partanen05 1992-11-23 20   ambient 20"	"Picea.abies"	1993	45
+"partanen05 1992-09-14 20   ambient 5"	"Picea.abies"	1992	271
+"partanen05 1992-09-28 20   ambient 5"	"Picea.abies"	1992	299
+"partanen05 1992-10-12 20   ambient 5"	"Picea.abies"	1992	327
+"partanen05 1992-10-26 20   ambient 5"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 5"	"Picea.abies"	1993	17
+"partanen05 1992-11-23 20   ambient 5"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 5"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 5"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 5"	"Picea.abies"	1993	156
+"partanen05 1992-12-07 20   ambient 20"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 20"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 20"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 20"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 20"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 20"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 20"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 20"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 20"	"Picea.abies"	1993	364
+"partanen05 1993-05-10 20   ambient 20"	"Picea.abies"	1994	16
+"partanen05 1992-09-14 20   ambient 5"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 5"	"Picea.abies"	1992	300
+"partanen05 1992-10-12 20   ambient 5"	"Picea.abies"	1992	328
+"partanen05 1992-10-26 20   ambient 5"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 5"	"Picea.abies"	1993	18
+"partanen05 1992-11-23 20   ambient 5"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 5"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 5"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 5"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 5"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 5"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 5"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 5"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 5"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 5"	"Picea.abies"	1993	364
+"partanen05 1993-05-10 20   ambient 5"	"Picea.abies"	1994	16
+"partanen05 1992-09-14 20   ambient 10"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 10"	"Picea.abies"	1992	299
+"partanen05 1992-10-12 20   ambient 10"	"Picea.abies"	1992	327
+"partanen05 1992-10-26 20   ambient 10"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 10"	"Picea.abies"	1993	18
+"partanen05 1992-11-23 20   ambient 10"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 10"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 10"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 10"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 10"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 10"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 10"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 10"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 10"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 10"	"Picea.abies"	1993	365
+"partanen05 1993-05-10 20   ambient 10"	"Picea.abies"	1994	15
+"partanen05 1992-09-14 20   ambient 15"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 15"	"Picea.abies"	1992	299
+"partanen05 1992-10-12 20   ambient 15"	"Picea.abies"	1992	327
+"partanen05 1992-10-26 20   ambient 15"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 15"	"Picea.abies"	1993	17
+"partanen05 1992-11-23 20   ambient 15"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 15"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 15"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 15"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 15"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 15"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 15"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 15"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 15"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 15"	"Picea.abies"	1993	364
+"partanen05 1993-05-10 20   ambient 15"	"Picea.abies"	1994	15
+"partanen05 1992-09-14 20   ambient 20"	"Picea.abies"	1992	272
+"partanen05 1992-09-28 20   ambient 20"	"Picea.abies"	1992	299
+"partanen05 1992-10-12 20   ambient 20"	"Picea.abies"	1992	327
+"partanen05 1992-10-26 20   ambient 20"	"Picea.abies"	1992	355
+"partanen05 1992-11-09 20   ambient 20"	"Picea.abies"	1993	18
+"partanen05 1992-11-23 20   ambient 20"	"Picea.abies"	1993	45
+"partanen05 1992-12-07 20   ambient 20"	"Picea.abies"	1993	74
+"partanen05 1992-12-27 20   ambient 20"	"Picea.abies"	1993	114
+"partanen05 1993-01-17 20   ambient 20"	"Picea.abies"	1993	156
+"partanen05 1993-02-07 20   ambient 20"	"Picea.abies"	1993	198
+"partanen05 1993-02-24 20   ambient 20"	"Picea.abies"	1993	232
+"partanen05 1993-03-13 20   ambient 20"	"Picea.abies"	1993	267
+"partanen05 1993-04-03 20   ambient 20"	"Picea.abies"	1993	309
+"partanen05 1993-04-17 20   ambient 20"	"Picea.abies"	1993	337
+"partanen05 1993-05-01 20   ambient 20"	"Picea.abies"	1993	365
+"partanen05 1993-05-10 20   ambient 20"	"Picea.abies"	1994	16
+"pop2000 1996-09-03 15.9 -5 3 0 24"	"Salix.pulchra"	1996	250
+"pop2000 1996-09-03 12.92 -5 3 0 24"	"Betula.nana"	1996	250
+"pop2000 1996-09-03 12.92 -5 3 0 24"	"Salix.pulchra"	1996	250
+"pop2000 1996-09-03 10.93 -5 3 0 24"	"Salix.pulchra"	1996	250
+"pop2000 1996-09-03 10.93 -5 3 0 24"	"Betula.nana"	1996	250
+"pop2000 1996-09-03 15.9 -5 3 0 24"	"Betula.nana"	1996	250
+"pop2000 1996-09-03 10.93 -5 33 0 24"	"Betula.nana"	1996	280
+"pop2000 1996-09-03 12.92 -5 33 0 24"	"Salix.pulchra"	1996	280
+"pop2000 1996-09-03 10.93 -5 33 0 24"	"Salix.pulchra"	1996	280
+"pop2000 1996-09-03 15.9 -5 33 0 24"	"Betula.nana"	1996	280
+"pop2000 1996-09-03 15.9 -5 33 0 24"	"Salix.pulchra"	1996	280
+"pop2000 1996-09-03 12.92 -5 33 0 24"	"Betula.nana"	1996	280
+"pop2000 1996-09-03 12.92 -5 48 0 24"	"Betula.nana"	1996	295
+"pop2000 1996-09-03 12.92 -5 48 0 24"	"Salix.pulchra"	1996	295
+"pop2000 1996-09-03 10.93 -5 48 0 24"	"Betula.nana"	1996	295
+"pop2000 1996-09-03 10.93 -5 48 0 24"	"Salix.pulchra"	1996	295
+"pop2000 1996-09-03 15.9 -5 48 0 24"	"Betula.nana"	1996	295
+"pop2000 1996-09-03 15.9 -5 48 0 24"	"Salix.pulchra"	1996	295
+"pop2000 1996-09-03 10.93 -5 57 0 24"	"Betula.nana"	1996	304
+"pop2000 1996-09-03 15.9 -5 57 0 24"	"Betula.nana"	1996	304
+"pop2000 1996-09-03 10.93 -5 57 0 24"	"Salix.pulchra"	1996	304
+"pop2000 1996-09-03 12.92 -5 57 0 24"	"Betula.nana"	1996	304
+"pop2000 1996-09-03 15.9 -5 57 0 24"	"Salix.pulchra"	1996	304
+"pop2000 1996-09-03 12.92 -5 57 0 24"	"Salix.pulchra"	1996	304
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 20   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 20   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 20   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 20   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 20   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1997-02-07 20   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 20   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1996-11-20 12.5   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-12-18 12.5   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 12.5   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 12.5   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 12.5   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 12.5   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 12.5   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"ramos99 1997-01-09 30   ambient 12"	"Olea.europaea"	1997	109
+"ramos99 1997-01-23 30   ambient 12"	"Olea.europaea"	1997	137
+"ramos99 1997-02-07 30   ambient 12"	"Olea.europaea"	1997	166
+"ramos99 1997-02-20 30   ambient 12"	"Olea.europaea"	1997	193
+"ramos99 1996-10-17 30   ambient 12"	"Olea.europaea"	1996	307
+"ramos99 1996-11-20 30   ambient 12"	"Olea.europaea"	1997	10
+"ramos99 1996-12-18 30   ambient 12"	"Olea.europaea"	1997	66
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	101
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	108
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	115
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	122
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	129
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	136
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	143
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	150
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	157
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	164
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	171
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	178
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	185
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	192
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	199
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	204
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	80
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	87
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	94
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	101
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	108
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	115
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	122
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	129
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	136
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	143
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	150
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	157
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	164
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	171
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	178
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	185
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	192
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.faginea"	2005	199
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	80
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	87
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	94
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	101
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	108
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	115
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	122
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	129
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	136
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	143
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	150
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	157
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	164
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	171
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	178
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	185
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	192
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.ilex"	2005	199
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	204
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	210
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	80
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	87
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	94
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	101
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	108
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	115
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	122
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	129
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	136
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	143
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	150
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	157
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	164
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	171
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	178
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	185
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	192
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	199
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.ilex"	2005	205
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	80
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	87
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	94
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	101
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	108
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	115
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	122
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	129
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	136
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	143
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	150
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	157
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	164
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	171
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	178
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	185
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	192
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.ilex"	2005	199
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	205
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	210
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	80
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	87
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	94
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	101
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	108
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	115
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	122
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	129
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	136
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	143
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	150
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	157
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	164
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	171
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	178
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	185
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	192
+"Sanz-Perez09 2005-01-31 12    10"	"Quercus.ilex"	2005	199
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	87
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	94
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	101
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	108
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	164
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	171
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	178
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	94
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	101
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	108
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	115
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	122
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	164
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	87
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	94
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	80
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	115
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	122
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	129
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	136
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	143
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	150
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	157
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	185
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	192
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	87
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	129
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	136
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	143
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	150
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	157
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	171
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	178
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	185
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	192
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	199
+"Sanz-Perez09 2005-01-31 12    16"	"Quercus.faginea"	2005	80
+"Sanz-Perez09 2005-01-31 19    16"	"Quercus.faginea"	2005	199
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	205
+"Sanz-Perez09 2005-01-31 19    10"	"Quercus.faginea"	2005	80
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.coccifera"	2004	25
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	55
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.coccifera"	2004	101
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	25
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.coccifera"	2004	55
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.coccifera"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.coccifera"	2004	117
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	117
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	117
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.coccifera"	2004	25
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.coccifera"	2004	55
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.coccifera"	2004	86
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.coccifera"	2004	100
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.coccifera"	2004	27
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.coccifera"	2004	101
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	27
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.coccifera"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.coccifera"	2004	27
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.coccifera"	2004	101
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.coccifera"	2004	26
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.coccifera"	2004	26
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.coccifera"	2004	26
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.coccifera"	2004	56
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.coccifera"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.coccifera"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.coccifera"	2004	27
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	58
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	27
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.faginea"	2004	58
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	109
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.faginea"	2004	27
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.faginea"	2004	58
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.faginea"	2004	100
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.faginea"	2004	28
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	57
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	28
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.faginea"	2004	57
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.faginea"	2004	28
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.faginea"	2004	57
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.faginea"	2004	100
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.faginea"	2004	25
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	56
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.faginea"	2004	25
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.faginea"	2004	56
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.faginea"	2004	25
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.faginea"	2004	56
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.faginea"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.faginea"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.faginea"	2004	27
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	57
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	27
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.ilex"	2004	57
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.ilex"	2004	27
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.ilex"	2004	57
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.ilex"	2004	88
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.ilex"	2004	88
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.ilex"	2004	88
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.ilex"	2004	101
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.ilex"	2004	117
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	117
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	117
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	117
+"sanzperez10 2004-01-01 5.4    ambient"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 7.5    ambient"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 9.7    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 5.2    ambient"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 4.8    ambient"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 7.1    ambient"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 9.2    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    ambient"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 6.2    13"	"Quercus.ilex"	2004	26
+"sanzperez10 2004-01-01 6.4    13"	"Quercus.ilex"	2004	56
+"sanzperez10 2004-01-01 8.9    13"	"Quercus.ilex"	2004	87
+"sanzperez10 2004-01-01 10.7    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	118
+"sanzperez10 2004-01-01 ambient    13"	"Quercus.ilex"	2004	118
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	31
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	52
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	38
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	45
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	24
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	17
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	3
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	10
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	31
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	38
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	52
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	3
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	59
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	45
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	17
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	24
+"spann04 2001-01-03 21 7 14  16"	"Vaccinium.corymbosum"	2001	10
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	25
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	282
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	176
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	201
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	266
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	121
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	130
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1980	348
+"swartz81 1980-11-01 22 4.5 121  14"	"Malus.domestica"	1981	15
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1981	61
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1982	183
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1980	349
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1982	42
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1982	186
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1981	148
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1981	223
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1981	325
+"swartz81 1980-11-01 22 4.5 63  14"	"Malus.domestica"	1981	336
