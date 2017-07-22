@@ -307,9 +307,12 @@ write.csv(dailyclim.percbb,"output/pmp/percbb.csv", row.names=FALSE)
 #stn="uniqueID" column- combination of many things to make it a unique identifier for each row. put species in population.  
 dailyclim.percbb$year2<-as.numeric(format(dailyclim.percbb$Date , "%Y"))#year for climate data
 dailyclim.percbb$doy2<-as.numeric(format(dailyclim.percbb$Date , "%j"))#doy for climate data
+dailyclim.percbb$Tmin<-as.numeric(dailyclim.percbb$Tmin)
+dailyclim.percbb$Tmax<-as.numeric(dailyclim.percbb$Tmax)
 dailyclim.percbb$Tmean<-(as.numeric(dailyclim.percbb$Tmin)+as.numeric(dailyclim.percbb$Tmax))/2
 clim_pmp<-dplyr::select(dailyclim.percbb,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmp)<-c("stn","latitude","longotude","year","doy2","Tmin","Tmax","Tmean")
+colnames(clim_pmp)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+
 #budburst data
 bbdates.percbb$genus.species<-paste(bbdates.percbb$genus, bbdates.percbb$species, sep=".")
 bbdates.percbb$year2<-as.numeric(format(bbdates.percbb$bbdate , "%Y"))#year for budburst event
