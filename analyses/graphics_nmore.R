@@ -15,18 +15,19 @@ options(stringsAsFactors = FALSE)
 
 # libraries
 library(ggplot2)
+library(dplyr)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
   setwd("~/Documents/git/ospree") 
   } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
-
+setwd("~/Documents/git/ospree/analyses")
 # get the data
 
 # make sure this is the correct file (we're still cleaning as I write this!) 
 bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 labgroups <- read.csv("output/labgroups.csv", header=TRUE)
-studytype <- read.csv("output/studytype.table.csv", header=TRUE)
+studytype <- read.csv("output/studytype_withBB.csv", header=TRUE)
 
 # merge in labgroup (we could do this elsewhere someday) and first adjust a couple datasetids so they match
 bb$datasetID[bb$datasetID=="Sanz-Perez09"] <- "sanzperez10"
@@ -48,10 +49,9 @@ bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 unique(paste(bb.wlab.sm$datasetID, bb.wlab.sm$study))
 
 # get studies with more than one photoperiod
-photo2 <- subset(studytype, photoperiods.count>1) # 36 studies
-force2 <- subset(studytype, forcetemps.count>1) # 39 studies
-dates2 <- subset(studytype, samplingdates.count>1) # 35 studies
-
+photo2 <- subset(studytype, photo>1) # 36 studies
+force2 <- subset(studytype, force>1) # 39 studies
+dates2 <- subset(studytype, field.sample>1) # 39 studies
 
 # make a bunch of things numeric (eek!)
 bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
@@ -126,12 +126,41 @@ dim(fagsyl)
 table(fagsyl$datasetID)
 
 unique(fagsyl$photo)
+table(fagsyl$photo)
 
 fagsyl$photocat <- NA
 fagsyl$photocat[fagsyl$photo>12] <- "morethan12"
 fagsyl$photocat[fagsyl$photo<=12] <- "lessthaneq12"
+fagsyl<-fagsyl%>%filter(datasetID !="falusi96") # does not manipulate anything?..
+fagsyl<-fagsyl%>%filter(datasetID !="falusi90") # doesn't manipulate chilling
 
 ggplot(fagsyl,
-    aes(x=chillhrs, y=response.time, color=force)) +
-    facet_wrap(~photocat, nrow=4) + 
-    geom_point()
+       aes(x=chillhrs, y=response.time, color=force)) +
+  facet_wrap(~photocat, nrow=4) + 
+  geom_point()
+
+ggplot(fagsyl,
+    aes(x=chillhrs, y=response.time, color=datasetID)) +
+    facet_wrap(~force, nrow=4) + 
+    geom_point(aes(shape=photocat))
+
+ggplot(fagsyl,
+       aes(x=chillhrs, y=response.time, color=force)) +
+  facet_wrap(~datasetID, nrow=4) + 
+  geom_point(aes(shape=photocat))
+
+resps<-c("daystobudburst", "percentbudburst")
+fagus.sm<-filter(fagsyl, respvar.simple %in% resps)
+ggplot(fagus.sm,
+       aes(x=chillhrs, y=response.time, color=force)) +
+  facet_wrap(~datasetID, nrow=4) + 
+  geom_point(aes(shape=photocat))
+
+
+#### Another way to look at the data - Cat 
+# 24 July 2017
+ggplot((ospr.plot), aes(x=chillpor, y=response.time)) + xlab("Chilling") + ylab("Days to Budburst") +
+  geom_point(aes(col=as.factor(latbi))) + 
+  #geom_smooth(aes(col=as.factor(latbi)),method="lm", se=FALSE) + 
+  theme(legend.position="none")
+
