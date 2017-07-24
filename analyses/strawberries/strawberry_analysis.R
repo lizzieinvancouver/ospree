@@ -60,12 +60,18 @@ straw$vartype[straw$varetc == "Tribute"] <- "dayneutral"
 straw$vartype[straw$varetc == "RH30"] <- "dayneutral"
 straw$vartype[straw$varetc == "Senga Sengana"] <- "June"
 straw$vartype[straw$datasetID == "verheul07"] <- "June"
+#8 June 
+#9 everbearing (5 vesca)
+#2 day neutral (1 virginiana)
+#hypoth June are short day
+# Everbearing longday
+#dayneutal
 
 table(straw$vartype)
-        
+table(straw$species)        
 #mixed<-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1|vartype), data=straw)
 #summary(mixed)
-coef(mixed)
+#coef(mixed)
 ###i Think this is wrong, but why
 
 
@@ -78,10 +84,18 @@ flo<-filter(straw, respvar=="flowers") ##what is this variable? there are 200 pe
 
 
 floy<-filter(flo, response.time!="")
+
+##floy metircs
 unique(floy$datasetID)
-unique(buddy$datasetID)
 table(floy$varetc)
+table(floy$forcetemp)
+table(floy$photoperiod_day)
+
+##bud metrics
+unique(buddy$datasetID)
 table(buddy$varetc)
+table(buddy$forcetemp)
+table(buddy$photoperiod_day)
 
 ### a few fun exploratory models with just forcing and photoperoid
 #####%budburst
@@ -99,10 +113,6 @@ table(floy$forcetemp) #Why is floy rank deficient in force temp, they dont work 
 #flower
 flo.phen<-filter(berries, respvar.simple=="daystoflower")
 
-flowers<-lm(response.time~forcetemp+photoperiod_day+Total_Utah_Model, data=flo.phen)
-summary(flowers)
-plot(flowers)
-
 ###now leaf
 bud.phen<-filter(berries, respvar.simple=="daystobudburst")
 bud.phen<- within(bud.phen, response.time[response=="no response" & response.time==""]<-"no response")
@@ -112,9 +122,8 @@ bud.phen$response.time[fix] <- as.numeric(bud.phen$response[fix])
 bud.phen<-filter(bud.phen, figure.table..if.applicable.!= "fig 4")
 
 
-leaves<-lm(response.time~forcetemp+photoperiod_day+Total_Utah_Model, data=bud.phen)
-summary(leaves)  ###cant really run because all force temps are the same
-
+table(flo.phen$datasetID)
+table(bud.phen$datasetID)
 
 
 ###to do: add in chilling and ambients
