@@ -164,3 +164,5 @@ ggplot((ospr.plot), aes(x=chillpor, y=response.time)) + xlab("Chilling") + ylab(
   #geom_smooth(aes(col=as.factor(latbi)),method="lm", se=FALSE) + 
   theme(legend.position="none")
 
+View(table(bb$genus))
+View(filter(bb,genus=="Betula "))
