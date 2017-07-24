@@ -48,6 +48,9 @@ source("pmp/pullclimate_eur_pmp.R")
 
 # 4d: pull climate data from north america
 source("pmp/pullclimate_nam_pmp.R")
-
+#Get an error that I'm not sure about:
+#In addition: Warning message:
+#Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
+#dim(dailytemp3)#228293      7
 #write a csv file of the daily Tmin and Tmax data
 write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")

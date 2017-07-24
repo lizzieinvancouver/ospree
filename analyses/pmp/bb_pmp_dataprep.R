@@ -273,7 +273,7 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
       x.bb<-cbind(x,bbdate)
     }
     if(max(as.Date(x.ambclim$Date))>as.Date(firstchilldate)-1){#if ambient data goes beyond experimental chilling data (which it should once the climate pulling code is correct)
-    print[i]#Remove rows from ambient climate when Date >fieldsample.date2 (because should be in chilling treatment) 
+    #Remove rows from ambient climate when Date >fieldsample.date2 (because should be in chilling treatment) 
     #x.ambclim2<-x.ambclim[!as.Date(x.ambclim$Date)>as.Date(x.ambclim$fieldsample.date2),]
     #Eventually, it would be better to just replace tmin and tmax columns with experimental climate when Date >fieldsample.date2 and when Date <lastchilldate with experimental chilling climate
     #x.dailyclim<-x.ambclim
