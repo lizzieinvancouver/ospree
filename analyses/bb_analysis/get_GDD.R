@@ -24,17 +24,90 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 } else 
   setwd("~/Documents/git/ospree/analyses")
 
-
-## read in last day of chilling
+## read in last day of chilling and format a little
 chill.day <- read.csv("output/daily_expchill.csv")
 chill.unique.exptreat<-unique(chill.day$ID_exptreat2)
+chillneeded <- subset(chill.day, select=c("ID_exptreat2", "lastchilldate"))
+chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chill.day)
 
 ## read in data for pmp containing climate each day each site
-load("output/fieldclimate_pmp.RData")
-pmp.data <- tempval
-rm(tempval)
-studiesnames<-names(pmp.data)
+#load("output/fieldclimate_pmp.RData")
+#pmp.data <- tempval
+#rm(tempval)
+#studiesnames <- names(pmp.data)
+
+clima <- read.table("output/pmp/percbb_clim_pmpA.txt", header=TRUE)
+climb <- read.table("output/pmp/percbb_clim_pmpB.txt", header=TRUE)
+climdatab <- rbind(clima, climb)
+climdat <- climdatab[!duplicated(climdatab), ] 
+
+## get all the BB data and format a little
+dat.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+dat.some <- subset(dat.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
+bbdat <- subset(dat.some, response.time!="")
+
+# add a column for when the experiment starts to bb data
+# fill it in with either last date of experimental chilling or (if not present) field sample date
+bbdat$ID_exptreat2<-paste(bbdat$datasetID, bbdat$chilltemp, bbdat$chilldays, bbdat$chillphotoperiod, bbdat$forcetemp,
+    bbdat$forcetemp_night, sep=".")
+bbdat$uniqueID <- paste(bbdat$datasetID, bbdat$fieldsample.date2, bbdat$forcetemp, bbdat$chilltemp, bbdat$chilldays,
+    bbdat$chillphotoperiod, bbdat$photoperiod_day) # this is what becomes stn in the climate data 
+
+setdiff(chilly$ID_exptreat2, bbdat$ID_exptreat2) # ALERT! need to work on this!
+
+bb <- merge(chilly, bbdat, by="ID_exptreat2", all.y=TRUE)
+bb$expstartdate <- bb$lastchilldate # subset(bb, is.na(bb$expstartdate)==FALSE)
+bb$expstartdate[which(is.na(bb$expstartdate)==TRUE)] <- bb$fieldsample.date2[which(is.na(bb$expstartdate)==TRUE)] 
+dim(subset(bb, is.na(bb$expstartdate)==TRUE))
+
+# add a column for when the experiment starts to climate data
+addstartdat <- subset(bb, select=c("uniqueID", "expstartdate"))
+addstartdat <- addstartdat[!duplicated(addstartdat), ] # down to 1/6 of data ... 
+climdat.wstart <- merge(addstartdat, climdat, by.x="uniqueID", by.y="stn", all.y=TRUE) # currently not losing any data ... 
+climdat.wstart <- climdat.wstart[which(is.na(climdat.wstart$expstartdate)==FALSE),]
+climdat.wstart$date <- as.Date(climdat.wstart$doy2, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
+
+climdat.sm <- subset(climdat.wstart, date>expstartdate)
+                         
+## make GDD column in the climate data
+
+
+climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy2),]
+cumsumnona <- function(x){cumsum(ifelse(is.na(x), 0, x)) + x*0}
+countcumna <- function(x){cumsum(is.na(x))}
+climdat.sm$cumgdd <- NA
+climdat.sm$cumgdd <- ave(climdat.sm$Tmean, list(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude), FUN=cumsumnona)
+climdat.sm$numnas_gdd<- ave(climdat.sm$Tmean, list(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude), FUN=countcumna)
+# watch out ...
+whereartthouna <- subset(climdat.sm, numnas_gdd>0)
+
+## okay, need to get response.time and expstartdate into date formats...
+bb$expstartdate <- as.Date(bb$expstartdate, format="%Y-%m-%d")
+bb$response.time.integer <- as.integer(bb$response.time)
+bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%Y-%m-%d")
+
+bb.wstart <- subset(bb, is.na(bb$expstartdate)==FALSE)
+bb.wstart$gdd <- NA
+bb.wstart$numnas_gdd <- NA
+
+bb.wstart <- subset(bb.wstart, datasetID != "falusi97" & datasetID != "heide93" & datasetID !="partanen05" & datasetID !="ramos99") 
+
+##
+##
+
+for (i in c(1:nrow(bb.wstart))){
+    subby <- climdat.sm[which(climdat.sm$uniqueID==bb.wstart$uniqueID[i]),]
+    if(nrow(subby)>0){
+    bb.wstart$gdd[i] <- subby$cumgdd[which(subby$date==bb.wstart$bbdate[i])]
+    bb.wstart$numnas_gdd[i] <- subby$numnas_gdd[which(subby$date==bb.wstart$bbdate[i])]
+    }
+}
+
+
+## older code ..
+## Nacho started this, then Lizzie took over and wrote the above
+## Possible to delete?
 
 GDD.each.study<-rep(NA,length(chill.unique.exptreat))
 for(i in 1:length(chill.unique.exptreat)){#i=1
@@ -69,7 +142,6 @@ for(i in 1:length(chill.unique.exptreat)){#i=1
   GDD.each.study[[i]]<-gdds[which(!is.na(gdds))]
   
 }
-
 
 ## this object is a list that should contain the gdd for each study. Do we append to d?
 GDD.each.study
