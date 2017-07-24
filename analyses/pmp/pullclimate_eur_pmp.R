@@ -27,7 +27,9 @@ for(i in 1:nrow(eur)){ # i = 1
   xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell))[1]
   xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell))[1]
   
-  yr <- as.numeric(eur[i,"year"])#
+  #yr <- as.numeric(eur[i,"year"])#old code-realized this was wrong July 2017 and changed to reference year in field sample date instead
+  yr <-as.numeric(substr(eur[i,"fieldsample.date2"],1,4))#year for climate data
+            
   
   # start and end days of the climate data we need for the lat/long. 
   #This is in days since baseline date (Jan 1) Set to GMT to avoid daylight savings insanity
@@ -35,7 +37,6 @@ for(i in 1:nrow(eur)){ # i = 1
   stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#start day for climate data in PNP must be Jan 1, i think and go for full year
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))>=9){stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is after september 1, then we use the chilling from the current year only.
   if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is before september 1, then we pull the climate from the previous year, too.
-  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],1,4))>lastyr){endday <- strptime(paste(lastyr, "12-31", sep="-"),"%Y-%m-%d", tz="GMT")}#If year of field sample date is after the last year of climate data, then just pull data from the last year available
   if(eur[i,"fieldsample.date2"]==""){stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")}
   #add a line of code here that makes 2014 the last year, if 2015 would be the year that 
   
@@ -44,6 +45,7 @@ for(i in 1:nrow(eur)){ # i = 1
   # the end of the calendar year after field sample date
 
   endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz="GMT")#end day for climate data should be dec 31 of following year, i think
+  if(eur[i,"fieldsample.date2"]!="" & as.numeric(substr(eur[i,"fieldsample.date2"],1,4))>lastyr){endday <- strptime(paste(lastyr, "12-31", sep="-"),"%Y-%m-%d", tz="GMT")}#If year of field sample date is after the last year of climate data, then just pull data from the last year available
   
   st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))

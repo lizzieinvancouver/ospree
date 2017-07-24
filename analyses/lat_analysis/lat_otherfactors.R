@@ -53,17 +53,24 @@ xx <- within(xx, { sample <- ave(fieldsample.date, datasetID, species, FUN=funct
 xx <- within(xx, { force <- ave(forcetemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
 xx <- within(xx, { photo <- ave(photoperiod_day, datasetID, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 xx <- within(xx, { chill <- ave(Total_Chilling_Hours, datasetID, species, FUN=function(x) length(unique(x)))}) # mult Total_Chilling_Hours
+xx <- within(xx, { spp <- ave(species, datasetID, FUN=function(x) length(unique(x)))}) # mult species
 xx<-filter(xx, xx$prov>=2)
-xx<-dplyr::select(xx, datasetID, genus, species, prov, sample, force, photo, chill)
+xx<-dplyr::select(xx, datasetID, genus, species, provenance.lat, provenance.long, prov, sample, force, photo, chill, spp)
 xx<-xx[!duplicated(xx),]
-xx<-xx[which(xx$datasetID!="schnabel87"),] ## Doesn't have multiple provenance latitudes
+xx<- filter(xx, provenance.lat>=0) ## remove South Africa studies
+xx<-filter(xx, provenance.long>=-10) ## remove N. America studies
+#xx<-xx[which(xx$datasetID!="schnabel87"),] ## Doesn't have multiple provenance latitudes
 
-#write.csv(xx, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/study_breakdown.csv"), row.names = FALSE)
+write.csv(xx, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/study_breakdown.csv"), row.names = FALSE)
 
 ########### How much data do we have then? ##############
 
 df<-ospree%>% filter(datasetID %in% datasets) # 1577 obs
 lats<-unique(df$provenance.lat) # 86 different latitudes
+photo<-xx%>%filter(photo>=2)
+datasets<-unique(photo$datasetID)
+
+write.csv(photo, file=("~/Documents/git/ospree/analyses/lat_analysis/lat_output/listofstudies.csv"), row.names = FALSE)
 
 ## initial graphs...
 df<-filter(df, provenance.lat>=0) ## remove South Africa study
