@@ -67,3 +67,47 @@ for(i in 1:nsp){ # loop over species. i = 1
   
     testdat <- rbind(testdat, testdatx)  
 }
+### same as above without a) (uncentering) to do this I will play with histograms
+#til they look closer in the range of real
+hist(rnorm(ntot,16,5)) ##for forcing
+hist(rnorm(ntot,12,3)) #for forcing
+ hist(rnorm(ntot, 0, 5)) #for chil
+
+###please note, if you liked the old fake data better, sorry, I am overwritting it now
+library(msm)
+
+for(i in 1:nsp){ # loop over species. i = 1
+  
+  # continuous predictors, generate level (if you will) for each observation
+  force = rnorm(ntot, 16, 5)
+  photo = rtnorm(ntot, 12, 3,0,24) ### I am trying to bound this between 0,24 but it doesnt' work 
+  chill = rnorm(ntot, 0, 5)
+  
+  # set up effect sizes
+  chillcoef = -3 # steep slope for earlier day with higher chilling
+  forcecoef = -2 # less steep for forcing
+  photocoef = -1
+  
+  # SD for each treatment
+  chillcoef.sd = 1
+  forcecoef.sd = 0.5 
+  photocoef.sd = 0.1
+  
+  # build model matrix 
+  mm <- model.matrix(~chill+force+photo, data.frame(chill, force, photo))
+  
+  # coefficients need to match the order of the colums in the model matrix (mm)
+  # so here, that's intercept, chill, force, photo
+  coeff <- c(spint[i], 
+             rnorm(1, chillcoef, chillcoef.sd),
+             rnorm(1, forcecoef, forcecoef.sd),
+             rnorm(1, photocoef, photocoef.sd)
+  )
+  
+  bb <- rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
+  
+  testdatx <- data.frame(bb, sp = i, 
+                         chill, force, photo)
+  
+  testdat <- rbind(testdat, testdatx)  
+}

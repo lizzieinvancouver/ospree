@@ -99,12 +99,20 @@ table(buddy$photoperiod_day)
 
 ### a few fun exploratory models with just forcing and photoperoid
 #####%budburst
-mod <-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1+vartype|1), data=buddy)
+library("rstanarm")
+library(brms)
+mod <-brm(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(responsedays+responsedays:forcetemp+responsedays:photoperiod_day|vartype), data=buddy,iter = 1000,
+          family = gaussian(),
+          prior = c(prior(normal(0, 10), "b"),
+                    prior(normal(0, 50), "Intercept"),
+                    prior(student_t(3, 0, 20), "sd"),
+                    prior(student_t(3, 0, 20), "sigma")))
 summary(mod)
 coef(mod)
 
 ###percent flower
 mod2 <-lmer(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(1|vartype), data=floy)
+
 table(floy$forcetemp) #Why is floy rank deficient in force temp, they dont work as a mixed model either
 
 #### investigate mod and mod2
@@ -126,4 +134,4 @@ table(flo.phen$datasetID)
 table(bud.phen$datasetID)
 
 
-###to do: add in chilling and ambients
+###to do:  and ambients
