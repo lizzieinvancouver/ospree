@@ -264,6 +264,17 @@ checking <- subset(d, is.na(respvar.simple)==TRUE)
 unique(checking$respvar) 
 
 
+#### Added 25 July 2017 - Cat ### 
+## two rows of Sonsteby14 data were entered incorrectly
+d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
+             d$respvar=="daystobudburst" & d$response==7.3]<-7.3
+d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
+             d$respvar=="daystobudburst" & d$response==7.3]<-1
+d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
+                  d$respvar=="daystobudburst" & d$response==0]<-0
+d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
+             d$respvar=="daystobudburst" & d$response==0]<-1
+
 
 
 #############################

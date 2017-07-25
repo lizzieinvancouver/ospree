@@ -56,6 +56,7 @@ d.woody[which(d.woody$species=="sylvatica L"),"species"] <- "sylvatica"
 d.woody[which(d.woody$species=="decudia"),"species"] <- "decidua"
 d.woody[which(d.woody$species=="setchuensis"),"species"] <- "setchuenensis"
 d.woody[which(d.woody$species=="amerciana"),"species"] <- "americana"
+d.woody[which(d.woody$species=="styrraciflua"),"species"] <- "styraciflua"
 
 # genus problems
 d.woody[which(d.woody$genus=="Pseduotsuga"),"genus"] = "Pseudotsuga"
