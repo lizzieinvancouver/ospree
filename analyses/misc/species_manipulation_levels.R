@@ -28,7 +28,7 @@ xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}
 xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name, datasets, force, photo, chill)
+xx<-dplyr::select(xx,name, datasets, force, photo, chill,field.sample,prov.lat)
 xx<-xx[!duplicated(xx),]
 View(xx)
 multi.dat<-filter(xx,datasets>=3)
@@ -36,4 +36,4 @@ datforce<-filter(multi.dat, force>=3)
 multiforcepho<-filter(datforce,photo>=3)
 multiforcephochill<-filter(multiforcepho,chill>=3)
 
-#write.csv(xx, file="~/Documents/git/ospree/analyses/output/species_manipulation_levels.csv", row.names = FALSE)
+write.csv(xx, file="~/Documents/git/ospree/analyses/output/species_manipulation_levels.csv", row.names = FALSE)
