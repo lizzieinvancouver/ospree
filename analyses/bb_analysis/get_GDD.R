@@ -26,8 +26,10 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 
 ## read in last day of chilling and format a little
 chill.day <- read.csv("output/daily_expchill.csv")
-chill.unique.exptreat<-unique(chill.day$ID_exptreat2)
-chillneeded <- subset(chill.day, select=c("ID_exptreat2", "lastchilldate"))
+chill.unique.exptreat<-unique(chill.day$uniqueID)
+#chill.unique.exptreat<-unique(chill.day$ID_exptreat2)
+
+chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
 chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chill.day)
 
@@ -38,23 +40,27 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 #studiesnames <- names(pmp.data)
 
 clima <- read.table("output/pmp/percbb_clim_pmpA.txt", header=TRUE)
-climb <- read.table("output/pmp/percbb_clim_pmpB.txt", header=TRUE)
-climdatab <- rbind(clima, climb)
+climb <- read.csv("output/pmp/percbb_clim_pmpB.csv", header=TRUE)
+climc <- read.csv("output/pmp/percbb_clim_pmpC.csv", header=TRUE)
+climd <- read.csv("output/pmp/percbb_clim_pmpD.csv", header=TRUE)
+
+climdatab <- rbind(clima,climb,climc,climd)
 climdat <- climdatab[!duplicated(climdatab), ] 
 
 ## get all the BB data and format a little
 dat.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dat.some <- subset(dat.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
 bbdat <- subset(dat.some, response.time!="")
+#bbdat.pmp<-read.csv("output/pmp/percbb_bb_pmp.csv", header=TRUE)#
 
 # add a column for when the experiment starts to bb data
 # fill it in with either last date of experimental chilling or (if not present) field sample date
-bbdat$ID_exptreat2<-paste(bbdat$datasetID, bbdat$chilltemp, bbdat$chilldays, bbdat$chillphotoperiod, bbdat$forcetemp,
-    bbdat$forcetemp_night, sep=".")
+#bbdat$ID_exptreat2<-paste(bbdat$datasetID, bbdat$chilltemp, bbdat$chilldays, bbdat$chillphotoperiod, bbdat$forcetemp,
+#    bbdat$forcetemp_night, sep=".")
 bbdat$uniqueID <- paste(bbdat$datasetID, bbdat$fieldsample.date2, bbdat$forcetemp, bbdat$chilltemp, bbdat$chilldays,
     bbdat$chillphotoperiod, bbdat$photoperiod_day) # this is what becomes stn in the climate data 
 
-setdiff(chilly$ID_exptreat2, bbdat$ID_exptreat2) # ALERT! need to work on this!
+setdiff(chilly$uniqueID, bbdat$uniqueID) # ALERT! need to work on this!
 
 bb <- merge(chilly, bbdat, by="ID_exptreat2", all.y=TRUE)
 bb$expstartdate <- bb$lastchilldate # subset(bb, is.na(bb$expstartdate)==FALSE)
@@ -90,12 +96,13 @@ bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%
 bb.wstart <- subset(bb, is.na(bb$expstartdate)==FALSE)
 bb.wstart$gdd <- NA
 bb.wstart$numnas_gdd <- NA
-
+#we should be able to delete the below line when climate data is correct
 bb.wstart <- subset(bb.wstart, datasetID != "falusi97" & datasetID != "heide93" & datasetID !="partanen05" & datasetID !="ramos99") 
 
 ##
 ##
 
+#there are errors in the below but the errors may go away once cliamte data is correct
 for (i in c(1:nrow(bb.wstart))){
     subby <- climdat.sm[which(climdat.sm$uniqueID==bb.wstart$uniqueID[i]),]
     if(nrow(subby)>0){
