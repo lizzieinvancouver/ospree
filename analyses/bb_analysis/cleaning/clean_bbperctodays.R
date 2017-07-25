@@ -11,7 +11,7 @@
 #d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
 
 targetvalue <- 80 # we want value closest to this
-acceptablerange <- 0.40 # meaning 40% around 90%
+acceptablerange <- 0.50 # meaning as low as 40% allowed (e.g., 80-80*0.5=40)
 
 if(is.data.frame(d)){
 
