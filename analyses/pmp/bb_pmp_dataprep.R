@@ -125,9 +125,7 @@ noexpclimstudies<-unique(noexpclimdat$datasetID)[is.na(match(unique(noexpclimdat
 #3.ambient photoperiod
 #4. studies that manipulate ONLY photoperiod
 #Other random problems observed: 
-#1. before July 21, 2017: for jones12, climatedata starts several months after field sample date- shoulden't it start before?
-#i think this is due to the way year was references in the climate pulling code, and i hopefully fixed this when switch from using the "year" column to using year from "field sample date
-#2. pop2000 has lots of NAs for temperature data in the ambient climate data
+##1. pop2000 has lots of NAs for temperature data in the ambient climate data
 #(Ailene may have fixed this by changing pull climate code- check after Lizzie pulls the climate data again)
 daily_chilltemp<-data.frame()
 for (i in 1:length(expclimtreats)){
@@ -368,13 +366,13 @@ dailyclim.bbC<-dailyclim.bb[dailyclim.bb$datasetID=="morin10"|dailyclim.bb$datas
 dailyclim.bbD<-dailyclim.bb[dailyclim.bb$datasetID=="schnabel87"|dailyclim.bb$datasetID=="skre08"|dailyclim.bb$datasetID=="skuterud94"|dailyclim.bb$datasetID=="spann04"|dailyclim.bb$datasetID=="spiers74"|dailyclim.bb$datasetID=="swartz81"|dailyclim.bb$datasetID=="webb78"|dailyclim.bb$datasetID=="zohner16",]
 
 clim_pmpA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpA)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+colnames(clim_pmpA)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_pmpB<-dplyr::select(dailyclim.bbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpB)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+colnames(clim_pmpB)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_pmpC<-dplyr::select(dailyclim.bbC,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpC)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+colnames(clim_pmpC)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_pmpD<-dplyr::select(dailyclim.bbD,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpD)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+colnames(clim_pmpD)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 
 #budburst data
 #forgot to do this before running the monster loop!
@@ -385,13 +383,18 @@ bbdates.bb$year2<-as.numeric(format(bbdates.bb$bbdate , "%Y"))#year for budburst
 bbdates.bb$doy2<-as.numeric(format(bbdates.bb$bbdate , "%j"))#doy forbudburst event
 bb_pmp<-dplyr::select(bbdates.bb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
 colnames(bb_pmp)<-c("stn","species","year","doy")
+#PMP needs txt files
 write.table(clim_pmpA, "output/pmp/percbb_clim_pmpA.txt", row.names=FALSE,sep="\t")
 write.table(clim_pmpB, "output/pmp/percbb_clim_pmpB.txt", row.names=FALSE,sep="\t")
 write.table(clim_pmpC, "output/pmp/percbb_clim_pmpC.txt", row.names=FALSE,sep="\t")
 write.table(clim_pmpD, "output/pmp/percbb_clim_pmpD.txt", row.names=FALSE,sep="\t")
-
 write.table(bb_pmp, "output/pmp/percbb_bb_pmp.txt", row.names=FALSE,sep="\t") 
-
+#i prefer csv files
+write.csv(clim_pmpA, "output/pmp/percbb_clim_pmpA.csv", row.names=FALSE)
+write.csv(clim_pmpB, "output/pmp/percbb_clim_pmpB.csv", row.names=FALSE)
+write.csv(clim_pmpC, "output/pmp/percbb_clim_pmpC.csv", row.names=FALSE)
+write.csv(clim_pmpD, "output/pmp/percbb_clim_pmpD.csv", row.names=FALSE)
+write.csv(bb_pmp, "output/pmp/percbb_bb_pmp.csv", row.names=FALSE) 
 
 ## OLD -- this was Lizzie's work to meet with Inaki in June 2017
 ## It is just doing Fagus sylvatica .... 
