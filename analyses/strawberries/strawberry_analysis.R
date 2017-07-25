@@ -34,7 +34,7 @@ berries$Total_Chill_portions<-as.numeric(berries$Total_Chill_portions)
 berries$responsedays <- as.numeric(berries$response.time)
 berries$response <- as.numeric(berries$response)
 
-condition1<-c("percentbudburst","percentflower")
+condition1<-c("percentbudburst","percentflower","daystobudburst","daystoflower")
 straw <- filter(berries, respvar.simple %in% condition1)
 table(straw$varetc)
 ###assign them to varclass
@@ -60,6 +60,8 @@ straw$vartype[straw$varetc == "Tribute"] <- "dayneutral"
 straw$vartype[straw$varetc == "RH30"] <- "dayneutral"
 straw$vartype[straw$varetc == "Senga Sengana"] <- "June"
 straw$vartype[straw$datasetID == "verheul07"] <- "June"
+straw$vartype[straw$varetc == "Zefyr"] <- "June"
+
 #8 June 
 #9 everbearing (5 vesca)
 #2 day neutral (1 virginiana)
@@ -77,10 +79,14 @@ table(straw$species)
 
 ###filtering and cleaning
 
-bud<-filter(straw, respvar.simple=="percentbudburst")
+conditionleaf<-c("percentbudburst","daystobudburst")
+bud<- filter(straw, respvar.simple %in% conditionleaf)
+
+
 buddy<-filter(bud, response.time!="")
 
-flo<-filter(straw, respvar=="flowers") ##what is this variable? there are 200 percent value and respvar simpl eis just flowers. Its actually "number not percent"
+conditionflo<-c("percentflower","daystoflower")
+flo<- filter(straw, respvar.simple %in% conditionflo) ##what is this variable? there are 200 percent value and respvar simpl eis just flowers. Its actually "number not percent"
 
 
 floy<-filter(flo, response.time!="")
@@ -101,7 +107,7 @@ table(buddy$photoperiod_day)
 #####%budburst
 library("rstanarm")
 library(brms)
-mod <-brm(response~responsedays+responsedays:forcetemp+responsedays:photoperiod_day+(responsedays+responsedays:forcetemp+responsedays:photoperiod_day|vartype), data=buddy,iter = 1000,
+mod <-brm(response~rforcetemp+photoperiod_day+(responsedays+responsedays:forcetemp+responsedays:photoperiod_day|vartype), data=buddy,iter = 1000,
           family = gaussian(),
           prior = c(prior(normal(0, 10), "b"),
                     prior(normal(0, 50), "Intercept"),

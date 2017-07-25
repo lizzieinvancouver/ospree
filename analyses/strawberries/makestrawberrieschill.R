@@ -103,5 +103,7 @@ source("chilling/totalchillcalc.R")
 berries<-filter(dat4, c(genus=="Fragaria"))
 table(berries$chilldays)
 
+
+####you need to add stuff from bb_cleanmergeall.R to combine %bb into days to budburst.
 write.csv(berries, "output/strawberries.csv", row.names=FALSE)
 ###I am not sure if this worked or not, I'll have to ask Ailene.
