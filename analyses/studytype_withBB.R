@@ -27,10 +27,12 @@ xx <- within(xx, { prov.lat <- ave(provenance.lat, datasetID, species, FUN=funct
 xx <- within(xx, { field.sample <- ave(fieldsample.date, datasetID, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
 xx <- within(xx, { force <- ave(forcetemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
 xx <- within(xx, { photo <- ave(photoperiod_day, datasetID, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
-xx <- within(xx, { chill <- ave(Total_Chilling_Hours, datasetID, species, FUN=function(x) length(unique(x)))}) # mult Total_Chilling_Hours
+xx <- within(xx, { chill <- ave(chilltemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult expchill
 xx <- within(xx, { spp <- ave(species, datasetID, FUN=function(x) length(unique(x)))}) # mult species
 xx <- within(xx, { prov.long <- ave(provenance.long, datasetID, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 
-xx<-dplyr::select(xx, datasetID, study, prov.lat, prov.long, field.sample, force, photo, chill, spp)
 
-write.csv(xx, file="~/Documents/git/ospree/analyses/output/studytype_withBB.csv", row.names = FALSE)
+xx<-dplyr::select(xx, datasetID, study, prov.lat, prov.long, field.sample, force, photo, chill, spp)
+xx<-xx[!duplicated(xx),]
+
+#write.csv(xx, file="~/Documents/git/ospree/analyses/output/studytype_withBB.csv", row.names = FALSE)
