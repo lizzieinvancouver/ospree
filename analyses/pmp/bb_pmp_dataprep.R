@@ -187,13 +187,14 @@ daily_chilltemp3$Date<-as.Date(daily_chilltemp3$Date)
 ##4.  multiple values for forcing treatments (e.g. "mean of 9, 12, 15","7-27.5")
 #6. studies that manipulate ONLY photoperiod
 #First, select out budburst data
-dat.percbb<-dat[dat$respvar.simple=="percentbudburst",]#dat$respvar.simple=="percentbudburst",]#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""
+#dat.percbb<-dat[dat$respvar.simple=="percentbudburst",]#dim(dat.bb)#1561   29
+dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]#dat$respvar.simple=="percentbudburst",]#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""
 #unique(dat.percbb$response.time)#there seems to be response.time for all of the percent bb data so we can calculate forcing!
-dailyclim.percbb<-data.frame()
-bbdates.percbb<-data.frame()
-for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
-  x<-dat.percbb[i,]#focal budburst event
-  if(x$datasetID=="jones12"){next}#for now, because climate data is flawed...wrong years pulled
+dailyclim.bb<-data.frame()
+bbdates.bb<-data.frame()
+for(i in 1:dim(dat.bb)[1]){#4024 rows in dat
+  x<-dat.bb[i,]#focal budburst event
+  #if(x$datasetID=="jones12"){next}#for now, because climate data is flawed...wrong years pulled
   colnames(x)[9:10]<-c("lat","long")#match column names to climate data column names
   #If no experimental chilling for focal budburst event, use ambient climate data
   if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
@@ -205,13 +206,56 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
       x.bb<-cbind(x,bbdate)
       }
     #for study that warms 4 degrees above ambient:
-    if(x$forcetemp=="ambient + 4"){
+    if(x$forcetemp=="ambient + 4"|x$forcetemp=="ambient+4"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+4
       x.dailyclim$Tmax<-x.dailyclim$Tmax+4
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
-      }
+    }
+    if(x$forcetemp=="ambient + 1.5"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+1.5
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+1.5
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    if(x$forcetemp=="ambient + 3"|x$forcetemp=="ambient+3"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+3
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+3
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    if(x$forcetemp=="ambient+1"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+1
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+1
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    if(x$forcetemp=="ambient+2"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+2
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+2
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    if(x$forcetemp=="ambient+5"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+5
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+5
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    if(x$forcetemp=="ambient+6"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+6
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+6
+      x.all<-join(x,x.dailyclim)
+      bbdate<-as.Date(x$fieldsample.date2)+daystobb
+      x.bb<-cbind(x,bbdate)
+    }
+    
     #if there is other experimental forcing,  add it using the forcetemp, field sample date and response.time columns
     if(x$forcetemp!="ambient"){
       forcetmax<-x$forcetemp
@@ -219,7 +263,7 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
         forcetmin<-x$forcetemp
        } else forcetmin<-x$forcetemp_night
       daystobb<-round(x$response.time, digits=0)
-      forcedays<-dim(x.dailyclim[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2),])[1]#number of days of forcing treatment- this is the nubmer of rows after the fielf sample date because all of these should be replaced with forcing data number of days after field sample date- 
+      forcedays<-dim(x.dailyclim[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2),])[1]##number of days of that should be replaced with the forcing treatment- this is the nubmer of rows after the field sample date because all of these should be replaced with forcing data number of days after field sample date- 
       if(x$photoperiod_day !="ambient") {forcephoto<-x$photoperiod_day}
       #Replace rows from ambient climate when Date >fieldsample.date2 with experimentalforcing climate
       x.dailyclim$Tmin[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-rep(forcetmin, times=forcedays)
@@ -236,6 +280,7 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
     x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID &daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & daily_chilltemp3$lat==x$lat& daily_chilltemp3$long==x$long,] 
     firstchilldate<-min(as.Date(x.expclim$Date))
     lastchilldate<-unique(x.expclim$lastchilldate)
+    
     if(max(as.Date(x.ambclim$Date))==as.Date(firstchilldate)-1){#if last date of ambient climate data is right before first date of chilling climate data, then just add chilling and forcing data below it
       #make columns match ambient and expclim by removing ID_exptreat2 column
       x.expclim<-x.expclim[,-which(colnames(x.expclim)=="ID_exptreat2")]
@@ -245,90 +290,105 @@ for(i in 1:dim(dat.percbb)[1]){#1561 rows in dat
       x.allclim<-rbind(x.ambclim,x.expclim)
       x.allclim<-x.allclim[order(x.allclim$Date),] 
       #now add forcing
-      forcetmax<-x$forcetemp
-      if(x$forcetemp_night==""){
-        forcetmin<-x$forcetemp
-      } else forcetmin<-x$forcetemp_night
-      daystobb<-round(x$response.time, digits=0)
-      forcedays<-round(x$response.time, digits=0)
-       if(x$photoperiod_day !="ambient") {forcephoto<-x$photoperiod_day}
-      #make forcing data frame, to match structure of x.allclim
-      if(forcedays==0){x.dailyclim<-x.allclim}#if forcedays=0, then no need to add forcing climate data
-      if(forcedays>0){x.forceclim<-data.frame(matrix(, nrow=as.numeric(forcedays),ncol=0))
-      x.forceclim$datasetID<-rep(x$datasetID,times=forcedays)
-      x.forceclim$lat<-rep(x$lat,times=forcedays)
-      x.forceclim$long<-rep(x$long,times=forcedays)
-      x.forceclim$fieldsample.date2<-rep(x$fieldsample.date2,times=forcedays)
-      x.forceclim$Date<-seq(as.Date(lastchilldate)+1,as.Date(lastchilldate)+forcedays, by=1)
-      x.forceclim$Tmin<-rep(forcetmin,times=forcedays)
-      x.forceclim$Tmax<-rep(forcetmax,times=forcedays)
-      x.forceclim$daylength<-rep(forcephoto,times=forcedays)
-      #make sure dates are formatted as dates
-      x.forceclim$Date<-as.Date(x.forceclim$Date)
-      x.allclim$Date<-as.Date(x.allclim$Date)
-      x.dailyclim<-rbind(x.allclim,x.forceclim)
-      x.dailyclim<-x.dailyclim[order(x.dailyclim$Date),]}
-      x.all<-join(x,x.dailyclim)
-      bbdate<-as.Date(x$fieldsample.date2)+daystobb
-      x.bb<-cbind(x,bbdate)
-    }
-    if(max(as.Date(x.ambclim$Date))>as.Date(firstchilldate)-1){#if ambient data goes beyond experimental chilling data (which it should once the climate pulling code is correct)
-    #Remove rows from ambient climate when Date >fieldsample.date2 (because should be in chilling treatment) 
-    #x.ambclim2<-x.ambclim[!as.Date(x.ambclim$Date)>as.Date(x.ambclim$fieldsample.date2),]
-    #Eventually, it would be better to just replace tmin and tmax columns with experimental climate when Date >fieldsample.date2 and when Date <lastchilldate with experimental chilling climate
-    #x.dailyclim<-x.ambclim
-    #if(max(as.Date(x.dailyclim$Date))>min(as.Date(x.expclim$Date))){
-    #x.dailyclim$Tmin[as.Date(lastchilldate)> as.Date(x.dailyclim$Date) & as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$Tmin
-    #x.dailyclim$Tmax[as.Date(lastchilldate)> as.Date(x.dailyclim$Date) & as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$Tmax
-    #if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
-    #}
-    #if(max(as.Date(x.dailyclim$Date))==min(as.Date(x.expclim$Date))+1){
-    #  x.dailyclim$Tmin[as.Date(x.dailyclim$lastchilldate)> as.Date(x.dailyclim$Date) & as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$Tmin
-     # x.dailyclim$Tmax[as.Date(lastchilldate)> as.Date(x.dailyclim$Date) & as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$Tmax
-      #if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
+      if(x$forcetemp!="ambient"){
+        forcetmax<-x$forcetemp
+        if(x$forcetemp_night==""){
+          forcetmin<-x$forcetemp
+        } else forcetmin<-x$forcetemp_night
+        daystobb<-round(x$response.time, digits=0)
+        forcedays<-dim(x.dailyclim[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2),])[1]##number of days of that should be replaced with the forcing treatment- this is the nubmer of rows after the field sample date because all of these should be replaced with forcing data number of days after field sample date- 
+        if(x$photoperiod_day !="ambient") {forcephoto<-x$photoperiod_day}
+        #Replace rows from ambient climate when Date >fieldsample.date2 with experimentalforcing climate
+        x.dailyclim$Tmin[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-rep(forcetmin, times=forcedays)
+        x.dailyclim$Tmax[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-rep(forcetmax, times=forcedays)
+        if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-rep(forcephoto, times=forcedays)}
+        x.all<-join(x,x.dailyclim)
+        bbdate<-as.Date(lastchilldate)+daystobb
+        x.bb<-cbind(x,bbdate)
       }
-    
-    #now add forcing
-    #x.all<-join(x,x.dailyclim)
+    } else if(max(as.Date(x.ambclim$Date))>as.Date(firstchilldate)-1){#if ambient data goes beyond experimental chilling data (which it should once the climate pulling code is correct)
+      x.dailyclim<-x.ambclim#ambient climate data,
+      #select experimental chilling climate data, this was done above
+      #x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID &daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & daily_chilltemp3$lat==x$lat& daily_chilltemp3$long==x$long,] 
+      #firstchilldate<-min(as.Date(x.expclim$Date))
+      #lastchilldate<-unique(x.expclim$lastchilldate)
+      #Replace tmin and tmax columns with experimental climate when Date >fieldsample.date2 and when Date <lastchilldate with experimental chilling climate
+      x.dailyclim$Tmin[as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) < as.Date(lastchilldate)]<-x.expclim$Tmin
+      x.dailyclim$Tmax[as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) < as.Date(lastchilldate)]<-x.expclim$Tmax
+      #warning message, but its ok
+      if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
+      #now add forcing
+      if(x$forcetemp!="ambient"){
+        forcetmax<-x$forcetemp
+        if(x$forcetemp_night==""){
+          forcetmin<-x$forcetemp
+        } else forcetmin<-x$forcetemp_night
+        daystobb<-round(x$response.time, digits=0)
+        forcedays<-dim(x.dailyclim[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2),])[1]##number of days of that should be replaced with the forcing treatment- this is the nubmer of rows after the field sample date because all of these should be replaced with forcing data number of days after field sample date- 
+        if(x$photoperiod_day !="ambient") {forcephoto<-x$photoperiod_day}
+        #Replace rows from ambient climate when Date >lastchilldate with experimentalforcing climate
+        x.dailyclim$Tmin[as.Date(x.dailyclim$Date)>as.Date(lastchilldate)]<-rep(forcetmin, times=forcedays)
+        x.dailyclim$Tmax[as.Date(x.dailyclim$Date)>as.Date(lastchilldate)]<-rep(forcetmax, times=forcedays)
+        if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(lastchilldate)]<-rep(forcephoto, times=forcedays)}
+        x.all<-join(x,x.dailyclim)
+        bbdate<-as.Date(lastchilldate)+daystobb
+        x.bb<-cbind(x,bbdate)
+      }
+    }  
   }
-  #else if(is.na(as.numeric(x$chilltemp))){next}#for now, ignore those studies for which we have to calculate chilling "by hand" (e.g. chilltemp= "ambient + .5" or "4, 0, -4")
+  #else if(is.na(as.numeric(x$chilltemp))){next}#for now, ignore those studies for which we have to calculate chilling "by hand" (e.g. chilltemp= "4, 0, -4")
   #make sure dates are formatted as dates
   x.all$Date<-as.Date(x.all$Date)
-  dailyclim.percbb<-rbind(dailyclim.percbb,x.all)
+  dailyclim.bb<-rbind(dailyclim.bb,x.all)
   x.bb$bbdate<-as.Date(x.bb$bbdate)
-  bbdates.percbb<-rbind(bbdates.percbb,x.bb)
-  }
-dim(dailyclim.percbb)#55814 rows- not as big as it should be i think...
+  bbdates.bb<-rbind(bbdates.bb,x.bb)
+}
+
+    
 #some checks of this file:
-unique(dailyclim.percbb$datasetID)#11 different studies
-dim(dailyclim.percbb)#871991     36#HUGE! but this makes sense given that the origianl percbb data file was 1561 rows (1561*2*365=1139530)
-head(sort(unique(dailyclim.percbb$Date)))#11 different studies
+sort(unique(dailyclim.bb$datasetID))#38 different studies
+dim(dailyclim.bb)#2736285     36#HUGE! but this makes sense given that the origianl percbb data file was 1561 rows (1561*2*365=1139530)
+head(sort(unique(dailyclim.bb$Date)))#11 different studies
 #save file with everything, just to have- this file is too big for github!
-write.csv(dailyclim.percbb,"output/pmp/percbb.csv", row.names=FALSE)
+write.csv(dailyclim.bb,"output/pmp/percbb.csv", row.names=FALSE)
 #save budburst data and climate data as separate txt files, with 
 #stn="uniqueID" column- combination of many things to make it a unique identifier for each row. put species in population.  
-dailyclim.percbb$year2<-as.numeric(format(dailyclim.percbb$Date , "%Y"))#year for climate data
-dailyclim.percbb$doy2<-as.numeric(format(dailyclim.percbb$Date , "%j"))#doy for climate data
-dailyclim.percbb$Tmin<-as.numeric(dailyclim.percbb$Tmin)
-dailyclim.percbb$Tmax<-as.numeric(dailyclim.percbb$Tmax)
-dailyclim.percbb$Tmean<-(as.numeric(dailyclim.percbb$Tmin)+as.numeric(dailyclim.percbb$Tmax))/2
+dailyclim.bb$year2<-as.numeric(format(dailyclim.bb$Date , "%Y"))#year for climate data
+dailyclim.bb$doy2<-as.numeric(format(dailyclim.bb$Date , "%j"))#doy for climate data
+dailyclim.bb$Tmin<-as.numeric(dailyclim.bb$Tmin)
+dailyclim.bb$Tmax<-as.numeric(dailyclim.bb$Tmax)
+dailyclim.bb$Tmean<-(as.numeric(dailyclim.bb$Tmin)+as.numeric(dailyclim.bb$Tmax))/2
+#forgot to do this before running the monster loop!
+dailyclim.bb$uniqueID <- paste(dailyclim.bb$datasetID, dailyclim.bb$fieldsample.date2, dailyclim.bb$forcetemp, dailyclim.bb$chilltemp, dailyclim.bb$chilldays,
+                               dailyclim.bb$chillphotoperiod, dailyclim.bb$photoperiod_day)
 #Because the file is so big, I'll break it into 2 files
-dailyclim.percbbA<-dailyclim.percbb[dailyclim.percbb$datasetID=="falusi03"|dailyclim.percbb$datasetID=="falusi97"|dailyclim.percbb$datasetID=="guak98"|dailyclim.percbb$datasetID=="heide93",]
-dailyclim.percbbB<-dailyclim.percbb[dailyclim.percbb$datasetID=="partanen05"|dailyclim.percbb$datasetID=="pop2000"|dailyclim.percbb$datasetID=="ramos99"|dailyclim.percbb$datasetID=="Sanz-Perez09"|dailyclim.percbb$datasetID=="sanzperez10"|dailyclim.percbb$datasetID=="spann04"|dailyclim.percbb$datasetID=="swartz81",]
+dailyclim.bbA<-dailyclim.bb[dailyclim.bb$datasetID=="ashby62"|dailyclim.bb$datasetID=="basler12"|dailyclim.bb$datasetID=="basler14"|dailyclim.bb$datasetID=="caffarra11b"|dailyclim.bb$datasetID=="calme94"|dailyclim.bb$datasetID=="campbell75"|dailyclim.bb$datasetID=="falusi03"|dailyclim.bb$datasetID=="falusi97"|dailyclim.bb$datasetID=="fu13"|dailyclim.bb$datasetID=="gianfagna85",]
+dailyclim.bbB<-dailyclim.bb[dailyclim.bb$datasetID=="gomory15"|dailyclim.bb$datasetID=="guak98"|dailyclim.bb$datasetID=="guerriero90"|dailyclim.bb$datasetID=="gunderson12"|dailyclim.bb$datasetID=="hawkins12"|dailyclim.bb$datasetID=="heide12"|dailyclim.bb$datasetID=="heide93"|dailyclim.bb$datasetID=="heide93a"|dailyclim.bb$datasetID=="jones12"|dailyclim.bb$datasetID=="karlsson03",]
+dailyclim.bbC<-dailyclim.bb[dailyclim.bb$datasetID=="morin10"|dailyclim.bb$datasetID=="myking98"|dailyclim.bb$datasetID=="pagter15"|dailyclim.bb$datasetID=="partanen01"|dailyclim.bb$datasetID=="partanen05"|dailyclim.bb$datasetID=="partanen98"|dailyclim.bb$datasetID=="pop2000"|dailyclim.bb$datasetID=="ramos99"|dailyclim.bb$datasetID=="Sanz-Perez09"|dailyclim.bb$datasetID=="sanzperez10",]
+dailyclim.bbD<-dailyclim.bb[dailyclim.bb$datasetID=="schnabel87"|dailyclim.bb$datasetID=="skre08"|dailyclim.bb$datasetID=="skuterud94"|dailyclim.bb$datasetID=="spann04"|dailyclim.bb$datasetID=="spiers74"|dailyclim.bb$datasetID=="swartz81"|dailyclim.bb$datasetID=="webb78"|dailyclim.bb$datasetID=="zohner16",]
 
-clim_pmpA<-dplyr::select(dailyclim.percbbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+clim_pmpA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
 colnames(clim_pmpA)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
-clim_pmpB<-dplyr::select(dailyclim.percbbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+clim_pmpB<-dplyr::select(dailyclim.bbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
 colnames(clim_pmpB)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+clim_pmpC<-dplyr::select(dailyclim.bbC,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+colnames(clim_pmpC)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
+clim_pmpD<-dplyr::select(dailyclim.bbD,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
+colnames(clim_pmpD)<-c("stn","latitude","longitude","year","doy2","Tmin","Tmax","Tmean")
 
 #budburst data
-bbdates.percbb$genus.species<-paste(bbdates.percbb$genus, bbdates.percbb$species, sep=".")
-bbdates.percbb$year2<-as.numeric(format(bbdates.percbb$bbdate , "%Y"))#year for budburst event
-bbdates.percbb$doy2<-as.numeric(format(bbdates.percbb$bbdate , "%j"))#doy forbudburst event
-bb_pmp<-dplyr::select(bbdates.percbb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
+#forgot to do this before running the monster loop!
+bbdates.bb$uniqueID <- paste(bbdates.bb$datasetID, bbdates.bb$fieldsample.date2, bbdates.bb$forcetemp, bbdates.bb$chilltemp, bbdates.bb$chilldays,
+                             bbdates.bb$chillphotoperiod, bbdates.bb$photoperiod_day)
+bbdates.bb$genus.species<-paste(bbdates.bb$genus, bbdates.bb$species, sep=".")
+bbdates.bb$year2<-as.numeric(format(bbdates.bb$bbdate , "%Y"))#year for budburst event
+bbdates.bb$doy2<-as.numeric(format(bbdates.bb$bbdate , "%j"))#doy forbudburst event
+bb_pmp<-dplyr::select(bbdates.bb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
 colnames(bb_pmp)<-c("stn","species","year","doy")
 write.table(clim_pmpA, "output/pmp/percbb_clim_pmpA.txt", row.names=FALSE,sep="\t")
 write.table(clim_pmpB, "output/pmp/percbb_clim_pmpB.txt", row.names=FALSE,sep="\t")
+write.table(clim_pmpC, "output/pmp/percbb_clim_pmpC.txt", row.names=FALSE,sep="\t")
+write.table(clim_pmpD, "output/pmp/percbb_clim_pmpD.txt", row.names=FALSE,sep="\t")
 
 write.table(bb_pmp, "output/pmp/percbb_bb_pmp.txt", row.names=FALSE,sep="\t") 
 
