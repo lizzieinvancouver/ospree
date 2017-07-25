@@ -60,6 +60,8 @@ d.woody[which(d.woody$species=="amerciana"),"species"] <- "americana"
 # genus problems
 d.woody[which(d.woody$genus=="Pseduotsuga"),"genus"] = "Pseudotsuga"
 d.woody[which(d.woody$genus=="Betula "),"genus"] = "Betula"
+d.woody[which(d.woody$genus=="Pinus "),"genus"] = "Pinus"
+d.woody[which(d.woody$genus=="Sorbus "),"genus"] = "Sorbus"
 
 ## save
 #write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
