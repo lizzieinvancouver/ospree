@@ -52,5 +52,6 @@ source("pmp/pullclimate_nam_pmp.R")
 #In addition: Warning message:
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
 #dim(dailytemp3)#228293      7
+#depsite the warning, the files appear to be in good shape...hopefuly they pilled the right climate data!
 #write a csv file of the daily Tmin and Tmax data
 write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
