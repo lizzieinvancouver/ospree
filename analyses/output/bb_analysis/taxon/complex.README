@@ -1,0 +1,16 @@
+README FOR TAXON FOlDER by Dan 26 July 2017
+
+General: The files in this folder were built to organize species, and determine which one will be useful in analysis.
+
+1.Species_manipulation_levels.csv details each species in the database and how many distinct treatments and datasets it is found in. We decided the on the following criteria for inclusion:
+-If a species in is in >1 dataset it is included.
+-If a species is in 1 DatasetID, but there are other cogeneric species in 1 Dataset ID but in different datasetID's, these are condensed into a complex at the genus level.
+
+What's not included:
+-Species with found in only 1 datasetID, with no congeneric species from a different dataset ID.
+
+2 complex_levels.csv is the culmination of aboves criteria.
+-The $use column describes if the species should be included. (y/n). For any modeling, you should subset to y enries.
+-The complex column is the grouping name. Entries are either Genus_species or Genus_complex accordingly. NA's in this column are species with correspond with "n" from the use column. If you subset the list as described about, these will disappear. 
+
+3.one_ataset_list.csv... THis is an intermidiate file for generating the complex levels.csv. Shouldn't be particularly important.
