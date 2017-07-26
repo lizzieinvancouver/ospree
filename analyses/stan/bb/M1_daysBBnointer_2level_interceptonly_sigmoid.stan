@@ -23,10 +23,11 @@ parameters {
   real b_photo; // slope of photoperiod effect
   real a_chill; // sharpness of the response;
 	real b_chill; // mid-response temperature
+	
 	}
-
-model {
-   real yhat[N];
+	
+transformed	parameters {
+  real yhat[N];
        	for(i in 1:N){
             yhat[i] = a_sp[sp[i]] + // indexed with species
 		        b_force * force[i] + 
@@ -35,16 +36,21 @@ model {
   	      	(1 / ( 1 + exp(a_chill*(chill[i]-b_chill)) ) );
 	        	//b_chill * chill[i];
 			     	
-			     	}
+			 }
+}
+	
 
-	a_sp ~ normal(mu_a_sp, sigma_a_sp); 
-  
+model {
+	      a_sp ~ normal(mu_a_sp, sigma_a_sp); 
         mu_a_sp ~ normal(0, 50);
         sigma_a_sp ~ normal(0, 10);
-	//b_force ~ normal(0, 10);
-	//b_photo ~ normal(0, 10);
-	//b_chill ~ normal(0, 30);
+        a_chill ~ normal(0,10);
+        b_chill ~ normal(0,10);
+      	//b_force ~ normal(0, 10);
+      	//b_photo ~ normal(0, 10);
+      	//b_chill ~ normal(0, 30);
 	
 	y ~ normal(yhat, sigma_y);
 
 }
+

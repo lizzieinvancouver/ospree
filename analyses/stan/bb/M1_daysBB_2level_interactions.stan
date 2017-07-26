@@ -13,6 +13,16 @@ data {
 	vector[N] photo; 	// predictor
 		
 	}
+	
+transformed data { 			// 4 two-way interaction terms 
+	vector[N] inter_fp; 	// forcing x photo                    
+	vector[N] inter_fc;           
+	vector[N] inter_pc;           
+
+	inter_fp = force .* photo;  
+	inter_fc = force .* chill;  
+	inter_pc = photo .* chill;  
+}
 
 parameters {
   real mu_a_sp;   
@@ -29,20 +39,36 @@ parameters {
   real b_force[n_sp]; // slope of forcing effect 
   real b_photo[n_sp]; // slope of photoperiod effect
   real b_chill[n_sp]; // slope of chill effect
-	}
+  
+    
+  real mu_b_fp_sp;   // interactions
+  real mu_b_fc_sp;   
+  real mu_b_pc_sp;   
+  real<lower=0> sigma_a_sp; 
+  real<lower=0> sigma_b_force_sp; 
+  real<lower=0> sigma_b_photo_sp; 
+  real<lower=0> sigma_b_chill_sp; 
+  real<lower=0> sigma_y; 
 
-transformed parameters {
-   real yhat[N];
-       	for(i in 1:N){
-            yhat[i] = a_sp[sp[i]] + // indexed with species
-		b_force[sp[i]] * force[i] + 
-	      	b_photo[sp[i]] * photo[i] +
-		b_chill[sp[i]] * chill[i];
-			     	}
-
+  real a_sp[n_sp]; // intercept for species
+  real b_force[n_sp]; // slope of forcing effect 
+  real b_photo[n_sp]; // slope of photoperiod effect
+  real b_chill[n_sp]; // slope of chill effect
+  
+  
+  
+  
+  
 	}
 
 model {
+   real yhat[N];
+       	for(i in 1:N){
+            yhat[i] = a_sp[sp[i]] + // indexed with species
+        		b_force[sp[i]] * force[i] + 
+        	  b_photo[sp[i]] * photo[i] +
+        		b_chill[sp[i]] * chill[i];
+        	}
 
 	a_sp ~ normal(mu_a_sp, sigma_a_sp); 
 	b_force ~ normal(mu_b_force_sp, sigma_b_force_sp); 
