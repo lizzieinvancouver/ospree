@@ -42,6 +42,13 @@ bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 labgroups <- read.csv("output/labgroups.csv", header=TRUE)
 
 
+## read taxon data to subset dataset
+taxon.info<-read.csv("output/bb_analysis/taxon/complex_levels.csv")
+taxon.info<-subset(taxon.info,use=="Y")
+taxon.info$taxa<-paste(taxon.info$genus,taxon.info$species,sep="_")
+bb$bb.taxa<-paste(bb$genus,bb$species,sep="_")
+bb<-subset(bb,bb.taxa%in%taxon.info$taxa)
+
 ## Old code to remove Olea, probably the new subset of species is getting rid of it 
 #bb[bb$genus=="Olea",]
 #bb<-subset(bb,genus!="Olea")
