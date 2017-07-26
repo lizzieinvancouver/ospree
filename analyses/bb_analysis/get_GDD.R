@@ -31,7 +31,7 @@ chill.unique.exptreat<-unique(chill.day$uniqueID)
 
 chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
 chilly <- chillneeded[!duplicated(chillneeded), ]
-#head(chill.day)
+#head(chilly)
 
 ## read in data for pmp containing climate each day each site
 #load("output/fieldclimate_pmp.RData")
@@ -46,6 +46,7 @@ climd <- read.csv("output/pmp/percbb_clim_pmpD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
 climdat <- climdatab[!duplicated(climdatab), ] 
+rm(clima,climb,climc,climd)
 
 ## get all the BB data and format a little
 dat.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
@@ -62,7 +63,7 @@ bbdat$uniqueID <- paste(bbdat$datasetID, bbdat$fieldsample.date2, bbdat$forcetem
 
 setdiff(chilly$uniqueID, bbdat$uniqueID) # ALERT! need to work on this!
 
-bb <- merge(chilly, bbdat, by="ID_exptreat2", all.y=TRUE)
+bb <- merge(chilly, bbdat, by="uniqueID", all.y=TRUE)
 bb$expstartdate <- bb$lastchilldate # subset(bb, is.na(bb$expstartdate)==FALSE)
 bb$expstartdate[which(is.na(bb$expstartdate)==TRUE)] <- bb$fieldsample.date2[which(is.na(bb$expstartdate)==TRUE)] 
 dim(subset(bb, is.na(bb$expstartdate)==TRUE))
@@ -74,10 +75,10 @@ climdat.wstart <- merge(addstartdat, climdat, by.x="uniqueID", by.y="stn", all.y
 climdat.wstart <- climdat.wstart[which(is.na(climdat.wstart$expstartdate)==FALSE),]
 climdat.wstart$date <- as.Date(climdat.wstart$doy2, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
 
-climdat.sm <- subset(climdat.wstart, date>expstartdate)
+climdat.sm <- subset(climdat.wstart, date>=expstartdate)
                          
-## make GDD column in the climate data
 
+## make GDD column in the climate data
 
 climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy2),]
 cumsumnona <- function(x){cumsum(ifelse(is.na(x), 0, x)) + x*0}
@@ -85,6 +86,8 @@ countcumna <- function(x){cumsum(is.na(x))}
 climdat.sm$cumgdd <- NA
 climdat.sm$cumgdd <- ave(climdat.sm$Tmean, list(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude), FUN=cumsumnona)
 climdat.sm$numnas_gdd<- ave(climdat.sm$Tmean, list(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude), FUN=countcumna)
+
+#head(climdat.sm,100)
 # watch out ...
 whereartthouna <- subset(climdat.sm, numnas_gdd>0)
 
@@ -103,14 +106,26 @@ bb.wstart <- subset(bb.wstart, datasetID != "falusi97" & datasetID != "heide93" 
 ##
 
 #there are errors in the below but the errors may go away once cliamte data is correct
-for (i in c(1:nrow(bb.wstart))){
+studies.need.no.attention<-list()
+studies.need.attention<-list()
+
+for (i in c(1:nrow(bb.wstart))){#i=c(1:nrow(bb.wstart));i=1
+  print(i)
     subby <- climdat.sm[which(climdat.sm$uniqueID==bb.wstart$uniqueID[i]),]
-    if(nrow(subby)>0){
+    if(nrow(subby)>0 & length(which(subby$date==bb.wstart$bbdate[i]))>0){
     bb.wstart$gdd[i] <- subby$cumgdd[which(subby$date==bb.wstart$bbdate[i])]
     bb.wstart$numnas_gdd[i] <- subby$numnas_gdd[which(subby$date==bb.wstart$bbdate[i])]
+    studies.need.no.attention[[i]]<-i
+    } 
+    if(nrow(subby)>0 & length(which(subby$date==bb.wstart$bbdate[i]))==0) {
+      studies.need.attention[[i]]<-i
     }
 }
 
+studies.need.attention<-bb.wstart$uniqueID[unlist(studies.need.attention)] ## studies that need attention (all in swartz81)
+
+#head(bb.wstart)
+#sum(!is.na(bb.wstart$gdd))
 
 ## older code ..
 ## Nacho started this, then Lizzie took over and wrote the above
