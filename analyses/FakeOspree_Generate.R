@@ -1,8 +1,11 @@
 # Fake data for Ospree stan work
 
 # <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
-# Set up: same as in the meta-analysis. 100 species, ~ 20 labgroups as random effects. Expect labgroup to have minimal effect. Forcing, photoperiod, chilling, and latitude as drivers. Add the six 2-way interactions first, then do the 3-ways with latitude. 
+# Set up: same as in the meta-analysis. 100 species, ~ 20 labgroups as random effects. Expect labgroup to have minimal effect. Forcing, photoperiod, chilling, and latitude as drivers. Add the six 2-way interactions first, then do the 3-ways with latitude.
+# <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
 
+# <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
+# ALERT! If you are looking for the code to generate test BB data, look in bb_analysis folder!
 # <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
 library(lme4)
 
