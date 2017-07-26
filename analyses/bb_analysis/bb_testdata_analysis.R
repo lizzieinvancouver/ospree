@@ -12,7 +12,13 @@ library(rstan)
 library(shinystan)
 library(bayesplot)
 
-setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
+#setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
+# Set working directory: 
+if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis") 
+} else if
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+}else 
+  setwd("~/Documents/git/ospree/analyses/bb_analysis")
 
 source("bb_testdata_generate.R")
 
