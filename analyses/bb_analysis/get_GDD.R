@@ -39,7 +39,7 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 #rm(tempval)
 #studiesnames <- names(pmp.data)
 
-clima <- read.table("output/pmp/percbb_clim_pmpA.txt", header=TRUE)
+clima <- read.csv("output/pmp/percbb_clim_pmpA.csv", header=TRUE)
 climb <- read.csv("output/pmp/percbb_clim_pmpB.csv", header=TRUE)
 climc <- read.csv("output/pmp/percbb_clim_pmpC.csv", header=TRUE)
 climd <- read.csv("output/pmp/percbb_clim_pmpD.csv", header=TRUE)
