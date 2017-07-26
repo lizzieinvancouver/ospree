@@ -85,20 +85,25 @@ for(i in 1:nsp){ # loop over species. i = 1
 # Code designed with normal distribution for intercepts for a and sigma_y
 
 # nlab = 10 # number of labgroups
-nsp = 20 # number of species
+nsp = 30 # number of species
+
 ntot = 50 # numbers of obs per species. 
 
 #  with species  (note to self: This is not the best, better to draw from a distribution)
+
+#  with species  (note to self: This is not the best, better to draw from a distribution)
 intermean <- 30 # mean for selecting intercept (days to BB) across all species
-intersd <- 8 # SD for selecting species intercepts
+intersd <- 3 # SD for selecting species intercepts
 spint <- rnorm(nsp, intermean, intersd)  # different intercepts by species
 
 # now start building ...
 testdat2 <- vector()
 
 # assumptions:
-# (a) predictors are not correlated
-# (b) each obs is a different set of treatments
+# (a) predictors are centered
+# (b) predictors are not correlated
+# (c) no interactions, linear effects of force + photo + chill only
+# (d) each obs is a different set of treatments
 
 # and some important points ...
 # (z) the below draws treatments from distribution in such a way that there is a lot more variation than we have
@@ -107,36 +112,36 @@ testdat2 <- vector()
 for(i in 1:nsp){ # loop over species. i = 1
 
     # continuous predictors, generate level (if you will) for each observation
-    force = rnorm(ntot, 15, 3) # for centered: force = rnorm(ntot, 0, 2)
-    photo = rtnorm(ntot, 12, 3, lower=0, upper=24) 
-    chill = rtnorm(ntot, 20, 10, lower=0, upper=Inf) 
-    forcephoto = rnorm(ntot, 0, 2)
-    forcechill = rnorm(ntot, 0, 5)
-    chillphoto = rnorm(ntot, 0, 1)
+    force = rnorm(ntot, 0, 2)
+    photo = rnorm(ntot, 0, 2)
+    chill = rnorm(ntot, 0, 5)
+    # uncentered options, model seems less happy ...
+    # force = rnorm(ntot, 15, 3) # for centered: force = rnorm(ntot, 0, 2)
+    # photo = rtnorm(ntot, 12, 3, lower=0, upper=24) 
+    # chill = rtnorm(ntot, 20, 10, lower=0, upper=Inf) 
 
     # set up effect sizes
     chillcoef = -3 # steep slope for earlier day with higher chilling
     forcecoef = -2 # less steep for forcing
     photocoef = -1
 
-    # set interaction effects. 3 two-way interactions
-    forcephotocoef = 2.2
-    forcechillcoef = -1
-    chillphotocoef = -1 
-
-    # SD for each main effect treatment
+    # SD for each treatment
     chillcoef.sd = 1
     forcecoef.sd = 0.5 
     photocoef.sd = 0.1
 
+    # set interaction effects. 3 two-way interactions
+    forcechillcoef = -1
+    forcephotocoef = 0.5
+    chillphotocoef = -1.5
+
     # SD for interaction effects. 3 two-way interactions
-    forcephotocoef.sd = 1
-    forcechillcoef.sd = 1
-    chillphotocoef.sd = 2
+    forcephotocoef.sd = 0.2
+    forcechillcoef.sd = 0.8
+    chillphotocoef.sd = 0.5
 
     # build model matrix 
-    mm <- model.matrix(~(chill+force+photo)^2, data.frame(chill, force, photo, forcechill,
-        chillphoto, forcephoto))
+    mm <- model.matrix(~(chill+force+photo)^2, data.frame(chill, force, photo))
 
     # coefficients need to match the order of the colums in the model matrix (mm)
     # so here, that's intercept, chill, force, photo
@@ -152,9 +157,12 @@ for(i in 1:nsp){ # loop over species. i = 1
     bb <- rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
   
     testdatx2 <- data.frame(bb, sp = i, 
-                      chill, force, photo, forcechill, chillphoto, forcephoto)
+                      chill, force, photo)
   
     testdat2 <- rbind(testdat2, testdatx2)  
 }
 
-summary(lm(bb ~ (chill+force+photo)^2, data = testdat2)) # sanity check 
+summary(lm(bb ~ (chill+force+photo)^2, data = testdat2)) # sanity check
+
+library(lme4)
+summary(lmer(bb ~ (chill+force+photo)^2 + (1|sp), data = testdat2))

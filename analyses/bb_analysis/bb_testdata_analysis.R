@@ -29,7 +29,7 @@ fixef(lme1)
 
 
 ##
-# try the model
+# try the model (intercept only)
 datalist.td <- with(testdat, 
     list(y = bb, 
          chill = as.numeric(chill), 
@@ -87,3 +87,23 @@ goober <- map2stan(
 precis(goober)
 ## magic! See the underlying Stan code
 stancode(goober)
+
+##
+# try the model (2 level with interactions)
+datalist.td2 <- with(testdat2, 
+    list(y = bb, 
+         chill = as.numeric(chill), 
+         force = as.numeric(force), 
+         photo = as.numeric(photo),
+         sp = as.numeric(sp),
+         N = nrow(testdat2),
+         n_sp = length(unique(sp))
+         )
+)
+
+osp.td2 <- stan('..//stan/bb/M1_daysBBwinter_2level.stan', data = datalist.td2, 
+                 iter = 2000
+                  ) 
+
+sumer.td2 <- summary(osp.td)$summary
+sumer.td2[grep("mu_", rownames(sumer.td2)),] # need to check some more ... 
