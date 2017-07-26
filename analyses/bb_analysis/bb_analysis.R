@@ -20,12 +20,15 @@ setwd("~/Documents/git/ospree/analyses")
 bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 # bb.all <- read.csv("output/ospree_clean_withchill_BB_2017Jun22.csv", header=TRUE)
 
+bb.some <- subset(bb.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
+bbdat <- subset(bb.some, response.time!="")
+
 columnstokeep <- c("datasetID", "study", "genus", "species", "varetc", "woody", "forcetemp", "material",
     "photoperiod_day", "respvar", "respvar.simple", "response", "response.time", "fieldsample.date",
     "Total_Chilling_Hours","Total_Utah_Model", "Total_Chill_portions",
     "Exp_Chilling_Hours",  "Exp_Utah_Model","Exp_Chill_portions")
     
-bb <- subset(bb.all, select=columnstokeep)
+bb <- subset(bbdat, select=columnstokeep)
 
 # species
 bb$latbi <- paste(bb$genus, bb$species)

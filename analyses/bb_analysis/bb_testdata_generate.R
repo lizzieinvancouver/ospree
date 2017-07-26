@@ -4,11 +4,18 @@
 ## This file builds fake data for testing Stan models for OSPREE budburst analysis ##
 ## Based in part off FakeBudburst_Generate.R and FakeOspree_Generate.R (by Dan Flynn) ##
 
+set.seed(73)
+
+library(msm) # for truncated normal distribution
+
+##################################################################
 ## This version has only simple linear model with no interactions:
 # bb ~ force + photo + chill
 # and only random intercepts for species!
+##################################################################
 
-# Note to self: could improve code, so easier to see distribution for a and sigma_y
+# Note to self (Lizzie): could improve code, so easier to see distribution for a and sigma_y
+# I did this below #
 
 # nlab = 10 # number of labgroups
 nsp = 20 # number of species
@@ -67,47 +74,87 @@ for(i in 1:nsp){ # loop over species. i = 1
   
     testdat <- rbind(testdat, testdatx)  
 }
-### same as above without a) (uncentering) to do this I will play with histograms
-#til they look closer in the range of real
-hist(rnorm(ntot,16,5)) ##for forcing
-hist(rnorm(ntot,12,3)) #for forcing
- hist(rnorm(ntot, 0, 5)) #for chil
 
-###please note, if you liked the old fake data better, sorry, I am overwritting it now
-library(msm)
+
+##################################################################
+## This version has only simple linear model with 2-way interactions:
+# bb ~ force + photo + chill + fp + fc + pc
+# species varies by slopes and intercepts (aka random slopes and intercepts)
+##################################################################
+
+# Code designed with normal distribution for intercepts for a and sigma_y
+
+# nlab = 10 # number of labgroups
+nsp = 20 # number of species
+ntot = 50 # numbers of obs per species. 
+
+#  with species  (note to self: This is not the best, better to draw from a distribution)
+intermean <- 30 # mean for selecting intercept (days to BB) across all species
+intersd <- 8 # SD for selecting species intercepts
+spint <- rnorm(nsp, intermean, intersd)  # different intercepts by species
+
+# now start building ...
+testdat2 <- vector()
+
+# assumptions:
+# (a) predictors are not correlated
+# (b) each obs is a different set of treatments
+
+# and some important points ...
+# (z) the below draws treatments from distribution in such a way that there is a lot more variation than we have
+
 
 for(i in 1:nsp){ # loop over species. i = 1
-  
-  # continuous predictors, generate level (if you will) for each observation
-  force = rnorm(ntot, 16, 5)
-  photo = rtnorm(ntot, 12, 3,0,24) ### I am trying to bound this between 0,24 but it doesnt' work 
-  chill = rnorm(ntot, 0, 5)
-  
-  # set up effect sizes
-  chillcoef = -3 # steep slope for earlier day with higher chilling
-  forcecoef = -2 # less steep for forcing
-  photocoef = -1
-  
-  # SD for each treatment
-  chillcoef.sd = 1
-  forcecoef.sd = 0.5 
-  photocoef.sd = 0.1
-  
-  # build model matrix 
-  mm <- model.matrix(~chill+force+photo, data.frame(chill, force, photo))
-  
-  # coefficients need to match the order of the colums in the model matrix (mm)
-  # so here, that's intercept, chill, force, photo
-  coeff <- c(spint[i], 
+
+    # continuous predictors, generate level (if you will) for each observation
+    force = rnorm(ntot, 15, 3) # for centered: force = rnorm(ntot, 0, 2)
+    photo = rtnorm(ntot, 12, 3, lower=0, upper=24) 
+    chill = rtnorm(ntot, 20, 10, lower=0, upper=Inf) 
+    forcephoto = rnorm(ntot, 0, 2)
+    forcechill = rnorm(ntot, 0, 5)
+    chillphoto = rnorm(ntot, 0, 1)
+
+    # set up effect sizes
+    chillcoef = -3 # steep slope for earlier day with higher chilling
+    forcecoef = -2 # less steep for forcing
+    photocoef = -1
+
+    # set interaction effects. 3 two-way interactions
+    forcephotocoef = 2.2
+    forcechillcoef = -1
+    chillphotocoef = -1 
+
+    # SD for each main effect treatment
+    chillcoef.sd = 1
+    forcecoef.sd = 0.5 
+    photocoef.sd = 0.1
+
+    # SD for interaction effects. 3 two-way interactions
+    forcephotocoef.sd = 1
+    forcechillcoef.sd = 1
+    chillphotocoef.sd = 2
+
+    # build model matrix 
+    mm <- model.matrix(~(chill+force+photo)^2, data.frame(chill, force, photo, forcechill,
+        chillphoto, forcephoto))
+
+    # coefficients need to match the order of the colums in the model matrix (mm)
+    # so here, that's intercept, chill, force, photo
+    coeff <- c(spint[i], 
              rnorm(1, chillcoef, chillcoef.sd),
              rnorm(1, forcecoef, forcecoef.sd),
-             rnorm(1, photocoef, photocoef.sd)
-  )
+             rnorm(1, photocoef, photocoef.sd),
+             rnorm(1, forcechillcoef, forcechillcoef.sd),
+             rnorm(1, chillphotocoef, chillphotocoef.sd),
+             rnorm(1, forcephotocoef, forcephotocoef.sd)
+             )
   
-  bb <- rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
+    bb <- rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
   
-  testdatx <- data.frame(bb, sp = i, 
-                         chill, force, photo)
+    testdatx2 <- data.frame(bb, sp = i, 
+                      chill, force, photo, forcechill, chillphoto, forcephoto)
   
-  testdat <- rbind(testdat, testdatx)  
+    testdat2 <- rbind(testdat2, testdatx2)  
 }
+
+summary(lm(bb ~ (chill+force+photo)^2, data = testdat2)) # sanity check 
