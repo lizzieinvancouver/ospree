@@ -9,3 +9,5 @@
 analyses/bb_analysis/cleaning/clean_ambientforcing.R
 
 analyses/output/pmp/percbb.csv
+
+*.rds
