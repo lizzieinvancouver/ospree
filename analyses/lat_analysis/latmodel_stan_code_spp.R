@@ -58,7 +58,7 @@ bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
                    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours",
-                   "complex")
+                   "complex", "provenance.lat")
 
 bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 
@@ -68,6 +68,7 @@ bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
 bb.wlab.sm$photo <- as.numeric(bb.wlab.sm$photoperiod_day)
 bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Chilling_Hours)
 bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
+bb.wlab.sm$lat<-as.numeric(bb.wlab.sm$provenance.lat)
 
 
 ## In case we decide to center data, not doing it for now
@@ -77,8 +78,9 @@ bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
 
 
 ## subsetting data, preparing genus variable, removing NAs
-ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill", "photo", "force", "complex"))
-dim(subset(bb.wlab.sm, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE))
+ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill", "photo", "force", "complex", "lat"))
+dim(subset(bb.wlab.sm, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE 
+           & is.na(lat)==FALSE))
 ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$complex <- as.numeric(as.factor(ospr.stan$complex))
 
@@ -92,6 +94,7 @@ y = ospr.stan$resp[which(is.na(ospr.stan$resp)==FALSE)]
 chill = ospr.stan$chill[which(is.na(ospr.stan$chill)==FALSE)]
 force = ospr.stan$force[which(is.na(ospr.stan$force)==FALSE)]
 photo = ospr.stan$photo[which(is.na(ospr.stan$photo)==FALSE)]
+lat = ospr.stan$lat[which(is.na(ospr.stan$lat)==FALSE)]
 sp = ospr.stan$complex[which(is.na(ospr.stan$complex)==FALSE)]
 N = length(y)
 n_sp = length(unique(sp))
@@ -103,13 +106,14 @@ chill = chill[which(y<300)]
 force = force[which(y<300)]
 photo = photo[which(y<300)]
 sp = sp[which(y<300)]
+lat = lat[which(y<300)]
 y = y[which(y<300)]
 N = length(y)
 n_sp = length(unique(sp))
 
 
 # making a list out of the processed data. It will be input for the model
-datalist.td <- list(y=y,chill=chill, force=force,photo=photo,sp=sp,N=N,n_sp=n_sp)
+datalist.td <- list(y=y,chill=chill, force=force,photo=photo,sp=sp,N=N,n_sp=n_sp, lat=lat)
 
 # we are transforming chilling to have it in a scale more similar to the rest of variables and so that 
 # it can be interpreted as 10 days (so the coefficient will tell us change in BB every 10 days of chilling)
@@ -123,7 +127,7 @@ datalist.td$chill<-datalist.td$chill/240
 
 ##############################
 ###### real data all chilling
-osp.td4 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
+osp.td4 = stan('stan/lat/LAT_daysBBnointer_2level.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force", "b_photo", "b_chill"))
