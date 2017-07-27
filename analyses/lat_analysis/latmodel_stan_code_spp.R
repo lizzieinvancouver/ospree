@@ -130,8 +130,9 @@ datalist.td$chill<-datalist.td$chill/240
 osp.td4 = stan('stan/lat/LAT_daysBBnointer_2level.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
-betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force", "b_photo", "b_chill"))
-mcmc_intervals(betas[,1:3])
+betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
+"b_force", "b_photo", "b_chill"))
+mcmc_intervals(betas[,1:4])
 
 launch_shinystan(osp.td4)
 load("/Users/CatherineChamberlain/Downloads/shinystan-multiparam-gg.RData")
