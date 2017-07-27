@@ -61,3 +61,13 @@ daystobudburst = degree days / (force temp - 2)
 As of June 2017, ”daystoleafout" (these are from fu13, laube14b, and worrall67) and "leafunfoldingdate" (morin10) are also included in this  bud-burst cleaning code.
 
 #################
+
+
+<><><><><><><><><><><><><><>
+Email from Julia Laube on 
+<><><><><><><><><><><><><><>
+On 26 July 2017
+
+So well, the sums were calculated as day sums with no base temperature or let´s say a 0°C base temperature from January 1st onwards. The daily sums were not summed up as (daily min + daily max) / 2, but just as daily mean temperatures.
+
+Hope that´s clear? If you need any further value/information, please let me know. 
