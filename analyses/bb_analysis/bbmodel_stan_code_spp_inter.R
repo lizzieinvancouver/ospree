@@ -40,15 +40,8 @@ options(mc.cores = parallel::detectCores())
 # make sure this is the correct file (we're still cleaning as I write this!) 
 bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 
-labgroups <- read.csv("output/labgroups.csv", header=TRUE)
+taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 
-
-## read taxon data to subset dataset
-taxon.info<-read.csv("output/bb_analysis/taxon/complex_levels.csv")
-taxon.info<-subset(taxon.info,use=="Y")
-taxon.info$taxa<-paste(taxon.info$genus,taxon.info$species,sep="_")
-bb$bb.taxa<-paste(bb$genus,bb$species,sep="_")
-bb<-subset(bb,bb.taxa%in%taxon.info$taxa)
 
 ## Old code to remove Olea, probably the new subset of species is getting rid of it 
 #bb[bb$genus=="Olea",]
@@ -59,7 +52,7 @@ bb<-subset(bb,bb.taxa%in%taxon.info$taxa)
 
 # merge in labgroup (we could do this elsewhere someday)
 bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
-
+bb.wlab<-dplyr::filter(bb.wlab, complex!="Fraxinus_complex")
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
                    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", "complex")
 
@@ -79,7 +72,7 @@ bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
 #bb.wlab.sm$chill.cen <- scale(bb.wlab.sm$chill, center=TRUE, scale=TRUE)
 
 
-## subsetting data, preparing genus variable, removing NAs
+## subsetting data, preparing complex variable, removing NAs
 ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill", "photo", "force", "complex"))
 dim(subset(bb.wlab.sm, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE))
 ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
@@ -127,7 +120,7 @@ datalist.td$chill<-datalist.td$chill/240
 
 ##############################
 ###### real data all chilling
-osp.td4 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
+osp.td4 = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.95)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force", "b_photo", "b_chill"))
