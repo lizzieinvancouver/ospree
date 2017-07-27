@@ -53,6 +53,7 @@ taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 # merge in labgroup (we could do this elsewhere someday)
 bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
 bb.wlab<-dplyr::filter(bb.wlab, complex!="Fraxinus_complex")
+bb.wlab<-subset(bb.wlab,use=="Y")
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
                    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", "complex")
 
