@@ -99,11 +99,41 @@ dat<-read.csv("output/fieldchillcalcslatlong.csv")
 
 source("chilling/totalchillcalc.R")
 
+d<-read.csv("output/strawberries.csv")
+
+# 2. Need to deal with thermal time to days
+source("bb_analysis/cleaning/clean_thermaltimetodays.R")
+
+# 3. Clean phenstage to get a little more data (a little, but still!). 
+source("bb_analysis/cleaning/clean_phenstage.R")
+
+# 4. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
+source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 rows
+
+# 5. Clean ambient forcing
+source("bb_analysis/cleaning/clean_ambientforcing.R")
+
+# 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 80%)
+# ... with an allowable buffer (i.e., 40%)
+source("bb_analysis/cleaning/clean_bbperctodays.R") # as of 16 July 2017, deletes 84 rows
+
+# 7. Clean duplicate responses across treatments/categories
+source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 16 July 2017, deletes 4 rows.
+
+# 8. Clean photoperiod entries to try to get as much data as possible
+source("bb_analysis/cleaning/clean_photoperiod.R")
+
+# 9. Now remove any percentbudburst lower than 40% (clean_bbperctodays.R only cleans lines with more than entry per treatment)
+d$response.num <- as.numeric(d$response) # only 'timeonly' should be removed here
+d <- d %>% filter(!(response.num<39.99 & respvar.simple=="percentbudburst"))
+d$response.num <- NULL
+
+
 # 6. Write out the file with total chilling estimates
-berries<-filter(dat4, c(genus=="Fragaria"))
+berries2<-filter(d, c(genus=="Fragaria"))
 table(berries$chilldays)
 
 
 ####you need to add stuff from bb_cleanmergeall.R to combine %bb into days to budburst.
-write.csv(berries, "output/strawberries.csv", row.names=FALSE)
+write.csv(berries2, "output/strawberries_bb.csv", row.names=FALSE)
 ###I am not sure if this worked or not, I'll have to ask Ailene.

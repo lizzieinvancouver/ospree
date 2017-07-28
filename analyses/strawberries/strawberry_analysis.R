@@ -19,7 +19,7 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 #2 mixed model for flowering
 #3mixed model for leafing
 
-berries<-read.csv("output/strawberries.csv")
+berries<-read.csv("output/strawberries_bb.csv")
 ###what are the varieties
 table(berries$varetc)
 
@@ -44,6 +44,7 @@ straw$vartype<-NA
 straw$vartype[straw$varetc == "Abundance"] <- "June"
 straw$vartype[straw$varetc == "Alta"] <- "everbearing"
 straw$vartype[straw$varetc == "As"] <- "everbearing"
+straw$vartype[straw$varetc == "Elsanta"] <- "June"
 straw$vartype[straw$varetc == "Florene"] <- "June"
 straw$vartype[straw$varetc == "Frida"] <- "June"
 straw$vartype[straw$varetc == "Grytoy"] <- "everbearing"
