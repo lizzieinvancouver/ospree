@@ -90,18 +90,12 @@ ospr.stan$complex <- as.numeric(as.factor(ospr.stan$complex))
 #of these columns, including labgroup!
 
 ## remove NAs individually .... (not needed currently)
-ospr.stan$resp<-ospr.stan[which(is.na(ospr.stan$resp)==FALSE),]
-ospr.stan$chill<-ospr.stan[which(is.na(ospr.stan$chill)==FALSE),]
-ospr.stan$force<-ospr.stan[which(is.na(ospr.stan$force)==FALSE),]
-ospr.stan$photo<-ospr.stan[which(is.na(ospr.stan$photo)==FALSE),]
-ospr.stan$lat<-ospr.stan[which(is.na(ospr.stan$lat)==FALSE),]
-ospr.stan$complex<-ospr.stan[which(is.na(ospr.stan$complex)==FALSE),]
-ospr.stan$resp<-ospr.stan[which(is.na(ospr.stan$resp)==FALSE),]
-ospr.stan$chill<-ospr.stan[which(is.na(ospr.stan$chill)==FALSE),]
-ospr.stan$force<-ospr.stan[which(is.na(ospr.stan$force)==FALSE),]
-ospr.stan$photo<-ospr.stan[which(is.na(ospr.stan$photo)==FALSE),]
-ospr.stan$lat<-ospr.stan[which(is.na(ospr.stan$lat)==FALSE),]
-ospr.stan$complex<-ospr.stan[which(is.na(ospr.stan$complex)==FALSE),]
+ospr.stan$resp<-ospr.stan$resp[which(is.na(ospr.stan$resp)==FALSE)]
+ospr.stan$chill<-ospr.stan$chill[which(is.na(ospr.stan$chill)==FALSE)]
+ospr.stan$force<-ospr.stan$force[which(is.na(ospr.stan$force)==FALSE)]
+ospr.stan$photo<-ospr.stan$photo[which(is.na(ospr.stan$photo)==FALSE)]
+ospr.stan$lat<-ospr.stan$lat[which(is.na(ospr.stan$lat)==FALSE)]
+ospr.stan$complex<-ospr.stan$complex[which(is.na(ospr.stan$complex)==FALSE)]
 
 
 y = ospr.stan$resp
@@ -141,7 +135,7 @@ datalist.td$chill<-datalist.td$chill/240
 
 ##############################
 ###### real data all chilling
-osp.td4 = stan('stan/lat/LAT_daysBBnointer_2level.stan', data = datalist.td,
+osp.td4 = stan('stan/lat/LAT_daysBBwinter_2level.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
