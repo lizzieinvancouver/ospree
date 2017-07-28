@@ -139,7 +139,7 @@ osp.td4 = stan('stan/lat/LAT_daysBBwinter_2level.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
-"b_force", "b_photo", "b_chill"))
+"b_force", "b_photo", "b_chill", "b_lat"))
 mcmc_intervals(betas[,1:4])
 
 launch_shinystan(osp.td4)
