@@ -136,7 +136,7 @@ datalist.td$chill<-datalist.td$chill/240
 ##############################
 ###### real data all chilling
 osp.td4 = stan('stan/lat/LAT_daysBBwinter_2level.stan', data = datalist.td,
-               iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
+               iter = 4000,warmup=3000,control=list(adapt_delta=0.99)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
 "b_force", "b_photo", "b_chill", "b_lat"))
@@ -144,9 +144,9 @@ mcmc_intervals(betas[,1:4])
 
 launch_shinystan(osp.td4)
 load("/Users/CatherineChamberlain/Downloads/shinystan-multiparam-gg.RData")
-shinystan_multiparam_gg
+shinystan_multiparam_gg_4
 
-
+load("/Users/CatherineChamberlain/Downloads/shinystan-multiparam-gg-4.RData")
 #td4 <- summary(osp.td4)$summary
 #preds.4<-td4[grep("yhat", rownames(td4)),]
 
