@@ -3,9 +3,10 @@
 
 ## This file builds tests fake data for testing Stan models for OSPREE budburst analysis ##
 
-## This version has only simple linear model with no interactions:
+## This files has versions with simple linear model with no interactions:
 # bb ~ force + photo + chill
 # and only random intercepts for species!
+# And also with interactions ... 
 
 library(lme4)
 library(rstan)
@@ -20,13 +21,20 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 }else 
   setwd("~/Documents/git/ospree/analyses/bb_analysis")
 
+# source('stan/savestan.R')
+rstan_options(auto_write = TRUE)
+# options(mc.cores = parallel::detectCores())
+
 source("bb_testdata_generate.R")
+
+##########################################################
+# Model with no interactions; intercept only for grouping 
+##########################################################
 
 # lme version
 summary(lme1 <- lmer(bb ~ chill+force+photo + (1|sp), data = testdat)) 
 ranef(lme1)
 fixef(lme1)
-
 
 ##
 # try the model (intercept only)
@@ -88,8 +96,17 @@ precis(goober)
 ## magic! See the underlying Stan code
 stancode(goober)
 
-##
-# try the model (2 level with interactions)
+
+##########################################################
+# Model with interactions; stan model has grouping on intercepts and all slopes
+##########################################################
+
+# lme version (just grouping on intercepts)
+summary(lme2 <- lmer(bb ~ chill+force+photo+chill*force+chill*photo+ force*photo + (1|sp), data = testdat)) 
+ranef(lme2)
+fixef(lme2)
+
+
 datalist.td2 <- with(testdat2, 
     list(y = bb, 
          chill = as.numeric(chill), 
@@ -106,4 +123,23 @@ osp.td2 <- stan('..//stan/bb/M1_daysBBwinter_2level.stan', data = datalist.td2,
                   ) 
 
 sumer.td2 <- summary(osp.td)$summary
-sumer.td2[grep("mu_", rownames(sumer.td2)),] # need to check some more ... 
+sumer.td2[grep("mu_", rownames(sumer.td2)),] # need to check some more ...
+
+
+print(osp.td2, pars = c("b_force", "b_photo", "b_chill", "b_cf","b_cp","b_fp", "mu_a_sp", "sigma_a_sp", "sigma_y"))
+
+betas <- as.matrix(osp.td2, pars = c("b_force", "b_photo", "b_chill", "b_cf","b_cp","b_fp"))
+mcmc_intervals(betas)
+
+spinters <- as.matrix(osp.td2, pars=c(colnames(as.matrix(osp.td2))[grep("a_sp",
+    colnames(as.matrix(osp.td2)))]))
+mcmc_intervals(spinters)
+
+siga_draws <- as.matrix(osp.td2, pars = "sigma_a_sp")
+
+siga_and_prior <- cbind(
+  prior = rnorm(nrow(siga_draws), 0, 10), # draw from prior distribution
+  posterior = siga_draws[, 1]
+)
+mcmc_areas(siga_and_prior) 
+
