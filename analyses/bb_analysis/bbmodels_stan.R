@@ -42,31 +42,12 @@ options(mc.cores = parallel::detectCores())
 # Running the models with fake data? See bb_testdata_analysis.R #
 ################################################################# 
 
-########################
-#### get the data
-
-# below file is cleaned, had chilling added and some BB cleaning done also
-bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
-# file to adjust species into species or species complexes ... 
-taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
-## read taxon data to subset dataset
-bb.walltaxa <- merge(bb.all, taxon, by=c("genus","species"), all.x=TRUE)
-bb.wtaxa <-subset(bb.walltaxa, use=="Y")
-
-## Old code to remove Olea, probably the new subset of species is getting rid of it 
-#bb[bb$genus=="Olea",]
-#bb<-subset(bb,genus!="Olea")
-
-## subsetting for experimental chilling
-#bb<-subset(bb,!is.na(as.numeric(chilltemp)))
-
-# slim down our columns
-columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
-                   "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", 
-                   "complex", "type")
-bb <- subset(bb.wtaxa, select=columnstokeep)
-
+## get the data, merge in taxa info, subset down to what we want for:
+# (1) 'species'
+# (2) columns
+# (3) response data 
+## Be sure to keep an eye on this source file, I suspect we may need to update it!
+source("bb_analysis/source/bbdataplease.R")
 
 ## make a bunch of things numeric (eek!)
 bb$force <- as.numeric(bb$forcetemp)
