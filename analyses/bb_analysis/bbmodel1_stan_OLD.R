@@ -6,6 +6,9 @@
 
 ## Take 2: February 2017! ##
 
+## Code somewhat superseded by bbmodels_stan.R but keeping it for now ##
+## But it includes labgroup! ##
+
 ############################################
 ## housekeeping
 rm(list=ls()) 

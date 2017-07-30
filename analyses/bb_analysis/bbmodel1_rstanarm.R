@@ -6,6 +6,10 @@
 ## Trying rstanarm (because, why not?) ##
 ###################################
 
+## See also:
+# bbmodels_stan.R
+# bbmodel1_stan_OLD.R 
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
