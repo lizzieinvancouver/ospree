@@ -36,12 +36,11 @@ options(mc.cores = parallel::detectCores())
 
 ########################
 #### get the data
+source("bb_analysis/source/bbdataplease.R")
 
-# make sure this is the correct file (we're still cleaning as I write this!) 
-bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
-
-taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
+###below is covered in above source##########
+#bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+#taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 
 ## Old code to remove Olea, probably the new subset of species is getting rid of it 
 #bb[bb$genus=="Olea",]
@@ -51,16 +50,19 @@ taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 #bb<-subset(bb,!is.na(as.numeric(chilltemp)))
 
 # merge in labgroup (we could do this elsewhere someday)
-bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
+#bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
+
+###filter for species of interest
 myspp<-c("Betula_pendula", "Betula_pubscens", "Fagus_sylvatica", "Picea_abies",
          "Ribes_nigrum", "Corylus_avellana", "Quercus_robur", "Larix_decidua")
-bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
+bb.wlab<-dplyr::filter(bb, complex%in%myspp)
 
-columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
-                   "photoperiod_day", "response", "response.time", "Total_Chilling_Hours",
-                   "complex", "provenance.lat")
+####below is handled in source i think
+#columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
+                  # "photoperiod_day", "response", "response.time", "Total_Chilling_Hours",
+                   #"complex", "provenance.lat")
 
-bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
+bb.wlab.sm <- bb.wlab
 
 
 ## make a bunch of things numeric (eek!)

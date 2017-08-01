@@ -26,6 +26,6 @@ bb.wtaxa.resp <- subset(bb.wtaxa.resp, respvar != "thermaltime") # doesn't remov
 # slim down our columns
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
                    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", 
-                   "complex", "type")
+                   "complex", "type","provenance.lat")
 bb <- subset(bb.wtaxa.resp, select=columnstokeep)
 
