@@ -74,9 +74,10 @@ bb.wlab.sm$lat<-as.numeric(bb.wlab.sm$provenance.lat)
 
 
 ## In case we decide to center data, not doing it for now
-#bb.wlab.sm$photo.cen <- scale(bb.wlab.sm$photo, center=TRUE, scale=TRUE)
-#bb.wlab.sm$force.cen <- scale(bb.wlab.sm$force, center=TRUE, scale=TRUE)
-#bb.wlab.sm$chill.cen <- scale(bb.wlab.sm$chill, center=TRUE, scale=TRUE)
+bb.wlab.sm$photo <- scale(bb.wlab.sm$photo, center=TRUE, scale=TRUE)
+bb.wlab.sm$force <- scale(bb.wlab.sm$force, center=TRUE, scale=TRUE)
+bb.wlab.sm$chill <- scale(bb.wlab.sm$chill, center=TRUE, scale=TRUE)
+bb.wlab.sm$lat<- scale(bb.wlab.sm$lat, center=TRUE, scale=TRUE)
 
 
 ## subsetting data, preparing genus variable, removing NAs
@@ -143,6 +144,7 @@ osp.td4 = stan('stan/lat/LAT_daysBBwinter_2level.stan', data = datalist.td,
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
 "b_force", "b_photo", "b_chill", "b_lat"))
 mcmc_intervals(betas[,1:4])
+
 
 launch_shinystan(osp.td4)
 load("/Users/CatherineChamberlain/Downloads/shinystan-multiparam-gg.RData")
