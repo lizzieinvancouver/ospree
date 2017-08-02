@@ -49,6 +49,34 @@ d$response.time[which(d$datasetID=="karlsson03")] <-
 d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="karlsson03"]<-"daystobudburst")
 
+### Laube14a attempt...
+temp<-0.5
+laube14<-data.frame(matrix(0, ncol = 1, nrow = 42), temp=temp)
+laube14<-dplyr::select(laube14, temp)
+laube14$temp <- ave(
+  laube14$temp,
+  FUN=function(x) cumsum(c(0.5, head(x, -1)))
+)
+laube14$temp<-laube14$temp+6.5
+laube14$day<-1:42
+laube14$night<-laube14$temp
+laube14$night<-ifelse(laube14$day>14 & laube14$day<=21, (laube14$temp-2), laube14$temp)
+laube14$night<-ifelse(laube14$day>21 & laube14$day<=27, (laube14$temp-3), laube14$night)
+laube14$night<-ifelse(laube14$day>27 & laube14$day<=34, (laube14$temp-4), laube14$night)
+laube14$night<-ifelse(laube14$day>41 & laube14$day<=48, (laube14$temp-5), laube14$night)
+
+laube14$hours<-(laube14$temp*8 + laube14$night*16)/24
+laube14$hours.12<-(laube14$temp*12 + laube14$night*12)/24
+laube14$hours.16<-(laube14$temp*16 + laube14$night*8)/24
+laube14<-within(laube14, gdd <-cumsum(hours))
+laube14<-within(laube14, gdd.12<-cumsum(hours.12))
+laube14<-within(laube14, gdd.16<-cumsum(hours.16))
+
+df<-subset(d, datasetID=="laube14a" & photoperiod_day==8)
+df$response.time<-ifelse(df$response.time==laube14$gdd, laube14$day, df$response.time)
+resps<-unique(df$response.time)
+sort(resps)
+
 
 } else {
   print("Error: d is not a data.frame")
