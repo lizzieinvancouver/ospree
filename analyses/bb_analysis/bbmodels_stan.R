@@ -182,9 +182,9 @@ head(mint3.sum) # -0.9 force, -0.54 photo, + 1.5 chill, small intxns
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
-# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintfp
+# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m1.2lintnsp
 ########################################################
-bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternosp_2level.stan', data = datalist.bb,
+bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternospwinternosp_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500) # 0 divergent transitions, but n_eff still struggling
  
 save(bb.m1.2lintnsp, file="stan/bb/output/M1_daysBBwinternosp_2level.Rda")
