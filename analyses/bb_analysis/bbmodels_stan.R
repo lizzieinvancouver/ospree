@@ -142,3 +142,52 @@ bb.m1.2lint = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500) # 15 divergent transitions
 
 save(bb.m1.2lint, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocf_2level.stan: m1.2lintcf
+########################################################
+bb.m1.2lintcf = stan('stan/bb/M1_daysBBwinter_nocf_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 5 divergent transitions
+
+save(bb.m1.2lintcf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
+
+mint1.sum <- summary(bb.m1.2lintcf)$summary
+head(mint1.sum) # -0.1 force, 0.7 photo, -1.4 chill, small intxns
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintcp
+########################################################
+bb.m1.2lintcp = stan('stan/bb/M1_daysBBwinter_nocp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 35 divergent transitions
+
+save(bb.m1.2lintcp, file="stan/bb/output/M1_daysBBwinter_nocp_2level.Rda")
+
+mint2.sum <- summary(bb.m1.2lintcp)$summary
+head(mint2.sum) # 0.2 force, 0.7 photo, -0.3 chill, small intxns
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintfp
+########################################################
+bb.m1.2lintfp = stan('stan/bb/M1_daysBBwinter_nofp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 387 divergent transitions
+ 
+save(bb.m1.2lintfp, file="stan/bb/output/M1_daysBBwinter_nofp_2level.Rda")
+
+mint3.sum <- summary(bb.m1.2lintfp)$summary 
+head(mint3.sum) # -0.9 force, -0.54 photo, + 1.5 chill, small intxns
+
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintfp
+########################################################
+bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternosp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 0 divergent transitions, but n_eff still struggling
+ 
+save(bb.m1.2lintnsp, file="stan/bb/output/M1_daysBBwinternosp_2level.Rda")
+
+mint4.sum <- summary(bb.m1.2lintnsp)$summary 
+head(mint4.sum) # 0.2 force, 0.2 photo, -0.07 chill, again small intxns
