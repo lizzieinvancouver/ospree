@@ -42,12 +42,12 @@ source("chilling/fieldchillcalc_latlong.R")
 climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
-
+climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data/" ##access from Dan's comp
 # 4c. pull climate data from europe
-source("pmp/pullclimate_eur_pmp.R")
+source("bb_dailyclimate/pullclimate_eur_pmp.R")
 
 # 4d: pull climate data from north america
-source("pmp/pullclimate_nam_pmp.R")
+source("bb_dailyclimate/pullclimate_nam_pmp.R")
 # July 2017: Ailene gets an error that I'm not sure about:
 #In addition: Warning message:
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
