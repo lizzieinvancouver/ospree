@@ -70,13 +70,10 @@ for(i in 1:nrow(nam)){ # i = 1
   #For one study (swartz81) we need an extra year of climate data (e.g. because of long chilling treatments) to correspond to the budburst dates and calculate accurate forcing.
   #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
-    if(lo==chill.lat){#when sampling occurred in previous year as study, NOT during the fall
+    if(la==chill.lat){# d
       stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
-      #prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's climate data 
-      #endmo<-"12";#month of last year (should always be 12 for pmp)
-      #thismo <- paste(as.numeric(substr(endday,1,4)), formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-Dec for pmp)
       firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-      endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+      endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
       pmpclim<-c(firstyr, endyr)
   }
   # now loop over these year-month combo files and get temperature values for this date range.
