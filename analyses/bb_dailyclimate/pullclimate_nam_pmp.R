@@ -101,6 +101,9 @@ for(i in 1:nrow(nam)){ # i = 1
 
 # If you want to (as Lizzie does) you can write out tempval, which is all the climate pulled in a list form
 save(tempval, file="output/fieldclimate_pmp.RData")
+#(If you want to avoid connecting to the external hard drive, then start here)
+#load this .RData workspace)
+#load("output/fieldclimate_pmp.RData")
 dailytemp <- do.call("rbind", tempval)
 dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 colnames(dailytemp)[1]<-"ID_fieldsample.date2"
