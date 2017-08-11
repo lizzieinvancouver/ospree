@@ -67,10 +67,11 @@ for(i in 1:nrow(nam)){ # i = 1
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
+  }
   #For one study (swartz81) we need an extra year of climate data (e.g. because of long chilling treatments) to correspond to the budburst dates and calculate accurate forcing.
   #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
-    if(la==chill.lat){# d
+  if(la==38.988){# d
       stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
       firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
       endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
