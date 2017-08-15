@@ -46,14 +46,10 @@ options(mc.cores = parallel::detectCores())
 # (1) 'species'
 # (2) columns
 # (3) response data 
-## Be sure to keep an eye on this source file, I suspect we may need to update it!
+## Be sure to keep an eye on this source file, you will need to update it
+## One update will be after we have the Laube data
 source("bb_analysis/source/bbdataplease.R")
 
-## make a bunch of things numeric (eek!)
-bb$force <- as.numeric(bb$forcetemp)
-bb$photo <- as.numeric(bb$photoperiod_day)
-bb$chill <- as.numeric(bb$Total_Chilling_Hours)
-bb$resp <- as.numeric(bb$response.time)
 
 ## For centering data, not doing it for now
 #bb$photo.cen <- scale(bb$photo, center=TRUE, scale=TRUE)
@@ -110,6 +106,9 @@ betas.bb.m1.2l <- as.matrix(bb.m1.2l, pars = c("mu_b_force_sp","mu_b_photo_sp","
 # mcmc_intervals(betas.bb.m1.2l[,1:3])
 # launch_shinystan(bb.m1.2l)
 m1.2l.sum <- summary(bb.m1.2l)$summary
+m1.2l.sum[grep("mu_", rownames(m1.2l.sum)),] 
+# 15 Aug 2017: force: -1; photo: -1.1; chill: -1.6
+# Updated on 15 Aug 2017 with new species names: force: 0.1; photo: -1.2; chill: -1.1
 # getting predicted values if needed
 # preds.m1.2l <- m1.2l.sum[grep("yhat", rownames(m1.2l.sum)),]
 
@@ -143,6 +142,9 @@ bb.m1.2lint = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.bb,
 
 save(bb.m1.2lint, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
 
+mint.sum <- summary(bb.m1.2lint)$summary
+mint.sum[grep("mu_", rownames(mint.sum)),] 
+
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
 # Note the notation: M1_daysBBwinter_nocf_2level.stan: m1.2lintcf
@@ -153,7 +155,7 @@ bb.m1.2lintcf = stan('stan/bb/M1_daysBBwinter_nocf_2level.stan', data = datalist
 save(bb.m1.2lintcf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
 
 mint1.sum <- summary(bb.m1.2lintcf)$summary
-head(mint1.sum) # -0.1 force, 0.7 photo, -1.4 chill, small intxns
+head(mint1.sum) # -0.1 force, 0.7 photo, -1.1 chill, small intxns
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -169,7 +171,7 @@ head(mint2.sum) # 0.2 force, 0.7 photo, -0.3 chill, small intxns
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
-# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintfp
+# Note the notation: M1_daysBBwinter_nofp_2level.stan: m1.2lintfp
 ########################################################
 bb.m1.2lintfp = stan('stan/bb/M1_daysBBwinter_nofp_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500) # 387 divergent transitions

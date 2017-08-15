@@ -20,8 +20,59 @@ respvars.thatwewant <- c("daystobudburst", "percentbudburst")
 bb.wtaxa.resp <- bb.wtaxa[which(bb.wtaxa$respvar.simple %in% respvars.thatwewant),]
 bb.wtaxa.resp <- subset(bb.wtaxa.resp, respvar != "thermaltime") # doesn't remove anything
 
-###we have complexes with 1 only dataset id. This happened because we
-#filtered them out before reducing the response variables, code belowshould fix.
+## make a bunch of things numeric (eek!)
+bb.wtaxa.resp$force <- as.numeric(bb.wtaxa.resp$forcetemp)
+bb.wtaxa.resp$photo <- as.numeric(bb.wtaxa.resp$photoperiod_day)
+bb.wtaxa.resp$chill <- as.numeric(bb.wtaxa.resp$Total_Chilling_Hours)
+bb.wtaxa.resp$resp <- as.numeric(bb.wtaxa.resp$response.time)
+
+## remove the NAs (must do this before you can deal with taxon issues)
+bb.noNA <- subset(bb.wtaxa.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
+    is.na(chill)==FALSE & is.na(resp)==FALSE)
+
+## Now we have to check what complexes are down to 1 dataset
+taxa.numprep <- aggregate(bb.noNA[c("resp")], bb.noNA[c("complex", "datasetID")], FUN=mean)
+taxa.num <- aggregate(taxa.numprep[c("datasetID")], taxa.numprep[c("complex")], FUN=length)
+subset(taxa.num, datasetID<2)
+
+## Fix the ones that are now one dataset ...
+bb.noNA$complex[which(bb.noNA$complex=="Acer_pseudoplatanus")] <- "Acer_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Betula_alleghaniensis")] <- "Betula_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Populus_tremula")] <- "Populus_complex"
+# bb.noNA$complex[which(bb.noNA$complex=="Pyrus_pyrifolia")] <- "Pyrus_complex" # must be in same study
+bb.noNA$complex[which(bb.noNA$complex=="Quercus_ilex")] <- "Quercus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Quercus_petraea")] <- "Quercus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Quercus_robur")] <- "Quercus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Quercus_rubra")] <- "Quercus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Sorbus_commixta")] <- "Sorbus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Sorbus_aucuparia")] <- "Sorbus_complex"
+bb.noNA$complex[which(bb.noNA$complex=="Tilia_cordata")] <- "Tilia_complex"
+
+# delete the ones that have no one to go with
+toremove <- c("Actinidia_deliciosa", "Aesculus_hippocastanum", "Cornus_alba", "Corylus_avellana", 
+    "Larix_decidua", "Liquidambar_styraciflua", "Picea_complex", "Prunus_complex", 
+    "Pyrus_complex","Pyrus_pyrifolia", "Pseudotsuga_menziesii", "Rhododendron_complex", 
+    "Rubus_idaeus", "Ulmus_complex", "Vitis_vinifera")
+
+bb.corrtaxa <- bb.noNA[which(!bb.noNA$complex %in% toremove),]
+
+## Check our work
+taxa.numprep.check <- aggregate(bb.corrtaxa[c("resp")], bb.corrtaxa[c("complex", "datasetID")], FUN=mean)
+taxa.num.check <- aggregate(taxa.numprep.check[c("datasetID")], taxa.numprep.check[c("complex")], FUN=length)
+subset(taxa.num.check, datasetID<2)
+
+# slim down our columns
+columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
+                   "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", 
+                   "complex", "type","provenance.lat", "force", "photo", "chill", "resp")
+bb <- subset(bb.corrtaxa, select=columnstokeep)
+
+
+## subsetting for experimental chilling
+#bb<-subset(bb,!is.na(as.numeric(chilltemp)))
+
+if(FALSE){ # To discuss
+    
 huh <- within(bb.wtaxa.resp, { datasets <- ave(datasetID, complex, complex, FUN=function(x) length(unique(x)))}) 
 huh2<-select(huh,datasets, complex)
 huh2<-huh2[!duplicated(huh2),]
@@ -29,12 +80,11 @@ huh2<-huh2[!duplicated(huh2),]
 remerg<-select(huh,datasetID, complex)
 remerg<-remerg[!duplicated(remerg),]
 
-
 ### making new 
-huh<-within(huh,complex[complex=="Cornus_alba"]<-"Cornus_complex")
-huh<-within(huh,complex[complex=="Cornus_mas"]<-"Cornus_complex")
-huh<-within(huh,complex[complex=="Fraxinus_excelsior"]<-"Fraxinus_complex")
-huh<-within(huh,complex[complex=="Prunus_avium"]<-"Prunus_complex")
+huh <- within(huh,complex[complex=="Cornus_alba"]<-"Cornus_complex")
+huh <- within(huh,complex[complex=="Cornus_mas"]<-"Cornus_complex")
+huh <- within(huh,complex[complex=="Fraxinus_excelsior"]<-"Fraxinus_complex")
+huh <- within(huh,complex[complex=="Prunus_avium"]<-"Prunus_complex")
 huh <- within(huh, { datasets <- ave(datasetID, complex, complex, FUN=function(x) length(unique(x)))}) 
 
 huh$use2<-NA
@@ -44,14 +94,5 @@ huh<- within(huh, use2[datasets>1 ]<-"Y")
 
 amended<-filter(huh,use2=="Y")
 
-## subsetting for experimental chilling
-#bb<-subset(bb,!is.na(as.numeric(chilltemp)))
-
-table(amended$datasets)
-# slim down our columns
-columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
-                   "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", 
-                   "complex", "type","provenance.lat")
-bb <- subset(amended, select=columnstokeep)
-
+}
 

@@ -17,6 +17,8 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 library(gridExtra)
+library(plyr)
+library(dplyr)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
