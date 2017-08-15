@@ -102,7 +102,7 @@ stancode(goober)
 ##########################################################
 
 # lme version (just grouping on intercepts)
-summary(lme2 <- lmer(bb ~ chill+force+photo+chill*force+chill*photo+ force*photo + (1|sp), data = testdat)) 
+summary(lme2 <- lmer(bb ~ chill+force+photo+chill*force+chill*photo+ force*photo + (1|sp), data = testdat2)) 
 ranef(lme2)
 fixef(lme2)
 
@@ -122,8 +122,8 @@ osp.td2 <- stan('..//stan/bb/M1_daysBBwinter_2level.stan', data = datalist.td2,
                  iter = 2000
                   ) 
 
-sumer.td2 <- summary(osp.td)$summary
-sumer.td2[grep("mu_", rownames(sumer.td2)),] # need to check some more ...
+sumer.td2 <- summary(osp.td2)$summary
+sumer.td2[grep("mu_", rownames(sumer.td2)),] # the means look good! need to check some more ...
 
 
 print(osp.td2, pars = c("b_force", "b_photo", "b_chill", "b_cf","b_cp","b_fp", "mu_a_sp", "sigma_a_sp", "sigma_y"))
