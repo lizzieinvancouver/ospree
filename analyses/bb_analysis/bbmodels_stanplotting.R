@@ -36,21 +36,10 @@ figpath <- "bb_analysis/figures"
 # get the data (taken from bbmodels_stan.R)
 source("bb_analysis/source/bbdataplease.R")
 
-## make a bunch of things numeric (eek!)
-bb$force <- as.numeric(bb$forcetemp)
-bb$photo <- as.numeric(bb$photoperiod_day)
-bb$chill <- as.numeric(bb$Total_Chilling_Hours)
-bb$resp <- as.numeric(bb$response.time)
-
-## For centering data, not doing it for now
-#bb$photo.cen <- scale(bb$photo, center=TRUE, scale=TRUE)
-#bb$force.cen <- scale(bb$force, center=TRUE, scale=TRUE)
-#bb$chill.cen <- scale(bb$chill, center=TRUE, scale=TRUE)
-
-## subsetting data, preparing genus variable, removing NAs
-bb.prepdata <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex"))
-dim(subset(bb, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE))
-bb.stan <- bb.prepdata[complete.cases(bb.prepdata),]
+## subsetting data, preparing genus variable, removing NAs (err, again
+# remove crops?
+bb <- subset(bb, type!="crop")
+bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type"))
 bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
 
@@ -59,6 +48,7 @@ bb.stan <- subset(bb.stan, resp<600)
 
 # adjust chilling (if needed)
 bb.stan$chill <- bb.stan$chill/240
+
 ##
 ##
 
@@ -157,10 +147,12 @@ for (sp in c(1:length(spp))){# i = 1
     subby <- subset(bb.stan,  complex==spp[sp])
     plot(subby[["chill"]], subby[["force"]], , col=colz[as.factor(subby$datasetID)],
          main=subby$complex.wname[1], xlab="chilling", ylab="forcing")
-    # abline(lm(subby[["chill"]]~ subby[["force"]]))
+    # abline(lm(subby[["chill"]]~subby[["force"]]))
     plot(subby[["chill"]], subby[["photo"]], , col=colz[as.factor(subby$datasetID)],
          xlab="chilling", ylab="photo")
+    # abline(lm(subby[["chill"]]~subby[["photo"]]))
     plot(subby[["force"]], subby[["photo"]], , col=colz[as.factor(subby$datasetID)],
          xlab="photo", ylab="forcing")
+   # abline(lm(subby[["force"]]~subby[["photo"]]))
 }
 dev.off()
