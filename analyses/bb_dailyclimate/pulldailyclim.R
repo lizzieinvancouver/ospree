@@ -52,7 +52,7 @@ source("bb_dailyclimate/pulldailyclimate_nam.R")
 #In addition: Warning message:
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
 #dim(dailytemp3)#228293      7
-#depsite the warning, the files appear to be in good shape...hopefuly they pilled the right climate data!
+#despite the warning, the files appear to be in good shape...hopefuly they pilled the right climate data!
 
 
 
@@ -60,3 +60,16 @@ source("bb_dailyclimate/pulldailyclimate_nam.R")
 write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 
 #check code for 1950s studies (ashby)
+#dailytemp3<-read.csv("output/dailytemp.csv")
+#head(dailytemp3)
+#ashby<-dailytemp3[dailytemp3$datasetID=="ashby62",]
+#looks fine, though no climate data exists for  1957= all NAs after March 1957
+#check code for swartz81
+#swartz<-dailytemp3[dailytemp3$datasetID=="swartz81",]
+#seems to be pulling correctly, but no climate data present after june 28, 1980 for this site.
+#check how many other sites are mising data
+#dim(which(is.na(dailytemp3$Tmin)))#26116, which is 11% of all data
+#unique(dailytemp3$datasetID[which(is.na(dailytemp3$Tmin))])#19/50 sites are missing some temperature data
+#calme94<-dailytemp3[dailytemp3$datasetID=="calme94",]
+#head(calme94)
+#tail(calme94)
