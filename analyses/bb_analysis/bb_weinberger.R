@@ -51,3 +51,18 @@ bb.study<-bb[which(bb$studytype=="exp"|bb$studytype=="fieldsample"),]
 #just include studies with multiple chilling levels:
 bb.study<-subset(bb.study,studytype_studies%in%bb.study$datasetID)
 #dim(bb.study)#2845 85, across 54 studies (17 exp studies and 37 fieldsample)
+bb.study.bb<-subset(bb.study, respvar.simple=="daystobudburst")
+#dim(bb.study.bb)#1394 85, across 38 studies (12 exp studies and 26 fieldsample)
+
+#Fit model in lmer:
+bb.study.bb2<-subset(bb.study.bb,select=c(Total_Chilling_Hours,forcetemp,photoperiod_day, response.time,studytype,bb.taxa))
+bb.study.bb2$Total_Chilling_Hours<-as.numeric(bb.study.bb2$Total_Chilling_Hours)
+bb.study.bb2$forcetemp<-as.numeric(bb.study.bb2$forcetemp)
+bb.study.bb2$response.time<-as.numeric(bb.study.bb2$response.time)
+bb.study.bb2$photoperiod_day<-as.numeric(bb.study.bb2$photoperiod_day)
+bb.study.bb2$bb.taxa<-as.factor(bb.study.bb2$bb.taxa)
+bb.study.bb2$studytype<-as.factor(bb.study.bb2$studytype)
+bb.study.bb2<- bb.study.bb2 [apply(bb.study.bb2 , 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+
+bbstudy.mod<-lmer(response.time ~ (Total_Chilling_Hours+forcetemp+photoperiod_day)^2 + studytype+(1|bb.taxa), data = bb.study.bb2)
+summary(bbstudy.mod)
