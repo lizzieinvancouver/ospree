@@ -59,23 +59,34 @@ laube14$temp <- ave(
 )
 laube14$temp<-laube14$temp+6.5
 laube14$day<-1:42
-laube14$night<-laube14$temp
-laube14$night<-ifelse(laube14$day>14 & laube14$day<=21, (laube14$temp-2), laube14$temp)
-laube14$night<-ifelse(laube14$day>21 & laube14$day<=27, (laube14$temp-3), laube14$night)
-laube14$night<-ifelse(laube14$day>27 & laube14$day<=34, (laube14$temp-4), laube14$night)
-laube14$night<-ifelse(laube14$day>41 & laube14$day<=48, (laube14$temp-5), laube14$night)
+#laube14$night<-laube14$temp
+#laube14$night<-ifelse(laube14$day>14 & laube14$day<=21, (laube14$temp-2), laube14$temp)
+#laube14$night<-ifelse(laube14$day>21 & laube14$day<=27, (laube14$temp-3), laube14$night)
+#laube14$night<-ifelse(laube14$day>27 & laube14$day<=34, (laube14$temp-4), laube14$night)
+#laube14$night<-ifelse(laube14$day>41 & laube14$day<=48, (laube14$temp-5), laube14$night)
 
-laube14$hours<-(laube14$temp*8 + laube14$night*16)/24
-laube14$hours.12<-(laube14$temp*12 + laube14$night*12)/24
-laube14$hours.16<-(laube14$temp*16 + laube14$night*8)/24
-laube14<-within(laube14, gdd <-cumsum(hours))
-laube14<-within(laube14, gdd.12<-cumsum(hours.12))
-laube14<-within(laube14, gdd.16<-cumsum(hours.16))
+#laube14$eight<-(laube14$temp*8 + laube14$night*16)/24
+#laube14$twelve<-(laube14$temp*12 + laube14$night*12)/24
+#laube14$sixteen<-(laube14$temp*16 + laube14$night*8)/24
+laube14<-within(laube14, gdd <-cumsum(temp))
+#laube14<-within(laube14, gdd.12<-cumsum(hours.12))
+#laube14<-within(laube14, gdd.16<-cumsum(hours.16))
 
-df<-subset(d, datasetID=="laube14a" & photoperiod_day==8)
-df$response.time<-ifelse(df$response.time==laube14$gdd, laube14$day, df$response.time)
-resps<-unique(df$response.time)
-sort(resps)
+d.sub<-subset(d, datasetID=="laube14a")
+
+for(i in c(1:nrow(d.sub))) {
+  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
+  ldf.osp<-subset(laube14, gdd>= d.sub$response.time[i])
+  d.sub$newresp[i]<-ldf.osp$day[min(ldf.osp$gdd)]
+}
+
+d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) # super close but not quite... keep trying
+
+
+#df<-subset(d, datasetID=="laube14a" & photoperiod_day==8)
+#df$response.time<-ifelse(df$response.time==laube14$gdd, laube14$day, df$response.time)
+#resps<-unique(df$response.time)
+#sort(resps)
 
 
 } else {
