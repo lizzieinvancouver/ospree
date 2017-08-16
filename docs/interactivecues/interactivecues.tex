@@ -1,0 +1,230 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{fixltx2e}
+\usepackage{textcomp}
+\usepackage{fullpage}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage[english]{babel}
+\usepackage{pifont}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{indentfirst}
+\usepackage[normalem]{ulem}
+\usepackage{booktabs}
+%\usepackage{nag}
+\usepackage{natbib}
+%\usepackage{bibtex}
+\usepackage{float}
+\usepackage{latexsym}
+%\usepackage{hyperref} 
+\usepackage{url}
+%\usepackage{html}
+\usepackage{hyperref}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{array}
+\usepackage{mhchem}
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{hyperref}
+%\usepackage{xcolor}
+\usepackage{amsthm}
+\usepackage{amstext}
+\usepackage{lineno}
+
+\usepackage{sectsty,setspace,natbib}
+\usepackage[top=1.00in, bottom=1.0in, left=1in, right=1.25in]{geometry}
+\usepackage{graphicx}
+\usepackage{latexsym,amssymb,epsf,rotating}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{todonotes}
+\usepackage{framed}
+
+\linespread{1.2} % was 1.66 for double-spaced 
+% \raggedright
+\setlength{\parindent}{0.5in}
+
+\setcounter{secnumdepth}{0}
+% Our sections are not numbered and our papers do not have
+% Tables of Contents. We don't 
+% present a list of figures or list of tables, either.
+
+% Any common font is fine.
+% (A common sans-serif font should be used on figures, but figures should be
+% separate from the LaTeX document.)
+
+\pagestyle{empty}
+
+\renewcommand{\section}[1]{%
+\bigskip
+\begin{center}
+\begin{Large}
+\normalfont\scshape #1
+\medskip
+\end{Large}
+\end{center}}
+
+\renewcommand{\subsection}[1]{%
+\bigskip
+\begin{center}
+\begin{large}
+\normalfont\itshape #1
+\end{large}
+\end{center}}
+
+\renewcommand{\subsubsection}[1]{%
+\vspace{2ex}
+\noindent
+\textit{#1.}---}
+
+\renewcommand{\tableofcontents}{}
+
+\bibpunct{(}{)}{;}{a}{}{,}  % this is a citation format command for natbib
+
+\parskip=5pt
+\pagenumbering{arabic}
+\pagestyle{plain}
+
+\begin{document}
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\bigskip
+\noindent RH: Interactive cues and spring phenology
+% put in your own RH (running head)
+
+\bigskip
+\medskip
+\begin{center}
+
+% Insert your title:
+\noindent{\Large \bf Concept paper on understanding interactive cues and climate change (with growth chamber studies); or How interactive cues will drive climate change responses}
+\bigskip
+
+\noindent {\normalsize \sc
+The lab $^{1,2}$}\\
+\noindent {\small \it
+$^1$ Arnold Arboretum, 1300 Centre Street, Boston, Massachusetts, 02131, USA\\
+$^2$ Organismic \& Evolutionary Biology, 28 Oxford Street, Cambridge, Massachusetts, 02138, USA}\\
+\end{center}
+\medskip
+\noindent{\bf Corresponding author:} XX, see $^{1,2}$ above ; E-mail:.\\
+
+\newpage
+\linenumbers
+
+\subsubsection{Abstract} Goes here.
+\\
+\noindent (Keywords:)\\
+
+\newpage
+
+% Check the OSPREE wiki and make sure I added everything!
+\begin{enumerate}
+\item Introduction 
+\begin{enumerate}
+\item Climate change: it means all that work on phenology comes due ... now!
+\item Something on all the focus on forcing but really it's more complicated
+\item Think about one tree\footnote{Here we pick one PEP725 species that is well-represented spatially for leafout or budburst data (Cat?)}
+\item Look at its distribution!\footnote{Here, we show a distribution map (Nacho?), maybe with some spring climate and/or phenology mapped on it.}
+\item Cues are adapted to high climate variation!
+\end{enumerate}
+\item Random other bits to fit in
+\begin{enumerate}
+\item Fig: Number of studies by year (OSPREE)\footnote{Other ideas: number of species studied by year. Show crops or remove or show separately?}
+\item Fig: Map of students, color coded or such by which of the three cues they manipulated
+\item Say something about material (seeds/saplings/cuttings)?
+\item Fig: Variation in treatments across space (photo/chill/force)
+\item Fig: Variation in treatments across time (graph with year on $x$-axis or divide time in half or such? 
+\end{enumerate}
+\item What cues will be most limiting with climate change?
+\begin{enumerate}
+\item Take each PEP725 datapoint within our selected species' range ... 
+\item Calculate: \todo[inline]{We need to think about this a lot more! Do we want to do? And if so, exactly what metrics do we want?}
+\begin{enumerate}
+\item Min daily temp for 1-2 months before leafout
+\item Max daily temp for 1-2 months before leafout
+\item Chilling units (which?) for Oct-February
+\end{enumerate}
+\end{enumerate}
+\item Wrap-up....
+\end{enumerate}
+
+
+%=======================================================================
+% \section{}
+%=======================================================================
+
+%=======================================================================
+%\section{Acknowledgements}
+%=======================================================================
+
+
+
+%=======================================================================
+% References
+%=======================================================================
+%\newpage
+%\bibliography{PWRminimal}
+%\bibliographystyle{sysbio.bst}
+
+
+%=======================================================================
+% Tables
+%=======================================================================
+
+%\begin{center}  
+%\begin{table}
+%\caption{Key differences between PWR and traditional PCMs such as PGLS.}
+%\begin{tabular}{ | p{4cm} | p{5.5 cm} | p{5.5 cm} |}   \hline 
+%& PWR & PCMs (e.g., PGLS) \\ \hline \hline
+%Major goal & Study of evolution of correlation between variables across species & Study of evolution of correlation between variables across species\\ \hline
+%\emph{Assumption 1:} Nature of correlation between two or more variables & Non-stationary (changes through phylogeny in a phylogenetically conserved fashion) & Stationary (constant) throughout phylogeny (all variation is noise) \\ \hline
+%\emph{Assumption 2:} Completeness of variables & Substitutes phylogeny for variables (simple or complex) not in the model that interact with variables in the model & Assumes variables in model are primary drivers of correlational relationship \\ \hline
+%Inferential mode & Usually exploratory & Hypothesis testing (statistical significance)\\ \hline
+%Outputs & Coefficients of regression changing through the phylogeny & p-value and single set of coefficients presumed to apply to entire phylogeny with their confidence intervals\\ \hline
+
+%Method to avoid overfitting & Cross-validation (boot-strapped determination of optimal band-width for accurate prediciton of hold-outs) & Exact analytical model of errors and degrees of freedom\\ \hline \hline
+%\end{tabular}
+%\end{table}
+%\end{center}
+
+\newpage
+
+%=======================================================================
+% Figures
+%=======================================================================
+
+
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Example figure
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{arnell-pwr-m.pdf}
+\caption{PWR estimates (red dots) and 95\% confidence intervals (red lines) across the Arnell phylogeny using O-U-based distance  weighting, for a simple regression of first flowering date on seed size. Solid and dashed vertical gray lines show the estimate and 95\% CI from an analogous global model estimated using PGLS.}
+  \label{fig:arnell-pwr}
+\end{figure}
+\clearpage
+
+
+%=======================================================================
+% to-do listing
+%=======================================================================
+
+\listoftodos
+
+%=======================================================================
+\section*{Other loose ends}
+%=======================================================================
