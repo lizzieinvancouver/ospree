@@ -64,5 +64,7 @@ bb.study.bb2$bb.taxa<-as.factor(bb.study.bb2$bb.taxa)
 bb.study.bb2$studytype<-as.factor(bb.study.bb2$studytype)
 bb.study.bb2<- bb.study.bb2 [apply(bb.study.bb2 , 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
-bbstudy.mod<-lmer(response.time ~ (Total_Chilling_Hours+forcetemp+photoperiod_day)^2 + studytype+(1|bb.taxa), data = bb.study.bb2)
+
+bbstudy.mod<-lmer(response.time ~ (Total_Chilling_Hours+forcetemp+photoperiod_day+ studytype)^3 +(1|bb.taxa), data = bb.study.bb2)
 summary(bbstudy.mod)
+
