@@ -73,12 +73,32 @@ laube14<-within(laube14, gdd <-cumsum(temp))
 #laube14<-within(laube14, gdd.16<-cumsum(hours.16))
 
 d.sub<-subset(d, datasetID=="laube14a")
+d.sub<-d.sub[which(d.sub$response.time!=-23.76),]
+d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
 for(i in c(1:nrow(d.sub))) {
   #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
-  ldf.osp<-subset(laube14, gdd>= d.sub$response.time[i])
+  ldf.osp<-subset(laube14, lower> d.sub$response.time[i])
   d.sub$newresp[i]<-ldf.osp$day[min(ldf.osp$gdd)]
 }
+
+ldf.max<-d.sub$response.time+10
+
+for(i in c(1:nrow(d.sub))) {
+  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
+  ldf.max<-as.numeric(d.sub$response.time[i])+10
+  ldf.min<-as.numeric(d.sub$response.time[i])-10
+  ldf.osp$resp<-laube14[which(laube14$gdd<=ldf.max[i] | laube14$gdd>=ldf.min[i]),]
+}
+
+
+laube14$upper<-as.numeric(laube14$gdd+10)
+laube14$lower<-as.numeric(laube14$gdd-10)
+d.sub$newgdd<-ifelse(d.sub$response.time>=laube14$lower, laube14$day, d.sub$response.time)
+d.sub$newgdd<-ifelse(d.sub$response.time<=laube14$upper, d.sub$response.time, laube14$gdd)
+
+
+
 
 d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) # super close but not quite... keep trying
 
