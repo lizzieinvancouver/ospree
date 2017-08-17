@@ -91,7 +91,7 @@ for(i in c(1:nrow(d.sub))) {
 d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$response.time)
 d.sub$newresp<-ifelse(d.sub$response.time=="no response", 0, d.sub$newresp)
 
-d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) # super close but not quite... keep trying
+d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) 
 
 ## another method
 #for(i in c(1:nrow(d.sub))) {
