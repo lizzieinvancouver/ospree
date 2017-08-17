@@ -30,7 +30,7 @@ if(is.data.frame(d)){
 #laube14a, skuterud94
 # Both thermal time ("degreedaystobudburst") and daystobudburst were entered for basler12: this should be fixed in multiresponse
 # Both thermal time and percentbudburst were entered for ghelardini10- this should be fixed in multiresponse
-# Cannot figure out laube14a (does not seem to give equation for 'median forcing requirements' at all, if we did get it would need crafty approach to deal with ramping of temperatures) or skuterud94
+# Cannot figure out skuterud94 - not enough information
 
 ######## Changes made my Cat - 26 May 2017 #######################
 # heide93 is already converted from percentbudburst so thermaltime does not to be converted or else would result in duplicated results!
@@ -76,37 +76,29 @@ d.sub<-subset(d, datasetID=="laube14a")
 d.sub<-d.sub[which(d.sub$response.time!=-23.76),]
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
-for(i in c(1:nrow(d.sub))) {
-  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
-  ldf.osp<-subset(laube14, lower> d.sub$response.time[i])
-  d.sub$newresp[i]<-ldf.osp$day[min(ldf.osp$gdd)]
-}
+d.sub$newresp<-NA
+laube14$upper<-as.numeric(laube14$gdd+12)
+laube14$lower<-as.numeric(laube14$gdd-12)
 
-ldf.max<-d.sub$response.time+10
-
+d.sub$response.time<- as.numeric(d.sub$response.time)
 for(i in c(1:nrow(d.sub))) {
-  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
-  ldf.max<-as.numeric(d.sub$response.time[i])+10
-  ldf.min<-as.numeric(d.sub$response.time[i])-10
-  ldf.osp$resp<-laube14[which(laube14$gdd<=ldf.max[i] | laube14$gdd>=ldf.min[i]),]
+  for(j in c(1:nrow(laube14)))
+    if(d.sub$response.time[i] >= laube14$lower[j] & d.sub$response.time[i] <= laube14$upper[j])
+      d.sub$newresp[i]<-laube14$day[j]
 }
 
 
-laube14$upper<-as.numeric(laube14$gdd+10)
-laube14$lower<-as.numeric(laube14$gdd-10)
-d.sub$newgdd<-ifelse(d.sub$response.time>=laube14$lower, laube14$day, d.sub$response.time)
-d.sub$newgdd<-ifelse(d.sub$response.time<=laube14$upper, d.sub$response.time, laube14$gdd)
-
-
-
+d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$response.time)
+d.sub$newresp<-ifelse(d.sub$response.time=="no response", 0, d.sub$newresp)
 
 d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) # super close but not quite... keep trying
 
-
-#df<-subset(d, datasetID=="laube14a" & photoperiod_day==8)
-#df$response.time<-ifelse(df$response.time==laube14$gdd, laube14$day, df$response.time)
-#resps<-unique(df$response.time)
-#sort(resps)
+## another method
+#for(i in c(1:nrow(d.sub))) {
+  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
+ # ldf.osp<-subset(laube14, lower> d.sub$response.time[i])
+ # d.sub$newresp[i]<-ldf.osp$day[min(ldf.osp$gdd)]
+#}
 
 
 } else {
