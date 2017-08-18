@@ -6,8 +6,8 @@
 #'  Ospree
 #'  started 21 July 2017
 #'  
-#'  The file is unfinished!! Still needs to extract correctly the BB date and communicate 
-#'  chill data with pmp data
+#'  This file is unfinished -- need to deal with Sstudies.need.attention -- Swartz 81 -
+#'  in that study climate data is lacking for the second year
 ##############################################################################################################
 
 
@@ -66,7 +66,7 @@ setdiff(chilly$uniqueID, bbdat$uniqueID) # ALERT! need to work on this!
 bb <- merge(chilly, bbdat, by="uniqueID", all.y=TRUE)
 bb$expstartdate <- bb$lastchilldate # subset(bb, is.na(bb$expstartdate)==FALSE)
 bb$expstartdate[which(is.na(bb$expstartdate)==TRUE)] <- bb$fieldsample.date2[which(is.na(bb$expstartdate)==TRUE)] 
-dim(subset(bb, is.na(bb$expstartdate)==TRUE))
+#dim(subset(bb, is.na(bb$expstartdate)==TRUE))
 
 # add a column for when the experiment starts to climate data
 addstartdat <- subset(bb, select=c("uniqueID", "expstartdate"))
@@ -105,6 +105,8 @@ bb.wstart <- subset(bb.wstart, datasetID != "falusi97" & datasetID != "heide93" 
 ##
 ##
 
+#head(bb.wstart)
+
 #there are errors in the below but the errors may go away once cliamte data is correct
 studies.need.no.attention<-list()
 studies.need.attention<-list()
@@ -126,47 +128,10 @@ studies.need.attention<-bb.wstart$uniqueID[unlist(studies.need.attention)] ## st
 
 #head(bb.wstart)
 #sum(!is.na(bb.wstart$gdd))
+#hist(bb.wstart$numnas_gdd)
 
-## older code ..
-## Nacho started this, then Lizzie took over and wrote the above
-## Possible to delete?
-
-GDD.each.study<-rep(NA,length(chill.unique.exptreat))
-for(i in 1:length(chill.unique.exptreat)){#i=1
-  
-  ## define target study
-  exp.treat.i<-chill.unique.exptreat[i]
-  study.i<-unique(chill.day$datasetID[which(chill.day$ID_exptreat2==exp.treat.i)])
-  last.chill.study.i<-unique(chill.day[chill.day$datasetID==study.i,"lastchilldate"])
-  
-  ## NOTE: the number of unique treatments and unique last chill days differ -- check if makes sense
-  
-  ## define which elements in pmp.data correspond to target study
-  pmp.elements<-which(grepl(study.i,studiesnames))
-  treatment.elements<-unique(subset(chill.day,datasetID==study.i)$ID_exptreat2)
-  
-  if(length(pmp.elemnts)>0)
-  
-  ## loop across elements and compute GDDs between end-chilling and BB
-    gdds.each<-list()
-    for(j in 1:length(pmp.elements)){#j=2
-      element.j<-pmp.data[[pmp.elements[j]]]
-      start.date<-as.Date(last.chill.study.i[j],format="%Y-%m-%d")
-      
-      ##NOTE: need to get bb date from dataset below, just an example to work the code
-      end.date<-as.Date("1983-11-25",format="%Y-%m-%d")
-      period<-seq(start.date,end.date,1)
-      Temps.avg<-rowMeans(element.j[which(as.Date(element.j$Date,format="%Y-%m-%d")%in%(period-100)),4:5])
-      gdds.each[[j]]<-sum(Temps.avg>10)
-    }
-  
-  gdds<-unlist(gdds.each)
-  GDD.each.study[[i]]<-gdds[which(!is.na(gdds))]
-  
-}
-
-## this object is a list that should contain the gdd for each study. Do we append to d?
-GDD.each.study
+## saving results to output -
+write.csv(bb.wstart,"output/bbdata_wgdd.csv")
 
 
 
