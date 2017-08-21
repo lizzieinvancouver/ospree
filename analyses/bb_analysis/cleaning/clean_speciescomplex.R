@@ -1,7 +1,10 @@
 ## Try and organize so useful for all models running
 ## Started by Dan B - 26 July 2017
-# Edits by Cat C - 17 August 2017
+## Edits by Cat C - 17 August 2017
 
+## This code requires some form of the OSPREE database loaded as an object 'd' ##
+require(plyr)
+require(dplyr)
 
 d$name<-paste(d$genus,d$species,sep="_")
 

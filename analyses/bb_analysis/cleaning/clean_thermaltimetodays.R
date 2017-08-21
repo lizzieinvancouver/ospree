@@ -49,7 +49,7 @@ d$response.time[which(d$datasetID=="karlsson03")] <-
 d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="karlsson03"]<-"daystobudburst")
 
-### Laube14a attempt...
+### Adjust Laube14a based on slightly complex calculations (see paper and bbcleaning_README.txt for more details)...
 temp<-0.5
 laube14<-data.frame(matrix(0, ncol = 1, nrow = 42), temp=temp)
 laube14<-dplyr::select(laube14, temp)
@@ -77,9 +77,16 @@ d.sub<-d.sub[which(d.sub$response.time!=-23.76),]
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
 d.sub$newresp<-NA
-laube14$upper<-as.numeric(laube14$gdd+12)
-laube14$lower<-as.numeric(laube14$gdd-12)
-
+# Okay, we'll use a loop to match the extracted GDD values to days
+# The way we do it, we'll need the upper and lower GDD range for each day, so build that here
+laube14$upper <- NA
+laube14$lower <- NA
+laube14$lower[1] <- -5
+laube14$upper[1] <- laube14$gdd[1]
+laube14$lower[2:42] <- laube14$gdd[1:41]+0.001
+laube14$upper[2:42] <- laube14$gdd[2:42]
+    
+# And here's the loop to assign a day to GDD 
 d.sub$response.time<- as.numeric(d.sub$response.time)
 for(i in c(1:nrow(d.sub))) {
   for(j in c(1:nrow(laube14)))
