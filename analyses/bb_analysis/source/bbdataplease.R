@@ -8,12 +8,18 @@
 
 # below file is cleaned, had chilling added and some BB cleaning done also
 bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+
+if(FALSE){
 # file to adjust species into species or species complexes ... 
 taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 
 ## read taxon data to subset dataset
 bb.walltaxa <- merge(bb.all, taxon, by=c("genus","species"), all.x=TRUE)
 bb.wtaxa <-subset(bb.walltaxa, use=="Y")
+}
+
+# FIX! HACK for now ... 
+bb.wtaxa <- bb.all
 
 ## just the bb data ...
 respvars.thatwewant <- c("daystobudburst", "percentbudburst")
@@ -30,6 +36,11 @@ bb.wtaxa.resp$resp <- as.numeric(bb.wtaxa.resp$response.time)
 bb.noNA <- subset(bb.wtaxa.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)
 
+d <- bb.noNA
+
+source("bb_analysis/cleaning/clean_speciescomplex.R")
+
+if(FALSE){
 ## Now we have to check what complexes are down to 1 dataset
 taxa.numprep <- aggregate(bb.noNA[c("resp")], bb.noNA[c("complex", "datasetID")], FUN=mean)
 taxa.num <- aggregate(taxa.numprep[c("datasetID")], taxa.numprep[c("complex")], FUN=length)
@@ -60,6 +71,7 @@ bb.corrtaxa <- bb.noNA[which(!bb.noNA$complex %in% toremove),]
 taxa.numprep.check <- aggregate(bb.corrtaxa[c("resp")], bb.corrtaxa[c("complex", "datasetID")], FUN=mean)
 taxa.num.check <- aggregate(taxa.numprep.check[c("datasetID")], taxa.numprep.check[c("complex")], FUN=length)
 subset(taxa.num.check, datasetID<2)
+}
 
 # slim down our columns
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
