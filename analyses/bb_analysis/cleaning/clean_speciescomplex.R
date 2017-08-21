@@ -2,6 +2,7 @@
 ## Started by Dan B - 26 July 2017
 # Edits by Cat C - 17 August 2017
 
+
 d$name<-paste(d$genus,d$species,sep="_")
 
 xx<-d
@@ -85,7 +86,7 @@ d$use<-"Y"
 check.this<-d%>%dplyr::select(datasetID, genus, species, name, complex)
 check.this<-check.this[!duplicated(check.this),]
 
-c(unique(goo$complex), unique(goob$complex))
+sort(c(unique(goo$complex), unique(goob$complex)))
 #  [1] "Acer_pseudoplatanus"     "Betula_pendula"          "Aesculus_hippocastanum"  "Syringa_vulgaris"        "Corylus_avellana"        "Fraxinus_excelsior"      "Fagus_sylvatica"        
 #[8] "Picea_abies"             "Larix_decidua"           "Prunus_avium"            "Tilia_cordata"           "Sorbus_aucuparia"        "Abies_alba"              "Quercus_petraea"        
 #[15] "Actinidia_deliciosa"     "Vitis_vinifera"          "Betula_pubescens"        "Quercus_rubra"           "Acer_saccharum"          "Betula_alleghaniensis"   "Pseudotsuga_menziesii"  
@@ -97,7 +98,7 @@ c(unique(goo$complex), unique(goob$complex))
 #[57] "Pyrus_complex"           "Rhododendron_complex"    "Vaccinium_complex"      
 
 
-unique(d$complex)
+sort(unique(d$complex))
 #[1] "Tilia_complex"           "Acer_pseudoplatanus"     "Betula_pendula"          "Aesculus_hippocastanum"  "Syringa_vulgaris"        "Corylus_avellana"        "Fraxinus_excelsior"     
 #[8] "Fagus_sylvatica"         "Picea_abies"             "Larix_decidua"           "Prunus_avium"            "Quercus_complex"         "Tilia_cordata"           "Sorbus_aucuparia"       
 #[15] "Abies_alba"              "Quercus_petraea"         "Actinidia_deliciosa"     "Vitis_vinifera"          "Pinus_complex"           "Betula_pubescens"        "Salix_complex"          
