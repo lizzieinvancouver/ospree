@@ -73,7 +73,7 @@ laube14<-within(laube14, gdd <-cumsum(temp))
 #laube14<-within(laube14, gdd.16<-cumsum(hours.16))
 
 d.sub<-subset(d, datasetID=="laube14a")
-d.sub<-d.sub[which(d.sub$response.time!=-23.76),]
+d.sub$response.time[which(d.sub$response.time==-23.76 & d.sub$datasetID=="laube14a")]<-"no response"
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
 d.sub$newresp<-NA
@@ -99,14 +99,6 @@ d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$respons
 d.sub$newresp<-ifelse(d.sub$response.time=="no response", 0, d.sub$newresp)
 
 d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) 
-
-## another method
-#for(i in c(1:nrow(d.sub))) {
-  #d.sub<-subset(d.sub, photoperiod_day==laube14$photo[i]) # use if need nighttime data
- # ldf.osp<-subset(laube14, lower> d.sub$response.time[i])
- # d.sub$newresp[i]<-ldf.osp$day[min(ldf.osp$gdd)]
-#}
-
 
 } else {
   print("Error: d is not a data.frame")
