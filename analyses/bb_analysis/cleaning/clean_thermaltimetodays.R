@@ -73,32 +73,32 @@ laube14<-within(laube14, gdd <-cumsum(temp))
 #laube14<-within(laube14, gdd.16<-cumsum(hours.16))
 
 d.sub<-subset(d, datasetID=="laube14a")
-d.sub$response.time[which(d.sub$response.time==-23.76 & d.sub$datasetID=="laube14a")]<-"no response"
+d.sub$response.time[which(d.sub$response.time==-23.76)]<-"no response"
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
-d.sub$newresp<-NA
+
+
 # Okay, we'll use a loop to match the extracted GDD values to days
 # The way we do it, we'll need the upper and lower GDD range for each day, so build that here
 laube14$upper <- NA
 laube14$lower <- NA
-laube14$lower[1] <- -5
+laube14$lower[1] <- 1
 laube14$upper[1] <- laube14$gdd[1]
 laube14$lower[2:42] <- laube14$gdd[1:41]+0.001
 laube14$upper[2:42] <- laube14$gdd[2:42]
+
     
 # And here's the loop to assign a day to GDD 
 d.sub$response.time<- as.numeric(d.sub$response.time)
 for(i in c(1:nrow(d.sub))) {
   for(j in c(1:nrow(laube14)))
     if(d.sub$response.time[i] >= laube14$lower[j] & d.sub$response.time[i] <= laube14$upper[j])
-      d.sub$newresp[i]<-laube14$day[j]
+      d.sub$response.time[i]<-laube14$day[j]
 }
 
 
 d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$response.time)
-d.sub$newresp<-ifelse(d.sub$response.time=="no response", 0, d.sub$newresp)
-
-d.check<-d.sub%>%dplyr::select(response.time, photoperiod_day, newresp) 
+d$response.time[which(d$datasetID=="laube14a")]<-d.sub$response.time
 
 } else {
   print("Error: d is not a data.frame")
