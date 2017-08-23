@@ -43,13 +43,20 @@ options(mc.cores = parallel::detectCores())
 # Running the models with fake data? See bb_testdata_analysis.R #
 ################################################################# 
 
-## get the data, merge in taxa info, subset down to what we want for:
-# (1) 'species'
-# (2) columns
-# (3) response data 
-## Be sure to keep an eye on this source file, you will need to update it
-## One update will be after we have the Laube data
+## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
+## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
+## (1) Get the data and slim down to correct response and no NAs ...
 source("bb_analysis/source/bbdataplease.R")
+## (2) Deal with species
+dim(bb.noNA)
+d <- bb.noNA
+source("bb_analysis/source/speciescomplex.R")
+bb.noNA.wtaxa <- d
+dim(bb.noNA.wtaxa)
+unique(bb.noNA.wtaxa$complex)
+# (3) Get fewer columns for sanity
+source("bb_analysis/source/commoncols.R")
+bb <- subset(bb.noNA.wtaxa, select=columnstokeep)
 
 ## For centering data, not doing it for now
 #bb$photo.cen <- scale(bb$photo, center=TRUE, scale=TRUE)
