@@ -12,6 +12,7 @@ options(stringsAsFactors = FALSE)
 
 ## To do!
 ## Clean up plotting code and add a figure showing all data and sp lines together (well, 3 figures)
+## Figure out why sigma_a plots each sp in muplot, but no dice for sigma_bforce etc.
 
 library(rstan)
 library(ggplot2)
@@ -33,12 +34,27 @@ source('stan/savestan.R')
 figpath <- "bb_analysis/figures"
 
 ##
-# get the data (taken from bbmodels_stan.R)
+##
+## << START OF taken from bbmodels_stan.R >> ##
+
+## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
+## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
+## (1) Get the data and slim down to correct response and no NAs ...
 source("bb_analysis/source/bbdataplease.R")
+## (2) Deal with species
+dim(bb.noNA)
+d <- bb.noNA
+source("bb_analysis/source/speciescomplex.R")
+bb.noNA.wtaxa <- d
+dim(bb.noNA.wtaxa)
+unique(bb.noNA.wtaxa$complex)
+# (3) Get fewer columns for sanity
+source("bb_analysis/source/commoncols.R")
+bb <- subset(bb.noNA.wtaxa, select=columnstokeep)
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
-bb <- subset(bb, type!="crop")
+# bb <- subset(bb, type!="crop")
 bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type"))
 bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
@@ -49,6 +65,7 @@ bb.stan <- subset(bb.stan, resp<600)
 # adjust chilling (if needed)
 bb.stan$chill <- bb.stan$chill/240
 
+## << END OF taken from bbmodels_stan.R >> ##
 ##
 ##
 
@@ -67,7 +84,7 @@ sumer.ni <- summary(bb.m1.2l)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
 
-# Load fitted stan model: no interactions
+# Load fitted stan model: with interactions
 load("stan/bb/output/M1_daysBBwinter_2level.Rda")
 m1.bb <- bb.m1.2lint
 # summary(m1.bb)

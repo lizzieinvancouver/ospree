@@ -2,7 +2,7 @@
 // Started by flynn@fas.harvard.edu, code updated by Lizzie in July 2017 to try running.
 // 2 level model for budburst day or percent budburst as a function of forcing temperature, chilling units, photoperiod in a meta-analysis of 100+ studies
 // Level: Species (actually genus) on INTERCEPTS and SLOPES
-// This model has interactions! The two-way type but it does not have grouping on them!
+// This model has interactions! The two-way type but it does not have species grouping on them!
 
 data {
 	int<lower=1> N;

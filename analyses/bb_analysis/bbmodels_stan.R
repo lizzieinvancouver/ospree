@@ -96,8 +96,19 @@ datalist.bb <- with(bb.stan,
 )
 ## real data with only experimental chilling (no field chilling)
 #osp.td3 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
- #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95)) 
+ #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95))
 
+
+########################################################
+# real data on 2 level model (sp on intercept only) with no interactions 
+# Note the notation: M1_daysBBnointer_2level_interceptonly.stan: m0.2l
+########################################################
+bb.m0.2l = stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = datalist.bb,
+               iter = 2500, warmup=1500)
+
+m0.2l.sum <- summary(bb.m0.2l)$summary
+m0.2l.sum[grep("mu_", rownames(m0.2l.sum)),] 
+m0.2l.sum[grep("b_", rownames(m0.2l.sum)),]
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
@@ -197,13 +208,35 @@ head(mint3.sum) # 82 intercept; -1.1 force, -0.9 photo, +0.5 chill, small intxns
 
 
 ########################################################
-# real data on 2 level model (sp) with 2 two-way interactions 
+# real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
 # Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m1.2lintnsp
 ########################################################
-bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternospwinternosp_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 0 divergent transitions, but n_eff still struggling
+bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternosp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 0 divergent transitions, looks like it converged
  
 save(bb.m1.2lintnsp, file="stan/bb/output/M1_daysBBwinternosp_2level.Rda")
 
 mint4.sum <- summary(bb.m1.2lintnsp)$summary 
 head(mint4.sum) 
+mint4.sum[grep("mu_", rownames(mint4.sum)),]
+mint4.sum[grep("b_", rownames(mint4.sum)),]
+# 65 intercept; +2 force, 0.34 photo, -0.35 chill, small intxns
+
+# with crops removed (2 divergent transitions): 
+# 66 intercept; -0.7 force, 0.7 photo, -0.3 chill, small intxns around -0.03
+
+
+########################################################
+# real data on 2 level model with 2 two-way interactions; partial pooling of sp on intercept ONLY
+# Note the notation: M1_daysBBwinter_spintonly_2level.stan: m1.2lspint
+########################################################
+bb.m1.2lspint = stan('stan/bb/M1_daysBBwinter_spintonly_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 0 divergent transitions
+ 
+save(bb.m1.2lspint, file="stan/bb/output/M1_daysBBwinter_spintonly_2level.Rda")
+
+mint5.sum <- summary(bb.m1.2lspint)$summary 
+head(mint5.sum) 
+mint5.sum[grep("b_", rownames(mint5.sum)),]
+# 54 intercept; +1.2 force, 2.9 photo, -0.07 chill, cf is super small, cp is 0.07, fp is 0.2
+# with crops removed: ugh, just ugh.
