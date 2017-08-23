@@ -99,7 +99,9 @@ for(i in c(1:nrow(d.sub))) {
 
 d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$response.time)
 d$response.time[which(d$datasetID=="laube14a")]<-d.sub$response.time
-
+d$respvar.simple[which(d$datasetID=="laube14a")]<- "daystobudburst"
+d$respvar[which(d$datasetID=="laube14a")]<- "degreedaystobudburstconvertedtodays"
+    
 } else {
   print("Error: d is not a data.frame")
 }
