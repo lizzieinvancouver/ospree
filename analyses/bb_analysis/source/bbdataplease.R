@@ -38,5 +38,5 @@ forceNA <- bb.resp[which(is.na(bb.resp$force)==TRUE),]
 forceNA$forcetemp
 subset(forceNA, forcetemp=="")  # what is up with the no entry ones? hawkins12 and gansert02
 photoNA <- bb.resp[which(is.na(bb.resp$photo)==TRUE),]
-photoNA$photoperiod_day
+photoNA$photoperiod_day # these datasetIDs are all mentioned as not possible to fix in clean_photoperiod.R
     }
