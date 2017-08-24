@@ -101,6 +101,14 @@ d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$respons
 d$response.time[which(d$datasetID=="laube14a")]<-d.sub$response.time
 d$respvar.simple[which(d$datasetID=="laube14a")]<- "daystobudburst"
 d$respvar[which(d$datasetID=="laube14a")]<- "degreedaystobudburstconvertedtodays"
+
+# Swartz81 - was converted from growing degree hours to growing degree days, now we need to 
+# convert from growing degree days to days to budburst
+d$response.time[which(d$datasetID=="swartz81")] <-
+  as.numeric(d$response.time[which(d$datasetID=="swartz81")])/(
+    as.numeric(d$forcetemp[which(d$datasetID=="swartz81")]) - 4.5)
+#d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <- "timeonly"
+d<-within(d, respvar.simple[datasetID=="swartz81"]<-"daystobudburst")
     
 } else {
   print("Error: d is not a data.frame")
