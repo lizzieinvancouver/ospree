@@ -9,9 +9,9 @@
 ## Take 3: July 2017! ## New code to run stan models on Ospree (by Nacho, Lizzie and more)
 
 ## To do
-# (a) think on adjusting forcetemp to incorporate nightime temps?
+# (a) think on adjusting forcetemp to incorporate nightime temps? And look at what we lose in photo and force!
 # (b) see notes throughout on what Lizzie still needs to clean
-
+# (c) subset down to relevant block/transplant treatments for gomory15
 
 ## housekeeping
 rm(list=ls()) 
@@ -98,145 +98,156 @@ datalist.bb <- with(bb.stan,
 #osp.td3 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
  #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95))
 
+######################################
+## Overview of the models run below ##
+######################################
+# All have partial pooling (pp) and include force (f), photo (p), chill (c)
+# m2l.nib (b for basic): a(sp) + f + p + c
+# m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
+# m2l.nisig: m2l.ni but with sigmoid (not running currently)
+# m2l.wispint: a(sp) + f + p + c + cf + cp + fp
+# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
+# m2l.wi: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp)
+# m2l.wicf: a(sp) + f(sp) + p(sp) + c(sp) + fp(sp) + cp(sp)
+# m2l.wicp: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + fp(sp)
+# m2l.wifp: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp)
 
 ########################################################
 # real data on 2 level model (sp on intercept only) with no interactions 
-# Note the notation: M1_daysBBnointer_2level_interceptonly.stan: m0.2l
+# Note the notation: M1_daysBBnointer_2level_interceptonly.stan: m2l.nib
 ########################################################
-bb.m0.2l = stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = datalist.bb,
-               iter = 2500, warmup=1500)
-
-m0.2l.sum <- summary(bb.m0.2l)$summary
-m0.2l.sum[grep("mu_", rownames(m0.2l.sum)),] 
-m0.2l.sum[grep("b_", rownames(m0.2l.sum)),]
+m2l.nib = stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) 
+  
+m2l.nibsum <- summary(m2l.nib)$summary
+m2l.nibsum[grep("mu_", rownames(m2l.nibsum)),] 
+m2l.nibsum[grep("b_", rownames(m2l.nibsum)),]
+# a: 76; f: -1.5; p: -0.25; c: -1.6
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
-# Note the notation: M1_daysBBnointer_2level.stan: m1.2l
+# Note the notation: M1_daysBBnointer_2level.stan: m2l.ni
 ########################################################
-bb.m1.2l = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500)
-     # Lizzie deleted: control=list(adapt_delta=0.95)
-     # not needed, don't add this is you don't need it, it just slows things down
+m2l.ni = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 12 divtrans and a couple n_eff issues
 
-betas.bb.m1.2l <- as.matrix(bb.m1.2l, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
+betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill"))
-# mcmc_intervals(betas.bb.m1.2l[,1:3])
-# launch_shinystan(bb.m1.2l)
-m1.2l.sum <- summary(bb.m1.2l)$summary
-m1.2l.sum[grep("mu_", rownames(m1.2l.sum)),] 
-# OLD: force: -1; photo: -1.1; chill: -1.6
-# Updated on 15 Aug 2017 with new species names: force: 0.25; photo: -2.3; chill: -1.5
-# with crops removed:
-# force: -1.3; photo: -0.4; chill: -1.5
+# mcmc_intervals(betas.m2l.ni[,1:3])
+# launch_shinystan(m2l.ni)
+m2lni.sum <- summary(m2l.ni)$summary
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
+# a: 80; f: -1.5; p: -0.4; c: -1.9
 
 # getting predicted values if needed
-# preds.m1.2l <- m1.2l.sum[grep("yhat", rownames(m1.2l.sum)),]
+# preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
 
-save(bb.m1.2l, file="stan/bb/output/M1_daysBBnointer_2level.Rda")
+save(m2l.ni, file="stan/bb/output/M1_daysBBnointer_2level.Rda")
 
 ########################################################
 # real data on 2 level model (sp) with no interactions, with sigmoid
-# Note the notation: M1_daysBBnointer_2level_interceptonly_sigmoid.stan: m1.2l.sig
+# Note the notation: M1_daysBBnointer_2level_interceptonly_sigmoid.stan: m2l.nisig
 ########################################################
 # Note: Lizzie needs to check this section of code #
 # So for now, it is block-commented out
 if(FALSE){
 
-bb.m1.2lsig = stan('stan/bb/M1_daysBBnointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
+m2l.nisig = stan('stan/bb/M1_daysBBnointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
                iter = 2000, warmup=1500, control=list(adapt_delta=0.95)) 
 
-betas.bb.m1.2lsig  <- as.matrix(bb.m1.2lsig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
-mcmc_intervals(betas.bb.m1.2lsig[,1:5])
-
-# m1.2lsig.sum <- summary(bb.m1.2lsig)$summary
-# preds.m1.2lsig <- m1.2lsig.sum[grep("yhat", rownames(m1.2lsig.sum)),]
+betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
+mcmc_intervals(betas.m2l.nisig[,1:5])
 
 }
 
 ########################################################
-# real data on 2 level model (sp) with interactions 
-# Note the notation: M1_daysBBwinter_2level.stan: m1.2lint
-########################################################
-bb.m1.2lint = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 15 divergent transitions (need to update)
-
-save(bb.m1.2lint, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
-
-mint.sum <- summary(bb.m1.2lint)$summary
-mint.sum[grep("mu_", rownames(mint.sum)),]
-# 49 intercept; +1.9 force, +1.7 photo, -2.0 chill, small intxns but fp -0.2
-
-# with crops removed:
-# 55 intercept; +0.03 force, +0.9 photo, -0.6 chill, small intxns: cf: -0.02; cp: -0.04; fp: -0.09
-
-########################################################
-# real data on 2 level model (sp) with 2 two-way interactions 
-# Note the notation: M1_daysBBwinter_nocf_2level.stan: m1.2lintcf
-########################################################
-bb.m1.2lintcf = stan('stan/bb/M1_daysBBwinter_nocf_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 5 divergent transitions (need to update) 
-
-save(bb.m1.2lintcf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
-
-mint1.sum <- summary(bb.m1.2lintcf)$summary
-head(mint1.sum) # 49 intercept; +1.9 force, +1.7 photo, -1.8 chill, small intxns but fp -0.2
-
-########################################################
-# real data on 2 level model (sp) with 2 two-way interactions 
-# Note the notation: M1_daysBBwinter_nocp_2level.stan: m1.2lintcp
-########################################################
-bb.m1.2lintcp = stan('stan/bb/M1_daysBBwinter_nocp_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 35 divergent transitions (need to update)
-
-save(bb.m1.2lintcp, file="stan/bb/output/M1_daysBBwinter_nocp_2level.Rda")
-
-mint2.sum <- summary(bb.m1.2lintcp)$summary
-head(mint2.sum) # 43 intercept; +2.2 force, +1.9 photo, -1.3 chill, small intxns but fp -0.2
-
-########################################################
-# real data on 2 level model (sp) with 2 two-way interactions 
-# Note the notation: M1_daysBBwinter_nofp_2level.stan: m1.2lintfp
-########################################################
-bb.m1.2lintfp = stan('stan/bb/M1_daysBBwinter_nofp_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 387 divergent transitions (need to update)
- 
-save(bb.m1.2lintfp, file="stan/bb/output/M1_daysBBwinter_nofp_2level.Rda")
-
-mint3.sum <- summary(bb.m1.2lintfp)$summary 
-head(mint3.sum) # 82 intercept; -1.1 force, -0.9 photo, +0.5 chill, small intxns
-
-
-########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
-# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m1.2lintnsp
+# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
 ########################################################
-bb.m1.2lintnsp = stan('stan/bb/M1_daysBBwinternosp_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 0 divergent transitions, looks like it converged
+m2l.winsp = stan('stan/bb/M1_daysBBwinternosp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 7 divergent transitions, some real n_eff issues
  
-save(bb.m1.2lintnsp, file="stan/bb/output/M1_daysBBwinternosp_2level.Rda")
+save(m2l.winsp, file="stan/bb/output/M1_daysBBwinternosp_2level.Rda")
 
-mint4.sum <- summary(bb.m1.2lintnsp)$summary 
-head(mint4.sum) 
-mint4.sum[grep("mu_", rownames(mint4.sum)),]
-mint4.sum[grep("b_", rownames(mint4.sum)),]
-# 65 intercept; +2 force, 0.34 photo, -0.35 chill, small intxns
+m2l.winsp.sum <- summary(m2l.winsp)$summary 
+head(m2l.winsp.sum) 
+m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
+# a: 63; f: -0.5; p: +0.6; c: -1.6, small intxns (<0.09)
 
-# with crops removed (2 divergent transitions): 
-# 66 intercept; -0.7 force, 0.7 photo, -0.3 chill, small intxns around -0.03
+# with crops removed...
 
 
 ########################################################
 # real data on 2 level model with 2 two-way interactions; partial pooling of sp on intercept ONLY
-# Note the notation: M1_daysBBwinter_spintonly_2level.stan: m1.2lspint
+# Note the notation: M1_daysBBwinter_spintonly_2level.stan: m2l.wispint
 ########################################################
-bb.m1.2lspint = stan('stan/bb/M1_daysBBwinter_spintonly_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 0 divergent transitions
+m2l.wispint = stan('stan/bb/M1_daysBBwinter_spintonly_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 0 divergent transitions, some n_eff issues
  
-save(bb.m1.2lspint, file="stan/bb/output/M1_daysBBwinter_spintonly_2level.Rda")
+save(m2l.wispint, file="stan/bb/output/M1_daysBBwinter_spintonly_2level.Rda")
 
-mint5.sum <- summary(bb.m1.2lspint)$summary 
-head(mint5.sum) 
-mint5.sum[grep("b_", rownames(mint5.sum)),]
-# 54 intercept; +1.2 force, 2.9 photo, -0.07 chill, cf is super small, cp is 0.07, fp is 0.2
-# with crops removed: ugh, just ugh.
+m2l.wispint.sum <- summary(m2l.wispint)$summary 
+head(m2l.wispint.sum) 
+m2l.wispint.sum[grep("b_", rownames(m2l.wispint.sum)),]
+# a: 54; f: -0.2; p: +0.8; c: -0.02, small intxns
+
+
+
+########################################################
+# real data on 2 level model (sp) with interactions 
+# Note the notation: M1_daysBBwinter_2level.stan: m2l.wi
+########################################################
+m2l.wi = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 883 divergent transitions and model has not converged! (ugh!)
+
+save(m2l.wi, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
+
+mint.sum <- summary(m2l.wi)$summary
+mint.sum[grep("mu_", rownames(mint.sum)),]
+# not converged
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocf_2level.stan: m2l.wicf
+########################################################
+m2l.wicf = stan('stan/bb/M1_daysBBwinter_nocf_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 17 divergent transitions, n_eff issues
+
+save(m2l.wicf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
+
+m2l.wicf.sum <- summary(m2l.wicf)$summary
+head(m2l.wicf.sum)
+m2l.wicf.sum[grep("mu_", rownames(m2l.wicf.sum)),]
+# a: 66; f: -0.6; p: +0.6; c: -2.3, small intxns
+
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nocp_2level.stan: m2l.wicp
+########################################################
+m2l.wicp = stan('stan/bb/M1_daysBBwinter_nocp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 703 divergent transitions and model has not converged! (ugh!)
+
+save(m2l.wicp, file="stan/bb/output/M1_daysBBwinter_nocp_2level.Rda")
+
+m2l.wicp.sum <- summary(m2l.wicp)$summary
+head(m2l.wicp.sum)
+# not converged
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions 
+# Note the notation: M1_daysBBwinter_nofp_2level.stan: m2l.wifp
+########################################################
+m2l.wifp = stan('stan/bb/M1_daysBBwinter_nofp_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) # 91 divergent transitions and n_eff issues
+ 
+save(m2l.wifp, file="stan/bb/output/M1_daysBBwinter_nofp_2level.Rda")
+
+m2l.wifp.sum <- summary(m2l.wifp)$summary 
+head(m2l.wifp.sum)
+m2l.wifp.sum[grep("mu_", rownames(m2l.wifp.sum)),]
+# a: 77; f: -1.3; p: -0.5; c: -1.3, small intxns
+
