@@ -13,6 +13,15 @@ E-OBS for Europe: http://www.ecad.eu/download/ensembles/download.php (as of June
 
 We pulled climate data in July 2016 and continued working on through 2017 to calculate chilling (and possibly more).
 
+Here is a link to the Livneh data:
+https://data.nodc.noaa.gov/nodc/archive/data/0129374/daily/
+
+Other download methods for Livneh data:
+https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0129374;view=html
+
+And the Livneh data paper:
+https://www.nature.com/articles/sdata201542
+
 <><><><><><><><><><><><><><><><><>
 Info from Ben Cook rec’d in 2016
 <><><><><><><><><><><><><><><><><>
