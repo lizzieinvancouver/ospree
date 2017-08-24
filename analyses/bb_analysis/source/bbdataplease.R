@@ -32,3 +32,11 @@ bb.resp$resp <- as.numeric(bb.resp$response.time)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)
 
+if(FALSE){
+## what is lost due to NAs?
+forceNA <- bb.resp[which(is.na(bb.resp$force)==TRUE),]
+forceNA$forcetemp
+subset(forceNA, forcetemp=="")  # what is up with the no entry ones? hawkins12 and gansert02
+photoNA <- bb.resp[which(is.na(bb.resp$photo)==TRUE),]
+photoNA$photoperiod_day
+    }
