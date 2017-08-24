@@ -94,9 +94,17 @@ d <- within(d, forcetemp[datasetID == 'campbell75' & study== "exp1"] <- 20)
 # howe95 - calculated mean, changed from 22-27 to 24.5
 d <- within(d, forcetemp[datasetID == 'howe95'] <- 24.5)
 
-# laube14a - currently listed as 7-27.5, need to calculate thermaltime in order to extract 
-# this information. Does not seem to give equation for 'median forcing requirements' at all
-# if we did get it would need crafty approach to deal with ramping of temperatures
+# laube14a 
+d.sub$response.time<- as.numeric(d.sub$response.time)
+for(i in c(1:nrow(d.sub))) {
+  for(j in c(1:nrow(laube14)))
+    d.sub$forcetemp[i]<-ifelse(d.sub$response.time[i] == laube14$day[j], laube14$temp[j], d.sub$forcetemp[i])
+}
+d.sub$forcetemp<-ifelse(is.na(d.sub$response.time), 27.5, d.sub$forcetemp)
+
+d.sub$response.time<-ifelse(is.na(d.sub$response.time), "no response", d.sub$response.time)
+d$forcetemp[which(d$datasetID=="laube14a")]<-d.sub$forcetemp
+
 
 # skuterud94 now - is thermal time, does not explicitly say which forcing temp
 # for each tx (mean 9, 12, 15)
