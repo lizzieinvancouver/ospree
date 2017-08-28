@@ -4,6 +4,7 @@
 
 .Rhistory
 
+*.Rda
 *.RData
 
 analyses/bb_analysis/cleaning/clean_ambientforcing.R
