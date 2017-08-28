@@ -106,8 +106,11 @@ summary(lme2 <- lmer(bb ~ chill+force+photo+chill*force+chill*photo+ force*photo
 ranef(lme2)
 fixef(lme2)
 
+testdatX<-testdat2#for centered data
+#testdatX<-testdat3#for uncentered data
 
-datalist.td2 <- with(testdat2, 
+  
+datalist.td2 <- with(testdatX, 
     list(y = bb, 
          chill = as.numeric(chill), 
          force = as.numeric(force), 

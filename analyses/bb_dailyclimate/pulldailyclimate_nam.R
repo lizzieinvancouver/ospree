@@ -31,11 +31,11 @@ for(i in 1:nrow(nam)){ # i = 1
   if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))<=9){#when sampling occurred in same year as study and when collection occurred before that year's sept chilling,
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");;#month of last date of climate year
+    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
      pmpclim<-c(firstyr, endyr)
   }
   
-  if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
+  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
   # prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year of chilling (always have to start in january for pmp-whenever collection occured)}
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
@@ -43,7 +43,7 @@ for(i in 1:nrow(nam)){ # i = 1
     pmpclim<-c(firstyr, endyr)
   }
   
-  if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
+  else if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
     stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting climate data jan 1 for pmp
     endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
@@ -51,7 +51,7 @@ for(i in 1:nrow(nam)){ # i = 1
     pmpclim<-c(firstyr, endyr)
   }
   
-  if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
+  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
     #prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# always start jan 1 for pmp
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
@@ -59,7 +59,7 @@ for(i in 1:nrow(nam)){ # i = 1
     pmpclim<-c(firstyr, endyr)
   }
   
-  if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
+  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
     stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
     #prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's climate data 
     #endmo<-"12";#month of last year (should always be 12 for pmp)
@@ -71,12 +71,15 @@ for(i in 1:nrow(nam)){ # i = 1
   #For one study (swartz81) we need an extra year of climate data (e.g. because of long chilling treatments) to correspond to the budburst dates and calculate accurate forcing.
   #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
-  if(la==38.988){# d
+  else if(la==38.988){# d
       stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
       firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
       endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+      endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
       pmpclim<-c(firstyr, endyr)
   }
+  else (print(nam[i,"datasetID"]);print("problem!!"))
+  
   # now loop over these year-month combo files and get temperature values for this date range.
 
   mins <- maxs <- vector()
@@ -105,12 +108,12 @@ save(tempval, file="output/fieldclimate_pmp.RData")
 #(If you want to avoid connecting to the external hard drive, then start here)
 #load this .RData workspace)
 #load("output/fieldclimate_pmp.RData")
-dailytemp <- do.call("rbind", tempval)
-dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
-colnames(dailytemp)[1]<-"ID_fieldsample.date2"
-dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
-row.names(dailytemp2)<-NULL
-dailytemp3<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
+#dailytemp <- do.call("rbind", tempval)
+#dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
+#colnames(dailytemp)[1]<-"ID_fieldsample.date2"
+#dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
+#row.names(dailytemp2)<-NULL
+#dailytemp3<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
 
 stop("Not an error, just stopping here to say we're now done pulling daily climate data for North America!")
 

@@ -48,14 +48,21 @@ source("bb_dailyclimate/pulldailyclimate_eur.R")
 
 # 4d: pull climate data from north america
 source("bb_dailyclimate/pulldailyclimate_nam.R")
-# July 2017: Ailene gets an error that I'm not sure about:
-#In addition: Warning message:
+
+#4e. If you want to avoid connecting to the external hard drive, then just do this:
+#load this .RData workspace)
+#load("output/fieldclimate_pmp.RData")
+#dailytemp <- do.call("rbind", tempval)
+dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
+colnames(dailytemp)[1]<-"ID_fieldsample.date2"
+dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
+row.names(dailytemp2)<-NULL
+dailytemp3<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
+
+
+# July 2017: You will get a warning message: In addition: Warning message:
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
-#dim(dailytemp3)#228293      7
-#despite the warning, the files appear to be in good shape...hopefuly they pilled the right climate data!
-
-
-
+#this is ok- it is just getting rid of some extra stuff that is not needed as a column in the resulting "dailytemp3.csv" file
 #write a csv file of the daily Tmin and Tmax data
 write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 
@@ -68,8 +75,14 @@ write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #swartz<-dailytemp3[dailytemp3$datasetID=="swartz81",]
 #seems to be pulling correctly, but no climate data present after june 28, 1980 for this site.
 #check how many other sites are mising data
-#dim(which(is.na(dailytemp3$Tmin)))#26116, which is 11% of all data
+#length(which(is.na(dailytemp3$Tmin)))#26116, which is 11% of all data
 #unique(dailytemp3$datasetID[which(is.na(dailytemp3$Tmin))])#19/50 sites are missing some temperature data
+#Make list of the studies that are missing large amounts of Temp data
+dailytemp3$missingT<-0
+dailytemp3$missingT[which(is.na(dailytemp3$Tmin))]<-1
+temptab<-table(dailytemp3$datasetID,dailytemp3$missingT)
+missingtemp<-temptab[temptab[,2]>0,]
+#hmm...all NAM sites are missing large amounts of data, plus one european site (heide93)
 #calme94<-dailytemp3[dailytemp3$datasetID=="calme94",]
 #head(calme94)
 #tail(calme94)
