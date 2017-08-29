@@ -34,28 +34,35 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 
-########################
+######################## OLD CODE, SKIP###############################
 #### get the data
-source("bb_analysis/source/bbdataplease.R")
-
+#source("bb_analysis/source/bbdataplease.R")
+#source("bb_analysis/source/speciescomplex.R")
 ###below is covered in above source##########
 #bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 #taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
 ## Old code to remove Olea, probably the new subset of species is getting rid of it 
 #bb[bb$genus=="Olea",]
 #bb<-subset(bb,genus!="Olea")
-
 ## subsetting for experimental chilling
 #bb<-subset(bb,!is.na(as.numeric(chilltemp)))
-
 # merge in labgroup (we could do this elsewhere someday)
 #bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
+
+######Above is all old code. Below is what formats the data properly in accordance with other models
+source("bb_analysis/source/bbdataplease.R")
+## (2) Deal with species
+dim(bb.noNA)
+d <- bb.noNA
+source("bb_analysis/source/speciescomplex.R")
+bb.noNA.wtaxa <- d
+dim(bb.noNA.wtaxa)
+unique(bb.noNA.wtaxa$complex)
 
 ###filter for species of interest
 myspp<-c("Betula_pendula", "Betula_pubscens", "Fagus_sylvatica", "Picea_abies",
          "Ribes_nigrum", "Corylus_avellana", "Quercus_robur", "Larix_decidua")
-bb.wlab<-dplyr::filter(bb, complex%in%myspp)
+bb.wlab<-dplyr::filter(bb.noNA.wtaxa, complex%in%myspp)
 
 ####below is handled in source i think
 #columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
@@ -63,7 +70,8 @@ bb.wlab<-dplyr::filter(bb, complex%in%myspp)
                    #"complex", "provenance.lat")
 
 bb.wlab.sm <- bb.wlab
-
+unique(bb.wlab.sm$complex)
+table(bb.wlab.sm$complex)
 
 ## make a bunch of things numeric (eek!)
 bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
