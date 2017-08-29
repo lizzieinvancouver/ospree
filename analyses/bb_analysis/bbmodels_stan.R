@@ -12,6 +12,7 @@
 # (a) think on adjusting forcetemp to incorporate nightime temps? And look at what we lose in photo and force!
 # (b) see notes throughout on what Lizzie still needs to clean
 # (c) subset down to relevant block/transplant treatments for gomory15
+# (d) Try alternative metrics of chilling (chilldays?)
 
 ## housekeeping
 rm(list=ls()) 

@@ -29,7 +29,7 @@ head(d)
 
 yr <- as.numeric(d$year)
 
-pdf("interactivecues/figures/pubyear.pdf", width = 8, height = 5)
+pdf("limitingcues/figures/pubyear.pdf", width = 8, height = 5)
 hist(yr, breaks = 50, xaxt="n", col = "lightblue", main = "Years of Publication")
 axis(1, at = seq(min(yr, na.rm=T), max(yr, na.rm=TRUE), by = 3))
 dev.off()
@@ -47,6 +47,27 @@ range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
 hist(as.numeric(as.character(d$photoperiod_day)),
      main = "Photoperiod frequency", xlab = "Hour"
      )
+
+
+sppsumyr <-
+      ddply(d, c("datasetID"), summarise,
+      n=length(unique(latbi)),
+      photo=mean(as.numeric(photoperiod_day), na.rm=TRUE),
+      force=mean(as.numeric(forcetemp), na.rm=TRUE),
+      chill=mean(as.numeric(chilltemp), na.rm=TRUE),
+      year=mean(year))
+
+colz <- c("darkseagreen", "firebrick1", "gold", "deepskyblue")
+
+pdf("limitingcues/figures/pubstudyyear.pdf", width = 8, height = 5)
+plot(sqrt(n)~year, data=sppsumyr, ylim=c(-5,40), type="n")
+points(sqrt(n)~year, data=sppsumyr, col=colz[1])
+points(force~year, data=sppsumyr, col=colz[2])
+points(photo~year, data=sppsumyr, col=colz[3])
+points(chill~year, data=sppsumyr, col=colz[4])
+dev.off()
+
+
 
 ##
 ## get map shape file (see map_notes.R for details)
@@ -77,7 +98,8 @@ nd$resp <- d[match(rownames(nd), d$datasetID), "respvar"]
 sppsummmap <-
       ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
       n=length(unique(latbi)),
-      photo=mean(as.numeric(photoperiod_day)))
+      photo=mean(as.numeric(photoperiod_day)),
+      year=mean(year))
 
 theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         # panel.grid.major = element_blank(),
@@ -88,7 +110,7 @@ theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         plot.title = element_text(size=22),
                         legend.position = "left"))
 
-pdf("interactivecues/figures/maps/mappy.pdf", width=12, height=4)
+pdf("limitingcues/figures/maps/mappy.pdf", width=12, height=4)
 
 ggplot() + 
     geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
@@ -104,4 +126,6 @@ ggplot() +
 # low: thistle2 or pink or papayawhip khaki1?
 # high: darkred
 dev.off()
+
+
 
