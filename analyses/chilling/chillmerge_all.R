@@ -29,7 +29,8 @@ d <- read.csv("output/ospree_clean.csv")
 source("chilling/cleaning_chilltemp.R")
 
 #3. Clean the provenance.latitude and provenance.longitude columns, to get appropriate locations
-source("chilling/cleaning_provlatlong.R")
+#source("chilling/cleaning_provlatlong.R")
+#This step was moved to the cleaning folder
 
 # 4. Estimate field chilling (using growing or provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
 

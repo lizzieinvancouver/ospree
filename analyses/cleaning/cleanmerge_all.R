@@ -58,7 +58,11 @@ source("cleaning/clean_responsetime.R")
 
 source("cleaning/clean_duplicates.R") 
 
-# 10. Write out the final file! 
+#10. Clean the provenance.latitude, provenance.longitude columns,growing.latitude, growing.longitude, and continent columns, to get appropriate locations
+source("cleaning/cleaning_latlong.R")
+
+
+# 11. Write out the final file! 
 
 write.csv(d, "output/ospree_clean.csv", row.names=FALSE)
 

@@ -1,3 +1,5 @@
+
+
 #Check that the provenance.lat and provenance.long is correct for those sampling locations 
 #that have "NA" for field chilling (in all 3 estimates) 
 #in fieldchillcalcslatlong.csv file. 
@@ -31,27 +33,31 @@ d[d$datasetID=="skre08",]$growing.lat<-60.3927286
 d[d$datasetID=="skre08",]$growing.long<-5.2868622
 #there are climate data available for skre08 but these would have to be scraped...
 
+#Lizzie says "I just found hawkins12, long of 427.78 for Prince Rupert should be -127.78 and since they are WEST, shouldn't all of the hawkins12 longitudes be negative?!"
+d[d$datasetID=="hawkins12" & d$population=="Prince Rupert 33" & d$provenance.long=="-127.78",]$provenance.long<- -127.78
+
+
 #head(ospree[ospree$datasetID=="boyer",1:15])#for boyer, the "southeast georgia" population maps to water. should be 32, -82
 d[d$datasetID=="boyer" & d$population=="Southeast Georgia",]$provenance.lat<-32#lat ok
-d[d$datasetID=="boyer" & d$population=="Southeast Georgia",]$provenance.long<--82
+d[d$datasetID=="boyer" & d$population=="Southeast Georgia",]$provenance.long<- -82
 
 #34,-94 (Southeast Arkansas) should be: 34,-92
-d[d$datasetID=="boyer" & d$population=="Southeast Arkansas",]$provenance.long<--92#lat ok
+d[d$datasetID=="boyer" & d$population=="Southeast Arkansas",]$provenance.long<- -92#lat ok
 
 #also, southeast virgina population is put in incorrectly- should be more like 37, -76, according to paper
 d[d$datasetID=="boyer" & d$population=="Southeast Virginia",]$provenance.lat<-37#lat ok
-d[d$datasetID=="boyer" & d$population=="Southeast Virginia",]$provenance.long<--76
+d[d$datasetID=="boyer" & d$population=="Southeast Virginia",]$provenance.long<- -76
 #boyer 34,-84 (North Georgia) lat/longs are fine
 #also, after re-reading the paper, it seems that the plants in exp2 were all grown outside the research station where the study was conducted
 #(i think Alabama Agricultural Experiment STation, Auburn Unviersity, AL: )
 d[d$datasetID=="boyer" & d$study=="exp2",]$growing.lat<-32.5172108
-d[d$datasetID=="boyer" & d$study=="exp2",]$growing.long<--85.9572927
+d[d$datasetID=="boyer" & d$study=="exp2",]$growing.long<- -85.9572927
 #Campbell75 Cloverdale population (45.37,-124.5) should be 46,-122.81 (was in the ocean)
 #Port Townsend population (48.2, -123.25 ) should be 48.117039,-122.760447 (was in the ocean)
 d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.lat<-46
-d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<--122.81
+d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<- -122.81
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48.117039
-d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<--122.760447
+d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<- -122.760447
 
 #Add continent to those that do not have it
 unique(d[d$continent=="",]$datasetID)
@@ -69,5 +75,12 @@ d[d$datasetID=="heide11",]$continent<-"europe"
 d[d$datasetID=="myking95",]$continent<-"europe"
 d[d$datasetID=="pettersen71",]$continent<-"europe"
 d[d$datasetID=="viheraaarnio06",]$continent<-"europe"
-d[d$datasetID=="worrall67",]$continent<-"North America"
+d[d$datasetID=="worrall67",]$continent<-"north america"
+d[d$continent=="Europe",]$continent<-"europe"
+d[d$continent=="North America",]$continent<-"north america"
+d[d$continent=="South America",]$continent<-"south america"
+d[d$continent=="Africa",]$continent<-"africa"
+d[d$continent=="Oceania",]$continent<-"oceania"
+d[d$continent=="Asia",]$continent<-"asia"
 
+stop("Not an error, just stopping here to say we're now done cleaning the lat/longs. The d item in your workspace is now all cleaned up for its lat/longs. Yay!")
