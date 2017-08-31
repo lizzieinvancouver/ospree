@@ -82,5 +82,10 @@ d[d$continent=="South America",]$continent<-"south america"
 d[d$continent=="Africa",]$continent<-"africa"
 d[d$continent=="Oceania",]$continent<-"oceania"
 d[d$continent=="Asia",]$continent<-"asia"
+#change longitude of any north american sites that are positive (and should be negative)
+d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)]<-d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)]*-1
+#dim(d[which(d$continent=="north america" & as.numeric(d$growing.long)>0),])#==0 so this line is not necessary
+
+if(lo > 0) { lo = lo*-1 }
 
 stop("Not an error, just stopping here to say we're now done cleaning the lat/longs. The d item in your workspace is now all cleaned up for its lat/longs. Yay!")

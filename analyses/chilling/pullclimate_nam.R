@@ -11,8 +11,8 @@ for(i in 1:nrow(nam)){ # i = 1
   lo <- nam[i,"chill.long"]
   la <- nam[i,"chill.lat"]
   
-  # make sure longitudes are negative, need to be for North America
-  if(lo > 0) { lo = lo*-1 }
+  # make sure longitudes are negative, need to be for North America this step is now done in "cleaning/clean_latlong" so it is no longer necessary
+  #if(lo > 0) { lo = lo*-1 }
   
   yr <- as.numeric(nam[i,"year"])
   # start and end days of the climate data we need to calculate chilling, for the focal lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
