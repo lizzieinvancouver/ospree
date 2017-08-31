@@ -112,3 +112,5 @@ sort(unique(d$complex))
 #[43] "Populus_tremula"         "Alnus_incana"            "Rubus_idaeus"            "Carpinus_betulus"        "Acer_complex"            "Cornus_alba"             "Cornus_mas"             
 #[50] "Fraxinus_complex"        "Robinia_pseudoacacia"    "Symphoricarpos_albus"    "Picea_glauca"            "Quercus_ilex"            "Pyrus_pyrifolia"         "Rhododendron_complex"   
 #[57] "Betula_nana"             "Quercus_faginea"         "Vaccinium_complex" 
+
+#write.csv(d, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
