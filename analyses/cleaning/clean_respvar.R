@@ -227,6 +227,9 @@ d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
 d$respvar.simple[d$respvar == "survival"] <- "other"
 d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
 
+# daytobudburstdayofyear
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gomory15"] <- "dayofyeartobudburst"
+
 # Additional Edits made by Cat - 31 Jan 2017
 # ghelardini10 issues - removed 8 rows not affiliated with study
 for(i in d){

@@ -71,3 +71,10 @@ On 26 July 2017
 So well, the sums were calculated as day sums with no base temperature or let´s say a 0°C base temperature from January 1st onwards. The daily sums were not summed up as (daily min + daily max) / 2, but just as daily mean temperatures.
 
 Hope that´s clear? If you need any further value/information, please let me know. 
+
+
+<><><><><><><><><><><><><><>
+Update to clean_phenstage.R
+now called clean_respvarmore.R
+<><><><><><><><><><><><><><>
+The new script now addresses all respvar issues including respvars that are ‘phenstage’ or ‘dayofyeartobudburst’

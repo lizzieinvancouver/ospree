@@ -22,6 +22,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 library(dplyr)
 library(tidyr)
 library(geosphere)
+library(lubridate)
 
 # 1. Get the data (that has already been cleaned for respvar and chilling)
 d <- read.csv("output/ospree_clean_withchill.csv")
