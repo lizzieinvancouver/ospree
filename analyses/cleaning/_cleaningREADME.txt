@@ -30,11 +30,12 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 8. The we source clean_responsetime.R which cleans response and response time columns.
 
-9. Remove duplicate lines (with clean_duplicates.R) — this removes duplicate rows which could have been entered due to data being repeated across figures, two people accidentally entering the same paper or a copy/paste mistake. 
+9. Clean the provenance.latitude, provenance.longitude columns,growing.latitude, growing.longitude, and continent columns, to get appropriate locations. Note that this code used to be in chilling, but we moved it in late summer 2017.
+
+
+10. Remove duplicate lines (with clean_duplicates.R) — this removes duplicate rows which could have been entered due to data being repeated across figures, two people accidentally entering the same paper or a copy/paste mistake. 
 
 From Nacho: The code (1) flags which lines have very similar responses (within 0.25%) to each target line within a block. (2) If there are, it will ask if those lines are also similar to the target in response.time.(3) In the end it assigns a value of 1 in to.remove to subsequent lines that are very similar in both response and response.time to the target. (For even more details see issue #79.)
-
-10. Clean the provenance.latitude, provenance.longitude columns,growing.latitude, growing.longitude, and continent columns, to get appropriate locations. Note that this code used to be in chilling, but we moved it in late summer 2017.
 
 
 11. Write it all out!

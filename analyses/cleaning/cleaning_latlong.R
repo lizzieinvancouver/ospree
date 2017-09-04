@@ -67,7 +67,7 @@ d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<- -12
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48.117039
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<- -122.760447
 
-# Add continent to those that do not have it
+# Add continent to those that do not have it and use consistent capitalization
 unique(d[d$continent=="",]$datasetID)
 d[d$datasetID=="caffarra11a",]$continent <- "europe"
 d[d$datasetID=="caffarra11b",]$continent <- "europe"
@@ -94,7 +94,7 @@ d[d$continent=="Asia",]$continent <- "asia"
 #  longitude of any north american sites that are positive (and should be negative)
 d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)] <-
     d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)]*-1
-#dim(d[which(d$continent=="north america" & as.numeric(d$growing.long)>0),])#==0 so this line is not necessary
+#dim(d[which(d$continent=="north america" & as.numeric(d$growing.long)>0),])#==0 so no need to fix growing long for any studies
 
 #unique(d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)<0)])#-3.3700 -119.7670  -82.3250  -81.9372  -89.4120; -3.3700 is reasonable but the other 4 are not in europe so need to check these
 #unique(d$provenance.long[which(d$continent=="europe" & as.numeric(d$provenance.long)<0)])#these all seem reasonable
