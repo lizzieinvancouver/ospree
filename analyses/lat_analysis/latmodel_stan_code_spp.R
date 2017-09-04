@@ -96,12 +96,6 @@ ospr.stan$force<-ospr.stan[which(is.na(ospr.stan$force)==FALSE),]
 ospr.stan$photo<-ospr.stan[which(is.na(ospr.stan$photo)==FALSE),]
 ospr.stan$lat<-ospr.stan[which(is.na(ospr.stan$lat)==FALSE),]
 ospr.stan$complex<-ospr.stan[which(is.na(ospr.stan$complex)==FALSE),]
-ospr.stan$resp<-ospr.stan[which(is.na(ospr.stan$resp)==FALSE),]
-ospr.stan$chill<-ospr.stan[which(is.na(ospr.stan$chill)==FALSE),]
-ospr.stan$force<-ospr.stan[which(is.na(ospr.stan$force)==FALSE),]
-ospr.stan$photo<-ospr.stan[which(is.na(ospr.stan$photo)==FALSE),]
-ospr.stan$lat<-ospr.stan[which(is.na(ospr.stan$lat)==FALSE),]
-ospr.stan$complex<-ospr.stan[which(is.na(ospr.stan$complex)==FALSE),]
 
 
 y = ospr.stan$resp
@@ -155,6 +149,8 @@ shinystan_multiparam_gg
 
 #td4 <- summary(osp.td4)$summary
 #preds.4<-td4[grep("yhat", rownames(td4)),]
+
+save(td4, file="stan/lat/output/LAT_daysBBnointer_2level.Rda")
 
 
 
