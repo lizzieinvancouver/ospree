@@ -22,7 +22,8 @@ library(dplyr)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
-d <- read.csv("output/ospree_clean.csv") 
+d <- read.csv("output/ospree_clean.csv")
+stud <- read.csv("output/studytype.csv", header=TRUE)
 
 d <- d[d$woody=="yes",]
 head(d)
@@ -44,29 +45,44 @@ length(unique(d$datasetIDstudy)) # unique studies
 range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE) 
 range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
-hist(as.numeric(as.character(d$photoperiod_day)),
-     main = "Photoperiod frequency", xlab = "Hour"
-     )
 
-
+# species number and mean cues ... 
 sppsumyr <-
-      ddply(d, c("datasetID"), summarise,
+      ddply(d, c("datasetID", "study"), summarise,
       n=length(unique(latbi)),
       photo=mean(as.numeric(photoperiod_day), na.rm=TRUE),
       force=mean(as.numeric(forcetemp), na.rm=TRUE),
       chill=mean(as.numeric(chilltemp), na.rm=TRUE),
       year=mean(year))
 
+sppsumyr <- sppsumyr[order(sppsumyr$year),]
+
 colz <- c("darkseagreen", "firebrick1", "gold", "deepskyblue")
 
 pdf("limitingcues/figures/pubstudyyear.pdf", width = 8, height = 5)
-plot(sqrt(n)~year, data=sppsumyr, ylim=c(-5,40), type="n")
-points(sqrt(n)~year, data=sppsumyr, col=colz[1])
+plot(sqrt(n)~year, data=sppsumyr, ylim=c(-1,40), type="n")
+lines(sqrt(n)~year, data=sppsumyr, col=colz[1])
 points(force~year, data=sppsumyr, col=colz[2])
 points(photo~year, data=sppsumyr, col=colz[3])
 points(chill~year, data=sppsumyr, col=colz[4])
 dev.off()
 
+studyr <- merge(stud, sppsumyr, by=c("datasetID", "study"))
+dim(stud)
+dim(studyr)
+studyr <- subset(studyr, select=c("datasetID", "study", "genus.species", "woody",
+    "samplingdates.count", "species.count", "photoperiods.count", "forcetemps.count",
+     "expchill.count", "latitude.count", "longitude.count", "year"))
+
+studyr$exp <- paste(studyr$datasetID, studyr$study)
+studyr$yearint <- as.integer(studyr$year)
+
+expperyr <- ddply(studyr, c("yearint"), summarise,
+      ndat=length(unique(datasetID)),
+      nexp=length(unique(exp)))
+
+plot(ndat~yearint, data=expperyr, ylim=c(-5,30), type="l")
+points(samplingdates.count~year, data=studyr, ylim=c(-5,30), col="green")
 
 
 ##

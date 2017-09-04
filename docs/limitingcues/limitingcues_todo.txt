@@ -5,6 +5,8 @@ Started 24 August 2017
 Figures to make for the concept paper …
 <><><><><><><><><><><><><><><><><><><><>
 
+STOP and think, how do we really want to plot these? As percentage of studies doing one thing or totals?!
+
 # of studies by year
 # of species by year
 # of studies manipulating each cue by year
