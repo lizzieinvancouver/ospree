@@ -230,6 +230,13 @@ d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth
 # daytobudburstdayofyear
 d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gomory15"] <- "dayofyeartobudburst"
 
+#Ailene's suggested fix,added 4 Sept 2017
+#percentbudburst_dayofyear (studies with x-axis units of "Julian day of year" instead of just "days" )
+#d$respvar[d$respvar == "percentbudburst" & d$datasetID=="Sanz-Perez09"] <- "percentbudburst_dayofyear"
+#d$respvar[d$respvar == "percentbudburst" & d$datasetID=="sanzperez10"] <- "percentbudburst_dayofyear"
+#d$respvar.simple[d$respvar == "percentbudburst_dayofyear" & d$datasetID=="Sanz-Perez09"] <- "other"
+#d$respvar.simple[d$respvar == "percentbudburst_dayofyear" & d$datasetID=="sanzperez10"] <- "other"
+
 # Additional Edits made by Cat - 31 Jan 2017
 # ghelardini10 issues - removed 8 rows not affiliated with study
 for(i in d){

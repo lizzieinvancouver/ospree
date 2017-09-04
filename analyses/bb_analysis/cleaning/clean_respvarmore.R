@@ -28,6 +28,10 @@ d$response[which(d$datasetID=="pagter15" & d$response>=1 & d$response<2)] <- "ti
 
 # sonsteby13: flowers - can't fix
 
+#######################################################
+## Converting "dayofyeartobudburst" to "daystobudburst" ##
+#######################################################
+
 ########### gomory15 issues ###########
 ## response.time is in day of year to budburst and must be changed to daystobudburst
 startofexp<-as.Date("2011-03-01")
@@ -35,5 +39,17 @@ startofexp <- strftime(startofexp, format = "%j") ## 60
 d$response.time[which(d$datasetID=="gomory15")]<-as.numeric(d$response.time[which(d$datasetID=="gomory15")])-60
 d<-within(d, respvar.simple[datasetID=="gomory15"]<-"daystobudburst")
 
+#######################################################
+## Converting "percentbudburst_dayofyear" to "percentbudburst" suggested changes##
+#######################################################
+########### Sanz-Perez09 ########### (Ailene added 2017 September)
+#start time of experiment is julian day 49
+#d$response.time[which(d$datasetID=="Sanz-Perez09")]<-as.numeric(d$response.time[which(d$datasetID=="Sanz-Perez09")])-49
+#d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
+
+########### sanzperez10 ########### (Ailene added 2017 September)
+#start time of experiment is julian day 24
+#d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
+#d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 
 
