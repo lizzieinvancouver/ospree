@@ -58,7 +58,7 @@ source("cleaning/clean_responsetime.R")
 
 source("cleaning/clean_duplicates.R") 
 
-#10. Clean the provenance.latitude, provenance.longitude columns,growing.latitude, growing.longitude, and continent columns, to get appropriate locations
+# 10. Clean the lat/long (growing and provenance)
 source("cleaning/cleaning_latlong.R")
 
 

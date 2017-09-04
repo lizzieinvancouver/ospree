@@ -34,8 +34,10 @@ clean_spp_match.R — code that checks species against The Plant List (using R p
 
 From Nacho: The code (1) flags which lines have very similar responses (within 0.25%) to each target line within a block. (2) If there are, it will ask if those lines are also similar to the target in response.time.(3) In the end it assigns a value of 1 in to.remove to subsequent lines that are very similar in both response and response.time to the target. (For even more details see issue #79.)
 
+10. Clean the provenance.latitude, provenance.longitude columns,growing.latitude, growing.longitude, and continent columns, to get appropriate locations. Note that this code used to be in chilling, but we moved it in late summer 2017.
 
-10. Write it all out!
+
+11. Write it all out!
 
 
 <><><><>
