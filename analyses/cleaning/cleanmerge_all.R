@@ -54,13 +54,12 @@ source("cleaning/clean_woody_sps.R")
 # 8. Clean response and response time columns.
 source("cleaning/clean_responsetime.R")
 
-# 9. Remove duplicate lines
-
-source("cleaning/clean_duplicates.R") 
-
-# 10. Clean the lat/long (growing and provenance)
+# 9. Clean the lat/long (growing and provenance)
 source("cleaning/cleaning_latlong.R")
 
+# 10. Remove duplicate lines
+
+source("cleaning/clean_duplicates.R") 
 
 # 11. Write out the final file! 
 
