@@ -13,9 +13,9 @@ NOTE: This means we did not clean ALL response.time data, just stuff we planned 
 What each file does (please update me as needed)
 <><><><><><><><><><><><><><>
 
-bb_checkrespvar.R - creates checkmeout.csv following items 1 and 2 above
+bb_checkresptime.R - creates checkmeout.csv following items 1 and 2 above
 
-checkmeout.csv - built in bb_checkrespvar.R, it lists the files to check
+checkmeout.csv - built in bb_checkresptime.R, it lists the files to check
 
 checkmeout_info.csv - created by hand by Lizzie from checkmeout.csv, same as checkmeout.csv but adds two important columns:
 - who: who should check the study
