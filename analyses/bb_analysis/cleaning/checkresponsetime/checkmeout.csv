@@ -1,0 +1,74 @@
+"datasetID","study","material","figure.table..if.applicable.","response.time"
+"ashby62","exp2","plants","table 4",60.4916666666667
+"basler12","exp1","cuttings","fig3",61.5371428571429
+"basler14","exp1","cuttings","fig 4",82.6766666666667
+"boyer","exp1","seedlings","table 2",25.6724137931034
+"caffarra11a","exp3","cuttings","fig 1",61.23
+"caffarra11b","exp3","clones","fig 2",25.53125
+"calme94","exp1","plants","fig 5",18.2782608695652
+"campbell75","exp3","seedlings","fig5",48.5152123075478
+"campbell75","exp1","seedlings","table1",52.03125
+"falusi97","exp1","seedlings","fig1",23
+"fu13","exp1","seedlings","fig2",98.2933793103448
+"gomory15","exp1","seedlings","fig1",130.535276595745
+"gomory15","exp1","seedlings","fig2",118.353525
+"guak98","exp1","seedlings","fig 5",54.4444444444444
+"guak98","exp1","seedlings","fig5",56.7665909090909
+"guerriero90","exp2","plants","fig 2",19.3823333333333
+"guerriero90","exp3","plants","fig 2",20.3496666666667
+"gunderson12","exp1","seedlings","fig2a",109.852916666667
+"hawkins12","","sapling","",101.21062037037
+"Heide03","exp1","seedlings","fig 1",19.9778787878788
+"junttila12","exp1","seedlings","fig2",60
+"li05","exp1","seedlings","",39.55
+"man10","exp1","seedlings","fig2",32.0365853658537
+"myking95","exp1","seedlings","fig 2",20.1237588652482
+"myking95","exp1","seedlings","fig 4",20.0052083333333
+"myking97","exp1","seedlings","fig1",9.07166666666667
+"nienstaedt66","exp1","plants","table 2",23.9047619047619
+"pagter15","exp1","potted sapling","2A",69.8265
+"pagter15","exp1","potted sapling","2B",49.007
+"pagter15","exp1","potted sapling","2C",29.0237777777778
+"pagter15","exp1","potted sapling","2D",20.5743636363636
+"partanen01","exp1","2-year old potted seedling","Table 1",23
+"partanen01","exp1","7-month old potted seedling","Table 1",21.6666666666667
+"partanen01","exp1","9-month old potted seedling","Table 1",23
+"partanen01","exp1","potted cuttings from 14-year old tree","Table 1",23.6666666666667
+"partanen05","exp1","cuttings from 15 year old trees","Figure2a",187.92025
+"partanen05","exp1","cuttings from 15 year old trees","Figure2b",167.9805
+"partanen05","exp1","cuttings from 15 year old trees","Figure2c",176.95875
+"partanen05","exp1","cuttings from 15 year old trees","Figure2d",156.7198
+"partanen05","exp2","cuttings from 54 year old trees","Figure3",247.066
+"partanen98","exp1","potted sapling","Table 1",83.25
+"partanen98","exp2","potted sapling","Table 2",80.75
+"partanen98","exp3","potted sapling","Table 3",71.9565217391304
+"ramos99","exp1","cuttings, reproductive buds, non-bearing tree","Figure1A",124.288428571429
+"ramos99","exp1","cuttings, vegetative buds, bearing tree","Figure1B",120.9705
+"ramos99","exp1","cuttings, reproductive buds, non-bearing tree","Figure1C",131.79625
+"ramos99","exp1","cuttings, vegetative buds, non-bearing tree","Figure1C",114.335
+"ramos99","exp1","cuttings, vegetative buds, bearing tree","Figure1D",112.6704
+"ramos99","exp1","cuttings, reproductive buds, non-bearing tree","Figure1E",142.213
+"ramos99","exp1","cuttings, vegetative buds, non-bearing tree","Figure1E",107.1655
+"ramos99","exp1","cuttings, vegetative buds, bearing tree","Figure1F",112.841333333333
+"rinne94","exp1","seedlings","Figure2A",31.2435333333333
+"rinne94","exp1","coppiced seedlings","Figure2B",28.9835
+"Sanz-Perez09","exp1","seedlings","fig 1",135.511904761905
+"sanzperez10","exp1","seedlings","fig5",148.278263157895
+"schnabel87","exp1","cuttings","fig7",99.50925
+"skre08","exp1","seedling","Fig 8",90.615
+"sogaard08","exp1b","seedlings (1 yr old)","fig1",9.29391666666667
+"sogaard08","exp2","seedlings (1 yr old)","fig2b",109.074
+"sogaard08","exp2","seedlings (1 yr old)","fig2c",21.9533333333333
+"sonsteby14","exp4","plants","table 3",7.15185185185185
+"sonsteby14","exp5","plants","table 4",7.33333333333333
+"spann04","exp1","seedlings (1 yr old)","fig1",38.5
+"spiers74","exp1","plants","table 1",73.4285714285714
+"spiers74","exp1","plants","table 2",75
+"spiers74","exp2","plants","table 3",57.75
+"swartz81","exp1","plants","fig 1",15.4349206349206
+"webb78","exp1","seedlings","fig 1",23.2105263157895
+"webb78","exp2","seedlings","fig 1",27.5
+"worrall67","exp 3","seedlings","fig 4",37.5883333333333
+"worrall67","exp 3","seedlings","fig 5",36.3644444444444
+"worrall67","exp 4","seedlings","fig 7",31.5
+"zohner16","Exp1","cuttings","",78.5602367021277
