@@ -44,12 +44,12 @@ d<-within(d, respvar.simple[datasetID=="gomory15"]<-"daystobudburst")
 #######################################################
 ########### Sanz-Perez09 ########### (Ailene added 2017 September)
 #start time of experiment is julian day 49
-#d$response.time[which(d$datasetID=="Sanz-Perez09")]<-as.numeric(d$response.time[which(d$datasetID=="Sanz-Perez09")])-49
-#d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
+d$response.time[which(d$datasetID=="Sanz-Perez09")]<-as.numeric(d$response.time[which(d$datasetID=="Sanz-Perez09")])-49
+d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
 
 ########### sanzperez10 ########### (Ailene added 2017 September)
 #start time of experiment is julian day 24
-#d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
-#d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
+d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
+d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 
 
