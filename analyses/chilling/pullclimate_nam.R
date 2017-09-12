@@ -28,11 +28,12 @@ for(i in 1:nrow(nam)){ # i = 1
     chillmo<-c(prevmo, thismo)
   }
   
-  if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study only
-    stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
-    prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
-    chillmo<-prevmo
-  }
+  #the below if statement is duplicated below...should be deleted?
+  #if(substr(endday,1,4)==yr-1 & as.numeric(substr(endday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study only
+  #  stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
+  #  prevmo <- paste(yr-1, formatC(9:substr(endday,6,7), width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-whenever collection occured)}
+  #  chillmo<-prevmo
+  #}
   
   if(substr(endday,1,4)==yr & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
     stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
@@ -61,13 +62,20 @@ for(i in 1:nrow(nam)){ # i = 1
     file <- file.path(climatedrive,nafiles[grep(j, nafiles)])
     jx <- nc_open(file)
     
-    diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))
+    diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))#differences between all longitudes & latitudes in the focal month's dataset and longitude[i]
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
-    long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
+    long.cell <- which(diff.long.cell==min(diff.long.cell))[1] #select the closest longitude & latitude with climate data to longitude[i]
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
+    mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+    if(is.na(unique(mintest))){
+      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+      long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
+      lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[2]
+      }
     
-    mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
-    maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
+    mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))#minimum temperatures for selected lat/long
+    maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))#minimum temperatures for selected lat/long
     nc_close(jx)
     }
   

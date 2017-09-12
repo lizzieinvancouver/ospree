@@ -43,6 +43,8 @@ climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the extern
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 # climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data/" ##access from Dan's comp
+#climatedrive = "/Volumes/climate" #Ailene's climate data drive
+
 # 4c. pull climate data from europe
 source("bb_dailyclimate/pulldailyclimate_eur.R")
 

@@ -33,8 +33,7 @@ for(i in 1:nrow(nam)){ # i = 1
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
      pmpclim<-c(firstyr, endyr)
-  }
-  
+  } 
   else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
   # prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year of chilling (always have to start in january for pmp-whenever collection occured)}
@@ -78,7 +77,7 @@ for(i in 1:nrow(nam)){ # i = 1
       endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
       pmpclim<-c(firstyr, endyr)
   }
-  else (print(nam[i,"datasetID"]);print("problem!!"))
+  #else (print(nam[i,"datasetID"]);print("problem!!"))
   
   # now loop over these year-month combo files and get temperature values for this date range.
 
