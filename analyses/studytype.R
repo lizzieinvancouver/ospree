@@ -1,5 +1,6 @@
 ## Started 7 July 2016 ##
 ## By Cat and Lizzie##
+## Edited by Cat - 15 September 2017
 
 ## An R script to organize the studies by experiment type for the bud burst data. ##
 ## Studies were organized by number of field sampling dates, photoperiods, ##
@@ -21,219 +22,18 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 setwd("~/Documents/git/ospree/analyses")
 ospree <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
 
-## Variation in Field Sample Dates
-woody<- ospree %>%
-  dplyr::select(datasetID,study,genus,species,woody,fieldsample.date,fieldsample.date,
-         Exp_Chilling_Hours,photoperiod_day,photoperiod_night,
-         Total_Chilling_Hours,respvar.simple,response.time,forcetemp, provenance.lat, provenance.long) %>%
-  filter(woody=="yes")%>%
-  unite(genus.species, genus, species, sep=".") 
-woody <- woody %>%
-  group_by(datasetID, study, genus.species, respvar.simple) %>%
-  mutate(fieldsample.date = replace(fieldsample.date,
-                                    fieldsample.date<0, NA))%>%
-  mutate(photoperiod_day = replace(photoperiod_day,
-                                    photoperiod_day<0, NA))%>%
-  mutate(forcetemp = replace(forcetemp,forcetemp<0, NA))
+xx<-ospree
 
-respvar<-as.data.frame(table(woody$respvar.simple))
+xx <- within(xx, { prov.lat <- ave(provenance.lat, datasetID, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+xx <- within(xx, { field.sample <- ave(fieldsample.date, datasetID, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
+xx <- within(xx, { force <- ave(forcetemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
+xx <- within(xx, { photo <- ave(photoperiod_day, datasetID, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
+xx <- within(xx, { chill <- ave(chilltemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult expchill
+xx <- within(xx, { spp <- ave(species, datasetID, FUN=function(x) length(unique(x)))}) # mult species
+xx <- within(xx, { prov.long <- ave(provenance.long, datasetID, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 
-field<-woody %>% ## studies with field sampling dates
-  dplyr::select(fieldsample.date,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(fieldsample.date,datasetID)%>%
-  filter(!is.na(fieldsample.date))%>%
-  filter(row_number()==1)
 
-none.field<-woody%>% ## studies without field sampling dates
-  dplyr::select(datasetID,study, genus.species,fieldsample.date, respvar.simple)%>%
-  filter(is.na(fieldsample.date))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)%>%
-  rename("samplingdates.count"=fieldsample.date)
+xx<-dplyr::select(xx, datasetID, study, prov.lat, prov.long, field.sample, force, photo, chill, spp)
+xx<-xx[!duplicated(xx),]
 
-samplingdates<-as.data.frame(table(field$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("samplingdates.count"=Freq)
-
-fieldsample<-full_join(samplingdates,none.field,by="datasetID")%>% ## table of number of field sample dates per study
-  dplyr::select(datasetID,samplingdates.count.x)%>%
-  arrange(datasetID)%>%
-  rename("samplingdates.count"=samplingdates.count.x)
-
-weinberger<-full_join(woody,fieldsample,by="datasetID")%>%
-  arrange(datasetID) %>%
-  filter(row_number()==1)
-
-## Number of Species
-species<-woody %>% 
-  dplyr::select(genus.species,datasetID,study, respvar.simple)%>%
-  group_by(genus.species,datasetID)%>%
-  filter(!is.na(genus.species))%>%
-  filter(row_number()==1)
-
-none.species<-woody%>%
-  dplyr::select(datasetID,study,genus.species,respvar.simple)%>%
-  filter(is.na(genus.species))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-gen.spp<-as.data.frame(table(species$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("species.count"=Freq)
-
-genus.species<-full_join(gen.spp,none.species,by="datasetID")%>%
-  dplyr::select(datasetID,species.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,genus.species,by="datasetID")%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-## Variation in Photoperiod
-photo<-woody %>% 
-  dplyr::select(photoperiod_day,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(photoperiod_day,datasetID)%>%
-  filter(!is.na(photoperiod_day))%>%
-  filter(row_number()==1)
-
-none.photo<-woody%>%
-  dplyr::select(datasetID,study,genus.species,photoperiod_day, respvar.simple)%>%
-  filter(is.na(photoperiod_day))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-photoperiods<-as.data.frame(table(photo$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("photoperiods.count"=Freq)
-
-photo.day<-full_join(photoperiods,none.photo,by="datasetID")%>%
-  dplyr::select(datasetID,photoperiods.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,photo.day,by="datasetID")%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-  
-## Variation in Forcing
-forcing<-woody %>% 
-  dplyr::select(forcetemp,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(forcetemp,datasetID)%>%
-  filter(!is.na(forcetemp))%>%
-  filter(row_number()==1)
-
-none.force<-woody%>%
-  dplyr::select(datasetID,study,genus.species,forcetemp, respvar.simple)%>%
-  filter(is.na(forcetemp))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-forcingtemps<-as.data.frame(table(forcing$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("forcetemps.count"=Freq)
-
-forcetemp.day<-full_join(forcingtemps,none.force,by="datasetID")%>%
-  dplyr::select(datasetID,forcetemps.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,forcetemp.day,by="datasetID")%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-## Variation in Experimental Chilling
-expchill<-woody %>% 
-  dplyr::select(Exp_Chilling_Hours,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(Exp_Chilling_Hours,datasetID)%>%
-  filter(!is.na(Exp_Chilling_Hours))%>%
-  filter(row_number()==1)
-
-none.expchill<-woody%>%
-  dplyr::select(datasetID,study,genus.species,Exp_Chilling_Hours, respvar.simple)%>%
-  filter(is.na(Exp_Chilling_Hours))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-expchilling<-as.data.frame(table(expchill$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("expchill.count"=Freq)
-
-expchill.hours<-full_join(expchilling,none.expchill,by="datasetID")%>%
-  dplyr::select(datasetID,expchill.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,expchill.hours,by="datasetID")%>%
-  arrange(datasetID) %>%
-  filter(row_number()==1)
-
-## Variation in Provenance Latitude
-provlat<-woody %>% 
-  dplyr::select(provenance.lat,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(provenance.lat,datasetID)%>%
-  filter(!is.na(provenance.lat))%>%
-  filter(row_number()==1)
-
-none.provlat<-woody%>%
-  dplyr::select(datasetID,study,genus.species,provenance.lat, respvar.simple)%>%
-  filter(is.na(provenance.lat))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-provenancelat<-as.data.frame(table(provlat$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("latitude.count"=Freq)
-
-latitude<-full_join(provenancelat,none.provlat,by="datasetID")%>%
-  dplyr::select(datasetID,latitude.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,latitude,by="datasetID")%>%
-  arrange(datasetID) %>%
-  filter(row_number()==1)
-
-## Variation in Provenance Longitude
-provlong<-woody %>% 
-  dplyr::select(provenance.long,datasetID,study,genus.species, respvar.simple)%>%
-  group_by(provenance.long,datasetID)%>%
-  filter(!is.na(provenance.long))%>%
-  filter(row_number()==1)
-
-none.provlong<-woody%>%
-  dplyr::select(datasetID,study,genus.species,provenance.long, respvar.simple)%>%
-  filter(is.na(provenance.long))%>%
-  group_by(datasetID)%>%
-  arrange(datasetID)%>%
-  filter(row_number()==1)
-
-provenancelong<-as.data.frame(table(provlong$datasetID)) %>%
-  rename("datasetID"=Var1)%>%
-  rename("longitude.count"=Freq)
-
-longitude<-full_join(provenancelong,none.provlong,by="datasetID")%>%
-  dplyr::select(datasetID,longitude.count)%>%
-  arrange(datasetID)
-
-weinberger<-full_join(weinberger,longitude,by="datasetID")%>%
-  arrange(datasetID) %>%
-  filter(row_number()==1)
-
-write.csv(weinberger, file="output/studytype.csv",
-          row.names=FALSE)
-
-# Create a more concise table
-studytype<- weinberger %>%
-  group_by(study, genus.species, respvar.simple, datasetID)%>%
-  ungroup()%>%
-  dplyr::select(datasetID, study, samplingdates.count, species.count, photoperiods.count, forcetemps.count, 
-                expchill.count, latitude.count, longitude.count) %>%
-  group_by(datasetID) %>%
-  arrange(datasetID) %>%
-  filter(row_number()==1) 
-studytype[is.na(studytype)] <- 0
-
-write.csv(studytype, file="output/studytype.table.csv",
-          row.names = FALSE)
+#write.csv(xx, file="~/Documents/git/ospree/analyses/output/studytype_table.csv", row.names = FALSE)
