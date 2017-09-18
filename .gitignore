@@ -18,3 +18,5 @@ analyses/output/pmp/percbb.csv
 *.synctex.gz
 *.aux
 analyses/output/fieldclimate_pmp.RData
+
+analyses/output/fieldclimate_pmp.RData
