@@ -10,10 +10,10 @@ campbell75,exp3,seedlings,fig5,48.51521231,EMW,Y
 campbell75,exp1,seedlings,table1,52.03125,EMW,Y_butshouldbeTable2
 falusi97,exp1,seedlings,fig1,23,EMW,check
 fu13,exp1,seedlings,fig2,98.29337931,EMW,N_isDOY
-gomory15,exp1,seedlings,fig1,130.5352766,IMC,
-gomory15,exp1,seedlings,fig2,118.353525,IMC,
-guak98,exp1,seedlings,fig 5,54.44444444,IMC,
-guak98,exp1,seedlings,fig5,56.76659091,IMC,
+gomory15,exp1,seedlings,fig1,130.5352766,IMC,check if data comes from panels c-d
+gomory15,exp1,seedlings,fig2,118.353525,IMC,check if data comes from panels c-d
+guak98,exp1,seedlings,fig 5,54.44444444,IMC,N_isDOY
+guak98,exp1,seedlings,fig5,56.76659091,IMC,N_isDOY
 guerriero90,exp2,plants,fig 2,19.38233333,AKE,
 guerriero90,exp3,plants,fig 2,20.34966667,AKE,
 gunderson12,exp1,seedlings,fig2a,109.8529167,AKE,
@@ -68,7 +68,7 @@ spiers74,exp2,plants,table 3,57.75,DB,Y
 swartz81,exp1,plants,fig 1,15.43492063,DB,Y(in_GDH)
 webb78,exp1,seedlings,fig 1,23.21052632,DB,Y
 webb78,exp2,seedlings,fig 1,27.5,DB,Y
-worrall67,exp 3,seedlings,fig 4,37.58833333,IMC,
-worrall67,exp 3,seedlings,fig 5,36.36444444,IMC,
-worrall67,exp 4,seedlings,fig 7,31.5,IMC,
+worrall67,exp 3,seedlings,fig 4,37.58833333,IMC,Y
+worrall67,exp 3,seedlings,fig 5,36.36444444,IMC,Y
+worrall67,exp 4,seedlings,fig 7,31.5,IMC,Y
 zohner16,Exp1,cuttings,,78.5602367,DB,N_isDOY
