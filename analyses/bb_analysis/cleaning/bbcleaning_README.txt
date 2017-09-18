@@ -16,7 +16,7 @@ It:
 
 2. Sources clean_thermaltimetodays.R, which homogenizes thermaltime to days (but only for cases where we don’t have the same data as daystobudburst or percbudburst with response.time)
 
-3. Sources clean_phenstage.R, which relabels a little data that is budburst. Yay. (Note: More phenstages are left — we only converted bud burst, so more data remains here that may be useful for other studies.)
+3. Sources clean_respvarmore.R (formerly called clean_phenstage.R, which relabels a little data that is budburst and deals with some variables that are not exactly days to bud burst since start of forcing conditions. Note: More phenstages are left — we only converted bud burst, so more data remains here that may be useful for other studies.)
 
 4. source bb_analysis/cleaning/multiresp.R, flags any studies that have both percent budburst and days to budburst, and studies thermal time and days to budburst studies. It then removes studies with more than one response variable for the same treatments, keeping first daystobudburst, then percentbudburst, then thermaltime. It also deals with two studies where creation of respvar.simple collapsed two different response variables (see the file for more info). 
 

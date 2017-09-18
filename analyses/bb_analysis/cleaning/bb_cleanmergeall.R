@@ -31,7 +31,8 @@ d <- read.csv("output/ospree_clean_withchill.csv")
 source("bb_analysis/cleaning/clean_thermaltimetodays.R")
 
 # 3. Clean phenstage to get a little more data (a little, but still!). 
-source("bb_analysis/cleaning/clean_respvarmore.R") 
+source("bb_analysis/cleaning/clean_respvarmore.R")
+
 # 4. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
 source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 rows
 
