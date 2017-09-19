@@ -1,4 +1,4 @@
-Started 22 March 2017
+﻿Started 22 March 2017
 by Cat 
 Follow-up by Nacho (11 April 2017)
 Follow-up by Lizzie (throughout June-July 2017)
@@ -78,3 +78,19 @@ Update to clean_phenstage.R
 now called clean_respvarmore.R
 <><><><><><><><><><><><><><>
 The new script now addresses all respvar issues including respvars that are ‘phenstage’ or ‘dayofyeartobudburst’
+
+
+
+
+################ Clarification notes from Nacho #################
+
+Notes on "get_meantemp_ambient.R" 
+################################
+
+This script extracts ambient temp from start of experiment (this is the date
+ we already have built in the GDD code) through to budburst and calculates the mean temp.
+Then it creates an output file.
+
+IMPORTANT!!!
+This file assumes users are working only with daystobudburst and percentbudburst and where response.time!=""
+
