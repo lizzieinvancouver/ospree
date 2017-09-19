@@ -72,24 +72,26 @@
 \item Can the large quantity of experiments altering photoperiod be applied to forecasting biological implications of climate change (i.e. do they occur at the appropriate scale)?
 \end{enumerate}
 \end{enumerate}
+
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item Temporal shifts yield bigger changes in photoperiod than spatial shifts  (Figures \ref{fig:photo},\ref{fig:photo_bar}). 
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts actually yield bigger changes in photoperiod than spatial shifts  (Figures \ref{fig:photo},\ref{fig:photo_bar}).
 \item Shifts in photoperiod may vary with latitude (Figure \ref{fig:photo_bar}). 
-\item Vartiation in phenology also varies with latitude (cite a pretty map showing variation in spring index or greenup?), so it is unclear how these two things interact....
+\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
-\item Phenology will be affected, given that daylength is known to affect cell elongation and budburst \citep{linkosalo2006,erwin1998,sidaway2010}.
+\item Phenology will be altered, given that daylength is known to affect phenology hcell elongation and budburst \citep{linkosalo2006,erwin1998,sidaway2010}.
 \item It has been proposed that photoperiod may eventually become limiting a factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
 \item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone.
+\item Photoperiod should be incorporated into foreacasts of biological impacts of climate change (species distribution modelling, ED).
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
 \begin{enumerate}
 \item Table of OSPREE experiments that manipulate photoperiod, their daylength treatments, their findings, and perhaps how the treatment corresponds to spatial/temporal shifts?
-\item Most experiments manipulate photoperiod much more dramatically than will occur with climate change (but see \citep{basler2012}), so it is difficult to extrapolate findings.
-\item Magnitude of effects of photoperiod may be small, in comparison to warming effects, but we don't really know...
+\item Most experiments manipulate photoperiod much more dramatically than will occur with climate change (but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
+\item There is a great need to better understand exactly how photoperiod acts as a cue (linear response? threshold? how does it interact with temperature to break dormancy?)
 \end{enumerate}
 \item\textit{Conclusions}
 \begin{enumerate}
@@ -98,12 +100,11 @@
 \end{enumerate}
 \end{enumerate}
 
-\section* {To do if we like this format:}
+\section* {To do:}
 \begin{enumerate}
-\item Make a map showing annual variation in global greenup (to make the point that it greenup up is more stable at some latitudes than others?)
+\item Make a map showing daylength on greenup dates globally 
 \item Make Table of studies and treatments
-\item Focus on phenology only? (or use it as a case study?)
-\item What other points do we want to make about photoperiod?
+\item Make Table of studies testing if photoperiod varies by latitudinal origin
 \end{enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
@@ -112,12 +113,12 @@
 \begin{table}[p]
   \caption{\textbf{Growth chamber experiments and their photoperiod treatments.} From OSPREE. For now, I used 45.5 lat to estimate spatial and temporal equivalents and Y/N for sensitivity but might be better to have a magnitude of sensitivity found?}
 \begin{footnotesize} 
-   \begin{tabular}{| p{1cm} | p{3.8cm} | p{2.9 cm} | p{3.2 cm} | p{3.3 cm} |}
+   \begin{tabular}{| p{1cm} | p{3.8cm} | p{2.9 cm} | p{3.2 cm} |}
     \hline
-  \bf{Study} & \bf{Photoperiod treatments (or delta)} & \bf{Spatial equivalent} & \bf{Temporal equivalent} & \bf{Finding (sensitive?)}\\ \hline
-    basler12 & 9.5, 11 (1.5) &  600 km up & 30 days earlier & Yes (late successional only) \\ \hline
-    laube14a & 8,16 (8) &  3200 km up & 160 days earlier & Yes (some species)\\ \hline
-    other studies &  &   &  & \\ \hline
+  \bf{Study} & \bf{Photoperiod treatments (or delta)} & \bf{Spatial equivalent} & \bf{Temporal equivalent}\\ \hline
+    basler12 & 9.5, 11 (1.5) &  600 km up & 30 days earlier \\ \hline
+    laube14a & 8,16 (8) &  3200 km up & 160 days earlier \\ \hline
+    other studies &  &   & \\ \hline
 
      \end{tabular}    
 \end{footnotesize} 
@@ -126,13 +127,13 @@
 \section* {Figures}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/figures/photoper_change.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change.pdf} 
 \caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, at two latitudes (Washington, DC and Montreal).}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward, solid lines) versus temporally (shifting activity earlier 3 days per decade, dashed lines).}
  \label{fig:photo}
  \end{figure}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/figures/photoper_change_bar.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change_bar.pdf} 
 \caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, across latitude.}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward) versus temporally (shifting activity earlier 3 days per decade).}
  \label{fig:photo_bar}
  \end{figure}

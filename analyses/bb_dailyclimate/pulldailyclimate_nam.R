@@ -3,6 +3,8 @@
 # This code pulls data for the calendar yar before and after the field sample date
 # because PNP requires full year of data to run
 # Ailene got a start on this: June 13, 2017
+#If  just looking at nam climate, do this:
+#tempval <- list() 
 
 nafiles <- dir(climatedrive)[grep("livneh", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long

@@ -20,3 +20,5 @@ analyses/output/pmp/percbb.csv
 analyses/output/fieldclimate_pmp.RData
 
 analyses/output/fieldclimate_pmp.RData
+
+*.bbl
