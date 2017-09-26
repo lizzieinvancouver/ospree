@@ -52,4 +52,14 @@ d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
 d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
 d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 
+#########Skre08 #####(Dan added 26 Sept 2017)
+startofexp<-as.Date("2001-01-25")
+startofexp <- strftime(startofexp, format = "%j")
+d$response.time[which(d$datasetID=="skre08" & d$year=="2001")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2001")])-25
+
+startofexp<-as.Date("2001-11-22")
+startofexp <- strftime(startofexp, format = "%j")###Julian day 326 but of 2001
+365-326 #### 36 days before 
+d$response.time[which(d$datasetID=="skre08" & d$year=="2002")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2002")])+39
+d<-within(d, respvar.simple[datasetID=="skre08"]<-"daystobudburst")
 

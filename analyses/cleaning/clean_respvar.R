@@ -230,6 +230,8 @@ d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth
 # daytobudburstdayofyear
 d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gomory15"] <- "dayofyeartobudburst"
 
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" ### Added by Dan on 26 Sept 2017
+
 #Ailene's suggested fix,added 4 Sept 2017
 #percentbudburst_dayofyear (studies with x-axis units of "Julian day of year" instead of just "days" )
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="Sanz-Perez09"] <- "percentbudburst_dayofyear"
