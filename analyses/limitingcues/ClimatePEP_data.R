@@ -26,7 +26,8 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/limitingcues")
 
 
-r<-brick("tn_0.25deg_reg_v15.0.nc", sep="")  ## from climate drive or W drive
+rn<-brick("tn_0.25deg_reg_v15.0.nc", sep="")  ## from climate drive or W drive
+rx<-brick("tx_0.25deg_reg_v15.0.nc", sep="")
 betula<-read.csv("input/PEP_betula.csv", header=TRUE)
 fagus<-read.csv("input/PEP_fagus.csv", header=TRUE)
 
@@ -40,9 +41,9 @@ lons <- df$LON
 coords <- data.frame(x=lons,y=lats)
 coords<-na.omit(coords)
 
-points <- SpatialPoints(coords, proj4string = r@crs)
+points <- SpatialPoints(coords, proj4string = rn@crs)
 
-values <- extract(r,points)
+values <- extract(rn,points)
 
 dx <- cbind.data.frame(coordinates(points),values)
 
