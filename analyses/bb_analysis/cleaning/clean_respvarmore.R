@@ -63,3 +63,17 @@ startofexp <- strftime(startofexp, format = "%j")###Julian day 326 but of 2001
 d$response.time[which(d$datasetID=="skre08" & d$year=="2002")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2002")])+39
 d<-within(d, respvar.simple[datasetID=="skre08"]<-"daystobudburst")
 
+
+##########################################################
+############## Problem B Issues! #########################
+##########################################################
+
+######### Partanen05 ####### (Cat added 28 September 2017)
+#### All response.time entries are field sample dates and not days to budburst. Unable to fix
+## So will be removed here.
+d<-d[!(d$datasetID=="partanen05"),]
+
+######### Ramos99 ####### (Cat added 28 September 2017)
+#### All response.time entries for Figure 1A and 1B are field sample dates and not days to budburst. 
+## Unable to fix so will be removed
+d<-d[!(d$datasetID=="ramos99" & is.na(d$response.time)),]

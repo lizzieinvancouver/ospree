@@ -39,3 +39,10 @@ gomory15
 San-Perez09
 
 Problem B: 
+ramos99 - was a response.time issue for entries. Fixed in clean_responsetime.R
+	for two treatments, the response time was specified. For the final treatment the 	response time was not mentioned, so those rows will be removed in 			clean_respvarmore.R
+partanen05 - the response.time is transfer date, not day of bud burst so it is not useful for this analysis. I will remove these rows in bb_analysis/cleaning/clean_respvarmore.R
+
+
+
+
