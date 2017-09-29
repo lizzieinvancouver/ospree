@@ -45,19 +45,50 @@ points <- SpatialPoints(coords, proj4string = rn@crs)
 
 values <- extract(rn,points)
 
-dx <- cbind.data.frame(coordinates(points),values)
+dn <- cbind.data.frame(coordinates(points),values)
 
-dx<-melt(df, id.vars=c("x","y"))
+dn<-melt(dn, id.vars=c("x","y"))
 
-dx<-dx%>%
+dn<-dn%>%
   rename(long=x)%>%
   rename(lat=y)%>%
   rename(date=variable)%>%
   rename(Tmin=value)
 
+df<-filter(df, YEAR>=1966)
+
+dn$date<-substr(dn$date, 2,11)
+dn$year<-as.numeric(substr(dn$date, 0,4))
+dn<-filter(dn, year>=1966)
+dn$month<-as.numeric(substr(dn$date, 6, 7))
+dn$day<-as.numeric(substr(dn$date, 9,10))
+dn$date<-as.Date(paste(dn$year, dn$month, dn$day, sep="-"))
+
+
+#write.csv(dn, file="~/Documents/git/ospree/analyses/limitingcues/output/Climate_min.csv", row.names=FALSE)
+
+
+#### Tmax
+points <- SpatialPoints(coords, proj4string = rx@crs)
+
+values <- extract(rx,points)
+
+dx <- cbind.data.frame(coordinates(points),values)
+
+dx<-melt(dx, id.vars=c("x","y"))
+
+dx<-dx%>%
+  rename(long=x)%>%
+  rename(lat=y)%>%
+  rename(date=variable)%>%
+  rename(Tmax=value)
+
 dx$date<-substr(dx$date, 2,11)
 dx$year<-as.numeric(substr(dx$date, 0,4))
+dx<-filter(dx, year>=1966)
 dx$month<-as.numeric(substr(dx$date, 6, 7))
 dx$day<-as.numeric(substr(dx$date, 9,10))
 dx$date<-as.Date(paste(dx$year, dx$month, dx$day, sep="-"))
 
+
+#write.csv(dx, file="~/Documents/git/ospree/analyses/limitingcues/output/Climate_max.csv", row.names=FALSE)
