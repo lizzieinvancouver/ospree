@@ -36,6 +36,8 @@ d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
 # "percentbudset"   
 
 # for now, dayofbudbreak is equivalent to daystobudbreak ... 
+# ailene 1 oct 2012: the only study with this respvar is hawkins12, and it is actually 50% budbreak and day of year (not days to)
+
 subset(d$fieldsample.date, d$respvar=="dayofbudbreak")
 subset(d$response.time, d$respvar=="dayofbudbreak")
 # "dateofbudburst" has been converted to dayofbudbreak so will treat as daystobudbreak for now

@@ -74,12 +74,12 @@ d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 #startofcalc<-c(as.Date("2003-03-01"))#Figure 2a shows just 2003 data
 #startofcalc <- as.numeric(strftime(startofcalc, format = "%j"))###Julian day March 1, 2003
 #d$response.time[which(d$respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12")]<-
-    #as.numeric(d$response.time[which(d$respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12")])-startofcalc
+#    as.numeric(d$response.time[which(d$respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12")])-startofcalc
 #d<-within(d, respvar.simple[respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12"]<-"percentbudburst")
 
 #now for the budstage rows, which are a mean of all three years, so use same julian day for march 1, 2003:
 #d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")]<-
-#  as.numeric(d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")])-startofcalc
+#   as.numeric(d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")])-startofcalc
 #d<-within(d, respvar.simple[respvar == "budstage_dayofyear" & datasetID=="gunderson12"]<-"budstage")
 
 ##########################################################
