@@ -32,8 +32,8 @@ d$X.1 <- NULL
 d$X.2 <- NULL
 d$X.3 <- NULL
 
-# 3. Add year to the Zohner data, somehow this got left off 
-d$year[which(d$datasetID=="zohner16")] <- 2014
+# 3. Clean up some super miscellaneous stuff
+source("cleaning/clean_misc.R")
 
 # 4. Clean up response variable names
 source("cleaning/clean_respvar.R")

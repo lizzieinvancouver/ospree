@@ -15,7 +15,7 @@ It:
 
 2. There are some weird columns that get read in. We delete these. Poof… and they are gone!
 
-3. In July 2017 we realized we left year off the Zonher data, but we need it! So we’re adding it in here, it should be year of experiment, which is 2014.
+3. Clean some miscellaneous issue (e.g., year missing from Zohner)
 
 4. Next, we source the clean_respvar.R code.
 
