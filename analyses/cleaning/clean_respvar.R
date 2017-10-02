@@ -36,6 +36,8 @@ d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
 # "percentbudset"   
 
 # for now, dayofbudbreak is equivalent to daystobudbreak ... 
+# ailene 1 oct 2012: the only study with this respvar is hawkins12, and it is actually 50% budbreak and day of year (not days to)
+
 subset(d$fieldsample.date, d$respvar=="dayofbudbreak")
 subset(d$response.time, d$respvar=="dayofbudbreak")
 # "dateofbudburst" has been converted to dayofbudbreak so will treat as daystobudbreak for now
@@ -232,10 +234,14 @@ d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gomory15"] <- "dayofyear
 
 d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" ### Added by Dan on 26 Sept 2017
 
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gunderson12"] <- "dayofyeartobudburst"#Ailene added 1 Oct 2017
+
 #Ailene's suggested fix,added 4 Sept 2017
 #percentbudburst_dayofyear (studies with x-axis units of "Julian day of year" instead of just "days" )
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="Sanz-Perez09"] <- "percentbudburst_dayofyear"
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="sanzperez10"] <- "percentbudburst_dayofyear"
+
+d$respvar[d$respvar == "budstage" & d$datasetID=="gunderson12"] <- "budstage_dayofyear"#Ailene added 1 Oct 2017
 
 # Additional Edits made by Cat - 31 Jan 2017
 # ghelardini10 issues - removed 8 rows not affiliated with study
