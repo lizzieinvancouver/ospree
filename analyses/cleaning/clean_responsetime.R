@@ -309,11 +309,10 @@ d<- within(d, respvar[datasetID=="falusi90" & respvar=="daystobudburst"]<-"perce
 d<- within(d, respvar.simple[datasetID=="falusi90" & respvar=="percentbudburst"]<-"percentbudburst")
 
 
-### Cat edits 15 Septmber 2017 - to fix ramos99
+### Cat (edits on 15 Septmber 2017) - to fix ramos99
 d$response.time[which(d$forcetemp==30 & d$datasetID=="ramos99")]<-14
 d$response.time[which(d$forcetemp==20 & d$datasetID=="ramos99")]<-21
 d$response.time[which(d$forcetemp==12.5 & d$datasetID=="ramos99")]<-NA
-
 
 ###############################################################
 ## Which rows have been looked at through all these queries? ##

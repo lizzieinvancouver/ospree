@@ -38,11 +38,17 @@ Datasets with this change:
 gomory15
 San-Perez09
 
-Problem B: 
-ramos99 - was a response.time issue for entries. Fixed in clean_responsetime.R
-	for two treatments, the response time was specified. For the final treatment the 	response time was not mentioned, so those rows will be removed in 			clean_respvarmore.R
-partanen05 - the response.time is transfer date, not day of bud burst so it is not useful for this analysis. I will remove these rows in bb_analysis/cleaning/clean_respvarmore.R
+Problem B: Responsetime is in wrong units. In these cases we just fix the response time to daystobudburst (since forcing).
 
+Datasets with this change:
+ramos99 - was a response.time issue for entries. Fixed in cleaning/clean_responsetime.R
+	for two treatments, the response time was specified. 
+
+Problem C: there is no way to fix it into daystobudburst, so we delete it in bb_analysis/cleaning/clean_respvarmore.R
+
+Datasets with this change:
+partanen05 - the response.time is transfer date, not day of bud burst so it is not useful for this analysis. I will remove these rows in bb_analysis/cleaning/clean_respvarmore.R
+ramos99 - For the final treatment the response time was not mentioned, so those rows will be removed in bb_analysis/cleaning/clean_respvarmore.R
 
 
 
