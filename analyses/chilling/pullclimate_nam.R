@@ -71,7 +71,7 @@ for(i in 1:nrow(nam)){ # i = 1
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
-      lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[2]
+      lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
       }
     
     mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))#minimum temperatures for selected lat/long
