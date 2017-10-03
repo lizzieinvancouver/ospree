@@ -39,6 +39,9 @@ source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 r
 # 5. Clean ambient forcing
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
+# 5b. Clean ambient forcing daily - not active yet
+#source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R")
+
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 80%)
 # ... with an allowable buffer (i.e., 40%)
 source("bb_analysis/cleaning/clean_bbperctodays.R") # as of 16 July 2017, deletes 84 rows
