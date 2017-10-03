@@ -82,8 +82,14 @@ d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 #   as.numeric(d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")])-startofcalc
 #d<-within(d, respvar.simple[respvar == "budstage_dayofyear" & datasetID=="gunderson12"]<-"budstage")
 
+###########################################################################
+### dayofyeartobudburst where we cannot determine when forcing started ####
+###########################################################################
+d<-d[!(d$datasetID=="fu13"),]
+
+
 ##########################################################
-############## Problem B Issues! #########################
+############## Problem D Issues! #########################
 ##########################################################
 
 ######### Partanen05 ####### (Cat added 28 September 2017)

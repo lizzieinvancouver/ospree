@@ -27,8 +27,7 @@ checkmeout_info.csv - created by hand by Lizzie from checkmeout.csv, same as che
 <><><><><><><><><><><><><><>
 How we fixed things
 <><><><><><><><><><><><><><>
-
-Problem A: It was dayofyeartobudburst instead of daystobudburst then:
+Problem A: It was dayofyeartobudburst instead of daystobudburst and you can figure when forcing started then:
 	(a1) In cleaning/clean.respvar.R: change respvar to dayofyeartobudburst
 	(a2) Make the calculation changes in bb_analysis/cleaning/clean_respvarmore.R so that it is daystobudburst and relabel the respvar there to daystobudburst.
 
@@ -37,18 +36,24 @@ Note: If it is percentbudburst, then you just do a2 I think.
 Datasets with this change:
 gomory15
 San-Perez09
-
-Problem B: Responsetime is in wrong units. In these cases we just fix the response time to daystobudburst (since forcing).
-
-Datasets with this change:
-ramos99 - was a response.time issue for entries. Fixed in cleaning/clean_responsetime.R
-	for two treatments, the response time was specified. 
-
-Problem C: there is no way to fix it into daystobudburst, so we delete it in bb_analysis/cleaning/clean_respvarmore.R
+<><><><><><>
+Problem B: It was dayofyeartobudburst instead of daystobudburst and you *cannot* figure when forcing started then:
+	(a1) In cleaning/clean.respvar.R: change respvar to dayofyeartobudburst
+	(a2) Delete the rows of data in bb_analysis/cleaning/clean_respvarmore.R.
 
 Datasets with this change:
-partanen05 - the response.time is transfer date, not day of bud burst so it is not useful for this analysis. I will remove these rows in bb_analysis/cleaning/clean_respvarmore.R
+fu13
+<><><><><><>
+Problem C: Responsetime is in wrong units. In these cases we just fix the response time to daystobudburst (since forcing). See above ‘Note’ also for case where the units are not as needed. 
+
+Datasets with this change:
+ramos99 - was a response.time issue for entries. Fixed in cleaning/clean_responsetime.R for two treatments, the response time was specified. 
+<><><><><><>
+Problem D: there is no way to fix it into daystobudburst, so we delete it in bb_analysis/cleaning/clean_respvarmore.R
+
+Datasets with this change:
+partanen05 - the response.time is transfer date, not day of budburst so it is not useful for this analysis; removed these rows in bb_analysis/cleaning/clean_respvarmore.R
 ramos99 - For the final treatment the response time was not mentioned, so those rows will be removed in bb_analysis/cleaning/clean_respvarmore.R
-
+<><><><><><>
 
 

@@ -10,6 +10,9 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+## To do ##
+# subset(d, Entered.By=="EF")
+# also days 30-60 ... 
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
@@ -82,6 +85,7 @@ checkme.agg <- aggregate(checkme.sm["response.time"], checkme.sm[c("datasetID", 
 checkme.agg <- checkme.agg[with(checkme.agg, order(datasetID)),]
 
 nrow(checkme.agg)/4
+
 
 ##
 ## STEP 5: Write it out: 
