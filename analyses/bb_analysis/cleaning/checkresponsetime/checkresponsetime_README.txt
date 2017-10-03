@@ -35,11 +35,11 @@ Note: If it is percentbudburst, then you just do a2 I think.
 
 Datasets with this change:
 gomory15
-San-Perez09
+San-Perez09 (percentbudburst)
 <><><><><><>
 Problem B: It was dayofyeartobudburst instead of daystobudburst and you *cannot* figure when forcing started then:
 	(a1) In cleaning/clean.respvar.R: change respvar to dayofyeartobudburst
-	(a2) Delete the rows of data in bb_analysis/cleaning/clean_respvarmore.R.
+	(a2) Delete the rows of data in bb_analysis/cleaning/clean_respvarmore.R. Add a note about whether they say a day to start counting forcing from (if yes, when)… if no, say they don’t say.
 
 Datasets with this change:
 fu13
