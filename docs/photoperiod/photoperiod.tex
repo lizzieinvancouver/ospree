@@ -53,8 +53,8 @@
  \bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
 \title{Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
-\author{A.K. Ettinger, C. Adams, D. Buonaiuto, I. Morales Castilla, E. Wolkovich}
-%\date{\today}
+\author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
+%\date{\today}%do we need to also add any of the following: D. Flynn, T. Savas, J. Samaha, E. Forrestel? 
 \maketitle  %put the fancy title on
 %\tableofcontents      %add a table of contents
 %\clearpage
@@ -63,7 +63,7 @@
 \item \textit{Introduction}
 \begin{enumerate}
 \item Photoperiod is a critical cue used by organisms, and many studies exist demonstrating this. (could focus just on phenology or on other things too?)
-\item As species undergo climate change-induced shifts in space and/or time, the the daylength they experience will be altered. 
+\item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
 \begin{enumerate}
@@ -82,8 +82,8 @@
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
-\item Phenology will be altered, given that daylength is known to affect phenology hcell elongation and budburst \citep{linkosalo2006,erwin1998,sidaway2010}.
-\item It has been proposed that photoperiod may eventually become limiting a factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
+\item Phenology will be altered, given that daylength is known to affect vegetative growth, cell elongation, and budburst \citep{linkosalo2006,erwin1998,sidaway2010, hsu2011}.
+\item It has been proposed that photoperiod may eventually become a limiting factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
 \item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone.
 \item Photoperiod should be incorporated into foreacasts of biological impacts of climate change (species distribution modelling, ED).
 \end{enumerate}
@@ -102,14 +102,227 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make a map showing daylength on greenup dates globally 
+\item Make a map showing daylength or greenup dates globally 
 \item Make Table of studies and treatments
 \item Make Table of studies testing if photoperiod varies by latitudinal origin
 \end{enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
-
+% latex table generated in R 3.2.4 by xtable 1.8-2 package
+% Tue Oct  3 11:07:09 2017
+\begin{table}[ht]
+\centering
+\caption{Growth chamber experiments and their photoperiod treatments.} 
+\label{table:phototreats}
+\begin{tabular}{|p{0.12\textwidth}|p{0.08\textwidth}|p{0.08\textwidth}|p{0.08\textwidth}|p{0.05\textwidth}|p{0.06\textwidth}|p{0.07\textwidth}|}
+  \hline
+study & lat & long & daylength & delta & spatial & temporal \\ 
+  \hline
+ashby62 & 42.988 & -89.412 & 8 &  &  &  \\ 
+  ashby62 & 42.988 & -89.412 & 12 &  &  &  \\ 
+  ashby62 & 42.988 & -89.412 & 16 &  &  &  \\ 
+  basler12 & 46.200 & 7.033 & shortday &  &  &  \\ 
+  basler12 & 46.850 & 9.530 & longday &  &  &  \\ 
+  basler14 & 46.315 & 8.265 & 16 &  &  &  \\ 
+  basler14 & 46.315 & 8.265 & 9.2 &  &  &  \\ 
+  basler14 & 46.315 & 8.265 & 10.2 &  &  &  \\ 
+  bernier81 &  &  & 8 &  &  &  \\ 
+  bernier81 &  &  & 10 &  &  &  \\ 
+  bernier81 &  &  & 12 &  &  &  \\ 
+  bernier81 &  &  & 14 &  &  &  \\ 
+  bernier81 &  &  & 16 &  &  &  \\ 
+  bernier81 &  &  & 18 &  &  &  \\ 
+  bernier81 &  &  & 20 &  &  &  \\ 
+  bernier81 &  &  & 22 &  &  &  \\ 
+  biasi12 & -23.380 & -49.130 & 16 &  &  &  \\ 
+  biran73 & 31.890 & 34.819 & 16 &  &  &  \\ 
+  biran73 & 31.890 & 34.819 & 11 &  &  &  \\ 
+  biran73 & 31.890 & 34.819 & 10.5 &  &  &  \\ 
+  boyer & 37.000 & -76.000 & 14 &  &  &  \\ 
+  bradford10 & 42.700 & -75.968 & 9 &  &  &  \\ 
+  bradford10 & 42.700 & -75.968 & 16 &  &  &  \\ 
+  caffarra11a & 52.320 & -6.934 & 16 &  &  &  \\ 
+  caffarra11a & 52.320 & -6.934 & 8 &  &  &  \\ 
+  caffarra11b & 52.320 & -6.934 & 10 &  &  &  \\ 
+  caffarra11b & 52.320 & -6.934 & 12 &  &  &  \\ 
+  caffarra11b & 52.320 & -6.934 & 14 &  &  &  \\ 
+  caffarra11b & 52.320 & -6.934 & 16 &  &  &  \\ 
+  calme94 & 46.500 & -78.833 & 16 &  &  &  \\ 
+  campbell75 & 45.370 & -124.500 & 16 &  &  &  \\ 
+  charrier11 & 45.772 &  & 16 &  &  &  \\ 
+  cook00b & -34.150 & 19.040 & 24 &  &  &  \\ 
+  cook05 & -34.076 & 18.842 & 24 &  &  &  \\ 
+  dantec14 & 43.750 & 0.220 & 16 &  &  &  \\ 
+  devries82 & 51.984 & 5.664 & 8 &  &  &  \\ 
+  durner84 & 37.227 & -80.423 & 16 &  &  &  \\ 
+  durner84 & 37.227 & -80.423 & 9 &  &  &  \\ 
+  ellis97 &  &  & 11 &  &  &  \\ 
+  ellis97 &  &  & 12.5 &  &  &  \\ 
+  falusi03 & 43.732 & 11.557 & 12 &  &  &  \\ 
+  falusi90 & 46.033 & 10.750 & 9 &  &  &  \\ 
+  falusi90 & 46.033 & 10.750 & 13 &  &  &  \\ 
+  falusi96 & 38.267 & 15.988 & 9 &  &  &  \\ 
+  falusi96 & 38.267 & 15.988 & 13 &  &  &  \\ 
+  falusi97 & 43.820 & 11.960 & 12 &  &  &  \\ 
+  ghelardini10 & 43.717 & 11.367 & 8 &  &  &  \\ 
+  ghelardini10 & 43.717 & 11.367 & 16 &  &  &  \\ 
+  granhus09 & 60.580 & 11.000 & 24 &  &  &  \\ 
+  guerriero90 & 43.706 & 10.331 & 12 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 8 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 12 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 14 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 24 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 9 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 15 &  &  &  \\ 
+  gutterman88 & 30.850 & 34.770 & 18 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 10 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 24 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 12 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 14 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 16 &  &  &  \\ 
+  heide01 & 59.666 & 11.333 & 18 &  &  &  \\ 
+  Heide03 & 60.500 & 7.700 & 24 &  &  &  \\ 
+  heide05 & 56.176 & -4.316 & 10 &  &  &  \\ 
+  heide05 & 56.176 & -4.316 & 24 &  &  &  \\ 
+  heide07 &  &  & 24 &  &  &  \\ 
+  heide07 &  &  & 10 &  &  &  \\ 
+  heide07 &  &  & 15 &  &  &  \\ 
+  heide07 &  &  & 16 &  &  &  \\ 
+  heide07 &  &  & 17 &  &  &  \\ 
+  heide07 &  &  & 18 &  &  &  \\ 
+  heide07 &  &  & 20 &  &  &  \\ 
+  heide08 & 48.396 & 11.725 & 10 &  &  &  \\ 
+  heide08 & 48.396 & 11.725 & 24 &  &  &  \\ 
+  heide11 & 59.667 & 10.667 & 20 &  &  &  \\ 
+  heide11 & 59.667 & 10.667 & 10 &  &  &  \\ 
+  heide12 & 56.500 & -3.062 & 10 &  &  &  \\ 
+  heide12 & 56.500 & -3.062 & 24 &  &  &  \\ 
+  heide12 & 56.500 & -3.062 & 15 &  &  &  \\ 
+  heide15 & 56.500 & -3.062 & 10 &  &  &  \\ 
+  heide15 & 56.500 & -3.062 & 15 &  &  &  \\ 
+  heide15 & 56.500 & -3.062 & 10, 15 &  &  &  \\ 
+  heide15 & 56.500 & -3.062 & 15, 10 &  &  &  \\ 
+  heide77 & 56.074 & 9.379 & 10 &  &  &  \\ 
+  heide77 & 56.074 & 9.379 & 12 &  &  &  \\ 
+  heide77 & 56.074 & 9.379 & 14 &  &  &  \\ 
+  heide77 & 56.074 & 9.379 & 16 &  &  &  \\ 
+  heide77 & 61.039 & 9.549 & 24 &  &  &  \\ 
+  heide93 & 59.500 & 10.767 & 24 &  &  &  \\ 
+  heide93 & 59.500 & 10.767 & 8 &  &  &  \\ 
+  heide93a & 59.670 & 10.830 & 8 &  &  &  \\ 
+  heide93a & 59.670 & 10.830 & 24 &  &  &  \\ 
+  heide93a & 47.500 & 7.600 & 13 &  &  &  \\ 
+  heide93a & 47.500 & 7.600 & 14 &  &  &  \\ 
+  heide93a & 47.500 & 7.600 & 15 &  &  &  \\ 
+  heide93a & 47.500 & 7.600 & 16 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 9 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 11 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 13 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 15 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 17 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 19 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 21 &  &  &  \\ 
+  howe95 & 40.548 & -124.097 & 24 &  &  &  \\ 
+  junttila12 & 67.050 & 15.033 & 24 &  &  &  \\ 
+  kinet93 & 50.582 & 5.559 & 16 &  &  &  \\ 
+  kronenberg76 & 51.984 & 5.665 & 16 &  &  &  \\ 
+  laube14a & 48.403 & 11.712 & 8 &  &  &  \\ 
+  laube14a & 48.403 & 11.712 & 12 &  &  &  \\ 
+  laube14a & 48.403 & 11.712 & 16 &  &  &  \\ 
+  laube14b & 48.403 & 11.712 & 16 &  &  &  \\ 
+  li05 & 68.850 & 19.490 & 12 &  &  &  \\ 
+  lieten95 & 4.803 & 51.473 & 16 &  &  &  \\ 
+  lieten97 & 51.473 & 4.804 & 16 &  &  &  \\ 
+  lyndon77 &  &  & longday &  &  &  \\ 
+  man10 & 51.254 & -85.323 & 16 &  &  &  \\ 
+  myking95 & 56.100 & 9.150 & 8 &  &  &  \\ 
+  myking95 & 56.100 & 9.150 & 24 &  &  &  \\ 
+  myking97 & 59.667 & 10.767 & 24 &  &  &  \\ 
+  myking97 & 59.667 & 10.767 & 12 &  &  &  \\ 
+  myking98 & 59.670 & 10.830 & 24 &  &  &  \\ 
+  nienstaedt66 & 44.166 & -103.916 & 20 &  &  &  \\ 
+  nienstaedt66 & 44.166 & -103.916 & 8 &  &  &  \\ 
+  okie11 & 32.120 & -83.120 & 0 &  &  &  \\ 
+  okie11 & 32.120 & -83.120 & 12 &  &  &  \\ 
+  pagter15 & 59.350 & 18.067 & 16 &  &  &  \\ 
+  partanen01 & 61.933 & 26.683 & 16 &  &  &  \\ 
+  partanen01 & 61.933 & 26.683 & 6 &  &  &  \\ 
+  partanen05 & 61.817 & 29.317 & 5 &  &  &  \\ 
+  partanen05 & 61.817 & 29.317 & 10 &  &  &  \\ 
+  partanen05 & 61.817 & 29.317 & 15 &  &  &  \\ 
+  partanen05 & 61.817 & 29.317 & 20 &  &  &  \\ 
+  partanen98 & 60.033 & 23.050 & 12 &  &  &  \\ 
+  partanen98 & 60.033 & 23.050 & 8.66 &  &  &  \\ 
+  partanen98 & 64.850 & 29.583 & 6 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 10 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 12 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 14 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 16 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 18 &  &  &  \\ 
+  pettersen71 & 59.660 & 10.770 & 24 &  &  &  \\ 
+  pop2000 & 68.633 & -149.633 & 24 &  &  &  \\ 
+  ramos99 & 37.857 & -4.804 & 12 &  &  &  \\ 
+  rinne94 & 65.167 & 27.333 & 24 &  &  &  \\ 
+  ruesink98 & 52.067 & 4.650 & 16 &  &  &  \\ 
+  Sanz-Perez09 & 40.400 & -3.480 & 16 &  &  &  \\ 
+  Sanz-Perez09 & 40.400 & -3.480 & 10 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 15 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 14 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 13.75 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 13.5 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 13.25 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 13 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 12.75 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 12.5 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 12.25 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 12 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 11.75 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 11.5 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 11.25 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 11 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 10.75 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 10.5 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 10.25 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 10 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 9.75 &  &  &  \\ 
+  schnabel87 & 46.209 & -119.766 & 9.5 &  &  &  \\ 
+  skre08 & 59.750 & 9.467 & 18 &  &  &  \\ 
+  skuterud94 & 61.500 & 24.330 & 24 &  &  &  \\ 
+  skuterud94 & 61.500 & 24.333 & 8 &  &  &  \\ 
+  smeets80 & 51.984 & 5.665 & 8 &  &  &  \\ 
+  smeets80 & 51.984 & 5.665 & 16 &  &  &  \\ 
+  smeets80 & 51.984 & 5.665 & 24 &  &  &  \\ 
+  smeets82 & 51.984 & 5.665 & 16 &  &  &  \\ 
+  sogaard08 & 60.278 & 12.734 & 24 &  &  &  \\ 
+  sogaard08 & 60.278 & 12.734 & 12 &  &  &  \\ 
+  sonsteby06 & 59.666 & 10.792 & 10 &  &  &  \\ 
+  sonsteby06 & 59.666 & 10.792 & 24 &  &  &  \\ 
+  sonsteby09a & 51.966 & 5.666 & 12 &  &  &  \\ 
+  sonsteby14 & 65.343 & 21.397 & 24 &  &  &  \\ 
+  spann04 & 29.670 & -82.350 & 16 &  &  &  \\ 
+  spiers74 & 30.833 & -89.551 & 14 &  &  &  \\ 
+  swartz81 & 38.988 & -76.938 & 14 &  &  &  \\ 
+  thielges75 &  &  & 16 &  &  &  \\ 
+  verheul07 & 58.761 & 5.652 & 20 &  &  &  \\ 
+  viheraaarnio06 & 60.450 & 24.930 & 17 &  &  &  \\ 
+  viheraaarnio06 & 60.450 & 24.930 & 16 &  &  &  \\ 
+  viheraaarnio06 & 67.730 & 24.930 & 21 &  &  &  \\ 
+  viheraaarnio06 & 67.730 & 24.930 & 20 &  &  &  \\ 
+  viheraaarnio06 & 60.450 & 24.930 & 19 &  &  &  \\ 
+  viheraaarnio06 & 60.450 & 24.930 & 18 &  &  &  \\ 
+  viheraaarnio06 & 60.450 & 24.930 & 15 &  &  &  \\ 
+  viheraaarnio06 & 67.730 & 24.930 & 23 &  &  &  \\ 
+  viheraaarnio06 & 67.730 & 24.930 & 22 &  &  &  \\ 
+  voipio01 & 59.666 & 10.792 & 16 &  &  &  \\ 
+  webb78 & 44.303 & -78.318 & 16 &  &  &  \\ 
+  worrall67 & 41.306 & -72.928 & 8 &  &  &  \\ 
+  worrall67 & 41.306 & -72.928 & 16 &  &  &  \\ 
+  zohner16 & 48.164 & 11.503 & 8 &  &  &  \\ 
+  zohner16 & 48.164 & 11.503 & 16 &  &  &  \\ 
+   \hline
+\end{tabular}
+\end{table}\clearpage
 \begin{table}[p]
   \caption{\textbf{Growth chamber experiments and their photoperiod treatments.} From OSPREE. For now, I used 45.5 lat to estimate spatial and temporal equivalents and Y/N for sensitivity but might be better to have a magnitude of sensitivity found?}
 \begin{footnotesize} 
@@ -135,7 +348,7 @@
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change_bar.pdf} 
 \caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, across latitude.}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward) versus temporally (shifting activity earlier 3 days per decade).}
- \label{fig:photo_bar}
+ \label{fig:photo_bar}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
  \end{figure}
 \clearpage
 

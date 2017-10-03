@@ -53,8 +53,8 @@
  \bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
 \title{Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
-\author{A.K. Ettinger, C. Adams, D. Buonaiuto, I. Morales Castilla, E. Wolkovich}
-%\date{\today}
+\author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
+%\date{\today}%do we need to also add any of the following: D. Flynn, T. Savas, J. Samaha, E. Forrestel? 
 \maketitle  %put the fancy title on
 %\tableofcontents      %add a table of contents
 %\clearpage
@@ -63,7 +63,7 @@
 \item \textit{Introduction}
 \begin{enumerate}
 \item Photoperiod is a critical cue used by organisms, and many studies exist demonstrating this. (could focus just on phenology or on other things too?)
-\item As species undergo climate change-induced shifts in space and/or time, the the daylength they experience will be altered. 
+\item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
 \begin{enumerate}
@@ -82,8 +82,8 @@
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
-\item Phenology will be altered, given that daylength is known to affect phenology hcell elongation and budburst \citep{linkosalo2006,erwin1998,sidaway2010}.
-\item It has been proposed that photoperiod may eventually become limiting a factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
+\item Phenology will be altered, given that daylength is known to affect vegetative growth, cell elongation, and budburst \citep{linkosalo2006,erwin1998,sidaway2010, hsu2011}.
+\item It has been proposed that photoperiod may eventually become a limiting factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
 \item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone.
 \item Photoperiod should be incorporated into foreacasts of biological impacts of climate change (species distribution modelling, ED).
 \end{enumerate}
@@ -102,14 +102,62 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make a map showing daylength on greenup dates globally 
+\item Make a map showing daylength or greenup dates globally 
 \item Make Table of studies and treatments
 \item Make Table of studies testing if photoperiod varies by latitudinal origin
 \end{enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
+<<label=xtable1, echo=FALSE, results=tex>>=
+options(stringsAsFactors = FALSE)
+if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/docs/photoperiod") 
+} else if
+(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/docs/photoperiod") 
+} else if
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/docs/photoperiod")
+} else 
+setwd("~/Documents/git/ospree/docs/photoperiod")
 
+library(xtable)
+library(dplyr)
+#library(tidyr)
+#library(plyr)
+require(dplyr)
+require(xtable)
+
+ospree<-read.csv("../../analyses/output/ospree_clean_respvar.csv",header=T)#which version should I use?
+ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
+
+photop <- ospree %>% # start with the data frame
+  distinct(ID_daylengths, .keep_all = TRUE) %>% # establishing grouping variables
+  dplyr::select(datasetID, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
+photop<-photop[-which(photop$photoperiod_day=="ambient"),]
+photop<-photop[-which(photop$photoperiod_day==""),]
+photop<-photop[-which(photop$photoperiod_day=="constant"),]
+photop<-photop[-which(photop$photoperiod_day=="half in 16, half ambient(9.5-10.5)"),]#remove this one for now-too wide for the table
+
+#need to add delta photoperiod, space, and time equivalents of these
+photop$delta<-""
+photop$space<-""
+photop$time<-""
+
+colnames(photop)<-c("study","lat","long","daylength","delta","spatial","temporal")
+
+photop.table<-xtable(photop,digits=3,
+  caption="Growth chamber experiments and their photoperiod treatments.",label="table:phototreats",align=c(
+                "|p{0.01\\textwidth}",            
+                "|p{0.12\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.05\\textwidth}",
+                "|p{0.06\\textwidth}",
+                "|p{0.07\\textwidth}|"))
+ 
+print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
+@
+\clearpage
 \begin{table}[p]
   \caption{\textbf{Growth chamber experiments and their photoperiod treatments.} From OSPREE. For now, I used 45.5 lat to estimate spatial and temporal equivalents and Y/N for sensitivity but might be better to have a magnitude of sensitivity found?}
 \begin{footnotesize} 
@@ -135,7 +183,7 @@
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change_bar.pdf} 
 \caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, across latitude.}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward) versus temporally (shifting activity earlier 3 days per decade).}
- \label{fig:photo_bar}
+ \label{fig:photo_bar}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
  \end{figure}
 \clearpage
 
