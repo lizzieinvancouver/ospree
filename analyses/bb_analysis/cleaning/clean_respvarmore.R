@@ -63,29 +63,19 @@ startofexp <- strftime(startofexp, format = "%j")###Julian day 326 but of 2001
 d$response.time[which(d$datasetID=="skre08" & d$year=="2002")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2002")])+39
 d<-within(d, respvar.simple[datasetID=="skre08"]<-"daystobudburst")
 
-###########  ########### (Ailene added 2017 September)
-#sanzperez10 study had a start day of experiment is julian day 24
-d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
-d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
-
-#gunderson12 study used temperature-controlled opentop chambers that were warmed throughout the year for 2003, 2004, 2005, so there's not really a start date
-#in the study, they use March 1 as a date from which to count accumulated growing degree days, so we could use that date to adjust time?
-#That is what the code below does,but I'm not sure if we want to do this... first for the budburst rows:
-#startofcalc<-c(as.Date("2003-03-01"))#Figure 2a shows just 2003 data
-#startofcalc <- as.numeric(strftime(startofcalc, format = "%j"))###Julian day March 1, 2003
-#d$response.time[which(d$respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12")]<-
-#    as.numeric(d$response.time[which(d$respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12")])-startofcalc
-#d<-within(d, respvar.simple[respvar == "dayofyeartobudburst" & d$datasetID=="gunderson12"]<-"percentbudburst")
-
-#now for the budstage rows, which are a mean of all three years, so use same julian day for march 1, 2003:
-#d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")]<-
-#   as.numeric(d$response.time[which(d$respvar == "budstage_dayofyear" & d$datasetID=="gunderson12")])-startofcalc
-#d<-within(d, respvar.simple[respvar == "budstage_dayofyear" & datasetID=="gunderson12"]<-"budstage")
-
+##########################################################
+############## Problem B Issues! #########################
+##########################################################
 ###########################################################################
 ### dayofyeartobudburst where we cannot determine when forcing started ####
 ###########################################################################
 d<-d[!(d$datasetID=="fu13"),]
+
+#no start date for forcing in gunderson12 (multiyear OTC field study)
+d<-d[!(d$datasetID=="gunderson12"),]
+
+#no start date for forcing in hawins12 (year round field study)
+d<-d[!(d$datasetID=="hawins12"),]
 
 
 ##########################################################
