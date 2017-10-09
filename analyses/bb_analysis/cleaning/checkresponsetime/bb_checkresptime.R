@@ -10,9 +10,6 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-## To do ##
-# subset(d, Entered.By=="EF")
-# also days 30-60 ... 
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
@@ -92,3 +89,36 @@ nrow(checkme.agg)/4
 ##
 
 write.csv(checkme.agg, "bb_analysis/cleaning/checkresponsetime/checkmeout.csv", row.names=FALSE)
+
+##
+## STEP 6: Now go all the way to all entries above 30 d
+##
+
+checkme30to60 <- subset(cutt, response.time<60.01 & response.time>30)
+checkmeEF <- subset(cutt, Entered.By=="EF")
+
+checkme.next <- rbind(checkme30to60, checkmeEF)
+checkme.next.sm <- subset(checkme.next, select=c("datasetID", "study", "material", "response.time",
+    "figure.table..if.applicable."))
+
+checkme.next.agg <- aggregate(checkme.next.sm["response.time"], checkme.next.sm[c("datasetID", "study",
+    "material","figure.table..if.applicable.")], FUN=mean)
+
+checkme.next.agg <- checkme.next.agg[with(checkme.next.agg, order(datasetID)),]
+
+# Now be sure none of the same studies and figures from set 1 (above) show up #
+checkme.agg$check <- paste(checkme.agg$datasetID, checkme.agg$figure.table..if.applicable.)
+checkme.next.agg$check <- paste(checkme.next.agg$datasetID, checkme.next.agg$figure.table..if.applicable.)
+
+intersect(checkme.next.agg$check, checkme.agg$check)
+
+checkme.next.agg <- checkme.next.agg[which(!checkme.next.agg$check %in%
+    intersect(checkme.next.agg$check, checkme.agg$check)),]
+
+checkme.next.agg$check <- NULL
+
+##
+## STEP 7: And write the new list out
+##
+
+write.csv(checkme.next.agg, "bb_analysis/cleaning/checkresponsetime/checkmeoutset2.csv", row.names=FALSE)

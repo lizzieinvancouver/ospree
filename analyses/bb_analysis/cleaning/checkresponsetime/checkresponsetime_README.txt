@@ -21,6 +21,7 @@ checkmeout_info.csv - created by hand by Lizzie from checkmeout.csv, same as che
 - who: who should check the study
 - responsetime.okay: a Y (yes) or N (no) answer. Y means ‘I checked the study and it’s fine’ while N means ‘I checked the study and we need to fix it.’
 - ifno.fixed: If you answered N in responsetime.okay, have you or someone else pushed code that fixes the problem? Once you do fix it please add an quick explanation of how to this README (see below, we try to categorize the issues so add your dataset to one of the lettered problems if possible or add a new ‘problem’).
+
 ** PLEASE ALWAYS SAVE THIS FILE AS A CSV **
 
 
@@ -58,5 +59,10 @@ Datasets with this change:
 partanen05 - the response.time is transfer date, not day of budburst so it is not useful for this analysis; removed these rows in bb_analysis/cleaning/clean_respvarmore.R
 ramos99 - For the final treatment the response time was not mentioned, so those rows will be removed in bb_analysis/cleaning/clean_respvarmore.R
 <><><><><><>
+<><><><><><>
+Problem E: data entered is just wrong so we fix in cleaning/clean_misc.R
 
+Datasets with this change:
+falusi97 - date on figure is transfer date, but it seems they followed all buds for 120 d so changed to that. 
+<><><><><><>
 
