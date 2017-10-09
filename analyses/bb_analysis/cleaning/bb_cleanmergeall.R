@@ -37,6 +37,7 @@ source("bb_analysis/cleaning/clean_respvarmore.R")
 source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 rows
 
 # 5. Clean ambient forcing
+# 5a. Clean up entries where we can estimate the forcing from the paper (e.g., ramped temps or they give monthly temps)
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
 # 5b. Clean ambient forcing daily - not active yet

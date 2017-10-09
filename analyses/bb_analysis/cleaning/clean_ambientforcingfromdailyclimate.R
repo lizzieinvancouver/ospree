@@ -9,7 +9,7 @@
 #'  This file is unfinished -- need to explicitly incorporate ambient and ambient +1, +4, etc.
 ##############################################################################################################
 
-
+if(FALSE){
 ## to start
 rm(list=ls())
 options(stringsAsFactors=FALSE)
@@ -22,6 +22,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
 } else 
   setwd("~/Documents/git/ospree/analyses")
+}    
 
 ## read in last day of chilling and format a little
 chill.day <- read.csv("output/daily_expchill.csv")
@@ -81,9 +82,8 @@ for(i in 1:nrow(bb)){#i=319
   
   #clim.i$Tmean
   if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
-    
-    print(i)
-  bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy2==doy.i):
+      print(i)
+      bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy2==doy.i):
            which(clim.i$year==year.end.i & clim.i$doy2==doy.end.i),"Tmean"],na.rm=T)
   #clim.i<-subset(clim.i,year==year.i | year==year.end.i)
   }

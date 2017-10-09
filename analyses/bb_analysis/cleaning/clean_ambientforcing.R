@@ -124,6 +124,6 @@ d$response.time.num <- NULL
   print("Error: d not a data.frame")
 }
 
-stop("Not an error, ambient forcing to days now... getting closer. Also, you can ignore the single warning message below -- code converts a column to character, but the column is created, used and deleted in this source code and should not (that I can imagine) have any other impact.")
+stop("Not an error, ambient forcing to days now... getting closer. Also, you can ignore the two warning messages below -- code converts a column to character (twice), but the column is created, used and deleted in this source code and should not (that I can imagine) have any other impact.")
 #setwd("~Documents/git/ospree/analyses/output")
 #write.csv(d,"ospree_clean_withforce.csv")
