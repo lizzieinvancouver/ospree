@@ -19,3 +19,9 @@ d$figure.table..if.applicable.[which(d$datasetID=="campbell75" &
 # text below fig 1 also refers to 'last chilling cutoff date (December 24)' but it is
 # not possible to figure what chilling was (perhaps 'nursery' was outside?)
 d$response.time[which(d$datasetID=="falusi97" & d$study=="exp1")] <- 120
+
+#pop2000 (Dan) is wrong on many levels. 1) resp.var is actually percenttwigswithbudburst 
+#2) response.time is actually chilling time
+#I'm making those changes here, and also deleting the study from anaylsis in clean resp_varmore.R just incase it slips through
+d$response.time[which(d$datasetID=="pop2000")] <- NA
+d$respvar[which(d$datasetID=="pop2000")] <- "percentoftwigswithbudburst"

@@ -237,7 +237,7 @@ d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyearto
 d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gunderson12"] <- "dayofyeartobudburst"#Ailene added 1 Oct 2017
 d$respvar[d$respvar == "budstage" & d$datasetID=="gunderson12"] <- "budstage_dayofyear"# Ailene added 1 Oct 2017
 d$respvar[which(d$respvar=="daystoleafout" & d$datasetID=="fu13")] <- "dayofyeartoleafout" # Lizzie (edits on 2 Oct 2017) to fix fu13
-
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" #added by Dan on 13 Oct 2017
 if(FALSE){
 #Ailene's suggested fix,added 4 Sept 2017
 #percentbudburst_dayofyear (studies with x-axis units of "Julian day of year" instead of just "days" )

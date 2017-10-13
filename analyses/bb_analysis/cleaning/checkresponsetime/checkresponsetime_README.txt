@@ -46,6 +46,7 @@ Datasets with this change:
 fu13
 gunderson12 - authors use March 1 to count forcing
 hawkins12-  authors use Feb 1 to count forcing
+skre08- cannot tell exactly when forcing began—will email corresponding author. 
 
 <><><><><><>
 Problem C: Responsetime is in wrong units. In these cases we just fix the response time to daystobudburst (since forcing). See above ‘Note’ also for case where the units are not as needed. 
@@ -64,5 +65,6 @@ Problem E: data entered is just wrong so we fix in cleaning/clean_misc.R
 
 Datasets with this change:
 falusi97 - date on figure is transfer date, but it seems they followed all buds for 120 d so changed to that. 
+pop2000- There is no time measurement reported in the figure. What we originally reported as daystobudburst is actually days of chilling, and the response is actually percent twigs with burst bud.
 <><><><><><>
 

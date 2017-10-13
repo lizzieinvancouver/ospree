@@ -52,10 +52,10 @@ d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
 d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
 d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 
-#########Skre08 #####(Dan added 26 Sept 2017)
-startofexp<-as.Date("2001-01-25")
-startofexp <- strftime(startofexp, format = "%j")
-d$response.time[which(d$datasetID=="skre08" & d$year=="2001")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2001")])-25
+#########Skre08 #####(Dan added 26 Sept 2017) decided we cannot determine, leaving code here incase authors responses (Dan)
+#startofexp<-as.Date("2001-01-25")
+#startofexp <- strftime(startofexp, format = "%j")
+#d$response.time[which(d$datasetID=="skre08" & d$year=="2001")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2001")])-25
 
 startofexp<-as.Date("2001-11-22")
 startofexp <- strftime(startofexp, format = "%j")###Julian day 326 but of 2001
@@ -76,6 +76,10 @@ d<-d[!(d$datasetID=="gunderson12"),]
 
 #no start date for forcing in hawins12 (year round field study)
 d<-d[!(d$datasetID=="hawins12"),]
+
+d<-d[!(d$datasetID=="skre08"),] ##added by Dan on 27 Oct 2017
+
+d<-d[!(d$datasetID=="pop2000"),] ##added by Dan on 27 Oct 2017
 
 
 ##########################################################
