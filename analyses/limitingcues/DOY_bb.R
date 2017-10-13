@@ -37,6 +37,29 @@ bet<-filter(bet, count==1)
 bet$year<-bet$YEAR
 bet$bb<-bet$DAY
 
-d<-dplyr::select(bet, year, BBCH, bb, lat, long, species, date)
+db<-dplyr::select(bet, year, BBCH, bb, lat, long, species, date)
 
+fsyl<-fsyl%>%dplyr::rename("lat" = LAT)%>%dplyr::rename("long"=LON)
+x<-paste(fsyl$YEAR, fsyl$DAY)
+fsyl$date<-as.Date(strptime(x, format="%Y %j"))
+fsyl$year<-as.numeric(substr(fsyl$date, 0,4))
+fsyl$month<-as.numeric(substr(fsyl$date, 6, 7))
+fsyl$day<-as.numeric(substr(fsyl$date, 9,10))
+fsyl$prov<-paste(fsyl$lat, fsyl$long)
+fsyl <- fsyl[order(fsyl$prov, fsyl$date), ]
+
+fsyl$grow<-ifelse(is.na(fsyl$BBCH), NA, TRUE)
+fsyl$count <- ave(
+  fsyl$grow, fsyl$PEP_ID, fsyl$year,
+  FUN=function(x) cumsum(c(1, head(x, -1)))
+)
+
+fsyl$count<-as.numeric(as.character(fsyl$count))
+fsyl<-filter(fsyl, count==1)
+fsyl$year<-fsyl$YEAR
+fsyl$bb<-fsyl$DAY
+
+df<-dplyr::select(fsyl, year, BBCH, bb, lat, long, species, date)
+
+d<- full_join(df, db)
 
