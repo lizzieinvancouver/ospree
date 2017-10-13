@@ -62,7 +62,7 @@
 \begin{enumerate}
 \item \textit{Introduction}
 \begin{enumerate}
-\item Photoperiod is a critical cue used by organisms, and many studies exist demonstrating this. (could focus just on phenology or on other things too?)
+\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (need other citations- there are many possibilities!)\citep{hsu2011,singh2017}.
 \item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
@@ -84,7 +84,7 @@
 \begin{enumerate}
 \item Phenology will be altered, given that daylength is known to affect vegetative growth, cell elongation, and budburst \citep{linkosalo2006,erwin1998,sidaway2010, hsu2011}.
 \item It has been proposed that photoperiod may eventually become a limiting factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
-\item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone.
+\item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone. Say something about crossing thresholds of daylength and the "external coincidence model" for photoperiod control \citep{bastow2002,kobayashi2007,andres2012,singh2017}?
 \item Photoperiod should be incorporated into foreacasts of biological impacts of climate change (species distribution modelling, ED).
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
