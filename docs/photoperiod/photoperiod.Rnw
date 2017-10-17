@@ -62,7 +62,7 @@
 \begin{enumerate}
 \item \textit{Introduction}
 \begin{enumerate}
-\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (need other citations- there are many possibilities!)\citep{hsu2011,singh2017}.
+\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (add other citations- there are many possibilities! if you have favorites, please add along with 1-2 words of what the activity is)\citep[e.g.,][]{hsu2011,singh2017}.
 \item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
@@ -76,7 +76,7 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts actually yield bigger changes in photoperiod than spatial shifts  (Figures \ref{fig:photo},\ref{fig:photo_bar}).
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts actually yield bigger changes in experienced photoperiod than spatial shifts  (Figures \ref{fig:photo},\ref{fig:photo_bar}).
 \item Shifts in photoperiod may vary with latitude (Figure \ref{fig:photo_bar}). 
 \item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact.
 \end{enumerate}
@@ -85,7 +85,7 @@
 \item Phenology will be altered, given that daylength is known to affect vegetative growth, cell elongation, and budburst \citep{linkosalo2006,erwin1998,sidaway2010, hsu2011}.
 \item It has been proposed that photoperiod may eventually become a limiting factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
 \item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone. Say something about crossing thresholds of daylength and the "external coincidence model" for photoperiod control \citep{bastow2002,kobayashi2007,andres2012,singh2017}?
-\item Photoperiod should be incorporated into foreacasts of biological impacts of climate change (species distribution modelling, ED).
+\item Effects of photoperiod on forecasting of biological impacts of climate change needs additional investifation. In some forecasting methods (e.g. species distirbution modelling), the role of photoperiod is largely ignored (i think this is true? add some citations). In other cases, photoperiod is incorporated into foreacasts, along with other variables such as evaporative demand, and temperature \citep [e.g. ED] []{jolly2005, medvigy2013}. These models need to be more widely tested, e.g. in different ecosystems/species, and given recent findings about the role of photoperiod in phenology.     
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
 \begin{enumerate}
@@ -118,11 +118,11 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/docs/photoperiod")
 } else 
 setwd("~/Documents/git/ospree/docs/photoperiod")
-
+library(geosphere)
 library(xtable)
 library(dplyr)
 #library(tidyr)
-#library(plyr)
+library(plyr)
 require(dplyr)
 require(xtable)
 
@@ -135,25 +135,82 @@ photop <- ospree %>% # start with the data frame
 photop<-photop[-which(photop$photoperiod_day=="ambient"),]
 photop<-photop[-which(photop$photoperiod_day==""),]
 photop<-photop[-which(photop$photoperiod_day=="constant"),]
-photop<-photop[-which(photop$photoperiod_day=="half in 16, half ambient(9.5-10.5)"),]#remove this one for now-too wide for the table
+#photop<-photop[-which(photop$photoperiod_day=="half in 16, half ambient(9.5-10.5)"),]#remove this one for now-too wide for the table
 
 #need to add delta photoperiod, space, and time equivalents of these
-photop$delta<-""
-photop$space<-""
-photop$time<-""
+#try instead columns for daylength (min, max) and spatial temporal can be the difference between these
+#aggregate to get imn and max daylengths
+photop_min<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$provenance.lat,photop$provenance.long), FUN=min)
+photop_max<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$provenance.lat,photop$provenance.long), FUN=max)
+colnames(photop_max)[4]<-"daylength_max"
+colnames(photop_min)[4]<-"daylength_min"
+photop_all<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3"), match="all")
+colnames(photop_all)[1:3]<-c("study","lat","long")
+#remove studies that only have one photoperiod treatment
+photop_all<-photop_all[-which(photop_all$daylength_min==photop_all$daylength_max),]
+#remove studdies with no data for daylength
+photop_all<-photop_all[-which(is.na(photop_all$daylength_min)),]
 
-colnames(photop)<-c("study","lat","long","daylength","delta","spatial","temporal")
+#combine min and max into one column
+photop_all$daylength<-paste(photop_all$daylength_min,photop_all$daylength_max, sep="-")
+photop_all$delta<-photop_all$daylength_max-photop_all$daylength_min
+photop_all$space<-""
+photop_all$time<-""
+for(i in 1:length(photop_all$lat)){
+  photos<-daylength(photop_all$lat[i], c(355:365,1:172))
+  date<-strptime(c(355:365,1:172), format = "%j")
+  date_expmin<-date[which(round(photos, digits=1)==round(photop_all$daylength_min[i], digits
+                                                         =1))]
+  date_expmax<-date[which(round(photos, digits=1)==round(photop_all$daylength_max[i], digits
+                                                =1))]
+  #when there is no date that matches the maximum date , choose the closest one, as long as it is within .5 hours
+  if(length(date_expmax)==0)   {
+    mindiff<-min(abs(photop_all$daylength_max[i]-photos))
+    if(mindiff<0.5){date_expmax<-date[which(photop_all$daylength_max[i]-photos==min(abs(photop_all$daylength_max[i]-photos)))]
+    }else {
+      date_expmax<-NA
+      }
+  }
+  #when there is no date that matches the minimum date , choose the closest one, as long as it is within .5 hours
+  if(length(date_expmin)==0)   {
+    mindiff<-min(abs(photop_all$daylength_min[i]-photos))
+    if(mindiff<0.5){date_expmin<-date[which(abs(photop_all$daylength_min[i]-photos)==min(abs(photop_all$daylength_min[i]-photos)))]
+    }else {
+      date_expmin<-NA
+      }
+  }
+  maxdelta_temp<-max(photos)-min(photos)#maximum difference in daylength at lat[i] (difference in daylength between summer solcstice and winter solcstice
+  if(maxdelta_temp<photop_all$delta[i]){photop_all$time[i]<-"exceeds range"}
+  else
+  photop_all$time[i]<-min(which(round(photos, digits=1)==round(photop_all$daylength_min[i], digits=1))-which(round(photos, digits=1)==round(photop_all$daylength_max[i], digits=1)))#shift in days between date(s) of min daylength and max daylength in exp
+  #a different approach that i am abandoning for now:  
+  #delta_mar21<-daylength(photop_all$lat[i],80)-daylength(photop_all$lat[i], c(355:365,1:172))
+  #delta_jun21<-daylength(photop_all$lat[i],172)-daylength(photop_all$lat[i], c(355:365,1:172))
+  #assume march 21, change in daylength for each day earlier than that back to winter solcistice
+  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date
+  #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
+  
+  #photos_spat<-daylength(photop_all$lat[i]+0.5, 1:181)
+#photop$space[i]<-
+}
 
-photop.table<-xtable(photop,digits=3,
+
+
+
+
+photop_table<-subset(photop_all, select=c(study, lat, long,daylength,space,time))
+
+#,"daylength","spatial","temporal"
+
+photop.table<-xtable(photop_table,digits=3,
   caption="Growth chamber experiments and their photoperiod treatments.",label="table:phototreats",align=c(
                 "|p{0.01\\textwidth}",            
-                "|p{0.12\\textwidth}",
+                "|p{0.15\\textwidth}",
                 "|p{0.08\\textwidth}",
                 "|p{0.08\\textwidth}",
                 "|p{0.08\\textwidth}",
-                "|p{0.05\\textwidth}",
                 "|p{0.06\\textwidth}",
-                "|p{0.07\\textwidth}|"))
+                "|p{0.15\\textwidth}|"))
  
 print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
 @
