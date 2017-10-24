@@ -1,5 +1,5 @@
-## 26 June 2017 - Cat
-# Updated 31 August 2017 - now fixing all respvar issues
+## Started 26 June 2017 ##
+## Started by Cat, edits by Lizzie, Ailene, Nacho, Dan ... ##
 
 # Load from bb_cleanmergeall.R
 
@@ -40,16 +40,16 @@ d$response.time[which(d$datasetID=="gomory15")]<-as.numeric(d$response.time[whic
 d<-within(d, respvar.simple[datasetID=="gomory15"]<-"daystobudburst")
 
 #######################################################
-## Converting "percentbudburst_dayofyear" to "percentbudburst" suggested changes##
+## Converting "percentbudburst_dayofyear" to "percentbudburst" ##
 #######################################################
 ########### Sanz-Perez09 ########### (Ailene added 2017 September)
-#start time of experiment is julian day 49
+#start time of experiment is day of year 49
 d$response.time[which(d$datasetID=="Sanz-Perez09")]<-as.numeric(d$response.time[which(d$datasetID=="Sanz-Perez09")])-49
 d<-within(d, respvar.simple[datasetID=="Sanz-Perez09"]<-"percentbudburst")
 
 ########### sanzperez10 ########### (Ailene added 2017 September)
-#start time of experiment is julian day 24
-d$response.time[which(d$datasetID=="sanzperez10")]<-as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24
+# start time of experiment is day of year 24
+d$response.time[which(d$datasetID=="sanzperez10")]<-as.integer(as.numeric(d$response.time[which(d$datasetID=="sanzperez10")])-24) # rounding here to avoid losing negative numbers close to zero
 d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 
 #########Skre08 #####(Dan added 26 Sept 2017) decided we cannot determine, leaving code here incase authors responses (Dan)
@@ -58,14 +58,11 @@ d<-within(d, respvar.simple[datasetID=="sanzperez10"]<-"percentbudburst")
 #d$response.time[which(d$datasetID=="skre08" & d$year=="2001")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2001")])-25
 
 startofexp<-as.Date("2001-11-22")
-startofexp <- strftime(startofexp, format = "%j")###Julian day 326 but of 2001
-365-326 #### 36 days before 
+startofexp <- strftime(startofexp, format = "%j") ### day of year 326 but of 2001
+365-326
 d$response.time[which(d$datasetID=="skre08" & d$year=="2002")]<-as.numeric(d$response.time[which(d$datasetID=="skre08" & d$year=="2002")])+39
 d<-within(d, respvar.simple[datasetID=="skre08"]<-"daystobudburst")
 
-##########################################################
-############## Problem B Issues! #########################
-##########################################################
 ###########################################################################
 ### dayofyeartobudburst where we cannot determine when forcing started ####
 ###########################################################################
@@ -74,17 +71,13 @@ d<-d[!(d$datasetID=="fu13"),]
 #no start date for forcing in gunderson12 (multiyear OTC field study)
 d<-d[!(d$datasetID=="gunderson12"),]
 
-#no start date for forcing in hawins12 (year round field study)
-d<-d[!(d$datasetID=="hawins12"),]
+#no start date for forcing in hawkins12 (year round field study)
+d<-d[!(d$datasetID=="hawkins12"),]
 
-d<-d[!(d$datasetID=="skre08"),] ##added by Dan on 27 Oct 2017
+d<-d[!(d$datasetID=="skre08"),] 
 
-d<-d[!(d$datasetID=="pop2000"),] ##added by Dan on 27 Oct 2017
+d<-d[!(d$datasetID=="pop2000"),] 
 
-
-##########################################################
-############## Problem D Issues! #########################
-##########################################################
 
 ######### Partanen05 ####### (Cat added 28 September 2017)
 #### All response.time entries are field sample dates and not days to budburst. Unable to fix

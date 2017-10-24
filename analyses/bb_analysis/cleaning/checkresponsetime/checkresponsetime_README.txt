@@ -5,7 +5,7 @@ This folder was created after we found several instances where response.time was
 
 All studies we planned to use for BB analysis that were 
 (1) not done on cuttings OR
-(2) >60 days response time. 
+(2) >30 days response time. 
 
 NOTE: This means we did not clean ALL response.time data, just stuff we planned to use for the BB analysis. You can check out bb_checkrespvar.R to see what that means. 
 
@@ -22,7 +22,7 @@ checkmeout_info.csv - created by hand by Lizzie from checkmeout.csv, same as che
 - responsetime.okay: a Y (yes) or N (no) answer. Y means ‘I checked the study and it’s fine’ while N means ‘I checked the study and we need to fix it.’
 - ifno.fixed: If you answered N in responsetime.okay, have you or someone else pushed code that fixes the problem? Once you do fix it please add an quick explanation of how to this README (see below, we try to categorize the issues so add your dataset to one of the lettered problems if possible or add a new ‘problem’).
 
-** PLEASE ALWAYS SAVE THIS FILE AS A CSV **
+** PLEASE ALWAYS SAVE THIS FILE (checkmeout_info.csv) AS A CSV **
 
 
 <><><><><><><><><><><><><><>
@@ -36,7 +36,8 @@ Note: If it is percentbudburst, then you just do a2 I think.
 
 Datasets with this change:
 gomory15
-San-Perez09 (percentbudburst)
+Sanz-Perez09 (percentbudburst)
+sanzperez10 (percentbudburst)
 <><><><><><>
 Problem B: It was dayofyeartobudburst instead of daystobudburst and you *cannot* figure when forcing started then:
 	(a1) In cleaning/clean.respvar.R: change respvar to dayofyeartobudburst

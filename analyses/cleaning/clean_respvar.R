@@ -231,26 +231,20 @@ d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth
 
 
 # fixing respvar issues where daystobudburst was really DOY to budburst
+# see bb_analysis/cleaning/checkresponsetime for more info
 # daytobudburstdayofyear
 d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gomory15"] <- "dayofyeartobudburst"
-d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" ### Added by Dan on 26 Sept 2017
-d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gunderson12"] <- "dayofyeartobudburst"#Ailene added 1 Oct 2017
-d$respvar[d$respvar == "budstage" & d$datasetID=="gunderson12"] <- "budstage_dayofyear"# Ailene added 1 Oct 2017
-d$respvar[which(d$respvar=="daystoleafout" & d$datasetID=="fu13")] <- "dayofyeartoleafout" # Lizzie (edits on 2 Oct 2017) to fix fu13
-d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" #added by Dan on 13 Oct 2017
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst" 
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="gunderson12"] <- "dayofyeartobudburst"
+d$respvar[d$respvar == "budstage" & d$datasetID=="gunderson12"] <- "budstage_dayofyear"
+d$respvar[which(d$respvar=="daystoleafout" & d$datasetID=="fu13")] <- "dayofyeartoleafout"
+d$respvar[d$respvar == "daystobudburst" & d$datasetID=="skre08"] <- "dayofyeartobudburst"
+
 if(FALSE){
-#Ailene's suggested fix,added 4 Sept 2017
-#percentbudburst_dayofyear (studies with x-axis units of "Julian day of year" instead of just "days" )
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="Sanz-Perez09"] <- "percentbudburst_dayofyear"
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="sanzperez10"] <- "percentbudburst_dayofyear"
 }
 
-# Additional Edits made by Cat - 31 Jan 2017
-# ghelardini10 issues - removed 8 rows not affiliated with study
-for(i in d){
-  d <- d[!(d$datasetID == "ghelardini10" & d$material == "root cuttings") &
-            !(d$datasetID == "ghelardini10" & d$Entered.By == "DF"),]
-}
 
 # guerriero90 issues - changed respvar.simple from 'phenstageper.probonestudy' to 'leaves'
 d <- within(d, respvar[datasetID== 'guerriero90' & respvar == 'percentstage06'] <- 'leaves')

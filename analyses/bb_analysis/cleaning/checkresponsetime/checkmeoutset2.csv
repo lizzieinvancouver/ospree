@@ -1,0 +1,20 @@
+"datasetID","study","material","figure.table..if.applicable.","response.time"
+"basler14","exp1","cuttings","fig 2",34.22
+"falusi03","exp1","apical bud","fig 1",60
+"falusi03","exp1","basal bud","fig 1",60
+"falusi03","exp1","median bud","fig 1",60
+"falusi03","exp1","small bud","fig 1",60
+"falusi97","exp2","apical bud","fig2",60
+"falusi97","exp2","basal bud","fig2",60
+"falusi97","exp2","median bud","fig2",60
+"falusi97","exp2","small bud","fig2",60
+"heide93","exp1","cuttings","fig2",42
+"heide93","exp2","cuttings","fig2",42
+"heide93a","exp3","cutting","fig2",33.6043333333333
+"heide93a","exp1","cutting","table1",35.1666666666667
+"heide93a","exp2","shoots","table2",44.0333333333333
+"laube14a","exp1","cuttings","fig 2",35.0091743119266
+"myking98","exp1","cutting","fig3 -- did not take last point for each species (date of field budbreak) as very tricky to estimate well; monthly mean, max, min temps given in Table 1 if needed. Elevation taken from Heide 1993a paper.",41.208
+"pop2000","exp1","cuttings","Figure2A",47.5
+"pop2000","exp1","cuttings","Figure2B",46
+"thielges75","exp1","cuttings","fig1",41.97875
