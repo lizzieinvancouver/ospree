@@ -35,32 +35,25 @@ for(i in 1:nrow(nam)){ # i = 1
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
      pmpclim<-c(firstyr, endyr)
-  } 
-  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
+  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
   # prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year of chilling (always have to start in january for pmp-whenever collection occured)}
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
-  }
-  
-  else if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
+    }else if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
     stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting climate data jan 1 for pmp
     endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
-  }
-  
-  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
+  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
     #prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# always start jan 1 for pmp
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
-  }
-  
-  else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
+  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
     stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
     #prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's climate data 
     #endmo<-"12";#month of last year (should always be 12 for pmp)
@@ -72,17 +65,14 @@ for(i in 1:nrow(nam)){ # i = 1
   #For one study (swartz81) we need an extra year of climate data (e.g. because of long chilling treatments) to correspond to the budburst dates and calculate accurate forcing.
   #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
-  else if(la==38.988){# d
+  else if(la==38.988){# 
       stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
       firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
       endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
       endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
       pmpclim<-c(firstyr, endyr)
   }
-  #else (print(nam[i,"datasetID"]);print("problem!!"))
-  
   # now loop over these year-month combo files and get temperature values for this date range.
-
   mins <- maxs <- vector()
   
   for(j in c(pmpclim)){ # j = "200009"
@@ -94,7 +84,27 @@ for(i in 1:nrow(nam)){ # i = 1
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
     long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
-    
+    mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#checl that the lat/long combinations has temperature data. 
+    #if no temperature data for the focal lat/long, choose the next closest one. 
+    #the below code cose up to 0.1 degrees (~10km) away from the closest lat/long)
+    if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, chosee a different one
+      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+      long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
+      lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
+      mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+      if(is.na(unique(mintest))){
+        diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+        diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+        long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
+        lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
+        mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+        if(is.na(unique(mintest))){
+          diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+          diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+          long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
+          lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
+        }}}
     mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
     maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
     nc_close(jx)

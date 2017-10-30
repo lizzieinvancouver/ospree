@@ -50,6 +50,8 @@ climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the extern
 source("bb_dailyclimate/pulldailyclimate_eur.R")
 
 # 4d: pull climate data from north america
+#If  just looking at nam climate, do this:
+#tempval <- list() 
 source("bb_dailyclimate/pulldailyclimate_nam.R")
 
 #4e. If you want to avoid connecting to the external hard drive, then just do this:
@@ -60,7 +62,7 @@ dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 colnames(dailytemp)[1]<-"ID_fieldsample.date2"
 dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
 row.names(dailytemp2)<-NULL
-dailytemp3<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
+dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
 
 
 # July 2017: You will get a warning message: In addition: Warning message:
@@ -81,9 +83,9 @@ write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #length(which(is.na(dailytemp3$Tmin)))#26116, which is 11% of all data
 #unique(dailytemp3$datasetID[which(is.na(dailytemp3$Tmin))])#19/50 sites are missing some temperature data
 #Make list of the studies that are missing large amounts of Temp data
-dailytemp3$missingT<-0
-dailytemp3$missingT[which(is.na(dailytemp3$Tmin))]<-1
-temptab<-table(dailytemp3$datasetID,dailytemp3$missingT)
+dailytemp4$missingT<-0
+dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
+temptab<-table(dailytemp4$datasetID,dailytemp4$missingT)
 missingtemp<-temptab[temptab[,2]>0,]
 #hmm...all NAM sites are missing large amounts of data, plus one european site (heide93)
 #calme94<-dailytemp3[dailytemp3$datasetID=="calme94",]

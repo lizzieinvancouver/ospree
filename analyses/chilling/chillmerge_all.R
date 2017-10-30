@@ -50,7 +50,7 @@ source("chilling/fieldchillcalc_latlong.R")
 source("chilling/pullclimate_eur.R")
 
 # 4d: pull climate data from north america
-  #tempval <- list() #required to just pull nam cliamte
+  #tempval <- list() #required to just pull nam climate
 source("chilling/pullclimate_nam.R")
 
 # 4e: Interpolate hourly temperatures from the daily values 
