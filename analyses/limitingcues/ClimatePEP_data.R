@@ -1,5 +1,6 @@
-# Extract Climate Data for Limiting Cues Paper
-# 28 September 2017 - Cat 
+## Extract Climate Data for Limiting Cues Paper ##
+## Started 28 September 2017 ##
+## Cat and Lizzie ##
 
 # Clear workspace
 rm(list=ls()) # remove everything currently held in the R memory
@@ -11,7 +12,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(lubridate)
-library(ncdf4)
+# library(ncdf4)
 library(Interpol.T)
 library(chillR)
 library(raster)
@@ -21,17 +22,21 @@ library(arm)
 
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) {
-  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/limitingcues") 
 } else
   setwd("~/Documents/git/ospree/analyses/limitingcues")
 
+# paths for climate drive
+# climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
+# climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
+climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 
-rn<-brick("tn_0.25deg_reg_v15.0.nc", sep="")  ## from climate drive or W drive
-rx<-brick("tx_0.25deg_reg_v15.0.nc", sep="")
-betula<-read.csv("input/PEP_betula.csv", header=TRUE)
-fagus<-read.csv("input/PEP_fagus.csv", header=TRUE)
+rn<-brick(paste(climatedrive, "/tn_0.25deg_reg_v15.0.nc", sep=""))  ## from climate drive or W drive
+rx<-brick(paste(climatedrive, "/tx_0.25deg_reg_v15.0.nc", sep=""))
+bet <- read.csv("input/PEP_betpen.csv", header=TRUE) # Lizzie changed the file path ... not sure what this one referred to (was PEP_betula.csv, same for below)
+fag <- read.csv("input/PEP_fagsyl.csv", header=TRUE)
 
-df<- full_join(betula, fagus)
+df<- full_join(bet, fag)
 df$lat.long<-paste(df$LAT, df$LONG, sep=",")
 df<-df[!duplicated(df$lat.long),]
 
