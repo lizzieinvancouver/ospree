@@ -49,5 +49,5 @@ nam <- d2 %>% # start with the data frame
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 # these may need manual cleaning. for now use as is
 #no duplicates here: checked
-#duplicated(nam$ID_fieldsample.date); duplicated(eur$ID_fieldsample.date)
+#duplicated(nam$ID_fieldsample.date2); duplicated(eur$ID_fieldsample.date2)
 stop("Not an error, just stopping here to say we're now done identifying the lat/longs for which chilling should be estimated. Make sure you have the external hard drive with climate data attached and proceed to pull the daily climate data.")
