@@ -21,21 +21,6 @@ unique(blank$datasetID)
 
 # gianfagna85: flower buds, not leaf buds
 
-# falusi96: fixed 30 October 2017 - Cat
-fals<-subset(d, d$datasetID=="falusi96")
-fals$date<-as.Date(fals$response.time, origin = "1988-03-01")
-for(i in c(1:nrow(fals))){
-  fals$photoperiod_day[i] <- ifelse(fals$study[i]=="exp1" | fals$study[i]=="exp2",
-                                    (daylength(fals$provenance.lat[i], fals$date[i])), fals$photoperiod_day[i])
-}
-fals$photoperiod_day<-as.numeric(fals$photoperiod_day)
-fals$photoperiod_day<- round(fals$photoperiod_day, digits=0)
-fals$photoperiod_night<-24-fals$photoperiod_day
-fals$photoperiod_day<-as.character(fals$photoperiod_day)
-d$photoperiod_day[which(d$datasetID=="falusi96")]<-fals$photoperiod_day
-d$photoperiod_night[which(d$datasetID=="falusi96")]<-fals$photoperiod_night
-
-
 # nishimoto95: floral buds
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
@@ -105,32 +90,6 @@ d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
 
 # lamb37: not enough information - can't even assume ambient
 ## 30 October 2017: update - still cannot fix, need to impute
-
-# linkosalo06: fixed 30 October 2017 by Cat
-link<-subset(d, d$datasetID=="linkosalo06")
-link$date<-as.Date(link$response.time, origin = "2003-01-01")
-for(i in c(1:nrow(link))){
-  link$photoperiod_day[i] <- daylength(link$provenance.lat[i], link$date[i])
-}
-link$photoperiod_day<-as.numeric(link$photoperiod_day)
-link$photoperiod_day<- round(link$photoperiod_day, digits=0)
-link$photoperiod_night<-24-link$photoperiod_day
-link$photoperiod_day<-as.character(link$photoperiod_day)
-d$photoperiod_day[which(d$datasetID=="linkosalo06")]<-link$photoperiod_day
-d$photoperiod_night[which(d$datasetID=="linkosalo06")]<-link$photoperiod_night
-
-# morin10: fixed 30 October 2017 by Cat
-mo<-subset(d, d$datasetID=="morin10")
-mo$date<-as.Date(mo$response.time, origin = "2004-01-01")
-for(i in c(1:nrow(mo))){
-  mo$photoperiod_day[i] <- daylength(mo$provenance.lat[i], mo$date[i])
-}
-mo$photoperiod_day<-as.numeric(mo$photoperiod_day)
-mo$photoperiod_day<- round(mo$photoperiod_day, digits=0)
-mo$photoperiod_night<-24-mo$photoperiod_day
-mo$photoperiod_day<-as.character(mo$photoperiod_day)
-d$photoperiod_day[which(d$datasetID=="morin10")]<-mo$photoperiod_day
-d$photoperiod_night[which(d$datasetID=="morin10")]<-mo$photoperiod_night
 
 # partanen98: can determine from Figure 2!
 # before extracting data, photoperiod ranges from 8-11 hrs
@@ -221,19 +180,6 @@ d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.
 # cannell83: not enough information - can't even assume ambient
 ## Can't fix!! There's no date of budburst - 30 October 2017 Cat
 
-# chavarria09: fixed 30 October 2017 by Cat
-chav<-subset(d, d$datasetID=="chavarria09")
-chav$date<-as.Date(chav$response.time, origin = "2005-02-01")
-for(i in c(1:nrow(chav))){
-  chav$photoperiod_day[i] <- daylength(chav$provenance.lat[i], chav$date[i])
-}
-chav$photoperiod_day<-as.numeric(chav$photoperiod_day)
-chav$photoperiod_day<- round(chav$photoperiod_day, digits=0)
-chav$photoperiod_night<-24-chav$photoperiod_day
-chav$photoperiod_day<-as.character(chav$photoperiod_day)
-d$photoperiod_day[which(d$datasetID=="chavarria09")]<-chav$photoperiod_day
-d$photoperiod_night[which(d$datasetID=="chavarria09")]<-chav$photoperiod_night
-
 
 # guak98: Should be able to calculate
 guak.start<-daylength(44.5659, "1996-2-17") # 10.5147
@@ -244,16 +190,44 @@ guak.photo<-mean(guak) # 12 hr photo
 d$photoperiod_day[which(d$datasetID=="guak98")] <- 12
 d$photoperiod_night[which(d$datasetID=="guak98")] <- 12
 
+# ruesink98: is flower buds not leaf buds...
+
+# sonsteby13: is alson flower buds not leaf buds...
+
+# yazdaniha64: 60 days and 100 days, latitude is 41.143
+daylength(41.143, "1964-02-24")
+d$photoperiod_day[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 11
+d$photoperiod_night[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 13
+
+daylength(41.143, "1964-04-06")
+d$photoperiod_day[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 13
+d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 11
+
+
+
+################################################################################
+##################### New additions 30 October 2017 ###########################
+# sanzperez10: uses ambient light but also uses shade cloth to manipulate percentage of sunlight... not sure if we can calculate
+# percentage of light is 100%, 20%, or 5%, for the purposes of this study we will convert only the 100% light treatments
+daylength(40.47, "2004-01-24")
+daylength(40.47, "2004-04-10")
+daylength(40.47, "2004-06-26")
+sanz<-c(9.830631, 13.06944, 15.05556)
+mean(sanz)
+d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$datasetID=="sanzperez10")] <- 13 ## Changed all!! May want to change back to just 100% irradiance
+## Fixed 30 October 2017 by Cat
+d$photoperiod_night[which(d$photoperiod_day==13 & d$datasetID=="sanzperez10")] <- 11
+
 # jones12: fixed 30 October 2017 by Cat
 jones<-subset(d, d$datasetID=="jones12")
-jones$date<-as.Date(jones$response.time, origin = "2008-01-01")
+jones$date<-as.Date(jones$response.time, origin = "2008-01-01") ## date found from paper
 for(i in c(1:nrow(jones))){
-  jones$photoperiod_day[i] <- daylength(jones$provenance.lat[i], jones$date[i])
+  jones$photoperiod_day[i] <- daylength(jones$provenance.lat[i], jones$date[i])  ## uses daylength function from geosphere library to calculate photoperiod for each observation
 }
-jones$photoperiod_day<-as.numeric(jones$photoperiod_day)
-jones$photoperiod_day<- round(jones$photoperiod_day, digits=0)
-jones$photoperiod_night<-24-jones$photoperiod_day
-jones$photoperiod_day<-as.character(jones$photoperiod_day)
+jones$photoperiod_day<-as.numeric(jones$photoperiod_day) ## preparing to change photoperiod_night column, won't change in main dataframe!
+jones$photoperiod_day<- round(jones$photoperiod_day, digits=0) # still preparing
+jones$photoperiod_night<-24-jones$photoperiod_day ## and... here it is
+jones$photoperiod_day<-as.character(jones$photoperiod_day) ## changing back so doesn't mess up other entries in main dataframe
 jones$photoperiod_night<-as.character(jones$photoperiod_night)
 d$photoperiod_day[which(d$datasetID=="jones12")]<-jones$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="jones12")]<-jones$photoperiod_night
@@ -272,32 +246,56 @@ rin$photoperiod_night<-as.character(rin$photoperiod_night)
 d$photoperiod_day[which(d$datasetID=="rinne97")]<-rin$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="rinne97")]<-rin$photoperiod_night
 
-# ruesink98: is flower buds not leaf buds...
+# chavarria09: fixed 30 October 2017 by Cat
+chav<-subset(d, d$datasetID=="chavarria09")
+chav$date<-as.Date(chav$response.time, origin = "2005-02-01")
+for(i in c(1:nrow(chav))){
+  chav$photoperiod_day[i] <- daylength(chav$provenance.lat[i], chav$date[i])
+}
+chav$photoperiod_day<-as.numeric(chav$photoperiod_day)
+chav$photoperiod_day<- round(chav$photoperiod_day, digits=0)
+chav$photoperiod_night<-24-chav$photoperiod_day
+chav$photoperiod_day<-as.character(chav$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="chavarria09")]<-chav$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="chavarria09")]<-chav$photoperiod_night
 
-# sonsteby13: is alson flower buds not leaf buds...
+# linkosalo06: fixed 30 October 2017 by Cat
+link<-subset(d, d$datasetID=="linkosalo06")
+link$date<-as.Date(link$response.time, origin = "2003-01-01")
+for(i in c(1:nrow(link))){
+  link$photoperiod_day[i] <- daylength(link$provenance.lat[i], link$date[i])
+}
+link$photoperiod_day<-as.numeric(link$photoperiod_day)
+link$photoperiod_day<- round(link$photoperiod_day, digits=0)
+link$photoperiod_night<-24-link$photoperiod_day
+link$photoperiod_day<-as.character(link$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="linkosalo06")]<-link$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="linkosalo06")]<-link$photoperiod_night
 
-# sanzperez10: uses ambient light but also uses shade cloth to manipulate percentage of sunlight... not sure if we can calculate
-# percentage of light is 100%, 20%, or 5%, for the purposes of this study we will convert only the 100% light treatments
-daylength(40.47, "2004-01-24")
-daylength(40.47, "2004-04-10")
-daylength(40.47, "2004-06-26")
-sanz<-c(9.830631, 13.06944, 15.05556)
-mean(sanz)
-d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$datasetID=="sanzperez10")] <- 13 ## Changed all!! May want to change back to just 100% irradiance
-## Fixed 30 October 2017 by Cat
-d$photoperiod_night[which(d$photoperiod_day==13 & d$datasetID=="sanzperez10")] <- 11
+# morin10: fixed 30 October 2017 by Cat
+mo<-subset(d, d$datasetID=="morin10")
+mo$date<-as.Date(mo$response.time, origin = "2004-01-01")
+for(i in c(1:nrow(mo))){
+  mo$photoperiod_day[i] <- daylength(mo$provenance.lat[i], mo$date[i])
+}
+mo$photoperiod_day<-as.numeric(mo$photoperiod_day)
+mo$photoperiod_day<- round(mo$photoperiod_day, digits=0)
+mo$photoperiod_night<-24-mo$photoperiod_day
+mo$photoperiod_day<-as.character(mo$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="morin10")]<-mo$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="morin10")]<-mo$photoperiod_night
 
-
-# yazdaniha64: 60 days and 100 days, latitude is 41.143
-daylength(41.143, "1964-02-24")
-d$photoperiod_day[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 11
-d$photoperiod_night[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 13
-
-daylength(41.143, "1964-04-06")
-d$photoperiod_day[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 13
-d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 11
-
-
-
-
+# falusi96: fixed 30 October 2017 - Cat
+fals<-subset(d, d$datasetID=="falusi96")
+fals$date<-as.Date(fals$response.time, origin = "1988-03-01")
+for(i in c(1:nrow(fals))){
+  fals$photoperiod_day[i] <- ifelse(fals$study[i]=="exp1" | fals$study[i]=="exp2",
+                                    (daylength(fals$provenance.lat[i], fals$date[i])), fals$photoperiod_day[i])
+}
+fals$photoperiod_day<-as.numeric(fals$photoperiod_day)
+fals$photoperiod_day<- round(fals$photoperiod_day, digits=0)
+fals$photoperiod_night<-24-fals$photoperiod_day
+fals$photoperiod_day<-as.character(fals$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="falusi96")]<-fals$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="falusi96")]<-fals$photoperiod_night
 
