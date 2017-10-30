@@ -71,7 +71,7 @@ bb.stan$chill <- bb.stan$chill/240
 
 # Load fitted stan model: no interactions
 load("stan/bb/output/M1_daysBBnointer_2level.Rda")
-m1.bb <- bb.m1.2l
+m1.bb <- m2l.ni
 # summary(m1.bb)
 
 # explore results in shinystan
@@ -80,17 +80,17 @@ m1.bb <- bb.m1.2l
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 source("bb_analysis/source/bb_muplot.R")
 
-sumer.ni <- summary(bb.m1.2l)$summary
+sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
 
 # Load fitted stan model: with interactions
 load("stan/bb/output/M1_daysBBwinter_2level.Rda")
-m1.bb <- bb.m1.2lint
+m1.bb <- m2l.wi
 # summary(m1.bb)
 
 source("bb_analysis/source/bb_muplot.R")
-sumer.wi <- summary(bb.m1.2lint)$summary
+sumer.wi <- summary(m2l.wi)$summary
 sumer.wi[grep("mu_", rownames(sumer.wi)),]
 
 ## plot data and one model for species 1

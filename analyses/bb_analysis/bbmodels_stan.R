@@ -123,7 +123,7 @@ m2l.nib = stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = data
 m2l.nibsum <- summary(m2l.nib)$summary
 m2l.nibsum[grep("mu_", rownames(m2l.nibsum)),] 
 m2l.nibsum[grep("b_", rownames(m2l.nibsum)),]
-# a: 76; f: -1.5; p: -0.25; c: -1.6
+# a: 80; f: -1.8; p: -0.36; c: -1.6
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
@@ -138,7 +138,7 @@ betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b
 # launch_shinystan(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 80; f: -1.5; p: -0.4; c: -1.9
+# a: 76; f: -1.5; p: -0.5; c: -1.8
 
 # getting predicted values if needed
 # preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
@@ -176,7 +176,7 @@ m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
-# a: 63; f: -0.5; p: +0.6; c: -1.6, small intxns (<0.09)
+# a: 79; f: -1.4; p: -0.4; c: -3.2, small intxns (<0.09) # n
 
 # with crops removed...
 
@@ -193,7 +193,7 @@ save(m2l.wispint, file="stan/bb/output/M1_daysBBwinter_spintonly_2level.Rda")
 m2l.wispint.sum <- summary(m2l.wispint)$summary 
 head(m2l.wispint.sum) 
 m2l.wispint.sum[grep("b_", rownames(m2l.wispint.sum)),]
-# a: 54; f: -0.2; p: +0.8; c: -0.02, small intxns
+# a: 83; f: -1.7; p: -0.3; c: -2.8, small intxns
 
 
 
@@ -208,7 +208,7 @@ save(m2l.wi, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
 
 mint.sum <- summary(m2l.wi)$summary
 mint.sum[grep("mu_", rownames(mint.sum)),]
-# not converged
+# not converged (10 divergent transitions and other issues)
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -222,7 +222,7 @@ save(m2l.wicf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
 m2l.wicf.sum <- summary(m2l.wicf)$summary
 head(m2l.wicf.sum)
 m2l.wicf.sum[grep("mu_", rownames(m2l.wicf.sum)),]
-# a: 66; f: -0.6; p: +0.6; c: -2.3, small intxns
+# a: 91; f: -1.4; p: -0.8; c: -2.9, small intxns
 
 
 ########################################################
@@ -236,7 +236,7 @@ save(m2l.wicp, file="stan/bb/output/M1_daysBBwinter_nocp_2level.Rda")
 
 m2l.wicp.sum <- summary(m2l.wicp)$summary
 head(m2l.wicp.sum)
-# not converged
+# not converged (yep, still not okay)
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -250,5 +250,5 @@ save(m2l.wifp, file="stan/bb/output/M1_daysBBwinter_nofp_2level.Rda")
 m2l.wifp.sum <- summary(m2l.wifp)$summary 
 head(m2l.wifp.sum)
 m2l.wifp.sum[grep("mu_", rownames(m2l.wifp.sum)),]
-# a: 77; f: -1.3; p: -0.5; c: -1.3, small intxns
+# a: 88; f: -1.8; p: -1.0; c: -3.91, small intxns
 
