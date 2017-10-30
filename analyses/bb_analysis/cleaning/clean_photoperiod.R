@@ -21,7 +21,7 @@ unique(blank$datasetID)
 
 # gianfagna85: flower buds, not leaf buds
 
-# falusi96: does not specify ambient, plants in nursery with not enough information on conditions - can't even assume ambient
+# falusi96: fixed 30 October 2017 - Cat
 fals<-subset(d, d$datasetID=="falusi96")
 fals$date<-as.Date(fals$response.time, origin = "1988-03-01")
 for(i in c(1:nrow(fals))){
@@ -36,9 +36,7 @@ d$photoperiod_day[which(d$datasetID=="falusi96")]<-fals$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="falusi96")]<-fals$photoperiod_night
 
 
-# nishimoto95: not enough information - can't even assume ambient
-
-# manson91: only specifies chilling and forcing temperatures, fails to mention photoperiod effects or indicate ambient - can't even assume ambient
+# nishimoto95: floral buds
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
@@ -108,12 +106,31 @@ d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
 # lamb37: not enough information - can't even assume ambient
 ## 30 October 2017: update - still cannot fix, need to impute
 
-# linkosalo06: too complicated - used different colored filters to alter irradiance and had changing
-# daylengths depending on length of twilight - can't even assume ambient
-d$photoperiod_night[which(d$datasetID=="linkosalo06" & d$photoperiod_day=="ambient")] <- "ambient"
+# linkosalo06: fixed 30 October 2017 by Cat
+link<-subset(d, d$datasetID=="linkosalo06")
+link$date<-as.Date(link$response.time, origin = "2003-01-01")
+for(i in c(1:nrow(link))){
+  link$photoperiod_day[i] <- daylength(link$provenance.lat[i], link$date[i])
+}
+link$photoperiod_day<-as.numeric(link$photoperiod_day)
+link$photoperiod_day<- round(link$photoperiod_day, digits=0)
+link$photoperiod_night<-24-link$photoperiod_day
+link$photoperiod_day<-as.character(link$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="linkosalo06")]<-link$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="linkosalo06")]<-link$photoperiod_night
 
-# morin10: not enough information - can't even assume ambient
-d$photoperiod_night[which(d$datasetID=="morin10" & d$photoperiod_day=="ambient")] <- "ambient"
+# morin10: fixed 30 October 2017 by Cat
+mo<-subset(d, d$datasetID=="morin10")
+mo$date<-as.Date(mo$response.time, origin = "2004-01-01")
+for(i in c(1:nrow(mo))){
+  mo$photoperiod_day[i] <- daylength(mo$provenance.lat[i], mo$date[i])
+}
+mo$photoperiod_day<-as.numeric(mo$photoperiod_day)
+mo$photoperiod_day<- round(mo$photoperiod_day, digits=0)
+mo$photoperiod_night<-24-mo$photoperiod_day
+mo$photoperiod_day<-as.character(mo$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="morin10")]<-mo$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="morin10")]<-mo$photoperiod_night
 
 # partanen98: can determine from Figure 2!
 # before extracting data, photoperiod ranges from 8-11 hrs
@@ -202,20 +219,9 @@ d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$figure.table..if.applic
 d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 0
 
 # cannell83: not enough information - can't even assume ambient
-can<-subset(d, d$datasetID=="cannell83")
-can$date<-as.Date(can$response.time, origin = "1974-02-01")
-for(i in c(1:nrow(can))){
-  can$photoperiod_day[i] <- daylength(can$provenance.lat[i], can$date[i])
-}
-can$photoperiod_day<-as.numeric(can$photoperiod_day)
-can$photoperiod_day<- round(can$photoperiod_day, digits=0)
-can$photoperiod_night<-24-can$photoperiod_day
-can$photoperiod_day<-as.character(can$photoperiod_day)
-can$photoperiod_night<-as.character(can$photoperiod_night)
-d$photoperiod_day[which(d$datasetID=="cannell83")]<-can$photoperiod_day
-d$photoperiod_night[which(d$datasetID=="cannell83")]<-can$photoperiod_night
+## Can't fix!! There's no date of budburst - 30 October 2017 Cat
 
-# chavarria09: not enough information and cannot calculate using geosphere package - can't even assume ambient
+# chavarria09: fixed 30 October 2017 by Cat
 chav<-subset(d, d$datasetID=="chavarria09")
 chav$date<-as.Date(chav$response.time, origin = "2005-02-01")
 for(i in c(1:nrow(chav))){
@@ -238,7 +244,7 @@ guak.photo<-mean(guak) # 12 hr photo
 d$photoperiod_day[which(d$datasetID=="guak98")] <- 12
 d$photoperiod_night[which(d$datasetID=="guak98")] <- 12
 
-# jones12: not enough information - can't even assume ambient
+# jones12: fixed 30 October 2017 by Cat
 jones<-subset(d, d$datasetID=="jones12")
 jones$date<-as.Date(jones$response.time, origin = "2008-01-01")
 for(i in c(1:nrow(jones))){
@@ -252,7 +258,7 @@ jones$photoperiod_night<-as.character(jones$photoperiod_night)
 d$photoperiod_day[which(d$datasetID=="jones12")]<-jones$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="jones12")]<-jones$photoperiod_night
 
-# rinne97: does not specify, not even ambient. Can't fix. - can't even assume ambient
+# rinne97: fixed 30 October 2017 by Cat
 rin<-subset(d, d$datasetID=="rinne97")
 rin$date<-as.Date(rin$response.time, origin = "1995-01-15")
 for(i in c(1:nrow(rin))){
@@ -278,12 +284,9 @@ daylength(40.47, "2004-06-26")
 sanz<-c(9.830631, 13.06944, 15.05556)
 mean(sanz)
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$datasetID=="sanzperez10")] <- 13 ## Changed all!! May want to change back to just 100% irradiance
+## Fixed 30 October 2017 by Cat
 d$photoperiod_night[which(d$photoperiod_day==13 & d$datasetID=="sanzperez10")] <- 11
 
-
-# gianfagna85: not enough information - can't even assume ambient
-
-# nishimoto85: not enough information - can't even assume ambient
 
 # yazdaniha64: 60 days and 100 days, latitude is 41.143
 daylength(41.143, "1964-02-24")
