@@ -32,7 +32,7 @@ source("chilling/cleaning_chilltemp.R")
 #source("chilling/cleaning_provlatlong.R")
 #This step was moved to the cleaning folder
 
-# 4. Estimate field chilling (using growing or provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
+# 4. Estimate field chilling (using growing or provenance lat/long to pull climate data)- STEP 4B REQUIRES EXTERNAL HARD DRIVE
 
 # 4a: summarize lat/longs needed to pull climate data from europe and north america
 source("chilling/fieldchillcalc_latlong.R")
@@ -50,6 +50,7 @@ source("chilling/fieldchillcalc_latlong.R")
 source("chilling/pullclimate_eur.R")
 
 # 4d: pull climate data from north america
+  #tempval <- list() #required to just pull nam cliamte
 source("chilling/pullclimate_nam.R")
 
 # 4e: Interpolate hourly temperatures from the daily values 
