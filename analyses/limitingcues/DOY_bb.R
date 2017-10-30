@@ -71,6 +71,8 @@ faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 ## Code from Cat, need to go through ##
 ## Also need to change bet to betall ... and fag to fagall ##
 
+## Removes anything without a BBCH, makes things into date, take first observation at each site ##
+
 bet<-betall%>%dplyr::rename("lat" = LAT)%>%dplyr::rename("long"=LON)
 x<-paste(bet$YEAR, bet$DAY)
 bet$date<-as.Date(strptime(x, format="%Y %j"))
