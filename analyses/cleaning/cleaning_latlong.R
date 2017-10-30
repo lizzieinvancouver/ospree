@@ -1,11 +1,11 @@
 ## Started in early 2017 by Ailene ##
 ## Moved to cleaning (from chilling) folder in August 2017 ##
 
-## Check that the provenance.lat and provenance.long are  correct for those sampling locations 
+## Checked that the provenance.lat and provenance.long are  correct for those sampling locations 
 # that have "NA" for field chilling (in all 3 estimates) 
 # in fieldchillcalcslatlong.csv file.
 
-## (Check between ospree and paper and/or ospree and map online to make sure that they are 
+## (Checked between ospree and paper and/or ospree and map online to make sure that they are 
 # in the correct location. the fact that they got NA for field chilling means that no climate
 # data exist for that location). If some of these are corrected, we need to re-pull the climate
 # data and estimate chilling.
