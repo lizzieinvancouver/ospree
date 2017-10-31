@@ -131,7 +131,7 @@ ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
 
 photop <- ospree %>% # start with the data frame
   distinct(ID_daylengths, .keep_all = TRUE) %>% # establishing grouping variables
-  dplyr::select(datasetID, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
+  dplyr::select(datasetID, continent, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
 photop<-photop[-which(photop$photoperiod_day=="ambient"),]
 photop<-photop[-which(photop$photoperiod_day==""),]
 photop<-photop[-which(photop$photoperiod_day=="constant"),]
@@ -140,12 +140,12 @@ photop<-photop[-which(photop$photoperiod_day=="constant"),]
 #need to add delta photoperiod, space, and time equivalents of these
 #try instead columns for daylength (min, max) and spatial temporal can be the difference between these
 #aggregate to get imn and max daylengths
-photop_min<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$provenance.lat,photop$provenance.long), FUN=min)
-photop_max<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$provenance.lat,photop$provenance.long), FUN=max)
-colnames(photop_max)[4]<-"daylength_max"
-colnames(photop_min)[4]<-"daylength_min"
-photop_all<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3"), match="all")
-colnames(photop_all)[1:3]<-c("study","lat","long")
+photop_min<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$continent,photop$provenance.lat,photop$provenance.long), FUN=min)
+photop_max<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$continent,photop$provenance.lat,photop$provenance.long), FUN=max)
+colnames(photop_max)[5]<-"daylength_max"
+colnames(photop_min)[5]<-"daylength_min"
+photop_all<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3","Group.4"), match="all")
+colnames(photop_all)[1:4]<-c("study","continent","lat","long")
 #remove studies that only have one photoperiod treatment
 photop_all<-photop_all[-which(photop_all$daylength_min==photop_all$daylength_max),]
 #remove studdies with no data for daylength
@@ -166,7 +166,7 @@ for(i in 1:length(photop_all$lat)){
   #when there is no date that matches the maximum date , choose the closest one, as long as it is within .5 hours
   if(length(date_expmax)==0)   {
     mindiff<-min(abs(photop_all$daylength_max[i]-photos))
-    if(mindiff<0.5){date_expmax<-date[which(photop_all$daylength_max[i]-photos==min(abs(photop_all$daylength_max[i]-photos)))]
+    if(mindiff<0.5){date_expmax<-date[which(abs(photop_all$daylength_max[i]-photos)==mindiff)]
     }else {
       date_expmax<-NA
       }
@@ -182,7 +182,8 @@ for(i in 1:length(photop_all$lat)){
   maxdelta_temp<-max(photos)-min(photos)#maximum difference in daylength at lat[i] (difference in daylength between summer solcstice and winter solcstice
   if(maxdelta_temp<photop_all$delta[i]){photop_all$time[i]<-"exceeds range"}
   else
-  photop_all$time[i]<-min(which(round(photos, digits=1)==round(photop_all$daylength_min[i], digits=1))-which(round(photos, digits=1)==round(photop_all$daylength_max[i], digits=1)))#shift in days between date(s) of min daylength and max daylength in exp
+   photop_all$time[i]<-min(as.numeric(strftime(date_expmin, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j")))#shift in days between date(s) of min daylength and max daylength in exp
+  #a different approach that i am ab#shift in days between date(s) of min daylength and max daylength in exp
   #a different approach that i am abandoning for now:  
   #delta_mar21<-daylength(photop_all$lat[i],80)-daylength(photop_all$lat[i], c(355:365,1:172))
   #delta_jun21<-daylength(photop_all$lat[i],172)-daylength(photop_all$lat[i], c(355:365,1:172))
@@ -198,13 +199,14 @@ for(i in 1:length(photop_all$lat)){
 
 
 
-photop_table<-subset(photop_all, select=c(study, lat, long,daylength,space,time))
+photop_table<-subset(photop_all, select=c(study, continent,lat, long,daylength,space,time))
 
 #,"daylength","spatial","temporal"
 
 photop.table<-xtable(photop_table,digits=3,
   caption="Growth chamber experiments and their photoperiod treatments.",label="table:phototreats",align=c(
                 "|p{0.01\\textwidth}",            
+                "|p{0.15\\textwidth}",
                 "|p{0.15\\textwidth}",
                 "|p{0.08\\textwidth}",
                 "|p{0.08\\textwidth}",
