@@ -19,10 +19,6 @@ blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
 # "gianfagna85" "nishimoto95" "falusi96" "manson91"
 
-# gianfagna85: flower buds, not leaf buds
-
-# nishimoto95: floral buds
-
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
 d$photoperiod_day[which(d$datasetID=="charrier11" & d$figure.table..if.applicable.== "table 1")] <- 16
@@ -87,9 +83,6 @@ d$photoperiod_day[which(d$datasetID=="hawkins12" & d$growing.lat==50.68)] <- 15
 d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==50.68)] <- 9
 d$photoperiod_day[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 15
 d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==53.90)] <- 9
-
-# lamb37: not enough information - can't even assume ambient
-## 30 October 2017: update - still cannot fix, need to impute
 
 # partanen98: can determine from Figure 2!
 # before extracting data, photoperiod ranges from 8-11 hrs
@@ -179,6 +172,7 @@ d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.
 
 # cannell83: not enough information - can't even assume ambient
 ## Can't fix!! There's no date of budburst - 30 October 2017 Cat
+## Looking at bud length
 
 
 # guak98: Should be able to calculate
@@ -298,4 +292,42 @@ fals$photoperiod_night<-24-fals$photoperiod_day
 fals$photoperiod_day<-as.character(fals$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="falusi96")]<-fals$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="falusi96")]<-fals$photoperiod_night
+
+# gianfagna85: fixed 30 October 2017 - Cat
+gian<-subset(d, d$datasetID=="gianfagna85")
+gian$date<-as.Date(gian$response.time, origin = "1984-03-01")
+for(i in c(1:nrow(gian))){
+  gian$photoperiod_day[i] <- daylength(gian$provenance.lat[i], gian$date[i])
+}
+gian$photoperiod_day<-as.numeric(gian$photoperiod_day)
+gian$photoperiod_day<- round(gian$photoperiod_day, digits=0)
+gian$photoperiod_night<-24-gian$photoperiod_day
+gian$photoperiod_day<-as.character(gian$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="gianfagna85")]<-gian$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="gianfagna85")]<-gian$photoperiod_night
+## Remaining missing rows are due to missing response.time values
+
+# nishimoto95: fixed 30 October 2017 - Cat
+nish<-subset(d, d$datasetID=="nishimoto95")
+nish$date<-as.Date(nish$response.time, origin = "1989-03-30")
+for(i in c(1:nrow(nish))){
+  nish$photoperiod_day[i] <- daylength(nish$provenance.lat[i], nish$date[i])
+}
+nish$photoperiod_day<-as.numeric(nish$photoperiod_day)
+nish$photoperiod_day<- round(nish$photoperiod_day, digits=0)
+nish$photoperiod_night<-24-nish$photoperiod_day
+nish$photoperiod_day<-as.character(nish$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="nishimoto95")]<-nish$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="nishimoto95")]<-nish$photoperiod_night
+
+
+# lamb37: not enough information - can't even assume ambient
+## 30 October 2017: update - still cannot fix, need to impute - safest bet is 12 hours
+d$photoperiod_day[which(d$datasetID=="lamb37")] <- 12
+
+################# Checking missing data #########################
+d.photo<-d
+d.photo$photoperiod_day<- as.numeric(d.photo$photoperiod_day)
+missing<-d.photo[is.na(d.photo$photoperiod_day),]
+unique(missing$datasetID)
 
