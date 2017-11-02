@@ -22,3 +22,5 @@ analyses/output/fieldclimate_pmp.RData
 analyses/output/fieldclimate_pmp.RData
 
 *.bbl
+
+analyses/output/ospree_clean_withchill.csv

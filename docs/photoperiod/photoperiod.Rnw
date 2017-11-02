@@ -126,7 +126,7 @@ library(plyr)
 require(dplyr)
 require(xtable)
 
-ospree<-read.csv("../../analyses/output/ospree_clean_respvar.csv",header=T)#which version should I use?
+ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
 ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
 
 photop <- ospree %>% # start with the data frame
@@ -134,8 +134,6 @@ photop <- ospree %>% # start with the data frame
   dplyr::select(datasetID, continent, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
 photop<-photop[-which(photop$photoperiod_day=="ambient"),]
 photop<-photop[-which(photop$photoperiod_day==""),]
-photop<-photop[-which(photop$photoperiod_day=="constant"),]
-#photop<-photop[-which(photop$photoperiod_day=="half in 16, half ambient(9.5-10.5)"),]#remove this one for now-too wide for the table
 
 #need to add delta photoperiod, space, and time equivalents of these
 #try instead columns for daylength (min, max) and spatial temporal can be the difference between these
@@ -148,8 +146,6 @@ photop_all<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3","Gr
 colnames(photop_all)[1:4]<-c("study","continent","lat","long")
 #remove studies that only have one photoperiod treatment
 photop_all<-photop_all[-which(photop_all$daylength_min==photop_all$daylength_max),]
-#remove studdies with no data for daylength
-photop_all<-photop_all[-which(is.na(photop_all$daylength_min)),]
 
 #combine min and max into one column
 photop_all$daylength<-paste(photop_all$daylength_min,photop_all$daylength_max, sep="-")
@@ -188,12 +184,15 @@ for(i in 1:length(photop_all$lat)){
   #delta_mar21<-daylength(photop_all$lat[i],80)-daylength(photop_all$lat[i], c(355:365,1:172))
   #delta_jun21<-daylength(photop_all$lat[i],172)-daylength(photop_all$lat[i], c(355:365,1:172))
   #assume march 21, change in daylength for each day earlier than that back to winter solcistice
-  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date
-  #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
   
-  #photos_spat<-daylength(photop_all$lat[i]+0.5, 1:181)
+  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date. Eventually, date should be latitude-specific greenup date. For now, choose March 20 as a date.
+  #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
+phendate<-79#march 20  
+latshift<-seq(0,20,by=.1)
+photos_spat<-daylength(photop_all$lat[i]+latshift, phendate)
 #photop$space[i]<-
-}
+
+  }
 
 
 
