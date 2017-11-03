@@ -51,6 +51,16 @@ bb$expchillhrs <- as.numeric(bb$Exp_Chilling_Hours)
 bb$expchillpor <- as.numeric(bb$Exp_Chill_portions)
 bb$exputah <- as.numeric(bb$Exp_Utah_Model)
 
+###Dan is adding code her on 11 Nov 17 to look more at lost chilling
+#in the context of thinking about imputation
+notchill<-filter(bb,is.na(chillhrs)) ### all NA's for chilling variable
+unique(notchill$datasetID) ### here are the dataset
+supernotchill<-dplyr::select(notchill, datasetID,study,chillpor,chillhrs,utah)
+supernotchill<-supernotchill[!duplicated(supernotchill),]
+write.csv(supernotchill,"chillmeout_check.csv",row.names = FALSE) ###this makes a file of our missing chill
+##plan is to discuss with Ailene and then go back into the papers and see if there is any hidden chilling
+###okay, Dan out, back to the regularly schedule code from Lizzie
+
 # where do we lose data? It's still mainly because of chilling.
 dim(subset(bb, is.na(force)==FALSE)) # was: 3077; now: 7893
 dim(subset(bb, is.na(photo)==FALSE)) # was: 2921; now: 8545
