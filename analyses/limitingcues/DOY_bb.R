@@ -10,10 +10,13 @@ options(stringsAsFactors=FALSE)
 graphics.off()
 
 ## Load libraries
+library(plyr)
 library(dplyr)
 library(tidyr)
+library(rgdal)
 library(ggplot2)
 library(lubridate)
+library(rstan)
 
 ## Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) {
@@ -61,9 +64,65 @@ betuse <- bet11[which(bet11$PEP_ID %in% bet20$PEP_ID),]
 fag11 <- subset(fagall, BBCH==11)
 faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 
-## NEXT! Start work on the hinge model:
+
+##
+## Get mean at each site and plot
+## summarizing data 
+meanbet <-
+      ddply(betall, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+
+meanfag <-
+      ddply(fagall, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+
+
+# get the map and set the theme
+wmap <- readOGR("..//..//..//..//..//general/maps/ne_110m_land", layer="ne_110m_land")
+wmap.df <- fortify(wmap)
+theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
+                        # panel.grid.major = element_blank(),
+                        panel.background = element_rect(fill = "grey90",colour = NA),
+                        # plot.background = element_rect(fill=NA),
+                        axis.title.x = element_blank(),
+                        axis.title.y = element_blank(),
+                        plot.title = element_text(size=22),
+                        legend.position = "left"))
+
+ggplot() + 
+  geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+  coord_cartesian(ylim=c(30, 75), xlim=c(-15, 40)) +
+  geom_point(data=meanfag, 
+             aes(x=LON, y=LAT, fill=mean), 
+             colour="dodgerblue4", pch=21) +
+  theme.tanmap
+
+## NEXT! Continue work on the hinge model: try running on subset of data to see why it is SOOO slow
 # fit hinge to each site, then predict a common year
-# plot mean value for each site against common year estimate ... 
+# plot mean value for each site against common year estimate ...
+# also plot a linear fit to each site (no hierarchical model) and compare to that...
+
+betall$YEAR.hin <- betall$YEAR
+betall$YEAR.hin[which(betall$YEAR.hin<1980)] <- 1980
+betall$PEP_ID <- as.character(betall$PEP_ID)
+betall$YEAR.hinc <- betall$YEAR.hin-1980
+
+# Note to self: lmer will fit random intercepts but not random slopes
+N <- nrow(betall)
+y <- betall$DAY
+J <- length(unique(betall$PEP_ID))
+sites <- as.numeric(as.factor((betall$PEP_ID)))
+year <- betall$YEAR.hinc
+nVars <-1
+Imat <- diag(1, nVars)
+
+fit.hinge <- stan("stan/hinge_randslopesint.stan", data=c("N","J","y","sites","year","nVars","Imat"), iter=2000, chains=4)
 
 
 
