@@ -108,23 +108,27 @@ ggplot() +
 # plot mean value for each site against common year estimate ...
 # also plot a linear fit to each site (no hierarchical model) and compare to that...
 
-betall$YEAR.hin <- betall$YEAR
-betall$YEAR.hin[which(betall$YEAR.hin<1980)] <- 1980
-betall$PEP_ID <- as.character(betall$PEP_ID)
-betall$YEAR.hinc <- betall$YEAR.hin-1980
+betuse$YEAR.hin <- betuse$YEAR
+betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
+betuse$PEP_ID <- as.character(betuse$PEP_ID)
+betuse$YEAR.hinc <- betuse$YEAR.hin-1980
+
+betuse <- betuse[1:5000,]
 
 # Note to self: lmer will fit random intercepts but not random slopes
-N <- nrow(betall)
-y <- betall$DAY
-J <- length(unique(betall$PEP_ID))
-sites <- as.numeric(as.factor((betall$PEP_ID)))
-year <- betall$YEAR.hinc
-nVars <-1
-Imat <- diag(1, nVars)
+N <- nrow(betuse)
+y <- betuse$DAY
+J <- length(unique(betuse$PEP_ID))
+sites <- as.numeric(as.factor((betuse$PEP_ID)))
+year <- betuse$YEAR.hinc
+# nVars <-1
+# Imat <- diag(1, nVars)
 
-fit.hinge <- stan("stan/hinge_randslopesint.stan", data=c("N","J","y","sites","year","nVars","Imat"), iter=2000, chains=4)
+fit.hinge <- stan("stan/hinge_randslopesint_ncp.stan", data=c("N","J","y","sites","year"), iter=2000, chains=4)
+# Regular model runs fast but led to 52 div transition and obvious issues in fitting sigma_b, 4000 with the new model, hmm, need to check my new model!!!
 
-
+# Now do linear fits for each site
+linfits <- data.frame(
 
 
 ## Code from Cat, need to go through ##
