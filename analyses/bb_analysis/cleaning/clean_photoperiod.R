@@ -184,10 +184,6 @@ guak.photo<-mean(guak) # 12 hr photo
 d$photoperiod_day[which(d$datasetID=="guak98")] <- 12
 d$photoperiod_night[which(d$datasetID=="guak98")] <- 12
 
-# ruesink98: is flower buds not leaf buds...
-
-# sonsteby13: is alson flower buds not leaf buds...
-
 # yazdaniha64: 60 days and 100 days, latitude is 41.143
 daylength(41.143, "1964-02-24")
 d$photoperiod_day[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 11
@@ -324,6 +320,24 @@ d$photoperiod_night[which(d$datasetID=="nishimoto95")]<-nish$photoperiod_night
 # lamb37: not enough information - can't even assume ambient
 ## 30 October 2017: update - still cannot fix, need to impute - safest bet is 12 hours
 d$photoperiod_day[which(d$datasetID=="lamb37")] <- 12
+
+############ FLOWER DATA BUT FIXING IF NEEDED IN FUTURE! ######################
+
+# ruesink98: is flower buds not leaf buds...
+## Can't fix because there is no response.time column
+
+# sonsteby13: is also on flower buds not leaf buds...
+sons<-subset(d, d$datasetID=="sonsteby13")
+sons$date<-as.Date(sons$response.time, origin = "2011-06-13")
+for(i in c(1:nrow(sons))){
+  sons$photoperiod_day[i] <- daylength(sons$provenance.lat[i], sons$date[i])
+}
+sons$photoperiod_day<-as.numeric(sons$photoperiod_day)
+sons$photoperiod_day<- round(sons$photoperiod_day, digits=0)
+sons$photoperiod_night<-24-sons$photoperiod_day
+sons$photoperiod_day<-as.character(sons$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="sonsteby13")]<-sons$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="sonsteby13")]<-sons$photoperiod_night
 
 ################# Checking missing data #########################
 d.photo<-d
