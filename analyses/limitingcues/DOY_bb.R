@@ -111,7 +111,7 @@ ggplot() +
 betuse$YEAR.hin <- betuse$YEAR
 betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
 betuse$PEP_ID <- as.character(betuse$PEP_ID)
-betuse$YEAR.hinc <- betuse$YEAR.hin-1980
+betuse$YEAR.hin <- betuse$YEAR.hin-1980
 
 betuse <- betuse[1:5000,]
 
@@ -120,15 +120,28 @@ N <- nrow(betuse)
 y <- betuse$DAY
 J <- length(unique(betuse$PEP_ID))
 sites <- as.numeric(as.factor((betuse$PEP_ID)))
-year <- betuse$YEAR.hinc
+year <- betuse$YEAR.hin
 # nVars <-1
 # Imat <- diag(1, nVars)
 
-fit.hinge <- stan("stan/hinge_randslopesint_ncp.stan", data=c("N","J","y","sites","year"), iter=2000, chains=4)
-# Regular model runs fast but led to 52 div transition and obvious issues in fitting sigma_b, 4000 with the new model, hmm, need to check my new model!!!
+fit.hinge <- stan("stan/hinge_randslopesint_ncp.stan",
+    data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
+
+if(FALSE){
+fit.hinge <- stan("stan/hinge_randslopesint.stan",
+    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=4,
+    control = list(adapt_delta = 0.95, max_treedepth = 15))
+# Should add these priors to CP...
+  // Other priors
+  mu_a ~ normal(0, 100);
+  mu_b ~ normal(0, 10);
+  sigma_y ~ normal(0, 30);
+  sigma_b ~ normal(0, 30);
+}
+# Regular model runs fast but led to 52 div transition and obvious issues in fitting sigma_b, 4000 with the new model, hmm, need to check my new model more. Could also increase warmup on first model.... eventually post to Stan users list?
 
 # Now do linear fits for each site
-linfits <- data.frame(
+linfits <- data.frame()
 
 
 ## Code from Cat, need to go through ##
