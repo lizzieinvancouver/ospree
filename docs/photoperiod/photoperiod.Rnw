@@ -128,18 +128,22 @@ require(xtable)
 
 ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
 ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
+ospree$ID_study<-paste(ospree$datasetID,ospree$study, sep="_")#I actually don't think we need to distiguish between experiments for this table?
+#ospree$ID_daylengths<-paste(ospree$datasetID,ospree$study,ospree$photoperiod_day, sep="_")
 
 photop <- ospree %>% # start with the data frame
   distinct(ID_daylengths, .keep_all = TRUE) %>% # establishing grouping variables
-  dplyr::select(datasetID, continent, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
+  dplyr::select(ID_study, continent, provenance.lat, provenance.long, photoperiod_day)#growing or provenance lat/long?
 photop<-photop[-which(photop$photoperiod_day=="ambient"),]
 photop<-photop[-which(photop$photoperiod_day==""),]
-
+photop$numtreats<-with(photop, ave(as.numeric(photoperiod_day), datasetID, FUN=function(x) length(unique(x))))
+with(photop, ave(as.numeric(photoperiod_day), datasetID, FUN=function(x) unique(x)))
 #need to add delta photoperiod, space, and time equivalents of these
 #try instead columns for daylength (min, max) and spatial temporal can be the difference between these
 #aggregate to get imn and max daylengths
 photop_min<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$continent,photop$provenance.lat,photop$provenance.long), FUN=min)
 photop_max<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$continent,photop$provenance.lat,photop$provenance.long), FUN=max)
+#table(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$continent,photop$provenance.lat,photop$provenance.long))
 colnames(photop_max)[5]<-"daylength_max"
 colnames(photop_min)[5]<-"daylength_min"
 photop_all<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3","Group.4"), match="all")
