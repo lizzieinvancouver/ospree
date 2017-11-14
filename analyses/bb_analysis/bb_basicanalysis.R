@@ -26,7 +26,7 @@ bbdat <- subset(bb.some, response.time!="")
 columnstokeep <- c("datasetID", "study", "genus", "species", "varetc", "woody", "forcetemp", "material",
     "photoperiod_day", "respvar", "respvar.simple", "response", "response.time", "fieldsample.date",
     "Total_Chilling_Hours","Total_Utah_Model", "Total_Chill_portions",
-    "Exp_Chilling_Hours",  "Exp_Utah_Model","Exp_Chill_portions")
+    "Exp_Chilling_Hours",  "Exp_Utah_Model","Exp_Chill_portions","chilldays","field.chill.units")
     
 bb <- subset(bbdat, select=columnstokeep)
 
@@ -55,9 +55,9 @@ bb$exputah <- as.numeric(bb$Exp_Utah_Model)
 #in the context of thinking about imputation
 notchill<-filter(bb,is.na(chillhrs)) ### all NA's for chilling variable
 unique(notchill$datasetID) ### here are the dataset
-supernotchill<-dplyr::select(notchill, datasetID,study,chillpor,chillhrs,utah)
+supernotchill<-dplyr::select(notchill, datasetID,study,chillpor,chillhrs,utah,field.chill.units,chilldays)
 supernotchill<-supernotchill[!duplicated(supernotchill),]
-write.csv(supernotchill,"chillmeout_check.csv",row.names = FALSE) ###this makes a file of our missing chill
+#write.csv(supernotchill,"updated_chillmeout_check.csv",row.names = FALSE) ###this makes a file of our missing chill
 ##plan is to discuss with Ailene and then go back into the papers and see if there is any hidden chilling
 ###okay, Dan out, back to the regularly schedule code from Lizzie
 
