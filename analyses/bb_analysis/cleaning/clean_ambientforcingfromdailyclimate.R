@@ -9,20 +9,20 @@
 #'  This file is unfinished -- need to explicitly incorporate ambient and ambient +1, +4, etc.
 ##############################################################################################################
 
-if(FALSE){
+#if(FALSE){
 ## to start
-rm(list=ls())
-options(stringsAsFactors=FALSE)
+#rm(list=ls())
+#options(stringsAsFactors=FALSE)
 
 # Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-} else if
-(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
-} else if
-(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
-} else 
-  setwd("~/Documents/git/ospree/analyses")
-}    
+#if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+#} else if
+#(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
+#} else if
+#(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+#} else 
+#  setwd("~/Documents/git/ospree/analyses")
+#}    
 
 ## read in last day of chilling and format a little
 chill.day <- read.csv("output/daily_expchill.csv")
@@ -30,7 +30,7 @@ chill.unique.exptreat<-unique(chill.day$uniqueID)
 
 chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
 chilly <- chillneeded[!duplicated(chillneeded), ]
-#head(chilly)
+#dim(chilly)
 
 ## read in data containing climate each day each site (it's big so it is in pieces)
 clima <- read.csv("output/pmp/percbb_clim_pmpA.csv", header=TRUE)
@@ -43,7 +43,8 @@ climdat <- climdatab[!duplicated(climdatab), ]
 rm(clima,climb,climc,climd)
 
 ## get all the BB data and format a little
-dat.all <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
+#dat.all <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
+dat.all<-d
 dat.some <- subset(dat.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
 bbdat <- subset(dat.some, response.time!="")
 
@@ -67,7 +68,7 @@ bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%
 bb$avg_bbtemp<-NA
 
 ## Loop to add mean temp to each line in bb
-for(i in 1:nrow(bb)){#i=319
+for(i in 1:nrow(bb)){#i=1832
   lon.i<-bb[i,"chill.long"]
   lat.i<-bb[i,"chill.lat"]
   start.i<-bb[i,"expstartdate"]
@@ -81,17 +82,42 @@ for(i in 1:nrow(bb)){#i=319
   clim.i<-subset(climdat,stn==ID.i)
   
   #clim.i$Tmean
+  if(!is.na(year.end.i)){
   if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy2==doy.i):
            which(clim.i$year==year.end.i & clim.i$doy2==doy.end.i),"Tmean"],na.rm=T)
   #clim.i<-subset(clim.i,year==year.i | year==year.end.i)
   }
-  
+  }
 }
 
-## saving results to output - Still in need to be added to clean_ambientforcing.R
-write.csv(bb,"output/bbdata_avgTemp.csv")
+
+## checking missing values 
+#bb[which(!uniquevalsbb%in%uniquevalsd),c("datasetID","End_year","bbdate","avg_bbtemp")]
+## this data is not appended to d, but it is not a problem given that it is all NAs belonging to biasi12
+
+## saving results to output - d
+
+# generate indexes
+uniquevalsd<-apply(d,1,paste,collapse="")
+uniquevalsbb<-apply(bb[which(names(bb)%in%names(d))],1,paste,collapse="")
+
+indexbb<-which(uniquevalsbb%in%uniquevalsd)
+indexd<-which(uniquevalsd%in%uniquevalsbb)
+
+
+# append average ambient forcing temperature to ospree dataset d 
+d$avg_bbtemp<-NA
+d[indexd,"avg_bbtemp"]<-bb$avg_bbtemp[indexbb]
+
+
+
+stop("Not an error, ambient forcing temperatures are extracted and appended to dataset d; 
+     No need to worry about the warnings below, informing of if statement with 2 elements
+     out of which only one is utilized")
+
+
 
 
 

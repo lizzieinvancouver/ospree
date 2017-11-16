@@ -40,8 +40,8 @@ source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 r
 # 5a. Clean up entries where we can estimate the forcing from the paper (e.g., ramped temps or they give monthly temps)
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
-# 5b. Clean ambient forcing daily - not active yet
-#source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R")
+# 5b. Clean ambient forcing daily - just activated Nov16th2017 to be checked
+source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R")
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 80%)
 # ... with an allowable buffer (i.e., 40%)
