@@ -67,7 +67,8 @@ faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 
 ##
 ## Get mean at each site and plot
-## summarizing data 
+## summarizing data
+if(FALSE){
 meanbet <-
       ddply(betall, c("PEP_ID", "LON", "LAT"), summarise,
       mean = mean(DAY),
@@ -102,7 +103,7 @@ ggplot() +
              aes(x=LON, y=LAT, fill=mean), 
              colour="dodgerblue4", pch=21) +
   theme.tanmap
-
+}
 ## NEXT! Continue work on the hinge model: try running on subset of data to see why it is SOOO slow
 # fit hinge to each site, then predict a common year
 # plot mean value for each site against common year estimate ...
@@ -113,7 +114,6 @@ betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
 betuse$PEP_ID <- as.character(betuse$PEP_ID)
 betuse$YEAR.hin <- betuse$YEAR.hin-1980
 
-betuse <- betuse[1:5000,]
 
 # Note to self: lmer will fit random intercepts but not random slopes
 N <- nrow(betuse)
@@ -124,13 +124,19 @@ year <- betuse$YEAR.hin
 # nVars <-1
 # Imat <- diag(1, nVars)
 
-fit.hinge <- stan("stan/hinge_randslopesint_ncp.stan",
-    data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
+# Whoa! I think the model runs when I use all data ... must check more!
+fit.hinge <- stan("stan/hinge_randslopesint.stan",
+    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=2)
+    # control = list(adapt_delta = 0.95, max_treedepth = 15))
+
+save(fit.hinge, file="stan/output/fit.hinge.Rda")
 
 if(FALSE){
-fit.hinge <- stan("stan/hinge_randslopesint.stan",
-    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=4,
-    control = list(adapt_delta = 0.95, max_treedepth = 15))
+# betuse <- betuse[1:5000,]
+# This model on the 5K data above returned ALL divergent transitions!
+fit.hinge.ncp <- stan("stan/hinge_randslopesint_ncp.stan",
+    data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
+
 # Should add these priors to CP...
   // Other priors
   mu_a ~ normal(0, 100);
@@ -142,6 +148,13 @@ fit.hinge <- stan("stan/hinge_randslopesint.stan",
 
 # Now do linear fits for each site
 linfits <- data.frame()
+
+
+
+
+
+
+
 
 
 ## Code from Cat, need to go through ##
