@@ -4,6 +4,11 @@
 
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
+## TO DO! ##
+# Clean up the code below so the stuff that is identical for bet and fag is called as a f(x) or such
+# Then need to look at the betula
+# Also check the outliers in fagus (linear model predictions of <70 or >160 make sense)
+
 ## Clear workspace
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
@@ -32,10 +37,12 @@ betagg <- aggregate(betall[("YEAR")], betall[c("PEP_ID", "BBCH", "National_ID", 
     FUN=length)
 fagagg <- aggregate(fagall[("YEAR")], fagall[c("PEP_ID", "BBCH", "National_ID", "LAT", "LON", "ALT")],
     FUN=length)
+if(FALSE){
 ggplot(betagg, aes(x=YEAR, fill=as.factor(BBCH))) +
     geom_histogram(alpha=0.2, position="identity")
 ggplot(fagagg, aes(x=YEAR, fill=as.factor(BBCH))) +
     geom_histogram(alpha=0.2, position="identity")
+}
 # Well, I guess we will go with 11!
 nrow(betagg)
 nrow(fagagg)
@@ -104,7 +111,7 @@ ggplot() +
              colour="dodgerblue4", pch=21) +
   theme.tanmap
 }
-## NEXT! Continue work on the hinge model: try running on subset of data to see why it is SOOO slow
+## NEXT! 
 # fit hinge to each site, then predict a common year
 # plot mean value for each site against common year estimate ...
 # also plot a linear fit to each site (no hierarchical model) and compare to that...
@@ -114,6 +121,10 @@ betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
 betuse$PEP_ID <- as.character(betuse$PEP_ID)
 betuse$YEAR.hin <- betuse$YEAR.hin-1980
 
+faguse$YEAR.hin <- faguse$YEAR
+faguse$YEAR.hin[which(faguse$YEAR.hin<1980)] <- 1980
+faguse$PEP_ID <- as.character(faguse$PEP_ID)
+faguse$YEAR.hin <- faguse$YEAR.hin-1980
 
 # Note to self: lmer will fit random intercepts but not random slopes
 N <- nrow(betuse)
@@ -125,18 +136,18 @@ year <- betuse$YEAR.hin
 # Imat <- diag(1, nVars)
 
 # Whoa! I think the model runs when I use all data ... must check more!
-fit.hinge <- stan("stan/hinge_randslopesint.stan",
+fit.hinge.bet <- stan("stan/hinge_randslopesint.stan",
     data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=2)
     # control = list(adapt_delta = 0.95, max_treedepth = 15))
 
-save(fit.hinge, file="stan/output/fit.hinge.Rda")
+save(fit.hinge, file="stan/output/fit.hinge.bet.Rda")
 
 if(FALSE){
+# the above model was returning a few divergent transitions (model ran fast but led to 52 div transition and obvious issues in fitting sigma_b) when I ran it on this subset of the data though:
 # betuse <- betuse[1:5000,]
-# This model on the 5K data above returned ALL divergent transitions!
+# This NCP model (below) on the 5K data above returned ALL divergent transitions!
 fit.hinge.ncp <- stan("stan/hinge_randslopesint_ncp.stan",
     data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
-
 # Should add these priors to CP...
   // Other priors
   mu_a ~ normal(0, 100);
@@ -144,14 +155,48 @@ fit.hinge.ncp <- stan("stan/hinge_randslopesint_ncp.stan",
   sigma_y ~ normal(0, 30);
   sigma_b ~ normal(0, 30);
 }
-# Regular model runs fast but led to 52 div transition and obvious issues in fitting sigma_b, 4000 with the new model, hmm, need to check my new model more. Could also increase warmup on first model.... eventually post to Stan users list?
+
+# Now do fagus
+Nf <- nrow(faguse)
+yf <- faguse$DAY
+Jf <- length(unique(faguse$PEP_ID))
+sitesf <- as.numeric(as.factor((faguse$PEP_ID)))
+yearf <- faguse$YEAR.hin
+# nVars <-1
+# Imat <- diag(1, nVars)
+
+fit.hinge.fag <- stan("stan/hinge_randslopesint.stan",
+    data=list(N=Nf, J=Jf, y=yf, sites=sitesf, year=yearf), iter=2000, chains=4, cores=2)
+
+save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
+
+# Okay, now get predictions, there seems to be no easy way to do this in base Stan:http://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/5
+
+# To Do! Below assumes that Stan does not sort my sites, should check this!!!
+sitesfag <- unique(faguse$PEP_ID)
+
+sumerf <- summary(fit.hinge.fag)$summary
+sumerf[grep("mu_", rownames(sumerf)),]
+sumerfints <- sumerf[grep("a\\[", rownames(sumerf)),]
+sumerfslopes <- sumerf[grep("b\\[", rownames(sumerf)),]
+
+# Reminder, 1980 is 0 in our model...
+mean(faguse$YEAR)
+
+fagpred <- c()
+for (sitehere in c(1:length(sitesfag))){
+    fagpred[sitehere] <- sumerfints[sitehere]+sumerfslopes[sitehere]*3
+    }
 
 # Now do linear fits for each site
-linfits <- data.frame()
+linfit.fagpred <- c()
+for (sitehere in c(1:length(sitesfag))){
+    subby <- subset(faguse, PEP_ID==sitesfag[sitehere])
+    mod <- lm(DAY~YEAR.hin, data=subby)
+    linfit.fagpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
+    }
 
-
-
-
+plot(fagpred~linfit.fagpred, asp=1)
 
 
 
