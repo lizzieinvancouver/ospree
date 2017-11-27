@@ -90,6 +90,13 @@ meanfag <-
       sd = sd(DAY),
       sem = sd(DAY)/sqrt(length(DAY)))
 
+meanbetuse <-
+      ddply(betuse, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+
 
 # get the map and set the theme
 wmap <- readOGR("..//..//..//..//..//general/maps/ne_110m_land", layer="ne_110m_land")
@@ -170,6 +177,10 @@ fit.hinge.fag <- stan("stan/hinge_randslopesint.stan",
 
 save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
 
+#load("stan/output/fit.hinge.bet.Rda")
+#load("stan/output/fit.hinge.fag.Rda")
+
+
 # Okay, now get predictions, there seems to be no easy way to do this in base Stan:http://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/5
 
 # To Do! Below assumes that Stan does not sort my sites, should check this!!!
@@ -198,7 +209,53 @@ for (sitehere in c(1:length(sitesfag))){
 
 plot(fagpred~linfit.fagpred, asp=1)
 
+# an example of one outlier from above:
+if(FALSE){
+    which(linfit.fagpred>160)
+    unique(faguse$PEP_ID)[103]
+    subset(faguse, PEP_ID=="19666")
+    goo <- subset(faguse, PEP_ID=="19666") # note that only one year is later than 1980 and it is a really late year....
+    mean(goo$DAY)
+    mod <- lm(DAY~YEAR.hin, data=goo)    summary(mod)
 
+    summary(mod)
+}
+
+# ... and Betula
+sitesbet <- unique(betuse$PEP_ID)
+mean(betuse$YEAR)
+
+betpred <- c()
+for (sitehere in c(1:length(sitesbet))){
+    betpred[sitehere] <- sumerbints[sitehere]+sumerbslopes[sitehere]*3
+    }
+
+# Now do linear fits for each site
+linfit.betpred <- c()
+for (sitehere in c(1:length(sitesbet))){
+    subby <- subset(betuse, PEP_ID==sitesbet[sitehere])
+    mod <- lm(DAY~YEAR.hin, data=subby)
+    linfit.betpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
+    }
+
+plot(betpred~linfit.betpred, asp=1)
+
+# Now make a map
+sumerb <- summary(fit.hinge)$summary
+sumerb[grep("mu_", rownames(sumerb)),]
+sumerbints <- sumerb[grep("a\\[", rownames(sumerb)),]
+sumerbslopes <- sumerb[grep("b\\[", rownames(sumerb)),]
+
+sumerb.df <- data.frame(PEP_ID=meanbetuse$PEP_ID, lat=meanbetuse$LAT, lon=meanbetuse$LON,
+    m=sumerbslopes, pred1983=betpred)
+
+ggplot() + 
+  geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+  coord_cartesian(ylim=c(30, 75), xlim=c(-15, 40)) +
+  geom_point(data=sumerb.df, 
+             aes(x=lon,lat, fill=pred1983), 
+             colour="dodgerblue4", pch=21) +
+  theme.tanmap
 
 
 
