@@ -186,7 +186,7 @@ save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
 # To Do! Below assumes that Stan does not sort my sites, should check this!!!
 sitesfag <- unique(faguse$PEP_ID)
 
-sumerf <- summary(fit.hinge.fag)$summary
+sumerf <- summary(fit.hinge.fag)$summary # mu_a is 121 and mu_b is -0.34
 sumerf[grep("mu_", rownames(sumerf)),]
 sumerfints <- sumerf[grep("a\\[", rownames(sumerf)),]
 sumerfslopes <- sumerf[grep("b\\[", rownames(sumerf)),]
@@ -200,14 +200,20 @@ for (sitehere in c(1:length(sitesfag))){
     }
 
 # Now do linear fits for each site
+linfit.fagm <- c()
 linfit.fagpred <- c()
 for (sitehere in c(1:length(sitesfag))){
     subby <- subset(faguse, PEP_ID==sitesfag[sitehere])
     mod <- lm(DAY~YEAR.hin, data=subby)
+    linfit.fagm[sitehere] <- coef(mod)[2]
     linfit.fagpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
     }
 
+
+plot(sumerfslopes[,1]~linfit.fagm)
+
 plot(fagpred~linfit.fagpred, asp=1)
+abline(lm(fagpred~linfit.fagpred))
 
 # an example of one outlier from above:
 if(FALSE){
@@ -216,8 +222,7 @@ if(FALSE){
     subset(faguse, PEP_ID=="19666")
     goo <- subset(faguse, PEP_ID=="19666") # note that only one year is later than 1980 and it is a really late year....
     mean(goo$DAY)
-    mod <- lm(DAY~YEAR.hin, data=goo)    summary(mod)
-
+    mod <- lm(DAY~YEAR.hin, data=goo)
     summary(mod)
 }
 
@@ -225,27 +230,30 @@ if(FALSE){
 sitesbet <- unique(betuse$PEP_ID)
 mean(betuse$YEAR)
 
+sumerb <- summary(fit.hinge)$summary
+sumerb[grep("mu_", rownames(sumerb)),]
+sumerbints <- sumerb[grep("a\\[", rownames(sumerb)),]
+sumerbslopes <- sumerb[grep("b\\[", rownames(sumerb)),]
+
 betpred <- c()
 for (sitehere in c(1:length(sitesbet))){
     betpred[sitehere] <- sumerbints[sitehere]+sumerbslopes[sitehere]*3
     }
 
 # Now do linear fits for each site
+linfit.betm <- c()
 linfit.betpred <- c()
 for (sitehere in c(1:length(sitesbet))){
     subby <- subset(betuse, PEP_ID==sitesbet[sitehere])
     mod <- lm(DAY~YEAR.hin, data=subby)
+    linfit.betm[sitehere] <- coef(mod)[2]
     linfit.betpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
     }
 
+plot(sumerbslopes[,1]~linfit.betm)
 plot(betpred~linfit.betpred, asp=1)
 
 # Now make a map
-sumerb <- summary(fit.hinge)$summary
-sumerb[grep("mu_", rownames(sumerb)),]
-sumerbints <- sumerb[grep("a\\[", rownames(sumerb)),]
-sumerbslopes <- sumerb[grep("b\\[", rownames(sumerb)),]
-
 sumerb.df <- data.frame(PEP_ID=meanbetuse$PEP_ID, lat=meanbetuse$LAT, lon=meanbetuse$LON,
     m=sumerbslopes, pred1983=betpred)
 
