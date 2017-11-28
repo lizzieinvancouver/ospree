@@ -22,6 +22,8 @@ It:
 
 5. sources clean_ambientforcing.R, which cleans the forcing predictor variable
 
+5b. sources clean_ambientforcingfromdailyclimate.R, which extracts ambient temperature data for experiments where we know procecence and time to budburst.
+
 6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target budburst level (i.e. 80%) with surrounding acceptable range with an allowable buffer (i.e., 40%).
 
 7. sources clean_moreduplicates.R which removes some data that appears duplicated (very little!). As of 16 July 2017, deletes 4 rows -- one is an obvious duplicate and are flagged under the more complex code.
@@ -83,6 +85,13 @@ The new script now addresses all respvar issues including respvars that are ‘p
 
 
 ################ Clarification notes from Nacho #################
+
+
+Notes on "clean_ambientforcingfromdailyclimate.R" 
+#################################################
+Warnings are produced but no need to worry about them, informing of if statement with 2 elements 
+out of which only one (in certain iterations) is utilized.
+
 
 Notes on "get_meantemp_ambient.R" 
 ################################
