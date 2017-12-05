@@ -5,14 +5,10 @@
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
 ## TO DO! ##
-# Clean up the code below so the stuff that is identical for bet and fag is called as a f(x) or such... see START HERE
-# Then need to look at the betula
-# Also check the outliers in fagus (linear model predictions of <70 or >160 make sense)
 ## NEXT! 
-# fit hinge to each site, then predict a common year
 # plot mean value for each site against common year estimate ...
-# also plot a linear fit to each site (no hierarchical model) and compare to that...
 # add priors to models and rerun!
+# rerun on a lower number of years threshold.
 
 ## Clear workspace
 rm(list=ls()) # remove everything currently held in the R memory
@@ -21,6 +17,7 @@ graphics.off()
 
 ## Say whether or not you want to run stan!
 runstan = FALSE
+mapsandsummaries = FALSE # these are just summaries for mapping (they're slow but not terribly)
 
 ## Load libraries
 library(plyr)
@@ -90,7 +87,7 @@ faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 ####################################
 
 ## summarizing data
-if(FALSE){
+if(mapsandsummaries){
 meanbet <-
       ddply(betall, c("PEP_ID", "LON", "LAT"), summarise,
       mean = mean(DAY),
@@ -111,6 +108,14 @@ meanbetuse <-
       mean.yr = mean(YEAR),
       sd = sd(DAY),
       sem = sd(DAY)/sqrt(length(DAY)))
+
+meanfaguse <-
+      ddply(faguse, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+
 
 
 # get the map and set the theme
@@ -215,7 +220,7 @@ getstanpred <- function(dat, sitecolname, stansummary, predyear){
     sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
     predhere <- c()
     for (sitehere in c(1:nrow(siteslist))){
-        predhere[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*3
+        predhere[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
     }
     return(predhere)
     }
@@ -224,59 +229,65 @@ getstanpred <- function(dat, sitecolname, stansummary, predyear){
 fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
 betpred <- getstanpred(betuse, "PEP_ID", sumerb, 3)
 
-## START HERE! ##
-
 # Now do linear fits for each site
-linfit.fagm <- c()
-linfit.fagpred <- c()
-for (sitehere in c(1:length(sitesfag))){
-    subby <- subset(faguse, PEP_ID==sitesfag[sitehere])
-    mod <- lm(DAY~YEAR.hin, data=subby)
-    linfit.fagm[sitehere] <- coef(mod)[2]
-    linfit.fagpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
+getlinpred <- function(dat, sitecolname, predyear){
+    siteslist <- unique(dat[sitecolname])
+    linfit <- data.frame(m=as.numeric(rep(NA, nrow(siteslist))),
+        pred=as.numeric(rep(NA, nrow(siteslist))))
+    for (sitehere in c(1:nrow(siteslist))){
+        subby <- subset(dat, PEP_ID==siteslist[sitehere,])
+        mod <- lm(DAY~YEAR.hin, data=subby)
+        linfit$m[sitehere] <- coef(mod)[2]
+        linfit$pred[sitehere] <- coef(mod)[1]+coef(mod)[2]*predyear
     }
+    return(linfit)
+}
 
-plot(sumerfslopes[,1]~linfit.fagm)
+fagpred.lin <- getlinpred(faguse, "PEP_ID", 3)
+betpred.lin <- getlinpred(betuse, "PEP_ID", 3)
 
-plot(fagpred~linfit.fagpred, asp=1)
-abline(lm(fagpred~linfit.fagpred))
+plot(fagpred~fagpred.lin$pred, asp=1)
+abline(lm(fagpred~fagpred.lin$pred))
 
-# an example of one outlier from above:
+# an example of a couple outlier from above:
 if(FALSE){
-    which(linfit.fagpred>160)
+# here's a high one (160)  
+    which(fagpred.lin$pred>160)
     unique(faguse$PEP_ID)[103]
     subset(faguse, PEP_ID=="19666")
     goo <- subset(faguse, PEP_ID=="19666") # note that only one year is later than 1980 and it is a really late year....
     mean(goo$DAY)
     mod <- lm(DAY~YEAR.hin, data=goo)
     summary(mod)
+# and a low one
+    which(fagpred.lin$pred>160)
+    unique(faguse$PEP_ID)[378]
+    subset(faguse, PEP_ID=="4365")
+    goo <- subset(faguse, PEP_ID=="4365") # note that (again) only one year is later than 1980
+    mean(goo$DAY)
+    mod <- lm(DAY~YEAR.hin, data=goo)
+    summary(mod)
 }
 
-
-# Now do linear fits for each site
-linfit.betm <- c()
-linfit.betpred <- c()
-for (sitehere in c(1:length(sitesbet))){
-    subby <- subset(betuse, PEP_ID==sitesbet[sitehere])
-    mod <- lm(DAY~YEAR.hin, data=subby)
-    linfit.betm[sitehere] <- coef(mod)[2]
-    linfit.betpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
-    }
-
-plot(sumerbslopes[,1]~linfit.betm)
-plot(betpred~linfit.betpred, asp=1)
-
-# Now make a map
+# Now make a map (adjust datplot for each species)
+if(mapsandsummaries){
 sumerb.df <- data.frame(PEP_ID=meanbetuse$PEP_ID, lat=meanbetuse$LAT, lon=meanbetuse$LON,
-    m=sumerbslopes, pred1983=betpred)
+   pred1983=betpred)
+sumerf.df <- data.frame(PEP_ID=meanfaguse$PEP_ID, lat=meanfaguse$LAT, lon=meanfaguse$LON,
+   pred1983=fagpred)
 
+datplot <- sumerb.df
 ggplot() + 
   geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
   coord_cartesian(ylim=c(30, 75), xlim=c(-15, 40)) +
-  geom_point(data=sumerb.df, 
+  geom_point(data=datplot, 
              aes(x=lon,lat, fill=pred1983), 
              colour="dodgerblue4", pch=21) +
   theme.tanmap
+}
+
+
+
 
 
 
