@@ -5,14 +5,22 @@
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
 ## TO DO! ##
-# Clean up the code below so the stuff that is identical for bet and fag is called as a f(x) or such
+# Clean up the code below so the stuff that is identical for bet and fag is called as a f(x) or such... see START HERE
 # Then need to look at the betula
 # Also check the outliers in fagus (linear model predictions of <70 or >160 make sense)
+## NEXT! 
+# fit hinge to each site, then predict a common year
+# plot mean value for each site against common year estimate ...
+# also plot a linear fit to each site (no hierarchical model) and compare to that...
+# add priors to models and rerun!
 
 ## Clear workspace
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 graphics.off()
+
+## Say whether or not you want to run stan!
+runstan = FALSE
 
 ## Load libraries
 library(plyr)
@@ -23,14 +31,19 @@ library(ggplot2)
 library(lubridate)
 library(rstan)
 
-## Set working directory: 
+## Set working directory
 if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/limitingcues") 
 } else
   setwd("~/Documents/git/ospree/analyses/limitingcues")
 
+## Grab the data
 betall <- read.csv("input/PEP_betpen.csv", header=TRUE)
 fagall <- read.csv("input/PEP_fagsyl.csv", header=TRUE)
+
+#################################
+## Look at the data and format ##
+#################################
 
 ## Let's figure out sites and stages data ...
 betagg <- aggregate(betall[("YEAR")], betall[c("PEP_ID", "BBCH", "National_ID", "LAT", "LON", "ALT")],
@@ -72,8 +85,10 @@ fag11 <- subset(fagall, BBCH==11)
 faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 
 
-##
-## Get mean at each site and plot
+####################################
+## Get mean at each site and plot ##
+####################################
+
 ## summarizing data
 if(FALSE){
 meanbet <-
@@ -118,10 +133,10 @@ ggplot() +
              colour="dodgerblue4", pch=21) +
   theme.tanmap
 }
-## NEXT! 
-# fit hinge to each site, then predict a common year
-# plot mean value for each site against common year estimate ...
-# also plot a linear fit to each site (no hierarchical model) and compare to that...
+
+#################################################
+## Fit hinge models for each species (in Stan) ##
+#################################################
 
 betuse$YEAR.hin <- betuse$YEAR
 betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
@@ -132,8 +147,10 @@ faguse$YEAR.hin <- faguse$YEAR
 faguse$YEAR.hin[which(faguse$YEAR.hin<1980)] <- 1980
 faguse$PEP_ID <- as.character(faguse$PEP_ID)
 faguse$YEAR.hin <- faguse$YEAR.hin-1980
+# Note to self: for betula lmer will fit random intercepts but not random slopes
 
-# Note to self: lmer will fit random intercepts but not random slopes
+if(runstan) {
+# betula
 N <- nrow(betuse)
 y <- betuse$DAY
 J <- length(unique(betuse$PEP_ID))
@@ -149,19 +166,12 @@ fit.hinge.bet <- stan("stan/hinge_randslopesint.stan",
 
 save(fit.hinge, file="stan/output/fit.hinge.bet.Rda")
 
-if(FALSE){
 # the above model was returning a few divergent transitions (model ran fast but led to 52 div transition and obvious issues in fitting sigma_b) when I ran it on this subset of the data though:
 # betuse <- betuse[1:5000,]
 # This NCP model (below) on the 5K data above returned ALL divergent transitions!
-fit.hinge.ncp <- stan("stan/hinge_randslopesint_ncp.stan",
-    data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
-# Should add these priors to CP...
-  // Other priors
-  mu_a ~ normal(0, 100);
-  mu_b ~ normal(0, 10);
-  sigma_y ~ normal(0, 30);
-  sigma_b ~ normal(0, 30);
-}
+# fit.hinge.ncp <- stan("stan/hinge_randslopesint_ncp.stan",
+#    data=c("N","J","y","sites","year"), iter=500, chains=4, cores=4)
+
 
 # Now do fagus
 Nf <- nrow(faguse)
@@ -176,28 +186,45 @@ fit.hinge.fag <- stan("stan/hinge_randslopesint.stan",
     data=list(N=Nf, J=Jf, y=yf, sites=sitesf, year=yearf), iter=2000, chains=4, cores=2)
 
 save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
+}
 
-#load("stan/output/fit.hinge.bet.Rda")
-#load("stan/output/fit.hinge.fag.Rda")
+# If not running stan, then we load the stan runs here ...
+if(!runstan) {
+load("stan/output/fit.hinge.bet.Rda")
+load("stan/output/fit.hinge.fag.Rda")
+}
 
 
+###################################
+## Get predictions for each species ##
+###################################
 # Okay, now get predictions, there seems to be no easy way to do this in base Stan:http://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/5
 
 # To Do! Below assumes that Stan does not sort my sites, should check this!!!
-sitesfag <- unique(faguse$PEP_ID)
-
 sumerf <- summary(fit.hinge.fag)$summary # mu_a is 121 and mu_b is -0.34
 sumerf[grep("mu_", rownames(sumerf)),]
-sumerfints <- sumerf[grep("a\\[", rownames(sumerf)),]
-sumerfslopes <- sumerf[grep("b\\[", rownames(sumerf)),]
+mean(faguse$YEAR)
+# ... and Betula
+mean(betuse$YEAR)
+sumerb <- summary(fit.hinge)$summary
+sumerb[grep("mu_", rownames(sumerb)),]
+
+getstanpred <- function(dat, sitecolname, stansummary, predyear){
+    siteslist <- unique(dat[sitecolname])
+    sumer.ints <- stansummary[grep("a\\[", rownames(stansummary)),]
+    sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
+    predhere <- c()
+    for (sitehere in c(1:nrow(siteslist))){
+        predhere[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*3
+    }
+    return(predhere)
+    }
 
 # Reminder, 1980 is 0 in our model...
-mean(faguse$YEAR)
+fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
+betpred <- getstanpred(betuse, "PEP_ID", sumerb, 3)
 
-fagpred <- c()
-for (sitehere in c(1:length(sitesfag))){
-    fagpred[sitehere] <- sumerfints[sitehere]+sumerfslopes[sitehere]*3
-    }
+## START HERE! ##
 
 # Now do linear fits for each site
 linfit.fagm <- c()
@@ -208,7 +235,6 @@ for (sitehere in c(1:length(sitesfag))){
     linfit.fagm[sitehere] <- coef(mod)[2]
     linfit.fagpred[sitehere] <- coef(mod)[1]+coef(mod)[2]*3
     }
-
 
 plot(sumerfslopes[,1]~linfit.fagm)
 
@@ -226,19 +252,6 @@ if(FALSE){
     summary(mod)
 }
 
-# ... and Betula
-sitesbet <- unique(betuse$PEP_ID)
-mean(betuse$YEAR)
-
-sumerb <- summary(fit.hinge)$summary
-sumerb[grep("mu_", rownames(sumerb)),]
-sumerbints <- sumerb[grep("a\\[", rownames(sumerb)),]
-sumerbslopes <- sumerb[grep("b\\[", rownames(sumerb)),]
-
-betpred <- c()
-for (sitehere in c(1:length(sitesbet))){
-    betpred[sitehere] <- sumerbints[sitehere]+sumerbslopes[sitehere]*3
-    }
 
 # Now do linear fits for each site
 linfit.betm <- c()
