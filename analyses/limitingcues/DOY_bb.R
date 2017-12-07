@@ -5,10 +5,8 @@
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
 ## TO DO! ##
-## NEXT! 
-# plot mean value for each site against common year estimate ...
+# rerun on a lower number of years threshold (10 years?)
 # add priors to models and rerun!
-# rerun on a lower number of years threshold.
 
 ## Clear workspace
 rm(list=ls()) # remove everything currently held in the R memory
@@ -16,8 +14,9 @@ options(stringsAsFactors=FALSE)
 graphics.off()
 
 ## Say whether or not you want to run stan!
-runstan = FALSE
+runstan = TRUE
 mapsandsummaries = FALSE # these are just summaries for mapping (they're slow but not terribly)
+ncores = 2 # how many cores to use, only applies when runstan=TRUE
 
 ## Load libraries
 library(plyr)
@@ -65,6 +64,10 @@ nrow(subset(fagagg, YEAR>9))/nrow(fagagg)
 bet20 <- subset(betagg, YEAR>19)
 fag20 <- subset(fagagg, YEAR>19)
 
+# Trying 10 years ...
+bet10 <- subset(betagg, YEAR>9)
+fag10 <- subset(fagagg, YEAR>9)
+
 # Annoying detour to figure out which info is needed for unique ID
 betagg$ID1 <- paste(betagg$PEP_ID, betagg$National_ID)
 betagg$ID2 <- paste(betagg$PEP_ID, betagg$National_ID, betagg$LAT, betagg$LON, betagg$ALT)
@@ -75,11 +78,11 @@ length(unique(betagg$ID1))
 length(unique(betagg$ID2))
 # PEP_ID seems unique
 
-# Subset the data based on the above for now ... 
+# Subset the data based on the above for now ...
 bet11 <- subset(betall, BBCH==11)
-betuse <- bet11[which(bet11$PEP_ID %in% bet20$PEP_ID),]
+betuse <- bet11[which(bet11$PEP_ID %in% bet10$PEP_ID),]
 fag11 <- subset(fagall, BBCH==11)
-faguse <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
+faguse <- fag11[which(fag11$PEP_ID %in% fag10$PEP_ID),]
 
 
 ####################################
@@ -166,10 +169,10 @@ year <- betuse$YEAR.hin
 
 # Whoa! I think the model runs when I use all data ... must check more!
 fit.hinge.bet <- stan("stan/hinge_randslopesint.stan",
-    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=2)
+    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=ncores)
     # control = list(adapt_delta = 0.95, max_treedepth = 15))
 
-save(fit.hinge, file="stan/output/fit.hinge.bet.Rda")
+save(fit.hinge.bet, file="stan/output/fit.hinge.bet.Rda")
 
 # the above model was returning a few divergent transitions (model ran fast but led to 52 div transition and obvious issues in fitting sigma_b) when I ran it on this subset of the data though:
 # betuse <- betuse[1:5000,]
@@ -188,7 +191,7 @@ yearf <- faguse$YEAR.hin
 # Imat <- diag(1, nVars)
 
 fit.hinge.fag <- stan("stan/hinge_randslopesint.stan",
-    data=list(N=Nf, J=Jf, y=yf, sites=sitesf, year=yearf), iter=2000, chains=4, cores=2)
+    data=list(N=Nf, J=Jf, y=yf, sites=sitesf, year=yearf), iter=2000, chains=4, cores=ncores)
 
 save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
 }
@@ -249,6 +252,12 @@ betpred.lin <- getlinpred(betuse, "PEP_ID", 3)
 plot(fagpred~fagpred.lin$pred, asp=1)
 abline(lm(fagpred~fagpred.lin$pred))
 
+# Compare with mean values
+fagpred.wsite <- data.frame(fagpred=fagpred, PEP_ID=unique(faguse$PEP_ID))
+fagpred.wsite <- fagpred.wsite[with(fagpred.wsite, order(PEP_ID, fagpred)),]
+plot(fagpred.wsite$fagpred~meanfaguse$mean, asp=1)
+
+
 # an example of a couple outlier from above:
 if(FALSE){
 # here's a high one (160)  
@@ -291,11 +300,11 @@ ggplot() +
 
 
 
-## Code from Cat, need to go through ##
-## Also need to change bet to betall ... and fag to fagall ##
 
+## Code from Cat ##
 ## Removes anything without a BBCH, makes things into date, take first observation at each site ##
-
+if(FALSE){
+    
 bet<-betall%>%dplyr::rename("lat" = LAT)%>%dplyr::rename("long"=LON)
 x<-paste(bet$YEAR, bet$DAY)
 bet$date<-as.Date(strptime(x, format="%Y %j"))
@@ -318,7 +327,7 @@ bet$bb<-bet$DAY
 
 db<-dplyr::select(bet, year, BBCH, bb, lat, long, species, date)
 
-fag<-fag%>%dplyr::rename("lat" = LAT)%>%dplyr::rename("long"=LON)
+fag<-fagall%>%dplyr::rename("lat" = LAT)%>%dplyr::rename("long"=LON)
 x<-paste(fag$YEAR, fag$DAY)
 fag$date<-as.Date(strptime(x, format="%Y %j"))
 fag$year<-as.numeric(substr(fag$date, 0,4))
@@ -342,3 +351,4 @@ df<-dplyr::select(fag, year, BBCH, bb, lat, long, species, date)
 
 d<- full_join(df, db)
 
+}
