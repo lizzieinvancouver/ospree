@@ -5,7 +5,6 @@
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
 ## TO DO! ##
-# rerun on a lower number of years threshold (10 years?)
 # add priors to models and rerun!
 
 ## Clear workspace
@@ -14,8 +13,8 @@ options(stringsAsFactors=FALSE)
 graphics.off()
 
 ## Say whether or not you want to run stan!
-runstan = TRUE
-mapsandsummaries = FALSE # these are just summaries for mapping (they're slow but not terribly)
+runstan = FALSE
+mapsandsummaries = TRUE # these are just summaries for mapping (they're slow but not terribly)
 ncores = 2 # how many cores to use, only applies when runstan=TRUE
 
 ## Load libraries
@@ -198,8 +197,12 @@ save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
 
 # If not running stan, then we load the stan runs here ...
 if(!runstan) {
-load("stan/output/fit.hinge.bet.Rda")
-load("stan/output/fit.hinge.fag.Rda")
+# Below versions use data with 10 years or more
+load("stan/output/fit.hinge.bet.Rda") # mu of 113.5 and -0.35, 9700 sites
+load("stan/output/fit.hinge.fag.Rda") # mu of 121.4 and -0.33, 8300 sites
+# Versions using data with only 20 or more years
+# load("stan/output/fit.hinge.20yr.bet.Rda") # mu of 113.4 and -0.35, 5400 sites
+# load("stan/output/fit.hinge.20yr.fag.Rda") # mu of 121.4 and -0.34, 6600 sites
 }
 
 
@@ -214,7 +217,7 @@ sumerf[grep("mu_", rownames(sumerf)),]
 mean(faguse$YEAR)
 # ... and Betula
 mean(betuse$YEAR)
-sumerb <- summary(fit.hinge)$summary
+sumerb <- summary(fit.hinge.bet)$summary
 sumerb[grep("mu_", rownames(sumerb)),]
 
 getstanpred <- function(dat, sitecolname, stansummary, predyear){
@@ -251,6 +254,9 @@ betpred.lin <- getlinpred(betuse, "PEP_ID", 3)
 
 plot(fagpred~fagpred.lin$pred, asp=1)
 abline(lm(fagpred~fagpred.lin$pred))
+
+plot(betpred~betpred.lin$pred, asp=1)
+abline(lm(betpred~betpred.lin$pred))
 
 # Compare with mean values
 fagpred.wsite <- data.frame(fagpred=fagpred, PEP_ID=unique(faguse$PEP_ID))
