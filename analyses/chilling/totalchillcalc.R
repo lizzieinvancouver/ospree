@@ -95,6 +95,7 @@ for(i in 1:nrow(chilldat)) {
            }
            
            colnames(expchillcalcs)[3:5] <- c("Exp_Chilling_Hours","Exp_Utah_Model","Exp_Chill_portions")
+
 #Merge field and experimental chilling data with the rest of the data
 #Add experimental chilling. Right number of rows = 12862 rows, 63 columns
            dat3 <- merge(d, expchillcalcs, 
@@ -119,10 +120,11 @@ for(i in 1:nrow(chilldat)) {
            chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-03-14_0" & chillcalcs$End_year==2011),]
            
            dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date2",match="all")
-           #108 rows aded in this join....not sure why. look for duplicates in dat3
-           ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
-           length(dat3$ID_fieldsample.date2[duplicated(dat3$ID_fieldsample.date2)])
            #dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date2", match="all") #Added by Cat
+           #We realized that some sites have included chilling estimates (rather than chiltemp and chillhours). Here we add those studies in:
+           #unique(dat4$cu.model)
+           #Four studies have field chilling reported with the utah model: "biasi12"    "cook00b"    "heide93"    "skuterud94"
+          dat4$Field_Utah_Model[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]<-dat4$field.chill.units[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]#149 rows
            
            ### Now add column for total chilling (field plus experimental)
            ### First, total chilling = exp and field
@@ -138,4 +140,8 @@ for(i in 1:nrow(chilldat)) {
            dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Total_Chilling_Hours<-dat4[which(is.na(dat4$Field_Chilling_Hours)),]$Exp_Chilling_Hours
            dat4[which(is.na(dat4$Field_Utah_Model)),]$Total_Utah_Model<-dat4[which(is.na(dat4$Field_Utah_Model)),]$Exp_Utah_Model
            dat4[which(is.na(dat4$Field_Chill_portions)),]$Total_Chill_portions<-dat4[which(is.na(dat4$Field_Chill_portions)),]$Exp_Chill_portions
-          
+           #check which sites are missing chilling data:
+           #unique(dat4$datasetID[which(is.na(dat4$Total_Utah_Model))])
+           
+           stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")
+           
