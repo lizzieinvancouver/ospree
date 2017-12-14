@@ -5,6 +5,9 @@
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
 
 ## TO DO! ##
+# work on code starting at: compare model fits
+# Check what year I should predict for and write out predicted DOY values for Nacho
+# add some code showing shinystan
 # add priors to models and rerun!
 
 ## Clear workspace
@@ -14,7 +17,7 @@ graphics.off()
 
 ## Say whether or not you want to run stan!
 runstan = FALSE
-mapsandsummaries = TRUE # these are just summaries for mapping (they're slow but not terribly)
+mapsandsummaries = FALSE # these are just summaries for mapping (they're slow but not terribly)
 ncores = 2 # how many cores to use, only applies when runstan=TRUE
 
 ## Load libraries
@@ -82,6 +85,8 @@ bet11 <- subset(betall, BBCH==11)
 betuse <- bet11[which(bet11$PEP_ID %in% bet10$PEP_ID),]
 fag11 <- subset(fagall, BBCH==11)
 faguse <- fag11[which(fag11$PEP_ID %in% fag10$PEP_ID),]
+betuse20 <- bet11[which(bet11$PEP_ID %in% bet20$PEP_ID),]
+faguse20 <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 
 
 ####################################
@@ -197,12 +202,14 @@ save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
 
 # If not running stan, then we load the stan runs here ...
 if(!runstan) {
+# Versions using data with only 20 or more years
+load("stan/output/fit.hinge.20yr.bet.Rda") # mu of 113.4 and -0.35, 5400 sites ("fit.hinge")
+load("stan/output/fit.hinge.20yr.fag.Rda") # mu of 121.4 and -0.34, 6600 sites
+fit.hinge.bet20 <- fit.hinge
+fit.hinge.fag20 <- fit.hinge.fag
 # Below versions use data with 10 years or more
 load("stan/output/fit.hinge.bet.Rda") # mu of 113.5 and -0.35, 9700 sites
 load("stan/output/fit.hinge.fag.Rda") # mu of 121.4 and -0.33, 8300 sites
-# Versions using data with only 20 or more years
-# load("stan/output/fit.hinge.20yr.bet.Rda") # mu of 113.4 and -0.35, 5400 sites
-# load("stan/output/fit.hinge.20yr.fag.Rda") # mu of 121.4 and -0.34, 6600 sites
 }
 
 
@@ -220,16 +227,20 @@ mean(betuse$YEAR)
 sumerb <- summary(fit.hinge.bet)$summary
 sumerb[grep("mu_", rownames(sumerb)),]
 
+
 getstanpred <- function(dat, sitecolname, stansummary, predyear){
     siteslist <- unique(dat[sitecolname])
     sumer.ints <- stansummary[grep("a\\[", rownames(stansummary)),]
     sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
-    predhere <- c()
+    stanfit <- data.frame(m=as.numeric(rep(NA, nrow(siteslist))),
+        pred=as.numeric(rep(NA, nrow(siteslist))), site=siteslist)
     for (sitehere in c(1:nrow(siteslist))){
-        predhere[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
+        stanfit$m[sitehere] <- sumer.slopes[sitehere]
+        stanfit$pred[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
     }
-    return(predhere)
+    return(stanfit)
     }
+
 
 # Reminder, 1980 is 0 in our model...
 fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
@@ -252,17 +263,30 @@ getlinpred <- function(dat, sitecolname, predyear){
 fagpred.lin <- getlinpred(faguse, "PEP_ID", 3)
 betpred.lin <- getlinpred(betuse, "PEP_ID", 3)
 
-plot(fagpred~fagpred.lin$pred, asp=1)
-abline(lm(fagpred~fagpred.lin$pred))
+plot(fagpred$pred~fagpred.lin$pred, asp=1)
+abline(lm(fagpred$pred~fagpred.lin$pred))
 
 plot(betpred~betpred.lin$pred, asp=1)
 abline(lm(betpred~betpred.lin$pred))
 
 # Compare with mean values
-fagpred.wsite <- data.frame(fagpred=fagpred, PEP_ID=unique(faguse$PEP_ID))
+fagpred.wsite <- data.frame(fagpred=fagpred$pred, PEP_ID=unique(faguse$PEP_ID))
 fagpred.wsite <- fagpred.wsite[with(fagpred.wsite, order(PEP_ID, fagpred)),]
 plot(fagpred.wsite$fagpred~meanfaguse$mean, asp=1)
 
+
+# compare model fits, I don't this is working yet!
+if(FALSE) {
+sumerb20 <- summary(fit.hinge.bet20)$summary
+sumerf20 <- summary(fit.hinge.fag20)$summary
+fagpred20 <- getstanpred(faguse20, "PEP_ID", sumerf20, 3)
+betpred20 <- getstanpred(betuse20, "PEP_ID", sumerb20, 3)
+fagm <- merge(fagpred20, fagpred, by="PEP_ID", suffixes=c(20, 10))
+betm <- merge(betpred20, betpred, by="PEP_ID", suffixes=c(20, 10))
+plot(pred20~pred10, data=fagm)
+plot(m20~m10, data=fagm)
+
+    }
 
 # an example of a couple outlier from above:
 if(FALSE){
