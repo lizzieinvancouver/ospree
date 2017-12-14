@@ -68,7 +68,7 @@ d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<- -122.760447
 
 # Add continent to those that do not have it and use consistent capitalization
-unique(d[d$continent=="",]$datasetID)
+#unique(d[d$continent=="",]$datasetID)
 d[d$datasetID=="caffarra11a",]$continent <- "europe"
 d[d$datasetID=="caffarra11b",]$continent <- "europe"
 d[d$datasetID=="cook05",]$continent <- "Africa"
@@ -80,10 +80,14 @@ d[d$datasetID=="Heide03",]$continent <- "europe"
 d[d$datasetID=="heide05",]$continent <-"europe"
 d[d$datasetID=="heide05" & d$population.detail=="USA",]$continent <- "North America"
 d[d$datasetID=="heide11",]$continent <-"europe"
+d[d$datasetID=="karlsson03",]$continent <- "europe"
+d[d$datasetID=="laube14a",]$continent <- "europe"
 d[d$datasetID=="myking95",]$continent <-"europe"
 d[d$datasetID=="pettersen71",]$continent <- "europe"
 d[d$datasetID=="viheraaarnio06",]$continent <- "europe"
 d[d$datasetID=="worrall67",]$continent <- "north america"
+d[d$datasetID=="zohner16",]$continent <- "europe"
+
 d[d$continent=="Europe",]$continent <- "europe"
 d[d$continent=="North America",]$continent <- "north america"
 d[d$continent=="South America",]$continent <- "south america"
