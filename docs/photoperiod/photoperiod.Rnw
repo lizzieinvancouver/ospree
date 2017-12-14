@@ -221,22 +221,23 @@ for(i in 1:length(photop_all$lat)){
   
   #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date. Eventually, date should be latitude-specific greenup date. For now, choose March 20 as a date.
   #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
-phendate<-79#march 20  
-latshift<-seq(0,20,by=.1)
+phendate<-79#march 20 . eventually we should replace this with spring greenup date for that latitude
+latshift<-seq(0,40,by=.1)#look at dayslengths of latitudes frmo study site to study site pluy 40 degrees
 photos_spat<-daylength(photop_all$lat[i]+latshift, phendate)
 #photop$space[i]<-
+ maxdelta_space<-max(photos_spat, na.rm=TRUE)-min(photos_spat, na.rm=TRUE)#maxim
+delta_space<-photos_spat-photos_spat[1]#change in daylength latitudes ranging from study site to study site pluy 40 degrees
 
+ if(maxdelta_space<photop_all$delta[i]){photop_all$space[i]<-"ER"}#exceeds range
+ else
+  photop_all$space[i]<-latshift[min(which(round(delta_space, digits=2)==photop_all$delta[i]))]#select min lat shift required to get change in daylength in experiments
   }
-
-
-
 
 
 photop_table<-subset(photop_all, select=c(idstudy, continent,lat, long,daylength_range,delta,space,time))
 colnames(photop_table)[5]<-"day_range"
 #,"daylength","spatial","temporal"
-photop_table$delta<-round(photop_table$delta,digits=2)
-photop.table<-xtable(photop_table,digits=3,
+photop.table<-xtable(photop_table,digits=2,
   caption="Growth chamber experiments and their photoperiod treatments. ER indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.",label="table:phototreats",align=c(
                 "|p{0.01\\textwidth}",            
                 "|p{0.18\\textwidth}",
