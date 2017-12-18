@@ -362,7 +362,7 @@ rm(checking,ospree_clean_respvar,xx,xz,yy,yz)
 stop("Not an error, just stopping here to say we're now done cleaning respvar. The d item in your workspace is now all cleaned up for its respvar. Yay!")
 
 ##
-write.csv(d, file = "output/ospree_clean_respvar.csv", row.names=FALSE)
+#write.csv(d, file = "output/ospree_clean_respvar.csv", row.names=FALSE)
 simple.count<-as.data.frame(table(d$respvar.simple))
 
 
