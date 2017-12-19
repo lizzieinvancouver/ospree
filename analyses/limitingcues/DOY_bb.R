@@ -219,7 +219,7 @@ load("stan/output/fit.hinge.fag.Rda") # mu of 121.4 and -0.33, 8300 sites
 # Okay, now get predictions, there seems to be no easy way to do this in base Stan:http://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/5
 
 # To Do! Below assumes that Stan does not sort my sites, should check this!!!
-sumerf <- summary(fit.hinge.fag)$summary # mu_a is 121 and mu_b is -0.34
+sumerf <- summary(fit.hinge.fag)$summary
 sumerf[grep("mu_", rownames(sumerf)),]
 mean(faguse$YEAR)
 # ... and Betula
@@ -241,6 +241,49 @@ getstanpred <- function(dat, sitecolname, stansummary, predyear){
     return(stanfit)
     }
 
+#####
+#####
+#####
+
+
+# compare model fits, I don't this is working yet!
+if(FALSE){
+sumerb20 <- summary(fit.hinge.bet20)$summary
+sumerf20 <- summary(fit.hinge.fag20)$summary
+fagpred20 <- getstanpred(faguse20, "PEP_ID", sumerf20, 3)
+betpred20 <- getstanpred(betuse20, "PEP_ID", sumerb20, 3)
+fagm <- merge(fagpred20, fagpred, by="PEP_ID", suffixes=c(20, 10))
+betm <- merge(betpred20, betpred, by="PEP_ID", suffixes=c(20, 10))
+plot(pred20~pred10, data=fagm)
+plot(m20~m10, data=fagm)
+summary(lm(m20~m10, data=fagm))
+
+## Trying to re-order the dataframes
+getstanpredALT <- function(dat, sitecolname, stansummary, predyear){
+    sites.dfall <- data.frame(site.stan=as.numeric(as.factor(unlist((dat[sitecolname])))),
+        PEP_ID=unlist(dat[sitecolname]), count=rep(1, nrow(dat)))
+    # sites.df <- aggregate(sites.dfall["count"], sites.dfall[c("site.stan", "PEP_ID")], FUN=length) # this commented out method sorts the data from 1:nsite, which I think is what also happens just above (with getstanpred)
+    sites.df <-  data.frame(site.stan=unique(sites.dfall$site.stan), PEP_ID=unique(sites.dfall$PEP_ID)) # this method retains the given order
+    sumer.ints <- stansummary[grep("a\\[", rownames(stansummary)),]
+    sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
+    stanfit <- data.frame(m=as.numeric(rep(NA, nrow(sites.df))),
+        pred=as.numeric(rep(NA, nrow(sites.df))), PEP_ID=sites.df$PEP_ID)
+    for (sitehere in c(1:nrow(sites.df))){
+        stanfit$m[sitehere] <- sumer.slopes[sitehere]
+        stanfit$pred[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
+    }
+    return(stanfit)
+    }
+fagpredA <- getstanpredALT(faguse, "PEP_ID", sumerf, 3)
+fagpredA20 <- getstanpredALT(faguse20, "PEP_ID", sumerf20, 3)
+fagm <- merge(fagpredA20, fagpredA, by="PEP_ID", suffixes=c(20, 10), all.x=FALSE, all.y=FALSE)
+plot(m20~m10, data=fagm)
+summary(lm(m20~m10, data=fagm))
+
+}
+#####
+#####
+#####
 
 # Reminder, 1980 is 0 in our model...
 fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
@@ -275,18 +318,6 @@ fagpred.wsite <- fagpred.wsite[with(fagpred.wsite, order(PEP_ID, fagpred)),]
 plot(fagpred.wsite$fagpred~meanfaguse$mean, asp=1)
 
 
-# compare model fits, I don't this is working yet!
-if(FALSE) {
-sumerb20 <- summary(fit.hinge.bet20)$summary
-sumerf20 <- summary(fit.hinge.fag20)$summary
-fagpred20 <- getstanpred(faguse20, "PEP_ID", sumerf20, 3)
-betpred20 <- getstanpred(betuse20, "PEP_ID", sumerb20, 3)
-fagm <- merge(fagpred20, fagpred, by="PEP_ID", suffixes=c(20, 10))
-betm <- merge(betpred20, betpred, by="PEP_ID", suffixes=c(20, 10))
-plot(pred20~pred10, data=fagm)
-plot(m20~m10, data=fagm)
-
-    }
 
 # an example of a couple outlier from above:
 if(FALSE){
