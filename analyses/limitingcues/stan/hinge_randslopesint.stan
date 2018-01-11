@@ -37,5 +37,13 @@ model {
   y ~ normal(ypred, sigma_y);
   a ~ normal(mu_a, sigma_a); 
   b ~ normal(mu_b, sigma_b);
+
+//priors
+  sigma_y ~ normal(0, 30);
+  mu_a ~ normal(0, 50);
+  sigma_a ~ normal(0, 30);
+  mu_b ~ normal(0, 30);
+  sigma_b ~ normal(0, 30);
+
 } 
 

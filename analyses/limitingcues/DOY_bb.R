@@ -3,6 +3,9 @@
 ## Updates by Lizzie ##
 
 ## Lizzie worked off some code from projects/misc/pep725/pep725spp.R ##
+## In meeting with Andrew on 21 Dec 2017 he confirmed that Stan will:
+# (1) reorganize your grouping factor (e.g., our SITE) into a numeric
+# (2) present it to you consequetively
 
 ## TO DO! ##
 # work on code starting at: compare model fits
@@ -17,7 +20,9 @@ graphics.off()
 
 ## Say whether or not you want to run stan!
 runstan = FALSE
-mapsandsummaries = FALSE # these are just summaries for mapping (they're slow but not terribly)
+mapsandsummaries = TRUE # these are just summaries for mapping (they're slow but not terribly), note that right now they run for the 10+ year dataset
+use20yrs = FALSE # Otherwise it uses all data with 10 or more years
+shinystancheck = FALSE # If you want to look at output in shiny stan
 ncores = 2 # how many cores to use, only applies when runstan=TRUE
 
 ## Load libraries
@@ -38,6 +43,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 ## Grab the data
 betall <- read.csv("input/PEP_betpen.csv", header=TRUE)
 fagall <- read.csv("input/PEP_fagsyl.csv", header=TRUE)
+
+betall <- betall[order(betall$PEP_ID),]
+fagall <- fagall[order(fagall$PEP_ID),]
 
 #################################
 ## Look at the data and format ##
@@ -82,9 +90,9 @@ length(unique(betagg$ID2))
 
 # Subset the data based on the above for now ...
 bet11 <- subset(betall, BBCH==11)
-betuse <- bet11[which(bet11$PEP_ID %in% bet10$PEP_ID),]
+betuse10 <- bet11[which(bet11$PEP_ID %in% bet10$PEP_ID),]
 fag11 <- subset(fagall, BBCH==11)
-faguse <- fag11[which(fag11$PEP_ID %in% fag10$PEP_ID),]
+faguse10 <- fag11[which(fag11$PEP_ID %in% fag10$PEP_ID),]
 betuse20 <- bet11[which(bet11$PEP_ID %in% bet20$PEP_ID),]
 faguse20 <- fag11[which(fag11$PEP_ID %in% fag20$PEP_ID),]
 
@@ -109,20 +117,37 @@ meanfag <-
       sd = sd(DAY),
       sem = sd(DAY)/sqrt(length(DAY)))
 
+if(use20yrs){
 meanbetuse <-
-      ddply(betuse, c("PEP_ID", "LON", "LAT"), summarise,
+      ddply(betuse20, c("PEP_ID", "LON", "LAT"), summarise,
       mean = mean(DAY),
       mean.yr = mean(YEAR),
       sd = sd(DAY),
       sem = sd(DAY)/sqrt(length(DAY)))
 
 meanfaguse <-
-      ddply(faguse, c("PEP_ID", "LON", "LAT"), summarise,
+      ddply(faguse20, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+}
+
+if(!use20yrs){
+meanbetuse <-
+      ddply(betuse10, c("PEP_ID", "LON", "LAT"), summarise,
       mean = mean(DAY),
       mean.yr = mean(YEAR),
       sd = sd(DAY),
       sem = sd(DAY)/sqrt(length(DAY)))
 
+meanfaguse <-
+      ddply(faguse10, c("PEP_ID", "LON", "LAT"), summarise,
+      mean = mean(DAY),
+      mean.yr = mean(YEAR),
+      sd = sd(DAY),
+      sem = sd(DAY)/sqrt(length(DAY)))
+}
 
 
 # get the map and set the theme
@@ -150,33 +175,58 @@ ggplot() +
 ## Fit hinge models for each species (in Stan) ##
 #################################################
 
+# f(x) create new column for PEP_ID ordering
+pepnumber <- function(dat, sitecolname){
+   df <- data.frame(PEP_ID=unique(as.numeric(unlist(dat[sitecolname]))),
+       peporder=c(1:length(unique(unlist(dat[sitecolname])))))
+   datmerge <- merge(dat, df, by=sitecolname)
+   return(datmerge)
+}
+
+# Option to run the 20 year data
+if(use20yrs){
+betuse <- pepnumber(betuse20, "PEP_ID")
+faguse <- pepnumber(faguse20, "PEP_ID")
+}
+
+if(!use20yrs){
+betuse <- pepnumber(betuse10, "PEP_ID")
+faguse <- pepnumber(faguse10, "PEP_ID")
+}
+
+# now add hinge
 betuse$YEAR.hin <- betuse$YEAR
 betuse$YEAR.hin[which(betuse$YEAR.hin<1980)] <- 1980
-betuse$PEP_ID <- as.character(betuse$PEP_ID)
 betuse$YEAR.hin <- betuse$YEAR.hin-1980
+    # Note that I tried centering and scaling doy and it did not speed up much. The 20 yrs model still said: 1000 transitions using 10 leapfrog steps per transition would take 215.36 seconds.
 
 faguse$YEAR.hin <- faguse$YEAR
 faguse$YEAR.hin[which(faguse$YEAR.hin<1980)] <- 1980
-faguse$PEP_ID <- as.character(faguse$PEP_ID)
 faguse$YEAR.hin <- faguse$YEAR.hin-1980
+
 # Note to self: for betula lmer will fit random intercepts but not random slopes
 
 if(runstan) {
 # betula
 N <- nrow(betuse)
 y <- betuse$DAY
-J <- length(unique(betuse$PEP_ID))
-sites <- as.numeric(as.factor((betuse$PEP_ID)))
+J <- length(unique(betuse$peporder))
+sites <- betuse$peporder
 year <- betuse$YEAR.hin
 # nVars <-1
 # Imat <- diag(1, nVars)
 
-# Whoa! I think the model runs when I use all data ... must check more!
 fit.hinge.bet <- stan("stan/hinge_randslopesint.stan",
-    data=c("N","J","y","sites","year"), iter=2000, chains=4, cores=ncores)
+    data=c("N","J","y","sites","year"), iter=2500, warmup=1500,
+    chains=4, cores=ncores)
     # control = list(adapt_delta = 0.95, max_treedepth = 15))
 
+if(!use20yrs){
 save(fit.hinge.bet, file="stan/output/fit.hinge.bet.Rda")
+}
+if(use20yrs){
+save(fit.hinge.bet, file="stan/output/fit.hinge.20yr.bet.Rda")
+}
 
 # the above model was returning a few divergent transitions (model ran fast but led to 52 div transition and obvious issues in fitting sigma_b) when I ran it on this subset of the data though:
 # betuse <- betuse[1:5000,]
@@ -188,8 +238,8 @@ save(fit.hinge.bet, file="stan/output/fit.hinge.bet.Rda")
 # Now do fagus
 Nf <- nrow(faguse)
 yf <- faguse$DAY
-Jf <- length(unique(faguse$PEP_ID))
-sitesf <- as.numeric(as.factor((faguse$PEP_ID)))
+Jf <- length(unique(faguse$peporder))
+sitesf <- faguse$peporder
 yearf <- faguse$YEAR.hin
 # nVars <-1
 # Imat <- diag(1, nVars)
@@ -197,7 +247,13 @@ yearf <- faguse$YEAR.hin
 fit.hinge.fag <- stan("stan/hinge_randslopesint.stan",
     data=list(N=Nf, J=Jf, y=yf, sites=sitesf, year=yearf), iter=2000, chains=4, cores=ncores)
 
+if(!use20yrs){
 save(fit.hinge.fag, file="stan/output/fit.hinge.fag.Rda")
+}
+if(use20yrs){
+save(fit.hinge.fag, file="stan/output/fit.hinge.20yr.fag.Rda")
+}
+
 }
 
 # If not running stan, then we load the stan runs here ...
@@ -205,20 +261,30 @@ if(!runstan) {
 # Versions using data with only 20 or more years
 load("stan/output/fit.hinge.20yr.bet.Rda") # mu of 113.4 and -0.35, 5400 sites ("fit.hinge")
 load("stan/output/fit.hinge.20yr.fag.Rda") # mu of 121.4 and -0.34, 6600 sites
-fit.hinge.bet20 <- fit.hinge
+fit.hinge.bet20 <- fit.hinge.bet
 fit.hinge.fag20 <- fit.hinge.fag
 # Below versions use data with 10 years or more
 load("stan/output/fit.hinge.bet.Rda") # mu of 113.5 and -0.35, 9700 sites
 load("stan/output/fit.hinge.fag.Rda") # mu of 121.4 and -0.33, 8300 sites
 }
 
+if(!runstan) {
+if(shinystancheck) {
+library(shinystan)
+# for both betula models: could run warmup longer and try to get neff up for sigma_b and logposterior
+launch_shinystan(fit.hinge.bet) 
+launch_shinystan(fit.hinge.fag)
+launch_shinystan(fit.hinge.bet20) 
+launch_shinystan(fit.hinge.fag20) # looks good
+    }
+}
 
 ###################################
 ## Get predictions for each species ##
 ###################################
 # Okay, now get predictions, there seems to be no easy way to do this in base Stan:http://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/5
 
-# To Do! Below assumes that Stan does not sort my sites, should check this!!!
+# Stan does sort my sites, so need to re-sort to match to PEP_ID
 sumerf <- summary(fit.hinge.fag)$summary
 sumerf[grep("mu_", rownames(sumerf)),]
 mean(faguse$YEAR)
@@ -229,65 +295,42 @@ sumerb[grep("mu_", rownames(sumerb)),]
 
 
 getstanpred <- function(dat, sitecolname, stansummary, predyear){
-    siteslist <- unique(dat[sitecolname])
+    siteslist <- unlist(unique(dat[sitecolname]))
     sumer.ints <- stansummary[grep("a\\[", rownames(stansummary)),]
     sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
-    stanfit <- data.frame(m=as.numeric(rep(NA, nrow(siteslist))),
-        pred=as.numeric(rep(NA, nrow(siteslist))), site=siteslist)
-    for (sitehere in c(1:nrow(siteslist))){
+    stanfit <- data.frame(m=as.numeric(rep(NA, length(siteslist))),
+        pred=as.numeric(rep(NA, length(siteslist))), site=siteslist)
+    for (sitehere in c(1:length(siteslist))){
         stanfit$m[sitehere] <- sumer.slopes[sitehere]
         stanfit$pred[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
     }
     return(stanfit)
     }
 
-#####
-#####
-#####
 
+# Reminder, 1980 is 0 in our model...
+fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
+betpred <- getstanpred(betuse, "PEP_ID", sumerb, 3)
 
-# compare model fits, I don't this is working yet!
+# add species to be safe
+fagpred$sp <- "fagsyl"
+betpred$sp <- "betpen"
+
+# Compare model fits between 10 and 20 year cut-off 
 if(FALSE){
 sumerb20 <- summary(fit.hinge.bet20)$summary
 sumerf20 <- summary(fit.hinge.fag20)$summary
 fagpred20 <- getstanpred(faguse20, "PEP_ID", sumerf20, 3)
 betpred20 <- getstanpred(betuse20, "PEP_ID", sumerb20, 3)
-fagm <- merge(fagpred20, fagpred, by="PEP_ID", suffixes=c(20, 10))
-betm <- merge(betpred20, betpred, by="PEP_ID", suffixes=c(20, 10))
+fagm <- merge(fagpred20, fagpred, by="site", suffixes=c(20, 10))
+betm <- merge(betpred20, betpred, by="site", suffixes=c(20, 10))
 plot(pred20~pred10, data=fagm)
 plot(m20~m10, data=fagm)
 summary(lm(m20~m10, data=fagm))
-
-## Trying to re-order the dataframes
-getstanpredALT <- function(dat, sitecolname, stansummary, predyear){
-    sites.dfall <- data.frame(site.stan=as.numeric(as.factor(unlist((dat[sitecolname])))),
-        PEP_ID=unlist(dat[sitecolname]), count=rep(1, nrow(dat)))
-    # sites.df <- aggregate(sites.dfall["count"], sites.dfall[c("site.stan", "PEP_ID")], FUN=length) # this commented out method sorts the data from 1:nsite, which I think is what also happens just above (with getstanpred)
-    sites.df <-  data.frame(site.stan=unique(sites.dfall$site.stan), PEP_ID=unique(sites.dfall$PEP_ID)) # this method retains the given order
-    sumer.ints <- stansummary[grep("a\\[", rownames(stansummary)),]
-    sumer.slopes <- stansummary[grep("b\\[", rownames(stansummary)),]
-    stanfit <- data.frame(m=as.numeric(rep(NA, nrow(sites.df))),
-        pred=as.numeric(rep(NA, nrow(sites.df))), PEP_ID=sites.df$PEP_ID)
-    for (sitehere in c(1:nrow(sites.df))){
-        stanfit$m[sitehere] <- sumer.slopes[sitehere]
-        stanfit$pred[sitehere] <- sumer.ints[sitehere]+sumer.slopes[sitehere]*predyear
-    }
-    return(stanfit)
-    }
-fagpredA <- getstanpredALT(faguse, "PEP_ID", sumerf, 3)
-fagpredA20 <- getstanpredALT(faguse20, "PEP_ID", sumerf20, 3)
-fagm <- merge(fagpredA20, fagpredA, by="PEP_ID", suffixes=c(20, 10), all.x=FALSE, all.y=FALSE)
-plot(m20~m10, data=fagm)
-summary(lm(m20~m10, data=fagm))
-
+plot(m20~m10, data=betm)
+summary(lm(m20~m10, data=betm))
 }
-#####
-#####
-#####
 
-# Reminder, 1980 is 0 in our model...
-fagpred <- getstanpred(faguse, "PEP_ID", sumerf, 3)
-betpred <- getstanpred(betuse, "PEP_ID", sumerb, 3)
 
 # Now do linear fits for each site
 getlinpred <- function(dat, sitecolname, predyear){
@@ -309,31 +352,21 @@ betpred.lin <- getlinpred(betuse, "PEP_ID", 3)
 plot(fagpred$pred~fagpred.lin$pred, asp=1)
 abline(lm(fagpred$pred~fagpred.lin$pred))
 
-plot(betpred~betpred.lin$pred, asp=1)
-abline(lm(betpred~betpred.lin$pred))
+plot(betpred$pred~betpred.lin$pred, asp=1)
+abline(lm(betpred$pred~betpred.lin$pred))
 
 # Compare with mean values
 fagpred.wsite <- data.frame(fagpred=fagpred$pred, PEP_ID=unique(faguse$PEP_ID))
 fagpred.wsite <- fagpred.wsite[with(fagpred.wsite, order(PEP_ID, fagpred)),]
-plot(fagpred.wsite$fagpred~meanfaguse$mean, asp=1)
+plot(fagpred.wsite$fagpred~meanfaguse$mean, asp=1) # need to run this above (commented out just now)
 
-
-
-# an example of a couple outlier from above:
+# an example of an outlier from above, so you can look at why some things are pooled:
 if(FALSE){
 # here's a high one (160)  
     which(fagpred.lin$pred>160)
-    unique(faguse$PEP_ID)[103]
-    subset(faguse, PEP_ID=="19666")
-    goo <- subset(faguse, PEP_ID=="19666") # note that only one year is later than 1980 and it is a really late year....
-    mean(goo$DAY)
-    mod <- lm(DAY~YEAR.hin, data=goo)
-    summary(mod)
-# and a low one
-    which(fagpred.lin$pred>160)
-    unique(faguse$PEP_ID)[378]
-    subset(faguse, PEP_ID=="4365")
-    goo <- subset(faguse, PEP_ID=="4365") # note that (again) only one year is later than 1980
+    unique(faguse$PEP_ID)[1044]
+    subset(faguse, PEP_ID=="1707")
+    goo <- subset(faguse, PEP_ID=="1707") # note that only one year is later than 1980 and it is a really late year....
     mean(goo$DAY)
     mod <- lm(DAY~YEAR.hin, data=goo)
     summary(mod)
@@ -346,21 +379,24 @@ sumerb.df <- data.frame(PEP_ID=meanbetuse$PEP_ID, lat=meanbetuse$LAT, lon=meanbe
 sumerf.df <- data.frame(PEP_ID=meanfaguse$PEP_ID, lat=meanfaguse$LAT, lon=meanfaguse$LON,
    pred1983=fagpred)
 
-datplot <- sumerb.df
+datplot <- sumerf.df
 ggplot() + 
   geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
   coord_cartesian(ylim=c(30, 75), xlim=c(-15, 40)) +
   geom_point(data=datplot, 
-             aes(x=lon,lat, fill=pred1983), 
+             aes(x=lon,lat, fill=pred1983.pred), 
              colour="dodgerblue4", pch=21) +
   theme.tanmap
 }
 
+## Write out the data for the 10 year models ##
 
+write.csv(sumerb.df, "output/betpred.wlatlong.csv", row.names=FALSE)
+write.csv(sumerf.df, "output/fagpred.wlatlong.csv", row.names=FALSE)
 
-
-
-
+###################
+###################
+###################
 
 ## Code from Cat ##
 ## Removes anything without a BBCH, makes things into date, take first observation at each site ##
