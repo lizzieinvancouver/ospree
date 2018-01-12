@@ -1,4 +1,4 @@
-﻿Started 22 March 2017
+Started 22 March 2017
 by Cat 
 Follow-up by Nacho (11 April 2017)
 Follow-up by Lizzie (throughout June-July 2017)
@@ -20,9 +20,9 @@ It:
 
 4. source bb_analysis/cleaning/multiresp.R, flags any studies that have both percent budburst and days to budburst, and studies thermal time and days to budburst studies. It then removes studies with more than one response variable for the same treatments, keeping first daystobudburst, then percentbudburst, then thermaltime. It also deals with two studies where creation of respvar.simple collapsed two different response variables (see the file for more info). 
 
-5. sources clean_ambientforcing.R, which cleans the forcing predictor variable
-
-5b. sources clean_ambientforcingfromdailyclimate.R, which extracts ambient temperature data for experiments where we know procecence and time to budburst.
+5a. sources clean_ambientforcing.R, which cleans the forcing predictor variable
+5b. sources a check of the date of daily climate files used on 5c. (of interest if we update daily climate files after the date listed.) this step may not be necessary in the long term.
+5c. sources clean_ambientforcingfromdailyclimate.R, which extracts ambient temperature data for experiments where we know procecence and time to budburst.
 
 6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target budburst level (i.e. 80%) with surrounding acceptable range with an allowable buffer (i.e., 40%).
 

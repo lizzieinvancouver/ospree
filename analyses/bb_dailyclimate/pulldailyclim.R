@@ -1,7 +1,7 @@
-## Pull climate data for use in PMP by Lizzie 
+# Pull climate data for use in PMP by Lizzie 
 # By Ailene Ettinger
 # June 14, 2017
-## This code is based on the chillmerge_all.R code, and the first 4 steps are sourced to the chilling folder where cleaning occurs
+# This code is based on the chillmerge_all.R code, and the first 4 steps are sourced to the chilling folder where cleaning occurs
 
 
 ## housekeeping
@@ -64,30 +64,27 @@ dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("dat
 row.names(dailytemp2)<-NULL
 dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
 
-
 # July 2017: You will get a warning message: In addition: Warning message:
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
 #this is ok- it is just getting rid of some extra stuff that is not needed as a column in the resulting "dailytemp3.csv" file
 #write a csv file of the daily Tmin and Tmax data
-write.csv(dailytemp3, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
+write.csv(dailytemp4, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 
-#check code for 1950s studies (ashby)
-#dailytemp3<-read.csv("output/dailytemp.csv")
-#head(dailytemp3)
-#ashby<-dailytemp3[dailytemp3$datasetID=="ashby62",]
-#looks fine, though no climate data exists for  1957= all NAs after March 1957
+#checks:
+#dim(dailytemp4)#51886 rows, 7 columns
+#check data for a few sites:
+#first, for 1950s studies (ashby)
+#dailytemp4<-read.csv("output/dailytemp.csv")
+#head(dailytemp4)
+#ashby<-dailytemp4[dailytemp4$datasetID=="ashby62",]
 #check code for swartz81
-#swartz<-dailytemp3[dailytemp3$datasetID=="swartz81",]
-#seems to be pulling correctly, but no climate data present after june 28, 1980 for this site.
+#swartz<-dailytemp4[dailytemp4$datasetID=="swartz81",]
 #check how many other sites are mising data
-#length(which(is.na(dailytemp3$Tmin)))#26116, which is 11% of all data
-#unique(dailytemp3$datasetID[which(is.na(dailytemp3$Tmin))])#19/50 sites are missing some temperature data
+#length(which(is.na(dailytemp4$Tmin)))#341, which is 0.7% of all data
+#unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#3/18 sites (boyer, giafagna85, and schnabel87) are missing some temperature data
 #Make list of the studies that are missing large amounts of Temp data
-dailytemp4$missingT<-0
-dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
-temptab<-table(dailytemp4$datasetID,dailytemp4$missingT)
-missingtemp<-temptab[temptab[,2]>0,]
-#hmm...all NAM sites are missing large amounts of data, plus one european site (heide93)
-#calme94<-dailytemp3[dailytemp3$datasetID=="calme94",]
-#head(calme94)
-#tail(calme94)
+#dailytemp4$missingT<-0
+#dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
+#temptab<-table(dailytemp4$datasetID,dailytemp4$missingT)
+#missingtemp<-temptab[temptab[,2]>0,]
+

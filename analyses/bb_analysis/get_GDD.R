@@ -38,7 +38,11 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 #pmp.data <- tempval
 #rm(tempval)
 #studiesnames <- names(pmp.data)
-
+#check the date of when these daily climate summary files were created in case they are older than you'd like:
+file.info("output/pmp/percbb_clim_pmpA.csv")$ctime
+file.info("output/pmp/percbb_clim_pmpB.csv")$ctime
+file.info("output/pmp/percbb_clim_pmpC.csv")$ctime
+file.info("output/pmp/percbb_clim_pmpD.csv")$ctime
 clima <- read.csv("output/pmp/percbb_clim_pmpA.csv", header=TRUE)
 climb <- read.csv("output/pmp/percbb_clim_pmpB.csv", header=TRUE)
 climc <- read.csv("output/pmp/percbb_clim_pmpC.csv", header=TRUE)
