@@ -5,6 +5,7 @@
 ## doing some cleaning we should ALL do
 
 ## But! Keep an eye on this file! We probably need to edit it
+checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
 # below file is cleaned, had chilling added and some BB cleaning done also
 bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
@@ -31,6 +32,17 @@ bb.resp$resp <- as.numeric(bb.resp$response.time)
 ## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)
+
+if(checkdataforNAs){
+forceissues <- subset(bb.resp, is.na(force)==TRUE)
+table(forceissues$datasetID)
+photoissues <- subset(bb.resp, is.na(photo)==TRUE)
+table(photoissues$datasetID)
+chillissues <- subset(bb.resp, is.na(chill)==TRUE)
+table(chillissues$datasetID)
+respissues <- subset(bb.resp, is.na(resp)==TRUE)
+table(respissues$datasetID)
+    }
 
 if(FALSE){
 ## what is lost due to NAs?
