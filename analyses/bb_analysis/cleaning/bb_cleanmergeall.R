@@ -61,6 +61,9 @@ d$response.num <- as.numeric(d$response) # only 'timeonly' should be removed her
 d <- d %>% filter(!(response.num<39.99 & respvar.simple=="percentbudburst"))
 d$response.num <- NULL
 
+#10. additional Imput/clean some chilling to try adn get as much data as possible ##added by Dan.
+#source("bb_analysis/cleaning/imput_chilling.R")
+
 # 10. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
 

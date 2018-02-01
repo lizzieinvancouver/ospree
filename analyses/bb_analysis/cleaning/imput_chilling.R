@@ -6,7 +6,7 @@
 ##########################things with NA experiment chill that should be 0 ##chilldays column is already 0 maybe this should be corrected in chilling calculations##########################################
 
 ##sogaard08
-d$??[which(d$datasetID=="sogaard08" & d$study=="exp1a")] <- 0
+d$[which(d$datasetID=="sogaard08" & d$study=="exp1a")] <- 0
 d$??[which(d$datasetID=="sogaard08" & d$study=="exp2")] <- 0
 d$??[which(d$datasetID=="sogaard08" & d$study=="exp3a")] <- 0
 d$??[which(d$datasetID=="sogaard08" & d$study=="exp1b")] <- 0
