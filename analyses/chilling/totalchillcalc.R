@@ -104,9 +104,9 @@ for(i in 1:nrow(chilldat)) {
            all.x=T)
         
            dat3$ID_fieldsample.date2<-paste(dat3$datasetID,dat3$chill.lat,dat3$chill.long,dat3$fieldsample.date2,d2$addexpwarm, sep="_")
-           #Add field chilling calculations to datafile. #still 12862 rows, now 64 columns (3 ways of estimating experimental chilling)
-           ###First, read in chillcalc file, so that you don't have to run the above code with the external hard drive of climate data
-           chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
+           #Add field chilling calculations 
+           ###if you don't have climate data, read in chillcalc file, 
+           #chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
            chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.dim: 235   6
            
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
@@ -143,5 +143,12 @@ for(i in 1:nrow(chilldat)) {
            #check which sites are missing chilling data:
            #unique(dat4$datasetID[which(is.na(dat4$Total_Utah_Model))])
            
+           # chilling is calculated by multiplying chilldays and chilltemp together. 
+           #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
+            dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
+            dat4$Exp_Utah_Model[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
+            dat4$Exp_Chill_portions[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
+            #check
+          #length(dat4$Total_Utah_Model[which(dat4$chilldays=="0")])
            stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")
            
