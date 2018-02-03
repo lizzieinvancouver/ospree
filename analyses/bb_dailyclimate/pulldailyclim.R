@@ -1,6 +1,6 @@
-# Pull climate data for use in PMP by Lizzie 
+# Pull daily climate data (to get forcing data) 
 # By Ailene Ettinger
-# June 14, 2017
+# Started June 14, 2017
 # This code is based on the chillmerge_all.R code, and the first 4 steps are sourced to the chilling folder where cleaning occurs
 
 
@@ -20,10 +20,11 @@ library(dplyr)
 library(tidyr)
 library(plyr)
 library(ncdf4)
+library(Interpol.T)
 
 
 # 1. Get the data
-d <- read.csv("output/ospree_clean.csv")
+d <- read.csv("output/ospree_clean.csv")#should this be "opspree_cleanwithchill?
 
 # 2. Clean the chilltemp column
 
@@ -56,8 +57,8 @@ source("bb_dailyclimate/pulldailyclimate_nam.R")
 
 #4e. If you want to avoid connecting to the external hard drive, then just do this:
 #load this .RData workspace)
-#load("output/fieldclimate_pmp.RData")
-#dailytemp <- do.call("rbind", tempval)
+#load("output/fieldclimate_dailyclim.RData")
+dailytemp <- do.call("rbind", tempval)
 dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 colnames(dailytemp)[1]<-"ID_fieldsample.date2"
 dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
@@ -71,7 +72,7 @@ dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date
 write.csv(dailytemp4, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 
 #checks:
-#dim(dailytemp4)#51886 rows, 7 columns
+#dim(dailytemp4)#228294  rows, 7 columns
 #check data for a few sites:
 #first, for 1950s studies (ashby)
 #dailytemp4<-read.csv("output/dailytemp.csv")
@@ -80,8 +81,8 @@ write.csv(dailytemp4, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #check code for swartz81
 #swartz<-dailytemp4[dailytemp4$datasetID=="swartz81",]
 #check how many other sites are mising data
-#length(which(is.na(dailytemp4$Tmin)))#341, which is 0.7% of all data
-#unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#3/18 sites (boyer, giafagna85, and schnabel87) are missing some temperature data
+#length(which(is.na(dailytemp4$Tmin)))#5612, which is 2.4% of all data (much less than before!)
+#unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#4/18 sites (boyer, giafagna85, heidi93,and schnabel87) are missing some temperature data
 #Make list of the studies that are missing large amounts of Temp data
 #dailytemp4$missingT<-0
 #dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
