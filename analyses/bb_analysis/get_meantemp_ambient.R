@@ -30,12 +30,17 @@ chill.unique.exptreat<-unique(chill.day$uniqueID)
 chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
 chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chilly)
-
-## read in data containing climate each day each site (it's big so it is in pieces)
-clima <- read.csv("output/pmp/percbb_clim_pmpA.csv", header=TRUE)
-climb <- read.csv("output/pmp/percbb_clim_pmpB.csv", header=TRUE)
-climc <- read.csv("output/pmp/percbb_clim_pmpC.csv", header=TRUE)
-climd <- read.csv("output/pmp/percbb_clim_pmpD.csv", header=TRUE)
+#check the date of when these daily climate summary files were created in case they are older than you'd like:
+file.info("output/dailyclim/percbb_dailyclimA.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimB.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimC.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimD.csv")$ctime
+#If those dates are deemed too old by you, then you should rerun
+#'bb_daily_dataprep.R' script (this script is slow)."
+clima <- read.csv("output/dailyclim/percbb_dailyclimA.csv", header=TRUE)
+climb <- read.csv("output/dailyclim/percbb_dailyclimB.csv", header=TRUE)
+climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)
+climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
 climdat <- climdatab[!duplicated(climdatab), ] 
