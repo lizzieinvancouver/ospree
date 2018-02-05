@@ -81,14 +81,14 @@ addstartdat <- subset(bb, select=c("uniqueID", "expstartdate"))
 addstartdat <- addstartdat[!duplicated(addstartdat), ] # down to 1/6 of data ... 
 climdat.wstart <- merge(addstartdat, climdat, by.x="uniqueID", by.y="stn", all.y=TRUE) # currently not losing any data ... 
 climdat.wstart <- climdat.wstart[which(is.na(climdat.wstart$expstartdate)==FALSE),]
-climdat.wstart$date <- as.Date(climdat.wstart$doy2, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
+climdat.wstart$date <- as.Date(climdat.wstart$doy, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
 
 climdat.sm <- subset(climdat.wstart, date>=expstartdate)
                          
 
 ## make GDD column in the climate data
 
-climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy2),]
+climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy),]
 cumsumnona <- function(x){cumsum(ifelse(is.na(x), 0, x)) + x*0}
 countcumna <- function(x){cumsum(is.na(x))}
 climdat.sm$cumgdd <- NA
