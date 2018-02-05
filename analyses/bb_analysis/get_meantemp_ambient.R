@@ -88,8 +88,8 @@ for(i in 1:nrow(bb)){#i=319
   if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
     
     print(i)
-  bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy2==doy.i):
-           which(clim.i$year==year.end.i & clim.i$doy2==doy.end.i),"Tmean"],na.rm=T)
+  bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
+           which(clim.i$year==year.end.i & clim.i$doy==doy.end.i),"Tmean"],na.rm=T)
   #clim.i<-subset(clim.i,year==year.i | year==year.end.i)
   }
   
