@@ -56,6 +56,8 @@ source("bb_dailyclimate/pulldailyclimate_eur.R")
 source("bb_dailyclimate/pulldailyclimate_nam.R")
 
 #4e. If you want to avoid connecting to the external hard drive, then just do this:
+
+
 #load this .RData workspace)
 #load("output/fieldclimate_dailyclim.RData")
 dailytemp <- do.call("rbind", tempval)
