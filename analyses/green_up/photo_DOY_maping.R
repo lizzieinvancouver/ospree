@@ -54,7 +54,6 @@ plot(dfr2)+title("Day length with geosphere") #geosphere
 
 #trouble shooting: check comparison for first row in dat
 geosphere::daylength(49.41667,121)
-insol::daylength(49.41667,-95.12500,121,-6)
 ##They are indeed making different calculations-what is true?
 #check what day length seems more realisitc for DOY
 library(chron)
