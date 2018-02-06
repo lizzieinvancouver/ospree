@@ -81,9 +81,9 @@ write.csv(dailytemp4, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #head(dailytemp4)
 #ashby<-dailytemp4[dailytemp4$datasetID=="ashby62",]
 #check code for swartz81
-swartz<-dailytemp4[dailytemp4$datasetID=="swartz81",]
+#swartz<-dailytemp4[dailytemp4$datasetID=="swartz81",]
 #check how many other sites are mising data
-length(which(is.na(dailytemp4$Tmin)))#5612, which is 2.4% of all data (much less than before!)
+#length(which(is.na(dailytemp4$Tmin)))#5612, which is 2.4% of all data (much less than before!)
 #unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#4/18 sites (boyer, giafagna85, heidi93,and schnabel87) are missing some temperature data
 #Make list of the studies that are missing large amounts of Temp data
 #dailytemp4$missingT<-0
