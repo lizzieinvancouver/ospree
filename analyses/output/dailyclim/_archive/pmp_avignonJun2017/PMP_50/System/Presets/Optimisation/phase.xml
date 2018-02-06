@@ -1,0 +1,11 @@
+<Phases>
+	<Phase photomode="0">
+		<T0 value="20" step="20" min="1" max="365"/>
+		<SStar value="200" step="200" min="1" max="500" />
+	</Phase>
+	
+	<Phase photomode="1">
+		<T0 value="10" step="10" min="0.1" max="23.9"/>
+		<SStar value="200" step="200" min="1" max="500" />
+	</Phase>
+</Phases>

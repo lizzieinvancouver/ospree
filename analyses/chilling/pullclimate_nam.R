@@ -109,5 +109,8 @@ save(tempval, file="output/fieldclimate.RData")
 
 #write.csv(tempval_all, "output/tempval_all.csv", row.names=FALSE, eol="\r\n")
 
-stop("Not an error, just stopping here to say we're now done pulling daily climate data for North America! Next step is to interpolate these to hourly data and estimate chilling from the hourly data.")
+stop("Not an error, 
+     just stopping here to say we're now done pulling daily climate data 
+     for North America! Next step is to interpolate these to hourly data 
+     and estimate chilling from the hourly data. You can ignore the warning that comes at the end of this code- it's ok!")
 

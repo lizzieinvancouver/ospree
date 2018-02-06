@@ -1,0 +1,774 @@
+/* VER220
+  Généré par le compilateur CodeGear Delphi Pascal
+  car -GD ou --drc a été fourni au compilateur.
+
+  Ce fichier contient des ressources générées par le compilateur qui
+  ont été liées à l'exécutable.
+  Si ce fichier est vide, aucune ressource générée par le
+  compilateur n'est liée à l'exécutable produit.
+*/
+
+#define JConsts_sJPEGError 65152
+#define JConsts_sJPEGImageFile 65153
+#define pnglang_EPNGUnknownPalEntryText 65168
+#define pnglang_EPNGUnknownCriticalChunkText 65169
+#define pnglang_EPNGUnknownCompressionText 65170
+#define pnglang_EPNGUnknownInterlaceText 65171
+#define pnglang_EPNGCannotAssignChunkText 65172
+#define pnglang_EPNGUnexpectedEndText 65173
+#define pnglang_EPNGNoImageDataText 65174
+#define pnglang_EPNGCannotAddChunkText 65175
+#define pnglang_EPNGCannotAddInvalidImageText 65176
+#define pnglang_EPNGCouldNotLoadResourceText 65177
+#define pnglang_EPNGOutMemoryText 65178
+#define pnglang_EPNGCannotChangeTransparentText 65179
+#define pnglang_EPNGHeaderNotPresentText 65180
+#define pnglang_EInvalidNewSize 65181
+#define pnglang_EInvalidSpec 65182
+#define JConsts_sChangeJPGSize 65183
+#define XMLConst_SNodeReadOnly 65184
+#define XMLConst_SNoRefresh 65185
+#define XMLConst_SMissingFileName 65186
+#define XMLConst_SLine 65187
+#define ComConst_SOleError 65188
+#define ComConst_SNoMethod 65189
+#define ComConst_SVarNotObject 65190
+#define ComConst_STooManyParams 65191
+#define pnglang_EPngInvalidCRCText 65192
+#define pnglang_EPNGInvalidIHDRText 65193
+#define pnglang_EPNGMissingMultipleIDATText 65194
+#define pnglang_EPNGZLIBErrorText 65195
+#define pnglang_EPNGInvalidPaletteText 65196
+#define pnglang_EPNGInvalidFileHeaderText 65197
+#define pnglang_EPNGIHDRNotFirstText 65198
+#define pnglang_EPNGSizeExceedsText 65199
+#define ComStrs_sPageIndexError 65200
+#define XMLConst_SDuplicateRegistration 65201
+#define XMLConst_SNoMatchingDOMVendor 65202
+#define XMLConst_SNoDOMNodeEx 65203
+#define XMLConst_SDOMNotSupported 65204
+#define XMLConst_SNodeExpected 65205
+#define XMLConst_SMSDOMNotInstalled 65206
+#define XMLConst_SNotActive 65207
+#define XMLConst_SNodeNotFound 65208
+#define XMLConst_SMissingNode 65209
+#define XMLConst_SNoAttributes 65210
+#define XMLConst_SInvalidNodeType 65211
+#define XMLConst_SMismatchedRegItems 65212
+#define XMLConst_SNotSingleTextNode 65213
+#define XMLConst_SNoDOMParseOptions 65214
+#define XMLConst_SMissingItemTag 65215
+#define Consts_SWindowsVistaRequired 65216
+#define Consts_SXPThemesRequired 65217
+#define Consts_STaskDlgButtonCaption 65218
+#define Consts_STaskDlgRadioButtonCaption 65219
+#define Consts_SInvalidTaskDlgButtonCaption 65220
+#define ComStrs_sTabFailClear 65221
+#define ComStrs_sTabFailDelete 65222
+#define ComStrs_sTabFailRetrieve 65223
+#define ComStrs_sTabFailGetObject 65224
+#define ComStrs_sTabFailSet 65225
+#define ComStrs_sTabFailSetObject 65226
+#define ComStrs_sTabMustBeMultiLine 65227
+#define ComStrs_sRichEditInsertError 65228
+#define ComStrs_sRichEditLoadFail 65229
+#define ComStrs_sRichEditSaveFail 65230
+#define ComStrs_sUDAssociated 65231
+#define Consts_SDockedCtlNeedsName 65232
+#define Consts_SDockTreeRemoveError 65233
+#define Consts_SDockZoneNotFound 65234
+#define Consts_SDockZoneHasNoCtl 65235
+#define Consts_SDockZoneVersionConflict 65236
+#define Consts_SSeparator 65237
+#define Consts_SErrorSettingCount 65238
+#define Consts_SListBoxMustBeVirtual 65239
+#define Consts_SANSIEncoding 65240
+#define Consts_SASCIIEncoding 65241
+#define Consts_SUnicodeEncoding 65242
+#define Consts_SBigEndianEncoding 65243
+#define Consts_SUTF8Encoding 65244
+#define Consts_SUTF7Encoding 65245
+#define Consts_SEncodingLabel 65246
+#define Consts_SPageControlNotSet 65247
+#define Consts_SmkcDown 65248
+#define Consts_SmkcIns 65249
+#define Consts_SmkcDel 65250
+#define Consts_SmkcShift 65251
+#define Consts_SmkcCtrl 65252
+#define Consts_SmkcAlt 65253
+#define Consts_SOutOfRange 65254
+#define Consts_sAllFilter 65255
+#define Consts_SInsertLineError 65256
+#define Consts_SInvalidClipFmt 65257
+#define Consts_SIconToClipboard 65258
+#define Consts_SCannotOpenClipboard 65259
+#define Consts_SInvalidMemoSize 65260
+#define Consts_SInvalidPrinterOp 65261
+#define Consts_SNoDefaultPrinter 65262
+#define Consts_SDuplicateMenus 65263
+#define Consts_SMsgDlgAll 65264
+#define Consts_SMsgDlgNoToAll 65265
+#define Consts_SMsgDlgYesToAll 65266
+#define Consts_SMsgDlgClose 65267
+#define Consts_SmkcBkSp 65268
+#define Consts_SmkcTab 65269
+#define Consts_SmkcEsc 65270
+#define Consts_SmkcEnter 65271
+#define Consts_SmkcSpace 65272
+#define Consts_SmkcPgUp 65273
+#define Consts_SmkcPgDn 65274
+#define Consts_SmkcEnd 65275
+#define Consts_SmkcHome 65276
+#define Consts_SmkcLeft 65277
+#define Consts_SmkcUp 65278
+#define Consts_SmkcRight 65279
+#define Consts_SFixedRowTooBig 65280
+#define Consts_SInvalidStringGridOp 65281
+#define Consts_SMaskErr 65282
+#define Consts_SMaskEditErr 65283
+#define Consts_SMsgDlgWarning 65284
+#define Consts_SMsgDlgError 65285
+#define Consts_SMsgDlgInformation 65286
+#define Consts_SMsgDlgConfirm 65287
+#define Consts_SMsgDlgYes 65288
+#define Consts_SMsgDlgNo 65289
+#define Consts_SMsgDlgOK 65290
+#define Consts_SMsgDlgCancel 65291
+#define Consts_SMsgDlgHelp 65292
+#define Consts_SMsgDlgAbort 65293
+#define Consts_SMsgDlgRetry 65294
+#define Consts_SMsgDlgIgnore 65295
+#define Consts_SHelpButton 65296
+#define Consts_SCloseButton 65297
+#define Consts_SIgnoreButton 65298
+#define Consts_SRetryButton 65299
+#define Consts_SAbortButton 65300
+#define Consts_SAllButton 65301
+#define Consts_SCannotDragForm 65302
+#define Consts_SVMetafiles 65303
+#define Consts_SVEnhMetafiles 65304
+#define Consts_SVIcons 65305
+#define Consts_SVBitmaps 65306
+#define Consts_SVTIFFImages 65307
+#define Consts_SGridTooLarge 65308
+#define Consts_STooManyDeleted 65309
+#define Consts_SIndexOutOfRange 65310
+#define Consts_SFixedColTooBig 65311
+#define Consts_SMenuReinserted 65312
+#define Consts_SMenuNotFound 65313
+#define Consts_SNoTimers 65314
+#define Consts_SNotPrinting 65315
+#define Consts_SPrinting 65316
+#define Consts_SPrinterIndexError 65317
+#define Consts_SInvalidPrinter 65318
+#define Consts_SDeviceOnPort 65319
+#define Consts_SGroupIndexTooLow 65320
+#define Consts_SNoMDIForm 65321
+#define Consts_SImageCanvasNeedsBitmap 65322
+#define Consts_SControlParentSetToSelf 65323
+#define Consts_SOKButton 65324
+#define Consts_SCancelButton 65325
+#define Consts_SYesButton 65326
+#define Consts_SNoButton 65327
+#define Consts_SInvalidImageSize 65328
+#define Consts_SInvalidImageList 65329
+#define Consts_SReplaceImage 65330
+#define Consts_SImageIndexError 65331
+#define Consts_SImageReadFail 65332
+#define Consts_SImageWriteFail 65333
+#define Consts_SWindowDCError 65334
+#define Consts_SWindowClass 65335
+#define Consts_SCannotFocus 65336
+#define Consts_SParentRequired 65337
+#define Consts_SParentGivenNotAParent 65338
+#define Consts_SMDIChildNotVisible 65339
+#define Consts_SVisibleChanged 65340
+#define Consts_SCannotShowModal 65341
+#define Consts_SPropertyOutOfRange 65342
+#define Consts_SMenuIndexError 65343
+#define RTLConsts_SNothingFound 65344
+#define RTLConsts_SArgumentOutOfRange 65345
+#define Consts_SInvalidTabPosition 65346
+#define Consts_SInvalidTabStyle 65347
+#define Consts_SInvalidBitmap 65348
+#define Consts_SInvalidIcon 65349
+#define Consts_SInvalidMetafile 65350
+#define Consts_SInvalidPixelFormat 65351
+#define Consts_SInvalidImage 65352
+#define Consts_SScanLine 65353
+#define Consts_SChangeIconSize 65354
+#define Consts_SChangeWicSize 65355
+#define Consts_SUnknownExtension 65356
+#define Consts_SUnknownClipboardFormat 65357
+#define Consts_SOutOfResources 65358
+#define Consts_SNoCanvasHandle 65359
+#define RTLConsts_SPathFormatNotSupported 65360
+#define RTLConsts_SFileNotFound 65361
+#define RTLConsts_hNoFilterViewer 65362
+#define RTLConsts_sInvalidStringAndObjectArrays 65363
+#define RTLConsts_sInvalidTimeoutValue 65364
+#define RTLConsts_SInvalidDate 65365
+#define RTLConsts_SInvalidDateTime 65366
+#define RTLConsts_SInvalidInteger 65367
+#define RTLConsts_SInvalidTime 65368
+#define RTLConsts_STimeEncodeError 65369
+#define RTLConsts_SNoContext 65370
+#define RTLConsts_SNoContextFound 65371
+#define RTLConsts_SNoIndex 65372
+#define RTLConsts_SNoSearch 65373
+#define RTLConsts_SNoTableOfContents 65374
+#define RTLConsts_SNoTopics 65375
+#define RTLConsts_SSortedListError 65376
+#define RTLConsts_SUnknownGroup 65377
+#define RTLConsts_SUnknownProperty 65378
+#define RTLConsts_SWriteError 65379
+#define RTLConsts_SThreadCreateError 65380
+#define RTLConsts_SThreadError 65381
+#define RTLConsts_SThreadExternalTerminate 65382
+#define RTLConsts_SThreadExternalWait 65383
+#define RTLConsts_SThreadStartError 65384
+#define RTLConsts_SThreadExternalCheckTerminated 65385
+#define RTLConsts_SThreadExternalSetReturnValue 65386
+#define RTLConsts_SParamIsNegative 65387
+#define RTLConsts_SInputBufferExceed 65388
+#define RTLConsts_SInvalidCharsInPath 65389
+#define RTLConsts_SPathTooLong 65390
+#define RTLConsts_SPathNotFound 65391
+#define RTLConsts_SInvalidPropertyPath 65392
+#define RTLConsts_SInvalidPropertyValue 65393
+#define RTLConsts_SInvalidRegType 65394
+#define RTLConsts_SListCapacityError 65395
+#define RTLConsts_SListCountError 65396
+#define RTLConsts_SListIndexError 65397
+#define RTLConsts_SMemoryStreamError 65398
+#define RTLConsts_SNoComSupport 65399
+#define RTLConsts_SPropertyException 65400
+#define RTLConsts_SReadError 65401
+#define RTLConsts_SReadOnlyProperty 65402
+#define RTLConsts_SRegCreateFailed 65403
+#define RTLConsts_SRegGetDataFailed 65404
+#define RTLConsts_SRegSetDataFailed 65405
+#define RTLConsts_SResNotFound 65406
+#define RTLConsts_SSeekNotImplemented 65407
+#define RTLConsts_SAssignError 65408
+#define RTLConsts_SBitsIndexError 65409
+#define RTLConsts_SCantWriteResourceStreamError 65410
+#define RTLConsts_SCheckSynchronizeError 65411
+#define RTLConsts_SClassNotFound 65412
+#define RTLConsts_SDuplicateClass 65413
+#define RTLConsts_SDuplicateItem 65414
+#define RTLConsts_SDuplicateName 65415
+#define RTLConsts_SDuplicateString 65416
+#define RTLConsts_SFCreateErrorEx 65417
+#define RTLConsts_SFOpenErrorEx 65418
+#define RTLConsts_SIniFileWriteError 65419
+#define RTLConsts_SInvalidFileName 65420
+#define RTLConsts_SInvalidImage 65421
+#define RTLConsts_SInvalidName 65422
+#define RTLConsts_SInvalidProperty 65423
+#define SysConst_SLongDayNameSun 65424
+#define SysConst_SLongDayNameMon 65425
+#define SysConst_SLongDayNameTue 65426
+#define SysConst_SLongDayNameWed 65427
+#define SysConst_SLongDayNameThu 65428
+#define SysConst_SLongDayNameFri 65429
+#define SysConst_SLongDayNameSat 65430
+#define SysConst_SInvalidSourceArray 65431
+#define SysConst_SInvalidDestinationArray 65432
+#define SysConst_SCharIndexOutOfBounds 65433
+#define SysConst_SByteIndexOutOfBounds 65434
+#define SysConst_SInvalidCharCount 65435
+#define SysConst_SInvalidDestinationIndex 65436
+#define SysConst_SInvalidCodePage 65437
+#define SysConst_SInvalidEncodingName 65438
+#define RTLConsts_SAncestorNotFound 65439
+#define SysConst_SLongMonthNameApr 65440
+#define SysConst_SLongMonthNameMay 65441
+#define SysConst_SLongMonthNameJun 65442
+#define SysConst_SLongMonthNameJul 65443
+#define SysConst_SLongMonthNameAug 65444
+#define SysConst_SLongMonthNameSep 65445
+#define SysConst_SLongMonthNameOct 65446
+#define SysConst_SLongMonthNameNov 65447
+#define SysConst_SLongMonthNameDec 65448
+#define SysConst_SShortDayNameSun 65449
+#define SysConst_SShortDayNameMon 65450
+#define SysConst_SShortDayNameTue 65451
+#define SysConst_SShortDayNameWed 65452
+#define SysConst_SShortDayNameThu 65453
+#define SysConst_SShortDayNameFri 65454
+#define SysConst_SShortDayNameSat 65455
+#define SysConst_SUnkOSError 65456
+#define SysConst_SShortMonthNameJan 65457
+#define SysConst_SShortMonthNameFeb 65458
+#define SysConst_SShortMonthNameMar 65459
+#define SysConst_SShortMonthNameApr 65460
+#define SysConst_SShortMonthNameMay 65461
+#define SysConst_SShortMonthNameJun 65462
+#define SysConst_SShortMonthNameJul 65463
+#define SysConst_SShortMonthNameAug 65464
+#define SysConst_SShortMonthNameSep 65465
+#define SysConst_SShortMonthNameOct 65466
+#define SysConst_SShortMonthNameNov 65467
+#define SysConst_SShortMonthNameDec 65468
+#define SysConst_SLongMonthNameJan 65469
+#define SysConst_SLongMonthNameFeb 65470
+#define SysConst_SLongMonthNameMar 65471
+#define SysConst_SVarOverflow 65472
+#define SysConst_SVarInvalid 65473
+#define SysConst_SVarBadType 65474
+#define SysConst_SVarNotImplemented 65475
+#define SysConst_SVarUnexpected 65476
+#define SysConst_SExternalException 65477
+#define SysConst_SAssertionFailed 65478
+#define SysConst_SIntfCastError 65479
+#define SysConst_SSafecallException 65480
+#define SysConst_SMonitorLockException 65481
+#define SysConst_SNoMonitorSupportException 65482
+#define SysConst_SNotImplemented 65483
+#define SysConst_SAssertError 65484
+#define SysConst_SAbstractError 65485
+#define SysConst_SModuleAccessViolation 65486
+#define SysConst_SOSError 65487
+#define SysConst_SReadAccess 65488
+#define SysConst_SWriteAccess 65489
+#define SysConst_SFormatTooLong 65490
+#define SysConst_SVarArrayCreate 65491
+#define SysConst_SVarArrayBounds 65492
+#define SysConst_SVarArrayLocked 65493
+#define SysConst_SInvalidVarCast 65494
+#define SysConst_SInvalidVarOp 65495
+#define SysConst_SInvalidVarNullOp 65496
+#define SysConst_SInvalidVarOpWithHResultWithPrefix 65497
+#define SysConst_SVarTypeOutOfRangeWithPrefix 65498
+#define SysConst_SVarTypeAlreadyUsedWithPrefix 65499
+#define SysConst_SVarTypeNotUsableWithPrefix 65500
+#define SysConst_SVarTypeTooManyCustom 65501
+#define SysConst_SVarTypeCouldNotConvert 65502
+#define SysConst_SVarTypeConvertOverflow 65503
+#define SysConst_SZeroDivide 65504
+#define SysConst_SOverflow 65505
+#define SysConst_SUnderflow 65506
+#define SysConst_SInvalidPointer 65507
+#define SysConst_SInvalidCast 65508
+#define SysConst_SAccessViolationArg3 65509
+#define SysConst_SAccessViolationNoArg 65510
+#define SysConst_SStackOverflow 65511
+#define SysConst_SControlC 65512
+#define SysConst_SPrivilege 65513
+#define SysConst_SOperationAborted 65514
+#define SysConst_SException 65515
+#define SysConst_SExceptTitle 65516
+#define SysConst_SInvalidFormat 65517
+#define SysConst_SArgumentMissing 65518
+#define SysConst_SDispatchError 65519
+#define SysConst_SInvalidFloat 65520
+#define SysConst_SInvalidTimeStamp 65521
+#define SysConst_SInvalidGUID 65522
+#define SysConst_SInvalidBoolean 65523
+#define SysConst_SDateEncodeError 65524
+#define SysConst_SOutOfMemory 65525
+#define SysConst_SInOutError 65526
+#define SysConst_STooManyOpenFiles 65527
+#define SysConst_SAccessDenied 65528
+#define SysConst_SEndOfFile 65529
+#define SysConst_SDiskFull 65530
+#define SysConst_SInvalidInput 65531
+#define SysConst_SDivByZero 65532
+#define SysConst_SRangeError 65533
+#define SysConst_SIntOverflow 65534
+#define SysConst_SInvalidOp 65535
+STRINGTABLE
+BEGIN
+	JConsts_sJPEGError,	"Erreur JPEG #%d"
+	JConsts_sJPEGImageFile,	"Fichier image JPEG"
+	pnglang_EPNGUnknownPalEntryText,	"Il n'y a aucune entrée pour cette palette."
+	pnglang_EPNGUnknownCriticalChunkText,	"Cette image \"Portable Network Graphics\" contient une partie critique inconnue qui n' pu être décodée."
+	pnglang_EPNGUnknownCompressionText,	"Cette image \"Portable Network Graphics\" est encodée à l'aide d'un schémas de compression inconnu qui ne peut être décodé."
+	pnglang_EPNGUnknownInterlaceText,	"Cette image \"Portable Network Graphics\" utilise un schémas d'entrelacement inconnu qui ne peut être décodé."
+	pnglang_EPNGCannotAssignChunkText,	"Ce morceau doit être compatible pour être assigné."
+	pnglang_EPNGUnexpectedEndText,	"Cette image \"Portable Network Graphics\" est invalide car le decodeur est arrivé à une fin de fichier non attendue."
+	pnglang_EPNGNoImageDataText,	"Cette image \"Portable Network Graphics\" ne contient pas de données."
+	pnglang_EPNGCannotAddChunkText,	"Le programme a essayé d'ajouter un morceau critique existant à l'image actuelle, ce qui n'est pas autorisé."
+	pnglang_EPNGCannotAddInvalidImageText,	"Il n'est pas permis d'ajouter un nouveau morceau car l'image actuelle est invalide."
+	pnglang_EPNGCouldNotLoadResourceText,	"L'image png n'a pu être chargée depuis l'ID ressource."
+	pnglang_EPNGOutMemoryText,	"Certaines opérations n'ont pu être effectuée car le système n'a plus de ressources. Fermez quelques fenêtres et essayez à nouveau."
+	pnglang_EPNGCannotChangeTransparentText,	"Définir le bit de transparence n'est pas permis pour des images png qui contiennent une valeur alpha pour chaque pixel (COLOR_RGBALPHA et COLOR_GRAYSCALEALPHA)"
+	pnglang_EPNGHeaderNotPresentText,	"Cette opération n'est pas valide car l'image actuelle ne contient pas de header valide."
+	pnglang_EInvalidNewSize,	"La nouvelle taille fournie pour le redimensionnement de l'image est incorrecte."
+	pnglang_EInvalidSpec,	"Impossible de créer le format PNG (Portable Network Graphics) car des paramètres de type d'image incorrects ont été fournis."
+	JConsts_sChangeJPGSize,	"Impossible de modifier la taille d'une image JPEG"
+	XMLConst_SNodeReadOnly,	"Le noeud est en lecture seule"
+	XMLConst_SNoRefresh,	"Le rafraîchissement (refresh) est uniquement supporté si la propriété FileName ou XML est définie"
+	XMLConst_SMissingFileName,	"Le nom de fichier ne peut pas être vide"
+	XMLConst_SLine,	"Ligne"
+	ComConst_SOleError,	"Erreur OLE %.8x"
+	ComConst_SNoMethod,	"Méthode '%s' non supportée par l'objet Automation"
+	ComConst_SVarNotObject,	"Le variant ne référence pas un objet Automation"
+	ComConst_STooManyParams,	"Les méthodes Dispatch ne gèrent pas plus de 64 paramètres"
+	pnglang_EPngInvalidCRCText,	"Cette image \"Portable Network Graphics\" n'est pas valide car elle contient des données invalides (erreur crc)"
+	pnglang_EPNGInvalidIHDRText,	"Cette image \"Portable Network Graphics\" n'a pu être chargée car l'une de ses principale donnée (ihdr) doit être corrompue"
+	pnglang_EPNGMissingMultipleIDATText,	"Cette image \"Portable Network Graphics\" est invalide car elle contient des parties d'image manquantes."
+	pnglang_EPNGZLIBErrorText,	"Impossible de décompresser l'image car elle contient des données compressées invalides.\r\n Description: "
+	pnglang_EPNGInvalidPaletteText,	"L'image \"Portable Network Graphics\" contient une palette invalide."
+	pnglang_EPNGInvalidFileHeaderText,	"Le fichier lu n'est pas une image PNG (Portable Network Graphics) valide car il contient un en-tête non valide. Il est possible que ce fichier soit endommagé, essayez de l'obtenir à nouveau"
+	pnglang_EPNGIHDRNotFirstText,	"Cette image \"Portable Network Graphics\" n'est pas supportée ou doit être invalide.\r\n(la partie IHDR n'est pas la première)"
+	pnglang_EPNGSizeExceedsText,	"Cette image PNG (Portable Network Graphics) n'est pas supportée car sa largeur ou sa hauteur dépasse la taille maximale de 65535."
+	ComStrs_sPageIndexError,	"%d est une valeur de PageIndex incorrecte. PageIndex doit être compris entre 0 et %d"
+	XMLConst_SDuplicateRegistration,	"DOMImplementation \"%s\" déjà recensée"
+	XMLConst_SNoMatchingDOMVendor,	"Pas de fournisseur DOM correspondant : \"%s\""
+	XMLConst_SNoDOMNodeEx,	"Le vendeur DOM sélectionné ne supporte pas cette propriété ou cette méthode"
+	XMLConst_SDOMNotSupported,	"La propriété ou la méthode \"%s\" n'est pas supportée par le vendeur DOM \"%s\""
+	XMLConst_SNodeExpected,	"Le noeud ne peut pas être défini à null"
+	XMLConst_SMSDOMNotInstalled,	"Microsoft MSXML n'est pas installé"
+	XMLConst_SNotActive,	"Pas de document actif"
+	XMLConst_SNodeNotFound,	"Noeud \"%s\" non trouvé"
+	XMLConst_SMissingNode,	"IDOMNode requis"
+	XMLConst_SNoAttributes,	"Les attributs ne sont pas supportés sur ce type de noeud"
+	XMLConst_SInvalidNodeType,	"Type de noeud incorrect"
+	XMLConst_SMismatchedRegItems,	"Non concordance de paramètres pour RegisterChildNodes"
+	XMLConst_SNotSingleTextNode,	"L'élément \"%s\" ne contient pas un noeud texte unique"
+	XMLConst_SNoDOMParseOptions,	"L'implémentation DOM ne supporte pas IDOMParseOptions"
+	XMLConst_SMissingItemTag,	"La propriété ItemTag n'est pas initialisée"
+	Consts_SWindowsVistaRequired,	"%s nécessite Windows Vista ou supérieur"
+	Consts_SXPThemesRequired,	"%s nécessite l'activation de thèmes"
+	Consts_STaskDlgButtonCaption,	"Button%d"
+	Consts_STaskDlgRadioButtonCaption,	"RadioButton%d"
+	Consts_SInvalidTaskDlgButtonCaption,	"Caption ne peut pas être vide"
+	ComStrs_sTabFailClear,	"Echec à l'effacement du contrôle onglet"
+	ComStrs_sTabFailDelete,	"Echec à la suppression de l'onglet d'indice %d"
+	ComStrs_sTabFailRetrieve,	"Echec à la récupération de l'onglet d'indice %d"
+	ComStrs_sTabFailGetObject,	"Echec à l'obtention de l'objet à l'indice %d"
+	ComStrs_sTabFailSet,	"Echec pour mettre l'onglet \"%s\" à l'indice %d"
+	ComStrs_sTabFailSetObject,	"Echec pour mettre l'objet à l'indice %d"
+	ComStrs_sTabMustBeMultiLine,	"MultiLine doit être True lorsque TabPosition est tpLeft ou tpRight"
+	ComStrs_sRichEditInsertError,	"Erreur d'insertion de ligne RichEdit"
+	ComStrs_sRichEditLoadFail,	"Erreur au chargement du flux"
+	ComStrs_sRichEditSaveFail,	"Erreur à l'enregistrement du flux"
+	ComStrs_sUDAssociated,	"%s est déjà associé à %s"
+	Consts_SDockedCtlNeedsName,	"Le composant ancré doit avoir un nom"
+	Consts_SDockTreeRemoveError,	"Erreur lors du retrait du contrôle de l'arborescence d'ancrage"
+	Consts_SDockZoneNotFound,	" - Zone d'ancrage non trouvée"
+	Consts_SDockZoneHasNoCtl,	" - La zone d'ancrage n'a pas de contrôle"
+	Consts_SDockZoneVersionConflict,	"Erreur de chargement de la zone d'ancrage à partir du flux. Version %d attendue, mais %d trouvée."
+	Consts_SSeparator,	"Séparateur"
+	Consts_SErrorSettingCount,	"Erreur lors de la définition de la valeur %s.Count"
+	Consts_SListBoxMustBeVirtual,	"Le style de la boîte de liste (%s) doit être virtuel afin de pouvoir définir la valeur Count"
+	Consts_SANSIEncoding,	"ANSI"
+	Consts_SASCIIEncoding,	"ASCII"
+	Consts_SUnicodeEncoding,	"Unicode"
+	Consts_SBigEndianEncoding,	"Big Endian Unicode"
+	Consts_SUTF8Encoding,	"UTF-8"
+	Consts_SUTF7Encoding,	"UTF-7"
+	Consts_SEncodingLabel,	"Encodage :"
+	Consts_SPageControlNotSet,	"PageControl doit être affecté en premier lieu"
+	Consts_SmkcDown,	"Bas"
+	Consts_SmkcIns,	"Inser"
+	Consts_SmkcDel,	"Suppr"
+	Consts_SmkcShift,	"Maj+"
+	Consts_SmkcCtrl,	"Ctrl+"
+	Consts_SmkcAlt,	"Alt+"
+	Consts_SOutOfRange,	"La valeur doit être comprise entre %d et %d"
+	Consts_sAllFilter,	"Tous"
+	Consts_SInsertLineError,	"Impossible d'insérer une ligne"
+	Consts_SInvalidClipFmt,	"Format de Presse-papiers incorrect"
+	Consts_SIconToClipboard,	"Le Presse-papiers ne supporte pas les icônes"
+	Consts_SCannotOpenClipboard,	"Impossible d'ouvrir le Presse-papiers : %s"
+	Consts_SInvalidMemoSize,	"Le texte dépasse la capacité du mémo"
+	Consts_SInvalidPrinterOp,	"Opération non supportée par l'imprimante sélectionnée"
+	Consts_SNoDefaultPrinter,	"Aucune imprimante par défaut sélectionnée"
+	Consts_SDuplicateMenus,	"Le menu '%s' est déjà utilisé par une autre fiche"
+	Consts_SMsgDlgAll,	"&Tous"
+	Consts_SMsgDlgNoToAll,	"Non &pour tout"
+	Consts_SMsgDlgYesToAll,	"O&ui pour tout"
+	Consts_SMsgDlgClose,	"&Fermer"
+	Consts_SmkcBkSp,	"RetArr"
+	Consts_SmkcTab,	"Onglet"
+	Consts_SmkcEsc,	"Echap"
+	Consts_SmkcEnter,	"Entrée"
+	Consts_SmkcSpace,	"Espace"
+	Consts_SmkcPgUp,	"PagePréc"
+	Consts_SmkcPgDn,	"PageSuiv"
+	Consts_SmkcEnd,	"Fin"
+	Consts_SmkcHome,	"Origine"
+	Consts_SmkcLeft,	"Gauche"
+	Consts_SmkcUp,	"Haut"
+	Consts_SmkcRight,	"Droite"
+	Consts_SFixedRowTooBig,	"Le nombre de lignes fixes doit être inférieur au nombre de lignes"
+	Consts_SInvalidStringGridOp,	"Impossible d'insérer ou de supprimer les lignes de la grille"
+	Consts_SMaskErr,	"Valeur d'entrée incorrecte"
+	Consts_SMaskEditErr,	"Valeur d'entrée incorrecte. Utiliser Echap pour abandonner les modifications"
+	Consts_SMsgDlgWarning,	"Avertissement"
+	Consts_SMsgDlgError,	"Erreur"
+	Consts_SMsgDlgInformation,	"Informations"
+	Consts_SMsgDlgConfirm,	"Confirmer"
+	Consts_SMsgDlgYes,	"&Oui"
+	Consts_SMsgDlgNo,	"&Non"
+	Consts_SMsgDlgOK,	"OK"
+	Consts_SMsgDlgCancel,	"Annuler"
+	Consts_SMsgDlgHelp,	"&Aide"
+	Consts_SMsgDlgAbort,	"A&bandonner"
+	Consts_SMsgDlgRetry,	"&Réessayer"
+	Consts_SMsgDlgIgnore,	"&Ignorer"
+	Consts_SHelpButton,	"&Aide"
+	Consts_SCloseButton,	"&Fermer"
+	Consts_SIgnoreButton,	"&Ignorer"
+	Consts_SRetryButton,	"&Réessayer"
+	Consts_SAbortButton,	"Abandonner"
+	Consts_SAllButton,	"&Tous"
+	Consts_SCannotDragForm,	"Impossible de glisser une fiche"
+	Consts_SVMetafiles,	"Métafichiers"
+	Consts_SVEnhMetafiles,	"Métafichiers évolués"
+	Consts_SVIcons,	"Icônes"
+	Consts_SVBitmaps,	"Bitmaps"
+	Consts_SVTIFFImages,	"Images TIFF"
+	Consts_SGridTooLarge,	"Grille trop grande pour l'opération"
+	Consts_STooManyDeleted,	"Trop de lignes ou colonnes supprimées"
+	Consts_SIndexOutOfRange,	"Indice de grille hors limites"
+	Consts_SFixedColTooBig,	"Le nombre de colonnes fixes doit être inférieur au nombre de colonnes"
+	Consts_SMenuReinserted,	"Menu inséré deux fois"
+	Consts_SMenuNotFound,	"Sous-menu pas dans le menu"
+	Consts_SNoTimers,	"Pas assez de timers disponibles"
+	Consts_SNotPrinting,	"L'imprimante n'imprime pas actuellement"
+	Consts_SPrinting,	"Impression en cours"
+	Consts_SPrinterIndexError,	"Indice imprimante hors limites"
+	Consts_SInvalidPrinter,	"Imprimante sélectionnée incorrecte"
+	Consts_SDeviceOnPort,	"%s sur %s"
+	Consts_SGroupIndexTooLow,	"GroupIndex ne peut être inférieur à celui de l'élément de menu précédent"
+	Consts_SNoMDIForm,	"Impossible de créer la fiche. Aucune fiche non MDI active"
+	Consts_SImageCanvasNeedsBitmap,	"Une image ne peut être modifiée que si elle contient un bitmap"
+	Consts_SControlParentSetToSelf,	"Un contrôle ne peut être son propre parent"
+	Consts_SOKButton,	"OK"
+	Consts_SCancelButton,	"Annuler"
+	Consts_SYesButton,	"&Oui"
+	Consts_SNoButton,	"&Non"
+	Consts_SInvalidImageSize,	"Taille d'image incorrecte"
+	Consts_SInvalidImageList,	"ImageList incorrecte"
+	Consts_SReplaceImage,	"Impossible de remplacer l'image"
+	Consts_SImageIndexError,	"Indice ImageList incorrect"
+	Consts_SImageReadFail,	"Erreur à la lecture des données ImageList dans le flux"
+	Consts_SImageWriteFail,	"Erreur à l'écriture des données ImageList dans le flux"
+	Consts_SWindowDCError,	"Erreur à la création du contexte de périphérique fenêtre"
+	Consts_SWindowClass,	"Erreur à la création de la classe fenêtre"
+	Consts_SCannotFocus,	"Impossible de focaliser une fenêtre désactivée ou invisible"
+	Consts_SParentRequired,	"Le contrôle '%s' n'a pas de fenêtre parente"
+	Consts_SParentGivenNotAParent,	"Le parent donné n'est pas un parent de '%s'"
+	Consts_SMDIChildNotVisible,	"Impossible de cacher une fiche enfant MDI"
+	Consts_SVisibleChanged,	"Impossible de changer Visible dans OnShow ou OnHide"
+	Consts_SCannotShowModal,	"Impossible de rendre modale une fenêtre visible"
+	Consts_SPropertyOutOfRange,	"Propriété %s hors limites"
+	Consts_SMenuIndexError,	"Indice de menu hors limites"
+	RTLConsts_SNothingFound,	"Aide introuvable pour %s"
+	RTLConsts_SArgumentOutOfRange,	"Argument hors limites"
+	Consts_SInvalidTabPosition,	"Position d'onglet incompatible avec le style d'onglet actuel"
+	Consts_SInvalidTabStyle,	"Style d'onglet incompatible avec la position d'onglet actuelle"
+	Consts_SInvalidBitmap,	"Image bitmap incorrecte"
+	Consts_SInvalidIcon,	"Image icône incorrecte"
+	Consts_SInvalidMetafile,	"MétaFichier incorrect"
+	Consts_SInvalidPixelFormat,	"Format de pixel incorrect"
+	Consts_SInvalidImage,	"Image non valide"
+	Consts_SScanLine,	"Indice ligne hors limites"
+	Consts_SChangeIconSize,	"Impossible de modifier la taille d'une icône"
+	Consts_SChangeWicSize,	"Impossible de modifier la taille d'une image WIC"
+	Consts_SUnknownExtension,	"Extension de fichier image inconnue (.%s)"
+	Consts_SUnknownClipboardFormat,	"Format de Presse-papiers non supporté"
+	Consts_SOutOfResources,	"Ressources système insuffisantes"
+	Consts_SNoCanvasHandle,	"Le canevas ne permet pas de dessiner"
+	RTLConsts_SPathFormatNotSupported,	"Le format du chemin n'est pas supporté"
+	RTLConsts_SFileNotFound,	"Impossible de trouver le fichier spécifié"
+	RTLConsts_hNoFilterViewer,	"Pas d'afficheur d'aide supportant les filtres"
+	RTLConsts_sInvalidStringAndObjectArrays,	"La longueur des tableaux Chaînes et Objets doit être égale"
+	RTLConsts_sInvalidTimeoutValue,	"Valeur Timeout non valide : %s"
+	RTLConsts_SInvalidDate,	"''%s'' n'est pas une date valide"
+	RTLConsts_SInvalidDateTime,	"''%s'' ne correspond pas à une date et une heure correctes"
+	RTLConsts_SInvalidInteger,	"''%s'' n'est pas une valeur entière valide"
+	RTLConsts_SInvalidTime,	"''%s'' n'est pas une heure valide"
+	RTLConsts_STimeEncodeError,	"Argument incorrect pour le codage de l'heure"
+	RTLConsts_SNoContext,	"Aucune aide contextuelle n'est installée"
+	RTLConsts_SNoContextFound,	"Aide introuvable pour le contexte %d"
+	RTLConsts_SNoIndex,	"Impossible d'ouvrir Index"
+	RTLConsts_SNoSearch,	"Impossible d'ouvrir Rechercher"
+	RTLConsts_SNoTableOfContents,	"Impossible de trouver une table des matières"
+	RTLConsts_SNoTopics,	"Aucun système d'aide basé sur des rubriques n'est installé"
+	RTLConsts_SSortedListError,	"Opération non autorisée dans une liste ordonnée"
+	RTLConsts_SUnknownGroup,	"%s n'est pas dans un groupe de recensement de classes"
+	RTLConsts_SUnknownProperty,	"La propriété %s n'existe pas"
+	RTLConsts_SWriteError,	"Erreur d'écriture dans le flux"
+	RTLConsts_SThreadCreateError,	"Erreur de création de thread : %s"
+	RTLConsts_SThreadError,	"Erreur de thread : %s (%d)"
+	RTLConsts_SThreadExternalTerminate,	"Impossible de terminer un thread créé de façon externe"
+	RTLConsts_SThreadExternalWait,	"Impossible d'attendre un thread créé de façon externe"
+	RTLConsts_SThreadStartError,	"Impossible d'appeler Start sur un thread en cours d'exécution ou un thread suspendu"
+	RTLConsts_SThreadExternalCheckTerminated,	"Impossible d'appeler CheckTerminated sur un thread créé de façon externe"
+	RTLConsts_SThreadExternalSetReturnValue,	"Impossible d'appeler SetReturnValue sur un thread créé de façon externe"
+	RTLConsts_SParamIsNegative,	"Le paramètre %s ne peut pas être une valeur négative"
+	RTLConsts_SInputBufferExceed,	"Tampon d'entrée en dépassement pour %s = %d, %s = %d"
+	RTLConsts_SInvalidCharsInPath,	"Caractères non valides dans le chemin"
+	RTLConsts_SPathTooLong,	"Le chemin spécifié est trop long"
+	RTLConsts_SPathNotFound,	"Impossible de trouver le chemin spécifié"
+	RTLConsts_SInvalidPropertyPath,	"Chemin de propriété incorrect"
+	RTLConsts_SInvalidPropertyValue,	"Valeur de propriété incorrecte"
+	RTLConsts_SInvalidRegType,	"Type de données incorrect pour '%s'"
+	RTLConsts_SListCapacityError,	"Capacité de liste hors limites (%d)"
+	RTLConsts_SListCountError,	"Compte de liste hors limites (%d)"
+	RTLConsts_SListIndexError,	"Indice de liste hors limites (%d)"
+	RTLConsts_SMemoryStreamError,	"Mémoire insuffisante lors de l'extension du flux mémoire"
+	RTLConsts_SNoComSupport,	"%s n'a pas été recensé comme classe COM"
+	RTLConsts_SPropertyException,	"Erreur lors de la lecture de %s%s%s: %s"
+	RTLConsts_SReadError,	"Erreur de lecture du flux"
+	RTLConsts_SReadOnlyProperty,	"Propriété en lecture seule"
+	RTLConsts_SRegCreateFailed,	"Echec à la création de la clé %s"
+	RTLConsts_SRegGetDataFailed,	"Echec à l'obtention des données pour '%s'"
+	RTLConsts_SRegSetDataFailed,	"Echec à la définition des données pour '%s'"
+	RTLConsts_SResNotFound,	"Ressource %s non trouvée"
+	RTLConsts_SSeekNotImplemented,	"%s.Seek non implémenté"
+	RTLConsts_SAssignError,	"Impossible d'affecter %s à %s"
+	RTLConsts_SBitsIndexError,	"Indice de bits hors limites"
+	RTLConsts_SCantWriteResourceStreamError,	"Impossible d'écrire dans un flux en lecture seule"
+	RTLConsts_SCheckSynchronizeError,	"CheckSynchronize a été appelée depuis le thread $%x, qui n'est PAS le thread principal"
+	RTLConsts_SClassNotFound,	"Classe %s non trouvée"
+	RTLConsts_SDuplicateClass,	"Une classe nommée %s existe déjà"
+	RTLConsts_SDuplicateItem,	"La liste n'autorise pas les doublons ($0%x)"
+	RTLConsts_SDuplicateName,	"Un composant nommé %s existe déjà"
+	RTLConsts_SDuplicateString,	"La liste de chaînes n'autorise pas les doublons"
+	RTLConsts_SFCreateErrorEx,	"Impossible de créer le fichier \"%s\". %s"
+	RTLConsts_SFOpenErrorEx,	"Impossible d'ouvrir le fichier \"%s\". %s"
+	RTLConsts_SIniFileWriteError,	"Impossible d'écrire dans %s"
+	RTLConsts_SInvalidFileName,	"Nom de fichier incorrect - %s"
+	RTLConsts_SInvalidImage,	"Format de flux incorrect"
+	RTLConsts_SInvalidName,	"''%s'' n'est pas un nom de composant correct"
+	RTLConsts_SInvalidProperty,	"Valeur de propriété incorrecte"
+	SysConst_SLongDayNameSun,	"Dimanche"
+	SysConst_SLongDayNameMon,	"Lundi"
+	SysConst_SLongDayNameTue,	"Mardi"
+	SysConst_SLongDayNameWed,	"Mercredi"
+	SysConst_SLongDayNameThu,	"Jeudi"
+	SysConst_SLongDayNameFri,	"Vendredi"
+	SysConst_SLongDayNameSat,	"Samedi"
+	SysConst_SInvalidSourceArray,	"Tableau source incorrect"
+	SysConst_SInvalidDestinationArray,	"Tableau de destination incorrect"
+	SysConst_SCharIndexOutOfBounds,	"Index caractère hors limites (%d)"
+	SysConst_SByteIndexOutOfBounds,	"Index de début hors limites (%d)"
+	SysConst_SInvalidCharCount,	"Nombre incorrect (%d)"
+	SysConst_SInvalidDestinationIndex,	"Index destination incorrect (%d)"
+	SysConst_SInvalidCodePage,	"Page de code incorrecte"
+	SysConst_SInvalidEncodingName,	"Nom d'encodage non valide :"
+	RTLConsts_SAncestorNotFound,	"Ancêtre de '%s' non trouvé"
+	SysConst_SLongMonthNameApr,	"Avril"
+	SysConst_SLongMonthNameMay,	"Mai"
+	SysConst_SLongMonthNameJun,	"Juin"
+	SysConst_SLongMonthNameJul,	"Juillet"
+	SysConst_SLongMonthNameAug,	"Août"
+	SysConst_SLongMonthNameSep,	"Septembre"
+	SysConst_SLongMonthNameOct,	"Octobre"
+	SysConst_SLongMonthNameNov,	"Novembre"
+	SysConst_SLongMonthNameDec,	"Décembre"
+	SysConst_SShortDayNameSun,	"Dim"
+	SysConst_SShortDayNameMon,	"Lun"
+	SysConst_SShortDayNameTue,	"Mar"
+	SysConst_SShortDayNameWed,	"Mer"
+	SysConst_SShortDayNameThu,	"Jeu"
+	SysConst_SShortDayNameFri,	"Ven"
+	SysConst_SShortDayNameSat,	"Sam"
+	SysConst_SUnkOSError,	"Un appel à une fonction du système d'exploitation a échoué"
+	SysConst_SShortMonthNameJan,	"Jan"
+	SysConst_SShortMonthNameFeb,	"Fév"
+	SysConst_SShortMonthNameMar,	"Mar"
+	SysConst_SShortMonthNameApr,	"Avr"
+	SysConst_SShortMonthNameMay,	"Mai"
+	SysConst_SShortMonthNameJun,	"Jun"
+	SysConst_SShortMonthNameJul,	"Jul"
+	SysConst_SShortMonthNameAug,	"Aoû"
+	SysConst_SShortMonthNameSep,	"Sep"
+	SysConst_SShortMonthNameOct,	"Oct"
+	SysConst_SShortMonthNameNov,	"Nov"
+	SysConst_SShortMonthNameDec,	"Déc"
+	SysConst_SLongMonthNameJan,	"Janvier"
+	SysConst_SLongMonthNameFeb,	"Février"
+	SysConst_SLongMonthNameMar,	"Mars"
+	SysConst_SVarOverflow,	"Débordement de variant"
+	SysConst_SVarInvalid,	"Argument incorrect"
+	SysConst_SVarBadType,	"Type de variant incorrect"
+	SysConst_SVarNotImplemented,	"Opération non supportée"
+	SysConst_SVarUnexpected,	"Erreur de variant inattendue"
+	SysConst_SExternalException,	"Exception externe %x"
+	SysConst_SAssertionFailed,	"Echec de l'assertion"
+	SysConst_SIntfCastError,	"Interface non supportée"
+	SysConst_SSafecallException,	"Exception dans méthode safecall"
+	SysConst_SMonitorLockException,	"Verrou d'objet non possédé"
+	SysConst_SNoMonitorSupportException,	"Fonction de gestion du moniteur non initialisée"
+	SysConst_SNotImplemented,	"Fonctionnalité non implémentée"
+	SysConst_SAssertError,	"%s (%s, ligne %d)"
+	SysConst_SAbstractError,	"Erreur abstraite"
+	SysConst_SModuleAccessViolation,	"Violation d'accès à l'adresse %p dans le module '%s'. %s de l'adresse %p"
+	SysConst_SOSError,	"Erreur système.  Code : %d.\r\n%s"
+	SysConst_SReadAccess,	"Lecture"
+	SysConst_SWriteAccess,	"Ecriture"
+	SysConst_SFormatTooLong,	"Chaîne de format trop longue"
+	SysConst_SVarArrayCreate,	"Erreur lors de la création du variant ou du tableau"
+	SysConst_SVarArrayBounds,	"Indice de variant ou de tableau hors limites"
+	SysConst_SVarArrayLocked,	"Le variant ou le tableau est verrouillé"
+	SysConst_SInvalidVarCast,	"Conversion de type variant incorrecte"
+	SysConst_SInvalidVarOp,	"Opération de variant incorrecte"
+	SysConst_SInvalidVarNullOp,	"Opération variant NULL incorrecte"
+	SysConst_SInvalidVarOpWithHResultWithPrefix,	"Opération variant incorrecte (%s%.8x)\n%s"
+	SysConst_SVarTypeOutOfRangeWithPrefix,	"Type de variant personnalisé (%s%.4x) hors limites"
+	SysConst_SVarTypeAlreadyUsedWithPrefix,	"Type de variant personnalisé (%s%.4x) déjà utilisé par %s"
+	SysConst_SVarTypeNotUsableWithPrefix,	"Type de variant personnalisé (%s%.4x) non utilisable"
+	SysConst_SVarTypeTooManyCustom,	"Trop de types de variants personnalisés ont été enregistrés"
+	SysConst_SVarTypeCouldNotConvert,	"Impossible de convertir le variant de type (%s) en type (%s)"
+	SysConst_SVarTypeConvertOverflow,	"Débordement lors de la conversion du variant de type (%s) en type (%s)"
+	SysConst_SZeroDivide,	"Division par zéro en virgule flottante"
+	SysConst_SOverflow,	"Débordement en virgule flottante"
+	SysConst_SUnderflow,	"Débordement inférieur flottant"
+	SysConst_SInvalidPointer,	"Opération de pointeur incorrecte"
+	SysConst_SInvalidCast,	"Transtypage de classe incorrect"
+	SysConst_SAccessViolationArg3,	"Violation d'accès à l'adresse %p. %s de l'adresse %p"
+	SysConst_SAccessViolationNoArg,	"Violation d'accès"
+	SysConst_SStackOverflow,	"Débordement de pile"
+	SysConst_SControlC,	"Frappe de Contrôle-C"
+	SysConst_SPrivilege,	"Instruction privilégiée"
+	SysConst_SOperationAborted,	"Opération abandonnée"
+	SysConst_SException,	"Exception %s dans le module %s en %p.\r\n%s%s\r\n"
+	SysConst_SExceptTitle,	"Erreur d'application"
+	SysConst_SInvalidFormat,	"Le format '%s' est incorrect ou incompatible avec l'argument"
+	SysConst_SArgumentMissing,	"Aucun argument pour le format '%s'"
+	SysConst_SDispatchError,	"Appels de méthode variante non supportés"
+	SysConst_SInvalidFloat,	"'%s' n'est pas une valeur en virgule flottante correcte"
+	SysConst_SInvalidTimeStamp,	"'%d.%d' n'est pas une heure correcte"
+	SysConst_SInvalidGUID,	"'%s' n'est pas une valeur GUID correcte"
+	SysConst_SInvalidBoolean,	"'%s' n'est pas une valeur booléenne"
+	SysConst_SDateEncodeError,	"Argument incorrect pour l'encodage de date"
+	SysConst_SOutOfMemory,	"Mémoire insuffisante"
+	SysConst_SInOutError,	"Erreur E/S %d"
+	SysConst_STooManyOpenFiles,	"Trop de fichiers ouverts"
+	SysConst_SAccessDenied,	"Accès au fichier refusé"
+	SysConst_SEndOfFile,	"Lecture au-delà de la fin de fichier"
+	SysConst_SDiskFull,	"Disque plein"
+	SysConst_SInvalidInput,	"Saisie numérique incorrecte"
+	SysConst_SDivByZero,	"Division par zéro"
+	SysConst_SRangeError,	"Erreur de vérification d'étendue"
+	SysConst_SIntOverflow,	"Débordement d'entier"
+	SysConst_SInvalidOp,	"Opération en virgule flottante incorrecte"
+END
+
+/* c:\program files (x86)\embarcadero\rad studio\8.0\lib\Win32\release\Controls.res */
+/* c:\program files (x86)\embarcadero\rad studio\8.0\lib\Win32\release\Buttons.res */
+/* c:\program files (x86)\embarcadero\rad studio\8.0\lib\Win32\release\ExtDlgs.res */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ChartViewer.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ChartControl.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ImageViewer.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\RepetitionChartsManager.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\StatsManager.dfm */
+/* c:\program files (x86)\embarcadero\rad studio\8.0\lib\Win32\release\WindowsXP.res */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\FitDisplay.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\SimulDisplay.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\About.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ThreadedProgress.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\EditFuncSettings.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\EditPhaseSettings.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ConfigModelFit.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\ConfigSimulation.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\Gui\MainWindow.dfm */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\PMP5.res */
+/* C:\Home\igarciadeco\Models\PMP\PMP5\SVN_Gallian\PMP5.drf */

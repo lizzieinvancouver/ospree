@@ -28,25 +28,30 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 chill.day <- read.csv("output/daily_expchill.csv")
 chill.unique.exptreat<-unique(chill.day$uniqueID)
 #chill.unique.exptreat<-unique(chill.day$ID_exptreat2)
-
+#check the date of when this file was created
+file.info("output/daily_expchill.csv")$ctime
+#If the dates are deemed too old by you, then you should rerun
+#'bb_daily_dataprep.R' script (this script is slow)."
 chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
 chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chilly)
 
-## read in data for pmp containing climate each day each site
-#load("output/fieldclimate_pmp.RData")
-#pmp.data <- tempval
+## read in daily climate data for each site
+#load("output/fieldclimate_dailyclim.RData")
+#dailyclim.data <- tempval
 #rm(tempval)
-#studiesnames <- names(pmp.data)
+#studiesnames <- names(dailyclim.data)
 #check the date of when these daily climate summary files were created in case they are older than you'd like:
-file.info("output/pmp/percbb_clim_pmpA.csv")$ctime
-file.info("output/pmp/percbb_clim_pmpB.csv")$ctime
-file.info("output/pmp/percbb_clim_pmpC.csv")$ctime
-file.info("output/pmp/percbb_clim_pmpD.csv")$ctime
-clima <- read.csv("output/pmp/percbb_clim_pmpA.csv", header=TRUE)
-climb <- read.csv("output/pmp/percbb_clim_pmpB.csv", header=TRUE)
-climc <- read.csv("output/pmp/percbb_clim_pmpC.csv", header=TRUE)
-climd <- read.csv("output/pmp/percbb_clim_pmpD.csv", header=TRUE)
+file.info("output/dailyclim/percbb_dailyclimA.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimB.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimC.csv")$ctime
+file.info("output/dailyclim/percbb_dailyclimD.csv")$ctime
+#If those dates are deemed too old by you, then you should rerun
+#'bb_daily_dataprep.R' script (this script is slow)."
+clima <- read.csv("output/dailyclim/percbb_dailyclimA.csv", header=TRUE)
+climb <- read.csv("output/dailyclim/percbb_dailyclimB.csv", header=TRUE)
+climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)
+climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
 climdat <- climdatab[!duplicated(climdatab), ] 
@@ -56,7 +61,6 @@ rm(clima,climb,climc,climd)
 dat.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dat.some <- subset(dat.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
 bbdat <- subset(dat.some, response.time!="")
-#bbdat.pmp<-read.csv("output/pmp/percbb_bb_pmp.csv", header=TRUE)#
 
 # add a column for when the experiment starts to bb data
 # fill it in with either last date of experimental chilling or (if not present) field sample date
@@ -77,14 +81,14 @@ addstartdat <- subset(bb, select=c("uniqueID", "expstartdate"))
 addstartdat <- addstartdat[!duplicated(addstartdat), ] # down to 1/6 of data ... 
 climdat.wstart <- merge(addstartdat, climdat, by.x="uniqueID", by.y="stn", all.y=TRUE) # currently not losing any data ... 
 climdat.wstart <- climdat.wstart[which(is.na(climdat.wstart$expstartdate)==FALSE),]
-climdat.wstart$date <- as.Date(climdat.wstart$doy2, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
+climdat.wstart$date <- as.Date(climdat.wstart$doy, origin=paste(climdat.wstart$year, "-01-01", sep=""), format="%Y-%m-%d")
 
 climdat.sm <- subset(climdat.wstart, date>=expstartdate)
                          
 
 ## make GDD column in the climate data
 
-climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy2),]
+climdat.sm <- climdat.sm[order(climdat.sm$uniqueID, climdat.sm$latitude, climdat.sm$longitude, climdat.sm$year, climdat.sm$doy),]
 cumsumnona <- function(x){cumsum(ifelse(is.na(x), 0, x)) + x*0}
 countcumna <- function(x){cumsum(is.na(x))}
 climdat.sm$cumgdd <- NA

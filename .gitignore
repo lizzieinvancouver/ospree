@@ -24,3 +24,13 @@ analyses/output/fieldclimate_pmp.RData
 *.bbl
 
 analyses/output/ospree_clean_withchill.csv
+
+analyses/output/dailyclim/percbb_dailyclim.csv
+
+analyses/output/dailytemp_old.csv
+
+analyses/output/ospree_clean_withchill_old.csv
+
+analyses/output/dailyclim/_archive/percbb.csv
+
+analyses/output/dailyclim/percbb.csv

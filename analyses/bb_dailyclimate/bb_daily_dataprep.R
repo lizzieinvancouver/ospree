@@ -49,7 +49,6 @@ cdater$Date <- substr(cdater$Date, 1, 10)
 cdater$date <- as.Date(cdater$Date, format="%Y-%m-%d")
 cdater$year <- as.numeric(format(cdater$date , "%Y"))
 cdater$doy <- as.numeric(format(cdater$date , "%j"))
-#Move this to the end
 # makes Tmean while we'here ... should check this
 cdater$Tmean <- rowMeans(cbind(cdater$Tmin, cdater$Tmax))
 
@@ -57,17 +56,7 @@ cdater$Tmean <- rowMeans(cbind(cdater$Tmin, cdater$Tmax))
 dat <- dater[which(dater$datasetID %in% unique(cdater$datasetID)),]
 
 cdat <- cdater[which(cdater$datasetID %in% unique(dat$datasetID)),]
-# sigh
-#dim(dater)
-#dim(dat)
-#unique(cdat$datasetID)
-#unique(dater$datasetID)
-#unique(dat$datasetID) # well, now, that's not bad 
 
-# note ..
-#unique(dat$respvar.simple)
-
-# anyway, back to work...
 # Getting ambient photoperiod 
 cdat$daylength <- NA
 
@@ -362,197 +351,51 @@ for(i in 1:dim(dat.bb)[1]){#3252 rows in dat
 
     
 #some checks of this file:
-sort(unique(dailyclim.bb$datasetID))#38 different studies
-sort(unique(dat$datasetID))#48 studies in full OSPREEBB database. 
-unique(climdatab$stn)[is.na(match(unique(climdatab$stn),unique(dat$datasetID)))]#
+sort(unique(dailyclim.bb$datasetID))#33 different studies
+sort(unique(dat$datasetID))#42 studies in full OSPREEBB database. 
 
-dim(dailyclim.bb)#2736285     36#HUGE! but this makes sense given that the origianl percbb data file was 1561 rows (1561*2*365=1139530)
-head(sort(unique(dailyclim.bb$Date)))#11 different studies
-
+dim(dailyclim.bb)#2491075     33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
+sort(unique(dailyclim.bb$datasetID))
 
 
 #save file with everything, just to have- this file is too big for github!
-#write.csv(dailyclim.bb,"output/pmp/percbb.csv", row.names=FALSE)
-#save budburst data and climate data as separate txt files, with 
-#stn="uniqueID" column- combination of many things to make it a unique identifier for each row. put species in population.  
+#write.csv(dailyclim.bb,"output/dailyclim/percbb.csv", row.names=FALSE)
+#save daily climate data
 dailyclim.bb$year2<-as.numeric(format(dailyclim.bb$Date , "%Y"))#year for climate data
 dailyclim.bb$doy2<-as.numeric(format(dailyclim.bb$Date , "%j"))#doy for climate data
 dailyclim.bb$Tmin<-as.numeric(dailyclim.bb$Tmin)
 dailyclim.bb$Tmax<-as.numeric(dailyclim.bb$Tmax)
 dailyclim.bb$Tmean<-(as.numeric(dailyclim.bb$Tmin)+as.numeric(dailyclim.bb$Tmax))/2
-#forgot to do this before running the monster loop!
-#dailyclim.bb$uniqueID <- paste(dailyclim.bb$datasetID, dailyclim.bb$fieldsample.date2, dailyclim.bb$forcetemp, dailyclim.bb$chilltemp, dailyclim.bb$chilldays,
-#                              dailyclim.bb$chillphotoperiod, dailyclim.bb$photoperiod_day)
-#Because the file is so big, I'll break it into 2 files
-dailyclim.bbA<-dailyclim.bb[dailyclim.bb$datasetID=="ashby62"|dailyclim.bb$datasetID=="basler12"|dailyclim.bb$datasetID=="basler14"|dailyclim.bb$datasetID=="caffarra11b"|dailyclim.bb$datasetID=="calme94"|dailyclim.bb$datasetID=="campbell75"|dailyclim.bb$datasetID=="falusi03"|dailyclim.bb$datasetID=="falusi97"|dailyclim.bb$datasetID=="fu13"|dailyclim.bb$datasetID=="gianfagna85",]
-dailyclim.bbB<-dailyclim.bb[dailyclim.bb$datasetID=="gomory15"|dailyclim.bb$datasetID=="guak98"|dailyclim.bb$datasetID=="guerriero90"|dailyclim.bb$datasetID=="gunderson12"|dailyclim.bb$datasetID=="hawkins12"|dailyclim.bb$datasetID=="heide12"|dailyclim.bb$datasetID=="heide93"|dailyclim.bb$datasetID=="heide93a"|dailyclim.bb$datasetID=="jones12"|dailyclim.bb$datasetID=="karlsson03",]
-dailyclim.bbC<-dailyclim.bb[dailyclim.bb$datasetID=="morin10"|dailyclim.bb$datasetID=="myking98"|dailyclim.bb$datasetID=="pagter15"|dailyclim.bb$datasetID=="partanen01"|dailyclim.bb$datasetID=="partanen05"|dailyclim.bb$datasetID=="partanen98"|dailyclim.bb$datasetID=="pop2000"|dailyclim.bb$datasetID=="ramos99"|dailyclim.bb$datasetID=="Sanz-Perez09"|dailyclim.bb$datasetID=="sanzperez10",]
+#Because the file is so big, I'll break it into 4 files
+dailyclim.bbA<-dailyclim.bb[dailyclim.bb$datasetID=="ashby62"|dailyclim.bb$datasetID=="basler12"|dailyclim.bb$datasetID=="basler14"|dailyclim.bb$datasetID=="caffarra11b"|dailyclim.bb$datasetID=="calme94"|dailyclim.bb$datasetID=="campbell75"|dailyclim.bb$datasetID=="falusi03"|dailyclim.bb$datasetID=="falusi97"|dailyclim.bb$datasetID=="fu13"|dailyclim.bb$datasetID=="gianfagna85",]# dim: 326002     35
+dailyclim.bbB<-dailyclim.bb[dailyclim.bb$datasetID=="gomory15"|dailyclim.bb$datasetID=="guak98"|dailyclim.bb$datasetID=="guerriero90"|dailyclim.bb$datasetID=="gunderson12"|dailyclim.bb$datasetID=="hawkins12"|dailyclim.bb$datasetID=="heide12"|dailyclim.bb$datasetID=="heide93"|dailyclim.bb$datasetID=="heide93a"|dailyclim.bb$datasetID=="jones12"|dailyclim.bb$datasetID=="karlsson03",]#
+dailyclim.bbC<-dailyclim.bb[dailyclim.bb$datasetID=="laube14a"|dailyclim.bb$datasetID=="morin10"|dailyclim.bb$datasetID=="myking98"|dailyclim.bb$datasetID=="pagter15"|dailyclim.bb$datasetID=="partanen01"|dailyclim.bb$datasetID=="partanen05"|dailyclim.bb$datasetID=="partanen98"|dailyclim.bb$datasetID=="pop2000"|dailyclim.bb$datasetID=="ramos99"|dailyclim.bb$datasetID=="Sanz-Perez09"|dailyclim.bb$datasetID=="sanzperez10",]
 dailyclim.bbD<-dailyclim.bb[dailyclim.bb$datasetID=="schnabel87"|dailyclim.bb$datasetID=="skre08"|dailyclim.bb$datasetID=="skuterud94"|dailyclim.bb$datasetID=="spann04"|dailyclim.bb$datasetID=="spiers74"|dailyclim.bb$datasetID=="swartz81"|dailyclim.bb$datasetID=="webb78"|dailyclim.bb$datasetID=="zohner16",]
+#check that everything is in these four datasets
+nrow(dailyclim.bbA)+nrow(dailyclim.bbB)+nrow(dailyclim.bbC)+nrow(dailyclim.bbD)
+nrow(dailyclim.bb)
 
-clim_pmpA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpA)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
-clim_pmpB<-dplyr::select(dailyclim.bbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpB)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
-clim_pmpC<-dplyr::select(dailyclim.bbC,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpC)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
-clim_pmpD<-dplyr::select(dailyclim.bbD,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#pmp needs one file with only climate data
-colnames(clim_pmpD)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyA)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyB<-dplyr::select(dailyclim.bbB,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyB)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyC<-dplyr::select(dailyclim.bbC,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)
+colnames(clim_dailyC)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyD<-dplyr::select(dailyclim.bbD,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyD)<-c("stn","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 
 #budburst data
-#forgot to do this before running the monster loop!
 bbdates.bb$uniqueID <- paste(bbdates.bb$datasetID, bbdates.bb$fieldsample.date2, bbdates.bb$forcetemp, bbdates.bb$chilltemp, bbdates.bb$chilldays,
                              bbdates.bb$chillphotoperiod, bbdates.bb$photoperiod_day)
 bbdates.bb$genus.species<-paste(bbdates.bb$genus, bbdates.bb$species, sep=".")
 bbdates.bb$year2<-as.numeric(format(bbdates.bb$bbdate , "%Y"))#year for budburst event
 bbdates.bb$doy2<-as.numeric(format(bbdates.bb$bbdate , "%j"))#doy forbudburst event
-bb_pmp<-dplyr::select(bbdates.bb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
-colnames(bb_pmp)<-c("stn","species","year","doy")
-#PMP needs txt files
-#write.table(clim_pmpA, "output/pmp/percbb_clim_pmpA.txt", row.names=FALSE,sep="\t")
-#write.table(clim_pmpB, "output/pmp/percbb_clim_pmpB.txt", row.names=FALSE,sep="\t")
-#write.table(clim_pmpC, "output/pmp/percbb_clim_pmpC.txt", row.names=FALSE,sep="\t")
-#write.table(clim_pmpD, "output/pmp/percbb_clim_pmpD.txt", row.names=FALSE,sep="\t")
-#write.table(bb_pmp, "output/pmp/percbb_bb_pmp.txt", row.names=FALSE,sep="\t") 
-#i prefer csv files
-write.csv(clim_pmpA, "output/pmp/percbb_clim_pmpA.csv", row.names=FALSE)
-write.csv(clim_pmpB, "output/pmp/percbb_clim_pmpB.csv", row.names=FALSE)
-write.csv(clim_pmpC, "output/pmp/percbb_clim_pmpC.csv", row.names=FALSE)
-write.csv(clim_pmpD, "output/pmp/percbb_clim_pmpD.csv", row.names=FALSE)
+bb_dailyclim<-dplyr::select(bbdates.bb, uniqueID,genus.species,year2, doy2)#pmp needs one files with only bud burst dates
+colnames(bb_dailyclim)<-c("stn","species","year","doy")
+write.csv(clim_dailyA, "output/dailyclim/percbb_dailyclimA.csv", row.names=FALSE)
+write.csv(clim_dailyB, "output/dailyclim/percbb_dailyclimB.csv", row.names=FALSE)
+write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE)
+write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
 #whole file:
-#write.csv(bb_pmp, "output/pmp/percbb_bb_pmp.csv", row.names=FALSE) 
-
-## OLD -- this was Lizzie's work to meet with Inaki in June 2017
-## It is just doing Fagus sylvatica .... 
-##
-
-# Subset down (for now) to Fagus sylvatica studies
-fagsyl <- subset(d, genus=="Fagus" & species=="sylvatica")
-unique(fagsyl$datasetID)
-unique(paste(fagsyl$datasetID, fagsyl$study))
-fag.clim <- cdat[which(cdat$datasetID %in% unique(fagsyl$datasetID)),]
-unique(fag.clim$datasetID)
-
-# Slim down the columns in fagsyl
-columns.tokeep <- c("datasetID", "ID_chilltreat", "study", "population", "provenance.lat",
-     "fieldsample.date",  "forcetemp" , "forcetemp_night", "photoperiod_day" ,  "photoperiod_night",
-     "response", "response.time", "respvar.simple", "datasetIDstudy", "chillbyhand", "fieldsample.date2",
-      "date", "sample.year", "month")
-
-fagsyl.sm <- subset(fagsyl, select=columns.tokeep)
-
-# Get the phenology data ...
-# We need exp ID and field sample date? And we need each trmt to be a different location eventually...
-fag.phen <- fagsyl.sm
-fag.phen$uniqueID <- paste(fag.phen$datasetID, fag.phen$fieldsample.date2, fag.phen$forcetemp)
-
-# subset down to budburst ... should update this eventually!
-fag.phen.bb <- subset(fag.phen, respvar.simple=="daystobudburst")
-
-# need to fix year ...
-# rule for now: if field sample date < August, then use year + 1, otherwise use year ...
-fag.phen.bb.sm <- subset(fag.phen.bb, is.na(month)==FALSE)
-fag.phen.bb.sm$year <- fag.phen.bb.sm$sample.year
-fag.phen.bb.sm$year[fag.phen.bb.sm$month>8] <- fag.phen.bb.sm$sample.year[fag.phen.bb.sm$month>8]+1
-fag.phen.bb.sm$year[fag.phen.bb.sm$month<8] <- fag.phen.bb.sm$sample.year[fag.phen.bb.sm$month<8]
-
-# We need exp ID and field sample date? And we need each trmt to be a different location eventually...
-fagus <- merge(fag.clim, fagsyl.sm, by=c("datasetID", "fieldsample.date2"), all.x=TRUE)
-dim(fag.clim)
-dim(fagus) ## hmm, definitely do not use this for the climate data (maybe try join instead of
-
-# for now summarize to studies that vary only forcing temps
-fagus.exp.types <-
-      ddply(fag.phen.bb.sm, c("datasetID", "study"), summarise,
-      n.photo.exps = length(unique(photoperiod_day)),
-      n.temp.exps = length(unique(forcetemp)))
-
-# ohdear, really only the fu13 study works for now... 
-fu13 <- subset(fag.phen.bb.sm, datasetID=="fu13")
-
-# summarizing data to try to answer this ... 
-fagus.studies.summary <-
-      ddply(fagus, c("datasetID", "fieldsample.date2"), summarise,
-      n.exps = length(unique(study)))
-fagus.samples.summary <-
-      ddply(fagus, c("datasetID", "study"), summarise,
-      n.exps = length(unique(fieldsample.date2)))
-# I think we are okay with just fieldsample.date2
-
-# Need climate data in form of station, lat, yr, doy, Cmin, Cmax, Cmean
-fag.clim$uniqueID <- paste(fag.clim$datasetID, fag.clim$fieldsample.date2)
-fag.clim.pmp <- subset(fag.clim, select=c("uniqueID", "lat", "year", "doy", "Tmin", "Tmax", "Tmean"))
-names(fag.clim.pmp) <- c("stn", "latitude", "year", "doy", "Tmin", "Tmax", "Tmean")
-fag.clim.pmp <- subset(fag.clim.pmp, stn=="fu13 2010-12-01" |stn=="fu13 2011-12-01")
-
-# We have the data two sample dates, we need it now for 4 treatments which are all 2010 collections
-# Very cheap approach below!
-fu.amb1 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb2 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb3 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb4 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb5 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb6 <- subset(fag.clim.pmp, stn=="fu13 2011-12-01")
-fu.amb1$Tmin[fu.amb1$year==2011 & fu.amb1$doy>333] <- fu.amb1$Tmin[fu.amb1$year=="2011" & fu.amb1$doy>333]+1
-fu.amb1$Tmin[fu.amb1$year=="2012"] <- fu.amb1$Tmin[fu.amb1$year=="2012"]+2
-fu.amb2$Tmin[fu.amb2$year=="2011" & fu.amb2$doy>333] <- fu.amb2$Tmin[fu.amb2$year=="2011" & fu.amb2$doy>333]+1
-fu.amb2$Tmin[fu.amb2$year=="2012"] <- fu.amb2$Tmin[fu.amb2$year=="2012"]+2
-fu.amb3$Tmin[fu.amb3$year=="2011" & fu.amb3$doy>333] <- fu.amb3$Tmin[fu.amb3$year=="2011" & fu.amb3$doy>333]+3
-fu.amb3$Tmin[fu.amb3$year=="2012"] <- fu.amb3$Tmin[fu.amb3$year=="2012"]+3
-fu.amb4$Tmin[fu.amb4$year=="2011" & fu.amb4$doy>333] <- fu.amb4$Tmin[fu.amb4$year=="2011" & fu.amb4$doy>333]+4
-fu.amb4$Tmin[fu.amb4$year=="2012"] <- fu.amb4$Tmin[fu.amb4$year=="2012"]+4
-fu.amb5$Tmin[fu.amb5$year=="2011" & fu.amb5$doy>333] <- fu.amb5$Tmin[fu.amb5$year=="2011" & fu.amb5$doy>333]+5
-fu.amb5$Tmin[fu.amb5$year=="2012"] <- fu.amb5$Tmin[fu.amb5$year=="2012"]+5
-fu.amb6$Tmin[fu.amb6$year=="2011" & fu.amb6$doy>333] <- fu.amb6$Tmin[fu.amb6$year=="2011" & fu.amb6$doy>333]+6
-fu.amb6$Tmin[fu.amb6$year=="2012"] <- fu.amb6$Tmin[fu.amb6$year=="2012"]+6
-
-
-# 1, 2, 5, 6 for 2010 
-fu.amb1.2010 <- subset(fag.clim.pmp, stn=="fu13 2010-12-01")
-fu.amb2.2010 <- subset(fag.clim.pmp, stn=="fu13 2010-12-01")
-fu.amb5.2010 <- subset(fag.clim.pmp, stn=="fu13 2010-12-01")
-fu.amb6.2010 <- subset(fag.clim.pmp, stn=="fu13 2010-12-01")
-fu.amb1$Tmin[fu.amb1$year==2010 & fu.amb1$doy>333] <- fu.amb1$Tmin[fu.amb1$year=="2010" & fu.amb1$doy>333]+1
-fu.amb1$Tmin[fu.amb1$year=="2011"] <- fu.amb1$Tmin[fu.amb1$year=="2011"]+2
-fu.amb2$Tmin[fu.amb2$year=="2010" & fu.amb2$doy>333] <- fu.amb2$Tmin[fu.amb2$year=="2010" & fu.amb2$doy>333]+1
-fu.amb2$Tmin[fu.amb2$year=="2011"] <- fu.amb2$Tmin[fu.amb2$year=="2011"]+2
-fu.amb5$Tmin[fu.amb5$year=="2010" & fu.amb5$doy>333] <- fu.amb5$Tmin[fu.amb5$year=="2010" & fu.amb5$doy>333]+5
-fu.amb5$Tmin[fu.amb5$year=="2011"] <- fu.amb5$Tmin[fu.amb5$year=="2011"]+5
-fu.amb6$Tmin[fu.amb6$year=="2010" & fu.amb6$doy>333] <- fu.amb6$Tmin[fu.amb6$year=="2010" & fu.amb6$doy>333]+6
-fu.amb6$Tmin[fu.amb6$year=="2011"] <- fu.amb6$Tmin[fu.amb6$year=="2011"]+6
-
-# Now, label the stations ... 
-fu.amb1$stn <- "fu13 2011-12-01 ambient+1"
-fu.amb2$stn <- "fu13 2011-12-01 ambient+2" 
-fu.amb3$stn <- "fu13 2011-12-01 ambient+3" 
-fu.amb4$stn <- "fu13 2011-12-01 ambient+4"
-fu.amb5$stn <- "fu13 2011-12-01 ambient+5"
-fu.amb6$stn <-  "fu13 2011-12-01 ambient+6"
-fu.amb1.2010$stn <- "fu13 2010-12-01 ambient+1"
-fu.amb2.2010$stn <- "fu13 2010-12-01 ambient+2"
-fu.amb5.2010$stn <- "fu13 2010-12-01 ambient+5"
-fu.amb6.2010$stn <- "fu13 2010-12-01 ambient+6"
-
-fag.clim.pmp$stn[fag.clim.pmp$stn=="fu13 2010-12-01"] <- "fu13 2010-12-01 ambient"
-fag.clim.pmp$stn[fag.clim.pmp$stn=="fu13 2011-12-01"] <- "fu13 2011-12-01 ambient"
-
-# And bind together ...
-fu13.clim.pmp <- rbind(fag.clim.pmp, fu.amb1.2010, fu.amb2.2010, fu.amb5.2010, fu.amb6.2010,
-    fu.amb1, fu.amb2, fu.amb3, fu.amb4, fu.amb5, fu.amb6)
-
-# And check 
-sort(unique(fu13$uniqueID))
-sort(unique(fu13.clim.pmp$stn))
-
-# End very cheap approach.
-
-# ... cleanup 
-subset(fu13.clim.pmp, is.na(Tmin)==TRUE)
-fu13.clim.pmp[is.na(fu13.clim.pmp)] <- -9999
-
-# prep BB data for PMP
-fu13$doy <- as.integer(fu13$response.time)
-fu13.pmp <- subset(fu13, select=c("uniqueID", "year", "doy"))
-names(fu13.pmp) <- c("stn", "year", "doy")
-
-write.csv(fu13.clim.pmp, "output/pmp/fu13.clim.pmp.csv", row.names=FALSE)
-write.csv(fu13.pmp, "output/pmp/fu13.bb.pmp.csv", row.names=FALSE)
+#write.csv(bb_dailyclim, "output/dailyclim/percbb_dailyclim.csv", row.names=FALSE) 
+#spann04 is all NAs...not sure why no climate data, and not sure if this is the only one with no climate data
