@@ -37,7 +37,7 @@ source("source/commoncols.R")
 # Get the data, only work with BB data!
 dater.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dater <- subset(dater.all, select=common.cols)
-cdater <- read.csv("output/dailytemp.csv", header=TRUE) 
+cdater <- read.csv("output/dailyclim/dailytemp.csv", header=TRUE) 
 head(cdater)
 
 # and format the dates ...
@@ -156,7 +156,7 @@ colnames(daily_chilltemp3)<-c("datasetID","uniqueID","ID_exptreat2","lat","long"
 
 #save this daily chilling climate file, since it has a column for the last chilldate for each study combination
 #Nacho needs this for calculating growing degree days
-write.csv(daily_chilltemp3,"output/daily_expchill.csv", row.names=FALSE)
+write.csv(daily_chilltemp3,"output/dailyclim/daily_expchill.csv", row.names=FALSE)
 
 #not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
 daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)

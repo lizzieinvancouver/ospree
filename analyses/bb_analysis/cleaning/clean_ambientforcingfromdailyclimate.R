@@ -25,7 +25,7 @@
 #}    
 
 ## read in last day of chilling and format a little
-chill.day <- read.csv("output/daily_expchill.csv")
+chill.day <- read.csv("output/dailyclim/daily_expchill.csv")
 chill.unique.exptreat<-unique(chill.day$uniqueID)
 
 chillneeded <- subset(chill.day, select=c("uniqueID", "lastchilldate"))
