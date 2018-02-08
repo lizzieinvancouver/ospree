@@ -37,7 +37,7 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chilly)
 
 ## read in daily climate data for each site
-#load("output/fieldclimate_dailyclim.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 #dailyclim.data <- tempval
 #rm(tempval)
 #studiesnames <- names(dailyclim.data)

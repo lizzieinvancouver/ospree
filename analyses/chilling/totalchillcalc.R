@@ -145,9 +145,9 @@ for(i in 1:nrow(chilldat)) {
            
            # chilling is calculated by multiplying chilldays and chilltemp together. 
            #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
-            dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
-            dat4$Exp_Utah_Model[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
-            dat4$Exp_Chill_portions[which(dat4$chilldays=="0" &dat4$chilltemp=="")]<-0
+            dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
+            dat4$Exp_Utah_Model[which(dat4$chilldays=="0")]<-0
+            dat4$Exp_Chill_portions[which(dat4$chilldays=="0")]<-0
             #check
           #length(dat4$Total_Utah_Model[which(dat4$chilldays=="0")])
            stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")

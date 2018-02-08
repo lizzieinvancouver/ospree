@@ -122,7 +122,7 @@ for(i in 1:nrow(nam)){ # i = 1
 save(tempval, file="output/dailyclim/fieldclimate_daily.RData")
 #(If you want to avoid connecting to the external hard drive, then start here)
 #load this .RData workspace)
-#load("output/fieldclimate_daily.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 #dailytemp <- do.call("rbind", tempval)
 #dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 #colnames(dailytemp)[1]<-"ID_fieldsample.date2"

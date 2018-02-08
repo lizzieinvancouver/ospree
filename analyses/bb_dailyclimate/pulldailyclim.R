@@ -59,7 +59,7 @@ source("bb_dailyclimate/pulldailyclimate_nam.R")
 
 
 #load this .RData workspace)
-#load("output/fieldclimate_dailyclim.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 dailytemp <- do.call("rbind", tempval)
 dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 colnames(dailytemp)[1]<-"ID_fieldsample.date2"
