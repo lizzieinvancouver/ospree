@@ -33,7 +33,6 @@ d$respvar[d$respvar=="1/daysto50%budburst"] <- "daysto50%budburst"
 
 # Still need to deal with :
 # for above, values of 95 to 137 it looks like ... but no field sampling date
-# "percentbudset"   
 
 # for now, dayofbudbreak is equivalent to daystobudbreak ... 
 # ailene 1 oct 2012: the only study with this respvar is hawkins12, and it is actually 50% budbreak and day of year (not days to)
@@ -51,8 +50,7 @@ d$respvar[d$respvar == "days to budbreak (on  50% of plants)"] <- "daysto50%budb
 d$respvar[d$respvar == "daysto50perbudburst"] <- "daysto50%budburst"
 d$respvar[d$respvar == "daystodudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daystobudbust"] <- "daystobudburst"
-d$respvar[d$respvar == "daystobudset"] <- "daystobudburst"
-d$respvar[d$respvar == "baystobudset"] <- "daystobudburst"
+d$respvar[d$respvar == "baystobudset"] <- "daystobudset"
 d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
 d$respvar[d$respvar == "days to budbust"] <- "daystobudburst"
@@ -63,6 +61,7 @@ d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
 
   
 # Percent something
+d$respvar[d$respvar == "percentoftwigswithbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percentbudsburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percent_apicalbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "% plants with budburst"] <- "percentbudburst"
@@ -216,6 +215,7 @@ d$respvar.simple[d$respvar == "stolonsperplant"] <- "othernums"
 d$respvar.simple[d$respvar == "percentfruiting"] <- "otherpercents"
 d$respvar.simple[d$respvar == "percentrooting"] <- "otherpercents"
 d$respvar.simple[d$respvar == "percentrunnering"] <- "otherpercents"
+d$respvar.simple[d$respvar == "percentbudset"] <- "otherpercents"
 
 # fruitmass
 d$respvar.simple[d$respvar == "freshfruitg"] <- "fruitmass"
@@ -225,6 +225,7 @@ d$respvar.simple[d$respvar == "fruitmassperplant"] <- "fruitmass"
 d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not Woody
 
 # other
+d$respvar.simple[d$respvar == "daystobudset"] <- "other"
 d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
 d$respvar.simple[d$respvar == "survival"] <- "other"
 d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
@@ -270,6 +271,8 @@ d$respvar.simple[d$respvar == "flowers"] <- "percentflower"
 # viheraaarnio06 update respvar.simple from NA to percentbudset
 d <- within(d, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
 
+# Fix data that is about budset, not budburst
+d$respvar[which(d$datasetID=="howe95" & d$figure.table..if.applicable.=="fig1a")] <- "daystobudset"
 
 # check your work .... 
 checking <- subset(d, is.na(respvar.simple)==TRUE)
