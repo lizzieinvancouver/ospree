@@ -39,7 +39,7 @@ file.info("output/dailyclim/percbb_dailyclimB.csv")$ctime
 file.info("output/dailyclim/percbb_dailyclimC.csv")$ctime
 file.info("output/dailyclim/percbb_dailyclimD.csv")$ctime
 #If those dates are deemed too old by you, then you should rerun
-#'bb_daily_dataprep.R' script (this script is slow)."
+#'pulldailyclim.R' and 'bb_daily_dataprep.R' script (these scripts are slow).
 clima <- read.csv("output/dailyclim/percbb_dailyclimA.csv", header=TRUE)
 climb <- read.csv("output/dailyclim/percbb_dailyclimB.csv", header=TRUE)
 climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)

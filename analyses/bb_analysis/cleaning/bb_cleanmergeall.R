@@ -41,7 +41,7 @@ source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 r
 source("bb_analysis/cleaning/clean_ambientforcing.R")
 
 # 5b. Check date of daily climate files used in step 5c-
-#if they are too old for your taste,run bb_daily_dataprep.R script (this takes a while)
+#if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
 source("bb_analysis/cleaning/clean_checkdateofclimatedata.R")
 
 # 5c. Clean ambient forcing daily - just activated Nov16th2017 to be checked
