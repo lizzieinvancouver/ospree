@@ -25,7 +25,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
   setwd("~/Documents/git/ospree/analyses")
 
 ## read in last day of chilling and format a little
-chill.day <- read.csv("output/daily_expchill.csv")
+chill.day <- read.csv("output/dailyclim/daily_expchill.csv")
 chill.unique.exptreat<-unique(chill.day$uniqueID)
 #chill.unique.exptreat<-unique(chill.day$ID_exptreat2)
 #check the date of when this file was created
@@ -37,7 +37,7 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 #head(chilly)
 
 ## read in daily climate data for each site
-#load("output/fieldclimate_dailyclim.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 #dailyclim.data <- tempval
 #rm(tempval)
 #studiesnames <- names(dailyclim.data)

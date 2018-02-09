@@ -87,14 +87,16 @@ for(i in 1:nrow(nam)){ # i = 1
     long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
     mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#check that the lat/long combinations has temperature data. 
+    print(mintest);print(j)
     #if no temperature data for the focal lat/long, choose the next closest one. 
-    #the below code cose up to 0.1 degrees (~10km) away from the closest lat/long)
-    if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, chosee a different one
+    #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
+    if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, choose a different one
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
       lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
       mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+      
       if(is.na(unique(mintest))){
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
@@ -106,7 +108,7 @@ for(i in 1:nrow(nam)){ # i = 1
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
           long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
           lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
-        }}}
+          }}}
     mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
     maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
     nc_close(jx)
@@ -117,10 +119,10 @@ for(i in 1:nrow(nam)){ # i = 1
 }
 
 # If you want to (as Lizzie does) you can write out tempval, which is all the climate pulled in a list form
-save(tempval, file="output/fieldclimate_daily.RData")
+save(tempval, file="output/dailyclim/fieldclimate_daily.RData")
 #(If you want to avoid connecting to the external hard drive, then start here)
 #load this .RData workspace)
-#load("output/fieldclimate_daily.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 #dailytemp <- do.call("rbind", tempval)
 #dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 #colnames(dailytemp)[1]<-"ID_fieldsample.date2"

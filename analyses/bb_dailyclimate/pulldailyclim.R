@@ -59,7 +59,7 @@ source("bb_dailyclimate/pulldailyclimate_nam.R")
 
 
 #load this .RData workspace)
-#load("output/fieldclimate_dailyclim.RData")
+#load("output/dailyclim/fieldclimate_daily.RData")
 dailytemp <- do.call("rbind", tempval)
 dailytemp<-as.data.frame(cbind(row.names(dailytemp),dailytemp))
 colnames(dailytemp)[1]<-"ID_fieldsample.date2"
@@ -71,23 +71,21 @@ dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date
 #Too many values at 228293 locations: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ... 
 #this is ok- it is just getting rid of some extra stuff that is not needed as a column in the resulting "dailytemp3.csv" file
 #write a csv file of the daily Tmin and Tmax data
-write.csv(dailytemp4, "output/dailytemp.csv", row.names=FALSE, eol="\r\n")
+write.csv(dailytemp4, "output/dailyclim/dailytemp.csv", row.names=FALSE, eol="\r\n")
 
 #checks:
-#dim(dailytemp4)#228294  rows, 7 columns
+#dim(dailytemp4)#229024  rows, 7 columns
 #check data for a few sites:
 #first, for 1950s studies (ashby)
 #dailytemp4<-read.csv("output/dailytemp.csv")
 #head(dailytemp4)
-#ashby<-dailytemp4[dailytemp4$datasetID=="ashby62",]
-#check code for swartz81
-#swartz<-dailytemp4[dailytemp4$datasetID=="swartz81",]
 #check how many other sites are mising data
-#length(which(is.na(dailytemp4$Tmin)))#5612, which is 2.4% of all data (much less than before!)
-#unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#4/18 sites (boyer, giafagna85, heidi93,and schnabel87) are missing some temperature data
+#length(which(is.na(dailytemp4$Tmin)))#5271 which is 0.2% of all data (much less than before!)
+#unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#1/18 sites (heidi93) is missing some temperature data
 #Make list of the studies that are missing large amounts of Temp data
 #dailytemp4$missingT<-0
 #dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
 #temptab<-table(dailytemp4$datasetID,dailytemp4$missingT)
 #missingtemp<-temptab[temptab[,2]>0,]
+#heide93<-dailytemp4[dailytemp4$datasetID=="heide93",]
 

@@ -1,18 +1,13 @@
 ## Started 13 June 2017 ##
 ## By Lizzie ##
-
-## File extracts daily climate data for the OSPREE experiments to try PMP ##
-## Right now mostly old code from when I was mainly focus on FAGSYL studies ##
-## But we should try to do everything now ... ##
-
-## Errors to deal with ... ##
-## Check out what is up with the climate mean data not being between and min and max ##
-## Check when tmin > tmax and reverse them! ##
-
-## For PMP ##
-# Need climate data in form of station, lat, yr, doy, Cmin, Cmax, Cmean (and need full year of data, so for most studies need two full years)
-# Need phen data in form of station, population, yr, doy (of BB)
-# Output should be TXT files 
+##Added to by Ailene started on July 12, 2017
+#General approach is:
+#1. Create two daily climate datasets to pull from:
+#a) ambient climate data (which Lizzie pulled together already)
+#b) experimental chilling data (uses chilltemp, chilldays, chillphotoperiod to create daily experimental chilling data)
+#2. Using the budburst data only, expand each row of data (which is a budburst event) to include 
+#daily climate data up to that date,choosing ambient climate data or experimental chilling data, as appropriate,
+#and then filling in daily experimental climate data for forcing, if necessary
 
 ## housekeeping
 rm(list=ls()) 
@@ -31,13 +26,14 @@ library(tidyr)
 library(plyr)
 library(geosphere)
 
+#Part 1a:
 # sourcing
 source("source/commoncols.R")
 
 # Get the data, only work with BB data!
 dater.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dater <- subset(dater.all, select=common.cols)
-cdater <- read.csv("output/dailytemp.csv", header=TRUE) 
+cdater <- read.csv("output/dailyclim/dailytemp.csv", header=TRUE) 
 head(cdater)
 
 # and format the dates ...
@@ -80,16 +76,6 @@ dat$year <- dat$sample.year
 dat$year[dat$month>8] <- dat$sample.year[dat$month>8]+1
 dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
 
-#Ailene started adding code here on July 12, 2017
-#General approach is:
-#1. Create two daily climate datasets to pull from:
-#a) ambient climate data (which Lizzie pulled together already)
-#b) experimental chilling data (uses chilltemp, chilldays, chillphotoperiod to create daily experimental chilling data)
-#2. Using the budburst data only, expand each row of data (which is a budburst event) to include 
-#daily climate data up to that date,choosing ambient climate data or experimental chilling data, as appropriate,
-#and then filling in daily experimental climate data for forcing, if necessary
-
-#Lizzie has already done part 1a with the above code.
 #For part 1b, we need to modify the climate data so that it switches from field (ambient) conditions currently in cdat to 
 #experimental chilling conditions after the field sampling date. 
 #First look to see how many studies have experimental climate (either/both chilling (chilltemp, chilldays, chillphotoperiod) and forcing (forctemp)):
@@ -156,7 +142,7 @@ colnames(daily_chilltemp3)<-c("datasetID","uniqueID","ID_exptreat2","lat","long"
 
 #save this daily chilling climate file, since it has a column for the last chilldate for each study combination
 #Nacho needs this for calculating growing degree days
-write.csv(daily_chilltemp3,"output/daily_expchill.csv", row.names=FALSE)
+write.csv(daily_chilltemp3,"output/dailyclim/daily_expchill.csv", row.names=FALSE)
 
 #not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
 daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)
@@ -398,4 +384,4 @@ write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE
 write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
 #whole file:
 #write.csv(bb_dailyclim, "output/dailyclim/percbb_dailyclim.csv", row.names=FALSE) 
-#spann04 is all NAs...not sure why no climate data, and not sure if this is the only one with no climate data
+#dat<-read.csv("output/dailyclim/percbb_dailyclimALL.csv", header=TRUE)
