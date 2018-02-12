@@ -87,7 +87,7 @@ for(i in 1:nrow(nam)){ # i = 1
     long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
     mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#check that the lat/long combinations has temperature data. 
-    print(mintest);print(j)
+    #print(mintest);print(j)
     #if no temperature data for the focal lat/long, choose the next closest one. 
     #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
     if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, choose a different one
@@ -129,6 +129,7 @@ save(tempval, file="output/dailyclim/fieldclimate_daily.RData")
 #dailytemp2<-separate(data = dailytemp, col = ID_fieldsample.date2, into = c("datasetID", "lat","long","fieldsample.date2"), sep = "\\_")
 #row.names(dailytemp2)<-NULL
 #dailytemp3<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date,Tmin,Tmax))
+#note: no climate data for boyer 1983-1984
 
 stop("Not an error, just stopping here to say we're now done pulling daily climate data for North America!")
 

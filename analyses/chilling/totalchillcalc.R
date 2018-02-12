@@ -126,7 +126,13 @@ for(i in 1:nrow(chilldat)) {
            #Four studies have field chilling reported with the utah model: "biasi12"    "cook00b"    "heide93"    "skuterud94"
           dat4$Field_Utah_Model[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]<-dat4$field.chill.units[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]#149 rows
            
-           ### Now add column for total chilling (field plus experimental)
+          # chilling is calculated by multiplying chilldays and chilltemp together. 
+          #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
+          dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
+          dat4$Exp_Utah_Model[which(dat4$chilldays=="0")]<-0
+          dat4$Exp_Chill_portions[which(dat4$chilldays=="0")]<-0
+ 
+          ### Now add column for total chilling (field plus experimental)
            ### First, total chilling = exp and field
            dat4$Total_Chilling_Hours <- dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
            dat4$Total_Utah_Model <- dat4$Exp_Utah_Model+dat4$Field_Utah_Model
@@ -143,12 +149,7 @@ for(i in 1:nrow(chilldat)) {
            #check which sites are missing chilling data:
            #unique(dat4$datasetID[which(is.na(dat4$Total_Utah_Model))])
            
-           # chilling is calculated by multiplying chilldays and chilltemp together. 
-           #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
-            dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
-            dat4$Exp_Utah_Model[which(dat4$chilldays=="0")]<-0
-            dat4$Exp_Chill_portions[which(dat4$chilldays=="0")]<-0
-            #check
+              #check
           #length(dat4$Total_Utah_Model[which(dat4$chilldays=="0")])
            stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")
            

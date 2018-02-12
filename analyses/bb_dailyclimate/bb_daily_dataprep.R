@@ -383,5 +383,5 @@ write.csv(clim_dailyB, "output/dailyclim/percbb_dailyclimB.csv", row.names=FALSE
 write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE)
 write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
 #whole file:
-#write.csv(bb_dailyclim, "output/dailyclim/percbb_dailyclim.csv", row.names=FALSE) 
+#write.csv(bb_dailyclim, "output/dailyclim/percbb_dailyclimALL.csv", row.names=FALSE) 
 #dat<-read.csv("output/dailyclim/percbb_dailyclimALL.csv", header=TRUE)
