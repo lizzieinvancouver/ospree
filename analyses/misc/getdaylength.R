@@ -16,7 +16,6 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 }else 
   setwd("~/Documents/git/ospree/analyses")
 
-
 projs<-c("1981_2000","A1Fi_2081_2100","B2_2081_2100")
 
 get_dayl <- function(species) {#
@@ -24,10 +23,12 @@ get_dayl <- function(species) {#
     path=paste("misc/dataPhenofit/",species,"/",projs[i],sep="")
     file <- file.path(path, "DateLeafMean.txt")
     lo<-read.table(file, header=TRUE)
-     name<-paste("output/",species,"_",projs[i],"_daylength.csv",sep="")
-    write.csv(fitness,name, row.names=FALSE)#or txt file?
+    lo$lodoy<-as.integer(lo$MeanDateLeaf)
+    lo$daylength<-daylength(lo$Lat,lo$lodoy)
+    name<-paste("output/projections/",species,"_",projs[i],"_daylength.csv",sep="")
+    write.csv(lo,name, row.names=FALSE)#or txt file?
   }
 }  
 #For now, interested in the following species: "Fagus_sylvatica","Quercus_robur"
-getpresabs("Fagus_sylvatica")
-getpresabs("Quercus_robur")
+get_dayl("Fagus_sylvatica")
+get_dayl("Quercus_robur")

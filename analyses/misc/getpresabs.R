@@ -23,7 +23,7 @@ getpresabs <- function(species) {#
     fitness<-read.table(file, header=TRUE)
     fitness$pres<-0
     fitness$pres[fitness$MeanFitness>0.1]<-1#Presence if fitness is >0.1, as recommended by Isabelle 
-    name<-paste("output/",species,"_",projs[i],".csv",sep="")
+    name<-paste("output/projections/",species,"_",projs[i],".csv",sep="")
     write.csv(fitness,name, row.names=FALSE)#or txt file?
   }
 }  
