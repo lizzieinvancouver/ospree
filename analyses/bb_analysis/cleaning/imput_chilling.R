@@ -5,7 +5,7 @@
 
 ######Falusi 90  chilling from fall- first week of february
 ###but ahhh we dont not what year? can we impute/. Received Dec 1989. Trial lasted 235 days. 
-###I would guess it took time analyze results so I'd imagine the year of the trial is 1987-88
+###I would guess it took time analyze results so I'd imagine the year of the trial is 1987-88 but no idea
 d$fieldsample.date2[which(d$datasetID=="falusi90" & d$chilldays=="winter")] <- 02-01-88? ##would fix 94 rows
   d$chilldays[which(d$datasetID=="falusi90" & is.na(d$chilldays))] <-0 ##would fix 69 rows
   
@@ -15,7 +15,7 @@ d$fieldsample.date2[which(d$datasetID=="falusi90" & d$chilldays=="winter")] <- 0
   d$[which(d$datasetID=="falusi96" & d$study=="exp1")]<-  #would fix 37 row
     #exp2  ambient for 89-90
     d$[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="yes")]<-  ###would fix 80 entries
-    d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="no")] <-0 ## would fix 44 rows  
+    d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="no")] <-0  ## No chilling. would fix 44 rows  
   
   #exp3  ambient for 90-91 brought in first week in march
   d$fieldsample.date.2[which(d$datasetID=="falusi96" & d$study=="exp3"& d$fieldchill=="yes")]<-03-01-91 ##would fix 84 rows
