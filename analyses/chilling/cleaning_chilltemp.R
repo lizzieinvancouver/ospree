@@ -19,6 +19,17 @@ d[which(d$datasetID=="karlsson03" & d$chilldays==75),]$fieldsample.date<-"15-Mar
 d[which(d$datasetID=="karlsson03" & d$chilldays==105),]$fieldsample.date<-"15-Apr-2001"#
 d[which(d$datasetID=="karlsson03" & d$chilldays==130),]$fieldsample.date<-"15-May-2001"#
 d[which(d$datasetID=="karlsson03"),]$continent<-"europe"#
+##Morin10 1 row is missing field sample date, but it should be the same as the rest
+d$fieldsample.date[which(d$datasetID=="morin10")]<-"01-Jan-2004"
+d$fieldsample.date[which(d$datasetID=="laube14b")]<-"03-Mar-2012" ###gets 17 more rows
+
+#######Falusi96
+#exp1 grown under natural conditions in florence in 1987-chilling should just be ambient for 1987-88
+d$fieldsample.date[which(d$datasetID=="falusi96" & d$study=="exp1")]<-paste("30-Apr-",d$year[which(d$datasetID=="falusi96" & d$study=="exp1")],sep="")  #use April 30 for field sample date #all get field chill in this experiment
+#exp2  ambient for 89-90
+d$fieldsample.date[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="yes")]<-paste("30-Apr-",d$year[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="yes")],sep="")  #use April 30 for field sample date #all get field chill in this experiment
+#exp3  ambient for 90-91 brought in first week in march
+d$fieldsample.date[which(d$datasetID=="falusi96" & d$study=="exp3"& d$fieldchill=="yes")]<-"01-Mar-1991"
 
 #This code fixes a mistake in the database, where things were misentered in the chilltemp column
 d$chilltemp[d$datasetID=="junttila12" & d$figure.table..if.applicable. == "table2"] <- ""#table 2 shows unchilled data= this was misenetered as chilltemp=4 previously
@@ -34,6 +45,8 @@ d[which(d$chilltemp=="elevated"),]$chilltemp<-"ambient + 0.76"#pagter15, amount 
 d[which(d$chilltemp=="ambient plus days at 4C"),]$chilltemp<-4#okie11 exp2
 d[which(d$chilltemp=="<16"),]$chilltemp <- "ambient" #falusi90 - per lab meeting discussion
 d[which(d$chilltemp==">16"),]$chilltemp <- 16 #falusi90 - per lab meeting discussion
+###sogaard08 chill temp was not entered properly for this experiement
+d$chilltemp[which(d$datasetID=="sogaard08" & d$study=="exp3b")] <- 4
 
 #Add new column to flag when chilling should be calculated  "by hand" instead of using simple chilling calculated or ambient climate (or after ambient climate for "amibent +" studies)
 d$chillbyhand<-0
