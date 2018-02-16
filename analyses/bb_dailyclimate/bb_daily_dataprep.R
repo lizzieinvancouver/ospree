@@ -54,11 +54,12 @@ dat <- dater[which(dater$datasetID %in% unique(cdater$datasetID)),]
 cdat <- cdater[which(cdater$datasetID %in% unique(dat$datasetID)),]
 
 # Getting ambient photoperiod 
-cdat$daylength <- NA
 
-for(i in c(1:nrow(cdat))){
-    cdat$daylength[i] <- daylength(lat=cdat$lat[i], doy=cdat$date[i])
-} # Err, can we do this with an apply command? My loop is really slow.... but it works if you wait a couple minutes
+#for(i in c(1:nrow(cdat))){
+#    cdat$daylength[i] <- daylength(lat=cdat$lat[i], doy=cdat$date[i])
+#} # Err, can we do this with an apply command? My loop is really slow.... but it works if you wait a couple minutes
+#I think this does the same thing...
+cdat$daylength <- daylength(lat=cdat$lat, doy=cdat$date)
 
 # Back to the phenology data ... 
 # We need exp ID and field sample date.
