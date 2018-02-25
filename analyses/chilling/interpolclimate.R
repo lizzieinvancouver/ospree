@@ -59,6 +59,11 @@ for(i in names(tempval)){
   
   chillcalcs <- rbind(chillcalcs, data.frame(datasetIDlatlong = i,chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
+#Check to see if any problems from "imput_chilling.R" are solved:
+#head(chillcalcs)
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="falusi96_38.26666667_15.988_1988-04-30_0",])
+
+
 #save the field chilling calculations in a separate file
 write.csv(chillcalcs, "output/fieldchillcalcslatlong.csv", row.names=FALSE, eol="\r\n")
 

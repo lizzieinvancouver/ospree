@@ -1,12 +1,13 @@
 # Read in netCDF files to pull climate data from europe
 # This requires you to work off of the external hard drive with climate data
 
-eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v15.0.nc"))
-eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v15.0.nc"))
+eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v16.0.nc"))
+eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v16.0.nc"))
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
+#missing climate data for i=18 (lat38.2 6666667, long15.988)
 tempval <- list() 
-for(i in 1:nrow(eur)){ # i = 1
+for(i in 1:nrow(eur)){ # i = 1 
   print(i)
   # find this location
   lo <- eur[i,"chill.long"]
@@ -42,6 +43,55 @@ for(i in 1:nrow(eur)){ # i = 1
   if(endday<stday){endday=stday}
   
   # get temperature values for this date range.
+  #if no temperature data for the focal lat/long, choose the next closest one. 
+  #the below code cose up to 0.1 degrees (~10km) away from the closest lat/long)
+  mintest<-ncvar_get(eur.tempmn,'tn', 
+                     start=c(nlong.cell,nlat.cell,st), 
+                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+  ) 
+  if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, chosee a different one
+    ndiff.long.cell[which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]]<-NA 
+    ndiff.lat.cell[which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]]<-NA
+    nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]
+    nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
+    mintest<-ncvar_get(eur.tempmn,'tn', 
+                       start=c(nlong.cell,nlat.cell,st), 
+                       count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+    )     
+    if(is.na(unique(mintest))){
+      ndiff.long.cell[which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]]<-NA 
+      ndiff.lat.cell[which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]]<-NA
+      nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]
+      nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
+      mintest<-ncvar_get(eur.tempmn,'tn', 
+                         start=c(nlong.cell,nlat.cell,st), 
+                         count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+      ) 
+      }}
+  maxtest<-ncvar_get(eur.tempmx,'tx', 
+                     start=c(xlong.cell,xlat.cell,st), 
+                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+  ) 
+  if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, chosee a different one
+    xdiff.long.cell[which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]]<-NA 
+    xdiff.lat.cell[which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]]<-NA
+    xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]
+    xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]
+    maxtest<-ncvar_get(eur.tempmx,'tx', 
+                       start=c(xlong.cell,xlat.cell,st), 
+                       count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+    )     
+    if(is.na(unique(mintest))){
+      xdiff.long.cell[which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]]<-NA 
+      xdiff.lat.cell[which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]]<-NA
+      xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]
+      xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]
+      maxtest<-ncvar_get(eur.tempmx,'tx', 
+                         start=c(xlong.cell,xlat.cell,st), 
+                         count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+      )
+    }}
+  
   # check the dim of the netcdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
   mins <- ncvar_get(eur.tempmn,'tn', 
                     start=c(nlong.cell,nlat.cell,st), 

@@ -16,6 +16,7 @@ chilldat$chilldays<-as.numeric(chilldat$chilldays)
 chilldat[which(is.na(chilldat$year)),]$year<-2016 #temporary fix for when years are not currently listed!
 chilldat<- chilldat[apply(chilldat, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 chilldat<-rbind(chilldat,byhand)
+rownames(chilldat)<-NULL
 expchillcalcs <- vector()
 ###First, need file with hrly temperature data for each row in dataframe
            
@@ -85,7 +86,8 @@ for(i in 1:nrow(chilldat)) {
         )
       expchillcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) 
     }
-    
+  } else if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] ==0 & !is.na(chilldat$chilldays[i]) & chilldat$chillbyhand[i]==0) {
+    expchillcalc <- data.frame("Chilling_Hours"=0, "Utah_Model"=0, "Chill_portions"=0)
   } else {expchillcalc <- data.frame("Chilling_Hours"=NA, "Utah_Model"=NA, "Chill_portions"=NA) }
            
            expchillcalcs <- rbind(expchillcalcs, 
@@ -128,7 +130,7 @@ for(i in 1:nrow(chilldat)) {
            
           # chilling is calculated by multiplying chilldays and chilltemp together. 
           #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
-          d$chilldays[which(d$datasetID=="falusi90" & is.na(d$chilldays))] <-0 #no chilling for these
+          d$chilldays[which(d$datasetID=="falusi90" & d$chilldays=="")] <-0 #no chilling for these
           d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="no")] <-0  ## No chilling. would fix 44 rows  
           d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp3"& d$fieldchill=="no")] <-0    ##would fix 52 rows
           ###li05 short day controls got no chilling
