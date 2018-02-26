@@ -114,7 +114,7 @@ for(i in 1:nrow(chilldat)) {
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
            #Check the sites that are missing chilling calculations because they are not North America or Europe (eg biasi12, cook00, gansert02, nishimoto95) or because they are too recent (Zohner16).
            #Also, any site without field sample dates do not have field chilling, because do not have a field sample date.
-           #nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2]))
+           #nochillcalcs <- unique(dat3$ID_fieldsample.date2[!dat3$ID_fieldsample.date2 %in% chillcalcs$ID_fieldsample.date2])
            
            chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date2 %in% dat3$ID_fieldsample.date2,]
            #found 2 duplicate chilling calculation for laube14a: laube14a_48.403008_11.711811_2012-01-30_0 and laube14a_48.403008_11.711811_2012-03-14_0. For some reason, there are 2 years listed for this one- 2010/2011 and 2011/2012. since field sample date was january 2012, it should just be te 2011-2012 season. Remove
@@ -130,11 +130,11 @@ for(i in 1:nrow(chilldat)) {
            
           # chilling is calculated by multiplying chilldays and chilltemp together. 
           #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
-          d$chilldays[which(d$datasetID=="falusi90" & d$chilldays=="")] <-0 #no chilling for these
-          d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp2"& d$fieldchill=="no")] <-0  ## No chilling. would fix 44 rows  
-          d$chilldays[which(d$datasetID=="falusi96" & d$study=="exp3"& d$fieldchill=="no")] <-0    ##would fix 52 rows
+          dat4$chilldays[which(dat4$datasetID=="falusi90" & dat4$chilldays=="")] <-0 #no chilling for these
+          dat4$chilldays[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="no")] <-0  ## No chilling. would fix 44 rows  
+          dat4$chilldays[which(d$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="no")] <-0    ##would fix 52 rows
           ###li05 short day controls got no chilling
-          d$chillday[which(d$datasetID=="li05" & d$other.treatment=="short day controls")] <- 0  
+          dat4$chillday[which(dat4$datasetID=="li05" & dat4$other.treatment=="short day controls")] <- 0  
           
           
           dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
