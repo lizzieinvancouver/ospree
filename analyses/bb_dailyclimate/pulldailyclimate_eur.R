@@ -51,6 +51,54 @@ for(i in 1:nrow(eur)){ # i = 1
   en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
   if(en<st){en=st}
   if(endday<stday){endday=stday}
+  #if no temperature data for the focal lat/long, choose the next closest one. 
+  #the below code cose up to 0.1 degrees (~10km) away from the closest lat/long)
+  mintest<-ncvar_get(eur.tempmn,'tn', 
+                     start=c(nlong.cell,nlat.cell,st), 
+                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+  ) 
+  if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, chosee a different one
+    ndiff.long.cell[which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]]<-NA 
+    ndiff.lat.cell[which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]]<-NA
+    nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]
+    nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
+    mintest<-ncvar_get(eur.tempmn,'tn', 
+                       start=c(nlong.cell,nlat.cell,st), 
+                       count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+    )     
+    if(is.na(unique(mintest))){
+      ndiff.long.cell[which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]]<-NA 
+      ndiff.lat.cell[which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]]<-NA
+      nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]
+      nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
+      mintest<-ncvar_get(eur.tempmn,'tn', 
+                         start=c(nlong.cell,nlat.cell,st), 
+                         count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+      ) 
+    }}
+  maxtest<-ncvar_get(eur.tempmx,'tx', 
+                     start=c(xlong.cell,xlat.cell,st), 
+                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+  ) 
+  if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, chosee a different one
+    xdiff.long.cell[which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]]<-NA 
+    xdiff.lat.cell[which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]]<-NA
+    xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]
+    xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]
+    maxtest<-ncvar_get(eur.tempmx,'tx', 
+                       start=c(xlong.cell,xlat.cell,st), 
+                       count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+    )     
+    if(is.na(unique(mintest))){
+      xdiff.long.cell[which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]]<-NA 
+      xdiff.lat.cell[which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]]<-NA
+      xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]
+      xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell, na.rm=TRUE))[1]
+      maxtest<-ncvar_get(eur.tempmx,'tx', 
+                         start=c(xlong.cell,xlat.cell,st), 
+                         count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+      )
+    }}
   
   # get temperature values for this date range.
   # check the dim of the netcdf file, str(netcdf), and see what the order of the different dimensions are. In this case, it goes long, lat, time. So when we are moving through the file, we give it the long and lat and date of start, then move through the files by going 'up' the cube of data to the end date
