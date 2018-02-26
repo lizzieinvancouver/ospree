@@ -61,13 +61,12 @@ dim(notchillhrs)
 notchillpor<-filter(bb,is.na(chillpor))
 dim(notchillpor)
 notchillutah<-filter(bb,is.na(utah))
-dim(notchillutah)
+dim(notchillutah) ##as of 2/26/18 we are missing 434...down from 840
 ###utah is most complete.
 unique(notchillutah$datasetID) 
 supernotchill<-dplyr::select(notchillutah, datasetID,study,chillpor,chillhrs,utah,field.chill.units,chilldays)
 supernotchill<-supernotchill[!duplicated(supernotchill),]
 #write.csv(supernotchill,"updated_chillmeout_check.csv",row.names = FALSE) ###this makes a file of our missing chill
-##plan is to discuss with Ailene and then go back into the papers and see if there is any hidden chilling
 ###okay, Dan out, back to the regularly schedule code from Lizzie
 
 # where do we lose data? It's still mainly because of chilling.
