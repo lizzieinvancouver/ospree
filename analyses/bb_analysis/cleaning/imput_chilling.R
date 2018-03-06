@@ -3,7 +3,7 @@
 #Update feb 12:
 #missing 850 rows 
 
-###falusi 96
+###falusi 90 87-88
 d$fieldsample.date2[which(d$datasetID=="falusi90" & d$chilldays=="winter")] <- ###not fixable we dont know year
   d$chilldays[which(d$datasetID=="falusi90" & is.na(d$chilldays))] <-0 #fixed in total.chilling.R
   
