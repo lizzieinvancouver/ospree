@@ -8,18 +8,20 @@ library(rgdal)
 #library(insol)
 library(googleway)
 library(geosphere)
-setwd("~/Documents/git/ospree/analyses")
+setwd("~/Documents/git/ospree/analyses/green_up")
 
 ####load data
-M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2001001_aid0001.tif") ### This is modis file for 2001
+M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2009001_aid0001.tif") ### This is modis file for 2001
+#M2<-raster("MCD12Q2.005_Onset_Greenness_Increase_1_doy2009001_aid0001.tif")
 ###measured in days since 1/1/2000
-plot(M)
+#plot(M)
+#plot(M2)#I think this is areas in the south that green up before Dec 31
 projection(M)
 ###make all the lat longs points
 spts <- rasterToPoints(M, spatial = TRUE)
 ###make it a data frame
 dat <- as.data.frame(spts)
-dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2001001_aid0001,origin = "2000-01-01")
+dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2009001_aid0001,origin = "2000-01-01")
 head(dat)
 long<-c(dat$x)
 lat<-c(dat$y)
@@ -48,7 +50,7 @@ dfr2<-rasterFromXYZ(d2) #geosphere
 ##view it
 par(mar=c(1,1,1,1))
 
-plot(dfr2)+title("Day length with geosphere") #geosphere
+plot(dfr2) #geosphere
 #hmmm, geosphere and insol give different values for days length
 #how to trouble shoot this
 
