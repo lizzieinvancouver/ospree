@@ -67,7 +67,7 @@
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
 \begin{enumerate}
-\item How will climate change alter the photoperiod experienced by organisms, given observed (and forecasted?) biological shifts (both spatial and temporal)?
+\item How will climate change alter the photoperiod experienced by organisms, given observed climate change-induced biological shifts, both spatially and temporally?
 \item What are the implications of these altered photoperiods for forecasts of climate change impacts?
 \item Can the large quantity of experiments altering photoperiod be applied to forecasting biological implications of climate change (i.e. do they occur at the appropriate scale)?
 \end{enumerate}
@@ -76,7 +76,7 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts actually yield bigger changes in experienced photoperiod than spatial shifts  (Figures \ref{fig:photo},\ref{fig:photo_bar}).
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo},\ref{fig:photo_bar}).
 \item Shifts in photoperiod may vary with latitude (Figure \ref{fig:photo_bar}). 
 \item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact.
 \end{enumerate}
@@ -85,32 +85,31 @@
 \item Phenology will be altered, given that daylength is known to affect vegetative growth, cell elongation, and budburst \citep{linkosalo2006,erwin1998,sidaway2010, hsu2011}.
 \item It has been proposed that photoperiod may eventually become a limiting factor, constraining the ability of trees to shift their phenology with warming \citep{koerner2010,vitasse2013, morin2010}. 
 \item Interactions between photoperiod and forcing and chilling could result in muted or exaggerated phenological shifts, compared to what would be expected based on temperature change alone. Say something about crossing thresholds of daylength and the "external coincidence model" for photoperiod control \citep{bastow2002,kobayashi2007,andres2012,singh2017}?
-\item Effects of photoperiod on forecasting of biological impacts of climate change needs additional investifation. In some forecasting methods (e.g. species distirbution modelling), the role of photoperiod is largely ignored (i think this is true? add some citations). In other cases, photoperiod is incorporated into foreacasts, along with other variables such as evaporative demand, and temperature \citep [e.g. ED] []{jolly2005, medvigy2013}. These models need to be more widely tested, e.g. in different ecosystems/species, and given recent findings about the role of photoperiod in phenology.     
+\item Effects of photoperiod on forecasting of biological impacts of climate change needs additional investifation. In some forecasting methods (e.g. species distirbution modelling), the role of photoperiod is largely ignored (i think this is true? add some citations). In other cases, photoperiod is incorporated into foreacasts, along with other variables such as evaporative demand, and temperature \citep [e.g. ED] []{jolly2005, medvigy2013}. These models need to be more widely tested, e.g. in different ecosystems/species, and need to incorporate recent findings about the role of photoperiod in phenology.     
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
 \begin{enumerate}
-\item Table of OSPREE experiments that manipulate photoperiod, their daylength treatments, their findings, and perhaps how the treatment corresponds to spatial/temporal shifts?
+\item Table of OSPREE experiments that manipulate photoperiod, their daylength treatments, their findings, and perhaps how the treatment corresponds to spatial/temporal shifts? (in supplement, i think)
+\item Figure showing magnitude of
 \item Most experiments manipulate photoperiod much more dramatically than will occur with climate change (but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
 \item There is a great need to better understand exactly how photoperiod acts as a cue (linear response? threshold? how does it interact with temperature to break dormancy?)
 \end{enumerate}
 \item\textit{Conclusions}
 \begin{enumerate}
-\item Organisms may experience large changes to the photoperiod they experience, under climate change, even if they do not shift their ranges.
-\item More studies needed with fine-scale changes in photoperiod
+\item Organisms may experience large changes to the photoperiod they experience, under climate change, even if they do not shift their ranges spatially.
+\item More studies needed with fine-scale changes in photoperiod.
 \end{enumerate}
 \end{enumerate}
 
 \section* {To do:}
 \begin{enumerate}
 \item Make a map showing daylength or greenup dates globally 
-\item Make Table of studies and treatments
 \item Make Table of studies testing if photoperiod varies by latitudinal origin
 \end{enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
 <<label=xtable1, echo=FALSE, results=tex>>=
-
 
 source("../../analyses/photoperiod/photoshifts.R")
 
@@ -131,20 +130,6 @@ photop.table<-xtable(photop_table,digits=2,
  
 print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
 @
-\clearpage
-\begin{table}[p]
-  \caption{\textbf{Growth chamber experiments and their photoperiod treatments.} From OSPREE. For now, I used 45.5 lat to estimate spatial and temporal equivalents and Y/N for sensitivity but might be better to have a magnitude of sensitivity found?}
-\begin{footnotesize} 
-   \begin{tabular}{| p{1cm} | p{3.8cm} | p{2.9 cm} | p{3.2 cm} |}
-    \hline
-  \bf{Study} & \bf{Photoperiod treatments (or delta)} & \bf{Spatial equivalent} & \bf{Temporal equivalent}\\ \hline
-    basler12 & 9.5, 11 (1.5) &  600 km up & 30 days earlier \\ \hline
-    laube14a & 8,16 (8) &  3200 km up & 160 days earlier \\ \hline
-    other studies &  &   & \\ \hline
-
-     \end{tabular}    
-\end{footnotesize} 
-    \end{table}
 \clearpage
 \section* {Figures}
 \begin{figure}[p]

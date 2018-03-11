@@ -146,7 +146,24 @@ plot(as.numeric(photop_all$delta), as.numeric(photop_all$time),pch=21,bg="black"
 axis(4)
 
 mtext("Shift in time (days)",side=4,line=3)
-legend("topleft",col=c("red","blue"),lty=1,legend=c("y1","y2"))
-points()
-hist
+legend("topright",pch=21,pt.bg=c("gray","black"),legend=c("Spacw","Time"))
      
+#Now try to make this table into a map figure
+library(maptools)
+library(mapdata)
+library(geosphere)
+library(mapproj)
+map(database= "world", ylim=c(35,80), xlim=c(-130,40), col="grey80", fill=TRUE,)
+## map of great arc links -- everything, pretty messy
+photop_all$space<-as.numeric(photop_all$space)
+photop_all$time<-as.numeric(photop_all$time)
+
+inter2 <- gcIntermediate(c(photop_all$long[1], photop_all$lat[1]), c(photop_all$long[1], photop_all$lat[1]+photop_all$space[1]), n=20, addStartEnd=TRUE)
+lines(inter2, col="red")
+
+for (i in c(1:nrow(photop_all))){
+  inter2 <- gcIntermediate(c(photop_all$long[i], photop_all$lat[i]),
+                           c(photop_all$long[i], photop_all$lat[i]+photop_all$space[i]), n=1000, addStartEnd=TRUE)
+  lines(inter2, col="red")
+}
+points(c(photop_all$long), c(photop_all$lat), pch=21, bg="darkblue", cex=abs(.03*photop_all$time))
