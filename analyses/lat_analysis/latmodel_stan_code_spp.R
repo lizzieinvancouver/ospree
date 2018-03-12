@@ -255,9 +255,8 @@ fig2
 #mean_PPD 43.6    1.2  
 
 
-lat.brm<-brm(resp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + chill:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
-             + (chill-1|sp) + (lat-1|sp) + (force:photo-1|sp) +
-               (force:chill-1|sp) + (photo:chill-1|sp) + (force:lat-1|sp) + (photo:lat-1|sp) + (chill:lat-1|sp), data=ospr.stan)
+lat.brm<-brm(resp~ force + photo + chill + lat + (1|sp) + (force-1|sp) + (photo-1|sp)
+             + (chill-1|sp) + (lat-1|sp) , data=ospr.stan)
 
 #lat.brm<-brm(resp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
 #               chill:lat + (1|sp), data=ospr.stan)
@@ -281,15 +280,15 @@ cri.r2<-cri.r[, ,-1]
 cri.r2<-cri.r2[,-2,]
 dims<-dim(cri.r2)
 twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
-mat2<-cbind(twoDimMat, c(rep(1:4, length.out=12)), rep(c("Estimate", "2.5%", "95%"), each=4))
+mat2<-cbind(twoDimMat, c(rep(1:10, length.out=30)), rep(c("Estimate", "2.5%", "95%"), each=10))
 df<-as.data.frame(mat2)
 names(df)<-c(rownames(cri.f), "sp", "perc")
 dftot<-rbind(fdf2, df)
 dflong<- tidyr::gather(dftot, var, value, force:lat, factor_key=TRUE)
 
 #adding the coef estiamtes to the random effect values 
-for (i in seq(from=1,to=nrow(dflong), by=18)) {
-  for (j in seq(from=3, to=17, by=1)) {
+for (i in seq(from=1,to=nrow(dflong), by=33)) {
+  for (j in seq(from=3, to=32, by=1)) {
     dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
   }
 }
@@ -301,25 +300,32 @@ dfwide$sp<-as.factor(dfwide$sp)
 
 pd <- position_dodgev(height = -0.5)
 
+# [1] "Betula_pendula"       "Betula_pubescens"     "Fagus_sylvatica"      "Malus_domestica"     
+# [5] "Picea_abies"          "Prunus_complex"       "Pyrus_complex"        "Rhododendron_complex"
+# [9] "Ribes_nigrum"         "Sorbus_complex" 
+
 estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Forcing x Photoperiod", 
              "Forcing x Chill Portions", "Photoperiod x Chill Portions")
 estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude")
 dfwide$legend<-factor(dfwide$sp,
-                      labels=c("Overall Effects","1","2","3","4","5"))
+                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica","M. domestica",
+                               "P. abies", "Prunus", "Pyrus", "Rhododendron", "R. nigrum", "Sorbus"))
 estimates<-rev(estimates)
 #write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
+quartz()
 fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), alpha=factor(rndm)))+
   geom_point(position =pd)+
   geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
   geom_vline(xintercept=0)+
-  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "green3", "purple2"),
-                      breaks=c("Overall Effects"))+
+  scale_colour_manual(values=c("blue", "firebrick3","firebrick", "orangered1","orange3","sienna2", "sienna4", "green4", "green3", "purple2", "magenta3"),
+                      breaks=c("Overall Effects", "B. pendula","B. pubescens","F. sylvatica","M. domestica",
+                               "P. abies", "Prunus", "Pyrus", "Rhododendron", "R. nigrum", "Sorbus"))+
   scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
   scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
   scale_alpha_manual(values=c(1, 0.5)) +
   guides(size=FALSE, alpha=FALSE) + 
   scale_y_discrete(limits = rev(unique(sort(dfwide$var))), labels=estimates) + ylab("") + 
-  labs(col="Effects") + theme(legend.position = "none", legend.box.background = element_rect(), 
+  labs(col="Effects") + theme(legend.box.background = element_rect(), 
                               legend.title=element_blank(), legend.key.size = unit(0.05, "cm")) +
   xlab(expression(atop("Model Estimate of Change ", paste("in Duration of Vegetative Risk (days)"))))
 fig1
