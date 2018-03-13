@@ -23,7 +23,13 @@ if(is.data.frame(d)){
 
 ## Can change ghelardini10 & heide93 from thermaltime to daystobudburst
 # Add note for page number for thermal time conversion equation
-# d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
+d.gher<-d
+d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")] <-
+    as.numeric(d.gher$response[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")])/
+  (as.numeric(d.gher$forcetemp[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]))
+d$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]<-d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]
+d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
+
 # d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
 
 #dtt<-subset(d,respvar.simple=="thermaltime") #basler12, ghelardini10, heide93, karlsson03,
