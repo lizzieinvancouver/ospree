@@ -153,17 +153,28 @@ library(maptools)
 library(mapdata)
 library(geosphere)
 library(mapproj)
-map(database= "world", ylim=c(35,80), xlim=c(-130,40), col="grey80", fill=TRUE,)
+library(igraph)
+quartz(height=6,width=9)
+map(database= "world", ylim=c(35,70), xlim=c(-130,40), col="grey90", fill=TRUE,projection="gilbert", orientation=c(90,0,0))
 ## map of great arc links -- everything, pretty messy
 photop_all$space<-as.numeric(photop_all$space)
 photop_all$time<-as.numeric(photop_all$time)
 
-inter2 <- gcIntermediate(c(photop_all$long[1], photop_all$lat[1]), c(photop_all$long[1], photop_all$lat[1]+photop_all$space[1]), n=20, addStartEnd=TRUE)
-lines(inter2, col="red")
-
 for (i in c(1:nrow(photop_all))){
   inter2 <- gcIntermediate(c(photop_all$long[i], photop_all$lat[i]),
-                           c(photop_all$long[i], photop_all$lat[i]+photop_all$space[i]), n=1000, addStartEnd=TRUE)
+                           c(photop_all$long[i], photop_all$lat[i]+photop_all$space[i]), n=50, addStartEnd=TRUE)
   lines(inter2, col="red")
+}
+points(c(photop_all$long), c(photop_all$lat), pch=21, bg="darkblue", cex=abs(.03*photop_all$time))
+
+quartz(height=6,width=9)
+map(database= "world", ylim=c(35,80), xlim=c(-130,40), col="grey90", fill=TRUE,)
+
+map.axes()
+(-120, 40, -90, 45, curve=0.3, sh.col="blue")
+igraph:::igraph.Arrows(-100, 35, -110, 38, curve=0.5, sh.lwd=5, sh.col="orange")
+for (i in c(1:nrow(photop_all))){
+  igraph:::igraph.Arrows(photop_all$long[i], photop_all$lat[i],
+                           photop_all$long[i], photop_all$lat[i]+photop_all$space[i], curve=0.3, sh.col="red",)
 }
 points(c(photop_all$long), c(photop_all$lat), pch=21, bg="darkblue", cex=abs(.03*photop_all$time))
