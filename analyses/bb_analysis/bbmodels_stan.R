@@ -79,6 +79,7 @@ bb.stan <- subset(bb.stan, resp<600)
 # it can be interpreted as 10 days (so the coefficient will tell us change in BB every 10 days of chilling)
 bb.stan$chill <- bb.stan$chill/240
 
+
 length(unique(bb.stan$datasetID))
 
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
@@ -124,14 +125,15 @@ m2l.nib = stan('stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = data
 m2l.nibsum <- summary(m2l.nib)$summary
 m2l.nibsum[grep("mu_", rownames(m2l.nibsum)),] 
 m2l.nibsum[grep("b_", rownames(m2l.nibsum)),]
-# a: 80; f: -1.8; p: -0.36; c: -1.6
+# a: 60; f: -0.16; p: -0.68; c: -2.4
+
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
 # Note the notation: M1_daysBBnointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 12 divtrans and a couple n_eff issues
+               iter = 2500, warmup=1500) 
 
 betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill"))
@@ -139,7 +141,7 @@ betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b
 # launch_shinystan(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 76; f: -1.5; p: -0.5; c: -1.8
+# a: 72; f: -1.3; p: -0.6; c: -2.4
 
 # getting predicted values if needed
 # preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
@@ -177,7 +179,7 @@ m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
-# a: 79; f: -1.4; p: -0.4; c: -3.2, small intxns (<0.09) # n
+# a: 36; f: +0.6; p: 1.1; c: 1.5, small intxns (<0.15) # n
 
 # with crops removed...
 
@@ -194,7 +196,7 @@ save(m2l.wispint, file="stan/bb/output/M1_daysBBwinter_spintonly_2level.Rda")
 m2l.wispint.sum <- summary(m2l.wispint)$summary 
 head(m2l.wispint.sum) 
 m2l.wispint.sum[grep("b_", rownames(m2l.wispint.sum)),]
-# a: 83; f: -1.7; p: -0.3; c: -2.8, small intxns
+# a: 15; f: +3; p: +2; c: -1.8, small intxns
 
 
 
@@ -209,7 +211,7 @@ save(m2l.wi, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
 
 mint.sum <- summary(m2l.wi)$summary
 mint.sum[grep("mu_", rownames(mint.sum)),]
-# not converged (10 divergent transitions and other issues)
+# not converged (60 divergent transitions and other issues)
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -223,7 +225,7 @@ save(m2l.wicf, file="stan/bb/output/M1_daysBBwinter_nocf_2level.Rda")
 m2l.wicf.sum <- summary(m2l.wicf)$summary
 head(m2l.wicf.sum)
 m2l.wicf.sum[grep("mu_", rownames(m2l.wicf.sum)),]
-# a: 91; f: -1.4; p: -0.8; c: -2.9, small intxns
+# 74 divergent transitions
 
 
 ########################################################
@@ -237,7 +239,7 @@ save(m2l.wicp, file="stan/bb/output/M1_daysBBwinter_nocp_2level.Rda")
 
 m2l.wicp.sum <- summary(m2l.wicp)$summary
 head(m2l.wicp.sum)
-# not converged (yep, still not okay)
+# not converged (yep, still not okay, 270 divergent transitions)
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -251,5 +253,36 @@ save(m2l.wifp, file="stan/bb/output/M1_daysBBwinter_nofp_2level.Rda")
 m2l.wifp.sum <- summary(m2l.wifp)$summary 
 head(m2l.wifp.sum)
 m2l.wifp.sum[grep("mu_", rownames(m2l.wifp.sum)),]
-# a: 88; f: -1.8; p: -1.0; c: -3.91, small intxns
+# a: 65; f: 0; p: 1.2; c: -1.7, small intxns (<0.1)
+# 6 divergent transitions
 
+
+
+
+#################################################################################
+# real data on 2 level model (sp) with no interactions and study ID on intercept
+# Note the notation: M1_daysBBnointer_2level_studyint.stan: m2l.ni
+#################################################################################
+m2l.nistudy = stan('stan/bb/M1_daysBBnointer_2level_studyint.stan', data = datalist.bb.study,
+               iter = 3000, warmup=2000) # X divergent transitions
+
+betas.m2l.nistudy <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
+    "b_photo", "b_chill"))
+m2lnistudy.sum <- summary(m2l.ni)$summary
+m2lnistudy.sum[grep("mu_", rownames(m2lni.sum)),] 
+# a: 72; f: -1.3; p: -0.6; c: -2.4
+
+save(m2l.nistudy, file="stan/bb/output/M1_daysBBnointer_2level_studyint.Rda")
+
+
+datalist.bb.study <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         n_study = length(unique(bb.stan$datasetID)), 
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    ))

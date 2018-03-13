@@ -118,7 +118,19 @@ indexd<-which(uniquevalsd%in%uniquevalsbb)
 d$avg_bbtemp<-NA
 d[indexd,"avg_bbtemp"]<-bb$avg_bbtemp[indexbb]
 
-
+# note that only 2K rows have entires in avg_bbtemp and all have forcetemp
+if(FALSE){
+haveavgtemp <- subset(d, is.na(avg_bbtemp)==FALSE)
+subset(haveavgtemp, is.na(forcetemp)==TRUE)
+}
+# but here's what we need
+unique(d$forcetemp)
+ambientforcetemp <- subset(d, forcetemp=="ambient"|forcetemp=="ambient + .7"|
+   forcetemp=="ambient + 4.9")
+# sonsteby13, cannell83: no field sample date (also sonsteby13 is flower bud)
+# lamb37: field sample in 1946, our climate data start in 1950
+# manson91: from New Zealand, so we do not have climate data
+# should have ambient temp: boyer, sanzperez10
 
 stop("Not an error, ambient forcing temperatures are extracted and appended to dataset d; 
      No need to worry about the warnings below, informing of if statement with 2 elements
