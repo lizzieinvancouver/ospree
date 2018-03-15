@@ -35,3 +35,10 @@ for(i in d){
   d <- d[!(d$datasetID == "ghelardini10" & d$material == "root cuttings") &
             !(d$datasetID == "ghelardini10" & d$Entered.By == "DF"),]
 }
+
+###Added by Dan to make ashby  better
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==8 & d$respvar=="daystobudburst" &d$response==3]<- "Central Wisconsin"
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==2.6]<- "Central Wisconsin"
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==16 & d$respvar=="daystobudburst" & d$response==2.6]<- "Central Wisconsin"
+
+  
