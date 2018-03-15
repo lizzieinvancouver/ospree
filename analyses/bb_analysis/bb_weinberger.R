@@ -6,6 +6,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(lme4)
+library(egg)
 # library(rstan)
 
 # Set working directory: 
@@ -55,8 +56,8 @@ bb.study.bb<-subset(bb.study, respvar.simple=="daystobudburst")
 #dim(bb.study.bb)#1394 85, across 38 studies (12 exp studies and 26 fieldsample)
 
 #Fit model in lmer:
-bb.study.bb2<-subset(bb.study.bb,select=c(Total_Chilling_Hours,forcetemp,photoperiod_day, response.time,studytype,bb.taxa))
-bb.study.bb2$Total_Chilling_Hours<-as.numeric(bb.study.bb2$Total_Chilling_Hours)
+bb.study.bb2<-subset(bb.study.bb,select=c(Total_Utah_Model,forcetemp,photoperiod_day, response.time,studytype,bb.taxa, datasetID))
+bb.study.bb2$Total_Utah_Model<-as.numeric(bb.study.bb2$Total_Utah_Model)
 bb.study.bb2$forcetemp<-as.numeric(bb.study.bb2$forcetemp)
 bb.study.bb2$response.time<-as.numeric(bb.study.bb2$response.time)
 bb.study.bb2$photoperiod_day<-as.numeric(bb.study.bb2$photoperiod_day)
@@ -65,7 +66,7 @@ bb.study.bb2$studytype<-as.factor(bb.study.bb2$studytype)
 bb.study.bb2<- bb.study.bb2 [apply(bb.study.bb2 , 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 
 
-bbstudy.mod<-lmer(response.time ~ (Total_Chilling_Hours+forcetemp+photoperiod_day+ studytype)^3 +(1|bb.taxa), data = bb.study.bb2)
+bbstudy.mod<-lmer(response.time ~ (Total_Utah_Model+forcetemp+photoperiod_day+ studytype)^3 +(1|bb.taxa), data = bb.study.bb2)
 summary(bbstudy.mod)
 
 #Make some plots of the data and model to interpret it more
@@ -83,3 +84,12 @@ abline(a=(fixef(bbstudy.mod)[1]+fixef(bbstudy.mod)[5]), b=(fixef(bbstudy.mod)[3]
 plot(bb.study.bb2$photoperiod_day,bb.study.bb2$response.time, type="p",pch=21, bg=cols[as.numeric(as.factor(bb.study.bb2$studytype))], xlab="Photoperiod", ylab="Days to BB")
 abline(a=fixef(bbstudy.mod)[1], b=fixef(bbstudy.mod)[4],col="black", lty=2, lwd=2)
 abline(a=(fixef(bbstudy.mod)[1]+fixef(bbstudy.mod)[5]), b=(fixef(bbstudy.mod)[4]+fixef(bbstudy.mod)[11]),col="darkgreen", lwd=2)
+
+chill<-ggplot(bb.study.bb2, aes(x=Total_Utah_Model, y=response.time, col=datasetID)) +
+  geom_point(aes(col=datasetID)) + geom_jitter() + theme(legend.position="none")
+force<-ggplot(bb.study.bb2, aes(x=forcetemp, y=response.time, col=datasetID)) +
+  geom_point(aes(col=datasetID)) + geom_jitter() + theme(legend.position = "none")
+photo<-ggplot(bb.study.bb2, aes(x=photoperiod_day, y=response.time, col=datasetID)) +
+  geom_point(aes(col=datasetID)) + geom_jitter()
+
+ggarrange(chill, force, photo, ncol=3)
