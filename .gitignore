@@ -1,0 +1,7 @@
+*.Rdata
+*.RData
+*.Rda
+*.rds
+*.rda
+*.Rds
+*.Rhistory
