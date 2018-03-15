@@ -1,6 +1,6 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
-graphics.off()
+
 
 library(raster)
 library(sp)
@@ -8,20 +8,32 @@ library(rgdal)
 #library(insol)
 library(googleway)
 library(geosphere)
-setwd("~/Documents/git/ospree/analyses/green_up")
+setwd("~/Desktop/greenness")
 
 ####load data
-M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2009001_aid0001.tif") ### This is modis file for 2001
-#M2<-raster("MCD12Q2.005_Onset_Greenness_Increase_1_doy2009001_aid0001.tif")
+M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2012001_aid0001.tif") ###
+M
+###make the raster more coarse
+resampleFactor <- 25        
+inputRaster <- raster(M)      
+inCols <- ncol(inputRaster)
+inRows <- nrow(inputRaster)
+resampledRaster <- raster(ncol=(inCols / resampleFactor), nrow=(inRows / resampleFactor))
+extent(resampledRaster) <- extent(inputRaster)
+resampledRaster <- resample(M,resampledRaster,method='bilinear',overwrite=TRUE)
+plot(resampledRaster)
+
 ###measured in days since 1/1/2000
-#plot(M)
+
 #plot(M2)#I think this is areas in the south that green up before Dec 31
-projection(M)
+
+
+
 ###make all the lat longs points
-spts <- rasterToPoints(M, spatial = TRUE)
+spts <- rasterToPoints(resampledRaster, spatial = TRUE)
 ###make it a data frame
 dat <- as.data.frame(spts)
-dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2009001_aid0001,origin = "2000-01-01")
+dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2012001_aid0001,origin = "2000-01-01")
 head(dat)
 long<-c(dat$x)
 lat<-c(dat$y)
@@ -36,7 +48,7 @@ head(dl2)
 dl2<-as.data.frame(dl2)
 
 ###select day length
-dl<-dplyr::select(dl,daylen)
+#dl<-dplyr::select(dl,daylen)
 
 ###merge back with data (assume they are indexed properly but I dont know)
 #gooddat<-cbind(dl,dat) #insol
@@ -50,7 +62,10 @@ dfr2<-rasterFromXYZ(d2) #geosphere
 ##view it
 par(mar=c(1,1,1,1))
 
-plot(dfr2) #geosphere
+brk <- c(10,12,14,16,18,20,22,24)
+plot(dfr2)
+?plot
+  #geosphere
 #hmmm, geosphere and insol give different values for days length
 #how to trouble shoot this
 
