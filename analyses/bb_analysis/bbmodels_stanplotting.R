@@ -69,6 +69,55 @@ bb.stan$chill <- bb.stan$chill/240
 ##
 ##
 
+# Quick look at interactions
+plot(force~chill, data=bb.stan)
+plot(force~photo, data=bb.stan)
+plot(photo~chill, data=bb.stan)
+
+
+hist(bb.stan$force)
+mean(bb.stan$force)
+lowforce <- subset(bb.stan, force>14)
+hiforce <- subset(bb.stan, force<20)
+
+hist(bb.stan$photo)
+mean(bb.stan$photo)
+lowphoto <- subset(bb.stan, photo>12)
+hiphoto <- subset(bb.stan, photo<15)
+
+hist(bb.stan$chill)
+mean(bb.stan$chill)
+lowchill <- subset(bb.stan, chill>3)
+hichill <- subset(bb.stan, chill<6)
+
+intxnplot <- function(lowdf, hidf){
+    par(mfrow=c(3,2))
+    plot(resp~force, lowdf, main="low")
+    abline(lm(resp~force, lowdf))
+    plot(resp~force, hidf, main="high")
+    abline(lm(resp~force, hidf))
+    plot(resp~photo, lowdf)
+    abline(lm(resp~photo, lowdf))
+    plot(resp~photo, hidf)
+    abline(lm(resp~photo, hidf))
+    plot(resp~chill, lowdf)
+    abline(lm(resp~chill, lowdf))
+    plot(resp~chill, hidf)
+    abline(lm(resp~chill, hidf))
+}
+
+pdf(file.path(figpath, "intxn_force.pdf"), width = 5, height = 8)
+intxnplot(lowforce, hiforce)
+dev.off()
+
+pdf(file.path(figpath, "intxn_photo.pdf"), width = 5, height = 8)
+intxnplot(lowphoto, hiphoto)
+dev.off()
+
+pdf(file.path(figpath, "intxn_chill.pdf"), width = 5, height = 8)
+intxnplot(lowchill, hichill)
+dev.off()
+
 # Load fitted stan model: no interactions
 load("stan/bb/output/M1_daysBBnointer_2level.Rda")
 m1.bb <- m2l.ni
@@ -83,6 +132,14 @@ source("bb_analysis/source/bb_muplot.R")
 sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
+
+# Load fitted stan model: no interactions with studyid
+load("stan/bb/output/M1_daysBBnointer_2level_studyint.Rda")
+m1.bb.study <- m2l.nistudy
+# summary(m1.bb.study)
+
+sumer.nistudy <- summary(m2l.nistudy)$summary
+sumer.nistudy[grep("mu_", rownames(sumer.nistudy)),]
 
 # Load fitted stan model: with interactions
 load("stan/bb/output/M1_daysBBwinter_2level.Rda")
@@ -119,9 +176,9 @@ grid.arrange(cresp, fresp, presp, ncol=3, nrow=1)
 
 
 
-## scale up: plot each species with slopes from no interaction and with interactions model
+## scale up: plot each species with slopes from the two selected models
 whichmodel <- sumer.ni
-othermodel <- sumer.wi
+othermodel <- sumer.nistudy
 pdf(file.path(figpath, "M1inter.pdf"), width = 7, height = 3.5)
 spp <- unique(bb.stan$complex)
 for (sp in c(1:length(spp))){

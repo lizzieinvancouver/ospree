@@ -104,10 +104,36 @@ d$respvar[d$respvar == "heightcm"] <- "height"
 d$respvar[d$respvar ==  "inflorescencesperplant"] <- "inflorescenceperplant"
 d$respvar[d$respvar ==  "petiolelengthcm"] <- "petiolelength"
 
-#Ailene tried removing the below 3 lines of code that replace blank respvars with NAs- not sure why they are here.
-#d$respvar[d$respvar == ""] <- NA
-#d$respvar[d$respvar == ""] <- NA
-#d$respvar[d$respvar == ""] <- NA
+# fix some specific studies
+# Lizzie deleted code that changed viheraaarnio06 (percentbudset) respvar.simple from NA to percentbudset
+# Since below it should turn into 'otherpercents' (14 Mar 2018)
+# howe 95: data that is about budset, not budburst
+d$respvar[which(d$datasetID=="howe95" & d$figure.table..if.applicable.=="fig1a")] <- "daystobudset"
+
+#### Added 25 July 2017 - Cat ### 
+## two rows of Sonsteby14 data were entered incorrectly
+d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
+             d$respvar=="daystobudburst" & d$response==7.3] <- 7.3
+d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
+             d$respvar=="daystobudburst" & d$response==7.3] <- 1
+d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
+                  d$respvar=="daystobudburst" & d$response==0] <- 0
+d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
+             d$respvar=="daystobudburst" & d$response==0] <- 1
+
+# guerriero90 issues - changed respvar.simple from 'phenstageper.probonestudy' to 'leaves'
+d$respvar[d$datasetID== 'guerriero90' & d$respvar == 'percentstage06'] <- 'leaves'
+
+# jones12 issues
+# phenstage01 - percentbudburst
+# phenstage02 - leaves to othernums
+# phenstage03 - fruits to othernums
+# phenstage04 - flowers to percentflower
+d$respvar[d$datasetID=='jones12' & d$respvar == 'percentstage01'] <- 'percentbudburst'
+d$respvar[d$datasetID== 'jones12' & d$respvar == 'percentstage02'] <- 'leaves'
+d$respvar[d$datasetID== 'jones12' & d$respvar == 'percentstage03'] <- 'fruits'
+d$respvar[d$datasetID== 'jones12' & d$respvar == 'percentstage04'] <- 'flowers'
+
 
 ## Assigning 87 response variables to a higher level
 ## AKA, making fewer response variables!
@@ -205,6 +231,7 @@ d$respvar.simple[d$respvar == "numberflowerbuds"] <- "flowernumber"
 # othernums
 d$respvar.simple[d$respvar == "cumulativeleafincrement"] <- "othernums"
 d$respvar.simple[d$respvar == "leaves"] <- "othernums"
+d$respvar.simple[d$respvar == "fruits"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofbuds"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofleaves"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofnodes"] <- "othernums"
@@ -231,6 +258,13 @@ d$respvar.simple[d$respvar == "survival"] <- "other"
 d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
 
 
+# check your work .... 
+checking <- subset(d, is.na(respvar.simple)==TRUE)
+unique(checking$respvar) 
+
+
+
+
 # fixing respvar issues where daystobudburst was really DOY to budburst
 # see bb_analysis/cleaning/checkresponsetime for more info
 # daytobudburstdayofyear
@@ -245,50 +279,6 @@ if(FALSE){
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="Sanz-Perez09"] <- "percentbudburst_dayofyear"
 d$respvar[d$respvar == "percentbudburst" & d$datasetID=="sanzperez10"] <- "percentbudburst_dayofyear"
 }
-
-
-# guerriero90 issues - changed respvar.simple from 'phenstageper.probonestudy' to 'leaves'
-d <- within(d, respvar[datasetID== 'guerriero90' & respvar == 'percentstage06'] <- 'leaves')
-d$respvar.simple[d$respvar == "leaves"] <- "othernums"
-
-# jones12 issues
-# phenstage01 - percentbudburst
-# phenstage02 - leaves to othernums
-# phenstage03 - fruits to othernums
-# phenstage04 - flowers to percentflower
-d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage01'] <- 'percentbudburst')
-d$respvar.simple[d$respvar == "percentbudburst"] <- "percentbudburst"
-
-d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage02'] <- 'leaves')
-d$respvar.simple[d$respvar == "leaves"] <- "othernums"
-
-d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage03'] <- 'fruits')
-d$respvar.simple[d$respvar == "fruits"] <- "othernums"
-
-d <- within(d, respvar[datasetID== 'jones12' & respvar == 'percentstage04'] <- 'flowers')
-d$respvar.simple[d$respvar == "flowers"] <- "percentflower"
-
-# viheraaarnio06 update respvar.simple from NA to percentbudset
-d <- within(d, respvar.simple[datasetID== 'viheraaarnio06' & respvar == 'percentbudset'] <- 'percentbudset')
-
-# Fix data that is about budset, not budburst
-d$respvar[which(d$datasetID=="howe95" & d$figure.table..if.applicable.=="fig1a")] <- "daystobudset"
-
-# check your work .... 
-checking <- subset(d, is.na(respvar.simple)==TRUE)
-unique(checking$respvar) 
-
-
-#### Added 25 July 2017 - Cat ### 
-## two rows of Sonsteby14 data were entered incorrectly
-d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
-             d$respvar=="daystobudburst" & d$response==7.3]<-7.3
-d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 3" &
-             d$respvar=="daystobudburst" & d$response==7.3]<-1
-d$response.time[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
-                  d$respvar=="daystobudburst" & d$response==0]<-0
-d$response[d$datasetID=="sonsteby14"& d$figure.table..if.applicable.=="table 4" &
-             d$respvar=="daystobudburst" & d$response==0]<-1
 
 
 

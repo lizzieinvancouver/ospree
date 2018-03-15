@@ -26,7 +26,7 @@ bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 ## make a bunch of things numeric (eek!)
 bb.resp$force <- as.numeric(bb.resp$forcetemp)
 bb.resp$photo <- as.numeric(bb.resp$photoperiod_day)
-bb.resp$chill <- as.numeric(bb.resp$Total_Chilling_Hours)
+bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 ## remove the NAs (must do this before you can deal with taxon issues)

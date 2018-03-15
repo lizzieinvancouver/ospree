@@ -205,7 +205,7 @@ m2l.wispint.sum[grep("b_", rownames(m2l.wispint.sum)),]
 # Note the notation: M1_daysBBwinter_2level.stan: m2l.wi
 ########################################################
 m2l.wi = stan('stan/bb/M1_daysBBwinter_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 883 divergent transitions and model has not converged! (ugh!)
+               iter = 2500, warmup=1500) 
 
 save(m2l.wi, file="stan/bb/output/M1_daysBBwinter_2level.Rda")
 
@@ -263,18 +263,6 @@ m2l.wifp.sum[grep("mu_", rownames(m2l.wifp.sum)),]
 # real data on 2 level model (sp) with no interactions and study ID on intercept
 # Note the notation: M1_daysBBnointer_2level_studyint.stan: m2l.ni
 #################################################################################
-m2l.nistudy = stan('stan/bb/M1_daysBBnointer_2level_studyint.stan', data = datalist.bb.study,
-               iter = 3000, warmup=2000) # X divergent transitions
-
-betas.m2l.nistudy <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
-    "b_photo", "b_chill"))
-m2lnistudy.sum <- summary(m2l.ni)$summary
-m2lnistudy.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 72; f: -1.3; p: -0.6; c: -2.4
-
-save(m2l.nistudy, file="stan/bb/output/M1_daysBBnointer_2level_studyint.Rda")
-
-
 datalist.bb.study <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill, 
@@ -285,4 +273,40 @@ datalist.bb.study <- with(bb.stan,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))
-                    ))
+                    )
+)
+
+m2l.nistudy = stan('stan/bb/M1_daysBBnointer_2level_studyint.stan', data = datalist.bb.study,
+               iter = 3000, warmup=2000) # 8 divergent transitions (3 with Chill Portions)
+
+betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
+    "b_photo", "b_chill"))
+m2lnistudy.sum <- summary(m2l.nistudy)$summary
+m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),] 
+# a_sp: 32; a_study: ; f: -1.3; p: -0.5; c: -1.6
+
+save(m2l.nistudy, file="stan/bb/output/M1_daysBBnointer_2level_studyint.Rda")
+
+
+
+## Compare R2 today ##
+observed.here <- bb.stan$resp
+
+m2lni.sum <- summary(m2l.ni)$summary
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
+
+# getting predicted values if needed
+preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
+preds.m2lnistudy.sum <- m2lnistudy.sum[grep("yhat", rownames(m2lnistudy.sum)),]
+
+m2lni.R2 <- 1- sum((observed.here-preds.m2lni.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+m2lnistudy.R2 <- 1- sum((observed.here-preds.m2lnistudy.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+
+summary(lm(preds.m2lni.sum[,1]~observed.here)) # Multiple R-squared:  0.6051 (Chill Portions)
+summary(lm(preds.m2lnistudy.sum[,1]~observed.here)) # Multiple R-squared:  0.7158 (Chill Portions)
+
+# try the w/ interaction
+preds.m2l.winsp.sum <- m2l.winsp.sum[grep("yhat", rownames(m2l.winsp.sum)),]
+summary(lm(preds.m2l.winsp.sum[,1]~observed.here)) #Multiple R-squared:  0.6122
+
+

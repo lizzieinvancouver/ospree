@@ -106,9 +106,10 @@ summary(lme2 <- lmer(bb ~ chill+force+photo+chill*force+chill*photo+ force*photo
 ranef(lme2)
 fixef(lme2)
 
-testdatX<-testdat2#for centered data
-#testdatX<-testdat3#for uncentered data
-
+testdatX<-testdat2 # for centered data
+#testdatX<-testdat3 # for uncentered data, gives treedepth issues but returns the correct information
+testdatX<-testdat2.smintxn # for centered data with small intxns, seems to return the generally correct values but does not perfectly estimate the intxns
+testdatX<-testdat2.smintxn2 # for centered data with small intxns and larger sigmas
   
 datalist.td2 <- with(testdatX, 
     list(y = bb, 
