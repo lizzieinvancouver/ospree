@@ -44,7 +44,6 @@ source("chilling/fieldchillcalc_latlong.R")
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 #climatedrive = "//128.103.155.31/WeldShare/Wolkovich Lab/Budburst Review - Ospree/Climate Data" # Access to the data from Weld Share (From Nacho's computer)
  #climatedrive = "/Volumes/climate" #Ailene's climate data drive
- #climatedrive="/Users/aileneettinger/Downloads"
 
 # 4c. pull climate data from europe
 source("chilling/pullclimate_eur.R")

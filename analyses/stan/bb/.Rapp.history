@@ -1,0 +1,2 @@
+load("/Users/aileneettinger/git/ospree/analyses/stan/bb/M1_daysBBnointer_2level.rds")
+load("/Users/aileneettinger/git/ospree/analyses/stan/bb/M1_daysBBnointer_2level_interceptonly.rds")
