@@ -41,4 +41,14 @@ d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperi
 d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==2.6]<- "Central Wisconsin"
 d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==16 & d$respvar=="daystobudburst" & d$response==2.6]<- "Central Wisconsin"
 
-  
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="5-Feb-1957"&d$photoperiod_day==8 & d$respvar=="daystobudburst" &d$response==4.2]<- "Central Wisconsin"  
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="5-Feb-1957"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==4.2]<- "Central Wisconsin"
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="5-Feb-1957"&d$photoperiod_day==16 & d$respvar=="daystobudburst" &d$response==4.2]<- "Central Wisconsin"
+
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="8-Jan-1957"&d$photoperiod_day==8 & d$respvar=="daystobudburst" &d$response==7.2]<- "Central Wisconsin"  
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="8-Jan-1957"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==5.8]<- "Central Wisconsin"  
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="8-Jan-1957"&d$photoperiod_day==16 & d$respvar=="daystobudburst" &d$response==5.8]<- "Central Wisconsin"  
+
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==8 & d$respvar=="daystobudburst" &d$response==13]<- "Central Wisconsin" 
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==16.2]<- "Central Wisconsin"
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==16 & d$respvar=="daystobudburst" &d$response==32.2]<- "Central Wisconsin" 
