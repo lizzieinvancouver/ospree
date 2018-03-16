@@ -76,9 +76,9 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo},\ref{fig:photo_bar}).
-\item Shifts in photoperiod may vary with latitude (Figure \ref{fig:photo_bar}). 
-\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact.
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo}).
+\item Shifts in photoperiod may vary with latitude and time of year (Figure \ref{fig:photo}), especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Dan's figure).
+\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
@@ -103,8 +103,8 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make a map showing daylength or greenup dates globally 
-\item Make Table of studies testing if photoperiod varies by latitudinal origin
+\item Edit map showing studies with saptial and temporal equivalents: replace blue squares with asterix and make bigger.make lines transparent. 
+\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
 \end{enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
@@ -140,9 +140,9 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
  \end{figure}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change_bar.pdf} 
-\caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, across latitude.}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward) versus temporally (shifting activity earlier 3 days per decade).}
- \label{fig:photo_bar}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/greenup/2009_photoperiod_map.pdf} 
+\caption{\textbf{Green-up date varies with latitude.} }
+ \label{fig:greenup}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
  \end{figure}
 \clearpage
 
