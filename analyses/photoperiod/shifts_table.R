@@ -1,21 +1,3 @@
-options(stringsAsFactors = FALSE)
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/docs/photoperiod") 
-} else if
-(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/docs/photoperiod") 
-} else if
-(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/docs/photoperiod")
-} else 
-  setwd("~/Documents/git/ospree/docs/photoperiod")
-library(geosphere)
-library(xtable)
-library(plyr)
-library(dplyr)
-#library(tidyr)
-
-require(dplyr)
-require(xtable)
-
-ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
 ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
 ospree$ID_study<-paste(ospree$datasetID,ospree$study, sep="_")#I actually don't think we need to distiguish between experiments for this table?
 #ospree$ID_daylengths<-paste(ospree$datasetID,ospree$study,ospree$photoperiod_day, sep="_")
@@ -123,58 +105,15 @@ for(i in 1:length(photop_all$lat)){
   if(maxdelta_space<abs(photop_all$delta[i])){photop_all$space[i]<-"ER"}#exceeds range
   else
     photop_all$space[i]<-latshift[min(which(round(delta_space, digits=2)==photop_all$delta[i]))]#select min lat shift required to get change in daylength in experiments
-    if(is.na(photop_all$space[i])){
-      mindiff<-min(abs(photop_all$delta[i]-delta_space), na.rm=TRUE)
-      
-      if(!is.na(mindiff) & mindiff<0.5){photop_all$space[i]<-latshift[which(abs(photop_all$delta[i]-delta_space)==mindiff)]
-      }else {
-        photop_all$space[i]<-NA
-      }
+  if(is.na(photop_all$space[i])){
+    mindiff<-min(abs(photop_all$delta[i]-delta_space), na.rm=TRUE)
+    
+    if(!is.na(mindiff) & mindiff<0.5){photop_all$space[i]<-latshift[which(abs(photop_all$delta[i]-delta_space)==mindiff)]
+    }else {
+      photop_all$space[i]<-NA
     }
   }
+}
 
 #sort by idstudy
 photop_all<-photop_all[order(photop_all$idstudy),]
-
-
-#Now try to make a figure summarizing this table
-quartz()
-par(mai=c(1,1,1,1))
-plot(as.numeric(photop_all$delta),as.numeric(photop_all$space), pch=21,bg="gray",bty="u", xlab="Experimental change in daylength (hrs)", ylab="Shift in space (degrees)", xlim=c(0,12))
-par(new=TRUE)
-plot(as.numeric(photop_all$delta), as.numeric(photop_all$time),pch=21,bg="black",bty="u",xaxt="n",yaxt="n",xlab="",ylab="",xlim=c(0,12))
-axis(4)
-
-mtext("Shift in time (days)",side=4,line=3)
-legend("topright",pch=21,pt.bg=c("gray","black"),legend=c("Spacw","Time"))
-     
-#Now try to make this table into a map figure
-library(maptools)
-library(mapdata)
-library(geosphere)
-library(mapproj)
-library(igraph)
-quartz(height=6,width=9)
-map(database= "world", ylim=c(35,70), xlim=c(-130,40), col="grey90", fill=TRUE,projection="gilbert", orientation=c(90,0,0))
-## map of great arc links -- everything, pretty messy
-photop_all$space<-as.numeric(photop_all$space)
-photop_all$time<-as.numeric(photop_all$time)
-
-for (i in c(1:nrow(photop_all))){
-  inter2 <- gcIntermediate(c(photop_all$long[i], photop_all$lat[i]),
-                           c(photop_all$long[i], photop_all$lat[i]+photop_all$space[i]), n=50, addStartEnd=TRUE)
-  lines(inter2, col="red")
-}
-points(c(photop_all$long), c(photop_all$lat), pch=21, bg="darkblue", cex=abs(.03*photop_all$time))
-
-quartz(height=6,width=9)
-map(database= "world", ylim=c(35,80), xlim=c(-130,40), col="grey90", fill=TRUE,)
-
-map.axes()
-(-120, 40, -90, 45, curve=0.3, sh.col="blue")
-igraph:::igraph.Arrows(-100, 35, -110, 38, curve=0.5, sh.lwd=5, sh.col="orange")
-for (i in c(1:nrow(photop_all))){
-  igraph:::igraph.Arrows(photop_all$long[i], photop_all$lat[i],
-                           photop_all$long[i], photop_all$lat[i]+photop_all$space[i], curve=0.3, sh.col="red",)
-}
-points(c(photop_all$long), c(photop_all$lat), pch=21, bg="darkblue", cex=abs(.03*photop_all$time))
