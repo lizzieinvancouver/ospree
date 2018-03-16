@@ -12,10 +12,14 @@ Please update me as you go!
 <><><><><><><><><><><><><><>
 
 The files here do the following:
-1. bb_daily_dataprep.R: For bud burst data, creates daily climate data for each bud burst event, using ambient climate data and experimental chilling data, as appropriate, to enable forcing to be calculated
+1. pulldailyclim.R: pulls climate data for europe and north america, as netcdf files, from an external hard drive, using the provenance lat/long columns. The code pulls 2 years of data for most studies (additional in some cases). It starts with ospree_clean.csv and sources some of the chilling code for cleaning, getting field lat/long, etc.  (see chilling folder for additional details). This file then sources the following files that are also win the bb_dailyclimate folder:
 
-2. pulldailyclim.R: pulls daily climate data from North America and Europe. relies on chilling code for cleaning, getting field lat/long, etc. starts with ospree_clean.csv (but should this be ospree_cleanwithchill.csv?!? (see chilling folder for additional details).
+1a. pulldailyclimate_eur.R 
+1b. pulldailyclimate_nam.R 4. bb_daily_dataprep.R: For bud burst data, creates daily climate data for each bud burst event, using ambient climate data and experimental chilling data, as appropriate, to enable forcing to be calculated. The last step writes out
 
-3. pulldailyclimate_eur & pulldailyclimate_nam.R: pulls in climate data for europe and north america, respectively, as netcdf files, from an external hard drive, using the provenance lat/long columns. The code pulls 2 years of data for most studies (additional in some cases). If you do not have the external hard drive, or do not want to take the time to pull the data (it can take ~5-10 minutes) then you can get around this by loading the RData file listed in chillmerge_all
+Last step creates a file called “dailytemp.csv” with daily climate data. 
 
-Last step creates a a file called “dailytemp.csv” with daily climate data. 
+2. bb_daily_dataprep.R: For bud burst data, creates daily climate data for each bud burst event, using ambient climate data and experimental chilling data, as appropriate, to enable forcing to be calculated. The last step creates a file that contains daily climate data for each bud burst event. This file is then broken into 4 files for sharing on git: percbb_dailyclimA.csv, percbb_dailyclimB.csv, percbb_dailyclimC.csv, and percbb_dailyclimD.csv located in ”output/dailyclim/" 
+The 4 files can be rinded together to created the full daily climate file.
+
+
