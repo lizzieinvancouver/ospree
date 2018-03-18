@@ -44,6 +44,8 @@ respissues <- subset(bb.resp, is.na(resp)==TRUE)
 table(respissues$datasetID)
     }
 
+# See imputechilling.R for notes (and issue # 147)
+
 if(FALSE){
 ## what is lost due to NAs?
 forceNA <- bb.resp[which(is.na(bb.resp$force)==TRUE),]

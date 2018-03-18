@@ -1,8 +1,32 @@
 ## Started 26 June 2017 ##
 ## Started by Cat, edits by Lizzie, Ailene, Nacho, Dan ... ##
+## 14 March 2018: Includes updates to recode the non-leafouts as 999 where appropriate ##
 
 # Load from bb_cleanmergeall.R
 
+## Recoding non-budburst to 999
+## See bbcleaningresp_README.txt
+d$response.time[d$response.time=="" & d$datasetID=="caffarra11b"] <- 999
+d$response.time[d$response.time=="x" & d$datasetID=="Heide03"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="heide93a"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="laube14a"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="nienstaedt66" & 
+    d$chilldays==0 & d$species=="pungens"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="spiers74" &
+    d$respvar.simple=="daystobudburst"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="webb78"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="worrall67" &
+    d$chilldays==14] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
+    d$genus=="Amelanchier" & d$species=="laevis"] <- 999
+d$response.time[d$response.time=="NL" & d$datasetID=="zohner16" &
+    d$genus=="Stachyurus" & d$species=="sinensis"] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
+    d$genus=="Viburnum" & d$species=="buddleifolium" & d$photoperiod_day==8] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
+    d$genus=="Viburnum" & d$species=="plicatum"& d$photoperiod_day==8] <- 999
+
+## cleaning some phenstages that are daystobudburst
 phenstage <- d[which(d$respvar.simple=="phenstage"),]
 unique(phenstage$datasetID)
 datasets<-unique(phenstage$datasetID)
