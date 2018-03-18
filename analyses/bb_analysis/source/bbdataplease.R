@@ -8,10 +8,10 @@
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
 # below file is cleaned, had chilling added and some BB cleaning done also
-bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+bb.all <- read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
 # file to adjust species into species or species complexes ... 
-taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
+taxon <- read.csv("..//output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 
 ## read taxon data to get the 'type' category, then delete what we don't need
 bb.all.wtaxa <- merge(bb.all, taxon, by=c("genus","species"), all.x=TRUE)
@@ -29,9 +29,24 @@ bb.resp$photo <- as.numeric(bb.resp$photoperiod_day)
 bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
+## center the predictors:
+bb.resp$force.cen <- bb.resp$force/mean(bb.resp$force,na.rm=TRUE)
+bb.resp$photo.cen <- bb.resp$photo/mean(bb.resp$photo,na.rm=TRUE)
+bb.resp$chill.cen <- bb.resp$chill/mean(bb.resp$chill,na.rm=TRUE)
+
 ## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)
+# bb.noNA<-subset(bb.noNA, field.sample<=1)
+
+# Remove weinbergers
+if(FALSE){
+weinberg<-c("falusi03", "falusi97", "heide93", "jones12", "partanen05", "ramos99",
+            "ashby62","basler14","biasi12","boyer","calme94","charrier11","cook00b",
+             "ganset02"  ,"gianfagna85","guerriero90","gunderson12")
+}
+       
+
 
 if(checkdataforNAs){
 forceissues <- subset(bb.resp, is.na(force)==TRUE)
