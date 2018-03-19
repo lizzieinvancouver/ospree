@@ -10,7 +10,7 @@ require(dplyr)
 d$name<-paste(d$genus,d$species,sep="_")
 
 xx<-d
-
+### make a list of which studies manipulate what.
 xx <- within(xx, { prov.lat <- ave(provenance.lat, name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
 xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
 xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
@@ -28,23 +28,23 @@ xx<-xx[!duplicated(xx),]
 #############  Source this section once you subset down! ###############
 
 ###make object with all acceptable (<1 data set species)
-accept<-filter(xx,datasets>1)
+accept<-dplyr::filter(xx,datasets>1)
 species4taxon<-c(accept$name)
-goo<-filter(d, name %in% species4taxon)
+goo<-dplyr::filter(d, name %in% species4taxon)
 goo$complex<-goo$name
 goo$use<-"Y"
 
 ###making complexes
 
-comp<-filter(xx,datasets==1)
+comp<-dplyr::filter(xx,datasets==1)
 complex4taxon<-c(comp$name)
 ###building complexes
-goober<- filter(d, name %in% complex4taxon)
+goober<- dplyr::filter(d, name %in% complex4taxon)
 #goober<-dplyr::select(goober,name,genus, datasetID)
 #goober<-goober[!duplicated(goober),]
 
 goober<- within(goober, {datasets<- ave(datasetID, genus, FUN=function(x) length(unique(x)))})
-goober<-arrange(goober, genus)
+goober<-dplyr::arrange(goober, genus)
 goober$complex<-paste(goober$genus, "complex", sep="_")
 goober <- within(goober, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
 goober <- within(goober, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
@@ -56,20 +56,21 @@ goober <- within(goober, { prov.long <- ave(provenance.long,complex, FUN=functio
 goober<-dplyr::select(goober,name,genus, datasets, force, photo, chill,field.sample,prov.lat, complex)
 goober<-goober[!duplicated(goober),]
 
-accept.comp<-filter(goober,datasets>1)
+accept.comp<-dplyr::filter(goober,datasets>1)
 genus4taxon<-c(accept.comp$genus)
-goob<-filter(d, genus %in% genus4taxon)
+goob<-dplyr::filter(d, genus %in% genus4taxon)
 goob$complex<-NA
 goob$complex <- paste(goob$genus, "complex", sep="_")
 goob$use<-"Y"
 
 
-#### Check it to make sure....
+#### Check it to make sure.... ###This is a list from summer 2017. IF you do this now there should be fewer complexed because we've added more studies thoughcleaning.
 unique(accept.comp$complex)
 ###  [1] "Acer_complex"         "Betula_complex"       "Fraxinus_complex"     "Juglans_complex"      "Picea_complex"        "Pinus_complex"        "Populus_complex"      "Prunus_complex"      
 #[9] "Pyrus_complex"        "Quercus_complex"      "Rhododendron_complex" "Rosa_complex"         "Salix_complex"        "Sorbus_complex"       "Tilia_complex"        "Ulmus_complex"       
 #[17] "Vaccinium_complex"   
 
+##same note as above. Summer 2017
 sort(unique(goob$complex))
 ## [1] "Acer_complex"         "Betula_complex"       "Fraxinus_complex"     "Juglans_complex"      "Picea_complex"        "Pinus_complex"        "Populus_complex"      "Prunus_complex"      
 #[9] "Pyrus_complex"        "Quercus_complex"      "Rhododendron_complex" "Rosa_complex"         "Salix_complex"        "Sorbus_complex"       "Tilia_complex"        "Ulmus_complex"       
@@ -77,7 +78,7 @@ sort(unique(goob$complex))
 
 d$complex<-NA
 can.use<-c(goo$name, goob$name)
-d<-filter(d, name %in% can.use)
+d<-dplyr::filter(d, name %in% can.use)
 
 complexes<-ifelse(goob$name%in%goo$name, NA, goob$name)
 complexes<-na.omit(complexes)

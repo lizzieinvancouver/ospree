@@ -11,7 +11,7 @@ library(geosphere)
 setwd("~/Desktop/greenness")
 
 ####load data
-M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2012001_aid0001.tif") ###
+M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2013001_aid0001.tif") ###
 M
 ###make the raster more coarse
 resampleFactor <- 25        
@@ -21,7 +21,7 @@ inRows <- nrow(inputRaster)
 resampledRaster <- raster(ncol=(inCols / resampleFactor), nrow=(inRows / resampleFactor))
 extent(resampledRaster) <- extent(inputRaster)
 resampledRaster <- resample(M,resampledRaster,method='bilinear',overwrite=TRUE)
-plot(resampledRaster)
+#plot(resampledRaster)
 
 ###measured in days since 1/1/2000
 
@@ -33,7 +33,7 @@ plot(resampledRaster)
 spts <- rasterToPoints(resampledRaster, spatial = TRUE)
 ###make it a data frame
 dat <- as.data.frame(spts)
-dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2012001_aid0001,origin = "2000-01-01")
+dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2013001_aid0001,origin = "2000-01-01")
 head(dat)
 long<-c(dat$x)
 lat<-c(dat$y)
@@ -62,9 +62,10 @@ dfr2<-rasterFromXYZ(d2) #geosphere
 ##view it
 par(mar=c(1,1,1,1))
 
-brk <- c(10,12,14,16,18,20,22,24)
 plot(dfr2)
-?plot
+??write.raster()
+writeRaster(dfr2,"2013_global", format="GTiff",overwrite=TRUE)
+
   #geosphere
 #hmmm, geosphere and insol give different values for days length
 #how to trouble shoot this
