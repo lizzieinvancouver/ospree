@@ -202,8 +202,8 @@ planes3d(ao, bo, co, do, alpha = 0.5, col="red" )
 ### Range of current BB dates (Fagus): 94-225
 ### Range of projected BB dates (Fagus): 92-167
 
-rgl.postscript("~/ospree/analyses/photoperiod/figures/FAGSYL_shifts.pdf", fmt="pdf")
-rgl.snapshot(filename="~/ospree/analyses/photoperiod/figures/FAGSYL_shifts.png",fmt="png")
+#rgl.postscript("FAGSYL_shifts.pdf", fmt="pdf")
+rgl.snapshot(filename="photoperiod/figures/FAGSYL_shifts.png",fmt="png")
 
 
 #########################
@@ -270,7 +270,7 @@ for(i in c(1:nrow(qrob))){
 qrob$phen.shift<-qrob$pres.doy-qrob$osp.doy
 
 fitosp.qr<-lm(photo.shift ~ geo.shift + phen.shift, data=qrob)
-open3d()
+#open3d()
 plot3d(qr$geo.shift, qr$phen.shift, qr$photo.shift, type = "s", col="green", size=1)
 
 coefs <- coef(fitphen.qr)
@@ -292,8 +292,8 @@ planes3d(ao, bo, co, do, alpha = 0.5, col="red" )
 ### Range of current BB dates (QUEROB): 88-364
 ### Range of projected BB dates (QUEROB): 92-210
 
-rgl.postscript("~/ospree/analyses/photoperiod/figures/QUEROB_shifts.pdf", fmt="pdf")
-rgl.snapshot(filename="~/ospree/analyses/photoperiod/figures/QUEROB_shifts.png",fmt="png")
+#rgl.postscript("~/ospree/analyses/photoperiod/figures/QUEROB_shifts.pdf", fmt="pdf")
+rgl.snapshot(filename="photoperiod/figures/QUEROB_shifts.png",fmt="png")
 
 #################### Code from Nacho below... ############################
 ############################################
