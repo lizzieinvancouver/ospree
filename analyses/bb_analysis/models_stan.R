@@ -18,14 +18,6 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-# dostan = TRUE
-
-library(rstan)
-library(ggplot2)
-library(shinystan)
-library(bayesplot)
-# library(rstanarm)
-
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
@@ -38,79 +30,53 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
-source('..//stan/savestan.R')
+# dostan = TRUE
+source("source/bbstanleadin.R")
 
-rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())
+#####################################
+## A cheap run-thru of the issue ##
+## May not be the most accurate way to go,
+# but I am desperate! ##
 
-#################################################################
-# Running the models with fake data? See bb_testdata_analysis.R #
-################################################################# 
+if(FALSE){
+library(lme4)
+maineff <- lmer(resp~photo+chill+force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns <- lmer(resp~photo+chill+force+chill*photo+chill*force+photo*force + (1|datasetID) + (1|complex), data=bb.stan)
+w3wayintxn <- lmer(resp~photo*chill*force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns.nofp <- lmer(resp~photo+chill+force+chill*photo+chill*force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns.nofc <- lmer(resp~photo+chill+force+chill*photo+photo*force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns.nocp <- lmer(resp~photo+chill+force+force*photo+chill*force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns.nofpcp <- lmer(resp~photo+chill+force+chill*force + (1|datasetID) + (1|complex), data=bb.stan)
+wintxns.nop <- lmer(resp~chill+force+chill*force + (1|datasetID) + (1|complex), data=bb.stan)
 
-## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
-## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
-## (1) Get the data and slim down to correct response and no NAs ...
-source("source/bbdataplease.R")
-## (2) Deal with species
-dim(bb.noNA)
-d <- bb.noNA
-source("source/speciescomplex.R")
-bb.noNA.wtaxa <- d
-dim(bb.noNA.wtaxa)
-unique(bb.noNA.wtaxa$complex)
-# (3) Get fewer columns for sanity
-source("source/commoncols.R")
-bb <- subset(bb.noNA.wtaxa, select=columnstokeep)
+bb.intxn <- bb.stan
+bb.intxn$cp <- bb.intxn$chill*bb.intxn$photo
+bb.intxn$cf <- bb.intxn$chill*bb.intxn$force
+bb.intxn$fp <- bb.intxn$photo*bb.intxn$force
 
-## subsetting data, preparing genus variable, removing NAs (err, again
-# remove crops?
-# bb <- subset(bb, type!="crop")
-bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type"))
-bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
+bbno24p <- subset(bb.intxn, photo<23)
+bbnofalusi <- subset(bb.intxn, datasetID!="falusi96" & datasetID!="falusi97" & datasetID!="falusi90")
+wintxnsw3wayintxn.no24 <- lmer(resp~photo*chill*force + (1|datasetID) + (1|complex), data=bbno24p)
 
-# remove the two values above 600
-bb.stan <- subset(bb.stan, resp<600)
-colnames(bb.stan)
+maineff.nofalusi <- lmer(resp~photo+chill+force + (1|datasetID) + (1|complex), data=bbnofalusi)
+wintxns.nofalusi <- lmer(resp~photo+chill+force+chill*photo+chill*force+photo*force + (1|datasetID) + (1|complex),
+    data=bbnofalusi)
 
-# adjust chilling (if needed)
-# here we are transforming chilling to have it in a scale more similar to the rest of variables and so that 
-# it can be interpreted as 10 days (so the coefficient will tell us change in BB every 10 days of chilling)
-bb.stan$chill <- bb.stan$chill/240
-
-
-length(unique(bb.stan$datasetID))
-
-# Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
-# photoperiod, and where we have a response in days and total chilling. 
-
-## Prep the data for Stan model
-# making a list out of the processed data. It will be input for the model
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-## real data with only experimental chilling (no field chilling)
-#osp.td3 = stan('stan/nointer_2level.stan', data = datalist.td,
- #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95))
-
-if(FALSE){ # need to update output of bb.noNA to use this
-datalist.bb.cen <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.cen, 
-                         force = force.cen, 
-                         photo = photo.cen,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
+par(mfrow=c(1,3))
+hist(bb.stan$chill)
+hist(bb.stan$photo)
+hist(bb.stan$force)
+par(mfrow=c(2,3))
+plot(resp~cp, data=bb.intxn)
+plot(resp~cf, data=bb.intxn)
+plot(resp~fp, data=bb.intxn)
+plot(resp~cp, data=bbnofalusi)
+plot(resp~cf, data=bbnofalusi)
+plot(resp~fp, data=bbnofalusi)
 }
+## End of a cheap run-thru 
+#####################################
+
 
 ######################################
 ## Overview of the models run below ##

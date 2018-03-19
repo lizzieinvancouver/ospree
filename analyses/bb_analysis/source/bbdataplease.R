@@ -39,7 +39,7 @@ bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)
 # bb.noNA<-subset(bb.noNA, field.sample<=1)
 
-# Remove weinbergers
+# Vector needed to identify weinberger-design studies
 if(FALSE){
 weinberg<-c("falusi03", "falusi97", "heide93", "jones12", "partanen05", "ramos99",
             "ashby62","basler14","biasi12","boyer","calme94","charrier11","cook00b",
