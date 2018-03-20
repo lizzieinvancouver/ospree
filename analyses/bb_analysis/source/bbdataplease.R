@@ -24,8 +24,23 @@ bb.resp <- bb.all.wtaxa[which(bb.all.wtaxa$respvar.simple %in% respvars.thatwewa
 bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 
 ## make a bunch of things numeric (eek!)
-bb.resp$force <- as.numeric(bb.resp$forcetemp)
+bb.resp$forceday <- as.numeric(bb.resp$forcetemp)
+bb.resp$forcenight <- as.numeric(bb.resp$forcetemp_night)
+bb.resp$photonight <- as.numeric(bb.resp$photoperiod_night)
+
 bb.resp$photo <- as.numeric(bb.resp$photoperiod_day)
+bb.resp$force <- bb.resp$forceday
+bb.resp$force[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+    is.na(bb.resp$photonight)==FALSE] <-
+    (bb.resp$forceday[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+    is.na(bb.resp$photonight)==FALSE]*
+    bb.resp$photo[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+    is.na(bb.resp$photonight)==FALSE] +
+    bb.resp$forcenight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+    is.na(bb.resp$photonight)==FALSE]*
+    bb.resp$photonight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+    is.na(bb.resp$photonight)==FALSE])/24
+
 bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
