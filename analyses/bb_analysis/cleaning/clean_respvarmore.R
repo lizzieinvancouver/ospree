@@ -25,6 +25,7 @@ d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
     d$genus=="Viburnum" & d$species=="buddleifolium" & d$photoperiod_day==8] <- 999
 d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
     d$genus=="Viburnum" & d$species=="plicatum"& d$photoperiod_day==8] <- 999
+d$response.time[d$response.time=="no response" & d$datasetID=="gianfagna85"] <- 999
 
 ## cleaning some phenstages that are daystobudburst
 phenstage <- d[which(d$respvar.simple=="phenstage"),]

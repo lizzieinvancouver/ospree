@@ -10,6 +10,8 @@ Response value issues: Recoded to 999
 <><><><><><><><><><><><><><><><><><><><><><><><>
 caffarra11b (4 NA): These are twigs that never burst bud (0% budburst).
 
+gianfagna85 (11 NA): These are from fig 2 and are labelled there as >30 days
+
 Heide03 (3 NA): These are also buds that never burst ("Buds that failed to burst after 60 days were recorded as flushing after 60 days for the purpose of the statistical analysis").
 
 heide93a (6 NA): These are listed as >50 days in the original paper (I believe).
