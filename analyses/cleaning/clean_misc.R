@@ -65,6 +65,23 @@ d$population[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoper
 d$population[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==16 &
              d$respvar=="daystobudburst" &d$response==32.2]<- "Central Wisconsin"
 
+if(FALSE){
+## One way to clean gheraldini10
+## Issue is that the x axis is often field sample date, not time to budburst
+# First, move the response time to fieldsample date and delete the data in response.time
+d$fieldsample.date[d$datasetID=="ghelardini10"] <- d$response.time[d$datasetID=="ghelardini10"] 
+d$response.time[d$datasetID=="ghelardini10"] <- ""
+# Next re-assign the values to their appropriate fieldsample date
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="15"] <- "15-Oct-2002"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="45"] <- "15-Nov-2002"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="75"] <- "15-Dec-2002"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="105"] <- "15-Jan-2003"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="135"] <- "15-Feb-2003"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="165"] <- "15-Mar-2003"
+d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="185"] <- "15-Mar-2003"
+# Note: I assume 165 or 185 was a typo, only 6 datapoints in either figure (and 165 is only in fig 2 and 185 only in fig 4)
+
+## Another way
 ###Added by Dan to clean gheraldini 10.
 ##1) remove exisitng entries
 ##2) join two new spread sheets with field sample date
@@ -89,3 +106,4 @@ nrow(g10add) # why so many fewer rows? ##Dan's answer: The rest of them are resp
 
 temp <- rbind(dnogher, g10add)
 # x <- d
+}
