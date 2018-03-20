@@ -70,7 +70,7 @@ d$population[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoper
 ##2) join two new spread sheets with field sample date
 unique(d$datasetID)
 gher10 <- subset(d,datasetID=="ghelardini10")
-dnogher <- subset(d,datasetID!="ghelardini10")
+dnogher <- subset(d,datasetID!="ghelardini10") ## removes respvar thermaltime to clean an return, and percentbudburst perminantly
 unique(dnogher$datasetID)
 g10fig2 <- read.csv("cleaning/ghelardini10_cleaning/fix_fig2_ghelardini10.csv", header=TRUE)
 g10fig4 <- read.csv("cleaning/ghelardini10_cleaning/fix_fig4_ghelardini10.csv", header=TRUE) 
@@ -85,7 +85,7 @@ g10fig4$X.3 <- NULL
 
 g10add <- rbind(g10fig2, g10fig4)
 nrow(gher10)
-nrow(g10add) # why so many fewer rows?
+nrow(g10add) # why so many fewer rows? ##Dan's answer: The rest of them are respvar+% budburst which was misentered.
 
 temp <- rbind(dnogher, g10add)
 # x <- d
