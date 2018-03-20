@@ -51,4 +51,24 @@ d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="8-Jan-1957"&d$photoperi
 
 d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==8 & d$respvar=="daystobudburst" &d$response==13]<- "Central Wisconsin" 
 d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==12 & d$respvar=="daystobudburst" &d$response==16.2]<- "Central Wisconsin"
-d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==16 & d$respvar=="daystobudburst" &d$response==32.2]<- "Central Wisconsin" 
+d$popolation[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==16 & d$respvar=="daystobudburst" &d$response==32.2]<- "Central Wisconsin"
+
+###Added by Dan to clean gheraldini 10.
+##1) remove exisitng entries
+##2) join two new spread sheets with field sample date
+unique(d$datasetID)
+d<-subset(d,datasetID!="ghelardini10")
+unique(d$datasetID)
+g10fig2<-read.csv("cleaning/fix_fig2_ghelardini10.csv",header=TRUE)
+g10fig4<-read.csv("cleaning/fix_fig4_ghelardini10.csv",header=TRUE) 
+g10fig2$X <- NULL
+g10fig2$X.1 <- NULL
+g10fig2$X.2 <- NULL
+g10fig2$X.3 <- NULL
+g10fig4$X <- NULL
+g10fig4$X.1 <- NULL
+g10fig4$X.2 <- NULL
+g10fig4$X.3 <- NULL
+
+temp<-rbind(d,g10fig2,g10fig4)
+x<-d
