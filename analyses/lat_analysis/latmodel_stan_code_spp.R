@@ -59,7 +59,7 @@ bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 200])) ### testing
   # [1] "Betula_pendula"       "Betula_pubescens"     "Fagus_sylvatica"      "Malus_domestica"     
   # [5] "Picea_abies"          "Prunus_complex"       "Pyrus_complex"        "Rhododendron_complex"
   # [9] "Ribes_nigrum"         "Sorbus_complex" 
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Prunus_complex", "Sorbus_complex")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
@@ -262,8 +262,9 @@ ospr.stan$zforce<- scale(ospr.stan$force, center=TRUE, scale=TRUE)
 ospr.stan$zchill<- scale(ospr.stan$chill, center=TRUE, scale=TRUE)
 ospr.stan$zphoto<- scale(ospr.stan$photo, center=TRUE, scale=TRUE)
 ospr.stan$zlat<- scale(ospr.stan$lat, center=TRUE, scale=TRUE)
-ospr.stan$presp<- as.integer(ospr.stan$resp)
-ospr.stan$sm.chill<-ospr.stan/240
+ospr.stan$presp<-ospr.stan$resp+1
+ospr.stan$presp<-as.integer(round(ospr.stan$presp, digits=0))
+ospr.stan$sm.chill<-ospr.stan$chill/240
 
 lat.brm<-brm(resp~ zforce + zphoto + zchill + zlat + zphoto:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
              + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp), data=ospr.stan)
@@ -276,6 +277,16 @@ lat.brm.inter<-brm(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforc
              + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp) +
                (zforce:zphoto-1|sp) + (zforce:zchill-1|sp) + (zforce:zlat-1|sp) +
                (zphoto:zchill-1|sp) + (zchill:zlat-1|sp), data=ospr.stan)
+
+lat.brm.inter<-brm(presp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
+                     sm.chill:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
+                   + (sm.chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp) +
+                     (force:photo-1|sp) + (force:sm.chill-1|sp) + (force:lat-1|sp) +
+                     (photo:sm.chill-1|sp) + (sm.chill:lat-1|sp), data=ospr.stan, family=poisson)
+lat.brm.inter<-stan_glmer(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforce:zchill + zphoto:zchill + zforce:zlat + zphoto:zlat + 
+                     zchill:zlat + (1|sp), data=ospr.stan)
+lat.brm.inter<-stan_glmer(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
+                            chill:lat + (1|sp), data=ospr.stan, family=poisson, chains=2)
 
 
 #lat.brm<-brm(resp~ force + photo + chill + lat + (1|sp) + (force-1|sp) + (photo-1|sp)
@@ -364,7 +375,7 @@ fig1
 
 
 y = ospr.stan$resp
-chill = ospr.stan$chill
+chill = ospr.stan$sm.chill
 force = ospr.stan$force
 photo = ospr.stan$photo
 lat = ospr.stan$lat
@@ -400,7 +411,7 @@ datalist.td$chill<-datalist.td$chill/240
 
 ##############################
 ###### real data all chilling
-osp.td4 = stan('stan/lat/LAT_daysBBnointer_2level.stan', data = datalist.td,
+osp.td4 = stan('lat_analysis/lat_trunc_inter.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
 betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
