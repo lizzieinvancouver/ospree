@@ -6,7 +6,7 @@
 #'  by I. Morales-Castilla
 #'  started Sept 2017
 #'  
-#'  Editted by Cat on 16 March 2018 - using phenofit data and ospree data
+#'  Edited by Cat on 16 March 2018 - using phenofit data and ospree data
 ##############################################################################################################
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
@@ -28,7 +28,6 @@ library(tidyr)
 library(dplyr)
 library(geosphere)
 library(lubridate)
-
 # Create some dummy data
 #dat <- replicate(2, 1:3)
 
@@ -147,7 +146,7 @@ for(i in c(1:nrow(fs))){
 
 fs$phen.shift<-fs$lodoy-fs$lday.prj ## first pheno.shift
 
-fitphen<-lm(photo.shift ~ geo.shift + phen.shift, data=fs)
+fitphen<-lm(photo.shift ~ geo.shift + phen.shift, data=fs)#Ailene wonders: what is this model for?
 
 osp<-read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 fsyl<-subset(osp, genus=="Fagus")
@@ -159,6 +158,9 @@ fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
 
 fsyl$avg<-ave(fsyl$provenance.lat)
 osp.shift<-unique(fsyl$avg)-unique(fs.pres$avg)
+# Ailene says: I wouldn't calculate the ospree shift this way. 
+#I would use the photoperiod treatments to figure out equivalent spacial and temporal shifts
+#(i.e. the way i did for the table in shifts_table.R code, but for each individual treatment) 
 fsyl$geo.shift<-fsyl$provenance.lat+osp.shift
 
 fsyl$date<-as.Date(fsyl$response.time, origin = fsyl$fieldsample.date2)
@@ -180,7 +182,7 @@ for(i in c(1:nrow(fsyl))){
 fsyl$phen.shift<-fsyl$pres.doy-fsyl$osp.doy
 
 fitosp.fs<-lm(photo.shift ~ geo.shift + phen.shift, data=fsyl)
-#open3d()
+open3d()
 plot3d(fs$geo.shift, fs$phen.shift, fs$photo.shift, type = "s", col="lightblue", size=1)
 
 coefs <- coef(fitphen)
@@ -336,7 +338,7 @@ plot(photo.rast)
 
 
 
-
+daylength(52.18,106)
 
 
 

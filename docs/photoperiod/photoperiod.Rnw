@@ -106,6 +106,14 @@
 \item Edit map showing studies with saptial and temporal equivalents: replace blue squares with asterix and make bigger.make lines transparent. 
 \item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
 \end{enumerate}
+\section* {Random notes that may be useful:}
+\begin {enumerate}
+\item Bradshaw & Holzapfel (2001) showed that the pitcher plant mosquito,
+Wyeomyia smithii, has evolved a shorter critical photoperiod in association with a
+longer growing season. Northern populations of this mosquito now use a shorter
+day-length cue to enter winter diapause, doing so later in the fall than they did
+24 years ago.
+\end {enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
