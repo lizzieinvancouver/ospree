@@ -127,7 +127,7 @@ lat.brm<-brm(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cch
 #lat.brm<-brm(resp~ force + photo + chill + lat + (1|sp) + (force-1|sp) + (photo-1|sp)
 #             + (chill-1|sp) + (lat-1|sp), data=ospr.stan)
 
-m<-lat.brm.inter
+m<-lat.brm
 m.int<-posterior_interval(m)
 sum.m<-summary(m)
 cri.f<-as.data.frame(sum.m$fixed[,c("Estimate", "l-95% CI", "u-95% CI")])
@@ -142,15 +142,15 @@ cri.r2<-cri.r[, ,-1]
 cri.r2<-cri.r2[,-2,]
 dims<-dim(cri.r2)
 twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
-mat2<-cbind(twoDimMat, c(rep(1:10, length.out=30)), rep(c("Estimate", "2.5%", "95%"), each=10))
+mat2<-cbind(twoDimMat, c(rep(1:6, length.out=18)), rep(c("Estimate", "2.5%", "95%"), each=6))
 df<-as.data.frame(mat2)
 names(df)<-c(rownames(cri.f), "sp", "perc")
 dftot<-rbind(fdf2, df)
-dflong<- tidyr::gather(dftot, var, value, zforce:`zchill:zlat`, factor_key=TRUE)
+dflong<- tidyr::gather(dftot, var, value, cforce:`cchill:clat`, factor_key=TRUE)
 
 #adding the coef estiamtes to the random effect values 
-for (i in seq(from=1,to=nrow(dflong), by=33)) {
-  for (j in seq(from=3, to=32, by=1)) {
+for (i in seq(from=1,to=nrow(dflong), by=21)) {
+  for (j in seq(from=3, to=20, by=1)) {
     dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
   }
 }
@@ -171,8 +171,8 @@ estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Forcing x 
              "Photoperiod x Latitude", "Chill Portions x Latitude")
 estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude")
 dfwide$legend<-factor(dfwide$sp,
-                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica","M. domestica",
-                               "P. abies", "Prunus", "Pyrus", "Rhododendron", "R. nigrum", "Sorbus"))
+                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
+                               "P. abies","Prunus", "Sorbus"))
 estimates<-rev(estimates)
 #write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
 quartz()
@@ -180,9 +180,9 @@ fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), al
   geom_point(position =pd)+
   geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
   geom_vline(xintercept=0)+
-  scale_colour_manual(values=c("blue", "firebrick3","firebrick", "orangered1","orange3","sienna2", "sienna4", "green4", "green3", "purple2", "magenta3"),
-                      breaks=c("Overall Effects", "B. pendula","B. pubescens","F. sylvatica","M. domestica",
-                               "P. abies", "Prunus", "Pyrus", "Rhododendron", "R. nigrum", "Sorbus"))+
+  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "purple2"),
+                      breaks=c("Overall Effects", "B. pendula","B. pubescens","F. sylvatica",
+                               "P. abies", "Prunus","Sorbus"))+
   scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
   scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
   scale_alpha_manual(values=c(1, 0.5)) +
