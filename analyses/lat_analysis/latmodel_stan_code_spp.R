@@ -84,187 +84,17 @@ dim(subset(bb.wlab.sm, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)=
 ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$sp <- as.numeric(as.factor(ospr.stan$complex))
 
-#ospr.stan$resp<-ifelse(ospr.stan$resp==0, 0.01, ospr.stan$resp) ## if Gamma is necessary!
-lat.stan<-stan_glmer(resp~chill+photo+force+lat+ photo:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
-                     + (chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
-lat.stan.inter<-stan_glmer(resp~chill+photo+force+lat+(1|sp) + chill:photo +
-                             chill:force + chill:lat + photo:force + photo:lat +
-                             force:lat + (force-1|sp) + (photo-1|sp)
-                           + (chill-1|sp) + (lat-1|sp) + (force:photo-1|sp) +
-                             (force:chill-1|sp) + (photo:chill-1|sp) + 
-                             (force:lat-1|sp) + (photo:lat-1|sp) + (chill:lat-1|sp), data=ospr.stan)
-
-m<-lat.stan
-# This is an Rstanarm object, and so behaves differently than th previous brms object. Thus the coeffs have to be extracted 
-#differently.  There's probably a better way to do this, but I already had this code written up for something else, so used it again.
-sum.m <-
-  summary(
-    m,
-    pars = c(
-      "(Intercept)",
-      "chill",
-      "force",
-      "photo",
-      "lat",
-      "photo:lat"
-      ,
-      "b[chill sp:1]",
-      "b[force sp:1]",
-      "b[photo sp:1]",
-      "b[lat sp:1]",
-      "b[photo:lat sp:1]"
-      ,
-      "b[chill sp:2]",
-      "b[force sp:2]",
-      "b[photo sp:2]",
-      "b[lat sp:2]",
-      "b[photo:lat sp:2]"
-      ,
-      "b[chill sp:3]",
-      "b[force sp:3]",
-      "b[photo sp:3]",
-      "b[lat sp:3]",
-      "b[photo:lat sp:3]"
-      ,
-      "b[chill sp:4]",
-      "b[force sp:4]",
-      "b[photo sp:4]",
-      "b[lat sp:4]",
-      "b[photo:lat sp:4]"
-    )
-  )
-
-sum.m <-
-  summary(
-    m,
-    pars = c(
-      "(Intercept)",
-      "chill",
-      "force",
-      "photo",
-      "lat",
-      "chill:force",
-      "chill:photo",
-      "chill:lat",
-      "force:photo",
-      "force:lat",
-      "photo:lat"
-      ,
-      "b[chill sp:1]",
-      "b[force sp:1]",
-      "b[photo sp:1]",
-      "b[lat sp:1]",
-      "b[chill:force sp:1]",
-      "b[chill:photo sp:1]",
-      "b[chill:lat sp:1]",
-      "b[force:photo sp:1]",
-      "b[force:lat sp:1]",
-      "b[photo:lat sp:1]"
-      ,
-      "b[chill sp:2]",
-      "b[force sp:2]",
-      "b[photo sp:2]",
-      "b[lat sp:2]",
-      "b[chill:force sp:2]",
-      "b[chill:photo sp:2]",
-      "b[chill:lat sp:2]",
-      "b[force:photo sp:2]",
-      "b[force:lat sp:2]",
-      "b[photo:lat sp:2]"
-      ,
-      "b[chill sp:3]",
-      "b[force sp:3]",
-      "b[photo sp:3]",
-      "b[lat sp:3]",
-      "b[chill:force sp:3]",
-      "b[chill:photo sp:3]",
-      "b[chill:lat sp:3]",
-      "b[force:photo sp:3]",
-      "b[force:lat sp:3]",
-      "b[photo:lat sp:3]"
-      ,
-      "b[chill sp:4]",
-      "b[force sp:4]",
-      "b[photo sp:4]",
-      "b[lat sp:4]",
-      "b[chill:force sp:4]",
-      "b[chill:photo sp:4]",
-      "b[chill:lat sp:4]",
-      "b[force:photo sp:4]",
-      "b[force:lat sp:4]",
-      "b[photo:lat sp:4]"
-    )
-  )
-cri.f<-sum.m[c(2:21),c(1,4,8)] #just selecting the mean and 95% CI. Removing the intercept 
-fdf<-data.frame(cri.f)
-#binding 
-fdf2<-as.data.frame(
-  cbind(
-    (c(rownames(fdf)[1:20], rep(rev(rownames(fdf)[1:20]), each=3))), #stdarzing the parameter  names 
-    as.numeric(as.character(fdf$mean)),  # the estimate 
-    as.numeric(as.character(fdf$X2.5.)), #lower bound, 95% CI
-    as.numeric(as.character(fdf$X97.5.)),  #upper bound, 95% CI
-    as.numeric(c(rep(1, 20), rep(2, 3))),  # A variable to signify if the corresponding row is a fixed  or random effect. 1=global, 2=rndm
-    as.numeric( c(rep(0,20), rep(seq(1:3),20 ))))) #sp variable. Zero when a factor 
-names(fdf2)<-c("var", "Estimate", colnames(cri.f)[c(2,3)], "rndm", "sp") #renaming. 
-fdf2$Estimate<-as.numeric(fdf2$Estimate)      
-fdf2$`2.5%`<-as.numeric(fdf2$`2.5%`)
-fdf2$`97.5%`<-as.numeric(fdf2$`97.5%`)      
-#Fixed effect estimates:
-fixed<-c(rep(0, 100), rep(as.numeric(rev(fdf2[c(1:100),6])), each=6))
-dff<-fdf2
-#adding the fixef estiamtes to the random effect values:
-dff$Estimate<-fdf2$Estimate+fixed
-dff$`2.5%`<-fdf2$`2.5%`+fixed
-dff$`97.5%`<-fdf2$`97.5%`+fixed
-dff$var <- fct_inorder(dff$var) #so that the categorical variables plot in the right order 
-## plotting
-pd <- position_dodgev(height = -0.5)
-fig2<-ggplot(dff, aes(x=Estimate, y=var, color=factor(sp), size=factor(rndm), alpha=factor(rndm)))+
-  geom_point(position =pd, size=4)+
-  geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`97.5%`)), position=pd, size=.5, height =0)+
-  geom_vline(xintercept=0)+
-  scale_colour_manual(labels = c("Fixed effects", "CAPBUR", "CHEMAJ", "DACGLO", "PLALAN", "PLAMAJ", "RUMCRI", "TAROFF"),
-                      values=c("blue", "red", "orangered1", "sienna4", "green4", "green1", "purple2", "magenta2"))+  scale_alpha_manual(values=c(1, 0.5))+
-  scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
-  scale_alpha_manual(values=c(1, 0.5))+
-  guides(alpha=FALSE) + #removes the legend 
-  ggtitle(label = "Germination rate")+
-  scale_y_discrete(limits = rev(unique(sort(dff$var))))
-#pdf(file.path(figpath, "Fig2.pdf"), width = 7, height = 8)
-fig2
-
-
-## Woohoo!!!
-#stan_glmer
-#family:       gaussian [identity]
-#formula:      resp ~ chill + photo + force + lat + (1 | sp)
-#observations: 1889
-#------
-#  Median MAD_SD
-#(Intercept) 98.1   15.3  
-#chill       -0.2    0.0  
-#photo       -1.7    0.2  
-#force       -0.3    0.2  
-#lat         -0.3    0.1  
-#sigma       38.7    0.6  
-
-#Error terms:
-#  Groups   Name        Std.Dev.
-#sp       (Intercept) 35      
-#Residual             39      
-#Num. levels: sp 5 
-
-#Sample avg. posterior predictive distribution of y:
-#  Median MAD_SD
-#mean_PPD 43.6    1.2  
-ospr.stan$zforce<- scale(ospr.stan$force, center=TRUE, scale=TRUE)
-ospr.stan$zchill<- scale(ospr.stan$chill, center=TRUE, scale=TRUE)
-ospr.stan$zphoto<- scale(ospr.stan$photo, center=TRUE, scale=TRUE)
-ospr.stan$zlat<- scale(ospr.stan$lat, center=TRUE, scale=TRUE)
+## Center?
+ospr.stan$cchill<-ospr.stan$chill/24
+ospr.stan$cforce<- scale(ospr.stan$force, center=TRUE)
+ospr.stan$cchill<- scale(ospr.stan$cchill, center=TRUE)
+ospr.stan$cphoto<- scale(ospr.stan$photo, center=TRUE)
+ospr.stan$clat<- scale(ospr.stan$lat, center=TRUE)
 ospr.stan$presp<-ospr.stan$resp+1
 ospr.stan$presp<-as.integer(round(ospr.stan$presp, digits=0))
-ospr.stan$sm.chill<-ospr.stan$chill/240
+
+
+ospr.stan<-ospr.stan[which(ospr.stan$presp<300),]
 
 lat.brm<-brm(resp~ zforce + zphoto + zchill + zlat + zphoto:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
              + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp), data=ospr.stan)
@@ -285,9 +115,14 @@ lat.brm.inter<-brm(presp~ force + photo + sm.chill + lat + force:photo + force:s
                      (photo:sm.chill-1|sp) + (sm.chill:lat-1|sp), data=ospr.stan, family=poisson)
 lat.brm.inter<-stan_glmer(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforce:zchill + zphoto:zchill + zforce:zlat + zphoto:zlat + 
                      zchill:zlat + (1|sp), data=ospr.stan)
-lat.brm.inter<-stan_glmer(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
-                            chill:lat + (1|sp), data=ospr.stan, family=poisson, chains=2)
+lat.brm.inter<-stan_glmer(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cchill + cphoto:cchill + cforce:clat + cphoto:clat + 
+                            cchill:clat + (1|sp), data=ospr.stan, family=poisson, chains=2)
 
+lat.brm<-brm(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cchill + cphoto:cchill + cforce:clat + cphoto:clat + 
+                            cchill:clat + (1|sp) + (cforce-1|sp) + (cphoto-1|sp)
+                          + (cchill-1|sp) + (clat-1|sp) + (cphoto:clat-1|sp) +
+                            (cforce:cphoto-1|sp) + (cforce:cchill-1|sp) + (cforce:clat-1|sp) +
+                            (cphoto:cchill-1|sp) + (cchill:clat-1|sp), data=ospr.stan, family=poisson)
 
 #lat.brm<-brm(resp~ force + photo + chill + lat + (1|sp) + (force-1|sp) + (photo-1|sp)
 #             + (chill-1|sp) + (lat-1|sp), data=ospr.stan)
