@@ -122,7 +122,6 @@ for(i in 1:nrow(chilldat)) {
            chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-03-14_0" & chillcalcs$End_year==2011),]
            
            dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date2",match="all")
-           #dat4<-full_join(dat3, chillcalcs, by="ID_fieldsample.date2", match="all") #Added by Cat
            #We realized that some sites have included chilling estimates (rather than chiltemp and chillhours). Here we add those studies in:
            #unique(dat4$cu.model)
            #Four studies have field chilling reported with the utah model: "biasi12"    "cook00b"    "heide93"    "skuterud94"
@@ -134,7 +133,7 @@ for(i in 1:nrow(chilldat)) {
           dat4$chilldays[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="no")] <-0  ## No chilling. would fix 44 rows  
           dat4$chilldays[which(d$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="no")] <-0    ##would fix 52 rows
           ###li05 short day controls got no chilling
-          dat4$chillday[which(dat4$datasetID=="li05" & dat4$other.treatment=="short day controls")] <- 0  
+          dat4$chilldays[which(dat4$datasetID=="li05" & dat4$other.treatment=="short day controls")] <- 0  
           
           
           dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0

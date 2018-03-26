@@ -56,7 +56,7 @@ for(i in 1:nrow(eur)){ # i = 1
     nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
     mintest<-ncvar_get(eur.tempmn,'tn', 
                        start=c(nlong.cell,nlat.cell,st), 
-                       count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+                       count=c(1,1,en-st+1) 
     )     
     if(is.na(unique(mintest))){
       ndiff.long.cell[which(ndiff.long.cell==min(ndiff.long.cell, na.rm=TRUE))[1]]<-NA 
@@ -65,12 +65,12 @@ for(i in 1:nrow(eur)){ # i = 1
       nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell, na.rm=TRUE))[1]
       mintest<-ncvar_get(eur.tempmn,'tn', 
                          start=c(nlong.cell,nlat.cell,st), 
-                         count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+                         count=c(1,1,en-st+1) # warnings ok
       ) 
       }}
   maxtest<-ncvar_get(eur.tempmx,'tx', 
                      start=c(xlong.cell,xlat.cell,st), 
-                     count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
+                     count=c(1,1,en-st+1) # warnings ok
   ) 
   if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, chosee a different one
     xdiff.long.cell[which(xdiff.long.cell==min(xdiff.long.cell, na.rm=TRUE))[1]]<-NA 
@@ -111,4 +111,5 @@ for(i in 1:nrow(eur)){ # i = 1
 nc_close(eur.tempmx)
 nc_close(eur.tempmn)
 
-stop("Not an error, just stopping here to say we're now done pulling daily climate data for Europe!")
+stop("Not an error, just stopping here to say we're now done 
+     pulling daily climate data for Europe! Also, the warnings are ok to ignore!")
