@@ -32,10 +32,19 @@ d$fieldsample.date2[which(d$datasetID=="falusi90" & d$chilldays=="winter")] <- #
   #charrier 11 --look at again or ask lizzie
   ###missing field longitude for exp2 2
   #exp1 has lat and long 1 has it, but not filed sample date. Let's look at this together. NOT SURE
-  
+char<-subset(bb.all, datasetID=="charrier11")  
+ #Table 1 results. I think everything got experimental chilling "4°C with light for 8 h/day for a between 0 and 1600
+#hours. But the table doesnt indicate which got which chilling. It does reprot "chilling hours til endodormancy release" but I am not sure if that is so helpful.
+##For fig 2 I think same problem as above. They did recieve some chilling.
+#FUrther, we also don't know which 
+
   ###cook05 would need to reextract from figure-- not fixed
-  
-  #gansert02: only 4 rows not fixed no japanese climate data
+cook<-subset(bb.all, datasetID=="cook05") 
+##A few problems, 1 we don't have south africa climate data.
+##but Utah Chilling units are reported in the figure. BUt really impossibele to use because chill units and acutal data are on same figures but there is no correspondence..
+
+
+#gansert02: only 4 rows not fixed no japanese climate data
   
 ##granhus09 not easy to fix. 0.7 chilling would way over estimate
   d$chilltemp[which(d$datasetID=="granhus09")] <- 0.7 # "Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C" ###change to just 0.7
