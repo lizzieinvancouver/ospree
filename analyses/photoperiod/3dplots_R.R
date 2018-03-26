@@ -148,40 +148,56 @@ fs$phen.shift<-fs$lodoy-fs$lday.prj ## first pheno.shift
 
 fitphen<-lm(photo.shift ~ geo.shift + phen.shift, data=fs)#Ailene wonders: what is this model for?
 
+###### Ospree shifts are real hard... change in photoperiod is 16 hours, which isn't terribly realistic..
 osp<-read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 fsyl<-subset(osp, genus=="Fagus")
 fsyl<-subset(fsyl, species=="sylvatica")
 fsyl<-fsyl%>%dplyr::select(genus, species, photoperiod_day, response.time, provenance.lat, fieldsample.date2)
 fsyl$photoperiod_day<-as.numeric(fsyl$photoperiod_day)
+fsyl$min.daylength<-min(fsyl$photoperiod_day)
+fsyl$max.daylength<-max(fsyl$photoperiod_day)
+osp.photo<-unique(fsyl$max.daylength-fsyl$min.daylength)
+
 fsyl$response.time<-as.numeric(fsyl$response.time)
+fsyl<-fsyl%>%filter(!is.na(response.time)) %>% filter(response.time!=999)
 fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
 
-fsyl$avg<-ave(fsyl$provenance.lat)
-osp.shift<-unique(fsyl$avg)-unique(fs.pres$avg)
+fsyl$mean.lat<-ave(fsyl$provenance.lat)
+fsyl$mean.bb<-ave(fsyl$response.time)
+daylength(75, "2017-04-29") ## 24
+daylength(-64, "2017-04-29") ## 8.1
+osp.geo<-75-(-64)
+daylength(65, "2017-01-25") #6
+daylength(65, "2017-06-21") #22
+min.bb<-yday("2017-01-25")
+max.bb<-yday("2017-06-21")
+osp.temp<-max.bb-min.bb
+
+#osp.geo<-unique(fsyl$avg)
 # Ailene says: I wouldn't calculate the ospree shift this way. 
 #I would use the photoperiod treatments to figure out equivalent spacial and temporal shifts
 #(i.e. the way i did for the table in shifts_table.R code, but for each individual treatment) 
-fsyl$geo.shift<-fsyl$provenance.lat+osp.shift
+#fsyl$geo.shift<-fsyl$provenance.lat+osp.shift
 
-fsyl$date<-as.Date(fsyl$response.time, origin = fsyl$fieldsample.date2)
-fsyl$photo.shift<-NA
-for(i in c(1:nrow(fsyl))){
-  fsyl$photo.shift[i] <- daylength(fsyl$geo.shift[i], fsyl$date[i])
-}
+#fsyl$date<-as.Date(fsyl$response.time, origin = fsyl$fieldsample.date2)
+#fsyl$photo.shift<-NA
+#for(i in c(1:nrow(fsyl))){
+#  fsyl$photo.shift[i] <- daylength(fsyl$geo.shift[i], fsyl$date[i])
+#}
 
-fsyl$osp.doy<-yday(fsyl$date)
-fsyl$pres.doy<-NA
-fs$Lat<-round(fs$Lat, digits=1)
-fsyl$provenance.lat<-round(fsyl$provenance.lat, digits=1)
-for(i in c(1:nrow(fsyl))){
-  for(j in c(1:nrow(fs)))
-    if(fsyl$provenance.lat[i]==fs$Lat[j])
-      fsyl$pres.doy[i]<-fs$lodoy[j]
-}
+#fsyl$osp.doy<-yday(fsyl$date)
+#fsyl$pres.doy<-NA
+#fs$Lat<-round(fs$Lat, digits=1)
+#fsyl$provenance.lat<-round(fsyl$provenance.lat, digits=1)
+#for(i in c(1:nrow(fsyl))){
+#  for(j in c(1:nrow(fs)))
+#    if(fsyl$provenance.lat[i]==fs$Lat[j])
+#      fsyl$pres.doy[i]<-fs$lodoy[j]
+#}
 
-fsyl$phen.shift<-fsyl$pres.doy-fsyl$osp.doy
+#fsyl$phen.shift<-fsyl$pres.doy-fsyl$osp.doy
 
-fitosp.fs<-lm(photo.shift ~ geo.shift + phen.shift, data=fsyl)
+fitosp.fs<-lm(osp.photo ~ osp.geo + osp.temp)
 open3d()
 plot3d(fs$geo.shift, fs$phen.shift, fs$photo.shift, type = "s", col="lightblue", size=1)
 
