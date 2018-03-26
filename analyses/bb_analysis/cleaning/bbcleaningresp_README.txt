@@ -53,7 +53,7 @@ sonsteby14 (18 NA): Cat and Lizzie looked at these and think they are true zeros
 
 zohner16 (130/130 NA): There are 135 Zohner NA's in our OSPREE. In the original data Zohner sent, there are 130 NA's and see below.
 
-worrall67 (2/3 NA): From the Fig 4-5 caption: “Where there was no effect of photoperiod the 8 hour points were omitted for clarity, as is the point at 15 days (these plants did not leaf out).” Cat and Lizzie went through these together and decided that the 0 chill ones are impossible to decipher. One more (see below) we recoded.
+worrall67 (2/3 NA): From the Fig 4-5 caption: “Where there was no effect of photoperiod the 8 hour points were omitted for clarity, as is the point at 15 days (these plants did not leaf out).” Cat and Lizzie went through these together and decided that the 0 chill ones are impossible to decipher. One more (see above) we recoded as a non-leafout.
 
 
 

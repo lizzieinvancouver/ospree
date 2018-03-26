@@ -106,7 +106,8 @@ d$respvar[d$respvar ==  "petiolelengthcm"] <- "petiolelength"
 
 # fix some specific studies
 # Lizzie deleted code that changed viheraaarnio06 (percentbudset) respvar.simple from NA to percentbudset
-# Since below it should turn into 'otherpercents' (14 Mar 2018)
+# ...since below it should turn into 'otherpercents' (14 Mar 2018)
+
 # howe 95: data that is about budset, not budburst
 d$respvar[which(d$datasetID=="howe95" & d$figure.table..if.applicable.=="fig1a")] <- "daystobudset"
 

@@ -65,8 +65,7 @@ d$population[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoper
 d$population[d$datasetID=="ashby62"&d$fieldsample.date=="11-Dec-1956"&d$photoperiod_day==16 &
              d$respvar=="daystobudburst" &d$response==32.2]<- "Central Wisconsin"
 
-if(FALSE){
-## One way to clean gheraldini10
+## Cleaning gheraldini10
 ## Issue is that the x axis is often field sample date, not time to budburst
 # First, move the response time to fieldsample date and delete the data in response.time
 d$fieldsample.date[d$datasetID=="ghelardini10"] <- d$response.time[d$datasetID=="ghelardini10"] 
@@ -79,31 +78,10 @@ d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="105"] <- "
 d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="135"] <- "15-Feb-2003"
 d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="165"] <- "15-Mar-2003"
 d$fieldsample.date[d$datasetID=="ghelardini10" & d$fieldsample.date=="185"] <- "15-Mar-2003"
-# Note: I assume 165 or 185 was a typo, only 6 datapoints in either figure (and 165 is only in fig 2 and 185 only in fig 4)
-
-## Another way
-###Added by Dan to clean gheraldini 10.
-##1) remove exisitng entries
-##2) join two new spread sheets with field sample date
-unique(d$datasetID)
-gher10 <- subset(d,datasetID=="ghelardini10")
-dnogher <- subset(d,datasetID!="ghelardini10") ## removes respvar thermaltime to clean an return, and percentbudburst perminantly
-unique(dnogher$datasetID)
-g10fig2 <- read.csv("cleaning/ghelardini10_cleaning/fix_fig2_ghelardini10.csv", header=TRUE)
-g10fig4 <- read.csv("cleaning/ghelardini10_cleaning/fix_fig4_ghelardini10.csv", header=TRUE) 
-g10fig2$X <- NULL
-g10fig2$X.1 <- NULL
-g10fig2$X.2 <- NULL
-g10fig2$X.3 <- NULL
-g10fig4$X <- NULL
-g10fig4$X.1 <- NULL
-g10fig4$X.2 <- NULL
-g10fig4$X.3 <- NULL
-
-g10add <- rbind(g10fig2, g10fig4)
-nrow(gher10)
-nrow(g10add) # why so many fewer rows? ##Dan's answer: The rest of them are respvar+% budburst which was misentered.
-
-temp <- rbind(dnogher, g10add)
-# x <- d
-}
+# Note: I (Lizzie) assume 165 or 185 was a typo, only 6 datapoints in either figure (and 165 is only in fig 2 and 185 only in fig 4)
+# Next, we need to make sure response col is now 1 (signifying that the only response variable is days to budburst and there is not corresponding Y axis of data)
+d$response.time[d$datasetID=="ghelardini10" & d$respvar=="percentbudburst"] <- d$response[d$datasetID=="ghelardini10" & d$respvar=="percentbudburst" ]
+d$response.time[d$datasetID=="ghelardini10" & d$respvar=="thermaltimetobudburst"] <- d$response[d$datasetID=="ghelardini10" & d$respvar=="thermaltimetobudburst" ]
+# I didn't have to do the two above as separate lines (they are the only respvar I see for ghelardini10) but I wanted to...
+# ...point out that these two respvar COULD be combined I think so thermal time is the X axis and % budburst is the Y
+d$response[d$datasetID=="ghelardini10"] <- 1
