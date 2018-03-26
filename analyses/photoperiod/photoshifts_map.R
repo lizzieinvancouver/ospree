@@ -18,7 +18,8 @@ library(rworldmap)
 library(maps)
 library(mapdata)
 library(marmap)
-library(tidyr)
+library(dplyr)
+library(plyr)
 ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
 #Now try to make this table into a map figure
 source("shifts_table.R")
@@ -31,6 +32,7 @@ timeER<-photop_all[photop_all$time=="ER"|photop_all$time=="min NA (9)"|photop_al
 
 #nacho says that we can use a different background map that looks a little better 
 #(i.e. without having entire countries cut off)
+quartz()
 mapDevice() #create world map shaped window
 map("world", fill=TRUE
     ,col="grey65"
