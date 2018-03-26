@@ -76,9 +76,9 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo},\ref{fig:photo_bar}).
-\item Shifts in photoperiod may vary with latitude (Figure \ref{fig:photo_bar}). 
-\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact.
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo}).
+\item Shifts in photoperiod may vary with latitude and time of year (Figure \ref{fig:photo}), especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Dan's figure).
+\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
@@ -103,14 +103,22 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make a map showing daylength or greenup dates globally 
-\item Make Table of studies testing if photoperiod varies by latitudinal origin
+\item make lines transparent. 
+\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
 \end{enumerate}
+\section* {Random notes that may be useful:}
+\begin {enumerate}
+\item Bradshaw and Holzapfel (2001) showed that the pitcher plant mosquito,
+Wyeomyia smithii, has evolved a shorter critical photoperiod in association with a
+longer growing season. Northern populations of this mosquito now use a shorter
+day-length cue to enter winter diapause, doing so later in the fall than they did
+24 years ago.
+\end {enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Sat Mar 10 16:23:59 2018
+% Mon Mar 26 10:00:11 2018
 \begin{table}[ht]
 \centering
 \caption{\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.} 
@@ -155,32 +163,25 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
    \hline
 \end{tabular}
 \end{table}\clearpage
-\begin{table}[p]
-  \caption{\textbf{Growth chamber experiments and their photoperiod treatments.} From OSPREE. For now, I used 45.5 lat to estimate spatial and temporal equivalents and Y/N for sensitivity but might be better to have a magnitude of sensitivity found?}
-\begin{footnotesize} 
-   \begin{tabular}{| p{1cm} | p{3.8cm} | p{2.9 cm} | p{3.2 cm} |}
-    \hline
-  \bf{Study} & \bf{Photoperiod treatments (or delta)} & \bf{Spatial equivalent} & \bf{Temporal equivalent}\\ \hline
-    basler12 & 9.5, 11 (1.5) &  600 km up & 30 days earlier \\ \hline
-    laube14a & 8,16 (8) &  3200 km up & 160 days earlier \\ \hline
-    other studies &  &   & \\ \hline
-
-     \end{tabular}    
-\end{footnotesize} 
-    \end{table}
-\clearpage
 \section* {Figures}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change.pdf} 
-\caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, at two latitudes (Washington, DC and Montreal).}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward, solid lines) versus temporally (shifting activity earlier 3 days per decade, dashed lines).}
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
+\caption{\textbf{Shifts in the daylength in OSPREE treatments, and their equivalent spatial and temporal shifts).}}
  \label{fig:photo}
  \end{figure}
+ \begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
+\caption{\textbf{OSPREE experiments that maniuplate photoperiod}, and their equivalent spatial and temporal shifts). }
+ \label{fig:greenup}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
+ \end{figure}
+\clearpage
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/photoper_change_bar.pdf} 
-\caption{\textbf{Shifts in the photoperiod organisms will experience with climate change, across latitude.}  With warming, species are likely to shift their ranges poleward and/or shift their spring activity earlier, resulting in alterations to the photoperiod they experience. We compare changes to photoperiod in 100 years if species shift spatially (i.e. shifting their ranges ~6km,or 0.05 degree, per decade poleward) versus temporally (shifting activity earlier 3 days per decade).}
- \label{fig:photo_bar}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/green_up/2009_photoperiod_map.pdf} 
+\caption{\textbf{Green-up date varies with latitude.} }
+ \label{fig:greenup}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
  \end{figure}
 \clearpage
 

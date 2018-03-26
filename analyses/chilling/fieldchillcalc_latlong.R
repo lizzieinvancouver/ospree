@@ -14,6 +14,12 @@ d$datasetID <- as.character(d$datasetID)
 #add new columns for lat and long to use to calculate chilling.
 #if growing lat/long is present, use those. if not, use provenance lat/long
 d$chill.lat<-as.numeric(as.character(d$growing.lat))
+#hmm===how do we decide whether to use growing latitude or provenance latitude. 
+#For cuttings, use provenance?
+#dim(d[which(!is.na(as.numeric(as.character(d$growing.lat)) & as.numeric(as.character(d$provenance.lat)))),])
+#unique(d$datasetID[which(!is.na(as.numeric(as.character(d$growing.lat)) & as.numeric(as.character(d$provenance.lat))))])
+#4394 rows/12744 in 29 different studies have both growing vs. provance lats
+
 d$chill.long<-as.numeric(as.character(d$growing.long))
 d[which(is.na(d$chill.lat)),]$chill.lat<-d[which(is.na(d$chill.lat)),]$provenance.lat
 d[which(is.na(d$chill.long)),]$chill.long<-d[which(is.na(d$chill.long)),]$provenance.long
@@ -25,7 +31,7 @@ d$addexpwarm<-0
 d[d$chilltemp=="ambient + 4",]$addexpwarm<-"ambplus4"
 d[d$chilltemp=="ambient + 0.76",]$addexpwarm<-"ambplus0.76"
 
-d2 <- as_data_frame(d)
+d2 <- as.data.frame(d)
 
 ##add new column that combines datasetID,chill.lat, chill.long, and field sample.date for later indexing
 
