@@ -124,8 +124,9 @@ fs.proj<-read.csv("output/phenofit_projections/Fagus_sylvatica_A1Fi_2081_2100_da
 fs.proj.pres<-read.csv("output/phenofit_projections/Fagus_sylvatica_A1Fi_2081_2100.csv", header=TRUE)
 
 fs.present<-fs.present%>%dplyr::rename(mleaf=MeanDateLeaf)
-fs.proj<-fs.proj%>%dplyr::rename(mleaf.proj=MeanDateLeaf)%>%dplyr::rename(lday.prj=lodoy)%>%
-  dplyr::rename(photo.prj=daylength)
+fs.present$type<-"current"
+fs.proj<-fs.proj%>%dplyr::rename(mleaf=MeanDateLeaf)
+fs.proj$type<-"projected"
 
 fs<-full_join(fs.present, fs.proj)
 
@@ -147,6 +148,7 @@ for(i in c(1:nrow(fs))){
 fs$phen.shift<-fs$lodoy-fs$lday.prj ## first pheno.shift
 
 fitphen<-lm(photo.shift ~ geo.shift + phen.shift, data=fs)#Ailene wonders: what is this model for?
+
 
 ###### Ospree shifts are real hard... change in photoperiod is 16 hours, which isn't terribly realistic..
 osp<-read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
@@ -172,6 +174,19 @@ daylength(65, "2017-06-21") #22
 min.bb<-yday("2017-01-25")
 max.bb<-yday("2017-06-21")
 osp.temp<-max.bb-min.bb
+
+fsyl<-fsyl%>%rename(daylength=photoperiod_day)%>%rename(mleaf=response.time)%>%rename(Lat=provenance.lat)
+fsyl$type<-"ospree"
+ff<-full_join(fs, fsyl)
+ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type)
+ff$mleaf<-filter(ff, mleaf<200)
+ff$col<-NA
+ff$col<-ifelse(ff$type=="current", "lightblue", ff$col)
+ff$col<-ifelse(ff$type=="projected", "red", ff$col)
+ff$col<-ifelse(ff$type=="ospree", "green", ff$col)
+
+open3d()
+plot3d(ff$Lat, ff$daylength, ff$mleaf, type="s", col=ff$col, size=1)
 
 #osp.geo<-unique(fsyl$avg)
 # Ailene says: I wouldn't calculate the ospree shift this way. 
@@ -208,11 +223,11 @@ cf <- -1
 df <- coefs["(Intercept)"]
 planes3d(af, bf, cf, df, alpha = 0.5, col="lightblue" )
 
-#plot3d(fsyl$geo.shift, fsyl$phen.shift, fsyl$photo.shift, type = "s", col="red", size=1)
+plot3d(fitsosp.fs$osp.geo, fitsosp.fs$osp.temp, fitsosp.fs$osp.photo, type = "s", col="red", size=1)
 
 coefs <- coef(fitosp.fs)
-ao <- coefs["geo.shift"]
-bo <- coefs["phen.shift"]
+ao <- osp.geo
+bo <- osp.temp
 co <- -1
 do <- coefs["(Intercept)"]
 planes3d(ao, bo, co, do, alpha = 0.5, col="red" )
@@ -221,7 +236,7 @@ planes3d(ao, bo, co, do, alpha = 0.5, col="red" )
 ### Range of projected BB dates (Fagus): 92-167
 
 #rgl.postscript("FAGSYL_shifts.pdf", fmt="pdf")
-rgl.snapshot(filename="photoperiod/figures/FAGSYL_shifts.png",fmt="png")
+rgl.snapshot(filename="photoperiod/figures/FAGSYL_allpoints.png",fmt="png")
 
 
 #########################
