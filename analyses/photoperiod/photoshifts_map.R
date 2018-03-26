@@ -7,10 +7,6 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/photoperiod")
 } else 
   setwd("~/Documents/git/ospree/analyses/photoperiod")
-
-ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
-source("shifts_table.R")
-#Now try to make this table into a map figure
 library(maptools)
 library(mapdata)
 library(geosphere)
@@ -22,6 +18,10 @@ library(rworldmap)
 library(maps)
 library(mapdata)
 library(marmap)
+library(tidyr)
+ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
+#Now try to make this table into a map figure
+source("shifts_table.R")
 
 photop_all$space2<-as.numeric(photop_all$space)
 photop_all$time2<-as.numeric(photop_all$time)
