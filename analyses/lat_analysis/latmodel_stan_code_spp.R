@@ -30,7 +30,6 @@ if(length(grep("Ignacio", getwd()))>0) {
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses")
 
 setwd("~/Documents/git/ospree/analyses")
-source('stan/savestan.R')
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -44,22 +43,40 @@ bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 
 taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
 
+respvars.thatwewant <- c("daystobudburst", "percentbudburst")
+bb.resp <- bb[which(bb$respvar.simple %in% respvars.thatwewant),]
+bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 
-## Old code to remove Olea, probably the new subset of species is getting rid of it 
-#bb[bb$genus=="Olea",]
-#bb<-subset(bb,genus!="Olea")
+## make a bunch of things numeric (eek!)
+bb.resp$forceday <- as.numeric(bb.resp$forcetemp)
+bb.resp$forcenight <- as.numeric(bb.resp$forcetemp_night)
+bb.resp$photonight <- as.numeric(bb.resp$photoperiod_night)
 
-## subsetting for experimental chilling
-#bb<-subset(bb,!is.na(as.numeric(chilltemp)))
+bb.resp$photo <- as.numeric(bb.resp$photoperiod_day)
+bb.resp$force <- bb.resp$forceday
+bb.resp$force[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+                is.na(bb.resp$photonight)==FALSE] <-
+  (bb.resp$forceday[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+                      is.na(bb.resp$photonight)==FALSE]*
+     bb.resp$photo[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+                     is.na(bb.resp$photonight)==FALSE] +
+     bb.resp$forcenight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+                          is.na(bb.resp$photonight)==FALSE]*
+     bb.resp$photonight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
+                          is.na(bb.resp$photonight)==FALSE])/24
+
+bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
+bb.resp$resp <- as.numeric(bb.resp$response.time)
+
 
 # merge in labgroup (we could do this elsewhere someday)
-bb.wlab <- merge(bb, taxon, by=c("genus","species"), all.x=TRUE)
+bb.wlab <- merge(bb.resp, taxon, by=c("genus","species"), all.x=TRUE)
 tt <- table(bb.wlab$complex)
-bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 200])) ### testing 
-  # [1] "Betula_pendula"       "Betula_pubescens"     "Fagus_sylvatica"      "Malus_domestica"     
-  # [5] "Picea_abies"          "Prunus_complex"       "Pyrus_complex"        "Rhododendron_complex"
-  # [9] "Ribes_nigrum"         "Sorbus_complex" 
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Prunus_complex", "Sorbus_complex")
+bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 100])) ### testing 
+    # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
+    # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
+    # [9] "Ribes_nigrum"          "Ulmus_complex"  
+myspp<-c("Betula_complex", "Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca","Pseudotsuga_menziesii", "Ulmus_complex")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
@@ -85,16 +102,17 @@ ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$sp <- as.numeric(as.factor(ospr.stan$complex))
 
 ## Center?
-ospr.stan$cchill<-ospr.stan$chill/24
+#ospr.stan$cchill<-ospr.stan$chill/24
 ospr.stan$cforce<- scale(ospr.stan$force, center=TRUE)
-ospr.stan$cchill<- scale(ospr.stan$cchill, center=TRUE)
+ospr.stan$cchill<- scale(ospr.stan$chill, center=TRUE)
 ospr.stan$cphoto<- scale(ospr.stan$photo, center=TRUE)
 ospr.stan$clat<- scale(ospr.stan$lat, center=TRUE)
+#ospr.stan$chill<-ospr.stan$chill+1
 ospr.stan$presp<-ospr.stan$resp+1
 ospr.stan$presp<-as.integer(round(ospr.stan$presp, digits=0))
 
 
-ospr.stan<-ospr.stan[which(ospr.stan$presp<300),]
+ospr.stan<-ospr.stan[which(ospr.stan$presp!=1000),]
 
 lat.brm<-brm(resp~ zforce + zphoto + zchill + zlat + zphoto:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
              + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp), data=ospr.stan)
@@ -115,14 +133,21 @@ lat.brm.inter<-brm(presp~ force + photo + sm.chill + lat + force:photo + force:s
                      (photo:sm.chill-1|sp) + (sm.chill:lat-1|sp), data=ospr.stan, family=poisson)
 lat.brm.inter<-stan_glmer(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforce:zchill + zphoto:zchill + zforce:zlat + zphoto:zlat + 
                      zchill:zlat + (1|sp), data=ospr.stan)
-lat.brm.inter<-stan_glmer(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cchill + cphoto:cchill + cforce:clat + cphoto:clat + 
-                            cchill:clat + (1|sp), data=ospr.stan, family=poisson, chains=2)
+lat.stan<-stan_glmer(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
+                            chill:lat + (1|sp), data=ospr.stan, family=poisson, chains=2)
 
 lat.brm<-brm(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cchill + cphoto:cchill + cforce:clat + cphoto:clat + 
                             cchill:clat + (1|sp) + (cforce-1|sp) + (cphoto-1|sp)
                           + (cchill-1|sp) + (clat-1|sp) + (cphoto:clat-1|sp) +
                             (cforce:cphoto-1|sp) + (cforce:cchill-1|sp) + (cforce:clat-1|sp) +
-                            (cphoto:cchill-1|sp) + (cchill:clat-1|sp), data=ospr.stan, family=poisson)
+                            (cphoto:cchill-1|sp) + (cchill:clat-1|sp), data=ospr.stan, family=poisson, chains=2)
+lat.brm.uncent<-brm(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
+               chill:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
+             + (chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp) +
+               (force:photo-1|sp) + (force:chill-1|sp) + (force:lat-1|sp) +
+               (photo:chill-1|sp) + (chill:lat-1|sp), data=ospr.stan, family=poisson(), chains=2)
+lat.brm.uncent<-brm(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
+                      chill:lat + (1|sp), data=ospr.stan, family=poisson(), chains=2)
 
 #lat.brm<-brm(resp~ force + photo + chill + lat + (1|sp) + (force-1|sp) + (photo-1|sp)
 #             + (chill-1|sp) + (lat-1|sp), data=ospr.stan)

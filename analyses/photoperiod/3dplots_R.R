@@ -236,7 +236,7 @@ planes3d(ao, bo, co, do, alpha = 0.5, col="red" )
 ### Range of projected BB dates (Fagus): 92-167
 
 #rgl.postscript("FAGSYL_shifts.pdf", fmt="pdf")
-rgl.snapshot(filename="photoperiod/figures/FAGSYL_allpoints.png",fmt="png")
+rgl.snapshot(filename="photoperiod/figures/FAGSYL_photoy.png",fmt="png")
 
 
 #########################
