@@ -29,8 +29,7 @@ for(i in 1:nrow(eur)){ # i = 1
   
   #yr <- as.numeric(eur[i,"year"])#old code-realized this was wrong July 2017 and changed to reference year in field sample date instead
   yr <-as.numeric(substr(eur[i,"fieldsample.date2"],1,4))#year for climate data
-            
-  
+      
   # start and end days of the climate data we need for the lat/long. 
   #This is in days since baseline date (Jan 1) Set to GMT to avoid daylight savings insanity
   lastyr<-2014#last year for which there are climate data in our current dataset

@@ -19,54 +19,37 @@ for(i in 1:nrow(nam)){ # i = 1
   # make sure longitudes are negative, need to be for North America
   if(lo > 0) { lo = lo*-1 }
   
-  yr <- as.numeric(nam[i,"year"])#i think we need to use this year for nam because it is referenced in the code below.
+  ##REMOVE##yr <- as.numeric(nam[i,"year"])#i think we need to use this year for nam because it is referenced in the code below.
   #yr <-as.numeric(substr(nam[i,"fieldsample.date2"],1,4))#year for climate data
   
-  # start and end days of the climate data we need to calculate chilling, for the focal lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
+  yr<-as.numeric(substr(nam[i,"fieldsample.date2"],1,4))
+  # start and end days of the climate data we need to calculate chilling, for the focal lat/long. 
+  #This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
   # using d$fieldsample.date2 (this is the same as fieldsampledate, but formatted as  "%Y-%m-%d")
-  #if(nam[i,"fieldsample.date2"]!=""){endday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
-  #if(nam[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")} #if no sampling date given, use december 31 of same year
+  
   #for pmp, we always need climate data to go until 12-31
   fsday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")
   endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
   
-  if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))<=9){#when sampling occurred in same year as study and when collection occurred before that year's sept chilling,
-    stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
-    firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
-     pmpclim<-c(firstyr, endyr)
-  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in previous year as study only
-    stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
-  # prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year of chilling (always have to start in january for pmp-whenever collection occured)}
-    firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
-    pmpclim<-c(firstyr, endyr)
-    }else if(substr(fsday,1,4)==yr & as.numeric(substr(fsday,6,7))>=9){#when sampling occurred in same year as study and after chilling started that year
-    stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting climate data jan 1 for pmp
-    endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
-    firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
+  if(nam[i,"fieldsample.date2"]!="" & as.numeric(substr(nam[i,"fieldsample.date2"],6,7))>=9){
+    stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
+    firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");#
     endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
-  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))>=9){#when sampling occurred in previous year as study between sept and dec
-    stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
-    #prevmo <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# always start jan 1 for pmp
+    }#If field sample date is after september 1, then we use the chilling from the current year, since sept 1
+  
+  if(nam[i,"fieldsample.date2"]!="" & as.numeric(substr(nam[i,"fieldsample.date2"],6,7))<9){
+    stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
     pmpclim<-c(firstyr, endyr)
-  } else if(substr(fsday,1,4)==yr-1 & as.numeric(substr(fsday,6,7))<=12  & as.numeric(substr(endday,6,7))<9){#when sampling occurred in previous year as study, NOT during the fall
-    stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
-    #prevmo <- paste(as.numeric(substr(endday,1,4))-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's climate data 
-    #endmo<-"12";#month of last year (should always be 12 for pmp)
-    #thismo <- paste(as.numeric(substr(endday,1,4)), formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-Dec for pmp)
-    firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
-    pmpclim<-c(firstyr, endyr)
-  } 
+  }#If field sample date is before september 1, then we use the chilling from the previous year.
+  
   if(la==38.988){# 
     #For this one study (swartz81) we need two extra years of climate data (e.g. because of long chilling treatments) to correspond to the budburst dates and calculate accurate forcing.
     #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
-      stday <- strptime(paste(as.numeric(substr(fsday,1,4))-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
+      stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
       firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
       secondyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");# 
       thirdyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");# 
