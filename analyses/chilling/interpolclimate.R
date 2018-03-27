@@ -61,12 +61,12 @@ for(i in names(tempval)){
 }
 #Check to see if any problems from "imput_chilling.R" are solved:
 #head(chillcalcs)
-#head(chillcalcs[chillcalcs$datasetIDlatlong=="heide93_40.8092_10.767_1991-01-15_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="heide93_59.5_10.767_1991-01-15_0",])
 #head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2010-11-03_0",])
 #head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2011-10-19_0",])
 #head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2012-10-17_0",])
 #head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2012-10-17_0",])
-
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="falusi96_42.05_14.02_1988-04-30_0",])
 
 #sv
 
