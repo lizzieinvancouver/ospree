@@ -48,12 +48,12 @@ climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the extern
 #climatedrive = "/Volumes/climate" #Ailene's climate data drive
 
 # 4c. pull climate data from europe
-source("bb_dailyclimate/pulldailyclimate_eur.R")
+source("bb_dailyclimate/source/pulldailyclimate_eur.R")
 
 # 4d: pull climate data from north america
 #If  just looking at nam climate, do this:
 #tempval <- list() 
-source("bb_dailyclimate/pulldailyclimate_nam.R")
+source("bb_dailyclimate/source/pulldailyclimate_nam.R")
 
 #4e. If you want to avoid connecting to the external hard drive, then just do this:
 

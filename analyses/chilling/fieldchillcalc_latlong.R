@@ -53,6 +53,16 @@ nam <- d2 %>% # start with the data frame
   dplyr::select(datasetID, chill.lat, chill.long, year,fieldsample.date2, ID_fieldsample.date2)
 
 nam <- nam[apply(nam, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+#Create and save a list of the sites that use growing.lat instead of provenance lat for chilling.
+#we need this later for getting correct climate data...
+chill.lats<-d2[d2$chill.lat==d2$growing.lat,]
+clats <- chill.lats %>% # start with the data frame
+  distinct(ID_fieldsample.date2, .keep_all = TRUE) %>% # establishing grouping variables
+  dplyr::select(datasetID, chill.lat, chill.long, growing.lat,growing.long,provenance.lat,provenance.long)
+clats <- clats[apply(clats, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+clats <- clats[!duplicated(clats), ]
+
+write.csv(clats,"output/dailyclim/chill.lat.conversion.csv", row.names=FALSE, eol="\r\n")
 # these may need manual cleaning. for now use as is
 #no duplicates here: checked
 #duplicated(nam$ID_fieldsample.date2); duplicated(eur$ID_fieldsample.date2)
