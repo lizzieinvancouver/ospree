@@ -61,8 +61,14 @@ for(i in names(tempval)){
 }
 #Check to see if any problems from "imput_chilling.R" are solved:
 #head(chillcalcs)
-#head(chillcalcs[chillcalcs$datasetIDlatlong=="falusi96_38.26666667_15.988_1988-04-30_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="heide93_40.8092_10.767_1991-01-15_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2010-11-03_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2011-10-19_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2012-10-17_0",])
+#head(chillcalcs[chillcalcs$datasetIDlatlong=="sonsteby14_60.701_10.872_2012-10-17_0",])
 
+
+#sv
 
 #save the field chilling calculations in a separate file
 write.csv(chillcalcs, "output/fieldchillcalcslatlong.csv", row.names=FALSE, eol="\r\n")
