@@ -103,19 +103,11 @@ d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.l
 #unique(d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)<0)])#-3.3700 -119.7670  -82.3250  -81.9372  -89.4120; -3.3700 is reasonable but the other 4 are not in europe so need to check these
 #unique(d$provenance.long[which(d$continent=="europe" & as.numeric(d$provenance.long)<0)])#these all seem reasonable
 #Ailene fixed the following in August 2017, which are all from #heide93,this was misentered
-#i have no idea where the misentered growing lat/longs came from. the paper says "The experiments were conducted at As (59°30'N)...Young trees of local origin..." so, i think the growing lat-long should be the same as the provenance lat-long for all 
-d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-119.7670)] <-
-    d$provenance.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-119.7670)]
-d$growing.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-119.7670)] <-
-    d$provenance.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-119.7670)]
-d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-82.3250)] <-
-    d$provenance.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-82.3250)]
-d$growing.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-82.3250)] <-
-    d$provenance.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-82.3250)]
-d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-81.9372)] <-
-    d$provenance.long[which(d$continent=="europe" & as.numeric(d$growing.long)==-81.9372)]
-d$growing.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-81.9372)] <-  d$provenance.lat[which(d$continent=="europe" & as.numeric(d$growing.long)==-81.9372)]
+#i have no idea where the misentered growing lat/longs came from. the paper says "The experiments were conducted at As (59°30'N)...Young trees of local origin..." 
+#so, i think the growing lat-long should be the same as the provenance lat-long for all heide93 studies
+d$growing.long[d$datasetID=="heide93"] <- d$provenance.long[d$datasetID=="heide93"]
+d$growing.lat[d$datasetID=="heide93"] <- d$provenance.lat[d$datasetID=="heide93"]
 
-d$continent[which(d$continent=="europe" & as.numeric(d$growing.long)==-89.4120)]<-"north america" # this seems to be the correct longitude, given that the author is a professor at university of wisconsin. changet the continent to North America?
+d$continent[which(d$continent=="europe" & as.numeric(d$growing.long)==-89.4120)]<-"north america" # this seems to be the correct longitude, given that the author is a professor at university of wisconsin. change the continent to North America?
 
 stop("Not an error, just stopping here to say we're now done cleaning the lat/longs. The d item in your workspace is now all cleaned up for its lat/longs. Yay!")

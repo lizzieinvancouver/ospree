@@ -67,6 +67,9 @@ source("chilling/totalchillcalc.R")
 # 6. Write out the file with total chilling estimates
 
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
+#check some things on this fil
+#dim(dat4)#12743    79
+#dat4$Total_Utah_Model[dat4$datasetID=="heide93" & dat4$genus=="Corylus"]
 #Make list of the studies that are missing chilling data
 #dat4$missingCH<-0
 #dat4$missingCH[which(is.na(dat4$Total_Chilling_Hours))]<-1

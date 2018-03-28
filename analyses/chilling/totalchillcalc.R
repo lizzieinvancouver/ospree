@@ -108,7 +108,7 @@ for(i in 1:nrow(chilldat)) {
            dat3$ID_fieldsample.date2<-paste(dat3$datasetID,dat3$chill.lat,dat3$chill.long,dat3$fieldsample.date2,d2$addexpwarm, sep="_")
            #Add field chilling calculations 
            ###if you don't have climate data, read in chillcalc file, 
-           #chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
+           chillcalcs <- read.csv("output/fieldchillcalcslatlong.csv", header=T)
            chillcalcs <- chillcalcs[apply(chillcalcs, 1, function(x) all(!is.na(x))),] # only keep rows of all not NA.dim: 235   6
            
            colnames(chillcalcs) <- c("ID_fieldsample.date2","Season","End_year","Field_Chilling_Hours","Field_Utah_Model","Field_Chill_portions")
@@ -118,8 +118,9 @@ for(i in 1:nrow(chilldat)) {
            
            chillcalcs <- chillcalcs[chillcalcs$ID_fieldsample.date2 %in% dat3$ID_fieldsample.date2,]
            #found 2 duplicate chilling calculation for laube14a: laube14a_48.403008_11.711811_2012-01-30_0 and laube14a_48.403008_11.711811_2012-03-14_0. For some reason, there are 2 years listed for this one- 2010/2011 and 2011/2012. since field sample date was january 2012, it should just be te 2011-2012 season. Remove
-           chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-01-30_0" & chillcalcs$End_year==2011),]
-           chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-03-14_0" & chillcalcs$End_year==2011),]
+           #no longer a problem so commenting the below out
+           #chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-01-30_0" & chillcalcs$End_year==2011),]
+           #chillcalcs<-chillcalcs[-which(chillcalcs$ID_fieldsample.date2=="laube14a_48.403008_11.711811_2012-03-14_0" & chillcalcs$End_year==2011),]
            
            dat4<-join(dat3, chillcalcs,by="ID_fieldsample.date2",match="all")
            #We realized that some sites have included chilling estimates (rather than chiltemp and chillhours). Here we add those studies in:
@@ -160,4 +161,12 @@ for(i in 1:nrow(chilldat)) {
               #check
           #length(dat4$Total_Utah_Model[which(dat4$chilldays=="0")])
            stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")
+          #check some things from imput_chilling
+          # tail(dat4[which(dat4$datasetID=="falusi96" & dat4$study=="exp1"),])
+           #head(dat4[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="yes"),])  ###would fix 80 entries
+            #dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="no")]
+            #No chilling. would fix 44 rows  
+           #exp3 
+           #dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="yes")]##would fix 84 rows
+            # dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="no")] ##would fix 52 rows DOne in totall.chilling.R
            

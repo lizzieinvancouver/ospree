@@ -6,3 +6,7 @@
 *.Rds
 *.Rhistory
 analyses/.Rhistory
+
+analyses/output/dailyclim/percbb_dailyclimALL.csv
+
+analyses/output/dailyclim/percbb.csv

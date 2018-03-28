@@ -47,6 +47,8 @@ climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
 climdat <- climdatab[!duplicated(climdatab), ] 
+#goes from 3143442 rows to 472078- this scares me! 
+#not sure why there are duplicates- duplicates were removed at the end of the bb_daily_dataprep.R code
 rm(clima,climb,climc,climd)
 
 ## get all the BB data and format a little
