@@ -88,14 +88,14 @@ for(i in 1:nrow(bb)){#i=1832
   doy.i<-as.numeric(format(start.i,"%j"))
   doy.end.i<-as.numeric(format(end.i,"%j"))
   
-  clim.i<-subset(climdat,stn==ID.i)
+  clim.i<-subset(climdat, uniqueID==ID.i) # Lizzie changed: stn -> uniqueID
   
   #clim.i$Tmean
   if(!is.na(year.end.i)){
   if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
-           which(clim.i$year==year.end.i & clim.i$doy==doy.end.i),"Tmean"],na.rm=T)
+           which(clim.i$year==year.end.i & clim.i$doy==doy.end.i),"Tmean"],na.rm=TRUE)
   #clim.i<-subset(clim.i,year==year.i | year==year.end.i)
   }
   }
