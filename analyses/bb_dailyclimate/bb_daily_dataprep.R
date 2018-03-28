@@ -157,7 +157,7 @@ daily_chilltemp3$Date<-as.Date(daily_chilltemp3$Date)
 #6. studies that manipulate ONLY photoperiod
 
 #First, select out budburst data
-dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]#dat$respvar.simple=="percentbudburst",]#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""
+dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dailyclim.bb<-data.frame()
 bbdates.bb<-data.frame()
 for(i in 1:dim(dat.bb)[1]){#3252 rows in dat
