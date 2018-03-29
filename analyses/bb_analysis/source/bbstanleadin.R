@@ -18,14 +18,20 @@ options(mc.cores = parallel::detectCores())
 ## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
 ## (1) Get the data and slim down to correct response and no NAs ...
 source("source/bbdataplease.R")
-## (2) Deal with species
+## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
+source("source/othertreats.R")
 dim(bb.noNA)
+bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 28 March 2018 should delete about 359 rows
+dim(bb.noNA)
+## (3) Deal with species
 d <- bb.noNA
+
 source("source/speciescomplex.R")
 bb.noNA.wtaxa <- d
 dim(bb.noNA.wtaxa)
 unique(bb.noNA.wtaxa$complex)
-# (3) Get fewer columns for sanity
+
+# (4) Get fewer columns for sanity
 source("source/commoncols.R")
 bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "force.cen"))
 

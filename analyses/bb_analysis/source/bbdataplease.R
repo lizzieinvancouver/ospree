@@ -61,8 +61,6 @@ weinberg<-c("falusi03", "falusi97", "heide93", "jones12", "partanen05", "ramos99
              "ganset02"  ,"gianfagna85","guerriero90","gunderson12")
 }
        
-
-
 if(checkdataforNAs){
 forceissues <- subset(bb.resp, is.na(force)==TRUE)
 table(forceissues$datasetID)

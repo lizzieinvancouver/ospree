@@ -8,6 +8,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(ggplot2)
+library(jtools) # for interact_plot
 library(shinystan)
 # library(rstanarm)
 library(lme4)
@@ -24,6 +25,8 @@ if(length(grep("danflynn", getwd())>0)) {
 
 # dostan = TRUE
 source("source/bbstanleadin.R")
+
+bb <- subset(bb, resp<600)
 
 ## look at a few single sp.
 fagsyl <- subset(bb, complex=="Fagus_sylvatica") # 520 datapoints across 10 studies (force is positive)
@@ -45,6 +48,11 @@ coef(intmodel) # intercept seems high....
 
 anova(simplemodel)
 anova(intmodel)
+
+interact_plot(intmodel, pred="force", modx="photo")
+ggplot(onesp, aes(x=force, y=resp, colour=as.factor(photo))) + geom_point()
+ggplot(onesp, aes(x=chill, y=resp, colour=as.factor(photo))) + geom_point()
+
 
 maineff <- lmer(resp~photo+chill+force + (1|datasetID), data=onesp)
 wintxns <- lmer(resp~photo+chill+force+chill*photo+chill*force+photo*force + (1|datasetID), data=onesp)
