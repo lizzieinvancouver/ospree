@@ -32,6 +32,7 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 source("source/bbstanleadin.R")
+# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once) 
 
 #####################################
 ## A cheap run-thru of the issue ##
