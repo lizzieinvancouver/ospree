@@ -25,10 +25,11 @@ if(is.data.frame(d)){
 # Add note for page number for thermal time conversion equation
 d.gher<-d
 d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")] <-
-    as.numeric(d.gher$response[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")])/
+    as.numeric(d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")])/
   (as.numeric(d.gher$forcetemp[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]))
 d$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]<-d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]
 d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
+####check
 
 # d<-within(d, respvar.simple[datasetID=="heide93"]<-"daystobudburst")
 
@@ -119,6 +120,13 @@ d<-within(d, respvar.simple[datasetID=="swartz81"]<-"daystobudburst")
 } else {
   print("Error: d is not a data.frame")
 }
+
+###Dan B writes. I think I fixed where gheraldini10 was broken due to a response vs. response.time cleaning moment
+###should be okay now. here is how I checked it.
+#checker<-subset(d,d$datasetID=="ghelardini10" & d$respvar.simple=="daystobudburst")
+#checker2<-subset(d.gher,d.gher$datasetID=="ghelardini10" & d.gher$respvar.simple=="thermaltime")
+#checker$response.time==checker2$response.time
+
 
 stop("Not an error, thermal time is passed to days now")
 
