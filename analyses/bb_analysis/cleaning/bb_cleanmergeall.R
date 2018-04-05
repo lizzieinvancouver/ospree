@@ -31,7 +31,7 @@ d <- read.csv("output/ospree_clean_withchill.csv")
 source("bb_analysis/cleaning/clean_thermaltimetodays.R")
 
 # 3. Clean phenstage to get a little more data (a little, but still!). 
-source("bb_analysis/cleaning/clean_respvarmore.R")
+source("bb_analysis/cleaning/clean_respvarmore.R")#get a warning
 
 # 4. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
 source("bb_analysis/cleaning/multiresp.R") # as of 16 July 2017, deletes ~2400 rows
@@ -45,7 +45,7 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 source("bb_analysis/cleaning/clean_checkdateofclimatedata.R")
 
 # 5c. Clean ambient forcing daily - just activated Nov16th2017 to be checked
-source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R")
+source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R")#broken! need to fix!
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 80%)
 # ... with an allowable buffer (i.e., 40%)
@@ -62,7 +62,7 @@ d$response.num <- as.numeric(d$response) # only 'timeonly' should be removed her
 d <- d %>% filter(!(response.num<39.99 & respvar.simple=="percentbudburst"))
 d$response.num <- NULL
 
-#10. additional Imput/clean some chilling to try adn get as much data as possible ##added by Dan.
+#10. additional Imput/clean some chilling to try and get as much data as possible ##added by Dan.
 #source("bb_analysis/cleaning/imput_chilling.R")
 
 # 10. Write out the final file! 

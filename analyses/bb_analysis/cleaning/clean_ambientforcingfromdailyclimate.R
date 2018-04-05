@@ -60,6 +60,7 @@ bbdat <- subset(dat.some, response.time!="")
 # format: make a column to match to climate data, and merge the BB and climate data
 bbdat$uniqueID <- paste(bbdat$datasetID, bbdat$fieldsample.date2, bbdat$forcetemp, bbdat$chilltemp, 
     bbdat$chilldays,bbdat$chillphotoperiod, bbdat$photoperiod_day)  
+
 bb <- merge(chilly, bbdat, by="uniqueID", all.y=TRUE)
 
 ## add a column for when the experiment starts to bb data
@@ -88,10 +89,15 @@ for(i in 1:nrow(bb)){#i=1832
   doy.i<-as.numeric(format(start.i,"%j"))
   doy.end.i<-as.numeric(format(end.i,"%j"))
   
+<<<<<<< Updated upstream
   clim.i<-subset(climdat, uniqueID==ID.i) # Lizzie changed: stn -> uniqueID
   
+=======
+  clim.i<-subset(climdat,uniqueID==ID.i)
+  if (dim(clim.i)[1]==0){next}
+>>>>>>> Stashed changes
   #clim.i$Tmean
-  if(!is.na(year.end.i)){
+  if(!is.na(year.end.i) & !unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i)==FALSE){
   if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
@@ -120,7 +126,7 @@ indexd<-which(uniquevalsd%in%uniquevalsbb)
 d$avg_bbtemp<-NA
 d[indexd,"avg_bbtemp"]<-bb$avg_bbtemp[indexbb]
 
-# note that only 2K rows have entires in avg_bbtemp and all have forcetemp
+# note that only 2K rows have entries in avg_bbtemp and all have forcetemp
 if(FALSE){
 haveavgtemp <- subset(d, is.na(avg_bbtemp)==FALSE)
 subset(haveavgtemp, is.na(forcetemp)==TRUE)
