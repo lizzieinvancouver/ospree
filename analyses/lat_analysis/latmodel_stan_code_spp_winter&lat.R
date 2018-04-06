@@ -103,7 +103,7 @@ ospr.stan$complex <- as.numeric(as.factor(ospr.stan$complex))
 
 #lat.stan<-stan_glmer(resp~chill+photo+force+lat+(1|complex), data=ospr.stan) - ugly pp_checks
 #ospr.stan$resp<-as.integer(ospr.stan$resp+1)
-ospr.stan<-ospr.stan[(ospr.stan$resp!=1000),]
+ospr.stan<-ospr.stan[(ospr.stan$resp!=999),]
 
 ospr.stan$sm.chill<-ospr.stan$chill/240
 
@@ -112,6 +112,137 @@ lat.pois<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex), data=o
 lat.brm<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex) +
                (sm.chill-1|complex)+(photo-1|complex)+(force-1|complex)+
                (lat-1|complex)+(photo:lat-1|complex), data=ospr.stan)
+
+#Population-Level Effects: 
+#  Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+#Intercept   191.37     99.20    -1.39   393.87       2246 1.00
+#sm.chill     -3.78      1.48    -6.69    -0.84       1968 1.00
+#photo       -12.28      4.86   -21.73    -2.81       2453 1.00
+#force         1.21      1.67    -2.39     4.26       1225 1.00
+#lat          -1.95      2.01    -5.89     2.07       1566 1.00
+#photo:lat     0.17      0.08     0.01     0.34       2422 1.00
+
+#lat.brm.inter<-(resp ~ sm.chill + photo + force + lat + sm.chill:photo + sm.chill:force +
+#                  sm.chill:lat + photo:force + photo:lat + force:lat + (1|complex) +
+#                  (sm.chill-1|complex) +( photo-1|complex) + (force-1|complex) +
+#                  (lat-1|complex) + (sm.chill:photo-1|complex) +
+#                  (sm.chill:force-1|complex) + (sm.chill:lat-1|complex) +
+#                  (photo:force-1|complex) + (photo:lat-1|complex) + (force:lat-1|complex), data=ospr.stan)
+
+ospr.stan$type<-ifelse(ospr.stan$complex>3, 0, 1)
+
+ospr.stan$presp<-as.integer(ospr.stan$resp+1)
+ospr.stan<-ospr.stan[(ospr.stan$presp!=1000),]
+lat.simple<-stan_glm(presp ~ sm.chill + photo + force + lat +
+                     sm.chill:photo + sm.chill:force +
+                     sm.chill:lat + photo:force + photo:lat + force:lat, data=ospr.stan, family=poisson)
+
+#stan_glm
+#family:       poisson [log]
+#formula:      presp ~ sm.chill + photo + force + lat + sm.chill:photo + sm.chill:force + 
+#  sm.chill:lat + photo:force + photo:lat + force:lat
+#observations: 1669
+#predictors:   11
+#------
+#  Median MAD_SD
+#(Intercept)    -0.4    0.2  
+#sm.chill        0.3    0.0  
+#photo           0.0    0.0  
+#force           0.4    0.0  
+#lat             0.1    0.0  
+#sm.chill:photo  0.0    0.0  
+#sm.chill:force  0.0    0.0  
+#sm.chill:lat    0.0    0.0  
+#photo:force     0.0    0.0  
+#photo:lat       0.0    0.0  
+#force:lat       0.0    0.0  
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 48.3    0.2  
+
+lat.simple<-stan_glm(presp ~ sm.chill + photo + force + lat +
+                       sm.chill:photo + sm.chill:force +
+                       sm.chill:lat + photo:force + photo:lat + force:lat, data=ospr.stan, family=neg_binomial_2)
+
+#stan_glm
+#family:       neg_binomial_2 [log]
+#formula:      presp ~ sm.chill + photo + force + lat + sm.chill:photo + sm.chill:force + 
+#  sm.chill:lat + photo:force + photo:lat + force:lat
+#observations: 1293
+#predictors:   11
+#------
+#  Median MAD_SD
+#(Intercept)           -0.6    0.8  
+#sm.chill               0.1    0.0  
+#photo                  0.0    0.0  
+#force                  0.5    0.0  
+#lat                    0.1    0.0  
+#sm.chill:photo         0.0    0.0  
+#sm.chill:force         0.0    0.0  
+#sm.chill:lat           0.0    0.0  
+#photo:force            0.0    0.0  
+#photo:lat              0.0    0.0  
+#force:lat              0.0    0.0  
+#reciprocal_dispersion  3.6    0.2  
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 55.1    1.3  
+
+lat.inter<-stan_glm(resp ~ sm.chill + photo + force + lat +
+                       sm.chill:photo + sm.chill:force +
+                       sm.chill:lat + photo:force + photo:lat + force:lat, data=ospr.stan)
+#stan_glm
+#family:       gaussian [identity]
+#formula:      resp ~ sm.chill + photo + force + lat + sm.chill:photo + sm.chill:force + 
+#  sm.chill:lat + photo:force + photo:lat + force:lat
+#observations: 1293
+#predictors:   11
+#------
+#  Median MAD_SD
+#(Intercept)    -212.6   47.4
+#sm.chill         -1.8    2.8
+#photo            -0.4    3.0
+#force            28.8    1.7
+#lat               3.2    0.7
+#sm.chill:photo    0.2    0.1
+#sm.chill:force   -0.4    0.0
+#sm.chill:lat      0.1    0.0
+#photo:force      -0.5    0.1
+#photo:lat         0.1    0.0
+#force:lat        -0.4    0.0
+#sigma            32.6    0.6
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 54.4    1.3  
+
+#lat.trunc<-brm(resp | trunc(lb = 0) ~ sm.chill + photo + force + lat +
+#                      sm.chill:photo + sm.chill:force +
+#                      sm.chill:lat + photo:force + photo:lat + force:lat, data=ospr.stan)
+
+lat.nointer<-stan_glm(resp~ sm.chill + photo + force + lat, data=ospr.stan)
+#stan_glm
+#family:       gaussian [identity]
+#formula:      resp ~ sm.chill + photo + force + lat
+#observations: 1293
+#predictors:   5
+#------
+#  Median MAD_SD
+#(Intercept) 212.4   10.9 
+#sm.chill     -2.8    0.3 
+#photo        -3.2    0.4 
+#force         1.1    0.2 
+#lat          -2.5    0.1 
+#sigma        36.6    0.7 
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 54.4    1.5 
+
+
+lat.nointer.pois<-stan_glm(presp~ sm.chill + photo + force + lat, data=ospr.stan, family=poisson)
 
 
 #lat.neg.oneinter<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
@@ -146,7 +277,7 @@ dftot<-rbind(fdf2, df)
 dflong<- tidyr::gather(dftot, var, value, sm.chill:`photo:lat`, factor_key=TRUE)
 
 #adding the coef estiamtes to the random effect values 
-for (i in seq(from=1,to=nrow(dflong), by=24)) {
+for (i in seq(from=1,to=nrow(dflong), by=21)) {
   for (j in seq(from=3, to=20, by=1)) {
     dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
   }
@@ -156,7 +287,7 @@ dfwide<-tidyr::spread(dflong, perc, value)
 dfwide[,4:6] <- as.data.frame(lapply(c(dfwide[,4:6]), as.numeric ))
 dfwide$complex<-as.factor(dfwide$complex)
 ## plotting
-library(ggstance)
+
 pd <- position_dodgev(height = -0.5)
 
 #"Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca",
@@ -165,10 +296,10 @@ pd <- position_dodgev(height = -0.5)
 estimates<-c("Chill Hours", "Photoperiod", "Forcing", "Latitude", "Forcing x Photoperiod", 
              "Forcing x Chill Portions", "Photoperiod x Chill Portions","Forcing x Latitude", 
              "Photoperiod x Latitude", "Chill Portions x Latitude")
-estimates<-c("Chill Hours", "Photoperiod", "Forcing", "Latitude", "Photoperiod x Latitude")
+estimates<-c("Utah Chilling", "Photoperiod", "Forcing", "Latitude", "Photoperiod x Latitude")
 dfwide$legend<-factor(dfwide$complex,
-                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
-                               "P. abies","Picea glauca", "Pseudotsuga menziesii", "Ribes nigrum"))
+                      labels=c("Overall Effects","Betula pendula","Betula pubescens","Fagus sylvatica",
+                               "Picea abies","Picea glauca", "Pseudotsuga menziesii"))
 estimates<-rev(estimates)
 #write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
 quartz()
@@ -176,18 +307,27 @@ fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), al
   geom_point(position =pd)+
   geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
   geom_vline(xintercept=0)+
-  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2","sienna4", "green4", "purple2"),
-                      breaks=c("Overall Effects", "B. pendula","B. pubescens","F. sylvatica",
-                               "P. abies", "Picea glauca","Pseudotsuga menziesii", "Ribes nigrum"))+
+  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "purple2"),
+                      labels=c("Overall Effects",
+                               "Betula pendula" = expression(paste(italic("Betula pendula"))),
+                               "Betula pubescens" = expression(paste(italic("Betula pubescens"))),
+                               "Fagus sylvatica" = expression(paste(italic("Fagus sylvatica"))),
+                               "Picea abies" = expression(paste(italic("Picea abies"))),
+                               "Picea glauca" = expression(paste(italic("Picea glauca"))),
+                               "Pseudotsuga menziesii" = expression(paste(italic("Pseudotsuga menziesii"))))) +
   scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
   scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
   scale_alpha_manual(values=c(1, 0.5)) +
   guides(size=FALSE, alpha=FALSE) + 
   scale_y_discrete(limits = rev(unique(sort(dfwide$var))), labels=estimates) + ylab("") + 
   labs(col="Effects") + theme(legend.box.background = element_rect(), 
-                              legend.title=element_blank(), legend.key.size = unit(0.05, "cm")) +
+                                legend.title=element_blank(), legend.key.size = unit(0.25, "cm"),
+                                legend.text=element_text(size=9), legend.position= c(0.25,0.15), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+                                panel.background = element_blank(), 
+                                axis.line = element_line(colour = "black")) +
   xlab(expression(atop("Model Estimate of Days to Budburst")))
 fig1
+
 
 m<-mod_rate 
 # This is an Rstanarm object, and so behaves differently than th previous brms object. Thus the coeffs have to be extracted 
