@@ -70,10 +70,9 @@ bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 100]))
 
 ####below is handled in source i think
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
-                   "photoperiod_day", "response", "response.time", "Total_Chilling_Hours",
+                   "photoperiod_day", "response", "response.time", "Total_Utah_Model",
                    "complex", "provenance.lat")
-
-bb.wlab.sm <- bb.wlab
+bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 unique(bb.wlab.sm$complex)
 table(bb.wlab.sm$complex)
 myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca",
@@ -83,7 +82,7 @@ bb.wlab.sm<-dplyr::filter(bb.wlab.sm, complex%in%myspp)
 ## make a bunch of things numeric (eek!)
 bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
 bb.wlab.sm$photo <- as.numeric(bb.wlab.sm$photoperiod_day)
-bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Chilling_Hours)
+bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Utah_Model)
 bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
 bb.wlab.sm$lat<-as.numeric(bb.wlab.sm$provenance.lat)
 
@@ -123,6 +122,71 @@ lat.brm<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
                                 (sm.chill-1|complex)+(photo-1|complex)+
                                 (force-1|complex)+(lat-1|complex)+
                                 (photo:lat-1|complex), data=ospr.stan, family=negbinomial, chains=2)
+
+m<-lat.brm
+m.int<-posterior_interval(m)
+sum.m<-summary(m)
+cri.f<-as.data.frame(sum.m$fixed[,c("Estimate", "l-95% CI", "u-95% CI")])
+cri.f<-cri.f[-1,] #removing the intercept 
+fdf1<-as.data.frame(rbind(as.vector(cri.f[,1]), as.vector(cri.f[,2]), as.vector(cri.f[,3])))
+fdf2<-cbind(fdf1, c(0, 0, 0) , c("Estimate", "2.5%", "95%"))
+names(fdf2)<-c(rownames(cri.f), "complex", "perc")
+
+cri.r<-(ranef(m, summary = TRUE, robust = FALSE,
+              probs = c(0.025, 0.975)))$complex
+cri.r2<-cri.r[, ,-1]
+cri.r2<-cri.r2[,-2,]
+dims<-dim(cri.r2)
+twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
+mat2<-cbind(twoDimMat, c(rep(1:7, length.out=21)), rep(c("Estimate", "2.5%", "95%"), each=7))
+df<-as.data.frame(mat2)
+names(df)<-c(rownames(cri.f), "complex", "perc")
+dftot<-rbind(fdf2, df)
+dflong<- tidyr::gather(dftot, var, value, sm.chill:`photo:lat`, factor_key=TRUE)
+
+#adding the coef estiamtes to the random effect values 
+for (i in seq(from=1,to=nrow(dflong), by=24)) {
+  for (j in seq(from=3, to=20, by=1)) {
+    dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
+  }
+}
+dflong$rndm<-ifelse(dftot$complex>0, 2, 1)
+dfwide<-tidyr::spread(dflong, perc, value)
+dfwide[,4:6] <- as.data.frame(lapply(c(dfwide[,4:6]), as.numeric ))
+dfwide$complex<-as.factor(dfwide$complex)
+## plotting
+
+pd <- position_dodgev(height = -0.5)
+
+#"Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca",
+ #        "Pseudotsuga_menziesii", "Ribes_nigrum" 
+
+estimates<-c("Chill Hours", "Photoperiod", "Forcing", "Latitude", "Forcing x Photoperiod", 
+             "Forcing x Chill Portions", "Photoperiod x Chill Portions","Forcing x Latitude", 
+             "Photoperiod x Latitude", "Chill Portions x Latitude")
+estimates<-c("Chill Hours", "Photoperiod", "Forcing", "Latitude", "Photoperiod x Latitude")
+dfwide$legend<-factor(dfwide$complex,
+                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
+                               "P. abies","Picea glauca", "Pseudotsuga menziesii", "Ribes nigrum"))
+estimates<-rev(estimates)
+#write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
+quartz()
+fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), alpha=factor(rndm)))+
+  geom_point(position =pd)+
+  geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
+  geom_vline(xintercept=0)+
+  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2","sienna4", "green4", "purple2"),
+                      breaks=c("Overall Effects", "B. pendula","B. pubescens","F. sylvatica",
+                               "P. abies", "Picea glauca","Pseudotsuga menziesii", "Ribes nigrum"))+
+  scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
+  scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
+  scale_alpha_manual(values=c(1, 0.5)) +
+  guides(size=FALSE, alpha=FALSE) + 
+  scale_y_discrete(limits = rev(unique(sort(dfwide$var))), labels=estimates) + ylab("") + 
+  labs(col="Effects") + theme(legend.box.background = element_rect(), 
+                              legend.title=element_blank(), legend.key.size = unit(0.05, "cm")) +
+  xlab(expression(atop("Model Estimate of Days to Budburst")))
+fig1
 
 m<-mod_rate 
 # This is an Rstanarm object, and so behaves differently than th previous brms object. Thus the coeffs have to be extracted 
