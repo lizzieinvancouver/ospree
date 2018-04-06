@@ -13,12 +13,13 @@ options(stringsAsFactors = FALSE)
 
 # dostan = TRUE
 
-library(rstan)
+#library(rstan)
 library(ggplot2)
-library(shinystan)
-library(bayesplot)
+#library(shinystan)
+#library(bayesplot)
 library(rstanarm)
 library(brms)
+library(ggstance)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
@@ -31,8 +32,8 @@ if(length(grep("Ignacio", getwd()))>0) {
 setwd("~/Documents/git/ospree/analyses")
 source('stan/savestan.R')
 
-rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())
+#rstan_options(auto_write = TRUE)
+#options(mc.cores = parallel::detectCores())
 
 
 ######################## OLD CODE, SKIP###############################
@@ -76,7 +77,7 @@ bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 unique(bb.wlab.sm$complex)
 table(bb.wlab.sm$complex)
 myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca",
-         "Pseudotsuga_menziesii", "Ribes_nigrum")
+         "Pseudotsuga_menziesii")
 bb.wlab.sm<-dplyr::filter(bb.wlab.sm, complex%in%myspp)
 
 ## make a bunch of things numeric (eek!)
@@ -101,27 +102,27 @@ ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$complex <- as.numeric(as.factor(ospr.stan$complex))
 
 #lat.stan<-stan_glmer(resp~chill+photo+force+lat+(1|complex), data=ospr.stan) - ugly pp_checks
-ospr.stan$resp<-as.integer(ospr.stan$resp+1)
+#ospr.stan$resp<-as.integer(ospr.stan$resp+1)
 ospr.stan<-ospr.stan[(ospr.stan$resp!=1000),]
-
-lat.pois<-stan_glmer(resp~chill+photo+force+lat+(1|complex), data=ospr.stan, family=poisson)
 
 ospr.stan$sm.chill<-ospr.stan$chill/240
 
-lat.pois<-stan_glmer(resp~sm.chill+photo+force+lat+(1|complex), data=ospr.stan, family=poisson)
-lat.pois.oneinter<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex), data=ospr.stan, family=poisson)
+lat.stan<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex), data=ospr.stan)
+lat.pois<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex), data=ospr.stan, family=poisson)
+lat.brm<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex) +
+               (sm.chill-1|complex)+(photo-1|complex)+(force-1|complex)+
+               (lat-1|complex)+(photo:lat-1|complex), data=ospr.stan)
 
-lat.brm.inter<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex), data=ospr.stan, family=poisson)
 
-lat.pois.oneinter<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
-                                (sm.chill-1|complex)+(photo-1|complex)+
-                                (force-1|complex)+(lat-1|complex)+
-                                (photo:lat-1|complex), data=ospr.stan, family=neg_binomial_2)
+#lat.neg.oneinter<-stan_glmer(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
+#                                (sm.chill-1|complex)+(photo-1|complex)+
+#                                (force-1|complex)+(lat-1|complex)+
+#                                (photo:lat-1|complex), data=ospr.stan, family=neg_binomial_2)
 
-lat.brm<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
-                                (sm.chill-1|complex)+(photo-1|complex)+
-                                (force-1|complex)+(lat-1|complex)+
-                                (photo:lat-1|complex), data=ospr.stan, family=negbinomial, chains=2)
+#lat.brm<-brm(resp~sm.chill+photo+force+lat+photo:lat+(1|complex)+
+#                                (sm.chill-1|complex)+(photo-1|complex)+
+#                                (force-1|complex)+(lat-1|complex)+
+#                                (photo:lat-1|complex), data=ospr.stan, family=negbinomial) # lots of divergent transitions!!
 
 m<-lat.brm
 m.int<-posterior_interval(m)
@@ -138,7 +139,7 @@ cri.r2<-cri.r[, ,-1]
 cri.r2<-cri.r2[,-2,]
 dims<-dim(cri.r2)
 twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
-mat2<-cbind(twoDimMat, c(rep(1:7, length.out=21)), rep(c("Estimate", "2.5%", "95%"), each=7))
+mat2<-cbind(twoDimMat, c(rep(1:6, length.out=18)), rep(c("Estimate", "2.5%", "95%"), each=6))
 df<-as.data.frame(mat2)
 names(df)<-c(rownames(cri.f), "complex", "perc")
 dftot<-rbind(fdf2, df)
@@ -155,7 +156,7 @@ dfwide<-tidyr::spread(dflong, perc, value)
 dfwide[,4:6] <- as.data.frame(lapply(c(dfwide[,4:6]), as.numeric ))
 dfwide$complex<-as.factor(dfwide$complex)
 ## plotting
-
+library(ggstance)
 pd <- position_dodgev(height = -0.5)
 
 #"Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca",
