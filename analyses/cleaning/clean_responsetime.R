@@ -68,9 +68,6 @@ d<- within(d, response.time[datasetID=="heide12" & response.time==">90"]<-"no re
 d<- within(d, response.time[datasetID=="heide93a" & response.time==">50"]<-"no response")
 d<- within(d, response.time[datasetID=="howe95" & response.time==">60"]<-"no response")
 
-#falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
-d<-within(d, respvar[datasetID=="falusi96" & figure.table..if.applicable.=="table 2"]<-"meandaystostage3")
-
 #canell83: would need to fix this is respvar by calculating thermal time from figure 3- No need to change here.
 #see note to above in  ospreexlsx_README.txt
 #gunderson12: This is fine, do not change

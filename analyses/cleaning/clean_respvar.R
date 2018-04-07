@@ -41,6 +41,11 @@ subset(d$fieldsample.date, d$respvar=="dayofbudbreak")
 subset(d$response.time, d$respvar=="dayofbudbreak")
 # "dateofbudburst" has been converted to dayofbudbreak so will treat as daystobudbreak for now
 
+# falusi96 in respvar: For data from table 2, change to mean days to reach phenostage 3
+# was mis-entered as percentbudburst
+d <- within(d, respvar[datasetID=="falusi96" & figure.table..if.applicable.=="table 2"]
+    <- "meandaystostage3") 
+
 ##
 ## Fixing obvious typos and synonmyms
 ##
@@ -55,6 +60,7 @@ d$respvar[d$respvar == "baystobudburst"] <- "daystobudburst"
 d$respvar[d$respvar == "daysto50percentbudburst"] <- "daysto50%budburst"
 d$respvar[d$respvar == "days to budbust"] <- "daystobudburst"
 d$respvar[d$respvar == "dateofbudburst"] <- "daystobudburst"
+d$respvar[d$respvar == "meandaystostage3"] <- "daystobudburst" # this stage is 'bud scales have separated and the green tips of the first leaves are emerging'
 
 # Days to something else
 d$respvar[d$respvar == "daysto50percentflowering"] <- "daysto50flowering"
