@@ -3,7 +3,13 @@
 ## Script to convert files with 50% bb to "days to bb" and calculate max %bb per treatment per spp ##
 ## Sourced in bb_cleanmergeall.R ##
 
-# Edited by Dan Flynn, then lots of edits in early 2017 by Nacho Morales-Castilla #
+# Edited by Dan Flynn, then lots of edits in early 2017 by Nacho Morales-Castilla, 
+# then more edits by Nacho in Apr2018 to make sure the code does the following:
+# (a) remove values which are not within target range (these should be deleted, does the code do this?)
+# (b) data with just one value in target range (that's easy, we should retain it, can we double check that the code does this?)
+# (c) data with more than one value in target range but one value that exactly equals target range (we should retain it, but I think this may be fairly uncommon, anyway, we need to double check that the code does this...).
+#
+
 
 ## read data
 #setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
@@ -11,7 +17,7 @@
 #d<-read.csv("ospree_clean_withchill.csv",as.is=TRUE)
 
 targetvalue <- 80 # we want value closest to this
-acceptablerange <- 0.50 # meaning as low as 40% allowed (e.g., 80-80*0.5=40)
+acceptablerange <- 0.50 # meaning as low as 40% allowed (e.g., 80-80*0.5=40) ## decreasing the acceptable range increases the amount of rows deleted (more values cease to be close enough to targetted values)
 
 if(is.data.frame(d)){
 
@@ -64,41 +70,50 @@ for(i in 1:length(dataset)){ # i = 2
                    
     # Check if this can be estimated at all.
     if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time)) {
-    
-      # Check how many values are within 35% of target percent, if at least one we proceed
+      
+      # Check how many values are within 40% of target percent, if at least one we proceed
       values.in.target<-which(dat3$response>(target.percent-target.percent*acceptablerange)&dat3$response<(target.percent+target.percent*acceptablerange))
       if(length(values.in.target)==1){
-      index<-rownames(dat3[values.in.target,])  
-      d[index,"dbb"]<-dat3[values.in.target,"response.time"]
-      d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
-      d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
-      d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
-      
+        index<-rownames(dat3[values.in.target,])  
+        out.index<-rownames(dat3[which(!1:length(dat3$response)%in%values.in.target),])
+        d[index,"dbb"]<-dat3[values.in.target,"response.time"]
+        d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
+        d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
+        d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
+        # remove whatever not within range
+        d<-d[!rownames(d)%in%out.index,]
+        
       } 
       # If there are more than 1 rows with values within the acceptable range (e.g. 25 or 40%) of target percent and values in the 
       # response variable are not equal to the targetted % we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
         index<-rownames(dat3[values.in.target,])  
+        out.index<-rownames(dat3[which(!1:length(dat3$response)%in%values.in.target),])
         d[index,"dbb"]<-dat3[values.in.target,"response.time"]
         d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target,"response"]),length(values.in.target))
         d[index,"minperc_bb"]<-rep(min(dat3[values.in.target,"response"]),length(values.in.target))
         d[index,"dist.50bb"]<-abs(dat3[values.in.target,"response"]-target.percent)
-        
+        # remove whatever not within range
+        d<-d[!rownames(d)%in%out.index,]
+        #dim(d)
       }
       # If there are more than 1 rows with values within within the acceptable range of target percent and at least one value in the 
       # response variable is equal to the targetted % in the function we proceed
       if(length(values.in.target)>1 & length(which(dat3$response==target.percent))>0){  
         index<-rownames(dat3[which(dat3$response==target.percent),])  
+        out.index<-rownames(dat3[which(!1:length(dat3$response)%in%values.in.target),])
         d[index,"dbb"]<-dat3[which(dat3$response==target.percent),"response.time"]
         d[index,"maxperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
         d[index,"minperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
         d[index,"dist.50bb"]<-rep(0,length(index))
+        # remove whatever not within range
+        d<-d[!rownames(d)%in%out.index,]
         
       }
       
       
-  }
-  
+    }
+    
 
     } 
   
