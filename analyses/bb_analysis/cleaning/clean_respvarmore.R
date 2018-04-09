@@ -28,12 +28,9 @@ d$response.time[d$response.time=="no response" & d$datasetID=="zohner16" &
 d$response.time[d$response.time=="no response" & d$datasetID=="gianfagna85"] <- 999
 
 ## cleaning some phenstages that are daystobudburst
+# first, identify which ones to look at
 phenstage <- d[which(d$respvar.simple=="phenstage"),]
-unique(phenstage$datasetID)
-datasets<-unique(phenstage$datasetID)
-xx<-d[which(d$datasetID %in% datasets),] # cannell83, gansert02, gunderson12, pagter15, pettersen71, sonsteby13
-unique(xx$respvar.simple)
-daysto<-xx%>%filter(respvar.simple=="daystobudburst")
+unique(phenstage$datasetID) # cannell83, gansert02, gunderson12, pagter15, pettersen71, sonsteby13
 
 ### Let's check...
 # cannell83: not a useful daystobudburst conversion
