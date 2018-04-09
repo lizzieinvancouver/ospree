@@ -51,7 +51,7 @@ source("bb_dailyclimate/source/bb_daily_dataprep_get_expclimdat.R")
 #A.  multiple values for forcing treatments (e.g. "mean of 9, 12, 15","7-27.5")
 #B. studies that manipulate ONLY photoperiod
 #First, select out budburst data
-dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]#dat$respvar.simple=="percentbudburst",]#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""#| dat$respvar.simple=="percentbudburst" and response.time!=""
+dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dailyclim.bb<-data.frame()
 bbdates.bb<-data.frame()
 for(i in 1:dim(dat.bb)[1]){#4981 rows in dat

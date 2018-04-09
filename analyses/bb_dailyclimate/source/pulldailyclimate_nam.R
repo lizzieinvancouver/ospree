@@ -35,6 +35,7 @@ for(i in 1:nrow(nam)){ # i = 1
     stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
     firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");#
     endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+    endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     pmpclim<-c(firstyr, endyr)
     }#If field sample date is after september 1, then we use the chilling from the current year, since sept 1
   
@@ -42,6 +43,7 @@ for(i in 1:nrow(nam)){ # i = 1
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
     firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
     endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+    endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     pmpclim<-c(firstyr, endyr)
   }#If field sample date is before september 1, then we use the chilling from the previous year.
   

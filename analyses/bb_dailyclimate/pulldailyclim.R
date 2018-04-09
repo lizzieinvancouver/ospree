@@ -73,7 +73,7 @@ dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date
 write.csv(dailytemp4, "output/dailyclim/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #dailytemp4<-read.csv("output/dailytemp.csv")
 #checks:
-#dim(dailytemp4)#195795  rows, 7 columns
+#dim(dailytemp4)#210766  rows, 7 columns
 #check data for a few sites:
 #first, for 1950s studies (ashby)
 #tail(dailytemp4[dailytemp4$datasetID=="ashby62",])
@@ -82,10 +82,3 @@ write.csv(dailytemp4, "output/dailyclim/dailytemp.csv", row.names=FALSE, eol="\r
 #check how many other sites are mising data
 #length(which(is.na(dailytemp4$Tmax)))#0!!!
 #unique(dailytemp4$datasetID[which(is.na(dailytemp4$Tmin))])#0!!
-#Make list of the studies that are missing large amounts of Temp data
-#dailytemp4$missingT<-0
-#dailytemp4$missingT[which(is.na(dailytemp4$Tmin))]<-1
-#temptab<-table(dailytemp4$datasetID,dailytemp4$missingT)
-#missingtemp<-temptab[temptab[,2]>0,]
-#heide93<-dailytemp4[dailytemp4$datasetID=="heide93",]
-
