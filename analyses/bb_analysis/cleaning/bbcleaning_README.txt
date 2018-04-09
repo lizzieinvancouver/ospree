@@ -107,7 +107,7 @@ This file assumes users are working only with daystobudburst and percentbudburst
 <> Where to find notes on what  we changed from NA (or not) <>
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-- See imput_chilling.R for notes on remaining datasetIDs that cannot be fixed (and what we fixed
+- See imput_chilling.R for notes on remaining datasetIDs that cannot be fixed (and what we fixed)
 - See bbcleaningresp_README.txt for notes on NAs in response values
 - See clean_photoperiod.R for notes on cleaning photoperiod NAs
 - See clean_ambientforcing.R and clean_ambientforcingfromdailyclimate.R for notes on cleaning force temp

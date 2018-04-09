@@ -43,7 +43,7 @@ basler12 (16 NA): These are true NAs -- they did not sample the species at some 
 
 boyer (1 NA): This is a --- in the original data. Again, I think we can toss it.
 
-gianfagna85: I think we lose this study due to photoperiod issues, so I did not check it.
+gianfagna85: I think we lose this study due to photoperiod issues, so I did not check it (as of 9 Apr 2018, after other cleaning, this study no longer shows up).
 
 nienstaedt66 (26 NA): The data from the 0 chill treatments were NOT DONE for all but P. pungens (so there WAS a 0 chill for P. pungens but not for the other species).
 
@@ -51,7 +51,7 @@ skuterud94 (4 NA): RIGHT-censored data: I believe they are the opposite problem 
 
 sonsteby14 (18 NA): Cat and Lizzie looked at these and think they are true zeros, but the paper is hard to decipher on this point.
 
-zohner16 (130/130 NA): There are 135 Zohner NA's in our OSPREE. In the original data Zohner sent, there are 130 NA's and see below.
+zohner16 (130/135 NA): There are 135 Zohner NA's in our OSPREE. In the original data Zohner sent, there are 130 NA's and see below.
 
 worrall67 (2/3 NA): From the Fig 4-5 caption: “Where there was no effect of photoperiod the 8 hour points were omitted for clarity, as is the point at 15 days (these plants did not leaf out).” Cat and Lizzie went through these together and decided that the 0 chill ones are impossible to decipher. One more (see above) we recoded as a non-leafout.
 
