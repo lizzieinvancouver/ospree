@@ -57,16 +57,10 @@ source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 9 apr 2018, delete
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
-# 9. Now remove any percentbudburst lower than 40% (clean_bbperctodays.R only cleans lines with more than entry per treatment)
-d$response.num <- as.numeric(d$response) # only 'timeonly' should be removed here
-d <- d %>% filter(!(response.num<39.99 & respvar.simple=="percentbudburst"))#as of 9 apr 2018, deletes 642 rows (8480).
-d$response.num <- NULL
-
-
 #10. additional Imput/clean some chilling to try adn get as much data as possible ##added by Dan.
 #source("bb_analysis/cleaning/imput_chilling.R")
 
-# 10. Write out the final file! 
+# 9. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
 #dim(d)
 #d_old<-read.csv("output/ospree_clean_withchill_BB_old.csv",header=T)

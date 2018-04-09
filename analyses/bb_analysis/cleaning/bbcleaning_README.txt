@@ -30,9 +30,7 @@ It:
 
 8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB.
 
-9. Next, remove any percentbudburst lower than 40% (clean_bbperctodays.R only cleans lines with more than entry per treatment)
-
-10. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
+9. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
 
 
 <><><><><><><><><><><><><><>
