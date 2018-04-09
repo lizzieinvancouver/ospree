@@ -10,3 +10,11 @@ analyses/.Rhistory
 analyses/output/dailyclim/percbb_dailyclimALL.csv
 
 analyses/output/dailyclim/percbb.csv
+
+*.xlsx
+
+*.log
+
+*.aux
+
+*.log

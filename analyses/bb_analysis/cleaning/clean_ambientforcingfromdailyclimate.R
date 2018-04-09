@@ -46,8 +46,12 @@ climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)
 climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
-climdat <- climdatab[!duplicated(climdatab), ] 
-#goes from 3143442 rows to 472078- this scares me! 
+#dim(climdatab)#3143442 rows
+climdatab<-climdatab[-which(is.na(climdatab$Tmean)),]#Ailene added for now
+#to remove climate data with NAs (need to fix dailyclim file)
+#on 9 april 2018: there are 153 unique ids with NA climate data
+#dim(climdatab)2954917       8
+climdat <- climdatab[!duplicated(climdatab), ]
 #not sure why there are duplicates- duplicates were removed at the end of the bb_daily_dataprep.R code
 rm(clima,climb,climc,climd)
 
@@ -72,10 +76,10 @@ bb$expstartdate[which(is.na(bb$expstartdate)==TRUE)] <- bb$fieldsample.date2[whi
 bb$expstartdate <- as.Date(bb$expstartdate, format="%Y-%m-%d")
 bb$response.time.integer <- as.integer(bb$response.time)
 bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%Y-%m-%d")
-
+bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if response.time==NA
 # generate an empty variable to store mean temps
 bb$avg_bbtemp<-NA
-
+missingclim<-NA#keep tack of how many uniqueIDs are missing climate
 ## Loop to add mean temp to each line in bb
 for(i in 1:nrow(bb)){#i=1832
   lon.i<-bb[i,"chill.long"]
@@ -91,18 +95,24 @@ for(i in 1:nrow(bb)){#i=1832
   clim.i<-subset(climdat, uniqueID==ID.i) # Lizzie changed: stn -> uniqueID
   
   #clim.i$Tmean
-  if(!is.na(year.end.i)){
-  if(nrow(clim.i)>0 & sum(!is.na(clim.i$Tmean))>0){
+  if(dim(clim.i)[1]==0){#Ailene added; if no climate data for any years, avg_bbtemp is NA
+    bb$avg_bbtemp[i]<-NA
+    missingclim<-c(missingclim,i)
+  }
+  else if (length(unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i))==1 & unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i)==FALSE){
+    bb$avg_bbtemp[i]<-NA
+  }#Ailene added; if no climate data for one of required years, avg_bbtemp is NA
+  else if(!is.na(year.end.i)){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
            which(clim.i$year==year.end.i & clim.i$doy==doy.end.i),"Tmean"],na.rm=TRUE)
   #clim.i<-subset(clim.i,year==year.i | year==year.end.i)
   }
   }
-}
 
 
 ## checking missing values 
+#length(missingclim)
 #bb[which(!uniquevalsbb%in%uniquevalsd),c("datasetID","End_year","bbdate","avg_bbtemp")]
 ## this data is not appended to d, but it is not a problem given that it is all NAs belonging to biasi12
 
