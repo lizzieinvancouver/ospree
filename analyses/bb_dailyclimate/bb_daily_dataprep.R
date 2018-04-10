@@ -63,7 +63,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
   if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     #if no experimental forcing, no need to add anything:
-    if(x$forcetemp=="ambient"|x$forcetemp==""){
+    if(x$forcetemp=="ambient"|x$forcetemp==""|x$forcetemp=="meandaily"){
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
@@ -125,7 +125,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
       x.bb<-cbind(x,bbdate)
     }
     #if there is other experimental forcing,  add it using the forcetemp, field sample date and response.time columns
-    if(x$forcetemp!="ambient" & x$forcetemp!=""){
+    if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!="" & x$forcetemp!="meandaily"){
       forcetmax<-x$forcetemp
       if(x$forcetemp_night==""){
         forcetmin<-x$forcetemp
@@ -161,7 +161,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
       x.allclim<-rbind(x.ambclim,x.expclim)
       x.allclim<-x.allclim[order(x.allclim$Date),]
       #now add forcing
-      if(x$forcetemp!="ambient" & x$forcetemp!=""){
+      if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!=""& x$forcetemp!="meandaily"){
         forcetmax<-x$forcetemp
         if(x$forcetemp_night==""){
           forcetmin<-x$forcetemp
@@ -191,7 +191,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
         if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
       }
       #now add forcing
-      if(x$forcetemp!="ambient" & x$forcetemp!=""){
+      if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!="" & x$forcetemp!="meandaily"){
         forcetmax<-x$forcetemp
         if(x$forcetemp_night==""){
           forcetmin<-x$forcetemp
@@ -295,7 +295,6 @@ dat.bb[1288:1305,]#guak98
 head(clim_dailyALL[clim_dailyALL$datasetID=="guak98",])
 head(clim_dailyALL[clim_dailyALL$datasetID=="ashby62" & clim_dailyALL$year=="1957",])
 #To do:
-#1) Fix code to accomodate #"ambient+3"         "ambient+4"         "ambient+5"         "ambient+6" "mean of 9, 12, 15" "meandaily"  
-#these are fu12, "gunderson12" "skuterud94" "basler12"
-#2) Fix longitude for sanzperez10?
+#1) Fix code to accomodate "mean of 9, 12, 15" ("skuterud94")
+#2) Fix longitude for sanzperez10, which is currently NA
 

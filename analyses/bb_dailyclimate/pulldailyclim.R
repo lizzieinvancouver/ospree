@@ -24,8 +24,7 @@ library(Interpol.T)
 
 
 # 1. Get the data
-d <- read.csv("output/ospree_clean.csv")#should this be "opspree_cleanwithchill?
-
+d <- read.csv("output/ospree_clean_withchill.csv")
 # 2. Clean the chilltemp column
 
 source("chilling/cleaning_chilltemp.R")
