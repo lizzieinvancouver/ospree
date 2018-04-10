@@ -13,13 +13,14 @@ options(stringsAsFactors = FALSE)
 
 # dostan = TRUE
 
-library(rstan)
+#library(rstan)
 library(ggplot2)
-library(shinystan)
-library(bayesplot)
+#library(shinystan)
+#library(bayesplot)
 library(rstanarm)
 library(brms)
 library(ggstance)
+library(forcats)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
@@ -31,42 +32,20 @@ if(length(grep("Ignacio", getwd()))>0) {
 
 setwd("~/Documents/git/ospree/analyses")
 
-rstan_options(auto_write = TRUE)
-options(mc.cores = parallel::detectCores())
+#rstan_options(auto_write = TRUE)
+#options(mc.cores = parallel::detectCores())
 
 
 ########################
 #### get the data
-
-# make sure this is the correct file (we're still cleaning as I write this!) 
-bb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
-
-taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
-respvars.thatwewant <- c("daystobudburst", "percentbudburst")
-bb.resp <- bb[which(bb$respvar.simple %in% respvars.thatwewant),]
-bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
-
-## make a bunch of things numeric (eek!)
-bb.resp$forceday <- as.numeric(bb.resp$forcetemp)
-bb.resp$forcenight <- as.numeric(bb.resp$forcetemp_night)
-bb.resp$photonight <- as.numeric(bb.resp$photoperiod_night)
-
-bb.resp$photo <- as.numeric(bb.resp$photoperiod_day)
-bb.resp$force <- bb.resp$forceday
-bb.resp$force[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
-                is.na(bb.resp$photonight)==FALSE] <-
-  (bb.resp$forceday[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
-                      is.na(bb.resp$photonight)==FALSE]*
-     bb.resp$photo[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
-                     is.na(bb.resp$photonight)==FALSE] +
-     bb.resp$forcenight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
-                          is.na(bb.resp$photonight)==FALSE]*
-     bb.resp$photonight[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
-                          is.na(bb.resp$photonight)==FALSE])/24
-
-bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
-bb.resp$resp <- as.numeric(bb.resp$response.time)
+source("lat_analysis/source/bbdataplease.R")
+## (2) Deal with species
+dim(bb.noNA)
+d <- bb.noNA
+source("lat_analysis/source/speciescomplex.R")
+bb.noNA.wtaxa <- d
+dim(bb.noNA.wtaxa)
+unique(bb.noNA.wtaxa$complex)
 
 
 # merge in labgroup (we could do this elsewhere someday)
@@ -76,11 +55,11 @@ bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 100])) ### testing
     # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
     # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
     # [9] "Ribes_nigrum"          "Ulmus_complex"  
-myspp<-c("Betula_complex", "Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca","Pseudotsuga_menziesii", "Ulmus_complex")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca","Pseudotsuga_menziesii")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
-                   "photoperiod_day", "response", "response.time", "Total_Chill_portions",
+                   "photoperiod_day", "response", "response.time", "Total_Utah_Model",
                    "complex", "provenance.lat")
 
 bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
@@ -89,7 +68,7 @@ bb.wlab.sm <- subset(bb.wlab, select=columnstokeep)
 ## make a bunch of things numeric (eek!)
 bb.wlab.sm$force <- as.numeric(bb.wlab.sm$forcetemp)
 bb.wlab.sm$photo <- as.numeric(bb.wlab.sm$photoperiod_day)
-bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Chill_portions)
+bb.wlab.sm$chill <- as.numeric(bb.wlab.sm$Total_Utah_Model)
 bb.wlab.sm$resp <- as.numeric(bb.wlab.sm$response.time)
 bb.wlab.sm$lat<-as.numeric(bb.wlab.sm$provenance.lat)
 
@@ -102,50 +81,301 @@ ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$sp <- as.numeric(as.factor(ospr.stan$complex))
 
 ## Center?
-#ospr.stan$cchill<-ospr.stan$chill/24
-ospr.stan$cforce<- scale(ospr.stan$force, center=TRUE)
-ospr.stan$cchill<- scale(ospr.stan$chill, center=TRUE)
-ospr.stan$cphoto<- scale(ospr.stan$photo, center=TRUE)
-ospr.stan$clat<- scale(ospr.stan$lat, center=TRUE)
-#ospr.stan$chill<-ospr.stan$chill+1
-ospr.stan$presp<-ospr.stan$resp+1
-ospr.stan$presp<-as.integer(round(ospr.stan$presp, digits=0))
+ospr.stan$sm.chill<-ospr.stan$chill/240
+#ospr.stan$cforce<- scale(ospr.stan$force, center=TRUE)
+#ospr.stan$cchill<- scale(ospr.stan$chill, center=TRUE)
+#ospr.stan$cphoto<- scale(ospr.stan$photo, center=TRUE)
+#ospr.stan$clat<- scale(ospr.stan$lat, center=TRUE)
 
 
-ospr.stan<-ospr.stan[which(ospr.stan$presp!=1000),]
+ospr.stan<-ospr.stan[which(ospr.stan$resp!=999),]
 
-lat.brm<-brm(resp~ zforce + zphoto + zchill + zlat + zphoto:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
-             + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp), data=ospr.stan)
+lat.stan_final<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) +
+                             (force-1|sp) + (photo-1|sp) + (sm.chill-1|sp) +
+                             (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
 
-lat.brm.p<-brm(presp~ zforce + zphoto + zchill + zlat + zphoto:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
-             + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp), data=ospr.stan, family=poisson)
+m<-lat.stan_final 
+sum.m <-
+  summary(
+    m,
+    pars = c(
+      "(Intercept)",
+      "force",
+      "photo",
+      "sm.chill",
+      "lat",
+      "photo:lat"
+      ,
+      "b[force sp:1]",
+      "b[photo sp:1]",
+      "b[sm.chill sp:1]",
+      "b[lat sp:1]",
+      "b[photo:lat sp:1]"
+      ,
+      "b[force sp:2]",
+      "b[photo sp:2]",
+      "b[sm.chill sp:2]",
+      "b[lat sp:2]",
+      "b[photo:lat sp:2]"
+      ,
+      "b[force sp:3]",
+      "b[photo sp:3]",
+      "b[sm.chill sp:3]",
+      "b[lat sp:3]",
+      "b[photo:lat sp:3]"
+      ,
+      "b[force sp:4]",
+      "b[photo sp:4]",
+      "b[sm.chill sp:4]",
+      "b[lat sp:4]",
+      "b[photo:lat sp:4]"
+      ,
+      "b[force sp:5]",
+      "b[photo sp:5]",
+      "b[sm.chill sp:5]",
+      "b[lat sp:5]",
+      "b[photo:lat sp:5]"
+      ,
+      "b[force sp:6]",
+      "b[photo sp:6]",
+      "b[sm.chill sp:6]",
+      "b[lat sp:6]",
+      "b[photo:lat sp:6]"
+    )
+  )
 
-lat.brm.inter<-brm(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforce:zchill + zphoto:zchill + zforce:zlat + zphoto:zlat + 
-              zchill:zlat + (1|sp) + (zforce-1|sp) + (zphoto-1|sp)
-             + (zchill-1|sp) + (zlat-1|sp) + (zphoto:zlat-1|sp) +
-               (zforce:zphoto-1|sp) + (zforce:zchill-1|sp) + (zforce:zlat-1|sp) +
-               (zphoto:zchill-1|sp) + (zchill:zlat-1|sp), data=ospr.stan)
+cri.f<-sum.m[c(2:36),c(1,4,8)] #just selecting the mean and 95% CI. Removing the intercept 
+fdf<-data.frame(cri.f)
+#binding 
+fdf2<-as.data.frame(
+  cbind(
+    (c(rownames(fdf)[1:5], rep(rev(rownames(fdf)[1:5]), each=6))), #stdarzing the parameter  names 
+    as.numeric(as.character(fdf$mean)),  # the estimate 
+    as.numeric(as.character(fdf$X2.5.)), #lower bound, 95% CI
+    as.numeric(as.character(fdf$X97.5.)),  #upper bound, 95% CI
+    as.numeric(c(rep(1, 5), rep(2, 30))),  # A variable to signify if the corresponding row is a fixed  or random effect. 1=global, 2=rndm
+    as.numeric( c(rep(0,5), rep(seq(1:6),5 ))))) #sp variable. Zero when a factor 
 
-lat.brm.inter<-brm(presp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
-                     sm.chill:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
-                   + (sm.chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp) +
-                     (force:photo-1|sp) + (force:sm.chill-1|sp) + (force:lat-1|sp) +
-                     (photo:sm.chill-1|sp) + (sm.chill:lat-1|sp), data=ospr.stan, family=poisson)
-lat.brm.inter<-stan_glmer(resp~ zforce + zphoto + zchill + zlat + zforce:zphoto + zforce:zchill + zphoto:zchill + zforce:zlat + zphoto:zlat + 
-                     zchill:zlat + (1|sp), data=ospr.stan)
-lat.stan<-stan_glmer(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
-                            chill:lat + (1|sp), data=ospr.stan, family=poisson, chains=2)
+names(fdf2)<-c("var", "Estimate", colnames(cri.f)[c(2,3)], "rndm", "sp") #renaming. 
+
+fdf2$Estimate<-as.numeric(fdf2$Estimate)      
+fdf2$`2.5%`<-as.numeric(fdf2$`2.5%`)
+fdf2$`97.5%`<-as.numeric(fdf2$`97.5%`)      
+
+
+#Fixed effect estimates:
+fixed<-c(rep(0, 5), rep(as.numeric(rev(fdf2[c(1:5),2])), each=6))
+dff<-fdf2
+
+#adding the fixef estiamtes to the random effect values:
+dff$Estimate<-fdf2$Estimate+fixed
+dff$`2.5%`<-fdf2$`2.5%`+fixed
+dff$`97.5%`<-fdf2$`97.5%`+fixed
+
+dff$var <- fct_inorder(dff$var) #so that the categorical variables plot in the right order 
+
+## plotting
+
+pd <- position_dodgev(height = -0.5)
+
+estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude")
+dff$legend<-factor(dff$sp,
+                      labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
+                               "P. abies","P. glauca", "P. menziesii"))
+estimates<-rev(estimates)
+#write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
+quartz()
+fig1 <-ggplot(dff, aes(x=Estimate, y=var, color=legend, size=factor(rndm), alpha=factor(rndm)))+
+  geom_point(position =pd)+
+  geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`97.5%`)), position=pd, size=.5, width=0)+
+  geom_vline(xintercept=0)+
+  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "purple2"),
+                      labels=c("Overall Effects", 
+                               "B. pendula" = expression(paste(italic("Betula pendula"))),
+                               "B. pubescens"= expression(paste(italic("Betula pubescens"))),
+                               "F. sylvatica" = expression(paste(italic("Fagus sylvatica"))), 
+                               "P. abies" = expression(paste(italic("Picea abies"))),
+                               "P. glauca" = expression(paste(italic("Picea glauca"))),
+                               "P. menziesii" = expression(paste(italic("Pseudotsuga menziesii")))))+
+  scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
+  scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
+  scale_alpha_manual(values=c(1, 0.5)) +
+  guides(size=FALSE, alpha=FALSE) + 
+  scale_y_discrete(limits = rev(unique(sort(dff$var))), labels=estimates) + ylab("") + 
+  labs(col="Effects") + theme(legend.box.background = element_rect(), 
+                              legend.title=element_blank(), legend.key.size = unit(0.2, "cm"), 
+                              legend.text = element_text(size=8)) +
+  xlab(expression(atop("Model Estimate of Days to Budburst")))
+fig1
+
+### Compare Gymnosperms to Angiosperms...
+ospr.stan$type<-ifelse(ospr.stan$sp>3, 0, 1)
+gyms<-ospr.stan[(ospr.stan$type==0),]
+lat.gym<-stan_glm(resp~force+photo+sm.chill+lat+photo:lat, data=gyms) ## amazing pp_checks!
+
+angios<-ospr.stan[(ospr.stan$type==1),]
+lat.angio<-stan_glm(resp~force+photo+sm.chill+lat+photo:lat, data=angios) ## less amazing but okay
+
+gym<-plot(lat.gym, pars="beta")
+ang<-plot(lat.angio, pars="beta")
+library(egg)
+ggarrange(gym, ang, ncol=2)
+
+
+####################################################################################################
+####################################################################################################
+########################################   EXTRA CODE BELOW... CUT LATER!! #########################
+####################################################################################################
+lat.oneinter.rnd<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp), data=ospr.stan)
+
+#family:       gaussian [identity]
+#formula:      resp ~ force + photo + sm.chill + lat + photo:lat + (1 | sp)
+#observations: 1669
+#------
+#  Median MAD_SD
+#(Intercept) 248.0   20.5 
+#force         0.5    0.2 
+#photo       -12.7    1.3 
+#sm.chill     -2.7    0.2 
+#lat          -3.2    0.3 
+#photo:lat     0.2    0.0 
+#sigma        32.6    0.6 
+
+#Error terms:
+#  Groups   Name        Std.Dev.
+#sp       (Intercept) 20      
+#Residual             33      
+#Num. levels: sp 6 
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 47.6    1.1  
+
+lat.oneinter<-stan_glm(resp~ force + photo + sm.chill + lat + photo:lat, data=ospr.stan)
+#stan_glm
+#family:       gaussian [identity]
+#formula:      resp ~ force + photo + sm.chill + lat + photo:lat
+#observations: 1781
+#predictors:   6
+#------
+#  Median MAD_SD
+#(Intercept) 337.6   16.9 
+#force         0.8    0.2 
+#photo       -14.9    1.2 
+#sm.chill     -2.7    0.2 
+#lat          -4.9    0.3 
+#photo:lat     0.2    0.0 
+#sigma        33.6    0.6 
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 47.4    1.1 
+
+lat.stan<-stan_glm(resp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
+                            sm.chill:lat, data=ospr.stan) ## exact same as with random
+
+#stan_glm
+#family:       gaussian [identity]
+#formula:      resp ~ force + photo + sm.chill + lat + force:photo + force:sm.chill + 
+#  photo:sm.chill + force:lat + photo:lat + sm.chill:lat
+#observations: 1781
+#predictors:   11
+#------
+#  Median MAD_SD
+#(Intercept)     20.5   26.6 
+#force           16.3    1.0 
+#photo          -10.3    1.4 
+#sm.chill         4.4    1.4 
+#lat              0.3    0.5 
+#force:photo     -0.1    0.0 
+#force:sm.chill  -0.3    0.0 
+#photo:sm.chill  -0.1    0.0 
+#force:lat       -0.3    0.0 
+#photo:lat        0.2    0.0 
+#sm.chill:lat     0.0    0.0 
+#sigma           31.5    0.5 
+
+#Sample avg. posterior predictive distribution of y:
+#  Median MAD_SD
+#mean_PPD 47.4    1.1 
+
+lat.stan.rnd<-stan_glmer(resp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
+                     sm.chill:lat + (1|sp), data=ospr.stan) ## pp checks are good! Tmin is off  -predicted to be ~-50
+
+#stan_glmer
+#family:       gaussian [identity]
+#formula:      resp ~ force + photo + sm.chill + lat + force:photo + force:sm.chill + 
+#  photo:sm.chill + force:lat + photo:lat + sm.chill:lat + (1 | sp)
+#observations: 1781
+#------
+#  Median MAD_SD
+#(Intercept)    -74.2   27.5 
+#force           15.9    1.0 
+#photo           -5.9    1.4 
+#sm.chill         1.8    1.3 
+#lat              2.0    0.5 
+#force:photo     -0.1    0.0 
+#force:sm.chill  -0.3    0.0 
+#photo:sm.chill  -0.1    0.0 
+#force:lat       -0.3    0.0 
+#photo:lat        0.1    0.0 
+#sm.chill:lat     0.0    0.0 
+#sigma           29.8    0.5 
+
+ospr.stan$presp<-as.integer(ospr.stan$resp+1)
+
+lat.pois<-stan_glm(presp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
+                       sm.chill:lat, data=ospr.stan, family=poisson) ## slight improvement on pp checks
+
+#family:       poisson [log]
+#formula:      presp ~ force + photo + sm.chill + lat + force:photo + force:sm.chill + 
+#  photo:sm.chill + force:lat + photo:lat + sm.chill:lat
+#observations: 1781
+#predictors:   11
+#------
+#  Median MAD_SD
+#(Intercept)     1.5    0.1  
+#force           0.3    0.0  
+#photo          -0.1    0.0  
+#sm.chill        0.3    0.0  
+#lat             0.0    0.0  
+#force:photo     0.0    0.0  
+#force:sm.chill  0.0    0.0  
+#photo:sm.chill  0.0    0.0  
+#force:lat       0.0    0.0  
+#photo:lat       0.0    0.0  
+#sm.chill:lat    0.0    0.0 
+
+lat.pois.rnd<-stan_glmer(presp~ force + photo + sm.chill + lat + force:photo + force:sm.chill + photo:sm.chill + force:lat + photo:lat + 
+                       sm.chill:lat + (1|sp), data=ospr.stan, family=poisson) ## quite good pp_checks
+
+#family:       poisson [log]
+#formula:      presp ~ force + photo + sm.chill + lat + force:photo + force:sm.chill + 
+#  photo:sm.chill + force:lat + photo:lat + sm.chill:lat + (1 | sp)
+#observations: 1781
+#------
+#  Median MAD_SD
+#(Intercept)    0.0    0.2   
+#force          0.3    0.0   
+#photo          0.0    0.0   
+#sm.chill       0.2    0.0   
+#lat            0.1    0.0   
+#force:photo    0.0    0.0   
+#force:sm.chill 0.0    0.0   
+#photo:sm.chill 0.0    0.0   
+#force:lat      0.0    0.0   
+#photo:lat      0.0    0.0   
+#sm.chill:lat   0.0    0.0  
 
 lat.brm<-brm(presp~ cforce + cphoto + cchill + clat + cforce:cphoto + cforce:cchill + cphoto:cchill + cforce:clat + cphoto:clat + 
                             cchill:clat + (1|sp) + (cforce-1|sp) + (cphoto-1|sp)
                           + (cchill-1|sp) + (clat-1|sp) + (cphoto:clat-1|sp) +
                             (cforce:cphoto-1|sp) + (cforce:cchill-1|sp) + (cforce:clat-1|sp) +
                             (cphoto:cchill-1|sp) + (cchill:clat-1|sp), data=ospr.stan, family=poisson, chains=2)
-lat.brm.uncent<-brm(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
-               chill:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
-             + (chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp) +
-               (force:photo-1|sp) + (force:chill-1|sp) + (force:lat-1|sp) +
-               (photo:chill-1|sp) + (chill:lat-1|sp), data=ospr.stan, family=poisson(), chains=2)
+lat.brm.uncent<-brm(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) + (force-1|sp) + (photo-1|sp)
+             + (sm.chill-1|sp) + (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
+
+
 lat.brm.uncent<-brm(presp~ force + photo + chill + lat + force:photo + force:chill + photo:chill + force:lat + photo:lat + 
                       chill:lat + (1|sp), data=ospr.stan, family=poisson(), chains=2)
 
