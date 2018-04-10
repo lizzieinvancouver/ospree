@@ -6,7 +6,7 @@
 ###falusi 90 87-88
 d$fieldsample.date2[which(d$datasetID=="falusi90" & d$chilldays=="winter")] <- ###not fixable we dont know year
   d$chilldays[which(d$datasetID=="falusi90" & is.na(d$chilldays))] <-0 #fixed in total.chilling.R
-  
+  fal<-filter(bbdat,datasetID=="falusi90")# only chilldays==winter remain. just need to decide a year.
   
   ######Falusi96 ### for all exp1 and 2 and 3 where field chill==yes added field sample date of default April 30 in cleaning_chilltemp.R
 #for chilldays=0 fixed in total.chilling.R 
@@ -68,5 +68,10 @@ cook<-subset(bb.all, datasetID=="cook05")
   ###sogaard08 chill temp fixed in cleaning_chilltemp.R.
   d$chilltemp[which(d$datasetID=="sogaard08" & d$study=="exp3b")] <- 4 
   
-  ###worrall65 no field sampling date for the NAs (30 rows) (many come from figure 9 which doesnt exist
-  )
+  ###worrall65 no field sampling date for the NAs (30 rows) not officially fixed yet but code below coould be used in cleaning_chill.temp
+wor<-filter(bbdat,datasetID=="worrall67")
+
+d$fieldsample.date.2[which(d$datasetID=="worrall67"&d$figure.table..if.applicable.=="fig 2")]<-10-02-1965
+d$fieldsample.date.2[which(d$datasetID=="worrall67"&d$figure.table..if.applicable.=="fig 3"&d$chilldays==160)]<-13-04-1965
+d$fieldsample.date.2[which(d$datasetID=="worrall67"&d$figure.table..if.applicable.=="fig 3"&d$chilldays==160)]<-12-03-1965 
+
