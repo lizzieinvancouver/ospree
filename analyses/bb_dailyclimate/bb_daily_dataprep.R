@@ -63,7 +63,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
   if(x$chilltemp==""|x$chilltemp=="ambient"){#select out only ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     #if no experimental forcing, no need to add anything:
-    if(x$forcetemp=="ambient"){
+    if(x$forcetemp=="ambient"|x$forcetemp==""){
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
@@ -125,7 +125,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
       x.bb<-cbind(x,bbdate)
     }
     #if there is other experimental forcing,  add it using the forcetemp, field sample date and response.time columns
-    if(x$forcetemp!="ambient"){
+    if(x$forcetemp!="ambient" & x$forcetemp!=""){
       forcetmax<-x$forcetemp
       if(x$forcetemp_night==""){
         forcetmin<-x$forcetemp
@@ -144,7 +144,6 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
       x.all<-join(x,x.dailyclim)
       bbdate<-as.Date(x$fieldsample.date2)+daystobb
       x.bb<-cbind(x,bbdate)
-      
     }#end of work on studies with no experimental chilling
     #now, for those with experimental chilling
   }else if(!is.na(as.numeric(x$chilltemp))){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
@@ -162,7 +161,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
       x.allclim<-rbind(x.ambclim,x.expclim)
       x.allclim<-x.allclim[order(x.allclim$Date),]
       #now add forcing
-      if(x$forcetemp!="ambient"){
+      if(x$forcetemp!="ambient" & x$forcetemp!=""){
         forcetmax<-x$forcetemp
         if(x$forcetemp_night==""){
           forcetmin<-x$forcetemp
@@ -192,7 +191,7 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
         if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
       }
       #now add forcing
-      if(x$forcetemp!="ambient"){
+      if(x$forcetemp!="ambient" & x$forcetemp!=""){
         forcetmax<-x$forcetemp
         if(x$forcetemp_night==""){
           forcetmin<-x$forcetemp
@@ -221,32 +220,23 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
   bbdates.bb<-rbind(bbdates.bb,x.bb)
 }
 #some checks of this file:
-sort(unique(dailyclim.bb$datasetID))#41 different studies
-sort(unique(dat$datasetID))#53 studies in full database
-dim(dailyclim.bb)#3563234    33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
+#sort(unique(dailyclim.bb$datasetID))#40 different studies
+#sort(unique(dat$datasetID))#53 studies in full database
+#dim(dailyclim.bb)#4173358    33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
 
-    
-#some checks of this file:
-sort(unique(dailyclim.bb$datasetID))#40 different studies
-sort(unique(dat$datasetID))#53 studies in full OSPREEBB database. 
-
-dim(dailyclim.bb)#4059367     33#HUGE! something weird is happening: too many rows (4891*2*365= 3570430)
-sort(unique(dailyclim.bb$datasetID))
-
-#some checks of this file:
-sort(unique(dailyclim.bb$datasetID))#40 different studies
-sort(unique(dat$datasetID))#53 studies in full database
 dailyclim.bb2 <- dailyclim.bb[!duplicated(dailyclim.bb), ]
-dim(dailyclim.bb2)#3187230 rows
+dim(dailyclim.bb2)#3266908 rows
 #save daily climate data
-dailyclim.bb$year2<-as.numeric(format(dailyclim.bb$Date , "%Y"))#year for climate data
-dailyclim.bb$doy2<-as.numeric(format(dailyclim.bb$Date , "%j"))#doy for climate data
-dailyclim.bb$Tmin<-as.numeric(dailyclim.bb$Tmin)
-dailyclim.bb$Tmax<-as.numeric(dailyclim.bb$Tmax)
-dailyclim.bb$Tmean<-(as.numeric(dailyclim.bb$Tmin)+as.numeric(dailyclim.bb$Tmax))/2
-dailyclim.bb2 <- dailyclim.bb[!duplicated(dailyclim.bb), ]
-dim(dailyclim.bb2)#3187230 rows
-
+dailyclim.bb2$year2<-as.numeric(format(dailyclim.bb2$Date , "%Y"))#year for climate data
+dailyclim.bb2$doy2<-as.numeric(format(dailyclim.bb2$Date , "%j"))#doy for climate data
+dailyclim.bb2$Tmin<-as.numeric(dailyclim.bb2$Tmin)
+dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
+#Ok, here is the issue: tail(sort(unique(dailyclim.bb$Tmax)))#some studies still have non-numeric values
+tail(sort(unique(dailyclim.bb$Tmax)))#"ambient+3"         "ambient+4"         "ambient+5"         "ambient+6" "mean of 9, 12, 15" "meandaily"  
+#these are fu12, "gunderson12" "skuterud94" "basler12"
+dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
+dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
+#dim(dailyclim.bb2)#3still 266908 rows
 #Because the file is so big, I'll break it into 4 files
 quart1<-as.integer(nrow(dailyclim.bb2)/4)
 quart2<-as.integer(nrow(dailyclim.bb2)/2)
@@ -279,25 +269,33 @@ clim_dailyALL$missingT<-0
 clim_dailyALL$missingT[which(is.na(clim_dailyALL$Tmin))]<-1
 temptab<-table(clim_dailyALL$datasetID,clim_dailyALL$missingT)
 missingtemp<-temptab[temptab[,2]>0,]
-dim(missingtemp)#16 sites are missing some data
+dim(missingtemp)#15 sites are missing some data
 length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)#0.073 of rows have NA...
 head(clim_dailyALL)
 tail(clim_dailyALL)
 sort(unique(dat$datasetID))#53 total studies
 sort(unique(dailyclim.bb$datasetID))#40 in dailydata
 head(clim_dailyALL[clim_dailyALL$datasetID=="heide93",])
-tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])#not sure why these ar emissing
+tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])#not sure why these are missing- longitude?
 
-head(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])
-tail(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])
+head(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
+tail(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
 head(clim_dailyALL[clim_dailyALL$datasetID=="guak98",])
 
 #some questions: 
 #why do some rows not get joined (for example: 372-379,420, 430, 434, 2290-2342). 
-dat.bb[370:379,]#i think these are the NAs.
-caffarra11b<-clim_dailyALL[clim_dailyALL$datasetID=="caffarra11b",]
-dat.bb[420,]#campbell75
-dat.bb[2290:2342,]#man10
+dat.bb[372:380,]#i think these are the NAs.
+tail(caffarra11b)<-clim_dailyALL[clim_dailyALL$datasetID=="caffarra11b",]
+dat.bb[419:20,]#campbell75
+dat.bb[2290:2342,]#man10- why is there no man10
+tail(clim_dailyALL[clim_dailyALL$datasetID=="man10",])
 
-#some rows get joined twice: 1288-1305
+#some rows get joined twice: 915:942, 1288:1305, 3501:3537- why?
 dat.bb[1288:1305,]#guak98
+head(clim_dailyALL[clim_dailyALL$datasetID=="guak98",])
+head(clim_dailyALL[clim_dailyALL$datasetID=="ashby62" & clim_dailyALL$year=="1957",])
+#To do:
+#1) Fix code to accomodate #"ambient+3"         "ambient+4"         "ambient+5"         "ambient+6" "mean of 9, 12, 15" "meandaily"  
+#these are fu12, "gunderson12" "skuterud94" "basler12"
+#2) Fix longitude for sanzperez10?
+
