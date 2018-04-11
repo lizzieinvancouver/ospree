@@ -18,3 +18,5 @@ analyses/output/dailyclim/percbb.csv
 *.aux
 
 *.log
+
+*.log

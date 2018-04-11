@@ -43,8 +43,7 @@ d[d$datasetID=="skre08",]$growing.long <- 5.2868622
 # There are climate data available for skre08 but these would have to be scraped...
 
 # Lizzie says "I just found hawkins12, long of 427.78 for Prince Rupert should be -127.78 and since they are WEST, shouldn't all of the hawkins12 longitudes be negative?!"
-d[d$datasetID=="hawkins12" & d$population=="Prince Rupert 33" &
-    d$provenance.long=="427.78",]$provenance.long <- -127.78
+d[d$datasetID=="hawkins12" & d$population=="Prince Rupert 33" & d$provenance.long=="427.78",]$provenance.long <- -127.78
 
 # head(ospree[ospree$datasetID=="boyer",1:15]) # for boyer, the "southeast georgia" population maps to water. should be 32, -82
 d[d$datasetID=="boyer" & d$population=="Southeast Georgia",]$provenance.lat <-32 #lat ok
@@ -67,18 +66,22 @@ d[d$datasetID=="campbell75" & d$population=="Cloverdale",]$provenance.long<- -12
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48.117039
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<- -122.760447
 
-# Add continent to those that do not have it and use consistent capitalization
+#sansperez10 has provenance lat and long columns wrong in excel file. 
+#also, it is not possible to distiguish between the two provenances given in the study
+d$provenance.lat[d$datasetID=="sanzperez10"]<-""
+d$provenance.long[d$datasetID=="sanzperez10"]<-""
+# Add continent to those that do not have it, and use consistent capitalization
 #unique(d[d$continent=="",]$datasetID)
 d[d$datasetID=="caffarra11a",]$continent <- "europe"
 d[d$datasetID=="caffarra11b",]$continent <- "europe"
-d[d$datasetID=="cook05",]$continent <- "Africa"
+d[d$datasetID=="cook05",]$continent <- "africa"
 d[d$datasetID=="devries82",]$continent <- "europe"
 d[d$datasetID=="falusi03",]$continent <- "europe"
 d[d$datasetID=="falusi90",]$continent <- "europe"
 d[d$datasetID=="falusi96",]$continent <- "europe"
 d[d$datasetID=="Heide03",]$continent <- "europe"
 d[d$datasetID=="heide05",]$continent <-"europe"
-d[d$datasetID=="heide05" & d$population.detail=="USA",]$continent <- "North America"
+d[d$datasetID=="heide05" & d$population.detail=="USA",]$continent <- "north america"
 d[d$datasetID=="heide11",]$continent <-"europe"
 d[d$datasetID=="karlsson03",]$continent <- "europe"
 d[d$datasetID=="laube14a",]$continent <- "europe"
@@ -97,7 +100,7 @@ d[d$continent=="Asia",]$continent <- "asia"
 
 #  longitude of any north american sites that are positive (and should be negative)
 d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)] <-
-    d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)]*-1
+    as.numeric(d$provenance.long[which(d$continent=="north america" & as.numeric(d$provenance.long)>0)])*(-1)
 #dim(d[which(d$continent=="north america" & as.numeric(d$growing.long)>0),])#==0 so no need to fix growing long for any studies
 
 #unique(d$growing.long[which(d$continent=="europe" & as.numeric(d$growing.long)<0)])#-3.3700 -119.7670  -82.3250  -81.9372  -89.4120; -3.3700 is reasonable but the other 4 are not in europe so need to check these
