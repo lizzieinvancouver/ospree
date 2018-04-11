@@ -21,3 +21,5 @@ It also includes the climate data.
 
 ## Ospree Climate (external hard drive)
 Just the climate data. 
+
+##Phenofit data came from Isabelle Chuine (Isabelle.CHUINE@cefe.cnrs.fr) and Ann Duputie (anne.duputie@univ-lille1.fr), corresponds to the following paper: Duputie, A, et al. 2015. Phenological plasticity will not help all species adapt to climate change. Global Change Biology. doi: 10.1111/gcb.12914
