@@ -62,7 +62,5 @@ source("bb_analysis/cleaning/clean_photoperiod.R")
 
 # 9. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ##
-#dim(d)
-#d_old<-read.csv("output/ospree_clean_withchill_BB_old.csv",header=T)
 
 

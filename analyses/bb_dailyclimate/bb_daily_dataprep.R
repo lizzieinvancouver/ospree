@@ -222,18 +222,16 @@ for(i in 1:dim(dat.bb)[1]){#4981 rows in dat
 #some checks of this file:
 #sort(unique(dailyclim.bb$datasetID))#40 different studies
 #sort(unique(dat$datasetID))#53 studies in full database
-#dim(dailyclim.bb)#4173358    33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
+#dim(dailyclim.bb)#4185420     33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
 
 dailyclim.bb2 <- dailyclim.bb[!duplicated(dailyclim.bb), ]
-dim(dailyclim.bb2)#3266908 rows
+dim(dailyclim.bb2)#3408658 rows
 #save daily climate data
 dailyclim.bb2$year2<-as.numeric(format(dailyclim.bb2$Date , "%Y"))#year for climate data
 dailyclim.bb2$doy2<-as.numeric(format(dailyclim.bb2$Date , "%j"))#doy for climate data
-dailyclim.bb2$Tmin<-as.numeric(dailyclim.bb2$Tmin)
+dailyclim.bb2$Tmin<-as.numeric(dailyclim.bb2$Tmin)#lose "skuterud94" (mean of ...) and Sanz-Perez09 here- Tmin=="ambient" why? Tmax is 12
 dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
 #Ok, here is the issue: tail(sort(unique(dailyclim.bb$Tmax)))#some studies still have non-numeric values
-tail(sort(unique(dailyclim.bb$Tmax)))#"ambient+3"         "ambient+4"         "ambient+5"         "ambient+6" "mean of 9, 12, 15" "meandaily"  
-#these are fu12, "gunderson12" "skuterud94" "basler12"
 dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
 dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
 #dim(dailyclim.bb2)#3still 266908 rows
@@ -269,32 +267,26 @@ clim_dailyALL$missingT<-0
 clim_dailyALL$missingT[which(is.na(clim_dailyALL$Tmin))]<-1
 temptab<-table(clim_dailyALL$datasetID,clim_dailyALL$missingT)
 missingtemp<-temptab[temptab[,2]>0,]
-dim(missingtemp)#15 sites are missing some data
+dim(missingtemp)#10 sites are missing some data
 length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)#0.073 of rows have NA...
 head(clim_dailyALL)
 tail(clim_dailyALL)
 sort(unique(dat$datasetID))#53 total studies
-sort(unique(dailyclim.bb$datasetID))#40 in dailydata
-head(clim_dailyALL[clim_dailyALL$datasetID=="heide93",])
+sort(unique(dailyclim.bb$datasetID))#41 in dailydata
+tail(clim_dailyALL[clim_dailyALL$datasetID=="heide93",])
 tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])#not sure why these are missing- longitude?
 
 head(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
-tail(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
-head(clim_dailyALL[clim_dailyALL$datasetID=="guak98",])
+tail(clim_dailyALL[clim_dailyALL$datasetID=="fu13",])#looks good
+tail(clim_dailyALL[clim_dailyALL$datasetID=="gunderson12",])
 
 #some questions: 
 #why do some rows not get joined (for example: 372-379,420, 430, 434, 2290-2342). 
-dat.bb[372:380,]#i think these are the NAs.
+dat.bb[372:380,]#i think these are the NAs in climate data
 tail(caffarra11b)<-clim_dailyALL[clim_dailyALL$datasetID=="caffarra11b",]
-dat.bb[419:20,]#campbell75
-dat.bb[2290:2342,]#man10- why is there no man10
+head(dat.bb[419:20,])#campbell75
+head(dat.bb[2290:2342,])#man10- why is there no man10 in climate data- is it because chilltemp="-3,2"? or because forcing="0 ramped up 3 degrees every 6 days" 
 tail(clim_dailyALL[clim_dailyALL$datasetID=="man10",])
 
-#some rows get joined twice: 915:942, 1288:1305, 3501:3537- why?
-dat.bb[1288:1305,]#guak98
-head(clim_dailyALL[clim_dailyALL$datasetID=="guak98",])
-head(clim_dailyALL[clim_dailyALL$datasetID=="ashby62" & clim_dailyALL$year=="1957",])
-#To do:
-#1) Fix code to accomodate "mean of 9, 12, 15" ("skuterud94")
-#2) Fix longitude for sanzperez10, which is currently NA
+#Not possible to fix code to accomodate "mean of 9, 12, 15" (skuterud94)
 
