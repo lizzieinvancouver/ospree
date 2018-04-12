@@ -1,7 +1,7 @@
 Started 22 March 2017
 by Cat 
 Follow-up by Nacho (11 April 2017)
-Follow-up by Lizzie (throughout June-July 2017)
+Follow-up by Lizzie (throughout June-July 2017 and April 2018)
 
 
 The goal of this folder is to clean the response variable BB and centralize in 
@@ -24,11 +24,11 @@ It:
 5b. sources a check of the date of daily climate files used on 5c. (of interest if we update daily climate files after the date listed.) this step may not be necessary in the long term.
 5c. sources clean_ambientforcingfromdailyclimate.R, which extracts ambient temperature data for experiments where we know procecence and time to budburst.
 
-6. sources clean_bbperctodays.R, which transforms %bb to days, using a specified target budburst level (i.e. 80%) with surrounding acceptable range with an allowable buffer (i.e., 40%).
+6. sources clean_bbperctodays.R, which transforms %bb to usable for days-only analyses, using a specified target budburst level (i.e. 90%) with surrounding acceptable range with an allowable buffer (i.e., 49.5%); it should delete all rows not within the target range and leave only row per treatment (the one closest to the target). NOTE: If you're doing analyses with % budburst as your response you would want to delete/alter this. 
 
-7. sources clean_moreduplicates.R which removes some data that appears duplicated (very little!). As of 16 July 2017, deletes 4 rows -- one is an obvious duplicate and are flagged under the more complex code.
+7. sources clean_moreduplicates.R which removes some data that appears duplicated (very little!). As of 12 April 2018, deletes 2 rows (used to delete 4, and of those one was an obvious duplicate and are flagged under the more complex code).
 
-8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB.
+8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB. 
 
 9. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
 
@@ -107,9 +107,12 @@ This file assumes users are working only with daystobudburst and percentbudburst
 <> Where to find notes on what  we changed from NA (or not) <>
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-- See imput_chilling.R for notes on remaining datasetIDs that cannot be fixed (and what we fixed)
+- See zarchive/imput_chilling.R for notes on remaining datasetIDs that cannot be fixed (and what we fixed) but in short, we cannot fix: cook05: from South Africa, they do report chilling but you cannot assign it to particular treatments conclusively; charrier11: again, they do report chilling but you cannot assign it to particular treatments conclusively; gansert02 - Japanese study (so no climate data); granhus09 -interrupted chilling with some unknown temperatures; ; heide12 - no climate data since it's Russia; nishimoto95 - Japanese study (so no climate data)
+
 - See bbcleaningresp_README.txt for notes on NAs in response values
-- See clean_photoperiod.R for notes on cleaning photoperiod NAs
+
+- See clean_photoperiod.R for notes on cleaning photoperiod NAs (there should be none left!) 
+
 - See clean_ambientforcing.R and clean_ambientforcingfromdailyclimate.R for notes on cleaning force temp
 
 

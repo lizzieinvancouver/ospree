@@ -340,8 +340,9 @@ d$photoperiod_day[which(d$datasetID=="sonsteby13")]<-sons$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="sonsteby13")]<-sons$photoperiod_night
 
 ################# Checking missing data #########################
+if(FALSE){
 d.photo<-d
 d.photo$photoperiod_day<- as.numeric(d.photo$photoperiod_day)
 missing<-d.photo[is.na(d.photo$photoperiod_day),]
 unique(missing$datasetID)
-
+}
