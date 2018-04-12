@@ -5,6 +5,8 @@ Notes on the response variable for BB analysis
 This file focuses on which missing data are true NAs and which are non-budburst treatments. 
 See also checkresponsetime/checkresponsetime_README.txt
 
+If you ever want to use the non-budburst data, remember! We also set a minimum %budburst threshold for data (see clean_bbperctodays.R) and so we would need to go back and incorporate those tossed data too, in order to gather all non-budburst cases.
+
 <><><><><><><><><><><><><><><><><><><><><><><><>
 Response value issues: Recoded to 999
 <><><><><><><><><><><><><><><><><><><><><><><><>
