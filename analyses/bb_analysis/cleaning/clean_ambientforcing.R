@@ -127,9 +127,23 @@ d$forcetemp[which(d$datasetID=="laube14a")]<-d.sub$forcetemp
 # skuterud94 now - is thermal time, does not explicitly say which forcing temp
 # for each tx (mean 9, 12, 15)
 
-# basler12 - is another thermal time study, currently "meandaily" - can fix based on Fig1 - take average of 9 & 5 - 7degC
-## Fixed 6 Feb 2018 - Cat
-d$forcetemp[which(d$datasetID=="basler12")] <- 7
+# basler12 - "Temperature was set to cycle ±5 K around the daily mean temperature, which was increased by
+# 0.5 K every five days"
+## Fixed 13 Apr 2018 - Cat
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=0 & d$response.time.num<5, 5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=5 & d$response.time.num<10, 5.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=10 & d$response.time.num<15, 6, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=15 & d$response.time.num<20, 6.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=20 & d$response.time.num<25, 7, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=25 & d$response.time.num<30, 7.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=30 & d$response.time.num<35, 8, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=35 & d$response.time.num<40, 8.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=40 & d$response.time.num<45, 9, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=45 & d$response.time.num<50, 9.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=50 & d$response.time.num<55, 10, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=55 & d$response.time.num<60, 10.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=60 & d$response.time.num<65, 11, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=65 & d$response.time.num<70, 11.5, d$forcetemp)
 
 # guak98: does not specify the "ambient" temperature but increased by 4 
 # in other experiments, didn't change anything
