@@ -13,6 +13,31 @@ d$photoperiod_day[d$photoperiod_day == "longday"] <- 11
 d$photoperiod_night[d$photoperiod_night == "shortday"] <- 14.5
 d$photoperiod_night[d$photoperiod_night == "longday"] <- 13
 
+# Fix schnabel87, for which the slowly decreasing photoperiod was entered in wrong.
+# Need to delete all the extra rows-based on figure 7, should be only 20 unique response times
+#Trial 3 had gradually decreasing photoperiods starting with 13 hour days- keep only one of these
+d<-d[-which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 3 (X,growth chamber); sowing date: 12/6/1984" & d$photoperiod_day !=14),]
+d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 3 (X,growth chamber); sowing date: 12/6/1984" & d$photoperiod_day==14)]<-"14-9.5"
+d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 3 (X,growth chamber); sowing date: 12/6/1984" & d$photoperiod_day=="14-9.5")]<-"10-14.5"
+
+#Trial 4 had gradually temperatures and decreasing photoperiods starting with 13 hour days- keep only one of these
+d<-d[-which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 4 (Z, growth chamber); sowing date: 11/29/1984" & d$photoperiod_day !=13),]
+d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 4 (Z, growth chamber); sowing date: 11/29/1984" & d$photoperiod_day==13)]<-"13-9.5"
+d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 4 (Z, growth chamber); sowing date: 11/29/1984" & d$photoperiod_day=="13-9.5")]<-"11-14.5"
+
+#Trial 1 had a constant long photoperiod (15 h)
+d<-d[-which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 1 (Y, growth chamber); sowing date: 10/11/1984" & d$photoperiod_day !=13),]
+d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 1 (Y, growth chamber); sowing date: 10/11/1984"  & d$photoperiod_day==13)]<-"15"
+d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 1 (Y, growth chamber); sowing date: 10/11/1984"  & d$photoperiod_day==15)]<-"9"
+
+#Trial 2  combined the effects of a constant warm temperature (24 oc day / 18oC night) and a gradually decreasing photoperiod (13 to 9.5 h) (
+d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"14-9.5"
+d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"10-14.5"
+
+#could change ambient photoperiod to 12 hours (paper says "photoperiod was approximatels 12) or we can pull actually photoperiod data with temperature data
+#d <- within(d, photoperiod_day[datasetID== 'schnabel87' & photoperiod_day =='ambient'] <- 12)
+#d <- within(d, photoperiod_night[datasetID== 'schnabel87' & photoperiod_night =='ambient'] <- 12)
+
 ## Blanks
 # cannell83 - does not specify for Figure 3, can assume ambient
 # chavarria09 - doesn't specify, can't assume ambient
