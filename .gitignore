@@ -20,3 +20,7 @@ analyses/output/dailyclim/percbb.csv
 *.log
 
 *.log
+
+docs/limitingcues/limitingcues_AKE.pdf
+
+docs/limitingcues/limitingcues_old.pdf

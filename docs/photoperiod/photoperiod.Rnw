@@ -113,6 +113,19 @@ Wyeomyia smithii, has evolved a shorter critical photoperiod in association with
 longer growing season. Northern populations of this mosquito now use a shorter
 day-length cue to enter winter diapause, doing so later in the fall than they did
 24 years ago.
+\item Decreasing day-length is the main environmental cue inducing growth cessation and bud set in many perennial plants, including poplar 
+\begin{enumerate}
+
+\item Lagercrantz U: At the end of the day: a common molecular mechanism for photoperiod responses in plants?. J Exp Bot. 2009, 60: 2501-2515. 10.1093/jxb/erp139.
+\item Howe GT, Gardner G, Hackett WP, Furnier GR: Phytochrome control of short-day-induced bud set in black cottonwood. Physiol Plant. 1996, 97: 95-103. 10.1111/j.1399-3054.1996.tb00484.x.
+\end{enumerate}
+
+\item Response to photoperiod is under strong genetic control 
+\begin{enumerate}
+\item Bradshaw HD, Stettler RF: Molecular genetics of growth and development in Populus. IV. Mapping QTLs with large effects on growth, form, and phenology traits in a forest tree. Genetics. 1995, 139: 963-973.
+\item Keller SR, Soolanayakanahally RY, Guy RD, Silim SN, Olson MS, Tiffin P: Climate-driven local adaptation of ecophysiology and phenology in balsam poplar, Populus balsamifera L. (Salicaceae). Am J Bot. 2011, 98: 99-108. 10.3732/ajb.1000317.
+\item Weih M: Intensive short rotation forestry in boreal climates: present and future perspectives. Can J Forest Res. 2004, 34: 1369-1378. 10.1139/x04-090.
+\end{enumerate}
 \end {enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
