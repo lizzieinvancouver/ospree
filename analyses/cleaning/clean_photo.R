@@ -30,7 +30,7 @@ d<-d[-which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Tria
 d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 1 (Y, growth chamber); sowing date: 10/11/1984"  & d$photoperiod_day==13)]<-"15"
 d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 1 (Y, growth chamber); sowing date: 10/11/1984"  & d$photoperiod_day==15)]<-"9"
 
-#Trial 2  combined the effects of a constant warm temperature (24 oc day / 18oC night) and a gradually decreasing photoperiod (13 to 9.5 h) (
+#Trial 2  combined the effects of a constant warm temperature (24 oc day / 18oC night) and a gradually decreasing photoperiod (14 to 9.5 h) (
 d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"14-9.5"
 d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"10-14.5"
 

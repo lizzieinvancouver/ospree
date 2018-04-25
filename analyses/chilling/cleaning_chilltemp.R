@@ -23,6 +23,12 @@ d[which(d$datasetID=="karlsson03"),]$continent<-"europe"#
 d$fieldsample.date[which(d$datasetID=="morin10")]<-"01-Jan-2004"
 d$fieldsample.date[which(d$datasetID=="laube14b")]<-"03-Mar-2012" ###gets 17 more rows
 
+#For Sanz Perez10, even though we can use the growing lat/long for the provenance lat/long:
+#sansperez10 has provenance lat and long columns wrong in excel file. 
+#also, it is not possible to distinguish between the two provenances given in the study
+d$provenance.lat[d$datasetID=="sanzperez10"]<-d$growing.lat[d$datasetID=="sanzperez10"]
+d$provenance.long[d$datasetID=="sanzperez10"]<-d$growing.long[d$datasetID=="sanzperez10"]
+#
 #######Falusi96
 #exp1 grown under natural conditions in florence in 1987-chilling should just be ambient for 1987-88
 d$fieldsample.date[which(d$datasetID=="falusi96" & d$study=="exp1")]<-paste("30-Apr-",d$year[which(d$datasetID=="falusi96" & d$study=="exp1")],sep="")  #use April 30 for field sample date #all get field chill in this experiment

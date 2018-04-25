@@ -25,3 +25,6 @@ daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tm
 #format the Date columns as dates (otherwise some of the  values get weird...) 
 daily_ambtemp$Date<-as.Date(daily_ambtemp$Date)
 
+#format lat and long 
+daily_ambtemp$lat<-round(daily_ambtemp$lat, digits=5)
+daily_ambtemp$long<-round(daily_ambtemp$long, digits=4)

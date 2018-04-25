@@ -67,7 +67,7 @@ d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.lat<-48
 d[d$datasetID=="campbell75" & d$population=="Port Townsend",]$provenance.long<- -122.760447
 
 #sansperez10 has provenance lat and long columns wrong in excel file. 
-#also, it is not possible to distiguish between the two provenances given in the study
+#also, it is not possible to distinguish between the two provenances given in the study
 d$provenance.lat[d$datasetID=="sanzperez10"]<-""
 d$provenance.long[d$datasetID=="sanzperez10"]<-""
 # Add continent to those that do not have it, and use consistent capitalization

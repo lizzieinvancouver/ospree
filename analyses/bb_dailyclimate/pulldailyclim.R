@@ -27,7 +27,7 @@ library(Interpol.T)
 d <- read.csv("output/ospree_clean_withchill.csv")#this was "ospree_clean.csv" until 4/10/2018
 # 2. Clean the chilltemp column
 
-source("chilling/cleaning_chilltemp.R")
+#source("chilling/cleaning_chilltemp.R")
 
 #3. Clean the provenance.latitude and provenance.longitude columns, to get appropriate locations
 #source("chilling/cleaning_provlatlong.R")
@@ -44,7 +44,7 @@ climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the extern
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 # climatedrive="/Volumes/WeldShare/Wolkovich\ Lab/Budburst\ Review\ -\ Ospree/Climate\ Data/" ##access from Dan's comp
-#climatedrive = "/Volumes/climate" #Ailene's climate data drive
+# climatedrive = "/Volumes/climate" #Ailene's climate data drive
 
 # 4c. pull climate data from europe
 source("bb_dailyclimate/source/pulldailyclimate_eur.R")
@@ -72,10 +72,12 @@ dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date
 write.csv(dailytemp4, "output/dailyclim/dailytemp.csv", row.names=FALSE, eol="\r\n")
 #dailytemp4<-read.csv("output/dailytemp.csv")
 #checks:
-#dim(dailytemp4)#210766  rows, 7 columns
+#dim(dailytemp4)#210036  rows, 7 columns
 #check data for a few sites:
 #first, for 1950s studies (ashby)
 #tail(dailytemp4[dailytemp4$datasetID=="ashby62",])
+#first, for 1950s studies (sanzperez10)
+#tail(dailytemp4[dailytemp4$datasetID=="sanzperez10",])
 #head(dailytemp4)
 #sort(unique(dailytemp4$datasetID))
 #check how many other sites are mising data

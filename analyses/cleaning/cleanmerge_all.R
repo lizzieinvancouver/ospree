@@ -55,7 +55,7 @@ source("cleaning/clean_woody_sps.R")
 source("cleaning/clean_responsetime.R")
 
 # 9. Clean the lat/long (growing and provenance)
-source("cleaning/cleaning_latlong.R")
+source("cleaning/clean_latlong.R")
 
 # 10. Remove duplicate lines
 
