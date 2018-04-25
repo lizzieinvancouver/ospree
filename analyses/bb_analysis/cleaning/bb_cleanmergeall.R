@@ -42,22 +42,22 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 
 # 5b. Check date of daily climate files used in step 5c-
 #if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
-source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") 
+source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") #as of 25 apr 2018: 9717 rows
 
 # 5c. Clean ambient forcing daily - just activated Nov16th2017 to be checked
 source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # still 9767 rows
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 80%)
 # ... with an allowable buffer (i.e., 40%)
-source("bb_analysis/cleaning/clean_bbperctodays.R") # as of 9 apr 2018, deletes 1464 rows (previously deleted 641 rows) (8303 rows)
+source("bb_analysis/cleaning/clean_bbperctodays.R") # as of 25 apr 2018, deletes 1514 rows  (8253 rows)
 
 # 7. Clean duplicate responses across treatments/categories)
-source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 12 Apr 2018, deletes 2 rows (8301).
+source("bb_analysis/cleaning/clean_moreduplicates.R") # as of 25 Apr 2018, deletes 2 rows (8251).
 
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
 # 9. Write out the final file! 
-write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 12 Apr 2018: 8301
+write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 12 Apr 2018: 8251
 
 

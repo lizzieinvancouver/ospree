@@ -46,12 +46,11 @@ climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)
 climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
 
 climdatab <- rbind(clima,climb,climc,climd)
-#dim(climdatab)#3143442 rows
+#dim(climdatab)#3331203
 climdatab<-climdatab[-which(is.na(climdatab$Tmean)),]#Ailene added for now
 #to remove climate data with NAs (need to fix dailyclim file)
-#on 9 april 2018: there are 153 unique ids with NA climate data
-#dim(climdatab)2954917       8
-climdat <- climdatab[!duplicated(climdatab), ]
+#on 25 april 2018: there are 43 unique ids with NA climate data (from 7 studies)
+climdat <- climdatab[!duplicated(climdatab), ]#559231 rows...why so much smaller?
 #not sure why there are duplicates- duplicates were removed at the end of the bb_daily_dataprep.R code
 rm(clima,climb,climc,climd)
 
@@ -81,7 +80,7 @@ bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if resp
 bb$avg_bbtemp<-NA
 missingclim<-NA#keep tack of how many uniqueIDs are missing climate
 ## Loop to add mean temp to each line in bb
-for(i in 1:nrow(bb)){#i=1832
+for(i in 1:nrow(bb)){#i=1832; nrow=5965
   lon.i<-bb[i,"chill.long"]
   lat.i<-bb[i,"chill.lat"]
   start.i<-bb[i,"expstartdate"]
@@ -92,7 +91,7 @@ for(i in 1:nrow(bb)){#i=1832
   doy.i<-as.numeric(format(start.i,"%j"))
   doy.end.i<-as.numeric(format(end.i,"%j"))
   
-  clim.i<-subset(climdat, uniqueID==ID.i) # Lizzie changed: stn -> uniqueID
+  clim.i<-subset(climdat, uniqueID==ID.i)
   
   #clim.i$Tmean
   if(dim(clim.i)[1]==0){#Ailene added; if no climate data for any years, avg_bbtemp is NA
