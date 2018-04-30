@@ -28,6 +28,7 @@ library(tidyr)
 library(dplyr)
 library(geosphere)
 library(lubridate)
+library(ggplot2)
 # Create some dummy data
 #dat <- replicate(2, 1:3)
 
@@ -124,9 +125,7 @@ fs.proj<-read.csv("output/phenofit_projections/Fagus_sylvatica_A1Fi_2081_2100_da
 fs.proj.pres<-read.csv("output/phenofit_projections/Fagus_sylvatica_A1Fi_2081_2100.csv", header=TRUE)
 
 fs.present<-fs.present%>%dplyr::rename(mleaf=MeanDateLeaf)
-fs.present$type<-"current"
-fs.proj<-fs.proj%>%dplyr::rename(mleaf=MeanDateLeaf)
-fs.proj$type<-"projected"
+fs.proj<-fs.proj%>%dplyr::rename(proj.lodoy=lodoy)%>%dplyr::rename(proj.photo=daylength)
 
 fs<-full_join(fs.present, fs.proj)
 
@@ -137,43 +136,82 @@ fs.proj.pres$avg<-ave(fs.proj.pres$Lat)
 shift<-unique(fs.proj.pres$avg) - unique(fs.pres$avg)
 fs.pres$geo.shift<-fs.pres$Lat + shift
 
-fs<-full_join(fs, fs.pres)
 
-fs$date<-as.Date(fs$lodoy, origin = "2000-01-01")
-fs$photo.shift<-NA
-for(i in c(1:nrow(fs))){
-  fs$photo.shift[i] <- daylength(fs$geo.shift[i], fs$date[i])
+fs.geo<-full_join(fs, fs.pres)
+
+fs.geo$date<-as.Date(fs.geo$lodoy, origin = "2000-01-01")
+fs.geo$photo.shift<-NA
+for(i in c(1:nrow(fs.geo))){
+  fs.geo$photo.shift[i] <- daylength(fs.geo$geo.shift[i], fs.geo$date[i])
 }
 
-fs$phen.shift<-fs$lodoy-fs$lday.prj ## first pheno.shift
+fs.geo<-fs.geo[!is.na(fs.geo$photo.shift),]
+fs.geo$phen.shift<-fs.geo$lodoy-fs.geo$proj.lodoy ## first pheno.shift
+fs.geo$species<-"FAGSYL"
 
-fitphen<-lm(photo.shift ~ geo.shift + phen.shift, data=fs)#Ailene wonders: what is this model for?
+find_hull <- function(fs.geo) fs.geo[chull(fs.geo$phen.shift, fs.geo$photo.shift), ]
+library(plyr)
+hulls <- ddply(fs.geo, "species", find_hull)
+
+ggplot(fs.geo, aes(x=phen.shift, y=photo.shift)) + geom_polygon( data=hulls, alpha=.5, aes(fill=species)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.ticks.y = element_blank())
+
+
+#fitphen<-lm(photo.shift ~phen.shift, data=fs.geo)#Ailene wonders: what is this model for?
 
 
 ###### Ospree shifts are real hard... change in photoperiod is 16 hours, which isn't terribly realistic..
 osp<-read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
-fsyl<-subset(osp, genus=="Fagus")
-fsyl<-subset(fsyl, species=="sylvatica")
-fsyl<-fsyl%>%dplyr::select(genus, species, photoperiod_day, response.time, provenance.lat, fieldsample.date2)
+fsyl<-osp[which(osp$genus=="Fagus" & osp$species == "sylvatica" & osp$respvar.simple=="daystobudburst"),]
+fsyl<-fsyl%>%dplyr::select(datasetID, genus, species, photoperiod_day, response.time, provenance.lat, fieldsample.date2)
+fsyl<-fsyl[(fsyl$response.time!=999),]
 fsyl$photoperiod_day<-as.numeric(fsyl$photoperiod_day)
-fsyl$min.daylength<-min(fsyl$photoperiod_day)
-fsyl$max.daylength<-max(fsyl$photoperiod_day)
-osp.photo<-unique(fsyl$max.daylength-fsyl$min.daylength)
+fsyl$photo.min<-ave(fsyl$photoperiod_day, fsyl$datasetID, FUN=min)
+fsyl$photo.max<-ave(fsyl$photoperiod_day, fsyl$datasetID, FUN=max)
+fsyl$photo.shift<-fsyl$photo.max-fsyl$photo.min
 
 fsyl$response.time<-as.numeric(fsyl$response.time)
-fsyl<-fsyl%>%filter(!is.na(response.time)) %>% filter(response.time!=999)
-fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
+bb.min<-fsyl[which(fsyl$photoperiod_day==fsyl$photo.min),]
+bb.min$bb.min<-ave(bb.min$response.time, bb.min$datasetID)
+bb.max<-fsyl[which(fsyl$photoperiod_day==fsyl$photo.max),]
+bb.max$bb.max<-ave(bb.max$response.time, bb.max$datasetID)
 
-fsyl$mean.lat<-ave(fsyl$provenance.lat)
-fsyl$mean.bb<-ave(fsyl$response.time)
-daylength(75, "2017-04-29") ## 24
-daylength(-64, "2017-04-29") ## 8.1
-osp.geo<-75-(-64)
-daylength(65, "2017-01-25") #6
-daylength(65, "2017-06-21") #22
-min.bb<-yday("2017-01-25")
-max.bb<-yday("2017-06-21")
-osp.temp<-max.bb-min.bb
+
+fsyl$phen.shift<-NA
+for(i in c(1:nrow(fsyl))){
+  for(j in c(1:nrow(bb.min)))
+    for(k in c(1:nrow(bb.max)))
+  fsyl$phen.shift[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
+                             bb.min$bb.min[j]-bb.max$bb.max[k], fsyl$phen.shift[i])
+}
+
+fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
+#### Using code from Ailene's shifts_table.R ###
+fsyl$phendate<-ave(fsyl$response.time, fsyl$datasetID)
+
+fsyl$space<-""
+for(i in 1:length(fsyl$provenance.lat)){
+  latshift<-seq(0,40,by=.1)#look at daylengths of latitudes from study site to study site plus 40 degrees
+  photos_spat<-daylength(fsyl$provenance.lat[i]+latshift, fsyl$phendate[i])
+  #photop$space[i]<-
+  maxdelta_space<-max(photos_spat, na.rm=TRUE)-min(photos_spat, na.rm=TRUE)#maxim
+  delta_space<-photos_spat[1]-photos_spat#change in daylength latitudes ranging from study site to study site plus 40 degrees
+
+  if(maxdelta_space<abs(fsyl$photo.shift[i])){fsyl$space[i]<-"ER"}#exceeds range
+  else
+    fsyl$space[i]<-latshift[min(which(round(delta_space, digits=2)==fsyl$photo.shift[i]))]#select min lat shift required to get change in daylength in experiments
+  if(is.na(fsyl$space[i])){
+    mindiff<-min(abs(fsyl$photo.shift[i]-delta_space), na.rm=TRUE)
+  
+    if(!is.na(mindiff) & mindiff<0.5){fsyl$space[i]<-latshift[which(abs(fsyl$photo.shift[i]-delta_space)==mindiff)]
+      }else {
+        fsyl$space[i]<-NA
+  }
+}
+}
+
 
 fsyl<-fsyl%>%rename(daylength=photoperiod_day)%>%rename(mleaf=response.time)%>%rename(Lat=provenance.lat)
 fsyl$type<-"ospree"
@@ -190,7 +228,7 @@ plot3d(ff$Lat, ff$daylength, ff$mleaf, type="s", col=ff$col, size=1)
 
 #osp.geo<-unique(fsyl$avg)
 # Ailene says: I wouldn't calculate the ospree shift this way. 
-#I would use the photoperiod treatments to figure out equivalent spacial and temporal shifts
+#I would use the photoperiod treatments to figure out equivalent spatial and temporal shifts
 #(i.e. the way i did for the table in shifts_table.R code, but for each individual treatment) 
 #fsyl$geo.shift<-fsyl$provenance.lat+osp.shift
 
@@ -270,7 +308,7 @@ for(i in c(1:nrow(qr))){
 
 qr$phen.shift<-qr$lodoy-qr$lday.prj ## first pheno.shift
 
-fitphen.qr<-lm(photo.shift ~ geo.shift + phen.shift, data=qr)
+#fitphen.qr<-lm(photo.shift ~ geo.shift + phen.shift, data=qr)
 
 
 qrob<-subset(osp, genus=="Quercus")
