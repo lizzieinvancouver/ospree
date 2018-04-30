@@ -140,14 +140,16 @@ fs.pres$geo.shift<-fs.pres$Lat + shift
 fs.geo<-full_join(fs, fs.pres)
 
 fs.geo$date<-as.Date(fs.geo$lodoy, origin = "2000-01-01")
-fs.geo$photo.shift<-NA
-for(i in c(1:nrow(fs.geo))){
-  fs.geo$photo.shift[i] <- daylength(fs.geo$geo.shift[i], fs.geo$date[i])
-}
+fs.geo$photo.shift<-fs.geo$daylength-fs.geo$proj.photo
+#fs.geo$photo.shift<-NA
+#for(i in c(1:nrow(fs.geo))){
+#  fs.geo$photo.shift[i] <- daylength(fs.geo$geo.shift[i], fs.geo$date[i])
+#}
 
 fs.geo<-fs.geo[!is.na(fs.geo$photo.shift),]
+fs.geo<-fs.geo[!is.na(fs.geo$geo.shift),]
 fs.geo$phen.shift<-fs.geo$lodoy-fs.geo$proj.lodoy ## first pheno.shift
-fs.geo$species<-"FAGSYL"
+fs.geo$type<-"projected"
 
 find_hull <- function(fs.geo) fs.geo[chull(fs.geo$phen.shift, fs.geo$photo.shift), ]
 library(plyr)
@@ -191,7 +193,7 @@ fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
 #### Using code from Ailene's shifts_table.R ###
 fsyl$phendate<-ave(fsyl$response.time, fsyl$datasetID)
 
-fsyl$space<-""
+fsyl$space<-NA
 for(i in 1:length(fsyl$provenance.lat)){
   latshift<-seq(0,40,by=.1)#look at daylengths of latitudes from study site to study site plus 40 degrees
   photos_spat<-daylength(fsyl$provenance.lat[i]+latshift, fsyl$phendate[i])
@@ -199,7 +201,7 @@ for(i in 1:length(fsyl$provenance.lat)){
   maxdelta_space<-max(photos_spat, na.rm=TRUE)-min(photos_spat, na.rm=TRUE)#maxim
   delta_space<-photos_spat[1]-photos_spat#change in daylength latitudes ranging from study site to study site plus 40 degrees
 
-  if(maxdelta_space<abs(fsyl$photo.shift[i])){fsyl$space[i]<-"ER"}#exceeds range
+  if(maxdelta_space<abs(fsyl$photo.shift[i])){fsyl$space[i]<-100}#exceeds range
   else
     fsyl$space[i]<-latshift[min(which(round(delta_space, digits=2)==fsyl$photo.shift[i]))]#select min lat shift required to get change in daylength in experiments
   if(is.na(fsyl$space[i])){
@@ -211,17 +213,41 @@ for(i in 1:length(fsyl$provenance.lat)){
   }
 }
 }
+fsyl$space<-as.numeric(fsyl$space)
+fsyl$geo.shift<-fsyl$space+fsyl$provenance.lat
 
-
-fsyl<-fsyl%>%rename(daylength=photoperiod_day)%>%rename(mleaf=response.time)%>%rename(Lat=provenance.lat)
+fsyl<-fsyl%>%dplyr::rename(daylength=photoperiod_day)%>%dplyr::rename(mleaf=response.time)%>%dplyr::rename(Lat=provenance.lat)
 fsyl$type<-"ospree"
-ff<-full_join(fs, fsyl)
-ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type)
-ff$mleaf<-filter(ff, mleaf<200)
-ff$col<-NA
-ff$col<-ifelse(ff$type=="current", "lightblue", ff$col)
-ff$col<-ifelse(ff$type=="projected", "red", ff$col)
-ff$col<-ifelse(ff$type=="ospree", "green", ff$col)
+ff<-full_join(fs.geo, fsyl)
+ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift)
+#ff$mleaf<-filter(ff, mleaf<200)
+#ff$col<-NA
+#ff$col<-ifelse(ff$type=="current", "lightblue", ff$col)
+#ff$col<-ifelse(ff$type=="projected", "red", ff$col)
+#ff$col<-ifelse(ff$type=="ospree", "green", ff$col)
+
+find_hull.phen <- function(ff) ff[chull(ff$phen.shift, ff$photo.shift), ]
+library(plyr)
+hulls.phen <- ddply(ff, "type", find_hull.phen)
+
+phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) +
+  geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.ticks.y = element_blank(), legend.position = "none")
+
+find_hull.geo <- function(ff) ff[chull(ff$geo.shift, ff$photo.shift), ]
+hulls.geo <- ddply(ff, "type", find_hull.geo)
+geo<- ggplot(ff, aes(x=geo.shift, y=photo.shift)) + geom_point(aes(col=type)) +
+  geom_polygon( data=hulls.geo, alpha=.5, aes(fill=type)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.ticks.y = element_blank())
+
+library(egg)
+quartz()
+ggarrange(phen, geo, ncol=2)
+
 
 open3d()
 plot3d(ff$Lat, ff$daylength, ff$mleaf, type="s", col=ff$col, size=1)
