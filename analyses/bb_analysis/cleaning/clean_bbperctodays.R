@@ -1,17 +1,18 @@
 ### Started by Ailene Ettinger ###
 ### January 2016 ###
-## Script to convert files with 50% bb to "days to bb" and calculate max %bb per treatment per spp ##
+## Script to convert files with % bb and match "days to bb" data to one value of 'days to bb' and calculates max %bb per treatment per spp ##
 ## Sourced in bb_cleanmergeall.R ##
 
 # Edited by Dan Flynn, then lots of edits in early 2017 by Nacho Morales-Castilla
 # Then more edits by Nacho and Lizzie in Apr2018 to make sure the code does the following:
 # (a) remove values which are not within target range 
-# (b) data with just one value in target range
-# (c) data with more than one value in target range but one value that exactly equals target range (we should retain it, but I think this may be fairly uncommon).
+# (b) extract data with just one value in target range
+# (c) for data with more than one value in target range but one value that exactly equals target range (we should retain it, but I think this may be fairly uncommon), extract that value
+# (d) for data with more than one value in target range (and no one value that exactly equals target range), extract the value closest to the target 
 #
 
 ## This code runs from bb_mergeall.R, so...
-# you should run that through to this files sourcing before running this code! ##
+# You should run that through to this files sourcing before running this code! ##
 
 targetvalue <- 90 # we want value closest to this
 acceptablerange <- 0.55 # meaning as low as 49.5% allowed (e.g., 90-90*0.55=49.5) ## decreasing the acceptable range increases the amount of rows deleted (more values cease to be close enough to targetted values)

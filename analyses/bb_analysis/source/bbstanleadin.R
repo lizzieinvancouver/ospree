@@ -40,6 +40,7 @@ bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "f
 # bb <- subset(bb, type!="crop")
 bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type",
     "chill.cen", "photo.cen", "force.cen"))
+bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
 
 # remove the two values above 600

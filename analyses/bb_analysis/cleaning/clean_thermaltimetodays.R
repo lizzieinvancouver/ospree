@@ -4,21 +4,6 @@
 # Using ospree_clean.csv right now, should use new file from Nacho's clean merge all file for bb_analysis/cleaning
 
 
-# Clear Workspace
-#rm(list=ls()) 
-#options(stringsAsFactors=FALSE)
-
-# Load libraries
-#library(dplyr)
-#library(tidyr)
-
-## read data
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-#if(length(grep("Lizzie", getwd())>0)) {    setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
-#} else 
-#  setwd("~/Documents/git/ospree/analyses")
-#d<-read.csv("output/ospree_clean_withchill.csv",as.is=TRUE)
-
 if(is.data.frame(d)){
 
 ## Can change ghelardini10 & heide93 from thermaltime to daystobudburst
@@ -26,8 +11,10 @@ if(is.data.frame(d)){
 d.gher<-d
 d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")] <-
     as.numeric(d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")])/
-  (as.numeric(d.gher$forcetemp[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]))
-d$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]<-d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]
+   (as.numeric(d.gher$forcetemp[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")]))
+d$response.time[which(d.gher$datasetID=="ghelardini10" &
+    d.gher$respvar=="thermaltimetobudburst")]<-d.gher$response.time[which(d.gher$datasetID=="ghelardini10" &
+    d.gher$respvar=="thermaltimetobudburst")]
 d<-within(d, respvar.simple[datasetID=="ghelardini10" & respvar.simple=="thermaltime"]<-"daystobudburst")
 ####check
 
