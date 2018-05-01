@@ -1,6 +1,7 @@
 #Still some questions to look into for daily climate data. 
-#The following have NAs for daily temperature- not sure why
-#calme94:
+#The following have NAs for forcing data derived from bb_daily_dataprep- not sure why
+#calme94: only has climate data for lat=46.5, long=-78.833
+#missing climate data for longs: -70.633 -73.250 and for longs 46.133 45.633
 #"calme94 1992-10-05 24.4    16","calme94 1992-11-02 24.4    16", "calme94 1992-11-16 24.4    16"                        "calme94 1992-12-07 24.4    16"                       
 #"calme94 1993-02-01 24.4    16"                        "calme94 1993-03-29 24.4    16"                       
 #"calme94 1993-04-26 24.4    16"                        "calme94 1993-01-11 24.4    16"                       
@@ -16,6 +17,9 @@
 
 #hawkins12
 #"hawkins12 1998-01-01     ambient"                    
+#only have climate data for 1 lat/long (49.25,-117.17) in daily climate
+#missing climate data for the following longitudes: -116.05 -117.38 -118.30 -118.83 -119.53 -119.75 -122.40 -121.52 -112.23 -112.63 -122.37 -122.35 -121.78
+#-128.57 -128.27 -127.78
 
 #heide12
 #"heide12 2012-03-01 9    10"                           "heide12 2012-03-01 15    10"                         

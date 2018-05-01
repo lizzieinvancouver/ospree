@@ -76,9 +76,9 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo}).
-\item Shifts in photoperiod may vary with latitude and time of year (Figure \ref{fig:photo}), especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Dan's figure).
-\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figure \ref{fig:spacetime}).
+\item Shifts in photoperiod may vary with latitude and time of year, especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Figure \ref{fig:greenup}).
+\item Photoperiod sensitivity can also vary with latitude (Figures \ref{fig:bbphoto}, \ref{fig:bbphotoxlat}), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
@@ -89,9 +89,8 @@
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
 \begin{enumerate}
-\item Table of OSPREE experiments that manipulate photoperiod, their daylength treatments, their findings, and perhaps how the treatment corresponds to spatial/temporal shifts? (in supplement, i think)
-\item Figure showing magnitude of
-\item Most experiments manipulate photoperiod much more dramatically than will occur with climate change (but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
+\item In some cases, yes, experiments manipulate photoperiod at relevant scales (Figure \ref{fig:photomap}, Table \ref{table:phototreats}).
+\item However, most experiments manipulate photoperiod much more dramatically than will occur with climate change (Figures \ref{fig:photomap}, \ref{fig:fagus},\ref{fig:quercus}, but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
 \item There is a great need to better understand exactly how photoperiod acts as a cue (linear response? threshold? how does it interact with temperature to break dormancy?)
 \end{enumerate}
 \item\textit{Conclusions}
@@ -103,7 +102,6 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item make lines transparent. 
 \item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
 \end{enumerate}
 \section* {Random notes that may be useful:}
@@ -136,6 +134,8 @@ library(geosphere)
 library(xtable)
 library(plyr)
 library(dplyr)
+library(tidyr)
+
 #library(tidyr)
 
 require(dplyr)
@@ -165,27 +165,59 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 \section* {Figures}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime.pdf} %
+\caption{\textbf{Photoperiod varies with latitude and throughout the year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts.}
+ \label{fig:spacetime}%
+ \end{figure}
+ 
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_2012.pdf} %or use Greenup_?
+\caption{\textbf{Green-up date varies with latitude} and varies among years. }
+ \label{fig:greenup}%
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/scaled_photo_curve.pdf} 
+\caption{\textbf{Photoperiod affects budburst}, generally by interacting with chilling and forcing. Thus, responses to photoperiod vary greatly among studies, depending on methodologies and other manipulating factors (e.g., temperature). }
+\label{fig:bbphoto}
+\end{figure}
+ 
+\begin{figure}[p]
+\centering
+\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/lat_analysis/figures/PhotoxLat.pdf} 
+\caption{\textbf{Responses to photoperiod vary with latitude}.}
+ \label{fig:bbphotoxlat}
+ \end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts). }
+ \label{fig:photomap}
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_shifts.pdf} 
+\caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Fagus sylvatica during budburst.}}
+ \label{fig:fagus}
+ \end{figure}
+ 
+ \begin{figure}[p]
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_shifts.pdf} 
+\caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Quercus robur during budburst.}}
+ \label{fig:quercus}
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=100mm,scale=0.9]{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
 \caption{\textbf{Shifts in the daylength in OSPREE treatments, and their equivalent spatial and temporal shifts).}}
  \label{fig:photo}
  \end{figure}
- \begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
-\caption{\textbf{OSPREE experiments that maniuplate photoperiod}, and their equivalent spatial and temporal shifts). }
- \label{fig:greenup}
- \end{figure}
-\clearpage
-\begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/green_up/2009_photoperiod_map.pdf} 
-\caption{\textbf{Green-up date varies with latitude.} }
- \label{fig:greenup}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
- \end{figure}
-\clearpage
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

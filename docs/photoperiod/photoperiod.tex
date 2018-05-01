@@ -76,9 +76,9 @@
 \item\textit{How will climate change alter the photoperiod experienced by organisms?}
 \begin{enumerate}
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
-\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figures \ref{fig:photo}).
-\item Shifts in photoperiod may vary with latitude and time of year (Figure \ref{fig:photo}), especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Dan's figure).
-\item Photoperiod sensitivity can also vary with latitude (cite OSPREE database and perhaps add a table?), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
+\item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figure \ref{fig:spacetime}).
+\item Shifts in photoperiod may vary with latitude and time of year, especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Figure \ref{fig:greenup}).
+\item Photoperiod sensitivity can also vary with latitude (Figures \ref{fig:bbphoto}, \ref{fig:bbphotoxlat}), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
@@ -89,9 +89,8 @@
 \end{enumerate}
 \item\textit{Can existing experiments be applied to forecasting?}
 \begin{enumerate}
-\item Table of OSPREE experiments that manipulate photoperiod, their daylength treatments, their findings, and perhaps how the treatment corresponds to spatial/temporal shifts? (in supplement, i think)
-\item Figure showing magnitude of
-\item Most experiments manipulate photoperiod much more dramatically than will occur with climate change (but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
+\item In some cases, yes, experiments manipulate photoperiod at relevant scales (Figure \ref{fig:photomap}, Table \ref{table:phototreats}).
+\item However, most experiments manipulate photoperiod much more dramatically than will occur with climate change (Figures \ref{fig:photomap}, \ref{fig:fagus},\ref{fig:quercus}, but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
 \item There is a great need to better understand exactly how photoperiod acts as a cue (linear response? threshold? how does it interact with temperature to break dormancy?)
 \end{enumerate}
 \item\textit{Conclusions}
@@ -103,7 +102,6 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item make lines transparent. 
 \item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
 \end{enumerate}
 \section* {Random notes that may be useful:}
@@ -113,12 +111,25 @@ Wyeomyia smithii, has evolved a shorter critical photoperiod in association with
 longer growing season. Northern populations of this mosquito now use a shorter
 day-length cue to enter winter diapause, doing so later in the fall than they did
 24 years ago.
+\item Decreasing day-length is the main environmental cue inducing growth cessation and bud set in many perennial plants, including poplar 
+\begin{enumerate}
+
+\item Lagercrantz U: At the end of the day: a common molecular mechanism for photoperiod responses in plants?. J Exp Bot. 2009, 60: 2501-2515. 10.1093/jxb/erp139.
+\item Howe GT, Gardner G, Hackett WP, Furnier GR: Phytochrome control of short-day-induced bud set in black cottonwood. Physiol Plant. 1996, 97: 95-103. 10.1111/j.1399-3054.1996.tb00484.x.
+\end{enumerate}
+
+\item Response to photoperiod is under strong genetic control 
+\begin{enumerate}
+\item Bradshaw HD, Stettler RF: Molecular genetics of growth and development in Populus. IV. Mapping QTLs with large effects on growth, form, and phenology traits in a forest tree. Genetics. 1995, 139: 963-973.
+\item Keller SR, Soolanayakanahally RY, Guy RD, Silim SN, Olson MS, Tiffin P: Climate-driven local adaptation of ecophysiology and phenology in balsam poplar, Populus balsamifera L. (Salicaceae). Am J Bot. 2011, 98: 99-108. 10.3732/ajb.1000317.
+\item Weih M: Intensive short rotation forestry in boreal climates: present and future perspectives. Can J Forest Res. 2004, 34: 1369-1378. 10.1139/x04-090.
+\end{enumerate}
 \end {enumerate}
 \bibliography{/Users/aileneettinger/citations/Bibtex/mylibrary}
 \clearpage
 \section* {Tables}
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Apr 10 12:40:24 2018
+% Tue May  1 13:03:10 2018
 \begin{table}[ht]
 \centering
 \caption{\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.} 
@@ -136,7 +147,7 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
   ghelardini10\_exp1 & europe & 43.72 & 11.37 & 8-16 & 8.00 & 21.9 & ER \\ 
   heide05\_exp1 & europe & 56.18 & -4.32 & 10-24 & 14.00 & ER & ER \\ 
   heide08\_exp1 & europe & 48.40 & 11.72 & 10-24 & 14.00 & ER & ER \\ 
-  heide11\_exp1 & europe & 59.67 & 10.67 & 10-20 & 10.00 & ER & max NA (6) \\ 
+  heide11\_exp1 & europe & 59.67 & 10.67 & 10-20 & 10.00 & ER & max NA (18.7) \\ 
   heide12\_exp1 & europe & 56.50 & -3.06 & 10-24 & 5.00 & 8.9 & -64 \\ 
   heide15\_exp2 & europe & 56.50 & -3.06 & 10-15 & 1.00 & 3.2 & -13 \\ 
   heide93\_exp1 & europe & 59.50 & 10.77 & 8-24 & 16.00 & ER & ER \\ 
@@ -145,7 +156,7 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
   howe95\_exp1 & north america & 40.55 & -124.10 & 9-24 & 2.00 & 13.1 & -64 \\ 
   laube14a\_exp1 & europe & 48.40 & 11.71 & 8-16 & 4.00 & 14.3 & -87 \\ 
   myking95\_exp1 & europe & 56.10 & 9.15 & 8-24 & 16.00 & ER & ER \\ 
-  myking97\_exp1 & europe & 59.67 & 10.77 & 12-24 & 12.00 & ER & max NA (6) \\ 
+  myking97\_exp1 & europe & 59.67 & 10.77 & 12-24 & 12.00 & ER & max NA (18.7) \\ 
   nienstaedt66\_exp1 & north america & 44.17 & -103.92 & 8-20 & 12.00 & ER & ER \\ 
   okie11\_exp1 & north america & 32.12 & -83.12 & 0-12 & 12.00 & ER & ER \\ 
   partanen01\_exp1 & europe & 61.93 & 26.68 & 6-16 & 10.00 & ER & -105 \\ 
@@ -153,11 +164,11 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
   partanen98\_exp1 & europe & 60.03 & 23.05 & 8.66-12 & 3.34 & 5.1 & -37 \\ 
   pettersen71\_exp1 & europe & 59.66 & 10.77 & 10-24 & 2.00 & 4 & -23 \\ 
   Sanz-Perez09\_exp1 & europe & 40.40 & -3.48 & 10-16 & 6.00 & 23.6 & ER \\ 
-  schnabel87\_exp1 & north america & 46.21 & -119.77 & 9.5-14 & 0.25 & 1.7 & -7 \\ 
-  viheraaarnio06\_exp1 & europe & 60.45 & 24.93 & 16-17 & 0.00 & 0 & 0 \\ 
+  skuterud94\_exp1 & europe & 61.50 & 24.33 & 8-24 & 16.00 & ER & ER \\ 
+  viheraaarnio06\_exp1 & europe & 60.45 & 24.93 & 16-17 & 1.00 & 2.1 & -12 \\ 
   viheraaarnio06\_exp1 & europe & 67.73 & 24.93 & 20-21 & 1.00 & ER & -5 \\ 
-  viheraaarnio06\_exp2 & europe & 60.45 & 24.93 & 15-19 & 1.00 & 2.1 & -11 \\ 
-  viheraaarnio06\_exp2 & europe & 67.73 & 24.93 & 22-23 & -1.00 & ER & 5 \\ 
+  viheraaarnio06\_exp2 & europe & 60.45 & 24.93 & 15-19 & 4.00 & 5.1 & -62 \\ 
+  viheraaarnio06\_exp2 & europe & 67.73 & 24.93 & 22-23 & 1.00 & ER & -3 \\ 
   worrall67\_exp 3 & north america & 41.31 & -72.93 & 8-16 & 8.00 & 24.3 & ER \\ 
   zohner16\_Exp1 & europe & 48.16 & 11.50 & 8-16 & 8.00 & ER & ER \\ 
    \hline
@@ -166,27 +177,59 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
 \section* {Figures}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime.pdf} %
+\caption{\textbf{Photoperiod varies with latitude and throughout the year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts.}
+ \label{fig:spacetime}%
+ \end{figure}
+ 
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_2012.pdf} %or use Greenup_?
+\caption{\textbf{Green-up date varies with latitude} and varies among years. }
+ \label{fig:greenup}%
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/scaled_photo_curve.pdf} 
+\caption{\textbf{Photoperiod affects budburst}, generally by interacting with chilling and forcing. Thus, responses to photoperiod vary greatly among studies, depending on methodologies and other manipulating factors (e.g., temperature). }
+\label{fig:bbphoto}
+\end{figure}
+ 
+\begin{figure}[p]
+\centering
+\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/lat_analysis/figures/PhotoxLat.pdf} 
+\caption{\textbf{Responses to photoperiod vary with latitude}.}
+ \label{fig:bbphotoxlat}
+ \end{figure}
+\clearpage
+
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts). }
+ \label{fig:photomap}
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_shifts.pdf} 
+\caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Fagus sylvatica during budburst.}}
+ \label{fig:fagus}
+ \end{figure}
+ 
+ \begin{figure}[p]
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_shifts.pdf} 
+\caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Quercus robur during budburst.}}
+ \label{fig:quercus}
+ \end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=100mm,scale=0.9]{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
 \caption{\textbf{Shifts in the daylength in OSPREE treatments, and their equivalent spatial and temporal shifts).}}
  \label{fig:photo}
  \end{figure}
- \begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
-\caption{\textbf{OSPREE experiments that maniuplate photoperiod}, and their equivalent spatial and temporal shifts). }
- \label{fig:greenup}
- \end{figure}
-\clearpage
-\begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/green_up/2009_photoperiod_map.pdf} 
-\caption{\textbf{Green-up date varies with latitude.} }
- \label{fig:greenup}%Lizzie did not like the bar plot since it is binning a continuous variable. perhaps just include as an inset?
- \end{figure}
-\clearpage
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

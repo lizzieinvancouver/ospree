@@ -1,6 +1,9 @@
 ospree$ID_daylengths<-paste(ospree$datasetID,ospree$photoperiod_day, sep="_")
 ospree$ID_study<-paste(ospree$datasetID,ospree$study, sep="_")#I actually don't think we need to distiguish between experiments for this table?
 #ospree$ID_daylengths<-paste(ospree$datasetID,ospree$study,ospree$photoperiod_day, sep="_")
+#round lat/longs so they are the same
+ospree$provenance.lat<-round(ospree$provenance.lat, digits=2)
+ospree$provenance.long<-round(ospree$provenance.long, digits=2)
 
 photop <- ospree %>% # start with the data frame
   distinct(ID_daylengths, .keep_all = TRUE) %>% # establishing grouping variables
@@ -8,12 +11,16 @@ photop <- ospree %>% # start with the data frame
 photop<-photop[-which(photop$photoperiod_day=="ambient"),]
 photop<-photop[-which(photop$photoperiod_day==""),]
 photop$numtreats<-with(photop, ave(as.numeric(photoperiod_day), datasetID, FUN=function(x) length(unique(x))))
+#remove studies that only have one photoperiod treatment
+photop<-photop[-which(photop$numtreats==1),]
 
-#with(photop, ave(as.numeric(photoperiod_day), datasetID, FUN=function(x) unique(x)))
 #need to add delta photoperiod, space, and time equivalents of these
 #try instead columns for daylength (min, max) and spatial temporal can be the difference between these
 #add a column with all unique photoperiod treatments  by lat long and experiment within study
 photop$idstudylatlong<-paste(photop$datasetID,photop$study,photop$provenance.lat,photop$provenance.long, sep="_")#I a
+#remove non-numeric daylengths
+photop$photoperiod_day<-as.numeric(photop$photoperiod_day)
+photop<-photop[-which(is.na(photop$photoperiod_day)),]
 #aggregate to get min and max daylengths
 photop_min<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$ID_study,photop$idstudylatlong,photop$continent,photop$provenance.lat,photop$provenance.long,photop$numtreats), FUN=min)
 photop_max<-aggregate(as.numeric(photop$photoperiod_day), by=list(photop$datasetID,photop$ID_study,photop$idstudylatlong,photop$continent,photop$provenance.lat,photop$provenance.long,photop$numtreats), FUN=max)
@@ -22,8 +29,6 @@ colnames(photop_max)[8]<-"daylength_max"
 colnames(photop_min)[8]<-"daylength_min"
 
 idstudylatlong<-unique(photop$idstudylatlong)
-
-#id<-unique(photop$datasetID)
 alltreats<-c()
 for (i in 1:length(idstudylatlong)){
   dat<-photop[photop$idstudylatlong==idstudylatlong[i],]
@@ -31,18 +36,24 @@ for (i in 1:length(idstudylatlong)){
   alltreats<-c(alltreats,treats)
 }
 phototreats2<-as.data.frame(cbind(idstudylatlong,alltreats))
+#remove studies with single values for photoperiod
+phototreats2<-phototreats2[grep(",",phototreats2$alltreats),]
 
-photop2<-join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3","Group.4","Group.5","Group.6","Group.7"), match="all")
+photop2<-full_join(photop_min,photop_max, by=c("Group.1", "Group.2", "Group.3","Group.4","Group.5","Group.6","Group.7"), match="all")
 colnames(photop2)[1:7]<-c("dataset","idstudy","idstudylatlong","continent","lat","long","numtreats")
-
-photop_all<-join(photop2,phototreats2, by=c("idstudylatlong"), match="all")
-#remove studies that only have one photoperiod treatment
-photop_all<-photop_all[-which(photop_all$daylength_min==photop_all$daylength_max),]
+phototreats2$idstudylatlong<-as.character(phototreats2$idstudylatlong)
+photop_all<-left_join(phototreats2, photop2,by=c("idstudylatlong"), match="all")
 
 #combine min and max into one column 
 photop_all$daylength_range<-paste(photop_all$daylength_min,photop_all$daylength_max, sep="-")
+#remove row when min=max
+photop_all<-photop_all[-which(photop_all$daylength_min==photop_all$daylength_max),]
 photop_all$daylength_maxfordelta<-NA#for estimates of change in daylength, we will use true min and max for studies with only 2 treatments. for studies with more than 2, just use difference between min and next longest daylength treatment 
 photop_all$daylength_maxfordelta<-NA
+#although these studies had 9 treats to start, only 2 were from the same lat/long
+photop_all$numtreats[photop_all$idstudylatlong=="viheraaarnio06__67.73_24.93"]<-2
+photop_all$numtreats[photop_all$idstudylatlong=="viheraaarnio06__60.45_24.93"]<-2
+
 photop_all$daylength_maxfordelta[photop_all$numtreats==2]<-photop_all$daylength_max[photop_all$numtreats==2]#studies with only 2 treatments
 
 for (i in 1:length(photop_all$alltreats[photop_all$numtreats>2])){
@@ -64,7 +75,7 @@ for(i in 1:length(photop_all$lat)){
     mindiff<-min(abs(photop_all$daylength_maxfordelta[i]-photos))
     if(mindiff<0.5){date_expmax<-date[which(abs(photop_all$daylength_maxfordelta[i]-photos)==mindiff)]
     }else {
-      min_dlmax<-round(min(photos), digits=1)
+      min_dlmax<-round(max(photos), digits=1)
       date_expmax<-NA
     }
   }
@@ -92,7 +103,7 @@ for(i in 1:length(photop_all$lat)){
   
   
   
-  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date. Eventually, date should be latitude-specific greenup date. For now, choose March 20 as a date.
+  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date. Eventually, date should be latitude-specific greenup date. For now, choose June 21 as a date.
   #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
   #phendate<-79#march 20 . eventually we should replace this with spring greenup date for that latitude
   phendate<-172#June 21
@@ -117,3 +128,7 @@ for(i in 1:length(photop_all$lat)){
 
 #sort by idstudy
 photop_all<-photop_all[order(photop_all$idstudy),]
+
+#To do:
+#1) Three studies have a max NA and a min NA- these look reasonable so add them with an *
+#2) 

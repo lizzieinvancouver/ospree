@@ -26,7 +26,7 @@ library(tidyr)
 library(plyr)
 library(geosphere)
 #if chilling code was just run, you will need to do this:
-detach("package:chillR", unload=TRUE)
+#detach("package:chillR", unload=TRUE)
 
 # sourcing
 source("source/commoncols.R")
@@ -56,7 +56,8 @@ dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobud
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dailyclim.bb<-data.frame()
 
-for(i in 1:dim(dat.bb)[1]){#4637rows in dat#need to fix rows 3071:3244 (provenance.lat provenance.long=NA for all sanzperez10, should be 40.47, -3.37)
+for(i in 1:dim(dat.bb)[1]){#4637rows in dat; calme94: i=379:401 (missing some climate data); 1447:1554= hawkins12- (missing some climate data)
+  #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
   colnames(x)[9:10]<-c("lat","long")#match column names to climate data column names
