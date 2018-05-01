@@ -84,11 +84,17 @@ bb.max$bb.max<-ave(bb.max$response.time, bb.max$datasetID)
 
 
 fsyl$phen.shift<-NA
+fsyl$lo.pre<-NA
+fsyl$lo.post<-NA
 for(i in c(1:nrow(fsyl))){
   for(j in c(1:nrow(bb.min)))
     for(k in c(1:nrow(bb.max)))
       fsyl$phen.shift[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
                                  bb.min$bb.min[j]-bb.max$bb.max[k], fsyl$phen.shift[i])
+    fsyl$lo.pre[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
+                           bb.min$bb.min[j], fsyl$lo.pre[i])
+    fsyl$lo.post[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
+                           bb.max$bb.max[k], fsyl$lo.post[i])
 }
 
 fsyl$provenance.lat<-as.numeric(fsyl$provenance.lat)
@@ -121,12 +127,37 @@ fsyl$geo.shift<-fsyl$space+fsyl$provenance.lat
 fsyl<-fsyl%>%dplyr::rename(daylength=photoperiod_day)%>%dplyr::rename(mleaf=response.time)%>%dplyr::rename(Lat=provenance.lat)
 fsyl$type<-"ospree"
 ff<-full_join(fs.geo, fsyl)
-ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift)
+ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift, proj.lodoy, proj.photo,
+                  lo.pre, lo.post, photo.min, photo.max)
+ff<-ff%>%dplyr::rename(current.photo=daylength)%>%dplyr::rename(osp.photo.pre=photo.min)%>%dplyr::rename(osp.photo.post=photo.max)
+
+fx<-ff%>%gather("phen.type", "doy", -Lat, -mleaf, -type, -photo.shift, -geo.shift, 
+                -phen.shift, -proj.photo, -osp.photo.pre, -osp.photo.post, -current.photo)
+fxx<-fx%>%gather("photo.type", "photoperiod", -Lat, -mleaf, -phen.type, -type, -photo.shift, -geo.shift, -phen.shift,
+                -doy)
+
+fxx<-na.omit(fxx)
+
+find_hull.geo <- function(fxx) fxx[chull(fxx$Lat, fxx$photoperiod), ]
+#library(plyr)
+hulls.geo <- ddply(fxx, "type", find_hull.geo)
+fxx$photo.type<-ifelse(fxx$photo.type=="osp.photo.pre", "ospree", fxx$photo.type)
+fxx$photo.type<-ifelse(fxx$photo.type=="osp.photo.post", "ospree", fxx$photo.type)
+fxx$photo.type<-ifelse(fxx$photo.type=="current.photo", "current", fxx$photo.type)
+fxx$photo.type<-ifelse(fxx$photo.type=="proj.photo", "projected", fxx$photo.type)
+
+fxx$phen.type<-ifelse(fxx$phen.type=="lodoy", "current", fxx$phen.type)
+fxx$phen.type<-ifelse(fxx$phen.type=="proj.lodoy", "projected", fxx$phen.type)
+fxx$phen.type<-ifelse(fxx$phen.type=="lo.pre", "ospree", fxx$phen.type)
+fxx$phen.type<-ifelse(fxx$phen.type=="lo.post", "ospree", fxx$phen.type)
 
 
-find_hull.phen <- function(ff) ff[chull(ff$phen.shift, ff$photo.shift), ]
-library(plyr)
-hulls.phen <- ddply(ff, "type", find_hull.phen)
+geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod)) + geom_point(aes(col=photo.type)) +
+  geom_polygon( data=hulls.geo, alpha=.5, aes(fill=photo.type)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.ticks.y = element_blank(), legend.position = "none") + xlab("Latitude") + ylab("Daylength")
+
 
 phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) +
   geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
@@ -134,17 +165,18 @@ phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         axis.ticks.y = element_blank(), legend.position = "none")
 
-find_hull.geo <- function(ff) ff[chull(ff$geo.shift, ff$photo.shift), ]
-hulls.geo <- ddply(ff, "type", find_hull.geo)
-geo<- ggplot(ff, aes(x=geo.shift, y=photo.shift)) + geom_point(aes(col=type)) +
-  geom_polygon( data=hulls.geo, alpha=.5, aes(fill=type)) +
+find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
+hulls.phen <- ddply(fxx, "type", find_hull.phen)
+doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod)) + geom_point(aes(col=phen.type)) +
+  geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank())
+        axis.ticks.y = element_blank()) + xlab("Day of Budburst") + ylab("Daylength")
+
 
 library(egg)
 quartz()
-ggarrange(phen, geo, ncol=2)
+ggarrange(geo.photo, doy.photo, ncol=2)
 
 
 
