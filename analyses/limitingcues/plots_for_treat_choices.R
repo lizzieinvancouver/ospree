@@ -1,13 +1,19 @@
-###Started by Dan B in February 2017####
-#goal: Produce plots to evaluate correlation between latitude of study
+### Started by Dan B in February 2017 ####
+# Goal: Produce plots to evaluate correlation between latitude of study
 # choices for high and low expiermental treatment (forcing temperature, chilling,and photo period)
-#graph outputs are saved in ospree/anayses/figures
+# Graph outputs are saved in ospree/anayses/figures
 
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 graphics.off()
 ##setwd
-setwd("~/Documents/git/ospree/analyses/output")
+
+
+# Setting working directory. Add in your own path in an if statement for your file structure
+if(length(grep("lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/treegarden/budreview/ospree/analyses") 
+} else if (length(grep("danielbuonaiuto", getwd()))>0) {setwd("~/Documents/git/ospree/analyses/output")}
+
 library(plyr)
 library(dplyr)
 library(tidyr)

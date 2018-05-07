@@ -183,7 +183,7 @@ m2l.wispint.sum[grep("b_", rownames(m2l.wispint.sum)),]
 # Note the notation: M1_daysBBwinter_2level.stan: m2l.wi
 ########################################################
 m2l.wi = stan('stan/winter_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) 
+               iter=6000, warmup=3000, control = list(adapt_delta = 0.95)) 
 
 save(m2l.wi, file="stan/output/M1_daysBBwinter_2level.Rda")
 
@@ -275,7 +275,7 @@ datalist.bb.study <- with(bb.stan,
 )
 
 m2l.nistudy = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study,
-               iter = 3000, warmup=2000) # 2 transitions exceeded max tree depth
+               iter = 6000, warmup=3000) # struggling on intercepts a lot but get better with more iterations
 
 betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill"))
