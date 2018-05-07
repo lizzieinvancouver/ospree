@@ -4,6 +4,11 @@ Started 24 August 2017
 Figures to make for the concept paper …
 <><><><><><><><><><><><><><><><><><><><>
 
+FIGURES that are DONE (more or less):
+PEP725 spp. 1980 figures
+PEP725 spp. Future figures
+
+
 STOP and think, how do we really want to plot these? As percentage of studies doing one thing or totals?!
 
 # of studies by year
@@ -18,3 +23,9 @@ maps of each cue manipulated
 
 materials figure or numbers?
 
+\item 
+\item Number of studies by year (OSPREE) \emph{Other ideas?!} Such as, number of species studied by year. Show crops or remove or show separately?
+\item Map of studies, color coded or such by which of the three cues they manipulated
+\item Variation in treatments across space (photo/chill/force)
+\item Variation in treatments across time (graph with year on $x$-axis or divide time in half or such? 
+\item Not a figure, but analysis-related: X\% of studies manipulated which interacting cues? (i.e., how many studies manipulate 1 cues, 2 cues, 3 cues ... of those manipulating 1 cue, what is the breakdown by cue etc.)

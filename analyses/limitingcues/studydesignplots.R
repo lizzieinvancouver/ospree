@@ -23,16 +23,28 @@ library(dplyr)
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
 d <- read.csv("output/ospree_clean.csv")
-stud <- read.csv("output/studytype.csv", header=TRUE)
+studfile <- read.csv("output/studytype_table.csv", header=TRUE)
 
 d <- d[d$woody=="yes",]
 head(d)
 
-yr <- as.numeric(d$year)
+
+
+###
+###
+lookupstudyyr <- aggregate(d[c("year")], d[c("datasetID", "study")], FUN=mean)
+stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+
+goo <-  aggregate(stud[c("year")], stud[c("field.sample")], FUN=mean)
+plot(field.sample~year, data=goo)
+
+###
+###
+yr <- as.numeric(stud$year)
 
 pdf("limitingcues/figures/pubyear.pdf", width = 8, height = 5)
 hist(yr, breaks = 50, xaxt="n", col = "lightblue", main = "Years of Publication")
-axis(1, at = seq(min(yr, na.rm=T), max(yr, na.rm=TRUE), by = 3))
+axis(1, at = seq(min(yr, na.rm=TRUE), max(yr, na.rm=TRUE), by = 3))
 dev.off()
 
 # Counting
@@ -49,7 +61,7 @@ range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
 # species number and mean cues ... 
 sppsumyr <-
       ddply(d, c("datasetID", "study"), summarise,
-      n=length(unique(latbi)),
+      sppn=length(unique(latbi)),
       photo=mean(as.numeric(photoperiod_day), na.rm=TRUE),
       force=mean(as.numeric(forcetemp), na.rm=TRUE),
       chill=mean(as.numeric(chilltemp), na.rm=TRUE),
@@ -126,7 +138,7 @@ theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         plot.title = element_text(size=22),
                         legend.position = "left"))
 
-pdf("limitingcues/figures/maps/mappy.pdf", width=12, height=4)
+pdf("limitingcues/figures/maps/mappy.pdf", width=10, height=4)
 
 ggplot() + 
     geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
@@ -143,5 +155,60 @@ ggplot() +
 # high: darkred
 dev.off()
 
+##
+name <- "fs.photo"
+namesize <- "field sample n"
+namecol <- "mean photoperiod"
+
+summmap <-
+      ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
+      size=length(unique(fieldsample.date)),
+      fillcolor=mean(as.numeric(photoperiod_day)),
+      year=mean(year))
 
 
+name <- "fs.chilltemp"
+namesize <- "field sample n"
+namecol <- "mean chilltemp"
+
+summmap <-
+      ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
+      size=length(unique(fieldsample.date)),
+      fillcolor=mean(as.numeric(chilltemp)),
+      year=mean(year))
+
+
+
+name <- "fs.chilltemp"
+namesize <- "field sample n"
+namecol <- "mean force"
+
+summmap <-
+      ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
+      size=length(unique(fieldsample.date)),
+      fillcolor=mean(as.numeric(forcetemp)),
+      year=mean(year))
+
+theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
+                        # panel.grid.major = element_blank(),
+                        panel.background = element_rect(fill = "grey90",colour = NA),
+                        # plot.background = element_rect(fill=NA),
+                        axis.title.x = element_blank(),
+                        axis.title.y = element_blank(),
+                        plot.title = element_text(size=22),
+                        legend.position = "left"))
+
+pdf(paste("limitingcues/figures/maps/", name, ".pdf", sep=""), width=10, height=4)
+
+ggplot() + 
+    geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+    # coord_cartesian(ylim=c(5, 70), xlim=c(-120, 40)) +
+    geom_point(data=summmap, 
+        aes(x=provenance.long, y=provenance.lat, size=size, fill=fillcolor), 
+        colour="black", pch=21) +
+        scale_size(name=namesize) +
+            # range = c(1, 12), breaks=c(10,100,200,400
+            scale_fill_gradient(name=namecol,
+            low="thistle2", high="dodgerblue4", guide="colorbar", na.value="NA") +
+  theme.tanmap
+dev.off()
