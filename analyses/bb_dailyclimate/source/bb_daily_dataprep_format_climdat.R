@@ -14,6 +14,7 @@ cdater$daylength <- daylength(lat=cdater$lat, doy=cdater$date)
 #read in conversion table for growing lat to provenance lat for these sites
 #(generated with chilling code)
 grotopro<-read.csv("output/dailyclim/chill.lat.conversion.csv", header=TRUE)
+
 for (i in 1:dim(grotopro)[1]){
   cdater$lat[which(cdater$datasetID==grotopro$datasetID[i] & cdater$lat==grotopro$chill.lat[i])]<-grotopro$provenance.lat[i]
   cdater$long[which(cdater$datasetID==grotopro$datasetID[i] & cdater$long==grotopro$chill.long[i])]<-grotopro$provenance.long[i]

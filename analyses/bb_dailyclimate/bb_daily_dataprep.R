@@ -34,7 +34,7 @@ source("source/commoncols.R")
 
 # Get the data, only work with BB data!
 dater.all <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
-dater <- subset(dater.all, select=common.cols)
+dater <- subset(dater.all, select=common.cols.glatlong)
 cdater <- read.csv("output/dailyclim/dailytemp.csv", header=TRUE) 
 
 #1a. Format the ospree phenology datafile so that it can be connected to the climate data
@@ -55,8 +55,7 @@ source("bb_dailyclimate/source/bb_daily_dataprep_get_expclimdat.R")
 dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dailyclim.bb<-data.frame()
-
-for(i in 1:dim(dat.bb)[1]){#4637rows in dat; calme94: i=379:401 (missing some climate data); 1447:1554= hawkins12- (missing some climate data)
+for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing some climate data)
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -68,6 +67,17 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat; calme94: i=379:401 (missing some cl
   #If no experimental chilling for focal budburst event, use ambient climate data
   if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
+    #if(dim(x.dailyclim)[1]==0 & x$datasetID=="hawkins12") {
+     # x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$growing.lat & daily_ambtemp$long==x$growing.long,]
+      #x.dailyclim$lat<-x$lat
+      #x.dailyclim$long<-x$long
+      #}
+    #for partanen01; same growing/chill lat/long for all provenance lat/longs, so:
+    if(x$datasetID=="partanen01"|x$datasetID=="calme94") {
+      x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2,]
+      x.dailyclim$lat<-x$lat
+      x.dailyclim$long<-x$long
+      } 
     #if no experimental forcing, no need to add anything:
     if(x$forcetemp=="ambient"|x$forcetemp==""|x$forcetemp=="meandaily"){
       x.all<-join(x,x.dailyclim)
@@ -171,6 +181,7 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat; calme94: i=379:401 (missing some cl
     x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     #select experimental chilling climate data
     x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID & daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & daily_chilltemp3$lat==x$lat & daily_chilltemp3$long==x$long,]
+    if(dim(x.expclim)[1]==0){x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID & daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & round(daily_chilltemp3$lat, digits=4)==round(x$lat,digits=4) & round(daily_chilltemp3$long,digits=4)==round(x$long,digits=4),]}
     firstchilldate<-min(as.Date(x.expclim$Date))
     lastchilldate<-unique(x.expclim$lastchilldate)
     if(max(as.Date(x.ambclim$Date))==as.Date(firstchilldate)-1){#if last date of ambient climate data is right before first date of chilling climate data, then just add chilling and forcing data below it
@@ -211,9 +222,11 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat; calme94: i=379:401 (missing some cl
       #now add forcing
       if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!="" & x$forcetemp!="meandaily"& x$forcetemp_night !="ambient"){
         forcetmax<-x$forcetemp
+        if(x$forcetemp=="18-27 (20 average)"){forcetmax<-20}#campbell75
         if(x$forcetemp_night==""){
           forcetmin<-x$forcetemp
         } else forcetmin<-x$forcetemp_night
+        if(x$forcetemp_night=="18-27 (20 average)"){forcetmin<-20}
         daystobb<-round(as.numeric(x$response.time), digits=0)
         forcedays<-dim(x.dailyclim[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2),])[1]##number of days of that should be replaced with the forcing treatment- this is the nubmer of rows after the field sample date because all of these should be replaced with forcing data number of days after field sample date-
         if (!is.na(x$photoperiod_day)){
