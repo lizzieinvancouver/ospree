@@ -171,7 +171,8 @@ doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod)) + geom_point(aes(col=phen.typ
   geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank()) + xlab("Day of Budburst") + ylab("Daylength")
+        axis.ticks.y = element_blank()) + xlab("Day of Budburst") + ylab("Daylength") + 
+  guides(col=FALSE) + labs(fill="Type")
 
 
 library(egg)
