@@ -1,0 +1,9 @@
+Base green up files from the MODIS Land Cover Dynamics Product (MCD12Q2), were obtained from the USGS & NASA's Application for Extracting and Exploring Analysis Ready Samples (AρρEEARS) website at https://lpdaacsvc.cr.usgs.gov/appeears/.
+We used the MCD12Q2_005_Onset_greeness_Increase_0 phenological metric as which is the value of green up.
+
+We selected an average, early, and late spring for North America using https://www.globalchange.gov/browse/indicators/indicator-start-spring
+
+For each map, we resampled the MODIS raster files making them more coase (by 25). We then coverted the files to points and extracted the date at green up for each point. 
+We used the geosphere package in R to determine the daylength on the greenup day for each point, and converted these values back in to a raster, of daylength values.
+
+From here, Nacho took the files and made them pretty. 
