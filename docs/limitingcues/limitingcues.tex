@@ -1,6 +1,5 @@
 \documentclass[11pt,letterpaper]{article}
 
-\usepackage{fixltx2e}
 \usepackage{textcomp}
 \usepackage{fullpage}
 \usepackage{amsfonts}
@@ -146,12 +145,10 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 %% IMC - perhaps we could specify that non-linearities lead to non-stationary relationships between cues and phenology and that we would be concerned with where thresholds (or inflection points of the curves) are. 
 \item Where chilling will change to above versus below the threshold that plants can sense % and we understand where that threshold is better!
 \end{enumerate}
-\item Is the intro too long? If so, please suggest ways to cut and/or re-arrange. (I have moved our PEP725 species outside of the intro, please let me know if you think it works).
-%% IMC - I don't find it too long, going through this awesome outline, I realize how many points we are touching.
-\item I wrote this below (it's commented out just now): Unlike budset phenology, research suggests spring phenology is fairly plastic (without high local adaptation of cues across a range); this means species need a set of cues that work across their range ... which got me to wondering: can we explain why cues show so little local adaptation across species ranges? Relevant lit:
+\item Unlike budset phenology, research suggests spring phenology is fairly plastic (without high local adaptation of cues across a range); this means species need a set of cues that work across their range ... which got me to wondering: can we explain why cues show so little local adaptation across species ranges? Relevant lit:
 \begin{enumerate}
 \item Keeling et al. 2003: the impact of yearly variation in temperatures in genotype selection
-\item Someone must have said this but high variation in spring climatic conditions makes temporal variation in many wasy as high as spatial and thus may slow local adaptation
+\item Someone must have said this but high variation in spring climatic conditions makes temporal variation in many wasy as high as spatial and thus may slow local adaptation (see also Legave et al. 2013)
 \item How to see local adaptation? What is the appropriate phenotype, if not leafout?
 \end{enumerate}
 \end{enumerate}
@@ -164,7 +161,7 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Shifts in spring phenology are one of the most reported and most predictable changes with climate change
 \begin{enumerate}
 \item Review the shifts across space and time and how coherent they are
-\item Outline some studies showing how predictable they are \citep{Schwartz:1997nn,Ellwood2012} \todo[inline]{What other citations/examples can we add?}
+\item Outline some studies showing how predictable they are \citep{Schwartz:1997nn,Ellwood2012}
 % Isabelle's suggested refs (spatial and temporal agreement): \cite{Menzel2003a} Altered geographic and temporal variability in phenology in response to climate change. Global Ecology and Biogeography, 15(5), 498–504. ; Jochner, S., Caffarra, A., & Menzel, A. (2013). Can spatial data substitute temporal data in phenological modelling? A survey using birch flowering. Tree Physiology, 33(12), 1256–1268. ),  Delpierre et al. 2009
 % Ailene's suggested refs:
 % Three paper ideas, though i'm not sure any is perfect:
@@ -174,25 +171,21 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \end{enumerate}
 \item Recently however predictions have started to fail in certain places or over certain time periods
 \begin{enumerate}
-\item \citet{yu2010,fu2015} \todo[inline]{Suggest other citations please!} % AKE: This isn't a "failed prediction paper," but a review stating that things are more complex than previously thought and that "considerable uncertainty remains": Camille Parmesan Mick E. Hanley. 2015. Plants and climate change: complexities and surprises. Annals of Botany.
+\item \citet{yu2010,fu2015} % AKE: This isn't a "failed prediction paper," but a review stating that things are more complex than previously thought and that "considerable uncertainty remains": Camille Parmesan Mick E. Hanley. 2015. Plants and climate change: complexities and surprises. Annals of Botany.
 \item The main hypothesis for this failure is that  most observational studies have ignored cues beyond simple forcing ones % Cite Chuine et al. 2016 GCB
 \end{enumerate}
 \item There has been a lot of focus on forcing but really it's more complicated
 \begin{enumerate}
 \item For many species three major cues drive spring phenology: forcing, chilling, daylength
-\item Research in this has been especially strong in model systems (e.g., \emph{Arabidopsis, Populus}) and crops---with the exact phenophase of interest varying by a species' life history. Our focus here is on leafout, and thus we focus on woody species phenology: for which leafout has been widely studied across species, though much of what we say could apply to non-woody species and/or other phenophases with underlying similar cues. 
-%% IMC - Should we mention crop species? An example for chilling and forcing effects on crop species budburst: Cesaraccio, C., Spano, D., Snyder, R. L., & Duce, P. (2004). Chilling and forcing model to predict bud-burst of crop and forest species. Agricultural and Forest Meteorology, 126(1-2), 1-13.
-
 \item These cues may create critical non-linear responses that most current methods cannot predict.
 \end{enumerate}
 \item However, measuring these cues and thinking about how they will interactively produce future phenology is hard because:
 \begin{enumerate}
-\item They are expected to interact; cues may compensate for other cues; meaning they mask one another (e.g., chilling cue not fully being met could look like a photoperiod requirement that has not been met) *Isabelle says `for me this is two different things' -- to discuss.
 \item They vary across species (and possibly within species across the range, but see below) Refs: Harrington and Gould 2015, Frontiers in Plant Science; Vitasse et al, 2009, The Canadian Journal of Forest Research
-
+\item They are expected to interact; cues may compensate for other cues; meaning they mask one another (e.g., chilling cue not fully being met could look like a photoperiod requirement that has not been met) *Isabelle says `for me this is two different things' -- to discuss.
 \item They are hard to measure.
+\item To some extent (because of how they interact), we haven't really had to measure these other cues to get decent predictions for lots of places and years
 \end{enumerate}
-\item To some extent, we haven't really had to measure these other cues to get decent predictions for lots of places and years
 \item But if evidence is rising that these cues are critical, how do we integrate them more into phenological research? Step 1 is clearly to figure out how to robustly measure them. 
 \begin{enumerate}
 \item Methods especially lame at understanding these cues (and thus predicting non-linearities): models from long-term observational data ... somehow mention experiments maybe?
@@ -209,22 +202,29 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Our aim is to:
 \begin{enumerate}
 \item \emph{Briefly} review how three major phenological cues for woody plant phenology will shift in coming decades with anthropogenic climate change (see Menzel \& Primack on a similar topic in Ann Bot. 2015 Nov;116(6):889-97)
-\item Review of the three major phenological cues from growth chamber studies over the past 60 (70?) years
+\item Review of the three major phenological cues from growth chamber studies over the past 60 (70?) years to understand how much of the cue-space has been studied
 \item Compare treatments from controlled environment studies to predicted shifts in cues with climate change.  
 \item Showcase how growth chamber studies can be best designed to better understand these interactive cues (paths forward). 
 \end{enumerate}
+\end{enumerate}
+\item We focus on woody species ...
+\begin{enumerate}
+\item Research in the cues underlying phenology has been especially strong in model systems (e.g., \emph{Arabidopsis, Populus}) and crops---with the exact phenophase of interest varying (potentially by a species' life history: more focus on germination and flowering in \emph{Arabidopsis}, and more on leafout and budset in \emph{Populus}).
+%% IMC - Should we mention crop species? An example for chilling and forcing effects on crop species budburst: Cesaraccio, C., Spano, D., Snyder, R. L., & Duce, P. (2004). Chilling and forcing model to predict bud-burst of crop and forest species. Agricultural and Forest Meteorology, 126(1-2), 1-13.
+\item Our focus here is on leafout, and thus we focus on woody species phenology: for which leafout has been widely studied across species, though much of what we say could apply to non-woody species and/or other phenophases with underlying similar cues. 
 \end{enumerate}
 \item To understand cues, it helps to think about the environmental variation a species experiences across its range %Isabelle does not like this section.
 \begin{enumerate}
 \item Think about two example tree species: \emph{Fagus sylvatica, Betula pendula}
 \item Look at their distributions
 \item In the spring there is selection for species to track the start of resources, and thus they need cues that work across the interannual variation in climate \emph{across a species' range} % Unlike budset phenology, research suggests spring phenology is fairly plastic (without high variation in cues across a range); this means species need a set of cues that work across their range
-\item Thus, cues are adapted to high climate variation! \todo[inline]{New term: Cue range limits. What do you think? As in the limits of cues as seen over a species' range, what do you think?}
-%% IMC - I love this idea of Cue range limits, and I guess it is somewhat linked to what X. Morin and I. Chuine have been working on, given that their process-based models would predict species range shifts based on the effects of cues on phenology: e.g.- (Morin, X., Viner, D., & Chuine, I. (2008). Tree species range shifts at a continental scale: new predictive insights from a process‐based model. Journal of Ecology, 96(4), 784-794. ; Morin, X., Augspurger, C., & Chuine, I. (2007). PROCESS‐BASED MODELING OF SPECIES'DISTRIBUTIONS: WHAT LIMITS TEMPERATE TREE SPECIES'RANGE BOUNDARIES?. Ecology, 88(9), 2280-2291.). The idea is also connected to the question of whether or not, due to climate change, species may experience cue values well above or below the values to which they are locally adapted.  
-
-\item This is why most temperate species probably have responses to all three cues: forcing, chilling, photoperiod
+\item Thus, cues are adapted to high climate variation.
+\item A species range limit and phenology are intertwined: a species' current range defines the range of cues it may see, but phenology also shapes those limits (CITES Chuine/Morin).
+%  New term: Cue range limits. What do you think? As in the limits of cues as seen over a species' range, what do you think?
+%% IMC - I love this idea of Cue range limits, and I guess it is somewhat linked to what X. Morin and I. Chuine have been working on, given that their process-based models would predict species range shifts based on the effects of cues on phenology: e.g.- (Morin, X., Viner, D., & Chuine, I. (2008). Tree species range shifts at a continental scale: new predictive insights from a process‐based model. Journal of Ecology, 96(4), 784-794. ; Morin, X., Augspurger, C., & Chuine, I. (2007). PROCESS‐BASED MODELING OF SPECIES'DISTRIBUTIONS: WHAT LIMITS TEMPERATE TREE SPECIES'RANGE BOUNDARIES?. Ecology, 88(9), 2280-2291.). 
+\item This is why most temperate species probably have responses to all three cues: forcing, chilling, photoperiod, with the importance of each cue varying across a range (e.g., chilling in coastal versus continental, check also Legave paper)
 \end{enumerate}
-\item Review how cues will shift with climate change (here we show the figures that Nacho has produced for two PEP725 spp.)
+\item Review how cues will shift with climate change (here we show the figures that Nacho has produced for two PEP725 spp.) % The idea is also connected to the question of whether or not, due to climate change, species may experience cue values well above or below the values to which they are locally adapted.  
 \begin{enumerate}
 \item Forcing: the world will get warmer 
 \begin{enumerate}
@@ -272,38 +272,36 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Min daily temp for 1-2 months before leafout (Nacho's figures)
 \item Max daily temp for 1-2 months before leafout (Nacho's figures) \footnote{We used daily min/max, as they're most directly comparable to OSPREE.}
 \end{enumerate}
-\item Add potential PhenoFit figure here? 3D of all three cues and how they shifted?
 \end{enumerate}
 \end{enumerate}
-\item Paths forward (showcase how growth chamber studies can be best designed to better understand these interactive cues in regards to climate change forecasting) \todo[inline]{I think this section needs the most help! We have a lot of points and I think we need to clarify them and cut some probably.}
+\item Paths forward (showcase how growth chamber studies can be best designed to better understand these interactive cues in regards to climate change forecasting) 
 \begin{enumerate}
 \item If you want work to be most relevant to climate change, then consider the following when designing experiments:
 \begin{enumerate}
+% Now that climate change is here, experiments that want to claim climate change relevance must address what the cue impacts of climate change will really be
 \item The cues with the current vs. future range of a species (as we did above) to inform experimental range % Isabelle: species are expected to follow their climatic niche, so basically they will remain in the same climatic conditions. This point becomes important for trailing edge populations that might be able to remain several years in non optimal conditions.
-\item If you don't work within the range or projected cue range limits of a species, then consider working on informative extremes... %Isabelle: but extremes are extremelly difficult to reproduce in controlled env.
-\item Thus you may consider thermal tolerances/limits (and where is the species optimum?) ...These tests could be especially useful for understanding range limits: look at treatments beyond the variation seen within a species' range and see if there is abrupt change or you see continuous change, if no abrupt change then it may suggest that something else must limit range (e.g., biotic cues, minima temperature after which species) \todo[inline]{I like this but worry it feels too far afield. Can we rein it back in or is it okay or should we slim it down?}
-%IMC - It is true that perhaps it is far afield. If we decide to leave it in, I would consider emphasizing the fact that while thermal physiology is receiving increased attention to delineate species ranges, for trees that sort of information may not be particularly insightful given the following reasons: (a) there's still little data on CTmax and CTmin for a majority of tree species, (b) there are not huge differences in those thermal tolerances among tree species, and (c) a given tree species may tolerate very high or low temperatures before it dies, but if its phenology advances (or delays) too much, it may cease to reproduce. Thus, we could make the point that thermal tolerances may impose an ultimate filter to discard survival of a species under too cold-warm conditions, but an earlier, perhaps more informative filter is provided by phenology.
-% Isabelle thinks we can cut the above section, but I like Nacho's points ....
-% \item After you carefully select the cues to study, make your reasoning clear % AKE, IMC, IC all said to cut
+\item If you don't work within the range or projected cue range limits of a species, then consider working on informative extremes... but extremes are extremelly difficult to reproduce in controlled environments (and this is something we technologically need to improve)
 \end{enumerate}
 \item Manipulating more than one cue may be most useful, esp. if we want to advance comparisons with long-term data
 \item Major need to better understand deviations in long-term data are: better non-linear models for more species. How best to do this?
-% Personally I think this is so important! Citizen Science programs for phenology are expanding. I know the NPN is growing and major NGOs are trying to incorporate more phenology data. Phenology is also growing in the media, thus, I think it’s essential we include this. I like that it is brief but , for me, the major take away of the paper is that we are aiming to encourage phonologists, in general, to make improvements. 
+% (Cat:) Personally I think this is so important! Citizen Science programs for phenology are expanding. I know the NPN is growing and major NGOs are trying to incorporate more phenology data. Phenology is also growing in the media, thus, I think it’s essential we include this. I like that it is brief but , for me, the major take away of the paper is that we are aiming to encourage phonologists, in general, to make improvements. 
 \begin{enumerate}
 \item Studies using only long-term observational data must test for and be up front about correlations in predictor variables (e.g., chilling, forcing and daylength often covary) and thus what they can and cannot rule out. \todo[inline]{Do we need this? And/or are there any ways to untangle cues using long-term data?} % AKE: Also add: can we use any long-term observational data to look at interactive cues at all? for example, elevational gradient studies or gradients/locatison with small scale  but strongmicroclimate variations (photoperiod should be consistent- more or less- though forcing and chilling might be quite different, for example). 
 \item A better option than just long-term data are more efforts to integrate long-term data with growth chamber studies (cite Caffarra, Chuine suggestions: chuine \& Regniere 2017 suggestion + see Nagano, Satake work, Ford et al. 2015) % The ford et al paper on doug-fir that i listed above (see above) is an example of integrating growth chambers with long-term provenance trials.
 \begin{enumerate}
-\item Studies that test the extremes are needed to parameterize models (ideally you need to know where the zeros are) cite:  Chuine \& Regniere 2017
+\item Studies that test the extremes are needed to parameterize models (ideally you need to know where the zeros are) cite:  Chuine \& Regniere 2017 % Nacho says: thermal tolerances may impose an ultimate filter to discard survival of a species under too cold-warm conditions, but an earlier, perhaps more informative filter is provided by phenology.
 \item Traditional methods to hold-out data and test how well the model performs
 \item Use growth chamber studies to test model predictions, especially in future climate scenarios where non-linearities are predicted, and vice versa, see Nagano et al. 2012
 \item Improving models means more back-and-forth worth between developing models based on both long-term data and experiments, then testing predictions with new experiments and as newer observational data are generated (i.e., more years and also data from new locations); cite Satake et al; Nagano et al.
 \end{enumerate}
 \end{enumerate}
-\item Hanging chads in the `Paths forward' section:
+\item Building species-rich predictions ... 
 \begin{enumerate}
-\item Now that climate change is here, experiments that want to claim climate change relevance must address what the cue impacts of climate change will really be
+\item Given how complicated this all sounds, how do we build up to multi-species predictions?
+\item Need more efforts to combine data
+\item Introduce Bayesian hierarchical modeling within this framework
+\item And need more efforts to publish studies in a way that makes synthesis possible ...
 \item Studies not interested in climate change forecasting can still contribute---with little effort---to progress in this area by: Reporting all cues (even the ones you don't measure) so they can be used in modeling efforts. 
-\item Introduce Bayesian hierarchical modeling within this framework? Within PhenoFit?
 \end{enumerate}
 \end{enumerate}
 \item Wrap-up: Climate change: it means all that work on phenology comes due ... now!
@@ -311,12 +309,11 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item If we could better harnass the power of growth chamber studies it could... transform our understanding and forecasting
 \item Rule out or in hypotheses to explain observed discrepancies (move away from trying to tease out cues using only correlated long-term data)
 \item Contribute to more models being developed and improved, which could contribute to global land surface models, community predictions etc. 
-\item \todo[inline]{Need more here! What will doing what we suggest change about the world?}
-%% IMC - Perhaps adding: While understanding, modelling and predicting interactions among cues and their effects on phenology is challenging (we are experiencing that in our BB_models), any advances on this will allow making more accurate predictions, which has valuable implications to more realistically assess the effects of climate change on plant biodiversity, including agricultural and forest species. So there's a clear applied interest in tackling these issues. I know this is too obvious.  
+\item While understanding, modelling and predicting interactions among cues and their effects on phenology is challenging, any advances on this should yield more accurate predictions, with valuable implications to more realistically assess the effects of climate change on plant biodiversity, including agricultural and forest species. % So there's a clear applied interest in tackling these issues. 
 \end{enumerate}
 \end{enumerate}
 
-Examples of how cues interact:
+\noindent {\bf Examples of how cues interact:}
 \begin{enumerate}
 \item OSPREE studies found that additional chilling, or even simply sufficient 	chilling, could lower the photoperiod requirement but when the chilling requirement 	wasn’t fulfilled, increased photoperiod could compensate for the lack of chilling 	(Nienstaedt 1966, Myking1995, Falusi 1996, Hawkins 2012) 
 \end{enumerate}
@@ -409,3 +406,9 @@ Examples of how cues interact:
 %=======================================================================
 \section*{Other loose ends}
 %=======================================================================
+
+\section*{Old notes on thermal tolerances. }
+
+Thus you may consider thermal tolerances/limits (and where is the species optimum?) when designing growth chamber studies  ...These tests could be especially useful for understanding range limits: look at treatments beyond the variation seen within a species' range and see if there is abrupt change or you see continuous change, if no abrupt change then it may suggest that something else must limit range (e.g., biotic cues, minima temperature after which species) 
+(IMC): Above is true, but perhaps it is far afield. If we decide to leave it in, I would consider emphasizing the fact that while thermal physiology is receiving increased attention to delineate species ranges, for trees that sort of information may not be particularly insightful given the following reasons: (a) there's still little data on CTmax and CTmin for a majority of tree species, (b) there are not huge differences in those thermal tolerances among tree species, and (c) a given tree species may tolerate very high or low temperatures before it dies, but if its phenology advances (or delays) too much, it may cease to reproduce. 
+
