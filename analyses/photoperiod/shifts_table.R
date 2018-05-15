@@ -103,7 +103,6 @@ for(i in 1:length(photop_all$lat)){
   
   
   
-  #need to figure out the spatial shift thing- try different latitudes and find matching daylength to min and max on the same date. Eventually, date should be latitude-specific greenup date. For now, choose June 21 as a date.
   #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
   #phendate<-79#march 20 . eventually we should replace this with spring greenup date for that latitude
   phendate<-172#June 21

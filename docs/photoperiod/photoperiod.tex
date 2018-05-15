@@ -62,14 +62,14 @@
 \begin{enumerate}
 \item \textit{Introduction}
 \begin{enumerate}
-\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (add other citations- there are many possibilities! if you have favorites, please add along with 1-2 words of what the activity is)\citep[e.g.,][]{hsu2011,singh2017}.
+\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (add other citations- there are many possibilities! if you have favorites, please add along with 1-2 words of what the activity is)\citep[e.g.,][]{hsu2011,singh2017,basler2012,flynnrev,singh2017}.
 \item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
 \begin{enumerate}
 \item How will climate change alter the photoperiod experienced by organisms, given observed climate change-induced biological shifts, both spatially and temporally?
 \item What are the implications of these altered photoperiods for forecasts of climate change impacts?
-\item Can the large quantity of experiments altering photoperiod be applied to forecasting biological implications of climate change (i.e. do they occur at the appropriate scale)?
+\item Can the large quantity of experiments altering photoperiod be applied to forecasting biological implications of climate change (i.e., do they occur at the appropriate scale)?
 \end{enumerate}
 \end{enumerate}
 
@@ -78,7 +78,7 @@
 \item Spatial shifts in species ranges and temporal shifts in species phenology and activity will alter the photoperiods experienced by organisms under climate change.
 \item  To date, most work has focused on how spatial range shifts with climate change will affect photoperiod \citep{saikkonen2012}, but temporal shifts are actually likely to yield bigger changes in experienced photoperiod than spatial shifts (Figure \ref{fig:spacetime}).
 \item Shifts in photoperiod may vary with latitude and time of year, especially since phenology varies with latitude (Figure \ref{fig:greenup}), and species responses to photoperiod vary with latitude (Figure \ref{fig:greenup}).
-\item Photoperiod sensitivity can also vary with latitude (Figures \ref{fig:bbphoto}, \ref{fig:bbphotoxlat}), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
+\item Photoperiod sensitivity can also vary with latitude \citep{saikkonen2012}(howe95,partanen04, viheraaarnio06, Gauzere2017,Caffarra2011), so it is unclear how these two things interact. Cat has added a text file to the latitude analysis folder that summarizes papers that have looked at latitudinal effects on photoperiod.
 \end{enumerate}
 \item\textit{What are the implications of these altered photoperiods for forecasts of climate change impacts?}
 \begin{enumerate}
@@ -102,7 +102,10 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this.
+\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this?
+\item Update Figure 1
+\item Cat's figures: figure out what 5 points that are really 5 are/why they are there.
+\item Update table/map to use 3 ER studies.
 \end{enumerate}
 \section* {Random notes that may be useful:}
 \begin {enumerate}
@@ -129,7 +132,7 @@ day-length cue to enter winter diapause, doing so later in the fall than they di
 \clearpage
 \section* {Tables}
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue May  1 13:03:10 2018
+% Tue May 15 16:01:51 2018
 \begin{table}[ht]
 \centering
 \caption{\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.} 
@@ -174,7 +177,52 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
    \hline
 \end{tabular}
 \end{table}\clearpage
-\section* {Figures}
+% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Tue May 15 16:01:52 2018
+\begin{table}[ht]
+\centering
+\caption{\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.} 
+\label{table:phototreats}
+\begin{tabular}{|p{0.18\textwidth}|p{0.15\textwidth}|p{0.08\textwidth}|p{0.08\textwidth}|p{0.08\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.12\textwidth}|}
+  \hline
+idstudy & continent & lat & long & day\_range & delta & space & time \\ 
+  \hline
+ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9) \\ 
+  basler14\_exp1 & europe & 46.31 & 8.27 & 9.2-16 & 1.00 & 6 & -22 \\ 
+  caffarra11b\_exp2 & europe & 52.32 & -6.93 & 10-16 & 2.00 & 7.5 & -30 \\ 
+  devries82\_exp1 & europe & 51.98 & 5.66 & 8-24 & 16.00 & ER & ER \\ 
+  falusi90\_exp1 & europe & 46.03 & 10.75 & 9-13 & 4.00 & 16 & -82 \\ 
+  falusi96\_exp3 & europe & 38.27 & 15.99 & 9-13 & 4.00 & 21.6 & -111 \\ 
+  ghelardini10\_exp1 & europe & 43.72 & 11.37 & 8-16 & 8.00 & 21.9 & ER \\ 
+  heide05\_exp1 & europe & 56.18 & -4.32 & 10-24 & 14.00 & ER & ER \\ 
+  heide08\_exp1 & europe & 48.40 & 11.72 & 10-24 & 14.00 & ER & ER \\ 
+  heide11\_exp1 & europe & 59.67 & 10.67 & 10-20 & 10.00 & ER & max NA (18.7) \\ 
+  heide12\_exp1 & europe & 56.50 & -3.06 & 10-24 & 5.00 & 8.9 & -64 \\ 
+  heide15\_exp2 & europe & 56.50 & -3.06 & 10-15 & 1.00 & 3.2 & -13 \\ 
+  heide93\_exp1 & europe & 59.50 & 10.77 & 8-24 & 16.00 & ER & ER \\ 
+  heide93a\_exp1 & europe & 59.67 & 10.83 & 8-24 & 16.00 & ER & ER \\ 
+  heide93a\_exp3 & europe & 47.50 & 7.60 & 13-16 & 1.00 & 5.7 & -18 \\ 
+  howe95\_exp1 & north america & 40.55 & -124.10 & 9-24 & 2.00 & 13.1 & -64 \\ 
+  laube14a\_exp1 & europe & 48.40 & 11.71 & 8-16 & 4.00 & 14.3 & -87 \\ 
+  myking95\_exp1 & europe & 56.10 & 9.15 & 8-24 & 16.00 & ER & ER \\ 
+  myking97\_exp1 & europe & 59.67 & 10.77 & 12-24 & 12.00 & ER & max NA (18.7) \\ 
+  nienstaedt66\_exp1 & north america & 44.17 & -103.92 & 8-20 & 12.00 & ER & ER \\ 
+  okie11\_exp1 & north america & 32.12 & -83.12 & 0-12 & 12.00 & ER & ER \\ 
+  partanen01\_exp1 & europe & 61.93 & 26.68 & 6-16 & 10.00 & ER & -105 \\ 
+  partanen05\_exp1 & europe & 61.82 & 29.32 & 5-20 & 5.00 & ER & -67 \\ 
+  partanen98\_exp1 & europe & 60.03 & 23.05 & 8.66-12 & 3.34 & 5.1 & -37 \\ 
+  pettersen71\_exp1 & europe & 59.66 & 10.77 & 10-24 & 2.00 & 4 & -23 \\ 
+  Sanz-Perez09\_exp1 & europe & 40.40 & -3.48 & 10-16 & 6.00 & 23.6 & ER \\ 
+  skuterud94\_exp1 & europe & 61.50 & 24.33 & 8-24 & 16.00 & ER & ER \\ 
+  viheraaarnio06\_exp1 & europe & 60.45 & 24.93 & 16-17 & 1.00 & 2.1 & -12 \\ 
+  viheraaarnio06\_exp1 & europe & 67.73 & 24.93 & 20-21 & 1.00 & ER & -5 \\ 
+  viheraaarnio06\_exp2 & europe & 60.45 & 24.93 & 15-19 & 4.00 & 5.1 & -62 \\ 
+  viheraaarnio06\_exp2 & europe & 67.73 & 24.93 & 22-23 & 1.00 & ER & -3 \\ 
+  worrall67\_exp 3 & north america & 41.31 & -72.93 & 8-16 & 8.00 & 24.3 & ER \\ 
+  zohner16\_Exp1 & europe & 48.16 & 11.50 & 8-16 & 8.00 & ER & ER \\ 
+   \hline
+\end{tabular}
+\end{table}\section* {Figures}
 \begin{figure}[p]
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime.pdf} %
@@ -184,30 +232,14 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
  
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_2012.pdf} %or use Greenup_?
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf} %2009 greenup
 \caption{\textbf{Green-up date varies with latitude} and varies among years. }
  \label{fig:greenup}%
  \end{figure}
-
 \begin{figure}[p]
 \centering
-\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/scaled_photo_curve.pdf} 
-\caption{\textbf{Photoperiod affects budburst}, generally by interacting with chilling and forcing. Thus, responses to photoperiod vary greatly among studies, depending on methodologies and other manipulating factors (e.g., temperature). }
-\label{fig:bbphoto}
-\end{figure}
- 
-\begin{figure}[p]
-\centering
-\includegraphics[width=50mm,scale=0.8]{/Users/aileneettinger/git/ospree/analyses/lat_analysis/figures/PhotoxLat.pdf} 
-\caption{\textbf{Responses to photoperiod vary with latitude}.}
- \label{fig:bbphotoxlat}
- \end{figure}
-\clearpage
-
-\begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
-\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts). }
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pdf} 
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped(A), and graphed (B). Observed rates of spatial shifts are from Chen et al 2011; observed temporal shifts are from Parmesan et al 2006. }
  \label{fig:photomap}
  \end{figure}
 
@@ -224,12 +256,6 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & 4.00 & 18.2 & min NA (9)
  \label{fig:quercus}
  \end{figure}
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=100mm,scale=0.9]{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
-\caption{\textbf{Shifts in the daylength in OSPREE treatments, and their equivalent spatial and temporal shifts).}}
- \label{fig:photo}
- \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

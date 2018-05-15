@@ -1,6 +1,7 @@
-#make a figure showing how photoperiod changes during the year at different larititudes
-
-lats<-c(22.5,45)
+#Make a figure showing how photoperiod changes during the year at different larititudes
+#Started by Ailene Ettinger, aettinger@fas.harvard.edu
+#May 2018
+lats<-c(22.5,45)# focl latitudes
 doy<-c(1:365)
 quartz()
 

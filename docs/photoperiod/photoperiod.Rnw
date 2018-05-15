@@ -104,9 +104,8 @@
 \begin{enumerate}
 \item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this?
 \item Update Figure 1
-\item Ospree map: add legend
 \item Cat's figures: figure out what 5 points that are really 5 are/why they are there.
-\item Update table to use 3 ER studies.
+\item Update table/map to use 3 ER studies.
 \end{enumerate}
 \section* {Random notes that may be useful:}
 \begin {enumerate}
@@ -200,8 +199,8 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
  \end{figure}
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap.pdf} 
-\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts). }
+\includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pdf} 
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped(A), and graphed (B). Observed rates of spatial shifts are from Chen et al 2011; observed temporal shifts are from Parmesan et al 2006. }
  \label{fig:photomap}
  \end{figure}
 
@@ -218,12 +217,6 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
  \label{fig:quercus}
  \end{figure}
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=100mm,scale=0.9]{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/exp_space_time2.pdf} 
-\caption{\textbf{Shifts in the daylength in OSPREE treatments, and their equivalent spatial and temporal shifts).}}
- \label{fig:photo}
- \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

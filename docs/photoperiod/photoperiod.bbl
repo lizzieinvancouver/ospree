@@ -1,4 +1,4 @@
-\begin{thebibliography}{15}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 
 \bibitem[{Andr{\'e}s and Coupland(2012)}]{andres2012}
@@ -24,6 +24,11 @@ Erwin, J.~E. 1998.
   horticulture in east asia).
 \newblock Journal of the Japanese Society for Horticultural Science
   67:1113--1120.
+
+\bibitem[{Flynn and Wolkovich(In Review.)}]{flynnrev}
+Flynn, D. F.~B., and E.~M. Wolkovich. In Review.
+\newblock Temperature and photoperiod drive spring phenology across all species
+  in a temperate forest community. .
 
 \bibitem[{Hsu et~al.(2011)Hsu, Adams, Kim, No, Ma, Strauss, Drnevich,
   Vandervelde, Ellis, Rice et~al.}]{hsu2011}

@@ -56,6 +56,7 @@ dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobud
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dailyclim.bb<-data.frame()
 for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing some climate data)
+  #Need to fixhawkins12, heide12,skre08, and skuterud94
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
