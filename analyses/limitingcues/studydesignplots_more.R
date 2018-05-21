@@ -1,6 +1,11 @@
 ## Started 7 May 2018 ##
 ## By Lizzie ##
 
+## TO DO ##
+# (1) Should we get the centroid of the lat/long points for each study?
+# Right now I cheaply take average lat and average long #
+# (2) Calculate mean, min, max field sample date and plot
+
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
@@ -16,8 +21,14 @@ library(tidyr)
 library(ggplot2)
 library(gridExtra)
 
+
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
+
+# format species and date
+dat$latbi <- paste(dat$genus, dat$species)
+dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
+dat$doy <- format(dat$fieldsample.date, "%j")
 
 # make a bunch of things numeric (eek!)
 dat$forcetemp <- as.numeric(dat$forcetemp)
@@ -25,12 +36,14 @@ dat$forcetemp_night <- as.numeric(dat$forcetemp_night)
 dat$photoperiod_night <- as.numeric(dat$photoperiod_night)
 dat$photoperiod_day <- as.numeric(dat$photoperiod_day)
 dat$chilltemp <- as.numeric(dat$chilltemp)
+dat$doy <- as.numeric(dat$doy)
 
 
-columnstokeep <- c("datasetID", "study", "genus", "species", "varetc", "woody",
-    "provenance.lat", "provenance.long", "material", "year", "fieldsample.date", 
-    "forcetemp", "forcetemp_night", "photoperiod_day", "photoperiod_night",
-    "chilltemp", "chillphotoperiod", "chilldays", "response", "response.time")        
+columnstokeep <- c("datasetID", "study", "genus", "species", "latbi", "varetc", 
+    "woody","provenance.lat", "provenance.long", "material", "year", 
+    "fieldsample.date", "doy", "forcetemp", "forcetemp_night",  
+    "photoperiod_day","photoperiod_night","chilltemp", "chillphotoperiod",
+    "chilldays", "response", "response.time")        
                    
 
 d <- subset(dat, select=c(columnstokeep))
@@ -50,10 +63,10 @@ d$force[is.na(d$forcetemp_night)==FALSE & is.na(d$photoperiod_day)==FALSE &
 
 
 ## summarizing data
-## START HERE ...
-# Add: (1) mean.Latitude, (2) mean.long, (3) field.sample date (unique), (4) year
 dsumm <-
       ddply(d, c("datasetID", "study"), summarise,
+      mean.lat = mean(provenance.lat),
+      mean.long = mean(provenance.long),
       mean.year = mean(year),
       mean.temp = mean(force),
       min.temp = min(force),
@@ -67,4 +80,93 @@ dsumm <-
       min.chill = min(chilltemp),
       max.chill = max(chilltemp),
       sd.chill = sd(chilltemp),
-      field.sample.n = length(fieldsample.date))
+      spp.n = length(unique(latbi)),
+      field.sample.n = length(unique(fieldsample.date)),
+      mean.fieldsamp = mean(doy),
+      min.fieldsamp = min(doy),
+      max.fieldsamp = max(doy))
+
+dsumm$range.temp <- dsumm$max.temp - dsumm$min.temp
+dsumm$range.photo <- dsumm$max.photo - dsumm$min.photo
+dsumm$range.chill <- dsumm$max.chill - dsumm$min.chill
+
+dsumm.yr <-
+      ddply(dsumm, c("mean.year"), summarise,
+      mean.lat = mean(mean.lat),
+      mean.long = mean(mean.long),
+      mean.temp = mean(mean.temp),
+      mean.min.temp = mean(min.temp),
+      mean.max.temp = mean(max.temp),
+      mean.photo = mean(mean.photo),
+      mean.min.photo = mean(min.photo),
+      mean.max.photo = mean(max.photo),
+      mean.chill = mean(mean.chill),
+      mean.min.chill = mean(min.chill),
+      mean.max.chill = mean(max.chill),
+      spp.n = mean(spp.n),
+      field.sample.n = mean(field.sample.n),
+      mean.fieldsamp = mean(mean.fieldsamp))
+
+plot(spp.n~mean.year, data=dsumm.yr)
+plot(field.sample.n~mean.year, data=dsumm.yr)
+plot(mean.temp~mean.year, data=dsumm.yr)
+plot(mean.max.temp~mean.year, data=dsumm.yr)
+plot(mean.photo~mean.year, data=dsumm.yr)
+plot(mean.chill~mean.year, data=dsumm.yr)
+
+
+colz <- topo.colors(90, alpha = 0.5)
+plotxydat <- function(yvar, xvar, bywhat,  dat, legendwhere){
+    plot(dat[[yvar]]~dat[[xvar]], ylab=yvar, xlab=xvar, type="n")
+    for (i in c(1:length(unique(dat[[bywhat]])))){
+        subby <- dat[which(dat[[bywhat]]==unique(dat[[bywhat]])[i]),]
+        points(subby[[yvar]]~subby[[xvar]], ylab="", xlab="",
+            col=colz[i], pch=16)
+        }
+    # legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
+     #    cex=0.2, bty="n")
+    abline(lm(dat[[yvar]]~dat[[xvar]]))
+    summary(lm(dat[[yvar]]~dat[[xvar]]))
+           }
+
+plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere){
+    plot(dat[[yvar]]~abs(dat[[xvar]]), ylab=yvar, xlab=xvar, type="n")
+    for (i in c(1:length(unique(dat[[bywhat]])))){
+        subby <- dat[which(dat[[bywhat]]==unique(dat[[bywhat]])[i]),]
+        points(subby[[yvar]]~abs(subby[[xvar]]), ylab="", xlab="",
+            col=colz[i], pch=16)
+        }
+    # legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
+     #    cex=0.2, bty="n")
+    abline(lm(dat[[yvar]]~dat[[xvar]]))
+    summary(lm(dat[[yvar]]~dat[[xvar]]))
+           }
+
+## plotting!
+plotxydat("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydat("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydat("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
+plotxydat("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
+
+# hmm, correcting the latitude doesn't seem to change temp or photo answers much
+plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
+plotxydatabsX("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
+
+plotxydat("mean.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR (but 24 only >60 deg)
+plotxydat("min.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
+plotxydat("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+plotxydat("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+
+plotxydatabsX("mean.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
+plotxydatabsX("min.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
+plotxydatabsX("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+plotxydatabsX("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+
+plotxydat("mean.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.09
+plotxydat("min.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydat("max.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.07
+plotxydat("range.chill", "mean.lat", "datasetID", dsumm, "topleft") # NR
+
+

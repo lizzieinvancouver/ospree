@@ -1,15 +1,12 @@
 Started 24 August 2017
-
-
+By Lizzie
 
 <><><><><><><><><><><><><><><><><><><><>
 General to do...
 <><><><><><><><><><><><><><><><><><><><>
 (1) Add in all the refs people gave that I do not have (see comments folder)
-(2) Outline: Need to integrate the stuff hanging out in 'Questions' into the outline
-(3) Need to deal with this section of outline: 
-
-\item Studies using only long-term observational data must test for and be up front about correlations in predictor variables (e.g., chilling, forcing and daylength often covary) and thus what they can and cannot rule out. \todo[inline]{Do we need this? And/or are there any ways to untangle cues using long-term data?} % AKE: Also add: can we use any long-term observational data to look at interactive cues at all? for example, elevational gradient studies or gradients/locatison with small scale  but strongmicroclimate variations (photoperiod should be consistent- more or less- though forcing and chilling might be quite different, for example). 
+(2) Also go through outline where a lot of refs are just written out.
+(3) Outline: Re-read outline one last time and let co-authors know
 
 <><><><><><><><><><><><><><><><><><><><>
 Figures to make for the concept paper …
