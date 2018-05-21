@@ -16,4 +16,12 @@ dat$year <- dat$sample.year
 dat$year[dat$month>8] <- dat$sample.year[dat$month>8]+1
 dat$year[dat$month<8] <- dat$sample.year[dat$month<8]
 dat$uniqueID <- paste(dat$datasetID, dat$fieldsample.date2, dat$forcetemp, dat$chilltemp, dat$chilldays,dat$chillphotoperiod,dat$photoperiod_day)
+#Climate data from some sites (boyer, ashby62, others) uses a different latitude (growing latitude instead of provenance lat)
+#we need to change the latitude here back to the provenance latitude for it to line up
+#read in conversion table for growing lat to provenance lat for these sites
+#(generated with chilling code)
+grotopro<-read.csv("output/dailyclim/chill.lat.conversion.csv", header=TRUE)
+#add a flag to cdater that determines whether growing lat long or provenance lat long is used.
+dat$usegrolatlong<-0
+dat$usegrolatlong[which(dat$datasetID %in% unique(grotopro$datasetID))]<-1
 

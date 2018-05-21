@@ -55,8 +55,7 @@ source("bb_dailyclimate/source/bb_daily_dataprep_get_expclimdat.R")
 dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing some climate data)
-  #Need to fixhawkins12, heide12,skre08, and skuterud94
+for(i in  3569:dim(dat.bb)[1]){#4637rows in dat.bb;
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -66,19 +65,26 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing s
   
   daystobb<-round(as.numeric(x$response.time), digits=0)
   #If no experimental chilling for focal budburst event, use ambient climate data
-  if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
+    if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilltemp=="ambient + 4"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
-    #if(dim(x.dailyclim)[1]==0 & x$datasetID=="hawkins12") {
-     # x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$growing.lat & daily_ambtemp$long==x$growing.long,]
-      #x.dailyclim$lat<-x$lat
-      #x.dailyclim$long<-x$long
-      #}
+    if(dim(x.dailyclim)[1]==0 & x$usegrolatlong==1) {
+      if(x$datasetID=="basler14"|x$datasetID=="gomory15"|x$datasetID=="partanen01"|x$datasetID=="Sanz-Perez09"|x$datasetID=="skre08"){
+        x$growing.lat<-round(x$growing.lat, digits=4)
+        x$growing.long<-round(x$growing.long, digits=4)}
+     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & round(daily_ambtemp$lat, digits=4)==x$growing.lat & daily_ambtemp$long==x$growing.long,]
+      x.dailyclim$lat<-x$lat
+      x.dailyclim$long<-x$long
+      }
     #for partanen01; same growing/chill lat/long for all provenance lat/longs, so:
     if(x$datasetID=="partanen01"|x$datasetID=="calme94") {
       x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2,]
       x.dailyclim$lat<-x$lat
       x.dailyclim$long<-x$long
-      } 
+    } 
+    if(x$chilltemp=="ambient + 4"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+4
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+4
+    }
     #if no experimental forcing, no need to add anything:
     if(x$forcetemp=="ambient"|x$forcetemp==""|x$forcetemp=="meandaily"){
       x.all<-join(x,x.dailyclim)
@@ -125,7 +131,7 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing s
       x.dailyclim$Tmax<-x.dailyclim$Tmax+6
       x.all<-join(x,x.dailyclim)
       } #if there is other experimental forcing,  add it using the forcetemp, field sample date and response.time columns
-    if(x$forcetemp_night =="ambient"){#one study (Sanz-Perez09) has ambient conditions at night but not during the day
+    if(x$forcetemp!="ambient" & x$forcetemp_night =="ambient"){#one study (Sanz-Perez09) has ambient conditions at night but not during the day
       x.dailyclim$Tmin<-x.dailyclim$Tmin
       forcetmax<-x$forcetemp
       daystobb<-round(as.numeric(x$response.time), digits=0)
@@ -134,7 +140,9 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing s
         if(x$photoperiod_day !="ambient") {forcephoto<-x$photoperiod_day}
         }
       x.dailyclim$Tmax[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-rep(forcetmax, times=forcedays)
-    }
+      x.all<-join(x,x.dailyclim)
+      
+      }
     
     if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!="" & x$forcetemp!="meandaily" & x$forcetemp_night!="ambient"){
       forcetmax<-x$forcetemp
@@ -178,9 +186,20 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing s
       x.all<-join(x,x.dailyclim)#end of work on studies with no experimental chilling
     }
 #If there is experimental chilling
-  } else if(!is.na(as.numeric(x$chilltemp))){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
+  } else if(!is.na(as.numeric(x$chilltemp)|x$datasetID=="jones12"|x$datasetID=="man10")){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
     x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
+      if(dim(x.ambclim)[1]==0 & x$usegrolatlong==1) {
+      x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$growing.lat & daily_ambtemp$long==x$growing.long,]
+      x.ambclim$lat<-x$lat
+      x.ambclim$long<-x$long
+      }
+    if(dim(x.ambclim)[1]==0 & x$datasetID=="skuterud94") {
+      x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & round(daily_ambtemp$long, digits=2)==round(x$long, digits=2),]
+      x.ambclim$lat<-x$lat
+      x.ambclim$long<-x$long
+      }#rounding differences were making some not match, so correct
     #select experimental chilling climate data
+    
     x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID & daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & daily_chilltemp3$lat==x$lat & daily_chilltemp3$long==x$long,]
     if(dim(x.expclim)[1]==0){x.expclim<-daily_chilltemp3[daily_chilltemp3$datasetID==x$datasetID & daily_chilltemp3$ID_exptreat2==x$ID_exptreat2 & daily_chilltemp3$fieldsample.date2==x$fieldsample.date2 & round(daily_chilltemp3$lat, digits=4)==round(x$lat,digits=4) & round(daily_chilltemp3$long,digits=4)==round(x$long,digits=4),]}
     firstchilldate<-min(as.Date(x.expclim$Date))
@@ -213,12 +232,13 @@ for(i in 1:dim(dat.bb)[1]){#4637rows in dat.bb; 1447:1554= hawkins12- (missing s
       }
       } else if (!is.na(firstchilldate) & max(as.Date(x.ambclim$Date))>as.Date(firstchilldate)-1){#if ambient data goes beyond experimental chilling data (which it should once the climate pulling code is correct)
       x.dailyclim<-x.ambclim#ambient climate data,
+      
       #Replace tmin and tmax columns with experimental climate when Date >fieldsample.date2 and when Date <lastchilldate with experimental chilling climate
-      x.dailyclim$Tmin[as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) < as.Date(lastchilldate)]<-x.expclim$Tmin
-      x.dailyclim$Tmax[as.Date(x.dailyclim$Date) > as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) < as.Date(lastchilldate)]<-x.expclim$Tmax
+      x.dailyclim$Tmin[as.Date(x.dailyclim$Date) >= as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) <= as.Date(lastchilldate)]<-x.expclim$Tmin
+      x.dailyclim$Tmax[as.Date(x.dailyclim$Date) >=as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) <= as.Date(lastchilldate)]<-x.expclim$Tmax
       #warning message, but its ok
       if (!is.na(x$photoperiod_day)){
-        if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>as.Date(x.dailyclim$fieldsample.date2)]<-x.expclim$daylength}
+        if(x$photoperiod_day !="ambient"){x.dailyclim$daylength[as.Date(x.dailyclim$Date)>=as.Date(x.dailyclim$fieldsample.date2) & as.Date(x.dailyclim$Date) <= as.Date(lastchilldate)]<-x.expclim$daylength}
       }
       #now add forcing
       if(substr(x$forcetemp,1,7)!="ambient" & x$forcetemp!="" & x$forcetemp!="meandaily"& x$forcetemp_night !="ambient"){
@@ -257,9 +277,9 @@ dim(dailyclim.bb2)#3331203 rows
 #save daily climate data
 dailyclim.bb2$year2<-as.numeric(format(dailyclim.bb2$Date , "%Y"))#year for climate data
 dailyclim.bb2$doy2<-as.numeric(format(dailyclim.bb2$Date , "%j"))#doy for climate data
-dailyclim.bb2$Tmin<-as.numeric(dailyclim.bb2$Tmin)#lose "skuterud94" (mean of ...) and Sanz-Perez09 here- Tmin=="ambient" why? Tmax is 12
+dailyclim.bb2$Tmin<-as.numeric(dailyclim.bb2$Tmin)#lose "skuterud94" (mean of ...); this is not possible to fix
 dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
-#Ok, here is the issue: tail(sort(unique(dailyclim.bb$Tmax)))#some studies still have non-numeric values
+
 dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
 #dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
 #dim(dailyclim.bb2)#3still 266908 rows
