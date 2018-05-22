@@ -54,8 +54,10 @@ source("bb_dailyclimate/source/bb_daily_dataprep_get_expclimdat.R")
 #First, select out budburst data
 dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
+dat.bb<-dat.bb[-which(dat.bb$continent=="asia"),]#we only have climate data for north america and europe
+
 dailyclim.bb<-data.frame()
-for(i in  3569:dim(dat.bb)[1]){#4637rows in dat.bb;
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -268,12 +270,10 @@ for(i in  3569:dim(dat.bb)[1]){#4637rows in dat.bb;
   dailyclim.bb<-rbind(dailyclim.bb,x.all)
 }
 #some checks of this file:
-#sort(unique(dailyclim.bb$datasetID))#41 different studies
-#sort(unique(dat$datasetID))#52 studies in full database
-#dim(dailyclim.bb)#4041751     33#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
-dim(dailyclim.bb)
+#sort(unique(dailyclim.bb$datasetID))#44 different studies
+#dim(dailyclim.bb)#4149110     36#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
 dailyclim.bb2 <- dailyclim.bb[!duplicated(dailyclim.bb), ]
-dim(dailyclim.bb2)#3331203 rows
+#dim(dailyclim.bb2)#3934692 rows
 #save daily climate data
 dailyclim.bb2$year2<-as.numeric(format(dailyclim.bb2$Date , "%Y"))#year for climate data
 dailyclim.bb2$doy2<-as.numeric(format(dailyclim.bb2$Date , "%j"))#doy for climate data
@@ -282,7 +282,7 @@ dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
 
 dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
 #dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
-#dim(dailyclim.bb2)#3still 266908 rows
+#dim(dailyclim.bb2)#
 #Because the file is so big, I'll break it into 4 files
 quart1<-as.integer(nrow(dailyclim.bb2)/4)
 quart2<-as.integer(nrow(dailyclim.bb2)/2)
@@ -309,17 +309,17 @@ write.csv(clim_dailyA, "output/dailyclim/percbb_dailyclimA.csv", row.names=FALSE
 write.csv(clim_dailyB, "output/dailyclim/percbb_dailyclimB.csv", row.names=FALSE)
 write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE)
 write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
-write.csv(clim_dailyALL, "output/dailyclim/percbb_dailyclimALL.csv", row.names=FALSE)
+#write.csv(clim_dailyALL, "output/dailyclim/percbb_dailyclimALL.csv", row.names=FALSE)
 #some checks on these files
 clim_dailyALL$missingT<-0
 clim_dailyALL$missingT[which(is.na(clim_dailyALL$Tmin))]<-1
 temptab<-table(clim_dailyALL$datasetID,clim_dailyALL$missingT)
 missingtemp<-temptab[temptab[,2]>0,]
-dim(missingtemp)#7sites are missing some data
-length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)#0.009620849 of rows have NA...
+dim(missingtemp)#3 sites are missing some data
+length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)# 0.003726594 of rows have NA...
 head(clim_dailyALL)
 tail(clim_dailyALL)
-sort(unique(dailyclim.bb$datasetID))#41 in dailydata
+sort(unique(dailyclim.bb$datasetID))#44 in dailydata
 tail(clim_dailyALL[clim_dailyALL$datasetID=="heide93",])
 tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])#not sure why these are missing- longitude?
 
@@ -327,11 +327,5 @@ head(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
 tail(clim_dailyALL[clim_dailyALL$datasetID=="fu13",])#looks good
 tail(clim_dailyALL[clim_dailyALL$datasetID=="gunderson12",])
 
-#some questions: 
-#why do some rows not get joined (for example:423,426,428,461, 468,470-471,477, 2225:2255,2272:; 2450:2459, 2460:2467, ). 
-dat.bb[423:430,]#i think these are the NAs in climate data
-tail(caffarra11b)<-clim_dailyALL[clim_dailyALL$datasetID=="caffarra11b",]
-head(dat.bb[419:20,])#campbell75- has data now!
-head(dat.bb[2290:2342,])#man10- why is there no man10 in climate data- is it because chilltemp="-3,2"? or because forcing="0 ramped up 3 degrees every 6 days" 
-tail(clim_dailyALL[clim_dailyALL$datasetID=="man10",])
+tail(clim_dailyALL[clim_dailyALL$datasetID=="caffarra11b",])
 #Not possible to fix code to accomodate "mean of 9, 12, 15" (skuterud94)

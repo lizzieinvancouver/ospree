@@ -36,27 +36,11 @@ colnames(tab)[23]<-"sum"
 tab2<-tab[which(tab$sum>1),]
 #don't really seem to be any....
 #2.Still some questions to look into for daily climate data. 
-#sonsteby14
-#dailyclimate data is missing for one field sample date- 22-Oct-2013. 
-#need to rerun pully dailyclimate code for this one
-
-
-
-#hawkins12
-#"hawkins12 1998-01-01     ambient"  
-#-should use growing lat/long for climate!
-#only have climate data for 1 lat/long (49.25,-117.17) in daily climate
-#missing climate data for the following longitudes: -116.05 -117.38 -118.30 -118.83 -119.53 -119.75 -122.40 -121.52 -112.23 -112.63 -122.37 -122.35 -121.78
-#-128.57 -128.27 -127.78
-
-#heide12
-#"heide12 2012-03-01 9    10"                           "heide12 2012-03-01 15    10"                         
-# "heide12 2012-03-01 21    10"                          
-#missing climate data for lat= 67.5
 
 #skuterud94 (i=3226)
 #really long forcedays (401), so not  enough daily climate data= need atleast 50 more days of cliamte data()
-
+?
+  
 #THE BELOW ARE DONE OR CAN'T BE FIXED
 #campbel75:DONE I THINK! Average added; also fixed several rounding errors for lats/longs
 #"campbell75 1973-09-01 18-27 (20 average) 10 11 9 16", "campbell75 1973-09-01 18-27 (20 average) 10 22 9 16"  "campbell75 1973-09-01 18-27 (20 average) 10 33 9 16" 
