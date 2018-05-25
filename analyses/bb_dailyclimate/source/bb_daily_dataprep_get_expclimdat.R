@@ -6,22 +6,23 @@ dat$ID_exptreat2<-paste(dat$datasetID,dat$provenance.lat,dat$provenance.long,dat
 #noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
 #noexpclimdat<-noexpchilldat[which(noexpchilldat$forcetemp==""|noexpchilldat$forcetemp=="ambient"|noexpchilldat$forcetemp=="meandaily"),]#studies that do NOT need experimental chilling AND ALSO do not need experimental forcing calculated
 #unique(noexpclimdat$photoperiod_day)#some studies manipulate ONLY photoperiod- ignore these for now
+
 expclimdat<-dat[-which(dat$chilltemp=="" & dat$forcetemp==""),]#156 rows removed
 #dim(expclimdat)#7992   rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="")#no rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="ambient")#no rows
+
 expclimdat<-expclimdat[-which(expclimdat$chilltemp=="" & expclimdat$forcetemp=="ambient"),]#
-#dim(expclimdat)#7583   rows
+#dim(expclimdat)#7411   rows
+
 expclimstudies<-sort(unique(expclimdat$datasetID))#list of studies that do manipulate chilling and/or forcing:50 studies
 expclimtreats<-sort(unique(expclimdat$ID_exptreat2))#list of all study-chilling&forcing treatment combinations: 805
-#noexpclimstudies<-unique(noexpclimdat$datasetID)[is.na(match(unique(noexpclimdat$datasetID),expclimstudies))]#studies that do no experimental climate or photoperiod manipulation: only 3 ("ashby62"   "hawkins12" "sanzperez10")
 
 #For studies that do experimental chilling, fill in the experimental climate data and dates
 #Things the below code does not yet deal with:
-#1.multiple values for chilling treatments in a single row (e.g. "-4, 0, 4","-4, 8, 8","0, 4, 8", "-3,2")
-#2.studies that manipulate ONLY photoperiod
+#1.studies that manipulate ONLY photoperiod
 daily_chilltemp<-data.frame()
-for (i in 1:length(expclimtreats)){
+for (i in 1:length(expclimtreats)){#i=382
   tempdat<-dat[dat$ID_exptreat2==expclimtreats[i],] 
   startdate<-unique(tempdat$fieldsample.date2)
   for(j in 1:length(startdate)){
@@ -34,7 +35,7 @@ for (i in 1:length(expclimtreats)){
     chilllat<-unique(tempdat2$provenance.lat)
     chilllong<-unique(tempdat2$provenance.long)
     chilluniqueID<-unique(tempdat2$uniqueID)
-    if(chilltemp==""|chilltemp=="ambient"){next}
+   if(chilltemp==""|chilltemp=="ambient"){next}
     #in this case, there is no experimental chilling, so we 
     #skip ahead to the next treatment. there may still be experimental forcing but we will calculate this in the monster loop below
     if(chilldays==""){next}
@@ -50,6 +51,29 @@ for (i in 1:length(expclimtreats)){
       aa$date<-seq(as.Date(startdate[j]),as.Date(enddate), by=1)
       aa$tmin<-rep(chilltemp, times=chilldays)
       aa$tmax<-rep(chilltemp, times=chilldays)
+        #add in jones12, which has multiple difference chilltemps:
+        if(chilltemp=="4, 0, -4"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<-aa$tmax<-c(rep(4, times=as.numeric(chilldays)/3),rep(0, times=as.numeric(chilldays)/3),rep(-4,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="-4, 8, 8"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<- aa$tmax<-c(rep(-4, times=as.numeric(chilldays)/3),rep(8, times=as.numeric(chilldays)/3),rep(-8,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="0, 4, 8"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<- aa$tmax<-c(rep(0, times=as.numeric(chilldays)/3),rep(4, times=as.numeric(chilldays)/3),rep(8,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="4, 0, -4"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<- aa$tmax<-c(rep(4, times=as.numeric(chilldays)/3),rep(0, times=as.numeric(chilldays)/3),rep(-4,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="8, 4, 0"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<- aa$tmax<-c(rep(8, times=as.numeric(chilldays)/3),rep(4, times=as.numeric(chilldays)/3),rep(0,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="8, 8, -4"){#jones12 Cuttings were exposed to either a 6-week or a 12-week chillingperiod, with each period split into three equal parts at one of the treatment temperatures (-4, 0, 4 or 8C).
+        aa$tmin<- aa$tmax<-c(rep(8, times=as.numeric(chilldays)/3),rep(8, times=as.numeric(chilldays)/3),rep(-4,times=as.numeric(chilldays)/3))
+      }
+      if(chilltemp=="-3,2"){#man10- seedlings were chilled for one month at -3, and one month at 2
+        aa$tmin<- aa$tmax<-c(rep(-3, times=as.numeric(chilldays)/2),rep(2, times=as.numeric(chilldays)/2))
+      }
+      if(chillphoto=="0,0"){chillphoto<-"0"}#man10
       aa$daylength<-rep(chillphoto, times=chilldays)
       aa$lastchilldate<-max(aa$date)#last date that chilling treatment occurred- this will be useful for calculating forcing later
       aa$lat<-rep(chilllat, times=chilldays)

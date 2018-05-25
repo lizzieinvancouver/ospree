@@ -40,9 +40,10 @@ d2$ID_fieldsample.date2<-paste(d2$datasetID,d2$chill.lat,d2$chill.long,d2$fields
 # European studies
 #want table with lat, long, year, field sample date for each study. there could  be multiple field sample dates for each study
 #selecting out european studies using the dplyr package
-eur <- d2 %>% # start with the data frame
+d3<-d2[d2$continent=="europe" & d2$year >= 1950,]
+eur <- d3 %>% # start with the data frame
   distinct(ID_fieldsample.date2, .keep_all = TRUE) %>% # establishing grouping variables
-  filter(continent == 'europe' & year >= 1950) %>%#select out europe
+  #filter(continent == 'europe' & year >= 1950) %>%#select out europe#this removes all rows with  field sample date=2013-10-22, even though some are in europe
   dplyr::select(datasetID, chill.lat, chill.long, year,fieldsample.date2, ID_fieldsample.date2)
 eur <- eur[apply(eur, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 

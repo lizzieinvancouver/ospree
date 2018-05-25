@@ -70,7 +70,7 @@ dailytemp4<-subset(dailytemp2,select=c(datasetID,lat,long,fieldsample.date2,Date
 #this is ok- it is just getting rid of some extra stuff that is not needed as a column in the resulting "dailytemp3.csv" file
 #write a csv file of the daily Tmin and Tmax data
 write.csv(dailytemp4, "output/dailyclim/dailytemp.csv", row.names=FALSE, eol="\r\n")
-#dailytemp4<-read.csv("output/dailytemp.csv")
+#dailytemp4<-read.csv("output/dailyclim/dailytemp.csv")
 #checks:
 #dim(dailytemp4)#210036  rows, 7 columns
 #check data for a few sites:

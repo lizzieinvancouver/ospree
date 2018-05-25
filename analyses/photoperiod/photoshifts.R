@@ -22,21 +22,23 @@ cols=c("darkred","yellow3")
 shapes=c(21,24)
 quartz(height=7, width=5)
 par(mai=c(.3,1,.1,.5), oma=c(4,.5,.5,.5), mfrow=c(2,1))
-plot(as.numeric(photop_all$delta),as.numeric(photop_all$space), bg="darkred",pch=shapes[as.numeric(as.factor(photop_all$continent))],bty="l", xlab="", ylab="Shift in space (degrees)", xlim=c(0,12))
-abline(h=23, lwd=2, col="gray", lty=2)#parmesan shift rate
+plot(as.numeric(photop_all$delta),as.numeric(photop_all$space), bg="darkred",pch=shapes[as.numeric(as.factor(photop_all$continent))],bty="l", xlab="", ylab="Equivalent shift in space (degrees)", xlim=c(0,12))
+abline(h=1.5, lwd=2, col="gray", lty=2)#Chen shift rate
+
 abline(lm(as.numeric(photop_all$space)~as.numeric(photop_all$delta)), lwd=2, col="darkred")
 
 #par(new=TRUE)
-plot(as.numeric(photop_all$delta), as.numeric(photop_all$time),bg="goldenrod",pch=shapes[as.numeric(as.factor(photop_all$continent))],bty="l", xlab="Experimental change in daylength (hrs)",ylab="Shift in time (days)",xlim=c(0,12))
-abline(h=1.5, lwd=2, col="gray", lty=2)#Chen shift rate
-
+plot(as.numeric(photop_all$delta), as.numeric(photop_all$time),bg="goldenrod",pch=shapes[as.numeric(as.factor(photop_all$continent))],bty="l", xlab="Experimental change in daylength (hrs)",ylab="Equivalent shift in time (days)",xlim=c(0,12))
+abline(h=-23, lwd=2, col="gray", lty=2)#parmesan shift rate
 abline(lm(as.numeric(photop_all$time)~as.numeric(photop_all$delta)), lwd=2, col="goldenrod")
 mtext("Experimental change in daylength (hrs)", side=1, line=2)
 #axis(4)
 #mtext("Shift in time (days)",side=4,line=3)
-legend(8,-20,pch=c(24,21),pt.bg=c("goldenrod","goldenrod")
+legend(8,-60,pch=c(24,21),pt.bg=c("goldenrod","goldenrod")
        ,legend=c("North America","Europe"), cex=0.9, bty="n")
-     
+legend(7,-75,lty=2,lwd=2,col="gray",
+       legend=c("Observed shifts"), cex=0.9, bty="n")
+
 #Flowering phenology has shifted earlier: 
 #2.5–5 days per degC (
 #  4.5 days per degC (Wolkovich et al 2012)
