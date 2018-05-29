@@ -91,9 +91,9 @@ for(i in c(1:nrow(fsyl))){
     for(k in c(1:nrow(bb.max)))
       fsyl$phen.shift[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
                                  bb.min$bb.min[j]-bb.max$bb.max[k], fsyl$phen.shift[i])
-    fsyl$lo.pre[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
+    fsyl$lo.pre[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j],
                            bb.min$bb.min[j], fsyl$lo.pre[i])
-    fsyl$lo.post[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j] & fsyl$datasetID[i]==bb.max$datasetID[k],
+    fsyl$lo.post[i]<-ifelse(fsyl$datasetID[i]==bb.min$datasetID[j],
                            bb.max$bb.max[k], fsyl$lo.post[i])
 }
 
@@ -124,59 +124,57 @@ for(i in 1:length(fsyl$provenance.lat)){
 fsyl$space<-as.numeric(fsyl$space)
 fsyl$geo.shift<-fsyl$space+fsyl$provenance.lat
 
-fsyl<-fsyl%>%dplyr::rename(daylength=photoperiod_day)%>%dplyr::rename(mleaf=response.time)%>%dplyr::rename(Lat=provenance.lat)
-fsyl$type<-"ospree"
-ff<-full_join(fs.geo, fsyl)
-ff<-dplyr::select(ff, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift, proj.lodoy, proj.photo,
-                  lo.pre, lo.post, photo.min, photo.max)
-ff<-ff%>%dplyr::rename(current.photo=daylength)%>%dplyr::rename(osp.photo.pre=photo.min)%>%dplyr::rename(osp.photo.post=photo.max)
+fsyl<-fsyl%>%dplyr::rename(photoperiod=photoperiod_day)%>%dplyr::rename(doy=response.time)%>%dplyr::rename(Lat=provenance.lat)
+fsyl$photo.type<-"ospree"
+fsyl$phen.type<-"ospree"
+fsyl<-fsyl%>%dplyr::select(Lat, photoperiod, photo.type, phen.type, doy)
 
-fx<-ff%>%gather("phen.type", "doy", -Lat, -mleaf, -type, -photo.shift, -geo.shift, 
-                -phen.shift, -proj.photo, -osp.photo.pre, -osp.photo.post, -current.photo)
-fxx<-fx%>%gather("photo.type", "photoperiod", -Lat, -mleaf, -phen.type, -type, -photo.shift, -geo.shift, -phen.shift,
+fs<-dplyr::select(fs.geo, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift, proj.lodoy, proj.photo, daylength)
+
+fx<-fs%>%gather("phen.type", "doy", -Lat, -mleaf, -type, -photo.shift, -geo.shift, 
+                -phen.shift, -proj.photo, -daylength)
+fxx<-fx%>%gather("photo.type", "photoperiod", -Lat, -mleaf, -doy, -phen.type, -type, -photo.shift, -geo.shift, -phen.shift,
                 -doy)
 
-fxx<-na.omit(fxx)
+fxx<-dplyr::select(fxx, Lat, photoperiod, photo.type, doy, phen.type)
+fxx<-full_join(fxx, fsyl)
 
-find_hull.geo <- function(fxx) fxx[chull(fxx$Lat, fxx$photoperiod), ]
+#find_hull.geo <- function(fxx) fxx[chull(fxx$Lat, fxx$photoperiod), ]
 #library(plyr)
-hulls.geo <- ddply(fxx, "type", find_hull.geo)
-fxx$photo.type<-ifelse(fxx$photo.type=="osp.photo.pre", "ospree", fxx$photo.type)
-fxx$photo.type<-ifelse(fxx$photo.type=="osp.photo.post", "ospree", fxx$photo.type)
-fxx$photo.type<-ifelse(fxx$photo.type=="current.photo", "current", fxx$photo.type)
+#hulls.geo <- ddply(fxx, "type", find_hull.geo)
+fxx$photo.type<-ifelse(fxx$photo.type=="daylength", "current", fxx$photo.type)
 fxx$photo.type<-ifelse(fxx$photo.type=="proj.photo", "projected", fxx$photo.type)
 
 fxx$phen.type<-ifelse(fxx$phen.type=="lodoy", "current", fxx$phen.type)
 fxx$phen.type<-ifelse(fxx$phen.type=="proj.lodoy", "projected", fxx$phen.type)
-fxx$phen.type<-ifelse(fxx$phen.type=="lo.pre", "ospree", fxx$phen.type)
-fxx$phen.type<-ifelse(fxx$phen.type=="lo.post", "ospree", fxx$phen.type)
 
 
-geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod)) + geom_point(aes(col=photo.type)) +
-  geom_polygon( data=hulls.geo, alpha=.5, aes(fill=photo.type)) +
+geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), legend.position = "none") + xlab("Latitude") + ylab("Daylength")
+        axis.ticks.y = element_blank()) + xlab("Latitude") + ylab("Daylength") +
+  coord_cartesian(ylim=c(0, 24)) + guides(col=FALSE) + ggtitle("A")
 
 
-phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) +
-  geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
+phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
+  #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         axis.ticks.y = element_blank(), legend.position = "none")
 
-find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
-hulls.phen <- ddply(fxx, "type", find_hull.phen)
-doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod)) + geom_point(aes(col=phen.type)) +
-  geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
+#find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
+#hulls.phen <- ddply(fxx, "type", find_hull.phen)
+doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
+  #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank()) + xlab("Day of Budburst") + ylab("Daylength") + 
-  guides(col=FALSE) + labs(fill="Type")
+        axis.ticks.y = element_blank(), legend.position = c(0.85,0.2),
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect()) + xlab("Day of Budburst") + ylab("Daylength") + 
+  coord_cartesian(ylim=c(0, 24)) + labs(col="Type") + ggtitle("B")
 
 
-library(egg)
-quartz()
+#library(egg)
+#quartz()
 ggarrange(geo.photo, doy.photo, ncol=2)
 
 
@@ -217,17 +215,9 @@ qr.geo<-qr.geo[!is.na(qr.geo$geo.shift),]
 qr.geo$phen.shift<-qr.geo$lodoy-qr.geo$proj.lodoy ## first pheno.shift
 qr.geo$type<-"projected"
 
-qr$date<-as.Date(qr$lodoy, origin = "2000-01-01")
-#qr$photo.shift<-NA
-#for(i in c(1:nrow(qr))){
-#  qr$photo.shift[i] <- daylength(qr$geo.shift[i], qr$date[i])
-#}
-
-qr$phen.shift<-qr$lodoy-qr$lday.prj ## first pheno.shift
-
 
 ### Now for Ospree! ####
-qrob<-osp[which(osp$genus=="Fagus" & osp$species == "sylvatica" & osp$respvar.simple=="daystobudburst"),]
+qrob<-osp[which(osp$genus=="Quercus" & osp$species == "robur" & osp$respvar.simple=="daystobudburst"),]
 qrob<-qrob%>%dplyr::select(datasetID, genus, species, photoperiod_day, response.time, provenance.lat, fieldsample.date2)
 qrob<-qrob[(qrob$response.time!=999),]
 qrob$photoperiod_day<-as.numeric(qrob$photoperiod_day)
@@ -277,31 +267,111 @@ for(i in 1:length(qrob$provenance.lat)){
 qrob$space<-as.numeric(qrob$space)
 qrob$geo.shift<-qrob$space+qrob$provenance.lat
 
-qrob<-qrob%>%dplyr::rename(daylength=photoperiod_day)%>%dplyr::rename(mleaf=response.time)%>%dplyr::rename(Lat=provenance.lat)
-qrob$type<-"ospree"
-qq<-full_join(qr.geo, qrob)
-qq<-dplyr::select(qq, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift)
+qrob<-qrob%>%dplyr::rename(photoperiod=photoperiod_day)%>%dplyr::rename(doy=response.time)%>%dplyr::rename(Lat=provenance.lat)
+qrob$photo.type<-"ospree"
+qrob$phen.type<-"ospree"
+qrob<-qrob%>%dplyr::select(Lat, photoperiod, photo.type, phen.type, doy)
+
+qr<-dplyr::select(qr.geo, Lat, mleaf, lodoy, daylength, type, photo.shift, geo.shift, phen.shift, proj.lodoy, proj.photo, daylength)
+
+qx<-qr%>%gather("phen.type", "doy", -Lat, -mleaf, -type, -photo.shift, -geo.shift, 
+                -phen.shift, -proj.photo, -daylength)
+qxx<-qx%>%gather("photo.type", "photoperiod", -Lat, -mleaf, -doy, -phen.type, -type, -photo.shift, -geo.shift, -phen.shift,
+                 -doy)
+
+qxx<-dplyr::select(qxx, Lat, photoperiod, photo.type, doy, phen.type)
+qxx<-full_join(qxx, qrob)
+
+#find_hull.geo <- function(fxx) fxx[chull(fxx$Lat, fxx$photoperiod), ]
+#library(plyr)
+#hulls.geo <- ddply(fxx, "type", find_hull.geo)
+qxx$photo.type<-ifelse(qxx$photo.type=="daylength", "current", qxx$photo.type)
+qxx$photo.type<-ifelse(qxx$photo.type=="proj.photo", "projected", qxx$photo.type)
+
+qxx$phen.type<-ifelse(qxx$phen.type=="lodoy", "current", qxx$phen.type)
+qxx$phen.type<-ifelse(qxx$phen.type=="proj.lodoy", "projected", qxx$phen.type)
 
 
-find_hull.phen <- function(qq) qq[chull(qq$phen.shift, qq$photo.shift), ]
-library(plyr)
-hulls.phen <- ddply(qq, "type", find_hull.phen)
+geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+        axis.ticks.y = element_blank()) + xlab("Latitude") + ylab("Daylength") +
+  coord_cartesian(ylim=c(0, 24)) + guides(col=FALSE) + ggtitle("A")
 
-phen.qq<- ggplot(qq, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) +
-  geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
+
+phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
+  #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         axis.ticks.y = element_blank(), legend.position = "none")
 
-find_hull.geo <- function(qq) qq[chull(qq$geo.shift, qq$photo.shift), ]
-hulls.geo <- ddply(qq, "type", find_hull.geo)
-geo.qq<- ggplot(qq, aes(x=geo.shift, y=photo.shift)) + geom_point(aes(col=type)) +
-  geom_polygon( data=hulls.geo, alpha=.5, aes(fill=type)) +
+#find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
+#hulls.phen <- ddply(fxx, "type", find_hull.phen)
+doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
+  #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank())
+        axis.ticks.y = element_blank(), legend.position = c(0.85,0.2),
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect()) + xlab("Day of Budburst") + ylab("Daylength") + 
+  coord_cartesian(ylim=c(0, 24)) + labs(col="Type") + ggtitle("B")
 
-quartz()
-ggarrange(phen.qq, geo.qq, ncol=2)
+
+#library(egg)
+#quartz()
+ggarrange(geo.photo, doy.photo, ncol=2)
+
+
+
+######## Some maps ############ (need to add back in Lon data for both datasets)
+library(rworldmap)
+library(maps)
+library(mapdata)
+library(marmap)
+
+#Using GGPLOT, plot the Base World Map
+mapWorld <- borders("world", colour="gray72", fill="gray65",ylim=c(30,70),xlim=c(-10,35)) # create a layer of borders
+
+#myPalette <- colorRampPalette(rev(brewer.pal(11, "Spectral")))
+#sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 24))
+fxx<-subset(fxx, photo.type=="projected")
+fsmap <- ggplot(fxx, aes(x=Lon, y=Lat, col=photo.type)) +   mapWorld +
+  coord_cartesian(ylim=c(30,70),xlim=c(-10,35)) 
+fsmap<- fsmap + theme(panel.border = element_blank(),
+                  panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank(),
+                  legend.position="none") + geom_point(aes(col=photo.type, alpha=0.2)) + geom_jitter() +
+  annotate("text",label= "Fagus sylvatica", x=0, y=70, fontface="italic", size=4) +
+  xlab("Longitude") + ylab("Latitude")
+
+
+
+
+####################### Try 3D again!! #############################
+packs.to.extract<-list('rgl','raster','sp','rgdal','insol','googleway')
+lapply(packs.to.extract,require, character.only=T)
+
+open3d()
+fxx$col<-NA
+fxx$col<-ifelse(fxx$phen.type=="projected", "#619CFF", fxx$col)
+fxx$col<-ifelse(fxx$phen.type=="current", "#F8766D", fxx$col)
+fxx$col<-ifelse(fxx$phen.type=="ospree", "#00BA38", fxx$col)
+
+
+plot3d(fxx$photoperiod, fxx$doy, fxx$Lat, type = "s", col=fxx$col, size=1)
+rgl.snapshot(filename="FAGSYL.png",fmt="png")
+
+
+qxx$col<-NA
+qxx$col<-ifelse(qxx$phen.type=="projected", "#619CFF", qxx$col)
+qxx$col<-ifelse(qxx$phen.type=="current", "#F8766D", qxx$col)
+qxx$col<-ifelse(qxx$phen.type=="ospree", "#00BA38", qxx$col)
+
+
+plot3d(qxx$photoperiod, qxx$doy, qxx$Lat, type = "s", col=qxx$col, size=1)
+rgl.snapshot(filename="QUEROB.png",fmt="png")
+
+
+
+
 
 
