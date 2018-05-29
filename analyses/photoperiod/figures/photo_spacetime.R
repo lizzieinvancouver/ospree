@@ -20,33 +20,38 @@ text(text.x,text.y,text.labs, adj=1)
 doys<-c(91,182)
 cols<-c("gray","white")
 shape<-c(21,22)
-
+for(i in 1:length(lats)){
+  points(doys,daylength(lats[i],doys), pch=21,bg=cols[i], cex=0.9)
+  
+}
 #add shifts
 #In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2006)- this is a low end
 #
 for(i in 1:length(lats)){
-  arrows(doys,daylength(lats[i],doys), doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=3)
+  arrows(doys,daylength(lats[i],doys), doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=2)
   
 }
-
+#dashed lines showing just change in daylength
+#for(i in 1:length(lats)){
+  #too busy with all lines drawn- just do one for i=2
+  arrows(doys,daylength(lats[i],doys), doys,daylength(lats[i],doys-30), lty=3, length=0,code=3,lwd=1)
+  
+#}
 #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
-photos_spat<-daylength(lat[i]+0.5, 1:181)
 for(i in 1:length(lats)){
   arrows(doys,daylength(lats[i],doys), doys,daylength(lats[i]+0.5,doys), col="darkblue", length=0.1, lwd=2)
   
 }
-for(i in 1:length(lats)){
-  points(doys,daylength(lats[i],doys), pch=c(21,24),bg=cols[i], cex=1.1)
-  
-}
+
 #add new points for shift in time
 for(i in 1:length(lats)){
-  points(doys-30,daylength(lats[i],doys-30), pch=c(21,24),bg=cols[i], cex=1.1)
+  points(doys-30,daylength(lats[i],doys-30), pch=21,bg=cols[i], cex=0.9)
   
-}
+#}
 
 #add new points for shift in space
 for(i in 1:length(lats)){
-  points(doys,daylength(lats[i]+0.5,doys), pch=c(21,24),bg=cols[i], cex=1.1)
+  points(doys,daylength(lats[i]+0.5,doys), pch=21,bg=cols[i], cex=0.9)
   
 }
+#Make plot to be insert, with delta time and delta space
