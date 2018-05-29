@@ -223,14 +223,23 @@ ggplot(dsumm.nums, aes(as.factor(force.int), as.factor(photo.int))) +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
-dsumm.numsch <-
+dsumm.numschph <-
       ddply(dsumm.treat, c("chill.int", "photo.int"), summarise,
       count = length(chill.int))
 # dsumm.numsch[is.na(dsumm.numsch)] <- 0
 
+dsumm.numschfor <-
+      ddply(dsumm.treat, c("chill.int", "force.int"), summarise,
+      count = length(chill.int))
+
 pdf("limitingcues/figures/heatmapchillxphoto.pdf", width = 6, height = 6)
-ggplot(dsumm.numsch, aes(as.factor(chill.int), as.factor(photo.int))) +
+ggplot(dsumm.numschph, aes(as.factor(chill.int), as.factor(photo.int))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
+pdf("limitingcues/figures/heatmapchillxforce.pdf", width = 6, height = 6)
+ggplot(dsumm.numschfor, aes(as.factor(chill.int), as.factor(force.int))) +
+    geom_tile(aes(fill=count), colour="white") +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
