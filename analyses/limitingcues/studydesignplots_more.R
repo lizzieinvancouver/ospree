@@ -107,12 +107,15 @@ dsumm.yr <-
       field.sample.n = mean(field.sample.n),
       mean.fieldsamp = mean(mean.fieldsamp))
 
-plot(spp.n~mean.year, data=dsumm.yr)
-plot(field.sample.n~mean.year, data=dsumm.yr)
-plot(mean.temp~mean.year, data=dsumm.yr)
-plot(mean.max.temp~mean.year, data=dsumm.yr)
-plot(mean.photo~mean.year, data=dsumm.yr)
-plot(mean.chill~mean.year, data=dsumm.yr)
+pdf("limitingcues/figures/timeseries.pdf", width = 6, height = 7)
+par(mfrow=c(3,2))
+plot(spp.n~mean.year, data=dsumm.yr, type="l")
+plot(field.sample.n~mean.year, data=dsumm.yr, type="l")
+plot(mean.temp~mean.year, data=dsumm.yr, type="l")
+plot(mean.max.temp~mean.year, data=dsumm.yr, type="l")
+plot(mean.photo~mean.year, data=dsumm.yr, type="l")
+plot(mean.chill~mean.year, data=dsumm.yr, type="l")
+dev.off()
 
 
 colz <- topo.colors(90, alpha = 0.5)
@@ -143,30 +146,91 @@ plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere){
            }
 
 ## plotting!
+
+
+pdf("limitingcues/figures/tempxlat.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydat("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydat("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydat("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
 plotxydat("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
+dev.off()
 
 # hmm, correcting the latitude doesn't seem to change temp or photo answers much
+pdf("limitingcues/figures/tempxlatcorr.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
 plotxydatabsX("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
+dev.off()
 
+pdf("limitingcues/figures/photoxlat.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydat("mean.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR (but 24 only >60 deg)
 plotxydat("min.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
 plotxydat("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
 plotxydat("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+dev.off()
 
+pdf("limitingcues/figures/photoxlatcorr.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydatabsX("mean.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
 plotxydatabsX("min.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
 plotxydatabsX("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
 plotxydatabsX("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+dev.off()
 
+pdf("limitingcues/figures/chillxlat.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydat("mean.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.09
 plotxydat("min.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydat("max.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.07
 plotxydat("range.chill", "mean.lat", "datasetID", dsumm, "topleft") # NR
+dev.off()
 
+
+
+## TO DO for heatmap:
+# (1) Make sure I am counting correctly
+# (2) What to do with NA?
+# (3) And to include chilling ...
+
+## Summarizing data
+d$force.int <- as.integer(d$force)
+d$photo.int <- as.integer(d$photoperiod_day)
+d$chill.int <- as.integer(d$chilltemp)
+
+dsumm.treat <-
+      ddply(d, c("datasetID", "study", "force.int", "photo.int", "chill.int"), summarise,
+      mean.lat = mean(provenance.lat),
+      mean.long = mean(provenance.long),
+      mean.year = mean(year),
+      spp.n = length(unique(latbi)),
+      field.sample.n = length(unique(fieldsample.date)),
+      mean.fieldsamp = mean(doy),
+      min.fieldsamp = min(doy),
+      max.fieldsamp = max(doy))
+
+dsumm.nums <-
+      ddply(dsumm.treat, c("force.int", "photo.int"), summarise,
+      count = length(force.int))
+# dsumm.nums[is.na(dsumm.nums)] <- 0
+
+pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
+ggplot(dsumm.nums, aes(as.factor(force.int), as.factor(photo.int))) +
+    geom_tile(aes(fill=count)) +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
+
+dsumm.numsch <-
+      ddply(dsumm.treat, c("chill.int", "photo.int"), summarise,
+      count = length(chill.int))
+# dsumm.numsch[is.na(dsumm.numsch)] <- 0
+
+pdf("limitingcues/figures/heatmapchillxphoto.pdf", width = 6, height = 6)
+ggplot(dsumm.numsch, aes(as.factor(chill.int), as.factor(photo.int))) +
+    geom_tile(aes(fill=count), colour="white") +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
 
