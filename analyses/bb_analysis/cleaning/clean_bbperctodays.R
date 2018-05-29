@@ -121,17 +121,17 @@ if(is.data.frame(d)){
               
             }
             
-            
             # If there are more than 1 rows but no values fall within within the acceptable range of target percent and at least one value in the 
             # response variable is equal to the targetted % in the function we proceed
             if(length(values.in.target)==0 & length(dat3$response)>0){  
               #print("case4!!!")
-              index<-rownames(dat3[mindist,])  
-              out.index<-rownames(dat3[which(!1:length(dat3$response)%in%mindist),])
-              d[index,"dbb"]<-dat3[index,"response.time"]
-              d[index,"maxperc_bb"]<-dat3[index,"response"]
-              d[index,"minperc_bb"]<-dat3[index,"response"]
-              d[index,"dist.50bb"]<-rep(dists.to.target[mindist],length(index))
+              #index<-rownames(dat3[mindist,])  
+              #out.index<-rownames(dat3[which(!1:length(dat3$response)%in%mindist),])
+              out.index<-rownames(dat3)
+              #d[index,"dbb"]<-dat3[index,"response.time"]
+              #d[index,"maxperc_bb"]<-dat3[index,"response"]
+              #d[index,"minperc_bb"]<-dat3[index,"response"]
+              #d[index,"dist.50bb"]<-rep(dists.to.target[mindist],length(index))
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
