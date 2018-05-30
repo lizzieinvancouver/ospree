@@ -119,7 +119,7 @@ betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b
 # launch_shinystan(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 72; f: -1.3; p: -0.6; c: -2.4
+# a: 73; f: -1.3; p: -0.3; c: -2.6
 
 # getting predicted values if needed
 # preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
@@ -189,7 +189,7 @@ save(m2l.wi, file="stan/output/M1_daysBBwinter_2level.Rda")
 
 mint.sum <- summary(m2l.wi)$summary
 mint.sum[grep("mu_", rownames(mint.sum)),]
-# not converged (544 divergent transitions and other issues)
+# not converged (286 divergent transitions and other issues)
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions 
@@ -275,13 +275,13 @@ datalist.bb.study <- with(bb.stan,
 )
 
 m2l.nistudy = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study,
-               iter = 6000, warmup=3000) # struggling on intercepts a lot but get better with more iterations
+               iter = 6000, warmup=3000) # 14 div. trans. struggling on intercepts a lot but get better with more iterations
 
 betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill"))
 m2lnistudy.sum <- summary(m2l.nistudy)$summary
 m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),] 
-# a_sp: 32; a_study: ; f: -1.3; p: -0.5; c: -1.6
+# a_sp: 39; a_study: 40; f: -1.4; p: -0.2; c: -3.0
 
 save(m2l.nistudy, file="stan/output/M1_daysBBnointer_2level_studyint.Rda")
 

@@ -34,6 +34,14 @@ materials figure or numbers?
 <><><><><><><><><><><><><><><><><><><><>
 To do items …
 <><><><><><><><><><><><><><><><><><><><>
+Work on (issue #174):
+0. See what of the stuff below this list is done and delete/add!
+1. Make 3 panel version of heat map
+2. % of studies that manipulated each cue (table)
+3. photo x chill map
+4. chilling x weinberger: make heatmap version once I have corrected how we count fieldsample dates! (only count sample dates that are two weeks apart)
+5. re-make maps and check on lat/long
+
 Make a f(x) to make the following the figures:
 	yvar~latitude
 	yvar~year
