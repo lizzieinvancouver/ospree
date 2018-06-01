@@ -11,6 +11,7 @@ options(stringsAsFactors = FALSE)
 
 library(tidyverse)
 library(ggplot2)
+library(ggthemes)
 setwd("~/Documents/git/ospree/analyses")
 
 
@@ -45,7 +46,7 @@ ash1<-subset(bbdat,datasetID=="ashby62"&population=="Southwestern Michigan")
 ash2<-subset(bbdat,datasetID=="ashby62"&population=="Central Wisconsin")
 sh1<-subset(ash1,response.time<999)
 ash2<-subset(ash2,response.time<999)
-#ggplot(ash,(aes(as.numeric(photoperiod_day),response.time)))+geom_line(aes(group=population,color=fieldsample.date,))
+
 
 ash1$thingy[ash1$fieldsample.date=="11-Dec-1956"]<-"Mich1"
 ash1$thingy[ash1$fieldsample.date=="8-Jan-1957"]<-"Mich2" 
@@ -57,9 +58,10 @@ ash2$thingy[ash2$fieldsample.date=="5-Feb-1957"]<-"Wisc3"
 ash2$thingy[ash2$fieldsample.date=="4-Mar-1957"]<-"Wisc4"  
 ash<-rbind(ash2,ash1)
 ash$days_cent<-ash$response.time/mean(ash$response.time)
-ggplot(ash,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=datasetID,group=thingy))
 
-caf<-subset(bbdat,datasetID=="caffarra11b"&study=="exp2"& response.time!=999.0)
+
+caf<-subset(bbdat,datasetID=="caffarra11b"& study=="exp2"& response.time!=999.0)
+
 table(caf$photoperiod_day)
 table(caf$forcetemp)
 caf$thingy[caf$chilldays==0]<-5
@@ -73,6 +75,21 @@ ggplot(hei,aes(as.numeric(photoperiod_day),response.time))+geom_line(aes(color=p
 ggplot(caf,(aes(as.numeric(photoperiod_day),response.time)))+geom_line(aes(color=chilldays))+ggtitle("caffarra11b, Betula pubescens")
 
 ha<-rbind(caf,hei,ash)
-  ggplot(ha,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=datasetID,group=thingy))+theme_classic()+xlab("Photoperiod")+ylab("Days to budburst (scaled)")
+  ggplot(ha,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=datasetID,linetype=population,group=thingy))+theme_classic()+xlab("Photoperiod")+ylab("Days to budburst (scaled)")
 
-  
+unique(ha$Total_Utah_Model)
+unique(ha$forcetemp)
+library("directlabels")
+p<-ggplot(ash,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=genus,linetype=population,group=thingy))+xlim(0,24)
+q<-p+annotate("text", x = 12.8, y = 2.5, label = "30 chill portions",angle = 55,size = 3)+annotate("text",x = 18, y = 0.7, label = "43 chill portions",size = 3)+annotate("text",x = 18, y = 0.45, label = "54 chill portions",size = 3)+annotate("text",x = 18, y = 0.3, label = "69 chill portions",size = 3)
+q+geom_line(data=hei,aes(color=genus,linetype=pop2,group=thingy))+annotate("text", x = 12.3, y = 1.3, label = "106-124 chill portions",angle=-25,size = 3)+theme_base()
+
+unique(hei$Total_Chill_portions)
+
+r<-q+geom_line(data=caf,aes(color=datasetID,linetype=pop2))
+
+
+r + geom_text(data = ha, aes(label = Total_Utah_Model), hjust = 0.7, vjust = 1)
+
+
+ 
