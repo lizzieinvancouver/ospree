@@ -43,6 +43,8 @@ source("bb_analysis/cleaning/clean_ambientforcing.R")
 # 5b. Check date of daily climate files used in step 5c-
 #if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
 source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") # As of 29 May 2018: 9717 rows
+#if they are too old for your taste, run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
+source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") # As of 29 apr 2018: 9717 rows
 
 # 5c. Clean ambient forcing data using daily climate data
 source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # still 9717 rows

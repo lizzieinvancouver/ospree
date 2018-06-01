@@ -34,10 +34,10 @@ chilly <- chillneeded[!duplicated(chillneeded), ]
 
 ## read in data containing climate each day each site (it's big so it is in pieces)
 #check the date of when these daily climate summary files were created in case they are older than you'd like:
-file.info("output/dailyclim/percbb_dailyclimA.csv")$ctime
-file.info("output/dailyclim/percbb_dailyclimB.csv")$ctime
-file.info("output/dailyclim/percbb_dailyclimC.csv")$ctime
-file.info("output/dailyclim/percbb_dailyclimD.csv")$ctime
+#file.info("output/dailyclim/percbb_dailyclimA.csv")$ctime
+#file.info("output/dailyclim/percbb_dailyclimB.csv")$ctime
+#file.info("output/dailyclim/percbb_dailyclimC.csv")$ctime
+#file.info("output/dailyclim/percbb_dailyclimD.csv")$ctime
 #If those dates are deemed too old by you, then you should rerun
 #'pulldailyclim.R' and 'bb_daily_dataprep.R' script (these scripts are slow).
 clima <- read.csv("output/dailyclim/percbb_dailyclimA.csv", header=TRUE)
@@ -78,9 +78,9 @@ bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%
 bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if response.time==NA
 # generate an empty variable to store mean temps
 bb$avg_bbtemp<-NA
-missingclim<-NA#keep tack of how many uniqueIDs are missing climate
+missingclim<-NA#keep track of how many uniqueIDs are missing climate
 ## Loop to add mean temp to each line in bb
-for(i in 1:nrow(bb)){#i=1832; nrow=5965
+for(i in 2804:nrow(bb)){#i=1832; nrow=5965 #2804 (jones12): missing climate data for first part- not sure why!
   lon.i<-bb[i,"chill.long"]
   lat.i<-bb[i,"chill.lat"]
   start.i<-bb[i,"expstartdate"]
@@ -101,7 +101,7 @@ for(i in 1:nrow(bb)){#i=1832; nrow=5965
   else if (length(unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i))==1 & unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i)==FALSE){
     bb$avg_bbtemp[i]<-NA
   }#Ailene added; if no climate data for one of required years, avg_bbtemp is NA
-  else if(!is.na(year.end.i)){
+  else if(!is.na(year.end.i) & dim(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i),])[1]!=0){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
            which(clim.i$year==year.end.i & clim.i$doy==doy.end.i),"Tmean"],na.rm=TRUE)
