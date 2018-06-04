@@ -80,7 +80,7 @@ bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if resp
 bb$avg_bbtemp<-NA
 missingclim<-NA#keep track of how many uniqueIDs are missing climate
 ## Loop to add mean temp to each line in bb
-for(i in 2804:nrow(bb)){#i=1832; nrow=5965 #2804 (jones12): missing climate data for first part- not sure why!
+for(i in 1:nrow(bb)){#i=1832; nrow=5965 #2804 (jones12): missing climate data for first part- not sure why!
   lon.i<-bb[i,"chill.long"]
   lat.i<-bb[i,"chill.lat"]
   start.i<-bb[i,"expstartdate"]
