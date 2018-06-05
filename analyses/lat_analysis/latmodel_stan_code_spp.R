@@ -50,12 +50,16 @@ unique(bb.noNA.wtaxa$complex)
 
 # merge in labgroup (we could do this elsewhere someday)
 bb.wlab <- merge(bb.resp, taxon, by=c("genus","species"), all.x=TRUE)
-tt <- table(bb.wlab$complex)
-bb.wlab <- subset(bb.wlab, complex %in% names(tt[tt > 100])) ### testing 
+bb.wlab <- within(bb.wlab, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+bb.wlab <- subset(bb.wlab, bb.wlab$prov.lat>1) 
+bb.wlab.photo<- within(bb.wlab, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # multiple photoperiods
+bb.wlab.photo <- subset(bb.wlab.photo, bb.wlab.photo$photo>1) 
+tt <- table(bb.wlab.photo$complex)### testing 
+bb.wlab<-bb.wlab.photo
     # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
     # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
     # [9] "Ribes_nigrum"          "Ulmus_complex"  
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Picea_glauca","Pseudotsuga_menziesii")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
@@ -90,9 +94,78 @@ ospr.stan$sm.chill<-ospr.stan$chill/240
 
 ospr.stan<-ospr.stan[which(ospr.stan$resp!=999),]
 
+
+lat.stan_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) +
+                    (force-1|sp) + (photo-1|sp) + (sm.chill-1|sp) +
+                    (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
+
 lat.stan_final<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) +
                              (force-1|sp) + (photo-1|sp) + (sm.chill-1|sp) +
                              (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
+
+m<-lat.stan_brm
+m.int<-posterior_interval(m)
+sum.m<-summary(m)
+cri.f<-as.data.frame(sum.m$fixed[,c("Estimate", "l-95% CI", "u-95% CI")])
+cri.f<-cri.f[-1,] #removing the intercept 
+fdf1<-as.data.frame(rbind(as.vector(cri.f[,1]), as.vector(cri.f[,2]), as.vector(cri.f[,3])))
+fdf2<-cbind(fdf1, c(0, 0, 0) , c("Estimate", "2.5%", "95%"))
+names(fdf2)<-c(rownames(cri.f), "sp", "perc")
+
+cri.r<-(ranef(m, summary = TRUE, robust = FALSE,
+              probs = c(0.025, 0.975)))$sp
+cri.r2<-cri.r[, ,-1]
+cri.r2<-cri.r2[,-2,]
+dims<-dim(cri.r2)
+twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
+mat2<-cbind(twoDimMat, c(rep(1:6, length.out=18)), rep(c("Estimate", "2.5%", "95%"), each=6))
+df<-as.data.frame(mat2)
+names(df)<-c(rownames(cri.f), "sp", "perc")
+dftot<-rbind(fdf2, df)
+dflong<- tidyr::gather(dftot, var, value, force:`photo:lat`, factor_key=TRUE)
+
+#adding the coef estiamtes to the random effect values 
+for (i in seq(from=1,to=nrow(dflong), by=21)) {
+  for (j in seq(from=3, to=20, by=1)) {
+    dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
+  }
+}
+dflong$rndm<-ifelse(dftot$sp>0, 2, 1)
+dfwide<-tidyr::spread(dflong, perc, value)
+dfwide[,4:6] <- as.data.frame(lapply(c(dfwide[,4:6]), as.numeric ))
+dfwide$sp<-as.factor(dfwide$sp)
+## plotting
+
+pd <- position_dodgev(height = -0.5)
+
+estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude")
+dfwide$legend<-factor(dfwide$sp,
+                   labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
+                            "P. abies", "P. menziesii", "U. complex"))
+estimates<-rev(estimates)
+fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), alpha=factor(rndm)))+
+  geom_point(position =pd)+
+  geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
+  geom_vline(xintercept=0)+
+  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "purple2"),
+                      labels=c("Overall Effects", 
+                               "B. pendula" = expression(paste(italic("Betula pendula"))),
+                               "B. pubescens"= expression(paste(italic("Betula pubescens"))),
+                               "F. sylvatica" = expression(paste(italic("Fagus sylvatica"))), 
+                               "P. abies" = expression(paste(italic("Picea abies"))),
+                               "P. menziesii" = expression(paste(italic("Pseudotsuga menziesii"))),
+                               "U. complex" = expression(paste(italic("Ulmus complex")))))+
+  scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
+  scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
+  scale_alpha_manual(values=c(1, 0.5)) +
+  guides(size=FALSE, alpha=FALSE) + 
+  scale_y_discrete(limits = rev(unique(sort(dfwide$var))), labels=estimates) + ylab("") + 
+  labs(col="Effects") + theme(legend.box.background = element_rect(), 
+                              legend.title=element_blank(), legend.key.size = unit(0.05, "cm")) +
+  xlab(expression(atop("Model Estimate of Days to Budburst")))
+quartz()
+fig1
+
 
 m<-lat.stan_final 
 sum.m <-
@@ -181,7 +254,7 @@ pd <- position_dodgev(height = -0.5)
 estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude")
 dff$legend<-factor(dff$sp,
                       labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
-                               "P. abies","P. glauca", "P. menziesii"))
+                               "P. abies","M. Domestica", "P. menziesii", "R. nigrum"))
 estimates<-rev(estimates)
 #write.csv(dfwide, file="~/Documents/git/springfreeze/output/df_modforplot.csv", row.names=FALSE)
 quartz()
