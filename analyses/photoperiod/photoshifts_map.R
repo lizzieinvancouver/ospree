@@ -42,26 +42,30 @@ map("world", fill=TRUE
 
 points(c(photop_all$long), c(photop_all$lat), pch=21, bg="salmon4", cex=abs(.03*photop_all$time2))
 
-points(c(timeER$long), c(timeER$lat), pch=8,cex=1.6)
+points(c(timeER$long), c(timeER$lat), pch=8,cex=1.8, col="salmon4", lwd=2.5)
 
 for (i in c(1:nrow(photop_all))){
   inter2 <- gcIntermediate(c(photop_all$long[i], photop_all$lat[i]),
                            c(photop_all$long[i], photop_all$lat[i]+photop_all$space2[i]), n=50, addStartEnd=TRUE)
-  lines(inter2, col="black",lwd=1.5)
+  lines(inter2, col="darkblue",lwd=2)
 }
 #Make stars for points that  are "ER"
 for (i in c(1:nrow(spacerER))){
   inter3 <- gcIntermediate(c(spacerER$long[i], spacerER$lat[i]),
                            c(spacerER$long[i], spacerER$lat[i]+spacerER$space2[i]), n=50, addStartEnd=TRUE)
-  arrows(inter3[1,1],min(inter3[,2]),inter3[1,1],max(inter3[,2]),length=.10,code=2, angle=45,col="black",lwd=1.5)
+  arrows(inter3[1,1],min(inter3[,2]),inter3[1,1],max(inter3[,2]),length=.10,code=2, angle=45,col="darkblue",lwd=2)
 }
 #how do i add a legend to the map?
 legend(-140,15, # position
        legend = c("5 days earlier","55 days earlier","105 days earlier","Exceeds range possible with temporal shift","Equivalent spatial shift"), 
        title = "Equivalent shift with climate change",
        pch = c(21,21,21,8),
-       pt.cex=c(abs(.03*c(-5,-55,-105)),.9,NA),
-       pt.bg=c("salmon4","salmon4","salmon4","black"),
+       pt.cex=c(abs(.03*c(-5,-55,-105)),1.1,NA),
+       pt.bg="salmon4",
+       col=c("black","black","black","salmon4","darkblue"),
        lty=c(NA,NA,NA,NA,1),
+       lwd=c(1,1,1,2.5,2),
        cex = .9,
        bty = "n") # border
+mtext("A)", side=3, adj=0)
+

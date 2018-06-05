@@ -2,7 +2,7 @@
 #Started by Ailene Ettinger, aettinger@fas.harvard.edu
 #May 2018
 library(geosphere)
-lats<-c(22.5,45)# focl latitudes
+lats<-c(22.5,45)# focal latitudes
 doy<-c(1:365)
 quartz(height=6,width=6)
 
