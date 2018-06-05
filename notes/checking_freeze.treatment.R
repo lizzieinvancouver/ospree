@@ -14,8 +14,8 @@ d <- read.csv("output/ospree_clean_withchill.csv")
 #unique(d$datasetID[d$freeze.treatment.temp_night!=""])#"basler12" "biasi12" "falusi90"
 
 #If we want to clean these:
-d$freeze.treatment.temp_day[d$datasetID=="biasi12"]<-""#the values do not make sense for temperatures, mistake?
-d$freeze.treatment.temp_night[d$datasetID=="biasi12"]<-""#the values do not make sense for temperatures
+d$freeze.treatment.temp_day[d$datasetID=="biasi12"]#this study actually did freeze treatments! but the columns are somehow shifted the values do not make sense for temperatures, mistake?
+d$freeze.treatment.temp_night[d$datasetID=="biasi12"]#the values do not make sense for temperaturesthis study actually did freeze treatments! so if we want to clean it then something else should go here...
 d$response..pre.treatment.[d$datasetID=="basler12"]<-d$response..post.treatment[d$datasetID=="basler12"]#these were originally located in the response.posttreatment column- got sfifted somehow
 d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-d$response..pre.treatment.[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
 d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-""
