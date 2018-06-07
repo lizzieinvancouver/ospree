@@ -200,19 +200,19 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 \begin{figure}[p]
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pdf} 
-\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped(A), and graphed (B). Observed rates of spatial shifts are from Chen et al 2011; observed temporal shifts are from Parmesan et al 2006. }
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped(A), and graphed (B-C). Observed rates of spatial shifts are from Chen et al 2011; observed temporal shifts are from Parmesan et al 2006. }
  \label{fig:photomap}
  \end{figure}
 
 \begin{figure}[p]
 \centering
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_shifts.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_actual.pdf} 
 \caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Fagus sylvatica during budburst.}}
  \label{fig:fagus}
  \end{figure}
  
  \begin{figure}[p]
-\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_shifts.pdf} 
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_actual.pdf} 
 \caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Quercus robur during budburst.}}
  \label{fig:quercus}
  \end{figure}

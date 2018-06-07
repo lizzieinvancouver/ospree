@@ -5,9 +5,9 @@ library(geosphere)
 library(TeachingDemos)
 lats<-c(22.5,45)# focl latitudes
 doy<-c(1:365)
-quartz(height=6,width=6)
-
-plot(doy,daylength(0,doy), xlim=c(1,380), ylim=c(8,16), xlab="Day of year", ylab="Daylength (hours)", bty="l",type="l", lwd=2)
+quartz(height=6.5,width=6)
+par(oma=c(0.1,0.1,0.1,0.1), mar=c(5,4,4,2) + 0.1)
+plot(doy,daylength(0,doy), xlim=c(1,380), ylim=c(8,17.5), xlab="Day of year", ylab="Daylength (hours)", bty="l",type="l", lwd=2)
 
 for(i in 1:length(lats)){
   lines(doy,daylength(lats[i],doy), lwd=2)
@@ -25,7 +25,11 @@ for(i in 1:length(lats)){
   points(doys,daylength(lats[i],doys), pch=21,bg=cols[i], cex=1.1)
   
 }
-
+#add rectangles for zoom-in around each point
+for(i in 1:length(lats)){
+  rect(doys-10,daylength(lats[i],doys)+-.2,doys+11,daylength(lats[i],doys)--.2)
+  
+}
 #add shifts
 #In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2006)- this is a low end
 #
@@ -34,51 +38,98 @@ for(i in 1:length(lats)){
   
 }
 #Add insets for spatial change- need to zoom in
-#zoom in on days 181-183
+#zoom in on days 181-183 for latitude 45
 doy2<-c(181,182,183)
-subplot( 
-  plot(doy2,daylength(lats[2],doy2),xlim=c(181,183),ylim=c(15.5,16.0), col=1, type="l", mgp=c(1,0.4,0),
-       xlab='', ylab='', cex.axis=0.5), 
+ins1<-subplot( 
+  plot(doy2,daylength(lats[2],doy2),xlim=c(181,183),ylim=c(15.54,15.64), col=1, type="l",lwd=2, mgp=c(1,0.4,0),
+       xlab='', ylab='', cex.axis=0.5, cex.lab=0.5), 
   x=grconvertX(c(0.5,0.75), from='npc'),
-  y=grconvertY(c(0.8,1.05), from='npc'),
-  type='fig', pars=list( mar=c(1.5,1.5,0,0)+0.1) )
-subplot( 
-  points(182,daylength(lats[2],182)-4.5, pch=21,bg=cols[2], cex=1.1), 
+  y=grconvertY(c(0.72,0.97), from='npc'),
+  type='fig', pars=list( mar=c(2,1.5,0,0)+0.1) )
+par(new = T)
+subplot(
+  par(new = T),
+  points(182,daylength(lats[2],182), pch=21,bg=cols[2], cex=1.1), 
+  x=grconvertX(c(0.5,0.75), from='npc'),
+  y=grconvertY(c(0.72,0.97), from='npc'),
+  type='fig' )
+
+#plot.new()
+#Add point to subplot
+points(255,16.4, pch=21,bg=cols[2],cex=2)
+spatshift_2<-daylength(lats[2]+0.5, 182)-daylength(lats[2],182)
+arrows(255,16.4, 255,17.3, col="darkblue", length=0.1, lwd=3)
+#zoom in on days 181-183 for latitude 22.5
+doy2<-c(181,182,183)
+ins2<-subplot( 
+  plot(doy2,daylength(lats[1],doy2),xlim=c(181,183),ylim=c(13.45,13.55), col=1, type="l",lwd=2, mgp=c(1,0.4,0),
+       xlab='', ylab='', cex.axis=0.5, cex.lab=0.5), 
+  x=grconvertX(c(0.65,0.9), from='npc'),
+  y=grconvertY(c(0.45,0.70), from='npc'),
+  type='fig', pars=list( mar=c(2,1.5,0,0)+0.1) )
+par(new = T)
+subplot(
+  par(new = T),
+  points(182,daylength(lats[2],182), pch=21,bg=cols[2], cex=1.1), 
   x=grconvertX(c(0.5,0.75), from='npc'),
   y=grconvertY(c(0.8,1.05), from='npc'),
   type='fig' )
-points(275,15.5, pch=21,bg=cols[2], col="white",cex=1.1)
 
 #Add point to subplot
+points(318,13.9, pch=21,bg=cols[1],cex=2)
+spatshift_2<-daylength(lats[1]+0.5, 182)-daylength(lats[1],182)
+arrows(318,13.9, 318,14.5, col="darkblue", length=0.1, lwd=3)
 
-#Add spatial shift to inset
-#In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
-photos_spat_2<-daylength(lats[2]+0.5, 182)
-for(i in 1:length(lats)){
-  arrows(doys,daylength(lats[i],doys), doys,daylength(lats[i]+0.5,doys), col="darkblue", length=0.1, lwd=2)
+##Add insets for spatial change- need to zoom in
+#zoom in on days 90-92 for latitude 45
+doy2<-c(90,91,92)
+ins3<-subplot( 
+  plot(doy2,daylength(lats[2],doy2),xlim=c(90,92),ylim=c(12.7,12.8), col=1, type="l",lwd=2, mgp=c(1,0.4,0),
+       xlab='', ylab='', cex.axis=0.5, cex.lab=0.5), 
+  x=grconvertX(c(-.03,0.23), from='npc'),
+  y=grconvertY(c(0.5,0.75), from='npc'),
+  type='fig', pars=list( mar=c(2,1.5,0,0)+0.1) )
+par(new = T)
+subplot(
+  par(new = T),
+  points(91,daylength(lats[2],91), pch=21,bg=cols[2], cex=1.1), 
+  x=grconvertX(c(-.03,0.23), from='npc'),
+  y=grconvertY(c(0.5,0.75), from='npc'),
+  type='fig' )
+
+#plot.new()
+#Add point to subplot
+points(41,14, pch=21,bg=cols[2],cex=2)
+spatshift_2<-daylength(lats[2]+0.5, 91)-daylength(lats[2],91)
+arrows(41,14,41,14.3, col="darkblue", length=0.1, lwd=3)
+
+#zoom in on days 181-183 for latitude 22.5
+doy2<-c(90,91,92)
+ins4<-subplot( 
+  plot(doy2,daylength(lats[1],doy2),xlim=c(90,92),ylim=c(12.3,12.4), col=1, type="l",lwd=2, mgp=c(1,0.4,0),
+       xlab='', ylab='', cex.axis=0.5, cex.lab=0.5), 
+  x=grconvertX(c(.25,0.5), from='npc'),
+  y=grconvertY(c(0.1,0.35), from='npc'),
+  type='fig', pars=list( mar=c(2,1.5,0,0)+0.1) )
+par(new = T)
+subplot(
+  par(new = T),
+  points(91,daylength(lats[2],91), pch=21,bg=cols[2], cex=1.1), 
+  x=grconvertX(c(.25,0.5), from='npc'),
+  y=grconvertY(c(0.1,0.35), from='npc'),
+  type='fig' )
+
+#Add point to subplot
+points(150,10.45, pch=21,bg=cols[1],cex=2)
+spatshift_2<-daylength(lats[1]+0.5, 91)-daylength(lats[1],91)
+arrows(150,10.45, 150,10.65, col="darkblue", length=0.1, lwd=3)
+legend(0,17.5,legend=c("Temporal shift","Spatial shift"), lty=1,col=c("salmon4","darkblue"), lwd=3, bty="n")
+
+
+#add lines connecting the boxes- coudn't figure out how to get x-y coords for inserted plots
+#  rect(doys-10,daylength(lats[i],doys)+-.2,doys+11,daylength(lats[i],doys)--.2)
+
+#for(i in 1:length(lats)){
+#  arrows(doys-10,daylength(lats[i],doys)+-.2, doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=3)
   
-}
-
-#In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
-photos_spat<-daylength(lat[i]+0.5, 1:181)
-for(i in 1:length(lats)){
-  arrows(doys,daylength(lats[i],doys), doys,daylength(lats[i]+0.5,doys), col="darkblue", length=0.1, lwd=2)
-  
-}
-
-
-
-
-
-#add new points for shift in time
-for(i in 1:length(lats)){
-  points(doys-30,daylength(lats[i],doys-30), pch=c(21,24),bg=cols[i], cex=1.1)
-  
-}
-
-#add new points for shift in space
-for(i in 1:length(lats)){
-  points(doys,daylength(lats[i]+0.5,doys), pch=c(21,24),bg=cols[i], cex=1.1)
-  
-}
-
+#}
