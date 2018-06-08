@@ -51,15 +51,15 @@ source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # still 97
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 # ... with an allowable buffer (i.e., 55%)
-source("bb_analysis/cleaning/clean_bbperctodays.R") # As of 29 May 2018: 7432 rows 
+source("bb_analysis/cleaning/clean_bbperctodays.R") # As of 8 June 2018: 7372 rows 
 
 # 7. Clean duplicate responses across treatments/categories)
-source("bb_analysis/cleaning/clean_moreduplicates.R") # As of 29 May 2018, deletes 2 rows (7534).
+source("bb_analysis/cleaning/clean_moreduplicates.R") # As of 8 June 2018, deletes 2 rows (7370).
 
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
 # 9. Write out the final file! 
-write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 29 May 2018: 7430 rows  (as of 12 Apr 2018: 8251)
+write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 8 June 2018: 7370 rows  (as of 29 May 2018: 7430)
 
 

@@ -73,6 +73,7 @@ d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
 d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
+d$respvar[d$respvar == ""] <- "percentbudburst" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
 d$respvar[d$datasetID=="junttila12" & d$figure.table..if.applicable. == "fig1" & d$respvar=="percentbudburst"] <- "percentbudburst_dormancy"#mistake we noticed in the database (all other rows from this study and figure are entered as "percentbudburst_dormancy)
 
 # Growth of some sort
@@ -256,7 +257,7 @@ d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not
 d$respvar.simple[d$respvar == "daystobudset"] <- "other"
 d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
 d$respvar.simple[d$respvar == "survival"] <- "other"
-d$respvar.simple[d$respvar == ""] <- "other" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
+
 
 
 # check your work .... 
