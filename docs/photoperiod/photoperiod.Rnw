@@ -91,7 +91,7 @@
 \begin{enumerate}
 \item In some cases, yes, experiments manipulate photoperiod at relevant scales (Figure \ref{fig:photomap}, Table \ref{table:phototreats}).
 \item However, most experiments manipulate photoperiod much more dramatically than will occur with climate change (Figures \ref{fig:photomap}, \ref{fig:fagus},\ref{fig:quercus}, but see \citep{basler2012}), so it is difficult to extrapolate findings. (This may not be true for all latitudes- for example high latitudes experience more dramatic changes in photoperiod across the year.)
-\item There is a great need to better understand exactly how photoperiod acts as a cue (linear response? threshold? how does it interact with temperature to break dormancy?)
+\item There is a great need to better understand exactly how photoperiod acts as a cue. The divergent effects of photoperiod observed across studies (e.g., Figure \ref{fig:photocurve}) suggests that photoperiod interacts with other environmental drivers, such as chilling and forcing, to affect phenology and other activities. However, exactly how it interacts with temprature to break dormancy, as well as the type of response it ellicits (e.g., linear versus non-linear threshold) is unclear. 
 \end{enumerate}
 \item\textit{Conclusions}
 \begin{enumerate}
@@ -102,9 +102,7 @@
 
 \section* {To do:}
 \begin{enumerate}
-\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this?
-\item Update Figure 1
-\item Cat's figures: figure out what 5 points that are really 5 are/why they are there.
+\item Make Table of studies testing if photoperiod varies by latitudinal origin- cat started on this (Table 2)?
 \item Update table/map to use 3 ER studies.
 \end{enumerate}
 \section* {Random notes that may be useful:}
@@ -165,24 +163,6 @@ photop.table<-xtable(photop_table,digits=2,
 print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
 @
 \clearpage
-<<label=xtable2, echo=FALSE, results=tex>>=
-
-photop_table<-subset(photop_all, select=c(idstudy, continent,lat, long,daylength_range,delta,space,time))
-colnames(photop_table)[5]<-"day_range"
-photop.table<-xtable(photop_table,digits=2,
-  caption="\\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.",label="table:phototreats",align=c(
-                "|p{0.01\\textwidth}",            
-                "|p{0.18\\textwidth}",
-                "|p{0.15\\textwidth}",
-                "|p{0.08\\textwidth}",
-                "|p{0.08\\textwidth}",
-                "|p{0.08\\textwidth}",
-                "|p{0.06\\textwidth}",
-                "|p{0.06\\textwidth}",
-                "|p{0.12\\textwidth}|"))
- 
-print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
-@
 \section* {Figures}
 \begin{figure}[p]
 \centering
@@ -200,7 +180,7 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 \begin{figure}[p]
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pdf} 
-\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped(A), and graphed (B-C). Observed rates of spatial shifts are from Chen et al 2011; observed temporal shifts are from Parmesan et al 2006. }
+\caption{\textbf{OSPREE experiments that manipulate photoperiod}, and their equivalent spatial and temporal shifts, mapped (A), and graphed (B-C). Observed rates (dashed gray lines) 16.9 kilometers per decade (or approximately 1.5 degrees in 100 years) for spatial shifts (Chen et al. 2011) and 2.3 days per decade (or 23 days in 100 years) for temporal shifts (Parmesan and Yohe 2003).}
  \label{fig:photomap}
  \end{figure}
 
@@ -217,6 +197,12 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
  \label{fig:quercus}
  \end{figure}
 
+ 
+ \begin{figure}[p]
+\includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_annot.jpeg} 
+\caption{\textbf{Plant responses to changes in daylength vary across species and populations, and with the amount of chilling recieved}.}
+ \label{fig:photocurve}
+ \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

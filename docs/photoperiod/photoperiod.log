@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  5 JUN 2018 21:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  7 JUN 2018 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -349,11 +349,7 @@ Package caption Info: hyperref package is loaded.
 (/usr/local/texlive/2015/texmf-dist/tex/latex/setspace/setspace.sty
 Package: setspace 2011/12/19 v6.7a set line spacing
 )
-(./photoperiod.aux
-
-LaTeX Warning: Label `table:phototreats' multiply defined.
-
-)
+(./photoperiod.aux)
 \openout1 = `photoperiod.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
@@ -370,7 +366,8 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
 LaTeX Font Info:    ... okay on input line 50.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 50.
 LaTeX Font Info:    Try loading font information for TS1+cmr on input line 50.
- (/usr/local/texlive/2015/texmf-dist/tex/latex/base/ts1cmr.fd
+
+(/usr/local/texlive/2015/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 50.
@@ -460,152 +457,123 @@ LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <6> not available
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 [2] (./photoperiod.bbl [3]) [4]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 140.
+(Font)              <7> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 140.
+(Font)              <5> on input line 138.
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <10> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 140.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 138.
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <7> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 140.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 138.
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <5> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 140.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 138.
 
-Overfull \hbox (5.68633pt too wide) in paragraph at lines 142--142
+Overfull \hbox (5.68633pt too wide) in paragraph at lines 140--140
 []|\T1/aer/m/n/10 day_range| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--154
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 []|\T1/aer/m/n/10 max NA
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 162--163
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
 []|\T1/aer/m/n/10 max NA
+ []
+
+
+Overfull \hbox (3.46692pt too wide) in paragraph at lines 169--169
+[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
+ []
+
+
+Overfull \hbox (3.46692pt too wide) in paragraph at lines 170--170
+[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
  []
 
 
 Overfull \hbox (3.46692pt too wide) in paragraph at lines 171--171
-[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
+[]|\T1/aer/m/n/10 viheraaarnio06_exp2| 
  []
 
 
 Overfull \hbox (3.46692pt too wide) in paragraph at lines 172--172
-[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
- []
-
-
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 173--173
 []|\T1/aer/m/n/10 viheraaarnio06_exp2| 
  []
 
 
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 174--174
-[]|\T1/aer/m/n/10 viheraaarnio06_exp2| 
- []
-
-
-Overfull \hbox (9.90564pt too wide) in paragraph at lines 140--179
+Overfull \hbox (9.90564pt too wide) in paragraph at lines 138--177
  [][] 
  []
 
 [5
 
 ] [6]
-Overfull \hbox (5.68633pt too wide) in paragraph at lines 188--188
-[]|\T1/aer/m/n/10 day_range| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
-[]|\T1/aer/m/n/10 max NA
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 208--209
-[]|\T1/aer/m/n/10 max NA
- []
-
-
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 217--217
-[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
- []
-
-
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 218--218
-[]|\T1/aer/m/n/10 viheraaarnio06_exp1| 
- []
-
-
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 219--219
-[]|\T1/aer/m/n/10 viheraaarnio06_exp2| 
- []
-
-
-Overfull \hbox (3.46692pt too wide) in paragraph at lines 220--220
-[]|\T1/aer/m/n/10 viheraaarnio06_exp2| 
- []
-
-
-Overfull \hbox (9.90564pt too wide) in paragraph at lines 186--225
- [][] 
- []
-
-
 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime.
-pdf, id=153, 433.62pt x 469.755pt>
+pdf, id=152, 433.62pt x 469.755pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_space
 time.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacet
 ime.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/photo_spacetime.pdf used on input line 228.
+figures/photo_spacetime.pdf used on input line 181.
 (pdftex.def)             Requested size: 377.62633pt x 409.11363pt.
 
-</Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf, id=154
+</Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf, id=153
 , 542.025pt x 722.7pt>
 File: /Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf Gr
 aphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/docs/photoperiod/figu
-res/Greenup_.pdf used on input line 235.
+res/Greenup_.pdf used on input line 188.
 (pdftex.def)             Requested size: 377.62633pt x 503.51564pt.
 
 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pd
-f, id=155, 801.74532pt x 763.31273pt>
+f, id=154, 801.74532pt x 763.31273pt>
 File: /Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopma
 p2.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap
 2.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/docs/photoperiod/figu
-res/ospree_photopmap2.pdf used on input line 241.
+res/ospree_photopmap2.pdf used on input line 194.
 (pdftex.def)             Requested size: 377.62633pt x 359.52574pt.
 
 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_actual.
-pdf, id=156, 632.28291pt x 290.99025pt>
+pdf, id=155, 599.1724pt x 259.78996pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_ac
 tual.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_act
 ual.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/2D_fagus_actual.pdf used on input line 248.
-(pdftex.def)             Requested size: 377.62633pt x 173.78738pt.
+figures/2D_fagus_actual.pdf used on input line 201.
+(pdftex.def)             Requested size: 377.62633pt x 163.73196pt.
 
 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_actua
-l.pdf, id=157, 632.28291pt x 290.99025pt>
+l.pdf, id=156, 593.44176pt x 268.0676pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_
 actual.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_a
 ctual.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/2D_quercus_actual.pdf used on input line 254.
-(pdftex.def)             Requested size: 377.62633pt x 173.78738pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 260.
+figures/2D_quercus_actual.pdf used on input line 207.
+(pdftex.def)             Requested size: 377.62633pt x 170.57689pt.
+
+</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_annot
+.jpeg, id=157, 903.375pt x 351.3125pt>
+File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_
+annot.jpeg Graphic file (type jpg)
+
+<use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_a
+nnot.jpeg>
+Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
+figures/photo_curv_annot.jpeg used on input line 214.
+(pdftex.def)             Requested size: 377.62633pt x 146.85872pt.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 219.
  [7
 
 ] [8 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_space
@@ -613,27 +581,24 @@ time.pdf>] [9 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenu
 p_.pdf>] [10 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_
 photopmap2.pdf>] [11 </Users/aileneettinger/git/ospree/analyses/photoperiod/fig
 ures/2D_fagus_actual.pdf> </Users/aileneettinger/git/ospree/analyses/photoperio
-d/figures/2D_quercus_actual.pdf>] [12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 260.
+d/figures/2D_quercus_actual.pdf> </Users/aileneettinger/git/ospree/analyses/pho
+toperiod/figures/photo_curv_annot.jpeg>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 219.
  (./photoperiod.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 260.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 260.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 219.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 219.
 Package rerunfilecheck Info: File `photoperiod.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 260.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 219.
  ) 
 Here is how much of TeX's memory you used:
- 7918 strings out of 493089
- 121319 string characters out of 6134842
- 230595 words of memory out of 5000000
- 11196 multiletter control sequences out of 15000+600000
+ 7922 strings out of 493089
+ 121691 string characters out of 6134842
+ 228834 words of memory out of 5000000
+ 11201 multiletter control sequences out of 15000+600000
  30168 words of font info for 65 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,9n,38p,829b,480s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,9n,38p,828b,480s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 ></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
 /usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
@@ -641,10 +606,10 @@ sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
 /local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/l
 ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/loca
 l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on photoperiod.pdf (12 pages, 36578109 bytes).
+Output written on photoperiod.pdf (11 pages, 21438840 bytes).
 PDF statistics:
- 613 PDF objects out of 1000 (max. 8388607)
- 455 compressed objects within 5 object streams
- 78 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 621 PDF objects out of 1000 (max. 8388607)
+ 460 compressed objects within 5 object streams
+ 75 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
