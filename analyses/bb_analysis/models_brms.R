@@ -68,7 +68,7 @@ m2l.winsp.brms.cen <- brm(resp ~ (force.cen + photo.cen + chill.cen +#main effec
                         ((force.cen + photo.cen + chill.cen)|complex.wname), data = bb.stan,
                       chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 summary(m2l.winsp.brms.cen)
-#brms model says a: 80.18, f= -23.28, p=-2.08, c= -28.11, 
+#brms model says a: 95.76, f= -23.28, p=-2.08, c= -28.11, 
 #f*c: 9.34, c*p: 5.20  f*p: -9.77; sigma sp: 15.37
 #marginal_effects(m2l.wi.brms, surface = TRUE)
 stanplot(m2l.wisp.brms, pars = "^b_")

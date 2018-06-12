@@ -45,9 +45,9 @@ bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: To
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 ## center the predictors:
-bb.resp$force.cen <- bb.resp$force/mean(bb.resp$force,na.rm=TRUE)
-bb.resp$photo.cen <- bb.resp$photo/mean(bb.resp$photo,na.rm=TRUE)
-bb.resp$chill.cen <- bb.resp$chill/mean(bb.resp$chill,na.rm=TRUE)
+bb.resp$force.cen <- bb.resp$force-mean(bb.resp$force,na.rm=TRUE)
+bb.resp$photo.cen <- bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE)
+bb.resp$chill.cen <- bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE)
 
 ## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
