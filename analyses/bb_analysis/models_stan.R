@@ -7,6 +7,7 @@
 ## Take 1: This code is based heavily off bbmodel1_stan.R 
 ## Take 2: February 2017! ##
 ## Take 3: July 2017! ## New code to run stan models on Ospree (by Nacho, Lizzie and more)
+## Take 4: June 2018! Lizzie re-organizes code and adds rstanarm 
 
 ## To do
 # (a) think on adjusting forcetemp to incorporate nightime temps? And look at what we lose in photo and force!
@@ -32,6 +33,7 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 source("source/bbstanleadin.R")
+usecentered = FALSE # change to TRUE to use centered data 
 # Impt: still need to do deal with provenance and material (which mean some treatments show up more than once) 
 
 #####################################
@@ -78,33 +80,43 @@ plot(resp~fp, data=bbnofalusi)
 ## End of a cheap run-thru 
 #####################################
 
-
 ######################################
 ## Overview of the models run below ##
 ######################################
 # All have partial pooling (pp) and include force (f), photo (p), chill (c)
-# m2l.nib (b for basic): a(sp) + f + p + c
+
+# Main models:
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
+# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
+# m2l.nistudy: a(sp) + a(datasetID) + f(sp) + p(sp) + c(sp)
+
+# Other models: 
+# m2l.nib (b for basic): a(sp) + f + p + c
 # m2l.nisig: m2l.ni but with sigmoid (not running currently)
 # m2l.wispint: a(sp) + f + p + c + cf + cp + fp
-# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
 # m2l.wi: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp)
 # m2l.wicf: a(sp) + f(sp) + p(sp) + c(sp) + fp(sp) + cp(sp)
 # m2l.wicp: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + fp(sp)
 # m2l.wifp: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp)
 
-########################################################
-# real data on 2 level model (sp on intercept only) with no interactions 
-# Note the notation: M1_daysBBnointer_2level_interceptonly.stan: m2l.nib
-########################################################
-m2l.nib = stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) 
-  
-m2l.nibsum <- summary(m2l.nib)$summary
-m2l.nibsum[grep("mu_", rownames(m2l.nibsum)),] 
-m2l.nibsum[grep("b_", rownames(m2l.nibsum)),]
-# a: 60; f: -0.16; p: -0.68; c: -2.4
 
+##################################
+## Main models as of July 2018 ##
+##################################
+
+# alternative: use centered data
+if(usecentered){
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.cen, 
+                         force = force.cen, 
+                         photo = photo.cen,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+}
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
@@ -119,12 +131,140 @@ betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b
 # launch_shinystan(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 73; f: -1.3; p: -0.3; c: -2.6
+# a: 71; f: -1.1; p: -0.6; c: -2.9
+# centered: a: 71; f: -19; p: -8.6; c: -15
 
 # getting predicted values if needed
 # preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
 
 save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.Rda")
+
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
+# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
+########################################################
+m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
+               iter = 4000, warmup=2500) # some n_eff issues
+ 
+save(m2l.winsp, file="stan/output/M1_daysBBwinternosp_2level.Rda")
+
+m2l.winsp.sum <- summary(m2l.winsp)$summary 
+head(m2l.winsp.sum) 
+m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
+# a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # 
+# centered: a: 92; f: -30; p: -18; c: -34; cf: 10; cp: 8; f: 0.8 (low n_eff for some params)
+
+# launch_shinystan(m2l.winsp)
+save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.Rda")
+
+
+#################################################################################
+# real data on 2 level model (sp) with no interactions and study ID on intercept
+# Note the notation: M1_daysBBnointer_2level_studyint.stan: m2l.nistudy
+#################################################################################
+datalist.bb.study <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         n_study = length(unique(bb.stan$datasetID)), 
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
+datalist.bb.study.cen <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.cen, 
+                         force = force.cen, 
+                         photo = photo.cen,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         n_study = length(unique(bb.stan$datasetID)), 
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
+m2l.nistudy = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study,
+               iter = 10000, warmup=6000) # struggling on intercepts a lot, for example mu_a is wandering around -100 to 100!
+
+m2l.nistudy.cen = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study.cen,
+               iter = 5000, warmup=3000)
+
+betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
+    "b_photo", "b_chill"))
+m2lnistudy.sum <- summary(m2l.nistudy)$summary
+m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),]
+# run 1: a_sp: 32; a_study: 41; f: -1.3; p: -0.3; c: -3.1
+# run 2: a_sp: 39; a_study: 35; f: -1.3; p: -0.3; c: -3.1 (main effects are stable)
+# launch_shinystan(m2l.nistudy.cen) # still not really converging
+
+# launch_shinystan(m2l.nistudy)
+save(m2l.nistudy, file="stan/output/M1_daysBBnointer_2level_studyint.Rda")
+
+
+##
+# Rstanarm on the above models ...and run the first two models on centered data
+##
+if(FALSE){
+library(rstanarm)
+
+# 86 divergent transitions! 
+m2l.ni.arm <- stan_glmer(resp ~ (force + photo + chill ) +
+    ((force + photo + chill)|complex.wname), data = bb.stan, chains=4)
+# a: 69; f: -1.0; p: -0.6; c: -2.7
+
+
+# 80 divergent transitions (everything else on a glance, looks fine)
+m2l.winsp.arm <- stan_glmer(resp ~ (force + photo + chill +
+    force*photo + force*chill + photo*chill) +
+    ((force + photo + chill)|complex.wname), data = bb.stan)
+
+summary(m2l.winsp.arm)
+# a: 97; f: -1.9; p: -1.5; c: -7; fp: 0; fc: 0.1; pc: 0.1
+# launch_shinystan(m2l.winsp.arm)
+
+# Better n_eff than I got, but 49 divergent transitions
+m2l.nistudy.arm <- stan_glmer(resp ~ (force + photo + chill ) +
+    ((force + photo + chill)|complex.wname) + (1|datasetID), data = bb.stan)
+
+m2lnistudy.arm.sum <- summary(m2l.nistudy.arm)
+# launch_shinystan(m2l.nistudy.arm)
+# a: 70.5; f: -1.1; p: -0.4; c: -2.8
+
+# Just FYI (runs fast)
+m2l.nistudy.arm.alt <- stan_glmer(resp ~ (force + photo + chill ) +
+    (1|complex.wname) + (1|datasetID), data = bb.stan)
+# a: 72; f: -1.4; p: -0.3; c: -1.9
+}
+
+
+
+
+
+##################################
+## Other models as of July 2018 ##
+##################################
+
+########################################################
+# real data on 2 level model (sp on intercept only) with no interactions 
+# Note the notation: M1_daysBBnointer_2level_interceptonly.stan: m2l.nib
+########################################################
+m2l.nib = stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) 
+  
+m2l.nibsum <- summary(m2l.nib)$summary
+m2l.nibsum[grep("mu_", rownames(m2l.nibsum)),] 
+m2l.nibsum[grep("b_", rownames(m2l.nibsum)),]
+# a: 60; f: -0.16; p: -0.68; c: -2.4
+
 
 ########################################################
 # real data on 2 level model (sp) with no interactions, with sigmoid
@@ -142,24 +282,6 @@ mcmc_intervals(betas.m2l.nisig[,1:5])
 
 }
 
-########################################################
-# real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
-# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
-########################################################
-m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) # 7 divergent transitions, some real n_eff issues
- 
-save(m2l.winsp, file="stan/output/M1_daysBBwinternosp_2level.Rda")
-
-m2l.winsp.sum <- summary(m2l.winsp)$summary 
-head(m2l.winsp.sum) 
-m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
-# a: 36; f: +0.6; p: 1.1; c: 1.5, small intxns (<0.15) # n
-
-# with crops removed...
 
 
 ########################################################
@@ -257,33 +379,6 @@ m2l.3winsp.sum[grep("b_fp", rownames(m2l.3winsp.sum)),]
 m2l.3winsp.sum[grep("b_cfp", rownames(m2l.3winsp.sum)),]
 
 
-#################################################################################
-# real data on 2 level model (sp) with no interactions and study ID on intercept
-# Note the notation: M1_daysBBnointer_2level_studyint.stan: m2l.nistudy
-#################################################################################
-datalist.bb.study <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
-                         study = as.numeric(as.factor(bb.stan$datasetID)),
-                         n_study = length(unique(bb.stan$datasetID)), 
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-m2l.nistudy = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study,
-               iter = 6000, warmup=3000) # 14 div. trans. struggling on intercepts a lot but get better with more iterations
-
-betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
-    "b_photo", "b_chill"))
-m2lnistudy.sum <- summary(m2l.nistudy)$summary
-m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),] 
-# a_sp: 39; a_study: 40; f: -1.4; p: -0.2; c: -3.0
-
-save(m2l.nistudy, file="stan/output/M1_daysBBnointer_2level_studyint.Rda")
 
 
 ########## SIDE BAR ##########
