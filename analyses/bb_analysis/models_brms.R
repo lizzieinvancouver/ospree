@@ -8,7 +8,7 @@ options(stringsAsFactors = FALSE)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -18,7 +18,7 @@ if(length(grep("lizzie", getwd())>0)) {
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 library(brms)
-
+library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
@@ -30,30 +30,86 @@ source("source/bbstanleadin.R")
 #Fit model with no interactions and a species random slopes effect
 ########## m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
 
-m2l.ni.brms <- brm(resp ~ chill.cen+force.cen+photo.cen+#fixed effects
-                     (chill.cen+force.cen+photo.cen|complex), #random effects
-                   data = bb.stan, prior = c(set_prior("normal(0,50)", class = "b",coef="force.cen"),#priors
-                             set_prior("normal(0,10)", class = "b",coef="photo.cen"),
-                             set_prior("normal(0,50)", class = "b",coef="chill.cen")),
+m2l.ni.brms <- brm(resp ~ chill+force+photo+#fixed effects
+                     (chill+force+photo|sp), #random effects
+                   data = datalist.bb.cen, prior = c(set_prior("normal(0,50)", class = "b",coef="force"),#priors
+                             set_prior("normal(0,10)", class = "b",coef="photo"),
+                             set_prior("normal(0,50)", class = "b",coef="chill")),
                    chains = 2) 
 
 stancode(m2l.ni.brms)
 
-#Stan model says: a: 71.6, f=-22.4, p=-7.1, c=-9.5, sigma: 23.33
 summary(m2l.ni.brms)
-#brms model says a: 73.52, f=-21.50, p=-9.61, c=-9.99; species sigma: 23.35
-#brms model w/priors: a: 72.78, f=-22.10, p=-8.63, c=-9.87; species sigma: 23.35
+#brms model says a: 71.19, f=-22.10, p=--4.87 , c=-12.93; species sigma: 15.81 
 #priors don't seem to affect much
-marginal_effects(m2l.ni.brms, surface = TRUE)
+#marginal_effects(m2l.ni.brms, surface = TRUE)
+stanplot(m2l.ni.brms)
+stanplot(m2l.ni.brms, pars = "^b_")
 
 #Fit model with interactions and a species random slopes effect
 ########## m2l.wi: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp)
-m2l.wi.brms <- brm(resp ~ chill.cent+force.cent +photo.cent+chill.cent:force.cent+chill.cent:photo.cent+force.cent:photo.cent + ((chill.cent+force.cent+photo.cent+chill.cent:force.cent+chill.cent:photo.cent+force.cent:photo.cent)|complex), data = bb.stan,
-                   chains = 2, cores = 2)
-#Stan model says: a:47.11 , f=1.77, p=13.5, c=-4.31, 
-                  #f*c: -5.08, c*p: 0.15, f*p:-20.56 sigma sp: 25.03
+m2l.wi.brms <- brm(y ~ chill+force +photo+#main effects
+                     chill:force+chill:photo+force:photo + #interactions
+                     ((chill+force+photo+chill:force+chill:photo+force:photo)|sp), data = datalist.bb.cen,
+                   chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 summary(m2l.wi.brms)
-#brms model says a: 57.88, f= -7.68, p=8.98, c= -10.79, 
-                  #f*c: 2.35, c*p: -1.02 f*p: -16.94; sigma sp: 22.64
-                  #1 divergent transition
-marginal_effects(m2l.wi.brms, surface = TRUE)
+#brms model says a: 80.18, f= -23.28, p=-2.08, c= -28.11, 
+                  #f*c: 9.34, c*p: 5.20  f*p: -9.77; sigma sp: 15.37
+#marginal_effects(m2l.wi.brms, surface = TRUE)
+stanplot(m2l.wi.brms, pars = "^b_")
+launch_shinystan(m2l.wi.brms)
+#Fit model with no interactions, a species random slopes effect, and a datasetID random intercept effect
+########## a(sp)+ a(id) + f(sp) + p(sp) + c(sp) + 
+#################################################################################
+# real data on 2 level model (sp) with interactions and study ID on intercept
+# Note the notation: M1_daysBBnointer_2level_studyint.stan: m2l.nistudy
+#################################################################################
+datalist.bb.study.cen <- with(bb, 
+                          list(y = resp, 
+                               chill = chill.cen, 
+                               force = force.cen, 
+                               photo = photo.cen,
+                               study = as.numeric(as.factor(bb.stan$datasetID)),
+                               n_study = length(unique(bb.stan$datasetID)), 
+                               sp = complex,
+                               N = nrow(bb.stan),
+                               n_sp = length(unique(bb.stan$complex))
+                          )
+)
+datalist.bb.study <- with(bb, 
+                              list(y = resp, 
+                                   chill = chill, 
+                                   force = force, 
+                                   photo = photo,
+                                   study = as.numeric(as.factor(bb.stan$datasetID)),
+                                   n_study = length(unique(bb.stan$datasetID)), 
+                                   sp = complex,
+                                   N = nrow(bb.stan),
+                                   n_sp = length(unique(bb.stan$complex))
+                              )
+)
+
+#Fit model with NO interactions, a species random slopes effect, and a datasetID random intercept effect
+########## a(sp) + f(sp) + p(sp) + c(sp)  + (datasetid)
+m2l.nistudy.brms <- brm(y ~ chill+force +photo+
+                       + ((chill+force+photo)|sp)+(1|study), 
+                        data = datalist.bb.study.cen,
+                        chains = 2, cores = 2,control = list(max_treedepth = 12))
+summary(m2l.wistudy.brms)
+
+#Fit model with interactions, a species random slopes effect, and a datasetID random intercept effect
+########## a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp) + (datasetid)
+m2l.wistudy.brms <- brm(y ~ chill+force +photo+
+                    chill:force+chill:photo+force:photo + 
+                    ((chill+force+photo+chill:force+chill:photo+force:photo)|sp)+(1|study), 
+                    data = datalist.bb.study.cen,
+                   chains = 2, cores = 2,control = list(max_treedepth = 12))
+summary(m2l.wistudy.brms)
+#brms model says a: 220.94, f= 104.09, p=455.34, c= -24.04, 
+#f*c: -155.17, c*p: 153.17,  f*p: 150.58; sigma sp: 15.37
+
+stanplot(m2l.wistudy.brms)
+stanplot(m2l.wistudy.brms, pars = "^b_")
+ranef(m2l.wistudy.brms)
+launch_shinystan(m2l.wistudy.brms)
+
