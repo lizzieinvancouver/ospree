@@ -49,6 +49,11 @@ bb.resp$force.cen <- bb.resp$force-mean(bb.resp$force,na.rm=TRUE)
 bb.resp$photo.cen <- bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE)
 bb.resp$chill.cen <- bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE)
 
+## z-score the predictors:
+bb.resp$force.z <- (bb.resp$force-mean(bb.resp$force,na.rm=TRUE))/sd(bb.resp$force)
+bb.resp$photo.z <- (bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE))/sd(bb.resp$photo)
+bb.resp$chill.z <- (bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE))/sd(bb.resp$chill)
+
 ## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
     is.na(chill)==FALSE & is.na(resp)==FALSE)

@@ -132,3 +132,8 @@ stanplot(m2l.wistudy.brms, pars = "^b_")
 ranef(m2l.wistudy.brms)
 launch_shinystan(m2l.wistudy.brms)
 
+#test for picea 
+picea<-bb.stan[bb.stan$complex.wname=="Picea_abies",]
+pcmod<-lm(resp ~ force.cen + photo.cen + chill.cen +force.cen:photo.cen + force.cen*chill.cen + photo.cen*chill.cen, data=picea)
+ summary(pcmod)         
+ 
