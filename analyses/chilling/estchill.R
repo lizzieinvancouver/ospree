@@ -15,7 +15,7 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 library(chillR)
 #Compare chilling in 2 temperatures that differe by 1 degree
 #try temps from -5 to 5
-temp1<-seq(from=-5, to=5, by=1)#degrees C
+temp1<-seq(from=-5, to=10, by=1)#degrees C
 temp2<-temp1+1
 days<-90#90 days for now
 year<-2018#i don't think this matters?
@@ -34,6 +34,9 @@ hrly.temp2 =
     Temp = c(rep(temp2[i], times = 24 * as.numeric(days))),
     Year = rep(year, times = 24 * as.numeric(days)),
     JDay = seq(1:days) )
+#print(temp1[i]); print(temp2[i]);
+#print(chilling(hrly.temp1, hrly.temp1$JDay[1], hrly.temp1$JDay[nrow(hrly.temp1)]));
+#print(chilling(hrly.temp2, hrly.temp2$JDay[1], hrly.temp2$JDay[nrow(hrly.temp2)]))
 chillcalc.temp1<- rbind(chillcalc.temp1,chilling(hrly.temp1, hrly.temp1$JDay[1], hrly.temp1$JDay[nrow(hrly.temp1)])) 
 chillcalc.temp2<- rbind(chillcalc.temp2,chilling(hrly.temp2, hrly.temp2$JDay[1], hrly.temp2$JDay[nrow(hrly.temp2)]))
 }
@@ -46,8 +49,8 @@ chillests$t1.chhr<-round(chillests$t1.chhr, digits=2)
 chillests$t2.chhr<-round(chillests$t2.chhr, digits=2)
 chillests$t1.utah<-round(chillests$t1.utah, digits=2)
 chillests$t2.utah<-round(chillests$t2.utah, digits=2)
-chillests$tdif.chp<-chillests$t1.chp-chillests$t2.chp
-chillests$tdif.utah<-chillests$t1.utah-chillests$t2.utah
-chillests$tdif.chhr<-chillests$t1.chhr-chillests$t2.chhr
+chillests$tdif.chp<-chillests$t2.chp-chillests$t1.chp
+chillests$tdif.utah<-chillests$t2.utah-chillests$t1.utah
+chillests$tdif.chhr<-chillests$t2.chhr-chillests$t1.chhr
 write.csv(chillests,"output/chillests.csv")
 
