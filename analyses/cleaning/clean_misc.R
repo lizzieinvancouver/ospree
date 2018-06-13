@@ -85,3 +85,17 @@ d$response.time[d$datasetID=="ghelardini10" & d$respvar=="thermaltimetobudburst"
 # I didn't have to do the two above as separate lines (they are the only respvar I see for ghelardini10) but I wanted to...
 # ...point out that these two respvar COULD be combined I think so thermal time is the X axis and % budburst is the Y
 d$response[d$datasetID=="ghelardini10"] <- 1
+
+#In June 2018, we discovered errors in some of the freezingtemp columns
+
+#d$freeze.treatment.temp_day[d$datasetID=="biasi12"]#this study actually did freeze treatments! but the columns are somehow shifted the values do not make sense for temperatures, mistake?
+#d$freeze.treatment.temp_night[d$datasetID=="biasi12"]#the values do not make sense for temperaturesthis study actually did freeze treatments! so if we want to clean it then something else should go here...
+d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
+d$response..pre.treatment[d$datasetID=="basler12"]<-d$freeze.treatment.temp_night[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
+d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-""
+
+d$freeze.treatment.temp_day[d$datasetID=="ruesink98"]<-""#one was "1" which was an error
+d$freeze.treatment.photoperiod_night[d$datasetID=="ruesink98"]<-""#one was "21" which was an error
+d$freeze.treatment.photoperiod_day[d$datasetID=="spann04"]<-""#was "d)."- mistake!
+d$freeze.treatment.time[d$datasetID=="spann04"]<-""#these are all my mistake! 
+

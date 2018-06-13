@@ -43,6 +43,12 @@ summary(m2l.ni.brms)
 #marginal_effects(m2l.ni.brms, surface = TRUE)
 stanplot(m2l.ni.brms)
 stanplot(m2l.ni.brms, pars = "^b_")
+#zscored:
+m2l.nin.brms.z <- brm(resp ~ force.z + photo.z + chill.z +#main effects
+                    ((force.z + photo.z + chill.z)|complex.wname), data = bb.stan,
+                    chains = 2, cores = 2)
+summary(m2l.nin.brms.z)
+#brms model says a:28.41, f= -4.55 , p=--3.83, c= -8.81, 
 
 #Fit model with interactions and a species random slopes effect
 ########## m2l.wi: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp)
@@ -68,8 +74,14 @@ m2l.winsp.brms.cen <- brm(resp ~ (force.cen + photo.cen + chill.cen +#main effec
                         ((force.cen + photo.cen + chill.cen)|complex.wname), data = bb.stan,
                       chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 summary(m2l.winsp.brms.cen)
-#brms model says a: 95.76, f= -23.28, p=-2.08, c= -28.11, 
-#f*c: 9.34, c*p: 5.20  f*p: -9.77; sigma sp: 15.37
+#zscored:
+m2l.winsp.brms.z <- brm(resp ~ (force.z + photo.z + chill.z +#main effects
+                                    force.z*photo.z + force.z*chill.z + photo.z*chill.z)+ #interactions
+                            ((force.z + photo.z + chill.z)|complex.wname), data = bb.stan,
+                          chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+summary(m2l.winsp.brms.z)
+#brms model says a: 28.90, f= -4.63, p=-4.43, c= -9.64, 
+#f*c: 2.43, c*p: 2.16  f*p: -0.26; sigma sp: 14.60 
 #marginal_effects(m2l.wi.brms, surface = TRUE)
 stanplot(m2l.wisp.brms, pars = "^b_")
 launch_shinystan(m2l.wisp.brms)
@@ -115,6 +127,11 @@ m2l.nistudy.brms <- brm(y ~ chill+force +photo+
                         data = datalist.bb.study,
                         chains = 2, cores = 2,control = list(max_treedepth = 12))
 summary(m2l.nistudy.brms)
+
+m2l.nistudy.brms.z <- brm(resp ~ force.z + photo.z + chill.z +#main effects
+                        ((force.z + photo.z + chill.z)|complex.wname)+(1|datasetID), data = bb.stan,
+                      chains = 2, cores = 2)
+summary(m2l.nistudy.brms.z)
 
 #Fit model with interactions, a species random slopes effect, and a datasetID random intercept effect
 ########## a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp) + (datasetid)
