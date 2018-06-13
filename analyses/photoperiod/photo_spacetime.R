@@ -133,3 +133,46 @@ legend(0,17.5,legend=c("Temporal shift","Spatial shift"), lty=1,col=c("salmon4",
 #  arrows(doys-10,daylength(lats[i],doys)+-.2, doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=3)
   
 #}
+
+#Try alternative figure without inset boxes:
+lats<-c(22.5,45)# focl latitudes
+doy<-c(1:365)
+quartz(height=6.5,width=6)
+par(oma=c(0.1,0.1,0.1,0.1), mar=c(5,4,4,2) + 0.1)
+plot(doy,daylength(0,doy), xlim=c(1,380), ylim=c(8,17.5), xlab="Day of year", ylab="Daylength (hours)", bty="l",type="l", lwd=2)
+
+for(i in 1:length(lats)){
+  lines(doy,daylength(lats[i],doy), lwd=2)
+}
+text.x<-rep(380, times=length(lats)+1)
+text.y<-daylength(c(0,lats),365)
+text.labs<-c("lat=0","lat=22.5","lat=45")
+text(text.x,text.y,text.labs, adj=.5)
+#Add points for March 21 and June 21 to lat=22.5 and lat=45
+#March 31=doy 91; June 31=doy 182
+doys<-c(91,182)
+cols<-c("gray","white")
+shape<-c(21,22)
+for(i in 1:length(lats)){
+  points(doys,daylength(lats[i],doys), pch=21,bg=cols[i], cex=1.1)
+  
+}
+#add shifts
+#In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2006)- this is a low end
+#
+for(i in 1:length(lats)){
+  arrows(doys,daylength(lats[i],doys), doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=3)
+  
+}
+
+for(i in 1:length(lats)){
+  arrows(doys-40,daylength(lats[i],doys), doys-40,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=2,code=3, angle=90)
+  
+}
+#Add spatial shift to inset
+#In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
+photos_spat_2<-daylength(lats[2]+0.5, 182)
+for(i in 1:length(lats)){
+  arrows(doys+10,daylength(lats[i],doys), doys+10,daylength(lats[i]+0.5,doys), col="darkblue", length=0.05, lwd=2, code=3, angle=90)
+  text(doys+15,daylength(lats[i],doys),label="deltadlh space", )
+}
