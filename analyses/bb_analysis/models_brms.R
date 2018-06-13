@@ -137,7 +137,7 @@ summary(m2l.nistudy.brms.z)
 ########## a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + fp(sp) + (datasetid)
 m2l.wistudy.brms <- brm(y ~ chill+force +photo+
                     chill:force+chill:photo+force:photo + 
-                    ((chill+force+photo+chill:force+chill:photo+force:photo)|sp)+(1|study), 
+                    ((chill+force+photo)|sp)+(1|study), 
                     data = datalist.bb.study.cen,
                    chains = 2, cores = 2,control = list(max_treedepth = 12))
 summary(m2l.wistudy.brms)
@@ -148,6 +148,18 @@ stanplot(m2l.wistudy.brms)
 stanplot(m2l.wistudy.brms, pars = "^b_")
 ranef(m2l.wistudy.brms)
 launch_shinystan(m2l.wistudy.brms)
+
+#zscored
+m2l.wistudy.brms.z <- brm(resp ~ chill.z+force.z +photo.z+
+                          chill.z:force.z+chill.z:photo.z+force.z:photo.z + 
+                          ((chill.z+force.z+photo.z)|complex.wname)+(1|datasetID), 
+                        data = bb.stan,
+                        chains = 2, cores = 2)
+summary(m2l.wistudy.brms)
+#brms model says a: 220.94, f= 104.09, p=455.34, c= -24.04, 
+#f*c: -155.17, c*p: 153.17,  f*p: 150.58; sigma sp: 15.37
+
+
 
 #test for picea 
 picea<-bb.stan[bb.stan$complex.wname=="Picea_abies",]
