@@ -96,7 +96,7 @@ sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
 
 # Load fitted stan model: no interactions with studyid
-load("stan/output/M1_daysBBnointer_2level_studyint.Rda")
+load("stan/output/M1_daysBBnointer_2level_studyintz.Rda")
 m1.bb.study <- m2l.nistudy
 # summary(m1.bb.study)
 
@@ -105,11 +105,11 @@ sumer.nistudy[grep("mu_", rownames(sumer.nistudy)),]
 
 # Load fitted stan model: with interactions
 load("stan/output/M1_daysBBwinter_2level.Rda")
-m1.bb <- m2l.wi
+m1.bb <- m2l.winsp
 # summary(m1.bb)
 
 source("source/bb_muplot.R")
-sumer.wi <- summary(m2l.wi)$summary
+sumer.wi <- summary(m2l.winsp)$summary
 sumer.wi[grep("mu_", rownames(sumer.wi)),]
 
 ## plot data and one model for species 1
@@ -139,7 +139,7 @@ grid.arrange(cresp, fresp, presp, ncol=3, nrow=1)
 
 
 ## scale up: plot each species with slopes from the two selected models
-whichmodel <- sumer.nistudy
+whichmodel <- sumer.ni
 othermodel <- sumer.wi
 pdf(file.path(figpath, "M1inter.pdf"), width = 7, height = 3.5)
 spp <- unique(bb.stan$complex)
