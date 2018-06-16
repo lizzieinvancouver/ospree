@@ -1,6 +1,6 @@
 par(mar=c(5,7,3,2))
 plot(x=NULL,y=NULL,xlim=c(-50,150),yaxt='n',ylim=c(0,8),
-     xlab="Model estimate change in days to BB",ylab="",main="M1_daysBB_2level.stan")
+     xlab="Model estimate change in days to BB", ylab="", main="M1_daysBB_2level.stan")
 axis(2, at=1:7, labels=rownames(summary(m1.bb)$summary)[7:1],las=1)
 abline(v=0,lty=2,col="darkgrey")
 for(i in 1:7){
@@ -18,3 +18,5 @@ for(spsi in 1:22){
   
 }
 }
+
+

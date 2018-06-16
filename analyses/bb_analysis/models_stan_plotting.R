@@ -18,6 +18,8 @@ library(gridExtra)
 library(plyr)
 library(dplyr)
 
+use.zscore = FALSE
+
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
@@ -89,28 +91,50 @@ m1.bb <- m2l.ni
 #launch_shinystan(m1.bb)
 
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
-source("source/bb_muplot.R")
+source("source/bb_muplot.R") # this code needs to be adjusted! I don't think it's plotting what it says it is.
 
 sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
-
-# Load fitted stan model: no interactions with studyid
-load("stan/output/M1_daysBBnointer_2level_studyintz.Rda")
-m1.bb.study <- m2l.nistudy
-# summary(m1.bb.study)
-
-sumer.nistudy <- summary(m2l.nistudy)$summary
-sumer.nistudy[grep("mu_", rownames(sumer.nistudy)),]
-
+if(!use.zscore){
 # Load fitted stan model: with interactions
 load("stan/output/M1_daysBBwinter_2level.Rda")
 m1.bb <- m2l.winsp
 # summary(m1.bb)
 
-source("source/bb_muplot.R")
 sumer.wi <- summary(m2l.winsp)$summary
 sumer.wi[grep("mu_", rownames(sumer.wi)),]
+sumer.wi[c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "b_cf","b_cp","b_fp"),] # mu_a_sp
+source("source/bb_muplot_m2l.winsp.R") # file also contains code for colored by species
+}
+
+unique(bb.stan$complex) # numbers are alphabetical I believe (checked head and tail on the data ...)
+unique(bb.stan$complex.wname)
+# sumer.wi[grep("chill", rownames(sumer.wi)),] # positive outlier is Ribes
+# sumer.wi[grep("photo", rownames(sumer.wi)),] # Fagus is #15, positive outlier is Picea abies
+# sumer.wi[grep("force", rownames(sumer.wi)),]
+
+if(use.zscore){
+# Load fitted stan model: with interactions -- z-scored data
+load("stan/output/M1_daysBBwinter_2levelz.Rda")
+m1.bbz <- m2l.winsp
+sumer.wi <- summary(m2l.winsp)$summary
+sumer.wi[c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "b_cf","b_cp","b_fp"),]
+source("source/bb_muplot_m2l.winspz.R") # file also contains code for colored by species
+}
+
+# Need to work more on below
+if(FALSE){
+# exploring unscaled-data intxns
+getintxns <- sumer.wi[c("b_cf","b_cp","b_fp"),]
+intxnhere <- getintxns[1,1] # cf is 0.12
+forcenums <- seq(8,25, by=0.01)
+colhere <- "deepskyblue"
+plot(forcenums*2*intxnhere~forcenums, ylab="estimated effect", xlim=c(5, 30), ylim=c(0, 50),
+    xlab="forcing temp", col=alpha(colhere, 0.2), type="l")
+lines(forcenums*4*intxnhere~forcenums, ylab="estimated effect", xlab="forcing temp", col=alpha(colhere, 0.8))
+lines(abs(sumer.wi[c("mu_b_force_sp"),][1]*forcenums)~forcenums)
+}
 
 ## plot data and one model for species 1
 subby <- subset(bb.stan, complex==1)
