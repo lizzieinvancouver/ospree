@@ -1,0 +1,50 @@
+Started 11 June 2018 
+By Lizzie
+
+Model output and notes on OSPREE days to BB models
+
+<><><><><><><><><>
+Files mentioned:
+<><><><><><><><><>
+models_stan.R
+models_stan_previous.R
+models_bb_compare.xlsx
+
+<><><><>
+Decoder:
+<><><><>
+PP - partial pooling (or pooled)
+studyID - datasetID
+
+<><><><><><><><><>
+BACKGROUND:
+<><><><><><><><><>
+We started fitting OSPREE days to BB models years ago, but until 2018 were effectively still cleaning the data. At our retreat in March 2018 we felt we had cleaner data but still very odd models (models seem unstable in a  couple ways, but mainly: with no interactions, the main effects were negative, when you added interactions they main effects were positive, i.e., as delay in BB with more warming, chilling or longer days). 
+
+Up to this point we played around with a lot of different models to try to identify the problem (see models_stan_previous.R).
+
+After digging into the data we suspected we had never correctly cleaned percent budburst data -- we were still leaving in many % BB values per treatment, and thus many days to BB per treatment. Nacho cleaned up this issue in April-May 2018 (see issue #168).
+
+<><><><><><><><><><><>
+PROGRESS IN JUNE 2018:
+<><><><><><><><><><><>
+Lizzie worked on models on 11 June 2018 (rstan, rstanarm), comparing especially:
+(a) Models with and without interactions
+(b) Models with and without datasetID as an additional PP intercept.
+Ailene also did, using BRMS. 
+
+* During this meeting we discovered the 'centered' data was actually not centered, it was DIVIDED by the mean. We tried centering but the 
+
+Take home messages:
+- I am not sure we can separate out studyID and species. It doesn't really look to be converging in the stan or rstanarm code. I also feel it will be hard for a model to tease out datasetID from chilling given that we had to calculate chilling and thus it will be fairly unique to each study (since few experimentally manipulated it). Given a choice to ask the models to partition species or studyID we have always said studyID is the priority. Ailene had even more issues in BRMS and suggested it also. 
+
+- Interactions: It seems like the model is now stable with interactions (no PP on them though, Lizzie never tried this before as it seemed to be pushing the model too far but Ailene did -- very slow -- Lizzie tried also and thinks it may be too unstable but we could try it with rstan code; only tried so far with rstanarm). We suggest keeping these in!
+
+- Current results (rstan and rstanarm were updated for the centered uncentered data for models WITHOUT studyID on 17 June 2018; Ailene updated BRMS models to z-score data late on 12 June 2018) are in: models_bb_compare.xlsx.
+
+
+To do:
+- Decide what to do about chilling. Just now we use Utah hours (most studies had this) divided by 240 so the number is comparable to force and photo (z-score data were NOT divided by 240 before centering, though it should not matter). 
+- Discuss what to do about crops ... 
+
+
