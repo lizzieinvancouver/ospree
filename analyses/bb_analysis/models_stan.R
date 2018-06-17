@@ -102,11 +102,9 @@ m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
 save(m2l.winsp, file="stan/output/M1_daysBBwinternosp_2level.Rda")
 
 m2l.winsp.sum <- summary(m2l.winsp)$summary 
-head(m2l.winsp.sum) 
-m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_cf", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_cp", rownames(m2l.winsp.sum)),]
-m2l.winsp.sum[grep("b_fp", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+    "b_cf","b_cp","b_fp"),]
+
 # a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # (low n_eff for some params, a whole mix of them!)
 # z-score: a: 29; f: -5; p: -4; c: -10; cf: 2; cp: 2; cf: 0.4 
 
@@ -126,20 +124,24 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz.Rda")
 if(FALSE){
 library(rstanarm)
 
-# 86 divergent transitions! 
+# 59 divergent transitions
 m2l.ni.arm <- stan_glmer(resp ~ (force + photo + chill ) +
     ((force + photo + chill)|complex.wname), data = bb.stan, chains=4)
-# a: 69; f: -1.0; p: -0.6; c: -2.7
+save(m2l.ni.arm, file="stan/output/M1_daysBBnointer_2level.arm.Rda")
 
-# 80 divergent transitions (everything else on a glance, looks fine)
+
+# 51 divergent transitions (everything else on a glance, looks fine)
 m2l.winsp.arm <- stan_glmer(resp ~ (force + photo + chill +
     force*photo + force*chill + photo*chill) +
     ((force + photo + chill)|complex.wname), data = bb.stan)
+save(m2l.winsp.arm, file="stan/output/M1_daysBBwinter_2level.arm.Rda")
 
-# Very slow! 95 div transitions
+
+# Very slow! 144 div transitions
 m2l.winsp.arm.alt <- stan_glmer(resp ~ (force + photo + chill +
     force*photo + force*chill + photo*chill) +
     ((force + photo + chill+force*photo + force*chill + photo*chill)|complex.wname), data = bb.stan, cores=4)
+save(m2l.winsp.arm.alt, file="stan/output/M1_daysBBwinter_2level.arm.alt.Rda")
 
 summary(m2l.winsp.arm)
 # a: 97; f: -1.9; p: -1.5; c: -7; fp: 0; fc: 0.1; pc: 0.1
