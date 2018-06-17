@@ -131,7 +131,7 @@ sppsummmap <-
 
 theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         # panel.grid.major = element_blank(),
-                        panel.background = element_rect(fill = "grey90",colour = NA),
+                        panel.background = element_rect(fill = "white",colour = NA),
                         # plot.background = element_rect(fill=NA),
                         axis.title.x = element_blank(),
                         axis.title.y = element_blank(),
@@ -212,3 +212,24 @@ ggplot() +
             low="thistle2", high="dodgerblue4", guide="colorbar", na.value="NA") +
   theme.tanmap
 dev.off()
+
+
+if(FALSE){
+# An aside to make map of BB data (June 2018)
+
+setwd("bb_analysis")
+source("source/bbstanleadin.R")
+
+summmap.bb <- summmap[which(summmap$datasetID %in% unique(bb.stan$datasetID)),]
+pdf("figures/map_bbdata.pdf", width=8, height=4)
+
+ggplot() + 
+    geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+    # coord_cartesian(ylim=c(5, 70), xlim=c(-120, 40)) +
+    geom_point(data=summmap.bb, 
+        aes(x=provenance.long, y=provenance.lat), 
+        colour="black", pch=21) +
+  theme.tanmap
+dev.off()
+
+}
