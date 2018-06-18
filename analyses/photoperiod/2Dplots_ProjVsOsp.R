@@ -28,6 +28,7 @@ library(dplyr)
 library(geosphere)
 library(lubridate)
 library(ggplot2)
+library(RColorBrewer)
 
 
 ############################################
@@ -143,32 +144,36 @@ fxx<-full_join(fxx, fsyl)
 #library(plyr)
 #hulls.geo <- ddply(fxx, "type", find_hull.geo)
 fxx$photo.type<-ifelse(fxx$photo.type=="daylength", "current", fxx$photo.type)
-fxx$photo.type<-ifelse(fxx$photo.type=="proj.photo", "dprojected", fxx$photo.type)
+fxx$photo.type<-ifelse(fxx$photo.type=="proj.photo", "aprojected", fxx$photo.type)
 
 fxx$phen.type<-ifelse(fxx$phen.type=="lodoy", "current", fxx$phen.type)
-fxx$phen.type<-ifelse(fxx$phen.type=="proj.lodoy", "dprojected", fxx$phen.type)
+fxx$phen.type<-ifelse(fxx$phen.type=="proj.lodoy", "aprojected", fxx$phen.type)
 
 unique(ave(fxx$doy[which(fxx$phen.type=="current")], FUN=min)) ## 95
 
 fxx$doy<-ifelse(fxx$phen.type=="ospree", fxx$doy+95, fxx$doy)
 
-geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
+
+cols <- colorRampPalette(brewer.pal(9,"Spectral"))(2)
+
+geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength") +
-  coord_cartesian(ylim=c(0, 24)) + guides(col=FALSE) + ggtitle("A") +
-  scale_colour_manual(values=c("salmon3", "slategray3", "forestgreen"), 
+        text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
+  guides(col=FALSE) + ggtitle("A") +
+  scale_colour_manual(name="Data Type", values=c(cols,"black"), 
                       labels=c(current = "Current", 
-                               dprojected = "Projected", 
+                               aprojected = "Projected", 
                                ospree = "OSPREE")) + guides(shape=FALSE, alpha=FALSE)+
   scale_shape_manual(name="Data Type", values=c(16, 15, 17), 
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
+                              aprojected = "Projected", 
                               ospree = "OSPREE")) + 
-  scale_alpha_manual(name="Data Type", values=c(0.7,0.7,1.7),
-                     labels=c(current = "Current", 
-                              dprojected = "Projected", 
-                              ospree = "OSPREE"))
+  scale_alpha_manual(name="Data Type", values=c(0.1,0.1,1),
+                     labels=c(zcurrent = "Current", 
+                              projected = "Projected", 
+                              ospree = "OSPREE")) +
+  scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
 phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
@@ -180,25 +185,26 @@ phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) 
 #find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
 #hulls.phen <- ddply(fxx, "type", find_hull.phen)
 
-doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
+doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type, alpha=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
-        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength") + 
-  coord_cartesian(ylim=c(0, 24)) + labs(col="Data Type") + ggtitle("B") +
-  scale_colour_manual(name="Data Type", values=c("salmon3", "slategray3", "forestgreen"), 
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
+  labs(col="Data Type") + ggtitle("B") +
+  scale_colour_manual(name="Data Type", values=c(cols, "black"), 
                       labels=c(current = "Current", 
-                               dprojected = "Projected", 
+                               aprojected = "Projected", 
                                ospree = "OSPREE")) + guides(size=FALSE, alpha=FALSE) +
   scale_shape_manual(name="Data Type", values=c(16, 15, 17), 
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
+                              aprojected = "Projected", 
                               ospree = "OSPREE")) + 
-  scale_alpha_manual(name="Data Type", values=c(0.7,0.7,1.7),
+  scale_alpha_manual(name="Data Type", values=c(0.1,0.1,1),
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
-                              ospree = "OSPREE"))
+                              aprojected = "Projected", 
+                              ospree = "OSPREE")) +
+  scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
 #library(egg)
@@ -314,31 +320,31 @@ qxx<-full_join(qxx, qrob)
 #library(plyr)
 #hulls.geo <- ddply(fxx, "type", find_hull.geo)
 qxx$photo.type<-ifelse(qxx$photo.type=="daylength", "current", qxx$photo.type)
-qxx$photo.type<-ifelse(qxx$photo.type=="proj.photo", "dprojected", qxx$photo.type)
+qxx$photo.type<-ifelse(qxx$photo.type=="proj.photo", "aprojected", qxx$photo.type)
 
 qxx$phen.type<-ifelse(qxx$phen.type=="lodoy", "current", qxx$phen.type)
-qxx$phen.type<-ifelse(qxx$phen.type=="proj.lodoy", "dprojected", qxx$phen.type)
+qxx$phen.type<-ifelse(qxx$phen.type=="proj.lodoy", "aprojected", qxx$phen.type)
 
 unique(ave(qxx$doy[which(qxx$phen.type=="current")], FUN=min)) ## 88
 
 qxx$doy<-ifelse(qxx$phen.type=="ospree", qxx$doy+88, qxx$doy)
 
-geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
+geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength") +
+        axis.ticks.y = element_blank(), text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
   coord_cartesian(ylim=c(0, 24)) + guides(col=FALSE) + ggtitle("A") +
-  scale_colour_manual(values=c("salmon3", "slategray3", "forestgreen"), 
+  scale_colour_manual(values=c(cols, "black"), 
                       labels=c(current = "Current", 
-                               dprojected = "Projected", 
+                               aprojected = "Projected", 
                                ospree = "OSPREE")) + guides(shape=FALSE, alpha=FALSE)+
   scale_shape_manual(name="Data Type", values=c(16, 15, 17), 
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
+                              aprojected = "Projected", 
                               ospree = "OSPREE")) + 
-  scale_alpha_manual(name="Data Type", values=c(0.7,0.7,1.7),
+  scale_alpha_manual(name="Data Type", values=c(0.1,0.1,1),
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
+                              aprojected = "Projected", 
                               ospree = "OSPREE"))
 
 
@@ -351,14 +357,14 @@ phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) 
 #find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
 #hulls.phen <- ddply(fxx, "type", find_hull.phen)
 
-doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
+doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type, alpha=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         axis.ticks.y = element_blank(), legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
-        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength") + 
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
   coord_cartesian(ylim=c(0, 24)) + labs(col="Data Type") + ggtitle("B") +
-  scale_colour_manual(name="Data Type", values=c("salmon3", "slategray3", "forestgreen"), 
+  scale_colour_manual(name="Data Type", values=c(cols, "black"), 
                       labels=c(current = "Current", 
                                dprojected = "Projected", 
                                ospree = "OSPREE")) + guides(shape=FALSE, alpha=FALSE) +
