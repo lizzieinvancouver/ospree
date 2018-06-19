@@ -328,12 +328,13 @@ qxx$phen.type<-ifelse(qxx$phen.type=="proj.lodoy", "aprojected", qxx$phen.type)
 unique(ave(qxx$doy[which(qxx$phen.type=="current")], FUN=min)) ## 88
 
 qxx$doy<-ifelse(qxx$phen.type=="ospree", qxx$doy+88, qxx$doy)
+qxx<-na.omit(qxx)
 
 geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
-  coord_cartesian(ylim=c(0, 24)) + guides(col=FALSE) + ggtitle("A") +
+        text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
+  guides(col=FALSE) + ggtitle("A") +
   scale_colour_manual(values=c(cols, "black"), 
                       labels=c(current = "Current", 
                                aprojected = "Projected", 
@@ -345,7 +346,8 @@ geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.typ
   scale_alpha_manual(name="Data Type", values=c(0.1,0.1,1),
                      labels=c(current = "Current", 
                               aprojected = "Projected", 
-                              ospree = "OSPREE"))
+                              ospree = "OSPREE")) +
+  scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
 phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
@@ -361,21 +363,22 @@ doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
+        legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
         legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
-  coord_cartesian(ylim=c(0, 24)) + labs(col="Data Type") + ggtitle("B") +
+  labs(col="Data Type") + ggtitle("B") +
   scale_colour_manual(name="Data Type", values=c(cols, "black"), 
                       labels=c(current = "Current", 
-                               dprojected = "Projected", 
+                               aprojected = "Projected", 
                                ospree = "OSPREE")) + guides(shape=FALSE, alpha=FALSE) +
   scale_shape_manual(name="Data Type", values=c(16, 15, 17), 
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
+                              aprojected = "Projected", 
                               ospree = "OSPREE")) + 
-  scale_alpha_manual(name="Data Type", values=c(0.7,0.7,1.7),
+  scale_alpha_manual(name="Data Type", values=c(0.1,0.1,1),
                      labels=c(current = "Current", 
-                              dprojected = "Projected", 
-                              ospree = "OSPREE"))
+                              aprojected = "Projected", 
+                              ospree = "OSPREE")) +
+  scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
 #library(egg)
