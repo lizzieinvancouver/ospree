@@ -1,5 +1,6 @@
 # Started 15 March 2018 
 # By Ailene 
+#Updated a tiny bit by Dan 19 June 2018
 # Fitting bb models with brms to compare coefficients with stan models
 # housekeeping
 rm(list=ls()) 
@@ -59,11 +60,15 @@ summary(m2l.nin.brms.z)
 #uncentered:
 m2l.winsp.brms <- brm(resp ~ (force + photo + chill +#main effects
                              force*photo + force*chill + photo*chill)+ #interactions
-                        ((force + photo + chill)|complex.wname), data = bb.stan,
+                        ((force + photo + chill)|complex.wname),warmup=2500,iter=4000, data = bb.stan,
                    chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 summary(m2l.winsp.brms)
 #brms model says a:94.77, f= -1.85, p=-1.41, c= -6.94, 
                   #f*c: 0.15, c*p: 0.10  f*p: 0.01; sigma sp: 15.37
+
+# Dan changed warm up and iters to match stan models:
+#a 94.7, f:-1.83,p:-1.4,c:-6.97. f*p0.01,c*p=.11, f*c=15 sigma 14.59
+#stancode(m2l.winsp.brms)
 #marginal_effects(m2l.wi.brms, surface = TRUE)
 stanplot(m2l.winsp.brms, pars = "^b_")
 launch_shinystan(m2l.winsp.brms)
