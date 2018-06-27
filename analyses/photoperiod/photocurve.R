@@ -21,13 +21,11 @@ bb.all<- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 bb.some <- subset(bb.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
 bbdat <- subset(bb.some, response.time!="")
 
-
 colnames(bbdat)
 #To Use
 # heide93
 #ashby62
 #cafarra11b
-
 
 ###plots
 hei<-subset(bbdat,datasetID=="heide93a"& study=="exp3")
@@ -41,12 +39,10 @@ hei$thingy[hei$population=="Basel"]<-11
 hei$thingy[hei$population=="Carpathia Mtns"]<-12
 hei$thingy[hei$population=="Copenhagen"]<-13
 
-
 ash1<-subset(bbdat,datasetID=="ashby62"&population=="Southwestern Michigan")
 ash2<-subset(bbdat,datasetID=="ashby62"&population=="Central Wisconsin")
 sh1<-subset(ash1,response.time<999)
 ash2<-subset(ash2,response.time<999)
-
 
 ash1$thingy[ash1$fieldsample.date=="11-Dec-1956"]<-"Mich1"
 ash1$thingy[ash1$fieldsample.date=="8-Jan-1957"]<-"Mich2" 
@@ -70,26 +66,25 @@ caf$thingy[caf$chilldays==55]<-7
 caf$thingy[caf$chilldays==95]<-8
 
 caf$days_cent<-caf$response.time-(mean(caf$response.time)/sd(caf$response.time))
-ggplot(ash,(aes(as.numeric(photoperiod_day),response.time)))+geom_line(aes(color=thingy))+ggtitle("Ashby62, Tilia americana")
-ggplot(hei,aes(as.numeric(photoperiod_day),response.time))+geom_line(aes(color=population))+ggtitle("Heide93a,Fagus sylvatica")
-ggplot(caf,(aes(as.numeric(photoperiod_day),response.time)))+geom_line(aes(color=chilldays))+ggtitle("caffarra11b, Betula pubescens")
 
 ha<-rbind(caf,hei,ash)
-  ggplot(ha,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=datasetID,linetype=population,group=thingy))+theme_classic()+xlab("Photoperiod")+ylab("Days to budburst (scaled)")
 
-unique(ha$Total_Utah_Model)
+ha$chill_level[ha$Total_Chill_portions<31] <- "None"
+ha$chill_level[ha$Total_Chill_portions> 31 & ha$Total_Chill_portions < 80] <- "Low"
+ha$chill_level[ha$Total_Chill_portions> 80 & ha$Total_Chill_portions < 130] <- "Med"
+ha$chill_level[ha$Total_Chill_portions> 130 & ha$Total_Chill_portions < 181] <- "High"
+library(grid)
+ha<-unite(ha,lat.long,provenance.lat,provenance.long,sep=",")
+ha<-unite(ha,GENSPA,genus,species,sep=" ")
+ha2<-filter(ha,response.time<80)
+library(egg)
+plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=0,ymax=55),fill="lightgrey", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+ggtitle("A")
+ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("B")
+
 unique(ha$forcetemp)
-library("directlabels")
-p<-ggplot(ash,(aes(as.numeric(photoperiod_day),days_cent)))+geom_line(aes(color=genus,linetype=population,group=thingy))+xlim(0,24)
-q<-p+annotate("text", x = 12.8, y = 2.5, label = "30 chill portions",angle = 55,size = 3)+annotate("text",x = 18, y = 0.7, label = "43 chill portions",size = 3)+annotate("text",x = 18, y = 0.45, label = "54 chill portions",size = 3)+annotate("text",x = 18, y = 0.3, label = "69 chill portions",size = 3)
-q+geom_line(data=hei,aes(color=genus,,group=thingy))+annotate("text", x = 12.3, y = 1.3, label = "106-124 chill portions",angle=-25,size = 3)+theme_base()
 
-unique(hei$Total_Chill_portions)
+vp <- viewport(width = 0.35, height = 0.6, x = 0.45, y = .9,just=c("left","top"))
+plotx+theme_base()
+print(ploty, vp = vp, )
+  
 
-r<-q+geom_line(data=caf,aes(color=datasetID,linetype=pop2))
-
-
-r + geom_text(data = ha, aes(label = Total_Utah_Model), hjust = 0.7, vjust = 1)
-
-
- 
