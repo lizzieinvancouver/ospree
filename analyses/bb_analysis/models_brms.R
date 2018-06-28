@@ -68,6 +68,8 @@ summary(m2l.winsp.brms)
 
 # Dan changed warm up and iters to match stan models:
 #a 94.7, f:-1.83,p:-1.4,c:-6.97. f*p0.01,c*p=.11, f*c=15 sigma 14.59
+## Cat removed apples:
+# a: 95.50; f: -1.92; p: -1.46; c: -7.02; fp: 0.01; fc: 0.15; pc: 0.11; sigma: 14.96
 #stancode(m2l.winsp.brms)
 #marginal_effects(m2l.wi.brms, surface = TRUE)
 stanplot(m2l.winsp.brms, pars = "^b_")
