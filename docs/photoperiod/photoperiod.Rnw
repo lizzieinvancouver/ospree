@@ -174,7 +174,7 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 \begin{figure}[p]
 \centering
 \includegraphics{/Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf} %2009 greenup
-\caption{\textbf{Green-up date varies with latitude} and varies among years. }
+\caption{\textbf{The photoperiod on the green up date (start of spring) varies over space} and among years. Hours of daylight on the date of spring green up from MODIS satilite data across North America and Europe for an average (a) and  early (b) North American start of spring. The differences between the years are shown in (c). }
  \label{fig:greenup}%
  \end{figure}
 \begin{figure}[p]
