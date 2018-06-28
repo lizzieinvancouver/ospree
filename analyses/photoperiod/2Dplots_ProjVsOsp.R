@@ -176,11 +176,11 @@ geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.typ
   scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
-phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
+#phen<- ggplot(ff, aes(x=phen.shift, y=photo.shift)) + geom_point(aes(col=type)) + geom_jitter() +
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=type)) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        axis.ticks.y = element_blank(), legend.position = "none")
+  #theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
+   #     panel.background = element_blank(), axis.line = element_line(colour = "black"), 
+    #    axis.ticks.y = element_blank(), legend.position = "none")
 
 #find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
 #hulls.phen <- ddply(fxx, "type", find_hull.phen)
@@ -212,7 +212,20 @@ quartz()
 ggarrange(geo.photo, doy.photo, ncol=2)
 
 
-
+#### Check the OSPREE data that's nearly 2x later budburst
+check<-fxx[(fxx$doy>147),]
+check$date<-as.Date(check$doy, origin = "2018-01-01")
+check$daylength<-daylength(check$Lat, check$date)
+check$photodiff<-check$daylength-check$photoperiod
+check$latitude<-round(check$Lat)
+fxx.diff<-fxx[(fxx$phen.type=="current"),]
+fxx.diff$latitude<-round(fxx.diff$Lat)
+fxx.diff$mdoy<-ave(fxx.diff$doy, fxx.diff$latitude)
+check$diff.doy<-NA
+for(i in c(1:nrow(fxx.diff))){
+  for(j in c(1:nrow(check)))
+    check$diff.doy[j]<-ifelse(check$latitude[j]==fxx.diff$latitude[i], check$doy[j]-fxx.diff$mdoy[i], check$diff.doy[j])
+}
 
 #########################
 #### Quercus stuff! #####
