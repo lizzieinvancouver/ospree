@@ -13,14 +13,14 @@ options(stringsAsFactors = FALSE)
 
 # dostan = TRUE
 
-#library(rstan)
+library(rstan)
 library(ggplot2)
-#library(shinystan)
+library(shinystan)
 #library(bayesplot)
 library(rstanarm)
 library(brms)
 library(ggstance)
-library(forcats)
+#library(forcats)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("danflynn", getwd())>0)) { 
@@ -32,8 +32,8 @@ if(length(grep("Ignacio", getwd()))>0) {
 
 setwd("~/Documents/git/ospree/analyses")
 
-#rstan_options(auto_write = TRUE)
-#options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
 
 
 ########################
@@ -62,6 +62,12 @@ bb.wlab<-bb.wlab.photo
 myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
+studies<-dplyr::select(bb.wlab, datasetID, complex)
+studies<-studies[!duplicated(studies),]
+studies<-within(studies, { studies <- ave(datasetID, complex, FUN=function(x) length(unique(x)))})
+studies<-dplyr::select(studies, -datasetID)
+studies<-studies[!duplicated(studies),]
+
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp",
                    "photoperiod_day", "response", "response.time", "Total_Utah_Model",
                    "complex", "provenance.lat")
@@ -78,30 +84,74 @@ bb.wlab.sm$lat<-as.numeric(bb.wlab.sm$provenance.lat)
 
 
 ## subsetting data, preparing genus variable, removing NAs
-ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill", "photo", "force", "complex", "lat"))
+ospr.prepdata <- subset(bb.wlab.sm, select=c("resp", "chill", "photo", "force", "complex", "lat", "datasetID"))
 dim(subset(bb.wlab.sm, is.na(chill)==FALSE & is.na(photo)==FALSE & is.na(force)==FALSE 
-           & is.na(lat)==FALSE))
+           & is.na(lat)==FALSE & is.na(datasetID)==FALSE))
 ospr.stan <- ospr.prepdata[complete.cases(ospr.prepdata),]
 ospr.stan$sp <- as.numeric(as.factor(ospr.stan$complex))
 
-## Center?
+## Center? or Z-score?
 ospr.stan$sm.chill<-ospr.stan$chill/240
-#ospr.stan$cforce<- scale(ospr.stan$force, center=TRUE)
-#ospr.stan$cchill<- scale(ospr.stan$chill, center=TRUE)
-#ospr.stan$cphoto<- scale(ospr.stan$photo, center=TRUE)
-#ospr.stan$clat<- scale(ospr.stan$lat, center=TRUE)
+## center the predictors:
+#ospr.stan$force.cen <- ospr.stan$force-mean(ospr.stan$force,na.rm=TRUE)
+#ospr.stan$photo.cen <- ospr.stan$photo-mean(ospr.stan$photo,na.rm=TRUE)
+#ospr.stan$chill.cen <- ospr.stan$chill-mean(ospr.stan$chill,na.rm=TRUE)
+#ospr.stan$lat.cen <- ospr.stan$lat-mean(ospr.stan$lat,na.rm=TRUE)
+
+## z-score the predictors:
+#ospr.stan$force.z <- (ospr.stan$force-mean(ospr.stan$force,na.rm=TRUE))/sd(ospr.stan$force,na.rm=TRUE)
+#ospr.stan$photo.z <- (ospr.stan$photo-mean(ospr.stan$photo,na.rm=TRUE))/sd(ospr.stan$photo,na.rm=TRUE)
+#ospr.stan$chill.z <- (ospr.stan$chill-mean(ospr.stan$chill,na.rm=TRUE))/sd(ospr.stan$chill,na.rm=TRUE)
+#ospr.stan$lat.z <- (ospr.stan$lat-mean(ospr.stan$lat,na.rm=TRUE))/sd(ospr.stan$lat,na.rm=TRUE)
+
+ospr.stan <- subset(ospr.stan, resp<600)
+
+### Species random slope effect for main effects only
+lat.stan<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat +
+                    (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                    chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+
+lat.inter_arm<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
+                     photo:sm.chill + force:lat + sm.chill:lat +
+                     (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                   chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+
+### Rstanarm output:
+# a: 121.1, f:-1.4, p: -3.7, c: -3.8, l: -0.5, pl: 0.0, sigma: 20.2
+
+summary(lat.inter_arm) # 75 divergent transitions and bad... 
 
 
-ospr.stan<-ospr.stan[which(ospr.stan$resp!=999),]
+## Next, (1) compare to brms output, (2) add all interactions to make sure doesn't skew results, (3) add datasetID as random intercept?
+lat.stan_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
+                       (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                     chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+
+summary(lat.stan_brm) ## quite different from rstanrarm!
+# a: 99.34, f: -1.37, p: -2.99, c: -3.8, l: -0.17, pl: 0.04, sigma: 19.95
+
+lat.inter_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
+                     photo:sm.chill + force:lat + sm.chill:lat +
+                    (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                  chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+
+# hmmm... quite different... 
+summary(lat.inter_brm)
+# a: -13.41, f: 6.99, p: -4.98, c: -8.81, l: 2.49, pl: 0.07, fp: 0.01, fc: 0.21, pc: 0, fl: -.19, cl: 0.02, sigma: 19.38
 
 
-lat.stan_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) +
-                    (force-1|sp) + (photo-1|sp) + (sm.chill-1|sp) +
-                    (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
+lat.study_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + (1|datasetID) +
+                    (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                  chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
-lat.stan_final<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + (1|sp) +
-                             (force-1|sp) + (photo-1|sp) + (sm.chill-1|sp) +
-                             (lat-1|sp) + (photo:lat-1|sp), data=ospr.stan)
+summary(lat.study_brm)
+# a: 105.36, f: -1.81, p: -1.16, c: -3.68, l: -0.21, pl: 0.01, sigma: 14.84 
+
+
+stanplot(lat.stan_brm, pars = "^b_")
+launch_shinystan(lat.stan_brm)
+
+
 
 m<-lat.stan_brm
 m.int<-posterior_interval(m)
@@ -568,25 +618,25 @@ datalist.td$chill<-datalist.td$chill/240
 
 
 ## real data with only experimental chilling (no field chilling)
-#osp.td3 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
+#ospr.td3 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td,
  #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95)) 
 
 
 ##############################
 ###### real data all chilling
-osp.td4 = stan('lat_analysis/lat_trunc_inter.stan', data = datalist.td,
+ospr.td4 = stan('lat_analysis/lat_trunc_inter.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.99)) 
 
-betas <- as.matrix(osp.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
+betas <- as.matrix(ospr.td4, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","mu_b_lat_sp",
 "b_force", "b_photo", "b_chill"))
 mcmc_intervals(betas[,1:4])
 
-launch_shinystan(osp.td4)
+launch_shinystan(ospr.td4)
 load("/Users/CatherineChamberlain/Downloads/shinystan-multiparam-gg.RData")
 shinystan_multiparam_gg
 
 
-#td4 <- summary(osp.td4)$summary
+#td4 <- summary(ospr.td4)$summary
 #preds.4<-td4[grep("yhat", rownames(td4)),]
 
 save(td4, file="stan/lat/output/LAT_daysBBnointer_2level.Rda")
@@ -595,13 +645,13 @@ save(td4, file="stan/lat/output/LAT_daysBBnointer_2level.Rda")
 
 ######################################
 ###### real data all chilling sigmoid
-osp.td5 = stan('stan/bb/M1_daysBBnointer_2level_interceptonly_sigmoid.stan', data = datalist.td,
+ospr.td5 = stan('stan/bb/M1_daysBBnointer_2level_interceptonly_sigmoid.stan', data = datalist.td,
                iter = 2000,warmup=1500,control=list(adapt_delta=0.95)) 
 
-betas.td5 <- as.matrix(osp.td5, pars = c("b_force", "b_photo","a_chill", "b_chill"))
+betas.td5 <- as.matrix(ospr.td5, pars = c("b_force", "b_photo","a_chill", "b_chill"))
 mcmc_intervals(betas[,1:5])
 
-#td5 <- summary(osp.td5)$summary
+#td5 <- summary(ospr.td5)$summary
 #preds.5<-td5[grep("yhat", rownames(td5)),]
 
 
@@ -633,6 +683,6 @@ datalist.td <- with(testdat,
 
 
 ## running model with fake data
-osp.td2 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td, 
+ospr.td2 = stan('stan/bb/M1_daysBBnointer_2level.stan', data = datalist.td, 
              iter = 2000,warmup=1500,control=list(adapt_delta=0.90)) 
 
