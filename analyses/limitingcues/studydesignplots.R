@@ -72,19 +72,26 @@ sppsumyr <- sppsumyr[order(sppsumyr$year),]
 colz <- c("darkseagreen", "firebrick1", "gold", "deepskyblue")
 
 pdf("limitingcues/figures/pubstudyyear.pdf", width = 8, height = 5)
-plot(sqrt(n)~year, data=sppsumyr, ylim=c(-1,40), type="n")
-lines(sqrt(n)~year, data=sppsumyr, col=colz[1])
+plot(sqrt(sppn)~year, data=sppsumyr, ylim=c(-1,40), type="n")
+lines(sqrt(sppn)~year, data=sppsumyr, col=colz[1])
 points(force~year, data=sppsumyr, col=colz[2])
 points(photo~year, data=sppsumyr, col=colz[3])
 points(chill~year, data=sppsumyr, col=colz[4])
 dev.off()
 
-studyr <- merge(stud, sppsumyr, by=c("datasetID", "study"))
+names(stud)[names(stud)=="photo"] <- "photo.count"
+names(stud)[names(stud)=="force"] <- "force.count"
+names(stud)[names(stud)=="chill"] <- "chill.count"
+names(stud)[names(stud)=="field.sample"] <- "fs.count"
+names(stud)[names(stud)=="prov.long"] <- "long.count"
+names(stud)[names(stud)=="prov.lat"] <- "lat.count"
+
+studyr <- merge(stud, sppsumyr, by=c("datasetID", "study", "year"))
 dim(stud)
 dim(studyr)
-studyr <- subset(studyr, select=c("datasetID", "study", "genus.species", "woody",
-    "samplingdates.count", "species.count", "photoperiods.count", "forcetemps.count",
-     "expchill.count", "latitude.count", "longitude.count", "year"))
+studyr <- subset(studyr, select=c("datasetID", "study", "year",
+    "fs.count", "sppn", "photo.count", "force.count",
+     "chill.count", "lat.count", "long.count"))
 
 studyr$exp <- paste(studyr$datasetID, studyr$study)
 studyr$yearint <- as.integer(studyr$year)
@@ -94,7 +101,24 @@ expperyr <- ddply(studyr, c("yearint"), summarise,
       nexp=length(unique(exp)))
 
 plot(ndat~yearint, data=expperyr, ylim=c(-5,30), type="l")
-points(samplingdates.count~year, data=studyr, ylim=c(-5,30), col="green")
+points(fs.count~year, data=studyr, ylim=c(-5,30), col="green")
+
+## counting how many manip two cues
+## need to work on this ....
+howmany <- subset(studyr, chill.count>1 & photo.count >1)
+length(unique(paste(howmany$datasetID, howmany$study)))
+length(unique(howmany$datasetID))
+# force x photo: 59 / 24
+# force x chill: 25 / 8
+# chill x photo: 25 / 9
+howmany.prov <- subset(studyr,  lat.count>1 & photo.count>1)
+length(unique(paste(howmany.prov$datasetID, howmany.prov$study)))
+length(unique(howmany.prov$datasetID))
+# prov overall: 61 / 33
+# prov x force: 36 / 15
+# prov x photo: 40 / 18
+# prov x chill: 21 / 10
+##
 
 
 ##

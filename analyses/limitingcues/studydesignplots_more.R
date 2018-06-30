@@ -4,7 +4,8 @@
 ## TO DO ##
 # (1) Should we get the centroid of the lat/long points for each study?
 # Right now I cheaply take average lat and average long #
-# (2) Calculate mean, min, max field sample date and plot
+# (2) Calculate mean, min, max field sample date and plot (semi-done)
+# (3) Work on heat-maps, more notes on this below
 
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
@@ -21,9 +22,13 @@ library(tidyr)
 library(ggplot2)
 library(gridExtra)
 
+source("misc/getfielddates.R")
+
 
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
+dat <- dat[dat$woody=="yes",]
+
 
 # format species and date
 dat$latbi <- paste(dat$genus, dat$species)
@@ -61,6 +66,22 @@ d$force[is.na(d$forcetemp_night)==FALSE & is.na(d$photoperiod_day)==FALSE &
     d$photoperiod_night[is.na(d$forcetemp_night)==FALSE & is.na(d$photoperiod_day)==FALSE &
     is.na(d$photoperiod_night)==FALSE])/24
 
+## Field sample dates
+# Get the number of field sampling dates that are 14 or more weeks apart, first for each datasetIDx study ...
+ddatefx.all <- subset(d, select=c("datasetID", "study", "fieldsample.date"))
+ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
+ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
+
+dates2weeks <- countfieldsample(ddatefx, 14)
+
+# ... and next for each treatment
+ddatefxtreat.all <- subset(d, select=c("datasetID", "study", "fieldsample.date", "force", "photoperiod_day", "chilltemp"))
+ddatefxtreat <- ddatefxtreat.all[!duplicated(ddatefxtreat.all), ]
+ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study, ddatefxtreat$force,
+    ddatefxtreat$photoperiod_day, ddatefxtreat$chilltemp)
+
+dates2weekstreat <- countfieldsample(ddatefxtreat, 14)
+names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
 
 ## summarizing data
 dsumm <-
@@ -189,14 +210,18 @@ plotxydat("max.chill", "mean.lat", "datasetID", dsumm, "topleft") # -0.07
 plotxydat("range.chill", "mean.lat", "datasetID", dsumm, "topleft") # NR
 dev.off()
 
-
+###
+###
+###
 
 ## TO DO for heatmap:
 # (1) Make sure I am counting correctly
-# (2) What to do with NA?
-# (3) And to include chilling ...
+# (2) What to do with NA
+# (3) Make much, much prettier!
 
 ## Summarizing data
+d$datasetIDstudytreat <- paste(d$datasetID, d$study, d$force, d$photoperiod_day, d$chilltemp)
+d <- merge(d, dates2weekstreat, by.x="datasetIDstudytreat", by.y="datasetIDstudy", all.x=TRUE)
 d$force.int <- as.integer(d$force)
 d$photo.int <- as.integer(d$photoperiod_day)
 d$chill.int <- as.integer(d$chilltemp)
@@ -207,7 +232,7 @@ dsumm.treat <-
       mean.long = mean(provenance.long),
       mean.year = mean(year),
       spp.n = length(unique(latbi)),
-      field.sample.n = length(unique(fieldsample.date)),
+      field.sample.n = mean(fs.date.count, na.rm=TRUE),
       mean.fieldsamp = mean(doy),
       min.fieldsamp = min(doy),
       max.fieldsamp = max(doy))
@@ -243,3 +268,36 @@ ggplot(dsumm.numschfor, aes(as.factor(chill.int), as.factor(force.int))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
+
+
+dsumm.numschfs <-
+      ddply(dsumm.treat, c("chill.int", "field.sample.n"), summarise,
+      count = length(chill.int))
+
+pdf("limitingcues/figures/heatmapchillxfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numschfs, aes(as.factor(chill.int), as.factor(field.sample.n))) +
+    geom_tile(aes(fill=count), colour="white") +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
+
+
+dsumm.numsforfs <-
+      ddply(dsumm.treat, c("force.int", "field.sample.n"), summarise,
+      count = length(chill.int))
+
+pdf("limitingcues/figures/heatmapforcexfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numsforfs, aes(as.factor(force.int), as.factor(field.sample.n))) +
+    geom_tile(aes(fill=count), colour="white") +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
+
+dsumm.numsphfs <-
+      ddply(dsumm.treat, c("photo.int", "field.sample.n"), summarise,
+      count = length(chill.int))
+
+pdf("limitingcues/figures/heatmapphotoxfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numsphfs, aes(as.factor(photo.int), as.factor(field.sample.n))) +
+    geom_tile(aes(fill=count), colour="white") +
+    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
+dev.off()
+

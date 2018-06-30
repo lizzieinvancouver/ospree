@@ -1,6 +1,9 @@
 Started 24 August 2017
 By Lizzie
 
+ADD refs:
+Chuine review paper from last year!!
+
 <><><><><><><><><><><><><><><><><><><><>
 General to do...
 <><><><><><><><><><><><><><><><><><><><>
@@ -37,9 +40,9 @@ To do items …
 Work on (issue #174):
 0. See what of the stuff below this list is done and delete/add!
 1. Make 3 panel version of heat map
-2. % of studies that manipulated each cue (table)
-3. photo x chill map
-4. chilling x weinberger: make heatmap version once I have corrected how we count fieldsample dates! (only count sample dates that are two weeks apart)
+2. # of studies that manipulated each cue (table)
+3. done
+4. done
 5. re-make maps and check on lat/long
 
 Make a f(x) to make the following the figures:
@@ -58,7 +61,4 @@ Heat map for photo by temp (temp is a combo of chilling and forcing temps)
 # of studies that manipulated more than one cue each year done by: chill, photo, force, field.sample
 
 % or n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date
-
-Assign to Dan or Cat?
-# studies per year, # species per year (color-coded by crop or not) 
  
