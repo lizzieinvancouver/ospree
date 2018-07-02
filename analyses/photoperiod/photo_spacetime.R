@@ -1,10 +1,11 @@
-#Make a figure showing how photoperiod changes during the year at different larititudes
+#Make a figure showing how photoperiod changes during the year at different latititudes
 #Started by Ailene Ettinger, aettinger@fas.harvard.edu
 #May 2018
 library(geosphere)
 library(TeachingDemos)
 lats<-c(22.5,45)# focl latitudes
 doy<-c(1:365)
+
 quartz(height=6.5,width=6)
 par(oma=c(0.1,0.1,0.1,0.1), mar=c(5,4,4,2) + 0.1)
 plot(doy,daylength(0,doy), xlim=c(1,380), ylim=c(8,17.5), xlab="Day of year", ylab="Daylength (hours)", bty="l",type="l", lwd=2)
@@ -38,10 +39,12 @@ points(doys[2],daylength(22.5,doys[2]), pch=21,bg=cols[2], cex=1.1)
 #}
 #add shifts
 #In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2006)- this is a low end
-#
+#in 100 years, spatial shifts observed =0.5 degrees poleward (Parmesan)
+lat.shift<-0.5
+temp.shift<-30
 #for(i in 1:length(lats)){
-  arrows(doys,daylength(45,doys), doys-30,daylength(45,doys-30), col="salmon4", length=0.1, lwd=3)
-  arrows(doys[2],daylength(22.5,doys[2]), doys[2]-30,daylength(22.5,doys[2]-30), col="salmon4", length=0.1, lwd=3)
+  arrows(doys,daylength(45,doys), doys-temp.shift,daylength(45,doys-temp.shift), col="salmon4", length=0.1, lwd=3)
+  arrows(doys[2],daylength(22.5,doys[2]), doys[2]-temp.shift,daylength(22.5,doys[2]-temp.shift), col="salmon4", length=0.1, lwd=3)
   
 #}
 #Add insets for spatial change- need to zoom in
@@ -64,7 +67,7 @@ subplot(
 #plot.new()
 #Add point to subplot
 points(315,15.2, pch=21,bg=cols[2],cex=2)
-spatshift_2<-daylength(lats[2]+0.5, 182)-daylength(lats[2],182)
+spatshift_2<-daylength(lats[2]+lat.shift, 182)-daylength(lats[2],182)
 arrows(315,15.2, 315,16, col="darkblue", length=0.1, lwd=3)
 #zoom in on days 181-183 for latitude 22.5
 doy2<-c(181,182,183)
@@ -84,7 +87,7 @@ subplot(
 
 #Add point to subplot
 points(315,13.9, pch=21,bg=cols[2],cex=2)
-spatshift_2<-daylength(lats[1]+0.5, 182)-daylength(lats[1],182)
+spatshift_2<-daylength(lats[1]+lat.shift, 182)-daylength(lats[1],182)
 arrows(315,13.9, 315,14.5, col="darkblue", length=0.1, lwd=3)
 
 ##Add insets for spatial change- need to zoom in
@@ -105,7 +108,7 @@ subplot(
   type='fig' )
 #Add point to subplot
 points(175,11.1, pch=21,bg=cols[2],cex=2)
-spatshift_2<-daylength(lats[2]+0.5, 91)-daylength(lats[2],91)
+spatshift_2<-daylength(lats[2]+lat.shift, 91)-daylength(lats[2],91)
 arrows(175,11.1, 175,11.3, col="darkblue", length=0.1, lwd=3)
 legend(0,17.5,legend=c("Temporal shift","Spatial shift"), lty=1,col=c("salmon4","darkblue"), lwd=3, bty="n")
 
@@ -114,6 +117,6 @@ legend(0,17.5,legend=c("Temporal shift","Spatial shift"), lty=1,col=c("salmon4",
 #  rect(doys-10,daylength(lats[i],doys)+-.2,doys+11,daylength(lats[i],doys)--.2)
 
 #for(i in 1:length(lats)){
-#  arrows(doys-10,daylength(lats[i],doys)+-.2, doys-30,daylength(lats[i],doys-30), col="salmon4", length=0.1, lwd=3)
+#  arrows(doys-10,daylength(lats[i],doys)+-.2, doys-temp.shift,daylength(lats[i],doys-temp.shift), col="salmon4", length=0.1, lwd=3)
   
 #}

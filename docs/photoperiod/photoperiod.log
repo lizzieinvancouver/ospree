@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  7 JUN 2018 15:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  2 JUL 2018 15:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -452,10 +452,65 @@ LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <8> not available
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <6> not available
 (Font)              Font shape `TS1/cmr/m/n' tried instead on input line 62.
 
+
+Package natbib Warning: Citation `saikkonen2012' on page 1 undefined on input l
+ine 79.
+
+
+Package natbib Warning: Citation `howe96' on page 1 undefined on input line 81.
+
+
+
+Package natbib Warning: Citation `saikkonen2012' on page 1 undefined on input l
+ine 81.
+
+
+Overfull \hbox (62.2163pt too wide) in paragraph at lines 81--82
+[]\T1/aer/m/n/10 Photoperiod sen-si-tiv-ity can also vary with lat-i-tude (\T1/
+aer/bx/n/10 ??\T1/aer/m/n/10 )(,par-ta-nen04, vi-her-aaarnio06, Gauzere2017,Caf
+farra2011),
+ []
+
+
+Package natbib Warning: Citation `erwin1998' on page 1 undefined on input line 
+85.
+
+
+Package natbib Warning: Citation `sidaway2010' on page 1 undefined on input lin
+e 85.
+
+
+Package natbib Warning: Citation `koerner2010b' on page 1 undefined on input li
+ne 86.
+
+
+Package natbib Warning: Citation `vitasse2013' on page 1 undefined on input lin
+e 86.
+
+
+Package natbib Warning: Citation `bastow2002' on page 1 undefined on input line
+ 87.
+
+
+Package natbib Warning: Citation `kobayashi2007' on page 1 undefined on input l
+ine 87.
+
+
+Package natbib Warning: Citation `andres2012' on page 1 undefined on input line
+ 87.
+
 [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] (./photoperiod.bbl [3]) [4]
+
+Package natbib Warning: Citation `jolly2005' on page 2 undefined on input line 
+88.
+
+
+Package natbib Warning: Citation `medvigy2013' on page 2 undefined on input lin
+e 88.
+
+[2] (./photoperiod.bbl) [3]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 138.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -506,21 +561,21 @@ Overfull \hbox (9.90564pt too wide) in paragraph at lines 138--177
  [][] 
  []
 
-[5
+[4
 
-] [6]
-</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime.
-pdf, id=152, 433.62pt x 469.755pt>
+] [5]
+</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacetime_
+v2.pdf, id=111, 433.62pt x 469.755pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_space
-time.pdf Graphic file (type pdf)
+time_v2.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_spacet
-ime.pdf>
+ime_v2.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/photo_spacetime.pdf used on input line 181.
+figures/photo_spacetime_v2.pdf used on input line 181.
 (pdftex.def)             Requested size: 377.62633pt x 409.11363pt.
 
-</Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf, id=153
+</Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf, id=112
 , 542.025pt x 722.7pt>
 File: /Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenup_.pdf Gr
 aphic file (type pdf)
@@ -530,59 +585,72 @@ Package pdftex.def Info: /Users/aileneettinger/git/ospree/docs/photoperiod/figu
 res/Greenup_.pdf used on input line 188.
 (pdftex.def)             Requested size: 377.62633pt x 503.51564pt.
 
-</Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap2.pd
-f, id=154, 801.74532pt x 763.31273pt>
-File: /Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopma
-p2.pdf Graphic file (type pdf)
+</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/ospree_photopmap
+.pdf, id=113, 801.74532pt x 763.31273pt>
+File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/ospree_phot
+opmap.pdf Graphic file (type pdf)
 
-<use /Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_photopmap
-2.pdf>
-Package pdftex.def Info: /Users/aileneettinger/git/ospree/docs/photoperiod/figu
-res/ospree_photopmap2.pdf used on input line 194.
+<use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/ospree_photo
+pmap.pdf>
+Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
+figures/ospree_photopmap.pdf used on input line 194.
 (pdftex.def)             Requested size: 377.62633pt x 359.52574pt.
 
 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_actual.
-pdf, id=155, 599.1724pt x 259.78996pt>
+png, id=114, 501.7947pt x 325.4559pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_ac
-tual.pdf Graphic file (type pdf)
+tual.png Graphic file (type png)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_act
-ual.pdf>
+ual.png>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/2D_fagus_actual.pdf used on input line 201.
-(pdftex.def)             Requested size: 377.62633pt x 163.73196pt.
+figures/2D_fagus_actual.png used on input line 202.
+(pdftex.def)             Requested size: 377.62633pt x 244.92561pt.
+
+
+Package natbib Warning: Citation `duputie2015' on page 6 undefined on input lin
+e 203.
+
+
+Package natbib Warning: Citation `duputie2015' on page 6 undefined on input lin
+e 203.
+
 
 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_actua
-l.pdf, id=156, 593.44176pt x 268.0676pt>
+l.pdf, id=116, 500.58578pt x 328.19865pt>
 File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_
 actual.pdf Graphic file (type pdf)
 
 <use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_a
 ctual.pdf>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/2D_quercus_actual.pdf used on input line 207.
-(pdftex.def)             Requested size: 377.62633pt x 170.57689pt.
+figures/2D_quercus_actual.pdf used on input line 208.
+(pdftex.def)             Requested size: 377.62633pt x 247.59065pt.
 
-</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_annot
-.jpeg, id=157, 903.375pt x 351.3125pt>
-File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_
-annot.jpeg Graphic file (type jpg)
+</Users/aileneettinger/git/ospree/analyses/photoperiod/figures/New_photo_curve.
+jpeg, id=117, 1029.8475pt x 363.3575pt>
+File: /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/New_photo_c
+urve.jpeg Graphic file (type jpg)
 
-<use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_curv_a
-nnot.jpeg>
+<use /Users/aileneettinger/git/ospree/analyses/photoperiod/figures/New_photo_cu
+rve.jpeg>
 Package pdftex.def Info: /Users/aileneettinger/git/ospree/analyses/photoperiod/
-figures/photo_curv_annot.jpeg used on input line 214.
-(pdftex.def)             Requested size: 377.62633pt x 146.85872pt.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 219.
- [7
+figures/New_photo_curve.jpeg used on input line 214.
+(pdftex.def)             Requested size: 377.62633pt x 133.23149pt.
 
-] [8 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_space
-time.pdf>] [9 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/Greenu
-p_.pdf>] [10 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/ospree_
-photopmap2.pdf>] [11 </Users/aileneettinger/git/ospree/analyses/photoperiod/fig
-ures/2D_fagus_actual.pdf> </Users/aileneettinger/git/ospree/analyses/photoperio
-d/figures/2D_quercus_actual.pdf> </Users/aileneettinger/git/ospree/analyses/pho
-toperiod/figures/photo_curv_annot.jpeg>]
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 219.
+[6
+
+] [7 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/photo_space
+time_v2.pdf>] [8 </Users/aileneettinger/git/ospree/docs/photoperiod/figures/Gre
+enup_.pdf>] [9 </Users/aileneettinger/git/ospree/analyses/photoperiod/figures/o
+spree_photopmap.pdf>] [10 </Users/aileneettinger/git/ospree/analyses/photoperio
+d/figures/2D_fagus_actual.png> </Users/aileneettinger/git/ospree/analyses/photo
+period/figures/2D_quercus_actual.pdf>] [11 </Users/aileneettinger/git/ospree/an
+alyses/photoperiod/figures/New_photo_curve.jpeg>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 219.
  (./photoperiod.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 219.
@@ -592,24 +660,25 @@ Package rerunfilecheck Info: File `photoperiod.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 219.
  ) 
 Here is how much of TeX's memory you used:
- 7922 strings out of 493089
- 121691 string characters out of 6134842
- 228834 words of memory out of 5000000
- 11201 multiletter control sequences out of 15000+600000
- 30168 words of font info for 65 fonts, out of 8000000 for 9000
+ 7902 strings out of 493089
+ 121243 string characters out of 6134842
+ 229167 words of memory out of 5000000
+ 11184 multiletter control sequences out of 15000+600000
+ 33312 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,9n,38p,828b,480s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
-></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><
-/usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></u
-sr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/l
-ocal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/loca
-l/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on photoperiod.pdf (11 pages, 21438840 bytes).
+ 36i,9n,38p,828b,481s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></
+usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/lo
+cal/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local
+/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on photoperiod.pdf (11 pages, 12228386 bytes).
 PDF statistics:
- 621 PDF objects out of 1000 (max. 8388607)
- 460 compressed objects within 5 object streams
- 75 named destinations out of 1000 (max. 500000)
+ 457 PDF objects out of 1000 (max. 8388607)
+ 329 compressed objects within 4 object streams
+ 65 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

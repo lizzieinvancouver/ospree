@@ -1,7 +1,7 @@
 Methods \& Caption for Phenofit figures:
 
 Methods:
-We took current and model projection output from Phenofit for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst was calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. 
+We took current and model projection output from Phenofit for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. 
 
 Caption:
 A comparison of how experimental treatments of daylength varies by latitude (A) and by day of budburst (B) as compared to current and projected daylength for [\textit{Fagus sylvatica} or \textit{Quercus robur}].
