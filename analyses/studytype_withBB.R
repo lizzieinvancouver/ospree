@@ -20,21 +20,29 @@ library(lubridate)
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else
   setwd("~/Documents/git/ospree/analyses")
-ospree <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+ospree <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE, na.strings = c("", "NA"))
 xx<-ospree
 
-xx <- within(xx, { prov.lat <- ave(provenance.lat, datasetID, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-xx <- within(xx, { field.sample <- ave(fieldsample.date, datasetID, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
-xx <- within(xx, { force <- ave(forcetemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
-xx <- within(xx, { photo <- ave(photoperiod_day, datasetID, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
-xx <- within(xx, { chill <- ave(chilltemp, datasetID, species, FUN=function(x) length(unique(x)))}) # mult expchill
-xx <- within(xx, { spp <- ave(species, datasetID, FUN=function(x) length(unique(x)))}) # mult species
-xx <- within(xx, { prov.long <- ave(provenance.long, datasetID, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
+xx[is.na(xx)] <- 0
+xx <- within(xx, { prov.lat <- ifelse(provenance.lat!=0, ave(provenance.lat, datasetID, species, 
+                                                             study, FUN=function(x) length(unique(x))), 0)}) # multiple provenance.lats
+xx <- within(xx, { field.sample <- ifelse(fieldsample.date!=0, ave(fieldsample.date, datasetID, species, 
+                                                                   study, FUN=function(x) length(unique(x))), 0)}) # mult fieldsample.date
+xx <- within(xx, { force <- ifelse(forcetemp!=0, ave(forcetemp, datasetID, species, 
+                                                     study, FUN=function(x) length(unique(x))), 0)}) # mult forcetemp
+xx <- within(xx, { photo <- ifelse(photoperiod_day!=0, ave(photoperiod_day, datasetID, species, 
+                                                           study, FUN=function(x) length(unique(x))), 0)}) # mult photoperiod_day
+xx <- within(xx, { chill <- ifelse(chilltemp!=0, ave(chilltemp, datasetID, species, 
+                                                 study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
+xx <- within(xx, { spp <- ifelse(species!=0, ave(species, datasetID,
+                                                       study,FUN=function(x) length(unique(x))), 0)}) # mult species
+xx <- within(xx, { prov.long <- ifelse(provenance.long!=0, ave(provenance.long, datasetID, species, 
+                                                               study, FUN=function(x) length(unique(x))), 0)}) # multiple provenance.longs
 
-
+xx$fieldsample.date2<-as.Date(xx$fieldsample.date2, "%Y-%m-%d")
 xx$field.doy<-yday(xx$fieldsample.date2)
 
-d.sub<-xx%>%dplyr::select(datasetID, field.doy, species)
+d.sub<-xx%>%dplyr::select(datasetID, field.doy, species, study)
 d.sub <- within(d.sub, { field.sample <- ave(field.doy, datasetID, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
 d.sub<-d.sub[!duplicated(d.sub),]
 d.sub<-subset(d.sub, field.sample>1)
@@ -46,12 +54,12 @@ d.sub$wein<-ifelse((d.sub$field.doy2-d.sub$field.doy1)>15, 1, 0)
 xx$wein<-NA
 for(i in c(1:nrow(xx))) {
   for(j in c(1:nrow(d.sub)))
-    if(xx$datasetID[i] == d.sub$datasetID[j] & xx$species[i] == d.sub$species[j])
+    if(xx$datasetID[i] == d.sub$datasetID[j] & xx$species[i] == d.sub$species[j] & xx$study[i]==d.sub$study[j])
       xx$wein[i]<-d.sub$wein[j]
 }
 
 
-xx<-dplyr::select(xx, datasetID, study, prov.lat, prov.long, field.sample, force, photo, chill, spp, wein)
+xx<-dplyr::select(xx, datasetID, species, study, prov.lat, prov.long, field.sample, force, photo, chill, spp, wein)
 xx<-xx[!duplicated(xx),]
 xx$wein<-ifelse(is.na(xx$wein), 0, xx$wein)
 
