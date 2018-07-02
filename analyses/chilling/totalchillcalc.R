@@ -140,7 +140,13 @@ for(i in 1:nrow(chilldat)) {
           dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
           dat4$Exp_Utah_Model[which(dat4$chilldays=="0")]<-0
           dat4$Exp_Chill_portions[which(dat4$chilldays=="0")]<-0
- 
+          ######Dan B's assement of biasi12:#######
+          # I dont think this study actually did freeze treatments.
+          #The column d$freeze.treatment.temp_day is actually 'chilling hours accumulated" based on table 1. this is not reflected in Chill_Hours columns in ospree_clean_withchill_BB.csv
+          #Proposed solution: migrate this column to Field_Chilling_Hours somewhere in chilling code, but ask Ailene?
+          dat4$Field_Chilling_Hours[dat4$datasetID=="biasi12"]<-as.numeric(dat4$freeze.treatment.temp_day[dat4$datasetID=="biasi12"])#this study actually did freeze treatments! but the columns are somehow shifted the values do not make sense for temperatures, mistake?
+          dat4$freeze.treatment.temp_day[dat4$datasetID=="biasi12"]<-""
+          
           ### Now add column for total chilling (field plus experimental)
            ### First, total chilling = exp and field
            dat4$Total_Chilling_Hours <- dat4$Exp_Chilling_Hours+dat4$Field_Chilling_Hours
@@ -169,4 +175,6 @@ for(i in 1:nrow(chilldat)) {
            #exp3 
            #dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="yes")]##would fix 84 rows
             # dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="no")] ##would fix 52 rows DOne in totall.chilling.R
+           
+           
            

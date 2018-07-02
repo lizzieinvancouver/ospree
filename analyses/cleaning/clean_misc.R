@@ -89,7 +89,9 @@ d$response[d$datasetID=="ghelardini10"] <- 1
 #In June 2018, we discovered errors in some of the freezingtemp columns
 
 #d$freeze.treatment.temp_day[d$datasetID=="biasi12"]#this study actually did freeze treatments! but the columns are somehow shifted the values do not make sense for temperatures, mistake?
-#d$freeze.treatment.temp_night[d$datasetID=="biasi12"]#the values do not make sense for temperaturesthis study actually did freeze treatments! so if we want to clean it then something else should go here...
+#d$freeze.treatment.temp_night[d$datasetID=="biasi12"]#the values do not make sense for temperatures but this study actually did freeze treatments! so if we want to clean it then something else should go here...
+#d$chilltemp[d$datasetID=="biasi12"]#blank
+
 ######Dan B's assement of biasi12:#######
 # I dont think this study actually did freeze treatments.
 #The column d$freeze.treatment.temp_day is actually 'chilling hours accumulated" based on table 1. this is not reflected in Chill_Hours columns in ospree_clean_withchill_BB.csv
@@ -103,7 +105,7 @@ d$freeze.treatment.temp_night[d$datasetID=="biasi12"]<-""
 #solution remove values from this column
 d$response..pre.treatment[d$datasetID=="biasi12"]<-""
 
-#response.
+#response
 d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
 d$response..pre.treatment[d$datasetID=="basler12"]<-d$freeze.treatment.temp_night[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
 d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-""
