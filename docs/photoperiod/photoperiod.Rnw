@@ -188,13 +188,13 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
  
 \begin{figure}[p]
 \includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_fagus_actual.png} 
-\caption{\textbf{Experimental treatments of daylength in the OSPREE database, shown by latitude (A) and by day of budburst (B)} for Fagus sylvatica. For comparison, we show the daylength when budburst occurs in its current and projected ranges (A) and in its current range only, with expected shifts in phenology (B). Estimates and projections are from Phenofit \citep{duputie2015}}
+\caption{\textbf{Experimental treatments of daylength in the OSPREE database, shown by latitude (A) and by day of budburst (B)} for \textit{Fagus sylvatica}. For comparison, we show the daylength when budburst occurs in its current and projected ranges (A) and in its current range only, with expected shifts in phenology (B). Estimates and projections are from Phenofit \citep{duputie2015}}
  \label{fig:fagus}
  \end{figure}
  
 \begin{figure}[p]
 \includegraphics{/Users/aileneettinger/git/ospree/analyses/photoperiod/figures/2D_quercus_actual.pdf} 
-\caption{\textbf{Experimental treatments of photoperiod, compared to current and projected photoperiod experienced by Quercus robur during budburst.}}
+\caption{\textbf{Experimental treatments of daylength in the OSPREE database, shown by latitude (A) and by day of budburst (B)} for \textit{Quercus robur}. For comparison, we show the daylength when budburst occurs in its current and projected ranges (A) and in its current range only, with expected shifts in phenology (B). Estimates and projections are from Phenofit \citep{duputie2015}.}
  \label{fig:quercus}
  \end{figure}
  

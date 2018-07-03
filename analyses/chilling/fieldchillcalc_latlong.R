@@ -1,5 +1,5 @@
 #Calculating chilling units in field and from experimental work
-#This code calcluates the field chilling column from any chilling that occurred in the field (before material was brought into an experiment)
+#This code calculates the field chilling column from any chilling that occurred in the field (before material was brought into an experiment)
 #It will be added to experimental chilling to make a 'totalchill' variable. 
 #Based on code from EJ Forrestel 20 May 2016: Pieces for code for reading in and pulling data from netCDF files for Dan
 #Ailene Ettinger added code for experimental chilling calculations on 5 July 2016
@@ -15,11 +15,7 @@ d$datasetID <- as.character(d$datasetID)
 #if growing lat/long is present, use those. if not, use provenance lat/long
 d$chill.lat<-as.numeric(as.character(d$growing.lat))
 #hmm===how do we decide whether to use growing latitude or provenance latitude. 
-#For cuttings, use provenance?
-#dim(d[which(!is.na(as.numeric(as.character(d$growing.lat)) & as.numeric(as.character(d$provenance.lat)))),])
-#unique(d$datasetID[which(!is.na(as.numeric(as.character(d$growing.lat)) & as.numeric(as.character(d$provenance.lat))))])
-#4394 rows/12744 in 29 different studies have both growing vs. provance lats
-
+#should we use provenance lat for cuttings?
 d$chill.long<-as.numeric(as.character(d$growing.long))
 d[which(is.na(d$chill.lat)),]$chill.lat<-d[which(is.na(d$chill.lat)),]$provenance.lat
 d[which(is.na(d$chill.long)),]$chill.long<-d[which(is.na(d$chill.long)),]$provenance.long
