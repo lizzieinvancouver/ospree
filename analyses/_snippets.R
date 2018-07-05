@@ -20,3 +20,11 @@ max(subby$ft)
 goober1 <- subset(d, select=c("respvar", "respvar.simple"))
 goober2 <- goober1[!duplicated(goober1), ]
 goober2[order(goober2$respvar.simple),]
+
+## some quick subsetting for Frederik and Yann (WSL)
+stud <- read.csv("~/Documents/git/projects/treegarden/budreview/ospree/analyses/output/studytype_table.csv")
+stud.ch <- subset(stud, chill>2)
+unique(stud.ch$datasetID)
+
+brr <- subset(goo, is.na(chilltemp)==FALSE & chilltemp!="" & chilltemp<0)
+unique(brr$datasetID)

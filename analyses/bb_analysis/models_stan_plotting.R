@@ -121,6 +121,17 @@ m1.bbz <- m2l.winsp
 sumer.wi <- summary(m2l.winsp)$summary
 sumer.wi[c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "b_cf","b_cp","b_fp"),]
 source("source/bb_muplot_m2l.winspz.R") # file also contains code for colored by species
+
+fu2015spp <- c("Aesculus_hippocastanum", "Alnus_glutinosa", "Betula_pendula", "Fagus_sylvatica",
+    "Fraxinus_excelsior", "Quercus_robur", "Tilia_cordata")
+fu2015sppnum <- which(unique(bb.stan$complex.wname) %in% fu2015spp)
+fu2015spp.cues <- data.frame(spp=fu2015spp, force=rep(NA, 7), photo=rep(NA, 7), chill=rep(NA, 7))
+for (sp in c(1:7)){
+    fu2015spp.cues$force[sp] <- sumer.wi[paste("b_force[", fu2015sppnum[sp], "]", sep=""),1]
+    fu2015spp.cues$photo[sp] <- sumer.wi[paste("b_photo[", fu2015sppnum[sp], "]", sep=""),1]
+    fu2015spp.cues$chill[sp] <- sumer.wi[paste("b_chill[", fu2015sppnum[sp], "]", sep=""),1]
+    }
+fu2015spp.cues
 }
 
 # Need to work more on below
