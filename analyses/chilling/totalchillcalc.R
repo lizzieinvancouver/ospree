@@ -140,6 +140,10 @@ for(i in 1:nrow(chilldat)) {
           dat4$Exp_Chilling_Hours[which(dat4$chilldays=="0")]<-0
           dat4$Exp_Utah_Model[which(dat4$chilldays=="0")]<-0
           dat4$Exp_Chill_portions[which(dat4$chilldays=="0")]<-0
+          #for caffarra11b, the field sample date with 0 chill days should be adjusted for utah and chilling hours
+          dat4$Field_Chilling_Hours[which(dat4$datasetID=="caffarra11b" & dat4$chilldays=="0")]<-0
+          dat4$Field_Utah_Model[which(dat4$datasetID=="caffarra11b" & dat4$chilldays=="0")]<-0
+          
           ######Dan B's assement of biasi12:#######
           # I dont think this study actually did freeze treatments.
           #The column d$freeze.treatment.temp_day is actually 'chilling hours accumulated" based on table 1. this is not reflected in Chill_Hours columns in ospree_clean_withchill_BB.csv

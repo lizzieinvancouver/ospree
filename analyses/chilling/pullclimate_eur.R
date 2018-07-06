@@ -35,8 +35,10 @@ for(i in 1:nrow(eur)){ # i = 1
      & as.numeric(substr(eur[i,"fieldsample.date2"],6,7))<9){
     stday <- strptime(paste(yr-1, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")}#If field sample date is before september 1, then we use the chilling from the previous year.
   
-  #if(eur[i,"datasetID"]=="caffarra11b"){
-   # stday <- strptime(paste(yr-1, "11-30", sep="-"),"%Y-%m-%d", tz="GMT")}#for caffarra11b, cuttings were placed outside in late november to experience ambient chilling
+  if(eur[i,"datasetID"]=="caffarra11b"){
+    yr<-eur[i,"year"]
+    stday <- strptime(paste(yr-1, "11-30", sep="-"),"%Y-%m-%d", tz="GMT")
+    }#for caffarra11b, cuttings were placed outside in late november to experience ambient chilling
   
   # using fieldsample.date2, which is the same as fieldsampledate, but formatted as  "%Y-%m-%d"
   #field sample date2 is the end day for chilling calculations

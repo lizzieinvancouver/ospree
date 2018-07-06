@@ -116,7 +116,7 @@ d$freeze.treatment.photoperiod_day[d$datasetID=="spann04"]<-""#was "d)."- mistak
 d$freeze.treatment.time[d$datasetID=="spann04"]<-""#these are all my mistake! 
 
 #cleaning field sample date in caffarra11b, which are currently all "1-Jun-2004"
-#d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==30]<-"30-Dec-2004"
-#d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==55]<-"24-Jan-2005"
-#d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==95]<-"5-Mar-2005"
+d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==30]<-"30-Dec-2004"
+d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==55]<-"24-Jan-2005"#
+d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==95]<-"6-Mar-2005"
 
