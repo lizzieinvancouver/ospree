@@ -3,6 +3,9 @@
 
 ## Working on figures for OSPREE concept paper on interactive cues ##
 
+## TO DO! ##
+# Should check/merge with studydesignplots_more.R so they use same data and counts #
+
 ## housekeeping
 rm(list=ls())
 options(stringsAsFactors = FALSE)
@@ -20,15 +23,16 @@ library(RColorBrewer)
 library(plyr)
 library(dplyr)
 
+source("misc/getfielddates.R") # counts up field sample dates separated by a number of days you specify
+
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
 d <- read.csv("output/ospree_clean.csv")
 studfile <- read.csv("output/studytype_table.csv", header=TRUE)
 
 d <- d[d$woody=="yes",]
+d$fieldsample.date <- as.Date(d$fieldsample.date, format="%d-%b-%Y")
 head(d)
-
-
 
 ###
 ###
@@ -57,6 +61,15 @@ length(unique(d$datasetIDstudy)) # unique studies
 range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE) 
 range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
 range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+
+# count field.sample dates ... not currently used in plots
+ddatefx.all <- subset(d, select=c("datasetID", "study", "fieldsample.date"))
+ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
+ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
+
+dates2weeks <- countfieldsample(ddatefx, 14)
+dates2weeks$count[is.na(dates2weeks$count)==TRUE] <- 0
+names(dates2weeks)[names(dates2weeks)=="count"] <- "fs.date.countby14d"
 
 # species number and mean cues ... 
 sppsumyr <-
@@ -162,7 +175,7 @@ theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         plot.title = element_text(size=22),
                         legend.position = "left"))
 
-pdf("limitingcues/figures/maps/mappy.pdf", width=10, height=4)
+pdf("limitingcues/figures/maps/map_photo_sppn.pdf", width=10, height=4)
 
 ggplot() + 
     geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
@@ -179,40 +192,58 @@ ggplot() +
 # high: darkred
 dev.off()
 
-##
+## map with study ID
+pdf(paste("limitingcues/figures/maps/map_datasetID.pdf", sep=""), width=18, height=7)
+
+ggplot() + 
+    geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+    # coord_cartesian(ylim=c(5, 70), xlim=c(-120, 40)) +
+    geom_point(data=sppsummmap, 
+        aes(x=provenance.long, y=provenance.lat, size=n, shape=datasetID, fill=datasetID), # not sure why my shape command does not work!
+        colour="black", pch=21) +
+    scale_size(name=expression(paste('species ', italic('n'))), 
+            range = c(1, 12), breaks=c(1, 5, 10, 50, 100)) +
+  theme.tanmap
+dev.off()
+
+
+## Below is a sort of cheap way to not copy the map code
+## You can pick one of three options THEN run the map code at the bottom
+
+# OPTION photo 
 name <- "fs.photo"
 namesize <- "field sample n"
 namecol <- "mean photoperiod"
-
 summmap <-
       ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
       size=length(unique(fieldsample.date)),
       fillcolor=mean(as.numeric(photoperiod_day)),
       year=mean(year))
+#
 
-
+# OPTION chilltemp
 name <- "fs.chilltemp"
 namesize <- "field sample n"
 namecol <- "mean chilltemp"
-
 summmap <-
       ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
       size=length(unique(fieldsample.date)),
       fillcolor=mean(as.numeric(chilltemp)),
       year=mean(year))
+#
 
-
-
-name <- "fs.chilltemp"
+# OPTION forcetemp
+name <- "fs.forcetemp"
 namesize <- "field sample n"
 namecol <- "mean force"
-
 summmap <-
       ddply(d, c("datasetID", "provenance.lat", "provenance.long"), summarise,
       size=length(unique(fieldsample.date)),
       fillcolor=mean(as.numeric(forcetemp)),
       year=mean(year))
+#
 
+## MAP code
 theme.tanmap <- list(theme(panel.grid.minor = element_blank(),
                         # panel.grid.major = element_blank(),
                         panel.background = element_rect(fill = "grey90",colour = NA),
@@ -236,6 +267,8 @@ ggplot() +
             low="thistle2", high="dodgerblue4", guide="colorbar", na.value="NA") +
   theme.tanmap
 dev.off()
+##
+
 
 
 if(FALSE){

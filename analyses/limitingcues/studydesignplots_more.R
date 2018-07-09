@@ -2,10 +2,14 @@
 ## By Lizzie ##
 
 ## TO DO ##
+# (*) Should check/merge with studydesignplots.R so they use same data and counts #
 # (1) Should we get the centroid of the lat/long points for each study?
 # Right now I cheaply take average lat and average long #
 # (2) Calculate mean, min, max field sample date and plot (semi-done)
 # (3) Work on heat-maps, more notes on this below
+
+## Note: 9 July 2018 -- I did some checks of my code against counts of the data and against Cat's studytable output ...
+# and it looks good. ##
 
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
