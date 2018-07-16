@@ -69,21 +69,28 @@ caf$days_cent<-caf$response.time-(mean(caf$response.time)/sd(caf$response.time))
 
 ha<-rbind(caf,hei,ash)
 
-ha$chill_level[ha$Total_Chill_portions<31] <- "None"
-ha$chill_level[ha$Total_Chill_portions> 31 & ha$Total_Chill_portions < 80] <- "Low"
-ha$chill_level[ha$Total_Chill_portions> 80 & ha$Total_Chill_portions < 130] <- "Med"
-ha$chill_level[ha$Total_Chill_portions> 130 & ha$Total_Chill_portions < 181] <- "High"
+ha$chill_level[ha$Total_Chill_portions<1] <- "None"
+ha$chill_level[ha$Total_Chill_portions> 1 & ha$Total_Chill_portions < 44] <- "Low"
+ha$chill_level[ha$Total_Chill_portions> 44 & ha$Total_Chill_portions < 69] <- "Med"
+ha$chill_level[ha$Total_Chill_portions> 69 & ha$Total_Chill_portions < 106] <- "High"
+ha$chill_level[ha$Total_Chill_portions> 106] <- "Very High"
+table(ha$Total_Chill_portions)
+
+
+ha$chill_level <- factor(ha$chill_level, levels=c("None", "Low", "Med","High","Very High"))
 library(grid)
 ha<-unite(ha,lat.long,provenance.lat,provenance.long,sep=",")
 ha<-unite(ha,GENSPA,genus,species,sep=" ")
 ha2<-filter(ha,response.time<80)
 library(egg)
-plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=0,ymax=55),fill="lightgrey", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+ggtitle("A")
-ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("B")
 
-unique(ha$forcetemp)
+colorz<-c("red","orange","dark yellow","light blue","purple")
+plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=0,ymax=55),fill="grey98",color="grey44",linetype="dotted", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+ggtitle("A")+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","dark goldenrod1","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_discrete(name="Taxa")
+ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("B")+scale_color_manual(values=c("red","dark goldenrod1","darkseagreen4","deepskyblue3","purple"))
 
-vp <- viewport(width = 0.35, height = 0.6, x = 0.45, y = .9,just=c("left","top"))
+quantile(ha$Total_Chill_portions)
+
+vp <- viewport(width = 0.38, height = 0.6, x = 0.45, y = .95,just=c("left","top"))
 plotx+theme_base()
 print(ploty, vp = vp, )
   
