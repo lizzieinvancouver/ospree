@@ -132,6 +132,18 @@ for (sp in c(1:7)){
     fu2015spp.cues$chill[sp] <- sumer.wi[paste("b_chill[", fu2015sppnum[sp], "]", sep=""),1]
     }
 fu2015spp.cues
+
+allspp.cues <- data.frame(
+    force=sumer.wi[grep("b_force", rownames(sumer.wi)),][3:40,1],
+    photo=sumer.wi[grep("b_photo", rownames(sumer.wi)),][3:40,1],
+    chill=sumer.wi[grep("b_chill", rownames(sumer.wi)),][3:40,1])
+
+
+par(mfrow=c(1,3))
+plot(force~photo, data=allspp.cues)
+plot(force~chill, data=allspp.cues)
+plot(photo~chill, data=allspp.cues)
+    
 }
 
 # Need to work more on below
