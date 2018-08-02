@@ -115,6 +115,14 @@ dsumm$range.temp <- dsumm$max.temp - dsumm$min.temp
 dsumm$range.photo <- dsumm$max.photo - dsumm$min.photo
 dsumm$range.chill <- dsumm$max.chill - dsumm$min.chill
 
+if(FALSE){
+# for cfi
+chill <- subset(dsumm, mean.chill==""| is.na(mean.chill)==TRUE)
+dim(chill)
+chill$chilldiff <- chill$max.chill-chill$min.chill
+length(subset(chill, chilldiff==0))   # 101+26 = 127 did not manipulate chilling experimentally
+    }
+
 dsumm.yr <-
       ddply(dsumm, c("mean.year"), summarise,
       mean.lat = mean(mean.lat),
@@ -171,8 +179,6 @@ plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere){
            }
 
 ## plotting!
-
-
 pdf("limitingcues/figures/tempxlat.pdf", width = 8, height = 6)
 par(mfrow=c(2,2))
 plotxydat("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
@@ -188,6 +194,12 @@ plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
 plotxydatabsX("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
+dev.off()
+
+pdf("limitingcues/figures/tempxlatminmaxcorr.pdf", width = 8, height = 6)
+par(mfrow=c(1,2))
+plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
+plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
 dev.off()
 
 pdf("limitingcues/figures/photoxlat.pdf", width = 8, height = 6)

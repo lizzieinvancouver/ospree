@@ -201,8 +201,8 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \end{enumerate}
 \item To understand cues, it helps to think about the environmental variation a species experiences across its range and across years
 \begin{enumerate}
-\item Think about two example tree species: \emph{Fagus sylvatica, Betula pendula}
-\item Look at their distributions
+\item Think about two example tree species: \emph{Fagus sylvatica, Betula pendula} 
+\item Look at their distributions \todo{We don't do this yet. Could just do in-text?}
 \item In the spring there is selection for species to track the start of resources, and thus they need cues that work across the interannual variation in climate \emph{across a species' range} ... either through plasticity and/or local adaptation
 \item Unlike budset phenology, research suggests spring phenology can be fairly plastic (without high local adaptation of cues across a range); this means species need a set of cues that work across their range \citep{liepe2016}. Relevant lit to when you do and don't see local adaptation:
 \begin{enumerate}
@@ -245,18 +245,17 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Be sure to note that most studies were \emph{not} done for climate change research, they were done for fundamental science or agricultural/forestry purposes
 \item Quick intro to the data, how long, which cues .... 
 \begin{enumerate}
-\item Fig: Number of studies by year (OSPREE)
-\item Fig: Map of studies, color coded or such by which of the three cues they manipulated
+\item Fig: Map of studies, coded by datasetID and species \emph{n},  see Fig. \ref{fig:datamap}
+\item Fig: Number of studies by year (OSPREE), see Fig. \ref{fig:ts}
 \end{enumerate}
 \item For each of the three cues:
 \begin{enumerate}
-\item  X\% of studies manipulated that cue
-\item Variation across latitude (and hemispheres?), continents, and time (and species)? 
-\item Fig: Variation in treatments across space (photo/chill/force)
-\item Fig: Variation in treatments across time (graph with year on $x$-axis or divide time in half or such? 
+\item  56\% manipulated forcing; 55\% manipulated photperiod, 33\% manipulated chilling
+\item Variation across latitude: forcing and chilling declines 0.1C per degree latitude (for forcing, min is -0.12, for max it's -0.08, see Fig \ref{fig:lat}; for chilling it's -0.1 for min and -0.07 for max); max photo increases with latitude (0.08 hr per degree); 
+\item Variation across and hemispheres? continents, time and species? 
 \item Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
 \end{enumerate}
-\item X\% of studies manipulated which interacting cues? (i.e., how many studies manipulate 1 cues, 2 cues, 3 cues ... of those manipulating 1 cue, what is the breakdown by cue etc.)
+\item X\% of studies manipulated which interacting cues? (i.e., how many studies manipulate 1 cues, 2 cues, 3 cues ... of those manipulating 1 cue, what is the breakdown by cue etc.) ... 43\% manipulated forcing and photo, only 10\% manipulated chilling and forcing or photo (9\% for chill x photo; 10\% for chill x force), see Fig. \ref{fig:heatmaps}
 \end{enumerate}
 \item Compare treatments from controlled environment studies to predicted shifts in cues with climate change: Part II: What cues will be most limiting with climate change? How do controlled environment studies compare? 
 \begin{enumerate}
@@ -264,8 +263,8 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \begin{enumerate}
 \item Take each PEP725 datapoint within our selected species' range and calculate:
 \begin{enumerate}
-\item Min daily temp for 1-2 months before leafout (Nacho's figures)
-\item Max daily temp for 1-2 months before leafout (Nacho's figures) \footnote{We used daily min/max, as they're most directly comparable to OSPREE.}
+\item Min daily temp for 1-2 months before leafout (See Fig. \ref{fig:pep})
+\item Max daily temp for 1-2 months before leafout (See Fig. \ref{fig:pep}) \footnote{We used daily min/max, as they're most directly comparable to OSPREE.}
 \end{enumerate}
 \end{enumerate}
 \end{enumerate}
@@ -378,18 +377,53 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 
 
 
-\end{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Example figure
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_datasetID.pdf}
+\caption{Overview of the data across space.}
+  \label{fig:datamap}
+\end{figure}
+\clearpage
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=1\textwidth]{arnell-pwr-m.pdf}
-\caption{PWR estimates (red dots) and 95\% confidence intervals (red lines) across the Arnell phylogeny using O-U-based distance  weighting, for a simple regression of first flowering date on seed size. Solid and dashed vertical gray lines show the estimate and 95\% CI from an analogous global model estimated using PGLS.}
-  \label{fig:arnell-pwr}
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/studyyearcues.pdf}
+\caption{Cues manipulated over time.}
+  \label{fig:ts}
 \end{figure}
 \clearpage
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/tempxlatminmaxcorr.pdf}
+\caption{One correlation with latitude plot? Or more?}
+  \label{fig:lat}
+\end{figure}
+\clearpage
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.3\textwidth]{..//..//analyses/limitingcues/figures/heatmapforcexphoto.pdf}
+\includegraphics[width=0.3\textwidth]{..//..//analyses/limitingcues/figures/heatmapchillxforce.pdf}
+\includegraphics[width=0.3\textwidth]{..//..//analyses/limitingcues/figures/heatmapchillxphoto.pdf}
+\caption{Heat maps.}
+  \label{fig:heatmaps}
+\end{figure}
+\clearpage
+
+
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{figures/Fig1_hists pep75 - change temps.png}
+\caption{PEP725.}
+  \label{fig:pep}
+\end{figure}
+\clearpage
+
+
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %=======================================================================

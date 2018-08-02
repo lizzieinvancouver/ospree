@@ -118,12 +118,17 @@ points(fs.count~year, data=studyr, ylim=c(-5,30), col="green")
 
 ## counting how many manip two cues
 ## need to work on this ....
+length(unique(studyr$datasetID))
+length(unique(paste(studyr$datasetID, studyr$study)))
 howmany <- subset(studyr, chill.count>1 & photo.count >1)
 length(unique(paste(howmany$datasetID, howmany$study)))
 length(unique(howmany$datasetID))
-# force x photo: 59 / 24
-# force x chill: 25 / 8
-# chill x photo: 25 / 9
+# force: 77 / 40  (56% / 47%)
+# photo: 76 / 36 (55% / 42%)
+# chill: 46 / 22  (33% / 26%)
+# force x photo: 59 / 24 (43% / 28%)
+# force x chill: 25 / 8 (18% / 9%)
+# chill x photo: 25 / 9 (18% / 10%)
 howmany.prov <- subset(studyr,  lat.count>1 & photo.count>1)
 length(unique(paste(howmany.prov$datasetID, howmany.prov$study)))
 length(unique(howmany.prov$datasetID))
