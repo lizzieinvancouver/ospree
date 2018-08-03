@@ -63,7 +63,13 @@ m2l.winsp.brms <- brm(resp ~ (force + photo + chill +#main effects
                         ((force + photo + chill)|complex.wname),warmup=2500,iter=4000, data = bb.stan,
                    chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 summary(m2l.winsp.brms)
-#brms model says a:94.77, f= -1.85, p=-1.41, c= -6.94, 
+stancode(m2l.winsp.brms)
+str(brms::make_standata(resp ~ (force + photo + chill +#main effects
+                                  force*photo + force*chill + photo*chill)+ #interactions
+                          ((force + photo + chill)|complex.wname),data=bb.stan))
+
+
+    #brms model says a:94.77, f= -1.85, p=-1.41, c= -6.94, 
                   #f*c: 0.15, c*p: 0.10  f*p: 0.01; sigma sp: 15.37
 
 # Dan changed warm up and iters to match stan models:
