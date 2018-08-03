@@ -196,7 +196,7 @@ plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
 plotxydatabsX("range.temp", "mean.lat", "datasetID", dsumm, "topleft") # NR
 dev.off()
 
-pdf("limitingcues/figures/tempxlatminmaxcorr.pdf", width = 8, height = 6)
+pdf("limitingcues/figures/tempxlatminmaxcorr.pdf", width = 8, height = 4)
 par(mfrow=c(1,2))
 plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.1
 plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft") # -0.08
@@ -214,6 +214,12 @@ pdf("limitingcues/figures/photoxlatcorr.pdf", width = 8, height = 6)
 par(mfrow=c(2,2))
 plotxydatabsX("mean.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
 plotxydatabsX("min.photo", "mean.lat", "datasetID", dsumm, "topleft") # NR
+plotxydatabsX("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+plotxydatabsX("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
+dev.off()
+
+pdf("limitingcues/figures/photoxlatcorr2plots.pdf", width = 8, height = 6)
+par(mfrow=c(2,2))
 plotxydatabsX("max.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
 plotxydatabsX("range.photo", "mean.lat", "datasetID", dsumm, "topleft") # 0.08
 dev.off()

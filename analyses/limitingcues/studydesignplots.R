@@ -197,8 +197,25 @@ ggplot() +
 # high: darkred
 dev.off()
 
-## map with study ID
+## map with study ID, small legend
 pdf(paste("limitingcues/figures/maps/map_datasetID.pdf", sep=""), width=18, height=7)
+
+ggplot() + 
+    geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
+    coord_fixed(ylim=c(-60, 70), xlim=c(-170, 170)) +
+    geom_point(data=sppsummmap, 
+        aes(x=provenance.long, y=provenance.lat, shape=as.factor(datasetID), fill=datasetID, size=n), # not sure why my shape command does not work!
+        colour="black", pch=21) +
+    scale_size(name=expression(paste('species ', italic('n'))), 
+            range = c(1, 12), breaks=c(1, 5, 10, 50, 100)) +
+    scale_shape_manual(values = rep(c(21:25), 50)) +
+    theme.tanmap + 
+    guides(fill=FALSE) 
+dev.off()
+
+
+## map with study ID, full legend
+pdf(paste("limitingcues/figures/maps/map_datasetID_wlegend.pdf", sep=""), width=18, height=7)
 
 ggplot() + 
     geom_polygon(dat=wmap.df, aes(long, lat, group=group), fill="grey80") +
