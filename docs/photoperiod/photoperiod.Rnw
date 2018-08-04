@@ -62,8 +62,8 @@
 \begin{enumerate}
 \item \textit{Introduction}
 \begin{enumerate}
-\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes (add other citations- there are many possibilities! if you have favorites, please add along with 1-2 words of what the activity is)\citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012,Flynn:2018}.
-\item As species undergo climate change-induced shifts in space and/or time, the daylength they experience will be altered. 
+\item Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes \citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012}. Diverse important responses, from the timing of mating in marsupials \citep{mcallan2006} and pheromone production in moths \citep{linn1996}, to growth rates in salmon and the timing of budburst in woody plants \citep{Flynn:2018}, are affected by photoperiod. Daylength is consistent across years, especially compared to other seasonal cues such as temperature and precipition. Thus, it may act as a temporally stable signal by which organisms can optimally align events with the season \citep{saikkonen2012}.
+\item Despite the relative stability and predictability of daylength over time, as species undergo climate change-induced shifts in their space (i.e., shifting distributions) and  time (i.e., shifting phenology), the daylength they experience will be altered. The implications of these shifts in photoperiod regime are rarely explored. 
 \item Many experiments have altered photoperiod, often interacting with temperature changes; however, photoperiod treatments in these experiments are not typically designed to be applied to climate change forecasting. 
 \item Here, we ask: 
 \begin{enumerate}
