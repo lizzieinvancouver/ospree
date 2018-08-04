@@ -17,28 +17,37 @@ library(ggplot2)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
-d <- read.csv("output/ospree_clean.csv")
-studfile <- read.csv("output/studytype_table.csv", header=TRUE)
+#d <- read.csv("output/ospree_clean.csv")
+d2<-read.csv("output/ospree_clean_withchill_BB.csv")
+#studfile <- read.csv("output/studytype_table.csv", header=TRUE)
+studfile2 <- read.csv("output/studytype_withBB.csv", header=TRUE)
 
-d <- d[d$woody=="yes",]
-d$fieldsample.date <- as.Date(d$fieldsample.date, format="%d-%b-%Y")
+#d <- d[d$woody=="yes",]
+d2 <- d2[d2$woody=="yes",]
+#d$fieldsample.date <- as.Date(d$fieldsample.date, format="%d-%b-%Y")
+d2$fieldsample.date <- as.Date(d2$fieldsample.date, format="%d-%b-%Y")
 head(d)
 
 ###
 ###
-lookupstudyyr <- aggregate(d[c("year")], d[c("datasetID", "study")], FUN=mean)
-stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+#lookupstudyyr <- aggregate(d[c("year")], d[c("datasetID", "study")], FUN=mean)
+lookupstudyyr2 <- aggregate(d2[c("year")], d2[c("datasetID", "study")], FUN=mean)
+#stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+stud2 <- merge(studfile2, lookupstudyyr2, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
 
-cues<-dplyr::select(stud, datasetID, force, photo, chill, year)
+cues<-dplyr::select(stud2, datasetID, force, photo, chill, year, prov.lat, spp, field.sample)
 cues<-cues[!duplicated(cues),]
 
 cues$force<-ifelse(cues$force==1, 0, 1)
 cues$photo<-ifelse(cues$photo==1, 0, 1)
 cues$chill<-ifelse(cues$chill==1, 0, 1)
 
+cues$chill<-ifelse(cues$datasetID=="swartz81", 1, cues$chill)
 cues$numcues<-cues$force + cues$photo + cues$chill
 
 cues<-na.omit(cues)
+cues<-cues[!(cues$datasetID=="sogaard08" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="granhus09" | cues$datasetID=="rinne94" | cues$datasetID=="spann04"),]
 
 cues$yr<-round(cues$year, digits=0)
 studies<-as.data.frame(table(cues$yr))
@@ -48,15 +57,16 @@ studies$yr<-as.numeric(as.character(studies$yr))
 cues<-inner_join(cues, studies)
 cues$cols<-NA
 cues$cols<-ifelse(cues$numcues==1, "blue", cues$cols)
-cues$cols<-ifelse(cues$numcues==2, "red", cues$cols)
-cues$cols<-ifelse(cues$numcues==3, "green", cues$cols)
+cues$cols<-ifelse(cues$numcues==2, "green", cues$cols)
+cues$cols<-ifelse(cues$numcues==3, "red", cues$cols)
+cues$cols<-ifelse(cues$numcues==0, "white", cues$cols)
 
 #ggplot(cues, aes(x=yr, fill=cols)) + geom_histogram()
 
-hist<-ggplot(cues, aes(x=yr)) + geom_histogram(aes(fill=cols), color="gray30", size=0.3) +
+hist<-ggplot(cues, aes(x=yr)) + geom_histogram(aes(fill=cols), size=0.3) +
   xlab("Year") + ylab("Number of Studies") + scale_y_continuous(expand = c(0, 0)) +
-  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99"), name="Number of Cues",
-                    labels=c("1","2", "3")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
+  scale_fill_manual(values=c("#CC6666", "#9999CC", "#66CC99", "lightgrey"), name="Number of Cues",
+                    labels=c("blue"="1", "green"="2", "red"="3", "white"="0")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
   theme(panel.background = element_blank(), axis.line = element_line(colour = "black"), legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),
         axis.title=element_text(size=12), legend.title = element_text(size=8), axis.text=element_text(size=10))
 
