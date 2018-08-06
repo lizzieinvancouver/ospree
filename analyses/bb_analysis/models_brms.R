@@ -20,6 +20,7 @@ if(length(grep("lizzie", getwd())>0)) {
 
 library(brms)
 library(rstan)
+library(mice)#for imputation
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
@@ -173,6 +174,15 @@ summary(m2l.wistudy.brms)
 #f*c: -155.17, c*p: 153.17,  f*p: 150.58; sigma sp: 15.37
 
 
+#same model with imputation
+
+bb.imp <- mice(bb.stan, m = 5, print = FALSE)#this is not quite right! need to select the datafile that HAS NAs
+m2l.wistudy.brms.zimp <- brm(resp ~ chill.z+force.z +photo.z+
+                            chill.z:force.z+chill.z:photo.z+force.z:photo.z + 
+                            ((chill.z+force.z+photo.z)|complex.wname)+(1|datasetID), 
+                          data = bb.imp,
+                          chains = 2, cores = 2)
+summary(m2l.wistudy.brms.zimp)
 
 #test for picea 
 picea<-bb.stan[bb.stan$complex.wname=="Picea_abies",]
