@@ -51,7 +51,7 @@ unique(bb.noNA.wtaxa$complex)
 # merge in labgroup (we could do this elsewhere someday)
 bb.wlab <- merge(bb.resp, taxon, by=c("genus","species"), all.x=TRUE)
 bb.wlab <- within(bb.wlab, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-bb.wlab <- subset(bb.wlab, bb.wlab$prov.lat>1) 
+bb.wlab <- subset(bb.wlab, bb.wlab$prov.lat>2) 
 bb.wlab.photo<- within(bb.wlab, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # multiple photoperiods
 bb.wlab.photo <- subset(bb.wlab.photo, bb.wlab.photo$photo>1) 
 tt <- table(bb.wlab.photo$complex)### testing 
@@ -59,7 +59,7 @@ bb.wlab<-bb.wlab.photo
     # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
     # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
     # [9] "Ribes_nigrum"          "Ulmus_complex"  
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ribes_nigrum")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 studies<-dplyr::select(bb.wlab, datasetID, complex)
@@ -106,10 +106,31 @@ ospr.stan$sm.chill<-ospr.stan$chill/240
 
 ospr.stan <- subset(ospr.stan, resp<600)
 
+cp<-ggplot(ospr.stan, aes(x=chill, y=photo)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+fp<-ggplot(ospr.stan, aes(x=force, y=photo)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+cf<-ggplot(ospr.stan, aes(x=chill, y=force)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+lf<-ggplot(ospr.stan, aes(x=lat, y=force)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+pl<-ggplot(ospr.stan, aes(x=lat, y=photo)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+cl<-ggplot(ospr.stan, aes(x=lat, y=chill)) + geom_point(aes(col=as.factor(complex))) + 
+  facet_wrap(~complex) + theme(legend.position = "none")
+quartz()
+
+## Seems there may not be enough data for Ulmus? 180 rows of data but it may be too repetitive
+# Try Malus?? Ulmus is only two datasets
+
 ### Species random slope effect for main effects only
 lat.stan<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat +
                     (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
                     chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+
+lat.brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
+                       (force + photo + sm.chill + lat + photo:lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                     chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
 lat.inter_arm<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
                      photo:sm.chill + force:lat + sm.chill:lat +
@@ -132,7 +153,8 @@ summary(lat.stan_brm) ## quite different from rstanrarm!
 
 lat.inter_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
                      photo:sm.chill + force:lat + sm.chill:lat +
-                    (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
+                    (force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
+                       photo:sm.chill + force:lat + sm.chill:lat|sp), data=ospr.stan, warmup=2500,iter=4000,
                   chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
 # hmmm... quite different... 
