@@ -130,7 +130,7 @@ lat.stan<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat +
 
 lat.brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
                        (force + photo + sm.chill + lat + photo:lat|sp), data=ospr.stan, warmup=2500,iter=4000,
-                     chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+                     chains = 2, cores = 4,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
 lat.inter_arm<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
                      photo:sm.chill + force:lat + sm.chill:lat +
