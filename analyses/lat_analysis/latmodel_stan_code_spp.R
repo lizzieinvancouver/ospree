@@ -59,7 +59,7 @@ bb.wlab<-bb.wlab.photo
     # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
     # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
     # [9] "Ribes_nigrum"          "Ulmus_complex"  
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ribes_nigrum")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ribes_nigrum", "Ulmus_complex")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 studies<-dplyr::select(bb.wlab, datasetID, complex)
@@ -120,8 +120,6 @@ cl<-ggplot(ospr.stan, aes(x=lat, y=chill)) + geom_point(aes(col=as.factor(comple
   facet_wrap(~complex) + theme(legend.position = "none")
 quartz()
 
-## Seems there may not be enough data for Ulmus? 180 rows of data but it may be too repetitive
-# Try Malus?? Ulmus is only two datasets
 
 ### Species random slope effect for main effects only
 lat.stan<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat +
@@ -132,10 +130,10 @@ lat.brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
                        (force + photo + sm.chill + lat + photo:lat|sp), data=ospr.stan, warmup=2500,iter=4000,
                      chains = 2, cores = 4,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
-lat.inter_arm<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
-                     photo:sm.chill + force:lat + sm.chill:lat +
-                     (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
-                   chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
+lat.inter_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
+                     photo:sm.chill + force:lat +
+                     (force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
+                        photo:sm.chill + force:lat|sp), data=ospr.stan)
 
 ### Rstanarm output:
 # a: 121.1, f:-1.4, p: -3.7, c: -3.8, l: -0.5, pl: 0.0, sigma: 20.2
