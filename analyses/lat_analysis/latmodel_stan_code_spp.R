@@ -59,7 +59,7 @@ bb.wlab<-bb.wlab.photo
     # [1] "Betula_complex"        "Betula_pendula"        "Betula_pubescens"      "Fagus_sylvatica"      
     # [5] "Malus_domestica"       "Picea_abies"           "Picea_glauca"          "Pseudotsuga_menziesii"
     # [9] "Ribes_nigrum"          "Ulmus_complex"  
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ribes_nigrum", "Ulmus_complex")
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ribes_nigrum")
 bb.wlab<-dplyr::filter(bb.wlab, complex%in%myspp)
 
 studies<-dplyr::select(bb.wlab, datasetID, complex)
@@ -130,10 +130,8 @@ lat.brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
                        (force + photo + sm.chill + lat + photo:lat|sp), data=ospr.stan, warmup=2500,iter=4000,
                      chains = 2, cores = 4,control = list(max_treedepth = 12,adapt_delta = 0.99))
 
-lat.inter_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
-                     photo:sm.chill + force:lat +
-                     (force + photo + sm.chill + lat + photo:lat + force:photo + force:sm.chill +
-                        photo:sm.chill + force:lat|sp), data=ospr.stan)
+lat.inter_brm<-brm(resp~ force + photo + sm.chill + lat + photo:lat +
+                     (force + photo + sm.chill + lat + photo:lat|sp), data=ospr.stan, control = list(max_treedepth = 12,adapt_delta = 0.99))
 
 ### Rstanarm output:
 # a: 121.1, f:-1.4, p: -3.7, c: -3.8, l: -0.5, pl: 0.0, sigma: 20.2
