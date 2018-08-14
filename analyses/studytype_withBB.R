@@ -37,6 +37,8 @@ xx <- within(xx, { photo <- ifelse(photoperiod_day!=0, ave(photoperiod_day, data
                                                            study, FUN=function(x) length(unique(x))), 0)}) # mult photoperiod_day
 xx <- within(xx, { chill <- ifelse(chilltemp!=0, ave(chilltemp, datasetID, species, 
                                                  study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
+xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, 
+                                                     study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 xx <- within(xx, { spp <- ifelse(species!=0, ave(species, datasetID,
                                                        study,FUN=function(x) length(unique(x))), 0)}) # mult species
 xx <- within(xx, { prov.long <- ifelse(provenance.long!=0, ave(provenance.long, datasetID, species, 
@@ -62,7 +64,7 @@ for(i in c(1:nrow(xx))) {
 }
 
 
-xx<-dplyr::select(xx, datasetID, species, study, prov.lat, prov.long, field.sample, force, photo, chill, spp, wein)
+xx<-dplyr::select(xx, datasetID, species, study, prov.lat, prov.long, field.sample, force, photo, chill, chilltime, spp, wein)
 xx<-xx[!duplicated(xx),]
 xx$wein<-ifelse(is.na(xx$wein), 0, xx$wein)
 
