@@ -60,7 +60,7 @@ for(i in 1:length(study)){
     st1<-st[st$chill==ch[j],]
     for(k in 1:length(ph)){
       st2<-st1[st1$photoperiod_day==ph[k],]
-      boxplot(as.numeric(st2$response.time)~as.factor(st2$force), xlab="Forcing temp",ylab="Days to bb",main=paste("Chill=",ch[j],"DL=",ph[k]))
+      boxplot(as.numeric(st2$response.time)~as.character(st2$force), xlab="Forcing temp",ylab="Days to bb",main=paste("Chill=",ch[j],"DL=",ph[k]))
     }
   }
   mtext(paste(study[i]), side=3, adj=-1,line=3)
