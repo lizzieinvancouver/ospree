@@ -106,8 +106,8 @@ d$freeze.treatment.temp_night[d$datasetID=="biasi12"]<-""
 d$response..pre.treatment[d$datasetID=="biasi12"]<-""
 
 #response
-d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
-d$response..pre.treatment[d$datasetID=="basler12"]<-d$freeze.treatment.temp_night[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
+d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment.[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
+d$response..pre.treatment.[d$datasetID=="basler12"]<-d$freeze.treatment.temp_night[d$datasetID=="basler12"]#these were originally located in the freeze.treatment.night column
 d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-""
 
 d$freeze.treatment.temp_day[d$datasetID=="ruesink98"]<-""#one was "1" which was an error
