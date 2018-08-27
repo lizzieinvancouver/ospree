@@ -40,11 +40,9 @@
 
 \renewcommand{\tableofcontents}{}
 
-
 \parskip=5pt
 \pagenumbering{arabic}
 \pagestyle{plain}
-
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -77,9 +75,37 @@ Version dated: \today
 
 It feels like we have started to hone in on one model (see Fig. \ref{fig:zscore}), which could relate to one data manuscript from OSPREE. In starting to think on this manuscript and discuss it with some people, it occurred to me that we will want to release much of the OSPREE database at that time. That means we'll also want to have done most of what we're really excited about \emph{before} releasing the database. 
 
-This means to me that one thing we should answer soon is: given these data what would you want to know? Or, phrased differently, what do you expect others would immediately do with these data and of that list which items would we have wished we had done? \\
+This means to me that one thing we should answer soon is: given these data what would you want to know? Or, phrased differently, what do you expect others would immediately do with these data and of that list which items would we have wished we had done? 
 
+We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up with the following list of projects/tasks. Most of these tasks could fit into one or more paper (see further below; note how one project may show up in multiple paper conceptions), but step 1 seems to be to decide which ones we want to do and get them started. So here's the overall list of what we'd need to do to tackle \emph{everything} that we came up with.\footnote{Note that we probably don't want or need to do everything.}
 
+\begin{enumerate}
+\item Bigger tasks (to divvy up)
+\begin{enumerate}
+\item \% budburst model
+\item Calculate geographical position within (or beyond) range of each species in each study
+\item Calculate climatic position within (or beyond) range of each species in each study
+\item Provenance models (goes with latitude models?)
+\item Elevation models? Effects of coast models?
+\item Get trait data (and correlate cues with trait data)\footnote{For here and for all our questions, we'll want to think carefully about not running so MANY models that we are sure to find something, AKA sure to find something possibly spurious.}
+\item Calculate forcing and chilling sensitivities from PEP725 data for OSPREE species
+\item Calculate delays in advances in OSPREE species from PEP725 data
+\item Get phylogeny for our species, add it to basic BB model
+\end{enumerate}
+\item Tasks related to BB model (probably do not need to divvy up right now, as we will get these done methinks)
+\begin{enumerate}
+\item BB models with imputation (logical/model)
+\item BB models with Weinberger
+\item BB models with chilling examined
+\item Revisit non-linear BB models 
+\item BB models: Does temperature treatment covary with photoperiod?
+\item BB models: Consider adding continent of origin? \emph{--Need to discuss before doing}
+\item BB models: Consider adding seedling/cutting? \emph{--Need to discuss before doing}
+\item BB model interpretation: Apply 1 C of warming (across year, in certain seasons)
+\end{enumerate}
+\end{enumerate} 
+
+\newpage
 {\bf Paper 1: Species share three major cues} % that underlie a complex future for spring phenology
 Some notes/words I was pulling together for the main paper. We're not stuck with this text at all but in working through the setup I realized how many different directions it could lead to. So I'll share it here:
 
