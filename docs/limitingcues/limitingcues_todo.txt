@@ -5,9 +5,14 @@ By Lizzie
 <><><><><><><><><><><><><><><><><><><><>
 General to do...
 <><><><><><><><><><><><><><><><><><><><>
-(1) Add in all the refs people gave that I do not have (see comments folder)
-(2) Also go through outline where a lot of refs are just written out.
-(3) Outline: Re-read outline one last time and let co-authors know
+(1) Work on outline: This needs to be filled in once the figures and stats are done ... right now it says 'get this data' so we should get that and change 'get this data' to the actual take-home message ... then I could start writing. 
+(2) Work on figures 
+	- PEP725 comparison
+	- Heat maps:
+		(1) Make sure that I gather correctly: see https://stackoverflow.com/questions/48772829/heatmap-in-r-with-ggplot2 AND https://www.worldfullofdata.com/three-ways-create-heatmap-r/
+		(2) Multi-panel: https://jcoliver.github.io/learn-r/006-heatmaps.html
+		(3) Backup multipanel option: https://www.biostars.org/p/86379/
+
 
 <><><><><><><><><><><><><><><><><><><><>
 Figures to make for the concept paper …

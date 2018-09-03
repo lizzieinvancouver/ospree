@@ -115,6 +115,32 @@ dsumm$range.temp <- dsumm$max.temp - dsumm$min.temp
 dsumm$range.photo <- dsumm$max.photo - dsumm$min.photo
 dsumm$range.chill <- dsumm$max.chill - dsumm$min.chill
 
+## For PEP725 comparison:
+## TO DO: Define differences between R files in this folder!!
+## TO DO: We need to calculate the DIFFERENCES between treatments for each study
+# then we can compare, what I have below is not what we need.
+dsumm.wsp <-
+      ddply(d, c("datasetID", "study", "latbi"), summarise,
+      mean.year = mean(year),
+      mean.temp = mean(force),
+      min.temp = min(force),
+      max.temp = max(force),
+      sd.temp = sd(force))
+
+      
+par(mfrow=c(2,2))
+dsumm.toplot <- dsumm.wsp
+dsumm.fs <- subset(dsumm.wsp, latbi=="Fagus sylvatica")
+dsumm.bp <- subset(dsumm.wsp, latbi=="Betula pendula")
+# dsumm.toplot <- dsumm.fs
+# dsumm.toplot <- dsumm.bp
+hist(dsumm.toplot$max.temp, main="Max temp", xlab="Max temp")
+plot(density(dsumm.toplot$max.temp, na.rm=TRUE), col="red",  main="Max temp density", xlab="Max temp")
+hist(dsumm.toplot$min.temp, main="Min temp", xlab="Min temp")
+plot(density(dsumm.toplot$min.temp, na.rm=TRUE), col="blue", main="Min temp density", xlab="Min temp")
+
+
+
 if(FALSE){
 # for cfi
 chill <- subset(dsumm, mean.chill==""| is.na(mean.chill)==TRUE)
