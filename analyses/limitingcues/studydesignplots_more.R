@@ -26,8 +26,7 @@ library(tidyr)
 library(ggplot2)
 library(gridExtra)
 
-source("misc/getfielddates.R")
-
+source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)

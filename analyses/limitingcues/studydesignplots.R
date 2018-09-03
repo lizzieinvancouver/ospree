@@ -2,9 +2,20 @@
 ## By Lizzie ##
 
 ## Working on figures for OSPREE concept paper on interactive cues ##
+## A little of this code is taken from cleaning/cleanup_checksmaps.R ##
 
+## This file:
+# (1) makes some simple plots by year
+# (2) counts up cues manipulated
+# (3) makes some simple maps
+
+## Currently all counts here appear to be based on studytype_table.csv ##
+
+############
 ## TO DO! ##
 # Should check/merge with studydesignplots_more.R so they use same data and counts #
+# At least cross-check any info from here we use for manuscript 
+############
 
 ## housekeeping
 rm(list=ls())
@@ -23,10 +34,9 @@ library(RColorBrewer)
 library(plyr)
 library(dplyr)
 
-source("misc/getfielddates.R") # counts up field sample dates separated by a number of days you specify
+source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 
-## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
-# Get packages
+## Open and basic formatting of data
 d <- read.csv("output/ospree_clean.csv")
 studfile <- read.csv("output/studytype_table.csv", header=TRUE)
 
@@ -34,35 +44,36 @@ d <- d[d$woody=="yes",]
 d$fieldsample.date <- as.Date(d$fieldsample.date, format="%d-%b-%Y")
 head(d)
 
-###
-###
+# aggregate studies by year and merge in studytable (for counts)
 lookupstudyyr <- aggregate(d[c("year")], d[c("datasetID", "study")], FUN=mean)
+lookupstudyyr$datasetIDstudy <- paste(lookupstudyyr$datasetID, lookupstudyyr$study)
 stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
 
-goo <-  aggregate(stud[c("year")], stud[c("field.sample")], FUN=mean)
-plot(field.sample~year, data=goo)
-
-###
-###
+########################
+## Plots across years ##
+########################
+##
+# studies per year ... shows that we have had a good number for a while
 yr <- as.numeric(stud$year)
-
 pdf("limitingcues/figures/pubyear.pdf", width = 8, height = 5)
 hist(yr, breaks = 50, xaxt="n", col = "lightblue", main = "Years of Publication")
 axis(1, at = seq(min(yr, na.rm=TRUE), max(yr, na.rm=TRUE), by = 3))
 dev.off()
 
-# Counting
+##
+# Counting up unique species and studies 
 d$latbi <- paste(d$genus, d$species)
 length(unique(d$latbi)) # unique species
 d$datasetIDstudy <- paste(d$datasetID, d$study)
 length(unique(d$datasetIDstudy)) # unique studies
 
-# ranges
-range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE) 
-range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
-range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+##
+## Plot of mean number of field sample dates per study by year ...
+# count all field sample dates
+goo <-  aggregate(stud[c("field.sample")], stud[c("year")], FUN=mean)
+plot(field.sample~year, data=goo)
 
-# count field.sample dates ... not currently used in plots
+# Count field.sample dates by 2 weeks apart
 ddatefx.all <- subset(d, select=c("datasetID", "study", "fieldsample.date"))
 ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
 ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
@@ -71,7 +82,21 @@ dates2weeks <- countfieldsample(ddatefx, 14)
 dates2weeks$count[is.na(dates2weeks$count)==TRUE] <- 0
 names(dates2weeks)[names(dates2weeks)=="count"] <- "fs.date.countby14d"
 
-# species number and mean cues ... 
+stud.2weeks <- merge(dates2weeks, lookupstudyyr, by=c("datasetIDstudy"), all.x=TRUE, all.y=TRUE)
+stud.2weeksgoo <-  aggregate(stud.2weeks[c("fs.date.countby14d")], stud.2weeks[c("year")], FUN=mean)
+quartz()
+plot(fs.date.countby14d~year, data=stud.2weeksgoo)
+# TAKE-HOME: No dramatic trends and no dramatic effect of my 2-week counting
+##
+
+# Cue ranges
+range(as.numeric(as.character(d$forcetemp)), na.rm=TRUE) 
+range(as.numeric(as.character(d$chilltemp)), na.rm=TRUE)
+range(as.numeric(as.character(d$photoperiod_day)), na.rm=TRUE)
+
+##
+# Species number and mean cues by study ...
+# And merge with study table to get count of cues
 sppsumyr <-
       ddply(d, c("datasetID", "study"), summarise,
       sppn=length(unique(latbi)),
@@ -109,12 +134,17 @@ studyr <- subset(studyr, select=c("datasetID", "study", "year",
 studyr$exp <- paste(studyr$datasetID, studyr$study)
 studyr$yearint <- as.integer(studyr$year)
 
+# Count studies and datasetIDs by year
 expperyr <- ddply(studyr, c("yearint"), summarise,
       ndat=length(unique(datasetID)),
       nexp=length(unique(exp)))
 
 plot(ndat~yearint, data=expperyr, ylim=c(-5,30), type="l")
 points(fs.count~year, data=studyr, ylim=c(-5,30), col="green")
+
+###############################
+## Counting cues manipulated ##
+###############################
 
 ## counting how many manip two cues
 ## need to work on this ....
@@ -139,10 +169,13 @@ length(unique(howmany.prov$datasetID))
 ##
 
 
+###############################
+## Maps! ##
+###############################
+
 ##
 ## get map shape file (see map_notes.R for details)
 ##
-
 wmap <- readOGR("..//..//..//..//general/maps/ne_110m_land") # on Lizzie's computer
 wmap.df <- fortify(wmap)
 
