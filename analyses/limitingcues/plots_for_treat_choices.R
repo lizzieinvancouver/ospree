@@ -19,20 +19,28 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(gridExtra)
+library(ggthemes)
 
 c<-read.csv("ospree_clean.csv",header = TRUE)
 c$photoperiod_day<-as.numeric(c$photoperiod_day)
 
 treatsum<-ddply(c,c("datasetID"), summarise,
 mean=mean(photoperiod_day), max=max(photoperiod_day), min=min(photoperiod_day),meangrow=mean(growing.lat), meanprov=mean(provenance.lat))
-treatsum<-filter(treatsum, meanprov>0)
+treatsum$absmeanprov<-abs(treatsum$meanprov)
+range(treatsum$absmeanprov)
+#treatsum<-filter(treatsum, meanprov>0)
 ##seperate which studies use same max and min photoperoioda
 treatsum$yesphoto<-ifelse(treatsum$max==treatsum$min,"no-manipulation","manipulation")
 
+
+dat<-left_join(treatsum,c)
+head(dat)
+colnames(dat)
+
 ###plot for photoperiod
-plottingtreatsum<-gather(treatsum, maxmin,value, max:min)
-q<-ggplot(plottingtreatsum, aes(x=meanprov, y=value, color=maxmin)) 
-q+geom_point()+labs(title="Photoperiod", x=" Latititude", y="photoperiod")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)
+#plottingtreatsum<-gather(treatsum, maxmin,value, mean:min)
+q<-ggplot(dat, aes(x=absmeanprov, y=max, color=datasetID)) 
+q+geom_point()+labs(title="Photoperiod", x=" Aboslute Mean Provinance Latititude", y="photoperiod")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)+theme_base()
 
 ##linear models for photoperiod
 Modmax<-lm(max~meanprov,data=treatsum)
@@ -46,12 +54,13 @@ c$forcetemp<-as.numeric(c$forcetemp)
 treatsum2<-ddply(c,c("datasetID"), summarise,
      mean=mean(forcetemp), max=max(forcetemp), min=min(forcetemp),meangrow=mean(growing.lat), meanprov=mean(provenance.lat))
 treatsum2$yesforce<-ifelse(treatsum2$max==treatsum2$min,"no-manipulation","manipulation")
-treatsum2<-filter(treatsum2, meanprov>0)
+#treatsum2<-filter(treatsum2, meanprov>0)
+treatsum2$absmeanprov<-abs(treatsum2$meanprov)
 
 ##Plot for forcing
-plottingtreatsum2<-gather(treatsum2, maxmin,value, max:min)
-q<-ggplot(plottingtreatsum2, aes(x=meanprov, y=value, color=maxmin)) 
-q+geom_point()+labs(title="Forcing", x=" Latititude", y="Forcing level")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)
+plottingtreatsum2<-gather(treatsum2, maxmin,value, mean:min)
+q<-ggplot(plottingtreatsum2, aes(x=absmeanprov, y=value, color=maxmin)) 
+q+geom_point()+labs(title="Forcing", x=" Latititude", y="Forcing level")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)+theme_base()
 
 ###Linear model
 Modmax2<-lm(max~meanprov,data=treatsum2)
@@ -60,8 +69,8 @@ Modmin2<-lm(min~meanprov,data=treatsum2)
 summary(Modmin2)
 
 ### let look just where thing were manipulated
-treatsum<-filter(treatsum,yesphoto=="manipulation")
-treatsum2<-filter(treatsum2,yesforce=="manipulation")
+plottingtreatsum<-filter(plottingtreatsum,yesphoto=="manipulation")
+plottingtreatsum2<-filter(plottingtreatsum2,yesforce=="manipulation")
 
 #lms with only manipulated value
 Modmax<-lm(max~meanprov,data=treatsum)
@@ -74,9 +83,9 @@ Modmin2<-lm(min~meanprov,data=treatsum2)
 summary(Modmin2)
 
 ##plots for manipulated only
-plottingtreatsum<-gather(treatsum, maxmin,value, max:min)
-q<-ggplot(plottingtreatsum, aes(x=meanprov, y=value, color=maxmin)) 
-q+geom_point()+labs(title="Manipulated Photoperiod", x=" Latititude", y="photoperiod")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)
+#plottingtreatsum<-gather(treatsum, maxmin,value, mean:min)
+q<-ggplot(plottingtreatsum, aes(x=absmeanprov, y=value, color=datasetID,linetype=maxmin,group=maxmin)) 
+q+geom_point()+labs(title="Manipulated Photoperiod", x=" Latititude", y="photoperiod")+ stat_smooth(method = "lm", formula = y ~ x, se = TRUE)
 plottingtreatsum2<-gather(treatsum2, maxmin,value, max:min)
 q<-ggplot(plottingtreatsum2, aes(x=meanprov, y=value, color=maxmin)) 
 q+geom_point()+labs(title="Manipulated Forcing", x=" Latititude", y="Forcing level")+ stat_smooth(method = "lm", formula = y ~ x, se = FALSE)
