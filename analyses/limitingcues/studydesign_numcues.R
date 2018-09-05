@@ -65,9 +65,9 @@ cues<-cues[!duplicated(cues),]
 
 cues<-inner_join(cues, studies)
 cues$cols<-NA
-cues$cols<-ifelse(cues$numcues==1, "blue", cues$cols)
+cues$cols<-ifelse(cues$numcues==1, "red", cues$cols)
 cues$cols<-ifelse(cues$numcues==2, "green", cues$cols)
-cues$cols<-ifelse(cues$numcues==3, "red", cues$cols)
+cues$cols<-ifelse(cues$numcues==3, "blue", cues$cols)
 cues$cols<-ifelse(cues$numcues==0 & cues$field.sample>1, "violet", cues$cols)
 cues$cols<-ifelse(cues$numcues==0 & cues$field.sample<=1, "white", cues$cols)
 
@@ -75,8 +75,8 @@ cues$cols<-ifelse(cues$numcues==0 & cues$field.sample<=1, "white", cues$cols)
 mecolors<-colorRampPalette(brewer.pal(11,"Spectral"))(5)
 hist<-ggplot(cues, aes(x=yr)) + geom_histogram(aes(fill=cols), size=0.3) +
   xlab("Year") + ylab("Number of Studies") + scale_y_continuous(expand = c(0, 0)) +
-  scale_fill_manual(values=mecolors, name="Number of Cues",
-                    labels=c("blue"="1", "green"="2", "red"="3", "violet"="Multiple Field Sample Dates", "white"="Multiple Provenance Latitudes \nand/or Species")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
+  scale_fill_manual(values=mecolors, name="Number of Cues Manipulated",
+                    labels=c("blue"="3", "green"="2", "red"="1", "violet"="Multiple Field Sample Dates", "white"="Multiple Provenance Latitudes \nand/or Species")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
   theme(panel.background = element_blank(), axis.line = element_line(colour = "black"), legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),
         axis.title=element_text(size=12), legend.title = element_text(size=8), axis.text=element_text(size=10), legend.text.align = 0)
 
