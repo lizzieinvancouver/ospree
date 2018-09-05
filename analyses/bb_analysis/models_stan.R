@@ -78,8 +78,11 @@ betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b
 # launch_shinystan(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# a: 71; f: -1.1; p: -0.6; c: -2.9
-# z-score: a: 29; f: -5; p: -4; c: -9.5
+# Sept 2018: a: 75; f: -1.5; p: -0.3; c: -2.8 (42 spp, 2327 datapoints, I think (1957 yhat)
+# before Sep 2018 -- a: 71; f: -1.1; p: -0.6; c: -2.9 (38 spp, 1957 datapoints, I think (1957 yhat)
+
+# z-score Sep 2018 -- a: 32; f: -8.5; p: -2.4; c: -9.3
+# z-score before Sep 2018 -- a: 29; f: -5; p: -4; c: -9.5
 
 # getting predicted values if needed
 # preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
@@ -105,8 +108,10 @@ m2l.winsp.sum <- summary(m2l.winsp)$summary
 m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
     "b_cf","b_cp","b_fp"),]
 
-# a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # (low n_eff for some params, a whole mix of them!)
-# z-score: a: 29; f: -5; p: -4; c: -10; cf: 2; cp: 2; cf: 0.4 
+# Sep 2018 -- a: 79; f: -1.4; p: 0.04; c: -5.2, small intxns (all <0.15) # need to check model
+# before Sep 2018 -- a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # (low n_eff for some params, a whole mix of them!)
+# Sep 2018 z-score: a: 32; f: -7.6; p: -2.4; c: -9.6; cf: 1.3; cp: 1.2; cf: -1 
+# before Sep 2018 z-score: a: 29; f: -5; p: -4; c: -10; cf: 2; cp: 2; cf: 0.4 
 
 # launch_shinystan(m2l.winsp)
 
