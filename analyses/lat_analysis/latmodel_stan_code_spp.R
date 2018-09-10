@@ -99,10 +99,10 @@ ospr.stan$sm.chill<-ospr.stan$chill/240
 #ospr.stan$lat.cen <- ospr.stan$lat-mean(ospr.stan$lat,na.rm=TRUE)
 
 ## z-score the predictors:
-#ospr.stan$force.z <- (ospr.stan$force-mean(ospr.stan$force,na.rm=TRUE))/sd(ospr.stan$force,na.rm=TRUE)
-#ospr.stan$photo.z <- (ospr.stan$photo-mean(ospr.stan$photo,na.rm=TRUE))/sd(ospr.stan$photo,na.rm=TRUE)
-#ospr.stan$chill.z <- (ospr.stan$chill-mean(ospr.stan$chill,na.rm=TRUE))/sd(ospr.stan$chill,na.rm=TRUE)
-#ospr.stan$lat.z <- (ospr.stan$lat-mean(ospr.stan$lat,na.rm=TRUE))/sd(ospr.stan$lat,na.rm=TRUE)
+ospr.stan$force.z <- (ospr.stan$force-mean(ospr.stan$force,na.rm=TRUE))/sd(ospr.stan$force,na.rm=TRUE)
+ospr.stan$photo.z <- (ospr.stan$photo-mean(ospr.stan$photo,na.rm=TRUE))/sd(ospr.stan$photo,na.rm=TRUE)
+ospr.stan$chill.z <- (ospr.stan$chill-mean(ospr.stan$chill,na.rm=TRUE))/sd(ospr.stan$chill,na.rm=TRUE)
+ospr.stan$lat.z <- (ospr.stan$lat-mean(ospr.stan$lat,na.rm=TRUE))/sd(ospr.stan$lat,na.rm=TRUE)
 
 ospr.stan <- subset(ospr.stan, resp<600)
 
@@ -122,6 +122,13 @@ quartz()
 
 #write.csv(ospr.stan, file="~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_wRibesandUlmus.csv", row.names = FALSE)
 ### Species random slope effect for main effects only
+lat.allinter<-brm(resp~ force.z + photo.z + chill.z + lat.z + photo.z:lat.z + force.z:lat.z + force.z:photo.z + force.z:chill.z +
+                    chill.z:photo.z + chill.z:lat.z +
+                    (force.z + photo.z + chill.z + lat.z + photo.z:lat.z + force.z:lat.z + force.z:photo.z + force.z:chill.z +
+                       chill.z:photo.z + chill.z:lat.z|sp), 
+                  data=ospr.stan, warmup=2500,iter=4000, chains = 2, cores = 1,
+                  control = list(max_treedepth = 12,adapt_delta = 0.99))
+
 lat.stan<-stan_glmer(resp~ force + photo + sm.chill + lat + photo:lat +
                     (force + photo + sm.chill + lat|sp), data=ospr.stan, warmup=2500,iter=4000,
                     chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99))
@@ -173,7 +180,7 @@ launch_shinystan(lat.stan_brm)
 
 
 
-m<-lat.stan_brm
+m<-lat.allinter
 m.int<-posterior_interval(m)
 sum.m<-summary(m)
 cri.f<-as.data.frame(sum.m$fixed[,c("Estimate", "l-95% CI", "u-95% CI")])
@@ -188,15 +195,15 @@ cri.r2<-cri.r[, ,-1]
 cri.r2<-cri.r2[,-2,]
 dims<-dim(cri.r2)
 twoDimMat <- matrix(cri.r2, prod(dims[1:2]), dims[3])
-mat2<-cbind(twoDimMat, c(rep(1:6, length.out=18)), rep(c("Estimate", "2.5%", "95%"), each=6))
+mat2<-cbind(twoDimMat, c(rep(1:7, length.out=21)), rep(c("Estimate", "2.5%", "95%"), each=7))
 df<-as.data.frame(mat2)
 names(df)<-c(rownames(cri.f), "sp", "perc")
 dftot<-rbind(fdf2, df)
-dflong<- tidyr::gather(dftot, var, value, force:`photo:lat`, factor_key=TRUE)
+dflong<- tidyr::gather(dftot, var, value, force.z:`chill.z:lat.z`, factor_key=TRUE)
 
 #adding the coef estiamtes to the random effect values 
-for (i in seq(from=1,to=nrow(dflong), by=21)) {
-  for (j in seq(from=3, to=20, by=1)) {
+for (i in seq(from=1,to=nrow(dflong), by=240)) {
+  for (j in seq(from=3, to=239, by=1)) {
     dflong$value[i+j]<- as.numeric(dflong$value[i+j]) + as.numeric(dflong$value[i])
   }
 }
@@ -208,24 +215,27 @@ dfwide$sp<-as.factor(dfwide$sp)
 
 pd <- position_dodgev(height = -0.5)
 
-estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude")
+estimates<-c("Forcing", "Photoperiod", "Chill Portions", "Latitude", "Photoperiod x Latitude",
+               "Forcing x Latitude", "Forcing x Photoperiod", "Forcing x Chill", "Chill x Photo", "Chill x Lat")
 dfwide$legend<-factor(dfwide$sp,
                    labels=c("Overall Effects","B. pendula","B. pubescens","F. sylvatica",
-                            "P. abies", "P. menziesii", "U. complex"))
+                            "P. abies", "P. menziesii", "R. nigrum", "U. complex"))
+cols <- colorRampPalette(brewer.pal(8,"Accent"))(8)
 estimates<-rev(estimates)
 fig1 <-ggplot(dfwide, aes(x=Estimate, y=var, color=legend, size=factor(rndm), alpha=factor(rndm)))+
   geom_point(position =pd)+
   geom_errorbarh(aes(xmin=(`2.5%`), xmax=(`95%`)), position=pd, size=.5, height =0, width=0)+
   geom_vline(xintercept=0)+
-  scale_colour_manual(values=c("blue", "firebrick3", "orangered1","orange3","sienna2", "green4", "purple2"),
+  scale_colour_manual(values=cols,
                       labels=c("Overall Effects", 
                                "B. pendula" = expression(paste(italic("Betula pendula"))),
                                "B. pubescens"= expression(paste(italic("Betula pubescens"))),
                                "F. sylvatica" = expression(paste(italic("Fagus sylvatica"))), 
                                "P. abies" = expression(paste(italic("Picea abies"))),
                                "P. menziesii" = expression(paste(italic("Pseudotsuga menziesii"))),
+                               "R. nigrum" = expression(paste(italic("Ribes nigrum"))),
                                "U. complex" = expression(paste(italic("Ulmus complex")))))+
-  scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2)) +
+  scale_size_manual(values=c(3, 2, 2, 2, 2, 2, 2, 2, 2)) +
   scale_shape_manual(labels="", values=c("1"=16,"2"=16))+
   scale_alpha_manual(values=c(1, 0.5)) +
   guides(size=FALSE, alpha=FALSE) + 
