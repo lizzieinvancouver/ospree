@@ -46,9 +46,9 @@ length(which(!is.na(d.mar$forcetemp)))#7304
 #did we lose a particular study?
 sort(unique(d.mar$datasetID[which(is.na(d.mar$forcetemp))]))#8 studies had NAs for oforcing in march
 #"ashby62"     "boyer"       "cannell83"   "lamb37" "ruesink98"   "sanzperez10" "skuterud94"  "sonsteby13" 
-sort(unique(d.new$datasetID[which(is.na(d.new$forcetemp))]))#8 studies had NAs for oforcing in march
+sort(unique(d.new$datasetID[which(is.na(d.new$forcetemp))]))#10 studies have NAs in forcing now- this makes sense
 #"ashby62"     "basler12"   "boyer"       "cannell83"   "lamb37" "ruesink98"   "sanzperez10" "skuterud94"  "sonsteby13" 
-#so new nas in forcing are in basler12 and schnabel87 
+#new nas in forcing are in basler12 and schnabel87 
 #in march- all basler studies had 7 for forcetemp; now there are differeces
 #fewer NAs in july/now then in march- good
 sort(unique(d.mar$genus[which(!is.na(d.mar$Field_Utah_Model))]))#85 unique genera in march did not have NAs
@@ -73,3 +73,34 @@ length(which(is.na(d.mar$photoperiod_day)))#1180
 #more NAS now than in march...hmm
 sort(unique(d.mar$datasetID[which(is.na(d.mar$photoperiod_day))]))#"cannell83" "ruesink98"
 sort(unique(d.new$datasetID[which(is.na(d.new$photoperiod_day))]))#"cannell83" "ruesink98" "schnabel87"
+#Look into some weird things:
+#kiwi is in 2 studies! biasili12 (in south america) and guerriero90 (in europe)
+cbind(d.new$datasetID,d.new$continent, 
+      d.new$Total_Chill_portions,d.new$forcetemp,
+      d.new$avg_bbtemp,d.new$photoperiod_day)[d.new$genus=="Actinidia",]
+#let's look at kiwi in march: biasili12 (in south america) and guerriero90 (in europe)
+cbind(d.mar$datasetID,d.mar$continent, 
+      d.mar$Total_Chill_portions,d.mar$forcetemp,
+      d.mar$avg_bbtemp,d.mar$photoperiod_day)[d.mar$genus=="Actinidia",]
+
+#3 studies use V. vinifera: biasi12, nishimoto95 (in asia), schnabel87
+cbind(d.new$datasetID,d.new$continent, 
+      d.new$Total_Chill_portions,d.new$forcetemp,
+      d.new$avg_bbtemp,d.new$photoperiod_day)[d.new$species=="vinifera",]
+cbind(d.new$datasetID,d.new$Total_Chill_portions,d.new$forcetemp,
+      d.new$avg_bbtemp,d.new$photoperiod_day)[d.new$species=="vinifera",]
+
+
+cbind(d.new$datasetID[d.new$genus=="Actinidia"], 
+      d.new$Total_Chill_portions[d.new$genus=="Actinidia"],d.mar$Total_Chill_portions[d.mar$genus=="Actinidia"],d.new$forcetemp[d.new$genus=="Actinidia"],d.mar$forcetemp[d.mar$genus=="Actinidia"],
+      d.new$avg_bbtemp[d.new$genus=="Actinidia"])
+cbind(d.new$datasetID[d.new$genus=="Actinidia"], 
+      d.new$Total_Chill_portions[d.new$genus=="Actinidia"],d.mar$Total_Chill_portions[d.mar$genus=="Actinidia"],d.new$photoperiod_day[d.new$genus=="Actinidia"],d.mar$photoperiod_day[d.mar$genus=="Actinidia"])
+#chilling has changed from march to now for some rows of guerriero90
+
+cbind(d.new$datasetID[d.new$genus=="Actinidia"], 
+      d.new$Total_Chill_portions[d.new$genus=="Actinidia"],d.mar$Total_Chill_portions[d.mar$genus=="Actinidia"],d.new$photoperiod_day[d.new$genus=="Actinidia"],d.mar$photoperiod_day[d.mar$genus=="Actinidia"])
+
+
+cbind(d.new$datasetID[d.new$species=="vinifera"], 
+      d.new$Total_Chill_portions[d.new$species=="vinifera"],d.mar$Total_Chill_portions[d.mar$species=="vinifera"],d.new$photoperiod_day[d.new$species=="vinifera"],d.mar$photoperiod_day[d.mar$species=="vinifera"])
