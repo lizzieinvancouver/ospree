@@ -13,7 +13,7 @@ library(lme4)
 library(rstan)
 library(shinystan)
 library(bayesplot)
-
+library(brms)
 #setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis") 
@@ -86,7 +86,7 @@ fixef(ops.tdNA.brms)
 ## first with just chilling missing
 bform <- bf(bb ~ mi(chill)+force+photo+#fixed effects
               (1|sp))+ #random effect
-            bf(chill | mi() ~ bb)#how to mode missing data)
+            bf(chill | mi() ~ bb+force+photo)#how to mode missing data)
 ops.tdNAimp.brms<-brm(bform, 
                    data = testdat.wNA) 
 
