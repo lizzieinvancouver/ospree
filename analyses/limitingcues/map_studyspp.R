@@ -57,8 +57,8 @@ mp <- ggplot(sp, aes(x=long, y=lat, color=datasetID, size=as.factor(numspp))) + 
   theme(panel.border = element_blank(),
            panel.grid.major = element_blank(),
            panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = 'grey98'),
-        legend.position=c(0.1, 0.25),
+        plot.background = element_rect(fill = 'white'),
+        legend.position=c(0.08, 0.15),
         legend.key = element_rect(fill="white")) + geom_point(aes(color=datasetID, size=as.factor(numspp))) + geom_jitter() +
   guides(color=FALSE) + scale_size_manual(values=c(1,2,3,4,5,6), labels = c("1-5","6-15","16-30","31-50","51-100",">100"), name="Number of Species")
 
