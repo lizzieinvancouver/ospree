@@ -112,5 +112,9 @@ d$growing.long[d$datasetID=="heide93"] <- d$provenance.long[d$datasetID=="heide9
 d$growing.lat[d$datasetID=="heide93"] <- d$provenance.lat[d$datasetID=="heide93"]
 
 d$continent[which(d$continent=="europe" & as.numeric(d$growing.long)==-89.4120)]<-"north america" # this seems to be the correct longitude, given that the author is a professor at university of wisconsin. change the continent to North America?
+d$provenance.lat[which(d$datasetID=="chavarria09" & as.numeric(d$provenance.lat)>0)] <-#lat should be negative for brazil
+  as.numeric(d$provenance.lat[which(d$datasetID=="chavarria09" & as.numeric(d$provenance.lat)>0)])*(-1)
+d$growing.lat[which(d$datasetID=="chavarria09" & as.numeric(d$growing.lat)>0)] <-#lat should be negative for brazil
+  as.numeric(d$growing.lat[which(d$datasetID=="chavarria09" & as.numeric(d$growing.lat)>0)])*(-1)
 
 stop("Not an error, just stopping here to say we're now done cleaning the lat/longs. The d item in your workspace is now all cleaned up for its lat/longs. Yay!")

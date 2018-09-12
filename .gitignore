@@ -30,3 +30,5 @@ docs/limitingcues/limitingcues_old.pdf
 docs/photoperiod/photoperiod.bbl
 
 *.bbl
+
+analyses/.Rhistory

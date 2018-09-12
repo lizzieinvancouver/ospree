@@ -16,6 +16,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(RColorBrewer)
+library(maps)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
@@ -30,19 +31,40 @@ d$numspp<-as.numeric(d$numspp)
 
 d$provenance.long<-ifelse(d$datasetID=="charrier11" & d$provenance.lat==45.77220, 3.147220, d$provenance.long)
 d<-na.omit(d)
-quartz()
-space<-ggplot(d, aes(x=provenance.long, y=provenance.lat)) + geom_point(aes(col=datasetID, shape=datasetID, size=numspp)) 
-  
 
 sp<-subset(d, select=c("datasetID", "provenance.long", "provenance.lat", "numspp"))
 sp<-sp[!duplicated(sp),]
 
+sp<-sp%>%dplyr::rename(long=provenance.long)%>%rename(lat=provenance.lat)
+sp$legend<-NA
+sp$legend<-ifelse(sp$numspp>=1 & sp$numspp<=5, "1-5", sp$legend)
+sp$legend<-ifelse(sp$numspp>5 & sp$numspp<=15, "6-15", sp$legend)
+sp$legend<-ifelse(sp$numspp>15 & sp$numspp<=30, "16-30", sp$legend)
+sp$legend<-ifelse(sp$numspp>31 & sp$numspp<=50, "31-50", sp$legend)
+sp$legend<-ifelse(sp$numspp>51 & sp$numspp<=100, "51-100", sp$legend)
+sp$legend<-ifelse(sp$numspp>100, "101-150", sp$legend)
 
-library(raster)
-library(rgdal)
-spg<-sp
-coordinates(spg)<- ~long+lat
-proj4string(spg)<-CRS("+proj=longlat +datum=WGS84")
-coords<-spTransform(spg, CRS("+proj=longlat"))
-shapefile(coords, "~/Documents/git/regionalrisk/analyses/output/spaceparam.shp", overwrite=TRUE)
+sp$numspp<-ifelse(sp$numspp>=1 & sp$numspp<=5, 1, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>5 & sp$numspp<=15, 2, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>15 & sp$numspp<=30, 3, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>31 & sp$numspp<=50, 4, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>51 & sp$numspp<=100, 5, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>100, 6, sp$numspp)
+
+
+mapWorld <- borders("world", colour="gray88", fill="gray82") # create a layer of borders
+mp <- ggplot(sp, aes(x=long, y=lat, color=datasetID, size=as.factor(numspp))) +   mapWorld +
+  theme(panel.border = element_blank(),
+           panel.grid.major = element_blank(),
+           panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = 'white'),
+        legend.position=c(0.08, 0.15),
+        legend.key = element_rect(fill="white")) + geom_point(aes(color=datasetID, size=as.factor(numspp))) + geom_jitter() +
+  guides(color=FALSE) + scale_size_manual(values=c(1,2,3,4,5,6), labels = c("1-5","6-15","16-30","31-50","51-100",">100"), name="Number of Species")
+
+quartz()
+mp
+
+
+
 
