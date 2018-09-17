@@ -39,8 +39,6 @@ xx<-xx[!duplicated(xx),]
 
 #write.csv(xx, file="~/Documents/git/ospree/analyses/output/species_manipulation_levels.csv", row.names = FALSE)
 
-
-
 ###make object with all acceptable (<1 data set species) This make a data sheet with all the complex that can be indivudal species
 accept<-dplyr::filter(xx,datasets>1)
 species4taxon<-c(accept$name) ## make a list of species with more than 1 study study
@@ -115,7 +113,9 @@ unique(uselist$complex)
 
 #write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
 
-###ignore what is beolow this
+###############################################################################
+##################ignore what is beolow this###################################
+###############################################################################
 
 #### Check it to make sure.... ###This is a list from summer 2017. IF you do this now there should be fewer complexed because we've added more studies thoughcleaning.
 #unique(accept.comp$complex)
