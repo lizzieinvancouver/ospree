@@ -34,7 +34,7 @@ xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}
 xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,field.sample,prov.lat)
+xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,field.sample,prov.lat, datasetID)
 xx<-xx[!duplicated(xx),]
 
 #write.csv(xx, file="~/Documents/git/ospree/analyses/output/species_manipulation_levels.csv", row.names = FALSE)
@@ -79,28 +79,41 @@ taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill,field.sam
 taxon2<-taxon2[!duplicated(taxon2),]
 
 #taxon2<- within(taxon2, {datasets.complex<- ave(complex, FUN=function(x) length(unique(x)))}) ###this function is wrong!
-guppy<-as.data.frame<-count(taxon2,complex) #how many complexes have multiple species? ###THis is the part thats sorta broken, Cat will make a sweet loop maybe.
-taxon2<-left_join(taxon2,guppy, by="complex") ### add this summary column to main data
+#guppy<-as.data.frame<-count(taxon2,complex) #how many complexes have multiple species? ###THis is the part thats sorta broken, Cat will make a sweet loop maybe.
+#taxon2<-left_join(taxon2,guppy, by="complex") ### add this summary column to main data
+
+
+comps<-unique(taxon2$complex)
+dats<-vector()
+for(i in comps){
+  dats[i]<-length(unique(taxon2$datasetID[taxon2$complex==i]))
+  numsets<-data.frame(numstudies=dats)
+  numsets <- cbind(complex = rownames(numsets), numsets)
+}
+
+taxon2<-left_join(taxon2, numsets, by="complex")
 
 accept.complex<-taxon2
-accept.complex$use<-ifelse(accept.complex$n>1,"Y","N") ###this is your list of complexes
+accept.complex$use<-ifelse(accept.complex$numstudies>1,"Y","N") 
 
 ###makes a data sheet
-complex<-dplyr::filter(d, name %in% complex4taxon)
-complex$complex<-NA
-complex$complex <- paste(complex$genus, "complex", sep="_")
-complex$use<-"Y"
+#complex<-dplyr::filter(d, name %in% complex4taxon)
+#complex$complex<-NA
+#complex$complex <- paste(complex$genus, "complex", sep="_")
+#complex$use<-"Y"
 
 
 ###if you want a data sheet to merge later in the work flow with working data sheet do this
-accept$n<-accept$datasets
+accept$numstudies<-accept$datasets
 complexlist<-rbind(accept,accept.complex)
 ##Currently you have 2 datasets complex and taxon, that have a #complex data set.
-setdiff(unique(d$name),unique(complexlist$name))
+#setdiff(unique(d$name),unique(complexlist$name))
 
 unique(complexlist$complex)
-uselist<-filter(complexlist,n>1)
+uselist<-filter(complexlist,use=="Y")
 unique(uselist$complex)
+
+#write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
 
 ###ignore what is beolow this
 
