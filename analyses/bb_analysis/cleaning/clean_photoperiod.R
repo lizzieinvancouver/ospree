@@ -112,6 +112,23 @@ d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient"
 d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==8 & d$response.time==63
                           & d$other.treatment=="Ambient photoperiod")] <- 16
 
+# photoperiod lengthening from 8h and 40 min
+d$resp<-as.numeric(d$response.time)
+d$photo<-as.numeric(d$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
+  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]*0.1667) + 
+  d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]
+
+# photoperiod shortening from 12h
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")] <- 
+  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]*0.1667) + 
+  d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]
+
+# photoperiod lengthening from 6h
+d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")] <- 
+  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+
+
 # photoperiod lengthening from 6h
 d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time==97
                         & d$other.treatment=="Photoperiod lengthening from 6h")] <- 22
@@ -127,6 +144,27 @@ d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient"
                         & d$other.treatment=="Photoperiod lengthening from 6h")] <- 20
 d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==20 & d$response.time==87 
                           & d$other.treatment=="Photoperiod lengthening from 6h")] <- 4
+
+d$photoperiod_day[which(d$datasetID=="partanen98")]<-ifelse(as.numeric(d$photoperiod_day[which(d$datasetID=="partanen98")])>24, 24, d$photoperiod_day[which(d$datasetID=="partanen98")])
+d$photoperiod_night[which(d$datasetID=="partanen98")]<- 24-as.numeric(d$photoperiod_day[which(d$datasetID=="partanen98")])
+
+
+## Partanen01 Fixes
+
+# photoperiod shortening from 12h
+d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")] <- 
+  (d$resp[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")]*0.1667) + 
+  d$photo[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")]
+
+# photoperiod lengthening from 6h
+d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod lengthening from 6h")] <- 
+  (d$resp[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+
+d$photoperiod_day[which(d$datasetID=="partanen01")]<-ifelse(as.numeric(d$photoperiod_day[which(d$datasetID=="partanen01")])>24, 24, d$photoperiod_day[which(d$datasetID=="partanen01")])
+d$photoperiod_night[which(d$datasetID=="partanen01")]<- 24-as.numeric(d$photoperiod_day[which(d$datasetID=="partanen01")])
+
+
+d<-dplyr::select(d, -photo, -resp)
 
 # schnabel87: ambient entries are in field comparisons to experiment - we will keep these!
 sch.1<-daylength(46.206, "1984-10-11") # 11.1698
