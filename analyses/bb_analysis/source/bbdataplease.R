@@ -4,18 +4,15 @@
 ## Source file for reading in the data and
 ## doing some cleaning we should ALL do
 
+
 ## But! Keep an eye on this file! We probably need to edit it
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
-# below file is cleaned, had chilling added and some BB cleaning done also
-bb.all <- read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
+source("source/speciescomplex.R")
 
-# file to adjust species into species or species complexes ... 
-taxon <- read.csv("..//output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
-## read taxon data to get the 'type' category, then delete what we don't need
-bb.all.wtaxa <- merge(bb.all, taxon, by=c("genus","species"), all.x=TRUE)
-bb.all.wtaxa$complex <- NULL
+## read taxon data to get the 'type' category, then delete what we don't need - do we still want type?
+bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
+#bb.all.wtaxa$complex <- NULL
 bb.all.wtaxa$use <- NULL
 
 ## just the bb data ...

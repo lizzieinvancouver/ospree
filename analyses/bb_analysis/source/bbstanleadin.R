@@ -26,7 +26,7 @@ dim(bb.noNA)
 ## (3) Deal with species
 d <- bb.noNA
 
-source("source/speciescomplex.R")
+#source("source/speciescomplex.R")
 bb.noNA.wtaxa <- d
 dim(bb.noNA.wtaxa)
 unique(bb.noNA.wtaxa$complex)
@@ -38,7 +38,7 @@ bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "f
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
 # bb <- subset(bb, type!="crop")
-bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type",
+bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex",
                                "force.cen","chill.cen", "photo.cen", "force.z","chill.z", "photo.z"))
 bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
