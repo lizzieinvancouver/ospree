@@ -19,7 +19,8 @@ if(length(grep("lizzie", getwd())>0)) {
 
 d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
-library(tidyverse)
+library(dplyr)
+library(tidyr)
 
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
 
