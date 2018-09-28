@@ -8,16 +8,17 @@
 ## But! Keep an eye on this file! We probably need to edit it
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
-source("source/speciescomplex.R")
+#source("source/speciescomplex.R")
+d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
 ## read taxon data to get the 'type' category, then delete what we don't need - do we still want type?
-bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
+#bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
 #bb.all.wtaxa$complex <- NULL
-bb.all.wtaxa$use <- NULL
+#bb.all.wtaxa$use <- NULL
 
 ## just the bb data ...
 respvars.thatwewant <- c("daystobudburst", "percentbudburst")
-bb.resp <- bb.all.wtaxa[which(bb.all.wtaxa$respvar.simple %in% respvars.thatwewant),]
+bb.resp <- d[which(d$respvar.simple %in% respvars.thatwewant),]
 bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 
 ## make a bunch of things numeric (eek!)

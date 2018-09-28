@@ -3,6 +3,7 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 library(bayesplot)
+library(dplyr)
 # library(rstanarm)
 
 source('..//stan/savestan.R')
@@ -26,8 +27,11 @@ dim(bb.noNA)
 ## (3) Deal with species
 d <- bb.noNA
 
-#source("source/speciescomplex.R")
-bb.noNA.wtaxa <- d
+source("source/speciescomplex.R")
+bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
+#bb.all.wtaxa$complex <- NULL
+bb.all.wtaxa$use <- NULL
+bb.noNA.wtaxa <- bb.all.wtaxa
 dim(bb.noNA.wtaxa)
 unique(bb.noNA.wtaxa$complex)
 

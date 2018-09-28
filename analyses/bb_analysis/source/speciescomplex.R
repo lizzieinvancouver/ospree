@@ -3,9 +3,23 @@
 ## Edits by Cat C - 17 August 2017
 ### reworked by Dan 19 sept 2018
 
-d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
+##### Species were selected if they were in more than one study and if both studies manipulated more than one cue
+### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used more than one cue
 
-library(dplyr)
+
+######## USE THIS SECTION TO CHECK CODE! ##########
+## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
+## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
+## (1) Get the data and slim down to correct response and no NAs ...
+#source("source/bbdataplease.R")
+## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
+#source("source/othertreats.R")
+#dim(bb.noNA)
+#bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 28 March 2018 should delete about 359 rows
+#dim(bb.noNA)
+## (3) Deal with species
+#d <- bb.noNA
+
 
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
 
@@ -16,16 +30,28 @@ xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=func
 xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
 xx <- within(xx, { photo <- ave(photoperiod_day, name, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 xx <- within(xx, { chill <- ave(chilltemp, name, species, FUN=function(x) length(unique(x)))}) # mult expchill
+xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}) # mult species
 xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,field.sample,prov.lat, datasetID)
+xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,chilltime,field.sample,prov.lat, datasetID)
 xx<-xx[!duplicated(xx),]
 
 
-###make object with all acceptable (<1 data set species) This make a data sheet with all the complex that can be indivudal species
-accept<-dplyr::filter(xx,datasets>1)
+###make object with all acceptable (>1 data set species and manipulated more than one cue) This make a data sheet with all the complex that can be indivudal species
+### 
+xx$force<-ifelse(xx$force<=1, 0, 1)
+xx$photo<-ifelse(xx$photo<=1, 0, 1)
+xx$chill<-ifelse(xx$chill<=1, 0, 1)
+xx$chilltime<-ifelse(xx$chilltime<=1, 0, 1)
+xx$field.sample<-ifelse(xx$field.sample<=1, 0, 1)
+xx$chill<-ifelse(xx$chill==1 | xx$chilltime==1 | xx$field.sample==1, 1, 0)
+xx$numcues<-xx$force + xx$photo + xx$chill
+
+#check<-subset(xx, select=c(name, datasetID, datasets, numcues))
+
+accept<-xx[(xx$numcues>1 & xx$datasets>1),]
 species4taxon<-c(accept$name) ## make a list of species with more than 1 study study
 accept$complex<-accept$name
 accept$use<-"Y"
@@ -38,7 +64,8 @@ taxon$complex<-taxon$name
 taxon$use<-"Y"
 
 ###making complexes#######################
-comp<-dplyr::filter(xx,datasets==1) ## this are the singleton species
+
+comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
 complex4taxon<-c(comp$name) ### make a liust of them
 
 
@@ -57,9 +84,20 @@ taxon2 <- within(taxon2, { field.sample <- ave(fieldsample.date, complex, FUN=fu
 taxon2 <- within(taxon2, { force <- ave(forcetemp, complex, FUN=function(x) length(unique(x)))}) # mult forcetemp
 taxon2 <- within(taxon2, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 taxon2 <- within(taxon2, { chill <- ave(chilltemp, complex, FUN=function(x) length(unique(x)))}) # mult expchill
+taxon2 <- within(taxon2, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 taxon2<- within(taxon2, { prov.long <- ave(provenance.long,complex, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
-taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill,field.sample,prov.lat, complex,datasetID)
+taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill, chilltime, field.sample,prov.lat, complex,datasetID)
 taxon2<-taxon2[!duplicated(taxon2),]
+
+
+### Accepts complexes that are in more than one study and manipulated more than one cue
+taxon2$force<-ifelse(taxon2$force<=1, 0, 1)
+taxon2$photo<-ifelse(taxon2$photo<=1, 0, 1)
+taxon2$chill<-ifelse(taxon2$chill<=1, 0, 1)
+taxon2$chilltime<-ifelse(taxon2$chilltime<=1, 0, 1)
+taxon2$field.sample<-ifelse(taxon2$field.sample<=1, 0, 1)
+taxon2$chill<-ifelse(taxon2$chill==1 | taxon2$chilltime==1 | taxon2$field.sample==1, 1, 0)
+taxon2$numcues<-taxon2$force + taxon2$photo + taxon2$chill
 
 comps<-unique(taxon2$complex)
 dats<-vector()
@@ -72,15 +110,16 @@ for(i in comps){
 taxon2<-left_join(taxon2, numsets, by="complex")
 
 accept.complex<-taxon2
-accept.complex$use<-ifelse(accept.complex$numstudies>1,"Y","N") 
+accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numstudies>1),"Y","N") 
+
 
 ###if you want a data sheet to merge later in the work flow with working data sheet do this
 accept$numstudies<-accept$datasets
 complexlist<-rbind(accept,accept.complex)
 
-unique(complexlist$complex)
+#unique(complexlist$complex)
 uselist<-filter(complexlist,use=="Y")
-unique(uselist$complex)
+#unique(uselist$complex)
 
 accepties<-rbind(accept, accept.complex)
 accepties$species<-gsub(".*_", "", accepties$name)
@@ -90,8 +129,11 @@ accepties<-accepties[!duplicated(accepties),]
 
 bb.wtaxa<-full_join(d, accepties)
 bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
+bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
 
-write.csv(bb.wtaxa, file="..//output/ospree_clean_withchill_BB_taxon.csv", row.names = FALSE)
+sort(unique(bb.wtaxa$complex[bb.wtaxa$use=="Y"]))
+
+#write.csv(bb.wtaxa, file="..//output/ospree_clean_withchill_BB_taxon.csv", row.names = FALSE)
 
 #write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
 
