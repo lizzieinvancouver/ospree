@@ -6,7 +6,6 @@
 d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
 library(dplyr)
-library(tidyr)
 
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
 

@@ -69,8 +69,6 @@ d$respvar[d$respvar == "perbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percent_lateralbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percentlateralbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percentapicalbudburst"] <- "percentbudburst"
-d$respvar[d$respvar == "percentbloom"] <- "percentbudburst"
-d$respvar[d$respvar == "percentflowering"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
 d$respvar[d$respvar == ""] <- "percentbudburst" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
