@@ -66,6 +66,6 @@ for(spsi in 1:spnum){
 }
 }
 par(xpd=TRUE) # so I can plot legend outside
-legend(3, 6.4, unique(bb.stan$complex.wname), pch=my.pch[1:38], col=alpha(my.pal[1:38], alphahere),
+legend(3, 6.4, sort(unique(bb.stan$complex.wname)), pch=my.pch[1:38], col=alpha(my.pal[1:38], alphahere),
    cex=0.75, bty="n")
 }

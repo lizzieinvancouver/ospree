@@ -36,7 +36,40 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 source("source/bbstanleadin.R")
 use.zscore = FALSE # change to TRUE to use centered and scaled data 
-# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once) 
+# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
+
+
+
+##################################
+## Checking species ... DELETE? ##
+##################################
+getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
+allspp <- getspp[!duplicated(getspp), ]
+allspp <- allspp[order(allspp$complex),]
+
+sppdelete <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia
+# gymnastics to renumber species
+somespp <-  allspp[which(!allspp$complex.wname %in% sppdelete),]
+somespp$complex <- NULL
+somespp$complex <- seq(1:nrow(somespp))
+
+bb.stan <- bb.stan[which(!bb.stan$complex.wname %in% sppdelete),] # deleted 253 of 2253 rows
+bb.stan$complex <- NULL
+dim(bb.stan)
+bb.stan <- merge(bb.stan, somespp, by="complex.wname")
+dim(bb.stan)
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
 ######################################
 ## Overview of the models run below ##
 ######################################
