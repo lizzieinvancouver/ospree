@@ -122,11 +122,11 @@ if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/
   allstudiestocheck_who$`who[1:42]`[40]<-"DB"
   allstudiestocheck_who$`who[1:42]`[20]<-"DB"
   colnames(allstudiestocheck_who)[6]<-"who"
-  allstudiestocheck_who<-allstudiestocheck_who[order(allstudiestocheck$idstudy),]
+  allstudiestocheck_who<-allstudiestocheck_who[order(allstudiestocheck_who$who),]
   
   allstudiestocheck_who$treats.okay<-""
   allstudiestocheck_who$photo.effect<-""
-   
+  allstudiestocheck_who$photo.effect[which(allstudiestocheck_who$numtreats=="")]<-"NA"
   #check
   #cbind(allstudiestocheck$idstudy,allstudiestocheck$`who[1:42]`)
   
