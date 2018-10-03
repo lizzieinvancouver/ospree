@@ -109,24 +109,31 @@ if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/
   allstudiestocheck<-allstudiestocheck[order(allstudiestocheck$idstudy),]
   #remove duplicates studies
   allstudiestocheck<-allstudiestocheck[!duplicated(allstudiestocheck$idstudy),]
-
+colnames(allstudiestocheck)[4]<-"numtreats_photo"
 ## STEP 3: And write the list of studies to check out
   write.csv(allstudiestocheck, "cleaning/checkphotoperiod/checkphoto.csv", row.names=FALSE)
 
 ## STEP 4: Add columns of additional info for checking photoperiod and other treatments
   
   #first, who will do work- assign haphazardly 
-  who<-rep(c("AKE","CC","DB","EMW"), times=11)
+  who<-rep(c("AKE","CC","DB","EMW", "IM"), times=11)
   allstudiestocheck_who<-cbind(allstudiestocheck,who[1:42])
   #assign acouple experiments within same studies to same person
-  allstudiestocheck_who$`who[1:42]`[40]<-"DB"
+  allstudiestocheck_who$`who[1:42]`[19]<-"DB"
   allstudiestocheck_who$`who[1:42]`[20]<-"DB"
+  allstudiestocheck_who$`who[1:42]`[39]<-"AKE"
+  allstudiestocheck_who$`who[1:42]`[40]<-"AKE"
+  allstudiestocheck_who$`who[1:42]`[41]<-"CC"
+  
   colnames(allstudiestocheck_who)[6]<-"who"
   allstudiestocheck_who<-allstudiestocheck_who[order(allstudiestocheck_who$who),]
   
   allstudiestocheck_who$treats.okay<-""
   allstudiestocheck_who$photo.effect<-""
   allstudiestocheck_who$photo.effect[which(allstudiestocheck_who$numtreats=="")]<-"NA"
+  allstudiestocheck_who$photo.effect.desc<-""
+  allstudiestocheck_who$photo.effect.desc[which(allstudiestocheck_who$numtreats=="")]<-"NA"
+  
   #check
   #cbind(allstudiestocheck$idstudy,allstudiestocheck$`who[1:42]`)
   
