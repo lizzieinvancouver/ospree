@@ -4,23 +4,21 @@
 ## Source file for reading in the data and
 ## doing some cleaning we should ALL do
 
+
 ## But! Keep an eye on this file! We probably need to edit it
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
-# below file is cleaned, had chilling added and some BB cleaning done also
-bb.all <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+#source("source/speciescomplex.R")
+d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
-# file to adjust species into species or species complexes ... 
-taxon <- read.csv("output/bb_analysis/taxon/complex_levels.csv", header=TRUE)
-
-## read taxon data to get the 'type' category, then delete what we don't need
-bb.all.wtaxa <- merge(bb.all, taxon, by=c("genus","species"), all.x=TRUE)
-bb.all.wtaxa$complex <- NULL
-bb.all.wtaxa$use <- NULL
+## read taxon data to get the 'type' category, then delete what we don't need - do we still want type?
+#bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
+#bb.all.wtaxa$complex <- NULL
+#bb.all.wtaxa$use <- NULL
 
 ## just the bb data ...
 respvars.thatwewant <- c("daystobudburst", "percentbudburst")
-bb.resp <- bb.all.wtaxa[which(bb.all.wtaxa$respvar.simple %in% respvars.thatwewant),]
+bb.resp <- d[which(d$respvar.simple %in% respvars.thatwewant),]
 bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 
 ## make a bunch of things numeric (eek!)
@@ -42,16 +40,29 @@ bb.resp$force[is.na(bb.resp$forcenight)==FALSE & is.na(bb.resp$photo)==FALSE &
     is.na(bb.resp$photonight)==FALSE])/24
 
 bb.resp$chill <- as.numeric(bb.resp$Total_Utah_Model) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
+bb.resp$chill.hrs <- as.numeric(bb.resp$Total_Chilling_Hours) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
+bb.resp$chill.ports <- as.numeric(bb.resp$Total_Chill_portions) # before 12 March 2018: Total_Chilling_Hours, Total_Chill_portions
+
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
-## center the predictors:
-bb.resp$force.cen <- bb.resp$force/mean(bb.resp$force,na.rm=TRUE)
-bb.resp$photo.cen <- bb.resp$photo/mean(bb.resp$photo,na.rm=TRUE)
-bb.resp$chill.cen <- bb.resp$chill/mean(bb.resp$chill,na.rm=TRUE)
+bb.resp$lat <- as.numeric(bb.resp$provenance.lat)
 
+## center the predictors:
+bb.resp$force.cen <- bb.resp$force-mean(bb.resp$force,na.rm=TRUE)
+bb.resp$photo.cen <- bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE)
+bb.resp$chill.cen <- bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE)
+bb.resp$lat.cen <- bb.resp$lat-mean(bb.resp$lat,na.rm=TRUE)
+
+## z-score the predictors:
+bb.resp$force.z <- (bb.resp$force-mean(bb.resp$force,na.rm=TRUE))/sd(bb.resp$force,na.rm=TRUE)
+bb.resp$photo.z <- (bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE))/sd(bb.resp$photo,na.rm=TRUE)
+bb.resp$chill.z <- (bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE))/sd(bb.resp$chill,na.rm=TRUE)
+bb.resp$lat.z <- (bb.resp$lat-mean(bb.resp$lat,na.rm=TRUE))/sd(bb.resp$lat,na.rm=TRUE)
+bb.resp$chill.hrs.z <- (bb.resp$chill.hrs-mean(bb.resp$chill.hrs,na.rm=TRUE))/sd(bb.resp$chill.hrs,na.rm=TRUE)
+bb.resp$chill.ports.z <- (bb.resp$chill.ports-mean(bb.resp$chill.ports,na.rm=TRUE))/sd(bb.resp$chill.ports,na.rm=TRUE)
 ## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
-    is.na(chill)==FALSE & is.na(resp)==FALSE)
+    is.na(chill)==FALSE & is.na(lat)==FALSE & is.na(resp)==FALSE)
 # bb.noNA<-subset(bb.noNA, field.sample<=1)
 
 # Vector needed to identify weinberger-design studies
@@ -82,3 +93,4 @@ subset(forceNA, forcetemp=="")  # what is up with the no entry ones? hawkins12 a
 photoNA <- bb.resp[which(is.na(bb.resp$photo)==TRUE),]
 photoNA$photoperiod_day # these datasetIDs are all mentioned as not possible to fix in clean_photoperiod.R
     }
+

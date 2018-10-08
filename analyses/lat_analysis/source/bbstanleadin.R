@@ -3,9 +3,10 @@ library(rstan)
 library(ggplot2)
 library(shinystan)
 library(bayesplot)
+library(dplyr)
 # library(rstanarm)
 
-#source('..//stan/savestan.R')
+source('..//stan/savestan.R')
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -27,19 +28,21 @@ dim(bb.noNA)
 d <- bb.noNA
 
 source("source/speciescomplex.R")
-bb.noNA.wtaxa <- d
+bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
+#bb.all.wtaxa$complex <- NULL
+bb.all.wtaxa$use <- NULL
+bb.noNA.wtaxa <- bb.all.wtaxa
 dim(bb.noNA.wtaxa)
 unique(bb.noNA.wtaxa$complex)
 
 # (4) Get fewer columns for sanity
 source("source/commoncols.R")
-bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "force.cen","force.z","chill.z", "photo.z"))
-
+bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "force.cen","lat.cen", "force.z","chill.z", "photo.z", "lat.z"))
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
 # bb <- subset(bb, type!="crop")
-bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "type",
-                               "force.cen","chill.cen", "photo.cen", "force.z","chill.z", "photo.z"))
+bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "lat",
+                               "force.cen","chill.cen", "photo.cen", "lat.cen", "force.z","chill.z", "photo.z", "lat.z"))
 bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
 
@@ -62,6 +65,7 @@ datalist.bb <- with(bb.stan,
                          chill = chill, 
                          force = force, 
                          photo = photo,
+                         lat = lat,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))
@@ -76,6 +80,7 @@ datalist.bb.cen <- with(bb.stan,
                          chill = chill.cen, 
                          force = force.cen, 
                          photo = photo.cen,
+                         lat = lat.cen,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))

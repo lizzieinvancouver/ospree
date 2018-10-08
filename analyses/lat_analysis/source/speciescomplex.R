@@ -1,13 +1,27 @@
 ## Try and organize so useful for all models running
 ## Started by Dan B - 26 July 2017
 ## Edits by Cat C - 17 August 2017
-## This code is finalized despite naming (i.e. use of 'goo' and 'goober')
+### reworked by Dan 19 sept 2018
 
-## This code requires some form of the OSPREE database loaded as an object 'd' ##
-require(plyr)
-require(dplyr)
+##### Species were selected if they were in more than one study and if both studies manipulated more than one cue
+### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used more than one cue
 
-d$name<-paste(d$genus,d$species,sep="_")
+
+######## USE THIS SECTION TO CHECK CODE! ##########
+## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
+## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
+## (1) Get the data and slim down to correct response and no NAs ...
+#source("source/bbdataplease.R")
+## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
+#source("source/othertreats.R")
+#dim(bb.noNA)
+#bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 28 March 2018 should delete about 359 rows
+#dim(bb.noNA)
+## (3) Deal with species
+#d <- bb.noNA
+
+
+d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
 
 xx<-d
 ### make a list of which studies manipulate what.
@@ -16,102 +30,110 @@ xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=func
 xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
 xx <- within(xx, { photo <- ave(photoperiod_day, name, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 xx <- within(xx, { chill <- ave(chilltemp, name, species, FUN=function(x) length(unique(x)))}) # mult expchill
+xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}) # mult species
 xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,field.sample,prov.lat)
+xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,chilltime,field.sample,prov.lat, datasetID)
 xx<-xx[!duplicated(xx),]
 
-#write.csv(xx, file="~/Documents/git/ospree/analyses/output/species_manipulation_levels.csv", row.names = FALSE)
 
-#############  Source this section once you subset down! ###############
+###make object with all acceptable (>1 data set species and manipulated more than one cue) This make a data sheet with all the complex that can be indivudal species
+### 
+xx$force<-ifelse(xx$force<=1, 0, 1)
+xx$photo<-ifelse(xx$photo<=1, 0, 1)
+xx$chill<-ifelse(xx$chill<=1, 0, 1)
+xx$chilltime<-ifelse(xx$chilltime<=1, 0, 1)
+xx$field.sample<-ifelse(xx$field.sample<=1, 0, 1)
+xx$chill<-ifelse(xx$chill==1 | xx$chilltime==1 | xx$field.sample==1, 1, 0)
+xx$numcues<-xx$force + xx$photo + xx$chill
 
-###make object with all acceptable (<1 data set species)
-accept<-dplyr::filter(xx,datasets>1)
-species4taxon<-c(accept$name)
-goo<-dplyr::filter(d, name %in% species4taxon)
-goo$complex<-goo$name
-goo$use<-"Y"
+#check<-subset(xx, select=c(name, datasetID, datasets, numcues))
 
-###making complexes
+accept<-xx[(xx$numcues>1 & xx$datasets>1),]
+species4taxon<-c(accept$name) ## make a list of species with more than 1 study study
+accept$complex<-accept$name
+accept$use<-"Y"
 
-comp<-dplyr::filter(xx,datasets==1)
-complex4taxon<-c(comp$name)
+###accept is a list of species that are good to go
+
+##integrates with rest of data
+taxon<-dplyr::filter(d, name %in% species4taxon)
+taxon$complex<-taxon$name
+taxon$use<-"Y"
+
+###making complexes#######################
+
+comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
+complex4taxon<-c(comp$name) ### make a liust of them
+
+
+intersect(species4taxon,complex4taxon) #checks to make sure there are no species that over lap between this and above
+
 ###building complexes
-goober<- dplyr::filter(d, name %in% complex4taxon)
-#goober<-dplyr::select(goober,name,genus, datasetID)
-#goober<-goober[!duplicated(goober),]
-
-goober<- within(goober, {datasets<- ave(datasetID, genus, FUN=function(x) length(unique(x)))})
-goober<-dplyr::arrange(goober, genus)
-goober$complex<-paste(goober$genus, "complex", sep="_")
-goober <- within(goober, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-goober <- within(goober, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
-goober <- within(goober, { force <- ave(forcetemp, complex, FUN=function(x) length(unique(x)))}) # mult forcetemp
-goober <- within(goober, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
-goober <- within(goober, { chill <- ave(chilltemp, complex, FUN=function(x) length(unique(x)))}) # mult expchill
-goober <- within(goober, { prov.long <- ave(provenance.long,complex, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
-
-goober<-dplyr::select(goober,name,genus, datasets, force, photo, chill,field.sample,prov.lat, complex)
-goober<-goober[!duplicated(goober),]
-
-accept.comp<-dplyr::filter(goober,datasets>1)
-genus4taxon<-c(accept.comp$genus)
-goob<-dplyr::filter(d, genus %in% genus4taxon)
-goob$complex<-NA
-goob$complex <- paste(goob$genus, "complex", sep="_")
-goob$use<-"Y"
+taxon2<- dplyr::filter(d, name %in% complex4taxon) ###This filters main data sheet for rows that have species with only 1 dataset ID
 
 
-#### Check it to make sure.... ###This is a list from summer 2017. IF you do this now there should be fewer complexed because we've added more studies thoughcleaning.
-unique(accept.comp$complex)
-###  [1] "Acer_complex"         "Betula_complex"       "Fraxinus_complex"     "Juglans_complex"      "Picea_complex"        "Pinus_complex"        "Populus_complex"      "Prunus_complex"      
-#[9] "Pyrus_complex"        "Quercus_complex"      "Rhododendron_complex" "Rosa_complex"         "Salix_complex"        "Sorbus_complex"       "Tilia_complex"        "Ulmus_complex"       
-#[17] "Vaccinium_complex"   
+taxon2<- within(taxon2, {datasets<- ave(datasetID, genus, FUN=function(x) length(unique(x)))})
+taxon2<-dplyr::arrange(taxon2, genus)
 
-##same note as above. Summer 2017
-sort(unique(goob$complex))
-## [1] "Acer_complex"         "Betula_complex"       "Fraxinus_complex"     "Juglans_complex"      "Picea_complex"        "Pinus_complex"        "Populus_complex"      "Prunus_complex"      
-#[9] "Pyrus_complex"        "Quercus_complex"      "Rhododendron_complex" "Rosa_complex"         "Salix_complex"        "Sorbus_complex"       "Tilia_complex"        "Ulmus_complex"       
-#[17] "Vaccinium_complex"   
-
-d$complex<-NA
-can.use<-c(goo$name, goob$name)
-d<-dplyr::filter(d, name %in% can.use)
-
-complexes<-ifelse(goob$name%in%goo$name, NA, goob$name)
-complexes<-na.omit(complexes)
-d$complex<-NA
-d$complex<-ifelse(d$name%in%complexes, paste(d$genus, "complex", sep="_"), d$name)
-d$use<-"Y"
+taxon2$complex<-paste(taxon2$genus, "complex", sep="_")
+taxon2 <- within(taxon2, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+taxon2 <- within(taxon2, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
+taxon2 <- within(taxon2, { force <- ave(forcetemp, complex, FUN=function(x) length(unique(x)))}) # mult forcetemp
+taxon2 <- within(taxon2, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
+taxon2 <- within(taxon2, { chill <- ave(chilltemp, complex, FUN=function(x) length(unique(x)))}) # mult expchill
+taxon2 <- within(taxon2, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
+taxon2<- within(taxon2, { prov.long <- ave(provenance.long,complex, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
+taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill, chilltime, field.sample,prov.lat, complex,datasetID)
+taxon2<-taxon2[!duplicated(taxon2),]
 
 
-### Check again....
-check.this<-d%>%dplyr::select(datasetID, genus, species, name, complex)
-check.this<-check.this[!duplicated(check.this),]
+### Accepts complexes that are in more than one study and manipulated more than one cue
+taxon2$force<-ifelse(taxon2$force<=1, 0, 1)
+taxon2$photo<-ifelse(taxon2$photo<=1, 0, 1)
+taxon2$chill<-ifelse(taxon2$chill<=1, 0, 1)
+taxon2$chilltime<-ifelse(taxon2$chilltime<=1, 0, 1)
+taxon2$field.sample<-ifelse(taxon2$field.sample<=1, 0, 1)
+taxon2$chill<-ifelse(taxon2$chill==1 | taxon2$chilltime==1 | taxon2$field.sample==1, 1, 0)
+taxon2$numcues<-taxon2$force + taxon2$photo + taxon2$chill
 
-sort(c(unique(goo$complex), unique(goob$complex)))
-#  [1] "Acer_pseudoplatanus"     "Betula_pendula"          "Aesculus_hippocastanum"  "Syringa_vulgaris"        "Corylus_avellana"        "Fraxinus_excelsior"      "Fagus_sylvatica"        
-#[8] "Picea_abies"             "Larix_decidua"           "Prunus_avium"            "Tilia_cordata"           "Sorbus_aucuparia"        "Abies_alba"              "Quercus_petraea"        
-#[15] "Actinidia_deliciosa"     "Vitis_vinifera"          "Betula_pubescens"        "Quercus_rubra"           "Acer_saccharum"          "Betula_alleghaniensis"   "Pseudotsuga_menziesii"  
-#[22] "Prunus_persica"          "Malus_domestica"         "Quercus_robur"           "Liquidambar_styraciflua" "Alnus_glutinosa"         "Sorbus_commixta"         "Ribes_nigrum"           
-#[29] "Prunus_padus"            "Populus_tremula"         "Alnus_incana"            "Rubus_idaeus"            "Carpinus_betulus"        "Cornus_alba"             "Cornus_mas"             
-#[36] "Robinia_pseudoacacia"    "Symphoricarpos_albus"    "Picea_glauca"            "Quercus_ilex"            "Pyrus_pyrifolia"         "Betula_nana"             "Quercus_faginea"        
-#[43] "Tilia_complex"           "Acer_complex"            "Betula_complex"          "Fraxinus_complex"        "Picea_complex"           "Prunus_complex"          "Quercus_complex"        
-#[50] "Sorbus_complex"          "Pinus_complex"           "Salix_complex"           "Juglans_complex"         "Rosa_complex"            "Ulmus_complex"           "Populus_complex"        
-#[57] "Pyrus_complex"           "Rhododendron_complex"    "Vaccinium_complex"      
+comps<-unique(taxon2$complex)
+dats<-vector()
+for(i in comps){
+  dats[i]<-length(unique(taxon2$datasetID[taxon2$complex==i]))
+  numsets<-data.frame(numstudies=dats)
+  numsets <- cbind(complex = rownames(numsets), numsets)
+}
+
+taxon2<-left_join(taxon2, numsets, by="complex")
+
+accept.complex<-taxon2
+accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numstudies>1),"Y","N") 
 
 
-sort(unique(d$complex))
-#[1] "Tilia_complex"           "Acer_pseudoplatanus"     "Betula_pendula"          "Aesculus_hippocastanum"  "Syringa_vulgaris"        "Corylus_avellana"        "Fraxinus_excelsior"     
-#[8] "Fagus_sylvatica"         "Picea_abies"             "Larix_decidua"           "Prunus_avium"            "Quercus_complex"         "Tilia_cordata"           "Sorbus_aucuparia"       
-#[15] "Abies_alba"              "Quercus_petraea"         "Actinidia_deliciosa"     "Vitis_vinifera"          "Pinus_complex"           "Betula_pubescens"        "Salix_complex"          
-#[22] "Quercus_rubra"           "Acer_saccharum"          "Betula_alleghaniensis"   "Pseudotsuga_menziesii"   "Picea_complex"           "Juglans_complex"         "Prunus_persica"         
-#[29] "Malus_domestica"         "Rosa_complex"            "Quercus_robur"           "Betula_complex"          "Ulmus_complex"           "Liquidambar_styraciflua" "Populus_complex"        
-#[36] "Alnus_glutinosa"         "Pyrus_complex"           "Prunus_complex"          "Sorbus_complex"          "Sorbus_commixta"         "Ribes_nigrum"            "Prunus_padus"           
-#[43] "Populus_tremula"         "Alnus_incana"            "Rubus_idaeus"            "Carpinus_betulus"        "Acer_complex"            "Cornus_alba"             "Cornus_mas"             
-#[50] "Fraxinus_complex"        "Robinia_pseudoacacia"    "Symphoricarpos_albus"    "Picea_glauca"            "Quercus_ilex"            "Pyrus_pyrifolia"         "Rhododendron_complex"   
-#[57] "Betula_nana"             "Quercus_faginea"         "Vaccinium_complex" 
+###if you want a data sheet to merge later in the work flow with working data sheet do this
+accept$numstudies<-accept$datasets
+complexlist<-rbind(accept,accept.complex)
 
-#write.csv(d, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
+#unique(complexlist$complex)
+uselist<-filter(complexlist,use=="Y")
+#unique(uselist$complex)
+
+accepties<-rbind(accept, accept.complex)
+accepties$species<-gsub(".*_", "", accepties$name)
+accepties<-subset(accepties, select=c(genus, species, complex, use))
+accepties<-accepties[!duplicated(accepties),]
+
+
+bb.wtaxa<-full_join(d, accepties)
+bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
+bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
+
+sort(unique(bb.wtaxa$complex[bb.wtaxa$use=="Y"]))
+
+#write.csv(bb.wtaxa, file="..//output/ospree_clean_withchill_BB_taxon.csv", row.names = FALSE)
+
+#write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
+

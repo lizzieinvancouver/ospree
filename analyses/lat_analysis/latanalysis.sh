@@ -2,7 +2,7 @@
 
 #SBATCH -p wolkovich
 
-#SBATCH -n 1
+#SBATCH -n 4
 
 #SBATCH -N 1
 
