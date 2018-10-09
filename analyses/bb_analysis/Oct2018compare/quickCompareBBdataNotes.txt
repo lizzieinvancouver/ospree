@@ -1,0 +1,24 @@
+8 Jun 2018 versus today ...
+
+chavarria09 (Prunus) -- added photoperiod (was ambient)
+falusi96 -- added previously missing photoperiods
+guak98 -- added photoperiod (was ambient)
+jones12 -- added photoperiod (was ambient)
+rinne97 -- added photoperiod (was ambient)
+sanperez10 -- added photoperiod (was ambient)
+caffara11b -- changed chill portions
+gansert02 -- added photoperiod (was ambient)
+gianfagna95 -- added previously missing photoperiods
+gomory15 -- added photoperiod (was ambient)
+granhus09 --- can't figure out
+heide12 -- added a few chill rows (chill_portions--55.84854)
+lam37 -- added photoperiod (was ambient)
+linkosalo06 -- added photoperiod (was ambient)
+morin10 -- added photoperiod (was ambient)
+nishimoto95 -- added previously missing photoperiod
+partanen01  -- corrected some photoperiods (19.1673 and 10.1675 etc.)
+partanen98 -- corrected some photoperiods (similar to above)
+schnabel87 -- added photoperiod (was ambient)
+sonsteby13 -- added photoperiod (was ambient)
+sonsteby14  -- added photoperiod (was ambient)
+yazdaniha64 -- added photoperiod (was ambient)
