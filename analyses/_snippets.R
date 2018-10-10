@@ -7,7 +7,7 @@ options(stringsAsFactors=FALSE)
 setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/")
 
 ## some quick subsetting for Isabelle
-goo <- read.csv("output/ospree_clean_withchill_BB.csv")
+gooey <- read.csv("output/ospree_clean_withchill_BB.csv")
 goosm <- subset(goo, forcetemp!="" & forcetemp_night!="")
 
 goosm$ft <- as.numeric(goosm$forcetemp)-as.numeric(goosm$forcetemp_night)
