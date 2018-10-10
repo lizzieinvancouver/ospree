@@ -17,6 +17,7 @@ unique(subby$datasetID)
 
 min(subby$ft)
 max(subby$ft)
+# RANDOM
 
 ## check that the respvar and respvar.simple make sense
 goober1 <- subset(goosm, select=c("respvar", "respvar.simple"))
