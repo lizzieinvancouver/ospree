@@ -1,13 +1,6 @@
 ### Looking at Lat Model in Odyssey
+library(rstanarm)
 
-## housekeeping
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
-
-# dostan = TRUE
-
-library(brms)
-library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
@@ -15,7 +8,7 @@ lat.stan<-read.csv("/n/wolkovich_lab/Lab/Cat/lat_arm.csv", header=TRUE)
 
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
-lat.cen <- brm(resp ~ (force.z + photo.z + chill.z + lat.z +
+lat.cen <- stan_glmer(resp ~ (force.z + photo.z + chill.z + lat.z +
                              force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
                              photo.z:lat.z + chill.z:lat.z)+ 
                      ((force.z + photo.z + chill.z + lat.z +
@@ -25,7 +18,7 @@ lat.cen <- brm(resp ~ (force.z + photo.z + chill.z + lat.z +
 
 save(lat.cen, file="/n/wolkovich_lab/Lab/Cat/lat_cen.Rdata")
 
-lat.nocen <- brm(resp ~ (force + photo + chill + lat +
+lat.nocen <- stan_glmer(resp ~ (force + photo + chill + lat +
                          force:photo + force:chill + photo:chill + force:lat + 
                          photo:lat + chill:lat)+ 
                  ((force + photo + chill + lat +
@@ -36,7 +29,7 @@ lat.nocen <- brm(resp ~ (force + photo + chill + lat +
 save(lat.nocen, file="/n/wolkovich_lab/Lab/Cat/lat_nocen.Rdata")
 
 
-lat.nocen.nochill <- brm(resp ~ (force + photo + chill + lat +
+lat.nocen.nochill <- stan_glmer(resp ~ (force + photo + chill + lat +
                            force:photo + force:chill + photo:chill + force:lat + 
                            photo:lat)+ ((force + photo + chill + lat +
                        force:photo + force:chill + photo:chill + force:lat + 
