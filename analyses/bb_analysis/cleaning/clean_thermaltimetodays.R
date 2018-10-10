@@ -7,7 +7,7 @@
 if(is.data.frame(d)){
 
 ## Can change ghelardini10 & heide93 from thermaltime to daystobudburst
-# Add note for page number for thermal time conversion equation
+# You can figure out thermal time conversion equation from top of pg 267, left side
 d.gher<-d
 d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")] <-
     as.numeric(d.gher$response.time[which(d.gher$datasetID=="ghelardini10" & d.gher$respvar=="thermaltimetobudburst")])/
