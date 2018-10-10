@@ -7,7 +7,7 @@ options(stringsAsFactors=FALSE)
 setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/")
 
 ## some quick subsetting for Isabelle
-gooey <- read.csv("output/ospree_clean_withchill_BB.csv")
+goo <- read.csv("output/ospree_clean_withchill_BB.csv")
 goosm <- subset(goo, forcetemp!="" & forcetemp_night!="")
 
 goosm$ft <- as.numeric(goosm$forcetemp)-as.numeric(goosm$forcetemp_night)
@@ -17,8 +17,6 @@ unique(subby$datasetID)
 
 min(subby$ft)
 max(subby$ft)
-
-# RANDOM lines here
 
 ## check that the respvar and respvar.simple make sense
 goober1 <- subset(goosm, select=c("respvar", "respvar.simple"))
