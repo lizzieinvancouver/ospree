@@ -96,6 +96,33 @@ Some smaller comments below by me are prefaced by %EMW
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\iffalse
+Nacho's comments 10 October 2018
+
+Not sooo much to add to Lizzie's super helpful comments at this stage. Thanks Ailene for putting this together, 
+reading it still makes me very excited about the topic, but perhaps we can still make it more appealing. Just a couple comments:
+	
+
+- I agree that we should restrict to plants in the intro and leaving the overview of how this paper may be 
+important for other taxa to the end. 
+
+- We say that photoperiod matters but not why it matters. Perhaps we should mention that, one reason why photoperiod would matter to plants is that it is directly related with the amount
+of photosynthesis a plant can do, thus influencing physiological processes such as growth. This is obviously
+important to plants and yet, commonly overlooked in forecasts. We can try to mention this in a non-text book fashion. 
+
+- By the end of paragraph 2 we could add a couple of examples of biological responses (growth, phenology, etc.).
+
+- I like the idea of a section on "outstanding questions". An obvious one coming to mind is: how much does 
+model accuracy (process-based or correlational-statistical-SDMs) improve when we account for photoperiod? If 
+models do not improve much or not at all, then I guess we could forget about it. However, it is likely that
+photoperiod be important for certain taxa, in certain regions and when using certain models, and answering that
+is really important, isn't it?
+
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section*{Introduction}
 \par Photoperiod is a critical cue used by organisms to synchronize their activities with seasonal climatic changes \citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012}. Diverse important responses, from the timing of mating in marsupials \citep{mcallan2006} and pheromone production in moths \citep{linn1996}, to growth rates in salmon and the timing of budburst in woody plants \citep{Flynn:2018,solbakken1994}, are affected by photoperiod. Photoperiod provides a stable signal by which organisms can align events with the season, because it is consistent across years, especially compared to other seasonal cues such as temperature and precipition \citep{saikkonen2012}. 
 \par Daylength is predictable over time, but the daylength that species \emph{experience}, as they undergo climate change-induced shifts in space and time, is likely to be much less stable. With recent warming, many species have shifted their distributions poleward and upward in elevation (i.e., range shifts), and/or shifted their activity earlier in the year (i.e., phenological shifts). These spatial and temporal shifts will affect the photoperiod regime experienced by organisms. An altered photoperiod is likely to have implications for a variety of biological responses, given the diverse organisms that rely on daylength to cue their activities \citep[e.g.,][] {mcallan2006,linn1996,Flynn:2018,solbakken1994}. However,  this aspect of climate change has not generally been a focus of attempts to forecast biological responses.
