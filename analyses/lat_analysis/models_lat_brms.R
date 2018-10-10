@@ -183,8 +183,8 @@ simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,chill.z:lat.z]", 1.4, simple$Jva
 simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,chill.z:lat.z]", 1.3, simple$Jvar)
 
 
-simple$species<-c(0,0,0,0,0,0,0,0,0, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 
-                  1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7)
+simple$species<-c(0,0,0,0,0,0,0,0,0,0,0, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 
+                  1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7)
 
 cols <- colorRampPalette(brewer.pal(9,"Set1"))(8)
 estimates<-c("Forcing", "Photoperiod", "Chilling", "Latitude", "Forcing x Photoperiod",
