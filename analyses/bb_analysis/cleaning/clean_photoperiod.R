@@ -4,6 +4,16 @@
 
 # Load from bb_cleanmergeall.R (including library(geosphere) which happens there)
 
+#### Updated 12 Oct 2018 by Cat ###
+# Adding column for photoperiod type: thought is that ambient photoperiod is confounding with forcing or chilling temps.
+# We want to know if using ambient photoperiod treatments changes the model estimates due to collinearity issues rather than 
+# due to increasing sample size
+### We will have four types: exp (experimental), amb (ambient), ramped (ramped photoperiod growth chamber controlled), none ( no info)
+
+d$photo_type<-NA
+d$photo_type<-ifelse(d$photoperiod_day=="ambient", "amb", d$photo_type)
+d$photo_type<-ifelse(d$photoperiod_day==""| d$photoperiod_day==" ", "none", d$photo_type) # treated as ambient in below code for imputation
+
 # And away we go
 amb<-d[which(d$photoperiod_day=="ambient"),]
 unique(amb$datasetID)
@@ -17,7 +27,7 @@ phot_amb <- subset(d , photoperiod_day=="ambient" | photoperiod_night=="ambient"
 #[21] "sonsteby14"  "yazdaniha64"
 blank<-d[which(d$photoperiod_day==''),]
 unique(blank$datasetID)
-# "gianfagna85" "nishimoto95" "falusi96" "manson91"
+# "gianfagna85" "nishimoto95" "falusi96"
 
 ## charrier11: Table 1, Exp 1 - under long day conditions at 25 degC forcing
 
@@ -113,6 +123,11 @@ d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==8 & d$r
                           & d$other.treatment=="Ambient photoperiod")] <- 16
 
 # photoperiod lengthening from 8h and 40 min
+d$photo_type<-ifelse(d$datasetID=="partanen98" & (d$other.treatment=="Photoperiod lengthening from 8h 40min" |
+                                                    d$other.treatment=="Photoperiod shortening from 12 h" |
+                                                    d$other.treatment=="Photoperiod lengthening from 6h"), "ramped", d$photo_type)
+
+
 d$resp<-as.numeric(d$response.time)
 d$photo<-as.numeric(d$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
@@ -150,6 +165,8 @@ d$photoperiod_night[which(d$datasetID=="partanen98")]<- 24-as.numeric(d$photoper
 
 
 ## Partanen01 Fixes
+d$photo_type<-ifelse(d$datasetID=="partanen01" & (d$other.treatment=="Photoperiod shortening from 16h" |
+                                                    d$other.treatment=="Photoperiod lengthening from 6h"), "ramped", d$photo_type)
 
 # photoperiod shortening from 12h
 d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")] <- 
@@ -384,3 +401,15 @@ d.photo$photoperiod_day<- as.numeric(d.photo$photoperiod_day)
 missing<-d.photo[is.na(d.photo$photoperiod_day),]
 unique(missing$datasetID)
 }
+
+
+
+############### Updated 12 Oct 2018 by Cat ####################
+##### Photoperiod type #####
+
+d$photo_type<-ifelse(is.na(d$photo_type), "exp", d$photo_type)
+
+
+
+
+
