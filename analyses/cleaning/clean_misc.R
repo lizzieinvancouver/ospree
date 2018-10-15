@@ -1,7 +1,7 @@
 ## Started 2 October 2017 ##
 ## By Lizzie (so far)##
 
-## This code does some basic OSPREE cleaning that didn't fit anywhere else ##
+## This code does some OSPREE cleaning that didn't fit anywhere else ##
 ## It is sourced in cleanmerge_all.R ##
 
 # In July 2017 we realized we left year off the Zonher data, but we need it!
@@ -36,7 +36,7 @@ for(i in d){
             !(d$datasetID == "ghelardini10" & d$Entered.By == "DF"),]
 }
 
-###Added by Dan to make ashby  better
+## Added by Dan B. to make ashby62 better
 d$population[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==8 &
              d$respvar=="daystobudburst" &d$response==3] <- "Central Wisconsin"
 d$population[d$datasetID=="ashby62"&d$fieldsample.date=="4-Mar-1957"&d$photoperiod_day==12 &
@@ -86,7 +86,10 @@ d$response.time[d$datasetID=="ghelardini10" & d$respvar=="thermaltimetobudburst"
 # ...point out that these two respvar COULD be combined I think so thermal time is the X axis and % budburst is the Y
 d$response[d$datasetID=="ghelardini10"] <- 1
 
-#In June 2018, we discovered errors in some of the freezingtemp columns
+
+########
+# In June 2018, we discovered errors in some of the freezingtemp columns
+#######
 
 #d$freeze.treatment.temp_day[d$datasetID=="biasi12"]#this study actually did freeze treatments! but the columns are somehow shifted the values do not make sense for temperatures, mistake?
 #d$freeze.treatment.temp_night[d$datasetID=="biasi12"]#the values do not make sense for temperatures but this study actually did freeze treatments! so if we want to clean it then something else should go here...
@@ -120,3 +123,14 @@ d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.==
 d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==55]<-"24-Jan-2005"#
 d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==95]<-"6-Mar-2005"
 
+########
+# Fall 2018 random check of papers turned up some cleaning
+#######
+
+## Both basler studies have ramped photoperiods:
+# basler14: "photoperiods (initially 9.2 h (short day length, SD) versus 10.8 h (long day length, LD), increased daily by the natural daily increase of photoperiod at 46.5°N).... An additional set of cuttings was placed in a warm greenhouse (>21 °C) with long day length (16 h)"
+# basler12: "The length of the pho- toperiod was extended daily using time switches, set to follow the natural (astronomical) daylength extension at the sampling lati- tude (∼47◦ N) of around 3–4 min per day."
+d$other.treatment[which(d$datasetID=="basler14" & d$photoperiod_day=="9.2")] <- "ramped_photoperiod"
+d$other.treatment[which(d$datasetID=="basler14" & d$photoperiod_day=="10.2")] <- "ramped_photoperiod"
+d$other.treatment[which(d$datasetID=="basler12" & d$photoperiod_day=="shortday")] <- "ramped_photoperiod"
+d$other.treatment[which(d$datasetID=="basler12" & d$photoperiod_day=="longday")] <- "ramped_photoperiod"

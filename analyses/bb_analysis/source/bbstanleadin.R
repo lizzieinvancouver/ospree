@@ -37,12 +37,13 @@ unique(bb.noNA.wtaxa$complex)
 
 # (4) Get fewer columns for sanity
 source("source/commoncols.R")
-bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, "chill.cen", "photo.cen", "force.cen","force.z","chill.z", "photo.z"))
+bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep,"photo_type",
+    "chill.cen", "photo.cen", "force.cen","force.z","chill.z", "photo.z"))
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
 # bb <- subset(bb, type!="crop")
-bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex",
+bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "photo_type",
                                "force.cen","chill.cen", "photo.cen", "force.z","chill.z", "photo.z"))
 bb.stan$complex.wname <- bb.stan$complex
 bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
