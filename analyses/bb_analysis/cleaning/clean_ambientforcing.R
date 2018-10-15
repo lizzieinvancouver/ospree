@@ -1,15 +1,8 @@
-###Cat to double check forcing columns
-##To do:
-## Find any columns with 'ambient' or non-numerics and fix
-#rm(list=ls()) 
-#options(stringsAsFactors=FALSE)
+## By Cat to double check forcing columns:
+## Find any columns with 'ambient' or non-numerics and fix based on paper if possible
+## See also: clean_ambientforcingfromdailyclimate.R
 
-## Cat - 6 February 2018 updated
 
-## read data
-#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/analyses/output")
-#setwd("~/Documents/git/ospree/analyses")
-#d<-read.csv("output/ospree_clean.csv",as.is=T)
 if(is.data.frame(d)){
   
 amb<-d[which(d$forcetemp=="ambient"),]
