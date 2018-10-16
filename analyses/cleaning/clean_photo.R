@@ -66,8 +66,8 @@ d<-within(d, photoperiod_day[datasetID=='cronje03']<-'constant')
 # devries82 - constant - 8, 16, 24 Wm-2
 d<-within(d, photoperiod_day[datasetID=='devries82' & respvar=='plantheightatflowerbudappearance']<-'constant') # Lizzie changed this constant to 'constant' because code was not running
 
-d$photoperiod_day[d$photoperiod_day == "constant"] <- 24
-d$photoperiod_night[d$photoperiod_day==24]<-0
+#d$photoperiod_day[d$photoperiod_day == "constant"] <- 24
+#d$photoperiod_night[d$photoperiod_day==24]<-0
 
 ## Ambient
 # hawkins12 - ambient for exp1
