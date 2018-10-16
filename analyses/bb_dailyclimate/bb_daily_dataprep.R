@@ -271,9 +271,9 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
 }
 #some checks of this file:
 #sort(unique(dailyclim.bb$datasetID))#44 different studies
-#dim(dailyclim.bb)#4149110     36#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
+#dim(dailyclim.bb)#4122830     36#HUGE! but this makes sense given that the dat (percbb data file) was 4231 rows (4231*2*365= 3088630)
 dailyclim.bb2 <- dailyclim.bb[!duplicated(dailyclim.bb), ]
-#dim(dailyclim.bb2)#3934692 rows
+#dim(dailyclim.bb2)#3908412 rows
 #save daily climate data
 dailyclim.bb2$year2<-as.numeric(format(dailyclim.bb2$Date , "%Y"))#year for climate data
 dailyclim.bb2$doy2<-as.numeric(format(dailyclim.bb2$Date , "%j"))#doy for climate data
@@ -315,13 +315,13 @@ clim_dailyALL$missingT<-0
 clim_dailyALL$missingT[which(is.na(clim_dailyALL$Tmin))]<-1
 temptab<-table(clim_dailyALL$datasetID,clim_dailyALL$missingT)
 missingtemp<-temptab[temptab[,2]>0,]
-dim(missingtemp)#3 sites are missing some data
-length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)# 0.003726594 of rows have NA...
+dim(missingtemp)#4 sites are missing some data
+length(which(is.na(clim_dailyALL$Tmin)))/length(clim_dailyALL$Tmin)# 0.003757792 of rows have NA...
 head(clim_dailyALL)
 tail(clim_dailyALL)
 sort(unique(dailyclim.bb$datasetID))#44 in dailydata
 tail(clim_dailyALL[clim_dailyALL$datasetID=="heide93",])
-tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])#not sure why these are missing- longitude?
+tail(clim_dailyALL[clim_dailyALL$datasetID=="sanzperez10",])
 
 head(clim_dailyALL[clim_dailyALL$datasetID=="zohner16",])#looks good
 tail(clim_dailyALL[clim_dailyALL$datasetID=="fu13",])#looks good
