@@ -137,3 +137,6 @@ d$other.treatment[which(d$datasetID=="basler12" & d$photoperiod_day=="longday")]
 
 # Sanz-Perez09 has forcetmp_night as ambient, which is not correct (issue #209)
 d$forcetemp_night[which(d$datasetID=="Sanz-Perez09" & d$forcetemp_night=="ambient")] <- ""
+
+# morin10 has a field sample date, but I (Lizzie) think it is in situ field warming, so removing the dates
+d$fieldsample.date[which(d$datasetID=="morin10")] <- ""
