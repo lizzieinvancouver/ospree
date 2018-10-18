@@ -407,6 +407,7 @@ unique(missing$datasetID)
 ############### Updated 12 Oct 2018 by Cat ####################
 ##### Photoperiod type #####
 
+d$photo_type<-ifelse(d$other.treatment=="ramped_photoperiod", "ramped", d$photo_type)
 d$photo_type<-ifelse(is.na(d$photo_type), "exp", d$photo_type)
 
 
