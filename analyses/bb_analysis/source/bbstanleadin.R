@@ -22,7 +22,7 @@ source("source/bbdataplease.R")
 ## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
 source("source/othertreats.R")
 dim(bb.noNA)
-bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 28 March 2018 should delete about 359 rows
+bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 18 March October should delete about 273 rows
 dim(bb.noNA)
 ## (3) Deal with species
 d <- bb.noNA
@@ -57,6 +57,14 @@ bb.stan <- subset(bb.stan, resp<600)
 bb.stan$chill <- bb.stan$chill/240
 length(unique(bb.stan$datasetID))
 
+bb.stan.expphoto <- subset(bb.stan, photo_type=="exp" | photo_type=="none")
+bb.stan.rampphoto <- subset(bb.stan, photo_type=="ramped")
+bb.stan.ambphoto <- subset(bb.stan, photo_type=="amb")
+
+sort(unique(bb.stan.expphoto$complex.wname))
+sort(unique(bb.stan.rampphoto$complex.wname))
+sort(unique(bb.stan.ambphoto$complex.wname))
+
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
 # photoperiod, and where we have a response in days and total chilling. 
 
@@ -88,3 +96,14 @@ datalist.bb.cen <- with(bb.stan,
 )
 
 
+# with just the experimental photoperiod (could lead to taxa issues?)
+datalist.bb.expphoto <- with(bb.stan.expphoto, 
+                    list(y = resp, 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)

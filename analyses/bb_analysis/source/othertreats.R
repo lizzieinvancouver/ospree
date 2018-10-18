@@ -5,6 +5,8 @@
 ## the ones that include other treatments ##
 ## It reviews them and makes a list of rows to delete the ones that are not ambient ##
 
+# Note on falusi03: dormancy_induction_photoperiod_day is a list of dates, I think that is semi-accurate, as those are the dates they pulled the buds and applied weird treatments and I am not sure what other column we could have put this date in #
+
 # Which columns should we worry about?
 othercols <- c("dormancy_induction_temp_day", "dormancy_induction_temp_night",
     "dormancy_induction_days", "dormancy_induction_photoperiod_day",
@@ -34,7 +36,7 @@ table(bb.noNA$freeze.treatment.temp_day) # include ambient?
 table(bb.noNA$dormancy_induction_days) # include ambient?
 
 dat.wothertreats <- bb.noNA[main.othertreats,]
-hist(dat.wothertreats$resp)
+# hist(dat.wothertreats$resp)
 unique(dat.wothertreats$datasetID) 
 
 amb.othertreats <- c(which(bb.noNA$dormancy_induction_temp_day=="ambient"|

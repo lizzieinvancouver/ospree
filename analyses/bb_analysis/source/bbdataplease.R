@@ -4,7 +4,6 @@
 ## Source file for reading in the data and
 ## doing some cleaning we should ALL do
 
-
 ## But! Keep an eye on this file! We probably need to edit it
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
