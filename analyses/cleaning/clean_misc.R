@@ -134,3 +134,6 @@ d$other.treatment[which(d$datasetID=="basler14" & d$photoperiod_day=="9.2")] <- 
 d$other.treatment[which(d$datasetID=="basler14" & d$photoperiod_day=="10.2")] <- "ramped_photoperiod"
 d$other.treatment[which(d$datasetID=="basler12" & d$photoperiod_day=="shortday")] <- "ramped_photoperiod"
 d$other.treatment[which(d$datasetID=="basler12" & d$photoperiod_day=="longday")] <- "ramped_photoperiod"
+
+# Sanz-Perez09 has forcetmp_night as ambient, which is not correct (issue #209)
+d$forcetemp_night[which(d$datasetID=="Sanz-Perez09" & d$forcetemp_night=="ambient")] <- ""
