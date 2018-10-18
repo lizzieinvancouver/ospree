@@ -20,14 +20,27 @@ cbind(osp$forcetemp[osp$datasetID=="devries82"],ospcl$forcetemp[ospcl$datasetID=
 cbind(osp$photoperiod_day[osp$datasetID=="devries82"],ospcl$photoperiod_day[ospcl$datasetID=="devries82"])
 cbind(osp$figure.table..if.applicable.[osp$datasetID=="devries82"],ospcl$figure.table..if.applicable.[ospcl$datasetID=="devries82"])
 
-
-#compare for hawerroth13
+#hawerroth13
 osp$chilltemp[osp$datasetID=="hawerroth13"]
 ospbb$chilltemp[ospbb$datasetID=="hawerroth13"]#doesn't exist
-ospcl$chilltemp[ospcl$datasetID=="hawerroth13"]#doesn't exist
+ospcl$chilltemp[ospcl$datasetID=="hawerroth13"]
 cbind(osp$forcetemp[osp$datasetID=="hawerroth13"],ospcl$forcetemp[ospcl$datasetID=="hawerroth13"])
 cbind(osp$photoperiod_day[osp$datasetID=="hawerroth13"],ospcl$photoperiod_day[ospcl$datasetID=="hawerroth13"])
 cbind(osp$figure.table..if.applicable.[osp$datasetID=="hawerroth13"],ospcl$figure.table..if.applicable.[ospcl$datasetID=="hawerroth13"])
 #no table/figure listed. Add?
 cbind(osp$fieldchill[osp$datasetID=="hawerroth13"],ospch$fieldchill[ospch$datasetID=="hawerroth13"])
+ospch$Field_Chilling_Hours[ospch$datasetID=="hawerroth13"]
+
+#heide12
+osp$chilltemp[osp$datasetID=="heide12"]
+ospbb$chilltemp[ospbb$datasetID=="heide12"]
+ospcl$chilltemp[ospcl$datasetID=="heide12"]
+cbind(osp$response[osp$datasetID=="heide12"],osp$forcetemp[osp$datasetID=="heide12"],osp$photoperiod_day[osp$datasetID=="heide12"],osp$figure.table..if.applicable.[osp$datasetID=="heide12"])
+cbind(osp$forcetemp[osp$datasetID=="heide12"],ospbb$forcetemp[ospbb$datasetID=="heide12"])
+
+cbind(ospbb$other.treatment[ospbb$datasetID=="heide12" & ospbb$figure.table..if.applicable.=="table 1"],ospbb$response[ospbb$datasetID=="heide12" & ospbb$figure.table..if.applicable.=="table 1"])
+
+cbind(osp$figure.table..if.applicable.[osp$datasetID=="hawerroth13"],ospcl$figure.table..if.applicable.[ospcl$datasetID=="hawerroth13"])
+#no table/figure listed. Add?
+cbind(osp$fieldchill[osp$datasetID=="hawerroth13"],osp$fieldchill[ospch$datasetID=="hawerroth13"])
 ospch$Field_Chilling_Hours[ospch$datasetID=="hawerroth13"]
