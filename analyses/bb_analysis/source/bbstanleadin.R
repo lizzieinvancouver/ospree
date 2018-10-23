@@ -37,38 +37,45 @@ unique(bb.noNA.wtaxa$complex)
 
 # (4) Get fewer columns for sanity
 source("source/commoncols.R")
-bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep,"photo_type",
-    "chill.cen", "photo.cen", "force.cen","force.z","chill.z", "photo.z"))
+bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, columnscentered, columnschillunits))
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
 # bb <- subset(bb, type!="crop")
-bb.stan <- subset(bb, select=c("datasetID", "resp", "chill", "photo", "force", "complex", "photo_type",
-                               "force.cen","chill.cen", "photo.cen", "force.z","chill.z", "photo.z"))
-bb.stan$complex.wname <- bb.stan$complex
-bb.stan$complex <- as.numeric(as.factor(bb.stan$complex))
+bb$complex.wname <- bb$complex
+bb$complex <- as.numeric(as.factor(bb$complex))
 
 # remove the two values above 600
-bb.stan <- subset(bb.stan, resp<600)
+bb <- subset(bb, resp<600)
 
 # adjust chilling (if needed)
 # here we are transforming chilling to have it in a scale more similar to the rest of variables and so that 
 # it can be interpreted as 10 days (so the coefficient will tell us change in BB every 10 days of chilling)
-bb.stan$chill <- bb.stan$chill/240
-length(unique(bb.stan$datasetID))
+bb$chill <- bb$chill/240
+length(unique(bb$datasetID))
 
-bb.stan.expphoto <- subset(bb.stan, photo_type=="exp" | photo_type=="none")
-bb.stan.rampphoto <- subset(bb.stan, photo_type=="ramped")
-bb.stan.ambphoto <- subset(bb.stan, photo_type=="amb")
+# deal with photo
+bb.expphoto <- subset(bb, photo_type=="exp" | photo_type=="none")
+bb.rampphoto <- subset(bb, photo_type=="ramped")
+bb.ambphoto <- subset(bb, photo_type=="amb")
 
-sort(unique(bb.stan.expphoto$complex.wname))
-sort(unique(bb.stan.rampphoto$complex.wname))
-sort(unique(bb.stan.ambphoto$complex.wname))
+sort(unique(bb.expphoto$complex.wname))
+sort(unique(bb.rampphoto$complex.wname))
+sort(unique(bb.ambphoto$complex.wname))
 
+###########################################
+# Set the data you want to use as bb.stan #
+###########################################
+# currently we use bb.stan.expphoto ...
+bb.stan.allphoto <- bb
+bb.stan <- bb.expphoto 
+
+##################################
+## Prep the data for Stan model ##
+##################################
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
-# photoperiod, and where we have a response in days and total chilling. 
+# photoperiod, and where we have a response in days and total chilling.
 
-## Prep the data for Stan model
 # making a list out of the processed data. It will be input for the model
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -80,6 +87,7 @@ datalist.bb <- with(bb.stan,
                          n_sp = length(unique(bb.stan$complex))
                     )
 )
+
 ## real data with only experimental chilling (no field chilling)
 #osp.td3 = stan('stan/nointer_2level.stan', data = datalist.td,
  #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95))
@@ -96,8 +104,8 @@ datalist.bb.cen <- with(bb.stan,
 )
 
 
-# with just the experimental photoperiod (could lead to taxa issues?)
-datalist.bb.expphoto <- with(bb.stan.expphoto, 
+# all photoperiod types (not currently using) 
+datalist.bb.allphoto <- with(bb.stan.allphoto, 
                     list(y = resp, 
                          chill = chill, 
                          force = force, 
@@ -107,3 +115,60 @@ datalist.bb.expphoto <- with(bb.stan.expphoto,
                          n_sp = length(unique(bb.stan$complex))
                     )
 )
+
+if(use.chillunits){
+# datalist for chillhrs
+datalist.bb.chrs <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.hrs, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         n_study = length(unique(bb.stan$datasetID)) 
+                    )
+)
+
+# datalist for chillhrs: z-scored
+datalist.bb.chrs.z <- with(bb.stan, 
+                      list(y = resp, 
+                           chill = chill.hrs.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex)),
+                           study = as.numeric(as.factor(bb.stan$datasetID)),
+                           n_study = length(unique(bb.stan$datasetID)) 
+                      )
+)
+# datalist for chill portions
+datalist.bb.cports <- with(bb.stan, 
+                         list(y = resp, 
+                              chill = chill.ports, 
+                              force = force, 
+                              photo = photo,
+                              sp = complex,
+                              N = nrow(bb.stan),
+                              n_sp = length(unique(bb.stan$complex)),
+                              study = as.numeric(as.factor(bb.stan$datasetID)),
+                              n_study = length(unique(bb.stan$datasetID)) 
+                         )
+)
+
+# datalist for chill portions: z-scored
+datalist.bb.cports.z <- with(bb.stan, 
+                           list(y = resp, 
+                                chill = chill.ports.z, 
+                                force = force.z, 
+                                photo = photo.z,
+                                sp = complex,
+                                N = nrow(bb.stan),
+                                n_sp = length(unique(bb.stan$complex)),
+                                study = as.numeric(as.factor(bb.stan$datasetID)),
+                                n_study = length(unique(bb.stan$datasetID))
+                           )
+)
+}

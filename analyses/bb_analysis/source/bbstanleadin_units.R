@@ -86,7 +86,7 @@ datalist.bb.z <- with(bb.stan,
                          n_study = length(unique(bb.stan$datasetID))
                     )
 )
-#datalist for chillhrs
+# datalist for chillhrs
 datalist.bb.chrs <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.hrs, 
@@ -100,6 +100,7 @@ datalist.bb.chrs <- with(bb.stan,
                     )
 )
 
+# datalist for chillhrs: z-scored
 datalist.bb.chrs.z <- with(bb.stan, 
                       list(y = resp, 
                            chill = chill.hrs.z, 
@@ -112,7 +113,7 @@ datalist.bb.chrs.z <- with(bb.stan,
                            n_study = length(unique(bb.stan$datasetID)) 
                       )
 )
-#chill portions
+# datalist for chill portions
 datalist.bb.cports <- with(bb.stan, 
                          list(y = resp, 
                               chill = chill.ports, 
@@ -126,6 +127,7 @@ datalist.bb.cports <- with(bb.stan,
                          )
 )
 
+# datalist for chill portions: z-scored
 datalist.bb.cports.z <- with(bb.stan, 
                            list(y = resp, 
                                 chill = chill.ports.z, 

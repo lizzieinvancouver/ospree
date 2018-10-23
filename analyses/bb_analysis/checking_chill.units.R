@@ -50,7 +50,8 @@ unique(hrs$genus)#85 genera
 unique(portions$genus)#85 genera
 
 #do model estimates change with different units?
-source("source/bbstanleadin_units.R")
+use.chillunits = TRUE # change to true for testing chill units
+source("source/bbstanleadin.R")
 
 #Models with no interactions:
 #Utah

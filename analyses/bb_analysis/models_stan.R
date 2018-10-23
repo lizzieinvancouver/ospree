@@ -35,9 +35,14 @@ if(length(grep("lizzie", getwd())>0)) {
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 # dostan = TRUE
+# Flags to choose for bbstanleadin.R
+use.chillunits = FALSE # change to true for testing chill units
+
 source("source/bbstanleadin.R")
+
+# Flags to choose for this (below) file
 use.zscore = FALSE # change to TRUE to use centered and scaled data
-use.pep = TRUE # change to TRUE to use only commmon PEP 725 spp.
+use.pep = FALSE # change to TRUE to use only commmon PEP 725 spp.
 
 # Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
 
@@ -59,8 +64,6 @@ somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
 somespp$complex <- NULL
 somespp$complex <- seq(1:nrow(somespp))
 
-# Currently we use bb.stan.expphoto
-bb.stan <- bb.stan.expphoto 
 bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
 bb.stan$complex <- NULL
 dim(bb.stan)
