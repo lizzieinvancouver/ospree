@@ -36,25 +36,32 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 source("source/bbstanleadin.R")
-use.zscore = FALSE # change to TRUE to use centered and scaled data 
+use.zscore = FALSE # change to TRUE to use centered and scaled data
+use.pep = TRUE # change to TRUE to use only commmon PEP 725 spp.
+
 # Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
 
+# Below not currently used ... but we may want someday
+cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia 
 
-
-##################################
-## Checking species ... DELETE? ##
-##################################
+#########################
+## For PEP 725 species ##
+#########################
+if(use.pep){
 getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
 allspp <- getspp[!duplicated(getspp), ]
 allspp <- allspp[order(allspp$complex),]
-
-sppdelete <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia
+pepspp <- c("Acer_pseudoplatanus", "Aesculus_hippocastanum", "Betula_pendula", "Corylus_avellana",
+    "Fagus_sylvatica", "Larix_decidua", "Picea_abies", "Populus_tremula",
+    "Prunus_padus","Quercus_robur", "Syringa_vulgaris")
 # gymnastics to renumber species
-somespp <-  allspp[which(!allspp$complex.wname %in% sppdelete),]
+somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
 somespp$complex <- NULL
 somespp$complex <- seq(1:nrow(somespp))
 
-bb.stan <- bb.stan[which(!bb.stan$complex.wname %in% sppdelete),] # deleted 253 of 2253 rows
+# Currently we use bb.stan.expphoto
+bb.stan <- bb.stan.expphoto 
+bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
 bb.stan$complex <- NULL
 dim(bb.stan)
 bb.stan <- merge(bb.stan, somespp, by="complex.wname")
@@ -71,19 +78,11 @@ datalist.bb <- with(bb.stan,
                     )
 )
 
-######################################
-## Overview of the models run below ##
-######################################
-# All have partial pooling (pp) and include force (f), photo (p), chill (c)
+}
 
-# Main models:
-# m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
-# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
-
-
-##################################
-## Main models as of July 2018 ##
-##################################
+########################
+## Z-scored data here ##
+########################
 
 # alternative: use centered data
 if(use.zscore){
@@ -98,6 +97,20 @@ datalist.bb <- with(bb.stan,
                     )
 )
 }
+
+######################################
+## Overview of the models run below ##
+######################################
+# All have partial pooling (pp) and include force (f), photo (p), chill (c)
+
+# Main models:
+# m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
+# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
+
+
+##################################
+## Main models as of July 2018 ##
+##################################
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
@@ -129,6 +142,11 @@ save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz.Rda")
 }
 
 
+if(use.pep){
+save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelpepspp.Rda")
+}
+
+
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
 # Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
@@ -156,6 +174,11 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.Rda")
 if(use.zscore){
 save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz.Rda")
 }
+
+if(use.pep){
+save(m2l.ni, file="stan/output/M1_daysBBwinter_2levelpepspp.Rda")
+}
+
 
 ##
 # Rstanarm on the above models ...and run the first two models on centered data
