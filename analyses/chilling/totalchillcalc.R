@@ -1,5 +1,6 @@
 #Calculates Total Chilling by merging in field chilling from "fieldchillcalc_latlong.R", 
 #This code adds the field chilling to experimental chilling to calculate total chilling
+# and adds column that identifies chilling type (field vs exp)
 #by Ailene
 
 #Make a column that indexes the experimental chilling treatment (including chilltemp, chillphotoperiod & chilldays), in order to calculate field chilling
@@ -168,17 +169,27 @@ for(i in 1:nrow(chilldat)) {
            #check which sites are missing chilling data:
            #unique(dat4$datasetID[which(is.na(dat4$Total_Utah_Model))])
            
-              #check
-          #length(dat4$Total_Utah_Model[which(dat4$chilldays=="0")])
+           ############### Updated 22 Oct 2018 by Ailene ####################
+           ##### Chilling type : #####
+           ### 6 types: 
+           ### NA (no info on chilling); 
+           ### exp (experimental chilling only)
+           ### fldest (our estimate of field chilling, based on climate data from the provenance lat/long)
+           ### fldrep (field chilling that the study reported)
+           ### bothrep (both experimental and field (our estimate) chilling)
+           ### bothest (both experimental and field (reported by study)
+           dat4$chill_type<-NA
+           dat4$chill_type[is.na(as.numeric(dat4$Exp_Chilling_Hours))==FALSE|is.na(as.numeric(dat4$Exp_Utah_Model))==FALSE|is.na(as.numeric(dat4$Exp_Chill_portions))==FALSE]<-"exp"#experimental chilling
+           dat4$chill_type[is.na(as.numeric(dat4$Field_Chilling_Hours))==FALSE|is.na(as.numeric(dat4$Field_Utah_Model))==FALSE|is.na(as.numeric(dat4$Field_Chill_portions))==FALSE]<-"fldest"#field chilling that we estimate
+           dat4$chill_type[is.na(as.numeric(dat4$Exp_Chilling_Hours))==FALSE & is.na(as.numeric(dat4$Field_Chilling_Hours))==FALSE]<-"bothest"#field chilling that we estimate
+           dat4$chill_type[is.na(as.numeric(dat4$Exp_Utah_Model))==FALSE & is.na(as.numeric(dat4$Field_Utah_Model))==FALSE]<-"bothest"#field chilling that we estimate
+           dat4$chill_type[is.na(as.numeric(dat4$Exp_Chill_portions))==FALSE & is.na(as.numeric(dat4$Field_Chill_portions))==FALSE]<-"bothest"#field chilling that we estimate
+           dat4$chill_type[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]<-"bothrep"#checked all these rows, and they have both reported field chilling and experimental chilling
+           #there are other studies that have reported chilling but we are not currently using their data because they are in strange units
+           #unique(dat4$cu.model)
+           #Byron, "hoursbelow7deg","hours below 5.5","days-10","North Carolina"
+           
            stop("Not an error, just stopping here to say we're now done totalling up field and experimental chilling. Yay!")
-          #check some things from imput_chilling
-          # tail(dat4[which(dat4$datasetID=="falusi96" & dat4$study=="exp1"),])
-           #head(dat4[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="yes"),])  ###would fix 80 entries
-            #dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp2"& dat4$fieldchill=="no")]
-            #No chilling. would fix 44 rows  
-           #exp3 
-           #dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="yes")]##would fix 84 rows
-            # dat4$Total_Utah_Model[which(dat4$datasetID=="falusi96" & dat4$study=="exp3"& dat4$fieldchill=="no")] ##would fix 52 rows DOne in totall.chilling.R
            
-           
+           table(dat4$chill_type,dat4$Exp_Chill_portions)
            

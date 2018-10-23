@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: photoperiod.aux
+The style file: /Users/aileneettinger/citations/Bibtex/styles/amnat.bst.bst
+Database file #1: /Users/aileneettinger/git/ospree/refs/ospreebibplus.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Warning--empty journal in Flynn:2018
+You've used 30 entries,
+            3251 wiz_defined-function locations,
+            871 strings with 11635 characters,
+and the built_in function-call counts, 19812 in all, are:
+= -- 1657
+> -- 1068
+< -- 13
++ -- 363
+- -- 327
+* -- 1481
+:= -- 3218
+add.period$ -- 119
+call.type$ -- 30
+change.case$ -- 258
+chr.to.int$ -- 30
+cite$ -- 31
+duplicate$ -- 1376
+empty$ -- 1323
+format.name$ -- 433
+if$ -- 3895
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 286
+newline$ -- 153
+num.names$ -- 120
+pop$ -- 546
+preamble$ -- 1
+purify$ -- 228
+quote$ -- 0
+skip$ -- 388
+stack$ -- 0
+substring$ -- 1018
+swap$ -- 642
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 270
+warning$ -- 1
+while$ -- 144
+width$ -- 0
+write$ -- 390
+(There was 1 warning)
