@@ -1,4 +1,5 @@
 #Checking how much data we have/lose with different chilling units
+#We are most interested in using chillportions and utah units (not chilling hours)
 #By Ailene
 #Started 2 July 2018
 # housekeeping
@@ -30,9 +31,9 @@ options(mc.cores = parallel::detectCores())
 d <- read.csv("../output/ospree_clean_withchill_BB.csv")
 dim(d)#7370 rows
 #We have chilling in 3 different units. Let's see how much data we
-length(which(is.na(d$Total_Utah_Model)))#2662
-length(which(is.na(d$Total_Chilling_Hours)))#2780
-length(which(is.na(d$Total_Chill_portions)))#2780
+length(which(is.na(d$Total_Utah_Model)))#2650
+length(which(is.na(d$Total_Chilling_Hours)))#2736
+length(which(is.na(d$Total_Chill_portions)))#2768
 
 #for each unit
 utah<-d[-which(is.na(d$Total_Utah_Model)),]
@@ -41,10 +42,10 @@ portions<-d[-which(is.na(d$Total_Chill_portions)),]
 
 #how many studies with each unit?
 unique(utah$datasetID)#63 studies
-unique(hrs$datasetID)#61 studies
-unique(portions$datasetID)#61 studies
+unique(hrs$datasetID)#62 studies
+unique(portions$datasetID)#62 studies
 
-#how many species with each unit?
+#how many genera with each unit?
 unique(utah$genus)#85 genera
 unique(hrs$genus)#85 genera
 unique(portions$genus)#85 genera
@@ -61,7 +62,7 @@ data = datalist.bb,
 chains = 2) 
 #save coefs
 coefs.utah.m2l.ni.brms<-fixef(m2l.ni.brms)[,1]
-#brms model says a: 71.19, f=-22.10, p=--4.87 , c=-12.93; species sigma: 15.81 
+#brms model says a: 71.19, f=-1.4434878, p=--0.5252211 , c=-3.0318;
 
 #Chill portions
 m2l.ni.brms.cp <- brm(y ~ chill+force+photo+#fixed effects
@@ -85,6 +86,7 @@ m2l.nin.brms.z.cp <- brm(resp ~ force.z + photo.z + chill.ports.z +#main effects
                       chains = 2, cores = 2)
 coefs.cp.m2l.ni.brms.z<-fixef(m2l.nin.brms.z.cp)[,1]
 
+
 coefs<-as.data.frame(cbind(coefs.utah.m2l.ni.brms,coefs.cp.m2l.ni.brms,coefs.utah.m2l.ni.brms.z,coefs.cp.m2l.ni.brms.z))
 colnames(coefs)<-c("utah","chillport","utah.z","chillport.z")
 
@@ -93,11 +95,11 @@ colnames(coefs)<-c("utah","chillport","utah.z","chillport.z")
 m2l.wistudy.brms <- brm(y ~ chill+force +photo+
                           chill:force+chill:photo+force:photo + 
                           ((chill+force+photo)|sp)+(1|study), 
-                        data = datalist.bb,
+                        data = datalist.bb.utah,
                         chains = 2, cores = 2,control = list(max_treedepth = 12))
 #save coefs and R2
 coefs.utah.m2l.wistudy.brms<-c(fixef(m2l.wistudy.brms)[,1],
-                            bayes_R2(coefs.utah.m2l.wistudy.brms))
+                            bayes_R2(m2l.wistudy.brms))
 #brms model says a: 71.19, f=-22.10, p=--4.87 , c=-12.93; species sigma: 15.81 
 
 #Chill portions
@@ -115,7 +117,7 @@ coefs.cp.m2l.wistudy.brms<-c(fixef(m2l.wistudy.brms.cp)[,1],
 m2l.wistudy.brms.z <- brm(y ~ chill+force+photo+
                           chill:force+chill:photo+force:photo + 
                           ((chill+force+photo)|sp)+(1|study), 
-                        data = datalist.bb.z,
+                        data = datalist.bb.utah.z,
                         chains = 2, cores = 2,control = list(max_treedepth = 12))
 #save coefs and R2
 coefs.utah.m2l.wistudy.brms.z<-c(fixef(m2l.wistudy.brms.z)[,1],

@@ -117,6 +117,33 @@ datalist.bb.allphoto <- with(bb.stan.allphoto,
 )
 
 if(use.chillunits){
+# datalist for utah
+datalist.bb.utah <- with(bb.stan, 
+                           list(y = resp, 
+                                chill = chill, 
+                                force = force, 
+                                photo = photo,
+                                sp = complex,
+                                N = nrow(bb.stan),
+                                n_sp = length(unique(bb.stan$complex)),
+                                study = as.numeric(as.factor(bb.stan$datasetID)),
+                                n_study = length(unique(bb.stan$datasetID)) 
+                           )
+  )
+# datalist for utah: z-scored
+datalist.bb.utah.z <- with(bb.stan, 
+                           list(y = resp, 
+                                chill = chill.z, 
+                                force = force.z, 
+                                photo = photo.z,
+                                sp = complex,
+                                N = nrow(bb.stan),
+                                n_sp = length(unique(bb.stan$complex)),
+                                study = as.numeric(as.factor(bb.stan$datasetID)),
+                                n_study = length(unique(bb.stan$datasetID)) 
+                           )
+)
+
 # datalist for chillhrs
 datalist.bb.chrs <- with(bb.stan, 
                     list(y = resp, 
