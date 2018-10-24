@@ -140,3 +140,8 @@ d$forcetemp_night[which(d$datasetID=="Sanz-Perez09" & d$forcetemp_night=="ambien
 
 # morin10 has a field sample date, but I (Lizzie) think it is in situ field warming, so removing the dates
 d$fieldsample.date[which(d$datasetID=="morin10")] <- ""
+
+# viheraarnio06 has zero chilling, so we want to enter this to make the study more usable
+#NOTE: this is THE ONLY study for which this was done.
+#There may be other studies with zero chilling, for which the database currently has "" rather than 0
+d$chilldays[which(d$datasetID=="viheraaarnio06")] <- "0"
