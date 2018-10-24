@@ -104,3 +104,32 @@ cbind(ospbb$forcetemp_night[ospbb$datasetID=="partanen98"],ospbb$forcetemp[ospbb
 osp$photoperiod_day[osp$datasetID=="partanen98"]
 ospch$photoperiod_day[ospch$datasetID=="partanen98"]
 ospbb$photoperiod_day[ospbb$datasetID=="partanen98"]
+
+
+#skuterud94
+osp$chilltemp[osp$datasetID=="skuterud94"]
+ospbb$chilltemp[ospbb$datasetID=="skuterud94"]#
+ospcl$chilltemp[ospcl$datasetID=="skuterud94"]#
+osp$chilldays[osp$datasetID=="skuterud94"]#
+ospbb$chilldays[ospbb$datasetID=="skuterud94"]
+ospcl$chilldays[ospcl$datasetID=="skuterud94"]
+
+cbind(osp$response.time[osp$datasetID=="skuterud94"],osp$forcetemp[osp$datasetID=="skuterud94"],osp$photoperiod_day[osp$datasetID=="skuterud94"],osp$figure.table..if.applicable.[osp$datasetID=="skuterud94"])
+cbind(osp$respvar[osp$datasetID=="partanen98"],osp$response.time[osp$datasetID=="partanen98"],osp$forcetemp[osp$datasetID=="partanen98"],osp$photoperiod_day[osp$datasetID=="partanen98"],osp$figure.table..if.applicable.[osp$datasetID=="partanen98"])
+cbind(ospbb$respvar[ospbb$datasetID=="partanen98"],ospbb$response.time[ospbb$datasetID=="partanen98"],ospbb$forcetemp[ospbb$datasetID=="partanen98"],ospbb$photoperiod_day[ospbb$datasetID=="partanen98"],ospbb$figure.table..if.applicable.[ospbb$datasetID=="partanen98"])
+cbind(ospbb$forcetemp_night[ospbb$datasetID=="partanen98"],ospbb$forcetemp[ospbb$datasetID=="partanen98"],ospbb$response.time[ospbb$datasetID=="partanen98"],ospbb$photoperiod_day[ospbb$datasetID=="partanen98"],ospbb$figure.table..if.applicable.[ospbb$datasetID=="partanen98"])
+
+osp$photoperiod_day[osp$datasetID=="partanen98"]
+ospch$photoperiod_day[ospch$datasetID=="partanen98"]
+ospbb$photoperiod_day[ospbb$datasetID=="partanen98"]
+
+#viheraaarnio06
+osp$chilltemp[osp$datasetID=="viheraaarnio06"]
+ospbb$chilltemp[ospbb$datasetID=="viheraaarnio06"]#
+ospcl$chilltemp[ospcl$datasetID=="viheraaarnio06"]#no chilltemp info
+osp$chilldays[osp$datasetID=="viheraaarnio06"]#
+ospbb$chilldays[ospbb$datasetID=="viheraaarnio06"]#no chill info
+ospcl$chilldays[ospcl$datasetID=="viheraaarnio06"]# no chill info
+
+cbind(osp$response[osp$datasetID=="viheraaarnio06"],osp$forcetemp[osp$datasetID=="viheraaarnio06"],osp$photoperiod_day[osp$datasetID=="viheraaarnio06"],osp$figure.table..if.applicable.[osp$datasetID=="viheraaarnio06"])
+
