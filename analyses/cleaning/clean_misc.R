@@ -145,3 +145,6 @@ d$fieldsample.date[which(d$datasetID=="morin10")] <- ""
 #NOTE: this is THE ONLY study for which this was done.
 #There may be other studies with zero chilling, for which the database currently has "" rather than 0
 d$chilldays[which(d$datasetID=="viheraaarnio06")] <- "0"
+
+#hawerroth13 is missing the figure number.
+d$figure.table..if.applicable.[which(d$datasetID=="hawerroth13")]<-"fig 2"
