@@ -145,6 +145,24 @@ d$fieldsample.date[which(d$datasetID=="morin10")] <- ""
 #NOTE: this is THE ONLY study for which this was done.
 #There may be other studies with zero chilling, for which the database currently has "" rather than 0
 d$chilldays[which(d$datasetID=="viheraaarnio06")] <- "0"
+# in addition, this study has a field sample date, but I (Ailene) think all plants are grown indoors so no field chilling...
+d$fieldsample.date[which(d$datasetID=="viheraaarnio06")] <- ""
 
 #hawerroth13 is missing the figure number.
 d$figure.table..if.applicable.[which(d$datasetID=="hawerroth13")]<-"fig 2"
+
+#heide12 study says "chilled at 2C in darkness for breaking of dormany After 10-12 w"
+#For Table 1, chilling was 10 w, for Table 2 chilling was 12 w.
+#Add this info
+d$chilltemp[which(d$datasetID=="heide12" & d$figure.table..if.applicable.=="table 1")]<-"2"
+d$chilldays[which(d$datasetID=="heide12" & d$figure.table..if.applicable.=="table 1")]<-"70"
+d$chilltemp[which(d$datasetID=="heide12" & d$figure.table..if.applicable.=="table 2")]<-"2"
+d$chilldays[which(d$datasetID=="heide12" & d$figure.table..if.applicable.=="table 1")]<-"84"
+
+#devries82 has switched irradience treatments and forcing temperature treatments for fig 2 and fig3
+d$forcetemp[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2")]<-
+    d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2")]
+d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2")]<-c("8","8","8","16","16","16","24","24","24")
+d$forcetemp[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]<-
+  d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]
+d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]<-c("24","24","24","16","16","16","8","8","8")
