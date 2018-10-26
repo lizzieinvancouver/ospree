@@ -11,14 +11,14 @@ viheraaarnio06_exp1,60.45,24.93,2,16-17,AKE,Y,Y,"In both ecotypes, the mean perc
 viheraaarnio06_exp2,60.45,24.93,2,15-19,AKE,Y,Y,
 basler12_exp1,46.2,7.03,,,CC,N,NA,
 falusi90_exp1,46.03,10.75,2,13-Sep,CC,Y,N,
-hawkins12_,49.25,-117.17,,,CC,N,Y,especially when coupled with low chilling
-heide15_exp2,56.5,-3.06,6,15-Oct,CC,Y,Y,growth cessation
-laube14a_exp1,48.4,11.71,3,16-Aug,CC,Y,N,slightly when coupled with low chilling
-nienstaedt66_exp1,44.17,-103.92,2,20-Aug,CC,Y,Y,"when no or low chilling, photoperiod had a bigger effect"
+hawkins12_,49.25,-117.17,,,CC,N,Y,"longer days reduced the number of days to budburst when there was low or no chilling. When chilling was long, longer days had less of an effect on day of budburst"
+heide15_exp2,56.5,-3.06,6,15-Oct,CC,Y,Y,shorter days and a bigger decrease in photoperiod increased the rate of growth cessation
+laube14a_exp1,48.4,11.71,3,16-Aug,CC,Y,N,"longer days reduced the number of days to budburst, especially when there was low or now chilling, but individuals could still burst bud with short days"
+nienstaedt66_exp1,44.17,-103.92,2,20-Aug,CC,Y,Y,longer days reduced the number of days to budburst and compensated for lack of chilling
 pettersen71_exp1,59.66,10.77,6,24-Oct,CC,Y,N,
 spann04_exp1,29.67,-82.35,,,CC,Y,NA,NA
-worrall67_exp 3,41.31,-72.93,2,16-Aug,CC,Y,Y,when coupled with no chilling
-zohner16_Exp1,48.16,11.5,2,16-Aug,CC,Y,Y,for photosensitive species especially; and when coupled with chilling (for most species)
+worrall67_exp 3,41.31,-72.93,2,16-Aug,CC,Y,Y,no budburst occurred if no chilling and short days
+zohner16_Exp1,48.16,11.5,2,16-Aug,CC,Y,Y,"longer days reduced the number of days to budburst, especially when there was little or no chilling. Some species needed long days (Fagus sylvatica, Fagus crenata, Fagus orientalis, and Carya cordiformis) to reduce the number of days to budburst even with long chilling treatment"
 basler14_exp1,46.31,8.27,3,9.2-16,DB,,,
 falusi96_exp3,38.27,15.99,2,13-Sep,DB,,,
 heide05_exp1,56.18,-4.32,2,24-Oct,DB,,,
