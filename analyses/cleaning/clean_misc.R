@@ -166,3 +166,11 @@ d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="f
 d$forcetemp[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]<-
   d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]
 d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]<-c("24","24","24","16","16","16","8","8","8")
+
+#skuterud94 has incorrect daylength for some rows (all should be 8; currently some are 24)
+d$photoperiod_day[which(d$datasetID=="skuterud94")]<-"8"
+d$photoperiod_night[which(d$datasetID=="skuterud94")]<-"16"
+
+#myking97 has incorrect daylength for some rows (all should be 12; currently some are 24)
+d$photoperiod_day[which(d$datasetID=="myking97")]<-"12"
+d$photoperiod_night[which(d$datasetID=="myking97")]<-"12"
