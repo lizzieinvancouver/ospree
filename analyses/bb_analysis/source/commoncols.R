@@ -1,7 +1,7 @@
 # slim down our columns
 columnstokeep <- c("datasetID", "genus", "species", "varetc", "woody", "forcetemp", "forcetemp_night",
                    "photoperiod_day", "response", "response.time", "Total_Chilling_Hours", 
-                   "complex", "provenance.lat", "force", "photo", "chill", "resp", "photo_type")
+                  "provenance.lat", "force", "photo", "chill", "resp", "photo_type")
 
 columnscentered <- c("chill.cen", "photo.cen", "force.cen","force.z","chill.z", "photo.z")
 

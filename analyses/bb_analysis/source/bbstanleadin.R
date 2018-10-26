@@ -27,23 +27,9 @@ dim(bb.noNA)
 ## (3) Deal with species
 d <- bb.noNA
 
-source("source/speciescomplex.R")
-bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
-#bb.all.wtaxa$complex <- NULL
-bb.all.wtaxa$use <- NULL
-bb.noNA.wtaxa <- bb.all.wtaxa
-dim(bb.noNA.wtaxa)
-unique(bb.noNA.wtaxa$complex)
-
 # (4) Get fewer columns for sanity
 source("source/commoncols.R")
-bb <- subset(bb.noNA.wtaxa, select=c(columnstokeep, columnscentered, columnschillunits))
-
-## subsetting data, preparing genus variable, removing NAs (err, again
-# remove crops?
-# bb <- subset(bb, type!="crop")
-bb$complex.wname <- bb$complex
-bb$complex <- as.numeric(as.factor(bb$complex))
+bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
 
 # remove the two values above 600
 bb <- subset(bb, resp<600)
@@ -59,16 +45,24 @@ bb.expphoto <- subset(bb, photo_type=="exp" | photo_type=="none")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
 bb.ambphoto <- subset(bb, photo_type=="amb")
 
-sort(unique(bb.expphoto$complex.wname))
-sort(unique(bb.rampphoto$complex.wname))
-sort(unique(bb.ambphoto$complex.wname))
+#sort(unique(bb.expphoto$complex.wname))
+#sort(unique(bb.rampphoto$complex.wname))
+#sort(unique(bb.ambphoto$complex.wname))
 
 ###########################################
 # Set the data you want to use as bb.stan #
 ###########################################
 # currently we use bb.stan.expphoto ...
-bb.stan.allphoto <- bb
-bb.stan <- bb.expphoto 
+bb.stan.allphoto.allspp <- bb
+bb.stan.allspp <- bb.expphoto 
+
+bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp)
+bb.stan<-sppcomplexfx(bb.stan.allspp)
+
+## subsetting data, preparing genus variable, removing NAs (err, again
+# remove crops?
+# bb <- subset(bb, type!="crop")
+
 
 ##################################
 ## Prep the data for Stan model ##
