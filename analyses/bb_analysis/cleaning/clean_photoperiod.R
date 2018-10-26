@@ -411,6 +411,12 @@ d$photo_type<-ifelse(d$other.treatment=="ramped_photoperiod", "ramped", d$photo_
 d$photo_type<-ifelse(is.na(d$photo_type), "exp", d$photo_type)
 
 
+#### basler studies - updated by Cat 26 Oct 2018
+bas<-d[(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod"),]
+bas$photoperiod_day<-as.numeric(bas$photoperiod_day)
+bas$photoperiod_day<- ifelse(!is.na(bas$response.time), ((bas$response.time*0.06) + bas$photoperiod_day), bas$photoperiod_day)
+bas$photoperiod_night<-as.numeric(bas$photoperiod_night)
+bas$photoperiod_night<-24-bas$photoperiod_day
 
-
-
+d$photoperiod_day[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
