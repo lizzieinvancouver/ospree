@@ -29,6 +29,8 @@ It:
 7. sources clean_moreduplicates.R which removes some data that appears duplicated (very little!). As of 12 April 2018, deletes 2 rows (used to delete 4, and of those one was an obvious duplicate and are flagged under the more complex code).
 
 8. sources clean_photoperiod.R which tries to eek out every last bit of photoperiod data we could get. This sort of code would be good for analyses beyond just BB. 
+   <><><> This code also adds a new column `photo.type' which specifies the method used in     the experiment. Types: `amb' = ambient photoperiod; `exp' = experimentally manipulated photoperiod; `none' = there was no mention of photoperiod; `ramped' = photoperiod was experimentally increased or decreased during the experiment
+
 
 9. saves a new file called “ospree_clean_withchill_BB.csv” for BB analyses
 
