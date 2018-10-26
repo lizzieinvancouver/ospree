@@ -20,7 +20,7 @@ unique(blank$datasetID)
 
 # gansert02: ambient, maybe we can use climate data to calculate - imputed to be 5degC based on Fig 5
 ## Fixed 6 Feb 2018 - Cat
-d$forcetemp[which(d$datasetID=="gansert02")] <- 5
+#d$forcetemp[which(d$datasetID=="gansert02")] <- 5
 
 # hawkins12: complicated thermal time equation - maybe use climate data instead?
 
@@ -33,15 +33,15 @@ d$forcetemp[which(d$datasetID=="gansert02")] <- 5
 # falusi96: not enough information - assumed ambient, maybe could use climate data to calculate
 ## Calculates GDDs based on 5degC base temp. I will change to 5degC for now. To discuss.
 ## Fixed 6 Feb 2018 - Cat
-d$forcetemp[which(d$datasetID=="falusi96" & d$study=="exp1")] <- 5
+#d$forcetemp[which(d$datasetID=="falusi96" & d$study=="exp1")] <- 5
 
 # fu13: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
 
 # guak98: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
 ## rough estimate based on Fig1
 ## Fixed 6 Feb 2018 - Cat
-d$forcetemp[which(d$datasetID=="guak98" & d$forcetemp=="ambient")] <- 12
-d$forcetemp[which(d$datasetID=="guak98" & d$forcetemp=="ambient + 4")] <- 16
+#d$forcetemp[which(d$datasetID=="guak98" & d$forcetemp=="ambient")] <- 12
+#d$forcetemp[which(d$datasetID=="guak98" & d$forcetemp=="ambient + 4")] <- 16
 
 # gunderson12: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
 
@@ -50,36 +50,36 @@ d$forcetemp[which(d$datasetID=="guak98" & d$forcetemp=="ambient + 4")] <- 16
 # morin10: uses ambient temperature and some add degrees C, maybe could use climate data to calculate
 ## Used rough estimate based on Fig1 - ambient = 15 -> 16.5 and 18
 ## Fixed 6 Feb 2018 - Cat
-d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient")] <- 15
-d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient + 1.5")] <- 16.5
-d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient + 3")] <- 18
+#d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient")] <- 15
+#d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient + 1.5")] <- 16.5
+#d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient + 3")] <- 18
 
 # sanperez10: uses ambient temperature, recorded mean temperature per month - can extract data from there
-d$response.time.num <-as.numeric(as.character(d$response.time))
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
-                  & d$irradiance==100)] <- 6.2
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
-                  & d$irradiance==20)] <- 5.2
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
-                  & d$irradiance==5)] <- 5.4
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
-                  & d$irradiance==100)] <- 6.4
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
-                  & d$irradiance==20)] <- 4.8
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
-                  & d$irradiance==5)] <- 5.2
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
-                  & d$irradiance==100)] <- 8.9
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
-                  & d$irradiance==20)] <- 7.1
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
-                  & d$irradiance==5)] <- 7.5
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120 
-                  & d$irradiance==100)] <- 10.7
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120
-                  & d$irradiance==20)] <- 9.2
-d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120
-                  & d$irradiance==5)] <- 9.7
+#d$response.time.num <-as.numeric(as.character(d$response.time))
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
+ #                 & d$irradiance==100)] <- 6.2
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
+ #                 & d$irradiance==20)] <- 5.2
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
+ #                 & d$irradiance==5)] <- 5.4
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
+ #                 & d$irradiance==100)] <- 6.4
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
+ #                 & d$irradiance==20)] <- 4.8
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=31 & d$response.time.num<=59
+ #                 & d$irradiance==5)] <- 5.2
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
+  #                & d$irradiance==100)] <- 8.9
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
+ #                 & d$irradiance==20)] <- 7.1
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=60 & d$response.time.num<=90
+ #                 & d$irradiance==5)] <- 7.5
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120 
+  #                 & d$irradiance==100)] <- 10.7
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120
+ #                 & d$irradiance==20)] <- 9.2
+#d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=91 & d$response.time.num<=120
+ #                 & d$irradiance==5)] <- 9.7
 
 # sonsteby13: flower bud study... not sure why it made it through
 

@@ -19,6 +19,8 @@ library(RColorBrewer)
 library(maps)
 library(grid)
 library(gridExtra)
+library(maptools)
+library(ggplotify)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
@@ -50,17 +52,22 @@ my.pal<-rep(brewer.pal(n=12, name="Set3"),7)
 my.pch<-rep(c(4,6,8,15:18), each=12)
 
 
-mapWorld <- borders("world", colour="gray94", fill="gray92") # create a layer of borders
-mp <- ggplot(sp, aes(x=long, y=lat, color=datasetID, size=as.factor(numspp), shape=datasetID)) +   mapWorld +
+#mapWorld <- borders("world", colour="gray94", fill="gray92") # create a layer of borders
+boundars<-readShapeSpatial("~/Documents/git/regionalrisk/analyses/input/natural_earth_vector/50m_cultural/ne_50m_admin_0_countries.shp")
+mapWorld<-fortify(boundars)
+mp <- ggplot() +
+  geom_polygon(aes(x = mapWorld$long, y = mapWorld$lat, group = mapWorld$group),
+            color = 'gray', fill="lightgrey", size = .2) +
+  geom_jitter(width=1.5,aes(x=sp$long, y=sp$lat, color=sp$datasetID, size=as.factor(sp$numspp), shape=sp$datasetID)) + theme_classic() +
   theme(panel.border = element_blank(),
            panel.grid.major = element_blank(),
            panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = 'white'),
-        legend.position=c(0.00, 0.16),
+        plot.background = element_rect(fill = "white"),
+        legend.position=c(0.075, 0.163),
         #legend.position = "none",
-        legend.key = element_rect(fill="white"),
+        legend.key = element_rect(fill="white", color="white"),
         legend.box.background = element_rect(fill="white"),legend.text = element_text(size=7), legend.key.size = unit(0.3,"cm"),
-        legend.title = element_text(size=8)) + geom_jitter(width=1.5,aes(color=datasetID, size=as.factor(numspp), shape=datasetID)) +
+        legend.title = element_text(size=8))+
   guides(color=FALSE, shape=FALSE)  +
   scale_colour_manual(name="DatasetID", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
@@ -82,24 +89,24 @@ mp <- ggplot(sp, aes(x=long, y=lat, color=datasetID, size=as.factor(numspp), sha
 #grid.draw(datasets)
 #dev.off()
 
-euro<-ggplot(sp, aes(x=long, y=lat, color=datasetID, size=as.factor(numspp), shape=datasetID)) +   mapWorld +
+euro<-ggplot() +
+  geom_polygon(aes(x = mapWorld$long, y = mapWorld$lat, group = mapWorld$group),
+               color = 'gray', fill="lightgrey", size = .2) +
+  geom_jitter(width=1.5,aes(x=sp$long, y=sp$lat, color=sp$datasetID, size=as.factor(sp$numspp), shape=sp$datasetID)) + theme_classic() +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        plot.background = element_rect(fill = 'white'),
         legend.position="none",
-        legend.key = element_rect(fill="white"),
         axis.line = element_blank(),
         axis.ticks = element_blank(),
-        axis.text = element_blank(),
-        plot.margin = unit(c(0,0,0,-0.5), "lines")) +
-        panel_border(colour = "black", size=1, remove=FALSE) + geom_jitter(width=1.5, aes(color=datasetID, size=as.factor(numspp), shape=datasetID)) +
-  guides(color=FALSE, shape=FALSE)  +
+        axis.text = element_blank(), 
+        plot.margin = unit(c(0,0,-0.5,-0.5), "lines"), panel.background = element_rect(colour="black")) + 
+  guides(color=FALSE, shape=FALSE)  + 
   scale_colour_manual(name="DatasetID", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
   scale_size_manual(values=c(1,2,3,4,5,6), labels = c("1-5","6-10","11-20","21-30","31-100",">100"), name="Number of Species") +
   xlab("") + ylab("") + coord_cartesian(xlim=c(-13,40), ylim=c(34,72)) + labs(x=NULL, y=NULL)
 
-vp <- viewport(width = 0.25, height = 0.4, x = 0.864, y = 0.32)
+vp <- viewport(width = 0.25, height = 0.4, x = 0.864, y = 0.315)
 #Just draw the plot twice
 quartz()
 print(mp)
