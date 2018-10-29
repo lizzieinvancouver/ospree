@@ -7,6 +7,7 @@ library(dplyr)
 # library(rstanarm)
 
 source('..//stan/savestan.R')
+source("source/speciescomplex.R")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -45,9 +46,9 @@ bb.expphoto <- subset(bb, photo_type=="exp" | photo_type=="none")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
 bb.ambphoto <- subset(bb, photo_type=="amb")
 
-#sort(unique(bb.expphoto$complex.wname))
-#sort(unique(bb.rampphoto$complex.wname))
-#sort(unique(bb.ambphoto$complex.wname))
+#sort(unique(bb.expphoto$genus))
+#sort(unique(bb.rampphoto$genus))
+#sort(unique(bb.ambphoto$genus))
 
 ###########################################
 # Set the data you want to use as bb.stan #
