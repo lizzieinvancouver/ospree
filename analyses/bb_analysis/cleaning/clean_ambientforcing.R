@@ -1,9 +1,15 @@
 ## By Cat to double check forcing columns:
 ## Find any columns with 'ambient' or non-numerics and fix based on paper if possible
 ## See also: clean_ambientforcingfromdailyclimate.R
+# Additions by Cat: 29 Oct 2018
+  ### This file now adds a column 'force_type': amb = ambient force temp calculated from climate data in clean_ambientforcingfromdailyclimate.R,
+  ## none = no information about force temp; not enough info = unable to calculate based on information; exp = experimentally manipulated; and 
+  ## ramped = forcetemp was ramped
 
 
 if(is.data.frame(d)){
+  
+d$force_type<-NA
   
 amb<-d[which(d$forcetemp=="ambient"),]
 unique(amb$datasetID)
@@ -13,6 +19,8 @@ blank<- d[which(d$forcetemp==""),]
 nas<-d[which(is.na(d$forcetemp)),]
 unique(nas$datasetID)
 unique(blank$datasetID)
+
+d$response.time.num <-as.numeric(as.character(d$response.time))
     
 ## "ashby62"  "gansert02"  "hawkins12"  "ruesink98"
 
@@ -55,7 +63,6 @@ unique(blank$datasetID)
 #d$forcetemp[which(d$datasetID=="morin10" & d$forcetemp=="ambient + 3")] <- 18
 
 # sanperez10: uses ambient temperature, recorded mean temperature per month - can extract data from there
-#d$response.time.num <-as.numeric(as.character(d$response.time))
 #d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
  #                 & d$irradiance==100)] <- 6.2
 #d$forcetemp[which(d$datasetID=="sanzperez10" & d$response.time.num>=0 & d$response.time.num<=30
@@ -95,6 +102,7 @@ d <- within(d, forcetemp[datasetID == 'man10' & response.time.num == 24 & respon
 d <- within(d, forcetemp[datasetID == 'man10' & response.time.num == 25 & response == 98.167] <- 19)
 d <- within(d, forcetemp[datasetID == 'man10' & response.time.num == 26 & response == 99.267] <- 19)
 d <- within(d, forcetemp[datasetID == 'man10' & response.time.num == 27 & response == 100] <- 19)
+d$force_type<-ifelse(d$datasetID=="man10", "ramped", d$force_type)
 
 # schnabel87 - fix 10 for 2 week, then... to 10
 d <- within(d, forcetemp[datasetID == 'schnabel87' & n == 30 & response.time.num == 35.4] <- 10)
@@ -115,6 +123,7 @@ d.sub$forcetemp<-ifelse(is.na(d.sub$response.time), 27.5, d.sub$forcetemp)
 
 d.sub$response.time<-ifelse(is.na(d.sub$response.time), "no response", d.sub$response.time)
 d$forcetemp[which(d$datasetID=="laube14a")]<-d.sub$forcetemp
+d$force_type<-ifelse(d$datasetID=="laube14a", "ramped", d$force_type)
 
 
 # skuterud94 now - is thermal time, does not explicitly say which forcing temp
@@ -138,6 +147,8 @@ d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst"
 d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=60 & d$response.time.num<65, 11, d$forcetemp)
 d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=65 & d$response.time.num<70, 11.5, d$forcetemp)
 
+d$force_type<-ifelse(d$datasetID=="basler12", "ramped", d$force_type)
+
 # guak98: does not specify the "ambient" temperature but increased by 4 
 # in other experiments, didn't change anything
 
@@ -146,6 +157,15 @@ d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst"
 # delete the new response.time column that we don't need!
     
 d$response.time.num <- NULL
+
+d$force_type<-ifelse(d$forcetemp=="", "none", d$force_type)
+d$force_type<-ifelse(d$forcetemp=="ambient" | d$forcetemp=="ambient + .7" | d$forcetemp=="ambient + 1.5" |
+                       d$forcetemp=="ambient + 3" | d$forcetemp=="ambient + 4" | d$forcetemp=="ambient + 4.9", "amb", d$force_type)
+
+d$force_type<-ifelse(d$forcetemp=="mean of 9, 12, 15", "not enough info", d$force_type)
+d$force_type<-ifelse(d$forcetemp=="meandaily" & d$respvar.simple=="thermaltime", "not enough info", d$force_type)
+
+d$force_type<-ifelse(is.na(d$force_type), "exp", d$force_type)
     
 } else {
   print("Error: d not a data.frame")

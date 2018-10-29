@@ -6,7 +6,9 @@
 #'  Ospree
 #'  started 21 July 2017
 #'  
-#'  This file is unfinished -- need to explicitly incorporate ambient and ambient +1, +4, etc.
+#'  This file is unfinished -- need to explicitly incorporate ambient and ambient +1, +4, etc. - Fixed by Cat on 29 Oct 2018
+#'  This file now incorporates ambient using the column 'avg_bbtemp' values for forcetemp when the force_type is ambient
+#'  
 ##############################################################################################################
 
 #if(FALSE){
@@ -142,6 +144,14 @@ ambientforcetemp <- subset(d, forcetemp=="ambient"|forcetemp=="ambient + .7"|
 # lamb37: field sample in 1946, our climate data start in 1950
 # manson91: from New Zealand, so we do not have climate data
 # should have ambient temp: boyer, sanzperez10
+
+d$forcetemp<-ifelse(d$forcetemp=="ambient", d$avg_bbtemp, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + .7", d$avg_bbtemp + .7, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 1.5", d$avg_bbtemp + 1.5, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 3", d$avg_bbtemp + 3, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 4", d$avg_bbtemp + 4, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 4.9", d$avg_bbtemp + 4.9, d$forcetemp)
+
 
 stop("Not an error, ambient forcing temperatures are extracted and appended to dataset d; 
      No need to worry about the warnings below, informing of if statement with 2 elements
