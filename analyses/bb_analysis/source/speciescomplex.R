@@ -28,34 +28,34 @@ d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
 xx<-d
 ### make a list of which studies manipulate what.
 xx <- within(xx, { prov.lat <- ave(provenance.lat, name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-#xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
+xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
 xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
 xx <- within(xx, { photo <- ave(photoperiod_day, name, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 xx <- within(xx, { chill <- ave(chill, name, species, FUN=function(x) length(unique(x)))}) # mult expchill
-#xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
+xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 #xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}) # mult species
 #xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,#chilltime,field.sample,prov.lat, 
+xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,chilltime,field.sample,#prov.lat, 
                   datasetID)
 xx<-xx[!duplicated(xx),]
 
 
-###make object with all acceptable (>1 data set species and manipulated more than one cue) This make a data sheet with all the complex that can be indivudal species
-### 
+###make object with all acceptable (>1 data set species and manipulated more than one cue) 
+### This make a data sheet with all the complex that can be indivudal species
 xx$force<-ifelse(xx$force<=1, 0, 1)
 xx$photo<-ifelse(xx$photo<=1, 0, 1)
 xx$chill<-ifelse(xx$chill<=1, 0, 1)
-#xx$chilltime<-ifelse(xx$chilltime<=1, 0, 1)
-#xx$field.sample<-ifelse(xx$field.sample<=1, 0, 1)
-#xx$chill<-ifelse(xx$chill==1 | xx$chilltime==1 | xx$field.sample==1,1, 0)
-xx$numcues<-xx$force + xx$photo + xx$chill
+xx$chilltime<-ifelse(xx$chilltime<=1, 0, 1) ## Different methods of manipulating chilling
+xx$field.sample<-ifelse(xx$field.sample<=1, 0, 1) ## Different methods of manipulating chilling
+xx$chill<-ifelse(xx$chill==1 | xx$chilltime==1 | xx$field.sample==1,1, 0)
+xx$numcues<-xx$force + xx$photo + xx$chill ## Determine how many cues were manipulated
 
 #check<-subset(xx, select=c(name, datasetID, datasets, numcues))
 
-accept<-xx[(xx$numcues>1 & xx$datasets>1),]
-species4taxon<-c(accept$name) ## make a list of species with more than 1 study study
+accept<-xx[(xx$numcues>1 & xx$datasets>1),] ## if species were in more than one dataset and manipulated more than one cue that kept
+species4taxon<-c(accept$name) ## make a list of species with more than 1 study
 accept$complex<-accept$name
 accept$use<-"Y"
 
@@ -67,9 +67,10 @@ taxon$complex<-taxon$name
 taxon$use<-"Y"
 
 ###making complexes#######################
+### This is when the same genus has multiple datasets and manipulates more than one cue
 
 comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
-complex4taxon<-c(comp$name) ### make a liust of them
+complex4taxon<-c(comp$name) ### make a list of them
 
 
 intersect(species4taxon,complex4taxon) #checks to make sure there are no species that over lap between this and above
@@ -78,18 +79,19 @@ intersect(species4taxon,complex4taxon) #checks to make sure there are no species
 taxon2<- dplyr::filter(d, name %in% complex4taxon) ###This filters main data sheet for rows that have species with only 1 dataset ID
 
 
+### Same as above - see what complexes manipulated
 taxon2<- within(taxon2, {datasets<- ave(datasetID, genus, FUN=function(x) length(unique(x)))})
 taxon2<-dplyr::arrange(taxon2, genus)
 
 taxon2$complex<-paste(taxon2$genus, "complex", sep="_")
 taxon2 <- within(taxon2, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-#taxon2 <- within(taxon2, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
+taxon2 <- within(taxon2, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
 taxon2 <- within(taxon2, { force <- ave(forcetemp, complex, FUN=function(x) length(unique(x)))}) # mult forcetemp
 taxon2 <- within(taxon2, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
 taxon2 <- within(taxon2, { chill <- ave(chill, complex, FUN=function(x) length(unique(x)))}) # mult expchill
-#taxon2 <- within(taxon2, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, study, FUN=function(x) length(unique(x))), 0)}) # mult studychill
+taxon2 <- within(taxon2, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 #taxon2<- within(taxon2, { prov.long <- ave(provenance.long,complex, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
-taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill, #chilltime, field.sample,prov.lat, 
+taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill, chilltime, field.sample,#prov.lat, 
                       complex,datasetID)
 taxon2<-taxon2[!duplicated(taxon2),]
 
@@ -98,11 +100,12 @@ taxon2<-taxon2[!duplicated(taxon2),]
 taxon2$force<-ifelse(taxon2$force<=1, 0, 1)
 taxon2$photo<-ifelse(taxon2$photo<=1, 0, 1)
 taxon2$chill<-ifelse(taxon2$chill<=1, 0, 1)
-#taxon2$chilltime<-ifelse(taxon2$chilltime<=1, 0, 1)
-#taxon2$field.sample<-ifelse(taxon2$field.sample<=1, 0, 1)
-#taxon2$chill<-ifelse(taxon2$chill==1 | taxon2$chilltime==1 | taxon2$field.sample==1, 1, 0)
-taxon2$numcues<-taxon2$force + taxon2$photo + taxon2$chill
+taxon2$chilltime<-ifelse(taxon2$chilltime<=1, 0, 1) ## Different methods of manipulating chilling
+taxon2$field.sample<-ifelse(taxon2$field.sample<=1, 0, 1) ## Different methods of manipulating chilling
+taxon2$chill<-ifelse(taxon2$chill==1 | taxon2$chilltime==1 | taxon2$field.sample==1, 1, 0)
+taxon2$numcues<-taxon2$force + taxon2$photo + taxon2$chill ## total number of cues manipulated for the complexes
 
+## This loop makes sure the complex is represented in multiple datasets and not just in one dataset (e.g. Zohner et al 2016)
 comps<-unique(taxon2$complex)
 dats<-vector()
 for(i in comps){
@@ -125,6 +128,7 @@ complexlist<-rbind(accept,accept.complex)
 uselist<-filter(complexlist,use=="Y")
 #unique(uselist$complex)
 
+## Brings all the accepted species and accepted complexes together
 accepties<-rbind(accept, accept.complex)
 accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
@@ -139,6 +143,8 @@ sort(unique(bb.wtaxa$complex[bb.wtaxa$use=="Y"]))
 
 bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
 bb.all.wtaxa$use <- NULL
+bb.all.wtaxa$fieldsample.date <- NULL
+bb.all.wtaxa$chilldays <- NULL
 bb.noNA.wtaxa <- bb.all.wtaxa
 bb.noNA.wtaxa$complex.wname <- bb.noNA.wtaxa$complex
 bb.noNA.wtaxa$complex <- as.numeric(as.factor(bb.noNA.wtaxa$complex))

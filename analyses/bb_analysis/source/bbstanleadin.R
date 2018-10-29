@@ -63,8 +63,8 @@ bb.stan.allspp <- bb.expphotoforce
 bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp)
 bb.stan<-sppcomplexfx(bb.stan.allspp)
 
-sort(unique(paste(bb.stan.allspp$genus, bb.stan.allspp$species))) # 181
-sort(unique(paste(bb.stan$genus, bb.stan$species))) # 38 ... but no complexes??
+sort(unique(bb.stan.allphoto$complex.wname)) # 40
+sort(unique(bb.stan$complex.wname)) # 21
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?

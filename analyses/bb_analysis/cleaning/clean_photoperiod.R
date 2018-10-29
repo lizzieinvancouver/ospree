@@ -10,6 +10,8 @@
 # due to increasing sample size
 ### We will have four types: exp (experimental), amb (ambient), ramped (ramped photoperiod growth chamber controlled), none ( no info)
 
+if(is.data.frame(d)){
+
 d$photo_type<-NA
 d$photo_type<-ifelse(d$photoperiod_day=="ambient", "amb", d$photo_type)
 d$photo_type<-ifelse(d$photoperiod_day==""| d$photoperiod_day==" ", "none", d$photo_type) # treated as ambient in below code for imputation
@@ -420,3 +422,9 @@ bas$photoperiod_night<-24-bas$photoperiod_day
 
 d$photoperiod_day[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
+
+} else {
+  print("Error: d not a data.frame")
+}
+
+stop("Not an error, photoperiod is clean. Also, you can ignore the warning message below -- code converts a column to character, but the column is created in a different dataframe that is used and deleted in this source code and should not (that I can imagine) have any other impact.")
