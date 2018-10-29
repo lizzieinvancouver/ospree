@@ -7,7 +7,7 @@ library(dplyr)
 # library(rstanarm)
 
 source('..//stan/savestan.R')
-source("source/speciescomplex.R")
+source("source/speciescomplex.R") # incl. f(x) to remove species with too few or biased experiments
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -25,10 +25,9 @@ source("source/othertreats.R")
 dim(bb.noNA)
 bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 18 March October should delete about 273 rows
 dim(bb.noNA)
-## (3) Deal with species
 d <- bb.noNA
 
-# (4) Get fewer columns for sanity
+# (3) Get fewer columns for sanity
 source("source/commoncols.R")
 bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
 
@@ -42,23 +41,30 @@ bb$chill <- bb$chill/240
 length(unique(bb$datasetID))
 
 # deal with photo
-bb.expphoto <- subset(bb, photo_type=="exp" | photo_type=="none")
+bb.expphoto <- subset(bb, photo_type=="exp")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
-bb.ambphoto <- subset(bb, photo_type=="amb")
+bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 
-#sort(unique(bb.expphoto$genus))
-#sort(unique(bb.rampphoto$genus))
-#sort(unique(bb.ambphoto$genus))
+#sort(unique(bb.expphoto$datasetID))
+#sort(unique(bb.rampphoto$datasetID))
+#sort(unique(bb.ambphoto$datasetID))
 
-###########################################
-# Set the data you want to use as bb.stan #
-###########################################
+# add in forcing
+bb.expphotoforce <- subset(bb, photo_type=="exp" & force_type=="exp")
+
+#################################################################
+# Set the data you want to use as bb.stan and deal with species #
+#################################################################
+
 # currently we use bb.stan.expphoto ...
 bb.stan.allphoto.allspp <- bb
-bb.stan.allspp <- bb.expphoto 
+bb.stan.allspp <- bb.expphotoforce
 
 bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp)
 bb.stan<-sppcomplexfx(bb.stan.allspp)
+
+sort(unique(paste(bb.stan.allspp$genus, bb.stan.allspp$species))) # 181
+sort(unique(paste(bb.stan$genus, bb.stan$species))) # 38 ... but no complexes??
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
