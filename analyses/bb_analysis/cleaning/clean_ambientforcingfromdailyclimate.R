@@ -6,7 +6,7 @@
 #'  Ospree
 #'  started 21 July 2017
 #'  
-#'  This file is unfinished -- need to explicitly incorporate ambient and ambient +1, +4, etc. - Fixed by Cat on 29 Oct 2018
+#'  This file explicitly incorporates ambient and ambient +1, +4, etc. (done by Cat on 29 Oct 2018)
 #'  This file now incorporates ambient using the column 'avg_bbtemp' values for forcetemp when the force_type is ambient
 #'  
 ##############################################################################################################

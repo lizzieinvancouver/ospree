@@ -1,10 +1,13 @@
-## By Cat to double check forcing columns:
-## Find any columns with 'ambient' or non-numerics and fix based on paper if possible
+## By Cat to double check forcing columns and add info ...
+
+## Find any columns with 'ambient' or non-numerics and fix based on paper if possible, also adds force_type column
 ## See also: clean_ambientforcingfromdailyclimate.R
-# Additions by Cat: 29 Oct 2018
-  ### This file now adds a column 'force_type': amb = ambient force temp calculated from climate data in clean_ambientforcingfromdailyclimate.R,
-  ## none = no information about force temp; not enough info = unable to calculate based on information; exp = experimentally manipulated; and 
-  ## ramped = forcetemp was ramped
+
+## 'force_type' options are:
+# amb = ambient force temp calculated from climate data in clean_ambientforcingfromdailyclimate.R
+# none = no information about force temp
+# not enough info = unable to calculate based on information; exp = experimentally manipulated  
+# ramped = forcetemp was ramped (e.g., started at 9 C at start of experiment and ramped to 20 C over XX days)
 
 
 if(is.data.frame(d)){

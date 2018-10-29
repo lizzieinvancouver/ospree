@@ -23,6 +23,7 @@ It:
 5a. sources clean_ambientforcing.R, which cleans the forcing predictor variable
 5b. sources a check of the date of daily climate files used on 5c. (of interest if we update daily climate files after the date listed.) this step may not be necessary in the long term.
 	<><><> This code also adds a new column `force_type' which specifies the method used in the experiment. Types: `amb' = ambient force temp; `exp' = experimentally manipulated forcing; `none' = there was no mention of forcing; `ramped' = force temp was experimentally increased or decreased during the experiment; `not enough info' = there was enough information to accurately calculate force temp
+
 5c. sources clean_ambientforcingfromdailyclimate.R, which extracts ambient temperature data for experiments where we know provenance and time to budburst. This code adds ambient temperate data to the force temp column when force_type = amb
 
 6. sources clean_bbperctodays.R, which transforms %bb to usable for days-only analyses, using a specified target budburst level (i.e. 90%) with surrounding acceptable range with an allowable buffer (i.e., 49.5%); it should delete all rows not within the target range and leave only row per treatment (the one closest to the target). NOTE: If you're doing analyses with % budburst as your response you would want to delete/alter this. 
