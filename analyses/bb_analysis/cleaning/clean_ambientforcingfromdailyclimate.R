@@ -8,7 +8,7 @@
 #'  
 #'  This file explicitly incorporates ambient and ambient +1, +4, etc. (done by Cat on 29 Oct 2018)
 #'  This file now incorporates ambient using the column 'avg_bbtemp' values for forcetemp when the force_type is ambient
-#'  
+#'  This includes ramped data (e.g., "ambient +1" forcing treatments, which are calculated in bb_daily_dataprep.R- the file that creates percbb_dailyclimA-D)
 ##############################################################################################################
 
 #if(FALSE){
