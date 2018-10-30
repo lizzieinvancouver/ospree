@@ -8,15 +8,15 @@ options(stringsAsFactors = FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/lat_analysis")
+  setwd("~/Documents/git/treegarden/budreview/ospree/analyses/bb_analysis") 
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
-  setwd("~/GitHub/ospree/analyses/lat_analysis") 
+  setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/lat_analysis") 
+  setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/lat_analysis") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/lat_analysis")
+  setwd("~/Documents/git/ospree/analyses/bb_analysis") 
+}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 library(rstanarm)
 library(brms)
@@ -33,29 +33,35 @@ options(mc.cores = parallel::detectCores())
 
 source("source/bbstanleadin.R")
 
-bb.wlab <- bb
-bb.wlab <- within(bb.wlab, { prov.lat <- ave(lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-bb.wlab <- subset(bb.wlab, bb.wlab$prov.lat>1) 
-#bb.wlab.photo<- within(bb.wlab, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # multiple photoperiods
-#bb.wlab.photo <- subset(bb.wlab.photo, bb.wlab.photo$photo>1) 
-tt <- table(bb.wlab$complex)### testing 
-#bb.wlab<-bb.wlab.photo
+bb.wlat <- bb.stan
+bb.wlat <- within(bb.wlat, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+bb.wlat <- subset(bb.wlat, bb.wlat$prov.lat>1)  
+tt <- table(bb.wlat$complex.wname)### testing 
+#Acer_saccharum Actinidia_deliciosa     Alnus_glutinosa        Alnus_incana      Betula_pendula 
+#15                  37                  16                  22                 237 
+#Betula_pubescens    Carpinus_betulus    Corylus_avellana     Fagus_sylvatica     Malus_domestica 
+#190                  10                  14                  98                  90 
+#Picea_abies     Populus_tremula        Prunus_padus     Quercus_complex       Quercus_robur 
+#51                  12                  20                  14                   8 
+#Ribes_nigrum       Salix_complex      Sorbus_complex       Tilia_complex       Ulmus_complex 
+#251                  21                  26                  28                 180 
+#Vitis_vinifera 
+#19
 
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Malus_domestica", "Ribes_nigrum", "Ulmus_complex")
-bb.wlab<-subset(bb.wlab, complex%in%myspp)
-
-lat.stan <- subset(bb.wlab, select=c(columnstokeep, "chill.cen", "photo.cen", "force.cen", "lat.cen",
-                                     "force.z","chill.z", "photo.z", "lat.z"))
+myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Malus_domestica", "Ribes_nigrum", "Ulmus_complex")
+bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
 
 #write.csv(lat.stan, "lat_output/lat_arm.csv", row.names = FALSE)
-lat.stan<-subset(lat.stan, lat.stan$resp<600)
+lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
+
+lat.stan$lat.z <- (lat.stan$provenance.lat-mean(lat.stan$provenance.lat,na.rm=TRUE))/sd(lat.stan$provenance.lat,na.rm=TRUE)
 
 lat.cen<- brm(resp ~ (force.z + photo.z + chill.z + lat.z + 
                                 force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
                                   photo.z:lat.z + chill.z:lat.z)+ 
                         ((force.z + photo.z + chill.z + lat.z + 
                             force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
-                            photo.z:lat.z + chill.z:lat.z)|complex), data = lat.stan, chains = 2)
+                            photo.z:lat.z + chill.z:lat.z)|complex), data = lat.stan)
 
 
 #### Interaction Plots ######
