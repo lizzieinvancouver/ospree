@@ -38,8 +38,10 @@ points(doys[2],daylength(22.5,doys[2]), pch=21,bg=cols[2], cex=1.1)
   
 #}
 #add shifts
-#In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2006)- this is a low end
-#in 100 years, spatial shifts observed =0.5 degrees poleward (Parmesan)
+#In 100 years, with temporal shifts earlier 3 days per decade (30 days total) as has been observed (Parmesan 2003)- this is a low end
+#in 100 years, spatial shifts observed = 6.1 km per decade or 61km per century or 0.5 degrees poleward (Parmesan) (#111km per degree of latitude)
+  #chen: 16.9 km per decade or 169 km per century
+
 lat.shift<-0.5
 temp.shift<-30
 #for(i in 1:length(lats)){
