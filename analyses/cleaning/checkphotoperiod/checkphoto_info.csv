@@ -19,16 +19,30 @@ pettersen71_exp1,59.66,10.77,6,24-Oct,CC,Y,N,
 spann04_exp1,29.67,-82.35,,,CC,Y,NA,NA
 worrall67_exp 3,41.31,-72.93,2,16-Aug,CC,Y,Y,no budburst occurred if no chilling and short days
 zohner16_Exp1,48.16,11.5,2,16-Aug,CC,Y,Y,"longer days reduced the number of days to budburst, especially when there was little or no chilling. Some species needed long days (Fagus sylvatica, Fagus crenata, Fagus orientalis, and Carya cordiformis) to reduce the number of days to budburst even with long chilling treatment"
-basler14_exp1,46.31,8.27,3,9.2-16,DB,,,
-falusi96_exp3,38.27,15.99,2,13-Sep,DB,,,
-heide05_exp1,56.18,-4.32,2,24-Oct,DB,,,
-heide93_exp1,59.5,10.77,2,24-Aug,DB,,,
-heide93a_exp1,59.67,10.83,6,24-Aug,DB,,,
-heide93a_exp3,47.5,7.6,6,13-16,DB,,,
-linkosalo06_exp1,60.17,24.95,,,DB,,NA,NA
-okie11_exp1,32.12,-83.12,2,0-12,DB,,,
-ruesink98_exp2,52.07,4.65,,,DB,,NA,NA
-thielges75_exp1,NA,NA,,,DB,,NA,NA
+basler14_exp1,46.31,8.27,3,9.2-16,DB,Y,Y,"""Similarly, the later bud burst was controlled by temperature and photoperiod (in the photoperiod sensitive species
+Fagus, Quercus and Picea). We conclude that photoperiod is involved in the release of dormancy during the ecodormancy
+phase and may infuence bud burst in trees that have experienced suffcient chilling."
+falusi96_exp3,38.27,15.99,2,13-Sep,DB,Y,Y,"""The interaction chilling x long day indicates that LD is able to partially substitute winter chilling
+and that once the need for removal of dormancy has been satisfied, temperature is presumably the
+principal environmental factor that controls sprouting."""
+heide05_exp1,56.18,-4.32,2,24-Oct,DB,Y,Y/N,"""photoperiod had no significant
+effect on elongation growth in either cultivar (P > 0.05). There
+was a significant temperature _ photoperiod interaction on
+
+elongation growth in cultivar ÔB9Õ(P < 0.05),"""
+heide93_exp1,59.5,10.77,2,24-Aug,DB,Y,Y,Long days reduced the thermal time to budburst in all flushing species except Sorbus acuparia and Rubus ideaus
+heide93a_exp1,59.67,10.83,6,24-Aug,DB,Y,Y,"""With increasing duration of outdoor chilling
+(successive intake dates) an increasing number of shoots
+(cuttings) were again able to sprout in LD, and in
+March all buds burst within two weeks. In SD on the
+other hand, no budburst took place until February, and
+
+even in fully chilled buds from the March intake,"
+heide93a_exp3,47.5,7.6,6,13-16,DB,Y,Y,Day length important in Fagus but not closely related Carpinus sp
+linkosalo06_exp1,60.17,24.95,,,DB,N,NA,NA
+okie11_exp1,32.12,-83.12,2,0-12,DB,Y,Y,"light vs dark (not true photoperiod persay, but budburst adnvanced in the light"
+ruesink98_exp2,52.07,4.65,,,DB,Y,NA,"NA (response variable is percent twigs with buds, but cleaned in bbdataplease.R)"
+thielges75_exp1,NA,NA,,,DB,Y,NA,"NA, same photoperiod (16hrs) in all treatments"
 caffarra11b_exp2,52.32,-6.93,4,16-Oct,EMW,Y,Y,"""During the forcing phase, budburst was promoted by photoperiods above a critical threshold, which was not constant, but decreased upon longer chilling exposures."" Note that there was no effect of photoperiod during chilling treatment."
 ghelardini10_exp1,43.72,11.37,2,16-Aug,EMW,Y,N,"""Photoperiod had no effect on dormancy release, and there was no evidence that photoperiod affected bud burst during quiescence in the studied elm clones.""."
 heide08_exp1,48.4,11.72,2,24-Oct,EMW,"Y (as best I can tell, a LOT of data)",Y,"""Growth rates increased progressively with increasing temperature under long day (LD) conditions in all species, and this was associated with increased internode length in LD compared with SD conditions. """
