@@ -37,7 +37,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-
+use.allspp = TRUE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this (below) file
@@ -149,6 +149,9 @@ if(use.pep){
 save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelpepspp.Rda")
 }
 
+if(use.allspp){
+save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.allspp.Rda")
+}
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
@@ -179,8 +182,13 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz.Rda")
 }
 
 if(use.pep){
-save(m2l.ni, file="stan/output/M1_daysBBwinter_2levelpepspp.Rda")
+save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelpepspp.Rda")
 }
+
+if(use.allspp){
+save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
+}
+
 
 
 ##

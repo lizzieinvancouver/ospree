@@ -50,7 +50,7 @@ bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 #sort(unique(bb.ambphoto$datasetID))
 
 # add in forcing
-bb.expphotoforce <- subset(bb, photo_type=="exp" & force_type=="exp")
+bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
 #################################################################
 # Set the data you want to use as bb.stan and deal with species #
@@ -61,7 +61,17 @@ bb.stan.allphoto.allspp <- bb
 bb.stan.allspp <- bb.expphotoforce
 
 bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp)
-bb.stan<-sppcomplexfx(bb.stan.allspp)
+
+if(use.allspp){
+    bb.stan <- bb.stan.allspp
+    bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
+    allspp <- data.frame(latbi=unique(bb.stan$latbi), complex=seq(1:length(unique(bb.stan$latbi))))
+    bb.stan <- merge(bb.stan, allspp, by="latbi")
+}
+    
+if(!use.allspp){
+    bb.stan <- sppcomplexfx(bb.stan.allspp)
+}
 
 sort(unique(bb.stan.allphoto$complex.wname)) # 40
 sort(unique(bb.stan$complex.wname)) # 21
@@ -88,6 +98,8 @@ datalist.bb <- with(bb.stan,
                          n_sp = length(unique(bb.stan$complex))
                     )
 )
+
+
 
 ## real data with only experimental chilling (no field chilling)
 #osp.td3 = stan('stan/nointer_2level.stan', data = datalist.td,
