@@ -51,3 +51,12 @@ model {
 	y ~ normal(yhat, sigma_y);
 
 }
+
+generated quantities{
+   real y_ppc[N];
+   for (n in 1:N)
+      y_ppc[n] = a_sp[sp[n]] + // indexed with species
+		b_force * force[n] + 
+	      	b_photo * photo[n] +
+		b_chill * chill[n];
+}

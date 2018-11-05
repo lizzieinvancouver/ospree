@@ -83,3 +83,15 @@ model {
 
 }
 
+generated quantities{
+   real y_ppc[N];
+   for (n in 1:N)
+      y_ppc[n] = a_sp[sp[n]] + 
+		b_force[sp[n]] * force[n] + 
+	      	b_photo[sp[n]] * photo[n] +
+		b_chill[sp[n]] * chill[n] +
+                b_cf *  inter_cf[n] +
+                b_cp * inter_cp[n] +
+                b_fp * inter_fp[n];
+
+}
