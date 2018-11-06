@@ -167,10 +167,13 @@ d$forcetemp[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fi
   d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]
 d$irradiance[which(d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig3")]<-c("24","24","24","16","16","16","8","8","8")
 
-#skuterud94 has incorrect daylength for some rows (all should be 8; currently some are 24)
+#skuterud94 has incorrect daylength for some rows (all should be 8; currently some are 24). Also add note that night irradiance was 5micromol par
 d$photoperiod_day[which(d$datasetID=="skuterud94")]<-"8"
 d$photoperiod_night[which(d$datasetID=="skuterud94")]<-"16"
-
+d$irradiance[which(d$datasetID=="skuterud94")]<-"natural daylight supplemented with 125, night= 5"
+d$irradiance.units[which(d$datasetID=="skuterud94")]<-"micromol m_2 s_1"
 #myking97 has incorrect daylength for some rows (all should be 12; currently some are 24)
 d$photoperiod_day[which(d$datasetID=="myking97")]<-"12"
 d$photoperiod_night[which(d$datasetID=="myking97")]<-"12"
+d$irradiance[which(d$datasetID=="myking97")]<-"night=5"
+d$irradiance.units[which(d$datasetID=="myking97")]<-"micromol m_2 s_1"
