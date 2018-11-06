@@ -37,7 +37,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = TRUE
+use.allspp = FALSE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this (below) file
@@ -115,12 +115,36 @@ datalist.bb <- with(bb.stan,
 ## Main models as of July 2018 ##
 ##################################
 
+# Try intercept only ... 
+if(use.allspp){
+m2l = stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
+               iter = 2500, warmup=1500)
+
+betas.m2l <- as.matrix(m2l, pars = c("b_force",
+    "b_photo", "b_chill"))
+m2l.sum <- summary(m2l)$summary
+m2l.sum[grep("b_force", rownames(m2l.sum)),] 
+save(m2l, file="stan/output/M1_daysBBintonly.allspp.Rda")
+
+y_pred <- extract(m2l, 'y_ppc')
+par(mfrow=c(1,2))
+hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="Group intercept only")
+hist(y_pred[[1]], xlab="PPC response time", main="")
+
+}
+
 ########################################################
 # real data on 2 level model (sp) with no interactions 
 # Note the notation: M1_daysBBnointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) 
+               iter = 2500, warmup=1500)
+
+y_pred <- extract(m2l.ni, 'y_ppc')
+par(mfrow=c(1,2))
+hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="No intxn model")
+hist(y_pred[[1]], xlab="PPC response time", main="")
+
 
 betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill"))
@@ -165,6 +189,13 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinternosp_2level.Rda")
 m2l.winsp.sum <- summary(m2l.winsp)$summary 
 m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
     "b_cf","b_cp","b_fp"),]
+
+if(FALSE){
+y_pred <- extract(m2l.winsp, 'y_ppc')
+par(mfrow=c(1,2))
+hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="With intxn model")
+hist(y_pred[[1]], xlab="PPC response time", main="")
+}
 
 # Sep 2018 -- a: 79; f: -1.4; p: 0.04; c: -5.2, small intxns (all <0.15) # need to check model
 # before Sep 2018 -- a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # (low n_eff for some params, a whole mix of them!)

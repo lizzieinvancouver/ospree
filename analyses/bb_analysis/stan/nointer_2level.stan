@@ -64,3 +64,14 @@ model {
 	y ~ normal(yhat, sigma_y);
 
 }
+
+generated quantities{
+   real y_ppc[N];
+   for (n in 1:N)
+      y_ppc[n] = a_sp[sp[n]] + 
+		b_force[sp[n]] * force[n] + 
+	      	b_photo[sp[n]] * photo[n] +
+		b_chill[sp[n]] * chill[n];
+      // y_ppc = normal_rng(y_ppc, sigma_y);
+
+}
