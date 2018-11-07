@@ -49,9 +49,9 @@ heide08_exp1,48.4,11.72,2,24-Oct,EMW,"Y (as best I can tell, a LOT of data)",Y,"
 morin10_exp1,52.53,14.73,,,EMW,N,NA,NA
 partanen01_exp1,61.93,26.68,2,16-Jun,EMW,Y,Y,This is probably why we have weird results for Picea abies! They compare lengthening photoperiod (starting at 6 hours and getting LONGER); shortening photoperiod (starting at 16 h and getting SHORTER) and constant and they find that SHORTENING photoperiod advances budburst. Which is just WEIRD.
 Sanz-Perez09_exp1,40.4,-3.48,2,16-Oct,EMW,N,Y,"Two spp studied: no big photo effect on Quercus ilex, but for Q. faginea ""where the longer the daylength, the earlier the date of budburst at all temperatures"""
-cronje03_exp1,-33.08,19.4,,,IM,,NA,NA
-guerriero90_exp3,43.71,10.33,,,IM,,NA,NA
-heide11_exp1,59.67,10.67,2,20-Oct,IM,,N,There are effects of photoperiod but on growth and on leaf increment
-myking95_exp1,56.1,9.15,2,24-Aug,IM,,Y,Significant effects of photoperiod on B. pubescens and B. pendula
-partanen05_exp1,61.82,29.32,4,10-May,IM,,Y,The effects of photoperiod are significant on young twigs (15 years) but not on old trees (56 years)
-schnabel87_exp1,46.21,-119.77,,,IM,,NA,NA
+cronje03_exp1,-33.08,19.4,,,IM,Y,NA,NA
+guerriero90_exp3,43.71,10.33,,,IM,Y,NA,NA
+heide11_exp1,59.67,10.67,2,20-Oct,IM,Y,N,"There are significant effects of photoperiod on growth and on leaf increment, more so at higher forcing temperatures (15C and 21C, rather than at 9C)"
+myking95_exp1,56.1,9.15,2,24-Aug,IM,Y,Y,Significant effects of photoperiod on BB of  B. pubescens and B. pendula. Photoperiod effects are more significant at lower latitudes and under a shorter duration of chilling
+partanen05_exp1,61.82,29.32,4,10-May,IM,Y,Y,The effects of photoperiod on percent budburst are significant on young twigs (15 years) but not on old trees (56 years): budburst percent increases with increasing photoperiod
+schnabel87_exp1,46.21,-119.77,,,IM,N,NA,NA
