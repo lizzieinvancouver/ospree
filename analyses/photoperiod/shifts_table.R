@@ -57,7 +57,7 @@ photop_all$numtreats[photop_all$idstudylatlong=="viheraaarnio06__60.45_24.93"]<-
 photop_all$daylength_maxfordelta[photop_all$numtreats==2]<-photop_all$daylength_max[photop_all$numtreats==2]#studies with only 2 treatments
 
 for (i in 1:length(photop_all$alltreats[photop_all$numtreats>2])){
-  photop_all$daylength_maxfordelta[photop_all$numtreats>2][i]<-strsplit(photop_all$alltreats[photop_all$numtreats>2], ",")[[i]][2]#select second photopoeriod treatment for each row
+  photop_all$daylength_maxfordelta[photop_all$numtreats>2][i]<-strsplit(photop_all$alltreats[photop_all$numtreats>2],",")[[i]][2]#select second photopoeriod treatment for each row
 }
 photop_all$daylength_maxfordelta<-as.numeric(photop_all$daylength_maxfordelta)
 photop_all$delta<-photop_all$daylength_maxfordelta-photop_all$daylength_min
@@ -124,10 +124,18 @@ for(i in 1:length(photop_all$lat)){
     }
   }
 }
-
+#warnings ok
 #sort by idstudy
 photop_all<-photop_all[order(photop_all$idstudy),]
 
+#Add column for whether or not photo effect sig
+efftab2<-subset(efftab, select=c(idstudy,photo.effect))
+#remove NAs
+efftab2<- efftab2[apply(efftab2 , 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+#merge with photop_all
+photop_all2<-full_join(photop_all,efftab2, by=c("idstudy"), match="all")
+
+#length(which(photop_all2$photo.effect=="Y"))
+#summary(photop_all2$photo.effect)
 #To do:
-#1) Three studies have a max NA and a min NA- these look reasonable so add them with an *
-#2) 
+#1) 2 studies have a max NA and a min NA- these look reasonable so add them with an *
