@@ -4,11 +4,15 @@
 // Level: Species (actually genus) on INTERCEPTS and SLOPES
 // This model has interactions! The two-way type but it does not have species grouping on them!
 
+/* Our PPC does not look good for overall ypred
+   Other distributions we could try: gamma, but then we cannot have zero (could do hurdle with gamma)
+   Or treat the data as integers and fit a negative binomial, as I try below. */
+
 data {
 	int<lower=1> N;
 	int<lower=1> n_sp;
 	int<lower=1, upper=n_sp> sp[N];
-	vector[N] y; 		// response
+	int y[N]; 		// response
 	vector[N] chill; 	// predictor
 	vector[N] force; 	// predictor
 	vector[N] photo; 	// predictor
@@ -66,20 +70,20 @@ model {
 	b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp); 
 	b_chill ~ normal(mu_b_chill_sp, sigma_b_chill_sp); 
        
-        mu_a_sp ~ normal(0, 50);
+        mu_a_sp ~ normal(60, 50);
         sigma_a_sp ~ normal(0, 10);
 	b_cf ~ normal(0, 10);
 	b_cp ~ normal(0, 10);
-	b_fp ~ normal(0, 30);
+	b_fp ~ normal(0, 10);
 
-        mu_b_force_sp ~ normal(0, 50);
+        mu_b_force_sp ~ normal(0, 10);
         sigma_b_force_sp ~ normal(0, 10);
-        mu_b_photo_sp ~ normal(0, 50);
+        mu_b_photo_sp ~ normal(0, 10);
         sigma_b_photo_sp ~ normal(0, 10);
-        mu_b_chill_sp ~ normal(0, 50);
-        sigma_b_chill_sp ~ normal(0, 10);
+        mu_b_chill_sp ~ normal(0, 10);
+        sigma_b_chill_sp ~ normal(0, 15);
 
-	y ~ normal(yhat, sigma_y);
+	y ~ neg_binomial_2_log(yhat, sigma_y);// 
 
 }
 

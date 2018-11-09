@@ -72,6 +72,7 @@ generated quantities{
 		b_force[sp[n]] * force[n] + 
 	      	b_photo[sp[n]] * photo[n] +
 		b_chill[sp[n]] * chill[n];
-      // y_ppc = normal_rng(y_ppc, sigma_y);
+    for (n in 1:N)
+      y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
 
 }

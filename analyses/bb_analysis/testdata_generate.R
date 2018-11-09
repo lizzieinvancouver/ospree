@@ -23,7 +23,7 @@ nsp = 20 # number of species
 ntot = 50 # numbers of obs per species. 
 
 #  with species  (note to self: This is not the best, better to draw from a distribution)
-baseinter <- 20 # baseline intercept (days to BB) across all species
+baseinter <- 60 # baseline intercept (days to BB) across all species
 spint <- baseinter + c(1:nsp)-mean(1:nsp) # different intercepts by species
 
 # now start building ...
@@ -66,8 +66,9 @@ for(i in 1:nsp){ # loop over species. i = 1
              rnorm(1, forcecoef, forcecoef.sd),
              rnorm(1, photocoef, photocoef.sd)
              )
-  
-    bb <- rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
+
+    meanhere = mm %*% coeff
+    bb <- rpois(ntot, meanhere) # rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
   
     testdatx <- data.frame(bb, sp = i, 
                       chill, force, photo)

@@ -23,9 +23,9 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 
 # source('stan/savestan.R')
 rstan_options(auto_write = TRUE)
-# options(mc.cores = parallel::detectCores())
+options(mc.cores = parallel::detectCores())
 
-source("bb_testdata_generate.R")
+source("testdata_generate.R")
 
 ##########################################################
 # Model with no interactions; intercept only for grouping 
@@ -49,11 +49,42 @@ datalist.td <- with(testdat,
          )
 )
 
-osp.td <- stan('..//stan/bb/M1_daysBBnointer_2level_interceptonly.stan', data = datalist.td, 
-                 iter = 100
-                  ) 
+osp.td <- stan('stan/winternosp_2level.stan', data = datalist.td, 
+                 iter = 2000, chains=4
+                  ) # some divergent transitions, but returns the correct hyperparameters
+
+# Random efforts in progress ... 
+if(FALSE){
+osp.td <- stan('stan/winternosp_2level_poisson.stan', data = datalist.td, # winternosp_2level.stan
+                 iter = 500, chains=4
+                  )
+osp.td <- stan('stan/winternosp_2level_negbin.stan', data = datalist.td,
+                 iter = 500, chains=4
+                  )
+# CP: negbin: 166 divergent, all chains FLAT
+# NCP: negbin: 64 div trans, all chains FLAT
+# CP: poisson won't even run
+testdat$bb.int <- round(testdat$bb) 
+library(brms)
+try <- brm(bb.int~force + photo + chill + (1|sp), data=testdat, family="negbinomial")
+library(rethinking)
+d <- with(testdat, 
+    list(y = round(bb), 
+         chill = as.numeric(chill)
+         )
+)
+
+m3 <- map2stan(
+alist(y ~ dpois(theta),
+        theta <- a + chill_sp*chill,
+        a ~ dnorm(50,20),
+        chill_sp~ dnorm(0,10)),
+    data=d, chains=2, iter=500, cores=1)
+}
 
 summary(osp.td)
+print(osp.td, pars = c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "mu_a_sp", "sigma_a_sp", "sigma_y"))
+
 print(osp.td, pars = c("b_force", "b_photo", "b_chill", "mu_a_sp", "sigma_a_sp", "sigma_y"))
 
 betas <- as.matrix(osp.td, pars = c("b_force", "b_photo", "b_chill"))

@@ -35,9 +35,10 @@ if(length(grep("lizzie", getwd())>0)) {
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 # dostan = TRUE
+options(mc.cores = parallel::detectCores())
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = FALSE
+use.allspp = TRUE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this (below) file
@@ -48,6 +49,8 @@ use.pep = FALSE # change to TRUE to use only commmon PEP 725 spp.
 
 # Below not currently used ... but we may want someday
 cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia 
+
+# plot(ecdf(bb.stan$resp))
 
 #########################
 ## For PEP 725 species ##
@@ -82,6 +85,22 @@ datalist.bb <- with(bb.stan,
 )
 
 }
+
+if(FALSE){
+datalist.bb <- with(bb.stan, 
+                    list(y = round(resp), 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
+m2l.winsp.nb = stan('stan/winternosp_2level_negbin.stan', data = datalist.bb,
+               iter = 4000, warmup=2500) # gazillion 
+    }
 
 ########################
 ## Z-scored data here ##
@@ -128,8 +147,8 @@ save(m2l, file="stan/output/M1_daysBBintonly.allspp.Rda")
 
 y_pred <- extract(m2l, 'y_ppc')
 par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="Group intercept only")
-hist(y_pred[[1]], xlab="PPC response time", main="")
+hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
+hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
 
 }
 
@@ -142,8 +161,8 @@ m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
 
 y_pred <- extract(m2l.ni, 'y_ppc')
 par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="No intxn model")
-hist(y_pred[[1]], xlab="PPC response time", main="")
+hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
+hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 
 betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
@@ -193,8 +212,8 @@ m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
 if(FALSE){
 y_pred <- extract(m2l.winsp, 'y_ppc')
 par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=20, xlab="real data response time", main="With intxn model")
-hist(y_pred[[1]], xlab="PPC response time", main="")
+hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
+hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="With intxn model")
 }
 
 # Sep 2018 -- a: 79; f: -1.4; p: 0.04; c: -5.2, small intxns (all <0.15) # need to check model
