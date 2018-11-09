@@ -63,6 +63,16 @@ lat.cen<- brm(resp ~ (force.z + photo.z + chill.z + lat.z +
                             force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
                             photo.z:lat.z + chill.z:lat.z)|complex), data = lat.stan)
 
+lat.stan$resp.p<-as.integer(lat.stan$resp)
+
+lat.cen.poisson<- brm(resp.p ~ (force.z + photo.z + chill.z + lat.z + 
+                        force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
+                        photo.z:lat.z + chill.z:lat.z)+ 
+                ((force.z + photo.z + chill.z + lat.z + 
+                    force.z:photo.z + force.z:chill.z + photo.z:chill.z + force.z:lat.z + 
+                    photo.z:lat.z + chill.z:lat.z)|complex), data = lat.stan, chains=2,
+                family=poisson(), cores=2, iter = 4500, warmup=2500, prior=prior(normal(0,1), class="b"))
+
 
 #### Interaction Plots ######
 cols <- colorRampPalette(brewer.pal(9,"Set1"))(6)
