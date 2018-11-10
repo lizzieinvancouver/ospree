@@ -66,14 +66,13 @@
 Recent warming temperatures have brought about temporal shifts biological activity,such as spring budburst and fall senescence, as well as spatial shifts in species' distributions. These temporal and spatial shifts are expected to continue with future warming, and will alter the photoperiod experienced by diverse species. To date, photoperiod has not been a focus of climate change forecasting, despite the fact that photoperiod responses are common (observed in 26/31 or 84\% of studies that manipulated photoperiod in woody plant species ). We argue that temporal shifts are expected to have a major impact on experienced photoperiod, so additional testing of the importance of photoperiod to phenology and adding it to forecasts of biological shifts should be a major goal. We also find that current experiments often go well beyond the expected spatial and temporal shifts of climate change. However, there are studies with treatments that seem to overlap with potential shifts and therefore appear relevant forecasting biological impacts of climate change. We highlight outstanding questions that are in need of study and possible modelling approaches to improve predictions of when, where, and how much photoperiod is likely to affect future phenology.
 
 \section*{Introduction}
-\par  Photoperiod is a critical cue for woody plants, signalling changes to their activities, such as photosynthesis, growth, reproduction, dormancy, and senescence \citep[e.g.,][]{Howe:1996,lagercrantz2009}. Photoperiod is used by plants to synchronize their activities with seasonal climatic changes \citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012} because it is consistent across years, especially compared to other seasonal cues such as temperature and precipition \citep{saikkonen2012}. 
-. For example, relying on photoperiod, rather than temperature alone, may prevent plants from leafing out during ``false spring" events (unusually warm periods during winter that are followed by a return of cold temperatures). %Cat- could you add one or more relevant references about false springs? 
+\par  Photoperiod is a critical cue for woody plants, signalling changes to their activities, such as photosynthesis, growth, reproduction, dormancy, and senescence \citep[e.g.,][]{Howe:1996,lagercrantz2009}. Photoperiod is used by plants to synchronize their activities with seasonal climatic changes \citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012} because it is consistent across years, especially compared to other seasonal cues such as temperature and precipition \citep{saikkonen2012}. For example, relying on photoperiod, rather than temperature alone, may prevent plants from leafing out during ``false spring" events (unusually warm periods during winter that are followed by a return of cold temperatures). %Cat- could you add one or more relevant references about false springs? 
 
 \par We know that photoperiod is an important cue for woody plant phenology, largely through growth chamber experiments.  These experiments often manipulate photoperiod in combination with temperature to address basic questions about how these to environmental drivers act as biological cues. Air temperature has a dual role in regulating phenology: chilling, the prolonged exposure to cold temperatures, after growth cessation in the fall, that is required to break dormancy within the bud; and forcing, prolonged exposure to warm temperatures that ia required for bud burst or flowering to occur. Chilling and forcing temperatures are therefore often altered in addition to photoperiod in growth chamber experiments \citep[e.g.,][]{Campbell:1975aa,HEIDE:1977aa,Falusi:1990aa,Spann:2004aa,Laube:2014a}. Growth chamber studies have been conducted for decades, revealing wide variation sensitivity to photoperiod, chilling, and forcing across populations and species, but have only recently been synthesized (cite our paper).
  
 
 \par Despite the fact that photoperiod is known to be an important cue for plant activity, it is often not included in forecasts of biological responses to climate change (but see Despuite et al), which generally focus on temperature.
-The exclusion of photoperiod may be problematic because, although photoperiod itself is stable over time, the photoperiod that species \emph{experience}, as they undergo climate change-induced shifts in space and time, is likely to be much less stable. With recent warming, many species have shifted their distributions poleward and upward in elevation \citep[][i.e., range shifts]{parmesan2006, chen2011,harsch2009})), and/or shifted their activity earlier in the year \citep[][i.e., phenological shifts]{parmesan2006, wolkovich2012}. These spatial and temporal shifts will alter the photoperiod regime experienced by organisms. 
+The exclusion of photoperiod may be problematic because, although photoperiod itself is stable over time, the photoperiod that species \emph{experience}, as they undergo climate change-induced shifts in space and time, is likely to be much less stable. With recent warming, many species have shifted their distributions poleward and upward in elevation \citep[i.e., range shifts][]{parmesan2006, chen2011,harsch2009})), and/or shifted their activity earlier in the year \citep[i.e., phenological shifts][]{parmesan2006, wolkovich2012}. These spatial and temporal shifts will alter the photoperiod regime experienced by organisms. 
 %chilling: (a critical amount of cold temperatures that must be experienced to break dormancy)
 % forcing: (a critical amount of warm temperatures),
 \par Here, we ask: 
@@ -90,8 +89,8 @@ The exclusion of photoperiod may be problematic because, although photoperiod it
 \section*{Are photoperiod responses common in woody plants?}
 
 \par Growth chamber experiments suggest that photoperiod responses are common in woody plant species. Thirty-one of the 85 studies in the OSPREE database included two or more different photoperiod treatments. Of these, 26 (84\%) found significant photoperiod main effects or significant interactive effects with temperature (Table \ref{table:phototreats}). Main effects included responses such as growth \citep[e.g., higher growth rates with longer days ][]{Ashby:1962aa}, onset of dormancy \citep[e.g., more rapid induction of budset with shorter days][]{Howe:1995aa}, and reproduction \citep[e.g., increased flowering with longer days ][]{Heide:2012aa}. 
-\par Growth chamber experiments highlight that responses to photoperiod are nonlinear in many cases  (Figure \ref fig:photocurve). In addition, photosensitivity frequently involves interactions with temperature. For example, more rapid advancement of budburst was observed under long versus short days with low chilling, than with high chilling \citep{Hawkins:2012}. 
-\par Growth chamber experiments demonstrate that, though photoperiod responses are common, they are variable (Figure \ref fig:photocurve). Responses to photoperiod, either alone or interactively with temperature, commonly differ by species and population or ecotype \citep[e.g.,][]{Howe:1996,Basler:2012, Basler:2014aa,zohner2016,flynn2018}. Should we go into more detail- call out some specific examples here?
+\par Growth chamber experiments highlight that responses to photoperiod are nonlinear in many cases  (Figure \ref {fig:photocurve}). In addition, photosensitivity frequently involves interactions with temperature. For example, more rapid advancement of budburst was observed under long versus short days with low chilling, than with high chilling \citep{Hawkins:2012}. 
+\par Growth chamber experiments demonstrate that, though photoperiod responses are common, they are variable (Figure \ref{fig:photocurve}). Responses to photoperiod, either alone or interactively with temperature, commonly differ by species and population or ecotype \citep[e.g.,][]{Howe:1996,Basler:2012, Basler:2014aa,zohner2016,flynn2018}. Should we go into more detail- call out some specific examples here?
 
 \section*{How will climate change alter the photoperiod experienced by organisms?}
 \par Species experience different photoperiod regimes depending on their location in space and the seasonal timing of their activity. Spring green-up date, for example, varies with latitude, occurring earlier toward the equator and later toward the poles (Figure \ref{fig:greenup}a). Athough this general pattern is consistent across years (Figure \ref{fig:greenup}b), there is spatiotemporal variation. A year that results in early green-up at 35\degree, for instance, may not be an early year at 50\degree latitude (Figure \ref{fig:greenup}c).
@@ -181,7 +180,7 @@ source("../../analyses/photoperiod/shifts_table.R")
 photop_table<-subset(photop_all2, select=c(idstudy, continent,lat, long,photo.effect,daylength_range,delta,space,time))
 colnames(photop_table)[5:6]<-c("effect","day_range")
 photop.table<-xtable(photop_table,digits=2,
-  caption="\\textbf{Growth chamber experiments and their photoperiod treatments}, compared to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.",label="table:phototreats",align=c(
+  caption="\\textbf{Growth chamber experiments and their photoperiod treatments}. We note whether or not photoperiod had a significant effect (`effect' column) and compared treatments to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.",label="table:phototreats",align=c(
                 "|p{0.01\\textwidth}",            
                 "|p{0.18\\textwidth}",
                 "|p{0.15\\textwidth}",
@@ -209,6 +208,15 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 \caption{\textbf{The photoperiod on the green up date (start of spring) varies over space} and among years. Hours of daylight on the date of spring green up from MODIS satilite data across North America and Europe for an average (2009, a) and  early (2012,b) North American start of spring. The differences between the years are shown in (c). }
  \label{fig:greenup}%
  \end{figure}
+
+
+\begin{figure}[p]
+\centering
+\includegraphics{/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
+\caption{\textbf{Photoperiod varies with latitude and throughout the year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes, using hypothetical rates of spatial and temporal shifts: 30 days earlier for temporal shifts, and 0.5 degrees poleward for spatial shifts. These shifts, which are similar to observed average rates \citep[e.g.,][]{parmesan2006,chen2011}, highlight the greater magnitude in daylength changes close to the equinox (e.g., DOY 91), versus close to the summer solcstice (e.g., DOY 182).}
+ \label{fig:spacetime}%
+ \end{figure}
+ 
 \begin{figure}[p]
 \centering
 \includegraphics{/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod/figures/ospree_photopmap.pdf} 
@@ -218,14 +226,6 @@ print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placem
 
 
  
-\begin{figure}[p]
-\centering
-\includegraphics{/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
-\caption{\textbf{Photoperiod varies with latitude and throughout the year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes, using hypothetical rates of spatial and temporal shifts: 30 days earlier for temporal shifts, and 0.5 degrees poleward for spatial shifts. These shifts, which are similar to observed average rates \citep[][e.g.,]{parmesan2006,chen2011}, highlight the greater magnitude in daylength changes close to the equinox (e.g., DOY 91), versus close to the summer solcstice (e.g., DOY 182).}
- \label{fig:spacetime}%
- \end{figure}
- 
-
  
 \begin{figure}[p]
 \includegraphics{/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod/figures/2D_fagus_actual.png} 
