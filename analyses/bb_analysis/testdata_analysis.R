@@ -38,8 +38,9 @@ fixef(lme1)
 
 ##
 # try the model (intercept only)
+# continous y data, centered preds
 datalist.td <- with(testdat, 
-    list(y = bb, 
+    list(y = bb, # bbint 
          chill = as.numeric(chill), 
          force = as.numeric(force), 
          photo = as.numeric(photo),
@@ -49,44 +50,18 @@ datalist.td <- with(testdat,
          )
 )
 
-osp.td <- stan('stan/winternosp_2level.stan', data = datalist.td, 
+# Start on our normal distribution models 
+osp.td <- stan('stan/nointer_2level.stan', data = datalist.td, 
                  iter = 2000, chains=4
-                  ) # some divergent transitions, but returns the correct hyperparameters
+                  ) # seems good!
 
-# Random efforts in progress ... 
-if(FALSE){
-osp.td <- stan('stan/winternosp_2level_poisson.stan', data = datalist.td, # winternosp_2level.stan
-                 iter = 500, chains=4
-                  )
-osp.td <- stan('stan/winternosp_2level_negbin.stan', data = datalist.td,
-                 iter = 500, chains=4
-                  )
-# CP: negbin: 166 divergent, all chains FLAT
-# NCP: negbin: 64 div trans, all chains FLAT
-# CP: poisson won't even run
-testdat$bb.int <- round(testdat$bb) 
-library(brms)
-try <- brm(bb.int~force + photo + chill + (1|sp), data=testdat, family="negbinomial")
-library(rethinking)
-d <- with(testdat, 
-    list(y = round(bb), 
-         chill = as.numeric(chill)
-         )
-)
-
-m3 <- map2stan(
-alist(y ~ dpois(theta),
-        theta <- a + chill_sp*chill,
-        a ~ dnorm(50,20),
-        chill_sp~ dnorm(0,10)),
-    data=d, chains=2, iter=500, cores=1)
-}
-
-summary(osp.td)
+# summary(osp.td)
 print(osp.td, pars = c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "mu_a_sp", "sigma_a_sp", "sigma_y"))
 
 print(osp.td, pars = c("b_force", "b_photo", "b_chill", "mu_a_sp", "sigma_a_sp", "sigma_y"))
 
+# Need to update code below to run on current versions of rstan and related packages
+if(FALSE){ 
 betas <- as.matrix(osp.td, pars = c("b_force", "b_photo", "b_chill"))
 mcmc_intervals(betas)
 
@@ -101,6 +76,118 @@ siga_and_prior <- cbind(
   posterior = siga_draws[, 1]
 )
 mcmc_areas(siga_and_prior) 
+}
+
+# poisson version, centered preds still
+datalist.tdint <- with(testdatp, 
+    list(y = bb, 
+         chill = as.numeric(chill), 
+         force = as.numeric(force), 
+         photo = as.numeric(photo),
+         sp = as.numeric(sp),
+         N = nrow(testdat),
+         n_sp = length(unique(sp))
+         )
+)
+
+osp.td.pcp <- stan('stan/nointer_2level_poisson.stan', data = datalist.tdint, 
+                 iter = 4000, chains=4 # 835ish divergent transitions
+                  )
+
+osp.td.pncp <- stan('stan/nointer_2level_poisson_ncp.stan', data = datalist.tdint, 
+                 iter = 4000, chains=4  # 8000 ish divergent transitions
+                  )
+
+print(osp.td, pars = c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "mu_a_sp", "sigma_a_sp"))
+
+
+osp.td.nb <- stan('stan/nointer_2level_negbin.stan', data = datalist.tdint,
+                 iter = 4000, chains=4 # 666 divergent transitions
+                  )
+
+osp.td.nb <- stan('stan/nointer_2level_negbin.stan', data = datalist.tdint,
+                 iter = 4000, chains=4
+                  )
+
+
+# Random efforts in progress ... 
+if(FALSE){
+# Have not tried: a Weibull but need to work out priors etc.:
+   # https://stats.stackexchange.com/questions/329818/determining-normalizing-constant-for-weibull-distribution
+   # https://discourse.mc-stan.org/t/numerical-problem-in-fitting-gamma-and-weibull-distributions/1813/11
+
+
+
+# CP: negbin: 166 divergent, all chains FLAT
+# NCP: negbin: 64 div trans, all chains FLAT
+# CP: poisson won't even run
+testdat$bbint <- round(testdat$bb)
+
+library(brms)
+try <- brm(bbint~force + photo + chill + (1|sp), data=testdat, family="negbinomial")
+
+# MAP2STAN work ... 
+# see also map2stan.R for some code help
+
+library(rethinking)
+d <- with(testdat, 
+    list(y = round(bb), 
+         chill = as.numeric(chill)
+         )
+)
+
+m2 <- map2stan(
+    alist(
+        bbint ~ dpois(lamdba),
+        log(lamdba) <- a + chill_sp*chill + force_sp*force + photo_sp*photo,
+        a ~ dnorm(50,20),
+        chill_sp~ dnorm(0,10),
+        force_sp~ dnorm(0,10),
+        photo_sp~ dnorm(0,10)),
+    data=testdat, iter=5000, chains=4)
+
+m2.nb <- map2stan(
+    alist(
+        bbint ~ dgampois(lamdba, sigma_y),
+        log(lamdba) <- a + chill_sp*chill + force_sp*force + photo_sp*photo,
+        sigma_y ~ dnorm(0,20),
+        a ~ dnorm(50,20),
+        chill_sp ~ dnorm(0,10),
+        force_sp ~ dnorm(0,10),
+        photo_sp ~ dnorm(0,10)),
+    data=testdat, iter=5000, chains=4)
+
+
+# coef values were -3, -2, -1
+summary(m2.nb) # why is sigma_y massive?
+precis(m2.nb, digits=3)
+exp(4.06)-exp(4.06-0.051)
+exp(4.06)-exp(4.06-0.036)
+exp(4.06)-exp(4.06-0.017)
+
+stancode(m2.nb)
+
+m3 <- map2stan(
+    alist(
+        bbint ~ dpois(lamdba),
+        log(lamdba) <- a[sp] + chill_sp[sp]*chill + force_sp[sp]*force + photo_sp[sp]*photo,
+        a[sp] ~ dnorm(50,20),
+        chill_sp[sp] ~ dnorm(0,10),
+        force_sp[sp] ~ dnorm(0,10),
+        photo_sp[sp] ~ dnorm(0,10)),
+    data=testdat, iter=4000, chains=4)
+
+}
+
+
+m3 <- map2stan(
+alist(y ~ dpois(theta),
+        theta <- a + chill_sp*chill,
+        a ~ dnorm(50,20),
+        chill_sp~ dnorm(0,10)),
+    data=d, chains=2, iter=500, cores=1)
+}
+
 
 
 ## Alternative! Try map2stan
