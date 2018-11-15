@@ -2,7 +2,7 @@
 library(rstan)
 library(ggplot2)
 library(shinystan)
-library(bayesplot)
+# library(bayesplot)
 library(dplyr)
 # library(rstanarm)
 

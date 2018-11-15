@@ -75,7 +75,7 @@ model {
 
 }
 
-/*
+/* Not working, lots of "Exception: neg_binomial_rng: Shape parameter is -0.759066, but must be > 0!"
 generated quantities{
    real y_ppc[N];
    for (n in 1:N)
@@ -84,7 +84,7 @@ generated quantities{
 	      	b_photo[sp[n]] * photo[n] +
 		b_chill[sp[n]] * chill[n];
     for (n in 1:N)
-      y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
+      y_ppc[n] = neg_binomial_rng(y_ppc[n], sigma_y);
 
 }
 */

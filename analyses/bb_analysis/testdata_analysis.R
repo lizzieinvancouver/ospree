@@ -105,7 +105,7 @@ osp.td.nb <- stan('stan/nointer_2level_negbin.stan', data = datalist.tdint,
                  iter = 4000, chains=4 # 666 divergent transitions
                   )
 
-osp.td.nb <- stan('stan/nointer_2level_negbin.stan', data = datalist.tdint,
+osp.td.nbncp <- stan('stan/nointer_2level_negbin_ncp.stan', data = datalist.tdint,
                  iter = 4000, chains=4
                   )
 

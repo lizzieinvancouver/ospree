@@ -35,7 +35,6 @@ if(length(grep("lizzie", getwd())>0)) {
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 # dostan = TRUE
-options(mc.cores = parallel::detectCores())
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allspp = TRUE
@@ -89,17 +88,26 @@ datalist.bb <- with(bb.stan,
 if(FALSE){
 datalist.bb <- with(bb.stan, 
                     list(y = round(resp), 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))
                     )
 )
 
-m2l.winsp.nb = stan('stan/winternosp_2level_negbin.stan', data = datalist.bb,
-               iter = 4000, warmup=2500) # gazillion 
+m2l.winsp.nb = stan('stan/nointer_2level_negbin_ncp.stan', data = datalist.bb,
+               iter = 4000, warmup=2500) # no divergent transitions! mu_a at 3.27; mu_f at -0.25; mu_p at -0.05; mu_c at -0.31
+
+m2l.nb.sum <- summary(m2l.winsp.nb )$summary
+m2l.nb.sum[grep("mu_", rownames(m2l.nb.sum)),]
+
+y_pred <- extract(m2l.winsp.nb, 'y_ppc')
+par(mfrow=c(1,2))
+hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
+hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
+
     }
 
 ########################
@@ -149,6 +157,8 @@ y_pred <- extract(m2l, 'y_ppc')
 par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
+
+# int neg_binomial_rng(real alpha, real beta) Generate a negative binomial variate with shape alpha and inverse scale beta; may only be used in generated quantities block. alpha / beta must be less than 2^(29)
 
 }
 
