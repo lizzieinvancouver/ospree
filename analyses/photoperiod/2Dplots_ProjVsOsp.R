@@ -156,7 +156,7 @@ fxx$doy<-ifelse(fxx$phen.type=="ospree", fxx$doy+95, fxx$doy)
 
 cols <- colorRampPalette(brewer.pal(9,"Spectral"))(2)
 
-geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
+geo.photo.f<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
@@ -185,7 +185,7 @@ geo.photo<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.typ
 #find_hull.phen <- function(fxx) fxx[chull(fxx$doy, fxx$photoperiod), ]
 #hulls.phen <- ddply(fxx, "type", find_hull.phen)
 
-doy.photo<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type, alpha=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
+doy.photo.f<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type, alpha=phen.type)) + geom_point(aes(col=phen.type)) + geom_jitter(aes(col=phen.type)) +
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
