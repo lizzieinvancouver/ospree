@@ -62,7 +62,7 @@ bb.stan.allphoto.allspp <- bb
 bb.stan.allspp <- bb.expphotoforce
 
 bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp) # 40 species/complexes
-#bb.stan.allphoto<-sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
+bb.stan.allphoto.onecue<-sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
 
 
 if(use.allspp){
@@ -74,7 +74,7 @@ if(use.allspp){
     
 if(!use.allspp){
     bb.stan <- sppcomplexfx(bb.stan.allspp) # 21 species/complexes
-    #bb.stan<-sppcomplexfx.onecue(bb.stan.allspp) ## 29 species/complexes
+    bb.stan.onecue<-sppcomplexfx.onecue(bb.stan.allspp) ## 29 species/complexes
 }
 
 sort(unique(bb.stan.allphoto$complex.wname)) # 40
