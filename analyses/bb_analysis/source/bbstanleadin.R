@@ -8,7 +8,7 @@ library(dplyr)
 
 source('..//stan/savestan.R')
 source("source/speciescomplex.R") # incl. f(x) to remove species with too few or biased experiments
-source("source/speciescomplex_less_strict.R")
+source("source/speciescomplex_onecue.R")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -61,8 +61,8 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 bb.stan.allphoto.allspp <- bb
 bb.stan.allspp <- bb.expphotoforce
 
-bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp)
-#bb.stan.allphoto<-sppcomplexfx.less.strict(bb.stan.allphoto.allspp) ## 191 species/complexes
+bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp) # 40 species/complexes
+#bb.stan.allphoto<-sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
 
 
 if(use.allspp){
@@ -73,8 +73,8 @@ if(use.allspp){
 }
     
 if(!use.allspp){
-    bb.stan <- sppcomplexfx(bb.stan.allspp)
-    #bb.stan<-sppcomplexfx.less.strict(bb.stan.allspp) ## 166 species/complexes
+    bb.stan <- sppcomplexfx(bb.stan.allspp) # 21 species/complexes
+    #bb.stan<-sppcomplexfx.onecue(bb.stan.allspp) ## 29 species/complexes
 }
 
 sort(unique(bb.stan.allphoto$complex.wname)) # 40
