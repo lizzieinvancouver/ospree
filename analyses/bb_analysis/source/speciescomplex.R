@@ -117,7 +117,7 @@ for(i in comps){
 taxon2<-left_join(taxon2, numsets, by="complex")
 
 accept.complex<-taxon2
-accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numstudies>1),"Y","N") 
+accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numcues>1),"Y","N") 
 
 
 ###if you want a data sheet to merge later in the work flow with working data sheet do this
