@@ -123,6 +123,7 @@ ospbb$chilltemp[ospbb$datasetID=="linkosalo06" & ospbb$study=="exp1"] #nochillin
 table(ospbb$respvar[ospbb$datasetID=="linkosalo06" & ospbb$study=="exp1"])
 table(osp$respvar[osp$datasetID=="linkosalo06" & osp$study=="exp1"] )
 
+
 table(ospbb$photoperiod_day[ospbb$datasetID=="linkosalo06" & ospbb$study=="exp1"])
 table(osp$photoperiod_day[osp$datasetID=="linkosalo06" & osp$study=="exp1"] )
 
@@ -132,6 +133,21 @@ table(osp$figure.table..if.applicable.[osp$datasetID=="linkosalo06" & osp$study=
 
 range(osp$response.time[osp$datasetID=="linkosalo06" & osp$study=="exp1"])
 range(ospbb$response.time[ospbb$datasetID=="linkosalo06" & ospbb$study=="exp1"])
+#### more work on linksalo
+linky<-dplyr::filter(osp,datasetID=="linkosalo06")
+linky.clean<-dplyr::filter(ospcl,datasetID=="linkosalo06")
+linky.final<-dplyr::filter(ospch,datasetID=="linkosalo06")
+
+#Check respvar
+
+#chill.no$date<-as.Date(chill.no$date,format =  "%m/%d/%y")
+library(lubridate)
+resp<-yday(chill.no$date)
+start<-yday("2004/03/08")
+start+120.22
+as.Date(120.22, origin = "2004-01-01")
+as.Date(138, origin = "2004-01-01")
+
 
 ###heide 93
 osp$chilltemp[osp$datasetID=="heide93" & osp$study=="exp1"] 

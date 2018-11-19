@@ -177,3 +177,15 @@ d$photoperiod_day[which(d$datasetID=="myking97")]<-"12"
 d$photoperiod_night[which(d$datasetID=="myking97")]<-"12"
 d$irradiance[which(d$datasetID=="myking97")]<-"night=5"
 d$irradiance.units[which(d$datasetID=="myking97")]<-"micromol m_2 s_1"
+
+####Linkosalo06, The time to budbust is calculated from start of the year rather than start of the experiment cleaned by Dan B Nov 19 2018
+realstart<-yday("2004/02/22")
+start<-yday("2004/01/01")
+realstart-start
+
+###make a numeric response time column so you can subtract the realstart time for the result
+d$response.time.num<-as.numeric(d$response.time)
+d$response.time.num<-ifelse(d$datasetID=="linkosalo06",d$response.time.num-52,d$response.time.num)#correct the new values
+d$response.time.num<-as.character(d$response.time.num) ##convert back to character so you can paste new into the real column
+d$response.time<-ifelse(d$datasetID=="linkosalo06",d$response.time.num,d$response.time) ###add the 5 values for linkosalo
+d$response.time.num<-NULL ## get ride of transitory numerica column
