@@ -19,7 +19,7 @@
 #SBATCH --mail-user=cchamberlain@g.harvard.edu
 
 source new-modules.sh
-module load R/3.4.2-fasrc01
+module load gcc/7.1.0-fasrc01 R_core/3.5.1-fasrc02
 module load R_packages
 
 

@@ -31,6 +31,9 @@ library(broom)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
+use.chillunits = FALSE # change to true for testing chill units
+use.allspp = FALSE
+
 source("source/bbstanleadin.R")
 
 bb.wlat <- bb.stan
@@ -51,8 +54,11 @@ tt <- table(bb.wlat$complex.wname)### testing
 myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Malus_domestica", "Ribes_nigrum", "Ulmus_complex")
 bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
 
-#write.csv(lat.stan, "lat_output/lat_arm.csv", row.names = FALSE)
+lat.stan<-bb.wlat.spp
+
+#write.csv(lat.stan, "~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_arm.csv", row.names = FALSE)
 lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
+lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat.z <- (lat.stan$provenance.lat-mean(lat.stan$provenance.lat,na.rm=TRUE))/sd(lat.stan$provenance.lat,na.rm=TRUE)
 
