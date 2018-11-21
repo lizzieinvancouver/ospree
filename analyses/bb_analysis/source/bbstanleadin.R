@@ -63,8 +63,8 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 bb.stan.allphoto.allspp <- bb
 bb.stan.allspp <- bb.exprampphotoforce
 
-bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp) # 40 species/complexes
-bb.stan.allphoto.onecue<-sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
+bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) # 38 species/complexes
+bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
 
 
 if(use.allspp){

@@ -1,0 +1,66 @@
+## Started 20 November 2018 ##
+## By Lizzie ##
+
+## Based off models_stan.R ##
+
+# housekeeping
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
+
+# Setting working directory. Add in your own path in an if statement for your file structure
+if(length(grep("lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+}else if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/analyses/bb_analysis") 
+} else if(length(grep("catchamberlain", getwd()))>0) { 
+  setwd("~/Documents/git/ospree/analyses/bb_analysis") 
+} else if(length(grep("danielbuonaiuto", getwd()))>0) { 
+  setwd("~/Documents/git/ospree/analyses/bb_analysis") 
+  }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
+
+# dostan = TRUE
+# Flags to choose for bbstanleadin.R
+use.chillunits = FALSE # change to true for testing chill units
+use.allspp = FALSE
+source("source/bbstanleadin.R")
+
+# Flags to choose for this here file
+use.zscore = TRUE # change to TRUE to use centered and scaled data
+
+########################
+## Z-scored data here ##
+########################
+
+
+if(use.zscore){
+datalist.bb <- with(bb.stan, 
+                    list(y = round(resp), # for integers!
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+}
+
+
+########################
+## ALERT! Below is just starter code ...
+## Please generally follow models_stan_negbin.R
+## Below is just some code from Lizzie if useful....
+########################
+
+m2l.winsp.nb = stan('stan/nointer_2level_negbin_ncp.stan', data = datalist.bb,
+               iter = 4000, warmup=2500) 
+
+m2l.nb.sum <- summary(m2l.winsp.nb )$summary
+m2l.nb.sum[grep("mu_", rownames(m2l.nb.sum)),]
+
+y_pred <- extract(m2l.winsp.nb, 'y_ppc')
+par(mfrow=c(1,2))
+hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
+hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
+

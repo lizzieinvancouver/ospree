@@ -38,7 +38,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = FALSE
+use.allspp = TRUE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
@@ -49,56 +49,6 @@ use.pep = FALSE # change to TRUE to use only commmon PEP 725 spp.
 cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia 
 
 # plot(ecdf(bb.stan$resp))
-
-
-
-#########################
-## Goober work ##
-#########################
-
-bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
-
-bbstan.forcounting.sp <- subset(bb.stan, select=c("latbi", "datasetID"))
-countdatasets.sp <- bbstan.forcounting.sp[!duplicated(bbstan.forcounting.sp), ]
-agg.sp <- aggregate(countdatasets.sp["datasetID"], countdatasets.sp["latbi"], FUN=length)
-sp.morethan2 <- subset(agg.sp, datasetID>1) # 16 spp using exp photo & force; 32 using exp+ramped for photo and force
-
-bbstan.forcounting.gen <- subset(bb.stan, select=c("genus", "datasetID"))
-countdatasets.gen <- bbstan.forcounting.gen[!duplicated(bbstan.forcounting.gen), ]
-agg.genus <- aggregate(countdatasets.gen["datasetID"], countdatasets.gen["genus"], FUN=length)
-genus.morethan2 <- subset(agg.genus, datasetID>1) # 23 using exp photo & force; 28 using exp+ramped for photo and force
-
-# gymnastics to renumber species
-sp.morethan2$complex <- seq(1:nrow(sp.morethan2))
-sp.morethan2$datasetID <- NULL
-
-bb.stan <- bb.stan[which(bb.stan$latbi %in% sp.morethan2$latbi),] 
-bb.stan$complex <- NULL
-dim(bb.stan)
-bb.stan <- merge(bb.stan, sp.morethan2, by="latbi")
-dim(bb.stan)
-
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         study = as.numeric(as.factor(bb.stan$datasetID)),
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex)),
-                         n_study = length(unique(bb.stan$datasetID))
-                    )
-                    )
-
-
-m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
-               iter = 5000, warmup=3500) # With all spp (exp photo and force only): 2148 datapoints (36 studies, 181 datapoints);  
-
-m2l.wstudy.sum <- summary(m2l.wstudy)$summary
-m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
-m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
-
 
 #########################
 ## For PEP 725 species ##
@@ -134,30 +84,6 @@ datalist.bb <- with(bb.stan,
 
 }
 
-if(FALSE){
-datalist.bb <- with(bb.stan, 
-                    list(y = round(resp), 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-m2l.winsp.nb = stan('stan/nointer_2level_negbin_ncp.stan', data = datalist.bb,
-               iter = 4000, warmup=2500) # no divergent transitions! mu_a at 3.27; mu_f at -0.25; mu_p at -0.05; mu_c at -0.31
-
-m2l.nb.sum <- summary(m2l.winsp.nb )$summary
-m2l.nb.sum[grep("mu_", rownames(m2l.nb.sum)),]
-
-y_pred <- extract(m2l.winsp.nb, 'y_ppc')
-par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
-hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
-
-    }
 
 ########################
 ## Z-scored data here ##
@@ -186,6 +112,9 @@ datalist.bb <- with(bb.stan,
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
 # m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
 
+# Also below:
+# m2l: a(sp) + f + p + c
+# m2l.wstudy: a + a(sp) + a(study) + f(sp) + p(sp) + c(sp)
 
 ##################################
 ## Main models as of July 2018 ##
@@ -300,9 +229,40 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
 
 
 
-##
-# Rstanarm on the above models ...and run the first two models on centered data
-##
+####################################################
+## Extra model for now: study and sp on intercept ##
+####################################################
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         n_study = length(unique(bb.stan$datasetID))
+                    )
+                    )
+
+
+m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+               iter = 5000, warmup=3500) 
+
+check_all_diagnostics(m2l.wstudy)
+# launch_shinystan(m2l.wstudy)
+
+m2l.wstudy.sum <- summary(m2l.wstudy)$summary
+m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
+m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
+
+m2l.wstudy.sum[,1]
+# write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
+
+##############
+# Rstanarm on the above 'main models' ...and run the first two models on centered data
+##############
 if(FALSE){
 library(rstanarm)
 
@@ -337,9 +297,10 @@ m2l.nistudy.arm.alt <- stan_glmer(resp ~ (force + photo + chill ) +
 
 
 
-
+##############################
 ## Code below not updated! ##
 ### But I think we will neeed it ##
+
 ########## SIDE BAR ##########
 ## Compare R2 today ##
 observed.here <- bb.stan$resp
