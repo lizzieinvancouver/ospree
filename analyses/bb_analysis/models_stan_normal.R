@@ -55,10 +55,13 @@ datalist.bb <- with(bb.stan,
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
 # m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
 
+# Semi-main:
+# m2l.wstudy: a + a(sp) + a(study) + f(sp) + p(sp) + c(sp)
+
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
-# Note the notation: M1_daysBBnointer_2level.stan: m2l.ni
+# Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500)
@@ -96,7 +99,7 @@ save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.allspp.Rda")
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
-# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
+# Note the notation: winternosp_2level.stan: m2l.winsp
 ########################################################
 m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
                iter = 4000, warmup=2500) 
@@ -134,3 +137,36 @@ if(use.allspp){
 save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
 }
 }
+
+
+########################################################
+# real data on 2 level model (sp and study) with 2 two-way interactions but no partial pooling on interactions
+# Note the notation: nointer_2level_studyint: m2l.wstudy
+########################################################
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         n_study = length(unique(bb.stan$datasetID))
+                    )
+                    )
+
+
+m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+               iter = 5000, warmup=3500) 
+
+check_all_diagnostics(m2l.wstudy)
+# launch_shinystan(m2l.wstudy)
+
+m2l.wstudy.sum <- summary(m2l.wstudy)$summary
+m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
+m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
+
+m2l.wstudy.sum[,1]
+# write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
