@@ -17,6 +17,7 @@
 # (b) see notes throughout on what Lizzie still needs to clean
 # (c) subset down to relevant block/transplant treatments for gomory15
 # (d) Try alternative metrics of chilling (chilldays?)
+# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
 
 ## housekeeping
 rm(list=ls()) 
@@ -37,19 +38,67 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = TRUE
+use.allspp = FALSE
 source("source/bbstanleadin.R")
 
-# Flags to choose for this (below) file
-use.zscore = FALSE # change to TRUE to use centered and scaled data
+# Flags to choose for this here file
+use.zscore = TRUE # change to TRUE to use centered and scaled data
 use.pep = FALSE # change to TRUE to use only commmon PEP 725 spp.
-
-# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
 
 # Below not currently used ... but we may want someday
 cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia 
 
 # plot(ecdf(bb.stan$resp))
+
+
+
+#########################
+## Goober work ##
+#########################
+
+bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
+
+bbstan.forcounting.sp <- subset(bb.stan, select=c("latbi", "datasetID"))
+countdatasets.sp <- bbstan.forcounting.sp[!duplicated(bbstan.forcounting.sp), ]
+agg.sp <- aggregate(countdatasets.sp["datasetID"], countdatasets.sp["latbi"], FUN=length)
+sp.morethan2 <- subset(agg.sp, datasetID>1) # 16 spp using exp photo & force; 32 using exp+ramped for photo and force
+
+bbstan.forcounting.gen <- subset(bb.stan, select=c("genus", "datasetID"))
+countdatasets.gen <- bbstan.forcounting.gen[!duplicated(bbstan.forcounting.gen), ]
+agg.genus <- aggregate(countdatasets.gen["datasetID"], countdatasets.gen["genus"], FUN=length)
+genus.morethan2 <- subset(agg.genus, datasetID>1) # 23 using exp photo & force; 28 using exp+ramped for photo and force
+
+# gymnastics to renumber species
+sp.morethan2$complex <- seq(1:nrow(sp.morethan2))
+sp.morethan2$datasetID <- NULL
+
+bb.stan <- bb.stan[which(bb.stan$latbi %in% sp.morethan2$latbi),] 
+bb.stan$complex <- NULL
+dim(bb.stan)
+bb.stan <- merge(bb.stan, sp.morethan2, by="latbi")
+dim(bb.stan)
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         n_study = length(unique(bb.stan$datasetID))
+                    )
+                    )
+
+
+m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+               iter = 5000, warmup=3500) # With all spp (exp photo and force only): 2148 datapoints (36 studies, 181 datapoints);  
+
+m2l.wstudy.sum <- summary(m2l.wstudy)$summary
+m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
+m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
+
 
 #########################
 ## For PEP 725 species ##

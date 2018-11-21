@@ -9,6 +9,7 @@ library(dplyr)
 source('..//stan/savestan.R')
 source("source/speciescomplex.R") # incl. f(x) to remove species with too few or biased experiments
 source("source/speciescomplex_onecue.R")
+source("source/stan_utility.R")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -19,6 +20,7 @@ options(mc.cores = parallel::detectCores())
 
 ## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
 ## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
+
 ## (1) Get the data and slim down to correct response and no NAs ...
 source("source/bbdataplease.R")
 ## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
@@ -27,8 +29,7 @@ dim(bb.noNA)
 bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 18 March October should delete about 273 rows
 dim(bb.noNA)
 d <- bb.noNA
-
-# (3) Get fewer columns for sanity
+## (3) Get fewer columns for sanity
 source("source/commoncols.R")
 bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
 
@@ -40,10 +41,10 @@ bb <- subset(bb, resp<600)
 # it can be interpreted as 10 days (so the coefficient will tell us change in BB every 10 days of chilling)
 bb$chill <- bb$chill/240
 length(unique(bb$datasetID))
-
 # deal with photo
 bb.expphoto <- subset(bb, photo_type=="exp")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
+bb.exprampphoto <- subset(bb, photo_type=="exp" | photo_type=="ramped")
 bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 
 #sort(unique(bb.expphoto$datasetID))
@@ -51,6 +52,7 @@ bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 #sort(unique(bb.ambphoto$datasetID))
 
 # add in forcing
+bb.exprampphotoforce <- subset(bb.exprampphoto, force_type=="exp"|force_type=="ramped")
 bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
 #################################################################
@@ -59,7 +61,7 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
 # currently we use bb.stan.expphoto ...
 bb.stan.allphoto.allspp <- bb
-bb.stan.allspp <- bb.expphotoforce
+bb.stan.allspp <- bb.exprampphotoforce
 
 bb.stan.allphoto<-sppcomplexfx(bb.stan.allphoto.allspp) # 40 species/complexes
 bb.stan.allphoto.onecue<-sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
