@@ -5,7 +5,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-setwd("~/git/ospree/analyses")
+setwd("~/Documents/GitHub/ospree/analyses")
 osp<-read.csv("input/ospree.csv", header=T)
 ospbb<-read.csv("output/ospree_clean_withchill_BB.csv", header=T)
 ospcl<-read.csv("output/ospree_clean.csv", header=T)
@@ -17,8 +17,7 @@ ospbb$chilltemp[ospbb$datasetID=="devries82"]#doesn't exist
 ospcl$chilltemp[ospcl$datasetID=="devries82"]#doesn't exist
 cbind(osp$forcetemp[osp$datasetID=="devries82"],ospcl$forcetemp[ospcl$datasetID=="devries82"])
 #mistakes in forcetemp for figures 2 and 3 (irradiance and forcetemp are switched)
-cbind(osp$photoperiod_day[osp$datasetID=="devries82"],ospcl$photoperiod_day[ospcl$datasetID=="devries82"])
-cbind(osp$figure.table..if.applicable.[osp$datasetID=="devries82"],ospcl$figure.table..if.applicable.[ospcl$datasetID=="devries82"])
+cbind(ospcl$photoperiod_day[ospcl$datasetID=="devries82"],ospcl$photoperiod_day[ospcl$datasetID=="devries82"])
 
 #hawerroth13
 osp$chilltemp[osp$datasetID=="hawerroth13"]
@@ -133,3 +132,12 @@ ospcl$chilldays[ospcl$datasetID=="viheraaarnio06"]# no chill info
 
 cbind(osp$response[osp$datasetID=="viheraaarnio06"],osp$forcetemp[osp$datasetID=="viheraaarnio06"],osp$photoperiod_day[osp$datasetID=="viheraaarnio06"],osp$figure.table..if.applicable.[osp$datasetID=="viheraaarnio06"])
 
+#linksaloo
+osp$chilltemp[osp$datasetID=="linkosalo06"]
+ospbb$chilltemp[ospbb$datasetID=="linkosalo06"]#
+ospcl$chilltemp[ospcl$datasetID=="linkosalo06"]
+osp$chilldays[osp$datasetID=="linkosalo06"]#
+ospbb$chilldays[ospbb$datasetID=="linkosalo06"]#no chill info
+ospcl$chilldays[ospcl$datasetID=="linkosalo06"]# no chill info
+
+cbind(osp$chilldays[osp$datasetID=="linkosalo06"],osp$forcetemp[osp$datasetID=="linkosalo06"],osp$photoperiod_day[osp$datasetID=="linkosalo06"],osp$figure.table..if.applicable.[osp$datasetID=="linkosalo06"])
