@@ -63,8 +63,8 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 bb.stan.allphoto.allspp <- bb
 bb.stan.allspp <- bb.exprampphotoforce
 
-bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) # 38 species/complexes
-bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) ## 43 species/complexes
+bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
+bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) 
 
 
 if(use.allspp){
@@ -75,12 +75,12 @@ if(use.allspp){
 }
     
 if(!use.allspp){
-    bb.stan <- sppcomplexfx(bb.stan.allspp) # 21 species/complexes
-    bb.stan.onecue<-sppcomplexfx.onecue(bb.stan.allspp) ## 29 species/complexes
+    bb.stan <- sppcomplexfx(bb.stan.allspp) 
+    bb.stan.onecue<-sppcomplexfx.onecue(bb.stan.allspp) 
 }
 
-sort(unique(bb.stan.allphoto$complex.wname)) # 40
-sort(unique(bb.stan$complex.wname)) # 21
+sort(unique(bb.stan.allphoto$complex.wname)) 
+sort(unique(bb.stan$complex.wname)) 
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
