@@ -179,8 +179,9 @@ d$irradiance[which(d$datasetID=="myking97")]<-"night=5"
 d$irradiance.units[which(d$datasetID=="myking97")]<-"micromol m_2 s_1"
 
 ####Linkosalo06, The time to budbust is calculated from start of the year rather than start of the experiment cleaned by Dan B Nov 19 2018
-realstart<-yday("2004/02/22")
-start<-yday("2004/01/01")
+
+realstart<-as.Date("2004/02/22")
+start<-as.Date("2004/01/01")
 realstart-start
 
 ###make a numeric response time column so you can subtract the realstart time for the result
