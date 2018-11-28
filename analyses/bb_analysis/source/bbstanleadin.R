@@ -61,12 +61,20 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
 # currently we use bb.stan.expphoto ...
 bb.stan.allphoto.allspp <- bb
-bb.stan.allspp <- bb.exprampphotoforce
-
 bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
 bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) 
 
+# Select photoperiod
 
+if(use.allphoto){
+  bb.stan.allspp <- bb.stan.allphoto.allspp
+ }
+
+if(!use.allphoto){
+  bb.stan.allspp <- bb.exprampphotoforce
+}
+
+# Select species
 if(use.allspp){
     bb.stan <- bb.stan.allspp
     bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
