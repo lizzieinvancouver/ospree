@@ -77,7 +77,7 @@ m2l.winsp = stan('stan/winternosp_2level_negbin.stan', data = datalist.bb,
                  iter = 4000, warmup=2500) 
 
 
-m2l.winsp.sum <- summary(m2l.winsp)$summary 
+m2l.winsp.sum <- summary(m2l.winsp.nb)$summary 
 #d<-as.data.frame(m2l.winsp.sum)
 #write.csv(d, file="~/Desktop/output.csv", row.names=TRUE)
 m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
