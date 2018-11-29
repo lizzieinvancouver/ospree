@@ -33,11 +33,16 @@ source("source/bbstanleadin.R")
 
 #range(bb.stan$resp)
 bb.stan.onecue$respg<-bb.stan.onecue$resp+0.001
+test<-read.csv("~/Desktop/testgamma.csv", header=TRUE)
 
-gamma.test <- stan_glmer(bb ~ (force + photo + chill +#main effects
-                                 force*photo + force*chill + photo*chill)+ #interactions
-                        ((force + photo + chill + force*photo + force*chill + photo*chill)|sp),warmup=2500,iter=4000, data = test.gamma,
-                      chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99), family=Gamma(link="identity"))
+test$force.z <- (test$force-mean(test$force,na.rm=TRUE))/(sd(test$force,na.rm=TRUE))
+test$photo.z <- (test$photo-mean(test$photo,na.rm=TRUE))/(sd(test$photo,na.rm=TRUE))
+test$chill.z <- (test$chill-mean(test$chill,na.rm=TRUE))/(sd(test$chill,na.rm=TRUE))
+
+gamma.test <- brm(bb ~ (force.z + photo.z + chill.z +#main effects
+                                 force.z*photo.z + force.z*chill.z + photo.z*chill.z)+ #interactions
+                        ((force.z + photo.z + chill.z + force.z*photo.z + force.z*chill.z + photo.z*chill.z)|sp),warmup=2500,iter=4000, data = test,
+                      chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99), family=Gamma(link="log"))
 
 #save(gamma.arm, file="~/Documents/git/regionalrisk/gammaoutput.Rdata")
 

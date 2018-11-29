@@ -32,7 +32,7 @@ use.zscore = TRUE # change to TRUE to use centered and scaled data
 ########################
 ## Z-scored data here ##
 ########################
-#write.csv(bb.stan, "~/Desktop/allspp_nointer.csv", row.names=FALSE)
+#write.csv(bb.stan.nocrops, "~/Desktop/nocrops_nointer.csv", row.names=FALSE)
 
 if(use.zscore){
 datalist.bb <- with(bb.stan.nocrops, 
@@ -78,8 +78,14 @@ m2l.winsp = stan('stan/winternosp_2level_negbin.stan', data = datalist.bb,
 
 
 m2l.winsp.sum <- summary(m2l.winsp)$summary 
+#d<-as.data.frame(m2l.winsp.sum)
+#write.csv(d, file="~/Desktop/output.csv", row.names=TRUE)
 m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
                 "b_cf","b_cp","b_fp"),]
+#y_pred <- extract(m2l.winsp, 'y_ppc')
+#y_pred<- as.vector(y_pred$y_ppc)
+#launch_shinystan(m2l.winsp)
+y_pred
 
 # PPC 
 if(FALSE){
