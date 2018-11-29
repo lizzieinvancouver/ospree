@@ -24,6 +24,8 @@ sppcomplexfx.nocrops <- function(d){
   
   
   d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
+  cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera")
+  d<-d[!(d$name%in%cropspp),]
   
   xx<-d
   ### make a list of which studies manipulate what.
@@ -148,8 +150,6 @@ sppcomplexfx.nocrops <- function(d){
   bb.noNA.wtaxa <- bb.all.wtaxa
   bb.noNA.wtaxa$complex.wname <- bb.noNA.wtaxa$complex
   bb.noNA.wtaxa$complex <- as.numeric(as.factor(bb.noNA.wtaxa$complex))
-  cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera")
-  bb.noNA.wtaxa<-bb.noNA.wtaxa[!(bb.noNA.wtaxa$complex.wname%in%cropspp),]
   
   
   return(bb.noNA.wtaxa)

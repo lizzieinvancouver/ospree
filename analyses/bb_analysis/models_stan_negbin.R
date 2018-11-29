@@ -23,6 +23,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allspp = FALSE
+use.allphoto = FALSE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
@@ -31,20 +32,21 @@ use.zscore = TRUE # change to TRUE to use centered and scaled data
 ########################
 ## Z-scored data here ##
 ########################
-
+#write.csv(bb.stan, "~/Desktop/allspp_nointer.csv", row.names=FALSE)
 
 if(use.zscore){
-datalist.bb <- with(bb.stan, 
+datalist.bb <- with(bb.stan.nocrops, 
                     list(y = round(resp), # for integers!
                          chill = chill.z, 
                          force = force.z, 
                          photo = photo.z,
                          sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
+                         N = nrow(bb.stan.nocrops),
+                         n_sp = length(unique(bb.stan.nocrops$complex))
                     )
 )
 }
+
 
 
 ########################
@@ -53,8 +55,9 @@ datalist.bb <- with(bb.stan,
 ## Below is just some code from Lizzie if useful....
 ########################
 
-m2l.winsp.nb = stan('stan/nointer_2level_negbin_ncp.stan', data = datalist.bb,
+m2l.winsp.nb = stan('stan/nointer_2level_negbin.stan', data = datalist.bb,
                iter = 4000, warmup=2500) 
+
 
 m2l.nb.sum <- summary(m2l.winsp.nb )$summary
 m2l.nb.sum[grep("mu_", rownames(m2l.nb.sum)),]
@@ -63,4 +66,29 @@ y_pred <- extract(m2l.winsp.nb, 'y_ppc')
 par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
+
+
+########################
+## ALERT! Below is just starter code ...
+## Please generally follow models_stan_negbin.R
+## Below is just some code from Lizzie if useful....
+########################
+m2l.winsp = stan('stan/winternosp_2level_negbin.stan', data = datalist.bb,
+                 iter = 4000, warmup=2500) 
+
+
+m2l.winsp.sum <- summary(m2l.winsp)$summary 
+m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+                "b_cf","b_cp","b_fp"),]
+
+# PPC 
+if(FALSE){
+  y_pred <- extract(m2l.winsp, 'y_ppc')
+  par(mfrow=c(1,2))
+  hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
+  hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="With intxn model")
+}
+
+check_all_diagnostics(m2l.winsp)
+# launch_shinystan(m2l.winsp)
 

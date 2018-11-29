@@ -34,9 +34,9 @@ source("source/bbstanleadin.R")
 #range(bb.stan$resp)
 bb.stan.onecue$respg<-bb.stan.onecue$resp+0.001
 
-gamma.arm <- stan_glmer(respg ~ (force + photo + chill +#main effects
+gamma.test <- stan_glmer(bb ~ (force + photo + chill +#main effects
                                  force*photo + force*chill + photo*chill)+ #interactions
-                        ((force + photo + chill + force*photo + force*chill + photo*chill)|complex.wname),warmup=2500,iter=4000, data = bb.stan.onecue,
+                        ((force + photo + chill + force*photo + force*chill + photo*chill)|sp),warmup=2500,iter=4000, data = test.gamma,
                       chains = 2, cores = 2,control = list(max_treedepth = 12,adapt_delta = 0.99), family=Gamma(link="identity"))
 
 #save(gamma.arm, file="~/Documents/git/regionalrisk/gammaoutput.Rdata")
