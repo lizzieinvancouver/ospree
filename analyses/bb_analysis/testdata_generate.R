@@ -497,3 +497,85 @@ for(i in 1:nsp){ # loop over species. i = 1
 
 #library(lme4)
 #summary(lmer(bb ~ (chill+force+photo)^2 + (1|sp), data = testdat2.smintxn2))
+
+##################################################################
+# Test data as above, but with a negative binomial distribution ##
+# Imagine there is a more thoughtful way to construct this #
+## Cat: 29 Nov 2018
+## All two way interactions, centered data, species varies by
+## Slope and intercept
+## Small interaction effects
+##################################################################
+nsp = 30 # number of species
+
+ntot = 50 # numbers of obs per species. 
+
+#  with species  (note to self: This is not the best, better to draw from a distribution)
+
+#  with species  (note to self: This is not the best, better to draw from a distribution)
+intermean <- 30 # mean for selecting intercept (days to BB) across all species
+intersd <- 3 # SD for selecting species intercepts
+spint <- rnorm(nsp, intermean, intersd)  # different intercepts by species
+
+# now start building ...
+test.negbin <- vector()
+
+# assumptions:
+# (a) predictors are centered
+# (b) predictors are not correlated
+# (c) only 2-way interactions between  force + photo + chill
+# (d) each obs is a different set of treatments
+
+# and some important points ...
+# (z) the below draws treatments from distribution in such a way that there is a lot more variation than we have
+
+
+for(i in 1:nsp){ # loop over species. i = 1
+  
+  # continuous predictors, generate level (if you will) for each observation
+  force = rnorm(ntot, 0, 2)
+  photo = rnorm(ntot, 0, 2)
+  chill = rnorm(ntot, 0, 5)
+  
+  # set up effect sizes
+  chillcoef = -3 # steep slope for earlier day with higher chilling
+  forcecoef = -2 # less steep for forcing
+  photocoef = -1
+  
+  # SD for each treatment
+  chillcoef.sd = 1
+  forcecoef.sd = 0.5 
+  photocoef.sd = 0.1
+  
+  # set interaction effects. 3 two-way interactions
+  forcechillcoef = -0.2
+  forcephotocoef = -0.007
+  chillphotocoef = -0.05
+  
+  # SD for interaction effects. 3 two-way interactions
+  forcephotocoef.sd = 0.2
+  forcechillcoef.sd = 0.8
+  chillphotocoef.sd = 0.5
+  
+  # build model matrix 
+  mm <- model.matrix(~(chill+force+photo)^2, data.frame(chill, force, photo))
+  
+  # coefficients need to match the order of the colums in the model matrix (mm)
+  # so here, that's intercept, chill, force, photo
+  coeff <- c(spint[i], 
+             rnorm(1, chillcoef, chillcoef.sd),
+             rnorm(1, forcecoef, forcecoef.sd),
+             rnorm(1, photocoef, photocoef.sd),
+             rnorm(1, forcechillcoef, forcechillcoef.sd),
+             rnorm(1, chillphotocoef, chillphotocoef.sd),
+             rnorm(1, forcephotocoef, forcephotocoef.sd)
+  )
+  
+  meanhere = abs(mm %*% coeff)
+  bb <- rnbinom(ntot, mu=meanhere, size=50) # rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
+  
+  testdat2.negbin <- data.frame(bb, sp = i, 
+                                  chill, force, photo)
+  
+  test.negbin<- rbind(test.negbin, testdat2.negbin)  
+}

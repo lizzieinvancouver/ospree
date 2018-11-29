@@ -9,6 +9,7 @@ library(dplyr)
 source('..//stan/savestan.R')
 source("source/speciescomplex.R") # incl. f(x) to remove species with too few or biased experiments
 source("source/speciescomplex_onecue.R")
+source("source/speciescomplex.nocrops.R")
 source("source/stan_utility.R")
 
 rstan_options(auto_write = TRUE)
@@ -63,6 +64,7 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 bb.stan.allphoto.allspp <- bb
 bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
 bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) 
+bb.stan.allphoto.nocrops <- sppcomplexfx.nocrops(bb.stan.allphoto.allspp) 
 
 # Select photoperiod
 
@@ -85,6 +87,7 @@ if(use.allspp){
 if(!use.allspp){
     bb.stan <- sppcomplexfx(bb.stan.allspp) 
     bb.stan.onecue<-sppcomplexfx.onecue(bb.stan.allspp) 
+    bb.stan.nocrops<-sppcomplexfx.nocrops(bb.stan.allspp) 
 }
 
 sort(unique(bb.stan.allphoto$complex.wname)) 

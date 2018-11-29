@@ -25,6 +25,7 @@ options(mc.cores = parallel::detectCores())
 
 use.chillunits = FALSE # change to true for testing chill units
 use.allspp = FALSE
+use.allphoto = FALSE
 source("source/bbstanleadin.R")
 
 # Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
