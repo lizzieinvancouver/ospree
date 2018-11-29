@@ -75,7 +75,12 @@ ys<-bb.stan$resp
 
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
-
+m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
+speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1][3:205],
+      m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1][3:205],
+      m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1][3:205],
+      m2lni.sum[grep("b_force", rownames(m2lni.sum)),1][3:205])
+write.csv(speffs,"modelnotes/m21ni.allsp.csv")
 # PPC 
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
@@ -84,10 +89,6 @@ hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No 
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 }
 
-color_scheme_set("brightblue")
-yrep <- posterior_predict(m2l.ni, draws = 500)
-ppc_dens_overlay(y, yrep_poisson[1:50, ])
-# write.csv(m2lni.sum, "~/Desktop/quick.csv")
 
 # Code if you want to save your models (do NOT push output to git)
 if(FALSE){
@@ -130,7 +131,17 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="With intxn mode
 }
 
 check_all_diagnostics(m2l.winsp)
-# launch_shinystan(m2l.winsp)
+#use shiny stan to do PPC
+ys<-bb.stan$resp
+#launch_shinystan(m2l.winsp)
+
+m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
+m2l.winsp.sum[grep("sigma_", rownames(m2l.winsp.sum)),]
+speffs<-c(m2l.winsp.sum[grep("a_sp", rownames(m2l.winsp.sum)),1][3:205],
+          m2l.winsp.sum[grep("b_chill", rownames(m2l.winsp.sum)),1][3:205],
+          m2l.winsp.sum[grep("b_photo", rownames(m2l.winsp.sum)),1][3:205],
+          m2l.winsp.sum[grep("b_force", rownames(m2l.winsp.sum)),1][3:205])
+write.csv(speffs,"modelnotes/m2l.winsp.allsp.csv")
 
 # easier to transcribe results ....
 # write.csv(m2l.winsp.sum, "~/Desktop/quick.csv")
@@ -171,7 +182,7 @@ datalist.bb <- with(bb.stan,
 
 
 m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
-               iter = 5000, warmup=3500) 
+               iter = 5000, warmup=3500,control = list(max_treedepth = 15)) #default tree depth gave warning of 2971 transitions that exceeded the maximum treedepth
 
 check_all_diagnostics(m2l.wstudy)
 # launch_shinystan(m2l.wstudy)
