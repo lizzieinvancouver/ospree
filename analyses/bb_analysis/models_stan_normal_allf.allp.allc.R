@@ -29,6 +29,8 @@ source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
 use.zscore = TRUE # change to TRUE to use centered and scaled data
+use.onecuespp = TRUE #change to TRUE if using subset of species for one cue. 
+use.nocropspp = FALSE #change to TRUE if using subset of species wihtout crops 
 
 ########################
 ## Z-scored data here ##
@@ -46,6 +48,18 @@ datalist.bb <- with(bb.stan,
                          n_sp = length(unique(bb.stan$complex))
                     )
 )
+}
+if(use.onecuespp){
+  datalist.bb <- with(bb.stan.onecue, 
+                      list(y = resp, 
+                           chill = chill.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           N = nrow(bb.stan.onecue),
+                           n_sp = length(unique(bb.stan.onecue$complex))
+                      )
+  )
 }
 
 ######################################
@@ -71,6 +85,7 @@ m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
 check_all_diagnostics(m2l.ni)
 #use shiny stan to do PPC
 ys<-bb.stan$resp
+ys<-bb.stan.onecue$resp #if using one cue
 #launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
@@ -80,7 +95,7 @@ speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_force", rownames(m2lni.sum)),1])
-write.csv(speffs,"modelnotes/m21ni.allspcomplex.csv", row.names = TRUE)
+write.csv(speffs,"modelnotes/m21ni.allspcomplex.onecue.csv", row.names = TRUE)
 # PPC 
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
@@ -97,7 +112,7 @@ save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.Rda")
 }
 
 if(use.zscore){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz.Rda")
+save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz_spcomplex.onecue.Rda")
 }
 
 if(use.allspp){
@@ -109,6 +124,9 @@ nrow(bb.stan)#N
 length(unique(bb.stan$complex))#n_sp
 length(unique(bb.stan$datasetID))#n_studies
 
+nrow(bb.stan.onecue)#N
+length(unique(bb.stan.onecue$complex))#n_sp
+length(unique(bb.stan.onecue$datasetID))#n_studies
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
@@ -137,11 +155,11 @@ ys<-bb.stan$resp
 
 m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
 m2l.winsp.sum[grep("sigma_", rownames(m2l.winsp.sum)),]
-speffs<-c(m2l.winsp.sum[grep("a_sp", rownames(m2l.winsp.sum)),1][3:205],
-          m2l.winsp.sum[grep("b_chill", rownames(m2l.winsp.sum)),1][3:205],
-          m2l.winsp.sum[grep("b_photo", rownames(m2l.winsp.sum)),1][3:205],
-          m2l.winsp.sum[grep("b_force", rownames(m2l.winsp.sum)),1][3:205])
-write.csv(speffs,"modelnotes/m2l.winsp.allsp.csv")
+speffs<-c(m2l.winsp.sum[grep("a_sp", rownames(m2l.winsp.sum)),1],
+          m2l.winsp.sum[grep("b_chill", rownames(m2l.winsp.sum)),1],
+          m2l.winsp.sum[grep("b_photo", rownames(m2l.winsp.sum)),1],
+          m2l.winsp.sum[grep("b_force", rownames(m2l.winsp.sum)),1])
+write.csv(speffs,"modelnotes/m2l.winsp.allspcomplex.csv")
 
 # easier to transcribe results ....
 # write.csv(m2l.winsp.sum, "~/Desktop/quick.csv")
@@ -153,7 +171,7 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.Rda")
 }
 
 if(use.zscore){
-save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz.Rda")
+save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz_spcomplex.Rda")
 }
 
 if(use.allspp){
@@ -189,7 +207,25 @@ check_all_diagnostics(m2l.wstudy)
 
 m2l.wstudy.sum <- summary(m2l.wstudy)$summary
 m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
+m2l.wstudy.sum[grep("sigma", rownames(m2l.wstudy.sum)),]
 m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
+speffs<-c(m2l.wstudy.sum[grep("a_sp", rownames(m2l.wstudy.sum)),1],
+          m2l.wstudy.sum[grep("b_chill", rownames(m2l.wstudy.sum)),1],
+          m2l.wstudy.sum[grep("b_photo", rownames(m2l.wstudy.sum)),1],
+          m2l.wstudy.sum[grep("b_force", rownames(m2l.wstudy.sum)),1])
+write.csv(speffs,"modelnotes/m2l.wstudy.allspcomplex.csv")
 
-m2l.wstudy.sum[,1]
 # write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
+if(FALSE){
+  if(!use.zscore){
+    save(m2l.winsp, file="stan/output/M1_daysBBnointer_2level_studyint_ncp.stan.Rda")
+  }
+  
+  if(use.zscore){
+    save(m2l.winsp, file="stan/output/M1_daysBBwnointer_2levelz_studyint_ncp.stan.Rda")
+  }
+  
+  if(use.allspp){
+    save(m2l.winsp, file="stan/output/M1_daysBBnointer_2level_studyint_ncp.stan.allspp.Rda")
+  }
+}
