@@ -29,8 +29,8 @@ source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
 use.zscore = TRUE # change to TRUE to use centered and scaled data
-use.onecuespp = TRUE #change to TRUE if using subset of species for one cue. 
-use.nocropspp = FALSE #change to TRUE if using subset of species wihtout crops 
+use.onecuespp = FALSE #change to TRUE if using subset of species for one cue. and use
+use.nocropspp = TRUE #change to TRUE if using subset of species without crops and use bb.stan.nocrops
 
 ########################
 ## Z-scored data here ##
@@ -61,7 +61,18 @@ if(use.onecuespp){
                       )
   )
 }
-
+if(use.nocropspp){
+  datalist.bb <- with(bb.stan.nocrops, 
+                      list(y = resp, 
+                           chill = chill.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           N = nrow(bb.stan.nocrops),
+                           n_sp = length(unique(bb.stan.nocrops$complex))
+                      )
+  )
+}
 ######################################
 ## Overview of the models run below ##
 ######################################
@@ -85,7 +96,9 @@ m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
 check_all_diagnostics(m2l.ni)
 #use shiny stan to do PPC
 ys<-bb.stan$resp
-ys<-bb.stan.onecue$resp #if using one cue
+if(use.onecuespp){ys<-bb.stan.onecue$resp }#if using one cue
+if(use.nocropspp){ys<-bb.stan.nocrops$resp }#if using no crops
+
 #launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
@@ -95,7 +108,10 @@ speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_force", rownames(m2lni.sum)),1])
-write.csv(speffs,"modelnotes/m21ni.allspcomplex.onecue.csv", row.names = TRUE)
+write.csv(speffs,"modelnotes/m21ni.allspcomplex.csv", row.names = TRUE)
+if(use.onecuespp){write.csv(speffs,"modelnotes/m21ni.allspcomplex.onecue.csv", row.names = TRUE)}
+if(use.nocropspp){write.csv(speffs,"modelnotes/m21ni.allspcomplex.nocropspp.csv", row.names = TRUE)}
+
 # PPC 
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
@@ -112,7 +128,7 @@ save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.Rda")
 }
 
 if(use.zscore){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz_spcomplex.onecue.Rda")
+save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz_spcomplex.nocrops.Rda")
 }
 
 if(use.allspp){
@@ -124,9 +140,9 @@ nrow(bb.stan)#N
 length(unique(bb.stan$complex))#n_sp
 length(unique(bb.stan$datasetID))#n_studies
 
-nrow(bb.stan.onecue)#N
-length(unique(bb.stan.onecue$complex))#n_sp
-length(unique(bb.stan.onecue$datasetID))#n_studies
+nrow(bb.stan.nocrops)#N
+length(unique(bb.stan.nocrops$complex))#n_sp
+length(unique(bb.stan.nocrops$datasetID))#n_studies
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
@@ -150,7 +166,7 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="With intxn mode
 
 check_all_diagnostics(m2l.winsp)
 #use shiny stan to do PPC
-ys<-bb.stan$resp
+ys<-bb.stan.nocrops$resp
 #launch_shinystan(m2l.winsp)
 
 m2l.winsp.sum[grep("mu_", rownames(m2l.winsp.sum)),]
@@ -159,7 +175,7 @@ speffs<-c(m2l.winsp.sum[grep("a_sp", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_chill", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_photo", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_force", rownames(m2l.winsp.sum)),1])
-write.csv(speffs,"modelnotes/m2l.winsp.allspcomplex.csv")
+write.csv(speffs,"modelnotes/spest_Ailene/m2l.winsp.allspcomplex.nocrops.csv")
 
 # easier to transcribe results ....
 # write.csv(m2l.winsp.sum, "~/Desktop/quick.csv")
@@ -199,6 +215,19 @@ datalist.bb <- with(bb.stan,
                     )
 
 
+if(use.nocropspp){datalist.bb <- with(bb.stan.nocrops, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         study = as.numeric(as.factor(bb.stan.nocrops$datasetID)),
+                         N = nrow(bb.stan.nocrops),
+                         n_sp = length(unique(bb.stan.nocrops$complex)),
+                         n_study = length(unique(bb.stan.nocrops$datasetID))
+                    )
+)
+}
 m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
                iter = 5000, warmup=3500,control = list(max_treedepth = 15)) #default tree depth gave warning of 2971 transitions that exceeded the maximum treedepth
 
@@ -212,8 +241,9 @@ m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
 speffs<-c(m2l.wstudy.sum[grep("a_sp", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("b_chill", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("b_photo", rownames(m2l.wstudy.sum)),1],
-          m2l.wstudy.sum[grep("b_force", rownames(m2l.wstudy.sum)),1])
-write.csv(speffs,"modelnotes/m2l.wstudy.allspcomplex.csv")
+          m2l.wstudy.sum[grep("b_force", rownames(m2l.wstudy.sum)),1],
+          m2l.wstudy.sum[grep("a_study", rownames(m2l.wstudy.sum)),1])
+write.csv(speffs,"modelnotes/m2l.wstudy.allspcomplex.nocrops.csv")
 
 # write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
 if(FALSE){
