@@ -201,7 +201,7 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
 # Note the notation: nointer_2level_studyint: m2l.wstudy
 ########################################################
 
-datalist.bb <- with(bb.stan, 
+datalist.bb <- with(bb.stan., 
                     list(y = resp, 
                          chill = chill.z, 
                          force = force.z, 
