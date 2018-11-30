@@ -23,7 +23,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allphoto = TRUE #change to false if using only exp or ramped photo
-use.allspp = TRUE
+use.allspp = FALSE
 
 source("source/bbstanleadin.R")
 
@@ -76,11 +76,11 @@ ys<-bb.stan$resp
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
-speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1][3:205],
-      m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1][3:205],
-      m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1][3:205],
-      m2lni.sum[grep("b_force", rownames(m2lni.sum)),1][3:205])
-write.csv(speffs,"modelnotes/m21ni.allsp.csv")
+speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1],
+      m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1],
+      m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1],
+      m2lni.sum[grep("b_force", rownames(m2lni.sum)),1])
+write.csv(speffs,"modelnotes/m21ni.allspcomplex.csv", row.names = TRUE)
 # PPC 
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
