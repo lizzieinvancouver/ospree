@@ -29,7 +29,7 @@ source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
 use.zscore = TRUE # change to TRUE to use centered and scaled data
-use.onecuespp = FALSE #change to TRUE if using subset of species for one cue. and use
+use.onecuespp = TRUE #change to TRUE if using subset of species for one cue. and use
 use.nocropspp = FALSE #change to TRUE if using subset of species without crops and use bb.stan.nocrops
 
 ########################
@@ -262,7 +262,7 @@ speffs<-c(m2l.wstudy.sum[grep("a_sp", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("b_force", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("a_study", rownames(m2l.wstudy.sum)),1])
 if(use.allspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.allsp.csv", row.names = TRUE)}
-if(!use.allspp & !use.onecuespp & !use.nocropspp){write.csv(speffs,"m2l.wstudy.allspcomplex.csv", row.names = TRUE)}
+if(!use.allspp & !use.onecuespp & !use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.allspcomplex.csv", row.names = TRUE)}
 if(use.onecuespp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.onecue.csv")}
 if(use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.nocrops.csv")}
 
