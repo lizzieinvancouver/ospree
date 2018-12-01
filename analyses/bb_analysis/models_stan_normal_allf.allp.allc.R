@@ -23,14 +23,14 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allphoto = TRUE #change to false if using only exp or ramped photo
-use.allspp = FALSE
+use.allspp = FALSE #change to FALSE if using one cue or no crops or other
 
 source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
 use.zscore = TRUE # change to TRUE to use centered and scaled data
-use.onecuespp = FALSE #change to TRUE if using subset of species for one cue. and use
-use.nocropspp = TRUE #change to TRUE if using subset of species without crops and use bb.stan.nocrops
+use.onecuespp = TRUE #change to TRUE if using subset of species for one cue. and use
+use.nocropspp = FALSE #change to TRUE if using subset of species without crops and use bb.stan.nocrops
 
 ########################
 ## Z-scored data here ##
@@ -108,9 +108,10 @@ speffs<-c(m2lni.sum[grep("a_sp", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_chill", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_photo", rownames(m2lni.sum)),1],
       m2lni.sum[grep("b_force", rownames(m2lni.sum)),1])
-write.csv(speffs,"modelnotes/m21ni.allspcomplex.csv", row.names = TRUE)
-if(use.onecuespp){write.csv(speffs,"modelnotes/m21ni.allspcomplex.onecue.csv", row.names = TRUE)}
-if(use.nocropspp){write.csv(speffs,"modelnotes/m21ni.allspcomplex.nocropspp.csv", row.names = TRUE)}
+if(use.allspp){write.csv(speffs,"modelnotes/spest_Ailene/m21ni.allsp.csv", row.names = TRUE)}
+if(!use.allspp & !use.onecuespp & !use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m21ni.allspcomplex.csv", row.names = TRUE)}
+if(use.onecuespp){write.csv(speffs,"modelnotes/spest_Ailene/m21ni.onecue.csv", row.names = TRUE)}
+if(use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m21ni.nocropspp.csv", row.names = TRUE)}
 
 # PPC 
 if(FALSE){
@@ -175,7 +176,10 @@ speffs<-c(m2l.winsp.sum[grep("a_sp", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_chill", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_photo", rownames(m2l.winsp.sum)),1],
           m2l.winsp.sum[grep("b_force", rownames(m2l.winsp.sum)),1])
-write.csv(speffs,"modelnotes/spest_Ailene/m2l.winsp.allspcomplex.nocrops.csv")
+if(use.allspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.winsp.allsp.csv", row.names = TRUE)}
+if(!use.allspp & !use.onecuespp & !use.nocropspp){write.csv(speffs,"m2l.winsp.allspcomplex.csv", row.names = TRUE)}
+if(use.onecuespp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.winsp.onecue.csv")}
+if(use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.winsp.nocrops.csv")}
 
 # easier to transcribe results ....
 # write.csv(m2l.winsp.sum, "~/Desktop/quick.csv")
@@ -213,6 +217,20 @@ datalist.bb <- with(bb.stan,
                          n_study = length(unique(bb.stan$datasetID))
                     )
                     )
+if(use.onecuespp){
+  datalist.bb <- with(bb.stan.onecue, 
+                      list(y = resp, 
+                           chill = chill.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           study = as.numeric(as.factor(bb.stan.onecue$datasetID)),
+                           N = nrow(bb.stan.onecue),
+                           n_sp = length(unique(bb.stan.onecue$complex)),
+                           n_study = length(unique(bb.stan.onecue$datasetID))
+                      )
+  )
+}
 
 
 if(use.nocropspp){datalist.bb <- with(bb.stan.nocrops, 
@@ -243,7 +261,10 @@ speffs<-c(m2l.wstudy.sum[grep("a_sp", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("b_photo", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("b_force", rownames(m2l.wstudy.sum)),1],
           m2l.wstudy.sum[grep("a_study", rownames(m2l.wstudy.sum)),1])
-write.csv(speffs,"modelnotes/m2l.wstudy.allspcomplex.nocrops.csv")
+if(use.allspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.allsp.csv", row.names = TRUE)}
+if(!use.allspp & !use.onecuespp & !use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.allspcomplex.csv", row.names = TRUE)}
+if(use.onecuespp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.onecue.csv")}
+if(use.nocropspp){write.csv(speffs,"modelnotes/spest_Ailene/m2l.wstudy.nocrops.csv")}
 
 # write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
 if(FALSE){

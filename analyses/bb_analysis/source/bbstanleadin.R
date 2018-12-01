@@ -90,8 +90,8 @@ if(!use.allspp){
     bb.stan.nocrops<-sppcomplexfx.nocrops(bb.stan.allspp) 
 }
 
-sort(unique(bb.stan.allphoto$complex.wname)) 
-sort(unique(bb.stan$complex.wname)) 
+#sort(unique(bb.stan.allphoto$complex.wname)) 
+#sort(unique(bb.stan$complex.wname)) 
 
 ## subsetting data, preparing genus variable, removing NAs (err, again
 # remove crops?
