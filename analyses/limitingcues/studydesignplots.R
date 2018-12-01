@@ -162,15 +162,41 @@ photocues <- getcueinfo(d, "photoperiod_day", "datasetIDstudy")
 # chilldayscues <- getcueinfo(d, "chilldays", "datasetIDstudy") # need to make numeric
 chilltempcues <- getcueinfo(d, "chilltemp", "datasetIDstudy")
 
+# get consecutive diffs of cues (we decided not to use so much I think)
 forcecues.consdiffs <- getcueinfo.consdiffs(d, "force", "datasetIDstudy")
+# get all diffs of cues
+forcecues.alldiffs <- getcueinfo.alldiffs(d, "force", "datasetIDstudy")
+photocues.alldiffs <- getcueinfo.alldiffs(d, "photoperiod_day", "datasetIDstudy")
+chilltempcues.alldiffs <- getcueinfo.alldiffs(d, "chilltemp", "datasetIDstudy")
 
-cueinfo <- merge(merge(forcecues, photocues, by = "datasetIDstudy", all=TRUE, suffixes=c("force", "photo")),
-               chilltempcues, by = "datasetIDstudy", all=TRUE, suffixes=c("", "chill"))
+# Merging ...
+# Below seems to work fine to use for histograms
+cueinfo <- merge(merge(forcecues, photocues, by = "datasetIDstudy", all=TRUE,
+    suffixes=c("force", "photo")), chilltempcues, by = "datasetIDstudy", all=TRUE,
+    suffixes=c("", "chill"))
+# Double check that the merge works as well as single files
+par(mfrow=c(1,2))
 hist(cueinfo$maxdiff.treatforce, breaks=10)
-hist(forcecues.consdiffs$diff.treat, breaks=20)
+hist(forcecues$maxdiff.treat, breaks=10) 
+# Careful! The below retain all values, so it duplicates some treatments
+# That is, don't assume all the crossed treatments were made
+# Need to use the signle cue files for more accurate histograms
+cueinfo.alldiffs <- merge(merge(forcecues.alldiffs, photocues.alldiffs,
+    by = "datasetIDstudy", all=TRUE, suffixes=c("force", "photo")), 
+    chilltempcues.alldiffs, by = "datasetIDstudy", all=TRUE,
+    suffixes=c("", "chill"))
 
-hist(cueinfo$maxdiff.treatphoto, breaks=10)
+pdf("limitingcues/figures/cuediffs.pdf", width = 6, height = 8)
+par(mfrow=c(3,2))
+hist(forcecues$maxdiff.treat, breaks=20, main="max", xlab="forcing")
+hist(forcecues.alldiffs$diff.treat, breaks=20, main="all diffs", xlab="forcing")
+hist(photocues$maxdiff.treat, breaks=20, main="max", xlab="photo")
+hist(photocues.alldiffs$diff.treat, breaks=20, main="all diffs", xlab="photo")
+hist(chilltempcues$maxdiff.treat, breaks=20, main="max", xlab="chill temp")
+hist(chilltempcues.alldiffs$diff.treat, breaks=20, main="all diffs", xlab="chill temp")
+dev.off()
 
+##
 
 dsumm.wsp <-
       ddply(d, c("datasetID", "study", "latbi"), summarise,
