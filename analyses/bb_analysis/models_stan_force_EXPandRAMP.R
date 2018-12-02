@@ -63,7 +63,7 @@ datalist.bb.nocrops <- with(bb.stan.nocrops,
                                 photo = photo.z,
                                 sp = complex,
                                 N = nrow(bb.stan.nocrops),
-                                n_sp = length(unique(bb.stan.allphoto.nocrops$complex))
+                                n_sp = length(unique(bb.stan.nocrops$complex))
                            )
 )
 }
@@ -120,6 +120,7 @@ m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb.onecue,
 
 m2l.winsp2 = stan('stan/winternosp_2level.stan', data = datalist.bb.nocrops,
                  iter = 4000, warmup=2500) 
+
 check_all_diagnostics(m2l.winsp)
 check_all_diagnostics(m2l.winsp2)
 
@@ -172,10 +173,18 @@ datalist.bb.nocrops2 <- with(bb.stan.nocrops,
                             )
 }
 ##########
-unique(bb.stan.nocrops$complex) #35
+
+ m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb.onecue2, 
+                    iter = 5000, warmup=3500) 
 
  m2l.wstudy2 = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb.nocrops2, 
-                    iter = 5000, warmup=3500) ### cant get it to run!
+                    iter = 5000, warmup=3500) 
 
+check_all_diagnostics( m2l.wstudy2)
+
+m2l.wstudy2.sum2 <- summary(m2l.wstudy2)$summary 
+m2l.wstudy2.sum2[grep("mu_", rownames(m2l.wstudy2.sum2)),]
+m2l.wstudy2.sum2[grep("sigma_", rownames(m2l.wstudy2.sum2)),]
+write.csv(m2l.wstudy2.sum2, "~/Desktop/quick6.csv")
 
 
