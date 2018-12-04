@@ -23,6 +23,8 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allspp = TRUE
+use.allphoto = FALSE
+use.expforcephoto = TRUE
 source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
@@ -143,6 +145,8 @@ save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
 # real data on 2 level model (sp and study) with 2 two-way interactions but no partial pooling on interactions
 # Note the notation: nointer_2level_studyint: m2l.wstudy
 ########################################################
+
+# bb.stan <- bb.expphotoforce.allspp
 
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 

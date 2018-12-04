@@ -64,7 +64,7 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 bb.stan.allphoto.allspp <- bb
 bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
 bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) 
-bb.stan.allphoto.nocrops <- sppcomplexfx.nocrops(bb.stan.allphoto.allspp) 
+bb.stan.allphoto.nocrops <- sppcomplexfx.nocrops(bb.stan.allphoto.allspp)
 
 # Select photoperiod
 
@@ -133,6 +133,63 @@ datalist.bb.cen <- with(bb.stan,
                     )
 )
 
+if(use.expforcephoto){
+# only exp force and photo; all chill
+bb.expphotoforce.allspp <- bb.expphotoforce
+bb.expphotoforce.allspp$latbi <- paste(bb.expphotoforce.allspp$genus, bb.expphotoforce.allspp$species)
+bb.expphotoforce.allspp <- bb.expphotoforce.allspp[order(bb.expphotoforce.allspp$latbi),]
+bb.expphotoforce.allspp$complex <- as.numeric(as.factor(bb.expphotoforce.allspp$latbi))
+
+bb.expphotoforce.spcom <- sppcomplexfx(bb.expphotoforce)
+bb.expphotoforce.onecue <- sppcomplexfx.onecue(bb.expphotoforce)
+bb.expphotoforce.nocrops <- sppcomplexfx.nocrops(bb.expphotoforce) 
+    
+datalist.bb.efp.allsp <- with(bb.expphotoforce.allspp, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.expphotoforce.allspp),
+                         n_sp = length(unique(bb.expphotoforce.allspp$complex))
+                    )
+)
+
+datalist.bb.efp.spcom <- with(bb.expphotoforce.spcom, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.expphotoforce.spcom),
+                         n_sp = length(unique(bb.expphotoforce.spcom$complex))
+                    )
+)
+
+datalist.bb.efp.onecue <- with(bb.expphotoforce.onecue, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.expphotoforce.onecue),
+                         n_sp = length(unique(bb.expphotoforce.onecue$complex))
+                    )
+)
+
+datalist.bb.efp.nocrops <- with(bb.expphotoforce.nocrops, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.expphotoforce.nocrops),
+                         n_sp = length(unique(bb.expphotoforce.nocrops$complex))
+                    )
+)
+
+    
+}
 
 # all photoperiod types (not currently using) 
 datalist.bb.allphoto <- with(bb.stan.allphoto, 
