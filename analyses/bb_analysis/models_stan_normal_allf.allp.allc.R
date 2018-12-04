@@ -251,7 +251,7 @@ m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
 
 check_all_diagnostics(m2l.wstudy)
 # launch_shinystan(m2l.wstudy)
-
+ys<-bb.stan.onecue$resp
 m2l.wstudy.sum <- summary(m2l.wstudy)$summary
 m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
 m2l.wstudy.sum[grep("sigma", rownames(m2l.wstudy.sum)),]
