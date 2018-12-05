@@ -2,6 +2,8 @@
 ## By Lizzie to start ##
 ## Ailene added to code 17 Aug 2017
 ## Trying to examine whether estimated effects are consisent across methods ##
+## Dan decided this code is defunct on Dec 5 2018, moved to zarchive. Use weinberger.check.R instead
+
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 

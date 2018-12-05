@@ -1,5 +1,6 @@
 ## Started 7 May 2018 ##
 ## By Lizzie ##
+##updated by Dan
 
 ## TO DO ##
 # (*) Should check/merge with studydesignplots.R so they use same data and counts #
@@ -27,8 +28,8 @@ library(ggplot2)
 library(gridExtra)
 library(geosphere)
 
-source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
-source("misc/getcuesbystudy_fxs.R") # f(x) counts up cues
+source("..//misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
+source("..//misc/getcuesbystudy_fxs.R") # f(x) counts up cues
 
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
@@ -87,6 +88,11 @@ ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study,
 
 dates2weekstreat <- countfieldsample(ddatefxtreat, 14)
 names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
+
+weinberger<-filter(dates2weekstreat,fs.date.count>=2)
+#clean it a little bit
+goo<-separate(weinberger, datasetIDstudy,c("datasetID","study","force","photo","chill") , sep = " " , remove = FALSE)
+unique(goo$datasetID)
 
 ## summarizing data: means, mins and maxes by study
 dsumm <-
