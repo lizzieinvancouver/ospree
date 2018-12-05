@@ -5,8 +5,11 @@
 ## These are models that were in models_stan.R but that for various reasons #
 # we stopped working with so much ##
 
+## Commit efcd6568fbc2226c37b4310a6c4d78e810427b7a (5 Dec 2018) also has gamma and negative binomial code we deleted ##
+
 ## Impt note! Some of the model results here were updated in July 2018 #
 # after more data cleaning, but *not* all the models ##
+
 
 ## housekeeping
 rm(list=ls()) 
