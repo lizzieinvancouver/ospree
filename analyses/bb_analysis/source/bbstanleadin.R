@@ -79,6 +79,8 @@ if(!use.allphoto){
 # Select species
 if(use.allspp){
     bb.stan <- bb.stan.allspp
+    cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera", "Ribes_nigrum")
+    bb.stan.nocrops<-[!(bb.stan$name%in%cropspp),]
     bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
     allspp <- data.frame(latbi=unique(bb.stan$latbi), complex=seq(1:length(unique(bb.stan$latbi))))
     bb.stan <- merge(bb.stan, allspp, by="latbi")
