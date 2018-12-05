@@ -7,6 +7,10 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+# libraries
+library(shinystan)
+
+
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
@@ -22,31 +26,15 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = TRUE
-use.allphoto = FALSE
-use.expforcephoto = TRUE
+# Default is species complex
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+
 source("source/bbstanleadin.R")
-
-# Flags to choose for this here file
-use.zscore = TRUE # change to TRUE to use centered and scaled data
-
-########################
-## Z-scored data here ##
-########################
-
-# alternative: use centered data
-if(use.zscore){
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-}
 
 ######################################
 ## Overview of the models run below ##

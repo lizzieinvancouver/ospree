@@ -1,16 +1,13 @@
-
+# libraries needed for the leadin code
 library(rstan)
-library(ggplot2)
-library(shinystan)
-# library(bayesplot)
 library(dplyr)
-# library(rstanarm)
 
-source('..//stan/savestan.R')
-source("source/speciescomplex.R") # incl. f(x) to remove species with too few or biased experiments
-source("source/speciescomplex_onecue.R")
-source("source/speciescomplex.nocrops.R")
-source("source/stan_utility.R")
+source('..//stan/savestan.R') # Dan Flynn code
+# incl. f(x)s to deal with biases in the data related to species, study, and design....
+source("source/speciescomplex.R") # this makes sure all species/complexes present in 2 or more studies
+source("source/speciescomplex.multcues.R") # as above, but requires all species/complexes to have more than one cue manipulated
+source("source/speciescomplex.nocrops.R") # similar to speciescomplex.R but removes 4 crop species
+source("source/stan_utility.R") # From Mike Betancourt
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -19,7 +16,7 @@ options(mc.cores = parallel::detectCores())
 # Running the models with fake data? See bb_testdata_analysis.R #
 ################################################################# 
 
-## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
+## First steps to cleaning: Get the data, subset down to exact data columns etc. that we want 
 ## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
 
 ## (1) Get the data and slim down to correct response and no NAs ...
@@ -34,7 +31,7 @@ d <- bb.noNA
 source("source/commoncols.R")
 bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
 
-# remove the two values above 600
+# remove the values above 600 (which means remove the right-censored data, coded as 999)
 bb <- subset(bb, resp<600)
 
 # adjust chilling (if needed)
@@ -56,155 +53,173 @@ bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 bb.exprampphotoforce <- subset(bb.exprampphoto, force_type=="exp"|force_type=="ramped")
 bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
-#################################################################
-# Set the data you want to use as bb.stan and deal with species #
-#################################################################
+##################################################
+# Set the data you want to use deal with species #
+##################################################
 
-# currently we use bb.stan.expphoto ...
-bb.stan.allphoto.allspp <- bb
-bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
-bb.stan.allphoto.multcue <- sppcomplexfx.multcue(bb.stan.allphoto.allspp) 
-bb.stan.allphoto.nocrops <- sppcomplexfx.nocrops(bb.stan.allphoto.allspp)
-
-# Select photoperiod
-
-if(use.allphoto){
-  bb.stan.allspp <- bb.stan.allphoto.allspp
- }
-
-if(!use.allphoto){
-  bb.stan.allspp <- bb.exprampphotoforce
+# set up data for when using all types of designs (exp, ramped, amb)
+bb.all <- bb
+if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    bb.stan.alltypes <- sppcomplexfx(bb.all) 
+    bb.stan.alltypes.multcue <- sppcomplexfx.multcue(bb.all) 
+    bb.stan.alltypes.nocrops <- sppcomplexfx.nocrops(bb.all)
 }
 
-# Select species
-if(use.allspp){
-    bb.stan <- bb.stan.allspp
-    cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera", "Ribes_nigrum")
-    bb.stan.nocrops<-bb.stan[!(bb.stan$name%in%cropspp),]
-    bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
-    allspp <- data.frame(latbi=unique(bb.stan$latbi), complex=seq(1:length(unique(bb.stan$latbi))))
-    bb.stan <- merge(bb.stan, allspp, by="latbi")
-}
-    
-if(!use.allspp){
-    bb.stan <- sppcomplexfx(bb.stan.allspp) 
-    bb.stan.multcue<-sppcomplexfx.multcue(bb.stan.allspp) 
-    bb.stan.nocrops<-sppcomplexfx.nocrops(bb.stan.allspp) 
+# set up data for when using exp AND ramped for photo + forceexp for photo + force
+if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+    bb.stan.expramptypes <- sppcomplexfx(bb.exprampphotoforce) 
+    bb.stan.expramptypes.multcue <- sppcomplexfx.multcue(bb.exprampphotoforce) 
+    bb.stan.expramptypes.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforce)
 }
 
-#sort(unique(bb.stan.allphoto$complex.wname)) 
-#sort(unique(bb.stan$complex.wname)) 
 
-## subsetting data, preparing genus variable, removing NAs (err, again
-# remove crops?
-# bb <- subset(bb, type!="crop")
+# set up data for when using exp for photo + force
+if (use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+    bb.stan.exptypes <- sppcomplexfx(bb.expphotoforce) 
+    bb.stan.exptypes.multcue <- sppcomplexfx.multcue(bb.expphotoforce) 
+    bb.stan.exptypes.nocrops <- sppcomplexfx.nocrops(bb.expphotoforce)
+}
+
+
+# set up data for when using different types of chilling
 
 
 ##################################
 ## Prep the data for Stan model ##
 ##################################
-# Fairly strict rules of inclusion in this analysis: manipulation of forcing temperature, 
-# photoperiod, and where we have a response in days and total chilling.
 
-# making a list out of the processed data. It will be input for the model
-datalist.bb <- with(bb.stan, 
+# making some list out of the processed data. It will be input for the model ...
+# This is the default .... (uses basic species complex)
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    bb.stan <- bb.stan.alltypes
+    datalist.bb <- with(bb.stan, 
                     list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))
                     )
-)
-
-
-
-## real data with only experimental chilling (no field chilling)
-#osp.td3 = stan('stan/nointer_2level.stan', data = datalist.td,
- #              iter = 2000,warmup=1500,control=list(adapt_delta=0.95))
-
-datalist.bb.cen <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.cen, 
-                         force = force.cen, 
-                         photo = photo.cen,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-if(use.expforcephoto){
-# only exp force and photo; all chill
-bb.expphotoforce.allspp <- bb.expphotoforce
-bb.expphotoforce.allspp$latbi <- paste(bb.expphotoforce.allspp$genus, bb.expphotoforce.allspp$species)
-bb.expphotoforce.allspp <- bb.expphotoforce.allspp[order(bb.expphotoforce.allspp$latbi),]
-bb.expphotoforce.allspp$complex <- as.numeric(as.factor(bb.expphotoforce.allspp$latbi))
-
-bb.expphotoforce.spcom <- sppcomplexfx(bb.expphotoforce)
-bb.expphotoforce.onecue <- sppcomplexfx.onecue(bb.expphotoforce)
-bb.expphotoforce.nocrops <- sppcomplexfx.nocrops(bb.expphotoforce) 
-    
-datalist.bb.efp.allsp <- with(bb.expphotoforce.allspp, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.expphotoforce.allspp),
-                         n_sp = length(unique(bb.expphotoforce.allspp$complex))
-                    )
-)
-
-datalist.bb.efp.spcom <- with(bb.expphotoforce.spcom, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.expphotoforce.spcom),
-                         n_sp = length(unique(bb.expphotoforce.spcom$complex))
-                    )
-)
-
-datalist.bb.efp.onecue <- with(bb.expphotoforce.onecue, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.expphotoforce.onecue),
-                         n_sp = length(unique(bb.expphotoforce.onecue$complex))
-                    )
-)
-
-datalist.bb.efp.nocrops <- with(bb.expphotoforce.nocrops, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.expphotoforce.nocrops),
-                         n_sp = length(unique(bb.expphotoforce.nocrops$complex))
-                    )
-)
-
-    
+ )
 }
 
-# all photoperiod types (not currently using) 
-datalist.bb.allphoto <- with(bb.stan.allphoto, 
+# This is ALL species (no species complex used)
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    # TO DO: check the complex code below!
+    bb.all$latbi <- paste(bb.all$genus, bb.all$species, sep="_")
+    bb.all$complex -> as.numeric(bb.all$latbi)
+    bb.stan <- bb.all
+    datalist.bb <- with(bb.stan, 
                     list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
                          sp = complex,
                          N = nrow(bb.stan),
                          n_sp = length(unique(bb.stan$complex))
                     )
-)
+ )
+}
 
+# Species complex with only exp & ramped photoforce
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+    bb.stan <- bb.stan.exprampphotoforce
+    datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
+
+# Species complex with only exp photoforce
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+    bb.stan <- bb.stan.expphotoforce
+    datalist.bb <- with(bb.stan, 
+                    list(y=resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
+# This is ALL species (no species complex used)
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    # TO DO: check the complex code below!
+    bb.all$latbi <- paste(bb.all$genus, bb.all$species, sep="_")
+    bb.all$complex -> as.numeric(bb.all$latbi)
+    bb.stan <- bb.all
+    datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
+
+# Species complex with only exp & ramped photoforce
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+    bb.stan <- bb.stan.exprampphotoforce
+    datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
+
+# Species complex with only exp photoforce
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+    bb.stan <- bb.stan.expphotoforce
+    datalist.bb <- with(bb.stan, 
+                    list(y=resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
+
+## AT THE END ...
+str(datalist.bb)
+print("Unique forcing types are ...")
+print(unique(bb.stan$force_type))
+print("Unique photo types are ...")
+print(unique(bb.stan$photo_type))
+print("Unique chilling types are ...")
+print(unique(bb.stan$chill_type))
+
+
+
+
+## Ailene works on below 
+if(FALSE){
 if(use.chillunits){
 # datalist for utah
 datalist.bb.utah <- with(bb.stan, 
@@ -287,4 +302,5 @@ datalist.bb.cports.z <- with(bb.stan,
                                 n_study = length(unique(bb.stan$datasetID))
                            )
 )
+}
 }
