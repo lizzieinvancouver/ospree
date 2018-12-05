@@ -1,11 +1,15 @@
 ## Started 25 July 2017 (but also 13 July 2018) ##
+## UPDATED in December 2018 after a new round of model work at the retreat ##
 ## By Lizzie, and Dan and others ##
 
 ## These are models that were in models_stan.R but that for various reasons #
 # we stopped working with so much ##
 
+## Commit efcd6568fbc2226c37b4310a6c4d78e810427b7a (5 Dec 2018) also has gamma and negative binomial code we deleted ##
+
 ## Impt note! Some of the model results here were updated in July 2018 #
 # after more data cleaning, but *not* all the models ##
+
 
 ## housekeeping
 rm(list=ls()) 
@@ -24,14 +28,86 @@ if(length(grep("lizzie", getwd())>0)) {
   }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 # dostan = TRUE
-source("source/bbstanleadin.R")
+source("source/bbstanleadin.R") # alert! You probably need an older version of this file for the below to run.
 use.zscore = FALSE # change to TRUE to use centered and scaled data 
 # Impt: still need to do deal with provenance and material (which mean some treatments show up more than once) 
 
 
-######################################
-## Overview of the models run below ##
-######################################
+
+#############################################################
+## Overview of the main models running as of November 2018 ##
+############################################################# 
+# All have partial pooling (pp) and include force (f), photo (p), chill (c)
+
+# Main model:
+# m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
+
+# Models we worked on for a while, but no longer:
+# m2l.wstudy: a + a(sp) + a(study) + f(sp) + p(sp) + c(sp)
+# m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
+   #            iter = 4000, warmup=2500) 
+# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
+# m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+    #       iter = 5000, warmup=3500) 
+
+
+
+########################################################
+# real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
+# Note the notation: winternosp_2level.stan: m2l.winsp
+########################################################
+m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
+               iter = 4000, warmup=2500) 
+ 
+
+m2l.winsp.sum <- summary(m2l.winsp)$summary 
+m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+    "b_cf","b_cp","b_fp"),]
+
+
+########################################################
+# real data on 2 level model (sp and study) with 2 two-way interactions but no partial pooling on interactions
+# Note the notation: nointer_2level_studyint: m2l.wstudy
+########################################################
+
+# bb.stan <- bb.expphotoforce.allspp
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         study = as.numeric(as.factor(bb.stan$datasetID)),
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         n_study = length(unique(bb.stan$datasetID))
+                    )
+                    )
+
+
+m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+               iter = 5000, warmup=3500) 
+
+check_all_diagnostics(m2l.wstudy)
+# launch_shinystan(m2l.wstudy)
+
+m2l.wstudy.sum <- summary(m2l.wstudy)$summary
+m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
+m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
+
+m2l.wstudy.sum[,1]
+# write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
+
+
+###########################################################
+###########################################################
+###########################################################
+
+
+#########################################################
+## Overview of the main models running as of July 2018 ##
+#########################################################
 # All have partial pooling (pp) and include force (f), photo (p), chill (c)
 
 # Model with convergence issues ...
