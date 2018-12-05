@@ -1,27 +1,15 @@
-## Started 25 July 2017 ##
-## By Lizzie, and Dan and others ##
+## Started 20 November 2018 ##
+## By Lizzie ##
 
-## Try to run REAL Ospree data ##
-## With Stan! ##
+## Based off models_stan.R ##
 
-## See also: models_stan_previous.R
-
-## Take 1: This code is based heavily off bbmodel1_stan.R 
-## Take 2: February 2017! ##
-## Take 3: July 2017! ## New code to run stan models on Ospree (by Nacho, Lizzie and more)
-## Take 4: June 2018! Lizzie re-organizes code and adds rstanarm 
-
-## To do
-# TRY: datalist.bb.expphoto ... make as use.datalist.bb.expphoto=TRUE type thing
-# (a) think on adjusting forcetemp to incorporate nightime temps? And look at what we lose in photo and force! (Did I do this?)
-# (b) see notes throughout on what Lizzie still needs to clean
-# (c) subset down to relevant block/transplant treatments for gomory15
-# (d) Try alternative metrics of chilling (chilldays?)
-# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
-
-## housekeeping
+# housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
+
+# libraries
+library(shinystan)
+
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -38,288 +26,47 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
-use.allspp = TRUE
+# Default is species complex
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+
 source("source/bbstanleadin.R")
 
-# Flags to choose for this here file
-use.zscore = TRUE # change to TRUE to use centered and scaled data
-use.pep = FALSE # change to TRUE to use only commmon PEP 725 spp.
-
-# Below not currently used ... but we may want someday
-cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera") # could be an issue: Sorbus_aucuparia 
-
-# plot(ecdf(bb.stan$resp))
-
-#########################
-## For PEP 725 species ##
-#########################
-if(use.pep){
-getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
-allspp <- getspp[!duplicated(getspp), ]
-allspp <- allspp[order(allspp$complex),]
-pepspp <- c("Acer_pseudoplatanus", "Aesculus_hippocastanum", "Betula_pendula", "Corylus_avellana",
-    "Fagus_sylvatica", "Larix_decidua", "Picea_abies", "Populus_tremula",
-    "Prunus_padus","Quercus_robur", "Syringa_vulgaris")
-# gymnastics to renumber species
-somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
-somespp$complex <- NULL
-somespp$complex <- seq(1:nrow(somespp))
-
-bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
-bb.stan$complex <- NULL
-dim(bb.stan)
-bb.stan <- merge(bb.stan, somespp, by="complex.wname")
-dim(bb.stan)
-
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-}
-
-
-########################
-## Z-scored data here ##
-########################
-
-# alternative: use centered data
-if(use.zscore){
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-}
-
 ######################################
-## Overview of the models run below ##
+## Overview of the model run below ##
 ######################################
-# All have partial pooling (pp) and include force (f), photo (p), chill (c)
-
-# Main models:
+# Main model:
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
-# m2l.winsp: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
-
-# Also below:
-# m2l: a(sp) + f + p + c
-# m2l.wstudy: a + a(sp) + a(study) + f(sp) + p(sp) + c(sp)
-
-##################################
-## Main models as of July 2018 ##
-##################################
-
-# Try intercept only ... 
-if(use.allspp){
-m2l = stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
-               iter = 2500, warmup=1500)
-
-betas.m2l <- as.matrix(m2l, pars = c("b_force",
-    "b_photo", "b_chill"))
-m2l.sum <- summary(m2l)$summary
-m2l.sum[grep("b_force", rownames(m2l.sum)),] 
-save(m2l, file="stan/output/M1_daysBBintonly.allspp.Rda")
-
-y_pred <- extract(m2l, 'y_ppc')
-par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
-hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="Group intercept only")
-
-# int neg_binomial_rng(real alpha, real beta) Generate a negative binomial variate with shape alpha and inverse scale beta; may only be used in generated quantities block. alpha / beta must be less than 2^(29)
-
-}
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
-# Note the notation: M1_daysBBnointer_2level.stan: m2l.ni
+# Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500)
 
+check_all_diagnostics(m2l.ni)
+# launch_shinystan(m2l.ni)
+
+m2lni.sum <- summary(m2l.ni)$summary
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+
+# posterior predictive checks....
+if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
 par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
-
-
-betas.m2l.ni <- as.matrix(m2l.ni, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
-    "b_photo", "b_chill"))
-# mcmc_intervals(betas.m2l.ni[,1:3])
-# launch_shinystan(m2l.ni)
-m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-# Sept 2018: a: 75; f: -1.5; p: -0.3; c: -2.8 (42 spp, 2327 datapoints, I think (1957 yhat)
-# before Sep 2018 -- a: 71; f: -1.1; p: -0.6; c: -2.9 (38 spp, 1957 datapoints, I think (1957 yhat)
-
-# z-score Sep 2018 -- a: 32; f: -8.5; p: -2.4; c: -9.3
-# z-score before Sep 2018 -- a: 29; f: -5; p: -4; c: -9.5
-
-# getting predicted values if needed
-# preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
-if(!use.zscore){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.Rda")
-}
-
-if(use.zscore){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelz.Rda")
 }
 
 
-if(use.pep){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2levelpepspp.Rda")
+# Code if you want to save your models (do NOT push output to git)
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
-if(use.allspp){
-save(m2l.ni, file="stan/output/M1_daysBBnointer_2level.allspp.Rda")
-}
-
-########################################################
-# real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
-# Note the notation: M1_daysBBwinternospwinternosp_2level.stan: m2l.winsp
-########################################################
-m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
-               iter = 4000, warmup=2500) # some n_eff issues
- 
-save(m2l.winsp, file="stan/output/M1_daysBBwinternosp_2level.Rda")
-
-m2l.winsp.sum <- summary(m2l.winsp)$summary 
-m2l.winsp.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
-    "b_cf","b_cp","b_fp"),]
-
-if(FALSE){
-y_pred <- extract(m2l.winsp, 'y_ppc')
-par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="")
-hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="With intxn model")
-}
-
-# Sep 2018 -- a: 79; f: -1.4; p: 0.04; c: -5.2, small intxns (all <0.15) # need to check model
-# before Sep 2018 -- a: 95; f: -1.8; p: -1.3; c: -6.8, small intxns (all <0.15) # (low n_eff for some params, a whole mix of them!)
-# Sep 2018 z-score: a: 32; f: -7.6; p: -2.4; c: -9.6; cf: 1.3; cp: 1.2; cf: -1 
-# before Sep 2018 z-score: a: 29; f: -5; p: -4; c: -10; cf: 2; cp: 2; cf: 0.4 
-
-# launch_shinystan(m2l.winsp)
-
-if(!use.zscore){
-save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.Rda")
-}
-
-if(use.zscore){
-save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelz.Rda")
-}
-
-if(use.pep){
-save(m2l.winsp, file="stan/output/M1_daysBBwinter_2levelpepspp.Rda")
-}
-
-if(use.allspp){
-save(m2l.winsp, file="stan/output/M1_daysBBwinter_2level.allspp.Rda")
-}
-
-
-
-####################################################
-## Extra model for now: study and sp on intercept ##
-####################################################
-
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         study = as.numeric(as.factor(bb.stan$datasetID)),
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex)),
-                         n_study = length(unique(bb.stan$datasetID))
-                    )
-                    )
-
-
-m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
-               iter = 5000, warmup=3500) 
-
-check_all_diagnostics(m2l.wstudy)
-# launch_shinystan(m2l.wstudy)
-
-m2l.wstudy.sum <- summary(m2l.wstudy)$summary
-m2l.wstudy.sum[grep("mu_", rownames(m2l.wstudy.sum)),]
-m2l.wstudy.sum[grep("alpha", rownames(m2l.wstudy.sum)),]
-
-m2l.wstudy.sum[,1]
-# write.csv(m2l.wstudy.sum, "~/Desktop/quick.csv")
-
-##############
-# Rstanarm on the above 'main models' ...and run the first two models on centered data
-##############
-if(FALSE){
-library(rstanarm)
-
-# 59 divergent transitions
-m2l.ni.arm <- stan_glmer(resp ~ (force + photo + chill ) +
-    ((force + photo + chill)|complex.wname), data = bb.stan, chains=4)
-save(m2l.ni.arm, file="stan/output/M1_daysBBnointer_2level.arm.Rda")
-
-
-# 51 divergent transitions (everything else on a glance, looks fine)
-m2l.winsp.arm <- stan_glmer(resp ~ (force + photo + chill +
-    force*photo + force*chill + photo*chill) +
-    ((force + photo + chill)|complex.wname), data = bb.stan)
-save(m2l.winsp.arm, file="stan/output/M1_daysBBwinter_2level.arm.Rda")
-
-
-# Very slow! 144 div transitions
-m2l.winsp.arm.alt <- stan_glmer(resp ~ (force + photo + chill +
-    force*photo + force*chill + photo*chill) +
-    ((force + photo + chill+force*photo + force*chill + photo*chill)|complex.wname), data = bb.stan, cores=4)
-save(m2l.winsp.arm.alt, file="stan/output/M1_daysBBwinter_2level.arm.alt.Rda")
-
-summary(m2l.winsp.arm)
-# a: 97; f: -1.9; p: -1.5; c: -7; fp: 0; fc: 0.1; pc: 0.1
-# launch_shinystan(m2l.winsp.arm)
-
-# Just FYI (runs fast)
-m2l.nistudy.arm.alt <- stan_glmer(resp ~ (force + photo + chill ) +
-    (1|complex.wname) + (1|datasetID), data = bb.stan)
-# a: 72; f: -1.4; p: -0.3; c: -1.9
-}
-
-
-
-##############################
-## Code below not updated! ##
-### But I think we will neeed it ##
-
-########## SIDE BAR ##########
-## Compare R2 today ##
-observed.here <- bb.stan$resp
-
-m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
-
-# getting predicted values if needed
-preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
-preds.m2lnistudy.sum <- m2lnistudy.sum[grep("yhat", rownames(m2lnistudy.sum)),]
-
-m2lni.R2 <- 1- sum((observed.here-preds.m2lni.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-m2lnistudy.R2 <- 1- sum((observed.here-preds.m2lnistudy.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-
-summary(lm(preds.m2lni.sum[,1]~observed.here)) # Multiple R-squared:  0.6051 (Chill Portions)
-summary(lm(preds.m2lnistudy.sum[,1]~observed.here)) # Multiple R-squared:  0.7158 (Chill Portions)
-
-# try the w/ interaction
-preds.m2l.winsp.sum <- m2l.winsp.sum[grep("yhat", rownames(m2l.winsp.sum)),]
-summary(lm(preds.m2l.winsp.sum[,1]~observed.here)) #Multiple R-squared:  0.6122
-
-########## END SIDE BAR ##########
