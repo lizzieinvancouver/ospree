@@ -23,13 +23,13 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 use.chillunits = FALSE # change to true for testing chill units
 use.allphoto = TRUE #change to false if using only exp or ramped photo
-use.allspp = FALSE #change to FALSE if using one cue or no crops or other
+use.allspp = TRUE #change to FALSE if using one cue or no crops or other
 
 source("source/bbstanleadin.R")
 
 # Flags to choose for this here file
 use.zscore = TRUE # change to TRUE to use centered and scaled data
-use.onecuespp = TRUE #change to TRUE if using subset of species for one cue. and use
+use.onecuespp = FALSE #change to TRUE if using subset of species for one cue. and use
 use.nocropspp = FALSE #change to TRUE if using subset of species without crops and use bb.stan.nocrops
 
 ########################
@@ -94,6 +94,7 @@ m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
                iter = 2500, warmup=1500)
 
 check_all_diagnostics(m2l.ni)
+
 #use shiny stan to do PPC
 ys<-bb.stan$resp
 if(use.onecuespp){ys<-bb.stan.onecue$resp }#if using one cue
