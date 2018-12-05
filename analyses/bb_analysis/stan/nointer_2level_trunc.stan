@@ -65,7 +65,7 @@ model {
 	
 	
        	for(i in 1:N){
-            yhat[i] ~ normal(a_sp[sp[i]] + // indexed with species
+            y[i] ~ normal(a_sp[sp[i]] + // indexed with species
 		b_force[sp[i]] * force[i] + 
 	      	b_photo[sp[i]] * photo[i] +
 		b_chill[sp[i]] * chill[i], sigma_y) T[0,];

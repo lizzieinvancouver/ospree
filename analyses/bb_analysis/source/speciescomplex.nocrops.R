@@ -1,10 +1,8 @@
-## Try and organize so useful for all models running
-## Started by Dan B - 26 July 2017
-## Edits by Cat C - 17 August 2017
-### reworked by Dan 19 sept 2018
+## New Species complex f(x) that includes more studies
+# criteria is just needs to be in one study now
 
-##### Species were selected if they were in more than one study and if both studies manipulated more than one cue
-### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used more than one cue
+##### Species were selected if they were in more than one study and if studies manipulated at least one cue
+### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used at least one cue
 
 
 ######## USE THIS SECTION TO CHECK CODE! ##########
@@ -56,7 +54,7 @@ sppcomplexfx.nocrops <- function(d){
   
   #check<-subset(xx, select=c(name, datasetID, datasets, numcues))
   
-  accept<-xx[(xx$numcues>1 & xx$datasets>1),] ## if species were in more than one dataset and manipulated more than one cue that kept
+  accept<-xx[(xx$numcues>=1 & xx$datasets>1),] ## if species were in more than one dataset and manipulated more than one cue that kept
   species4taxon<-c(accept$name) ## make a list of species with more than 1 study
   accept$complex<-accept$name
   accept$use<-"Y"
@@ -71,7 +69,7 @@ sppcomplexfx.nocrops <- function(d){
   ###making complexes#######################
   ### This is when the same genus has multiple datasets and manipulates more than one cue
   
-  comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
+  comp<-xx[(xx$datasets==1),] ## this are the singleton species
   complex4taxon<-c(comp$name) ### make a list of them
   
   
@@ -119,7 +117,7 @@ sppcomplexfx.nocrops <- function(d){
   taxon2<-left_join(taxon2, numsets, by="complex")
   
   accept.complex<-taxon2
-  accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numcues>1),"Y","N") 
+  accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numcues>=1),"Y","N") 
   
   
   ###if you want a data sheet to merge later in the work flow with working data sheet do this

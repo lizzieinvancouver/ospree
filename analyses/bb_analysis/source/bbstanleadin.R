@@ -63,7 +63,7 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 # currently we use bb.stan.expphoto ...
 bb.stan.allphoto.allspp <- bb
 bb.stan.allphoto <- sppcomplexfx(bb.stan.allphoto.allspp) 
-bb.stan.allphoto.onecue <- sppcomplexfx.onecue(bb.stan.allphoto.allspp) 
+bb.stan.allphoto.multcue <- sppcomplexfx.multcue(bb.stan.allphoto.allspp) 
 bb.stan.allphoto.nocrops <- sppcomplexfx.nocrops(bb.stan.allphoto.allspp)
 
 # Select photoperiod
@@ -88,7 +88,7 @@ if(use.allspp){
     
 if(!use.allspp){
     bb.stan <- sppcomplexfx(bb.stan.allspp) 
-    bb.stan.onecue<-sppcomplexfx.onecue(bb.stan.allspp) 
+    bb.stan.multcue<-sppcomplexfx.multcue(bb.stan.allspp) 
     bb.stan.nocrops<-sppcomplexfx.nocrops(bb.stan.allspp) 
 }
 
