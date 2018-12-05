@@ -31,7 +31,7 @@ parameters {
   real b_chill[n_sp]; // slope of chill effect
 	}
 
-/*
+
 transformed parameters {
    real yhat[N];
        	//for(i in 1:N){
@@ -39,10 +39,10 @@ transformed parameters {
 		//b_force[sp[i]] * force[i] + 
 	    //  	b_photo[sp[i]] * photo[i] +
 		//b_chill[sp[i]] * chill[i];
-//			     	}
+		//}
 
 	}
-*/
+
 
 model {
 
@@ -65,7 +65,7 @@ model {
 	
 	
        	for(i in 1:N){
-            y[i] ~ normal(a_sp[sp[i]] + // indexed with species
+            yhat[i] ~ normal(a_sp[sp[i]] + // indexed with species
 		b_force[sp[i]] * force[i] + 
 	      	b_photo[sp[i]] * photo[i] +
 		b_chill[sp[i]] * chill[i], sigma_y) T[0,];
@@ -73,16 +73,14 @@ model {
 
 }
 
-/*
+
 generated quantities{
-   real y_ppc[N];
+   real<lower=1> y_ppc[N];
    for (n in 1:N)
       y_ppc[n] = a_sp[sp[n]] + 
 		b_force[sp[n]] * force[n] + 
 	      	b_photo[sp[n]] * photo[n] +
 		b_chill[sp[n]] * chill[n];
-    for (n in 1:N)
-      y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
 
 }
-*/
+
