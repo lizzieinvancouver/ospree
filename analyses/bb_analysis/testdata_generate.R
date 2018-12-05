@@ -580,6 +580,8 @@ for(i in 1:nsp){ # loop over species. i = 1
   test.negbin<- rbind(test.negbin, testdat2.negbin)  
 }
 
+#write.csv(test.negbin, "~/Desktop/testnegbin.csv", row.names=FALSE)
+
 ##################################################################
 # Test data as above, but with a gamma distribution ##
 # Imagine there is a more thoughtful way to construct this #
@@ -653,13 +655,16 @@ for(i in 1:nsp){ # loop over species. i = 1
              rnorm(1, forcephotocoef, forcephotocoef.sd)
   )
   
-  meanhere = abs(mm %*% coeff)
-  bb <- rgamma(ntot, meanhere) # rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
+  meanhere = mm %*% coeff
+  bb <- rgamma(n=ntot, meanhere) # rnorm(n = ntot, mean = mm %*% coeff, sd = 0.1)
   
   testdat2.gamma <- data.frame(bb, sp = i, 
                                 chill, force, photo)
   
   test.gamma<- rbind(test.gamma, testdat2.gamma)  
+  test.gamma$bb[is.na(test.gamma$bb)] <- 0
 }
+
+summary(lm(bb ~ (chill+force+photo)^2, data = test.gamma))
 
 #write.csv(test.gamma, "~/Desktop/testgamma.csv", row.names=FALSE)
