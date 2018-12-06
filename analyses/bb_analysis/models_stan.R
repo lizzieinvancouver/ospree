@@ -31,7 +31,7 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -42,14 +42,21 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.chillunits = FALSE # change to true for testing chill units
+
+use.chillports = FALSE # change to true for using chillportions instead of utah units
+
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
+
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
+
+#Default is all chilling data
+use.expchillonly = TRUE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
 
 source("source/bbstanleadin.R")
 

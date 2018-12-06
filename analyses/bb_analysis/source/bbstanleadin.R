@@ -29,7 +29,7 @@ dim(bb.noNA)
 d <- bb.noNA
 ## (3) Get fewer columns for sanity
 source("source/commoncols.R")
-bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
+bb <- subset(d, select=c(columnstokeep, columnschillunits))
 
 # remove the values above 600 (which means remove the right-censored data, coded as 999)
 bb <- subset(bb, resp<600)
@@ -53,20 +53,23 @@ bb.ambphoto <- subset(bb, photo_type=="amb" | photo_type=="none")
 bb.exprampphotoforce <- subset(bb.exprampphoto, force_type=="exp"|force_type=="ramped")
 bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
+# add in chilling (exp)
+bb.exprampphotoforceexpch <- subset(bb.exprampphotoforce, chill_type=="exp")
+
 ##################################################
 # Set the data you want to use deal with species #
 ##################################################
 
 # set up data for when using all types of designs (exp, ramped, amb)
 bb.all <- bb
-if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
     bb.stan.alltypes <- sppcomplexfx(bb.all) 
     bb.stan.alltypes.multcue <- sppcomplexfx.multcue(bb.all) 
     bb.stan.alltypes.nocrops <- sppcomplexfx.nocrops(bb.all)
 }
 
 # set up data for when using exp AND ramped for photo + forceexp for photo + force
-if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
     bb.stan.expramptypes <- sppcomplexfx(bb.exprampphotoforce) 
     bb.stan.expramptypes.multcue <- sppcomplexfx.multcue(bb.exprampphotoforce) 
     bb.stan.expramptypes.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforce)
@@ -74,15 +77,19 @@ if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
 
 
 # set up data for when using exp for photo + force
-if (use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+if (use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
     bb.stan.exptypes <- sppcomplexfx(bb.expphotoforce) 
     bb.stan.exptypes.multcue <- sppcomplexfx.multcue(bb.expphotoforce) 
     bb.stan.exptypes.nocrops <- sppcomplexfx.nocrops(bb.expphotoforce)
 }
 
 
-# set up data for when using different types of chilling
-
+# set up data for when using only experimental chilling
+if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
+  bb.stan.exprampphotoforceexpch<- sppcomplexfx(bb.exprampphotoforceexpch) 
+  bb.stan.exprampphotoforceexpch.multcue <- sppcomplexfx.multcue(bb.exprampphotoforceexpch) 
+  bb.stan.exprampphotoforceexpch.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforceexpch)
+}
 
 ##################################
 ## Prep the data for Stan model ##
@@ -91,8 +98,10 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
 # making some list out of the processed data. It will be input for the model ...
 # This is the default .... (uses basic species complex)
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
     bb.stan <- bb.stan.alltypes
+    source("source/bb_zscorepreds.R")
+    
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -107,11 +116,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # This is ALL species (no species complex used)
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
     # TO DO: check the complex code below!
     bb.all$latbi <- paste(bb.all$genus, bb.all$species, sep="_")
     bb.all$complex -> as.numeric(bb.all$latbi)
     bb.stan <- bb.all
+    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -126,8 +136,9 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex with only exp & ramped photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
-    bb.stan <- bb.stan.exprampphotoforce
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
+    bb.stan <- bb.stan.expramptypes
+    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -142,8 +153,9 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex with only exp photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
     bb.stan <- bb.stan.expphotoforce
+    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
                          chill = chill.z, 
@@ -157,11 +169,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 # This is ALL species (no species complex used)
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
     # TO DO: check the complex code below!
     bb.all$latbi <- paste(bb.all$genus, bb.all$species, sep="_")
     bb.all$complex -> as.numeric(bb.all$latbi)
     bb.stan <- bb.all
+    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -174,26 +187,12 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
  )
 }
 
-# Species complex with only exp & ramped photoforce
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
-    bb.stan <- bb.stan.exprampphotoforce
-    datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
- )
-}
 
 # Species complex with only exp photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
     bb.stan <- bb.stan.expphotoforce
+    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
                          chill = chill.z, 
@@ -205,7 +204,22 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
                     )
  )
 }
-
+#Species complex, default photo and forcing and ONLY exp chill
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+  use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
+  bb.stan <- bb.stan.exprampphotoforceexpch
+  source("source/bb_zscorepreds.R")
+  datalist.bb <- with(bb.stan, 
+                      list(y=resp, 
+                           chill = chill.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+  }
 ## AT THE END ...
 str(datalist.bb)
 print("Unique forcing types are ...")
@@ -216,91 +230,3 @@ print("Unique chilling types are ...")
 print(unique(bb.stan$chill_type))
 
 
-
-
-## Ailene works on below 
-if(FALSE){
-if(use.chillunits){
-# datalist for utah
-datalist.bb.utah <- with(bb.stan, 
-                           list(y = resp, 
-                                chill = chill, 
-                                force = force, 
-                                photo = photo,
-                                sp = complex,
-                                N = nrow(bb.stan),
-                                n_sp = length(unique(bb.stan$complex)),
-                                study = as.numeric(as.factor(bb.stan$datasetID)),
-                                n_study = length(unique(bb.stan$datasetID)) 
-                           )
-  )
-# datalist for utah: z-scored
-datalist.bb.utah.z <- with(bb.stan, 
-                           list(y = resp, 
-                                chill = chill.z, 
-                                force = force.z, 
-                                photo = photo.z,
-                                sp = complex,
-                                N = nrow(bb.stan),
-                                n_sp = length(unique(bb.stan$complex)),
-                                study = as.numeric(as.factor(bb.stan$datasetID)),
-                                n_study = length(unique(bb.stan$datasetID)) 
-                           )
-)
-
-# datalist for chillhrs
-datalist.bb.chrs <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.hrs, 
-                         force = force, 
-                         photo = photo,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex)),
-                         study = as.numeric(as.factor(bb.stan$datasetID)),
-                         n_study = length(unique(bb.stan$datasetID)) 
-                    )
-)
-
-# datalist for chillhrs: z-scored
-datalist.bb.chrs.z <- with(bb.stan, 
-                      list(y = resp, 
-                           chill = chill.hrs.z, 
-                           force = force.z, 
-                           photo = photo.z,
-                           sp = complex,
-                           N = nrow(bb.stan),
-                           n_sp = length(unique(bb.stan$complex)),
-                           study = as.numeric(as.factor(bb.stan$datasetID)),
-                           n_study = length(unique(bb.stan$datasetID)) 
-                      )
-)
-# datalist for chill portions
-datalist.bb.cports <- with(bb.stan, 
-                         list(y = resp, 
-                              chill = chill.ports, 
-                              force = force, 
-                              photo = photo,
-                              sp = complex,
-                              N = nrow(bb.stan),
-                              n_sp = length(unique(bb.stan$complex)),
-                              study = as.numeric(as.factor(bb.stan$datasetID)),
-                              n_study = length(unique(bb.stan$datasetID)) 
-                         )
-)
-
-# datalist for chill portions: z-scored
-datalist.bb.cports.z <- with(bb.stan, 
-                           list(y = resp, 
-                                chill = chill.ports.z, 
-                                force = force.z, 
-                                photo = photo.z,
-                                sp = complex,
-                                N = nrow(bb.stan),
-                                n_sp = length(unique(bb.stan$complex)),
-                                study = as.numeric(as.factor(bb.stan$datasetID)),
-                                n_study = length(unique(bb.stan$datasetID))
-                           )
-)
-}
-}
