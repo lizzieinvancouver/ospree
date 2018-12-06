@@ -132,20 +132,26 @@ d$photo_type<-ifelse(d$datasetID=="partanen98" & (d$other.treatment=="Photoperio
 
 d$resp<-as.numeric(d$response.time)
 d$photo<-as.numeric(d$photoperiod_day)
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
-  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]*0.1667) + 
-  d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]
+#d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
+ # (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]*0.1667) + 
+  #d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min")]
+
+d$photoperiod_day<-ifelse(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 8h 40min", 8.67, d$photoperiod_day)
 
 # photoperiod shortening from 12h
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")] <- 
-  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]*0.1667) + 
-  d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]
+#d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")] <- 
+ # (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]*0.1667) + 
+  #d$photo[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h")]
+
+d$photoperiod_day<-ifelse(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod shortening from 12 h", 12, d$photoperiod_day)
 
 # photoperiod lengthening from 6h
-d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")] <- 
-  (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+#d$photoperiod_day[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")] <- 
+ # (d$resp[which(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
 
+d$photoperiod_day<-ifelse(d$datasetID=="partanen98" & d$other.treatment=="Photoperiod lengthening from 6h", 6, d$photoperiod_day)
 
+if(FALSE){
 # photoperiod lengthening from 6h
 d$photoperiod_day[which(d$datasetID=="partanen98" & d$photoperiod_day=="ambient" & d$response.time==97
                         & d$other.treatment=="Photoperiod lengthening from 6h")] <- 22
@@ -164,13 +170,17 @@ d$photoperiod_night[which(d$datasetID=="partanen98" & d$photoperiod_day==20 & d$
 
 d$photoperiod_day[which(d$datasetID=="partanen98")]<-ifelse(as.numeric(d$photoperiod_day[which(d$datasetID=="partanen98")])>24, 24, d$photoperiod_day[which(d$datasetID=="partanen98")])
 d$photoperiod_night[which(d$datasetID=="partanen98")]<- 24-as.numeric(d$photoperiod_day[which(d$datasetID=="partanen98")])
-
+}
 
 ## Partanen01 Fixes
 d$photo_type<-ifelse(d$datasetID=="partanen01" & (d$other.treatment=="Photoperiod shortening from 16h" |
                                                     d$other.treatment=="Photoperiod lengthening from 6h"), "ramped", d$photo_type)
 
-# photoperiod shortening from 12h
+d$photoperiod_day<-ifelse(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod lengthening from 6h", 6, d$photoperiod_day)
+d$photoperiod_day<-ifelse(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h", 16, d$photoperiod_day)
+
+if(FALSE){
+# photoperiod shortening from 16h
 d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")] <- 
   (d$resp[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")]*0.1667) + 
   d$photo[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod shortening from 16h")]
@@ -178,6 +188,7 @@ d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoper
 # photoperiod lengthening from 6h
 d$photoperiod_day[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod lengthening from 6h")] <- 
   (d$resp[which(d$datasetID=="partanen01" & d$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+}
 
 d$photoperiod_day[which(d$datasetID=="partanen01")]<-ifelse(as.numeric(d$photoperiod_day[which(d$datasetID=="partanen01")])>24, 24, d$photoperiod_day[which(d$datasetID=="partanen01")])
 d$photoperiod_night[which(d$datasetID=="partanen01")]<- 24-as.numeric(d$photoperiod_day[which(d$datasetID=="partanen01")])
@@ -414,14 +425,16 @@ d$photo_type<-ifelse(is.na(d$photo_type), "exp", d$photo_type)
 
 
 #### basler studies - updated by Cat 26 Oct 2018
+if(FALSE){
 bas<-d[(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod"),]
 bas$photoperiod_day<-as.numeric(bas$photoperiod_day)
 bas$photoperiod_day<- ifelse(!is.na(bas$response.time), ((bas$response.time*0.06) + bas$photoperiod_day), bas$photoperiod_day)
 bas$photoperiod_night<-as.numeric(bas$photoperiod_night)
 bas$photoperiod_night<-24-bas$photoperiod_day
-
 d$photoperiod_day[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
+}
+d$photo_type<-ifelse(d$datasetID=="basler12" | d$datasetID=="basler14", "ramped", d$photoperiod_day)
 
 } else {
   print("Error: d not a data.frame")

@@ -117,15 +117,16 @@ d <- within(d, forcetemp[datasetID == 'campbell75' & study== "exp1"] <- 20)
 d <- within(d, forcetemp[datasetID == 'howe95'] <- 24.5)
 
 # laube14a 
-d.sub$response.time<- as.numeric(d.sub$response.time)
-for(i in c(1:nrow(d.sub))) {
-  for(j in c(1:nrow(laube14)))
-    d.sub$forcetemp[i]<-ifelse(d.sub$response.time[i] == laube14$day[j], laube14$temp[j], d.sub$forcetemp[i])
-}
-d.sub$forcetemp<-ifelse(is.na(d.sub$response.time), 27.5, d.sub$forcetemp)
+#d.sub$response.time<- as.numeric(d.sub$response.time)
+#for(i in c(1:nrow(d.sub))) {
+ # for(j in c(1:nrow(laube14)))
+  #  d.sub$forcetemp[i]<-ifelse(d.sub$response.time[i] == laube14$day[j], laube14$temp[j], d.sub$forcetemp[i])
+#}
+#d.sub$forcetemp<-ifelse(is.na(d.sub$response.time), 27.5, d.sub$forcetemp)
 
-d.sub$response.time<-ifelse(is.na(d.sub$response.time), "no response", d.sub$response.time)
-d$forcetemp[which(d$datasetID=="laube14a")]<-d.sub$forcetemp
+#d.sub$response.time<-ifelse(is.na(d.sub$response.time), "no response", d.sub$response.time)
+#d$forcetemp[which(d$datasetID=="laube14a")]<-d.sub$forcetemp
+d$forcetemp<-ifelse(d$datasetID=="laube14a", 7, d$forcetemp)
 d$force_type<-ifelse(d$datasetID=="laube14a", "ramped", d$force_type)
 
 
@@ -135,20 +136,21 @@ d$force_type<-ifelse(d$datasetID=="laube14a", "ramped", d$force_type)
 # basler12 - "Temperature was set to cycle ±5 K around the daily mean temperature, which was increased by
 # 0.5 K every five days"
 ## Fixed 13 Apr 2018 - Cat
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=0 & d$response.time.num<5, 5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=5 & d$response.time.num<10, 5.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=10 & d$response.time.num<15, 6, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=15 & d$response.time.num<20, 6.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=20 & d$response.time.num<25, 7, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=25 & d$response.time.num<30, 7.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=30 & d$response.time.num<35, 8, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=35 & d$response.time.num<40, 8.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=40 & d$response.time.num<45, 9, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=45 & d$response.time.num<50, 9.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=50 & d$response.time.num<55, 10, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=55 & d$response.time.num<60, 10.5, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=60 & d$response.time.num<65, 11, d$forcetemp)
-d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=65 & d$response.time.num<70, 11.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=0 & d$response.time.num<5, 5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=5 & d$response.time.num<10, 5.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=10 & d$response.time.num<15, 6, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=15 & d$response.time.num<20, 6.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=20 & d$response.time.num<25, 7, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=25 & d$response.time.num<30, 7.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=30 & d$response.time.num<35, 8, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=35 & d$response.time.num<40, 8.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=40 & d$response.time.num<45, 9, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=45 & d$response.time.num<50, 9.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=50 & d$response.time.num<55, 10, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=55 & d$response.time.num<60, 10.5, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=60 & d$response.time.num<65, 11, d$forcetemp)
+#d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst" & d$response.time.num>=65 & d$response.time.num<70, 11.5, d$forcetemp)
+d$forcetemp<-ifelse(d$datasetID=="basler12" & d$respvar.simple=="daystobudburst", 5, d$forcetemp)
 
 d$force_type<-ifelse(d$datasetID=="basler12", "ramped", d$force_type)
 
