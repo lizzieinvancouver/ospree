@@ -39,14 +39,9 @@ bb.resp$chill.ports <- as.numeric(bb.resp$Total_Chill_portions) # before 12 Marc
 
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
-## z-score the predictors:
-bb.resp$force.z <- (bb.resp$force-mean(bb.resp$force,na.rm=TRUE))/sd(bb.resp$force,na.rm=TRUE)
-bb.resp$photo.z <- (bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE))/sd(bb.resp$photo,na.rm=TRUE)
-bb.resp$chill.z <- (bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE))/sd(bb.resp$chill,na.rm=TRUE)
-bb.resp$chill.hrs.z <- (bb.resp$chill.hrs-mean(bb.resp$chill.hrs,na.rm=TRUE))/sd(bb.resp$chill.hrs,na.rm=TRUE)
-bb.resp$chill.ports.z <- (bb.resp$chill.ports-mean(bb.resp$chill.ports,na.rm=TRUE))/sd(bb.resp$chill.ports,na.rm=TRUE)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
-    is.na(chill)==FALSE & is.na(resp)==FALSE)
+                    is.na(chill)==FALSE & is.na(resp)==FALSE)
+
 # bb.noNA<-subset(bb.noNA, field.sample<=1)
 
 # Vector needed to identify weinberger-design studies
