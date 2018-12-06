@@ -55,7 +55,7 @@ use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 
 #Default is all chilling data
-use.expchillonly = TRUE # change to true for only experimental chilling 
+use.expchillonly = FALSE # change to true for only experimental chilling 
 #note: with only exp chilling, there is only exp photo and force too.
 
 source("source/bbstanleadin.R")
