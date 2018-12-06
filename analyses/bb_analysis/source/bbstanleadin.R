@@ -104,7 +104,7 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TR
 # This is the default .... (uses basic species complex)
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
-    bb.stan <- bb.stan.alltypes
+    bb.stan <- bb.stan.alltypes.nocrops
     source("source/bb_zscorepreds.R")
     
     datalist.bb <- with(bb.stan, 
@@ -142,7 +142,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # Species complex with only exp & ramped photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
-    bb.stan <- bb.stan.expramptypes
+    bb.stan <- bb.stan.expramptypes.nocrops
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -159,7 +159,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # Species complex with only exp photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
-    bb.stan <- bb.stan.expphotoforce
+    bb.stan <- bb.stan.expphotoforce.nocrops
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
@@ -196,7 +196,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # Species complex with only exp photoforce
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
-    bb.stan <- bb.stan.expphotoforce
+    bb.stan <- bb.stan.expphotoforce.nocrops
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
@@ -212,7 +212,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 #Species complex, default photo and forcing and ONLY exp chill
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
-  bb.stan <- bb.stan.exprampphotoforceexpch
+  bb.stan <- bb.stan.exprampphotoforceexpch.nocrops
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
@@ -228,7 +228,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 #Species complex, ALL photo and forcing and ONLY exp chill
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
-  bb.stan <- bb.stan.alltypesexpch
+  bb.stan <- bb.stan.alltypesexpch.nocrops
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
