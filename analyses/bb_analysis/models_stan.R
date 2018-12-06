@@ -45,7 +45,7 @@ if(length(grep("lizzie", getwd())>0)) {
 
 use.chillports = FALSE # change to true for using chillportions instead of utah units
 
-# Default is species complex
+# Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
