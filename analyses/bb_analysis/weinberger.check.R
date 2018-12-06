@@ -68,7 +68,15 @@ names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
 
 weinberger<-filter(dates2weekstreat,fs.date.count>=2)
 #clean it a little bit
-weinberger<-separate(weinberger, datasetIDstudy,c("datasetID","study","force","photo","chill") , sep = " " , remove = FALSE)
+weinberger$datasetID<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 1)
+weinberger$study<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 2)
+weinberger$force<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 3)
+weinberger$photo<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 4)
+weinberger$chill<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 5)
+
+
+
+# then make a new column...
 unique(weinberger$datasetID)
 intersect(unique(bb.all$datasetID),unique(weinberger$datasetID))
 setdiff(unique(bb.all$datasetID),unique(weinberger$datasetID))
