@@ -10,11 +10,6 @@ checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 #source("source/speciescomplex.R")
 d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 
-## read taxon data to get the 'type' category, then delete what we don't need - do we still want type?
-#bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
-#bb.all.wtaxa$complex <- NULL
-#bb.all.wtaxa$use <- NULL
-
 ## just the bb data ...
 respvars.thatwewant <- c("daystobudburst", "percentbudburst")
 bb.resp <- d[which(d$respvar.simple %in% respvars.thatwewant),]
@@ -44,20 +39,9 @@ bb.resp$chill.ports <- as.numeric(bb.resp$Total_Chill_portions) # before 12 Marc
 
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
-## center the predictors:
-bb.resp$force.cen <- bb.resp$force-mean(bb.resp$force,na.rm=TRUE)
-bb.resp$photo.cen <- bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE)
-bb.resp$chill.cen <- bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE)
-
-## z-score the predictors:
-bb.resp$force.z <- (bb.resp$force-mean(bb.resp$force,na.rm=TRUE))/sd(bb.resp$force,na.rm=TRUE)
-bb.resp$photo.z <- (bb.resp$photo-mean(bb.resp$photo,na.rm=TRUE))/sd(bb.resp$photo,na.rm=TRUE)
-bb.resp$chill.z <- (bb.resp$chill-mean(bb.resp$chill,na.rm=TRUE))/sd(bb.resp$chill,na.rm=TRUE)
-bb.resp$chill.hrs.z <- (bb.resp$chill.hrs-mean(bb.resp$chill.hrs,na.rm=TRUE))/sd(bb.resp$chill.hrs,na.rm=TRUE)
-bb.resp$chill.ports.z <- (bb.resp$chill.ports-mean(bb.resp$chill.ports,na.rm=TRUE))/sd(bb.resp$chill.ports,na.rm=TRUE)
-## remove the NAs (must do this before you can deal with taxon issues)
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
-    is.na(chill)==FALSE & is.na(resp)==FALSE)
+                    is.na(chill)==FALSE & is.na(resp)==FALSE)
+
 # bb.noNA<-subset(bb.noNA, field.sample<=1)
 
 # Vector needed to identify weinberger-design studies
