@@ -57,7 +57,7 @@ use.exptypes.fp = FALSE
 #Default is all chilling data
 use.expchillonly = FALSE # change to true for only experimental chilling 
 #note: with only exp chilling, there is only exp photo and force too.
-
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 source("source/bbstanleadin.R")
 
 ######################################
@@ -71,14 +71,16 @@ source("source/bbstanleadin.R")
 # Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500)
+               iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
 
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
 
+ys<-datalist.bb$y
 # posterior predictive checks....
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')

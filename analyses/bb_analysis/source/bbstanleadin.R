@@ -55,6 +55,7 @@ bb.expphotoforce <- subset(bb.expphoto, force_type=="exp")
 
 # add in chilling (exp)
 bb.exprampphotoforceexpch <- subset(bb.exprampphotoforce, chill_type=="exp")
+bb.allexpch <- subset(bb, chill_type=="exp")
 
 ##################################################
 # Set the data you want to use deal with species #
@@ -90,7 +91,11 @@ if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRU
   bb.stan.exprampphotoforceexpch.multcue <- sppcomplexfx.multcue(bb.exprampphotoforceexpch) 
   bb.stan.exprampphotoforceexpch.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforceexpch)
 }
-
+if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
+  bb.stan.alltypesexpch<- sppcomplexfx(bb.allexpch) 
+  bb.stan.alltypesexpch <- sppcomplexfx.multcue(bb.allexpch) 
+  bb.stan.alltypesexpch <- sppcomplexfx.nocrops(bb.allexpch)
+}
 ##################################
 ## Prep the data for Stan model ##
 ##################################
@@ -219,7 +224,23 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
                            n_sp = length(unique(bb.stan$complex))
                       )
   )
-  }
+}
+#Species complex, ALL photo and forcing and ONLY exp chill
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
+  bb.stan <- bb.stan.alltypesexpch
+  source("source/bb_zscorepreds.R")
+  datalist.bb <- with(bb.stan, 
+                      list(y=resp, 
+                           chill = chill.z, 
+                           force = force.z, 
+                           photo = photo.z,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
 ## AT THE END ...
 str(datalist.bb)
 print("Unique forcing types are ...")
