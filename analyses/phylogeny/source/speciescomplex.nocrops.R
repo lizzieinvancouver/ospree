@@ -3,7 +3,7 @@
 
 ##### Species were selected if they were in one or more studies and if studies manipulated BOTH photoperiod and forcing
 
-sppcomplexfx.phyla <- function(d){
+sppcomplexfx.nocrops <- function(d){
   
   
   d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species

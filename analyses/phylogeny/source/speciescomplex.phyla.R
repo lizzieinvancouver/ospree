@@ -9,14 +9,13 @@ sppcomplexfx.phyla <- function(d){
   d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
   
   
-  
   xx<-d
   ### make a list of which studies manipulate what.
   xx <- within(xx, { force <- ave(forcetemp, name, FUN=function(x) length(unique(x)))}) # mult forcetemp
   xx <- within(xx, { photo <- ave(photoperiod_day, name, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
   xx <- within(xx, { datasets <- ave(datasetID, name, FUN=function(x) length(unique(x)))}) 
   
-  xx<-dplyr::select(xx,name,genus, datasets, force, photo,datasetID)
+  xx<-dplyr::select(xx, name, datasets, force, photo, datasetID)
   xx<-xx[!duplicated(xx),]
   
   
@@ -43,10 +42,7 @@ sppcomplexfx.phyla <- function(d){
   
   
   return(bb.noNA.wtaxa)
-  #write.csv(bb.wtaxa, file="..//output/ospree_clean_withchill_BB_taxon.csv", row.names = FALSE)
-  
-  #write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
-  
+
 }
 
 
