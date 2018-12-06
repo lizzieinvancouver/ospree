@@ -28,8 +28,8 @@ library(ggplot2)
 library(gridExtra)
 library(geosphere)
 
-source("..//misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
-source("..//misc/getcuesbystudy_fxs.R") # f(x) counts up cues
+source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
+source("misc/getcuesbystudy_fxs.R") # f(x) counts up cues
 
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
@@ -160,9 +160,7 @@ gg<-(setNames( ctrs , unique(g$ID ) ))
 
 
 ## For PEP725 comparison:
-## TO DO // IN PROGRESS: We need to calculate the DIFFERENCES between treatments for each study
-# then we can compare, what I have below is not what we need.
-
+## Calculate the DIFFERENCES between treatments for each study
 forcecues <- getcueinfo(d, "force", "datasetIDstudy")
 photocues <- getcueinfo(d, "photoperiod_day", "datasetIDstudy")
 # chilldayscues <- getcueinfo(d, "chilldays", "datasetIDstudy") # need to make numeric
@@ -200,6 +198,35 @@ hist(photocues$maxdiff.treat, breaks=20, main="max", xlab="photo")
 hist(photocues.alldiffs$diff.treat, breaks=20, main="all diffs", xlab="photo")
 hist(chilltempcues$maxdiff.treat, breaks=20, main="max", xlab="chill temp")
 hist(chilltempcues.alldiffs$diff.treat, breaks=20, main="all diffs", xlab="chill temp")
+dev.off()
+
+# Now we look for just particular species ...
+# Assume if a study did the species then we can use that study
+
+betpen <- subset(d, genus=="Betula" & species=="pendula")
+betpen.forcecues <- forcecues.alldiffs[which(forcecues.alldiffs$datasetIDstudy %in% unique(betpen$datasetIDstudy)),]
+betpen.photocues <- photocues.alldiffs[which(photocues.alldiffs$datasetIDstudy %in% unique(betpen$datasetIDstudy)),]
+betpen.chilltempcues <- chilltempcues.alldiffs[which(chilltempcues.alldiffs$datasetIDstudy %in%
+    unique(betpen$datasetIDstudy)),]
+
+pdf("limitingcues/figures/cuediffs_betpen.pdf", width = 6, height = 3)
+par(mfrow=c(1,3))
+hist(betpen.forcecues$diff.treat, breaks=20, main="Betula: all diffs", xlab="forcing")
+hist(betpen.photocues$diff.treat, breaks=20, main="Betula: all diffs", xlab="photo")
+hist(betpen.chilltempcues$diff.treat, breaks=20, main="Betula: all diffs", xlab="chill temp")
+dev.off()
+
+fagsyl <- subset(d, genus=="Fagus" & species=="sylvatica")
+fagsyl.forcecues <- forcecues.alldiffs[which(forcecues.alldiffs$datasetIDstudy %in% unique(fagsyl$datasetIDstudy)),]
+fagsyl.photocues <- photocues.alldiffs[which(photocues.alldiffs$datasetIDstudy %in% unique(fagsyl$datasetIDstudy)),]
+fagsyl.chilltempcues <- chilltempcues.alldiffs[which(chilltempcues.alldiffs$datasetIDstudy %in%
+    unique(fagsyl$datasetIDstudy)),]
+
+pdf("limitingcues/figures/cuediffs_fagsyl.pdf", width = 6, height = 3)
+par(mfrow=c(1,3))
+hist(fagsyl.forcecues$diff.treat, breaks=20, main="Fagus: all diffs", xlab="forcing")
+hist(fagsyl.photocues$diff.treat, breaks=20, main="Fagus: all diffs", xlab="photo")
+# hist(fagsyl.chilltempcues$diff.treat, breaks=20, main="Fagus: all diffs", xlab="chill temp")
 dev.off()
 
 ##
