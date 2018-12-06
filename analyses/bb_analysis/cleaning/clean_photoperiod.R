@@ -434,7 +434,7 @@ bas$photoperiod_night<-24-bas$photoperiod_day
 d$photoperiod_day[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
 }
-d$photo_type<-ifelse(d$datasetID=="basler12" | d$datasetID=="basler14", "ramped", d$photoperiod_day)
+d$photo_type<-ifelse(d$datasetID=="basler12" | d$datasetID=="basler14", "ramped", d$photo_type)
 
 } else {
   print("Error: d not a data.frame")
