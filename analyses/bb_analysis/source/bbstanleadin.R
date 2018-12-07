@@ -63,8 +63,6 @@ bb.allexpch <- subset(bb, chill_type=="exp")
 
 bb.all <- bb
 # add complex for when you do not use complex (bb.all)
-# bb.all$latbi <- paste(bb.all$genus, bb.all$species, sep="_")
-# bb.all$complex -> as.numeric(bb.all$latbi)
 
 # set up data for when using all types of designs (exp, ramped, amb)
 if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
@@ -125,7 +123,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # This is ALL species (no species complex used)
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
-    bb.stan <- bb.all
+    bb.stan <- addcomplex.allspp(bb.all)
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -143,9 +141,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # This is ALL species (no species complex used) with only exp & ramped photoforce
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE){
-    bb.stab <- subset(bb.all, force_type=="exp"|force_type=="ramped" &
-        photo_type=="exp"|photo_type=="ramped")
-    bb.stan <- bb.all
+    bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 

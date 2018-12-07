@@ -18,6 +18,13 @@
 ## (3) Deal with species
 #d <- bb.noNA
 
+addcomplex.allspp <- function(d){
+    d$latbi <- paste(d$genus, d$species, sep="_")
+    d <- d[order(d$latbi),]
+    d$complex <- as.numeric(as.factor(d$latbi))
+    return(d)
+    }
+
 sppcomplexfx <- function(d){
   
   
