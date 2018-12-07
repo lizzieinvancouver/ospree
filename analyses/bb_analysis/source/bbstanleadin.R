@@ -40,6 +40,9 @@ bb <- subset(bb, resp<600)
 bb$chill <- bb$chill/240
 length(unique(bb$datasetID))
 # deal with photo
+if(use.altramped == TRUE){
+  source("source/altforcephoto.R")
+}
 bb.expphoto <- subset(bb, photo_type=="exp")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
 bb.exprampphoto <- subset(bb, photo_type=="exp" | photo_type=="ramped")

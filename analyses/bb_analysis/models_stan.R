@@ -51,6 +51,7 @@ use.multcuespp = FALSE
 use.cropspp = FALSE
 
 # Default is species complex use  alltypes of designs
+use.altramped = TRUE
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 
