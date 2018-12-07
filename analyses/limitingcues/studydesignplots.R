@@ -122,40 +122,7 @@ dsumm$range.temp <- dsumm$max.temp - dsumm$min.temp
 dsumm$range.photo <- dsumm$max.photo - dsumm$min.photo
 dsumm$range.chill <- dsumm$max.chill - dsumm$min.chill
 
-##### Centroids! #####
-##### Dan is tryping to figure out how to calculate centroids but it is broken
-if(FALSE){
-df<-d
-df<-filter(df,!is.na(provenance.long))
-df<-filter(df,!is.na(provenance.lat))
 
-goober<-cbind(df$datasetID,df$provenance.long,df$provenance.lat)
-colnames(goober)<-c("ID","Lon","Lat")
-goober<-as.data.frame(goober)
-
-### make lat lon numeric
-goober$Lon<-as.numeric(goober$Lon)
-class(goober$Lon)
-goober$Lat<-as.numeric(goober$Lat)
-class(goober$Lat)
-###centroiding
-##try without IDs just to see if the function works
-goob<-select(goober,-ID)
-centroid(goob)### 
-
-### one method of getting the centroid but output isnt so functional
-g<-unique(goober)
-library(sp)
-library(rgeos)
-coordinates(g) = c("Lon", "Lat")
-g<-as.data.frame(g)
-ctrs <- lapply( unique( g$ID ) , function(x) gCentroid( SpatialPoints( g[g$ID == x , c('Lon','Lat') ] ) ) )
-gg<-(setNames( ctrs , unique(g$ID ) ))
-}
-### better way
-#1]loop over ID and create a matrix of lat and lon.
-#2] for each lat long combo use centroid function
-##### END centroids! #####
 
 
 
