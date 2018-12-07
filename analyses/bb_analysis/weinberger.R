@@ -1,5 +1,4 @@
-###New weinberger based on bb analysis data started by Dan B Dec 5 2018
-
+# housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
@@ -10,7 +9,7 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -21,20 +20,27 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.chillunits = FALSE # change to true for testing chill units
-# Default is species complex
-use.allspp = TRUE
+
+use.chillports = FALSE # change to true for using chillportions instead of utah units
+
+# Default is species complex and no crops
+use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
+
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 
-source("source/bbstanleadin.R") ###use bb.all as data frame
+#Default is all chilling data
+use.expchillonly = FALSE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+source("source/bbstanleadin.R")
 source("..//misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("..//misc/getcuesbystudy_fxs.R")
 
-#d is bb.noNA, you need to use this data sheet because bb.all has already dropped the "study"column
+#d is bb.noNA, use this to find the filed weiberger studies
 dat<-d
 dat$latbi <- paste(dat$genus, dat$species)
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
@@ -74,10 +80,44 @@ weinberger$force<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 3)
 weinberger$photo<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 4)
 weinberger$chill<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 5)
 
+#### This is a list of weinberger stduies
+weinstuds<-as.vector(paste(weinberger$datasetID, weinberger$study))
+weinstuds<-unique(weinstuds)
+
+####make a new column in bb.stan
+bb.stan$dataIDstudyID<-paste(bb.stan$datasetID, bb.stan$study)
+
+##add the weinberger infrmation
+bb.stan$weinberger<-ifelse(bb.stan$dataIDstudyID %in% weinstuds,1,0)
+
+###check waht species are weinberger
+wein.sp<-filter(bb.stan,weinberger==1)
+unique(wein.sp$complex.wname) 
+not.wein<-filter(bb.stan,weinberger==0)
+unique(not.wein$complex.wname)
+sp.match<-intersect(unique(wein.sp$complex.wname), unique(not.wein$complex.wname))
+
+sp.match ### species in both
+######################
+####make datalist
+wein.data <- with(bb.stan, 
+                    list(y=resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         weinberger= weinberger,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
+###model
+m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
+              iter = 2500, warmup=1500)
 
 
-# then make a new column...
-unique(weinberger$datasetID)
-intersect(unique(bb.all$datasetID),unique(weinberger$datasetID))
-setdiff(unique(bb.all$datasetID),unique(weinberger$datasetID))
+
+plot(m2l.ni)
+m2l.ni
 
