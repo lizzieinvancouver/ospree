@@ -18,15 +18,6 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
-#library(rstanarm)
-#library(brms)
-#library(rstan)
-#library(sjPlot)
-#library(sjmisc)
-#library(RColorBrewer)
-#library(ggplot2)
-#library(egg)
-#library(broom)
 library(shinystan)
 
 rstan_options(auto_write = TRUE)
@@ -42,10 +33,12 @@ use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+use.chillports = FALSE
 
 source("source/bbstanleadin.R")
 
-bb.wlat <- bb.stan.alltypes.nocrops
+bb.wlat <- bb.stan
 bb.wlat <- within(bb.wlat, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
 bb.wlat <- subset(bb.wlat, bb.wlat$prov.lat>1)  
 tt <- table(bb.wlat$complex.wname)### testing 
@@ -68,17 +61,19 @@ tt <- table(bb.wlat$complex.wname)### testing
 #Syringa_vulgaris          Tilia_cordata          Ulmus_complex      Vaccinium_complex 
 #16                     14                    180                     18 
 
-myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
-bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
+#myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
+#bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
 
-lat.stan<-bb.wlat.spp
-
+#lat.stan<-bb.wlat.spp
+lat.stan<-bb.wlat
 #write.csv(lat.stan, "~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_arm.csv", row.names = FALSE)
 #lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat.z <- (lat.stan$provenance.lat-mean(lat.stan$provenance.lat,na.rm=TRUE))/sd(lat.stan$provenance.lat,na.rm=TRUE)
 lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
+
+lat.stan<-na.omit(lat.stan)
 
 datalist.lat <- with(lat.stan, 
                     list(y = resp, 
@@ -96,6 +91,8 @@ datalist.lat <- with(lat.stan,
 setwd("~/Documents/git/ospree/analyses/lat_analysis")
 m2l.ni = stan('stan/winter_2level_lat_nolat.stan', data = datalist.lat,
               iter = 2500, warmup=1500)
+
+pl<- plot(m2l.ni, pars="b_", ci.lvl=0.5) 
 
 launch_shinystan(m2l.ni)
 
