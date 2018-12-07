@@ -21,6 +21,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{soul} % Need for st command (sout for strikethrough does not work with math lib loaded)
 
 \usepackage{caption}
 \usepackage{lineno}
@@ -79,6 +80,8 @@ This means to me that one thing we should answer soon is: given these data what 
 
 We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up with the following list of projects/tasks. Most of these tasks could fit into one or more paper (see further below; note how one project may show up in multiple paper conceptions), but step 1 seems to be to decide which ones we want to do and get them started. So here's the overall list of what we'd need to do to tackle \emph{everything} that we came up with.\footnote{Note that we probably don't want or need to do everything.}
 
+
+Below updated at December 2018 retreat:
 \begin{enumerate}
 \item Bigger tasks (to divvy up)
 \begin{enumerate}
@@ -87,16 +90,15 @@ We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up w
 \item Step 1: Find out if we have fake data (if not, make fake data)
 \item Side note: Data should be pretty clean, \% BB is not thrown out until step 6 in BB cleaning.
 \end{enumerate}
-\item Range questions: Cat, Dan, Deirdre
+\item Range questions: Cat, Dan, Deirdre and Nacho
 \begin{enumerate}
-\item Calculate 0/1 for out/in of range for each species in each study (Dan)
-\item Calculate exact geographical position within (or beyond) range of each species in each study (Dan \& Cat, tentative)
-\item Calculate climatic position within (or beyond) range of each species in each study (Dan \& Cat, tentative)
+\item Calculate exact geographical position within (or beyond) range of each species in each study
+\item Calculate climatic position within (or beyond) range of each species in each study 
 \end{enumerate}
 \item Provenance models (goes with latitude models?) (Dan)
 \item Elevation models? (Cat)
 \item Effects of coast models? (Cat)
-\item Get trait data (and correlate cues with trait data)\footnote{For here and for all our questions, we'll want to think carefully about not running so MANY models that we are sure to find something, AKA sure to find something possibly spurious.} Cat, Darwin, Deirdre expressed interest
+\item Get trait data (and correlate cues with trait data)\footnote{For here and for all our questions, we'll want to think carefully about not running so MANY models that we are sure to find something, AKA sure to find something possibly spurious.} Darwin, Deirdre working on this, Cat also willing to help.
 \begin{enumerate}
 \item wood anatomy
 \item leaf vein anatomy (Sack papers?)
@@ -124,13 +126,10 @@ We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up w
 \end{enumerate}
 \item Tasks related to BB model (probably do not need to divvy up right now, as we will get these done methinks)
 \begin{enumerate}
-\item BB models with imputation (logical/model)
 \item BB models with Weinberger
-\item BB models with chilling examined
-\item Revisit non-linear BB models 
-\item BB models: Does temperature treatment covary with photoperiod?
-\item BB models: Consider adding continent of origin? \emph{--Need to discuss before doing}
-\item BB models: Consider adding seedling/cutting? \emph{--Need to discuss before doing}
+\item \st{BB models with chilling examined:} Not enough data to look at experimental versus forced. 
+\item \st{Revisit non-linear BB models:} No sign of non-linearities in our data, but Ailene checking a couple species (see issue \#190)
+\item BB models: Does temperature treatment covary with photoperiod? ... still sort of working on (Cat, but not much data.. issues \#220 and \#235 at least) 
 \item BB model interpretation: Apply 1 C of warming (across year, in certain seasons)
 \end{enumerate}
 \end{enumerate} 
