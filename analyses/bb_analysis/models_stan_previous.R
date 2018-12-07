@@ -56,7 +56,7 @@ use.zscore = FALSE # change to TRUE to use centered and scaled data
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
 # Note the notation: winternosp_2level.stan: m2l.winsp
 ########################################################
-m2l.winsp = stan('stan/winternosp_2level.stan', data = datalist.bb,
+m2l.winsp = stan('stan/archive/winternosp_2level.stan', data = datalist.bb,
                iter = 4000, warmup=2500) 
  
 
@@ -86,7 +86,7 @@ datalist.bb <- with(bb.stan,
                     )
 
 
-m2l.wstudy = stan('stan/nointer_2level_studyint_ncp.stan', data = datalist.bb,
+m2l.wstudy = stan('stan/archive/nointer_2level_studyint_ncp.stan', data = datalist.bb,
                iter = 5000, warmup=3500) 
 
 check_all_diagnostics(m2l.wstudy)

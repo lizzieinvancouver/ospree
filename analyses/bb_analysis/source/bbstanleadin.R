@@ -222,6 +222,22 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
  )
 }
 
+# ALL species with only exp photoforce
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE){
+    bb.stan <- addcomplex.allspp(bb.expphotoforce)
+    source("source/bb_zscorepreds.R")
+    datalist.bb <- with(bb.stan, 
+                    list(y=resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
 
 
 ##
