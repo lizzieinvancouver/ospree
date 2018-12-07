@@ -2,20 +2,13 @@
 # Started by Nacho
 # Date: 6th Dec 2018
 
-
-## to start
-rm(list=ls())
-options(stringsAsFactors=FALSE)
-
-
-
 ## setwd
-setwd("~/GitHub/ospree/")
+#setwd("~/GitHub/ospree/")
 
 ## load data
-bdaymean.hf<-read.csv("analyses/phylogeny/input/flynn/bdaymean.hf.csv")
-bdaymean.sh<-read.csv("analyses/phylogeny/input/flynn/bdaymean.sh.csv")
-spsnames<-read.csv("analyses/phylogeny/input/flynn/spcode.csv")
+bdaymean.hf<-read.csv("input/flynn/bdaymean.hf.csv")
+bdaymean.sh<-read.csv("input/flynn/bdaymean.sh.csv")
+spsnames<-read.csv("input/flynn/spcode.csv")
 ## info from README
 #C: force - 15 C day/5 C night
 #W: force - 20 C day/10 C night
@@ -26,19 +19,26 @@ spsnames<-read.csv("analyses/phylogeny/input/flynn/spcode.csv")
 #2: chill - field chill + weeks at 1.5 C -- 1702.50 for HF; 1487.50 SH 
 
 ## set treatments
-treats<-data.frame(forcetemp=c(rep(15,6),rep(20,6)),
+treats.hf<-data.frame(forcetemp=c(rep(15,6),rep(20,6)),
                    forcetemp_night=c(rep(5,6),rep(10,6)),
                    photoperiod_day=c(rep(12,3),rep(8,3),rep(12,3),rep(8,3)),
-                   chill=c(rep(c(814.5,2062.5,1702.5),4)))
+                   chill=c(rep(c(814.5,2062.5,1702.5),4)),
+                   chill_type=c(rep(c("fldest","bothest","bothest"),4)))
+
+treats.sh<-data.frame(forcetemp=c(rep(15,6),rep(20,6)),
+                   forcetemp_night=c(rep(5,6),rep(10,6)),
+                   photoperiod_day=c(rep(12,3),rep(8,3),rep(12,3),rep(8,3)),
+                   chill=c(rep(c(599.5,1847.5,1487.5),4)),
+                   chill_type=c(rep(c("fldest","bothest","bothest"),4)))
+
 
 ## adding data to bb.all (output from bbstanleadin.phyla)
 ## first source ospree data to attach
-bb.flynn<-bb.all
+bb.flynn<-bb
 bb.flynn[,]<-NA
-str(bb.flynn)
+
 
 ## fill data.frame
-uniquesps<-unique(bdaymean.hf$X)
 namesflynn<-expand.grid(1:12,spsnames$species,
                         c("Flynn.hf","Flynn.sh"),
                         stringsAsFactors = F)
@@ -65,7 +65,8 @@ for(i in 1:28){#i=1
   bb.flynn[which(bb.flynn$datasetID=="Flynn.hf" &
                    bb.flynn$genus==genus.i & 
                    bb.flynn$species==sps.i),
-                   c("forcetemp","forcetemp_night","photoperiod_day","chill")]=treats
+                   c("forcetemp","forcetemp_night",
+                     "photoperiod_day","chill","chill_type")]=treats.hf
   
   ## sh
   bb.flynn[which(bb.flynn$datasetID=="Flynn.sh" &
@@ -76,16 +77,21 @@ for(i in 1:28){#i=1
   bb.flynn[which(bb.flynn$datasetID=="Flynn.sh" &
                    bb.flynn$genus==genus.i & 
                    bb.flynn$species==sps.i),
-           c("forcetemp","forcetemp_night","photoperiod_day","chill")]=treats
+           c("forcetemp","forcetemp_night",
+             "photoperiod_day","chill","chill_type")]=treats.sh
   
   
 }
 
 bb.flynn$force=bb.flynn$forcetemp
 bb.flynn$photo=bb.flynn$photoperiod_day
+bb.flynn$force_type="exp"
+bb.flynn$photo_type="exp"
+bb.flynn$resp=bb.flynn$response
+bb.flynn=bb.flynn[!is.na(bb.flynn$resp),]
 
 
-
+bb<-rbind(bb,bb.flynn)
 
 
 

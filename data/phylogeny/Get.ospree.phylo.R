@@ -33,6 +33,8 @@ columnstokeep <- c("datasetID", "study", "genus", "species", "varetc", "woody", 
                    "Exp_Chilling_Hours",  "Exp_Utah_Model","Exp_Chill_portions","chilldays","field.chill.units","figure.table..if.applicable.")
 
 bb <- subset(bbdat, select=columnstokeep)
+bb<-bb.stan
+
 
 # geting a list of all species in ospree
 bb$latbi <- paste(bb$genus, bb$species, sep="_")
@@ -49,7 +51,8 @@ sps.list=sps.list[-c(21,95)]
 ## load phylogeny
 
 ## load phylo (from Zanne et al. 2014)
-phy.plants<-read.tree("data/phylogeny/Vascular_Plants_rooted.dated.tre")
+#phy.plants<-read.tree("data/phylogeny/Vascular_Plants_rooted.dated.tre")
+phy.plants<-read.tree("../../data/phylogeny/Vascular_Plants_rooted.dated.tre")
 
 
 ## getting a list of genera in Zanne's phylo
@@ -63,6 +66,7 @@ phy.genera.uniq<-sort(unique(phy.genera))
 
 ## how many ospree genera are in the phylogeny?
 ospreegenus.inphylo<-genus.list[which(genus.list%in%phy.genera.uniq)]
+
 
 ## first prune the phylogeny to include only these genera
 phy.genera.ospree<-drop.tip(phy.plants,
@@ -79,9 +83,9 @@ phy.plants.ospree<-drop.tip(phy.ospree.clean,
                             which(!phy.ospree.clean$tip.label%in%sps.list))
 # only 172 species are in the phylogeny
 
-plot(phy.ospree.clean)
+plot(phy.plants.ospree,cex=.5)
 
 ## save phylogeny
-write.tree(phy.plants.ospree,"data/phylogeny/ospree.phylogeny.tre")
+#write.tree(phy.plants.ospree,"../../data/phylogeny/ospreeFlynn.phylogeny.tre")
 
 

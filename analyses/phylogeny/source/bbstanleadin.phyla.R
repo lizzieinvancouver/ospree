@@ -33,6 +33,10 @@ bb <- subset(d, select=c(columnstokeep, columnschillunits))
 # remove the values above 600 (which means remove the right-censored data, coded as 999)
 bb <- subset(bb, resp<600)
 
+## get Dan Flynn's data
+source("source/format_flynnsdata.R")
+
+
 # deal with photo
 bb.expphoto <- subset(bb, photo_type=="exp")
 bb.rampphoto <- subset(bb, photo_type=="ramped")
