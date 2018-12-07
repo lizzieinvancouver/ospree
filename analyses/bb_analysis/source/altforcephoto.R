@@ -4,45 +4,47 @@
 # bb_cleanmergeall.R
 
 ## Starting with photoperiod
+#bb.noNA$photoperiod_day <-as.numeric(as.character(bb.noNA$photoperiod_day))
 
-bb$photoperiod_day[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
- (bb$resp[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod lengthening from 8h 40min")]*0.1667) + 
-bb$photo[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod lengthening from 8h 40min")]
+bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod lengthening from 8h 40min")] <- 
+ (bb.noNA$resp[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod lengthening from 8h 40min")]*0.1667) + 
+bb.noNA$photo[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod lengthening from 8h 40min")]
 
 # photoperiod shortening from 12h
-bb$photoperiod_day[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod shortening from 12 h")] <- 
- (bb$resp[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod shortening from 12 h")]*0.1667) + 
-bb$photo[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod shortening from 12 h")]
+bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod shortening from 12 h")] <- 
+ (bb.noNA$resp[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod shortening from 12 h")]*0.1667) + 
+bb.noNA$photo[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod shortening from 12 h")]
 
 # photoperiod lengthening from 6h
-bb$photoperiod_day[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod lengthening from 6h")] <- 
- (bb$resp[which(bb$datasetID=="partanen98" & bb$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod lengthening from 6h")] <- 
+ (bb.noNA$resp[which(bb.noNA$datasetID=="partanen98" & bb.noNA$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
 
 if(TRUE){
   # photoperiod shortening from 16h
-  bb$photoperiod_day[which(bb$datasetID=="partanen01" & bb$other.treatment=="Photoperiod shortening from 16h")] <- 
-    (bb$resp[which(bb$datasetID=="partanen01" & bb$other.treatment=="Photoperiod shortening from 16h")]*0.1667) + 
-    bb$photo[which(bb$datasetID=="partanen01" & bb$other.treatment=="Photoperiod shortening from 16h")]
+  bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="partanen01" & bb.noNA$other.treatment=="Photoperiod shortening from 16h")] <- 
+    (bb.noNA$resp[which(bb.noNA$datasetID=="partanen01" & bb.noNA$other.treatment=="Photoperiod shortening from 16h")]*0.1667) + 
+    bb.noNA$photo[which(bb.noNA$datasetID=="partanen01" & bb.noNA$other.treatment=="Photoperiod shortening from 16h")]
   
   # photoperiod lengthening from 6h
-  bb$photoperiod_day[which(bb$datasetID=="partanen01" & bb$other.treatment=="Photoperiod lengthening from 6h")] <- 
-    (bb$resp[which(bb$datasetID=="partanen01" & bb$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
+  bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="partanen01" & bb.noNA$other.treatment=="Photoperiod lengthening from 6h")] <- 
+    (bb.noNA$resp[which(bb.noNA$datasetID=="partanen01" & bb.noNA$other.treatment=="Photoperiod lengthening from 6h")]*0.1667) + 6
 }
 
 if(TRUE){
-  bas<-bb[(bb$datasetID=="basler12" | bb$datasetID== "basler14" & bb$other.treatment=="ramped_photoperiod"),]
+  bas<-bb.noNA[(bb.noNA$datasetID=="basler12" | bb.noNA$datasetID== "basler14" & bb.noNA$other.treatment=="ramped_photoperiod"),]
   bas$photoperiod_day<-as.numeric(bas$photoperiod_day)
   bas$photoperiod_day<- ifelse(!is.na(bas$response.time), ((bas$response.time*0.06) + bas$photoperiod_day), bas$photoperiod_day)
   bas$photoperiod_night<-as.numeric(bas$photoperiod_night)
   bas$photoperiod_night<-24-bas$photoperiod_day
-  bb$photoperiod_day[which(bb$datasetID=="basler12" | bb$datasetID== "basler14" & bb$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
-  bb$photoperiod_night[which(bb$datasetID=="basler12" | bb$datasetID== "basler14" & bb$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
+  bb.noNA$photoperiod_day[which(bb.noNA$datasetID=="basler12" | bb.noNA$datasetID== "basler14" & bb.noNA$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_day
+  bb.noNA$photoperiod_night[which(bb.noNA$datasetID=="basler12" | bb.noNA$datasetID== "basler14" & bb.noNA$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
 }
+
 
 ## And now forcing
 
 # laube14a 
-### Adjust Laube14a based on slightly complex calculations (see paper and bbcleaning_README.txt for more details)...
+### Adjust Laube14a based on slightly complex calculations (see paper and bb.noNAcleaning_README.txt for more details)...
 temp<-0.5
 laube14<-data.frame(matrix(0, ncol = 1, nrow = 42), temp=temp)
 laube14<-dplyr::select(laube14, temp)
@@ -55,7 +57,7 @@ laube14$day<-1:42
 
 laube14<-within(laube14, gdd <-cumsum(temp))
 
-d.sub<-subset(bb, datasetID=="laube14a")
+d.sub<-subset(bb.noNA, bb.noNA$datasetID=="laube14a")
 d.sub$response.time[which(d.sub$response.time==-23.76)]<-"no response"
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
@@ -81,9 +83,9 @@ for(i in c(1:nrow(d.sub))) {
 
 
 d.sub$response.time<-ifelse(d.sub$response.time==0, "no response", d.sub$response.time)
-bb$response.time[which(bb$datasetID=="laube14a")]<-d.sub$response.time
-#bb$respvar.simple[which(bb$datasetID=="laube14a")]<- "daystobudburst"
-#bb$respvar[which(bb$datasetID=="laube14a")]<- "degreedaystobudburstconvertedtodays"
+bb.noNA$response.time[which(bb.noNA$datasetID=="laube14a")]<-d.sub$response.time
+#bb.noNA$respvar.simple[which(bb.noNA$datasetID=="laube14a")]<- "daystobudburst"
+#bb.noNA$respvar[which(bb.noNA$datasetID=="laube14a")]<- "degreedaystobudburstconvertedtodays"
 
 d.sub$response.time<- as.numeric(d.sub$response.time)
 for(i in c(1:nrow(d.sub))) {
@@ -93,27 +95,29 @@ for(i in c(1:nrow(d.sub))) {
 d.sub$forcetemp<-ifelse(is.na(d.sub$response.time), 27.5, d.sub$forcetemp)
 
 d.sub$response.time<-ifelse(is.na(d.sub$response.time), "no response", d.sub$response.time)
-bb$forcetemp[which(bb$datasetID=="laube14a")]<-d.sub$forcetemp
+bb.noNA$forcetemp[which(bb.noNA$datasetID=="laube14a")]<-d.sub$forcetemp
 
 
 # basler12 - "Temperature was set to cycle ±5 K around the daily mean temperature, which was increased by
 # 0.5 K every five days"
 ## Fixed 13 Apr 2018 - Cat
-bb$response.time.num <-as.numeric(as.character(bb$response.time))
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=0 & bb$response.time.num<5, 5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=5 & bb$response.time.num<10, 5.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=10 & bb$response.time.num<15, 6, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=15 & bb$response.time.num<20, 6.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=20 & bb$response.time.num<25, 7, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=25 & bb$response.time.num<30, 7.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=30 & bb$response.time.num<35, 8, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=35 & bb$response.time.num<40, 8.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=40 & bb$response.time.num<45, 9, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=45 & bb$response.time.num<50, 9.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=50 & bb$response.time.num<55, 10, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=55 & bb$response.time.num<60, 10.5, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=60 & bb$response.time.num<65, 11, bb$forcetemp)
-bb$forcetemp<-ifelse(bb$datasetID=="basler12" & bb$response.time.num>=65 & bb$response.time.num<70, 11.5, bb$forcetemp)
+bb.noNA$response.time.num <-as.numeric(as.character(bb.noNA$response.time))
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=0 & bb.noNA$response.time.num<5, 5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=5 & bb.noNA$response.time.num<10, 5.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=10 & bb.noNA$response.time.num<15, 6, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=15 & bb.noNA$response.time.num<20, 6.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=20 & bb.noNA$response.time.num<25, 7, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=25 & bb.noNA$response.time.num<30, 7.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=30 & bb.noNA$response.time.num<35, 8, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=35 & bb.noNA$response.time.num<40, 8.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=40 & bb.noNA$response.time.num<45, 9, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=45 & bb.noNA$response.time.num<50, 9.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=50 & bb.noNA$response.time.num<55, 10, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=55 & bb.noNA$response.time.num<60, 10.5, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=60 & bb.noNA$response.time.num<65, 11, bb.noNA$forcetemp)
+bb.noNA$forcetemp<-ifelse(bb.noNA$datasetID=="basler12" & bb.noNA$response.time.num>=65 & bb.noNA$response.time.num<70, 11.5, bb.noNA$forcetemp)
 
-
+#bb.noNA$photoperiod_day<-bb.noNA$photoperiod_day
+bb.noNA$response.time.num <- NULL
+#bb.noNA$photo.num <- NULL
 
