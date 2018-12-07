@@ -10,9 +10,9 @@ checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 #source("source/speciescomplex.R")
 d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 #### Use alternate method for calculating ramped studies here before step 2...
-if(use.altramped == TRUE){
-  source("source/altforcephoto.R")
-}
+#if(use.altramped == FALSE){
+ # source("source/altforcephoto.R")
+#}
 
 ## just the bb data ...
 respvars.thatwewant <- c("daystobudburst", "percentbudburst")
