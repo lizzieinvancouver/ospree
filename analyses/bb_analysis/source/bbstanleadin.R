@@ -21,10 +21,6 @@ options(mc.cores = parallel::detectCores())
 
 ## (1) Get the data and slim down to correct response and no NAs ...
 source("source/bbdataplease.R")
-#### Use alternate method for calculating ramped studies here before step 2...
-if(use.altramped == TRUE){
-  source("source/altforcephoto.R")
-}
 ## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
 source("source/othertreats.R")
 dim(bb.noNA)

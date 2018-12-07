@@ -48,12 +48,12 @@ use.chillports = FALSE # change to true for using chillportions instead of utah 
 # Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
-use.cropspp = FALSE
+use.cropspp = TRUE
 
 # Default is species complex use  alltypes of designs
-use.altramped = FALSE
-use.expramptypes.fp = FALSE
-use.exptypes.fp = TRUE
+use.altramped = TRUE
+use.expramptypes.fp = TRUE
+use.exptypes.fp = FALSE
 
 #Default is all chilling data
 use.expchillonly = FALSE # change to true for only experimental chilling 
