@@ -1,6 +1,11 @@
 ## Started 13 June 2017 ##
 ## By Lizzie ##
 ##Added to by Ailene started on July 12, 2017
+###NOTE: This file is incomplete as we abandoned using it after deciding that we should not impute forcing for all studies
+####The code is missing studies that do only experimental chilling and forcing (e.g. linksalo06)
+###If you are confused about why we would need daily data for studies that do experimental chilling and forcing, 
+### see linsalo06 as an (the only?) example!
+##############################################################################################
 #General approach is:
 #1. Create two daily climate datasets to pull from:
 #a) ambient climate data 

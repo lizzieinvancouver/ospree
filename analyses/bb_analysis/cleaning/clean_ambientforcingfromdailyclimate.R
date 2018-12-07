@@ -9,6 +9,7 @@
 #'  This file explicitly incorporates ambient and ambient +1, +4, etc. (done by Cat on 29 Oct 2018)
 #'  This file now incorporates ambient using the column 'avg_bbtemp' values for forcetemp when the force_type is ambient
 #'  This includes ramped data (e.g., "ambient +1" forcing treatments, which are calculated in bb_daily_dataprep.R- the file that creates percbb_dailyclimA-D)
+#'  This file does NOT include studies that change the number of hours per day that a forcing treatment was applied (e.g. linksalo06)
 ##############################################################################################################
 
 #if(FALSE){
@@ -82,7 +83,7 @@ bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if resp
 bb$avg_bbtemp<-NA
 missingclim<-NA#keep track of how many uniqueIDs are missing climate
 ## Loop to add mean temp to each line in bb
-for(i in 1:nrow(bb)){#i=1832; nrow=5965 #2804 (jones12): missing climate data for first part- not sure why!
+for(i in 1:nrow(bb)){
   lon.i<-bb[i,"chill.long"]
   lat.i<-bb[i,"chill.lat"]
   start.i<-bb[i,"expstartdate"]
