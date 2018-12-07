@@ -82,19 +82,29 @@ extractchillforce<-function(spslist,fullnames,trees,tavg,period){
   forcesub<-subset(climsub,monthsinforce)
   
   ## commence loop  
-  for (i in 1:nsps){#i=1
+  for (i in 1:nsps){#i=2
     print(i)
     spsi<-spslist[i]
     fullnamei<-fullnames[i]
     
     ## load shape
-    direct<-dir(paste("data/distributiondata/",
-                      fullnamei,"/","shapefiles/",sep=""))
-    #directname<-direct[which(grepl(direct,fullnamei))]
+    
+    
+    if(spsi=="FagSyl"){
     spsshape<-shapefile(paste("data/distributiondata/",
                               fullnamei,"/","shapefiles/",
-                              paste(gsub(" ","_",fullnamei),"_plg.shp",sep="")
+                              paste(gsub(" ","_",fullnamei),"_sylvatica_plg.shp",sep="")
                               ,sep=""))
+    
+    } else {
+      direct<-dir(paste("data/distributiondata/",
+                        fullnamei,"/","shapefiles/",sep=""))
+      #directname<-direct[which(grepl(direct,fullnamei))]
+      spsshape<-shapefile(paste("data/distributiondata/",
+                                fullnamei,"/","shapefiles/",
+                                paste(gsub(" ","_",fullnamei),"_plg.shp",sep="")
+                                ,sep=""))  
+    }
     
     ## need to re-project shape from lamber equal area to geographic
     ## 
@@ -165,7 +175,14 @@ extractchillforce<-function(spslist,fullnames,trees,tavg,period){
 ## apply function
 Climate.in.range<-extractchillforce(spslist,fullnames,trees,tavg,period)
 
+write.csv(Climate.in.range,file = "analyses/ranges/climate.in.range1980-20176sps.csv")
 
+#plots
+par(mfrow=c(3,2))
+for(i in 1:6){
+plot(1980:2017,Climate.in.range[,1,i],"l",
+     main=spslist[i],ylab="mean GDD within range")
+}
 
 ## the above function extracts forcing and chilling 
 ## it takes a bit of time per species
