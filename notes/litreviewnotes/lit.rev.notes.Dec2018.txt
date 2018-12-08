@@ -6,25 +6,32 @@ WOS: Deirdre
 GS: Darwin
 -----------------------------------------------------------
 1 - (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
+WOS:30
 
 2 - (budburst OR leaf-out) AND dorman*
-
+WOS: 41
 - - - - - - 
 
 Other search terms which we tested: 
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
+WOS: 334
 
 (budburst OR flower* OR leaf-out) AND photoperiod AND temp*
+WOS: 327
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
+WOS: 334
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
+WOS: 30
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temp*
-
-(budburst OR leaf-out) AND (photoperiod or daylength) AND temp*
+WOS: 34
 
 (budburst OR leaf-out) AND dorman*
+WOS 41
 
 ((budburst OR leaf-out) AND dorman* AND (chamber* or glasshouse* or greenhouse*))
+
+WOS:7
