@@ -98,6 +98,34 @@ unique(not.wein$complex.wname)
 sp.match<-intersect(unique(wein.sp$complex.wname), unique(not.wein$complex.wname))
 
 sp.match ### species in both
+
+######################
+# now we exclude non-weinberger studies that do NOT manipulate chilling
+nonwein.expchill <- subset(not.wein, chill_type!="fldest")
+unique(wein.sp$chill_type) # 11 rows incl falusi97, caffarra11b, heide93
+studiestoincl <- c(unique(nonwein.expchill$dataIDstudyID), unique(wein.sp$dataIDstudyID))
+
+bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),]
+
+# or, or .. we include ONLY non-weinberger studies with exp chilling only
+nonwein.expchillonly <- subset(not.wein, chill_type=="exp")
+studiestoincl.exponly <- c(unique(nonwein.expchillonly$dataIDstudyID), unique(wein.sp$dataIDstudyID))
+
+bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),]
+bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl.exponly)),]
+
+# now we exclude try to use matching species
+# rm fldest
+bb.stan.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match),]
+# bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
+bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
+
+
+
+## Set up the bb.stan to use
+# bb.stan <- bb.stan.alt
+bb.stan <- bb.stan.alt.exponly
+# bb.stan <- bb.stan.matchsp
 ######################
 ####make datalist
 wein.data <- with(bb.stan, 
