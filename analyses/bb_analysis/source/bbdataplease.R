@@ -41,6 +41,8 @@ bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
                     is.na(chill)==FALSE & is.na(resp)==FALSE)
+if(use.chillports) bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
+                    is.na(chill.ports)==FALSE & is.na(resp)==FALSE)
 
 # bb.noNA<-subset(bb.noNA, field.sample<=1)
 
