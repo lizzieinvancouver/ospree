@@ -22,7 +22,7 @@ year<-2018#i don't think this matters?
 doys<-seq(1:days)
 chillcalc.temp1<-c()
 chillcalc.temp2<-c()
-
+i=1
 for (i in 1:length(temp1)){
 hrly.temp1 =
   data.frame(

@@ -1,0 +1,12 @@
+notes on chilling mods
+7 dec 2018
+ran m21ni with utah units and calculated R2 using code at the bottom of models_stan
+
+m2lni.R2=0.5732 for utah (N=1953, n_sp= 41)
+m2lni.R2=0.6013 for chill portions withcrops (N=1807, n_sp= 38, a_sp: 29.8, b_f: -3.8, p_sp: -3.8, b_c: -9.1)
+
+m2lni.R2=0.5678 for utah with no crops (N=1556, n_sp= 37, a_sp: 30.9, b_f: -3.8, p_sp: -3.2, b_c: -10.0)
+m2lni.R2=0.5925 for chill portions with no crops (N=1556, n_sp= 37, a_sp: 32.9, b_f: -3.7, p_sp: -2.6, b_c: -8.1)
+
+
+ran m21ni with chill portions and calculated R2 using code at the bottom of models_stan

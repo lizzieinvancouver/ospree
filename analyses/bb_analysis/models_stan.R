@@ -43,7 +43,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to true for using chillportions instead of utah units
+use.chillports = TRUE # change to true for using chillportions instead of utah units
 
 # Default is species complex and no crops
 use.allspp = FALSE
