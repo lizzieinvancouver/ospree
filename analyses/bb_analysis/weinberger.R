@@ -116,8 +116,20 @@ wein.data <- with(bb.stan,
 m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
               iter = 2500, warmup=1500)
 
+wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data,
+              iter = 2500, warmup=1500)
+
+wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
+                  iter = 2500, warmup=1500)
 
 
-plot(m2l.ni)
-m2l.ni
+wein.sum <- summary(wein.mod.2)$summary
+wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+               "b_weinberger", "b_cw","b_pw","b_fw"),]
+
+wein.sum2 <- summary(wein.mod.3)$summary
+wein.sum2[c("mu_a_sp", "b_force", "b_photo", "b_chill",
+           "b_weinberger", "b_cw","b_pw","b_fw"),]
+
+
 

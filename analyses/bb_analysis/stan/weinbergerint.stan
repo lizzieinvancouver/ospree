@@ -1,4 +1,3 @@
-##### rstan model for weinberger analysis
 
 data {
 	int<lower=1> N;

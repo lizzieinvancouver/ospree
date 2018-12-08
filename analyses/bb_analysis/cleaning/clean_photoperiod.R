@@ -234,6 +234,14 @@ sch.12<-daylength(46.206, "1985-3-14") # 11.7643
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
 
+d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="14-9.5")] <- 14
+d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_day=="14-9.5")] <- 10
+d$photo_type[which(d$datasetID=="schnabel87" & d$photoperiod_day=="14-9.5")] <- "ramped"
+
+d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="13-9.5")] <- 13
+d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_day=="13-9.5")] <- 11
+d$photo_type[which(d$datasetID=="schnabel87" & d$photoperiod_day=="13-9.5")] <- "ramped"
+
 # sonsteby14: Figure 5 has ambient, should be changed to 24 hour photoperiod
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 24
 d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.=="fig 5" & d$datasetID=="sonsteby14")] <- 0
