@@ -210,7 +210,7 @@ betfagcues <- rbind(betpencues, fagsylcues)
 
 write.csv(betfagcues, "limitingcues/output/cues_fagben.csv", row.names=FALSE)
 write.csv(forcecues.alldiffs, "limitingcues/output/cuesforce.alldiffs.csv", row.names=FALSE)
-write.csv(chilltempcues.alldiffs, "limitingcues/output/cueschilltemo.alldiffs.csv", row.names=FALSE)
+write.csv(chilltempcues.alldiffs, "limitingcues/output/cueschilltemp.alldiffs.csv", row.names=FALSE)
 
 ##
 
