@@ -1,0 +1,216 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1in, right=1in]{geometry}
+\usepackage{textcomp}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage[english]{babel}
+\usepackage{pifont}
+\usepackage{color}
+\usepackage{setspace}
+\usepackage{lscape}\parskip=5pt
+\usepackage{gensymb} % You have to have this to use \degree
+\usepackage{float}
+\usepackage{latexsym}
+\usepackage{url}
+
+% Reference Supp labels
+\usepackage{zref-xr}
+\zxrsetup{toltxlabel=true, tozreflabel=false}
+\zexternaldocument*{winefuture_supp}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{soul} % Need for st command (sout for strikethrough does not work with math lib loaded)
+
+\usepackage{caption}
+\usepackage{lineno}
+\usepackage[utf8]{inputenc}
+\usepackage{sectsty,setspace,natbib}
+\usepackage{graphicx}
+\usepackage{latexsym,epsf,rotating}
+\usepackage{epstopdf}
+
+\linespread{1.2} % was 1.66 for double-spaced 
+% \raggedright
+\setlength{\parindent}{0.5in}
+
+\setcounter{secnumdepth}{0}
+
+\pagestyle{empty}
+
+\renewcommand{\tableofcontents}{}
+
+\parskip=5pt
+\pagenumbering{arabic}
+\pagestyle{plain}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{OSPREE BB data}
+\fancyhead[RO]{\today}
+% put in your own RH (running head)
+
+\def\labelitemi{--}
+\setlength\parindent{0pt} % make document noindent all the way through
+
+\begin{document}
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+%\bigskip
+%\noindent RH: All cues drive temperate tree phenology 
+\thispagestyle{empty}
+\bigskip
+\medskip
+\begin{center}
+\noindent{\Large {\bf Budburst \\ The start of a manuscript?}}\\
+\vspace{2ex}
+\bigskip
+\end{center}
+
+%\linenumbers
+% Check what spp. in PEP725
+% Re-do outline
+% Check for correlations and trade-offs across species
+
+{\bf Paper 1: Species share three major cues} % that underlie a complex future for spring phenology
+Some notes/words I was pulling together for the main paper. We're not stuck with this text at all but in working through the setup I realized how many different directions it could lead to. So I'll share it here:
+
+\begin{abstract}
+Decades of research on woody species highlight how three major cues shape spring phenological events (e.g., budburst and leafout): forcing (warm temperatures, generally occurring in the late winter and early spring), daylength (photoperiod) and chilling (cool temperatures, generally occurring in the fall and late winter). How pervasive these cues are and whether some species are effectively governed by only one or two cues is a critical area of climate change biology research, as it would shape how complex responses to warming will be. Here we use a global meta-analysis of all published growth chamber studies to test for the relative effects of these three major cues across XX species. We find they almost all show these cues, making climate change responses complex. 
+\end{abstract}
+
+\emph{Random text:} While climate change research benefits from this long history of study that has identified the proximate mechanisms of spring phenology \citep{chuinearees}, much current research still examines phenology from a simplified perspective. This is perhaps understandable as such complex cues are difficult to tease apart and most research has focused on a very few species and little to no information on all others. Whatever the reason however, the end result are studies that tend to use simplified metrics of phenology, especially in long-term observational studies---such as the simple calendar date when an event occurs or a correlation between budburst observed over time and a simple metric of temperature. This latter approach is often assumed to estimate `forcing' but must inherently integrate over other cues determining budburst each year---and the relative role of each cue likely varies year-to-year. 
+
+\begin{enumerate}
+\item muplot of results
+\item marginal effects plots for pre and post-climate change, but issues: (1) z-scored model and (2) photoperiod. Solutions....
+\begin{enumerate}
+\item Should/can we use non z-scored data to fit the models?
+\item Show plots across diversity of photoperiod?
+\end{enumerate}
+\item Projections .... (plot based on our mu estimates, then show each species to highlight how different species can be)
+\end{enumerate}
+
+
+{\bf Directions I can think of that we could take these budburst data:}
+
+\begin{enumerate}
+\item Understanding our results (cue estimates) in relation as to when species may delay or do weird things (pro: it's an obvious and important question, and one we have a lot of expertise to answer; cons: we know that real phenological models are more complex, so what can we really offer?) 
+\begin{enumerate}
+\item How similar are our estimates from sensitivities you could estimate from long-term data (I think we can do this for chilling and forcing using PEP725 data).
+\item Use species from \citep{fu2015} to illustrate what 1$\degree$C would mean if:
+\begin{enumerate}
+\item Evenly applied across year
+\item Applied to only certain seasons ... 
+\end{enumerate}
+\item We could see if we can predict the delay seen in PEP725 data? 
+\end{enumerate}
+\item Look into two major areas that could cause variation we see given the data we have ... (pros: we have the data to do this; cons: may be too similar to limiting cues MS). There are two (three) big sources of reasons for the variation:
+\begin{enumerate}
+\item Methodology
+\begin{enumerate}
+\item Imputation model
+\item Weinberger method! 
+\item Model with experimental versus field chilling... (do similar to Weinberger? We could code each study as one of three types of chill: all field chill, all experimental chill, field+exp, or what about fitting a model with studies with no field chilling? Or look at studies that calculated their own units?)
+\item Non-linear model?
+\item How to do photoperiod (i.e., does temperature co-vary with photoperiod)?
+\end{enumerate}
+\item Species, population-level etc.
+\begin{enumerate}
+\item Latitude model
+\item Provenance model
+\item Trade-offs and correlations in cues among species 
+\item Coastal versus non-coastal
+\item Continent of origin?
+\end{enumerate}
+\item Also, sort of climate (i.e., the same tree planted in Finland and southern low-elevation Germany will leaf out first at the German site) ... but we sort of deal with that via the study design, no?
+\end{enumerate}
+\end{enumerate}
+
+{\bf One critical thing we need to think of:} When I think of the setup it goes something like:
+\begin{quote}
+Increasing rates of global climate change are testing ecological predictions of how climate shapes species, communities and ecosystems. For decades, plant phenology has been one of the most reported and consistent biological impacts of climate change, as many temperate plants have shifted their leafing and flowering earlier with increasing temperatures \citep{Wolkovich:2012n,IPCC:2014sm}. Such shifts are important as phenology shapes a suite of ecosystem services, including pollination and carbon sequestration, and scales up to impact projections of climate change itself \citep{Cleland:2007or}. 
+
+Yet as research interest in phenology has increased, discrepancies and uncertainties in our understanding have emerged. Responses to warming---while consistent on average---show high variation across species, sites and time \citep{tansley}. Recently, data on some of the most-studied species suggest the long-term trend towards ever-earlier springs may be stalling in parts of Europe \citep{fu2015}. 
+\end{quote}
+
+So ... if that is our setup (big if), how can we maximize what we have to really advance this area of research?\\
+
+
+Also, whatever happens I think that we must not lose sight of {\bf what an important finding the basic model already is} so we don't want a paper that dilutes that message and must avoid it like the plague. That said, now is the time to think of things we want to analyze and figure how they would fit into one or more papers. 
+
+%=======================================================================
+% \section{}
+%=======================================================================
+
+%=======================================================================
+%\section{Acknowledgements}
+%=======================================================================
+
+
+
+%=======================================================================
+% References
+%=======================================================================
+\newpage
+\bibliography{..//..//refs/ospreebibplus.bib}
+\bibliographystyle{apa}
+
+
+%=======================================================================
+% Tables
+%=======================================================================
+
+%\begin{center}  
+%\begin{table}
+%\caption{Key differences between PWR and traditional PCMs such as PGLS.}
+%\begin{tabular}{ | p{4cm} | p{5.5 cm} | p{5.5 cm} |}   \hline 
+%& PWR & PCMs (e.g., PGLS) \\ \hline \hline
+%Major goal & Study of evolution of correlation between variables across species & Study of evolution of correlation between variables across species\\ \hline
+%\emph{Assumption 1:} Nature of correlation between two or more variables & Non-stationary (changes through phylogeny in a phylogenetically conserved fashion) & Stationary (constant) throughout phylogeny (all variation is noise) \\ \hline
+%\emph{Assumption 2:} Completeness of variables & Substitutes phylogeny for variables (simple or complex) not in the model that interact with variables in the model & Assumes variables in model are primary drivers of correlational relationship \\ \hline
+%Inferential mode & Usually exploratory & Hypothesis testing (statistical significance)\\ \hline
+%Outputs & Coefficients of regression changing through the phylogeny & p-value and single set of coefficients presumed to apply to entire phylogeny with their confidence intervals\\ \hline
+
+%Method to avoid overfitting & Cross-validation (boot-strapped determination of optimal band-width for accurate prediciton of hold-outs) & Exact analytical model of errors and degrees of freedom\\ \hline \hline
+%\end{tabular}
+%\end{table}
+%\end{center}
+
+\newpage
+
+%=======================================================================
+% Figures
+%=======================================================================
+
+
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcom_expramp_fp.pdf}
+\caption{Z-score estimates using current model.}
+  \label{fig:zscore}
+\end{figure}
+\clearpage
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/fuspp.png}
+\caption{Lizzie's screen grab of the cues we estimate in the Fu et al. 2015 species}
+  \label{fig:fuspp}
+\end{figure}
+\clearpage
+
+
+\end{document}
+
+
+
+%=======================================================================
+% to-do listing
+%=======================================================================
+
+
+
