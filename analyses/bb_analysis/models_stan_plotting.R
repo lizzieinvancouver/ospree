@@ -36,10 +36,10 @@ use.expchillonly = FALSE
 
 ## name your figures paths (based on flags above) ... this needs work
 if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
-    figpathmore <- "spcom.expramp.fp"
+    figpathmore <- "spcom_expramp_fp"
     }
 if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
-    figpathmore <- "allspp.expramp.fp"
+    figpathmore <- "allspp_expramp_fp"
     }
 
 
