@@ -1,6 +1,7 @@
 # libraries needed for the leadin code
-library(rstan)
+library(plyr)
 library(dplyr)
+library(rstan)
 
 source('..//stan/savestan.R') # Dan Flynn code
 # incl. f(x)s to deal with biases in the data related to species, study, and design....
