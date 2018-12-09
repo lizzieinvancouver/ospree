@@ -21,7 +21,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to true for using chillportions instead of utah units
+use.chillports = TRUE # change to true for using chillportions instead of utah units
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -123,8 +123,8 @@ bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
 
 
 ## Set up the bb.stan to use
-# bb.stan <- bb.stan.alt
-bb.stan <- bb.stan.alt.exponly
+ bb.stan <- bb.stan.alt
+#bb.stan <- bb.stan.alt.exponly
 # bb.stan <- bb.stan.matchsp
 ######################
 ####make datalist
@@ -141,8 +141,8 @@ wein.data <- with(bb.stan,
 )
 
 ###model
-m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
-              iter = 2500, warmup=1500)
+#m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
+             # iter = 2500, warmup=1500)
 
 wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data,
               iter = 2500, warmup=1500)
@@ -151,13 +151,34 @@ wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
                   iter = 2500, warmup=1500)
 
 
+
+###some weinberger plotss
+wein.chill<-ggplot(bb.stan,aes(chill,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base() 
+wein.force<-ggplot(bb.stan,aes(force,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
+wein.photo<-ggplot(bb.stan,aes(photo,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
+
+##### r-square models
+observed.here <- bb.stan$resp
+
 wein.sum <- summary(wein.mod.2)$summary
 wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
-               "b_weinberger", "b_cw","b_pw","b_fw"),]
+           "b_weinberger", "b_cw","b_pw","b_fw"),]
 
 wein.sum2 <- summary(wein.mod.3)$summary
 wein.sum2[c("mu_a_sp", "b_force", "b_photo", "b_chill",
-           "b_weinberger", "b_cw","b_pw","b_fw"),]
+            "b_weinberger", "b_cw","b_pw","b_fw"),]
 
+# pooling on main effects
+preds.wein.sum <- wein.sum[grep("yhat", rownames(wein.sum)),]
+wein.sum.R2 <- 1- sum((observed.here-preds.wein.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+wein.mod.R2 <- 1- sum((observed.here-preds.wein.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.wein.sum[,1]~observed.here)) # Multiple R-squared:  0.5956 (chill por)
 
+##pooling on just intercept 
+preds.wein.sum2 <- wein.sum2[grep("yhat", rownames(wein.sum2)),]
+wein.sum.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
+wein.mod.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.wein.sum2[,1]~observed.here)) # Multiple R-squared: 0.442 (chill por) 
+
+### the pooling on main effects model seems better, since its results run counter to our prediction
 
