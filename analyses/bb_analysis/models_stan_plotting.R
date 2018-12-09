@@ -8,18 +8,15 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-# dostan = TRUE
+library(RColorBrewer)
 
 ## To do!
 ## Clean up plotting code and add a figure showing all data and sp lines together (well, 3 figures)
 ## Figure out why sigma_a plots each sp in muplot, but no dice for sigma_bforce etc.
 
-library(gridExtra)
-library(plyr)
-library(dplyr)
-
-use.zscore = FALSE
-use.pep = TRUE
+# library(gridExtra)
+# library(plyr)
+# library(dplyr)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -31,52 +28,43 @@ if(length(grep("Ignacio", getwd()))>0) {
 
 figpath <- "figures"
 
+## set up the flags
+use.chillports = FALSE 
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = TRUE
+use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+
+## name your figures paths (based on flags above) ... this needs work
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
+    figpathmore <- "spcom.expramp.fp"
+    }
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
+    figpathmore <- "allspp.expramp.fp"
+    }
+
+
+##
+
 ##
 source("source/bbstanleadin.R")
+source("source/bb_muplot.R")
+
 ##
 
-if(use.pep){
-## START below copied from models_stan.R
-getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
-allspp <- getspp[!duplicated(getspp), ]
-allspp <- allspp[order(allspp$complex),]
-pepspp <- c("Acer_pseudoplatanus", "Aesculus_hippocastanum", "Betula_pendula", "Corylus_avellana",
-    "Fagus_sylvatica", "Larix_decidua", "Picea_abies", "Populus_tremula",
-    "Prunus_padus","Quercus_robur", "Syringa_vulgaris")
-# gymnastics to renumber species
-somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
-somespp$complex <- NULL
-somespp$complex <- seq(1:nrow(somespp))
-
-# Currently we use bb.stan.expphoto
-bb.stan <- bb.stan.expphoto 
-bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
-bb.stan$complex <- NULL
-dim(bb.stan)
-bb.stan <- merge(bb.stan, somespp, by="complex.wname")
-dim(bb.stan)
-## END below copied from models_stan.R
-   
-bb.stan$quickgdd <- bb.stan$force*bb.stan$resp
-ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
-    geom_point()
-ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
-    geom_point() +
-    facet_wrap(~complex.wname, ncol=3)
-
-load("stan/output/M1_daysBBnointer_2levelpepspp.Rda")
-m1.bb <- m2l.ni
-
-pdf(file.path(figpath, "M1nointer_wpepspp.pdf"), width = 7, height = 6)
-source("source/bb_muplot_m2l.noinsp.R")
-dev.off()
-
-}
-
 # Quick look at interactions
-plot(force~chill, data=bb.stan)
-plot(force~photo, data=bb.stan)
-plot(photo~chill, data=bb.stan)
+ggplot(bb.stan, aes(chill, force, color=complex.wname)) +
+    geom_point(alpha = 0.1) + 
+    theme(legend.position="none")
+ggplot(bb.stan, aes(photo, force, color=complex.wname)) +
+    geom_point(alpha = 0.1) + 
+    theme(legend.position="none")
+ggplot(bb.stan, aes(chill, photo, color=complex.wname)) +
+    geom_point(alpha = 0.1) + 
+    theme(legend.position="none")
 
 hist(bb.stan$force)
 mean(bb.stan$force)
@@ -109,171 +97,145 @@ intxnplot <- function(lowdf, hidf){
     abline(lm(resp~chill, hidf))
 }
 
-pdf(file.path(figpath, "intxn_force.pdf"), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_force", figpathmore, ".pdf")), width = 5, height = 8)
 intxnplot(lowforce, hiforce)
 dev.off()
 
-pdf(file.path(figpath, "intxn_photo.pdf"), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_photo", figpathmore, ".pdf")), width = 5, height = 8)
 intxnplot(lowphoto, hiphoto)
 dev.off()
 
-pdf(file.path(figpath, "intxn_chill.pdf"), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_chill", figpathmore, ".pdf")), width = 5, height = 8)
 intxnplot(lowchill, hichill)
 dev.off()
 
 # Load fitted stan model: no interactions
-load("stan/output/M1_daysBBnointer_2level.Rda")
-m1.bb <- m2l.ni
-# summary(m1.bb)
-
-# explore results in shinystan
-#launch_shinystan(m1.bb)
+load("stan/output/m2lni_alltypes.Rda")
+load("stan/output/m2lnib_alltypes.Rda") # m2l.nib
 
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
-source("source/bb_muplot.R") # this code needs to be adjusted! I don't think it's plotting what it says it is.
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+# display.brewer.all()
+my.pch <- rep(15:18, each=12)
+alphahere = 0.4
 
 sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 
-if(!use.zscore){
-# Load fitted stan model: with interactions
-load("stan/output/M1_daysBBwinter_2level.Rda")
-m1.bb <- m2l.winsp
-# summary(m1.bb)
+unique(bb.stan$complex) # numbers are alphabetical
+sort(unique(bb.stan$complex.wname))
+# sumer.ni[grep("chill", rownames(sumer.ni)),] 
+# sumer.ni[grep("photo", rownames(sumer.ni)),] # Fagus is #15
+# sumer.ni[grep("force", rownames(sumer.ni)),]
 
-sumer.wi <- summary(m2l.winsp)$summary
-sumer.wi[grep("mu_", rownames(sumer.wi)),]
-sumer.wi[c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "b_cf","b_cp","b_fp"),] # mu_a_sp
-source("source/bb_muplot_m2l.winsp.R") # file also contains code for colored by species
-}
+# m1.bb <- m2l.ni
+modelhere <- m2l.ni
+muplotfx(modelhere, "model", 7, 8, c(0,3), c(-20, 10) , 12, 3)
 
-unique(bb.stan$complex) # numbers are alphabetical I believe (checked head and tail on the data ...)
-unique(bb.stan$complex.wname)
-# sumer.wi[grep("chill", rownames(sumer.wi)),] # positive outlier is Ribes
-# sumer.wi[grep("photo", rownames(sumer.wi)),] # Fagus is #15, positive outlier is Picea abies
-# sumer.wi[grep("force", rownames(sumer.wi)),]
-
-if(use.zscore){
-# Load fitted stan model: with interactions -- z-scored data
-load("stan/output/M1_daysBBwinter_2levelz.Rda")
-m1.bbz <- m2l.winsp
-sumer.wi <- summary(m2l.winsp)$summary
-sumer.wi[c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "b_cf","b_cp","b_fp"),]
-source("source/bb_muplot_m2l.winspz.R") # file also contains code for colored by species
-
-fu2015spp <- c("Aesculus_hippocastanum", "Alnus_glutinosa", "Betula_pendula", "Fagus_sylvatica",
-    "Fraxinus_excelsior", "Quercus_robur", "Tilia_cordata")
-fu2015sppnum <- which(unique(bb.stan$complex.wname) %in% fu2015spp)
-fu2015spp.cues <- data.frame(spp=fu2015spp, force=rep(NA, 7), photo=rep(NA, 7), chill=rep(NA, 7))
-for (sp in c(1:7)){
-    fu2015spp.cues$force[sp] <- sumer.wi[paste("b_force[", fu2015sppnum[sp], "]", sep=""),1]
-    fu2015spp.cues$photo[sp] <- sumer.wi[paste("b_photo[", fu2015sppnum[sp], "]", sep=""),1]
-    fu2015spp.cues$chill[sp] <- sumer.wi[paste("b_chill[", fu2015sppnum[sp], "]", sep=""),1]
-    }
-fu2015spp.cues
-
-allspp.cues <- data.frame(
-    force=sumer.wi[grep("b_force", rownames(sumer.wi)),][3:40,1],
-    photo=sumer.wi[grep("b_photo", rownames(sumer.wi)),][3:40,1],
-    chill=sumer.wi[grep("b_chill", rownames(sumer.wi)),][3:40,1])
-
-
-par(mfrow=c(1,3))
-plot(force~photo, data=allspp.cues)
-plot(force~chill, data=allspp.cues)
-plot(photo~chill, data=allspp.cues)
-    
-}
-
-# Need to work more on below
-if(FALSE){
-# exploring unscaled-data intxns
-getintxns <- sumer.wi[c("b_cf","b_cp","b_fp"),]
-intxnhere <- getintxns[1,1] # cf is 0.12
-forcenums <- seq(8,25, by=0.01)
-colhere <- "deepskyblue"
-plot(forcenums*2*intxnhere~forcenums, ylab="estimated effect", xlim=c(5, 30), ylim=c(0, 50),
-    xlab="forcing temp", col=alpha(colhere, 0.2), type="l")
-lines(forcenums*4*intxnhere~forcenums, ylab="estimated effect", xlab="forcing temp", col=alpha(colhere, 0.8))
-lines(abs(sumer.wi[c("mu_b_force_sp"),][1]*forcenums)~forcenums)
-}
-
-## plot data and one model for species 1
-subby <- subset(bb.stan, complex==1)
-plot(resp~chill, data=subby) # should add color coding by datasetID
-intercepthere <- sumer.ni[grep("a_sp", rownames(sumer.ni)),1][3]
-slopehere <- sumer.ni[grep("b_chill", rownames(sumer.ni)),1][3]
-abline(intercepthere, slopehere)
-
-plot(resp~force, data=subby) # should add color coding by datasetID
-intercepthere <- sumer.ni[grep("a_sp", rownames(sumer.ni)),1][3]
-slopehere <- sumer.ni[grep("b_force", rownames(sumer.ni)),1][3]
-abline(intercepthere, slopehere)
-
-plot(resp~photo, data=subby) # should add color coding by datasetID
-intercepthere <- sumer.ni[grep("a_sp", rownames(sumer.ni)),1][3]
-slopehere <- sumer.ni[grep("b_photo", rownames(sumer.ni)),1][3]
-abline(intercepthere, slopehere)
-
-# ggplot version of above, but not sure how to add ablines... 
-cresp <- ggplot(subby, aes(x=chill, y=resp, colour=datasetID)) + geom_point()
-fresp <- ggplot(subby, aes(x=force, y=resp, colour=datasetID)) + geom_point()
-presp <- ggplot(subby, aes(x=photo, y=resp, colour=datasetID)) + geom_point()
-
-grid.arrange(cresp, fresp, presp, ncol=3, nrow=1)
-
-
-
-## scale up: plot each species with slopes from the two selected models
+## scale up: plot each species with slopes from two selected models
+sumer.nib <- summary(m2l.nib)$summary
 whichmodel <- sumer.ni
-othermodel <- sumer.wi
-pdf(file.path(figpath, "M1inter.pdf"), width = 7, height = 3.5)
-spp <- unique(bb.stan$complex)
+othermodel <- sumer.nib
+
+pdf(file.path(figpath, "modelscompare.ni.pdf"), width = 7, height = 3.5)
+spp <- sort(unique(bb.stan$complex))
 for (sp in c(1:length(spp))){
     par(mfrow=c(1,3))
     subby <- subset(bb.stan, complex==spp[sp])
     # chilling
-    plot(resp~chill, data=subby, main=subby$complex.wname[1]) 
+    # could add color coding by datasetID
+    plot(resp~chill.z, data=subby, main=subby$complex.wname[1])
     intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
     slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
     abline(intercepthere, slopehere)
     intercepthere <- othermodel[grep("a_sp", rownames(othermodel)),1][spp[sp]+2]
-    slopehere <- othermodel[grep("b_chill", rownames(othermodel)),1][spp[sp]+2]
+    slopehere <- othermodel[grep("b_chill", rownames(othermodel)),1]
     abline(intercepthere, slopehere, col="blue")
     # forcing 
-    plot(resp~force, data=subby) # should add color coding by datasetID
+    plot(resp~force.z, data=subby) 
     intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
     slopehere <- whichmodel[grep("b_force", rownames(whichmodel)),1][spp[sp]+2]
     abline(intercepthere, slopehere)
     intercepthere <- othermodel[grep("a_sp", rownames(othermodel)),1][spp[sp]+2]
-    slopehere <- othermodel[grep("b_force", rownames(othermodel)),1][spp[sp]+2]
+    slopehere <- othermodel[grep("b_force", rownames(othermodel)),1]
     abline(intercepthere, slopehere, col="blue")
     # photo
-    plot(resp~photo, data=subby) # should add color coding by datasetID
+    plot(resp~photo.z, data=subby) 
     intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
     slopehere <- whichmodel[grep("b_photo", rownames(whichmodel)),1][spp[sp]+2]
     abline(intercepthere, slopehere)
     intercepthere <- othermodel[grep("a_sp", rownames(othermodel)),1][spp[sp]+2]
-    slopehere <- othermodel[grep("b_photo", rownames(othermodel)),1][spp[sp]+2]
+    slopehere <- othermodel[grep("b_photo", rownames(othermodel)),1]
     abline(intercepthere, slopehere, col="blue")
 }
 dev.off()
 
+# more colors!
+n <- length(spp)
+qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+# pie(rep(1,n), col=sample(colv, n))
+
+# Same plot as above, but show all species on one plot ....
+pdf(file.path(figpath, "modelscompare.ni.combined.pdf"), width = 7, height = 3.5)
+par(mfrow=c(1,3))
+plot(resp~chill.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~chill.z, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_chill_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_chill", rownames(othermodel)),1], col="blue", lwd=2)
+
+plot(resp~force.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~force.z, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_force", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_force_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_force", rownames(othermodel)),1], col="blue", lwd=2)
+
+
+plot(resp~photo.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~photo.z, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_photo", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_photo", rownames(othermodel)),1], col="blue", lwd=2)
+
+
+
 # Let's plot interactions in data by species ...
 colz <- c("red","blue","green", "orange", "brown", "grey", "black")
 
-pdf(file.path(figpath, "M1inter_collinear.pdf"), width = 7, height = 3.5)
-spp <- unique(bb.stan$complex)
+pdf(file.path(figpath, "data_collinear.pdf"), width = 7, height = 3.5)
+spp <- sort(unique(bb.stan$complex))
 for (sp in c(1:length(spp))){# i = 1
     par(mfrow=c(1,3))
     subby <- subset(bb.stan,  complex==spp[sp])
-    plot(subby[["chill"]], subby[["force"]], , col=colz[as.factor(subby$datasetID)],
+    plot(subby[["chill"]], subby[["force"]], col=colz[as.factor(subby$datasetID)],
          main=subby$complex.wname[1], xlab="chilling", ylab="forcing")
     # abline(lm(subby[["chill"]]~subby[["force"]]))
-    plot(subby[["chill"]], subby[["photo"]], , col=colz[as.factor(subby$datasetID)],
+    plot(subby[["chill"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
          xlab="chilling", ylab="photo")
     # abline(lm(subby[["chill"]]~subby[["photo"]]))
-    plot(subby[["force"]], subby[["photo"]], , col=colz[as.factor(subby$datasetID)],
+    plot(subby[["force"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
          xlab="photo", ylab="forcing")
    # abline(lm(subby[["force"]]~subby[["photo"]]))
 }

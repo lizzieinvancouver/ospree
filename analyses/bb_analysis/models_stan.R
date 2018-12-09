@@ -10,15 +10,12 @@
 ## Take 1: This code is based heavily off bbmodel1_stan.R 
 ## Take 2: February 2017! ##
 ## Take 3: July 2017! ## New code to run stan models on Ospree (by Nacho, Lizzie and more)
-## Take 4: June 2018! Lizzie re-organizes code and adds rstanarm 
+## Take 4: June 2018! Lizzie re-organizes code and adds rstanarm
+## Take 5: 4-5 December 2018! Big reorganization (see models_stan_previous.R)
 
 ## To do
-# TRY: datalist.bb.expphoto ... make as use.datalist.bb.expphoto=TRUE type thing
-# (a) think on adjusting forcetemp to incorporate nightime temps? And look at what we lose in photo and force! (Did I do this?)
-# (b) see notes throughout on what Lizzie still needs to clean
-# (c) subset down to relevant block/transplant treatments for gomory15
-# (d) Try alternative metrics of chilling (chilldays?)
-# Impt: still need to do deal with provenance and material (which mean some treatments show up more than once)
+# (a) subset down to relevant block/transplant treatments for gomory15??
+# Impt: not dealing with provenance and material (which mean some treatments show up more than once but the partial pooling should handle this we think)
 
 # housekeeping
 rm(list=ls()) 
@@ -26,7 +23,6 @@ options(stringsAsFactors = FALSE)
 
 # libraries
 library(shinystan)
-
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -43,10 +39,10 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to true for using chillportions instead of utah units
+use.chillports = FALSE # change to true for using chillportions instead of utah units
 
 # Default is species complex and no crops
-use.allspp = TRUE
+use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
 
@@ -96,6 +92,11 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
+}
+
 
 
 
@@ -107,6 +108,8 @@ save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 #########################
 ## For PEP 725 species ##
 #########################
+use.pep=FALSE
+
 if(use.pep){
 getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
 allspp <- getspp[!duplicated(getspp), ]
@@ -148,6 +151,7 @@ datalist.bb <- with(bb.stan,
 
 ########## SIDE BAR ##########
 ## Compare R2 today ##
+if(FALSE){
 observed.here <- bb.stan$resp
 
 m2lni.sum <- summary(m2l.ni)$summary
@@ -166,5 +170,5 @@ summary(lm(preds.m2lnistudy.sum[,1]~observed.here)) # Multiple R-squared:  0.715
 # try the w/ interaction
 preds.m2l.winsp.sum <- m2l.winsp.sum[grep("yhat", rownames(m2l.winsp.sum)),]
 summary(lm(preds.m2l.winsp.sum[,1]~observed.here)) #Multiple R-squared:  0.6122
-
+}
 ########## END SIDE BAR ##########
