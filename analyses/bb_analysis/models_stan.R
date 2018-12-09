@@ -101,50 +101,6 @@ save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 
 
 
-
-
-
-
-#########################
-## For PEP 725 species ##
-#########################
-use.pep=FALSE
-
-if(use.pep){
-getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
-allspp <- getspp[!duplicated(getspp), ]
-allspp <- allspp[order(allspp$complex),]
-pepspp <- c("Acer_pseudoplatanus", "Aesculus_hippocastanum", "Betula_pendula", "Corylus_avellana",
-    "Fagus_sylvatica", "Larix_decidua", "Picea_abies", "Populus_tremula",
-    "Prunus_padus","Quercus_robur", "Syringa_vulgaris")
-# gymnastics to renumber species
-somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
-somespp$complex <- NULL
-somespp$complex <- seq(1:nrow(somespp))
-
-bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
-bb.stan$complex <- NULL
-dim(bb.stan)
-bb.stan <- merge(bb.stan, somespp, by="complex.wname")
-dim(bb.stan)
-
-datalist.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill, 
-                         force = force, 
-                         photo = photo,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-}
-
-
-
-
-
 ##############################
 ## Code below not updated! ##
 ### But I think we will neeed it ##
