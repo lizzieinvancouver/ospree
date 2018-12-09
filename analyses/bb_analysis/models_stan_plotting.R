@@ -97,15 +97,15 @@ intxnplot <- function(lowdf, hidf){
     abline(lm(resp~chill, hidf))
 }
 
-pdf(file.path(figpath, paste("intxn_force", figpathmore, ".pdf")), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_force", figpathmore, ".pdf", sep="")), width = 5, height = 8)
 intxnplot(lowforce, hiforce)
 dev.off()
 
-pdf(file.path(figpath, paste("intxn_photo", figpathmore, ".pdf")), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_photo", figpathmore, ".pdf", sep="")), width = 5, height = 8)
 intxnplot(lowphoto, hiphoto)
 dev.off()
 
-pdf(file.path(figpath, paste("intxn_chill", figpathmore, ".pdf")), width = 5, height = 8)
+pdf(file.path(figpath, paste("intxn_chill", figpathmore, ".pdf", sep="")), width = 5, height = 8)
 intxnplot(lowchill, hichill)
 dev.off()
 
@@ -137,7 +137,7 @@ sumer.nib <- summary(m2l.nib)$summary
 whichmodel <- sumer.ni
 othermodel <- sumer.nib
 
-pdf(file.path(figpath, "modelscompare.ni.pdf"), width = 7, height = 3.5)
+pdf(file.path(figpath, "modelscompare.ni.pdf"), width = 10, height = 3.5)
 spp <- sort(unique(bb.stan$complex))
 for (sp in c(1:length(spp))){
     par(mfrow=c(1,3))
@@ -205,7 +205,6 @@ for (sp in c(1:length(spp))){
     abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
            othermodel[grep("b_force", rownames(othermodel)),1], col="blue", lwd=2)
 
-
 plot(resp~photo.z, data=bb.stan, type="n")
 for (sp in c(1:length(spp))){
     subby <- subset(bb.stan, complex==spp[sp])
@@ -219,6 +218,7 @@ for (sp in c(1:length(spp))){
     abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
            othermodel[grep("b_photo", rownames(othermodel)),1], col="blue", lwd=2)
 
+dev.off()
 
 
 # Let's plot interactions in data by species ...
