@@ -1,0 +1,4 @@
+For plots with slopes in black and blue made BEFORE December 2018 the models shown were generally
+
+black line: no interactions (pp on everything: a(sp) + f(sp) + c(sp) + p(sp))
+blue line: with interactions (again, pp on everything: a(sp) + f(sp) + c(sp) + p(sp))

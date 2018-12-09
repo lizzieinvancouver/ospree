@@ -14,10 +14,6 @@ library(RColorBrewer)
 ## Clean up plotting code and add a figure showing all data and sp lines together (well, 3 figures)
 ## Figure out why sigma_a plots each sp in muplot, but no dice for sigma_bforce etc.
 
-# library(gridExtra)
-# library(plyr)
-# library(dplyr)
-
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
@@ -240,3 +236,4 @@ for (sp in c(1:length(spp))){# i = 1
    # abline(lm(subby[["force"]]~subby[["photo"]]))
 }
 dev.off()
+
