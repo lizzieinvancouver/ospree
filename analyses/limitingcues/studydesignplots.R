@@ -196,6 +196,22 @@ hist(fagsyl.photocues$diff.treat, breaks=20, main="Fagus: all diffs", xlab="phot
 # hist(fagsyl.chilltempcues$diff.treat, breaks=20, main="Fagus: all diffs", xlab="chill temp")
 dev.off()
 
+# write out the cuediffs we want ... 
+fagsylcues <- fagsyl.forcecues
+fagsylcues$cue <- "force"
+fagsylcues$sp <- "Fagus_sylvatica"
+
+betpen.chilltempcues$cue <- "chill"
+betpen.forcecues$cue <- "force"
+betpencues <- rbind(betpen.chilltempcues, betpen.forcecues)
+betpencues$sp <- "Betula_pendula"
+
+betfagcues <- rbind(betpencues, fagsylcues)
+
+write.csv(betfagcues, "limitingcues/output/cues_fagben.csv", row.names=FALSE)
+write.csv(forcecues.alldiffs, "limitingcues/output/cuesforce.alldiffs.csv", row.names=FALSE)
+write.csv(chilltempcues.alldiffs, "limitingcues/output/cueschilltemo.alldiffs.csv", row.names=FALSE)
+
 ##
 
 dsumm.wsp <-
