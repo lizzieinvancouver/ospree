@@ -22,7 +22,7 @@ if(length(grep("Ignacio", getwd()))>0) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = FALSE 
+use.chillports = TRUE 
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -100,8 +100,8 @@ df.gravity$chill[1] <-coef(com.pool.mod)["chill.z"]
 df.gravity$model[1] <- "complete pooling"
 df.gravity$intercept[2] <- modhere[grep("mu_a_sp", rownames(modhere)),1]
 df.gravity$force[2] <- modhere[grep("mu_b_force_sp", rownames(modhere)),1]
-df.gravity$photo[2] <- modhere[grep("mu_b_chill_sp", rownames(modhere)),1]
-df.gravity$chill[2] <- modhere[grep("mu_b_force_sp", rownames(modhere)),1]
+df.gravity$photo[2] <- modhere[grep("mu_b_photo_sp", rownames(modhere)),1]
+df.gravity$chill[2] <- modhere[grep("mu_b_chill_sp", rownames(modhere)),1]
 df.gravity$model[2] <- "partial pooling (mu)"
 
 pdf(file.path(figpath, "modelscompare_pp_force.pdf"), width = 9, height = 6)
@@ -160,3 +160,4 @@ ggplot(df.pulled) +
   ylab("Slope estimate") + 
   scale_color_brewer(palette = "Dark2") 
 dev.off()
+

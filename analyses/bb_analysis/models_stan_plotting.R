@@ -106,7 +106,7 @@ intxnplot(lowchill, hichill)
 dev.off()
 
 # Load fitted stan model: no interactions
-load("stan/output/m2lni_alltypes.Rda")
+load("stan/output/m2lni_alltypes.Rda") # m2l.ni
 load("stan/output/m2lnib_alltypes.Rda") # m2l.nib
 
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
