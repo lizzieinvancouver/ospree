@@ -116,8 +116,8 @@ bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiesto
 
 # now we exclude try to use matching species
 # rm fldest
-bb.stan.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match),]
-# bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
+#bb.stan.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match),]
+bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
 bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
 
 
