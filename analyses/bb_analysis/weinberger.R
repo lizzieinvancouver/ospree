@@ -123,9 +123,9 @@ bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
 
 
 ## Set up the bb.stan to use
- bb.stan <- bb.stan.alt
+#bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-# bb.stan <- bb.stan.matchsp
+ bb.stan <- bb.stan.matchsp
 ######################
 ####make datalist
 wein.data <- with(bb.stan, 
@@ -172,13 +172,13 @@ wein.sum2[c("mu_a_sp", "b_force", "b_photo", "b_chill",
 preds.wein.sum <- wein.sum[grep("yhat", rownames(wein.sum)),]
 wein.sum.R2 <- 1- sum((observed.here-preds.wein.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 wein.mod.R2 <- 1- sum((observed.here-preds.wein.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-summary(lm(preds.wein.sum[,1]~observed.here)) # Multiple R-squared:  0.5956 (chill por)
+summary(lm(preds.wein.sum[,1]~observed.here)) # Multiple R-squared:  
 
 ##pooling on just intercept 
 preds.wein.sum2 <- wein.sum2[grep("yhat", rownames(wein.sum2)),]
 wein.sum.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
 wein.mod.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
-summary(lm(preds.wein.sum2[,1]~observed.here)) # Multiple R-squared: 0.442 (chill por) 
+summary(lm(preds.wein.sum2[,1]~observed.here)) # Multiple R-squared: 
 
 ### the pooling on main effects model seems better, since its results run counter to our prediction
 
