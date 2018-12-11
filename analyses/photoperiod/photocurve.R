@@ -87,12 +87,12 @@ library(egg)
 colorz<-c("red","orange","dark yellow","light blue","purple")
 
 linez<-c("solid","dashed","dotted")
-plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=0,ymax=55),fill="grey98",color="grey44", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+ggtitle("A")+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))
-ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy))+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("B")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"))+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme(panel.background = element_rect(fill = "grey98",color="grey44"))
+plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=-15,ymax=80),fill="grey98",color="grey44", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))
+ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("zoom")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"))+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme(panel.background = element_rect(fill = "grey98",color="grey44"))
 
 quantile(ha$Total_Chill_portions)
 
-vp <- viewport(width = 0.4, height = 0.6, x = 0.45, y = .95,just=c("left","top"))
+vp <- viewport(width = 0.4, height = 0.5, x = 0.4, y = .95,just=c("left","top"))
 plotx+theme_base()
 print(ploty, vp = vp, )
   

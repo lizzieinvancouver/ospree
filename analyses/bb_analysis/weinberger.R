@@ -123,9 +123,9 @@ bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
 
 
 ## Set up the bb.stan to use
-#bb.stan <- bb.stan.alt
+bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-bb.stan <- bb.stan.matchsp
+#bb.stan <- bb.stan.matchsp
 ######################
 ####make datalist
 wein.data <- with(bb.stan, 
