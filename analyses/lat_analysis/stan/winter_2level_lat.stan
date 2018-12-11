@@ -41,7 +41,7 @@ parameters {
   real b_force[n_sp]; // slope of forcing effect 
   real b_photo[n_sp]; // slope of photoperiod effect
   real b_chill[n_sp]; // slope of chill effect
-  real b_lat[n_sp]; // slope of chill effect
+  real b_lat[n_sp]; // slope of lat effect
   real b_pl[n_sp]; // slope of chill x force effect
 
 	}
@@ -86,6 +86,20 @@ model {
         sigma_b_pl_sp ~ normal(0, 10);
 
 	y ~ normal(yhat, sigma_y);
+
+}
+
+generated quantities{
+   real y_ppc[N];
+   for (n in 1:N)
+      y_ppc[n] = a_sp[sp[n]] + 
+		b_force[sp[n]] * force[n] + 
+	      	b_photo[sp[n]] * photo[n] +
+		b_chill[sp[n]] * chill[n] +
+		      b_lat[sp[n]] * lat[n] +
+		b_pl[sp[n]] * inter_pl[n];
+    for (n in 1:N)
+      y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
 
 }
 

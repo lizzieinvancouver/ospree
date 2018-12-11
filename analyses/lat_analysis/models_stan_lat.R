@@ -19,6 +19,8 @@ if(length(grep("lizzie", getwd())>0)) {
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 library(shinystan)
+library(RColorBrewer)
+library(egg)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -31,7 +33,7 @@ use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 use.chillports = FALSE
@@ -89,178 +91,89 @@ datalist.lat <- with(lat.stan,
 
 
 setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.ni = stan('stan/winter_2level_lat_nolat.stan', data = datalist.lat,
+m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
               iter = 2500, warmup=1500)
 
-pl<- plot(m2l.ni, pars="b_", ci.lvl=0.5) 
+check_all_diagnostics(m2l.inter)
+#pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
+#launch_shinystan(m2l.inter)
 
-launch_shinystan(m2l.ni)
 
-#### Interaction Plots ######
-cols <- colorRampPalette(brewer.pal(9,"Set1"))(6)
-##### Interaction Plots code
+############# Interaction Plots #################
+lats<-rstan::extract(m2l.inter, 'mu_b_lat_sp')
+lats<-as.vector(lats$mu_b_lat_sp)
+photos<-rstan::extract(m2l.inter, 'mu_b_photo_sp')
+photos<-as.vector(photos$mu_b_photo_sp)
+resps<-rstan::extract(m2l.inter, 'y_ppc')
+resps<-as.vector(resps$y_ppc)
+pl<-rstan::extract(m2l.inter, "mu_b_pl_sp")
+pl<-as.vector(pl$mu_b_pl_sp)
+alphas<-extract(m2l.inter, 'mu_a_sp')
+alphas<-as.vector(alphas$mu_a_sp)
 
-fp<- plot_model(lat.cen, type = "pred", terms = c("force.z", "photo.z")) + xlab("Force.z") + 
-  ylab("Days to Budburst") + ggtitle("") #+ theme(legend.position = "none") #+ 
+inter<-as.data.frame(cbind(lats, photos))
+inter<-as.data.frame(cbind(inter, resps))
+inter<-as.data.frame(cbind(inter, alphas))
+inter<-as.data.frame(cbind(inter, pl))
+
+hilat<-0+1*sd(inter$lats)
+lolat<-0-1*sd(inter$lats)
+
+hipho<-0+1*sd(inter$photos)
+lopho<-0-1*sd(inter$photos)
+
+y_hilat<-alphas + lats*2.59 + photos + pl*2.59
+y_lolat<-alphas + lats*(-2.59) + photos + pl*(-2.59)
+
+inter<-as.data.frame(cbind(inter, y_hilat))
+inter<-as.data.frame(cbind(inter, y_lolat))
+
+#foo<-inter[sample(nrow(inter), 4000), ]
+
+quartz()
+ggplot(inter, aes(x=photos, y=resps)) + geom_smooth(aes(x=photos, y=y_hilat, col="High"), stat="smooth", method="lm", size=1, se=FALSE) + 
+  geom_line(aes(x=photos, y=y_lolat, col="Low"), stat="smooth", method="lm", size=1, se=FALSE) +
+  ylab("Day of Budburst") + xlab("Photoperiod") + 
+  scale_color_manual(name="Latitude", values=c(High='darkblue',Low='darkred')) + theme_classic()
   
-lf<- plot_model(lat.cen, type = "pred", terms = c("force.z", "lat.z")) + xlab("Force.z") + 
-  ylab("Days to Budburst") + ggtitle("")
 
-lp<- plot_model(lat.cen, type = "pred", terms = c("photo.z", "lat.z")) + xlab("Photo.z") + 
-  ylab("Days to Budburst") + ggtitle("")
-lc<- plot_model(lat.cen, type = "pred", terms = c("chill.z", "lat.z")) + xlab("Chill.z") + 
-  ylab("Days to Budburst") + ggtitle("")
-
-quartz()
-ggarrange(lf, lp, lc)
-
-
-### Now Plot the effects
-simple<-as.data.frame(tidy(lat.cen,robust = TRUE))
-simple$term<-gsub(".*b_","",simple$term)
-simple$term<-gsub(".*r_complex","",simple$term)
-simple<-simple[!(simple$term=="sd_complex__force.z" | simple$term=="sd_complex__photo.z" | simple$term=="sd_complex__chill.z"
-             | simple$term=="sd_complex__lat.z" | simple$term=="sd_complex__force.z:photo.z" | 
-               simple$term=="sd_complex__force.z:chill.z" |simple$term=="sd_complex__photo.z:chill.z" |
-               simple$term=="sd_complex__force.z:lat.z" |
-               simple$term=="sd_complex__photo.z:lat.z" | simple$term=="sd_complex__chill.z:lat.z" |simple$term=="sigma" |
-               simple$term=="lp__" | simple$term=="Intercept"),]
-simple<-simple[-c(10:63),]
-
-#myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Malus_domestica", "Ribes_nigrum", "Ulmus_complex")
-
-simple$Jvar<-NA
-simple$Jvar<-ifelse(simple$term=="force.z", 11, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,force.z]", 10.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,force.z]", 10.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,force.z]", 10.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,force.z]", 10.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,force.z]", 10.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,force.z]", 10.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,force.z]", 10.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="photo.z", 10, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,photo.z]", 9.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,photo.z]", 9.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,photo.z]", 9.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,photo.z]", 9.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,photo.z]", 9.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,photo.z]", 9.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,photo.z]", 9.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="chill.z", 9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,chill.z]", 8.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,chill.z]", 8.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,chill.z]", 8.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,chill.z]", 8.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,chill.z]", 8.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,chill.z]", 8.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,chill.z]", 8.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="lat.z", 8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,lat.z]", 7.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,lat.z]", 7.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,lat.z]", 7.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,lat.z]", 7.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,lat.z]", 7.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,lat.z]", 7.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,lat.z]", 7.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="force.z:photo.z", 7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,force.z:photo.z]", 6.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,force.z:photo.z]", 6.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,force.z:photo.z]", 6.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,force.z:photo.z]", 6.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,force.z:photo.z]", 6.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,force.z:photo.z]", 6.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,force.z:photo.z]", 6.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="force.z:chill.z", 6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,force.z:chill.z]", 5.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,force.z:chill.z]", 5.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,force.z:chill.z]", 5.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,force.z:chill.z]", 5.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,force.z:chill.z]", 5.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,force.z:chill.z]", 5.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,force.z:chill.z]", 5.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="photo.z:chill.z", 5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,photo.z:chill.z]", 4.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,photo.z:chill.z]", 4.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,photo.z:chill.z]", 4.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,photo.z:chill.z]", 4.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,photo.z:chill.z]", 4.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,photo.z:chill.z]", 4.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,photo.z:chill.z]", 4.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="force.z:lat.z", 4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,force.z:lat.z]", 3.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,force.z:lat.z]", 3.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,force.z:lat.z]", 3.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,force.z:lat.z]", 3.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,force.z:lat.z]", 3.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,force.z:lat.z]", 3.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,force.z:lat.z]", 3.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="photo.z:lat.z", 3, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,photo.z:lat.z]", 2.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,photo.z:lat.z]", 2.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,photo.z:lat.z]", 2.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,photo.z:lat.z]", 2.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,photo.z:lat.z]", 2.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,photo.z:lat.z]", 2.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,photo.z:lat.z]", 2.3, simple$Jvar)
-
-simple$Jvar<-ifelse(simple$term=="chill.z:lat.z", 2, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pendula,chill.z:lat.z]", 1.9, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Betula_pubescens,chill.z:lat.z]", 1.8, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Fagus_sylvatica,chill.z:lat.z]", 1.7, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Malus_domestica,chill.z:lat.z]", 1.6, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Picea_abies,chill.z:lat.z]", 1.5, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ribes_nigrum,chill.z:lat.z]", 1.4, simple$Jvar)
-simple$Jvar<-ifelse(simple$term=="[Ulmus_complex,chill.z:lat.z]", 1.3, simple$Jvar)
+#### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
+figpath <- "figures"
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
+  figpathmore <- "spcom_expramp_fp"
+}
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
+  figpathmore <- "allspp_expramp_fp"
+}
 
 
-simple$species<-c(0,0,0,0,0,0,0,0,0,0,0, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 
-                  1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7, 1,2,3,4,5,6,7)
+source("lat_muplot.R")
+cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+# display.brewer.all()
+my.pch <- rep(15:18, each=12)
+alphahere = 0.4
 
-cols <- colorRampPalette(brewer.pal(9,"Set1"))(8)
-estimates<-c("Forcing", "Photoperiod", "Chilling", "Latitude", "Forcing x Photoperiod",
-             "Forcing x Chilling", "Photoperiod x Chilling",
-             "Forcing x Latitude", "Photoperiod x Latitude", "Chilling x Latitude")
-estimates<-rev(estimates)
-latmod<-ggplot(simple, aes(x=lower, xend=upper, y=Jvar, yend=Jvar, col=as.factor(species))) +
-  geom_vline(xintercept=0, linetype="dotted") + geom_point(aes(x=estimate, y=Jvar, col=as.factor(species), size=as.factor(species))) +
-  scale_colour_manual(name="Species", values=cols,
-                      labels=c("1"=expression(paste(italic("Betula pendula"))),
-                               "2"=expression(paste(italic("Betula pubescens"))),
-                               "3"=expression(paste(italic("Fagus sylvatica"))),
-                               "4"=expression(paste(italic("Malus domestica"))),
-                               "5"=expression(paste(italic("Picea abies"))),
-                               "6"=expression(paste(italic("Ribes nigrum"))),
-                               "7"=expression(paste(italic("Ulmus complex"))),
-                               "0"="Overall Effects"))+
-  geom_segment(arrow = arrow(length = unit(0.00, "npc"))) +
-  scale_y_discrete(limits = sort(unique(simple$term)), labels=estimates) +
-  xlab("Model Estimate of Change \nin Days to Budburst") + ylab("") + theme_linedraw() +
-  theme(legend.text=element_text(size=5), legend.title = element_text(size=9), legend.background = element_rect(linetype="solid", color="grey", size=0.5),
-        panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
-        panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        text=element_text(family="sans"), legend.position = c(0.85,0.25),
-        legend.text.align = 0) + #+ coord_cartesian(ylim=c(1,5), xlim=c(-20, 10))
-  scale_size_manual(values=c(3, 1, 1, 1, 1, 1, 1, 1, 1, 1), name="Species",
-                    labels=c("1"=expression(paste(italic("Betula pendula"))),
-                             "2"=expression(paste(italic("Betula pubescens"))),
-                             "3"=expression(paste(italic("Fagus sylvatica"))),
-                             "4"=expression(paste(italic("Malus domestica"))),
-                             "5"=expression(paste(italic("Picea abies"))),
-                             "6"=expression(paste(italic("Ribes nigrum"))),
-                             "7"=expression(paste(italic("Ulmus complex"))),
-                             "0"="Overall Effects"))
-quartz()
-latmod
+sumer.ni <- summary(m2l.inter)$summary
+sumer.ni[grep("mu_", rownames(sumer.ni)),]
+
+sort(unique(lat.stan$complex)) # numbers are alphabetical
+sort(unique(lat.stan$complex.wname))
 
 
+modelhere <- m2l.inter
+muplotfx(modelhere, "", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
+########### Posterior Predictive Checks #############
+
+if(FALSE){
+  y_pred <- extract(m2l.inter, 'y_ppc')
+  par(mfrow=c(1,2))
+  hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
+  hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
+}
+
+
+lats <- rstanarm::posterior_predict(m2l.inter, "mu_b_lat_sp", draws = 500)
 
