@@ -154,31 +154,6 @@ postCC<-postCC[(postCC$year>=2000 & postCC$year<=2010),]
 postCC$num.years<-ave(postCC$mat, postCC$lat.long, FUN=length)
 
 
-##### Chilling Time ######
-chillcalcs <- vector()
-library(chillR)
-
- 
-winter$year <- as.numeric(substr(winter$Date, 0, 4))
-winter$day <- as.numeric(substr(winter$Date, 9, 10))
-
-winter$year2<-ifelse(winter$month<=12, winter$year, winter$year-1)  
-winter$ID<-paste(winter$year2, winter$lat, winter$long)
-
-winter<-winter[(winter$year>=1950 & winter$year<=1960 | winter$year>=2000 & winter$year<=2010),]
-
-xy <- Th_interp(Tmin, Tmax, #function that creates 24 values of hourly temperature from minimum and maximum daily values.
-                day = j,
-                tab_calibr = calibration_l$Average)
-
-### loop below doesn't work! fix tomorrow!
-winter$chilling<-NA
-for(i in unique(winter$ID)){
-  winter$chilling<-Utah_Model(winter$Tavg[i])
-}
-
-
-
 ##### Let's make some plots! #####
 mat<-full_join(preCC, postCC)
 mat$cc<-ifelse(mat$year>=1950 & mat$year<=1960, "apre", "post")
@@ -222,12 +197,129 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
                               post = "2000-2010")) +
   scale_x_discrete(labels=c("apre" = "1950 - 1960",
                             "post" = "2000 - 2010"))
+
+
+# define period
+#period<-1950:1960
+period<-2000:2010
+sites<-subset(mat, select=c(lat, long, lat.long))
+sites<-sites[!duplicated(sites$lat.long),]
+sites$x<-sites$long
+sites$y<-sites$lat
+Coords<-subset(sites, select=c(x, y))
+nsites<-length(sites$lat.long)
+sites$siteslist<-1:12
+tavg<-r
+
+## set function
+extractchillpre<-function(tavg,period){
+#extractchillpost<-function(tavg,period){
   
+  ## define array to store results
+  nyears<-length(period)
+  chillingyears<-array(NA,dim=c(nyears, 3, nsites))
+  row.names(chillingyears)<-period
+  colnames(chillingyears)<-c("Mean.Chill","SDev.Chill", "Site Num.")
+  #dimnames(chillforcespsyears)<-spslist
+  
+  ## subset climate years
+  yearsinclim<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
+  yearsinperiod<-which(yearsinclim%in%period)
+  climsub<-subset(tavg,yearsinperiod)
+  
+  ## subset climate days
+  monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
+  chillmonths<-c(9:12,1:3)
+  monthsinchill<-which(monthsinclim%in%chillmonths)
+  chillsub<-subset(climsub,monthsinchill)
+  
+  ## commence loop  
+  for (i in 1:nsites){#i=2
+    print(i)
+    sitesi<-sites$siteslist[i]
+    
+    
+    #values <- raster::extract(r,points)
+    
+    
+    ## load shape
+    if(sitesi==sites$siteslist[i])
+    Coords<-data.frame(sites$x, sites$y)
+    points <- SpatialPoints(Coords, proj4string = tavg@crs)
+    #spsshapeproj<-spTransform(points,proj4string(chillsub[[1]]))
+  
+  
+        ## loop across years to extract each years averages and stddevs
+        # save first an array to store results
+         yearlyresults<-array(NA,dim=c(length(period),3))
+  
+        for(j in period){#j=1980
+          print(paste(i,j))
+    
+          # select year's layer
+          chillyears<-which(as.numeric(format(as.Date(
+          names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
+    
+          yearschill<-subset(chillsub,chillyears)
+    
+          # extract values and format to compute means and sdevs
+           tempschills<-raster::extract(yearschill,points)
+    
+          #turn into data frame and remove NAs
+          ch<-as.data.frame(tempschills)
+          ch<-subset(ch,!is.na(rowSums(ch)))
+    
+    
+          ## calculate chilling (Utah)
+        chillunitseachcelleachday<-apply(ch,2,function(x){
+          tlow=-5 ## not sure about which parameteres we are using
+          thigh=5
+          minns<-ifelse((thigh-x)>(thigh-tlow),thigh-tlow,thigh-x)
+          utah<-ifelse(minns>0,minns,0)
+          return(utah)})
+        utahssum<-rowSums(chillunitseachcelleachday)
+        #hist(utahssum)
+    
+    yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
+    yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
+    yearlyresults[which(period==j),3]<-sites$siteslist[i]
+    
+  }
+  
+  chillingyears[,,i]<-yearlyresults
+ 
+  } 
+  
+  return(chillingyears)
+  
+}
 
 
+## apply function
+chill_pre<-extractchillpre(tavg,period)
+chill_post<-extractchillpost(tavg,period)
+
+colnames(chill_pre) <- c("utahchill","sd")
+chill_pre<-as.data.frame(chill_pre)
+chill_pre$cc<-"apre"
+colnames(chill_post) <- c("utahchill","sd")
+chill_post<-as.data.frame(chill_post)
+chill_post$cc<-"post"
+
+utahs<-full_join(chill_pre, chill_post)
+
+xlab <- "Total Utah Chilling"
+
+quartz()
+ggplot(utahs, aes(x=utahchill, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+  theme_classic() + labs(x=xlab, y="Day of Leafout") +
+  scale_color_manual(name="Years", values=c(apre = "darkblue", 
+                                            post = "darkred"),
+                     labels=c(apre = "1950-1960",
+                              post = "2000-2010")) + geom_point(aes(col=cc), alpha=0.3)
 
 
-#write.csv(mst, file="output/betpen_mat_pre.csv", row.names = FALSE)
+#write.csv(mat, file="output/betpen_mat.csv", row.names = FALSE)
 #write.csv(sites, file="output/betpen_sites.csv", row.names = FALSE)
 
 
