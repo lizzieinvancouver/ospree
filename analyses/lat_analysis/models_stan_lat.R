@@ -27,7 +27,8 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.chillunits = FALSE # change to true for testing chill units
+use.noports = FALSE 
+use.zscore = TRUE# change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
