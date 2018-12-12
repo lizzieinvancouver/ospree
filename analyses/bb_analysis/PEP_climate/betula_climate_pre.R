@@ -182,8 +182,8 @@ mat<-foo[(foo$lat.long %in% bestsites$Var1),]
 xlab <- "Mean Spring Temperature (°C)"
 
 quartz()
-ggplot(mat, aes(x=mat, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
-  theme_classic() + labs(x=xlab, y="Day of Leafout") +
+mat.plot<-ggplot(mat, aes(x=mat, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
   scale_color_manual(name="Years", values=c(apre = "darkblue", 
                                             post = "darkred"),
                      labels=c(apre = "1950-1960",
@@ -212,8 +212,8 @@ sites$siteslist<-1:12
 tavg<-r
 
 ## set function
-extractchillpre<-function(tavg,period){
-#extractchillpost<-function(tavg,period){
+#extractchillpre<-function(tavg,period){
+extractchillpost<-function(tavg,period){
   
   ## define array to store results
   nyears<-length(period)
@@ -299,25 +299,72 @@ extractchillpre<-function(tavg,period){
 chill_pre<-extractchillpre(tavg,period)
 chill_post<-extractchillpost(tavg,period)
 
-colnames(chill_pre) <- c("utahchill","sd")
-chill_pre<-as.data.frame(chill_pre)
-chill_pre$cc<-"apre"
-colnames(chill_post) <- c("utahchill","sd")
-chill_post<-as.data.frame(chill_post)
-chill_post$cc<-"post"
+pre<-as.data.frame(chill_pre)
+post<-as.data.frame(chill_post)
 
-utahs<-full_join(chill_pre, chill_post)
+predata<-data.frame(utahchill = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
+                                 pre$Mean.Chill.3, pre$Mean.Chill.4,
+                                 pre$Mean.Chill.5, pre$Mean.Chill.6,
+                                 pre$Mean.Chill.7, pre$Mean.Chill.8,
+                                 pre$Mean.Chill.9, pre$Mean.Chill.10,
+                                 pre$Mean.Chill.11, pre$Mean.Chill.12),
+                   siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
+                            pre$`Site Num..3`, pre$`Site Num..4`,
+                            pre$`Site Num..5`, pre$`Site Num..6`,
+                            pre$`Site Num..7`, pre$`Site Num..8`,
+                            pre$`Site Num..9`, pre$`Site Num..10`,
+                            pre$`Site Num..11`, pre$`Site Num..12`),
+                   year = rownames(pre))
 
-xlab <- "Total Utah Chilling"
+utah<-full_join(predata, sites)
+utah$x<-NULL
+utah$y<-NULL
+  
+
+postdata<-data.frame(utahchill = c(post$Mean.Chill.1, post$Mean.Chill.2,
+                                  post$Mean.Chill.3, post$Mean.Chill.4,
+                                  post$Mean.Chill.5, post$Mean.Chill.6,
+                                  post$Mean.Chill.7, post$Mean.Chill.8,
+                                  post$Mean.Chill.9, post$Mean.Chill.10,
+                                  post$Mean.Chill.11, post$Mean.Chill.12),
+                    siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
+                                  post$`Site Num..3`, post$`Site Num..4`,
+                                  post$`Site Num..5`, post$`Site Num..6`,
+                                  post$`Site Num..7`, post$`Site Num..8`,
+                                  post$`Site Num..9`, post$`Site Num..10`,
+                                  post$`Site Num..11`, post$`Site Num..12`),
+                    year = rownames(post))
+
+utah.post<-full_join(postdata, sites)
+utah.post$x<-NULL
+utah.post$y<-NULL
+
+allchills<-full_join(utah, utah.post)
+allchills$year<-as.numeric(allchills$year)
+allchills<-full_join(allchills, mat)
+allchills$mat<-NULL
+allchills$num.years<-NULL
+allchills<-na.omit(allchills)
+
+xlab <- "Total Utah Chilling (°C)"
 
 quartz()
-ggplot(utahs, aes(x=utahchill, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
-  theme_classic() + labs(x=xlab, y="Day of Leafout") +
+chill.plot<-ggplot(allchills, aes(x=utahchill, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
   scale_color_manual(name="Years", values=c(apre = "darkblue", 
                                             post = "darkred"),
                      labels=c(apre = "1950-1960",
                               post = "2000-2010")) + geom_point(aes(col=cc), alpha=0.3)
 
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+mylegend<-g_legend(chill.plot)
+quartz()
+grid.arrange(mat.plot, chill.plot, mylegend, ncol=3, widths=c(2, 2, 1))
 
 #write.csv(mat, file="output/betpen_mat.csv", row.names = FALSE)
 #write.csv(sites, file="output/betpen_sites.csv", row.names = FALSE)
