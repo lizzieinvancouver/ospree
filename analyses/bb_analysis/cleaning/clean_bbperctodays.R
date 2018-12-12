@@ -208,8 +208,8 @@ if(is.data.frame(d)){
   d.subset.2 <- subset(d, respvar.simple!="percentbudburst")
   d.subset.1.rmlowvalues <- subset(d.subset.1, is.na(dbb)==FALSE)
   d.subsetted <- rbind(d.subset.1.rmlowvalues, d.subset.2)
-  d.subsetted <- d
-
+  d<-d.subsetted
+  
 stop("Not an error, now BB data is all cleaned, ready to analyze and save;
      No need to worry about the warnings below, they inform that the dataset has empty
      elements that are assigned NA values by default"
