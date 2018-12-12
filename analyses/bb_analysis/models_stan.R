@@ -45,7 +45,7 @@ use.zscore = FALSE # change to false to use raw predictors
 # Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
-use.cropspp = TRUE
+use.cropspp = FALSE
 
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = TRUE
@@ -81,6 +81,7 @@ ys<-datalist.bb$y
 # posterior predictive checks....
 if(FALSE){
 y_pred <- extract(m2l.ni, 'y_ppc')
+
 par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
