@@ -66,16 +66,18 @@ rownames(A) <- rownames(inv.phylo$Ainv)
 bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
 bb.stan$spps<-bb.stan$phylo
 
-## ad mean of predictor across species and within species
+
+
+
+## fitting models for forcing, chilling and photo, independently 
+### FORCING
+### ## ad mean of predictor across species and within species
 bb.stan$species_mean <- 
   with(bb.stan, sapply(split(force.z, phylo), mean)[phylo])
 
 bb.stan$within_species <- 
   bb.stan$force.z - bb.stan$species_mean
 
-
-
-## fit model for forcing 
 model_phylo <- brm(
   resp ~ species_mean + within_species +      ## fixed effs
     (1 + within_species|phylo) + (1|species),  ## rnd effs 
@@ -88,45 +90,22 @@ model_phylo <- brm(
     prior(student_t(3, 0, 20), "sigma")
   )
   ,sample_prior = TRUE, chains = 2, cores = 2, 
-  iter = 500, warmup = 250
+  iter = 1000, warmup = 500
   )
 
-## explore model fitted
-summary(model_phylo)
-plot(model_phylo, N = 5, ask = T)
-plot(marginal_effects(model_phylo), points = TRUE) 
+### CHILLING
+### ## ad mean of predictor across species and within species
 
-model_phylo$fit$cor_phylo__Intercept__within_species
-
-## explore lambda
-hyp <- paste(
-  "(sd_phylo__Intercept^2 + sd_phylo__within_species^2)/", 
-  "(sd_phylo__Intercept^2 
-  + sd_phylo__within_species^2
-  + sd_species__Intercept
-  + cor_phylo__Intercept__within_species^2 
-  + sigma^2) = 0.0"
-)
-
-(hyp <- hypothesis(model_phylo, hyp, class = NULL))
-plot(hyp)
-
-
-pp_check(model_phylo)
-
-## fit model for chilling 
-## 
-bb.stan$species_mean <- 
+bb.stan$chillmeans <- 
   with(bb.stan, sapply(split(chill.z, phylo), mean)[phylo])
 
-bb.stan$within_species <- 
+bb.stan$withinsp.chillmeans <- 
   bb.stan$chill.z - bb.stan$species_mean
-
 
 ## 
 model_phylo.chill <- brm(
-  resp ~ species_mean + within_species +      ## fixed effs
-    (1 + within_species|phylo) + (1|species),  ## rnd effs 
+  resp ~ chillmeans + withinsp.chillmeans +      ## fixed effs
+    (1 + withinsp.chillmeans|phylo) + (1|species),  ## rnd effs 
   data = bb.stan, 
   family = gaussian(), cov_ranef = list(phylo = A),
   prior = c(
@@ -135,84 +114,132 @@ model_phylo.chill <- brm(
     prior(student_t(3, 0, 20), "sd"),
     prior(student_t(3, 0, 20), "sigma")
   )
-  ,sample_prior = TRUE, chains = 2, cores = 2, 
-  iter = 500, warmup = 250
-)
-
-## explore model fitted
-summary(model_phylo.chill)
-plot(model_phylo.chill, N = 5, ask = T)
-plot(marginal_effects(model_phylo.chill), points = TRUE) 
-
-model_phylo.chill$fit
-
-pp_check(model_phylo.chill)
-
-## explore lambda
-hyp <- paste(
-  "(sd_phylo__Intercept^2 + sd_phylo__within_species^2)/", 
-  "(sd_phylo__Intercept^2 
-  + sd_phylo__within_species^2
-  + sd_species__Intercept
-  + cor_phylo__Intercept__within_species^2 
-  + sigma^2) = 0.0"
-  )
-
-(hyp <- hypothesis(model_phylo.chill, hyp, class = NULL))
-plot(hyp)
-
-
-## fit model for photo 
-bb.stan$species_mean <- 
-  with(bb.stan, sapply(split(photo.z, phylo), mean)[phylo])
-
-bb.stan$within_species <- 
-  bb.stan$photo.z - bb.stan$species_mean
-
-
-## 
-model_phylo.photo <- brm(
-  resp ~ species_mean + within_species +      ## fixed effs
-    (1 + within_species|phylo) + (1|species),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 2, cores = 2, 
+  ,sample_prior = TRUE, chains = 2, cores = 4, 
   iter = 1000, warmup = 500
 )
 
-## explore model fitted
-summary(model_phylo.photo)
-#plot(model_phylo.photo, N = 5, ask = T)
-#plot(marginal_effects(model_phylo.photo), points = TRUE) 
+
+### PHOTO
+### ## ad mean of predictor across species and within species
+bb.stan$photomeans <- 
+  with(bb.stan, sapply(split(photo.z, phylo), mean)[phylo])
+
+bb.stan$withinsp.photomeans <- 
+  bb.stan$photo.z - bb.stan$species_mean
+
+## 
+model_phylo.photo <- brm(
+  resp ~ photomeans + withinsp.photomeans +      ## fixed effs
+    (1 + withinsp.photomeans|phylo) + (1|species),  ## rnd effs 
+  data = bb.stan, 
+  family = gaussian(), cov_ranef = list(phylo = A),
+  prior = c(
+    prior(normal(0, 20), "b"),
+    prior(normal(0, 50), "Intercept"),
+    prior(student_t(3, 0, 20), "sd"),
+    prior(student_t(3, 0, 20), "sigma")
+  )
+  ,sample_prior = TRUE, chains = 2, cores = 4, 
+  iter = 1000, warmup = 500
+)
+
+###########################################
+## explore fitted models, ppc, phylo-signal 
+## ########################################
+
+## save main results as table
+#fixed spec_pars cor_pars random
+forceeffs<-rbind(
+summary(model_phylo)$fixed,
+summary(model_phylo)$random$phylo,
+summary(model_phylo)$random$species,
+summary(model_phylo)$spec_pars
+)
+
+chilleffs<-rbind(
+  summary(model_phylo.chill)$fixed,
+  summary(model_phylo.chill)$random$phylo,
+  summary(model_phylo.chill)$random$species,
+  summary(model_phylo.chill)$spec_pars
+)
+
+photoeffs<-rbind(
+  summary(model_phylo.photo)$fixed,
+  summary(model_phylo.photo)$random$phylo,
+  summary(model_phylo.photo)$random$species,
+  summary(model_phylo.photo)$spec_pars
+)
+
+write.csv(forceeffs,"output/force_effects.csv")
+write.csv(chilleffs,"output/chill_effects.csv")
+write.csv(photoeffs,"output/photo_effects.csv")
 
 
-## explore lambda
-hyp <- paste(
+
+## Plot and save main results for posterior distributions of coefficients
+## and ppcs
+
+# forcing
+plot(model_phylo, N = 5, ask = F)
+# chilling
+plot(model_phylo.chill, N = 5, ask = T)
+#model_phylo.chill$fit
+# photo
+plot(model_phylo.photo, N = 5, ask = T)
+
+#plot marginal effs
+plot(marginal_effects(model_phylo), points = TRUE,ask=T) 
+plot(marginal_effects(model_phylo.chill), points = TRUE,ask=T) 
+plot(marginal_effects(model_phylo.photo), points = TRUE,ask=T) 
+
+
+#plot ppcs
+par(mfrow=c(1,3))
+pp_check(model_phylo)
+pp_check(model_phylo.chill)
+pp_check(model_phylo.photo)
+
+
+############################
+###### Plot and save main results for posterior distributions of phylosignal
+## forcing
+hyp.force <- paste(
   "(sd_phylo__Intercept^2 + sd_phylo__within_species^2)/", 
   "(sd_phylo__Intercept^2 
   + sd_phylo__within_species^2
   + sd_species__Intercept
   + cor_phylo__Intercept__within_species^2 
   + sigma^2) = 0.0"
+)
+(lambda.force <- hypothesis(model_phylo, hyp.force, class = NULL))
+
+## chill
+hyp.chill <- paste(
+  "(sd_phylo__Intercept^2 + sd_phylo__withinsp.chillmeans^2)/", 
+  "(sd_phylo__Intercept^2 
+  + sd_phylo__withinsp.chillmeans^2
+  + sd_species__Intercept
+  + cor_phylo__Intercept__withinsp.chillmeans^2 
+  + sigma^2) = 0.0"
   )
+(lambda.chill <- hypothesis(model_phylo.chill, hyp.chill, class = NULL))
 
-(hyp <- hypothesis(model_phylo.photo, hyp, class = NULL))
-plot(hyp)
+## photo
+hyp.photo <- paste(
+  "(sd_phylo__Intercept^2 + sd_phylo__withinsp.photomeans^2)/", 
+  "(sd_phylo__Intercept^2 
+  + sd_phylo__withinsp.photomeans^2
+  + sd_species__Intercept
+  + cor_phylo__Intercept__withinsp.photomeans^2 
+  + sigma^2) = 0.0"
+)
+(lambda.photo <- hypothesis(model_phylo.photo, hyp.photo, class = NULL))
 
-fff<-predict(model_phylo,bb.stan)
-plot(fff[,1],bb.stan$resp)
-abline(lm(bb.stan$resp~fff[,1]),col='red')
-summary(lm(bb.stan$resp~fff[,1]))
 
-
-### plotting these preliminary results
-
+## plotting posteriors
+plot(lambda.force)
+plot(lambda.chill)
+plot(lambda.photo)
 
 
 
