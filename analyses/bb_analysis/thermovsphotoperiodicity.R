@@ -23,14 +23,17 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.chillunits = FALSE # change to true for testing chill units
+use.chillports = TRUE 
+use.zscore = FALSE # change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE ## change to FALSE for constant forcing, changing photoperiod
 use.exptypes.fp = FALSE
+
+use.expchillonly = FALSE
 
 source("source/bbstanleadin.R")
 
@@ -75,4 +78,27 @@ thermophoto<-thermophoto[!is.na(thermophoto$daynight),]
 ## thielges75: day/night match changes in temperature
 ## webb78: day/night match changes in temperature
 ## zohner16: day/night match changes in temperature
+
+
+###########################################################################
+#### Now look at studies with constant forcing but changing photoperiod ###
+###########################################################################
+bb.all$photoperiod_night<-NA
+for(i in c(1:nrow(bb.noNA))){
+  for(j in c(1:nrow(bb.all)))
+    bb.all$photoperiod_night<-ifelse(bb.noNA$datasetID[i]==bb.all$datasetID[j] & bb.noNA$species[i]==bb.all$species[j] &
+                                       bb.noNA$genus[i]==bb.all$genus[j] & bb.noNA$forcetemp[i]==bb.all$forcetemp[j] &
+                                       bb.noNA$photoperiod_day[i]==bb.all$photoperiod_day[j] & bb.noNA$response.time[i]==bb.all$response.time[j],
+                                     bb.noNA$photoperiod_night[i], bb.all$photoperiod_night)
+}
+stableforce<-bb.all[(bb.all$forcetemp==bb.all$forcetemp_night & bb.all$photoperiod_day !=bb.all$photoperiod_night),] 
+
+#sort(unique(stableforce$datasetID))
+## [1] "basler14"    "calme94"     "campbell75"  "chavarria09" "gianfagna85" "guerriero90" "heide12"     "heide93"     "heide93a"    "jones12"    
+## [11] "li05"        "myking97"    "myking98"    "pagter15"    "partanen98"  "ramos99"     "schnabel87"  "sonsteby14"  "spiers74"    "swartz81"   
+## [21] "worrall67" 
+
+
+
+
 
