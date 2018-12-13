@@ -203,7 +203,7 @@ if(is.data.frame(d)){
 } else {
   print("Error: d not a data.frame")
 }
-  ## Almost done! Now remove the values too low (#i don't understand what these rows are doing- they do not remove any rows currently...)
+  ## Almost done! Now remove the values too low
   d.subset.1 <- subset(d, respvar.simple=="percentbudburst" & !is.na(response.time))
   d.subset.2 <- subset(d, respvar.simple!="percentbudburst")
   d.subset.1.rmlowvalues <- subset(d.subset.1, is.na(dbb)==FALSE)

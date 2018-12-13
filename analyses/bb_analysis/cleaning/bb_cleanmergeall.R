@@ -13,7 +13,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 } else if
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
 } else if
-(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses")
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses")
 } else 
   setwd("~/Documents/git/ospree/analyses")
 
@@ -49,15 +49,15 @@ source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # still 97
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 # ... with an allowable buffer (i.e., 55%)
-source("bb_analysis/cleaning/clean_bbperctodays.R") # As of 30 Oct 2018: 7451 rows (as of 8 June 2018: 7372 rows)
+source("bb_analysis/cleaning/clean_bbperctodays.R") # As of 12 Dec 2018: 7385 rows
 
 # 7. Clean duplicate responses across treatments/categories)
-source("bb_analysis/cleaning/clean_moreduplicates.R") # As of 30 Oct 2018, deletes 2 rows (7449).
+source("bb_analysis/cleaning/clean_moreduplicates.R") # As of 12 Dec 2018, deletes 2 rows (7383 ).
 
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
 # 9. Write out the final file! 
-write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 30 Oct 2018: 7449 (8 June 2018: 7370)
+write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 12 Dec 2018: 7383 (8 June 2018: 7370)
 
 
