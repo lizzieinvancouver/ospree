@@ -39,8 +39,8 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -90,15 +90,24 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 # Code if you want to save your models (do NOT push output to git)
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes_nonz.Rda")
+}
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes_nonz.Rda")
+}
 
 
 
