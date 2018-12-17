@@ -108,6 +108,37 @@ m2l.wstudy.sum[,1]
 ###########################################################
 ###########################################################
 
+#########################################################
+## Model Lizzie tried in December 2018 to see if we    ##
+## could use a weird version of studyID (Answer: no)   ##
+#########################################################
+
+bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species)
+spnuminfo <-
+      ddply(bb.stan, c("datasetID", "study"), summarise,
+      spnum = length(unique(latbi)))
+studies <- subset(spnuminfo, spnum>10)
+bb.stan$datasetIDsp <- bb.stan$datasetID
+bb.stan$datasetIDsp[which(!bb.stan$datasetIDsp %in% studies$datasetID)] <- "other"
+
+datalist.bb.study.z <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         study = as.numeric(as.factor(datasetIDsp)),
+                         n_study = length(unique(datasetIDsp)), 
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+)
+
+m2l.nistudy = stan('stan/nointer_2level_studyint.stan', data = datalist.bb.study.z,
+               iter = 10000, warmup=6000)
+
+m2lnistudy.sum <- summary(m2l.nistudy)$summary
+m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),]
 
 #########################################################
 ## Overview of the main models running as of July 2018 ##

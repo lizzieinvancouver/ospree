@@ -39,8 +39,8 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -90,43 +90,53 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 # Code if you want to save your models (do NOT push output to git)
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_alltypes.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes_nonz.Rda")
+}
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+save(m2l.ni, file="stan/output/m2lni_alltypes_nonz.Rda")
+}
 
 
 
 
-##############################
-## Code below not updated! ##
-### But I think we will neeed it ##
 
-########## SIDE BAR ##########
-## Compare R2 today ##
+###### SIDE BAR #####
+## Getting R2 etc. ##
+
+
 if(FALSE){
+modelhere <- m2l.ni # m2l.nistudy 
 observed.here <- bb.stan$resp
 
-m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),] 
+mod.sum <- summary(modelhere)$summary
+mod.sum[grep("mu_", rownames(mod.sum)),] 
 
 # getting predicted values if needed
-preds.m2lni.sum <- m2lni.sum[grep("yhat", rownames(m2lni.sum)),]
-preds.m2lnistudy.sum <- m2lnistudy.sum[grep("yhat", rownames(m2lnistudy.sum)),]
+preds.mod.sum <- mod.sum[grep("yhat", rownames(mod.sum)),]
 
-m2lni.R2 <- 1- sum((observed.here-preds.m2lni.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-m2lnistudy.R2 <- 1- sum((observed.here-preds.m2lnistudy.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+# Here's our method to calculate R sq
+mod.R2 <- 1- sum((observed.here-preds.mod.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 
-summary(lm(preds.m2lni.sum[,1]~observed.here)) # Multiple R-squared:  0.6051 (Chill Portions)
-summary(lm(preds.m2lnistudy.sum[,1]~observed.here)) # Multiple R-squared:  0.7158 (Chill Portions)
+# Which seems correct! See  https://stackoverflow.com/questions/40901445/function-to-calculate-r2-r-squared-in-r
+rsq <- function (x, y) cor(x, y) ^ 2
+rsq(observed.here, preds.mod.sum[,1])
+summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
 
-# try the w/ interaction
-preds.m2l.winsp.sum <- m2l.winsp.sum[grep("yhat", rownames(m2l.winsp.sum)),]
-summary(lm(preds.m2l.winsp.sum[,1]~observed.here)) #Multiple R-squared:  0.6122
+# spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
+#  0.5689911
 }
-########## END SIDE BAR ##########
+
+####### END SIDE BAR #######
