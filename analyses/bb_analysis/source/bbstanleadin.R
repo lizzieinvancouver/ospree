@@ -108,7 +108,7 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TR
 ## ALL TYPES (amb, ramped, exp etc.)
 ## 
 
-# This is ALL species (no species complex used) and all types
+# This is ALL species (no species complex used) and all types & z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & 
     use.expchillonly == FALSE & use.zscore == TRUE){
@@ -127,7 +127,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 
 
-# Species complex and all types
+# Species complex and all types & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -150,7 +150,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 ## EXP and RAMPED TYPES for photo and force
 ## 
 
-# This is ALL species (no species complex used) with only exp & ramped photoforce
+# This is ALL species (no species complex used) with only exp & ramped photoforce & z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -169,8 +169,27 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 
 
+# This is ALL species (no species complex used) with only exp & ramped photoforce & NOT z-scored
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
+    & use.chillports == TRUE & use.zscore == FALSE){
+    bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
+    source("source/bb_zscorepreds.R")
+    datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.ports, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex))
+                    )
+ )
+}
 
-# Species complex with only exp & ramped photoforce
+
+
+# Species complex with only exp & ramped photoforce & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -189,7 +208,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 
 
-# Species complex with only exp & ramped photoforce WITH crops
+# Species complex with only exp & ramped photoforce WITH crops & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -207,7 +226,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
  )
 }
 
-# Species complex with only exp & ramped photoforce with uncentered predictors
+# Species complex with only exp & ramped photoforce & NOT z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == FALSE){
@@ -225,7 +244,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 
 
-# Species complex with only exp & ramped photoforce WITH crops and uncentered predictors
+# Species complex with only exp & ramped photoforce WITH crops & NOT z-scored 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == FALSE){
@@ -246,7 +265,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 ## EXP only as TYPE for photo and force
 ## 
 
-# Species complex with only exp photoforce
+# Species complex with only exp photoforce & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -264,7 +283,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
  )
 }
 
-# ALL species with only exp photoforce
+# ALL species with only exp photoforce & z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE 
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -287,7 +306,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 ## Chilling
 ## 
 
-# Species complex, default photo and forcing and ONLY exp chill
+# Species complex, default photo and forcing and ONLY exp chill & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE 
   & use.chillports == TRUE & use.zscore == TRUE){
@@ -304,7 +323,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
                       )
   )
 }
-# Species complex, ALL photo and forcing and ONLY exp chill
+# Species complex, ALL photo and forcing and ONLY exp chill & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE 
     & use.chillports == TRUE & use.zscore == TRUE){
@@ -321,7 +340,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
                       )
   )
 }
-# Species complex, exo and photo and forcing and using chill portions
+# Species complex, exo and photo and forcing and using chill portions & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
@@ -339,7 +358,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   )
 }
 
-# Species complex, exo and photo and forcing and using chill portions WITH CROPS
+# Species complex, exo and photo and forcing and using chill portions WITH CROPS & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){

@@ -22,7 +22,8 @@ if(length(grep("Ignacio", getwd()))>0) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = TRUE 
+use.chillports = TRUE
+use.zscore = TRUE
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -32,11 +33,17 @@ use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
 ## name your figures paths (based on flags above) ... this needs work
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
-    figpathmore <- "spcom.expramp.fp"
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+    figpathmore <- "spcom_expramp_fpz"
     }
-if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
-    figpathmore <- "allspp.expramp.fp"
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+    figpathmore <- "allspp_expramp_fpz"
+    }
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
+    figpathmore <- "spcom_expramp_fp"
+    }
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
+    figpathmore <- "allspp_expramp_fp"
     }
 
 

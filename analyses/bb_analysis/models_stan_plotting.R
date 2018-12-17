@@ -36,10 +36,16 @@ use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
 ## name your figures paths (based on flags above) ... this needs work
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+    figpathmore <- "spcom_expramp_fpz"
+    }
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+    figpathmore <- "allspp_expramp_fpz"
+    }
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
     figpathmore <- "spcom_expramp_fp"
     }
-if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
+if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
     figpathmore <- "allspp_expramp_fp"
     }
 
@@ -107,8 +113,8 @@ intxnplot(lowchill, hichill)
 dev.off()
 
 # Load fitted stan model: no interactions
-load("stan/output/m2lni_alltypes.Rda") # m2l.ni
-load("stan/output/m2lnib_alltypes.Rda") # m2l.nib
+load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
 
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
