@@ -4,6 +4,7 @@ options(stringsAsFactors = FALSE)
 
 # libraries
 library(shinystan)
+library(RColorBrewer)
 
 
 # Setting working directory. Add in your own path in an if statement for your file structure
@@ -18,11 +19,13 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
+figpath <- "figures"
+
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
 use.chillports = TRUE # change to true for using chillportions instead of utah units
-
+use.zscore = TRUE # change to false to use raw predictors
 # Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -181,4 +184,100 @@ wein.mod.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.her
 summary(lm(preds.wein.sum2[,1]~observed.here)) # Multiple R-squared: 
 
 ### the pooling on main effects model seems better, since its results run counter to our prediction
+##### Code below mdified from models_stan_plotting_pp.R
+
+#1 compare wein.sum (pooling) to wein.sum2 (pooling only on intercept)
+spp <- sort(unique(bb.stan$complex))
+
+
+with.pool <- data.frame(complex=rep(NA, length(spp)),
+                      intercept=rep(NA, length(spp)), 
+                      force=rep(NA, length(spp)), 
+                      photo=rep(NA, length(spp)),
+                      chill=rep(NA, length(spp)))
+
+less.pool <- data.frame(complex=rep(NA, length(spp)),
+                        intercept=rep(NA, length(spp)), 
+                        force=rep(NA, length(spp)), 
+                        photo=rep(NA, length(spp)),
+                        chill=rep(NA, length(spp)))
+                      
+
+modhere <-wein.sum
+for (sp in c(1:length(spp))){
+  with.pool$complex[sp] <- spp[sp]
+  with.pool$intercept[sp] <- modhere[grep("a_sp", rownames(modhere)),1][spp[sp]+2]
+  with.pool$force[sp] <- modhere[grep("b_force", rownames(modhere)),1][spp[sp]+2]
+  with.pool$photo[sp] <- modhere[grep("b_photo", rownames(modhere)),1][spp[sp]+2]
+  with.pool$chill[sp] <- modhere[grep("b_chill", rownames(modhere)),1][spp[sp]+2]
+}
+
+with.pool$model<-"slope and intercept pool"
+
+modhere2 <-wein.sum2
+for (sp in c(1:length(spp))){
+  less.pool$complex[sp] <- spp[sp]
+  less.pool$intercept[sp] <- modhere2[grep("a_sp", rownames(modhere2)),1][spp[sp]+2]
+  less.pool$force[sp] <- modhere2[grep("b_force", rownames(modhere2)),1]
+  less.pool$photo[sp] <- modhere2[grep("b_photo", rownames(modhere2)),1]
+  less.pool$chill[sp] <- modhere2[grep("b_chill", rownames(modhere2)),1]
+}
+less.pool$model<-"pooling int. only"
+
+###now you have a dataframe of the results from each model
+less.pool$complex.wname <- sort(unique(bb.stan$complex.wname))
+with.pool$complex.wname <- sort(unique(bb.stan$complex.wname))
+df.pulled <- rbind(less.pool, with.pool)
+
+###photo
+pdf(file.path(figpath, "models_WEIN_compare_pp_photo.pdf"), width = 9, height = 6)
+ggplot(df.pulled) + 
+  aes(x = intercept, y = photo, color = model) + 
+  geom_point(size = 2) + 
+  geom_path(aes(group = as.character(complex), color = NULL), 
+            arrow = arrow(length = unit(.02, "npc")))+
+  ggrepel::geom_text_repel(
+    aes(label = complex.wname, color = NULL), 
+    data = less.pool, size=2) + 
+  theme(legend.position = "bottom")+
+  ggtitle("Pooling of weinberger regression parameters: Int and photo") + 
+  xlab("Intercept estimate") + 
+  ylab("Slope estimate") + 
+  scale_color_brewer(palette = "Dark2")+
+  theme_linedraw()
+dev.off()  
+
+pdf(file.path(figpath, "models_WEIN_compare_pp_force.pdf"), width = 9, height = 6)
+ggplot(df.pulled) + 
+  aes(x = intercept, y = force, color = model) + 
+  geom_point(size = 2) + 
+  geom_path(aes(group = as.character(complex), color = NULL), 
+            arrow = arrow(length = unit(.02, "npc")))+
+  ggrepel::geom_text_repel(
+    aes(label = complex.wname, color = NULL), 
+    data = less.pool, size=2) + 
+  theme(legend.position = "bottom")+
+  ggtitle("Pooling of weinberger regression parameters: Int and force") + 
+  xlab("Intercept estimate") + 
+  ylab("Slope estimate") + 
+  scale_color_brewer(palette = "Accent")+
+  theme_linedraw()
+dev.off() 
+
+pdf(file.path(figpath, "models_WEIN_compare_pp_chill.pdf"), width = 9, height = 6)
+ggplot(df.pulled) + 
+  aes(x = intercept, y = chill, color = model) + 
+  geom_point(size = 2) + 
+  geom_path(aes(group = as.character(complex), color = NULL), 
+            arrow = arrow(length = unit(.02, "npc")))+
+  ggrepel::geom_text_repel(
+    aes(label = complex.wname, color = NULL), 
+    data = less.pool, size=2) + 
+  theme(legend.position = "bottom")+
+  ggtitle("Pooling of weinberger regression parameters: Int and chill") + 
+  xlab("Intercept estimate") + 
+  ylab("Slope estimate") + 
+  scale_color_brewer(palette = "Set1")+
+  theme_linedraw()
+dev.off()
 
