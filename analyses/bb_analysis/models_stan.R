@@ -89,6 +89,7 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 
 # Code if you want to save your models (do NOT push output to git)
+# Note that use.chillports is NOT generally included below ... expect when use.chillports==FALSE
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_spcompalltypes_z.Rda")
@@ -102,6 +103,13 @@ save(m2l.ni, file="stan/output/m2lni_spcompexprampfp_z.Rda")
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfp_z.Rda")
+}
+
+# utah ...
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==FALSE){
+save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
