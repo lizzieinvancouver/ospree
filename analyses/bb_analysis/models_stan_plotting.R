@@ -25,7 +25,7 @@ if(length(grep("Ignacio", getwd()))>0) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = FALSE
+use.chillports = TRUE
 use.zscore = TRUE
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -112,15 +112,18 @@ pdf(file.path(figpath, paste("intxn_chill", figpathmore, ".pdf", sep="")), width
 intxnplot(lowchill, hichill)
 dev.off()
 
-# Load fitted stan model: no interactions
-load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
-load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
-
+# Set up colors
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
+
+
+# Load fitted stan model: no interactions
+if(use.zscore==TRUE){
+load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
 
 sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
@@ -134,8 +137,22 @@ sort(unique(bb.stan$complex.wname))
 # m1.bb <- m2l.ni
 modelhere <- m2l.ni
 muplotfx(modelhere, "model", 7, 8, c(0,3), c(-20, 10) , 12, 3)
+}
+
+# non-z-scored models
+if(use.zscore==FALSE){
+load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
+load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
+modelhere <- m2l.ni
+muplotfx(modelhere, "model", 7, 8, c(0,3), c(-3, 1) , 1.3, 3)
+sumer.ni <- summary(m2l.ni)$summary
+sumer.nib <- summary(m2l.nib)$summary
+whichmodel <- sumer.ni
+othermodel <- sumer.nib
+}
 
 ## scale up: plot each species with slopes from two selected models
+if(use.zscore==TRUE){
 sumer.nib <- summary(m2l.nib)$summary
 whichmodel <- sumer.ni
 othermodel <- sumer.nib
@@ -172,14 +189,17 @@ for (sp in c(1:length(spp))){
     abline(intercepthere, slopehere, col="blue")
 }
 dev.off()
+}
 
 # more colors!
+spp <- sort(unique(bb.stan$complex))
 n <- length(spp)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 # pie(rep(1,n), col=sample(colv, n))
 
 # Same plot as above, but show all species on one plot ....
+if(use.zscore==TRUE){
 pdf(file.path(figpath, "modelscompare.ni.combined.pdf"), width = 7, height = 3.5)
 par(mfrow=c(1,3))
 plot(resp~chill.z, data=bb.stan, type="n")
@@ -222,6 +242,54 @@ for (sp in c(1:length(spp))){
            othermodel[grep("b_photo", rownames(othermodel)),1], col="blue", lwd=2)
 
 dev.off()
+}
+
+
+# As above without z-scored data
+if(use.zscore==FALSE){
+pdf(file.path(figpath, "modelscompare.ni.combined.nonz.pdf"), width = 7, height = 3.5)
+par(mfrow=c(1,3))
+plot(resp~chill.ports, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~chill.ports, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_chill_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_chill", rownames(othermodel)),1], col="blue", lwd=2)
+
+plot(resp~force, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~force, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_force", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_force_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_force", rownames(othermodel)),1], col="blue", lwd=2)
+
+plot(resp~photo, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+    subby <- subset(bb.stan, complex==spp[sp])
+    points(resp~photo, data=subby, main=subby$complex.wname[1], col=colv[sp])
+    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_photo", rownames(whichmodel)),1][spp[sp]+2]
+    abline(intercepthere, slopehere, col=colv[sp])
+    }
+    abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    abline(othermodel[grep("mu_a_sp", rownames(othermodel)),1],
+           othermodel[grep("b_photo", rownames(othermodel)),1], col="blue", lwd=2)
+
+dev.off()
+}
 
 
 # Let's plot interactions in data by species ...

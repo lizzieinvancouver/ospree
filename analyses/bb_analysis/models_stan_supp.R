@@ -68,6 +68,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     save(m2l.nib, file="stan/output/m2lnib_spcompexprampfp_z.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+    save(m2l.nib, file="stan/output/m2lnib_spcompexprampfp_nonz.Rda")
+}
+
+
 
 ########################################################
 # real data on 2 level model (sp) with 2 two-way interactions but no partial pooling on interactions
