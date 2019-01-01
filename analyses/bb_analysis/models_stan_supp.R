@@ -27,7 +27,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 
 use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -86,6 +86,17 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     save(m2l.winsp, file="stan/output/m2l.winsp_spcompexprampfp_z.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
+    save(m2l.winsp, file="stan/output/m2l.winsp_spcompexprampfp.Rda")
+}
+
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
+    save(m2l.winsp, file="stan/output/m2l.winsp_allsppexprampfp_z.Rda")
+}
+
+
 
 #################################################################################
 # real data on 2 level model (sp) with no interactions and study ID on intercept
@@ -127,6 +138,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
     save(m2l.nistudy, file="stan/output/m2l.nistudy_spcompexprampfp_z.Rda")
 }
+
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
+    save(m2l.nistudy, file="stan/output/m2l.nistudy_allsppexprampfp_z.Rda")
+}
+
 
 betas.m2l.nistudy <- as.matrix(m2l.nistudy, pars = c("mu_b_force_sp","mu_b_photo_sp","mu_b_chill_sp","b_force",
     "b_photo", "b_chill", "alpha"))
