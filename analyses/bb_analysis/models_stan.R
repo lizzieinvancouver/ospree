@@ -43,7 +43,7 @@ use.chillports = TRUE # change to false for using utah instead of chill portions
 use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
-use.allspp = TRUE
+use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
 
@@ -97,6 +97,11 @@ save(m2l.ni, file="stan/output/m2lni_spcompalltypes_z.Rda")
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
 save(m2l.ni, file="stan/output/m2lni_spcompexprampfp_z.Rda")
+}
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
+save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfp_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
