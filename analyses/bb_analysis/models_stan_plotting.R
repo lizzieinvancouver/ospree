@@ -39,6 +39,9 @@ use.expchillonly = FALSE
 if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
     figpathmore <- "spcom_expramp_fpz"
     }
+if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE & use.cropspp==TRUE){
+    figpathmore <- "spcomwcrops_expramp_fpz"
+    }
 if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
     figpathmore <- "allspp_expramp_fpz"
     }
@@ -121,7 +124,7 @@ alphahere = 0.4
 
 
 # Load fitted stan model: no interactions
-if(use.zscore==TRUE){
+if(use.zscore==TRUE & use.cropspp==FALSE){
 load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
 load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
 
@@ -151,8 +154,15 @@ whichmodel <- sumer.ni
 othermodel <- sumer.nib
 }
 
+# z-scored models with crops
+if(use.zscore==TRUE & use.cropspp==TRUE){
+load("stan/output/m2lni_spcompwcropsexprampfp_z.Rda") # m2l.ni
+modelhere <- m2l.ni
+muplotfx(modelhere, "model", 7, 8, c(0,3), c(-20, 10) , 12, 3)
+}
+
 ## scale up: plot each species with slopes from two selected models
-if(use.zscore==TRUE){
+if(use.zscore==TRUE & use.cropspp==FALSE){
 sumer.nib <- summary(m2l.nib)$summary
 whichmodel <- sumer.ni
 othermodel <- sumer.nib
@@ -199,7 +209,7 @@ colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals
 # pie(rep(1,n), col=sample(colv, n))
 
 # Same plot as above, but show all species on one plot ....
-if(use.zscore==TRUE){
+if(use.zscore==TRUE & use.cropspp==FALSE){
 pdf(file.path(figpath, "modelscompare.ni.combined.pdf"), width = 7, height = 3.5)
 par(mfrow=c(1,3))
 plot(resp~chill.z, data=bb.stan, type="n")
