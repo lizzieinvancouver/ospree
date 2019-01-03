@@ -15,6 +15,8 @@ library(ncdf4)
 library(raster)
 library(reshape2)
 library(data.table)
+library(chillR)
+library(egg)
 
 setwd("~/Documents/git/ospree/analyses/bb_analysis/PEP_climate")
 #d<-read.csv("/n/wolkovich_lab/Lab/Cat/PEP725_DE_Betpen.csv", header=TRUE)
@@ -165,6 +167,8 @@ bestsites<-bestsites[(bestsites$Freq>1),]
 
 mat<-foo[(foo$lat.long %in% bestsites$Var1),]
 
+#write.csv(mat, file="output/forcing_sites.csv", row.names=FALSE)
+
 #osp<-read.csv("..//..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 #osp.bp<-subset(osp, osp$genus=="Betula" & osp$species=="pendula")
 #osp.bp<-subset(osp.bp, select=c(year, forcetemp,response.time, respvar.simple))
@@ -199,7 +203,7 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
                             "post" = "2000 - 2010"))
 
 
-# define period
+##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 #period<-1950:1960
 period<-2000:2010
 sites<-subset(mat, select=c(lat, long, lat.long))
@@ -208,8 +212,10 @@ sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:12
+sites$siteslist<-1:15
 tavg<-r
+
+leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function
 #extractchillpre<-function(tavg,period){
@@ -219,7 +225,7 @@ extractchillpost<-function(tavg,period){
   nyears<-length(period)
   chillingyears<-array(NA,dim=c(nyears, 3, nsites))
   row.names(chillingyears)<-period
-  colnames(chillingyears)<-c("Mean.Chill","SDev.Chill", "Site Num.")
+  colnames(chillingyears)<-c("Mean.Chill", "SD.Chill", "Site Num.")
   #dimnames(chillforcespsyears)<-spslist
   
   ## subset climate years
@@ -272,16 +278,41 @@ extractchillpost<-function(tavg,period){
     
           ## calculate chilling (Utah)
         chillunitseachcelleachday<-apply(ch,2,function(x){
-          tlow=-5 ## not sure about which parameteres we are using
-          thigh=5
-          minns<-ifelse((thigh-x)>(thigh-tlow),thigh-tlow,thigh-x)
-          utah<-ifelse(minns>0,minns,0)
-          return(utah)})
-        utahssum<-rowSums(chillunitseachcelleachday)
+          #tlow=-5 ## not sure about which parameteres we are using
+          #thigh=5
+          minns<-x
+          Tmean<-ifelse(minns>0,minns,0)
+          return(Tmean)})
+        meandaily<-chillunitseachcelleachday[(as.numeric(rownames(chillunitseachcelleachday))==i)]
         #hist(utahssum)
+          
+      
+          if(j %in% leaps){
+            meandaily<-head(meandaily, -1)
+          } 
+        
+        if(j %in% leaps){
+          chillunitseachcelleachday<-chillunitseachcelleachday[,-213]
+        }
+      
+          
+        hrly.temp =
+          data.frame(
+            Temp = c(rep(meandaily, times = 24)),
+            Year = as.numeric(substr(colnames(chillunitseachcelleachday), 2, 5)),
+            JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
+          )
+          #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
+        
+        chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
+        #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
     
-    yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
-    yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
+    #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
+    #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
+    
+    yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
+    #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
+    
     yearlyresults[which(period==j),3]<-sites$siteslist[i]
     
   }
@@ -302,7 +333,7 @@ chill_post<-extractchillpost(tavg,period)
 pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
 
-predata<-data.frame(utahchill = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
+predata<-data.frame(chillport = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                                  pre$Mean.Chill.3, pre$Mean.Chill.4,
                                  pre$Mean.Chill.5, pre$Mean.Chill.6,
                                  pre$Mean.Chill.7, pre$Mean.Chill.8,
@@ -316,12 +347,12 @@ predata<-data.frame(utahchill = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                             pre$`Site Num..11`, pre$`Site Num..12`),
                    year = rownames(pre))
 
-utah<-full_join(predata, sites)
-utah$x<-NULL
-utah$y<-NULL
+port<-full_join(predata, sites)
+port$x<-NULL
+port$y<-NULL
   
 
-postdata<-data.frame(utahchill = c(post$Mean.Chill.1, post$Mean.Chill.2,
+postdata<-data.frame(chillport = c(post$Mean.Chill.1, post$Mean.Chill.2,
                                   post$Mean.Chill.3, post$Mean.Chill.4,
                                   post$Mean.Chill.5, post$Mean.Chill.6,
                                   post$Mean.Chill.7, post$Mean.Chill.8,
@@ -335,21 +366,21 @@ postdata<-data.frame(utahchill = c(post$Mean.Chill.1, post$Mean.Chill.2,
                                   post$`Site Num..11`, post$`Site Num..12`),
                     year = rownames(post))
 
-utah.post<-full_join(postdata, sites)
-utah.post$x<-NULL
-utah.post$y<-NULL
+port.post<-full_join(postdata, sites)
+port.post$x<-NULL
+port.post$y<-NULL
 
-allchills<-full_join(utah, utah.post)
+allchills<-full_join(port, port.post)
 allchills$year<-as.numeric(allchills$year)
 allchills<-full_join(allchills, mat)
 allchills$mat<-NULL
 allchills$num.years<-NULL
 allchills<-na.omit(allchills)
 
-xlab <- "Total Utah Chilling (°C)"
+xlab <- "Total Chill Portions"
 
 quartz()
-chill.plot<-ggplot(allchills, aes(x=utahchill, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+chill.plot<-ggplot(allchills, aes(x=chillport, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
   theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
   scale_color_manual(name="Years", values=c(apre = "darkblue", 
                                             post = "darkred"),
