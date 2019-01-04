@@ -21,6 +21,7 @@ if(length(grep("lizzie", getwd())>0)) {
 library(shinystan)
 library(RColorBrewer)
 library(egg)
+library(rstan)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -28,7 +29,7 @@ options(mc.cores = parallel::detectCores())
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.noports = FALSE 
-use.zscore = TRUE# change to true for testing chill units
+use.zscore = FALSE# change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -74,6 +75,8 @@ lat.stan<-bb.wlat
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat.z <- (lat.stan$provenance.lat-mean(lat.stan$provenance.lat,na.rm=TRUE))/sd(lat.stan$provenance.lat,na.rm=TRUE)
+lat.stan$lat <- lat.stan$provenance.lat
+
 lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 
 lat.stan<-na.omit(lat.stan)
@@ -98,6 +101,31 @@ m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
 #launch_shinystan(m2l.inter)
+
+
+datalist.lat.nonz <- with(lat.stan, 
+                     list(y = resp, 
+                          chill = chill, 
+                          force = force, 
+                          photo = photo,
+                          lat = lat,
+                          sp = complex,
+                          N = nrow(lat.stan),
+                          n_sp = length(unique(lat.stan$complex))
+                     )
+)
+
+
+setwd("~/Documents/git/ospree/analyses/lat_analysis")
+m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat.nonz,
+                 iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+
+check_all_diagnostics(m2l.inter)
+#pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
+#launch_shinystan(m2l.inter)
+
+
+
 
 
 ############# Interaction Plots #################
@@ -163,7 +191,7 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "non_centered", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
 ########### Posterior Predictive Checks #############
