@@ -167,7 +167,8 @@ bestsites<-bestsites[(bestsites$Freq>1),]
 
 mat<-foo[(foo$lat.long %in% bestsites$Var1),]
 
-#write.csv(mat, file="output/forcing_sites.csv", row.names=FALSE)
+#write.csv(mat, file="output/betpen_mat.csv", row.names=FALSE)
+check<-read.csv("output/betpen_mat.csv", header=TRUE)
 
 #osp<-read.csv("..//..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 #osp.bp<-subset(osp, osp$genus=="Betula" & osp$species=="pendula")
