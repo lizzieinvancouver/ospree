@@ -340,7 +340,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
                       )
   )
 }
-# Species complex, exo and photo and forcing and using chill portions & z-scored
+# Species complex, exo and photo and forcing and using utah & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
@@ -358,7 +358,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   )
 }
 
-# Species complex, exo and photo and forcing and using chill portions WITH CROPS & z-scored
+# Species complex, exp and photo and forcing and using utah WITH CROPS & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
@@ -375,6 +375,41 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
                       )
   )
 }
+
+# Species complex with only exp & ramped photoforce & NOT z-scored and utah
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
+    & use.chillports == FALSE & use.zscore == FALSE){
+  bb.stan <- bb.stan.expramptypes.nocrops
+  datalist.bb <- with(bb.stan, 
+                      list(y = resp, 
+                           chill = chill, 
+                           force = force, 
+                           photo = photo,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
+# Species complex, exp and photo and forcing and using utah WITH CROPS & NOT z-scored
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
+    & use.chillports == FALSE & use.zscore == FALSE){
+  bb.stan <- bb.stan.expramptypes
+  source("source/bb_zscorepreds.R")
+  datalist.bb <- with(bb.stan, 
+                      list(y=resp, 
+                           chill = chill, 
+                           force = force, 
+                           photo = photo,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
+
 ## AT THE END ...
 str(datalist.bb)
 print("Unique forcing types are ...")
@@ -383,7 +418,8 @@ print("Unique photo types are ...")
 print(unique(bb.stan$photo_type))
 print("Unique chilling types are ...")
 print(unique(bb.stan$chill_type))
+print("Range of chilling is ...")
+print(range(datalist.bb$chil))
 
-head(datalist.bb$chill)
 
 

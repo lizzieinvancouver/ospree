@@ -15,8 +15,8 @@ library(RColorBrewer)
 ## Figure out why sigma_a plots each sp in muplot, but no dice for sigma_bforce etc.
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("ailene", getwd())>0)) { 
-  setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+if(length(grep("ailene", getwd()))>0) { 
+  setwd("~/Documents/GitHub/ospree/analyses/bb_analysis")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses") 
