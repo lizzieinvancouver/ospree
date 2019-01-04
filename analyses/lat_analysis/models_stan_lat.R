@@ -191,7 +191,7 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "non_centered", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "non_centered", 7, 8, c(0,5), c(-10, 5) , 17, 5)
 
 
 ########### Posterior Predictive Checks #############
