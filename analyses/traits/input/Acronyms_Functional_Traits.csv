@@ -1,0 +1,27 @@
+"Acronym,""Traits"",""Description""";
+"Life_Span,""Life span"",""Duration of the plant";" based on the position of vegetative buds """
+"Mx_Height,""Max canopy height"",""Distance between the highest photosynthetic tissue and the base of the plant""";
+"Leaf_Anat,""Leaf anatomy "",""Main structures within a leaf to fulfil specific tasks (e.g., aeration, water storage, supporting tissues)""";
+"Leaf_Pubsc,""Leaf pubescence"",""Existence of leaf pubescence""";
+"Leaf_Width,""Leaf width"",""Average width of the leaf""";
+"Phys_Def,""Physical defense "",""Anatomic modification for physical defense (thorns, prickles, spines, glandulas)""";
+"Root_Depth,""Rooting depth"",""Qualitative estimation of root depth""";
+"Root_Morph,""Root morphology"",""General type of root morphology""";
+"Leaf_Phen,""Leaf phenology "",""Time and season during which the plant maintains green leaves (or phyllodes) """;
+"Seed_Bank,""Seed bank longevity"",""Period during which seeds remain viable in the seed bank.""";
+"Reprd_Type,""Reproduction type"",""Main type of reproduction: sexual reproduction or vegetative reproduction""";
+"Diasp_Type,""Diaspore type"",""Type of dispersal units""";
+"Fruit_Type,""Fruit type"",""Fruit type""";
+"Disp_Vect,""Dispersal vector"",""Mode of dispersal: wind, water, gravity, animals""";
+"Seed_Buoy,""Seed buoyancy"",""Time (hours) that seeds can float.""";
+"Seed_Weight,""Seed weight"",""Average weight of one seed""";
+"Tol_Anox,""Tolerance to waterlogging and anoxia"",""Tolerance to anoxia and waterlogging""";
+"Wat_Stress,""Tolerance to water stress"",""Tolerance to low flows or droughts""";
+"Light_Rq,""Light requirements"",""Light requirements""";
+"Strat_Comp,""CRS Strategy: Competitive"",""Competitives - species with high competitive power due to their morphological and/or physiological characters and life history traits.""";
+"Strat_CompStr,""CRS Strategy: Competitive and Stress tolerant"",""Competitive/Stress tolerant""";
+"Strat_Str,""CRS Strategy: Stress tolerant"",""Stress tolerant- species with only little growth and morphological and/or physiological adaptations to conditions that may in either very rare or overabundant.""";
+"RZ_Oblig,""Obligate "",""Obligate riparian (91-100% of occurrence in the riparian zone)""";
+"RZ_Facul,""Facultative"",""Facultative riparian (26-75% of occurrence in the riparian zone)""";
+"RZ_Prefer,""Preferential"",""Preferential riparian (76-90% of occurrence in the riparian zone)""";
+"RZ_Nonrip,""Non riparian"",""Non riparian (less than 25% of occurrence in the riparian zone)""";

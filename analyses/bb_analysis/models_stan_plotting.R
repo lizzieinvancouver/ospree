@@ -26,7 +26,7 @@ figpath <- "figures"
 
 ## set up the flags
 use.chillports = TRUE
-use.zscore = TRUE
+use.zscore = FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -58,6 +58,8 @@ if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
 ##
 source("source/bbstanleadin.R")
 source("source/bb_muplot.R")
+source("source/plotletfx.R")
+
 
 ##
 
@@ -304,8 +306,7 @@ dev.off()
 
 # Let's plot interactions in data by species ...
 colz <- c("red","blue","green", "orange", "brown", "grey", "black")
-
-pdf(file.path(figpath, "data_collinear.pdf"), width = 7, height = 3.5)
+pdf(file.path(figpath, "cues.pdf"), width = 7, height = 3.5)
 spp <- sort(unique(bb.stan$complex))
 for (sp in c(1:length(spp))){# i = 1
     par(mfrow=c(1,3))
@@ -321,4 +322,69 @@ for (sp in c(1:length(spp))){# i = 1
    # abline(lm(subby[["force"]]~subby[["photo"]]))
 }
 dev.off()
+
+
+
+# Cue by cue plots
+colz = c("brown", "blue3")
+spp <- sort(unique(bb.stan$complex.wname))
+
+pdf(file.path(figpath, "model_cuebycue.pdf"), width = 7, height = 7)
+par(mar=rep(1,4))
+layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of where labels end up
+                4, 5, 6,
+                7, 8, 9),ncol = 3, byrow = TRUE),
+       widths = c(1, 4, 4),
+       heights = c(4, 4, 1))
+plotblank = function(){plot(1:10, type="n",bty="n",xaxt="n",yaxt="n",ylab="",xlab="")}
+
+plotblank() 
+text(5,5, "Budburst \n Change (days) due to 5° warming", font = 2, srt = 90) # \n\n add two line breaks
+
+plotlet("b_photo", "b_force", 4, 5, 
+         ylim = c(-20, 5),
+         xlim = c(-15, 5),
+         #  xaxt="n", 
+         # group = treeshrub,
+         data = sumer.ni)
+
+plotlet("b_chill", "b_force", 40, 5, 
+        ylim = c(-20, 5),
+        xlim = c(-20, 5),
+        yaxt="n",
+        # xaxt="n", 
+        # group = treeshrub,
+        data = sumer.ni)
+axis(2, seq(0, -25, by = -5), labels = FALSE)
+
+plotblank()
+text(5,5, "Budburst \n Change (days) due to 5° warming", font = 2, srt = 90)
+
+plotlet("b_photo", "b_force", 4, 5, 
+        #    ylab = "Advance due to 5° warming", 
+        #     xlab = "Advance due to 4 hr longer photoperiod", 
+        ylim = c(-20, 5),
+        xlim = c(-15, 5),
+        #group = treeshrub,
+        data = sumer.ni)
+
+plotlet("b_chill", "b_force", 20, 5, 
+        #   ylab = "Advance due to 5° warming", 
+        #   xlab = "Advance due to 30d 4° chilling", 
+        ylim = c(-20, 5),
+        xlim = c(-20, 5),
+        yaxt="n",
+        # group = treeshrub,
+        data = sumer.ni)
+axis(2, seq(0, -25, by = -5), labels = FALSE)
+
+plotblank()
+
+plotblank()
+text(5.5, 5, "Change (days) due to 4 hr longer photoperiod", font = 2, pos = 3)
+
+plotblank()
+text(5.5, 5, "Change (days) due to change in chilling", font = 2, pos = 3)
+
+dev.off();#system(paste("open", file.path(figpath, "Fig2_4panel.pdf"), "-a /Applications/Preview.app"))
 

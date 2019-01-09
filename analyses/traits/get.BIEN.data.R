@@ -6,7 +6,7 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-setwd("~/Documents/github/ospree/analyses/trait_analysis")
+setwd("~/Documents/github/ospree/analyses")
 
 library(rstan)
 library(ggplot2)
@@ -16,10 +16,10 @@ library(dplyr)
 # library(rstanarm)
 
 #source('..//stan/savestan.R')
-source("source/trait.species.R")
-source("source/bbdataplease.R")
-source("source/commoncols.R")
-source("source/othertreats.R")
+source("traits/source/trait.species.R")
+source("bb_analysis/source/bbdataplease.R")
+source("bb_analysis/source/commoncols.R")
+source("bb_analysis/source/othertreats.R")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -87,79 +87,79 @@ for(i in 1:length(spp.list)){
   result<-traittemp
 }
 
-#### This should work but doesn't 
-traitadd<-BIEN_trait_traitbyspecies(species=spp.list[1], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
+####################################################################
+## Get BIEN data for the species Nacho is using for the phylogeny
+#This code is taken from models_phylo.R, written by Cat and Dan
+setwd("~/Documents/github/ospree/analyses/phylogeny") 
 
-for (i in c(2:length(spp.list))){
+library(shinystan)
+library(caper)
+library(brms)
+library(pez)
+
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
+# dostan = TRUE
+# Flags to choose for bbstanleadin.R
+use.chillports = FALSE # change to true for using chillportions instead of utah units
+
+# Default is species complex
+use.allspp = FALSE
+use.nocropspp = FALSE
+
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+
+source("source/bbstanleadin.phyla.R")
+
+str(datalist.bb)
+sum(is.na(datalist.bb$y))
+
+
+####################################
+#### Fitting Phylogenetic brms
+####################################
+
+## read and pre-process phylogeny
+library(phytools)
+phylo <- read.tree("../../data/phylogeny/ospreeFlynn.phylogeny.tre")
+namesphy<-phylo$tip.label
+namesdat<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
+phylo<-force.ultrametric(phylo, method="extend")
+phylo$node.label<-seq(1,length(phylo$node.label),1)
+is.ultrametric(phylo)
+
+
+## get phylogenetic covariance matrix
+library(MCMCglmm)
+inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
+A <- solve(inv.phylo$Ainv)
+rownames(A) <- rownames(inv.phylo$Ainv)
+bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep=" ")
+bb.stan$spps<-bb.stan$phylo
+
+phylospp<-unique(bb.stan$spps)
+phylossp[1]
+
+##### Now getting the trait data from BIEN ##################################################
+traitadd<-BIEN_trait_traitbyspecies(species=phylospp[1], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
+
+for (i in c(2:length(phylospp))){
   
-  traittemp<-BIEN_trait_traitbyspecies(species=spp.list[i], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-# df<-data.frame(traitadd)
- traitadd<-rbind(traitadd, traittemp)
+  traittemp<-BIEN_trait_traitbyspecies(species=phylospp[i], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
+  # df<-data.frame(traitadd)
+  traitadd<-rbind(traitadd, traittemp)
 }
-
-
-i
-unique(traitadd$scrubbed_species_binomial)
-###########################
-final=list()
-for( i in 1:length(spp.list)){
-  traitsub<-subset(spp.list, identifyer)
-  traittemp<-BIEN_trait_traitbyspecies(species=spp.list[i], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-final[paste(i, specieslist[i])]<-list()
-}
-
-
-  final<-traittemp[[i]]
-  
-}
-
-head(traits)
-unique(traits$scrubbed_species_binomial)
-
-######################################################################################################
-spp1<-BIEN_trait_traitbyspecies(species=spp.list[1], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp2<-BIEN_trait_traitbyspecies(species=spp.list[2], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp3<-BIEN_trait_traitbyspecies(species=spp.list[3], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp4<-BIEN_trait_traitbyspecies(species=spp.list[4], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp5<-BIEN_trait_traitbyspecies(species=spp.list[5], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp6<-BIEN_trait_traitbyspecies(species=spp.list[6], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp7<-BIEN_trait_traitbyspecies(species=spp.list[7], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp8<-BIEN_trait_traitbyspecies(species=spp.list[8], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp9<-BIEN_trait_traitbyspecies(species=spp.list[9], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp10<-BIEN_trait_traitbyspecies(species=spp.list[10], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp11<-BIEN_trait_traitbyspecies(species=spp.list[11], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp12<-BIEN_trait_traitbyspecies(species=spp.list[12], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp14<-BIEN_trait_traitbyspecies(species=spp.list[14], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-spp15<-BIEN_trait_traitbyspecies(species=spp.list[15], trait=c("diameter at breast height (1.3 m)","flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
-
-require(plyr)
-
-data<-rbind(spp1,spp2,spp3,spp4,spp5,spp6,spp7,spp8,spp9,spp10,spp11,spp12,spp14,spp15)
-head(data)
-
-nodbh<-subset(data, trait_name!="diameter at breast height (1.3 m)")
 
 require(tidyr)
 #DBH swamps all other traits and I have no reason to believe it is a significant trait
-#BIEN_traitdata<-spread(data, key="trait_name", value="trait_value")
-
-BIEN_traitdata<-spread(test, key=c("trait_name"), value="trait_value")
-bien<-BIEN_traitdata
-#There are some issues with the names in this dataset, there are a lot of spaces now in the column names
-
-#write.csv(BIEN_traitdata, file="BIEN_traitdata.csv")
+BIEN_traitdata<-spread(traitadd, key="trait_name", value="trait_value")
+head(BIEN_traitdata)
+unique(BIEN_traitdata$scrubbed_species_binomial)
 
 
+write.csv(BIEN_traitdata, file="Phylospp_BIEN_traitdata.csv")
+# 
+# 
