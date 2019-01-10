@@ -14,7 +14,7 @@ options(stringsAsFactors = FALSE)
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
-elif(length(grep("Ignacio", getwd()))>0) { 
+if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses") 
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
@@ -36,15 +36,13 @@ use.expchillonly = FALSE
 source("source/bbstanleadin.R")
 ##
 
-# Set up colors
-if(FALSE){
+# Set up colors (more than used currently ...
 library(RColorBrewer)
-cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+cols <- adjustcolor(c("maroon4", "lightskyblue"), alpha.f = 0.8) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
-}
 
 # non-z-scored models
 if(use.zscore==FALSE){
@@ -58,50 +56,55 @@ rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 # Let's pretend that average spring temp is 5 and average chill portions is 140
 # And, let's pretend 2 deg warming decreases chilling by 30 portions (I made this up)
-sprtemp.forplot <- 5
-chillport.forplot <- 140
-photo.forplot <- 14
+sprtemp <- 5
+chillport <- 140
+daylength <- 14
 warmspring <- 2
 warmwinter <- -30
 
-# CHEAP (and wrong) way to do this
-# RIGHT way would be to create a new posterior!
-getBBestimates <- function(modelvalues){
-avgBB <- modelvalues[1] + modelvalues[2]*sprtemp.forplot +
-    modelvalues[3]*photo.forplot + modelvalues[4]*chillport.forplot
-warmsprBB <- modelvalues[1] + modelvalues[2]*(sprtemp.forplot + warmspring) +
-    modelvalues[3]*photo.forplot + modelvalues[4]*chillport.forplot
-warmwinBB <- modelvalues[1] + modelvalues[2]*sprtemp.forplot +
-    modelvalues[3]*photo.forplot + modelvalues[4]*(chillport.forplot+warmwinter)
-warmsprwinBB <- modelvalues[1] + modelvalues[2]*(sprtemp.forplot + warmspring) +
-    modelvalues[3]*photo.forplot + modelvalues[4]*(chillport.forplot+warmwinter)
-yeBBest <- c(avgBB, warmsprBB, warmwinBB, warmsprwinBB)
-return(yeBBest)
+
+## Plotting
+# First, we estimate the posteriors for each thing we want to plot...
+fit <- m2l.ni
+
+list_of_draws <- extract(fit)
+print(names(list_of_draws))
+str(list_of_draws$mu_a_sp)
+
+
+getest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwinter,
+    daylengthwarmspr, daylengthwarmwin, daylengthwarmsprwin){
+    listofdraws <- extract(fit)
+    avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*sprtemp + 
+        listofdraws$mu_b_photo_sp*daylength + listofdraws$mu_b_chill_sp*chillport
+    warmsprbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*(sprtemp+warmspring) + 
+        listofdraws$mu_b_photo_sp*(daylength + daylengthwarmspr) + listofdraws$mu_b_chill_sp*chillport
+    warmwinbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*sprtemp + 
+        listofdraws$mu_b_photo_sp*(daylength + daylengthwarmwin) + listofdraws$mu_b_chill_sp*(chillport+warmwinter)
+    warmsprwinbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*(sprtemp+warmspring) +
+        listofdraws$mu_b_photo_sp*(daylength + daylengthwarmsprwin) + listofdraws$mu_b_chill_sp*(chillport+warmwinter)
+    yebbest <- list(avgbb, warmsprbb, warmwinbb, warmsprwinbb)
+    return(yebbest)
 }
 
-goo <- summary(modelhere)$summary[rownameshere,"mean"]
-lowci <- summary(modelhere)$summary[rownameshere,"25%"]
-uppci <- summary(modelhere)$summary[rownameshere,"75%"]
+# NOTE: I believe quantile is fine for extracting probabilities, see https://discourse.mc-stan.org/t/reporting-credible-confidence-intervals/2262
+bbposteriors <- getest.bb(m2l.ni, sprtemp, daylength, chillport, warmspring, warmwinter, 0, 0, 0)
+meanz <- unlist(lapply(bbposteriors, mean))
+quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
+quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
+quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
 
-lowci.values <- getBBestimates(lowci)
-uppci.values <- getBBestimates(uppci)
-mean.values <- getBBestimates(goo)
-
-# More cheap stuff to add in photo effects
+# Some cheap stuff to add in photo effects
 # Assume 14 hr day, which is Apr 17 in Berlin
-mean.values[2]-mean.values[1] # 1.5 days earlier ... no real change
-mean.values[3]-mean.values[1] # 7 days later ... 0.5 longer day
-mean.values[4]-mean.values[1] # 6 days later ... 0.5 longer day
+# I looked up changes in table online, but we could and should AUTOMATE)
+meanz[2]-meanz[1] # 1.5 days earlier ... no real change
+meanz[3]-meanz[1] # 7 days later ... 0.5 longer day
+meanz[4]-meanz[1] # 6 days later ... 0.5 longer day
 
-modelvalues <- goo
-photo.avgBB <- modelvalues[1] + modelvalues[2]*sprtemp.forplot +
-    modelvalues[3]*photo.forplot + modelvalues[4]*chillport.forplot
-photo.warmsprBB <- modelvalues[1] + modelvalues[2]*(sprtemp.forplot + warmspring) +
-    modelvalues[3]*photo.forplot + modelvalues[4]*chillport.forplot
-photo.warmwinBB <- modelvalues[1] + modelvalues[2]*sprtemp.forplot +
-    modelvalues[3]*(photo.forplot+0.5) + modelvalues[4]*(chillport.forplot+warmwinter)
-photo.warmsprwinBB <- modelvalues[1] + modelvalues[2]*(sprtemp.forplot + warmspring) +
-    modelvalues[3]*(photo.forplot+0.5) + modelvalues[4]*(chillport.forplot+warmwinter)
+bbposteriors.wdaylength <- getest.bb(m2l.ni, sprtemp, daylength, chillport, warmspring, warmwinter, 0, 0.5, 0.5)
+meanz.wdaylength <- unlist(lapply(bbposteriors.wdaylength, mean))
+quant25per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.25))))
+quant75per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.75))))
 
 xlim = c(0, 5)
 ylim = c(5, 40)
@@ -111,13 +114,18 @@ plot(x=NULL,y=NULL, xlim=xlim, xaxt='n', ylim=ylim,
 axis(1, at=1:4, labels=c("avg", "spr warming", "winter warming",
     "both warming"), las=2)
   pos.x <- (1:4)
-  pos.y <- mean.values
-  points(pos.x,pos.y, cex=1.5, pch=19, col="darkblue")
-  pos.y.photo <- c(photo.avgBB, photo.warmsprBB, photo.warmwinBB, photo.warmsprwinBB)
-  points(pos.x, pos.y.photo, cex=1.5, pch=19, col="purple")
+  pos.y <- meanz
+  points(pos.x, pos.y, cex=1.5, pch=19, col=cols[2])
 for(i in 1:4){
-  lines(c(pos.x[i], pos.x[i]), c(lowci.values[i], uppci.values[i]), 
-      col="darkblue")
-}
+  lines(c(pos.x[i], pos.x[i]), c(quant25per[i], quant75per[i]), 
+      col=cols[2], lwd=2)
+  }
+  pos.y.photo <- meanz.wdaylength
+  points(pos.x, pos.y.photo, cex=1.5, pch=19, col=cols[1])
+for(i in 1:4){
+  lines(c(pos.x[i], pos.x[i]), c(quant25per.wdaylength[i], quant75per.wdaylength[1]), 
+      col=cols[1], lwd=1)
+  }
 
-  
+
+
