@@ -54,14 +54,22 @@ modelhere <- m2l.ni
 hist(bb.stan$chill.ports)
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
-# Let's pretend that average spring temp is 5 and average chill portions is 140
-# And, let's pretend 2 deg warming decreases chilling by 30 portions (I made this up)
-sprtemp <- 5
-chillport <- 140
-daylength <- 14
-warmspring <- 2
-warmwinter <- -30
+# Read in chilling data and crude forecasts with 2 and 4 degrees of warming
+chillall<-read.csv("output/dailyclim/chill_forforecast_48.16447_11.50293_1979_2014.csv", header=TRUE) 
+chillplus2<-read.csv("output/dailyclim/chill_forecast2deg_48.16447_11.50293_1979_2014.csv", header=TRUE) 
+chillplus4<-read.csv("output/dailyclim/chill_forecast4deg_48.16447_11.50293_1979_2014.csv", header=TRUE) 
 
+# For this site, 1985= a cool winter year and 1995= a warm year
+maxchill<-max(chillall$Chill_portions)# chillall[chillall$Chill_portions==max(chillall$Chill_portions),]
+minchill<-min(chillall$Chill_portions)#chillall[chillall$Chill_portions==min(chillall$Chill_portions),]# interesting- lower mean temperature in year with lower chilling
+sprtemp <- 5#could choose mean spring temperature from the site
+
+daylength <- 14
+chillport <- mean(chillall$Chill_portions)
+photo.forplot <- 14
+warmspring <- c(2,4)
+warmwinter <- c(mean(chillplus2$Chill_portions)-chillport.forplot,mean(chillplus4$Chill_portions)-chillport.forplot)#actually, this is very close to Lizzie's -30, except that in this case it is associated with a 1 degree INCREASE in winter temp!
+#
 
 ## Plotting
 # First, we estimate the posteriors for each thing we want to plot...
