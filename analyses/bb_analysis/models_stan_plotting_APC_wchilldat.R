@@ -15,7 +15,7 @@ options(stringsAsFactors = FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
-  setwd("~/Documents/Github/ospree/analyses/bb_analysis")
+  setwd("~/Documents/Github/ospree/analyses")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 elif(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses") 
@@ -79,7 +79,7 @@ minchill<-min(chillall$Chill_portions)#chillall[chillall$Chill_portions==min(chi
 chillport.forplot <- mean(chillall$Chill_portions)
 photo.forplot <- 14
 warmspring <- c(2,4)
-warmwinter <- c(mean(chillfut2$Chill_portions)-chillport.forplot,mean(chillfut4$Chill_portions)-chillport.forplot)#actually, this is very close to Lizzie's -30, except that in this case it is associated with a 1 degree INCREASE in winter temp!
+warmwinter <- c(mean(chillplus2$Chill_portions)-chillport.forplot,mean(chillplus4$Chill_portions)-chillport.forplot)#actually, this is very close to Lizzie's -30, except that in this case it is associated with a 1 degree INCREASE in winter temp!
 
 
 # CHEAP (and wrong) way to do this
