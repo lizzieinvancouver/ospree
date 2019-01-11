@@ -71,7 +71,7 @@ peps.post<-df.post[!duplicated(df.post$lat.long),] ### subset down to overlappin
 
 
 #r<-brick("/n/wolkovich_lab/Lab/Cat/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
-r<-brick("~/Desktop/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
+r<-brick("~/Desktop/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
 
 #bb<-df
 #bb$lat.long<-paste(bb$lat, bb$long, sep=",")
@@ -107,11 +107,11 @@ dx$date<-NULL
 dx$month<-substr(dx$Date, 6, 7)
 dx$month<-as.numeric(dx$month)
 
-dx$winter<-ifelse(dx$month>=9 | dx$month<=4, "winter", 0)
+dx$winter<-ifelse(dx$month>=9 | dx$month<=3, "winter", 0)
 winter<-dx[(dx$winter=="winter"),]
 winter<-winter[!is.na(winter$Tavg),]
 
-dx$spring<-ifelse(dx$month>=2 & dx$month<=4, "spring", 0)
+dx$spring<-ifelse(dx$month>=4 & dx$month<=6, "spring", 0)
 ddx<-dx[(dx$spring=="spring"),]
 ddx<-ddx[!is.na(ddx$Tavg),]
 
@@ -205,6 +205,7 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
 
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
+# mat <- read.csv("output/betpen_mat.csv", header=TRUE)
 #period<-1950:1960
 period<-2000:2010
 sites<-subset(mat, select=c(lat, long, lat.long))
@@ -213,7 +214,7 @@ sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:15
+sites$siteslist<-1:14
 tavg<-r
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
@@ -329,7 +330,7 @@ extractchillpost<-function(tavg,period){
 
 ## apply function
 chill_pre<-extractchillpre(tavg,period)
-chill_post<-extractchillpost(tavg,period)
+chill_post<-extractchillpost(tavg,period) ## rerun from top but change period to 2000:2010 and create function extractchillpost
 
 pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
@@ -339,13 +340,15 @@ predata<-data.frame(chillport = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                                  pre$Mean.Chill.5, pre$Mean.Chill.6,
                                  pre$Mean.Chill.7, pre$Mean.Chill.8,
                                  pre$Mean.Chill.9, pre$Mean.Chill.10,
-                                 pre$Mean.Chill.11, pre$Mean.Chill.12),
+                                 pre$Mean.Chill.11, pre$Mean.Chill.12,
+                                 pre$Mean.Chill.13, pre$Mean.Chill.14),
                    siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
                             pre$`Site Num..3`, pre$`Site Num..4`,
                             pre$`Site Num..5`, pre$`Site Num..6`,
                             pre$`Site Num..7`, pre$`Site Num..8`,
                             pre$`Site Num..9`, pre$`Site Num..10`,
-                            pre$`Site Num..11`, pre$`Site Num..12`),
+                            pre$`Site Num..11`, pre$`Site Num..12`,
+                            pre$`Site Num..13`, pre$`Site Num..14`),
                    year = rownames(pre))
 
 port<-full_join(predata, sites)
