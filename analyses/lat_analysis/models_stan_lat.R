@@ -28,8 +28,8 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.noports = FALSE 
-use.zscore = FALSE# change to true for testing chill units
+use.noports = TRUE 
+use.zscore = TRUE# change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -191,7 +191,8 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "non_centered", 7, 8, c(0,5), c(-10, 5) , 17, 5)
+muplotfx(modelhere, "ChillPorts", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
 ########### Posterior Predictive Checks #############
