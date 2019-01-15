@@ -28,7 +28,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.noports = TRUE 
+use.noports = FALSE 
 use.zscore = TRUE# change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
@@ -95,8 +95,8 @@ datalist.lat <- with(lat.stan,
 
 
 setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
-              iter = 2500, warmup=1500)
+m2l.inter = stan('stan/winter_2level_lat_ncp.stan', data = datalist.lat,
+              iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
 
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 

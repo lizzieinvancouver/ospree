@@ -15,6 +15,12 @@ data {
 	vector[N] lat; // predictor
 		
 	}
+	
+transformed data {
+  vector[N] inter_pl;                  
+
+  inter_pl    = photo .* lat; 
+}
 
 parameters {
   real mu_a_sp;   
@@ -39,15 +45,21 @@ parameters {
   vector[n_sp] b_pl_ncp; // slope of chill x force effect
 
 	}
-	
-transformed data {
-  vector[N] inter_pl;                  
-
-  inter_pl    = photo .* lat; 
-}
 
 transformed parameters {
-   real yhat[N];
+  vector[n_sp] b_force; // slope of forcing effect 
+  vector[n_sp] b_photo; // slope of photoperiod effect
+  vector[n_sp] b_chill; // slope of chill effect
+  vector[n_sp] b_lat; // slope of lat effect
+  vector[n_sp] b_pl; // slope of chill x force effect
+  real yhat[N];
+  
+  b_force = mu_b_force_sp + sigma_b_force_sp*b_force_ncp;
+  b_photo = mu_b_photo_sp + sigma_b_photo_sp*b_photo_ncp;
+  b_chill = mu_b_chill_sp + sigma_b_chill_sp*b_chill_ncp;
+  b_lat = mu_b_lat_sp + sigma_b_lat_sp*b_lat_ncp;
+  b_pl = mu_b_pl_sp + sigma_b_pl_sp*b_pl_ncp;
+  
        	for(i in 1:N){
             yhat[i] = a_sp[sp[i]] + // indexed with species
 		b_force[sp[i]] * force[i] + 
@@ -61,17 +73,19 @@ transformed parameters {
 model {
 
 	a_sp ~ normal(mu_a_sp, sigma_a_sp); 
-	b_force ~ normal(mu_b_force_sp, sigma_b_force_sp); 
-	b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp); 
-	b_chill ~ normal(mu_b_chill_sp, sigma_b_chill_sp);
-	b_lat ~ normal(mu_b_lat_sp, sigma_b_lat_sp);
-	b_pl ~ normal(mu_b_pl_sp, sigma_b_pl_sp); 
+	//b_force ~ normal(mu_b_force_sp, sigma_b_force_sp); 
+	//b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp); 
+	//b_chill ~ normal(mu_b_chill_sp, sigma_b_chill_sp);
+	//b_lat ~ normal(mu_b_lat_sp, sigma_b_lat_sp);
+	//b_pl ~ normal(mu_b_pl_sp, sigma_b_pl_sp); 
 
         mu_a_sp ~ normal(0, 50);
         sigma_a_sp ~ normal(0, 10);
-	//b_force ~ normal(0, 10);
-	//b_photo ~ normal(0, 10);
-	//b_chill ~ normal(0, 30);
+	b_force ~ normal(0, 10);
+	b_photo ~ normal(0, 10);
+	b_chill ~ normal(0, 10);
+	b_lat ~ normal(0, 10);
+	b_lat ~ normal(0, 10);
 
         mu_b_force_sp ~ normal(0, 50);
         sigma_b_force_sp ~ normal(0, 10);
