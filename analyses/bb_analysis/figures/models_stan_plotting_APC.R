@@ -161,7 +161,7 @@ for(i in 3:5){
   #   lines(predicts.75per$warming, predicts.75per[,i-1], 
   #         col=cols[i-2], lwd=1, lty=2)
   # }
-legend(4,18,legend=c("Winter warming","Spring warming"," Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
+legend(4,18,legend=c("Spring warming","Winter warming","Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
 dev.off()
 
 
