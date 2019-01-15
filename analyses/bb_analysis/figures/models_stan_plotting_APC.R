@@ -140,6 +140,9 @@ predicts.75per<-predicts.75per[,-2]
 
 xlim = c(0, 7)
 ylim = c(15, 30)
+pdf(file.path(figpath, "tempforecast.pdf"), width = 9, height = 6)
+
+#pdf(paste(figpath,"/tempforecast",min(tempforecast),"-",max(tempforecast),"_deg_",lat,"_",long,".pdf",sep=""))
 par(mar=c(8,7,3,5))
 plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
      ylab="Days to BB", main=paste(round(daylengthbbdoy, digits=0)," hours", sep=""), bty="l")
@@ -150,15 +153,16 @@ for(i in 3:5){
   lines(predicts$warming, predicts[,i-1], 
       col=cols[i-2], lwd=2)
   }
-  for(i in 3:5){
-    lines(predicts.25per$warming, predicts.25per[,i-1], 
-          col=cols[i-2], lwd=1, lty=2)
-  }
-  for(i in 3:5){
-    lines(predicts.75per$warming, predicts.75per[,i-1], 
-          col=cols[i-2], lwd=1, lty=2)
-  }
-  legend(c(1,15),legend=c("Winter warming","Spring warming"," Both"),lty=1,lwd=1,col=cols,bty="n", cex=.6)
+  # for(i in 3:5){
+  #   lines(predicts.25per$warming, predicts.25per[,i-1], 
+  #         col=cols[i-2], lwd=1, lty=2)
+  # }
+  # for(i in 3:5){
+  #   lines(predicts.75per$warming, predicts.75per[,i-1], 
+  #         col=cols[i-2], lwd=1, lty=2)
+  # }
+legend(4,18,legend=c("Winter warming","Spring warming"," Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
+dev.off()
 
 
 

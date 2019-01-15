@@ -14,18 +14,7 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 library(ncdf4)
 library(Interpol.T)
 library(chillR)
-#The original code says:
-# Let's pretend that average spring temp is 5 and average chill portions is 140
-# And, let's pretend 2 deg warming decreases chilling by 30 portions (I made this up)
-#sprtemp.forplot <- 5
-#chillport.forplot <- 140
-#photo.forplot <- 14
-#warmspring <- 2
-#warmwinter <- -30
-
-#instead, we will estimate chilling and forcing from a location in europe, via EOBS
 #Set the location of the external hard drive, then pull daily climate data for Europe and North America
-#Skip ahead to 4e if you do not have the climate data drive
 #climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
@@ -93,18 +82,19 @@ name<-paste("output/dailyclim/temp_forforecast","_",la,"_",lo,"_",styr,"_",endyr
 #write out the daily temperature file, in case its useful later
 write.csv(temp,name, row.names = FALSE)
 
-#If you need to read in the file to avoid connecting to climate drive
-#temp<-read.csv("../output/dailyclim/temp_forforecast_48.16447_11.50293_1979_2014.csv", header=TRUE)
+#If you want to read in the file to avoid connecting to climate drive
+#temp<-read.csv("output/dailyclim/temp_observed_48.16447_11.50293_1979_2014.csv", header=TRUE)
 #get mean annual temp
 mat<-aggregate(temp$Tmean,by=list(temp$Year),mean)
 colnames(mat)<-c("year","mat")
+years<-mat$year
+
 chilltemp<-temp[-which(is.na(temp$ChillYear)),]
 #chilltemp<-chilltemp[chilltemp$ChillYear>1979,]
 #chilltemp<-chilltemp[chilltemp$ChillYear<2015,]
 macht<-aggregate(chilltemp$Tmean,by=list(chilltemp$ChillYear),mean)
 colnames(macht)<-c("End_year","mntemp")
 
-years<-mat$year
 ######################################################
 # Interpolation
 ######################################################
@@ -162,37 +152,35 @@ for(i in years){
   
   chillcalcs <- rbind(chillcalcs, data.frame(chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
 }
+
 #trim off the incomplete years:
 chillcalcs<-chillcalcs[-1,]
 chillcalcs<-chillcalcs[-dim(chillcalcs)[1],]
 chillall<-join(chillcalcs,macht)
 #Look at differences in temperature and chilling in a "Warm year" versus a "cool Year"
 #1985= a cool winter year and 1995= a warm year
-name_chillall<-paste("output/dailyclim/chill_forforecast","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
+name_chillall<-paste("output/dailyclim/chill_observed_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
 #write out the daily temperature file, in case its useful later
 write.csv(chillall,name_chillall, row.names = FALSE)
-#Now add 2 and 4 degrees to the dataset.
+#Now add warming (1-7 degrees) to the dataset.
 #warmestyr<-chillall$End_year[chillall$mntemp==max(chillall$mntemp)]
 #warmesttemp<-chilltemp[chilltemp$ChillYear< warmestyr + 2 & chilltemp$ChillYear>warmestyr -2,]
 
-#add 2 degrees
-temp2warm<-chilltemp
-temp2warm$Tmin<-temp2warm$Tmin+2
-temp2warm$Tmax<-temp2warm$Tmax+2
-#add 4 degrees
-temp4warm<-chilltemp
-temp4warm$Tmin<-temp2warm$Tmin+4
-temp4warm$Tmax<-temp2warm$Tmax+4
+#add 1:7 degrees
+tempfor<-seq(from =1, to=7, by=1)
+chillcalcforcs <- vector()
+for(t in 1:length(tempfor)){
+tempwarm<-chilltemp
+tempwarm$Tmin<-tempwarm$Tmin+tempfor[t]
+tempwarm$Tmax<-tempwarm$Tmax+tempfor[t]
+tempwarm$Tmean<-(tempwarm$Tmin + tempwarm$Tmax)/2
+
 #calculate mean temps
-macht2<-aggregate(temp2warm$Tmean,by=list(temp2warm$ChillYear),mean)
-colnames(macht2)<-c("End_year","mntemp")
-macht4<-aggregate(temp4warm$Tmean,by=list(temp4warm$ChillYear),mean)
-colnames(macht4)<-c("End_year","mntemp")
+machtwarm<-aggregate(tempwarm$Tmean,by=list(tempwarm$ChillYear),mean)
+colnames(machtwarm)<-c("End_year","mntemp")
 
-
-chillcalcs2 <- vector()
 for(i in years){ 
-xx <- temp2warm[temp2warm$Year==i,]
+xx <- tempwarm[tempwarm$Year==i,]
 xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
 
   year = (format(xx$Date, "%Y"))
@@ -223,74 +211,16 @@ xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
     )
     
   }
-  chillcalc2 <- chilling(hrly, as.numeric(hrly$JDay[1]), as.numeric(hrly$JDay[nrow(hrly)]))  
-  chillcalcs2 <- rbind(chillcalcs2, data.frame(chillcalc2[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
-  }
-#trim off the incomplete years:
-chillcalcs2<-chillcalcs2[-1,]
-chillcalcs2<-chillcalcs2[-dim(chillcalcs2)[1],]
-chillfut2<-join(chillcalcs2,macht2)
-#write out the future chilling file
-name_chillall2<-paste("output/dailyclim/chill_forecast2deg","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
-write.csv(chillfut2,name_chillall2, row.names = FALSE)
-
-#now 4-degrees of warming
-chillcalcs4 <- vector()
-for(i in years){ 
-  xx <- temp4warm[temp4warm$Year==i,]
-  xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
+  chillcalcforc <- chilling(hrly, as.numeric(hrly$JDay[1]), as.numeric(hrly$JDay[nrow(hrly)]))  
+  chillcalcforcs <- rbind(chillcalcforcs, data.frame(chillcalcforc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
+} 
+   chillcalcforcs<-chillcalcforcs[-1,]
+  chillcalcforcs<-chillcalcforcs[-dim(chillcalcforcs)[1],]
+  chillfut<-join(chillcalcforcs,machtwarm)
   
-  year = (format(xx$Date, "%Y"))
-  month = as.numeric(format(xx$Date, "%m"))
-  day = as.numeric(format(xx$Date, "%d"))
-  
-  Tmin = data.frame(year, month, day, T = xx$Tmin)
-  Tmax = data.frame(year, month, day, T = xx$Tmax)
-  
-  hrly = vector()
-  
-  for(j in 1:nrow(xx)){
-    
-    xy <- Th_interp(Tmin, Tmax, #function that creates 24 values of hourly temperature from minimum and maximum daily values.
-                    day = j,
-                    tab_calibr = calibration_l$Average)
-    
-    hrly = rbind(hrly,
-                 data.frame(
-                   date = xx[j,'Date'],
-                   Temp = xy$Th,
-                   Year = Tmin$year[j], 
-                   JDay = as.numeric(format(xx[j,'Date'], "%j")),
-                   month = Tmin$month[j],
-                   day = Tmin$day[j],
-                   Hour = 1:24
-                 )
-    )
-    
-  }
-  chillcalc4 <- chilling(hrly, as.numeric(hrly$JDay[1]), as.numeric(hrly$JDay[nrow(hrly)]))  
-  chillcalcs4 <- rbind(chillcalcs4, data.frame(chillcalc4[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
+  print(mean(chillall$Chill_portions))
+  print(paste(t,"degree warming", sep=""))
+  print(mean(chillfut$Chill_portions))
+  name_chillallfut<-paste("output/dailyclim/chill_forecast",tempfor[t],"deg","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
+  write.csv(chillfut, name_chillallfut, row.names = FALSE)
 }
-#trim off the incomplete years:
-chillcalcs4<-chillcalcs4[-1,]
-chillcalcs4<-chillcalcs4[-dim(chillcalcs4)[1],]
-chillfut4<-join(chillcalcs4,macht4)
-#write out the future chilling file
-name_chillall4<-paste("output/dailyclim/chill_forecast4deg","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
-write.csv(chillfut4,name_chillall4, row.names = FALSE)
-
-mean(chillall$Chill_portions)
-mean(chillfut2$Chill_portions)#for this site, 2 degrees of wamring increases chilling slightly, on average
-mean(chillfut4$Chill_portions)#4 degrees of warming yields reduced chilling
-
-mean(chillall$Utah_Model)
-mean(chillfut2$Utah_Model)#for this site, 2 degrees of wamring increases chilling, on average
-mean(chillfut4$Utah_Model)#4 degrees of warming yields reduced chilling
-
-range(chillall$Utah_Model)
-range(chillfut2$Utah_Model)#for this site, 2 degrees of wamring increases chilling, on average
-range(chillfut4$Utah_Model)
-range(chillall$Chill_portions)
-range(chillfut2$Chill_portions)#for this site, 2 degrees of wamring increases chilling slightly, on average
-range(chillfut4$Chill_portions)#4 degrees of warming still yields higher chilling on average
-
