@@ -100,7 +100,7 @@ m2l.inter = stan('stan/winter_2level_lat_ncp.stan', data = datalist.lat,
 
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
-#launch_shinystan(m2l.inter)
+launch_shinystan(m2l.inter)
 
 
 datalist.lat.nonz <- with(lat.stan, 
@@ -191,7 +191,7 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "ChillPorts", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "NCP_", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
