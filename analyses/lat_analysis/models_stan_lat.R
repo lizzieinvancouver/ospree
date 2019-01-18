@@ -29,7 +29,7 @@ options(mc.cores = parallel::detectCores())
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 use.noports = FALSE 
-use.zscore = FALSE# change to true for testing chill units
+use.zscore = TRUE# change to true for testing chill units
 # Default is species complex
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -95,12 +95,12 @@ datalist.lat <- with(lat.stan,
 
 
 setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
-              iter = 2500, warmup=1500)
+m2l.inter = stan('stan/winter_2level_lat_ncp.stan', data = datalist.lat,
+              iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
 
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
-#launch_shinystan(m2l.inter)
+launch_shinystan(m2l.inter)
 
 
 datalist.lat.nonz <- with(lat.stan, 
@@ -191,7 +191,8 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "non_centered", 7, 8, c(0,5), c(-10, 5) , 17, 5)
+muplotfx(modelhere, "NCP_", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
 ########### Posterior Predictive Checks #############
