@@ -20,8 +20,8 @@ library(egg)
 
 setwd("~/Documents/git/ospree/analyses/bb_analysis/PEP_climate")
 #d<-read.csv("/n/wolkovich_lab/Lab/Cat/PEP725_DE_Betpen.csv", header=TRUE)
-gersites<-read.csv("input/PEP725_DE_stations_betpen.csv", header=TRUE)
-d<-read.csv("input/bbch_betpen.csv", header=TRUE)
+gersites<-read.csv("input/PEP725_DE_stations_fagsyl.csv", header=TRUE)
+d<-read.csv("input/bbch_fagsyl.csv", header=TRUE)
 
 peps<-as.vector(gersites$PEP_ID)
 d<-subset(d, d$PEP_ID %in% peps)
@@ -167,8 +167,8 @@ bestsites<-bestsites[(bestsites$Freq>1),]
 
 mat<-foo[(foo$lat.long %in% bestsites$Var1),]
 
-#write.csv(mat, file="output/betpen_mat.csv", row.names=FALSE)
-check<-read.csv("output/betpen_mat.csv", header=TRUE)
+#write.csv(mat, file="output/fagsyl_mat.csv", row.names=FALSE)
+check<-read.csv("output/fagsyl_mat.csv", header=TRUE)
 
 #osp<-read.csv("..//..//output/ospree_clean_withchill_BB.csv", header=TRUE)
 #osp.bp<-subset(osp, osp$genus=="Betula" & osp$species=="pendula")
@@ -252,75 +252,75 @@ extractchillpost<-function(tavg,period){
     
     ## load shape
     if(sitesi==sites$siteslist[i])
-    Coords<-data.frame(sites$x, sites$y)
+      Coords<-data.frame(sites$x, sites$y)
     points <- SpatialPoints(Coords, proj4string = tavg@crs)
     #spsshapeproj<-spTransform(points,proj4string(chillsub[[1]]))
-  
-  
-        ## loop across years to extract each years averages and stddevs
-        # save first an array to store results
-         yearlyresults<-array(NA,dim=c(length(period),3))
-  
-        for(j in period){#j=1980
-          print(paste(i,j))
-    
-          # select year's layer
-          chillyears<-which(as.numeric(format(as.Date(
-          names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
-    
-          yearschill<-subset(chillsub,chillyears)
-    
-          # extract values and format to compute means and sdevs
-           tempschills<-raster::extract(yearschill,points)
-    
-          #turn into data frame and remove NAs
-          ch<-as.data.frame(tempschills)
-          ch<-subset(ch,!is.na(rowSums(ch)))
     
     
-          ## calculate chilling (Utah)
-        chillunitseachcelleachday<-apply(ch,2,function(x){
-          #tlow=-5 ## not sure about which parameteres we are using
-          #thigh=5
-          Tmean<-x
-          #Tmean<-ifelse(minns>0,minns,0)
-          return(Tmean)})
-        meandaily<-chillunitseachcelleachday[(as.numeric(rownames(chillunitseachcelleachday))==i)]
-        #hist(utahssum)
-          
+    ## loop across years to extract each years averages and stddevs
+    # save first an array to store results
+    yearlyresults<-array(NA,dim=c(length(period),3))
+    
+    for(j in period){#j=1980
+      print(paste(i,j))
       
-          if(j %in% leaps){
-            meandaily<-head(meandaily, -1)
-          } 
-        
-        if(j %in% leaps){
-          chillunitseachcelleachday<-chillunitseachcelleachday[,-213]
-        }
+      # select year's layer
+      chillyears<-which(as.numeric(format(as.Date(
+        names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
       
-          
-        hrly.temp =
-          data.frame(
-            Temp = c(rep(meandaily, times = 24)),
-            Year = as.numeric(substr(colnames(chillunitseachcelleachday), 2, 5)),
-            JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
-          )
-          #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
-        
-        chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
-        #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
+      yearschill<-subset(chillsub,chillyears)
+      
+      # extract values and format to compute means and sdevs
+      tempschills<-raster::extract(yearschill,points)
+      
+      #turn into data frame and remove NAs
+      ch<-as.data.frame(tempschills)
+      ch<-subset(ch,!is.na(rowSums(ch)))
+      
+      
+      ## calculate chilling (Utah)
+      chillunitseachcelleachday<-apply(ch,2,function(x){
+        #tlow=-5 ## not sure about which parameteres we are using
+        #thigh=5
+        Tmean<-x
+        #Tmean<-ifelse(minns>0,minns,0)
+        return(Tmean)})
+      meandaily<-chillunitseachcelleachday[(as.numeric(rownames(chillunitseachcelleachday))==i)]
+      #hist(utahssum)
+      
+      
+      if(j %in% leaps){
+        meandaily<-head(meandaily, -1)
+      } 
+      
+      if(j %in% leaps){
+        chillunitseachcelleachday<-chillunitseachcelleachday[,-213]
+      }
+      
+      
+      hrly.temp =
+        data.frame(
+          Temp = c(rep(meandaily, times = 24)),
+          Year = as.numeric(substr(colnames(chillunitseachcelleachday), 2, 5)),
+          JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
+        )
+      #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
+      
+      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
+      #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
+      
+      #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
+      #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
+      
+      yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
+      #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
+      
+      yearlyresults[which(period==j),3]<-sites$siteslist[i]
+      
+    }
     
-    #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
-    #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
+    chillingyears[,,i]<-yearlyresults
     
-    yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
-    #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
-    
-    yearlyresults[which(period==j),3]<-sites$siteslist[i]
-    
-  }
-  
-  chillingyears[,,i]<-yearlyresults
- 
   } 
   
   return(chillingyears)
@@ -336,39 +336,45 @@ pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
 
 predata<-data.frame(chillport = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
-                                 pre$Mean.Chill.3, pre$Mean.Chill.4,
-                                 pre$Mean.Chill.5, pre$Mean.Chill.6,
-                                 pre$Mean.Chill.7, pre$Mean.Chill.8,
-                                 pre$Mean.Chill.9, pre$Mean.Chill.10,
-                                 pre$Mean.Chill.11, pre$Mean.Chill.12,
-                                 pre$Mean.Chill.13, pre$Mean.Chill.14),
-                   siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
-                            pre$`Site Num..3`, pre$`Site Num..4`,
-                            pre$`Site Num..5`, pre$`Site Num..6`,
-                            pre$`Site Num..7`, pre$`Site Num..8`,
-                            pre$`Site Num..9`, pre$`Site Num..10`,
-                            pre$`Site Num..11`, pre$`Site Num..12`,
-                            pre$`Site Num..13`, pre$`Site Num..14`),
-                   year = rownames(pre))
+                                  pre$Mean.Chill.3, pre$Mean.Chill.4,
+                                  pre$Mean.Chill.5, pre$Mean.Chill.6,
+                                  pre$Mean.Chill.7, pre$Mean.Chill.8,
+                                  pre$Mean.Chill.9, pre$Mean.Chill.10,
+                                  pre$Mean.Chill.11, pre$Mean.Chill.12),
+                                  #pre$Mean.Chill.13, pre$Mean.Chill.14,
+                                  #pre$Mean.Chill.15),
+                    siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
+                                  pre$`Site Num..3`, pre$`Site Num..4`,
+                                  pre$`Site Num..5`, pre$`Site Num..6`,
+                                  pre$`Site Num..7`, pre$`Site Num..8`,
+                                  pre$`Site Num..9`, pre$`Site Num..10`,
+                                  pre$`Site Num..11`, pre$`Site Num..12`),
+                                  #pre$`Site Num..13`, pre$`Site Num..14`,
+                                  #pre$`Site Num..15`),
+                    year = rownames(pre))
 
 port<-full_join(predata, sites)
 port$x<-NULL
 port$y<-NULL
-  
+
 
 postdata<-data.frame(chillport = c(post$Mean.Chill.1, post$Mean.Chill.2,
-                                  post$Mean.Chill.3, post$Mean.Chill.4,
-                                  post$Mean.Chill.5, post$Mean.Chill.6,
-                                  post$Mean.Chill.7, post$Mean.Chill.8,
-                                  post$Mean.Chill.9, post$Mean.Chill.10,
-                                  post$Mean.Chill.11, post$Mean.Chill.12),
-                    siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
-                                  post$`Site Num..3`, post$`Site Num..4`,
-                                  post$`Site Num..5`, post$`Site Num..6`,
-                                  post$`Site Num..7`, post$`Site Num..8`,
-                                  post$`Site Num..9`, post$`Site Num..10`,
-                                  post$`Site Num..11`, post$`Site Num..12`),
-                    year = rownames(post))
+                                   post$Mean.Chill.3, post$Mean.Chill.4,
+                                   post$Mean.Chill.5, post$Mean.Chill.6,
+                                   post$Mean.Chill.7, post$Mean.Chill.8,
+                                   post$Mean.Chill.9, post$Mean.Chill.10,
+                                   post$Mean.Chill.11, post$Mean.Chill.12),
+                                   #post$Mean.Chill.13, post$Mean.Chill.14,
+                                   #post$Mean.Chill.15),
+                     siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
+                                   post$`Site Num..3`, post$`Site Num..4`,
+                                   post$`Site Num..5`, post$`Site Num..6`,
+                                   post$`Site Num..7`, post$`Site Num..8`,
+                                   post$`Site Num..9`, post$`Site Num..10`,
+                                   post$`Site Num..11`, post$`Site Num..12`),
+                                   #post$`Site Num..13`, post$`Site Num..14`,
+                                   #post$`Site Num..15`),
+                     year = rownames(post))
 
 port.post<-full_join(postdata, sites)
 port.post$x<-NULL
@@ -381,7 +387,7 @@ allchills$mat<-NULL
 allchills$num.years<-NULL
 allchills<-na.omit(allchills)
 
-xlab <- "Total Chill Portions"
+xlab <- "Total Utah Chill"
 
 quartz()
 chill.plot<-ggplot(allchills, aes(x=chillport, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
