@@ -214,7 +214,7 @@ sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:7
+sites$siteslist<-1:10
 tavg<-r
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
@@ -312,7 +312,7 @@ extractchillpost<-function(tavg,period){
       #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
       #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
       
-      yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
+      yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
       #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
       
       yearlyresults[which(period==j),3]<-sites$siteslist[i]
@@ -387,10 +387,10 @@ allchills$mat<-NULL
 allchills$num.years<-NULL
 allchills<-na.omit(allchills)
 
-xlab <- "Total Utah Chill"
+xlab <- "Total Chill Portions"
 
 quartz()
-chill.plot<-ggplot(allchills, aes(x=chillport, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+chill.plot.port<-ggplot(allchills, aes(x=chillport, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
   theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
   scale_color_manual(name="Years", values=c(apre = "darkblue", 
                                             post = "darkred"),
@@ -407,7 +407,7 @@ mylegend<-g_legend(chill.plot)
 quartz()
 grid.arrange(mat.plot, chill.plot, mylegend, ncol=3, widths=c(2, 2, 1))
 
-#write.csv(mat, file="output/betpen_mat.csv", row.names = FALSE)
+write.csv(mat, file="output/fagsyl_mat.csv", row.names = FALSE)
 #write.csv(sites, file="output/betpen_sites.csv", row.names = FALSE)
 
 
