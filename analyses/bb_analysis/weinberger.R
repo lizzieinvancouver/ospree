@@ -24,7 +24,7 @@ figpath <- "figures"
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to true for using chillportions instead of utah units
+use.chillports = FALSE # change to true for using chillportions instead of utah units
 use.zscore = TRUE # change to false to use raw predictors
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -152,7 +152,6 @@ wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data,
 
 wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
                   iter = 2500, warmup=1500)
-
 
 
 ###some weinberger plotss
