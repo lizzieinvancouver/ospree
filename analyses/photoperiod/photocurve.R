@@ -69,15 +69,15 @@ caf$days_cent<-caf$response.time-(mean(caf$response.time)/sd(caf$response.time))
 
 ha<-rbind(caf,hei,ash)
 
-ha$chill_level[ha$Total_Chill_portions<1] <- "None"
-ha$chill_level[ha$Total_Chill_portions> 1 & ha$Total_Chill_portions < 44] <- "Low"
-ha$chill_level[ha$Total_Chill_portions> 44 & ha$Total_Chill_portions < 69] <- "Med"
-ha$chill_level[ha$Total_Chill_portions> 69 & ha$Total_Chill_portions < 106] <- "High"
-ha$chill_level[ha$Total_Chill_portions> 106] <- "Very High"
+ha$chill_level[ha$Total_Chill_portions<1] <- "None (<1)"
+ha$chill_level[ha$Total_Chill_portions> 1 & ha$Total_Chill_portions < 44] <- "Low (1-44)"
+ha$chill_level[ha$Total_Chill_portions> 44 & ha$Total_Chill_portions < 69] <- "Med (45-69)"
+ha$chill_level[ha$Total_Chill_portions> 69 & ha$Total_Chill_portions < 106] <- "High (70-106)"
+ha$chill_level[ha$Total_Chill_portions> 106] <- "Very High (>106)"
 table(ha$Total_Chill_portions)
 
 
-ha$chill_level <- factor(ha$chill_level, levels=c("None", "Low", "Med","High","Very High"))
+ha$chill_level <- factor(ha$chill_level, levels=c("None (<1)", "Low (1-44)", "Med (45-69)","High (70-106)","Very High (>106)"))
 library(grid)
 ha<-unite(ha,lat.long,provenance.lat,provenance.long,sep=",")
 ha<-unite(ha,GENSPA,genus,species,sep=" ")
@@ -87,8 +87,8 @@ library(egg)
 colorz<-c("red","orange","dark yellow","light blue","purple")
 
 linez<-c("solid","dashed","dotted")
-plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=-15,ymax=80),fill="grey98",color="grey44", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))
-ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("zoom")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"))+scale_linetype_manual(values=c("solid","dotted","dashed"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme(panel.background = element_rect(fill = "grey98",color="grey44"))
+plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=-15,ymax=80),fill="grey98",color="grey44", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))
+ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("zoom")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"))+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme(panel.background = element_rect(fill = "grey98",color="grey44"))
 
 quantile(ha$Total_Chill_portions)
 
