@@ -67,6 +67,9 @@ source("source/plotletfx.R")
 ggplot(bb.stan, aes(chill, force, color=complex.wname)) +
     geom_point(alpha = 0.1) + 
     theme(legend.position="none")
+ggplot(bb.stan, aes(chill.ports, force, color=complex.wname)) +
+    geom_point(alpha = 0.1) + 
+    theme(legend.position="none")
 ggplot(bb.stan, aes(photo, force, color=complex.wname)) +
     geom_point(alpha = 0.1) + 
     theme(legend.position="none")
@@ -315,6 +318,24 @@ for (sp in c(1:length(spp))){# i = 1
          main=subby$complex.wname[1], xlab="chilling", ylab="forcing")
     # abline(lm(subby[["chill"]]~subby[["force"]]))
     plot(subby[["chill"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
+         xlab="chilling", ylab="photo")
+    # abline(lm(subby[["chill"]]~subby[["photo"]]))
+    plot(subby[["force"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
+         xlab="photo", ylab="forcing")
+   # abline(lm(subby[["force"]]~subby[["photo"]]))
+}
+dev.off()
+
+# same, but with chillports
+pdf(file.path(figpath, "cues.chillports.pdf"), width = 7, height = 3.5)
+spp <- sort(unique(bb.stan$complex))
+for (sp in c(1:length(spp))){# i = 1
+    par(mfrow=c(1,3))
+    subby <- subset(bb.stan,  complex==spp[sp])
+    plot(subby[["chill.ports"]], subby[["force"]], col=colz[as.factor(subby$datasetID)],
+         main=subby$complex.wname[1], xlab="chilling", ylab="forcing")
+    # abline(lm(subby[["chill"]]~subby[["force"]]))
+    plot(subby[["chill.ports"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
          xlab="chilling", ylab="photo")
     # abline(lm(subby[["chill"]]~subby[["photo"]]))
     plot(subby[["force"]], subby[["photo"]], col=colz[as.factor(subby$datasetID)],
