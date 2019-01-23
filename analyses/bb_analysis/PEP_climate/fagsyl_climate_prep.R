@@ -312,7 +312,7 @@ extractchillpost<-function(tavg,period){
       #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
       #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
       
-      yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
+      yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
       #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
       
       yearlyresults[which(period==j),3]<-sites$siteslist[i]
@@ -335,7 +335,7 @@ chill_post<-extractchillpost(tavg,period) ## rerun from top but change period to
 pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
 
-predata<-data.frame(chillport = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
+predata<-data.frame(chillutah = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                                   pre$Mean.Chill.3, pre$Mean.Chill.4,
                                   pre$Mean.Chill.5, pre$Mean.Chill.6,
                                   pre$Mean.Chill.7, pre$Mean.Chill.8,
@@ -358,7 +358,7 @@ port$x<-NULL
 port$y<-NULL
 
 
-postdata<-data.frame(chillport = c(post$Mean.Chill.1, post$Mean.Chill.2,
+postdata<-data.frame(chillutah = c(post$Mean.Chill.1, post$Mean.Chill.2,
                                    post$Mean.Chill.3, post$Mean.Chill.4,
                                    post$Mean.Chill.5, post$Mean.Chill.6,
                                    post$Mean.Chill.7, post$Mean.Chill.8,
@@ -387,10 +387,10 @@ allchills$mat<-NULL
 allchills$num.years<-NULL
 allchills<-na.omit(allchills)
 
-xlab <- "Total Chill Portions"
+xlab <- "Total Utah Chill"
 
 quartz()
-chill.plot.port<-ggplot(allchills, aes(x=chillport, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+chill.plot<-ggplot(allchills, aes(x=chillutah, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
   theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
   scale_color_manual(name="Years", values=c(apre = "darkblue", 
                                             post = "darkred"),
@@ -405,9 +405,30 @@ g_legend<-function(a.gplot){
 
 mylegend<-g_legend(chill.plot)
 quartz()
-grid.arrange(mat.plot, chill.plot, mylegend, ncol=3, widths=c(2, 2, 1))
+grid.arrange(mat.plot, chill.plot.port, chill.plot, mylegend, ncol=4, widths=c(2, 2, 2, 0.5))
 
-write.csv(mat, file="output/fagsyl_mat.csv", row.names = FALSE)
+#write.csv(mat, file="output/fagsyl_mat.csv", row.names = FALSE)
 #write.csv(sites, file="output/betpen_sites.csv", row.names = FALSE)
+
+quartz()
+bb50 <- ggplot(mat[(mat$year<=1960),], aes(x=year, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Year", y="Day of Leafout") + theme(legend.position="none") + coord_cartesian(ylim=c(95, 140)) +
+  scale_color_manual(name="Years", values=c(apre = "darkblue", 
+                                            post = "darkred"),
+                     labels=c(apre = "1950-1960",
+                              post = "2000-2010")) + geom_point(aes(col=cc), alpha=0.3) +
+  scale_x_continuous(breaks=seq(1950, 1960, 2), limits=c(1950, 1960))
+
+bb00 <- ggplot(mat[(mat$year>=2000),], aes(x=year, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Year", y="Day of Leafout") + theme(legend.position="none") + coord_cartesian(ylim=c(95, 140)) +
+  scale_color_manual(name="Years", values=c(apre = "darkblue", 
+                                            post = "darkred"),
+                     labels=c(apre = "1950-1960",
+                              post = "2000-2010")) + geom_point(aes(col=cc), alpha=0.3) +
+  scale_x_continuous(breaks=seq(2000, 2010, 2), limits=c(2000, 2010))
+
+grid.arrange(bb50, bb00, ncol=2, widths=c(2, 2))
+
+
 
 
