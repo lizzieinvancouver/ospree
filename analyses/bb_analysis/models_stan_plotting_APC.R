@@ -5,16 +5,19 @@
 ## Based off models_stan_plotting.R ##
 
 ############################################
-## housekeeping
+# housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+#libraries
+library(RColorBrewer)
+library(geosphere)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
-if(length(grep("Ignacio", getwd()))>0) { 
+else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses") 
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
@@ -37,8 +40,7 @@ source("source/bbstanleadin.R")
 ##
 
 # Set up colors (more than used currently ...
-library(RColorBrewer)
-library(geosphere)
+
 cols <- adjustcolor(c("maroon4", "lightskyblue","purple4"), alpha.f = 0.8) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
@@ -68,7 +70,7 @@ tempall<-read.csv(tempfilename, header=TRUE)
 tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
 sprtemp <- mean(tempall$Month[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
 budburstdoy<-60#March 1
-daylengthbbdoy <- daylength(lat, budburstdoy)$Daylength
+daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
 chillport <- mean(chillall$Chill_portions)
 
 ## Plotting
@@ -119,9 +121,9 @@ for (i in 1:length(tempforecast)){
   daychange.springwarm<-meanz[2]-meanz[1] 
   daychange.wintwarm<-meanz[3]-meanz[1]
   daychange.bothwarm<-meanz[4]-meanz[1] 
-  daylengthchange.springwarm<-daylength(lat,budburstdoy+daychange.springwarm)$Daylength-daylengthbbdoy
-  daylengthchange.wintwarm<- daylength(lat,budburstdoy+daychange.wintwarm)$Daylength-daylengthbbdoy
-  daylengthchange.bothwarm<-daylength(lat,budburstdoy+daychange.bothwarm)$Daylength-daylengthbbdoy
+  daylengthchange.springwarm<-daylength(lat,budburstdoy+daychange.springwarm)-daylengthbbdoy
+  daylengthchange.wintwarm<- daylength(lat,budburstdoy+daychange.wintwarm)-daylengthbbdoy
+  daylengthchange.bothwarm<-daylength(lat,budburstdoy+daychange.bothwarm)-daylengthbbdoy
   
   bbposteriors.wdaylength <- getest.bb(m2l.ni, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, daylengthchange.springwarm, daylengthchange.wintwarm, daylengthchange.bothwarm)
   meanz.wdaylength <- unlist(lapply(bbposteriors.wdaylength, mean))
@@ -140,19 +142,28 @@ predicts.75per<-predicts.75per[,-2]
 
 xlim = c(0, 7)
 ylim = c(15, 30)
-pdf(file.path(figpath, "tempforecast.pdf"), width = 9, height = 6)
+figname<-paste("tempforecast",lat,long,min(tempforecast),max(tempforecast),"degwarm.pdf", sep="_")
+pdf(file.path(figpath,figname), width = 9, height = 6)
 
 #pdf(paste(figpath,"/tempforecast",min(tempforecast),"-",max(tempforecast),"_deg_",lat,"_",long,".pdf",sep=""))
+#quartz()
 par(mar=c(8,7,3,5))
 plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
      ylab="Days to BB", main=paste(round(daylengthbbdoy, digits=0)," hours", sep=""), bty="l")
   pos.x <- 0
   pos.y <- predicts[1,2]
   points(pos.x, pos.y, cex=1.2, pch=19, bg="gray")
-for(i in 3:5){
-  lines(predicts$warming, predicts[,i-1], 
-      col=cols[i-2], lwd=2)
+  #Add shading around line for credible intervals
+  
+  for(i in 3:5){
+  polygon(c(rev(predicts$warming), predicts$warming), c(rev(predicts.75per[,i-1]), predicts.25per[,i-1]), col = alpha(cols[i-2], 0.2), border = NA)
   }
+  
+  for(i in 3:5){
+    lines(predicts$warming, predicts[,i-1], 
+          col=cols[i-2], lwd=2)}
+  
+  # intervals
   # for(i in 3:5){
   #   lines(predicts.25per$warming, predicts.25per[,i-1], 
   #         col=cols[i-2], lwd=1, lty=2)
@@ -161,7 +172,7 @@ for(i in 3:5){
   #   lines(predicts.75per$warming, predicts.75per[,i-1], 
   #         col=cols[i-2], lwd=1, lty=2)
   # }
-legend(4,18,legend=c("Spring warming","Winter warming","Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
+legend(0,18,legend=c("Spring warming","Winter warming","Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
 dev.off()
 
 
