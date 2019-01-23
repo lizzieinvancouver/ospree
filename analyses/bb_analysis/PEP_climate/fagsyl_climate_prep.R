@@ -312,7 +312,7 @@ extractchillpost<-function(tavg,period){
       #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
       #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
       
-      yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
+      yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
       #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
       
       yearlyresults[which(period==j),3]<-sites$siteslist[i]
