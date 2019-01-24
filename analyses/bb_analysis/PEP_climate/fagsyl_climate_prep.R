@@ -205,9 +205,9 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
 
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
-# mat <- read.csv("output/betpen_mat.csv", header=TRUE)
-#period<-1950:1960
-period<-2000:2010
+mat <- read.csv("output/fagsyl_mat.csv", header=TRUE)
+period<-1950:1960
+#period<-2000:2010
 sites<-subset(mat, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
 sites$x<-sites$long
@@ -306,7 +306,7 @@ extractchillpost<-function(tavg,period){
         )
       #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
       
-      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
+      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[i], hrly.temp$JDay[nrow(hrly.temp[i])])
       #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
       
       #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
