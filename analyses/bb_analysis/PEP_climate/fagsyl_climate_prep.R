@@ -220,8 +220,8 @@ tavg<-r
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function
-#extractchillpre<-function(tavg,period){
-extractchillpost<-function(tavg,period){
+extractchillpre<-function(tavg,period){
+#extractchillpost<-function(tavg,period){
   
   ## define array to store results
   nyears<-length(period)
@@ -306,7 +306,7 @@ extractchillpost<-function(tavg,period){
         )
       #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
       
-      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[i], hrly.temp$JDay[nrow(hrly.temp[i])])
+      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
       #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
       
       #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
