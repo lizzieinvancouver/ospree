@@ -1,8 +1,8 @@
-## Started 3 Jan 2019 ##
-## By Lizzie (to start), Ailene added to it ##
+## Started 23 Jan 2019 ##
+## By Ailene  ##
 
-## Marginal effects from Stan models ##
-## Based off models_stan_plotting.R ##
+## Marginal effects from Stan models for particular species##
+## Based off models_stan_plotting_APC.R ##
 
 ############################################
 # housekeeping
@@ -56,13 +56,16 @@ modelhere <- m2l.ni
 
 hist(bb.stan$chill.ports)
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
+#species to plot
+sp<-c("betpen","fagsyl")
+
 #For main effects of model:
 # Select the lat,long and temperature change that you want
 lat<-48.16447
 long<-11.50293
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
-# Read in cobserved chilling from 1979 to 2014
+# Read in observed chilling from 1950 to 2014
 chillfilename<-paste("../output/dailyclim/chill_observed_",lat,"_",long,"_1979_2014.csv",sep="")
 tempfilename<-paste("../output/dailyclim/temp_observed_",lat,"_",long,"_1979_2014.csv",sep="")
 chillall<-read.csv(chillfilename, header=TRUE) 
