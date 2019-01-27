@@ -37,7 +37,7 @@ minwarm<-1
 maxwarm<-7
 #4) select species, identify latlon of their ranges to pull climte data
 sp<-c("betpen","fagsyl")
-#i=1
+#i=2
 for(i in 1:length(sp)){
  spfilename<-paste("bb_analysis/PEP_climate/input/bbch_",sp[i],".csv", sep="")
  spdat<-read.csv(spfilename, header=T)
