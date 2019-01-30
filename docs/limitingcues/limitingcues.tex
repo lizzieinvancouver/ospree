@@ -139,9 +139,11 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \newpage
 \noindent {\bf Some to do items:}
 \begin{enumerate}
-\item We plan to try adding a histogram of interannual variation in climate to the PEP725 figures. How to do it? Overlaying density plots of mean(daily max T) and mean(daily min T) of a month or two in the spring for three locations?
+\item Add details on exactly how figure 1 was created.
 \item See question in 4d.
 \item What figures do we really need/want in paper?
+\item Check 5d ... do 43\% of the studies really vary photo and force?
+% \item Totally random idea: Should we do a really small subset of species and try to do interactions?
 \end{enumerate}
 
 \section{Outline}
@@ -192,29 +194,22 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Compare treatments from controlled environment studies to predicted shifts in cues with climate change.  
 \item Show how growth chamber studies can be best designed to better understand these interactive cues (paths forward). 
 \end{enumerate}
-\end{enumerate}
 \item We focus on woody species ...
 \begin{enumerate}
 \item Research in the cues underlying phenology has been especially strong in model systems (e.g., \emph{Arabidopsis, Populus}) and crops \citep{cesaraccio2004}---with the exact phenophase of interest varying (potentially by a species' life history: more focus on germination and flowering in \emph{Arabidopsis}, and more on leafout and budset in \emph{Populus}).
 
 \item Our focus here is on leafout, and thus we focus on woody species phenology: for which leafout has been widely studied across species, though much of what we say could apply to non-woody species and/or other phenophases with underlying similar cues. 
 \end{enumerate}
-\item To understand cues, it helps to think about the environmental variation a species experiences across years, and across its range (this section should be shortened) 
+\end{enumerate}
+\item Why do species have multiple cues? To understand this, it helps to think about the environmental variation a species experiences: across years, and across its range
 \begin{enumerate}
 % \item Think about two example tree species: \emph{Fagus sylvatica, Betula pendula} 
 \item In the spring there is selection for species to track the start of resources, and thus they need cues that work across the interannual variation in climate \emph{across a species' range} ... either through plasticity and/or local adaptation
-\item Unlike budset phenology, research suggests spring phenology can be fairly plastic (without high local adaptation of cues across a range); this means species need a set of cues that work across their range \citep{liepe2016}. Relevant lit to when you do and don't see local adaptation:
-\begin{enumerate}
-\item \citet{kelly2003}: the impact of yearly variation in temperatures in genotype selection % "we have found within a naturally occurring stand of the tree species Betula pendula (birch) a regular occurrence of genetic segregation correlating with normal year-to-year variation in mean annual temperature"
-\item High variation in spring climatic conditions makes temporal variation in many ways as high as spatial and thus may slow local adaptation \citep[see also ][]{legave2013} (also note that geneflow across space will shape phenological cues)
+\item Unlike budset phenology, research suggests spring phenology can be fairly plastic (without high local adaptation of cues across a range); this means species will ideally use a set of cues that work across their range \citep{liepe2016}, though there is some variation in the importance of each cue across a range (e.g., chilling in coastal versus continental, check also \citet{legave2013})
+\item Thus, cues are adapted to high climate variation (spatially and temporally).
+\item This is why most temperate species are hypothesized to have responses to all three cues: forcing, chilling, photoperiod. 
 \end{enumerate}
-\item Thus, cues are adapted to high climate variation.
-\item A species' range limit and its phenology are intertwined: a species' current range defines the range of cues it may see, but phenology also shapes those limits \citep{morin2007,Morin:2008vp}.
-%  New term: Cue range limits. What do you think? As in the limits of cues as seen over a species' range, what do you think?
-%% IMC - I love this idea of Cue range limits, and I guess it is somewhat linked to what X. Morin and I. Chuine have been working on, given that their process-based models would predict species range shifts based on the effects of cues on phenology
-\item This is why most temperate species probably have responses to all three cues: forcing, chilling, photoperiod, with the importance of each cue varying across a range (e.g., chilling in coastal versus continental, check also \citet{legave2013})
-\end{enumerate}
-\item Review how cues will shift with climate change (here we show the figures that Nacho has produced for two PEP725 spp., See Fig. \ref{fig:pep})) % The idea is also connected to the question of whether or not, due to climate change, species may experience cue values well above or below the values to which they are locally adapted.  
+\item Review how cues will shift with climate change (here we maybe show the figures that Nacho has produced for two PEP725 spp., See Fig. \ref{fig:pep}, or save for later) % The idea is also connected to the question of whether or not, due to climate change, species may experience cue values well above or below the values to which they are locally adapted.  
 \begin{enumerate}
 \item Forcing: the world will get warmer 
 \begin{enumerate}
@@ -239,7 +234,7 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \item Where chilling will change to above versus below the threshold that plants can sense % and we understand where that threshold is better!
 \end{enumerate}
 \end{enumerate}
-\item Growth chamber studies should help predict these non-lienarities, if they are designed in a range relevant to current and future conditions: Compare treatments from controlled environment studies to predicted shifts in cues with climate change: Part I: Review of the three major phenological cues from growth chamber studies over the last 67 years % 2014-1947
+\item Growth chamber studies should help predict these non-linearities, if they are designed in a range relevant to current and future conditions: Compare treatments from controlled environment studies to predicted shifts in cues with climate change: Part I: Review of the three major phenological cues from growth chamber studies over the last 67 years % 2014-1947
 \begin{enumerate}
 \item Be sure to note that most studies were \emph{not} done for climate change research, they were done for fundamental science or agricultural/forestry purposes
 \item Studies have been done across the globe ... (with more in Europe) and across the decades
@@ -379,8 +374,8 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=1\textwidth]{figures/Fig1_hists pep75 - change temps.png}
-\caption{PEP725.}
+\includegraphics[width=1\textwidth]{figures/Fig1_noblues_densities.png}
+\caption{Predicted changes in temperatures relevant to chilling (A, C) and forcing (B, D) compared to a 1970s baseline shown for two species: \emph{Fagus sylvatica} (A-B) and \emph{Betula pendula}. Points represent a PEP725 site with XX data. Inlay plots in the upper left-hand corner of each plot show a histogram of the predicted changes in temperature overlaid with densities of the chilling (A, C) and forcing (B, D) treatments (green lines show the treatments for that exact species, while black lines show across all species; note that for \emph{Fagus sylvatica} there are no chilling treatments of differing temperatures.}
   \label{fig:pep}
 \end{figure}
 \clearpage
@@ -388,7 +383,9 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 
 \begin{figure}[t!]
 \centering
-\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_datasetID.pdf}
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp.pdf}
+\includegraphics[width=0.5\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp_legend.pdf}
+
 \caption{Overview of the data across space.}
   \label{fig:datamap}
 \end{figure}
@@ -437,7 +434,19 @@ Climate change has shifted plant phenology globally, with average shifts of 4-6 
 \section*{Other loose ends}
 %=======================================================================
 
-\section*{Old notes on thermal tolerances. }
+
+\section*{Extended notes on local adaptation vs. plasticity}
+
+Relevant lit to when you do and don't see local adaptation:
+\begin{enumerate}
+\item \citet{kelly2003}: the impact of yearly variation in temperatures in genotype selection % "we have found within a naturally occurring stand of the tree species Betula pendula (birch) a regular occurrence of genetic segregation correlating with normal year-to-year variation in mean annual temperature"
+\item High variation in spring climatic conditions makes temporal variation in many ways as high as spatial and thus may slow local adaptation \citep[see also ][]{legave2013} (also note that geneflow across space will shape phenological cues)
+\end{enumerate}
+\item A species' range limit and its phenology are intertwined: a species' current range defines the range of cues it may see, but phenology also shapes those limits \citep{morin2007,Morin:2008vp}.
+%  New term: Cue range limits. What do you think? As in the limits of cues as seen over a species' range, what do you think?
+%% IMC - I love this idea of Cue range limits, and I guess it is somewhat linked to what X. Morin and I. Chuine have been working on, given that their process-based models would predict species range shifts based on the effects of cues on phenology
+
+\section*{Old notes on thermal tolerances.}
 
 Thus you may consider thermal tolerances/limits (and where is the species optimum?) when designing growth chamber studies  ...These tests could be especially useful for understanding range limits: look at treatments beyond the variation seen within a species' range and see if there is abrupt change or you see continuous change, if no abrupt change then it may suggest that something else must limit range (e.g., biotic cues, minima temperature after which species) 
 (IMC): Above is true, but perhaps it is far afield. If we decide to leave it in, I would consider emphasizing the fact that while thermal physiology is receiving increased attention to delineate species ranges, for trees that sort of information may not be particularly insightful given the following reasons: (a) there's still little data on CTmax and CTmin for a majority of tree species, (b) there are not huge differences in those thermal tolerances among tree species, and (c) a given tree species may tolerate very high or low temperatures before it dies, but if its phenology advances (or delays) too much, it may cease to reproduce. 
