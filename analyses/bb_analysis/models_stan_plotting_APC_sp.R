@@ -35,6 +35,9 @@ use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
+#Choose lat analysis or not:
+use.latmod = TRUE
+
 ##
 source("source/bbstanleadin.R")
 ##
@@ -48,12 +51,15 @@ my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
 # non-z-scored models
-if(use.zscore==FALSE){
+if(use.zscore==FALSE & use.latmod==FALSE){
 load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
 #load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
-modelhere <- m2l.ni
+  modelhere <- m2l.ni
 }
-
+if(use.zscore = FALSE & use.latmod==TRUE){
+  load("../lat_analysis/stan/m2l.inter_lat.nonz.Rda")
+  modelhere <- m2l.inter
+}
 hist(bb.stan$chill.ports)
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 #species to plot
