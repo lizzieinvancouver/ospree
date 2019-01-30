@@ -38,7 +38,7 @@ use.cropspp = FALSE
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
-use.chillports = FALSE
+use.chillports = TRUE
 
 source("source/bbstanleadin.R")
 
@@ -95,7 +95,7 @@ datalist.lat <- with(lat.stan,
 
 
 setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.inter = stan('stan/winter_2level_lat_ncp.stan', data = datalist.lat,
+m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
               iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
 
 check_all_diagnostics(m2l.inter)
@@ -191,7 +191,7 @@ sort(unique(lat.stan$complex.wname))
 
 
 modelhere <- m2l.inter
-muplotfx(modelhere, "NCP_", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+muplotfx(modelhere, "Chillports", 7, 8, c(0,5), c(-20, 20) , 22, 5)
 muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
 
 
