@@ -105,10 +105,16 @@ for(s in 1:length(sp)){
     tempall<-read.csv(paste(spdir,"/",tempfiles[i],sep=""), header=TRUE)
     tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
     sprtemp <- mean(tempall$Month[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
-    budburstdoy<-60#March 1#change this to the bbdoy observed in pep!
     #extract the lat/long from the file name...argh!
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
+    
+    #to get reasonable bb doy, use PEP observations
+    pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
+    pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
+    pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
+    budburstdoy<-as.integer(mean(pepdat$DAY))              
+    #March 1#change this to the bbdoy observed in pep!
     daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
     chillport <- mean(chillall$Chill_portions)
     #make blank dataframe to fill with estimates
@@ -161,7 +167,7 @@ for(s in 1:length(sp)){
     #quartz()
     #par(mar=c(8,7,3,5), mfrow=c(1,2))
     plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
-         ylab="Days to BB", main=paste(sp[s],", lat=",round(lat,digits=2),", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), bty="l")
+         ylab="Days to BB", main=paste(sp[s],", lat=",round(lat,digits=2),", doy=",budburstdoy,", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), bty="l")
     pos.x <- 0
     pos.y <- predicts[1,2]
     points(pos.x, pos.y, cex=1.2, pch=19, bg="gray")
