@@ -180,9 +180,9 @@ check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
 #launch_shinystan(m2l.inter)
 
-m2l.inter.sum <- summary(m2l.inter.)$summary
-m2l.inter.sum[grep("mu_", rownames(m2l.inter.)),]
-m2l.inter.sum[grep("sigma_", rownames(m2l.inter.)),]
+m2l.inter.sum <- summary(m2l.inter)$summary
+m2l.inter.sum[grep("mu_", rownames(m2l.inter.sum)),]
+m2l.inter.sum[grep("sigma_", rownames(m2l.inter.sum)),]
 
 ys<-datalist.lat$y
 # posterior predictive checks....
