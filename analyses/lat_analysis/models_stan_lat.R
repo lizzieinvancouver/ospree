@@ -28,7 +28,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 use.chillports = TRUE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -177,9 +177,8 @@ if(use.zscore == FALSE){
 }
 
 check_all_diagnostics(m2l.inter)
-check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
-launch_shinystan(m2l.inter)
+#launch_shinystan(m2l.inter)
 
 m2l.inter.sum <- summary(m2l.inter.)$summary
 m2l.inter.sum[grep("mu_", rownames(m2l.inter.)),]
@@ -246,7 +245,7 @@ ggplot(inter, aes(x=photos, y=resps)) + geom_smooth(aes(x=photos, y=y_hilat, col
   
 
 #### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
-figpath <- "figures"
+figpath <- "../lat_analysis/figures"
 if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
   figpathmore <- "spcom_expramp_fp"
 }
@@ -255,7 +254,7 @@ if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
 }
 
 
-source("lat_muplot.R")
+source("../lat_analysis/lat_muplot.R")
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
