@@ -9,7 +9,7 @@ options(stringsAsFactors = FALSE)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/analyses/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -27,19 +27,22 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
-# Flags to choose for bbstanleadin.R
-use.noports = FALSE 
-use.zscore = TRUE# change to true for testing chill units
-# Default is species complex
+use.chillports = TRUE# change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = FALSE # change to false to use raw predictors
+
+# Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
+
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
-use.expchillonly = FALSE
-use.chillports = TRUE
 
+#Default is all chilling data
+use.expchillonly = FALSE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 source("source/bbstanleadin.R")
 
 bb.wlat <- bb.stan
@@ -74,14 +77,16 @@ lat.stan<-bb.wlat
 #lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
-lat.stan$lat.z <- (lat.stan$provenance.lat-mean(lat.stan$provenance.lat,na.rm=TRUE))/sd(lat.stan$provenance.lat,na.rm=TRUE)
 lat.stan$lat <- lat.stan$provenance.lat
 
 lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 
 lat.stan<-na.omit(lat.stan)
 
-datalist.lat <- with(lat.stan, 
+#z-scored models
+if(use.chillports == FALSE & use.zscore == TRUE){
+  source("../lat_analysis/source/bblat_zscorepreds.R")
+  datalist.lat <- with(lat.stan, 
                     list(y = resp, 
                          chill = chill.z, 
                          force = force.z, 
@@ -92,38 +97,112 @@ datalist.lat <- with(lat.stan,
                          n_sp = length(unique(lat.stan$complex))
                     )
 )
+}
 
+if(use.chillports == TRUE & use.zscore == TRUE){
+  source("../lat_analysis/source/bblat_zscorepreds.R")
+  datalist.lat <- with(lat.stan, 
+                       list(y = resp, 
+                            chill = chill.ports.z, 
+                            force = force.z, 
+                            photo = photo.z,
+                            lat = lat.z,
+                            sp = complex,
+                            N = nrow(lat.stan),
+                            n_sp = length(unique(lat.stan$complex))
+                       )
+  )
+}
 
-setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat,
-              iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+if(use.zscore == TRUE){m2l.inter = stan('../lat_analysis/stan/winter_2level_lat.stan', data = datalist.lat,
+              iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))}
 
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
 launch_shinystan(m2l.inter)
 
+m2l.inter.sum <- summary(m2l.inter)$summary
+m2l.inter.sum[grep("mu_", rownames(m2l.inter.sum)),]
+m2l.inter.sum[grep("sigma_", rownames(m2l.inter.sum)),]
 
-datalist.lat.nonz <- with(lat.stan, 
-                     list(y = resp, 
-                          chill = chill, 
-                          force = force, 
-                          photo = photo,
-                          lat = lat,
-                          sp = complex,
-                          N = nrow(lat.stan),
-                          n_sp = length(unique(lat.stan$complex))
-                     )
+ys<-datalist.lat$y
+# posterior predictive checks....
+if(FALSE){
+  y_pred <- extract(m2l.inter, 'y_ppc')
+  
+  par(mfrow=c(1,2))
+  hist(lat.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
+  hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
+}
+
+# Code if you want to save your models (do NOT push output to git)
+# Note that use.chillports is NOT generally included below ... expect when use.chillports==TRUE
+if(use.chillports == TRUE & use.zscore == TRUE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.chillport.z.Rda")
+}
+if(use.chillports == FALSE & use.zscore == TRUE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.z.Rda")
+}
+
+##Non-z-scored models
+
+if(use.chillports == FALSE & use.zscore == FALSE){
+  datalist.lat.nonz <- with(lat.stan, 
+                          list(y = resp, 
+                               chill = chill, 
+                               force = force, 
+                               photo = photo,
+                               lat = lat,
+                               sp = complex,
+                               N = nrow(lat.stan),
+                               n_sp = length(unique(lat.stan$complex))
+                          )
 )
-
-
-setwd("~/Documents/git/ospree/analyses/lat_analysis")
-m2l.inter = stan('stan/winter_2level_lat.stan', data = datalist.lat.nonz,
-                 iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+}
+if(use.chillports == TRUE & use.zscore == FALSE){
+  datalist.lat.nonz <- with(lat.stan, 
+                            list(y = resp, 
+                                 chill = chill.ports, 
+                                 force = force, 
+                                 photo = photo,
+                                 lat = lat,
+                                 sp = complex,
+                                 N = nrow(lat.stan),
+                                 n_sp = length(unique(lat.stan$complex))
+                            )
+  )
+}
+if(use.zscore == FALSE){
+  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat.stan', data = datalist.lat.nonz,iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+}
 
 check_all_diagnostics(m2l.inter)
+check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 
-#launch_shinystan(m2l.inter)
+launch_shinystan(m2l.inter)
 
+m2l.inter.sum <- summary(m2l.inter.)$summary
+m2l.inter.sum[grep("mu_", rownames(m2l.inter.)),]
+m2l.inter.sum[grep("sigma_", rownames(m2l.inter.)),]
+
+ys<-datalist.lat$y
+# posterior predictive checks....
+if(FALSE){
+  y_pred <- extract(m2l.inter, 'y_ppc')
+  
+  par(mfrow=c(1,2))
+  hist(lat.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
+  hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
+}
+
+# Code if you want to save your models (do NOT push output to git)
+# Note that use.chillports is NOT generally included below ... expect when use.chillports==TRUE
+if(use.chillports == TRUE & use.zscore == FALSE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.chillport.nonz.Rda")
+}
+if(use.chillports == FALSE & use.zscore == FALSE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.nonz.Rda")
+}
 
 
 
