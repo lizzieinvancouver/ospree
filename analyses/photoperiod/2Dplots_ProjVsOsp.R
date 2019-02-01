@@ -348,7 +348,7 @@ qrob.title <- expression(paste("B. ", italic("Quercus robur")))
 geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
+        text=element_text(family="sans"), legend.position = "none") + xlab("Latitude") + ylab("Daylength (hours)") +
   guides(col=FALSE) + ggtitle(qrob.title) +
   scale_colour_manual(values=c(cols, "black"), 
                       labels=c(current = "Current", 
@@ -378,7 +378,7 @@ doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type
   #geom_polygon( data=hulls.phen, alpha=.5, aes(fill=phen.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
+        legend.position = "none", legend.text = element_text(size=9), legend.title = element_text(size=10),
         legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
   labs(col="Data Type") + ggtitle("") +
   scale_colour_manual(name="Data Type", values=c(cols, "black"), 
@@ -396,13 +396,13 @@ doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type
   scale_y_continuous(limits=c(0, 25), breaks=c(0,4,8,12,16,20,24), expand=c(0,0))
 
 
-#library(egg)
+library(egg)
 library(grid)
 library(gridExtra)
 quartz()
 osp<-ggarrange(geo.photo.f, doy.photo.f, geo.photo, doy.photo, ncol=2, nrow=2)
 
-png("figures/2D_actual_combined.png", 
+png("photoperiod/figures/2D_actual_combined.png", 
     width=8,
     height=5, units="in", res = 350 )
 grid.draw(osp)
