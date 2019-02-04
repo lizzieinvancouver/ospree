@@ -24,7 +24,7 @@ figpath <- "figures"
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to true for using chillportions instead of utah units
+use.chillports = TRUE # change to true for using chillportions instead of utah units
 use.zscore = TRUE # change to false to use raw predictors
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -147,18 +147,21 @@ bb.stan.alt.exponly.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.exponly.
 
 nrow(bb.stan.alt.matchsp) ###781
 nrow(bb.stan.alt.exponly.matchsp) ###531 
+nrow(bb.stan.alt)
 ## Set up the bb.stan to use
-#bb.stan <- bb.stan.alt
+bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-bb.stan <- bb.stan.alt.matchsp
+#bb.stan <- bb.stan.alt.matchsp
 #bb.stan<-bb.stan.matchsp
 #bb.stan<-bb.stan.alt.exponly.matchsp
 
+source("source/bb_zscorepreds.R")
+
 ######################
 ####make datalist
-wein.data <- with(bb.stan, 
+wein.data.chillports <- with(bb.stan, 
                     list(y=resp, 
-                         chill = chill.z, 
+                         chill = chill.ports.z, 
                          force = force.z, 
                          photo = photo.z,
                          weinberger= weinberger,
@@ -168,16 +171,31 @@ wein.data <- with(bb.stan,
                     )
 )
 
+wein.data.utah <- with(bb.stan, 
+                             list(y=resp, 
+                                  chill = chill.z, 
+                                  force = force.z, 
+                                  photo = photo.z,
+                                  weinberger= weinberger,
+                                  sp = complex,
+                                  N = nrow(bb.stan),
+                                  n_sp = length(unique(bb.stan$complex))
+                             )
+)
+
 ###model
 #m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
              # iter = 2500, warmup=1500)
 
-wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data,
+wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data.chillports,
               iter = 2500, warmup=1500)
+summary
 
-wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
+wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
                   iter = 2500, warmup=1500)
 
+wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
+                     iter = 2500, warmup=1500)
 
 ###some weinberger plotss
 #wein.chill<-ggplot(bb.stan,aes(chill,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base() 
@@ -187,17 +205,21 @@ wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
 ##### r-square models
 observed.here <- bb.stan$resp
 
-#wein.sum <- summary(wein.mod.2)$summary
-#wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
- #          "b_weinberger", "b_cw","b_pw","b_fw"),]
+wein.sum <- summary(wein.mod.2)$summary
+wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+           "b_weinberger", "b_cw","b_pw","b_fw"),]
 
-wein.sum2 <- summary(wein.mod.3)$summary
-wein.sum2[c("mu_a_sp", "b_force", "b_photo", "b_chill",
-            "b_weinberger", "b_cw","b_pw","b_fw"),]
-
-
-
-
+wein.sum3.cp <- summary(wein.mod.3.cp)$summary
+matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
+            "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
+matchysp.cp$chilltype<-"chillportios"
+wein.sum3.ut <- summary(wein.mod.3.ut)$summary
+matchysp.ut<-rownames_to_column(as.data.frame(wein.sum3.ut[c("mu_a_sp", "b_force", "b_photo", "b_chill",
+               "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
+matchysp.ut$chilltype<-"Eutaw"
+matchysps<-rbind(matchysp.cp,matchysp.ut)
+ 
+#write.csv(matchysps,"poolintonly.csv")
 
 # pooling on main effects
 preds.wein.sum <- wein.sum[grep("yhat", rownames(wein.sum)),]
@@ -206,10 +228,10 @@ wein.mod.R2 <- 1- sum((observed.here-preds.wein.sum[,1])^2)/sum((observed.here-m
 summary(lm(preds.wein.sum[,1]~observed.here)) # Multiple R-squared:  
 
 ##pooling on just intercept 
-preds.wein.sum2 <- wein.sum2[grep("yhat", rownames(wein.sum2)),]
-wein.sum.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
-wein.mod.2.R2 <- 1- sum((observed.here-preds.wein.sum2[,1])^2)/sum((observed.here-mean(observed.here))^2)
-summary(lm(preds.wein.sum2[,1]~observed.here)) # Multiple R-squared: 
+preds.wein.sum3 <- wein.sum3.ut[grep("yhat", rownames(wein.sum3.ut)),]
+wein.sum.3.R2 <- 1- sum((observed.here-preds.wein.sum3[,1])^2)/sum((observed.here-mean(observed.here))^2)
+wein.mod.3.R2 <- 1- sum((observed.here-preds.wein.sum3[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.wein.sum3[,1]~observed.here)) # Multiple R-squared: 
 
 ### the pooling on main effects model seems better, since its results run counter to our prediction
 ##### Code below mdified from models_stan_plotting_pp.R
