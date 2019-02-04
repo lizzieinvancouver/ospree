@@ -1,10 +1,10 @@
 # housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
-
 # libraries
 library(shinystan)
 library(RColorBrewer)
+library(tidyverse)
 
 
 # Setting working directory. Add in your own path in an if statement for your file structure
@@ -117,18 +117,43 @@ studiestoincl.exponly <- c(unique(nonwein.expchillonly$dataIDstudyID), unique(we
 bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),]
 bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl.exponly)),]
 
+###exp onnly matchingibng
+bb.stan.alt.exponly.wein<-filter(bb.stan.alt.exponly,weinberger==1)
+unique(bb.stan.alt.exponly.wein$complex.wname)
+bb.stan.alt.exponly.nowein<-filter(bb.stan.alt.exponly,weinberger==0)
+unique(bb.stan.alt.exponly.nowein$complex.wname)
+
+###match species with wein and non within the subset "bb.stan.alt"
+unique(bb.stan.alt$complex.wname)
+bb.stan.alt.wein<-filter(bb.stan.alt,weinberger==1)
+unique(bb.stan.alt.wein$complex.wname)
+bb.stan.alt.nowein<-filter(bb.stan.alt,weinberger==0)
+unique(bb.stan.alt.nowein$complex.wname)
+
+sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname))
+sp.match.bb.alt ### only 11 sp
+
+sp.match.bb.alt.exponly<-intersect(unique(bb.stan.alt.exponly.wein$complex.wname), unique(bb.stan.alt.exponly.nowein$complex.wname))
+sp.match.bb.alt.exponly##only 6 species
+
 # now we exclude try to use matching species
 # rm fldest
-#bb.stan.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match),]
-bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
-bb.stan.matchsp$complex <- as.numeric(as.factor(bb.stan.matchsp$complex.wname))
+bb.stan.alt.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match.bb.alt),] ###if you want to exclude non-weinberger studesi that dont manipulate chilling
+bb.stan.alt.exponly.matchsp<- bb.stan.alt.exponly[which(bb.stan.alt.exponly$complex.wname %in% sp.match.bb.alt.exponly),] ###if want only exp non weinbergers
+#bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
 
+bb.stan.alt.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.matchsp$complex.wname))
+bb.stan.alt.exponly.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.exponly.matchsp$complex.wname))
 
-
+nrow(bb.stan.alt.matchsp) ###781
+nrow(bb.stan.alt.exponly.matchsp) ###531 
 ## Set up the bb.stan to use
-bb.stan <- bb.stan.alt
+#bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-#bb.stan <- bb.stan.matchsp
+bb.stan <- bb.stan.alt.matchsp
+#bb.stan<-bb.stan.matchsp
+#bb.stan<-bb.stan.alt.exponly.matchsp
+
 ######################
 ####make datalist
 wein.data <- with(bb.stan, 
@@ -155,20 +180,24 @@ wein.mod.3 = stan('stan/wein_intpoolonly.stan', data = wein.data,
 
 
 ###some weinberger plotss
-wein.chill<-ggplot(bb.stan,aes(chill,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base() 
-wein.force<-ggplot(bb.stan,aes(force,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
-wein.photo<-ggplot(bb.stan,aes(photo,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
+#wein.chill<-ggplot(bb.stan,aes(chill,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base() 
+#wein.force<-ggplot(bb.stan,aes(force,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
+#wein.photo<-ggplot(bb.stan,aes(photo,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
 
 ##### r-square models
 observed.here <- bb.stan$resp
 
-wein.sum <- summary(wein.mod.2)$summary
-wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
-           "b_weinberger", "b_cw","b_pw","b_fw"),]
+#wein.sum <- summary(wein.mod.2)$summary
+#wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+ #          "b_weinberger", "b_cw","b_pw","b_fw"),]
 
 wein.sum2 <- summary(wein.mod.3)$summary
 wein.sum2[c("mu_a_sp", "b_force", "b_photo", "b_chill",
             "b_weinberger", "b_cw","b_pw","b_fw"),]
+
+
+
+
 
 # pooling on main effects
 preds.wein.sum <- wein.sum[grep("yhat", rownames(wein.sum)),]
