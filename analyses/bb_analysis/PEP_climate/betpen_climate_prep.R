@@ -71,7 +71,7 @@ peps.post<-df.post[!duplicated(df.post$lat.long),] ### subset down to overlappin
 
 
 #r<-brick("/n/wolkovich_lab/Lab/Cat/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
-r<-brick("~/Desktop/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
+r<-brick("~/Desktop/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
 
 #bb<-df
 #bb$lat.long<-paste(bb$lat, bb$long, sep=",")
@@ -214,7 +214,7 @@ sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:11
+sites$siteslist<-1:14
 tavg<-r
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
@@ -312,7 +312,7 @@ extractchillpost<-function(tavg,period){
     #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
     #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
     
-    yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
+    yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
     #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
     
     yearlyresults[which(period==j),3]<-sites$siteslist[i]
@@ -335,7 +335,7 @@ chill_post<-extractchillpost(tavg,period) ## rerun from top but change period to
 pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
 
-predata<-data.frame(chillutah = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
+predata<-data.frame(chillport2 = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                                  pre$Mean.Chill.3, pre$Mean.Chill.4,
                                  pre$Mean.Chill.5, pre$Mean.Chill.6,
                                  pre$Mean.Chill.7, pre$Mean.Chill.8,
@@ -356,7 +356,7 @@ port$x<-NULL
 port$y<-NULL
   
 
-postdata<-data.frame(chillutah = c(post$Mean.Chill.1, post$Mean.Chill.2,
+postdata<-data.frame(chillport2 = c(post$Mean.Chill.1, post$Mean.Chill.2,
                                   post$Mean.Chill.3, post$Mean.Chill.4,
                                   post$Mean.Chill.5, post$Mean.Chill.6,
                                   post$Mean.Chill.7, post$Mean.Chill.8,
@@ -381,10 +381,16 @@ port.post$y<-NULL
 #allchills$num.years<-NULL
 #allchills<-na.omit(allchills)
 
-allchills.utah<-full_join(port, port.post)
-allchills.utah$year<-as.numeric(allchills.utah$year)
-allchills.utah<-full_join(allchills.utah, mat)
-#allchills$mat<-NULL
+ports<-full_join(port, port.post)
+ports$year<-as.numeric(ports$year)
+ports<-full_join(ports, mat)
+
+ports$mat2<-ports$mat
+ports$mat <- NULL
+
+allchills<-full_join(allchills, ports)
+write.csv(allchills, file="output/betpen_allchills.csv", row.names = FALSE)
+
 allchills.utah$num.years<-NULL
 allchills.utah<-na.omit(allchills.utah)
 
