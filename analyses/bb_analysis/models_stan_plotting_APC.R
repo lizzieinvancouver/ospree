@@ -26,7 +26,7 @@ figpath <- "figures"
 
 ## set up the flags
 use.chillports = TRUE
-use.zscore = FALSE
+use.zscore =FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -52,14 +52,23 @@ if(use.zscore==FALSE){
 load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
 #load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
 modelhere <- m2l.ni
+fit <- m2l.ni
 }
+if(use.zscore==TRUE){
+  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+  fit <- m2l.ni
+}
+fit.sum <- summary(fit)$summary
 
-hist(bb.stan$chill.ports)
-rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
+hist(bb.stan$chill.ports.z)
+#rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 #For main effects of model:
 # Select the lat,long and temperature change that you want
-lat<-48.16447
-long<-11.50293
+#lat<-48.16447
+#long<-11.50293
+
+#The below code only works for not z-scored models:
+
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 # Read in cobserved chilling from 1979 to 2014
@@ -174,3 +183,149 @@ plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
 legend(0,18,legend=c("Spring warming","Winter warming","Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
 dev.off()
 
+##NOT FORECASTING, BUT COMPARING Z AND NONZ MODELS
+###Now, instead of forecasting, use temperatures within the range of observations, using z-scored values:
+#use range of temperatures present in the z-scored data to look at effect of increasing chilling
+if(use.zscore==TRUE){
+temprange<-seq(from=min(bb.stan$force.z), to =max(bb.stan$force.z), by=abs(max(bb.stan$force.z)-min(bb.stan$force.z))/10)
+chillrange<-seq(from=min(bb.stan$chill.ports.z), to =max(bb.stan$chill.ports.z), by=abs(max(bb.stan$chill.ports.z)-min(bb.stan$chill.ports.z))/10)
+photorange<-seq(from=min(bb.stan$photo.z), to =max(bb.stan$photo.z), by=abs(max(bb.stan$photo.z)-min(bb.stan$photo.z))/10)
+mntemp <- mean(bb.stan$force.z)
+mndaylength <- mean(bb.stan$photo.z)
+mnchillport <- mean(bb.stan$chill.ports.z)
+}
+if(use.zscore==FALSE){
+  temprange<-seq(from=min(bb.stan$force), to =max(bb.stan$force), by=abs(max(bb.stan$force)-min(bb.stan$force))/10)
+  chillrange<-seq(from=min(bb.stan$chill.ports), to =max(bb.stan$chill.ports), by=abs(max(bb.stan$chill.ports)-min(bb.stan$chill.ports))/10)
+  photorange<-seq(from=min(bb.stan$photo), to =max(bb.stan$photo), by=abs(max(bb.stan$photo)-min(bb.stan$photo))/10)
+  mntemp <- mean(bb.stan$force)
+  mndaylength <- mean(bb.stan$photo)
+  mnchillport <- mean(bb.stan$chill.ports)
+}
+
+## Plotting. Goal  is mostly to compare z-scored and nonz models
+# First, we estimate the posteriors for each thing we want to plot...
+list_of_draws <- extract(fit)
+print(names(list_of_draws))
+
+est.bb <- function(fit, temp, daylength, chillport){
+    listofdraws <- extract(fit)
+    avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*temp + 
+    listofdraws$mu_b_photo_sp*daylength + listofdraws$mu_b_chill_sp*chillport
+    yebbest <- list(avgbb)
+    return(yebbest)
+}
+
+
+#make blank dataframe to fill with estimates
+predict.temp <- as.data.frame(matrix(NA,ncol=4,nrow=11))
+colnames(predict.temp)<-c("temp","daystobb","daystobb.05","daystobb.95")
+predict.chill <- as.data.frame(matrix(NA,ncol=4,nrow=11))
+colnames(predict.chill)<-c("chill","daystobb","daystobb.05","daystobb.95")
+predict.photo <- as.data.frame(matrix(NA,ncol=4,nrow=11))
+colnames(predict.photo)<-c("photo","daystobb","daystobb.05","daystobb.95")
+#forcing
+for (i in 1:length(temprange)){
+  bbposteriors <- est.bb(fit, temprange[i], mndaylength, mnchillport)
+  meanz <- unlist(lapply(bbposteriors, mean))
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
+  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
+  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
+  predict.temp[i,]<-c(temprange[i],meanz,quant05per,quant95per)
+}
+#chilling
+for (i in 1:length(chillrange)){
+  bbposteriors <- est.bb(fit, mntemp, mndaylength, chillrange[i])
+  meanz <- unlist(lapply(bbposteriors, mean))
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
+  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
+  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
+  predict.chill[i,]<-c(chillrange[i],meanz,quant05per,quant95per)
+}
+#daylength
+for (i in 1:length(photorange)){
+  bbposteriors <- est.bb(fit, mntemp, photorange[i], mnchillport)
+  meanz <- unlist(lapply(bbposteriors, mean))
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
+  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
+  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
+  predict.photo[i,]<-c(photorange[i],meanz,quant05per,quant95per)
+}
+
+if(use.zscore==TRUE){
+ylim = c(-5, 60)
+figname<-"plot_apc_z.pdf"
+pdf(file.path(figpath,figname), width = 9, height = 6)
+
+#quartz()
+par(mar=c(4,4,1,3), mfrow=c(3,1))
+plot(predict.temp$temp,predict.temp$daystobb, xlab="Forcing temperature (C)",
+     ylab="Days to BB", xaxt="n",bty="l", pch=21, bg="gray", ylim=ylim)
+for (p in 1:length(predict.temp$daystobb)){
+  arrows( predict.temp$temp[p],predict.temp$daystobb.05[p],predict.temp$temp[p],predict.temp$daystobb.95[p], 
+          length=0.05, angle=90, code=3)
+}
+points(predict.temp$temp,predict.temp$daystobb, pch=21, bg="gray")
+at=c(-2, -1, 0, 1, 2,3)
+labels=at*sd(bb.stan$force)+mean(bb.stan$force)
+axis(side=1, at=at, labels=round(labels, 1))
+
+plot(predict.chill$chill,predict.chill$daystobb, xlab="Chilling (chill portions)",
+     ylab="Days to BB", xaxt="n",bty="l", pch=21, bg="gray", ylim=ylim)
+for (p in 1:length(predict.chill$daystobb)){
+  arrows( predict.chill$chill[p],predict.chill$daystobb.05[p],predict.chill$chill[p],predict.chill$daystobb.95[p], 
+          length=0.05, angle=90, code=3)
+}
+points(predict.chill$chill,predict.chill$daystobb, pch=21, bg="gray")
+at=c(-2, -1, 0, 1, 2,3)
+labels=at*sd(bb.stan$chill)+mean(bb.stan$chill)
+axis(side=1, at=at, labels=round(labels, 1))
+
+plot(predict.photo$photo,predict.photo$daystobb, xlab="Daylength (hours)",
+     ylab="Days to BB", xaxt="n",bty="l", pch=21, bg="gray", ylim=ylim)
+for (p in 1:length(predict.chill$daystobb)){
+  arrows( predict.photo$photo[p],predict.photo$daystobb.05[p],predict.photo$photo[p],predict.photo$daystobb.95[p], 
+          length=0.05, angle=90, code=3)
+}
+points(predict.photo$photo,predict.photo$daystobb, pch=21, bg="gray")
+at=c(-2, -1, 0, 1, 2,3)
+labels=at*sd(bb.stan$photo)+mean(bb.stan$photo)
+axis(side=1, at=at, labels=round(labels, 1))
+
+dev.off()
+}
+
+
+if(use.zscore==FALSE){
+  ylim = c(-5, 60)
+  figname<-"plot_apc_nonz.pdf"
+  pdf(file.path(figpath,figname), width = 9, height = 6)
+  
+  #quartz()
+  par(mar=c(4,4,1,3), mfrow=c(3,1))
+  plot(predict.temp$temp,predict.temp$daystobb, xlab="Forcing temperature (C)",
+       ylab="Days to BB",bty="l", pch=21, bg="gray", ylim=ylim)
+  for (p in 1:length(predict.temp$daystobb)){
+    arrows( predict.temp$temp[p],predict.temp$daystobb.05[p],predict.temp$temp[p],predict.temp$daystobb.95[p], 
+            length=0.05, angle=90, code=3)
+  }
+  points(predict.temp$temp,predict.temp$daystobb, pch=21, bg="gray")
+  
+  plot(predict.chill$chill,predict.chill$daystobb, xlab="Chilling (chill portions)",
+       ylab="Days to BB", bty="l", pch=21, bg="gray", ylim=ylim)
+  for (p in 1:length(predict.chill$daystobb)){
+    arrows( predict.chill$chill[p],predict.chill$daystobb.05[p],predict.chill$chill[p],predict.chill$daystobb.95[p], 
+            length=0.05, angle=90, code=3)
+  }
+  points(predict.chill$chill,predict.chill$daystobb, pch=21, bg="gray")
+  
+  plot(predict.photo$photo,predict.photo$daystobb, xlab="Daylength (hours)",
+       ylab="Days to BB", bty="l", pch=21, bg="gray", ylim=ylim)
+  for (p in 1:length(predict.chill$daystobb)){
+    arrows( predict.photo$photo[p],predict.photo$daystobb.05[p],predict.photo$photo[p],predict.photo$daystobb.95[p], 
+            length=0.05, angle=90, code=3)
+  }
+  points(predict.photo$photo,predict.photo$daystobb, pch=21, bg="gray")
+  
+  dev.off()
+}

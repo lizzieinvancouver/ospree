@@ -1,7 +1,7 @@
-## Started 23 Jan 2019 ##
-## By Ailene  ##
+## Started 3 Jan 2019 ##
+## By Ailene ##
 
-## Marginal effects from Stan models for particular species##
+## Marginal effects from Stan models ##
 ## Based off models_stan_plotting_APC.R ##
 
 ############################################
@@ -26,7 +26,7 @@ figpath <- "figures"
 
 ## set up the flags
 use.chillports = TRUE
-use.zscore = TRUE
+use.zscore = FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -39,6 +39,24 @@ use.expchillonly = FALSE
 source("source/bbstanleadin.R")
 ##
 
+
+
+bb.wlat <- bb.stan
+bb.wlat <- within(bb.wlat, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+bb.wlat <- subset(bb.wlat, bb.wlat$prov.lat>1)  
+
+#lat.stan<-bb.wlat.spp
+lat.stan<-bb.wlat
+#write.csv(lat.stan, "~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_arm.csv", row.names = FALSE)
+#lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
+lat.stan<-subset(lat.stan, lat.stan$resp<600)
+
+lat.stan$lat <- lat.stan$provenance.lat
+
+lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
+
+lat.stan<-na.omit(lat.stan)
+
 # Set up colors (more than used currently ...
 
 cols <- adjustcolor(c("maroon4", "lightskyblue","purple4"), alpha.f = 0.8) 
@@ -49,14 +67,11 @@ alphahere = 0.4
 
 # non-z-scored models
 if(use.zscore==FALSE){
-load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
-#load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
- fit <- m2l.ni
+load("../lat_analysis/stan/m2l.inter.lat.chillport.nonz.Rda") # m2l.ni
+modelhere <- m2l.inter
 }
-if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
-  fit <- m2l.ni
-}
+fit <-modelhere
+
 fit.sum <- summary(fit)$summary
 
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
@@ -70,7 +85,7 @@ tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you
 
 #Define the function we will use to estimate budburst
 getspest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwinter,
-                      daylengthwarmspr, daylengthwarmwin, daylengthwarmsprwin){
+                        daylengthwarmspr, daylengthwarmwin, daylengthwarmsprwin){
   listofdraws <- extract(fit)
   avgbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*sprtemp + 
     listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chillport
@@ -139,7 +154,7 @@ for(s in 1:length(sp)){
     
     colnames(predicts)<-colnames(predicts.25per) <-colnames(predicts.75per) <-
       colnames(predicts.wdl)<-colnames(predicts.25per.wdl) <-colnames(predicts.75per.wdl) <-
-       c("warming","nowarm","sprwarm","winwarm","bothwarm")
+      c("warming","nowarm","sprwarm","winwarm","bothwarm")
     print(lat)
     for (j in 1:length(tempforecast)){
       chillforfilename<-paste(spdir,"/","chillforecast",tempforecast[j],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
