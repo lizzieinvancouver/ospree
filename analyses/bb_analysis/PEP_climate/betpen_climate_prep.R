@@ -17,8 +17,10 @@ library(reshape2)
 library(data.table)
 library(chillR)
 library(egg)
+library(RColorBrewer)
 
 setwd("~/Documents/git/ospree/analyses/bb_analysis/PEP_climate")
+#allchills <- read.csv("output/betpen_allchills.csv", header=TRUE)
 #d<-read.csv("/n/wolkovich_lab/Lab/Cat/PEP725_DE_Betpen.csv", header=TRUE)
 gersites<-read.csv("input/PEP725_DE_stations_betpen.csv", header=TRUE)
 d<-read.csv("input/bbch_betpen.csv", header=TRUE)
@@ -71,7 +73,7 @@ peps.post<-df.post[!duplicated(df.post$lat.long),] ### subset down to overlappin
 
 
 #r<-brick("/n/wolkovich_lab/Lab/Cat/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
-r<-brick("~/Desktop/Big Data Items/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
+r<-brick("~/Desktop/tg_0.25deg_reg_v16.0.nc", varname="tg", sep="")
 
 #bb<-df
 #bb$lat.long<-paste(bb$lat, bb$long, sep=",")
@@ -156,7 +158,6 @@ postCC<-postCC[(postCC$year>=2000 & postCC$year<=2010),]
 postCC$num.years<-ave(postCC$mat, postCC$lat.long, FUN=length)
 
 
-##### Let's make some plots! #####
 mat<-full_join(preCC, postCC)
 mat$cc<-ifelse(mat$year>=1950 & mat$year<=1960, "apre", "post")
 foo<-mat[(mat$num.years>=5),]
@@ -168,22 +169,9 @@ bestsites<-bestsites[(bestsites$Freq>1),]
 mat<-foo[(foo$lat.long %in% bestsites$Var1),]
 
 #write.csv(mat, file="output/betpen_mat.csv", row.names=FALSE)
-check<-read.csv("output/betpen_mat.csv", header=TRUE)
+#check<-read.csv("output/betpen_mat.csv", header=TRUE)
 
-#osp<-read.csv("..//..//output/ospree_clean_withchill_BB.csv", header=TRUE)
-#osp.bp<-subset(osp, osp$genus=="Betula" & osp$species=="pendula")
-#osp.bp<-subset(osp.bp, select=c(year, forcetemp,response.time, respvar.simple))
-#osp.bp$forcetemp<-as.numeric(osp.bp$forcetemp)
-#osp.bp<-na.omit(osp.bp)
-#osp.bp<-osp.bp[(osp.bp$respvar.simple=="daystobudburst"),]
-
-#osp.bp$mat<-osp.bp$forcetemp
-#osp.bp$lo<-osp.bp$response.time
-
-#mat<-full_join(mat, osp.bp)
-#mat$cc<-ifelse(is.na(mat$cc), "ospree", mat$cc)
-
-
+if(FALSE){
 xlab <- "Mean Spring Temperature (°C)"
 
 quartz()
@@ -202,10 +190,9 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
                               post = "2000-2010")) +
   scale_x_discrete(labels=c("apre" = "1950 - 1960",
                             "post" = "2000 - 2010"))
-
+}
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
-# mat <- read.csv("output/betpen_mat.csv", header=TRUE)
 #period<-1950:1960
 period<-2000:2010
 sites<-subset(mat, select=c(lat, long, lat.long))
@@ -214,7 +201,7 @@ sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:14
+sites$siteslist<-1:16
 tavg<-r
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
@@ -312,7 +299,7 @@ extractchillpost<-function(tavg,period){
     #yearlyresults[which(period==j),1]<-mean(utahssum,na.rm=T)
     #yearlyresults[which(period==j),2]<-sd(utahssum,na.rm=T)
     
-    yearlyresults[which(period==j),1]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
+    yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
     #yearlyresults[which(period==j),2]<-sd(chillcalc.mn,na.rm=T)
     
     yearlyresults[which(period==j),3]<-sites$siteslist[i]
@@ -335,20 +322,25 @@ chill_post<-extractchillpost(tavg,period) ## rerun from top but change period to
 pre<-as.data.frame(chill_pre)
 post<-as.data.frame(chill_post)
 
-predata<-data.frame(chillport2 = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
+predata<-data.frame(chillutah5 = c(pre$Mean.Chill.1, pre$Mean.Chill.2,
                                  pre$Mean.Chill.3, pre$Mean.Chill.4,
                                  pre$Mean.Chill.5, pre$Mean.Chill.6,
                                  pre$Mean.Chill.7, pre$Mean.Chill.8,
                                  pre$Mean.Chill.9, pre$Mean.Chill.10,
                                  pre$Mean.Chill.11, pre$Mean.Chill.12,
-                                 pre$Mean.Chill.13, pre$Mean.Chill.14),
+                                 pre$Mean.Chill.13, pre$Mean.Chill.14,
+                                 pre$Mean.Chill.15, pre$Mean.Chill.16,
+                                 pre$Mean.Chill.17),
+                    
                    siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
                             pre$`Site Num..3`, pre$`Site Num..4`,
                             pre$`Site Num..5`, pre$`Site Num..6`,
                             pre$`Site Num..7`, pre$`Site Num..8`,
                             pre$`Site Num..9`, pre$`Site Num..10`,
                             pre$`Site Num..11`, pre$`Site Num..12`,
-                            pre$`Site Num..13`, pre$`Site Num..14`),
+                            pre$`Site Num..13`, pre$`Site Num..14`,
+                            pre$`Site Num..15`, pre$`Site Num..16`,
+                            pre$`Site Num..17`),
                    year = rownames(pre))
 
 port<-full_join(predata, sites)
@@ -356,18 +348,24 @@ port$x<-NULL
 port$y<-NULL
   
 
-postdata<-data.frame(chillport2 = c(post$Mean.Chill.1, post$Mean.Chill.2,
+postdata<-data.frame(chillutah5 = c(post$Mean.Chill.1, post$Mean.Chill.2,
                                   post$Mean.Chill.3, post$Mean.Chill.4,
                                   post$Mean.Chill.5, post$Mean.Chill.6,
                                   post$Mean.Chill.7, post$Mean.Chill.8,
                                   post$Mean.Chill.9, post$Mean.Chill.10,
-                                  post$Mean.Chill.11, post$Mean.Chill.12),
+                                  post$Mean.Chill.11, post$Mean.Chill.12,
+                                  post$Mean.Chill.13, post$Mean.Chill.14,
+                                  post$Mean.Chill.15, post$Mean.Chill.16,
+                                  post$Mean.Chill.17),
                     siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
                                   post$`Site Num..3`, post$`Site Num..4`,
                                   post$`Site Num..5`, post$`Site Num..6`,
                                   post$`Site Num..7`, post$`Site Num..8`,
                                   post$`Site Num..9`, post$`Site Num..10`,
-                                  post$`Site Num..11`, post$`Site Num..12`),
+                                  post$`Site Num..11`, post$`Site Num..12`,
+                                  post$`Site Num..13`, post$`Site Num..14`,
+                                  post$`Site Num..15`, post$`Site Num..16`,
+                                  post$`Site Num..17`),
                     year = rownames(post))
 
 port.post<-full_join(postdata, sites)
@@ -385,28 +383,87 @@ ports<-full_join(port, port.post)
 ports$year<-as.numeric(ports$year)
 ports<-full_join(ports, mat)
 
-ports$mat2<-ports$mat
+ports$mat5<-ports$mat
 ports$mat <- NULL
+ports$winter <- as.integer(ports$winter)
 
-allchills<-full_join(allchills, ports)
-write.csv(allchills, file="output/betpen_allchills.csv", row.names = FALSE)
+#allchillsutah <- ports
 
+allchillsutah<-full_join(allchillsutah, ports)
+write.csv(allchillsutah, file="output/betpen_allchills_utah.csv", row.names = FALSE)
+
+if(FALSE){
 allchills.utah$num.years<-NULL
 allchills.utah<-na.omit(allchills.utah)
 
 allchills <- full_join(allchills, allchills.utah)
+}
 
 #xlab <- "Total Chill Portions"
 xlab <- "Total Utah Chill"
 
-quartz()
-chill.plot.utah<-ggplot(allchills, aes(x=chillutah, y=lo, col=cc)) + geom_line(aes(col=cc), stat="smooth", method="lm") + 
-  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Years", values=c(apre = "darkblue", 
-                                            post = "darkred"),
-                     labels=c(apre = "1950-1960",
-                              post = "2000-2010")) + geom_point(aes(col=cc), alpha=0.3)
+pepchill <- subset(allchillsutah, select=c("lo", "cc", "chillutah1", "chillutah2", "chillutah3", "chillutah4", "chillutah5",
+                                       "siteslist", "lat.long"))
+pepchill <- gather(pepchill, "replicate", "chilling", -lo, -cc, -siteslist, -lat.long)
+pepchill <- na.omit(pepchill)
 
+post.cols <- colorRampPalette(brewer.pal(7,"Reds"))(5)
+pre.cols <- colorRampPalette(brewer.pal(7,"Blues"))(5)
+
+peppre <- pepchill[(pepchill$cc=="apre"),]
+peppost <- pepchill[(pepchill$cc=="post"),]
+
+quartz()
+chill.plot.pre<-ggplot(pepchill, aes(x=chilling, y=lo, col=replicate)) + geom_line(data=peppre, aes(col=replicate), stat="smooth", method="lm") + 
+  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + xlim(1450, 3500) +
+  geom_point(data=pepchill[(pepchill$cc=="apre"),],
+              aes(col=replicate), alpha=0.3) + 
+ scale_color_manual(name="Years", values=pre.cols,
+                     labels=c(apre = "1950-1960")) 
+   
+quartz()   
+chill.plot.post<-ggplot(pepchill, aes(x=chilling, y=lo, col=replicate)) + #geom_line(data=peppre, aes(col=replicate), stat="smooth", method="lm") + 
+     geom_line(data=peppost, aes(col=replicate), stat="smooth", method="lm") +
+     theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + xlim(1450, 3500) +
+     geom_point(data=pepchill[(pepchill$cc=="post"),],
+              aes(col=replicate), alpha=0.3) +
+   scale_color_manual(name="Years", values=post.cols,
+                      labels=c(post = "2000-2010"))   
+
+
+xlab <- "Mean Spring Temperature"
+
+
+pepmat <- subset(allchillsutah, select=c("lo", "cc", "mat1", "mat2", "mat3", "mat4", "mat5",
+                                       "siteslist", "lat.long"))
+pepmat <- gather(pepmat, "replicate", "mat", -lo, -cc, -siteslist, -lat.long)
+pepmat <- na.omit(pepmat)
+
+post.cols <- colorRampPalette(brewer.pal(7,"Reds"))(5)
+pre.cols <- colorRampPalette(brewer.pal(7,"Blues"))(5)
+
+peppremat <- pepmat[(pepmat$cc=="apre"),]
+peppostmat <- pepmat[(pepmat$cc=="post"),]
+
+quartz()
+mat.plot.pre<-ggplot(pepmat, aes(x=mat, y=lo, col=replicate)) + geom_line(data=peppremat, aes(col=replicate), stat="smooth", method="lm") + 
+  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") + ggtitle("Before 1980") + ylim(65, 150) + xlim(7, 16) +
+  geom_point(data=pepmat[(pepmat$cc=="apre"),],
+             aes(col=replicate), alpha=0.3) + 
+  scale_color_manual(name="Years", values=pre.cols,
+                     labels=c(apre = "1950-1960"))  
+  
+quartz()   
+mat.plot.post<-ggplot(pepmat, aes(x=mat, y=lo, col=replicate)) + #geom_line(data=peppre, aes(col=replicate), stat="smooth", method="lm") + 
+  geom_line(data=peppostmat, aes(col=replicate), stat="smooth", method="lm") +
+  theme_classic() + labs(x=xlab, y="Day of Leafout") + theme(legend.position="none") + ggtitle("After 1980") +ylim(65, 150) + xlim(7, 16) +
+  geom_point(data=pepmat[(pepmat$cc=="post"),],
+             aes(col=replicate), alpha=0.3) +
+  scale_color_manual(name="Years", values=post.cols,
+                     labels=c(post = "2000-2010")) 
+
+
+if(FALSE){
 g_legend<-function(a.gplot){
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
@@ -414,8 +471,10 @@ g_legend<-function(a.gplot){
   return(legend)}
 
 mylegend<-g_legend(chill.plot.utah)
+}
+
 quartz()
-grid.arrange(mat.plot, chill.plot, chill.plot.utah, mylegend, ncol=4, widths=c(2, 2, 2, 0.5))
+grid.arrange(mat.plot.pre, mat.plot.post, chill.plot.pre, chill.plot.post, ncol=2, nrow=2)
 
 write.csv(allchills, file="output/betpen_matportutah.csv", row.names = FALSE)
 #write.csv(mat, file="output/betpen_mat.csv", row.names = FALSE)
