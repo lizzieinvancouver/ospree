@@ -185,7 +185,12 @@ dev.off()
 
 ##NOT FORECASTING, BUT COMPARING Z AND NONZ MODELS
 ###Now, instead of forecasting, use temperatures within the range of observations, using z-scored values:
+#choose your desired credible intervals:
+qlo=0.05
+qhi=0.95
+
 #use range of temperatures present in the z-scored data to look at effect of increasing chilling
+
 if(use.zscore==TRUE){
 temprange<-seq(from=min(bb.stan$force.z), to =max(bb.stan$force.z), by=abs(max(bb.stan$force.z)-min(bb.stan$force.z))/10)
 chillrange<-seq(from=min(bb.stan$chill.ports.z), to =max(bb.stan$chill.ports.z), by=abs(max(bb.stan$chill.ports.z)-min(bb.stan$chill.ports.z))/10)
@@ -228,28 +233,28 @@ colnames(predict.photo)<-c("photo","daystobb","daystobb.05","daystobb.95")
 for (i in 1:length(temprange)){
   bbposteriors <- est.bb(fit, temprange[i], mndaylength, mnchillport)
   meanz <- unlist(lapply(bbposteriors, mean))
-  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
-  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
-  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
-  predict.temp[i,]<-c(temprange[i],meanz,quant05per,quant95per)
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(qlo, 0.5, qhi)))
+  quantlo <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qlo))))
+  quanthi <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qhi))))
+  predict.temp[i,]<-c(temprange[i],meanz,quantlo,quanthi)
 }
 #chilling
 for (i in 1:length(chillrange)){
   bbposteriors <- est.bb(fit, mntemp, mndaylength, chillrange[i])
   meanz <- unlist(lapply(bbposteriors, mean))
-  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
-  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
-  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
-  predict.chill[i,]<-c(chillrange[i],meanz,quant05per,quant95per)
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(qlo, 0.5, qhi)))
+  quantlo <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qlo))))
+  quanthi <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qhi))))
+  predict.chill[i,]<-c(chillrange[i],meanz,quantlo,quanthi)
 }
 #daylength
 for (i in 1:length(photorange)){
   bbposteriors <- est.bb(fit, mntemp, photorange[i], mnchillport)
   meanz <- unlist(lapply(bbposteriors, mean))
-  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.05, 0.5, 0.95)))
-  quant05per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.05))))
-  quant95per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.95))))
-  predict.photo[i,]<-c(photorange[i],meanz,quant05per,quant95per)
+  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(qlo, 0.5, qhi)))
+  quantlo <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qlo))))
+  quanthi <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(qhi))))
+  predict.photo[i,]<-c(photorange[i],meanz,quantlo,quanthi)
 }
 
 if(use.zscore==TRUE){
@@ -266,7 +271,7 @@ for (p in 1:length(predict.temp$daystobb)){
           length=0.05, angle=90, code=3)
 }
 points(predict.temp$temp,predict.temp$daystobb, pch=21, bg="gray")
-at=c(-2, -1, 0, 1, 2,3)
+at=c(-2, -1, 0, 1, 2, 3)
 labels=at*sd(bb.stan$force)+mean(bb.stan$force)
 axis(side=1, at=at, labels=round(labels, 1))
 
