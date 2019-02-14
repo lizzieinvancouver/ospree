@@ -107,12 +107,12 @@ for(s in 1:length(sp)){
   spestsqlo<-c()
   spestsqhi<-c()
   #sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  sites.toplot<-seq(1,numsites0,by=1)#
+  sites.toplot<-seq(1,numsites,by=1)#
   #can also plot a single site, both species
   #sites.toplot<-21
   #quartz(width=9,height=5)
   #par(mar=c(8,4,3,4), mfrow=c(1,2))
-  
+  i
   for (i in sites.toplot){
     #for now do with i=1 and i=50 for each species (min and max)
     # Read in observed chilling from 1950 to 2014
@@ -282,14 +282,46 @@ nameqhi<-paste(sp[s],lat,long,"forecast.qhi.csv",sep=".")
 
 library(ggplot2)
 library(viridis)
-
+z<-c()
+for(i in 1:7){
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
+  z=c(z,warmtemp$bothwarmdiffdays)
+}
 #test_data = read.csv("test.csv", sep = "")#read in a spests file
-cols<-heat.colors(9)
+cols<-rev(heat.colors(length(seq(0,max(as.integer(abs(z)))))))
 warm0<-spests[spests$warming==0,]
 
-#Plot chnage with winter warming and both warming
+#Plot change with winter warming and both warming
 quartz(height = 4, width = 9)
-par(mfrow=c(2,7))
+par(mfrow=c(2,7),mar=c(1,1,1,1), oma=c(3,3,1,1))
+
+
+#first just warmwinter
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$winwarmdiffdays<-warmtemp$winwarm-warm0$winwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  plot(x,y,type="p", pch=21, bg=cols[as.integer(abs(warmtemp$winwarmdiffdays))], xlab="Long",ylab="Lat",main=paste(i,"deg"))
+}
+#now warmboth
+
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  plot(x,y,type="p", pch=21, bg=cols[as.integer(abs(warmtemp$bothwarmdiffdays))], xlab="Long",ylab="Lat")
+}
+legend()
+image(xygrid,breaks=seq(min(z),max(z),length=12), col=cols)
+#earliest shifts= more red
+
+legend()
+cols
 
 ##FF0000=red; #FFFF00=yellow
 #first just warmwinter
@@ -302,16 +334,16 @@ for(i in 1:7){
   z=warmtemp$winwarmdiffdays
   print(x);print(y); print(z)
 interp(x,y,z,xo=seq(min(x),max(x),by=0.5),yo=seq(min(y),max(y),by=0.5),extrap=FALSE,linear=TRUE) -> xygrid
-image(xygrid,breaks=seq(min(z),max(z),length=10), col=cols)
+image(xygrid,breaks=seq(min(z),max(z),length=12), col=cols)
 }
 #now warmboth
+
 for(i in 1:7){
   #for now, plot 1 eeffects of 1 degree of warming
   warmtemp<-spests[spests$warming==i,]
   warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
   x=warmtemp$lon
   y=warmtemp$lat
-  z=warmtemp$bothwarmdiffdays
   interp(x,y,z,xo=seq(min(x),max(x),by=0.5),yo=seq(min(y),max(y),by=0.5),extrap=FALSE,linear=TRUE) -> xygrid
   image(xygrid,breaks=seq(min(z),max(z),length=10), col=cols)
 }
@@ -323,7 +355,20 @@ cols
 
 #couldn't get the below to work, so trying this:
 
-ggplot() + geom_tile(data = warm1, aes(x=lon, y = lat, fill=winwarmdiffdays)) + 
+ggplot() + geom_tile(data = warm1, aes(x=warmtemp$lon, y = warmtemp$lat, fill=bothwarmdiffdays)) + 
   coord_fixed(ratio = 1) +
   scale_fill_viridis(direction = -1) +
   theme_bw()
+x=warmtemp$lon
+y=warmtemp$lat
+z=warmtemp$bothwarmdiffdays
+
+
+#---------------------------
+# PLOT: heatmap
+# - here, we use geom_tile()
+#---------------------------
+
+ggplot(data = warmtemp, aes(x = warmtemp$lon, y = warmtemp$lat)) +
+  geom_tile(aes(fill = bothwarmdiffdays)) 
+

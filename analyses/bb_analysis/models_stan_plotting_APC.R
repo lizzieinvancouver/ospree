@@ -12,7 +12,7 @@ options(stringsAsFactors = FALSE)
 #libraries
 library(RColorBrewer)
 library(geosphere)
-
+library(rstan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
@@ -59,13 +59,13 @@ if(use.zscore==TRUE){
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
-
-hist(bb.stan$chill.ports.z)
-#rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
+quartz()
+hist(bb.stan$chill.ports)
+rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 #For main effects of model:
 # Select the lat,long and temperature change that you want
-#lat<-48.16447
-#long<-11.50293
+lat<-48.16447
+long<-11.50293
 
 #The below code only works for not z-scored models:
 
@@ -87,8 +87,8 @@ chillport <- mean(chillall$Chill_portions)
 fit <-modelhere
 
 list_of_draws <- extract(fit)
-print(names(list_of_draws))
-str(list_of_draws$mu_a_sp)
+#print(names(list_of_draws))
+#str(list_of_draws$mu_a_sp)
 
 
 getest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwinter,
@@ -334,3 +334,4 @@ if(use.zscore==FALSE){
   
   dev.off()
 }
+#Make a 3d plot
