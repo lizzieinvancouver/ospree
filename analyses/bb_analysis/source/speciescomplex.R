@@ -31,7 +31,7 @@ sppcomplexfx <- function(d){
   d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
   
   xx<-d
-  ### make a list of which studies manipulate what.
+  ### make a list of which studies manipulate what (actually a list of how many times a species is represented for each factor (latitude etc.) ... study is not counted at all for the first few rows here)
   xx <- within(xx, { prov.lat <- ave(provenance.lat, name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
   xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
   xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
@@ -148,8 +148,9 @@ sppcomplexfx <- function(d){
   
   bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
   bb.all.wtaxa$use <- NULL
-  bb.all.wtaxa$fieldsample.date <- NULL
-  bb.all.wtaxa$chilldays <- NULL
+  # bb.all.wtaxa$fieldsample.date <- NULL
+  # bb.all.wtaxa$chilldays <- NULL
+  # Not really removing any NAs here
   bb.noNA.wtaxa <- bb.all.wtaxa
   bb.noNA.wtaxa$complex.wname <- bb.noNA.wtaxa$complex
   bb.noNA.wtaxa$complex <- as.numeric(as.factor(bb.noNA.wtaxa$complex))

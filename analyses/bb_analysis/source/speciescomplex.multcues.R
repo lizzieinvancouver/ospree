@@ -143,8 +143,8 @@ sort(unique(bb.wtaxa$complex[bb.wtaxa$use=="Y"]))
 
 bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
 bb.all.wtaxa$use <- NULL
-bb.all.wtaxa$fieldsample.date <- NULL
-bb.all.wtaxa$chilldays <- NULL
+# bb.all.wtaxa$fieldsample.date <- NULL
+# bb.all.wtaxa$chilldays <- NULL
 bb.noNA.wtaxa <- bb.all.wtaxa
 bb.noNA.wtaxa$complex.wname <- bb.noNA.wtaxa$complex
 bb.noNA.wtaxa$complex <- as.numeric(as.factor(bb.noNA.wtaxa$complex))
