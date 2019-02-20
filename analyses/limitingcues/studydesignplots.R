@@ -1,6 +1,6 @@
 ## Started 7 May 2018 ##
 ## By Lizzie ##
-##updated by Dan
+## Updated by Dan in later 2018; updated by Lizzie in February 2019 ##
 
 ## TO DO ##
 # (*) Should check/merge with studydesignplots.R so they use same data and counts #
@@ -81,18 +81,23 @@ ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
 dates2weeks <- countfieldsample(ddatefx, 14)
 
 # ... and next for each treatment
-ddatefxtreat.all <- subset(d, select=c("datasetID", "study", "fieldsample.date", "force", "photoperiod_day", "chilltemp"))
+ddatefxtreat.all <- subset(d, select=c("datasetID", "study", "fieldsample.date", "force",
+    "photoperiod_day", "chilltemp"))
 ddatefxtreat <- ddatefxtreat.all[!duplicated(ddatefxtreat.all), ]
-ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study, ddatefxtreat$force,
-    ddatefxtreat$photoperiod_day, ddatefxtreat$chilltemp)
+ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study,
+     ddatefxtreat$force, ddatefxtreat$photoperiod_day, ddatefxtreat$chilltemp)
 
 dates2weekstreat <- countfieldsample(ddatefxtreat, 14)
 names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
 
-weinberger<-filter(dates2weekstreat,fs.date.count>=2)
+# Below by Dan I think ...
+if(FALSE){
+weinberger <- filter(dates2weekstreat,fs.date.count>=2)
 #clean it a little bit
-goo<-separate(weinberger, datasetIDstudy,c("datasetID","study","force","photo","chill") , sep = " " , remove = FALSE)
+goo <- separate(weinberger, datasetIDstudy,c("datasetID","study","force","photo","chill") ,
+   sep = " " , remove = FALSE)
 unique(goo$datasetID)
+}
 
 ## summarizing data: means, mins and maxes by study
 dsumm <-
@@ -151,7 +156,7 @@ hist(cueinfo$maxdiff.treatforce, breaks=10)
 hist(forcecues$maxdiff.treat, breaks=10) 
 # Careful! The below retain all values, so it duplicates some treatments
 # That is, don't assume all the crossed treatments were made
-# Need to use the signle cue files for more accurate histograms
+# Need to use the single cue files for more accurate histograms
 cueinfo.alldiffs <- merge(merge(forcecues.alldiffs, photocues.alldiffs,
     by = "datasetIDstudy", all=TRUE, suffixes=c("force", "photo")), 
     chilltempcues.alldiffs, by = "datasetIDstudy", all=TRUE,
@@ -358,11 +363,13 @@ dev.off()
 ###
 
 ## TO DO for heatmap:
+# (*) For BB paper: chill x force x photo; fieldsample x force x photo; chill portions x force x photo
 # (1) Make sure I am counting correctly
 # (2) What to do with NA
 # (3) Make much, much prettier!
 
-## Summarizing data
+## Prep the data, make a column concatenating a bunch of info, megre in field sample dates,
+# and make the cues intergers (so the heat maps make sense)
 d$datasetIDstudytreat <- paste(d$datasetID, d$study, d$force, d$photoperiod_day, d$chilltemp)
 d <- merge(d, dates2weekstreat, by.x="datasetIDstudytreat", by.y="datasetIDstudy", all.x=TRUE)
 d$force.int <- as.integer(d$force)

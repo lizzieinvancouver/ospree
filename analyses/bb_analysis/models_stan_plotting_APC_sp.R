@@ -3,6 +3,9 @@
 
 ## Marginal effects from Stan models for particular species##
 ## Based off models_stan_plotting_APC.R ##
+## Applying our ospree model to forecast effects of warming under different
+## climatic conditions (conditions chosen using locations and bbdoy within range of 
+## BETPEN and FAGSYL in PEP data)
 
 ############################################
 # housekeeping
@@ -12,6 +15,7 @@ options(stringsAsFactors = FALSE)
 #libraries
 library(RColorBrewer)
 library(geosphere)
+library(akima)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -26,7 +30,7 @@ figpath <- "figures"
 
 ## set up the flags
 use.chillports = TRUE
-use.zscore = TRUE
+use.zscore = FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
@@ -61,11 +65,10 @@ fit.sum <- summary(fit)$summary
 
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
-#species to plot
+# Select the species and temperature change that you want
 sp<-c("betpen","fagsyl")
 sp.num<-c(9,15)
 
-# Select the species and temperature change that you want
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
@@ -99,12 +102,17 @@ for(s in 1:length(sp)){
   tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
   chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
   spdir<-paste("../output/dailyclim/",sp[s],sep="")
-  
+  #create a blank dataframe for each species, in which to add estimates
+  spests<-c()
+  spestsqlo<-c()
+  spestsqhi<-c()
   #sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  sites.toplot<-21#plot a single site, both species
-  quartz(width=9,height=5)
-  par(mar=c(8,4,3,4), mfrow=c(1,2))
-  
+  sites.toplot<-seq(1,numsites,by=1)#
+  #can also plot a single site, both species
+  #sites.toplot<-21
+  #quartz(width=9,height=5)
+  #par(mar=c(8,4,3,4), mfrow=c(1,2))
+  i
   for (i in sites.toplot){
     #for now do with i=1 and i=50 for each species (min and max)
     # Read in observed chilling from 1950 to 2014
@@ -165,14 +173,14 @@ for(s in 1:length(sp)){
       meanz.wdaylength <- unlist(lapply(bbposteriors.wdaylength, mean))
       quant25per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.25))))
       quant75per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.75))))
-      predicts[j,]<-c(warmspring,meanz)
+      predicts[j,]<-c(warmspring,meanz,chillport,warmwinter)
       predicts.25per[j,]<-c(warmspring,quant25per)
       predicts.75per[j,]<-c(warmspring,quant75per)
       predicts.wdl[j,]<-c(warmspring,meanz.wdaylength)
       predicts.25per.wdl[j,]<-c(warmspring,quant25per.wdaylength)
       predicts.75per.wdl[j,]<-c(warmspring,quant75per.wdaylength)
     }
-    predicts<-rbind(c(0,predicts$nowarm[1:4]),predicts)
+    predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)
     predicts<-predicts[,-2]
     predicts.25per<-rbind(c(0,predicts.25per$nowarm[1:4]),predicts.25per)
     predicts.25per<-predicts.25per[,-2]
@@ -190,6 +198,15 @@ for(s in 1:length(sp)){
       predicts.25per<-predicts.25per.wdl
       predicts.75per<-predicts.75per.wdl
     }
+    predicts$lat<-lat
+    predicts$lon<-long
+    predicts.25per$lat<-lat
+    predicts.25per$lon<-long
+    predicts.75per$lat<-lat
+    predicts.75per$lon<-long
+    spests<-rbind(spests,predicts)
+    spestsqlo<-rbind(spestsqlo,predicts.25per)
+    spestsqhi<-rbind(spestsqhi,predicts.75per)
     
     ymin = min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     ymax = max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
@@ -199,7 +216,7 @@ for(s in 1:length(sp)){
     #pdf(file.path(figpath,figname), width = 9, height = 6)
     
     #pdf(paste(figpath,"/tempforecast",min(tempforecast),"-",max(tempforecast),"_deg_",lat,"_",long,".pdf",sep=""))
-    #quartz()
+    quartz()
     #par(mar=c(8,7,3,5), mfrow=c(1,2))
     plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
          ylab="Days to BB", main=paste(sp[s],", lat=",round(lat,digits=2),", doy=",budburstdoy,", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), bty="l")
@@ -249,5 +266,109 @@ for(s in 1:length(sp)){
     # }
     #dev.off()
   }
-  
+ name<-paste(sp[s],lat,long,"forecast.csv",sep=".")
+ nameqlo<-paste(sp[s],lat,long,"forecast.qlo.csv",sep=".")
+nameqhi<-paste(sp[s],lat,long,"forecast.qhi.csv",sep=".")
+ write.csv(spests,name, row.names = FALSE)
+  write.csv(spestsqlo,name, row.names = FALSE)
+  write.csv(spestsqhi,name, row.names = FALSE)
+
 }
+
+
+#to make a gridded map from the above code:
+
+
+
+library(ggplot2)
+library(viridis)
+z<-c()
+for(i in 1:7){
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
+  z=c(z,warmtemp$bothwarmdiffdays)
+}
+#test_data = read.csv("test.csv", sep = "")#read in a spests file
+cols<-rev(heat.colors(length(seq(0,max(as.integer(abs(z)))))))
+warm0<-spests[spests$warming==0,]
+
+#Plot change with winter warming and both warming
+quartz(height = 4, width = 9)
+par(mfrow=c(2,7),mar=c(1,1,1,1), oma=c(3,3,1,1))
+
+
+#first just warmwinter
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$winwarmdiffdays<-warmtemp$winwarm-warm0$winwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  plot(x,y,type="p", pch=21, bg=cols[as.integer(abs(warmtemp$winwarmdiffdays))], xlab="Long",ylab="Lat",main=paste(i,"deg"))
+}
+#now warmboth
+
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  plot(x,y,type="p", pch=21, bg=cols[as.integer(abs(warmtemp$bothwarmdiffdays))], xlab="Long",ylab="Lat")
+}
+legend()
+image(xygrid,breaks=seq(min(z),max(z),length=12), col=cols)
+#earliest shifts= more red
+
+legend()
+cols
+
+##FF0000=red; #FFFF00=yellow
+#first just warmwinter
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$winwarmdiffdays<-warmtemp$winwarm-warm0$winwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  z=warmtemp$winwarmdiffdays
+  print(x);print(y); print(z)
+interp(x,y,z,xo=seq(min(x),max(x),by=0.5),yo=seq(min(y),max(y),by=0.5),extrap=FALSE,linear=TRUE) -> xygrid
+image(xygrid,breaks=seq(min(z),max(z),length=12), col=cols)
+}
+#now warmboth
+
+for(i in 1:7){
+  #for now, plot 1 eeffects of 1 degree of warming
+  warmtemp<-spests[spests$warming==i,]
+  warmtemp$bothwarmdiffdays<-warmtemp$bothwarm-warm0$bothwarm
+  x=warmtemp$lon
+  y=warmtemp$lat
+  interp(x,y,z,xo=seq(min(x),max(x),by=0.5),yo=seq(min(y),max(y),by=0.5),extrap=FALSE,linear=TRUE) -> xygrid
+  image(xygrid,breaks=seq(min(z),max(z),length=10), col=cols)
+}
+
+#earliest shifts= more red
+
+legend()
+cols
+
+#couldn't get the below to work, so trying this:
+
+ggplot() + geom_tile(data = warm1, aes(x=warmtemp$lon, y = warmtemp$lat, fill=bothwarmdiffdays)) + 
+  coord_fixed(ratio = 1) +
+  scale_fill_viridis(direction = -1) +
+  theme_bw()
+x=warmtemp$lon
+y=warmtemp$lat
+z=warmtemp$bothwarmdiffdays
+
+
+#---------------------------
+# PLOT: heatmap
+# - here, we use geom_tile()
+#---------------------------
+
+ggplot(data = warmtemp, aes(x = warmtemp$lon, y = warmtemp$lat)) +
+  geom_tile(aes(fill = bothwarmdiffdays)) 
+

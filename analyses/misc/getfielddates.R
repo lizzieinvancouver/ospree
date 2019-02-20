@@ -47,6 +47,11 @@ countfieldsample <- function(dat, daysapart){
               fieldsamplecount[uniquestudy,2] <- 1
               } else{
                 datx <- which(datemat[,1]==min(datemat[,1], na.rm=TRUE))
+                  if (length(datx)>1) {
+                    datx <- min(datx)
+                    }
+                    else{ 
+                    datx <- datx}
                 keepwhich <- datx
                 while (datx < nrow(datemat)){
                   if(all(is.na(datemat[,datx]))==TRUE) {
