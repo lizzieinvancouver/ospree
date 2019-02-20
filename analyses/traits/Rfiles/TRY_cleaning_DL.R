@@ -30,5 +30,19 @@ for (name in unique(data$Dataset)){
   write.csv(tmp,fn, row.names=FALSE)
 }
 
+# Cleaning 
+xylem36<-read.csv("sep_data/XylemFunctionalTraits(XFT)Database.csv")
+head(xylem36)
+str(xylem36)
+
+#create a subset of the columns that actually contain data and the unique identifier (in this case ObservationID)
+temp<-xylem36[,c(4,5,8,13,15)]
+str(temp)
+
+#Now, using reshape2, convert it from long to wide formatted data
+require(reshape2)
+
+wide<-dcast(temp, Dataset+ObservationID+SpeciesName~DataName, value.var = "OrigValueStr", na.rm=TRUE)
+head(wide)
 
 
