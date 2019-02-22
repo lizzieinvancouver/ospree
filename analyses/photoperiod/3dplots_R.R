@@ -33,8 +33,9 @@ library(ggplot2)
 #dat <- replicate(2, 1:3)
 
 # Initialize the scene, no data plotted
-#plot3d(dat, type = 'n', xlim = c(-1, 1), ylim = c(-1, 1), zlim = c(0, 24), xlab = 'Geographical shift', 
-#       ylab = 'Temporal shift', zlab = 'photoperiod') 
+quartz()
+plot3d(dat, type = 'n', xlim = c(-1, 1), ylim = c(-1, 1), zlim = c(0, 24), xlab = 'Geographical shift', 
+       ylab = 'Temporal shift', zlab = 'photoperiod') 
 
 # Add planes
 #planes3d(10, 10, 1, -10, col = 'red', alpha = 0.6)
@@ -368,7 +369,6 @@ qrob$phen.shift<-qrob$pres.doy-qrob$osp.doy
 
 fitosp.qr<-lm(photo.shift ~ geo.shift + phen.shift, data=qrob)
 #open3d()
-plot3d(qr$geo.shift, qr$phen.shift, qr$photo.shift, type = "s", col="green", size=1)
 
 coefs <- coef(fitphen.qr)
 af <- coefs["geo.shift"]

@@ -117,7 +117,7 @@ colnames(predicts)<-colnames(predicts.25per) <-colnames(predicts.75per) <-
   c("warming","nowarm","sprwarm","winwarm","bothwarm")
 
 for (i in 1:length(tempforecast)){
-  chillforfilename<-paste("../output/dailyclim/chill_forecast",tempforecast[i],"deg_",lat,"_",long,"_1979_2014.csv",sep="")
+  chillforfilename<-paste("../output/dailyclim/betpen/chillforecast",tempforecast[i],"deg_",lat,"_",long,"_1951_2014.csv",sep="")  
   chillfor<-read.csv(chillforfilename, header=TRUE) 
   photo.forplot <- daylengthbbdoy
   warmspring <-tempforecast[i]
@@ -141,6 +141,7 @@ for (i in 1:length(tempforecast)){
   predicts[i,]<-c(warmspring,meanz.wdaylength)
   predicts.25per[i,]<-c(warmspring,quant25per.wdaylength)
   predicts.75per[i,]<-c(warmspring,quant75per.wdaylength)
+  print(tempforecast[i]);print(warmwinter);
 }
 predicts<-rbind(c(0,predicts$nowarm[1:4]),predicts)
 predicts<-predicts[,-2]
@@ -182,6 +183,66 @@ plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
   # }
 legend(0,18,legend=c("Spring warming","Winter warming","Both"),lty=1,lwd=2,col=cols,bty="n", cex=0.9)
 dev.off()
+
+##Make the above as a 3D plot
+ #need to create a matrix that fills x columns=sprwarming, y=columns = winter warming and budburst day is values!
+ #x= amount of winter warming=rows of z. matrix
+ #y= amount of spring warming= columns of z. matrix
+ #z= budburst days for each combination
+#reset lat/long if you like:
+lat=48.8667#46.8167#
+long=15.1333#12.8
+# Read in cobserved chilling from 1979 to 2014
+chillfilename<-paste("../output/dailyclim/betpen/chill_observed_",lat,"_",long,"_1951_2014.csv",sep="")
+tempfilename<-paste("../output/dailyclim/betpen/temp_forforecast__",lat,"_",long,"_1951_2014.csv",sep="")
+chillall<-read.csv(chillfilename, header=TRUE) 
+tempall<-read.csv(tempfilename, header=TRUE)
+tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
+sprtemp <- mean(tempall$Month[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
+budburstdoy<-60#March 1
+daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
+chillport <- mean(chillall$Chill_portions)
+
+
+
+
+ z.matrix <- matrix(NA,ncol=length(tempforecast)+1,nrow=length(tempforecast)+1)
+ temps=c(0,tempforecast)
+ #Fill matrix row by row
+ for (i in 1:length(temps)){#i=winter warming
+   if(temps[i]>0){chillforfilename<-paste("../output/dailyclim/betpen/chillforecast",temps[i],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
+   chillfor<-read.csv(chillforfilename, header=TRUE) 
+   warmwinter <- mean(chillfor$Chill_portions)-chillport}
+   print(temps[i]);print(warmwinter)
+   if(temps[i]==0){warmwinter <- 0}
+   photo.forplot <- daylengthbbdoy
+   for(j in 1:length(temps)){
+    warmspring <-temps[j]
+    bbposteriors <- getest.bb(fit, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, 0, 0, 0)
+    meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
+    z.matrix[i,j]<-meanz[4]
+  }
+ }
+ 
+ z=z.matrix
+ x=temps
+ y=temps
+ zlim <- range(y)
+ zlen <- zlim[2] - zlim[1] + 1
+ 
+ colorlut <- terrain.colors(zlen) # height color lookup table
+ 
+ col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+
+ plot3d(z.matrix, type = 'n', 
+        xlim = range(x), ylim = range(y), zlim = range(z), 
+        xlab = 'Winter warming', 
+        ylab = 'Spring warming', zlab = 'Days to BB') 
+ 
+surface3d(x,y, z,
+          col=col, back = "lines")
+
+
 
 ##NOT FORECASTING, BUT COMPARING Z AND NONZ MODELS
 ###Now, instead of forecasting, use temperatures within the range of observations, using z-scored values:
@@ -334,4 +395,6 @@ if(use.zscore==FALSE){
   
   dev.off()
 }
-#Make a 3d plot
+#Now instead of plotting it as separate panels, plot things together, as we did in the forecasting
+#only for nonz for now
+
