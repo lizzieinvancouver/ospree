@@ -144,8 +144,16 @@ bb.stan.alt.exponly.matchsp<- bb.stan.alt.exponly[which(bb.stan.alt.exponly$comp
 
 bb.stan.alt.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.matchsp$complex.wname))
 bb.stan.alt.exponly.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.exponly.matchsp$complex.wname))
+bb.stan.alt.matchsp.nowien<-filter(bb.stan.alt.matchsp,weinberger==0)
 
 nrow(bb.stan.alt.matchsp) ###781
+nrow(bb.stan.alt.matchsp.nowien) ### 527, so only 254 are weinbuerger in this dataset bbstanaltmatchsp
+colnames(bb.stan.alt.matchsp)
+
+table(bb.stan.alt.matchsp.nowien$datasetID)
+
+
+
 nrow(bb.stan.alt.exponly.matchsp) ###531 
 nrow(bb.stan.alt)
 ## Set up the bb.stan to use
@@ -183,7 +191,7 @@ wein.data.utah <- with(bb.stan,
                              )
 )
 
-###model
+      ###model
 #m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
              # iter = 2500, warmup=1500)
 
