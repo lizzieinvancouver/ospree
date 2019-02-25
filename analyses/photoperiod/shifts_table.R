@@ -86,12 +86,18 @@ for(i in 1:length(photop_all$lat)){
     }else {
       min_dlmin<-round(min(photos), digits=1)
       date_expmin<-NA
+      date_expmin2<-date[which(round(photos, digits=1)==round(min_dlmin, digits=1))]
+      
     }
   }
   maxdelta_temp<-max(photos)-min(photos)#maximum difference in daylength at lat[i] (difference in daylength between summer solcstice and winter solcstice
   if(maxdelta_temp<photop_all$delta[i]){photop_all$time[i]<-"ER"}#exceeds range
   else if (is.na(date_expmax)){photop_all$time[i]<-paste("max NA (",min_dlmax,")", sep="")}
-  else if (is.na(date_expmin)){photop_all$time[i]<-paste("min NA (",min_dlmin,")", sep="")}
+  else if (is.na(date_expmin)){
+    #photop_all$time[i]<-paste("min NA (",min_dlmin,")", sep="")#when min daylength does not exist naturally
+    photop_all$time[i]<-min(as.numeric(strftime(date_expmin2, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j")))#shift in days between date(s) of min daylength and max daylength in exp
+    if(as.numeric(photop_all$time[i])>183){photop_all$time[i]<-paste(0-(365-as.numeric(photop_all$time[i])),"*", sep="")}
+  }#there is just one site and it is pretty close to min (9 vs 8)
   else
     photop_all$time[i]<-min(as.numeric(strftime(date_expmin, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j")))#shift in days between date(s) of min daylength and max daylength in exp
   if(!is.na(as.numeric(photop_all$time[i])) & as.numeric(photop_all$time[i])>183){photop_all$time[i]<-0-(365-as.numeric(photop_all$time[i]))}
