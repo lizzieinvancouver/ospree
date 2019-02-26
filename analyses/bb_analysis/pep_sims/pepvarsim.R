@@ -1,13 +1,38 @@
 ## Code to see if you can get lower estimated sensitivitie soley due to higher temps and non-constant monitoring... ##
 ## Started 14 February 2019 ##
 ## Snow and clouds from the train to Seattle ##
-## Started by Lizzie ## 
+## Started by Lizzie ##
+
+# Updated on 26 Feb 2019 #
+## TO DO:
+# (1) Figure out daily temp sensitivy across two time periods #
+# (2) Use realitic daily temps and fstar values #
 
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
 # Need to simulate data as GDD system; only really need forcing #
+
+# Setting working directory. Add in your own path in an if statement for your file structure
+if(length(grep("ailene", getwd()))>0) { 
+  setwd("~/Documents/GitHub/ospree/analyses/bb_analysis/pep_sims")
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/pep_sims")
+if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/analyses/bb_analysis/pep_sims") 
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/pep_sims")
+
+figpath <- "figures"
+
+source("pepvarsimfxs.R")
+
+if(FALSE){
+# This controls how many runs of the whole thing you do ...
+drawstotal <- 30
+draws <- c()
+
+# Big outside loop ... 
+for(j in 1:drawstotal){
 
 # Step 1: Set up years, days per year, temperatures, sampling frequency, required GDD (fstar)
 daysperyr <- 60
@@ -21,13 +46,6 @@ fstar <- 400
 samplefreq <- 3
 
 cc <- c(rep("precc", yrstotal/2), rep("postcc", yrstotal/2))
-
-# This controls how many runs of the whole thing you do ...
-drawstotal <- 30
-draws <- c()
-
-# Big outside loop ... 
-for(j in 1:drawstotal){
 
 # Step 2: here we go, set up some empty vectors, then fill with random draws based on temps above
 dailytemp <- c()
@@ -82,3 +100,32 @@ draws <- rbind(draws, diffbefore.after)
 
 mean(draws)
 hist(draws, breaks=10)
+}
+
+
+sim.1d.2deg <- pepvariance.sim(100, 10, 12, 1, 6, 400)
+sim.3d.2deg <- pepvariance.sim(100, 10, 12, 3, 6, 400)
+sim.7d.2deg <- pepvariance.sim(100, 10, 12, 7, 6, 400)
+# sim.20d.2deg <- pepvariance.sim(100, 10, 12, 20, 6, 400)
+sim.3d.0deg <- pepvariance.sim(100, 10, 10, 3, 6, 400)
+sim.3d.5deg <- pepvariance.sim(100, 10, 15, 3, 6, 400)
+
+
+breaks=20
+
+pdf(file.path(figpath, "sims.pdf"), width = 8, height = 6)
+par(mfrow=c(2,3))
+hist(sim.1d.2deg, xlab="Diff sens (before-after cc)", main="Sample daily", breaks=breaks)
+abline(v=mean(sim.1d.2deg), col="red")
+hist(sim.3d.2deg, xlab="Diff sens (before-after cc)", main="Sample every 3 days", breaks=breaks)
+abline(v=mean(sim.3d.2deg), col="red")
+hist(sim.7d.2deg, xlab="Diff sens (before-after cc)", main="Sample every 7 days", breaks=breaks)
+abline(v=mean(sim.7d.2deg), col="red")
+
+hist(sim.3d.0deg, xlab="Diff sens (before-after cc)", main="No temp change", breaks=breaks)
+abline(v=mean(sim.3d.0deg), col="red")
+hist(sim.3d.2deg, xlab="Diff sens (before-after cc)", main="Two deg change", breaks=breaks)
+abline(v=mean(sim.3d.2deg), col="red")
+hist(sim.3d.5deg, xlab="Diff sens (before-after cc)", main="Five deg change", breaks=breaks)
+abline(v=mean(sim.3d.5deg), col="red")
+dev.off()
