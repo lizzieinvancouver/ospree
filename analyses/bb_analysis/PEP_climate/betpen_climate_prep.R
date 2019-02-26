@@ -193,6 +193,7 @@ ggplot(mat, aes(y=mat)) + geom_boxplot(aes(y=mat, x=cc, col=cc)) +
 }
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
+## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
 #period<-1950:1960
 period<-2000:2010
 sites<-subset(mat, select=c(lat, long, lat.long))
@@ -206,7 +207,7 @@ tavg<-r
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
-## set function
+## set function - depending on the period you are using
 #extractchillpre<-function(tavg,period){
 extractchillpost<-function(tavg,period){
   
