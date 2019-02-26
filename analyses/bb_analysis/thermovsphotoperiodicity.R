@@ -23,17 +23,23 @@ if(length(grep("lizzie", getwd())>0)) {
 
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
-use.chillports = TRUE 
-use.zscore = FALSE # change to true for testing chill units
-# Default is species complex
+
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
+
+# Default is species complex and no crops
 use.allspp = FALSE
 use.multcuespp = FALSE
 use.cropspp = FALSE
+
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE ## change to FALSE for constant forcing, changing photoperiod
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 
-use.expchillonly = FALSE
+#Default is all chilling data
+use.expchillonly = FALSE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 
 source("source/bbstanleadin.R")
 
