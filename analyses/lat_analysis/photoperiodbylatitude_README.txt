@@ -54,7 +54,7 @@
 
 ###### Non OSPREE papers that discuss this topic ######
 
-## High Latitude Hypothesis - Saikkonen2012 "However, native species may still retain a competitive edge because they are adapted to strictly track"
+## High Latitude Hypothesis - Saikkonen2012 "However, native species may still retain a competitive edge because they are adapted to strictly track the photoperiodic cues at that latitude, which remain the same."
 
 ## Gauzere2017: Lower lat require photoperiod x forcing to overcome lack of chilling and photosensitivity may
   ## be more important at the cold trailing edge in order for range expansion

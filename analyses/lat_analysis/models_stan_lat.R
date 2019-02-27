@@ -173,7 +173,7 @@ if(use.chillports == TRUE & use.zscore == FALSE){
   )
 }
 if(use.zscore == FALSE){
-  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat.stan', data = datalist.lat.nonz,iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat_ncp.stan', data = datalist.lat.nonz,iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
 }
 
 check_all_diagnostics(m2l.inter)

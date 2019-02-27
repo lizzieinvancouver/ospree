@@ -1,0 +1,70 @@
+\documentclass{article}[12pt]
+\usepackage{Sweave}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{amssymb} % for math symbols
+\usepackage{amsmath} % for aligning equations
+\usepackage{mdframed}
+\usepackage{natbib}
+\bibliographystyle{..//bib/styles/gcb}
+\usepackage[hyphens]{url}
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+\topmargin -1.5cm        
+\oddsidemargin -0.04cm   
+\evensidemargin -0.04cm
+\textwidth 16.59cm
+\textheight 21.94cm 
+%\pagestyle{empty} %comment if want page numbers
+\parskip 7.2pt
+\renewcommand{\baselinestretch}{2}
+\parindent 0pt
+\usepackage{lineno}
+\linenumbers
+\usepackage{setspace}
+\doublespacing
+
+\newmdenv[
+  topline=true,
+  bottomline=true,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{siderules}
+
+\begin{document}
+\noindent \textbf{\Large{Latitude Analysis Write-up}}
+\section*{The effects of photoperiod across a species' latitudinal distribution}
+The three major phenological cues that control spring budburst \citep[i.e., low winter temperatures, warm spring temperatures and increasing daylengths][]{Chuine2010} are important determinants of a species' range distribution. With recent warming temperatures, species distributions are predicted to shift poleward \citep{Chen2011, Chuine2001, Parmesan1999}, which would, in turn, affect the interaction of phenological cues a species experiences. More specifically, latitudinal shifts in range expansion would facilitate changes in the photoperiod cues individuals experience. 
+
+There is large debate over the role of photoperiod on budburst initiation across a species' latitudinal range. The predominating arguments are that species from lower latitudes will be more reliant on photoperiod with climate change \citep{Zohner2016}, photoperiod will slow or constrain range expansion \citep{Saikkonen2012}, all species will rely on photoperiod more as winters warm \citep{Way2015}, lower latitude species will require both strong photoperiod cues and more forcing in order to compensate for the lack of chilling but photosensitivity may be more important at the cold trailing edge for range expansion to occur \citep{Guazere2017}.
+
+\textit{Fagus sylvatica}, a well-documented species to be under strong photoperiodic control for budburst, is temperature limited at its northern distribution range \citep{Stromme2019}.
+
+Species range distributions are predicted to continue to shift poleward alongside warming temperatures \citep{Parmesan1999, Chen2011}
+
+\section*{Methods for testing the effects of latitude on budburst}
+To test for photoperiod sensitivity across latitudes, we designed a model that assesses the effects of each phenological cue on budburst plus the effect of latitude and then we included an interaction of photoperiod by latitude. Species were included if they were studied in multiple studies and if multiple cues were manipulated across studies. We also included species complexes in which species from the same genus would be included if they were represented across multiple studies and multiple cues were manipulated across those studies. We then subsetted the species and species complexes to include only those that had multiple provenance locations. 
+
+We used a Bayesian mixed-effects hierarchical model approach to analyze our data to best estimate the day of budburst. We fit a guassian distribution model using forcing, chilling (i.e., measured as chill portions), photoperiod, latitude and the photoperiod by latitude two-way interaction as predictors (fixed effects) and species as modeled groups (random effects). The Bayesian model was fit using Stan modeling language \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.15.1), version 2.3.1, in R \citep{R}, version 3.3.1, and was written as follows: 
+
+\begin{align*}
+y_i \thicksim N(\alpha_{sp[i]} +& \beta_{forcing_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{latitude_{sp[i]}}  \\
+	+& \beta_{photoperiod x latitude_{sp[i]}}  )
+\end{align*}
+
+\noindent The $\alpha$ and each of the 5 $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+1.& \; \beta_{forcing_{sp}} \thicksim N(\mu_{forcing}, \sigma{^2}_{forcing}) \\
+   &... \\
+5.& \; \beta_{photoperiod x latitude_{sp}} \thicksim N(\mu_{photoperiod x latitude}, \sigma{^2}_{photoperiod x latitude})
+\end{align*}
+
+We ran four chains, with 1,500 warm-up iterations followed by 2,000 sampling iterations, resulting in 8,000 posterior samples for each parameter. We assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. 
+
+
+
+\end{document}
