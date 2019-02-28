@@ -106,7 +106,7 @@ We focus on woody species because plant growth chamber experiments using woody p
 \par Against this existing background variation, climate change is likely to cause average shifts in experienced photoperiod, as species respond to warming temperatures. Spatial shifts in species' ranges and temporal shifts in phenology will alter the photoperiods experienced by organisms with future climate change. The magnitude of these alterations will vary depending on the organism's location and the type of shift(s) it undergoes. For example, poleward shifts in species' ranges cause organisms to experience a wider range of daylength throughout the year (Figure \ref{fig:spacetime}). Elevational shifts, on the other hand, would cause minimal changes in the range of daylength throughout the year. %%IMC - do we have something to cite in support of this sentence? 
 %AKE: I have not found a scientific publication yet- just back of the envelope calculations. for example, from https://www.chicagotribune.com/news/weather/ct-wea-0928-asktom-20160927-column.html: which states "Sunrise is one minute earlier for every 4,921.3 feet of height above sea level and one minute later for the same height. That is, two minutes of daylight are added for every 4,921.3 feet of altitude." 
 \par To date, most of the scientific literature has focused on how spatial range shifts linked to climate change will affect photoperiod \citep[e.g.,] []{saikkonen2012, way2015}. Shifting phenology will also alter experienced photoperiod, because of the seasonal patterns of daylength (Figure \ref{fig:spacetime}). To understand the magnitude of change in experienced photoperiod with spatial versus temporal shifts in organisms' activities, we compared photoperiod across latitudes and dates that differed at relevant scales, given observed shifts in species' ranges and phenology \citep{parmesan2003,chen2011}.  
-\par We found that temporal shifts are likely to yield much bigger changes in experienced photoperiod than spatial shifts (Figure \ref{fig:spacetime}). For example, consider a tree at latitude 45\degree that completes spring budbursts, on average, around DOY 91 (April 2, when daylength is 12.8 hours). If its phenology shifts 30 days earlier over the next century \citep[][i.e., a rate of ~3 days per decade, as has been observed]{parmesan2003}, it will experience a daylength that is 1.6 hours shorter. However, if the same tree species shifts its range up in latitude 0.5\degree (i.e., 60 km over the next century,  comparable to observed rates \citep{parmesan2003, chen2011}), it will experience a daylength that differs by less than a minute on the same DOY. Growth chamber studies demonstrate that the magnitudes of daylength shifts we can expect with climate change (i.e., 1-2 hours of difference in daylength with temporal shifts over the next century) are substantial enough to affect spring phenology (Table \ref{table:phototreats}).  
+\par We found that temporal shifts are likely to yield much bigger changes in experienced photoperiod than spatial shifts (Figure \ref{fig:spacetime}). For example, consider a tree at latitude 45\degree  that completes spring budbursts, on average, around DOY 91 (April 2, when daylength is 12.8 hours). If its phenology shifts 30 days earlier over the next century \citep[][i.e., a rate of ~3 days per decade, as has been observed]{parmesan2003}, it will experience a daylength that is 1.6 hours shorter. However, if the same tree species shifts its range up in latitude 0.5\degree (i.e., 60 km over the next century,  comparable to observed rates \citep{parmesan2003, chen2011}), it will experience a daylength that differs by less than a minute on the same DOY. Growth chamber studies demonstrate that the magnitudes of daylength shifts we can expect with climate change (i.e., 1-2 hours of difference in daylength with temporal shifts over the next century) are substantial enough to affect spring phenology (Table \ref{table:phototreats}).  
 \par In many cases organisms may shift both their geographic ranges and their phenology simultaneously. In addition, photoperiod sensitivity, or the degree to which phenology is controlled by daylength, can vary with latitude \citep{Howe:1996,saikkonen2012,Partanen:2005aa,Vihera-Aarnio:2006aa,Caffarra:2011b,gauzere2017}, perhaps because of population-level differences in sensitivity. With future climate change, it is unclear how these complications will affect the photoperiod experienced by organisms and if these shifts in photoperiod will have important implications for biological responses. Part of this lack of clarity stems from the fact that phenology (e.g., the day of year that an plant bursts its buds) both affects and is affected by experienced photoperiod: climate change-induced shifts in phenology alter experienced photoperiod, which in turn affects phenology.
 
 
@@ -176,7 +176,7 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 \section* {To do:}
 \begin{enumerate}
 \item Update table/map to fix 2 studies have a max NA and a min NA- these look reasonable so add them with an *
-
+\item Start supplemental section and add methods to it
 \end{enumerate}
 
 \bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
@@ -185,7 +185,7 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 
 \section* {Tables}
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Wed Jan 30 10:10:15 2019
+% Wed Feb 27 10:11:49 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Growth chamber experiments and their photoperiod treatments}. We note whether or not photoperiod had a significant effect (`effect' column) and compared treatments to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.} 
@@ -194,7 +194,7 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
   \hline
 idstudy & continent & lat & long & effect & day\_range & delta & space & time \\ 
   \hline
-ashby62\_exp1 & north america & 42.99 & -89.41 & Y & 8-16 & 4.00 & 18.2 & min NA (9) \\ 
+ashby62\_exp1 & north america & 42.99 & -89.41 & Y & 8-16 & 4.00 & 18.2 & -87* \\ 
   basler14\_exp1 & europe & 46.31 & 8.27 & Y & 9.2-16 & 1.00 & 6 & -22 \\ 
   caffarra11b\_exp2 & europe & 52.32 & -6.93 & Y & 10-16 & 2.00 & 7.5 & -30 \\ 
   falusi90\_exp1 & europe & 46.03 & 10.75 & N & 9-13 & 4.00 & 16 & -82 \\ 
@@ -263,7 +263,7 @@ ashby62\_exp1 & north america & 42.99 & -89.41 & Y & 8-16 & 4.00 & 18.2 & min NA
  
 \begin{figure}[p]
 \includegraphics{/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod/figures/2D_actual_combined.png} 
-\caption{\textbf{Experimental treatments of daylength in the OSPREE database} for \textit{Fagus sylvatica} (A) and \textit{Quercus robur} (B). For comparison, we show the daylength when budburst occurs in its current and projected ranges (left panels) and in its current range only, with expected shifts in phenology (right panels). Estimates and projections are from Phenofit \citep{duputie2015}}
+\caption{\textbf{Experimental treatments of daylength as it varies by latitude (left panels) and by day of budburst (right panesl)} for \textit{Fagus sylvatica} (A) and \textit{Quercus robur} (B). For comparison, we show the daylength when budburst occurs in its current and projected ranges. We took current budburst data (1981-2000) and model projections for budburst (2081-2100) using the A1Fi Phenofit scenario \citep{duputie2015} for the two species and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit data that had both current and projected data. In panel (B) for \textit{Fagus grandifolia}, we explored the 15 OSPREE data points that have later day to budburst times than the current or projected days to budburst. The majority of those points had 5-8 hours shorter photoperiods than is biologically possible and the last few points had little or no experimental chilling.}
  \label{fig:fagus}
  \end{figure}
  

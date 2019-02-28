@@ -117,7 +117,7 @@ colnames(predicts)<-colnames(predicts.25per) <-colnames(predicts.75per) <-
   c("warming","nowarm","sprwarm","winwarm","bothwarm")
 
 for (i in 1:length(tempforecast)){
-  chillforfilename<-paste("../output/dailyclim/betpen/chillforecast",tempforecast[i],"deg_",lat,"_",long,"_1951_2014.csv",sep="")  
+  chillforfilename<-paste("../output/dailyclim/chill_forecast",tempforecast[i],"deg_",lat,"_",long,"_1979_2014.csv",sep="")  
   chillfor<-read.csv(chillforfilename, header=TRUE) 
   photo.forplot <- daylengthbbdoy
   warmspring <-tempforecast[i]
