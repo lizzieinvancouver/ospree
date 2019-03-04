@@ -28,7 +28,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 use.chillports = TRUE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -173,7 +173,7 @@ if(use.chillports == TRUE & use.zscore == FALSE){
   )
 }
 if(use.zscore == FALSE){
-  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat_ncp.stan', data = datalist.lat.nonz,iter = 2500, warmup=1500, control=list(max_treedepth = 12,adapt_delta = 0.99))
+  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat_ncp.stan', data = datalist.lat.nonz,iter = 3000, warmup=2000, control=list(max_treedepth = 12,adapt_delta = 0.99))
 }
 
 check_all_diagnostics(m2l.inter)
@@ -192,6 +192,21 @@ if(FALSE){
   par(mfrow=c(1,2))
   hist(lat.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
   hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
+  
+  library(rethinking)
+  library(bayesplot)
+  y <- as.vector(lat.stan$resp)
+  yrep <- extract.samples(m2l.inter)
+  yrep <- yrep$yhat
+  ppc <- ppc_stat(y, yrep)
+  ppc.max <- ppc_stat(y, yrep, stat = "max")
+  ppc.min <- ppc_stat(y, yrep, stat = "min")
+  ppc.sd <- ppc_stat(y, yrep, stat = "sd")
+  
+  library(egg)
+  grid.arrange(ppc, ppc.sd, ppc.max, ppc.min, ncol=2, nrow=2)
+  
+  
 }
 
 # Code if you want to save your models (do NOT push output to git)
@@ -207,15 +222,15 @@ if(use.chillports == FALSE & use.zscore == FALSE){
 
 
 ############# Interaction Plots #################
-lats<-rstan::extract(m2l.inter, 'mu_b_lat_sp')
+lats<-extract.samples(m2l.inter, 'mu_b_lat_sp')
 lats<-as.vector(lats$mu_b_lat_sp)
-photos<-rstan::extract(m2l.inter, 'mu_b_photo_sp')
+photos<-extract.samples(m2l.inter, 'mu_b_photo_sp')
 photos<-as.vector(photos$mu_b_photo_sp)
-resps<-rstan::extract(m2l.inter, 'y_ppc')
-resps<-as.vector(resps$y_ppc)
-pl<-rstan::extract(m2l.inter, "mu_b_pl_sp")
+resps<-extract.samples(m2l.inter, 'yhat')
+resps<-as.vector(resps$yhat)
+pl<-extract.samples(m2l.inter, "mu_b_pl_sp")
 pl<-as.vector(pl$mu_b_pl_sp)
-alphas<-extract(m2l.inter, 'mu_a_sp')
+alphas<-extract.samples(m2l.inter, 'mu_a_sp')
 alphas<-as.vector(alphas$mu_a_sp)
 
 inter<-as.data.frame(cbind(lats, photos))
@@ -223,23 +238,33 @@ inter<-as.data.frame(cbind(inter, resps))
 inter<-as.data.frame(cbind(inter, alphas))
 inter<-as.data.frame(cbind(inter, pl))
 
-hilat<-0+1*sd(inter$lats)
-lolat<-0-1*sd(inter$lats)
+hilat<-mean(inter$lats)+1*sd(inter$lats)
+lolat<-mean(inter$lats)-1*sd(inter$lats)
 
+if(FALSE){
 hipho<-0+1*sd(inter$photos)
 lopho<-0-1*sd(inter$photos)
+}
 
-y_hilat<-alphas + lats*2.59 + photos + pl*2.59
-y_lolat<-alphas + lats*(-2.59) + photos + pl*(-2.59)
+y_hilat<-alphas + lats*hilat + photos + pl*hilat
+y_lolat<-alphas + lats*(lolat) + photos + pl*(lolat)
 
 inter<-as.data.frame(cbind(inter, y_hilat))
 inter<-as.data.frame(cbind(inter, y_lolat))
+
+listofdraws <- extract(m2l.inter)
+avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_lat + 
+  listofdraws$mu_b_photo + listofdraws$mu_b_pl
+
+
+foo <- lat.stan
+foo$predicted <- avgbb
 
 #foo<-inter[sample(nrow(inter), 4000), ]
 
 quartz()
 ggplot(inter, aes(x=photos, y=resps)) + geom_smooth(aes(x=photos, y=y_hilat, col="High"), stat="smooth", method="lm", size=1, se=FALSE) + 
-  geom_line(aes(x=photos, y=y_lolat, col="Low"), stat="smooth", method="lm", size=1, se=FALSE) +
+  geom_line(aes(x=photos, y=y_lolat, col="Low"), stat="smooth", method="lm", size=1, se=FALSE) + geom_point() +
   ylab("Day of Budburst") + xlab("Photoperiod") + 
   scale_color_manual(name="Latitude", values=c(High='darkblue',Low='darkred')) + theme_classic()
   
