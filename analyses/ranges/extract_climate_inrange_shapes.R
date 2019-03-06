@@ -13,11 +13,10 @@ options(stringsAsFactors=FALSE)
 library('raster')
 library('ncdf4')
 library('chillR')
-
+library('abind')
 
 ## setwd
 setwd("~/GitHub/ospree/")
-
 
 ## read in climate variable (can be repeated for other variables)
 ## the resulting brick has XX layers corresponding to Tmin and Tmax temperatures 
@@ -66,6 +65,7 @@ fullnames<-c("Betula pubescens","Fagus sylvatica")
 
 # define period
 period<-1980:2017
+#period<-2009:2014
 
 ## set function
 extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
@@ -98,7 +98,7 @@ extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
   forcesub<-subset(climsub.max,monthsinforce)
   
   ## commence loop  
-  for (i in 1:nsps){#i=2
+  for (i in 1:nsps){#i=1
     print(i)
     spsi<-spslist[i]
     fullnamei<-fullnames[i]
@@ -161,13 +161,33 @@ extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
       ff<-subset(ff,!is.na(rowSums(ff)))
       
       # get coordinates and names
-      chcoord<-coordinates(yearschill[[1]])[ch[,1],]
+      chcoord<-coordinates(yearschillmin[[1]])[ch[,1],]
+      chcoord2<-coordinates(yearschillmin[[1]])[ch2[,1],]
       ch<-cbind(chcoord,ch[,2:ncol(ch)])
-      ch2<-cbind(chcoord,ch2[,2:ncol(ch2)])
+      ch2<-cbind(chcoord2,ch2[,2:ncol(ch2)])
+      
+      if(nrow(ch)!=nrow(ch2)){
+      namcoo1<-apply(chcoord,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+      namcoo2<-apply(chcoord2,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+      
+      torem<-which(!namcoo1%in%namcoo2)
+      torem2<-which(!namcoo2%in%namcoo1)
+      
+      
+      if(length(torem)>0){
+      ch=ch[-torem,]    
+      }
+      
+      if(length(torem2)>0){
+        ch2=ch2[-torem2,]    
+        }
+      
+      
+      }
       
       datesch<-as.Date(colnames(ch),format="X%Y.%m.%d")[3:ncol(ch)]
       
-      ffcoord<-coordinates(yearschill[[1]])[ff[,1],]
+      ffcoord<-coordinates(yearschillmax[[1]])[ff[,1],]
       ff<-cbind(ffcoord,ff[,2:ncol(ff)])
       
       
@@ -224,10 +244,13 @@ extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
-Climate.in.range<-extractchillforce(spslist,fullnames,trees,tavg,period)
-#write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-20176sps.csv")
+Climate.in.range<-extractchillforce(spslist,fullnames,trees,tmin,tmax,period)
 
-#Climate.in.range<-read.csv("analyses/ranges/climate.in.range1980-20176sps.csv")
+## saving outputs
+#yearlyresultsBettil2014<-yearlyresults
+write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-2017BetPub.csv")
+write.csv(Climate.in.range[,,2],file = "analyses/ranges/climate.in.range1980-2017FagSyl.csv")
+
 
 
 #plots
