@@ -175,8 +175,8 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 
 \section* {To do:}
 \begin{enumerate}
-\item Update table/map to fix 2 studies have a max NA and a min NA- these look reasonable so add them with an *
-\item Start supplemental section and add methods to it
+\item Update table/map to fix single studies with a max NA add it with an * (and explain * in caption or somewhere)
+\item Add more methods to supplement
 \end{enumerate}
 
 \bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}

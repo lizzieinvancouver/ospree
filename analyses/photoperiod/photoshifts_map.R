@@ -4,7 +4,7 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 } else if
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses/photoperiod") 
 } else if
-(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/photoperiod")
+(length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/photoperiod")
 } else 
   setwd("~/Documents/git/ospree/analyses/photoperiod")
 library(maptools)
