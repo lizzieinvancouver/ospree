@@ -12,7 +12,6 @@ options(stringsAsFactors = FALSE)
 library(RColorBrewer)
 library(geosphere)
 library(rstan)
-library(chillR)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
@@ -193,47 +192,12 @@ lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
 
 legend("topright",legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)
 
+#Add shading around line for credible intervals
 
-#Make the above as a 3D plot
-
-#new function (for just one daylength)
-getest.bb2 <- function(fit, forcetemp, chillport, daylength){
-  listofdraws <- extract(fit)
-  avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*forcetemp + 
-    listofdraws$mu_b_photo_sp*daylength + listofdraws$mu_b_chill_sp*chillport
-  yebbest <- list(avgbb)
-  return(yebbest)
+for(i in 3:5){
+  polygon(c(rev(predicts$warming), predicts$warming), c(rev(predicts.75per[,i-1]), predicts.25per[,i-1]), col = alpha(cols[i-2], 0.2), border = NA)
 }
 
-z.matrix <- matrix(NA,ncol=length(temps)+1,nrow=length(temps)+1)
-#Fill matrix row by row
-dl<-8
-for (i in 1:length(temps)){#i=chilling
- print(temps[i]);
-  
-  dl2<-12
-  for(j in 1:length(temps)){
-    bbposteriors <- getest.bb(fit,temps[j], chillests$Chill_portions[i], dl1,dl2)
-    meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
-    z.matrix[i,j]<-meanz[4]
-  }
-}
-
-
-z=z.matrix
-x=temps
-y=temps
-zlim <- range(y)
-zlen <- zlim[2] - zlim[1] + 1
-
-colorlut <- terrain.colors(zlen) # height color lookup table
-
-col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
-
-plot3d(z.matrix, type = 'n', 
-       xlim = range(x), ylim = range(y), zlim = range(z), 
-       xlab = 'Winter warming', 
-       ylab = 'Spring warming', zlab = 'Days to BB') 
-
-surface3d(x,y, z,
-          col=col, back = "lines")
+for(i in 3:5){
+  lines(predicts$warming, predicts[,i-1], 
+        col=cols[i-2], lwd=2)}
