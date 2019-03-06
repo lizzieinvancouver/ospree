@@ -9,16 +9,19 @@ options(stringsAsFactors=FALSE)
 graphics.off()
 
 # Load libraries
-library(rgdal)
-library(maptools)
-library(rgeos)
-library(ggmap)
+library(dplyr)
+library(tidyr)
 library(ggplot2)
-library(arm)
+library(RColorBrewer)
+library(maps)
+library(grid)
+library(gridExtra)
+library(maptools)
+library(ggplotify)
 
 # Set working directory
 setwd("~/Documents/git/regionalrisk/analyses")
-land<-readShapeSpatial("input/natural_earth_vector/50m_physical/ne_50m_land.shp") ## 
+#land<-readShapeSpatial("input/natural_earth_vector/50m_physical/ne_50m_land.shp") ## 
 boundars<-readShapeSpatial("input/natural_earth_vector/50m_cultural/ne_50m_admin_0_countries.shp")
 
 # Setting working directory. Add in your own path in an if statement for your file structure
@@ -64,12 +67,37 @@ lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 
 lat.stan<-na.omit(lat.stan)
 
-longs<-subset(bb.resp, select=c("datasetID", "genus", "species", "provenance.lat", "resp",
+lats <- subset(lat.stan, select=c("datasetID", "genus", "species", "provenance.lat", 
+                                  "resp", "force", "photo", "chill"))
+
+longs<-subset(bb.noNA, select=c("datasetID", "genus", "species", "provenance.lat", "resp",
                                 "force", "photo", "chill", "provenance.long"))
 
-d<-full_join(lat.stan, longs)
-
 ## Mapping
+mapWorld<-fortify(boundars)
+quartz()
+my.pal<-rep(brewer.pal(n=12, name="Set3"),7)
+my.pch<-rep(c(4,6,8), each=12)
+mp <- ggplot() +
+  geom_polygon(aes(x = mapWorld$long, y = mapWorld$lat, group = mapWorld$group),
+               color = 'gray', fill="lightgrey", size = .2) +
+  geom_jitter(width=1.5,aes(x=d$provenance.long, y=d$provenance.lat, color=d$complex.wname, shape=d$complex.wname)) + theme_classic() +
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = "white"),
+        legend.position=c(0.075, 0.163),
+        #legend.position = "none",
+        legend.key = element_rect(fill="white", color="white"),
+        legend.box.background = element_rect(fill="white"),legend.text = element_text(size=7), legend.key.size = unit(0.3,"cm"),
+        legend.title = element_text(size=8))+
+  #guides(color=FALSE, shape=FALSE)  +
+  scale_colour_manual(name="Species", values=my.pal,
+                      labels=sort(unique(d$complex.wname))) + scale_shape_manual(name="Species", values=my.pch, labels=sort(unique(d$complex.wname))) +
+  xlab("") + ylab("") + coord_cartesian(xlim=c(-125, 50), ylim=c(25, 100))
+
+
+
 all.spp<-ggplot() + 
   geom_polygon(data=land, aes(long,lat,group=group), fill="white")+
   geom_path(data=boundars, aes(long,lat, group=group), color="light grey",
@@ -99,6 +127,3 @@ eur.resp<-ggplot() +
 
 
 
-## Models..
-mod<-lm(response.time~provenance.lat*provenance.long, data=d)
-display(mod)
