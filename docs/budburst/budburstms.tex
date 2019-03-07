@@ -8,7 +8,9 @@
 \parindent=0pt
 
 \begin{document}
-\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+%\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
+
 \renewcommand{\refname}{\CHead{}}
 
 
@@ -32,14 +34,9 @@ As research interest in phenology has progressed, critical discrepancies and unc
 Fundamental research in phenology outlines three major cues known to shape spring phenology \citep{chuineJTB}. These are: chilling (cool temperatures, generally occurring in the fall and late winter), forcing (warm temperatures, generally occurring in the late winter and early spring), and daylength (photoperiod) .  A fundamental challenge of understanding the relative roles of these three cues is that they are often strongly correlated. During the transition from winter to spring at many temperate latitudes, air temperatures increase (i.e., forcing increases) at the same time that daylength is increasing. 
 
 \par Chamber experiments have been conducted for decades and offer a valuable methodology for understanding fundamental drivers of spring phenology. (Define Chamber experiments?) Chamber studies often attempt to break the correlation between chilling, forcing, and photoperiod to reveal mechanistic links between environmental conditions and budburst phenology. To date, chamber studies have revealed contrasting effects of the three major budburst cues. Some studies have proposed that photoperiod is likely to constrain species responses to climatic warming \citep{Basler:2012, Caffarra:2011b,Caffarra:2011a}, whereas others report that photoperiod is not a strong cue for most species \citep{zohner2016,Laube:2014a}. 
-\par Here, we use meta-analysis to integrate these divergent (and other)  studies of budburst responses to chilling, forcing, and photoperiod. 
+\par Here, we use meta-analysis to integrate divergent studies of budburst responses to chilling, forcing, and photoperiod. We conducted a literature review to identify growth chamber studies of spring phenology in wood plant species; this search yielded a database of nearly 13,000 rows across 85 studies across 41 years and 227 species (reference map of studies). %(These are for ospree_clean.csv- Maybe we want to only report budburst data, in which case it would be over 7,000 rows across 74 studies across 39 years and 223 species) 
+This database includes only studies for which we could identify forcing, photoperiod, and chilling treatments quantitatively. (Chilling was rarely reported and for studies missing this information, we estimated it ourselves when possible using climate data for the experiment cite. See Supplemental Materials). We used a Bayesian hierarchical model to estimate the effects of chilling, forcing, and photoperiod. This model partially pools for a robust overall effect, and for robust effects for species with lots of data (\emph{Fagsyl, Betpen}) but pools towards the mean for species with fewer data (See Supplemental Materials- mention species complex)
 
-\begin{enumerate}
-\item Lit review of all woody plant spring phenology (total number of studies \& species, ref map, span of years)
-\item Used only studies for which we could figure out forcing, photo and chill, chill we often calculated ourselves as so rarely reported (total number of studies, species in model)
-\item To estimate the cues we used a Bayesian hierachical model 
-\item This partially pools for a robust overall effect, and for robust effects for species with lots of data (\emph{Fagsyl, Betpen}) but pools towards the mean for species with fewer data ... (mention species complex here or put in caption)
-\end{enumerate}
 \item Short paragraph: Our results show that budburst phenology is determined by forcing, chilling, and photoperiod -- all three cues are important and all three advance budburst. Consistency across species -- fairly consistent with some variation in forcing, and then chilling, not much for photoperiod. 
 \item Temperature, which is radically altered by climate change, was most important -- chilling and forcing show large effects on budburst
 \begin{enumerate}
