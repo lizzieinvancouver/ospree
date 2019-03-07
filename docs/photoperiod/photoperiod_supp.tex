@@ -1,0 +1,71 @@
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{gensymb}
+%\usepackage[backend=bibtex]{biblatex}
+%Strongly recommended
+  %put your figures in one place
+%\SweaveOpts{prefix.string=figures/, eps=FALSE} 
+%you'll want these for pretty captioning
+\usepackage[small]{caption}
+
+\setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{10pt}
+% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
+
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ %\pagestyle{empty}       % Uncomment if don't want page numbers
+ \parskip 7.2pt           % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 0pt% sets leading space for paragraphs
+\usepackage{setspace}
+%\doublespacing
+
+%Optional: I like fancy headers
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhead[LO]{How do climate change experiments actually change climate}
+%\fancyhead[RO]{2016}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+
+%Start of the document
+\begin{document}
+
+%\SweaveOpts{concordance=TRUE}
+ \bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
+\title{Supplemental materials for spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
+
+\author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
+%\date{\today}%do we need to also add any of the following: D. Flynn, T. Savas, J. Samaha, E. Forrestel? 
+\maketitle  %put the fancy title on
+%\tableofcontents      %add a table of contents
+%\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Methods}
+\par \textbf{PhenoFit Methods}
+\par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
