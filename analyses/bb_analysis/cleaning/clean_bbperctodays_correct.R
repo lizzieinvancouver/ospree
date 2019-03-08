@@ -95,8 +95,12 @@ if(is.data.frame(d)){
             # response variable are not equal to the targetted % we proceed
             if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
               #print("case2!!!")
-              index<-rownames(dat3[values.in.target,])  
-              out.index<-rownames(dat3)[which(!rownames(dat3)%in%index)]
+              index<-rownames(dat3[values.in.target,]) 
+              index.min<-rownames(dat3[mindist,])
+              #out.index<-rownames(dat3)[which(!rownames(dat3)%in%index)]
+              #Ailene added the row below- i think this fixes it
+              out.index<-rownames(dat3[which(!rownames(dat3)%in%index.min),])#keep only one row per treatment
+              
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target,"response"]),length(values.in.target))
               d[index,"minperc_bb"]<-rep(min(dat3[values.in.target,"response"]),length(values.in.target))

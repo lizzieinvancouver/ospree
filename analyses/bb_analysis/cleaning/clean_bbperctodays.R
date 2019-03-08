@@ -95,7 +95,7 @@ if(is.data.frame(d)){
             # response variable are not equal to the targetted % we proceed
             if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
               #print("case2!!!")
-              index<-rownames(dat3[values.in.target[mindist],])  
+              index<-rownames(dat3[values.in.target[mindist],])#PROBLEM#This results in NA for sanz-perez09  
               out.index<-rownames(dat3[which(!1:length(dat3$response)%in%mindist),])
               d[index,"dbb"]<-dat3[values.in.target[mindist],"response.time"]
               d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target[mindist],"response"]),length(values.in.target[mindist]))
