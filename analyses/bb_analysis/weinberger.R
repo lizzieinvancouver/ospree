@@ -5,7 +5,8 @@ options(stringsAsFactors = FALSE)
 library(shinystan)
 library(RColorBrewer)
 library(tidyverse)
-
+library(gridExtra)
+library("ggpubr")
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -152,17 +153,23 @@ colnames(bb.stan.alt.matchsp)
 
 table(bb.stan.alt.matchsp.nowien$datasetID)
 
+###get rid of weird species
+takeaway<-c("Vaccinium_complex","Populus_complex")
+bb.stan.alt.noblubspop<-filter(bb.stan.alt,!complex.wname %in% takeaway)
+bb.stan.alt.matchsp.noblubspop<-filter(bb.stan.alt.matchsp,!complex.wname %in% takeaway)
 
-
+bb.stan.alt.matchsp.noblubspop$complex <- as.numeric(as.factor(bb.stan.alt.matchsp.noblubspop$complex.wname))
+bb.stan.alt.noblubspop$complex<-as.numeric(as.factor(bb.stan.alt.noblubspop$complex.wname))
 nrow(bb.stan.alt.exponly.matchsp) ###531 
 nrow(bb.stan.alt)
 ## Set up the bb.stan to use
-bb.stan <- bb.stan.alt
+#bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
 #bb.stan <- bb.stan.alt.matchsp
 #bb.stan<-bb.stan.matchsp
 #bb.stan<-bb.stan.alt.exponly.matchsp
-
+#bb.stan<-bb.stan.alt.matchsp.noblubspop
+bb.stan<-bb.stan.alt.noblubspop
 source("source/bb_zscorepreds.R")
 
 ######################
@@ -195,9 +202,9 @@ wein.data.utah <- with(bb.stan,
 #m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
              # iter = 2500, warmup=1500)
 
-wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data.chillports,
-              iter = 2500, warmup=1500)
-summary
+#wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data.chillports,
+  #            iter = 2500, warmup=1500)
+#summary
 
 wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
                   iter = 2500, warmup=1500)
@@ -205,17 +212,28 @@ wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
 wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
                      iter = 2500, warmup=1500)
 
+
+
+
+
 ###some weinberger plotss
-#wein.chill<-ggplot(bb.stan,aes(chill,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base() 
+chill.wein<-ggplot(bb.stan,aes(chill.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
+force.wein<-ggplot(bb.stan,aes(force.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
+photo.wein<-ggplot(bb.stan,aes(photo.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw()
+chilly<-ggplot(bb.stan,aes(as.factor(weinberger),chill))+geom_boxplot()+theme_bw()
+forcey<-ggplot(bb.stan,aes(as.factor(weinberger),force))+geom_boxplot()+theme_bw()
+photoy<-ggplot(bb.stan,aes(as.factor(weinberger),photo))+geom_boxplot()+theme_bw()
+
+ggarrange(chill.wein,force.wein,photo.wein,chilly,forcey,photoy, ncol=3,nrow=2, common.legend = TRUE, legend="right")
 #wein.force<-ggplot(bb.stan,aes(force,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
 #wein.photo<-ggplot(bb.stan,aes(photo,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
 
 ##### r-square models
 observed.here <- bb.stan$resp
 
-wein.sum <- summary(wein.mod.2)$summary
-wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
-           "b_weinberger", "b_cw","b_pw","b_fw"),]
+#wein.sum <- summary(wein.mod.2)$summary
+#wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
+ #          "b_weinberger", "b_cw","b_pw","b_fw"),]
 
 wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
