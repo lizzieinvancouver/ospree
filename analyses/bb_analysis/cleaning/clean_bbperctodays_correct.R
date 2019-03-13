@@ -25,10 +25,10 @@ if(is.data.frame(d)){
     d$dbb=rep(NA,nrow(d))
     d$maxperc_bb=rep(NA,nrow(d))
     d$minperc_bb=rep(NA,nrow(d))
-    d$dist.50bb=rep(NA,nrow(d))
+    d$dist.targbb=rep(NA,nrow(d))
     
     #dat_final <- data.frame(matrix(data=NA,nrow=0,ncol=7))
-    #colnames(dat_final) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb","dist.50bb")
+    #colnames(dat_final) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb","dist.targbb")
     
     ##Sites that use percent budburst
     percbbsites<-subset(d,respvar=="percentbudburst")
@@ -85,7 +85,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
               d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
-              d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
+              d[index,"dist.targbb"]<-dat3[values.in.target,"response"]-target.percent
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -104,7 +104,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target,"response"]),length(values.in.target))
               d[index,"minperc_bb"]<-rep(min(dat3[values.in.target,"response"]),length(values.in.target))
-              d[index,"dist.50bb"]<-abs(dat3[values.in.target,"response"]-target.percent)
+              d[index,"dist.targbb"]<-abs(dat3[values.in.target,"response"]-target.percent)
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               #dim(d)
@@ -119,7 +119,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[which(dat3$response==target.percent),"response.time"]
               d[index,"maxperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
               d[index,"minperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
-              d[index,"dist.50bb"]<-rep(0,length(index))
+              d[index,"dist.targbb"]<-rep(0,length(index))
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -135,7 +135,7 @@ if(is.data.frame(d)){
               #d[index,"dbb"]<-dat3[index,"response.time"]
               #d[index,"maxperc_bb"]<-dat3[index,"response"]
               #d[index,"minperc_bb"]<-dat3[index,"response"]
-              #d[index,"dist.50bb"]<-rep(dists.to.target[mindist],length(index))
+              #d[index,"dist.targbb"]<-rep(dists.to.target[mindist],length(index))
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -161,7 +161,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
               d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
-              d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
+              d[index,"dist.targbb"]<-dat3[values.in.target,"response"]-target.percent
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
             }
