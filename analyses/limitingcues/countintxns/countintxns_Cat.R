@@ -14,6 +14,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 ### Libraries
 library(dplyr)
+library(lubridate)
 
 if(FALSE){
 # Build a simple example
@@ -34,6 +35,7 @@ testdat
 # Ready to switch to read data?
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
 dat <- dat[dat$woody=="yes",]
+dat$fieldsample.date2<-strptime(strptime(dat$fieldsample.date, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 
 bbdat <- read.csv("output/ospree_clean_withchill_BB_taxon.csv")
 
@@ -45,7 +47,7 @@ countintrxns <- function(xx){
   
   xx$newchilltemp <-as.numeric(xx$chilltemp)
   xx$newchillday <-as.numeric(xx$chilldays)
-  xx$newfieldsamp <-as.numeric(xx$fieldsample.date)
+  xx$newfieldsamp <-as.numeric(yday(as.Date(xx$fieldsample.date2)))
   
   xx <- within(xx, { numphotos <- as.numeric(ave(xx$newphoto, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
   xx <- within(xx, { numforces <- as.numeric(ave(xx$newforce, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
@@ -73,6 +75,9 @@ countintrxns <- function(xx){
 newdat <- countintrxns(dat)
 
 checkintrxns_fp <- subset(newdat, newdat$photobyforce_calc!=0) 
+checkintrxns_fp <- checkintrxns_fp[!is.na(checkintrxns_fp$photobyforce_calc),]
+osp_fp <- subset(checkintrxns_fp, select=c("datasetID", "study", "photobyforce_calc"))
+osp_fp <- osp_fp[!duplicated(osp_fp),]
 unique(checkintrxns_fp$datasetID) ### basler14"     "heide05"      "heide08"      "heide11"      "heide93"      "heide93a"    
                                   ### "okie11"       "partanen98"   "pettersen71"  "Sanz-Perez09" "sogaard08"    "worrall67"   
 
@@ -125,10 +130,12 @@ checkintrxns_fcday <- subset(newdat, newdat$forcebychillday_calc!=0)
 unique(checkintrxns_fcday$datasetID) ### [1] "falusi97"   "junttila12" "basler14"   "campbell75" "karlsson03" "laube14a"   "partanen98"
                                      ### [8] "skuterud94" "worrall67"
 
-checkintrxns_pcfield <- subset(newdat, newdat$photobychillfield_calc!=0) 
-unique(checkintrxns_pcfield$datasetID) ### no studies
-checkintrxns_fcfield <- subset(newdat, newdat$forcebychillfield_calc!=0) 
-unique(checkintrxns_fcfield$datasetID) ### no studies
+checkintrxns_pcfield <- subset(newdat, newdat$photobyfieldsamp_calc!=0) 
+unique(checkintrxns_pcfield$datasetID) ### [1] "ashby62"      "basler14"     "caffarra11b"  "ghelardini10" "heide93"      "heide93a"     "partanen05"   "partanen98"  
+                                       ### [9] "zohner16" 
+checkintrxns_fcfield <- subset(newdat, newdat$forcebyfieldsamp_calc!=0) 
+unique(checkintrxns_fcfield$datasetID) ### [1] "basler14"     "falusi03"     "falusi97"     "ghelardini10" "gianfagna85"  "gomory15"     "heide93"      "nishimoto95" 
+                                       ### [9] "partanen98"   "ramos99"      "schnabel87" 
 
 
 checkintrxns_all <- subset(newdat, (newdat$photobyforce_calc != 0) |
