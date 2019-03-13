@@ -19,8 +19,6 @@ if(length(grep("lizzie", getwd())>0)) {
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 library(shinystan)
-library(RColorBrewer)
-library(egg)
 library(rstan)
 
 rstan_options(auto_write = TRUE)
@@ -28,7 +26,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 use.chillports = TRUE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -218,95 +216,12 @@ if(use.chillports == FALSE & use.zscore == FALSE){
   save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.nonz.Rda")
 }
 
-
-
-
-############# Interaction Plots #################
-lats<-extract.samples(m2l.inter, 'mu_b_lat_sp')
-lats<-as.vector(lats$mu_b_lat_sp)
-photos<-extract.samples(m2l.inter, 'mu_b_photo_sp')
-photos<-as.vector(photos$mu_b_photo_sp)
-resps<-extract.samples(m2l.inter, 'yhat')
-resps<-as.vector(resps$yhat)
-pl<-extract.samples(m2l.inter, "mu_b_pl_sp")
-pl<-as.vector(pl$mu_b_pl_sp)
-alphas<-extract.samples(m2l.inter, 'mu_a_sp')
-alphas<-as.vector(alphas$mu_a_sp)
-
-inter<-as.data.frame(cbind(lats, photos))
-inter<-as.data.frame(cbind(inter, resps))
-inter<-as.data.frame(cbind(inter, alphas))
-inter<-as.data.frame(cbind(inter, pl))
-
-hilat<-mean(inter$lats)+1*sd(inter$lats)
-lolat<-mean(inter$lats)-1*sd(inter$lats)
-
-if(FALSE){
-hipho<-0+1*sd(inter$photos)
-lopho<-0-1*sd(inter$photos)
+if(use.chillports == TRUE & use.zscore == TRUE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.lat.chillportz.Rda")
 }
-
-y_hilat<-alphas + lats*hilat + photos + pl*hilat
-y_lolat<-alphas + lats*(lolat) + photos + pl*(lolat)
-
-inter<-as.data.frame(cbind(inter, y_hilat))
-inter<-as.data.frame(cbind(inter, y_lolat))
-
-listofdraws <- extract(m2l.inter)
-avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_lat + 
-  listofdraws$mu_b_photo + listofdraws$mu_b_pl
-
-
-foo <- lat.stan
-foo$predicted <- avgbb
-
-#foo<-inter[sample(nrow(inter), 4000), ]
-
-quartz()
-ggplot(inter, aes(x=photos, y=resps)) + geom_smooth(aes(x=photos, y=y_hilat, col="High"), stat="smooth", method="lm", size=1, se=FALSE) + 
-  geom_line(aes(x=photos, y=y_lolat, col="Low"), stat="smooth", method="lm", size=1, se=FALSE) + geom_point() +
-  ylab("Day of Budburst") + xlab("Photoperiod") + 
-  scale_color_manual(name="Latitude", values=c(High='darkblue',Low='darkred')) + theme_classic()
-  
-
-#### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
-figpath <- "../lat_analysis/figures"
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
-  figpathmore <- "spcom_expramp_fp"
-}
-if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
-  figpathmore <- "allspp_expramp_fp"
+if(use.chillports == FALSE & use.zscore == TRUE){
+  save(m2l.inter, file="../lat_analysis/stan/m2l.inter.latz.Rda")
 }
 
 
-source("../lat_analysis/lat_muplot.R")
-cols <- adjustcolor("indianred3", alpha.f = 0.3) 
-my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
-# display.brewer.all()
-my.pch <- rep(15:18, each=12)
-alphahere = 0.4
-
-sumer.ni <- summary(m2l.inter)$summary
-sumer.ni[grep("mu_", rownames(sumer.ni)),]
-
-sort(unique(lat.stan$complex)) # numbers are alphabetical
-sort(unique(lat.stan$complex.wname))
-
-
-modelhere <- m2l.inter
-muplotfx(modelhere, "Chillports", 7, 8, c(0,5), c(-20, 20) , 22, 5)
-muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
-
-
-########### Posterior Predictive Checks #############
-
-if(FALSE){
-  y_pred <- extract(m2l.inter, 'y_ppc')
-  par(mfrow=c(1,2))
-  hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
-  hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
-}
-
-
-lats <- rstanarm::posterior_predict(m2l.inter, "mu_b_lat_sp", draws = 500)
 
