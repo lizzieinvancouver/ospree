@@ -16,17 +16,20 @@ if(length(grep("Lizzie", getwd())>0)) {
 library(dplyr)
 library(lubridate)
 
-if(FALSE){
+if(TRUE){
 # Build a simple example
 nointxn <- data.frame(datasetID=rep("bob12", 8), study=c(rep("exp2", 4),
-    rep("exp2", 4)), photo=c(8, 8, 8, 8, 8, 8, 12, 12),
-    force=c(15, 15, 18, 18, 15, 15, 15, 15))
+    rep("exp2", 4)), photoperiod_day=c(8, 8, 8, 8, 8, 8, 12, 12),
+    forcetemp=c(15, 15, 18, 18, 15, 15, 15, 15), chilltemp=c(NA,NA,NA,NA,NA,NA,NA,NA),
+    chilldays=c(NA,NA,NA,NA,NA,NA,NA,NA), fieldsample.date2=c(NA,NA,NA,NA,NA,NA,NA,NA))
 wintxn <- data.frame(datasetID=rep("bob14", 8), study=rep("exp1", 8),
-     photo=c(8, 8, 8, 8, 12, 12, 12, 12), force=c(20, 20, 25, 25, 20,
-     20, 25, 25))
+     photoperiod_day=c(8, 8, 8, 8, 12, 12, 12, 12), forcetemp=c(20, 20, 25, 25, 20,
+     20, 25, 25), chilltemp=c(NA,NA,NA,NA,NA,NA,NA,NA),
+     chilldays=c(NA,NA,NA,NA,NA,NA,NA,NA), fieldsample.date2=c(NA,NA,NA,NA,NA,NA,NA,NA))
 somezeros<- data.frame(datasetID=rep("bob12", 8), study=rep("exp2", 8),
-                     photo=c(8, 8, 8, 8, 12, NA, 12, 12), force=c(20, 20, 25, 25, 20,
-                                                                  20, "ambient", 25))
+                     photoperiod_day=c(8, 8, 8, 8, 12, NA, 12, 12), forcetemp=c(20, 20, 25, 25, 20,
+                                                                  20, "ambient", 25), chilltemp=c(NA,NA,NA,NA,NA,NA,NA,NA),
+                     chilldays=c(NA,NA,NA,NA,NA,NA,NA,NA), fieldsample.date2=c(NA,NA,NA,NA,NA,NA,NA,NA))
 testdat <- rbind(nointxn, wintxn)
 testdat <- rbind(testdat, somezeros)
 testdat
@@ -39,7 +42,7 @@ dat$fieldsample.date2<-strptime(strptime(dat$fieldsample.date, format = "%d-%b-%
 
 bbdat <- read.csv("output/ospree_clean_withchill_BB_taxon.csv")
 
-### Cat's first stab... works for fake data but not at all for real data... need to keep thinking
+### Cat's first stab... doesn't work!
 countintrxns <- function(xx){
 
   xx$newphoto <-as.numeric(xx$photoperiod_day)
@@ -72,7 +75,7 @@ countintrxns <- function(xx){
 
 
 #### For ospree_clean.csv
-newdat <- countintrxns(dat)
+newdat <- countintrxns(testdat)
 
 checkintrxns_fp <- subset(newdat, newdat$photobyforce_calc!=0) 
 checkintrxns_fp <- checkintrxns_fp[!is.na(checkintrxns_fp$photobyforce_calc),]
