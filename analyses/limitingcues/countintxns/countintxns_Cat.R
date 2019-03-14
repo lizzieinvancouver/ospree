@@ -26,7 +26,7 @@ wintxn <- data.frame(datasetID=rep("bob14", 8), study=rep("exp1", 8),
      photoperiod_day=c(8, 8, 8, 8, 12, 12, 12, 12), forcetemp=c(20, 20, 25, 25, 20,
      20, 25, 25), chilltemp=c(NA,NA,NA,NA,NA,NA,NA,NA),
      chilldays=c(NA,NA,NA,NA,NA,NA,NA,NA), fieldsample.date2=c(NA,NA,NA,NA,NA,NA,NA,NA))
-somezeros<- data.frame(datasetID=rep("bob12", 8), study=rep("exp2", 8),
+somezeros<- data.frame(datasetID=rep("bob12", 8), study=rep("exp3", 8),
                      photoperiod_day=c(8, 8, 8, 8, 12, NA, 12, 12), forcetemp=c(20, 20, 25, 25, 20,
                                                                   20, "ambient", 25), chilltemp=c(NA,NA,NA,NA,NA,NA,NA,NA),
                      chilldays=c(NA,NA,NA,NA,NA,NA,NA,NA), fieldsample.date2=c(NA,NA,NA,NA,NA,NA,NA,NA))
@@ -42,112 +42,157 @@ dat$fieldsample.date2<-strptime(strptime(dat$fieldsample.date, format = "%d-%b-%
 
 bbdat <- read.csv("output/ospree_clean_withchill_BB_taxon.csv")
 
-### Cat's first stab... doesn't work!
+### Cat's first stab... works for fake data BUT issue that not all studies are separated by experiment so 
+### it is weeding out some studies that should work... have to add in by figure/table column to try and make it work
+### but this makes the function VERY slow
 countintrxns <- function(xx){
 
-  xx$newphoto <-as.numeric(xx$photoperiod_day)
-  xx$newforce <-as.numeric(xx$forcetemp)
+  xx$newphoto <- as.numeric(xx$photoperiod_day)
+  xx$newforce <- as.numeric(xx$forcetemp)
   
-  xx$newchilltemp <-as.numeric(xx$chilltemp)
-  xx$newchillday <-as.numeric(xx$chilldays)
-  xx$newfieldsamp <-as.numeric(yday(as.Date(xx$fieldsample.date2)))
+  xx$newchilltemp <- as.numeric(xx$chilltemp)
+  xx$newchillday <- as.numeric(xx$chilldays)
+  xx$newfieldsamp <- as.numeric(yday(as.Date(xx$fieldsample.date2)))
   
-  xx <- within(xx, { numphotos <- as.numeric(ave(xx$newphoto, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
-  xx <- within(xx, { numforces <- as.numeric(ave(xx$newforce, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
-  xx <- within(xx, { numchilltemps <- as.numeric(ave(xx$newchilltemp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
-  xx <- within(xx, { numchilldays <- as.numeric(ave(xx$newchillday, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
-  xx <- within(xx, { numfieldsamps <- as.numeric(ave(xx$newfieldsamp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)))})
   
-  cantequal <- c(0,1)
-  xx$photobyforce_calc <- ifelse(!xx$numphotos%in%cantequal & !xx$numforces%in%cantequal, ave(xx$newphoto, xx$newforce, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
-  xx$photobychilltemp_calc <- ifelse(!xx$numphotos%in%cantequal & !xx$numchilltemps%in%cantequal, ave(xx$newphoto, xx$newchilltemp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
-  xx$forcebychilltemp_calc <- ifelse(!xx$numforces%in%cantequal & !xx$numchilltemps%in%cantequal, ave(xx$newforce, xx$newchilltemp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
+  #### Now count number of different values of each cue for each datasetID & exp
+  xx <- within(xx, { numphotos <- as.numeric(ave(xx$newphoto, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE)))})
+  xx <- within(xx, { numforces <- as.numeric(ave(xx$newforce, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE)))})
+  xx <- within(xx, { numchilltemps <- as.numeric(ave(xx$newchilltemp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE)))})
+  xx <- within(xx, { numchilldays <- as.numeric(ave(xx$newchillday, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE)))})
+  xx <- within(xx, { numfieldsamps <- as.numeric(ave(xx$newfieldsamp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE)))})
   
-  xx$photobychillday_calc <- ifelse(!xx$numphotos%in%cantequal & !xx$numchilldays%in%cantequal, ave(xx$newphoto, xx$newchillday, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
-  xx$forcebychillday_calc <- ifelse(!xx$numforces%in%cantequal & !xx$numchilldays%in%cantequal, ave(xx$newforce, xx$newchillday, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
+  #### Now count number of different forces by photos, photos by forces, etc. for each datasetID & exp
+  xx$numphotobyforces <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newforce), as.numeric(ave(xx$newphoto, xx$newforce, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numforcebyphotos <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newforce), as.numeric(ave(xx$newforce, xx$newphoto, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
   
-  xx$photobyfieldsamp_calc <- ifelse(!xx$numphotos%in%cantequal & !xx$numfieldsamps%in%cantequal, ave(xx$newphoto, xx$newfieldsamp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
-  xx$forcebyfieldsamp_calc <- ifelse(!xx$numforces%in%cantequal & !xx$numfieldsamps%in%cantequal, ave(xx$newforce, xx$newfieldsamp, xx$datasetID, xx$study, FUN=function(x) n_distinct(x, na.rm=TRUE)), NA)
+      ### all chills with photos
+  xx$numphotobychilltemps <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newchilltemp), as.numeric(ave(xx$newphoto, xx$newchilltemp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numchilltempbyphotos <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newchilltemp), as.numeric(ave(xx$newchilltemp, xx$newphoto, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
   
+  xx$numphotobychilldays <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newchillday), as.numeric(ave(xx$newphoto, xx$newchillday, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numchilldaybyphotos <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newchillday), as.numeric(ave(xx$newchillday, xx$newphoto, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  
+  xx$numphotobyfieldsamps <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newfieldsamp), as.numeric(ave(xx$newphoto, xx$newfieldsamp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numfieldsampbyphotos <- ifelse(!is.na(xx$newphoto) & !is.na(xx$newfieldsamp), as.numeric(ave(xx$newfieldsamp, xx$newphoto, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+      
+      ### all chills with forces
+  xx$numforcebychilltemps <- ifelse(!is.na(xx$newforce) & !is.na(xx$newchilltemp), as.numeric(ave(xx$newforce, xx$newchilltemp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numchilltempbyforces <- ifelse(!is.na(xx$newforce) & !is.na(xx$newchilltemp), as.numeric(ave(xx$newchilltemp, xx$newforce, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  
+  xx$numforcebychilldays <- ifelse(!is.na(xx$newforce) & !is.na(xx$newchillday), as.numeric(ave(xx$newforce, xx$newchillday, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numchilldaybyforces <- ifelse(!is.na(xx$newforce) & !is.na(xx$newchillday), as.numeric(ave(xx$newchillday, xx$newforce, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  
+  xx$numforcebyfieldsamps <- ifelse(!is.na(xx$newforce) & !is.na(xx$newfieldsamp), as.numeric(ave(xx$newforce, xx$newfieldsamp, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+  xx$numfieldsampbyforces <- ifelse(!is.na(xx$newforce) & !is.na(xx$newchilltemp), as.numeric(ave(xx$newfieldsamp, xx$newforce, xx$datasetID, xx$study, xx$figure.table..if.applicable., FUN=function(x) n_distinct(x, na.rm=TRUE))), 1)
+
+  cantequal <- c(0,1) ### remove non-numerics
+  
+  #### Now, add up the number of interactions to get rid of the ones! 
+      ### e.g. Need more than one force per photo and more than one photo per force
+  
+  xx$photoandforces <- ifelse(!xx$numphotos%in%cantequal & !xx$numforces%in%cantequal & xx$numphotobyforces>1 & xx$numforcebyphotos>1, TRUE, FALSE)
+  xx$photoandchilltemps <- ifelse(!xx$numphotos%in%cantequal & !xx$numchilltemps%in%cantequal & xx$numphotobychilltemps>1 & xx$numchilltempbyphotos>1, TRUE, FALSE)
+  xx$forceandchilltemps <- ifelse(!xx$numforces%in%cantequal & !xx$numchilltemps%in%cantequal & xx$numforcebychilltemps>1 & xx$numchilltempbyforces>1, TRUE, FALSE)
+  
+  xx$photoandchilldays <- ifelse(!xx$numphotos%in%cantequal & !xx$numchilldays%in%cantequal & xx$numphotobychilldays>1 & xx$numchilldaybyphotos>1, TRUE, FALSE)
+  xx$forceandchilldays <- ifelse(!xx$numforces%in%cantequal & !xx$numchilldays%in%cantequal & xx$numforcebychilldays>1 & xx$numchilldaybyforces>1, TRUE, FALSE)
+  
+  xx$photoandfieldsamps <- ifelse(!xx$numphotos%in%cantequal & !xx$numfieldsamps%in%cantequal & xx$numphotobyfieldsamps>1 & xx$numfieldsampbyphotos>1, TRUE, FALSE)
+  xx$forceandfieldsamps <- ifelse(!xx$numforces%in%cantequal & !xx$numfieldsamps%in%cantequal & xx$numforcebyfieldsamps>1 & xx$numfieldsampbyforces>1, TRUE, FALSE)
+
   
   return(xx)
 }
 
 
 #### For ospree_clean.csv
-newdat <- countintrxns(testdat)
+newdat <- countintrxns(dat)
 
-checkintrxns_fp <- subset(newdat, newdat$photobyforce_calc!=0) 
-checkintrxns_fp <- checkintrxns_fp[!is.na(checkintrxns_fp$photobyforce_calc),]
-osp_fp <- subset(checkintrxns_fp, select=c("datasetID", "study", "photobyforce_calc"))
-osp_fp <- osp_fp[!duplicated(osp_fp),]
-unique(checkintrxns_fp$datasetID) ### basler14"     "heide05"      "heide08"      "heide11"      "heide93"      "heide93a"    
-                                  ### "okie11"       "partanen98"   "pettersen71"  "Sanz-Perez09" "sogaard08"    "worrall67"   
+osp.fp <- newdat
+osp.fp$fp <- ifelse(ave(osp.fp$photoandforces, osp.fp$datasetID, osp.fp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fp <- osp.fp[(osp.fp$fp=="yes"),]
+osp.fp <- subset(osp.fp, select=c("datasetID", "study", "figure.table..if.applicable.,", "fp"))
+osp.fp <- osp.fp[!duplicated(osp.fp),]
+unique(osp.fp$datasetID) ### [1] "heide05"      "heide08"      "heide11"      "heide93"      "heide93a"     "okie11"       "Sanz-Perez09"
 
-checkintrxns_pctemp <- subset(newdat, newdat$photobychilltemp_calc!=0) 
-unique(checkintrxns_pctemp$datasetID) ### "myking95"
-checkintrxns_fctemp <- subset(newdat, newdat$forcebychilltemp_calc!=0) 
-unique(checkintrxns_fctemp$datasetID) ### "skuterud94"
 
-checkintrxns_pcday <- subset(newdat, newdat$photobychillday_calc!=0) 
-unique(checkintrxns_pcday$datasetID) ### [1] "basler14"     "caffarra11a"  "caffarra11b"  "laube14a"     "myking95"     "nienstaedt66"
-                                    ### [7] "okie11"       "partanen98"   "sogaard08"    "worrall67"
-checkintrxns_fcday <- subset(newdat, newdat$forcebychillday_calc!=0) 
-unique(checkintrxns_fcday$datasetID) ### [1] "basler14"   "campbell75" "falusi97"   "junttila12" "karlsson03" "okie11"     "partanen98"
-                                     ### [8] "pop2000"    "skuterud94" "sogaard08"  "worrall67" 
+osp.pctemp <- newdat
+osp.pctemp$pctemp <- ifelse(ave(osp.pctemp$photoandchilltemps, osp.pctemp$datasetID, osp.pctemp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pctemp <- osp.pctemp[(osp.pctemp$pctemp=="yes"),]
+unique(osp.pctemp$datasetID) ### no studies
 
-checkintrxns_pcfield <- subset(newdat, newdat$photobychillfield_calc!=0) 
-unique(checkintrxns_pcfield$datasetID) ### no studies
-checkintrxns_fcfield <- subset(newdat, newdat$forcebychillfield_calc!=0) 
-unique(checkintrxns_fcfield$datasetID) ### no studies
 
-checkintrxns_all <- subset(newdat, (newdat$photobyforce_calc != 0) |
-                             
-                             (newdat$photobychilltemp_calc != 0) |
-                             (newdat$photobychillday_calc != 0) |
-                             (newdat$photobyfieldsamp_calc != 0) |
-                              (newdat$forcebychilltemp_calc != 0) |
-                              (newdat$forcebychillday_calc != 0) |
-                              (newdat$forcebyfieldsamp_calc != 0) )
+osp.fctemp <- newdat
+osp.fctemp$fctemp <- ifelse(ave(osp.fctemp$forceandchilltemps, osp.fctemp$datasetID, osp.fctemp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fctemp <- osp.fctemp[(osp.fctemp$fctemp=="yes"),]
+unique(osp.fctemp$datasetID)  
+
+
+osp.pcday <- newdat
+osp.pcday$pcday <- ifelse(ave(osp.pcday$photoandchilldays, osp.pcday$datasetID, osp.pcday$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pcday <- osp.pcday[(osp.pcday$pcday=="yes"),]
+unique(osp.pcday$datasetID) 
+
+
+osp.fcday <- newdat
+osp.fcday$fcday <- ifelse(ave(osp.fcday$forceandchilldays, osp.fcday$datasetID, osp.fcday$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fcday <- osp.fcday[(osp.fcday$fcday=="yes"),]
+unique(osp.fcday$datasetID) 
+
+
+osp.pfield <- newdat
+osp.pfield$pfield <- ifelse(ave(osp.pfield$photoandfieldsamps, osp.pfield$datasetID, osp.pfield$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pfield <- osp.pfield[(osp.pfield$pfield=="yes"),]
+unique(osp.pfield$datasetID) 
+
+
+osp.ffield <- newdat
+osp.ffield$ffield <- ifelse(ave(osp.ffield$forceandfieldsamps, osp.ffield$datasetID, osp.ffield$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.ffield <- osp.ffield[(osp.ffield$ffield=="yes"),]
+unique(osp.ffield$datasetID) 
+
 
 
 #### For ospree_clean_withchill_BB.csv
-newdat <- countintrxns(bbdat)
-
-checkintrxns_fp <- subset(newdat, newdat$photobyforce_calc!=0) 
-unique(checkintrxns_fp$datasetID) ### [1] "heide93"      "Sanz-Perez09" "basler12"     "basler14"     "gianfagna85"  "gomory15"    
-                                  ### [7] "heide05"      "heide08"      "heide11"      "heide93a"     "laube14a"     "morin10"     
-                                  ### [13] "myking97"     "nishimoto95"  "partanen98"   "pettersen71"  "schnabel87"   "skuterud94"  
-                                  ### [19] "worrall67"
-
-checkintrxns_pctemp <- subset(newdat, newdat$photobychilltemp_calc!=0) 
-unique(checkintrxns_pctemp$datasetID) ### "jones12"    "myking95"   "skuterud94"
-checkintrxns_fctemp <- subset(newdat, newdat$forcebychilltemp_calc!=0) 
-unique(checkintrxns_fctemp$datasetID) ### "skuterud94"
-
-checkintrxns_pcday <- subset(newdat, newdat$photobychillday_calc!=0) 
-unique(checkintrxns_pcday$datasetID) ### [1] "jones12"      "rinne97"      "basler14"     "caffarra11a"  "caffarra11b"  "laube14a"    
-                                     ### [7] "myking95"     "nienstaedt66" "partanen98"   "skuterud94"   "sogaard08"    "worrall67"   
-                                    ### [13] "yazdaniha64" 
-checkintrxns_fcday <- subset(newdat, newdat$forcebychillday_calc!=0) 
-unique(checkintrxns_fcday$datasetID) ### [1] "falusi97"   "junttila12" "basler14"   "campbell75" "karlsson03" "laube14a"   "partanen98"
-                                     ### [8] "skuterud94" "worrall67"
-
-checkintrxns_pcfield <- subset(newdat, newdat$photobyfieldsamp_calc!=0) 
-unique(checkintrxns_pcfield$datasetID) ### [1] "ashby62"      "basler14"     "caffarra11b"  "ghelardini10" "heide93"      "heide93a"     "partanen05"   "partanen98"  
-                                       ### [9] "zohner16" 
-checkintrxns_fcfield <- subset(newdat, newdat$forcebyfieldsamp_calc!=0) 
-unique(checkintrxns_fcfield$datasetID) ### [1] "basler14"     "falusi03"     "falusi97"     "ghelardini10" "gianfagna85"  "gomory15"     "heide93"      "nishimoto95" 
-                                       ### [9] "partanen98"   "ramos99"      "schnabel87" 
+osp.fp <- newdat
+osp.fp$fp <- ifelse(ave(osp.fp$photoandforces, osp.fp$datasetID, osp.fp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fp <- osp.fp[(osp.fp$fp=="yes"),]
+unique(osp.fp$datasetID) 
 
 
-checkintrxns_all <- subset(newdat, (newdat$photobyforce_calc != 0) |
-                              
-                            (newdat$photobychilltemp_calc != 0) |
-                            (newdat$photobychillday_calc != 0) |
-                            (newdat$photobyfieldsamp_calc != 0) |
-                            
-                            (newdat$forcebychilltemp_calc != 0) |
-                            (newdat$forcebychillday_calc != 0) |
-                            (newdat$forcebyfieldsamp_calc != 0) )
+osp.pctemp <- newdat
+osp.pctemp$pctemp <- ifelse(ave(osp.pctemp$photoandchilltemps, osp.pctemp$datasetID, osp.pctemp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pctemp <- osp.pctemp[(osp.pctemp$pctemp=="yes"),]
+unique(osp.pctemp$datasetID) 
+
+
+osp.fctemp <- newdat
+osp.fctemp$fctemp <- ifelse(ave(osp.fctemp$forceandchilltemps, osp.fctemp$datasetID, osp.fctemp$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fctemp <- osp.fctemp[(osp.fctemp$fctemp=="yes"),]
+unique(osp.fctemp$datasetID)  
+
+
+osp.pcday <- newdat
+osp.pcday$pcday <- ifelse(ave(osp.pcday$photoandchilldays, osp.pcday$datasetID, osp.pcday$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pcday <- osp.pcday[(osp.pcday$pcday=="yes"),]
+unique(osp.pcday$datasetID) 
+
+
+osp.fcday <- newdat
+osp.fcday$fcday <- ifelse(ave(osp.fcday$forceandchilldays, osp.fcday$datasetID, osp.fcday$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.fcday <- osp.fcday[(osp.fcday$fcday=="yes"),]
+unique(osp.fcday$datasetID) 
+
+
+osp.pfield <- newdat
+osp.pfield$pfield <- ifelse(ave(osp.pfield$photoandfieldsamps, osp.pfield$datasetID, osp.pfield$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.pfield <- osp.pfield[(osp.pfield$pfield=="yes"),]
+unique(osp.pfield$datasetID) 
+
+
+osp.ffield <- newdat
+osp.ffield$ffield <- ifelse(ave(osp.ffield$photoandfieldsamps, osp.ffield$datasetID, osp.ffield$study, FUN = function(x) all(x==TRUE)), "yes", "no")
+osp.ffield <- osp.ffield[(osp.ffield$ffield=="yes"),]
+unique(osp.ffield$datasetID) 
 
