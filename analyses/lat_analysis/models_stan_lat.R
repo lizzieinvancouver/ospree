@@ -191,10 +191,9 @@ if(FALSE){
   hist(lat.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
   hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
   
-  library(rethinking)
   library(bayesplot)
   y <- as.vector(lat.stan$resp)
-  yrep <- extract.samples(m2l.inter)
+  yrep <- extract(m2l.inter)
   yrep <- yrep$yhat
   ppc <- ppc_stat(y, yrep)
   ppc.max <- ppc_stat(y, yrep, stat = "max")
@@ -202,6 +201,7 @@ if(FALSE){
   ppc.sd <- ppc_stat(y, yrep, stat = "sd")
   
   library(egg)
+  quartz()
   grid.arrange(ppc, ppc.sd, ppc.max, ppc.min, ncol=2, nrow=2)
   
   

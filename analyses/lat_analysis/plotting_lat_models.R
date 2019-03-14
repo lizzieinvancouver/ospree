@@ -132,42 +132,42 @@ lats <- rstanarm::posterior_predict(m2l.inter, "mu_b_lat_sp", draws = 500)
 mod_sum <- posterior_samples(m2l.inter)
 
 # To plot with photo on the x axis we need to set up a vector of distances to predict: 
-newphoto <- seq(from=range(lat.stan$photo.z)[1], to=range(lat.stan$photo.z)[2], length.out=200)  
-#newlat <- seq(from=range(lat.stan$photo)[1], to=range(lat.stan$photo)[2], length.out=200)  
+#newphoto <- seq(from=range(lat.stan$photo.z)[1], to=range(lat.stan$photo.z)[2], length.out=200)  
+newlat <- seq(from=range(lat.stan$lat.z)[1], to=range(lat.stan$lat.z)[2], length.out=200)  
 
 
 ### Repeat for two extreme species... and combine in one loop
-osp.photo.lolat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
-osp.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
+osp.lat.lophoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
+osp.lat.hiphoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
 
-for(i in 1:length(newphoto)){
+for(i in 1:length(newlat)){
   
-  osp.photo.lolat.onephoto <- mod_sum$mu_a_sp + (mod_sum$mu_b_photo_sp)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp)*sort(unique(lat.stan$lat.z))[1] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[1]*newphoto[i])
-  osp.photo.hilat.onephoto <-(mod_sum$mu_a_sp) + (mod_sum$mu_b_photo_sp)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp)*sort(unique(lat.stan$lat.z))[2] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[2]*newphoto[i])
-  lolat.df.here <-  data.frame(photo=newphoto[i], resp=mean(osp.photo.lolat.onephoto),
-                               fs.25=quantile(osp.photo.lolat.onephoto, 0.25), fs.75=quantile(osp.photo.lolat.onephoto, 0.75))
-  hilat.df.here <-  data.frame(photo=newphoto[i], resp=mean(osp.photo.hilat.onephoto),
-                               fs.25=quantile(osp.photo.hilat.onephoto, 0.25), fs.75=quantile(osp.photo.hilat.onephoto, 0.75))
-  osp.photo.lolat <- rbind(osp.photo.lolat, lolat.df.here)
-  osp.photo.hilat <- rbind(osp.photo.hilat, hilat.df.here)
+  osp.lat.lophoto.onelat <- mod_sum$mu_a_sp + (mod_sum$mu_b_lat_sp)*newlat[i] + 
+    (mod_sum$mu_b_photo_sp)*sort(unique(lat.stan$photo.z))[1] +
+    mod_sum$mu_b_pl_sp*(sort(unique(lat.stan$photo.z))[1]*newlat[i])
+  osp.lat.hiphoto.onelat <-(mod_sum$mu_a_sp) + (mod_sum$mu_b_lat_sp)*newlat[i] + 
+    (mod_sum$mu_b_photo_sp)*sort(unique(lat.stan$photo.z))[2] +
+    mod_sum$mu_b_pl_sp*(sort(unique(lat.stan$photo.z))[2]*newlat[i])
+  lophoto.df.here <-  data.frame(lat=newlat[i], resp=mean(osp.lat.lophoto.onelat),
+                               fs.25=quantile(osp.lat.lophoto.onelat, 0.25), fs.75=quantile(osp.lat.lophoto.onelat, 0.75))
+  hiphoto.df.here <-  data.frame(lat=newlat[i], resp=mean(osp.lat.hiphoto.onelat),
+                               fs.25=quantile(osp.lat.hiphoto.onelat, 0.25), fs.75=quantile(osp.lat.hiphoto.onelat, 0.75))
+  osp.lat.lophoto <- rbind(osp.lat.lophoto, lophoto.df.here)
+  osp.lat.hiphoto <- rbind(osp.lat.hiphoto, hiphoto.df.here)
 }
 
-hilat<-mean(mod_sum$mu_b_lat_sp)+1*sd(mod_sum$mu_b_lat_sp)
-lolat<-mean(mod_sum$mu_b_lat_sp)-1*sd(mod_sum$mu_b_lat_sp)
+hiphoto<-mean(mod_sum$mu_b_photo_sp)+1*sd(mod_sum$mu_b_photo_sp)
+lophoto<-mean(mod_sum$mu_b_photo_sp)-1*sd(mod_sum$mu_b_photo_sp)
 
-osp.photo.hilat$lat <- hilat
-osp.photo.lolat$lat <- lolat
-osp.photo <- rbind(osp.photo.hilat, osp.photo.lolat)
+osp.lat.hiphoto$photo <- hiphoto
+osp.lat.lophoto$photo <- lophoto
+osp.lat <- rbind(osp.lat.hiphoto, osp.lat.lophoto)
 
-osp.photo$photo_trans <- (osp.photo$photo)*sd(lat.stan$photo) + mean(lat.stan$photo)
-osp.photo$lat_trans <- as.character((osp.photo$lat)*sd(lat.stan$lat) + mean(lat.stan$lat))
+osp.lat$lat_trans <- (osp.lat$lat)*sd(lat.stan$lat) + mean(lat.stan$lat)
+osp.lat$photo_trans <- as.character((osp.lat$photo)*sd(lat.stan$photo) + mean(lat.stan$photo))
 
-photoperiod.allspp <- ggplot(osp.photo, aes(x=photo_trans, y=resp)) + geom_line(aes(linetype=lat_trans, col=lat_trans)) +
-  geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=lat_trans), alpha=0.1) + theme_classic() +
+latitude.allspp <- ggplot(osp.lat, aes(x=lat, y=resp)) + geom_line(aes(linetype=photo, col=photo)) +
+  geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=photo), alpha=0.1) + theme_classic() +
   scale_linetype_manual(name="Latitude", values=c("dashed", "solid"),
                         labels=c("10.5078"="10.5078",
                                  "64.2669"="64.2669")) +
@@ -178,7 +178,7 @@ photoperiod.allspp <- ggplot(osp.photo, aes(x=photo_trans, y=resp)) + geom_line(
   theme(legend.text.align = 0, legend.position = c(0.75, 0.85), legend.box.background = element_rect(), panel.border = element_rect())
 
 quartz()
-photoperiod.allspp
+latitude.allspp
 
 grid.arrange()
 
@@ -192,11 +192,11 @@ picabi.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numer
 
 for(i in 1:length(newphoto)){
   
-  fagsyl.photo.lolat.onephoto <- (mod_sum$mu_a_sp + mod_sum$`a_sp[14]`) + (mod_sum$mu_b_photo_sp + mod_sum$`b_photo[14]`)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp + mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[1] +
+  fagsyl.photo.lolat.onephoto <- (mod_sum$`a_sp[14]`) + (mod_sum$`b_photo[14]`)*newphoto[i] + 
+    (mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[1] +
     mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[1]*newphoto[i])
-  fagsyl.photo.hilat.onephoto <-(mod_sum$mu_a_sp + mod_sum$`a_sp[14]`) + (mod_sum$mu_b_photo_sp + mod_sum$`b_photo[14]`)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp + mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[2] +
+  fagsyl.photo.hilat.onephoto <-(mod_sum$`a_sp[14]`) + (mod_sum$`b_photo[14]`)*newphoto[i] + 
+    (mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[2] +
     mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[2]*newphoto[i])
   lolat.df.here <-  data.frame(photo=newphoto[i], resp=mean(fagsyl.photo.lolat.onephoto),
                                fs.25=quantile(fagsyl.photo.lolat.onephoto, 0.25), fs.75=quantile(fagsyl.photo.lolat.onephoto, 0.75))
