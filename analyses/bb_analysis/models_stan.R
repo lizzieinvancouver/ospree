@@ -40,7 +40,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 
 use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE

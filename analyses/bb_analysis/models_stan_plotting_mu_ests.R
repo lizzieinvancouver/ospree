@@ -56,9 +56,9 @@ if(use.zscore==FALSE){
 }
 if(use.zscore==TRUE){
   load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
-  fit <- m2l.ni
+  fitz <- m2l.ni
 }
-fit.sum <- summary(fit)$summary
+fit.sumz <- summary(fit)$summary
 quartz()
 hist(bb.stan$chill.ports)
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
