@@ -71,14 +71,20 @@ for(i in 1:length(photop_all$lat)){
   date_expmin<-date[which(round(photos, digits=1)==round(photop_all$daylength_min[i], digits=1))]
   date_expmax<-date[which(round(photos, digits=1)==round(photop_all$daylength_maxfordelta[i], digits=1))]
   #when there is no date that matches the maximum date , choose the closest one, as long as it is within .5 hours
+  
   if(length(date_expmax)==0)   {
     mindiff<-min(abs(photop_all$daylength_maxfordelta[i]-photos))
     if(mindiff<0.5){date_expmax<-date[which(abs(photop_all$daylength_maxfordelta[i]-photos)==mindiff)]
     }else {
-      min_dlmax<-round(max(photos), digits=1)
+      min_dlmax<-max(photos)
       date_expmax<-NA
     }
   }
+  if(i==9){
+    date_expmax<-date[which(photos==min_dlmax)]
+    photop_all$daylength_maxfordelta[i]<-min_dlmax
+    }
+  
   #when there is no date that matches the minimum date, choose the closest one, as long as it is within .5 hours
   if(length(date_expmin)==0)   {
     mindiff<-min(abs(photop_all$daylength_min[i]-photos))
@@ -91,8 +97,13 @@ for(i in 1:length(photop_all$lat)){
     }
   }
   maxdelta_temp<-max(photos)-min(photos)#maximum difference in daylength at lat[i] (difference in daylength between summer solcstice and winter solcstice
+  if(i==9){maxdelta_temp<-photop_all$daylength_maxfordelta[i]-min(photos)}
+  
   if(maxdelta_temp<photop_all$delta[i]){photop_all$time[i]<-"ER"}#exceeds range
-  else if (is.na(date_expmax)){photop_all$time[i]<-paste("max NA (",min_dlmax,")", sep="")}
+  else if (is.na(date_expmax)){#this is no longer used because of code above
+    photop_all$time[i]<-paste("max NA (",min_dlmax,")", sep="")
+    }
+  
   else if (is.na(date_expmin)){
     #photop_all$time[i]<-paste("min NA (",min_dlmin,")", sep="")#when min daylength does not exist naturally
     photop_all$time[i]<-min(as.numeric(strftime(date_expmin2, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j")))#shift in days between date(s) of min daylength and max daylength in exp
@@ -129,6 +140,8 @@ for(i in 1:length(photop_all$lat)){
       photop_all$space[i]<-NA
     }
   }
+  if(i==9){photop_all$time[i]<-paste(photop_all$time[i],"*",sep="")}
+  
 }
 #warnings ok
 #sort by idstudy

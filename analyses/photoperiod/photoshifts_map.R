@@ -32,7 +32,12 @@ timeER<-photop_all[photop_all$time=="ER"|photop_all$time=="min NA (9)"|photop_al
 
 #nacho says that we can use a different background map that looks a little better 
 #(i.e. without having entire countries cut off)
-mapDevice() #create world map shaped window
+mappath<-"figures"
+mapname<-"photoshift_map.pdf"
+pdf(file.path(mappath,mapname), width = 9, height = 6)
+
+#quartz()
+#mapDevice() #create world map shaped window
 map("world", fill=TRUE
     ,col="grey65"
     ,boundary=F,interior=F
@@ -69,3 +74,4 @@ legend(-140,15, # position
        bty = "n") # border
 mtext("A)", side=3, adj=0)
 
+dev.off()

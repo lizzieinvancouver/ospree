@@ -65,6 +65,19 @@
 \section*{Methods}
 \par \textbf{PhenoFit Methods}
 \par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. 
+\par \textbf{Dan's methods for making the photo period curves (June 27 2018)}
+\par Using Cat's table X, I selected all the publications that had 3 or more photoperiod treatments. I than examined each of these papers, and identified only three that used 3 or more photoperiod treatments in the same experiment:  heide93a,ashby62 andcafarra11b.
+I subsetted the data from each publication to the relevant experiment only and combined these into a single data sheet. I plotted the response (days to budburst as a function of the photoperiod treatment. Chilling and species considerably between the response. I catagorized the chilling levels into None, Low, Medium, High as follows: 
+\begin{itemize}
+\item <31 Chill Portion= no chill
+\item31-80= low chill
+\item81-130<-Medium chill
+\item>130=High
+\end{itemize}
+Line types are assigned to species. Additionally, each unique set of predictors (populationXchilling) is grouped by a factor called "thingy". Though not depicted in the map, it importantly indetifies each treament.
+All forcing was at 22 or 21 so it is not included in the map.
+
+More details to follow as I work on this.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
