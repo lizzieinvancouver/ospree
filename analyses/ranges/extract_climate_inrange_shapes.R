@@ -46,15 +46,16 @@ CoAv<-"CorAve" #Corylus avenula
 QuRo<-"QurRo1" #Quercus robur
 
 ## create a species list to apply the function to
-#spslist<-c("BetPub" # select Betula pubescnes
-#           ,"FagSyl" #select Fagus
-#           ,"PicAb1" #speciee picea
-#           ,"BetPen" #Betula pendula
-#           ,"CorAve" #Corylus avenula
-#           ,"QurRo1")
+spslist<-c(#"BetPub" # select Betula pubescnes
+           #,"FagSyl" #select Fagus
+           "PicAb1" #speciee picea
+           ,"BetPen" #Betula pendula
+           ,"CorAve" #Corylus avenula
+           ,"QurRo1")
 
-#fullnames<-c("Betula pubescens","Fagus sylvatica","Picea abies", "Betula pendula",
-#             "Corylus avellana", "Quercus robur")
+fullnames<-c(#"Betula pubescens","Fagus sylvatica",
+             "Picea abies", "Betula pendula",
+             "Corylus avellana", "Quercus robur")
 
 #shorter version with only BetPub and FagSyl
 spslist<-c("BetPub" # select Betula pubescnes
@@ -250,13 +251,18 @@ Climate.in.range<-extractchillforce(spslist,fullnames,trees,tmin,tmax,period)
 #yearlyresultsBettil2014<-yearlyresults
 write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-2017BetPub.csv")
 write.csv(Climate.in.range[,,2],file = "analyses/ranges/climate.in.range1980-2017FagSyl.csv")
+write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-2017PicAb1.csv")
+write.csv(Climate.in.range[,,2],file = "analyses/ranges/climate.in.range1980-2017BetPen.csv")
+write.csv(Climate.in.range[,,3],file = "analyses/ranges/climate.in.range1980-2017CorAve.csv")
+write.csv(Climate.in.range[,,4],file = "analyses/ranges/climate.in.range1980-2017QurRo1.csv")
+
 
 
 
 #plots
 par(mfrow=c(3,2))
 for(i in 1:6){
-  plot(1980:2017,Climate.in.range[,2,i],"l",
+  plot(1980:2017,Climate.in.range[,1,i],"l",
        main=spslist[i],ylab="mean GDD within range")
 }
 
