@@ -1,0 +1,29 @@
+﻿Source,Genus,Species,tmin,min_metric
+GlobTherm,Acer,saccharum,-39,LT50
+GlobTherm,Quercus,ilex,-8.1,LT50
+GlobTherm,Quercus,rubra,-39,LT50
+"Sakai, Larcher & Lenz",Abies,balsamea,-70,LT0
+"Sakai, Larcher & Lenz",Acer,crataegifolium,-25,LT0 for xylem
+"Sakai, Larcher & Lenz",Alnus,firma,-25,LT0 for xylem
+"Sakai, Larcher & Lenz",Betula,ermani,-70,LT0 for xylem
+"Sakai, Larcher & Lenz",Carpinus,tschonoskii,-25,LT0 for xylem
+"Sakai, Larcher & Lenz",Cornus,controversa,-40,LT0 for xylem
+"Sakai, Larcher & Lenz",Fagus,crenata,-25,LT0
+"Sakai, Larcher & Lenz",Fraxinus,mandshurica,-40,LT0 for xylem
+"Sakai, Larcher & Lenz",Liquidambar,styraciflua,-25,LT0
+"Sakai, Larcher & Lenz",Liriodenron,tulipifera,-25,LT0
+"Sakai, Larcher & Lenz",Nyssa,sylvatica,-25,LT0
+"Sakai, Larcher & Lenz",Picea,glauca,-70,LT0
+"Sakai, Larcher & Lenz",Populus,maximowiczii,-70,LT0 for xylem
+"Sakai, Larcher & Lenz",Prunus,spinulosa,-8,LT0
+"Sakai, Larcher & Lenz",Psuedotsuga,menziesii,-45,LT0
+"Sakai, Larcher & Lenz",Quercus,glauca,-18,LT0 for xylem
+"Sakai, Larcher & Lenz",Quercus,ilex,-15,LT50
+"Sakai, Larcher & Lenz",Quercus,robur,-27,LTi for buds
+"Sakai, Larcher & Lenz",Quercus,rubra,-45,LTi for xylem
+"Sakai, Larcher & Lenz",Quercus,macrocarpa,-46,LTi for xylem
+"Sakai, Larcher & Lenz",Quercus,pubescens,-33,LTi for xylem
+"Sakai, Larcher & Lenz",Salix,sachalinensis,-70,LT0 for xylem
+"Sakai, Larcher & Lenz",Sorbus,sargenti,-35,LT0 for xylem
+"Sakai, Larcher & Lenz",Tilia,japonica,-35,LT0 for xylem
+"Sakai, Larcher & Lenz",Vaccinium,myrtillus,-35,LT0
