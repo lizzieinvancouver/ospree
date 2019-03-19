@@ -25,10 +25,10 @@ if(is.data.frame(d)){
     d$dbb=rep(NA,nrow(d))
     d$maxperc_bb=rep(NA,nrow(d))
     d$minperc_bb=rep(NA,nrow(d))
-    d$dist.50bb=rep(NA,nrow(d))
+    d$dist.targbb=rep(NA,nrow(d))
     
     #dat_final <- data.frame(matrix(data=NA,nrow=0,ncol=7))
-    #colnames(dat_final) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb","dist.50bb")
+    #colnames(dat_final) <- c("datasetID","study","treatment","dbb","maxperc_bb","minperc_bb","dist.targbb")
     
     ##Sites that use percent budburst
     percbbsites<-subset(d,respvar=="percentbudburst")
@@ -59,7 +59,7 @@ if(is.data.frame(d)){
         treat=unique(dat2$treatment)
         dat2$response <- as.numeric(as.character(dat2$response))
         #dim(d)
-        for(k in 1:length(treat)) { # k = 9 # This for loop cleans each treatment within studies with more than one treatment
+        for(k in 1:length(treat)) { # k = 1 # This for loop cleans each treatment within studies with more than one treatment
           #print(paste(i,j,k))
           dat3 <- dat2[which(dat2$treatment==treat[k]),]
           #print(paste(k,dim(dat3)[1]))
@@ -72,7 +72,7 @@ if(is.data.frame(d)){
           
           values.in.target<-which(dat3$response>(target.percent-target.percent*acceptablerange)&
                                     dat3$response<(target.percent+target.percent*acceptablerange)&
-                                    dat3$response<100)
+                                    dat3$response<110)
           
           # Check if this can be estimated at all.
           if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time)) {
@@ -85,7 +85,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
               d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
-              d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
+              d[index,"dist.targbb"]<-dat3[values.in.target,"response"]-target.percent
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -95,12 +95,16 @@ if(is.data.frame(d)){
             # response variable are not equal to the targetted % we proceed
             if(length(values.in.target)>1 & length(which(dat3$response==target.percent))==0){  
               #print("case2!!!")
-              index<-rownames(dat3[values.in.target[mindist],])#PROBLEM#This results in NA for sanz-perez09  
-              out.index<-rownames(dat3[which(!1:length(dat3$response)%in%mindist),])
-              d[index,"dbb"]<-dat3[values.in.target[mindist],"response.time"]
-              d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target[mindist],"response"]),length(values.in.target[mindist]))
-              d[index,"minperc_bb"]<-rep(min(dat3[values.in.target[mindist],"response"]),length(values.in.target[mindist]))
-              d[index,"dist.50bb"]<-abs(dat3[values.in.target[mindist],"response"]-target.percent)
+              index<-rownames(dat3[values.in.target,]) 
+              index.min<-rownames(dat3[mindist,])
+              #out.index<-rownames(dat3)[which(!rownames(dat3)%in%index)]
+              #Ailene added the row below- i think this fixes it
+              out.index<-rownames(dat3[which(!rownames(dat3)%in%index.min),])#keep only one row per treatment
+              
+              d[index,"dbb"]<-dat3[values.in.target,"response.time"]
+              d[index,"maxperc_bb"]<-rep(max(dat3[values.in.target,"response"]),length(values.in.target))
+              d[index,"minperc_bb"]<-rep(min(dat3[values.in.target,"response"]),length(values.in.target))
+              d[index,"dist.targbb"]<-abs(dat3[values.in.target,"response"]-target.percent)
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               #dim(d)
@@ -115,7 +119,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[which(dat3$response==target.percent),"response.time"]
               d[index,"maxperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
               d[index,"minperc_bb"]<-dat3[which(dat3$response==target.percent),"response"]
-              d[index,"dist.50bb"]<-rep(0,length(index))
+              d[index,"dist.targbb"]<-rep(0,length(index))
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -131,7 +135,7 @@ if(is.data.frame(d)){
               #d[index,"dbb"]<-dat3[index,"response.time"]
               #d[index,"maxperc_bb"]<-dat3[index,"response"]
               #d[index,"minperc_bb"]<-dat3[index,"response"]
-              #d[index,"dist.50bb"]<-rep(dists.to.target[mindist],length(index))
+              #d[index,"dist.targbb"]<-rep(dists.to.target[mindist],length(index))
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
               
@@ -157,7 +161,7 @@ if(is.data.frame(d)){
               d[index,"dbb"]<-dat3[values.in.target,"response.time"]
               d[index,"maxperc_bb"]<-dat3[values.in.target,"response"]
               d[index,"minperc_bb"]<-dat3[values.in.target,"response"]
-              d[index,"dist.50bb"]<-dat3[values.in.target,"response"]-target.percent
+              d[index,"dist.targbb"]<-dat3[values.in.target,"response"]-target.percent
               # remove whatever not within range
               d<-d[!rownames(d)%in%out.index,]
             }
