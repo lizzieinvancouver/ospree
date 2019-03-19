@@ -72,7 +72,7 @@ if(is.data.frame(d)){
           
           values.in.target<-which(dat3$response>(target.percent-target.percent*acceptablerange)&
                                     dat3$response<(target.percent+target.percent*acceptablerange)&
-                                    dat3$response<100)
+                                    dat3$response<110)
           
           # Check if this can be estimated at all.
           if(length(dat3$response[!is.na(dat3$response)])>1 & is.numeric(dat3$response.time)) {
