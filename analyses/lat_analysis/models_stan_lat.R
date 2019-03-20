@@ -66,13 +66,8 @@ tt <- table(bb.wlat$complex.wname)### testing
 #Syringa_vulgaris          Tilia_cordata          Ulmus_complex      Vaccinium_complex 
 #16                     14                    180                     18 
 
-#myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
-#bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
-
-#lat.stan<-bb.wlat.spp
 lat.stan<-bb.wlat
-#write.csv(lat.stan, "~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_arm.csv", row.names = FALSE)
-#lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
+
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat <- lat.stan$provenance.lat
