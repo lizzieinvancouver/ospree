@@ -288,14 +288,17 @@ spests$bbchange<-spests$bothwarm-spests$bbnowarm
   
 
 
-#pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
-quartz()
+pdf("figures/heatmapchangebb.pdf", width = 6, height = 6)
+#quartz()
+
+library("ggplot2")
+library("gridExtra")
+
 par(mfrow=c(1,7))
 for(i in 1:7){
 spests2<-spests[spests$warming==i,]
-ggplot(spests2, aes(as.factor(lon), as.factor(lat))) +
+  ggplot(spests2, aes(as.factor(lon), as.factor(lat))) +
   geom_tile(aes(fill=bbchange)) +
   scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")
-
 }
 dev.off()
