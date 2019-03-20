@@ -25,7 +25,7 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 ## load the model
-load("../lat_analysis/stan/m2l.inter.lat.nonz.Rda")
+load("../lat_analysis/stan/m2l.inter.lat.chillport.z.Rda")
 
 
 # dostan = TRUE
@@ -70,13 +70,8 @@ tt <- table(bb.wlat$complex.wname)### testing
 #Syringa_vulgaris          Tilia_cordata          Ulmus_complex      Vaccinium_complex 
 #16                     14                    180                     18 
 
-#myspp<-c("Betula_pendula", "Betula_pubescens", "Fagus_sylvatica", "Picea_abies", "Pseudotsuga_menziesii", "Ulmus_complex")
-#bb.wlat.spp<-subset(bb.wlat, complex.wname%in%myspp)
-
-#lat.stan<-bb.wlat.spp
 lat.stan<-bb.wlat
-#write.csv(lat.stan, "~/Documents/git/ospree/analyses/lat_analysis/lat_output/lat_arm.csv", row.names = FALSE)
-#lat.stan<-subset(bb.wlat.spp, bb.wlat.spp$resp<600)
+
 lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat <- lat.stan$provenance.lat
@@ -84,6 +79,7 @@ lat.stan$lat <- lat.stan$provenance.lat
 lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 
 lat.stan<-na.omit(lat.stan)
+source("../lat_analysis/source/bblat_zscorepreds.R")
 
 #### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
 figpath <- "../lat_analysis/figures"
@@ -131,7 +127,7 @@ lats <- rstanarm::posterior_predict(m2l.inter, "mu_b_lat_sp", draws = 500)
 
 mod_sum <- posterior_samples(m2l.inter)
 
-# To plot with photo on the x axis we need to set up a vector of distances to predict: 
+# To plot with lat on the x axis we need to set up a vector of distances to predict: 
 #newphoto <- seq(from=range(lat.stan$photo.z)[1], to=range(lat.stan$photo.z)[2], length.out=200)  
 newlat <- seq(from=range(lat.stan$lat.z)[1], to=range(lat.stan$lat.z)[2], length.out=200)  
 
@@ -156,99 +152,153 @@ for(i in 1:length(newlat)){
   osp.lat.hiphoto <- rbind(osp.lat.hiphoto, hiphoto.df.here)
 }
 
-hiphoto<-mean(mod_sum$mu_b_photo_sp)+1*sd(mod_sum$mu_b_photo_sp)
-lophoto<-mean(mod_sum$mu_b_photo_sp)-1*sd(mod_sum$mu_b_photo_sp)
+
+hiphoto<-mean(lat.stan$photo)+1*sd(lat.stan$photo)
+lophoto<-mean(lat.stan$photo)-1*sd(lat.stan$photo)
 
 osp.lat.hiphoto$photo <- hiphoto
 osp.lat.lophoto$photo <- lophoto
 osp.lat <- rbind(osp.lat.hiphoto, osp.lat.lophoto)
 
 osp.lat$lat_trans <- (osp.lat$lat)*sd(lat.stan$lat) + mean(lat.stan$lat)
-osp.lat$photo_trans <- as.character((osp.lat$photo)*sd(lat.stan$photo) + mean(lat.stan$photo))
+osp.lat$photo_trans <- as.character(osp.lat$photo)
 
-latitude.allspp <- ggplot(osp.lat, aes(x=lat, y=resp)) + geom_line(aes(linetype=photo, col=photo)) +
-  geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=photo), alpha=0.1) + theme_classic() +
-  scale_linetype_manual(name="Latitude", values=c("dashed", "solid"),
-                        labels=c("10.5078"="10.5078",
-                                 "64.2669"="64.2669")) +
-  scale_color_manual(name="Latitude", values=c("red", "blue"),
-                     labels=c("10.5078"="10.5078",
-                              "64.2669"="64.2669")) + xlab("Photoperiod (hrs)") +
+latitude.allspp <- ggplot(osp.lat, aes(x=lat_trans, y=resp)) + geom_line(aes(linetype=photo_trans, col=photo_trans)) +
+  geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=photo_trans), alpha=0.1) + theme_classic() +
+  scale_linetype_manual(name="Photoperiod", values=c("dashed", "solid"),
+                        labels=c("7.97834632517043"="8 hours",
+                                 "19.0553108948026"="19 hours")) +
+  scale_color_manual(name="Photoperiod", values=c("red", "blue"),
+                     labels=c("7.97834632517043"="8 hours",
+                              "19.0553108948026"="19 hours")) + xlab("Latitude") +
+  scale_fill_manual(name="Photoperiod", values=c("red", "blue"),
+                     labels=c("7.97834632517043"="8 hours",
+                              "19.0553108948026"="19 hours")) +
   ylab("Day of Budburst") + guides(fill=FALSE) +
-  theme(legend.text.align = 0, legend.position = c(0.75, 0.85), legend.box.background = element_rect(), panel.border = element_rect())
+  theme(legend.text.align = 0, legend.position = c(0.85, 0.85), legend.box.background = element_rect())
 
 quartz()
 latitude.allspp
 
-grid.arrange()
-
+if(FALSE){
+# To plot with photo on the x axis we need to set up a vector of distances to predict: 
+newphoto <- seq(from=range(lat.stan$photo.z)[1], to=range(lat.stan$photo.z)[2], length.out=200)  
 
 ### Repeat for two extreme species... and combine in one loop
-fagsyl.photo.lolat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
-fagsyl.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
-
-picabi.photo.lolat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 18 species
-picabi.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
+osp.photo.lolat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
+osp.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
 
 for(i in 1:length(newphoto)){
   
-  fagsyl.photo.lolat.onephoto <- (mod_sum$`a_sp[14]`) + (mod_sum$`b_photo[14]`)*newphoto[i] + 
-    (mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[1] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[1]*newphoto[i])
-  fagsyl.photo.hilat.onephoto <-(mod_sum$`a_sp[14]`) + (mod_sum$`b_photo[14]`)*newphoto[i] + 
-    (mod_sum$`b_lat[14]`)*sort(unique(lat.stan$lat.z))[2] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[2]*newphoto[i])
-  lolat.df.here <-  data.frame(photo=newphoto[i], resp=mean(fagsyl.photo.lolat.onephoto),
-                               fs.25=quantile(fagsyl.photo.lolat.onephoto, 0.25), fs.75=quantile(fagsyl.photo.lolat.onephoto, 0.75))
-  hilat.df.here <-  data.frame(photo=newphoto[i], resp=mean(fagsyl.photo.hilat.onephoto),
-                               fs.25=quantile(fagsyl.photo.hilat.onephoto, 0.25), fs.75=quantile(fagsyl.photo.hilat.onephoto, 0.75))
-  fagsyl.photo.lolat <- rbind(fagsyl.photo.lolat, lolat.df.here)
-  fagsyl.photo.hilat <- rbind(fagsyl.photo.hilat, hilat.df.here)
+  osp.photo.lolat.onephoto <- mod_sum$mu_a_sp + (mod_sum$mu_b_photo_sp)*newphoto[i] + 
+    (mod_sum$mu_b_lat_sp)*sort(unique(lat.stan$lat.z))[1] +
+    mod_sum$mu_b_pl_sp*(sort(unique(lat.stan$lat.z))[1]*newphoto[i])
+  osp.photo.hilat.onephoto <-(mod_sum$mu_a_sp) + (mod_sum$mu_b_photo_sp)*newphoto[i] + 
+    (mod_sum$mu_b_lat_sp)*sort(unique(lat.stan$lat.z))[2] +
+    mod_sum$mu_b_pl_sp*(sort(unique(lat.stan$lat.z))[2]*newphoto[i])
+  lolat.df.here <-  data.frame(photo=newphoto[i], resp=mean(osp.photo.lolat.onephoto),
+                                 fs.25=quantile(osp.photo.lolat.onephoto, 0.25), fs.75=quantile(osp.photo.lolat.onephoto, 0.75))
+  hilat.df.here <-  data.frame(photo=newphoto[i], resp=mean(osp.photo.hilat.onephoto),
+                                 fs.25=quantile(osp.photo.hilat.onephoto, 0.25), fs.75=quantile(osp.photo.hilat.onephoto, 0.75))
+  osp.photo.lolat <- rbind(osp.photo.lolat, lolat.df.here)
+  osp.photo.hilat <- rbind(osp.photo.hilat, hilat.df.here)
+}
+
+
+hilat<-mean(lat.stan$lat)+1*sd(lat.stan$lat)
+lolat<-mean(lat.stan$lat)-1*sd(lat.stan$lat)
+
+osp.photo.hilat$lat <- hilat
+osp.photo.lolat$lat <- lolat
+osp.photo <- rbind(osp.photo.hilat, osp.photo.lolat)
+
+osp.photo$photo_trans <- (osp.photo$photo)*sd(lat.stan$photo) + mean(lat.stan$photo)
+osp.photo$lat_trans <- as.character(osp.photo$lat)
+
+photoperiod.allspp <- ggplot(osp.photo, aes(x=photo_trans, y=resp)) + geom_line(aes(linetype=lat_trans, col=lat_trans)) +
+  geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=lat_trans), alpha=0.1) + theme_classic() +
+  scale_linetype_manual(name="Latitude", values=c("dashed", "solid"),
+                        labels=c("60.40136"="60.40136",
+                                 "43.90242"="43.90242")) +
+  scale_color_manual(name="Latitude", values=c("red", "blue"),
+                     labels=c("60.40136"="60.40136",
+                              "43.90242"="43.90242")) + xlab("Latitude") +
+  scale_fill_manual(name="Latitude", values=c("red", "blue"),
+                    labels=c("60.40136"="60.40136",
+                             "43.90242"="43.90242")) +
+  ylab("Day of Budburst") + guides(fill=FALSE) +
+  theme(legend.text.align = 0, legend.position = c(0.75, 0.85), legend.box.background = element_rect())
+
+quartz()
+photoperiod.allspp
+
+
+### Repeat for two extreme species... and combine in one loop
+fagsyl.lat.lophoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
+fagsyl.lat.hiphoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
+
+picabi.lat.lophoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 18 species
+picabi.lat.hiphoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
+
+for(i in 1:length(newlat)){
+  
+  fagsyl.lat.lophoto.onelat <- (mod_sum$`a_sp[14]`) + (mod_sum$`b_lat[14]`)*newlat[i] + 
+    (mod_sum$`b_photo[14]`)*sort(unique(lat.stan$photo.z))[1] +
+    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$photo.z))[1]*newlat[i])
+  fagsyl.lat.hiphoto.onelat <-(mod_sum$`a_sp[14]`) + (mod_sum$`b_lat[14]`)*newlat[i] + 
+    (mod_sum$`b_photo[14]`)*sort(unique(lat.stan$photo.z))[2] +
+    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$photo.z))[2]*newlat[i])
+  lophoto.df.here <-  data.frame(lat=newphoto[i], resp=mean(fagsyl.lat.lophoto.onelat),
+                               fs.25=quantile(fagsyl.lat.lophoto.onelat, 0.25), fs.75=quantile(fagsyl.lat.lophoto.onelat, 0.75))
+  hiphoto.df.here <-  data.frame(lat=newlat[i], resp=mean(fagsyl.lat.hiphoto.onelat),
+                               fs.25=quantile(fagsyl.lat.hiphoto.onelat, 0.25), fs.75=quantile(fagsyl.lat.hiphoto.onelat, 0.75))
+  fagsyl.lat.lophoto <- rbind(fagsyl.lat.lophoto, lophoto.df.here)
+  fagsyl.lat.hiphoto <- rbind(fagsyl.lat.hiphoto, hiphoto.df.here)
   
   
-  picabi.photo.lolat.onephoto <- (mod_sum$mu_a_sp + mod_sum$`a_sp[18]`) + (mod_sum$mu_b_photo_sp + mod_sum$`b_photo[18]`)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp + mod_sum$`b_lat[18]`)*sort(unique(lat.stan$lat.z))[1] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[1]*newphoto[i])
-  picabi.photo.hilat.onephoto <-(mod_sum$mu_a_sp + mod_sum$`a_sp[18]`) + (mod_sum$mu_b_photo_sp + mod_sum$`b_photo[18]`)*newphoto[i] + 
-    (mod_sum$mu_b_lat_sp + mod_sum$`b_lat[18]`)*sort(unique(lat.stan$lat.z))[2] +
-    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$lat.z))[2]*newphoto[i])
-  lolat.df.here <-  data.frame(photo=newphoto[i], resp=mean(picabi.photo.lolat.onephoto),
-                               fs.25=quantile(picabi.photo.lolat.onephoto, 0.25), fs.75=quantile(picabi.photo.lolat.onephoto, 0.75))
-  hilat.df.here <-  data.frame(photo=newphoto[i], resp=mean(picabi.photo.hilat.onephoto),
-                               fs.25=quantile(picabi.photo.hilat.onephoto, 0.25), fs.75=quantile(picabi.photo.hilat.onephoto, 0.75))
-  picabi.photo.lolat <- rbind(picabi.photo.lolat, lolat.df.here)
-  picabi.photo.hilat <- rbind(picabi.photo.hilat, hilat.df.here)
+  picabi.lat.lophoto.onelat <- (mod_sum$`a_sp[18]`) + (mod_sum$`b_lat[18]`)*newlat[i] + 
+    (mod_sum$`b_photo[18]`)*sort(unique(lat.stan$photo.z))[1] +
+    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$photo.z))[1]*newlat[i])
+  picabi.lat.hiphoto.onelat <-(mod_sum$`a_sp[18]`) + (mod_sum$`b_lat[18]`)*newlat[i] + 
+    (mod_sum$`b_photo[18]`)*sort(unique(lat.stan$photo.z))[2] +
+    mod_sum[["mu_b_pl_sp"]]*(sort(unique(lat.stan$photo.z))[2]*newlat[i])
+  lophoto.df.here <-  data.frame(lat=newphoto[i], resp=mean(picabi.lat.lophoto.onelat),
+                                 fs.25=quantile(picabi.lat.lophoto.onelat, 0.25), fs.75=quantile(picabi.lat.lophoto.onelat, 0.75))
+  hiphoto.df.here <-  data.frame(lat=newlat[i], resp=mean(picabi.lat.hiphoto.onelat),
+                                 fs.25=quantile(picabi.lat.hiphoto.onelat, 0.25), fs.75=quantile(picabi.lat.hiphoto.onelat, 0.75))
+  picabi.lat.lophoto <- rbind(picabi.lat.lophoto, lophoto.df.here)
+  picabi.lat.hiphoto <- rbind(picabi.lat.hiphoto, hiphoto.df.here)
   
   
 }
 
-hilat<-mean(mod_sum$mu_b_lat_sp)+1*sd(mod_sum$mu_b_lat_sp)
-lolat<-mean(mod_sum$mu_b_lat_sp)-1*sd(mod_sum$mu_b_lat_sp)
+hiphoto<-mean(lat.stan$photo)+1*sd(lat.stan$photo)
+lophoto<-mean(lat.stan$photo)-1*sd(lat.stan$photo)
 
-fagsyl.photo.hilat$lat <- hilat
-fagsyl.photo.lolat$lat <- lolat
-fagsyl.photo <- rbind(fagsyl.photo.hilat, fagsyl.photo.lolat)
-fagsyl.photo$species <- "FAGSYL"
+fagsyl.lat.hiphoto$photo <- hiphoto
+fagsyl.lat.lophoto$photo <- lophoto
+fagsyl.lat <- rbind(fagsyl.lat.hiphoto, fagsyl.lat.lophoto)
+fagsyl.lat$species <- "FAGSYL"
 
-picabi.photo.hilat$lat <- hilat
-picabi.photo.lolat$lat <- lolat
-picabi.photo <- rbind(picabi.photo.hilat, picabi.photo.lolat)
-picabi.photo$species <- "PICABI"
+picabi.lat.hiphoto$photo <- hiphoto
+picabi.lat.lophoto$photo <- lophoto
+picabi.lat <- rbind(picabi.lat.hiphoto, picabi.lat.lophoto)
+picabi.lat$species <- "PICABI"
 
-photoxlat <- rbind(fagsyl.photo, picabi.photo)
+photoxlat <- rbind(fagsyl.lat, picabi.lat)
 
-photoxlat$photo_trans <- (photoxlat$photo)*sd(lat.stan$photo) + mean(lat.stan$photo)
-photoxlat$lat_trans <- as.character((photoxlat$lat)*sd(lat.stan$lat) + mean(lat.stan$lat))
+photoxlat$lat_trans <- (photoxlat$lat)*sd(lat.stan$lat) + mean(lat.stan$lat)
+photoxlat$photo_trans <- as.character(photoxlat$photo)
 
 cols <- c("#1F78B4", "#E31A1C")
-photoperiod <- ggplot(photoxlat, aes(x=photo_trans, y=resp)) + geom_line(aes(linetype=lat_trans, alpha=lat_trans, col=species)) +
+photoperiod <- ggplot(photoxlat, aes(x=lat_trans, y=resp)) + geom_line(aes(linetype=photo_trans, alpha=photo_trans, col=species)) +
   geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=species), alpha=0.1) + theme_classic() +
-  scale_linetype_manual(name="Latitude", values=c("dashed", "solid"),
-                        labels=c("10.5078"="10.5078",
-                                 "64.2669"="64.2669")) +
-  scale_alpha_manual(name="Latitude", values=c(0.3, 1),
-                     labels=c("10.5078"="10.5078",
-                              "64.2669"="64.2669")) + xlab("Photoperiod (hrs)") +
+  scale_linetype_manual(name="Photoperiod", values=c("dashed", "solid"),
+                        labels=c("7.97834632517043"="8 hours",
+                                 "19.0553108948026"="19 hours")) +
+  scale_alpha_manual(name="Photoperiod", values=c(0.3, 1),
+                     labels=c("7.97834632517043"="8 hours",
+                              "19.0553108948026"="19 hours")) + xlab("Latitude") +
   scale_colour_manual(name="Species", values=cols,
                       labels=c("FAGSYL"=expression(paste(italic("Fagus sylvatica"))),
                                "PICABI"=expression(paste(italic("Picea abies"))))) +
@@ -256,8 +306,8 @@ photoperiod <- ggplot(photoxlat, aes(x=photo_trans, y=resp)) + geom_line(aes(lin
                     labels=c("FAGSYL"=expression(paste(italic("Fagus sylvatica"))),
                              "PICABI"=expression(paste(italic("Picea abies"))))) +
   ylab("Day of Budburst") + guides(fill=FALSE) +
-  theme(legend.text.align = 0, legend.position = c(0.75, 0.85))
+  theme(legend.text.align = 0)
 
 quartz()
 photoperiod
-
+}
