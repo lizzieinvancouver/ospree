@@ -78,7 +78,7 @@ bb$expstartdate[which(is.na(bb$expstartdate)==TRUE)] <- bb$fieldsample.date2[whi
 bb$expstartdate <- as.Date(bb$expstartdate, format="%Y-%m-%d")
 bb$response.time.integer <- as.integer(bb$response.time)
 bb$bbdate <- as.Date(bb$response.time.integer, origin=bb$expstartdate, format="%Y-%m-%d")
-bb<-bb[-which(is.na(bb$response.time.integer)),]#Ailene added to get rid if response.time==NA
+bb<-bb[-which(is.na(bb$response.time.integer)),]#get rid if response.time==NA
 # generate an empty variable to store mean temps
 bb$avg_bbtemp<-NA
 missingclim<-NA#keep track of how many uniqueIDs are missing climate
@@ -97,13 +97,13 @@ for(i in 1:nrow(bb)){
   clim.i<-subset(climdat, uniqueID==ID.i)
   
   #clim.i$Tmean
-  if(dim(clim.i)[1]==0){#Ailene added; if no climate data for any years, avg_bbtemp is NA
+  if(dim(clim.i)[1]==0){#if no climate data for any years, avg_bbtemp is NA
     bb$avg_bbtemp[i]<-NA
     missingclim<-c(missingclim,i)
   }
   else if (length(unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i))==1 & unique(clim.i$year==year.end.i & clim.i$doy==doy.end.i)==FALSE){
     bb$avg_bbtemp[i]<-NA
-  }#Ailene added; if no climate data for one of required years, avg_bbtemp is NA
+  }#if no climate data for one of required years, avg_bbtemp is NA
   else if(!is.na(year.end.i) & dim(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i),])[1]!=0){
       print(i)
       bb$avg_bbtemp[i]<-mean(clim.i[which(clim.i$year==year.i & clim.i$doy==doy.i):
