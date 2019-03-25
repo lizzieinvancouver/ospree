@@ -1,1 +1,15 @@
-paper,assignee,strength_utah,weak_utah,thresh_utah,strength_chillport,weak_chillport,thresh_chill,species,test_utah_cp,other_notesAnderson1992,Ailene,,,,,,,,,Harrington,Ailene,,,,,,,,,Luedeling2015,Ailene,,,,,,,,,Darbyshire2016,Cat,,,,,,,,,Harrington2010,Cat,,,,,,,,,Luedeling2013,Cat,,,,,,,,,Fu2012,Dan,,,,,,,,,Luedeling2011,Dan,,,,,,,,,Maulion2014,Dan,,,,,,,,,Fu2014,Lizzie,,,,,,,MODIS data,,Does not use these (chilling unit) models but does compare one-cue versus two-cue models. Luedeling2009,Lizzie,,,,,,,Junglans sp. (walnut crop),,"Compared chill hours, utah model, positive utah model and Dyanmic model É positive utah and dynamic are better than other two; authors day the dynamic is best but that statement is iffy based on actual results"Okie2011 ,Lizzie,,,,,,,Prunus persica (peach),,"Does not test different models, tests presence and type of light, good review in intro, see wiki"Gould2015,Nacho,,,,,,Temperatures >10C can effectively provide chilling,Abies amabilis; Abies grandis; Abies procera; Arbutus menziesii;  Larix laricina; Thuja plicata; Tsuga heterophylla; Pinus contorta; Pinus monticola; Pinus ponderosa; Pseudotsuga menziesii; ,NO,"This paper uses chilling hours, and refers to Harrington et al. 2010 as a reference for how temperature is related with chilling units"Luedeling2011,Nacho,,,,,,,,,
+paper,assignee,strength_utah,weak_utah,thresh_utah,strength_chillport,weak_chillport,thresh_chill,species,test_utah_cp,other_notes
+Anderson1992,Ailene,,,,,,,,,
+Harrington,Ailene,,,,,,,,,
+Luedeling2015,Ailene,,,,,,,,,
+Darbyshire2016,Cat,,,,,,,,,
+Harrington2010,Cat,,,,,,,,,
+Luedeling2013,Cat,,,,,,,,,
+Fu2012,Dan,,,,,,,"Betula pendula, Qurcus robur, Fagus sylvatica",,This doesn't really compare Utah to Chill portions but considers lost of models for integrating forcing and chilling
+Luedeling2011,Dan,,,,"best in warm climates, ""not aware of any tests in cold or temperate regions""",,,,,Location matters
+Maulion2014,Dan,Best for prediction in Argentina,needed to modify ,,,,,Prunus persica (peach),Y,"Used ""Positive Utah model"" in which high temperatures during chilling don't negate chilling like original one does"
+Fu2014,Lizzie,,,,,,,MODIS data,,Does not use these (chilling unit) models but does compare one-cue versus two-cue models. 
+Luedeling2009,Lizzie,,,,,,,Junglans sp. (walnut crop),,"Compared chill hours, utah model, positive utah model and Dyanmic model É positive utah and dynamic are better than other two; authors day the dynamic is best but that statement is iffy based on actual results"
+Okie2011 ,Lizzie,,,,,,,Prunus persica (peach),,"Does not test different models, tests presence and type of light, good review in intro, see wiki"
+Gould2015,Nacho,,,,,,Temperatures >10C can effectively provide chilling,Abies amabilis; Abies grandis; Abies procera; Arbutus menziesii;  Larix laricina; Thuja plicata; Tsuga heterophylla; Pinus contorta; Pinus monticola; Pinus ponderosa; Pseudotsuga menziesii; ,NO,"This paper uses chilling hours, and refers to Harrington et al. 2010 as a reference for how temperature is related with chilling units"
+Luedeling2011,Nacho,,,,,,,,,
