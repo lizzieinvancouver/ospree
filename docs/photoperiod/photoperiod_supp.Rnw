@@ -79,6 +79,14 @@ All forcing was at 22 or 21 so it is not included in the map.
 
 More details to follow as I work on this.
 
+
+We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for 
+
+
+\par \textbf{Greenup differences}
+\par Satellite imaginery are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at: http... DAN, could you please provide the website from where the maps were extracted), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002overview}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function XXX in package XXX (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
+%% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
