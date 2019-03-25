@@ -1,13 +1,13 @@
 paper,your.name,datasetID,forcing,chilling,photo,most.impt
-Basler2012,Ailene,,,,,
+Basler2012,Ailene,,NA,NA,Negative (longer photoperiod -> earlier bud burst for 5/14 species),NA
 Basler2014,Cat,,,,,
 Caffarra2011a,Dan,,,,,
 Caffarrab2011,Lizzie,,,,,
-Caffarra2011b,Nacho,caffarra11b,Exp1-significant effect on time to bb; ,Exp2-longer chilling -> shorter time to bb and >bbperc. Chilling interacts with photoperiod (more photoperiod needed at longer chilling exposures); Exp3 - chilling interacts with duration and temperature during dormancy induction (more bbperc in chilled plants exposed to low temperatures.,Exp2-significant effect on bbperc and almost significant on time to bb; Exp4- photoperiod during dormancy induction significantly affected on the timing of bb and bbperc; Exp4 -  photoperiod during chilling treatment had no significant effect on bbperc or bb timing.,Forcing/chilling
-Laube201,Ailene Cat,,,,,
+Caffarra2011b,Nacho,caffarra11b,Exp1-significant effect on time to bb;,Exp2-longer chilling -> shorter time to bb and >bbperc. Chilling interacts with photoperiod (more photoperiod needed at longer chilling exposures); Exp3 - chilling interacts with duration and temperature during dormancy induction (more bbperc in chilled plants exposed to low temperatures.,Exp2-significant effect on bbperc and almost significant on time to bb; Exp4- photoperiod during dormancy induction significantly affected on the timing of bb and bbperc; Exp4 -  photoperiod during chilling treatment had no significant effect on bbperc or bb timing.,Forcing/chilling
+Laube201,Ailene,,,,,
 Vitasse2013,Dan,,,,,
 Malyshev2018,Lizzie,,,,,
-Heide2005,Nacho,heide05,NA,(<12C) determines growth cessation and dormancy induction in pear and apple trees. Prolonged chilling (<9C) over 6 weeks is needed to release doermancy.,no significant effect (other than internodal elongation),chilling
+Heide2005,Nacho,heide05,NA,(<12C) determines growth cessation and dormancy induction in pear and apple trees. Prolonged chilling (<9C) over 6 weeks is needed to release dormancy.,no significant effect (other than internodal elongation),chilling
 Koerner2010,Ailene,,,,,
 Zohne2016,Cat,,,,,
 Nanninga2017,Dan,,,,,
