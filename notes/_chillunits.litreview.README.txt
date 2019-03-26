@@ -1,0 +1,28 @@
+chillunits.litreview.csv READ ME
+<><><><><><><><><><><><><><>
+
+
+The goal of this lit review is to summarize differences in how chilling is measured/estimated/quantified and the implications of these differences. 
+
+The spreadsheet contains the following columns:
+strength_utah= strengths/benefits of using Utah units to quantify chilling, as outlined in the study
+weak_utah= weaknesses/challenges of using Utah units to quantify chilling, as outlined in the study
+
+thresh_utah=threshold temperature(s) to count as chilling, using Utah units (e.g. <0 degrees C).
+
+strength_chillport= strengths/benefits of using Children Portions to quantify chilling, as outlined in the study
+weak_chillport= weaknesses/challenges of using Children Portions to quantify chilling, as outlined in the study
+
+thresh_chill=threshold temperature(s) to count as chilling, using Children Portions (e.g. <0 degrees C).
+strength_chillport
+
+
+species= names of species included in the study
+
+test_utah_cp= yes/no; was the difference between utah and chill portions actually tested?
+
+other_notes= any other relevant notes.
+
+
+
+
