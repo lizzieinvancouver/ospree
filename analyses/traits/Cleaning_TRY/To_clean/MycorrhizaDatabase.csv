@@ -1,0 +1,35 @@
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","AccSpeciesID","AccSpeciesName","ObservationID","ObsDataID","TraitID","TraitName","DataID","DataName","OriglName","OrigValueStr","OrigUnitStr","ValueKindName","OrigUncertaintyStr","UncertaintyName","Replicates","StdValue","UnitName","RelUncertaintyPercent","OrigObsDataID","ErrorRisk"
+"Dickie","Ian",189,"Mycorrhiza Database","Abies alba",29,"Abies alba",1435130,10702525,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Larix decidua",32364,"Larix decidua",1435169,10702603,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Picea abies",41907,"Picea abies",1435180,10702625,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",1435247,10702759,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",1435491,10703247,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Alnus glutinosa",2710,"Alnus glutinosa",1435524,10703313,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Alnus glutinosa x A. incana",2710,"Alnus glutinosa",1435525,10703315,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Alnus incana",2712,"Alnus incana",1435526,10703317,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula alba",7359,"Betula pubescens",1435531,10703327,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula alleghaniensis",7319,"Betula alleghaniensis",1435532,10703329,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula lenta",7341,"Betula lenta",1435539,10703343,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula lutea",7319,"Betula alleghaniensis",1435540,10703345,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula papyrifera",7355,"Betula papyrifera",1435543,10703351,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula pendula",7356,"Betula pendula",1435544,10703353,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Betula pubescens",7359,"Betula pubescens",1435547,10703359,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Carpinus betulus",10773,"Carpinus betulus",1435551,10703367,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Corylus avellana",14688,"Corylus avellana",1435574,10703413,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Corylus cornuta",14692,"Corylus cornuta",1435575,10703415,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus alba",45315,"Quercus alba",1435609,10703483,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus borealis",45473,"Quercus rubra",1435611,10703487,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus faginea",45374,"Quercus faginea",1435623,10703511,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus ilex",45402,"Quercus ilex",1435625,10703515,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus petraea",45457,"Quercus petraea",1435637,10703539,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus pubescens",45465,"Quercus pubescens",1435639,10703543,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus rubra",45473,"Quercus rubra",1435643,10703551,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Quercus velutina",45501,"Quercus velutina",1435647,10703559,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Populus grandidentata",43510,"Populus grandidentata",1435719,10703703,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Populus tremula",43532,"Populus tremula",1435723,10703711,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Prunus avium",44304,"Prunus avium",1435876,10704017,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Prunus padus",44388,"Prunus padus",1435882,10704029,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Prunus pensylvanica",44391,"Prunus pensylvanica",1435883,10704031,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Sorbus aucuparia",50997,"Sorbus aucuparia",1435926,10704117,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Spiraea alba",51363,"Spiraea alba",1435927,10704119,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Dickie","Ian",189,"Mycorrhiza Database","Tilia cordata",54325,"Tilia cordata",1436135,10704535,38,"Plant woodiness",43,"Woodiness","woody","Woody","","",NA,"",NA,NA,"",NA,NA,NA

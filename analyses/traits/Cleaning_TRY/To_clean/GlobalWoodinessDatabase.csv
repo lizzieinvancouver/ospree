@@ -1,0 +1,161 @@
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","AccSpeciesID","AccSpeciesName","ObservationID","ObsDataID","TraitID","TraitName","DataID","DataName","OriglName","OrigValueStr","OrigUnitStr","ValueKindName","OrigUncertaintyStr","UncertaintyName","Replicates","StdValue","UnitName","RelUncertaintyPercent","OrigObsDataID","ErrorRisk"
+"Zanne","Amy",280,"Global Woodiness Database","Abies alba",29,"Abies alba",2002497,16474948,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Abies alba",29,"Abies alba",2002497,16474949,NA,"",3742,"Number of references","woodiness.count","0;0;71","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Abies pardei",29,"Abies alba",2002529,16475012,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Abies pardei",29,"Abies alba",2002529,16475013,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer pensylvanicum",852,"Acer pensylvanicum",2003160,16476274,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer pensylvanicum",852,"Acer pensylvanicum",2003160,16476275,NA,"",3742,"Number of references","woodiness.count","0;0;38","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer pseudoplatanus",855,"Acer pseudoplatanus",2003164,16476282,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer pseudoplatanus",855,"Acer pseudoplatanus",2003164,16476283,NA,"",3742,"Number of references","woodiness.count","0;0;40","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer rubrum",859,"Acer rubrum",2003167,16476288,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer rubrum",859,"Acer rubrum",2003167,16476289,NA,"",3742,"Number of references","woodiness.count","0;0;146","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer saccharum",863,"Acer saccharum",2003170,16476294,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Acer saccharum",863,"Acer saccharum",2003170,16476295,NA,"",3742,"Number of references","woodiness.count","0;0;107","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Actinidia deliciosa",1139,"Actinidia deliciosa",2003376,16476706,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Actinidia deliciosa",1139,"Actinidia deliciosa",2003376,16476707,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Aesculus hippocastanum",1571,"Aesculus hippocastanum",2003748,16477450,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Aesculus hippocastanum",1571,"Aesculus hippocastanum",2003748,16477451,NA,"",3742,"Number of references","woodiness.count","0;0;30","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Alnus glutinosa",2710,"Alnus glutinosa",2004593,16479140,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Alnus glutinosa",2710,"Alnus glutinosa",2004593,16479141,NA,"",3742,"Number of references","woodiness.count","0;0;37","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Alnus incana",2712,"Alnus incana",2004597,16479148,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Alnus incana",2712,"Alnus incana",2004597,16479149,NA,"",3742,"Number of references","woodiness.count","0;0;29","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Aronia melanocarpa",5109,"Aronia melanocarpa",2006430,16482814,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Aronia melanocarpa",5109,"Aronia melanocarpa",2006430,16482815,NA,"",3742,"Number of references","woodiness.count","0;0;6","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula alba",7359,"Betula pubescens",2008303,16486560,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula alba",7359,"Betula pubescens",2008303,16486561,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula alleghaniensis",7319,"Betula alleghaniensis",2008305,16486564,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula alleghaniensis",7319,"Betula alleghaniensis",2008305,16486565,NA,"",3742,"Number of references","woodiness.count","0;0;31","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula celtiberica",7359,"Betula pubescens",2008310,16486574,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula celtiberica",7359,"Betula pubescens",2008310,16486575,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula lenta",7341,"Betula lenta",2008326,16486606,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula lenta",7341,"Betula lenta",2008326,16486607,NA,"",3742,"Number of references","woodiness.count","0;0;25","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula lutea",7319,"Betula alleghaniensis",2008329,16486612,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula lutea",7319,"Betula alleghaniensis",2008329,16486613,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula papyrifera",7355,"Betula papyrifera",2008340,16486634,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula papyrifera",7355,"Betula papyrifera",2008340,16486635,NA,"",3742,"Number of references","woodiness.count","0;0;65","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula pendula",7356,"Betula pendula",2008341,16486636,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula pendula",7356,"Betula pendula",2008341,16486637,NA,"",3742,"Number of references","woodiness.count","0;0;105","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula pubescens",7359,"Betula pubescens",2008344,16486642,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Betula pubescens",7359,"Betula pubescens",2008344,16486643,NA,"",3742,"Number of references","woodiness.count","0;0;39","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Carpinus betulus",10773,"Carpinus betulus",2011097,16492148,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Carpinus betulus",10773,"Carpinus betulus",2011097,16492149,NA,"",3742,"Number of references","woodiness.count","0;0;52","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus alba",14553,"Cornus alba",2014044,16498042,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus alba",14553,"Cornus alba",2014044,16498043,NA,"",3742,"Number of references","woodiness.count","0;0;4","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus mas",14580,"Cornus mas",2014074,16498102,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus mas",14580,"Cornus mas",2014074,16498103,NA,"",3742,"Number of references","woodiness.count","0;0;10","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus pumila",14553,"Cornus alba",2014088,16498130,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Cornus pumila",14553,"Cornus alba",2014088,16498131,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Corylus avellana",14688,"Corylus avellana",2014201,16498356,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Corylus avellana",14688,"Corylus avellana",2014201,16498357,NA,"",3742,"Number of references","woodiness.count","0;0;36","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Corylus cornuta",14692,"Corylus cornuta",2014205,16498364,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Corylus cornuta",14692,"Corylus cornuta",2014205,16498365,NA,"",3742,"Number of references","woodiness.count","0;0;11","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fagus grandifolia",23898,"Fagus grandifolia",2021107,16512168,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fagus grandifolia",23898,"Fagus grandifolia",2021107,16512169,NA,"",3742,"Number of references","woodiness.count","0;0;45","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus excelsior",25247,"Fraxinus excelsior",2021690,16513334,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus excelsior",25247,"Fraxinus excelsior",2021690,16513335,NA,"",3742,"Number of references","woodiness.count","0;0;62","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus nigra",25256,"Fraxinus nigra",2021700,16513354,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus nigra",25256,"Fraxinus nigra",2021700,16513355,NA,"",3742,"Number of references","woodiness.count","0;0;11","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus sambucifolia",25256,"Fraxinus nigra",2021712,16513378,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Fraxinus sambucifolia",25256,"Fraxinus nigra",2021712,16513379,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Hamamelis virginiana",27810,"Hamamelis virginiana",2024323,16518600,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Hamamelis virginiana",27810,"Hamamelis virginiana",2024323,16518601,NA,"",3742,"Number of references","woodiness.count","0;0;24","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Kalmia angustifolia",31681,"Kalmia angustifolia",2027775,16525504,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Kalmia angustifolia",31681,"Kalmia angustifolia",2027775,16525505,NA,"",3742,"Number of references","woodiness.count","0;0;12","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Larix decidua",32364,"Larix decidua",2028453,16526860,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Larix decidua",32364,"Larix decidua",2028453,16526861,NA,"",3742,"Number of references","woodiness.count","0;0;102","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Lonicera canadensis",34119,"Lonicera canadensis",2030074,16530102,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Lonicera canadensis",34119,"Lonicera canadensis",2030074,16530103,NA,"",3742,"Number of references","woodiness.count","0;0;4","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Lyonia ligustrina",34626,"Lyonia ligustrina",2030549,16531052,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Lyonia ligustrina",34626,"Lyonia ligustrina",2030549,16531053,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Malus domestica",35230,"Malus domestica",2031205,16532364,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Malus domestica",35230,"Malus domestica",2031205,16532365,NA,"",3742,"Number of references","woodiness.count","0;0;9","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Nyssa sylvatica",38411,"Nyssa sylvatica",2034767,16539488,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Nyssa sylvatica",38411,"Nyssa sylvatica",2034767,16539489,NA,"",3742,"Number of references","woodiness.count","0;0;38","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Padus avium",44388,"Prunus padus",2035748,16541450,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Padus avium",44388,"Prunus padus",2035748,16541451,NA,"",3742,"Number of references","woodiness.count","0;0;6","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Photinia melanocarpa",5109,"Aronia melanocarpa",2037333,16544620,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Photinia melanocarpa",5109,"Aronia melanocarpa",2037333,16544621,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Picea abies",41907,"Picea abies",2037564,16545082,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Picea abies",41907,"Picea abies",2037564,16545083,NA,"",3742,"Number of references","woodiness.count","0;0;978","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus grandidentata",43510,"Populus grandidentata",2038975,16547904,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus grandidentata",43510,"Populus grandidentata",2038975,16547905,NA,"",3742,"Number of references","woodiness.count","0;0;36","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus rotundifolia",43532,"Populus tremula",2038992,16547938,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus rotundifolia",43532,"Populus tremula",2038992,16547939,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus tremula",43532,"Populus tremula",2038997,16547948,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Populus tremula",43532,"Populus tremula",2038997,16547949,NA,"",3742,"Number of references","woodiness.count","0;0;42","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus avium",44304,"Prunus avium",2039920,16549794,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus avium",44304,"Prunus avium",2039920,16549795,NA,"",3742,"Number of references","woodiness.count","0;0;17","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus padus",44388,"Prunus padus",2039970,16549894,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus padus",44388,"Prunus padus",2039970,16549895,NA,"",3742,"Number of references","woodiness.count","0;0;12","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus pensylvanica",44391,"Prunus pensylvanica",2039972,16549898,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Prunus pensylvanica",44391,"Prunus pensylvanica",2039972,16549899,NA,"",3742,"Number of references","woodiness.count","0;0;20","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",2040132,16550218,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",2040132,16550219,NA,"",3742,"Number of references","woodiness.count","0;0;113","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus aucuparia",50997,"Sorbus aucuparia",2040815,16551584,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus aucuparia",50997,"Sorbus aucuparia",2040815,16551585,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus malus",35230,"Malus domestica",2040823,16551600,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus malus",35230,"Malus domestica",2040823,16551601,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus melanocarpa",5109,"Aronia melanocarpa",2040824,16551602,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Pyrus melanocarpa",5109,"Aronia melanocarpa",2040824,16551603,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus alba",45315,"Quercus alba",2040888,16551730,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus alba",45315,"Quercus alba",2040888,16551731,NA,"",3742,"Number of references","woodiness.count","0;0;71","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus borealis",45473,"Quercus rubra",2040906,16551766,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus borealis",45473,"Quercus rubra",2040906,16551767,NA,"",3742,"Number of references","woodiness.count","0;0;4","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus faginea",45374,"Quercus faginea",2040954,16551862,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus faginea",45374,"Quercus faginea",2040954,16551863,NA,"",3742,"Number of references","woodiness.count","0;0;19","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus ilex",45402,"Quercus ilex",2040985,16551924,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus ilex",45402,"Quercus ilex",2040985,16551925,NA,"",3742,"Number of references","woodiness.count","0;0;96","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus lacinifolia",45465,"Quercus pubescens",2040994,16551942,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus lacinifolia",45465,"Quercus pubescens",2040994,16551943,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus lanuginosa",45465,"Quercus pubescens",2040999,16551952,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus lanuginosa",45465,"Quercus pubescens",2040999,16551953,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus mas",45457,"Quercus petraea",2041014,16551982,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus mas",45457,"Quercus petraea",2041014,16551983,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus petraea",45457,"Quercus petraea",2041044,16552042,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus petraea",45457,"Quercus petraea",2041044,16552043,NA,"",3742,"Number of references","woodiness.count","0;0;52","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus pubescens",45465,"Quercus pubescens",2041053,16552060,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus pubescens",45465,"Quercus pubescens",2041053,16552061,NA,"",3742,"Number of references","woodiness.count","0;0;27","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus rubra",45473,"Quercus rubra",2041062,16552078,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus rubra",45473,"Quercus rubra",2041062,16552079,NA,"",3742,"Number of references","woodiness.count","0;0;119","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus velutina",45501,"Quercus velutina",2041101,16552156,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Quercus velutina",45501,"Quercus velutina",2041101,16552157,NA,"",3742,"Number of references","woodiness.count","0;0;26","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Rhododendron prinophyllum",46227,"Rhododendron prinophyllum",2042064,16554082,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Rhododendron prinophyllum",46227,"Rhododendron prinophyllum",2042064,16554083,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ribes nigrum",46517,"Ribes nigrum",2042333,16554620,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ribes nigrum",46517,"Ribes nigrum",2042333,16554621,NA,"",3742,"Number of references","woodiness.count","0;0;19","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",2042435,16554824,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",2042435,16554825,NA,"",3742,"Number of references","woodiness.count","0;0;66","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Salix smithiana",47937,"Salix smithiana",2043260,16556474,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Salix smithiana",47937,"Salix smithiana",2043260,16556475,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Sorbus aucuparia",50997,"Sorbus aucuparia",2045807,16561568,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Sorbus aucuparia",50997,"Sorbus aucuparia",2045807,16561569,NA,"",3742,"Number of references","woodiness.count","0;0;33","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Sorbus pohuashanensis",50997,"Sorbus aucuparia",2045830,16561614,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Sorbus pohuashanensis",50997,"Sorbus aucuparia",2045830,16561615,NA,"",3742,"Number of references","woodiness.count","0;0;6","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Spiraea alba",51363,"Spiraea alba",2046073,16562100,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Spiraea alba",51363,"Spiraea alba",2046073,16562101,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Spiraea latifolia",51363,"Spiraea alba",2046088,16562130,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Spiraea latifolia",51363,"Spiraea alba",2046088,16562131,NA,"",3742,"Number of references","woodiness.count","0;0;1","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Symphoricarpos albus",52513,"Symphoricarpos albus",2047090,16564134,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Symphoricarpos albus",52513,"Symphoricarpos albus",2047090,16564135,NA,"",3742,"Number of references","woodiness.count","0;0;13","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Syringa vulgaris",52666,"Syringa vulgaris",2047314,16564582,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Syringa vulgaris",52666,"Syringa vulgaris",2047314,16564583,NA,"",3742,"Number of references","woodiness.count","0;0;12","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Tilia cordata",54325,"Tilia cordata",2048517,16566988,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Tilia cordata",54325,"Tilia cordata",2048517,16566989,NA,"",3742,"Number of references","woodiness.count","0;0;141","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus carpinifolia",55465,"Ulmus minor",2049603,16569160,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus carpinifolia",55465,"Ulmus minor",2049603,16569161,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus minor",55465,"Ulmus minor",2049624,16569202,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus minor",55465,"Ulmus minor",2049624,16569203,NA,"",3742,"Number of references","woodiness.count","0;0;3","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus parvifolia",55468,"Ulmus parvifolia",2049626,16569206,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus parvifolia",55468,"Ulmus parvifolia",2049626,16569207,NA,"",3742,"Number of references","woodiness.count","0;0;16","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus procera",55465,"Ulmus minor",2049628,16569210,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus procera",55465,"Ulmus minor",2049628,16569211,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus pumila",55471,"Ulmus pumila",2049630,16569214,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus pumila",55471,"Ulmus pumila",2049630,16569215,NA,"",3742,"Number of references","woodiness.count","0;0;22","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus suberosa",55465,"Ulmus minor",2049634,16569222,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Ulmus suberosa",55465,"Ulmus minor",2049634,16569223,NA,"",3742,"Number of references","woodiness.count","0;0;2","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",2049895,16569744,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",2049895,16569745,NA,"",3742,"Number of references","woodiness.count","0;0;5","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Viburnum cassinoides",56307,"Viburnum cassinoides",2050219,16570392,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Viburnum cassinoides",56307,"Viburnum cassinoides",2050219,16570393,NA,"",3742,"Number of references","woodiness.count","0;0;6","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Vitis vinifera",56746,"Vitis vinifera",2050499,16570952,38,"Plant woodiness",43,"Woodiness","woodiness","W","","",NA,"",NA,NA,"",NA,NA,NA
+"Zanne","Amy",280,"Global Woodiness Database","Vitis vinifera",56746,"Vitis vinifera",2050499,16570953,NA,"",3742,"Number of references","woodiness.count","0;0;8","","",NA,"",NA,NA,"",NA,NA,NA

@@ -1,0 +1,161 @@
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","AccSpeciesID","AccSpeciesName","ObservationID","ObsDataID","TraitID","TraitName","DataID","DataName","OriglName","OrigValueStr","OrigUnitStr","ValueKindName","OrigUncertaintyStr","UncertaintyName","Replicates","StdValue","UnitName","RelUncertaintyPercent","OrigObsDataID","ErrorRisk"
+"Enquist","Brian",129,"The Americas N&P database","Viburnum cassinoides",56307,"Viburnum cassinoides",963412,6102357,NA,"",1490,"Family APG","FamilyAPG","Caprifoliaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Viburnum cassinoides",56307,"Viburnum cassinoides",963412,6102358,NA,"",846,"Family","Family","Caprifoliaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Viburnum cassinoides",56307,"Viburnum cassinoides",963412,6102359,NA,"",1422,"Genus","Genus","Viburnum","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Viburnum cassinoides",56307,"Viburnum cassinoides",963412,6102363,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","non-woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus glutinosa",2710,"Alnus glutinosa",963827,6105326,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus glutinosa",2710,"Alnus glutinosa",963827,6105327,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus glutinosa",2710,"Alnus glutinosa",963827,6105328,NA,"",1422,"Genus","Genus","Alnus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus glutinosa",2710,"Alnus glutinosa",963827,6105330,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus incana",2712,"Alnus incana",963828,6105331,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus incana",2712,"Alnus incana",963828,6105332,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus incana",2712,"Alnus incana",963828,6105333,NA,"",1422,"Genus","Genus","Alnus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Alnus incana",2712,"Alnus incana",963828,6105337,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alba",7359,"Betula pubescens",963832,6105357,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alba",7359,"Betula pubescens",963832,6105358,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alba",7359,"Betula pubescens",963832,6105359,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alba",7359,"Betula pubescens",963832,6105363,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alleghaniensis",7319,"Betula alleghaniensis",963833,6105364,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alleghaniensis",7319,"Betula alleghaniensis",963833,6105365,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alleghaniensis",7319,"Betula alleghaniensis",963833,6105366,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula alleghaniensis",7319,"Betula alleghaniensis",963833,6105370,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula lutea",7319,"Betula alleghaniensis",963836,6105388,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula lutea",7319,"Betula alleghaniensis",963836,6105389,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula lutea",7319,"Betula alleghaniensis",963836,6105390,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula lutea",7319,"Betula alleghaniensis",963836,6105400,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula papyrifera",7355,"Betula papyrifera",963838,6105411,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula papyrifera",7355,"Betula papyrifera",963838,6105412,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula papyrifera",7355,"Betula papyrifera",963838,6105413,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula papyrifera",7355,"Betula papyrifera",963838,6105420,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pendula",7356,"Betula pendula",963839,6105421,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pendula",7356,"Betula pendula",963839,6105422,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pendula",7356,"Betula pendula",963839,6105423,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pendula",7356,"Betula pendula",963839,6105427,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pubescens",7359,"Betula pubescens",963841,6105435,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pubescens",7359,"Betula pubescens",963841,6105436,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pubescens",7359,"Betula pubescens",963841,6105437,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula pubescens",7359,"Betula pubescens",963841,6105444,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula verrucosa",7356,"Betula pendula",963845,6105475,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula verrucosa",7356,"Betula pendula",963845,6105476,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula verrucosa",7356,"Betula pendula",963845,6105477,NA,"",1422,"Genus","Genus","Betula","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Betula verrucosa",7356,"Betula pendula",963845,6105487,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Carpinus betulus",10773,"Carpinus betulus",963846,6105488,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Carpinus betulus",10773,"Carpinus betulus",963846,6105489,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Carpinus betulus",10773,"Carpinus betulus",963846,6105490,NA,"",1422,"Genus","Genus","Carpinus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Carpinus betulus",10773,"Carpinus betulus",963846,6105495,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Corylus avellana",14688,"Corylus avellana",963847,6105496,NA,"",1490,"Family APG","FamilyAPG","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Corylus avellana",14688,"Corylus avellana",963847,6105497,NA,"",846,"Family","Family","Betulaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Corylus avellana",14688,"Corylus avellana",963847,6105498,NA,"",1422,"Genus","Genus","Corylus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Corylus avellana",14688,"Corylus avellana",963847,6105502,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Nyssa sylvatica",38411,"Nyssa sylvatica",963941,6106185,NA,"",1490,"Family APG","FamilyAPG","Cornaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Nyssa sylvatica",38411,"Nyssa sylvatica",963941,6106186,NA,"",846,"Family","Family","Cornaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Nyssa sylvatica",38411,"Nyssa sylvatica",963941,6106187,NA,"",1422,"Genus","Genus","Nyssa","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Nyssa sylvatica",38411,"Nyssa sylvatica",963941,6106194,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Kalmia angustifolia",31681,"Kalmia angustifolia",964003,6106669,NA,"",1490,"Family APG","FamilyAPG","Ericaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Kalmia angustifolia",31681,"Kalmia angustifolia",964003,6106670,NA,"",846,"Family","Family","Ericaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Kalmia angustifolia",31681,"Kalmia angustifolia",964003,6106671,NA,"",1422,"Genus","Genus","Kalmia","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Kalmia angustifolia",31681,"Kalmia angustifolia",964003,6106681,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",964021,6106808,NA,"",1490,"Family APG","FamilyAPG","Ericaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",964021,6106809,NA,"",846,"Family","Family","Ericaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",964021,6106810,NA,"",1422,"Genus","Genus","Vaccinium","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Vaccinium myrtilLoides",55735,"Vaccinium myrtilloides",964021,6106814,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",964134,6107601,NA,"",1490,"Family APG","FamilyAPG","Fabaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",964134,6107602,NA,"",846,"Family","Family","Fabaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",964134,6107603,NA,"",1422,"Genus","Genus","Robinia","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Robinia pseudoacacia",46621,"Robinia pseudoacacia",964134,6107607,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fagus grandifolia",23898,"Fagus grandifolia",964142,6107653,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fagus grandifolia",23898,"Fagus grandifolia",964142,6107654,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fagus grandifolia",23898,"Fagus grandifolia",964142,6107655,NA,"",1422,"Genus","Genus","Fagus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fagus grandifolia",23898,"Fagus grandifolia",964142,6107665,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus alba",45315,"Quercus alba",964150,6107717,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus alba",45315,"Quercus alba",964150,6107718,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus alba",45315,"Quercus alba",964150,6107719,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus alba",45315,"Quercus alba",964150,6107732,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus borealis",45473,"Quercus rubra",964151,6107733,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus borealis",45473,"Quercus rubra",964151,6107734,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus borealis",45473,"Quercus rubra",964151,6107735,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus borealis",45473,"Quercus rubra",964151,6107739,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus faginea",45374,"Quercus faginea",964157,6107780,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus faginea",45374,"Quercus faginea",964157,6107781,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus faginea",45374,"Quercus faginea",964157,6107782,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus faginea",45374,"Quercus faginea",964157,6107786,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus ilex",45402,"Quercus ilex",964158,6107787,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus ilex",45402,"Quercus ilex",964158,6107788,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus ilex",45402,"Quercus ilex",964158,6107789,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus ilex",45402,"Quercus ilex",964158,6107802,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus petraea",45457,"Quercus petraea",964162,6107833,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus petraea",45457,"Quercus petraea",964162,6107834,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus petraea",45457,"Quercus petraea",964162,6107835,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus petraea",45457,"Quercus petraea",964162,6107839,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus rubra",45473,"Quercus rubra",964165,6107863,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus rubra",45473,"Quercus rubra",964165,6107864,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus rubra",45473,"Quercus rubra",964165,6107865,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus rubra",45473,"Quercus rubra",964165,6107869,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus velutina",45501,"Quercus velutina",964168,6107887,NA,"",1490,"Family APG","FamilyAPG","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus velutina",45501,"Quercus velutina",964168,6107888,NA,"",846,"Family","Family","Fagaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus velutina",45501,"Quercus velutina",964168,6107889,NA,"",1422,"Genus","Genus","Quercus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Quercus velutina",45501,"Quercus velutina",964168,6107893,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Tilia cordata",54325,"Tilia cordata",964223,6108291,NA,"",1490,"Family APG","FamilyAPG","Malvaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Tilia cordata",54325,"Tilia cordata",964223,6108292,NA,"",846,"Family","Family","Malvaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Tilia cordata",54325,"Tilia cordata",964223,6108293,NA,"",1422,"Genus","Genus","Tilia","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Tilia cordata",54325,"Tilia cordata",964223,6108303,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fraxinus excelsior",25247,"Fraxinus excelsior",964325,6109051,NA,"",1490,"Family APG","FamilyAPG","Oleaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fraxinus excelsior",25247,"Fraxinus excelsior",964325,6109052,NA,"",846,"Family","Family","Oleaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fraxinus excelsior",25247,"Fraxinus excelsior",964325,6109053,NA,"",1422,"Genus","Genus","Fraxinus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Fraxinus excelsior",25247,"Fraxinus excelsior",964325,6109063,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Larix decidua",32364,"Larix decidua",964341,6109170,NA,"",1490,"Family APG","FamilyAPG","NOT FOUND","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Larix decidua",32364,"Larix decidua",964341,6109171,NA,"",846,"Family","Family","Pinaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Larix decidua",32364,"Larix decidua",964341,6109172,NA,"",1422,"Genus","Genus","Larix","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Larix decidua",32364,"Larix decidua",964341,6109176,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea abies",41907,"Picea abies",964346,6109208,NA,"",1490,"Family APG","FamilyAPG","NOT FOUND","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea abies",41907,"Picea abies",964346,6109209,NA,"",846,"Family","Family","Pinaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea abies",41907,"Picea abies",964346,6109210,NA,"",1422,"Genus","Genus","Picea","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea abies",41907,"Picea abies",964346,6109214,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea excelsa",41907,"Picea abies",964347,6109215,NA,"",1490,"Family APG","FamilyAPG","NOT FOUND","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea excelsa",41907,"Picea abies",964347,6109216,NA,"",846,"Family","Family","Pinaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea excelsa",41907,"Picea abies",964347,6109217,NA,"",1422,"Genus","Genus","Picea","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Picea excelsa",41907,"Picea abies",964347,6109230,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",964366,6109405,NA,"",1490,"Family APG","FamilyAPG","NOT FOUND","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",964366,6109406,NA,"",846,"Family","Family","Pinaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",964366,6109407,NA,"",1422,"Genus","Genus","Pseudotsuga","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga menziesii",44567,"Pseudotsuga menziesii",964366,6109411,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga taxifolia",44567,"Pseudotsuga menziesii",964368,6109417,NA,"",1490,"Family APG","FamilyAPG","NOT FOUND","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga taxifolia",44567,"Pseudotsuga menziesii",964368,6109418,NA,"",846,"Family","Family","Pinaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga taxifolia",44567,"Pseudotsuga menziesii",964368,6109419,NA,"",1422,"Genus","Genus","Pseudotsuga","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Pseudotsuga taxifolia",44567,"Pseudotsuga menziesii",964368,6109423,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Aronia melanocarpa",5109,"Aronia melanocarpa",964438,6109922,NA,"",1490,"Family APG","FamilyAPG","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Aronia melanocarpa",5109,"Aronia melanocarpa",964438,6109923,NA,"",846,"Family","Family","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Aronia melanocarpa",5109,"Aronia melanocarpa",964438,6109924,NA,"",1422,"Genus","Genus","Aronia","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Aronia melanocarpa",5109,"Aronia melanocarpa",964438,6109928,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus avium",44304,"Prunus avium",964449,6110010,NA,"",1490,"Family APG","FamilyAPG","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus avium",44304,"Prunus avium",964449,6110011,NA,"",846,"Family","Family","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus avium",44304,"Prunus avium",964449,6110012,NA,"",1422,"Genus","Genus","Prunus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus avium",44304,"Prunus avium",964449,6110016,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus padus",44388,"Prunus padus",964451,6110022,NA,"",1490,"Family APG","FamilyAPG","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus padus",44388,"Prunus padus",964451,6110023,NA,"",846,"Family","Family","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus padus",44388,"Prunus padus",964451,6110024,NA,"",1422,"Genus","Genus","Prunus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus padus",44388,"Prunus padus",964451,6110026,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus pensylvanica",44391,"Prunus pensylvanica",964452,6110027,NA,"",1490,"Family APG","FamilyAPG","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus pensylvanica",44391,"Prunus pensylvanica",964452,6110028,NA,"",846,"Family","Family","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus pensylvanica",44391,"Prunus pensylvanica",964452,6110029,NA,"",1422,"Genus","Genus","Prunus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Prunus pensylvanica",44391,"Prunus pensylvanica",964452,6110033,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Sorbus aucuparia",50997,"Sorbus aucuparia",964469,6110144,NA,"",1490,"Family APG","FamilyAPG","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Sorbus aucuparia",50997,"Sorbus aucuparia",964469,6110145,NA,"",846,"Family","Family","Rosaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Sorbus aucuparia",50997,"Sorbus aucuparia",964469,6110146,NA,"",1422,"Genus","Genus","Sorbus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Sorbus aucuparia",50997,"Sorbus aucuparia",964469,6110150,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus grandidentata",43510,"Populus grandidentata",964496,6110374,NA,"",1490,"Family APG","FamilyAPG","Salicaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus grandidentata",43510,"Populus grandidentata",964496,6110375,NA,"",846,"Family","Family","Salicaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus grandidentata",43510,"Populus grandidentata",964496,6110376,NA,"",1422,"Genus","Genus","Populus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus grandidentata",43510,"Populus grandidentata",964496,6110380,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus tremula",43532,"Populus tremula",964498,6110394,NA,"",1490,"Family APG","FamilyAPG","Salicaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus tremula",43532,"Populus tremula",964498,6110395,NA,"",846,"Family","Family","Salicaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus tremula",43532,"Populus tremula",964498,6110396,NA,"",1422,"Genus","Genus","Populus","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Populus tremula",43532,"Populus tremula",964498,6110406,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer rubrum",859,"Acer rubrum",964518,6110550,NA,"",1490,"Family APG","FamilyAPG","Sapindaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer rubrum",859,"Acer rubrum",964518,6110551,NA,"",846,"Family","Family","Sapindaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer rubrum",859,"Acer rubrum",964518,6110552,NA,"",1422,"Genus","Genus","Acer","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer rubrum",859,"Acer rubrum",964518,6110559,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer saccharum",863,"Acer saccharum",964520,6110567,NA,"",1490,"Family APG","FamilyAPG","Sapindaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer saccharum",863,"Acer saccharum",964520,6110568,NA,"",846,"Family","Family","Sapindaceae","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer saccharum",863,"Acer saccharum",964520,6110569,NA,"",1422,"Genus","Genus","Acer","","",NA,"",NA,NA,"",NA,NA,NA
+"Enquist","Brian",129,"The Americas N&P database","Acer saccharum",863,"Acer saccharum",964520,6110579,38,"Plant woodiness",43,"Woodiness","Habit: woodiness","woody","","",NA,"",NA,NA,"",NA,NA,NA
