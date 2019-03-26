@@ -7,6 +7,7 @@ library(RColorBrewer)
 library(tidyverse)
 library(gridExtra)
 library("ggpubr")
+library(ggstance)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -147,8 +148,8 @@ bb.stan.alt.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.matchsp$complex.
 bb.stan.alt.exponly.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.exponly.matchsp$complex.wname))
 bb.stan.alt.matchsp.nowien<-filter(bb.stan.alt.matchsp,weinberger==0)
 
-nrow(bb.stan.alt.matchsp) ###781
-nrow(bb.stan.alt.matchsp.nowien) ### 527, so only 254 are weinbuerger in this dataset bbstanaltmatchsp
+nrow(bb.stan.alt.matchsp) ###889
+nrow(bb.stan.alt.matchsp.nowien) ### 551, so only 254 are weinbuerger in this dataset bbstanaltmatchsp
 colnames(bb.stan.alt.matchsp)
 
 table(bb.stan.alt.matchsp.nowien$datasetID)
@@ -165,30 +166,18 @@ nrow(bb.stan.alt)
 ## Set up the bb.stan to use
 #bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-#bb.stan <- bb.stan.alt.matchsp
+bb.stan <- bb.stan.alt.matchsp # this is target dataset
 #bb.stan<-bb.stan.matchsp
 #bb.stan<-bb.stan.alt.exponly.matchsp
 #bb.stan<-bb.stan.alt.matchsp.noblubspop
-bb.stan<-bb.stan.alt.noblubspop
+#bb.stan<-bb.stan.alt.noblubspop
 source("source/bb_zscorepreds.R")
 
 ######################
 ####make datalist
 wein.data.chillports <- with(bb.stan, 
-                    list(y=resp, 
-                         chill = chill.ports.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         weinberger= weinberger,
-                         sp = complex,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$complex))
-                    )
-)
-
-wein.data.utah <- with(bb.stan, 
                              list(y=resp, 
-                                  chill = chill.z, 
+                                  chill = chill.ports.z, 
                                   force = force.z, 
                                   photo = photo.z,
                                   weinberger= weinberger,
@@ -198,33 +187,44 @@ wein.data.utah <- with(bb.stan,
                              )
 )
 
-      ###model
+wein.data.utah <- with(bb.stan, 
+                       list(y=resp, 
+                            chill = chill.z, 
+                            force = force.z, 
+                            photo = photo.z,
+                            weinberger= weinberger,
+                            sp = complex,
+                            N = nrow(bb.stan),
+                            n_sp = length(unique(bb.stan$complex))
+                       )
+)
+
+###model
 #m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
-             # iter = 2500, warmup=1500)
+# iter = 2500, warmup=1500)
 
 #wein.mod.2 = stan('stan/weinberger_fewint.stan', data = wein.data.chillports,
-  #            iter = 2500, warmup=1500)
+#            iter = 2500, warmup=1500)
 #summary
 
 wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
-                  iter = 2500, warmup=1500)
-
-wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
                      iter = 2500, warmup=1500)
 
+#wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
+iter = 2500, warmup=1500)
 
 
 
 
-###some weinberger plotss
-chill.wein<-ggplot(bb.stan,aes(chill.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
-force.wein<-ggplot(bb.stan,aes(force.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
-photo.wein<-ggplot(bb.stan,aes(photo.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw()
-chilly<-ggplot(bb.stan,aes(as.factor(weinberger),chill))+geom_boxplot()+theme_bw()
-forcey<-ggplot(bb.stan,aes(as.factor(weinberger),force))+geom_boxplot()+theme_bw()
-photoy<-ggplot(bb.stan,aes(as.factor(weinberger),photo))+geom_boxplot()+theme_bw()
 
-ggarrange(chill.wein,force.wein,photo.wein,chilly,forcey,photoy, ncol=3,nrow=2, common.legend = TRUE, legend="right")
+###some weinberger plotss of raw data
+#chill.wein<-ggplot(bb.stan,aes(chill.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
+#force.wein<-ggplot(bb.stan,aes(force.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw() 
+#photo.wein<-ggplot(bb.stan,aes(photo.z,resp, color=complex.wname,shape=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',se=FALSE,fullrange=TRUE, aes(linetype=as.factor(weinberger)))+theme_bw()
+#chilly<-ggplot(bb.stan,aes(as.factor(weinberger),chill))+geom_boxplot()+theme_bw()
+#forcey<-ggplot(bb.stan,aes(as.factor(weinberger),force))+geom_boxplot()+theme_bw()
+#photoy<-ggplot(bb.stan,aes(as.factor(weinberger),photo))+geom_boxplot()+theme_bw()
+#ggarrange(chill.wein,force.wein,photo.wein,chilly,forcey,photoy, ncol=3,nrow=2, common.legend = TRUE, legend="right")
 #wein.force<-ggplot(bb.stan,aes(force,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
 #wein.photo<-ggplot(bb.stan,aes(photo,resp, color=as.factor(weinberger)))+geom_point()+geom_smooth(method='lm',fullrange=TRUE)+ggthemes::theme_base()
 
@@ -233,18 +233,125 @@ observed.here <- bb.stan$resp
 
 #wein.sum <- summary(wein.mod.2)$summary
 #wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
- #          "b_weinberger", "b_cw","b_pw","b_fw"),]
+#          "b_weinberger", "b_cw","b_pw","b_fw"),]
 
 wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
-            "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
+                                                             "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
 matchysp.cp$chilltype<-"chillportios"
+whichmodel <- wein.sum3.cp
+###model plots
+spp <- sort(unique(bb.stan$complex))
+n <- length(spp)
+qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
+colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+
+par(mfrow=c(1,3))
+par(mar=c(4.1, 4.1, 4.1, 3.1))
+plot(resp~chill.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+  subby <- subset(bb.stan, complex==spp[sp])
+  points(resp~chill.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
+  #intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+  #slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+  #abline(intercepthere, slopehere, col=colv[sp])
+}
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+       whichmodel[grep("b_chill", rownames(whichmodel)),1], col="black", lwd=3)
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
+       whichmodel[grep("b_chill", rownames(whichmodel)),1]+whichmodel[grep("b_cw", rownames(whichmodel)),1], col="blue", lwd=3)
+
+plot(resp~force.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+  subby <- subset(bb.stan, complex==spp[sp])
+  points(resp~force.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
+  #intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+  #slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+  #abline(intercepthere, slopehere, col=colv[sp])
+}
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+       whichmodel[grep("b_force", rownames(whichmodel)),1], col="black", lwd=3)
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
+       whichmodel[grep("b_force", rownames(whichmodel)),1]+whichmodel[grep("b_fw", rownames(whichmodel)),1], col="blue", lwd=3)
+
+plot(resp~photo.z, data=bb.stan, type="n")
+for (sp in c(1:length(spp))){
+  subby <- subset(bb.stan, complex==spp[sp])
+  points(resp~photo.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
+  #intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
+  #slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+  #abline(intercepthere, slopehere, col=colv[sp])
+}
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+       whichmodel[grep("b_photo", rownames(whichmodel)),1], col="black", lwd=3)
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
+       whichmodel[grep("b_photo", rownames(whichmodel)),1]+whichmodel[grep("b_pw", rownames(whichmodel)),1], col="blue", lwd=3)
+legend("topright", legend=c("non-weinberger", "weinberger"),
+       col=c("black", "blue"),pch=c(3,2), lty=1:1, cex=1,
+       box.lty=0)
+
+
+
+
+#####mu plot
+whichy<-rownames_to_column(as.data.frame(whichmodel), var = "predictor")
+
+whichy<-filter(whichy,between(row_number(),1,21))
+whichy<-filter(whichy,!between(row_number(),5,6))
+
+colnames(whichy)<-c("predictor", "mean"  ,    "se_mean" ,  "sd"  ,      "Q2.5"      ,"Q25"    ,   "Q50" ,      "Q75"  ,     "Q97.5",     "n_eff",     "Rhat" )
+pd2=position_dodgev(height=0.4)
+ggplot(whichy,aes(mean,predictor))+geom_point(aes(),position=pd2)+geom_errorbarh(aes(xmin=Q25,xmax=Q75),linetype="solid",position=pd2,width=0)+geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),linetype="dotted",position=pd2,width=0)+geom_vline(aes(xintercept=0),color="black")+theme_bw()
++scale_color_manual(values=c("orchid4", "springgreen4"))+ggtitle("HF-Continuous")
+
+##or
+muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg2){
+  spnum <- length(unique(bb.stan$complex.wname))
+  #pdf(file.path(figpath, paste("muplot", nameforfig, figpathmore, ".pdf", sep="")),
+   #   width = width, height = height)
+  par(xpd=FALSE)
+  par(mar=c(5,7,3,5))
+  plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
+       xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
+  axis(2, at=1:7, labels=rev(c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")), las=1)
+  abline(v=0, lty=2, col="darkgrey")
+  rownameshere <- c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")
+  ppeffects <- c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw") # or 1:4 here...
+  for(i in 1:3){
+    pos.y<-(3:1)[i]
+    pos.x<-summary(modelhere)$summary[rownameshere[i],"mean"]
+    lines(summary(modelhere)$summary[rownameshere[i],c("25%","75%")],rep(pos.y,2),col="darkgrey")
+    points(pos.x,pos.y,cex=1.5,pch=19,col="darkblue")
+    for(spsi in 1:spnum){
+      pos.sps.i<-which(grepl(paste("[",spsi,"]",sep=""),rownames(summary(modelhere)$summary),fixed=TRUE))[2:4]
+      jitt<-runif(1,0.05,0.4)
+      pos.y.sps.i<-pos.y-jitt
+      pos.x.sps.i<-summary(modelhere)$summary[pos.sps.i[i],"mean"]
+      lines(summary(modelhere)$summary[pos.sps.i[i],c("25%","75%")],rep(pos.y.sps.i,2),
+            col=alpha(my.pal[spsi], alphahere))
+      points(pos.x.sps.i,pos.y.sps.i,cex=0.8, pch=my.pch[spsi], col=alpha(my.pal[spsi], alphahere))
+      
+    }
+  }
+  par(xpd=TRUE) # so I can plot legend outside
+  legend(leg1, leg2, sort(unique(bb.stan$complex.wname)), pch=my.pch[1:spnum],
+         col=alpha(my.pal[1:spnum], alphahere),
+         cex=0.75, bty="n")
+ # dev.off()
+}
+
+
+muplotfx(wein.mod.3.cp, "test", 7, 8, c(0,3), c(-20, 10) , 12, 7)
+
+
+
+
 wein.sum3.ut <- summary(wein.mod.3.ut)$summary
 matchysp.ut<-rownames_to_column(as.data.frame(wein.sum3.ut[c("mu_a_sp", "b_force", "b_photo", "b_chill",
-               "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
+                                                             "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
 matchysp.ut$chilltype<-"Eutaw"
 matchysps<-rbind(matchysp.cp,matchysp.ut)
- 
+
 #write.csv(matchysps,"poolintonly.csv")
 
 # pooling on main effects
@@ -267,17 +374,17 @@ spp <- sort(unique(bb.stan$complex))
 
 
 with.pool <- data.frame(complex=rep(NA, length(spp)),
-                      intercept=rep(NA, length(spp)), 
-                      force=rep(NA, length(spp)), 
-                      photo=rep(NA, length(spp)),
-                      chill=rep(NA, length(spp)))
+                        intercept=rep(NA, length(spp)), 
+                        force=rep(NA, length(spp)), 
+                        photo=rep(NA, length(spp)),
+                        chill=rep(NA, length(spp)))
 
 less.pool <- data.frame(complex=rep(NA, length(spp)),
                         intercept=rep(NA, length(spp)), 
                         force=rep(NA, length(spp)), 
                         photo=rep(NA, length(spp)),
                         chill=rep(NA, length(spp)))
-                      
+
 
 modhere <-wein.sum
 for (sp in c(1:length(spp))){
@@ -356,4 +463,3 @@ ggplot(df.pulled) +
   scale_color_brewer(palette = "Set1")+
   theme_linedraw()
 dev.off()
-
