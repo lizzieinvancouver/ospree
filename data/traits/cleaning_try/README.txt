@@ -28,7 +28,3 @@ cleaning_try/to_clean
 
 Unaltered csv files that have yet to be cleaned 
 
-<><><><><><><><><>
-cleaning_try/woodiness
-
-Unaltered csv files that contained no relevant data, just woodiness (y/n)
