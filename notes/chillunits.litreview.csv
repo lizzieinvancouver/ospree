@@ -2,8 +2,8 @@ paper,assignee,strength_utah,weak_utah,thresh_utah,strength_chillport,weak_chill
 Anderson1992,Ailene,,,,,,,,,
 Harrington,Ailene,,,,,,,,,
 Luedeling2015,Ailene,,,,,,,,,
-Darbyshire2016,Cat,,,,,,,,,
-Harrington2010,Cat,,,,,,,,,
+Darbyshire2016,Cat,,,,uses hourly data which allows the model to have added effects of moderate temperatures coupled with chilling temperatures,,"6-8 deg C was deemed ""optimal""",Malus domestica - Australian Pink Lady apples,,"Olsson and Jonsson, 2014 tested many models on forest tree flowering phenology across Europe and found none were able to predict flowering"
+Harrington2010,Cat,,,,,,,Pseudotsuga menziesii,,Doesn't compare chill portions to Utah chill but instead comes up with a new way of calculating chill units. Very comprehensive!
 Luedeling2013,Cat,,,,,,,,,
 Fu2012,Dan,,,,,,,"Betula pendula, Qurcus robur, Fagus sylvatica",,This doesn't really compare Utah to Chill portions but considers lost of models for integrating forcing and chilling
 Luedeling2011,Dan,,,,"best in warm climates, ""not aware of any tests in cold or temperate regions""",,,,,Location matters
