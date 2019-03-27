@@ -4,18 +4,18 @@ options(stringsAsFactors = FALSE)
 library(tidyverse) 
 require(reshape2)
 # Select georeferenced Datasets -------------------------------------------
-setwd("~/Desktop/trait_analysis") # Working directory 
+#setwd("~/Desktop/trait_analysis") # Working directory 
 #data <- read.csv("input/Try_data_Dec2018.csv")
-data <- read.csv("input/TRY_data_Mar2019.csv")
-str(data)
-head(data)
-names(data)
-#To help simlify what we are looking at,  I am removing the Reference and Comment col
-data<-data[,1:25]
-
-#First identify how many unique datasets there are:
-
-length(unique(data$Dataset))
+#data <- read.csv("input/TRY_data_Mar2019.csv")
+# str(data)
+# head(data)
+# names(data)
+# #To help simlify what we are looking at,  I am removing the Reference and Comment col
+# data<-data[,1:25]
+# 
+# #First identify how many unique datasets there are:
+# 
+# length(unique(data$Dataset))
 # March data has 66 unique datasets
 # 
 # #Separating the datasets into indiviudal files to clean
@@ -29,9 +29,11 @@ length(unique(data$Dataset))
 #   print(fn)
 #   write.csv(tmp,fn, row.names=FALSE)
 # }
-#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+#Data now sep into indiv csv files 
+setwd("~/Documents/github/ospree/analyses/traits/Cleaning_TRY")
 # Cleaning Xylem fucntional trait study to test whether this works
-xylem36<-read.csv("sep_data/XylemFunctionalTraits(XFT)Database.csv")
+xylem36<-read.csv("To_clean/XylemFunctionalTraits(XFT)Database.csv")
 
 str(xylem36)
 names(xylem36)
@@ -54,9 +56,11 @@ names(tmp1)
 #write.csv(tmp1, file="xylemFunctionalTraits.csv", row.names = TRUE)
 #This seems to have worked
 
-#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+#Data now sep. into indiv csv files and added to OPREE
+setwd("~/Documents/github/ospree/analyses/traits/Rfiles")
 # Cleaning Tundra fucntional trait study to test whether this workstu
-tundra35<-read.csv("sep_data/TundraPlantTraitsDatabase.csv")
+tundra35<-read.csv("Cleaning/TundraPlantTraitsDatabase.csv")
 
 str(tundra35)
 tundra<-tundra35[,c(1:5,8:9,11,13,15,16)]
