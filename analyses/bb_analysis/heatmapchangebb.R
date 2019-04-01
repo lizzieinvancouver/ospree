@@ -13,13 +13,19 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 #libraries
-library(RColorBrewer)
-library(plyr)
+#library(RColorBrewer)
+#library(plyr)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+#library(gridExtra)
+#library(geosphere)
+#library(ggplot2)
 library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(gridExtra)
-library(geosphere)
+#library(egg)
+library(RColorBrewer)
+#library(maptools)
+library(ggpubr)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -284,21 +290,90 @@ spests <- spests[order(spests$lat, spests$warming),]
 #calculate difference in bb between no warming and warmed for each row
 spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
 
-spests$bbchange<-spests$bothwarm-spests$bbnowarm
   
 
 
-pdf("figures/heatmapchangebb.pdf", width = 6, height = 6)
 #quartz()
+#use facet or grid instead of mfrow
+#each row should by chilling, warming, both
 
-library("ggplot2")
-library("gridExtra")
+# This example uses the ChickWeight dataset, which comes with ggplot2
 
-par(mfrow=c(1,7))
+
+#just winter warming
+
+#just spring warming
+png("figures/heatmapchangebb.pdf", width = 6, height = 6)
+
+quartz(width=8, height=5)
+for(i in 1:7){
+  spests2<-spests
+  spests2$lon[!spests2$warming==i]<-NA
+  spests2$lat[!spests2$warming==i]<-NA
+  
+  spests2$bbchange<-spests2$sprwarm-spests2$bbnowarm
+  spests2$longitude<-round(spests2$lon, digits=2)
+  spests2$latitude<-round(spests2$lat, digits=2)
+  #spests2$longitude<-round(spests2$lon, digits=2)
+  #spests2$latitude<-round(spests2$lat, digits=2)
+  
+  if(i==1){
+  p1<-ggplot(spests2, aes(longitude, latitude)) +
+    
+    geom_raster(data=spests2,
+                aes(x=longitude, y=latitude,
+                    fill=bbchange)) 
+    #geom_tile(aes(fill=bbchange)) +
+    labs(y="Latitude", x="Longitude")+
+    theme_bw()+
+    scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")
+  p1+ theme(panel.grid.minor = element_blank())
+  }
+  if(i==2){
+    p2<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  if(i==3){
+    p3<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  if(i==4){
+    p4<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  if(i==5){
+    p5<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  if(i==6){
+    p6<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  if(i==7){
+    p7<-ggplot(spests2, aes(longitude, latitude)) +
+      geom_tile(aes(fill=bbchange)) +
+      scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")}
+  }
+
+
+ggarrange(p1,p2,p3,p4,p5,p6,p7,
+          ncol = 7, nrow = 2,
+          common.legend = TRUE)
+
+png("figures/BB_base.png", ### makes it a nice png and saves it so it doesn't take forever to load as a pdf!
+    width=8,
+    height=5, units="in", res = 350 )
+grid.draw(mappies)
+dev.off()
+
+#both
 for(i in 1:7){
 spests2<-spests[spests$warming==i,]
+spests2$bbchange<-spests2$bothwarm-spests2$bbnowarm
+
   ggplot(spests2, aes(as.factor(lon), as.factor(lat))) +
   geom_tile(aes(fill=bbchange)) +
   scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")
 }
+
 dev.off()

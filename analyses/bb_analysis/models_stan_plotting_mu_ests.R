@@ -2,7 +2,7 @@
 ## By Ailene  ##
 
 ## Marginal effects from Stan models ##
-
+## NOTE: THIS CODE WILL NOT WORK IF TIDYR HAS BEEN LOADED
 ############################################
 # housekeeping
 rm(list=ls()) 
@@ -13,6 +13,7 @@ library(RColorBrewer)
 library(geosphere)
 library(rstan)
 library(chillR)
+library(rgl)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
@@ -193,7 +194,7 @@ lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
 
 legend("topright",legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)
 
-
+dev.off()
 #Make the above as a 3D plot
 
 #new function (for just one daylength)
@@ -205,35 +206,73 @@ getest.bb2 <- function(fit, forcetemp, chillport, daylength){
   return(yebbest)
 }
 
-z.matrix <- matrix(NA,ncol=length(temps)+1,nrow=length(temps)+1)
+z.matrix.dl1 <- matrix(NA,ncol=length(temps),nrow=length(temps))
+z.matrix.dl2 <- matrix(NA,ncol=length(temps),nrow=length(temps))
 #Fill matrix row by row
-dl<-8
+dl1<-8
+dl2<-12
+#the below takes a while to run.if you want to avoid running the loop
+#z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
 for (i in 1:length(temps)){#i=chilling
  print(temps[i]);
   
-  dl2<-12
   for(j in 1:length(temps)){
     bbposteriors <- getest.bb(fit,temps[j], chillests$Chill_portions[i], dl1,dl2)
+    
     meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
-    z.matrix[i,j]<-meanz[4]
+    z.matrix.dl1[i,j]<-meanz[1]#use 8 hour daylength only for now
+    z.matrix.dl2[i,j]<-meanz[2]#use 8 hour daylength only for now
+    
   }
 }
 
+colnames(z.matrix.dl1)<-colnames(z.matrix.dl2)<-paste("sprtemp",temps, sep=".")
+rownames(z.matrix.dl1)<-colnames(z.matrix.dl2)<-paste("wintemp",temps, sep=".")
+write.csv(z.matrix.dl1,"..//output/bbmodests_for3dplot_8hr.csv")
+write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr.csv")
 
-z=z.matrix
+z=z.matrix.dl1[1:length(temps),1:length(temps)]
 x=temps
 y=temps
-zlim <- range(y)
+zlim <- range(z)
 zlen <- zlim[2] - zlim[1] + 1
 
 colorlut <- terrain.colors(zlen) # height color lookup table
 
 col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+open3d() 
+plot3d(z, type = 'n',
+       xlim = range(x), ylim = range(y), zlim = range(z), 
+       xlab = 'Winter temperature (C)', 
+       ylab = 'Spring temperature (C)', zlab = 'Days to BB', axes=FALSE) 
+axes3d( edges=c("x-+", "y--", "z--"), box=TRUE,)
+surface3d(x,y, z,
+          col=col, back = "lines")
+rgl.snapshot("figures/bbmod_3dplot.png")
+rgl.postscript("figures/bbmod_3dplot.pdf", "pdf")
 
+
+
+#######################
+####Below not used...yet
+rgl_init <- function(new.device = FALSE, bg = "white", width = 640) { 
+  if( new.device | rgl.cur() == 0 ) {
+    rgl.open()
+    par3d(windowRect = 50 + c( 0, 0, width, width ) )
+    rgl.bg(color = bg )
+  }
+  rgl.clear(type = c("shapes", "bboxdeco"))
+  rgl.viewpoint(theta = 15, phi = 20, zoom = 0.7)
+}
+
+rgl_init()
 plot3d(z.matrix, type = 'n', 
        xlim = range(x), ylim = range(y), zlim = range(z), 
-       xlab = 'Winter warming', 
-       ylab = 'Spring warming', zlab = 'Days to BB') 
+       xlab = 'Winter warming (C)', 
+       ylab = 'Spring warming (C)', zlab = 'Days to BB') 
 
 surface3d(x,y, z,
           col=col, back = "lines")
+aspect3d(1,1,1)
+aspect3d("iso")
+

@@ -39,8 +39,8 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
