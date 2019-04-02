@@ -27,7 +27,7 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/ailene.ettinger/Documents/GitHub/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -39,7 +39,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
 use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
@@ -91,18 +91,21 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 # Code if you want to save your models (do NOT push output to git)
 # Note that use.chillports is NOT generally included below ... expect when use.chillports==FALSE
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypes_z.Rda")
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==TRUE){
+save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompexprampfp_z.Rda")
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==TRUE){
+save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfp_z.Rda")
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==TRUE){
+save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
 }
 
 # utah ...
@@ -113,23 +116,33 @@ save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypes_nonz.Rda")
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE &
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompexprampfp_nonz.Rda")
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE &
+    use.chillports==FALSE){
+save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
+}
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==FALSE){
+save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
 }
 
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE){
-save(m2l.ni, file="stan/output/m2lni_allsppexprampfp_z.Rda")
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==FALSE){
+save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
 }
 
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE){
-save(m2l.ni, file="stan/output/m2lni_allsppexprampfp_nonz.Rda")
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==FALSE){
+save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
 }
 
 

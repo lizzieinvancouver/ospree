@@ -26,7 +26,7 @@ if(length(grep("ailene", getwd())>0)) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = TRUE
+use.chillports = FALSE
 use.zscore =FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -49,19 +49,23 @@ my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
 # non-z-scored models
-if(use.zscore==FALSE){
-  load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
+if(use.zscore==FALSE & use.chillports == TRUE){
+  load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni
   #load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
   modelhere <- m2l.ni
   fit <- m2l.ni
 }
-if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
-  fitz <- m2l.ni
+if(use.zscore==FALSE & use.chillports == FALSE){
+  load("stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
+  modelhere <- m2l.ni
+  fit <- m2l.ni
 }
+
 fit.sumz <- summary(fit)$summary
 quartz()
 hist(bb.stan$chill.ports)
+hist(bb.stan$chill)#=utah
+
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 #For main effects of model:
 #Make a figure showing effects of forcing and chilling on budburst
@@ -71,19 +75,18 @@ rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 ## Plotting
 # First, we estimate the posteriors for each thing we want to plot...
-fit <-modelhere
 
 list_of_draws <- extract(fit)
 #print(names(list_of_draws))
 #str(list_of_draws$mu_a_sp)
 
 
-getest.bb <- function(fit, forcetemp, chillport, daylength1,daylength2){
+getest.bb <- function(fit, forcetemp, chill, daylength1,daylength2){
   listofdraws <- extract(fit)
   avgbbdl1 <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*forcetemp + 
-    listofdraws$mu_b_photo_sp*daylength1 + listofdraws$mu_b_chill_sp*chillport
+    listofdraws$mu_b_photo_sp*daylength1 + listofdraws$mu_b_chill_sp*chill
   avgbbdl2 <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*forcetemp + 
-    listofdraws$mu_b_photo_sp*daylength2 + listofdraws$mu_b_chill_sp*chillport
+    listofdraws$mu_b_photo_sp*daylength2 + listofdraws$mu_b_chill_sp*chill
   
    yebbest <- list(avgbbdl1, avgbbdl2)
   return(yebbest)
@@ -96,6 +99,9 @@ temps<-seq(min(c(chilltemps,forcetemps)),max(c(chilltemps,forcetemps)), by=1)
 dl1<-8
 dl2<-16
 chillport<-mean(bb.stan$chill.ports)
+chillutah<-mean(bb.stan$chill)
+if(use.chillports==TRUE){chill=chillport}
+if(use.chillports==FALSE){chill=chillutah}
 
 #make blank dataframe to fill with estimates
 predicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
@@ -106,7 +112,7 @@ colnames(predicts)<-colnames(predicts.25per) <-colnames(predicts.75per) <-
   c("forcetemp","dl1","dl2")
 
 for (i in 1:length(temps)){
-  bbposteriors <- getest.bb(fit,temps[i], chillport, dl1,dl2)
+  bbposteriors <- getest.bb(fit,temps[i], chill, dl1,dl2)
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
@@ -135,7 +141,7 @@ for(i in 1:length(temps)){
   chillests[i,]<-c(temps[i],chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp)]))
 }
 colnames(chillests)<- c("temp","Season","End_year","Season_days","Data_days","Perc_complete","Chilling_Hours","Utah_Model","Chill_portions","GDH")  
-
+chillests$Utah_Model<-chillests$Utah_Model/240
 #make blank dataframe to fill with estimates
 chillpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
 chillpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
@@ -145,7 +151,8 @@ colnames(chillpredicts)<-colnames(chillpredicts.25per) <-colnames(chillpredicts.
   c("chilltemp","dl1","dl2")
 mnforce<-mean(as.numeric(bb.stan$forcetemp), na.rm=TRUE)
 for (i in 1:length(temps)){
-  bbposteriors <- getest.bb(fit,mnforce, chillests$Chill_portions[i], dl1,dl2)
+  if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,mnforce, chillests$Chill_portions[i], dl1,dl2)}
+  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,mnforce, chillests$ Utah_Model[i], dl1,dl2)}
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
@@ -164,7 +171,9 @@ bothpredicts.75per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
 colnames(bothpredicts)<-colnames(bothpredicts.25per) <-colnames(bothpredicts.75per) <-
   c("chilltemp","dl1","dl2")
 for (i in 1:length(temps)){
-  bbposteriors <- getest.bb(fit,temps[i], chillests$Chill_portions[i], dl1,dl2)
+  if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,temps[i], chillests$Chill_portions[i], dl1,dl2)}
+  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], chillests$Utah_Model[i], dl1,dl2)}
+  
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
@@ -178,7 +187,9 @@ for (i in 1:length(temps)){
 
 xlim = c(range(temps))
 ylim = c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
-figname<-paste("mupredicts",min(temps),max(temps),".pdf", sep="_")
+if(use.chillports==TRUE){figname<-paste("mupredicts_chillport_",min(temps),max(temps),".pdf", sep="_")}
+if(use.chillports==FALSE){figname<-paste("mupredicts_utah_",min(temps),max(temps),".pdf", sep="_")}
+
 pdf(file.path(figpath,figname), width = 9, height = 6)
 
 #quartz()
@@ -192,16 +203,21 @@ lines(bothpredicts$chilltemp,bothpredicts$dl1,lty=1, lwd=2, col="purple")
 lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
 
 
-legend("topright",legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)
+if(use.chillports==TRUE){legend("topright",
+      legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), 
+      lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
+if(use.chillports==FALSE){legend("topleft",
+                                legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), 
+                                lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
 
 dev.off()
 #Make the above as a 3D plot
 
 #new function (for just one daylength)
-getest.bb2 <- function(fit, forcetemp, chillport, daylength){
+getest.bb2 <- function(fit, forcetemp, chill, daylength){
   listofdraws <- extract(fit)
   avgbb <- listofdraws$mu_a_sp + listofdraws$mu_b_force_sp*forcetemp + 
-    listofdraws$mu_b_photo_sp*daylength + listofdraws$mu_b_chill_sp*chillport
+    listofdraws$mu_b_photo_sp*daylength + listofdraws$mu_b_chill_sp*chill
   yebbest <- list(avgbb)
   return(yebbest)
 }
@@ -210,27 +226,34 @@ z.matrix.dl1 <- matrix(NA,ncol=length(temps),nrow=length(temps))
 z.matrix.dl2 <- matrix(NA,ncol=length(temps),nrow=length(temps))
 #Fill matrix row by row
 dl1<-8
-dl2<-12
+dl2<-16
 #the below takes a while to run.if you want to avoid running the loop
 #z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
 for (i in 1:length(temps)){#i=chilling
  print(temps[i]);
   
   for(j in 1:length(temps)){
-    bbposteriors <- getest.bb(fit,temps[j], chillests$Chill_portions[i], dl1,dl2)
-    
+    if(use.chillports==TRUE){
+    bbposteriors <- getest.bb(fit,temps[j], chillests$Chill_portions[i], dl1,dl2)}
+  if(use.chillports==FALSE){
+    bbposteriors <- getest.bb(fit,temps[j], chillests$Utah_Model[i], dl1,dl2)}
+
     meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
-    z.matrix.dl1[i,j]<-meanz[1]#use 8 hour daylength only for now
-    z.matrix.dl2[i,j]<-meanz[2]#use 8 hour daylength only for now
+    z.matrix.dl1[i,j]<-meanz[1]#8 hour daylength only for now
+    z.matrix.dl2[i,j]<-meanz[2]#16 hour daylength only for now
     
   }
 }
 
 colnames(z.matrix.dl1)<-colnames(z.matrix.dl2)<-paste("sprtemp",temps, sep=".")
 rownames(z.matrix.dl1)<-colnames(z.matrix.dl2)<-paste("wintemp",temps, sep=".")
-write.csv(z.matrix.dl1,"..//output/bbmodests_for3dplot_8hr.csv")
-write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr.csv")
-
+if(use.chillports==TRUE){
+  write.csv(z.matrix.dl1,"..//output/bbmodests_for3dplot_8hr_cp.csv")
+  write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr_cp.csv")}
+if(use.chillports==FALSE){
+  write.csv(z.matrix.dl1,"..//output/bbmodests_for3dplot_8hr_utah.csv")
+  write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr_utah.csv")} 
+    
 z=z.matrix.dl1[1:length(temps),1:length(temps)]
 x=temps
 y=temps
@@ -240,6 +263,7 @@ zlen <- zlim[2] - zlim[1] + 1
 colorlut <- terrain.colors(zlen) # height color lookup table
 
 col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+#need to work on setting it up so that it looks good without tweaking by hand...
 open3d() 
 plot3d(z, type = 'n',
        xlim = range(x), ylim = range(y), zlim = range(z), 
@@ -250,6 +274,8 @@ surface3d(x,y, z,
           col=col, back = "lines")
 rgl.snapshot("figures/bbmod_3dplot.png")
 rgl.postscript("figures/bbmod_3dplot.pdf", "pdf")
+
+
 
 
 
