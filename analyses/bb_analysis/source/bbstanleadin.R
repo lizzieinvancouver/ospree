@@ -395,7 +395,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # Species complex, exp and photo and forcing and using utah WITH CROPS & NOT z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == FALSE & use.zscore == FALSE){
+    & use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
