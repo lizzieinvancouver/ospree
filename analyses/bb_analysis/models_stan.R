@@ -39,7 +39,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
 use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
@@ -100,6 +100,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
     use.chillports==TRUE){
 save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
+}
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==TRUE){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
