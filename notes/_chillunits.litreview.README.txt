@@ -10,10 +10,10 @@ weak_utah= weaknesses/challenges of using Utah units to quantify chilling, as ou
 
 thresh_utah=threshold temperature(s) to count as chilling, using Utah units (e.g. <0 degrees C).
 
-strength_chillport= strengths/benefits of using Children Portions to quantify chilling, as outlined in the study
-weak_chillport= weaknesses/challenges of using Children Portions to quantify chilling, as outlined in the study
+strength_chillport= strengths/benefits of using chill portions (dyanmic model) to quantify chilling, as outlined in the study
+weak_chillport= weaknesses/challenges of using chill portions to quantify chilling, as outlined in the study
 
-thresh_chill=threshold temperature(s) to count as chilling, using Children Portions (e.g. <0 degrees C).
+thresh_chill=threshold temperature(s) to count as chilling, using chill portions (e.g. <0 degrees C).
 strength_chillport
 
 

@@ -7,6 +7,8 @@
 ## climatic conditions (conditions chosen using locations and bbdoy within range of 
 ## BETPEN and FAGSYL in PEP data)
 
+## NOTE: THIS CODE WILL NOT WORK IF TIDYR HAS BEEN LOADED
+
 ############################################
 # housekeeping
 rm(list=ls()) 
@@ -16,7 +18,6 @@ options(stringsAsFactors = FALSE)
 library(RColorBrewer)
 library(plyr)
 library(dplyr)
-library(tidyr)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
