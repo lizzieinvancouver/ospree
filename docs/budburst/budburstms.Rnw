@@ -48,7 +48,7 @@
 
 %Start of the document
 \begin{document}
-
+\SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
 \bibliographystyle{..//..//refs/bibstyles/amnat.bst}% i moved a style file into the ospree git repo. feel free to add whatever style you like and update, lizzie! I don't have besjournals
 
