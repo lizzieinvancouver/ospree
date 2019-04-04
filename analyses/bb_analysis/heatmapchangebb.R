@@ -58,11 +58,11 @@ alphahere = 0.4
 # non-z-scored models
 
 if(use.zscore==FALSE & use.chillports==TRUE){
-load("stan/output/m2lni_spcompexprampfpcp.Rda") # m2l.ni
+load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
  fit <- m2l.ni
 }
 if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+  load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
