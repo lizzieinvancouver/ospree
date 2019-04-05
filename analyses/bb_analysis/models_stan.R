@@ -74,7 +74,7 @@ check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),1]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
 
 ys<-datalist.bb$y
@@ -102,6 +102,12 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
 }
 
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==TRUE){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz.Rda")
+}
+
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
     use.chillports==TRUE){
@@ -122,9 +128,9 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
     use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
+save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &

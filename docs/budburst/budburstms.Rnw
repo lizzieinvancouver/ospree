@@ -48,7 +48,7 @@
 
 %Start of the document
 \begin{document}
-
+\SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
 \bibliographystyle{..//..//refs/bibstyles/amnat.bst}% i moved a style file into the ospree git repo. feel free to add whatever style you like and update, lizzie! I don't have besjournals
 
@@ -90,12 +90,39 @@ Decades of research on woody species highlight how three major cues shape spring
 % Ailene: Can you look into Tilia and Salix showed odd responses? Weird treatments or do papers back this up? We should also check Acer-complex, Fraxinus complex, Cornus alba for forcing ... *after* we fix bbpercdays and get new estimates.
 
 % Also, I changed back to the plan in the outline. It felt like we were leading readers a bit deep into methodological nitty-gritty before getting out the main results: that may be most interesting to phenology readers, but will lose most other folks I fear. 
-\par Across studies, all cues---chilling, forcing, and photoperiod---each advance budburst phenology (Fig. \ref {fig:mu}). Using a standardized scale to allow comparisons of the three cues we found that chilling was the strongest cue (-8.16 days/standard unit or -0.25 days per chill portion, Fig. \ref {fig:apc}), followed by forcing (-4.83 days/standard unit or -0.85 days per degree of warming, Fig. \ref {fig:apc}). Photoperiod was the weakest cue (-3.17 days/standard unit or -0.54 days per hour of daylength); however---given an extensive literature that has suggested photoperiod is a weak or non-existent cue for many species \citep{zohner2016,koerner2010a}--- it was surprisingly large and consistent across species, with only \emph{Fagus sylvatica}, a species well-known for having a large response to photoperiod deviating far from the overall estimate (Figure \ref {fig:mu}). Species also showed fairly consistent responses to chilling (Figure \ref {fig:mu}, though two species delayed budburst with chilling \emph{Tilia codata}, \emph{Salix} complex). Responses to forcing, on the other hand, were the most variable across species (sigma = 6.04).
+<<label=xtable1a, echo=FALSE, results=tex>>=
+#load models to report estimates, use chill portions
+library(plyr)
+library(dplyr)
+library(rstan)
+
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni
+fit.nonz <- summary(m2l.ni)$summary
+ch.nonz<-round(fit.nonz[grep("mu_b_chill_sp", rownames(fit.nonz)),1]
+    , digits=2)
+f.nonz<-round(fit.nonz[grep("mu_b_force_sp", rownames(fit.nonz)),1]
+    , digits=2)
+p.nonz<-round(fit.nonz[grep("mu_b_photo_sp", rownames(fit.nonz)),1]
+    , digits=2)
+f.sigma.nonz<-round(fit.nonz[grep("sigma_b_force_sp", rownames(fit.nonz)),1]
+, digits=2)
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
+fit.z <- summary(m2l.ni)$summary
+ch.z<-round(fit.z[grep("mu_b_chill_sp", rownames(fit.z)),1]
+    , digits=2)
+f.z<-round(fit.z[grep("mu_b_force_sp", rownames(fit.z)),1]
+    , digits=2)
+p.z<-round(fit.z[grep("mu_b_photo_sp", rownames(fit.z)),1]
+    , digits=2)
+f.sigma.z<-round(fit.z[grep("sigma_b_force_sp", rownames(fit.z)),1]
+, digits=2)
+@
+\par Across studies, all cues---chilling, forcing, and photoperiod---each advance budburst phenology (Fig. \ref {fig:mu}). Using a standardized scale to allow comparisons of the three cues we found that chilling was the strongest cue (\Sexpr{ch.z} days/standard unit or \Sexpr{ch.nonz} days per chill portion, Fig. \ref {fig:apc}), followed by forcing (\Sexpr{f.z} days/standard unit or \Sexpr{f.nonz} days per degree of warming, Fig. \ref {fig:apc}). Photoperiod was the weakest cue (\Sexpr{p.z} days/standard unit or \Sexpr{p.nonz} days per hour of daylength); however---given an extensive literature that has suggested photoperiod is a weak or non-existent cue for many species \citep{zohner2016,koerner2010a}--- it was surprisingly large and consistent across species, with only \emph{Fagus sylvatica}, a species well-known for having a large response to photoperiod deviating far from the overall estimate (Figure \ref {fig:mu}). Species also showed fairly consistent responses to chilling (Figure \ref {fig:mu}, though two species delayed budburst with chilling \emph{Tilia codata}, \emph{Salix} complex). Responses to forcing, on the other hand, were the most variable across species (sigma = \Sexpr{f.sigma.z}).
 
 % Is the below -- aside from the provenance stuff -- covered in the above (or previously in the intro)? I think so, in which case we can just look out for where to tuck the latitude finding in.
 %  \par It has been proposed that photoperiod limitation may also reduce advancement rates of spring budburst for some species \citep{koerner2010a}. We find that photoperiod responses were consistent across species, suggesting that all species rely on this cue for spring phenology \citep{zohner2016, flynn2018,Caffarra:2011a}. Sensitivity to daylength may protect new plant tissues from frost damage by delaying budburst date until a lower risk time of year \citep{koerner2010a}. The magnitude of photoperiod sensitivity varied with provenance latitude: woody material from lower latitudes generally had earlier budburst, given the same chilling, forcing, and daylength conditions (cite supplemental table or figure showing latitude model). %Though we found widespread photoperiod sensitivity across species, the effect was small in comparison to forcing and chilling.
 
-\par As temperature is radically altered by anthropogenic climate change, our finding that different ends of the temperature spectrum---chilling and forcing---have the strongest effects on budburst suggests that understanding these cues will be critical for forecasting. Many previous studies attribute advances in budburst to increased forcing \citep{Basler:2014aa,bradley1999,menzel2006,harrington2015}, and forcing sensitivity in our model (-0.85 days per degree of warming) is consistent with what previous experiments (CITES), and observational studies (CITES) have observed. Our results, however, suggest chilling has a greater effect on budburst than forcing (Fig. \ref{fig:mu}). This has not been widely suggested previously, as little work has manipulated chilling directly and that work which has usually contrasts it with photoperiod, not forcing \citep[e.g., ][]{Basler:2014aa,Caffarra:2011qf,Laube:2014a,zohner2016}. 
+\par As temperature is radically altered by anthropogenic climate change, our finding that different ends of the temperature spectrum---chilling and forcing---have the strongest effects on budburst suggests that understanding these cues will be critical for forecasting. Many previous studies attribute advances in budburst to increased forcing \citep{Basler:2014aa,bradley1999,menzel2006,harrington2015}, and forcing sensitivity in our model (\Sexpr{f.nonz} days per degree of warming) is consistent with what previous experiments (CITES), and observational studies (CITES) have observed. Our results, however, suggest chilling has a greater effect on budburst than forcing (Fig. \ref{fig:mu}). This has not been widely suggested previously, as little work has manipulated chilling directly and that work which has usually contrasts it with photoperiod, not forcing \citep[e.g., ][]{Basler:2014aa,Caffarra:2011qf,Laube:2014a,zohner2016}. 
 % Need to check: Do any papers compare chilling and forcing cues? Or do they mostly compare photo and chill? 
 
 \par The paucity of studies directly manipulating chilling---which our results suggest has the greatest effect on budburst---suggests a major gap in current research. While many studies (X out of Y here) directly manipulated forcing, far fewer directly manipulated chilling (Z out of Y). Instead many studies (J out of Y) estimate chilling effects through sequential removal of tissue from the field and exposure to `forcing' conditions (cite Weinberger), with the assumption that tissue collected later experienced more chilling. The challenge with this method is that photoperiod and other factors may have also changed during this time. Indeed, we found estimates varied in XX way when derived from direct manipulations of chilling versus the sequential `Weinberger' method. Given the limited manipulation of chilling in studies, we estimated chilling for all studies by combining chilling from the field (i.e., chilling before plants were sampled) and experimental chilling into two widely used metrics of chilling: Utah (citation) and Chill portions (citation). We found the effects of chilling and other cues remain qualitatively the consistent across the two chilling units, though chilling and photoperiod estimates were slightly lower using chill portions compared to Utah (cite supplemental table comparing estimates with both units).  % We could shorten this paragraph further. And then add something about how we need better models of chilling ...

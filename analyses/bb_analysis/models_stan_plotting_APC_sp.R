@@ -18,6 +18,7 @@ options(stringsAsFactors = FALSE)
 library(RColorBrewer)
 library(plyr)
 library(dplyr)
+library(rstan)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
@@ -57,13 +58,13 @@ my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
 # non-z-scored models
-if(use.zscore==FALSE){
-load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
+if(use.zscore==FALSE & use.chillports == TRUE){
+load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni with chill portions
 #load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
  fit <- m2l.ni
 }
-if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+if(use.zscore==TRUE & use.chillports == TRUE){
+  load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary

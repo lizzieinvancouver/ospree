@@ -12,14 +12,8 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-#libraries
-#library(RColorBrewer)
-#library(plyr)
-#library(dplyr)
-#library(tidyr)
-#library(ggplot2)
-#library(gridExtra)
-#library(geosphere)
+
+library(geosphere)
 #library(ggplot2)
 library(dplyr)
 #library(egg)
@@ -62,13 +56,13 @@ my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
 # non-z-scored models
-if(use.zscore==FALSE){
+
+if(use.zscore==FALSE & use.chillports==TRUE){
 load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
-#load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
  fit <- m2l.ni
 }
 if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+  load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
