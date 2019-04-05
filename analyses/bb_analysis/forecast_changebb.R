@@ -58,11 +58,11 @@ alphahere = 0.4
 # non-z-scored models
 
 if(use.zscore==FALSE & use.chillports==TRUE){
-load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
+load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni
  fit <- m2l.ni
 }
-if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
+if(use.zscore==TRUE & use.chillports==TRUE){
+  load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
@@ -269,16 +269,16 @@ for(s in 1:length(sp)){
     # }
     #dev.off()
   }
-  name<-paste(sp[s],lat,long,"forecast.csv",sep=".")
-  nameqlo<-paste(sp[s],lat,long,"forecast.qlo.csv",sep=".")
-  nameqhi<-paste(sp[s],lat,long,"forecast.qhi.csv",sep=".")
+  name<-paste(sp[s],"forecast.csv",sep=".")
+  nameqlo<-paste(sp[s],"forecast.qlo.csv",sep=".")
+  nameqhi<-paste(sp[s],"forecast.qhi.csv",sep=".")
   write.csv(spests,name, row.names = FALSE)
   write.csv(spestsqlo,name, row.names = FALSE)
   write.csv(spestsqhi,name, row.names = FALSE)
 }
 
 #to avoid runing the code above, read in the spests files<-
-spests<-read.csv("betpen.48.8667.15.1333.forecast.csv", header=TRUE)
+spests<-read.csv("betpen.forecast.csv", header=TRUE)
 #sort dataset based on lat
 spests <- spests[order(spests$lat, spests$warming),]
 #calculate difference in bb between no warming and warmed for each row
@@ -290,9 +290,6 @@ spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
 #quartz()
 #use facet or grid instead of mfrow
 #each row should by chilling, warming, both
-
-# This example uses the ChickWeight dataset, which comes with ggplot2
-
 
 #just winter warming
 
