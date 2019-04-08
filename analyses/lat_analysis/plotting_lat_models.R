@@ -25,7 +25,7 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 ## load the model
-load("../lat_analysis/stan/m2l.inter.lat.chillport.z.Rda")
+load("../lat_analysis/stan/m2l.inter.lat.chillportz.Rda")
 
 
 # dostan = TRUE
@@ -132,7 +132,6 @@ mod_sum <- posterior_samples(m2l.inter)
 newlat <- seq(from=range(lat.stan$lat.z)[1], to=range(lat.stan$lat.z)[2], length.out=200)  
 
 
-### Repeat for two extreme species... and combine in one loop
 osp.lat.lophoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
 osp.lat.hiphoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
 
@@ -180,11 +179,14 @@ latitude.allspp <- ggplot(osp.lat, aes(x=lat_trans, y=resp)) + geom_line(aes(lin
 quartz()
 latitude.allspp
 
-if(FALSE){
-# To plot with photo on the x axis we need to set up a vector of distances to predict: 
+
+############################################################################
+################## Opposite plot now - photoperiod on x axis ###############
+############################################################################
+# To plot with lat on the x axis we need to set up a vector of distances to predict: 
 newphoto <- seq(from=range(lat.stan$photo.z)[1], to=range(lat.stan$photo.z)[2], length.out=200)  
 
-### Repeat for two extreme species... and combine in one loop
+
 osp.photo.lolat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
 osp.photo.hilat <- data.frame(photo=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
 
@@ -205,11 +207,11 @@ for(i in 1:length(newphoto)){
 }
 
 
-hilat<-mean(lat.stan$lat)+1*sd(lat.stan$lat)
-lolat<-mean(lat.stan$lat)-1*sd(lat.stan$lat)
+hilat<-mean(lat.stan$lat)+2*sd(lat.stan$lat)
+lolat<-mean(lat.stan$lat)-2*sd(lat.stan$lat)
 
-osp.photo.hilat$lat <- hilat
-osp.photo.lolat$lat <- lolat
+osp.photo.hilat$lat <- 80
+osp.photo.lolat$lat <- 30
 osp.photo <- rbind(osp.photo.hilat, osp.photo.lolat)
 
 osp.photo$photo_trans <- (osp.photo$photo)*sd(lat.stan$photo) + mean(lat.stan$photo)
@@ -218,22 +220,24 @@ osp.photo$lat_trans <- as.character(osp.photo$lat)
 photoperiod.allspp <- ggplot(osp.photo, aes(x=photo_trans, y=resp)) + geom_line(aes(linetype=lat_trans, col=lat_trans)) +
   geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=lat_trans), alpha=0.1) + theme_classic() +
   scale_linetype_manual(name="Latitude", values=c("dashed", "solid"),
-                        labels=c("60.40136"="60.40136",
-                                 "43.90242"="43.90242")) +
+                        labels=c("7.97834632517043"="8 hours",
+                                 "19.0553108948026"="19 hours")) +
   scale_color_manual(name="Latitude", values=c("red", "blue"),
-                     labels=c("60.40136"="60.40136",
-                              "43.90242"="43.90242")) + xlab("Latitude") +
+                     labels=c("7.97834632517043"="8 hours",
+                              "19.0553108948026"="19 hours")) + xlab("Photoperiod") +
   scale_fill_manual(name="Latitude", values=c("red", "blue"),
-                    labels=c("60.40136"="60.40136",
-                             "43.90242"="43.90242")) +
+                    labels=c("7.97834632517043"="8 hours",
+                             "19.0553108948026"="19 hours")) +
   ylab("Day of Budburst") + guides(fill=FALSE) +
-  theme(legend.text.align = 0, legend.position = c(0.75, 0.85), legend.box.background = element_rect())
+  theme(legend.text.align = 0, legend.position = c(0.85, 0.85), legend.box.background = element_rect())
 
 quartz()
 photoperiod.allspp
 
+############################################################################
+######### Repeat for two extreme species... and combine in one loop ########
+############################################################################
 
-### Repeat for two extreme species... and combine in one loop
 fagsyl.lat.lophoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric()) ### number 14 species
 fagsyl.lat.hiphoto <- data.frame(lat=numeric(), fs.mean=numeric(), fs.25=numeric(), fs.75=numeric())
 
@@ -310,4 +314,4 @@ photoperiod <- ggplot(photoxlat, aes(x=lat_trans, y=resp)) + geom_line(aes(linet
 
 quartz()
 photoperiod
-}
+
