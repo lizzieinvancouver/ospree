@@ -1,17 +1,17 @@
 paper,your.name,datasetID,exp,forcing,chilling,photo,most.impt,wein
 Basler2012,Ailene,basler12,exp1,NA,NA,Negative (longer photoperiod -> earlier bud burst for 5/14 species),NA,no
 Basler2014,Cat,basler14,,negative,"negative (especially for Fagus, Acer and Quercus - less so for Picea)","negative (but only under long day conditions for Fagus,  however interaction of high forcing and long photo advanced budburst in all species but Acer which only responded to forcing)","species dependent: late successional are more dependent on photoperiod, especially with low chill; forcing is important for all; chilling important for all but less so for Picea which has a really low chilling requirement",yes
-Caffarra2011a(ingegratingcomplexeffects),Dan,caffarra11a,exp1,"Exp1<-negative(Higher T, earlier bb)",,"Negative (long days->Earlier bb, but not in Tilia cordata)","varied by species, climax species had high chill requirement high light sensitivity, muted forcing sensitivity, pioneer sps the opposite",
-Caffarra2011a(ingegratingcomplexeffects),Dan,caffarra11a,exp3,,Exp3-Negative (longer chilling-> earlier budbust),,,
+Caffarra2011a(ingegratingcomplexeffects),Dan,caffarra11a,exp1,"Exp1<-negative(Higher T, earlier bb)",,"Negative (long days->Earlier bb, but not in Tilia cordata)","varied by species, climax species had high chill requirement high light sensitivity, muted forcing sensitivity, pioneer sps the opposite",no
+Caffarra2011a(ingegratingcomplexeffects),Dan,caffarra11a,exp3,,Exp3-Negative (longer chilling-> earlier budbust),,,no
 Caffarra2011: Modelling the timing of Betula pubescens budburst. II. Integrating complex effects of photoperiod into process-based models,Lizzie,NA,,,,,,
 Caffarra2011b(conceptualmodel),Nacho,caffarra11b,,negative,negative on time to BB; positive on percBB,negative on time to BB; positive on percBB -> during dormancy induction; NA during chilling,Forcing/chilling,
 Laube2014(GCB ),Ailene,Laube2014a,exp1,NA,negative (increased chilling length advanced budburst day for äóìnearly all speciesäóù),"Negative (longer photoperiod -> earlier bud burst for äóìone-thirdäóù of species, effects were äóìsmalläóù)",chilling,yes
 Laube2014(New Phyt),Cat,Laube14b,,NA,NA,NA,humiditiy - need enough moisture in the air to advance budburst; also suggest more chilling increases dehyrdration so spring humidity is even more crucial to break dormancy,no
-Vitasse2013,Dan,NA,,NA,NA,NA,onotogeny,
+Vitasse2013,Dan,NA,,NA,NA,NA,onotogeny,no
 Malyshev2018,Lizzie,NA,one expt,NA,negative for all spp.,"negative for 4 spp., inconclusive for 4 others (all p-values!) ... also ""For T. cordata and P. abies the projected forcing unit requirements at budburst were counterintuitively higher at the short photoperiod than at the long photoperiod."" with some weird explanation.",,yes
 Heide2005,Nacho,heide05,,NA,negative*: *(<12C) induces dormancy in pear and apple trees. (<9C) needed to release dormancy.,NA,chilling,
 Korner2010,Ailene,NA,NA,negative,negative ,negative,depends on the species (early successional= chilling; warm-region species= forcing; ;late=successional=photoperiod),NA
 Zohner2016,Cat,zohner16,,negative,negative,negative for some low latitude species; more important with less chilling,"chilling but can be substituted with long photoperiod for some species, especially at lower latitudes",yes
-Nanninga2017,Dan,NA,,NA,Negative,NA,NA,
+Nanninga2017,Dan,NA,,NA,Negative,NA,NA,Yes
 fu2012(em),Ailene,NA,NA,Negative,Negative or no effect,NA,forcing (but they acknowledge that all plants likely to be fully chillied in their study),
 Harrington2015,Ailene,NA,NA,negative,negative ,NA,forcing and chilling (parallell model is relevant for many species; exact relationship between chilling and forcing varied by species),
