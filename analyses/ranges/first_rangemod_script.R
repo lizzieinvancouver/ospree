@@ -80,7 +80,8 @@ querrange$complex<-"Quercus_robur"
 
 range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange) ###bind all species ranges in one data sheet
 daty<-left_join(range.dat,test,by="complex") ###make a single data sheet where range can predict cue effect sizes
-
+head(daty)
+tail(daty)
 
 lm(chill~SDev.GDD.sites+SDev.Chill.Portions,data=daty)
 brm(chill~SDev.GDD.sites+SDev.Chill.Portions,data=daty) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
