@@ -6,9 +6,11 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 # libraries
 library(rstan)
+library(dplyr)
+library(tibble)
 library(shinystan)
 library(RColorBrewer)
-library(tidyverse)
+library(tidyr)
 library(gridExtra)
 library("ggpubr")
 library(ggstance)
@@ -46,6 +48,7 @@ selex<-c("b_chill[15]","b_chill[10]","b_chill[9]","b_chill[14]","b_chill[19]","b
 test<-filter(m21.ni.sum, betas %in% selex) ## make a data frame with the mean estimates for each cue for each species.
 test<-select(test,1:2) ##reduce data sets to just the means
 
+
 test$complex<-NA ### give each beta a species                    
 test$complex[grepl("15", test$betas)]<-"Fagus_sylvatica"
 test$complex[grepl("10", test$betas)]<-"Betula_pubescens"
@@ -61,8 +64,8 @@ test$predictor[grepl("photo", test$betas)]<-"photo"
 test<-select(test,-betas)
 
 test<-spread(test,predictor,summary.mean) ### spread the means into predictor colummn
-write.csv(test,file="..//ranges/betameans_for_range.sps.csv",row.names=FALSE)
-?write.csv()
+#write.csv(test,file="..//ranges/betameans_for_range.sps.csv",row.names=FALSE)
+
 ###read in range data for each species and give it a complex identifyer
 fagrange<-read.csv("..//ranges/climate.in.range1980-2017FagSyl.csv")
 fagrange$complex<-"Fagus_sylvatica"
@@ -82,15 +85,15 @@ range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange
 daty<-left_join(range.dat,test,by="complex") ###make a single data sheet where range can predict cue effect sizes
 head(daty)
 tail(daty)
+###take means
+mean.daty<- daty %>% group_by(complex) %>% summarise(meanSDchill=mean(SDev.Chill.Portions))
+mean.daty2<- daty %>% group_by(complex) %>% summarise(meanSDforce=mean(SDev.GDD.sites))
+mean.data<-left_join(mean.daty,mean.daty2)
+mean.data<-left_join(test,mean.data)
 
-lm(chill~SDev.GDD.sites+SDev.Chill.Portions,data=daty)
-brm(chill~SDev.GDD.sites+SDev.Chill.Portions,data=daty) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
+summary(lm(chill~meanSDchill+meanSDforce,data=mean.data))
+mod1<-brm(chill~meanSDchill+meanSDforce,data=mean.data) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
+summary(mod1)
+pp_check(mod1,nsamples = 50)
 
-#                      Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-#Intercept              -9.93      0.44   -10.80    -9.08       5526 1.00
-#SDev.GDD.sites          0.02      0.00     0.01     0.02       5223 1.00
-#SDev.Chill.Portions     0.37      0.02     0.33     0.41       3669 1.00
-
-##meaniing as chilling is more variable there is a weaker chilling effect??
-## and very marginally as GDD varaibility increases chilling becomes weaker
 
