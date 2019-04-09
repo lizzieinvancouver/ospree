@@ -131,6 +131,12 @@ fp.cat <- c("basler14", "heide05", "heide08", "heide11", "heide93", "heide93a", 
 setdiff(fp.cat, unique(osp.fpintxn$datasetID))
 setdiff(unique(osp.fpintxn$datasetID), fp.cat)
 
+osp.ctf <- get.treatdists(datsm.noNA, "chilltemp", "force")
+osp.ctfintxn <- subset(osp.ctf, intxn>=2)
+
+osp.cdf <- get.treatdists(datsm.noNA, "chilldays", "force")
+osp.cdfintxn <- subset(osp.cdf, intxn>=2)
+
 # f(x) to look at unique treats
 get.uniquetreats <- function(df, treatcol, othertreatcol){
     dfbuild <- data.frame(datasetID=character(), study=character(), treat=numeric(), othertreat=numeric())
@@ -155,4 +161,5 @@ lookatunique <- get.uniquetreats(datsm.noNA, "photo", "force")
 subset(lookatunique, datasetID=="sogaard08") # According to my cheap code, sogaard08 has three forcing temperatures ... at only one temperature do they vary photoperiod ... what is that? Can you estimate intxns and main effects from it? I am at a loos. 
 subset(lookatunique, datasetID=="partanen98") # partanen98 has three photoperiods, varies temp for only one of them.
 
-# My code was wrong in taking unique rows for the OSPREE data, fixed by deleting all but the columns for the two treatments in question from df ...
+
+# My code was wrong in taking unique rows for the OSPREE data, I fixed it by deleting all but the columns for the two treatments in question from df ...
