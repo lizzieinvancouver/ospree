@@ -61,8 +61,14 @@ mtext(paste(warming[i],"deg C"),side=3, line=-7,adj=.5, cex=.8)
 points(c(warmdat$lon), c(warmdat$lat), pch=16, col=mycols$cols[match(warmdat$bbchange, mycols$changebb)], cex=1.1)
 
 }
-
+legend("bottom", # position
+       legend = mycols$changebb, 
+       title = "Change in budburst",
+       pch = 16,
+       col=mycols$cols,
+       cex = .9,
+       bty = "n") # border
+#the below doesn't w ork!
 legend.scale(range(mycols$changebb), col = cols, 
              horizontal = FALSE,
              axis.args = list(at = c(-16,1)))
-
