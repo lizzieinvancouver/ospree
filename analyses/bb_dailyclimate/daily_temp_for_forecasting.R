@@ -14,7 +14,8 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 library(ncdf4)
 library(Interpol.T)
 library(chillR)
-library(dplyr)
+library(plyr)
+detach(dplyr)
 #1) #Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
@@ -36,10 +37,10 @@ chillendmon <- 4
 minwarm<-1
 maxwarm<-7
 #4) select species, identify latlon of their ranges to pull climte data
-sp<-c("betpen","fagsyl")
+sp<-c("betpen","fagsyl")#pep_betpen_all, pep_fagsyl_all.csv
 #i=2
 for(i in 1:length(sp)){
- spfilename<-paste("bb_analysis/PEP_climate/input/bbch_",sp[i],".csv", sep="")
+ spfilename<-paste("bb_analysis/PEP_climate/input/pep_",sp[i],"_all.csv", sep="")
  spdat<-read.csv(spfilename, header=T)
 #head(spdat)
   spdat<-spdat[spdat$YEAR<1980,] 
@@ -50,8 +51,8 @@ for(i in 1:length(sp)){
     dplyr::select(LAT,LON)
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
   #choose 50 random rows from latlon and pull climate from these:
-  latlonsubs<-sample_n(latlon, 50)
-  for(l in 1:dim(latlonsubs)[1]){
+  #latlonsubs<-sample_n(latlon, 50)
+  for(l in 1:dim(latlon)[1]){
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
     
