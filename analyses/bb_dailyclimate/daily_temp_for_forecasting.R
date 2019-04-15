@@ -15,7 +15,7 @@ library(ncdf4)
 library(Interpol.T)
 library(chillR)
 library(plyr)
-detach(dplyr)
+library(dplyr)
 #1) #Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
@@ -52,7 +52,7 @@ for(i in 1:length(sp)){
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
   #choose 50 random rows from latlon and pull climate from these:
   #latlonsubs<-sample_n(latlon, 50)
-  for(l in 1:dim(latlon)[1]){
+  for(l in 1127:dim(latlon)[1]){
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
     
