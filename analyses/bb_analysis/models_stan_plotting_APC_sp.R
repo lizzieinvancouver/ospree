@@ -22,6 +22,7 @@ library(rstan)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
+library(rgl)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -303,7 +304,7 @@ getest.bb2 <- function(fit, forcetemp, chill, daylength){
 
 ##converting forecast plots to 3d, not including change in daylength and not including error
 #choose one site
-i=1 #min lat site
+i=50 #min lat site
 s=1
 numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
 tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
@@ -333,6 +334,9 @@ temps<-c(0,tempforecast)
 #make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
 
 z.matrix.dl <- matrix(NA,ncol=length(temps),nrow=length(temps))
+chill.forecast<-rep(NA, times=8)
+sprT.forecast<-rep(NA,times=8)
+winT.forecast<-rep(NA,times=8)
 #Fill matrix row by row
 
 #the below takes a while to run.if you want to avoid running the loop
@@ -345,10 +349,14 @@ for (c in 1:length(temps)){#c=chilling
     chillfor<-read.csv(chillforfilename, header=TRUE) 
     chillests<-chillfor}
     dl <- daylengthbbdoy
-  
+    chill.forecast[c]<-mean(chillests$Chill_portions)
+    winT.forecast[c]<-mean(chillests$mntemp)
+    
   for(f in 1:length(temps)){#forcing/spring temp
-    if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
-     if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
+    if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])
+      sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
+     if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]
+     sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
     if(use.chillports==TRUE){
       bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Chill_portions), dl)
       print(sprtemp);print(mean(chillests$Chill_portions))}
@@ -360,8 +368,40 @@ for (c in 1:length(temps)){#c=chilling
   }
 }
 
-colnames(z.matrix.dl)<-paste("sprtemp",temps, sep=".")
-rownames(z.matrix.dl)<-paste("wintemp",temps, sep=".")
+colnames(z.matrix.dl)<-paste("bb.sprtemp",temps, sep=".")
+rownames(z.matrix.dl)<-paste("bb.wintemp",temps, sep=".")
+allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast,z.matrix.dl)
+colnames(allforecast)[1]<-"warming_C"
+
+if(use.chillports==TRUE){
+  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
+#if(use.chillports==FALSE){
+#  write.csv(allforecast,"..//output/bbmodests_for3dplot_utah.csv")} 
+
+x=temps
+y=temps
+z=z.matrix.dl
+
+zlim <- range(z)
+zlen <- zlim[2] - zlim[1] + 1
+
+colorlut <- terrain.colors(zlen) # height color lookup table
+
+col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+#need to work on setting it up so that it looks good without tweaking by hand...
+open3d() 
+plot3d(z,
+       xlim = range(x), ylim = range(y), zlim = range(z), 
+       xlab = 'Winter warming (C)', 
+       ylab = 'Spring warming (C)', zlab = 'Days to BB', axes=FALSE) 
+axes3d( edges=c("x--", "y+-", "z--"), box=TRUE)
+surface3d(x,y, z,
+          col=col, back = "lines")
+
+
+
+rgl.snapshot("figures/tempforecast_fagsyl_maxlat_PEPBB3D_v2.png")
+rgl.postscript("tempforecast_betpen_maxlat_PEPBB3D_v2", "pdf")
 
 
 

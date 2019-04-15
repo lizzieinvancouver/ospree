@@ -269,7 +269,7 @@ plot3d(z, type = 'n',
        xlim = range(x), ylim = range(y), zlim = range(z), 
        xlab = 'Winter temperature (C)', 
        ylab = 'Spring temperature (C)', zlab = 'Days to BB', axes=FALSE) 
-axes3d( edges=c("x--", "y+-", "z--"), box=TRUE,)
+axes3d( edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
 rgl.snapshot("figures/bbmod_3dplot_utah.png")
