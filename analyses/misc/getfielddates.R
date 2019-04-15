@@ -69,3 +69,50 @@ countfieldsample <- function(dat, daysapart){
 }
     return(fieldsamplecount)
 }
+
+
+fieldsample.getuniquedates <- function(dat, daysapart){
+    fieldsamplediffdates <- data.frame(datasetIDstudy=character(), date=as.Date(character()))
+    for (uniquestudy in c(1:length(unique(dat[["datasetIDstudy"]])))){
+        subby <- subset(dat, datasetIDstudy==unique(dat[["datasetIDstudy"]])[uniquestudy])
+        fieldats <- unique(subby$fieldsample.date)
+        if(all(is.na(fieldats))) {
+            fieldsamplediffdates.add <- data.frame(datasetIDstudy=unique(dat[["datasetIDstudy"]])[uniquestudy],
+                date="1900-01-01")            } else{
+          if(length(unique(subby$fieldsample.date))==1) {
+            fieldsamplediffdates[uniquestudy,2] <- 1
+            } else{
+              subbydates <- unique(subby$fieldsample.date)
+              datemat <- as.matrix(dist(subbydates))
+              datemat[datemat<14] <- NA
+              datemat[datemat==0] <- NA
+              datemat[upper.tri(datemat)] <- NA 
+            if(all(is.na(datemat))) {
+              fieldsamplediffdates.add <- data.frame(datasetIDstudy=unique(dat[["datasetIDstudy"]])[uniquestudy],
+                date="1900-01-01") #unique(subby$fieldsample.date)
+              } else{
+                datx <- which(datemat[,1]==min(datemat[,1], na.rm=TRUE))
+                  if (length(datx)>1) {
+                    datx <- min(datx)
+                    }
+                    else{ 
+                    datx <- datx}
+                keepwhich <- datx
+                while (datx < nrow(datemat)){
+                  if(all(is.na(datemat[,datx]))==TRUE) {
+                    datx <- datx+1
+                    } else{
+                     datw <- which(datemat[,datx]==min(datemat[,datx], na.rm=TRUE))
+                     keepwhich <- c(keepwhich, datw)
+                     datx <- datw
+            }
+          }
+            fieldsamplediffdates.add <- data.frame(datasetIDstudy=rep(unique(dat[["datasetIDstudy"]])[uniquestudy],
+                length(fieldats[c(1,keepwhich)])), date=fieldats[c(1,keepwhich)])
+        }
+        }
+        }
+        fieldsamplediffdates <- rbind(fieldsamplediffdates, fieldsamplediffdates.add)
+}
+    return(fieldsamplediffdates)
+}
