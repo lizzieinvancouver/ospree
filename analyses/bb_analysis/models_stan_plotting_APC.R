@@ -48,14 +48,13 @@ my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
 # non-z-scored models
-if(use.zscore==FALSE){
-load("stan/output/m2lni_spcompexprampfp_nonz.Rda") # m2l.ni
-#load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
+if(use.zscore==FALSE & use.chillports ==TRUE){
+load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni
 modelhere <- m2l.ni
 fit <- m2l.ni
 }
-if(use.zscore==TRUE){
-  load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
+if(use.zscore==TRUE  & use.chillports ==FALSE){
+  load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
@@ -395,6 +394,3 @@ if(use.zscore==FALSE){
   
   dev.off()
 }
-#Now instead of plotting it as separate panels, plot things together, as we did in the forecasting
-#only for nonz for now
-
