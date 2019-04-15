@@ -40,7 +40,7 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R
 
 use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -89,7 +89,6 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 
 # Code if you want to save your models (do NOT push output to git)
-# Note that use.chillports is NOT generally included below ... expect when use.chillports==FALSE
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
     use.chillports==TRUE){
@@ -179,5 +178,5 @@ summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
 # spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
 #  0.5689911
 }
-
 ####### END SIDE BAR #######
+

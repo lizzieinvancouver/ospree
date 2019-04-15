@@ -99,11 +99,12 @@ getspest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwint
 
 #Choose whether or not you want to use our adhoc shift in daylength.
 use.daylengthshift=FALSE
-#quartz(width=9,height=5)
-#par(mar=c(8,4,3,4), mfrow=c(1,2))
-
+quartz(width=9,height=9)
+par(mar=c(8,4,3,4), mfrow=c(2,2))
+#can do this as a loop, but i just want to pick 2 sites for now- max lat and min lat for each species
 for(s in 1:length(sp)){
   #50 sites were chosen within the range of each species
+  #s=1#for bet, s=1; for fag, s=2
   numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
   tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
   chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
@@ -112,8 +113,9 @@ for(s in 1:length(sp)){
   spests<-c()
   spestsqlo<-c()
   spestsqhi<-c()
-  #sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  sites.toplot<-seq(1,numsites,by=1)#
+  sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
+  
+  #sites.toplot<-seq(1,numsites,by=1)#
   #can also plot a single site, both species
   #sites.toplot<-21
   #quartz(width=9,height=5)
@@ -126,9 +128,7 @@ for(s in 1:length(sp)){
     #because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
     tempall<-tempall[tempall$Year<1980,]
     chillall<-chillall[chillall$End_year<1980,]
-    
-    tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
-    sprtemp <- mean(tempall$Month[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
+    sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
     #extract the lat/long from the file name...argh!
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
@@ -216,12 +216,12 @@ for(s in 1:length(sp)){
     ymin = min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     ymax = max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     xlim = c(0, 7)
-    ylim = c(ymin,ymax)
+    ylim = c(5,30)#c(ymin,ymax)
     #figname<-paste("tempforecast",lat,long,min(tempforecast),max(tempforecast),"degwarm.pdf", sep="_")
     #pdf(file.path(figpath,figname), width = 9, height = 6)
     
     #pdf(paste(figpath,"/tempforecast",min(tempforecast),"-",max(tempforecast),"_deg_",lat,"_",long,".pdf",sep=""))
-    quartz()
+    #quartz()
     #par(mar=c(8,7,3,5), mfrow=c(1,2))
     plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
          ylab="Days to BB", main=paste(sp[s],", lat=",round(lat,digits=2),", doy=",budburstdoy,", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), bty="l")
@@ -250,15 +250,17 @@ for(s in 1:length(sp)){
     sp.fo<-sp.fos[sp.num[s]+2,1]
     sp.ch<-sp.chs[sp.num[s]+2,1]
     sp.ph<-sp.phs[sp.num[s]+2,1]
-    if(i==1){
-      mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0)
-      mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0)
-      mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0)
-      mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0)
-    }
-    if(i==50)
+    #if(i==1){
+      mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0, cex=.8)
+      mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0, cex=.8)
+      mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0,cex=.8)
+      mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0, cex=.8)
+      mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
+      
+      #}
+    if(i==50 & s==2)
     {
-      legend("bottomleft",legend=c("Spring warming","Winter warming","Both","with daylength shifts"),lty=c(1,1,1,2),lwd=2,col=cols,bty="n", cex=0.9)
+      legend("bottomright",legend=c("Spring warming","Winter warming","Both"),lty=c(1,1,1),lwd=2,col=cols,bty="n", cex=0.9)
     }
     # intervals
     # for(i in 3:5){
@@ -280,24 +282,86 @@ for(s in 1:length(sp)){
 }
 
 #to avoid runing the code above, read in the spests files<-
-spests<-read.csv("betpen.48.8667.15.1333.forecast.csv", header=TRUE)
+#spests<-read.csv("betpen.48.8667.15.1333.forecast.csv", header=TRUE)
 #sort dataset based on lat
-spests <- spests[order(spests$lat, spests$warming),]
+#spests <- spests[order(spests$lat, spests$warming),]
 #calculate difference in bb between no warming and warmed for each row
-spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
+#spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
 
-spests$bbchange<-spests$bothwarm-spests$bbnowarm
+#spests$bbchange<-spests$bothwarm-spests$bbnowarm
   
-
-
-#pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
-quartz()
-par(mfrow=c(1,7))
-for(i in 1:7){
-spests2<-spests[spests$warming==i,]
-ggplot(spests2, aes(as.factor(lon), as.factor(lat))) +
-  geom_tile(aes(fill=bbchange)) +
-  scale_fill_gradient2(low = "darkred", mid ="lightgoldenrodyellow", high = "white")
-
+#3d plots
+#new function (for just one daylength)
+getest.bb2 <- function(fit, forcetemp, chill, daylength){
+  listofdraws <- extract(fit)
+  
+  avgbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*forcetemp +
+    listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chill
+  yebbest <- list(avgbb)
+  return(yebbest)
 }
-dev.off()
+
+##converting forecast plots to 3d, not including change in daylength and not including error
+#choose one site
+i=1 #min lat site
+s=1
+numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
+tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
+chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
+spdir<-paste("../output/dailyclim/",sp[s],sep="")
+
+chillall<-read.csv(paste(spdir,"/",chillfiles[i],sep=""), header=TRUE) 
+tempall<-read.csv(paste(spdir,"/",tempfiles[i],sep=""), header=TRUE)
+#because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
+tempall<-tempall[tempall$Year<1980,]
+chillall<-chillall[chillall$End_year<1980,]
+
+#tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
+sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
+#extract the lat/long from the file name...argh!
+lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
+long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
+
+#to get reasonable bb doy, use PEP observations
+pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
+pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
+pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
+budburstdoy<-as.integer(mean(pepdat$DAY))              
+daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
+chillport <- mean(chillall$Chill_portions)
+temps<-c(0,tempforecast)
+#make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
+
+z.matrix.dl <- matrix(NA,ncol=length(temps),nrow=length(temps))
+#Fill matrix row by row
+
+#the below takes a while to run.if you want to avoid running the loop
+#z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
+#c=1
+for (c in 1:length(temps)){#c=chilling
+  print(temps[c]);
+  if(c==1){chillests<-chillall}
+  if (c>1){chillforfilename<-paste(spdir,"/","chillforecast",tempforecast[c-1],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
+    chillfor<-read.csv(chillforfilename, header=TRUE) 
+    chillests<-chillfor}
+    dl <- daylengthbbdoy
+  
+  for(f in 1:length(temps)){#forcing/spring temp
+    if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
+     if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
+    if(use.chillports==TRUE){
+      bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Chill_portions), dl)
+      print(sprtemp);print(mean(chillests$Chill_portions))}
+    if(use.chillports==FALSE){
+      bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Utah_Model), dl)}
+    
+    meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb
+    z.matrix.dl[c,f]<-meanz#8 hour daylength only for now
+  }
+}
+
+colnames(z.matrix.dl)<-paste("sprtemp",temps, sep=".")
+rownames(z.matrix.dl)<-paste("wintemp",temps, sep=".")
+
+
+
