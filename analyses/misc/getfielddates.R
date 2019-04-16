@@ -16,8 +16,11 @@ d[upper.tri(d)] <- NA
 
 fieldat <- data.frame(date=fieldats, keep=NA)
 
+# Take the first column, and find the row with minimum value:
 datx <- which(d[,1]==min(d[,1], na.rm=TRUE))
 keepwhich <- datx
+# Now, while the row selected in datx is not the last (final) row in d...
+# keep adding those rows to the keepwhich file
 while (datx < nrow(d)){
     datw <- which(d[,datx]==min(d[,datx], na.rm=TRUE))
     keepwhich <- c(keepwhich, datw)
@@ -40,7 +43,7 @@ countfieldsample <- function(dat, daysapart){
             } else{
               subbydates <- unique(subby$fieldsample.date)
               datemat <- as.matrix(dist(subbydates))
-              datemat[datemat<14] <- NA
+              datemat[datemat<daysapart] <- NA
               datemat[datemat==0] <- NA
               datemat[upper.tri(datemat)] <- NA 
             if(all(is.na(datemat))) {
@@ -72,24 +75,25 @@ countfieldsample <- function(dat, daysapart){
 
 
 fieldsample.getuniquedates <- function(dat, daysapart){
-    fieldsamplediffdates <- data.frame(datasetIDstudy=character(), date=as.Date(character()))
+    fieldsamplediffdates <- data.frame(datasetIDstudy=NA, date=as.Date("1900-01-01"))
     for (uniquestudy in c(1:length(unique(dat[["datasetIDstudy"]])))){
         subby <- subset(dat, datasetIDstudy==unique(dat[["datasetIDstudy"]])[uniquestudy])
         fieldats <- unique(subby$fieldsample.date)
         if(all(is.na(fieldats))) {
             fieldsamplediffdates.add <- data.frame(datasetIDstudy=unique(dat[["datasetIDstudy"]])[uniquestudy],
-                date="1900-01-01")            } else{
+                date=NA)            } else{
           if(length(unique(subby$fieldsample.date))==1) {
-            fieldsamplediffdates[uniquestudy,2] <- 1
+            fieldsamplediffdates.add <- data.frame(datasetIDstudy=unique(dat[["datasetIDstudy"]])[uniquestudy],
+                date=unique(subby$fieldsample.date)) 
             } else{
               subbydates <- unique(subby$fieldsample.date)
               datemat <- as.matrix(dist(subbydates))
-              datemat[datemat<14] <- NA
+              datemat[datemat<daysapart] <- NA
               datemat[datemat==0] <- NA
               datemat[upper.tri(datemat)] <- NA 
             if(all(is.na(datemat))) {
               fieldsamplediffdates.add <- data.frame(datasetIDstudy=unique(dat[["datasetIDstudy"]])[uniquestudy],
-                date="1900-01-01") #unique(subby$fieldsample.date)
+                date=unique(subby$fieldsample.date)[1]) 
               } else{
                 datx <- which(datemat[,1]==min(datemat[,1], na.rm=TRUE))
                   if (length(datx)>1) {
@@ -114,5 +118,7 @@ fieldsample.getuniquedates <- function(dat, daysapart){
         }
         fieldsamplediffdates <- rbind(fieldsamplediffdates, fieldsamplediffdates.add)
 }
-    return(fieldsamplediffdates)
+    return(fieldsamplediffdates[-1,])
 }
+
+
