@@ -304,77 +304,81 @@ getest.bb2 <- function(fit, forcetemp, chill, daylength){
 
 ##converting forecast plots to 3d, not including change in daylength and not including error
 #choose one site
-i=1 #min lat site
-s=1
+is<-c(1,50) #min lat site
+#need to work on setting it up so that it looks good without tweaking by hand...
+open3d() 
+mfrow3d(2, 2, sharedMouse = TRUE)
+for(s in 1:length(sp)){
 numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
 tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
 chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
 spdir<-paste("../output/dailyclim/",sp[s],sep="")
+  for(i in is){
+  chillall<-read.csv(paste(spdir,"/",chillfiles[i],sep=""), header=TRUE) 
+  tempall<-read.csv(paste(spdir,"/",tempfiles[i],sep=""), header=TRUE)
+  #because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
+  tempall<-tempall[tempall$Year<1980,]
+  chillall<-chillall[chillall$End_year<1980,]
 
-chillall<-read.csv(paste(spdir,"/",chillfiles[i],sep=""), header=TRUE) 
-tempall<-read.csv(paste(spdir,"/",tempfiles[i],sep=""), header=TRUE)
-#because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
-tempall<-tempall[tempall$Year<1980,]
-chillall<-chillall[chillall$End_year<1980,]
+  #tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
+  sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
+  #extract the lat/long from the file name...argh!
+  lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
+  long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
 
-#tempall$Tmean[tempall$Month>3 & tempall$Month<7 ]<-"spring"
-sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
-#extract the lat/long from the file name...argh!
-lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
-long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
+  #to get reasonable bb doy, use PEP observations
+  pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
+  pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
+  pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
+  budburstdoy<-as.integer(mean(pepdat$DAY))              
+  daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
+  chillport <- mean(chillall$Chill_portions)
+  temps<-c(0,tempforecast)
+  #make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
 
-#to get reasonable bb doy, use PEP observations
-pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
-pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
-pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
-budburstdoy<-as.integer(mean(pepdat$DAY))              
-daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
-chillport <- mean(chillall$Chill_portions)
-temps<-c(0,tempforecast)
-#make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
+  z.matrix.dl <- matrix(NA,ncol=length(temps),nrow=length(temps))
+  chill.forecast<-rep(NA, times=8)
+  sprT.forecast<-rep(NA,times=8)
+  winT.forecast<-rep(NA,times=8)
+  #Fill matrix row by row
 
-z.matrix.dl <- matrix(NA,ncol=length(temps),nrow=length(temps))
-chill.forecast<-rep(NA, times=8)
-sprT.forecast<-rep(NA,times=8)
-winT.forecast<-rep(NA,times=8)
-#Fill matrix row by row
+  #the below takes a while to run.if you want to avoid running the loop
+  #z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
+  #c=1
 
-#the below takes a while to run.if you want to avoid running the loop
-#z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
-#c=1
-for (c in 1:length(temps)){#c=chilling
-  print(temps[c]);
-  if(c==1){chillests<-chillall}
-  if (c>1){chillforfilename<-paste(spdir,"/","chillforecast",tempforecast[c-1],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
-  chillfor<-read.csv(chillforfilename, header=TRUE) 
-  chillests<-chillfor}
-  dl <- daylengthbbdoy
-  chill.forecast[c]<-mean(chillests$Chill_portions)
-  winT.forecast[c]<-mean(chillests$mntemp)
+  for (c in 1:length(temps)){#c=chilling
+    print(temps[c]);
+    if(c==1){chillests<-chillall}
+    if (c>1){chillforfilename<-paste(spdir,"/","chillforecast",tempforecast[c-1],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
+    chillfor<-read.csv(chillforfilename, header=TRUE) 
+    chillests<-chillfor}
+    dl <- daylengthbbdoy
+    chill.forecast[c]<-mean(chillests$Chill_portions)
+    winT.forecast[c]<-mean(chillests$mntemp)
   
-  for(f in 1:length(temps)){#forcing/spring temp
-    if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])
-    sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
-    if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]
-    sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
-    if(use.chillports==TRUE){
-      bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Chill_portions), dl)
-      print(sprtemp);print(mean(chillests$Chill_portions))}
-    if(use.chillports==FALSE){
-      bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Utah_Model), dl)}
+    for(f in 1:length(temps)){#forcing/spring temp
+      if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])
+      sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
+     if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]
+      sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
+      if(use.chillports==TRUE){
+        bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Chill_portions), dl)
+        print(sprtemp);print(mean(chillests$Chill_portions))}
+      if(use.chillports==FALSE){
+        bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Utah_Model), dl)}
     
-    meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb
-    z.matrix.dl[c,f]<-meanz#8 hour daylength only for now
-  }
-}
+      meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb
+      z.matrix.dl[c,f]<-meanz#8 hour daylength only for now
+    }#f
+    }#c
 
 colnames(z.matrix.dl)<-paste("bb.sprtemp",temps, sep=".")
 rownames(z.matrix.dl)<-paste("bb.wintemp",temps, sep=".")
 allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast,z.matrix.dl)
 colnames(allforecast)[1]<-"warming_C"
 
-if(use.chillports==TRUE){
-  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
+#if(use.chillports==TRUE){
+#  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
 #if(use.chillports==FALSE){
 #  write.csv(allforecast,"..//output/bbmodests_for3dplot_utah.csv")} 
 
@@ -388,20 +392,24 @@ zlen <- zlim[2] - zlim[1] + 1
 colorlut <- terrain.colors(zlen) # height color lookup table
 
 col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
-#need to work on setting it up so that it looks good without tweaking by hand...
-open3d() 
+
 plot3d(z,
-       xlim = range(x), ylim = range(y), zlim = range(z), 
+       xlim = range(x), ylim = range(y), zlim = c(5,30), 
        xlab = 'Winter warming (C)', 
        ylab = 'Spring warming (C)', zlab = 'Days to BB', axes=FALSE) 
+aspect3d(1,1,1)
+#aspect3d("iso")
+
 axes3d( edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
 
+  }#i
+}#s
 
+rgl.snapshot("figures/tempforecast_betpenfagsyl_minmaxlat_PEPBB3D_v2.png")
+#rgl.postscript("tempforecast_betpen_maxlat_PEPBB3D_v2", "pdf")
 
-rgl.snapshot("figures/tempforecast_fagsyl_maxlat_PEPBB3D_v2.png")
-rgl.postscript("tempforecast_betpen_maxlat_PEPBB3D_v2", "pdf")
 
 
 
