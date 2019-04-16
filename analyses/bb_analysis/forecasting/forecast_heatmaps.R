@@ -39,14 +39,14 @@ spests$bbchange<-spests$bothwarm-spests$bbnowarm
 bbch<-unique(spests$bbchange)
 range(spests$lat)
 range(spests$lon)
-ylim=c(46.95, 47.1)
+ylim=c(47.2, 49.1)
 xlim=c(13.5,14)
 myPalette <- colorRampPalette(brewer.pal(9, "YlOrRd")) #### Gives us a heat map look
-cols = rev(myPalette(length(bbchange)))
+cols = rev(myPalette(length(bbch)))
 mycols <- data.frame(cbind(sort(bbch),cols))
 colnames(mycols)[1]<-"changebb"
-quartz(height=4,width=10)
-par(mfrow=c(1,7),omi=c(0,0,0,0),mai=c(0,0,0,0))
+quartz(height=4,width=10) 
+par(mfrow=c(1,8),omi=c(0,0,0,0),mai=c(0,0,0,0))
 for(i in 1:length(warming)){
   warmdat<-spests[spests$warming==warming[i],]
 #mapDevice() #create world map shaped window
@@ -60,14 +60,18 @@ map("world", fill=TRUE
 mtext(paste(warming[i],"deg C"),side=3, line=-7,adj=.5, cex=.8)
 points(c(warmdat$lon), c(warmdat$lat), pch=16, col=mycols$cols[match(warmdat$bbchange, mycols$changebb)], cex=1.1)
 
+
 }
-legend("bottom", # position
+#source("http://www.math.mcmaster.ca/bolker/R/misc/legendx.R")
+par(mar=c(0, 0, 0, 0.5))
+# c(bottom, left, top, right)
+plot.new()
+legend("right", # position
        legend = mycols$changebb, 
        title = "Change in budburst",
-       pch = 16,
-       col=mycols$cols,
-       cex = .9,
-       bty = "n") # border
+       fill=mycols$cols,
+       cex = 1.1,
+       bty = "n", box.cex=c(1,1.5)) # border
 #the below doesn't w ork!
 legend.scale(range(mycols$changebb), col = cols, 
              horizontal = FALSE,
