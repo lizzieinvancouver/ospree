@@ -148,9 +148,9 @@ ddatefx.all <- subset(dat, select=c("datasetID", "study", "fieldsample.date"))
 ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
 ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
 
-dates2weeks <- countfieldsample(ddatefx, 14)
-# START HERE! NEED to sort out date issues .... arghh
-goober <- fieldsample.getuniquedates(ddatefx, 14)
+# START HERE! And change main DF so only relevant dates are included ....
+dates2weeks.count <- countfieldsample(ddatefx, 14)
+uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
 
 datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", "fieldsample.date",
     "chilltemp", "chillphotoperiod", "chilldays"))
