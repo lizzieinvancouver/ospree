@@ -38,7 +38,7 @@ minwarm<-1
 maxwarm<-7
 #4) select species, identify latlon of their ranges to pull climte data
 sp<-c("betpen","fagsyl")#pep_betpen_all, pep_fagsyl_all.csv
-#i=2
+#i=1
 for(i in 1:length(sp)){
  spfilename<-paste("bb_analysis/PEP_climate/input/pep_",sp[i],"_all.csv", sep="")
  spdat<-read.csv(spfilename, header=T)
@@ -52,7 +52,7 @@ for(i in 1:length(sp)){
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
   #choose 50 random rows from latlon and pull climate from these:
   #latlonsubs<-sample_n(latlon, 50)
-  for(l in 1127:dim(latlon)[1]){
+  for(l in 2140:dim(latlon)[1]){#54.6667_9.4
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
     
@@ -246,7 +246,8 @@ for(i in 1:length(sp)){
       write.csv(chillfut, name_chillallfut, row.names = FALSE)
     }
   }
-}
+
+  }
 
 
 
