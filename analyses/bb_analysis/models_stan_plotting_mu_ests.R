@@ -2,6 +2,7 @@
 ## By Ailene  ##
 
 ## Marginal effects from Stan models ##
+## NOTE: THIS CODE WILL NOT WORK IF TIDYR HAS BEEN LOADED
 ############################################
 # housekeeping
 rm(list=ls()) 
