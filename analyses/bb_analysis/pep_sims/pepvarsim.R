@@ -3,11 +3,10 @@
 ## Snow and clouds from the train to Seattle ##
 ## Started by Lizzie ##
 
-## NOTE: These sims are designed to contrast a BEFORE and AFTER climate change sensitivity etc. ... you would need to adjust the f(x) to do time-series-style change over time approach. But since this was the approach we were taking to the PEP725 data (i.e., look at 10 years before CC and 10 years after) I did it this way.
-
-# Updated on 18 April 2019: Added: Plots of estimated sens versus warming and plots of variance in leafout date versus warming
+# Updated on 26 Feb 2019 #
 ## TO DO:
-# (2) Use realistic daily temps and fstar values #
+# (1) Figure out daily temp sensitivy across two time periods #
+# (2) Use realitic daily temps and fstar values #
 
 ## housekeeping
 rm(list=ls()) 
@@ -27,11 +26,9 @@ figpath <- "figures"
 
 source("pepvarsimfxs.R")
 
-## Below is the original loop that I wrote ... not sure if we need to keep it?
-
 if(FALSE){
 # This controls how many runs of the whole thing you do ...
-drawstotal <- 50
+drawstotal <- 30
 draws <- c()
 
 # Big outside loop ... 
@@ -105,14 +102,14 @@ mean(draws)
 hist(draws, breaks=10)
 }
 
-# Looking at effect of sampling freq and warming
-if(FALSE){
+
 sim.1d.2deg <- pepvariance.sim(100, 10, 12, 1, 6, 400)
 sim.3d.2deg <- pepvariance.sim(100, 10, 12, 3, 6, 400)
 sim.7d.2deg <- pepvariance.sim(100, 10, 12, 7, 6, 400)
 # sim.20d.2deg <- pepvariance.sim(100, 10, 12, 20, 6, 400)
 sim.3d.0deg <- pepvariance.sim(100, 10, 10, 3, 6, 400)
 sim.3d.5deg <- pepvariance.sim(100, 10, 15, 3, 6, 400)
+
 
 breaks=20
 
@@ -132,23 +129,3 @@ abline(v=mean(sim.3d.2deg), col="red")
 hist(sim.3d.5deg, xlab="Diff sens (before-after cc)", main="Five deg change", breaks=breaks)
 abline(v=mean(sim.3d.5deg), col="red")
 dev.off()
-}
-
-
-# drawstotal, precctemp, postcctemp, samplefreq, sigma, fstar
-sim.1deg <- pepvariance.sim(100, 10, 11, 3, 6, 400)
-sim.2deg <- pepvariance.sim(100, 10, 12, 3, 6, 400)
-sim.3deg <- pepvariance.sim(100, 10, 13, 3, 6, 400)
-sim.4deg <- pepvariance.sim(100, 10, 14, 3, 6, 400)
-sim.5deg <- pepvariance.sim(100, 10, 15, 3, 6, 400)
-
-sim.1deg$degwarm <- 1
-sim.2deg$degwarm <- 2
-sim.3deg$degwarm <- 3
-sim.4deg$degwarm <- 4
-sim.5deg$degwarm <- 5
-
-degwarm.runs <- rbind(sim.1deg, sim.2deg, sim.3deg, sim.4deg, sim.5deg)
-
-plot(postcc.sens~as.factor(degwarm), data=degwarm.runs, xlab="degree warming", ylab="temperature sensitivity")
-plot(var.lo.postcc~as.factor(degwarm), data=degwarm.runs, xlab="degree warming", ylab="var(leafout date)")

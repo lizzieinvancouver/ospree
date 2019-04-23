@@ -129,7 +129,7 @@ alphahere = 0.4
 
 
 # Load fitted stan model: no interactions
-if(use.zscore==TRUE & use.cropspp==FALSE & use.chillports == TRUE){
+if(use.zscore==TRUE & use.cropspp==FALSE){
 load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
 load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
 
