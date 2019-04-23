@@ -1,12 +1,12 @@
-
-
-# This controls how many runs of the whole thing you do ...
-drawstotal <- 30
-draws <- c()
-
 # Big outside loop ...
 pepvariance.sim <- function(drawstotal, precctemp, postcctemp, samplefreq, sigma, fstar){
-    
+draws <- c()
+precc.sens <- c()
+postcc.sens <- c()
+var.lo.precc <- c()
+var.lo.postcc <- c()
+
+   
 for(j in 1:drawstotal){
 
 # Step 1: Set up years, days per year, temperatures, sampling frequency, required GDD (fstar)
@@ -69,9 +69,22 @@ estpostcc <- lm(bbdate~dailytemp, data=subset(dfcalc, cc=="postcc"))
 
 diffbefore.after <- coef(estprecc)[2]-coef(estpostcc)[2]
 # negative means a decline in sensitivity AFTER climate change
-
 draws <- rbind(draws, diffbefore.after)
+
+# get a few more things
+preccdf <- subset(dfcalc, cc=="precc")
+postccdf <- subset(dfcalc, cc=="postcc")
+precc.sens <-  rbind(precc.sens, coef(estprecc)[2])
+postcc.sens <-  rbind(postcc.sens, coef(estpostcc)[2])
+var.lo.precc <- rbind(var.lo.precc, var(preccdf$bbdate, na.rm=TRUE))
+var.lo.postcc <- rbind(var.lo.postcc, var(postccdf$bbdate, na.rm=TRUE))
+
+
+# Okay, now build a df with a few things we want...
+df.return <- data.frame(cbind(draws, precc.sens, postcc.sens, var.lo.precc, var.lo.postcc), row.names = NULL) 
+names(df.return) <- c("diffbefore.after", "precc.sens", "postcc.sens", "var.lo.precc", "var.lo.postcc")
+    
 }
-return(draws)
+return(df.return)
 }
 
