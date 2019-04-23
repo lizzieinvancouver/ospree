@@ -13,6 +13,7 @@ library(ggplot2)
 library(lubridate)
 library(chillR)
 library(egg)
+library(raster)
 library(RColorBrewer)
 
 setwd("~/Documents/git/ospree/analyses/bb_analysis/PEP_climate")
@@ -407,49 +408,36 @@ allchillsgdds<-rbind(allchillsgdds, full.site5)
 write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_40sites.csv", row.names = FALSE)
 
 ##################################################################################################
-################################# Now for some plots! ############################################
-##################################################################################################
-
-quartz()
-chill.plot.utah<-ggplot(full.site, aes(x=chillutah, y=lo, col=as.factor(cc))) + geom_line(data=full.site, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Total Utah Chill", y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
-
-chill.plot.ports<-ggplot(full.site, aes(x=chillports, y=lo, col=as.factor(cc))) + geom_line(data=full.site, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
-
-gdd<-ggplot(full.site, aes(x=gdd, y=lo, col=as.factor(cc))) + geom_line(data=full.site, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
-
-ggarrange(chill.plot.utah, chill.plot.ports, gdd, ncol=3)
-
-quartz()
-leafout<- ggplot(full.site, aes(x=cc, y=lo, col=cc)) + geom_boxplot(aes(col=as.factor(cc))) +
-  theme_classic() + labs(x="",y="Day of Leafout") + theme(legend.position = "none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4"))
-
-##################################################################################################
 ############################### MEAN TEMP instead of GDD #########################################
 ##################################################################################################
-lats <- full.site$lat ## fewer sites so using peps.post
-lons <- full.site$long
+full.site <- read.csv("output/betpen_allchillsandgdds_40sites.csv", header = TRUE)
 
-coords <- data.frame(x=lons,y=lats)
+period <- c(1950:1960, 2000:2010)
+sites<-subset(full.site, select=c(lat, long, lat.long))
+sites<-sites[!duplicated(sites$lat.long),]
+sites$x<-sites$long
+sites$y<-sites$lat
+Coords<-subset(sites, select=c(x, y))
+nsites<-length(sites$lat.long)
+tavg <- r
 
-coords<- na.omit(coords)
+points <- SpatialPoints(Coords, proj4string = r@crs)
 
-points <- SpatialPoints(coords, proj4string = r@crs)
+yearsinclim<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
+yearsinperiod<-which(yearsinclim%in%period)
+climsub<-subset(tavg,yearsinperiod)
 
-values <- raster::extract(r,points)
+## subset climate days
+monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
+mstmonths<-c(3:5)
+monthsinmst<-which(monthsinclim%in%mstmonths)
+mstsub<-subset(climsub,monthsinmst)
+
+values <- raster::extract(mstsub,points)
 
 dclim <- cbind.data.frame(coordinates(points),values)
 
+library(reshape2)
 dx<-melt(dclim, id.vars=c("x","y"))
 
 dx<-dx%>%
@@ -461,22 +449,57 @@ dx<-dx%>%
 dx$date<-substr(dx$date, 2,11)
 dx$Date<- gsub("[.]", "-", dx$date)
 
-df$date<-NULL
-df.post$date<-NULL
 dx$date<-NULL
 
-dx$month<-substr(dx$Date, 6, 7)
-dx$month<-as.numeric(dx$month)
+dx$year<-as.numeric(substr(dx$Date, 0, 4))
+dx$lat.long<-paste(dx$lat, dx$long)
+dx$mat<-ave(dx$Tavg, dx$year, dx$lat.long)
 
-dx$spring<-ifelse(dx$month>=3 & dx$month<=5, "spring", 0)
-ddx<-dx[(dx$spring=="spring"),]
-ddx<-ddx[!is.na(ddx$Tavg),]
-
-ddx$year<-as.numeric(substr(ddx$Date, 0, 4))
-ddx$lat.long<-paste(ddx$lat, ddx$long)
-ddx$mat<-ave(ddx$Tavg, ddx$year, ddx$lat.long)
-
-mst<-ddx%>%dplyr::select(-Tavg, -Date, -spring, -month)
+mst<-dx%>%dplyr::select(-Tavg, -Date)
 mst<-mst[!duplicated(mst),]
+
+fullsites40 <- left_join(full.site, mst)
+
+##################################################################################################
+################################# Now for some plots! ############################################
+##################################################################################################
+
+quartz()
+chill.plot.utah<-ggplot(fullsites40, aes(x=chillutah, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Utah Chill", y="Day of Leafout") + theme(legend.position="none") +
+  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
+                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+
+chill.plot.ports<-ggplot(fullsites40, aes(x=chillports, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") +
+  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
+                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+
+gdd<-ggplot(fullsites40, aes(x=gdd, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position = "none") +
+  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
+                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+
+mst.plot <- ggplot(fullsites40, aes(x=mat, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Mean Spring Temperature (°C)", y="Day of Leafout") + theme(legend.position="none") +
+  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
+                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+mylegend<-ggplot(g_legend(mst.plot))
+
+g1<-ggarrange(chill.plot.utah, chill.plot.ports, gdd,mst.plot, ncol=2, nrow=2)
+grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbind(c(1,NA,2)))
+
+quartz()
+leafout<- ggplot(full.site, aes(x=cc, y=lo, col=cc)) + geom_boxplot(aes(col=as.factor(cc))) +
+  theme_classic() + labs(x="",y="Day of Leafout") + theme(legend.position = "none") +
+  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
+                     values=c("navyblue", "red4"))
 
 
