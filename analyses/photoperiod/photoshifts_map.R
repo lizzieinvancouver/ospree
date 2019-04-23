@@ -75,3 +75,10 @@ legend(-140,15, # position
 mtext("A)", side=3, adj=0)
 
 dev.off()
+#create file to send Blake
+forblake<-subset(photop_all, select=c(idstudy,continent,lat,long, delta,space,time))
+forblake$space[forblake$space=="ER"]<--999
+forblake$time[forblake$time=="ER"]<--999
+write.csv(forblake,"/Users/aileneettinger/Documents/GitHub/ospree/analyses/output/photospacetimeshifts.csv", row.names = FALSE)
+
+
