@@ -52,3 +52,5 @@ analyses/.Rhistory
 
 analyses/photoperiod/figures/obstemplm.pdf
 docs/budburst/budburstms_ailene.tex
+analyses/output/dailyclim/betpen/chillforecast2deg_48.7167_15.8667_1951_2014.csv
+analyses/output/dailyclim/betpen/chillforecast2deg_48.6167_15.7667_1951_2014.csv
