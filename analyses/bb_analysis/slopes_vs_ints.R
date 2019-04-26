@@ -76,9 +76,13 @@ abline(int,f,lwd=2,col="black")
 plot(int,c,xlab="Chilling",ylab="BB DOY",type="p", col="white", xlim=c(min(as.numeric(bb.stan$chill.ports.z)),max(as.numeric(bb.stan$chill.ports.z))),ylim=c(min(bb.stan$resp),100))
 
 for(s in 1:length(spp)){
-  abline(sp.ints[s],sp.f[s], col=cols[s])
+  abline(sp.ints[s],sp.c[s], col=cols[s])
 }
 abline(int,c,lwd=2,col="black")
+#photo
+plot(int,p,xlab="Photoperiod",ylab="BB DOY",type="p", col="white", xlim=c(min(as.numeric(bb.stan$photo.z)),max(as.numeric(bb.stan$photo.z))),ylim=c(min(bb.stan$resp),100))
 
-plot(sp.ints,sp.p,xlab="intercept",ylab="photo.est",typ="p", pch=21, bg=cols)
-points(int,p, pch=8,cex=2)
+for(s in 1:length(spp)){
+  abline(sp.ints[s],sp.p[s], col=cols[s])
+}
+abline(int,p,lwd=2,col="black")
