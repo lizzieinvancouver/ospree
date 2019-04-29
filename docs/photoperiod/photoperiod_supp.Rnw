@@ -50,8 +50,8 @@
 \begin{document}
 \SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
- \bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
-\title{Supplemental materials for spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
+ \bibliographystyle{..//..//refs/bibstyles/amnat.bst}
+\title{Supplemental Materials: Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
 \author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
 %\date{\today}%do we need to also add any of the following: D. Flynn, T. Savas, J. Samaha, E. Forrestel? 
@@ -63,30 +63,55 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Methods}
-\par \textbf{PhenoFit Methods}
-\par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. 
-\par \textbf{Dan's methods for making the photo period curves (June 27 2018)}
-\par Using Cat's table X, I selected all the publications that had 3 or more photoperiod treatments. I than examined each of these papers, and identified only three that used 3 or more photoperiod treatments in the same experiment:  heide93a,ashby62 andcafarra11b.
-I subsetted the data from each publication to the relevant experiment only and combined these into a single data sheet. I plotted the response (days to budburst as a function of the photoperiod treatment. Chilling and species considerably between the response. I catagorized the chilling levels into None, Low, Medium, High as follows: 
-\begin{itemize}
-\item <31 Chill Portion= no chill
-\item31-80= low chill
-\item81-130<-Medium chill
-\item>130=High
-\end{itemize}
-Line types are assigned to species. Additionally, each unique set of predictors (populationXchilling) is grouped by a factor called "thingy". Though not depicted in the map, it importantly indetifies each treament.
-All forcing was at 22 or 21 so it is not included in the map.
 
-More details to follow as I work on this.
-
-
-We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for 
-
-
-\par \textbf{Greenup differences}
+\textbf{Photoperiod at "green-up" date (Figure 2)}
 \par Satellite imaginery are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at: http... DAN, could you please provide the website from where the maps were extracted), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002overview}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function XXX in package XXX (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
 
+\textbf{Photoperiod response curves for woody plants (Figure 3)}
+\par To quantify how budburst day in woody plant responds to photoperiod, we compiled all experiments with three or more photoperiod treatment levels within the same, from the OSPREE database (cite database on KNB). This yielded three experiments (\citep{Heide:1993a, Ashby:1962aa,Caffarra:2011b}) across three species, which were used in Figure 3. Forcing treatments were consistent across experints (21-22\degree C).
+Chilling treatments, on the other hand, varied considerably across the experiments, and were therefore grouped into four categories: No Chilling (\textless 31 Chill Portions),Low Chilling (31-80 Chill Portions), Medium Chilling (81-130 Chill Portions) and High Chilling(\textgreater 130 Chill Portions)
+\textbf{Experimental photoperiod treatments and their equivalent spatial and temporalshifts (Figure 4)}
+\par We wanted to put experimental photoperiod treatments in the context of shifts in photoperiod that organisms may experience with climate change, due to altered phenology or distributions. To do this, we identified all experiments in the OSPREE database that manipulate photoperiod (i.e., they had atleast two photoperiod treatments in the experiment). We used the minimum difference between treatments in OSPREE experiments to calculate the change in experimental photoperiod. To calculate the required spatial  or  temporal  shift  equivalent to each experimental photoperiod,  we  used  observed  rates  with  recent  warming: 16.9 kilometers per decade (or approximately 1.5 \degree in 100 years) for spatial shifts \citep{chen2011} and 2.3 days per decade (or 23 days in 100 years) for temporal shifts \citep{parmesan2003}.
+
+\textbf{Comparing experimental photoperiod treatments to experienced photoperiod in current and future ranges (Figure 5)}
+
+\par We wanted to compare photoperiod treatments from growth chamber experiments to photoperiod experienced in current ranges and in forecasted future ranges with climate change (Figure 5). To do this, we acquired budburst data (1981-2000) and model projections of budburst day of year (2081-2100) using the A1Fi scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} using the PHENOFIT model \citep{duputie2015,chuine2001}. We compared these data and forecasts to experimental photoperiod treatments from studies in the OSPREE database(cite database on KNB). The OSPREE day of budburst estimates were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first PHENOFIT observation to all of the OSPREE data points. We only used PHENOFIT estimates that had both current and projection data. 
+\bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
+\section* {Supplemental Tables}
+<<label=xtable1, echo=FALSE, results=tex>>=
+options(stringsAsFactors = FALSE)
+library(geosphere)
+library(xtable)
+library(plyr)
+library(dplyr)
+library(tidyr)
+
+require(dplyr)
+require(xtable)
+
+ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#
+efftab<-read.csv("../../analyses/cleaning/checkphotoperiod/checkphoto_info.csv",header=T)#
+source("../../analyses/photoperiod/shifts_table.R")
+
+photop_table<-subset(photop_all2, select=c(idstudy, continent,lat, long,photo.effect,daylength_range,delta,space,time))
+colnames(photop_table)[5:6]<-c("effect","day_range")
+photop.table<-xtable(photop_table,digits=2,
+  caption="\\textbf{Growth chamber experiments and their photoperiod treatments}. We note whether or not photoperiod had a significant effect (`effect' column) and compared treatments to the spatial and temporal shifts required for organisms to experiments photoperiod changes equivalent to those treatments. For shifts in space, `ER' indicates that the photoperiod treatments exceeds the change of photoperiod from moving up to 40 degrees latitudinally on June 21. For shifts in time, `ER' indicates that the range of photoperiod treatments exceeds the change in daylengths at that latitude during the entire year. `max NA' indicates that the maximum daylength treatment does not exist at that latitude; `min NA'indicates that the minimum daylength treatment does not exist at that latitude.",label="table:phototreats",align=c(
+                "|p{0.01\\textwidth}",            
+                "|p{0.18\\textwidth}",
+                "|p{0.15\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.04\\textwidth}",
+                "|p{0.08\\textwidth}",
+                "|p{0.06\\textwidth}",
+                "|p{0.06\\textwidth}",
+                "|p{0.1\\textwidth}|"))
+ 
+print(photop.table, include.rownames=FALSE, include.colnames=TRUE,caption.placement="top")
+@
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

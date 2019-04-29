@@ -370,6 +370,7 @@ spdir<-paste("../output/dailyclim/",sp[s],sep="")
       meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb
       z.matrix.dl[c,f]<-meanz#8 hour daylength only for now
     }#f
+    
     }#c
 
 colnames(z.matrix.dl)<-paste("bb.sprtemp",temps, sep=".")
@@ -377,10 +378,10 @@ rownames(z.matrix.dl)<-paste("bb.wintemp",temps, sep=".")
 allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast,z.matrix.dl)
 colnames(allforecast)[1]<-"warming_C"
 
-#if(use.chillports==TRUE){
-#  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
-#if(use.chillports==FALSE){
-#  write.csv(allforecast,"..//output/bbmodests_for3dplot_utah.csv")} 
+if(use.chillports==TRUE){
+  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
+if(use.chillports==FALSE){
+  write.csv(allforecast,"..//output/bbmodests_for3dplot_utah.csv")} 
 
 x=temps
 y=temps
