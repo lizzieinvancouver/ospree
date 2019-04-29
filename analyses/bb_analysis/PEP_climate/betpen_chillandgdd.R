@@ -43,7 +43,7 @@ x<-paste(df$year, df$lo)
 df$date<-as.Date(strptime(x, format="%Y %j"))
 df$Date<- as.character(df$date)
 df$lat.long <- paste(df$lat, df$long)
-allpeps <- df[(df$year>=1950 & df$year<=1960) | (df$year>=2000 & df$year<=2010),]
+allpeps <- df[(df$year>=1951 & df$year<=1960) | (df$year>=2001 & df$year<=2010),]
 
 allpeps$cc<-ifelse(allpeps$year>=1950 & allpeps$year<=1960, "apre", "post")
 allpeps$num.years<-ave(allpeps$year, allpeps$lat.long, FUN=length)
@@ -60,26 +60,35 @@ r<-brick("~/Desktop/tg_0.25deg_reg_v19.0.nc", varname="tg", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
-period<-1951:1960
-#period<-2000:2010
+#period<-1951:1960
+period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") ##### NEED TO RERUN HERE! MISSING LAST ONE (39) FROM POST!!!!
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+sites<-sites[!(sites$lat.long%in%badsites),]
 sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:84
+sites$siteslist<-1:46
 tavg<-r
 
 lositeyear <- subset(allpeps.subset, select=c("lo", "lat", "long", "lat.long", "year"))
 lositeyear <- lositeyear[!duplicated(lositeyear),]
 lositeyear <- left_join(lositeyear, sites)
+lositeyear<-na.omit(lositeyear)
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function - depending on the period you are using
-extractclimpre<-function(tavg,period){
-#extractclimpost<-function(tavg,period){
+#extractclimpre<-function(tavg,period){
+extractclimpost<-function(tavg,period){
   
   ## define array to store results
   nyears<-length(period)
@@ -89,27 +98,16 @@ extractclimpre<-function(tavg,period){
   #dimnames(chillforcespsyears)<-spslist
   
   ## subset climate years
-  #yearsinclim<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
-  #yearsinperiod<-which(yearsinclim%in%period)
+  ## subset climate years
   yearsinclim<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
-  prevyear<-period-1
-  yearsinperiod<-which(yearsinclim%in%period | yearsinclim%in%prevyear)
+  yearsinperiod<-which(yearsinclim%in%period)
   climsub<-subset(tavg,yearsinperiod)
   
-  
-  monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
-  if(FALSE){
   ## subset climate days
-  
-  
-  chillmonthsperiod<-c(rep(c(1:3), each = 10))
-  chillmonthsprev<-c(rep(c(9:12), each = 10))
-  
-  monthyearsinclim <- c(paste(chillmonthsperiod, period), paste(chillmonthsprev, period-1))
-  monthyears<-paste(monthsinclim, yearsinclim)
-  yearmonthsinchill<-which(monthyears%in%monthyearsinclim)
-  chillsub<-subset(climsub,yearmonthsinchill)
-  }
+  monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
+  chillmonths<-c(9:12,1:3)
+  monthsinchill<-which(monthsinclim%in%chillmonths)
+  chillsub<-subset(climsub,monthsinchill)
   
   warmmonths<-c(3:4)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
@@ -138,20 +136,11 @@ extractclimpre<-function(tavg,period){
         for(j in period){#j=1980
           print(paste(i,j))
           
-          # select chilling year's layer
-          yearsinj<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
-          prevyearj<- j-1
-          chillyears<-which(yearsinj%in%j | yearsinj%in%prevyearj)
+          # select year's layer
+          chillyears<-which(as.numeric(format(as.Date(
+            names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
           
-          yearschill<-subset(tavg, chillyears)
-          
-          chillmonthsj<-c(1:3)
-          chillmonthsprevj<-c(9:12)
-          monthyearsinj <- c(paste(chillmonthsj, j), paste(chillmonthsprevj, j-1))
-          monthyearsj<-paste(monthsinclim, yearsinclim)
-          chillmonthyears<-which(monthyearsj%in%monthyearsinj)
-    
-          yearschill<-subset(yearschill,chillmonthyears)
+          yearschill<-subset(chillsub,chillyears)
     
           # extract values and format to compute means and sdevs
            tempschills<-raster::extract(yearschill,points)
@@ -168,12 +157,14 @@ extractclimpre<-function(tavg,period){
         meandaily<-chillunitseachcelleachday[(as.numeric(rownames(chillunitseachcelleachday))==i)]
         #hist(utahssum)
         
+        x <- as.Date(substr(colnames(chillunitseachcelleachday), 2, 11),format="%Y.%m.%d")
+        
         hrly.temp=
           data.frame(
             Temp = c(rep(meandaily, each = 24)),
             Year = c(rep(as.numeric(substr(colnames(chillunitseachcelleachday), 2, 5)), times=24)),
-            JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
-            #JDay = sort(c(rep(seq(1:length(meandaily)), times=24)))
+            #JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
+            JDay = sort(c(rep(yday(x), times=24)))
           )
         
         
@@ -198,13 +189,13 @@ extractclimpre<-function(tavg,period){
         meandaily.warm<-warmunitseachcelleachday[(as.numeric(rownames(warmunitseachcelleachday))==i)]
         #hist(utahssum)
     
-         
+        x.warm <- as.Date(substr(colnames(warmunitseachcelleachday), 2, 11),format="%Y.%m.%d")
           
         hrly.temp.warm =
           data.frame(
             Temp = c(rep(meandaily.warm, each = 24)),
             Year = c(rep(as.numeric(substr(colnames(warmunitseachcelleachday), 2, 5)), times=24)),
-            JDay = sort(c(rep(seq(1:length(meandaily.warm)), times=24)))
+            JDay = sort(c(rep(yday(x.warm), times = 24)))
           )
           #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
         
