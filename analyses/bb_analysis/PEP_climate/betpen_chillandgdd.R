@@ -43,7 +43,7 @@ x<-paste(df$year, df$lo)
 df$date<-as.Date(strptime(x, format="%Y %j"))
 df$Date<- as.character(df$date)
 df$lat.long <- paste(df$lat, df$long)
-allpeps <- df[(df$year>=1950 & df$year<=1960) | (df$year>=2000 & df$year<=2010),]
+allpeps <- df[(df$year>=1951 & df$year<=1960) | (df$year>=2001 & df$year<=2010),]
 
 allpeps$cc<-ifelse(allpeps$year>=1950 & allpeps$year<=1960, "apre", "post")
 allpeps$num.years<-ave(allpeps$year, allpeps$lat.long, FUN=length)
@@ -52,7 +52,7 @@ tt<-as.data.frame(table(mostdata$cc, mostdata$lat.long))
 tt<-tt[!(tt$Freq==0),]
 bestsites<-as.data.frame(table(tt$Var2))
 bestsites<-bestsites[(bestsites$Freq>1),]
-bestsites <- sample(unique(bestsites$Var1), 40)
+bestsites <- bestsites$Var1
 
 allpeps.subset<-mostdata[(mostdata$lat.long %in% bestsites),]
 
@@ -60,16 +60,29 @@ r<-brick("~/Desktop/tg_0.25deg_reg_v19.0.nc", varname="tg", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
-#period<-1950:1960
-period<-2000:2010
+#period<-1951:1960
+period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") ##### NEED TO RERUN HERE! MISSING LAST ONE (39) FROM POST!!!!
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+sites<-sites[!(sites$lat.long%in%badsites),]
 sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:40
+sites$siteslist<-1:46
 tavg<-r
+
+lositeyear <- subset(allpeps.subset, select=c("lo", "lat", "long", "lat.long", "year"))
+lositeyear <- lositeyear[!duplicated(lositeyear),]
+lositeyear <- left_join(lositeyear, sites)
+lositeyear<-na.omit(lositeyear)
 
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
@@ -85,6 +98,7 @@ extractclimpost<-function(tavg,period){
   #dimnames(chillforcespsyears)<-spslist
   
   ## subset climate years
+  ## subset climate years
   yearsinclim<-as.numeric(format(as.Date(names(tavg),format="X%Y.%m.%d"),"%Y"))
   yearsinperiod<-which(yearsinclim%in%period)
   climsub<-subset(tavg,yearsinperiod)
@@ -95,7 +109,7 @@ extractclimpost<-function(tavg,period){
   monthsinchill<-which(monthsinclim%in%chillmonths)
   chillsub<-subset(climsub,monthsinchill)
   
-  warmmonths<-c(3:5)
+  warmmonths<-c(3:4)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
   warmsub<-subset(climsub,monthsinwarm)
   
@@ -121,11 +135,11 @@ extractclimpost<-function(tavg,period){
   
         for(j in period){#j=1980
           print(paste(i,j))
-    
+          
           # select year's layer
           chillyears<-which(as.numeric(format(as.Date(
-          names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
-    
+            names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
+          
           yearschill<-subset(chillsub,chillyears)
     
           # extract values and format to compute means and sdevs
@@ -143,11 +157,14 @@ extractclimpost<-function(tavg,period){
         meandaily<-chillunitseachcelleachday[(as.numeric(rownames(chillunitseachcelleachday))==i)]
         #hist(utahssum)
         
+        x <- as.Date(substr(colnames(chillunitseachcelleachday), 2, 11),format="%Y.%m.%d")
+        
         hrly.temp=
           data.frame(
             Temp = c(rep(meandaily, each = 24)),
             Year = c(rep(as.numeric(substr(colnames(chillunitseachcelleachday), 2, 5)), times=24)),
-            JDay = sort(c(rep(seq(1:length(meandaily)), times=24)))
+            #JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
+            JDay = sort(c(rep(yday(x), times=24)))
           )
         
         
@@ -172,15 +189,19 @@ extractclimpost<-function(tavg,period){
         meandaily.warm<-warmunitseachcelleachday[(as.numeric(rownames(warmunitseachcelleachday))==i)]
         #hist(utahssum)
     
-         
+        x.warm <- as.Date(substr(colnames(warmunitseachcelleachday), 2, 11),format="%Y.%m.%d")
           
         hrly.temp.warm =
           data.frame(
             Temp = c(rep(meandaily.warm, each = 24)),
             Year = c(rep(as.numeric(substr(colnames(warmunitseachcelleachday), 2, 5)), times=24)),
-            JDay = sort(c(rep(seq(1:length(meandaily.warm)), times=24)))
+            JDay = sort(c(rep(yday(x.warm), times = 24)))
           )
           #hrly.temp<-hrly.temp[!(hrly.temp$Year==24),]
+        
+       lopersite <- lositeyear[(lositeyear$siteslist==i & lositeyear$year==j),]
+       lo <- as.numeric(lopersite$lo)
+       hrly.temp.warm <- hrly.temp.warm[(hrly.temp.warm$JDay<=lo),]
         
         chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
         warmcalc.mn<-chilling(hrly.temp.warm, hrly.temp.warm$JDay[1], hrly.temp.warm$JDay[nrow(hrly.temp.warm[1])])
@@ -460,30 +481,96 @@ mst<-mst[!duplicated(mst),]
 
 fullsites40 <- left_join(full.site, mst)
 
+write.csv(fullsites40, file="output/betpen_allchillsandgdds_40sites_mat.csv", row.names = FALSE)
+
 ##################################################################################################
 ################################# Now for some plots! ############################################
 ##################################################################################################
+somesites <- sample(unique(fullsites40$lat.long), 9)
 
+tensites<-fullsites40[(fullsites40$lat.long %in% somesites),]
+
+post.cols <- colorRampPalette(brewer.pal(9,"Reds"))(9)
+pre.cols <- colorRampPalette(brewer.pal(9,"Blues"))(9)
+
+peppre <- tensites[(tensites$cc=="1950-1960"),]
+peppost <- tensites[(tensites$cc=="2000-2010"),]
+
+
+chill.utah.pre<-ggplot(tensites, aes(x=chillutah, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Utah Chill", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + xlim(1450, 3500) +
+  geom_point(data=tensites[(tensites$cc=="1950-1960"),],
+             aes(col=lat.long), alpha=0.3) + 
+  scale_color_manual(name="Years", values=pre.cols,
+                     labels=c("1950-1960" = "1950-1960")) 
+
+chill.utah.post<-ggplot(tensites, aes(x=chillutah, y=lo, col=as.factor(lat.long))) + geom_line(data=peppost, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Utah Chill", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + xlim(1450, 3500) +
+  geom_point(data=tensites[(tensites$cc=="2000-2010"),],
+             aes(col=lat.long), alpha=0.3) + 
+  scale_color_manual(name="Years", values=post.cols,
+                     labels=c("2000-2010" = "2000-2010"))  
+
+
+chill.ports.pre<-ggplot(tensites, aes(x=chillports, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
+  geom_point(data=tensites[(tensites$cc=="1950-1960"),],
+             aes(col=lat.long), alpha=0.3) + xlim(85,150) +
+  scale_color_manual(name="Years", values=pre.cols,
+                     labels=c("1950-1960" = "1950-1960")) 
+
+chill.ports.post<-ggplot(tensites, aes(x=chillports, y=lo, col=as.factor(lat.long))) + geom_line(data=peppost, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") + 
+  ylim(65, 150) + xlim(85,150) +
+  geom_point(data=tensites[(tensites$cc=="2000-2010"),],
+             aes(col=as.factor(lat.long)), alpha=0.3) + 
+  scale_color_manual(name="Sites", values=post.cols,
+                     labels=c("2000-2010" = "2000-2010")) 
+
+if(FALSE){
 quartz()
-chill.plot.utah<-ggplot(fullsites40, aes(x=chillutah, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Total Utah Chill", y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
 
-chill.plot.ports<-ggplot(fullsites40, aes(x=chillports, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+mylegend<-ggplot(g_legend(chill.ports.post))
+}
+g1<-ggarrange(chill.utah.pre, chill.utah.post,
+              chill.ports.pre, chill.ports.post, nrow=2, ncol=2)
+grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbind(c(1,NA,2)))
 
-gdd<-ggplot(fullsites40, aes(x=gdd, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position = "none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
 
-mst.plot <- ggplot(fullsites40, aes(x=mat, y=lo, col=as.factor(cc))) + geom_line(data=fullsites40, aes(col=as.factor(cc)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Mean Spring Temperature (°C)", y="Day of Leafout") + theme(legend.position="none") +
-  scale_color_manual(name="Climate Change", labels=c("1950-1960"="1950-1960","2000-2010" ="2000-2010"),
-                     values=c("navyblue", "red4")) + geom_point(aes(col=as.factor(cc)), alpha=0.1)
+
+
+gdd.pre<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
+  geom_point(data=tensites[(tensites$cc=="1950-1960"),],
+             aes(col=as.factor(lat.long)), alpha=0.3) + 
+  scale_color_manual(name="Years", values=pre.cols,
+                     labels=c("1950-1960" = "1950-1960")) 
+
+gdd.post<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppost, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
+  geom_point(data=tensites[(tensites$cc=="2000-2010"),],
+             aes(col=as.factor(lat.long)), alpha=0.3) + 
+  scale_color_manual(name="Years", values=post.cols,
+                     labels=c("2000-2010" = "2000-2010")) 
+
+mat.pre<-ggplot(tensites, aes(x=mat, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Mean Spring Temperature", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
+  geom_point(data=tensites[(tensites$cc=="1950-1960"),],
+             aes(col=as.factor(lat.long)), alpha=0.3) + 
+  scale_color_manual(name="Years", values=pre.cols,
+                     labels=c("1950-1960" = "1950-1960")) 
+
+mat.post<-ggplot(tensites, aes(x=mat, y=lo, col=lat.long)) + geom_line(data=peppost, aes(col=lat.long), stat="smooth", method="lm") + 
+  theme_classic() + labs(x="Mean Spring Temperature", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
+  geom_point(data=tensites[(tensites$cc=="2000-2010"),],
+             aes(col=lat.long), alpha=0.3) + 
+  scale_color_manual(name="Years", values=post.cols,
+                     labels=c("2000-2010" = "2000-2010")) 
 
 g_legend<-function(a.gplot){
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
@@ -492,6 +579,10 @@ g_legend<-function(a.gplot){
   return(legend)}
 
 mylegend<-ggplot(g_legend(mst.plot))
+
+ggarrange(chill.ports.pre, chill.ports.post,
+          gdd.pre, gdd.post,
+          mat.pre, mat.post, nrow=3, ncol=2)
 
 g1<-ggarrange(chill.plot.utah, chill.plot.ports, gdd,mst.plot, ncol=2, nrow=2)
 grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbind(c(1,NA,2)))
