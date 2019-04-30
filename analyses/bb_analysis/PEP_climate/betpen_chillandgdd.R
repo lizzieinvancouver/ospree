@@ -533,7 +533,8 @@ chill.utah.post<-ggplot(tensites, aes(x=chillutah, y=lo, col=as.factor(lat.long)
 chill.ports.pre<-ggplot(tensites, aes(x=chillports, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
   theme_classic() + labs(x="Total Chill Portions", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
   geom_point(data=tensites[(tensites$cc=="1950-1960"),],
-             aes(col=lat.long), alpha=0.3) + xlim(85,150) +
+             aes(col=lat.long), alpha=0.3) + xlim(85,150) + 
+  annotate("text", x = 95, y = 145, label = "1950-1960", fontface = "bold") +
   scale_color_manual(name="Years", values=pre.cols,
                      labels=c("1950-1960" = "1950-1960")) 
 
@@ -542,6 +543,7 @@ chill.ports.post<-ggplot(tensites, aes(x=chillports, y=lo, col=as.factor(lat.lon
   ylim(65, 150) + xlim(85,150) +
   geom_point(data=tensites[(tensites$cc=="2000-2010"),],
              aes(col=as.factor(lat.long)), alpha=0.3) + 
+  annotate("text", x = 95, y = 145, label = "2000-2010", fontface = "bold") +
   scale_color_manual(name="Sites", values=post.cols,
                      labels=c("2000-2010" = "2000-2010")) 
 
@@ -571,7 +573,8 @@ gdd.pre<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line
                      labels=c("1950-1960" = "1950-1960")) 
 
 gdd.post<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppost, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
+  theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + 
+  ylim(65, 150) + 
   geom_point(data=tensites[(tensites$cc=="2000-2010"),],
              aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 200) +
   scale_color_manual(name="Years", values=post.cols,
@@ -593,8 +596,8 @@ mat.post<-ggplot(tensites, aes(x=mat, y=lo, col=lat.long)) + geom_line(data=pepp
                      labels=c("2000-2010" = "2000-2010"))
 
 quartz()
-ggarrange(chill.ports.pre, chill.ports.post,
-          gdd.pre, gdd.post,
+grid.arrange(chill.ports.pre, chill.ports.post,
+          gdd.pre, gdd.post, 
           mat.pre, mat.post, nrow=3, ncol=2)
 
 if(FALSE){
