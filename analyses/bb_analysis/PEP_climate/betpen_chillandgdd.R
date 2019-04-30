@@ -64,19 +64,13 @@ r<-brick("~/Desktop/tg_0.25deg_reg_v19.0.nc", varname="tg", sep="")
 period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
-badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") ##### NEED TO RERUN HERE! MISSING LAST ONE (39) FROM POST!!!!
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
-#####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  #####  ##### 
+badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") 
 sites<-sites[!(sites$lat.long%in%badsites),]
 sites$x<-sites$long
 sites$y<-sites$lat
 Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
-sites$siteslist<-1:46
+sites$siteslist<-1:45
 tavg<-r
 
 lositeyear <- subset(allpeps.subset, select=c("lo", "lat", "long", "lat.long", "year"))
@@ -251,7 +245,10 @@ predata<-data.frame(chillutah = c(pre$Mean.Utah.1, pre$Mean.Utah.2,
                                  pre$Mean.Utah.33, pre$Mean.Utah.34,
                                  pre$Mean.Utah.35, pre$Mean.Utah.36,
                                  pre$Mean.Utah.37, pre$Mean.Utah.38,
-                                 pre$Mean.Utah.39, pre$Mean.Utah.40),
+                                 pre$Mean.Utah.39, pre$Mean.Utah.40,
+                                 pre$Mean.Utah.41, pre$Mean.Utah.42,
+                                 pre$Mean.Utah.43, pre$Mean.Utah.44,
+                                 pre$Mean.Utah.45),
                     
                     chillports = c(pre$Mean.Port.1, pre$Mean.Port.2,
                                   pre$Mean.Port.3, pre$Mean.Port.4,
@@ -272,7 +269,10 @@ predata<-data.frame(chillutah = c(pre$Mean.Utah.1, pre$Mean.Utah.2,
                                   pre$Mean.Port.33, pre$Mean.Port.34,
                                   pre$Mean.Port.35, pre$Mean.Port.36,
                                   pre$Mean.Port.37, pre$Mean.Port.38,
-                                  pre$Mean.Port.39, pre$Mean.Port.40),
+                                  pre$Mean.Port.39, pre$Mean.Port.40,
+                                  pre$Mean.Port.41, pre$Mean.Port.42,
+                                  pre$Mean.Port.43, pre$Mean.Port.44,
+                                  pre$Mean.Port.45),
                     
                     
                     gdd = c(pre$Mean.GDD.1, pre$Mean.GDD.2,
@@ -294,7 +294,10 @@ predata<-data.frame(chillutah = c(pre$Mean.Utah.1, pre$Mean.Utah.2,
                             pre$Mean.GDD.33, pre$Mean.GDD.34,
                             pre$Mean.GDD.35, pre$Mean.GDD.36,
                             pre$Mean.GDD.37, pre$Mean.GDD.38,
-                            pre$Mean.GDD.39, pre$Mean.GDD.40),
+                            pre$Mean.GDD.39, pre$Mean.GDD.40,
+                            pre$Mean.GDD.41, pre$Mean.GDD.42,
+                            pre$Mean.GDD.43, pre$Mean.GDD.44,
+                            pre$Mean.GDD.45),
                     
                    siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
                             pre$`Site Num..3`, pre$`Site Num..4`,
@@ -315,7 +318,10 @@ predata<-data.frame(chillutah = c(pre$Mean.Utah.1, pre$Mean.Utah.2,
                             pre$`Site Num..33`, pre$`Site Num..34`,
                             pre$`Site Num..35`, pre$`Site Num..36`,
                             pre$`Site Num..37`, pre$`Site Num..38`,
-                            pre$`Site Num..39`, pre$`Site Num..40`),
+                            pre$`Site Num..39`, pre$`Site Num..40`,
+                            pre$`Site Num..41`, pre$`Site Num..42`,
+                            pre$`Site Num..43`, pre$`Site Num..44`,
+                            pre$`Site Num..45`),
                    year = rownames(pre))
 
 site<-full_join(predata, sites)
@@ -341,7 +347,10 @@ postdata<-data.frame(chillutah = c(post$Mean.Utah.1, post$Mean.Utah.2,
                                    post$Mean.Utah.33, post$Mean.Utah.34,
                                    post$Mean.Utah.35, post$Mean.Utah.36,
                                    post$Mean.Utah.37, post$Mean.Utah.38,
-                                   post$Mean.Utah.39, post$Mean.Utah.40),
+                                   post$Mean.Utah.39, post$Mean.Utah.40,
+                                   post$Mean.Utah.41, post$Mean.Utah.42,
+                                   post$Mean.Utah.43, post$Mean.Utah.44,
+                                   post$Mean.Utah.45),
                      
                      chillports = c(post$Mean.Port.1, post$Mean.Port.2,
                                     post$Mean.Port.3, post$Mean.Port.4,
@@ -362,7 +371,10 @@ postdata<-data.frame(chillutah = c(post$Mean.Utah.1, post$Mean.Utah.2,
                                     post$Mean.Port.33, post$Mean.Port.34,
                                     post$Mean.Port.35, post$Mean.Port.36,
                                     post$Mean.Port.37, post$Mean.Port.38,
-                                    post$Mean.Port.39, post$Mean.Port.40),
+                                    post$Mean.Port.39, post$Mean.Port.40,
+                                    post$Mean.Port.41, post$Mean.Port.42,
+                                    post$Mean.Port.43, post$Mean.Port.44,
+                                    post$Mean.Port.45),
                      
                      
                      gdd = c(post$Mean.GDD.1, post$Mean.GDD.2,
@@ -384,7 +396,10 @@ postdata<-data.frame(chillutah = c(post$Mean.Utah.1, post$Mean.Utah.2,
                              post$Mean.GDD.33, post$Mean.GDD.34,
                              post$Mean.GDD.35, post$Mean.GDD.36,
                              post$Mean.GDD.37, post$Mean.GDD.38,
-                             post$Mean.GDD.39, post$Mean.GDD.40),
+                             post$Mean.GDD.39, post$Mean.GDD.40,
+                             post$Mean.GDD.41, post$Mean.GDD.42,
+                             post$Mean.GDD.43, post$Mean.GDD.44,
+                             post$Mean.GDD.45),
                      
                      siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
                                    post$`Site Num..3`, post$`Site Num..4`,
@@ -405,7 +420,10 @@ postdata<-data.frame(chillutah = c(post$Mean.Utah.1, post$Mean.Utah.2,
                                    post$`Site Num..33`, post$`Site Num..34`,
                                    post$`Site Num..35`, post$`Site Num..36`,
                                    post$`Site Num..37`, post$`Site Num..38`,
-                                   post$`Site Num..39`, post$`Site Num..40`),
+                                   post$`Site Num..39`, post$`Site Num..40`,
+                                   post$`Site Num..41`, post$`Site Num..42`,
+                                   post$`Site Num..43`, post$`Site Num..44`,
+                                   post$`Site Num..45`),
                      year = rownames(post))
 
 site.post<-full_join(postdata, sites)
@@ -479,16 +497,16 @@ dx$mat<-ave(dx$Tavg, dx$year, dx$lat.long)
 mst<-dx%>%dplyr::select(-Tavg, -Date)
 mst<-mst[!duplicated(mst),]
 
-fullsites40 <- left_join(full.site, mst)
+fullsites45 <- left_join(full.site, mst)
 
-write.csv(fullsites40, file="output/betpen_allchillsandgdds_40sites_mat.csv", row.names = FALSE)
+write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat.csv", row.names = FALSE)
 
 ##################################################################################################
 ################################# Now for some plots! ############################################
 ##################################################################################################
-somesites <- sample(unique(fullsites40$lat.long), 9)
+somesites <- sample(unique(fullsites45$lat.long), 9)
 
-tensites<-fullsites40[(fullsites40$lat.long %in% somesites),]
+tensites<-fullsites45[(fullsites45$lat.long %in% somesites),]
 
 post.cols <- colorRampPalette(brewer.pal(9,"Reds"))(9)
 pre.cols <- colorRampPalette(brewer.pal(9,"Blues"))(9)
@@ -537,6 +555,7 @@ g_legend<-function(a.gplot){
 
 mylegend<-ggplot(g_legend(chill.ports.post))
 }
+quartz()
 g1<-ggarrange(chill.utah.pre, chill.utah.post,
               chill.ports.pre, chill.ports.post, nrow=2, ncol=2)
 grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbind(c(1,NA,2)))
@@ -547,45 +566,52 @@ grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbi
 gdd.pre<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
   theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
   geom_point(data=tensites[(tensites$cc=="1950-1960"),],
-             aes(col=as.factor(lat.long)), alpha=0.3) + 
+             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 200) +
   scale_color_manual(name="Years", values=pre.cols,
                      labels=c("1950-1960" = "1950-1960")) 
 
 gdd.post<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppost, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
   theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
   geom_point(data=tensites[(tensites$cc=="2000-2010"),],
-             aes(col=as.factor(lat.long)), alpha=0.3) + 
+             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 200) +
   scale_color_manual(name="Years", values=post.cols,
                      labels=c("2000-2010" = "2000-2010")) 
 
 mat.pre<-ggplot(tensites, aes(x=mat, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
   theme_classic() + labs(x="Mean Spring Temperature", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
   geom_point(data=tensites[(tensites$cc=="1950-1960"),],
-             aes(col=as.factor(lat.long)), alpha=0.3) + 
+             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(4, 12) +
   scale_color_manual(name="Years", values=pre.cols,
                      labels=c("1950-1960" = "1950-1960")) 
 
 mat.post<-ggplot(tensites, aes(x=mat, y=lo, col=lat.long)) + geom_line(data=peppost, aes(col=lat.long), stat="smooth", method="lm") + 
-  theme_classic() + labs(x="Mean Spring Temperature", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) +
+  theme_classic() + labs(x="Mean Spring Temperature", y="Day of Leafout") + theme(legend.position="none") + 
+  ylim(65, 150) +
   geom_point(data=tensites[(tensites$cc=="2000-2010"),],
-             aes(col=lat.long), alpha=0.3) + 
+             aes(col=lat.long), alpha=0.3) + xlim(4, 12) +
   scale_color_manual(name="Years", values=post.cols,
-                     labels=c("2000-2010" = "2000-2010")) 
+                     labels=c("2000-2010" = "2000-2010"))
 
+quartz()
+ggarrange(chill.ports.pre, chill.ports.post,
+          gdd.pre, gdd.post,
+          mat.pre, mat.post, nrow=3, ncol=2)
+
+if(FALSE){
 g_legend<-function(a.gplot){
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
   leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
   legend <- tmp$grobs[[leg]]
   return(legend)}
 
-mylegend<-ggplot(g_legend(mst.plot))
-
-ggarrange(chill.ports.pre, chill.ports.post,
-          gdd.pre, gdd.post,
-          mat.pre, mat.post, nrow=3, ncol=2)
-
-g1<-ggarrange(chill.plot.utah, chill.plot.ports, gdd,mst.plot, ncol=2, nrow=2)
+mylegend<-g_legend(mat.post)
+g1<-ggarrange(chill.plot.utah, chill.plot.ports, gdd,mat.post, ncol=2, nrow=2)
 grid.arrange(g1, mylegend, ncol=3, widths = c(1.5, 0.1, 0.35), layout_matrix=rbind(c(1,NA,2)))
+
+}
+
+
+
 
 quartz()
 leafout<- ggplot(full.site, aes(x=cc, y=lo, col=cc)) + geom_boxplot(aes(col=as.factor(cc))) +
