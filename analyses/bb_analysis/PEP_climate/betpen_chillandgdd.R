@@ -103,7 +103,7 @@ extractclimpost<-function(tavg,period){
   monthsinchill<-which(monthsinclim%in%chillmonths)
   chillsub<-subset(climsub,monthsinchill)
   
-  warmmonths<-c(3:4)
+  warmmonths<-c(3:5)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
   warmsub<-subset(climsub,monthsinwarm)
   
@@ -199,6 +199,7 @@ extractclimpost<-function(tavg,period){
         
         chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
         warmcalc.mn<-chilling(hrly.temp.warm, hrly.temp.warm$JDay[1], hrly.temp.warm$JDay[nrow(hrly.temp.warm[1])])
+        
         #chillcalc.mn<-chillcalc.mn[!(chillcalc.mn$End_year==24),]
     
     yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
@@ -444,14 +445,14 @@ allchillsgdds<-rbind(allchillsgdds, full.site3)
 allchillsgdds<-rbind(allchillsgdds, full.site4)
 allchillsgdds<-rbind(allchillsgdds, full.site5)
 }
-write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_40sites.csv", row.names = FALSE)
+write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_45sites.csv", row.names = FALSE)
 
 ##################################################################################################
 ############################### MEAN TEMP instead of GDD #########################################
 ##################################################################################################
-full.site <- read.csv("output/betpen_allchillsandgdds_40sites.csv", header = TRUE)
+full.site <- read.csv("output/betpen_allchillsandgdds_45sites.csv", header = TRUE)
 
-period <- c(1950:1960, 2000:2010)
+period <- c(1951:1960, 2001:2010)
 sites<-subset(full.site, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
 sites$x<-sites$long
@@ -468,7 +469,7 @@ climsub<-subset(tavg,yearsinperiod)
 
 ## subset climate days
 monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
-mstmonths<-c(3:5)
+mstmonths<-c(3:4)
 monthsinmst<-which(monthsinclim%in%mstmonths)
 mstsub<-subset(climsub,monthsinmst)
 
