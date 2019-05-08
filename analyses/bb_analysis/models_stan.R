@@ -57,6 +57,8 @@ use.expchillonly = FALSE # change to true for only experimental chilling
 #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 source("source/bbstanleadin.R")
 
+# write.csv(bb.stan, "..//output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", row.names=FALSE)
+
 ######################################
 ## Overview of the model run below ##
 ######################################

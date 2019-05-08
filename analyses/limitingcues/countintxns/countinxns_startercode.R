@@ -12,8 +12,6 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else setwd("~/Documents/git/ospree/analyses")
 
-
-
 # Build a simple example
 nointxn <- data.frame(datasetID=rep("bob12", 8), study=c(rep("exp2", 4),
     rep("exp2", 4)), photo=c(8, 8, 8, 8, 8, 8, 12, 12),
