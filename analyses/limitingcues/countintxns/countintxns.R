@@ -148,13 +148,17 @@ ddatefx.all <- subset(dat, select=c("datasetID", "study", "fieldsample.date"))
 ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
 ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
 
-# START HERE! And change main DF so only relevant dates are included ....
+## Change main DF so only relevant dates are included ... not pretty, but should work
+# First get the unique dates in a df
 dates2weeks.count <- countfieldsample(ddatefx, 14)
 uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
+uniquedates.df$selectcolumn <- paste(uniquedates.df$datasetIDstudy, uniquedates.df$date)
+# Now subset to sane # of columnns
+datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", 
+    "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays"))
+head(datsm)
 
-datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", "fieldsample.date",
-    "chilltemp", "chillphotoperiod", "chilldays"))
-
+## Okay, formatting to look at intxns
 datsm$force <- as.numeric(datsm$forcetemp)
 datsm$photo <- as.numeric(datsm$photoperiod_day)
 
@@ -163,7 +167,10 @@ datsm.noNA <- subset(datsm, is.na(force)==FALSE & is.na(photo)==FALSE)
 osp.fp <- get.treatdists(datsm.noNA, "photo", "force")
 osp.fpintxn <- subset(osp.fp, intxn>=2)
 osp.fpintxn[order(osp.fpintxn$datasetID),]
+
+## Here I compare what I and Cat got to see if the code is working 
 # Compare to what Cat got ... (taken from countinxns_Cat.R)
+# My code was wrong in taking unique rows for the OSPREE data, I fixed it by deleting all but the columns for the two treatments in question from df ...
 fp.cat <- c("basler14", "heide05", "heide08", "heide11", "heide93", "heide93a", "okie11", "partanen98", "pettersen71", "Sanz-Perez09", "sogaard08")
 setdiff(fp.cat, unique(osp.fpintxn$datasetID))
 setdiff(unique(osp.fpintxn$datasetID), fp.cat)
@@ -178,5 +185,35 @@ lookatunique <- get.uniquetreats(datsm.noNA, "photo", "force")
 subset(lookatunique, datasetID=="sogaard08") # According to my cheap code, sogaard08 has three forcing temperatures ... at only one temperature do they vary photoperiod ... what is that? Can you estimate intxns and main effects from it? I am at a loos. 
 subset(lookatunique, datasetID=="partanen98") # partanen98 has three photoperiods, varies temp for only one of them.
 
+# Now (not pretty part) we'll take all NA dates ...
+datsm$selectcolumn <- paste(datsm$datasetID, datsm$study, datsm$fieldsample.date)
+datsm14d <- datsm[which(datsm$selectcolumn %in% uniquedates.df$selectcolumn),]
 
-# My code was wrong in taking unique rows for the OSPREE data, I fixed it by deleting all but the columns for the two treatments in question from df ...
+dim(datsm)
+dim(datsm14d)
+
+datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
+
+# Repeat of the above but correcting for field sampling date repetition
+osp14d.fp <- get.treatdists(datsm14d.noNA, "photo", "force")
+osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
+osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
+
+osp14d.ctf <- get.treatdists(datsm14d.noNA, "chilltemp", "force")
+osp14d.ctfintxn <- subset(osp14d.ctf, intxn>=2) # 2 studies
+
+osp14d.cdf <- get.treatdists(datsm14d.noNA, "chilldays", "force")
+osp14d.cdfintxn <- subset(osp14d.cdf, intxn>=2) # same 2 studies # skuterud94  exp1  &  heide12  exp2
+
+osp14d.daysf <- get.treatdists(datsm14d.noNA, "fieldsample.date", "force")
+osp14d.daysfintxn <- subset(osp14d.daysf, intxn>=2) # 9 studies
+
+osp14d.daysp <- get.treatdists(datsm14d.noNA, "fieldsample.date", "photo")
+osp14d.dayspintxn <- subset(osp14d.daysp, intxn>=2) # 11 studies
+
+length(unique(paste(datsm14d$datasetID, datsm14d$study)))
+
+##################
+# BB OSPREE data #
+##################
+# START HERE!
