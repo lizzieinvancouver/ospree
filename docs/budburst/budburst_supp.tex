@@ -1,0 +1,98 @@
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{gensymb}
+%\usepackage[backend=bibtex]{biblatex}
+%Strongly recommended
+  %put your figures in one place
+%\SweaveOpts{prefix.string=figures/, eps=FALSE} 
+%you'll want these for pretty captioning
+\usepackage[small]{caption}
+
+\setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{10pt}
+% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
+
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ %\pagestyle{empty}       % Uncomment if don't want page numbers
+ \parskip 7.2pt           % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 0pt% sets leading space for paragraphs
+\usepackage{setspace}
+%\doublespacing
+
+%Optional: I like fancy headers
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhead[LO]{How do climate change experiments actually change climate}
+%\fancyhead[RO]{2016}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+
+%Start of the document
+\begin{document}
+
+%\SweaveOpts{concordance=TRUE}
+\bibliographystyle{..//..//refs/bibstyles/amnat.bst}% i moved a style file into the ospree git repo. feel free to add whatever style you like and update, lizzie! I don't have besjournals
+
+\title{Supplemental materials  for Chilling outweighs photoperiod and forcing cues for temperate trees in experiments, but not in natural systems} % perspective paper for OSPREE analyses
+% or Chilling dominates tree budburst in controlled climate experiments, but not in the great outdoors
+
+\author{A.K. Ettinger, C. Chamberlain, I. Morales-Castilla, D. Buonaiuto, D. Flynn, T. Savas, \\J. Samaha \& E. Wolkovich}
+%\date{\today} 
+\maketitle  %put the fancy title on
+%\tableofcontents      %add a table of contents
+%\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Supplemental Methods}
+
+\begin{enumerate}
+\item Equation of our model
+
+\item Forecasting with the OSPREE model: We selected sites in Germany where temperature and budburst have been monitored since the 1950s. We extracted mean temperature data from 1950 through 1980 (pre warming time period) and used these values as baseline data in our model. We then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C), including altered chilling and forcing as well as potential declines in photoperiod due to advancing phenology. We did this for two common European species: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} at all lat/longs included in the PEP database for Germany. 
+
+\item  To understand how experimental temperature, photoperiod, and budburst sensitivity compares to past and current conditions in nature, we used data from the PEP database (cite). We summarized forcing, chilling, and budburst doy for two common species: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} (European beech) during a pre-warming time-period (1950-1980) and post-warming period (1981-2014?). 
+
+\end{enumerate}
+{\bf Supplemental figures/tables:}
+\begin{enumerate}
+\item Map of study locations, shading or symbol coding for number of cues (Lizzie)
+\item Map of species forecasting to justify sites
+\item Heat maps for the main data, including by actual study design and by calculated chilling (our calculations)
+\item Photoperiod x latitude effects figure
+
+\end{enumerate}
+
+\section*{Reference list}
+
+A few categories:\\
+
+Papers about contrasting results over what cues matter from growth chamber studies: \cite{Basler:2012,Basler:2014aa,Caffarra:2011qf,Caffarra:2011a,Caffarra:2011b,Heide:2005aa,koerner2010b,Laube:2014a,vitasse2013,zohner2016}. Get Nanninga \emph{et al.} 2017: 'Increased exposure to chilling advances the time to budburst in North American tree species' and maybe Malyshev \emph{et al.} 2018 `Temporal photoperiod sensitivity and forcing requirements for budburst in temperate tree seedlings.'\\
+
+Papers about declining sensitivities (Ailene will update this list): \cite{Rutishauser:2008,fu2015}. Also look for a Wang \emph{et al.} article `Impacts of global warming on phenology of spring leaf unfolding remain stable in the long run.' Vitasse paper on declining variation across elevation gradient. See \cite{yu2010}, but this is not temperate trees. \\
+
+Papers about chilling units paper (Lizzie gets a list): Fu 2012 from OSPREE. \cite{harrington2015}\cite{lued2011,Luedeling:2011qe,Luedeling2013AgFM}\\
+
+\bibliography{..//..//refs/ospreebibplus.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
