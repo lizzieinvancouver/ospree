@@ -65,6 +65,8 @@
 \section*{Supplemental Methods}
 
 \begin{enumerate}
+\item Data: search terms, etc
+
 \item Equation of our model
 
 \item Forecasting with the OSPREE model: We selected sites in Germany where temperature and budburst have been monitored since the 1950s. We extracted mean temperature data from 1950 through 1980 (pre warming time period) and used these values as baseline data in our model. We then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C), including altered chilling and forcing as well as potential declines in photoperiod due to advancing phenology. We did this for two common European species: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} at all lat/longs included in the PEP database for Germany. 
@@ -72,6 +74,14 @@
 \item  To understand how experimental temperature, photoperiod, and budburst sensitivity compares to past and current conditions in nature, we used data from the PEP database (cite). We summarized forcing, chilling, and budburst doy for two common species: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} (European beech) during a pre-warming time-period (1950-1980) and post-warming period (1981-2014?). 
 
 \end{enumerate}
+{\bf Supplemental Results/Discussion:}
+\begin{enumerate}
+\item Surprising species-specific responses: 
+\begin{enumerate}
+\item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model. T
+
+\item Poisitive responses to forcing: Acer-complex, Fraxinus complex, Cornus alba.
+
 {\bf Supplemental figures/tables:}
 \begin{enumerate}
 \item Map of study locations, shading or symbol coding for number of cues (Lizzie)
