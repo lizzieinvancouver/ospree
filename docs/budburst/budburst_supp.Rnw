@@ -75,6 +75,14 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \par An additional important limitation is the rarity of studies designed to test interactions. Interactions between these cues are widely expected (cites) and, when examined, often found (cites), we were unable to estimate interactions in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod (cite table with number of interactions from coding challenge!). The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (cites, Tables, figs).  Our estimated effects average over interactions (citeGelman), but identifying them in future research will be critical to understanding and predicting budburst. For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst (cite)---is the hypothesized cause of declining sensitivities in European trees (cites). As more data become available, it would allow additional tests of important interactions, such as how responses vary across latitudes (see Supp). % Maybe add: In addition to data limitation, disentangling forcing from chilling conditions is a challenge because information on endodormancy requirements is very scarce \citep{chuine2016}.% Though I wonder if this belongs above in discussion of chilling?
 
+\section*{Things we'd like to discuss in main paper but don't have room for}
+
+% I suggest we save a discussion of Photothermoperiodicity for a plant-specific journal in which we have a much larger number of words ...
+\par \underline{Photothermoperiodicity}, for example, is an ongoing challenge: chamber studies may seek to replicate patterns in nature, pairing daylength and temperature treatments such that night temperatures are always cooler than day temperatures (e.g., cite studies that do this).  This results in daylength treatments that differ in temperature conditions (and therefore chilling and forcing treatments) as well, however.  
+
+\par \underline{Chilling:} Current common models for chilling (i.e., Utah which was developed for XX species,  chill portions which was developed for XX species) are \emph{hypotheses} for how chilling may accumulate to affect the process of dormancy release, but are likely to be inaccurate for many species. Our model highlights how the choice of chill units can affect model estimates and associated forecasts (Figures 1,\ref{fig:figmucpz}\ref{fig:muutnonz}, \ref{fig:mucpnonz}). 
+
+\
 \section*{Supplemental Methods}
 % Include:
 % Why we studied budburst and what it means ... Cat put together a 'what is budburst' file we should include with database. (Full OSPREE: 13,000 rows across 85 studies across 41 years and 227 species)
@@ -89,15 +97,17 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \item  To understand how experimental temperature, photoperiod, and budburst sensitivity compares to past and current conditions in nature, we used data from the PEP database (cite). We summarized forcing, chilling, and budburst doy for two common species: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} (European beech) during a pre-warming time-period (1950-1980) and post-warming period (1981-2014?). 
 
 \end{enumerate}
-{\bf Supplemental Results/Discussion:}
+\section*{Supplemental Results/Discussion}
 \begin{enumerate}
 \item Surprising species-specific responses: 
 \begin{enumerate}
 \item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model. T
 
 \item Poisitive responses to forcing: Acer-complex, Fraxinus complex, Cornus alba.
+\end{enumerate}
+\end{enumerate}
 
-{\bf Supplemental figures/tables:}
+\section*{Supplemental figures/tables}
 \begin{enumerate}
 \item Map of study locations, shading or symbol coding for number of cues (Lizzie)
 \item Map of species forecasting to justify sites
@@ -115,12 +125,31 @@ Papers about contrasting results over what cues matter from growth chamber studi
 Papers about declining sensitivities (Ailene will update this list): \cite{Rutishauser:2008,fu2015}. Also look for a Wang \emph{et al.} article `Impacts of global warming on phenology of spring leaf unfolding remain stable in the long run.' Vitasse paper on declining variation across elevation gradient. See \cite{yu2010}, but this is not temperate trees. \\
 
 Papers about chilling units paper (Lizzie gets a list): Fu 2012 from OSPREE. \cite{harrington2015}\cite{lued2011,Luedeling:2011qe,Luedeling2013AgFM}\\
-\section{*Things we'd like to discuss in main paper but don't have room for}
-
-% I suggest we save a discussion of Photothermoperiodicity for a plant-specific journal in which we have a much larger number of words ...
-\par Photothermoperiodicity, for example, is an ongoing challenge: chamber studies may seek to replicate patterns in nature, pairing daylength and temperature treatments such that night temperatures are always cooler than day temperatures (e.g., cite studies that do this).  This results in daylength treatments that differ in temperature conditions (and therefore chilling and forcing treatments) as well, however.  
 
 \bibliography{..//..//refs/ospreebibplus.bib}
+
+section* {Figures}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
+\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the Supplemental Materials.} 
+\label{fig:mucpz}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_nonz.pdf}
+\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Utah units. Relationships of coefficients were qualitatively similar to those in the centered models (Figures 1, \ref{fig:mucpz}. (Should combing this and chil portions muplot into one figure.)} 
+\label{fig:muutnonz}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelm2lni_spcompexprampfpcp_nonz.pdf}
+\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Chill Portions.} 
+\label{fig:mucpnonz}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
