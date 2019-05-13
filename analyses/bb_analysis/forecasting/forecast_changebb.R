@@ -104,7 +104,7 @@ quartz(width=9,height=9)
 par(mar=c(8,4,3,4), mfrow=c(2,2))
 #can do this as a loop, but i just want to pick 2 sites for now- max lat and min lat for each species
 for(s in 1:length(sp)){
-  #50 sites were chosen within the range of each species
+  #I have now added lots of sites for 
   #s=1#for bet, s=1; for fag, s=2
   numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
   tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")

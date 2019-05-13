@@ -1,5 +1,17 @@
-#Replacing Lizzie's simple "forecasts" of future climate
-# in models_stan_plotting_APC with more rigorous estimates of current and future chilling and forcing
+# This code uses previously pulled daily temperature from EOBs (on climate drive) for PEP sites
+# to calculate chilling and and forcing temperature during periods of interest
+# It uses climate data from every grid cell for which Leaf out data were pulled from PEPs for betula pendaul
+# And writes new files of annual chilling based on historica data and with different amounts of warming
+# e.g. 1-7 degrees of warming
+# The forecasts are then fed into our model to create figures in forecast_changebb.R
+# 13 May 2019: This code created by modifying pull_daily_temp_for_forecasting.R 
+# to better match Cat's selection of years  (1950-1960 for pre-warmed period)
+# This uses 1951-1961 (climate data only goes back to 1951)
+
+# By Ailene Ettinger, ailene.ettinger@gmail.com
+# This code assumes that the climate data has already been pulled and summarized in temp_forforecast...
+# This code calculates chilling with different amounts of warming
+
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -11,7 +23,6 @@ if(length(grep("Lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarde
 }else 
   setwd("~/Documents/git/ospree/analyses")
 
-library(ncdf4)
 library(Interpol.T)
 library(chillR)
 library(plyr)
@@ -27,14 +38,14 @@ climatedrive = "/Volumes/climate" #Ailene's climate data drive
 #2) select years for which you want climate data
 styr<-1951
 
-endyr<-2014
+endyr<-1961
 stday <- strptime(paste(styr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
 endday <- strptime(paste(endyr, "12-30", sep="-"),"%Y-%m-%d", tz = "GMT")
 
 #3) For chilling choose september 1 as a start date, April 30 as an end date
 chillstmon <- 9
-chillendmon <- 4
-minwarm<-1
+chillendmon <- 2#used 4 (April) before. Cat said she used Sept 1-Mar 1 for chilling
+minwarm<-1#add this amt of warming to temp
 maxwarm<-7
 #4) select species, identify latlon of their ranges to pull climte data
 sp<-c("betpen","fagsyl")#pep_betpen_all, pep_fagsyl_all.csv
@@ -43,70 +54,24 @@ for(i in 1:length(sp)){
  spfilename<-paste("bb_analysis/PEP_climate/input/pep_",sp[i],"_all.csv", sep="")
  spdat<-read.csv(spfilename, header=T)
 #head(spdat)
-  spdat<-spdat[spdat$YEAR<1980,] 
+  spdat<-spdat[spdat$YEAR<1961,] 
   spdat$lat.lon<-paste(spdat$LAT,spdat$LON,sep=".")
   #dim(spdat)
   latlon <- spdat %>% # start with the data frame
     distinct(lat.lon, .keep_all = TRUE) %>% # establishing grouping variables
     dplyr::select(LAT,LON)
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
-  #choose 50 random rows from latlon and pull climate from these:
+  #formerly chose 50 random rows from latlon and pull climate from these:
   #latlonsubs<-sample_n(latlon, 50)
   for(l in 1:dim(latlon)[1]){
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
-    
-    eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v16.0.nc"))
-    eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v16.0.nc"))
-    
-    #code to get daily climate data for focal lat/long
-    ndiff.long.cell <- abs(eur.tempmn$dim$longitude$vals-as.numeric(lo))
-    ndiff.lat.cell <- abs(eur.tempmn$dim$latitude$vals-as.numeric(la))
-    nlong.cell <- which(ndiff.long.cell==min(ndiff.long.cell))[1] 
-    nlat.cell <- which(ndiff.lat.cell==min(ndiff.lat.cell))[1]
-    
-    xdiff.long.cell <- abs(eur.tempmx$dim$longitude$vals-as.numeric(lo))
-    xdiff.lat.cell <- abs(eur.tempmx$dim$latitude$vals-as.numeric(la))
-    xlong.cell <- which(xdiff.long.cell==min(xdiff.long.cell))[1]
-    xlat.cell <- which(xdiff.lat.cell==min(xdiff.lat.cell))[1]
-    
-    #EOBS has dates in reference to 1950
-    # start and end days of the climate data we need for the lat/long. This is in days since baseline date (sept 1) Set to GMT to avoid daylight savings insanity
-    st <- as.numeric(as.character(stday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
-    en <- as.numeric(as.character(endday - strptime("1950-01-01", "%Y-%m-%d", tz = "GMT")))
-    if(en<st){en=st}
-    if(endday<stday){endday=stday}
-    
-    
-    min<-ncvar_get(eur.tempmn,'tn', 
-                   start=c(nlong.cell,nlat.cell,st), 
-                   count=c(1,1,en-st+1) # this is where we move through the 'cube' to get the one vector of Temp mins
-    ) 
-    max<-ncvar_get(eur.tempmx,'tx', 
-                   start=c(xlong.cell,xlat.cell,st), 
-                   count=c(1,1,en-st+1) # warnings ok
-    )
-    temp<- data.frame(Lat = la,Long = lo,Date = seq(stday, endday, by = "day"),
-                      Tmin = min, Tmax = max)#
-    temp$Tmean<-(temp$Tmin + temp$Tmax)/2
-    temp$Date<-strptime(temp$Date,"%Y-%m-%d", tz="GMT")
-    
-    temp$Year<-as.numeric(format(temp$Date, "%Y"))
-    temp$Month = as.numeric(format(temp$Date, "%m"))
-    temp$ChillYear<-NA
-    temp$ChillYear[temp$Month>chillstmon]<-temp$Year[temp$Month>chillstmon]+1
-    temp$ChillYear[temp$Month<(chillendmon+1)]<-temp$Year[temp$Month<(chillendmon+1)]
-    
-    name<-paste("output/dailyclim/",sp[i],"/temp_forforecast","_","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
+    name<-paste("../../../../../..",climatedrive,"/",sp[i],"/temp_forforecast","_","_",la,"_",lo,"_",styr,"_2014.csv",sep="")
     #write out the daily temperature file, in case its useful later
-    if(length(unique(temp$Tmean))==1){next}
-    write.csv(temp,name, row.names = FALSE)
-    # Read in netCDF files to pull climate data from europe
-    # This requires you to work off of the external hard drive with climate data
-    
-    #If you want to read in the file to avoid connecting to climate drive
+    temp<-read.csv(name, header=TRUE)
     #temp<-read.csv("output/dailyclim/temp_observed_48.16447_11.50293_1979_2014.csv", header=TRUE)
     #get mean annual temp
+    temp<-temp[temp$Year<=(endyr+1),]
     mat<-aggregate(temp$Tmean,by=list(temp$Year),mean)
     colnames(mat)<-c("year","mat")
     years<-mat$year
@@ -175,13 +140,12 @@ for(i in 1:length(sp)){
       chillcalcs <- rbind(chillcalcs, data.frame(chillcalc[c("Season","End_year","Chilling_Hours","Utah_Model","Chill_portions")]))
     }
     
-    #trim off the incomplete years:
+    #trim off the incomplete years (first year of data:
     chillcalcs<-chillcalcs[-1,]
     chillcalcs<-chillcalcs[-dim(chillcalcs)[1],]
     chillall<-join(chillcalcs,macht)
-    #Look at differences in temperature and chilling in a "Warm year" versus a "cool Year"
-    #1985= a cool winter year and 1995= a warm year
-    name_chillall<-paste("output/dailyclim/",sp[i],"/chill_observed_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
+    
+    name_chillall<-paste("../../../../../..",climatedrive,"/",sp[i],"/chill_observed_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
     #write out the daily temperature file, in case its useful later
     write.csv(chillall,name_chillall, row.names = FALSE)
     #Now add warming (1-7 degrees) to the dataset.
@@ -243,7 +207,7 @@ for(i in 1:length(sp)){
       print(mean(chillall$Chill_portions))
       print(paste(t,"degree warming", sep=""))
       print(mean(chillfut$Chill_portions))
-      name_chillallfut<-paste("output/dailyclim/",sp[i],"/chillforecast",tempfor[t],"deg","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
+      name_chillallfut<-paste("../../../../../..",climatedrive,"/",sp[i],"/chillforecast",tempfor[t],"deg","_",la,"_",lo,"_",styr,"_",endyr,".csv",sep="")
       write.csv(chillfut, name_chillallfut, row.names = FALSE)
     }
   }
