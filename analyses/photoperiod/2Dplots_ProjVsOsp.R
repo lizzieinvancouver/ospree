@@ -160,7 +160,7 @@ fsyl.title <- expression(paste("A. ", italic("Fagus sylvatica")))
 geo.photo.f<-ggplot(fxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        text=element_text(family="sans")) + xlab("Latitude") + ylab("Daylength (hours)") +
+        text=element_text(family="sans")) + xlab("Latitude") + ylab("Photoperiod (hours)") +
   guides(col=FALSE) + ggtitle(fsyl.title) +
   scale_colour_manual(name="Data Type", values=c(cols,"black"), 
                       labels=c(current = "Current", 
@@ -191,7 +191,7 @@ doy.photo.f<- ggplot(fxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.ty
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"),
         legend.position = c(0.82,0.85), legend.text = element_text(size=9), legend.title = element_text(size=10),
-        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Photoperiod (hours)") + 
   labs(col="Data Type") + ggtitle("") +
   scale_colour_manual(name="Data Type", values=c(cols, "black"), 
                       labels=c(current = "Current", 
@@ -348,7 +348,7 @@ qrob.title <- expression(paste("B. ", italic("Quercus robur")))
 geo.photo<-ggplot(qxx, aes(x=Lat, y=photoperiod, col=photo.type, shape=photo.type, alpha=photo.type)) + geom_point(aes(col=photo.type)) + geom_jitter(aes(col=photo.type)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
-        text=element_text(family="sans"), legend.position = "none") + xlab("Latitude") + ylab("Daylength (hours)") +
+        text=element_text(family="sans"), legend.position = "none") + xlab("Latitude") + ylab("Photoperiod (hours)") +
   guides(col=FALSE) + ggtitle(qrob.title) +
   scale_colour_manual(values=c(cols, "black"), 
                       labels=c(current = "Current", 
@@ -379,7 +379,7 @@ doy.photo<- ggplot(qxx, aes(x=doy, y=photoperiod, col=phen.type, shape=phen.type
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), 
         panel.background = element_blank(), axis.line = element_line(colour = "black"), 
         legend.position = "none", legend.text = element_text(size=9), legend.title = element_text(size=10),
-        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Daylength (hours)") + 
+        legend.key = element_rect(colour = NA, fill = NA), legend.box.background = element_rect(), text=element_text(family="sans")) + xlab("Day of Budburst") + ylab("Photoperiod (hours)") + 
   labs(col="Data Type") + ggtitle("") +
   scale_colour_manual(name="Data Type", values=c(cols, "black"), 
                       labels=c(current = "Current", 
