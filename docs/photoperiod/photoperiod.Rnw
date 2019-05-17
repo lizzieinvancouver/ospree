@@ -177,14 +177,14 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 \begin{figure}[p]
 \centering
 \includegraphics{..//..//analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
-\caption{\textbf{Photoperiod varies with latitude and throughout the year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical of spatial and temporal shifts. These shifts, which are similar to observed average rates with recent global warming \citep[e.g.,][]{parmesan2006,chen2011}, highlight the greater magnitude in daylength changes close to the equinox (e.g., DOY 91), versus close to the summer solstice (e.g., DOY 182).}
+\caption{\textbf{Photoperiod varies with latitude and by day of year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical spatial and temporal shifts. These shifts, which are similar to observed average rates with recent global warming \citep[e.g.,][]{parmesan2006,chen2011}, highlight the greater magnitude in daylength changes close to the equinox (e.g., DOY 91), versus close to the summer solstice (e.g., DOY 182).}
  \label{fig:spacetime}%
  \end{figure}
  
  \begin{figure}[p]
 \centering
 \includegraphics{..//..//docs/photoperiod/figures/Greenup_corr.pdf} %2009 greenup
-\caption{\textbf{Photoperiod on the "green-up" date (i.e., start of spring) varies over space and among years}. Hours of daylight on the date of spring green-up from MODIS satellite data across North America and Europe for an average (2009, a) and  early (2012,b) North American start of spring. The differences between the years (in hours of daylength) are shown in (c). }
+\caption{\textbf{Photoperiod on the ``green-up" date (i.e., start of spring) varies over space and between years}. Hours of daylight on the date of spring green-up from MODIS satellite data across North America and Europe for an average (2009, a) and  early (2012,b) North American start of spring. The differences between the years (in hours of daylength) are shown in (c). }
  \label{fig:greenup}%
  \end{figure}
  
