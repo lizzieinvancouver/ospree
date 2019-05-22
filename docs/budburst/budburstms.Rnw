@@ -136,7 +136,7 @@ f.sigma.z<-round(fit.z[grep("sigma_b_force_sp", rownames(fit.z)),1], digits=2)
 c.sigma.z<-round(fit.z[grep("sigma_b_chill_sp", rownames(fit.z)),1], digits=2)
 @
 
-% Ref supp below for section on standardized scale: Using a standardized scale to allow comparisons of the three cues ...
+% Ref supp below for section on standardized scale
 \par Across studies, all cues---chilling, forcing, and photoperiod---advance budburst phenology (Fig. \ref {fig:mu}). Chilling was the strongest cue (\Sexpr{ch.z} days/standard unit or \Sexpr{ch.nonz} days per 240 Utah units, which is typically about 10 days of chilling, Fig. \ref {fig:apc}), followed by forcing (\Sexpr{f.z} days/standard unit or \Sexpr{f.nonz} days per \degree C of warming, Fig. \ref {fig:apc}), and photoperiod (\Sexpr{p.z} days/standard unit or \Sexpr{p.nonz} days per hour of daylength). While photoperiod had the smallest effect among the three cues, our results contrast with the extensive literature suggesting photoperiod is a weak or non-existent cue for many species \citep{zohner2016,koerner2010a}---instead we found it was surprisingly large and consistent across species. Only \emph{Fagus sylvatica}, a species well-known for having a large response to photoperiod deviated far from the overall estimate (Figure \ref {fig:mu}). Species also showed fairly consistent responses to chilling (sigma = \Sexpr{c.sigma.z} days per 240 Utah units, Figure \ref {fig:mu}.
 %, though two species delayed budburst with chilling \emph{Tilia codata}, \emph{Salix} complex)%only if chillportions used.
 Responses to forcing, in contrast, were the most variable across species (sigma = \Sexpr{f.sigma.z} days per \degree C of warming).
