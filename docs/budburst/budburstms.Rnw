@@ -74,6 +74,7 @@
 
 % SciMag: https://www.sciencemag.org/authors/science-information-authors
 % Title: 96 character maximum for Research Articles and Reports
+% Only 30 REFS!! (We need to be more careful I think.)
 % Reports (up to ~2500 words including references, notes and captions?corresponds to ~3 printed pages in the journal) present important new research results of broad significance. Reports should include an abstract, an introductory paragraph, up to four figures or tables, and about 30 references.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
