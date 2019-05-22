@@ -188,18 +188,16 @@ Responses to forcing, in contrast, were the most variable across species (sigma 
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_4panels.pdf}
-\caption{Effects of chilling, forcing, and photoperiod, across the experimental conditions in the OSPREE database. Make this part of a 2-panel figure with \ref{fig:mu}?}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_obs_edited.pdf}
+\caption{\emph{Based on the OSPREE model, days to budburst decrease linearly with forcing temperature and vary nonlinearly with chilling temperature} due to the way that chilling is modeled (in this case, the Utah model; the model with Chill Portions is shown in the Supplemental Materials). Treatment temperatures in growth chamber experiments ranged from 0-30 \degree C (see Table 1S for details). Blue line shows mean winter temperatures in the range of \emph{Betula pendula}, a European species that is one of the most common in OSPREE; PINK line shows mean spring temperatures. I DON'T LIKE HAVING THE BLUE/PINK LINES HERE- I THOUGHT IT WOULD BE NICE TO HAVE A COMPARISON WITH THE "REAL WORLD" BUT IT FEELS ARBITRARY TO CHOOSE JUST ONE SPECIES TO SHOW...}
 \label{fig:apc}
 \end{figure}
-
-
 \newpage
 
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecast_betpenfagsyl_minmaxlat_PEPBB_wdl.pdf}
-\caption{Implications of global warming on budburst of \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D) as predicted by the OSPREE model. We show the maximum and minimum latitudes at which each species occurred in the PEP database for Germany as examples; these locations differ in current climate. For all sites effects of potential shifts in photoperiod with advancing budbrst were minimal (E,F), even the photosensitive species \emph{Fagus sylvatica}}%Species forecasting with PEP data: \emph{Betula, Fagus} ... need to think on which ones to use (x sites x species focus etc). ... Maybe show photoperiod one?
+\caption{Implications of global warming on budburst of \emph{Betula pendula} (A) and \emph{Fagus sylvatica} (B) at the same site, as predicted by the OSPREE model. We show predicted budburst responses to winter and pring warming at one site where the two species co-occur (lat=48.02, long=) in the PEP database. Budburst doy for Fag syl is 98, 1minimal effects of photoperiod. advancing budbrst were minimal, even the photosensitive species \emph{Fagus sylvatica}}%Species forecasting with PEP data: \emph{Betula, Fagus} ... need to think on which ones to use (x sites x species focus etc). ... Maybe show photoperiod one?
 
 \label{fig:fore}
 \end{figure}
