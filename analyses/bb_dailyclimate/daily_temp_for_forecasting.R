@@ -63,12 +63,13 @@ for(i in 1:length(sp)){
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
   #formerly chose 50 random rows from latlon and pull climate from these:
   #latlonsubs<-sample_n(latlon, 50)
-  for(l in 1:dim(latlon)[1]){
+  for(l in  2965:dim(latlon)[1]){#left off at l=135. 
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
     name<-paste("../../../../../..",climatedrive,"/",sp[i],"/temp_forforecast","_","_",la,"_",lo,"_",styr,"_2014.csv",sep="")
     #write out the daily temperature file, in case its useful later
     temp<-read.csv(name, header=TRUE)
+    if(length(unique(temp$Tmean))==1){next}
     #temp<-read.csv("output/dailyclim/temp_observed_48.16447_11.50293_1979_2014.csv", header=TRUE)
     #get mean annual temp
     temp<-temp[temp$Year<=(endyr+1),]

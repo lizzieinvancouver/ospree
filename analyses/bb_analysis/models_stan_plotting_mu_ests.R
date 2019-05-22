@@ -227,7 +227,7 @@ z.matrix.dl2 <- matrix(NA,ncol=length(temps),nrow=length(temps))
 dl1<-8
 dl2<-16
 #the below takes a while to run.if you want to avoid running the loop
-#z.matrix<-read.csv("output/bbmodests_for3dplot_8hr.csv")
+#z.matrix.dl1<-read.csv("../output/bbmodests_for3dplot_8hr_utah.csv")
 for (i in 1:length(temps)){#i=chilling
  print(temps[i]);
   
@@ -256,7 +256,8 @@ if(use.chillports==FALSE){
 z=z.matrix.dl1[1:length(temps),1:length(temps)]
 x=temps
 y=temps
-zlim <- range(z)
+zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
+
 zlen <- zlim[2] - zlim[1] + 1
 
 colorlut <- terrain.colors(zlen) # height color lookup table
@@ -264,15 +265,32 @@ colorlut <- terrain.colors(zlen) # height color lookup table
 col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 #need to work on setting it up so that it looks good without tweaking by hand...
 open3d() 
-plot3d(z, type = 'n',
-       xlim = range(x), ylim = range(y), zlim = range(z), 
+plot3d(z,
+       xlim = c(-8,30), ylim = c(-8,30), zlim = range(z), 
        xlab = 'Winter temperature (C)', 
        ylab = 'Spring temperature (C)', zlab = 'Days to BB', axes=FALSE) 
-axes3d( edges=c("x--", "y+-", "z--"), box=TRUE)
-surface3d(x,y, z,
-          col=col, back = "lines")
+aspect3d(2,2,2)
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
+
+#axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#       pos = NULL) 
+axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+
+axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+
+surface3d(x,y,z, col=col, back = "lines")
+
+#add mean winter temp observed at sites in PEP
+alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
+rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
+#add mean spring temp observed at sites in PEP
+rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+
 rgl.snapshot("figures/bbmod_3dplot_utah.png")
-rgl.postscript("figures/bbmod_3dplot_utah.pdf", "pdf")
+rgl.postscript("figures/bbmod_3dplot_utah_obs.pdf", "pdf")
 
 
 
@@ -293,7 +311,10 @@ plot3d(z.matrix, type = 'n',
        xlim = range(x), ylim = range(y), zlim = range(z), 
        xlab = 'Winter warming (C)', 
        ylab = 'Spring warming (C)', zlab = 'Days to BB') 
+aspect3d(1,1,1)
+#aspect3d("iso")
 
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
 aspect3d(1,1,1)

@@ -305,6 +305,7 @@ getest.bb2 <- function(fit, forcetemp, chill, daylength){
 ##converting forecast plots to 3d, not including change in daylength and not including error
 #choose one site
 is<-c(1,50) #min lat site
+
 #need to work on setting it up so that it looks good without tweaking by hand...
 open3d() 
 mfrow3d(2, 2, sharedMouse = TRUE)
@@ -400,7 +401,7 @@ plot3d(z,
 aspect3d(1,1,1)
 #aspect3d("iso")
 
-axes3d( edges=c("x--", "y+-", "z--"), box=TRUE)
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
 
