@@ -289,34 +289,7 @@ rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue",
 #add mean spring temp observed at sites in PEP
 rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
 
-rgl.snapshot("figures/bbmod_3dplot_utah.png")
-rgl.postscript("figures/bbmod_3dplot_utah_obs.pdf", "pdf")
-
-
-
-#######################
-####Below not used...yet
-rgl_init <- function(new.device = FALSE, bg = "white", width = 640) { 
-  if( new.device | rgl.cur() == 0 ) {
-    rgl.open()
-    par3d(windowRect = 50 + c( 0, 0, width, width ) )
-    rgl.bg(color = bg )
-  }
-  rgl.clear(type = c("shapes", "bboxdeco"))
-  rgl.viewpoint(theta = 15, phi = 20, zoom = 0.7)
-}
-
-rgl_init()
-plot3d(z.matrix, type = 'n', 
-       xlim = range(x), ylim = range(y), zlim = range(z), 
-       xlab = 'Winter warming (C)', 
-       ylab = 'Spring warming (C)', zlab = 'Days to BB') 
-aspect3d(1,1,1)
-#aspect3d("iso")
-
-axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
-surface3d(x,y, z,
-          col=col, back = "lines")
-aspect3d(1,1,1)
-aspect3d("iso")
+#rgl.snapshot("figures/bbmod_3dplot_utah.png")
+if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah_obs.pdf", "pdf")}
+if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp_obs.pdf", "pdf")}
 

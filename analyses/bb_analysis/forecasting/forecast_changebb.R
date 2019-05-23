@@ -36,7 +36,7 @@ if(length(grep("ailene", getwd())>0)) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = TRUE
+use.chillports = FALSE
 use.zscore = FALSE
 use.allspp = FALSE
 use.multcuespp = FALSE
@@ -57,15 +57,21 @@ my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
-
 # non-z-scored models
 if(use.zscore==FALSE & use.chillports == TRUE){
   load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni with chill portions
-  #load("stan/output/m2lnib_spcompexprampfp_nonz.Rda") # m2l.nib
+  fit <- m2l.ni
+}
+if(use.zscore==FALSE & use.chillports == FALSE){
+  load("stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni with chill portions
   fit <- m2l.ni
 }
 if(use.zscore==TRUE & use.chillports == TRUE){
   load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
+  fit <- m2l.ni
+}
+if(use.zscore==TRUE & use.chillports == FALSE){
+  load("stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni with chill portions
   fit <- m2l.ni
 }
 fit.sum <- summary(fit)$summary
@@ -73,33 +79,37 @@ fit.sum <- summary(fit)$summary
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 # Select the species and temperature change that you want
+
+#rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
+
+# Select the species and temperature change that you want
 sp<-c("betpen","fagsyl")
 sp.num<-c(9,15)
-
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
-getspest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwinter,
+getspest.bb <- function(fit, sprtemp, daylength, chill, warmspring, warmwinter,
                         daylengthwarmspr, daylengthwarmwin, daylengthwarmsprwin){
   listofdraws <- extract(fit)
   avgbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*sprtemp + 
-    listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chillport
+    listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chill
   
   warmsprbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*(sprtemp+warmspring) + 
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmspr) + listofdraws$b_chill[,sp.num[s]]*chillport
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmspr) + listofdraws$b_chill[,sp.num[s]]*chill
   
   warmwinbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*sprtemp + 
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmwin) + listofdraws$b_chill[,sp.num[s]]*(chillport+warmwinter)
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmwin) + listofdraws$b_chill[,sp.num[s]]*(chill+warmwinter)
   
   warmsprwinbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*(sprtemp+warmspring) +
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmsprwin) + listofdraws$b_chill[,sp.num[s]]*(chillport+warmwinter)
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmsprwin) + listofdraws$b_chill[,sp.num[s]]*(chill+warmwinter)
   
   yebbest <- list(avgbb, warmsprbb, warmwinbb, warmsprwinbb)
   return(yebbest)
 }
 
 #Choose whether or not you want to use our adhoc shift in daylength.
-use.daylengthshift=FALSE
+use.daylengthshift=TRUE
+
 quartz(width=9,height=9)
 par(mar=c(8,4,3,4), mfrow=c(2,2))
 #can do this as a loop, but i just want to pick 2 sites for now- max lat and min lat for each species
@@ -115,7 +125,7 @@ for(s in 1:length(sp)){
   spestsqlo<-c()
   spestsqhi<-c()
   sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  
+  sites.toplot<-50
   #sites.toplot<-seq(1,numsites,by=1)#
   #can also plot a single site, both species
   #sites.toplot<-21
@@ -142,6 +152,8 @@ for(s in 1:length(sp)){
     #March 1#change this to the bbdoy observed in pep!
     daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
     chillport <- mean(chillall$Chill_portions)
+    chill<-mean(chillall$Utah_Model)/240
+    
     #make blank dataframes to fill with estimates with and without our adhoc adjustments for daylength
     predicts <- as.data.frame(matrix(NA,ncol=5,nrow=7))
     predicts.25per <- as.data.frame(matrix(NA,ncol=5,nrow=7))
@@ -160,10 +172,17 @@ for(s in 1:length(sp)){
       chillfor<-read.csv(chillforfilename, header=TRUE) 
       photo.forplot <- daylengthbbdoy
       warmspring <-tempforecast[j]
-      warmwinter <- mean(chillfor$Chill_portions)-chillport
+      if(use.chillports==TRUE){warmwinter <- mean(chillfor$Chill_portions)-chillport}
+      if(use.chillports==FALSE){warmwinter <- (mean(chillfor$Utah_Model)/240)-chill}
+      
       print(tempforecast[j]);print(warmwinter)
-      bbposteriors <- getspest.bb(fit, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, 0, 0, 0)
-      meanz <- unlist(lapply(bbposteriors, mean))
+      if(use.chillports==TRUE){
+      bbposteriors <- getspest.bb(fit, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, 0, 0, 0)}
+    if(use.chillports==FALSE){
+    bbposteriors <- getspest.bb(fit, sprtemp, daylengthbbdoy, chill, warmspring, warmwinter, 0, 0, 0)}
+  
+        
+       meanz <- unlist(lapply(bbposteriors, mean))
       
       quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
       
@@ -175,18 +194,35 @@ for(s in 1:length(sp)){
       daylengthchange.springwarm<-daylength(lat,budburstdoy+daychange.springwarm)-daylengthbbdoy
       daylengthchange.wintwarm<- daylength(lat,budburstdoy+daychange.wintwarm)-daylengthbbdoy
       daylengthchange.bothwarm<-daylength(lat,budburstdoy+daychange.bothwarm)-daylengthbbdoy
-      bbposteriors.wdaylength <- getspest.bb(fit, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, daylengthchange.springwarm, daylengthchange.wintwarm, daylengthchange.bothwarm)
+      
+      if(use.chillports==TRUE){
+        bbposteriors.wdaylength <- getspest.bb(fit, sprtemp, daylengthbbdoy, chillport, warmspring, warmwinter, daylengthchange.springwarm, daylengthchange.wintwarm, daylengthchange.bothwarm)
+      }
+      if(use.chillports==FALSE){
+        bbposteriors.wdaylength <- getspest.bb(fit, sprtemp, daylengthbbdoy, chill, warmspring, warmwinter, daylengthchange.springwarm, daylengthchange.wintwarm, daylengthchange.bothwarm)
+      }
+      
       meanz.wdaylength <- unlist(lapply(bbposteriors.wdaylength, mean))
       quant25per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.25))))
       quant75per.wdaylength <- unlist(lapply(bbposteriors.wdaylength, function(x) quantile(x,  c(0.75))))
-      predicts[j,]<-c(warmspring,meanz,chillport,warmwinter)
+      if(use.chillports==TRUE){
+      predicts[j,]<-c(warmspring,meanz,chillport,warmwinter)}
+      if(use.chillports==FALSE){
+      predicts[j,]<-c(warmspring,meanz,chill,warmwinter)}
+      
       predicts.25per[j,]<-c(warmspring,quant25per)
       predicts.75per[j,]<-c(warmspring,quant75per)
       predicts.wdl[j,]<-c(warmspring,meanz.wdaylength)
       predicts.25per.wdl[j,]<-c(warmspring,quant25per.wdaylength)
       predicts.75per.wdl[j,]<-c(warmspring,quant75per.wdaylength)
     }
-    predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)
+    
+    if(use.chillports==TRUE){    
+    predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)}
+    
+    if(use.chillports==FALSE){
+    predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)}
+    
     predicts<-predicts[,-2]
     predicts.25per<-rbind(c(0,predicts.25per$nowarm[1:4]),predicts.25per)
     predicts.25per<-predicts.25per[,-2]
@@ -199,11 +235,11 @@ for(s in 1:length(sp)){
     predicts.25per.wdl<-predicts.25per.wdl[,-2]
     predicts.75per.wdl<-rbind(c(0,predicts.75per.wdl$nowarm[1:4]),predicts.75per.wdl)
     predicts.75per.wdl<-predicts.75per.wdl[,-2]
-    if(use.daylengthshift==TRUE){
-      predicts<-predicts.wdl
-      predicts.25per<-predicts.25per.wdl
-      predicts.75per<-predicts.75per.wdl
-    }
+    # if(use.daylengthshift==TRUE){
+    #   predicts<-predicts.wdl
+    #   predicts.25per<-predicts.25per.wdl
+    #   predicts.75per<-predicts.75per.wdl
+    # }
     predicts$lat<-lat
     predicts$lon<-long
     predicts.25per$lat<-lat
@@ -217,7 +253,7 @@ for(s in 1:length(sp)){
     ymin = min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     ymax = max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     xlim = c(0, 7)
-    ylim = c(5,30)#c(ymin,ymax)
+    ylim = c(ymin,ymax)
     #figname<-paste("tempforecast",lat,long,min(tempforecast),max(tempforecast),"degwarm.pdf", sep="_")
     #pdf(file.path(figpath,figname), width = 9, height = 6)
     
@@ -231,16 +267,16 @@ for(s in 1:length(sp)){
     points(pos.x, pos.y, cex=1.2, pch=19, bg="gray")
     #Add shading around line for credible intervals
     
-    for(t in 3:5){
-      polygon(c(rev(predicts$warming), predicts$warming), c(rev(predicts.75per[,t-1]), predicts.25per[,t-1]), col = alpha(cols[t-2], 0.2), border = NA)
-    }
+    # for(t in 3:5){
+    #   polygon(c(rev(predicts$warming), predicts$warming), c(rev(predicts.75per[,t-1]), predicts.25per[,t-1]), col = alpha(cols[t-2], 0.2), border = NA)
+    # }
     
     for(t in 3:5){
       lines(predicts$warming, predicts[,t-1], 
             col=cols[t-2], lwd=2)}
-    #for(t in 3:5){#to compare lines with potential shifts in daylength that may occur with warming
-    #  lines(predicts.wdl$warming, predicts.wdl[,t-1], 
-    #        col=cols[t-2], lwd=2, lty=2)}
+    for(t in 3:5){#to compare lines with potential shifts in daylength that may occur with warming
+      lines(predicts.wdl$warming, predicts.wdl[,t-1], 
+            col=cols[t-2], lwd=2, lty=2)}
     
     int<-summary(fit)$summary
     sp.ints<-fit.sum[grep("a_sp",rownames(fit.sum)),]
@@ -252,16 +288,20 @@ for(s in 1:length(sp)){
     sp.ch<-sp.chs[sp.num[s]+2,1]
     sp.ph<-sp.phs[sp.num[s]+2,1]
     #if(i==1){
-    mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0, cex=.8)
-    mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0, cex=.8)
-    mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0,cex=.8)
-    mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0, cex=.8)
-    mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
+    #mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0, cex=.8)
+    #mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0, cex=.8)
+    #mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0,cex=.8)
+    #mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0, cex=.8)
+    #mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
     
     #}
-    if(i==50 & s==2)
+    if(i==50 & s==2 & use.daylengthshift==FALSE)
     {
       legend("bottomright",legend=c("Spring warming","Winter warming","Both"),lty=c(1,1,1),lwd=2,col=cols,bty="n", cex=0.9)
+    }
+    if(use.daylengthshift==TRUE)
+    {
+      legend("topright",legend=c("Spring warming","Winter warming","Both","with daylength shifts"),lty=c(1,1,1,2),lwd=2,col=cols,bty="n", cex=0.8)
     }
     # intervals
     # for(i in 3:5){
@@ -334,6 +374,8 @@ spdir<-paste("../output/dailyclim/",sp[s],sep="")
   budburstdoy<-as.integer(mean(pepdat$DAY))              
   daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
   chillport <- mean(chillall$Chill_portions)
+  chill <- mean(chillall$Utah_Model)/240
+  
   temps<-c(0,tempforecast)
   #make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
 
@@ -354,7 +396,8 @@ spdir<-paste("../output/dailyclim/",sp[s],sep="")
     chillfor<-read.csv(chillforfilename, header=TRUE) 
     chillests<-chillfor}
     dl <- daylengthbbdoy
-    chill.forecast[c]<-mean(chillests$Chill_portions)
+    if(use.chillports==TRUE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
+    if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Chill_portions)}
     winT.forecast[c]<-mean(chillests$mntemp)
   
     for(f in 1:length(temps)){#forcing/spring temp
@@ -366,8 +409,9 @@ spdir<-paste("../output/dailyclim/",sp[s],sep="")
         bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Chill_portions), dl)
         print(sprtemp);print(mean(chillests$Chill_portions))}
       if(use.chillports==FALSE){
-        bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Utah_Model), dl)}
-    
+        bbposteriors <- getest.bb2(fit,sprtemp, mean(chillests$Utah_Model)/240, dl)
+        print(sprtemp);print(mean(chillests$Utah_Model)/240)}
+      
       meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb
       z.matrix.dl[c,f]<-meanz#8 hour daylength only for now
     }#f
@@ -378,10 +422,11 @@ rownames(z.matrix.dl)<-paste("bb.wintemp",temps, sep=".")
 allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast,z.matrix.dl)
 colnames(allforecast)[1]<-"warming_C"
 
-#if(use.chillports==TRUE){
-#  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
-#if(use.chillports==FALSE){
-#  write.csv(allforecast,"..//output/bbmodests_for3dplot_utah.csv")} 
+if(use.chillports==TRUE){
+  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
+if(use.chillports==FALSE){
+  write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_utah.csv"))} 
+
 
 x=temps
 y=temps
@@ -396,20 +441,30 @@ col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 
 plot3d(z,
        xlim = range(x), ylim = range(y), zlim = c(5,30), 
-       xlab = 'Winter warming (C)', 
-       ylab = 'Spring warming (C)', zlab = 'Days to BB', axes=FALSE) 
+       xlab = '', 
+       ylab = '', zlab = '', axes=FALSE) 
 aspect3d(1,1,1)
-#aspect3d("iso")
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
 
-axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
+#axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#       pos = NULL) 
+axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+
+#axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
 
   }#i
 }#s
 
-rgl.snapshot("figures/tempforecast_betpenfagsyl_minmaxlat_PEPBB3D_v2.png")
-#rgl.postscript("tempforecast_betpen_maxlat_PEPBB3D_v2", "pdf")
+if(use.chillports==FALSE){
+rgl.snapshot("figures/tempforecast_betpenfagsyl_minmaxlat_PEPBB3D_utah.png")}
+if(use.chillports==FALSE){
+rgl.postscript("tempforecast_betpen_maxlat_PEPBB3D_utah", "pdf")}
 
 
 
