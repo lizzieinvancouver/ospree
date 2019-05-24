@@ -85,7 +85,6 @@
 library(plyr)
 library(dplyr)
 library(rstan)
-
 load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
 fit.nonz <- summary(m2l.ni)$summary
 ch.nonz<-round(fit.nonz[grep("mu_b_chill_sp", rownames(fit.nonz)),1]
@@ -108,10 +107,13 @@ f.nonz<-round(fit.nonz[grep("mu_b_force_sp", rownames(fit.nonz)),1], digits=2)
 p.nonz<-round(fit.nonz[grep("mu_b_photo_sp", rownames(fit.nonz)),1], digits=2)
 f.sigma.z<-round(fit.z[grep("sigma_b_force_sp", rownames(fit.z)),1], digits=2)
 c.sigma.z<-round(fit.z[grep("sigma_b_chill_sp", rownames(fit.z)),1], digits=2)
+d<-read.csv("..//..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
+
+nsp<-length(unique(paste(d$genus,d$species,sep=".")))#this is not quite right i think? includes too many species?
 @
 
 \begin{abstract}
-Decades of fundamental research on woody plant species highlight how three major cues shape spring phenological events: forcing, daylength, and chilling (CITES). Increasing research on the phenological impacts of climate change has led to debate over whether forcing cues may dominate for some species, while fewer respond to chilling and/or daylength (CITES). The debate has wide-reaching consequences for the future of spring phenology, as the presence of strong chilling or daylength cues could slow, stall, or even reverse current trends towards ever-earlier spring phenology with warming (CITES). Here we use a global meta-analysis of all published controlled environment studies to test for the relative effects of these three major cues across XX species. We find almost all species show strong responses to all three cues, with chilling being the strongest cue (\Sexpr{ch.z}), followed by forcing (\Sexpr{f.z}) and daylength (\Sexpr{p.z}). Simple forecasts from our findings, however, suggest that the impact of chilling and daylength cues is highly location-specific---dependent largely on whether chilling increases or decreases with warming---and only have major impact on projections in well-studied areas (e.g., Central Europe) above a warming of 4\degree C or more. Our results unify both sides of the debate over phenological cues: while all species may respond to all cues strongly in experimental conditions, in current environmental conditions the dominant impact of climate change is---and may remain---from increased forcing.  %The magnitude of future shifts in phenology depends largely . %not sure we're ready to say this last sentence yet...depends on forecasting with full set of PEP data.
+Decades of fundamental research on woody plant species highlight how three major cues shape spring phenological events: forcing, daylength, and chilling \citep[e.g.,][]{Campbell:1975aa,Heide:2008aa,flynn2018}. Increasing research on the phenological impacts of climate change has led to debate over whether forcing cues may dominate for some species, while fewer respond to chilling and/or daylength \citep{Heide:2011aa,koerner2010b,zohner2016}. The debate has wide-reaching consequences for the future of spring phenology, as the presence of strong chilling or daylength cues could slow, stall, or even reverse current trends towards ever-earlier spring phenology with warming (CITES). Here we use a global meta-analysis of all published controlled environment studies to test for the relative effects of these three major cues across \Sexpr{nsp} species. We find almost all species show strong responses to all three cues, with chilling being the strongest cue (\Sexpr{ch.z}), followed by forcing (\Sexpr{f.z}) and daylength (\Sexpr{p.z}). Simple forecasts from our findings, however, suggest that the impact of chilling and daylength cues is highly location-specific---dependent largely on whether chilling increases or decreases with warming---and only have major impact on projections in well-studied areas (e.g., Central Europe) above a warming of 4\degree C or more. Our results unify both sides of the debate over phenological cues: while all species may respond to all cues strongly in experimental conditions, in current environmental conditions the dominant impact of climate change is---and may remain---from increased forcing.  %The magnitude of future shifts in phenology depends largely . %not sure we're ready to say this last sentence yet...depends on forecasting with full set of PEP data.
 % How pervasive these cues are and whether some species are effectively governed by only one or two cues is a critical area of climate change biology research, as it would shape how complex responses to warming will be. 
 % These results suggest that future responses to warming will be complex. 
 \end{abstract}
@@ -212,7 +214,7 @@ Responses to forcing, in contrast, were the most variable across species (sigma 
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/BETPEN_multruns_portions.pdf}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
 \caption{Implications of global warming on budburst of two common species in the OSPREE database, \emph{Betula pendula} (A) and \emph{Fagus sylvatica} (B) at the same site, as predicted by the OSPREE model. We show predicted budburst responses to winter and spring warming at one site where the two species co-occur (lat=48.02, long=) in the PEP database. Budburst doy for Fag syl is 98, 1minimal effects of photoperiod. advancing budbrst were minimal, even the photosensitive species \emph{Fagus sylvatica}}
 \label{fig:pep}
 \end{figure}

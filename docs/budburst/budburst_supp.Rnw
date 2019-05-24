@@ -111,24 +111,20 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \end{enumerate}
 \end{enumerate}
 
-\section*{Supplemental figures}
-\begin{enumerate}
-\item Map of study locations, shading or symbol coding for number of cues (Lizzie)
-\item Map of species forecasting to justify sites
-\item Heat maps for the main data, including by actual study design and by calculated chilling (our calculations)
-\item Photoperiod x latitude effects figure
-\end{enumerate}
 \section*{Supplemental Tables}
 \begin{enumerate}
-\item Table 1S: Studies included in OSPREE, forcing, chilling, photoperiod treatments, number of species, location.
-\item Table 2S: model estimates for 4 models: Utah z (used in main text), Utah uncentered, Chill portions z, Chill portions uncentered
+\item Table 1S: Species included in OSPREE, with the reference(s) of studies they are included in, the range of forcing, chilling, and photoperiod treatments in these studies, and perhaps the range of latitudes.
+\item Table 2S: model estimates for 4 models: Utah z (used in main text Figure 1), Utah uncentered, Chill portions z, Chill portions uncentered
+\item Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
 \end{enumerate}
 \section*{Supplemental figures}
 \begin{enumerate}
 \item Map of study locations, shading or symbol coding for number of cues (Lizzie)
 \item Map of species forecasting to justify sites
-\item Heat maps for the main data, including by actual study design and by calculated chilling (our calculations)
+\item Heat maps for the main data associated, including by actual study design and by calculated chilling (our calculations)
 \item Photoperiod x latitude effects figure
+\item Maps of current and forecasted budburst and chilling for PEP sites (heat maps)
+
 
 \end{enumerate}
 
