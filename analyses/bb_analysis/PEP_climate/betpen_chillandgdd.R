@@ -505,6 +505,7 @@ write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat.csv", ro
 ##################################################################################################
 ################################# Now for some plots! ############################################
 ##################################################################################################
+fullsites45 <- read.csv("output/betpen_allchillsandgdds_45sites_mat.csv", header=TRUE)
 somesites <- sample(unique(fullsites45$lat.long), 9)
 
 tensites<-fullsites45[(fullsites45$lat.long %in% somesites),]
@@ -597,7 +598,7 @@ mat.post<-ggplot(tensites, aes(x=mat, y=lo, col=lat.long)) + geom_line(data=pepp
                      labels=c("2000-2010" = "2000-2010"))
 
 quartz()
-grid.arrange(chill.ports.pre, chill.ports.post,
+grid.arrange(chill.utah.pre, chill.utah.post,
              gdd.pre, gdd.post, 
              mat.pre, mat.post, nrow=3, ncol=2)
 
