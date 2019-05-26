@@ -89,11 +89,9 @@ dsumm.nums <-
 
 
 # make figures prettier than average
-# But still need to: Make into one figure and cannot manage to alter legend name on colorbar!
 basesize <- 7
 
-pdf("figures/studydesign_heatforcephotofielddate.pdf", width = 5, height = 5)
-ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
+heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
     # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
@@ -101,26 +99,39 @@ ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
-dev.off()
 
-pdf("figures/studydesign_heatforcephotoallchill.pdf", width = 5, height = 5)
-ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
+heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chill.int), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
         na.value="gray95") + 
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
-dev.off()
 
-pdf("figures/studydesign_heatforcephotoexpchill.pdf", width = 5, height = 5)
-ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
+heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chilltemp.int), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
         na.value="gray95") + 
-    labs(color="Field sample dates", x="Forcing temp", y="Photoperiod") +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
+
+# But still need to: Make into one figure and cannot manage to alter legend name on colorbar!
+pdf("figures/studydesign_heatforcephotofielddate.pdf", width = 5, height = 5)
+heatforcphotofielddate
+dev.off()
+
+pdf("figures/studydesign_heatforcephotoallchill.pdf", width = 5, height = 5)
+heatforcephotoallchill
+dev.off()
+
+pdf("figures/studydesign_heatforcephotoexpchill.pdf", width = 5, height = 5)
+heatforcephotoexpchill
 dev.off()
 
 
+require(cowplot)
+pdf("figures/studydesign_heat3panel.pdf", width = 7, height = 16)
+plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
+    labels = c('(a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=1)
+dev.off()

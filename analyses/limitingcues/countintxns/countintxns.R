@@ -126,7 +126,20 @@ length(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study))) # 1 study:
 
 bb14d.cdf <- get.treatdists(bb14d.noNA, "chilldays", "force")
 bb14d.cdfintxn <- subset(bb14d.cdf, intxn>=2)  
-length(unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study))) # 5 studies
+length(unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study))) # 5 studies (does not include skuterud94 exp1)
+
+bb14d.ctp <- get.treatdists(bb14d.noNA, "chilltemp", "photo")
+bb14d.ctpintxn <- subset(bb14d.ctp, intxn>=2) 
+length(unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study))) # 1 study: myking95  exp1
+
+bb14d.cdp <- get.treatdists(bb14d.noNA, "chilldays", "photo")
+bb14d.cdpintxn <- subset(bb14d.cdp, intxn>=2)  
+length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # 6 studies (includes myking95  exp1)
+
+union.expchill1 <- union(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study)),
+    unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study)))
+union.expchill2 <- union(union.expchill1, unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study)))
+union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # 8 unique studies
 
 bb14d.daysf <- get.treatdists(bb14d.noNA, "fieldsample.date", "force")
 bb14d.daysfintxn <- subset(bb14d.daysf, intxn>=2) # 
@@ -135,6 +148,9 @@ length(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study))) # 7 st
 bb14d.daysp <- get.treatdists(bb14d.noNA, "fieldsample.date", "photo")
 bb14d.dayspintxn <- subset(bb14d.daysp, intxn>=2) 
 length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # 9 studies
+
+union.fs <- union(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study)),
+    unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # 11 unique studies
 
 
 length(unique(paste(bb14d$datasetID, bb14d$study))) # 38

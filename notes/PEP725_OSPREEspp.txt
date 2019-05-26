@@ -1,0 +1,63 @@
+23 October 2018
+Chilling and forcing sensitivities ... compared to OSPREE
+
+Which species do we have a fair bit of data on in OSPREE that were deemed worth considering back in 2016?
+
+See pep725topspp_wcomments_README.txt and and pep725topspp_wcomments.csv related files
+
+Acer platanoides
+Acer pseudoplatanus
+Aesculus hippocastanum
+Alnus glutinosa
+Betula pendula
+Calluna vulgaris
+Cornus mas
+Corylus avellana
+Fagus sylvatica
+Forsythia suspensa
+Fraxinus excelsior
+Larix decidua
+Laurus nobilis
+Picea abies (P.excelsa)
+Pinus sylvestris
+Populus tremula
+Prunus aviumPrunus cerasusPrunus padusPrunus persicaPrunus spinosa
+Pyrus communis
+Quercus robur (Q.peduncula)
+Philadelphus coronarius
+Ribes grossulariaRibes rubrumRobinia pseudoacacia
+Rubus idaeus
+Salix caprea
+Sambucus nigra
+Sorbus aucuparia
+Symphoricarpos rivularis
+Syringa vulgaris
+Tilia cordataTilia platyphyllos
+Vaccinium
+Vitis vinifera
+
+Which ones show up okay in budburst analysis?
+Considering M1inter_collinear.pdf as a way to gauge data for now (should DOUBLE check perhaps?)
+
+Acer pseudoplatanus
+Aesculus hippocastanum
+Betula pendula
+Corylus avellana
+Fagus sylvatica
+Larix decidua
+Picea abies (P.excelsa)
+Populus tremula
+Prunus padus
+Quercus robur (Q.peduncula)
+Syringa vulgaris (3 studies)
+
+
+Others with only two studies ... 
+Alnus glutinosa (only two studies, may not be great...)
+Cornus mas (2 studies)
+Fraxinus excelsior (2 studies)
+Prunus avium (2 studies)
+Robinia pseudoacacia (2 studies)
+Tilia cordata (2 studies)
+Sorbus aucuparia (2 studies, with real collinearity issues)
+Vitis vinifera (2 studies)

@@ -9,6 +9,8 @@
 # (2) Calculate mean, min, max field sample date and plot (semi-done)
 # (3) Work on heat-maps, more notes on this below
 
+## SEE ALSO! studydesignplotsbb.R #
+
 ## Note: 9 July 2018 -- I did some checks of my code against counts of the data and against Cat's studytable output ...
 # and it looks good. ##
 
