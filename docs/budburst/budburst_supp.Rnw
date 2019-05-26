@@ -132,6 +132,25 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \end{enumerate}
 
+
+\section*{Understanding declines in temperature sensitivity in European long-term data}
+% See files: PEP_climate/comparetopepsims.R and pep_sims/pepvarsim.R 
+% HELP from Cat needed !!! I guessed at the methods for PEP sites ... also need to add info on how UTAH units were calculated. 
+As our model results (when applied to realistic forcing, chilling and photoperiod conditions in Europe) do not predict a dramatic decline temperature sensitivity, we tested whether observed declines could instead be due to a statistical artifact of the method commonly used to estimate temperature sensitivity (a linear regression of annual budburst date versus mean or other aggregated metrics of spring temperature yielding estimates in days/$^{\circ}$C). If warming produces systematically warmer daily temperatures this method will inherently estimate lower sensitivities, because the `day' unit will effectively have increased in the thermal time it represents.
+
+\par To test this hypothesis we compared observed trends with simulations. First, we collated PEP 725 (CITE) data for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: 1950-1960, which represented a period before significant anthropogenic warming (citeIPCC) and 2000-2010, a period with significant warming. We used leafout data (BBCH=XX) instead of budburst (BBCH=XX) as leafout data are far more common in the PEP 725 database. Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but simply assumed budburst occurred after a certain summation of heat, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C)) and the difference in these estimates given different levels of spring warming. For the simulations showed here we used a GDD requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP 725 data, but note that the general findings, however, are robust to other combinations of these parameter values).
+
+\par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP 725 declined. Across the sites studied here we estimated a decline of 0.9$\pm$0.3 days/$^{\circ}$C (comparing 2000-2010 and 1950-1960) and 1.1$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C  warming (0.9$\pm$0.5 days/$^{\circ}$C). Additionally, in both the real data and simulation variance in leafout date declined, as would be expected if plants use a thermal sum threshold of forcing to leafout and warming produces systematically warmer days: in the PEP 725 data we found a decline in leafout variance of 57\%, compared to a decline of 37\% in the simulations. Additionally we found little change in accumulated chilling in the PEP 725 data across the two time points (2247$\pm$31 Utah units in 1950-1960, compared to 2236$\pm$20 Utah units in 2000-2010), further suggesting that shifts in chilling do not explain the declining sensitivities. 
+% Ailene: Can you add SE or such to % ? See PEP_climate/comparetopepsims.R
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/BETPEN_multruns_portions.pdf}
+\caption{Implications of global warming on budburst of two common species in the OSPREE database, \emph{Betula pendula} (A) and \emph{Fagus sylvatica} (B) at the same site, as predicted by the OSPREE model. We show predicted budburst responses to winter and spring warming at one site where the two species co-occur (lat=48.02, long=) in the PEP database. Budburst doy for Fag syl is 98, 1minimal effects of photoperiod. advancing budburst were minimal, even the photosensitive species \emph{Fagus sylvatica}}
+\label{fig:pep}
+\end{figure}
+
 \section*{Reference list}
 
 A few categories:\\

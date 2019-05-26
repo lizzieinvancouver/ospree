@@ -1,7 +1,10 @@
 ## Started 22 May 2019 ##
 ## Outside Philz coffee in Davis ##
 ## By Lizzie ##
-#
+
+
+## TO DO! ##
+## I used variance here, but then did var/sqrt(n) for SE ... so need to think/check that!!! ##
 
 ## housekeeping
 rm(list=ls()) 
@@ -48,7 +51,62 @@ sdhere <- aggregate(bpest[c("meanmat", "varmat", "meanlo", "varlo", "meanutah", 
     bpest["cc"], FUN=sd)
 # should also get SE ...
 
-
 #          cc  meanmat   varmat   meanlo     varlo meanutah  meangdd  matslope
 # 1 1950-1960 5.365163 3.005094 113.8089 110.51111 2246.987 81.10503 -4.534630
 # 2 2000-2010 6.450939 1.251629 106.3356  46.95728 2235.493 70.27807 -3.611025
+
+unique(bpest$siteslist)
+
+## Also get the diff to compare to sims
+
+bpest.sitediffs <- data.frame(siteslist=numeric(), matdiff=numeric(), diffslope=numeric())
+
+for(i in c(1:length(sitez))){ # i <- 1
+    subby <- subset(bpest, siteslist==sitez[i])
+    precc <- subset(subby, cc=="1950-1960")
+    postcc <- subset(subby, cc=="2000-2010")
+    matdiff <- precc$meanmat-postcc$meanmat
+    diffslope <- precc$matslope-postcc$matslope
+    bpest.sitediffs.add <- data.frame(siteslist=sitez[i], matdiff=matdiff, diffslope=diffslope)
+    bpest.sitediffs <- rbind(bpest.sitediffs, bpest.sitediffs.add)
+    }
+    
+mean(bpest.sitediffs$diffslope)
+mean(bpest.sitediffs$matdiff)
+sd(bpest.sitediffs$diffslope)
+sd(bpest.sitediffs$matdiff)
+
+##############
+## Plotting ##
+##############
+
+pepsims <- read.csv("..//pep_sims/output/degwarmpepsims6CFstar150.csv",header=TRUE)
+mean.pepsims <- aggregate(pepsims[c("diffbefore.after", "precc.sens", "postcc.sens",
+    "var.lo.precc", "var.lo.postcc")], pepsims["degwarm"], FUN=mean)
+sd.pepsims <- aggregate(pepsims[c("diffbefore.after", "precc.sens", "postcc.sens",
+    "var.lo.precc", "var.lo.postcc")], pepsims["degwarm"], FUN=sd)
+
+
+cexhere <- 1.25
+pdf(file.path("figures/peprealandsims.pdf"), width = 5, height = 4)
+par(xpd=FALSE)
+# par(mar=c(5,7,3,10))
+plot(x=NULL,y=NULL, xlim=c(0.5,4.5), ylim=c(-3.1, -0.1),
+     ylab="Change in estimated temperature sensitivity", xlab="Degree warming", main="")
+# abline(h=0, lty=2, col="darkgrey")
+for(i in 1:4){
+  pos.x <- mean.pepsims$degwarm[i]
+  pos.y <- mean.pepsims$diffbefore.after[i]
+  sehere <- sd.pepsims$diffbefore.after[i]/(sqrt(45))
+  lines(x=rep(pos.x, 2), y=c(pos.y-sehere, pos.y+sehere), col="darkblue")
+  points(pos.x, pos.y, cex=cexhere, pch=19, col="darkblue")
+  }
+realdat.diff <- mean(bpest.sitediffs$diffslope) 
+points(abs(mean(bpest.sitediffs$matdiff)), realdat.diff, cex=cexhere, pch=17, col="salmon")
+realdatse <- sd(bpest.sitediffs$diffslope)/sqrt(45)
+lines(x=rep(abs(mean(bpest.sitediffs$matdiff)), 2), y=c(realdat.diff-realdatse, realdat.diff+realdatse),
+    col="salmon")
+# par(xpd=TRUE) # so I can plot legend outside
+legend("topright", pch=c(17, 19), col=c("salmon", "darkblue"), legend=c("European data", "Simulations"),
+   cex=1, bty="n")
+dev.off()

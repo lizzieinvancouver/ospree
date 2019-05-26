@@ -1,19 +1,19 @@
 # Big outside loop ...
-pepvariance.sim <- function(drawstotal, precctemp, postcctemp, samplefreq, sigma, fstar){
+# Note that yrstotal must be EVEN (divisible by 2)
+pepvariance.sim <- function(drawstotal, yrstotal, precctemp, postcctemp, samplefreq, sigma, fstar){
 draws <- c()
 precc.sens <- c()
 postcc.sens <- c()
 var.lo.precc <- c()
 var.lo.postcc <- c()
-
    
 for(j in 1:drawstotal){
 
 # Step 1: Set up years, days per year, temperatures, sampling frequency, required GDD (fstar)
 daysperyr <- 60
-yrstotal <- 40
+yrstotal <- yrstotal
 yrs <- rep(1:yrstotal, each=daysperyr)
-dayz <- rep(1:daysperyr, 40)
+dayz <- rep(1:daysperyr, yrstotal)
 precc <- precctemp
 postcc <- postcctemp
 sigma <- sigma
