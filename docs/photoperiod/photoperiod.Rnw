@@ -204,14 +204,14 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 \begin{figure}[p]
 \includegraphics{..//..//analyses/photoperiod/figures/Photo_curv_FINAL.jpeg} 
 \caption{\textbf{Nonlinearities in the phenological response to daylength} are apparent in woody plant budburst experiments from the OSPREE database, in which three or more photoperiod treatment levels were applied. The shape of the response curves for \textit{Betula pubescens} \citep{Caffarra:2011b}, \textit{Fagus sylvatica} \citep{Heide:1993a} and \textit{Tilia americana} \citep{Ashby:1962aa} differ depending on the amount of chilling recieved (in Chill portions). Species and chilling levels with multiple lines represent plant material from different populations.}
-%Note: Hard to tell differene between Tilia and FAgus
+%Note: Hard to tell difference between Tilia and FAgus
  \label{fig:photocurve}
  \end{figure}
 
 
 \begin{figure}[p]
 \centering
-\includegraphics{..//..//analyses/photoperiod/figures/ospree_photopmap.pdf} 
+\includegraphics{..//..//analyses/photoperiod/figures/ospree_photopmap_fromblake.jpg} 
 \caption{\textbf{Experimental photoperiod treatments and their equivalent spatial and temporal shifts} for experiments in the OSPREE database that manipulate photoperiod. To calculate the required spatial (blue lines) or temporal (pink circles/stars) shifts for each experiment, we used observed rates with recent warming: 16.9 kilometers per decade (or approximately 1.5 degrees in 100 years) for spatial shifts (Chen et al. 2011) and 2.3 days per decade (or 23 days in 100 years) for temporal shifts (Parmesan and Yohe 2003).}
  \label{fig:photomap}
  \end{figure}
@@ -221,7 +221,7 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
  
 \begin{figure}[p]
 \includegraphics{..//..//analyses/photoperiod/figures/2D_actual_combined.png} 
-\caption{\textbf{Experimental treatments of photoperiod as it varies by latitude (left panels) and by day of budburst (right panels)} for \textit{Fagus sylvatica} (A) and \textit{Quercus robur} (B). For comparison, we show the photoperiod when budburst occurs in its current and projected ranges. We took current model estimates for budburst (1981-2000) and model projections for end of the century (2081-2100) using the A1Fi Phenofit scenario \citep{duputie2015} for the two species and compared these points to data obtained from experiments. %% CJC - Maybe stick the rest of this in the supplement?.. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit data that had both current and projected data. In panel (B) for \textit{Quercus robur}, we explored the 15 OSPREE data points that have later day to budburst times than the current or projected days to budburst. The majority of those points had 5-8 hours shorter photoperiods than is biologically possible and the last few points had little or no experimental chilling.}%quite long caption right now- move some to supplemental methods
+\caption{\textbf{Experimental treatments of photoperiod as it varies by latitude (left panels) and by day of budburst (right panels)} for \textit{Fagus sylvatica} (A) and \textit{Quercus robur} (B). For comparison, we show the photoperiod when budburst occurs in its current and projected ranges. We took current model estimates for budburst (1981-2000) and model projections for end of the century (2081-2100) using the A1Fi Phenofit scenario \citep{duputie2015} for the two species and compared these points to data obtained from experiments.} %% CJC - Maybe stick the rest of this in the supplement?.. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit data that had both current and projected data. In panel (B) for \textit{Quercus robur}, we explored the 15 OSPREE data points that have later day to budburst times than the current or projected days to budburst. The majority of those points had 5-8 hours shorter photoperiods than is biologically possible and the last few points had little or no experimental chilling.}%quite long caption right now- move some to supplemental methods
  \label{fig:fagus}
  \end{figure}
  
@@ -241,7 +241,7 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 %A model of a biocontrol insect that includes photoperiod and growing degree days https://www.fs.fed.us/foresthealth/technology/pdfs/BCIP_2013_Grevstad_Proposal.pdf
 
 %Definitely add this paper:
-https://esajournals-onlinelibrary-wiley-com.ezp-prod1.hul.harvard.edu/doi/full/10.1890/14-2071.1
+%https://esajournals-onlinelibrary-wiley-com.ezp-prod1.hul.harvard.edu/doi/full/10.1890/14-2071.1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
