@@ -94,25 +94,28 @@ basesize <- 7
 heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
     # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
-    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + 
-    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
+    scale_fill_gradient2(name="Field sample \ndates", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
 
 heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chill.int), colour="white") +
-    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + 
+    scale_fill_gradient2(name="All chill \ntemperatures",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) + theme_classic() +
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
 
 heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chilltemp.int), colour="white") +
-    scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + 
-    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
+    scale_fill_gradient2(name="Experimental chill \ntemperatures",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize))
 
