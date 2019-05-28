@@ -13,6 +13,8 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+set.seed(113)
+
 # Need to simulate data as GDD system; only really need forcing #
 
 # Setting working directory. Add in your own path in an if statement for your file structure
@@ -134,12 +136,12 @@ abline(v=mean(sim.3d.5deg), col="red")
 dev.off()
 }
 
-# drawstotal, precctemp, postcctemp, samplefreq, sigma, fstar
-sim.1deg <- pepvariance.sim(100, 10, 11, 3, 6, 400)
-sim.2deg <- pepvariance.sim(100, 10, 12, 3, 6, 400)
-sim.3deg <- pepvariance.sim(100, 10, 13, 3, 6, 400)
-sim.4deg <- pepvariance.sim(100, 10, 14, 3, 6, 400)
-sim.5deg <- pepvariance.sim(100, 10, 15, 3, 6, 400)
+# drawstotal, yrstotal (must divide by 2), precctemp, postcctemp, samplefreq, sigma, fstar
+sim.1deg <- pepvariance.sim(100, 40, 10, 11, 3, 6, 400)
+sim.2deg <- pepvariance.sim(100, 40, 10, 12, 3, 6, 400)
+sim.3deg <- pepvariance.sim(100, 40, 10, 13, 3, 6, 400)
+sim.4deg <- pepvariance.sim(100, 40, 10, 14, 3, 6, 400)
+sim.5deg <- pepvariance.sim(100, 40, 10, 15, 3, 6, 400)
 
 sim.1deg$degwarm <- 1
 sim.2deg$degwarm <- 2
@@ -149,16 +151,16 @@ sim.5deg$degwarm <- 5
 
 
 degwarm.runs <- rbind(sim.1deg, sim.2deg, sim.3deg, sim.4deg, sim.5deg)
-write.csv(degwarm.runs, "output/degwarmpepsims10CFstar400.csv", row.names=FALSE)
+# write.csv(degwarm.runs, "output/degwarmpepsims10CFstar400.csv", row.names=FALSE)
 
 plot(postcc.sens~as.factor(degwarm), data=degwarm.runs, xlab="degree warming", ylab="temperature sensitivity")
 plot(var.lo.postcc~as.factor(degwarm), data=degwarm.runs, xlab="degree warming", ylab="var(leafout date)")
 
-# values closer to what Cat showed ....
-sim.1deg.alt <- pepvariance.sim(100, 6, 7, 2, 6, 150)
-sim.2deg.alt <- pepvariance.sim(100, 6, 8, 2, 6, 150)
-sim.3deg.alt <- pepvariance.sim(100, 6, 9, 2, 6, 150)
-sim.4deg.alt <- pepvariance.sim(100, 6, 10, 2, 6, 150)
+# values closer to what Cat showed .... though we probably should double-check best sigma here
+sim.1deg.alt <- pepvariance.sim(45, 20, 6, 7, 3, 3, 150)
+sim.2deg.alt <- pepvariance.sim(45, 20, 6, 8, 3, 3, 150)
+sim.3deg.alt <- pepvariance.sim(45, 20, 6, 9, 3, 3, 150)
+sim.4deg.alt <- pepvariance.sim(45, 20, 6, 10, 3, 3, 150)
 
 sim.1deg.alt$degwarm <- 1
 sim.2deg.alt$degwarm <- 2
@@ -170,3 +172,9 @@ write.csv(degwarmalt.runs, "output/degwarmpepsims6CFstar150.csv", row.names=FALS
 
 meanhere.alt <- aggregate(degwarmalt.runs[c("diffbefore.after", "precc.sens", "postcc.sens",
     "var.lo.precc", "var.lo.postcc")], degwarmalt.runs["degwarm"], FUN=mean)
+
+sdhere.alt <- aggregate(degwarmalt.runs[c("diffbefore.after", "precc.sens", "postcc.sens",
+    "var.lo.precc", "var.lo.postcc")], degwarmalt.runs["degwarm"], FUN=sd)
+
+# get SE for one degree 
+sdhere.alt$diffbefore.after[1]/sqrt(45)

@@ -2,6 +2,7 @@
 ## Taken from models_stan.R in early December 2018 ##
 #####################################################
 ## With a few tweaks the PEP 725 code should still run ##
+## Right now, each chunk is set up to run separately (model, then plotting) ##
 
 #########################
 ## For PEP 725 species ##
@@ -40,6 +41,10 @@ datalist.bb <- with(bb.stan,
 ##################################
 ## PLOTTING For PEP 725 species ##
 ##################################
+# As of 26 May 2019 this runs if you first run models_stan.R through
+# to after this: source("source/bbstanleadin.R") ##
+# This code could easily be added to another file for the budburst ms if needed! ##
+
 if(use.pep){
 getspp <- subset(bb.stan, select=c("complex", "complex.wname"))
 allspp <- getspp[!duplicated(getspp), ]
@@ -61,12 +66,38 @@ dim(bb.stan)
 ## END below copied from models_stan.R
    
 bb.stan$quickgdd <- bb.stan$force*bb.stan$resp
+bb.stan$utah <- bb.stan$chill*240
+
+## GDD by chill unit plots, a few options
+pdf(file.path("figures/gddbyutah_pepspp.pdf"), width = 7, height = 5)
+ggplot(bb.stan, aes(utah, quickgdd, color=complex.wname)) +
+    geom_point() +
+    xlim(-10, 3300) +
+    ylim(-55, 4500) +
+    labs(x="Utah chill units", y="GDD", colour="Species") +
+    geom_segment(y=-50, x=6.7*240, yend=-50, xend=12.5*240, col="black") + 
+    theme_classic()
+dev.off()
+
 ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
-    geom_point()
+    geom_point() +
+    xlim(-1, 15) +
+    # geom_segment(y=-15, x=4.95, yend=-15, xend=14.70, col="black") + # these numbers come from comparetopepsims.R: range(bp$chillutah)/240
+    geom_segment(y=-15, x=6.7, yend=-15, xend=12.5, col="black") + # these numbers come from comparetopepsims.R: quantile(bp$chillutah, c(0.1, 0.9))/240
+    theme_classic()
+
 ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
     geom_point() +
     facet_wrap(~complex.wname, ncol=3)
 
+ggplot(subset(bb.stan, complex.wname=="Betula_pendula"), aes(chill, quickgdd, color=complex.wname)) +
+    geom_point() +
+    xlim(-1, 15) +
+    geom_segment(y=-15, x=4.95, yend=-15, xend=14.70, col="black") + # these numbers come from comparetopepsims.R: range(bp$chillutah)/240
+    theme_classic()
+
+
+## Model plot!
 load("stan/output/M1_daysBBnointer_2levelpepspp.Rda")
 m1.bb <- m2l.ni
 

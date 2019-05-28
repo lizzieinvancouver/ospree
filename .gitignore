@@ -6,6 +6,7 @@
 *.rda
 *.Rds
 *.Rhistory
+*.docx
 analyses/.Rhistory
 
 *.DS_Store
