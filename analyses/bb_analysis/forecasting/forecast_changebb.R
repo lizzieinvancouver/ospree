@@ -66,14 +66,7 @@ if(use.zscore==FALSE & use.chillports == FALSE){
   load("stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni with chill portions
   fit <- m2l.ni
 }
-if(use.zscore==TRUE & use.chillports == TRUE){
-  load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
-  fit <- m2l.ni
-}
-if(use.zscore==TRUE & use.chillports == FALSE){
-  load("stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni with chill portions
-  fit <- m2l.ni
-}
+
 fit.sum <- summary(fit)$summary
 
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
@@ -125,7 +118,7 @@ for(s in 1:length(sp)){
   spestsqlo<-c()
   spestsqhi<-c()
   sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  sites.toplot<-50
+  sites.toplot<-21
   #sites.toplot<-seq(1,numsites,by=1)#
   #can also plot a single site, both species
   #sites.toplot<-21
@@ -221,7 +214,7 @@ for(s in 1:length(sp)){
     predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)}
     
     if(use.chillports==FALSE){
-    predicts<-rbind(c(0,predicts$nowarm[1:4],chillport,0),predicts)}
+    predicts<-rbind(c(0,predicts$nowarm[1:4],chill,0),predicts)}
     
     predicts<-predicts[,-2]
     predicts.25per<-rbind(c(0,predicts.25per$nowarm[1:4]),predicts.25per)
@@ -396,8 +389,8 @@ spdir<-paste("../output/dailyclim/",sp[s],sep="")
     chillfor<-read.csv(chillforfilename, header=TRUE) 
     chillests<-chillfor}
     dl <- daylengthbbdoy
-    if(use.chillports==TRUE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
-    if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Chill_portions)}
+    if(use.chillports==TRUE){chill.forecast[c]<-mean(chillests$Chill_portions)}
+    if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
     winT.forecast[c]<-mean(chillests$mntemp)
   
     for(f in 1:length(temps)){#forcing/spring temp
