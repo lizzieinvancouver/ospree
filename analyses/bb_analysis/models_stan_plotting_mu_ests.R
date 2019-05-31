@@ -140,7 +140,7 @@ for(i in 1:length(temps)){
   chillests[i,]<-c(temps[i],chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp)]))
 }
 colnames(chillests)<- c("temp","Season","End_year","Season_days","Data_days","Perc_complete","Chilling_Hours","Utah_Model","Chill_portions","GDH")  
-chillests$Utah_Model<-chillests$Utah_Model/240
+chillests$Utah_Model240<-chillests$Utah_Model/240
 #make blank dataframe to fill with estimates
 chillpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
 chillpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
@@ -151,7 +151,7 @@ colnames(chillpredicts)<-colnames(chillpredicts.25per) <-colnames(chillpredicts.
 mnforce<-mean(as.numeric(bb.stan$forcetemp), na.rm=TRUE)
 for (i in 1:length(temps)){
   if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,mnforce, chillests$Chill_portions[i], dl1,dl2)}
-  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,mnforce, chillests$ Utah_Model[i], dl1,dl2)}
+  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,mnforce, chillests$Utah_Model240[i], dl1,dl2)}
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
@@ -171,7 +171,7 @@ colnames(bothpredicts)<-colnames(bothpredicts.25per) <-colnames(bothpredicts.75p
   c("chilltemp","dl1","dl2")
 for (i in 1:length(temps)){
   if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,temps[i], chillests$Chill_portions[i], dl1,dl2)}
-  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], chillests$Utah_Model[i], dl1,dl2)}
+  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], chillests$Utah_Model240[i], dl1,dl2)}
   
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
@@ -235,7 +235,7 @@ for (i in 1:length(temps)){#i=chilling
     if(use.chillports==TRUE){
     bbposteriors <- getest.bb(fit,temps[j], chillests$Chill_portions[i], dl1,dl2)}
   if(use.chillports==FALSE){
-    bbposteriors <- getest.bb(fit,temps[j], chillests$Utah_Model[i], dl1,dl2)}
+    bbposteriors <- getest.bb(fit,temps[j], chillests$Utah_Model240[i], dl1,dl2)}
 
     meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
     z.matrix.dl1[i,j]<-meanz[1]#8 hour daylength only for now
@@ -266,9 +266,9 @@ col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 #need to work on setting it up so that it looks good without tweaking by hand...
 open3d() 
 plot3d(z,
-       xlim = c(-8,30), ylim = c(-8,30), zlim = range(z), 
-       xlab = 'Winter temperature (C)', 
-       ylab = 'Spring temperature (C)', zlab = 'Days to BB', axes=FALSE) 
+       xlim = range(temps), ylim = range(temps), zlim = range(z), 
+       xlab = '', 
+       ylab = '', zlab = '', axes=FALSE) 
 aspect3d(2,2,2)
 axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
 
@@ -284,12 +284,61 @@ axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 surface3d(x,y,z, col=col, back = "lines")
 
 #add mean winter temp observed at sites in PEP
-alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
-rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
+#alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
+#rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
 #add mean spring temp observed at sites in PEP
-rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+#rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
 
 #rgl.snapshot("figures/bbmod_3dplot_utah.png")
-if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah_obs.pdf", "pdf")}
-if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp_obs.pdf", "pdf")}
+if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
+if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
 
+
+#Same figure zoomed in on betula experimental conditions
+
+forcetemps.betpen<-seq(, max(bb.stan$force), by=1)
+chilltemps<-seq(min(as.numeric(bb.stan$chilltemp), na.rm=TRUE),max(as.numeric(bb.stan$chilltemp), na.rm=TRUE), by=1)
+chilldays<-as.integer(mean(as.numeric(bb.stan$chilldays), na.rm=TRUE))
+temps<-seq(min(c(chilltemps,forcetemps)),max(c(chilltemps,forcetemps)), by=1)
+
+chilltemps.bet<-range(as.numeric(bb.stan$chilltemp[bb.stan$complex.wname=="Betula_pendula"]), na.rm=TRUE)
+forcetemps.bet<-range(as.numeric(bb.stan$forcetemp[bb.stan$complex.wname=="Betula_pendula"]))
+temps.bet<-range(c(chilltemps.bet,forcetemps.bet))
+x=temps.bet
+y=temps.bet
+zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
+
+zlen <- zlim[2] - zlim[1] + 1
+
+colorlut <- terrain.colors(zlen) # height color lookup table
+
+col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+#need to work on setting it up so that it looks good without tweaking by hand...
+open3d() 
+plot3d(z,
+       xlim = range(temps.bet), ylim = range(temps.bet), zlim = range(z), 
+       xlab = '', 
+       ylab = '', zlab = '', axes=FALSE) 
+aspect3d(2,2,2)
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
+
+#axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#       pos = NULL) 
+axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+
+axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+
+surface3d(x,y,z, col=col, back = "lines")
+
+#add mean winter temp observed at sites in PEP
+#alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
+#rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
+#add mean spring temp observed at sites in PEP
+#rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+
+#rgl.snapshot("figures/bbmod_3dplot_utah.png")
+if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
+if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}

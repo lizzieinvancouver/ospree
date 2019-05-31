@@ -73,6 +73,10 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 % Note that we don't actually know if tissue is dormant, so we should not say dormant twigs ....
 %Most studies do not experimentally apply chilling by manipulating duration or temperature of chilling, nor do most estimate the chilling imposed in their experiment. We therefore calculated the chilling imposed by most studies, as it would otherwise have been impossible to provide estimates with only experimental chilling (reference lizzie's supp heat maps). %this last part may be better for methods?
 
+
+% I think the below belongs where we discuss the PEP results. I think we discussed most of the points below already in one form or another above?
+%\par We expect climate change to continue to have dramatic effects on spring phenology, because the two temperature-derived cues (chilling and forcing) both strongly affect budburst \citep{Laube:2014a}. However, the relative importance of chilling versus forcing (i.e., the extent to which a chilling threshold will be reached and cause delays in budburst with additional warming) will vary spatially. Forcing is increasing with climate change and is therefore expected to continue advancing budburst. Chilling, on the other hand, is expected to increase in some locations and decrease in others with climate change \citep{fraga2019}, so budburst responses may advance less strongly in places where chilling declines. In some locations, budburst may even delay with substantial amounts of warming (e.g. X degrees, as is forecasted for the end of the 21st century, IPCC, Fig. \ref{fig:fore}) as chilling limitations come into play. 
+
 \par An additional important limitation is the rarity of studies designed to test interactions. Interactions between these cues are widely expected (cites) and, when examined, often found (cites), we were unable to estimate interactions in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod (cite table with number of interactions from coding challenge!). The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (cites, Tables, figs).  Our estimated effects average over interactions \citep{gelman2006}, but identifying them in future research will be critical to understanding and predicting budburst. For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst %\citep{} 
 (cite papers in the ospree database that interact chilling and forcing)
 ---is the hypothesized cause of declining sensitivities in European trees \citep{fu2015,vitasse}. As more data become available, it would allow additional tests of important interactions, such as how responses vary across latitudes (ref latitude figure). % Maybe add: In addition to data limitation, disentangling forcing from chilling conditions is a challenge because information on endodormancy requirements is very scarce \citep{chuine2016}.% Though I wonder if this belongs above in discussion of chilling?
@@ -91,7 +95,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \begin{enumerate}
 \item Data: search terms, etc
-
+\item Species complex description
 \item Equation of our model
 
 \item Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
@@ -105,7 +109,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \begin{enumerate}
 \item Surprising species-specific responses: 
 \begin{enumerate}
-\item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model. T
+\item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model.
 
 \item Poisitive responses to forcing: Acer-complex, Fraxinus complex, Cornus alba.
 \end{enumerate}
@@ -124,6 +128,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \item Heat maps for the main data associated, including by actual study design and by calculated chilling (our calculations)
 \item Photoperiod x latitude effects figure
 \item Maps of current and forecasted budburst and chilling for PEP sites (heat maps)
+\item Weinberger analysis figure
 
 
 \end{enumerate}
@@ -139,6 +144,77 @@ As our model results (when applied to realistic forcing, chilling and photoperio
 \par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP 725 declined across the two time periods in step with warming daily temperatures. Across the sites studied here we estimated a decline of 0.9$\pm$0.3 days/$^{\circ}$C (comparing 2000-2010 and 1950-1960) and 1.1$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C warming (Fig. \ref{fig:pepsims}). Additionally, in both the real and simulated data variance in leafout date declined, as would be expected if plants use a thermal sum threshold of forcing to leaf out and warming produces systematically warmer days: in the PEP 725 data we found a decline in leafout variance of 57\%, compared to a decline of 37\% in the simulations. Additionally we found little change in accumulated chilling (1 September - 1 March of each year) in the PEP 725 data across the two time points (2247$\pm$31 Utah units in 1950-1960, compared to 2236$\pm$20 Utah units in 2000-2010), further suggesting that shifts in chilling do not explain the declining sensitivities. Simple plots of the chilling and forcing required for budburst suggest very low chilling is often required to dramatically increase the forcing required for budburst (Fig. {fig:pepgddchill}).
 % Need to add SE or such to % ... See PEP_climate/comparetopepsims.R
 
+
+
+
+%\section*{Reference list}
+
+%A few categories:\\
+
+%Papers about contrasting results over what cues matter from growth chamber studies: \cite{Basler:2012,Basler:2014aa,Caffarra:2011qf,Caffarra:2011a,Caffarra:2011b,Heide:2005aa,koerner2010b,Laube:2014a,vitasse2013,zohner2016}. Get Nanninga \emph{et al.} 2017: 'Increased exposure to chilling advances the time to budburst in North American tree species' and maybe Malyshev \emph{et al.} 2018 `Temporal photoperiod sensitivity and forcing requirements for budburst in temperate tree seedlings.'\\
+
+%Papers about declining sensitivities (Ailene will update this list): \cite{Rutishauser:2008,fu2015}. Also look for a Wang \emph{et al.} article `Impacts of global warming on phenology of spring leaf unfolding remain stable in the long run.' Vitasse paper on declining variation across elevation gradient. See \cite{yu2010}, but this is not temperate trees. \\
+
+%Papers about chilling units paper (Lizzie gets a list): Fu 2012 from OSPREE. \cite{harrington2015}\cite{lued2011,Luedeling:2011qe,Luedeling2013AgFM}\\
+
+\bibliography{..//..//refs/ospreebibplus.bib}
+
+section* {Figures}
+
+\newpage
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
+\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text. Convert this into a table and combie with below figure!} 
+\label{fig:mucpz}
+\end{figure}
+
+%no need for figure- just do below as a table
+%\begin{figure}[h!]
+%\centering
+%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_nonz.pdf}
+%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Utah units. Relationships of coefficients were qualitatively similar to those in the centered models (Figures 1, \ref{fig:mucpz}.} 
+%\label{fig:muutnonz}
+%\end{figure}
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelm2lni_spcompexprampfpcp_nonz.pdf}
+\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Chill Portions. Convert this into a table and combie with above figure!} 
+\label{fig:mucpnonz}
+\end{figure}
+
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
+\caption{Day of leaf out versus chilling, growing degree-days, and mean spring temperature pre- (left panels, 1951-1961) and post- warming (right panels,2000-2010) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
+\label{fig:pep}
+\end{figure}
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/lat_analysis/figures/LatxPhoto_allspp.pdf}
+\caption{Latitude model. Cat: Could you make a muplot that is similar to those in the main text? Should we keep this plot, or something similar as a second panel?}
+\label{fig:lat}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/forecastbetpenPEPBB_map.pdf}
+\caption{Forecasted chilling and budburst, in PEP areas. Ailene will update this. }
+\label{fig:foremap}
+\end{figure}
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecast_bothspp_PEPBB_wdl_utah.pdf}
+\caption{Forecasted }
+\label{fig:foremap}
+\end{figure}
+
+
 \newpage
 \begin{figure}[h!]
 \centering
@@ -151,17 +227,9 @@ As our model results (when applied to realistic forcing, chilling and photoperio
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/BETPEN_multruns_portions.pdf}
-\caption{Implications of global warming on budburst of two common species in the OSPREE database, \emph{Betula pendula} (A) and \emph{Fagus sylvatica} (B) at the same site, as predicted by the OSPREE model. We show predicted budburst responses to winter and spring warming at one site where the two species co-occur (lat=48.02, long=) in the PEP database. Budburst doy for Fag syl is 98, 1minimal effects of photoperiod. advancing budburst were minimal, even the photosensitive species \emph{Fagus sylvatica}}
-\label{fig:pepsims}
-\end{figure}
-
-\newpage
-\begin{figure}[h!]
-\centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/peprealandsims.pdf}
 \caption{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact. We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP 725 data for \emph{Betula pendula} from 45 sites (`European data') with estimated declines in simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (`Simulations') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed, see \emph{Understanding declines in temperature sensitivity in European long-term data} in Supplement for further details.}
-\label{fig:pep}
+\label{fig:pepsims}
 \end{figure}
 
 \newpage
@@ -173,42 +241,6 @@ As our model results (when applied to realistic forcing, chilling and photoperio
 \end{figure}
 
 
-
-
-\section*{Reference list}
-
-A few categories:\\
-
-Papers about contrasting results over what cues matter from growth chamber studies: \cite{Basler:2012,Basler:2014aa,Caffarra:2011qf,Caffarra:2011a,Caffarra:2011b,Heide:2005aa,koerner2010b,Laube:2014a,vitasse2013,zohner2016}. Get Nanninga \emph{et al.} 2017: 'Increased exposure to chilling advances the time to budburst in North American tree species' and maybe Malyshev \emph{et al.} 2018 `Temporal photoperiod sensitivity and forcing requirements for budburst in temperate tree seedlings.'\\
-
-Papers about declining sensitivities (Ailene will update this list): \cite{Rutishauser:2008,fu2015}. Also look for a Wang \emph{et al.} article `Impacts of global warming on phenology of spring leaf unfolding remain stable in the long run.' Vitasse paper on declining variation across elevation gradient. See \cite{yu2010}, but this is not temperate trees. \\
-
-Papers about chilling units paper (Lizzie gets a list): Fu 2012 from OSPREE. \cite{harrington2015}\cite{lued2011,Luedeling:2011qe,Luedeling2013AgFM}\\
-
-\bibliography{..//..//refs/ospreebibplus.bib}
-
-section* {Figures}
-
-\newpage
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text.} 
-\label{fig:mucpz}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_nonz.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Utah units. Relationships of coefficients were qualitatively similar to those in the centered models (Figures 1, \ref{fig:mucpz}. (Should combing this and chil portions muplot into one figure.)} 
-\label{fig:muutnonz}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelm2lni_spcompexprampfpcp_nonz.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Chill Portions.} 
-\label{fig:mucpnonz}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

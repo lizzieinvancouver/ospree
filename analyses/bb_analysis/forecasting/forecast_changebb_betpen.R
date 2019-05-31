@@ -51,7 +51,7 @@ use.expchillonly = FALSE
 source("source/bbstanleadin.R")
 ##
 
-# Set up colors (more than used currently ...
+# Set up colors (more than used currently) ...
 
 cols <- adjustcolor(c("maroon4", "lightskyblue","purple4"), alpha.f = 0.8) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
@@ -81,26 +81,26 @@ fit.sum <- summary(fit)$summary
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 # Select the species and temperature change that you want
-sp<-c("betpen")#,"fagsyl"
-sp.num<-c(9)#,15
+sp<-c("betpen","fagsyl")
+sp.num<-c(9,15)
 
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
-getspest.bb <- function(fit, sprtemp, daylength, chillport, warmspring, warmwinter,
+getspest.bb <- function(fit, sprtemp, daylength, chill, warmspring, warmwinter,
                         daylengthwarmspr, daylengthwarmwin, daylengthwarmsprwin){
   listofdraws <- extract(fit)
   avgbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*sprtemp + 
-    listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chillport
+    listofdraws$b_photo[,sp.num[s]]*daylength + listofdraws$b_chill[,sp.num[s]]*chill
   
   warmsprbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*(sprtemp+warmspring) + 
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmspr) + listofdraws$b_chill[,sp.num[s]]*chillport
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmspr) + listofdraws$b_chill[,sp.num[s]]*chill
   
   warmwinbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*sprtemp + 
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmwin) + listofdraws$b_chill[,sp.num[s]]*(chillport+warmwinter)
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmwin) + listofdraws$b_chill[,sp.num[s]]*(chill+warmwinter)
   
   warmsprwinbb <- listofdraws$a_sp[,sp.num[s]] + listofdraws$b_force[,sp.num[s]]*(sprtemp+warmspring) +
-    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmsprwin) + listofdraws$b_chill[,sp.num[s]]*(chillport+warmwinter)
+    listofdraws$b_photo[,sp.num[s]]*(daylength + daylengthwarmsprwin) + listofdraws$b_chill[,sp.num[s]]*(chill+warmwinter)
   
   yebbest <- list(avgbb, warmsprbb, warmwinbb, warmsprwinbb)
   return(yebbest)
@@ -383,8 +383,8 @@ ls<-c(which(latlon$LAT==minlat),which(latlon$LAT==maxlat))
     chillfor<-read.csv(chillforfilename, header=TRUE) 
     chillests<-chillfor}
     dl <- daylengthbbdoy
-    if(use.chillports==TRUE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
-    if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Chill_portions)}
+    if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
+    if(use.chillports==TRUE){chill.forecast[c]<-mean(chillests$Chill_portions)}
     winT.forecast[c]<-mean(chillests$mntemp)
   
     for(f in 1:length(temps)){#forcing/spring temp
@@ -427,9 +427,11 @@ col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 
 plot3d(z,
        xlim = range(x), ylim = range(y), zlim = c(5,30), 
-       xlab = 'Winter warming (C)', 
-       ylab = 'Spring warming (C)', zlab = 'Days to BB', axes=FALSE) 
+       xlab = ' ', 
+       ylab = '', zlab = '', axes=FALSE) 
 aspect3d(1,1,1)
+axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+
 #aspect3d("iso")
 
 axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
