@@ -189,7 +189,7 @@ section* {Figures}
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
-\caption{Day of leaf out versus chilling, growing degree-days, and mean spring temperature pre- (left panels, 1951-1961) and post- warming (right panels,1981-1991????) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
+\caption{Day of leaf out versus chilling, growing degree-days, and mean spring temperature pre- (left panels, 1951-1961) and post- warming (right panels,2000-2010) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
 \label{fig:pep}
 \end{figure}
 
