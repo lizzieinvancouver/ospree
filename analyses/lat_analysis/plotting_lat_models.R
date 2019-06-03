@@ -84,7 +84,7 @@ source("../lat_analysis/source/bblat_zscorepreds.R")
 #### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
 figpath <- "../lat_analysis/figures"
 if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
-  figpathmore <- "spcom_expramp_fp"
+  figpathmore <- "latanalysis_spcom_expramp_fp"
 }
 if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
   figpathmore <- "allspp_expramp_fp"
