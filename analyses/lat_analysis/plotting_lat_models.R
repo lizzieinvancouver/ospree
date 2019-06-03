@@ -165,14 +165,14 @@ osp.lat$photo_trans <- as.character(osp.lat$photo)
 latitude.allspp <- ggplot(osp.lat, aes(x=lat_trans, y=resp)) + geom_line(aes(linetype=photo_trans, col=photo_trans)) +
   geom_ribbon(aes(ymin=fs.25, ymax=fs.75, fill=photo_trans), alpha=0.1) + theme_classic() +
   scale_linetype_manual(name="Photoperiod", values=c("dashed", "solid"),
-                        labels=c("7.97834632517043"="8 hours",
-                                 "19.0553108948026"="19 hours")) +
+                        labels=c("7.86400247036863"="8 hours",
+                                 "19.5324883417238"="20 hours")) +
   scale_color_manual(name="Photoperiod", values=c("red", "blue"),
-                     labels=c("7.97834632517043"="8 hours",
-                              "19.0553108948026"="19 hours")) + xlab("Latitude") +
+                     labels=c("7.86400247036863"="8 hours",
+                              "19.5324883417238"="20 hours")) + xlab("Latitude") +
   scale_fill_manual(name="Photoperiod", values=c("red", "blue"),
-                     labels=c("7.97834632517043"="8 hours",
-                              "19.0553108948026"="19 hours")) +
+                     labels=c("7.86400247036863"="8 hours",
+                              "19.5324883417238"="20 hours")) +
   ylab("Day of Budburst") + guides(fill=FALSE) +
   theme(legend.text.align = 0, legend.position = c(0.85, 0.85), legend.box.background = element_rect())
 

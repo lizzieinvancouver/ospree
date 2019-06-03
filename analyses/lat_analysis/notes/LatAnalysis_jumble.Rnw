@@ -51,7 +51,7 @@ We used a Bayesian mixed-effects hierarchical model approach to analyze our data
 
 \begin{align*}
 y_i \thicksim N(\alpha_{sp[i]} +& \beta_{forcing_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{latitude_{sp[i]}}  \\
-	+& \beta_{photoperiod x latitude_{sp[i]}} + \sigma_{sp_{(i)}})
+	+& \beta_{photoperiod x latitude_{sp[i]}} + \sigma_{sp_{(i)}}
 \end{align*}
 
 \noindent The $\alpha$ and each of the 5 $\beta$ coefficients were modeled at the species level, as follows:
@@ -64,7 +64,7 @@ y_i \thicksim N(\alpha_{sp[i]} +& \beta_{forcing_{sp[i]}} + \beta_{chilling_{sp[
 We ran four chains, with 1,500 warm-up iterations followed by 2,500 sampling iterations, resulting in 10,000 posterior samples for each parameter. We assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. 
 
 \section*{Results for the effects of latitude on budburst}
-Higher forcing tmeperatures, longer photoperiods, more chilling and higher latitudes advanced budburst, with more chilling having the largest effect (Figure \ref{fig:modelest}). Provenance latitude had the smallest effect on budburst (-2.89 days) and the greastest variation across species. Photoperiod and provenance latitude had a delayed interactive response, suggesting the two effects offset one another. Lower provenance latitudes were more responsive to higher photoperiod treatments (Figure \ref{fig:intrxn}). Higher provenance latitudes had earlier days of budburst, overall, and both high and low photoperiod treatments did not change budburst significantly. 
+Higher forcing tmeperatures, longer photoperiods, more chilling and higher latitudes advanced budburst, with more chilling having the largest effect (Figure \ref{fig:modelest}). Provenance latitude had the smallest effect on budburst (-2.89 days) and the greastest variation across species. Photoperiod and provenance latitude had a delayed interactive response, suggesting the two effects offset one another. As both higher latitudes and longer photoperiods advance the day of budburst, the interaction shows that the importance of photoperiod as a predictor decreases for sites that are at higher latitudes. Lower provenance latitudes were more responsive to higher photoperiod treatments (Figure \ref{fig:intrxn}). Higher provenance latitudes had earlier days of budburst, overall, and both high and low photoperiod treatments did not change budburst significantly. 
 
 \section*{Main Takeaways}
 \begin{enumerate}
