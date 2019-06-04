@@ -36,7 +36,7 @@ spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
 warming<-unique(spests$warming)[2:8]
 #Make a map with change in budburst for different levels of warming
 spests$bbchange<-spests$bothwarm-spests$bbnowarm
-bbch<-unique(spests$bbchange)
+bbchange<-unique(spests$bbchange)
 range(spests$lat)
 range(spests$lon)
 ylim=c(46.95, 47.1)
@@ -68,7 +68,7 @@ legend("bottom", # position
        col=mycols$cols,
        cex = .9,
        bty = "n") # border
-#the below doesn't w ork!
+#the below doesn't work!
 legend.scale(range(mycols$changebb), col = cols, 
              horizontal = FALSE,
              axis.args = list(at = c(-16,1)))
