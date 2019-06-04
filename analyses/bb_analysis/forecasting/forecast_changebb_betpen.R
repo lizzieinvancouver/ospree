@@ -68,21 +68,14 @@ if(use.zscore==FALSE & use.chillports == FALSE){
   load("stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni with chill portions
   fit <- m2l.ni
 }
-if(use.zscore==TRUE & use.chillports == TRUE){
-  load("stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
-  fit <- m2l.ni
-}
-if(use.zscore==TRUE & use.chillports == FALSE){
-  load("stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni with chill portions
-  fit <- m2l.ni
-}
+
 fit.sum <- summary(fit)$summary
 
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 # Select the species and temperature change that you want
-sp<-c("betpen","fagsyl")
-sp.num<-c(9,15)
+sp<-c("betpen")
+sp.num<-c(9)
 
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
@@ -116,10 +109,10 @@ par(mar=c(8,4,3,4), mfrow=c(2,2))
 for(s in 1:length(sp)){
   #I have now added lots of sites for 
   #s=1#for bet, s=1; for fag, s=2
-  numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
-  tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
-  chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
-  spdir<-paste("../output/dailyclim/",sp[s],sep="")
+  numsites<-length(list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__"))
+  tempfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__")
+  chillfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="chill_observed_")
+  spdir<-paste(climatedrive,"/",sp[s],sep="")
   #create a blank dataframe for each species, in which to add estimates
   spests<-c()
   spestsqlo<-c()
@@ -334,16 +327,16 @@ for(s in 1:length(sp)){
 minlat<-min(latlon$LAT)
 maxlat<-max(latlon$LAT)
 ls<-c(which(latlon$LAT==minlat),which(latlon$LAT==maxlat))
-  for(l in  1:length(ls)){#
+for(l in  1:length(ls)){#
     lat<- latlon$LAT[l] 
     long<- latlon$LON[l] 
     #lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     #long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
     
   
-#numsites<-dim(latlon)[1]
-#tempfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__")
-#chillfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="chill_observed_")
+numsites<-dim(latlon)[1]
+tempfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__")
+chillfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="chill_observed_")
 
   chillall<-read.csv(paste(spdir,"/chill_observed_",lat,"_",long,"_1951_1961.csv",sep=""), header=TRUE) 
   tempall<-read.csv(paste(spdir,"/temp_forforecast__",lat,"_",long,"_1951_2014.csv",sep=""), header=TRUE)
