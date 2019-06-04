@@ -67,15 +67,16 @@
 
 \section*{Supplemental Methods}
 \par \textbf{Greenup differences (Figure 2)}
-\par Satellite images are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at: http... DAN, could you please provide the website from where the maps were extracted), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function XXX in package XXX (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
+\par Satellite images are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geopshere (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
 \par \textbf{Dan's methods for making the photo period curves (Figure 3)}
 \par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment\citep{heide93a,ashby62,cafarra11b}. These experiments used forcing temperatures of 21 or 22 \degree C, Chilling varied considerably across experiments, and chilling level was categorized as follows:
 \begin{itemize}
-\item <31 Chill Portions = None
-\item 31-80= Low
-\item 81-130<-Medium 
-\item>130= High
+\item <1 Chill Portions = None
+\item 1-44 = Low
+\item 45-69 = Medium 
+\item 70-106 = High
+\item >106 = Very High
 \end{itemize}
 
 
