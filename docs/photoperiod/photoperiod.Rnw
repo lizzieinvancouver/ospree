@@ -143,6 +143,7 @@ whereas process-based models of phenology more frequently incorporate photoperio
 Organisms may undergo large changes to the photoperiod they experience, with climate change, even if they do not shift their ranges spatially. Here we have addressed how an altered photoperiod may affect woody plant budburst (Table S1, Figure \ref{fig:photomap}). Shifts in photoperiod with climate change have implications for a variety of plant and animal responses, given that daylength affects critical activities for diverse species from insects \citep{bradshaw2006,linn1996} and salmon \citep{solbakken1994,taranger2003} to birds \citep{dawson2001} and marsupials \citep{mcallan2006,solbakken1994}. Given what we know, incorporating photoperiod into forecasting of climate change responses should improve model accuracy, and will illuminate additional experiments that could improve our mechanistic understanding of photoperiod as a critical cue to diverse biological responses. 
 \section* {Glossary}
 \begin{itemize}
+\item \underline{budburst}: the emergence of new leaves on a plant at the beginning of the growing season.
 \item \underline{chilling}: the intensity and duration of winter temperature; critical chilling is the required amount of hours or days of cold temperature, defined by a specific critical temperature (e.g., 4 \degree C add citation), that must be experienced for budburst to occur.
 \item \underline{daylength}: the period of time during a 24-hour period during which an organism receives light.
 
@@ -153,9 +154,9 @@ Organisms may undergo large changes to the photoperiod they experience, with cli
 \item \underline{forcing}: warm spring temperatures, critical forcing is the required amount of hours or days above a specific temperature, that must be experienced before budburst or flowering can occur.
 \item \underline{green-up}: The beginning of a new cycle of plant growth, usually evaluated at the landscape scale
 %\item \underline{external coincidence model}: a model for how light sensing occurs in plants, first proposed by German biologist Erwin Bünning % This isn't working.. you can try \''{u}, \dot{u} or \ddot{u} - hopefully one does the trick!
-; it proposes the existence of a circadian rhythm of photoperiodic photosensitivity in which the night-phase is sensitive to light and the day-phase is insensitive to light. 
+%; it proposes the existence of a circadian rhythm of photoperiodic photosensitivity in which the night-phase is sensitive to light and the day-phase is insensitive to light. 
 %\item \underline{vernalization}: exposure of plants or seeds to low temperatures, often in order to stimulate flowering or to enhance seed production; analogous to chilling.
-\item \underline{phenology}: The timing of life cycle events in organisms
+\item \underline{phenology}: the timing of life cycle events in organisms
 \item \underline{photoperiod}: the daily duration of light (daylength) and dark to which an organism is exposed; often used synonymously with daylength
 \item \underline{photoperiodism}: the ability to assess the length of day or night to regulate behavior, physiology, growth, development or reproduction.
 \item \underline{threshold photoperiod}: length of day that causes an individual to switch from a long-- to a short--day response (or vice verse).
