@@ -17,6 +17,7 @@
 %\SweaveOpts{prefix.string=figures/, eps=FALSE} 
 %you'll want these for pretty captioning
 \usepackage[small]{caption}
+
 \setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
 \setlength{\captionmargin}{30pt}
 \setlength{\abovecaptionskip}{10pt}
@@ -49,26 +50,27 @@
 \begin{document}
 \SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
- \bibliographystyle{/Users/aileneettinger/citations/Bibtex/styles/amnat.bst}
-\title{Supplemental materials for spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
+ \bibliographystyle{..//..//refs/bibstyles/amnat.bst}
+\title{Supplemental materials for Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
 \author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
-%\date{\today}%do we need to also add any of the following: D. Flynn, T. Savas, J. Samaha, E. Forrestel? 
+%\date{\today}
 \maketitle  %put the fancy title on
 %\tableofcontents      %add a table of contents
 %\clearpage
+%goal is NCC Perspective
+%Need to submit "brief synopsis through our online submission system before preparing a manuscript for formal submission. The synopsis should outline the topics that will be covered, list any recent, key publications in the area, and state the last time the topic was reviewed (if it has been reviewed previously)."
+%should be presented using simple prose, avoiding excessive jargon and technical detail.
+%3,000–5,000 words and typically include 4–6 display items (figures, tables or boxes). 
+%up to 100 references; citations should be selective. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Methods}
+\section*{Supplemental Methods}
 \par \textbf{Greenup differences (Figure 2)}
-\par Satellite images are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at: http... DAN, could you please provide the website from where the maps were extracted), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002overview}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function XXX in package XXX (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
+\par Satellite images are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at: http... DAN, could you please provide the website from where the maps were extracted), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function XXX in package XXX (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
-
-\par \textbf{Dan's methods for making the photo period curves (June 27 2018)}
-\par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment \citep{heide93a,ashby62 andcafarra11b}.These experiments used forcing temperatures of 21 or 22 \degree C,  Chilling varied considerably across experiments, and chilling level was categorized as follows: 
-%Dan: these do not match the figure legends. Please correct!
+\par \textbf{Dan's methods for making the photo period curves (Figure 3)}
+\par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment\citep{heide93a,ashby62,cafarra11b}. These experiments used forcing temperatures of 21 or 22 \degree C, Chilling varied considerably across experiments, and chilling level was categorized as follows:
 \begin{itemize}
 \item <31 Chill Portions = None
 \item 31-80= Low
@@ -76,18 +78,25 @@
 \item>130= High
 \end{itemize}
 
-\par \textbf{PhenoFit Methods (Figure 3)}
-\par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points.  We only used Phenofit data that had both current and projected data for \textit{Fagus sylvatica} and \textit{Quercus robur}. Several responses for \textit{Quercus robur} in OSPREE consisted of days to budburst that are much longer than current or projected days. These responses are associated with photoperiods that are 5-8 hours shorter than is biologically possible in their range (Cat: add the study) or were combined with treatments involving little or no experimental chilling (Cat: add the study).
 
+\par \textbf{Maps of temporal and spacial shifts in space and tim  (Figure 4)}
+\par Ailene needs to add methods (Reference Table S1)
 
+\par \textbf{PhenoFit Methods (Figure 5)}
+\par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. In the right panel for \textit{Quercus robur}, we explored the 3 OSPREE data points that have later day to budburst times than the current or projected days to budburst, which all had much lower forcing temperatures \citep[][3.8-5.7$^{\circ}$]{morin10}.
+
+\section* {Supplemental Tables}
+\par Add table used to make map
 \section*{Supplement: Box S1. Dominant models of how photoperiod affects spring woody plant phenology}
 \par The molecular mechanisms and pathways underlying photoperiod sensitivity are poorly understood for most organisms, even in relatively well-studied phenophases such as spring budburst in woody plants \citep{ding2016}. Spring budburst in woody plants is thought to be controlled by three main cues: chilling, forcing, and photoperiod, as well as interactions between them \citep{flynn2018,Heide:2008aa, zohner2016}. Our understanding of how plants interpret photoperiod comes largely from studies of flowering in the model plant \emph{Arabidopsis thaliana} \citep[e.g.,][]{suarez2001} and fall budset in woody plant species \citep[e.g., ][]{Howe:1996}. %Similar pathways may underlie budburst phenology in woody plants \citep{lagercrantz2009,ding2016}.
 \par Plants sense light inputs by blue light receptors and phytochromes, which have been found in nearly all organs throughout the plant. Plants are thought to interpret photoperiod through a coordinated response to light in relation to the time of day. When the internal circadian rhythm coincides with an external signal (light) under certain conditions (e.g., warm days), a response is induced \citep{lagercrantz2009}. This ``external coincidence model" has been most widely studied in \emph{Arabidopsis}, and is thought to be a relevant mechanism for photoperiod responses in diverse perennial and woody plant species \citep{davis2002,petterle2013,bastow2002,kobayashi2007,andres2012,Singh:2017}. %add Bunning 1936).  
 The model proposes the existence of a circadian rhythm of light sensitivity, in which the night-phase is sensitive to light and the day-phase is insensitive to light. As days get longer in the spring, daylight illuminates the  light sensitive phase, triggering a response. %DB do we want to show a schematic for this?
 \par Little is known about the genetic pathways responsible for the light-sensing apparatuses involved in spring budburst, and how they may vary across species or populations. Some genes have been identified that play a role in coordinating budburst in poplar (\emph{Populus} spp.), and may occur in other woody species as well. Many similarities exist between the proposed regulatory networks of vegetative growth in \emph{Populus} and those controlling floral initiation in \emph{Arabidopsis}, \citet{ding2016}. For example, vegetative growth and inhibition of budset are promoted by the FLOWERING LOCUS T2 (FT2) gene, a homolog of \emph{Arabidopsis thaliana} gene FLOWERING LOCUS (FT). FT2 expression appears to be controlled by a pathway that is effective in long days and warm temperatures, marking the onset of the growing season \citep{hsu2011}. Its loss of expression in autumn, when the days are getting shorter, is associated with the onset of dormancy \citep{glover2014}.
 
-\par There are large gaps in our understanding of how photoperiod sensing pathways affect budburst, the genetics behind these pathways, and the extent of species- and population-level genetic variation. Questions also remain about how photoperiod sensing interacts with temperature sensing to affect responses. For example, Figure \ref{fig:photocurve} shows the most detailed data we were able to find of budburst responses across different photoperiod and chilling treatments. These data underscore how variable responses to photoperiod are, across species and populations, and with different chilling treatments. 
+\par There are large gaps in our understanding of how photoperiod sensing pathways affect budburst, the genetics behind these pathways, and the extent of species- and population-level genetic variation. Questions also remain about how photoperiod sensing interacts with temperature sensing to affect responses. For example, Figure 3 shows the most detailed data we were able to find of budburst responses across different photoperiod and chilling treatments. These data underscore how variable responses to photoperiod are, across species and populations, and with different chilling treatments. 
 
+
+\bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
