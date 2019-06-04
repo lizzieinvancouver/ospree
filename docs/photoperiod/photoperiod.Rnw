@@ -151,9 +151,11 @@ Organisms may undergo large changes to the photoperiod they experience, with cli
 \item \underline{diapause}: period of suspended development or growth, usually used to describe invertebrates during unfavorable environmental conditions such as winter
 \item \underline{dormancy}: halted or reduced growth or activity, usually used to describe plants
 \item \underline{forcing}: warm spring temperatures, critical forcing is the required amount of hours or days above a specific temperature, that must be experienced before budburst or flowering can occur.
+\item \underline{green-up}: The beginning of a new cycle of plant growth, usually evaluated at the landscape scale
 %\item \underline{external coincidence model}: a model for how light sensing occurs in plants, first proposed by German biologist Erwin Bünning % This isn't working.. you can try \''{u}, \dot{u} or \ddot{u} - hopefully one does the trick!
 ; it proposes the existence of a circadian rhythm of photoperiodic photosensitivity in which the night-phase is sensitive to light and the day-phase is insensitive to light. 
 %\item \underline{vernalization}: exposure of plants or seeds to low temperatures, often in order to stimulate flowering or to enhance seed production; analogous to chilling.
+\item \underline{phenology}: The timing of life cycle events in organisms
 \item \underline{photoperiod}: the daily duration of light (daylength) and dark to which an organism is exposed; often used synonymously with daylength
 \item \underline{photoperiodism}: the ability to assess the length of day or night to regulate behavior, physiology, growth, development or reproduction.
 \item \underline{threshold photoperiod}: length of day that causes an individual to switch from a long-- to a short--day response (or vice verse).
