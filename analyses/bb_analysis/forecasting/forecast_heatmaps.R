@@ -21,13 +21,18 @@ if(length(grep("ailene", getwd())>0)) {
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
 } else if(length(grep("lizzie", getwd())>0)) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis") 
 }else if(length(grep("Ignacio", getwd()))>0) { 
-  setwd("~/GitHub/ospree/analyses") 
+  setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
+
+
 #read in file with species, lat/long, and bbdoy forecast (from pep data)
+
 spests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
+
 #sort dataset based on lat
 spests <- spests[order(spests$lat, spests$warming),]
+
 #calculate difference in bb between no warming and warmed for each row
 spestsnowarm<-spests[spests$warming_C==0,]
 spestsnowarm<-subset(spestsnowarm,select=c(lat,lon,warming_C,sprT.forecast,winT.forecast,chill.forecast,bb.sprtemp.0))
@@ -66,12 +71,13 @@ spests7warm<-spests[spests$warming_C==7,]
 spests7warm<-subset(spests7warm,select=c(lat,lon,warming_C,sprT.forecast,winT.forecast,chill.forecast,bb.sprtemp.7))
 spests7warm$bbchange<-spests7warm$bb.sprtemp.7-spestsnowarm$bb.sprtemp.0
 spests7warm$chillchange<-spests7warm$chill.forecast-spestsnowarm$chill.forecast
+
+#Put all the warming levels  together so we can plot them
 colnames(spests1warm)[7]<-colnames(spests2warm)[7]<-colnames(spests3warm)[7]<-colnames(spests4warm)[7]<-colnames(spests5warm)[7]<-colnames(spests6warm)[7]<-colnames(spests7warm)[7]<-"bbdoy"
 allests<-rbind(spests1warm,spests2warm,spests3warm,spests4warm,spests5warm,spests6warm,spests7warm)
-allests$bbchange<-as.integer(allests$bbchange)
+allests$bbchange<-round(allests$bbchange, digits=0)
 allests$chillchange<-round(allests$chillchange, digits=2)
 
-spests$bbnowarm<-rep(spests$bothwarm[spests$warming==0], each=8)
 warming<-unique(spests$warming)[2:8]
 #Make a map with change in budburst for different levels of warming
 chillchange<-unique(allests$chillchange)
@@ -82,7 +88,9 @@ colnames(mycols)[1]<-"changechill"
 
 ylim=range(allests$lat)
 xlim=range(allests$lon)
-quartz(height=6,width=10)
+
+pdf("figures/forecasting/heatmap_betpen_forecastbbchill.pdf",height=6,width=10)
+
 par(mfrow=c(2,7),omi=c(0,0,0,0),mai=c(0,0,0,0))
 for(i in 1:length(warming)){
   warmdat<-allests[allests$warming_C==warming[i],]
@@ -102,6 +110,7 @@ dim(mycols)
 rowstokeep<-c(1,as.integer(dim(mycols)[1]/4),as.integer(dim(mycols)[1]/2),as.integer((dim(mycols)[1]/4)+(dim(mycols)[1]/2)),dim(mycols)[1])
 mycolslegend<-mycols[rowstokeep,]
 mycolslegend$changechill<-round(as.numeric(mycolslegend$changechill)*240,digits=0)
+
 legend("bottom", # position
        legend = mycolslegend$changechill, 
        title = "Change in Chilling (Utah units)",
@@ -143,8 +152,8 @@ legend("bottom", # position
        bty = "n") # border
 
 
-
+dev.off()
 #the below doesn't work!
-legend.scale(range(mycols$changechill), col = cols, 
-             horizontal = FALSE,
-             axis.args = list(at = c(-16,1)))
+#legend.scale(range(mycols$changechill), col = cols, 
+#             horizontal = FALSE,
+#             axis.args = list(at = c(-16,1)))
