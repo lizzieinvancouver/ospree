@@ -172,7 +172,20 @@ sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March-April 31
   if(use.chillports==TRUE){
     write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv", sep=""))}
   if(use.chillports==FALSE){
-    write.csv(allforecast,paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_utah.csv"))} 
+    write.csv(allforecast,paste("..//output/betpen_for3dplot/bbmodests",sp[s],lat,long,"_for3dplot_utah.csv"))} 
   
   allforecasts.forheatmap<-rbind(allforecasts.forheatmap,allforecast)
 }#l
+write.csv(allforecasts.forheatmap,"..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", row.names=FALSE)
+
+
+#if R quits before whole thing is finished, stitch together csv files with the following code:
+
+betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
+for (i in 1:length(betpenfiles)){
+  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
+  f<-read.csv(fname, header=T)
+  row.names(f)<-NULL
+  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
+}
+write.csv(allforecasts.forheatmap,"..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", row.names=FALSE)

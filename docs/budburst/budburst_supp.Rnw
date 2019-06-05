@@ -111,7 +111,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \begin{enumerate}
 \item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model.
 
-\item Poisitive responses to forcing: Acer-complex, Fraxinus complex, Cornus alba.
+\item Poisitive responses to forcing: Fagus, Acer-complex, Fraxinus complex, Cornus alba.
 \end{enumerate}
 \end{enumerate}
 
@@ -204,8 +204,8 @@ section* {Figures}
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/forecastbetpenPEPBB_map.pdf}
-\caption{Forecasted chilling and budburst, in PEP areas. Ailene will update this. }
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/heatmap_betpen_forecastbbchill.pdf}
+\caption{Forecasted changes in chilling (top panel) and budburst (bottom panel), in PEP areas. Ailene will update this. }
 \label{fig:foremap}
 \end{figure}
 \begin{figure}[h!]

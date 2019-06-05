@@ -76,8 +76,8 @@ fit.sum <- summary(fit)$summary
 #rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 
 # Select the species and temperature change that you want
-sp<-c("betpen","fagsyl")
-sp.num<-c(9,15)
+sp<-c("fagsyl","betpen")
+sp.num<-c(15,9)
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
@@ -103,8 +103,10 @@ getspest.bb <- function(fit, sprtemp, daylength, chill, warmspring, warmwinter,
 #Choose whether or not you want to use our adhoc shift in daylength.
 use.daylengthshift=TRUE
 
-quartz(width=9,height=9)
-par(mar=c(8,4,3,4), mfrow=c(2,2))
+quartz(width=9,height=5)
+#par(mar=c(8,4,3,4), mfrow=c(2,2))
+par(mar=c(8,4,3,4), mfrow=c(1,2))
+
 #can do this as a loop, but i just want to pick 2 sites for now- max lat and min lat for each species
 for(s in 1:length(sp)){
   #I have now added lots of sites for 
@@ -117,11 +119,12 @@ for(s in 1:length(sp)){
   spests<-c()
   spestsqlo<-c()
   spestsqhi<-c()
-  sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  sites.toplot<-21
+  #sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
+  if(s==1){sites.toplot<-21}
+  if(s==2){sites.toplot<-38}
+  
   #sites.toplot<-seq(1,numsites,by=1)#
-  #can also plot a single site, both species
-  #sites.toplot<-21
+  
   #quartz(width=9,height=5)
   #par(mar=c(8,4,3,4), mfrow=c(1,2))
   for (i in sites.toplot){
@@ -132,8 +135,7 @@ for(s in 1:length(sp)){
     #because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
     tempall<-tempall[tempall$Year<1980,]
     chillall<-chillall[chillall$End_year<1980,]
-    sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])#March-May (4 degrees C) Should it be April-June instead (12 degrees C)?
-    #extract the lat/long from the file name...argh!
+    sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March 1-April 30 (4 degrees C) 
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
     
@@ -243,8 +245,8 @@ for(s in 1:length(sp)){
     spestsqlo<-rbind(spestsqlo,predicts.25per)
     spestsqhi<-rbind(spestsqhi,predicts.75per)
     
-    ymin = min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
-    ymax = max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
+    ymin = 15#min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
+    ymax = 35#max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     xlim = c(0, 7)
     ylim = c(ymin,ymax)
     #figname<-paste("tempforecast",lat,long,min(tempforecast),max(tempforecast),"degwarm.pdf", sep="_")
