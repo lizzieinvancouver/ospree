@@ -14,6 +14,15 @@ winterT: -5.311229 13.137092
 springT:-4.967839 15.275387
 
 Cats pep estimates
+prewarming
 chilling (utah):1500-3200
+springT:4-9
 
-Experiments
+postwarming
+chilling (utah):1500-3200
+springT:4-10
+
+Experiments:
+winT: 0-16
+chilling -5.239583 19.683333
+forcing: 5 32

@@ -100,16 +100,16 @@ ls<-dim(latlon)[1]
 allforecasts.forheatmap<-c()
 #if R quits before whole thing is finished, stitch together csv files with the following code:
 
-#betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
-#for (i in 1:107){
-#  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
-#  f<-read.csv(fname, header=T)
-#  row.names(f)<-NULL
-#  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
-#}
-#allforecasts.forheatmap<-allforecasts.forheatmap[,-1]
-
-for(l in 108:ls){#
+betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
+for (i in 1:(length(betpenfiles)-1)){
+  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
+  f<-read.csv(fname, header=T)
+  row.names(f)<-NULL
+  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
+}
+allforecasts.forheatmap<-allforecasts.forheatmap[,-1]
+#997, 1119 missing...
+for(l in 1120:ls){#
     lat<- latlon$LAT[l] 
     long<- latlon$LON[l] 
     print(paste(lat,long,l));
