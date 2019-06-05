@@ -22,7 +22,7 @@ library(rstan)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
-library(rgl)
+#library(rgl)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -98,8 +98,18 @@ maxlat<-max(latlon$LAT)
 #ls<-c(which(latlon$LAT==minlat),which(latlon$LAT==maxlat))
 ls<-dim(latlon)[1]
 allforecasts.forheatmap<-c()
+#if R quits before whole thing is finished, stitch together csv files with the following code:
 
-for(l in 1:ls){#
+#betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
+#for (i in 1:107){
+#  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
+#  f<-read.csv(fname, header=T)
+#  row.names(f)<-NULL
+#  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
+#}
+#allforecasts.forheatmap<-allforecasts.forheatmap[,-1]
+
+for(l in 108:ls){#
     lat<- latlon$LAT[l] 
     long<- latlon$LON[l] 
     print(paste(lat,long,l));
@@ -179,13 +189,3 @@ sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March-April 31
 write.csv(allforecasts.forheatmap,"..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", row.names=FALSE)
 
 
-#if R quits before whole thing is finished, stitch together csv files with the following code:
-
-betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
-for (i in 1:length(betpenfiles)){
-  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
-  f<-read.csv(fname, header=T)
-  row.names(f)<-NULL
-  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
-}
-write.csv(allforecasts.forheatmap,"..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", row.names=FALSE)

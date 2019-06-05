@@ -15,7 +15,7 @@ library(RColorBrewer)
 library(maptools)
 library(rworldmap)
 library(maps)
-library(autoimage)
+#library(autoimage)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
@@ -98,7 +98,8 @@ for(i in 1:length(warming)){
   points(c(warmdat$lon), c(warmdat$lat), pch=16, col=mycols$cols[match(warmdat$chillchange, mycols$changechill)], cex=1.1)
   
 }
-rowstokeep<-c(1,56,113,169,226)
+dim(mycols)
+rowstokeep<-c(1,as.integer(dim(mycols)[1]/4),as.integer(dim(mycols)[1]/2),as.integer((dim(mycols)[1]/4)+(dim(mycols)[1]/2)),dim(mycols)[1])
 mycolslegend<-mycols[rowstokeep,]
 mycolslegend$changechill<-round(as.numeric(mycolslegend$changechill)*240,digits=0)
 legend("bottom", # position
@@ -129,7 +130,7 @@ mtext(paste(warming[i],"deg C"),side=3, line=-7,adj=.5, cex=.8)
 points(c(warmdat$lon), c(warmdat$lat), pch=16, col=mycols$cols[match(warmdat$bbchange, mycols$changebb)], cex=1.1)
 
 }
-
+rowstokeep<-c(1,as.integer(dim(mycols)[1]/4),as.integer(dim(mycols)[1]/2),as.integer((dim(mycols)[1]/4)+(dim(mycols)[1]/2)),dim(mycols)[1])
 rowstokeep<-c(1,3,5,7,10)
 mycolslegend<-mycols[rowstokeep,]
 
