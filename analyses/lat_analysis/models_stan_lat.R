@@ -25,7 +25,7 @@ rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
-use.chillports = TRUE# change to false for using utah instead of chill portions (most models use chill portions z)
+use.chillports = FALSE# change to false for using utah instead of chill portions (most models use chill portions z)
 use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops

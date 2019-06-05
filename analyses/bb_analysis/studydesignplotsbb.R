@@ -89,7 +89,7 @@ dsumm.nums <-
 
 
 # make figures prettier than average
-basesize <- 7
+basesize <- 11
 
 heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
@@ -103,7 +103,7 @@ heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.facto
 
 heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chill.int), colour="white") +
-    scale_fill_gradient2(name="All chill \ntemperatures",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+    scale_fill_gradient2(name="All chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
         na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
   scale_y_discrete(breaks=seq(6,24,2)) + theme_classic() +
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
@@ -112,7 +112,7 @@ heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.facto
 
 heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=chilltemp.int), colour="white") +
-    scale_fill_gradient2(name="Experimental chill \ntemperatures",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+    scale_fill_gradient2(name="Exp chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
         na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
   scale_y_discrete(breaks=seq(6,24,2)) +
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
@@ -134,7 +134,7 @@ dev.off()
 
 
 require(cowplot)
-pdf("figures/studydesign_heat3panel.pdf", width = 7, height = 16)
+pdf("figures/studydesign_heat3panel.pdf", width = 16, height = 7)
 plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
-    labels = c('(a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=1)
+    labels = c('(a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
 dev.off()
