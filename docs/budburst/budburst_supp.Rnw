@@ -206,7 +206,7 @@ section* {Figures}
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/heatmap_betpen_forecastbbchill.pdf}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/heatmap_betpen_forecastbbchill.pdf}
 \caption{Forecasted changes in chilling (top panel) and budburst (bottom panel), in PEP areas. Ailene will update this. }
 \label{fig:foremap}
 \end{figure}
