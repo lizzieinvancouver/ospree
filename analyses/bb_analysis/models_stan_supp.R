@@ -158,3 +158,19 @@ m2lnistudy.sum[grep("mu_", rownames(m2lnistudy.sum)),]
 head(m2lnistudy.sum)
 m2lnistudy.sum[grep("alpha", rownames(m2lnistudy.sum)),]
 
+
+########################################################
+# real data on 2 level model (sp) with no interactions, with sigmoid
+########################################################
+# Note: We are in progress on this model ... 
+# So for now, it is block-commented out
+if(FALSE){
+
+m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
+               iter = 2000, warmup=1500, control=list(adapt_delta=0.95)) 
+
+betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
+    
+mcmc_intervals(betas.m2l.nisig[,1:5])
+    
+}
