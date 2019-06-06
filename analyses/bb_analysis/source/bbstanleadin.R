@@ -126,6 +126,25 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
  )
 }
 
+# This is ALL species (no species complex used) and all types & NOT z-scored
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & 
+    use.expchillonly == FALSE & use.zscore == FALSE){
+  bb.stan <- addcomplex.allspp(bb.all)
+  source("source/bb_zscorepreds.R")
+  datalist.bb <- with(bb.stan, 
+                      list(y = resp, 
+                           chill = chill, 
+                           force = force, 
+                           photo = photo,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
+
+
 
 # Species complex and all types & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
@@ -411,10 +430,11 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 }
 
 # Species complex, exp and photo and forcing and using utah WITH CROPS & NOT z-scored
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes
+  
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 

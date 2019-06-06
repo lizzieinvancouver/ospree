@@ -105,7 +105,9 @@ f.sigma.z<-round(fit.z[grep("sigma_b_force_sp", rownames(fit.z)),1], digits=2)
 c.sigma.z<-round(fit.z[grep("sigma_b_chill_sp", rownames(fit.z)),1], digits=2)
 d<-read.csv("..//..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 
-nsp<-70#got this from doing: unique(paste(bb.stan$genus,bb.stan$species) with flags located in snippet_for_ns.R
+nsp<-203#got this from doing: unique(paste(bb.stan$genus,bb.stan$species) with flags located in snippet_for_ns.R
+nst<-49#got this from doing: unique(paste(bb.stan$genus,bb.stan$species) with flags located in snippet_for_ns.R
+nexp<-72#got this from doing: unique(paste(bb.stan$genus,bb.stan$species) with flags located in snippet_for_ns.R
 @
 
 \begin{abstract}
