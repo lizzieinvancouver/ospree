@@ -99,29 +99,28 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \item Species complex description: Dan B. do this
 
-\item Equation of our model: Ailene and Lizzie % We may need to edit the below so it is not so plagiarized from Flynn & Wolkovich!
+\item Equation of our model: Ailene and Lizzie 
 \end{enumerate}
 
-The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}).
+The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then fit the following model:
 
-The model was fit as follows:
-%
-%\begin{align}
-%y_i \thicksim N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}})
-%\end{align}
+\begin{align*}
+y_i \thicksim N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}}, \sigma_y)
+\end{align*}
 
-\noindent The $\alpha$ and each of the 14 $\beta$ coefficients were modeled at the species level, as follows:
-%\begin{align}
-%1.& \; \beta_{forcing_{sp}} \thicksim N(\mu_{forcing}, \sigma{^2}_{forcing}) \\
-%2.  & \beta_{photoperiod_{sp}} \thicksim N(\mu_{photoperiod}, \sigma{^2}_{photoperiod} \\
-%3.& \beta_{chilling{sp}} \thicksim N(\mu_{chilling}, \sigma{^2}_{chilling})
-%\end{align}
+\noindent The $\alpha$ and each of the three $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} & \thicksim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} & \thicksim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} & \thicksim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} & \thicksim N(\mu_{chilling}, \sigma_{chilling})
+\end{align*}
 
-\noindent For the $\mu$ and $\sigma$ parameters, weakly informative priors were chosen (increasing the priors three-fold did not change the model results). We validated that our model code could return valid parameter values using test data. 
+\noindent We choose weakly informative priors; iincreasing the priors three-fold did not change the model results. 
 
-We ran four chains simultaneously, with 4 000 warm-up iterations followed by 3 997 sampling iterations, resulting in 15 998 posterior samples for each parameter. We used a non-centered parameterization on all interaction terms and assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (15 998 for most parameters, but as low as 2440 for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
+We ran four chains simultaneously, with 4 000 warm-up iterations followed by X XXX sampling iterations, yeilding XX XXX posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (XX XXX for most parameters, but as low as XXXX for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
 
-In our figures we show means $\pm$ 50\% credible intervals from this model. We used 50\% intervals because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. For those interested in a more traditional significance-testing approach (which is not our focus here), we provide 95\% credible intervals in Table S3-S6. To assess relationships between responses to forcing, chilling and photoperiod across species we fit a simple linear relationship to each of the 1000 last iterations and report the mean and 50\% credible intervals from the resulting distribution.
+In our figures we show means $\pm$ XX\% credible intervals from this model, because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See tables XX other XX\% credible intervals. 
 
 \begin{enumerate}
 \item Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
