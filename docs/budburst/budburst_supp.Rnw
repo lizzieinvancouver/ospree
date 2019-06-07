@@ -201,7 +201,14 @@ nonztab<-round(cbind(fit.nonz[1:9,1],fit.nonz[1:9,4],fit.nonz[1:9,8]),digits=2)
 load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
 fit.z <- summary(m2l.ni)$summary
 ztab<-round(cbind(fit.z[1:9,1],fit.z[1:9,4],fit.z[1:9,8]),digits=2)
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
+fitcp.nonz <- summary(m2l.ni)$summary
+nonzcptab<-round(cbind(fit.nonz[1:9,1],fit.nonz[1:9,4],fit.nonz[1:9,8]),digits=2)
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
+fitcp.z <- summary(m2l.ni)$summary
+zcptab<-round(cbind(fit.z[1:9,1],fit.z[1:9,4],fit.z[1:9,8]),digits=2)
 
+modtable<-rbind(nonztab,ztab,nonzcptab,zcptab)
 
 #source("../../analyses/bb_analysis/mod_table.R")
 mod.table <- xtable(modtable, caption="\\textbf{Model estimates}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We present coefficients from models in which the predictors have been standardized so that they are directly comnparable, as well as unstandardized predictors, in which the effect sizes can be more readily intepreted in a meaningul way (e.g., change in days of budburst per degree C of warming for forcing temperature).", 
