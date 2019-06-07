@@ -11,6 +11,7 @@
 \usepackage{pdflscape}
 \usepackage{array}
 \usepackage{gensymb}
+\usepackage{amsmath}
 %\usepackage[backend=bibtex]{biblatex}
 %Strongly recommended
   %put your figures in one place
@@ -98,8 +99,31 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \item Species complex description: Dan B. do this
 
-\item Equation of our model: Ailene and Lizzie
+\item Equation of our model: Ailene and Lizzie % We may need to edit the below so it is not so plagiarized from Flynn & Wolkovich!
+\end{enumerate}
 
+The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}).
+
+The model was fit as follows:
+%
+%\begin{align}
+%y_i \thicksim N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}})
+%\end{align}
+
+\noindent The $\alpha$ and each of the 14 $\beta$ coefficients were modeled at the species level, as follows:
+%\begin{align}
+%1.& \; \beta_{forcing_{sp}} \thicksim N(\mu_{forcing}, \sigma{^2}_{forcing}) \\
+%2.  & \beta_{photoperiod_{sp}} \thicksim N(\mu_{photoperiod}, \sigma{^2}_{photoperiod} \\
+%3.& \beta_{chilling{sp}} \thicksim N(\mu_{chilling}, \sigma{^2}_{chilling})
+%\end{align}
+
+\noindent For the $\mu$ and $\sigma$ parameters, weakly informative priors were chosen (increasing the priors three-fold did not change the model results). We validated that our model code could return valid parameter values using test data. 
+
+We ran four chains simultaneously, with 4 000 warm-up iterations followed by 3 997 sampling iterations, resulting in 15 998 posterior samples for each parameter. We used a non-centered parameterization on all interaction terms and assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (15 998 for most parameters, but as low as 2440 for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
+
+In our figures we show means $\pm$ 50\% credible intervals from this model. We used 50\% intervals because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. For those interested in a more traditional significance-testing approach (which is not our focus here), we provide 95\% credible intervals in Table S3-S6. To assess relationships between responses to forcing, chilling and photoperiod across species we fit a simple linear relationship to each of the 1000 last iterations and report the mean and 50\% credible intervals from the resulting distribution.
+
+\begin{enumerate}
 \item Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
 
 \item Forecasting with the OSPREE model: We selected sites in Germany where temperature and budburst have been monitored since the 1950s. We extracted mean temperature data from 1951 through 1961 (pre warming time period) and used these values as baseline data. We then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C) above this baseline, including altered chilling and forcing as well as potential declines in photoperiod due to advancing phenology. We did this for one common European species: \emph{Betula pendula} (silver birch) at all lat/longs included in the PEP database between 1951 and 1961. We also did this for another common European species, \emph{Fagus sylvatica}, for a subset of sites where it occured with \emph{B. pendula}, in order to compare budburst responses of these two species when they experience the same baseline climate and warming levels.
@@ -162,89 +186,6 @@ Next, we simulated budburst data with constant cues. For this, we did not includ
 
 \bibliography{..//..//refs/ospreebibplus.bib}
 
-section* {Figures}
-
-\newpage
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text. Convert this into a table and combie with below figure!} 
-\label{fig:mucpz}
-\end{figure}
-
-%no need for figure- just do below as a table
-%\begin{figure}[h!]
-%\centering
-%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_nonz.pdf}
-%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Utah units. Relationships of coefficients were qualitatively similar to those in the centered models (Figures 1, \ref{fig:mucpz}.} 
-%\label{fig:muutnonz}
-%\end{figure}
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelm2lni_spcompexprampfpcp_nonz.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Chill Portions. Convert this into a table and combie with above figure!} 
-\label{fig:mucpnonz}
-\end{figure}
+\section* {Tables}
 
 
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
-\caption{Day of leaf out versus chilling, growing degree-days, and mean spring temperature pre- (left panels, 1951-1961) and post- warming (right panels,2000-2010) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
-\label{fig:pep}
-\end{figure}
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/lat_analysis/figures/LatxPhoto_allspp.pdf}
-\caption{Latitude model. Cat: Could you make a muplot that is similar to those in the main text? Should we keep this plot, or something similar as a second panel?}
-\label{fig:lat}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/heatmap_betpen_forecastbbchill.pdf}
-\caption{Forecasted changes in chilling (top panel) and budburst (bottom panel), in PEP areas. Ailene will update this. }
-\label{fig:foremap}
-\end{figure}
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecast_bothspp_PEPBB_wdl_utah.pdf}
-\caption{Forecasted }
-\label{fig:foremap}
-\end{figure}
-
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign_heat3panel.pdf}
-\caption{Heatmaps of treatments ... need to make sure this matches the data we have ended up using!}
-\label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
-\end{figure}
-
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/peprealandsims.pdf}
-\caption{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact. We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP 725 data for \emph{Betula pendula} from 45 sites (`European data') with estimated declines in simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (`Simulations') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed, see \emph{Understanding declines in temperature sensitivity in European long-term data} in Supplement for further details.}
-\label{fig:pepsims}
-\end{figure}
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/gddbyutah_pepspp.pdf}
-\caption{GDD (growing degree days) versus chill units at the time of budburst from the OSPREE database for common species in the PEP 725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD  here as the average daily forcing temperature multiplied by days to budburst. }
-\label{fig:pepgddchill}
-\end{figure}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\end{document}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

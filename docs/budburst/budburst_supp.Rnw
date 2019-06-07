@@ -11,6 +11,7 @@
 \usepackage{pdflscape}
 \usepackage{array}
 \usepackage{gensymb}
+\usepackage{amsmath}
 %\usepackage[backend=bibtex]{biblatex}
 %Strongly recommended
   %put your figures in one place
@@ -99,20 +100,22 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \item Species complex description: Dan B. do this
 
 \item Equation of our model: Ailene and Lizzie % We may need to edit the below so it is not so plagiarized from Flynn & Wolkovich!
+\end{enumerate}
 
 The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}).
 
 The model was fit as follows:
-\begin{align*}
-y_i \thicksim N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}}  )
-\end{align*}
+%
+%\begin{align}
+%y_i \thicksim N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}})
+%\end{align}
 
 \noindent The $\alpha$ and each of the 14 $\beta$ coefficients were modeled at the species level, as follows:
-\begin{align*}
-1.& \; \beta_{forcing_{sp}} \thicksim N(\mu_{forcing}, \sigma{^2}_{forcing}) \\
-2.  & \beta_{photoperiod_{sp}} \thicksim N(\mu_{photoperiod}, \sigma{^2}_{photoperiod} \\
-3.& \beta_{chilling{sp}} \thicksim N(\mu_{chilling}, \sigma{^2}_{chilling})
-\end{align*}
+%\begin{align}
+%1.& \; \beta_{forcing_{sp}} \thicksim N(\mu_{forcing}, \sigma{^2}_{forcing}) \\
+%2.  & \beta_{photoperiod_{sp}} \thicksim N(\mu_{photoperiod}, \sigma{^2}_{photoperiod} \\
+%3.& \beta_{chilling{sp}} \thicksim N(\mu_{chilling}, \sigma{^2}_{chilling})
+%\end{align}
 
 \noindent For the $\mu$ and $\sigma$ parameters, weakly informative priors were chosen (increasing the priors three-fold did not change the model results). We validated that our model code could return valid parameter values using test data. 
 
@@ -120,6 +123,7 @@ We ran four chains simultaneously, with 4 000 warm-up iterations followed by 3 9
 
 In our figures we show means $\pm$ 50\% credible intervals from this model. We used 50\% intervals because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. For those interested in a more traditional significance-testing approach (which is not our focus here), we provide 95\% credible intervals in Table S3-S6. To assess relationships between responses to forcing, chilling and photoperiod across species we fit a simple linear relationship to each of the 1000 last iterations and report the mean and 50\% credible intervals from the resulting distribution.
 
+\begin{enumerate}
 \item Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
 
 \item Forecasting with the OSPREE model: We selected sites in Germany where temperature and budburst have been monitored since the 1950s. We extracted mean temperature data from 1951 through 1961 (pre warming time period) and used these values as baseline data. We then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C) above this baseline, including altered chilling and forcing as well as potential declines in photoperiod due to advancing phenology. We did this for one common European species: \emph{Betula pendula} (silver birch) at all lat/longs included in the PEP database between 1951 and 1961. We also did this for another common European species, \emph{Fagus sylvatica}, for a subset of sites where it occured with \emph{B. pendula}, in order to compare budburst responses of these two species when they experience the same baseline climate and warming levels.
@@ -182,7 +186,50 @@ Next, we simulated budburst data with constant cues. For this, we did not includ
 
 \bibliography{..//..//refs/ospreebibplus.bib}
 
-section* {Figures}
+\section* {Tables}
+
+
+<<label=xtable1, echo=FALSE, results=tex>>=
+#load models to report estimates, use chill portions
+library(xtable)
+library(plyr)
+library(dplyr)
+library(rstan)
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
+fit.nonz <- summary(m2l.ni)$summary
+nonztab<-round(cbind(fit.nonz[1:9,1],fit.nonz[1:9,4],fit.nonz[1:9,8]),digits=2)
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
+fit.z <- summary(m2l.ni)$summary
+ztab<-round(cbind(fit.z[1:9,1],fit.z[1:9,4],fit.z[1:9,8]),digits=2)
+
+
+#source("../../analyses/bb_analysis/mod_table.R")
+mod.table <- xtable(modtable, caption="\\textbf{Model estimates}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We present coefficients from models in which the predictors have been standardized so that they are directly comnparable, as well as unstandardized predictors, in which the effect sizes can be more readily intepreted in a meaningul way (e.g., change in days of budburst per degree C of warming for forcing temperature).", 
+        label="tab:methods",align=c(
+               "p{0.01\\textwidth}|",
+                "|p{0.04\\textwidth}|",
+               "p{0.15\\textwidth}|",
+               "p{0.12\\textwidth}|",
+               "p{0.04\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.03\\textwidth}|",
+               "p{0.04\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.05\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|"))
+
+print(site.table, include.rownames=FALSE, hline.after = c(-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),caption.placement="top",size="\\footnotesize")
+
+@
+
+
+
+\section* {Figures}
 
 \newpage
 
