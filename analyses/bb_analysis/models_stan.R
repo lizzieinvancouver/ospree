@@ -43,12 +43,12 @@ use.chillports = FALSE # change to false for using utah instead of chill portion
 use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
-use.allspp = FALSE
+use.allspp = TRUE
 use.multcuespp = FALSE
-use.cropspp = FALSE
+use.cropspp = TRUE
 
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
+use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 
 #Default is all chilling data
@@ -56,6 +56,8 @@ use.expchillonly = FALSE # change to true for only experimental chilling
 #note: with only exp chilling, there is only exp photo and force too.
 #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 source("source/bbstanleadin.R")
+
+
 
 # write.csv(bb.stan, "..//output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", row.names=FALSE)
 
@@ -152,8 +154,16 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
 }
 
-
-
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
+}
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z.Rda")
+}
 
 ###### SIDE BAR #####
 ## Getting R2 etc. ##

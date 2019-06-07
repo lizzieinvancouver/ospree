@@ -194,46 +194,34 @@ library(xtable)
 library(plyr)
 library(dplyr)
 library(rstan)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
-fit.nonz <- summary(m2l.ni)$summary
-nonztab<-round(cbind(fit.nonz[1:9,1],fit.nonz[1:9,4],fit.nonz[1:9,8]),digits=2)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
-fit.z <- summary(m2l.ni)$summary
-ztab<-round(cbind(fit.z[1:9,1],fit.z[1:9,4],fit.z[1:9,8]),digits=2)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfpcp_z.Rda") # m2l.ni
-fitcp.nonz <- summary(m2l.ni)$summary
-nonzcptab<-round(cbind(fit.nonz[1:9,1],fit.nonz[1:9,4],fit.nonz[1:9,8]),digits=2)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
-fitcp.z <- summary(m2l.ni)$summary
-zcptab<-round(cbind(fit.z[1:9,1],fit.z[1:9,4],fit.z[1:9,8]),digits=2)
-
-modtable<-rbind(nonztab,ztab,nonzcptab,zcptab)
-
-#source("../../analyses/bb_analysis/mod_table.R")
-mod.table <- xtable(modtable, caption="\\textbf{Model estimates}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We present coefficients from models in which the predictors have been standardized so that they are directly comnparable, as well as unstandardized predictors, in which the effect sizes can be more readily intepreted in a meaningul way (e.g., change in days of budburst per degree C of warming for forcing temperature).", 
+source("../../analyses/bb_analysis/source/mod_table.R")
+mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with standardized predictors}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We also present coefficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
         label="tab:methods",align=c(
                "p{0.01\\textwidth}|",
-                "|p{0.04\\textwidth}|",
+                "|p{0.05\\textwidth}|",
                "p{0.15\\textwidth}|",
-               "p{0.12\\textwidth}|",
-               "p{0.04\\textwidth}|",
-               "p{0.07\\textwidth}|",
-               "p{0.07\\textwidth}|",
-               "p{0.03\\textwidth}|",
-               "p{0.04\\textwidth}|",
-               "p{0.07\\textwidth}|",
-               "p{0.07\\textwidth}|",
-               "p{0.07\\textwidth}|",
                "p{0.05\\textwidth}|",
-               "p{0.06\\textwidth}|",
-               "p{0.08\\textwidth}|",
-               "p{0.08\\textwidth}|"))
+               "p{0.15\\textwidth}|",
+               "p{0.05\\textwidth}|",
+               "p{0.15\\textwidth}|"))
 
-print(site.table, include.rownames=FALSE, hline.after = c(-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15),caption.placement="top",size="\\footnotesize")
+print(mod.table, include.rownames=FALSE, hline.after = c(-1,0,9),caption.placement="top",size="\\footnotesize")
+
+nonzmod.table <- xtable(nonzmodtable, caption="\\textbf{Estimates from model fit with predictors on their natural scales}  so that effect sizes can be more readily intepreted in a meaningul way (e.g., change in days of budburst per degree C of warming for forcing temperature). The main model we present in the main text uses Utah units for chilling. We also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
+        label="tab:methods",align=c(
+               "p{0.01\\textwidth}|",
+                "|p{0.05\\textwidth}|",
+               "p{0.15\\textwidth}|",
+               "p{0.05\\textwidth}|",
+               "p{0.15\\textwidth}|",
+               "p{0.05\\textwidth}|",
+               "p{0.15\\textwidth}|"))
+
+print(mod.table, include.rownames=FALSE, hline.after = c(-1,0,9),caption.placement="top",size="\\footnotesize")
 
 @
 
-
+% 
 
 \section* {Figures}
 

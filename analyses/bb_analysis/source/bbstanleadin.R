@@ -109,14 +109,14 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TR
 ## 
 
 # This is ALL species (no species complex used) and all types & z-scored
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & 
-    use.expchillonly == FALSE & use.zscore == TRUE){
+    use.expchillonly == FALSE & use.chillports == FALSE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.all)
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
-                         chill = chill.ports.z, 
+                         chill = chill.z, 
                          force = force.z, 
                          photo = photo.z,
                          sp = complex,
@@ -129,7 +129,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 # This is ALL species (no species complex used) and all types & NOT z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & 
-    use.expchillonly == FALSE & use.zscore == FALSE){
+    use.expchillonly == FALSE & use.chillports == FALSE & use.zscore == FALSE){
   bb.stan <- addcomplex.allspp(bb.all)
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
