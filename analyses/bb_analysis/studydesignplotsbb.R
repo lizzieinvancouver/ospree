@@ -89,7 +89,7 @@ dsumm.nums <-
 
 
 # make figures prettier than average
-basesize <- 11
+basesize <- 12
 
 heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
@@ -134,7 +134,7 @@ dev.off()
 
 
 require(cowplot)
-pdf("figures/studydesign_heat3panel.pdf", width = 16, height = 7)
+pdf("figures/studydesign_heat3panel.pdf", width = 16, height = 6)
 plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
-    labels = c('(a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
+    labels = c(' (a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
 dev.off()
