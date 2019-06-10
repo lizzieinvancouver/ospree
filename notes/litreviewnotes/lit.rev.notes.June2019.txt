@@ -1,0 +1,49 @@
+Literature Review: June 2019
+
+Searched by: Deirdre Loughnan & Darwin Sodhi
+
+WOS: Deirdre 
+GS: Darwin
+
+Unprocessed papers can be found in: 
+Google drive --> OSPREE Papers --> Papers_2016_2018
+
+-----------------------------------------------------------
+1 - (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
+WOS: 7
+GS: 
+
+2 - (budburst OR leaf-out) AND dorman*
+WOS: 
+GS: 
+- - - - - - 
+
+Other search terms which we tested: 
+
+(budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
+WOS: 
+GS: 
+
+(budburst OR flower* OR leaf-out) AND photoperiod AND temp*
+WOS: 
+GS: 
+
+(budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
+WOS: 
+GS: 
+
+(budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
+WOS: 
+GS: 
+
+(budburst OR leaf-out) AND (photoperiod or daylength) AND temp*
+WOS: 
+GS: 
+
+(budburst OR leaf-out) AND dorman*
+WOS 
+GS: 
+
+((budburst OR leaf-out) AND dorman* AND (chamber* or glasshouse* or greenhouse*))
+WOS:
+GS: 
