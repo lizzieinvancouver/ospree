@@ -93,11 +93,11 @@ extractclimpost<-function(tmin,period){
   
   ## subset climate days
   monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
-  chillmonths<-c(9:12,1:3)
+  chillmonths<-c(9:12,1:4)
   monthsinchill<-which(monthsinclim%in%chillmonths)
   chillsub<-subset(climsub,monthsinchill)
   
-  warmmonths<-c(3:5)
+  warmmonths<-c(3:4)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
   warmsub<-subset(climsub,monthsinwarm)
   
@@ -449,7 +449,7 @@ if(FALSE){
   allchillsgdds<-rbind(allchillsgdds, full.site4)
   allchillsgdds<-rbind(allchillsgdds, full.site5)
 }
-#write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_45sites_tntx.csv", row.names = FALSE)
+#write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_45sites_tntx_matchdates.csv", row.names = FALSE)
 
 ##################################################################################################
 ############################### MEAN TEMP instead of GDD #########################################
@@ -476,7 +476,7 @@ climsubmax<-subset(tmax,yearsinperiod)
 
 ## subset climate days
 monthsinclim<-as.numeric(format(as.Date(names(climsubmin),format="X%Y.%m.%d"),"%m"))
-mstmonths<-c(3:5)
+mstmonths<-c(3:4)
 monthsinmst<-which(monthsinclim%in%mstmonths)
 mstsub<-subset(climsubmin,monthsinmst)
 
@@ -521,7 +521,7 @@ mst<-mst[!duplicated(mst),]
 
 fullsites45 <- left_join(full.site, mst)
 
-write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat_tntx.csv", row.names = FALSE)
+write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat_tntx_matchdates.csv", row.names = FALSE)
 
 ##################################################################################################
 ################################# Now for some plots! ############################################
@@ -593,7 +593,7 @@ if(FALSE){
 gdd.pre<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_line(data=peppre, aes(col=as.factor(lat.long)), stat="smooth", method="lm") + 
   theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + ylim(65, 150) + 
   geom_point(data=tensites[(tensites$cc=="1950-1960"),],
-             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 75) +
+             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 40) +
   scale_color_manual(name="Years", values=pre.cols,
                      labels=c("1950-1960" = "1950-1960")) 
 
@@ -601,7 +601,7 @@ gdd.post<-ggplot(tensites, aes(x=gdd, y=lo, col=as.factor(lat.long))) + geom_lin
   theme_classic() + labs(x="Growing Degree Days", y="Day of Leafout") + theme(legend.position="none") + 
   ylim(65, 150) + 
   geom_point(data=tensites[(tensites$cc=="2000-2010"),],
-             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 75) +
+             aes(col=as.factor(lat.long)), alpha=0.3) + xlim(0, 40) +
   scale_color_manual(name="Years", values=post.cols,
                      labels=c("2000-2010" = "2000-2010")) 
 
