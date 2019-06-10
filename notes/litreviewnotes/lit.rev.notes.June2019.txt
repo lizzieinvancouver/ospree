@@ -14,36 +14,36 @@ WOS: 7
 GS: 
 
 2 - (budburst OR leaf-out) AND dorman*
-WOS: 
+WOS: 10
 GS: 
 - - - - - - 
 
 Other search terms which we tested: 
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
-WOS: 
+WOS: 60
 GS: 
 
 (budburst OR flower* OR leaf-out) AND photoperiod AND temp*
-WOS: 
+WOS: 56 
 GS: 
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
-WOS: 
+WOS: 57
 GS: 
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
-WOS: 
+WOS: 7
 GS: 
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temp*
-WOS: 
+WOS: 9
 GS: 
 
 (budburst OR leaf-out) AND dorman*
-WOS 
+WOS: 10 
 GS: 
 
 ((budburst OR leaf-out) AND dorman* AND (chamber* or glasshouse* or greenhouse*))
-WOS:
+WOS: 0
 GS: 
