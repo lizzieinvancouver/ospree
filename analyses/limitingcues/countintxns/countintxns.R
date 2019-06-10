@@ -20,7 +20,7 @@ source("misc/gettreatdists.R") # f(x) counts up field sample dates separated by 
 ###################
 # All OSPREE data #
 ###################
-dat <- read.csv("output/ospree_clean.csv",header = TRUE)
+dat <- read.csv("output/ospree_clean.csv", header = TRUE)
 dat <- dat[dat$woody=="yes",]
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
 dat$doy <- format(dat$fieldsample.date, "%j")
@@ -90,8 +90,20 @@ length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 # BB OSPREE data #
 ##################
 ## Tried to ref bbstandleadin.R here but a pain ... ##
+## So below I just read in dataframes I built in bbstanleadin.R ##
 
+mainmodelbb <- FALSE # set to FALSE for larger species set
+
+if(mainmodelbb){
 bb <- read.csv("output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", header=TRUE)
+}
+if(!mainmodelbb){
+bb <- read.csv("output/bbstan_utah_allsppwcrops_allfp_allchill.csv", header=TRUE)
+}
+
+# decoder:
+# MM (main model)
+# FM (full model)
 
 # Prep df for dates ..
 bb$fieldsample.date <- as.Date(bb$fieldsample.date, format="%d-%b-%Y")
@@ -118,39 +130,61 @@ bb14d.noNA <- subset(bb14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 bb14d.fp <- get.treatdists(bb14d.noNA, "photo", "force")
 bb14d.fpintxn <- subset(bb14d.fp, intxn>=2) 
 bb14d.fpintxn[order(bb14d.fpintxn$datasetID),]
-length(unique(paste(bb14d.fpintxn$datasetID, bb14d.fpintxn$study))) # 14 studies
+length(unique(paste(bb14d.fpintxn$datasetID, bb14d.fpintxn$study))) # MM: 5 studies; FM: 6 studies
 
 bb14d.ctf <- get.treatdists(bb14d.noNA, "chilltemp", "force")
 bb14d.ctfintxn <- subset(bb14d.ctf, intxn>=2) 
-length(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study))) # 1 study: skuterud94 exp1
+length(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study))) # MM and FM: 1 study: skuterud94 exp1
 
 bb14d.cdf <- get.treatdists(bb14d.noNA, "chilldays", "force")
 bb14d.cdfintxn <- subset(bb14d.cdf, intxn>=2)  
-length(unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study))) # 5 studies (does not include skuterud94 exp1)
+length(unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study))) # MM and FM: 5 studies (does not include skuterud94 exp1)
 
 bb14d.ctp <- get.treatdists(bb14d.noNA, "chilltemp", "photo")
 bb14d.ctpintxn <- subset(bb14d.ctp, intxn>=2) 
-length(unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study))) # 1 study: myking95  exp1
+length(unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study))) # MM and FM: 1 study: myking95  exp1
 
 bb14d.cdp <- get.treatdists(bb14d.noNA, "chilldays", "photo")
 bb14d.cdpintxn <- subset(bb14d.cdp, intxn>=2)  
-length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # 6 studies (includes myking95  exp1)
+length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 6 studies (includes myking95  exp1)
 
 union.expchill1 <- union(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study)),
     unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study)))
 union.expchill2 <- union(union.expchill1, unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study)))
-union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # 8 unique studies
+union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 8 unique studies
 
 bb14d.daysf <- get.treatdists(bb14d.noNA, "fieldsample.date", "force")
 bb14d.daysfintxn <- subset(bb14d.daysf, intxn>=2) # 
-length(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study))) # 7 studies
+length(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study))) # MM: 7 studies; FM: 9 studies
 
 bb14d.daysp <- get.treatdists(bb14d.noNA, "fieldsample.date", "photo")
 bb14d.dayspintxn <- subset(bb14d.daysp, intxn>=2) 
-length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # 9 studies
+length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 9 studies; FM: 10
 
 union.fs <- union(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study)),
-    unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # 11 unique studies
+    unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 11 unique studies; FM: 13
+
+length(unique(paste(bb14d$datasetID, bb14d$study))) # MM: 38; FM: 66 studies
+
+## Okay, now dig into what the above identified ....
+
+checkme.expchill <- bb14d[which(paste(bb14d$datasetID, bb14d$study) %in% union.expchill3),]
+
+checkme.expchill.fldchill <- subset(checkme.expchill, chill_type=="fldest")
+checkme.expchill.exp <- subset(checkme.expchill, chill_type=="exp" | chill_type=="bothest")
+unique(paste(checkme.expchill.fldchill$datasetID, checkme.expchill.fldchill$study))
+sort(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study))) # 6 studies manipulate chilling
+
+# caffarra11b exp2 and basler14 exp1 show up as both exp chill and field sample dates ... need to check paper on "partanen98 exp1"
+
+# did manipulate chilling: caffarra11a exp3 exp3, myking95 exp1, worrall67 exp 3
+# campbell75, skuterud94 exp1 are bothest
+# head(subset(bb, datasetID=="caffarra11b" & study=="exp2"))
+
+checkme.fieldchill <- bb14d[which(paste(bb14d$datasetID, bb14d$study) %in% union.fs),]
+subset(checkme.fieldchill, chill_type!="fldest") # someone should chec: caffarra11b exp 2 and heide93 exp3 for whether they qualify as field or experimental chilling ...
+sort(union.fs)
+
+# So, for the FM I think 13 studies did Weinberger and 6 (including caffarra11b exp 2) did experimental chilling ... caffarra11b exp 2 overlaps between these two groups but I think counts as Weinberger. So ... 5 exp and 13 Weinberger ...
 
 
-length(unique(paste(bb14d$datasetID, bb14d$study))) # 38

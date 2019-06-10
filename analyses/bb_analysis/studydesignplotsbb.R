@@ -13,7 +13,6 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis") 
 } else setwd("~/Documents/git/ospree/analyses/bb_analysis")
 
-
 ## set up the flags
 use.chillports = TRUE
 use.zscore = FALSE
@@ -26,7 +25,6 @@ use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
 source("source/bbstanleadin.R")
-
 
 source("..//misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("..//misc/getcuesbystudy_fxs.R") # f(x) counts up cues
