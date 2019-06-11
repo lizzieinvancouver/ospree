@@ -157,3 +157,97 @@ dev.off()
 #legend.scale(range(mycols$changechill), col = cols, 
 #             horizontal = FALSE,
 #             axis.args = list(at = c(-16,1)))
+
+
+
+###### Trying to improve the figure by adding hillshade and cropping
+###### the extent. I'm still not super happy about it, 
+###### It could be turned into a better looking figure
+###### by using QGIS, but I've been traying to avoid it.
+
+library(rworldmap)
+dev.off()
+newmap <- getMap(resolution="high") 
+Germany <- newmap[c("Germany","Austria"),]
+
+# get topography
+library(dismo)
+# get topography data
+altdeu <- getData('alt', country='DEU',mask=T)
+altaus <- getData('alt', country='AUT',mask=T)
+alt=merge(altdeu,altaus)
+
+# generate reasonably looking hillshade
+slope <- terrain(alt, opt='slope')
+aspect <- terrain(alt, opt='aspect')
+hill <- hillShade(slope, aspect, 70, 270,normalize=F)
+
+
+chillchange<-unique(allests$chillchange)
+myPalette <- colorRampPalette(brewer.pal(9, "Blues")) #### Gives us a heat map look
+cols = myPalette(length(chillchange))
+mycols <- data.frame(cbind(sort(chillchange),cols))
+colnames(mycols)[1]<-"changechill"
+
+# plot basemap plus hillshade
+dev.off()
+par(mfrow=c(4,4),oma=c(0,0,0,0),mar=c(0.5,0.5,0.5,0.5))
+for(i in 1:length(warming)){
+  warmdat<-allests[allests$warming_C==warming[i],]
+  
+  plot(newmap, col="grey95", border="white", 
+       xlim=c(9,12), ylim=c(46,55))
+  plot(hill, col=grey(0:100/100), legend=FALSE,add=T)
+  lines(Germany, col="white")
+  points(c(warmdat$lon), c(warmdat$lat), pch=16, 
+         col=adjustcolor(mycols$cols[match(warmdat$chillchange, mycols$changechill)],0.6), 
+         cex=0.7)
+  text(4,54,paste(warming[i],"deg C"),adj=.5, cex=1.2)
+}
+
+dim(mycols)
+rowstokeep<-c(1,as.integer(dim(mycols)[1]/4),as.integer(dim(mycols)[1]/2),as.integer((dim(mycols)[1]/4)+(dim(mycols)[1]/2)),dim(mycols)[1])
+mycolslegend<-mycols[rowstokeep,]
+mycolslegend$changechill<-round(as.numeric(mycolslegend$changechill)*240,digits=0)
+
+plot.new()
+legend("center", # position
+       legend = mycolslegend$changechill, 
+       title = "Change in Chilling (Utah units)",
+       pch = 16,
+       col=mycolslegend$cols,
+       cex = 1.15,
+       pt.cex=1.5,
+       bty = "n") # border
+
+bbchange<-unique(allests$bbchange)
+myPalette <- colorRampPalette(brewer.pal(9, "YlOrRd")) #### Gives us a heat map look
+cols = rev(myPalette(length(bbchange)))
+mycols <- data.frame(cbind(sort(bbchange),cols))
+colnames(mycols)[1]<-"changebb"
+
+for(i in 1:length(warming)){
+  warmdat<-allests[allests$warming_C==warming[i],]
+  
+  plot(newmap, col="grey95", border="white", 
+       xlim=c(9,12), ylim=c(46,55))
+  plot(hill, col=grey(0:100/100), legend=FALSE,add=T)
+  lines(Germany, col="white")
+  points(c(warmdat$lon), c(warmdat$lat), pch=16, 
+         col=adjustcolor(mycols$cols[match(warmdat$bbchange, mycols$changebb)],0.6), 
+         cex=0.7)
+  text(4,54,paste(warming[i],"deg C"),adj=.5, cex=1.2)
+}
+
+
+plot.new()
+legend("center", # position
+       legend = mycolslegend$changebb, 
+       title = "Change in budburst",
+       pch = 16,
+       col=mycolslegend$cols,
+       cex = 1.15,
+       pt.cex= 1.5,
+       bty = "n") # border
+
+### please let me know what do you think about this map!
