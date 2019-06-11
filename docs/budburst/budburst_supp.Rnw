@@ -97,7 +97,8 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \begin{enumerate}
 \item Data: search terms, etc: Tim and Dan F.
 
-\item Species complex description: Dan B. do this
+\item \textbf{Species complex description:} Some species are only represented in one dataset in the OSPREE database, making it impossible to differentiate between species and treatment statistical effects for these taxa. To address this, we combined species found in only one study into ``complexes" at the level of genera. Thus our taxonomic units of analysis are ``species complexes"; either species represented in >1 dataset or generic complexes combing multiple species that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from our analysis.\\
+
 
 \item Equation of our model: Ailene and Lizzie 
 \end{enumerate}
