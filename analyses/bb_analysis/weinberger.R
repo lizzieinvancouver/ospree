@@ -89,6 +89,9 @@ weinberger$chill<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 5)
 weinstuds<-as.vector(paste(weinberger$datasetID, weinberger$study))
 weinstuds<-unique(weinstuds)
 
+
+
+
 ####make a new column in bb.stan
 bb.stan$dataIDstudyID<-paste(bb.stan$datasetID, bb.stan$study)
 
@@ -100,6 +103,10 @@ wein.sp<-filter(bb.stan,weinberger==1)
 unique(wein.sp$complex.wname) 
 not.wein<-filter(bb.stan,weinberger==0)
 unique(not.wein$complex.wname)
+
+unique(wein.sp$dataIDstudyID) ## how many weinberger experiments
+unique(not.wein$dataIDstudyID) ## howmany non weinberger
+
 sp.match<-intersect(unique(wein.sp$complex.wname), unique(not.wein$complex.wname))
 
 sp.match ### species in both
@@ -210,7 +217,7 @@ wein.data.utah <- with(bb.stan,
 wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
                      iter = 2500, warmup=1500)
 
-#wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
+wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
 iter = 2500, warmup=1500)
 
 
@@ -235,6 +242,9 @@ observed.here <- bb.stan$resp
 #wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
 #          "b_weinberger", "b_cw","b_pw","b_fw"),]
 
+wein.sum3.ut <- summary(wein.mod.3.ut)$summary
+matchysp.ut<-rownames_to_column(as.data.frame(wein.sum3.ut[c("mu_a_sp", "b_force", "b_photo", "b_chill",
+                                                             "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
 wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
                                                              "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
