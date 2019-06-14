@@ -123,27 +123,15 @@ count(unique(nonwein.expchill$dataIDstudyID)) ### studies that manipulate chilli
 unique(wein.sp$chill_type) # 11 rows incl falusi97, caffarra11b, heide93
 studiestoincl <- c(unique(nonwein.expchill$dataIDstudyID), unique(wein.sp$dataIDstudyID))
 
+
+##### a data set
 bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),] ##data 1 without feild estiamtes
 
 # or, or .. we include ONLY non-weinberger studies with exp chilling only
 nonwein.expchillonly <- subset(not.wein, chill_type=="exp")
 studiestoincl.exponly <- c(unique(nonwein.expchillonly$dataIDstudyID), unique(wein.sp$dataIDstudyID))
 
-
 bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl.exponly)),]
-
-###exp onnly matchingibng
-bb.stan.alt.exponly.wein<-filter(bb.stan.alt.exponly,weinberger==1)
-unique(bb.stan.alt.exponly.wein$complex.wname)
-bb.stan.alt.exponly.nowein<-filter(bb.stan.alt.exponly,weinberger==0)
-unique(bb.stan.alt.exponly.nowein$complex.wname)
-
-###match species with wein and non within the subset "bb.stan.alt"
-unique(bb.stan.alt$complex.wname)
-bb.stan.alt.wein<-filter(bb.stan.alt,weinberger==1)
-unique(bb.stan.alt.wein$complex.wname)
-bb.stan.alt.nowein<-filter(bb.stan.alt,weinberger==0)
-unique(bb.stan.alt.nowein$complex.wname)
 
 sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname)) ###species that overlap wein and nonwein from bb.stan.alt
 sp.match.bb.alt ### only 11 sp
@@ -157,14 +145,14 @@ bb.stan.alt.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match
 bb.stan.alt.exponly.matchsp<- bb.stan.alt.exponly[which(bb.stan.alt.exponly$complex.wname %in% sp.match.bb.alt.exponly),] ###if want only exp non weinbergers
 #bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
 
+#make complexes numeric for stan
 bb.stan.alt.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.matchsp$complex.wname))
 bb.stan.alt.exponly.matchsp$complex <- as.numeric(as.factor(bb.stan.alt.exponly.matchsp$complex.wname))
-bb.stan.alt.matchsp.nowien<-filter(bb.stan.alt.matchsp,weinberger==0)
 
+##how lare are each stat set
 nrow(bb.stan.alt.matchsp) ###889
-nrow(bb.stan.alt.matchsp.nowien) ### 551, so only 254 are weinbuerger in this dataset bbstanaltmatchsp
 nrow(bb.stan.alt.exponly.matchsp) ###639
-nrow(bb.stan.alt)
+nrow(bb.stan.alt) ##1529
 
 
 ## Set up the bb.stan to use
@@ -174,7 +162,7 @@ bb.stan <- bb.stan.alt.matchsp # this is target dataset weinberger and non weinb
 #bb.stan<-bb.stan.matchsp
 #bb.stan<-bb.stan.alt.exponly.matchsp
 
-source("source/bb_zscorepreds.R")
+source("source/bb_zscorepreds.R")### need to re zscore things on new data set
 
 ######################
 ####make datalist
