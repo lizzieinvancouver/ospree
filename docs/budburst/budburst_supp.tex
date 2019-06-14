@@ -97,17 +97,32 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \begin{enumerate}
 \item Data: search terms, etc: Tim and Dan F.
 
-\item Species complex description: Dan B. do this
+\item \textbf{Species complex description:} Some species are only represented in one dataset in the OSPREE database, making it impossible to differentiate between species and treatment statistical effects for these taxa. To address this, we combined species found in only one study into ``complexes" at the level of genera. Thus our taxonomic units of analysis are ``species complexes"; either species represented in >1 dataset or generic complexes combing multiple species that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from our analysis.\\
+
 
 \item Equation of our model: Ailene and Lizzie 
 \end{enumerate}
 
-The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then
+The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version XXX) in R \citep{Rcore:2017}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then fit the following model:
+
+\begin{align*}
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]} + \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
+\end{align*}
+
+
+
+\noindent The $\alpha$ and each of the three $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
+\end{align*}
 \noindent We choose weakly informative priors; iincreasing the priors three-fold did not change the model results. 
 
-We ran four chains simultaneously, with 4 000 warm-up iterations followed by X XXX sampling iterations, yeilding XX XXX posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (XX XXX for most parameters, but as low as XXXX for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
+We ran four chains simultaneously, each with 1 500 warm-up iterations followed by 2 500 sampling iterations, yeilding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as XXXX for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
 
-In our figures we show means $\pm$ XX\% credible intervals from this model, because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See tables XX other XX\% credible intervals. 
+In our figures and tables we show means $\pm$ XX\% credible intervals from this model, because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See tables XX other XX\% credible intervals. 
 
 \begin{enumerate}
 \item Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
@@ -130,7 +145,7 @@ In our figures we show means $\pm$ XX\% credible intervals from this model, beca
 \section*{Supplemental Tables}
 \begin{enumerate}
 \item Table 1S: Species included in OSPREE, with the reference(s) of studies they are included in, the range of forcing, chilling, and photoperiod treatments in these studies, and perhaps the range of latitudes.
-\item Table 2S: model estimates for 4 models: Utah z (used in main text Figure 1), Utah uncentered, Chill portions z, Chill portions uncentered
+\item Table 2S: model estimates (DONE)
 \item Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
 \end{enumerate}
 \section*{Supplemental figures}
@@ -175,65 +190,69 @@ Next, we simulated budburst data with constant cues. For this, we did not includ
 \section* {Tables}
 
 
-% latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Fri Jun  7 15:42:13 2019
+% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Fri Jun 14 11:51:17 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Estimates from model fit with standardized predictors}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We also present coefficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
+\caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions (column two) results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
 \label{tab:methods}
 \begingroup\footnotesize
-\begin{tabular}{|p{0.05\textwidth}|p{0.15\textwidth}|p{0.05\textwidth}|p{0.15\textwidth}|p{0.05\textwidth}|p{0.15\textwidth}|}
+\begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
   \hline
-utah.est & utah.ci & cp.est & cp.ci & utahallsp.est & utahallsp.ci \\ 
+parameter & utah.est & utah.ci & cp.est & cp.ci & allsp.est & allsp.ci \\ 
   \hline
-62.85 & 54.93-70.67 & 67.04 & 57.95-76.16 & 62.6 & 57.62-67.52 \\ 
-  -0.79 & -1.17--0.4 & -0.85 & -1.26--0.44 & -1.04 & -1.29--0.78 \\ 
-  -0.54 & -0.93--0.16 & -0.53 & -0.91--0.19 & -0.14 & -0.35-0.07 \\ 
-  -2.85 & -3.77--1.95 & -0.25 & -0.33--0.16 & -2.46 & -2.9--2.05 \\ 
-  19.2 & 14.7-24.77 & 22.06 & 16.75-28.33 & 17.63 & 15.25-20.2 \\ 
-  0.91 & 0.63-1.27 & 1 & 0.71-1.38 & 0.71 & 0.57-0.87 \\ 
-  0.78 & 0.5-1.16 & 0.7 & 0.46-1.03 & 0.59 & 0.44-0.74 \\ 
-  2.06 & 1.48-2.84 & 0.21 & 0.15-0.29 & 1.24 & 0.95-1.58 \\ 
-  15.82 & 15.29-16.4 & 15.53 & 15-16.08 & 15.17 & 14.78-15.57 \\ 
+mu\_a\_sp & 62.89 & 54.9-70.93 & 67.02 & 58.05-75.76 & 62.57 & 57.64-67.38 \\ 
+  mu\_b\_force\_sp & -0.79 & -1.16--0.42 & -0.85 & -1.25--0.45 & -1.02 & -1.29--0.76 \\ 
+  mu\_b\_photo\_sp & -0.53 & -0.93--0.16 & -0.54 & -0.9--0.18 & -0.14 & -0.35-0.06 \\ 
+  mu\_b\_chill\_sp & -2.86 & -3.78--1.95 & -0.25 & -0.33--0.16 & -2.49 & -2.92--2.06 \\ 
+  sigma\_a\_sp & 19.17 & 14.76-25.04 & 21.93 & 16.9-28.18 & 17.7 & 15.31-20.42 \\ 
+  sigma\_b\_force\_sp & 0.91 & 0.63-1.25 & 0.99 & 0.69-1.41 & 0.71 & 0.57-0.88 \\ 
+  sigma\_b\_photo\_sp & 0.77 & 0.49-1.14 & 0.7 & 0.46-1.02 & 0.59 & 0.45-0.74 \\ 
+  sigma\_b\_chill\_sp & 2.06 & 1.46-2.82 & 0.2 & 0.14-0.28 & 1.24 & 0.95-1.57 \\ 
+  sigma\_y & 15.83 & 15.28-16.39 & 15.53 & 15.01-16.08 & 15.16 & 14.77-15.58 \\ 
+   \hline
+n\_sp & 39 &  & 39 &  & 205 &  \\ 
    \hline
 \end{tabular}
 \endgroup
-\end{table}% latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Fri Jun  7 15:42:13 2019
+\end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Fri Jun 14 11:51:18 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Estimates from model fit with standardized predictors}. The main model we present in the main text uses Utah units for chilling. Using a Chill Portions instead changes the species-level and overal estimates quantitivatively, though the results are qualitatively similar. We also present coefficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
+\caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
 \label{tab:methods}
 \begingroup\footnotesize
-\begin{tabular}{|p{0.05\textwidth}|p{0.15\textwidth}|p{0.05\textwidth}|p{0.15\textwidth}|p{0.05\textwidth}|p{0.15\textwidth}|}
+\begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
   \hline
-utah.est & utah.ci & cp.est & cp.ci & utahallsp.est & utahallsp.ci \\ 
+parameter & utah.est & utah.ci & cp.est & cp.ci & allsp.est & allsp.ci \\ 
   \hline
-62.85 & 54.93-70.67 & 67.04 & 57.95-76.16 & 62.6 & 57.62-67.52 \\ 
-  -0.79 & -1.17--0.4 & -0.85 & -1.26--0.44 & -1.04 & -1.29--0.78 \\ 
-  -0.54 & -0.93--0.16 & -0.53 & -0.91--0.19 & -0.14 & -0.35-0.07 \\ 
-  -2.85 & -3.77--1.95 & -0.25 & -0.33--0.16 & -2.46 & -2.9--2.05 \\ 
-  19.2 & 14.7-24.77 & 22.06 & 16.75-28.33 & 17.63 & 15.25-20.2 \\ 
-  0.91 & 0.63-1.27 & 1 & 0.71-1.38 & 0.71 & 0.57-0.87 \\ 
-  0.78 & 0.5-1.16 & 0.7 & 0.46-1.03 & 0.59 & 0.44-0.74 \\ 
-  2.06 & 1.48-2.84 & 0.21 & 0.15-0.29 & 1.24 & 0.95-1.58 \\ 
-  15.82 & 15.29-16.4 & 15.53 & 15-16.08 & 15.17 & 14.78-15.57 \\ 
+mu\_a\_sp & 29.92 & 26.41-33.37 & 30.77 & 27-34.46 & 30.86 & 28.61-33.17 \\ 
+  mu\_b\_force\_sp & -4.37 & -6.7--2.12 & -4.83 & -7.12--2.46 & -6.15 & -8.56--3.72 \\ 
+  mu\_b\_photo\_sp & -3.13 & -5.63--0.77 & -3.17 & -5.51--0.95 & -1.03 & -2.31-0.2 \\ 
+  mu\_b\_chill\_sp & -8.87 & -12.06--5.77 & -8.16 & -11.19--5.16 & -8.04 & -9.65--6.42 \\ 
+  sigma\_a\_sp & 9.41 & 7.21-12.2 & 10.14 & 7.8-13.19 & 14.42 & 12.67-16.42 \\ 
+  sigma\_b\_force\_sp & 5.68 & 4.01-7.77 & 6.04 & 4.33-8.27 & 8.51 & 6.53-10.88 \\ 
+  sigma\_b\_photo\_sp & 5.22 & 3.36-7.85 & 4.46 & 2.92-6.62 & 3.69 & 2.83-4.67 \\ 
+  sigma\_b\_chill\_sp & 7.38 & 5.27-10.1 & 7.88 & 5.67-10.59 & 6.27 & 4.8-7.85 \\ 
+  sigma\_y & 15.77 & 15.24-16.32 & 15.47 & 14.93-16.02 & 14.93 & 14.55-15.32 \\ 
+   \hline
+n\_sp & 39 &  & 39 &  & 205 &  \\ 
    \hline
 \end{tabular}
 \endgroup
 \end{table}
 % 
 
-\section* {Figures}
 
 \newpage
+\section* {Figures}
 
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
-\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text. Convert this into a table and combie with below figure!} 
-\label{fig:mucpz}
-\end{figure}
+%\begin{figure}[h!]
+%\centering
+%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
+%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text. Convert this into a table and combie with below figure!} 
+%\label{fig:mucpz}
+%\end{figure}
 
 %no need for figure- just do below as a table
 %\begin{figure}[h!]
@@ -268,14 +287,14 @@ utah.est & utah.ci & cp.est & cp.ci & utahallsp.est & utahallsp.ci \\
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/heatmap_betpen_forecastbbchill.pdf}
-\caption{Forecasted changes in chilling (top panel) and budburst (bottom panel), in PEP areas. Ailene will update this. }
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/Heatmap_betpen_forecast_chillbb_nacho.pdf}
+\caption{\textbf{Forecasted changes in chilling (top panel) and leafout for \emph{Betula pendula}(bottom panel)}, in locations included in the PEP database, where phenology dates are known for the pre-warming time period (1951-1960). Changes in chilling and budburst are calculated relative to the mean chilling and budburst dates during this pre-warming timeperiod for each location.} 
 \label{fig:foremap}
 \end{figure}
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecast_bothspp_PEPBB_wdl_utah.pdf}
-\caption{Forecasted }
+\caption{Forecasted budburst with shifts in daylength}
 \label{fig:foremap}
 \end{figure}
 
@@ -284,7 +303,7 @@ utah.est & utah.ci & cp.est & cp.ci & utahallsp.est & utahallsp.ci \\
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign_heat3panel.pdf}
-\caption{Heatmaps of treatments ... need to make sure this matches the data we have ended up using!}
+\caption{\textbf{Heatmaps of treatments} ... need to make sure this matches the data we have ended up using!}
 \label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
 \end{figure}
 
