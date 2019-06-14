@@ -26,7 +26,7 @@ figpath <- "figures"
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to true for using chillportions instead of utah units
+use.chillports = FALSE # change to true for using chillportions instead of utah units
 use.zscore = TRUE # change to false to use raw predictors
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -77,7 +77,7 @@ ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study,
 dates2weekstreat <- countfieldsample(ddatefxtreat, 14)
 names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
 
-weinberger<-filter(dates2weekstreat,fs.date.count>=2)
+weinberger<-filter(dates2weekstreat,fs.date.count>=2)##this selects studies that have more than 2 sample dates 2 weeks apart
 #clean it a little bit
 weinberger$datasetID<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 1)
 weinberger$study<-sapply(strsplit(weinberger$datasetIDstudy, " "), "[", 2)
@@ -106,24 +106,30 @@ unique(not.wein$complex.wname)
 
 unique(wein.sp$dataIDstudyID) ## how many weinberger experiments
 unique(not.wein$dataIDstudyID) ## howmany non weinberger
+unique(bb.stan$dataIDstudyID) ##42 total experiments
 
 sp.match<-intersect(unique(wein.sp$complex.wname), unique(not.wein$complex.wname))
-
 sp.match ### species in both
 
 ######################
 # now we exclude non-weinberger studies that do NOT manipulate chilling
+
 nonwein.expchill <- subset(not.wein, chill_type!="fldest")
+unique(nonwein.expchill$dataIDstudyID) ## this is number of experiments that manipulate chilling but not weinberger (16)
+
+count(unique(not.wein$dataIDstudyID)) ##all non weinbergerstudes
+count(unique(nonwein.expchill$dataIDstudyID)) ### studies that manipulate chilling with out weinberger
+25-16
 unique(wein.sp$chill_type) # 11 rows incl falusi97, caffarra11b, heide93
 studiestoincl <- c(unique(nonwein.expchill$dataIDstudyID), unique(wein.sp$dataIDstudyID))
 
-bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),]
+bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),] ##data 1 without feild estiamtes
 
 # or, or .. we include ONLY non-weinberger studies with exp chilling only
 nonwein.expchillonly <- subset(not.wein, chill_type=="exp")
 studiestoincl.exponly <- c(unique(nonwein.expchillonly$dataIDstudyID), unique(wein.sp$dataIDstudyID))
 
-bb.stan.alt <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl)),]
+
 bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl.exponly)),]
 
 ###exp onnly matchingibng
@@ -139,10 +145,10 @@ unique(bb.stan.alt.wein$complex.wname)
 bb.stan.alt.nowein<-filter(bb.stan.alt,weinberger==0)
 unique(bb.stan.alt.nowein$complex.wname)
 
-sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname))
+sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname)) ###species that overlap wein and nonwein from bb.stan.alt
 sp.match.bb.alt ### only 11 sp
 
-sp.match.bb.alt.exponly<-intersect(unique(bb.stan.alt.exponly.wein$complex.wname), unique(bb.stan.alt.exponly.nowein$complex.wname))
+sp.match.bb.alt.exponly<-intersect(unique(bb.stan.alt.exponly.wein$complex.wname), unique(bb.stan.alt.exponly.nowein$complex.wname)) ### species that overlap wein and non wein for bb.stan,alt.exp.only
 sp.match.bb.alt.exponly##only 6 species
 
 # now we exclude try to use matching species
@@ -157,42 +163,32 @@ bb.stan.alt.matchsp.nowien<-filter(bb.stan.alt.matchsp,weinberger==0)
 
 nrow(bb.stan.alt.matchsp) ###889
 nrow(bb.stan.alt.matchsp.nowien) ### 551, so only 254 are weinbuerger in this dataset bbstanaltmatchsp
-colnames(bb.stan.alt.matchsp)
-
-table(bb.stan.alt.matchsp.nowien$datasetID)
-
-###get rid of weird species
-takeaway<-c("Vaccinium_complex","Populus_complex")
-bb.stan.alt.noblubspop<-filter(bb.stan.alt,!complex.wname %in% takeaway)
-bb.stan.alt.matchsp.noblubspop<-filter(bb.stan.alt.matchsp,!complex.wname %in% takeaway)
-
-bb.stan.alt.matchsp.noblubspop$complex <- as.numeric(as.factor(bb.stan.alt.matchsp.noblubspop$complex.wname))
-bb.stan.alt.noblubspop$complex<-as.numeric(as.factor(bb.stan.alt.noblubspop$complex.wname))
-nrow(bb.stan.alt.exponly.matchsp) ###531 
+nrow(bb.stan.alt.exponly.matchsp) ###639
 nrow(bb.stan.alt)
+
+
 ## Set up the bb.stan to use
 #bb.stan <- bb.stan.alt
 #bb.stan <- bb.stan.alt.exponly
-bb.stan <- bb.stan.alt.matchsp # this is target dataset
+bb.stan <- bb.stan.alt.matchsp # this is target dataset weinberger and non weinberger but only species that appear in both
 #bb.stan<-bb.stan.matchsp
 #bb.stan<-bb.stan.alt.exponly.matchsp
-#bb.stan<-bb.stan.alt.matchsp.noblubspop
-#bb.stan<-bb.stan.alt.noblubspop
+
 source("source/bb_zscorepreds.R")
 
 ######################
 ####make datalist
-wein.data.chillports <- with(bb.stan, 
-                             list(y=resp, 
-                                  chill = chill.ports.z, 
-                                  force = force.z, 
-                                  photo = photo.z,
-                                  weinberger= weinberger,
-                                  sp = complex,
-                                  N = nrow(bb.stan),
-                                  n_sp = length(unique(bb.stan$complex))
-                             )
-)
+#wein.data.chillports <- with(bb.stan, 
+ #                            list(y=resp, 
+  #                                chill = chill.ports.z, 
+   #                               force = force.z, 
+    #                              photo = photo.z,
+     #                             weinberger= weinberger,
+      #0                            sp = complex,
+        #                          N = nrow(bb.stan),
+         #                         n_sp = length(unique(bb.stan$complex))
+          #                   )
+#)
 
 wein.data.utah <- with(bb.stan, 
                        list(y=resp, 
@@ -214,9 +210,10 @@ wein.data.utah <- with(bb.stan,
 #            iter = 2500, warmup=1500)
 #summary
 
-wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
-                     iter = 2500, warmup=1500)
+#wein.mod.3.cp = stan('stan/wein_intpoolonly.stan', data = wein.data.chillports,
+ #                    iter = 2500, warmup=1500)
 
+##this is the model for the manuscript
 wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
 iter = 2500, warmup=1500)
 
@@ -242,9 +239,9 @@ observed.here <- bb.stan$resp
 #wein.sum[c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp",
 #          "b_weinberger", "b_cw","b_pw","b_fw"),]
 
-wein.sum3.ut <- summary(wein.mod.3.ut)$summary
+wein.sum3.ut <- summary(wein.mod.3.ut)$summary 
 matchysp.ut<-rownames_to_column(as.data.frame(wein.sum3.ut[c("mu_a_sp", "b_force", "b_photo", "b_chill",
-                                                             "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
+                                                             "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor") ## this is out put for manuscript
 wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
                                                              "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
