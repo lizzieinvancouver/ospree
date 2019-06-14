@@ -178,7 +178,8 @@ source("source/bb_zscorepreds.R")### need to re zscore things on new data set
           #                   )
 #)
 
-wein.data.utah <- with(bb.stan, 
+if (use.chillports = FALSE){
+  wein.data.utah <- with(bb.stan, 
                        list(y=resp, 
                             chill = chill.z, 
                             force = force.z, 
@@ -189,6 +190,22 @@ wein.data.utah <- with(bb.stan,
                             n_sp = length(unique(bb.stan$complex))
                        )
 )
+}
+
+
+if (use.chillports == TRUE){
+  wein.data.utah <- with(bb.stan, 
+                         list(y=resp, 
+                              chill = chill.ports.z, 
+                              force = force.z, 
+                              photo = photo.z,
+                              weinberger= weinberger,
+                              sp = complex,
+                              N = nrow(bb.stan),
+                              n_sp = length(unique(bb.stan$complex))
+                         )
+  )
+}
 
 ###model
 #m2l.ni = stan('stan/weinbergerint.stan', data = wein.data,
