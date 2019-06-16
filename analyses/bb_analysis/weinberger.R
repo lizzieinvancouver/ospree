@@ -132,7 +132,17 @@ nonwein.expchillonly <- subset(not.wein, chill_type=="exp")
 studiestoincl.exponly <- c(unique(nonwein.expchillonly$dataIDstudyID), unique(wein.sp$dataIDstudyID))
 
 bb.stan.alt.exponly <- bb.stan[which(bb.stan$dataIDstudyID %in% unique(studiestoincl.exponly)),]
+bb.stan.alt.exponly.wein<-filter(bb.stan.alt.exponly,weinberger==1)
+unique(bb.stan.alt.exponly.wein$complex.wname)
+bb.stan.alt.exponly.nowein<-filter(bb.stan.alt.exponly,weinberger==0)
+unique(bb.stan.alt.exponly.nowein$complex.wname)
 
+###match species with wein and non within the subset "bb.stan.alt"
+unique(bb.stan.alt$complex.wname)
+bb.stan.alt.wein<-filter(bb.stan.alt,weinberger==1)
+unique(bb.stan.alt.wein$complex.wname)
+bb.stan.alt.nowein<-filter(bb.stan.alt,weinberger==0)
+unique(bb.stan.alt.nowein$complex.wname)
 sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname)) ###species that overlap wein and nonwein from bb.stan.alt
 sp.match.bb.alt ### only 11 sp
 
