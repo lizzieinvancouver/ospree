@@ -55,8 +55,8 @@ rx<-brick("~/Desktop/tx_0.25deg_reg_v16.0.nc", varname="tx", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
-#period<-1951:1960
-period<-2001:2010
+period<-1951:1960
+#period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
 badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") 
@@ -77,8 +77,8 @@ lositeyear<-na.omit(lositeyear)
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function - depending on the period you are using
-#extractclimpre<-function(tmin,period){
-extractclimpost<-function(tmin,period){
+extractclimpre<-function(tmin,period){
+#extractclimpost<-function(tmin,period){
   
   ## define array to store results
   nyears<-length(period)
@@ -93,11 +93,11 @@ extractclimpost<-function(tmin,period){
   
   ## subset climate days
   monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
-  chillmonths<-c(9:12,1:4)
+  chillmonths<-c(9:12,1:3)
   monthsinchill<-which(monthsinclim%in%chillmonths)
   chillsub<-subset(climsub,monthsinchill)
   
-  warmmonths<-c(3:5)
+  warmmonths<-c(1:5)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
   warmsub<-subset(climsub,monthsinwarm)
   
@@ -201,7 +201,7 @@ extractclimpost<-function(tmin,period){
       
       lopersite <- lositeyear[(lositeyear$siteslist==i & lositeyear$year==j),]
       lo <- as.numeric(lopersite$lo)
-      hrly.temp.warm <- hrly.temp.warm[(hrly.temp.warm$JDay<=lo),]
+      hrly.temp.warm <- hrly.temp.warm[(hrly.temp.warm$JDay<=lo & hrly.temp.warm$JDay>=lo-30),]
       
       chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
       warmcalc.mn<-chilling(hrly.temp.warm, hrly.temp.warm$JDay[1], hrly.temp.warm$JDay[nrow(hrly.temp.warm[1])])
@@ -430,6 +430,30 @@ postdata<-data.frame(chillutah = c(post$Mean.Utah.1, post$Mean.Utah.2,
                              post$Mean.GDD.41, post$Mean.GDD.42,
                              post$Mean.GDD.43, post$Mean.GDD.44,
                              post$Mean.GDD.45),
+                     
+                     mat.lo = c(post$Spring.Temp.1, post$Spring.Temp.2,
+                             post$Spring.Temp.3, post$Spring.Temp.4,
+                             post$Spring.Temp.5, post$Spring.Temp.6,
+                             post$Spring.Temp.7, post$Spring.Temp.8,
+                             post$Spring.Temp.9, post$Spring.Temp.10,
+                             post$Spring.Temp.11, post$Spring.Temp.12,
+                             post$Spring.Temp.13, post$Spring.Temp.14,
+                             post$Spring.Temp.15, post$Spring.Temp.16,
+                             post$Spring.Temp.17, post$Spring.Temp.18,
+                             post$Spring.Temp.19, post$Spring.Temp.20,
+                             post$Spring.Temp.21, post$Spring.Temp.22,
+                             post$Spring.Temp.23, post$Spring.Temp.24,
+                             post$Spring.Temp.25, post$Spring.Temp.26,
+                             post$Spring.Temp.27, post$Spring.Temp.28,
+                             post$Spring.Temp.29, post$Spring.Temp.30,
+                             post$Spring.Temp.31, post$Spring.Temp.32,
+                             post$Spring.Temp.33, post$Spring.Temp.34,
+                             post$Spring.Temp.35, post$Spring.Temp.36,
+                             post$Spring.Temp.37, post$Spring.Temp.38,
+                             post$Spring.Temp.39, post$Spring.Temp.40,
+                             post$Spring.Temp.41, post$Spring.Temp.42,
+                             post$Spring.Temp.43, post$Spring.Temp.44,
+                             post$Spring.Temp.45),
                      
                      siteslist = c(post$`Site Num..1`, post$`Site Num..2`,
                                    post$`Site Num..3`, post$`Site Num..4`,
