@@ -55,8 +55,8 @@ rx<-brick("~/Desktop/tx_0.25deg_reg_v16.0.nc", varname="tx", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
-#period<-1951:1960
-period<-2001:2010
+period<-1951:1960
+#period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
 badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") 
@@ -77,14 +77,14 @@ lositeyear<-na.omit(lositeyear)
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function - depending on the period you are using
-#extractclimpre<-function(tmin,period){
-extractclimpost<-function(tmin,period){
+extractclimpre<-function(tmin,period){
+#extractclimpost<-function(tmin,period){
   
   ## define array to store results
   nyears<-length(period)
-  climateyears<-array(NA,dim=c(nyears, 4, nsites))
+  climateyears<-array(NA,dim=c(nyears, 5, nsites))
   row.names(climateyears)<-period
-  colnames(climateyears)<-c("Mean.Utah", "Mean.Port", "Mean.GDD", "Site Num.")
+  colnames(climateyears)<-c("Mean.Utah", "Mean.Port", "Mean.GDD", "Spring.Temp", "Site Num.")
   
   ## subset climate years
   yearsinclim<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
@@ -97,7 +97,7 @@ extractclimpost<-function(tmin,period){
   monthsinchill<-which(monthsinclim%in%chillmonths)
   chillsub<-subset(climsub,monthsinchill)
   
-  warmmonths<-c(3:4)
+  warmmonths<-c(3:5)
   monthsinwarm<-which(monthsinclim%in%warmmonths)
   warmsub<-subset(climsub,monthsinwarm)
   
@@ -210,8 +210,9 @@ extractclimpost<-function(tmin,period){
       yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
       yearlyresults[which(period==j),2]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
       yearlyresults[which(period==j),3]<-(warmcalc.mn$GDH[which(warmcalc.mn$End_year==j)])/24
+      yearlyresults[which(period==j),4]<-mean(hrly.temp.warm)
       
-      yearlyresults[which(period==j),4]<-sites$siteslist[i]
+      yearlyresults[which(period==j),5]<-sites$siteslist[i]
       
     }
     
@@ -303,6 +304,30 @@ predata<-data.frame(chillutah = c(pre$Mean.Utah.1, pre$Mean.Utah.2,
                             pre$Mean.GDD.41, pre$Mean.GDD.42,
                             pre$Mean.GDD.43, pre$Mean.GDD.44,
                             pre$Mean.GDD.45),
+                    
+                    mat.lo = c(pre$Spring.Temp.1, pre$Spring.Temp.2,
+                            pre$Spring.Temp.3, pre$Spring.Temp.4,
+                            pre$Spring.Temp.5, pre$Spring.Temp.6,
+                            pre$Spring.Temp.7, pre$Spring.Temp.8,
+                            pre$Spring.Temp.9, pre$Spring.Temp.10,
+                            pre$Spring.Temp.11, pre$Spring.Temp.12,
+                            pre$Spring.Temp.13, pre$Spring.Temp.14,
+                            pre$Spring.Temp.15, pre$Spring.Temp.16,
+                            pre$Spring.Temp.17, pre$Spring.Temp.18,
+                            pre$Spring.Temp.19, pre$Spring.Temp.20,
+                            pre$Spring.Temp.21, pre$Spring.Temp.22,
+                            pre$Spring.Temp.23, pre$Spring.Temp.24,
+                            pre$Spring.Temp.25, pre$Spring.Temp.26,
+                            pre$Spring.Temp.27, pre$Spring.Temp.28,
+                            pre$Spring.Temp.29, pre$Spring.Temp.30,
+                            pre$Spring.Temp.31, pre$Spring.Temp.32,
+                            pre$Spring.Temp.33, pre$Spring.Temp.34,
+                            pre$Spring.Temp.35, pre$Spring.Temp.36,
+                            pre$Spring.Temp.37, pre$Spring.Temp.38,
+                            pre$Spring.Temp.39, pre$Spring.Temp.40,
+                            pre$Spring.Temp.41, pre$Spring.Temp.42,
+                            pre$Spring.Temp.43, pre$Spring.Temp.44,
+                            pre$Spring.Temp.45),
                     
                     siteslist = c(pre$`Site Num..1`, pre$`Site Num..2`,
                                   pre$`Site Num..3`, pre$`Site Num..4`,

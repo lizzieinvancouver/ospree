@@ -5,10 +5,13 @@ By Cat
 **betpen_chillandgdd.R: script used to find chilling in portions and Utah chill for all sites that have leafout data for Betula pendula for 1950-1960 and 2000-2010. 
 
 Chilling: from September 1st to March 1st
-GDDS: from March 1st to June 1st
+GDDS: from March 1st until leaf out
 Mean spring temperature: from March 1st to June 1st
 
-**/output/betpenallchillsandgdds_45sites_mat.csv:
+**/output/betpenallchillsandgdds_45sites_mat_tg.csv:(for Tmean climate data)
+**/output/betpenallchillsandgdds_45sites_mat_tntx.csv:(average of Tmin/Tmax climate data)
+
+* Each data point is for each site and year
 
 chillutah: accumulated Utah chill for that site and year
 chillports: accumulated chill portions for that site and year
