@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\begin{document}
+\section*{How to scape new papers for OSPREE: June 2019}
+You'll need:
+\begin{enumerate}
+\item Excel or other program that makes .xls  or .csv files
+\item ImageJ download for free from here https://imagej.net/Welcome
+\end{enumerate}
+
+Now here's what to do:
+\begin{enumerate}
+\item Copy the excel file ospree\textunderscore newpapers for git repo (ospree/data/ospree\textunderscore newpapers) and make your own extension, for example, Dan would write ``ospree\textunderscore newpapers\textunderscore dmb". This will be the spread sheet you enter your data into and then in the future, someone will merge all of our files together into the master data.
+\item Familiarize yourself with the "meta" tab.
+\item Read your paper and fill out the information in the "study" and "data\textunderscore detailed tab"
+\item Choose the figures in the paper in which the data to capture for OSPREE
+\item Take a screen shot of the figure and import into ImageJ, following Tim's instructions from lab meeting. Use the scratch tab to get data into the right format, and then copy into data\textunderscore detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.
+\item For more tips and tricks check out this doccument: git/ospree/notes/howtoscrape
+
+
+\end{document}
