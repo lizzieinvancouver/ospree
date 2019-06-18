@@ -5,4 +5,4 @@ generating:
 
 munichclim.txt
 
-munichclim_noheader.txt is the same minus the header rows
+munichclim_noheader.txt is the same minus the header rows, for some reason I could not get this to read in via read.delim("\t") in R so I opened it in and Excel and made input/munichclim_noheader.csv from there.

@@ -37,6 +37,7 @@ get.treatdists <- function(df, treatcol, othertreatcol){
   return(dfbuildsum)
 }
 
+
 # One more function we need
 # f(x) to look at unique treats
 get.uniquetreats <- function(df, treatcol, othertreatcol){
@@ -56,4 +57,44 @@ get.uniquetreats <- function(df, treatcol, othertreatcol){
           }
      }
   return(dfbuild)
+}
+
+############################################
+## Below added for Isabelle Chuine's work ##
+############################################
+
+### f(x) to get just number of treatments
+### I am sure we have done this for OSPREE other places also ... 
+
+get.treatdists.singletreatment <- function(df, treatcol){
+    dfbuild <- data.frame(datasetID=character(), study=character(), ntreats=numeric())
+    for (did in unique(df[["datasetID"]])){
+     subbydid <- subset(df, datasetID==did)
+       for (studyid in unique(subbydid$study)){
+          subbydidexp.allcols <- subset(subbydid, study==studyid)
+          subbydidexp <- subbydidexp.allcols[,c(treatcol)]
+          dfbuildadd <- data.frame(datasetID=did, study=studyid, ntreats=length(unique(subbydidexp)))
+          dfbuild <- rbind(dfbuild, dfbuildadd)
+          dfbuild.multi <- subset(dfbuild, ntreats>1)
+          }
+     }
+  return(dfbuild.multi)
+}
+          
+### f(x) to get experiments with varying day-night temperatures
+
+get.treatdists.daynight <- function(df, treatcol, othertreatcol){
+    dfbuild <- data.frame(datasetID=character(), study=character(), ndaytemps=numeric(), nnighttemps=numeric())
+    for (did in unique(df[["datasetID"]])){
+     subbydid <- subset(df, datasetID==did)
+       for (studyid in unique(subbydid$study)){
+          subbydidexp.allcols <- subset(subbydid, study==studyid)
+          ndaytemps <- length(unique(subbydidexp.allcols[,c(treatcol)]))
+          nnighttemps <- length(unique(subbydidexp.allcols[,c(othertreatcol)]))
+          dfbuildadd <- data.frame(datasetID=did, study=studyid, ndaytemps=ndaytemps, nnighttemps=nnighttemps)
+          dfbuild <- rbind(dfbuild, dfbuildadd)
+          dfbuild.multi <- subset(dfbuild, ndaytemps>1 | nnighttemps>1)
+                 }
+          }
+  return(dfbuild.multi)
 }
