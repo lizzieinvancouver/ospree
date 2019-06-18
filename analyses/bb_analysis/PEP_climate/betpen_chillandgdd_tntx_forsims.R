@@ -55,8 +55,8 @@ rx<-brick("~/Desktop/tx_0.25deg_reg_v16.0.nc", varname="tx", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
-period<-1951:1960
-#period<-2001:2010
+#period<-1951:1960
+period<-2001:2010
 sites<-subset(allpeps.subset, select=c(lat, long, lat.long))
 sites<-sites[!duplicated(sites$lat.long),]
 badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167") 
@@ -77,8 +77,8 @@ lositeyear<-na.omit(lositeyear)
 leaps<-c(1952, 1956, 1960, 2000, 2004, 2008)
 
 ## set function - depending on the period you are using
-extractclimpre<-function(tmin,period){
-#extractclimpost<-function(tmin,period){
+#extractclimpre<-function(tmin,period){
+extractclimpost<-function(tmin,period){
   
   ## define array to store results
   nyears<-length(period)
@@ -498,12 +498,12 @@ if(FALSE){
   allchillsgdds<-rbind(allchillsgdds, full.site4)
   allchillsgdds<-rbind(allchillsgdds, full.site5)
 }
-#write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_45sites_tntx_matchdates.csv", row.names = FALSE)
+#write.csv(full.site.nonas, file="output/betpen_allchillsandgdds_45sites_tntx_forsims.csv", row.names = FALSE)
 
 ##################################################################################################
 ############################### MEAN TEMP instead of GDD #########################################
 ##################################################################################################
-full.site <- read.csv("output/betpen_allchillsandgdds_45sites_tntx.csv", header = TRUE)
+full.site <- read.csv("output/betpen_allchillsandgdds_45sites_tntx_forsims.csv", header = TRUE)
 
 period <- c(1951:1960, 2001:2010)
 sites<-subset(full.site, select=c(lat, long, lat.long))
@@ -570,12 +570,12 @@ mst<-mst[!duplicated(mst),]
 
 fullsites45 <- left_join(full.site, mst)
 
-write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat_tntx_matchdates.csv", row.names = FALSE)
+write.csv(fullsites45, file="output/betpen_allchillsandgdds_45sites_mat_tntx_forsims.csv", row.names = FALSE)
 
 ##################################################################################################
 ################################# Now for some plots! ############################################
 ##################################################################################################
-fullsites45 <- read.csv("output/betpen_allchillsandgdds_45sites_mat_tntx.csv", header=TRUE)
+fullsites45 <- read.csv("output/betpen_allchillsandgdds_45sites_mat_tntx_forsims.csv", header=TRUE)
 somesites <- sample(unique(fullsites45$lat.long), 9)
 
 tensites<-fullsites45[(fullsites45$lat.long %in% somesites),]
