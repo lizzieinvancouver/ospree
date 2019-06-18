@@ -26,7 +26,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 use.chillports = FALSE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+use.zscore = FALSE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -166,7 +166,7 @@ if(use.chillports == TRUE & use.zscore == FALSE){
   )
 }
 if(use.zscore == FALSE){
-  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat_ncp.stan', data = datalist.lat.nonz,iter = 3000, warmup=2000, control=list(max_treedepth = 12,adapt_delta = 0.99))
+  m2l.inter = stan('../lat_analysis/stan/winter_2level_lat.stan', data = datalist.lat.nonz,iter = 3000, warmup=2000, control=list(max_treedepth = 12,adapt_delta = 0.99))
 }
 
 check_all_diagnostics(m2l.inter)

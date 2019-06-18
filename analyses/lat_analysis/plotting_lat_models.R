@@ -89,7 +89,7 @@ if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
 if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
   figpathmore <- "allspp_expramp_fp"
 }
-
+#figpathmore <- "latanalysis_noncentered"
 
 source("../lat_analysis/lat_muplot.R")
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
@@ -107,8 +107,8 @@ sort(unique(lat.stan$complex.wname))
 
 modelhere <- m2l.inter
 quartz()
-muplotfx(modelhere, "", 7, 8, c(0,5), c(-20, 20) , 22, 5)
-#muplotfx(modelhere, "Utah", 7, 8, c(0,5), c(-20, 15) , 17, 5)
+#muplotfx(modelhere, "", 7, 8, c(0,5), c(-20, 20) , 22, 5)
+muplotfx(modelhere, "", 7, 8, c(0,5), c(-6, 4) , 4.3, 5)
 
 
 ########### Posterior Predictive Checks #############
