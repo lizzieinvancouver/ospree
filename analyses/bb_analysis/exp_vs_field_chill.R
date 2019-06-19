@@ -47,14 +47,14 @@ range(spests$chill.forecast[spests$warming_C==0])
 range(spests$winT.forecast[spests$warming_C==0])
 #-6.311229  6.180634
 dim(spests)#
-range(allforecasts.forheatmap$lat)#46.7167-54.8000
+range(spests$lat)#46.7167-54.8000
 #
 quartz()
 plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chill temp (C)", ylab= "Total Chilling (Utah)", ylim=c(-6,22))
-points(allforecasts.forheatmap$winT.forecast,allforecasts.forheatmap$chill.forecast, pch=21,bg="darkgreen")
+points(spests$winT.forecast,spests$chill.forecast, pch=21,bg="darkgreen")
 
 #create a chilling dataset with constant daily temperatures from mean temperatures in allforecasts
-chilltemps<-unique(as.numeric(allforecasts.forheatmap$winT.forecast[allforecasts.forheatmap$warming_C==0]))
+chilltemps<-unique(as.numeric(spests$winT.forecast[spests$warming_C==0]))
 days<-30+31+30+31+31+28+31#days in Sept-Mar
 year<-2018#i don't think this matters?
 doys<-seq(1:days)
@@ -74,5 +74,11 @@ chillests<-as.data.frame(cbind(chilltemps,chillcalc$Chill_portions,chillcalc$Uta
 colnames(chillests)<-c("temp","chillport","utah.240")
 points(chillests$temp,chillests$utah.240, pch=21,bg="lightblue")
 
-legend(x=6,y=18, legend=c("OSPREE database","estimates PEP temp","estimates constant temp"), pch=21,pt.bg=c("gray","dark green","lightblue"))
-points(allforecasts.forheatmap$winT.forecast[allforecasts.forheatmap$warming_C==1],allforecasts.forheatmap$winT.forecast[allforecasts.forheatmap$warming_C==1], bg="red")
+legend(x=6,y=20, legend=c("OSPREE database","estimates PEP temp","estimates constant temp"), pch=21,pt.bg=c("gray","dark green","lightblue"))
+points(spests$winT.forecast[spests$warming_C==1],spests$chill.forecast[spests$warming_C==1], pch=21,bg="yellowgreen")
+points(spests$winT.forecast[spests$warming_C==2],spests$chill.forecast[spests$warming_C==2], pch=21,bg="yellow")
+points(spests$winT.forecast[spests$warming_C==3],spests$chill.forecast[spests$warming_C==3], pch=21,bg="goldenrod")
+points(spests$winT.forecast[spests$warming_C==4],spests$chill.forecast[spests$warming_C==4], pch=21,bg="orange")
+points(spests$winT.forecast[spests$warming_C==5],spests$chill.forecast[spests$warming_C==5], pch=21,bg="darkorange")
+points(spests$winT.forecast[spests$warming_C==6],spests$chill.forecast[spests$warming_C==6], pch=21,bg="red")
+points(spests$winT.forecast[spests$warming_C==7],spests$chill.forecast[spests$warming_C==7], pch=21,bg="darkred")
