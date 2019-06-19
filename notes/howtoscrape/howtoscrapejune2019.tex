@@ -48,7 +48,25 @@
 \definecolor{errorcolor}{rgb}{1, 0, 0}
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
-\usepackage{alltt}
+\usepackage{alltt}[12pt]
+\usepackage{Sweave}
+\usepackage{mdframed}
+\topmargin -1.5cm        
+\oddsidemargin -0.04cm   
+\evensidemargin -0.04cm
+\textwidth 16.59cm
+\textheight 21.94cm 
+\renewcommand{\baselinestretch}{2}
+\parindent 0pt
+\usepackage{setspace}
+\singlespacing
+
+\newmdenv[
+  topline=true,
+  bottomline=true,
+  skipabove=\topsep,
+  skipbelow=\topsep
+]{siderules}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \section*{How to scape new papers for OSPREE: June 2019}
@@ -61,11 +79,21 @@ You'll need:
 Now here's what to do:
 \begin{enumerate}
 \item Copy the excel file ospree\textunderscore newpapers for git repo (ospree/data/ospree\textunderscore newpapers) and make your own extension, for example, Dan would write ``ospree\textunderscore newpapers\textunderscore dmb". This will be the spread sheet you enter your data into and then in the future, someone will merge all of our files together into the master data.
-\item Familiarize yourself with the "meta" tab.
-\item Read your paper and fill out the information in the "study" and "data\textunderscore detailed tab"
-\item Choose the figures in the paper in which the data to capture for OSPREE
+\item Familiarize yourself with each tab:
+  \begin{enumerate}
+  \item \textbf{meta\_general}: metadata for each sheet
+  \item \textbf{source}: list of the paper we are working with. Bibliographic information and notes on usefulness for our purposes. Note the "ToDo" column, which tells you which figure or table to focus on. You may find other figures are better, these were from our initial quick read. Also pay attention to datasetID column, which tells you how you should enter the identifying information for each paper.
+  \item \textbf{study}: Details on each experiment within each paper; possibly only one line for a paper, if only one experiment is relevant. This sheet is useful for our overview of what kind of experimental manipulations were done.
+  \item \textbf{data\_simple}: Aggregated data on each experimental treatment combination.
+  \item \textbf{data\_detailed}: Detailed data for the experiment, with all relevant information filled out.
+  \item Responses may be pre/post treatment, time, or other. Temporal responses, such as days to 50\% budburst, are fairly common. An example of an other type of response would be percent budburst, again fairly common.
+  \item \textbf{scratch}: For temporary formatting and manipulating data scraped from ImageJ.
+  \item The two most important tabs to fill out are \textbf{study} and \textbf{data\_detailed}. We can aggregate data down to get the data\_simple version later.
+  \end{enumerate}
+\item Read your paper and fill out the information in the ``study" and ``data\textunderscore detailed tab"
+\item Find the designated figure or table as noted in the source tab of the worksheet. Also note the datasetID column in source; use this as you fill out data\_detailed and study.
 \item Take a screen shot of the figure and import into ImageJ, following Tim's instructions from lab meeting. Use the scratch tab to get data into the right format, and then copy into data\textunderscore detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.
-\item For more tips and tricks check out this doccument: git/ospree/notes/howtoscrape
-
+\item For more tips and tricks check out this document: git/ospree/notes/howtoscrape/Data Scraping Tutorial.mp4
+\end{enumerate}
 
 \end{document}
