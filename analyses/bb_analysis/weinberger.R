@@ -261,16 +261,17 @@ wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
                                                              "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
 matchysp.cp$chilltype<-"chillportios"
-whichmodel <- wein.sum3.cp
+whichmodel <- wein.sum3.ut
 ###model plots
 spp <- sort(unique(bb.stan$complex))
 n <- length(spp)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 
+jpeg("../figures/weinberger4supp.jpeg")
 par(mfrow=c(1,3))
-par(mar=c(4.1, 4.1, 4.1, 3.1))
-plot(resp~chill.z, data=bb.stan, type="n")
+par(mar=c(4,4, 1,1))
+plot(resp~chill.z, data=bb.stan, type="n",ylab="days to budburst")
 for (sp in c(1:length(spp))){
   subby <- subset(bb.stan, complex==spp[sp])
   points(resp~chill.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
@@ -279,11 +280,11 @@ for (sp in c(1:length(spp))){
   #abline(intercepthere, slopehere, col=colv[sp])
 }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-       whichmodel[grep("b_chill", rownames(whichmodel)),1], col="black", lwd=3)
+       whichmodel[grep("b_chill", rownames(whichmodel)),1], col="black", lwd=2)
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
-       whichmodel[grep("b_chill", rownames(whichmodel)),1]+whichmodel[grep("b_cw", rownames(whichmodel)),1], col="blue", lwd=3)
+       whichmodel[grep("b_chill", rownames(whichmodel)),1]+whichmodel[grep("b_cw", rownames(whichmodel)),1], col="blue", lwd=2)
 
-plot(resp~force.z, data=bb.stan, type="n")
+plot(resp~force.z, data=bb.stan, type="n",ylab="")
 for (sp in c(1:length(spp))){
   subby <- subset(bb.stan, complex==spp[sp])
   points(resp~force.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
@@ -292,11 +293,10 @@ for (sp in c(1:length(spp))){
   #abline(intercepthere, slopehere, col=colv[sp])
 }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-       whichmodel[grep("b_force", rownames(whichmodel)),1], col="black", lwd=3)
+       whichmodel[grep("b_force", rownames(whichmodel)),1], col="black", lwd=2)
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
-       whichmodel[grep("b_force", rownames(whichmodel)),1]+whichmodel[grep("b_fw", rownames(whichmodel)),1], col="blue", lwd=3)
-
-plot(resp~photo.z, data=bb.stan, type="n")
+       whichmodel[grep("b_force", rownames(whichmodel)),1]+whichmodel[grep("b_fw", rownames(whichmodel)),1], col="blue", lwd=2)
+plot(resp~photo.z, data=bb.stan, type="n",ylab="")
 for (sp in c(1:length(spp))){
   subby <- subset(bb.stan, complex==spp[sp])
   points(resp~photo.z, data=subby, main=subby$complex.wname[1], col=colv[sp],pch=ifelse(subby$weinberger==1,2,3))
@@ -305,13 +305,13 @@ for (sp in c(1:length(spp))){
   #abline(intercepthere, slopehere, col=colv[sp])
 }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-       whichmodel[grep("b_photo", rownames(whichmodel)),1], col="black", lwd=3)
+       whichmodel[grep("b_photo", rownames(whichmodel)),1], col="black", lwd=2)
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1]-whichmodel[(grep("b_weinberger", rownames(whichmodel))),1],
-       whichmodel[grep("b_photo", rownames(whichmodel)),1]+whichmodel[grep("b_pw", rownames(whichmodel)),1], col="blue", lwd=3)
-legend("topright", legend=c("non-weinberger", "weinberger"),
-       col=c("black", "blue"),pch=c(3,2), lty=1:1, cex=1,
-       box.lty=0)
-
+       whichmodel[grep("b_photo", rownames(whichmodel)),1]+whichmodel[grep("b_pw", rownames(whichmodel)),1], col="blue", lwd=2)
+legend("topright", legend=c("not weinberger", "weinberger"),
+       col=c("black", "blue"),pch=c(3,2), lty=1:1, cex=0.8,bty=1,
+       box.lty=1,xpd = NA)
+dev.off()
 
 
 

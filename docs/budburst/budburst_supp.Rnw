@@ -311,7 +311,13 @@ print(nonzmod.table, include.rownames=FALSE, hline.after = c(-1,0,9,10),caption.
 \label{fig:pepgddchill}
 \end{figure}
 
-
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger4supp.jpeg}
+\caption{Comparision of estimated effects for environmental paremeters in for species included in both studies using the Weinberger method to simulate winter chilling and studies that did not. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies.}
+\label{fig:weinberger}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
