@@ -62,6 +62,8 @@
 %\tableofcontents      %add a table of contents
 %\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 
 \section*{Supplemental Methods}
 % Include:
@@ -162,9 +164,9 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \newpage
 \section* {Supplemental Tables}
-
+\begin{footnotesize} 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Wed Jun 19 22:14:52 2019
+% Thu Jun 20 12:27:58 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Species included in the OSPREE database}. Could add to this: the range of forcing, chilling, and photoperiod treatments for each species, and perhaps the range of latitudes, in OSPREE.
@@ -381,10 +383,11 @@ Abies.alba &   2 & basler12,laube14a \\
   \end{tabular}
 \endgroup
 \end{table}
+\end{footnotesize} 
 
 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Wed Jun 19 22:15:14 2019
+% Thu Jun 20 12:28:22 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions (column two) results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -409,7 +412,7 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \end{tabular}
 \endgroup
 \end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Wed Jun 19 22:15:14 2019
+% Thu Jun 20 12:28:22 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 

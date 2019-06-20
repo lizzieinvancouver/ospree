@@ -62,6 +62,8 @@
 %\tableofcontents      %add a table of contents
 %\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 
 \section*{Supplemental Methods}
 % Include:
@@ -162,7 +164,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 
 \newpage
 \section* {Supplemental Tables}
-
+\begin{footnotesize} 
 <<label=xtable1, echo=FALSE, results=tex>>=
 #load models to report estimates, use chill portions
 library(xtable)
@@ -182,6 +184,7 @@ sp.table <- xtable(sp.st.table, caption="\\textbf{Species included in the OSPREE
 print(sp.table, include.rownames=FALSE, hline.after = c(-1,0),caption.placement="top",size="\\footnotesize")
 @
 
+\end{footnotesize} 
 
 
 <<label=xtable2, echo=FALSE, results=tex>>=
