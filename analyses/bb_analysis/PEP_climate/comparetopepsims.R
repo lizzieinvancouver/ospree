@@ -20,6 +20,7 @@ if(length(grep("Ignacio", getwd()))>0) {
 
 # get some data
 bp <- read.csv("output/betpen_allchillsandgdds_45sites_mat.csv", header=TRUE)
+bpalt <- read.csv("output/betpen_allchillsandgdds_45sites_tntx_forsims.csv", header=TRUE)
 
 # loop to extract some model estimates
 bpest <- data.frame(siteslist=numeric(), cc=character(), meanmat=numeric(), varmat=numeric(),
@@ -75,6 +76,50 @@ mean(bpest.sitediffs$diffslope)
 mean(bpest.sitediffs$matdiff)
 sd(bpest.sitediffs$diffslope)
 sd(bpest.sitediffs$matdiff)
+
+## alt dataset ...
+
+# loop to extract some model estimates
+bpaltest <- data.frame(siteslist=numeric(), cc=character(), meanmat=numeric(), varmat=numeric(),
+    meanlo=numeric(), varlo=numeric(), meanutah=numeric(), meangdd=numeric(), matslope=numeric(),
+    matslopese=numeric())
+
+sitez <- unique(bpalt$siteslist)
+
+for(i in c(1:length(sitez))){ # i <- 1
+    subby <- subset(bpalt, siteslist==sitez[i])
+        for(ccstate in c(1:2)){
+            subbycc <- subset(subby, cc==unique(bpalt$cc)[ccstate])
+            meanmat <- mean(subbycc$mat.lo, na.rm=TRUE)
+            varmat <- var(subbycc$mat.lo, na.rm=TRUE)
+            meanlo <- mean(subbycc$lo, na.rm=TRUE)
+            varlo <- var(subbycc$lo, na.rm=TRUE)
+            meanutah <- mean(subbycc$chillutah, na.rm=TRUE)
+            meangdd <- mean(subbycc$gdd, na.rm=TRUE)
+            lmmat <- lm(lo~mat.lo, data=subbycc)
+            lmmatse <- summary(lmmat)$coef[2,2]
+            bpaltestadd <- data.frame(siteslist=sitez[i], cc=unique(bpalt$cc)[ccstate], meanmat=meanmat, 
+                varmat=varmat, meanlo=meanlo, varlo=varlo, meanutah=meanutah, meangdd=meangdd,
+                matslope=coef(lmmat)["mat.lo"], matslopese=lmmatse)
+            bpaltest <- rbind(bpaltest, bpaltestadd)
+        }
+}    
+
+meanhere.alt <- aggregate(bpaltest[c("meanmat", "varmat", "meanlo", "varlo", "meanutah", "meangdd", "matslope",
+    "matslopese")], bpaltest["cc"], FUN=mean)
+sdhere.alt <- aggregate(bpaltest[c("meanmat", "varmat", "meanlo", "varlo", "meanutah", "meangdd", "matslope")],
+    bpaltest["cc"], FUN=sd)
+
+if(FALSE){
+ggplot(
+
+    ggplot(dat.elev, 
+    aes(x=elev, y=mean.tmax, color=regionlarge)) +
+    geom_point() +
+    # geom_text() + # can use geom_label for boxes (easier to read)
+   geom_smooth(method=lm) + facet_wrap(~regionlarge)
+}
+}
 
 ##############
 ## Plotting ##

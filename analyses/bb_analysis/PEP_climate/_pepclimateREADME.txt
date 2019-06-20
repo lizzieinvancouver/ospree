@@ -2,7 +2,7 @@ Started 23 May 2019
 By Cat
 
 <><><PEP Climate info><><>
-*****betpen_chillandgdd_tntx.R: script used to find chilling in portions and Utah chill for all sites that have leafout data for Betula pendula for 1950-1960 and 2000-2010. 
+*****betpen_chillandgdd_tntx.R: script used to find chilling in portions and Utah chill for all sites that have leafout data for Betula pendula for 1950-1960 and 2000-2010 (as of June 2019, 45 sites meet this criteria). 
 
 Chilling: from September 1st to April 1st
 GDDS: from March 1st until leaf out
