@@ -74,8 +74,9 @@
 
 \subsection*{Models}
 
-\par The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.17.3) in R \citep{Rcore:2017,rstan2018}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then fit the following model:
-
+\par The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.17.3) in R \citep{Rcore:2017,rstan2018}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then fit the following models:
+\begin{enumerate}
+\item \underline{Main budburst model}:
 \begin{align*}
 y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]} + \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
 \end{align*}
@@ -88,11 +89,18 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
 \beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
 \end{align*}
-\noindent We choose weakly informative priors; increasing the priors three-fold did not change the model results. 
+
+\item \underline{Latitude model}:
+
+\item \underline{Weinberger  model}:
+
+\end{enumerate}
+
+\noindent For all models, we choose weakly informative priors; increasing the priors three-fold did not change the model results. 
 
 We ran four chains simultaneously, each with 1 500 warm-up iterations followed by 2 500 sampling iterations, yeilding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as 1 057 for several parameters) as well as visual consideration of chain convergence and posteriors \citep{BDA}. 
 
-In our figures  we show means $\pm$ XX\% credible intervals from this model, because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See tables XX other XX\% credible intervals. 
+In our figures  we show means $\pm$ XX\% credible intervals from our models, because of our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See tables XX other XX\% credible intervals. 
 
 
 \par Quick review of what standardized units are (We used a standardized scale to allow comparisons of the three cues ...)
@@ -107,26 +115,11 @@ We selected sites in Europe where temperature and budburst have been monitored s
 \item Surprising species-specific responses: 
 \begin{enumerate}
 
-\item Poisitive responses to forcing: Fagus, Acer-complex, Fraxinus complex, Cornus alba.
+\item Positive responses to forcing: Fagus, Acer-complex, Fraxinus complex, Cornus alba.
 \item Positive Responses to chilling for Tilia and Salix.  have positive response to chilling with chill portions model.
 
 \end{enumerate}
 \end{enumerate}
-
-\section*{Supplemental Tables}
-\begin{enumerate}
-\item Table 1S: Species included in OSPREE, with the reference(s) of studies they are included in, the range of forcing, chilling, and photoperiod treatments in these studies, and perhaps the range of latitudes.
-
-\item Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
-\end{enumerate}
-\section*{Supplemental figures}
-\begin{enumerate}
-
-\item Photoperiod x latitude effects figure
-
-
-\end{enumerate}
-
 
 \section*{Understanding declines in temperature sensitivity in European long-term data}
 % See files: PEP_climate/comparetopepsims.R and pep_sims/pepvarsim.R 
@@ -145,9 +138,8 @@ Next, we simulated budburst data with constant cues. For this, we did not includ
 \par The paucity of studies directly manipulating chilling---which our results suggest has the greatest effect on budburst---suggests a major gap in current research. While many studies (X out of Y here) directly manipulated forcing, far fewer directly manipulated chilling (Z out of Y). 
 % [Next bit is in main text currently.] Instead many studies (J out of Y) estimate chilling effects through sequential removal of tissue from the field and exposure to `forcing' conditions (cite Weinberger), with the assumption that tissue collected later experienced more chilling. The challenge with this method is that photoperiod and other factors have also changed during this time. Indeed, we found estimates varied in XX way when derived from direct manipulations of chilling versus the sequential `Weinberger' method. 
 Our model highlights how the choice of chill units can affect model estimates and associated forecasts (reference supplemental figure with utah units vs chill portions in main manuscript). 
-Given the limited manipulation of chilling in studies, we estimated chilling for all studies by combining chilling from the field (i.e., chilling before plants were sampled) and experimental chilling into two widely used metrics of chilling: Utah and Chill portions \citep{dennis2003}. We found the effects of chilling and other cues remain qualitatively consistent across the two chilling units, though chilling and photoperiod estimates were slightly lower using chill portions compared to Utah (cite supplemental table comparing estimates with both units).  % We could shorten this paragraph further. And then add something about how we need better models of chilling ...
+Given the limited manipulation of chilling in studies, we estimated chilling for all studies by combining chilling from the field (i.e., chilling before plants were sampled) and experimental chilling into two widely used metrics of chilling: Utah and Chill portions \citep{dennis2003}. We found the effects of chilling and other cues remain qualitatively consistent across the two chilling units, though chilling and photoperiod estimates were slightly lower using chill portions compared to Utah (cite supplemental table comparing estimates with both units).  
 
-% Note that we don't actually know if tissue is dormant, so we should not say dormant twigs ....
 %Most studies do not experimentally apply chilling by manipulating duration or temperature of chilling, nor do most estimate the chilling imposed in their experiment. We therefore calculated the chilling imposed by most studies, as it would otherwise have been impossible to provide estimates with only experimental chilling (reference lizzie's supp heat maps). %this last part may be better for methods?
 
 
@@ -166,27 +158,233 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \par \underline{Chilling:} Current common models for chilling (i.e., Utah which was developed for XX species,  chill portions which was developed for XX species) are \emph{hypotheses} for how chilling may accumulate to affect the process of dormancy release, but are likely to be inaccurate for many species. Our model highlights how the choice of chill units can affect model estimates and associated forecasts (Figures 1,\ref{fig:figmucpz}\ref{fig:muutnonz}, \ref{fig:mucpnonz}). 
 
 
-
-%\section*{Reference list}
-
-%A few categories:\\
-
-%Papers about contrasting results over what cues matter from growth chamber studies: \cite{Basler:2012,Basler:2014aa,Caffarra:2011qf,Caffarra:2011a,Caffarra:2011b,Heide:2005aa,koerner2010b,Laube:2014a,vitasse2013,zohner2016}. Get Nanninga \emph{et al.} 2017: 'Increased exposure to chilling advances the time to budburst in North American tree species' and maybe Malyshev \emph{et al.} 2018 `Temporal photoperiod sensitivity and forcing requirements for budburst in temperate tree seedlings.'\\
-
-%Papers about declining sensitivities (Ailene will update this list): \cite{Rutishauser:2008,fu2015}. Also look for a Wang \emph{et al.} article `Impacts of global warming on phenology of spring leaf unfolding remain stable in the long run.' Vitasse paper on declining variation across elevation gradient. See \cite{yu2010}, but this is not temperate trees. \\
-
-%Papers about chilling units paper (Lizzie gets a list): Fu 2012 from OSPREE. \cite{harrington2015}\cite{lued2011,Luedeling:2011qe,Luedeling2013AgFM}\\
-
 \bibliography{..//..//refs/ospreebibplus.bib}
 
-\section* {Tables}
+\newpage
+\section* {Supplemental Tables}
 
-
-
+% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Wed Jun 19 22:14:52 2019
+\begin{table}[ht]
+\centering
+\caption{\textbf{Species included in the OSPREE database}. Could add to this: the range of forcing, chilling, and photoperiod treatments for each species, and perhaps the range of latitudes, in OSPREE.
+} 
+\label{tab:sp}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.20\textwidth}|p{0.08\textwidth}|p{0.3\textwidth}|}
+  \hline
+spname & stnum & studies \\ 
+  \hline
+Abies.alba &   2 & basler12,laube14a \\ 
+  Abies.homolepis &   1 & laube14a \\ 
+  Acer.barbinerve &   1 & zohner16 \\ 
+  Acer.campestre &   1 & zohner16 \\ 
+  Acer.ginnala &   1 & zohner16 \\ 
+  Acer.negundo &   1 & laube14a \\ 
+  Acer.platanoides &   1 & zohner16 \\ 
+  Acer.pseudoplatanus &   3 & basler12,basler14,laube14a \\ 
+  Acer.saccharinum &   1 & webb78 \\ 
+  Acer.saccharum &   3 & calme94,laube14a,webb78 \\ 
+  Acer.tataricum &   1 & laube14a \\ 
+  Actinidia.deliciosa &   2 & biasi12,guerriero90 \\ 
+  Aesculus.flava &   1 & zohner16 \\ 
+  Aesculus.hippocastanum &   3 & basler12,laube14a,zohner16 \\ 
+  Aesculus.parviflora &   1 & zohner16 \\ 
+  Alnus.glutinosa &   2 & heide93,myking98 \\ 
+  Alnus.incana &   2 & heide93,zohner16 \\ 
+  Alnus.maximowiczii &   1 & zohner16 \\ 
+  Amelanchier.alnifolia &   1 & zohner16 \\ 
+  Amelanchier.florida &   1 & zohner16 \\ 
+  Amelanchier.laevis &   1 & zohner16 \\ 
+  Amorpha.fruticosa &   1 & laube14a \\ 
+  Aronia.melanocarpa &   1 & zohner16 \\ 
+  Berberis.dielsiana &   1 & zohner16 \\ 
+  Betula.alleghaniensis &   1 & calme94 \\ 
+  Betula.lenta &   1 & zohner16 \\ 
+  Betula.nana &   1 & zohner16 \\ 
+  Betula.pendula &  10 & heide93,li05,rinne97,basler12,laube14a,laube14b,linkosalo06,myking95,myking95,skuterud94 \\ 
+  Betula.populifolia &   1 & zohner16 \\ 
+  Betula.pubescens &   6 & heide93,rinne94,caffarra11a,caffarra11b,myking95,myking97 \\ 
+  Buddleja.albiflora &   1 & zohner16 \\ 
+  Buddleja.alternifolia &   1 & zohner16 \\ 
+  Buddleja.davidii &   1 & zohner16 \\ 
+  Caragana.pygmaea &   1 & zohner16 \\ 
+  Carpinus.betulus &   3 & heide93a,laube14a,zohner16 \\ 
+  Carpinus.laxiflora &   1 & zohner16 \\ 
+  Carpinus.monbeigiana &   1 & zohner16 \\ 
+  Carya.cordiformis &   1 & zohner16 \\ 
+  Carya.laciniosa &   1 & zohner16 \\ 
+  Carya.ovata &   1 & zohner16 \\ 
+  Castanea.sativa &   1 & zohner16 \\ 
+  Cedrus.libani &   1 & zohner16 \\ 
+  Celtis.caucasica &   1 & zohner16 \\ 
+  Celtis.laevigata &   1 & zohner16 \\ 
+  Celtis.occidentalis &   1 & zohner16 \\ 
+  Cephalanthus.occidentalis &   1 & zohner16 \\ 
+  Cercidiphyllum.japonicum &   1 & zohner16 \\ 
+  Cercidiphyllum.magnificum &   1 & zohner16 \\ 
+  Cercis.canadensis &   1 & zohner16 \\ 
+  Cercis.chinensis &   1 & zohner16 \\ 
+  Cladrastis.lutea &   1 & zohner16 \\ 
+  Cornus.alba &   2 & laube14a,zohner16 \\ 
+  Cornus.kousa &   1 & zohner16 \\ 
+  Cornus.mas &   2 & laube14a,laube14b \\ 
+  Corylopsis.sinensis &   1 & zohner16 \\ 
+  Corylopsis.spicata &   1 & zohner16 \\ 
+  Corylus.avellana &   4 & basler12,heide93,laube14a,zohner16 \\ 
+  Corylus.heterophylla &   1 & zohner16 \\ 
+  Corylus.sieboldiana &   1 & zohner16 \\ 
+  Decaisnea.fargesii &   1 & zohner16 \\ 
+  Deutzia.gracilis &   1 & zohner16 \\ 
+  Deutzia.scabra &   1 & zohner16 \\ 
+  Elaeagnus.ebbingei &   1 & zohner16 \\ 
+  Eleutherococcus.senticosus &   1 & zohner16 \\ 
+  Eleutherococcus.setchuenensis &   1 & zohner16 \\ 
+  Eleutherococcus.sieboldianus &   1 & zohner16 \\ 
+  Euonymus.europaeus &   1 & zohner16 \\ 
+  Euonymus.latifolius &   1 & zohner16 \\ 
+  Fagus.crenata &   1 & zohner16 \\ 
+  Fagus.engleriana &   1 & zohner16 \\ 
+  Fagus.orientalis &   1 & zohner16 \\ 
+  Fagus.sylvatica &  10 & falusi03,falusi90,falusi96,falusi97,basler12,basler14,caffarra11a,heide93a,heide93a,zohner16 \\ 
+  Forsythia.ovata &   1 & zohner16 \\ 
+  Forsythia.suspensa &   1 & zohner16 \\ 
+  Fraxinus.americana &   1 & webb78 \\ 
+  Fraxinus.chinensis &   1 & laube14a \\ 
+  Fraxinus.excelsior &   2 & basler12,laube14a \\ 
+  Fraxinus.latifolia &   1 & zohner16 \\ 
+  Fraxinus.ornus &   1 & zohner16 \\ 
+  Fraxinus.pennsylvanica &   1 & laube14a \\ 
+  Ginkgo.biloba &   1 & zohner16 \\ 
+  Hamamelis.japonica &   1 & zohner16 \\ 
+  Hamamelis.vernalis &   1 & zohner16 \\ 
+  Heptacodium.miconioides &   1 & zohner16 \\ 
+  Hibiscus.syriacus &   1 & zohner16 \\ 
+  Hydrangea.arborescens &   1 & zohner16 \\ 
+  Hydrangea.involucrata &   1 & zohner16 \\ 
+  Hydrangea.serrata &   1 & zohner16 \\ 
+  Juglans.ailantifolia &   1 & laube14a \\ 
+  Juglans.cinerea &   1 & laube14a \\ 
+  Juglans.regia &   1 & laube14a \\ 
+  Larix.decidua &   4 & basler12,gomory15,laube14a,laube14b \\ 
+  Larix.gmelinii &   1 & zohner16 \\ 
+  Larix.kaempferi &   1 & zohner16 \\ 
+  Ligustrum.tschonoskii &   1 & zohner16 \\ 
+  Liquidambar.orientalis &   1 & zohner16 \\ 
+  Liquidambar.styraciflua &   1 & zohner16 \\ 
+  Liriodendron.tulipifera &   1 & zohner16 \\ 
+  Lonicera.alpigena &   1 & zohner16 \\ 
+  Lonicera.caerulea &   1 & zohner16 \\ 
+  Lonicera.maximowiczii &   1 & zohner16 \\ 
+  Malus.domestica &   3 & cook00b,gianfagna85,swartz81 \\ 
+  Metasequoia.glyptostroboides &   1 & zohner16 \\ 
+  Nothofagus.antarctica &   1 & zohner16 \\ 
+  Oemleria.cerasiformis &   1 & zohner16 \\ 
+  Olea.europaea &   1 & ramos99 \\ 
+  Orixa.japonica &   1 & zohner16 \\ 
+  Ostrya.carpinifolia &   1 & zohner16 \\ 
+  Ostrya.virginiana &   1 & zohner16 \\ 
+  Paeonia.rockii &   1 & zohner16 \\ 
+  Parrotia.persica &   1 & zohner16 \\ 
+  Parrotiopsis.jaquemontiana &   1 & zohner16 \\ 
+  Photinia.villosa &   1 & zohner16 \\ 
+  Picea.abies &   9 & basler12,basler14,gomory15,laube14a,laube14b,partanen01,partanen98,worrall67,worrall67, \\ 
+  Picea.glauca &   1 & man10 \\ 
+  Pinus.nigra &   1 & laube14a \\ 
+  Pinus.strobus &   1 & laube14a \\ 
+  Pinus.sylvestris &   1 & laube14a \\ 
+  Pinus.wallichiana &   1 & laube14a \\ 
+  Populus.deltoides &   1 & thielges75 \\ 
+  Populus.koreana &   1 & zohner16 \\ 
+  Populus.tremula &   3 & heide93,laube14a,laube14b \\ 
+  Prinsepia.sinensis &   1 & zohner16 \\ 
+  Prinsepia.uniflora &   1 & zohner16 \\ 
+  Prunus.avium &   2 & basler12,laube14a \\ 
+  Prunus.cerasifera &   1 & zohner16 \\ 
+  Prunus.padus &   3 & heide93,myking98,zohner16 \\ 
+  Prunus.persica &   1 & chavarria09 \\ 
+  Prunus.serotina &   1 & laube14a \\ 
+  Prunus.serrulata &   1 & zohner16 \\ 
+  Prunus.tenella &   1 & zohner16 \\ 
+  Pseudotsuga.menziesii &   3 & guak98,campbell75,laube14a \\ 
+  Ptelea.trifoliata &   1 & zohner16 \\ 
+  Pyrus.elaeagnifolia &   1 & zohner16 \\ 
+  Pyrus.pyrifolia &   1 & zohner16 \\ 
+  Pyrus.ussuriensis &   1 & zohner16 \\ 
+  Quercus.bicolor &   1 & laube14a \\ 
+  Quercus.coccifera &   1 & sanzperez10 \\ 
+  Quercus.faginea &   2 & Sanz-Perez09,sanzperez10 \\ 
+  Quercus.ilex &   3 & Sanz-Perez09,sanzperez10,morin10 \\ 
+  Quercus.petraea &   2 & basler12,basler14 \\ 
+  Quercus.pubescens &   1 & morin10 \\ 
+  Quercus.robur &   4 & laube14a,laube14b,morin10,zohner16 \\ 
+  Quercus.rubra &   2 & calme94,laube14a \\ 
+  Quercus.shumardii &   1 & zohner16 \\ 
+  Rhamnus.alpina &   1 & zohner16 \\ 
+  Rhamnus.cathartica &   1 & zohner16 \\ 
+  Rhododendron.canadense &   1 & zohner16 \\ 
+  Rhododendron.dauricum &   1 & zohner16 \\ 
+  Rhododendron.mucronulatum &   1 & zohner16 \\ 
+  Ribes.alpinum &   1 & zohner16 \\ 
+  Ribes.divaricatum &   1 & zohner16 \\ 
+  Ribes.glaciale &   1 & zohner16 \\ 
+  Ribes.nigrum &   4 & jones12,heide12,pagter15,sonsteby14 \\ 
+  Robinia.pseudoacacia &   2 & laube14a,laube14b \\ 
+  Rosa.hugonis &   1 & zohner16 \\ 
+  Rosa.majalis &   1 & zohner16 \\ 
+  Rubus.idaeus &   1 & heide93 \\ 
+  Salix.gracilistyla &   1 & zohner16 \\ 
+  Salix.repens &   1 & zohner16 \\ 
+  Salix.smithiana &   1 & caffarra11a \\ 
+  Sambucus.nigra &   1 & zohner16 \\ 
+  Sambucus.pubens &   1 & zohner16 \\ 
+  Sambucus.tigranii &   1 & zohner16 \\ 
+  Sinowilsonia.henryi &   1 & zohner16 \\ 
+  Sorbus.aria &   1 & zohner16 \\ 
+  Sorbus.aucuparia &   2 & basler12,heide93 \\ 
+  Sorbus.commixta &   1 & zohner16 \\ 
+  Sorbus.decora &   1 & zohner16 \\ 
+  Spiraea.canescens &   1 & zohner16 \\ 
+  Spiraea.chamaedryfolia &   1 & zohner16 \\ 
+  Spiraea.japonica &   1 & zohner16 \\ 
+  Stachyurus.praecox &   1 & zohner16 \\ 
+  Stachyurus.sinensis &   1 & zohner16 \\ 
+  Symphoricarpos.albus &   2 & laube14a,laube14b \\ 
+  Syringa.josikaea &   1 & zohner16 \\ 
+  Syringa.reticulata &   1 & zohner16 \\ 
+  Syringa.villosa &   1 & zohner16 \\ 
+  Syringa.vulgaris &   3 & basler12,laube14a,laube14b \\ 
+  Tilia.cordata &   2 & basler12,caffarra11a \\ 
+  Tilia.dasystyla &   1 & zohner16 \\ 
+  Tilia.japonica &   1 & zohner16 \\ 
+  Tilia.platyphyllos &   1 & zohner16 \\ 
+  Toona.sinensis &   1 & zohner16 \\ 
+  Ulmus.americana &   1 & zohner16 \\ 
+  Ulmus.glabra &   1 & ghelardini10 \\ 
+  Ulmus.laevis &   1 & zohner16 \\ 
+  Ulmus.macrocarpa &   1 & ghelardini10 \\ 
+  Ulmus.minor &   1 & ghelardini10 \\ 
+  Ulmus.parvifolia &   1 & ghelardini10 \\ 
+  Ulmus.pumila &   1 & ghelardini10 \\ 
+  Ulmus.villosa &   1 & ghelardini10 \\ 
+  Vaccinium.ashei &   1 & spiers74 \\ 
+  Vaccinium.corymbosum &   1 & spann04 \\ 
+  Viburnum.betulifolium &   1 & zohner16 \\ 
+  Viburnum.buddleifolium &   1 & zohner16 \\ 
+  Viburnum.carlesii &   1 & zohner16 \\ 
+  Viburnum.opulus &   1 & zohner16 \\ 
+  Viburnum.plicatum &   1 & zohner16 \\ 
+  Vitis.vinifera &   2 & biasi12,schnabel87 \\ 
+  Weigela.coraeensis &   1 & zohner16 \\ 
+  Weigela.florida &   1 & zohner16 \\ 
+  Weigela.maximowiczii &   1 & zohner16 \\ 
+  \end{tabular}
+\endgroup
+\end{table}
 
 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Jun 18 22:24:15 2019
+% Wed Jun 19 22:15:14 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions (column two) results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -211,7 +409,7 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \end{tabular}
 \endgroup
 \end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Jun 18 22:24:16 2019
+% Wed Jun 19 22:15:14 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -236,47 +434,20 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \end{tabular}
 \endgroup
 \end{table}
+
+Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
+
 % 
-
+\newpage
 
 \newpage
-\section* {Figures}
-
-%\begin{figure}[h!]
-%\centering
-%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfpcp_z.pdf}
-%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the model fit with Chill Portions}, with centered data, enabling comparisons of effect sizes across predictors. Coefficients were qualitatively similar to those in the model with Utah and can be found in the main text. Convert this into a table and combie with below figure!} 
-%\label{fig:mucpz}
-%\end{figure}
-
-%no need for figure- just do below as a table
-%\begin{figure}[h!]
-%\centering
-%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_nonz.pdf}
-%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Utah units. Relationships of coefficients were qualitatively similar to those in the centered models (Figures 1, \ref{fig:mucpz}.} 
-%\label{fig:muutnonz}
-%\end{figure}
-%\begin{figure}[h!]
-%\centering
-%\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelm2lni_spcompexprampfpcp_nonz.pdf}
-%\caption{\emph{Estimates for effects of chilling, forcing, and photoperiod from the models fit with uncentered predictors} using Chill Portions. Convert this into a table and combie with above figure!} 
-%\label{fig:mucpnonz}
-%\end{figure}
-
+\section* {Supplemental Figures}
 
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
-\caption{Day of leaf out versus chilling, growing degree-days, and mean spring temperature pre- (left panels, 1951-1961) and post- warming (right panels,2000-2010) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
-\label{fig:pep}
-\end{figure}
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/lat_analysis/figures/LatxPhoto_allspp.pdf}
-\caption{Latitude model. Cat: Could you make a muplot that is similar to those in the main text? Should we keep this plot, or something similar as a second panel?}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/lat_analysis/figures/latanalysis_spcom_expramp_fp.pdf}
+\caption{\textbf{Estimates for effects of chilling exceeded estimates for forcing, photoperiod, latitude, and the interaction between latitude and photoperiod, for most species,} in the latitude budburst model fit to centered data, including the subset of studies in OSPREE database that XXX. Here we show estimates from the model fit to centered data, enabling comparisons of effects sizes across predictors, and using Utah units to quantify chilling.}
 \label{fig:lat}
 \end{figure}
 
@@ -286,22 +457,6 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \caption{\textbf{Forecasted changes in chilling (top panel) and leafout for \emph{Betula pendula}(bottom panel)}, in locations included in the PEP database, where phenology dates are known for the pre-warming time period (1951-1960). Changes in chilling and budburst are calculated relative to the mean chilling and budburst dates during this pre-warming timeperiod for each location.} 
 \label{fig:foremap}
 \end{figure}
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecast_bothspp_PEPBB_wdl_utah.pdf}
-\caption{Forecasted budburst with shifts in daylength}
-\label{fig:foremap}
-\end{figure}
-
-
-\newpage
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign_heat3panel.pdf}
-\caption{\textbf{Heatmaps of treatments} ... need to make sure this matches the data we have ended up using!}
-\label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
-\end{figure}
-
 
 \newpage
 \begin{figure}[h!]
@@ -314,19 +469,40 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/gddbyutah_pepspp.pdf}
-\caption{GDD (growing degree days) versus chill units at the time of budburst from the OSPREE database for common species in the PEP 725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD  here as the average daily forcing temperature multiplied by days to budburst. }
-\label{fig:pepgddchill}
-\end{figure}
-
-\newpage
-\begin{figure}[h!]
-\centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger4supp.jpeg}
 \caption{Comparision of estimated effects for environmental paremeters in for species included in both studies using the Weinberger method to simulate winter chilling and studies that did not. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies.}
 \label{fig:weinberger}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/betpen_multruns_utahgddmat.pdf}
+\caption{\textbf{Day of leaf out versus chilling, growing degree-days, and mean spring temperature} pre- (left panels, 1951-1961) and post- warming (right panels,2000-2010) for PEP sites in Germany where \emph{Betula pendula} phenology has been monitored for decades.}
+\label{fig:pep}
+\end{figure}
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign_heat3panel.pdf}
+\caption{\textbf{Heatmaps of treatments} ... need to make sure this matches the data we have ended up using!}
+\label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
+\end{figure}
+
+
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/gddbyutah_pepspp.pdf}
+\caption{GDD (growing degree days) versus chill units at the time of budburst from the OSPREE database for common species in the PEP 725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD  here as the average daily forcing temperature multiplied by days to budburst. }
+\label{fig:pepgddchill}
+\end{figure}
+
+
+%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
