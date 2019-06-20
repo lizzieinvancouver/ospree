@@ -64,7 +64,7 @@ sp.st$newcols<-paste(sp.st$study,sp.st$numstud,sep=".")
 sp.st2<-subset(sp.st,select=c(spname,datasetID,newcols))
 sp.st.wide <- spread(sp.st2,newcols,datasetID, fill="")
 sp.st.wide$stnum<-studynum
-sp.st.wide$studies<-paste(sp.st.wide1$study.1,sp.st.wide1$study.2,sp.st.wide1$study.3,sp.st.wide1$study.4,sp.st.wide1$study.5,sp.st.wide1$study.6,sp.st.wide1$study.7,sp.st.wide1$study.8,sp.st.wide1$study.8,sp.st.wide1$study.10,sep=",")
+sp.st.wide$studies<-paste(sp.st.wide$study.1,sp.st.wide$study.2,sp.st.wide$study.3,sp.st.wide$study.4,sp.st.wide$study.5,sp.st.wide$study.6,sp.st.wide$study.7,sp.st.wide$study.8,sp.st.wide$study.8,sp.st.wide$study.10,sep=",")
 
 sp.st.wide$studies<-gsub(",,,,,,,,,","", sp.st.wide$studies)
 sp.st.wide$studies<-gsub(",,,,,,,,","", sp.st.wide$studies)
@@ -73,3 +73,4 @@ sp.st.wide$studies<-gsub(",,,,,,","", sp.st.wide$studies)
 sp.st.wide$studies<-gsub(",,,,","", sp.st.wide$studies)
 
 sp.st.table<-subset(sp.st.wide,select=c(spname,stnum,studies))
+write.csv(sp.st.table,"../../analyses/output/supptables/speciestable.csv", row.names = FALSE)

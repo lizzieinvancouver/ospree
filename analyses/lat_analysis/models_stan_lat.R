@@ -152,6 +152,7 @@ if(use.chillports == FALSE & use.zscore == FALSE){
                           )
 )
 }
+
 if(use.chillports == TRUE & use.zscore == FALSE){
   datalist.lat.nonz <- with(lat.stan, 
                             list(y = resp, 
@@ -177,7 +178,7 @@ m2l.inter.sum <- summary(m2l.inter)$summary
 m2l.inter.sum[grep("mu_", rownames(m2l.inter.sum)),]
 m2l.inter.sum[grep("sigma_", rownames(m2l.inter.sum)),]
 
-ys<-datalist.lat$y
+ys<-datalist.lat.nonz$y
 # posterior predictive checks....
 if(FALSE){
   y_pred <- extract(m2l.inter, 'y_ppc')

@@ -5,11 +5,16 @@
 ## Based off models_stan_plotting_APC.R ##
 ## Applying our ospree model to forecast effects of warming under different
 ## climatic conditions (conditions chosen using locations and bbdoy within range of 
-## BETPEN and FAGSYL in PEP data)
+## BETPEN in PEP data)
 ## Started 23 Jan 2019 ##
 ## By Ailene  ##
 
 ############################################
+## STILL NEED TO DO THE FOLLOWING:
+##1) Recalculate chilling using Cat's months  (see https://docs.google.com/spreadsheets/d/1MXhI_82W3AC81sSdoUZFvB3CRn483aqYkGaGC9MBk5o/edit#gid=0)
+##2) Clip years down to 1960
+##3) Then redo these forecasts...
+
 # housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -100,25 +105,32 @@ ls<-dim(latlon)[1]
 allforecasts.forheatmap<-c()
 #if R quits before whole thing is finished, stitch together csv files with the following code:
 
-betpenfiles<-list.files(path="..//output/betpen_for3dplot/")
-for (i in 1:(length(betpenfiles)-1)){
-  fname<-paste("..//output/betpen_for3dplot/",betpenfiles[i], sep="")
-  f<-read.csv(fname, header=T)
-  row.names(f)<-NULL
-  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
-}
-allforecasts.forheatmap<-allforecasts.forheatmap[,-1]
-#997, 1119 missing...
-for(l in 1120:ls){#
+#betpenfiles<-list.files(path="..//output/betpen_for3dplot/betpenpepsites")
+#for (i in 1:(length(betpenfiles))){
+#  fname<-paste("..//output/betpen_for3dplot/betpenpepsites/",betpenfiles[i], sep="")
+#  f<-read.csv(fname, header=T)
+#  row.names(f)<-NULL
+#  allforecasts.forheatmap<-rbind(allforecasts.forheatmap,f)
+#}
+#allforecasts.forheatmap<-allforecasts.forheatmap[,-which(colnames(allforecasts.forheatmap)=="X")]
+tempfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__")
+chillfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="chill_observed_")
+
+#997, 1119, 1244, 1405,1636,1637,1639, 2215,2313,2318,missing for chillforecasts...
+for(l in 1:ls){#left off at 1985
     lat<- latlon$LAT[l] 
     long<- latlon$LON[l] 
     print(paste(lat,long,l));
-#numsites<-dim(latlon)[1]
-tempfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="temp_forforecast__")
-chillfiles<-list.files(path=paste(climatedrive,"/",sp[s],sep=""),pattern="chill_observed_")
-chillall<-read.csv(paste(climatedrive,"/",sp[s],"/chill_observed_",lat,"_",long,"_1951_1961.csv",sep=""), header=TRUE) 
-tempall<-read.csv(paste(climatedrive,"/",sp[s],"/temp_forforecast__",lat,"_",long,"_1951_2014.csv",sep=""), header=TRUE)
-#because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
+    #numsites<-dim(latlon)[1]
+    chillfors<- chillforfiles[which(substr(chillforfiles,19,nchar(chillforfiles))==paste(lat,"_",long,"_1951_1961.csv", sep=""))]
+    
+    if (length(chillfors)==0) next #if there are no chillforecaste files- eventuall this should not be necessary! missing some for some reason. 
+    
+    chillall<-read.csv(paste(climatedrive,"/",sp[s],"/chill_observed_",lat,"_",long,"_1951_1961.csv",sep=""), header=TRUE) 
+    tempall<-read.csv(paste(climatedrive,"/",sp[s],"/temp_forforecast__",lat,"_",long,"_1951_2014.csv",sep=""), header=TRUE)
+#if(length(chillfors)
+   
+   #because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
 tempall<-tempall[tempall$Year<1962,]
 chillall<-chillall[chillall$End_year<1962,]
 
@@ -187,5 +199,3 @@ sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March-April 31
   allforecasts.forheatmap<-rbind(allforecasts.forheatmap,allforecast)
 }#l
 write.csv(allforecasts.forheatmap,"..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", row.names=FALSE)
-
-

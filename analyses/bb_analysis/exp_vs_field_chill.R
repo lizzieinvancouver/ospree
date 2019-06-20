@@ -74,7 +74,7 @@ chillests<-as.data.frame(cbind(chilltemps,chillcalc$Chill_portions,chillcalc$Uta
 colnames(chillests)<-c("temp","chillport","utah.240")
 points(chillests$temp,chillests$utah.240, pch=21,bg="lightblue")
 
-legend(x=6,y=20, legend=c("OSPREE database","estimates PEP temp","estimates constant temp"), pch=21,pt.bg=c("gray","dark green","lightblue"))
+legend(x=-10,y=20, legend=c("OSPREE database","estimates-OSPREE constant duration","estimates- PEP temp","estimates- PEP temp with 1C warm","estimates- PEP temp with 7C warm"), pch=21,pt.bg=c("gray","lightblue","dark green","yellowgreen","darkred"))
 points(spests$winT.forecast[spests$warming_C==1],spests$chill.forecast[spests$warming_C==1], pch=21,bg="yellowgreen")
 points(spests$winT.forecast[spests$warming_C==2],spests$chill.forecast[spests$warming_C==2], pch=21,bg="yellow")
 points(spests$winT.forecast[spests$warming_C==3],spests$chill.forecast[spests$warming_C==3], pch=21,bg="goldenrod")
