@@ -327,6 +327,13 @@ ggplot(whichy,aes(mean,predictor))+geom_point(aes(),position=pd2)+geom_errorbarh
 +scale_color_manual(values=c("orchid4", "springgreen4"))+ggtitle("HF-Continuous")
 
 ##or
+jpeg("../figures/weinberger_MU_4supp.jpeg")
+cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+# display.brewer.all()
+my.pch <- rep(15:18, each=3)
+alphahere = 0.4
+
 muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg2){
   spnum <- length(unique(bb.stan$complex.wname))
   #pdf(file.path(figpath, paste("muplot", nameforfig, figpathmore, ".pdf", sep="")),
@@ -335,17 +342,17 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
   par(mar=c(5,7,3,5))
   plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
        xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
-  axis(2, at=1:7, labels=rev(c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")), las=1)
+  axis(2, at=1:8, labels=rev(c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")), las=1)
   abline(v=0, lty=2, col="darkgrey")
-  rownameshere <- c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")
-  ppeffects <- c("b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw") # or 1:4 here...
-  for(i in 1:3){
-    pos.y<-(3:1)[i]
+  rownameshere <- c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")
+  ppeffects <- c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw") # or 1:4 here...
+  for(i in 1:8){
+    pos.y<-(8:1)[i]
     pos.x<-summary(modelhere)$summary[rownameshere[i],"mean"]
     lines(summary(modelhere)$summary[rownameshere[i],c("25%","75%")],rep(pos.y,2),col="darkgrey")
     points(pos.x,pos.y,cex=1.5,pch=19,col="darkblue")
     for(spsi in 1:spnum){
-      pos.sps.i<-which(grepl(paste("[",spsi,"]",sep=""),rownames(summary(modelhere)$summary),fixed=TRUE))[2:4]
+      pos.sps.i<-which(grepl(paste("[",spsi,"]",sep=""),rownames(summary(modelhere)$summary),fixed=TRUE))[1:1]
       jitt<-runif(1,0.05,0.4)
       pos.y.sps.i<-pos.y-jitt
       pos.x.sps.i<-summary(modelhere)$summary[pos.sps.i[i],"mean"]
@@ -358,13 +365,12 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
   par(xpd=TRUE) # so I can plot legend outside
   legend(leg1, leg2, sort(unique(bb.stan$complex.wname)), pch=my.pch[1:spnum],
          col=alpha(my.pal[1:spnum], alphahere),
-         cex=0.75, bty="n")
+         cex=.75, bty="n",y.intersp=0.75)
  # dev.off()
 }
 
-
-muplotfx(wein.mod.3.cp, "test", 7, 8, c(0,3), c(-20, 10) , 12, 7)
-
+muplotfx(wein.mod.3.ut, "Weinberger", 7, 8, c(0,8), c(-14, 50) , 27, 2.5)
+dev.off()
 
 
 

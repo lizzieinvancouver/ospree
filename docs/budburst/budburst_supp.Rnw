@@ -94,7 +94,16 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 
 \item \underline{Latitude model}:
 
+
 \item \underline{Weinberger  model}:
+We classified Weinberger studies as those with two or more field sample dates, each two or more weeks apart. The Weinberger model is:\\
+\begin{align*}
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling+ \beta_{weinberger} + \beta_{forcing:weinberger} + \beta_{photoperiod:weinberger }+ \beta_{chilling:weinberger} \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
+\end{align*}
+
+\begin{align*}
+\alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\end{align*}
 
 \end{enumerate}
 
@@ -261,8 +270,8 @@ Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecast
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger4supp.jpeg}
-\caption{Comparision of estimated effects for environmental paremeters in for species included in both studies using the Weinberger method to simulate winter chilling and studies that did not. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies.}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger_MU_4supp.jpeg}
+\caption{Comparision of estimated effects for environmental paremeters for overlapping species included in both Weinberger method studies and non-Weinberger method studies. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies.}
 \label{fig:weinberger}
 \end{figure}
 
