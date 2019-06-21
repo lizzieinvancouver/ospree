@@ -166,7 +166,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \section* {Supplemental Tables}
 \begin{footnotesize} 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Thu Jun 20 12:27:58 2019
+% Fri Jun 21 09:17:00 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Species included in the OSPREE database}. Could add to this: the range of forcing, chilling, and photoperiod treatments for each species, and perhaps the range of latitudes, in OSPREE.
@@ -387,10 +387,35 @@ Abies.alba &   2 & basler12,laube14a \\
 
 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Thu Jun 20 12:28:22 2019
+% Fri Jun 21 09:17:40 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions (column two) results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
+\label{tab:methods}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
+  \hline
+parameter & utah.est & utah.ci & cp.est & cp.ci & allsp.est & allsp.ci \\ 
+  \hline
+mu\_a\_sp & 29.92 & 26.41-33.37 & 30.74 & 26.91-34.4 & 30.86 & 28.61-33.17 \\ 
+  mu\_b\_force\_sp & -4.37 & -6.7--2.12 & -4.8 & -7.1--2.44 & -6.15 & -8.56--3.72 \\ 
+  mu\_b\_photo\_sp & -3.13 & -5.63--0.77 & -3.18 & -5.39--1.03 & -1.03 & -2.31-0.2 \\ 
+  mu\_b\_chill\_sp & -8.87 & -12.06--5.77 & -8.2 & -11.25--4.97 & -8.04 & -9.65--6.42 \\ 
+  sigma\_a\_sp & 9.41 & 7.21-12.2 & 10.17 & 7.69-13.29 & 14.42 & 12.67-16.42 \\ 
+  sigma\_b\_force\_sp & 5.68 & 4.01-7.77 & 6.03 & 4.33-8.15 & 8.51 & 6.53-10.88 \\ 
+  sigma\_b\_photo\_sp & 5.22 & 3.36-7.85 & 4.51 & 2.97-6.63 & 3.69 & 2.83-4.67 \\ 
+  sigma\_b\_chill\_sp & 7.38 & 5.27-10.1 & 7.9 & 5.68-10.73 & 6.27 & 4.8-7.85 \\ 
+  sigma\_y & 15.77 & 15.24-16.32 & 15.47 & 14.93-16 & 14.93 & 14.55-15.32 \\ 
+   \hline
+n\_sp & 39 &  & 39 &  & 205 &  \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Fri Jun 21 09:17:40 2019
+\begin{table}[ht]
+\centering
+\caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
 \label{tab:methods}
 \begingroup\footnotesize
 \begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
@@ -406,31 +431,6 @@ mu\_a\_sp & 62.89 & 54.9-70.93 & 67.02 & 58.05-75.76 & 62.57 & 57.64-67.38 \\
   sigma\_b\_photo\_sp & 0.77 & 0.49-1.14 & 0.7 & 0.46-1.02 & 0.59 & 0.45-0.74 \\ 
   sigma\_b\_chill\_sp & 2.06 & 1.46-2.82 & 0.2 & 0.14-0.28 & 1.24 & 0.95-1.57 \\ 
   sigma\_y & 15.83 & 15.28-16.39 & 15.53 & 15.01-16.08 & 15.16 & 14.77-15.58 \\ 
-   \hline
-n\_sp & 39 &  & 39 &  & 205 &  \\ 
-   \hline
-\end{tabular}
-\endgroup
-\end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Thu Jun 20 12:28:22 2019
-\begin{table}[ht]
-\centering
-\caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
-\label{tab:methods}
-\begingroup\footnotesize
-\begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
-  \hline
-parameter & utah.est & utah.ci & cp.est & cp.ci & allsp.est & allsp.ci \\ 
-  \hline
-mu\_a\_sp & 29.92 & 26.41-33.37 & 30.77 & 27-34.46 & 30.86 & 28.61-33.17 \\ 
-  mu\_b\_force\_sp & -4.37 & -6.7--2.12 & -4.83 & -7.12--2.46 & -6.15 & -8.56--3.72 \\ 
-  mu\_b\_photo\_sp & -3.13 & -5.63--0.77 & -3.17 & -5.51--0.95 & -1.03 & -2.31-0.2 \\ 
-  mu\_b\_chill\_sp & -8.87 & -12.06--5.77 & -8.16 & -11.19--5.16 & -8.04 & -9.65--6.42 \\ 
-  sigma\_a\_sp & 9.41 & 7.21-12.2 & 10.14 & 7.8-13.19 & 14.42 & 12.67-16.42 \\ 
-  sigma\_b\_force\_sp & 5.68 & 4.01-7.77 & 6.04 & 4.33-8.27 & 8.51 & 6.53-10.88 \\ 
-  sigma\_b\_photo\_sp & 5.22 & 3.36-7.85 & 4.46 & 2.92-6.62 & 3.69 & 2.83-4.67 \\ 
-  sigma\_b\_chill\_sp & 7.38 & 5.27-10.1 & 7.88 & 5.67-10.59 & 6.27 & 4.8-7.85 \\ 
-  sigma\_y & 15.77 & 15.24-16.32 & 15.47 & 14.93-16.02 & 14.93 & 14.55-15.32 \\ 
    \hline
 n\_sp & 39 &  & 39 &  & 205 &  \\ 
    \hline
