@@ -193,7 +193,6 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
     & use.chillports == TRUE & use.zscore == FALSE){
     bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
-    source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.ports, 

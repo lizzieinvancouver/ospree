@@ -202,7 +202,7 @@ library(xtable)
 library(plyr)
 library(dplyr)
 library(rstan)
-source("../../analyses/bb_analysis/source/mod_table.R")
+source("../../analyses/bb_analysis/maketables.forsupp/mod_table.R")
 #or, faster:
 #zmodtable<-read.csv("../../analyses/output/supptables/zmodetable.csv", header=TRUE)
 #nonzmodtable<-read.csv("../../analyses/output/supptables/nonzmodetable.csv", header=TRUE)

@@ -39,16 +39,16 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
 use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
-use.allspp = TRUE
+use.allspp = FALSE
 use.multcuespp = FALSE
-use.cropspp = TRUE
+use.cropspp = FALSE
 
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 
 #Default is all chilling data
@@ -78,7 +78,7 @@ check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),1]
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
 
 ys<-datalist.bb$y
