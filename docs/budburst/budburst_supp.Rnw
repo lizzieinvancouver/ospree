@@ -93,6 +93,31 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \end{align*}
 
 \item \underline{Latitude model}:
+%CJC: Here are old notes I made while making the model. I don't think we really need any of it but I've included it here just in case...
+%The three major phenological cues that control spring budburst \citep[i.e., low winter temperatures, warm spring temperatures and increasing daylengths][]{Chuine2010} are important determinants of a species' range distribution. With recent warming temperatures, species distributions are predicted to shift poleward \citep{Chen2011, Chuine2001, Parmesan1999}, which would, in turn, affect the interaction of phenological cues an individual experiences. 
+
+%There is large debate over the role of photoperiod on budburst initiation across a species' latitudinal range. The predominating arguments are that (1) species from lower latitudes will be more reliant on photoperiod with climate change \citep{Zohner2016}, (2) photoperiod will slow or constrain range expansion \citep{Saikkonen2012}, (3) all species will rely on photoperiod more as winters warm \citep{Way2015}, and (4) lower latitude species will require both strong photoperiod cues and more forcing in order to compensate for the lack of chilling but photosensitivity may be more important at the cold trailing edge for range expansion to occur \citep{Gauzere2017}.
+
+%\section*{Methods for testing the effects of latitude on budburst}
+%To test for photoperiod sensitivity across latitudes, we designed a model that assesses the effects of each phenological cue on budburst in addition to the effect of latitude and we also included an interaction of photoperiod by latitude. Species were included if they were in multiple studies and if multiple cues were manipulated across studies. We also included species complexes in which species from the same genus would be included if they were represented across multiple studies and multiple cues were manipulated across those studies. We then subsetted the species and species complexes to include only those that had multiple provenance locations. 
+We included all data with provenance latitude information and ran the same model as above with an additional latitude parameter and an interaction between latitude and photoperiod.
+\begin{enumerate}
+\item \underline{Main budburst model}:
+\begin{align*}
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]} + \beta_{latitude_{sp[i]} + \beta_{photoperiod x latitude_{sp[i]} + \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
+\end{align*}
+
+
+\noindent The $\alpha$ and each of the five $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
+\beta_{latitude{sp}} \sim N(\mu_{latitude}, \sigma_{latitude})
+\beta_{photoperiod x latitude{sp}} \sim N(\mu_{photoperiod x latitude}, \sigma_{photoperiod x latitude})
+\end{align*}
+
 
 
 \item \underline{Weinberger  model}:
