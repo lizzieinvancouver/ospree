@@ -26,7 +26,7 @@ options(mc.cores = parallel::detectCores())
 
 # dostan = TRUE
 use.chillports = FALSE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
