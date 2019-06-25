@@ -73,12 +73,12 @@
 You'll need:
 \begin{enumerate}
 \item Excel or other program that makes .xls  or .csv files
-\item ImageJ download for free from here https://imagej.net/Welcome
+\item ImageJ download for free from here https://imagej.net/Welcome. You'll also need to add the Figure_Calibration.class, which will help for giving x and y calibrations to images. (Dan still looking into this as of June 25)
 \end{enumerate}
 
 Now here's what to do:
 \begin{enumerate}
-\item Copy the excel file ospree\textunderscore newpapers for git repo (ospree/data/ospree\textunderscore newpapers) and make your own extension, for example, Dan would write ``ospree\textunderscore newpapers\textunderscore dmb". This will be the spread sheet you enter your data into and then in the future, someone will merge all of our files together into the master data.
+\item Copy the excel file ospree\textunderscore newpapers for git repo (ospree/data/ospree\textunderscore 2019update) and make your own extension, for example, Dan would write ``ospree\textunderscore 2019update\textunderscore dmb". This will be the spread sheet you enter your data into and then in the future, someone will merge all of our files together into the master data.
 \item Familiarize yourself with each tab:
   \begin{enumerate}
   \item \textbf{meta\_general}: metadata for each sheet
@@ -92,8 +92,8 @@ Now here's what to do:
   \end{enumerate}
 \item Read your paper and fill out the information in the ``study" and ``data\textunderscore detailed tab"
 \item Find the designated figure or table as noted in the source tab of the worksheet. Also note the datasetID column in source; use this as you fill out data\_detailed and study.
-\item Take a screen shot of the figure and import into ImageJ, following Tim's instructions from lab meeting. Use the scratch tab to get data into the right format, and then copy into data\textunderscore detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.
-\item For more tips and tricks check out this document: git/ospree/notes/howtoscrape/Data Scraping Tutorial.mp4
+\item Take a screen shot of the figure and import into ImageJ, following Tim's instructions from lab meeting with a video of screen shots from git/ospree/notes/howtoscrape/Data Scraping Tutorial.mp4. Use the scratch tab to get data into the right format, and then copy into data\textunderscore detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.
+\item A note on entering response times: If the respvar of a study is "daystobudburst" enter a 1 into the "response" column, and fill in the recorded time in the "response.time" column
 \end{enumerate}
 
 \end{document}
