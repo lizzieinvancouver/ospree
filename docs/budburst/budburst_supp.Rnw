@@ -51,8 +51,7 @@
 \begin{document}
 \SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
-\bibliographystyle{..//..//refs/bibstyles/amnat.bst}% i moved a style file into the ospree git repo. feel free to add whatever style you like and update, lizzie! I don't have besjournals
-
+\bibliographystyle{..//..//refs/bibstyles/amnat.bst}% \
 \title{Supplemental materials  for Chilling outweighs photoperiod and forcing cues for temperate trees in experiments, but not in natural systems} % perspective paper for OSPREE analyses
 % or Chilling dominates tree budburst in controlled climate experiments, but not in the great outdoors
 
@@ -69,14 +68,28 @@
 % Include:
 % Why we studied budburst and what it means ... Cat put together a 'what is budburst' file we should include with database. (Full OSPREE: 13,000 rows across 85 studies across 41 years and 227 species) - % CJC - I can look this over and make it more readable!
 
-\subsection*{The OSPREE Database}
+\subsection*{The Observed Spring Phenology Responses in Éxperimental Environments (OSPREE) Database}
+\par To identify phenology experiments that manipulated forcing, chilling, and/or daylength, we conducted two Web of Science searches on XXX date with the following terms: 
+\begin{enumerate}
+\item TOPIC = (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*, which yielded 85 publications
 
+\item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
+\end{enumerate}
+
+We reviewed all these papers and included studies in the OSPREE database using the following criteria:
+\begin{enumerate}
+\item Focal species were woody plants
+\item Quantitatve estimates of budburst (include flowering and vegetative buds) were measured and available by scraping tables and/or figure sin the publication. Response variables measured included days to budburst, percent budburst, height,... what else is in respvar. simple?
+\item Forcing, chilling, and photoperiod treatments could be quantitatively identified.
+\item Studies were conducted in controlled environment chambers, not purely in situ. 
+\end{enumerate}
+The resuting database includes 13,000 rows of data across 85 studies, 41 years, and 227 species. For this paper, we focus on studies measuring days to budburst. This subset of OSPREE includes XX rows of data across XX studies, XX years, and XX species (Fig. \ref{fig:map}).
 \par Some species are only represented in one dataset in the OSPREE database, making it impossible to differentiate between species and treatment statistical effects for these taxa. To address this, we combined species found in only one study into ``complexes" at the level of genera. Thus our taxonomic units of analysis are ``species complexes"; either species represented in >1 dataset or generic complexes combing multiple species that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from our analysis.
 
 
 \subsection*{Models}
-
-\par The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.17.3) in R \citep{Rcore:2017,rstan2018}, version XXXX. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our model code using test data, then fit the following models:
+\par We fit three models: the main budburst model, fit to all studies in OSPREE that measured days to budburst; the latitude model, which included only studies that XXX, and the weinberger model, which included only species used in both experiments that employed  Weinberger methods and those that did not. We defined Weinberer studies as those with two or more field sample dates, each two or more weeks apart.
+\par The models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.17.3) in R \citep{Rcore:2017,rstan2018}, version 3.4.2. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our models using test data, then fit the following models:
 \begin{enumerate}
 \item \underline{Main budburst model}:
 \begin{align*}
@@ -94,11 +107,9 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 
 \item \underline{Latitude model}:
 
-
 \item \underline{Weinberger  model}:
-We classified Weinberger studies as those with two or more field sample dates, each two or more weeks apart. The Weinberger model is:\\
 \begin{align*}
-y_i &= N(\alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}+ \beta_{weinberger} + \beta_{forcing:weinberger} + \beta_{photoperiod:weinberger }+ \beta_{chilling:weinberger} \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}+ \beta_{weinberger} + \beta_{forcing:weinberger} \beta_{photoperiod:weinberger}+ \beta_{chilling:weinberger} \epsilon_{i}, \epsilon_{i} \sim N(0,\sigma^2_y)
 \end{align*}
 
 \begin{align*}
@@ -243,6 +254,17 @@ Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecast
 
 \newpage
 \section* {Supplemental Figures}
+
+\newpage
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/ospree_locations2.png}
+\caption{\textbf{Map of days to budburst experiments in the OSPREE database.} Add different symbols for weinberger vs not?}
+\label{fig:map}
+\end{figure}
+
+
+
 
 \newpage
 \begin{figure}[h!]

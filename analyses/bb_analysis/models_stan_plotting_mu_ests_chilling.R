@@ -349,6 +349,6 @@ spheres3d(x,y,z, radius = 2, col="darkgreen")
 
 
 
-#rgl.snapshot("figures/bbmod_3dplot_utah.png")
+rgl.snapshot("figures/forecasting/bbmod_3dplot_utah_withPEP.png")
 if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
 if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
