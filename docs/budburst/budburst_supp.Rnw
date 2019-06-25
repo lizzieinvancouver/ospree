@@ -199,7 +199,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \newpage
 \section* {Supplemental Tables}
 \begin{footnotesize} 
-<<label=xtable1, echo=FALSE, results="tex">>=
+<<label=xtable1, echo=FALSE, results=tex>>=
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
@@ -221,7 +221,7 @@ print(sp.table, include.rownames=FALSE, hline.after = c(-1,0),caption.placement=
 \end{footnotesize} 
 
 
-<<label=xtable2, echo=FALSE, results="tex">>=
+<<label=xtable2, echo=FALSE, results=tex>>=
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
@@ -261,7 +261,7 @@ print(nonzmod.table, include.rownames=FALSE, hline.after = c(-1,0,9,10),caption.
 @
 
 
-<<label=xtablelat, echo=FALSE, results="tex">>=
+<<label=xtablelat, echo=FALSE, results=tex>>=
 #load lat model to report estimates
 library(xtable)
 library(plyr)
@@ -271,7 +271,7 @@ library(rstan)
 #or, faster:
 zmodtable<-read.csv("../../analyses/output/supptables/zmodetable_latcpz.csv", header=TRUE)
 
-mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
+mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
         label="tab:methods",align=c(
                "p{0.01\\textwidth}|",
                "|p{0.15\\textwidth}|",
