@@ -121,7 +121,7 @@ for (i in 1:length(temps)){
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
   quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
-  
+
   predicts[i,]<-c(temps[i],meanz)
   predicts.25per[i,]<-c(temps[i],quant25per)
   predicts.75per[i,]<-c(temps[i],quant75per)
@@ -147,7 +147,7 @@ JDay<-seq(1:chilldays[d])
     chillests[i+((d-1)*length(temps)),]<-c(temps[i],chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp)]))
   }
 }
-colnames(chillests)<- c("temp","Season","End_year","Season_days","Data_days","Perc_complete","Chilling_Hours","Utah_Model","Chill_portions","GDH")  
+colnames(chillests)<- c("temp","Season","End_year","Season_days","Data_days","Perc_complete","Chilling_Hours","Utah_Model","Chill_portions","GDH")
 chillests$Utah_Model240<-chillests$Utah_Model/240
 meanchillests<-aggregate(chillests$Utah_Model240,by=list(chillests$temp), mean)
 meanchillests2<-aggregate(chillests$Chill_portions,by=list(chillests$temp), mean)
@@ -168,7 +168,7 @@ for (i in 1:length(temps)){
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
   quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
-  
+
   chillpredicts[i,]<-c(temps[i],meanz)
   chillpredicts.25per[i,]<-c(temps[i],quant25per)
   chillpredicts.75per[i,]<-c(temps[i],quant75per)
@@ -184,12 +184,12 @@ colnames(bothpredicts)<-colnames(bothpredicts.25per) <-colnames(bothpredicts.75p
 for (i in 1:length(temps)){
   if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Chill_portions[i], dl1,dl2)}
   if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Utah_Model240[i], dl1,dl2)}
-  
+
   meanz <- unlist(lapply(bbposteriors, mean))
   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
   quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
-  
+
   bothpredicts[i,]<-c(temps[i],meanz)
   bothpredicts.25per[i,]<-c(temps[i],quant25per)
  bothpredicts.75per[i,]<-c(temps[i],quant75per)
@@ -215,13 +215,14 @@ lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
 
 
 if(use.chillports==TRUE){legend("topright",
-      legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), 
+      legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
       lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
 if(use.chillports==FALSE){legend("topleft",
-                                legend=c("8 hr-forcing","16 hr-forcing","chilling","both"), 
+                                legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
                                 lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
 
 dev.off()
+
 #Make the above as a 3D plot
 
 #new function (for just one daylength)
@@ -266,6 +267,7 @@ if(use.chillports==FALSE){
   write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr_utah.csv")} 
     
 z=z.matrix.dl1[1:length(temps),1:length(temps)]
+z[z<0]<-0#remove negative estimates!
 x=temps
 y=temps
 zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
@@ -277,6 +279,7 @@ colorlut <- terrain.colors(zlen) # height color lookup table
 col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 #need to work on setting it up so that it looks good without tweaking by hand...
 open3d() 
+mfrow3d(1, 2, sharedMouse = TRUE)
 plot3d(z,
        xlim = range(temps), ylim = range(temps), zlim = range(z), 
        xlab = '', 
@@ -302,35 +305,17 @@ surface3d(x,y,z, col=col, back = "lines")
 #rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
 
 #rgl.snapshot("figures/bbmod_3dplot_utah.png")
-if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
-if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
+#if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
+#if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
 
 
-#Same figure zoomed in on betula experimental conditions
+##Add plot with Betula using PEP field conditions
 
-forcetemps.betpen<-seq(, max(bb.stan$force), by=1)
-chilltemps<-seq(min(as.numeric(bb.stan$chilltemp), na.rm=TRUE),max(as.numeric(bb.stan$chilltemp), na.rm=TRUE), by=1)
-chilldays<-as.integer(mean(as.numeric(bb.stan$chilldays), na.rm=TRUE))
-temps<-seq(min(c(chilltemps,forcetemps)),max(c(chilltemps,forcetemps)), by=1)
-
-chilltemps.bet<-range(as.numeric(bb.stan$chilltemp[bb.stan$complex.wname=="Betula_pendula"]), na.rm=TRUE)
-forcetemps.bet<-range(as.numeric(bb.stan$forcetemp[bb.stan$complex.wname=="Betula_pendula"]))
-temps.bet<-range(c(chilltemps.bet,forcetemps.bet))
-x=temps.bet
-y=temps.bet
-zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
-
-zlen <- zlim[2] - zlim[1] + 1
-
-colorlut <- terrain.colors(zlen) # height color lookup table
-
-col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
-#need to work on setting it up so that it looks good without tweaking by hand...
-open3d() 
-plot3d(z,
-       xlim = range(temps.bet), ylim = range(temps.bet), zlim = range(z), 
+plot3d(zlen,
+       xlim = range(temps), ylim = range(temps), zlim = range(z), 
        xlab = '', 
        ylab = '', zlab = '', axes=FALSE) 
+
 aspect3d(2,2,2)
 axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
 
@@ -343,13 +328,26 @@ axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0,
 
 axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 
-surface3d(x,y,z, col=col, back = "lines")
+#read in file with different lat/longs from PEP and chiling estimates
+betests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
 
+chilltemps.bet<-as.numeric(betests$winT.forecast[betests$warming_C==0])
+forcetemps.bet<-as.numeric(betests$sprT.forecast[betests$warming_C==0])
+bb.bet<-betests$bb.sprtemp.0[betests$warming_C==0]
+temps.bet<-range(c(chilltemps.bet,forcetemps.bet))
+x=chilltemps.bet
+y=forcetemps.bet
+z=bb.bet
+#need to work on setting it up so that it looks good without tweaking by hand...
+
+spheres3d(x,y,z, radius = 2, col="darkgreen")
 #add mean winter temp observed at sites in PEP
 #alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
 #rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
 #add mean spring temp observed at sites in PEP
 #rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+
+
 
 #rgl.snapshot("figures/bbmod_3dplot_utah.png")
 if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
