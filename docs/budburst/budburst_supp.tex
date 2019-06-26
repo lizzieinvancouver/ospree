@@ -106,6 +106,29 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \end{align*}
 
 \item \underline{Latitude model}:
+%CJC: Here are old notes I made while making the model. I don't think we really need any of it but I've included it here just in case...
+%The three major phenological cues that control spring budburst \citep[i.e., low winter temperatures, warm spring temperatures and increasing daylengths][]{Chuine2010} are important determinants of a species' range distribution. With recent warming temperatures, species distributions are predicted to shift poleward \citep{Chen2011, Chuine2001, Parmesan1999}, which would, in turn, affect the interaction of phenological cues an individual experiences. 
+
+%There is large debate over the role of photoperiod on budburst initiation across a species' latitudinal range. The predominating arguments are that (1) species from lower latitudes will be more reliant on photoperiod with climate change \citep{Zohner2016}, (2) photoperiod will slow or constrain range expansion \citep{Saikkonen2012}, (3) all species will rely on photoperiod more as winters warm \citep{Way2015}, and (4) lower latitude species will require both strong photoperiod cues and more forcing in order to compensate for the lack of chilling but photosensitivity may be more important at the cold trailing edge for range expansion to occur \citep{Gauzere2017}.
+
+%\section*{Methods for testing the effects of latitude on budburst}
+%To test for photoperiod sensitivity across latitudes, we designed a model that assesses the effects of each phenological cue on budburst in addition to the effect of latitude and we also included an interaction of photoperiod by latitude. Species were included if they were in multiple studies and if multiple cues were manipulated across studies. We also included species complexes in which species from the same genus would be included if they were represented across multiple studies and multiple cues were manipulated across those studies. We then subsetted the species and species complexes to include only those that had multiple provenance locations. 
+We included all data with provenance latitude information and ran the same model as above with an additional latitude parameter and an interaction between latitude and photoperiod.
+
+\begin{align*}
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} + \beta_{photoperiod x latitude_{sp[i]} + \epsilon_i},\epsilon_i \sim N(0,\sigma^2_y)
+\end{align*}
+
+\noindent The $\alpha$ and each of the five $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
+\beta_{latitude{sp}} \sim N(\mu_{latitude}, \sigma_{latitude})
+\beta_{photoperiod x latitude{sp}} \sim N(\mu_{photoperiod x latitude}, \sigma_{photoperiod x latitude})
+\end{align*}
+
 
 \item \underline{Weinberger  model}:
 \begin{align*}
@@ -186,7 +209,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \section* {Supplemental Tables}
 \begin{footnotesize} 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Jun 25 11:48:25 2019
+% Wed Jun 26 10:24:57 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Species included in the OSPREE database}. Could add to this: the range of forcing, chilling, and photoperiod treatments for each species, and perhaps the range of latitudes, in OSPREE.
@@ -407,7 +430,7 @@ Abies.alba &   2 & basler12,laube14a \\
 
 
 % latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Jun 25 11:49:16 2019
+% Wed Jun 26 10:25:17 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions (column two) results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -432,7 +455,7 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \end{tabular}
 \endgroup
 \end{table}% latex table generated in R 3.4.2 by xtable 1.8-2 package
-% Tue Jun 25 11:49:16 2019
+% Wed Jun 26 10:25:17 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -458,6 +481,36 @@ n\_sp & 39 &  & 39 &  & 205 &  \\
 \endgroup
 \end{table}
 
+% latex table generated in R 3.4.2 by xtable 1.8-2 package
+% Wed Jun 26 10:25:17 2019
+\begin{table}[ht]
+\centering
+\caption{\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present estimates and their 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,} 
+\label{tab:methods}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.15\textwidth}|p{0.08\textwidth}|p{0.1\textwidth}|}
+  \hline
+parameter & cp.est & cp.ci \\ 
+  \hline
+mu\_a\_sp & 29.13 & 25.24-32.97 \\ 
+  mu\_b\_force\_sp & -4.27 & -6.78--1.78 \\ 
+  mu\_b\_photo\_sp & -2.32 & -5.17-0.7 \\ 
+  mu\_b\_chill\_sp & -8.17 & -11.27--5.2 \\ 
+  mu\_b\_lat\_sp & -2.88 & -7.84-1.69 \\ 
+  mu\_b\_pl\_sp & 3.39 & -0.57-7.83 \\ 
+  sigma\_a\_sp & 8.89 & 6.28-12.53 \\ 
+  sigma\_b\_force\_sp & 5.97 & 4.17-8.35 \\ 
+  sigma\_b\_photo\_sp & 5.33 & 3.31-8.1 \\ 
+  sigma\_b\_chill\_sp & 6.82 & 4.7-9.49 \\ 
+  sigma\_b\_lat\_sp & 8.10 & 4.21-13.32 \\ 
+  sigma\_b\_pl\_sp & 6.78 & 3.7-11.32 \\ 
+  sigma\_y & 15.45 & 14.91-16 \\ 
+   \hline
+n\_sp & 36.00 & - \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table}
 Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
 
 % 
