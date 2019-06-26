@@ -41,8 +41,8 @@ if(length(grep("lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- FALSE
-use.flags.for.allsppmodel <- TRUE
+use.flags.for.mainmodel <- TRUE
+use.flags.for.allsppmodel <- FALSE
 use.yourown.flagdesign <- FALSE
 
 if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
