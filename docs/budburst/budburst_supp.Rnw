@@ -116,7 +116,7 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 We included all data with provenance latitude information and ran the same model as above with an additional latitude parameter and an interaction between latitude and photoperiod.
 
 \begin{align*}
-y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} + \beta_{photoperiod x latitude_{sp[i]} + \epsilon_i},\epsilon_i \sim N(0,\sigma^2_y)
+y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} \\+& \beta_{photoperiod x latitude_{sp[i]} + \epsilon_i},\epsilon_i \sim N(0,\sigma^2_y)
 \end{align*}
 
 \noindent The $\alpha$ and each of the five $\beta$ coefficients were modeled at the species level, as follows:
@@ -124,8 +124,8 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
 \beta_{forcing_{sp}} \sim N(\mu_{forcing}, \sigma_{forcing}) \\
 \beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
-\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
-\beta_{latitude{sp}} \sim N(\mu_{latitude}, \sigma_{latitude})
+\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})\\
+\beta_{latitude{sp}} \sim N(\mu_{latitude}, \sigma_{latitude})\\
 \beta_{photoperiod x latitude{sp}} \sim N(\mu_{photoperiod x latitude}, \sigma_{photoperiod x latitude})
 \end{align*}
 
@@ -169,12 +169,11 @@ We selected sites in Europe where temperature and budburst have been monitored s
 \section*{Understanding declines in temperature sensitivity in European long-term data}
 % See files: PEP_climate/comparetopepsims.R and pep_sims/pepvarsim.R 
 % HELP from Cat needed !!! I guessed at the methods for PEP sites ... She should double-check everything I wrote
-As our model results (when applied to realistic forcing, chilling and photoperiod conditions in Europe) do not predict a dramatic decline temperature sensitivity, we tested whether observed declines could instead be due to a statistical artifact of the method commonly used to estimate temperature sensitivity (a linear regression of annual budburst date versus mean or other aggregated metrics of spring temperature yielding estimates in days/$^{\circ}$C). If warming produces systematically warmer daily temperatures this method will inherently estimate lower sensitivities, because the `days' unit will effectively have increased in the thermal time it represents.
+As our model results (when applied to realistic forcing, chilling and photoperiod conditions in Europe) do not predict a dramatic decline in temperature sensitivity, we tested whether observed declines could instead be due to a statistical artifact of the method commonly used to estimate temperature sensitivity (a linear regression of annual budburst date versus mean or other aggregated metrics of spring temperature yielding estimates in days/$^{\circ}$C). If warming produces systematically warmer daily temperatures this method will inherently estimate lower sensitivities, because the `days' unit will effectively have increased in the thermal time it represents.
 
-\par To test this hypothesis we compared observed trends with simulations. First, we collated PEP 725 (CITE) data for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: 1951-1960, which represented a period before significant anthropogenic warming (citeIPCC) and 2001-2010, a period with significant warming. We used leafout data (BBCH=11; which is defined as ``leaf unfolding (first visible leaf stalk" in the PEP725 database)) instead of budburst (BBCH=7; defined as ``Beginning of sprouting") as leafout data are far more common in the PEP 725 database. %CJC - this is great! exactly what I did, I just added defintions for the BBCHs we used
-Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but simply assumed budburst occurred after a certain summation of heat, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C)) and the difference in these estimates given different levels of spring warming. For the simulations showed here we used a GDD requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP 725 data, but note that the general findings are robust to other combinations of these parameter values).
+\par To test this hypothesis we compared observed trends with simulations. First, we collated PEP 725 data \citep{Templ2018} for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: 1951-1960, which represented a period before significant anthropogenic warming \citep{IPCC2014} and 2001-2010, a period with significant warming. We used leafout data (BBCH=11; which is defined as ``leaf unfolding (first visible leaf stalk)" in the PEP725 database) instead of budburst (BBCH=7; defined as ``Beginning of sprouting") as leafout data are far more common in the PEP 725 database. Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but simply assumed budburst occurred after a certain summation of heat, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C)) and the difference in these estimates given different levels of spring warming. For the simulations shown here we used a GDD requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP 725 data, but note that the general findings are robust to other combinations of these parameter values).
 
-\par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP 725 declined across the two time periods in step with warming daily temperatures. Across the sites studied here we estimated a decline of 0.8$\pm$0.3 days/$^{\circ}$C (comparing 2000-2010 and 1950-1960) and 1.1$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C warming (Fig. \ref{fig:pepsims}). Additionally, in both the real and simulated data variance in leafout date declined, as would be expected if plants use a thermal sum threshold of forcing to leaf out and warming produces systematically warmer days: in the PEP 725 data we found a decline in leafout variance of 58\%, compared to a decline of 37\% in the simulations. Additionally we found little change in accumulated chilling (1 September - 1 March of each year) in the PEP 725 data across the two time points (2247$\pm$31 Utah units in 1950-1960, compared to 2236$\pm$20 Utah units in 2000-2010), further suggesting that shifts in chilling do not explain the declining sensitivities. Simple plots of the chilling and forcing required for budburst suggest very low chilling is often required to dramatically increase the forcing required for budburst (Fig. {fig:pepgddchill}).
+\par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP 725 declined across the two time periods in step with warming daily temperatures. Across the sites studied here we estimated a decline of 0.8$\pm$0.3 days/$^{\circ}$C (comparing 2001-2010 and 1951-1960) and 1.1$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C warming (Fig. \ref{fig:pepsims}). Additionally, in both the real and simulated data variance in leafout date declined, as would be expected if plants use a thermal sum threshold of forcing to leaf out and warming produces systematically warmer days: in the PEP 725 data we found a decline in leafout variance of 58\%, compared to a decline of 37\% in the simulations. Additionally we found little change in accumulated chilling (1 September - 1 March of each year) in the PEP 725 data across the two time points (2247$\pm$31 Utah units in 1951-1960, compared to 2236$\pm$20 Utah units in 2001-2010), further suggesting that shifts in chilling do not explain the declining sensitivities. Simple plots of the chilling and forcing required for budburst suggest very low chilling is often required to dramatically increase the forcing required for budburst (Fig. {fig:pepgddchill}).
 % Need to add SE or such to % ... See PEP_climate/comparetopepsims.R
 
 
@@ -191,7 +190,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 % I think the below belongs where we discuss the PEP results. I think we discussed most of the points below already in one form or another above?
 %\par We expect climate change to continue to have dramatic effects on spring phenology, because the two temperature-derived cues (chilling and forcing) both strongly affect budburst \citep{Laube:2014a}. However, the relative importance of chilling versus forcing (i.e., the extent to which a chilling threshold will be reached and cause delays in budburst with additional warming) will vary spatially. Forcing is increasing with climate change and is therefore expected to continue advancing budburst. Chilling, on the other hand, is expected to increase in some locations and decrease in others with climate change \citep{fraga2019}, so budburst responses may advance less strongly in places where chilling declines. In some locations, budburst may even delay with substantial amounts of warming (e.g. X degrees, as is forecasted for the end of the 21st century, IPCC, Fig. \ref{fig:fore}) as chilling limitations come into play. 
 
-\par An additional important limitation is the rarity of studies designed to test interactions. Interactions between these cues are widely expected (cites) and, when examined, often found (cites), we were unable to estimate interactions in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod (cite table with number of interactions from coding challenge!). The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (cites, Tables, figs).  Our estimated effects average over interactions \citep{gelman2006}, but identifying them in future research will be critical to understanding and predicting budburst. For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst %\citep{} 
+\par An additional important limitation is the rarity of studies designed to test interactions. Interactions between these cues are widely expected \citep{Chuine2000} and, when examined, often found \citep{flynn2018, fu2015}, we were unable to estimate interactions in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod (cite table with number of interactions from coding challenge!). The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (cites, Tables, figs).  Our estimated effects average over interactions \citep{gelman2006}, but identifying them in future research will be critical to understanding and predicting budburst. For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst %\citep{} 
 (cite papers in the ospree database that interact chilling and forcing)
 ---is the hypothesized cause of declining sensitivities in European trees \citep{fu2015,vitasse}. As more data become available, it would allow additional tests of important interactions, such as how responses vary across latitudes (ref latitude figure). % Maybe add: In addition to data limitation, disentangling forcing from chilling conditions is a challenge because information on endodormancy requirements is very scarce \citep{chuine2016}.% Though I wonder if this belongs above in discussion of chilling?
 
@@ -208,7 +207,7 @@ Given the limited manipulation of chilling in studies, we estimated chilling for
 \newpage
 \section* {Supplemental Tables}
 \begin{footnotesize} 
-<<label=xtable1, echo=FALSE, results=tex>>=
+<<label=xtable1, echo=FALSE, results="tex">>=
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
@@ -230,7 +229,7 @@ print(sp.table, include.rownames=FALSE, hline.after = c(-1,0),caption.placement=
 \end{footnotesize} 
 
 
-<<label=xtable2, echo=FALSE, results=tex>>=
+<<label=xtable2, echo=FALSE, results="tex">>=
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
@@ -270,7 +269,7 @@ print(nonzmod.table, include.rownames=FALSE, hline.after = c(-1,0,9,10),caption.
 @
 
 
-<<label=xtablelat, echo=FALSE, results=tex>>=
+<<label=xtablelat, echo=FALSE, results="tex">>=
 #load lat model to report estimates
 library(xtable)
 library(plyr)
