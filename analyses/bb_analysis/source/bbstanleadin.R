@@ -363,7 +363,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes.nocrops
-  source("source/bb_zscorepreds.R")
+  source("source/bb_zscorepreds.R")#37 species, 1729 rows of data
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill.z, 
@@ -376,6 +376,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   )
 }
 
+#checking: 
 # Species complex, exp and photo and forcing and using utah WITH CROPS & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
@@ -398,7 +399,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == FALSE){
-  bb.stan <- bb.stan.expramptypes.nocrops
+  bb.stan <- bb.stan.expramptypes.nocrops 
   datalist.bb <- with(bb.stan, 
                       list(y = resp, 
                            chill = chill, 
@@ -429,7 +430,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 }
 
 # Species complex, exp and photo and forcing and using utah WITH CROPS & NOT z-scored
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes
