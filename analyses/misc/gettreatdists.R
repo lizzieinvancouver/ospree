@@ -83,7 +83,38 @@ get.treatdists.singletreatment <- function(df, treatcol){
           
 ### f(x) to get experiments with varying day-night temperatures
 
+# this is a better f(x), it should be more accurate as I worked a little harder on it
+# it writes out info on the forcing in general and then counts up number of treatments with constant day/night temps
+# and number of treatments with varying day/night temps
 get.treatdists.daynight <- function(df, treatcol, othertreatcol){
+    dfbuild <- data.frame(datasetID=character(), study=character(), treatinfo=character(), numconstantforce=numeric(),
+       numdiffforce=numeric())
+    for (did in unique(df[["datasetID"]])){
+     subbydid <- subset(df, datasetID==did)
+       for (studyid in unique(subbydid$study)){
+          subbydidexp.allcols <- subset(subbydid, study==studyid)
+          subbydidexp <- subbydidexp.allcols[,c(treatcol, othertreatcol)]
+          ndaytemps <- length(unique(subbydidexp.allcols[,c(treatcol)]))
+          nnighttemps <- length(unique(subbydidexp.allcols[,c(othertreatcol)]))
+          if (ndaytemps==1 & nnighttemps==1) dfbuildadd <- data.frame(datasetID=did,
+             study=studyid, treatinfo="forcing does not vary", numconstantforce=NA, numdiffforce=NA) else {
+             subbydidexp.nodup <- subbydidexp[!duplicated(subbydidexp),]
+             subbydidexp.nodup.wcount <- transform(subbydidexp.nodup, same = apply(subbydidexp.nodup, 1,
+                function(x) length(unique(x)) == 1))
+             numconstantforce <- nrow(subset(subbydidexp.nodup.wcount, same==TRUE))
+             numdiffforce <- nrow(subset(subbydidexp.nodup.wcount, same==FALSE))
+             dfbuildadd <- data.frame(datasetID=did, study=studyid, treatinfo="some diff daynight",
+                 numconstantforce=numconstantforce, numdiffforce=numdiffforce)
+            }
+      dfbuild <- rbind(dfbuild, dfbuildadd)
+                 }
+          }
+  return(dfbuild)
+}
+
+
+# this just tries to count day and night temps, it is not perfect as I wrote it quickly (use at your own risk!)
+get.treatdists.daynight.alt <- function(df, treatcol, othertreatcol){
     dfbuild <- data.frame(datasetID=character(), study=character(), ndaytemps=numeric(), nnighttemps=numeric())
     for (did in unique(df[["datasetID"]])){
      subbydid <- subset(df, datasetID==did)
