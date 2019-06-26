@@ -64,9 +64,18 @@
 % Think on: we say 'our model' a lot; we also say our findings, results or OSPREE ... we should be sure we like the language and keep it easy to follow (perhaps less 'our model' though I am not sure). 
 
 % SciMag: https://www.sciencemag.org/authors/science-information-authors
-% Title: 96 character maximum for Research Articles and Reports
+%https://www.sciencemag.org/authors/instructions-preparing-initial-manuscript
 % Only 30 REFS!! (We need to be more careful I think.)
 % Reports (up to ~2500 words including references, notes and captions?corresponds to ~3 printed pages in the journal) present important new research results of broad significance. Reports should include an abstract, an introductory paragraph, up to four figures or tables, and about 30 references.
+%Science Manuscripts should be assembled in the following order:
+% Title: 96 character maximum for Research Articles and Reports
+%One Sentence Summary: capturing the most important point should be submitted for Research Articles, Reports and Reviews. These should be a maximum of 125 characters and should complement rather than repeat the title
+%Authors:and their affiliated institutions, linked by superscript numbers, should be listed beneath the title on the opening page of the manuscript.
+%Affiliations:
+%Abstract:
+%Main Text:
+%References and Notes
+%Acknowledgements:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -110,11 +119,11 @@ nexp_mod<-57#got this from doing: unique(paste(bb.stan$genus,bb.stan$species) wi
 @
 
 \begin{abstract}
-Decades of fundamental research on woody plant species highlight how three major cues shape spring phenological events: forcing, daylength, and chilling \citep[e.g.,][]{Campbell:1975aa,Heide:2008aa,flynn2018}. Increasing research on the phenological impacts of climate change has led to debate over whether forcing cues may dominate for some species, while fewer %(CJC - fewer species? individuals? or do you mean just species in general will respond less to chilling/photo?)
+Decades of fundamental research on woody plant species highlight how three major cues shape spring phenological events: forcing, daylength, and chilling \citep[e.g.,][]{Campbell:1975aa,Heide:2008aa,flynn2018}. Increasing research on the phenological impacts of climate change has led to debate over whether forcing cues may dominate for some species, while fewer species
 respond to chilling and/or daylength \citep{Heide:2011aa,koerner2010b,zohner2016}. The debate has wide-reaching consequences for the future of spring phenology, as the presence of strong chilling or daylength cues could slow, stall, or even reverse current trends towards ever-earlier spring phenology with warming \citep{fu2015,koerner2010a}. Here we use a global meta-analysis of all published controlled environment studies to test for the relative effects of these three major cues across \Sexpr{nsp} species. We find almost all species show strong responses to all three cues, with chilling being the strongest cue (\Sexpr{ch.z}), followed by forcing (\Sexpr{f.z}) and daylength (\Sexpr{p.z}). Simple forecasts from our findings, 
  however, suggest that the impact of chilling and daylength cues is highly location-specific---dependent largely on whether chilling increases or decreases with warming---and has major effects on projections only above a warming of 4\degree C or more, at least in the well-studied areas included in our database (e.g., Central Europe). Our results unify both sides of the debate over phenological cues: while all species may respond to all cues strongly in experimental conditions, in current environmental conditions the dominant impact of climate change is---and may remain---from increased forcing. 
 %CJC- maybe change this to "..., forcing is---and may remain---the dominant impact of climate change on current environmental conditions."
-%The magnitude of future shifts in phenology depends largely . %not sure we're ready to say this last sentence yet...depends on forecasting with full set of PEP data.
+
 \end{abstract}
 
 \section* {Main text}
