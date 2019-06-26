@@ -55,7 +55,7 @@ d.sub<-d.sub[!is.na(d.sub$field.doy),]
 
 d.sub$field.doy1<-ave(d.sub$field.doy, d.sub$datasetID, d.sub$species, FUN=min)
 d.sub$field.doy2<-ave(d.sub$field.doy, d.sub$datasetID, d.sub$species, FUN=max)
-d.sub$wein<-ifelse((d.sub$field.doy2-d.sub$field.doy1)>15, 1, 0)
+d.sub$wein<-ifelse((d.sub$field.doy2-d.sub$field.doy1)>=14, 1, 0)
 xx$wein<-NA
 for(i in c(1:nrow(xx))) {
   for(j in c(1:nrow(d.sub)))
