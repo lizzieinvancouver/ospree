@@ -26,14 +26,15 @@ figpath <- "figures"
 
 ## set up the flags
 use.chillports = FALSE
-use.zscore =FALSE
-use.allspp = FALSE
+use.zscore = FALSE
+use.allspp =TRUE # for the main model this is false
 use.multcuespp = FALSE
-use.cropspp = FALSE
+use.cropspp = TRUE
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
+use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
+
 
 ##
 source("source/bbstanleadin.R")
@@ -61,9 +62,6 @@ if(use.zscore==FALSE & use.chillports == FALSE){
 }
 
 fit.sumz <- summary(fit)$summary
-quartz()
-hist(bb.stan$chill.ports)
-hist(bb.stan$chill)#=utah
 
 rownameshere <- c("mu_a_sp", "mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 #For main effects of model:
@@ -91,7 +89,7 @@ getest.bb <- function(fit, forcetemp, chill, daylength1,daylength2){
   return(yebbest)
 }
 
-forcetemps<-seq(min(bb.stan$force), max(bb.stan$force), by=1)
+forcetemps<-seq(round(min(bb.stan$force), digits=0), round(max(bb.stan$force), digits=0), by=1)
 chilltemps<-seq(min(as.numeric(bb.stan$chilltemp), na.rm=TRUE),max(as.numeric(bb.stan$chilltemp), na.rm=TRUE), by=1)
 #chilldays<-as.integer(mean(as.numeric(bb.stan$chilldays), na.rm=TRUE))
 #instead of using mean, we will vary this
@@ -153,75 +151,75 @@ meanchillests<-aggregate(chillests$Utah_Model240,by=list(chillests$temp), mean)
 meanchillests2<-aggregate(chillests$Chill_portions,by=list(chillests$temp), mean)
 meanchillests<-cbind(meanchillests,meanchillests2$x)
 colnames(meanchillests)<-c("temp","Utah_Model240","Chill-portions")
-#make blank dataframe to fill with estimates
-chillpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-chillpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-chillpredicts.75per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-
-colnames(chillpredicts)<-colnames(chillpredicts.25per) <-colnames(chillpredicts.75per) <-
-  c("chilltemp","dl1","dl2")
-mnforce<-mean(as.numeric(bb.stan$forcetemp), na.rm=TRUE)
-for (i in 1:length(temps)){
-  if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,mnforce, meanchillests$Chill_portions[i], dl1,dl2)}
-  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,mnforce, meanchillests$Utah_Model240[i], dl1,dl2)}
-  meanz <- unlist(lapply(bbposteriors, mean))
-  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
-  quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
-  quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
-
-  chillpredicts[i,]<-c(temps[i],meanz)
-  chillpredicts.25per[i,]<-c(temps[i],quant25per)
-  chillpredicts.75per[i,]<-c(temps[i],quant75per)
-}
-
-#chilling and forcing simultanesouly altered
-bothpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-bothpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-bothpredicts.75per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
-
-colnames(bothpredicts)<-colnames(bothpredicts.25per) <-colnames(bothpredicts.75per) <-
-  c("chilltemp","dl1","dl2")
-for (i in 1:length(temps)){
-  if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Chill_portions[i], dl1,dl2)}
-  if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Utah_Model240[i], dl1,dl2)}
-
-  meanz <- unlist(lapply(bbposteriors, mean))
-  quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
-  quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
-  quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
-
-  bothpredicts[i,]<-c(temps[i],meanz)
-  bothpredicts.25per[i,]<-c(temps[i],quant25per)
- bothpredicts.75per[i,]<-c(temps[i],quant75per)
-}
-
-
-xlim = c(range(temps))
-ylim = c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
-if(use.chillports==TRUE){figname<-paste("mupredictschill_chillport_",min(temps),max(temps),".pdf", sep="_")}
-if(use.chillports==FALSE){figname<-paste("mupredictschill_utah_",min(temps),max(temps),".pdf", sep="_")}
-
-pdf(file.path(figpath,figname), width = 9, height = 6)
-
-#quartz()
-par(mar=c(8,7,3,5))
-plot(predicts$forcetemp,predicts$dl1, xlim=xlim, xlab="Temperature (C)", ylim=ylim,
-     ylab="Days to BB", type="l",bty="l", lty=1, lwd=2, col="darkred")
-lines(predicts$forcetemp,predicts$dl2,lty=2, lwd=2,col="darkred")
-lines(chillpredicts$chilltemp,chillpredicts$dl1,lty=1, lwd=2, col="blue")
-lines(chillpredicts$chilltemp,chillpredicts$dl2,lty=2, lwd=2, col="blue")
-lines(bothpredicts$chilltemp,bothpredicts$dl1,lty=1, lwd=2, col="purple")
-lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
-
-
-if(use.chillports==TRUE){legend("topright",
-      legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
-      lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
-if(use.chillports==FALSE){legend("topleft",
-                                legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
-                                lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
-
-dev.off()
+# #make blank dataframe to fill with estimates
+# chillpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# chillpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# chillpredicts.75per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# 
+# colnames(chillpredicts)<-colnames(chillpredicts.25per) <-colnames(chillpredicts.75per) <-
+#   c("chilltemp","dl1","dl2")
+# mnforce<-mean(as.numeric(bb.stan$forcetemp), na.rm=TRUE)
+# for (i in 1:length(temps)){
+#   if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,mnforce, meanchillests$Chill_portions[i], dl1,dl2)}
+#   if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,mnforce, meanchillests$Utah_Model240[i], dl1,dl2)}
+#   meanz <- unlist(lapply(bbposteriors, mean))
+#   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
+#   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
+#   quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
+# 
+#   chillpredicts[i,]<-c(temps[i],meanz)
+#   chillpredicts.25per[i,]<-c(temps[i],quant25per)
+#   chillpredicts.75per[i,]<-c(temps[i],quant75per)
+# }
+# 
+# #chilling and forcing simultanesouly altered
+# bothpredicts <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# bothpredicts.25per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# bothpredicts.75per <- as.data.frame(matrix(NA,ncol=3,nrow=length(temps)))
+# 
+# colnames(bothpredicts)<-colnames(bothpredicts.25per) <-colnames(bothpredicts.75per) <-
+#   c("chilltemp","dl1","dl2")
+# for (i in 1:length(temps)){
+#   if(use.chillports==TRUE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Chill_portions[i], dl1,dl2)}
+#   if(use.chillports==FALSE){bbposteriors <- getest.bb(fit,temps[i], meanchillests$Utah_Model240[i], dl1,dl2)}
+# 
+#   meanz <- unlist(lapply(bbposteriors, mean))
+#   quantz <- lapply(bbposteriors, function(x) quantile(x,  c(0.25, 0.5, 0.75)))
+#   quant25per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.25))))
+#   quant75per <- unlist(lapply(bbposteriors, function(x) quantile(x,  c(0.75))))
+# 
+#   bothpredicts[i,]<-c(temps[i],meanz)
+#   bothpredicts.25per[i,]<-c(temps[i],quant25per)
+#  bothpredicts.75per[i,]<-c(temps[i],quant75per)
+# }
+# 
+# 
+# xlim = c(range(temps))
+# ylim = c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
+# if(use.chillports==TRUE){figname<-paste("mupredictschill_chillport_",min(temps),max(temps),".pdf", sep="_")}
+# if(use.chillports==FALSE){figname<-paste("mupredictschill_utah_",min(temps),max(temps),".pdf", sep="_")}
+# 
+# pdf(file.path(figpath,figname), width = 9, height = 6)
+# 
+# #quartz()
+# par(mar=c(8,7,3,5))
+# plot(predicts$forcetemp,predicts$dl1, xlim=xlim, xlab="Temperature (C)", ylim=ylim,
+#      ylab="Days to BB", type="l",bty="l", lty=1, lwd=2, col="darkred")
+# lines(predicts$forcetemp,predicts$dl2,lty=2, lwd=2,col="darkred")
+# lines(chillpredicts$chilltemp,chillpredicts$dl1,lty=1, lwd=2, col="blue")
+# lines(chillpredicts$chilltemp,chillpredicts$dl2,lty=2, lwd=2, col="blue")
+# lines(bothpredicts$chilltemp,bothpredicts$dl1,lty=1, lwd=2, col="purple")
+# lines(bothpredicts$chilltemp,bothpredicts$dl2,lty=2, lwd=2, col="purple")
+# 
+# 
+# if(use.chillports==TRUE){legend("topright",
+#       legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
+#       lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
+# if(use.chillports==FALSE){legend("topleft",
+#                                 legend=c("8 hr-forcing","16 hr-forcing","chilling","both"),
+#                                 lty=c(1,2,1,1), col=c("darkred","darkred","blue","purple"),lwd=2)}
+# 
+# dev.off()
 
 #Make the above as a 3D plot
 
@@ -265,11 +263,15 @@ if(use.chillports==TRUE){
 if(use.chillports==FALSE){
   write.csv(z.matrix.dl1,"..//output/bbmodests_for3dplot_8hr_utah.csv")
   write.csv(z.matrix.dl2,"..//output/bbmodests_for3dplot_16hr_utah.csv")} 
-    
-z=z.matrix.dl1[1:length(temps),1:length(temps)]
+
+mincol<-which(as.numeric(substr(colnames(z.matrix.dl1),9,nchar(colnames(z.matrix.dl1))))==min(forcetemps))
+maxcol<-which(as.numeric(substr(colnames(z.matrix.dl1),9,nchar(colnames(z.matrix.dl1))))==max(forcetemps))
+minrow<-which(as.numeric(substr(rownames(z.matrix.dl1),9,nchar(rownames(z.matrix.dl1))))==min(chilltemps))
+maxrow<-which(as.numeric(substr(rownames(z.matrix.dl1),9,nchar(rownames(z.matrix.dl1))))==max(chilltemps))
+z=z.matrix.dl1[minrow:maxrow,mincol:maxcol]
 z[z<0]<-0#remove negative estimates!
-x=temps
-y=temps
+x=chilltemps
+y=forcetemps
 zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
 
 zlen <- zlim[2] - zlim[1] + 1
@@ -281,7 +283,7 @@ col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
 open3d() 
 mfrow3d(1, 2, sharedMouse = TRUE)
 plot3d(z,
-       xlim = range(temps), ylim = range(temps), zlim = range(z), 
+       xlim = range(chilltemps), ylim = range(forcetemps), zlim = range(z), 
        xlab = '', 
        ylab = '', zlab = '', axes=FALSE) 
 aspect3d(2,2,2)
@@ -296,7 +298,7 @@ axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0,
 
 axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 
-surface3d(x,y,z, col=col, back = "lines")
+surface3d(x,y,z, col=col, back = "lines", xlim = range(chilltemps), ylim = range(forcetemps), zlim = range(z),labels=FALSE, tick = FALSE)
 
 #add mean winter temp observed at sites in PEP
 #alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
@@ -309,6 +311,77 @@ surface3d(x,y,z, col=col, back = "lines")
 #if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
 
 
+#Now make the same figure but using PEP field data to get chilling estimates for particular temperatures
+#rather than assuming constant durations
+#Fill matrix row by row
+
+#the below takes a while to run.if you want to avoid running the loop
+pepests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
+#hist(pepests$winT.forecast[pepests$warming_C==0])#will need to use forecasting data to encompass the range
+#add a column with winter tepmerature rounded to the nearest whol number
+pepests$chilltemp.int<-round(pepests$winT.forecast, digits=0)
+#get utah chilling instead of utha/240
+#pepests$chill.utah<-pepests$chill.forecast*240
+meanpepchillests<-aggregate(pepests$chill.forecast,by=list(pepests$chilltemp.int), mean)
+colnames(meanpepchillests)<-c("chilltemp","chill.utah")
+pepchilltemps<-meanpepchillests$chilltemp
+z.matrix.dl1.pep <- matrix(NA,ncol=length(temps),nrow=length(pepchilltemps))
+
+for (i in 1:length(pepchilltemps)){#i=chilling
+  print(pepchilltemps[i]);
+  
+  for(j in 1:length(temps)){#j=forcing
+    if(use.chillports==FALSE){
+      bbposteriors <- getest.bb(fit,temps[j], meanpepchillests$chill.utah[i], dl1,dl2)}
+    
+    meanz <- unlist(lapply(bbposteriors, mean))#returns  avgbb, warmsprbb, warmwinbb, warmsprwinbb)
+    z.matrix.dl1.pep[i,j]<-meanz[1]#8 hour daylength only for now
+
+  }
+}
+mincol<-which(as.numeric(substr(colnames(z.matrix.dl1.pep),9,nchar(colnames(z.matrix.dl1.pep))))==min(forcetemps))
+maxcol<-which(as.numeric(substr(colnames(z.matrix.dl1.pep),9,nchar(colnames(z.matrix.dl1.pep))))==max(forcetemps))
+minrow<-which(as.numeric(substr(rownames(z.matrix.dl1.pep),9,nchar(rownames(z.matrix.dl1.pep))))==min(pepchilltemps))
+maxrow<-which(as.numeric(substr(rownames(z.matrix.dl1.pep),9,nchar(rownames(z.matrix.dl1.pep))))==max(pepchilltemps))
+z=z.matrix.dl1.pep[minrow:maxrow,mincol:maxcol]
+
+colnames(z.matrix.dl1.pep)<-paste("sprtemp",temps, sep=".")
+rownames(z.matrix.dl1.pep)<-paste("wintemp",pepchilltemps, sep=".")
+
+x=pepchilltemps
+y=forcetemps
+zlim <- c(0,70)#c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
+
+zlen <- zlim[2] - zlim[1] + 1
+
+colorlut <- terrain.colors(zlen) # height color lookup table
+
+col <- colorlut[ z - zlim[1] + 1 ] # assign colors to heights for each point
+
+
+
+plot3d(zlen,
+       xlim = range(pepchilltemps), ylim = range(forcetemps), zlim = range(z), 
+       xlab = '', 
+       ylab = '', zlab = '', axes=FALSE) 
+
+aspect3d(2,2,2)
+axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
+
+#axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#       pos = NULL) 
+axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+       pos = NULL,box=TRUE)
+
+axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+
+surface3d(x,y,z, col=col, back = "lines")
+
+
+
+#The below is NOT what we want (it just adds the points for PEP field conditions)
 ##Add plot with Betula using PEP field conditions
 
 plot3d(zlen,
