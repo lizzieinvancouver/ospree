@@ -24,24 +24,73 @@ library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-# dostan = TRUE
-use.chillports = FALSE# change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+######################################
+# Flags to choose for bbstanleadin.R #
+######################################
 
-# Default is species complex and no crops
-use.allspp = FALSE
-use.multcuespp = FALSE
-use.cropspp = FALSE
+# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
+use.flags.for.mainmodel <- FALSE
+use.flags.for.allsppmodel <- FALSE
+use.yourown.flagdesign <- TRUE
 
-# Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
-use.exptypes.fp = FALSE
+if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
+   use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
+   & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
 
-#Default is all chilling data
-use.expchillonly = FALSE # change to true for only experimental chilling 
-#note: with only exp chilling, there is only exp photo and force too.
-#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+if(use.flags.for.mainmodel){
+  use.chillports = FALSE
+  use.zscore = FALSE
+  use.allspp =FALSE # for the main model this is false
+  use.multcuespp = FALSE
+  use.cropspp = FALSE
+  # Default is species complex use  alltypes of designs
+  use.expramptypes.fp = TRUE
+  use.exptypes.fp = FALSE
+  use.expchillonly = FALSE
+}
+
+if(use.flags.for.allsppmodel){
+  use.chillports = FALSE
+  use.zscore = FALSE
+  use.allspp = TRUE
+  use.multcuespp = FALSE
+  use.cropspp = TRUE
+  use.expramptypes.fp = FALSE
+  use.exptypes.fp = FALSE
+  use.expchillonly = FALSE
+}
+
+if(use.yourown.flagdesign){
+  use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+  use.zscore = TRUE # change to false to use raw predictors
+  
+  # Default is species complex and no crops
+  use.allspp = FALSE
+  use.multcuespp = FALSE
+  use.cropspp = FALSE
+  
+  # Default is species complex use  alltypes of designs
+  use.expramptypes.fp = TRUE
+  use.exptypes.fp = FALSE
+  
+  #Default is all chilling data
+  use.expchillonly = FALSE # change to true for only experimental chilling 
+  #note: with only exp chilling, there is only exp photo and force too.
+  #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+}
+
 source("source/bbstanleadin.R")
+
+if(use.flags.for.mainmodel){
+  write.csv(bb.stan, "..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", row.names=FALSE) 
+}
+
+if(use.flags.for.allsppmodel){
+  write.csv(bb.stan, "..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", row.names=FALSE)
+}
+
+# write.csv(bb.stan, "..//output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", row.names=FALSE)
+
 
 bb.wlat <- bb.stan
 bb.wlat <- within(bb.wlat, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
