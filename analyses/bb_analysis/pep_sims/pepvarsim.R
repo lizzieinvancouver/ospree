@@ -6,8 +6,6 @@
 ## NOTE: These sims are designed to contrast a BEFORE and AFTER climate change sensitivity etc. ... you would need to adjust the f(x) to do time-series-style change over time approach. But since this was the approach we were taking to the PEP725 data (i.e., look at 10 years before CC and 10 years after) I did it this way.
 
 # Updated on 18 April 2019: Added: Plots of estimated sens versus warming and plots of variance in leafout date versus warming
-## TO DO:
-# (2) Use realistic daily temps and fstar values #
 
 ## housekeeping
 rm(list=ls()) 
@@ -181,3 +179,30 @@ sdhere.alt <- aggregate(degwarmalt.runs[c("diffbefore.after", "precc.sens", "pos
 
 # get SE for one degree 
 sdhere.alt$diffbefore.after[1]/sqrt(45)
+
+
+### Now test different sigmas before and after CC
+source("pepvarsimfxs_sigmatest.R")
+# values closer to what Cat showed .... though we probably should double-check best sigma here
+sim.1deg.alt.sigtest <- pepvariance.sim.sigmatest(45, 20, 6, 7, 3, 2, 3, 150)
+sim.2deg.alt.sigtest <- pepvariance.sim.sigmatest(45, 20, 6, 8, 3, 2, 3, 150)
+sim.3deg.alt.sigtest <- pepvariance.sim.sigmatest(45, 20, 6, 9, 3, 2, 4, 150)
+sim.4deg.alt.sigtest <- pepvariance.sim.sigmatest(45, 20, 6, 10, 3, 2, 4, 150)
+
+sim.1deg.alt.sigtest$degwarm <- 1
+sim.2deg.alt.sigtest$degwarm <- 2
+sim.3deg.alt.sigtest$degwarm <- 3
+sim.4deg.alt.sigtest$degwarm <- 4
+
+degwarmalt.runs.sigtest <- rbind(sim.1deg.alt.sigtest, sim.2deg.alt.sigtest, sim.3deg.alt.sigtest, sim.4deg.alt.sigtest)
+#write.csv(degwarmalt.runs.sigtest, "output/degwarmpepsims6CFstar150.csv", row.names=FALSE)
+
+meanhere.alt.sigtest <- aggregate(degwarmalt.runs.sigtest[c("diffbefore.after", "precc.sens", "postcc.sens",
+                                            "var.lo.precc", "var.lo.postcc")], degwarmalt.runs.sigtest["degwarm"], FUN=mean)
+
+sdhere.alt.sigtest <- aggregate(degwarmalt.runs.sigtest[c("diffbefore.after", "precc.sens", "postcc.sens",
+                                          "var.lo.precc", "var.lo.postcc")], degwarmalt.runs.sigtest["degwarm"], FUN=sd)
+
+# get SE for one degree 
+sdhere.alt$diffbefore.after[1]/sqrt(45)
+
