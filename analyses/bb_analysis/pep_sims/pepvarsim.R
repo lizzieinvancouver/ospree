@@ -20,9 +20,12 @@ set.seed(113)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd()))>0) { 
   setwd("~/Documents/GitHub/ospree/analyses/bb_analysis/pep_sims")
-} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/pep_sims")
-if(length(grep("Ignacio", getwd()))>0) { 
+} else if(length(grep("lizzie", getwd()))>0) {
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/pep_sims")
+} else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis/pep_sims") 
+} else if(length(grep("catchamberlain", getwd()))>0) { 
+  setwd("~/Documents/git/ospree/analyses/bb_analysis/pep_sims")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/pep_sims")
 
 figpath <- "figures"
@@ -136,7 +139,7 @@ abline(v=mean(sim.3d.5deg), col="red")
 dev.off()
 }
 
-# drawstotal, yrstotal (must divide by 2), precctemp, postcctemp, samplefreq, sigma, fstar
+# drawstotal, yrstotal (must be dividisable by 2), precctemp, postcctemp, samplefreq, sigma, fstar
 sim.1deg <- pepvariance.sim(100, 40, 10, 11, 3, 6, 400)
 sim.2deg <- pepvariance.sim(100, 40, 10, 12, 3, 6, 400)
 sim.3deg <- pepvariance.sim(100, 40, 10, 13, 3, 6, 400)
