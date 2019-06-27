@@ -405,16 +405,18 @@ for (i in 1:length(pepchilltemps)){#i=chilling
 
   }
 }
+colnames(z.matrix.dl1.pep)<-paste("sprtemp",temps, sep=".")
+rownames(z.matrix.dl1.pep)<-paste("wintemp",pepchilltemps, sep=".")
+
 if(use.chillports==FALSE){
      write.csv(z.matrix.dl1.pep,"..//output/bbmodests_for3dplot_8hr_utah_pep.csv")}
+
 mincol<-which(as.numeric(substr(colnames(z.matrix.dl1.pep),9,nchar(colnames(z.matrix.dl1.pep))))==min(forcetemps))
 maxcol<-which(as.numeric(substr(colnames(z.matrix.dl1.pep),9,nchar(colnames(z.matrix.dl1.pep))))==max(forcetemps))
 minrow<-which(as.numeric(substr(rownames(z.matrix.dl1.pep),9,nchar(rownames(z.matrix.dl1.pep))))==min(pepchilltemps))
 maxrow<-which(as.numeric(substr(rownames(z.matrix.dl1.pep),9,nchar(rownames(z.matrix.dl1.pep))))==max(pepchilltemps))
 z=z.matrix.dl1.pep[minrow:maxrow,mincol:maxcol]
 
-colnames(z.matrix.dl1.pep)<-paste("sprtemp",temps, sep=".")
-rownames(z.matrix.dl1.pep)<-paste("wintemp",pepchilltemps, sep=".")
 
 x=pepchilltemps
 y=forcetemps
@@ -448,48 +450,47 @@ axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 surface3d(x,y,z, col=col, back = "lines")
 
 
-
-#The below is NOT what we want (it just adds the points for PEP field conditions)
-##Add plot with Betula using PEP field conditions
-
-plot3d(zlen,
-       xlim = range(temps), ylim = range(temps), zlim = range(z), 
-       xlab = '', 
-       ylab = '', zlab = '', axes=FALSE) 
-
-aspect3d(2,2,2)
-axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
-
-#axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
-#       pos = NULL) 
-axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
-       pos = NULL,box=TRUE)
-axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
-       pos = NULL,box=TRUE)
-
-axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
-
-#read in file with different lat/longs from PEP and chiling estimates
-betests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
-
-chilltemps.bet<-as.numeric(betests$winT.forecast[betests$warming_C==0])
-forcetemps.bet<-as.numeric(betests$sprT.forecast[betests$warming_C==0])
-bb.bet<-betests$bb.sprtemp.0[betests$warming_C==0]
-temps.bet<-range(c(chilltemps.bet,forcetemps.bet))
-x=chilltemps.bet
-y=forcetemps.bet
-z=bb.bet
-#need to work on setting it up so that it looks good without tweaking by hand...
-
-spheres3d(x,y,z, radius = 2, col="darkgreen")
-#add mean winter temp observed at sites in PEP
-#alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
-#rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
-#add mean spring temp observed at sites in PEP
-#rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+rgl.snapshot("figures/bbmod_3dplot_utah_withPEP.png")
+if(use.chillports==FALSE){rgl.postscript("figures/bbmod_3dplot_utah_withPEP.pdf", "pdf")}
 
 
-
-rgl.snapshot("figures/forecasting/bbmod_3dplot_utah_withPEP.png")
-if(use.chillports==FALSE){rgl.postscript("figures/forecasting/bbmod_3dplot_utah.pdf", "pdf")}
-if(use.chillports==TRUE){rgl.postscript("figures/forecasting/bbmod_3dplot_cp.pdf", "pdf")}
+# #The below is NOT what we want (it just adds the points for PEP field conditions)
+# ##Add plot with Betula using PEP field conditions
+# 
+# plot3d(zlen,
+#        xlim = range(temps), ylim = range(temps), zlim = range(z), 
+#        xlab = '', 
+#        ylab = '', zlab = '', axes=FALSE) 
+# 
+# aspect3d(2,2,2)
+# axes3d(edges=c("x--", "y+-", "z--"), box=TRUE, tick=TRUE, labels=TRUE)
+# 
+# #axis3d(edge="x", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+# #       pos = NULL) 
+# axis3d(edge="y+-", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#        pos = NULL,box=TRUE)
+# axis3d(edge="z--", at = NULL, labels = TRUE, tick = TRUE, line = 0, 
+#        pos = NULL,box=TRUE)
+# 
+# axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
+# 
+# #read in file with different lat/longs from PEP and chiling estimates
+# betests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
+# 
+# chilltemps.bet<-as.numeric(betests$winT.forecast[betests$warming_C==0])
+# forcetemps.bet<-as.numeric(betests$sprT.forecast[betests$warming_C==0])
+# bb.bet<-betests$bb.sprtemp.0[betests$warming_C==0]
+# temps.bet<-range(c(chilltemps.bet,forcetemps.bet))
+# x=chilltemps.bet
+# y=forcetemps.bet
+# z=bb.bet
+# #need to work on setting it up so that it looks good without tweaking by hand...
+# 
+# spheres3d(x,y,z, radius = 2, col="darkgreen")
+# #add mean winter temp observed at sites in PEP
+# #alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
+# #rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
+# #add mean spring temp observed at sites in PEP
+# #rgl.lines(x=c(30,30), y = range(alltemps$mnsprt), z = c(20,20), col="salmon", lwd=15)
+# 
+# 
