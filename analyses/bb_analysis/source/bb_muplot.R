@@ -18,7 +18,7 @@ par(xpd=FALSE)
 par(mar=c(5,7,3,10))
 plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
      xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
-axis(2, at=1:3, labels=rev(c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")), las=1)
+axis(2, at=1:3, labels=rev(c("Forcing", "Photoperiod", "Chilling")), las=1)
 abline(v=0, lty=2, col="darkgrey")
 rownameshere <- c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp")
 ppeffects <- c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp") # or 1:4 here...
