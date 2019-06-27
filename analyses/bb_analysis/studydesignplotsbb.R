@@ -13,25 +13,83 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis") 
 } else setwd("~/Documents/git/ospree/analyses/bb_analysis")
 
-## set up the flags
-use.chillports = TRUE
+######################################
+# Flags to choose for bbstanleadin.R #
+######################################
+
+# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
+use.flags.for.mainmodel <- TRUE
+use.flags.for.allsppmodel <- FALSE
+use.yourown.flagdesign <- FALSE
+
+if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
+    use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
+    & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
+
+if(use.flags.for.mainmodel){
+use.chillports = FALSE
 use.zscore = FALSE
-use.allspp = FALSE
+use.allspp =FALSE # for the main model this is false
 use.multcuespp = FALSE
 use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
+}
+
+if(use.flags.for.allsppmodel){
+use.chillports = FALSE
+use.zscore = FALSE
+use.allspp = TRUE
+use.multcuespp = FALSE
+use.cropspp = TRUE
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+}
+
+if(use.yourown.flagdesign){
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
+
+# Default is species complex and no crops
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = TRUE
+use.exptypes.fp = FALSE
+
+#Default is all chilling data
+use.expchillonly = FALSE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+}
+
 
 source("source/bbstanleadin.R")
 
 source("..//misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("..//misc/getcuesbystudy_fxs.R") # f(x) counts up cues
 
+# set up figure paths
+if(use.flags.for.mainmodel){
+figurepath <- "mainmodel"
+}
+if(use.flags.for.allsppmodel){
+figurepath <- "allsppmodel"
+}
+
+if(use.yourown.flagdesign){
+figurepath <- "misc"
+}
+
 # Need bb.stan to return fieldsample.date
 
-d <- bb.all
+# d <- bb.all
+d <- bb.stan
 
 # format species and date
 d$latbi <- paste(d$genus, d$species)
@@ -85,7 +143,33 @@ dsumm.nums <-
       count = length(force.int))
 # dsumm.nums[is.na(dsumm.nums)] <- 0
 
+# summarize by design, count field sample dates
+dsumm.treat.chilltemp <-
+      ddply(d, c("datasetID", "study", "force.int", "photo.int", "chilltemp.int"), summarise,
+      mean.lat = mean(provenance.lat),
+      spp.n = length(unique(latbi)),
+      field.sample.n = mean(fs.date.count, na.rm=TRUE),
+      mean.fieldsamp = mean(doy),
+      min.fieldsamp = min(doy),
+      max.fieldsamp = max(doy))
 
+
+# for figure of study locations, we also need to identify studies that manipulated chilling somehow
+# so identify the set of studies that have varied chilltemp, chilldays or field sample dates
+
+# summarize by study, count field sample dates, chilldays and chilltemps
+dsumm.chilling.anywhichway <-
+      ddply(d, c("datasetID", "study"), summarise,
+      spp.n = length(unique(latbi)),
+      field.sample.n = mean(fs.date.count, na.rm=TRUE),
+      chilltemp.n = length(unique(chilltemp)),
+      chilldays.n = length(unique(chilldays)))
+
+which.varychill <- dsumm.chilling.anywhichway[which(dsumm.chilling.anywhichway$field.sample.n>1 |
+    dsumm.chilling.anywhichway$chilltemp.n>1 | dsumm.chilling.anywhichway$chilldays.n>1),]
+
+# write.csv(which.varychill, "..//output/studydesign_varychillingsomehow.csv", row.names=FALSE)
+          
 # make figures prettier than average
 basesize <- 12
 
@@ -118,21 +202,21 @@ heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int)
         panel.background = element_blank(), text=element_text(size=basesize))
 
 # But still need to: Make into one figure and cannot manage to alter legend name on colorbar!
-pdf("figures/studydesign_heatforcephotofielddate.pdf", width = 5, height = 5)
+pdf(paste("figures/studydesign/studydesign_heatforcephotofielddate", figurepath, ".pdf", sep=""), width = 5, height = 5)
 heatforcphotofielddate
 dev.off()
 
-pdf("figures/studydesign_heatforcephotoallchill.pdf", width = 5, height = 5)
+pdf(paste("figures/studydesign/studydesign_heatforcephotoallchill", figurepath, ".pdf", sep=""), width = 5, height = 5)
 heatforcephotoallchill
 dev.off()
 
-pdf("figures/studydesign_heatforcephotoexpchill.pdf", width = 5, height = 5)
+pdf(paste("figures/studydesign/studydesign_heatforcephotoexpchill", figurepath, ".pdf", sep=""), width = 5, height = 5)
 heatforcephotoexpchill
 dev.off()
 
 
 require(cowplot)
-pdf("figures/studydesign_heat3panel.pdf", width = 16, height = 6)
+pdf(paste("figures/studydesign/studydesign_heat3panel", figurepath, ".pdf", sep=""), width = 16, height = 6)
 plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
     labels = c(' (a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
 dev.off()
