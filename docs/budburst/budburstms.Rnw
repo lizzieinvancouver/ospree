@@ -200,9 +200,8 @@ for many temperate trees will remain robust, unless cues begin to change highly 
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_edited_withchillingfig.png}
-\caption{\textbf{Based on the OSPREE model, days to budburst decrease linearly with forcing (spring) temperature and vary nonlinearly with chilling (winter) temperature} due to the way that chilling is estimated (in this case, the Utah model; the model with Chill Portions is shown in the Supplemental Materials). Treatment temperatures in growth chamber experiments ranged from 0-30 \degree C (see Table 1S for details). A) The range of experimental conditions and budburst response predicted by the OSPREE model. B) The range of estimated chilling in experimental versus field conditions within the distribution of \emph{Betula pendula}, a European species that is one of the most common in OSPREE. (I have not figured out a good 3D way to show the differences in experimental and field conditions, so am putting the current panel B in as a place holder. Ideas? or abandon?)
-}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_withPEP.png}
+\caption{\textbf{Based on the OSPREE model, days to budburst decrease linearly with forcing temperature and vary nonlinearly with chilling temperature} due to the way that chilling is estimated (in this case, the Utah model; the model with Chill Portions is shown in the Supplemental Materials). Forcing treatment temperatures in growth chamber experiments ranged from 0-32 \degree C and chilling temperatures ranged from -10-16 \degree C(see Table 2S for details). Budburst responses predicted by the main budburst model are shown across the full range of experimental conditions in the OSPREE database with chilling calculated in two ways: A) as a constant temperature across a range of durations (as  is commonly applied in experiments); and B) with varying temperatures and durations using field conditions across multiple sites within the distribution of \emph{Betula pendula}, a European species that is one of the most common in OSPREE. See supplemental materials for details.}
 \label{fig:apc}
 \end{figure}
 \newpage
@@ -212,13 +211,6 @@ for many temperate trees will remain robust, unless cues begin to change highly 
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/bbmod_3dplot_utah_obs.pdf}
 \caption{\textbf{Implications of global warming on budburst varies by site}, depending on pre-warming climate for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D), as predicted by the OSPREE model. For sites in A and D, chilling increases with warming, whereas chilling decreases with warming for the sites in B and C. See Supplemental Materials, especially Fig. 3S, for details.}
 \label{fig:fore}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/fagsyl_3lats.pdf}
-\caption{\textbf{Budburst is affected by climate-change induced shifts in photoperiod, especially at high latitudes}, though effects vary by site and are minor compared to effects of warming. We show forecasted effects of varying levels of warming on \emph{Fagus sylvatica}, the most photoperiod-sensitive species in OSPREE, across three latitudes within its range, as predicted by the OSPREE model. Should this go here or in Supplemental Materials?}
-\label{fig:fagsyllat}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
