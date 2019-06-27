@@ -209,7 +209,7 @@ for many temperate trees will remain robust, unless cues begin to change highly 
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/bbmod_3dplot_utah_obs.pdf}
-\caption{\textbf{Implications of global warming on budburst varies by site}, depending on pre-warming climate for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D), as predicted by the OSPREE model. For sites in A and D, chilling increases with warming, whereas chilling decreases with warming for the sites in B and C. See Supplemental Materials, especially Fig. 3S, for details.}
+\caption{\textbf{Implications of global warming on budburst varies by species and site}, depending on pre-warming climate for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D), as predicted by the OSPREE model. For sites in A and D, chilling increases with warming, whereas chilling decreases with warming for the sites in B and C. See Supplemental Materials, especially Fig. XX, for details.}
 \label{fig:fore}
 \end{figure}
 
