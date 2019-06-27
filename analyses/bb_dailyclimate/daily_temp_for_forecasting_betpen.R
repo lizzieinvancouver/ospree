@@ -63,7 +63,7 @@ for(i in 1:length(sp)){
   latlon <- latlon[apply(latlon, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
   #formerly chose 50 random rows from latlon and pull climate from these:
   #latlonsubs<-sample_n(latlon, 50)
-  for(l in  3096:dim(latlon)[1]){#left off at l=135. 
+  for(l in  1:dim(latlon)[1]){#left off at l=135. 
     la<- latlon$LAT[l] 
     lo<- latlon$LON[l] 
     name<-paste("../../../../../..",climatedrive,"/",sp[i],"/temp_forforecast","_","_",la,"_",lo,"_",styr,"_2014.csv",sep="")

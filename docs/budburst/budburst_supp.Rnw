@@ -370,11 +370,19 @@ Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecast
 \caption{\textbf{Budburst is affected by climate-change induced shifts in photoperiod, especially at high latitudes}, though effects vary by site and are minor compared to effects of warming. We show forecasted effects of varying levels of warming on \emph{Fagus sylvatica}, the most photoperiod-sensitive species in OSPREE, across three latitudes within its range, as predicted by the OSPREE model. Modify this figure: remove doy, lat text, change CI to 50 percent.}
 \label{fig:fagsyllat}
 \end{figure}
+
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/chillforecast_bothspp_PEP_utah.pdf}
 \caption{\textbf{Implications of global warming on chilling vary by site}, depending on pre-warming climate. For sites in A (lat, lon) and D (lat, lon), chilling increases with warming, whereas chilling decreases with warming for the sites in B (lat,lon) and C (lat,lon). Compare to Figure 3 in the main text.}
 \label{fig:chillfore}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/exp_vs_field_chill_withwarmingcols.png}
+\caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems}in which temperature is more strongly correlated with chilling.}
+\label{fig:chillexpfield}
 \end{figure}
 
 %%%%
