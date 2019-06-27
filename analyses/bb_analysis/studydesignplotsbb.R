@@ -154,22 +154,6 @@ dsumm.treat.chilltemp <-
       max.fieldsamp = max(doy))
 
 
-# for figure of study locations, we also need to identify studies that manipulated chilling somehow
-# so identify the set of studies that have varied chilltemp, chilldays or field sample dates
-
-# summarize by study, count field sample dates, chilldays and chilltemps
-dsumm.chilling.anywhichway <-
-      ddply(d, c("datasetID", "study"), summarise,
-      spp.n = length(unique(latbi)),
-      field.sample.n = mean(fs.date.count, na.rm=TRUE),
-      chilltemp.n = length(unique(chilltemp)),
-      chilldays.n = length(unique(chilldays)))
-
-which.varychill <- dsumm.chilling.anywhichway[which(dsumm.chilling.anywhichway$field.sample.n>1 |
-    dsumm.chilling.anywhichway$chilltemp.n>1 | dsumm.chilling.anywhichway$chilldays.n>1),]
-
-# write.csv(which.varychill, "..//output/studydesign_varychillingsomehow.csv", row.names=FALSE)
-          
 # make figures prettier than average
 basesize <- 12
 
@@ -220,3 +204,42 @@ pdf(paste("figures/studydesign/studydesign_heat3panel", figurepath, ".pdf", sep=
 plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
     labels = c(' (a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
 dev.off()
+
+
+##################
+## Map of sites ##
+##################
+# for figure of study locations, we also need to identify studies that manipulated chilling somehow
+# so identify the set of studies that have varied chilltemp, chilldays or field sample dates
+
+# get data in main model and all spp model
+mainmod <- read.csv("..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv")
+allsppmod <- read.csv("..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv")
+
+# summarize by study, count field sample dates, chilldays and chilltemps
+dsumm.chilling.anywhichway <-
+      ddply(d, c("datasetID", "study"), summarise,
+      spp.n = length(unique(latbi)),
+      field.sample.n = mean(fs.date.count, na.rm=TRUE),
+      chilltemp.n = length(unique(chilltemp)),
+      chilldays.n = length(unique(chilldays)))
+
+which.varychill <- dsumm.chilling.anywhichway[which(dsumm.chilling.anywhichway$field.sample.n>1 |
+    dsumm.chilling.anywhichway$chilltemp.n>1 | dsumm.chilling.anywhichway$chilldays.n>1),]
+
+
+bbmapdata <- subset(allsppmod, select=c("datasetID", "study"))
+bbmapdata <- bbmapdata[!duplicated(bbmapdata), ]
+
+bbmapdata$mainmodel <- NA
+bbmapdata$chill.manipulated <- NA
+
+bbmapdata$mainmodel[which(paste(bbmapdata$datasetID, bbmapdata$study) %in% paste(mainmod$datasetID, mainmod$study))] <- "yes"
+bbmapdata$mainmodel[which(!paste(bbmapdata$datasetID, bbmapdata$study) %in% paste(mainmod$datasetID, mainmod$study))] <- "no"
+bbmapdata$chill.manipulated[which(paste(bbmapdata$datasetID, bbmapdata$study) %in%
+    paste(which.varychill$datasetID, which.varychill$study))] <- "yes"
+bbmapdata$chill.manipulated[which(!paste(bbmapdata$datasetID, bbmapdata$study) %in%
+    paste(which.varychill$datasetID, which.varychill$study))] <- "no"
+
+write.csv(bbmapdata, "..//output/bbmapdata.csv", row.names=FALSE)
+          
