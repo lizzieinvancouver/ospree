@@ -68,7 +68,7 @@
 % Include:
 % Why we studied budburst and what it means ... Cat put together a 'what is budburst' file we should include with database. (Full OSPREE: 13,000 rows across 85 studies across 41 years and 227 species) - % CJC - I can look this over and make it more readable!
 
-\subsection*{The Observed Spring Phenology Responses in Éxperimental Environments (OSPREE) Database}
+\subsection*{The Observed Spring Phenology Responses in Eperimental Environments (OSPREE) Database}
 \par We searched the literature for research papers which experimentally addressed
 controls of temperature, photoperiod, and/or chilling requirements on the spring
 phenology of woody plant species. To identify phenology experiments that manipulated forcing, chilling, and/or daylength, we searched both ISI Web of Science and Google Scholar in July 2015 with the following terms: 
@@ -348,8 +348,9 @@ Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecast
 \newpage
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign_heat3panel.pdf}
-\caption{\textbf{Heatmaps of treatments} ... need to make sure this matches the data we have ended up using!}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/studydesign_heat3panelallsppmodel.pdf}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/studydesign_heat3panelmainmodel.pdf}
+\caption{\textbf{Heatmaps of treatments} top row shows full dataset, bottom row shows main model}
 \label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
 \end{figure}
 
