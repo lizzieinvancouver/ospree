@@ -12,6 +12,9 @@ cchambe12/regionalrisk/analyses/scripts/species/fagsyl.R
    **** Note: files were renamed for OSPREE folder.
 	* now called: pep_betpen_all.csv & pep_fagsyl_all.csv
 
+### More information can be found in issue from GitHub:
+https://github.com/lizzieinvancouver/ospree/issues/238
+
 <><><><><><><><><><><><>
 PEP725 Data usage policy
 <><><><><><><><><><><><>
