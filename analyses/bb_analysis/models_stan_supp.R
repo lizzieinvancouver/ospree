@@ -26,8 +26,8 @@ if(length(grep("lizzie", getwd())>0)) {
 # dostan = TRUE
 # Flags to choose for bbstanleadin.R
 
-use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = FALSE # change to false to use raw predictors
+use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
 
 # Default is species complex and no crops
 use.allspp = FALSE
@@ -170,6 +170,7 @@ m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datali
                iter = 2000, warmup=1500, control=list(adapt_delta=0.95)) 
 
 betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
+summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
     
 mcmc_intervals(betas.m2l.nisig[,1:5])
     
