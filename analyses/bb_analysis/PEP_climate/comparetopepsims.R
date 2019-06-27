@@ -2,9 +2,6 @@
 ## Outside Philz coffee in Davis ##
 ## By Lizzie ##
 
-## TO DO! ##
-## I used variance here, but then did var/sqrt(n) for SE ... so need to think/check that!!! ##
-
 ## housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -23,17 +20,18 @@ if(length(grep("catchamberlain", getwd()))>0) {
 
 # get some data
 # Betula puendula data from PEP (both have has GDD from 1 Jan to leafout)
-# bp has mat from March 1st to June 1st
-# bpalt  mat from Jan 1 to May 1 (but I thought it had mat until leafout also ...)
+# bp has mat from March 1st to June 1st and mat.lo is 30 days before leafout
+# bpalt has differnt chilling and forcing months...
 bp <- read.csv("output/betpen_allchillsandgdds_45sites_mat_forsims.csv", header=TRUE)
 bpalt <- read.csv("output/betpen_allchillsandgdds_45sites_mat_tntx_forsims.csv", header=TRUE)
 
 # Sims
 pepsims <- read.csv("..//pep_sims/output/degwarmpepsims6CFstar150.csv",header=TRUE)
+pepsims$varlodiff <- pepsims$var.lo.postcc/pepsims$var.lo.precc
 mean.pepsims <- aggregate(pepsims[c("diffbefore.after", "precc.sens", "postcc.sens",
-    "var.lo.precc", "var.lo.postcc")], pepsims["degwarm"], FUN=mean)
+    "var.lo.precc", "var.lo.postcc", "varlodiff")], pepsims["degwarm"], FUN=mean)
 sd.pepsims <- aggregate(pepsims[c("diffbefore.after", "precc.sens", "postcc.sens",
-    "var.lo.precc", "var.lo.postcc")], pepsims["degwarm"], FUN=sd)
+    "var.lo.precc", "var.lo.postcc", "varlodiff")], pepsims["degwarm"], FUN=sd)
 
 # loop to extract some model estimates
 bpest <- data.frame(siteslist=numeric(), cc=character(), meanmat=numeric(), varmat=numeric(),  
@@ -71,25 +69,22 @@ meanhere <- aggregate(bpest[c("meanmat", "varmat", "sdmat", "meanmatlo", "varmat
     "matslope", "matslopese")], bpest["cc"], FUN=mean)
 sdhere <- aggregate(bpest[c("meanmat", "varmat", "meanmatlo", "varmatlo", "meanlo", "varlo", "meanutah", "meangdd", "matslope")],
     bpest["cc"], FUN=sd)
-# should also get SE ...
-
-#     cc      meanmat   varmat    sdmat meanmatlo varmatlo  sdmatlo   meanlo     varlo     sdlo meanutah  meangdd  matslope  matslopese
-#1 1950-1960 5.365163 3.005094 1.731358  6.814883 1.363054 1.086849 113.8089 110.51111 10.25803 2246.987 68.70881 -4.534630   1.258845
-#2 2000-2010 6.450939 1.251629 1.111780  6.615273 1.431603 1.152353 106.3356  46.95728  6.57374 2235.493 61.50754 -3.611025   1.579758
-
-#      cc     meanmat    varmat  meanmatlo  varmatlo   meanlo    varlo meanutah  meangdd matslope
-#1 1950-1960 0.8790317 0.3026431 0.8058748 1.191774 5.934599 51.70230 206.2212 17.52128 1.436585
-#2 2000-2010 0.8904595 0.2879469 0.6957409 1.003430 4.613378 36.94105 131.0899 13.56985 1.289904
 
 
-    
+#          cc  meanmat   varmat    sdmat meanmatlo varmatlo  sdmatlo   meanlo     varlo     sdlo meanutah  meangdd  matslope matslopese
+# 1950-1960 5.365163 3.005094 1.731358  6.814883 1.363054 1.086849 113.8089 110.51111 10.25803 2246.987 68.70881 -4.534630   1.258845
+# 2000-2010 6.450939 1.251629 1.111780  6.615273 1.431603 1.152353 106.3356  46.95728  6.57374 2235.493 61.50754 -3.611025   1.579758
+
 # estimate change in variance
+# don't use these in the paper, use the below ... which take these values across sites, not at the mean level
+# but good for gut-check ...
 1-meanhere$varlo[2]/meanhere$varlo[1]
 1-mean.pepsims$var.lo.postcc[1]/mean.pepsims$var.lo.precc[1]
 
 ## Also get the diff to compare to sims
 
-bpest.sitediffs <- data.frame(siteslist=numeric(), matdiff=numeric(), matlodiff=numeric(), diffslope=numeric())
+bpest.sitediffs <- data.frame(siteslist=numeric(), matdiff=numeric(), matlodiff=numeric(), diffslope=numeric(),
+    varlodiff=numeric(), varmatdiff=numeric())
 
 for(i in c(1:length(sitez))){ # i <- 1
     subby <- subset(bpest, siteslist==sitez[i])
@@ -98,23 +93,40 @@ for(i in c(1:length(sitez))){ # i <- 1
     matdiff <- precc$meanmat-postcc$meanmat
     matlodiff <- precc$meanmatlo-postcc$meanmatlo
     diffslope <- precc$matslope-postcc$matslope
-    bpest.sitediffs.add <- data.frame(siteslist=sitez[i], matdiff=matdiff,matlodiff=matlodiff, diffslope=diffslope)
+    varlodiff <- postcc$varlo/precc$varlo
+    varmatdiff <- postcc$varmat/precc$varmat
+    bpest.sitediffs.add <- data.frame(siteslist=sitez[i], matdiff=matdiff,matlodiff=matlodiff, diffslope=diffslope,
+        varlodiff=varlodiff, varmatdiff=varmatdiff)
     bpest.sitediffs <- rbind(bpest.sitediffs, bpest.sitediffs.add)
     }
 
 bpest.sitediffs$daysperC <- bpest.sitediffs$diffslope/bpest.sitediffs$matdiff
 
-mean(bpest.sitediffs$diffslope)
-mean(bpest.sitediffs$matdiff)
+# in supp 'we estimated a decline in sensitivity'
 mean(bpest.sitediffs$daysperC)
+sd(bpest.sitediffs$daysperC)/sqrt(45) # days per C mean SE bp
+
+# in supp 'given X warming'
+mean(bpest.sitediffs$matdiff)
+mean(bpest.sitediffs$matdiff)/sqrt(45)
+
+# compare to pep sims (in figure, not text in supp currently)
+mean.pepsims$diffbefore.after[1]
+sd.pepsims$diffbefore.after[1]/(sqrt(45)) # days per C mean SE pepsims
+
+# variance! in supp...
+mean(bpest.sitediffs$varlodiff)
+sd(bpest.sitediffs$varlodiff)/sqrt(45)
+mean.pepsims$varlodiff[1]
+sd.pepsims$varlodiff[1]/(sqrt(45)) # days per C mean SE pepsims
+
+# other stuff ..
+mean(bpest.sitediffs$diffslope)
+sd(bpest.sitediffs$diffslope)/sqrt(45)
 mean(bpest.sitediffs$matlodiff)
-sd(bpest.sitediffs$diffslope)
 sd(bpest.sitediffs$matdiff)
 sd(bpest.sitediffs$matlodiff)
 sd(bpest.sitediffs$daysperC)
-sd(bpest.sitediffs$daysperC)/sqrt(45) # days per C mean SE bp
-mean.pepsims$diffbefore.after[1]
-sd.pepsims$diffbefore.after[1]/(sqrt(45)) # days per C mean SE pepsims
 
 ## alt dataset ...
 
