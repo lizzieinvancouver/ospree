@@ -237,7 +237,6 @@ summary(lm(preds.lin.sum[,1]~observed.here))
 #b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
 
 fakechill <- seq(from=0, to=1000, by=0.1)
-
 a_chill<-summary(m2l.nisig)$summary[c("a_chill"),1]
 b_chill<-summary(m2l.nisig)$summary[c("b_chill"),1]
 
