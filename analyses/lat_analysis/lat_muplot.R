@@ -17,7 +17,7 @@ pdf(file.path(figpath, paste("", nameforfig, figpathmore, ".pdf", sep="")),
 par(xpd=FALSE)
 par(mar=c(5,7,3,10))
 plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
-     xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
+     xlab="Model estimate change in days to budburst", ylab="", main=nameforfig)
 axis(2, at=1:5, labels=rev(c("Forcing", "Photoperiod", "Chilling", "Latitude", "Photoperiod \nx Latitude")), las=1)
 abline(v=0, lty=2, col="darkgrey")
 rownameshere <- c("mu_b_force_sp", "mu_b_photo_sp", "mu_b_chill_sp", "mu_b_lat_sp", "mu_b_pl_sp")
