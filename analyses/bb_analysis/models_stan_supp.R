@@ -257,3 +257,38 @@ jpeg("figures/nonlinearplotbad")
 plot(dfnonlin$fakechill,dfnonlin$ychill)
 dev.off()
 
+
+if(FALSE){
+# lizzie tries ...
+fakechill <- seq(from=0, to=15, by=0.01) # what range should this be? It affects how crazy things look
+fakeforce <- seq(from=5, to=30, length.out=length(fakechill))
+fakephoto <- seq(from=6, to=24, length.out=length(fakechill))
+b_forcesig <- -0.9385382
+b_photosig <- -0.2641393
+a_chill <- 10.0604101
+b_chillsig <- 4.9189167
+mu_a <- 40
+b_force <- -0.93
+b_photo <- -0.29
+b_chill <- -2.2
+
+a_chill.play <- 10
+b_chill.play <- 10
+    
+
+ypredsig <- c(rep(NA, length(fakechill)))
+ypred <- c(rep(NA, length(fakechill)))
+ypredplay <- c(rep(NA, length(fakechill)))
+
+for (i in c(1:length(fakechill))){
+    ypredsig[i] = mu_a+b_forcesig*fakeforce[i] + b_photosig * fakephoto[i] + (1 /(1 + exp(a_chill*(fakechill[i]-b_chillsig))))
+    ypred[i] = mu_a+b_force*fakeforce[i] + b_photo * fakephoto[i] + b_chill*fakechill[i]
+    ypredplay[i] = mu_a+b_forcesig*fakeforce[i] + b_photosig * fakephoto[i] + (1 /(1 + exp(a_chill.play*(fakechill[i]-b_chill.play))))
+
+    }
+
+plot(ypredsig~fakechill)
+lines(ypred~fakechill)
+lines(ypredplay~fakechill, col="darkred")
+#... and fails
+}
