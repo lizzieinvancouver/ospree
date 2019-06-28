@@ -205,7 +205,7 @@ m2l.lincomp= stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
                  iter = 4000, warmup=3500, control=list(adapt_delta=0.95)) 
   
 m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
-               iter = 4000, warmup=3500, control=list(adapt_delta=0.95)) 
+               iter = 4000, warmup=3500, control=list(adapt_delta=0.99)) 
 
 summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
 betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
@@ -236,15 +236,15 @@ summary(lm(preds.lin.sum[,1]~observed.here))
 #b_photo<-summary(m2l.nisig)$summary[c("b_photo"),1]
 #b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
 
-fakechill <- seq(from=0, to=1000, by=0.1)
-a_chill<-summary(m2l.nisig)$summary[c("a_chill"),1]
-b_chill<-summary(m2l.nisig)$summary[c("b_chill"),1]
+fakechill <- seq(from=-1000, to=1000, by=0.1)
+a_chill<-- summary(m2l.nisig)$summary[c("a_chill"),1]
+b_chill<- summary(m2l.nisig)$summary[c("b_chill"),1]
 
 
 
 dfnonlin<-data.frame(ychill=numeric(),fakechill=numeric())  ##generate fake data
 for(i in c(1:length(fakechill))){
-ychill<-(1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) )
+ychill<-1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) 
 dfhere <- data.frame(ychill=ychill,fakechill=fakechill[i])
 
 dfnonlin <- rbind(dfnonlin, dfhere) 
@@ -254,7 +254,7 @@ dfnonlin <- rbind(dfnonlin, dfhere)
 
 
 jpeg("figures/nonlinearplotbad")
-plot(dfnonlin$fakechill,dfnonlin$ychill)
+ggplot(dfnonlin,aes(fakechill,ychill))+geom_point()+geom_line(stat = "summary", fun.y = mean)
 dev.off()
 
 
@@ -292,3 +292,4 @@ lines(ypred~fakechill)
 lines(ypredplay~fakechill, col="darkred")
 #... and fails
 }
+ 
