@@ -201,14 +201,18 @@ m2lnistudy.sum[grep("alpha", rownames(m2lnistudy.sum)),]
 # Note: We are in progress on this model ... 
 # So for now, it is block-commented out
 if(FALSE){
-
-m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
-               iter = 2000, warmup=1500, control=list(adapt_delta=0.95)) 
-
-betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
-summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
+m2l.lincomp= stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
+                 iter = 4000, warmup=3500, control=list(adapt_delta=0.95)) 
   
-mcmc_intervals(betas.m2l.nisig[,1:5])
+m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
+               iter = 4000, warmup=3500, control=list(adapt_delta=0.95)) 
+
+summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
+betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
+
+summary(m2l.lincomp)$summary[c("b_force", "b_photo", "b_chill"),]
+  
+#mcmc_intervals(betas.m2l.nisig[,1:5])
 
 ###rsq
 observed.here <- bb.stan$resp
@@ -218,22 +222,39 @@ preds.nonlin.sum <- nonlin.sum[grep("yhat", rownames(nonlin.sum)),]
 nonlin.sum.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 nonlin.mod.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 summary(lm(preds.nonlin.sum[,1]~observed.here))  #0.33
-##check chilling but currently broke (DB June 27)
+
+lin.sum<-summary(m2l.lincomp)$summary 
+preds.lin.sum <- lin.sum[grep("yhat", rownames(lin.sum)),]
+lin.sum.R2 <- 1- sum((observed.here-preds.lin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+lin.mod.R2 <- 1- sum((observed.here-preds.lin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.lin.sum[,1]~observed.here))
+
+
+##check chilling but currently broke (DB June)
+#fakephoto<-12
+#fakeforce<-20
+#b_photo<-summary(m2l.nisig)$summary[c("b_photo"),1]
+#b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
+
 fakechill <- seq(from=0, to=1000, by=0.1)
+
 a_chill<-summary(m2l.nisig)$summary[c("a_chill"),1]
 b_chill<-summary(m2l.nisig)$summary[c("b_chill"),1]
 
 
-dfnonlin<-data.frame(y=numeric(),fakechill=numeric())  ##generate fake data
-for (i in fakechill){
-y<-(1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) )
-dfhere <- data.frame(y=y,fakechill=rep(fakechill[i], length(y)))
+
+dfnonlin<-data.frame(ychill=numeric(),fakechill=numeric())  ##generate fake data
+for(i in c(1:length(fakechill))){
+ychill<-(1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) )
+dfhere <- data.frame(ychill=ychill,fakechill=fakechill[i])
 
 dfnonlin <- rbind(dfnonlin, dfhere) 
 
 }
 
-dfnonlin$y
-plot(dfnonlin$fakechill,dfnonlin$y)
 
+
+jpeg("figures/nonlinearplotbad")
+plot(dfnonlin$fakechill,dfnonlin$ychill)
+dev.off()
 
