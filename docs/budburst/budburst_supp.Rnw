@@ -100,10 +100,10 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 
 \noindent The $\alpha$ and each of the three $\beta$ coefficients were modeled at the species level, as follows:
 \begin{align*}
-\alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
-\beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing}) \\
-\beta_{photoperiod_{sp}} & \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
-\beta_{chilling{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})
+\alpha_{sp} \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} \sim N(\mu_{chilling}, \sigma_{chilling})
 \end{align*}
 
 \item \underline{Latitude model}:
