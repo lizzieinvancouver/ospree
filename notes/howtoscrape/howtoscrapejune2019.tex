@@ -70,10 +70,18 @@
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 \section*{How to scape new papers for OSPREE: June 2019}
+\subsection*{Getting Started}
 You'll need:
 \begin{enumerate}
 \item Excel or other program that makes .xls  or .csv files
-\item ImageJ download for free from here https://imagej.net/Welcome. You'll also need to add the Figure_Calibration.class, which will help for giving x and y calibrations to images. (Dan still looking into this as of June 25)
+\item ImageJ download for free from here https://imagej.net/Welcome. You'll also need to add the Figure\textunderscore Calibration.class, which will help for giving x and y calibrations to images. 
+\begin{enumerate}
+\item To add the the Figure\textunderscore Calibration.class: In ImageJ go to plugins, navigate to the Figure\textunderscore Calibration.class, click on it and follow through a few clicks to add the plugin.
+\item If you have some trouble getting the measurements to show up after calibrating, try switching to the pointer and clicking. You might need to set the preferences on your pointer tool to auto-measure.
+\begin{enumerate}
+\item A clafication on above from Tim: \textit{After doing the figure calibration and selecting the yellow pointer tool, you start clicking inside the figure but no points appear. The reason for this is that the "rectangle" you drew for the figure calibration is still masking the figure, and until you click out of it, you can't draw points under it. It's hard to see! So to get rid of the invisible rectangle, just click the mouse once outside of its edge. Side note: After drawing all of your points onto a figure, you can press Command-M to bring up the resulting table of values. I do this in the video tutorial,and whenever I scrape, but didn't describe the key command!}
+\end{enumerate}
+\end{enumerate}
 \end{enumerate}
 
 Now here's what to do:
@@ -93,7 +101,13 @@ Now here's what to do:
 \item Read your paper and fill out the information in the ``study" and ``data\textunderscore detailed tab"
 \item Find the designated figure or table as noted in the source tab of the worksheet. Also note the datasetID column in source; use this as you fill out data\_detailed and study.
 \item Take a screen shot of the figure and import into ImageJ, following Tim's instructions from lab meeting with a video of screen shots from git/ospree/notes/howtoscrape/Data Scraping Tutorial.mp4. Use the scratch tab to get data into the right format, and then copy into data\textunderscore detailed. Fill out the study tab as best as possible to describe the experimental treatments used in each study within each publication.
-\item A note on entering response times: If the respvar of a study is "daystobudburst" enter a 1 into the "response" column, and fill in the recorded time in the "response.time" column
 \end{enumerate}
+\subsection*{A few more ``how to's", trouble shooting etc} 
+ \begin{itemize}
+ \item \textbf{For dealing with lats and lons:} Tool to convert to decimal latitude and longitude:\\ http://andrew.hedges.name/experiments/convertlat\textunderscore long/\\  and remember to add NEGATIVE to your longitude if it's West. Also, you can check where things are by just typing in lat and long into Google maps.
+\item \textbf{ For calculating the number of days between too dates:} Use this:\\ http://www.timeanddate.com/date/duration.html\\ to calculate the number of days between two dates for calculating dormancy. Note do NOT include the end date in the calculations.
+\item \textbf{On entering response times:} If the respvar of a study is "daystobudburst" enter a 1 into the "response" column, and fill in the recorded time in the "response.time" column,=.
+\item \textbf{On dealing with error:} If it's figures records error and it is *clear enough* to scrape, error can be recorded. Often times the SE bars are in the way of each other or not quite discernible, in which case we've decided to avoid them. But if the bars are clear, record them. Values can go in "resp\textundersccore error" and just SE in "error type".
+\end{itemize}
 
 \end{document}
