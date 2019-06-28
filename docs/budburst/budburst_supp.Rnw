@@ -283,6 +283,9 @@ mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model f
         label="tab:methods",align=c(
                "p{0.01\\textwidth}|",
                "|p{0.15\\textwidth}|",
+               "|p{0.15\\textwidth}|",
+               "|p{0.15\\textwidth}|",
+               "|p{0.15\\textwidth}|",
                "p{0.08\\textwidth}|",
                "p{0.1\\textwidth}|"))
 
@@ -357,6 +360,12 @@ Still need: Table 3S: a table that goes with Figure 3 (the 4-paneled 3D forecast
 \label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
 \end{figure}
 
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah.png}
+\caption{\textbf{Based on the OSPREE model, days to budburst decrease linearly with forcing temperature and vary nonlinearly with chilling temperature} due to the way that chilling is estimated (in this case, the Utah model). Forcing treatment temperatures in growth chamber experiments ranged from 0-32 \degree C and chilling temperatures ranged from -10-16 \degree C(see Table 2S for details). Budburst responses predicted by the main budburst model are shown across the full range of experimental conditions in the OSPREE database with chilling calculated as a constant temperature across a range of durations (as  is commonly applied in experiments). Compare  this to Figure 2 in the main text, which uses field chilling at mean chilling temperatures. }
+\label{fig:fagsyllat}
+\end{figure}
 
 
 \newpage
