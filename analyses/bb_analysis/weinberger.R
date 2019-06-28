@@ -316,6 +316,7 @@ wein.sum3.cp <- summary(wein.mod.3.cp)$summary
 matchysp.cp<-rownames_to_column(as.data.frame(wein.sum3.cp[c("mu_a_sp", "b_force", "b_photo", "b_chill",
                                                              "b_weinberger", "b_cw","b_pw","b_fw"),]),"predictor")
 matchysp.cp$chilltype<-"chillportios"
+
 whichmodel <- wein.sum3.ut
 ###model plots
 spp <- sort(unique(bb.stan$complex))
@@ -324,8 +325,7 @@ qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 
 jpeg("../figures/weinberger4supp.jpeg")
-par(mfrow=c(1,3))
-par(mar=c(4,4, 1,1))
+
 plot(resp~chill.z, data=bb.stan, type="n",ylab="days to budburst")
 for (sp in c(1:length(spp))){
   subby <- subset(bb.stan, complex==spp[sp])
@@ -371,15 +371,10 @@ dev.off()
 
 
 #####mu plot
+par(mfrow=c(1,1))
+par(mar=c(4,4, 3,1))
 whichy<-rownames_to_column(as.data.frame(whichmodel), var = "predictor")
 
-whichy<-filter(whichy,between(row_number(),1,21))
-whichy<-filter(whichy,!between(row_number(),5,6))
-
-colnames(whichy)<-c("predictor", "mean"  ,    "se_mean" ,  "sd"  ,      "Q2.5"      ,"Q25"    ,   "Q50" ,      "Q75"  ,     "Q97.5",     "n_eff",     "Rhat" )
-pd2=position_dodgev(height=0.4)
-ggplot(whichy,aes(mean,predictor))+geom_point(aes(),position=pd2)+geom_errorbarh(aes(xmin=Q25,xmax=Q75),linetype="solid",position=pd2,width=0)+geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),linetype="dotted",position=pd2,width=0)+geom_vline(aes(xintercept=0),color="black")+theme_bw()
-+scale_color_manual(values=c("orchid4", "springgreen4"))+ggtitle("HF-Continuous")
 
 ##or
 jpeg("../figures/weinberger_MU_4supp.jpeg")
@@ -394,10 +389,10 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
   #pdf(file.path(figpath, paste("muplot", nameforfig, figpathmore, ".pdf", sep="")),
    #   width = width, height = height)
   par(xpd=FALSE)
-  par(mar=c(5,7,3,5))
+  par(mar=c(7,7,4,8))
   plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
        xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
-  axis(2, at=1:8, labels=rev(c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")), las=1)
+  axis(2, at=1:8, labels=rev(c("Intercept[sp]","Forcing", "Photoperiod", "Chilling","Weinberger","Weinberger \nx Forcing","Weinberger \nx Photoperiod","Weinberger \nx Chilling")), las=1,cex.axis=.75)
   abline(v=0, lty=2, col="darkgrey")
   rownameshere <- c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")
   ppeffects <- c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw") # or 1:4 here...
@@ -418,13 +413,13 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
     }
   }
   par(xpd=TRUE) # so I can plot legend outside
-  legend(leg1, leg2, sort(unique(bb.stan$complex.wname)), pch=my.pch[1:spnum],
+  legend(leg1, leg2, sort(unique(gsub("_", " ", bb.stan$complex.wname))), pch=my.pch[1:spnum],
          col=alpha(my.pal[1:spnum], alphahere),
-         cex=.75, bty="n",y.intersp=0.75)
+         cex=0.75, bty="n", text.font=3)
  # dev.off()
 }
 
-muplotfx(wein.mod.3.ut, "Weinberger", 7, 8, c(0,8), c(-14, 50) , 27, 2.5)
+muplotfx(wein.mod.3.ut, "Weinberger", 7, 8, c(0,8), c(-20, 60) , 63, 7)
 dev.off()
 
 
