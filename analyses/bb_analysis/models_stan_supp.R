@@ -3,7 +3,6 @@
 
 ## Built off models_stan.R but for models less commonly used ##
 
-
 # housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -14,34 +13,71 @@ library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
-  }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
+}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
-# dostan = TRUE
-# Flags to choose for bbstanleadin.R
+######################################
+# Flags to choose for bbstanleadin.R #
+######################################
 
-use.chillports = FALSE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
+# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
+use.flags.for.mainmodel <- TRUE
+use.flags.for.allsppmodel <- FALSE
+use.yourown.flagdesign <- FALSE
 
-# Default is species complex and no crops
-use.allspp = FALSE
-use.multcuespp = FALSE
-use.cropspp = FALSE
+if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
+   use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
+   & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
 
-# Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
-use.exptypes.fp = FALSE
+if(use.flags.for.mainmodel){
+  use.chillports = FALSE
+  use.zscore = FALSE
+  use.allspp =FALSE # for the main model this is false
+  use.multcuespp = FALSE
+  use.cropspp = FALSE
+  # Default is species complex use  alltypes of designs
+  use.expramptypes.fp = TRUE
+  use.exptypes.fp = FALSE
+  use.expchillonly = FALSE
+}
 
-#Default is all chilling data
-use.expchillonly = FALSE # change to true for only experimental chilling 
-#note: with only exp chilling, there is only exp photo and force too.
-#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+if(use.flags.for.allsppmodel){
+  use.chillports = FALSE
+  use.zscore = FALSE
+  use.allspp = TRUE
+  use.multcuespp = FALSE
+  use.cropspp = TRUE
+  use.expramptypes.fp = FALSE
+  use.exptypes.fp = FALSE
+  use.expchillonly = FALSE
+}
+
+if(use.yourown.flagdesign){
+  use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+  use.zscore = TRUE # change to false to use raw predictors
+  
+  # Default is species complex and no crops
+  use.allspp = FALSE
+  use.multcuespp = FALSE
+  use.cropspp = FALSE
+  
+  # Default is species complex use  alltypes of designs
+  use.expramptypes.fp = TRUE
+  use.exptypes.fp = FALSE
+  
+  #Default is all chilling data
+  use.expchillonly = FALSE # change to true for only experimental chilling 
+  #note: with only exp chilling, there is only exp photo and force too.
+  #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+}
+
+
 source("source/bbstanleadin.R")
 
 ######################################
@@ -171,7 +207,33 @@ m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datali
 
 betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
 summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
-    
+  
 mcmc_intervals(betas.m2l.nisig[,1:5])
-    
+
+###rsq
+observed.here <- bb.stan$resp
+nonlin.sum<-summary(m2l.nisig)$summary 
+
+preds.nonlin.sum <- nonlin.sum[grep("yhat", rownames(nonlin.sum)),]
+nonlin.sum.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+nonlin.mod.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.nonlin.sum[,1]~observed.here))  #0.33
+##check chilling but currently broke (DB June 27)
+fakechill <- seq(from=0, to=1000, by=0.1)
+a_chill<-summary(m2l.nisig)$summary[c("a_chill"),1]
+b_chill<-summary(m2l.nisig)$summary[c("b_chill"),1]
+
+
+dfnonlin<-data.frame(y=numeric(),fakechill=numeric())  ##generate fake data
+for (i in fakechill){
+y<-(1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) )
+dfhere <- data.frame(y=y,fakechill=rep(fakechill[i], length(y)))
+
+dfnonlin <- rbind(dfnonlin, dfhere) 
+
 }
+
+dfnonlin$y
+plot(dfnonlin$fakechill,dfnonlin$y)
+
+
