@@ -144,7 +144,7 @@ sort(unique(bb.stan$complex.wname))
 
 # m1.bb <- m2l.ni
 modelhere <- m2l.ni
-muplotfx(modelhere, "model", 7, 8, c(0,3), c(-20, 10) , 12, 3)
+muplotfx(modelhere, "", 7, 8, c(0,3), c(-20, 10) , 12, 3)
 }
 
 # non-z-scored models
