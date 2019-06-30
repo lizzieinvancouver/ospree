@@ -21,7 +21,7 @@ if(length(grep("catchamberlain", getwd()))>0) {
 # get some data
 # Betula puendula data from PEP (both have has GDD from 1 Jan to leafout)
 # bp has mat from March 1st to June 1st and mat.lo is 30 days before leafout (uses tg -- aka mean -- data from E-OBS)
-# bpalt is similar, but calculated uses txtm -- aka min and max (and we caculate the mean ourselves from those values) -- data from E-OBS)from 
+# bpalt is similar, but calculated uses txtm -- aka min and max (and we caculate the mean ourselves from those values) -- data from E-OBS) ... we don't use this currently 
 bp <- read.csv("output/betpen_allchillsandgdds_45sites_mat_forsims.csv", header=TRUE)
 bpalt <- read.csv("output/betpen_allchillsandgdds_45sites_mat_tntx_forsims.csv", header=TRUE)
 
@@ -124,10 +124,19 @@ mean(bpest.sitediffs$matdiff)/sqrt(45)
 mean.pepsims$diffbefore.after[1]
 sd.pepsims$diffbefore.after[1]/(sqrt(45)) # days per C mean SE pepsims
 
+# Utah units
+meanhere$meanutah
+sdhere$meanutah/sqrt(45)
+
+# gdd and matlo
+meanhere$meangdd
+sdhere$meangdd/sqrt(45)
+meanhere$meanmatlo
+sdhere$meanmatlo/sqrt(45)
+
 ##############################
 ## End of stuff in the supp ##
 ##############################
-
 
 # variance! here's what you get if you calculate the % change site-by-site then average
 1 - mean(bpest.sitediffs$varlodiffper)
@@ -150,7 +159,9 @@ sd(bpest.sitediffs$matdiff)
 sd(bpest.sitediffs$matlodiff)
 sd(bpest.sitediffs$daysperC)
 
-## alt dataset ...
+#####################
+## alt dataset ... ##
+#####################
 
 # loop to extract some model estimates
 bpaltest <- data.frame(siteslist=numeric(), cc=character(), meanmat=numeric(), varmat=numeric(),
