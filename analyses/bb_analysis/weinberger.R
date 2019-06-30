@@ -159,11 +159,12 @@ unique(wein.sp$complex.wname)
 not.wein<-filter(bb.stan,weinberger==0)
 unique(not.wein$complex.wname)
 
+
 unique(wein.sp$dataIDstudyID) ## how many weinberger experiments
 unique(not.wein$dataIDstudyID) ## howmany non weinberger
 unique(bb.stan$dataIDstudyID) ##42 total experiments
 
-sp.match<-intersect(unique(wein.sp$complex.wname), unique(not.wein$complex.wname))
+sp.match<-intersect(unique(wein.sp$complex), unique(not.wein$complex))
 sp.match ### species in both
 
 ######################
@@ -193,21 +194,21 @@ bb.stan.alt.exponly.nowein<-filter(bb.stan.alt.exponly,weinberger==0)
 unique(bb.stan.alt.exponly.nowein$complex.wname)
 
 ###match species with wein and non within the subset "bb.stan.alt"
-unique(bb.stan.alt$complex.wname)
+unique(bb.stan.alt$complex)
 bb.stan.alt.wein<-filter(bb.stan.alt,weinberger==1)
-unique(bb.stan.alt.wein$complex.wname)
+unique(bb.stan.alt.wein$complex)
 bb.stan.alt.nowein<-filter(bb.stan.alt,weinberger==0)
-unique(bb.stan.alt.nowein$complex.wname)
-sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex.wname), unique(bb.stan.alt.nowein$complex.wname)) ###species that overlap wein and nonwein from bb.stan.alt
+unique(bb.stan.alt.nowein$complex)
+sp.match.bb.alt<-intersect(unique(bb.stan.alt.wein$complex), unique(bb.stan.alt.nowein$complex)) ###species that overlap wein and nonwein from bb.stan.alt
 sp.match.bb.alt ### only 11 sp
 
-sp.match.bb.alt.exponly<-intersect(unique(bb.stan.alt.exponly.wein$complex.wname), unique(bb.stan.alt.exponly.nowein$complex.wname)) ### species that overlap wein and non wein for bb.stan,alt.exp.only
+sp.match.bb.alt.exponly<-intersect(unique(bb.stan.alt.exponly.wein$complex), unique(bb.stan.alt.exponly.nowein$complex)) ### species that overlap wein and non wein for bb.stan,alt.exp.only
 sp.match.bb.alt.exponly##only 6 species
 
 # now we exclude try to use matching species
 # rm fldest
-bb.stan.alt.matchsp <- bb.stan.alt[which(bb.stan.alt$complex.wname %in% sp.match.bb.alt),] ###if you want to exclude non-weinberger studesi that dont manipulate chilling
-bb.stan.alt.exponly.matchsp<- bb.stan.alt.exponly[which(bb.stan.alt.exponly$complex.wname %in% sp.match.bb.alt.exponly),] ###if want only exp non weinbergers
+bb.stan.alt.matchsp <- bb.stan.alt[which(bb.stan.alt$complex %in% sp.match.bb.alt),] ###if you want to exclude non-weinberger studesi that dont manipulate chilling
+bb.stan.alt.exponly.matchsp<- bb.stan.alt.exponly[which(bb.stan.alt.exponly$complex %in% sp.match.bb.alt.exponly),] ###if want only exp non weinbergers
 #bb.stan.matchsp <- bb.stan[which(bb.stan$complex.wname %in% sp.match),] # if you want to incl fldest
 
 #make complexes numeric for stan
@@ -286,6 +287,7 @@ if (use.chillports == TRUE){
 ##this is the model for the manuscript
 wein.mod.3.ut = stan('stan/wein_intpoolonly.stan', data = wein.data.utah,
 iter = 2500, warmup=1500)
+
 
 
 
@@ -375,13 +377,14 @@ par(mfrow=c(1,1))
 par(mar=c(4,4, 3,1))
 whichy<-rownames_to_column(as.data.frame(whichmodel), var = "predictor")
 
-
+speciestable<- table(bb.stan$complex)
 ##or
 jpeg("../figures/weinberger_MU_4supp.jpeg")
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+my.pal <- my.pal[c(2,4,9,10,15,16,19,20,25,31,37)]
 # display.brewer.all()
-my.pch <- rep(15:18, each=3)
+my.pch <- rep(15:18, c(4,4,2,1))
 alphahere = 0.4
 
 muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg2){
@@ -419,7 +422,7 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
  # dev.off()
 }
 
-muplotfx(wein.mod.3.ut, "Weinberger", 7, 8, c(0,8), c(-20, 60) , 63, 7)
+muplotfx(wein.mod.3.ut, "", 7, 8, c(0,8), c(-20, 60) , 63, 7)
 dev.off()
 
 
