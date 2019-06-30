@@ -27,8 +27,8 @@ if(length(grep("lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- TRUE
-use.flags.for.allsppmodel <- FALSE
+use.flags.for.mainmodel <- FALSE
+use.flags.for.allsppmodel <- TRUE
 use.yourown.flagdesign <- FALSE
 
 if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
@@ -202,10 +202,10 @@ m2lnistudy.sum[grep("alpha", rownames(m2lnistudy.sum)),]
 # So for now, it is block-commented out
 if(FALSE){
 m2l.lincomp= stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
-                 iter = 4000, warmup=3500, control=list(adapt_delta=0.95)) 
+                 iter = 10000, warmup=3500, control=list(adapt_delta=0.95)) 
   
 m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
-               iter = 4000, warmup=3500, control=list(adapt_delta=0.99)) 
+               iter = 12000, warmup=15000, control=list(adapt_delta=.999)) 
 
 summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
 betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
@@ -233,8 +233,8 @@ summary(lm(preds.lin.sum[,1]~observed.here))
 ##check chilling but currently broke (DB June)
 #fakephoto<-12
 #fakeforce<-20
-#b_photo<-summary(m2l.nisig)$summary[c("b_photo"),1]
-#b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
+b_photo<-summary(m2l.nisig)$summary[c("b_photo"),1]
+b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
 
 fakechill <- seq(from=-1000, to=1000, by=0.1)
 a_chill<-- summary(m2l.nisig)$summary[c("a_chill"),1]
