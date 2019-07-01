@@ -1,0 +1,11 @@
+"treat1","treat2","n"
+"photo","force",6
+"chilltemp","force",1
+"chilldays","force",5
+"chilltemp","photo",1
+"chilldays","photo",6
+"fieldsample.date","force",9
+"fieldsample.date","photo",10
+"total-datasetIDstudies","NA",66
+"total-exp-chill","NA",5
+"total-fielddate-chill","NA",13
