@@ -20,7 +20,7 @@ rownames(nonzcptab)[14]<-"n_sp"
 
 
 #add column names to all sub tables
-colnames(ztab)<-c("estimate","2.5%","25%", "75%", "97.5%")
+colnames(ztab)<-c("mean","2.5%","25%", "75%", "97.5%")
 
 #ztab$credint<-paste(ztab$`2.5%`, ztab$`2.5%`,ztab$uci, sep="-")
 
