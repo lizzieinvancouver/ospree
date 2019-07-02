@@ -1,0 +1,45 @@
+### PEP Sims Literature Review
+## 2 July 2019 - Cat
+## Just a brief lit review to check our work on pep sims
+
+***Fu2015 (Declining global warming effects on the phenology of spring leaf unfolding):
+	>> Biggest finding being that temp sensitivities are declining with 		climate change, assumed to be due to reduced over-winter chilling
+	>> St is defined as ``days advance of leaf unfolding per degC 			warming''
+	>> Used linear regression, which, from our testing, will result in 		the statistical artifact. They also used reduced major axis regression which reduced temperature sensitivities even more. It makes sense that an RMA regression would exaggerate the effects of the statistical artifact but this should be examined further if we decide to do more research on this
+
+***Yu2010 (Winter and spring warming result in delayed spring
+phenology on the Tibetan Plateau):
+	>> Used NDVI ratios to determine green up in the Tibetan plateau
+	>> 1982-2006
+	>> Phenology advanced until ~1995/1996 and then began to retreat in 		both the meadow and steppe	
+	>> Used mean temperature for monthly temperatures (both winter and 		spring) using PLS regression. Such analyses match our findings of the artifact
+
+***Clark2014 (The seasonal timing of warming that controls onset of the growing season):
+	>> Found that more traditional intervals used for predicting 			phenology (e.g., MAT, MST, GDD) were less accurate than their continuous development model (CDM)
+	>> Also found the statistics used for experiments are different than 		those used for observational data, which may explain a lot of the discrepancies
+	>> Overall, testing different questions but related study
+
+***Chuine2016 (Can phenological models predict tree phenologyaccurately in the future? The unrevealed hurdle ofendodormancy break):
+	>> Based work off of Fu2015
+	>> The one phase of the model used St as the response with F* being 		the critical value of temperature sums. Paper admits the two phase model is more accurate and that endodormancy break information is crucial for progress with predictions 
+
+***Phillimore2013 (Inferring local processes from macro‐scale phenological pattern: a comparison of two methods):
+	>> Compares time windows (i.e., mean spring temperature or similar) to using GDDs in predicting budburst times spanning central England, across 12 years (1998-2009) for Quercus robur 
+	>> Found the two models are highly comparable. They then projected 		that a 1 degC increase in temperature would result in ~7 day advance in BB time, contradictory to previous findings. The years are later and the start date for GDDs/time windows was DOY 56. 
+	>> They used Bayesian mixed-effects models for the Time Window 			analysis and Linear mixed model for GDD
+
+***Gusewell2017 (Changes in temperature sensitivity of spring phenology with recent climate warming in Switzerland are related to shifts of the preseason):
+	>> Already mentioned in the supp and is largely what our analyses are 		based on 
+	>> Predictor and response appear to be highly collinear 
+	>> Their arguments: 
+		``The start date (t0) can be seen as the date after which bud development proceeds at a rate that increases linearly with temperature above Tb because the response to temperature is no longer suppressed by short day length or insufficient chilling. While more complex models model this transition mechanistically (e.g., Caffarra, Donnelly, & Chuine, 2011; Linkosalo, Häkkinen, & Hänninen, 2006), the thermal time model as formulated here describes it phenomenologically through the parameter t0. This interpretation of the parameter t0 implies that its value can change through time due to changing winter conditions.''
+
+	>> y = Temp sensitivity
+	   xi = Preseason length or temp of preseason end
+	   random effects = stations plus species
+	Using a mixed-effects model
+	>> Higher preseason lengths resulted in higher temperature sensitivities.. sensitivity decreased with higher preseason end temperatures
+		>> the latter falls into our statistical artifact category, having trouble thinking through the former
+
+### I looked through the most recent citations that cited Fu2015 and most just referenced his findings in the introduction but did not study it directly. 
+
