@@ -198,84 +198,84 @@ m2lnistudy.sum[grep("alpha", rownames(m2lnistudy.sum)),]
 ########################################################
 # real data on 2 level model (sp) with no interactions, with sigmoid
 ########################################################
-# Note: We are in progress on this model ... 
-# So for now, it is block-commented out
+# Note: We are in progress on this model ...
+# This model can be compared with m2l.nib above
+
+m2l.nisig = stan('stan/archive/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
+               iter = 15000, warmup=12000, control=list(adapt_delta=0.999))
+
 if(FALSE){
-m2l.lincomp= stan('stan/nointer_2level_interceptonly.stan', data = datalist.bb,
-                 iter = 10000, warmup=3500, control=list(adapt_delta=0.95)) 
-  
-m2l.nisig = stan('stan/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
-               iter = 12000, warmup=15000, control=list(adapt_delta=.999)) 
+# Below is m2l.nib run with more iterations, but this does not much affect the R sq (see issue #266, esp. post on 1 July 2019) 
+m2l.lincomp= stan('stan/archive/nointer_2level_interceptonly.stan', data = datalist.bb,
+    iter = 15000, warmup=12000, control=list(adapt_delta=0.95))
+# same as m2l.nisig but with a_chill forced to be negative .... b_chill does not converge (see issue #266, esp. post on 1 July 2019) 
+m2l.nisig.adja = stan('stan/archive/nointer_2level_interceptonly_sigmoid_adjchilla.stan', data = datalist.bb,
+    iter = 15000, warmup=12000, control=list(adapt_delta=0.999))
+summary(m2l.nisig.adja)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
+}
 
 summary(m2l.nisig)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
 betas.m2l.nisig  <- as.matrix(m2l.nisig, pars = c("b_force", "b_photo","a_chill", "b_chill"))
 
-summary(m2l.lincomp)$summary[c("b_force", "b_photo", "b_chill"),]
-  
-#mcmc_intervals(betas.m2l.nisig[,1:5])
+summary(m2l.nib)$summary[c("b_force", "b_photo", "b_chill"),]
 
-###rsq
+
+### R sq for sigmoid and comparison linear model 
 observed.here <- bb.stan$resp
 nonlin.sum<-summary(m2l.nisig)$summary 
 
 preds.nonlin.sum <- nonlin.sum[grep("yhat", rownames(nonlin.sum)),]
 nonlin.sum.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 nonlin.mod.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-summary(lm(preds.nonlin.sum[,1]~observed.here))  #0.33
+summary(lm(preds.nonlin.sum[,1]~observed.here))  
 
-lin.sum<-summary(m2l.lincomp)$summary 
+lin.sum<-summary(m2l.nib)$summary 
 preds.lin.sum <- lin.sum[grep("yhat", rownames(lin.sum)),]
 lin.sum.R2 <- 1- sum((observed.here-preds.lin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 lin.mod.R2 <- 1- sum((observed.here-preds.lin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
 summary(lm(preds.lin.sum[,1]~observed.here))
 
 
-##check chilling but currently broke (DB June)
-#fakephoto<-12
-#fakeforce<-20
-b_photo<-summary(m2l.nisig)$summary[c("b_photo"),1]
-b_force<-summary(m2l.nisig)$summary[c("b_force"),1]
+## Plotting for sigmoid curves .... 
+if(FALSE){
+# One approach
+b_photo <- summary(m2l.nisig)$summary[c("b_photo"),1]
+b_force <- summary(m2l.nisig)$summary[c("b_force"),1]
 
 fakechill <- seq(from=-1000, to=1000, by=0.1)
-a_chill<-- summary(m2l.nisig)$summary[c("a_chill"),1]
-b_chill<- summary(m2l.nisig)$summary[c("b_chill"),1]
+a_chill <- summary(m2l.nisig)$summary[c("a_chill"),1]
+b_chill <- summary(m2l.nisig)$summary[c("b_chill"),1]
 
-
-
-dfnonlin<-data.frame(ychill=numeric(),fakechill=numeric())  ##generate fake data
+dfnonlin<-data.frame(ychill=numeric(),fakechill=numeric())  ## generate fake data
 for(i in c(1:length(fakechill))){
-ychill<-1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) 
-dfhere <- data.frame(ychill=ychill,fakechill=fakechill[i])
-
-dfnonlin <- rbind(dfnonlin, dfhere) 
-
+    ychill<-1 /( 1 + exp(a_chill*(fakechill[i]-b_chill)) ) 
+    dfhere <- data.frame(ychill=ychill,fakechill=fakechill[i])
+    dfnonlin <- rbind(dfnonlin, dfhere) 
 }
 
-
-
 jpeg("figures/nonlinearplotbad")
-ggplot(dfnonlin,aes(fakechill,ychill))+geom_point()+geom_line(stat = "summary", fun.y = mean)
+    ggplot(dfnonlin,aes(fakechill,ychill)) +
+        geom_point() +
+        geom_line(stat = "summary", fun.y = mean)
 dev.off()
 
 
-if(FALSE){
-# lizzie tries ...
-fakechill <- seq(from=0, to=15, by=0.01) # what range should this be? It affects how crazy things look
+# Another approach
+fakechill <- seq(from=-10, to=15, by=0.01) # what range should this be? It affects how crazy things look
 fakeforce <- seq(from=5, to=30, length.out=length(fakechill))
 fakephoto <- seq(from=6, to=24, length.out=length(fakechill))
-b_forcesig <- -0.9385382
-b_photosig <- -0.2641393
-a_chill <- 10.0604101
-b_chillsig <- 4.9189167
+b_forcesig <- summary(m2l.nisig)$summary[c("b_force"), 1]
+b_photosig <- summary(m2l.nisig)$summary[c("b_photo"), 1]
+a_chill <- summary(m2l.nisig)$summary[c("a_chill"), 1]
+b_chillsig <- summary(m2l.nisig)$summary[c("b_chill"), 1]
 mu_a <- 40
-b_force <- -0.93
-b_photo <- -0.29
-b_chill <- -2.2
+b_force <- summary(m2l.nib)$summary[c("b_force"), 1]
+b_photo <- summary(m2l.nib)$summary[c("b_photo"), 1]
+b_chill <- summary(m2l.nib)$summary[c("b_chill"), 1]
 
 a_chill.play <- 10
 b_chill.play <- 10
     
-
 ypredsig <- c(rep(NA, length(fakechill)))
 ypred <- c(rep(NA, length(fakechill)))
 ypredplay <- c(rep(NA, length(fakechill)))
@@ -290,6 +290,5 @@ for (i in c(1:length(fakechill))){
 plot(ypredsig~fakechill)
 lines(ypred~fakechill)
 lines(ypredplay~fakechill, col="darkred")
-#... and fails
 }
  

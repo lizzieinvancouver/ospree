@@ -15,3 +15,4 @@ winternospwinternosp_2level: a(sp) + f(sp) + p(sp) + c(sp) + cf(sp) + cp(sp) + f
 nointer_2level_studyint_ncp.stan: a(sp) + f(sp) + p(sp) + c(sp) + cf + cp + fp
 nointer_2level_interceptonly: a(sp) + f + p + c (I think)
 nointer_2level_interceptonly_sigmoid: a(sp) + f + p + sigmoid c
+nointer_2level_interceptonly_sigmoid_adjchilla: a(sp) + f + p + sigmoid c (with a_chill forced to negative)

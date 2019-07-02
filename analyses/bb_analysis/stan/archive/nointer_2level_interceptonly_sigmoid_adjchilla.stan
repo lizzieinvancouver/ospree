@@ -21,7 +21,7 @@ parameters {
   real a_sp[n_sp]; // intercept for species
   real b_force; // slope of forcing effect 
   real b_photo; // slope of photoperiod effect
-  real a_chill; // sharpness of the response;
+  real<lower=-10, upper=0> a_chill; // sharpness of the response;
 	real b_chill; // mid-response temperature
 	
 	}
