@@ -39,7 +39,7 @@ for(spsi in 1:spnum){
 }
 }
 par(xpd=TRUE) # so I can plot legend outside
-legend(leg1, leg2, sort(unique(gsub("_", " ", lat.stan$complex.wname))), pch=my.pch[1:spnum],
+legend(leg1, leg2, sort(unique(gsub("_", " ", bb.stan$complex.wname))), pch=my.pch[1:spnum],
    col=alpha(my.pal[1:spnum], alphahere),
    cex=0.75, bty="n", text.font=3)
 dev.off()

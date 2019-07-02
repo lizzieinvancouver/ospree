@@ -20,7 +20,7 @@ if(length(grep("Ignacio", getwd()))>0) {
 figpath <- "figures"
 
 ## set up the flags
-use.chillports = TRUE
+use.chillports =FALSE
 use.zscore = TRUE
 use.allspp = FALSE
 use.multcuespp = FALSE
