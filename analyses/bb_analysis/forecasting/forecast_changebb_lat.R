@@ -22,7 +22,6 @@ library(rstan)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
-library(rgl)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
@@ -82,7 +81,7 @@ if(use.chillports == FALSE & use.zscore == FALSE){
 }
 # Set up colors (more than used currently ...
 
-cols <- adjustcolor(c("maroon4", "lightskyblue","purple4"), alpha.f = 0.8) 
+cols <- adjustcolor(c("goldenrod", "lightskyblue","purple4"), alpha.f = 0.8) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 # display.brewer.all()
 my.pch <- rep(15:18, each=12)
@@ -104,8 +103,8 @@ fit.sum <- summary(fit)$summary
 
 # Select the species and temperature change that you want
 allsp<-unique(lat.stan$complex.wname)
-sp<-c("betpen","fagsyl")
-sp.num<-c(10,15)
+sp<-"fagsyl"
+sp.num<- 15
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
@@ -137,7 +136,7 @@ use.daylengthshift=TRUE
 
 quartz(width=5,height=5)
 par(mar=c(8,4,3,4), mfrow=c(1,2))
-s=2
+#s=2
 for(s in 1:length(sp)){
   #I have now added lots of sites for 
   #s=1#for bet, s=1; for fag, s=2
@@ -152,7 +151,9 @@ for(s in 1:length(sp)){
   latlongs.toplot<-c("46.85_15.7333","47.7333_16.33","48.7833_15.4_")
   sites.toplot<-c(which(substr(tempfiles,19,31)==latlongs.toplot[1]),which(substr(tempfiles,19,31)==latlongs.toplot[2]),which(substr(tempfiles,19,31)==latlongs.toplot[3]))
   
-  quartz(width=11,height=5)
+  #quartz(width=11,height=5)
+  pdf("figures/forecasting/fagsyl_3lats.pdf", width=11,height=5)
+  
   par(mar=c(4,4,3,4), mfrow=c(1,3))
   for (i in sites.toplot){
 
@@ -162,7 +163,7 @@ for(s in 1:length(sp)){
     #because we want a "pre-warming estimate" only use years before 1961 to match other analyses
     tempall<-tempall[tempall$Year<1961,]
     chillall<-chillall[chillall$End_year<1961,]
-    sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March 1-April 30 (4 degrees C) 
+    sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March 1-April 30
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
     
@@ -274,19 +275,21 @@ for(s in 1:length(sp)){
     ymin = 10#min(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     ymax = 30#max(predicts[,-1],predicts.25per[,-1],predicts.75per[,-1])
     xlim = c(0, 7)
-    ylim = c(ymin,ymax)
-    #figname<-paste("tempforecast",lat,long,min(tempforecast),max(tempforecast),"degwarm.pdf", sep="_")
-    #pdf(file.path(figpath,figname), width = 9, height = 6)
+    ylim = c(ymin,ymax)   
     
-    #pdf(paste(figpath,"/tempforecast",min(tempforecast),"-",max(tempforecast),"_deg_",lat,"_",long,".pdf",sep=""))
-    
-    plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (C)", ylim=ylim,
-         ylab="Days to BB", main=paste(sp[s],", lat=",round(lat,digits=2),", doy=",budburstdoy,", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), bty="l")
+    plot(x=NULL,y=NULL, xlim=xlim, xlab="Amount of warming (°C)", ylim=ylim,
+         ylab="Days to budburst", bty="l")#main=paste(sp[s],", lat=",round(lat,digits=2),", doy=",budburstdoy,", ",round(daylengthbbdoy, digits=0)," hrs", sep=""), 
     pos.x <- 0
     pos.y <- predicts[1,2]
     #Add shading around line for credible intervals
+    if(i==sites.toplot[1]) {
+      legend("bottomleft",legend=c("Warming only","Warming with daylength shifts"),lty=c(1,2),lwd=2,col=c(cols[3],cols[1]),bty="n", cex=1.1)
+      mtext("A)",side=3, adj=0, line=1)
+    }
+    if(i==sites.toplot[2]) {mtext("B)",side=3, adj=0, line=1)}
+    if(i==sites.toplot[3]) {mtext("C)",side=3, adj=0, line=1)}
     
-     for(t in 5){
+    for(t in 5){
        polygon(c(rev(predicts$warming), predicts$warming), c(rev(predicts.75per[,t-1]), predicts.25per[,t-1]), col = alpha(cols[t-2], 0.2), border = NA)
      }
     #wdl
@@ -300,31 +303,27 @@ for(s in 1:length(sp)){
       lines(predicts.wdl$warming, predicts.wdl[,t-1], 
             col=cols[t-4], lwd=2, lty=2)}
     
-    int<-summary(fit)$summary
-    sp.ints<-fit.sum[grep("a_sp",rownames(fit.sum)),]
-    sp.fos<-fit.sum[grep("b_force",rownames(fit.sum)),]
-    sp.chs<-fit.sum[grep("b_chill",rownames(fit.sum)),]
-    sp.phs<-fit.sum[grep("b_photo",rownames(fit.sum)),]
-    
-    sp.int<-sp.ints[sp.num[s]+2,1]
-    sp.fo<-sp.fos[sp.num[s]+2,1]
-    sp.ch<-sp.chs[sp.num[s]+2,1]
-    sp.ph<-sp.phs[sp.num[s]+2,1]
-    if(i==1){
-    mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0, cex=.8)
-    mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0, cex=.8)
-    mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0,cex=.8)
-    mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0, cex=.8)
-    mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
-    
+    # int<-summary(fit)$summary
+    # sp.ints<-fit.sum[grep("a_sp",rownames(fit.sum)),]
+    # sp.fos<-fit.sum[grep("b_force",rownames(fit.sum)),]
+    # sp.chs<-fit.sum[grep("b_chill",rownames(fit.sum)),]
+    # sp.phs<-fit.sum[grep("b_photo",rownames(fit.sum)),]
+    # 
+    # sp.int<-sp.ints[sp.num[s]+2,1]
+    # sp.fo<-sp.fos[sp.num[s]+2,1]
+    # sp.ch<-sp.chs[sp.num[s]+2,1]
+    # sp.ph<-sp.phs[sp.num[s]+2,1]
+    # #if(i==1){
+    # mtext(paste("a_sp[",sp.num[s],"]=",round(sp.int, digits=2), sep=""), side=1, line=-5, adj=0, cex=.8)
+    # mtext(paste("b_force[",sp.num[s],"]=",round(sp.fo, digits=2), sep=""), side=1, line=-4, adj=0, cex=.8)
+    # mtext(paste("b_chill[",sp.num[s],"]=",round(sp.ch, digits=2), sep=""), side=1, line=-3, adj=0,cex=.8)
+    # mtext(paste("b_photo[",sp.num[s],"]=",round(sp.ph, digits=2), sep=""), side=1, line=-2, adj=0, cex=.8)
+    # mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
+    # 
     }
     
-    if(i==2)
-    {
-      legend("bottomright",legend=c("Warming only","Warming with daylength shifts"),lty=c(1,2),lwd=2,col=c(cols[3],cols[1]),bty="n", cex=0.8)
-    }
-    
-  }
+}
+dev.off()
   #name<-paste(sp[s],lat,long,"forecast.csv",sep=".")
   #nameqlo<-paste(sp[s],lat,long,"forecast.qlo.csv",sep=".")
   #nameqhi<-paste(sp[s],lat,long,"forecast.qhi.csv",sep=".")

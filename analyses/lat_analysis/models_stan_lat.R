@@ -80,14 +80,14 @@ if(use.yourown.flagdesign){
 }
 
 source("source/bbstanleadin.R")
-
-if(use.flags.for.mainmodel){
-  write.csv(bb.stan, "..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", row.names=FALSE) 
-}
-
-if(use.flags.for.allsppmodel){
-  write.csv(bb.stan, "..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", row.names=FALSE)
-}
+# 
+# if(use.flags.for.mainmodel){
+#   write.csv(bb.stan, "..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", row.names=FALSE) 
+# }
+# 
+# if(use.flags.for.allsppmodel){
+#   write.csv(bb.stan, "..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", row.names=FALSE)
+# }
 
 # write.csv(bb.stan, "..//output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", row.names=FALSE)
 
