@@ -50,7 +50,7 @@ dim(spests)#
 range(spests$lat)#46.7167-54.8000
 #
 quartz()
-plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chill temp (C)", ylab= "Total Chilling (Utah)", ylim=c(-6,22))
+plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chilling temperature (°C)", ylab= "Total Chilling (Utah units)", ylim=c(-6,25), bty = "l")
 points(spests$winT.forecast,spests$chill.forecast, pch=21,bg="darkgreen")
 
 #create a chilling dataset with constant daily temperatures from mean temperatures in allforecasts
@@ -74,7 +74,7 @@ chillests<-as.data.frame(cbind(chilltemps,chillcalc$Chill_portions,chillcalc$Uta
 colnames(chillests)<-c("temp","chillport","utah.240")
 points(chillests$temp,chillests$utah.240, pch=21,bg="lightblue")
 
-legend(x=-10,y=20, legend=c("OSPREE database","estimates-OSPREE constant duration","estimates- PEP temp","estimates- PEP temp with 1C warm","estimates- PEP temp with 7C warm"), pch=21,pt.bg=c("gray","lightblue","dark green","yellowgreen","darkred"))
+legend(x=-10,y=25, legend=c("OSPREE","Constant duration","Field","Field +1°C warming","Field +7°C warming"), pch=21,pt.bg=c("gray","lightblue","dark green","yellowgreen","darkred"), bty = "n")
 points(spests$winT.forecast[spests$warming_C==1],spests$chill.forecast[spests$warming_C==1], pch=21,bg="yellowgreen")
 points(spests$winT.forecast[spests$warming_C==2],spests$chill.forecast[spests$warming_C==2], pch=21,bg="yellow")
 points(spests$winT.forecast[spests$warming_C==3],spests$chill.forecast[spests$warming_C==3], pch=21,bg="goldenrod")

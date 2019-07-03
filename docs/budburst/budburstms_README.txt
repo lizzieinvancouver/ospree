@@ -27,8 +27,6 @@ Files used to create tables and figures in the supplemental materials
 #Table 4S: analyses/bb_analysis/maketables.forsupp/  #weinberger table code should go here!
 
 
-#Figure 1S: analyses/bb_analysis/models_stan_plotting_justmuplot.R
 
-#Figure 2S: analyses/bb_analysis/models_stan_plotting_mu_ests_chilling.R
 
-#Figure 3S: analyses/bb_analysis/forecasting/forecast_changebb.R
+#Figure XS: analyses/bb_analysis/forecasting/forecast_changebb_lat.R
