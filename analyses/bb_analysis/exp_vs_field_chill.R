@@ -49,7 +49,9 @@ range(spests$winT.forecast[spests$warming_C==0])
 dim(spests)#
 range(spests$lat)#46.7167-54.8000
 #
-quartz()
+#quartz()
+pdf("figures/forecasting/fagsyl_3lats.pdf", width=11,height=5)
+
 plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chilling temperature (°C)", ylab= "Total Chilling (Utah units)", ylim=c(-6,25), bty = "l")
 points(spests$winT.forecast,spests$chill.forecast, pch=21,bg="darkgreen")
 
@@ -82,3 +84,4 @@ points(spests$winT.forecast[spests$warming_C==4],spests$chill.forecast[spests$wa
 points(spests$winT.forecast[spests$warming_C==5],spests$chill.forecast[spests$warming_C==5], pch=21,bg="darkorange")
 points(spests$winT.forecast[spests$warming_C==6],spests$chill.forecast[spests$warming_C==6], pch=21,bg="red")
 points(spests$winT.forecast[spests$warming_C==7],spests$chill.forecast[spests$warming_C==7], pch=21,bg="darkred")
+dev.off()

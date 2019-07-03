@@ -10,8 +10,7 @@ Files used to create figures in the main manuscript
 
 #Figure 2: analyses/bb_analysis/models_stan_plotting_mu_ests_chilling.R
 
-#Figure 3: analyses/bb_analysis/forecasting/forecast_changebb.R
-
+#Figure 3: analyses/bb_analysis/forecasting/forecast_changebb.R (also used for matching 2 D figure in sup and for chill forecast 4-panel figure)
 
 <><><><><><><><><><>
 Files used to create tables and figures in the supplemental materials
