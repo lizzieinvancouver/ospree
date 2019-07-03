@@ -330,7 +330,7 @@ library(dplyr)
 library(rstan)
 wein.table<-read.csv("../../analyses/output/supptables/weinbergertable.csv", header=TRUE)
 
-wein.table <- xtable(wein.table, caption="\\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.")
+wein.table <- xtable(wein.table, caption="\\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.",
        label="tab:methods",align=c(
                "p{0.01\\textwidth}|",
                "p{0.08\\textwidth}|",
