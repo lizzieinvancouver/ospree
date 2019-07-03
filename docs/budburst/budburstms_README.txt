@@ -23,9 +23,11 @@ Files used to create tables and figures in the supplemental materials
 
 #Table 3S: analyses/bb_analysis/maketables.forsupp/mod_table_lat.R
 
-#Table 4S: analyses/bb_analysis/maketables.forsupp/  #weinberger table code should go here!
+#Table 4S: analyses/bb_analysis/maketables.forsupp/  #weinberger table code should go 
+here!
 
+#Figure S2: analyses/lat_analysis/plotting_lat_models.R
 
-
+#Figure S6: analyses/bb_analysis/PEP_climate/betpen_chillandgdd_tg.R
 
 #Figure XS: analyses/bb_analysis/forecasting/forecast_changebb_lat.R

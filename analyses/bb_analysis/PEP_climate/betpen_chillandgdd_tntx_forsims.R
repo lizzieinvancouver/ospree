@@ -50,8 +50,8 @@ bestsites <- bestsites$Var1
 
 allpeps.subset<-mostdata[(mostdata$lat.long %in% bestsites),]
 
-rn<-brick("~/Desktop/tn_0.25deg_reg_v16.0.nc", varname="tn", sep="")
-rx<-brick("~/Desktop/tx_0.25deg_reg_v16.0.nc", varname="tx", sep="")
+rn<-brick("~/Desktop/tn_0.25deg_reg_v16.0.nc", sep="")
+rx<-brick("~/Desktop/tx_0.25deg_reg_v16.0.nc", sep="")
 
 ##### Now to calculate chilling using Chill portions based on Ailene's code `chillcode_snippet.R' #####
 ## Adjust the period you are using below to match the function you want to use (i.e. extractchillpre or extractchillpost)
@@ -63,7 +63,6 @@ badsites<-c("54.5 11.1", "49.7667 11.55", "47.8 11.0167")
 sites<-sites[!(sites$lat.long%in%badsites),]
 sites$x<-sites$long
 sites$y<-sites$lat
-Coords<-subset(sites, select=c(x, y))
 nsites<-length(sites$lat.long)
 sites$siteslist<-1:45
 tmin<-rn
@@ -87,19 +86,27 @@ extractclimpost<-function(tmin,period){
   colnames(climateyears)<-c("Mean.Utah", "Mean.Port", "Mean.GDD", "Spring.Temp", "Site Num.")
   
   ## subset climate years
-  yearsinclim<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
-  yearsinperiod<-which(yearsinclim%in%period)
-  climsub<-subset(tmin,yearsinperiod)
+  yearsinclimmin<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
+  yearsinclimmax<-as.numeric(format(as.Date(names(tmax),format="X%Y.%m.%d"),"%Y"))
+  yearsinperiodmin<-which(yearsinclimmin%in%period)
+  yearsinperiodmax<-which(yearsinclimmax%in%period)
+  climsubmin<-subset(tmin,yearsinperiodmin)
+  climsubmax<-subset(tmax,yearsinperiodmax)
   
   ## subset climate days
-  monthsinclim<-as.numeric(format(as.Date(names(climsub),format="X%Y.%m.%d"),"%m"))
+  monthsinclimmin<-as.numeric(format(as.Date(names(climsubmin),format="X%Y.%m.%d"),"%m"))
+  monthsinclimmax<-as.numeric(format(as.Date(names(climsubmax),format="X%Y.%m.%d"),"%m"))
   chillmonths<-c(9:12,1:3)
-  monthsinchill<-which(monthsinclim%in%chillmonths)
-  chillsub<-subset(climsub,monthsinchill)
+  monthsinchillmin<-which(monthsinclimmin%in%chillmonths)
+  monthsinchillmax<-which(monthsinclimmax%in%chillmonths)
+  chillsubmin<-subset(climsubmin,monthsinchillmin)
+  chillsubmax<-subset(climsubmax,monthsinchillmax)
   
   warmmonths<-c(1:5)
-  monthsinwarm<-which(monthsinclim%in%warmmonths)
-  warmsub<-subset(climsub,monthsinwarm)
+  monthsinwarmmin<-which(monthsinclimmin%in%warmmonths)
+  monthsinwarmmax<-which(monthsinclimmax%in%warmmonths)
+  warmsubmin<-subset(climsubmin,monthsinwarmmin)
+  warmsubmax<-subset(climsubmax,monthsinwarmmax)
   
   ## commence loop  
   for (i in 1:nsites){#i=2
@@ -109,31 +116,34 @@ extractclimpost<-function(tmin,period){
     ## load shape
     if(sitesi==sites$siteslist[i])
       Coords<-data.frame(sites$x, sites$y)
-    points.min <- SpatialPoints(Coords, proj4string = tmin@crs)
-    points.max <- SpatialPoints(Coords, proj4string = tmax@crs)
+    points.min <- SpatialPoints(Coords, proj4string = rn@crs)
+    points.max <- SpatialPoints(Coords, proj4string = rx@crs)
 
     ## loop across years to extract each years averages
     # save first an array to store results
     yearlyresults<-array(NA,dim=c(length(period),5))
     
-    for(j in period){#j=1951
+    for(j in period){#j=2001
       print(paste(i,j))
       
       # select year's layer
-      chillyears<-which(as.numeric(format(as.Date(
-        names(chillsub),format="X%Y.%m.%d"),"%Y"))==j)
+      chillyearsmin<-which(as.numeric(format(as.Date(
+        names(chillsubmin),format="X%Y.%m.%d"),"%Y"))==j)
+      chillyearsmax<-which(as.numeric(format(as.Date(
+        names(chillsubmax),format="X%Y.%m.%d"),"%Y"))==j)
       
-      yearschill<-subset(chillsub,chillyears)
+      yearschillmin<-subset(chillsubmin,chillyearsmin)
+      yearschillmax<-subset(chillsubmax,chillyearsmax)
       
       # extract values and format to compute means
-      tempschillsmin<-raster::extract(yearschill,points.min)
-      tempschillsmax<-raster::extract(yearschill,points.max)
+      tempschillsmin<-raster::extract(yearschillmin,points.min)
+      tempschillsmax<-raster::extract(yearschillmax,points.max)
       
       #turn into data frame and remove NAs
       chmin<-as.data.frame(tempschillsmin)
       chmin<-subset(chmin,!is.na(rowSums(chmin)))
       chmax<-as.data.frame(tempschillsmax)
-      chmax<-subset(chmin,!is.na(rowSums(chmax)))
+      chmax<-subset(chmax,!is.na(rowSums(chmax)))
  
       ## calculate chilling
       chillunitseachcelleachdaymin<-apply(chmin,2,function(x){
@@ -160,14 +170,17 @@ extractclimpost<-function(tmin,period){
       
       
       # select year's layer
-      warmyears<-which(as.numeric(format(as.Date(
-        names(warmsub),format="X%Y.%m.%d"),"%Y"))==j)
+      warmyearsmin<-which(as.numeric(format(as.Date(
+        names(warmsubmin),format="X%Y.%m.%d"),"%Y"))==j)
+      warmyearsmax<-which(as.numeric(format(as.Date(
+        names(warmsubmax),format="X%Y.%m.%d"),"%Y"))==j)
       
-      yearswarm<-subset(warmsub,warmyears)
+      yearswarmmin<-subset(warmsubmin,warmyearsmin)
+      yearswarmmax<-subset(warmsubmax,warmyearsmax)
       
       # extract values and format to compute means and sdevs
-      tempswarmsmin<-raster::extract(yearswarm,points.min)
-      tempswarmsmax<-raster::extract(yearswarm,points.max)
+      tempswarmsmin<-raster::extract(yearswarmmin,points.min)
+      tempswarmsmax<-raster::extract(yearswarmmax,points.max)
       
       #turn into data frame and remove NAs
       wamin<-as.data.frame(tempswarmsmin)
@@ -527,10 +540,11 @@ climsubmax<-subset(tmax,yearsinperiod)
 monthsinclim<-as.numeric(format(as.Date(names(climsubmin),format="X%Y.%m.%d"),"%m"))
 mstmonths<-c(3:4)
 monthsinmst<-which(monthsinclim%in%mstmonths)
-mstsub<-subset(climsubmin,monthsinmst)
+mstsubmin<-subset(climsubmin,monthsinmst)
+mstsubmax<-subset(climsubmax,monthsinmst)
 
-valuesmin <- raster::extract(mstsub,points.min)
-valuesmax <- raster::extract(mstsub,points.max)
+valuesmin <- raster::extract(mstsubmin,points.min)
+valuesmax <- raster::extract(mstsubmax,points.max)
 
 dclimmin <- cbind.data.frame(coordinates(points.min),valuesmin)
 dclimmax <- cbind.data.frame(coordinates(points.max),valuesmax)

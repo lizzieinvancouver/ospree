@@ -87,6 +87,7 @@ number of leaves etc. We standardized papers to common units whenever possible (
 
 \par \emph{Defining budburst}
 
+Most studies defined budburst as initial ``green tips'' (33/49 studies). Select studies defined budburst as a specific increment of growth (e.g., ``0.5cm of new growth'') or as bud swell, leaf emergence, leaf unfolded, open bud scales, or petiole emerged. The remaining studies (4/49) did not include a definition of budburst. The majority of studies using the above definitions (34/49) required only one bud to have met the defined criteria of budburst, however, the remaining studies implemented specific thresholds to be met (i.e., 10-100\% of buds on an individual needed to have bursted bud).
 
 We only included studies with at least 49.5\% budburst, for studies with multiple metrics of \% budburst we took the days to budburst closest to 90\%.
 
@@ -95,6 +96,8 @@ We only included studies with at least 49.5\% budburst, for studies with multipl
 Most studies do not experimentally apply chilling by manipulating duration or temperature of chilling, nor do most estimate the chilling imposed in their experiment. We therefore calculated the chilling imposed by most studies, as it would otherwise have been impossible to provide estimates with only experimental chilling (Fig \ref{fig:treatheatmaps}). Given the limited manipulation of chilling in studies, we estimated chilling for all studies by combining chilling from the field (i.e., chilling before plant material was brought into environmental growth chambers) and experimental (i.e., chilling plant material experienced in environmental growth chambers) chilling into two widely used metrics of chilling: Utah and Chill portions \citep{dennis2003}. We found the effects of chilling and other cues remain qualitatively consistent across the two chilling units, though chilling and photoperiod estimates were slightly lower using chill portions compared to Utah (cite supplemental table comparing estimates with both units).  
 
 \par Current common models for chilling (i.e., Utah units and chill portions, both of which were developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of dormancy release, but are likely to be inaccurate for many species. Our model highlights how the choice of chill units can affect model estimates and associated forecasts (Figures 1,\ref{fig:figmucpz}\ref{fig:muutnonz}, \ref{fig:mucpnonz}). 
+
+\par We used the \textit{chillR} package (version 0.70.17) in R \citep{Rcore:2017, chillR2019}, version 3.6.0 to calculate both positive Utah units and Dynamic Chill portions. Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range. Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C.
 
 \subsection*{Models}
 \par We fit three models: the main budburst model, fit to all studies in OSPREE that measured days to budburst; the latitude model, which included only studies that XXX, and the weinberger model, which included only species used in both experiments that employed Weinberger methods and those that did not. We defined Weinberger studies as those with two or more field sample dates, each two or more weeks apart.
@@ -303,21 +306,41 @@ print(nonzmod.table, include.rownames=TRUE, hline.after = c(-1,0,9,10),caption.p
 #source("../../analyses/bb_analysis/maketables.forsupp/mod_table_lat.R")
 #or, faster:
 zmodtable<-read.csv("../../analyses/output/supptables/zmodetable_latcpz.csv", header=TRUE)
+names(zmodtable) <- c('mean','25%', '75%', '2.5%', '97.5%' )
 
-mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 25th, 75th, 2.5th and 95th percentiles from models in which the predictors have been standardized so that they are directly comparable,", 
+mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable,", 
         label="tab:methods",align=c(
                "p{0.01\\textwidth}|",
-               "|p{0.15\\textwidth}|",
-               "|p{0.15\\textwidth}|",
-               "|p{0.15\\textwidth}|",
-               "|p{0.15\\textwidth}|",
                "p{0.08\\textwidth}|",
-               "p{0.1\\textwidth}|"))
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|"))
 
 print(mod.table, include.rownames=FALSE, hline.after = c(-1,0,13,14),caption.placement="top",size="\\footnotesize")
 
 @
 
+
+<<label=xtable1, echo=FALSE, results=tex>>=
+#load models to report estimates, use chill portions
+library(xtable)
+library(plyr)
+library(dplyr)
+library(rstan)
+wein.table<-read.csv("../../analyses/output/supptables/weinbergertable.csv", header=TRUE)
+
+wein.table <- xtable(wein.table, caption="\\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.",
+       label="tab:methods",align=c(
+               "p{0.01\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|",
+               "p{0.08\\textwidth}|"))
+
+print(wein.table, include.rownames=TRUE, hline.after = c(-1,0),caption.placement="top",size="\\footnotesize")
+@
 \end{footnotesize} 
 
 Still need: 
