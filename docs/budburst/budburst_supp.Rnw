@@ -87,7 +87,7 @@ number of leaves etc. We standardized papers to common units whenever possible (
 
 \par \emph{Defining budburst}
 
-Most studies defined budburst as a visual observation of the initial ``green tips'' (33/49 studies). Select studies defined budburst as a specific increment of growth (e.g., ``0.5cm of new growth'') or as bud swell, leaf emergence, leaf unfolded, open bud scales, or petiole emerged. The remaining studies (4/49) did not include a definition of budburst. The majority of studies using the above definitions (34/49) required only one bud to have met the defined criteria of budburst, however, the remaining studies implemented specific thresholds to be met (i.e., 10-100\% of buds on an individual needed to have bursted bud).
+Most studies defined budburst as initial ``green tips'' (33/49 studies). Select studies defined budburst as a specific increment of growth (e.g., ``0.5cm of new growth'') or as bud swell, leaf emergence, leaf unfolded, open bud scales, or petiole emerged. The remaining studies (4/49) did not include a definition of budburst. The majority of studies using the above definitions (34/49) required only one bud to have met the defined criteria of budburst, however, the remaining studies implemented specific thresholds to be met (i.e., 10-100\% of buds on an individual needed to have bursted bud).
 
 We only included studies with at least 49.5\% budburst, for studies with multiple metrics of \% budburst we took the days to budburst closest to 90\%.
 
@@ -97,7 +97,7 @@ Most studies do not experimentally apply chilling by manipulating duration or te
 
 \par Current common models for chilling (i.e., Utah units and chill portions, both of which were developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of dormancy release, but are likely to be inaccurate for many species. Our model highlights how the choice of chill units can affect model estimates and associated forecasts (Figures 1,\ref{fig:figmucpz}\ref{fig:muutnonz}, \ref{fig:mucpnonz}). 
 
-\par To calculate both Utah chilling units and chill portions we used the R package \textit{chillR} package (version 0.70.17) in R \citep{Rcore:2017, chillR2019}, version 3.6.0. Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or went above this range. Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C.
+\par We used the \textit{chillR} package (version 0.70.17) in R \citep{Rcore:2017, chillR2019}, version 3.6.0 to calculate both positive Utah units and Dynamic Chill portions. Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range. Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C.
 
 \subsection*{Models}
 \par We fit three models: the main budburst model, fit to all studies in OSPREE that measured days to budburst; the latitude model, which included only studies that XXX, and the weinberger model, which included only species used in both experiments that employed Weinberger methods and those that did not. We defined Weinberger studies as those with two or more field sample dates, each two or more weeks apart.
