@@ -216,8 +216,7 @@ Physiologically, budburst is triggered by the accumulation of forcing temperatur
 
 \bibliography{..//..//refs/ospreebibplus.bib}
 \section*{Acknowledgements}
-We thank the many researchers who conducted the experiments synthesized in this manuscript, as well as E. Forrestal for assisting with data scraping; and J. Davies, S. Elmendorf, and J. HilleRisLambers who provided helpful comments during the development of the manuscript.%should we acknowledge our friendly reviewers? not sure we need to, but...
-This research was also supported by the National Science Foundation (NSF DBI 14-01854 to A.K.E.). Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+We thank the many researchers who conducted the experiments synthesized in this manuscript, E. Forrestel for assisting with data scraping; and J. Davies, S. Elmendorf, and J. HilleRisLambers for helpful comments that improved the manuscript. The National Science Foundation (DBI 14-01854 to AKE), NSERC Discovery Award (RGPIN-05038 to EMW) and Canada Research Chair in Temporal Ecology (EMW) provided funding. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 
 \section* {Figures}
 
