@@ -215,12 +215,13 @@ ggplot(bpalt, aes(x=mat.lo, y=lo)) +
 ## Plotting ##
 ##############
 
-cexhere <- 1.15
-pdf(file.path("figures/peprealandsims.pdf"), width = 5, height = 4)
+cexhere <- 0.95
+pdf(file.path("figures/peprealandsims.pdf"), width = 6, height = 4)
 par(xpd=FALSE)
-# par(mar=c(5,7,3,10))
+par(mar=c(5,5,2,2))
 plot(x=NULL,y=NULL, xlim=c(0.5,4.5), ylim=c(-3.1, -0.1),
-     ylab="Change in estimated temperature sensitivity", xlab="Degree warming", main="")
+     ylab=expression(paste("Change in estimated sensitivity (days/", degree, "C)"), sep=""),
+         xlab=expression(paste("Warming (", degree, "C)")), main="")
 # abline(h=0, lty=2, col="darkgrey")
 for(i in 1:4){
   pos.x <- mean.pepsims$degwarm[i]
