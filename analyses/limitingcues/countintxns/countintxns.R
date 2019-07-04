@@ -183,14 +183,15 @@ length(unique(paste(bb14d$datasetID, bb14d$study))) # MM: 38; FM: 66 studies
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-datasetIDstudies", treat2="NA",
     n=length(unique(paste(bb14d$datasetID, bb14d$study))) ))
 
-# Now, which studies manipulate chill?
+
+# Now, which studies manipulate chill (and interact it with photo or force)?
 # Note that chilldays may be field-sample-date based, so this is probably an overestimate
 union.expchill1 <- union(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study)),
     unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study)))
 union.expchill2 <- union(union.expchill1, unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study)))
 union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 8 unique studies
 
-# Which manipulate field-sample dates? 
+# Which manipulate field-sample dates (and interact it with photo or force)? 
 union.fs <- union(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study)),
     unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 11 unique studies; FM: 13
 
@@ -206,8 +207,8 @@ sort(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study))) 
 # checkdat <- subset(bb, datasetID=="caffarra11b" & study=="exp2")
 # caffarra11a exp3, myking95 exp1, worrall67 exp 3, "skuterud94 exp1", campbell75 exp3
 # caffarra11b exp2 DID NOT alter chill (the 'bothest' is for no chilling only)
-# Add this info below, subtract 1 for caffarra11b exp2
-bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-exp-chill", treat2="NA",
+# Add this info below, subtract 1 for caffarra11b exp2 ... see below for final #s
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-exp-chill-fpintxns", treat2="NA",
     n=length(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study)))-1))
  
 checkme.fieldchill <- bb14d[which(paste(bb14d$datasetID, bb14d$study) %in% union.fs),]
@@ -215,11 +216,53 @@ subset(checkme.fieldchill, chill_type!="fldest")
 # heide93 exp3 -- no chilldays or chilltemp so assume all field-sample-date
 sort(union.fs)
 
-bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill", treat2="NA",
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill-fpintxns", treat2="NA",
     n=length(union.fs)))
 
 # So, for the FM I think 13 studies did Weinberger and 6 (including caffarra11b exp 2) did what got flagged as experimental chilling ... caffarra11b exp 2 overlaps between these two groups but I think counts as Weinberger. So ... 5 exp and 13 Weinberger ...
 
+## The above is all about interactive treatments ... let's now check against single treatments
+forcetreats <- get.treatdists.singletreatment(bb14d.noNA, "force")
+phototreats <- get.treatdists.singletreatment(bb14d.noNA, "photo")
+# new and I can confirm it is a chilling treatment (from checkdat)
+# mainmodel: Li05 
+# allsppmodel: chavarria09 exp1, jones12 exp1 and exp2, sonsteby14 exp2 and exp3
+# pagter15 exp1 is ambient warming (not exp chill)
+chilltemptreats <- get.treatdists.singletreatment(bb14d.noNA, "chilltemp")
+chilldaystreats <- get.treatdists.singletreatment(bb14d.noNA, "chilldays")
+fsdatestreats <- get.treatdists.singletreatment(bb14d.noNA, "fieldsample.date")
+sort(union(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study)), paste(chilltemptreats$datasetID,
+   chilltemptreats$study)))
+expchillist <- union(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study)), paste(chilltemptreats$datasetID,
+   chilltemptreats$study))
+expchillist <- expchillist[which(!expchillist %in% c("caffarra11b exp2", "pagter15 exp1"))] # removing caffarra11b exp2
+# if we assume the field-sample number is correct we should just rm the studies that are exp chilling ...
+setdiff(paste(fsdatestreats$datasetID, fsdatestreats$study), expchillist)
+# but check the new studies by reviewing the data
+# mainmodel: falusi97 exp2, calme94 exp 1, myking98 exp 1, spiers74 exp2, webb78 exp 2 all look correct)
+# allsp model: pagter15 exp1, biasi12 exp1, cook00b exp1, gianfagna85 exp1, gomory15 exp1, guerriero90 exp3, ramos99 exp1, schnabel87 exp1
+setdiff(setdiff(paste(fsdatestreats$datasetID, fsdatestreats$study), expchillist), union.fs)
+# And overwrite with the better info the expchill #s
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-exp-chill", treat2="NA",
+    n=length(expchillist)))
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill", treat2="NA",
+    n=length(setdiff(paste(fsdatestreats$datasetID, fsdatestreats$study), expchillist))))
+##
+
+## Now get thermo-photoperiodicity
+# Note that I (Lizzie) did NOT go back to the data and check these ...
+moreforcinginfo <- get.treatdists.daynight(bb14d.noNA, "forcetemp", "forcetemp_night")
+forcingvaried <- subset(moreforcinginfo, treatinfo!="forcing does not vary")
+studiesinclconstantforce <- subset(forcingvaried, numconstantforce>0) # some studies have both
+studiesinclforceperiodicity <- subset(forcingvaried, numdiffforce>0) # some studies have both
+# And add this info too!
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-varied-forcing", treat2="NA",
+    n=nrow(forcingvaried)))
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-wsometreats-constant-forcing", treat2="NA",
+    n=nrow(studiesinclconstantforce)))
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-variedwsometreats-varydaynight-forcing", treat2="NA",
+    n=nrow(studiesinclforceperiodicity)))
+# Enough already?
 
 if(mainmodelbb){
 bb <- write.csv(bbintxnsdf, "limitingcues/output/bbstan_mainmodel_countinxns.csv", row.names=FALSE)
