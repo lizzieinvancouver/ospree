@@ -12,6 +12,9 @@ Files used to create figures in the main manuscript
 
 #Figure 3: analyses/bb_analysis/forecasting/forecast_changebb.R (also used for matching 2 D figure in sup and for chill forecast 4-panel figure)
 
+In the text ....
+# Numbers of chilling treatments come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
+
 <><><><><><><><><><>
 Files used to create tables and figures in the supplemental materials
 <><><><><><><><><><>
@@ -29,3 +32,8 @@ Files used to create tables and figures in the supplemental materials
 
 
 #Figure XS: analyses/bb_analysis/forecasting/forecast_changebb_lat.R
+
+In the text ....
+# Numbers of chilling treatments, numbers of studies that tested interactions between cues and thermoperiodicity numbers come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
+
+# What is budburst definitions and numbers come from ospree/analyses/input/whatisbudburst.csv and ospree/data/whatis_budburst.xlsx
