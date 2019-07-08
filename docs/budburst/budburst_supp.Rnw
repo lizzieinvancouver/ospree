@@ -1,3 +1,4 @@
+
 % Straight up stealing preamble from Eli Holmes 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
 \documentclass{article}
@@ -78,7 +79,7 @@ phenology of woody plant species. To identify phenological experiments that mani
 \item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
 \end{enumerate}
 
-% Aliene or someone: Check the paper number here agrees with main text!
+% Ailene or someone: Check the paper number here agrees with main text!
 The initial searches yield 201 papers, which we reviewed and assessed for inclusion in the database using the following criteria: focusing on woody plants in temperate ecosystems, and testing for at least photoperiod or temperature effects on budburst, leafout or 
 flowering. 
 \par While most all studies measured days to budburst, many communicated results differently (e.g. days to budburst, degree-days to budburst, percent budburst,
@@ -142,7 +143,7 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \beta_{photoperiod_{sp}} & \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
 \beta_{chilling{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})\\
 \beta_{latitude{sp}} & \sim N(\mu_{latitude}, \sigma_{latitude})\\
-\beta_{photoperiod x latitude{sp}} & \sim N(\mu_{photoperiod x latitude}, \sigma_{photoperiod x latitude})
+\beta_{photoperiod : latitude{sp}} & \sim N(\mu_{photoperiod : latitude}, \sigma_{photoperiod : latitude})
 \end{align*}
 
 
@@ -193,7 +194,7 @@ For a few taxa, estimates for forcing were positive; these were \emph{Fagus gran
 
 
 \subsection*{Challenges with estimating chilling:} 
-\par Our analyses  highlights how the choice of chill units can affect average model estimates and associated forecasts (Table 2S). In addition, for two taxa groups  (\emph{Salix} complex and \emph{Tilia} complex) estimates for chilling were positive, when using the model fit with chilling estimated in Chill portions.
+\par Our analyses  highlight how the choice of chill units can affect average model estimates and associated forecasts (Table 2S). In addition, for two taxa groups  (\emph{Salix} complex and \emph{Tilia} complex) estimates for chilling were positive, when using the model fit with chilling estimated in Chill portions.
  
 
 \par The paucity of studies directly manipulating chilling---which our results suggest has the greatest effect on budburst---suggests a major gap in current research. While many studies directly manipulated forcing (X out of Y here), far fewer directly manipulated chilling (Z out of Y). 
@@ -304,30 +305,58 @@ print(nonzmod.table, include.rownames=TRUE, hline.after = c(-1,0,9,10),caption.p
 @
 
 
+<<label=xtablelat, echo=FALSE, results=tex>>=
+
+#source("../../analyses/bb_analysis/maketables.forsupp/mod_table_lat.R")
+#or, faster:
+zmodtable<-read.csv("../../analyses/output/supptables/zmodetable_lat.csv", header=TRUE)
+rownames(zmodtable)<-zmodtable$X
+  zmodtable<-zmodtable[,-1]      
+  zmodtable$mean[which(rownames(zmodtable)=="$N_{sp}$")]<-"36"
+colnames(zmodtable) <- c('mean','25%', '75%', '2.5%', '97.5%' )
+
+mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable,", 
+        label="tab:lat",align=c(
+               "|p{0.11\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|"))
+
+print(mod.table, include.rownames=TRUE, hline.after = c(-1,0,13,14),caption.placement="top",size="\\footnotesize",sanitize.rownames.function=identity)
+
+@
+
+
 <<label=xtable1, echo=FALSE, results=tex>>=
-#load models to report estimates, use chill portions
+#load models to report estimates
 library(xtable)
 library(plyr)
 library(dplyr)
 library(rstan)
 wein.table<-read.csv("../../analyses/output/supptables/weinbergertable.csv", header=TRUE)
+rownames(wein.table)<-wein.table$X
+wein.table<-wein.table[,-1]
+colnames(wein.table) <- c('mean','25%', '75%', '2.5%', '97.5%' )
+  wein.table$mean[which(rownames(wein.table)=="$N_{sp}$")]<-"11"
 
-wein.table <- xtable(wein.table, caption="\\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.",
+weintable <- xtable(wein.table, caption="\\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.",
        label="tab:methods",align=c(
-               "p{0.01\\textwidth}|",
-               "p{0.08\\textwidth}|",
-               "p{0.05\\textwidth}|",
-               "p{0.05\\textwidth}|",
-               "p{0.05\\textwidth}|",
-               "p{0.05\\textwidth}|",
-               "p{0.05\\textwidth}|"))
+               "|p{0.18\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|"))
 
-print(wein.table, include.rownames=FALSE, hline.after = c(-1,0),caption.placement="top",size="\\footnotesize")
+print(weintable, include.rownames=TRUE, hline.after = c(-1,0,10,11),caption.placement="top",size="\\footnotesize",sanitize.rownames.function=identity)
 @
 \end{footnotesize} 
 
 Still need: 
 \begin{enumerate}
+
 \item Table 4S: a table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
 % 
 \end{enumerate}
@@ -430,7 +459,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/gddbyutah_pepspp.pdf}
-\caption{GDD (growing degree days) versus chill units at the time of budburst from the OSPREE database for common species in the PEP 725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD  here as the average daily forcing temperature multiplied by days to budburst. }
+\caption{Growing degree days (GDD) versus chill units at the time of budburst from the OSPREE database for common species in the PEP 725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD here as the average daily forcing temperature multiplied by days to budburst. }
 \label{fig:pepgddchill}
 \end{figure}
 \newpage
@@ -438,7 +467,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/fagsyl_3lats.pdf}
-\caption{\textbf{Budburst is affected by climate-change induced shifts in photoperiod, especially at high latitudes}, though effects vary by site and are minor compared to effects of warming. We show forecasted effects of varying levels of warming on \emph{Fagus sylvatica}, the most photoperiod-sensitive species in OSPREE, across three latitudes within its range, as predicted by the OSPREE model. Modify this figure: remove doy, lat text, change CI to 50 percent.}
+\caption{\textbf{Budburst is affected by climate-change induced shifts in photoperiod, especially at high latitudes}, though effects vary by site and are minor compared to effects of warming. We show forecasted effects of varying levels of warming on \emph{Fagus sylvatica}, the most photoperiod-sensitive species in OSPREE, across three latitudes within its range, as predicted by the OSPREE model.}
 \label{fig:fagsyllat}
 \end{figure}
 

@@ -244,7 +244,7 @@ source("source/bb_zscorepreds.R")### need to re zscore things on new data set
           #                   )
 #)
 
-if (use.chillports = FALSE){
+if (use.chillports == FALSE){
   wein.data.utah <- with(bb.stan, 
                        list(y=resp, 
                             chill = chill.z, 
@@ -381,7 +381,7 @@ weintab<-filter(weintab,!predictor %in% rowstoremove)
 weintab<-column_to_rownames(weintab,"predictor")
 row.names(weintab)<-c("$\\mu_{\\alpha}$","$\\beta_{forcing}$","$\\beta_{photoperiod}$",   
                                                  "$\\beta_{chilling}$","$\\sigma_{\\alpha}$",
-                                                 "$\\sigma_{y}$","$\\beta_{weinberger}$","$\\beta_{chilling x weinberger}$","$\\beta_{forcing x weinberger}$","$\\beta_{photoperiod x weinberger}$","$N_{sp}$") 
+                                                 "$\\sigma_{y}$","$\\beta_{chillmethod}$","$\\beta_{chilling : chillmethod}$","$\\beta_{forcing : chillmethod}$","$\\beta_{photoperiod : chillmethod}$","$N_{sp}$") 
 
 write.csv(weintab,"../../analyses/output/supptables/weinbergertable.csv", row.names = TRUE)
 #wein.sum3.ut <- summary(wein.mod.3.ut)$summary
