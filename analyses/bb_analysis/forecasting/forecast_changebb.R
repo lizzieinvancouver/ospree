@@ -33,7 +33,7 @@ if(length(grep("ailene", getwd())>0)) {
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
 
-figpath <- "figures"
+figpath <- "figures/forecasting"
 
 ## set up the flags
 use.chillports = FALSE
@@ -102,7 +102,7 @@ getspest.bb <- function(fit, sprtemp, daylength, chill, warmspring, warmwinter,
 
 #Choose whether or not you want to use our adhoc shift in daylength.
 use.daylengthshift=FALSE
-title = TRUE
+title = FALSE
 
 if(title == TRUE){
   figname<-paste("tempforecastbothspp",min(tempforecast),max(tempforecast),"degwarm_title.pdf", sep="_")}
@@ -119,7 +119,6 @@ if(title==FALSE){par(mar=c(2,2,2,2), oma=c(5,4,2,2), mfrow=c(2,2))}
 #can do this as a loop, but i just want to pick 2 sites for now- max lat and min lat for each species
 for(s in 1:length(sp)){
   #I have now added lots of sites for
-  #s=1#for bet, s=1; for fag, s=2
   numsites<-length(list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__"))
   tempfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="temp_forforecast__")
   chillfiles<-list.files(path=paste("../output/dailyclim/",sp[s],sep=""),pattern="chill_observed_")
@@ -129,8 +128,8 @@ for(s in 1:length(sp)){
   spestsqlo<-c()
   spestsqhi<-c()
   #sites.toplot<-c(1,50)#just plot 2 sites for now- min lat and max lat
-  if(s==2){sites.toplot<-c(1,21)}
-  if(s==1){sites.toplot<-c(38,1)}
+  if(s==2){sites.toplot<-c(50,1)}
+  if(s==1){sites.toplot<-c(1,50)}
 
 
   for (i in sites.toplot){
@@ -144,7 +143,11 @@ for(s in 1:length(sp)){
     sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March 1-April 30 (4 degrees C)
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
-
+  #bet lat 1: 46.8167; lat 50 = 48.3167 = for 3d plot
+    
+    #fag lat 1: 46.7167; lat 50 = 48.7833
+    
+    
     #to get reasonable bb doy, use PEP observations
     pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
     pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
@@ -294,23 +297,29 @@ for(s in 1:length(sp)){
     #mtext(paste("prewarm temp:",round(sprtemp, digits=0),", chill=",round(chillport, digits=0), sep=""), side=1, line=-1, adj=0, cex=.8)
 
     #}
-    if(i==38 & s==1)
+    if(i==50 & s==1)
       {
       legend("topleft",legend=c("Spring warming","Winter warming","Both"),lty=c(1,1,1),lwd=2,col=cols,bty="n", cex=1.2)
-    }
+      }
     if(s==2 & i==1)
     {
       mtext("Days to budburst", side=2,line=2, adj=.5, cex= 1.2, outer=TRUE)
-    }
-    if(i==38 & s==1)
+      mtext("D)", side=3,line=0, adj=0)
+      
+      }
+    if(i==50 & s==1)
     {
       mtext("Amount of warming (°C)", side=1,line=2, adj=.5, cex= 1.2, outer=TRUE)
+      mtext("B)", side=3,line=0, adj=0)
     }
+    if(s==1 & i==1){mtext("A)", side=3,line=0, adj=0)}
+      if(s==2 & i==50){mtext("C)", side=3,line=0, adj=0)}
+        
     if(use.daylengthshift==TRUE)
       {
       legend("topright",legend=c("Spring warming","Winter warming","Both","with daylength shifts"),lty=c(1,1,1,2),lwd=2,col=cols,bty="n", cex=0.8)
       }
-    
+        
     # intervals
     # for(i in 3:5){
     #   lines(predicts.25per$warming, predicts.25per[,i-1],
