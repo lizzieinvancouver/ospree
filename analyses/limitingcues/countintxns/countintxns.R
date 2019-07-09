@@ -15,7 +15,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 } else setwd("~/Documents/git/ospree/analyses")
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
-source("misc/gettreatdists.R") # f(x) counts up treatment interactions, and more!
+source("misc/gettreatdists.R") # f(x) counts up treaNAtment interactions, and more!
 
 ###################
 # All OSPREE data #
@@ -65,6 +65,9 @@ datsm14d <- datsm[which(datsm$selectcolumn %in% uniquedates.df$selectcolumn),]
 dim(datsm)
 dim(datsm14d) # not such a huge loss of rows
 
+# Check we don't lose any datasets!
+setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datasetID, datsm14d$study)))
+
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
 # Repeat of the above but correcting for field sampling date repetition
@@ -95,7 +98,7 @@ length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 mainmodelbb <- TRUE # set to FALSE for larger species set
 
 if(mainmodelbb){
-bb <- read.csv("output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", header=TRUE)
+bb <- read.csv("output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", header=TRUE) # 30 datasetIDs or 42...
 }
 if(!mainmodelbb){
 bb <- read.csv("output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", header=TRUE)
@@ -118,13 +121,19 @@ bb.ddatefx$datasetIDstudy <- paste(bb.ddatefx$datasetID, bb.ddatefx$study)
 # First get the unique dates in a df
 bb.dates2weeks.count <- countfieldsample(bb.ddatefx, 14)
 bb.uniquedates.df <- fieldsample.getuniquedates(bb.ddatefx, 14)
-bb.uniquedates.df$selectcolumn <- paste(bb.uniquedates.df$datasetIDstudy, bb.uniquedates.df$date)
 # Now (not pretty part) we'll take all NA dates ...
-bb$selectcolumn <- paste(bb$datasetID, bb$study, bb$fieldsample.date)
-bb14d <- bb[which(bb$selectcolumn %in% uniquedates.df$selectcolumn),]
+# Note that for some reason we don't have to do thee gymnastics above
+bbselectNA <- subset(bb.uniquedates.df, is.na(date)==TRUE)
+bb$fieldsample.date.merge <- bb$fieldsample.date
+bb$fieldsample.date.merge[paste(bb$datasetID, bb$study) %in% unique(bbselectNA$datasetIDstudy)] <- NA
+bb$selectcolumn <- paste(bb$datasetID, bb$study, bb$fieldsample.date.merge)
+bb.uniquedates.df$selectcolumn <- paste(bb.uniquedates.df$datasetIDstudy, bb.uniquedates.df$date)
+bb14d <- bb[which(bb$selectcolumn %in% unique(bb.uniquedates.df$selectcolumn)),]
+# Check we don't lose any datasets!
+setdiff(unique(paste(bb$datasetID, bb$study)), unique(paste(bb14d$datasetID, bb14d$study)))
 
 dim(bb)
-dim(bb14d) # this makes a big difference
+dim(bb14d) # this loses ~200 rows
 
 bb14d.noNA <- subset(bb14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
@@ -182,6 +191,10 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="fieldsample.date", treat2="ph
 length(unique(paste(bb14d$datasetID, bb14d$study))) # MM: 38; FM: 66 studies
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-datasetIDstudies", treat2="NA",
     n=length(unique(paste(bb14d$datasetID, bb14d$study))) ))
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-datasetIDs", treat2="NA",
+    n=length(unique(bb14d$datasetID))))
+bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-species", treat2="NA",
+    n=length(unique(paste(bb14d$genus, bb14d$species))) ))
 
 
 # Now, which studies manipulate chill (and interact it with photo or force)?
@@ -265,9 +278,10 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-variedwsometreats-varyd
 # Enough already?
 
 if(mainmodelbb){
-bb <- write.csv(bbintxnsdf, "limitingcues/output/bbstan_mainmodel_countinxns.csv", row.names=FALSE)
+write.csv(bbintxnsdf, "limitingcues/output/bbstan_mainmodel_countinxns.csv", row.names=FALSE)
 }
 
 if(!mainmodelbb){
-bb <- write.csv(bbintxnsdf, "limitingcues/output/bbstan_allsppmodel_countinxns.csv", row.names=FALSE)
+write.csv(bbintxnsdf, "limitingcues/output/bbstan_allsppmodel_countinxns.csv", row.names=FALSE)
 }
+
