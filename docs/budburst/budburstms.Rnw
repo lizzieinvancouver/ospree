@@ -52,32 +52,37 @@
 \title{Chilling dominates spring phenological responses to warming} 
 %or Winter temperatures dominate spring phenological responses to warming
 
-\author[1,2,a]{A.K. Ettinger}
+\author[1,a]{A.K. Ettinger}
 
-\author[3]{C. Chamberlain}
+\author[2]{C. Chamberlain}
 
-\author[3,4]{I. Morales-Castilla}
+\author[2,3]{I. Morales-Castilla}
 
-\author[3]{D. Buonaiuto}
+\author[2]{D. Buonaiuto}
 
-\author[3,5]{D. F. B. Flynn}
+\author[2,4]{D. F. B. Flynn}
 
-\author[6]{J. Samaha}
+\author[2,5]{J. Samaha}
 
-\author[1,3,6]{E. M. Wolkovich}
+\author[2,6]{T. Savas}
+
+\author[1,2,5]{E. M. Wolkovich}
 
 
 \affil[1]{Arnold Arboretum of Harvard University, Boston, Massachusetts 02131, USA}
 
-\affil[2]{Northwest Fisheries Science Center, National Oceanographic and Atmospheric Association, Seattle, USA}
+%\affil[2]{Northwest Fisheries Science Center, National Oceanographic and Atmospheric Association, Seattle, Washington USA}
 
-\affil[3]{Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, Massachusetts 02138, USA}
+\affil[2]{Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, Massachusetts, USA}
 
-\affil[4]{Department of Life Sciences, University of Alcal\`a CTRA N-II, KM., 33,600, 28802, Alcal\`a de Henares, Spain}
+\affil[3]{Department of Life Sciences, University of Alcal\`a CTRA N-II, KM., 33,600, 28802, Alcal\`a de Henares, Spain}
 
-\affil[5]{Dan Flynn}
+\affil[4]{U.S. DOT Volpe National Transportation Systems Center, Cambridge, Massachusetts, USA}
 
-\affil[6]{Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, Vancouver, BC, Canada}
+
+\affil[5]{Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, Vancouver, British Columbia, Canada}
+
+\affil[6]{Media Lab Open Agriculture Initiative, Massachusetts Institute of Technology, Cambridge, Massachusetts, USA}
 
 \affil[a]{Corresponding author; email: ailene.ettinger@noaa.gov; phone: 781-296-4821; mailing address: 2725 Montlake Blvd. E, Seattle, Washington 98112 USA }
 
@@ -250,7 +255,7 @@ forceminbb<-round(spests$sprT.forecast[which(spests$bb.sprtemp.7==min(spests[,6:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecastbothspp_1_7_degwarm_3D_utah.png}
-\caption{\textbf{Implications of warming on budburst timing varies across species and sites}, depending strongly on pre-warming climate conditions related to chilling for each site. Here we show species-level estimates from our model (see Fig. 1) for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D), for sites that highlight the diversity of possible budburst responses to warming (see Fig. SX, which shows general trends across many sites in Central Europe). In some sites warming increases chilling (A, C) leading to greater advances in budburst (compared to forcing alone), whereas warming decreases chilling in other sites (B and D), leading to smaller advances, and eventually, delays with substantial warming. See Supplemental Materials, especially Fig. SX, for XX details.}
+\caption{\textbf{Implications of warming on budburst timing varies across species and sites}, depending strongly on pre-warming climate conditions related to chilling for each site. Here we show species-level estimates from our model (see Fig. 1) for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D), for sites that highlight the diversity of possible budburst responses to warming (see Fig. SX, which shows general trends across many sites in Central Europe). In some sites, warming increases total chilling estimates (A, C) leading to greater advances in budburst (compared to forcing alone), whereas warming decreases total chilling estimates in other sites (B and D), leading to smaller advances, and eventually, delays with substantial warming. See Supplemental Materials, especially Fig. SX, for XX details.}
 % Need to ref Nacho's nice map here!
 \label{fig:fore}
 \end{figure}
