@@ -15,7 +15,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 } else setwd("~/Documents/git/ospree/analyses")
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
-source("misc/gettreatdists.R") # f(x) counts up treaNAtment interactions, and more!
+source("misc/gettreatdists.R") # f(x) counts up treatment interactions, and more!
 
 ###################
 # All OSPREE data #
@@ -98,7 +98,7 @@ length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 mainmodelbb <- TRUE # set to FALSE for larger species set
 
 if(mainmodelbb){
-bb <- read.csv("output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", header=TRUE) # 30 datasetIDs or 42...
+bb <- read.csv("output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", header=TRUE) 
 }
 if(!mainmodelbb){
 bb <- read.csv("output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", header=TRUE)
@@ -143,6 +143,7 @@ bb14d.noNA <- subset(bb14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 bbintxnsdf <- data.frame(treat1=character(), treat2=character(), n=numeric())
 
 # Repeat of the what we did above for all OSPREE data correcting for field sampling date repetition
+# Note that the notes on numbers may not be all updated
 
 # Simple one-by-one interactions
 bb14d.fp <- get.treatdists(bb14d.noNA, "photo", "force")
@@ -172,7 +173,7 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="chilltemp", treat2="photo",
 
 bb14d.cdp <- get.treatdists(bb14d.noNA, "chilldays", "photo")
 bb14d.cdpintxn <- subset(bb14d.cdp, intxn>=2)  
-length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 6 studies (includes myking95  exp1)
+length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 7 studies (includes myking95  exp1)
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="chilldays", treat2="photo",
     n=length(unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study)))))
 
@@ -184,11 +185,11 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="fieldsample.date", treat2="fo
 
 bb14d.daysp <- get.treatdists(bb14d.noNA, "fieldsample.date", "photo")
 bb14d.dayspintxn <- subset(bb14d.daysp, intxn>=2) 
-length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 9 studies; FM: 10
+length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 10 studies; FM: 10
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="fieldsample.date", treat2="photo",
     n=length(unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study)))))
 
-length(unique(paste(bb14d$datasetID, bb14d$study))) # MM: 38; FM: 66 studies
+length(unique(paste(bb14d$datasetID, bb14d$study))) # MM: 42; FM: 66 studies
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-datasetIDstudies", treat2="NA",
     n=length(unique(paste(bb14d$datasetID, bb14d$study))) ))
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-datasetIDs", treat2="NA",
@@ -202,11 +203,11 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-species", treat2="NA",
 union.expchill1 <- union(unique(paste(bb14d.ctfintxn$datasetID, bb14d.ctfintxn$study)),
     unique(paste(bb14d.cdfintxn$datasetID, bb14d.cdfintxn$study)))
 union.expchill2 <- union(union.expchill1, unique(paste(bb14d.ctpintxn$datasetID, bb14d.ctpintxn$study)))
-union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 8 unique studies
+union.expchill3 <- union(union.expchill2, unique(paste(bb14d.cdpintxn$datasetID, bb14d.cdpintxn$study))) # MM and FM: 9 unique studies
 
 # Which manipulate field-sample dates (and interact it with photo or force)? 
 union.fs <- union(unique(paste(bb14d.daysfintxn$datasetID, bb14d.daysfintxn$study)),
-    unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 11 unique studies; FM: 13
+    unique(paste(bb14d.dayspintxn$datasetID, bb14d.dayspintxn$study))) # MM: 12 unique studies; FM: 13
 
 ## Okay, now dig into what the above identified as manipulating chilling but we called 'field-estimated'
 checkme.expchill <- bb14d[which(paste(bb14d$datasetID, bb14d$study) %in% union.expchill3),]
@@ -214,12 +215,13 @@ checkme.expchill.fldchill <- subset(checkme.expchill, chill_type=="fldest")
 checkme.expchill.exp <- subset(checkme.expchill, chill_type=="exp" | chill_type=="bothest")
 unique(paste(checkme.expchill.fldchill$datasetID, checkme.expchill.fldchill$study)) # field-chill studies
 sort(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study))) # 6 studies manipulate chilling
-# caffarra11b exp2 and basler14 exp1 show up as both exp chill and field sample dates ... need to check paper on "partanen98 exp1"
+# caffarra11b exp2, basler14 exp1, laube14a exp1 show up as both exp chill and field sample dates ... (partanen98 exp1 is fldest only)
 
 ## did manipulate chilling (based on checking the data):
 # checkdat <- subset(bb, datasetID=="caffarra11b" & study=="exp2")
 # caffarra11a exp3, myking95 exp1, worrall67 exp 3, "skuterud94 exp1", campbell75 exp3
 # caffarra11b exp2 DID NOT alter chill (the 'bothest' is for no chilling only)
+# laube14a exp1 DID NOT alter chill (state clearly in the paper chilling is based on time in field)
 # Add this info below, subtract 1 for caffarra11b exp2 ... see below for final #s
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-exp-chill-fpintxns", treat2="NA",
     n=length(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study)))-1))
@@ -232,13 +234,11 @@ sort(union.fs)
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill-fpintxns", treat2="NA",
     n=length(union.fs)))
 
-# So, for the FM I think 13 studies did Weinberger and 6 (including caffarra11b exp 2) did what got flagged as experimental chilling ... caffarra11b exp 2 overlaps between these two groups but I think counts as Weinberger. So ... 5 exp and 13 Weinberger ...
-
 ## The above is all about interactive treatments ... let's now check against single treatments
 forcetreats <- get.treatdists.singletreatment(bb14d.noNA, "force")
 phototreats <- get.treatdists.singletreatment(bb14d.noNA, "photo")
 # new and I can confirm it is a chilling treatment (from checkdat)
-# mainmodel: Li05 
+# mainmodel: Li05, thielges75 exp1 (from above: caffarra11a exp3, myking95 exp1, worrall67 exp 3, skuterud94 exp1, campbell75 exp3)
 # allsppmodel: chavarria09 exp1, jones12 exp1 and exp2, sonsteby14 exp2 and exp3
 # pagter15 exp1 is ambient warming (not exp chill)
 chilltemptreats <- get.treatdists.singletreatment(bb14d.noNA, "chilltemp")
@@ -248,7 +248,8 @@ sort(union(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$stu
    chilltemptreats$study)))
 expchillist <- union(unique(paste(checkme.expchill.exp$datasetID, checkme.expchill.exp$study)), paste(chilltemptreats$datasetID,
    chilltemptreats$study))
-expchillist <- expchillist[which(!expchillist %in% c("caffarra11b exp2", "pagter15 exp1"))] # removing caffarra11b exp2
+expchillist <- expchillist[which(!expchillist %in% c("caffarra11b exp2", "pagter15 exp1", "laube14a exp1"))]
+# removing caffarra11b exp2, laube14a exp1, pagter15 exp1
 # if we assume the field-sample number is correct we should just rm the studies that are exp chilling ...
 setdiff(paste(fsdatestreats$datasetID, fsdatestreats$study), expchillist)
 # but check the new studies by reviewing the data
@@ -260,7 +261,7 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-exp-chill", treat2="NA"
     n=length(expchillist)))
 bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill", treat2="NA",
     n=length(setdiff(paste(fsdatestreats$datasetID, fsdatestreats$study), expchillist))))
-##
+## Done with single treatments
 
 ## Now get thermo-photoperiodicity
 # Note that I (Lizzie) did NOT go back to the data and check these ...
