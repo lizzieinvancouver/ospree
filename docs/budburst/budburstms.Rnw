@@ -50,6 +50,7 @@
 \bibliographystyle{..//..//refs/bibstyles/amnat.bst}% 
 
 \title{Chilling dominates spring phenological responses to warming} 
+%or Winter temperatures dominate spring phenological responses to warming
 
 \author[1,2,a]{A.K. Ettinger}
 
@@ -222,7 +223,7 @@ We thank the many researchers who conducted the experiments synthesized in this 
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotmodelspcompexprampfputah_z.pdf}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/muplotspcompexprampfputah_z.pdf}
 \caption{\textbf{Estimated effects of chilling, forcing, and photoperiod on budburst timing across \Sexpr{nexp_mod} controlled environment studies.} Using standardized units, which  allow comparisons across cues, we show that most species (smaller symbols) are responsive to most cues, with chilling being the strongest cue when considering overall estimates across species (larger, dark blue circles). Overall estimates shown here were generally similar to other model formulations, including using data from \Sexpr{nsp} taxa, and using different methods to calculating chilling (see XX tables and figs in supp). Lines represent 50\% uncertainty intervals (other intervals provided in Table 2S)}.
 \label{fig:mu}
 \end{figure}

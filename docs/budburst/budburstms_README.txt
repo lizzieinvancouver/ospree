@@ -10,7 +10,7 @@ Files used to create figures in the main manuscript
 
 #Figure 2: analyses/bb_analysis/models_stan_plotting_mu_ests_chilling.R
 
-#Figure 3: analyses/bb_analysis/forecasting/forecast_changebb.R (also used for matching 2 D figure in sup and for chill forecast 4-panel figure)
+#Figure 3: analyses/bb_analysis/forecasting/forecast_changebb.R (also used for matching 2D figure in supp and for chill forecast 4-panel figure in sup)
 
 In the text ....
 # Numbers of chilling treatments come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R

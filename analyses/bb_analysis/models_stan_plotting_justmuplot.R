@@ -145,5 +145,5 @@ my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
-muplotfx(modelhere, "model", 7, 8, c(0,3), xlim , 12, 3)
+muplotfx(modelhere, "", 7, 8, c(0,3), xlim , 12, 3)
 
