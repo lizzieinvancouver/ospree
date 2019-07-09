@@ -371,7 +371,7 @@ print(weintable, include.rownames=TRUE, hline.after = c(-1,0,10,11),caption.plac
 Still need: 
 \begin{enumerate}
 
-\item A table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
+\item A table that goes with Figure 3 (the 4-paneled 3D forecasting figure) that includes the mean, min, max budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
 \item The count interactions table?
 % 
 \end{enumerate}

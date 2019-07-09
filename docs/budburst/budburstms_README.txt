@@ -24,14 +24,15 @@ Files used to create tables and figures in the supplemental materials
 
 #Table 2S: analyses/bb_analysis/maketables.forsupp/mod_table.R
 
-#Table 3S: analyses/bb_analysis/maketables.forsupp/mod_table_lat.R
+#Table 3S: analyses/bb_analysis/maketables.forsupp/mod_table.R
 
-#Table 4S: analyses/bb_analysis/maketables.forsupp/  #weinberger table code should go here!
+#Table 4S: analyses/bb_analysis/maketables.forsupp/mod_table_lat.R
 
-
+#Table 5S: analyses/bb_analysis/weinberger.R
 
 
 #Figure XS: analyses/bb_analysis/forecasting/forecast_changebb_lat.R
+#Figure XS: analyses/bb_analysis/weinberger.R
 
 In the text ....
 # Numbers of chilling treatments, numbers of studies that tested interactions between cues and thermoperiodicity numbers come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
