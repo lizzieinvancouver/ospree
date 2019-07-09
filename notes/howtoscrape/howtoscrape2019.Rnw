@@ -28,7 +28,7 @@ You'll need:
 \item Excel or other program that makes .xls  or .csv files
 \item ImageJ download for free from here \url{https://imagej.net/Welcome}. You'll also need to add the Figure\textunderscore Calibration.class, which will help for giving x and y calibrations to images. 
 \begin{enumerate}
-\item To add the the Figure\textunderscore Calibration.class: In ImageJ go to plugins, navigate to the Figure\textunderscore Calibration.class, click on it and follow through a few clicks to add the plugin.
+\item To add the the Figure\textunderscore Calibration.class: In ImageJ go to plugins, select \textit{add plug in}, then navigate to the Figure\textunderscore Calibration.class file that you downloaded on your computer, click on it and follow through a few clicks to add the plugin.
 \item If you have some trouble getting the measurements to show up after calibrating, try switching to the pointer and clicking. You might need to set the preferences on your pointer tool to auto-measure.
 \begin{enumerate}
 \item A clarification on above from Tim Savas (original OPSREE lead data enterer): \textit{After doing the figure calibration and selecting the yellow pointer tool, you start clicking inside the figure but no points appear. The reason for this is that the "rectangle" you drew for the figure calibration is still masking the figure, and until you click out of it, you can't draw points under it. It's hard to see! So to get rid of the invisible rectangle, just click the mouse once outside of its edge. Side note: After drawing all of your points onto a figure, you can press Command-M to bring up the resulting table of values. I do this in the video tutorial, and whenever I scrape, but didn't describe the key command!}
