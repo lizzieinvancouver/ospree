@@ -15,10 +15,7 @@
 \usepackage{amsmath}
 \usepackage{longtable}
 \usepackage{xr}
-%\usepackage{zref-xr}
-%\zxrsetup{toltxlabel=true, tozreflabel=false}
-%\zexternaldocument*{winefuture}
-%\usepackage[backend=bibtex]{biblatex}
+
 %Strongly recommended
   %put your figures in one place
 %\SweaveOpts{prefix.string=figures/, eps=FALSE} 
