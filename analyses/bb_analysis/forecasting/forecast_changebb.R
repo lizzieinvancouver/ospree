@@ -23,7 +23,7 @@ library(ggplot2)
 library(gridExtra)
 library(geosphere)
 library(rgl)
-detach("package:chillR", unload=TRUE)
+#detach("package:chillR", unload=TRUE)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd())>0)) { 
   setwd("~/Documents/Github/ospree/analyses/bb_analysis")
@@ -138,8 +138,8 @@ for(s in 1:length(sp)){
     chillall<-read.csv(paste(spdir,"/",chillfiles[i],sep=""), header=TRUE)
     tempall<-read.csv(paste(spdir,"/",tempfiles[i],sep=""), header=TRUE)
     #because we want a "pre-warming estimate" only use years before 1980 for temeperature (to match bb)
-    tempall<-tempall[tempall$Year<1980,]
-    chillall<-chillall[chillall$End_year<1980,]
+    tempall<-tempall[tempall$Year<1961,]
+    chillall<-chillall[chillall$End_year<1961,]
     sprtemp <- mean(tempall$Tmean[tempall$Month>2 & tempall$Month<5])#March 1-April 30 (4 degrees C)
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
@@ -150,7 +150,7 @@ for(s in 1:length(sp)){
     
     #to get reasonable bb doy, use PEP observations
     pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
-    pepdat<-pepdat[pepdat$YEAR<1980,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
+    pepdat<-pepdat[pepdat$YEAR<1961,]#restrict to pre-1980 to get "prewarming" bbdoy estimates
     pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
     budburstdoy<-as.integer(mean(pepdat$DAY))
     #March 1#change this to the bbdoy observed in pep!
@@ -405,7 +405,7 @@ for(s in 1:length(sp)){
 
 
   #c=1
-
+print(lat)
   for (c in 1:length(temps)){#c=chilling
     print(temps[c]);
     if(c==1){chillests<-chillall}
@@ -479,13 +479,6 @@ axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 #axes3d(edges=c("x--", "y+-", "z--"), box=TRUE)
 surface3d(x,y, z,
           col=col, back = "lines")
-#Make plots of changes in chilling estimates with warming
-
-plot(allforecast$warming_C,allforecast$chill.forecast*240, type = "l", xlab="Warming (C)",ylab="Estimated chilling (Utah)", lwd=2, col="darkblue")
-mtext(expression(~degree*C), side=1, line=-1, adj =.35, cex=0.8)
-wint<-round(allforecast$winT.forecast[1], digits=1)
-mtext(paste("Temp =",wint), side=1, line=-1, adj =.05, cex=.8)
-
   }#i
 }#s
 
@@ -494,7 +487,9 @@ rgl.snapshot("figures/forecasting/tempforecastbothspp_1_7_degwarm_3D_utah.png")}
 if(use.chillports==FALSE){
 rgl.postscript("figures/forecasting/tempforecastbothspp_1_7_degwarm_3D_utah.pdf", "pdf")}
 
-quartz()
+#Make figure of changes in chilling for these 4 sites
+chillfigname<-"chillforecastbothspp_1_7_degwarm.pdf"
+pdf(file.path(figpath,chillfigname), width = 9, height = 6)
 par(mfrow=c(2,2))
 for(s in 1:length(sp)){
   
@@ -516,24 +511,22 @@ for(s in 1:length(sp)){
     #extract the lat/long from the file name...argh!
     lat<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][1])
     long<-as.numeric(strsplit(substr(chillfiles[i],16,nchar(chillfiles[i])-14),"_")[[1]][2])
-    
-    
-    #   #to get reasonable bb doy, use PEP observations
-    pepdat<-read.csv(paste("../limitingcues/input/PEP_",sp[s],".csv",sep=""), header=TRUE)
-    pepdat<-pepdat[pepdat$YEAR<1961,]#restrict to pre-1961 to get "prewarming" bbdoy estimates
-    pepdat<-pepdat[pepdat$LAT==lat & pepdat$LON==long,]#get lat/long for which we're getting climate
-    budburstdoy<-as.integer(mean(pepdat$DAY))              
-    daylengthbbdoy <- daylength(lat, budburstdoy)#$Daylength
-    chillport <- mean(chillall$Chill_portions)
+   chillport <- mean(chillall$Chill_portions)
     chill <- mean(chillall$Utah_Model)/240
     #   
     temps<-c(0,tempforecast)
     #make blank dataframes to fill with estimates without adhoc adjustments for daylength, for all combinations of chilling and forcing at different warming levels
+    # 
     chill.forecast<-rep(NA, times=8)
+    sprT.forecast<-rep(NA,times=8)
     winT.forecast<-rep(NA,times=8)
+    #Fill matrix row by row
     
+    
+    #c=1
+    print(lat); print(long)
     for (c in 1:length(temps)){#c=chilling
-      print(temps[c]);
+      #print(temps[c]);
       if(c==1){chillests<-chillall}
       if (c>1){chillforfilename<-paste(spdir,"/","chillforecast",tempforecast[c-1],"deg_",lat,"_",long,"_1951_2014.csv",sep="")
       chillfor<-read.csv(chillforfilename, header=TRUE)
@@ -543,10 +536,44 @@ for(s in 1:length(sp)){
       if(use.chillports==FALSE){chill.forecast[c]<-mean(chillests$Utah_Model)/240}
       winT.forecast[c]<-mean(chillests$mntemp)
       
+      for(f in 1:length(temps)){#forcing/spring temp
+        if(f==1){sprtemp<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])
+        sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])}
+        if(f>1) {sprtemp <-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]
+        sprT.forecast[f]<-mean(tempall$Tmean[tempall$Month>2 & tempall$Month<6])+tempforecast[f-1]}
+         #print(sprtemp);print(mean(chillests$Utah_Model)/240)
+              }#f
     }#c
     
-    colnames(z.matrix.dl)<-paste("bb.sprtemp",temps, sep=".")
-    rownames(z.matrix.dl)<-paste("bb.wintemp",temps, sep=".")
-    allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast,z.matrix.dl)
+    allforecast<-cbind(temps,sprT.forecast,winT.forecast,chill.forecast)
     colnames(allforecast)[1]<-"warming_C"
+     allforecast<-as.data.frame(allforecast)
+    #to avoid running the above code
+    # if(use.chillports==TRUE){
+    #   allforecast<-read.csv(paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_cp.csv",sep=""), header=TRUE)}
+    # if(use.chillports==FALSE){
+    #   allforecast<-read.csv(paste("..//output/bbmodests",sp[s],lat,long,"_for3dplot_utah.csv", sep=""),header=TRUE)}
     
+    x=temps
+    y=temps
+   
+    #Make plots of changes in chilling estimates with warming
+    
+    plot(allforecast$warming_C,allforecast$chill.forecast*240, type = "l", xlab="Amount of warming (°C)",ylab="Total chilling (Utah)", lwd=2, col="darkblue")
+    wint<-round(allforecast$winT.forecast[1], digits=2)
+    mtext(paste("Winter temp =",wint,"°C"), side=1, line=-1, adj =.05, cex=.8)
+    if(s==2 & i==1)
+    {
+      mtext("D)", side=3,line=0, adj=0)
+      
+    }
+    if(i==50 & s==1)
+    {
+      mtext("B)", side=3,line=0, adj=0)
+    }
+    if(s==1 & i==1){mtext("A)", side=3,line=0, adj=0)}
+    if(s==2 & i==50){mtext("C)", side=3,line=0, adj=0)}
+    
+  }#i
+  }#s
+dev.off()
