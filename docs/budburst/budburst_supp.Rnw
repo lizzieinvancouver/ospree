@@ -14,6 +14,8 @@
 \usepackage{gensymb}
 \usepackage{amsmath}
 \usepackage{longtable}
+%\usepackage{xr}
+
 %\usepackage[backend=bibtex]{biblatex}
 %Strongly recommended
   %put your figures in one place
@@ -84,10 +86,10 @@ intxns.all<-read.csv("..//..//analyses/limitingcues/output/bbstan_allsppmodel_co
 npape<-intxns.all$n[intxns.all$treat1=="total-datasetIDs"]
 nsp<-intxns.all$n[intxns.all$treat1=="total-species"]
 nst<-intxns.all$n[intxns.all$treat1=="total-datasetIDstudies"]#
-npape_mod<-intxns$n[intxns$treat1=="total-datasetIDs"]
+npape<-intxns.all$n[intxns.all$treat1=="total-datasetIDs"]
 nsp_mod<-intxns$n[intxns$treat1=="total-species"]
 nst_mod<-intxns$n[intxns$treat1=="total-datasetIDstudies"]
-npape_mod<-30
+npape_mod<-intxns$n[intxns$treat1=="total-datasetIDs"]
 d<-read.csv("..//..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 minchill<-min(d$Total_Utah_Model, na.rm=TRUE)
 maxchill<-max(d$Total_Utah_Model, na.rm=TRUE)
@@ -448,7 +450,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecastbothspp_1_7_degwarm.pdf}
-\caption{\textbf{Implications of warming on budburst timing varies across species and sites}, depending strongly on pre-warming climate conditions related to chilling for each site. Here we show species-level estimates from our model (see Fig. 1 in the main text) for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D). We compare estimates of budburst assuming varying levels of winter warming (i.e., affecting chilling, Fig. \ref{fig:chillfore}), with forcing kept at the mean pre-warming level, to estimates assuming varying levels of spring warming (i.e. forcing) with chilling kept at mean pre-warming levels, to estimates with winter and spring warming occurring simultaneously. For sites in A (lat, lon) and C (lat, lon) chilling increases with warming, leading to greater advances in budburst (compared to forcing alone). For the sites in B (lat,lon) and C (lat,lon), on the other hand, warming decreases chilling, leading to smaller advances, and eventually, delays with substantial warming. Compare  this to Fig. 3 in the main text, which shows all possible combinations of winter and spring warming in a three-dimensional diagram.}
+\caption{\textbf{Implications of warming on budburst timing varies across species and sites}, depending strongly on pre-warming climate conditions related to chilling for each site. Here we show species-level estimates from our model (see Fig. 1 in the main text) for the two most common species in the OSPREE database: \emph{Betula pendula} (A,B) and \emph{Fagus sylvatica} (C,D). We compare estimates of budburst assuming varying levels of winter warming (i.e., affecting chilling, Fig. \ref{fig:chillfore}), with forcing kept at the mean pre-warming level, to estimates assuming varying levels of spring warming (i.e. forcing) with chilling kept at mean pre-warming levels, to estimates with winter and spring warming occurring simultaneously. For sites in A (lat, lon) and C (lat, lon) chilling decreases with warming, leading to greater advances in budburst (compared to forcing alone). For the sites in B (lat,lon) and D (lat,lon), on the other hand, warming increases chilling, leading to smaller advances, and eventually, delays with substantial warming.  Compare  this to Fig. 3 in the main text, which shows all possible combinations of winter and spring warming in a three-dimensional diagram.AILENE WILL ADD LAT/LONGS AND SWITCH THE ORDER OF THESE SO THAT THEY MATCH FIG 3 and  Fig S9.}
 \label{fig:betpenfagsyl}
 \end{figure}
 
@@ -456,7 +458,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/chillforecast_bothspp_PEP_utah.pdf}
-\caption{\textbf{Implications of global warming on chilling vary by site}, depending on pre-warming climate. For sites in A (lat, lon) and D (lat, lon), chilling increases with warming, whereas chilling decreases with warming for the sites in B (lat,lon) and C (lat,lon). Compare to Fig. \ref{fig:betpenfagsyl} and Fig. 3 in the main text.}
+\caption{\textbf{Implications of global warming on chilling vary by site}, depending on pre-warming climate. For sites in A (lat, lon) and D (lat, lon), chilling increases with warming, whereas chilling decreases with warming for the sites in B (lat,lon) and C (lat,lon). Compare to Fig. \ref{fig:betpenfagsyl} and Fig. 3 in the main text. AILENE WILL ADD "A)", etc, LAT/LONGS}
 \label{fig:chillfore}
 \end{figure}
 
