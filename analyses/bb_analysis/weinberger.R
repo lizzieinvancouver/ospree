@@ -324,7 +324,7 @@ colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals
 par(mfrow=c(1,1))
 par(mar=c(4,4, 3,1))
 ##or
-jpeg("../figures/weinberger_MU_4supp.jpeg")
+pdf("../figures/weinberger_MU_4supp.pdf")
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pal <- my.pal[c(2,4,9,10,15,16,19,20,25,31,37)]
