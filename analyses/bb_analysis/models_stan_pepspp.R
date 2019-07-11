@@ -41,7 +41,7 @@ datalist.bb <- with(bb.stan,
 ##################################
 ## PLOTTING For PEP 725 species ##
 ##################################
-# As of 26 May 2019 this runs if you first run models_stan.R through
+# As of 11 July 2019 this runs if you first run models_stan.R through
 # to after this: source("source/bbstanleadin.R") ##
 # This code could easily be added to another file for the budburst ms if needed! ##
 
@@ -56,34 +56,34 @@ pepspp <- c("Acer_pseudoplatanus", "Aesculus_hippocastanum", "Betula_pendula", "
 somespp <-  allspp[which(allspp$complex.wname %in% pepspp),]
 somespp$complex <- NULL
 somespp$complex <- seq(1:nrow(somespp))
-# Currently we use bb.stan.expphoto
-bb.stan <- bb.stan.expphoto 
+
 bb.stan <- bb.stan[which(bb.stan$complex.wname %in% pepspp),] 
 bb.stan$complex <- NULL
 dim(bb.stan)
 bb.stan <- merge(bb.stan, somespp, by="complex.wname")
 dim(bb.stan)
-## END below copied from models_stan.R
    
 bb.stan$quickgdd <- bb.stan$force*bb.stan$resp
 bb.stan$utah <- bb.stan$chill*240
+bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species)
 
 ## GDD by chill unit plots, a few options
 pdf(file.path("figures/gddbyutah_pepspp.pdf"), width = 7, height = 5)
-ggplot(bb.stan, aes(utah, quickgdd, color=complex.wname)) +
+ggplot(bb.stan, aes(utah, quickgdd, color=latbi)) +
     geom_point() +
     xlim(-10, 3300) +
     ylim(-55, 4500) +
-    labs(x="Utah chill units", y="GDD", colour="Species") +
+    labs(x="Chilling (Utah units)", y="Growing degree days (GDD)", colour="Species") +
     geom_segment(y=-50, x=6.7*240, yend=-50, xend=12.5*240, col="black") + 
-    theme_classic()
+    theme_classic() +
+    theme(legend.text = element_text(face = "italic"))
 dev.off()
 
 ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
     geom_point() +
     xlim(-1, 15) +
     # geom_segment(y=-15, x=4.95, yend=-15, xend=14.70, col="black") + # these numbers come from comparetopepsims.R: range(bp$chillutah)/240
-    geom_segment(y=-15, x=6.7, yend=-15, xend=12.5, col="black") + # these numbers come from comparetopepsims.R: quantile(bp$chillutah, c(0.1, 0.9))/240
+    geom_segment(y=-15, x=6.7, yend=-15, xend=12.5, col="black") + # these numbers come from comparetopepsims.R: quantile(bp$chillutah, c(0.1, 0.9))/240 (accurate as of 11 Jul 2019)
     theme_classic()
 
 ggplot(bb.stan, aes(chill, quickgdd, color=complex.wname)) +
