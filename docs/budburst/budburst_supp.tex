@@ -97,20 +97,20 @@ Chilling was reported far less in the OSPREE database than forcing and photoperi
 \par{\emph{Estimating forcing \& photoperiod}}
 
 %Lizzie,Cat,Dan: Please read this and check that it makes sense and is accurate!
-Our studies included a diversity of designs for applying forcing and/or photoperiod experimentally, including studies that imposed constant forcing temperatures and forcing temperatures that varied between day and night.  Additionally several studies applied forcing or photoperiod using a ``ramped" design, such that treatments increased or decreased gradually over time throughout the duration of the application. For all studies we used the daylength of light as our photoperiod estimate (e.g., a study with 8 hours of light and 16 hours of dark was recorded as `8'). For forcing, we used the temperature applied when forcing temperatures were constant (i.e., the same temperature was applied 24 hours per day). If forcing varied with photoperiod, we estimated the mean daily temperature weighted by the hours that temperature was applied. Similarly, for studies that ramped forcing, we calculated a weighted average of forcing temperature over the period from when forcing treatments were applied until budburst day. For studies that ramped photoperiod, we used the photoperiod individuals initially experienced (e.g., studies with photoperiod lengthening from 6 hours until budburst, we recorded as `6'). When forcing and photoperiod treatments were reported as ambient, we used the E-OBs dataset to estimate mean forcing temperature and photoperiod \citep{cornes2018}.
+Our studies included a diversity of designs for applying forcing and/or photoperiod experimentally, including studies that imposed constant forcing temperatures and forcing temperatures that varied between day and night.  Additionally several studies applied forcing or photoperiod using a ``ramped" design, such that treatments increased or decreased gradually over time throughout the duration of the application. For all studies we used the daylength of light as our photoperiod estimate (e.g., a study with 8 hours of light and 16 hours of dark was recorded as `8'). For forcing, we used the temperature applied when forcing temperatures were constant (i.e., the same temperature was applied 24 hours per day). If forcing varied with photoperiod, we estimated the mean daily temperature weighted by the hours that temperature was applied. Similarly, for studies that ramped forcing, we calculated a weighted average of forcing temperature over the period from when forcing treatments were applied until budburst day. For studies that ramped photoperiod, we used the photoperiod individuals initially experienced (e.g., studies with photoperiod lengthening from 6 hours until budburst, we recorded as `6'). Studies which reported only 'ambient' forcing and photoperiod were excluded from the present analyses.%check that this is true. If not:When forcing and photoperiod treatments were reported as ambient, we used the E-OBs dataset to estimate mean forcing temperature and the R package `geosphere’ to get daylength associated with each  date and latitude \citep{cornes2018}.%
 
 \subsection*{Models}
 
 \par We fit three overall models: the main budburst model, fit to all studies in OSPREE that measured days to budburst; the latitude model, which included only studies that had provenance latitude information, and a model to examine how the design of chilling treatments affects estimated effects. Given the complexity of our meta-analytic data we fit each model separately, and present the main model in the main text as it was designed to best estimate chilling, forcing and photoperiod cues (our primary goal here). The other two models represent subsets of the data in the main model that allow more direct tests of relevant, related questions. 
 
-\par As our primary goal was to directly compare the effects of chilling, forcing and photoperiod we standardized these predictor variables \citep{gelman2006}. This was necessary becuase the range and scale of each predictor varied widely (total chilling ranged from -1304.5 to 4724 Utah units; forcing ranged from -5.21428569698972 to 32 \degree C, photoperiod ranged from 6 to 24 hours). We followed well-established methods methods of subtracting the mean and dividing by the standard deviation \citep{gelman2006} to yield `z-score' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which preductors were not standardized. 
+\par As our primary goal was to directly compare the effects of chilling, forcing and photoperiod we standardized these predictor variables \citep{gelman2006}. This was necessary becuase the range and scale of each predictor varied widely (total chilling ranged from -1304.5 to 4724 Utah units; forcing ranged from -5.2 to 32 \degree C, photoperiod ranged from 6 to 24 hours). We followed well-established methods methods of subtracting the mean and dividing by the standard deviation \citep{gelman2006} to yield `z-score' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which preductors were not standardized. 
 
 
 \par All models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.18.0) in R \citep{Rcore:2017,rstan2018}, version 3.6.0. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our models using test data, then fit the following models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts while $\beta$ terms represent slope estimates, $y$ is the days to budburst since forcing conditions were applied.  
 \begin{enumerate}
 \item \underline{Main budburst model}:
 \begin{align*}
-y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]} + \epsilon_i}, \epsilon_i \sim N(0,\sigma^2_y)
+y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \epsilon_i, \epsilon_i \sim N(0,\sigma^2_y)
 \end{align*}
 
 \noindent The $\alpha$ and each of the three $\beta$ coefficients were modeled at the species level, as follows:
@@ -130,7 +130,7 @@ Given continuing debate over the role of photoperiod on budburst timing across a
 \par We followed the guidelines above for including species or species complex (see \emph{Observed Spring Phenology Responses in Experimental Environments (OSPREE) database} section above), then subsetted the species and species complexes to include only those that had multiple provenance locations. This yielded the following model:
 
 \begin{align*}
-y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} \\+& \beta_{photoperiod x latitude_{sp[i]} + \epsilon_i},\epsilon_i \sim N(0,\sigma^2_y)
+y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} \\+& \beta_{photoperiod x latitude_{sp[i]}} + \epsilon{_i},\epsilon_i \sim N(0,\sigma^2_y)
 \end{align*}
 
 \noindent The $\alpha$ and each of the five $\beta$ coefficients were modeled at the species level, as follows:
@@ -147,7 +147,7 @@ y_i &= N(\alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} 
 \item \underline{Chilling study design model}:
 As we found chilling to be the strongest cue, and given how few studies directly manipulate it (Fig \ref{fig:treatheatmaps}), we also used a subset of our data to estimate how a study's experimental design for chilling impacts model estimates. For this, we included only species or species complexes used in both experiments that employed the Weinberger method \citep[in this method plant tissue is sequentially removed from the field followed and then exposed to `forcing' conditions, with the assumption that tissues collected later experience more field chilling][]{weinberger1950} and those that experimentally manipulated chilling (i.e., by varying chilling temperatures and/or the duration of chilling conditions). We defined Weinberger studies as those with two or more field sample dates, each two or more weeks apart, that did not otherwise manipulate chilling. The chilling study-design model was thus:
 \begin{align*}
-y_i &= N(\alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}+ \beta_{chillmethod} + \\ & \beta_{forcing:chillmethod} \beta_{photoperiod:chillmethod}+ \beta_{chilling:chillmethod} \epsilon_{i}, \epsilon_{i} \sim N(0,\sigma^2_y)
+y_i &= \alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}+ \beta_{chillmethod} + \\ & \beta_{forcing:chillmethod} \beta_{photoperiod:chillmethod}+ \beta_{chilling:chillmethod} + \epsilon_{i}, \epsilon_{i} \sim N(0,\sigma^2_y)
 \end{align*}
 
 \begin{align*}
@@ -163,10 +163,10 @@ We ran four chains simultaneously, each with 1 500 warm-up iterations followed b
 In our figures  we show means $\pm$ 50\% credible intervals from our models (Fig. 1, \ref{fig:lat},\ref{fig:weinberger},\ref{fig:2dfieldchillutah}), because our focus here is on the most likely value for each parameter (e.g., estimated response to forcing) and because they are computationally stable \citep{BDA,Carpenter:2016aa}. See Tables \ref{tab:modsz}- \ref{tab:methods} for 95\% credible intervals. 
 
 \noindent \emph{Modeling limitations based on experimental designs}
-\par As our focus is on experiments, which---by design---often impose high variation in phenological cues, we expected a linear model for chilling, forcing, and photoperiod would be most appropriate. Non-linear models, however, are often most appropriate for phenological cues, especially in nature where chilling may always be very high or extremely short photoperiods are rarely experienced. Thus we tested a non-linear (sigmoidal) model on the OSPREE data \citep{pmp}. As chilling was the least experimentally manipulated in our database, we examined whether a sigmoidal curve for chilling would be more appropriate, but found that it was a poorer fit than a comparable all-linear model (R-squared = 0.53 versus 0.57), did not dramatically alter estimates of forcing (-0.83 versus -0.85) or photoperiod (-0.25 versus -0.13) and led to non-biologically relevant estimates of chilling. Fitting non-linear models to experimental data may require more data, and/or data at very high and low chilling, forcing and photoperiod values, than currently available.
+\par As our focus is on experiments, which---by design---often impose high variation in phenological cues, we expected a linear model for chilling, forcing, and photoperiod would be most appropriate. Non-linear models, however, are often most appropriate for phenological cues, especially in nature where chilling may always be very high or extremely short photoperiods are rare. Thus we tested a non-linear (sigmoidal) model on the OSPREE data \citep{pmp}. As chilling was the least experimentally manipulated in our database, we examined whether a sigmoidal curve for chilling would be more appropriate, but found that it was a poorer fit than a comparable all-linear model (R-squared = 0.53 versus 0.57), did not dramatically alter estimates of forcing (-0.83 versus -0.85) or photoperiod (-0.25 versus -0.13) and led to non-biologically relevant estimates of chilling. Fitting non-linear models to experimental data may require more data, and/or data at very high and low chilling, forcing and photoperiod values, than currently available.
 \par An ideal model to predict budburst would potentially include (but is not limited to): interactions between cues, sigmoidal or other non-linearities to assess potential threshold effects, provenance location, methodological details (e.g., if tissue was seedlings versus twigs, or whether temperatures were constant or varied each day, etc). As with all models, though, we were limited in how many parameters we could estimate given available data. Thus we focused on species differences and used additional models to assess some of the potentially largest other effects (latitude, methods of estimating chilling). We were unable to estimate interactions between cues in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod %(cite table with number of interactions from coding challenge!)
 . 
-The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (Table \ref{tab:methods}, Fig. \ref{fig:weinberger}).  Similarly we found variation in study material/tissue and variation in thermoperiodicity was too infrequent to test for effects with current data. Our estimated therefore effects average over interactions \citep{gelman2006}, but identifying them in future research will be critical to understanding and predicting budburst. This will be particuarly challenging for forcing and chilling, as a lack of information on endodormancy requirements makes  disentangling forcing from chilling conditions impossible with current data \citep{chuine2016}.
+The few that do incorporate interactions generally use the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (Table \ref{tab:methods}, Fig. \ref{fig:weinberger}).  Similarly we found variation in study material/tissue and variation in thermoperiodicity was too infrequent to test for effects with current data. Our estimated effects therefore average over interactions \citep{gelman2006}, but identifying them in future research will be critical to understanding and predicting budburst. This will be particuarly challenging for forcing and chilling, as a lack of information on endodormancy requirements makes  disentangling forcing from chilling conditions impossible with current data \citep{chuine2016}.
 
 % For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst  (cite papers in the ospree database that interact chilling and forcing) ---is the hypothesized cause of declining sensitivities in European trees \citep{fu2015,vitasse2018}. As more data become available, it would allow additional tests of important interactions, such as how responses vary across latitudes (ref latitude figure). 
 % Maybe add: 
@@ -177,9 +177,9 @@ The few that do incorporate interactions generally use the Weinberger method, wh
 
 Our results integrate over a large range of chilling, forcing and photoperiod conditions (e.g., forcing treatment temperatures ranged from 0-32 \degree C and chilling temperatures ranged from -10-16 \degree C in experiments, as defined by the each study's authors, Fig. 1, \ref{fig:3dexpchillutah}). We also wished to understand how our findings may apply to conditions more commonly found in nature, where conditions often vary dramatically from those applied in controlled environment experiments. For example, very low amounts of chilling can be applied in experiments compared to the natural chilling found in many temperate areas (Fig. \ref{fig:chillexpfield}). Additionally, chilling temperature and total chilling are more correlated in nature than in experimental conditions (Fig. \ref{fig:chillexpfield}). Further, given the importance of chilling and forcing combined with the fact that seasons do not always warm uniformly with climate change \citep{vautard2014,eea2019}, we also wished to understand how warming in the winter and/or the spring would shift budburst timing. Given these goals we focused on applying our model estimates to defined levels of warming layered onto historical climate. Alternative approaches, such as using climate projections from global circulation models, would have hindered our efforts to understand degrees of warming in different seasons. Further, we emphasize that our predictions are not designed to be accurate forecasts of future budburst dates, even for the locations for which we use historical climate and budburst data. They are designed, however, to provide insights into how natural conditions can differ from experimental conditions, and to provide guidance on how much varying effects of winter and spring warming together will shape future budburst timing.
 
-\par We thus applied our model to Central Europe, a well-studied area for phenology, which has both relatively long-term daily temperature data and budburst data. We selected sites that are part of the Pan European Phenology Project (\url{http://www.pep725.eu}, PEP 725) and included data for two common European species that are prevalent in the OSPREE database: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} \citep{Templ2018}. We used a European-wide gridded climate dataset \citep{cornes2018} to extract daily minimum and maximum temperature for the grid cells where observations of leafout for these two species were available. We extracted temperature data from 1951 through 1960 (selected as a pre-warming time period) and used these data to estimate annual values for total winter chilling (from 1 September through 30 April, in Utah units, using the R package chillR, see details above in \emph{Estimating chilling} section) and mean spring forcing estimated as the mean temperature from 1 March through 30 April. We inputted these estimates for chilling and forcing into our main model, and set photoperiod to the daylength on the mean day of leafout across the PEP observations from from 1951 through 1960. This yielded estimates of budburst under `pre-warming conditions,' and we then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C) above this baseline, including a full matrix of altered total chilling and forcing estimates (Fig. 3,\ref{fig:betpenfagsyl},\ref{fig:chillfore}). %\ref{fig:fore}). 
-\par We applied our model at all latitudes and longitudes included in the PEP database between 1951 and 1960 for \emph{Betula pendula} (Fig. \ref{fig:foremap}). We selected two of these sites for \emph{Betula pendula}, as well as two sites where \emph{Fagus sylvatica} occurs, to compare budburst responses across species that differ in their responses to chilling, forcing, and photoperiod, as well as sites that differ in baseline climate (Fig. 3, \ref{fig:foremap},\ref{fig:fig:betpenfagsyl},\ref{fig:chillfore}).
-\par We also applied our latitude model to Central Europe, focusing on PEP sites where \emph{Fagus sylvatica} leafout data were available from 1951-1960. We fit the model to three sites that differed in latitude, following the approach above for estimating baseline chilling and forcing for these sites (Fig. \ref{fig:fagsyllat}) and applying warming levels rangingf rom 1 to 7 \degree C.   As above, we used the photoperiod on the mean day of leafout across the from 1951 through 1960 PEP observations as a baseline photoperiod. We then further estimated potential changes in photoperiod due to advancing phenology. To do this, we first estimating the shift in days to budburst as described above for Fig. 3). %\ref{fig:fore}).
+\par We thus applied our model to Central Europe, a well-studied area for phenology, which has both relatively long-term daily temperature data and budburst data. We selected sites that are part of the Pan European Phenology Project (PEP 725, \url{http://www.pep725.eu}) and included data for two common European species that are prevalent in the OSPREE database: \emph{Betula pendula} (silver birch) and \emph{Fagus sylvatica} \citep{Templ2018}. We used a European-wide gridded climate dataset \citep{cornes2018} to extract daily minimum and maximum temperature for the grid cells where observations of leafout for these two species were available. We extracted temperature data from 1951 through 1960 (selected as a pre-warming time period) and used these data to estimate annual values for total winter chilling (from 1 September through 30 April, in Utah units, using the R package chillR, see details above in \emph{Estimating chilling} section) and mean spring forcing estimated as the mean temperature from 1 March through 30 April. We inputted these estimates for chilling and forcing into our main model, and set photoperiod to the daylength on the mean day of leafout across the PEP observations from from 1951 through 1960. This yielded estimates of budburst under `pre-warming conditions,' and we then investigated model predictions of budburst given different levels of warming (from 1-7 \degree C) above this baseline, including a full matrix of altered total chilling and forcing estimates (Fig. 3, \ref{fig:betpenfagsyl}, \ref{fig:chillfore}). 
+\par We applied our model at all latitudes and longitudes included in the PEP database between 1951 and 1960 for \emph{Betula pendula} (Fig. \ref{fig:foremap}). We selected two of these sites for \emph{Betula pendula}, as well as two sites where \emph{Fagus sylvatica} occurs, to compare budburst responses across species that differ in their responses to chilling, forcing, and photoperiod, as well as sites that differ in baseline climate (Fig. 3, \ref{fig:foremap} - \ref{fig:chillfore}).
+\par We also applied our latitude model to Central Europe, focusing on PEP sites where \emph{Fagus sylvatica} leafout data were available from 1951-1960. We fit the model to three sites that differed in latitude, following the approach above for estimating baseline chilling and forcing for these sites (Fig. \ref{fig:fagsyllat}) and applying warming levels ranging from 1 to 7 \degree C.   As above, we used the photoperiod on the mean day of leafout across the from 1951 through 1960 PEP observations as a baseline photoperiod. We then further estimated potential changes in photoperiod due to advancing phenology. To do this, we first estimating the shift in days to budburst as described above for Fig. 3). %\ref{fig:fore}).
 We then used this budburst date estimate the change in photoperiod between the day of year during the pre- and post-warming periods and then re-fit the model with this new photoperiod (Fig. \ref{fig:fagsyllat})
 
 \par Note that, as described above in \emph{Models}, our days to budburst estimate is the days to budburst since forcing conditions were applied in the experiment \citep[which we stress is not necessarily the days to budburst after the start of ecodormancy][]{chuine2016}.
@@ -191,7 +191,7 @@ We then used this budburst date estimate the change in photoperiod between the d
 
 %I think the below is now sufficiently covered above in the discussion of chilling.
 %\subsection*{Challenges with estimating chilling:} 
-%\par Our analyses  highlight how the choice of chill units can affect average model estimates and associated forecasts (Table 2S). In addition, for two taxa groups  (\emph{Salix} complex and \emph{Tilia} complex) estimates for chilling were positive, when using the model fit with chilling estimated in Chill portions.
+%\par Our analyses  highlight how the choice of chill units can affect average model estimates and associated forecasts (Table 2S). In addition, for two taxa groups  (\emph{Salix} complex and \emph{Tilia} complex) estimates for chilling were positive, when using the model fit with chilling estimated in chill portions.
  
 
 %\par The paucity of studies directly manipulating chilling---which our results suggest has the greatest effect on budburst---suggests a major gap in current research. While many studies directly manipulated forcing (X out of Y here), far fewer directly manipulated chilling (Z out of Y). 
@@ -201,7 +201,7 @@ We then used this budburst date estimate the change in photoperiod between the d
 % See files: PEP_climate/comparetopepsims.R and pep_sims/pepvarsim.R 
 
 As our model results do not predict a dramatic decline in temperature sensitivity in Central Europe, as has been observed \citep[e.g.,][]{fu2015}, we tested whether observed declines could instead be due to a statistical artifact. Researchers today commonly estimate temperature sensitivity via a linear regression of annual budburst date versus mean or other aggregated metrics of spring temperature yielding estimates in days/$^{\circ}$C. However, if warming produces systematically warmer daily temperatures this method will inherently estimate lower sensitivities with warming, because the `days' unit will effectively have increased in the thermal sum it represents (that is the unit of `days' is non-stationary in recent decades).
-
+%DB says this last sentence `However,..' is confusing
 \par To test this hypothesis we compared observed trends with simple simulations. First, we collated PEP 725 data \citep{Templ2018} for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: a period before significant anthropogenic warming (1951-1960) and a period with significant warming \citep[2001-2010, see][]{IPCC:2014sm}. We used leafout data (BBCH=11; which is defined as ``leaf unfolding (first visible leaf stalk)" in the PEP725 database) instead of budburst (BBCH=7; defined as ``Beginning of sprouting") as leafout data are far more common in the PEP 725 database. Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but assumed budburst occurred after a certain thermal sum, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C)) and the difference in these estimates given different levels of spring warming. For the simulations shown here we used a GDD (growing degree day) requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C, and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP 725 data, but note that the general findings are robust to other combinations of these parameter values).
 
 \par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP 725 declined across the two time periods in step with warming. Across the sites studied here we estimated a decline of 0.8$\pm$0.3 days/$^{\circ}$C (comparing 2001-2010 and 1951-1960) and 1.1$\pm$0.2$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C warming (Fig. \ref{fig:pepsims}). 
@@ -221,7 +221,7 @@ As our model results do not predict a dramatic decline in temperature sensitivit
 \section* {Supplemental Tables}
 \begin{footnotesize} 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Jul 10 11:33:02 2019
+% Thu Jul 11 11:56:32 2019
 \begingroup\footnotesize
 \begin{longtable}{|p{0.28\textwidth}|p{0.1\textwidth}|p{0.3\textwidth}|}
 \caption{\textbf{Species included in the OSPREE database}. Still needs some work: italics for sp names, wrapping, and convert regs to numbers!
@@ -440,14 +440,14 @@ Abies.alba &   2 & basler12,laube14a \\
 
 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Jul 10 11:33:23 2019
+% Thu Jul 11 11:57:00 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in Chill Portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present posterior means, as well as 25th, 75th, 2.5th and 95th percentiles from models in which the predictors have been standardized so that they are directly comparable.} 
+\caption{\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in chill portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present posterior means, as well as 25th, 75th, 2.5th and 95th percentiles from models in which the predictors have been standardized so that they are directly comparable.} 
 \label{tab:modsz}
 \begingroup\footnotesize
 \begin{tabular}{|p{0.10\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.05\textwidth}p{0.04\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.05\textwidth}p{0.04\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}|}
-  \hline & \multicolumn{5}{c |}{Utah units} &\multicolumn{5}{c |}{Chill portions} &\multicolumn{5}{c |}{All species}\\
+  \hline & \multicolumn{5}{c |}{Utah units} &\multicolumn{5}{c |}{chill portions} &\multicolumn{5}{c |}{All species}\\
   \hline
  & mean & 25\% & 75\% & 2.5\% & 97.5\% & mean & 25\% & 75\% & 2.5\% & 97.5\% & mean & 25\% & 75\% & 2.5\% & 97.5\% \\ 
   \hline
@@ -466,14 +466,14 @@ $N_{sp}$ & 37 &  &  &  &  & 37 &  &  &  &  & 203 &  &  &  &  \\
 \end{tabular}
 \endgroup
 \end{table}% latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Jul 10 11:33:23 2019
+% Thu Jul 11 11:57:00 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from models fit with predictors on their natural scales},  so that effect sizes can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from a model included all species, including crops, and all treatment types. We present posterior means, as well as 25th, 75th, 2.5th and 95th percentiles, from models.} 
 \label{tab:modsnonz}
 \begingroup\footnotesize
 \begin{tabular}{|p{0.10\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}|p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}p{0.04\textwidth}|}
-  \hline & \multicolumn{5}{c |}{Utah units} &\multicolumn{5}{c |}{Chill portions} &\multicolumn{5}{c |}{All species}\\
+  \hline & \multicolumn{5}{c |}{Utah units} &\multicolumn{5}{c |}{chill portions} &\multicolumn{5}{c |}{All species}\\
   \hline
  & mean & 25\% & 75\% & 2.5\% & 97.5\% & mean & 25\% & 75\% & 2.5\% & 97.5\% & mean & 25\% & 75\% & 2.5\% & 97.5\% \\ 
   \hline
@@ -494,7 +494,7 @@ $N_{sp}$ & 37 &  &  &  &  & 37 &  &  &  &  & 203 &  &  &  &  \\
 \end{table}
 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Jul 10 11:33:23 2019
+% Thu Jul 11 11:57:00 2019
 \begin{table}[ht]
 \centering
 \caption{\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable,} 
@@ -525,10 +525,10 @@ $N_{sp}$ & 36 &  &  &  &  \\
 \end{table}
 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Jul 10 11:33:23 2019
+% Thu Jul 11 11:57:00 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Estimates from Weinberger model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.} 
+\caption{\textbf{Estimates from chilling study design model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 25th, 75th, 2.5th and 97.5th percentiles from models in which the predictors have been standardized so that they are directly comparable.} 
 \label{tab:methods}
 \begingroup\footnotesize
 \begin{tabular}{|p{0.18\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|}
@@ -550,18 +550,56 @@ $N_{sp}$ & 11 &  &  &  &  \\
    \hline
 \end{tabular}
 \endgroup
+\end{table}
+
+% latex table generated in R 3.6.0 by xtable 1.8-4 package
+% Thu Jul 11 11:57:00 2019
+\begin{table}[ht]
+\centering
+\caption{\textbf{Number of studies testing for interactions between chilling, forcing, and photoperiod treatments}, out of the 42 experiments (across 30 papers) included in the main budburst model} 
+\label{tab:intxn}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.18\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|}
+  \hline
+treat1 & treat2 & n \\ 
+  \hline
+photo & force &   5 \\ 
+  chilltemp & force &   1 \\ 
+  chilldays & force &   5 \\ 
+  chilltemp & photo &   1 \\ 
+  chilldays & photo &   7 \\ 
+  fieldsample.date & force &   7 \\ 
+  fieldsample.date & photo &  10 \\ 
+  \end{tabular}
+\endgroup
+\end{table}
+
+% latex table generated in R 3.6.0 by xtable 1.8-4 package
+% Thu Jul 11 11:57:01 2019
+\begin{table}[ht]
+\centering
+\caption{\textbf{Locations and pre-warming winter and spring conditions} for sites included in Fig. 3, 
+ef{fig:betpenfagsyl}, 
+ef{fig:chillfore} out of the 42 experiments (across 30 papers) included in the main budburst model} 
+\label{tab:clim}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.18\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|p{0.06\textwidth}|}
+  \hline
+Species & Latitude & Longitude & Spring Temp & Winter Temp \\ 
+  \hline
+Betula pendula & 46.82 & 12.80 & 0.69 & -1.05 \\ 
+   & 48.32 & 15.82 & 7.13 & 4.31 \\ 
+  Fagus sylvatica & 48.78 & 15.40 & 4.76 & 2.25 \\ 
+   & 46.72 & 15.77 & 7.40 & 4.33 \\ 
+   \hline
+\end{tabular}
+\endgroup
 \end{table}\end{footnotesize} 
 
-Still need: 
-\begin{enumerate}
-
-\item A table that goes with Fig. 3 (the 4-paneled 3D forecasting figure) that includes the mean, min, max budburst day of year, chilling estimates, mean winter temperature, and spring (forcing) temperatures for the 4 sites with no warming and with the 7 levels of warming.
-\item The count interactions table?
-% 
-\end{enumerate}
-
+\\
 \newpage
 \newpage
+
 \section* {Supplemental Figures}
 
 \newpage
@@ -588,7 +626,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger_MU_4supp.jpeg}
-\caption{Comparison of estimated effects for environmental parameters for overlapping species included in both Weinberger method studies and non-Weinberger method studies. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies.}
+\caption{Comparison of estimated effects for environmental parameters for species included in the chilling study design model. The effect of chilling is estimated to be weaker, and the effect of forcing stronger in Weinberger studies compared to non-Weinberger.}
 \label{fig:weinberger}
 \end{figure}
 
@@ -615,7 +653,7 @@ Still need:
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/exp_vs_field_chill_withwarmingcols.png}
-\caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems}in which temperature is more strongly correlated with chilling.}
+\caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems} in which temperature is more strongly correlated with chilling.}
 \label{fig:chillexpfield}
 \end{figure}
 
