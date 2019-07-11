@@ -339,7 +339,7 @@ muplotfx <- function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg
   par(xpd=FALSE)
   par(mar=c(7,7,4,8))
   plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
-       xlab="Model estimate change in days to BB", ylab="", main=nameforfig)
+       xlab="Model estimate change in days to budburst", ylab="", main=nameforfig)
   axis(2, at=1:8, labels=rev(c("Intercept[sp]","Forcing", "Photoperiod", "Chilling","Weinberger","Weinberger \nx Forcing","Weinberger \nx Photoperiod","Weinberger \nx Chilling")), las=1,cex.axis=.75)
   abline(v=0, lty=2, col="darkgrey")
   rownameshere <- c("mu_a_sp","b_force", "b_photo", "b_chill","b_weinberger","b_fw","b_pw","b_cw")
