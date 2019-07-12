@@ -232,17 +232,21 @@ We thank the many researchers who conducted the experiments synthesized in this 
 \newpage
 %get min bb doy and associated chilling/forcing T
 <<label=minbb, echo=FALSE, results=tex>>=
+#this is wrong! this should be for Fig 3 not Fig 2!
+#spests<-read.csv("..//..//analyses/output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
+#chillminbb<-round(240*spests$chill.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits=1)
+#chillTminbb<-round(spests$winT.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits = 1)
+#forceminbb<-round(spests$sprT.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits = 1)
+pep3d<-read.csv("..//..//analyses/output/bbmodests_for3dplot_8hr_utah_pep.csv", header=TRUE)
 
-spests<-read.csv("..//..//analyses/output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
-chillminbb<-round(240*spests$chill.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits=1)
-chillTminbb<-round(spests$winT.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits = 1)
-forceminbb<-round(spests$sprT.forecast[which(spests$bb.sprtemp.7==min(spests[,6:13]))], digits = 1)
+chillTminbb<-pep3d$X[which(pep3d$sprtemp.32==min(pep3d[,2:44]))]
+
 @
 
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_withPEP.png}
-\caption{\textbf{Estimates of budburst across a range of forcing temperatures and estimated chilling} (converted to a representative mean temperature, see \emph{Estimating chilling} in the Supplemental Methods) based on overall estimates of chilling and forcing effects (Fig. 1). Maximum advances in budburst occur at intermediate chilling temperatures (e.g., here at \Sexpr{chillminbb} chill units or a mean winter temperatures of \Sexpr{chillTminbb} \degree C) and higher forcing (here at \Sexpr{forceminbb} \degree C). We set photoperiod to eight hours, which is the most common photoperiod treatment in the dataset. Note that days to budburst is relative to experimental methods and thus not comparable to day of year in the field, shading represents days to budburst.} % Adjust to maybe emphasize that it is a mix of the cues that determines when the earliest budburst happens *and* that these figures suggest at higher degrees of warming, when chilling declines, advances will slow or reverse.
+\caption{\textbf{Estimates of budburst across a range of forcing temperatures and estimated chilling} (converted to a representative mean temperature, see \emph{Estimating chilling} in the Supplemental Methods) based on overall estimates of chilling and forcing effects (Fig. 1). Maximum advances in budburst occur at intermediate chilling temperatures (e.g., here at mean winter temperatures of 6-7 \degree C) and the highest forcing (here at 32 \degree C). We set photoperiod to eight hours, which is the most common photoperiod treatment in the dataset. Note that days to budburst is relative to experimental methods and thus not comparable to day of year in the field, shading represents days to budburst.} % Adjust to maybe emphasize that it is a mix of the cues that determines when the earliest budburst happens *and* that these figures suggest at higher degrees of warming, when chilling declines, advances will slow or reverse.
 \label{fig:apc}
 \end{figure}
 \newpage
