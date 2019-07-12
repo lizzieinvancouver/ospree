@@ -249,16 +249,16 @@ library(plyr)
 library(dplyr)
 library(rstan)
 sp.st.table<-read.csv("../../analyses/output/supptables/speciestable.csv", header=TRUE)
-colnames(sp.st.table)<-c("Species","Num.papers","DatasetID")
-sp.table <- xtable(sp.st.table, caption="\\textbf{Species included in the OSPREE database}. Still needs some work: italics for sp names, wrapping, and convert regs to numbers!
-", 
+
+colnames(sp.st.table)<-c("Species","Number of papers","DatasetID")
+sp.st.table$Species<-gsub("."," ", sp.st.table$Species, fixed=TRUE)
+sp.table <- xtable(sp.st.table, caption="\\textbf{Species included in the OSPREE database}", 
         label="tab:sp",align=c(
                "p{0.01\\textwidth}|",
                "|p{0.28\\textwidth}|",
                "p{0.1\\textwidth}|",
                "p{0.3\\textwidth}|"))
-#align(sp.table) <- "lp{2.5in}p{1in}p{2.5in}" #not workign
-print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,203),caption.placement="top",size="\\footnotesize",tabular.environment = "longtable")
+print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,203),caption.placement="top",size="\\footnotesize",tabular.environment = "longtable", floating = FALSE,align=c(rep('|', ncol(sp.table)),'p{4in}'),width="\\textwidth")
 @
 
 
