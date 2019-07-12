@@ -18,8 +18,8 @@ if(length(grep("Lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- TRUE
-use.flags.for.allsppmodel <- FALSE
+use.flags.for.mainmodel <- FALSE
+use.flags.for.allsppmodel <- TRUE
 use.yourown.flagdesign <- FALSE
 
 if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
@@ -202,7 +202,7 @@ dev.off()
 require(cowplot)
 pdf(paste("figures/studydesign/studydesign_heat3panel", figurepath, ".pdf", sep=""), width = 16, height = 6)
 plot_grid(heatforcephotoallchill, heatforcphotofielddate, heatforcephotoexpchill,
-    labels = c(' (a) All chill', '(b) Field chill', '(c) Exp chill'), ncol=3)
+    labels = c(' (A) All chill', '(B) Field chill', '(C) Exp chill'), ncol=3)
 dev.off()
 
 
