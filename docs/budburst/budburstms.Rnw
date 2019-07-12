@@ -128,7 +128,7 @@ options(stringsAsFactors = FALSE)
 library(plyr)
 library(dplyr)
 library(rstan)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
 fit.nonz <- summary(m2l.ni)$summary
 ch.nonz<-round(fit.nonz[grep("mu_b_chill_sp", rownames(fit.nonz)),1]
  , digits=2)
@@ -140,7 +140,7 @@ f.sigma.nonz<-round(fit.nonz[grep("sigma_b_force_sp", rownames(fit.nonz)),1]
 , digits=2)
 c.sigma.nonz<-round(fit.nonz[grep("sigma_b_chill_sp", rownames(fit.nonz)),1]
 , digits=2)
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nonz.Rda") # m2l.ni
+load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
 fit.z <- summary(m2l.ni)$summary
 ch.z<-round(fit.z[grep("mu_b_chill_sp", rownames(fit.z)),1], digits=2)
 f.z<-round(fit.z[grep("mu_b_force_sp", rownames(fit.z)),1], digits=2)
@@ -218,7 +218,7 @@ Physiologically, budburst is triggered by the accumulation of forcing temperatur
 
 \bibliography{..//..//refs/ospreebibplus.bib}
 \section*{Acknowledgements}
-We thank the many researchers who conducted the experiments synthesized in this manuscript, E. Forrestel for assisting with data scraping; and J. Davies, S. Elmendorf, and J. HilleRisLambers for helpful comments that improved the manuscript. The National Science Foundation (DBI 14-01854 to AKE), NSERC Discovery Award (RGPIN-05038 to EMW) and Canada Research Chair in Temporal Ecology (EMW) provided funding. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
+We thank the many researchers who conducted the experiments synthesized in this manuscript, E. Forrestel for assisting with data scraping; and J. Davies, S. Elmendorf, and J. HilleRisLambers for helpful comments that improved the manuscript. The National Science Foundation (DBI 14-01854 to AKE), NSERC Discovery Award (RGPIN-05038 to EMW), Canada Research Chair in Temporal Ecology (EMW), Spanish Ministry for Science and Innovation (CGL2017-86926-P to IMC) and University of Alcal\`a (to IMC) provided funding. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 
 \section* {Figures}
 
