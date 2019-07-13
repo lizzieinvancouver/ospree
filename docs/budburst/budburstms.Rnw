@@ -59,7 +59,7 @@
 %\SweaveOpts{concordance=TRUE}
 \bibliographystyle{..//..//refs/bibstyles/amnat.bst}% 
 
-\title{Winter temperatures dominates spring phenological responses to warming} 
+\title{Winter temperatures dominate spring phenological responses to warming} 
 %or Winter temperatures dominate spring phenological responses to warming
 
 \author[1,a]{A. K. Ettinger}
