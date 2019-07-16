@@ -171,7 +171,7 @@ As we found chilling to be the strongest cue, and given how few studies directly
 y_i &= \alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}+ \beta_{chillmethod} + \\ & \beta_{forcing:chillmethod} \beta_{photoperiod:chillmethod}+ \beta_{chilling:chillmethod} + \epsilon_{i},\\
 \epsilon_{i} \sim N(0,\sigma^2_y)
 \end{align*}
-
+\noindent The $\alpha$ coefficients were modeled at the species level, as follows:
 \begin{align*}
 \alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
 \end{align*}
