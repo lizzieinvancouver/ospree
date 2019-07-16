@@ -99,7 +99,7 @@ maxphot<-max(as.numeric(d$photoperiod_day),na.rm=TRUE)
 
 The initial searches yielded 201 papers, which we reviewed and assessed for inclusion in the database using the following criteria: focusing on woody plants in temperate ecosystems, and testing for at least photoperiod or temperature effects on budburst, leafout or 
 flowering. 
-\par Although all studies measured days to budburst, many communicated results differently (e.g. days to budburst, degree-days to budburst, percent budburst, number of leaves etc). We standardized papers to common units whenever possible (details below) and further restricted studies to those for which forcing, chilling, and photoperiod treatments could be quantitatively identified. For this paper, we focus on studies measuring days to budburst. This subset of OSPREE includes data across \Sexpr{nst} experiments (in \Sexpr{npape} papers), 39 years, and \Sexpr{nsp} species (Table \ref{tab:sp}, Fig. \ref{fig:map}).
+\par Although all studies measured days to budburst, many communicated results differently (e.g. days to budburst, degree-days to budburst, percent budburst, number of leaves etc). We standardized papers to common units whenever possible (details below) and further restricted studies to those for which forcing, chilling, and photoperiod treatments could be quantitatively identified. For this paper, we focus on studies measuring days to budburst. This subset of OSPREE includes data across \Sexpr{nst} experiments (in \Sexpr{npape} papers,Table \ref{tab:ref}), 39 years, and \Sexpr{nsp} species (Table \ref{tab:sp}, Fig. \ref{fig:map}).
 
 \par Some species are only represented in one dataset in the OSPREE database, making it impossible to statistically differentiate between species, study, and treatment effects for these taxa. To address this, we combined species found in only one study into ``complexes" at the level of genera---such that each taxonomic unit we use in our model occurs across multiple studies (and treatments). Thus our taxonomic units of analysis are ``species complexes," which are either species represented in $>$1 dataset or complexes combining multiple species within a genus that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from our analysis.
 
@@ -113,7 +113,7 @@ Chilling was reported far less in the OSPREE database than forcing and photoperi
 
 \par To estimate total chilling we combined chilling from the field (i.e., chilling before plant material was brought into controlled environment conditions) and experimental chilling (i.e., chilling that plant material experienced in controlled environment conditions) into two widely used metrics of chilling: Utah units and dynamic chill portions \citep{dennis2003}. We used the \textit{chillR} package (version 0.70.17) in R \citep{Rcore:2017, chillR2019}, version 3.6.0, to calculate both positive Utah units and dynamic chill portions from timeseries of hourly temperature data. To estimate field chilling, we generated hourly time series from a European-wide gridded climate dataset \citep{cornes2018}, from which we extracted daily minimum and maximum temperature from the grid cells and dates during which experiments were conducted. For experimental chilling, we used reported chilling treatments to generate timeseries of hourly temperature data.
 \par In the formulation we used, Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range. Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C. We note that these models for chilling (both of which were originally developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of endodormancy release, but are likely to be inaccurate for many species. These models are, however, some of our current best approximations, and versions of them are routinely applied to forest trees \citep[e.g.,][]{Harrington:2010}. We found the effects of chilling and other cues remained qualitatively consistent across the two methods of estimating total chilling, though total chilling and photoperiod estimates were slightly lower using chill portions compared to Utah units (Table \ref{tab:modsz}).
-\par We wished to explore model predictions across the full space of experimental temperature conditions (i.e., chilling and forcing temperatures) applied by studies included in the OSPREE database (Fig. 2). To do this, we needed to convert chilling temperature to total chilling units, which could be input into our model. There is no straighforward conversion between chilling temperature and total chilling, since the duration a temperature is applied affects chilling (Fig. \ref{fig:chillexpfield}). We therefore made these conversions using two alterative approaches and we present both. For one approach, we generated daily time series of a range of experimental chilling temperatures for a range of durations spanning those in the OSPREE database (from -10 to 16 \degree C for 7 to 240 days). We averaged across the range of durations for each temperature to get one chilling estimate per chilling temperature (Fig. \ref{fig:3dexpchillutah}). For the alternative approach, we used historical climate data from a gridded climate dataset \citep[EOBs,][]{cornes2018} to estimate chilling, and used these historical relationships between mean winter temperature and total chilling to  convert chilling temperature to a representative amount of total chilling (Fig. 2). 
+\par We wished to explore model predictions across a wide range of experimental temperature conditions (i.e., chilling and forcing temperatures) applied by studies included in the OSPREE database (Fig. 2). To do this, we needed to convert chilling temperature to total chilling units, which could be input into our model. There is no straighforward conversion between chilling temperature and total chilling, since the duration a temperature is applied affects chilling (Fig. \ref{fig:chillexpfield}). We therefore made these conversions using two alterative approaches and we present both. For one approach, we generated daily time series of a range of experimental chilling temperatures for a range of durations spanning those in the OSPREE database (from -10 to 16 \degree C for 7 to 240 days). We averaged across the range of durations for each temperature to get one chilling estimate per chilling temperature (Fig. \ref{fig:3dexpchillutah}). For the alternative approach, we used historical climate data from a gridded climate dataset \citep[EOBs,][]{cornes2018} to estimate chilling, and used these historical relationships between mean winter temperature and total chilling to  convert chilling temperature to a representative amount of total chilling (Fig. 2). We present this alternative approach in the main text as it is more closely related to field chilling conditions, which was by far the most common type of chilling across experiments.
 
 \par{\emph{Estimating forcing \& photoperiod}}
 
@@ -126,8 +126,7 @@ Our studies included a diversity of designs for applying forcing and/or photoper
 
 \par As our primary goal was to directly compare the effects of chilling, forcing and photoperiod we standardized these predictor variables \citep{gelman2006}. This was necessary becuase the range and scale of each predictor varied widely (total chilling ranged from \Sexpr{minchill} to \Sexpr{maxchill} Utah units; forcing ranged from \Sexpr{minforce} to \Sexpr{maxforce} \degree C, photoperiod ranged from \Sexpr{minphot} to \Sexpr{maxphot} hours). We followed well-established methods of subtracting the mean and dividing by the standard deviation \citep{gelman2006} to yield `z-score' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which predictors were not standardized. 
 
-
-\par All models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.18.0) in R \citep{Rcore:2017,rstan2018}, version 3.6.0. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our models using test data, then fit the following models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts while $\beta$ terms represent slope estimates, $y$ is the days to budburst since forcing conditions were applied.  
+par All models were fit using the programming languages \texttt{Stan} \citep{Carpenter:2016aa}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.18.0) in R \citep{Rcore:2017,rstan2018}, version 3.6.0. Stan provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \citet{BDA} and in \citet{Carpenter:2016aa}). We validated that our models using test data, then fit the following models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts while $\beta$ terms represent slope estimates, $y$ is the days to budburst since forcing conditions were applied.  
 \begin{enumerate}
 \item \underline{Main budburst model}:
 \begin{align*}
@@ -239,57 +238,55 @@ As our model results do not predict a dramatic decline in temperature sensitivit
 
 
 \bibliography{..//..//refs/ospreebibplus.bib}
+\newpage
 
 \newpage
 \section* {Supplemental Tables}
-
-\begin{footnotesize} 
-<<label=xtable1, echo=FALSE, results=tex>>=
-#load models to report estimates, use chill portions
-library(xtable)
-moddat<-read.csv("..//..//analyses/output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", header=TRUE)
-
-source("../../analyses/bb_analysis/maketables.forsupp/datasetIDref_table.R")
-
-colnames(reftable)<-c("Dataset","Reference")
-ref.table <- xtable(reftable, caption="\\textbf{Dataset IDs and references for papers in the OSPREE database.}", 
-        label="tab:ref",align=c( 
-               "p{0.01\\textwidth}|",
-               "|p{0.15\\textwidth}|",
-               "p{0.30\\textwidth}|"))
-
-print(ref.table, include.rownames=FALSE, hline.after = c(-1,0,nrow(ref.table)),caption.placement="top",size="\\footnotesize",include.colnames = TRUE,sanitize.text.function = identity, floating= FALSE)
-
-@
-
-\end{footnotesize} 
 \newpage
 \begin{footnotesize} 
-<<label=xtable2, echo=FALSE, results=tex>>=
+
+<<label=xtablerefs, echo=FALSE, results=tex>>=
+#load models to report estimates, use chill portions
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
 library(dplyr)
 library(rstan)
+
+moddat<-read.csv("..//..//analyses/output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", header=TRUE)
+
+source("../../analyses/bb_analysis/maketables.forsupp/datasetIDref_table.R")
+
+colnames(reftable)<-c("Dataset","Reference")
+
+ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for papers in the OSPREE database.}",
+      label="tab:ref",align=c(
+               "p{0.01\\textwidth}",
+               "p{0.15\\textwidth}",
+               "p{0.30\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity,)
+@
+
+
+<<label=xtablesp, echo=FALSE, results=tex>>=
+
 sp.st.table<-read.csv("../../analyses/output/supptables/speciestable.csv", header=TRUE)
 
 colnames(sp.st.table)<-c("Species","Number of papers","Dataset")
 sp.st.table$Species<-gsub("."," ", sp.st.table$Species, fixed=TRUE)
 sp.st.table$Species<-paste0("\\textit{", sp.st.table$Species, "}")
-sp.table <- xtable(sp.st.table, caption="\\textbf{Species included in the OSPREE database.} See Table S1 for reference associated with each dataset.", 
+sp.table <- xtable(sp.st.table, caption="\\textbf{Species included in the OSPREE cdatabase.} See Table \\ref{tab:ref} for reference associated with each dataset.", 
         label="tab:sp",align=c(
-               "p{0.01\\textwidth}|",
-               "|p{0.28\\textwidth}|",
-               "p{0.1\\textwidth}|",
-               "p{0.3\\textwidth}|"))
-print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,nrow(sp.table)),caption.placement="top",size="\\footnotesize",tabular.environment = "longtable", floating = FALSE,align=c(rep('|c', ncol(sp.table)),'p{4in}'),tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
+               "p{0.01\\textwidth}",
+               "p{0.28\\textwidth}",
+               "p{0.1\\textwidth}",
+               "p{0.3\\textwidth}"))
+print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,nrow(sp.table)),caption.placement="top",tabular.environment = "longtable", floating = FALSE,align=c(rep('|c', ncol(sp.table)),'p{4in}'),tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
 
 @
 
-\end{footnotesize} 
-
-\begin{footnotesize}
-<<label=xtable2, echo=FALSE, results=tex>>=
+<<label=xtablez, echo=FALSE, results=tex>>=
 #load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
@@ -306,7 +303,7 @@ source("../../analyses/bb_analysis/maketables.forsupp/mod_table.R")
   addtorow$pos <- list(-1)
   addtorow$command <- c("\\hline & \\multicolumn{5}{c |}{Utah units} &\\multicolumn{5}{c |}{chill portions} &\\multicolumn{5}{c |}{All species, Utah units}\\\\\n ")
 
-zmod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in chill portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar to the Utah model. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present posterior means, as well as 50\\% and 95\\% credible intervals from models in which the predictors have been standardized so that they are directly comparable.", 
+zmod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in chill portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar to the Utah model. We also present coefficients from a model including all species (i.e., with crops) with all treatment types. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable.", 
         label="tab:modsz",align=c(
                "|p{0.10\\textwidth}|",
                "p{0.04\\textwidth}",
@@ -326,8 +323,10 @@ zmod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with 
                "p{0.04\\textwidth}|"))
 
 print(zmod.table, include.rownames=TRUE, hline.after = c(-1,0,9,10),caption.placement="top",size="\\footnotesize",sanitize.rownames.function=identity,add.to.row=addtorow)
+@
 
-nonzmod.table <- xtable(nonzmodtable, caption="\\textbf{Estimates from models fit with predictors on their natural scales},  so that estimates can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from models  included all species, including crops, and all treatment types. We present posterior means, as well as 50\\% and 95\\% credible intervals, from models.", 
+<<label=xtablenonz, echo=FALSE, results=tex>>=
+nonzmod.table <- xtable(nonzmodtable, caption="\\textbf{Estimates from models fit with predictors on their natural scales},  so that estimates can be readily intepreted in a meaningful way (e.g., change in days of budburst per degree C of warming for forcing temperature). The model we present in the main text uses Utah units for chilling. Here we also present coeficients from models  included all species, including crops, and all treatment types. We present posterior means, as well as 50 precent and 95 percent credible intervals, from models.", 
         label="tab:modsnonz",align=c(
                "|p{0.10\\textwidth}|",
                "p{0.04\\textwidth}",
@@ -350,10 +349,6 @@ print(nonzmod.table, include.rownames=TRUE, hline.after = c(-1,0,9,10),caption.p
 
 @
 
-\end{footnotesize}
-
-\begin{footnotesize} 
-
 <<label=xtablelat, echo=FALSE, results=tex>>=
 
 #source("../../analyses/bb_analysis/maketables.forsupp/mod_table_lat.R")
@@ -364,7 +359,7 @@ rownames(zmodtable)<-zmodtable$X
   zmodtable$mean[which(rownames(zmodtable)=="$N_{sp}$")]<-"36"
 colnames(zmodtable) <- c('mean','25%', '75%', '2.5%', '97.5%' )
 
-mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 50\\% and 95\\% credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
+mod.table <- xtable(zmodtable, caption="\\textbf{Estimates from latitude model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of latitude plus the interaction between latitude and photoperiod results in slightly muted effects for forcing, photoperiod and chilling, though the results are qualitatively similar. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable,", 
         label="tab:lat",align=c(
                "|p{0.11\\textwidth}|",
                "p{0.06\\textwidth}|",
@@ -378,7 +373,7 @@ print(mod.table, include.rownames=TRUE, hline.after = c(-1,0,13,14),caption.plac
 @
 
 
-<<label=xtable1, echo=FALSE, results=tex>>=
+<<label=xtable6, echo=FALSE, results=tex>>=
 #load models to report estimates
 library(xtable)
 library(plyr)
@@ -390,7 +385,7 @@ wein.table<-wein.table[,-1]
 colnames(wein.table) <- c('mean','25%', '75%', '2.5%', '97.5%' )
   wein.table$mean[which(rownames(wein.table)=="$N_{sp}$")]<-"11"
 
-weintable <- xtable(wein.table, caption="\\textbf{Estimates from chilling study design model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 50\\% and 95\\% credible intervalsfrom models in which the predictors have been standardized so that they are directly comparable.",
+weintable <- xtable(wein.table, caption="\\textbf{Estimates from chilling study design model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of the Weinberger method and the interaction between this method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable.",
        label="tab:methods",align=c(
                "|p{0.18\\textwidth}|",
                "p{0.06\\textwidth}|",
@@ -419,7 +414,6 @@ intxntable <- xtable(intxn.table, caption="\\textbf{Number of studies testing fo
 print(intxntable, include.rownames=FALSE, hline.after = c(-1,0, nrow(intxntable)),caption.placement="top",size="\\footnotesize")
 @
 
-
 <<label=pepclim, echo=FALSE, results=tex>>=
 #load models to report estimates
 #read in file with different lat/longs from PEP and chiling estimates
@@ -440,15 +434,14 @@ climtable <- xtable(clim.tab, caption="\\textbf{Locations and pre-warming winter
 print(climtable, include.rownames=FALSE, hline.after = c(-1,0,4),caption.placement="top",size="\\footnotesize",sanitize.text.function = identity)
 @
 \end{footnotesize} 
-\newpage
 
+\newpage
 \section* {Supplemental Figures}
 
-\newpage
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/ospree_locations_definitive.png}
-\caption{\textbf{Map of days to budburst experiments in the OSPREE database.} Legend shows each dataset included in the main OSPREE model with all species and treatments (\ref{tab:modsz}, \ref{tab:modsnonz}); symbols outlined in black represent datasets for which chilling was manipulated. See Table S1 for the reference associated with each dataset.}
+\caption{\textbf{Map of days to budburst experiments in the OSPREE database.} Legend shows each dataset included in the main OSPREE model with all species and treatments (\ref{tab:modsz}, \ref{tab:modsnonz}); symbols outlined in black represent datasets for which chilling was manipulated. See Table \ref{tab:ref} for the reference associated with each dataset.}
 \label{fig:map}
 \end{figure}
 
@@ -459,13 +452,6 @@ print(climtable, include.rownames=FALSE, hline.after = c(-1,0,4),caption.placeme
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/studydesign_heat3panelmainmodel.pdf}
 \caption{\textbf{The diversity of study designs used in analyses.} Heatmaps show the range and commonness of different forcing (x-axis in all panels) by photoperiod (y-axis in all panels) combinations and with which chilling they were combined. In (A, top and bottom) we show our estimated chill units, which integrate across field (B, top and bottom) and experimental chilling (C, top and bottom). The top row shows all data included in the full model with 203 species, while the bottom row shows the data included in the main model with a subset of species well-represented across treatments and studies. Gray squares indicate a treatment was not applied (i.e., the prevalence of gray squares in (C) highlights how few studies include experimental chilling). Field sample dates are counted as any reported sampling dates more then 14 days apart.}
 \label{fig:treatheatmaps} % see bb_analysis/studydesignplotsbb.R 
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger_MU_4supp.pdf}
-\caption{\textbf{Chilling study design affects estimates of major cues.} Studies using the `Weinberger' method (sequential removal of tissue from field) had later budburst timing, stronger estimates of forcing (Weinberger x Forcing) and weaker estimates of chilling (Weinberger x Chilling) compared to studies that experimentally manipulated chilling directly. For an extended description of model and underlying data see \emph{Chilling study design model}; for model summary see Table \ref{tab:methods}.}
-\label{fig:weinberger}
 \end{figure}
 
 \begin{figure}[h!]
@@ -485,13 +471,6 @@ print(climtable, include.rownames=FALSE, hline.after = c(-1,0,4),caption.placeme
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah.png}
-\caption{\textbf{Based on our model (see `main budburst model' \emph{Models} section), days to budburst decrease linearly with forcing temperature and vary nonlinearly with chilling temperature} due to the way that chilling is estimated (in this case, the Utah model). Forcing treatment temperatures in growth chamber experiments ranged from 0-32 \degree C and chilling temperatures ranged from -10-16 \degree C (see Table 2S for details). Budburst responses predicted by the main budburst model are shown across the full range of experimental conditions in the OSPREE database with chilling calculated as a constant temperature across a range of durations (as  is commonly applied in experiments). Maximum advances in budburst occur at intermediate chilling temperatures (e.g., here at mean chilling temperatures between 3 and 9 \degree C) and the highest forcing temperatures (32 \degree C). Compare this to Fig. 2 in the main text, which uses field chilling at mean chilling temperatures.}
-\label{fig:3dexpchillutah}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
 \noindent \includegraphics[width=0.50\textwidth]{..//..//analyses/bb_analysis/figures/exp_vs_field_chill_withwarmingcols.png}
 \caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems}, in which temperature is more strongly correlated with chilling. See \emph{Estimating chilling} for a detailed description of 'Field' climate data, for which we use historical climte data from Europe. Fig. 2 and \ref{fig:2dfieldchillutah} use `Field' relationships to convert chill temperature to total chilling, whereas Fig. \ref{fig:3dexpchillutah} uses 'Constant duration' relationships.}
 \label{fig:chillexpfield}
@@ -503,6 +482,21 @@ print(climtable, include.rownames=FALSE, hline.after = c(-1,0,4),caption.placeme
 \noindent \includegraphics[width=0.90\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/heatmapsbetpepfinalarrows.png}
 \caption{\textbf{Forecasted changes in chilling (top panel) and spring phenology for \emph{Betula pendula}(bottom panel)}, in locations included in the PEP 725 database, where phenology dates are known for the pre-warming time period (1951-1960). Changes in chilling and budburst are calculated relative to the mean chilling and leafout dates during this pre-warming time period for each location. Arrows indicate sites shown in Fig. 3A (latitude = 46.8\degree N, longitude =  12.8\degree E, 659 m above sea level) and 3B (latitude = 48.3\degree N, longitude =  15.8\degree E, 210 m above sea level) in the main manuscript.} 
 \label{fig:foremap}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/figures/weinberger_MU_4supp.pdf}
+\caption{\textbf{Chilling study design affects estimates of major cues.} Studies using the `Weinberger' method (sequential removal of tissue from field) had later budburst timing, stronger estimates of forcing (Weinberger x Forcing) and weaker estimates of chilling (Weinberger x Chilling) compared to studies that experimentally manipulated chilling directly. For an extended description of model and underlying data see \emph{Chilling study design model}; for model summary see Table \ref{tab:methods}.}
+\label{fig:weinberger}
+\end{figure}
+
+
+\begin{figure}[h!]
+\centering
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah.png}
+\caption{\textbf{Based on our model (see `main budburst model' \emph{Models} section), days to budburst decrease linearly with forcing temperature and vary nonlinearly with chilling temperature} due to the way that chilling is estimated (in this case, the Utah model). Forcing treatment temperatures in growth chamber experiments ranged from 0-32 \degree C and chilling temperatures ranged from -10-16 \degree C (see Table 2S for details). Budburst responses predicted by the main budburst model are shown across the full range of experimental conditions in the OSPREE database with chilling calculated as a constant temperature across a range of durations (as  is commonly applied in experiments). Maximum advances in budburst occur at intermediate chilling temperatures (e.g., here at mean chilling temperatures between 3 and 9 \degree C) and the highest forcing temperatures (32 \degree C). Compare this to Fig. 2 in the main text, which uses field chilling at mean chilling temperatures.}
+\label{fig:3dexpchillutah}
 \end{figure}
 
 
