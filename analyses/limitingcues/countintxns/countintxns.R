@@ -279,10 +279,12 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-variedwsometreats-varyd
 # Enough already?
 
 if(mainmodelbb){
+names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")
 write.csv(bbintxnsdf, "limitingcues/output/bbstan_mainmodel_countinxns.csv", row.names=FALSE)
 }
 
 if(!mainmodelbb){
+names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")
 write.csv(bbintxnsdf, "limitingcues/output/bbstan_allsppmodel_countinxns.csv", row.names=FALSE)
 }
 
