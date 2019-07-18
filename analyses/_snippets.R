@@ -121,3 +121,11 @@ unique(as.numeric(d$chilltemp))
 d$chilltemp <- as.numeric(d$chilltemp)
 morebrr <- subset(d, chilltemp<0)
 unique(morebrr$datasetID)
+
+# And for looking at performance!
+table(d$respvar.simple)
+growthdat <- subset(d, respvar.simple=="growth")
+table(growthdat$respvar)
+lookseegrowth <- subset(growthdat, select=c("datasetID", "study", "genus", "species", "respvar"))
+lookseegrowth.nodup <- lookseegrowth[!duplicated(lookseegrowth), ]
+table(lookseegrowth.nodup$datasetID) # 20 studies have some response data
