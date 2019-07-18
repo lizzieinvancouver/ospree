@@ -35,7 +35,7 @@ length(unique(data$Dataset))
 
 
 ##For loop that reads in the files, widens the column with the data and renames the indiviudal datasets to be examined individually
-#Note: I have removed all the files (12) that have differences in their structure and for which this code does not work.
+#Note: I have removed all the files (12) that have differences in their structure and for which this code does not work. These are dealt with below under the "inconsistent" heading. I have a notes file that outlines how each is different. 
 
 folder<-"~/Desktop/trait_analysis/sep_data_test/"
 file_list <- list.files(path=folder, pattern="*.csv") 
@@ -47,16 +47,20 @@ for (i in 1:length(file_list)){
   assign(paste("dat",i,sep="_"), out)
 }
 
-#Gives 23 datasets renamed dat_1 to dat_25
+#Gives 16 datasets renamed dat_1 to dat_16
 
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[1]
 # LeafTraitsinCentralApenninesBeechForests.csv
-#LDMC 
+#Looking at the columns and which traits are in the dataset 
 names(dat_1)
+
+#Subsetting to a temporary dataset that just incldues the columns we want and the traits
 temp1<-dat_1[,c(1:6,9:11,13,15)]
 head(temp1)
+
+#writing a new csv file with just the data we will use
 write.csv(temp1, '~/Desktop/trait_analysis/clean/LeafTraitsinCentralApenninesBeechForests.csv', row.names=T)
 
 
@@ -239,44 +243,14 @@ head(temp16)
 
 write.csv(temp16, '~/Desktop/trait_analysis/clean/XylemFunctionalTraits(XFT)Database.csv', row.names=T)
 
-# #><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# # 
-# rbind.all.columns <- function(x, y) {
-# 
-#   x.diff <- setdiff(colnames(x), colnames(y))
-#   y.diff <- setdiff(colnames(y), colnames(x))
-# 
-#   x[, c(as.character(y.diff))] <- NA
-# 
-#   y[, c(as.character(x.diff))] <- NA
-# 
-#   return(rbind(x, y))
-# }
-# 
-# test<-rbind.all.columns(temp1,temp2)
-# test2<-rbind.all.columns(temp3,temp4)
-# test3<-rbind.all.columns(temp5,temp6)
-# test4<-rbind.all.columns(temp7,temp8)
-# test5<-rbind.all.columns(temp9,temp10)
-# test6<-rbind.all.columns(temp11,temp12)
-# test7<-rbind.all.columns(temp14,temp13)
-# test8<-rbind.all.columns(temp15,temp16)
-# 
-# test9<-rbind.all.columns(test,test2)
-# test10<-rbind.all.columns(test3,test4)
-# test11<-rbind.all.columns(test5,test6)
-# test12<-rbind.all.columns(test7,test8)
-# 
-# test13<-rbind.all.columns(test9,test10)
-# test14<-rbind.all.columns(test11,test12)
-# 
-# test15<-rbind.all.columns(test13,test14)
-# 
-# str(test15)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 #Cleaning the inconsistent datasets:
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
+
 folder<-"~/Desktop/trait_analysis/inconsistent_ones/"
 file_list <- list.files(path=folder, pattern="*.csv") 
 file_list[1]
