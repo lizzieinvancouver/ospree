@@ -1,0 +1,7 @@
+"","LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset","Exposition","Leaf developmental status","Photosynthesis per leaf area at leaf temperature (A_area)","Plant developmental status / plant age / maturity / plant life stage","LDMC","Specific leaf area (SLA) per fresh weight"
+"1","Atkin","Owen","Quercus ilex",957687,97,"Plant Physiology Database","climate chamber","pre existing","1.964153876","seedlings","56.63858496","317.6016415"
+"2","Atkin","Owen","Quercus ilex",957706,97,"Plant Physiology Database","climate chamber","pre existing","4.84444251","seedlings","57.72078281","319.0954373"
+"3","Atkin","Owen","Quercus ilex",957725,97,"Plant Physiology Database","climate chamber","pre existing","6.604076788","seedlings","59.2353481","268.9364369"
+"4","Atkin","Owen","Quercus ilex",957744,97,"Plant Physiology Database","climate chamber","pre existing","9.698155448","seedlings","55.19724288","291.0249437"
+"5","Atkin","Owen","Quercus ilex",957801,97,"Plant Physiology Database","climate chamber","New develloped","7.667324539","seedlings","53.2340152","297.3053184"
+"6","Atkin","Owen","Quercus ilex",957820,97,"Plant Physiology Database","climate chamber","New develloped","8.384556936","seedlings","55.19554761","286.6332946"
