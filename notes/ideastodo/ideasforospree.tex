@@ -73,14 +73,13 @@ Version dated: \today
 % Check what spp. in PEP725
 % Re-do outline
 % Check for correlations and trade-offs across species
+This file started with the following setup: given the OSPREE data what would you want to know? Or, phrased differently, what do you expect others would immediately do with these data and of that list which items would we have wished we had done? 
 
-It feels like we have started to hone in on one model (see Fig. \ref{fig:zscore}), which could relate to one data manuscript from OSPREE. In starting to think on this manuscript and discuss it with some people, it occurred to me that we will want to release much of the OSPREE database at that time. That means we'll also want to have done most of what we're really excited about \emph{before} releasing the database. 
+We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up a following list of projects/tasks. Most of these tasks could fit into one or more paper (see further below; note how one project may show up in multiple paper conceptions), but step 1 seems to be to decide which ones we want to do and get them started. So here's the overall list of what we'd need to do to tackle \emph{everything} that we came up with.\footnote{Note that we probably don't want or need to do everything.}
 
-This means to me that one thing we should answer soon is: given these data what would you want to know? Or, phrased differently, what do you expect others would immediately do with these data and of that list which items would we have wished we had done? 
 
-We (Ailene, Cat, Dan, Nacho, Lizzie) discussed this in August 2018 and came up with the following list of projects/tasks. Most of these tasks could fit into one or more paper (see further below; note how one project may show up in multiple paper conceptions), but step 1 seems to be to decide which ones we want to do and get them started. So here's the overall list of what we'd need to do to tackle \emph{everything} that we came up with.\footnote{Note that we probably don't want or need to do everything.}
-
-Below updated at December 2018 retreat:
+\subsection{Stuff we should do ...} 
+Below updated at July 2019 retreat:
 \begin{enumerate}
 \item Bigger tasks (to divvy up)
 \begin{enumerate}
@@ -89,15 +88,16 @@ Below updated at December 2018 retreat:
 \item Step 1: Find out if we have fake data (if not, make fake data)
 \item Side note: Data should be pretty clean, \% BB is not thrown out until step 6 in BB cleaning.
 \end{enumerate}
-\item Range questions: Cat, Dan, Deirdre and Nacho
+\item Range questions: Everyone!
 \begin{enumerate}
 \item Calculate exact geographical position within (or beyond) range of each species in each study
 \item Calculate climatic position within (or beyond) range of each species in each study 
-\end{enumerate}
-\item Provenance models (goes with latitude models?) (Dan)
+\item Provenance questions: Do cues vary across provenance? Ideally in some way (northern or coastal or up a mountain etc.) but barring that do they vary? Or even how much does provenance explain days to budburst or such?
+\begin{enumerate}
 \item Elevation models? (Cat)
 \item Effects of coast models? (Cat)
-\item Get trait data (and correlate cues with trait data)\footnote{For here and for all our questions, we'll want to think carefully about not running so MANY models that we are sure to find something, AKA sure to find something possibly spurious.} Darwin, Deirdre working on this, Cat also willing to help.
+\item Get trait data (and correlate cues with trait data)\footnote{For here and for all our questions, we'll want to think carefully about not running so MANY models that we are sure to find something, AKA sure to find something possibly spurious.} Darwin, Deirdre working on this.
+\end{enumerate}
 \begin{enumerate}
 \item wood anatomy
 \item leaf vein anatomy (Sack papers?)
@@ -123,17 +123,25 @@ Below updated at December 2018 retreat:
 \item Calculate delays in advances in OSPREE species from PEP725 data (Ben is working on something simiilar)
 \item Get phylogeny for our species, add it to basic BB model (Nacho, in BRMS, also do phylogenetic signal)
 \end{enumerate}
+\end{enumerate}
+\item Do we want to analyze the performance data? 
+\end{enumerate} 
+
+\subsection{Stuff we said we wanted to do and did!}
+Updated July 2019
+\begin{enumerate}
+
 \item Tasks related to BB model (probably do not need to divvy up right now, as we will get these done methinks)
 \begin{enumerate}
 \item BB models with Weinberger
-\item \st{BB models with chilling examined:} Not enough data to look at experimental versus forced. 
-\item \st{Revisit non-linear BB models:} No sign of non-linearities in our data, but Ailene checking a couple species (see issue \#190)
-\item BB models: Does temperature treatment covary with photoperiod? ... still sort of working on (Cat, but not much data.. issues \#220 and \#235 at least) 
-\item BB model interpretation: Apply 1 C of warming (across year, in certain seasons)
+\item Revisit non-linear BB models: No sign of non-linearities in our data much, at least for chilling. 
+\item BB models: Does temperature treatment covary with photoperiod? ... see issues \#220 and \#235 at least. Also, countinxns code does this now!
+\item BB model interpretation: Apply 1 C of warming (across year, in certain seasons) ... so very done!
 \end{enumerate}
-\end{enumerate} 
+\item Other stuff ... ?
+\end{enumerate}
 
-\emph{Lizzie's notes from way back when ...}\\
+\subsection{Lizzie's notes from way back when ...}
 
 {\bf Directions I can think of that we could take these budburst data:}
 \begin{enumerate}
