@@ -1,4 +1,4 @@
-Literature Review: June 10 2019
+Literature Review: June 12 2019
 
 Searched by: Deirdre Loughnan & Darwin Sodhi
 
@@ -21,15 +21,15 @@ GS:
 Other search terms which we tested: 
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
-WOS: 60
+WOS: 61
 GS: 
 
 (budburst OR flower* OR leaf-out) AND photoperiod AND temp*
-WOS: 56 
+WOS: 60 
 GS: 
 
 (budburst OR flower* OR leaf-out) AND (photoperiod or daylength) AND temp* 
-WOS: 57
+WOS: 61
 GS: 
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*
@@ -37,7 +37,7 @@ WOS: 7
 GS: 
 
 (budburst OR leaf-out) AND (photoperiod or daylength) AND temp*
-WOS: 9
+WOS: 10
 GS: 
 
 (budburst OR leaf-out) AND dorman*

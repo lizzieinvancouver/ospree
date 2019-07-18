@@ -6,19 +6,19 @@ require(reshape2)
 # Select georeferenced Datasets -------------------------------------------
 setwd("~/Desktop/trait_analysis") # Working directory 
 #data <- read.csv("input/Try_data_Dec2018.csv")
-data <- read.csv("input/TRY_data_April2019.csv")
-data<-data[,1:25]
-str(data)
-head(data)
-names(data)
+# data <- read.csv("input/TRY_data_April2019.csv")
+# data<-data[,1:25]
+# str(data)
+# head(data)
+# names(data)
 #To help simlify what we are looking at,  I also removed the Reference and Comment col
 
 
 #First identify how many unique datasets there are:
 
 length(unique(data$Dataset))
-# March data has 76 unique datasets
-# 
+# March data has 78 unique datasets
+
 # #Separating the datasets into indiviudal files to clean
 # for (name in unique(data$Dataset)){
 #   #Subset the data by dataset name
@@ -32,330 +32,634 @@ length(unique(data$Dataset))
 # }
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+
 
 ##For loop that reads in the files, widens the column with the data and renames the indiviudal datasets to be examined individually
+#Note: I have removed all the files (12) that have differences in their structure and for which this code does not work.
 
 folder<-"~/Desktop/trait_analysis/sep_data_test/"
 file_list <- list.files(path=folder, pattern="*.csv") 
 file_list[1]
 for (i in 1:length(file_list)){
   out<-assign(file_list[i], 
-         read.csv(paste(folder, file_list[i], sep='')))
-  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+OrigUnitStr~DataName, value.var = "OrigValueStr", na.rm=TRUE))
-         assign(paste("dat",i,sep="_"), out) 
-  }
+              read.csv(paste(folder, file_list[i], sep='')))
+  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE))
+  assign(paste("dat",i,sep="_"), out)
+}
+
+#Gives 23 datasets renamed dat_1 to dat_25
+
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# # Cleaning Xylem fucntional trait study to test whether this works
-# xylem36<-read.csv("sep_data/XylemFunctionalTraits(XFT)Database.csv")
-# 
-# str(xylem36)
-# names(xylem36)
-# xylem<-xylem36[,c(1:5,8:9,11,13,15,16)]
-# 
-# names(xylem)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# xylem_wide<-dcast(xylem, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# head(xylem_wide)
-# names(xylem_wide)
-# 
-# #There are 97 variables, many of which are weather eg rel humidity for ea month, sum of precip for ea month
-# #Subsetting just the trait/site data
-# tmp1<-xylem_wide[,c(1:6, 26,32,34:35, 63:64,66,80,93,97)]
-# str(tmp1)
-# names(tmp1)
-# 
-# #write.csv(tmp1, file="xylemFunctionalTraits.csv", row.names = TRUE)
-# #This seems to have worked
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# # Cleaning Tundra fucntional trait study to test whether this workstu
-# tundra35<-read.csv("sep_data/TundraPlantTraitsDatabase.csv")
-# 
-# str(tundra35)
-# tundra<-tundra35[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tundra)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tundra_wide<-dcast(tundra, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# names(tundra_wide)
-# ##there are 10 variables, 
-# tmp2<-tundra_wide[,c(1:5,7:8)]
-# head(tmp2)
-# 
-# #write.csv(tmp2, file="tundraplanttrait.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# # Cleaning 
-# d34<-read.csv("sep_data/TraitsfromSubarcticPlantSpeciesDatabase.csv")
-# 
-# str(d34)
-# tmp34<-d34[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp34)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp34_wide<-dcast(tmp34, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp34_wide)
-# names(tmp34_wide)
-# #There are 18 variaples, some about soil and phylogeny
-# 
-# tmp34_sub<-tmp34_wide[,c(1:11, 13:14)]
-# head(tmp34_sub)
-# write.csv(tmp34_wide, file="TraitsSubarticPlant.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d33<-read.csv("sep_data/TheNetherlandsPlantTraitsDatabase.csv")
-# #str(d33)
-# tmp33<-d33[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp33)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp33_wide<-dcast(tmp33, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp33_wide)
-# names(tmp33_wide)
-# #There are 22 variaples, some about soil conditions
-# 
-# tmp33_sub<-tmp33_wide[,c(1:10,22)]
-# head(tmp33_sub)
-# 
-# write.csv(tmp33_wide, file="NetherlandsPlantTraits.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d32<-read.csv("sep_data/TheLEDATraitbase.csv")
-# str(d32)
-# tmp32<-d32[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp32)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp32_wide<-dcast(tmp32, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp32_wide)
-# names(tmp32_wide)
-# #There are 23 variaples, I am going to remove the comments and notes
-# 
-# tmp32_sub<-tmp32_wide[,c(1:13)]
-# head(tmp32_sub)
-# names(tmp32_sub)
-# 
-# write.csv(tmp32_wide, file="LEDATraits.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d31<-read.csv("sep_data/TheFunctionalEcologyofTrees(FET)Database-Jena.csv")
-# str(d31)
-# tmp31<-d31[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp31)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp31_wide<-dcast(tmp31, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp31_wide)
-# names(tmp31_wide)
-# #There are 8 variaples, I am not going to remove any
-# 
-# tmp31_sub<-tmp31_wide
-# 
-# write.csv(tmp31_wide, file="Functionalecologyoftrees.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d30<-read.csv("sep_data/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv")
-# str(d30)
-# tmp30<-d30[,c(1:5,8:9,11,13,15,16)]
-# 
-# str(tmp30)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp30_wide<-dcast(tmp30, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp30_wide)
-# names(tmp30_wide)
-# #There are 16 variaples, I am not going to remove the canopy position, we might want to select for just sun leaves
-# 
-# tmp30_sub<-tmp30_wide
-# 
-# write.csv(tmp30_wide, file="Structural&biochemicalleaftraits.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d29<-read.csv("sep_data/SheffieldDatabase.csv")
-# str(d29)
-# tmp29<-d29[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp29)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp29_wide<-dcast(tmp29, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp29_wide)
-# names(tmp29_wide)
-# #There are 35 variaples, I removing the litter and treatment specific col
-# 
-# tmp29_sub<-tmp29_wide[,c(1:7,13:21, 29,34:35)]
-# head(tmp29_sub)
-# 
-# write.csv(tmp29_wide, file="sheffield.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d28<-read.csv("sep_data/Sheffield&SpainWoodyDatabase.csv")
-# str(d28)
-# tmp28<-d28[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp28)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp28_wide<-dcast(tmp28, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp28_wide)
-# names(tmp28_wide)
-# #There are 18 variaples, I am going to leave the treatment columns in case we want to subset for one ie control/ambient
-# 
-# tmp28_sub<-tmp28_wide
-# head(tmp28_sub)
-# names(tmp28_sub)
-# 
-# write.csv(tmp28_wide, file="sheffield&spain.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d27<-read.csv("sep_data/MARGINS-leaftraitsdatabase.csv")
-# str(d27)
-# tmp27<-d27[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp27)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp27_wide<-dcast(tmp27, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp27_wide)
-# names(tmp27_wide)
-# #There are 34 variaples, I am going to remove site and soil columns
-# 
-# tmp27_sub<-tmp27_wide[,c(1:7,10:12,14:19)]
-# head(tmp27_sub)
-# names(tmp27_sub)
-# 
-# write.csv(tmp27_wide, file="margins_leaftrait.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d26<-read.csv("sep_data/LeafTraitsinItalianCentralApenninesBeechForests.csv")
-# str(d26)
-# tmp26<-d26[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp26)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp26_wide<-dcast(tmp26, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp26_wide)
-# names(tmp26_wide)
-# #There are 15 variaples, I am going to remove the bedrock column
-# 
-# tmp26_sub<-tmp26_wide[,c(1:7,9:15)]
-# head(tmp26_sub)
-# names(tmp26_sub)
-# 
-# write.csv(tmp26_wide, file="ItalianCentralApennienesbeechforest.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d25<-read.csv("sep_data/LeafTraitsinCentralApenninesBeechForests.csv")
-# str(d25)
-# tmp25<-d25[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp25)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp25_wide<-dcast(tmp25, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp25_wide)
-# names(tmp25_wide)
-# #There are 15 variaples, I am going to remove site and soil columns
-# 
-# tmp25_sub<-tmp25_wide[,c(1:7,9:15)]
-# head(tmp25_sub)
-# names(tmp25_sub)
-# 
-# write.csv(tmp25_wide, file="CentralApennienesbeechforest.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
-# # Cleaning 
-# d24<-read.csv("sep_data/LeafStructureandChemistry.csv")
-# str(d24)
-# tmp24<-d24[,c(1:5,8:9,11,13,15,16)]
-# 
-# head(tmp24)
-# 
-# #Now, using reshape2, convert it from long to wide formatted data
-# 
-# tmp24_wide<-dcast(tmp24, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
-# str(tmp24_wide)
-# names(tmp24_wide)
-# #There are 24 variaples, but all seem pretty relevant 
-# 
-# tmp24_sub<-tmp24_wide
-# head(tmp24_sub)
-# names(tmp24_sub)
-# 
-# write.csv(tmp24_wide, file="LeafStructureandChemistry.csv", row.names = TRUE)
-# 
-# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
-# 
+file_list[1]
+# LeafTraitsinCentralApenninesBeechForests.csv
+#LDMC 
+names(dat_1)
+temp1<-dat_1[,c(1:6,9:11,13,15)]
+head(temp1)
+write.csv(temp1, '~/Desktop/trait_analysis/clean/LeafTraitsinCentralApenninesBeechForests.csv', row.names=T)
+
+
+#All mature, all in a natural environment
+names(temp1)
+unique(temp1[,11])
+
+unique(temp1$`Plant developmental status / plant age / maturity / plant life stage`)
+unique(temp1$`Treatment exposition`)
+
+#all mature and natural.
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[2]
+# LeafveindensityofFagussylvaticaL.andQuercusfagineaLam.csv
+
+names(dat_2)
+
+temp2<-dat_2[,c(1:6,8,10,14,15:18,21)]
+head(temp2)
+write.csv(temp2, '~/Desktop/trait_analysis/clean/LeafveindensityofFagussylvaticaL.andQuercusfagineaLam.csv', row.names=T)
+
+unique(temp2$`Exposition`) 
+
+#All mature, all in a natural environment
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[3]
+# OvertonWrightNewZealandDatabase.csv
+
+head(dat_3)
+names(dat_3)
+temp3<-dat_3[,c(1:10,14)]
+head(temp3)
+write.csv(temp3, '~/Desktop/trait_analysis/clean/OvertonWrightNewZealandDatabase.csv', row.names=T)
+
+#only one height value/line in the entire dataset
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[4]
+# OzarkTreeleaftraits.csv
+names(dat_4)
+temp4<-dat_4[,c(1:15)]
+head(temp4)
+write.csv(temp4, '~/Desktop/trait_analysis/clean/OzarkTreeleaftraits.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[5]
+#PhotosynthesisTraitsWorldwide.csv
+
+names(dat_5)
+temp5<-dat_5[,c(1:6,20,25,39,40,70)]
+head(temp5)
+write.csv(temp5, '~/Desktop/trait_analysis/clean/PhotosynthesisTraitsWorldwide.csv', row.names=T)
+
+unique(temp5$`Plant developmental status / plant age / maturity / plant life stage`)
+# JUST saplings 
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[6]
+#PLANTATT-AttributesofBritishandIrishPlants.csv
+
+names(dat_6)
+temp6<-dat_6[,c(1:6,13)]
+head(temp6)
+write.csv(temp6, '~/Desktop/trait_analysis/clean/PLANTATT-AttributesofBritishandIrishPlants.csv', row.names=T)
+
+#heights are in cm
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[7]
+#PlantTraits,Virginia,USA.csv
+
+names(dat_7)
+temp7<-dat_7[,c(1:7,9,11:13,15:16)]
+head(temp7)
+write.csv(temp7, '~/Desktop/trait_analysis/clean/PlantTraits,Virginia,USA.csv', row.names=T)
+
+unique(temp7$`Plant developmental status / plant age / maturity / plant life stage`)
+unique(temp7$`Treatment exposition`)
+
+#All juvenile and all natural envirts
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[8]
+#"QuercusLeafC&NDatabase.csv"
+names(dat_8)
+head(dat_8)
+temp8<-dat_8[,c(1:6,8:11,14)]
+head(temp8)
+write.csv(temp8, '~/Desktop/trait_analysis/clean/QuercusLeafC&NDatabase.csv', row.names=T)
+
+unique(temp8$`Plant developmental status / plant age / maturity / plant life stage`)
+
+# young and old trees
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[9]
+#SpecificleafareaforwoodyspeciesatSmithsonian-ForestGEOplot-Virginia,USA.csv
+
+names(dat_9)
+head(dat_9)
+temp9<-dat_9[,c(1:6,8,10,11,13,17,18)]
+head(temp9)
+write.csv(temp9, '~/Desktop/trait_analysis/clean/SpecificleafareaforwoodyspeciesatSmithsonian-ForestGEOplot-Virginia,USA.csv', row.names=T)
+
+unique(temp9$`Plant developmental status / plant age / maturity / plant life stage`)
+unique(temp9$`Treatment exposition`)
+#BOTH juvenile and mature individuals; all in natural environments 
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[10]
+#TheFunctionalEcologyofTrees(FET)Database-Jena.csv
+
+names(dat_10)
+head(dat_10)
+temp10<-dat_10[,c(1:6,9,10,12,14,27,28,30,35:45,66:68,75,94,112)]
+head(temp10)
+write.csv(temp10, '~/Desktop/trait_analysis/clean/TheFunctionalEcologyofTrees(FET)Database-Jena.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[11]
+#TheNetherlandsPlantTraitsDatabase.csv
+
+names(dat_11)
+head(dat_11)
+temp11<-dat_11[,c(1:9,12,23)]
+head(temp11)
+write.csv(temp11, '~/Desktop/trait_analysis/clean/TheNetherlandsPlantTraitsDatabase.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[12]
+#TheXylemPhloemDatabase.csv
+
+names(dat_12)
+head(dat_12)
+temp12<-dat_12[,c(1:6,13,17,24)]
+head(temp12)
+write.csv(temp12, '~/Desktop/trait_analysis/clean/TheXylemPhloemDatabase.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[13]
+#TundraPlantTraitsDatabase.csv
+
+names(dat_13)
+head(dat_13)
+temp13<-dat_13[,c(1:8,10)]
+head(temp13)
+write.csv(temp13, '~/Desktop/trait_analysis/clean/TundraPlantTraitsDatabase.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[14]
+#Woodcarboncontentdatabase.csv
+
+names(dat_14)
+head(dat_14)
+temp14<-dat_14[,c(1:8)]
+head(temp14)
+write.csv(temp14, '~/Desktop/trait_analysis/clean/Woodcarboncontentdatabase.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[15]
+#Woodcarbondatabase.csv
+
+names(dat_15)
+head(dat_15)
+temp15<-dat_15[,c(1:8,10,13)]
+head(temp15)
+
+write.csv(temp15, '~/Desktop/trait_analysis/clean/Woodcarbondatabase.csv', row.names=T)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[16]
+#XylemFunctionalTraits(XFT)Database.csv
+
+names(dat_16)
+head(dat_16)
+temp16<-dat_16[,c(1:6,27,33,35,65:67,81,97)]
+head(temp16)
+
+write.csv(temp16, '~/Desktop/trait_analysis/clean/XylemFunctionalTraits(XFT)Database.csv', row.names=T)
+
+# #><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+# # 
 # rbind.all.columns <- function(x, y) {
-#   
+# 
 #   x.diff <- setdiff(colnames(x), colnames(y))
 #   y.diff <- setdiff(colnames(y), colnames(x))
-#   
+# 
 #   x[, c(as.character(y.diff))] <- NA
-#   
+# 
 #   y[, c(as.character(x.diff))] <- NA
-#   
+# 
 #   return(rbind(x, y))
 # }
 # 
-# test<-rbind.all.columns(tmp24_sub,tmp25_sub)
-# test2<-rbind.all.columns(tmp26_sub,tmp27_sub)
-# test3<-rbind.all.columns(tmp28_sub,tmp29_sub)
-# test4<-rbind.all.columns(tmp30_sub,tmp31_sub)
-# test5<-rbind.all.columns(tmp32_sub,tmp33_sub)
-# test6<-rbind.all.columns(tmp34_sub,tundra_sub)
-# test7<-rbind.all.columns(test6,xylem_sub)
+# test<-rbind.all.columns(temp1,temp2)
+# test2<-rbind.all.columns(temp3,temp4)
+# test3<-rbind.all.columns(temp5,temp6)
+# test4<-rbind.all.columns(temp7,temp8)
+# test5<-rbind.all.columns(temp9,temp10)
+# test6<-rbind.all.columns(temp11,temp12)
+# test7<-rbind.all.columns(temp14,temp13)
+# test8<-rbind.all.columns(temp15,temp16)
 # 
-# test8<-rbind.all.columns(test7,test5)
-# test9<-rbind.all.columns(test8,test4)
-# test10<-rbind.all.columns(test9,test3)
-# test11<-rbind.all.columns(test10,test2)
-# final<-rbind.all.columns(test11,test)
+# test9<-rbind.all.columns(test,test2)
+# test10<-rbind.all.columns(test3,test4)
+# test11<-rbind.all.columns(test5,test6)
+# test12<-rbind.all.columns(test7,test8)
 # 
-# str(final) #73 variables
+# test13<-rbind.all.columns(test9,test10)
+# test14<-rbind.all.columns(test11,test12)
 # 
-# names(final)
+# test15<-rbind.all.columns(test13,test14)
 # 
-# length(unique(final$DatasetID)) #13 unique datasets combined into one
+# str(test15)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+#Cleaning the inconsistent datasets:
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+folder<-"~/Desktop/trait_analysis/inconsistent_ones/"
+file_list <- list.files(path=folder, pattern="*.csv") 
+file_list[1]
+for (i in 1:length(file_list)){
+  out<-assign(file_list[i], 
+              read.csv(paste(folder, file_list[i], sep='')))
+  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE))
+  assign(paste("dat",i,sep="_"), out)
+}
+
+#######################################################
+file_list[1]
+#[1] "LeafStructureandChemistry.csv"
+
+names(dat_1)
+head(dat_1)
+temp1<-dat_1[,c(1:6,14,16,17,22,24,25,29)]
+head(temp1)
+unique(temp1$`Leaf carbon content per dry mass`)
+#get the LMDC and SLA values
+dat1_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/LeafStructureandChemistry.csv")
+out<-dcast(dat1_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE); names(out)
+out<-out[,c(1:7,15)]
+
+
+temp17<-merge(temp1, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+colnames(temp17)[colnames(temp17)=="258"] <- "LDMC"
+head(temp17)
+write.csv(temp17, '~/Desktop/trait_analysis/clean/LeafStructureandChemistry.csv', row.names=T)
+#######################################################
+file_list[2]
+#[2] Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv
+
+names(dat_2)
+temp2<-dat_2[,c(1:6,8:9,12,14)]
+head(temp2)
+
+dat2_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv")
+out<-dcast(dat2_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE); names(out)
+out<-out[,c(1:6,18)]
+
+
+temp18<-merge(temp2, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp18)
+write.csv(temp18, '~/Desktop/trait_analysis/clean/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv', row.names=T)
+#######################################################
+file_list[3]
+#MARGINS-leaftraitsdatabase.csv
+
+head(dat_3)
+names(dat_3)
+temp3<-dat_3[,c(1:6,11,13,15,19,35:38)]
+head(temp3)
+
+#get the LMDC and SLA values
+dat3_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/MARGINS-leaftraitsdatabase.csv")
+out<-dcast(dat3_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+out<-out[,c(1:7)]
+head(out)
+
+temp19<-merge(temp3, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+colnames(temp19)[colnames(temp19)=="258"] <- "LDMC"
+head(temp19)
+write.csv(temp19, '~/Desktop/trait_analysis/clean/MARGINS-leaftraitsdatabase.csv', row.names=T)
+#######################################################
+file_list[4]
+#PlantPhysiologyDatabase.csv
+
+names(dat_4)
+head(dat_4) 
+temp4<-dat_4[,c(1:6,9,11,13:14)]
+head(temp4)
+
+#get the LMDC and SLA values
+dat4_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantPhysiologyDatabase.csv")
+out<-dcast(dat4_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+out<-out[,c(1:7,15)]
+head(out)
+
+temp20<-merge(temp4, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+colnames(temp20)[colnames(temp20)=="258"] <- "LDMC"
+head(temp20)
+write.csv(temp20, '~/Desktop/trait_analysis/clean/PlantPhysiologyDatabase.csv', row.names=T)
+
+unique(temp20$`Plant developmental status / plant age / maturity / plant life stage`)
+# JUST seedlings
+
+#######################################################
+file_list[5]
+# "PLANTSdataUSDA.csv"
+names(dat_5)
+temp5<-dat_5[,c(1:8)]
+head(temp5)
+
+#mature tree height values are under the unit colmn and default is in feet not meters
+dat5_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PLANTSdataUSDA.csv")
+out<-dcast(dat5_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+out<-out[,c(1:7)]
+
+dat5_3<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PLANTSdataUSDA.csv")
+out2<-dcast(dat5_3, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "UnitName", na.rm=TRUE)
+out2<-out2[,c(1:6,8)]
+head(out2)
+
+out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+temp21<-merge(temp5, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+
+write.csv(temp21, '~/Desktop/trait_analysis/clean/PLANTSdataUSDA.csv', row.names=T)
+
+#######################################################
+file_list[6]
+# PlantTraitsforPinusandJuniperusForestsinArizona.csv
+names(dat_6)
+#both LDMC and DBH are in the OrigUnitStr
+temp6<-dat_6[,c(1:6,9:11,13:14,18)]
+head(temp6)
+
+dat6_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantTraitsforPinusandJuniperusForestsinArizona.csv")
+out<-dcast(dat6_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+head(out)
+out<-out[,c(1:7,17)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp22<-merge(temp6,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp22)
+write.csv(temp22, '~/Desktop/trait_analysis/clean/PlantTraitsforPinusandJuniperusForestsinArizona.csv', row.names=T)
+
+#######################################################
+file_list[7]
+#PlantTraitsfromCirceoNationalPark,Italy.csv
+names(dat_7)
+temp7<-dat_7[,c(1:6,10,12)]
+head(temp7)
+
+dat7_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantTraitsfromCirceoNationalPark,Italy.csv")
+out<-dcast(dat7_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+out<-out[,c(1:7,9,11)]
+head(out)
+
+#now combining into one dataset
+temp23<-merge(temp7,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+
+head(temp23)
+write.csv(temp23, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=T)
+
+#######################################################
+file_list[8]
+#PlantTraitsfromCirceoNationalPark.csv
+names(dat_8)
+
+#Trait values are in the UnitNam col
+dat8_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantTraitsfromCirceoNationalPark.csv")
+out<-dcast(dat8_2, LastName+FirstName+ Dataset+SpeciesName+ObservationID~OrigValueStr, value.var = "UnitName", na.rm=TRUE)
+names(out)
+temp24<-out[,c(1:8,10,11)]
+head(temp24)
+#All mature in natural envrt
+write.csv(temp24, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark.csv', row.names=T)
+
+#######################################################
+file_list[9]
+#PlantTraitsFromSpanishMediteraneanshrublands.csv
+names(dat_9)
+
+#LDMC data 
+temp9<-dat_9[,c(1:6,8,11,12,13,15)]
+head(temp9)
+dat9_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantTraitsFromSpanishMediteraneanshrublands.csv")
+out<-dcast(dat9_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp25<-merge(temp9,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp25)
+write.csv(temp25, '~/Desktop/trait_analysis/clean/PlantTraitsFromSpanishMediteraneanshrublands.csv', row.names=T)
+
+#######################################################
+
+# PlantTraitsofCanadianForests.csv
 # 
+# # #Height is in cm, so converting to m
+dat_10<-read.csv("~/Desktop/trait_analysis/sep_data/PlantTraitsofCanadianForests.csv")
+dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+
+#Height is in cm, so converting to m
+#heights are in cm so use StdValue
+names(dat_10)
+temp26<-dat_10[,c(1:6,8,9,11,13,20:22)]
+head(temp10)
+write.csv(temp26, '~/Desktop/trait_analysis/clean/PlantTraitsofCanadianForests.csv', row.names=T)
+
+# head(dat_10)
+# dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+AccSpeciesID+ObsDataID~OriglName, value.var = "StdValue", na.rm=TRUE)
+# names(dat_10)
 # 
+# temp10<-dat_10[,c(1:6,11)]
+# head(temp10)
+
+
+#SHOULD BE Canadian forests dataset
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[11]
+#RollinsonDBH.csv
+names(dat_11)
+
+temp11<-dat_11[,c(1:7,9,10)]
+head(temp11)
+
+#Stem diameter is in the OrigUnitStr col
+dat11_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/RollinsonDBH.csv")
+out<-dcast(dat11_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+out<-out[,c(1:6,13)]
+head(out)
+
+temp27<-merge(temp11,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp27)
+write.csv(temp27, '~/Desktop/trait_analysis/clean/RollinsonDBH.csv', row.names=T)
+
+unique(temp27$`Exposition`)
+#All natural
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[12]
+#Sheffield&SpainWoodyDatabase.csv
+names(dat_12)
+head(dat_12)
+temp12<-dat_12[,c(1:6,8,9,10,12,13,19)]
+head(temp12)
+write.csv(temp12, '~/Desktop/trait_analysis/clean/Sheffield&SpainWoodyDatabase.csv', row.names=T)
+
+#not sure why I put this one in the inconsistent folder
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[13]
+#SheffieldDatabase.csv
+names(dat_13)
+head(dat_13)
+temp13<-dat_13[,c(1:6,14, 16,19,22,24,27,32:35)]
+head(temp13)
+
+#LDMC is under OrigUnitStr
+dat13_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/SheffieldDatabase.csv")
+out<-dcast(dat13_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out)
+head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+#Leaf water content is under ValueKindName
+out2<-dcast(dat13_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "ValueKindName", na.rm=TRUE)
+names(out2); head(out2)
+out2<-out2[,c(1:6,8)]
+colnames(out2)[colnames(out2)=="54"] <- "LWC"
+
+out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+temp28<-merge(temp13, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+write.csv(temp28, '~/Desktop/trait_analysis/clean/SheffieldDatabase.csv', row.names=T)
+
+head(temp28)
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[14]
+#StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv
+
+names(dat_14)
+head(dat_14)
+temp14<-dat_14[,c(1:6,8,9,10:14,16)]
+head(temp14)
+
+#LDMC is under OrigUnitStr
+dat14_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv")
+out<-dcast(dat14_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp29<-merge(temp14, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+write.csv(temp29, '~/Desktop/trait_analysis/clean/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=T)
+
+unique(temp29$`Plant developmental status / plant age / maturity / plant life stage`)
+unique(temp29$`Exposition`)
+#BOTH juvenile and mature individuals; all in natural environments 
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[15]
+#TheChinaPlantTraitDatabase.csv
+
+names(dat_15)
+head(dat_15)
+temp15<-dat_15[,c(1:6,14,16,17,20)]
+head(temp15)
+
+#LDMC is under OrigUnitStr
+dat15_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/TheChinaPlantTraitDatabase.csv")
+out<-dcast(dat15_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp30<-merge(temp15, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp30)
+write.csv(temp30, '~/Desktop/trait_analysis/clean/TheChinaPlantTraitDatabase.csv', row.names=T)
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[16]
+#TheGlobalLeafTraits.csv
+
+names(dat_16)
+head(dat_16)
+temp16<-dat_16[,c(1:6,29:33,37,74)]
+head(temp16)
+
+#LDMC is under OrigUnitStr
+dat16_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/TheGlobalLeafTraits.csv")
+out<-dcast(dat16_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+#Leaf water content is under ValueKindName
+out2<-dcast(dat16_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "ValueKindName", na.rm=TRUE)
+names(out2); head(out2)
+out2<-out2[,c(1:6,8)]
+colnames(out2)[colnames(out2)=="54"] <- "LWC"
+
+out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+temp31<-merge(temp16, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+
+head(temp31)
+write.csv(temp31, '~/Desktop/trait_analysis/clean/TheGlobalLeafTraits.csv', row.names=T)
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[17]
+#TheLEDATraitbase.csv
+names(dat_17)
+head(dat_17)
+temp17<-dat_17[,c(1:6,10,13,16:18,23:25,27)]
+head(temp17)
+
+dat17_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/TheLEDATraitbase.csv")
+out<-dcast(dat17_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp32<-merge(temp17, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp32)
+write.csv(temp32, '~/Desktop/trait_analysis/clean/TheLEDATraitbase.csv', row.names=T)
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[18]
+#TraitsfromSubarcticPlantSpeciesDatabase.csv
+names(dat_18)
+head(dat_18)
+temp18<-dat_18[,c(1:6,9,10:13,15)]
+head(temp18)
+
+dat18_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/TraitsfromSubarcticPlantSpeciesDatabase.csv")
+out<-dcast(dat18_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:7)]
+colnames(out)[colnames(out)=="258"] <- "LDMC"
+
+temp33<-merge(temp18, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp33)
+write.csv(temp33, '~/Desktop/trait_analysis/clean/TraitsfromSubarcticPlantSpeciesDatabase.csv', row.names=T)
+
+# #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[19]
+#WholePlantHydraulicConductance.csv
+names(dat_19)
+head(dat_19)
+temp19<-dat_19[,c(1:7)]
+head(temp19)
+
+dat19_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/WholePlantHydraulicConductance.csv")
+out<-dcast(dat19_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigUnitStr", na.rm=TRUE)
+names(out); head(out)
+out<-out[,c(1:6,9)]
+
+temp34<-merge(temp19, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp34)
+
+write.csv(temp34, '~/Desktop/trait_analysis/clean/WholePlantHydraulicConductance.csv', row.names=T)
