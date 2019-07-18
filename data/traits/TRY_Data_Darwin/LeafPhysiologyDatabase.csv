@@ -1,0 +1,168 @@
+"","LastName","FirstName","DatasetID","Dataset","SpeciesName","Altitude","Latitude","Longitude","Photosynthesis per leaf area at leaf temperature (A_area)","Plant height vegetative","Reference / source","Stomata conductance to water vapour per leaf area"
+"1","Kattge","Jens",67,"Leaf Physiology Database","Acer pensilvanicum","340","42.53","-72.18","9.8","13.5","Bassow and Bazzaz (1997)",NA
+"2","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum","340","42.53","-72.18","12.5",NA,"Bassow and Bazzaz (1997)",NA
+"3","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,NA,NA,"8.2",NA,"Reich et al. (1995)",NA
+"4","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,NA,NA,"3.8",NA,"Reich et al. (1995)",NA
+"5","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum","700","36","-83.5","7.81",NA,"Reich et al. (1999 and 1998)","237"
+"6","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum","275","43.03","-89.47","6.51",NA,"Reich et al. (1999 and 1998)",NA
+"7","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum","700","36","-83.5",NA,NA,"Reich et al. (1999 and 1998)","237"
+"8","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum","275","43.03","-89.47",NA,NA,"Reich et al. (1999 and 1998)",NA
+"9","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","8.8",NA,"Springer (2005)",NA
+"10","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","6.4",NA,"Springer (2005)",NA
+"11","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","9.2",NA,"Springer (2005)",NA
+"12","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","12.4",NA,"Springer (2005)",NA
+"13","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","6.8",NA,"Springer (2005)",NA
+"14","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","6",NA,"Springer (2005)",NA
+"15","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","12",NA,"Springer (2005)",NA
+"16","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","10.2",NA,"Springer (2005)",NA
+"17","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","12",NA,"Springer (2005)",NA
+"18","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","10.2",NA,"Springer (2005)",NA
+"19","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","9",NA,"Springer (2005)",NA
+"20","Kattge","Jens",67,"Leaf Physiology Database","Acer rubrum",NA,"36.62","-79.15","8.2",NA,"Springer (2005)",NA
+"21","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","340","42.53","-72.18","6.5",NA,"Bassow and Bazzaz (1997)",NA
+"22","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","360","42.98","-90.12","10.9",NA,"Ellworth and Reich (1993)",NA
+"23","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","360","42.98","-90.12","8.5",NA,"Ellworth and Reich (1993)",NA
+"24","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","360","42.98","-90.12","6.4",NA,"Ellworth and Reich (1993)",NA
+"25","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","360","42.98","-90.12","5.2",NA,"Ellworth and Reich (1993)",NA
+"26","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum",NA,NA,NA,"7.4",NA,"Reich et al. (1995)",NA
+"27","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum",NA,NA,NA,"7.8",NA,"Reich et al. (1995)",NA
+"28","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","275","43.03","-89.47","8",NA,"Reich et al. (1999 and 1998)",NA
+"29","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum","275","43.03","-89.47",NA,NA,"Reich et al. (1999 and 1998)",NA
+"30","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum",NA,"45.5","-89.63","7",NA,"Ellsworth (2004)",NA
+"31","Kattge","Jens",67,"Leaf Physiology Database","Acer saccharum",NA,"45.5","-89.63","7",NA,"Ellsworth (2004)",NA
+"32","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","226.15378"
+"33","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","243.33331"
+"34","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","198.26112"
+"35","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","224.3999"
+"36","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","242.06897"
+"37","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","211.99983"
+"38","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","136.21622"
+"39","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","175.26328"
+"40","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","318.62085"
+"41","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","208.46172"
+"42","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","274.81464"
+"43","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","266.66653"
+"44","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","236.24995"
+"45","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","58.33327"
+"46","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","266.3334"
+"47","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","91.87498"
+"48","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","238.57155"
+"49","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","178.84604"
+"50","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","204.99992"
+"51","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","44.82761"
+"52","Kattge","Jens",67,"Leaf Physiology Database","Alnus glutinosa",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","113.12503"
+"53","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera","340","42.53","-72.18","19.1",NA,"Bassow and Bazzaz (1997)",NA
+"54","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera",NA,NA,NA,"20.8",NA,"Reich et al. (1998)",NA
+"55","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera",NA,NA,NA,"11.6",NA,"Reich et al. (1998)",NA
+"56","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera",NA,"45.5","-89.63","22",NA,"Ellsworth (2004)",NA
+"57","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera",NA,"45.5","-89.63","16.5",NA,"Ellsworth (2004)",NA
+"58","Kattge","Jens",67,"Leaf Physiology Database","Betula papyrifera",NA,"45.55","-84.7","9.8",NA,"Jurik (1988)",NA
+"59","Kattge","Jens",67,"Leaf Physiology Database","Larix decidua","275","43.03","-89.47","7.34",NA,"Reich et al. (1999 and 1998)","250"
+"60","Kattge","Jens",67,"Leaf Physiology Database","Larix decidua","275","43.03","-89.47",NA,NA,"Reich et al. (1999 and 1998)","250"
+"61","Kattge","Jens",67,"Leaf Physiology Database","Picea abies","60","50.6","8.7",NA,NA,"Unpublished data Jens Kattge","132.99915"
+"62","Kattge","Jens",67,"Leaf Physiology Database","Picea abies","60","50.6","8.7",NA,NA,"Unpublished data Jens Kattge","45.49963"
+"63","Kattge","Jens",67,"Leaf Physiology Database","Picea abies","60","50.6","8.7",NA,NA,"Unpublished data Jens Kattge","23.9998"
+"64","Kattge","Jens",67,"Leaf Physiology Database","Picea abies","60","50.6","8.7",NA,NA,"Unpublished data Jens Kattge","209.99821"
+"65","Kattge","Jens",67,"Leaf Physiology Database","Picea abies",NA,NA,NA,"10",NA,"Reich et al. (1995)",NA
+"66","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7.5",NA,"Jurik (1988)",NA
+"67","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11.8",NA,"Jurik (1988)",NA
+"68","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","14",NA,"Jurik (1988)",NA
+"69","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","15",NA,"Jurik (1988)",NA
+"70","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","15",NA,"Jurik (1988)",NA
+"71","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","15",NA,"Jurik (1988)",NA
+"72","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","13",NA,"Jurik (1988)",NA
+"73","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11",NA,"Jurik (1988)",NA
+"74","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7",NA,"Jurik (1988)",NA
+"75","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","5",NA,"Jurik (1988)",NA
+"76","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7",NA,"Jurik (1988)",NA
+"77","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","9.5",NA,"Jurik (1988)",NA
+"78","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11",NA,"Jurik (1988)",NA
+"79","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11.5",NA,"Jurik (1988)",NA
+"80","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11.5",NA,"Jurik (1988)",NA
+"81","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11",NA,"Jurik (1988)",NA
+"82","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","9",NA,"Jurik (1988)",NA
+"83","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7",NA,"Jurik (1988)",NA
+"84","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","9",NA,"Jurik (1988)",NA
+"85","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","12",NA,"Jurik (1988)",NA
+"86","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","13",NA,"Jurik (1988)",NA
+"87","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","12",NA,"Jurik (1988)",NA
+"88","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7",NA,"Jurik (1988)",NA
+"89","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","3",NA,"Jurik (1988)",NA
+"90","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","7",NA,"Jurik (1988)",NA
+"91","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","11",NA,"Jurik (1988)",NA
+"92","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","14",NA,"Jurik (1988)",NA
+"93","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","15",NA,"Jurik (1988)",NA
+"94","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","14",NA,"Jurik (1988)",NA
+"95","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","12",NA,"Jurik (1988)",NA
+"96","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","8",NA,"Jurik (1988)",NA
+"97","Kattge","Jens",67,"Leaf Physiology Database","Populus grandidentata",NA,"45.55","-84.7","4",NA,"Jurik (1988)",NA
+"98","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.7",NA,"Lewis (2002)",NA
+"99","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"6.8",NA,"Lewis (2002)",NA
+"100","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.3",NA,"Lewis (2002)",NA
+"101","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.2",NA,"Lewis (2002)",NA
+"102","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.2",NA,"Lewis (2002)",NA
+"103","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"6.8",NA,"Lewis (2002)",NA
+"104","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"5.8",NA,"Lewis (2002)",NA
+"105","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.4",NA,"Lewis (2002)",NA
+"106","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"9",NA,"Lewis (2002)",NA
+"107","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8",NA,"Lewis (2002)",NA
+"108","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8.3",NA,"Lewis (2002)",NA
+"109","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"10.2",NA,"Lewis (2002)",NA
+"110","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"9.5",NA,"Lewis (2002)",NA
+"111","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"10.5",NA,"Lewis (2002)",NA
+"112","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"8",NA,"Lewis (2002)",NA
+"113","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"5",NA,"Lewis (2002)",NA
+"114","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"11",NA,"Lewis (2002)",NA
+"115","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"11.8",NA,"Lewis (2002)",NA
+"116","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"13",NA,"Lewis (2002)",NA
+"117","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"12.6",NA,"Lewis (2002)",NA
+"118","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"12",NA,"Lewis (2002)",NA
+"119","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"12",NA,"Lewis (2002)",NA
+"120","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"7",NA,"Lewis (2002)",NA
+"121","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"13.7",NA,"Lewis (2002)",NA
+"122","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"14.5",NA,"Lewis (2002)",NA
+"123","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"12.5",NA,"Lewis (2002)",NA
+"124","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"13.5",NA,"Lewis (2002)",NA
+"125","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"14.7",NA,"Lewis (2002)",NA
+"126","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"16",NA,"Lewis (2002)",NA
+"127","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"14",NA,"Lewis (2002)",NA
+"128","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"9",NA,"Lewis (2002)",NA
+"129","Kattge","Jens",67,"Leaf Physiology Database","Pseudotsuga menziesii",NA,NA,NA,"9",NA,"Lewis (2002)",NA
+"130","Kattge","Jens",67,"Leaf Physiology Database","Quercus alba","340","42.53","-72.18","23",NA,"Bassow and Bazzaz (1997)",NA
+"131","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","144.00037"
+"132","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","98.33334"
+"133","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","90.40028"
+"134","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","173.70367"
+"135","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","64.99951"
+"136","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","183.52982"
+"137","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","52.79961"
+"138","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","131.17596"
+"139","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","95.49965"
+"140","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","97.22195"
+"141","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","92.63164"
+"142","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","64.70639"
+"143","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","61.48172"
+"144","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","105.59962"
+"145","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","102.60835"
+"146","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","132.353"
+"147","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","85.7142"
+"148","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","147.77725"
+"149","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","95.00035"
+"150","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","138.46147"
+"151","Kattge","Jens",67,"Leaf Physiology Database","Quercus ilex",NA,NA,NA,NA,NA,"PhD Jens Kattge (2002)","122.77834"
+"152","Kattge","Jens",67,"Leaf Physiology Database","Quercus rubra","340","42.53","-72.18","23.5",NA,"Bassow and Bazzaz (1997)",NA
+"153","Kattge","Jens",67,"Leaf Physiology Database","Quercus rubra",NA,NA,NA,"12.6",NA,"Reich et al. (1995)",NA
+"154","Kattge","Jens",67,"Leaf Physiology Database","Quercus rubra",NA,NA,NA,"9.5",NA,"Reich et al. (1995)",NA
+"155","Kattge","Jens",67,"Leaf Physiology Database","Quercus rubra",NA,"45.55","-84.7","11.4",NA,"Jurik (1988)",NA
+"156","Kattge","Jens",67,"Leaf Physiology Database","Robinia pseudoacacia","700","36","-83.5","9.21",NA,"Reich et al. (1999 and 1998)","297"
+"157","Kattge","Jens",67,"Leaf Physiology Database","Robinia pseudoacacia","700","36","-83.5",NA,NA,"Reich et al. (1999 and 1998)","297"
+"158","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","5.4",NA,"Hendrickson (2004)",NA
+"159","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","10.5",NA,"Hendrickson (2004)",NA
+"160","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","14.9",NA,"Hendrickson (2004)",NA
+"161","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","22",NA,"Hendrickson (2004)",NA
+"162","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","28.9",NA,"Hendrickson (2004)",NA
+"163","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","5.2",NA,"Hendrickson (2004)",NA
+"164","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","9.3",NA,"Hendrickson (2004)",NA
+"165","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","11.6",NA,"Hendrickson (2004)",NA
+"166","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","13.7",NA,"Hendrickson (2004)",NA
+"167","Kattge","Jens",67,"Leaf Physiology Database","Vitis vinifera","650","-35.02","149.03","14.4",NA,"Hendrickson (2004)",NA

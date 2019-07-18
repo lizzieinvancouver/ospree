@@ -1,0 +1,120 @@
+"","LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Leaf lifespan (longevity","Plant height (unspecified if vegetative or reproductive)","Reference / source","Stomata density on lower surface","Stomata density on upper surface","Woodiness"
+"1","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596369,NA,NA,"Stace",NA,NA,"woody"
+"2","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596371,NA,"5500","Mitchell",NA,NA,NA
+"3","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596372,NA,"2500","Brickell",NA,NA,NA
+"4","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596373,NA,"1500","Brickell",NA,NA,NA
+"5","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596388,NA,NA,"Robakowski","53",NA,NA
+"6","Ford","Henry",174,"Ecological Flora of the British Isles","Abies alba",1596389,NA,NA,"Robakowski","64",NA,NA
+"7","Ford","Henry",174,"Ecological Flora of the British Isles","Acer pseudoplatanus",1454437,NA,NA,"Clapham AR",NA,NA,"woody"
+"8","Ford","Henry",174,"Ecological Flora of the British Isles","Acer pseudoplatanus",1454439,NA,"3000","Clapham AR",NA,NA,NA
+"9","Ford","Henry",174,"Ecological Flora of the British Isles","Acer pseudoplatanus",1454440,NA,"1800","Jones EW 1944 Journal of Ecology 32 215-252",NA,NA,NA
+"10","Ford","Henry",174,"Ecological Flora of the British Isles","Acer pseudoplatanus",1454454,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","400",NA,NA
+"11","Ford","Henry",174,"Ecological Flora of the British Isles","Aesculus hippocastanum",1595977,NA,NA,"Clapham AR",NA,NA,"woody"
+"12","Ford","Henry",174,"Ecological Flora of the British Isles","Aesculus hippocastanum",1595979,NA,"3900","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"13","Ford","Henry",174,"Ecological Flora of the British Isles","Aesculus hippocastanum",1595980,NA,"25","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"14","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458477,NA,NA,"Clapham AR",NA,NA,"woody"
+"15","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458479,NA,"2600","Clapham AR",NA,NA,NA
+"16","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458480,NA,"100","McVean DN 1953 Journal of Ecology 41 447-466",NA,NA,NA
+"17","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458481,NA,"2000","Clapham AR",NA,NA,NA
+"18","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458482,NA,"300","McVean DN 1953 Journal of Ecology 41 447-466",NA,NA,NA
+"19","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458495,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","108",NA,NA
+"20","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458498,"LL)",NA,"McVean DN 1953 Journal of Ecology 41 447-466",NA,NA,NA
+"21","Ford","Henry",174,"Ecological Flora of the British Isles","Alnus glutinosa",1458553,NA,"2000","Thompson K",NA,NA,NA
+"22","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pendula",1466678,NA,NA,"Clapham AR",NA,NA,"woody"
+"23","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pendula",1466680,NA,"3000","Hegi G 1981    Illustrierte Flora von Mitteleuropa",NA,NA,NA
+"24","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pendula",1466681,NA,"2500","Clapham AR",NA,NA,NA
+"25","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466789,NA,NA,"Clapham AR",NA,NA,"woody"
+"26","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466791,NA,"2500","Atkinson MD 1992 Journal of Ecology 80 837-870",NA,NA,NA
+"27","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466792,NA,"2000","Clapham AR",NA,NA,NA
+"28","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466807,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","147",NA,NA
+"29","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466808,NA,NA,"Atkinson MD 1992 Journal of Ecology 80 837-870","61",NA,NA
+"30","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466809,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65",NA,"0",NA
+"31","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466811,"LL)",NA,"Escudero A et al 1992 Oecologia 90 80-87",NA,NA,NA
+"32","Ford","Henry",174,"Ecological Flora of the British Isles","Betula pubescens",1466882,NA,NA,"M O Hill",NA,"0",NA
+"33","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478253,NA,NA,"Clapham AR",NA,NA,"woody"
+"34","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478255,NA,"3000","Christy M 1924 Journal of Ecology 12 39-94",NA,NA,NA
+"35","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478256,NA,"3000","Clapham AR",NA,NA,NA
+"36","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478257,NA,"600","Hegi G 1981    Illustrierte Flora von Mitteleuropa",NA,NA,NA
+"37","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478271,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","160",NA,NA
+"38","Ford","Henry",174,"Ecological Flora of the British Isles","Carpinus betulus",1478272,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65",NA,"0.5",NA
+"39","Ford","Henry",174,"Ecological Flora of the British Isles","Corylus avellana",1486579,NA,NA,"Clapham AR",NA,NA,"woody"
+"40","Ford","Henry",174,"Ecological Flora of the British Isles","Corylus avellana",1486581,NA,"2000","Hegi G 1981    Illustrierte Flora von Mitteleuropa",NA,NA,NA
+"41","Ford","Henry",174,"Ecological Flora of the British Isles","Corylus avellana",1486582,NA,"600","Clapham AR",NA,NA,NA
+"42","Ford","Henry",174,"Ecological Flora of the British Isles","Corylus avellana",1486583,NA,"100","Clapham AR",NA,NA,NA
+"43","Ford","Henry",174,"Ecological Flora of the British Isles","Corylus avellana",1486596,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","225",NA,NA
+"44","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502806,NA,NA,"Clapham AR",NA,NA,"woody"
+"45","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502808,NA,"4300","Wardle P 1961 Journal of Ecology 49 739-751",NA,NA,NA
+"46","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502809,NA,"2500","Clapham AR",NA,NA,NA
+"47","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502810,NA,"1500","Clapham AR",NA,NA,NA
+"48","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502824,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","176",NA,NA
+"49","Ford","Henry",174,"Ecological Flora of the British Isles","Fraxinus excelsior",1502827,"LL)",NA,"Grime JP",NA,NA,NA
+"50","Ford","Henry",174,"Ecological Flora of the British Isles","Kalmia angustifolia",1518934,NA,"100","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"51","Ford","Henry",174,"Ecological Flora of the British Isles","Larix decidua",1595831,NA,NA,"Stace",NA,NA,"woody"
+"52","Ford","Henry",174,"Ecological Flora of the British Isles","Larix decidua",1595833,NA,"5000","Mitchell",NA,NA,NA
+"53","Ford","Henry",174,"Ecological Flora of the British Isles","Larix decidua",1595834,NA,"4600","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"54","Ford","Henry",174,"Ecological Flora of the British Isles","Picea abies",1595876,NA,NA,"Stace",NA,NA,"woody"
+"55","Ford","Henry",174,"Ecological Flora of the British Isles","Picea abies",1595878,NA,"6100","Sullivan",NA,NA,NA
+"56","Ford","Henry",174,"Ecological Flora of the British Isles","Picea abies",1595879,NA,"4300","Clapham AR",NA,NA,NA
+"57","Ford","Henry",174,"Ecological Flora of the British Isles","Populus tremula",1547587,NA,NA,"Clapham AR",NA,NA,"woody"
+"58","Ford","Henry",174,"Ecological Flora of the British Isles","Populus tremula",1547589,NA,"3000","Hegi G 1981    Illustrierte Flora von Mitteleuropa",NA,NA,NA
+"59","Ford","Henry",174,"Ecological Flora of the British Isles","Populus tremula",1547590,NA,"2000","Clapham AR",NA,NA,NA
+"60","Ford","Henry",174,"Ecological Flora of the British Isles","Populus tremula",1547605,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","330",NA,NA
+"61","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus avium",1551090,NA,NA,"Clapham AR",NA,NA,"woody"
+"62","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus avium",1551093,NA,"5","Clapham AR",NA,NA,NA
+"63","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus avium",1551105,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","282",NA,NA
+"64","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus avium",1551117,NA,"5","Clapham AR",NA,NA,NA
+"65","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus avium",1551152,NA,"5","M O Hill",NA,NA,NA
+"66","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus padus",1551328,NA,NA,"Clapham AR",NA,NA,"woody"
+"67","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus padus",1551330,NA,"1500","Clapham AR",NA,NA,NA
+"68","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus padus",1551331,NA,"1700","Leather",NA,NA,NA
+"69","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus padus",1551332,NA,"300","Clapham AR",NA,NA,NA
+"70","Ford","Henry",174,"Ecological Flora of the British Isles","Prunus padus",1551346,NA,NA,"Leather","279",NA,NA
+"71","Ford","Henry",174,"Ecological Flora of the British Isles","Quercus petraea",1552836,NA,NA,"Clapham AR",NA,NA,"woody"
+"72","Ford","Henry",174,"Ecological Flora of the British Isles","Quercus petraea",1552838,NA,"1800","Hegi G 1981    Illustrierte Flora von Mitteleuropa",NA,NA,NA
+"73","Ford","Henry",174,"Ecological Flora of the British Isles","Quercus petraea",1552839,NA,"4200","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"74","Ford","Henry",174,"Ecological Flora of the British Isles","Quercus petraea",1552855,"LL)",NA,"Grime JP",NA,NA,NA
+"75","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556321,NA,NA,"Clapham AR",NA,NA,"woody"
+"76","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556323,NA,"200","Clapham AR",NA,NA,NA
+"77","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556324,NA,"100","Clapham AR",NA,NA,NA
+"78","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556336,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","144",NA,NA
+"79","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556337,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65",NA,"0",NA
+"80","Ford","Henry",174,"Ecological Flora of the British Isles","Ribes nigrum",1556375,NA,NA,"M O Hill",NA,"0",NA
+"81","Ford","Henry",174,"Ecological Flora of the British Isles","Robinia pseudoacacia",1556625,NA,NA,"Clapham AR",NA,NA,"woody"
+"82","Ford","Henry",174,"Ecological Flora of the British Isles","Robinia pseudoacacia",1556627,NA,"2000","Clapham AR",NA,NA,NA
+"83","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572363,NA,NA,"Clapham AR",NA,NA,"woody"
+"84","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572365,NA,"2000","Clapham AR",NA,NA,NA
+"85","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572366,NA,"1500","Clapham AR",NA,NA,NA
+"86","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572380,NA,NA,"Salisbury EJ 1928 Philosophical Transactions of the Royal Society B216 1-65","224",NA,NA
+"87","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572381,NA,NA,"Raspe","132",NA,NA
+"88","Ford","Henry",174,"Ecological Flora of the British Isles","Sorbus aucuparia",1572384,"LL)",NA,"Grime JP",NA,NA,NA
+"89","Ford","Henry",174,"Ecological Flora of the British Isles","Spiraea alba",1574550,NA,"simple","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"90","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1576647,NA,NA,"Clapham AR",NA,NA,"woody"
+"91","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1576649,NA,"300","Clapham AR",NA,NA,NA
+"92","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1576650,NA,"100","Clapham AR",NA,NA,NA
+"93","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1576665,NA,NA,"Gilbert","116",NA,NA
+"94","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617677,NA,NA,"Clapham AR",NA,NA,"woody"
+"95","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617679,NA,"300","Clapham AR",NA,NA,NA
+"96","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617680,NA,"100","Clapham AR",NA,NA,NA
+"97","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617695,NA,NA,"Gilbert","116",NA,NA
+"98","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617760,NA,NA,"Clapham AR",NA,NA,"woody"
+"99","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617762,NA,"300","Clapham AR",NA,NA,NA
+"100","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617763,NA,"100","Clapham AR",NA,NA,NA
+"101","Ford","Henry",174,"Ecological Flora of the British Isles","Symphoricarpos albus",1617778,NA,NA,"Gilbert","116",NA,NA
+"102","Ford","Henry",174,"Ecological Flora of the British Isles","Syringa vulgaris",1596331,NA,NA,"Clapham AR",NA,NA,"woody"
+"103","Ford","Henry",174,"Ecological Flora of the British Isles","Syringa vulgaris",1596333,NA,"700","Clapham AR",NA,NA,NA
+"104","Ford","Henry",174,"Ecological Flora of the British Isles","Tilia cordata",1578902,NA,NA,"Clapham AR",NA,NA,"woody"
+"105","Ford","Henry",174,"Ecological Flora of the British Isles","Tilia cordata",1578904,NA,"2500","Clapham AR",NA,NA,NA
+"106","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1591963,NA,NA,"Clapham AR",NA,NA,"woody"
+"107","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1591965,NA,"4000","Clapham AR",NA,NA,NA
+"108","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597292,NA,NA,"Clapham AR",NA,NA,"woody"
+"109","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597294,NA,"4000","Clapham AR",NA,NA,NA
+"110","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597340,NA,NA,"Clapham AR",NA,NA,"woody"
+"111","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597342,NA,"4000","Clapham AR",NA,NA,NA
+"112","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597388,NA,NA,"Clapham AR",NA,NA,"woody"
+"113","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597390,NA,"4000","Clapham AR",NA,NA,NA
+"114","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597436,NA,NA,"Clapham AR",NA,NA,"woody"
+"115","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597438,NA,"4000","Clapham AR",NA,NA,NA
+"116","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597484,NA,NA,"Clapham AR",NA,NA,"woody"
+"117","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus minor",1597486,NA,"4000","Clapham AR",NA,NA,NA
+"118","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus procera",1582806,NA,"3300","Stace CA 1992    New Flora of the British Isles",NA,NA,NA
+"119","Ford","Henry",174,"Ecological Flora of the British Isles","Ulmus procera",1597247,NA,"3300","Stace CA 1992    New Flora of the British Isles",NA,NA,NA

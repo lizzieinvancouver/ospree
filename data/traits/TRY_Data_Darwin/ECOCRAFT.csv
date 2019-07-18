@@ -1,0 +1,359 @@
+"","LastName","FirstName","DatasetID","Dataset","SpeciesName","Altitude","Average tree height","Diameter at base","Latitude","Leaf carbon content per dry mass","Leaf photosynthesis at saturating light and saturating CO2 per leaf area (Amax)","Light-saturated rate of photosynthesis","Longitude","Specific leaf area (SLA) per fresh weight","Stem diameter at base of crown (seedlings)","Stem diameter at breast height (1.3 m","stomata conductance in the limit of saturating light","stomata conductance to water vapour under conditions of light saturation"
+"1","Medlyn","Belinda",12,"ECOCRAFT","Abies alba","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"2","Medlyn","Belinda",12,"ECOCRAFT","Abies alba","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"3","Medlyn","Belinda",12,"ECOCRAFT","Abies alba","495","28.6752",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"4","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"14.48","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"5","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.19","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"6","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.4","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"7","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"14.28","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"8","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"14.69","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"9","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.12","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"10","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.26","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"11","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.14","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"12","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"16.66","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"13","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"23.55","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"14","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"26.57","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"15","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"25.21","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"16","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"21.85","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"17","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"25.14","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"18","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"25.72","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"19","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"27.45","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"20","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"24.32","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"21","Medlyn","Belinda",12,"ECOCRAFT","Alnus glutinosa","300",NA,"25.83","56 12 N",NA,NA,NA,"00 36 W",NA,NA,NA,NA,NA
+"22","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"23","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"24","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"25","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"26","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"27","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"28","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"29","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"30","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"31","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"32","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"33","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,"on a projected area basis","3 12 W",NA,NA,NA,NA,NA
+"34","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"22.5",NA,NA,NA
+"35","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"22.4",NA,NA,NA
+"36","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"23.6",NA,NA,NA
+"37","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"37.1",NA,NA,NA
+"38","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"34.9",NA,NA,NA
+"39","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,"35.5",NA,NA,NA
+"40","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"41","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"42","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"43","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"44","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"45","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"46","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"47","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"48","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"49","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"50","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"51","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"52","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"53","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"54","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,NA,NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"55","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"2.92",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"56","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"4.38",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"57","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"2.69",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"58","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"4.14",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"59","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"2.68",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"60","Medlyn","Belinda",12,"ECOCRAFT","Betula pendula",NA,"3.75",NA,"55 31 N",NA,NA,NA,"3 12 W",NA,NA,NA,NA,NA
+"61","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"62","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"63","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"64","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"65","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"13.7","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"66","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"14.1","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"67","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"13","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"68","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"13.7","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"69","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"14.8","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"70","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"14.6","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"71","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"15.2","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"72","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"15.9","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"73","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"12.8","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"74","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"13.4","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"75","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"15.6","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"76","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"77","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"15.5","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"78","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"16.4","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"79","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17.9","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"80","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17.6","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"81","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17.7","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"82","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"18.8","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"83","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"14.3","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"84","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17.2","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"85","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"19.2","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"86","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"22.6","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"87","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"18.1","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"88","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"21.2","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"89","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"22.7","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"90","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"22.8","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"91","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"20.4","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"92","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"23.1","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"93","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"17.3","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"94","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,"22.9","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"95","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"96","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"97","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"98","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"99","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"100","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"101","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"102","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"103","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,"maximum soil water content and at the reference value of Cs = 350 ppm",NA
+"104","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,"maximum soil water content and at the reference value of Cs = 350 ppm",NA
+"105","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.769",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"106","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.76",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"107","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.759",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"108","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.765",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"109","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.856",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"110","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.865",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"111","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.829",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"112","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.852",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"113","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.671",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"114","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.684",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"115","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.16",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"116","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.346",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"117","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.019",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"118","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.305",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"119","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.181",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"120","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.309",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"121","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.171",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"122","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.348",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"123","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","0.859",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"124","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.088",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"125","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.608",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"126","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.944",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"127","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.482",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"128","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.813",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"129","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.716",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"130","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.888",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"131","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.716",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"132","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.945",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"133","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.136",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"134","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80","1.488",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"135","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.03",NA,NA,NA,NA
+"136","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.69",NA,NA,NA,NA
+"137","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5",NA,NA,NA,NA
+"138","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.44",NA,NA,NA,NA
+"139","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.24",NA,NA,NA,NA
+"140","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.33",NA,NA,NA,NA
+"141","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.06",NA,NA,NA,NA
+"142","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.46",NA,NA,NA,NA
+"143","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.63",NA,NA,NA,NA
+"144","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.58",NA,NA,NA,NA
+"145","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","4.36",NA,NA,NA,NA
+"146","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.69",NA,NA,NA,NA
+"147","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.19",NA,NA,NA,NA
+"148","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.04",NA,NA,NA,NA
+"149","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.89",NA,NA,NA,NA
+"150","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.6",NA,NA,NA,NA
+"151","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.83",NA,NA,NA,NA
+"152","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.46",NA,NA,NA,NA
+"153","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","4.58",NA,NA,NA,NA
+"154","Medlyn","Belinda",12,"ECOCRAFT","Fraxinus excelsior","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.6",NA,NA,NA,NA
+"155","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"156","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"157","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"158","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"159","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"160","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"161","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"162","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"163","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"164","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"165","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"166","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"167","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"168","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,"on a projected area basis","5 55 E",NA,NA,NA,NA,NA
+"169","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"170","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"171","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"172","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"173","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"174","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"175","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"176","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,"on a projected area basis","18 32 E",NA,NA,NA,NA,NA
+"177","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"178","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"179","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"180","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"181","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"182","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"183","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"184","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"185","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"186","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"187","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"188","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,"on a projected area basis","19 27 E",NA,NA,NA,NA,NA
+"189","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"20.47",NA,"18 32 E",NA,NA,NA,NA,NA
+"190","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"22.723",NA,"18 32 E",NA,NA,NA,NA,NA
+"191","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"27.48",NA,"18 32 E",NA,NA,NA,NA,NA
+"192","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"19.81",NA,"18 32 E",NA,NA,NA,NA,NA
+"193","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"26.53",NA,"18 32 E",NA,NA,NA,NA,NA
+"194","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"22.05",NA,"18 32 E",NA,NA,NA,NA,NA
+"195","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"20.41",NA,"18 32 E",NA,NA,NA,NA,NA
+"196","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,"13.54",NA,"18 32 E",NA,NA,NA,NA,NA
+"197","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"198","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"199","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"200","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"201","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"202","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"203","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"204","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"205","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"206","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943",NA,NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"207","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"208","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"209","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"210","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"211","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"212","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"213","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"214","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"215","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"216","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"217","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"218","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"219","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"220","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"221","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"222","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"223","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"224","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"225","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"226","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"227","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"228","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"229","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"230","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"231","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"232","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"233","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"234","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"235","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"236","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"237","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"238","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"239","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","2.82",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"240","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","3.85",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"241","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","4.94",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"242","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","2.96",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"243","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","4.99",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"244","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315","7.16",NA,"64 07 N",NA,NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"245","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.593",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"246","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.652",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"247","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.588",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"248","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.586",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"249","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.86",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"250","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.86",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"251","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.893",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"252","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.893",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"253","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.9",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"254","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.9",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"255","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.849",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"256","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.849",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"257","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.795",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"258","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","0.795",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"259","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495","26.57946667",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"260","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943","4.84",NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,NA,NA,NA
+"261","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943","4.78",NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,NA,NA,NA
+"262","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","943","5.17",NA,"49 30 N",NA,NA,NA,"18 32 E",NA,NA,NA,NA,NA
+"263","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.458",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"264","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.458",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"265","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.4723",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"266","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.4723",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"267","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.4727",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"268","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.4727",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"269","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.46115",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"270","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.46115",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"271","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.46385",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"272","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","495",NA,NA,"50 17 N","0.46385",NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"273","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.498",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"274","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.493",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"275","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.49",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"276","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.497",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"277","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.489",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"278","Medlyn","Belinda",12,"ECOCRAFT","Picea abies","315",NA,NA,"64 07 N","0.498",NA,NA,"19 27 E",NA,NA,NA,NA,NA
+"279","Medlyn","Belinda",12,"ECOCRAFT","Pseudotsuga menziesii","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"280","Medlyn","Belinda",12,"ECOCRAFT","Pseudotsuga menziesii","495",NA,NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"281","Medlyn","Belinda",12,"ECOCRAFT","Pseudotsuga menziesii","495","35.18666667",NA,"50 17 N",NA,NA,NA,"5 55 E",NA,NA,NA,NA,NA
+"282","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,"on a projected area basis","11 32 E",NA,NA,NA,NA,NA
+"283","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,"on a projected area basis","11 32 E",NA,NA,NA,NA,NA
+"284","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,"diameter at breast height (saplings and older)",NA,NA
+"285","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,NA,NA
+"286","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"287","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,NA,"and growth CO2 concentration."
+"288","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,"maximum soil water content and at the reference value of Cs = 350 ppm",NA
+"289","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,"maximum soil water content and at the reference value of Cs = 350 ppm",NA
+"290","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10","3.7",NA,"42 22 N",NA,NA,NA,"11 32 E",NA,NA,NA,NA,NA
+"291","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N","0.5141",NA,NA,"11 32 E",NA,NA,NA,NA,NA
+"292","Medlyn","Belinda",12,"ECOCRAFT","Quercus ilex","10",NA,NA,"42 22 N","0.5263",NA,NA,"11 32 E",NA,NA,NA,NA,NA
+"293","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"294","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"295","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"296","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"297","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"298","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,"15.17","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"299","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,"15.1","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"300","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,"19.66","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"301","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,"23.85","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"302","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,"13.18","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"303","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"304","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"305","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"306","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"307","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"308","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80","1.5",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"309","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80","1.5425",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"310","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80","2.3421",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"311","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80","2.3775",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"312","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80","0.936",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"313","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.84",NA,NA,NA,NA
+"314","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","8.21",NA,NA,NA,NA
+"315","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.53",NA,NA,NA,NA
+"316","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.58",NA,NA,NA,NA
+"317","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.29",NA,NA,NA,NA
+"318","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.47",NA,NA,NA,NA
+"319","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.05",NA,NA,NA,NA
+"320","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.68",NA,NA,NA,NA
+"321","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.52",NA,NA,NA,NA
+"322","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.49",NA,NA,NA,NA
+"323","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.84",NA,NA,NA,NA
+"324","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.8",NA,NA,NA,NA
+"325","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.08",NA,NA,NA,NA
+"326","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","6.37",NA,NA,NA,NA
+"327","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.9",NA,NA,NA,NA
+"328","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","5.64",NA,NA,NA,NA
+"329","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","9.43",NA,NA,NA,NA
+"330","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","14.84",NA,NA,NA,NA
+"331","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","16.83",NA,NA,NA,NA
+"332","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","17.46",NA,NA,NA,NA
+"333","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","18.43",NA,NA,NA,NA
+"334","Medlyn","Belinda",12,"ECOCRAFT","Quercus petraea","80",NA,NA,"52 09 N",NA,NA,NA,"00 52 W","21.32",NA,NA,NA,NA
+"335","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"336","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"337","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"338","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"339","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,"on a projected area basis","00 50 W",NA,NA,NA,NA,NA
+"340","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,"14.83","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"341","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,"15.45","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"342","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,"18.18","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"343","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,"18.72","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"344","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,"14.34","51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"345","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"346","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"347","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"348","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"349","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,"and growth CO2 concentration."
+"350","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80","1.317",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"351","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80","1.37",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"352","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80","1.7725",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"353","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80","1.8675",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"354","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80","0.9167",NA,"51 08 N",NA,NA,NA,"00 50 W",NA,NA,NA,NA,NA
+"355","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","8.19",NA,NA,NA,NA
+"356","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","8.04",NA,NA,NA,NA
+"357","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.87",NA,NA,NA,NA
+"358","Medlyn","Belinda",12,"ECOCRAFT","Quercus rubra","80",NA,NA,"51 08 N",NA,NA,NA,"00 50 W","7.78",NA,NA,NA,NA

@@ -1,0 +1,11 @@
+"","LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Altitude","Identifier within contributed dataset (ID)","Latitude","Plant height vegetative","Sampling or measurement date standardized","Soil organic matter content per soil dry mass (SOM)","Soil ph"
+"1","Milla","Ruben",200,"Altitudinal Vicariants Spain","Quercus petraea",1434366,"1392","880","43.13213722","1500","26/8/2006","4.923401832","7.41"
+"2","Milla","Ruben",200,"Altitudinal Vicariants Spain","Quercus petraea",1434368,"1392","882","43.13213722","1000","26/8/2006",NA,NA
+"3","Milla","Ruben",200,"Altitudinal Vicariants Spain","Quercus petraea",1434370,"1392","884","43.13213722","1500","26/8/2006",NA,NA
+"4","Milla","Ruben",200,"Altitudinal Vicariants Spain","Quercus petraea",1434372,"1392","886","43.13213722","1500","26/8/2006",NA,NA
+"5","Milla","Ruben",200,"Altitudinal Vicariants Spain","Quercus petraea",1434374,"1392","888","43.13213722","1500","26/8/2006",NA,NA
+"6","Milla","Ruben",200,"Altitudinal Vicariants Spain","Sorbus aucuparia",1434497,"1560","1040","43.10976502","600","23/7/2006","15.20148315","3.79"
+"7","Milla","Ruben",200,"Altitudinal Vicariants Spain","Sorbus aucuparia",1434499,"1560","1042","43.10976502","700","23/7/2006",NA,NA
+"8","Milla","Ruben",200,"Altitudinal Vicariants Spain","Sorbus aucuparia",1434501,"1560","1044","43.10976502","800","23/7/2006",NA,NA
+"9","Milla","Ruben",200,"Altitudinal Vicariants Spain","Sorbus aucuparia",1434503,"1560","1046","43.10976502","500","23/7/2006",NA,NA
+"10","Milla","Ruben",200,"Altitudinal Vicariants Spain","Sorbus aucuparia",1434505,"1560","1048","43.10976502","400","23/7/2006",NA,NA

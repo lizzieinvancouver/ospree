@@ -1,0 +1,5 @@
+"","LastName","FirstName","DatasetID","Dataset","SpeciesName","Altitude","C amount at 13C measurement","Latitude","Leaf carbon content per dry mass","Leaf lifespan (longevity","Location Site ID","Longitude","Maximum plant height","Species abundance: characteristic","Species abundance: rare"
+"1","Harrison","Sandy",236,"Chinese Traits","Prunus padus","114","44.05052756","42.98371667","459.8936199","LL)","NECTS04","130.0811833","600","yes","no"
+"2","Harrison","Sandy",236,"Chinese Traits","Robinia pseudoacacia","368",NA,"36.24225","286",NA,"NSTEC01","117.0238","2000","yes","no"
+"3","Harrison","Sandy",236,"Chinese Traits","Ulmus parvifolia","76",NA,"32.0546","395.6140351",NA,"NSTEC03","118.8596667",NA,"yes","no"
+"4","Harrison","Sandy",236,"Chinese Traits","Ulmus pumila","1430",NA,"43.926",NA,"LL)","X018","88.113","500","yes","no"
