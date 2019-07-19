@@ -59,6 +59,7 @@ Now here's what to do:
 \item \textbf{ For calculating the number of days between too dates:} Use this:\url{http://www.timeanddate.com/date/duration.html} to calculate the number of days between two dates for calculating dormancy. Note do NOT include the end date in the calculations.
 \item \textbf{On entering response times:} If the respvar of a study is "daystobudburst" enter a 1 into the "response" column, and fill in the recorded time in the "response.time" column.
 \item \textbf{On dealing with error:} If it's figures records error and it is *clear enough* to scrape, error can be recorded. Often times the SE bars are in the way of each other or not quite discernible, in which case we've decided to avoid them. But if the bars are clear, record them. Values can go in "resp\textundersccore error" and just SE in "error type."
+\item {\bf Do you have an ambient warming experiment?} For example, do you have outdoor chambers or such where they applied ambient+2, ambient+4 etc.? Please enter these as `ambient + [insert number here]'  ... if they give mean temperatures or such, you can note it but do NOT enter in forcetemp --- forcetemp is generally reserved for when authors put things into `forcing conditions' which is often growth chamber/greenhouse etc,
 \end{itemize}
 
 \end{document}
