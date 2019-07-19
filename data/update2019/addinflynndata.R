@@ -31,7 +31,8 @@ osp.df <- data.frame(datasetID="flynn18", study="exp1", Entered.By="CJC",
                   varetc="", woody="yes", population="", population.detail="", provenance.lat=rep(ifelse(meansbysp$site=="HF", 42.531705, 45.932675), each=3),
                   provenance.long=rep(ifelse(meansbysp$site=="HF", -72.189920, -74.025070), each=3),
                   population.altitude.m="", 
-                  continent="North America", year=2015, material="cuttings", fieldchill="yes", fieldsample.date="01-Jan-2015",
+                  continent="North America", year=2015, material="cuttings", fieldchill="yes", 
+                  fieldsample.date="01-Jan-2015",
                   chilltemp=rep(substr(meansbysp$treatcode,3,3), each=3), chillphotoperiod=0, 
                   chilldays=rep(substr(meansbysp$treatcode,3,3), each=3), forcetemp=rep(substr(meansbysp$treatcode,1,1), each=3),
                   forcetemp_night=rep(substr(meansbysp$treatcode,1,1), each=3), photoperiod=rep(substr(meansbysp$treatcode,2,2), each=3),
@@ -116,6 +117,8 @@ osp.df$photoperiod_night <- ifelse(osp.df$photoperiod_night=="L", 12, 16)
 
 osp.df$sp <- paste(substr(osp.df$gen, 0,3), substr(osp.df$species,0,3), sep="")
 osp.df$site<- ifelse(osp.df$provenance.long==-72.18992, "HF", "SH")
+
+osp.df$fieldsample.date <- ifelse(osp.df$site=="HF", "21-Jan-2015", "26-Jan-2018")
 
 osp.df$sp <- lapply(osp.df$sp, function(v) {
   if (is.character(v)) return(toupper(v))
