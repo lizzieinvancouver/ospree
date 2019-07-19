@@ -24,36 +24,81 @@ if(length(grep("Ignacio", getwd()))>0) {
 
 figpath <- "figures"
 
-## set up the flags
-use.chillports = TRUE
+# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
+use.flags.for.mainmodel <- TRUE
+use.flags.for.allsppmodel <- FALSE
+use.yourown.flagdesign <- FALSE
+
+if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
+    use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
+    & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
+
+if(use.flags.for.mainmodel){
+use.chillports = FALSE
 use.zscore = FALSE
-use.allspp = FALSE
+use.allspp =FALSE # for the main model this is false
 use.multcuespp = FALSE
 use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
+}
+
+if(use.flags.for.allsppmodel){
+use.chillports = FALSE
+use.zscore = FALSE
+use.allspp = TRUE
+use.multcuespp = FALSE
+use.cropspp = TRUE
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+}
+
+if(use.yourown.flagdesign){
+use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
+use.zscore = TRUE # change to false to use raw predictors
+
+# Default is species complex and no crops
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = TRUE
+use.exptypes.fp = FALSE
+
+#Default is all chilling data
+use.expchillonly = FALSE # change to true for only experimental chilling 
+#note: with only exp chilling, there is only exp photo and force too.
+#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+}
 
 ## name your figures paths (based on flags above) ... this needs work
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+if(use.flags.for.mainmodel==TRUE){
+    figpathmore <- "mainmodel"
+    }
+if(use.flags.for.allsppmodel==TRUE){
+    figpathmore <- "allsppmodel"
+    }
+if(use.flags.for.mainmodel==FALSE & use.allspp==FALSE & use.expramptypes.fp==TRUE &
+    use.zscore==TRUE){
     figpathmore <- "spcom_expramp_fpz"
     }
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==TRUE & use.cropspp==TRUE){
+if(use.flags.for.mainmodel==FALSE & use.allspp==FALSE & use.expramptypes.fp==TRUE &
+    use.zscore==TRUE & use.cropspp==TRUE){
     figpathmore <- "spcomwcrops_expramp_fpz"
     }
-if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
+if(use.flags.for.allsppmodel==FALSE & use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==TRUE){
     figpathmore <- "allspp_expramp_fpz"
     }
-if(use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
+if(use.flags.for.mainmodel==FALSE & use.allspp==FALSE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
     figpathmore <- "spcom_expramp_fp"
     }
-if(use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
+if(use.flags.for.allsppmodel==FALSE & use.allspp==TRUE & use.expramptypes.fp==TRUE & use.zscore==FALSE){
     figpathmore <- "allspp_expramp_fp"
     }
-
-
-##
 
 ##
 source("source/bbstanleadin.R")
@@ -129,6 +174,12 @@ alphahere = 0.4
 
 
 # Load fitted stan model: no interactions
+if(use.flags.for.mainmodel==TRUE){
+load("stan/output/m2lni_spcompexprampfputah_z.Rda") # I think this is the main model, need to check!
+}
+# if(use.flags.for.allsppmodel==TRUE){
+# load("stan/output/m2lni_spcompexprampfpcp_z.Rda") 
+# }
 if(use.zscore==TRUE & use.cropspp==FALSE & use.chillports == TRUE){
 load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
 load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
@@ -350,7 +401,7 @@ dev.off()
 colz = c("brown", "blue3")
 spp <- sort(unique(bb.stan$complex.wname))
 
-pdf(file.path(figpath, "model_cuebycue.pdf"), width = 7, height = 7)
+pdf(file.path(paste(figpath, "/cuebycue/", figpathmore, "model_cuebycue.pdf", sep="")), width = 7, height = 7)
 par(mar=rep(1,4))
 layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of where labels end up
                 4, 5, 6,
