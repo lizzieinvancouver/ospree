@@ -2,6 +2,7 @@
 ## By Nacho, Lizzie, Dan and others ##
 
 ## Plotting results from Stan models ##
+## As of July 2019 Lizzie is pretty sure this is code not used in ms, mainly just used in understanding results ##
 
 ############################################
 ## housekeeping
@@ -26,7 +27,7 @@ figpath <- "figures"
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
 use.flags.for.mainmodel <- TRUE
-use.flags.for.allsppmodel <- FALSE
+use.flags.for.allsppmodel <- FALSE # alert! This breaks some of the early code, but makes the cuebycue plot
 use.yourown.flagdesign <- FALSE
 
 if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
@@ -36,7 +37,7 @@ if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mai
 if(use.flags.for.mainmodel){
 use.chillports = FALSE
 use.zscore = FALSE
-use.allspp =FALSE # for the main model this is false
+use.allspp = FALSE # for the main model this is false
 use.multcuespp = FALSE
 use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
@@ -177,9 +178,6 @@ alphahere = 0.4
 if(use.flags.for.mainmodel==TRUE){
 load("stan/output/m2lni_spcompexprampfputah_z.Rda") # I think this is the main model, need to check!
 }
-# if(use.flags.for.allsppmodel==TRUE){
-# load("stan/output/m2lni_spcompexprampfpcp_z.Rda") 
-# }
 if(use.zscore==TRUE & use.cropspp==FALSE & use.chillports == TRUE){
 load("stan/output/m2lni_spcompexprampfp_z.Rda") # m2l.ni
 load("stan/output/m2lnib_spcompexprampfp_z.Rda") # m2l.nib
@@ -401,6 +399,14 @@ dev.off()
 colz = c("brown", "blue3")
 spp <- sort(unique(bb.stan$complex.wname))
 
+if(use.flags.for.allsppmodel==TRUE){
+load("stan/output/m2lni_allsppwcrop_utah_nonz.Rda") # I think this is the allspp model, need to check!
+spp <- sort(unique(bb.stan$latbi))
+sumer.ni <- summary(m2l.ni)$summary
+sumer.ni[grep("mu_", rownames(sumer.ni)),]
+}
+
+
 pdf(file.path(paste(figpath, "/cuebycue/", figpathmore, "model_cuebycue.pdf", sep="")), width = 7, height = 7)
 par(mar=rep(1,4))
 layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of where labels end up
@@ -411,7 +417,7 @@ layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of w
 plotblank = function(){plot(1:10, type="n",bty="n",xaxt="n",yaxt="n",ylab="",xlab="")}
 
 plotblank() 
-text(5,5, "Budburst \n Change (days) due to 5° warming", font = 2, srt = 90) # \n\n add two line breaks
+text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90) # \n\n add two line breaks
 
 plotlet("b_photo", "b_force", 4, 5, 
          ylim = c(-20, 5),
@@ -430,7 +436,7 @@ plotlet("b_chill", "b_force", 40, 5,
 axis(2, seq(0, -25, by = -5), labels = FALSE)
 
 plotblank()
-text(5,5, "Budburst \n Change (days) due to 5° warming", font = 2, srt = 90)
+text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90)
 
 plotlet("b_photo", "b_force", 4, 5, 
         #    ylab = "Advance due to 5° warming", 
@@ -453,7 +459,7 @@ axis(2, seq(0, -25, by = -5), labels = FALSE)
 plotblank()
 
 plotblank()
-text(5.5, 5, "Change (days) due to 4 hr longer photoperiod", font = 2, pos = 3)
+text(5.5, 5, "Change (days) due to longer photoperiod", font = 2, pos = 3)
 
 plotblank()
 text(5.5, 5, "Change (days) due to change in chilling", font = 2, pos = 3)
