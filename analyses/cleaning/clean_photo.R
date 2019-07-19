@@ -8,10 +8,10 @@
 # See cleanmerge_all.R for started text #
 
 # Fixing by datasetID -- basler12
-d$photoperiod_day[d$photoperiod_day == "shortday"] <- 9.5
-d$photoperiod_day[d$photoperiod_day == "longday"] <- 11
-d$photoperiod_night[d$photoperiod_night == "shortday"] <- 14.5
-d$photoperiod_night[d$photoperiod_night == "longday"] <- 13
+d$photoperiod_day[d$photoperiod_day == "shortday" & d$datasetID=="basler12"] <- 9.5
+d$photoperiod_day[d$photoperiod_day == "longday" & d$datasetID=="basler12"] <- 11
+d$photoperiod_night[d$photoperiod_night == "shortday" & d$datasetID=="basler12"] <- 14.5
+d$photoperiod_night[d$photoperiod_night == "longday" & d$datasetID=="basler12"] <- 13
 
 # Fix schnabel87, for which the slowly decreasing photoperiod was entered in wrong.
 # Need to delete all the extra rows-based on figure 7, should be only 20 unique response times
