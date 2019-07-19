@@ -28,7 +28,13 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
+spec<-read.csv("../output/studytype_withBB.csv", header=TRUE)
+sort(table(spec$gen.spa))
+###non-crop species in 4 or more studies in addition to the ones below
+#Populus tremula, Larix decidua, Alnus glutinosa, Tilia cordata, Acer saccharum, Prunus papdus
+
 ###run models_stan.R or load model output
+#load("stan/output/m2lni_spcompalltypescp_z.Rda")
 
 ### concordance between bb.stan$complex and bb.stan$complex.wnames
 ### Fagus sylvatica 15
@@ -86,14 +92,18 @@ daty<-left_join(range.dat,test,by="complex") ###make a single data sheet where r
 head(daty)
 tail(daty)
 ###take means
-mean.daty<- daty %>% group_by(complex) %>% summarise(meanSDchill=mean(SDev.Chill.Portions))
-mean.daty2<- daty %>% group_by(complex) %>% summarise(meanSDforce=mean(SDev.GDD.sites))
+mean.daty<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDchill=mean(SDev.Chill.Portions))
+mean.daty2<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDforce=mean(SDev.GDD.sites))
 mean.data<-left_join(mean.daty,mean.daty2)
 mean.data<-left_join(test,mean.data)
 
 summary(lm(chill~meanSDchill+meanSDforce,data=mean.data))
-mod1<-brm(chill~meanSDchill+meanSDforce,data=mean.data) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
+mod1<-brm(chill~meanSDchill+meanSDforce,data=mean.data,iter=3000,warmup=1000) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
 summary(mod1)
+
+mod2<-brm(chill~SDev.Chill.Utah+SDev.GDD.sites+(1|X),data=daty,iter=3000,warmup=1000) #X is year
+summary(mod2)
 pp_check(mod1,nsamples = 50)
+pp_check(mod2,nsamples = 50)
 
 

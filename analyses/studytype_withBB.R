@@ -64,8 +64,10 @@ for(i in c(1:nrow(xx))) {
 }
 
 
-xx<-dplyr::select(xx, datasetID, species, study, prov.lat, prov.long, field.sample, force, photo, chill, chilltime, spp, wein)
+xx<-dplyr::select(xx, datasetID,genus, species, study, prov.lat, prov.long, field.sample, force, photo, chill, chilltime, spp, wein)
 xx<-xx[!duplicated(xx),]
 xx$wein<-ifelse(is.na(xx$wein), 0, xx$wein)
 
-#write.csv(xx, file="~/Documents/git/ospree/analyses/output/studytype_withBB.csv", row.names = FALSE)
+xx$gen.spa<-paste(xx$genus,xx$species,sep="_")
+sort(table(xx$gen.spa))
+write.csv(xx, file="~/Documents/git/ospree/analyses/output/studytype_withBB.csv", row.names = FALSE)
