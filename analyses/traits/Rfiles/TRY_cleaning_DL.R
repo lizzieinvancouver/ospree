@@ -127,18 +127,25 @@ write.csv(nz, '~/Desktop/trait_analysis/clean/OvertonWrightNewZealandDatabase.cs
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[4]
 # OzarkTreeleaftraits.csv
+dat4_2<-read.csv("~/Desktop/trait_analysis/sep_data_test/OzarkTreeleaftraits.csv")
+out<-dcast(dat4_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OriglName", na.rm=TRUE); names(out)
+temp4<-out[,c(1:7,11:13)]
+
+temp18<-merge(temp2, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp18)
+write.csv(temp18, '~/Desktop/trait_analysis/clean/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv', row.names=FALSE)
 names(dat_4)
 temp4<-dat_4[,c(1:15)]
 head(temp4)
-names(temp4)
+
 #no exposition
 ozark<-melt(temp4, 
          id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","lat","lon"),
          measure.vars=c(" DBH"), #There is a space in front of DBH
          variable.name = "Trait",
          value.name = "value")
-colnames(beech)[colnames(ozark)=="lat"] <- "Latitude"
-colnames(beech)[colnames(ozark)=="lon"] <- "Longitude"
+colnames(ozark)[colnames(ozark)=="lat"] <- "Latitude"
+colnames(ozark)[colnames(ozark)=="lon"] <- "Longitude"
 
 write.csv(ozark, '~/Desktop/trait_analysis/clean/OzarkTreeleaftraits.csv', row.names=FALSE)
 
@@ -149,14 +156,14 @@ file_list[5]
 names(dat_5)
 temp5<-dat_5[,c(1:6,20,25,39,40,70)]
 head(temp5)
-names(temp3)
+names(temp5)
 #no exposition
-nz<-melt(temp3, 
+photo<-melt(temp5, 
          id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Plant height vegetative"),
+         measure.vars=c("Photosynthesis per leaf area at leaf temperature (A_area)","Stomata conductance to water vapour per leaf area"),
          variable.name = "Trait",
          value.name = "value")
-
+colnames(photo)[colnames(photo)=="Treatment exposition"] <- "Exposition"
 write.csv(temp5, '~/Desktop/trait_analysis/clean/PhotosynthesisTraitsWorldwide.csv', row.names=FALSE)
 
 unique(temp5$`Plant developmental status / plant age / maturity / plant life stage`)
@@ -169,15 +176,15 @@ file_list[6]
 names(dat_6)
 temp6<-dat_6[,c(1:6,13)]
 head(temp6)
-names(temp3)
+names(temp6)
 #no exposition
-nz<-melt(temp3, 
-         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Plant height vegetative"),
+plantatt<-melt(temp6, 
+         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
+         measure.vars=c("Plant height (unspecified if vegetative or reproductive)"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(temp6, '~/Desktop/trait_analysis/clean/PLANTATT-AttributesofBritishandIrishPlants.csv', row.names=FALSE)
+write.csv(plantatt, '~/Desktop/trait_analysis/clean/PLANTATT-AttributesofBritishandIrishPlants.csv', row.names=FALSE)
 
 #heights are in cm
 
@@ -188,15 +195,15 @@ file_list[7]
 names(dat_7)
 temp7<-dat_7[,c(1:7,9,11:13,15:16)]
 head(temp7)
-names(temp3)
+names(temp7)
 #no exposition
-nz<-melt(temp3, 
-         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Plant height vegetative"),
+virg<-melt(temp7, 
+         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"),
+         measure.vars=c("Plant height vegetative","Number of Leaves per plant","Stem diameter at base (basal diameter)"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(temp7, '~/Desktop/trait_analysis/clean/PlantTraits,Virginia,USA.csv', row.names=FALSE)
+write.csv(virg, '~/Desktop/trait_analysis/clean/PlantTraits,Virginia,USA.csv', row.names=FALSE)
 
 unique(temp7$`Plant developmental status / plant age / maturity / plant life stage`)
 unique(temp7$`Treatment exposition`)
