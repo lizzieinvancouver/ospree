@@ -552,7 +552,20 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp22<-merge(temp6,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp22)
-write.csv(temp22, '~/Desktop/trait_analysis/clean/PlantTraitsforPinusandJuniperusForestsinArizona.csv', row.names=FALSE)
+names(temp22)
+arzn<-melt(temp22, 
+           id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+           measure.vars=c("Leaf carbon content per dry mass",
+                          "Leaf carbon/nitrogen (C/N) ratio",                          
+                          "Longitude",                                                 
+                          "Maximum plant height",                                      
+                          "Wood density; stem specific density; wood specific gravity",
+                          "LDMC",                                                      
+                          "Stem diameter at breast height (1.3 m"),
+           variable.name = "Trait",
+           value.name = "value")
+
+write.csv(arzn, '~/Desktop/trait_analysis/clean/PlantTraitsforPinusandJuniperusForestsinArizona.csv', row.names=FALSE)
 
 #######################################################
 file_list[7]
@@ -570,7 +583,23 @@ head(out)
 temp23<-merge(temp7,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 
 head(temp23)
-write.csv(temp23, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=FALSE)
+names(temp23)
+italy<-melt(temp23, 
+           id.vars=c("LastName",
+                     "FirstName",
+                     "DatasetID",
+                     "Dataset",
+                     "SpeciesName",
+                     "ObservationID",
+                     "Latitude",
+                     "Longitude",
+                     "Treatment exposition"),
+           measure.vars=c("Plant height vegetative"),
+           variable.name = "Trait",
+           value.name = "value")
+colnames(beech)[colnames(italy)=="Treatment exposition"] <- "Exposition"
+
+write.csv(italy, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=FALSE)
 
 #######################################################
 file_list[8]
@@ -579,12 +608,30 @@ names(dat_8)
 
 #Trait values are in the UnitNam col
 dat8_2<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PlantTraitsfromCirceoNationalPark.csv")
-out<-dcast(dat8_2, LastName+FirstName+ Dataset+SpeciesName+ObservationID~OrigValueStr, value.var = "UnitName", na.rm=TRUE)
+out<-dcast(dat8_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~OrigValueStr, value.var = "UnitName", na.rm=TRUE)
 names(out)
-temp24<-out[,c(1:8,10,11)]
+temp24<-out[,c(1:9,10,11)]
 head(temp24)
+names(temp24)
+
+circeo<-melt(temp24, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "latitude",
+                      "longitude",
+                      "exposition"),
+            measure.vars=c("Height (cm)"),
+            variable.name = "Trait",
+            value.name = "value")
+colnames(circeo)[colnames(circeo)=="exposition"] <- "Exposition"
+colnames(circeo)[colnames(circeo)=="longitude"] <- "Longitude"
+colnames(circeo)[colnames(circeo)=="latitude"] <- "Latitude"
 #All mature in natural envrt
-write.csv(temp24, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark.csv', row.names=FALSE)
+write.csv(circeo, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark.csv', row.names=FALSE)
 
 #######################################################
 file_list[9]
@@ -602,7 +649,22 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp25<-merge(temp9,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp25)
-write.csv(temp25, '~/Desktop/trait_analysis/clean/PlantTraitsFromSpanishMediteraneanshrublands.csv', row.names=FALSE)
+names(temp25)
+medit<-melt(temp25, 
+             id.vars=c("LastName",
+                       "FirstName",
+                       "DatasetID",
+                       "Dataset",
+                       "SpeciesName",
+                       "ObservationID",
+                       "Latitude",
+                       "Longitude"),
+             measure.vars=c("Plant height reproductive / generative","Plant height vegetative",
+                            "Wood density; stem specific density; wood specific gravity",
+                            "LDMC"),
+             variable.name = "Trait",
+             value.name = "value")
+write.csv(medit, '~/Desktop/trait_analysis/clean/PlantTraitsFromSpanishMediteraneanshrublands.csv', row.names=FALSE)
 
 #######################################################
 
@@ -616,8 +678,26 @@ dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+SpeciesName+Observati
 #heights are in cm so use StdValue
 names(dat_10)
 temp26<-dat_10[,c(1:6,8,9,11,13,20:22)]
-head(temp10)
-write.csv(temp26, '~/Desktop/trait_analysis/clean/PlantTraitsofCanadianForests.csv', row.names=FALSE)
+names(temp26)
+
+canad<-melt(temp26, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Latitude",
+                      "Longitude"),
+            measure.vars=c("Height of measurement: stem diameter",
+                           "Plant height vegetative",
+                           "Stem diameter 10 cm above soil surface",
+                           "Stem diameter at base (basal diameter)",
+                           "Stem diameter at breast height (1.3 m" 
+                           ),
+            variable.name = "Trait",
+            value.name = "value")
+write.csv(canad, '~/Desktop/trait_analysis/clean/PlantTraitsofCanadianForests.csv', row.names=FALSE)
 
 # head(dat_10)
 # dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+AccSpeciesID+ObsDataID~OriglName, value.var = "StdValue", na.rm=TRUE)
@@ -645,7 +725,24 @@ head(out)
 
 temp27<-merge(temp11,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp27)
-write.csv(temp27, '~/Desktop/trait_analysis/clean/RollinsonDBH.csv', row.names=FALSE)
+names(temp27)
+
+roll<-melt(temp27, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Latitude",
+                      "Longitude",
+                      "Exposition"),
+            measure.vars=c("Stem diameter at breast height (1.3 m"
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(roll, '~/Desktop/trait_analysis/clean/RollinsonDBH.csv', row.names=FALSE)
 
 unique(temp27$`Exposition`)
 #All natural
@@ -657,7 +754,25 @@ names(dat_12)
 head(dat_12)
 temp12<-dat_12[,c(1:6,8,9,10,12,13,19)]
 head(temp12)
-write.csv(temp12, '~/Desktop/trait_analysis/clean/Sheffield&SpainWoodyDatabase.csv', row.names=FALSE)
+names(temp12)
+
+sheffwood<-melt(temp12, 
+           id.vars=c("LastName",
+                     "FirstName",
+                     "DatasetID",
+                     "Dataset",
+                     "SpeciesName",
+                     "ObservationID",
+                     "Exposition"),
+           measure.vars=c("Leaf mass per area based on fresh weight",
+                          "Specific leaf area (SLA) per fresh weight",
+                          "Stomata density",
+                          "Wood density; stem specific density; wood specific gravity"
+           ),
+           variable.name = "Trait",
+           value.name = "value")
+
+write.csv(sheffwood, '~/Desktop/trait_analysis/clean/Sheffield&SpainWoodyDatabase.csv', row.names=FALSE)
 
 #not sure why I put this one in the inconsistent folder
 
@@ -685,6 +800,29 @@ colnames(out2)[colnames(out2)=="54"] <- "LWC"
 
 out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 temp28<-merge(temp13, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+
+names(temp28)
+
+sheff<-melt(temp28, 
+                id.vars=c("LastName",
+                          "FirstName",
+                          "DatasetID",
+                          "Dataset",
+                          "SpeciesName",
+                          "ObservationID",
+                          "Exposition temperature",
+                          "Latitude",
+                          "Longitude"),
+                measure.vars=c("Leaf mass per area based on fresh weight",
+                               "Specific leaf area (SLA) per fresh weight",
+                               "Stomata density",
+                               "stomata density: lower surface only",                
+                               "stomata density: upper+lower / one-sided leaf area",
+                               "LWC",                                                
+                               "LDMC"
+                ),
+                variable.name = "Trait",
+                value.name = "value")
 write.csv(temp28, '~/Desktop/trait_analysis/clean/SheffieldDatabase.csv', row.names=FALSE)
 
 head(temp28)
@@ -706,7 +844,25 @@ out<-out[,c(1:7)]
 colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp29<-merge(temp14, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
-write.csv(temp29, '~/Desktop/trait_analysis/clean/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=FALSE)
+names(temp29)
+
+fin<-melt(temp29, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Exposition",
+                      "Latitude",
+                      "Longitude"),
+            measure.vars=c("Leaf carbon content per dry mass",
+                           "Leaf carbon/nitrogen (C/N) ratio",                     
+                           "LDMC"
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+write.csv(fin, '~/Desktop/trait_analysis/clean/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=FALSE)
 
 unique(temp29$`Plant developmental status / plant age / maturity / plant life stage`)
 unique(temp29$`Exposition`)
@@ -730,7 +886,24 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp30<-merge(temp15, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp30)
-write.csv(temp30, '~/Desktop/trait_analysis/clean/TheChinaPlantTraitDatabase.csv', row.names=FALSE)
+names(temp30)
+
+china<-melt(temp30, 
+          id.vars=c("LastName",
+                    "FirstName",
+                    "DatasetID",
+                    "Dataset",
+                    "SpeciesName",
+                    "ObservationID",
+                    "Latitude",
+                    "Longitude"),
+          measure.vars=c("Leaf carbon content per dry mass",
+                         "Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",                     
+                         "LDMC"
+          ),
+          variable.name = "Trait",
+          value.name = "value")
+write.csv(china, '~/Desktop/trait_analysis/clean/TheChinaPlantTraitDatabase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[16]
@@ -758,7 +931,29 @@ out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID"
 temp31<-merge(temp16, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 
 head(temp31)
-write.csv(temp31, '~/Desktop/trait_analysis/clean/TheGlobalLeafTraits.csv', row.names=FALSE)
+names(temp31)
+
+glbl<-melt(temp31, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Latitude",
+                      "Longitude"),
+            measure.vars=c("Leaf area index of the site (LAI)", 
+                           "Leaf carbon content per dry mass", 
+                           "Leaf carbon/nitrogen (C/N) ratio",
+                           "Leaf lifespan (longevity",                 
+                           "Stomata density",
+                           "LWC",
+                           "LDMC"
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(glbl, '~/Desktop/trait_analysis/clean/TheGlobalLeafTraits.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[17]
@@ -776,7 +971,29 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp32<-merge(temp17, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp32)
-write.csv(temp32, '~/Desktop/trait_analysis/clean/TheLEDATraitbase.csv', row.names=FALSE)
+names(temp32)
+
+leda<-melt(temp32, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Latitude",
+                      "Longitude"),
+            measure.vars=c("Plant height reproductive / generative",
+                           "Plant height vegetative",
+                           "Seed number per reproducton unit (seed / ovule ratio)",
+                           "Seed number: reproduction subunit measured",
+                           "Seed number: reproduction unit measured",
+                           "Wood density; stem specific density; wood specific gravity",          
+                           "LDMC"    
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(leda, '~/Desktop/trait_analysis/clean/TheLEDATraitbase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[18]
@@ -794,7 +1011,26 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 
 temp33<-merge(temp18, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp33)
-write.csv(temp33, '~/Desktop/trait_analysis/clean/TraitsfromSubarcticPlantSpeciesDatabase.csv', row.names=FALSE)
+names(temp33)
+
+subartic<-melt(temp33, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID",
+                      "Latitude",
+                      "Longitude",
+                      "Exposition"),
+            measure.vars=c("Leaf carbon content per dry mass",
+                           "Leaf carbon/nitrogen (C/N) ratio", 
+                           "LDMC"
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(subartic, '~/Desktop/trait_analysis/clean/TraitsfromSubarcticPlantSpeciesDatabase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[19]
@@ -811,5 +1047,21 @@ out<-out[,c(1:6,9)]
 
 temp34<-merge(temp19, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp34)
+names(temp34)
 
-write.csv(temp34, '~/Desktop/trait_analysis/clean/WholePlantHydraulicConductance.csv', row.names=FALSE)
+whydr<-melt(temp34, 
+            id.vars=c("LastName",
+                      "FirstName",
+                      "DatasetID",
+                      "Dataset",
+                      "SpeciesName",
+                      "ObservationID"
+                      ),
+            measure.vars=c("Plant height observed",
+                           "Stem diameter at breast height (1.3 m"
+            ),
+            variable.name = "Trait",
+            value.name = "value")
+
+
+write.csv(whydr, '~/Desktop/trait_analysis/clean/WholePlantHydraulicConductance.csv', row.names=FALSE)
