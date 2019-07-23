@@ -38,3 +38,5 @@ In the text ....
 # Numbers of chilling treatments, numbers of studies that tested interactions between cues and thermoperiodicity numbers come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
 
 # What is budburst definitions and numbers come from ospree/analyses/input/whatisbudburst.csv and ospree/data/whatis_budburst.xlsx
+
+Map of study sites was built by Nacho, using output/bbmapdata.csv which is built in analyses/bb_analysis/studydesignplotsbb.R (see 'Map of sites')
