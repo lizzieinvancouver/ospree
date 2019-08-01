@@ -10,4 +10,4 @@ alllats<-rbind(lat1,lat2,lat3,lat4)
 alllats$chill.utah<-alllats$chill.forecast*240
 alllats$species<-c("Betula pendula","","Fagus sylvatica","")
 clim.tab<-subset(alllats,select=c(species,lat,lon,sprT.forecast,winT.forecast))
-colnames(clim.tab)<-c("Species","Latitude","Longitude","Spring Temp","Winter Temp")
+colnames(clim.tab)<-c("Species","Latitude","Longitude","Spring Temperature","Winter Temperature")

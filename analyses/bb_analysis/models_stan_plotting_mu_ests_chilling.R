@@ -102,6 +102,7 @@ dl1<-8
 dl2<-16
 chillport<-mean(bb.stan$chill.ports)
 chillutah<-mean(bb.stan$chill)
+#chillutah*240
 if(use.chillports==TRUE){chill=chillport}
 if(use.chillports==FALSE){chill=chillutah}
 
@@ -220,7 +221,7 @@ dev.off()
 #Make a 2-d plot using PEP data to estimate chilling instead of above
 #Now make the same figure but using PEP field data to get chilling estimates for particular temperatures
 #rather than assuming constant durations
-
+#Also get min/max 
 pepests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
 #hist(pepests$winT.forecast[pepests$warming_C==0])#will need to use forecasting data to encompass the range
 #add a column with winter tepmerature rounded to the nearest whol number
@@ -380,6 +381,13 @@ axes3d(edges="bbox", labels=FALSE, tick = FALSE, box=TRUE)
 
 surface3d(x,y,z, col=col, back = "lines", xlim = range(chilltemps), ylim = range(forcetemps), zlim = range(z),labels=FALSE, tick = FALSE)
 rgl.snapshot("figures/bbmod_3dplot_utah.png")
+
+#which chill/force temps give minimum budburst
+
+z.df<-as.data.frame(z.matrix.dl1)
+rownames(z.df[which(z.df$sprtemp.32==min(z.df)),])
+#minimum budburst occurs when forcing == 32 degrees and chilltemp = 3-9 degrees C
+
 #add mean winter temp observed at sites in PEP
 #alltemps<-read.csv("../output/tempsumsforplotting.csv", header=TRUE)
 #rgl.lines(x=range(alltemps$mnwint), y = c(-8,-8), z = c(20,20), col="lightblue", lwd=15)
