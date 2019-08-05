@@ -62,14 +62,15 @@ head(temp1)
 
 names(temp1)
 beech<-melt(temp1, 
-            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"),
+            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
+                      ),
             measure.vars=c("Leaf dry matter content per leaf water-saturated mass (LDMC)"),
             variable.name = "Trait",
             value.name = "value")
-colnames(beech)[colnames(beech)=="Treatment exposition"] <- "Exposition"
+#colnames(beech)[colnames(beech)=="Treatment exposition"] <- "Exposition"
 head(beech)
 #writing a new csv file with just the data we will use
-write.csv(beech, '~/Desktop/trait_analysis/clean/wide/LeafTraitsinCentralApenninesBeechForests.csv', row.names=FALSE)
+write.csv(beech, '~/Desktop/trait_analysis/clean/LeafTraitsinCentralApenninesBeechForests.csv', row.names=FALSE)
 
 
 #All mature, all in a natural environment
@@ -77,7 +78,7 @@ names(temp1)
 unique(temp1[,11])
 
 unique(temp1$`Plant developmental status / plant age / maturity / plant life stage`)
-unique(temp1$`Treatment exposition`)
+#unique(temp1$`Treatment exposition`)
 
 #all mature and natural.
 
@@ -93,14 +94,15 @@ names(temp2)
 
 
 vein<-melt(temp2, 
-           id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Exposition"),
+           id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Exposition"
+                     ),
            measure.vars=c("Leaf vein density: primary veins","Leaf vein density: major veins","Leaf vein density: secondary veins","Leaf vein density: tertiary veins"),
            variable.name = "Trait",
            value.name = "value")
 
 write.csv(vein, '~/Desktop/trait_analysis/clean/LeafveindensityofFagussylvaticaL.andQuercusfagineaLam.csv', row.names=FALSE)
 
-unique(temp2$`Exposition`) 
+#unique(temp2$`Exposition`) 
 
 #All mature, all in a natural environment
 
@@ -131,9 +133,7 @@ dat4_2<-read.csv("~/Desktop/trait_analysis/sep_data_test/OzarkTreeleaftraits.csv
 out<-dcast(dat4_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OriglName", na.rm=TRUE); names(out)
 temp4<-out[,c(1:7,11:13)]
 
-temp18<-merge(temp2, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
-head(temp18)
-write.csv(temp18, '~/Desktop/trait_analysis/clean/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv', row.names=FALSE)
+
 names(dat_4)
 temp4<-dat_4[,c(1:15)]
 head(temp4)
@@ -163,8 +163,8 @@ photo<-melt(temp5,
          measure.vars=c("Photosynthesis per leaf area at leaf temperature (A_area)","Stomata conductance to water vapour per leaf area"),
          variable.name = "Trait",
          value.name = "value")
-colnames(photo)[colnames(photo)=="Treatment exposition"] <- "Exposition"
-write.csv(temp5, '~/Desktop/trait_analysis/clean/PhotosynthesisTraitsWorldwide.csv', row.names=FALSE)
+#colnames(photo)[colnames(photo)=="Treatment exposition"] <- "Exposition"
+write.csv(photo, '~/Desktop/trait_analysis/clean/PhotosynthesisTraitsWorldwide.csv', row.names=FALSE)
 
 unique(temp5$`Plant developmental status / plant age / maturity / plant life stage`)
 # JUST saplings 
@@ -198,7 +198,8 @@ head(temp7)
 names(temp7)
 #no exposition
 virg<-melt(temp7, 
-         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"),
+         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
+                   ),
          measure.vars=c("Plant height vegetative","Number of Leaves per plant","Stem diameter at base (basal diameter)"),
          variable.name = "Trait",
          value.name = "value")
@@ -206,7 +207,7 @@ virg<-melt(temp7,
 write.csv(virg, '~/Desktop/trait_analysis/clean/PlantTraits,Virginia,USA.csv', row.names=FALSE)
 
 unique(temp7$`Plant developmental status / plant age / maturity / plant life stage`)
-unique(temp7$`Treatment exposition`)
+#unique(temp7$`Treatment exposition`)
 
 #All juvenile and all natural envirts
 
@@ -239,9 +240,10 @@ head(dat_9)
 temp9<-dat_9[,c(1:6,8,10,11,13,17,18)]
 head(temp9)
 names(temp9)
-#no exposition
+
 smith<-melt(temp9, 
-         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"),
+         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
+                   ),
          measure.vars=c("Stem diameter at breast height (1.3 m, DBH)"),
          variable.name = "Trait",
          value.name = "value")
@@ -249,7 +251,7 @@ smith<-melt(temp9,
 write.csv(smith, '~/Desktop/trait_analysis/clean/SpecificleafareaforwoodyspeciesatSmithsonian-ForestGEOplot-Virginia,USA.csv', row.names=FALSE)
 
 unique(temp9$`Plant developmental status / plant age / maturity / plant life stage`)
-unique(temp9$`Treatment exposition`)
+#unique(temp9$`Treatment exposition`)
 #BOTH juvenile and mature individuals; all in natural environments 
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
@@ -318,7 +320,7 @@ names(temp13)
 #no exposition
 tundra<-melt(temp13, 
          id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
-         measure.vars=c("Leaf lifespan (longevity","Plant height vegetative","Woodiness"),
+         measure.vars=c("Plant height vegetative","Woodiness"),
          variable.name = "Trait",
          value.name = "value")
 
@@ -417,7 +419,8 @@ colnames(temp17)[colnames(temp17)=="258"] <- "LDMC"
 names(temp17)
 
 struc<-melt(temp17, 
-          id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Exposition"),
+          id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Exposition"
+                    ),
           measure.vars=c("Leaf carbon content per dry mass","Plant height observed","Stem diameter at base (basal diameter)","LDMC"),
           variable.name = "Trait",
           value.name = "value")
@@ -442,7 +445,8 @@ head(temp18)
 names(temp18)
 
 struc<-melt(temp18, 
-            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Exposition"),
+            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Exposition"
+                      ),
             measure.vars=c("Stem diameter at breast height (1.3 m"),
             variable.name = "Trait",
             value.name = "value")
@@ -469,7 +473,8 @@ head(temp19)
 names(temp19)
 
 margins<-melt(temp19, 
-            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Exposition"),
+            id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Exposition"
+                      ),
             measure.vars=c("Height of measurement from the ground / height from which sample was collected","Stomata density on lower surface","Stomata density on lower surface inside","Stomata density on lower surface outside","Stomata density on lower surface top","LDMC"),
             variable.name = "Trait",
             value.name = "value")
@@ -496,8 +501,9 @@ head(temp20)
 names(temp20)
 
 pphysio<-melt(temp20, 
-              id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Exposition"),
-              measure.vars=c("Leaf developmental status","Photosynthesis per leaf area at leaf temperature (A_area)","LDMC","Specific leaf area (SLA) per fresh weight"),
+              id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"#,"Exposition"
+                        ),
+              measure.vars=c("Photosynthesis per leaf area at leaf temperature (A_area)","LDMC","Specific leaf area (SLA) per fresh weight"),
               variable.name = "Trait",
               value.name = "value")
 
@@ -510,7 +516,7 @@ unique(temp20$`Plant developmental status / plant age / maturity / plant life st
 file_list[5]
 # "PLANTSdataUSDA.csv"
 names(dat_5)
-temp5<-dat_5[,c(1:8)]
+temp5<-dat_5[,c(1:6)]
 head(temp5)
 
 #mature tree height values are under the unit colmn and default is in feet not meters
@@ -522,18 +528,18 @@ out
 dat5_3<-read.csv("~/Desktop/trait_analysis/inconsistent_ones/PLANTSdataUSDA.csv")
 out2<-dcast(dat5_3, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "UnitName", na.rm=TRUE)
 out2<-out2[,c(1:6,8)]
-head(out)
+head(out_c)
 
 out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
-temp21<-merge(temp5, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset","Height at 20 Years","Plant height vegetative"))
-names(temp21)
+temp21<-merge(temp5, out_c, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
+head(temp21)
 
 usda<-melt(temp21, 
               id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
               measure.vars=c("Height at 20 Years","Plant height vegetative"),
               variable.name = "Trait",
               value.name = "value")
-
+head(usda)
 write.csv(usda, '~/Desktop/trait_analysis/clean/PLANTSdataUSDA.csv', row.names=FALSE)
 
 #######################################################
@@ -592,12 +598,13 @@ italy<-melt(temp23,
                      "SpeciesName",
                      "ObservationID",
                      "Latitude",
-                     "Longitude",
-                     "Treatment exposition"),
+                     "Longitude"#,
+                     #"Treatment exposition"
+                     ),
            measure.vars=c("Plant height vegetative"),
            variable.name = "Trait",
            value.name = "value")
-colnames(beech)[colnames(italy)=="Treatment exposition"] <- "Exposition"
+#colnames(beech)[colnames(italy)=="Treatment exposition"] <- "Exposition"
 
 write.csv(italy, '~/Desktop/trait_analysis/clean/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=FALSE)
 
@@ -622,12 +629,13 @@ circeo<-melt(temp24,
                       "SpeciesName",
                       "ObservationID",
                       "latitude",
-                      "longitude",
-                      "exposition"),
+                      "longitude" #,
+                      #"exposition"
+                      ),
             measure.vars=c("Height (cm)"),
             variable.name = "Trait",
             value.name = "value")
-colnames(circeo)[colnames(circeo)=="exposition"] <- "Exposition"
+#colnames(circeo)[colnames(circeo)=="exposition"] <- "Exposition"
 colnames(circeo)[colnames(circeo)=="longitude"] <- "Longitude"
 colnames(circeo)[colnames(circeo)=="latitude"] <- "Latitude"
 #All mature in natural envrt
@@ -735,8 +743,9 @@ roll<-melt(temp27,
                       "SpeciesName",
                       "ObservationID",
                       "Latitude",
-                      "Longitude",
-                      "Exposition"),
+                      "Longitude"#,
+                      #"Exposition"
+                      ),
             measure.vars=c("Stem diameter at breast height (1.3 m"
             ),
             variable.name = "Trait",
@@ -744,7 +753,7 @@ roll<-melt(temp27,
 
 write.csv(roll, '~/Desktop/trait_analysis/clean/RollinsonDBH.csv', row.names=FALSE)
 
-unique(temp27$`Exposition`)
+#unique(temp27$`Exposition`)
 #All natural
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
@@ -762,8 +771,9 @@ sheffwood<-melt(temp12,
                      "DatasetID",
                      "Dataset",
                      "SpeciesName",
-                     "ObservationID",
-                     "Exposition"),
+                     "ObservationID"
+                     #,"Exposition"
+                     ),
            measure.vars=c("Leaf mass per area based on fresh weight",
                           "Specific leaf area (SLA) per fresh weight",
                           "Stomata density",
@@ -810,7 +820,7 @@ sheff<-melt(temp28,
                           "Dataset",
                           "SpeciesName",
                           "ObservationID",
-                          "Exposition temperature",
+                          #"Exposition temperature",
                           "Latitude",
                           "Longitude"),
                 measure.vars=c("Leaf mass per area based on fresh weight",
@@ -823,7 +833,8 @@ sheff<-melt(temp28,
                 ),
                 variable.name = "Trait",
                 value.name = "value")
-write.csv(temp28, '~/Desktop/trait_analysis/clean/SheffieldDatabase.csv', row.names=FALSE)
+
+write.csv(sheff, '~/Desktop/trait_analysis/clean/SheffieldDatabase.csv', row.names=FALSE)
 
 head(temp28)
 
@@ -853,7 +864,7 @@ fin<-melt(temp29,
                       "Dataset",
                       "SpeciesName",
                       "ObservationID",
-                      "Exposition",
+                      #"Exposition",
                       "Latitude",
                       "Longitude"),
             measure.vars=c("Leaf carbon content per dry mass",
@@ -865,7 +876,7 @@ fin<-melt(temp29,
 write.csv(fin, '~/Desktop/trait_analysis/clean/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=FALSE)
 
 unique(temp29$`Plant developmental status / plant age / maturity / plant life stage`)
-unique(temp29$`Exposition`)
+#unique(temp29$`Exposition`)
 #BOTH juvenile and mature individuals; all in natural environments 
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
@@ -1021,8 +1032,9 @@ subartic<-melt(temp33,
                       "SpeciesName",
                       "ObservationID",
                       "Latitude",
-                      "Longitude",
-                      "Exposition"),
+                      "Longitude"#,
+                      #"Exposition"
+                      ),
             measure.vars=c("Leaf carbon content per dry mass",
                            "Leaf carbon/nitrogen (C/N) ratio", 
                            "LDMC"
