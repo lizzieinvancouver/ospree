@@ -1077,3 +1077,9 @@ whydr<-melt(temp34,
 
 
 write.csv(whydr, '~/Desktop/trait_analysis/clean/WholePlantHydraulicConductance.csv', row.names=FALSE)
+
+#Now merge all files into one:
+myfiles = list.files(path="~/Desktop/trait_analysis/clean", pattern="*.csv", full.names=TRUE)
+myfiles
+dat_clean = ldply(myfiles, read_csv)
+dat_clean
