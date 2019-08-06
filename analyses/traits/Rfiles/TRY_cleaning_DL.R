@@ -1083,3 +1083,6 @@ myfiles = list.files(path="~/Desktop/trait_analysis/clean", pattern="*.csv", ful
 myfiles
 dat_clean = ldply(myfiles, read_csv)
 dat_clean
+
+head(dat_clean)
+length(unique(dat_clean$Dataset))
