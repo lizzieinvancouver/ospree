@@ -92,8 +92,8 @@ ddatefxtreat$datasetIDstudy <- paste(ddatefxtreat$datasetID, ddatefxtreat$study,
 dates2weekstreat <- countfieldsample(ddatefxtreat, 14)
 names(dates2weekstreat)[names(dates2weekstreat)=="count"] <- "fs.date.count"
 
-# Below by Dan I think ...
-if(FALSE){
+
+if(FALSE){ # Below by Dan B for Weinbgerger stuff (I think).
 weinberger <- filter(dates2weekstreat,fs.date.count>=2)
 #clean it a little bit
 goo <- separate(weinberger, datasetIDstudy,c("datasetID","study","force","photo","chill") ,
@@ -128,9 +128,6 @@ dsumm <-
 dsumm$range.temp <- dsumm$max.temp - dsumm$min.temp
 dsumm$range.photo <- dsumm$max.photo - dsumm$min.photo
 dsumm$range.chill <- dsumm$max.chill - dsumm$min.chill
-
-
-
 
 
 ## For PEP725 comparison:
@@ -370,7 +367,7 @@ dev.off()
 # (2) What to do with NA
 # (3) Make much, much prettier!
 
-## Prep the data, make a column concatenating a bunch of info, megre in field sample dates,
+## Prep the data, make a column concatenating a bunch of info, merge in field sample dates,
 # and make the cues intergers (so the heat maps make sense)
 d$datasetIDstudytreat <- paste(d$datasetID, d$study, d$force, d$photoperiod_day, d$chilltemp)
 d <- merge(d, dates2weekstreat, by.x="datasetIDstudytreat", by.y="datasetIDstudy", all.x=TRUE)
@@ -389,6 +386,8 @@ dsumm.treat <-
       min.fieldsamp = min(doy),
       max.fieldsamp = max(doy))
 
+## The below heat maps show the COUNT of studies across different treatments
+# For example, x is 20 C, y is 12 days and the third dimension is how many did that.
 dsumm.nums <-
       ddply(dsumm.treat, c("force.int", "photo.int"), summarise,
       count = length(force.int))
@@ -453,3 +452,44 @@ ggplot(dsumm.numsphfs, aes(as.factor(photo.int), as.factor(field.sample.n))) +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
+
+# make figures prettier than average
+basesize <- 12
+
+# summarize by design, include all chilling (field and exp)
+dsumm.treat <-
+      ddply(d, c("datasetID", "study", "force.int", "photo.int", "chill.int"), summarise,
+      mean.lat = mean(provenance.lat),
+      spp.n = length(unique(latbi)),
+      field.sample.n = mean(fs.date.count, na.rm=TRUE),
+      mean.fieldsamp = mean(doy),
+      min.fieldsamp = min(doy),
+      max.fieldsamp = max(doy))
+
+heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
+    geom_tile(aes(fill=field.sample.n), colour="white") +
+    # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
+    scale_fill_gradient2(name="Field sample \ndates", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
+    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
+        panel.background = element_blank(), text=element_text(size=basesize))
+
+heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
+    geom_tile(aes(fill=chill.int), colour="white") +
+    scale_fill_gradient2(name="All chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) + theme_classic() +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
+    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
+        panel.background = element_blank(), text=element_text(size=basesize))
+
+heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
+    geom_tile(aes(fill=chilltemp.int), colour="white") +
+    scale_fill_gradient2(name="Exp chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
+        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
+  scale_y_discrete(breaks=seq(6,24,2)) +
+    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
+    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
+        panel.background = element_blank(), text=element_text(size=basesize))
