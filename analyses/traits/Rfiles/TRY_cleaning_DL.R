@@ -1086,3 +1086,5 @@ dat_clean
 
 head(dat_clean)
 length(unique(dat_clean$Dataset))
+
+write.csv(dat_clean, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/try_cleanlong_dl.csv', row.names=FALSE)
