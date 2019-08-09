@@ -1,0 +1,5 @@
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Trait","value"
+"Burrascano","Sabina",158,"Plant Traits from Circeo National Park, Italy","Carpinus betulus",1322252,41.33333333,13.05,"Plant height vegetative",20
+"Burrascano","Sabina",158,"Plant Traits from Circeo National Park, Italy","Populus tremula",1322263,41.33333333,13.05,"Plant height vegetative",20
+"Burrascano","Sabina",158,"Plant Traits from Circeo National Park, Italy","Quercus ilex ilex",1322273,41.33333333,13.05,"Plant height vegetative",20
+"Burrascano","Sabina",158,"Plant Traits from Circeo National Park, Italy","Quercus virgiliana",1322255,41.33333333,13.05,"Plant height vegetative",25
