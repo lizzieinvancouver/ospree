@@ -1,4 +1,4 @@
-"LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Trait","value"
-"Martin","Adam",433,"Wood carbon database","Betula pubescens",2732719,"61.58333333","24.08333333","Leaf carbon content per dry mass","52.1"
-"Martin","Adam",433,"Wood carbon database","Picea abies",2732720,"61.58333333","24.08333333","Leaf carbon content per dry mass","54"
-"Martin","Adam",433,"Wood carbon database","Pseudotsuga menziesii",2732921,"15","110","Leaf carbon content per dry mass","45"
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Family","Latitude","Longitude","Trait","value"
+"Martin","Adam",433,"Wood carbon database","Betula pubescens",2732719,"Betulaceae","61.58333333","24.08333333","Leaf carbon content per dry mass","52.1"
+"Martin","Adam",433,"Wood carbon database","Picea abies",2732720,"Pinaceae","61.58333333","24.08333333","Leaf carbon content per dry mass","54"
+"Martin","Adam",433,"Wood carbon database","Pseudotsuga menziesii",2732921,"Pinaceae","15","110","Leaf carbon content per dry mass","45"

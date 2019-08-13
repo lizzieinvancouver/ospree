@@ -1,55 +1,55 @@
-"LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Trait","value"
-"Wang","Han",443,"The China Plant Trait Database","Padus avium",2764257,"42.28385333","128.0992067","Leaf carbon content per dry mass","266.22"
-"Wang","Han",443,"The China Plant Trait Database","Prunus padus",2762003,"42.98371667","130.0811833","Leaf carbon content per dry mass","459.894"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2762701,"36.24225","117.0238","Leaf carbon content per dry mass","286"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763822,"36.76666667","109.25","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763868,"36.06666667","108.5333333","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763894,"37.85","110.1666667","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763895,"37.85","110.1666667","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763948,"33.43333333","108.4333333","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764006,"34.26666667","108.0666667","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764022,"34.81666667","108.0333333","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764324,"42.07172833","128.0656183","Leaf carbon content per dry mass","267.88"
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764330,"42.06047833","128.063265","Leaf carbon content per dry mass","282.58"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus parvifolia",2762750,"32.0546","118.8596667","Leaf carbon content per dry mass","395.614"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763394,"43.926","88.113","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763830,"36.76666667","109.25","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763877,"36.06666667","108.5333333","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763898,"37.85","110.1666667","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763967,"38.78333333","110.35","Leaf carbon content per dry mass",NA
-"Wang","Han",443,"The China Plant Trait Database","Padus avium",2764257,"42.28385333","128.0992067","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Prunus padus",2762003,"42.98371667","130.0811833","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2762701,"36.24225","117.0238","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763822,"36.76666667","109.25","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.16"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763868,"36.06666667","108.5333333","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.24"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763894,"37.85","110.1666667","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","4.96"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763895,"37.85","110.1666667","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","4.3"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763948,"33.43333333","108.4333333","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.21"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764006,"34.26666667","108.0666667","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","10.65"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764022,"34.81666667","108.0333333","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.93"
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764324,"42.07172833","128.0656183","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764330,"42.06047833","128.063265","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus parvifolia",2762750,"32.0546","118.8596667","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763394,"43.926","88.113","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763830,"36.76666667","109.25","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","7.54"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763877,"36.06666667","108.5333333","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.59"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763898,"37.85","110.1666667","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","5.93"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763967,"38.78333333","110.35","Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.1"
-"Wang","Han",443,"The China Plant Trait Database","Padus avium",2764257,"42.28385333","128.0992067","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Prunus padus",2762003,"42.98371667","130.0811833","LDMC","260.6172341"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2762701,"36.24225","117.0238","LDMC","393.4040441"
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763822,"36.76666667","109.25","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763868,"36.06666667","108.5333333","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763894,"37.85","110.1666667","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763895,"37.85","110.1666667","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2763948,"33.43333333","108.4333333","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764006,"34.26666667","108.0666667","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Robinia pseudoacacia",2764022,"34.81666667","108.0333333","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764324,"42.07172833","128.0656183","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Sorbus pohuashanensis",2764330,"42.06047833","128.063265","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus parvifolia",2762750,"32.0546","118.8596667","LDMC","466.7075163"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763394,"43.926","88.113","LDMC","482.2695035"
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763830,"36.76666667","109.25","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763877,"36.06666667","108.5333333","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763898,"37.85","110.1666667","LDMC",NA
-"Wang","Han",443,"The China Plant Trait Database","Ulmus pumila",2763967,"38.78333333","110.35","LDMC",NA
+"LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset","Latitude","Longitude","Trait","value"
+"Wang","Han","Padus avium",2764257,443,"The China Plant Trait Database",42.28385333,128.0992067,"Leaf carbon content per dry mass","266.22"
+"Wang","Han","Prunus padus",2762003,443,"The China Plant Trait Database",42.98371667,130.0811833,"Leaf carbon content per dry mass","459.894"
+"Wang","Han","Robinia pseudoacacia",2762701,443,"The China Plant Trait Database",36.24225,117.0238,"Leaf carbon content per dry mass","286"
+"Wang","Han","Robinia pseudoacacia",2763822,443,"The China Plant Trait Database",36.76666667,109.25,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2763868,443,"The China Plant Trait Database",36.06666667,108.5333333,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2763894,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2763895,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2763948,443,"The China Plant Trait Database",33.43333333,108.4333333,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2764006,443,"The China Plant Trait Database",34.26666667,108.0666667,"Leaf carbon content per dry mass",NA
+"Wang","Han","Robinia pseudoacacia",2764022,443,"The China Plant Trait Database",34.81666667,108.0333333,"Leaf carbon content per dry mass",NA
+"Wang","Han","Sorbus pohuashanensis",2764324,443,"The China Plant Trait Database",42.07172833,128.0656183,"Leaf carbon content per dry mass","267.88"
+"Wang","Han","Sorbus pohuashanensis",2764330,443,"The China Plant Trait Database",42.06047833,128.063265,"Leaf carbon content per dry mass","282.58"
+"Wang","Han","Ulmus parvifolia",2762750,443,"The China Plant Trait Database",32.0546,118.8596667,"Leaf carbon content per dry mass","395.614"
+"Wang","Han","Ulmus pumila",2763394,443,"The China Plant Trait Database",43.926,88.113,"Leaf carbon content per dry mass",NA
+"Wang","Han","Ulmus pumila",2763830,443,"The China Plant Trait Database",36.76666667,109.25,"Leaf carbon content per dry mass",NA
+"Wang","Han","Ulmus pumila",2763877,443,"The China Plant Trait Database",36.06666667,108.5333333,"Leaf carbon content per dry mass",NA
+"Wang","Han","Ulmus pumila",2763898,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf carbon content per dry mass",NA
+"Wang","Han","Ulmus pumila",2763967,443,"The China Plant Trait Database",38.78333333,110.35,"Leaf carbon content per dry mass",NA
+"Wang","Han","Padus avium",2764257,443,"The China Plant Trait Database",42.28385333,128.0992067,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Prunus padus",2762003,443,"The China Plant Trait Database",42.98371667,130.0811833,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Robinia pseudoacacia",2762701,443,"The China Plant Trait Database",36.24225,117.0238,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Robinia pseudoacacia",2763822,443,"The China Plant Trait Database",36.76666667,109.25,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.16"
+"Wang","Han","Robinia pseudoacacia",2763868,443,"The China Plant Trait Database",36.06666667,108.5333333,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.24"
+"Wang","Han","Robinia pseudoacacia",2763894,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","4.96"
+"Wang","Han","Robinia pseudoacacia",2763895,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","4.3"
+"Wang","Han","Robinia pseudoacacia",2763948,443,"The China Plant Trait Database",33.43333333,108.4333333,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.21"
+"Wang","Han","Robinia pseudoacacia",2764006,443,"The China Plant Trait Database",34.26666667,108.0666667,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","10.65"
+"Wang","Han","Robinia pseudoacacia",2764022,443,"The China Plant Trait Database",34.81666667,108.0333333,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.93"
+"Wang","Han","Sorbus pohuashanensis",2764324,443,"The China Plant Trait Database",42.07172833,128.0656183,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Sorbus pohuashanensis",2764330,443,"The China Plant Trait Database",42.06047833,128.063265,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Ulmus parvifolia",2762750,443,"The China Plant Trait Database",32.0546,118.8596667,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Ulmus pumila",2763394,443,"The China Plant Trait Database",43.926,88.113,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)",NA
+"Wang","Han","Ulmus pumila",2763830,443,"The China Plant Trait Database",36.76666667,109.25,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","7.54"
+"Wang","Han","Ulmus pumila",2763877,443,"The China Plant Trait Database",36.06666667,108.5333333,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","6.59"
+"Wang","Han","Ulmus pumila",2763898,443,"The China Plant Trait Database",37.85,110.1666667,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","5.93"
+"Wang","Han","Ulmus pumila",2763967,443,"The China Plant Trait Database",38.78333333,110.35,"Leaf photosynthesis at saturating light and ambient CO2 per leaf area (Asat)","14.1"
+"Wang","Han","Padus avium",2764257,443,"The China Plant Trait Database",42.28385333,128.0992067,"LDMC",NA
+"Wang","Han","Prunus padus",2762003,443,"The China Plant Trait Database",42.98371667,130.0811833,"LDMC","260.6172341"
+"Wang","Han","Robinia pseudoacacia",2762701,443,"The China Plant Trait Database",36.24225,117.0238,"LDMC","393.4040441"
+"Wang","Han","Robinia pseudoacacia",2763822,443,"The China Plant Trait Database",36.76666667,109.25,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2763868,443,"The China Plant Trait Database",36.06666667,108.5333333,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2763894,443,"The China Plant Trait Database",37.85,110.1666667,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2763895,443,"The China Plant Trait Database",37.85,110.1666667,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2763948,443,"The China Plant Trait Database",33.43333333,108.4333333,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2764006,443,"The China Plant Trait Database",34.26666667,108.0666667,"LDMC",NA
+"Wang","Han","Robinia pseudoacacia",2764022,443,"The China Plant Trait Database",34.81666667,108.0333333,"LDMC",NA
+"Wang","Han","Sorbus pohuashanensis",2764324,443,"The China Plant Trait Database",42.07172833,128.0656183,"LDMC",NA
+"Wang","Han","Sorbus pohuashanensis",2764330,443,"The China Plant Trait Database",42.06047833,128.063265,"LDMC",NA
+"Wang","Han","Ulmus parvifolia",2762750,443,"The China Plant Trait Database",32.0546,118.8596667,"LDMC","466.7075163"
+"Wang","Han","Ulmus pumila",2763394,443,"The China Plant Trait Database",43.926,88.113,"LDMC","482.2695035"
+"Wang","Han","Ulmus pumila",2763830,443,"The China Plant Trait Database",36.76666667,109.25,"LDMC",NA
+"Wang","Han","Ulmus pumila",2763877,443,"The China Plant Trait Database",36.06666667,108.5333333,"LDMC",NA
+"Wang","Han","Ulmus pumila",2763898,443,"The China Plant Trait Database",37.85,110.1666667,"LDMC",NA
+"Wang","Han","Ulmus pumila",2763967,443,"The China Plant Trait Database",38.78333333,110.35,"LDMC",NA
