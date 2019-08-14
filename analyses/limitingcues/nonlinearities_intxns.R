@@ -28,7 +28,7 @@ pceff <- -0.3/6000 # not sure how to convert this!
 fpeff.alt <- 0.01
 pceff.alt <- 0.001 
 
-# make up df
+## make up df
 df <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=6, to=24, length.out=100),
     chill=seq(from=100, to=2000, length.out=100))
 df$bb.simple <- feff*df$force + peff*df$photo + ceff*df$chill
@@ -37,8 +37,8 @@ df$bb <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff*(df$force*df$phot
 df$bb.alt <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt*(df$force*df$photo) + fceff*(df$force*df$chill) +
     pceff.alt*(df$chill*df$photo)
 
+# add some alternatives to above
 df$bb.fpaltonly <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt*(df$force*df$photo)
-
 chillhere <- 1000
 photohere <- 14
 df$bb.staticchillphoto <- feff*df$force + peff*photohere + ceff*chillhere + fpeff*(df$force*photohere) + fceff*(df$force*chillhere) +
@@ -63,3 +63,27 @@ lines(bb.simple~force, data=df, col=colz[3])
 legend(26, -16, c("all intxns", "F x P alt", "no intxn"), 
    lty=rep(1, 3), col=colz, cex=0.75, bty="n")
 dev.off()
+
+## another try at df
+feff <- -8.8/5
+peff <- -4.5/4
+fpeff.alt <- abs(feff/16) # make it 1/16 the size of the F effect
+
+# increase photoperiod at warming > 20
+df1 <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=c(seq(from=14, to=12, length.out=40), rep(12, 60)),
+    chill=seq(from=2000, to=2000, length.out=100))
+df1$bb <- feff*df1$force + peff*df1$photo + ceff*df1$chill + fpeff.alt*(df1$force*df1$photo)
+df1$bblin <- feff*df1$force + peff*df1$photo + ceff*df1$chill 
+
+plot(bb~force, data=df1, ylim=c(-100, -30))
+points(bblin~force, data=df1, col="blue")
+
+# small increases in photoperiod across whole time
+df2 <- data.frame("force"=seq(from=5, to=35, length.out=100), photo=seq(from=14, to=12.5, length.out=100),
+    chill=seq(from=2000, to=2000, length.out=100))
+df2$bb <- feff*df2$force + peff*df2$photo + ceff*df2$chill + fpeff.alt*(df2$force*df2$photo)
+df2$bblin <- feff*df2$force + peff*df2$photo + ceff*df2$chill 
+
+plot(bb~force, data=df2, ylim=c(-60, -30))
+points(bblin~force, data=df2, col="blue")
+
