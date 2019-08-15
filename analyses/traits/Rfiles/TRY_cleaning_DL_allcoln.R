@@ -43,7 +43,8 @@ file_list[1]
 for (i in 1:length(file_list)){
   out<-assign(file_list[i], 
               read.csv(paste(folder, file_list[i], sep='')))
-  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+UnitName~DataName, value.var = "StdValue", na.rm=TRUE))
+  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+UnitName~DataName, 
+              value.var = "OrigValueStr", na.rm=TRUE))
   assign(paste("dat",i,sep="_"), out)
 }
 
@@ -396,7 +397,7 @@ file_list[1]
 for (i in 1:length(file_list)){
   out<-assign(file_list[i], 
               read.csv(paste(folder, file_list[i], sep='')))
-  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE))
+  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE))
   assign(paste("dat",i,sep="_"), out)
 }
 
@@ -522,7 +523,7 @@ head(temp5)
 
 #mature tree height values are under the unit colmn and default is in feet not meters
 dat5_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PLANTSdataUSDA.csv")
-out<-dcast(dat5_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+out<-dcast(dat5_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
 out<-out[,c(1:7)]
 out
 
@@ -582,7 +583,7 @@ temp7<-dat_7[,c(1:6,10,12)]
 head(temp7)
 
 dat7_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PlantTraitsfromCirceoNationalPark,Italy.csv")
-out<-dcast(dat7_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+out<-dcast(dat7_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
 out<-out[,c(1:7,9,11)]
 head(out)
 
@@ -616,7 +617,7 @@ names(dat_8)
 
 #Trait values are in the UnitNam col
 dat8_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PlantTraitsfromCirceoNationalPark.csv")
-out<-dcast(dat8_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~StdValue, value.var = "UnitName", na.rm=TRUE)
+out<-dcast(dat8_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~OrigValueStr, value.var = "UnitName", na.rm=TRUE)
 names(out)
 temp24<-out[,c(1:9,10,11)]
 head(temp24)
@@ -681,10 +682,10 @@ write.csv(medit, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_d
 # 
 # # #Height is in cm, so converting to m
 dat_10<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PlantTraitsofCanadianForests.csv")
-dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "StdValue", na.rm=TRUE)
+dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OrigValueStr", na.rm=TRUE)
 
 #Height is in cm, so converting to m
-#heights are in cm so use StdValue
+#heights are in cm so use OrigValueStr
 names(dat_10)
 temp26<-dat_10[,c(1:6,8,9,11,13,20:22)]
 names(temp26)
@@ -1088,4 +1089,4 @@ dat_clean
 head(dat_clean)
 length(unique(dat_clean$Dataset))
 
-write.csv(dat_clean, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/try_cleanlong_dl.csv', row.names=FALSE)
+write.csv(dat_clean, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/try_cleanlong_dl_origvalue.csv', row.names=FALSE)

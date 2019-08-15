@@ -29,6 +29,8 @@ head(trywide)
 names(biendat)
 names(trywide)            
 
+trywide$UnitName
+
 #to do:
 #merge try pi first and last name
 trywide$project_pi<-paste(trywide$FirstName, trywide$LastName)
@@ -68,3 +70,13 @@ unique(test$longitude)
 unique(test$ldmc)
 unique(test$`leaf.dry.matter.content.per.leaf.water-saturated.mass.(ldmc)`)
 str(test)
+
+sort(names(trywide))
+unique(trywide$Bedrock...geological.substrate)
+
+require(dplyr)
+trywide %>% 
+  summarise_all((funs(sum(is.na(.))))) 
+
+unique(trywide$Plant.developmental.status...plant.age...maturity...plant.life.stage)
+

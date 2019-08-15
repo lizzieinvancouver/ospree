@@ -1,121 +1,121 @@
 "LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Exposition","Plant developmental status / plant age / maturity / plant life stage","Trait","value"
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,NA,NA,"Leaf mass per area based on fresh weight",7.613148878
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,NA,NA,"Leaf mass per area based on fresh weight",6.744485862
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,NA,NA,"Leaf mass per area based on fresh weight",8.916147146
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,NA,NA,"Leaf mass per area based on fresh weight",7.985709142
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,NA,NA,"Leaf mass per area based on fresh weight",9.867697702
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,NA,NA,"Leaf mass per area based on fresh weight",7.226922928
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,NA,NA,"Leaf mass per area based on fresh weight",4.369793677
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,NA,NA,"Leaf mass per area based on fresh weight",9.678470556
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,NA,NA,"Leaf mass per area based on fresh weight",9.303159259
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,NA,NA,"Leaf mass per area based on fresh weight",9.598859521
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,NA,NA,"Leaf mass per area based on fresh weight",8.97322224
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,NA,NA,"Leaf mass per area based on fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,NA,NA,"Leaf mass per area based on fresh weight",10.65644172
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,NA,NA,"Leaf mass per area based on fresh weight",6.93034343
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,NA,NA,"Specific leaf area (SLA) per fresh weight",7.655761047
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,NA,NA,"Specific leaf area (SLA) per fresh weight",6.782331708
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,NA,NA,"Specific leaf area (SLA) per fresh weight",8.968511601
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,NA,NA,"Specific leaf area (SLA) per fresh weight",8.0119723
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,NA,NA,"Specific leaf area (SLA) per fresh weight",9.86
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,NA,NA,"Specific leaf area (SLA) per fresh weight",7.27705296
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,NA,NA,"Specific leaf area (SLA) per fresh weight",4.390061018
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,NA,NA,"Specific leaf area (SLA) per fresh weight",9.816676865
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,NA,NA,"Specific leaf area (SLA) per fresh weight",9.411614138
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,NA,NA,"Specific leaf area (SLA) per fresh weight",9.657912724
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,NA,NA,"Specific leaf area (SLA) per fresh weight",8.998437016
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,NA,NA,"Specific leaf area (SLA) per fresh weight",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,NA,NA,"Specific leaf area (SLA) per fresh weight",10.65644172
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,NA,NA,"Specific leaf area (SLA) per fresh weight",6.980748411
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,NA,NA,"Stomata density",157.1180556
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,NA,NA,"Stomata density",211.3989296
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,NA,NA,"Stomata density",92.01388889
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,NA,NA,"Stomata density",92.44791667
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,NA,NA,"Stomata density",101.5625
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,NA,NA,"Stomata density",91.14583333
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,NA,NA,"Stomata density",424.4791667
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,NA,NA,"Stomata density",262.5868056
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,NA,NA,"Stomata density",185.7638889
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,NA,NA,"Stomata density",99.39236111
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,NA,NA,"Stomata density",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,NA,NA,"Wood density; stem specific density; wood specific gravity",0.160587515
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,NA,NA,"Wood density; stem specific density; wood specific gravity",0.451429826
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,NA,NA,"Wood density; stem specific density; wood specific gravity",0.11718519
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,NA,NA,"Wood density; stem specific density; wood specific gravity",0.236154586
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,NA,NA,"Wood density; stem specific density; wood specific gravity",0.497505305
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,NA,NA,"Wood density; stem specific density; wood specific gravity",0.246850509
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,NA,NA,"Wood density; stem specific density; wood specific gravity",0.345411523
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,NA,"Wood density; stem specific density; wood specific gravity",0.36
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,NA,NA,"Wood density; stem specific density; wood specific gravity",0.825926901
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,NA,"Wood density; stem specific density; wood specific gravity",0.38
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,NA,NA,"Wood density; stem specific density; wood specific gravity",0.650274858
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,NA,NA,"Wood density; stem specific density; wood specific gravity",0.495392825
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,NA,NA,"Wood density; stem specific density; wood specific gravity",0.642639808
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,NA,NA,"Wood density; stem specific density; wood specific gravity",0.2282775
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,NA,NA,"Wood density; stem specific density; wood specific gravity",0.533511762
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,NA,NA,"Wood density; stem specific density; wood specific gravity",0.386806018
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
-"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,NA,NA,"Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.131351694"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.148269271"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.112156067"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.125223694"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.101340762"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.138371477"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.228843756"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,"seedling","Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,"seedling","Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,"growth-chamber","seedling","Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.10332211"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.107490367"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.104179043"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.111442687"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,"Growth chamber",NA,"Leaf mass per area based on fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,"growth-chamber","seedling","Leaf mass per area based on fresh weight","9.38E-02"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,"growth-chamber","seedling","Leaf mass per area based on fresh weight","0.144292994"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","7.655761047"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","6.782331708"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","8.968511601"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","8.0119723"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","9.86"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","7.27705296"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","4.390061018"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,"seedling","Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,"seedling","Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","9.816676865"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","9.411614138"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","9.657912724"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","8.998437016"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,"Growth chamber",NA,"Specific leaf area (SLA) per fresh weight",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","10.65644172"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,"growth-chamber","seedling","Specific leaf area (SLA) per fresh weight","6.980748411"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,"growth-chamber","seedling","Stomata density","157.1180556"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,"growth-chamber","seedling","Stomata density","211.3989296"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,"growth-chamber","seedling","Stomata density","92.01388889"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,"growth-chamber","seedling","Stomata density","92.44791667"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,"growth-chamber","seedling","Stomata density","101.5625"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,"growth-chamber","seedling","Stomata density","91.14583333"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,"growth-chamber","seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,"seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,"seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,"growth-chamber","seedling","Stomata density","424.4791667"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,"growth-chamber","seedling","Stomata density","262.5868056"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,"growth-chamber","seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,"growth-chamber","seedling","Stomata density","185.7638889"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,"growth-chamber","seedling","Stomata density","99.39236111"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,"Growth chamber",NA,"Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,"growth-chamber","seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,"growth-chamber","seedling","Stomata density",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",941182,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.160587515"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Acer pseudoplatanus",1304872,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",941183,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.451429826"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Aesculus hippocastanum",1304873,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",941184,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.11718519"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Alnus glutinosa",1304874,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",941188,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.236154586"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Betula pendula",1304879,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",941198,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.497505305"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Corylus avellana",1304890,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",941207,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.246850509"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Fraxinus excelsior",1304901,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",941216,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.345411523"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Larix decidua",1304913,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",925084,NA,"seedling","Wood density; stem specific density; wood specific gravity","0.36"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus faginea",941230,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.825926901"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",925110,NA,"seedling","Wood density; stem specific density; wood specific gravity","0.38"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",941232,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.650274858"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus ilex ilex",1304935,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",941233,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.495392825"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus petraea",1304936,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus pubescens",941234,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.642639808"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Quercus rubra",1304939,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",941241,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.2282775"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ribes nigrum",1304946,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",941251,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.533511762"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Sorbus aucuparia",1304955,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",941254,"Growth chamber",NA,"Wood density; stem specific density; wood specific gravity","0.386806018"
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Tilia cordata",1304958,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
+"Cornelissen","Johannes",72,"Sheffield & Spain Woody Database","Ulmus minor",1304963,"growth-chamber","seedling","Wood density; stem specific density; wood specific gravity",NA
