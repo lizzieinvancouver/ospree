@@ -23,26 +23,29 @@ setwd("~/Documents/git/ospree/analyses")
 library(dplyr)
 library(tidyr)
 
-# 1. Get the data
-d <- read.csv("input/ospree.csv")
+# 1. Get the data 
+dorg <- read.csv("input/ospree.csv")
+dup <- read.csv("output/ospree2019update.csv")
 
-# 2. Need to deal with some basic cleaning, delete a few extraneous columns
-d$X <- NULL
-d$X.1 <- NULL
-d$X.2 <- NULL
-d$X.3 <- NULL
+# 2. Need to deal with some basic cleaning, delete a few extraneous columns and bind it
+dorg$X <- NULL
+dorg$X.1 <- NULL
+dorg$X.2 <- NULL
+dorg$X.3 <- NULL
+
+d <- rbind(dorg, dup) # damn, you think research is rushing on but new data is only 11% of data!
 
 # 3. Clean up some super miscellaneous stuff
-source("cleaning/clean_misc.R")
+source("cleaning/clean_misc.R") # Dan B can you update this with an appropriate note about the warning?
 
 # 4. Clean up response variable names
-source("cleaning/clean_respvar.R")
+source("cleaning/clean_respvar.R") # Lizzie should do ...
 
 # 5. Clean up photoperiod #
-source("cleaning/clean_photo.R")
+source("cleaning/clean_photo.R") # Cat?
 
 # 6. Clean up forcetemp
-source("cleaning/clean_forcetemp.R")
+source("cleaning/clean_forcetemp.R") # Cat?
 
 # 7. Get rid of non-woodys and clean species names
 source("cleaning/clean_woody_sps.R") 

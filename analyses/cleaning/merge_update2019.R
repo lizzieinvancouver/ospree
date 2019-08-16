@@ -1,3 +1,4 @@
+## Started in August 2019 (ish) ##
 ## Merge the 2019 OSPREE data update ##
 ## By Lizzie so far ... ###
 
@@ -39,3 +40,14 @@ dim(my)
 head(dss[,54:75])
 dss[,54:75] <- NULL
 dim(dss)
+
+# Put the data together (not pretty but not really worth it to apply now)
+d <- rbind(cjc, dl)
+d <- rbind(d, dmb)
+d <- rbind(d, dss)
+d <- rbind(d, ks)
+d <- rbind(d, my)
+
+sum(nrow(cjc), nrow(dl), nrow(dmb), nrow(dss), nrow(ks), nrow(my)) # check! 
+
+write.csv(d, "output/ospree2019update.csv", row.names=FALSE)
