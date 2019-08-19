@@ -140,7 +140,7 @@ d <- within(d, photoperiod_day[datasetID == 'thielges75' & photoperiod_day ==
 d[-which(d$datasetID=='ghelardini10' & d$Entered.By == 'DF'), ]
 
 ############ New data cleaning starts here #############
-# New datasets: fu19, fu_2018, anzanello16
+# New datasets needing attention: fu19, fu_2018, anzanello16
 
 ## fu19
 d <- within(d, photoperiod_day[datasetID == 'fu19' & photoperiod_day== "short"]<-"ambient-2")

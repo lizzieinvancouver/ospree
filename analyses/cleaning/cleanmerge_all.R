@@ -45,7 +45,7 @@ source("cleaning/clean_respvar.R") # Lizzie should do ...
 source("cleaning/clean_photo.R") # Updated 19 August 2019 by Cat
 
 # 6. Clean up forcetemp
-source("cleaning/clean_forcetemp.R") # Cat?
+source("cleaning/clean_forcetemp.R") # Updated 19 August 2019 by Cat
 
 # 7. Get rid of non-woodys and clean species names
 source("cleaning/clean_woody_sps.R") 
