@@ -20,8 +20,9 @@ library(plyr)
 library(ncdf4)
 library(Interpol.T)
 library(chillR)
+library(lubridate)
 # 1. Get the data
-d <- read.csv("output/ospree_clean.csv")
+d <- read.csv("output/ospree2019update.csv")
 
 # 2. Clean the chilltemp column
 
@@ -38,11 +39,12 @@ source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #Skip ahead to 4e if you do not have the climate data drive
- climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
+ #climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 #climatedrive = "//128.103.155.31/WeldShare/Wolkovich Lab/Budburst Review - Ospree/Climate Data" # Access to the data from Weld Share (From Nacho's computer)
  #climatedrive = "/Volumes/climate" #Ailene's climate data drive
+ climatedrive = "/Volumes/climdata"
 
 # 4c. pull climate data from europe
 source("chilling/pullclimate_eur.R")

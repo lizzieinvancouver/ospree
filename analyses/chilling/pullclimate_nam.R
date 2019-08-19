@@ -1,7 +1,7 @@
 # Read in netCDF files to pull climate data for North America
 # This requires you to work off of external hard drive
 
-nafiles <- dir(climatedrive)[grep("livneh", dir(climatedrive))]
+nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
@@ -38,9 +38,22 @@ for(i in 1:nrow(nam)){ # i = 1
 
   mins <- maxs <- vector()
   
-  for(j in c(chillmo)){ # j = "200009"
-    file <- file.path(climatedrive,nafiles[grep(j, nafiles)])
-    jx <- nc_open(file)
+  for(j in (yr-1):yr) { # j = 2015
+    
+    tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
+    tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
+    tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
+    tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
+    jx <- nc_open(tmax)
+    jxprev <- nc_open(tmaxprev)
+    jn <- nc_open(tmin)
+    jn <- nc_open(tminprev)
+    
+    ## Need to work on renaming names in order to select months! 
+    
+    leap.years <- c(1956, 2012, 2016)
+    #for(k in )
+    names(jx) <- ncvar_rename(ncid_old, old_varname, new_varname )
     
     diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))#differences between all longitudes & latitudes in the focal month's dataset and longitude[i]
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
