@@ -146,15 +146,30 @@ for(i in 1:length(photop_all$lat)){
 #warnings ok
 #sort by idstudy
 photop_all<-photop_all[order(photop_all$idstudy),]
-
 #Add column for whether or not photo effect sig
 efftab2<-subset(efftab, select=c(idstudy,photo.effect))
 #remove NAs
 efftab2<- efftab2[apply(efftab2 , 1, function(x) all(!is.na(x))),] # only keep rows of all not na
 #merge with photop_all
 photop_all2<-full_join(photop_all,efftab2, by=c("idstudy"), match="all")
-
+photop_all2<-photop_all2[-which(is.na(photop_all2$idstudylatlong)),]
 #length(which(photop_all2$photo.effect=="Y"))
 #summary(photop_all2$photo.effect)
-#To do:
-#1) 2 studies have a max NA and a min NA- these look reasonable so add them with an *
+photo_tab<-subset(photop_all2, select=c(idstudy,continent,lat,long,daylength_range,photo.effect))
+# refs<-c("Ashby:1962aa","Basler:2014aa","Caffarra:2011b","Falusi:1990aa","Falusi:1996aa","Ghelardini:2010aa","Heide:2005aa",
+#           "Heide:2008aa","Heide:2011aa","Heide:2012aa","Heide:2015aa","Heide:1993a","Heide:1993a","Heide:1993a","Howe:1995aa","Laube:2014a",
+#           "Myking:1995","Nienstaedt:1966aa","Okie:2011aa","Partanen:2001aa","Partanen:2005aa","Partanen:1998aa",
+#           "Pettersen:1972aa","Sanz-Perez:2009aa","Vihera-Aarnio:2006aa","Vihera-Aarnio:2006aa","Vihera-Aarnio:2006aa","Vihera-Aarnio:2006aa","Worrall:1967aa","zohner2016")
+#refs<-paste("\\citep{",refs,"}", sep="")
+photo_tab$idstudy[which(photo_tab$idstudy=="worrall67_exp 3")]<-"worrall67_exp3"
+#photo_tab$reference<-refs
+#identify how many species are in this table
+ospree.subs<-subset(ospree,select=c(ID_study,genus,species))
+colnames(ospree.subs)[1]<-"idstudy"
+ospree.subs$genus.species<-paste(ospree.subs$genus,ospree.subs$species,sep=".")
+ospphotosp <- ospree.subs %>% # start with the data frame
+  distinct(genus.species, .keep_all = TRUE) %>% # establishing grouping variables
+  dplyr::select(idstudy,genus.species)#growing or provenance lat/long?
+photo_tab_sp<-left_join(photo_tab,ospphotosp, copy= TRUE)
+unique(photo_tab$idstudy)
+length(unique(photo_tab_sp$genus.sp))#176 species

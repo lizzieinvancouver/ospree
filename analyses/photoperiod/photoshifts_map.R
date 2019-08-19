@@ -20,7 +20,9 @@ library(mapdata)
 library(marmap)
 library(dplyr)
 library(plyr)
-ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=T)#which version should I use?
+ospree<-read.csv("../../analyses/output/ospree_clean.csv",header=TRUE)
+efftab<-read.csv("../../analyses/cleaning/checkphotoperiod/checkphoto_info.csv", header=TRUE)
+                 
 #Now try to make this table into a map figure
 source("shifts_table.R")
 

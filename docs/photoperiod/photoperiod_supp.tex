@@ -22,7 +22,6 @@
 \setlength{\abovecaptionskip}{10pt}
 \setlength{\belowcaptionskip}{10pt}
 % manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
-
 %Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
 %Here's how to do that
  \topmargin -1.5cm        
@@ -65,8 +64,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Supplemental Methods}
-\par \textbf{Greenup differences (Figure 2)}
-\par Satellite images are combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geopshere (please Dan, fill these gaps) (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up comparing an early and late spring years. To do so, we simply substracted the 2013 green-up map to the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
+\par \textbf{Quantifying and mapping differences in green-up across the United States and Europe (Figure 2)}
+\par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geopshere (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we substracted the 2013 green-up map from the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
 \par \textbf{Nonlinearities in phenological responses to daylength (Figure 3)}
 \par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment\citep{Ashby:1962aa,Heide:1993a,Caffarra:2011b}. These experiments used forcing temperatures of 21 or 22\degree C. Chilling varied considerably across experiments, and chilling level was categorized as follows:
@@ -87,7 +86,7 @@
 
 \section*{Supplemental Box S1. Dominant models of how photoperiod affects spring woody plant phenology}
 \par The molecular mechanisms and pathways underlying photoperiod sensitivity are poorly understood for most organisms, even in relatively well-studied phenophases such as spring budburst in woody plants \citep{ding2016}. Spring budburst in woody plants is thought to be controlled by three main cues: chilling, forcing, and photoperiod, as well as interactions between them \citep{flynn2018,Heide:2008aa, zohner2016}. Our understanding of how plants interpret photoperiod comes largely from studies of flowering in the model plant \emph{Arabidopsis thaliana} \citep[e.g.,][]{suarez2001} and fall budset in woody plant species \citep[e.g., ][]{Howe:1996}. %Similar pathways may underlie budburst phenology in woody plants \citep{lagercrantz2009,ding2016}.
-\par Plants sense light inputs by blue light receptors and phytochromes, which have been found in nearly all organs throughout the plant. Plants are thought to interpret photoperiod through a coordinated response to light in relation to the time of day. When the internal circadian rhythm coincides with an external signal (light) under certain conditions (e.g., warm days), a response is induced \citep{lagercrantz2009}. This ``external coincidence model" has been most widely studied in \emph{Arabidopsis}, and is thought to be a relevant mechanism for photoperiod responses in diverse perennial and woody plant species \citep{bunning 1936,davis2002,bastow2002,kobayashi2007,andres2012,petterle2013,Singh:2017}.  
+\par Plants sense light inputs by blue light receptors and phytochromes, which have been found in nearly all organs throughout the plant. Plants are thought to interpret photoperiod through a coordinated response to light in relation to the time of day. When the internal circadian rhythm coincides with an external signal (light) under certain conditions (e.g., warm days), a response is induced \citep{lagercrantz2009}. This ``external coincidence model" has been most widely studied in \emph{Arabidopsis}, and is thought to be a relevant mechanism for photoperiod responses in diverse perennial and woody plant species \citep{bunning1936,davis2002,bastow2002,kobayashi2007,andres2012,petterle2013,Singh:2017}.  
 The model proposes the existence of a circadian rhythm of light sensitivity, in which the night-phase is sensitive to light and the day-phase is insensitive to light. As days get longer in the spring, daylight illuminates the  light sensitive phase, triggering a response. %DB do we want to show a schematic for this?
 \par Little is known about the genetic pathways responsible for the light-sensing apparatuses involved in spring budburst, and how they may vary across species or populations. Some genes have been identified that play a role in coordinating budburst in poplar (\emph{Populus} spp.), and may occur in other woody species as well. Many similarities exist between the proposed regulatory networks of vegetative growth in \emph{Populus} and those controlling floral initiation in \emph{Arabidopsis}, \citet{ding2016}. For example, vegetative growth and inhibition of budset are promoted by the FLOWERING LOCUS T2 (FT2) gene, a homolog of \emph{Arabidopsis thaliana} gene FLOWERING LOCUS (FT). FT2 expression appears to be controlled by a pathway that is effective in long days and warm temperatures, marking the onset of the growing season \citep{hsu2011}. Its loss of expression in autumn, when the days are getting shorter, is associated with the onset of dormancy \citep{glover2014}.
 
@@ -96,8 +95,47 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 
 \bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
 \section* {Supplemental Tables}
-\par Add table used to make map
-
+\begin{footnotesize} 
+% latex table generated in R 3.6.0 by xtable 1.8-4 package
+% Fri Aug 16 14:08:00 2019
+\begingroup\footnotesize
+\begin{tabular}{|p{0.15\textwidth}|p{0.12\textwidth}|p{0.07\textwidth}|p{0.07\textwidth}|p{0.12\textwidth}|p{0.1\textwidth}|}
+  \hline
+idstudy & continent & lat & long & daylength\_range & photo.effect \\ 
+  \hline
+ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & Y \\ 
+  basler14\_exp1 & europe & 46.31 & 8.27 & 9.2-16 & Y \\ 
+  caffarra11b\_exp2 & europe & 52.32 & -6.93 & 10-16 & Y \\ 
+  falusi90\_exp1 & europe & 46.03 & 10.75 & 9-13 & N \\ 
+  falusi96\_exp3 & europe & 38.27 & 15.99 & 9-13 & Y \\ 
+  ghelardini10\_exp1 & europe & 43.72 & 11.37 & 8-16 & N \\ 
+  heide05\_exp1 & europe & 56.18 & -4.32 & 10-24 & Y/N \\ 
+  heide08\_exp1 & europe & 48.40 & 11.72 & 10-24 & Y \\ 
+  heide11\_exp1 & europe & 59.67 & 10.67 & 10-20 & N \\ 
+  heide12\_exp1 & europe & 56.50 & -3.06 & 10-24 & Y \\ 
+  heide15\_exp2 & europe & 56.50 & -3.06 & 10-15 & Y \\ 
+  heide93\_exp1 & europe & 59.50 & 10.77 & 8-24 & Y \\ 
+  heide93a\_exp1 & europe & 59.67 & 10.83 & 8-24 & Y \\ 
+  heide93a\_exp3 & europe & 47.50 & 7.60 & 13-16 & Y \\ 
+  howe95\_exp1 & north america & 40.55 & -124.10 & 9-24 & Y \\ 
+  laube14a\_exp1 & europe & 48.40 & 11.71 & 8-16 & N \\ 
+  myking95\_exp1 & europe & 56.10 & 9.15 & 8-24 & Y \\ 
+  nienstaedt66\_exp1 & north america & 44.17 & -103.92 & 8-20 & Y \\ 
+  okie11\_exp1 & north america & 32.12 & -83.12 & 0-12 & Y \\ 
+  partanen01\_exp1 & europe & 61.93 & 26.68 & 6-16 & Y \\ 
+  partanen05\_exp1 & europe & 61.82 & 29.32 & 5-20 & Y \\ 
+  partanen98\_exp1 & europe & 60.03 & 23.05 & 8.66-12 & Y \\ 
+  pettersen71\_exp1 & europe & 59.66 & 10.77 & 10-24 & N \\ 
+  Sanz-Perez09\_exp1 & europe & 40.40 & -3.48 & 10-16 & Y \\ 
+  viheraaarnio06\_exp1 & europe & 60.45 & 24.93 & 16-17 & Y \\ 
+  viheraaarnio06\_exp1 & europe & 67.73 & 24.93 & 20-21 & Y \\ 
+  viheraaarnio06\_exp2 & europe & 60.45 & 24.93 & 15-19 & Y \\ 
+  viheraaarnio06\_exp2 & europe & 67.73 & 24.93 & 22-23 & Y \\ 
+  worrall67\_exp3 & north america & 41.31 & -72.93 & 8-16 & Y \\ 
+  zohner16\_Exp1 & europe & 48.16 & 11.50 & 8-16 & Y \\ 
+   \hline
+\end{tabular}
+\endgroup\end{footnotesize} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

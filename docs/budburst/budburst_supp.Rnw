@@ -252,7 +252,6 @@ As our model results do not predict a dramatic decline in temperature sensitivit
 
 <<label=xtablerefs, echo=FALSE, results=tex>>=
 #load models to report estimates, use chill portions
-#load models to report estimates, use chill portions
 library(xtable)
 library(plyr)
 library(dplyr)
@@ -270,7 +269,7 @@ ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for
                "p{0.15\\textwidth}",
                "p{0.30\\textwidth}"))
 
-print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity,)
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
 @
 
 
