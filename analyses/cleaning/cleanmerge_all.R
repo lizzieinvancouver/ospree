@@ -42,7 +42,7 @@ source("cleaning/clean_misc.R") # Dan B can you update this with an appropriate 
 source("cleaning/clean_respvar.R") # Lizzie should do ...
 
 # 5. Clean up photoperiod #
-source("cleaning/clean_photo.R") # Cat?
+source("cleaning/clean_photo.R") # Updated 19 August 2019 by Cat
 
 # 6. Clean up forcetemp
 source("cleaning/clean_forcetemp.R") # Cat?

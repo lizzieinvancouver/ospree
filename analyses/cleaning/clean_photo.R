@@ -140,21 +140,6 @@ d <- within(d, photoperiod_day[datasetID == 'thielges75' & photoperiod_day ==
 d[-which(d$datasetID=='ghelardini10' & d$Entered.By == 'DF'), ]
 
 ############ New data cleaning starts here #############
-unique(d$photoperiod_day)
-#[1] "8"                  "12"                 "16"                 "9.5"                "11"                
-#[6] "9.2"                "10.2"               "10"                 "14"                 "18"                
-#[11] "20"                 "22"                 "10.5"               "9"                  "ambient"           
-#[16] "24"                 "constant"           "12.5"               "13"                 ""                  
-#[21] "15"                 "0"                  "17"                 "19"                 "21"                
-#[26] "longday"            "6"                  "5"                  "8.66"               "14-9.5"            
-#[31] "13-9.5"             "23"                 "short"              NA                   "0 (no photoperiod)"
-
-tocheck <- c("", "constant", "longday", "14-9.5", "13-9.5", "short", NA, "0 (no photoperiod)")
-newtofix <- d[(d$photoperiod_day%in%tocheck),]
-unique(newtofix$datasetID)
-#[1] "cronje03"    "devries82"   "falusi96"    "gianfagna85" "karlsson03"  "lyndon77"    "manson91"    "nishimoto95"
-#[9] "runger81"    "schnabel87"  "takimoto64"  "fu19"        "fu_2018"     "anzanello16"
-
 # New datasets: fu19, fu_2018, anzanello16
 
 ## fu19
