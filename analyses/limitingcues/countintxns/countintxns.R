@@ -24,6 +24,17 @@ dat <- read.csv("output/ospree_clean.csv", header = TRUE)
 dat <- dat[dat$woody=="yes",]
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
 dat$doy <- format(dat$fieldsample.date, "%j")
+dat$latbi <- paste(dat$genus, dat$species)
+
+# Some basic counts
+sort(unique(dat$latbi)) # 227 species
+table(dat$continent)
+spbycontinentfull <- subset(dat, select=c("continent", "latbi"))
+spbycontinent <- spbycontinentfull[!duplicated(spbycontinentfull), ]
+table(spbycontinent$continent)
+studybycontinentfull <- subset(dat, select=c("continent", "datasetID"))
+studybycontinent <- studybycontinentfull[!duplicated(studybycontinentfull), ]
+table(studybycontinent$continent)
 
 # Get the number of field sampling dates that are 14 or more weeks apart, first for each datasetIDx study ...
 ddatefx.all <- subset(dat, select=c("datasetID", "study", "fieldsample.date"))
@@ -37,7 +48,7 @@ uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
 uniquedates.df$selectcolumn <- paste(uniquedates.df$datasetIDstudy, uniquedates.df$date)
 # Now subset to sane # of columnns
 datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", 
-    "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays"))
+    "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
 head(datsm)
 
 ## Okay, formatting to look at intxns
@@ -70,7 +81,34 @@ setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datas
 
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
-# Repeat of the above but correcting for field sampling date repetition
+# Start gathering data ... 
+ospcounts <- data.frame(treat1=character(), treat2=character(), n=numeric())
+
+## USE helper.R from DESKTOP!!!
+
+## Single treatments
+forceosp <- get.treatdists.singletreatment(datsm14d.noNA, "force")
+photoosp <- get.treatdists.singletreatment(datsm14d.noNA, "photo")
+chilltemposp <- get.treatdists.singletreatment(datsm14d.noNA, "chilltemp")
+chilldaysosp <- get.treatdists.singletreatment(datsm14d.noNA, "chilldays")
+fsdatesosp <- get.treatdists.singletreatment(datsm14d.noNA, "fieldsample.date")
+
+# chilldays includes experiments and field sample dates ... so we need to check and udpate ...
+checkchillist <- setdiff(unique(paste(chilldaysosp$datasetID, chilldaysosp$study, sep="_")), paste(fsdatesosp$datasetID,
+   fsdatesosp$study, sep="_")) # these have chilldays but not multiple field sampled dates; need to check the papers!
+chilldaysosp.prep <- data.frame(datasetID=rep(NA, length(checkchillist)), study=rep(NA, length(checkchillist)))
+chilldaysosp.prep$datasetID <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[1]))
+chilldaysosp.prep$study <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[2]))
+chilldaysospuse <- merge(chilldaysosp.prep, chilldaysosp, by=c("datasetID", "study"), all.x=TRUE)
+
+ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="single treat",
+    n=nrow(forceosp)), data.frame(treat1="photo", treat2="single treat",
+    n=nrow(photoosp)), data.frame(treat1="chilltemp", treat2="single treat",
+    n=nrow(chilltemposp)), data.frame(treat1="chilldays", treat2="single treat",
+    n=length(checkchillist)), data.frame(treat1="fieldsample.date", treat2="single treat",
+    n=nrow(fsdatesosp)))
+
+## Two-way treatments 
 osp14d.fp <- get.treatdists(datsm14d.noNA, "photo", "force")
 osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
 osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
@@ -78,8 +116,22 @@ osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
 osp14d.ctf <- get.treatdists(datsm14d.noNA, "chilltemp", "force")
 osp14d.ctfintxn <- subset(osp14d.ctf, intxn>=2) # 2 studies
 
+osp14d.ctp <- get.treatdists(datsm14d.noNA, "chilltemp", "photo")
+osp14d.ctpintxn <- subset(osp14d.ctp, intxn>=2) # 3 studies
+
 osp14d.cdf <- get.treatdists(datsm14d.noNA, "chilldays", "force")
-osp14d.cdfintxn <- subset(osp14d.cdf, intxn>=2) # same 2 studies # skuterud94  exp1  &  heide12  exp2
+osp14d.cdfintxn.all <- subset(osp14d.cdf, intxn>=2) # same 2 studies # skuterud94  exp1  &  heide12  exp2
+osp14d.cdfintxn <- osp14d.cdfintxn.all[which(paste(osp14d.cdfintxn.all$datasetID,
+   osp14d.cdfintxn.all$study, sep="_") %in% paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")),]
+intersect(unique(paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")), paste(osp14d.cdfintxn$datasetID,
+   osp14d.cdfintxn$study, sep="_"))
+
+osp14d.cdp <- get.treatdists(datsm14d.noNA, "chilldays", "photo")
+osp14d.cdpintxn.all <- subset(osp14d.cdp, intxn>=2) 
+osp14d.cdpintxn <- osp14d.cdpintxn.all[which(paste(osp14d.cdpintxn.all$datasetID,
+   osp14d.cdpintxn.all$study, sep="_") %in% paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")),]
+intersect(unique(paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")), paste(osp14d.cdpintxn$datasetID,
+   osp14d.cdpintxn$study, sep="_"))
 
 osp14d.daysf <- get.treatdists(datsm14d.noNA, "fieldsample.date", "force")
 osp14d.daysfintxn <- subset(osp14d.daysf, intxn>=2) # 9 studies
@@ -88,6 +140,21 @@ osp14d.daysp <- get.treatdists(datsm14d.noNA, "fieldsample.date", "photo")
 osp14d.dayspintxn <- subset(osp14d.daysp, intxn>=2) # 11 studies
 
 length(unique(paste(datsm14d$datasetID, datsm14d$study)))
+
+ospcounts <- rbind(ospcounts, data.frame(treat1="photo", treat2="force",
+    n=length(unique(paste(osp14d.fpintxn$datasetID, osp14d.fpintxn$study)))),
+    data.frame(treat1="chilltemp", treat2="force",
+    n=length(unique(paste(osp14d.ctfintxn$datasetID, osp14d.ctfintxn$study)))),
+    data.frame(treat1="chilltemp", treat2="photo",
+    n=length(unique(paste(osp14d.ctpintxn$datasetID, osp14d.ctpintxn$study)))),
+    data.frame(treat1="chilldays", treat2="force",
+    n=length(unique(paste(osp14d.cdfintxn$datasetID, osp14d.cdfintxn$study)))),
+    data.frame(treat1="chilldays", treat2="photo",
+    n=length(unique(paste(osp14d.cdpintxn$datasetID, osp14d.cdpintxn$study)))),
+    data.frame(treat1="fieldsample.date", treat2="force",
+    n=length(unique(paste(osp14d.daysfintxn$datasetID, osp14d.daysfintxn$study)))),
+    data.frame(treat1="fieldsample.date", treat2="photo",
+    n=length(unique(paste(osp14d.dayspintxn$datasetID, osp14d.dayspintxn$study)))))
 
 ##################
 # BB OSPREE data #
