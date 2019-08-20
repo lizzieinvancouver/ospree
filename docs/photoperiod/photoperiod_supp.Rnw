@@ -68,18 +68,22 @@
 \par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geopshere (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we substracted the 2013 green-up map from the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
 \par \textbf{Nonlinearities in phenological responses to daylength (Figure 3)}
-\par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment\citep{Ashby:1962aa,Heide:1993a,Caffarra:2011b}. These experiments used forcing temperatures of 21 or 22\degree C. Chilling varied considerably across experiments, and chilling level was categorized as follows:
+\par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment: \citet{Ashby:1962aa,Heide:1993a} and \citet{Caffarra:2011b}. These experiments used forcing temperatures of 21 or 22\degree C. Chilling varied considerably across experiments, and chilling level was categorized as follows:
 \begin{itemize}
 \item <1 Chill Portions = None
-\item 1-44 = Low
-\item 45-69 = Medium 
-\item 70-106 = High
-\item >106 = Very High
+\item 1-44 Chill Portions = Low
+\item 45-69 Chill Portions = Medium 
+\item 70-106 Chill Portions = High
+\item >106 Chill Portions = Very High
 \end{itemize}
 
 
-\par \textbf{Mapping temporal and spacial shifts in space and time  (Figure 4)}
-\par Ailene needs to add methods (Reference Table S1)
+\par \textbf{Mapping temporal and spacial shifts in space and time (Figure 4)}
+\par To examine the range of photoperiod treatments imposed in growth chamber experiments of woody plants, and compare these treatments to shifts in photoperiod that may be expected due to climate change induced spatial and temporal shifts, we identified all experiments in the OSPREE database with at least two photoperiod treatments; this resulted in 30 experiments (Table \ref{tab:eff}). 
+\par We wanted to compare experimental photoperiod treatment levels in these 30 experiments to temporal shifts that would be required for species to experience equivalent photoperiod shifts with climate change. To do this, we identified the dates between the winter and summer solstices on which daylengths at the latitude of the experiments matched treatment levels. When no date matched the experimental treatment level exactly, we chose the date with the most similar daylength, as long as it was within 0.5 hours of the photoperiod treatment level. For studies with only two photoperiod treatment levels, we identified matching dates for both levels. For studies with more than two daylength treatments, we identified matching dates for the lowest treatment level and the second lowest treatment level (e.g., if treatment levels were 10,12,14, and 16 hours of daylight, we identified dates with 10 and 12 hours of daylength only). This provided an estimate for the minimum temporal shift required during the spring that would equal the difference between the two treatments; that is, the minimum difference, in days, between dates with the lower daylength treatment and dates with higher daylength treatment.
+In 11 out of 30 cases, the experimental treatment differences exceeded what the difference in photoperiod experienced across the entire year at a given latitude (Xs in Figure 4). 
+
+\par To compare differences between experimental photoperiod treatment levels to differences in photoperiod species would experience with spatial shifts, we identified the daylength on the summer solstice for the latitudes of all 30 experiments in Table \ref{tab:eff}. To get potential changes in daylength experienced, we compared the summer solstice daylength at each latitude to the daylength on latitudes up to 40 degrees poleward (in continuous increments of 0.1\degree). Because latitudinal variation in daylength is greatest during the solcstices, this provides a maximum possible shift in daylength, at a constant day of year. We then matched the experimental change in photoperiod between two treatments levels to the latitudinal shift that provided an equivalent change in photoperiod. In 13 out of 30 cases, the experimental treatment differences exceeded the photoperiod change that would be experienced with a latitudinal shift of up to 40 \degree (red lines in Figure 4). 
 
 \par \textbf{PhenoFit Methods (Figure 5)}
 \par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. In the right panel for \textit{Quercus robur}, we explored the 3 OSPREE data points that have later day to budburst times than the current or projected days to budburst, which all had much lower forcing temperatures \citep[][3.8-5.7$^{\circ}$]{morin10}.
@@ -108,17 +112,17 @@ efftab<-read.csv("../../analyses/cleaning/checkphotoperiod/checkphoto_info.csv",
                  
 #Now try to make this table into a map figure
 source("../../analyses/photoperiod/shifts_table.R")
-photoeff.table <- xtable(photo_tab, caption="\\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with atleast two different photoperiod treatments. These studies span 176 different woody species and are mapped in Figure 4.", 
+photoeff.table <- xtable(photo_tab, caption="\\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. Units are \\degree  for `latitude' and `longitude' and hours for `daylength range.' These studies span 176 different woody species and are mapped in Figure 4. ADD SPECIES? ", 
         label="tab:eff",align=c(
                "p{0.01\\textwidth}|",
-               "|p{0.15\\textwidth}|",
-               "p{0.12\\textwidth}|",
+               "|p{0.18\\textwidth}|",
+               "p{0.15\\textwidth}|",
                "p{0.07\\textwidth}|",
                "p{0.07\\textwidth}|",
-               "p{0.12\\textwidth}|",
+               "p{0.15\\textwidth}|",
                "p{0.1\\textwidth}|"))
 
-print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),floating= FALSE,size="\\footnotesize",caption.placement="top")
+print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30), fsize="\\footnotesize",caption.placement="top")
 #print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),size="\\footnotesize",include.colnames = TRUE,sanitize.text.function = identity)
 @
 \end{footnotesize} 
