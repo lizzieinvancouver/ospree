@@ -106,7 +106,7 @@ for(i in 1:length(photop_all$lat)){
   
   else if (is.na(date_expmin)){
     #photop_all$time[i]<-paste("min NA (",min_dlmin,")", sep="")#when min daylength does not exist naturally
-    photop_all$time[i]<-min(as.numeric(strftime(date_expmin2, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j")))#shift in days between date(s) of min daylength and max daylength in exp
+    photop_all$time[i]<-min(abs(as.numeric(strftime(date_expmin2, format = "%j"))-as.numeric(strftime(date_expmax, format = "%j"))))#shift in days between date(s) of min daylength and max daylength in exp
     if(as.numeric(photop_all$time[i])>183){photop_all$time[i]<-paste(0-(365-as.numeric(photop_all$time[i])),"*", sep="")}
   }#there is just one site and it is pretty close to min (9 vs 8)
   else
@@ -120,7 +120,6 @@ for(i in 1:length(photop_all$lat)){
   
   
   
-  #In 100 years, with spatial shifts of ~6km ( or ~0.05 degrees) per decade (0.5 deg total) poleward as has been observed (Parmesan 2006)- this is a low end
   #phendate<-79#march 20 . eventually we should replace this with spring greenup date for that latitude
   phendate<-172#June 21
   latshift<-seq(0,40,by=.1)#look at daylengths of latitudes from study site to study site plus 40 degrees
