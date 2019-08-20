@@ -5,6 +5,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
+tempval <- list() 
 for(i in 1:nrow(nam)){ # i = 1
   # find this location
   lo <- nam[i,"chill.long"]
@@ -38,7 +39,7 @@ for(i in 1:nrow(nam)){ # i = 1
 
   mins <- maxs <- vector()
   
-  for(j in (yr-1):yr) { # j = 2015
+  for(j in yr) { # j = 2015
     
     tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
     tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
@@ -47,13 +48,18 @@ for(i in 1:nrow(nam)){ # i = 1
     jx <- nc_open(tmax)
     jxprev <- nc_open(tmaxprev)
     jn <- nc_open(tmin)
-    jn <- nc_open(tminprev)
+    jnprev <- nc_open(tminprev)
     
-    ## Need to work on renaming names in order to select months! 
+    jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
+    jxprev$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
+    jx <- cbind( ### doesn't work
+      ncvar_get(jx, jx$var$tmax),
+      ncvar_get(jxprev, jxprev$var$tmax)
+    )
     
-    leap.years <- c(1956, 2012, 2016)
-    #for(k in )
-    names(jx) <- ncvar_rename(ncid_old, old_varname, new_varname )
+    
+    jn$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
+    jnprev$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
     
     diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))#differences between all longitudes & latitudes in the focal month's dataset and longitude[i]
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
@@ -61,31 +67,32 @@ for(i in 1:nrow(nam)){ # i = 1
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
     long.cell <- which.min(abs(jx$dim$lon$vals-as.numeric(lo)))
     lat.cell <- which.min(abs(jx$dim$lat$vals-as.numeric(la)))
-    mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#checl that the lat/long combinations has temperature data. 
+    maxtest<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))-273.15#checl that the lat/long combinations has temperature data. 
     #if no temperature data for the focal lat/long, choose the next closest one. 
-    #the below code cose up to 0.1 degrees (~10km) away from the closest lat/long)
-    if(is.na(unique(mintest))){#if there are no temp data for the selected lat/long, chosee a different one
+    #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
+    if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, choose a different one
      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
       lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
-      mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
-      if(is.na(unique(mintest))){
+      mintest<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))-273.15
+      if(is.na(unique(maxtest))){
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
         long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
         lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
-        mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
-        if(is.na(unique(mintest))){
+        maxtest<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1))) -273.15
+        if(is.na(unique(maxtest))){
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
           long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
           lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
         }}}
     
-    mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))#minimum temperatures for selected lat/long
-    maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))#minimum temperatures for selected lat/long
+    mins <- c(mins, ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1))-273.15)#minimum temperatures for selected lat/long
+    maxs <- c(maxs, ncvar_get(jn,start=c(long.cell,lat.cell,1),count=c(1,1,-1))-273.15)#maximum temperatures for selected lat/long
     nc_close(jx)
+    nc_close(jn)
     }
 
   tempval[[as.character(nam[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
