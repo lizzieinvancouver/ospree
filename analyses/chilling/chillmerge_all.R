@@ -22,7 +22,8 @@ library(Interpol.T)
 library(chillR)
 library(lubridate)
 # 1. Get the data
-d <- read.csv("output/ospree2019update.csv")
+#d <- read.csv("output/ospree_clean.csv")
+d <- read.csv("output/ospree2019update.csv") ## use for now to tweak code for nam climate update
 
 # 2. Clean the chilltemp column
 
