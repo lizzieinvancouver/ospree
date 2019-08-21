@@ -58,11 +58,16 @@
 \maketitle  %put the fancy title on
 %\tableofcontents      %add a table of contents
 %\clearpage
-%goal is NCC Perspective
-%Need to submit "brief synopsis through our online submission system before preparing a manuscript for formal submission. The synopsis should outline the topics that will be covered, list any recent, key publications in the area, and state the last time the topic was reviewed (if it has been reviewed previously)."
-%should be presented using simple prose, avoiding excessive jargon and technical detail.
-%3,000–5,000 words and typically include 4–6 display items (figures, tables or boxes). (we have 6)
-%up to 100 references; citations should be selective. (we have 83 now)
+%New goal is GCB Perspective
+%In lieu of a cover letter, authors must answer the following questions during submission (max 50 words per answer):
+
+%    What is the scientific question you are addressing?
+%    What is/are the key finding(s) that answers this question?
+%    Why is this work important and timely?
+%    Does your paper fall within the scope of GCB; what biological AND global change aspects does it address?
+%    What are the three most recently published papers that are relevant to this question? This information will assist the Editors in selecting reviewers.
+
+%pinion articles should be no more than 5000 words and have no more than 8 tables and figures. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

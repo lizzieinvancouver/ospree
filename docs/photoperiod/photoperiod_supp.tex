@@ -101,47 +101,49 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 \section* {Supplemental Tables}
 \begin{footnotesize} 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Tue Aug 20 16:26:57 2019
+% Wed Aug 21 12:23:32 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. Units are \degree  for `latitude' and `longitude' and hours for `daylength range.' These studies span 176 different woody species and are mapped in Figure 4. ADD SPECIES? } 
+\caption{\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. These studies span 176 different woody species and are mapped in Figure 4.} 
 \label{tab:eff}
-\begin{tabular}{|p{0.18\textwidth}|p{0.15\textwidth}|p{0.07\textwidth}|p{0.07\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|}
+\begingroup\footnotesize
+\begin{tabular}{|p{0.22\textwidth}|p{0.07\textwidth}|p{0.12\textwidth}|p{0.07\textwidth}|p{0.07\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|}
   \hline
-idstudy & continent & lat & long & daylength\_range & photo.effect \\ 
+reference & study & continent & latitude (\degree) & longitude (\degree) & daylength range (hrs) &  photoperiod effect \\ 
   \hline
-ashby62\_exp1 & north america & 42.99 & -89.41 & 8-16 & Y \\ 
-  basler14\_exp1 & europe & 46.31 & 8.27 & 9.2-16 & Y \\ 
-  caffarra11b\_exp2 & europe & 52.32 & -6.93 & 10-16 & Y \\ 
-  falusi90\_exp1 & europe & 46.03 & 10.75 & 9-13 & N \\ 
-  falusi96\_exp3 & europe & 38.27 & 15.99 & 9-13 & Y \\ 
-  ghelardini10\_exp1 & europe & 43.72 & 11.37 & 8-16 & N \\ 
-  heide05\_exp1 & europe & 56.18 & -4.32 & 10-24 & Y/N \\ 
-  heide08\_exp1 & europe & 48.40 & 11.72 & 10-24 & Y \\ 
-  heide11\_exp1 & europe & 59.67 & 10.67 & 10-20 & N \\ 
-  heide12\_exp1 & europe & 56.50 & -3.06 & 10-24 & Y \\ 
-  heide15\_exp2 & europe & 56.50 & -3.06 & 10-15 & Y \\ 
-  heide93\_exp1 & europe & 59.50 & 10.77 & 8-24 & Y \\ 
-  heide93a\_exp1 & europe & 59.67 & 10.83 & 8-24 & Y \\ 
-  heide93a\_exp3 & europe & 47.50 & 7.60 & 13-16 & Y \\ 
-  howe95\_exp1 & north america & 40.55 & -124.10 & 9-24 & Y \\ 
-  laube14a\_exp1 & europe & 48.40 & 11.71 & 8-16 & N \\ 
-  myking95\_exp1 & europe & 56.10 & 9.15 & 8-24 & Y \\ 
-  nienstaedt66\_exp1 & north america & 44.17 & -103.92 & 8-20 & Y \\ 
-  okie11\_exp1 & north america & 32.12 & -83.12 & 0-12 & Y \\ 
-  partanen01\_exp1 & europe & 61.93 & 26.68 & 6-16 & Y \\ 
-  partanen05\_exp1 & europe & 61.82 & 29.32 & 5-20 & Y \\ 
-  partanen98\_exp1 & europe & 60.03 & 23.05 & 8.66-12 & Y \\ 
-  pettersen71\_exp1 & europe & 59.66 & 10.77 & 10-24 & N \\ 
-  Sanz-Perez09\_exp1 & europe & 40.40 & -3.48 & 10-16 & Y \\ 
-  viheraaarnio06\_exp1 & europe & 60.45 & 24.93 & 16-17 & Y \\ 
-  viheraaarnio06\_exp1 & europe & 67.73 & 24.93 & 20-21 & Y \\ 
-  viheraaarnio06\_exp2 & europe & 60.45 & 24.93 & 15-19 & Y \\ 
-  viheraaarnio06\_exp2 & europe & 67.73 & 24.93 & 22-23 & Y \\ 
-  worrall67\_exp3 & north america & 41.31 & -72.93 & 8-16 & Y \\ 
-  zohner16\_Exp1 & europe & 48.16 & 11.50 & 8-16 & Y \\ 
+\citet{Ashby:1962aa} & exp1 & North America & 42.99 & -89.41 & 8-16 & Y \\ 
+  \citet{Basler:2014aa} & exp1 & Europe & 46.31 & 8.27 & 9.2-16 & Y \\ 
+  \citet{Caffarra:2011b} & exp2 & Europe & 52.32 & -6.93 & 10-16 & Y \\ 
+  \citet{Falusi:1990aa} & exp1 & Europe & 46.03 & 10.75 & 9-13 & N \\ 
+  \citet{Falusi:1996aa} & exp3 & Europe & 38.27 & 15.99 & 9-13 & Y \\ 
+  \citet{Ghelardini:2010aa} & exp1 & Europe & 43.72 & 11.37 & 8-16 & N \\ 
+  \citet{Heide:2005aa} & exp1 & Europe & 56.18 & -4.32 & 10-24 & Y/N \\ 
+  \citet{Heide:2008aa} & exp1 & Europe & 48.40 & 11.72 & 10-24 & Y \\ 
+  \citet{Heide:2011aa} & exp1 & Europe & 59.67 & 10.67 & 10-20 & N \\ 
+  \citet{Heide:2012aa} & exp1 & Europe & 56.50 & -3.06 & 10-24 & Y \\ 
+  \citet{Heide:2015aa} & exp2 & Europe & 56.50 & -3.06 & 10-15 & Y \\ 
+  \citet{Heide:1993a} & exp1 & Europe & 59.50 & 10.77 & 8-24 & Y \\ 
+  \citet{Heide:1993a} & exp1 & Europe & 59.67 & 10.83 & 8-24 & Y \\ 
+  \citet{Heide:1993a} & exp3 & Europe & 47.50 & 7.60 & 13-16 & Y \\ 
+  \citet{Howe:1995aa} & exp1 & North America & 40.55 & -124.10 & 9-24 & Y \\ 
+  \citet{Laube:2014a} & exp1 & Europe & 48.40 & 11.71 & 8-16 & N \\ 
+  \citet{Myking:1995} & exp1 & Europe & 56.10 & 9.15 & 8-24 & Y \\ 
+  \citet{Nienstaedt:1966aa} & exp1 & North America & 44.17 & -103.92 & 8-20 & Y \\ 
+  \citet{Okie:2011aa} & exp1 & North America & 32.12 & -83.12 & 0-12 & Y \\ 
+  \citet{Partanen:2001aa} & exp1 & Europe & 61.93 & 26.68 & 6-16 & Y \\ 
+  \citet{Partanen:2005aa} & exp1 & Europe & 61.82 & 29.32 & 5-20 & Y \\ 
+  \citet{Partanen:1998aa} & exp1 & Europe & 60.03 & 23.05 & 8.66-12 & Y \\ 
+  \citet{Pettersen:1972aa} & exp1 & Europe & 59.66 & 10.77 & 10-24 & N \\ 
+  \citet{Sanz-Perez:2009aa} & exp1 & Europe & 40.40 & -3.48 & 10-16 & Y \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 60.45 & 24.93 & 16-17 & Y \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 67.73 & 24.93 & 20-21 & Y \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 60.45 & 24.93 & 15-19 & Y \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 67.73 & 24.93 & 22-23 & Y \\ 
+  \citet{Worrall:1967aa} & exp3 & North America & 41.31 & -72.93 & 8-16 & Y \\ 
+  \citet{zohner2016} & exp1 & Europe & 48.16 & 11.50 & 8-16 & Y \\ 
    \hline
 \end{tabular}
+\endgroup
 \end{table}\end{footnotesize} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}

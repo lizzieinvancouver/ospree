@@ -112,18 +112,31 @@ efftab<-read.csv("../../analyses/cleaning/checkphotoperiod/checkphoto_info.csv",
                  
 #Now try to make this table into a map figure
 source("../../analyses/photoperiod/shifts_table.R")
-photoeff.table <- xtable(photo_tab, caption="\\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. Units are \\degree  for `latitude' and `longitude' and hours for `daylength range.' These studies span 176 different woody species and are mapped in Figure 4. ADD SPECIES? ", 
+#colnames(photo_tab)[1]<-"study"
+study<-substr(photo_tab$idstudy,nchar(photo_tab$idstudy)-3,nchar(photo_tab$idstudy))
+study[30]<-"exp1"
+photo_tab<-photo_tab[,-1]
+photo_tab<-cbind(photo_tab$ref,study,photo_tab)
+colnames(photo_tab)[1]<-"reference"
+photo_tab<-photo_tab[,-8]
+photo_tab$continent[photo_tab$continent=="europe"]<-"Europe"
+photo_tab$continent[photo_tab$continent=="north america"]<-"North America"
+
+colnames(photo_tab)[4:7]<-c("latitude (\\degree)","longitude (\\degree)","daylength range (hrs)", " photoperiod effect")
+
+photoeff.table <- xtable(photo_tab, caption="\\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. These studies span 176 different woody species and are mapped in Figure 4.", 
         label="tab:eff",align=c(
                "p{0.01\\textwidth}|",
-               "|p{0.18\\textwidth}|",
-               "p{0.15\\textwidth}|",
+               "|p{0.22\\textwidth}|",
+               "p{0.07\\textwidth}|",
+               "p{0.12\\textwidth}|",
                "p{0.07\\textwidth}|",
                "p{0.07\\textwidth}|",
                "p{0.15\\textwidth}|",
                "p{0.1\\textwidth}|"))
 
-print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30), fsize="\\footnotesize",caption.placement="top")
-#print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),size="\\footnotesize",include.colnames = TRUE,sanitize.text.function = identity)
+#print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30), fsize="\\footnotesize",caption.placement="top")
+print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),size="\\footnotesize",include.colnames = TRUE,sanitize.text.function = identity, caption.placement = "top")
 @
 \end{footnotesize} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
