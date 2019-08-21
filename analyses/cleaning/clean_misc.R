@@ -190,3 +190,23 @@ d$response.time.num<-ifelse(d$datasetID=="linkosalo06",d$response.time.num-52,d$
 d$response.time.num<-as.character(d$response.time.num) ##convert back to character so you can paste new into the real column
 d$response.time<-ifelse(d$datasetID=="linkosalo06",d$response.time.num,d$response.time) ###add the 5 values for linkosalo
 d$response.time.num<-NULL ## get ride of transitory numerica column
+
+
+### Updates to fieldsample.date column for new data
+##################################################################################################
+###################### TO BE MOVED TO CLEAN_MISC.R BY CAT WHEN CODE IS READY #####################
+### Not all fieldsample.dates were entered in the same format, so that needs to be fixed first. 
+# This should be moved to clean_misc.R - 19 Aug 2019 note by Cat
+d$fieldsample.date <- gsub("/", "-", d$fieldsample.date)
+d$fieldsample.date <- gsub("-13", "-2013", d$fieldsample.date)
+d$fieldsample.date <- gsub("-14", "-2014", d$fieldsample.date)
+d$fieldsample.date <- gsub("-15", "-2015", d$fieldsample.date)
+d$fieldsample.date <- gsub("-16", "-2016", d$fieldsample.date)
+
+### flynn18: fieldsample.date entered incorrectly
+d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d$fieldsample.date)
+
+### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
+d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
+##################################################################################################
+##################################################################################################

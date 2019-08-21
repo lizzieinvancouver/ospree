@@ -8,13 +8,14 @@ Daily climate data …
 
 To date (June 2017) we have used:
 
-Livneh dataset for North America (see below) with data from 1955-2013
+Justin Sheffield’s v3 of the Princeton Global Forcing dataset data for North America (see below) with data from 1955-2016
 E-OBS for Europe: http://www.ecad.eu/download/ensembles/download.php (as of June 2017)
 
-We pulled climate data in July 2016 and continued working on through 2017 to calculate chilling (and possibly more).
+We pulled climate data in July 2016 and continued working on through 2017 to calculate chilling (and possibly more) for European dataset. And we pulled climate data in August 2019.
 
-Here is a link to the Livneh data:
-https://data.nodc.noaa.gov/nodc/archive/data/0129374/daily/
+Here is a link to the Justin Sheffield’s v3 of the Princeton Global Forcing dataset data:
+http://hydrology.princeton.edu/data/pgf/v3/0.25deg/daily/
+
 
 Other download methods for Livneh data:
 https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0129374;view=html
