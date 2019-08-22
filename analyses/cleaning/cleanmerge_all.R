@@ -36,7 +36,7 @@ dorg$X.3 <- NULL
 d <- rbind(dorg, dup) # damn, you think research is rushing on but new data is only 11% of data!
 
 # 3. Clean up some super miscellaneous stuff
-source("cleaning/clean_misc.R") # Dan B can you update this with an appropriate note about the warning?
+source("cleaning/clean_misc.R") # Dan B can you update this in general and add an appropriate note about the warning?
 
 # 4. Clean up response variable names
 source("cleaning/clean_respvar.R") # Updated 22 August by Lizzie
@@ -48,21 +48,21 @@ source("cleaning/clean_photo.R") # Updated 19 August 2019 by Cat
 source("cleaning/clean_forcetemp.R") # Updated 19 August 2019 by Cat
 
 # 7. Get rid of non-woodys and clean species names
-source("cleaning/clean_woody_sps.R") 
+source("cleaning/clean_woody_sps.R") # removes 3409 rows of non-woody species 
 
 # Run the below every so often (commented out because it is slow) 
 # This checks the species list against www.theplantlist.org ... ask for manchecksp to see non-matches
 # source("cleaning/clean_spp_match.R") 
 
 # 8. Clean response and response time columns.
-source("cleaning/clean_responsetime.R")
+source("cleaning/clean_responsetime.R") # Dan B., please update!
 
 # 9. Clean the lat/long (growing and provenance)
 source("cleaning/clean_latlong.R") # Updated by Ailene in August 2019
 
 # 10. Remove duplicate lines
 
-source("cleaning/clean_duplicates.R") 
+source("cleaning/clean_duplicates.R") # removes 239 rows as of 22 August 2019
 
 # 11. Write out the final file! 
 

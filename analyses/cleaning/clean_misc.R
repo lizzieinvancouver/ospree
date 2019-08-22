@@ -15,6 +15,15 @@ d$datasetID[d$datasetID=="fu_2018"] <- "fu18"
 d$figure.table..if.applicable.[which(d$datasetID=="campbell75" &
     d$figure.table..if.applicable=="table1")] <- "table2"
 
+# Fix a bunch of silly entries on genus names in new dat
+d$genus[d$genus=="Populus "] <- "Populus"
+d$genus[d$genus=="Olea "] <- "Olea"
+d$genus[d$genus=="alnus"] <- "Alnus"
+d$genus[d$genus=="fagus"] <- "Fagus"
+d$genus[d$genus=="carpinus"] <- "Carpinus"
+d$genus[d$genus=="prunus"] <- "Prunus"
+d$genus[d$genus=="quercus"] <- "Quercus"
+
 # Falusi97 is difficult, the data on X axis in Fig 1 is TRANSFER date, but
 # you cannot tell how long they measured them for. Based on my reading I am 90% sure
 # Fig 1 shows values at the end of 120 d (see main text below fig and note exp 2 was
