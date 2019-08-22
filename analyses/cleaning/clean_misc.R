@@ -8,6 +8,9 @@
 # So we’re adding it in here, it should be year of experiment, which is 2014. 
 d$year[which(d$datasetID=="zohner16")] <- 2014
 
+# Funny paper-naming
+d$datasetID[d$datasetID=="fu_2018"] <- "fu18"
+
 # Fix a table that was mis-referenced
 d$figure.table..if.applicable.[which(d$datasetID=="campbell75" &
     d$figure.table..if.applicable=="table1")] <- "table2"

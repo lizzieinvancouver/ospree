@@ -25,7 +25,7 @@ library(tidyr)
 
 # 1. Get the data 
 dorg <- read.csv("input/ospree.csv")
-dup <- read.csv("output/ospree2019update.csv")
+dup <- read.csv("output/ospree2019update.csv") # built in merge_update2019.R
 
 # 2. Need to deal with some basic cleaning, delete a few extraneous columns and bind it
 dorg$X <- NULL
@@ -39,7 +39,7 @@ d <- rbind(dorg, dup) # damn, you think research is rushing on but new data is o
 source("cleaning/clean_misc.R") # Dan B can you update this with an appropriate note about the warning?
 
 # 4. Clean up response variable names
-source("cleaning/clean_respvar.R") # Lizzie should do ...
+source("cleaning/clean_respvar.R") # Updated 22 August by Lizzie
 
 # 5. Clean up photoperiod #
 source("cleaning/clean_photo.R") # Updated 19 August 2019 by Cat
@@ -58,7 +58,7 @@ source("cleaning/clean_woody_sps.R")
 source("cleaning/clean_responsetime.R")
 
 # 9. Clean the lat/long (growing and provenance)
-source("cleaning/clean_latlong.R")
+source("cleaning/clean_latlong.R") # Updated by Ailene in August 2019
 
 # 10. Remove duplicate lines
 
