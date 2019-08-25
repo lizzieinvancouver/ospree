@@ -36,7 +36,8 @@ dorg$X.3 <- NULL
 d <- rbind(dorg, dup) # damn, you think research is rushing on but new data is only 11% of data!
 
 # 3. Clean up some super miscellaneous stuff
-source("cleaning/clean_misc.R") # Dan B can you update this in general and add an appropriate note about the warning?
+source("cleaning/clean_misc.R") # Updated by Dan 25 August
+#The other error comes from making a temporary numeric column for cleaning linkosalo06
 
 # 4. Clean up response variable names
 source("cleaning/clean_respvar.R") # Updated 22 August by Lizzie
@@ -55,7 +56,7 @@ source("cleaning/clean_woody_sps.R") # removes 3409 rows of non-woody species
 # source("cleaning/clean_spp_match.R") 
 
 # 8. Clean response and response time columns.
-source("cleaning/clean_responsetime.R") # Dan B., please update!
+source("cleaning/clean_responsetime.R") # Updated by Dan B 25 Aug 2019
 
 # 9. Clean the lat/long (growing and provenance)
 source("cleaning/clean_latlong.R") # Updated by Ailene in August 2019

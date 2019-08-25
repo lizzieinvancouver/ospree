@@ -1,5 +1,6 @@
 ## Started 2 October 2017 ##
 ## By Lizzie (so far)##
+##Rechecked when data was updated in Aug-2019 by Dan B.
 
 ## This code does some OSPREE cleaning that didn't fit anywhere else ##
 ## It is sourced in cleanmerge_all.R ##
@@ -220,5 +221,7 @@ d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d
 
 ### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
 d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
+
+stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
 ##################################################################################################
