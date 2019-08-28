@@ -6,7 +6,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #the climate data that we are pulling is daily min and max temperature
 
 tempval <- list() 
-for(i in 1:nrow(nam)){ # i = 1
+for(i in 1:nrow(nam)){ # i = 5
   # find this location
   lo <- nam[i,"chill.long"]
   la <- nam[i,"chill.lat"]
@@ -19,8 +19,12 @@ for(i in 1:nrow(nam)){ # i = 1
   # using d$fieldsample.date2 (this is the same as fieldsampledate, but formatted as  "%Y-%m-%d")
   
   #do everything in reference to field sample year becuase the year column is too variable
-  if(nam[i,"fieldsample.date2"]!=""){endday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")}
-  if(nam[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")}#I think we have field sample dates for everything, but just in case...
+  if(nam[i,"fieldsample.date2"]!=""){endday <- strptime(nam[i,"fieldsample.date2"],"%Y-%m-%d", tz = "GMT")
+                                     doyend <- yday(endday)
+  }
+  if(nam[i,"fieldsample.date2"]==""){endday <- strptime(paste(yr, "04-30", sep="-"),"%Y-%m-%d", tz = "GMT")
+                                     doyend <- yday(endday)
+  }#I think we have field sample dates for everything, but just in case...
   
   if(nam[i,"fieldsample.date2"]!="" & as.numeric(substr(nam[i,"fieldsample.date2"],6,7))>=9){
     stday <- strptime(paste(yr, "09-01", sep="-"),"%Y-%m-%d", tz="GMT")
@@ -33,7 +37,6 @@ for(i in 1:nrow(nam)){ # i = 1
     #endmo<-substr(endday,6,7);#month of sampling date
     #thismo <- paste(yr, formatC(1:endmo, width=2, flag="0"), sep="")#months from current year of chilling, through sampling date (Jan-whenever sampled)
     #chillmo<-c(prevmo, thismo)
-    doy <- yday(endday)
   }#If field sample date is before september 1, then we use the chilling from the previous year.
   
 # now loop over these year-month combo files and get temperature values for this date range.
@@ -43,6 +46,7 @@ for(i in 1:nrow(nam)){ # i = 1
   ## for now exclude prevey18
   
   for(j in c(yr)) { # j = yr
+    print(c(i, j))
     
     tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr), full.names = TRUE)
     tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr-1), full.names = TRUE)
@@ -63,7 +67,7 @@ for(i in 1:nrow(nam)){ # i = 1
     
     #jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
     jx$dim$time$vals<-seq(1, yrend, by=1)
-    thisyr <- which(jx$dim$time$vals<=doy)
+    thisyr <- which(jx$dim$time$vals<=doyend)
     
     jxprev$dim$time$vals<-seq(1, yrend, by=1)
     lastyr <- which(jxprev$dim$time$vals>=chillstart)

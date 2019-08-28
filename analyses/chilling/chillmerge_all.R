@@ -71,7 +71,7 @@ source("chilling/totalchillcalc.R")
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
 #check some things on this file
-#dim(dat4)#12658    80
+#dim(dat4)#14603    81
 #Make list of the studies that are missing chilling data
 #dat4$missingCH<-0
 #dat4$missingCH[which(is.na(dat4$Total_Chilling_Hours))]<-1
