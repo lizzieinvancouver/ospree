@@ -47,8 +47,8 @@ dates2weeks.count <- countfieldsample(ddatefx, 14)
 uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
 uniquedates.df$selectcolumn <- paste(uniquedates.df$datasetIDstudy, uniquedates.df$date)
 # Now subset to sane # of columnns
-datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", 
-    "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
+datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "forcetemp_night", 
+    "photoperiod_day", "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
 head(datsm)
 
 ## Okay, formatting to look at intxns
@@ -101,14 +101,69 @@ chilldaysosp.prep$datasetID <- unlist(lapply(strsplit(as.character(checkchillist
 chilldaysosp.prep$study <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[2]))
 chilldaysospuse <- merge(chilldaysosp.prep, chilldaysosp, by=c("datasetID", "study"), all.x=TRUE)
 
+# combine chilldays and chilltemp (so, experimental chilling)
+allchill <- union(checkchillist, paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
+
 ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="single treat",
     n=nrow(forceosp)), data.frame(treat1="photo", treat2="single treat",
     n=nrow(photoosp)), data.frame(treat1="chilltemp", treat2="single treat",
     n=nrow(chilltemposp)), data.frame(treat1="chilldays", treat2="single treat",
-    n=length(checkchillist)), data.frame(treat1="fieldsample.date", treat2="single treat",
+    n=length(checkchillist)), data.frame(treat1="chill days or temp", treat2="single treat",
+    n=length(allchill)), data.frame(treat1="fieldsample.date", treat2="single treat",
     n=nrow(fsdatesosp)))
 
-## Two-way treatments 
+## From here we can ask about which studies did two factors ...
+# (but not neccessarily interactively) ##
+osp14d.fpall <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
+   paste(photoosp$datasetID, photoosp$study, sep="_"))
+osp14d.ctfall <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
+   paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
+osp14d.ctpall <- intersect(unique(paste(photoosp$datasetID, photoosp$study, sep="_")), 
+   paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
+osp14d.daysf <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
+   paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_"))
+osp14d.daysp <- intersect(unique(paste(photoosp$datasetID, photoosp$study, sep="_")), 
+   paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_"))
+osp14d.cdf <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
+   checkchillist)
+osp14d.cdp <- intersect(unique(paste(photoosp$datasetID, photoosp$study, sep="_")), 
+   checkchillist)
+osp14d.cddays <- intersect(unique(paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_")), 
+   checkchillist) # do any studies manipulating chilling days also manipulate field sample date? (No.)
+osp14d.cdct <- intersect(unique(paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_")), 
+   paste(chilltemposp$datasetID, chilltemposp$study, sep="_")) # do any studies manipulating chill temp also manipulate field sample date? ("pagter15_exp1" "skre08_exp1")
+osp14d.fc <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
+   allchill)
+osp14d.pc <- intersect(unique(paste(photoosp$datasetID, photoosp$study, sep="_")), 
+   allchill)
+
+ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo ALL",
+    n=length(osp14d.fpall)), data.frame(treat1="force", treat2="chill temp ALL",
+    n=length(osp14d.ctfall)), data.frame(treat1="photo", treat2="chill temp ALL",
+    n=length(osp14d.ctpall)), data.frame(treat1="force", treat2="fieldsample days ALL",
+    n=length(osp14d.daysf)), data.frame(treat1="photo", treat2="fieldsample ALL",
+    n=length(osp14d.daysp)), data.frame(treat1="force", treat2="chill days ALL",
+    n=length(osp14d.cdf)), data.frame(treat1="photo", treat2="chill days ALL",
+    n=length(osp14d.cdp)), data.frame(treat1="fieldsample", treat2="chill days ALL",
+    n=length(osp14d.cddays)), data.frame(treat1="fieldsample", treat2="chill temp ALL",
+    n=length(osp14d.cdct)), data.frame(treat1="force", treat2="chill days or temp ALL",
+    n=length(osp14d.fc)), data.frame(treat1="photo", treat2="chill day or temp ALL",
+    n=length(osp14d.pc)))
+
+## Now ask which studies did three factors ...
+# (but not neccessarily interactively) ##
+fpct <- intersect(osp14d.fpall, paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
+fpcd <- intersect(osp14d.fpall, checkchillist)
+fpfs <- intersect(osp14d.fpall, paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_"))
+fpc <- intersect(osp14d.fpall, allchill)
+
+ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo and chill temp ALL",
+    n=length(fpct)), data.frame(treat1="force", treat2="photo and chill days ALL",
+    n=length(fpcd)), data.frame(treat1="photo", treat2="force and fieldsample ALL",
+    n=length(fpfs)), data.frame(treat1="photo", treat2="force and chill days or temp ALL",
+    n=length(fpfs)))
+
+## Two-way interactive treatments 
 osp14d.fp <- get.treatdists(datsm14d.noNA, "photo", "force")
 osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
 osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
@@ -119,13 +174,16 @@ osp14d.ctfintxn <- subset(osp14d.ctf, intxn>=2) # 2 studies
 osp14d.ctp <- get.treatdists(datsm14d.noNA, "chilltemp", "photo")
 osp14d.ctpintxn <- subset(osp14d.ctp, intxn>=2) # 3 studies
 
+# get chill days but subset to ones that are no fieldsample date
 osp14d.cdf <- get.treatdists(datsm14d.noNA, "chilldays", "force")
 osp14d.cdfintxn.all <- subset(osp14d.cdf, intxn>=2) # same 2 studies # skuterud94  exp1  &  heide12  exp2
 osp14d.cdfintxn <- osp14d.cdfintxn.all[which(paste(osp14d.cdfintxn.all$datasetID,
    osp14d.cdfintxn.all$study, sep="_") %in% paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")),]
+# how many of the single chill studies are interactive?
 intersect(unique(paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")), paste(osp14d.cdfintxn$datasetID,
    osp14d.cdfintxn$study, sep="_"))
 
+# repeat of just above, but for photo only
 osp14d.cdp <- get.treatdists(datsm14d.noNA, "chilldays", "photo")
 osp14d.cdpintxn.all <- subset(osp14d.cdp, intxn>=2) 
 osp14d.cdpintxn <- osp14d.cdpintxn.all[which(paste(osp14d.cdpintxn.all$datasetID,
@@ -139,22 +197,59 @@ osp14d.daysfintxn <- subset(osp14d.daysf, intxn>=2) # 9 studies
 osp14d.daysp <- get.treatdists(datsm14d.noNA, "fieldsample.date", "photo")
 osp14d.dayspintxn <- subset(osp14d.daysp, intxn>=2) # 11 studies
 
+osp14d.allchillf <- union(paste(osp14d.cdfintxn$datasetID, osp14d.cdfintxn$study, sep="_"),
+   paste(osp14d.ctfintxn$datasetID, osp14d.ctfintxn$study, sep="_"))
+
+osp14d.allchillp <- union(paste(osp14d.cdpintxn$datasetID, osp14d.cdpintxn$study, sep="_"),
+   paste(osp14d.ctpintxn$datasetID, osp14d.ctpintxn$study, sep="_"))
+
 length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 
 ospcounts <- rbind(ospcounts, data.frame(treat1="photo", treat2="force",
     n=length(unique(paste(osp14d.fpintxn$datasetID, osp14d.fpintxn$study)))),
-    data.frame(treat1="chilltemp", treat2="force",
+    data.frame(treat1="chilltemp", treat2="force INTERACTIVE",
     n=length(unique(paste(osp14d.ctfintxn$datasetID, osp14d.ctfintxn$study)))),
-    data.frame(treat1="chilltemp", treat2="photo",
+    data.frame(treat1="chilltemp", treat2="photo INTERACTIVE",
     n=length(unique(paste(osp14d.ctpintxn$datasetID, osp14d.ctpintxn$study)))),
-    data.frame(treat1="chilldays", treat2="force",
+    data.frame(treat1="chilldays", treat2="force INTERACTIVE",
     n=length(unique(paste(osp14d.cdfintxn$datasetID, osp14d.cdfintxn$study)))),
-    data.frame(treat1="chilldays", treat2="photo",
+    data.frame(treat1="chilldays", treat2="photo INTERACTIVE",
     n=length(unique(paste(osp14d.cdpintxn$datasetID, osp14d.cdpintxn$study)))),
-    data.frame(treat1="fieldsample.date", treat2="force",
+    data.frame(treat1="fieldsample.date", treat2="force INTERACTIVE",
     n=length(unique(paste(osp14d.daysfintxn$datasetID, osp14d.daysfintxn$study)))),
-    data.frame(treat1="fieldsample.date", treat2="photo",
-    n=length(unique(paste(osp14d.dayspintxn$datasetID, osp14d.dayspintxn$study)))))
+    data.frame(treat1="fieldsample.date", treat2="photo INTERACTIVE",
+    n=length(unique(paste(osp14d.dayspintxn$datasetID, osp14d.dayspintxn$study)))),
+    data.frame(treat1="chill days or temp", treat2="force INTERACTIVE",
+    n=length(osp14d.allchillf)),
+    data.frame(treat1="chill days or temp", treat2="photo INTERACTIVE",
+    n=length(osp14d.allchillp)))
+
+# thermoperiodicity
+osp14d.moreforcinginfo <- get.treatdists.daynight(datsm14d, "forcetemp", "forcetemp_night")
+osp14d.forcingvaried <- subset(osp14d.moreforcinginfo, treatinfo!="forcing does not vary")
+osp14d.studiesinclconstantforce <- subset(osp14d.forcingvaried, numconstantforce>0) # some studies have both
+osp14d.studiesinclforceperiodicity <- subset(osp14d.forcingvaried, numdiffforce>0) # some studies have both
+
+ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="NA",
+    n=nrow(osp14d.forcingvaried)), data.frame(treat1="total-wsometreats-constant-forcing", treat2="NA",
+    n=nrow(osp14d.studiesinclconstantforce)),  data.frame(treat1="total-variedwsometreats-varydaynight-forcing", treat2="NA",
+    n=nrow(osp14d.studiesinclforceperiodicity)))
+
+###############
+## OKAY! Next...
+## (1) Why is total forcing different between force and the thermo code?
+## (2) Why is my number of studies that manipulated forcing so much less than Cat's?
+## (3) Once all sorted, working on heatmaps ...
+
+gooall <- read.csv("output/studytype_table.csv")
+goo <- gooall[which(paste(gooall$datasetID, gooall$study) %in% unique(paste(datsm14d$datasetID, datsm14d$study))),] # makes no difference
+goober <- subset(goo, force>1)
+nrow(goober)
+
+goober[order(goober$datasetID),]
+forceosp[order(forceosp$datasetID),]
+
+# in Cat's some show up more than once, e.g.,   caffarra11a  exp2 or  falusi97  exp1 
 
 ##################
 # BB OSPREE data #
