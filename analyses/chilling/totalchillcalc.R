@@ -127,7 +127,8 @@ for(i in 1:nrow(chilldat)) {
            #We realized that some sites have included chilling estimates (rather than chiltemp and chillhours). Here we add those studies in:
            #unique(dat4$cu.model)
            #Four studies have field chilling reported with the utah model: "biasi12"    "cook00b"    "heide93"    "skuterud94"
-          dat4$Field_Utah_Model[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]<-dat4$field.chill.units[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]#149 rows
+           dat4$cu.model <- ifelse(is.na(dat4$cu.model), "", dat4$cu.model)
+           dat4$Field_Utah_Model[dat4$cu.model=="Utah"|dat4$cu.model=="Utah model"]<-dat4$field.chill.units[dat4$cu.model=="Utah" | dat4$cu.model=="Utah model"]
            
           # chilling is calculated by multiplying chilldays and chilltemp together. 
           #however, if chilldays=0, sometimes chilltemp is listed as NA, yielding experimental chilling of NA when it should be 0. 
