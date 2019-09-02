@@ -5,6 +5,13 @@
 
 ## See also: https://github.com/lizzieinvancouver/ospree/issues/235
 
+################
+## To do here ##
+################
+# (*) Figure out why my numbers differ from Cat's
+# (*) Decide how to deal with forcing having varying night and day treatments
+# (*) Make heatmaps ...
+
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
@@ -53,6 +60,7 @@ head(datsm)
 
 ## Okay, formatting to look at intxns
 datsm$force <- as.numeric(datsm$forcetemp)
+datsm$forcemean <- (datsm$force + as.numeric(datsm$forcetemp_night))/24
 datsm$photo <- as.numeric(datsm$photoperiod_day)
 
 datsm.noNA <- subset(datsm, is.na(force)==FALSE & is.na(photo)==FALSE)
@@ -79,19 +87,24 @@ dim(datsm14d) # not such a huge loss of rows
 # Check we don't lose any datasets!
 setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datasetID, datsm14d$study)))
 
+# datsm14d <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE) to write out ospree_countinxns.noNA.csv
+
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
 # Start gathering data ... 
 ospcounts <- data.frame(treat1=character(), treat2=character(), n=numeric())
 
-## USE helper.R from DESKTOP!!!
-
 ## Single treatments
-forceosp <- get.treatdists.singletreatment(datsm14d.noNA, "force")
-photoosp <- get.treatdists.singletreatment(datsm14d.noNA, "photo")
-chilltemposp <- get.treatdists.singletreatment(datsm14d.noNA, "chilltemp")
-chilldaysosp <- get.treatdists.singletreatment(datsm14d.noNA, "chilldays")
-fsdatesosp <- get.treatdists.singletreatment(datsm14d.noNA, "fieldsample.date")
+forceosp <- get.treatdists.singletreatment(datsm14d, "force")
+forceospnight <- get.treatdists.singletreatment(datsm14d, "forcetemp_night")
+photoosp <- get.treatdists.singletreatment(datsm14d, "photo")
+chilltemposp <- get.treatdists.singletreatment(datsm14d, "chilltemp")
+chilldaysosp <- get.treatdists.singletreatment(datsm14d, "chilldays")
+fsdatesosp <- get.treatdists.singletreatment(datsm14d, "fieldsample.date")
+
+# Check how many studies did forcing day or night ...
+forceall <- union(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), paste(forceospnight$datasetID,
+   forceospnight$study, sep="_")) # 46... so I need to deal with this somehow
 
 # chilldays includes experiments and field sample dates ... so we need to check and udpate ...
 checkchillist <- setdiff(unique(paste(chilldaysosp$datasetID, chilldaysosp$study, sep="_")), paste(fsdatesosp$datasetID,
@@ -164,18 +177,18 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo and chill
     n=length(fpfs)))
 
 ## Two-way interactive treatments 
-osp14d.fp <- get.treatdists(datsm14d.noNA, "photo", "force")
+osp14d.fp <- get.treatdists(datsm14d, "photo", "force")
 osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
 osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
 
-osp14d.ctf <- get.treatdists(datsm14d.noNA, "chilltemp", "force")
+osp14d.ctf <- get.treatdists(datsm14d, "chilltemp", "force")
 osp14d.ctfintxn <- subset(osp14d.ctf, intxn>=2) # 2 studies
 
-osp14d.ctp <- get.treatdists(datsm14d.noNA, "chilltemp", "photo")
+osp14d.ctp <- get.treatdists(datsm14d, "chilltemp", "photo")
 osp14d.ctpintxn <- subset(osp14d.ctp, intxn>=2) # 3 studies
 
 # get chill days but subset to ones that are no fieldsample date
-osp14d.cdf <- get.treatdists(datsm14d.noNA, "chilldays", "force")
+osp14d.cdf <- get.treatdists(datsm14d, "chilldays", "force")
 osp14d.cdfintxn.all <- subset(osp14d.cdf, intxn>=2) # same 2 studies # skuterud94  exp1  &  heide12  exp2
 osp14d.cdfintxn <- osp14d.cdfintxn.all[which(paste(osp14d.cdfintxn.all$datasetID,
    osp14d.cdfintxn.all$study, sep="_") %in% paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")),]
@@ -184,17 +197,17 @@ intersect(unique(paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_"
    osp14d.cdfintxn$study, sep="_"))
 
 # repeat of just above, but for photo only
-osp14d.cdp <- get.treatdists(datsm14d.noNA, "chilldays", "photo")
+osp14d.cdp <- get.treatdists(datsm14d, "chilldays", "photo")
 osp14d.cdpintxn.all <- subset(osp14d.cdp, intxn>=2) 
 osp14d.cdpintxn <- osp14d.cdpintxn.all[which(paste(osp14d.cdpintxn.all$datasetID,
    osp14d.cdpintxn.all$study, sep="_") %in% paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")),]
 intersect(unique(paste(chilldaysospuse$datasetID, chilldaysospuse$study, sep="_")), paste(osp14d.cdpintxn$datasetID,
    osp14d.cdpintxn$study, sep="_"))
 
-osp14d.daysf <- get.treatdists(datsm14d.noNA, "fieldsample.date", "force")
+osp14d.daysf <- get.treatdists(datsm14d, "fieldsample.date", "force")
 osp14d.daysfintxn <- subset(osp14d.daysf, intxn>=2) # 9 studies
 
-osp14d.daysp <- get.treatdists(datsm14d.noNA, "fieldsample.date", "photo")
+osp14d.daysp <- get.treatdists(datsm14d, "fieldsample.date", "photo")
 osp14d.dayspintxn <- subset(osp14d.daysp, intxn>=2) # 11 studies
 
 osp14d.allchillf <- union(paste(osp14d.cdfintxn$datasetID, osp14d.cdfintxn$study, sep="_"),
@@ -205,7 +218,7 @@ osp14d.allchillp <- union(paste(osp14d.cdpintxn$datasetID, osp14d.cdpintxn$study
 
 length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 
-ospcounts <- rbind(ospcounts, data.frame(treat1="photo", treat2="force",
+ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo INTERACTIVE",
     n=length(unique(paste(osp14d.fpintxn$datasetID, osp14d.fpintxn$study)))),
     data.frame(treat1="chilltemp", treat2="force INTERACTIVE",
     n=length(unique(paste(osp14d.ctfintxn$datasetID, osp14d.ctfintxn$study)))),
@@ -233,23 +246,57 @@ osp14d.studiesinclforceperiodicity <- subset(osp14d.forcingvaried, numdiffforce>
 ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="NA",
     n=nrow(osp14d.forcingvaried)), data.frame(treat1="total-wsometreats-constant-forcing", treat2="NA",
     n=nrow(osp14d.studiesinclconstantforce)),  data.frame(treat1="total-variedwsometreats-varydaynight-forcing", treat2="NA",
-    n=nrow(osp14d.studiesinclforceperiodicity)))
+    n=nrow(osp14d.studiesinclforceperiodicity)), data.frame(treat1="ALL studies", treat2="NA",
+    n=length(unique(paste(datsm14d$datasetID, datsm14d$study)))))
+
+write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
 
 ###############
 ## OKAY! Next...
-## (1) Why is total forcing different between force and the thermo code?
+## (1) Why is total forcing different higher in thermo versus force code? Some studies vary night forcing only, and then you get MORE identified if you use datsm14d instead of datsm14d.noNA ... but still different (46 versus 48)
 ## (2) Why is my number of studies that manipulated forcing so much less than Cat's?
 ## (3) Once all sorted, working on heatmaps ...
 
 gooall <- read.csv("output/studytype_table.csv")
-goo <- gooall[which(paste(gooall$datasetID, gooall$study) %in% unique(paste(datsm14d$datasetID, datsm14d$study))),] # makes no difference
+goo <- gooall[which(paste(gooall$datasetID, gooall$study) %in% unique(paste(datsm14d$datasetID, datsm14d$study))),] # makes no difference, we're using the same studies!
 goober <- subset(goo, force>1)
 nrow(goober)
+nrow(gooall)
 
 goober[order(goober$datasetID),]
-forceosp[order(forceosp$datasetID),]
+forceosp[order(forceosp$datasetID),] # I don't have (not complete list): caffarra11a exp3 or exp1
 
-# in Cat's some show up more than once, e.g.,   caffarra11a  exp2 or  falusi97  exp1 
+photoosp[order(photoosp$datasetID),]
+
+if(FALSE){ # checking part of my code ...
+# forceosp <- get.treatdists.singletreatment(datsm14d.noNA, "force")
+df <- datsm14d
+treatcol <- "force"
+
+did <- "caffarra11a"
+studyid <- "exp3" # ONE forcing treat of 18; exp1 looks like ONE forcing treat of 22 
+    
+get.treatdists.singletreatment <- function(df, treatcol){
+    dfbuild <- data.frame(datasetID=character(), study=character(), ntreats=numeric())
+    for (did in unique(df[["datasetID"]])){
+     subbydid <- subset(df, datasetID==did)
+       for (studyid in unique(subbydid$study)){
+          subbydidexp.allcols <- subset(subbydid, study==studyid)
+          subbydidexp <- subbydidexp.allcols[,c(treatcol)]
+          dfbuildadd <- data.frame(datasetID=did, study=studyid, ntreats=length(unique(subbydidexp)))
+          dfbuild <- rbind(dfbuild, dfbuildadd)
+          dfbuild.multi <- subset(dfbuild, ntreats>1)
+          }
+     }
+  return(dfbuild.multi)
+}    
+# osp14d.moreforcinginfo <- get.treatdists.daynight(datsm14d.noNA, "forcetemp", "forcetemp_night")
+}
+# in Cat's some show up more than once, e.g.,   caffarra11a  exp2 or  falusi97  exp1
+
+
+
+
 
 ##################
 # BB OSPREE data #
@@ -284,7 +331,7 @@ bb.ddatefx$datasetIDstudy <- paste(bb.ddatefx$datasetID, bb.ddatefx$study)
 bb.dates2weeks.count <- countfieldsample(bb.ddatefx, 14)
 bb.uniquedates.df <- fieldsample.getuniquedates(bb.ddatefx, 14)
 # Now (not pretty part) we'll take all NA dates ...
-# Note that for some reason we don't have to do thee gymnastics above
+# Note that for some reason we don't have to do these gymnastics above (CHECK WHY before finishing limitingcues!)
 bbselectNA <- subset(bb.uniquedates.df, is.na(date)==TRUE)
 bb$fieldsample.date.merge <- bb$fieldsample.date
 bb$fieldsample.date.merge[paste(bb$datasetID, bb$study) %in% unique(bbselectNA$datasetIDstudy)] <- NA
@@ -297,6 +344,7 @@ setdiff(unique(paste(bb$datasetID, bb$study)), unique(paste(bb14d$datasetID, bb1
 dim(bb)
 dim(bb14d) # this loses ~200 rows
 
+# bb14d.noNA <- bb14d # Below versus shown here, does not seem to matter, even to full model
 bb14d.noNA <- subset(bb14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
 ###################################
