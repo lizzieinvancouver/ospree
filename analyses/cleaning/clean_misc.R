@@ -1,5 +1,6 @@
 ## Started 2 October 2017 ##
 ## By Lizzie (so far)##
+##Rechecked when data was updated in Aug-2019 by Dan B.
 
 ## This code does some OSPREE cleaning that didn't fit anywhere else ##
 ## It is sourced in cleanmerge_all.R ##
@@ -8,9 +9,21 @@
 # So we’re adding it in here, it should be year of experiment, which is 2014. 
 d$year[which(d$datasetID=="zohner16")] <- 2014
 
+# Funny paper-naming
+d$datasetID[d$datasetID=="fu_2018"] <- "fu18"
+
 # Fix a table that was mis-referenced
 d$figure.table..if.applicable.[which(d$datasetID=="campbell75" &
     d$figure.table..if.applicable=="table1")] <- "table2"
+
+# Fix a bunch of silly entries on genus names in new dat
+d$genus[d$genus=="Populus "] <- "Populus"
+d$genus[d$genus=="Olea "] <- "Olea"
+d$genus[d$genus=="alnus"] <- "Alnus"
+d$genus[d$genus=="fagus"] <- "Fagus"
+d$genus[d$genus=="carpinus"] <- "Carpinus"
+d$genus[d$genus=="prunus"] <- "Prunus"
+d$genus[d$genus=="quercus"] <- "Quercus"
 
 # Falusi97 is difficult, the data on X axis in Fig 1 is TRANSFER date, but
 # you cannot tell how long they measured them for. Based on my reading I am 90% sure
@@ -190,3 +203,25 @@ d$response.time.num<-ifelse(d$datasetID=="linkosalo06",d$response.time.num-52,d$
 d$response.time.num<-as.character(d$response.time.num) ##convert back to character so you can paste new into the real column
 d$response.time<-ifelse(d$datasetID=="linkosalo06",d$response.time.num,d$response.time) ###add the 5 values for linkosalo
 d$response.time.num<-NULL ## get ride of transitory numerica column
+
+
+### Updates to fieldsample.date column for new data
+##################################################################################################
+###################### TO BE MOVED TO CLEAN_MISC.R BY CAT WHEN CODE IS READY #####################
+### Not all fieldsample.dates were entered in the same format, so that needs to be fixed first. 
+# This should be moved to clean_misc.R - 19 Aug 2019 note by Cat
+d$fieldsample.date <- gsub("/", "-", d$fieldsample.date)
+d$fieldsample.date <- gsub("-13", "-2013", d$fieldsample.date)
+d$fieldsample.date <- gsub("-14", "-2014", d$fieldsample.date)
+d$fieldsample.date <- gsub("-15", "-2015", d$fieldsample.date)
+d$fieldsample.date <- gsub("-16", "-2016", d$fieldsample.date)
+
+### flynn18: fieldsample.date entered incorrectly
+d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d$fieldsample.date)
+
+### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
+d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
+
+stop("Not an error, just wanted to let you know d is clean")
+##################################################################################################
+##################################################################################################

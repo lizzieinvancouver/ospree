@@ -7,6 +7,10 @@
 
 # See cleanmerge_all.R for started text #
 
+## Updates by Cat 19 August 2019 - new data cleaning ## 
+# starts at line 141
+# Just a reminder - 'ambient' is not cleaned here... we fix in bb_analysis/cleaning
+
 # Fixing by datasetID -- basler12
 d$photoperiod_day[d$photoperiod_day == "shortday" & d$datasetID=="basler12"] <- 9.5
 d$photoperiod_day[d$photoperiod_day == "longday" & d$datasetID=="basler12"] <- 11
@@ -35,7 +39,7 @@ d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="envi
 d$photoperiod_day[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"14-9.5"
 d$photoperiod_night[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 2 (W, growth chamber); sowing date: 11/29/1984")]<-"10-14.5"
 
-#could change ambient photoperiod to 12 hours (paper says "photoperiod was approximatels 12) or we can pull actually photoperiod data with temperature data
+#could change ambient photoperiod to 12 hours (paper says "photoperiod was approximatels 12) or use geosphere package
 #d <- within(d, photoperiod_day[datasetID== 'schnabel87' & photoperiod_day =='ambient'] <- 12)
 #d <- within(d, photoperiod_night[datasetID== 'schnabel87' & photoperiod_night =='ambient'] <- 12)
 
@@ -134,6 +138,18 @@ d <- within(d, photoperiod_day[datasetID == 'thielges75' & photoperiod_day ==
 
 # Remove extra lines for ghelardini10 added by Dan that do not correlate to paper
 d[-which(d$datasetID=='ghelardini10' & d$Entered.By == 'DF'), ]
+
+############ New data cleaning starts here #############
+# New datasets needing attention: fu19, fu_2018, anzanello16
+
+## fu19
+d <- within(d, photoperiod_day[datasetID == 'fu19' & photoperiod_day== "short"]<-"ambient-2")
+
+## fu_2018: photoperiod is not mentioned in the paper
+
+## anzanello16
+d <- within(d, photoperiod_day[datasetID == 'anzanello16' & photoperiod_day== "0 (no photoperiod)"]<-0)
+d <- within(d, photoperiod_night[datasetID == 'anzanello16' & photoperiod_night== "no photoperiod"]<-24)
 
 stop("Not an error, just stopping here to say we're now done cleaning photo. The d item in your workspace is now all cleaned up for its photoperiod_day and photoperiod_night columns. Zippitydoodah ...")
 

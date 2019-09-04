@@ -7,6 +7,7 @@
 #(Provenance lat/long)
 #This code requires global climate data to be pulled from an external hard drive. 
 #the climate data is used to calculate chilling units, which are then written to a csv file.
+
 d$fieldsample.date2<-strptime(strptime(d$fieldsample.date, format = "%d-%b-%Y"),format = "%Y-%m-%d")
 # make two data frames. North America and Europe, the lat longs and years.
 d$continent <- tolower(d$continent)
@@ -24,8 +25,8 @@ d$year <- as.numeric(as.character(d$year))
 d$fieldsample.date2<-as.character(as.Date(d$fieldsample.date2,"%m/%d/%y")) #needed for new version
 #add column for when experimental chilling is added to field chilling (this gets done in the interpolclimate.R file and we need to be able to merge it back in- only 2 studies do this so I am adding it by hand)
 d$addexpwarm<-0
-d[d$chilltemp=="ambient + 4",]$addexpwarm<-"ambplus4"
-d[d$chilltemp=="ambient + 0.76",]$addexpwarm<-"ambplus0.76"
+#d[d$chilltemp=="ambient + 4",]$addexpwarm<-"ambplus4" ## From original dataset
+#d[d$chilltemp=="ambient + 0.76",]$addexpwarm<-"ambplus0.76" ## From original dataset
 
 d2 <- as.data.frame(d)
 

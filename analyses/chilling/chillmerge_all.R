@@ -20,8 +20,10 @@ library(plyr)
 library(ncdf4)
 library(Interpol.T)
 library(chillR)
+library(lubridate)
 # 1. Get the data
 d <- read.csv("output/ospree_clean.csv")
+#d <- read.csv("output/ospree2019update.csv") ## use for now to tweak code for nam climate update
 
 # 2. Clean the chilltemp column
 
@@ -38,11 +40,12 @@ source("chilling/fieldchillcalc_latlong.R")
 
 # 4b: Set the location of the external hard drive, then pull daily climate data for Europe and North America
 #Skip ahead to 4e if you do not have the climate data drive
- climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
+ #climatedrive = "/Volumes/Ospree Climate" # (Ospree Climate is name of the external drive, change with new device)
 # climatedrive =  "/Volumes/BackYouEvilFiend/ospreeclimate" # Lizzie's backup drive (at HUH currently)
 # climatedrive = "/Volumes/My Book for Mac/ospreeclimate" # Lizzie's backup drive (at WeldHill currently)
 #climatedrive = "//128.103.155.31/WeldShare/Wolkovich Lab/Budburst Review - Ospree/Climate Data" # Access to the data from Weld Share (From Nacho's computer)
  #climatedrive = "/Volumes/climate" #Ailene's climate data drive
+ climatedrive = "/Volumes/climdata"
 
 # 4c. pull climate data from europe
 source("chilling/pullclimate_eur.R")
@@ -68,7 +71,7 @@ source("chilling/totalchillcalc.R")
 write.csv(dat4, "output/ospree_clean_withchill.csv", row.names=FALSE) ##
 
 #check some things on this file
-#dim(dat4)#12658    80
+#dim(dat4)#14603    81
 #Make list of the studies that are missing chilling data
 #dat4$missingCH<-0
 #dat4$missingCH[which(is.na(dat4$Total_Chilling_Hours))]<-1

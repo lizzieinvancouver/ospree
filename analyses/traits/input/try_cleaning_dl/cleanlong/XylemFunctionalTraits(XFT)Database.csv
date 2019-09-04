@@ -1,0 +1,511 @@
+"LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Plant developmental status / plant age / maturity / plant life stage","Trait","value"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728070,"45.717","3.05","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728071,"48.75145","6.337966667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728072,"48.75145","6.337966667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728073,"47.26666667","11.36666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728074,"42.9","8.33E-02","A","Maximum plant height","60"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727021,"45.717","3.05","A","Maximum plant height","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727022,"45.33333333","5.5","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727023,"36.01666667","-78.98333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727026,"42.67277778","-84.47361111","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727028,"44.45166667","-73.18333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727029,"44.45166667","-73.18333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727033,"42.28333333","-71.13333333","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727034,"44.45166667","-73.18333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727035,"42.28333333","-71.13333333","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727038,"42.67277778","-84.47361111","A","Maximum plant height","35"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727067,"54.33333333","10.13333333","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727068,"54.33333333","10.13333333","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727069,"54.33333333","10.13333333","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727070,"45.717","3.05","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727071,"40.8","-111.7666667","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727073,"40.8","-111.7666667","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727187,"45.717","3.05","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727188,"45.776","3.144133333","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Carpinus betulus",1727220,"45.717","3.05","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Corylus avellana",1727357,"45.717","3.05","A","Maximum plant height","5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727457,"48.75145","6.337966667","A","Maximum plant height","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727458,"48.75145","6.337966667","A","Maximum plant height","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728265,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728266,"47.23333333","11.3","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728267,"45.717","3.05","A","Maximum plant height","45"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728268,"45.717","3.05","A","Maximum plant height","35"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Nyssa sylvatica",1727628,"36.01666667","-78.98333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728281,"47.15","11.11666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728282,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728283,"45.717","3.05","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728284,"45.717","3.05","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728285,"48.75145","6.337966667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728286,"48.75145","6.337966667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728287,"48.25","7.25","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728288,"47.26666667","11.36666667","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728289,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728290,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728291,"47.23333333","11.35","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728292,"45.717","3.05","A","Maximum plant height","55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728293,"47.26666667","11.36666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728294,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728295,"47.23333333","11.35","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728296,"47.18333333","11.31666667","A","Maximum plant height","50"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Populus tremula",1727706,"45.717","3.05","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus avium",1727751,"45.717","3.05","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus padus",1727763,"45.717","3.05","A","Maximum plant height","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728443,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728444,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728445,"46.93333333","-113.95","A","Maximum plant height","60"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728446,"48.75145","6.337966667","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728447,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728448,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728449,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728450,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728451,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728453,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728454,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728455,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728456,NA,NA,"A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728457,"47","-114.4666667","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728458,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728459,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728460,"47","-114.4666667","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728462,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728463,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728465,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728466,"47","-114.4666667","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728467,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728469,"47","-114.4666667","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728470,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728471,NA,NA,"S","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728474,"44.63333333","-123.2833333","S","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728477,"46.93333333","-113.95","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728478,"43.71666667","-122.3333333","A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728479,"43.71666667","-122.3333333","A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728480,"43.71666667","-122.3333333","A","Maximum plant height","90"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728481,"45.81666667","-121.95","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728482,"45.81666667","-121.95","A","Maximum plant height","80"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus alba",1727794,"36.01666667","-78.98333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727816,"48.75145","6.337966667","S","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727817,"43.28333333","11.58333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727818,"41.21666667","0.916666667","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727819,"38.18333333","15.55","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727820,"41.21666667","0.916666667","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727828,"48.75145","6.337966667","A","Maximum plant height","40"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727829,"48.75145","6.337966667","A","Maximum plant height","40"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727830,"48.75145","6.337966667","A","Maximum plant height","40"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727834,"43.28333333","11.58333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727835,"48.75145","6.337966667","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727841,"36.01666667","-78.98333333","A","Maximum plant height",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727842,"44.45166667","-73.18333333","A","Maximum plant height","40"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727844,"44.45166667","-73.18333333","A","Maximum plant height","40"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727845,"48.75145","6.337966667","A","Maximum plant height","35"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727847,"48.75145","6.337966667","A","Maximum plant height","35"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Robinia pseudoacacia",1727922,"46.31972222","-117.9777778","A","Maximum plant height","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1727999,"51.34142","6.606759","A","Maximum plant height","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1728000,"45.717","3.05","A","Maximum plant height","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728070,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728071,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728072,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728073,"47.26666667","11.36666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728074,"42.9","8.33E-02","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727021,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727022,"45.33333333","5.5","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727023,"36.01666667","-78.98333333","A","Photosynthesis per leaf area at leaf temperature (A_area)","7.7335"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727026,"42.67277778","-84.47361111","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727028,"44.45166667","-73.18333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727029,"44.45166667","-73.18333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727033,"42.28333333","-71.13333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727034,"44.45166667","-73.18333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727035,"42.28333333","-71.13333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727038,"42.67277778","-84.47361111","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727067,"54.33333333","10.13333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727068,"54.33333333","10.13333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727069,"54.33333333","10.13333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727070,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727071,"40.8","-111.7666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727073,"40.8","-111.7666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727187,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)","5.8"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727188,"45.776","3.144133333","A","Photosynthesis per leaf area at leaf temperature (A_area)","5.8"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Carpinus betulus",1727220,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Corylus avellana",1727357,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727457,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727458,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728265,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728266,"47.23333333","11.3","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728267,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728268,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Nyssa sylvatica",1727628,"36.01666667","-78.98333333","A","Photosynthesis per leaf area at leaf temperature (A_area)","7.878125"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728281,"47.15","11.11666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728282,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728283,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728284,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728285,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728286,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728287,"48.25","7.25","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728288,"47.26666667","11.36666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728289,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728290,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728291,"47.23333333","11.35","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728292,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728293,"47.26666667","11.36666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728294,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728295,"47.23333333","11.35","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728296,"47.18333333","11.31666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Populus tremula",1727706,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus avium",1727751,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus padus",1727763,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728443,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728444,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728445,"46.93333333","-113.95","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728446,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728447,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728448,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728449,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728450,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728451,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728453,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728454,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728455,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728456,NA,NA,"A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728457,"47","-114.4666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728458,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728459,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728460,"47","-114.4666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728462,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728463,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728465,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728466,"47","-114.4666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728467,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728469,"47","-114.4666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728470,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728471,NA,NA,"S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728474,"44.63333333","-123.2833333","S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728477,"46.93333333","-113.95","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728478,"43.71666667","-122.3333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728479,"43.71666667","-122.3333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728480,"43.71666667","-122.3333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728481,"45.81666667","-121.95","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728482,"45.81666667","-121.95","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus alba",1727794,"36.01666667","-78.98333333","A","Photosynthesis per leaf area at leaf temperature (A_area)","10.39333333"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727816,"48.75145","6.337966667","S","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727817,"43.28333333","11.58333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727818,"41.21666667","0.916666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727819,"38.18333333","15.55","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727820,"41.21666667","0.916666667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727828,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727829,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727830,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727834,"43.28333333","11.58333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727835,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727841,"36.01666667","-78.98333333","A","Photosynthesis per leaf area at leaf temperature (A_area)","10.0405"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727842,"44.45166667","-73.18333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727844,"44.45166667","-73.18333333","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727845,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727847,"48.75145","6.337966667","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Robinia pseudoacacia",1727922,"46.31972222","-117.9777778","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1727999,"51.34142","6.606759","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1728000,"45.717","3.05","A","Photosynthesis per leaf area at leaf temperature (A_area)",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728070,"45.717","3.05","A","Plant height observed","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728071,"48.75145","6.337966667","A","Plant height observed","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728072,"48.75145","6.337966667","A","Plant height observed","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728073,"47.26666667","11.36666667","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728074,"42.9","8.33E-02","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727021,"45.717","3.05","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727022,"45.33333333","5.5","A","Plant height observed","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727023,"36.01666667","-78.98333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727026,"42.67277778","-84.47361111","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727028,"44.45166667","-73.18333333","A","Plant height observed","1.2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727029,"44.45166667","-73.18333333","A","Plant height observed","1.2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727033,"42.28333333","-71.13333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727034,"44.45166667","-73.18333333","A","Plant height observed","1.2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727035,"42.28333333","-71.13333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727038,"42.67277778","-84.47361111","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727067,"54.33333333","10.13333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727068,"54.33333333","10.13333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727069,"54.33333333","10.13333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727070,"45.717","3.05","A","Plant height observed","18"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727071,"40.8","-111.7666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727073,"40.8","-111.7666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727187,"45.717","3.05","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727188,"45.776","3.144133333","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Carpinus betulus",1727220,"45.717","3.05","A","Plant height observed","4"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Corylus avellana",1727357,"45.717","3.05","A","Plant height observed","4"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727457,"48.75145","6.337966667","A","Plant height observed","18"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727458,"48.75145","6.337966667","A","Plant height observed","18"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728265,"47.18333333","11.31666667","A","Plant height observed","5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728266,"47.23333333","11.3","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728267,"45.717","3.05","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728268,"45.717","3.05","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Nyssa sylvatica",1727628,"36.01666667","-78.98333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728281,"47.15","11.11666667","A","Plant height observed","3"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728282,"47.18333333","11.31666667","A","Plant height observed","2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728283,"45.717","3.05","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728284,"45.717","3.05","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728285,"48.75145","6.337966667","A","Plant height observed","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728286,"48.75145","6.337966667","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728287,"48.25","7.25","A","Plant height observed","12.6"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728288,"47.26666667","11.36666667","A","Plant height observed","0.5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728289,"47.18333333","11.31666667","A","Plant height observed","2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728290,"47.18333333","11.31666667","A","Plant height observed","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728291,"47.23333333","11.35","A","Plant height observed","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728292,"45.717","3.05","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728293,"47.26666667","11.36666667","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728294,"47.18333333","11.31666667","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728295,"47.23333333","11.35","A","Plant height observed","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728296,"47.18333333","11.31666667","A","Plant height observed","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Populus tremula",1727706,"45.717","3.05","A","Plant height observed","17"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus avium",1727751,"45.717","3.05","A","Plant height observed","12"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus padus",1727763,"45.717","3.05","A","Plant height observed","10"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728443,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728444,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728445,"46.93333333","-113.95","A","Plant height observed","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728446,"48.75145","6.337966667","A","Plant height observed","30"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728447,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728448,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728449,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728450,NA,NA,"A","Plant height observed","17"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728451,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728453,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728454,NA,NA,"A","Plant height observed","60"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728455,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728456,NA,NA,"A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728457,"47","-114.4666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728458,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728459,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728460,"47","-114.4666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728462,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728463,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728465,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728466,"47","-114.4666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728467,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728469,"47","-114.4666667","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728470,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728471,NA,NA,"S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728474,"44.63333333","-123.2833333","S","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728477,"46.93333333","-113.95","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728478,"43.71666667","-122.3333333","A","Plant height observed","17.1"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728479,"43.71666667","-122.3333333","A","Plant height observed","17.1"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728480,"43.71666667","-122.3333333","A","Plant height observed","17.1"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728481,"45.81666667","-121.95","A","Plant height observed","55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728482,"45.81666667","-121.95","A","Plant height observed","5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus alba",1727794,"36.01666667","-78.98333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727816,"48.75145","6.337966667","S","Plant height observed","1"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727817,"43.28333333","11.58333333","A","Plant height observed","6"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727818,"41.21666667","0.916666667","A","Plant height observed","7"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727819,"38.18333333","15.55","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727820,"41.21666667","0.916666667","A","Plant height observed","7"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727828,"48.75145","6.337966667","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727829,"48.75145","6.337966667","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727830,"48.75145","6.337966667","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727834,"43.28333333","11.58333333","A","Plant height observed","6"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727835,"48.75145","6.337966667","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727841,"36.01666667","-78.98333333","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727842,"44.45166667","-73.18333333","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727844,"44.45166667","-73.18333333","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727845,"48.75145","6.337966667","A","Plant height observed","25"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727847,"48.75145","6.337966667","A","Plant height observed","20"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Robinia pseudoacacia",1727922,"46.31972222","-117.9777778","A","Plant height observed",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1727999,"51.34142","6.606759","A","Plant height observed","3"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1728000,"45.717","3.05","A","Plant height observed","15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728070,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728071,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728072,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728073,"47.26666667","11.36666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728074,"42.9","8.33E-02","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727021,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727022,"45.33333333","5.5","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727023,"36.01666667","-78.98333333","A","Stomata conductance per leaf area at Asat measurement","0.114245"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727026,"42.67277778","-84.47361111","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727028,"44.45166667","-73.18333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727029,"44.45166667","-73.18333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727033,"42.28333333","-71.13333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727034,"44.45166667","-73.18333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727035,"42.28333333","-71.13333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727038,"42.67277778","-84.47361111","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727067,"54.33333333","10.13333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727068,"54.33333333","10.13333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727069,"54.33333333","10.13333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727070,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727071,"40.8","-111.7666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727073,"40.8","-111.7666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727187,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement","0.5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727188,"45.776","3.144133333","A","Stomata conductance per leaf area at Asat measurement","0.5"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Carpinus betulus",1727220,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Corylus avellana",1727357,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727457,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement","0.3"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727458,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement","0.3"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728265,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728266,"47.23333333","11.3","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728267,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728268,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Nyssa sylvatica",1727628,"36.01666667","-78.98333333","A","Stomata conductance per leaf area at Asat measurement","0.13619375"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728281,"47.15","11.11666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728282,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728283,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728284,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728285,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728286,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728287,"48.25","7.25","A","Stomata conductance per leaf area at Asat measurement","0.04"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728288,"47.26666667","11.36666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728289,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728290,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728291,"47.23333333","11.35","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728292,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728293,"47.26666667","11.36666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728294,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728295,"47.23333333","11.35","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728296,"47.18333333","11.31666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Populus tremula",1727706,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus avium",1727751,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus padus",1727763,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728443,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728444,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728445,"46.93333333","-113.95","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728446,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728447,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728448,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728449,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728450,NA,NA,"A","Stomata conductance per leaf area at Asat measurement","0.15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728451,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728453,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728454,NA,NA,"A","Stomata conductance per leaf area at Asat measurement","0.15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728455,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728456,NA,NA,"A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728457,"47","-114.4666667","A","Stomata conductance per leaf area at Asat measurement","0.0733333"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728458,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728459,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728460,"47","-114.4666667","A","Stomata conductance per leaf area at Asat measurement","0.0620513"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728462,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728463,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728465,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728466,"47","-114.4666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728467,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728469,"47","-114.4666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728470,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728471,NA,NA,"S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728474,"44.63333333","-123.2833333","S","Stomata conductance per leaf area at Asat measurement","0.15"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728477,"46.93333333","-113.95","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728478,"43.71666667","-122.3333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728479,"43.71666667","-122.3333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728480,"43.71666667","-122.3333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728481,"45.81666667","-121.95","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728482,"45.81666667","-121.95","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus alba",1727794,"36.01666667","-78.98333333","A","Stomata conductance per leaf area at Asat measurement","0.204883333"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727816,"48.75145","6.337966667","S","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727817,"43.28333333","11.58333333","A","Stomata conductance per leaf area at Asat measurement","0.22"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727818,"41.21666667","0.916666667","A","Stomata conductance per leaf area at Asat measurement","0.12"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727819,"38.18333333","15.55","A","Stomata conductance per leaf area at Asat measurement","0.18"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727820,"41.21666667","0.916666667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727828,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727829,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727830,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727834,"43.28333333","11.58333333","A","Stomata conductance per leaf area at Asat measurement","0.2"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727835,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727841,"36.01666667","-78.98333333","A","Stomata conductance per leaf area at Asat measurement","0.22265"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727842,"44.45166667","-73.18333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727844,"44.45166667","-73.18333333","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727845,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727847,"48.75145","6.337966667","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Robinia pseudoacacia",1727922,"46.31972222","-117.9777778","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1727999,"51.34142","6.606759","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1728000,"45.717","3.05","A","Stomata conductance per leaf area at Asat measurement",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728070,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.458126926"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728071,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728072,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728073,"47.26666667","11.36666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Abies alba",1728074,"42.9","8.33E-02","A","Wood density; stem specific density; wood specific gravity","0.501684019"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727021,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.322610683"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer pseudoplatanus",1727022,"45.33333333","5.5","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727023,"36.01666667","-78.98333333","A","Wood density; stem specific density; wood specific gravity","0.513623977"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer rubrum",1727026,"42.67277778","-84.47361111","A","Wood density; stem specific density; wood specific gravity","1.07"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727028,"44.45166667","-73.18333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727029,"44.45166667","-73.18333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727033,"42.28333333","-71.13333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727034,"44.45166667","-73.18333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727035,"42.28333333","-71.13333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Acer saccharum",1727038,"42.67277778","-84.47361111","A","Wood density; stem specific density; wood specific gravity","1.06"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727067,"54.33333333","10.13333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727068,"54.33333333","10.13333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727069,"54.33333333","10.13333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus glutinosa",1727070,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727071,"40.8","-111.7666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Alnus incana",1727073,"40.8","-111.7666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727187,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Betula pendula",1727188,"45.776","3.144133333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Carpinus betulus",1727220,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Corylus avellana",1727357,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.421747505"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727457,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Fraxinus excelsior",1727458,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728265,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity","0.575"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728266,"47.23333333","11.3","A","Wood density; stem specific density; wood specific gravity","0.586"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728267,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.451771322"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Larix decidua",1728268,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.451771322"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Nyssa sylvatica",1727628,"36.01666667","-78.98333333","A","Wood density; stem specific density; wood specific gravity","0.519235241"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728281,"47.15","11.11666667","A","Wood density; stem specific density; wood specific gravity","0.552"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728282,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728283,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.476913524"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728284,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728285,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728286,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728287,"48.25","7.25","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728288,"47.26666667","11.36666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728289,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728290,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728291,"47.23333333","11.35","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728292,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728293,"47.26666667","11.36666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728294,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728295,"47.23333333","11.35","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Picea abies",1728296,"47.18333333","11.31666667","A","Wood density; stem specific density; wood specific gravity","0.669"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Populus tremula",1727706,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus avium",1727751,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.646818628"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Prunus padus",1727763,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity","0.605033701"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728443,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728444,NA,NA,"A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728445,"46.93333333","-113.95","A","Wood density; stem specific density; wood specific gravity","0.551124363"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728446,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728447,NA,NA,"A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728448,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728449,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728450,NA,NA,"A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728451,NA,NA,"A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728453,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.4"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728454,NA,NA,"A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728455,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.55"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728456,NA,NA,"A","Wood density; stem specific density; wood specific gravity","0.4"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728457,"47","-114.4666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728458,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728459,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728460,"47","-114.4666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728462,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728463,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728465,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728466,"47","-114.4666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728467,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728469,"47","-114.4666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728470,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728471,NA,NA,"S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728474,"44.63333333","-123.2833333","S","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728477,"46.93333333","-113.95","A","Wood density; stem specific density; wood specific gravity","0.551124363"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728478,"43.71666667","-122.3333333","A","Wood density; stem specific density; wood specific gravity","0.26"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728479,"43.71666667","-122.3333333","A","Wood density; stem specific density; wood specific gravity","0.6"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728480,"43.71666667","-122.3333333","A","Wood density; stem specific density; wood specific gravity","0.39"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728481,"45.81666667","-121.95","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Pseudotsuga menziesii",1728482,"45.81666667","-121.95","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus alba",1727794,"36.01666667","-78.98333333","A","Wood density; stem specific density; wood specific gravity","0.634404168"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727816,"48.75145","6.337966667","S","Wood density; stem specific density; wood specific gravity","0.682098275"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727817,"43.28333333","11.58333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727818,"41.21666667","0.916666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727819,"38.18333333","15.55","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus ilex",1727820,"41.21666667","0.916666667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727828,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727829,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus petraea",1727830,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727834,"43.28333333","11.58333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus pubescens",1727835,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727841,"36.01666667","-78.98333333","A","Wood density; stem specific density; wood specific gravity","0.685363611"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727842,"44.45166667","-73.18333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727844,"44.45166667","-73.18333333","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727845,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Quercus rubra",1727847,"48.75145","6.337966667","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Robinia pseudoacacia",1727922,"46.31972222","-117.9777778","A","Wood density; stem specific density; wood specific gravity","0.577"
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1727999,"51.34142","6.606759","A","Wood density; stem specific density; wood specific gravity",NA
+"Jansen","Steven",241,"Xylem Functional Traits (XFT) Database","Sorbus aucuparia",1728000,"45.717","3.05","A","Wood density; stem specific density; wood specific gravity",NA

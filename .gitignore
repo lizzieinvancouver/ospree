@@ -10,47 +10,37 @@
 analyses/.Rhistory
 
 *.DS_Store
+*_emw.pdf
 
 analyses/output/dailyclim/percbb_dailyclimALL.csv
 
 analyses/output/dailyclim/percbb.csv
 
 *.xlsx
-
 *.log
-
 *.aux
-
 *.blg
-
 *.log
-
 *.log
-
-docs/limitingcues/limitingcues_AKE.pdf
-
-docs/limitingcues/limitingcues_old.pdf
-
-docs/photoperiod/photoperiod.bbl
-
 *.bbl
 
-analyses/.Rhistory
+docs/limitingcues/limitingcues_AKE.pdf
+docs/limitingcues/limitingcues_old.pdf
+docs/limitingcues/comments
 
+docs/photoperiod/photoperiod.bbl
+docs/photoperiod/comments
+docs/photoperiod/decisions
+
+analyses/.Rhistory
 analyses/output/ospree_clean_2018Mar26.csv
-
 analyses/output/ospree_clean_withchill_2018Jul6.csv
-
 analyses/output/ospree_clean_withchill_BB_2018Mar26.csv
-
 analyses/output/ospree_clean_withchill_BB_2018Jul12.csv
-
-
-
-
-
 analyses/.Rhistory
+analyses/bb_analysis/figures/old
 
 analyses/photoperiod/figures/obstemplm.pdf
 docs/budburst/budburstms_ailene.tex
 docs/budburst/budburstms_conflicted.Rnw
+docs/budburst/comments

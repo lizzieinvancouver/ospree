@@ -22,7 +22,7 @@ unique(areone$respvar.simple)
 areone.rows <- which(d$response==1) # will use for indexing later
 
 ## Start work to break down into respvar categories, to help with sorting ##
-respvar.time <- c("daystobudburst", "daystoflower", "thermaltime")
+respvar.time <- c("daystobudburst", "daystoflower", "thermaltime") ##should we add "thermaltimetobudburst"??
 respvar.perc <- c("percentbudburst", "percentflower", "otherpercents")
 respvar.other <- c("phenstage", "flowernumber", "growth", "othernums")
 # Checking respvar.time related issues
@@ -79,6 +79,8 @@ d<-within(d, respvar[datasetID=="falusi96" & figure.table..if.applicable.=="tabl
 #sonsteby13: This is fine, do not change
 #ruesink98: This is fine, do not change
 
+#man17: This is fine
+#Fu18: Also fine
 
 ## Rewrite entries where 1 means, "only response.time entry"
 d$response[which(d$response==1 & d$respvar.simple %in% respvar.time)] <- "timeonly"
@@ -103,6 +105,14 @@ unique(notwheretheyshouldbe$datasetID) # some of these seem to be in wrong colum
 #laube14b- should be response-time only and move values to response time ###fixed below
 #skuterud94-figure 4 entries ok, figure 5 entries as above ###fixed below
 #zohner16-ok, do not change
+
+###added data
+#fu19 The NA columns in resposne.time seem extraneous, 
+##ie there are 24 rows of data in paper, and 24 rows of complete data in ospree with 4 na's
+#prevey18- This is a true NA
+
+#Vitra17-- THe NA's in for Prunus avium seem like exta columns
+
 
 ## Now fixing:
 # for the ones that we decide were entered in the wrong column do this (and, IMPORTANT!) check you subsetted correctly by comparing, e.g.,
@@ -185,6 +195,10 @@ length(d$response[which(d$response=="" & d$datasetID=="zohner16" &
     !d$response.time=="")])
 nrow(subset(whynoresponse, datasetID=="zohner16"))
 
+length(d$response[which(is.na(d$response) & d$datasetID=="vitra17" &
+                          !d$response.time=="")])
+nrow(subset(whynoresponse, datasetID=="vitra17"))
+
 # now overwrite the response cells here
 d$response[which(d$response=="" & d$datasetID=="campbell75" &
     !d$response.time=="")] <- "timeonly"
@@ -205,7 +219,8 @@ d$response[which(d$response=="" & d$datasetID=="spiers74" &
 d$response[which(d$response=="" & d$datasetID=="zohner16" &
      !d$response.time=="")] <- "timeonly"
 
-
+d$response[which(is.na(d$response) & d$datasetID=="vitra17" &
+                   !d$response.time=="")] <- "timeonly"
 #######################################################
 ## Things that are time but response column is not 1 ##
 #######################################################

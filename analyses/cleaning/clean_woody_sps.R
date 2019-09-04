@@ -36,8 +36,8 @@ sps<-sort(unique(paste(d$genus,d$species,sep="_")))
 genus<-sort(unique(d$genus))
 
 ## genus is non-woody (in ospree)
-is.non.woody<-c("Colchicum","Dahlia","Fragaria","Opuntia","Pharbitis"    
-  ,"Schlumbergera","Sedum","Silene","Sinapis","Sorghum")  
+is.non.woody<-c("Colchicum","Dahlia","Fragaria","Opuntia","Pharbitis",    
+  "Schlumbergera","Sedum","Silene","Sinapis","Sorghum")  
 
 ## remove non-woody species
 d.woody<-d[-which(d$genus%in%is.non.woody),]

@@ -11,6 +11,9 @@
 ## As of 27 Jan 2017 this file is now SOURCED from cleanmerge_all.R ##
 ## So to run this you need to start there ##
 
+## Updated 22 August 2019 by Lizzie ##
+## Given new OSPREE papers' data ##
+
 # See cleanmerge_all.R for started text #
 sort(table(d$respvar), TRUE)
 names(table(d$respvar)) # 88 values as of 2 Feb 2017
@@ -71,8 +74,9 @@ d$respvar[d$respvar == "percentlateralbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "percentapicalbudburst"] <- "percentbudburst"
 d$respvar[d$respvar == "mean percent budbreak at end of study"] <- "percentbudburst"
 d$respvar[d$respvar == "percentunfolding"] <- "percentbudburst"
-d$respvar[d$respvar == ""] <- "percentbudburst" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
+d$respvar[d$respvar == "percentbudburst(vegetative +reproductive)"] <- "percentbudburst" ## ?This is selecting out hawerroth13, not sure why there is no response variable for this one.
 d$respvar[d$datasetID=="junttila12" & d$figure.table..if.applicable. == "fig1" & d$respvar=="percentbudburst"] <- "percentbudburst_dormancy"#mistake we noticed in the database (all other rows from this study and figure are entered as "percentbudburst_dormancy)
+d$respvar[d$respvar == ""] <- "percentbudburst"
 
 # Growth of some sort
 d$respvar[d$respvar == "growth rate 1/days to 25 pct budburst"] <- "1/daysto25%budburst"
@@ -160,6 +164,9 @@ d$respvar.simple[d$respvar == "daysto50%budburst"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "daystoleafout"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "leafunfoldingdate"] <- "daystobudburst"
 d$respvar.simple[d$respvar == "dateofbudburst"] <- "daystobudburst"
+d$respvar.simple[d$respvar == "meanleafout"] <- "daystobudburst" # fu19, is ambient I belive, so not relative to forcing conditions
+d$respvar.simple[d$respvar == "daystoleafbudbreak"] <- "daystobudburst" # nanninga17 -- "We defined budbreak as a green leaf tip becoming vis- ible at the end of the bud, but before the unfolding of a first leaf (USA-NPN)."
+
 ## Convert DARD Calculation to daystobudburst
 d$response.time[d$respvar=="DARD"] <-
   100/as.numeric(d$response.time[d$respvar=="DARD"])#
@@ -172,6 +179,7 @@ d$respvar.simple[d$respvar == "daysto10flowering"] <- "daystoflower"
 d$respvar.simple[d$respvar == "daysto50flowering"] <- "daystoflower"
 d$respvar.simple[d$respvar == "daystoanthesis"] <- "daystoflower"
 d$respvar.simple[d$respvar == "daystopanicle"] <- "daystoflower"
+d$respvar.simple[d$respvar == "daystoflowerbudburst"] <- "daystoflower"
 
 # percentbudburst
 d$respvar.simple[d$respvar == "percentbudburst"] <- "percentbudburst"
@@ -182,6 +190,8 @@ d$respvar.simple[d$respvar == "percentflower"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentcuttingswithflowerbuds"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentnodesflowering"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentflowerbuds"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentbudburst(reproductive)"] <- "percentflower"
+
 
 # growth
 d$respvar.simple[d$respvar == "budprojectedarea"] <- "growth"
@@ -237,6 +247,14 @@ d$respvar.simple[d$respvar == "numberofleaves"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofnodes"] <- "othernums"
 d$respvar.simple[d$respvar == "numberofstolons"] <- "othernums"
 d$respvar.simple[d$respvar == "stolonsperplant"] <- "othernums"
+d$respvar.simple[d$respvar == "daystobudset"] <- "othernums"
+d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "othernums"
+d$respvar.simple[d$respvar == "survival"] <- "othernums"
+d$respvar.simple[d$respvar == "daystosenescence"] <- "othernums"
+# Fix entry that sounds like forcing hours but is chilling
+# Legend of Fig 4 in man17 is "cumulative weighted chilling hours since September 29"
+d$respvar[d$respvar == "thermaltimetohours"] <- "cumchillinghours"
+d$respvar.simple[d$respvar == "cumchillinghours"] <- "othernums"
 
 # otherpercents
 d$respvar.simple[d$respvar == "percentfruiting"] <- "otherpercents"
@@ -249,20 +267,12 @@ d$respvar.simple[d$respvar == "freshfruitg"] <- "fruitmass"
 d$respvar.simple[d$respvar == "fruitmassperplant"] <- "fruitmass"
 
 # notsureabout
-d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not Woody
-
-# other
-d$respvar.simple[d$respvar == "daystobudset"] <- "other"
-d$respvar.simple[d$respvar == "weeksofleafproduction"] <- "other"
-d$respvar.simple[d$respvar == "survival"] <- "other"
-
+d$respvar.simple[d$respvar == "critical.daylength.hrs"] <- "notsureabout" ## Not woody
 
 
 # check your work .... 
 checking <- subset(d, is.na(respvar.simple)==TRUE)
-unique(checking$respvar) 
-
-
+unique(checking$respvar)
 
 
 # fixing respvar issues where daystobudburst was really DOY to budburst

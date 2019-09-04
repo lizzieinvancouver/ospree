@@ -1,6 +1,51 @@
 ## Started in early 2017 by Ailene ##
 ## Moved to cleaning (from chilling) folder in August 2017 ##
+## updated August 2019 to accomodate new data (dup)
 
+##For dup:
+# 3 sites missing provenance provenance.lat and provenance.long: "fu19","fu_2018","anzanello16"
+# 6 sites missing growing.lat and growing.long: "anzanello16","anzanello18","nanninga17","ramos17","prevey18","vitra17" 
+
+#fu_2018 does not list provenance location- only that all sapings are from the same origin
+
+#Add provenance lat/long for fu19 (ms says Sonian Forest, Brussels and google tells me the lat/long below).
+d[d$datasetID=="fu19",]$provenance.lat <- 50.78
+d[d$datasetID=="fu19",]$provenance.long <- 4.36
+
+#anzanello16 ms says location of field collections and growing is State Foundation of Agricultural Research-Serra (FEPAGRO Serra), in Veranópolis, RS, Brazil,-28.9364183,-51.5683029
+d[d$datasetID=="anzanello16",]$provenance.lat<- -28.94
+d[d$datasetID=="anzanello16",]$provenance.long<- -51.57
+
+d[d$datasetID=="anzanello16",]$growing.lat<- -28.94
+d[d$datasetID=="anzanello16",]$growing.long<- -51.57
+
+#anzanello18 growing location: Veranópolis, RS, Brazil
+d[d$datasetID=="anzanello18",]$growing.lat<- -28.94
+d[d$datasetID=="anzanello18",]$growing.long<- -51.57
+#growing location for nanninga17: greenhouse within 1.5 h of cedar creek so use the provenance lat/long?
+d$growing.lat[d$datasetID=="nanninga17"]<-d$provenance.lat[d$datasetID=="nanninga17"]
+d$growing.long[d$datasetID=="nanninga17"]<-d$provenance.long[d$datasetID=="nanninga17"]
+
+#provenance location appears to be entered wrong for prevey18. ms says ist is (46◦57'05.8N,122◦57'50.8"W).
+d$provenance.lat[d$datasetID=="prevey18"]<-46.9516
+d$provenance.long[d$datasetID=="prevey18"]<- -122.9642
+
+#growing location for prevey18 = USFS Olympia Forestry Sciences Laboratory= 46.9521482!4d-122.9592956 according to google
+d$growing.lat[d$datasetID=="prevey18"]<-46.9515
+d$growing.long[d$datasetID=="prevey18"]<- -122.9693
+
+#for ramos17, it appears that growing lat/long are the same as provenance lat/long
+
+d$growing.lat[d$datasetID=="ramos17"]<-d$provenance.lat[d$datasetID=="ramos17"]
+d$growing.long[d$datasetID=="ramos17"]<-d$provenance.long[d$datasetID=="ramos17"]
+
+
+#vitra17(47°28'N, 7°30'E for growing and provenance lat/long)
+
+d$growing.lat[d$datasetID=="vitra17"]<-d$provenance.lat[d$datasetID=="vitra17"]
+d$growing.long[d$datasetID=="vitra17"]<-d$provenance.long[d$datasetID=="vitra17"]
+
+##For dorg:
 ## Checked that the provenance.lat and provenance.long are  correct for those sampling locations 
 # that have "NA" for field chilling (in all 3 estimates) 
 # in fieldchillcalcslatlong.csv file.
@@ -93,7 +138,7 @@ d[d$datasetID=="zohner16",]$continent <- "europe"
 
 d[d$continent=="Europe",]$continent <- "europe"
 d[d$continent=="North America",]$continent <- "north america"
-d[d$continent=="South America",]$continent <- "south america"
+d[d$continent=="South America"|d$continent=="South america",]$continent <- "south america"
 d[d$continent=="Africa",]$continent <- "africa"
 d[d$continent=="Oceania",]$continent <- "oceania"
 d[d$continent=="Asia",]$continent <- "asia"

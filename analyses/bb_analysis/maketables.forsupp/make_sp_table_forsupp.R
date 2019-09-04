@@ -72,7 +72,11 @@ sp.st.wide$studies<-gsub(", , , , , , , ","", sp.st.wide$studies)
 sp.st.wide$studies<-gsub(", , , , , , ","", sp.st.wide$studies)
 sp.st.wide$studies<-gsub(", , , , , ","", sp.st.wide$studies)
 sp.st.wide$studies<-gsub(", , , , ","", sp.st.wide$studies)
-
+#Fix some that have studies listed twice
+sp.st.wide$studies[which(sp.st.wide$spname=="Picea.abies")]<-"basler12, basler14, gomory15, laube14a, laube14b, partanen01, partanen98, worrall67"
 #strsplit(sp.st.wide$spname,".", fixed=TRUE))
+sp.st.wide$studies[which(sp.st.wide$spname=="Fagus.sylvatica")]<-"falusi03, falusi90, falusi96, falusi97, basler12, basler14, caffarra11a, heide93a, zohner16"
+sp.st.wide$studies[which(sp.st.wide$spname=="Betula.pendula")]<-"heide93, li05, rinne97, basler12, laube14a, laube14b, linkosalo06, myking95, skuterud94"
+
 sp.st.table<-subset(sp.st.wide,select=c(spname,stnum,studies))
 write.csv(sp.st.table,"../../analyses/output/supptables/speciestable.csv", row.names = FALSE)

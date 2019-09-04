@@ -11,6 +11,10 @@
 
 # Using work from Liz Stebbins
 
+## Updates by Cat 19 August 2019 - new data cleaning ## 
+# starts at line 54
+# Just a reminder - 'ambient' is not cleaned here... we fix in bb_analysis/cleaning
+
 
 # charrier11 - change ambient to 25 for both forcetemp and forcetemp_night
 d <- within(d, forcetemp[datasetID== 'charrier11' & forcetemp == 'ambient'] <- 25)
@@ -46,6 +50,25 @@ d$forcetemp[which(d$datasetID == "schnabel87" & d$other.treatment=="environmenta
 d$other.treatment[d$datasetID == "schnabel87"]
 # yazdaniha64 - change ambient to ambient to 17
 d <- within(d, forcetemp[datasetID== 'yazdaniha64' & forcetemp == 'ambient'] <- 17)
+
+############ New data cleaning starts here #############
+### New datasets needing attention: richardson18, fu19, fu_2018, prevey18
+
+# richardson18: open top chambers, can determine temperture using climate data if later we choose to
+# [1] "ambient"        "ambient + 2.25" "ambient + 4.5"  "ambient + 6.75" "ambient + 9" 
+
+# fu19: also uses ambient, can determine temperature using climate data if later we choose to
+# [1] "ambient"   "ambient+0" "ambient+1" "ambient+2" "ambient+3" "ambient+4" "ambient+5"
+
+# fu_2018: fu19: also uses ambient, can determine temperature using climate data if later we choose to
+# [1] "ambient-1" "ambient"   "ambient+1" "ambient+3" "ambient+4" "ambient+2" "ambient+5"
+
+# prevey18: 
+# [1] "ambient_5.7"            "webstergreenhouse_14.4" "webster_4.3" 
+d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == 'ambient_5.7'] <- "ambient")
+d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == '"webstergreenhouse_14.4"'] <- 16)
+d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == '"webster_4.3"'] <- "ambient")
+
 
 stop("Not an error, just stopping here to say we're now done cleaning forcetemp. The d item in your workspace is now all cleaned up for its forcetemp. Yay!")
 
