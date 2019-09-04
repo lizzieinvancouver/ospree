@@ -1,15 +1,18 @@
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
-setwd("~/")
+setwd("~/Documents/Ph.D/OSPREE/sep_data1/")
+
 library(data.table)
 library(tidyverse)
 library(dplyr)
 library(readr)
 library(reshape2)
+library(plyr)
+library(janitor)
 
-files <- as.character(list.files(path="~/Documents/Ph.D/OSPREE/sep_data/"))
-readLines(paste("~/Documents/Ph.D/OSPREE/sep_data/",.Platform$file.sep,files[1],sep=""))
+files <- as.character(list.files(path="~/Documents/Ph.D/OSPREE/sep_data1/"))
+readLines(paste("~/Documents/Ph.D/OSPREE/sep_data1/",.Platform$file.sep,files[1],sep=""))
 
 ###Abisko_SheffieldDatabase 
 ####Now, using reshape2, convert it from long to wide formatted data
@@ -400,3 +403,31 @@ tmp37<- LeafStructure_wide[,c(1:5, 8:9)]
 ###Writing CSV
 write.csv(tmp37, file="LeafStructure_VenationandEconomicSpectrum.csv", row.names = TRUE)
 
+##############################
+#loop for cleaning
+##############################
+df <- list.files(full.names = TRUE) %>% 
+  lapply(read_csv) %>% 
+  bind_rows 
+
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+
+##try this code
+filenames <- list.files(path="~/Documents/Ph.D/OSPREE/sep_data1/", full.names=TRUE)
+import.list <- llply(filenames, read.csv)
+
+data <- Reduce(function(x, y) merge(x, y, all=T,
+by=colnames(import.list[1])), import.list, accumulate=F)
+#######
+
+myfiles = list.files(path="~/Documents/Ph.D/OSPREE/sep_data1/", pattern="*.csv", full.names=TRUE)
+myfiles
+dat_clean = ldply(myfiles, read_csv)
+dat_clean
+
+Trydata <- dcast(dat_clean, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+unique(ObsDataID)~DataName, value.var = "OrigValueStr", na.rm=TRUE)
+unique(Trydata$`Exposition light / irradiance`)
+
+Trydata %>% 
+  summarise_all((funs(sum(is.na(.)))))
