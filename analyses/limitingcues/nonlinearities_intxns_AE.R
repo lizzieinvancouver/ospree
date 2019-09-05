@@ -37,19 +37,20 @@ df$bb <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff*(df$force*df$phot
 #Plot the model with interactions and the simple model
 pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
 #quartz()
-plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-120,70), xlim=c(0,40), main="changing f*p, with all interactions")
 colz <- c("orange", "deeppink", "darkred")
+
+plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-120,70), xlim=c(0,40), main="changing f*p, with all interactions")
 lines(bb.simple~force, data=df, col=colz[3])
 text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=.5)
 text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=.5)
 
 #look at effect of changing the sign and magnitude of fp interaction only (keept pceff constant)
+ncols<-dim(df)[2]
 
 for(i in 1:length(fpeff.alt)){
   
 newcol<- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt[i]*(df$force*df$photo) + fceff*(df$force*df$chill) +
     pceff.alt*(df$chill*df$photo)
-ncols<-dim(df)[2]
 df<-cbind(df,newcol)
 colnames(df)[ncols+i]<-paste("bb.alt",fpeff.alt[i], sep="_")
 lines(newcol~df$force, col=colz[2])
@@ -63,17 +64,15 @@ fpeff.alt <- c(-0.1,-.01,  0, 0.01,.05,.07, .1, .2)
 
 #quartz()
 plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-170,60), xlim=c(0,40), main="changing f*p, with only f*p")
-colz <- c("orange", "deeppink", "darkred")
 lines(bb.simple~force, data=df, col=colz[3])
 text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=.5)
 text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=.5)
+ncols<-dim(df)[2]
 
 for(i in 1:length(fpeff.alt)){
   newcol<- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt[i]*(df$force*df$photo)
-  ncols<-dim(df)[2]
-  
   df<-cbind(df,newcol)
-  colnames(df)[12+i]<-paste("bb.altonly",fpeff.alt[i], sep="_")
+  colnames(df)[ncols+i]<-paste("bb.altonly",fpeff.alt[i], sep="_")
   lines(newcol~df$force, col=colz[2])
   text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("fp=",fpeff.alt[i]),col=colz[2], cex=.5)
 }
