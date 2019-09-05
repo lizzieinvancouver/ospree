@@ -17,7 +17,8 @@ d$force_type<-NA
 amb<-d[which(d$forcetemp=="ambient"),]
 unique(amb$datasetID)
 ### "boyer"       "cannell83"   "falusi96"    "fu13"        "guak98"      "gunderson12" "lamb37"     
-### "morin10"     "sanzperez10" "sonsteby13" 
+### "morin10"     "sanzperez10" "sonsteby13"
+## new as of data update in 2019: c("fu_2018", "fu19", "prevey18", "richardson18") # will change to fu18
 blank<- d[which(d$forcetemp==""),]
 nas<-d[which(is.na(d$forcetemp)),]
 unique(nas$datasetID)

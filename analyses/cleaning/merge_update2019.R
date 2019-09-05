@@ -41,6 +41,9 @@ head(dss[,54:75])
 dss[,54:75] <- NULL
 dim(dss)
 
+# fix weird name
+dmb$datasetID[dmb$datasetID=="fu_2018"] <- "fu18"
+
 # Put the data together (not pretty but not really worth it to apply now)
 d <- rbind(cjc, dl)
 d <- rbind(d, dmb)
