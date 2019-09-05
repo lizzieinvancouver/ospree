@@ -10,7 +10,7 @@
 \usepackage{natbib}
 \usepackage{pdflscape}
 \usepackage{array}
-\usepackage{gensymb}---
+\usepackage{gensymb}
 %\usepackage[backend=bibtex]{biblatex}
 %Strongly recommended
   %put your figures in one place
@@ -26,14 +26,14 @@
 
 %Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
 %Here's how to do that
- \topmargin -1.5cm        
- \oddsidemargin -0.04cm   
- \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
- \textwidth 16.59cm
- \textheight 21.94cm 
- %\pagestyle{empty}       % Uncomment if don't want page numbers
- \parskip 7.2pt           % sets spacing between paragraphs
- %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\topmargin -1.5cm        
+\oddsidemargin -0.04cm   
+\evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+\textwidth 16.59cm
+\textheight 21.94cm 
+%\pagestyle{empty}       % Uncomment if don't want page numbers
+\parskip 7.2pt           % sets spacing between paragraphs
+%\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
 \parindent 0pt% sets leading space for paragraphs
 \usepackage{setspace}
 %\doublespacing
@@ -48,14 +48,55 @@
 
 %Start of the document
 \begin{document}
+
 \SweaveOpts{concordance=FALSE}
 %\SweaveOpts{concordance=TRUE}
- \bibliographystyle{..//..//refs/bibstyles/amnat.bst}
+
+\bibliographystyle{..//..//refs/bibstyles/amnat.bst}
 \title{Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
 \author{A.K. Ettinger, D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, E. Wolkovich}
-\date{}
-\maketitle  %put the fancy title on
+
+\author[1,2,a]{A. K. Ettinger}
+
+\author[2,3]{D. M. Buonaiuto}
+
+\author[2,3]{C. J. Chamberlain}
+
+\author[2,3,4,5]{I. Morales-Castilla}
+
+\author[2,3,6]{E. M. Wolkovich}
+
+
+\affil[1]{Arnold Arboretum of Harvard University, Boston, Massachusetts 02131, USA}
+
+\affil[2]{Arnold Arboretum of Harvard University, Boston, Massachusetts 02131, USA}
+
+\affil[3]{Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, Massachusetts, USA}
+
+\affil[4]{Department of Life Sciences, University of Alcal\`a CTRA N-II, KM., 33,600, 28802, Alcal\`a de Henares, Spain}
+
+\affil[5]{Department of Environmental Science and Policy, George Mason  University, Fairfax, Virginia, USA}
+ 
+\affil[6]{Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, Vancouver, British Columbia, Canada}
+
+
+\affil[a]{Corresponding author; email: ailene.ettinger@noaa.gov; phone: 781-296-4821; mailing address: Northwest Fisheries Science Center, NOAA, 2725 Montlake Blvd W, Seattle, WA 98118 USA}
+
+\date{} 
+
+\maketitle %put the fancy title on
+\textbf{Statement of authorship} 
+All authors conceived of this manuscript, which was inspired by our discussions at a Radcliffe Exploratory Seminar in 2016, and all authors contributed to manuscript revisions. AKE and EMW conceived of the idea for the literature review, database compilation, and related Radcliffe Exploratory Seminar. AKE compiled the datasets; AKE and CRR analyzed the data and created the figures; AKE wrote the manuscript.
+
+\textbf{Data Accessibility} The OSPREE database is available at KNB \citep[doi:10.5063/F1QV3JQR][]{wolkovich2019}.
+
+\textbf{Running head} Shifts in photoperiod with climate change
+
+\textbf{Key words} Shifts in photoperiod with climate change
+
+\textbf{Paper type} Opinion
+
 %\tableofcontents      %add a table of contents
 %\clearpage
 %New goal is GCB Perspective
@@ -67,27 +108,26 @@
 %    Does your paper fall within the scope of GCB; what biological AND global change aspects does it address?
 %    What are the three most recently published papers that are relevant to this question? This information will assist the Editors in selecting reviewers.
 
-%pinion articles should be no more than 5000 words and have no more than 8 tables and figures. 
+%Opinion articles should be no more than 5000 words and have no more than 8 tables and figures. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{Summary}
-% EMW: Edits below ... some fundamental English issues in first sentence (unclear subject in second half of sentence) and then just trying to clarify why we are telling the reader a few bits
-Climate change causes both temporal and geographic shifts in species, which in turn affect the daylength (photoperiod) that species experience. As photoperiod is a common trigger of seasonal biological responses (e.g., affecting plant phenology in 84\% of studies that manipulated photoperiod), such shifts in experienced photoperiod may have important implications for the future distribution and fitness of many species. However, photoperiod has not been a focus of climate change forecasting to date, especially for early-season (`spring') events---which are often assumed to be driven by temperature. Here we show that impacts on experienced photoperiod due to temporal shifts could be quite large and may be orders of magnitude larger than impacts due to spatial shifts (e.g., 1.6 hours change versus a minute). Incorporating these effects into forecasts may be possible by leveraging existing experimental data; for example, growth chamber experiments on woody plant spring phenology often have data relevant for climate change impacts. We highlight how new modelling approaches to improve predictions of when, where, and how much photoperiod is likely to affect future spring phenology, combined with new empirical work to identify and understand biogeographic and phenotypic variation in photoperiod, could rapidly advance our understanding. %currently 196 words 
+\section*{Abstract}
+Climate change causes both temporal and geographic shifts in species; these shifts in turn affect the daylength (photoperiod) that species experience. As photoperiod is a common trigger of seasonal biological responses (e.g., affecting plant phenology in 84\% of studies that manipulated photoperiod), such shifts in experienced photoperiod may have important implications for the future distribution and fitness of many species. However, photoperiod has not been a focus of climate change forecasting to date, especially for early-season (`spring') events---which are often assumed to be driven by temperature. Here we show that impacts on experienced photoperiod due to temporal shifts could be quite large and may be orders of magnitude larger than impacts due to spatial shifts (e.g., 1.6 hours of change for expected temporal shifts versus one minute for spatial shifts). Incorporating these effects into forecasts may be possible by leveraging existing experimental data; for example, growth chamber experiments on woody plant spring phenology often have data relevant for climate change impacts. We highlight how novel modelling approaches to improve predictions of when, where, and how much photoperiod is likely to affect future spring phenology, combined with new empirical work to identify and understand biogeographic and phenotypic variation in photoperiod, could rapidly advance our understanding. %currently 196 words 
 
 \section*{Introduction}
 % EMW: The 'indeed' below did not make sense to me, so a few changes ... we also should be careful in how we use (and define) sensitivity I think. 
-\par Shifts in the timing of spring events---i.e., phenology, including flowering, bird arrival, egg hatching and myriad other biological activities---are some of the most widely documented signals of climate change. Across taxa, from plants and insects to mollusks and mammals, spring phenology is occurring earlier as temperatures warm, with average shifts of 1.2 to 5.1 days earlier per decade \citep{bradley1999,parmesan2003, root2003} or 1.3 to 5.6 days earlier per \degree C of warming \citep{Wolkovich:2012n,polgar2013}. These changes are some of the largest average shifts observed with warming, with early spring phenology shifting more rapidly than later season phenology in most cases \citep{bradley1999,menzel2006}, and suggest temperature is a major driver of spring phenophases.
+\par Shifts in the timing of spring events---i.e., phenology, including flowering, bird arrival, egg hatching and myriad other biological activities---are some of the most widely documented signals of climate change. Across taxa, from plants and insects to mollusks and mammals, spring phenology is occurring earlier as temperatures warm, with average shifts of 1.2 to 5.1 days earlier per decade \citep{bradley1999,parmesan2003, root2003,poloczanska2013} or 1.3 to 5.6 days earlier per \degree C of warming \citep{Wolkovich:2012n,polgar2013}. These changes are some of the largest average climate change induced shifts observed, with early spring phenology shifting more rapidly than later season phenology in most cases \citep{bradley1999,menzel2006}, and suggest temperature is a major driver of spring phenophases.
 
 \par Spring phenology is not controlled solely by temperature, however. Photoperiod is also a critical cue for plants and animals, signaling changes in growth, mating, and reproduction across diverse species \citep[e.g.,][]{Howe:1996,flynn2018,solbakken1994,mcallan2006,lagercrantz2009}. Photoperiod is often used to synchronize activities with seasonal climatic changes \citep[e.g.,][]{Hsu:2011,Singh:2017,Basler:2012} because it is consistent across years, especially compared to other seasonal cues such as temperature and precipitation \citep{saikkonen2012}. For example, relying on a threshold photoperiod (see Glossary), rather than temperature alone, may prevent woody plants from leafing out during ``false spring" events \citep[unusually warm periods during winter that are followed by a return of cold temperatures,][] {Gu2008}. With current rapid warming photoperiod may also potentially slow the observed trend of advancing spring phenology. 
 
-\par Recent studies offer inconsistent views about whether photoperiod may eventually restrict advances in spring phenology in a warmer world. Some studies suggest that, with additional warming, photoperiod will limit phenological shifts of certain species such that they will not track rising temperatures \citep[e.g., by leafing out earlier in the spring,][]{koerner2010b,way2015}. Instead, these species' responses will increasingly become constrained by daylength. Other studies, however, suggest that photoperiod will not constrain responses to warming for most species \citep{zohner2016,chuine2010}. The extent to which daylength constrains responses will depend in part on how rapidly threshold photoperiod can acclimate or adapt to new environmental conditions, which remains an open question \citep{grevstad2015}.
+\par Recent studies offer inconsistent views about whether photoperiod may eventually restrict advances in spring phenology in a warmer world. Some studies suggest that, with additional warming, photoperiod will limit phenological shifts of certain species such that they will not track rising temperatures \citep[e.g., by leafing out earlier in the spring,][]{koerner2010b,way2015}. Instead, these species' responses will increasingly become constrained by daylength and the trend of increasingly earlier springs with warming may halt. Other studies, however, suggest that photoperiod will not constrain responses to warming for most species \citep{zohner2016,chuine2010}. The extent to which daylength constrains responses will depend in part on how rapidly threshold photoperiod can acclimate or adapt to new environmental conditions, which remains an open question \citep{grevstad2015}.
 
-\par Perhaps because of these variable and uncertain responses, photoperiod is often not included in forecasts of biological responses to climate change, especially in the spring, even though it is known to be an important cue for biological activity \citep[but see ][]{duputie2015,Caffarra:2011qf,grevstad2015}. The exclusion of photoperiod may be problematic: although photoperiod itself is stable over time, the photoperiod that species \emph{experience}, as they undergo climate change-induced shifts in space and time, is likely to be much less stable. With recent warming, many species have shifted their distributions poleward and upward in elevation \citep[i.e., range shifts,][]{parmesan2006,chen2011,harsch2009,penuelas2003}, and/or shifted their activity earlier in the year \citep[i.e., phenological shifts][]{parmesan2006, Wolkovich:2012n}. These spatial and temporal shifts will alter the photoperiod regime experienced by organisms (Figure \ref{fig:spacetime}).  Altered photoperiods may have cascading effects on species' performance, since daylength can affect the timing of development \citep{muir1994,grevstad2015}, migration \citep{dawbin1966}, and other important responses. 
+\par Perhaps because of these variable and uncertain responses, photoperiod is often not included in forecasts of biological responses to climate change, especially in the spring, even though it is known to be an important cue for biological activity \citep[but see ][]{duputie2015,Caffarra:2011qf,grevstad2015}. The exclusion of photoperiod may be problematic: although photoperiod itself is stable over time, the photoperiod that species \emph{experience}, as they undergo climate change-induced shifts in space and time, is likely to be much less stable. With recent warming, many species have shifted their distributions poleward and upward in elevation \citep[i.e., range shifts,][]{parmesan2006,chen2011,harsch2009,penuelas2003}, and/or shifted their activity earlier in the year \citep[i.e., phenological shifts][]{parmesan2006, Wolkovich:2012n}. These spatial and temporal shifts alter the photoperiod experienced by organisms (Figure \ref{fig:spacetime}).  Altered photoperiods may have cascading effects on species' performance, since daylength can affect the timing of development \citep{muir1994,grevstad2015}, migration \citep{dawbin1966}, and other important responses. 
 
 % EMW: I have a couple concerns with this paragraph that I am not sure how to address: (1) It feels rather out of place (what exact point are we trying to make and is this the place to make it?) (2) we introduce threshold above but it feels a little unnecessarily complicated here. 
-When a population is moved to a new location with even a slight difference in climate, latitude, or seasonal timing, the genetically based photoperiod response is likely to be maladapted, leading to a life cycle that is asynchronous with resources or that includes too many or too few generations for the season duration (Danilevskii 1965). Models that ignore photoperiod responses in their forecasts are effectively assuming that the threshold photoperiod changes instantaneously with new conditions \citep{gevstadt2015}. 
+%When a population is moved to a new location with even a slight difference in climate, latitude, or seasonal timing, the genetically based photoperiod response is likely to be maladapted, leading to a life cycle that is asynchronous with resources or that includes too many or too few generations for the season duration (Danilevskii 1965). Models that ignore photoperiod responses in their forecasts are effectively assuming that the threshold photoperiod changes instantaneously with new conditions \citep{grevstad2015}. 
 \par The implications of potential climate-change induced shifts in experienced photoperiod are unclear, since the magnitude of potential shifts has not been described. Effects of photoperiod shifts may be relatively minor, especially because there can be substantial year-to-year variation in experienced photoperiod (Figure \ref{fig:greenup}). Alternatively, photoperiod may begin to constrain species' responses to climate change \citep{koerner2010b}.
 
 \par Here, we ask: 
@@ -96,7 +136,7 @@ When a population is moved to a new location with even a slight difference in cl
 \item What are the implications of altered photoperiods for biological responses to climate change?
 \item Can research apply experiments that alter photoperiod to forecasting biological implications of climate change?
 
-\end{enumerate} %EMW: Below is good!
+\end{enumerate}
 \par These questions are broadly relevant for diverse species. Here, we use a case study of spring woody plant phenology to illustrate our points (Box 1). We focus on spring events, as phenology during this time is one of the most widely observed and rapidly changing biological responses to climate change \citep{parmesan2006}. Woody species are a useful focal group because they have been the subject of decades of growth chamber experiments, are the focus of an important and controversial debate on the relative effects of photoperiod versus temperature on their phenology, and because forecasting effects of climate change on their phenology (i.e., the length of the growing season) has critical implications for global carbon cycling and feedbacks to the climate system \citep{richardson2013}. We use studies included in Observed Spring Phenology Responses in Experimental Environments (OSPREE), a new database of plant growth chamber studies that manipulate photoperiod and temperature to measure plant phenological responses, including budburst and flowering \citep{wolkovich2019}.%The database includes studies that manipulate photoperiod by applying treatments with different daylength durations, applying long-day versus short-day conditions for different lengths of time, and/or applying varying vs contant photoperiods. HK: You don't seem to use the database until Future directions and box 1. I kept looking for more insignt from database in your first 2 sections.Also I think you need more info about the database somewhere
 
 
@@ -119,7 +159,7 @@ With future climate change, it is unclear how these complexities will affect the
 
 
 \section*{What are the implications of altered photoperiods for biological responses to climate change?}
-\par Daylength can play a role in controlling critical biological functions, including vegetative growth, cell elongation, budburst, and flowering in plants \citep{Linkosalo:2006aa,erwin1998,sidaway2010,Hsu:2011,Heide:2011aa,Ashby:1962aa,Heide:2012aa,mimura2007} and growth rate, maturation, and diapause in animals \citep{muir1994,bradshaw2006,saunders1970,tobin2008}. Climate change-induced shifts in photoperiod are therefore likely to alter these functions. 
+\par Daylength can play a role in controlling critical biological functions, including vegetative growth, cell elongation, budburst, and flowering in plants \citep{Linkosalo:2006aa,erwin1998,sidaway2010,Hsu:2011,Heide:2011aa,Ashby:1962aa,Heide:2012aa,mimura2007} and growth rate, maturation, migration, and diapause in animals \citep{muir1994,bradshaw2006,saunders1970,tobin2008,zydlewski2014}. Climate change-induced shifts in photoperiod are therefore likely to alter these functions. 
 Indeed, growth chamber studies demonstrate that the magnitude of daylength shifts we can expect with climate change (i.e., 1-2 hours of difference in daylength with temporal shifts over the next century) are substantial enough to affect spring phenology in trees (Table S1). The direction and magnitude of responses will vary, however, because of variation in photoperiod sensitivity, and because photoperiod often interacts with other environmental drivers, such as temperature, to affect phenology (Box 1). % EMW: Better to cite zydlewski2014 in the box (the current formation implies our whole box info overlaps with zydlewski2014
 %removed from below paragraph:  Over the past century, spring phenology has shifted earlier in diverse species \citep{menzel2000,ovaskainen2013,penuelas2002,polgar2013}, a pattern that, to date, can be largely explained by warming spring temperatures. 
 
@@ -166,23 +206,20 @@ whereas process-based models of phenology more frequently incorporate photoperio
 Organisms may undergo large changes to the photoperiod they experience with climate change, even if they do not shift their ranges spatially. Here we have addressed how an altered photoperiod may affect woody plant budburst (Table S1, Figure \ref{fig:photomap}). Shifts in photoperiod with climate change have implications for a variety of plant and animal responses, given that daylength affects critical activities for diverse species from insects \citep{bradshaw2006,linn1996} and salmon \citep{solbakken1994,taranger2003} to birds \citep{dawson2001} and marsupials \citep{mcallan2006,solbakken1994}. Given what we know, incorporating photoperiod into forecasting of climate change responses should improve model accuracy, and will illuminate additional experiments that could improve our mechanistic understanding of photoperiod as a critical cue to diverse biological responses. 
 \section* {Glossary}
 \begin{itemize}
-\item \underline{budburst}: the emergence of new leaves on a plant at the beginning of the growing season. %EMW: Maybe ask Cat or someone to fix this? I don't think budburst is only at the start of the season and we may need to be more explicit in the 'emergence of new leaves' part .... 
+\item \underline{budburst}: the emergence of new leaves on a plant at the beginning of the growing season. %%CC: Please fix (EMW says "I don't think budburst is only at the start of the season and we may need to be more explicit in the 'emergence of new leaves' part ....") 
 \item \underline{chilling}: the intensity and duration of winter temperature; critical chilling is the required amount of hours or days of cold temperature, defined by a specific critical temperature (e.g., 4 \degree C add citation), that must be experienced for budburst to occur.
 \item \underline{daylength}: the period of time during a 24-hour period during which an organism receives light.
 
-%\item \underline{ecodormancy}: dormancy (e.g., halted or reduced growth) brought about by external conditions, such as cold temperatures or drought conditions, and during which individuals can break dormancy with appropropriate weather conditions, such as a warm spell. %DB--May 23 Do we actually ever use eco and endo dormancy in the paper? I didn't notice it
+%\item \underline{ecodormancy}: dormancy (e.g., halted or reduced growth) brought about by external conditions, such as cold temperatures or drought conditions, and during which individuals can break dormancy with appropropriate weather conditions, such as a warm spell. 
 %\item \underline{endodormancy}: dormancy brought about by internal (rather than environmental) conditions, and during which individuals cannot break dormancy due to weather conditions, such as a warm spell. 
 \item \underline{diapause}: period of suspended development or growth, usually used to describe invertebrates during unfavorable environmental conditions such as winter
 \item \underline{dormancy}: halted or reduced growth or activity, usually used to describe plants
 \item \underline{forcing}: warm spring temperatures, critical forcing is the required amount of hours or days above a specific temperature, that must be experienced before budburst or flowering can occur.
 \item \underline{green-up}: The beginning of a new cycle of plant growth, usually evaluated at the landscape scale
-%\item \underline{external coincidence model}: a model for how light sensing occurs in plants, first proposed by German biologist Erwin Bünning % This isn't working.. you can try \''{u}, \dot{u} or \ddot{u} - hopefully one does the trick!
-%; it proposes the existence of a circadian rhythm of photoperiodic photosensitivity in which the night-phase is sensitive to light and the day-phase is insensitive to light. 
-%\item \underline{vernalization}: exposure of plants or seeds to low temperatures, often in order to stimulate flowering or to enhance seed production; analogous to chilling.
 \item \underline{phenology}: the timing of life cycle events in organisms
 \item \underline{photoperiod}: the daily duration of light (daylength) and dark to which an organism is exposed; often used synonymously with daylength
 \item \underline{photoperiodism}: the ability to assess the length of day or night to regulate behavior, physiology, growth, development or reproduction.
-\item \underline{threshold photoperiod}: length of day that causes an individual to switch from a long-- to a short--day response (or vice versa). %EMW: Can you give an example? This seems critical for readers to understand I think. 
+\item \underline{threshold photoperiod}: length of day that causes an organism to switch from a short-- to a long--day response (or vice versa). For example, budburst development in European larch \emph{Larix decidua} was assumed to be constrained (i.e., the short--day response) when daylengths were less than the threshold photoperiod \citep[10-11 hours according to one model in ][]{migliavacca2008}. Above the threshold photoperiod phenological development was assumed to be unconstrained (the long--day response).
 \end{itemize}
 \section*{Box 1. Are photoperiod effects widespread? A case study of woody plant spring phenology}
 Photoperiod responses are particularly well-studied in woody plant phenology. Decades of experimental growth chamber studies have shown that photoperiod is an important cue for spring budburst phenology in woody plants \citep[e.g.,][]{Heide:1993a,Basler:2014aa,flynn2018}. These experiments often manipulate photoperiod in combination with temperature to address basic questions about how these two environmental conditions act as biological cues. Temperature has a dual role in regulating woody plant phenology: chilling---the prolonged exposure to cold temperatures after growth cessation in the fall---is required to initiate budburst; and forcing---prolonged exposure to warm temperatures---is required for budburst to occur. Thus, chilling and forcing treatments are often altered in addition to photoperiod in growth chamber experiments \citep[e.g.,][]{Campbell:1975aa,HEIDE:1977aa,Falusi:1990aa,Spann:2004aa,Laube:2014a}. %Maybe briefly do the same thing for photoperiod- how is it usually manipulated?
@@ -209,20 +246,20 @@ We thank the many researchers who conducted the experiments synthesized in this 
 \begin{figure}[p]
 \centering
 \includegraphics{..//..//analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
-\caption{\textbf{Photoperiod varies with latitude and by day of year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical spatial and temporal shifts. These shifts, based on observed average rates with recent global warming (\citet[e.g.,16.9 kilometers per decade (or approximately 1.5 degrees in 100 years) for spatial shifts][]{parmesan2006}, and \citet[e.g.,.3 days per decade, or 23 days in 100 years, for temporal shifts][]{chen2011}), highlight the greater magnitude in daylength changes close to the equinox (e.g., day of year 91), versus close to the summer solstice (e.g., day of year 182).}
+\caption{\textbf{Photoperiod varies with latitude and by day of year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical spatial and temporal shifts. These shifts, based on observed average rates with recent global warming (\citep[e.g.,16.9 kilometers per decade (or approximately 1.5 degrees in 100 years) for spatial shifts][]{parmesan2006}, and \citep[e.g.,.3 days per decade, or 23 days in 100 years, for temporal shifts][]{chen2011}), highlight the greater magnitude in daylength changes close to the equinox (e.g., day of year 91), versus close to the summer solstice (e.g., day of year 182).}
  \label{fig:spacetime}%
  \end{figure}
  
  \begin{figure}[p]
 \centering
-\includegraphics{..//..//docs/photoperiod/figures/Greenup_corr.pdf} %2009 greenup
-\caption{\textbf{Photoperiod on the ``green-up" date varies over space and between years} "Green-up" here is the beginning of seasonal greening, identified by satellite remote sensing measurements (here using MODIS) taken regularly throughout the year of the concentrations of green leaf vegetation. Hours of daylight on the date of spring green-up from MODIS satellite data across North America and Europe for an average (2009, a) and  early (2012,b) North American start of spring. The differences between the years (in hours of daylength) are shown in (c). See "Quantifying and mapping differences in green-up across the United States and Europe" in the Supplemental Materials for more details.}%Clarify what negative vs. positive means. Again, I would spell out the difference between years in terms of daylength wrt green-up.
+\includegraphics{..//..//docs/photoperiod/figures/Greenup_corr_lets.pdf} %2009 greenup
+\caption{\textbf{Photoperiod on the ``green-up" date varies over space and between years} "Green-up" is the beginning of seasonal greening, identified by satellite remote sensing measurements (here using MODIS) taken regularly throughout the year of the concentrations of green leaf vegetation. Hours of daylight on the date of spring green-up from MODIS satellite data across North America and Europe for an average (2009, A) and  early (2012, B) North American start of spring. The differences between the years (in hours of daylength) are shown in (C). See "Quantifying and mapping differences in green-up across the United States and Europe" in the Supplemental Materials for more details. A negative difference signifies earlier green-up in 2012 versus 2009; a positive difference is the result of later green-up in 2012 compared with 2009.}%
  \label{fig:greenup}%
  \end{figure}
  
 \begin{figure}[p]
 \includegraphics{..//..//analyses/photoperiod/figures/Photo_curv_FINAL.jpeg} 
-\caption{\textbf{Nonlinearities in phenological responses to daylength} are apparent in spring woody plant phenology experiments from the OSPREE database, in which three or more photoperiod treatment levels were applied. The shape of the response curves for \textit{Betula pubescens} \citep{Caffarra:2011b}, \textit{Fagus sylvatica} \citep{Heide:1993a} and \textit{Tilia americana} \citep{Ashby:1962aa} differ depending on the amount of winter chilling received (measured in Chill portions). Species and chilling levels with multiple lines represent plant material from different populations.}
+\caption{\textbf{Nonlinearities in phenological responses to daylength} are apparent in spring woody plant phenology experiments (from the OSPREE database) in which three or more photoperiod treatment levels were applied. The shape of the response curves for \textit{Betula pubescens} \citep{Caffarra:2011b}, \textit{Fagus sylvatica} \citep{Heide:1993a} and \textit{Tilia americana} \citep{Ashby:1962aa} differ depending on the amount of winter chilling received (measured in Chill portions). Species and chilling levels with multiple lines represent plant material from different populations.}
 %Note: Hard to tell difference between Tilia and FAgus
 %HK: Can you separate figure into 2 graphs? I'd also like to see the zoomed in portion but zoomed out. I find this figure hard to interpret
  \label{fig:photocurve}
