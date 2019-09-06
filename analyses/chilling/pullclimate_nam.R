@@ -51,7 +51,7 @@ for(i in 1:nrow(nam)){ # i = 5
     tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr), full.names = TRUE)
     tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr-1), full.names = TRUE)
     tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",yr), full.names = TRUE)
-    tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr-1), full.names = TRUE)
+    tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",yr-1), full.names = TRUE)
     jx <- nc_open(tmax)
     jxprev <- nc_open(tmaxprev)
     jn <- nc_open(tmin)

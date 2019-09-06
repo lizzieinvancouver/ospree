@@ -25,8 +25,14 @@ d$year <- as.numeric(as.character(d$year))
 d$fieldsample.date2<-as.character(as.Date(d$fieldsample.date2,"%m/%d/%y")) #needed for new version
 #add column for when experimental chilling is added to field chilling (this gets done in the interpolclimate.R file and we need to be able to merge it back in- only 2 studies do this so I am adding it by hand)
 d$addexpwarm<-0
-#d[d$chilltemp=="ambient + 4",]$addexpwarm<-"ambplus4" ## From original dataset
-#d[d$chilltemp=="ambient + 0.76",]$addexpwarm<-"ambplus0.76" ## From original dataset
+d[which(d$chilltemp=="ambient + 4"),]$addexpwarm<-"ambplus4" ## From original dataset
+d[which(d$chilltemp=="ambient + 0.76"),]$addexpwarm<-"ambplus0.76" ## From original dataset
+
+## Now adding in from new dataset ambient +'s 
+d[which(d$chilltemp=="ambient + 2.25"),]$addexpwarm<-"ambplus2.25"
+d[which(d$chilltemp=="ambient + 4.5"),]$addexpwarm<-"ambplus4.5"
+d[which(d$chilltemp=="ambient + 6.75"),]$addexpwarm<-"ambplus6.75"
+d[which(d$chilltemp=="ambient + 9"),]$addexpwarm<-"ambplus9"
 
 d2 <- as.data.frame(d)
 
