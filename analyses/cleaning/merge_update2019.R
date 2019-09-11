@@ -15,10 +15,6 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 } else 
 setwd("~/Documents/git/ospree/analyses")
 
-# Load libraries
-library(dplyr)
-library(tidyr)
-
 # Get the data
 cjc <- read.csv("input/update2019/ospree_2019update_cjc.csv")
 dl <- read.csv("input/update2019/ospree_2019update_dl.csv")
@@ -43,6 +39,13 @@ dim(dss)
 
 # fix weird name
 dmb$datasetID[dmb$datasetID=="fu_2018"] <- "fu18"
+
+# extract year for ramos17
+checknayear <- ks[which(is.na(ks$year)==TRUE),]
+unique(checknayear$datasetID)
+ks$year[which(is.na(ks$year)==TRUE)] <- format(as.Date(ks$fieldsample.date[which(is.na(ks$year)==TRUE)],
+    format="%d/%b/%Y"), "%Y")
+ks[which(is.na(ks$year)==TRUE),]
 
 # Put the data together (not pretty but not really worth it to apply now)
 d <- rbind(cjc, dl)
