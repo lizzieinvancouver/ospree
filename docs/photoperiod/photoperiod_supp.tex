@@ -56,16 +56,25 @@
 \maketitle  %put the fancy title on
 %\tableofcontents      %add a table of contents
 %\clearpage
-%goal is NCC Perspective
-%Need to submit "brief synopsis through our online submission system before preparing a manuscript for formal submission. The synopsis should outline the topics that will be covered, list any recent, key publications in the area, and state the last time the topic was reviewed (if it has been reviewed previously)."
-%should be presented using simple prose, avoiding excessive jargon and technical detail.
-%3,000–5,000 words and typically include 4–6 display items (figures, tables or boxes). 
-%up to 100 references; citations should be selective. 
+
+%goal is GCB Opinon
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\thetable}{S\arabic{table}}
 
 \section*{Supplemental Methods}
-\par \textbf{Quantifying and mapping differences in green-up across the United States and Europe (Figure 2)}
-\par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics--- to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geopshere (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we substracted the 2013 green-up map from the 2009 one. The spatial resolution corresponding to the maps is of 0.1 x 0.1 degrees.
+
+\par \textbf{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database}
+\par The OSPREE database is a compilation of 72 controlled environment studies of budburst responses to temperature and photoperiod, and spans 39 years and 203 woody plant species \citep{wolkovich2019}.  To identify studies for the database, we searched ISI Web of Science and Google Scholar with the following terms: 
+\begin{enumerate}
+\item TOPIC = (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*, which yielded 85 publications
+
+\item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
+
+The initial searches yielded 201 papers, which were reviewed. OSPREE includes the subset of those studies that focus on temperate woody plants, tested for photoperiod and/or temperature effects on budburst, leafout, or flowering, and for which we could quantitatively identify forcing, photoperiod, and chilling treatments.
+
+\end{enumerate}\par \textbf{Quantifying and mapping differences in green-up across the United States and Europe (Figure 2)}
+\par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics---to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using R function "daylength" in package geosphere (see Fig. 2a,b in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we subtracted the 2013 green-up map from the 2009 one. Thus, a negative difference signifies earlier green-up in 2012 versus 2009;  a positive difference is the result of later green-up in 2012 compared with 2009. The spatial resolution corresponding to the maps is 0.1 x 0.1 degrees.
 %% IMC - I'm not sure what level of detail we want to give here. Let me know if you want me to be more explicit/clear.
 \par \textbf{Nonlinearities in phenological responses to daylength (Figure 3)}
 \par We selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment: \citet{Ashby:1962aa,Heide:1993a} and \citet{Caffarra:2011b}. These experiments used forcing temperatures of 21 or 22\degree C. Chilling varied considerably across experiments, and chilling level was categorized as follows:
@@ -77,22 +86,23 @@
 \item >106 Chill Portions = Very High
 \end{itemize}
 
-
-\par \textbf{Mapping temporal and spacial shifts in space and time (Figure 4)}
-\par To examine the range of photoperiod treatments imposed in growth chamber experiments of woody plants, and compare these treatments to shifts in photoperiod that may be expected due to climate change induced spatial and temporal shifts, we identified all experiments in the OSPREE database with at least two photoperiod treatments; this resulted in 30 experiments (Table \ref{tab:eff}). 
-\par We wanted to compare experimental photoperiod treatment levels in these 30 experiments to temporal shifts that would be required for species to experience equivalent photoperiod shifts with climate change. To do this, we identified the dates between the winter and summer solstices on which daylengths at the latitude of the experiments matched treatment levels. When no date matched the experimental treatment level exactly, we chose the date with the most similar daylength, as long as it was within 0.5 hours of the photoperiod treatment level. For studies with only two photoperiod treatment levels, we identified matching dates for both levels. For studies with more than two daylength treatments, we identified matching dates for the lowest treatment level and the second lowest treatment level (e.g., if treatment levels were 10,12,14, and 16 hours of daylight, we identified dates with 10 and 12 hours of daylength only). This provided an estimate for the minimum temporal shift required during the spring that would equal the difference between the two treatments; that is, the minimum difference, in days, between dates with the lower daylength treatment and dates with higher daylength treatment.
+%DB: Please add some details about the species and populations included in the subset of OSPREE used in the figure. 
+\par \textbf{Mapping temporal and spatial shifts in space and time (Figure 4)}
+\par To examine the range of photoperiod treatments imposed in growth chamber experiments of woody plants, and compare these treatments to shifts in photoperiod that may be expected due to climate change-induced spatial and temporal shifts, we identified all experiments in the OSPREE database with at least two photoperiod treatments; this resulted in 30 experiments (Table \ref{tab:eff}). 
+\par We wanted to compare experimental photoperiod treatment levels in these 30 experiments to temporal shifts that would be required for species to experience equivalent photoperiod shifts with climate change. To do this, we identified the dates between the winter and summer solstices on which daylengths at the latitude of the experiments matched treatment levels. When no date matched the experimental treatment level exactly, we chose the date with the most similar daylength, as long as it was within 0.5 hours of the photoperiod treatment level. For studies with only two photoperiod treatment levels, we identified matching dates for both levels. For studies with more than two daylength treatments, we identified matching dates for the lowest treatment level and the second lowest treatment level (e.g., if treatment levels were 10, 12, 14, and 16 hours of daylight, we identified dates with 10 and 12 hours of daylength only). This provided an estimate for the minimum temporal shift required during the spring that would equal the difference between the two treatments; that is, the minimum difference, in days, between dates with the lower daylength treatment and dates with higher daylength treatment.
 In 11 out of 30 cases, the experimental treatment differences exceeded what the difference in photoperiod experienced across the entire year at a given latitude (Xs in Figure 4). 
 
-\par To compare differences between experimental photoperiod treatment levels to differences in photoperiod species would experience with spatial shifts, we identified the daylength on the summer solstice for the latitudes of all 30 experiments in Table \ref{tab:eff}. To get potential changes in daylength experienced, we compared the summer solstice daylength at each latitude to the daylength on latitudes up to 40 degrees poleward (in continuous increments of 0.1\degree). Because latitudinal variation in daylength is greatest during the solcstices, this provides a maximum possible shift in daylength, at a constant day of year. We then matched the experimental change in photoperiod between two treatments levels to the latitudinal shift that provided an equivalent change in photoperiod. In 13 out of 30 cases, the experimental treatment differences exceeded the photoperiod change that would be experienced with a latitudinal shift of up to 40 \degree (red lines in Figure 4). 
+\par To compare differences between experimental photoperiod treatment levels to differences in photoperiod species would experience with spatial shifts, we identified the daylength on the summer solstice for the latitudes of all 30 experiments in Table \ref{tab:eff}. To get potential changes in daylength experienced, we compared the summer solstice daylength at each latitude to the daylength on latitudes up to 40 degrees poleward (in continuous increments of 0.1\degree). Because latitudinal variation in daylength is greatest during the solstices, this provides a maximum possible shift in daylength, at a constant day of year. We then matched the experimental change in photoperiod between two treatments levels to the latitudinal shift that provided an equivalent change in photoperiod. In 13 out of 30 cases, the experimental treatment differences exceeded the photoperiod change that would be experienced with a latitudinal shift of up to 40\degree (red lines in Figure 4). 
 
-\par \textbf{PhenoFit Methods (Figure 5)}
-\par We took current budburst data (1981-2000) and model projection budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from the OSPREE dataset. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current observations and the model projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projection data. In the right panel for \textit{Quercus robur}, we explored the 3 OSPREE data points that have later day to budburst times than the current or projected days to budburst, which all had much lower forcing temperatures \citep[][3.8-5.7$^{\circ}$]{morin10}.
+\par \textbf{Comparing shifts in experienced photoperiod in experiments to those in the natural world with climate change (Figure 5)}
+%CC: I changed this a bit so please read and make sure it is accurate and that I am citing the correct paper for Phenofit!
+\par We took current budburst estimates (1981-2000) from PhenoFit \citep{morin05} and projected budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from OSPREE. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the current estimates and projections, we scaled the days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used Phenofit estimates that had both current and projected estimates. Note that the three OSPREE data points for \textit{Quercus robur} with extremely high days to budburst (right panel of Fig. 5 in the main text) were from an experiment with very low forcing temperatures \citep[][3.8-5.7$^{\circ}$]{Morin:2010aa}. 
 
 \section*{Supplemental Box S1. Dominant models of how photoperiod affects spring woody plant phenology}
 \par The molecular mechanisms and pathways underlying photoperiod sensitivity are poorly understood for most organisms, even in relatively well-studied phenophases such as spring budburst in woody plants \citep{ding2016}. Spring budburst in woody plants is thought to be controlled by three main cues: chilling, forcing, and photoperiod, as well as interactions between them \citep{flynn2018,Heide:2008aa, zohner2016}. Our understanding of how plants interpret photoperiod comes largely from studies of flowering in the model plant \emph{Arabidopsis thaliana} \citep[e.g.,][]{suarez2001} and fall budset in woody plant species \citep[e.g., ][]{Howe:1996}. %Similar pathways may underlie budburst phenology in woody plants \citep{lagercrantz2009,ding2016}.
 \par Plants sense light inputs by blue light receptors and phytochromes, which have been found in nearly all organs throughout the plant. Plants are thought to interpret photoperiod through a coordinated response to light in relation to the time of day. When the internal circadian rhythm coincides with an external signal (light) under certain conditions (e.g., warm days), a response is induced \citep{lagercrantz2009}. This ``external coincidence model" has been most widely studied in \emph{Arabidopsis}, and is thought to be a relevant mechanism for photoperiod responses in diverse perennial and woody plant species \citep{bunning1936,davis2002,bastow2002,kobayashi2007,andres2012,petterle2013,Singh:2017}.  
-The model proposes the existence of a circadian rhythm of light sensitivity, in which the night-phase is sensitive to light and the day-phase is insensitive to light. As days get longer in the spring, daylight illuminates the  light sensitive phase, triggering a response. %DB do we want to show a schematic for this?
-\par Little is known about the genetic pathways responsible for the light-sensing apparatuses involved in spring budburst, and how they may vary across species or populations. Some genes have been identified that play a role in coordinating budburst in poplar (\emph{Populus} spp.), and may occur in other woody species as well. Many similarities exist between the proposed regulatory networks of vegetative growth in \emph{Populus} and those controlling floral initiation in \emph{Arabidopsis}, \citet{ding2016}. For example, vegetative growth and inhibition of budset are promoted by the FLOWERING LOCUS T2 (FT2) gene, a homolog of \emph{Arabidopsis thaliana} gene FLOWERING LOCUS (FT). FT2 expression appears to be controlled by a pathway that is effective in long days and warm temperatures, marking the onset of the growing season \citep{hsu2011}. Its loss of expression in autumn, when the days are getting shorter, is associated with the onset of dormancy \citep{glover2014}.
+The model proposes the existence of a circadian rhythm of light sensitivity, in which the night-phase is sensitive to light and the day-phase is insensitive to light. As days get longer in the spring, daylight illuminates the  light sensitive phase, triggering a response. 
+\par Little is known about the genetic pathways responsible for the light-sensing apparatuses involved in spring budburst, and how they may vary across species or populations. Some genes have been identified that play a role in coordinating budburst in poplar (\emph{Populus} spp.), and may occur in other woody species as well. Many similarities exist between the proposed regulatory networks of vegetative growth in \emph{Populus} and those controlling floral initiation in \emph{Arabidopsis}, \citep{ding2016}. For example, vegetative growth and inhibition of budset are promoted by the FLOWERING LOCUS T2 (FT2) gene, a homolog of \emph{Arabidopsis thaliana} gene FLOWERING LOCUS (FT). FT2 expression appears to be controlled by a pathway that is effective in long days and warm temperatures, marking the onset of the growing season \citep{hsu2011}. Its loss of expression in autumn, when the days are getting shorter, is associated with the onset of dormancy \citep{glover2014}.
 
 \par There are large gaps in our understanding of how photoperiod sensing pathways affect budburst, the genetics behind these pathways, and the extent of species- and population-level genetic variation. Questions also remain about how photoperiod sensing interacts with temperature sensing to affect responses. For example, Figure 3 shows the most detailed data we were able to find of budburst responses across different photoperiod and chilling treatments. These data underscore how variable responses to photoperiod are, across species and populations, and with different chilling treatments. 
 
@@ -101,46 +111,46 @@ The model proposes the existence of a circadian rhythm of light sensitivity, in 
 \section* {Supplemental Tables}
 \begin{footnotesize} 
 % latex table generated in R 3.6.0 by xtable 1.8-4 package
-% Wed Aug 21 12:23:32 2019
+% Thu Sep 12 14:46:06 2019
 \begin{table}[ht]
 \centering
-\caption{\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. These studies span 176 different woody species and are mapped in Figure 4.} 
+\caption{\textbf{Locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst}, in studies in the OSPREE database with at least two photoperiod treatments. These studies span 176 different woody species and are mapped in Figure 4. In the `photoperiod effect' column, `yes' denotes studies in which authors report significant photoperiod effects on at least one focal species; `no' which denotes nonsignificant effects of photoperiod.} 
 \label{tab:eff}
 \begingroup\footnotesize
 \begin{tabular}{|p{0.22\textwidth}|p{0.07\textwidth}|p{0.12\textwidth}|p{0.07\textwidth}|p{0.07\textwidth}|p{0.15\textwidth}|p{0.1\textwidth}|}
   \hline
-reference & study & continent & latitude (\degree) & longitude (\degree) & daylength range (hrs) &  photoperiod effect \\ 
+reference & study & continent & latitude (\degree) & longitude (\degree) & daylength range (hrs) &  photoperiod effect? \\ 
   \hline
-\citet{Ashby:1962aa} & exp1 & North America & 42.99 & -89.41 & 8-16 & Y \\ 
-  \citet{Basler:2014aa} & exp1 & Europe & 46.31 & 8.27 & 9.2-16 & Y \\ 
-  \citet{Caffarra:2011b} & exp2 & Europe & 52.32 & -6.93 & 10-16 & Y \\ 
-  \citet{Falusi:1990aa} & exp1 & Europe & 46.03 & 10.75 & 9-13 & N \\ 
-  \citet{Falusi:1996aa} & exp3 & Europe & 38.27 & 15.99 & 9-13 & Y \\ 
-  \citet{Ghelardini:2010aa} & exp1 & Europe & 43.72 & 11.37 & 8-16 & N \\ 
-  \citet{Heide:2005aa} & exp1 & Europe & 56.18 & -4.32 & 10-24 & Y/N \\ 
-  \citet{Heide:2008aa} & exp1 & Europe & 48.40 & 11.72 & 10-24 & Y \\ 
-  \citet{Heide:2011aa} & exp1 & Europe & 59.67 & 10.67 & 10-20 & N \\ 
-  \citet{Heide:2012aa} & exp1 & Europe & 56.50 & -3.06 & 10-24 & Y \\ 
-  \citet{Heide:2015aa} & exp2 & Europe & 56.50 & -3.06 & 10-15 & Y \\ 
-  \citet{Heide:1993a} & exp1 & Europe & 59.50 & 10.77 & 8-24 & Y \\ 
-  \citet{Heide:1993a} & exp1 & Europe & 59.67 & 10.83 & 8-24 & Y \\ 
-  \citet{Heide:1993a} & exp3 & Europe & 47.50 & 7.60 & 13-16 & Y \\ 
-  \citet{Howe:1995aa} & exp1 & North America & 40.55 & -124.10 & 9-24 & Y \\ 
-  \citet{Laube:2014a} & exp1 & Europe & 48.40 & 11.71 & 8-16 & N \\ 
-  \citet{Myking:1995} & exp1 & Europe & 56.10 & 9.15 & 8-24 & Y \\ 
-  \citet{Nienstaedt:1966aa} & exp1 & North America & 44.17 & -103.92 & 8-20 & Y \\ 
-  \citet{Okie:2011aa} & exp1 & North America & 32.12 & -83.12 & 0-12 & Y \\ 
-  \citet{Partanen:2001aa} & exp1 & Europe & 61.93 & 26.68 & 6-16 & Y \\ 
-  \citet{Partanen:2005aa} & exp1 & Europe & 61.82 & 29.32 & 5-20 & Y \\ 
-  \citet{Partanen:1998aa} & exp1 & Europe & 60.03 & 23.05 & 8.66-12 & Y \\ 
-  \citet{Pettersen:1972aa} & exp1 & Europe & 59.66 & 10.77 & 10-24 & N \\ 
-  \citet{Sanz-Perez:2009aa} & exp1 & Europe & 40.40 & -3.48 & 10-16 & Y \\ 
-  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 60.45 & 24.93 & 16-17 & Y \\ 
-  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 67.73 & 24.93 & 20-21 & Y \\ 
-  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 60.45 & 24.93 & 15-19 & Y \\ 
-  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 67.73 & 24.93 & 22-23 & Y \\ 
-  \citet{Worrall:1967aa} & exp3 & North America & 41.31 & -72.93 & 8-16 & Y \\ 
-  \citet{zohner2016} & exp1 & Europe & 48.16 & 11.50 & 8-16 & Y \\ 
+\citet{Ashby:1962aa} & exp1 & North America & 42.99 & -89.41 & 8-16 & yes \\ 
+  \citet{Basler:2014aa} & exp1 & Europe & 46.31 & 8.27 & 9.2-16 & yes \\ 
+  \citet{Caffarra:2011b} & exp2 & Europe & 52.32 & -6.93 & 10-16 & yes \\ 
+  \citet{Falusi:1990aa} & exp1 & Europe & 46.03 & 10.75 & 9-13 & no \\ 
+  \citet{Falusi:1996aa} & exp3 & Europe & 38.27 & 15.99 & 9-13 & yes \\ 
+  \citet{Ghelardini:2010aa} & exp1 & Europe & 43.72 & 11.37 & 8-16 & no \\ 
+  \citet{Heide:2005aa} & exp1 & Europe & 56.18 & -4.32 & 10-24 & yes \\ 
+  \citet{Heide:2008aa} & exp1 & Europe & 48.40 & 11.72 & 10-24 & yes \\ 
+  \citet{Heide:2011aa} & exp1 & Europe & 59.67 & 10.67 & 10-20 & no \\ 
+  \citet{Heide:2012aa} & exp1 & Europe & 56.50 & -3.06 & 10-24 & yes \\ 
+  \citet{Heide:2015aa} & exp2 & Europe & 56.50 & -3.06 & 10-15 & yes \\ 
+  \citet{Heide:1993a} & exp1 & Europe & 59.50 & 10.77 & 8-24 & yes \\ 
+  \citet{Heide:1993a} & exp1 & Europe & 59.67 & 10.83 & 8-24 & yes \\ 
+  \citet{Heide:1993a} & exp3 & Europe & 47.50 & 7.60 & 13-16 & yes \\ 
+  \citet{Howe:1995aa} & exp1 & North America & 40.55 & -124.10 & 9-24 & yes \\ 
+  \citet{Laube:2014a} & exp1 & Europe & 48.40 & 11.71 & 8-16 & no \\ 
+  \citet{Myking:1995} & exp1 & Europe & 56.10 & 9.15 & 8-24 & yes \\ 
+  \citet{Nienstaedt:1966aa} & exp1 & North America & 44.17 & -103.92 & 8-20 & yes \\ 
+  \citet{Okie:2011aa} & exp1 & North America & 32.12 & -83.12 & 0-12 & yes \\ 
+  \citet{Partanen:2001aa} & exp1 & Europe & 61.93 & 26.68 & 6-16 & yes \\ 
+  \citet{Partanen:2005aa} & exp1 & Europe & 61.82 & 29.32 & 5-20 & yes \\ 
+  \citet{Partanen:1998aa} & exp1 & Europe & 60.03 & 23.05 & 8.66-12 & yes \\ 
+  \citet{Pettersen:1972aa} & exp1 & Europe & 59.66 & 10.77 & 10-24 & no \\ 
+  \citet{Sanz-Perez:2009aa} & exp1 & Europe & 40.40 & -3.48 & 10-16 & yes \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 60.45 & 24.93 & 16-17 & yes \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp1 & Europe & 67.73 & 24.93 & 20-21 & yes \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 60.45 & 24.93 & 15-19 & yes \\ 
+  \citet{Vihera-Aarnio:2006aa} & exp2 & Europe & 67.73 & 24.93 & 22-23 & yes \\ 
+  \citet{Worrall:1967aa} & exp3 & North America & 41.31 & -72.93 & 8-16 & yes \\ 
+  \citet{zohner2016} & exp1 & Europe & 48.16 & 11.50 & 8-16 & yes \\ 
    \hline
 \end{tabular}
 \endgroup
