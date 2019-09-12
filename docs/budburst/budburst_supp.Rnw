@@ -181,9 +181,7 @@ y_i &= \alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling}
 
 \end{enumerate}
 
-\noindent For all models, we chose weakly informative priors; increasing the priors three-fold did not change the model results. 
-
-We ran four chains simultaneously, each with 2 500 sampling iterations (1 500 of which were used for warm-up), yielding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as 713 for a few parameters in the latitude model), as well as visual consideration of chain convergence and posteriors \emph{\citep{BDA}}. 
+\noindent For all models, we chose weakly informative priors; increasing the priors three-fold did not change the model results. We ran four chains simultaneously, each with 2 500 sampling iterations (1 500 of which were used for warm-up), yielding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as 713 for a few parameters in the latitude model), as well as visual consideration of chain convergence and posteriors \emph{\citep{BDA}}. 
 
 In our figures  we show means $\pm$ 50\% credible intervals from our models (Figs. 1, \ref{fig:lat} - \ref{fig:2dfieldchillutah}), because our focus here is on the most likely value for each parameter (\emph{e.g.}, estimated response to forcing) and because they are computationally stable \emph{\citep{Carpenter:2016aa,BDA}}. See Tables \ref{tab:modsz}- \ref{tab:methods} for 95\% credible intervals. 
 
@@ -239,6 +237,12 @@ As our model results do not predict a dramatic decline in temperature sensitivit
 % Not sure we need this anywhere anymore... 
 %\par We expect climate change to continue to have dramatic effects on spring phenology, because the two temperature-derived cues (chilling and forcing) both strongly affect budburst \citep{Laube:2014a}. However, the relative importance of chilling versus forcing (i.e., the extent to which a chilling threshold will be reached and cause delays in budburst with additional warming) will vary spatially. Forcing is increasing with climate change and is therefore expected to continue advancing budburst. Chilling, on the other hand, is expected to increase in some locations and decrease in others with climate change \citep{fraga2019}, so budburst responses may advance less strongly in places where chilling declines. In some locations, budburst may even delay with substantial amounts of warming (e.g. X degrees, as is forecasted for the end of the 21st century, IPCC, Fig. \ref{fig:fore}) as chilling limitations come into play. 
 
+\subsection*{Data Availibility} 
+The OSPREE database is available at Knowledge Network for Biocomplexity, doi:10.5063/F1QV3JQR \emph{\citep{wolkovich2019}}.
+
+
+\subsection*{Code Availibility} 
+All code is available on GitHub at https://github.com/lizzieinvancouver/ospree/tree/bbculdesac.
 
 \bibliography{..//..//refs/ospreebibplus.bib}
 \newpage
