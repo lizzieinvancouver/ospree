@@ -40,5 +40,15 @@ manchecksp <- paste(mancheck$Genus, mancheck$Species)
 # Notes from April 2017
 # If you run this twice in a row (from start of cleanmerge_all.R through to end of this script), you get slightly different results. I checked a few names though and think we're good. I think the issue is something about not connecting to the theplantlist server consistently. 
 
+#Notes from September 2019
+#Acer seudolatauns should be Acer pseudoplatanus
+#Cornus cornuta should be Corylus cornuta
+# Spirea alba is okay
+d$genus[which(d$genus=="Cornus" & d$species=="cornuta")]<-"Corylus"
+d$species[which(d$genus=="Acer" & d$species=="pseudolatauns")]<-"pseudoplatanus" 
+#try it again
+taxa <- paste(d$genus,d$species,sep=" ")
+taxa <- unique(taxa)
 
- 
+##matching to TPL 1.1
+clean_names <- TPL(taxa)

@@ -53,7 +53,7 @@ source("cleaning/clean_woody_sps.R") # removes 3409 rows of non-woody species
 
 # Run the below every so often (commented out because it is slow) 
 # This checks the species list against www.theplantlist.org ... ask for manchecksp to see non-matches
-# source("cleaning/clean_spp_match.R") 
+# source("cleaning/clean_spp_match.R") ##Re-run by Dan B Sept 16
 
 # 8. Clean response and response time columns.
 source("cleaning/clean_responsetime.R") # Updated by Dan B 25 Aug 2019
