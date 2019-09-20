@@ -82,7 +82,7 @@ d[which(d$chilltemp=="3_15(18 h_6 h)"),]$chilltemp <- 6 ### Taking the average f
 # prevey18 has some greenhouse and ambient treatments. I think ambient_x, ambientgreenhouse_x, webster_x and webstergreenhouse_x should all be changed to 'ambient'
 preveyambs <- c("ambientgreenhouse_4.4", "ambientgreenhouse_4.5", "ambient_5.7", "webstergreenhouse_4.3",
                 "webstergreenhouse_4.4", "webster_4.5", "webster_4.6")
-d[which(d$chilltemp%in%preveyambs)]$chilltemp <- "ambient"
+d[which(d$chilltemp%in%preveyambs),]$chilltemp <- "ambient"
 
 
 stop("Not an error, just stopping here to say we're now done cleaning the chilltemp column. The d item in your workspace is now all cleaned up and ready to pull climate data in to estimate field chilling. Yay!")

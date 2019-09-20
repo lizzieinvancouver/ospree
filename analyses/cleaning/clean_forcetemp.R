@@ -66,8 +66,8 @@ d <- within(d, forcetemp[datasetID== 'yazdaniha64' & forcetemp == 'ambient'] <- 
 # prevey18: 
 # [1] "ambient_5.7"            "webstergreenhouse_14.4" "webster_4.3" 
 d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == 'ambient_5.7'] <- "ambient")
-d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == '"webstergreenhouse_14.4"'] <- 16)
-d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == '"webster_4.3"'] <- "ambient")
+d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == 'webstergreenhouse_14.4'] <- 16)
+d <- within(d, forcetemp[datasetID== 'prevey18' & forcetemp == 'webster_4.3'] <- "ambient")
 
 
 stop("Not an error, just stopping here to say we're now done cleaning forcetemp. The d item in your workspace is now all cleaned up for its forcetemp. Yay!")

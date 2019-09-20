@@ -153,6 +153,19 @@ d$forcetemp<-ifelse(d$forcetemp=="ambient + 3", d$avg_bbtemp + 3, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient + 4", d$avg_bbtemp + 4, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient + 4.9", d$avg_bbtemp + 4.9, d$forcetemp)
 
+### Updating new data now... 20 September 2019 by Cat
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 2.25", d$avg_bbtemp + 2.25, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 4.5", d$avg_bbtemp + 4.5, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 6.75", d$avg_bbtemp + 6.75, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient + 9", d$avg_bbtemp + 9, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient-1", d$avg_bbtemp-1, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+0", d$avg_bbtemp + 0, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+1", d$avg_bbtemp + 1, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+2", d$avg_bbtemp + 2, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+3", d$avg_bbtemp + 3, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+4", d$avg_bbtemp + 4, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient+5", d$avg_bbtemp + 5, d$forcetemp)
+
 
 stop("Not an error, ambient forcing temperatures are extracted and appended to dataset d; 
      No need to worry about the warnings below, informing of if statement with 2 elements

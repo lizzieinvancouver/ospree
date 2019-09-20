@@ -13,11 +13,11 @@
 if(is.data.frame(d)){
 
 d$photo_type<-NA
-d$photo_type<-ifelse(d$photoperiod_day=="ambient", "amb", d$photo_type)
+d$photo_type<-ifelse(d$photoperiod_day=="ambient" | d$photoperiod_day=="ambient-2", "amb", d$photo_type)
 d$photo_type<-ifelse(d$photoperiod_day==""| d$photoperiod_day==" ", "none", d$photo_type) # treated as ambient in below code for imputation
 
 # And away we go
-amb<-d[which(d$photoperiod_day=="ambient"),]
+amb<-d[which(d$photo_type=="amb"),]
 unique(amb$datasetID)
 
 phot_amb <- subset(d , photoperiod_day=="ambient" | photoperiod_night=="ambient")
@@ -443,6 +443,50 @@ d$photoperiod_day[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$o
 d$photoperiod_night[which(d$datasetID=="basler12" | d$datasetID== "basler14" & d$other.treatment=="ramped_photoperiod")]<-bas$photoperiod_night
 }
 d$photo_type<-ifelse(d$datasetID=="basler12" | d$datasetID=="basler14", "ramped", d$photo_type)
+
+
+
+############### New data update 20 September 2019 by Cat ##################
+fu19<-subset(d, d$datasetID=="fu19")
+fu19$date<-as.Date(fu19$response.time, origin = "2016-01-01")
+for(i in c(1:nrow(fu19))){
+  fu19$photoperiod_day[i] <- ifelse(fu19$photoperiod_day=="ambient", 
+                                    daylength(fu19$provenance.lat[i], fu19$date[i]),
+                                    daylength(fu19$provenance.lat[i], fu19$date[i]) - 2)
+}
+fu19$photoperiod_day<-as.numeric(fu19$photoperiod_day)
+fu19$photoperiod_day<- round(fu19$photoperiod_day, digits=0)
+fu19$photoperiod_night<-24-fu19$photoperiod_day
+fu19$photoperiod_day<-as.character(fu19$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="fu19")]<-fu19$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="fu19")]<-fu19$photoperiod_night
+
+prev<-subset(d, d$datasetID=="prevey18")
+prev$date<-as.Date(prev$response.time, origin = "2017-01-31")
+for(i in c(1:nrow(prev))){
+  prev$photoperiod_day[i] <- daylength(prev$provenance.lat[i], prev$date[i])
+}
+prev$photoperiod_day<-as.numeric(prev$photoperiod_day)
+prev$photoperiod_day<- round(prev$photoperiod_day, digits=0)
+prev$photoperiod_night<-24-prev$photoperiod_day
+prev$photoperiod_day<-as.character(prev$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="prevey18")]<-prev$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="prevey18")]<-prev$photoperiod_night
+
+rich<-subset(d, d$datasetID=="richardson18")
+rich$date<-as.Date(rich$response.time, origin = "2016-01-01")
+for(i in c(1:nrow(rich))){
+  rich$photoperiod_day[i] <- daylength(rich$provenance.lat[i], rich$date[i])
+}
+rich$photoperiod_day<-as.numeric(rich$photoperiod_day)
+rich$photoperiod_day<- round(rich$photoperiod_day, digits=0)
+rich$photoperiod_night<-24-rich$photoperiod_day
+rich$photoperiod_day<-as.character(rich$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="richardson18")]<-rich$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="richardson18")]<-rich$photoperiod_night
+
+#### Vitra17 is thermaltime to days so I can't determine the day of budburst at this point to figure out photoperiod
+
 
 } else {
   print("Error: d not a data.frame")
