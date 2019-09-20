@@ -77,6 +77,8 @@ d[which(d$chilltemp=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild s
 d[which(d$chilltemp=="fieldchill"),]$chilltemp <- "ambient"
 d[which(d$fieldchill=="Yes"),]$fieldchill <- "yes"
 # 3_15 (12 h), 3_15(18 h_6 h) # anzanello18
+d[which(d$chilltemp=="3_15 (12 h"),]$chilltemp <- 9 ### Taking the average for anzanello18
+d[which(d$chilltemp=="3_15(18 h_6 h)"),]$chilltemp <- 6 ### Taking the average for anzanello18
 # prevey18 has some greenhouse and ambient treatments. I think ambient_x, ambientgreenhouse_x, webster_x and webstergreenhouse_x should all be changed to 'ambient'
 preveyambs <- c("ambientgreenhouse_4.4", "ambientgreenhouse_4.5", "ambient_5.7", "webstergreenhouse_4.3",
                 "webstergreenhouse_4.4", "webster_4.5", "webster_4.6")

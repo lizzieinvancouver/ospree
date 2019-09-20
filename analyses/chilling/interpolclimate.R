@@ -22,6 +22,10 @@ for(i in names(tempval)){
   #add interpolated climate data for studies with warming treatments (ambient plus 0.76, ambient plus 4 degrees)
   if(length(grep("ambplus0.76",i))==1){xx$Tmin<-xx$Tmin+0.76;xx$Tmax<-xx$Tmax+0.76}# pagter15
   if(length(grep("ambplus4",i))==1){xx$Tmin<-xx$Tmin+4;xx$Tmax<-xx$Tmax+4}#skre08
+  if(length(grep("ambplus2.25",i))==1){xx$Tmin<-xx$Tmin+2.25;xx$Tmax<-xx$Tmax+2.25}
+  if(length(grep("ambplus4.5",i))==1){xx$Tmin<-xx$Tmin+4.5;xx$Tmax<-xx$Tmax+4.5}
+  if(length(grep("ambplus6.75",i))==1){xx$Tmin<-xx$Tmin+6.75;xx$Tmax<-xx$Tmax+6.75}
+  if(length(grep("ambplus9",i))==1){xx$Tmin<-xx$Tmin+9;xx$Tmax<-xx$Tmax+9}
         
   year = as.numeric(format(xx$Date, "%Y"))
   month = as.numeric(format(xx$Date, "%m"))

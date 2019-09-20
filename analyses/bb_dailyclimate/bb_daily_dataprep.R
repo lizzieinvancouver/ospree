@@ -125,7 +125,19 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
       x.dailyclim$Tmin<-x.dailyclim$Tmin+2
       x.dailyclim$Tmax<-x.dailyclim$Tmax+2
       x.all<-join(x,x.dailyclim)
-      }
+    }
+    #for studies with forcing that warms 3 degrees above ambient:
+    if(x$forcetemp=="ambient+3"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+3
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+3
+      x.all<-join(x,x.dailyclim)
+    }
+    #for studies with forcing that warms 4 degrees above ambient:
+    if(x$forcetemp=="ambient+4"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin+4
+      x.dailyclim$Tmax<-x.dailyclim$Tmax+4
+      x.all<-join(x,x.dailyclim)
+    }
     #for studies with forcing that warms 5 degrees above ambient:
     if(x$forcetemp=="ambient+5"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+5
