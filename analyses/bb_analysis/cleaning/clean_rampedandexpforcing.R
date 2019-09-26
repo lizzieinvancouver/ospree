@@ -9,6 +9,9 @@
 # not enough info = unable to calculate based on information; exp = experimentally manipulated  
 # ramped = forcetemp was ramped (e.g., started at 9 C at start of experiment and ramped to 20 C over XX days)
 
+## Checked by Dan B 26-Sept-2019 I think the only changes when the new data was added was four more ambient studies
+# "fu18", "fu19", "prevey18", "richardson18", if I am not misaken those will get cleaned later in clean_ambientforcingfromdailyclimate.R
+# Thus this file is okay to go.
 
 if(is.data.frame(d)){
   
@@ -18,7 +21,7 @@ amb<-d[which(d$forcetemp=="ambient"),]
 unique(amb$datasetID)
 ### "boyer"       "cannell83"   "falusi96"    "fu13"        "guak98"      "gunderson12" "lamb37"     
 ### "morin10"     "sanzperez10" "sonsteby13"
-## new as of data update in 2019: c("fu_2018", "fu19", "prevey18", "richardson18") # will change to fu18
+## new as of data update in 2019: c("fu_2018", "fu19", "prevey18", "richardson18") # will change to fu18 # Done
 blank<- d[which(d$forcetemp==""),]
 nas<-d[which(is.na(d$forcetemp)),]
 unique(nas$datasetID)
