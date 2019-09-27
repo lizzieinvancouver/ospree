@@ -105,7 +105,12 @@ Then it creates an output file.
 IMPORTANT!!!
 This file assumes users are working only with daystobudburst and percentbudburst and where response.time!=""
 
-
+################ Notes on some papers by Lizzie #################
+- vitra17 has thermaltimetobudburst -- does not include an equation and it is not clear to me how else it would have been calculated (issue #304)
+- fu18 - ambient I think, waiting on Dan to check 
+- fu19 - is forcing treatments are ambient+treatment temperatures, using outdoor climate-controlled chambers (issue #304)
+- prevey18 - ambient, waiting on Deirdre to check ... 
+- richardson18 - is ambient or ambient + x (issue #304)
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 <> Where to find notes on what  we changed from NA (or not) <>

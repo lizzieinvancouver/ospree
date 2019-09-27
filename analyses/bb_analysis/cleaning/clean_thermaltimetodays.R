@@ -2,7 +2,7 @@
 # Cat - 6 March 2017 
 # Cat - reevaluated 22 March 2017
 # Using ospree_clean.csv right now, should use new file from Nacho's clean merge all file for bb_analysis/cleaning
-
+# Lizzie worked on updated data (27 Sep 2019) ... only new paper is vitra17
 
 if(is.data.frame(d)){
 
