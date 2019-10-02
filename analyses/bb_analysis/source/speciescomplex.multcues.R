@@ -6,6 +6,10 @@
 ##### Species were selected if they were in more than one study and if both studies manipulated more than one cue
 ### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used more than one cue
 
+##### New requirments for species and complexes
+## 1. all three cues were manipulated in one study (i.e., two levels) - applies to species
+## 2. all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - applies to species and complexes
+
 
 ######## USE THIS SECTION TO CHECK CODE! ##########
 ## 3 steps to major cleaning: Get the data, merge in taxa info, subset down to what we want for:
@@ -54,8 +58,8 @@ xx$numcues<-xx$force + xx$photo + xx$chill ## Determine how many cues were manip
 
 #check<-subset(xx, select=c(name, datasetID, datasets, numcues))
 
-accept<-xx[(xx$numcues>1 & xx$datasets>1),] ## if species were in more than one dataset and manipulated more than one cue that kept
-species4taxon<-c(accept$name) ## make a list of species with more than 1 study
+accept<-xx[(xx$numcues==3 & xx$datasets>=1),] ## if species were in at least one dataset that manipulated all three cues
+species4taxon<-c(accept$name) ## make a list of species using above requirements
 accept$complex<-accept$name
 accept$use<-"Y"
 
@@ -66,8 +70,11 @@ taxon<-dplyr::filter(d, name %in% species4taxon)
 taxon$complex<-taxon$name
 taxon$use<-"Y"
 
-###making complexes#######################
-### This is when the same genus has multiple datasets and manipulates more than one cue
+
+#### 2. all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - applies to species and complexes
+### Let's start with species
+
+sppmultstudies <- xx[(xx$numcues)]
 
 comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
 complex4taxon<-c(comp$name) ### make a list of them
