@@ -1,10 +1,8 @@
 ## Try and organize so useful for all models running
 ## Started by Dan B - 26 July 2017
 ## Edits by Cat C - 17 August 2017
-### reworked by Dan 19 sept 2018
-
-##### Species were selected if they were in more than one study and if both studies manipulated more than one cue
-### Complexes were selected if (1) they were not already species (2) the genus was used in more than one study and (3) those studies used more than one cue
+### reworked by Dan 19 sept 2018 
+## and again by Cat 4 October 2019 with new species list and new parameters
 
 ##### New requirments for species and complexes
 ## 1. all three cues were manipulated in one study (i.e., two levels) - applies to species
@@ -26,42 +24,46 @@
 
 sppcomplexfx.multcue <- function(d){
 
-
-d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
+#d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_ospree_clean_withchill_BB.csv")
+d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus_species
 
 xx<-d
 ### make a list of which studies manipulate what.
-xx <- within(xx, { prov.lat <- ave(provenance.lat, name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-xx <- within(xx, { field.sample <- ave(fieldsample.date, name, species, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
-xx <- within(xx, { force <- ave(forcetemp, name, species, FUN=function(x) length(unique(x)))}) # mult forcetemp
-xx <- within(xx, { photo <- ave(photoperiod_day, name, species, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
-xx <- within(xx, { chill <- ave(chill, name, species, FUN=function(x) length(unique(x)))}) # mult expchill
-xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, FUN=function(x) length(unique(x))), 0)}) # mult studychill
-#xx <- within(xx, { spp <- ave(species, name, FUN=function(x) length(unique(x)))}) # mult species
+xx <- within(xx, { prov.lat <- ave(provenance.lat, datasetID, name, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
+xx <- within(xx, { field.sample <- ave(fieldsample.date, datasetID, name, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
+xx <- within(xx, { force <- ave(forcetemp, datasetID, name, FUN=function(x) length(unique(x)))}) # mult forcetemp
+xx <- within(xx, { photo <- ave(photoperiod_day, datasetID, name, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
+xx <- within(xx, { chilltemp <- ave(chilltemp, datasetID, name, FUN=function(x) length(unique(x)))}) # mult expchill
+xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, name, FUN=function(x) length(unique(x))), 0)}) # mult studychill
 #xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
-xx <- within(xx, { datasets <- ave(datasetID, name, species, FUN=function(x) length(unique(x)))}) 
+#xx <- within(xx, { datasets <- ave(datasetID, name, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx,name,genus, datasets, force, photo, chill,chilltime,field.sample,#prov.lat, 
-                  datasetID)
+xx<-dplyr::select(xx, name, genus, force, photo, chilltemp, chilltime, field.sample, datasetID)
 xx<-xx[!duplicated(xx),]
 
 
-###make object with all acceptable (>1 data set species and manipulated more than one cue) 
-### This make a data sheet with all the complex that can be indivudal species
-xx$force<-ifelse(xx$force<=1, 0, 1)
+###make object with all acceptable (>1 levels of each cue manipulated for each species)
+### This make a data sheet with all the complexes that can be indivudal species
+xx$force<-ifelse(xx$force<=1, 0, 1) ### 1 means there was one level of forcing in the study, we need multiple levels for each cue
 xx$photo<-ifelse(xx$photo<=1, 0, 1)
-xx$chill<-ifelse(xx$chill<=1, 0, 1)
+xx$chilltemp<-ifelse(xx$chilltemp<=1, 0, 1) 
+xx$chilltime <- ifelse(is.na(xx$chilltime), 0, xx$chilltime)
 xx$chilltime<-ifelse(xx$chilltime<=1, 0, 1) ## Different methods of manipulating chilling
 xx$field.sample<-ifelse(xx$field.sample<=1, 0, 1) ## Different methods of manipulating chilling
-xx$chill<-ifelse(xx$chill==1 | xx$chilltime==1 | xx$field.sample==1,1, 0)
-xx$numcues<-xx$force + xx$photo + xx$chill ## Determine how many cues were manipulated
+xx$chill<-ifelse(xx$chilltemp==1 | xx$chilltime==1 | xx$field.sample==1,1, 0)
+xx$numcues<-xx$force + xx$photo + xx$chill ## Determine how many cues were manipulated in each study
 
 #check<-subset(xx, select=c(name, datasetID, datasets, numcues))
 
-accept<-xx[(xx$numcues==3 & xx$datasets>=1),] ## if species were in at least one dataset that manipulated all three cues
+xx$numcues <- ifelse(is.na(xx$numcues), 0, xx$numcues)
+
+### 1. all three cues were manipulated in one study (i.e., two levels) - from issue #308 https://github.com/lizzieinvancouver/ospree/issues/308
+accept<-xx[(xx$numcues==3),] ## if species were in at least one dataset that manipulated all three cues
 species4taxon<-c(accept$name) ## make a list of species using above requirements
 accept$complex<-accept$name
 accept$use<-"Y"
+
+accept <- subset(accept, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
 
 ###accept is a list of species that are good to go
 
@@ -70,73 +72,113 @@ taxon<-dplyr::filter(d, name %in% species4taxon)
 taxon$complex<-taxon$name
 taxon$use<-"Y"
 
-
-#### 2. all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - applies to species and complexes
-### Let's start with species
-
-sppmultstudies <- xx[(xx$numcues)]
-
-comp<-xx[(xx$numcues>1 & xx$datasets==1),] ## this are the singleton species
-complex4taxon<-c(comp$name) ### make a list of them
-
-
-intersect(species4taxon,complex4taxon) #checks to make sure there are no species that over lap between this and above
-
-###building complexes
-taxon2<- dplyr::filter(d, name %in% complex4taxon) ###This filters main data sheet for rows that have species with only 1 dataset ID
+### List of species to accept:***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+#[1] "Acer_pensylvanicum"     "Acer_pseudoplatanus"    "Acer_rubrum"            "Acer_saccharum"        
+#[5] "Alnus_glutinosa"        "Alnus_incana"           "Alnus_rubra"            "Betula_alleghaniensis" 
+#[9] "Betula_papyrifera"      "Betula_pendula"         "Betula_pubescens"       "Cornus_cornuta"        
+#[13] "Fagus_grandifolia"      "Fagus_sylvatica"        "Fraxinus_nigra"         "Ilex_mucronata"        
+#[17] "Kalmia_angustifolia"    "Larix_decidua"          "Lonicera_canadensis"    "Malus_domestica"       
+#[21] "Picea_abies"            "Pieris_japonica"        "Populus_grandidentata"  "Populus_tremula"       
+#[25] "Prunus_padus"           "Prunus_pensylvanica"    "Quercus_petraea"        "Quercus_rubra"         
+#[29] "Ribes_nigrum"           "Salix_smithiana"        "Spirea_alba"            "Tilia_cordata"         
+#[33] "Ulmus_minor"            "Ulmus_parvifolia"       "Ulmus_pumila"           "Ulmus_villosa"         
+#[37] "Vaccinium_myrtilloides" "Viburnum_cassinoides"   "Viburnum_lantanoides"   "Vitis_vinifera"
 
 
-### Same as above - see what complexes manipulated
-taxon2<- within(taxon2, {datasets<- ave(datasetID, genus, FUN=function(x) length(unique(x)))})
-taxon2<-dplyr::arrange(taxon2, genus)
+#### 2. all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - for species and complexes
+#### Let's start with species that fulfill this requirement... 
 
-taxon2$complex<-paste(taxon2$genus, "complex", sep="_")
-taxon2 <- within(taxon2, { prov.lat <- ave(provenance.lat, complex, FUN=function(x) length(unique(x)))}) # multiple provenance.lats
-taxon2 <- within(taxon2, { field.sample <- ave(fieldsample.date, complex, FUN=function(x) length(unique(x)))}) # mult fieldsample.date
-taxon2 <- within(taxon2, { force <- ave(forcetemp, complex, FUN=function(x) length(unique(x)))}) # mult forcetemp
-taxon2 <- within(taxon2, { photo <- ave(photoperiod_day, complex, FUN=function(x) length(unique(x)))}) # mult photoperiod_day
-taxon2 <- within(taxon2, { chill <- ave(chill, complex, FUN=function(x) length(unique(x)))}) # mult expchill
-taxon2 <- within(taxon2, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, species, FUN=function(x) length(unique(x))), 0)}) # mult studychill
-#taxon2<- within(taxon2, { prov.long <- ave(provenance.long,complex, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
-taxon2<-dplyr::select(taxon2,name,genus, datasets, force, photo, chill, chilltime, field.sample,#prov.lat, 
-                      complex,datasetID)
-taxon2<-taxon2[!duplicated(taxon2),]
+sppmultstudies <- xx[!(xx$name%in%species4taxon),]
+sppmultstudies <- subset(sppmultstudies, select=c("name", "genus", "force", "photo", "chill"))
 
+xxsppmult <- within(sppmultstudies, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # where forcing was manipulated across more than one level for each species
+xxsppmult <- within(xxsppmult, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))}) # where photo was manipulated across more than one level for each species
+xxsppmult <- within(xxsppmult, { chillcue <- ave(chill, name, FUN=function(x) sum(unique(x)))})# where chill was manipulated across more than one level for each species
 
-### Accepts complexes that are in more than one study and manipulated more than one cue
-taxon2$force<-ifelse(taxon2$force<=1, 0, 1)
-taxon2$photo<-ifelse(taxon2$photo<=1, 0, 1)
-taxon2$chill<-ifelse(taxon2$chill<=1, 0, 1)
-taxon2$chilltime<-ifelse(taxon2$chilltime<=1, 0, 1) ## Different methods of manipulating chilling
-taxon2$field.sample<-ifelse(taxon2$field.sample<=1, 0, 1) ## Different methods of manipulating chilling
-taxon2$chill<-ifelse(taxon2$chill==1 | taxon2$chilltime==1 | taxon2$field.sample==1, 1, 0)
-taxon2$numcues<-taxon2$force + taxon2$photo + taxon2$chill ## total number of cues manipulated for the complexes
-
-## This loop makes sure the complex is represented in multiple datasets and not just in one dataset (e.g. Zohner et al 2016)
-comps<-unique(taxon2$complex)
-dats<-vector()
-for(i in comps){
-  dats[i]<-length(unique(taxon2$datasetID[taxon2$complex==i]))
-  numsets<-data.frame(numstudies=dats)
-  numsets <- cbind(complex = rownames(numsets), numsets)
-}
-
-taxon2<-left_join(taxon2, numsets, by="complex")
-
-accept.complex<-taxon2
-accept.complex$use<-ifelse((accept.complex$numstudies>1 & accept.complex$numcues>1),"Y","N") 
+## If at least one study had multiple levels for each cue across species:
+xxsppmult$force<-ifelse(xxsppmult$forcecue<1, 0, 1) 
+xxsppmult$photo<-ifelse(xxsppmult$photocue<1, 0, 1)
+xxsppmult$chill<-ifelse(xxsppmult$chillcue<1, 0, 1)
 
 
-###if you want a data sheet to merge later in the work flow with working data sheet do this
-accept$numstudies<-accept$datasets
-complexlist<-rbind(accept,accept.complex)
+## To see if all cues were covered across all the possible datasets:
+xxsppmult$numcues <- xxsppmult$force + xxsppmult$photo + xxsppmult$chill
+
+xxsppmult$numcues <- ifelse(is.na(xxsppmult$numcues), 0, xxsppmult$numcues)
+
+acceptsppmult<-xxsppmult[(xxsppmult$numcues==3),] ## if species had all three cues manipulated across multiple studies
+speciesmult4taxon<-c(acceptsppmult$name) ## make a list of species using above requirements
+acceptsppmult$complex<-acceptsppmult$name
+acceptsppmult$use<-"Y"
+
+acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+
+### List of additional species that manipulate all three cues across multiple studies
+### ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+#[1] "Abies_alba"             "Aesculus_hippocastanum" "Aronia_melanocarpa"     "Betula_lenta"          
+#[5] "Corylus_avellana"       "Fraxinus_excelsior"     "Picea_glauca"           "Prunus_avium"          
+#[9] "Prunus_persica"         "Pseudotsuga_menziesii"  "Pyrus_pyrifolia"        "Quercus_robur"         
+#[13] "Sorbus_aucuparia"       "Sorbus_commixta"        "Syringa_vulgaris"
+
+intersect(species4taxon,speciesmult4taxon) #checks to make sure there are no species that over lap between this and above
+
+###accept is a list of species that are good to go
+
+##integrates with rest of data
+taxonmult<-dplyr::filter(d, name %in% speciesmult4taxon)
+taxonmult$complex<-taxonmult$name
+taxonmult$use<-"Y"
+
+
+
+#### Okay nearly there now...
+## Again: 2. all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - for species and complexes
+#### Just need to do the complexes now...
+
+allspp <- c(species4taxon, speciesmult4taxon)
+
+comp <- xx[!(xx$name%in%allspp),]
+comp$species <- gsub(".*_", "", comp$name)
+comp$name <- paste(comp$genus, "complex", sep="_")
+
+comp <- subset(comp, select=c("name", "species", "genus", "force", "photo", "chill"))
+
+xxcomp <- within(comp, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # mult forcetemp across mult datasets for each genus, excluding species already found to use
+xxcomp <- within(xxcomp, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))})
+xxcomp <- within(xxcomp, { chillcue <- ave(chill, name, FUN=function(x) sum(unique(x)))})
+
+xxcomp$force<-ifelse(xxcomp$forcecue<1, 0, 1)
+xxcomp$photo<-ifelse(xxcomp$photocue<1, 0, 1)
+xxcomp$chill<-ifelse(xxcomp$chillcue<1, 0, 1)
+
+xxcomp$numcues <- xxcomp$force + xxcomp$photo + xxcomp$chill
+
+xxcomp$numcues <- ifelse(is.na(xxcomp$numcues), 0, xxcomp$numcues)
+
+acceptcomp<-xxcomp[(xxcomp$numcues==3),] ## if genus had all three cues manipulated across multiple studies
+complex4taxon<-c(acceptcomp$name) ## make a list of species using above requirements
+acceptcomp$complex<-acceptcomp$name
+acceptcomp$use<-"Y"
+
+acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+
+### Complexes being added in ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+#[1] "Betula_complex"       "Hamamelis_complex"    "Juglans_complex"      "Pinus_complex"       
+#[5] "Prunus_complex"       "Pyrus_complex"        "Quercus_complex"      "Rhamnus_complex"     
+#[9] "Rhododendron_complex" "Sorbus_complex" 
+
+
+intersect(allspp,complex4taxon) #checks to make sure there are no species that over lap between this and above
+
+### complete list of species and complexes
+complexlist<-rbind(accept, acceptsppmult, acceptcomp)
 
 #unique(complexlist$complex)
 uselist<-filter(complexlist,use=="Y")
 #unique(uselist$complex)
 
 ## Brings all the accepted species and accepted complexes together
-accepties<-rbind(accept, accept.complex)
+accepties<-rbind(accept, acceptsppmult, acceptcomp)
 accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
 accepties<-accepties[!duplicated(accepties),]
