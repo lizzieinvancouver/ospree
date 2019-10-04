@@ -40,7 +40,8 @@
 \parindent 0pt% sets leading space for paragraphs
 \usepackage{setspace}
 %\doublespacing
-
+\renewcommand{\baselinestretch}{1.8}
+\usepackage{lineno}
 %Optional: I like fancy headers
 %\usepackage{fancyhdr}
 %\pagestyle{fancy}
@@ -110,7 +111,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\linenumbers
 \section*{Abstract}
 Climate change causes both temporal and geographic shifts in species; these shifts in turn affect the daylength (photoperiod) that species experience. As photoperiod is a common trigger of seasonal biological responses (e.g., affecting plant phenology in 84\% of studies that manipulated photoperiod), such shifts in experienced photoperiod may have important implications for future distributions and fitness of many species. However, photoperiod has not been a focus of climate change forecasting to date, especially for early-season (`spring') events---which are often assumed to be driven by temperature. Here we show that impacts on experienced photoperiod due to temporal shifts could be quite large and may be orders of magnitude larger than impacts due to spatial shifts (e.g., 1.6 hours of change for expected temporal shifts versus only one minute for spatial shifts). Incorporating these effects into forecasts may be possible by leveraging existing experimental data; for example, growth chamber experiments on woody plant spring phenology often have data relevant for climate change impacts. We highlight how combining novel modeling approaches and empirical work on when, where, and how much photoperiod affects spring phenology, could rapidly advance our understanding and predictions of future spatial-temporal shifts due to climate change. %currently 197 words 
 
@@ -153,8 +154,6 @@ For example, consider an insect that emerges from diapause or a tree that bursts
 
 \par In many cases organisms may shift both their ranges and their phenology simultaneously \citep[i.e., due to new climatic conditions,][]{duputie2015,grevstad2015}. In addition, photoperiod sensitivity (see \emph{Glossary}) can vary with latitude, likely due to population-level differences in sensitivity \citep{Caffarra:2011b,gauzere2017,Howe:1996,Partanen:2005aa,saikkonen2012,Vihera-Aarnio:2006aa}.
 With future climate change, it is unclear how these complexities will affect the photoperiod experienced by organisms and if these shifts in photoperiod will have important implications for biological responses. This lack of clarity stems, in part, from the fact that phenology both affects and is affected by experienced photoperiod: climate change-induced shifts in phenology alter experienced photoperiod, which in turn affects phenology.%HK: seems worth developing further. 
-
-
 
 \section*{What are the implications of altered photoperiods for biological responses to climate change?}
 \par Daylength can play a role in controlling critical biological functions, including vegetative growth, cell elongation, budburst, and flowering in plants \citep{Ashby:1962aa,erwin1998,sidaway2010,Heide:2011aa,Heide:2012aa,Hsu:2011,Linkosalo:2006aa,mimura2007} and growth rate, maturation, migration, and diapause in animals \citep{bradshaw2006,dawbin1966,muir1994,saunders1970,tobin2008,zydlewski2014}. Climate change-induced shifts in photoperiod are therefore likely to alter these functions. 
