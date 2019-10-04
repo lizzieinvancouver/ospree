@@ -140,6 +140,20 @@ Climate change causes both temporal and geographic shifts in species; these shif
 We use studies included in Observed Spring Phenology Responses in Experimental Environments (OSPREE), a new database of plant growth chamber studies that manipulate photoperiod and temperature to measure plant phenological responses, including budburst and flowering \citep{wolkovich2019}.%The database includes studies that manipulate photoperiod by applying treatments with different daylength durations, applying long-day versus short-day conditions for different lengths of time, and/or applying varying vs contant photoperiods. HK: You don't seem to use the database until Future directions and box 1. I kept looking for more insignt from database in your first 2 sections.Also I think you need more info about the database somewhere
 
 
+\begin{figure}[p]
+\centering
+\includegraphics{..//..//analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
+\caption{\textbf{Photoperiod varies with latitude and by day of year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical spatial and temporal shifts. These shifts, based on observed average rates with recent global warming---16.9 kilometers per decade, or approximately 1.5 degrees in 100 years, for spatial shifts \citep{parmesan2006}, and 2.3 days per decade, or 23 days in 100 years, for temporal shifts \citep{chen2011})---highlight the greater magnitude in daylength changes close to the equinox (e.g., day of year 91), versus close to the summer solstice (e.g., day of year 182).}
+ \label{fig:spacetime}%
+ \end{figure}
+ 
+ \begin{figure}[p]
+\centering
+\includegraphics{..//..//docs/photoperiod/figures/Greenup_corr_lets.pdf} %2009 greenup
+\caption{\textbf{Photoperiod on the ``green-up" date varies over space and between years} ``Green-up" is the beginning of seasonal greening, identified by satellite remote sensing measurements taken regularly throughout the year of the concentrations of green leaf vegetation. Hours of daylight on the date of spring green-up (here from MODIS satellite data) across North America and Europe for an average (2009, A) and  early (2012, B) North American start of spring. The differences between the years (in hours of daylength) are shown in (C). A negative difference signifies earlier green-up in 2012 versus 2009; a positive difference is the result of later green-up in 2012 compared with 2009. See `Quantifying and mapping differences in green-up across the United States and Europe' in the Supplemental Materials for more details. }%
+ \label{fig:greenup}%
+ \end{figure}
+
 \section*{How will climate change alter the photoperiod experienced by organisms?}
 \par Species experience different photoperiod regimes depending on their location on Earth (Fig. \ref{fig:spacetime}, \ref{fig:greenup}), the seasonal timing of their activity, and inter-annual variation in climate. The daylength experienced by plants on the date that spring ``green-up" occurs, for example, varies with latitude (Fig. \ref{fig:greenup}a). This is in part because latitudinal variation in green-up date, which occurs earlier toward the equator and later toward the north pole, is strongly driven by climatic differences that affect phenology, and in part because of latitudinal variation in photoperiod (e.g., at the north pole, the daylength at the summer solstice is 24 hours). A general pattern of longer photoperiod at green-up toward the poles is consistent across years (Fig. \ref{fig:greenup}b) and green-up does not appear to occur at daylengths less than 10 hours. %HK: in what biomes?
 There is strong spatiotemporal variation in experienced photoperiod across years (compare the photoperiod at green-up in ``early" versus ``late" years, Fig. \ref{fig:greenup}): experienced photoperiod at green-up can vary two to three hours from one year to the next in the same location (Fig. \ref{fig:greenup}c). Though green-up date corresponds to plant phenology, we expect that spatiotemporal patterns of variation in spring phenology would be similar for other organisms \citep{ovaskainen2013, penuelas2002}.
@@ -178,8 +192,40 @@ whereas process-based models of phenology more frequently incorporate photoperio
 
 \par Future modelling can incorporate photoperiod by leveraging the large amount of experimental data on photoperiod responses (Fig. \ref{fig:photomap}, Table S1), especially when process-based approaches are used. Researchers can use these data to first learn if the study species (or a phylogenetically closely related species) shows a photoperiod effect and, ideally, identify its threshold photoperiod and how it varies by population, ecotype, or other factors \citep{bradshaw2006,gwinner1996,tobin2008}. If there is evidence of a photoperiod response (e.g., \emph{Fagus grandifolia}, or \emph{Tilia americana} with low chilling in Fig. \ref {fig:photocurve}), daylength should be added to forecasting models, using the threshold photoperiod to define short-day and long-day conditions (Fig. \ref{fig:condiag}). Given the large change in experienced photoperiod with temporal shifts (Fig. \ref{fig:spacetime}), this may be particularly important for phenological forecasting. Since spatial shifts are associated with smaller changes in experienced photoperiod, it may be less important for distribution forecasts. Many species, however, may shift in \emph{both} space and time simultaneously. Thus, even though experienced photoperiod changes little as species distributions shift in space, phenology may be altered significantly.
 
-\par For some species, experimental data can be immediately used in forecasting because experiments manipulate photoperiod at relevant scales \citep[e.g., ][Figs. \ref{fig:photomap}, \ref{fig:fagus} A, Table S1]{Basler:2014aa,Heide:2015aa}. For example, photoperiod treatments from growth chamber experiments with \emph{Fagus sylvatica} span the variation in both current and expected future ranges \citep[Fig. \ref{fig:fagus}, ][]{duputie2015}, and may allow identification of threshold photoperiods (Fig. \ref{fig:condiag}). In other cases, attempting to incorporate photoperiod into forecasts of future phenology will reveal gaps in our understanding of many aspects of photoperiod responses. For example, photoperiod treatments from existing experiments of \emph{Quercus robur} do not accurately represent experienced photoperiods from current or future estimates, making fine scale projections difficult, even for this relatively well-studied species. This gap extends to many species, as most experiments manipulate photoperiod much more dramatically than will occur with climate change (Figs. \ref{fig:photomap}, \ref{fig:fagus}). Although these studies can be useful for understanding mechanistically how photoperiod responses work, extrapolating them to climate change models may not be reasonable.
+\begin{figure}[p]
+\centering
+\includegraphics{..//..//analyses/photoperiod/figures/ospree_photopmap_fromblake.jpg} 
+\caption{\textbf{Experimental photoperiod treatments and their equivalent spatial and temporal shifts} for experiments in the OSPREE database that manipulated photoperiod. See `Mapping temporal and spatial shifts in space and time' in the Supplemental Materials for details on how we calculated the required spatial (lines) or temporal (circles and Xes) shifts to be equivalent to photoperiod treatments in each experiment.}
+ \label{fig:photomap}
+ \end{figure}
 
+ 
+\begin{figure}[p]
+\includegraphics{..//..//analyses/photoperiod/figures/Photo_curv_FINAL.jpeg} 
+\caption{\textbf{Nonlinearities in phenological responses to daylength} are apparent in spring woody plant phenology experiments (from the OSPREE database) in which three or more photoperiod treatment levels were applied. The shape of the response curves for \textit{Betula pubescens} \citep{Caffarra:2011b}, \textit{Fagus sylvatica} \citep{Heide:1993a} and \textit{Tilia americana} \citep{Ashby:1962aa} differ depending on the amount of winter chilling received (measured in Chill portions). Species and chilling levels with multiple lines represent plant material from different populations.}
+
+
+ \label{fig:photocurve}
+ \end{figure}
+
+\par For some species, experimental data can be immediately used in forecasting because experiments manipulate photoperiod at relevant scales \citep[e.g., ][Figs. \ref{fig:photomap}, \ref{fig:fagus} A, Table S1]{Basler:2014aa,Heide:2015aa}. For example, photoperiod treatments from growth chamber experiments with \emph{Fagus sylvatica} span the variation in both current and expected future ranges \citep[Fig. \ref{fig:fagus}, ][]{duputie2015}, and may allow identification of threshold photoperiods (Fig. \ref{fig:condiag}). In other cases, attempting to incorporate photoperiod into forecasts of future phenology will reveal gaps in our understanding of many aspects of photoperiod responses. For example, photoperiod treatments from existing experiments of \emph{Quercus robur} do not accurately represent experienced photoperiods from current or future estimates, making fine scale projections difficult, even for this relatively well-studied species. This gap extends to many species, as most experiments manipulate photoperiod much more dramatically than will occur with climate change (Figs. \ref{fig:photomap}, \ref{fig:fagus}). Although these studies can be useful for understanding mechanistically how photoperiod responses work, extrapolating them to climate change models may not be reasonable.
+ 
+
+\begin{figure}[p]
+\includegraphics{..//..//analyses/photoperiod/figures/2D_actual_combined.png} 
+\caption{\textbf{Experienced photoperiods in experiments differ from those in the natural world}, shown here by latitude (left panels) and by day of budburst (right panels) for \emph{Fagus sylvatica} (A, upper panels) and \emph{Quercus robur} (B, lower panels). Triangles show experimental treatments of photoperiod in the OSPREE database. To illuminate potential gaps between experiments and the natural world, we show the photoperiod when budburst occurs in its current (1981-2000) and projected ranges \citep[2081-2100, using the A1Fi Phenofit scenario, see][]{duputie2015}. We scaled the days to budburst for all OSPREE data points by adding the day of budburst from the first Phenofit observation. See Supplemental Materials and \citet{duputie2015} for additional details.} 
+ \label{fig:fagus}
+ \end{figure}
+ 
+ 
+ 
+
+\begin{figure}[p]
+\includegraphics{..//..//analyses/photoperiod/figures/photocondiag6.pdf} 
+\caption{\textbf{Conceptual diagram of how to include photoperiod in forecasting biological responses to climate change}. Current approaches for forecasting spring phenology with climate change frequently rely on linear relationships between historical temperature data and observed dates of spring phenology (left panels). Adding responses to photoperiod, which commonly operate as threshold responses to short days (SD) versus long days (LD, see ``photoperiod sensitivity" in the \emph{Glossary}), will alter these forecasts (center panel) in ways that differ across species with divergent threshold photoperiods. Other factors that interact with photoperiod, such as population-level variation in photoperiod responses, can be incorporated into forecasts to further improve their accuracy (right panel).}
+ \label{fig:condiag}
+ \end{figure}
+ 
 \par Photoperiod is not fully integrated into most current forecasts of biological responses to climate change \citep[but see][]{tobin2008}, an omission that could affect the accuracy of forecasts. Forecasts from ecosystem models often incorporate photoperiod, along with other variables such as evaporative demand and temperature \citep [e.g., ED] []{jolly2005,medvigy2013}, but photoperiod is rarely included in species distribution models \citep [e.g.,] []{morin2009,zhu2012}. The sensitivity of model outcomes to assumptions made about experienced photoperiod and threshold responses to photoperiod needs further study, including understanding how variation in photoperiod responses across ecosystems, species, populations, and life stages impacts forecasts. 
 
 \par As researchers more fully integrate photoperiod into forecasting, a critical area of further study is understanding \emph{how} photoperiod acts as a cue. Photoperiod seems to interact with temperature to affect phenology \citep[e.g., ][]{zydlewski2014}; this would explain the divergent effects of photoperiod observed across studies in woody plants (e.g., Fig. \ref{fig:photocurve}). However, exactly how it interacts with temperature is not well-defined for most species or populations (Boxes 1, S1).  Understanding the drivers, as well as the consequences, of variations in photoperiod responses across species and populations will be particularly beneficial for forecasting. For example, what traits are associated with photoperiod sensitivity and does variation in photoperiod sensitivity or related traits have a strong genetic component? If so, are species or populations from some locations or lineages more likely than others to be constrained by photoperiod in their responses to climate change?
@@ -223,52 +269,8 @@ We thank the many researchers who conducted the experiments synthesized in this 
 \clearpage
 
 
-\section* {Figures}
+%\section* {Figures}
 
-
-\begin{figure}[p]
-\centering
-\includegraphics{..//..//analyses/photoperiod/figures/photo_spacetime_v2.pdf} %
-\caption{\textbf{Photoperiod varies with latitude and by day of year}, such that temporal shifts in activity yield larger changes in experienced photoperiod compared with spatial shifts. Here, we show this variation at two latitudes (22.5\degree, 45\degree), using hypothetical spatial and temporal shifts. These shifts, based on observed average rates with recent global warming---16.9 kilometers per decade, or approximately 1.5 degrees in 100 years, for spatial shifts \citep{parmesan2006}, and 2.3 days per decade, or 23 days in 100 years, for temporal shifts \citep{chen2011})---highlight the greater magnitude in daylength changes close to the equinox (e.g., day of year 91), versus close to the summer solstice (e.g., day of year 182).}
- \label{fig:spacetime}%
- \end{figure}
- 
- \begin{figure}[p]
-\centering
-\includegraphics{..//..//docs/photoperiod/figures/Greenup_corr_lets.pdf} %2009 greenup
-\caption{\textbf{Photoperiod on the ``green-up" date varies over space and between years} ``Green-up" is the beginning of seasonal greening, identified by satellite remote sensing measurements taken regularly throughout the year of the concentrations of green leaf vegetation. Hours of daylight on the date of spring green-up (here from MODIS satellite data) across North America and Europe for an average (2009, A) and  early (2012, B) North American start of spring. The differences between the years (in hours of daylength) are shown in (C). A negative difference signifies earlier green-up in 2012 versus 2009; a positive difference is the result of later green-up in 2012 compared with 2009. See `Quantifying and mapping differences in green-up across the United States and Europe' in the Supplemental Materials for more details. }%
- \label{fig:greenup}%
- \end{figure}
- 
-\begin{figure}[p]
-\includegraphics{..//..//analyses/photoperiod/figures/Photo_curv_FINAL.jpeg} 
-\caption{\textbf{Nonlinearities in phenological responses to daylength} are apparent in spring woody plant phenology experiments (from the OSPREE database) in which three or more photoperiod treatment levels were applied. The shape of the response curves for \textit{Betula pubescens} \citep{Caffarra:2011b}, \textit{Fagus sylvatica} \citep{Heide:1993a} and \textit{Tilia americana} \citep{Ashby:1962aa} differ depending on the amount of winter chilling received (measured in Chill portions). Species and chilling levels with multiple lines represent plant material from different populations.}
-
-
- \label{fig:photocurve}
- \end{figure}
-
-
-\begin{figure}[p]
-\centering
-\includegraphics{..//..//analyses/photoperiod/figures/ospree_photopmap_fromblake.jpg} 
-\caption{\textbf{Experimental photoperiod treatments and their equivalent spatial and temporal shifts} for experiments in the OSPREE database that manipulated photoperiod. See `Mapping temporal and spatial shifts in space and time' in the Supplemental Materials for details on how we calculated the required spatial (lines) or temporal (circles and Xes) shifts to be equivalent to photoperiod treatments in each experiment.}
- \label{fig:photomap}
- \end{figure}
-
- 
-\begin{figure}[p]
-\includegraphics{..//..//analyses/photoperiod/figures/2D_actual_combined.png} 
-\caption{\textbf{Experienced photoperiods in experiments differ from those in the natural world}, shown here by latitude (left panels) and by day of budburst (right panels) for \emph{Fagus sylvatica} (A, upper panels) and \emph{Quercus robur} (B, lower panels). Triangles show experimental treatments of photoperiod in the OSPREE database. To illuminate potential gaps between experiments and the natural world, we show the photoperiod when budburst occurs in its current (1981-2000) and projected ranges \citep[2081-2100, using the A1Fi Phenofit scenario, see][]{duputie2015}. We scaled the days to budburst for all OSPREE data points by adding the day of budburst from the first Phenofit observation. See Supplemental Materials and \citet{duputie2015} for additional details.} 
- \label{fig:fagus}
- \end{figure}
- 
-\begin{figure}[p]
-\includegraphics{..//..//analyses/photoperiod/figures/photocondiag6.pdf} 
-\caption{\textbf{Conceptual diagram of how to include photoperiod in forecasting biological responses to climate change}. Current approaches for forecasting spring phenology with climate change frequently rely on linear relationships between historical temperature data and observed dates of spring phenology (left panels). Adding responses to photoperiod, which commonly operate as threshold responses to short days (SD) versus long days (LD, see ``photoperiod sensitivity" in the \emph{Glossary}), will alter these forecasts (center panel) in ways that differ across species with divergent threshold photoperiods. Other factors that interact with photoperiod, such as population-level variation in photoperiod responses, can be incorporated into forecasts to further improve their accuracy (right panel).}
- \label{fig:condiag}
- \end{figure}
- 
  %Other examples of photoperiod control that could be used:
 %1.  Onset  and  end  of post-juvenile  moult in migratory warblers and  the  onset  of  autumn  migratory  restlessness  are  advanced in short photoperiods. End  of autumn migratory restlessness, the onset and end of the winter moult  and  the  onset  of  spring  migratory  restlessness  are advanced  by  long  photoperiods. 
 
