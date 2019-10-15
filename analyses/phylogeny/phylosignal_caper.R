@@ -44,9 +44,72 @@ str(datalist.bb)
 sum(is.na(datalist.bb$y))
 
 
-####################################
-#### Fitting Phylogenetic models
-####################################
+############################################
+#### Load sps list and get phylogeny
+############################################
+
+## load species list (beware this list has both species and complexes)
+species.list <- read.csv("input/spslist.csv")
+species.list <- sort(species.list$Species_binomial)
+
+## getting a list of genera in our sps list
+genus.list <- unlist(lapply(strsplit(species.list, "_"), 
+                             function(x){
+                               return(x[1])
+                               }))
+
+genus.list.unique <- unique(genus.list)
+
+
+## load vascular plant phylogeny
+phy.plants <- read.tree("../../data/phylogeny/Vascular_Plants_rooted.dated.tre")
+
+
+## getting a list of genera in Zanne's phylo
+phy.genera <- unlist(
+  lapply(strsplit(phy.plants$tip.label, "_"),function(x){return(x[1])})
+)
+
+phy.genera.uniq <- sort(unique(phy.genera))
+
+
+
+## how many ospree genera are in the phylogeny?
+ospreegenus.inphylo <- genus.list.unique[which(genus.list.unique%in%phy.genera.uniq)]
+
+
+## first prune the phylogeny to include only these genera
+phy.genera.ospree <- drop.tip(phy.plants,
+                            which(!phy.genera%in%ospreegenus.inphylo))
+
+## we can add species that may not be present according to their genera
+names.to.add = species.list[which(!species.list%in%phy.genera.ospree$tip.label)]
+phy.ospree.clean <- congeneric.merge(phy.genera.ospree,names.to.add,split="_")
+
+
+## prunning the generated phylogeny to include ospree species only
+phy.plants.ospree<-drop.tip(phy.ospree.clean,
+                            which(!phy.ospree.clean$tip.label%in%species.list))
+
+# 62 species are in the phylogeny
+#plot(phy.plants.ospree)
+write.tree(phy.plants.ospree,file = "../../data/phylogeny/ospree.phylogeny62sp.tre")
+
+############################################
+
+############################################
+#### Fitting Phylogenetic models with PGLS - Full Cleaned Ospree Data
+############################################
+
+
+
+
+############################################
+
+
+############################################
+#### Fitting Phylogenetic models with PGLS - Dan Flynn's Data
+############################################
 
 ## read and pre-process phylogeny
 library(phytools)
@@ -217,6 +280,9 @@ model_phylo.photo <- brm(
   ,sample_prior = TRUE, chains = 2, cores = 4, 
   iter = 1000, warmup = 500
 )
+
+####################################
+
 
 ###########################################
 ## explore fitted models, ppc, phylo-signal 
