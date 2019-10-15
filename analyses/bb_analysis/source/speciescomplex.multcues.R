@@ -183,8 +183,9 @@ accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
 accepties<-accepties[!duplicated(accepties),]
 
-
-bb.wtaxa<-full_join(d, accepties)
+dim(d)
+bb.wtaxa<-full_join(d, accepties) 
+dim(bb.wtaxa) # gaining rows here, which is bad (9 rows I think)
 bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
 bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
 

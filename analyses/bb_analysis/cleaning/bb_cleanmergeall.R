@@ -38,7 +38,7 @@ source("bb_analysis/cleaning/multiresp.R") #  5 Sept 2019: 11567 (pre-update: 97
 
 # 5. Clean ambient forcing
 # 5a. Clean up entries where we can estimate the forcing from the paper (e.g., ramped temps or they give monthly temps)
-source("bb_analysis/cleaning/clean_rampedandexpforcing.R") #26 Sept 11404 (no changes needed)
+source("bb_analysis/cleaning/clean_rampedandexpforcing.R") # 26 Sept 11404 (no changes needed)
 
 # 5b. Check date of daily climate files used in step 5c-
 #if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
