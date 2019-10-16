@@ -23,6 +23,9 @@ library(caper)
 library(brms)
 library(pez)
 library(phytools)
+library(geiger)
+library(RColorBrewer)
+
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -212,66 +215,36 @@ resp = databbslopesphy$data$resp
 names(resp) = databbslopesphy$phy$tip.label
 
 
-phy.t<-multi2di(list.objs[[j]])
-phy.t<-nnls.tree(cophenetic(phy.t),phy.t,rooted=TRUE)
-
+## B) make the phylogeny dichotomous (otherwise fitContinuous does not run)
 databbslopesphy$phy = multi2di(databbslopesphy$phy)
-is.binary(databbslopesphy$phy)
 
-## B) fit phylogenetic signal models for sensitivities to each cue
-library(geiger)
-phy.upOU<-rescaleTree(databbslopesphy$phy,1)
-up.OU<-fitContinuous(phy.upOU,x,model="OU",bounds=list(alpha=c(0.0005,20)))
-up.BM<-fitContinuous(databbslopesphy$phy,x,model="BM")
-up.lambda<-fitContinuous(databbslopesphy$phy,x,model="lambda")
+## C) fit and store phylogenetic signal models for sensitivities to each cue
+store.phylosig <- array(NA, dim = c(3,7))
+colnames(store.phylosig)<-c("sigma2","White.Lik","BM.Lik","Lambda","Lambda.Lik","alpha","OU.Lik")
+row.names(store.phylosig)<-c("forcing","chilling","photoperiod")
 
+phy.OU<-rescaleTree(databbslopesphy$phy,1)
+list.dat<-list(x,y,z)
 
-force.lamb <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
+for(i in 1:3){#i=1
+print(i)
+trait = list.dat[[i]]
+OU <- fitContinuous(phy.OU,trait,model="OU",bounds=list(alpha=c(0.0005,100)))
+BM <- fitContinuous(databbslopesphy$phy,trait,model="BM")
+lambda <- fitContinuous(databbslopesphy$phy,trait,model="lambda")
+white <- fitContinuous(databbslopesphy$phy,trait,model="white")
 
-chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
-photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
+store.phylosig[i,1] <- BM$opt$sigsq
+store.phylosig[i,2] <- white$opt$lnL
+store.phylosig[i,3] <- BM$opt$lnL
+store.phylosig[i,4] <- lambda$opt$lambda
+store.phylosig[i,5] <- lambda$opt$lnL
+store.phylosig[i,6] <- log(OU$opt$alpha,10)*(-1)
+store.phylosig[i,7] <- OU$opt$lnL
 
-X <- data.frame(forcing = x,
-                chilling = y,
-                photoperiod = z)
+}
 
-dev.off()
-library(RColorBrewer)
-cols=brewer.pal(11, name = "Spectral")
-phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
-              split = c(0.65,0.35), col = cols)
-
-
-## D) fit intercept only models to check for phylogenetic structure in sensitivities
-lambda.force = pgls(force.z~1,data = databbslopesphy,lambda='ML')
-summary(lambda.force)
-
-lambda.chill = pgls(chill.z~1,data = databbslopesphy,lambda='ML')
-summary(lambda.chill)
-
-lambda.photo = pgls(photo.z~1,data = databbslopesphy,lambda='ML')
-summary(lambda.photo)
-
-dev.off()
-par(mfrow=c(1,3),mar=c(4,5,3,2))
-plot(pgls.profile(lambda.force),
-     main="forcing")
-plot(pgls.profile(lambda.chill),
-     main="chilling")
-plot(pgls.profile(lambda.photo),
-     main="photoperiod")
-
-
-## resp is the mean across responses and is modelled according
-## the sensitivities of each species to each cue
-lambda.full = pgls(resp~force.z+chill.z+photo.z,data = databbslopesphy,lambda='ML')
-plot(pgls.profile(lambda.full))
-plot(lambda.full)
-summary(lambda.full)
-
-
-
-
+write.csv(store.phylosig,file = "output/Phyl.sig.each.cue.csv")
 
 ############################################
 
