@@ -24,7 +24,7 @@
 
 sppcomplexfx.multcue <- function(d){
 
-#d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_ospree_clean_withchill_BB.csv")
+#d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_withchill_BB.csv")
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus_species
 
 xx<-d
@@ -38,7 +38,7 @@ xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, n
 #xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 #xx <- within(xx, { datasets <- ave(datasetID, name, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx, name, genus, force, photo, chilltemp, chilltime, field.sample, datasetID)
+xx<-dplyr::select(xx, name, genus, species, force, photo, chilltemp, chilltime, field.sample, datasetID)
 xx<-xx[!duplicated(xx),]
 
 
@@ -63,7 +63,7 @@ species4taxon<-c(accept$name) ## make a list of species using above requirements
 accept$complex<-accept$name
 accept$use<-"Y"
 
-accept <- subset(accept, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+accept <- subset(accept, select=c("name", "genus", "species", "force", "photo", "chill", "numcues", "complex", "use"))
 
 ###accept is a list of species that are good to go
 
@@ -89,7 +89,7 @@ taxon$use<-"Y"
 #### Let's start with species that fulfill this requirement... 
 
 sppmultstudies <- xx[!(xx$name%in%species4taxon),]
-sppmultstudies <- subset(sppmultstudies, select=c("name", "genus", "force", "photo", "chill"))
+sppmultstudies <- subset(sppmultstudies, select=c("name", "genus", "species", "force", "photo", "chill"))
 
 xxsppmult <- within(sppmultstudies, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # where forcing was manipulated across more than one level for each species
 xxsppmult <- within(xxsppmult, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))}) # where photo was manipulated across more than one level for each species
@@ -111,7 +111,7 @@ speciesmult4taxon<-c(acceptsppmult$name) ## make a list of species using above r
 acceptsppmult$complex<-acceptsppmult$name
 acceptsppmult$use<-"Y"
 
-acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "species", "force", "photo", "chill", "numcues", "complex", "use"))
 
 ### List of additional species that manipulate all three cues across multiple studies
 ### ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
@@ -138,10 +138,10 @@ taxonmult$use<-"Y"
 allspp <- c(species4taxon, speciesmult4taxon)
 
 comp <- xx[!(xx$name%in%allspp),]
-comp$species <- gsub(".*_", "", comp$name)
+#comp$species <- gsub(".*_", "", comp$name)
 comp$name <- paste(comp$genus, "complex", sep="_")
 
-comp <- subset(comp, select=c("name", "species", "genus", "force", "photo", "chill"))
+comp <- subset(comp, select=c("name", "genus", "species", "force", "photo", "chill"))
 
 xxcomp <- within(comp, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # mult forcetemp across mult datasets for each genus, excluding species already found to use
 xxcomp <- within(xxcomp, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))})
@@ -160,7 +160,7 @@ complex4taxon<-c(acceptcomp$name) ## make a list of species using above requirem
 acceptcomp$complex<-acceptcomp$name
 acceptcomp$use<-"Y"
 
-acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "species", "photo", "chill", "numcues", "complex", "use"))
 
 ### Complexes being added in ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
 #[1] "Betula_complex"       "Hamamelis_complex"    "Juglans_complex"      "Pinus_complex"       
@@ -179,12 +179,12 @@ uselist<-filter(complexlist,use=="Y")
 
 ## Brings all the accepted species and accepted complexes together
 accepties<-rbind(accept, acceptsppmult, acceptcomp)
-accepties$species<-gsub(".*_", "", accepties$name)
+#accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
 accepties<-accepties[!duplicated(accepties),]
 
 dim(d)
-bb.wtaxa<-full_join(d, accepties) 
+bb.wtaxa<-left_join(d, accepties) 
 dim(bb.wtaxa) # gaining rows here, which is bad (9 rows I think)
 bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
 bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
