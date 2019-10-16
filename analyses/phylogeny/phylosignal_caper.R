@@ -22,6 +22,7 @@ library(shinystan)
 library(caper)
 library(brms)
 library(pez)
+library(phytools)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -40,17 +41,22 @@ use.exptypes.fp = FALSE
 
 source("source/bbstanleadin.phyla.R")
 
-str(datalist.bb)
+str(bb.stan.alltypes)
 sum(is.na(datalist.bb$y))
-
+str(dat.wothertreats)
 
 ############################################
-#### Load sps list and get phylogeny
+#### Load species list and get phylogeny
 ############################################
 
 ## load species list (beware this list has both species and complexes)
-species.list <- read.csv("input/spslist.csv")
-species.list <- sort(species.list$Species_binomial)
+#species.list <- read.csv("input/spslist.csv")
+#species.list <- sort(species.list$Species_binomial)
+bb.stan.alltypes$binomial <-paste(bb.stan.alltypes$genus,
+                                  bb.stan.alltypes$species,sep="_") 
+species.list <- sort(unique(bb.stan.alltypes$binomial))
+
+
 
 ## getting a list of genera in our sps list
 genus.list <- unlist(lapply(strsplit(species.list, "_"), 
@@ -73,7 +79,6 @@ phy.genera <- unlist(
 phy.genera.uniq <- sort(unique(phy.genera))
 
 
-
 ## how many ospree genera are in the phylogeny?
 ospreegenus.inphylo <- genus.list.unique[which(genus.list.unique%in%phy.genera.uniq)]
 
@@ -91,9 +96,13 @@ phy.ospree.clean <- congeneric.merge(phy.genera.ospree,names.to.add,split="_")
 phy.plants.ospree<-drop.tip(phy.ospree.clean,
                             which(!phy.ospree.clean$tip.label%in%species.list))
 
+phylo<-force.ultrametric(phy.plants.ospree, method="extend")
+phylo$node.label<-seq(1,length(phylo$node.label),1)
+is.ultrametric(phylo)
+
 # 62 species are in the phylogeny
-#plot(phy.plants.ospree)
-write.tree(phy.plants.ospree,file = "../../data/phylogeny/ospree.phylogeny62sp.tre")
+#plot(phy.plants.ospree,cex=0.7)
+#write.tree(phy.plants.ospree,file = "../../data/phylogeny/ospree.phylogeny62sp.tre")
 
 ############################################
 
@@ -101,10 +110,171 @@ write.tree(phy.plants.ospree,file = "../../data/phylogeny/ospree.phylogeny62sp.t
 #### Fitting Phylogenetic models with PGLS - Full Cleaned Ospree Data
 ############################################
 
+# read and summarize ospree data
+
+  ## A) generate a subsetted dataframe and a summarized version
+  databb = bb.stan[,c(26,16,20,30:32)]
+
+databbslopes = as.data.frame(array(NA, dim=c(65,6)))
+colnames(databbslopes)=colnames(databb)
+for(i in unique(databb$name)){#i="Abies_alba"
+  print(i)
+  subs.i=subset(databb,name==i)
+  index.i=which(unique(databb$name)==i)
+  databbslopes[index.i,1] = i 
+  databbslopes[index.i,2] = mean(subs.i$provenance.lat,na.rm=T)
+  databbslopes[index.i,3] = mean(subs.i$resp,na.rm=T)
+  mod1 = lm(resp~force.z+photo.z+chill.z,data=subs.i)
+  if(nrow(summary(mod1)$coefficients)==4){
+    databbslopes[index.i,4:6] = summary(mod1)$coefficients[2:4,1]
+  }
+}
+
+
+
+
+## B) generate a comparative.data object merging data and phylogeny
+databbslopesphy = comparative.data(phylo,databbslopes[,-2],names.col="name",
+                                   na.omit=T,vcv=T)
+
+
+## C) Map sensitivities to each cue along the phylogeny
+phyloplot = databbslopesphy$phy
+x = databbslopesphy$data$force.z
+y = databbslopesphy$data$chill.z
+z = databbslopesphy$data$photo.z
+names(x) = names(y) = names(z) = databbslopesphy$phy$tip.label
+
+par(mfrow=c(1,3))
+force <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
+chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
+photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
+
+X <- data.frame(forcing = x,
+                chilling = y,
+                photoperiod = z)
+
+dev.off()
+library(RColorBrewer)
+cols=brewer.pal(11, name = "Spectral")
+phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
+              split = c(0.65,0.35), col = cols)
+
+
+## D) fit intercept only models to check for phylogenetic structure in sensitivities
+lambda.force = pgls(force.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.force)
+
+lambda.chill = pgls(chill.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.chill)
+
+lambda.photo = pgls(photo.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.photo)
+
+dev.off()
+par(mfrow=c(1,3),mar=c(4,5,3,2))
+plot(pgls.profile(lambda.force),
+     main="forcing")
+plot(pgls.profile(lambda.chill),
+     main="chilling")
+plot(pgls.profile(lambda.photo),
+     main="photoperiod")
+
+
+## resp is the mean across responses and is modelled according
+## the sensitivities of each species to each cue
+lambda.full = pgls(resp~force.z+chill.z+photo.z,data = databbslopesphy,lambda='ML')
+plot(pgls.profile(lambda.full))
+plot(lambda.full)
+summary(lambda.full)
+
+
 
 
 
 ############################################
+
+
+############################################
+#### Check phylogenetic signal of each cue - Ospree Data
+############################################
+
+# read and summarize ospree data
+
+
+## A) retrieve vectors and phylogeny
+#phyloplot = databbslopesphy$phy
+#x = databbslopesphy$data$force.z
+#y = databbslopesphy$data$chill.z
+#z = databbslopesphy$data$photo.z
+#names(x) = names(y) = names(z) = databbslopesphy$phy$tip.label
+resp = databbslopesphy$data$resp
+names(resp) = databbslopesphy$phy$tip.label
+
+
+phy.t<-multi2di(list.objs[[j]])
+phy.t<-nnls.tree(cophenetic(phy.t),phy.t,rooted=TRUE)
+
+databbslopesphy$phy = multi2di(databbslopesphy$phy)
+is.binary(databbslopesphy$phy)
+
+## B) fit phylogenetic signal models for sensitivities to each cue
+library(geiger)
+phy.upOU<-rescaleTree(databbslopesphy$phy,1)
+up.OU<-fitContinuous(phy.upOU,x,model="OU",bounds=list(alpha=c(0.0005,20)))
+up.BM<-fitContinuous(databbslopesphy$phy,x,model="BM")
+up.lambda<-fitContinuous(databbslopesphy$phy,x,model="lambda")
+
+
+force.lamb <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
+
+chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
+photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
+
+X <- data.frame(forcing = x,
+                chilling = y,
+                photoperiod = z)
+
+dev.off()
+library(RColorBrewer)
+cols=brewer.pal(11, name = "Spectral")
+phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
+              split = c(0.65,0.35), col = cols)
+
+
+## D) fit intercept only models to check for phylogenetic structure in sensitivities
+lambda.force = pgls(force.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.force)
+
+lambda.chill = pgls(chill.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.chill)
+
+lambda.photo = pgls(photo.z~1,data = databbslopesphy,lambda='ML')
+summary(lambda.photo)
+
+dev.off()
+par(mfrow=c(1,3),mar=c(4,5,3,2))
+plot(pgls.profile(lambda.force),
+     main="forcing")
+plot(pgls.profile(lambda.chill),
+     main="chilling")
+plot(pgls.profile(lambda.photo),
+     main="photoperiod")
+
+
+## resp is the mean across responses and is modelled according
+## the sensitivities of each species to each cue
+lambda.full = pgls(resp~force.z+chill.z+photo.z,data = databbslopesphy,lambda='ML')
+plot(pgls.profile(lambda.full))
+plot(lambda.full)
+summary(lambda.full)
+
+
+
+
+
+############################################
+
 
 
 ############################################
@@ -204,185 +374,6 @@ rownames(A) <- rownames(inv.phylo$Ainv)
 bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
 bb.stan$spps<-bb.stan$phylo
 
-
-
-
-## fitting models for forcing, chilling and photo, independently 
-### FORCING
-### ## ad mean of predictor across species and within species
-bb.stan$species_mean <- 
-  with(bb.stan, sapply(split(force.z, phylo), mean)[phylo])
-
-bb.stan$within_species <- 
-  bb.stan$force.z - bb.stan$species_mean
-
-model_phylo <- brm(
-  resp ~ species_mean + within_species +      ## fixed effs
-    (1 + within_species|phylo) + (1|species),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 2, cores = 2, 
-  iter = 1000, warmup = 500
-)
-
-### CHILLING
-### ## ad mean of predictor across species and within species
-
-bb.stan$chillmeans <- 
-  with(bb.stan, sapply(split(chill.z, phylo), mean)[phylo])
-
-bb.stan$withinsp.chillmeans <- 
-  bb.stan$chill.z - bb.stan$species_mean
-
-## 
-model_phylo.chill <- brm(
-  resp ~ chillmeans + withinsp.chillmeans +      ## fixed effs
-    (1 + withinsp.chillmeans|phylo) + (1|species),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 2, cores = 4, 
-  iter = 1000, warmup = 500
-)
-
-
-### PHOTO
-### ## ad mean of predictor across species and within species
-bb.stan$photomeans <- 
-  with(bb.stan, sapply(split(photo.z, phylo), mean)[phylo])
-
-bb.stan$withinsp.photomeans <- 
-  bb.stan$photo.z - bb.stan$species_mean
-
-## 
-model_phylo.photo <- brm(
-  resp ~ photomeans + withinsp.photomeans +      ## fixed effs
-    (1 + withinsp.photomeans|phylo) + (1|species),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 2, cores = 4, 
-  iter = 1000, warmup = 500
-)
-
-####################################
-
-
-###########################################
-## explore fitted models, ppc, phylo-signal 
-## ########################################
-
-## save main results as table
-#fixed spec_pars cor_pars random
-forceeffs<-rbind(
-  summary(model_phylo)$fixed,
-  summary(model_phylo)$random$phylo,
-  summary(model_phylo)$random$species,
-  summary(model_phylo)$spec_pars
-)
-
-chilleffs<-rbind(
-  summary(model_phylo.chill)$fixed,
-  summary(model_phylo.chill)$random$phylo,
-  summary(model_phylo.chill)$random$species,
-  summary(model_phylo.chill)$spec_pars
-)
-
-photoeffs<-rbind(
-  summary(model_phylo.photo)$fixed,
-  summary(model_phylo.photo)$random$phylo,
-  summary(model_phylo.photo)$random$species,
-  summary(model_phylo.photo)$spec_pars
-)
-
-write.csv(forceeffs,"output/force_effects.csv")
-write.csv(chilleffs,"output/chill_effects.csv")
-write.csv(photoeffs,"output/photo_effects.csv")
-
-
-
-## Plot and save main results for posterior distributions of coefficients
-## and ppcs
-
-# forcing
-plot(model_phylo, N = 5, ask = F)
-# chilling
-plot(model_phylo.chill, N = 5, ask = T)
-#model_phylo.chill$fit
-# photo
-plot(model_phylo.photo, N = 5, ask = T)
-
-#plot marginal effs
-plot(marginal_effects(model_phylo), points = TRUE,ask=T) 
-plot(marginal_effects(model_phylo.chill), points = TRUE,ask=T) 
-plot(marginal_effects(model_phylo.photo), points = TRUE,ask=T) 
-
-
-#plot ppcs
-par(mfrow=c(1,3))
-pp_check(model_phylo)
-pp_check(model_phylo.chill)
-pp_check(model_phylo.photo)
-
-
-############################
-###### Plot and save main results for posterior distributions of phylosignal
-## forcing
-hyp.force <- paste(
-  "(sd_phylo__Intercept^2 + sd_phylo__within_species^2)/", 
-  "(sd_phylo__Intercept^2 
-  + sd_phylo__within_species^2
-  + sd_species__Intercept
-  + cor_phylo__Intercept__within_species^2 
-  + sigma^2) = 0.0"
-  )
-(lambda.force <- hypothesis(model_phylo, hyp.force, class = NULL))
-
-## chill
-hyp.chill <- paste(
-  "(sd_phylo__Intercept^2 + sd_phylo__withinsp.chillmeans^2)/", 
-  "(sd_phylo__Intercept^2 
-  + sd_phylo__withinsp.chillmeans^2
-  + sd_species__Intercept
-  + cor_phylo__Intercept__withinsp.chillmeans^2 
-  + sigma^2) = 0.0"
-  )
-(lambda.chill <- hypothesis(model_phylo.chill, hyp.chill, class = NULL))
-
-## photo
-hyp.photo <- paste(
-  "(sd_phylo__Intercept^2 + sd_phylo__withinsp.photomeans^2)/", 
-  "(sd_phylo__Intercept^2 
-  + sd_phylo__withinsp.photomeans^2
-  + sd_species__Intercept
-  + cor_phylo__Intercept__withinsp.photomeans^2 
-  + sigma^2) = 0.0"
-  )
-(lambda.photo <- hypothesis(model_phylo.photo, hyp.photo, class = NULL))
-
-
-## plotting posteriors
-plot(lambda.force)
-plot(lambda.chill)
-plot(lambda.photo)
-
-
-
+############################################
 
 
