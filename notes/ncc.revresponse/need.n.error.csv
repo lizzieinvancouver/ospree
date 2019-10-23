@@ -1,1 +1,18 @@
-datasetID,study,fig.table,n_possibletoget?,error.type?,resp_error_possibletoget?,assigneefalusi03,exp1,fig 1,"exact not possible (estimate:  6-9 buds per twig, 15 twigs per lot)",SE,"Yes, requires scraping",ailenefalusi90,exp1,fig 1,,,,catfalusi90,exp1,Table 2,,,,catfalusi96,exp3,fig4,,,,danbasler14,exp1,fig 2,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailenebasler14,exp1,fig 4,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailenecaffarra11b,exp2,table 3,,SE,,catghelardini10,exp1,fig 2,,,,danghelardini10,exp2,fig 4,,,,danlaube14a,exp1,fig 2,"Yes (N=902-1000, depending on treatment)",NA,No,ailenelaube14b,exp1,Fig. 1,Yes (n=10 twings per species),"quartiles (upper,lower)","Yes, requires scraping",ailenemyking95,exp1,fig 2,,,,catmyking95,exp1,fig 4,,,,catpartanen01,exp1,Table 1,,,,danworrall67,exp 3,fig 5,,,,aileneworrall67,exp 3,fig 4,,,,aileneworrall67,exp 4,fig 7,,,,ailene
+datasetID,study,fig.table,n_possibletoget?,error.type?,resp_error_possibletoget?,assignee
+falusi03,exp1,fig 1,"exact not possible (estimate:  6-9 buds per twig, 15 twigs per lot)",SE,"Yes, requires scraping",ailene
+falusi90,exp1,fig 1,"exact not possible: average of 6.5 buds per group 1, 9.5 buds per group 2, 12.1 per group 3",NA,No,cat
+falusi90,exp1,Table 2,"exact not possible: average of 6.5 buds per group 1, 9.5 buds per group 2, 12.1 per group 3. Table 2 is percentages so highest value is 100",NA,No,cat
+falusi96,exp3,fig4,,,,dan
+basler14,exp1,fig 2,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailene
+basler14,exp1,fig 4,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailene
+caffarra11b,exp2,table 3,exact not possible: reported as percentages,SE,"Yes, requires scraping",cat
+ghelardini10,exp1,fig 2,,,,dan
+ghelardini10,exp2,fig 4,,,,dan
+laube14a,exp1,fig 2,"Yes (N=902-1000, depending on treatment)",NA,No,ailene
+laube14b,exp1,Fig. 1,Yes (n=10 twings per species),"quartiles (upper,lower)","Yes, requires scraping",ailene
+myking95,exp1,fig 2,"Yes, can scrape from Table 2",NA,No,cat
+myking95,exp1,fig 4,"Yes, n=5",SE,"Yes, requires scraping from figure",cat
+partanen01,exp1,Table 1,,,,dan
+worrall67,exp 3,fig 5,,,,ailene
+worrall67,exp 3,fig 4,,,,ailene
+worrall67,exp 4,fig 7,,,,ailene
