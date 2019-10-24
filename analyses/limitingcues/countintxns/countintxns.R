@@ -58,6 +58,10 @@ datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcete
     "photoperiod_day", "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
 head(datsm)
 
+## If forcetemp_night is empty, we assume it is the same as forcetemp
+datsm$forcetemp_night[which(datsm$forcetemp_night=="")] <- datsm$forcetemp[which(datsm$forcetemp_night=="")]
+datsm$forcetemp_night[which(is.na(datsm$forcetemp_night)==TRUE)] <- datsm$forcetemp[which(is.na(datsm$forcetemp_night)==TRUE)]
+
 ## Okay, formatting to look at intxns
 datsm$force <- as.numeric(datsm$forcetemp)
 datsm$forcemean <- (datsm$force + as.numeric(datsm$forcetemp_night))/24
@@ -474,6 +478,13 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-fielddate-chill", treat
 ## Done with single treatments
 
 ## Now get thermo-photoperiodicity
+
+## First, if forcetemp_night is empty, we assume it is the same as forcetemp
+bb14d.noNA$forcetemp_night[which(bb14d.noNA$forcetemp_night=="")] <-
+    bb14d.noNA$forcetemp[which(bb14d.noNA$forcetemp_night=="")]
+bb14d.noNA$forcetemp_night[which(is.na(bb14d.noNA$forcetemp_night)==TRUE)] <-
+    bb14d.noNA$forcetemp[which(is.na(bb14d.noNA$forcetemp_night)==TRUE)]
+
 # Note that I (Lizzie) did NOT go back to the data and check these ...
 moreforcinginfo <- get.treatdists.daynight(bb14d.noNA, "forcetemp", "forcetemp_night")
 forcingvaried <- subset(moreforcinginfo, treatinfo!="forcing does not vary")
