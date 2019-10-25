@@ -8,7 +8,7 @@
 ################
 ## To do here ##
 ################
-# (*) Figure out why my numbers differ from Cat's
+# (*) Figure out why my numbers differ from Cat's (search for *** below)
 # (*) Decide how to deal with forcing having varying night and day treatments
 # (*) Make heatmaps ...
 
@@ -257,18 +257,21 @@ write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALS
 
 ###############
 ## OKAY! Next...
-## (1) Why is total forcing different higher in thermo versus force code? Some studies vary night forcing only, and then you get MORE identified if you use datsm14d instead of datsm14d.noNA ... but still different (46 versus 48)
-## (2) Why is my number of studies that manipulated forcing so much less than Cat's?
+## ***
+## (1) [Check again once we deal with numeric versus character issue!] Why is total forcing different higher in thermo versus force code? Some studies vary night forcing only, and then you get MORE identified if you use datsm14d instead of datsm14d.noNA ... but still different (46 versus 48) 
+## (2) Why is my number of studies that manipulated forcing so much less than Cat's? For forcing I am missing all the ambient and ambient + X studies (except that Cat has gomory15 and I don't think that has multiple forcing temps)
 ## (3) Once all sorted, working on heatmaps ...
 
 gooall <- read.csv("output/studytype_table.csv")
 goo <- gooall[which(paste(gooall$datasetID, gooall$study) %in% unique(paste(datsm14d$datasetID, datsm14d$study))),] # makes no difference, we're using the same studies!
 goober <- subset(goo, force>1)
-nrow(goober)
-nrow(gooall)
+length(unique(goober$datasetID))
+length(unique(forceosp$datasetID))
 
-goober[order(goober$datasetID),]
-forceosp[order(forceosp$datasetID),] # I don't have (not complete list): caffarra11a exp3 or exp1
+setdiff(unique(goober$datasetID), unique(forceosp$datasetID))
+
+goober[order(unique(goober$datasetID)),]
+forceosp[order(unique(forceosp$datasetID)),] # I don't have (not complete list): caffarra11a exp3 or exp1
 
 photoosp[order(photoosp$datasetID),]
 
