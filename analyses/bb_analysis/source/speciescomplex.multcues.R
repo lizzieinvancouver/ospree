@@ -75,6 +75,7 @@ taxon$complex<-taxon$name
 taxon$use<-"Y"
 
 ### List of species to accept:***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+    ## Lizzie's list is only 37 spp at this point (no Vitis, Ribes or Malus ... so perhaps it is just the underlying data I think)
 #[1] "Acer_pensylvanicum"     "Acer_pseudoplatanus"    "Acer_rubrum"            "Acer_saccharum"        
 #[5] "Alnus_glutinosa"        "Alnus_incana"           "Alnus_rubra"            "Betula_alleghaniensis" 
 #[9] "Betula_papyrifera"      "Betula_pendula"         "Betula_pubescens"       "Cornus_cornuta"        
@@ -117,6 +118,7 @@ acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "species", "for
 
 ### List of additional species that manipulate all three cues across multiple studies
 ### ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+## Lizzie has same list!
 #[1] "Abies_alba"             "Aesculus_hippocastanum" "Aronia_melanocarpa"     "Betula_lenta"          
 #[5] "Corylus_avellana"       "Fraxinus_excelsior"     "Picea_glauca"           "Prunus_avium"          
 #[9] "Prunus_persica"         "Pseudotsuga_menziesii"  "Pyrus_pyrifolia"        "Quercus_robur"         
@@ -165,6 +167,7 @@ acceptcomp$use<-"Y"
 acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "species", "photo", "chill", "numcues", "complex", "use"))
 
 ### Complexes being added in ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+## Lizzie has same list!
 #[1] "Betula_complex"       "Hamamelis_complex"    "Juglans_complex"      "Pinus_complex"       
 #[5] "Prunus_complex"       "Pyrus_complex"        "Quercus_complex"      "Rhamnus_complex"     
 #[9] "Rhododendron_complex" "Sorbus_complex" 
@@ -187,7 +190,7 @@ accepties<-accepties[!duplicated(accepties),]
 
 dim(d)
 bb.wtaxa<-left_join(d, accepties) 
-dim(bb.wtaxa) # gaining rows here, which is bad (9 rows I think)
+dim(bb.wtaxa) 
 bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
 bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
 
