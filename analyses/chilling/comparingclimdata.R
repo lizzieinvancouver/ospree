@@ -311,8 +311,8 @@ compareplot <- ggplot(testall, aes(x=gdd_prince, y=gdd_liv)) + geom_point() +
   theme_classic() + coord_cartesian(x=c(175, 1700), y=c(175, 1700))
 
 png("chilling/princetontest/livneh_vs_princeton.png", 
-    width=4,
-    height=4, units="in", res = 350 )
+    width=2,
+    height=2, units="in", res = 350 )
 plot(compareplot)
 dev.off()
 
