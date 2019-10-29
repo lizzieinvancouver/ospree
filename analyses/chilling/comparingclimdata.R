@@ -310,11 +310,8 @@ compareplot <- ggplot(testall, aes(x=gdd_prince, y=gdd_liv)) + geom_point() +
   geom_abline(intercept=0, slope=1) + xlab("Princeton") + ylab("Livneh") + 
   theme_classic() + coord_cartesian(x=c(175, 1700), y=c(175, 1700))
 
-png("chilling/princetontest/livneh_vs_princeton.png", 
-    width=2,
-    height=2, units="in", res = 350 )
-plot(compareplot)
-dev.off()
+quartz()
+compareplot
 
 write.csv(testall, "chilling/princetontest/livneh_vs_princeton.csv", row.names=FALSE)
 
