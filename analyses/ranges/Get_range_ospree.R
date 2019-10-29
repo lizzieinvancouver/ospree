@@ -5,11 +5,6 @@
 # Date: 23th Oct 2019
 
 
-## to start
-rm(list=ls())
-options(stringsAsFactors=FALSE)
-
-
 
 # housekeeping
 rm(list=ls()) 
@@ -33,82 +28,43 @@ if(length(grep("lizzie", getwd())>0)) {
 library('raster')
 library('ncdf4')
 library('abind')
+library('chillR')
 
 
-## load species list (beware this list has both species and complexes)
+
+## load climate data rasters (these data are not currently in the ospree folder 
+## as they are heavy - 2.2Gb) - E-OBS at http://opendap.knmi.nl/knmi/thredds/catalog/e-obs_0.50regular/catalog.html
+tmin<-brick("~/Data_Harvard/EU trees/tn_0.50deg_reg_v17.0.nc", varname="tn", sep="")
+tmax<-brick("~/Data_Harvard/EU trees/tx_0.50deg_reg_v17.0.nc", varname="tx", sep="")
+
+
+
+## load species list (beware this list has both species and complexes and is not the final one
+## please change accordingly to read final species list)
 species.list <- read.csv("../phylogeny/input/spslist.csv")
 species.list <- sort(species.list$Species_binomial)
 
 
 ## read in list of species with distribution shapefiles
-dir("../../data/distributiondata/")
+# get a list of the polygon shapefiles in the .zip with the maps
+zipped_names <- grep('\\_plg.shp$', unzip("../../data/distributiondata/chorological_maps_dataset_20170220.zip",
+                                          list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
-ff <- unzip("../../data/distributiondata/chorological_maps_dataset_20170220.zip")
+# generate a list of species with maps in the .zip  
+species.list.maps <- unlist(lapply(strsplit(sub(".*/", "", zipped_names),"_"),
+                                   function(x){return(paste(x[1],x[2],sep="_"))}))
 
-aa <- ff[which(grepl(".shp",ff))][1]
-
-sps.i <- unzip("../../data/distributiondata/chorological_maps_dataset_20170220.zip",
-               files = aa)
-
-
-## create a vector file names we want to extract from
-files.temp <- c("EF2008C.zip","EF2006C.zip","EF2004C.zip","EF2002C.zip","EF2000C.zip","EF98_C.zip","EF1988_C.zip")
-
-## create a loop to extract the files to the directory set above
-## will build the file name of the extracted file
-unzip("EF2008c.zip")
-for (i in files.temp)
-  unzip(i)
-
-## a quicker way that doesnt require that you know which files - just does all
-## \ allows you to use the . in .zip, the . is a special character
-## $ is tells the pattern to search is the end? not sure about this one
-for (i in dir(pattern="\.zip$"))
-  unzip(i)
-
-
-## clean up the memory and close
-rm(list=ls())
-q()
-n
-
-
-
-## example to extract climate for one species "Betula Pendula" (can be
-## replicated or looped to include any other species)
-
-BePu<-"BetPub" # select Betula pubescnes
-FaSy<-"FagSyl" #select Fagus
-PiAb<-"PicAb1" #speciee picea
-BePe<-"BetPen" #Betula pendula
-CoAv<-"CorAve" #Corylus avenula
-QuRo<-"QurRo1" #Quercus robur
-
-## create a species list to apply the function to
-spslist<-c(#"BetPub" # select Betula pubescnes
-           #,"FagSyl" #select Fagus
-           "PicAb1" #speciee picea
-           ,"BetPen" #Betula pendula
-           ,"CorAve" #Corylus avenula
-           ,"QurRo1")
-
-fullnames<-c(#"Betula pubescens","Fagus sylvatica",
-             "Picea abies", "Betula pendula",
-             "Corylus avellana", "Quercus robur")
-
-#shorter version with only BetPub and FagSyl
-spslist<-c("BetPub" # select Betula pubescnes
-           ,"FagSyl") #select Fagus
-
-fullnames<-c("Betula pubescens","Fagus sylvatica")
+# get a list of species in ospree for which we have EU maps
+spslist <- species.list[which(species.list %in% species.list.maps)]
 
 
 # define period
 period<-1980:2017
-#period<-2009:2014
+#period<-2009:2010
+
 
 ## set function
-extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
+extractchillforce<-function(spslist,tmin,tmax,period){
   
   ## define array to store results
   nsps<-length(spslist)
@@ -141,26 +97,23 @@ extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
   for (i in 1:nsps){#i=1
     print(i)
     spsi<-spslist[i]
-    fullnamei<-fullnames[i]
+    #fullnamei<-fullnames[i]
     
     ## load shape
     
+    path.source.i <- "../../data/distributiondata/chorological_maps_dataset_20170220.zip"
     
-    if(spsi=="FagSyl"){
-      spsshape<-shapefile(paste("data/distributiondata/",
-                                fullnamei,"/","shapefiles/",
-                                paste(gsub(" ","_",fullnamei),"_sylvatica_plg.shp",sep="")
-                                ,sep=""))
-      
-    } else {
-      direct<-dir(paste("data/distributiondata/",
-                        fullnamei,"/","shapefiles/",sep=""))
-      #directname<-direct[which(grepl(direct,fullnamei))]
-      spsshape<-shapefile(paste("data/distributiondata/",
-                                fullnamei,"/","shapefiles/",
-                                paste(gsub(" ","_",fullnamei),"_plg.shp",sep="")
-                                ,sep=""))  
-    }
+    # get the file address for target file
+    zipped_name.i <- grep(paste(spsi,'_plg',sep=""), 
+                          unzip(path.source.i,
+                          list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
+    
+    # extract target file
+    unzip(path.source.i, files=zipped_name.i)
+    
+    # load shapefile
+    spsshape <- shapefile(zipped_name.i[3])
+    
     
     ## need to re-project shape from lamber equal area to geographic
     ## 
@@ -284,47 +237,17 @@ extractchillforce<-function(spslist,fullnames,trees,tmin,tmax,period){
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
-Climate.in.range<-extractchillforce(spslist,fullnames,trees,tmin,tmax,period)
+Climate.in.range<-extractchillforce(spslist,tmin,tmax,period)
+
+
+
 
 ## saving outputs
-#yearlyresultsBettil2014<-yearlyresults
-write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-2017BetPub.csv")
-write.csv(Climate.in.range[,,2],file = "analyses/ranges/climate.in.range1980-2017FagSyl.csv")
-write.csv(Climate.in.range[,,1],file = "analyses/ranges/climate.in.range1980-2017PicAb1.csv")
-write.csv(Climate.in.range[,,2],file = "analyses/ranges/climate.in.range1980-2017BetPen.csv")
-write.csv(Climate.in.range[,,3],file = "analyses/ranges/climate.in.range1980-2017CorAve.csv")
-write.csv(Climate.in.range[,,4],file = "analyses/ranges/climate.in.range1980-2017QurRo1.csv")
+save(Climate.in.range, file = paste("output/climate.in.range",
+                                    period[1],max(period),"RData",sep="."))
 
-
-
-
-#plots
-par(mfrow=c(3,2))
-for(i in 1:6){
-  plot(1980:2017,Climate.in.range[,1,i],"l",
-       main=spslist[i],ylab="mean GDD within range")
-}
-
-## the above function extracts forcing and chilling 
-## it takes a bit of time per species
-## the parameters to compute chilling and gdds should be reviewed:
-## for GDD I used Tb=10
-## for Utah units I used default parameters in package chillR
-## Still lacking code to extract centroids in environmental space
-## The output table yields yearly mean and sd values of chilling and 
-## forcing across the range computed out of daily values within
-## the Oct-Feb period (chilling) and March-May period (forcing)
-## Do we want further results?
-
-
-
-
-
-
-
-
-
-
+## remove aux unnecessary files
+unlink("chorological_maps_dataset/*", recursive = T)
 
 
 
