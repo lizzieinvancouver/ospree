@@ -14,8 +14,8 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
   # first format the dates in climate and datafile
   # they need to be saved as date objects in the same format
   datafile <- as.data.frame(datafile)
-  datafile$bb_date <- strptime(datafile$bb_date, format = "%d/%m/%Y")
-  climate$date <- as.Date(climate$date, format="%d/%m/%Y")
+  datafile$bb_date <- strptime(datafile$bb_date, format = "%Y-%m-%d")
+  climate$date <- strptime(climate$date, format="%Y-%m-%d")
   ifelse(absolute == T, type <- "absolute", type <- "relative")
   
   # then run climwin
@@ -24,7 +24,7 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
     results <- slidingwin(
       baseline = lm(datafile$bb_mean ~ 1), # baseline model.
       xvar=list(climate$temp),
-      cdate = climate$date, 
+      cdate = as.Date(climate$date, format="%d/%m/%Y"), spatial=climate$spatial,
       bdate = datafile$bb_date,
       cmissing=F, cinterval="day", type=type,
       range=c(365,0), refday = refday,
@@ -37,7 +37,7 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
     results <- slidingwin(
       baseline = lm(datafile$bb_mean ~ 1), # baseline model.
       xvar=list(climate$temp),
-      cdate = climate$date, 
+      cdate = climate$date, spatial=climate$spatial,
       bdate = datafile$bb_date,
       cmissing=F, cinterval="day", type=type,
       range=c(365,0), #refday = refday,
@@ -69,3 +69,8 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
               summary(results[[marker]]$BestModel)$adj.r.squared)
   return(list(window, results[[marker]]$BestModelData))
 }
+
+
+
+
+
