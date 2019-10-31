@@ -2,47 +2,27 @@
 ## 31 October 2019 started by Cat
 
 simgenerate <- function(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb){
-  x<-seq(as.Date("1960-01-01"),as.Date("2018-12-31"),by="day")
+  x<-seq(as.Date("1950-01-01"),as.Date("2018-12-31"),by="day")
+  yrs <- substr(x, 1, 4)
+  #doy<-rep(c(1:100), times=69)
+  #yrs <- rep(c(1950:2018), each=100)
+  #dates <- as.Date(doy, origin=paste0(yrs, "-01-01"))
   
-  # Step 1: create budburst dataframe 
-  #Columns are: Year, bb_date (in character format (%Y-%d-%m)), bb_mean (essentially day of year of budburst), doy95 (day of year where 95% bursted bud)
-  bb <- data.frame(cbind(Year=as.numeric(substr(x,1,4))))
-  bb$cc <- ifelse(bb$Year>1985, "postcc", "precc")
-  bb <- bb[!duplicated(bb),]
-  
-  bbpre <- c() 
-  bbpost <- c()
-  for (i in c(1:nrow(bb))){
-    if (bb$cc[i]=="precc") {
-      bbpre <- rpois(n = nrow(bb[(bb$cc=="precc"),]), preccbb)
-    } else {
-      bbpost <- rpois(n = nrow(bb[(bb$cc=="postcc"),]), postccbb)
-    }
-    bb_mean <- c(bbpre, bbpost)
-  }
-  
-  bb <- data.frame(cbind(bb, bb_mean))
-  bbsw <- bb[(bb$Year>=1961 & bb$Year<=2018),]
-  bbsw$bb_date <- as.character(as.Date(bbsw$bb_mean, origin=as.Date(paste0(bbsw$Year, "-01-01"))))
-  bbsw$doy95 <- bbsw$bb_mean - 4
-  
-  bbdata <- subset(bbsw, select=c("Year", "bb_date", "bb_mean", "doy95"))
-  
-  # Step 2: create climate data
-  df <- data.frame(cbind(date=as.character(x), yday=yday(x), year=substr(x, 1, 4), cc=rep(c("precc"))))
-  df$cc <- ifelse(df$year>1985, "postcc", df$cc)
+  # Step 1: create climate data
+  df <- data.frame(cbind(date=as.character(x), yday=yday(x), year=yrs, cc=rep(c("precc"))))
+  df$cc <- ifelse(df$year>=1985, "postcc", df$cc)
   dailytemp <- c()
   dailytemppre <- c() 
   dailytemppost <- c()
+  gdd <- c()
   
-  for (i in c(1:nrow(df))){
-    if (df$cc[i]=="precc") {
-      dailytemppre <- rnorm(nrow(df[(df$cc=="precc"),]), precctemp, sigmatemp)
-    } else {
-      dailytemppost <- rnorm(nrow(df[(df$cc=="postcc"),]), postcctemp, sigmatemp)
-    }
-    dailytemp <- c(dailytemppre, dailytemppost)
-  }
+  dailytemppre <- rnorm(nrow(df[(df$year<1985),]), precctemp, sigmatemp)
+  dailytemppost <- rnorm(nrow(df[(df$year>=1985),]), postcctemp, sigmatemp)
+  
+  dailytemp <- c(dailytemppre, dailytemppost)
+  tempyr <- data.frame(cbind(dailytemp, yrs))
+  tempyr$gdd <- ave(tempyr$dailytemp, tempyr$yrs,  FUN=cumsum)
+  gdd <- tempyr$gdd
   
   clim <- data.frame(cbind(df, dailytemp))
   
@@ -52,7 +32,28 @@ simgenerate <- function(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sig
   climdata$month <- as.numeric(substr(climdata$date, 6, 7))
   climdata$temp <- climdata$dailytemp
   
+  ## Step 2: finalize climate data frame
   climate.data <- subset(climdata, select=c("date", "year", "yday", "day", "month", "temp")) 
+  
+  # Step 3: Make a data frame to find bb date using GDDs. Can adjust by changing the fstar. 
+  bb <- data.frame(cbind(date=as.character(x), Year=yrs, doy=yday(x), dailytemp, gdd))
+  bb$gdd <- as.numeric(bb$gdd)
+  
+  # Step 4: Using code from Lizzie's pep_sims/pepvarsimfxs.R. "Now, in a very slow, painful way I get the BB date"
+  bb$bb.YN <- ifelse(bb$gdd<fstar, "N", "Y")
+  
+  bbdata <- bb[(bb$bb.YN=="Y"),]
+  bbdata$bb_mean <- as.numeric(ave(bbdata$doy, bbdata$Year, FUN=min))
+  bbdata$bb_date <- ifelse(bbdata$bb_mean==bbdata$doy, bbdata$date, NA)
+  bbdata <- bbdata[!is.na(bbdata$bb_date),]
+  bbdata <- bbdata[(bbdata$Year>=1951),]
+  
+  # Step 5: create budburst dataframe 
+  #Columns are: Year, bb_date (in character format (%Y-%d-%m)), bb_mean (essentially day of year of budburst), doy95 (day of year where 95% bursted bud)
+  bbdata$doy95 <- bbdata$bb_mean - 4 ### not sure if this column is necessary so I just made it up... 
+  
+  bbsw <- subset(bbdata, select=c("Year", "bb_date", "bb_mean", "doy95"))
+  bbsw$bb_date <- as.character(bbsw$bb_date)
   
   return(list(bbdata, climate.data))
 }

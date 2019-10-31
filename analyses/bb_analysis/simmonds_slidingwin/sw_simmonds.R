@@ -6,6 +6,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(climwin)
+library(lubridate)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("ailene", getwd()))>0) { 
@@ -27,18 +28,16 @@ set.seed(123)
 precctemp <- 10
 postcctemp <- 11
 sigmatemp <- 5
-preccbb <- 50
-postccbb <- 45
-sigmabb <- 8
+fstar <- 400
 
-source("fakedata_swfx.R")
-sim1 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+source("fakedata_swfx.R") ## can take some time...
+sim1 <- simgenerate(precctemp, postcctemp, sigmatemp, fstar)
 postcctemp <- 12
-sim2 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+sim2 <- simgenerate(precctemp, postcctemp, sigmatemp, fstar)
 postcctemp <- 13
-sim3 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+sim3 <- simgenerate(precctemp, postcctemp, sigmatemp, fstar)
 postcctemp <- 14
-sim4 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+sim4 <- simgenerate(precctemp, postcctemp, sigmatemp, fstar)
 
 bbdata1 <- sim1[[1]]
 climate.data1 <- sim1[[2]]
