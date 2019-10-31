@@ -22,6 +22,7 @@ if(length(grep("ailene", getwd()))>0) {
 set.seed(123)
 
 ## We'll input variables here based off of pep_sims:
+## Adjust `postcctemp` depending on amount of warming as below
 # precctemp is the avg spring temp, postcctemp is +1deg of warming, etc, preccbb is the expected day of budburst (DOY), postccbb is after warming
 precctemp <- 10
 postcctemp <- 11
@@ -32,9 +33,21 @@ sigmabb <- 8
 
 source("fakedata_swfx.R")
 sim1 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+postcctemp <- 12
+sim2 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+postcctemp <- 13
+sim3 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
+postcctemp <- 14
+sim4 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
 
 bbdata1 <- sim1[[1]]
 climate.data1 <- sim1[[2]]
+bbdata2 <- sim2[[1]]
+climate.data2 <- sim2[[2]]
+bbdata3 <- sim3[[1]]
+climate.data3 <- sim3[[2]]
+bbdata4 <- sim4[[1]]
+climate.data4 <- sim4[[2]]
   
   
 source("Run_SW.R")
@@ -56,8 +69,8 @@ names(datafile) <- c("Year", "bb_date", "bb_mean", "doy95")
 
 #### Now to run using differing simulations:
 refday <- c(01, 03)
-datafile <- bbdata1
-climate <- climate.data1
+datafile <- bbdata1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
+climate <- climate.data1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
 climate$X <- NA ### needed in order to run... 
 
-Results_SWA <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+Results_SWA1 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
