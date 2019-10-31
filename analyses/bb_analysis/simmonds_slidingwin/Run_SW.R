@@ -27,7 +27,7 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
       cdate = climate$date, 
       bdate = datafile$bb_date,
       cmissing=F, cinterval="day", type=type,
-      range=c(365,0), refday = refday,
+      range=c(366,0), refday = refday,
       stat=c("mean", "min", "max", "slope"),
       func="lin"
     )
@@ -40,7 +40,7 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
       cdate = climate$date, 
       bdate = datafile$bb_date,
       cmissing=F, cinterval="day", type=type,
-      range=c(365,0), #refday = refday,
+      range=c(365,0), refday = refday,
       stat=c("mean", "min", "max", "slope"),
       func="lin"
     )

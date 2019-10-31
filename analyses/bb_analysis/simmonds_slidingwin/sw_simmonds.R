@@ -19,79 +19,45 @@ if(length(grep("ailene", getwd()))>0) {
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis/simmonds_slidingwin")
 
 
-set.seed(113)
+set.seed(123)
 
-## Okay we'll use similar code based on above to create df.sample
-precc <- 10
-postcc <- 12
-sigma <- 5
+## We'll input variables here based off of pep_sims:
+# precctemp is the avg spring temp, postcctemp is +1deg of warming, etc, preccbb is the expected day of budburst (DOY), postccbb is after warming
+precctemp <- 10
+postcctemp <- 11
+sigmatemp <- 5
 preccbb <- 50
 postccbb <- 45
 sigmabb <- 8
 
-x<-seq(as.Date("1951-01-01"),as.Date("2018-12-31"),by="day")
+source("fakedata_swfx.R")
+sim1 <- simgenerate(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb)
 
-# Step 1: create budburst dataframe 
-#Columns are: Year, bb_date (in character format (%Y-%d-%m)), bb_mean (essentially day of year of budburst), doy95 (day of year where 95% bursted bud)
-bb <- data.frame(cbind(Year=as.numeric(substr(x,1,4))))
-bb$cc <- ifelse(bb$Year>1985, "postcc", "precc")
-bb <- bb[!duplicated(bb),]
- 
-bbpre <- c() 
-bbpost <- c()
-for (i in c(1:nrow(bb))){
-  if (bb$cc[i]=="precc") {
-    bbpre <- rpois(n = nrow(bb[(bb$cc=="precc"),]), preccbb)
-  } else {
-    bbpost <- rpois(n = nrow(bb[(bb$cc=="postcc"),]), postccbb)
-  }
-  bb_mean <- c(bbpre, bbpost)
-}
-
-bb <- data.frame(cbind(bb, bb_mean))
-bbsw <- bb[(bb$Year>=1952 & bb$Year<=2018),]
-bbsw$bb_date <- as.character(as.Date(bbsw$bb_mean, origin=as.Date(paste0(bbsw$Year, "-01-01"))))
-bbsw$doy95 <- bbsw$bb_mean - 4
-
-bbtest <- subset(bbsw, select=c("Year", "bb_date", "bb_mean", "doy95"))
-
-# Step 2: create climate data
-df <- data.frame(cbind(date=as.character(x), yday=yday(x), year=substr(x, 1, 4), cc=rep(c("precc"))))
-df$cc <- ifelse(df$year>1985, "postcc", df$cc)
-dailytemp <- c()
-dailytemppre <- c() 
-dailytemppost <- c()
-
-for (i in c(1:nrow(df))){
-  if (df$cc[i]=="precc") {
-    dailytemppre <- rnorm(nrow(df[(df$cc=="precc"),]), precc, sigma)
-  } else {
-    dailytemppost <- rnorm(nrow(df[(df$cc=="postcc"),]), postcc, sigma)
-  }
-  dailytemp <- c(dailytemppre, dailytemppost)
-}
-
-clim <- data.frame(cbind(df, dailytemp))
-
-# Columns are; date, year, yday (day of year), day (day of month), month, temp (daily mean temperature in degrees celsius)
-climdata <- clim
-climdata$day <- as.numeric(substr(climdata$date, 9, 10))
-climdata$month <- as.numeric(substr(climdata$date, 6, 7))
-climdata$temp <- climdata$dailytemp
-
-climtest <- subset(climdata, select=c("date", "year", "yday", "day", "month", "temp")) 
-
+bbdata1 <- sim1[[1]]
+climate.data1 <- sim1[[2]]
+  
+  
+source("Run_SW.R")
 # refday = c(day, mon)
-refday <- c(15, 02)
 # climate is a datafile that must include col = temp
 # datafile = biological data
 # default = absolute but can also run relative
 #run_SW <- function(absolute = TRUE, datafile, climate, refday)
 
 ### Now checking Simmond's sliding window approach:
-source("Run_SW.R")
 
-datafile <- bbtest
-climate <- climtest
+if(FALSE){ ## using Simmond's paper data to test
+### Test run:
+datafile <- read.csv("bio_data.csv")
+climate <- read.csv("climate_data.csv")
 
-run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+names(datafile) <- c("Year", "bb_date", "bb_mean", "doy95")
+}
+
+#### Now to run using differing simulations:
+refday <- c(01, 03)
+datafile <- bbdata1
+climate <- climate.data1
+climate$X <- NA ### needed in order to run... 
+
+Results_SWA <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
