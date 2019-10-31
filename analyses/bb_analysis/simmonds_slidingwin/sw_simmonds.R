@@ -73,3 +73,4 @@ climate <- climate.data1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1
 climate$X <- NA ### needed in order to run... 
 
 Results_SWA1 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+save(Results_SWA1, file="")
