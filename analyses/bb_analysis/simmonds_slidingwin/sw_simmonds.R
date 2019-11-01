@@ -68,9 +68,18 @@ names(datafile) <- c("Year", "bb_date", "bb_mean", "doy95")
 
 #### Now to run using differing simulations:
 refday <- c(01, 03)
-datafile <- bbdata1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
-climate <- climate.data1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
+datafile <- bbdata4 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
+climate <- climate.data4 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
 climate$X <- NA ### needed in order to run... 
 
-Results_SWA1 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
-save(Results_SWA1, file="")
+Results_SWA4 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+write.csv(Results_SWA4[[2]], file="output/results_swa4.csv")
+
+
+swa1 <- Results_SWA1[[2]]
+swa2 <- Results_SWA2[[2]]
+swa3 <- Results_SWA3[[2]]
+swa4 <- Results_SWA4[[2]]
+
+
+

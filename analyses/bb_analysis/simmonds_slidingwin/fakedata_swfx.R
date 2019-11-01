@@ -1,7 +1,7 @@
 ### Source file to generate fake data using simulations of +1 to +4 temperature shifts
 ## 31 October 2019 started by Cat
 
-simgenerate <- function(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sigmabb){
+simgenerate <- function(precctemp, postcctemp, sigmatemp, fstar){
   x<-seq(as.Date("1950-01-01"),as.Date("2018-12-31"),by="day")
   yrs <- substr(x, 1, 4)
   #doy<-rep(c(1:100), times=69)
@@ -43,7 +43,8 @@ simgenerate <- function(precctemp, postcctemp, sigmatemp, preccbb, postccbb, sig
   bb$bb.YN <- ifelse(bb$gdd<fstar, "N", "Y")
   
   bbdata <- bb[(bb$bb.YN=="Y"),]
-  bbdata$bb_mean <- as.numeric(ave(bbdata$doy, bbdata$Year, FUN=min))
+  bbdata$doy <- as.numeric(bbdata$doy)
+  bbdata$bb_mean <- ave(bbdata$doy, bbdata$Year, FUN=min)
   bbdata$bb_date <- ifelse(bbdata$bb_mean==bbdata$doy, bbdata$date, NA)
   bbdata <- bbdata[!is.na(bbdata$bb_date),]
   bbdata <- bbdata[(bbdata$Year>=1951),]
