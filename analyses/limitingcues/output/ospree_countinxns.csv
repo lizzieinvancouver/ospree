@@ -20,15 +20,6 @@
 "force","photo and chill days ALL",3
 "photo","force and fieldsample ALL",5
 "photo","force and chill days or temp ALL",5
-"force","photo INTERACTIVE",14
-"chilltemp","force INTERACTIVE",2
-"chilltemp","photo INTERACTIVE",3
-"chilldays","force INTERACTIVE",7
-"chilldays","photo INTERACTIVE",8
-"fieldsample.date","force INTERACTIVE",11
-"fieldsample.date","photo INTERACTIVE",12
-"chill days or temp","force INTERACTIVE",8
-"chill days or temp","photo INTERACTIVE",8
 "total-varied-forcing","NA",47
 "total-wsometreats-constant-forcing","NA",46
 "total-variedwsometreats-varydaynight-forcing","NA",8

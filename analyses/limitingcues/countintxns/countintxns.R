@@ -23,6 +23,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("misc/gettreatdists.R") # f(x) counts up treatment interactions, and more!
+print('Code also relies on sourcing limitingcues/countintxns/countintxns_cleanosp.R (see below)')
 
 ###################
 # All OSPREE data #
@@ -58,6 +59,10 @@ datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcete
     "photoperiod_day", "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
 head(datsm)
 
+## Okay, since code effectively relies on numeric cues for force and photo we clean these here
+# It's ugly and inaccurate (in terms of numbers assigned) but works for this code
+source("limitingcues/countintxns/countintxns_cleanosp.R")
+
 ## If forcetemp_night is empty, we assume it is the same as forcetemp
 datsm$forcetemp_night[which(datsm$forcetemp_night=="")] <- datsm$forcetemp[which(datsm$forcetemp_night=="")]
 datsm$forcetemp_night[which(is.na(datsm$forcetemp_night)==TRUE)] <- datsm$forcetemp[which(is.na(datsm$forcetemp_night)==TRUE)]
@@ -68,6 +73,8 @@ datsm$forcemean <- (datsm$force + as.numeric(datsm$forcetemp_night))/24
 datsm$photo <- as.numeric(datsm$photoperiod_day)
 
 datsm.noNA <- subset(datsm, is.na(force)==FALSE & is.na(photo)==FALSE)
+dim(datsm.noNA)
+dim(datsm)
 
 osp.fp <- get.treatdists(datsm.noNA, "photo", "force")
 osp.fpintxn <- subset(osp.fp, intxn>=2)
@@ -91,9 +98,9 @@ dim(datsm14d) # not such a huge loss of rows
 # Check we don't lose any datasets!
 setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datasetID, datsm14d$study)))
 
-# datsm14d <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE) to write out ospree_countinxns.noNA.csv
-
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
+dim(datsm14d.noNA)
+dim(datsm14d)
 
 # Start gathering data ... 
 ospcounts <- data.frame(treat1=character(), treat2=character(), n=numeric())

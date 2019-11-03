@@ -3,16 +3,40 @@ By Lizzie
 
 
 <><><><><><><><><><><><><><><><><><><><>
-Late summer 2019 to do
+November 2019 to do
 <><><><><><><><><><><><><><><><><><><><>
+(*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
+(*) Every other time I pick this up I must work on the TEXT! (Things to do after first draft -- add citations (and make a list of citation types that I need), see notes of 'to-do items from this summer' and `MS problems to fix' (both below).  
+(*) Code challenge 1: analyses/limitingcues/countinxns -- fix the fact that code is designed to work on numeric data but we have a lot of character data in the temp and photo (and probably chill) columns. Can I re-write the loops? Or could I convert the text to numeric thoughtfully?
+
+>>> Check if I have fixed this! (ABOVE)
+
+(*) Code challenge 2: Work up the interactions plots! Do an interaction plot (4-8 panels, notes below) and a threshold plot (hint: cheap threshold plot could just mean setting photo or chill or force as a constant number -- like photo goes up until some point and then is set at 16 hrs no matter what).
+
+Four (or 8? or whatever) panel plot showing what Ailene showed across:
+F increases, P, C constant
+F increases, P decreases, C constant
+F increases, P constant, C decreases
+F increases, P and C both decrease
+* Plus threshold effects?
+
+(*) Should we add a figure for correlations of cues in nature?
+(*) Eventually, start on Rnw file for supp.
+
+
+And here are my notes of to-do items from this summer ....
 - Need help on review of studies across day versus night temperatures on budburst and leafout
 - Need help on review of warming across seasons!
+- Review Weinberger and chilling studies in general
 - Review the chilling temp papers we have in OSPREE!
 - Can we estimate how many studies did sequential tissue removal from chambers to test for ecodormancy? (relevant clause is "but given that this is labor- and space-intensive most studies considering chilling do not do this.")
 
 MS problems to fix:
-- Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language.
+
+- Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
+
 - We probably need to better explain the cues earlier. Explain endo- versus eco-dormancy earlier. Or is it okay the way it is?
+
 
 
 <><><><><><><><><><><><><><><><><><><><>
