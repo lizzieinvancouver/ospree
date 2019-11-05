@@ -324,7 +324,7 @@ comparetmin <- ggplot(testall, aes(x=tmin_prince, y=tmin_liv)) + geom_point() +
 
 comparetmax <- ggplot(testall, aes(x=tmax_prince, y=tmax_liv)) + geom_point() +
   geom_abline(intercept=0, slope=1) + xlab("Princeton") + ylab("Livneh") + 
-  theme_classic() + coord_cartesian(x=c(0, 40), y=c(0, 40)) + 
+  theme_classic() + coord_cartesian(x=c(0, 50), y=c(0, 50)) + 
   ggtitle("Tmax")
 
 
