@@ -162,10 +162,12 @@ for(i in names(tempval_prince)){ #i=2
   # Skip interpolation if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     
-    testcalc_prince <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
-  } else { testcalc_prince <- data.frame("Season"=NA,"End_year"=NA,"GDH"=NA) }
+    testcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
+  } else { testcalc <- data.frame("Season"=NA,"End_year"=NA,"GDH"=NA) }
   
-  testcalcs_prince <- rbind(testcalcs_prince, data.frame(datasetIDlatlong = i,testcalc[c("Season","End_year","GDH")]))
+  testcalcs_prince <- rbind(testcalcs_prince, data.frame(datasetIDlatlong = i,
+                                                         testcalc[c("Season","End_year","GDH")],
+                                                         tmin=xx$Tmin, tmax=xx$Tmax))
 }
 
 
@@ -274,11 +276,12 @@ for(i in names(tempval_liv)){
   # Skip interpolation if NA for temperature data
   if(apply(hrly, 2, function(x) all(!is.na(x)))["Temp"]) {
     
-    testcalc_liv <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
-  } else { testcalc_liv <- data.frame("Season"=NA,"End_year"=NA,"GDH"=NA) }
+    testcalc <- chilling(hrly, hrly$JDay[1], hrly$JDay[nrow(hrly)]) # 
+  } else { testcalc <- data.frame("Season"=NA,"End_year"=NA,"GDH"=NA) }
   
-  testcalcs_liv <- rbind(testcalcs_liv, data.frame(datasetIDlatlong = i,testcalc_liv[c("Season","End_year","GDH")]))
-}
+  testcalcs_liv <- rbind(testcalcs_liv, data.frame(datasetIDlatlong = i,
+                                                   testcalc[c("Season","End_year","GDH")],
+                                                   tmin=xx$Tmin, tmax=xx$Tmax))}
 
 #write.csv(testcalcs_prince, "output/fieldchillcalcslatlong_princetest.csv", row.names=FALSE, eol="\r\n")
 
@@ -286,24 +289,48 @@ for(i in names(tempval_liv)){
 #prince$gdd <- testcalcs_prince$GDH/24
 #testcalcs_prince$climdata <- "prince"
 prince <- testcalcs_prince
-prince$gdd_prince <- testcalcs_prince$GDH/24
+prince$gdd_prince <- prince$GDH/24
+prince$tmin_prince <- prince$tmin
+prince$tmax_prince <- prince$tmax
+
+prince$tmin <- prince$tmax <- prince$GDH <- prince$Season <- NULL
 
 #testcalcs_liv$gdd <- testcalcs_liv$GDH/24
 #testcalcs_liv$climdata <- "livneh"
 liv <- testcalcs_liv
-liv$gdd_liv <- testcalcs_liv$GDH/24
+liv$gdd_liv <- liv$GDH/24
+liv$tmin_liv <- liv$tmin
+liv$tmax_liv <- liv$tmax
 
-testall <- cbind(prince, liv$gdd_liv)
-testall <- dplyr::select(testall, -Season, -GDH)
-names(testall) <- c("id", "year", "gdd_prince", "gdd_liv")
+liv$tmin <- liv$tmax <- liv$GDH <- liv$Season <- NULL
+
+testall <- cbind(prince, liv$gdd_liv, liv$tmin_liv, liv$tmax_liv)
+#testall <- dplyr::select(testall, -Season, -GDH)
+names(testall) <- c("id", "year", "gdd_prince", "tmin_prince", "tmax_prince",
+                    "gdd_liv", "tmin_liv", "tmax_liv")
+
+testall$tmin_diff <- testall$tmin_prince - testall$tmin_liv
+testall$tmax_diff <- testall$tmax_prince - testall$tmax_liv
 
 library(ggplot2)
-compareplot <- ggplot(testall, aes(x=gdd_prince, y=gdd_liv)) + geom_point() +
+comparegdd <- ggplot(testall, aes(x=gdd_prince, y=gdd_liv)) + geom_point() +
   geom_abline(intercept=0, slope=1) + xlab("Princeton") + ylab("Livneh") + 
-  theme_classic() + coord_cartesian(x=c(175, 1700), y=c(175, 1700))
+  theme_classic() + coord_cartesian(x=c(175, 1700), y=c(175, 1700)) + ggtitle("GDD")
+
+comparetmin <- ggplot(testall, aes(x=tmin_prince, y=tmin_liv)) + geom_point() +
+  geom_abline(intercept=0, slope=1) + xlab("Princeton") + ylab("Livneh") + 
+  theme_classic() + coord_cartesian(x=c(-10, 30), y=c(-10, 30)) + 
+  ggtitle("Tmin")
+
+comparetmax <- ggplot(testall, aes(x=tmax_prince, y=tmax_liv)) + geom_point() +
+  geom_abline(intercept=0, slope=1) + xlab("Princeton") + ylab("Livneh") + 
+  theme_classic() + coord_cartesian(x=c(0, 40), y=c(0, 40)) + 
+  ggtitle("Tmax")
+
 
 quartz()
-compareplot
+library(gridExtra)
+grid.arrange(comparegdd, comparetmin, comparetmax, ncol=3)
 
 write.csv(testall, "chilling/princetontest/livnehvprinceton_fakecoords.csv", row.names=FALSE)
 
