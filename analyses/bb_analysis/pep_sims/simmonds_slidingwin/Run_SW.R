@@ -27,6 +27,7 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
       cdate = climate$date, 
       bdate = datafile$bb_date,
       cmissing=F, cinterval="day", type=type,
+      spatial=list(as.factor(datafile$spatial), as.factor(climate$spatial)),
       range=c(366,0), refday = refday,
       stat=c("mean", "min", "max", "slope"),
       func="lin"
@@ -39,8 +40,9 @@ run_SW <- function(absolute = TRUE, datafile, climate, refday){
       xvar=list(climate$temp), 
       cdate = climate$date, 
       bdate = datafile$bb_date,
-      cmissing=F, cinterval="day", type=type,
-      range=c(365,0), refday = refday,
+      cmissing=F, cinterval="day", type=type, 
+      spatial=list(as.factor(datafile$spatial), as.factor(climate$spatial)),
+      range=c(366,0), refday = refday,
       stat=c("mean", "min", "max", "slope"),
       func="lin"
     )
