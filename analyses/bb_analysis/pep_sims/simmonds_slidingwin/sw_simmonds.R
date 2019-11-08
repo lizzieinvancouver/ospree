@@ -40,13 +40,32 @@ postcctemp <- 10
 sim4 <- simgenerate(precctemp, postcctemp, sigmatemp, fstar)
 
 bbdata1 <- sim1[[1]]
+bbdatapre1 <- bbdata1[which(bbdata1$Year<=1979 & bbdata1$Year>=1970),]
+bbdatapost1 <-  bbdata1[which(bbdata1$Year>=1981 & bbdata1$Year<=1990),]
 climate.data1 <- sim1[[2]]
+climate.datapre1 <- subset(climate.data1, climate.data1$year<1980)
+climate.datapost1 <- subset(climate.data1, climate.data1$year>=1980)
+
 bbdata2 <- sim2[[1]]
+bbdatapre2 <- bbdata2[which(bbdata2$Year<=1979 & bbdata2$Year>=1970),]
+bbdatapost2 <-  bbdata2[which(bbdata2$Year>=1981 & bbdata2$Year<=1990),]
 climate.data2 <- sim2[[2]]
+climate.datapre2 <- subset(climate.data2, climate.data2$year<1980)
+climate.datapost2 <- subset(climate.data2, climate.data2$year>=1980)
+
 bbdata3 <- sim3[[1]]
+bbdatapre3 <- bbdata3[which(bbdata3$Year<=1979 & bbdata3$Year>=1970),]
+bbdatapost3 <-  bbdata3[which(bbdata3$Year>=1981 & bbdata3$Year<=1990),]
 climate.data3 <- sim3[[2]]
+climate.datapre3 <- subset(climate.data3, climate.data3$year<1980)
+climate.datapost3 <- subset(climate.data3, climate.data3$year>=1980)
+
 bbdata4 <- sim4[[1]]
+bbdatapre4 <- bbdata4[which(bbdata4$Year<=1979 & bbdata4$Year>=1970),]
+bbdatapost4 <-  bbdata4[which(bbdata4$Year>=1981 & bbdata4$Year<=1990),]
 climate.data4 <- sim4[[2]]
+climate.datapre4 <- subset(climate.data4, climate.data4$year<1980)
+climate.datapost4 <- subset(climate.data4, climate.data4$year>=1980)
   
   
 source("Run_SW.R")
@@ -67,33 +86,87 @@ names(datafile) <- c("Year", "bb_date", "bb_mean", "doy95")
 }
 
 #### Now to run using differing simulations:
-refday <- c(01, 03)
-datafile <- bbdata1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
-climate <- climate.data1 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
+refday <- c(01, 02)
+datafile <- bbdatapost3 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
+climate <- climate.datapost3 #### CHANGE BASED ON SIMULATION!!! i.e., bbdataX (X = 1-4)
 climate$X <- NA ### needed in order to run... 
 
-Results_SWA1 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
-write.csv(Results_SWA1[[2]], file="output/results_swa1.csv")
-write.csv(Results_SWA1[[1]], file="output/sumstats_swa1.csv")
+Results_SWRpost3 <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+write.csv(Results_SWRpost3[[2]], file="output/results_swrpost3.csv")
+write.csv(Results_SWRpost3[[1]], file="output/sumstats_swrpost3.csv")
 
 if(FALSE){
-swa1 <- Results_SWA1[[2]]
-swa2 <- Results_SWA2[[2]]
-swa3 <- Results_SWA3[[2]]
-swa4 <- Results_SWA4[[2]]
+## Get data and parameters for prediction
+source('Params_SW.R')
+
+# extract parameters for complete dataset
+Parameters_SWR1 <- get_params_SW(Results_SWR1, bbdata1$bb_mean, "complete", type = "Params")
+# SAVE
+write.csv(Parameters_SWR1, "output/parameters_swr1.csv", row.names=T)
+
+# extract climate data for complete dataset 'best' window
+Results_data_SWR1 <- get_params_SW(Results_SWR1, bbdata1$bb_mean, "complete", type = "Data")
+# SAVE
+write.csv(Results_data_SWR1, "output/results_data_swr1.csv")
+}
+
+
+if(FALSE){
+swapre1 <- Results_SWRpre1[[2]]
+swapost1 <- Results_SWRpost1[[2]]
+swapre2 <- Results_SWRpre2[[2]]
+swapost2 <- Results_SWRpost2[[2]]
+swapre3 <- Results_SWRpre3[[2]]
+swapost3 <- Results_SWRpost3[[2]]
+swapre4 <- Results_SWRpre4[[2]]
+swapost4 <- Results_SWRpost4[[2]]
+
+swapre1_stat <- Results_SWRpre1[[1]]
+swapost1_stat <- Results_SWRpost1[[1]]
+swapre2_stat <- Results_SWRpre2[[1]]
+swapost2_stat <- Results_SWRpost2[[1]]
+swapre3_stat <- Results_SWRpre3[[1]]
+swapost3_stat <- Results_SWRpost3[[1]]
+swapre4_stat <- Results_SWRpre4[[1]]
+swapost4_stat <- Results_SWRpost4[[1]]
 }
 
 
 ##### Now let's check out the results and see how these compare to our original simulation:
-swa1 <- read.csv("output/results_swa1.csv")
+swapre1 <- read.csv("output/results_swrpre1.csv")
+swapost1 <- read.csv("output/results_swrpost1.csv")
+swapre1$cc <- "precc"
+swapost1$cc <- "postcc"
+swa1 <- rbind(swapre1, swapost1)
 swa1$degwarm <- 1
-swa2 <- read.csv("output/results_swa2.csv")
+
+swapre2 <- read.csv("output/results_swrpre2.csv")
+swapost2 <- read.csv("output/results_swrpost2.csv")
+swapre2$cc <- "precc"
+swapost2$cc <- "postcc"
+swa2 <- rbind(swapre2, swapost2)
 swa2$degwarm <- 2
-swa3 <- read.csv("output/results_swa3.csv")
+
+swapre3 <- read.csv("output/results_swrpre3.csv")
+swapost3 <- read.csv("output/results_swrpost3.csv")
+swapre3$cc <- "precc"
+swapost3$cc <- "postcc"
+swa3 <- rbind(swapre3, swapost3)
 swa3$degwarm <- 3
-swa4 <- read.csv("output/results_swa4.csv")
+
+swapre4 <- read.csv("output/results_swrpre4.csv")
+swapost4 <- read.csv("output/results_swrpost4.csv")
+swapre4$cc <- "precc"
+swapost4$cc <- "postcc"
+swa4 <- rbind(swapre4, swapost4)
 swa4$degwarm <- 4
 
+
+draws <- c()
+precc.sens <- c()
+postcc.sens <- c()
+var.lo.precc <- c()
+var.lo.postcc <- c()
 #Step 6: Whoop! Now we can caculate temperature sensitivities.
 varstatsfx <- function(df){
 
@@ -117,9 +190,21 @@ varstatsfx <- function(df){
   # Okay, now build a df with a few things we want...
   df.return <- data.frame(cbind(draws, precc.sens, postcc.sens, var.lo.precc, var.lo.postcc), row.names = NULL) 
   names(df.return) <- c("diffbefore.after", "precc.sens", "postcc.sens", "var.lo.precc", "var.lo.postcc")
+
+  return(df.return)
 }
 
+swa1_results <- varstatsfx(swa1)
 
+
+degwarmalt.runs <- rbind(sim.1deg.alt, sim.2deg.alt, sim.3deg.alt, sim.4deg.alt)
+write.csv(degwarmalt.runs, "output/degwarmpepsims6CFstar150.csv", row.names=FALSE)
+
+meanhere.alt <- aggregate(degwarmalt.runs[c("diffbefore.after", "precc.sens", "postcc.sens",
+                                            "var.lo.precc", "var.lo.postcc")], degwarmalt.runs["degwarm"], FUN=mean)
+
+sdhere.alt <- aggregate(degwarmalt.runs[c("diffbefore.after", "precc.sens", "postcc.sens",
+                                          "var.lo.precc", "var.lo.postcc")], degwarmalt.runs["degwarm"], FUN=sd)
 
 
 

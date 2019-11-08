@@ -2,7 +2,8 @@
 ## 31 October 2019 started by Cat
 
 simgenerate <- function(precctemp, postcctemp, sigmatemp, fstar){
-  x<-seq(as.Date("1950-01-01"),as.Date("2018-12-31"),by="day")
+  
+  x<-seq(as.Date("1969-01-01"),as.Date("1990-12-31"),by="day")
   yrs <- substr(x, 1, 4)
   #doy<-rep(c(1:100), times=69)
   #yrs <- rep(c(1950:2018), each=100)
@@ -10,14 +11,14 @@ simgenerate <- function(precctemp, postcctemp, sigmatemp, fstar){
   
   # Step 1: create climate data
   df <- data.frame(cbind(date=as.character(x), yday=yday(x), year=yrs, cc=rep(c("precc"))))
-  df$cc <- ifelse(df$year>=1985, "postcc", df$cc)
+  df$cc <- ifelse(df$year>=1980, "postcc", df$cc)
   dailytemp <- c()
   dailytemppre <- c() 
   dailytemppost <- c()
   gdd <- c()
   
-  dailytemppre <- rnorm(nrow(df[(df$year<1985),]), precctemp, sigmatemp)
-  dailytemppost <- rnorm(nrow(df[(df$year>=1985),]), postcctemp, sigmatemp)
+  dailytemppre <- rnorm(nrow(df[(df$year<1980),]), precctemp, sigmatemp)
+  dailytemppost <- rnorm(nrow(df[(df$year>=1980),]), postcctemp, sigmatemp)
   
   dailytemp <- c(dailytemppre, dailytemppost)
   tempyr <- data.frame(cbind(dailytemp, yrs))
@@ -47,7 +48,7 @@ simgenerate <- function(precctemp, postcctemp, sigmatemp, fstar){
   bbdata$bb_mean <- ave(bbdata$doy, bbdata$Year, FUN=min)
   bbdata$bb_date <- ifelse(bbdata$bb_mean==bbdata$doy, bbdata$date, NA)
   bbdata <- bbdata[!is.na(bbdata$bb_date),]
-  bbdata <- bbdata[(bbdata$Year>=1951),]
+  bbdata <- bbdata[(bbdata$Year>=1970),]
   
   # Step 5: create budburst dataframe 
   #Columns are: Year, bb_date (in character format (%Y-%d-%m)), bb_mean (essentially day of year of budburst), doy95 (day of year where 95% bursted bud)
@@ -56,5 +57,5 @@ simgenerate <- function(precctemp, postcctemp, sigmatemp, fstar){
   bbsw <- subset(bbdata, select=c("Year", "bb_date", "bb_mean", "doy95"))
   bbsw$bb_date <- as.character(bbsw$bb_date)
   
-  return(list(bbdata, climate.data))
+  return(list(bbsw, climate.data))
 }
