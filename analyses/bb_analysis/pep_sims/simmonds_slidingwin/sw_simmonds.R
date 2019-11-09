@@ -53,13 +53,13 @@ source("pep_sims/simmonds_slidingwin/Run_SW.R")
 
 ### Now checking Simmond's sliding window approach:
 refday <- c(01, 03)
-datafile <- bbswpre
-climate <- climatedatapre 
+datafile <- bbswpost
+climate <- climatedatapost 
 climate$X <- NA ### needed in order to run... 
 
-Results_SWRpre <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
-write.csv(Results_SWRpre[[2]], file="output/results_swapre_bp.csv")
-write.csv(Results_SWRpre[[1]], file="output/sumstats_swapre_bp.csv")
+Results_SWRpost <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
+write.csv(Results_SWRpost[[2]], file="pep_sims/simmonds_slidingwin/output/results_swapost_bp.csv")
+write.csv(Results_SWRpost[[1]], file="pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp.csv")
 
 if(FALSE){
 ## Get data and parameters for prediction
