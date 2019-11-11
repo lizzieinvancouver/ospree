@@ -53,13 +53,13 @@ source("pep_sims/simmonds_slidingwin/Run_SW.R")
 
 ### Now checking Simmond's sliding window approach:
 refday <- c(31, 05) ### results in folders are from a ref day of 01-03, I think this new ref day is more appropriate for PEP leafout data - to rerun
-datafile <- bbswpost
-climate <- climatedatapost 
+datafile <- bbswpre
+climate <- climatedatapre
 climate$X <- NA ### needed in order to run... 
 
-Results_SWRpost <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a while to run
-write.csv(Results_SWRpost[[2]], file="pep_sims/simmonds_slidingwin/output/results_swapost_bp.csv")
-write.csv(Results_SWRpost[[1]], file="pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp.csv")
+Results_SWRpre <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a long time to run
+write.csv(Results_SWRpre[[2]], file="pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv")
+write.csv(Results_SWRpre[[1]], file="pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp_mayref.csv")
 
 
 ## Get data and parameters for prediction
