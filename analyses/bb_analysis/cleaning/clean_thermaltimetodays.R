@@ -3,8 +3,17 @@
 # Cat - reevaluated 22 March 2017
 # Using ospree_clean.csv right now, should use new file from Nacho's clean merge all file for bb_analysis/cleaning
 # Lizzie worked on updated data (27 Sep 2019) ... only new paper is vitra17
+#Dan B added cleaning code for vitra17 on  11 Nov 2019 assuming base temperature in model is 0
 
 if(is.data.frame(d)){
+## vitra17
+#We think vitra17 is a GDD model with base temp of 0. Therefore:
+#GDD=(Temp-Tb)*Time so, daystobudburst = response.time/(forcetemp-0)
+  d$response.time[which(d$datasetID=="vitra17")] <-
+    as.numeric(d$response.time[which(d$datasetID=="vitra17")])/(
+      as.numeric(d$forcetemp[which(d$datasetID=="vitra17")]) - 0)
+  d$response[which(d$datasetID=="vitra17" & d$respvar.simple=="thermaltime")] <- "timeonly"
+  d<-within(d, respvar.simple[datasetID=="vitra17"]<-"daystobudburst")
 
 ## Can change ghelardini10 & heide93 from thermaltime to daystobudburst
 # You can figure out thermal time conversion equation from top of pg 267, left side
