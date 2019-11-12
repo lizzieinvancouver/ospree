@@ -64,3 +64,15 @@ d_modstud2<-subset(d_modstud,select=c(datasetID,study,response,n,error.type,resp
 d_modstud3<-d_modstud2[d_modstud2$n=="" & d_modstud2$resp_error=="",]
 write.csv(d_modstud3,"..//output/add.n.error.csv")
 length(unique(d_modstud3$datasetID))#12 lack n or error
+
+#how many studies include provenance lat?
+head(d_modstud)
+unique(d_modstud$provenance.lat)
+length(which(is.na(d_modstud$provenance.lat)))
+(length(d_modstud$provenance.lat)-length(which(is.na(d_modstud$provenance.lat))))/length(d_modstud$provenance.lat)
+length(unique(d_modstud$datasetID[which(is.na(d_modstud$provenance.lat))]))
+length(unique(d_modstud$datasetID))
+#check whether chilling and forcing are correlated in space/time in nature
+
+
+
