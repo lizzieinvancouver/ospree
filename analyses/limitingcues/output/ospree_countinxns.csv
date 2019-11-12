@@ -1,5 +1,5 @@
 "treat1","treat2","n"
-"force","single treat",41
+"force","single treat",46
 "photo","single treat",50
 "chilltemp","single treat",22
 "chilldays","single treat",43
@@ -8,7 +8,7 @@
 "force","photo ALL",21
 "force","chill temp ALL",3
 "photo","chill temp ALL",4
-"force","fieldsample days ALL",12
+"force","fieldsample days ALL",13
 "photo","fieldsample ALL",13
 "force","chill days ALL",9
 "photo","chill days ALL",9
@@ -20,7 +20,16 @@
 "force","photo and chill days ALL",3
 "photo","force and fieldsample ALL",5
 "photo","force and chill days or temp ALL",5
-"total-varied-forcing","NA",47
-"total-wsometreats-constant-forcing","NA",46
-"total-variedwsometreats-varydaynight-forcing","NA",8
+"force","photo INTERACTIVE",17
+"chilltemp","force INTERACTIVE",2
+"chilltemp","photo INTERACTIVE",3
+"chilldays","force INTERACTIVE",7
+"chilldays","photo INTERACTIVE",8
+"fieldsample.date","force INTERACTIVE",12
+"fieldsample.date","photo INTERACTIVE",13
+"chill days or temp","force INTERACTIVE",8
+"chill days or temp","photo INTERACTIVE",8
+"total-varied-forcing","NA",48
+"total-wsometreats-constant-forcing","NA",34
+"total-variedwsometreats-varydaynight-forcing","NA",26
 "ALL studies","NA",137
