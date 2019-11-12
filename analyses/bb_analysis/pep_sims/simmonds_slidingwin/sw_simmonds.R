@@ -41,8 +41,8 @@ bbswpost <- bbsw[(bbsw$Year>1960),]
 bbswtest <- bbswpre[(bbswpre$spatial==1),]
 
 ### Now get the climate data for 45 sites for BETPEN (from betpen_climate_slidingwin.R)
-climatedatapre <- read.csv("pep_sims/simmonds_slidingwin/bp_climatedatapre.csv")
-climatedatapost <- read.csv("pep_sims/simmonds_slidingwin/bp_climatedatapost.csv")
+climatedatapre <- read.csv("pep_sims/simmonds_slidingwin/input/bp_climatedatapre.csv")
+climatedatapost <- read.csv("pep_sims/simmonds_slidingwin/input/bp_climatedatapost.csv")
   
 source("pep_sims/simmonds_slidingwin/Run_SW.R")
 # refday = c(day, mon)
@@ -53,13 +53,13 @@ source("pep_sims/simmonds_slidingwin/Run_SW.R")
 
 ### Now checking Simmond's sliding window approach:
 refday <- c(31, 05) ### results in folders are from a ref day of 01-03, I think this new ref day is more appropriate for PEP leafout data - to rerun
-datafile <- bbswpre
-climate <- climatedatapre
+datafile <- bbswpost
+climate <- climatedatapost
 climate$X <- NA ### needed in order to run... 
 
-Results_SWRpre <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a long time to run
-write.csv(Results_SWRpre[[2]], file="pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv")
-write.csv(Results_SWRpre[[1]], file="pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp_mayref.csv")
+Results_SWRpost <- run_SW(absolute=TRUE, datafile, climate, refday) ## takes a long time to run
+write.csv(Results_SWRpost[[2]], file="pep_sims/simmonds_slidingwin/output/results_swapost_bp_mayref.csv")
+write.csv(Results_SWRpost[[1]], file="pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp_mayref.csv")
 
 
 ## Get data and parameters for prediction
@@ -67,19 +67,43 @@ source('pep_sims/simmonds_slidingwin/Params_SW.R')
 
 # extract parameters for complete dataset
 Parameters_SWRpost <- get_params_SW(Results_SWRpost, bbswpost$bb_mean, "complete", type = "Params")
+Parameters_SWRpre <- read.csv("pep_sims/simmonds_slidingwin/output/parameters_swapre_mayref.csv")
 # SAVE
-write.csv(Parameters_SWRpost, "pep_sims/simmonds_slidingwin/output/parameters_swapost.csv", row.names=T)
+write.csv(Parameters_SWRpost, "pep_sims/simmonds_slidingwin/output/parameters_swapost_mayref.csv", row.names=T)
 
 
 ### Now let's check out the data
-swapre <- Results_SWRpre[[2]]
+swapre <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv")
+#swapre <- Results_SWRpre[[2]]
 swapost <- Results_SWRpost[[2]]
 
-swapre_stat <- Results_SWRpre[[1]]
+swapre_stat <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp_mayref.csv")
+#swapre_stat <- Results_SWRpre[[1]]
 swapost_stat <- Results_SWRpost[[1]]
 
 
-## Now using code from `bb_analysis/PEP_climate/comparetopepsims.R`
+##### Now let's try and compare the model output from the SWA to mean, sd, and variance
+mean(swapre$yvar) ### 113.8089
+mean(swapost$yvar) ## 106.3356
+
+sd(swapre$yvar) ## 11.58426
+sd(swapost$yvar) ## 7.950618
+
+var(swapre$yvar) ## 134.195
+var(swapost$yvar) ## 63.21232
+
+## Pre CC SWA results
+#   X WindowOpen WindowClose Variable     Int      EST       SE        R2
+#1 1        -22          52        1 157.0947 -5.50605 0.262991 0.4934151
+
+## Post CC SWA results
+#   WindowOpen WindowClose Variable   Int       EST        SE        R2
+#1        -34          22        1 126.703 -3.588456 0.2071495 0.3998027
+
+
+######################################################################
+## Now using code from `bb_analysis/PEP_climate/comparetopepsims.R` ##
+######################################################################
 swapre$site <- rep(1:45)
 swapost$site <- rep(1:45)
 
@@ -135,7 +159,7 @@ sdhere <- aggregate(bpest[c("meanbb", "varbb", "meanclim", "varclim","climslope"
 
 
 
-#### But when we compare to sliding window approach:
+#### But when we compare to sliding window approach: with March 1st ref window
 Parameters_SWRpre
 #     WindowOpen WindowClose Variable      Int       EST        SE        R2
 #1       -239        -238        1     136.3565 -2.084899 0.1192322 0.4043209
