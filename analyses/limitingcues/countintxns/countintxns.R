@@ -8,9 +8,9 @@
 ################
 ## To do here ##
 ################
-# (*) Figure out why my numbers differ from Cat's (search for *** below)
 # (*) Decide how to deal with forcing having varying night and day treatments
 # (*) Make heatmaps ...
+# (*) Deal with 'CHECK WHY' below
 
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
@@ -23,7 +23,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("misc/gettreatdists.R") # f(x) counts up treatment interactions, and more!
-print('Code also relies on sourcing limitingcues/countintxns/countintxns_cleanosp.R (see below)')
+print('Code also relies on sourcing limitingcues/source/countintxns_cleanosp.R (see below)')
 
 ###################
 # All OSPREE data #
@@ -60,8 +60,8 @@ datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcete
 head(datsm)
 
 ## Okay, since code effectively relies on numeric cues for force and photo we clean these here
-# It's ugly and inaccurate (in terms of numbers assigned) but works for this code
-source("limitingcues/countintxns/countintxns_cleanosp.R")
+# It's ugly and inaccurate (in terms of numbers assigned) but works *for this code* (don't use the numbers assigned as treatments here for other analyses)
+source("limitingcues/source/countintxns_cleanosp.R")
 
 ## If forcetemp_night is empty, we assume it is the same as forcetemp
 datsm$forcetemp_night[which(datsm$forcetemp_night=="")] <- datsm$forcetemp[which(datsm$forcetemp_night=="")]
@@ -74,7 +74,7 @@ datsm$photo <- as.numeric(datsm$photoperiod_day)
 
 datsm.noNA <- subset(datsm, is.na(force)==FALSE & is.na(photo)==FALSE)
 dim(datsm.noNA)
-dim(datsm)
+dim(datsm) # Good, we should not lose any rows here!
 
 osp.fp <- get.treatdists(datsm.noNA, "photo", "force")
 osp.fpintxn <- subset(osp.fp, intxn>=2)
@@ -100,7 +100,7 @@ setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datas
 
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 dim(datsm14d.noNA)
-dim(datsm14d)
+dim(datsm14d) # Good, again we should not lose any rows here
 
 # Start gathering data ... 
 ospcounts <- data.frame(treat1=character(), treat2=character(), n=numeric())
@@ -261,55 +261,31 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="
     n=length(unique(paste(datsm14d$datasetID, datsm14d$study)))))
 
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
+write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE)
+
 
 ###############
-## OKAY! Next...
-## ***
-## (1) [Check again once we deal with numeric versus character issue!] Why is total forcing different higher in thermo versus force code? Some studies vary night forcing only, and then you get MORE identified if you use datsm14d instead of datsm14d.noNA ... but still different (46 versus 48) 
-## (2) Why is my number of studies that manipulated forcing so much less than Cat's? For forcing I am missing all the ambient and ambient + X studies (except that Cat has gomory15 and I don't think that has multiple forcing temps)
-## (3) Once all sorted, working on heatmaps ...
+## This is just a side-bar where I check some of my results versus what
+## Cat got in her studytype_table.csv ##
 
-gooall <- read.csv("output/studytype_table.csv")
-goo <- gooall[which(paste(gooall$datasetID, gooall$study) %in% unique(paste(datsm14d$datasetID, datsm14d$study))),] # makes no difference, we're using the same studies!
-goober <- subset(goo, force>1)
-length(unique(goober$datasetID))
+if(FALSE){
+altver.all <- read.csv("output/studytype_table.csv")
+altver <- altver.all[which(paste(altver.all$datasetID, altver.all$study) %in%
+    unique(paste(datsm14d$datasetID, datsm14d$study))),] # just a check that we're using the same studies
+altverf <- subset(altver, force>1)
+length(unique(altverf$datasetID))
 length(unique(forceosp$datasetID))
 
-setdiff(unique(goober$datasetID), unique(forceosp$datasetID))
+setdiff(unique(paste(altverf$datasetID, altverf$study)), unique(paste(forceosp$datasetID,
+   forceosp$study))) # Cat has gomory15 and I don't think that has multiple forcing temps
 
-goober[order(unique(goober$datasetID)),]
-forceosp[order(unique(forceosp$datasetID)),] # I don't have (not complete list): caffarra11a exp3 or exp1
-
-photoosp[order(photoosp$datasetID),]
-
-if(FALSE){ # checking part of my code ...
-# forceosp <- get.treatdists.singletreatment(datsm14d.noNA, "force")
-df <- datsm14d
-treatcol <- "force"
-
-did <- "caffarra11a"
-studyid <- "exp3" # ONE forcing treat of 18; exp1 looks like ONE forcing treat of 22 
-    
-get.treatdists.singletreatment <- function(df, treatcol){
-    dfbuild <- data.frame(datasetID=character(), study=character(), ntreats=numeric())
-    for (did in unique(df[["datasetID"]])){
-     subbydid <- subset(df, datasetID==did)
-       for (studyid in unique(subbydid$study)){
-          subbydidexp.allcols <- subset(subbydid, study==studyid)
-          subbydidexp <- subbydidexp.allcols[,c(treatcol)]
-          dfbuildadd <- data.frame(datasetID=did, study=studyid, ntreats=length(unique(subbydidexp)))
-          dfbuild <- rbind(dfbuild, dfbuildadd)
-          dfbuild.multi <- subset(dfbuild, ntreats>1)
-          }
-     }
-  return(dfbuild.multi)
-}    
-# osp14d.moreforcinginfo <- get.treatdists.daynight(datsm14d.noNA, "forcetemp", "forcetemp_night")
+altverp <- subset(altver, photo>1)
+length(unique(altverp$datasetID))
+length(unique(photoosp$datasetID))
+setdiff(unique(paste(altverp$datasetID, altverp$study)), unique(paste(photoosp$datasetID,
+   photoosp$study)))
 }
-# in Cat's some show up more than once, e.g.,   caffarra11a  exp2 or  falusi97  exp1
-
-
-
+###############
 
 
 ##################
@@ -345,7 +321,7 @@ bb.ddatefx$datasetIDstudy <- paste(bb.ddatefx$datasetID, bb.ddatefx$study)
 bb.dates2weeks.count <- countfieldsample(bb.ddatefx, 14)
 bb.uniquedates.df <- fieldsample.getuniquedates(bb.ddatefx, 14)
 # Now (not pretty part) we'll take all NA dates ...
-# Note that for some reason we don't have to do these gymnastics above (CHECK WHY before finishing limitingcues!)
+# Note that for some reason we don't have to do these gymnastics above (CHECK WHY before finishing limitingcues! Assume it is due to the fact that we removed NAs for the budburst analyses ... )
 bbselectNA <- subset(bb.uniquedates.df, is.na(date)==TRUE)
 bb$fieldsample.date.merge <- bb$fieldsample.date
 bb$fieldsample.date.merge[paste(bb$datasetID, bb$study) %in% unique(bbselectNA$datasetIDstudy)] <- NA

@@ -6,8 +6,8 @@ By Lizzie
 November 2019 to do
 <><><><><><><><><><><><><><><><><><><><>
 (*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
-(*) Every other time I pick this up I must work on the TEXT! (Things to do after first draft -- add citations (and make a list of citation types that I need), see notes of 'to-do items from this summer' and `MS problems to fix' (both below).  
-(*) Code challenge 1: analyses/limitingcues/countinxns -- fix the fact that code is designed to work on numeric data but we have a lot of character data in the temp and photo (and probably chill) columns. Can I re-write the loops? Or could I convert the text to numeric thoughtfully?
+(*) Every other time I pick this up I must work on the TEXT! (Things to do -- add citations (and make a list of citation types that I need), see notes of 'to-do items from this summer' and `MS problems to fix' (both below).  
+(*) Fix heatmaps and ask Cat about gomory15 in countintxns.R code
 
 >>> Check if I have fixed this! (ABOVE)
 
