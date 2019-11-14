@@ -39,13 +39,26 @@ nam <- nam[sample(nrow(nam), 1000), ]
 
 nam$id <- paste(nam$lat, nam$lon, nam$year)
 
+
+
+if(FALSE){ ## Double checking data and code using 5 sites, change to `TRUE' if you want to take a closer look
+#### Let's do a quick check on code.. 
+save<-nam
+c("55.7212644825263 -93.7611439358443 2008", "37.2717079835263 -102.993962494656 2011
+", "57.0535457243981 -65.1322316285223 1972", "43.0070297862561 -121.330744698644 1980",
+  "33.4588942389149 -83.5603736434132 1962")
+
+nam <- save
+nam <- nam[(nam$id=="33.4588942389149 -83.5603736434132 1962"),]
+}
+
 climatedrive = "/Volumes/climdata" # Cat's climate drive
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
 tempval_prince <- list() 
-for(i in 1:nrow(nam)){ # i = 3
+for(i in 1:nrow(nam)){ # i = 1
   # find this location
   lo <- nam[i,"lon"]
   la <- nam[i,"lat"]
@@ -63,7 +76,7 @@ for(i in 1:nrow(nam)){ # i = 3
   
   ## for now exclude prevey18
   
-  for(j in c(yr)) { # j = yr
+  for(j in c(yr)) { # j = 1983
     print(c(i, j))
     
     tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr), full.names = TRUE)
@@ -71,7 +84,15 @@ for(i in 1:nrow(nam)){ # i = 3
     jx <- nc_open(tmax)
     jn <- nc_open(tmin)
     
-    yrend <- j
+    leaps<-c(1952, 1956, 1960, 1964, 1968, 1972, 1976, 1980, 1984, 1988,
+             1992, 1996, 2000, 2004, 2008, 2012, 2016)
+    
+    if(j%in%leaps){
+      yrend <- 366
+    } else{
+      365
+    }
+    
     gddstart <- vector()
     
     jx$dim$time$vals<-seq(1, yrend, by=1)
@@ -113,7 +134,8 @@ for(i in 1:nrow(nam)){ # i = 3
   }
   
   tempval_prince[[as.character(nam[i,"id"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
-                                                                              Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
+                                                                              Tmin = mins[1:length(seq(stday, endday, by = "day"))], 
+                                                            Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
 }
 
 #save(tempval_prince, file="output/fieldclimate_princetest.RData")
@@ -241,7 +263,7 @@ for(i in 1:nrow(nam)){ # i = 2
 
 testcalcs_liv <- vector()
 
-for(i in names(tempval_liv)){ 
+for(i in names(tempval_liv)){ # i = "35.8432389899629 -65.0118815805763 1983"
   
   xx <- tempval_liv[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
