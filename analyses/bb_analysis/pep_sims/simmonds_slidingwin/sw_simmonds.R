@@ -92,14 +92,18 @@ swapost_stat2 <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapost_
 mean(swapre$yvar) ### 113.8089
 mean(swapost$yvar) ## 106.3356
 
-mean(swapre$climate) ## 7.861508
-mean(swapost$climate) ## 5.675819
+mean(swapre$climate) ## 7.861508  -> slope of the model/mean -> -5.51/7.86 = -0.701
+mean(swapost$climate) ## 5.675819 -> slope of the model/mean -> -3.59/5.68 = -0.632
 
 sd(swapre$yvar) ## 11.58426
 sd(swapost$yvar) ## 7.950618
 
 sd(swapre$climate) ## 1.479552
 sd(swapost$climate) ## 1.403269
+
+sefx<-function(x) sd(x)/sqrt(length(x))
+sefx(swapre$climate) ## 0.0697 -> SE of the model/SE -> 0.263/0.0697 = 3.77
+sefx(swapost$climate) ## 0.0662 -> SE of the model/SE -> 0.207/0.0662 = 3.13
 
 var(swapre$yvar) ## 134.195
 var(swapost$yvar) ## 63.21232
