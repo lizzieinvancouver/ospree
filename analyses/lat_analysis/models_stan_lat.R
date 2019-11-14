@@ -121,10 +121,16 @@ lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat <- lat.stan$provenance.lat
 
-lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
-
 lat.stan<-na.omit(lat.stan)
 
+#### Responding to reviewers and re-evaluating definition of `provenance`
+if(TRUE){
+  lessgreatstudies <- c("caffarra11a", "caffarra11b", "Sanz-Perez09", "spann04", "spiers74", 
+                            "webb78", "zohner16")
+  lat.stan <- lat.stan[!(lat.stan$datasetID%in%lessgreatstudies),]
+}
+
+lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 #z-scored models
 if(use.chillports == FALSE & use.zscore == TRUE){
   source("../lat_analysis/source/bblat_zscorepreds.R")
