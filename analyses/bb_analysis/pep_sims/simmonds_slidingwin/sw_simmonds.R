@@ -74,23 +74,38 @@ write.csv(Parameters_SWRpost, "pep_sims/simmonds_slidingwin/output/parameters_sw
 
 ### Now let's check out the data
 swapre <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv")
+swapre2 <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapre_bp.csv")
 #swapre <- Results_SWRpre[[2]]
-swapost <- Results_SWRpost[[2]]
+swapost <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapost_bp_mayref.csv")
+swapost2 <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapost_bp.csv")
+#swapost <- Results_SWRpost[[2]]
 
 swapre_stat <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp_mayref.csv")
+swapre_stat2 <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp.csv")
 #swapre_stat <- Results_SWRpre[[1]]
-swapost_stat <- Results_SWRpost[[1]]
+swapost_stat <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp_mayref.csv")
+swapost_stat2 <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp.csv")
+#swapost_stat <- Results_SWRpost[[1]]
 
 
 ##### Now let's try and compare the model output from the SWA to mean, sd, and variance
 mean(swapre$yvar) ### 113.8089
 mean(swapost$yvar) ## 106.3356
 
+mean(swapre$climate) ## 7.861508
+mean(swapost$climate) ## 5.675819
+
 sd(swapre$yvar) ## 11.58426
 sd(swapost$yvar) ## 7.950618
 
+sd(swapre$climate) ## 1.479552
+sd(swapost$climate) ## 1.403269
+
 var(swapre$yvar) ## 134.195
 var(swapost$yvar) ## 63.21232
+
+var(swapre$climate) ## 2.189074
+var(swapost$climate) ## 1.969164
 
 ## Pre CC SWA results
 #   X WindowOpen WindowClose Variable     Int      EST       SE        R2
