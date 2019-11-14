@@ -163,7 +163,7 @@ if(use.chillports == TRUE & use.zscore == TRUE){
 }
 
 if(use.zscore == TRUE){m2l.inter = stan('../lat_analysis/stan/winter_2level_lat.stan', data = datalist.lat,
-              iter = 2500, warmup=1500, control=list(max_treedepth = 15,adapt_delta = 0.99))}
+              iter = 4000, warmup=2500, control=list(max_treedepth = 15,adapt_delta = 0.99))}
 
 check_all_diagnostics(m2l.inter)
 #pl<- plot(m2l.iter, pars="b_", ci.lvl=0.5) 

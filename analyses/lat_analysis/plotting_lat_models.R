@@ -125,6 +125,13 @@ lat.stan<-subset(lat.stan, lat.stan$resp<600)
 
 lat.stan$lat <- lat.stan$provenance.lat
 
+#### Responding to reviewers and re-evaluating definition of `provenance`
+if(TRUE){
+  lessgreatstudies <- c("caffarra11a", "caffarra11b", "Sanz-Perez09", "spann04", "spiers74", 
+                        "webb78", "zohner16")
+  lat.stan <- lat.stan[!(lat.stan$datasetID%in%lessgreatstudies),]
+}
+
 lat.stan$complex<-as.numeric(as.factor(lat.stan$complex.wname))
 
 lat.stan<-na.omit(lat.stan)
@@ -133,12 +140,12 @@ source("../lat_analysis/source/bblat_zscorepreds.R")
 #### Now for mu plots based of bb_analysis/models_stan_plotting.R ###
 figpath <- "../lat_analysis/figures"
 if(use.allspp==FALSE & use.expramptypes.fp==TRUE){
-  figpathmore <- "latanalysis_spcom_expramp_fp"
+  figpathmore <- "latanalysis_spcom_expramp_fp_rmdatasets"
 }
 if(use.allspp==TRUE & use.expramptypes.fp==TRUE){
   figpathmore <- "allspp_expramp_fp"
 }
-#figpathmore <- "latanalysis_noncentered"
+#figpathmore <- "latanalysis_rmdatasets"
 
 source("../lat_analysis/lat_muplot.R")
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
