@@ -15,10 +15,11 @@
 \opening{Dear Dr. Findlay:}
 Please consider our paper, entitled ``Winter temperatures dominate spring phenological responses to warming'' for publication as a ``Letter" in \emph{Nature Climate Change}. This manuscript is a revised version of an earlier submission (NCLIM-19081773). We include a point-by-point response to reviewer comments. 
 
-\par As you may recall, our manuscript utilizes an extensive new, extensive, global database to address a research topic of critical relevance to a broad swath of \emph{Nature Climate Change} readers:  the timing of spring phenology (e.g., budburst, leafout) in woody plants. Spring phenology impacts plant fitness, shapes plant and animal communities, and affects wide-ranging ecosystem services from crop productivity to carbon sequestration. Our work is groundbreaking in its synthesis of four decades of research across 72 experiments
+\par As you may recall, our manuscript utilizes a new global database to address a research topic of critical relevance to a broad reach of \emph{Nature Climate Change} readers:  the timing of spring phenology (e.g., budburst, leafout) in woody plants. Spring phenology impacts plant fitness, shapes plant and animal communities, and affects wide-ranging ecosystem services from crop productivity to carbon sequestration and unites the fields of biometeorology, ecology, cellular and molecular biology. Our work is groundbreaking in its synthesis of four decades of research across 72 experiments
 to quantify the relative importance of three environmental cues critical to phenology. We estimate overall chilling, forcing and photoperiod responses for 203 species from around the globe. 
 
-\par The three reviewers recognized the potential of our work to influence future research, as well as its interest to \emph{Nature Climate Change} readers. They also highlighted some concerns. Reviewer 1 suggested that additional details and clarification of methods would be beneficial for a fuller evaluation of the study.  Reviewer 2 felt unconvinced that the experimental methods synthesized in our meta-analysis could be reliably applied to natural systems. Reviewer 3 had reservations about the validity of the results given the data and modeling approaches used. 
+% EMW: I would change the below to be about how we addressed the concerns -- not just list them (i.e., merge with the following paragraph). I can help here.
+\par The three reviewers recognized the potential of our work to influence future research. They also highlighted some concerns. Reviewer 1 suggested that additional details and clarification of methods would be beneficial for a fuller evaluation of the study.  Reviewer 2 felt unconvinced that the experimental methods synthesized in our meta-analysis could be reliably applied to natural systems. Reviewer 3 had reservations about the validity of the results given the data and modeling approaches used. 
 
 % EMW: eventually here we want to give some sense in the topic sentence of how much as changed -- changed x% of the text, did Y new analyses, added this many new main text and supp figures. And then also state somewhere that this work has shown our results to be robust (i.e., somewhere you need to say that our big important point still stands). 
 \par We have substantially modified the manuscript to address the concerns expressed by reviewers and the issues mentioned by the Editor after the initial submission. Specifically, we have added new text and analyses to the main manuscript, including two new models testing for effects of continent and life stage and as well as applying a recently published modelling approach for estimating temperature sensitivity (sliding windows), as suggested by the reviewer. We have also created a new figure, and modified previous figures in the main text to address reviewer concerns. We have also added substantially to the online `Methods' section, which adheres to the new guidelines of \emph{Nature Climate Change}.
@@ -37,6 +38,8 @@ Visiting Fellow, Arnold Arboretum of Harvard University
  \end{footnotesize}
 \clearpage
 
+% EMW: I would change to article format so you can have proper references OR switch to two files (the latter is what I usually do and I can make the change tomorrow if you want; once you add quotes from the main text you will probably really want to have regular citations). 
+
 \title{Response to Reviewers}
  \emph{Reviewer Comments are in italics.} Author responses are in plain text.
 
@@ -45,11 +48,13 @@ Visiting Fellow, Arnold Arboretum of Harvard University
 
 \emph{The relative importance of forcing, chilling and photoperiod as cues for budburst is a fascinating one, with clear implications for predicting how species will respond to climate change. Here the authors leverage an exceptional dataset arising from experimental studies using sophisticated statistical analyses and arrive at the surprising conclusion that plants are generally more sensitive to chilling than forcing. I think this study has the potential to make a really valuable contribution that will be of broad interest to readers of this journal. However, I have quite a lot of criticisms/concerns of the study as it stands.}
 
-\par We thank the reviewer for the recognition that the OSPREE dataset is exceptional and that our study can make a valuable contribution to \emph{Nature Climate Change} readers. We have revised the original manuscript substantially to address the reviewer's concerns, as detailed below. 
+\par We thank the reviewer for the recognition that the OSPREE dataset is exceptional and that our study can make a valuable contribution to climate change researchers. We have revised the original manuscript substantially to address the reviewer's concerns, as detailed below. 
 
 \emph{(1) Models: The STAN modelling approach is sophisticated but I think the model is rather incomplete and this could affect the inferences that are reached. For instance why aren't terms included to allow the intercepts and slopes to vary across studies within species?}
 
-\par We completely agree with the reviewer that, ideally, our models would account for both variation in budburst responses among species and among studies. This was our aim in building the OSPREE database and using Bayesian models that can allow complex models to converge. During our data and model development, however, we found studies were generally confounded with species. This is a common problem in this area of research and other meta-analyses have faced similar issues (e.g., Kharouba et al 2019). Without strong priors to help differentiate what variation should load onto the study versus species, it is difficult to fit both variables. Indeed, we evaluated models that included studies within species and studies crossed with species but both models were found to be unstable (e.g., estimates varied widely across model runs, model estimates had wide credible intervals, chains frequently did not converge). \\
+% EMW: Should we add the bit about Andrew? I sort of feel like we want to give some credence to our perspective.... 
+% EMW: Also, I think we should mv up that we made a change and move more of the discussion down... otherwise I think with some tweaking to the main text this is good. 
+\par We completely agree with the reviewer that, ideally, our models would account for both variation in budburst responses among species and among studies. This was our aim in building the OSPREE database and using Bayesian models that can allow complex models to converge. During our data and model development, however, we found studies were generally confounded with species. This is a common problem in this area of research and other meta-analyses have faced similar issues (e.g., Kharouba et al 2019, which includes models developed with statistician Andrew Gelman). Without strong priors to help differentiate what variation should load onto the study versus species, it is difficult to fit both variables. Indeed, we evaluated models that included studies within species and studies crossed with species but both models were found to be unstable (e.g., estimates varied widely across model runs, model estimates had wide credible intervals, chains frequently did not converge). 
 
 \par To address this we worked to present a main model that only included species for which we had multiple treatments across multiple studies. We combined species found in only one study into ``complexes" at the level of genera, such that each taxonomic unit we use in our model occurs across multiple studies (and treatments). Thus our taxonomic units of analysis
 are ``species complexes," which are either species represented in >1 dataset or complexes combining multiple species within a genus that are each singly represented in the dataset. Species represented in only one dataset with no con-generics in other datasets were excluded from most of our analyses. We do include a model fit to all species and report these results in the supplement (Tables S3 and S4); we refer to this model as the `all species' model.
@@ -59,15 +64,17 @@ are ``species complexes," which are either species represented in >1 dataset or 
 
 \emph{Also, I would have thought there is very likely a geographic effect on the effects, and I suggest that you test whether the results are sensitive to inclusion of a spatial random term across which slopes and intercepts vary.}
 
-
+% EMW: Again, we want the fact that we do deal with this UP FRONT for the editor to see ....  also, I thought we would just do NA vs Europe -- I think that would be okay, but fine if you have done it will all continents...
 \par The reviewer makes an excellent point that budburst responses to temperature and photoperiod may vary due to the spatial location of studies or the geographic origin of plant material. In particular,  budburst responses are expected to vary by latitude (Zohner, et al 2016; Gauazere et al. 2017; Saikkonen et al  2012). We address variation in space primarily by including a latitude model, which we now discuss on lines XX in the main manuscript.  We focus on the spatial effect of latitude because there is strong evidence that there can be latitudinal differences in budburst responses, for example via interactions between latitude and photoperiod sensitivity and interactions with chilling responses (XX CITATIONS). In this new version, we have also added a model that includes continent. This new continent model includes photoperiod, forcing, and a random effect of continent on the intercept, as well as species-level random effects (as in the main budburst model). This new  model is described on page X in the supplement, with results summarized in Table SX. Note that we do not include chilling in this new model because the climate data used to estimate chilling is only available for two continents (North America and Europe). We find that variation by continent XXXX% Yes! The more analyses we can add to bolster our results, the stronger our reply is. Remember we only have chilling for NA and Europe so I think our options are this as a fixed effect or a model of bb ~ photo + force with continent on the intercept (latter seems better to me, include just in supp). 
 
 \emph{(2) Meta-analysis: The analysis is described as a meta-analysis, but falls short of being a formal meta-analysis as it seems as though measurement error in the response variable is not incorporated. This should be straightforward to incorporate and I was surprised that it hadn't been given the complexity of the analyses. Also, please report the extent to which the approach followed recommendations made in the PRISMA checklist }
 
+% EMW: Nice!
 \par This is a good point; we now review the PRISMA checklist point-by-point in the Supplement (page 1, first paragraph). Many of the checklist items are done by our data publication, and we feel this addition greatly strengthens the paper and appreciate the reviewer suggesting it.
 
 \emph{(3) Methods: The methods seem to be missing from the main ms, and I kept flicking forward to consult a section that does not exist. I thought the Nature letter format does allow a methods section and I found it really to the detriment of the readability of the ms that there wasn't one.}
 
+% EMW: We could probably do a little better here -- have we added more than the model? We also should probably mention we can't have a methods section (I can add language about this that sounds friendly to the letter). 
 \par We appreciate the reviewer's concern that methods are not easy to find; this was a concern of multiple reviewers so clearly something we needed to improve. We have worked to now more clearly embed key methods in the text. We now have included a more full model description and the model equation (Lines 66- 74), and . 
 
 \par We also provide a separate Methods section with full details of the data and are analyses. This section will be available online, should our manuscript be accepted for publication in \emph{Nature climate change}, following the journal's requirements.
@@ -83,10 +90,13 @@ are ``species complexes," which are either species represented in >1 dataset or 
 
 % EMW: If we want to do even more we could add chill days (days between 0-10 C) but I think the above could be enough (if we are addressing most reviewers concerns---it always comes down to a balance, you can argue some concerns as long as you have really addressed enough of the other ones). 
 \par This is an excellent point as our earlier version did not adequately compare results with the Utah model to results with the other chilling model we evaluated, Chill Portions. Now we more clearly compare them in the main text (lines xx-xx), where we write:. [GIVE QUOTE of main text]. 
+
+% EMW: Hmm, I think we need REFS here too if possible ... I will try to add if I have time. 
 \par Based on our understanding and in consultation with Isabelle Chuine the sequential model usually refers only to process-based models thus we are unsure how to apply it in our framework; if the reviewer has specific modeling suggestions or other chilling model he would like applied we would be happy to test them.
 
 \emph{(6) Estimates: It is surprising to see point estimates repeatedly reported throughout the ms without 95\% credible intervals, this needs to be rectified. Also at present there is no formal test of whether the chilling response is significantly stronger than the forcing response, though this would be easy to do using the posteriors.}
 
+% EMW: Let's be careful to always say 'uncertainty intervals' -- and not use both terms. 
 \par We thank the reviewer for this suggestion and have added 95\% credible intervals to all estimates presented in the main text (e.g., Lines 79-91) .  In figures, we show 50\% credible intervals, and in the supplemental tables we present both 50\% and 95\% credible intervals.  
 
 \emph{Statistical artefact with linear regression (Page 5): That application of linear regression to data arising from a growing degree model can lead to biased estimates is a fascinating insight. However, in the supplementary materials it is not clear to me how the temperature sensitivity window for linear regression (for B. pendula or the simulations) is calculated/defined. 
@@ -108,6 +118,8 @@ We thank the reviewer for pointing out that our writing was not clear in this se
 \emph{Page 3. Last sentence of paragraph 2. This is hyperbole. The mean is not expected to shift far beyond historical bounds, though the extremes clearly will.}
 
 The reviewer appears to have concerns about the following phrase from the previous version of our manuscript: ``... continued warming pushes climate into environmental regimes far beyond historical bounds.'' We thank the reviewer for highlighting this phrase, which is a bit vague in its reference to `environmental regimes' and for which we clearly should have included citations to support. We now cite the IPCC forecasts that climate change is expected to push temperatures to XXX, well beyond the historical bounds. We adjusted the sentence to be more clear and have added references so that it now says (Lines XX): ``Resolving these discrepancies is critical to accurate predictions of spring phenology, especially as continued climate change will yield warmer temperatures than has been experienced in at least 150 years and warming will occur at a rapid pace (Ohlemuller et al 2006,Williams et al 2007, Williams et al 2007b,IPCC 2013, Xu et al 2018).
+
+% EMW: Replies above are generally good tone!
 
 \emph{Page 3. Fourth line from bottom. Is interactions the correct term?}
 
@@ -143,6 +155,7 @@ We apologize that this was unclear. We have now adjusted this sentence (lines xx
 
 \emph{One of the main conclusions is that chilling is over-weight forcing and recent advanced leaf-out is mainly associated with spring warming. However, this is inconsistent with recent study that found the spring phenology did not significantly change during the global warming hiatus, see its figure 1 in Wang et al, 2019 Nature comm, but the spring T is still significantly increase and winter getting colder over the Eurasian (Li, Stevens and Marotzke 2015 GRL)). It seems that increasing chilling and forcing could not explain the dynamics in spring phenology? How to explain this inconsistency?}
 
+% EMW: So far, all replies seem good, below is good, we could maybe add a little language to main text about complexities to also address this. 
 \par We thank the reviewer for thinking critically about how our paper may contrast with previous work, and seeking to understanding the implications of our work. We now cite these two papers in Lines XX and  We believe the reviewer is suggesting that, if winters got cooler (and chilling therefore increases), as the Reviewer suggests  Li, Stevens and Marotzke (2015) find, one might expect spring phenology to  advance, given our hypothesis and findings. However, this is not what was found according to Wang et al (2019). We wish to point out to the reviewer that a decrease in temperature is not necessarily equivalent to an increase in temperature, given the thresholds involved in estimating chilling. For example, in this paper we find that warming actually increases chilling in many locations (Supp Fig). Thus, cooling might be decreasing chilling estimates and could sto; be consistent with the Wang et al paper, as well as our findings.
 
 \emph{Minor commons}
@@ -158,7 +171,7 @@ We apologize that this was unclear. We have now adjusted this sentence (lines xx
 \par We thank the reviewer for pointing out the need for more detail on our model. We now describe the model in more detail and include the equation for our main budburst model (Lines 61-77). 
 
 \emph{In the results sections, chilling has greater effect on budburst than forcing?. I would suggest providing the conditions, i.e. under future climate warming, due to the fact that these results come from experimental studies that simulated future warming, }
-\par We have added a phrase to clarify that the scope of our results applies to controlled environment studies by saying (Lines 95-97): ``Our results, however, suggest that, across 203 species and 72 controlled environment studies around the world, chilling has a greater effect on budburst than forcing"
+\par We have added a phrase to clarify that the scope of our results applies to controlled environment studies by saying (Lines 95-97): ``Our results, however, suggest that, across 203 species and 72 controlled environment studies around the world, chilling has a greater effect on budburst than forcing" %EMW: Hmm, I think we could add more nuance here ... 
 
 \emph{In the results sections as well, the chilling only occur at warming above 4°C? interesting, but does it occur across species? and locations?} 
 
@@ -168,7 +181,9 @@ We apologize that this was unclear. We have now adjusted this sentence (lines xx
 Wang, Xufeng, et al. ``No trends in spring and autumn phenology during the global warming hiatus." Nature communications 10.1 (2019): 2389.
 Li, Chao, Bjorn Stevens, and Jochem Marotzke. "Eurasian winter cooling in the warming hiatus of 1998-2012." Geophysical Research Letters 42.19 (2015): 8131-8139.}
 -cite these in main ms
--could add humidity when to main text- 
+-could add humidity when to main text- \\
+
+
  \emph{Reviewer #3 (Remarks to the Author):}
 
 \emph{This manuscript addresses the relative importance of the environmental determinants of plant phenology using a meta-analytical approach. Specifically, the authors combine the experimental results of 72 studies and 203 species to estimate the effects of day length, winter chilling, and forcing on spring phenology, using hierarchical Bayesian models. The main finding is that almost all species respond to all three cues, with chilling having the largest, day length the smallest effect. Furthermore, the results suggest that, while all cues are important under experimental conditions, spring forcing will remain the dominant driver of spring phenology over the coming decades. The manuscript is well written and addresses a clear question. However, I have reservations as to the overall importance and validity of these results. That chilling is more important than day length has been shown by previous multi-species studies addressing this (e.g., Laube et al. 2014, Zohner et al. 2016).}
@@ -234,6 +249,7 @@ We could also add a little more discussion of this to supp.]
 
 \emph{Figures: Figs. 2 and 3, showing a 3-dimensional illustration of the interplay between winter chilling and spring warming, are very hard to read. I would prefer a simpler illustration.
 }
+% EMW: I suggest we not make such a big change ... I can adjust this text if you agree. 
 \par We appreciate the Reviewer's perspective. We have shown both simpler 2-dimensional versions of these figures and the more complex 3-dimensional versions to a number of scientists and found opinions to be split on preferences for 2d versus 3d versions. To address this reviewer's concern, we have moved the 3-dimensional version of the manuscript to the supplemental materials, and now include 2 dimensional versions of Figure 2 and 3 in the main text.
 
 
