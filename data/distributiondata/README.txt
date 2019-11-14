@@ -15,3 +15,6 @@ http://www.sciencedirect.com/science/article/pii/S2352340917301981?via%3Dihub#ec
 ## The chorological_maps_dataset_20170220.rar file contains folders corresponding to individual species 
 range maps in shapefile format. It can be worth extracting climate from these directly. 
 
+Dan adds, North American species come from 
+https://web.archive.org/web/20170127093428/https://gec.cr.usgs.gov/data/little/
+Care of https://github.com/wpetry/USTreeAtlas

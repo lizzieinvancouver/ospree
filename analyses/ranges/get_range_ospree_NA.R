@@ -29,9 +29,13 @@ library('chillR')
 
 ##subset of list from github issue (make new speciescomplex for high-quality species)
 #that matches avaialbe NA shape files from https://www.fs.fed.us/nrs/atlas/littlefia/species_table.html
-NA.sps<-c( "Acer_pensylvanicum","Acer_rubrum", "Acer_saccharum",
-"Alnus_glutinosa", "Betula_alleghaniensis",
-"Betula_lenta" ,"Betula_papyrifera", "Fagus_grandifolia",
-"Fraxinus_nigra" , "Picea_glauca","Populus_grandidentata",
-"Prunus_pensylvanica", "Quercus_rubra")
-
+NAsps<- c("Acer_pensylvanicum" ,
+"Acer_rubrum", "Acer_saccharum",
+ "Alnus_incana", "Alnus rubra",
+ "Betula_alleghaniensis" ,
+ "Betula_lenta", "Betula_papyrifera", 
+"Cornus_cornuta",# should be COrylus
+ "Fagus_grandifolia" , "Fraxinus_nigra",
+ "Picea_glauca",
+ "Populus_grandidentata",  "Prunus_pensylvanica", "Pseudotsuga_menziesii",
+"Quercus rubra")
