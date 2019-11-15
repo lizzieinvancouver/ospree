@@ -19,6 +19,7 @@ if(length(grep("ailene", getwd()))>0) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis")
 } else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
+###### FOR JUST ANALYZING RESULTS JUMP TO LINE 75 ########
 
 # Get budburst data across 45 sites for BETPEN
 # Betula puendula data from PEP (both have has GDD from 1 Jan to leafout)
@@ -72,38 +73,43 @@ Parameters_SWRpre <- read.csv("pep_sims/simmonds_slidingwin/output/parameters_sw
 write.csv(Parameters_SWRpost, "pep_sims/simmonds_slidingwin/output/parameters_swapost_mayref.csv", row.names=T)
 
 
+######################################################################
+#### Now we can analyze the results from the SWA: ref = May 31st #####
+######################################################################
+
 ### Now let's check out the data
 swapre <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv")
-swapre2 <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapre_bp.csv")
 #swapre <- Results_SWRpre[[2]]
 swapost <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapost_bp_mayref.csv")
-swapost2 <- read.csv("pep_sims/simmonds_slidingwin/output/results_swapost_bp.csv")
 #swapost <- Results_SWRpost[[2]]
 
 swapre_stat <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp_mayref.csv")
-swapre_stat2 <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapre_bp.csv")
 #swapre_stat <- Results_SWRpre[[1]]
 swapost_stat <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp_mayref.csv")
-swapost_stat2 <- read.csv("pep_sims/simmonds_slidingwin/output/sumstats_swapost_bp.csv")
 #swapost_stat <- Results_SWRpost[[1]]
 
+confint(lm(yvar~climate,data=swapre))
+#                2.5 %     97.5 %
+#(Intercept) 152.960357 161.229140
+#climate      -6.022899  -4.989201
+
+confint(lm(yvar~climate, data=swapost))
+#                2.5 %     97.5 %
+#(Intercept) 124.322906 129.083060
+#climate      -3.995561  -3.181351
 
 ##### Now let's try and compare the model output from the SWA to mean, sd, and variance
 mean(swapre$yvar) ### 113.8089
 mean(swapost$yvar) ## 106.3356
 
-mean(swapre$climate) ## 7.861508  -> slope of the model/mean -> -5.51/7.86 = -0.701
-mean(swapost$climate) ## 5.675819 -> slope of the model/mean -> -3.59/5.68 = -0.632
+mean(swapre$climate) ## 7.861508  
+mean(swapost$climate) ## 5.675819 
 
 sd(swapre$yvar) ## 11.58426
 sd(swapost$yvar) ## 7.950618
 
 sd(swapre$climate) ## 1.479552
 sd(swapost$climate) ## 1.403269
-
-sefx<-function(x) sd(x)/sqrt(length(x))
-sefx(swapre$climate) ## 0.0697 -> SE of the model/SE -> 0.263/0.0697 = 3.77
-sefx(swapost$climate) ## 0.0662 -> SE of the model/SE -> 0.207/0.0662 = 3.13
 
 var(swapre$yvar) ## 134.195
 var(swapost$yvar) ## 63.21232
