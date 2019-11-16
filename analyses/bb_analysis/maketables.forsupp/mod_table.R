@@ -77,3 +77,18 @@ write.csv(nonzmodtable,"../../analyses/output/supptables/nonzmodetable.csv", row
 #zmodtable<-rbind(c("","Utah.units","","","","","Chill.portions","","","","","All.species","","","",""),zmodtable)
 
 #nonzmodtable<-rbind(c("","Utah.units","","","","","Chill.portions","","","","","All.species","","","",""),nonzmodtable)
+
+#load model fit to data minus zohner
+
+#utah units, z
+load("../../analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nozohner_z.Rda") # m2l.ni
+fit.nozohz <- summary(m2l.ni)$summary
+#summary(fit.z)# min n_ef: 1198 
+
+ztab<-as.data.frame(round(cbind(fit.z[1:9,1],fit.z[1:9,5],fit.z[1:9,7],fit.z[1:9,4],fit.z[1:9,8]),digits=2))
+ztab<-rbind(ztab,c(length(fit.z[grep("a_sp", rownames(fit.z)),1])-2,"","","","",""))
+row.names(ztab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$",   
+                                                 "$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$"
+                                                 , "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$")
+colnames(ztab)<- c("mean","25%", "75%","2.5%","97.5%")
+write.csv(ztab,"../../analyses/output/supptables/nozohnzmodtable.csv", row.names = FALSE)
