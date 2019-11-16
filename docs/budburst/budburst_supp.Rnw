@@ -112,7 +112,7 @@ Most studies defined budburst as initial ``green tips'' (33/\Sexpr{npape} papers
 Chilling was reported far less in the OSPREE database than forcing and photoperiod. Although not all studies applied multiple treatments of forcing and/or photoperiod they generally all maintained and explicitly defined their forcing temperatures and daylengths. In contrast, we found that most studies did not experimentally apply chilling by manipulating duration or temperature of chilling in controlled environments, nor did most quantify the total chilling imposed in their experiment. We therefore calculated the total chilling imposed by all studies;  it would otherwise have been impossible to provide estimates with only experimental chilling given the rarity of such study designs (Fig \ref{fig:treatheatmaps}). 
 
 \par To estimate total chilling we combined chilling from the field (\emph{i.e.}, chilling before plant material was brought into controlled environment conditions) and experimental chilling (\emph{i.e.}, chilling that plant material experienced in controlled environment conditions) into two widely used metrics of chilling: Utah units and dynamic chill portions \emph{\citep{dennis2003,Luedeling:2011qe}}. We used the \textit{chillR} package (version 0.70.17) in R \emph{\citep{Rcore:2017, chillR2019}}, version 3.6.0, to calculate both positive Utah units and dynamic chill portions from timeseries of hourly temperature data. To estimate field chilling, we generated hourly time series from a European-wide gridded climate dataset \emph{\citep{cornes2018}}, from which we extracted daily minimum and maximum temperature from the grid cells and dates during which experiments were conducted. For experimental chilling, we used reported chilling treatments to generate time-series of hourly temperature data.
-\par In the formulation we used, Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range. Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C. We note that these models for chilling (both of which were originally developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of endodormancy release, but are likely to be inaccurate for many species. These models are, however, some of our current best approximations, and versions of them are routinely applied to forest trees \emph{\citep[e.g.,][]{Harrington:2010}}. We found the effects of chilling and other cues remained qualitatively consistent across the two methods of estimating total chilling (i.e., 95\% credible intervals of estiates in the standardized models overlapped, Table \ref{tab:modsz}).
+\par In the formulation we used, Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range (Table \ref{tab:utah}). Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C. We note that these models for chilling (both of which were originally developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of endodormancy release, but are likely to be inaccurate for many species. These models are, however, some of our current best approximations, and versions of them are routinely applied to forest trees \emph{\citep[e.g.,][]{Harrington:2010}}. We found the effects of chilling and other cues remained qualitatively consistent across the two methods of estimating total chilling (i.e., 95\% credible intervals of estiates in the standardized models overlapped, Table \ref{tab:modsz}).
 \par We wished to explore model predictions across a wide range of experimental temperature conditions (\emph{i.e.}, chilling and forcing temperatures) applied by studies included in the OSPREE database (Fig. 2). To do this, we needed to convert chilling temperature to total chilling units, which could be input into our model. There is no straightforward conversion between chilling temperature and total chilling, since the duration a temperature is applied affects chilling (Fig. \ref{fig:chillexpfield}). We therefore made these conversions using two alternative approaches and we present both. For one approach, we generated daily time series of a range of experimental chilling temperatures for a range of durations spanning those in the OSPREE database (from -10 to 16\degree C for 7 to 240 days). We averaged across the range of durations for each temperature to get one chilling estimate per chilling temperature (Fig. \ref{fig:3dexpchillutah}). For the alternative approach, we used historical climate data from a gridded climate dataset \emph{\citep[{\normalfont E-OBS},][]{cornes2018}} to estimate chilling, and used these historical relationships between mean winter temperature and total chilling to  convert chilling temperature to a representative amount of total chilling (Fig. 2). We present this alternative approach in the main text as it is more closely related to field chilling conditions, which was by far the most common type of chilling across experiments.
 
 \par{\emph{Estimating forcing \& photoperiod}}
@@ -225,7 +225,7 @@ We then used this budburst date to estimate the change in photoperiod between th
 % See files: PEP_climate/comparetopepsims.R and pep_sims/pepvarsim.R 
 
 As our model results do not predict a dramatic decline in temperature sensitivity in Central Europe, as has been observed \emph{\citep[e.g.,][]{fu2015}}, we tested whether observed declines could instead be due to a statistical artifact. Researchers today commonly estimate temperature sensitivity via a linear regression of annual budburst date versus mean or other aggregated metrics of spring temperature yielding estimates in days/$^{\circ}$C. However, if warming produces systematically higher daily temperatures this method will inherently estimate lower sensitivities, because the `days' unit will effectively have increased in the thermal sum it represents (that is, the unit of `days' is non-stationary in recent decades).
-\par To test this hypothesis we compared observed trends with simple simulations. First, we collated PEP725 data \emph{\citep{Templ2018}} for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: a period before significant anthropogenic warming (1951-1960) and a period with significant warming \emph{\citep[{\normalfont 2001-2010, see}][]{IPCC:2014sm}}. We used leafout data (BBCH=11; which is defined as `leaf unfolding (first visible leaf stalk)'' in the PEP725 database) instead of budburst (BBCH=7; defined as ``Beginning of sprouting") as leafout data are far more common in the PEP725 database. Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but assumed budburst occurred after a certain thermal sum, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C) and the difference in these estimates given different levels of spring warming. For the simulations shown here we used a GDD (growing degree day) requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C, and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP725 data, but note that the general findings are robust to other combinations of these parameter values).
+\par To test this hypothesis we compared observed trends with simple simulations. First, we collated PEP725 data \emph{\citep{Templ2018}} for \emph{Betula pendula} for all sites with leafout data each year from two 10-year time-periods: a period before significant anthropogenic warming (1951-1960) and a period with significant warming \emph{\citep[ 2001-2010, see][]{IPCC:2014sm}}. We used leafout data (BBCH=11; which is defined as `leaf unfolding (first visible leaf stalk)'' in the PEP725 database) instead of budburst (BBCH=7; defined as ``Beginning of sprouting") as leafout data are far more common in the PEP725 database. Next, we simulated budburst data with constant cues. For this, we did not include any chilling or photoperiod cues, but assumed budburst occurred after a certain thermal sum, estimated via growing degree days with a base temperature of 0$^{\circ}$C. We then estimated temperature sensitivity (days/$^{\circ}$C) and the difference in these estimates given different levels of spring warming. For the simulations shown here we used a GDD (growing degree day) requirement of 150, a base mean spring temperature of 6$^{\circ}$C with a variance of 3$^{\circ}$C, and estimated temperature sensitivity for 10-year periods for 45 simulated sites (these values were chosen to best match the PEP725 data, but note that the general findings are robust to other combinations of these parameter values).
 
 \par As expected temperature sensitivity estimates for \emph{Betula pendula} from PEP725 declined across the two time periods in step with warming. Across the sites studied here we estimated a decline of 0.8$\pm$0.3 days/$^{\circ}$C (comparing 2001-2010 and 1951-1960) and 1.1$\pm$0.2$^{\circ}$C warming; this estimate was very similar to simulations given constant cues and 1$^{\circ}$C warming (Fig. \ref{fig:pepsims}). 
 
@@ -444,6 +444,30 @@ print(weintable, include.rownames=TRUE, hline.after = c(-1,0,10,11),caption.plac
 
 
 
+<<label=conttab, echo=FALSE, results=tex>>=
+#load models to report estimates
+
+cont.table<-read.csv("../../analyses/output/supptables/stagemodsum.csv", header=TRUE)
+rownames(cont.table)<-cont.table$X
+cont.table<-cont.table[,-1]
+cont.table<-subset(cont.table,select=c(mean,X25., X75.,X2.5.,X97.5.))
+colnames(cont.table) <- c('mean','25%', '75%', '2.5%', '97.5%' )
+cont.table[which(rownames(cont.table)=="$N_{sp}$"),]<-c("37","","","","")
+
+#rownames(wein.table)[which(rownames(wein.table)=="$N_{sp}$")]<-"$N_{spcomp}$"
+conttable <- xtable(cont.table, caption="\\textbf{Estimates from the continent model fit with standardized predictors}. PLACEHOLDER! NEED TO ADD CONTINENT MODEL HERE! Using a model with Utah chilling units and testing the effects of continent (North America versus Europe) and the three main environmental cues show that budburst did not vary by continent. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable.",
+       label="tab:cont",align=c(
+               "|p{0.18\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|",
+               "p{0.06\\textwidth}|"))
+
+print(conttable, include.rownames=TRUE, hline.after = c(-1,0,6,7),caption.placement="top",size="\\footnotesize",sanitize.rownames.function=identity)
+@
+
+
 <<label=stagetab, echo=FALSE, results=tex>>=
 #load models to report estimates
 
@@ -455,7 +479,7 @@ colnames(stage.table) <- c('mean','25%', '75%', '2.5%', '97.5%' )
 stage.table[which(rownames(stage.table)=="$N_{sp}$"),]<-c("37","","","","")
 
 #rownames(wein.table)[which(rownames(wein.table)=="$N_{sp}$")]<-"$N_{spcomp}$"
-stagetable <- xtable(stage.table, caption="\\textbf{Estimates from the life stage model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of life stage (juveninle versus adult) method and the three main environmental cues  show that budburst is generally later for Weinberger studies and the effect of chilling is muted while the effect of forcing is stronger. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable.",
+stagetable <- xtable(stage.table, caption="\\textbf{Estimates from the life stage model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of life stage (juveninle versus adult) and the three main environmental cues shows that budburst is generally later for juveniles versus adults. We present posterior means, as well as 50 percent and 95 percent credible intervals from models in which the predictors have been standardized so that they are directly comparable.",
        label="tab:stage",align=c(
                "|p{0.18\\textwidth}|",
                "p{0.06\\textwidth}|",
@@ -565,13 +589,13 @@ print(swaresults, include.rownames=FALSE, hline.after = c(-1,0,2),caption.placem
 \label{fig:lat}
 \end{figure}
 
-% \begin{figure}[h!]
-% \centering
-% \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_withPEP.png}
-% \caption{\textbf{Estimates of budburst across a range of forcing temperatures and estimated chilling} (converted to a representative mean temperature, see \emph{Estimating chilling} in the Supplemental Materials) based on overall estimates of chilling and forcing effects (Fig. 1). Maximum advances in budburst occur at intermediate chilling temperatures (\emph{e.g.}, here at mean winter temperatures of 6-7\degree C) and the highest forcing (here at 32\degree C). We set photoperiod to eight hours, which is the most common photoperiod treatment in the database. Note that days to budburst is relative to experimental methods and thus is not comparable to day of year in the field; shading represents days to budburst. Compare this to Fig. 2 in the main text.} 
-% \label{fig:apc}
-% \end{figure}
-% \newpage
+ \begin{figure}[h!]
+ \centering
+ \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/bbmod_3dplot_utah_withPEP.png}
+ \caption{\textbf{Estimates of budburst across a range of forcing temperatures and estimated chilling} (converted to a representative mean temperature, see \emph{Estimating chilling} in the Supplemental Materials) based on overall estimates of chilling and forcing effects (Fig. 1). Maximum advances in budburst occur at intermediate chilling temperatures (\emph{e.g.}, here at mean winter temperatures of 6-7\degree C) and the highest forcing (here at 32\degree C). We set photoperiod to eight hours, which is the most common photoperiod treatment in the database. Note that days to budburst is relative to experimental methods and thus is not comparable to day of year in the field; shading represents days to budburst. Compare this to Fig. 2 in the main text.} 
+ \label{fig:apc}
+ \end{figure}
+ \newpage
 
 \begin{figure}[h!]
 \centering
@@ -604,20 +628,11 @@ print(swaresults, include.rownames=FALSE, hline.after = c(-1,0,2),caption.placem
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecastbothspp_1_7_degwarm_3D_utah.png}
+\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/tempforecastbothspp_1_7_degwarm.pdf}
 \caption{\textbf{Implications of warming on budburst timing varies across species and sites}, depending strongly on pre-warming climate conditions related to chilling for each site. Here we show species-level estimates from our model (Fig. \ref{fig:mu}) for the two most common species in the OSPREE database: \emph{Betula pendula} (A, B) and \emph{Fagus sylvatica} (C, D), for sites that highlight the diversity of possible budburst responses to warming (Fig. \ref{fig:foremap}, which shows general trends across many sites in Central Europe). In some sites, warming increases total chilling estimates (A, C) leading to greater advances in budburst (compared to forcing alone), whereas warming decreases total chilling estimates in other sites (B, D), leading to smaller advances and, eventually, delays with substantial warming. See Supplemental Materials, especially Figs. \ref{fig:foremap} - \ref{fig:chillfore}, for details. Compare this to Fig. 4 in the main text.}
 \label{fig:fore}
 \end{figure}
 
-
-
-
-\begin{figure}[h!]
-\centering
-\noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/figures/forecasting/chillforecastbothspp_1_7_degwarm.pdf}
-\caption{\textbf{Implications of global warming on chilling vary by site}, depending on pre-warming climate. At sites in A (46.8\degree N, 12.8\degree E) and C (48.8\degree N, 15.4\degree E), chilling increases with warming, whereas chilling decreases with warming for the sites in B (48.3\degree N, 15.8\degree E) and D (46.7, 15.8\degree E). Compare to Fig. \ref{fig:betpenfagsyl} and Fig. 3 in the main text.}
-\label{fig:chillfore}
-\end{figure}
 
 \begin{figure}[h!]
 \centering

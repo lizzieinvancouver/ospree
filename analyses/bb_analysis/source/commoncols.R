@@ -7,5 +7,3 @@ columnstokeep <- c("datasetID","study", "genus", "species", "varetc", "woody", "
 #columnscentered <- c("force.z","chill.z", "photo.z") # chill.z is utah
 
 columnschillunits <- c("chill.hrs","chill.ports")
-
-
