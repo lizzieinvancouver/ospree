@@ -1,0 +1,18 @@
+Fig_bb concept_dormant
+
+
+1a: Chilling treatments in field break plant endodormancy, after which forcing treatments are imposed by moving plant material to warmer temperatures that allow budburst to occur.
+
+Transition should be fairly quick.
+
+1b: Plants break endodormancy in field (after four snowflakes) and are fully ecodormant in controlled environment.
+
+Transition should be fairly quick again and fully transition BEFORE controlled environment.
+
+2a: Plants break endodormancy in chilling treatment (say, after three thermometers) and are fully ecodormant in forcing environment.
+
+Transition should be fairly quick again and fully transition BEFORE forcing environment (i.e., red thermometers).
+
+2b: chilling treatments may end before endodormancy is fully broken.
+
+Transition should be SLOWEST and transition should end IN forcing environment (i.e., red thermometers), not before.
