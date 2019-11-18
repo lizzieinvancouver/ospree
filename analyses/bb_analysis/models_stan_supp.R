@@ -204,6 +204,23 @@ m2lnistudy.sum[grep("alpha", rownames(m2lnistudy.sum)),]
 m2l.nisig = stan('stan/archive/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb,
                iter = 15000, warmup=12000, control=list(adapt_delta=0.999))
 
+if(FALSE){ # Super cheap way to look at if forcing is sigmoid -- swap names of chill and force in data
+datalist.bb.adjforce <- datalist.bb
+names(datalist.bb.adjforce)
+names(datalist.bb.adjforce) <- c("y", "force", "chill",  "photo", "sp", "N", "n_sp")
+m2l.nisig.force = stan('stan/archive/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb.adjforce,
+               iter = 15000, warmup=12000, control=list(adapt_delta=0.999))
+# 67 divergent transitions
+
+summary(m2l.nisig.force)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
+observed.here <- bb.stan$resp
+nonlin.sum<-summary(m2l.nisig.force)$summary 
+
+preds.nonlin.sum <- nonlin.sum[grep("yhat", rownames(nonlin.sum)),]
+nonlin.mod.R2 <- 1- sum((observed.here-preds.nonlin.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
+summary(lm(preds.nonlin.sum[,1]~observed.here))  
+}
+
 if(FALSE){
 # Below is m2l.nib run with more iterations, but this does not much affect the R sq (see issue #266, esp. post on 1 July 2019) 
 m2l.lincomp= stan('stan/archive/nointer_2level_interceptonly.stan', data = datalist.bb,
