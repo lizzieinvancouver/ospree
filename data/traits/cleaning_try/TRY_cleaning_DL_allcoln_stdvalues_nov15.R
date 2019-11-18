@@ -2,9 +2,11 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(tidyverse) 
+require(tidyr)
+
 require(reshape2)
 # Select georeferenced Datasets -------------------------------------------
-setwd("~/Documents/github/ospree/analyses/traits/rfiles")
+setwd("~/Desktop/ospree_trait_analysis")
 #data <- read.csv("input/Try_data_Dec2018.csv")
 # data <- read.csv("input/TRY_data_April2019.csv")
 # data<-data[,1:25]
@@ -37,15 +39,59 @@ setwd("~/Documents/github/ospree/analyses/traits/rfiles")
 ##For loop that reads in the files, widens the column with the data and renames the indiviudal datasets to be examined individually
 #Note: I have removed all the files (12) that have differences in their structure and for which this code does not work. These are dealt with below under the "inconsistent" heading. I have a notes file that outlines how each is different. 
 
-folder<-"~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/standardformat/"
+not_all_na <- function(x) any(!is.na(x))
+
+
+folder<-"~/Desktop/ospree_trait_analysis/input/TRY_Nov12/Deirdre/"
 file_list <- list.files(path=folder, pattern="*.csv") 
+
+##########################################################################
 file_list[1]
+
+out<-assign(file_list[1], 
+            read.csv(paste(folder, file_list[1], sep=''))); names(out)
+out1<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+OrigUnitStr~DataName, 
+            value.var = c("OrigValueStr"), na.rm=TRUE)
+out$DataName<-paste("std",out$DataName, sep="_")
+out2<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+UnitName~DataName, 
+            value.var = "StdValue", na.rm=TRUE)
+out3<-merge(out1, out2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","ObsDataID"))
+
+names(out3)
+out3<-out3[,c(1:17,20,23:28,32:35,37:43,53,54,56,57,64,65,71)]
+beech<-melt(out3, 
+            #id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"
+            #          ),
+            measure.vars=c("std_Leaf area: in case of compound leaves leaflet; petiole excluded","std_Leaf carbon content per dry mass","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Plant height vegetative","std_SLA: petiole  excluded"),
+            variable.name = "Trait",
+            value.name = "value")
+#colnames(beech)[colnames(beech)=="Treatment exposition"] <- "Exposition"
+names(beech)
+#writing a new csv file with just the data we will use
+write.csv(beech, '~/Desktop/ospree_trait_analysis/Abisko_SheffieldDatabase.csv', row.names=FALSE)
+unique(out3$'std_Leaf area: in case of compound leaves leaflet; petiole excluded')
+
+################################################################
+
 for (i in 1:length(file_list)){
   out<-assign(file_list[i], 
-              read.csv(paste(folder, file_list[i], sep='')))
-  (out<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+UnitName~DataName, 
-              value.var = "StdValue", na.rm=TRUE))
-  assign(paste("dat",i,sep="_"), out)
+              read.csv(paste(folder, 
+                             file_list[i], 
+                             sep='')))
+  out1<-dcast(out, 
+              LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+OrigUnitStr~DataName, 
+              value.var = c("OrigValueStr"), 
+              na.rm=TRUE);head(out1)
+  out$DataName<-paste("std",out$DataName, sep="_")
+  out2<-dcast(out, 
+              LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+UnitName~DataName, 
+               value.var = "StdValue", 
+              na.rm=TRUE)
+  out2%>% select_if(not_all_na)
+  out3<-merge(out1,
+              out2, 
+              by =c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","ObsDataID"))
+  assign(paste("dat",i,sep="_"), out3)
 }
 
 #Gives 16 datasets renamed dat_1 to dat_16
@@ -53,57 +99,47 @@ for (i in 1:length(file_list)){
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[1]
-# LeafTraitsinCentralApenninesBeechForests.csv
+# "Abisko_SheffieldDatabase.csv"
 #Looking at the columns and which traits are in the dataset 
-names(dat_1)
+file_list[1]
 
-#Subsetting to a temporary dataset that just incldues the columns we want and the traits
-#temp1<-dat_1[,c(1:6,9:11,13,15)]
-temp1<-dat_1
-head(temp1)
+out<-assign(file_list[1], 
+            read.csv(paste(folder, file_list[1], sep=''))); names(out)
+out1<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+OrigUnitStr~DataName, 
+            value.var = c("OrigValueStr"), na.rm=TRUE)
+out$DataName<-paste("std",out$DataName, sep="_")
+out2<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+UnitName~DataName, 
+            value.var = "StdValue", na.rm=TRUE)
+out3<-merge(out1, out2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","ObsDataID"))
 
-names(temp1)
-beech<-melt(temp1, 
+names(out3)
+out3<-out3[,c(1:17,20,23:28,32:35,37:43,53,54,56,57,64,65,71)]
+Abisko<-melt(out3, 
             #id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"
             #          ),
-            measure.vars=c("Leaf dry matter content per leaf water-saturated mass (LDMC)"),
+            measure.vars=c("std_Leaf area: in case of compound leaves leaflet; petiole excluded","std_Leaf carbon content per dry mass","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Plant height vegetative","std_SLA: petiole  excluded"),
             variable.name = "Trait",
             value.name = "value")
 #colnames(beech)[colnames(beech)=="Treatment exposition"] <- "Exposition"
-head(beech)
+names(Abisko)
 #writing a new csv file with just the data we will use
-write.csv(beech, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/LeafTraitsinCentralApenninesBeechForests.csv', row.names=FALSE)
-
-
-#All mature, all in a natural environment
-names(temp1)
-unique(temp1[,11])
-
-unique(temp1$`Plant developmental status / plant age / maturity / plant life stage`)
-#unique(temp1$`Treatment exposition`)
-
-#all mature and natural.
+write.csv(Abisko, '~/Desktop/ospree_trait_analysis/Abisko_SheffieldDatabase.csv', row.names=FALSE)
+unique(out3$'std_Leaf area: in case of compound leaves leaflet; petiole excluded')
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[2]
-# LeafveindensityofFagussylvaticaL.andQuercusfagineaLam.csv
+# AGlobalDataSetofLeafPhotosyntheticRates,LeafNandP,andSpecificLeafArea
 
 names(dat_2)
 
-#temp2<-dat_2[,c(1:7,8,10,14,15:18,21)]
-temp2<-dat_2
-head(temp2)
-names(temp2)
+dat_2<-dat_2[,c(1:12,16:21,27:28,30:35,40:42,56)]
 
-
-vein<-melt(temp2, 
-           # id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Exposition"
-           #           ),
-           measure.vars=c("Leaf vein density: primary veins","Leaf vein density: major veins","Leaf vein density: secondary veins","Leaf vein density: tertiary veins"),
+AG<-melt(dat_2,
+           measure.vars=c("std_Leaf age at measurement","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_SLA: undefined if petiole in- or excluded"),
            variable.name = "Trait",
            value.name = "value")
 
-write.csv(vein, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/LeafveindensityofFagussylvaticaL.andQuercusfagineaLam.csv', row.names=FALSE)
+write.csv(AG, '~/Desktop/ospree_trait_analysis/cleaned_nov/AGlobalDataSetofLeafPhotosyntheticRates,LeafNandP,andSpecificLeafArea.csv', row.names=FALSE)
 
 #unique(temp2$`Exposition`) 
 
@@ -111,154 +147,147 @@ write.csv(vein, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[3]
-# OvertonWrightNewZealandDatabase.csv
-
+# AllometricCoefficientsofAbovegroundTreeBiomass
 head(dat_3)
 names(dat_3)
-#temp3<-dat_3[,c(1:10,14)]
-temp3<-dat_3
-head(temp3)
-names(temp3)
-#no exposition
-nz<-melt(temp3, 
+dat_3<-dat_3[,c(1:7,11:13,16:20,26,27)]
+
+
+allo<-melt(dat_3, 
 #           id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-           measure.vars=c("Plant height vegetative"),
+           measure.vars=c("std_Maximum diameter at breast height","std_Minimum diameter at breast height" ),
            variable.name = "Trait",
            value.name = "value")
 
-write.csv(nz, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/OvertonWrightNewZealandDatabase.csv', row.names=FALSE)
+write.csv(allo, '~/Desktop/ospree_trait_analysis/cleaned_nov/AllometricCoefficientsofAbovegroundTreeBiomass.csv', row.names=FALSE)
 
 #only one height value/line in the entire dataset
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[4]
-# OzarkTreeleaftraits.csv
-dat4_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/standardformat/OzarkTreeleaftraits.csv")
-out<-dcast(dat4_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "OriglName", na.rm=TRUE); names(out)
-temp4<-dat_4
-#temp4<-out[,c(1:7,11:13)]
-
-
+# AltitudinalVicariantsSpain
 names(dat_4)
-#temp4<-dat_4[,c(1:15)]
+temp4<-dat_4[,c(1:13,17:19,23:26,32:34,38,40)]
 head(temp4)
 
-#no exposition
+
 ozark<-melt(temp4, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","lat","lon"),
-         measure.vars=c(" DBH"), #There is a space in front of DBH
+         measure.vars=c( "std_Leaf area: in case of compound leaves leaf; petiole excluded","std_Leaf nitrogen content per area (Narea)"                              
+                         ,"std_Leaf nitrogen content per dry mass (Nmass)",
+                         "std_Plant height vegetative","std_SLA: petiole  excluded"), #There is a space in front of DBH
          variable.name = "Trait",
          value.name = "value")
-colnames(ozark)[colnames(ozark)=="lat"] <- "Latitude"
-colnames(ozark)[colnames(ozark)=="lon"] <- "Longitude"
-
-write.csv(ozark, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/OzarkTreeleaftraits.csv', row.names=FALSE)
+write.csv(ozark, '~/Desktop/ospree_trait_analysis/cleaned_nov/AltitudinalVicariantsSpain.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[5]
-#PhotosynthesisTraitsWorldwide.csv
+#BAAD_abiomassandallometrydatabaseforwoodyplants
 
 names(dat_5)
-temp5<-dat_5
-#temp5<-dat_5[,c(1:6,20,25,39,40,70)]
+unique(dat_5$`Leaf area index of the site (LAI)`)
+temp5<-dat_5[,c(1:8,51,55,58:64,68:72,80,137:139,145,147:149,151)]
 head(temp5)
 names(temp5)
-#no exposition
+
 photo<-melt(temp5, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Photosynthesis per leaf area at leaf temperature (A_area)","Stomata conductance to water vapour per leaf area"),
+         measure.vars=c("Leaf area index of the site (LAI)",
+                        "std_Leaf area: in case of compound leaves leaflet; undefined if petiole in- or excluded"
+                        ,"std_Leaf nitrogen content per area (Narea)"                                             
+                       ,"std_Leaf nitrogen content per dry mass (Nmass)"                                         
+                       ,"std_Plant height vegetative"                                                            
+                       ,"std_SLA: undefined if petiole in- or excluded"                                          
+                        ,"std_Stem diameter at base (basal diameter)"                                             
+                        ,"std_Stem diameter at breast height (1.3 m, DBH)"                                        
+                        ,"std_Wood density; stem specific density; wood specific gravity"  ),
          variable.name = "Trait",
          value.name = "value")
 #colnames(photo)[colnames(photo)=="Treatment exposition"] <- "Exposition"
-write.csv(photo, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PhotosynthesisTraitsWorldwide.csv', row.names=FALSE)
+write.csv(photo, '~/Desktop/ospree_trait_analysis/cleaned_nov/BAAD_abiomassandallometrydatabaseforwoodyplants.csv', row.names=FALSE)
 
 unique(temp5$`Plant developmental status / plant age / maturity / plant life stage`)
 # JUST saplings 
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[6]
-#PLANTATT-AttributesofBritishandIrishPlants.csv
-
+#Baccara-PlantTraitsofEuropeanForests.csv
 names(dat_6)
-#temp6<-dat_6[,c(1:6,13)]
-temp6<-dat_6
-head(temp6)
-names(temp6)
-#no exposition
+temp6<-dat_6[,c(1:8,10,16,17,19,20,22,23)]
+
+
 plantatt<-melt(temp6, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
-         measure.vars=c("Plant height (unspecified if vegetative or reproductive)"),
+         measure.vars=c("std_Leaf nitrogen content per dry mass (Nmass)"
+                       ,"std_Maximum plant height"                                       
+                       ,"std_Plant height vegetative"                                   
+                        ,"std_Stem diameter at breast height (1.3 m, DBH)"               
+                       ,"std_Wood density; stem specific density; wood specific gravity"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(plantatt, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PLANTATT-AttributesofBritishandIrishPlants.csv', row.names=FALSE)
+write.csv(plantatt, '~/Desktop/ospree_trait_analysis/cleaned_nov/Baccara-PlantTraitsofEuropeanForests.csv', row.names=FALSE)
 
 #heights are in cm
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[7]
-#PlantTraits,Virginia,USA.csv
+#BASECO_afloristicandecologicaldatabaseofMediterraneanFrenchflora
 
 names(dat_7)
-temp7<-dat_7
-#temp7<-dat_7[,c(1:7,9,11:13,15:16)]
+
+temp7<-dat_7[,c(1:8,10:11)]
 head(temp7)
 names(temp7)
-#no exposition
+
 virg<-melt(temp7, 
          # id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
          #           ),
-         measure.vars=c("Plant height vegetative","Number of Leaves per plant","Stem diameter at base (basal diameter)"),
+         measure.vars=c("std_Plant height (unspecified if vegetative or reproductive)"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(virg, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraits,Virginia,USA.csv', row.names=FALSE)
+write.csv(virg, '~/Desktop/ospree_trait_analysis/cleaned_nov/BASECO_afloristicandecologicaldatabaseofMediterraneanFrenchflora.csv', row.names=FALSE)
 
-unique(temp7$`Plant developmental status / plant age / maturity / plant life stage`)
 #unique(temp7$`Treatment exposition`)
 
 #All juvenile and all natural envirts
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[8]
-#"QuercusLeafC&NDatabase.csv"
+#Biomassallocationinbeechandspruceseedlings.csv
 names(dat_8)
-#temp8<-dat_8[,c(1:6,8:11,14)]
-temp8<-dat_8
-head(temp8)
-names(temp8)
-#no exposition
+temp8<-dat_8[,c(1:10,11,15,16:17,20,23)]
+
 qcn<-melt(temp8, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Leaf carbon content per dry mass","Leaf carbon/nitrogen (C/N) ratio"),
+         measure.vars=c("std_Plant height observed","std_Stem diameter" ),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(qcn, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/QuercusLeafC&NDatabase.csv', row.names=FALSE)
+write.csv(qcn, '~/Desktop/ospree_trait_analysis/cleaned_nov/Biomassallocationinbeechandspruceseedlings.csv', row.names=FALSE)
 
 unique(temp8$`Plant developmental status / plant age / maturity / plant life stage`)
 
-# young and old trees
+# Na and 4
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[9]
-#SpecificleafareaforwoodyspeciesatSmithsonian-ForestGEOplot-Virginia,USA.csv
+#BIOTREETraitShadeExperiment.csv
 
 names(dat_9)
-head(dat_9)
-temp9<-dat_9
-#temp9<-dat_9[,c(1:6,8,10,11,13,17,18)]
+temp9<-dat_9[,c(1:15,17,19:33,35:39,47,49,65)]
 head(temp9)
 names(temp9)
 
 smith<-melt(temp9, 
          # id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
          #           ),
-         measure.vars=c("Stem diameter at breast height (1.3 m, DBH)"),
+         measure.vars=c("std_Leaf carbon content per dry mass","std_Leaf nitrogen content per dry mass (Nmass)","std_SLA: petiole  included"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(smith, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/SpecificleafareaforwoodyspeciesatSmithsonian-ForestGEOplot-Virginia,USA.csv', row.names=FALSE)
+write.csv(smith, '~/Desktop/ospree_trait_analysis/cleaned_nov/BIOTREETraitShadeExperiment.csv', row.names=FALSE)
 
 unique(temp9$`Plant developmental status / plant age / maturity / plant life stage`)
 #unique(temp9$`Treatment exposition`)
@@ -266,136 +295,384 @@ unique(temp9$`Plant developmental status / plant age / maturity / plant life sta
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[10]
-#TheFunctionalEcologyofTrees(FET)Database-Jena.csv
+#"BROTPlantTraitDatabase.csv"
 
 names(dat_10)
-temp10<-dat_10
-#temp10<-dat_10[,c(1:6,9,10,12,14,27,28,30,35:45,66:68,75,94,112)]
-head(temp10)
-names(temp10)
-#no exposition
+
+temp10<-dat_10[,c(1:9,10,12,15,18,20)]
+
+
 fet<-melt(temp10, 
-#         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Basal area","Canopy height of stand","Diameter at breast height (DBH) of the forest stand","Leaf age at measurement","Leaf area index of the site (LAI)","Maximum diameter at breast height max","Maximum diameter at breast height mean","Maximum height","Plant height vegetative","SLA leaf area type"),
+         measure.vars=c("std_Leaf area: in case of compound leaves leaf; undefined if petiole in- or excluded", "std_Plant height vegetative"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(fet, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheFunctionalEcologyofTrees(FET)Database-Jena.csv', row.names=FALSE)
+write.csv(fet, '~/Desktop/ospree_trait_analysis/cleaned_nov/BROTPlantTraitDatabase.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[11]
-#TheNetherlandsPlantTraitsDatabase.csv
+#CanopyTraitsforTemperateTreeSpeciesUnderHighN-Deposition.csv
 
 names(dat_11)
-head(dat_11)
-temp11<-dat_11
-#temp11<-dat_11[,c(1:9,12,23)]
+unique(dat_11$`Height of measurement from the ground / height from which sample was collected`)
+temp11<-dat_11[,c(1:9,10,11,12,15:19,23,28,29,35:37)]
 head(temp11)
 names(temp11)
-#no exposition
-nether<-melt(temp11, 
+
+canopy<-melt(temp11, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Leaf carbon/nitrogen (C/N) ratio","Plant height vegetative","Wood density; stem specific density; wood specific gravity"),
+         measure.vars=c("Height of measurement from the ground / height from which sample was collected",
+                        "std_Leaf carbon content per dry mass"                                 ,"std_Leaf nitrogen content per dry mass (Nmass)","std_Stomata conductance to water vapour per leaf area"                             , "std_Stomata density"                                               , "std_Stomata length"),
          variable.name = "Trait",
          value.name = "value")
-
-write.csv(nether, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheNetherlandsPlantTraitsDatabase.csv', row.names=FALSE)
+head(canopy)
+write.csv(canopy, '~/Desktop/ospree_trait_analysis/cleaned_nov/CanopyTraitsforTemperateTreeSpeciesUnderHighN-Deposition.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[12]
-#TheXylemPhloemDatabase.csv
-
+#ChineseTraits.csv
+unique(dat_12$`C amount at 13C measurement`)
 names(dat_12)
-head(dat_12)
-temp12<-dat_12
-#temp12<-dat_12[,c(1:6,13,17,24)]
-head(temp12)
-names(temp12)
-#no exposition
-xylem<-melt(temp12, 
+
+temp12<-dat_12[,c(1:9,11,17,18,22:24,26,28:32,35:37)]
+
+ct<-melt(temp12, 
  #        id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Plant height (unspecified if vegetative or reproductive)"),
+         measure.vars=c("std_C amount at 13C measurement","std_Leaf area: in case of compound leaves undefined if leaf or leaflet; undefined if petiole and rhachis in- or excluded","std_Leaf carbon content per dry mass","std_Leaf dry matter content per leaf water-saturated mass (LDMC)","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(xylem, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheXylemPhloemDatabase.csv', row.names=FALSE)
+write.csv(ct, '~/Desktop/ospree_trait_analysis/cleaned_nov/ChineseTraits.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[13]
-#TundraPlantTraitsDatabase.csv
+#ColdTolerance,SeedSizeandHeightofNorthAmericanForestTreeSpecies.csv
 
 names(dat_13)
-head(dat_13)
-temp13<-dat_13
-#temp13<-dat_13[,c(1:8,10)]
-head(temp13)
-names(temp13)
-#no exposition
+
+temp13<-dat_13[,c(1:8,10,11)]
+
+
 tundra<-melt(temp13, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
-         measure.vars=c("Plant height vegetative","Woodiness"),
+         measure.vars=c("std_Maximum plant height"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(tundra, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TundraPlantTraitsDatabase.csv', row.names=FALSE)
+write.csv(tundra, '~/Desktop/ospree_trait_analysis/cleaned_nov/ColdTolerance,SeedSizeandHeightofNorthAmericanForestTreeSpecies.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[14]
-#Woodcarboncontentdatabase.csv
+#DayandNightGasExchangeofDeciduousTreeSeedlingsinResponsetoExperimentalWarmingandPreci.csv
 
 names(dat_14)
-head(dat_14)
-temp14<-dat_14
-#temp14<-dat_14[,c(1:8)]
+
+temp14<-dat_14[,c(1:38,40:54,85)]
 head(temp14)
 names(temp14)
-#no exposition
-wccd<-melt(temp14, 
-         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName"),
-         measure.vars=c("Leaf carbon content per dry mass"),
+
+day<-melt(temp14, 
+         #id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName"),
+         measure.vars=c( "std_Photosynthesis per leaf area at leaf temperature (A_area)"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(wccd, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/Woodcarboncontentdatabase.csv', row.names=FALSE)
+write.csv(day, '~/Desktop/ospree_trait_analysis/cleaned_nov/DayandNightGasExchangeofDeciduousTreeSeedlingsinResponsetoExperimentalWarmingandPreci.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[15]
-#Woodcarbondatabase.csv
+#ECOCRAFT.csv
 
 names(dat_15)
-head(dat_15)
-temp15<-dat_15
-#temp15<-dat_15[,c(1:8,10,13)]
+temp15<-dat_15[,c(1:9,11:12,14:18,20,26:36,38,40:42,48:56,58,61,67,69:73,85,87,91:92,94,95)]
 head(temp15)
 names(temp15)
-#no exposition
+
 wcd<-melt(temp15, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Leaf carbon content per dry mass"),
+         measure.vars=c("std_Average tree height","std_Diameter at base","std_Green crown length"                             ,"std_Leaf carbon content per dry mass"                                                            ,"std_Leaf nitrogen content per area (Narea)"                                                     ,"std_Leaf nitrogen content per dry mass (Nmass)"                                                 ,"std_Leaf photosynthesis at saturating light and saturating CO2 per leaf area (Amax)" ,"std_Light-saturated rate of photosynthesis, at the growth CO2 concentration, on a projected area basis"),
          variable.name = "Trait",
          value.name = "value")
 
 
-write.csv(wcd, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/Woodcarbondatabase.csv', row.names=FALSE)
+write.csv(wcd, '~/Desktop/ospree_trait_analysis/cleaned_nov/ECOCRAFT.csv', row.names=FALSE)
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[16]
-#XylemFunctionalTraits(XFT)Database.csv
+#EcologicalFloraoftheBritishIsles.csv
 
 names(dat_16)
-head(dat_16)
-temp16<-dat_16
-#temp16<-dat_16[,c(1:6,27,33,35,65:67,81,97)]
+
+temp16<-dat_16[,c(1:8,12,15,16:18,20,21)]
 head(temp16)
 names(temp16)
-#no exposition
+
 xft<-melt(temp16, 
 #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
-         measure.vars=c("Maximum plant height","Photosynthesis per leaf area at leaf temperature (A_area)","Plant height observed","Stomata conductance per leaf area at Asat measurement","Wood density; stem specific density; wood specific gravity"),
+         measure.vars=c("std_Leaf area: in case of compound leaves undefined if leaf or leaflet; undefined if petiole and rhachis in- or excluded", "std_Leaf nitrogen content per dry mass (Nmass)", "std_Plant height (unspecified if vegetative or reproductive)","std_Stomata density on lower surface","std_Stomata density on upper surface"),
          variable.name = "Trait",
          value.name = "value")
 
-write.csv(xft, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/XylemFunctionalTraits(XFT)Database.csv', row.names=FALSE)
+write.csv(xft, '~/Desktop/ospree_trait_analysis/cleaned_nov/EcologicalFloraoftheBritishIsles.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[17]
+#EuropeanNorthRussia.csv
+
+names(dat_17)
+
+temp17<-dat_17[,c(1:9,20,24,26,28:37,39:41,43)]
+
+
+euronr<-melt(temp17, 
+          #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+          measure.vars=c("std_Leaf area, whole leaf, petiole excluded (max)"               ,"std_Leaf area, whole leaf, petiole excluded (min)"               , "std_Leaf area: in case of compound leaves leaf; petiole excluded","std_Leaf dry matter content (max)"                               ,"std_Leaf dry matter content (min)"                               ,"std_Leaf dry matter content per leaf water-saturated mass (LDMC)","std_Leaf specific area (SLA): petiole excluded  (max)"           ,"std_Leaf specific area (SLA): petiole excluded (min)", "std_Plant height generative (maximum)","std_Plant height generative (minimum)", "std_Plant height reproductive / generative","std_SLA: petiole  excluded"),
+          variable.name = "Trait",
+          value.name = "value")
+
+write.csv(euronr, '~/Desktop/ospree_trait_analysis/cleaned_nov/EuropeanNorthRussia.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[18]
+#"FloridianLeafTraitsDatabase.csv"
+
+names(dat_18)
+
+temp18<-dat_18[,c(1:11,13:16,18,19,21,25,30,33)]
+
+
+flor<-melt(temp18, 
+             #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+             measure.vars=c("std_Leaf area: in case of compound leaves leaf; petiole excluded","std_Plant height vegetative","std_SLA: petiole  excluded"),
+             variable.name = "Trait",
+             value.name = "value")
+
+write.csv(flor, '~/Desktop/ospree_trait_analysis/cleaned_nov/FloridianLeafTraitsDatabase.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[19]
+#FRED-FineRootEcologyDatabase.csv
+
+unique(dat_19$`std_Leaf area index of the site (LAI)`)
+unique(dat_19$`std_Basal area by species`)
+
+names(dat_19)
+
+#None of the traits have std values
+temp19<-dat_19[,c(1:128)]
+
+
+fred<-melt(temp19, 
+             #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+             measure.vars=c("Aboveground live biomass dry weight per ground area", "Basal area","Basal area by area","Basal area by species","Basal area by species by area","Canopy height observed", "Canopy height observed: maximum","Canopy height observed: minimum","Diameter at breast height (DBH) maximum","Diameter at breast height (DBH) minimum","Leaf area index of the site (LAI)","Photosynthesis per leaf area at leaf temperature (A_area)","Root diameter class maximum","Root diameter class minimum","Stem diameter at breast height (1.3 m, DBH)"),
+             variable.name = "Trait",
+             value.name = "value")
+
+write.csv(fred, '~/Desktop/ospree_trait_analysis/cleaned_nov/FRED-FineRootEcologyDatabase.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[20]
+#FunctionalResilienceofTemperateForestsDataset.csv
+
+names(dat_20)
+
+temp20<-dat_20[,c(1:8,12,14,15,16,17,19)]
+
+
+funres<-melt(temp20, 
+             #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+             measure.vars=c("std_Leaf area: in case of compound leaves leaf; petiole and rhachis included","std_Plant height vegetative","std_SLA: undefined if petiole in- or excluded","std_Wood density; stem specific density; wood specific gravity"),
+             variable.name = "Trait",
+             value.name = "value")
+
+write.csv(funres, '~/Desktop/ospree_trait_analysis/cleaned_nov/FunctionalResilienceofTemperateForestsDataset.csv', row.names=FALSE)
+
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[21]
+#Functionaltraitsexplainingvariationinplantlifehistorystrategies.csv
+
+names(dat_21)
+
+dat_21<-dat_21[,c(1:8,13:17)]
+
+fev<-melt(dat_21,
+         measure.vars=c("std_Leaf nitrogen content per area (Narea)"                    
+                        ,"std_Leaf nitrogen content per dry mass (Nmass)"                
+                        ,"std_SLA: undefined if petiole in- or excluded (1)"             
+                        ,"std_Wood density; stem specific density; wood specific gravity"),
+         variable.name = "Trait",
+         value.name = "value")
+
+write.csv(fev, '~/Desktop/ospree_trait_analysis/cleaned_nov/Functionaltraitsexplainingvariationinplantlifehistorystrategies.csv', row.names=FALSE)
+
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[22]
+#FunctionalTraitsofTrees.csv
+
+names(dat_22)
+
+dat_22<-dat_22[,c(1:15,18,26,27)]
+
+ftt<-melt(dat_22,
+          measure.vars=c("std_SLA: undefined if petiole in- or excluded","std_Wood density; stem specific density; wood specific gravity"),
+          variable.name = "Trait",
+          value.name = "value")
+
+write.csv(ftt, '~/Desktop/ospree_trait_analysis/cleaned_nov/FunctionalTraitsofTrees.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[23]
+# Global15NDatabase.csv
+
+names(dat_23)
+dat_23<-dat_23[,c(1:9,11:22,24)]
+
+
+glb<-melt(dat_23, 
+           #           id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+           measure.vars=c("std_Leaf nitrogen content per dry mass (Nmass)"),
+           variable.name = "Trait",
+           value.name = "value")
+
+write.csv(glb, '~/Desktop/ospree_trait_analysis/cleaned_nov/Global15NDatabase.csv', row.names=FALSE)
+
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[24]
+# GlobalLeafGasExchangeDatabase(I).csv
+names(dat_24)
+temp24<-dat_24[,c(1:29,32:38,40:47,69,78)]
+
+gge<-melt(temp24, 
+            #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","lat","lon"),
+            measure.vars=c( "std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Stomata conductance to water vapour per leaf area"), #There is a space in front of DBH
+            variable.name = "Trait",
+            value.name = "value")
+write.csv(gge, '~/Desktop/ospree_trait_analysis/cleaned_nov/GlobalLeafGasExchangeDatabase(I).csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[25]
+#GlobalLeafGasExchangeDatabase(II).csv
+unique(dat_25$`std_Stomata conductance to water vapour per leaf area`)
+names(dat_25)
+
+temp25<-dat_25[,c(1:24,26:29,31,32,34:41,58,63,66)]
+
+ggeII<-melt(temp25, 
+            measure.vars=c("std_Photosynthesis per leaf area at leaf temperature (A_area)","std_SLA: petiole  excluded","std_Stomata conductance to water vapour per leaf area"),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(ggeII, '~/Desktop/ospree_trait_analysis/cleaned_nov/GlobalLeafGasExchangeDatabase(II).csv', row.names=FALSE)
+
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[26]
+#Globalleafsizedataset.csv
+
+names(dat_26)
+temp26<-dat_26[,c(1:12,15:19,24,25)]
+
+
+gls<-melt(temp26, 
+               #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"),
+               measure.vars=c( "std_Leaf area: in case of compound leaves leaf; undefined if petiole in- or excluded", "std_Leaf area: in case of compound leaves leaflet; undefined if petiole in- or excluded"),
+               variable.name = "Trait",
+               value.name = "value")
+
+write.csv(gls, '~/Desktop/ospree_trait_analysis/cleaned_nov/Globalleafsizedataset.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[27]
+#GlobalRespirationDatabase.csv
+
+names(dat_27)
+
+temp27<-dat_27[,c(1:14,19:27,29:30,33:36,43:46,56,59,60)]
+
+
+grd<-melt(temp27, 
+           # id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"#,"Treatment exposition"
+           #           ),
+           measure.vars=c("std_Leaf nitrogen content per area (Narea)"                        ,"std_Leaf nitrogen content per dry mass (Nmass)"                    ,"std_Leaf respiration: fixed Q10 for temperature standardization","std_Leaf respiration: variable Q10 for temperature standardization","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_SLA: petiole  included","std_Stomata conductance to water vapour per leaf area"),
+           variable.name = "Trait",
+           value.name = "value")
+
+write.csv(grd, '~/Desktop/ospree_trait_analysis/cleaned_nov/GlobalRespirationDatabase.csv', row.names=FALSE)
+
+#unique(temp7$`Treatment exposition`)
+
+#All juvenile and all natural envirts
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[28]
+#GlobalSeedMass,PlantHeightDatabase.csv
+names(dat_28)
+temp28<-dat_28[,c(1:13,15:27,28:31,37)]
+
+gsm<-melt(temp28, 
+          #         id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude"),
+          measure.vars=c("std_Maximum plant height"),
+          variable.name = "Trait",
+          value.name = "value")
+
+write.csv(gsm, '~/Desktop/ospree_trait_analysis/cleaned_nov/GlobalSeedMass,PlantHeightDatabase.csv', row.names=FALSE)
+
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[29]
+#GlobalWoodDensityDatabase.csv
+
+names(dat_29)
+temp29<-dat_29[,c(1:9,11,13)]
+
+gwdd<-melt(temp29,
+            measure.vars=c("std_Wood density; stem specific density; wood specific gravity"),
+            variable.name = "Trait",
+            value.name = "value")
+
+write.csv(gwdd, '~/Desktop/ospree_trait_analysis/cleaned_nov/GlobalWoodDensityDatabase.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[30]
+#GLOPNET-GlobalPlantTraitNetworkDatabase.csv
+
+names(dat_30)
+
+temp30<-dat_30[,c(1:14,19:69,72:75,78,80:110,117:120,172,173,178,179,181)]
+
+glop<-melt(temp30, 
+          measure.vars=c("std_Leaf area: in case of compound leaves leaf; undefined if petiole in- or excluded","std_Leaf area: in case of compound leaves leaflet; undefined if petiole in- or excluded","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Plant height vegetative","std_SLA: undefined if petiole in- or excluded","std_SLA: undefined if petiole in- or excluded (1)","std_Stomata conductance to water vapour per leaf area" ),
+          variable.name = "Trait",
+          value.name = "value")
+
+write.csv(glop, '~/Desktop/ospree_trait_analysis/cleaned_nov/GLOPNET-GlobalPlantTraitNetworkDatabase.csv', row.names=FALSE)
+
+#<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
+file_list[31]
+#GrasslandPlantTraitDatabase.csv
+
+names(dat_31)
+unique(dat_31$`LDMC max`)
+temp31<-dat_31[,c(1:14,21:26,30:34,41:46,53:55)]
+
+gpt<-melt(temp31,
+             measure.vars=c("std_LDMC max","std_LDMC min","std_Leaf area: in case of compound leaves leaf; petiole and rhachis included","std_Leaf area: in case of compund leaves leaf; petiole included (1)","std_Leaf area: in case of compund leaves leaf; petiole included (2)","std_Leaf dry matter content per leaf water-saturated mass (LDMC)","std_SLA: petiole  included","std_SLA: petiole included (1)","std_SLA: petiole included (2)"),
+             variable.name = "Trait",
+             value.name = "value")
+
+write.csv(gpt, '~/Desktop/ospree_trait_analysis/cleaned_nov/GrasslandPlantTraitDatabase.csv', row.names=FALSE)
+
+#only one vaue for each trait!
+
+
+
+
+
+
+
 
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><>
@@ -421,7 +698,7 @@ file_list[1]
 
 names(dat_1)
 dim(dat_1)
-temp1<-dat_1[,c(1:6,9:30)]
+temp1<-dat_1[,c(1:7,9:30)]
 head(temp1)
 
 struc<-melt(temp1, 
@@ -457,15 +734,15 @@ struc<-melt(temp1,
           value.name = "value")
 
 
-write.csv(struc, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/LeafStructureandChemistry_1.csv', row.names=FALSE)
+write.csv(struc, '~/Desktop/ospree_trait_analysis/cleaned_nov/LeafStructureandChemistry_1.csv', row.names=FALSE)
 
-write.csv(struc1, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/LeafStructureandChemistry_2.csv', row.names=FALSE)
+write.csv(struc1, '~/Desktop/ospree_trait_analysis/cleaned_nov/LeafStructureandChemistry_2.csv', row.names=FALSE)
 #######################################################
 file_list[2]
 #[2] Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv
 
 names(dat_2)
-temp2<-dat_2[,c(1:6,8:18)]
+temp2<-dat_2[,c(1:7,8:18)]
 head(temp2)
 
 dat2_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv")
@@ -486,14 +763,14 @@ struc<-melt(temp18,
             value.name = "value")
 head(struc)
 unique(struc$mat)
-write.csv(struc, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv', row.names=FALSE)
+write.csv(struc, '~/Desktop/ospree_trait_analysis/cleaned_nov/Leaftraitsdata(SLA)for56woodyspeciesattheSmithsonianConservationBiologyInstitute-Forest.csv', row.names=FALSE)
 #######################################################
 file_list[3]
 #MARGINS-leaftraitsdatabase.csv
 
 head(dat_3)
 names(dat_3)
-temp3<-dat_3[,c(1:6,9:39)]
+temp3<-dat_3[,c(1:7,9:39)]
 head(temp3)
 
 #get the LMDC and SLA values
@@ -515,14 +792,14 @@ margins<-melt(temp19,
             variable.name = "Trait",
             value.name = "value")
 
-write.csv(margins, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/MARGINS-leaftraitsdatabase.csv', row.names=FALSE)
+write.csv(margins, '~/Desktop/ospree_trait_analysis/cleaned_nov/MARGINS-leaftraitsdatabase.csv', row.names=FALSE)
 #######################################################
 file_list[4]
 #PlantPhysiologyDatabase.csv
 
 names(dat_4)
 head(dat_4) 
-temp4<-dat_4[,c(1:6,9:15,17:26)]
+temp4<-dat_4[,c(1:7,9:15,17:26)]
 head(temp4)
 
 #get the LMDC and SLA values
@@ -544,7 +821,7 @@ pphysio<-melt(temp20,
               variable.name = "Trait",
               value.name = "value")
 
-write.csv(pphysio, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantPhysiologyDatabase.csv', row.names=FALSE)
+write.csv(pphysio, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantPhysiologyDatabase.csv', row.names=FALSE)
 
 unique(temp20$`Plant developmental status / plant age / maturity / plant life stage`)
 # JUST seedlings
@@ -553,7 +830,7 @@ unique(temp20$`Plant developmental status / plant age / maturity / plant life st
 file_list[5]
 # "PLANTSdataUSDA.csv"
 head(dat_5)
-temp5<-dat_5[,c(1:6,8)]
+temp5<-dat_5[,c(1:7,8)]
 head(temp5)
 
 #mature tree height values are under the unit colmn and default is in feet not meters
@@ -581,14 +858,14 @@ usda<-melt(out_c,
               value.name = "value")
 head(usda)
 unique(usda$Trait)
-write.csv(usda, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PLANTSdataUSDA.csv', row.names=FALSE)
+write.csv(usda, '~/Desktop/ospree_trait_analysis/cleaned_nov/PLANTSdataUSDA.csv', row.names=FALSE)
 
 #######################################################
 file_list[6]
 # PlantTraitsforPinusandJuniperusForestsinArizona.csv
 names(dat_6)
 #both LDMC and DBH are in the OrigUnitStr
-temp6<-dat_6[,c(1:6,9:17,19)]
+temp6<-dat_6[,c(1:7,9:17,19)]
 head(temp6)
 
 dat6_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PlantTraitsforPinusandJuniperusForestsinArizona.csv")
@@ -614,7 +891,7 @@ arzn<-melt(temp22,
            variable.name = "Trait",
            value.name = "value")
 
-write.csv(arzn, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraitsforPinusandJuniperusForestsinArizona.csv', row.names=FALSE)
+write.csv(arzn, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantTraitsforPinusandJuniperusForestsinArizona.csv', row.names=FALSE)
 
 #######################################################
 file_list[7]
@@ -640,7 +917,7 @@ italy<-melt(temp23,
            value.name = "value")
 #colnames(beech)[colnames(italy)=="Treatment exposition"] <- "Exposition"
 head(italy)
-write.csv(italy, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=FALSE)
+write.csv(italy, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantTraitsfromCirceoNationalPark,Italy.csv', row.names=FALSE)
 
 #######################################################
 file_list[8]
@@ -672,7 +949,7 @@ circeo<-melt(temp24,
 #colnames(circeo)[colnames(circeo)=="exposition"] <- "Exposition"
 
 #All mature in natural envrt
-write.csv(circeo, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraitsfromCirceoNationalPark.csv', row.names=FALSE)
+write.csv(circeo, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantTraitsfromCirceoNationalPark.csv', row.names=FALSE)
 
 #######################################################
 file_list[9]
@@ -680,7 +957,7 @@ file_list[9]
 names(dat_9)
 
 #LDMC data 
-temp9<-dat_9[,c(1:6,9:16)]
+temp9<-dat_9[,c(1:7,9:16)]
 head(temp9)
 
 dat9_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/PlantTraitsFromSpanishMediteraneanshrublands.csv")
@@ -709,7 +986,7 @@ medit<-melt(temp25,
                             "LDMC"),
              variable.name = "Trait",
              value.name = "value")
-write.csv(medit, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraitsFromSpanishMediteraneanshrublands.csv', row.names=FALSE)
+write.csv(medit, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantTraitsFromSpanishMediteraneanshrublands.csv', row.names=FALSE)
 
 #######################################################
 
@@ -722,7 +999,7 @@ dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+SpeciesName+Observati
 #Height is in cm, so converting to m
 #heights are in cm so use OrigValueStr
 names(dat_10)
-temp26<-dat_10#[,c(1:6,8,9,11,13,20:22)]
+temp26<-dat_10#[,c(1:7,8,9,11,13,20:22)]
 names(temp26)
 head(temp26)
 canad<-melt(temp26, 
@@ -742,13 +1019,13 @@ canad<-melt(temp26,
                            ),
             variable.name = "Trait",
             value.name = "value")
-write.csv(canad, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/PlantTraitsofCanadianForests.csv', row.names=FALSE)
+write.csv(canad, '~/Desktop/ospree_trait_analysis/cleaned_nov/PlantTraitsofCanadianForests.csv', row.names=FALSE)
 
 # head(dat_10)
 # dat_10<-dcast(dat_10, LastName+FirstName+DatasetID+Dataset+AccSpeciesID+ObsDataID~OriglName, value.var = "StdValue", na.rm=TRUE)
 # names(dat_10)
 # 
-# temp10<-dat_10[,c(1:6,11)]
+# temp10<-dat_10[,c(1:7,11)]
 # head(temp10)
 
 
@@ -759,7 +1036,7 @@ file_list[11]
 #RollinsonDBH.csv
 names(dat_11)
 
-temp11<-dat_11[,c(1:6,8:13)]
+temp11<-dat_11[,c(1:7,8:13)]
 head(temp11)
 
 #Stem diameter is in the OrigUnitStr col
@@ -789,7 +1066,7 @@ roll<-melt(temp27,
             variable.name = "Trait",
             value.name = "value")
 
-write.csv(roll, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/RollinsonDBH.csv', row.names=FALSE)
+write.csv(roll, '~/Desktop/ospree_trait_analysis/cleaned_nov/RollinsonDBH.csv', row.names=FALSE)
 
 #unique(temp27$`Exposition`)
 #All natural
@@ -799,7 +1076,7 @@ file_list[12]
 #Sheffield&SpainWoodyDatabase.csv
 names(dat_12)
 head(dat_12)
-temp12<-dat_12[,c(1:6,9:20)]
+temp12<-dat_12[,c(1:7,9:20)]
 head(temp12)
 names(temp12)
 
@@ -830,7 +1107,7 @@ sheffwood<-melt(temp28,
            variable.name = "Trait",
            value.name = "value")
 
-write.csv(sheffwood, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/Sheffield&SpainWoodyDatabase.csv', row.names=FALSE)
+write.csv(sheffwood, '~/Desktop/ospree_trait_analysis/cleaned_nov/Sheffield&SpainWoodyDatabase.csv', row.names=FALSE)
 
 #not sure why I put this one in the inconsistent folder
 
@@ -839,7 +1116,7 @@ file_list[13]
 #SheffieldDatabase.csv
 names(dat_13)
 head(dat_13)
-temp13<-dat_13[,c(1:6,10:42)]
+temp13<-dat_13[,c(1:7,10:42)]
 head(temp13)
 
 #LDMC is under OrigUnitStr
@@ -855,7 +1132,7 @@ colnames(out)[colnames(out)=="258"] <- "LDMC"
 #Leaf water content is under ValueKindName
 out2<-dcast(dat13_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "RelUncertaintyPercent", na.rm=TRUE)
 names(out2); head(out2)
-out2<-out2[,c(1:6,8)]
+out2<-out2[,c(1:7,8)]
 colnames(out2)[colnames(out2)=="54"] <- "LWC"
 
 out_c<-merge(out2,out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
@@ -884,7 +1161,7 @@ sheff<-melt(temp28,
                 variable.name = "Trait",
                 value.name = "value")
 
-write.csv(sheff, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/SheffieldDatabase.csv', row.names=FALSE)
+write.csv(sheff, '~/Desktop/ospree_trait_analysis/cleaned_nov/SheffieldDatabase.csv', row.names=FALSE)
 
 head(temp28)
 
@@ -894,7 +1171,7 @@ file_list[14]
 
 names(dat_14)
 head(dat_14)
-temp14<-dat_14[,c(1:6,9:18)]
+temp14<-dat_14[,c(1:7,9:18)]
 head(temp14)
 
 #LDMC is under OrigUnitStr
@@ -924,7 +1201,7 @@ fin<-melt(temp29,
             ),
             variable.name = "Trait",
             value.name = "value")
-write.csv(fin, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=FALSE)
+write.csv(fin, '~/Desktop/ospree_trait_analysis/cleaned_nov/StructuralandbiochemicalleaftraitsofborealtreespeciesinFinland.csv', row.names=FALSE)
 
 unique(temp29$`Plant developmental status / plant age / maturity / plant life stage`)
 #unique(temp29$`Exposition`)
@@ -936,7 +1213,7 @@ file_list[15]
 
 names(dat_15)
 head(dat_15)
-temp15<-dat_15[,c(1:6,9:74)]
+temp15<-dat_15[,c(1:7,9:74)]
 head(temp15)
 
 #LDMC is under OrigUnitStr
@@ -966,14 +1243,14 @@ china<-melt(temp30,
           ),
           variable.name = "Trait",
           value.name = "value")
-write.csv(china, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheChinaPlantTraitDatabase.csv', row.names=FALSE)
+write.csv(china, '~/Desktop/ospree_trait_analysis/cleaned_nov/TheChinaPlantTraitDatabase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[16]
 #TheGlobalLeafTraits.csv
 
 names(dat_16)
-temp16<-dat_16[,c(1:6,10:92)]
+temp16<-dat_16[,c(1:7,10:92)]
 head(temp16)
 
 #LDMC is under OrigUnitStr
@@ -987,7 +1264,7 @@ colnames(out)[colnames(out)=="RelUncertaintyPercent"] <-"UnitName"
 #Leaf water content is under ValueKindName
 out2<-dcast(dat16_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID~DataName, value.var = "RelUncertaintyPercent", na.rm=TRUE)
 names(out2); head(out2)
-out2<-out2[,c(1:6,8)]
+out2<-out2[,c(1:7,8)]
 colnames(out2)[colnames(out2)=="54"] <- "LWC"
 unique(out2$LWC)
 
@@ -1017,14 +1294,14 @@ glbl<-melt(temp31,
             variable.name = "Trait",
             value.name = "value")
 
-write.csv(glbl, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheGlobalLeafTraits.csv', row.names=FALSE)
+write.csv(glbl, '~/Desktop/ospree_trait_analysis/cleaned_nov/TheGlobalLeafTraits.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[17]
 #TheLEDATraitbase.csv
 names(dat_17)
 head(dat_17)
-temp17<-dat_17[,c(1:6,10,13,16:18,23:25,27)]
+temp17<-dat_17[,c(1:7,10,13,16:18,23:25,27)]
 head(temp17)
 
 dat17_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/TheLEDATraitbase.csv")
@@ -1057,14 +1334,14 @@ leda<-melt(temp32,
             variable.name = "Trait",
             value.name = "value")
 
-write.csv(leda, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TheLEDATraitbase.csv', row.names=FALSE)
+write.csv(leda, '~/Desktop/ospree_trait_analysis/cleaned_nov/TheLEDATraitbase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[18]
 #TraitsfromSubarcticPlantSpeciesDatabase.csv
 names(dat_18)
 head(dat_18)
-temp18<-dat_18[,c(1:6,9,10:13,15)]
+temp18<-dat_18[,c(1:7,9,10:13,15)]
 head(temp18)
 
 dat18_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/TraitsfromSubarcticPlantSpeciesDatabase.csv")
@@ -1095,7 +1372,7 @@ subartic<-melt(temp33,
             variable.name = "Trait",
             value.name = "value")
 
-write.csv(subartic, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/TraitsfromSubarcticPlantSpeciesDatabase.csv', row.names=FALSE)
+write.csv(subartic, '~/Desktop/ospree_trait_analysis/cleaned_nov/TraitsfromSubarcticPlantSpeciesDatabase.csv', row.names=FALSE)
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[19]
@@ -1108,7 +1385,7 @@ head(temp19)
 dat19_2<-read.csv("~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/inconsistentformat/WholePlantHydraulicConductance.csv")
 out<-dcast(dat19_2, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+RelUncertaintyPercent~DataName, value.var = "UnitName", na.rm=TRUE)
 names(out); head(out)
-out<-out[,c(1:6,9)]
+out<-out[,c(1:7,9)]
 
 temp34<-merge(temp19, out, by=c("LastName","FirstName","SpeciesName","ObservationID","DatasetID","Dataset"))
 head(temp34)
@@ -1129,10 +1406,10 @@ whydr<-melt(temp34,
             value.name = "value")
 
 
-write.csv(whydr, '~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/WholePlantHydraulicConductance.csv', row.names=FALSE)
+write.csv(whydr, '~/Desktop/ospree_trait_analysis/cleaned_nov/WholePlantHydraulicConductance.csv', row.names=FALSE)
 
 #Now merge all files into one:
-myfiles = list.files(path="~/Documents/github/ospree/analyses/traits/input/try_cleaning_dl/cleanlong_stdvalues/", pattern="*.csv", full.names=TRUE)
+myfiles = list.files(path="~/Desktop/ospree_trait_analysis/cleaned_nov/", pattern="*.csv", full.names=TRUE)
 myfiles
 dat_clean = ldply(myfiles, read_csv)
 dat_clean
