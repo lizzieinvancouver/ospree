@@ -16,8 +16,55 @@ if(length(grep("ailene", getwd()))>0) {
 
 #How many studies include error in figs/tables/:
 d<-read.csv("../output/ospree_clean_withchill_BB.csv", header=TRUE)
+bb.stan<-read.csv("..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", header=TRUE)
+d$forcetemp<-as.numeric(d$forcetemp)
+d$forcetemp_night<-as.numeric(d$forcetemp_night)
+d$photoperiod_day<-as.numeric(d$photoperiod_day)
+d$photoperiod_day<-as.numeric(d$photoperiod_day)
+d$chilldays<-as.numeric(d$chilldays)
+
+dmod<-left_join(bb.stan,d)
+d<-dmod
+#refine this to only studies used in the model, after cleaning....
+
 length(d$resp_error[which(is.na(d$resp_error))])
 (length(d$resp_error[d$resp_error=="no response"])+length(d$resp_error[d$resp_error=="0"])+length(d$resp_error[d$resp_error==""])+length(d$resp_error[which(is.na(d$resp_error))]))/length(d$resp_error)
+d$nerror.possible<-"yes"
+d$nerror.possible[d$resp_error=="no response"|d$resp_error=="0"|d$resp_error==""|d$resp_error=="cant see bars, very small" ]<-"no"
+
+#from need.n.error.csv
+d$nerror.possible[d$datasetID=="falusi03"]<-"yes"
+d$nerror.possible[d$datasetID=="falusi96"]<-"yes"
+d$nerror.possible[d$datasetID=="ghelardini10"]<-"yes"
+d$nerror.possible[d$datasetID=="laube14a"]<-"yes"
+d$nerror.possible[d$datasetID=="laube14b"]<-"yes"
+d$nerror.possible[d$datasetID=="myking95"]<-"yes"
+d$nerror.possible[d$datasetID=="partanen01"]<-"yes"
+
+unique(d$resp_error[d$nerror.possible=="yes"])
+#how many studies used in the main ospree model include error or it is possible to get error?
+unique(d$datasetIDstudy[d$nerror.possible=="no"])
+unique(d$datasetIDstudy[d$nerror.possible=="yes"])
+unique(d$datasetIDstudy)
+
+#of the studies that do include data on measurement error, how large is it relative to the response itself?
+d.wse<-d[d$nerror.possible=="yes",]
+d.wse$resp_error<-as.numeric(d.wse$resp_error)
+d.wse$response<-as.numeric(d.wse$response)
+d.wse<-d.wse[!is.na(d.wse$resp_error),]
+d.wse<-d.wse[!is.na(d.wse$response),]
+#for SE
+d.wse$error.type[d.wse$error.type=="SE across three years of experiments"]<-"SE across three years of experiments"
+d.wse$rel.error<-d.wse$resp_error/d.wse$resp#
+mean(d.wse$rel.error[d.wse$error.type=="SD"], na.rm=TRUE)
+range(d.wse$rel.error[d.wse$error.type=="SD"], na.rm=TRUE)
+range(d.wse$rel.error[d.wse$error.type=="SE"])
+mean(d.wse$rel.error[d.wse$error.type=="SE"])
+#all caffarra11a error estinates are way off, after checking the paper...we did not clean this column so this is difficult...
+d.wse<-d.wse[d.wse$datasetID!="caffarra11a",]
+
+#some SE values look super high! 
+d.wse$datasetID[d.wse$rel.error>.5]
 
 #what proportion of studies used utah as their reported units?
 
