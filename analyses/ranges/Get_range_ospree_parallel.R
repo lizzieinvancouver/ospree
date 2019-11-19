@@ -258,7 +258,7 @@ cl <- makeCluster(n)
 registerDoParallel(cl)
 
 Sys.time()
-  Climate.in.range.i<-foreach(spslist = ospreespslist, .packages=c("raster","ncdf4","abind","chillR"),
+  Climate.in.range.i<-foreach(spslist = ospreespslist[4:5], .packages=c("raster","ncdf4","abind","chillR"),
                            .verbose=T,.errorhandling="pass")  %dopar%  
     extractchillforce(spslist,tmin,tmax,period) ## profiling function only / and all paralell process
 Sys.time()

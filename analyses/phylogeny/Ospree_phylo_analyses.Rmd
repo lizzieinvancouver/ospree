@@ -1,0 +1,357 @@
+---
+title: "Ospree phylogenetic analyses"
+author: "I. Morales-Castilla"
+date: "11/18/2019"
+output: html_document
+  html_document:
+    df_print: paged
+fontsize: 12pt
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+
+&nbsp;
+\pagebreak
+
+CONTENTS <a name="contents"></a>
+=========
+
+
+<br>
+<br>
+
+[1. Introduction](#intro)
+<br>
+
+  * [1.1 Why care about phylogenetics?](#whycare)
+
+  * [1.2 Housekeeping, package loading, etc.](#tostart)
+
+[2. Running models, saving, loading PGLMM models](#pglmm)
+<br>
+
+  * [2.1 Running models](#runningpglmm)
+  
+  * [2.2 Saving models](#savepglmm)
+  
+  * [2.3 Loading previously saved models](#loadpglmms)
+<br>
+
+[2. Running models, saving, loading BRMS models](#brms)
+<br>
+
+  * [2.1 Running models](#brms)
+  
+  * [2.2 Saving models](#savebrms)
+  
+  * [2.3 Loading previously saved models](#loadbrms)
+<br>
+
+\pagebreak
+
+
+1. Introduction <a name="intro"></a>
+===============
+<br>
+
+1.1 Why care about phylogenetics? <a name="whycare"></a>
+---------------------------------
+
+When we analyze interespecific data in ecology---i.e. data recorded across multiple species---we need to account for phylogenetic autocorrelation, or the fact that species are not independent from each other. This is, phylogenetically close species will tend to be more similar than expected by chance. 
+
+Phylogenetic multilevel models account for species non-independence by modelling residual variation as a function of the phylogenetic variances-covariances among species. This approach is the hierarchical version of PGLS (Freckleton et al. 2002) and contrasts to alternative multilevel models where variation due to species differences would be modelled as a grouping factor to estimate varying intercepts (and possibly also varying slopes) over species. 
+
+
+1.2 Housekeeping, package loading, etc. <a name="tostart"></a>
+---------------------------------------
+
+
+```{r loading packages, echo=T, eval=F, message=F, warning=F,}
+
+## to start - housekeeping
+rm(list=ls())
+options(stringsAsFactors=FALSE)
+
+
+
+## load packages
+library(shinystan)
+library(caper)
+library(brms)
+library(pez)
+library(rstan)
+library(phytools)
+library(MCMCglmm)
+
+```
+<br>
+
+
+#### get ospree data and phylogeny
+
+```{r get ospreedata, echo=F, eval=F, message=F, warning=F,fig.height=8}
+
+####################################
+#### get data through bbstanleadin
+####################################
+
+# dostan = TRUE
+# Flags to choose for bbstanleadin.R
+use.chillports = FALSE # change to true for using chillportions instead of utah units
+
+# Default is species complex
+use.allspp = F
+use.nocropspp = F
+
+# Default is species complex use  alltypes of designs
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+
+source("source/bbstanleadin.phyla.R")
+
+namesdat<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
+bb.stan$complex.wname
+
+
+
+####################################
+#### get phylogeny
+####################################
+
+source("source/get_phylo_models.R")
+
+## read and pre-process phylogeny
+#phylo <- read.tree("../../data/phylogeny/SBphylo_62complex.tre")
+#phylo <- read.tree("../../data/phylogeny/SBphylo_101sps.tre")
+phylo <- phy.plants.ospree
+
+namesphy<-phylo$tip.label
+phylo<-force.ultrametric(phylo, method="extend")
+phylo$node.label<-seq(1,length(phylo$node.label),1)
+is.ultrametric(phylo)
+plot(phylo, cex=0.7)
+
+
+## get phylogenetic covariance matrix
+inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
+A <- solve(inv.phylo$Ainv)
+rownames(A) <- rownames(inv.phylo$Ainv)
+bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
+bb.stan$spps<-bb.stan$phylo
+
+```
+
+
+2. Running models, saving, loading PGLMM models <a name="pglmm"></a>
+===============================================
+
+
+2.3 Loading previously saved models <a name="loadpglmms"></a>
+-----------------------------------
+
+```{r read pglmms, echo=T, eval=F, message=F, warning=F,}
+library(knitr)
+
+PGLMM_results_ospree <- read.csv("output/PGLMM_results_ospree.csv")
+PGLMM_results_ospree[is.na.data.frame(PGLMM_results_ospree)] = ""
+
+kable(PGLMM_results_ospree)
+
+```
+
+
+According to PGLMM BB responses to all three cues are strongly phylogenetically structured/inherited. in other words ~90% of the variance is explained by the (phylogenetically structured) differences across species. Phylogenetically close species are more likely to show similar responses to each of the cues (a little more so for forcing).
+
+A comparison of PGLMM results against our previous results in the BB ms. reveal a shift in importance between chilling and forcing. Forcing shows a stronger effect size than chilling, at least according to PGLMM.
+
+
+3. Running models, saving, loading BRMS models <a name="brms"></a>
+===============================================
+
+
+3.3 Loading previously saved models <a name="loadbrms"></a>
+-----------------------------------
+
+Let's explore the results for different specifications of BRMS models. 
+
+The simplest model specification would be 
+$$Budbreak = \alpha_{phylo} + \beta_{1}\overline{forcing}
++ \beta_{2}\overline{chilling} + \beta_{3}\overline{photo}+ \varepsilon$$
+
+This is equivalent to a PGLS model - phylogeny as random effect on intercept - one measurement per species. However, our data has repeated measures for each species, so we need to synthetize or aggregate the data.
+
+This model would not make much sense as we loose a lot of information and fail to retrieve whether or not sensitivities to the cues are phylogenetically structured. It still informs, however, that most variation is phylogenetically structured. 
+
+```{r pgls, echo=T, eval=F, message=F, warning=F}
+
+
+bb.pgls <- aggregate(x = bb.stan, 
+            by = list(phylo = bb.stan$phylo), 
+            FUN = mean)
+
+
+# the model specification would be $$y ~ \alpha_{phylo} + \beta \overline{x} + \varepsilon$$
+#model_phylo.PGLS.69obs <- brm(
+#  resp ~ force.z + chill.z + photo.z +      ## fixed effs
+#    (1 |phylo),  ## rnd effs 
+#  data = bb.pgls, 
+#  family = gaussian(), cov_ranef = list(phylo = A),
+#  prior = c(
+#    prior(normal(0, 20), "b"),
+#    prior(normal(0, 50), "Intercept"),
+#    prior(student_t(3, 0, 20), "sd"),
+#    prior(student_t(3, 0, 20), "sigma")
+#  )
+#  ,sample_prior = TRUE, chains = 2, cores = 2, 
+#  iter = 1000, warmup = 250
+#)
+
+#save(model_PGLS.69obs,file = "output/model_PGLS.69obs.RData")
+load("output/model_PGLS.69obs.RData")
+summary(model_phylo.PGLS.69obs)
+
+#plot(marginal_effects(model_phylo.PGLS.69obs), points = TRUE, ask=T) 
+#pp_check(model_phylo.PGLS.69obs)
+
+
+## the phylogenetic signal
+hyp.PGLS69effs <- paste(
+  "(sd_phylo__Intercept^2)/", 
+  "(sd_phylo__Intercept^2 
+  + sigma^2) = 0.0"
+)
+(lambda.hyp.PGLS69 <- hypothesis(model_phylo.PGLS.69obs, 
+                                 hyp.PGLS69effs, class = NULL))
+
+## generate a comparative.data object merging data and phylogeny
+bb.pgls.caper = comparative.data(phylo, bb.pgls[,c("resp","force.z","chill.z","photo.z",
+                                 "phylo")],names.col = "phylo",na.omit = T, vcv = T)
+model_PGLS.69obs <- pgls(resp ~ force.z + chill.z + photo.z, data = bb.pgls.caper,
+                         lambda='ML')
+summary(model_PGLS.69obs)
+
+
+```
+
+A quick PGLS analyses reveals similar results regarding both, model coefficients and parameter $\lambda$ or $H^{2}$ of 0.66.
+
+
+The next model to inspect would be: 
+$$Budbreak = \alpha_{phylo} + \alpha_{species} + \beta_{1}forcing
++ \beta_{2}chilling + \beta_{3}photo + \varepsilon$$
+
+This is the simple multilevel model for repeated measures, where intraspecific variation for the cues is considered. Grouping factors on the intercept consider the phylogenetic structure ($\alpha_{phylo}$) and other inter-specific variation independent from the phylogeny ($\alpha_{species}$).
+
+This model makes a bit more sense than the previous one, but we still lack information of interest. While this model informs us about the convenience of accounting for phylogenetic non-independence, and gives us a measure of how much the residual variation is phylogenetically structured, we still lack specific sensitivities to each cue (we'd need grouping on the slopes too). 
+
+
+```{r repeated measures, echo=T, eval=F, message=F, warning=F}
+
+#### PGLS repeated MODEL ####
+### ## ad mean of predictors across species and within species
+
+bb.stan$forcemeans <- 
+  with(bb.stan, sapply(split(force.z, phylo), mean)[phylo])
+
+bb.stan$withinsp.forcemeans <- 
+  bb.stan$force.z - bb.stan$forcemeans
+
+bb.stan$chillmeans <- 
+  with(bb.stan, sapply(split(chill.z, phylo), mean)[phylo])
+
+bb.stan$withinsp.chillmeans <- 
+  bb.stan$chill.z - bb.stan$chillmeans
+
+bb.stan$photomeans <- 
+  with(bb.stan, sapply(split(photo.z, phylo), mean)[phylo])
+
+bb.stan$withinsp.photomeans <- 
+  bb.stan$photo.z - bb.stan$photomeans
+
+#model commented out to avoid running 
+#model_phylo.PGLS <- brm(
+#  resp ~ withinsp.forcemeans + withinsp.chillmeans + 
+#    withinsp.photomeans +      ## fixed effs
+#    (1 |phylo) + (1|species),  ## rnd effs 
+#  data = bb.stan, 
+#  family = gaussian(), cov_ranef = list(phylo = A),
+#  prior = c(
+#    prior(normal(0, 20), "b"),
+#    prior(normal(0, 50), "Intercept"),
+#    prior(student_t(3, 0, 20), "sd"),
+#    prior(student_t(3, 0, 20), "sigma")
+#  )
+# ,sample_prior = TRUE, chains = 2, cores = 4, 
+#  iter = 2000, warmup = 500
+#)
+
+#load model result
+load("output/pgls_phylomod_onlyphy.RData")
+model_phylo.PGLS
+
+
+#inspect results
+PGLSeffs<-rbind(
+  summary(model_phylo.PGLS)$fixed,
+  summary(model_phylo.PGLS)$random$phylo,
+  summary(model_phylo.PGLS)$random$species,
+  summary(model_phylo.PGLS)$spec_pars
+)
+PGLSeffs[,1:5] = round(PGLSeffs[,1:5],3)
+kable(PGLSeffs)
+
+#plot(marginal_effects(model_phylo.PGLS), points = TRUE, ask=T) 
+#pp_check(model_phylo.PGLS)
+
+
+## the phylogenetic signal
+hyp.pgls <- paste(
+  "(sd_phylo__Intercept^2) /", 
+  "(sd_phylo__Intercept^2 
+  + sd_species__Intercept^2
+  + sigma^2) = 0.0"
+)
+(lambda.pgls <- hypothesis(model_phylo.PGLS, hyp.pgls, class = NULL))
+#plot(lambda.pgls)
+
+
+```
+
+The results are very similar to PGLMM results. However, $H^{2}$ seems greater in PGLMM than in BRMS. 
+
+
+
+```{r read pglmms, echo=T, eval=F, message=F, warning=F,}
+
+
+FULLeffs <- read.csv("output/full_effects_onlyphy.csv")
+PGLSeffs <- read.csv("output/pgls_effects_onlyphy.csv")
+
+forceeffs <- read.csv("output/force_effects_onlyphy.csv")
+chilleffs <- read.csv("output/chill_effects_onlyphy.csv")
+photoeffs <- read.csv("output/photo_effects_onlyphy.csv")
+
+kable(FULLeffs)
+
+
+```
+
+
+According to PGLMM BB responses to all three cues are strongly phylogenetically structured/inherited in other words ~90% of the variance is explained by the (phylogenetically structured) differences across species. Phylogenetically close species are more likely to show similar responses to each of the cues (a little more so for forcing).
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -49,7 +49,7 @@ phy.plants.ospree<-drop.tip(phy.ospree.clean,
 # only 172 species are in the phylogeny
 
 
-plot(phy.plants.ospree,cex=.5)
+#plot(phy.plants.ospree,cex=.5)
 
 
 ## save phylogeny
