@@ -7,11 +7,12 @@
 
 if(is.data.frame(d)){
 ## vitra17
-#We think vitra17 is a GDD model with base temp of 0. Therefore:
-#GDD=(Temp-Tb)*Time so, daystobudburst = response.time/(forcetemp-0)
+#We think vitra17 is a GDD model with base temp of 0. or maybe 5. Since we don't
+  # know, we are going to split tge difference with 2.5 unless we hear otherwiseTherefore:
+#GDD=(Temp-Tb)*Time so, daystobudburst = response.time/(forcetemp-2.5)
   d$response.time[which(d$datasetID=="vitra17")] <-
     as.numeric(d$response.time[which(d$datasetID=="vitra17")])/(
-      as.numeric(d$forcetemp[which(d$datasetID=="vitra17")]) - 0)
+      as.numeric(d$forcetemp[which(d$datasetID=="vitra17")]) - 2.5)
   d$response[which(d$datasetID=="vitra17" & d$respvar.simple=="thermaltime")] <- "timeonly"
   d<-within(d, respvar.simple[datasetID=="vitra17"]<-"daystobudburst")
 
