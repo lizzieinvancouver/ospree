@@ -209,8 +209,9 @@ datalist.bb.adjforce <- datalist.bb
 names(datalist.bb.adjforce)
 names(datalist.bb.adjforce) <- c("y", "force", "chill",  "photo", "sp", "N", "n_sp")
 m2l.nisig.force = stan('stan/archive/nointer_2level_interceptonly_sigmoid.stan', data = datalist.bb.adjforce,
-               iter = 15000, warmup=12000, control=list(adapt_delta=0.999))
-# 67 divergent transitions
+               iter = 15000, warmup=14000, control=list(adapt_delta=0.999))
+# 67 divergent transitions given 15000, warmup=12000; 17 divergent transitions given above -- both for allsppmodel (3245 obs, 203 species)
+# save(m2l.nisig.force, file="stan/output/m2l.nisig.force_allsppmodel.Rda") # too big
 
 summary(m2l.nisig.force)$summary[c("b_force", "b_photo","a_chill", "b_chill"),]
 observed.here <- bb.stan$resp
