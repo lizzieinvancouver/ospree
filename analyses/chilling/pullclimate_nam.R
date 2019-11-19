@@ -88,7 +88,7 @@ for(i in 1:nrow(nam)){ # i = 5
     #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
     if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, choose a different one
      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
-      diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+      diff.lat.cell[which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]]<-NA
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
       lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
       maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
@@ -96,7 +96,7 @@ for(i in 1:nrow(nam)){ # i = 5
       maxtest <- c(maxtestthisyr, maxtestlastyr)
       if(is.na(unique(maxtest))){
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
-        diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+        diff.lat.cell[which(diff.long.cell==min(diff.lat.cell,na.rm=TRUE))[1]]<-NA
         long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
         lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
         maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
@@ -104,7 +104,7 @@ for(i in 1:nrow(nam)){ # i = 5
         maxtest <- c(maxtestthisyr, maxtestlastyr)
         if(is.na(unique(maxtest))){
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
-          diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
+          diff.lat.cell[which(diff.long.cell==min(diff.lat.cell,na.rm=TRUE))[1]]<-NA
           long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
           lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
         }}}

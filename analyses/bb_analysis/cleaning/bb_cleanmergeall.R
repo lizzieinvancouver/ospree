@@ -28,37 +28,37 @@ library(lubridate)
 d <- read.csv("output/ospree_clean_withchill.csv") # 5 Sept 2019: 14603 (30 Oct 2018: 12693)
 
 # 2. Need to deal with thermal time to days
-source("bb_analysis/cleaning/clean_thermaltimetodays.R") # 5 Sept 2019: 14603 
+source("bb_analysis/cleaning/clean_thermaltimetodays.R") # 15 Oct 2019: 14603 
 
 # 3. Clean phenstage to get a little more data (a little, but still!). 
-source("bb_analysis/cleaning/clean_respvarmore.R") # 5 Sept 2019: 14062 
+source("bb_analysis/cleaning/clean_respvarmore.R") # 15 Oct 2019: 14062 
 
 # 4. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
-source("bb_analysis/cleaning/multiresp.R") #  5 Sept 2019: 11567 (pre-update: 9717 rows)
+source("bb_analysis/cleaning/multiresp.R") #  15 Oct 2019: 11404 (5 Sept 2019: 11567; pre-update: 9717 rows)
 
 # 5. Clean ambient forcing
 # 5a. Clean up entries where we can estimate the forcing from the paper (e.g., ramped temps or they give monthly temps)
-source("bb_analysis/cleaning/clean_rampedandexpforcing.R") #26 Sept 11404 (no changes needed)
+source("bb_analysis/cleaning/clean_rampedandexpforcing.R") # 15 Oct: 11404 (no changes needed)
 
 # 5b. Check date of daily climate files used in step 5c-
 #if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
-source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") #  5 Sept 2019: 11567 (30 Oct 2018: 9717 rows)
+source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") #  15 Oct 2019: 11404 (30 Oct 2018: 9717 rows)
 
 # 5c. Clean ambient forcing data using daily climate data ... slow
-source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # still 11567 rows
+source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # 15 Oct 2019: still 11404 
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 # ... with an allowable buffer (i.e., 55%)
-source("bb_analysis/cleaning/clean_bbperctodays.R") #  5 Sept 2019: 8681 (22 Mar 2019: 8681)
+source("bb_analysis/cleaning/clean_bbperctodays.R") #  15 Oct 2019: 9006 (22 Mar 2019: 8681)
 
 # 7. Clean duplicate responses across treatments/categories)
-source("bb_analysis/cleaning/clean_moreduplicates.R") #  5 Sept 2019: 8679 (22 Mar 2019: 7643)
+source("bb_analysis/cleaning/clean_moreduplicates.R") #  15 Oct 2019: 9002 (22 Mar 2019: 7643)
 
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
 # 9. Write out the final file! 
-write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 5 Sept 2019: 8679 (27 March 2019: 7643)
+write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 15 Oct 2019: 9002 (27 March 2019: 7643)
 
 
 

@@ -162,4 +162,47 @@ unique(BIEN_traitdata$scrubbed_species_binomial)
 
 write.csv(BIEN_traitdata, file="Phylospp_BIEN_traitdata.csv")
 # 
-# 
+#
+
+
+#<><><><><><><><><><><><><><><><>#
+#Oct 15, 2019 update: new species list with many new species 
+#Requesting new data
+
+#redone Novemebr 9th with species from complexes
+#<><><><><><><><><><><><><><><><>#
+setwd("~/Documents/github/ospree/data")
+
+newspp<-read.csv("traits/ospree_newsplist.csv", header=TRUE)
+
+spp.list<-gsub("_", " ", newspp$Spp, fixed = TRUE)
+str(spp.list)
+#write.table(spp.list, file="Species.list.OSPREE.csv", row.names = FALSE, col.names=FALSE)
+
+test<-head(spp.list,20)
+require(BIEN)
+
+
+traitadd<-BIEN_trait_traitbyspecies(species=test[1], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf life span","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
+
+result<-vector()
+for (i in c(2:length(test))){
+  
+  traittemp<-BIEN_trait_traitbyspecies(species=test[i], trait=c("flower pollination syndrome","leaf area","leaf life span","leaf area per leaf dry mass","leaf carbon content per leaf nitrogen content","leaf dry mass","leaf dry mass per leaf fresh mass","leaf fresh mass","leaf relative growth rate","maximum whole plant height","root dry mass","seed mass","stem dry mass","stem relative growth rate","stem wood density","whole plant growth form","whole plant height","whole plant woodiness"))
+  # df<-data.frame(traitadd)
+  result<-rbind(result,traittemp)
+}
+
+BIEN_traitdata<-rbind(result, traitadd)
+
+head(traitadd)
+
+
+require(tidyr)
+#DBH swamps all other traits and I have no reason to believe it is a significant trait
+BIEN_wide<-spread(BIEN_traitdata, key="trait_name", value="trait_value")
+head(BIEN_wide)
+unique(BIEN_wide$scrubbed_species_binomial)
+
+
+write.csv(BIEN_traitdata, file="newspp_BIEN_traitdata_Nov11.csv")

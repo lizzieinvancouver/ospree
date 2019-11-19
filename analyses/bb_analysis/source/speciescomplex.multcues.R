@@ -24,8 +24,11 @@
 
 sppcomplexfx.multcue <- function(d){
 
-#d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_ospree_clean_withchill_BB.csv")
+#d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_withchill_BB.csv")
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus_species
+cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera", "Ribes_nigrum", 
+             "Vaccinium_ashei", "Vaccinium_corymbosum")
+d<-d[!(d$name%in%cropspp),]
 
 xx<-d
 ### make a list of which studies manipulate what.
@@ -38,7 +41,7 @@ xx <- within(xx, { chilltime <- ifelse(chilldays!=0, ave(chilldays, datasetID, n
 #xx <- within(xx, { prov.long <- ave(provenance.long,name, species, FUN=function(x) length(unique(x)))}) # multiple provenance.longs
 #xx <- within(xx, { datasets <- ave(datasetID, name, FUN=function(x) length(unique(x)))}) 
 
-xx<-dplyr::select(xx, name, genus, force, photo, chilltemp, chilltime, field.sample, datasetID)
+xx<-dplyr::select(xx, name, genus, species, force, photo, chilltemp, chilltime, field.sample, datasetID)
 xx<-xx[!duplicated(xx),]
 
 
@@ -63,7 +66,7 @@ species4taxon<-c(accept$name) ## make a list of species using above requirements
 accept$complex<-accept$name
 accept$use<-"Y"
 
-accept <- subset(accept, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+accept <- subset(accept, select=c("name", "genus", "species", "force", "photo", "chill", "numcues", "complex", "use"))
 
 ###accept is a list of species that are good to go
 
@@ -73,6 +76,7 @@ taxon$complex<-taxon$name
 taxon$use<-"Y"
 
 ### List of species to accept:***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+    ## Lizzie's list is only 37 spp at this point (no Vitis, Ribes or Malus ... so perhaps it is just the underlying data I think)
 #[1] "Acer_pensylvanicum"     "Acer_pseudoplatanus"    "Acer_rubrum"            "Acer_saccharum"        
 #[5] "Alnus_glutinosa"        "Alnus_incana"           "Alnus_rubra"            "Betula_alleghaniensis" 
 #[9] "Betula_papyrifera"      "Betula_pendula"         "Betula_pubescens"       "Cornus_cornuta"        
@@ -89,7 +93,7 @@ taxon$use<-"Y"
 #### Let's start with species that fulfill this requirement... 
 
 sppmultstudies <- xx[!(xx$name%in%species4taxon),]
-sppmultstudies <- subset(sppmultstudies, select=c("name", "genus", "force", "photo", "chill"))
+sppmultstudies <- subset(sppmultstudies, select=c("name", "genus", "species", "force", "photo", "chill"))
 
 xxsppmult <- within(sppmultstudies, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # where forcing was manipulated across more than one level for each species
 xxsppmult <- within(xxsppmult, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))}) # where photo was manipulated across more than one level for each species
@@ -111,10 +115,11 @@ speciesmult4taxon<-c(acceptsppmult$name) ## make a list of species using above r
 acceptsppmult$complex<-acceptsppmult$name
 acceptsppmult$use<-"Y"
 
-acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+acceptsppmult <- subset(acceptsppmult, select=c("name", "genus", "species", "force", "photo", "chill", "numcues", "complex", "use"))
 
 ### List of additional species that manipulate all three cues across multiple studies
 ### ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+## Lizzie has same list!
 #[1] "Abies_alba"             "Aesculus_hippocastanum" "Aronia_melanocarpa"     "Betula_lenta"          
 #[5] "Corylus_avellana"       "Fraxinus_excelsior"     "Picea_glauca"           "Prunus_avium"          
 #[9] "Prunus_persica"         "Pseudotsuga_menziesii"  "Pyrus_pyrifolia"        "Quercus_robur"         
@@ -138,10 +143,10 @@ taxonmult$use<-"Y"
 allspp <- c(species4taxon, speciesmult4taxon)
 
 comp <- xx[!(xx$name%in%allspp),]
-comp$species <- gsub(".*_", "", comp$name)
+#comp$species <- gsub(".*_", "", comp$name)
 comp$name <- paste(comp$genus, "complex", sep="_")
 
-comp <- subset(comp, select=c("name", "species", "genus", "force", "photo", "chill"))
+comp <- subset(comp, select=c("name", "genus", "species", "force", "photo", "chill"))
 
 xxcomp <- within(comp, { forcecue <- ave(force, name, FUN=function(x) sum(unique(x)))}) # mult forcetemp across mult datasets for each genus, excluding species already found to use
 xxcomp <- within(xxcomp, { photocue <- ave(photo, name, FUN=function(x) sum(unique(x)))})
@@ -160,9 +165,10 @@ complex4taxon<-c(acceptcomp$name) ## make a list of species using above requirem
 acceptcomp$complex<-acceptcomp$name
 acceptcomp$use<-"Y"
 
-acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "photo", "chill", "numcues", "complex", "use"))
+acceptcomp <- subset(acceptcomp, select=c("name", "genus", "force", "species", "photo", "chill", "numcues", "complex", "use"))
 
 ### Complexes being added in ***** TO BE DELETED ONCE CODE IS CHECKED!!! *******
+## Lizzie has same list!
 #[1] "Betula_complex"       "Hamamelis_complex"    "Juglans_complex"      "Pinus_complex"       
 #[5] "Prunus_complex"       "Pyrus_complex"        "Quercus_complex"      "Rhamnus_complex"     
 #[9] "Rhododendron_complex" "Sorbus_complex" 
@@ -179,12 +185,13 @@ uselist<-filter(complexlist,use=="Y")
 
 ## Brings all the accepted species and accepted complexes together
 accepties<-rbind(accept, acceptsppmult, acceptcomp)
-accepties$species<-gsub(".*_", "", accepties$name)
+#accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
 accepties<-accepties[!duplicated(accepties),]
 
-
-bb.wtaxa<-full_join(d, accepties)
+dim(d)
+bb.wtaxa<-left_join(d, accepties) 
+dim(bb.wtaxa) 
 bb.wtaxa<-dplyr::select(bb.wtaxa, -name)
 bb.wtaxa$use<-ifelse(is.na(bb.wtaxa$use), "N", bb.wtaxa$use)
 
