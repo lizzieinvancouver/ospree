@@ -15,5 +15,11 @@ ospree.okie <- ospree.okie[, -c(26, 27, 31)]
 ## Merge ospree.okie with okie and use ospree column order
 ospree.merged <- merge(ospree.okie, okie)[, names(ospree)]
 
+## Remove useless columns
+ospree.merged$X <- NULL
+ospree.merged$X.1 <- NULL
+ospree.merged$X.2 <- NULL
+ospree.merged$X.3 <- NULL
+
 ## Save output
 write.csv(x = ospree.merged, file = "../../input/okie_merge.csv", row.names = FALSE)
