@@ -23,7 +23,7 @@ sppcomplexfx.nocrops <- function(d){
   
   d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus species
   cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera", "Ribes_nigrum",
-               "Vaccinium_ashei", "Vaccinium_corymbosum")
+               "Vaccinium_ashei", "Vaccinium_corymbosum", "Prunus_persica")
   d<-d[!(d$name%in%cropspp),]
   
   xx<-d
