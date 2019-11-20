@@ -221,6 +221,25 @@ d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d
 
 ### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
 d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
+###prevey18 needs some major cleaning see github issue #312 by DAan of 19 Nov 19
+### change field chill dates to when they came out of the field into forcing chambers
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "01-Jan-2017"
+d$chilltemp[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "ambient"
+
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- "01-Jan-2017"
+d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- 14.4
+
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "01-Jan-2017"
+d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- 14.4
+
+##change chill temp column of field chillers  to ambient
+d$chilltemp<-ifelse(!d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
+##fix night and day temp
+d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "ambient"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
