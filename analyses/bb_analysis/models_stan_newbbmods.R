@@ -23,7 +23,7 @@ options(stringsAsFactors = FALSE)
 
 # libraries
 library(shinystan)
-
+library(rstanarm)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
@@ -106,26 +106,26 @@ if(use.stage==TRUE){
 
   m2l.ni.rstanarm <-stan_lmer(resp ~ force.z + photo.z + chill.z + stage+#main effects
                               ((force.z + photo.z+ chill.z)|complex), #random effects
-                            data = bb.stan,
+                            data = bb.stan.bothst,
                             chains = 2, cores = 2,iter = 4000, warmup=2000,control = list(adapt_delta = 0.999))
   m2l.ni.rstanarm2 <-stan_lmer(resp ~ force.z + photo.z + chill.z + stage+#main effects
-                                ((force.z + photo.z+ chill.z)|complex), #random effects
+                                ((force.z + photo.z+ chill.z + stage)|complex), #random effects
                               data = bb.stan.bothst,
                               chains = 2, cores = 2,iter = 4000, warmup=3000,control = list(adapt_delta = 0.999))
-  m2l.ni.rstanarm3 <-stan_lmer(resp ~ force.z + photo.z + chill.z + cont+ force.z:cont + photo.z:cont+chill.z:cont+ #main effects
+  m2l.ni.rstanarm3 <-stan_lmer(resp ~ force.z + photo.z + chill.z + stage+ force.z:stage + photo.z:stage+chill.z:stage+ #main effects
                                  (1|complex), #random effects
-                               data = bb.stan.bothcont,
+                               data = bb.stan.bothst,
                                chains = 2, cores = 2,iter = 4000, warmup=3000,control = list(adapt_delta = 0.99))
   summary(m2l.ni.rstanarm)
   summary(m2l.ni.rstanarm2)
   summary(m2l.ni.rstanarm3)
-  #10 spp
-  summary(m2l.ni.rstanarm2)
+  #9 spp
+  summary(m2l.ni.rstanarm2)#this one seems the best and most trustworthy, given sigma and coefficient estimates
 
-  cbind(fixef(m2l.ni.rstanarm),fixef(m2l.ni.rstanarm2))
-  stagemod<-summary(m2l.ni.rstanarm,pars=c("(Intercept)","force.z","chill.z","photo.z","stage2","sigma"),probs = c(0.025, 0.25, 0.50,0.75,0.975))
+  cbind(fixef(m2l.ni.rstanarm),fixef(m2l.ni.rstanarm2),fixef(m2l.ni.rstanarm3))
+  stagemod<-summary(m2l.ni.rstanarm2,pars=c("(Intercept)","force.z","chill.z","photo.z","stage2","sigma"),probs = c(0.025, 0.25, 0.50,0.75,0.975))
   stagemod<-round(stagemod,digits=2)
-  stagemod<-rbind(stagemod,c("37",rep("", times=dim(stagemod)[2]-1)))
+  stagemod<-rbind(stagemod,c("9",rep("", times=dim(stagemod)[2]-1)))
   row.names(stagemod)<-c("$\\mu_{\\alpha}$","$\\beta_{forcing}$","$\\beta_{photoperiod}$",   
                          "$\\beta_{chilling}$","$\\beta_{stage}$",
                          "$\\sigma_{y}$","$N_{sp}$") 
@@ -138,28 +138,34 @@ if(use.continent==TRUE){
   nasp<-unique(bb.stan$complex.wname[bb.stan$cont=="north america"])
   bb.stan.bothcont<-bb.stan[bb.stan$complex.wname %in% nasp,]
   
-  m2l.ni.rstanarm3 <-stan_lmer(resp ~ force.z + photo.z + chill.z + cont+ force.z:cont + photo.z:cont+chill.z:cont+ #main effects
-                              (1|complex), #random effects
-                            data = bb.stan.bothcont,
-                            chains = 2, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+  m2l.ni.rstanarm <-stan_lmer(resp ~ force.z + photo.z + chill.z + cont+ #main effects
+                                 ((force.z + photo.z + chill.z)|complex), #random effects
+                               data = bb.stan.bothcont,
+                               chains = 2, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+  
   m2l.ni.rstanarm2 <-stan_lmer(resp ~ force.z + photo.z + chill.z + cont+  #main effects
                                 ((force.z + photo.z+ chill.z+ cont)|complex), #random effects
                               data = bb.stan.bothcont,
                               chains = 2, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+  m2l.ni.rstanarm3 <-stan_lmer(resp ~ force.z + photo.z + chill.z + cont+ force.z:cont + photo.z:cont+chill.z:cont+ #main effects
+                                 (1|complex), #random effects
+                               data = bb.stan.bothcont,
+                               chains = 2, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
   
   summary(m2l.ni.rstanarm)
   summary(m2l.ni.rstanarm2)
   
   fixef(m2l.ni.rstanarm)
   fixef(m2l.ni.rstanarm2)
+  fixef(m2l.ni.rstanarm3)
   
   contmod<-summary(m2l.ni.rstanarm,pars=c("(Intercept)","force.z","chill.z","photo.z","contnorth america","force.z:contnorth america","chill.z:contnorth america","photo.z:contnorth america","sigma"),probs = c(0.025, 0.25, 0.50,0.75,0.975))
   contmod<-round(contmod,digits=2)
-  contmod<-rbind(contmod,c("29",rep("", times=dim(contmod)[2]-1)))
+  contmod<-rbind(contmod,c("6",rep("", times=dim(contmod)[2]-1)))
   
   contmod2<-summary(m2l.ni.rstanarm2,pars=c("(Intercept)","force.z","chill.z","photo.z","contnorth america","force.z:contnorth america","chill.z:","photo.z:contnorth america","sigma"),probs = c(0.025, 0.25, 0.50,0.75,0.975))
   contmod2<-round(contmod2,digits=2)
-  contmod2<-rbind(contmod2,c("29",rep("", times=dim(contmod2)[2]-1)))
+  contmod2<-rbind(contmod2,c("6",rep("", times=dim(contmod2)[2]-1)))
   
   row.names(contmod)<-c("$\\mu_{\\alpha}$","$\\beta_{forcing}$","$\\beta_{photoperiod}$",   
                          "$\\beta_{chilling}$","$\\beta_{stage}$",

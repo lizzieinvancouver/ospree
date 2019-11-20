@@ -85,3 +85,18 @@ points(spests$winT.forecast[spests$warming_C==5],spests$chill.forecast[spests$wa
 points(spests$winT.forecast[spests$warming_C==6],spests$chill.forecast[spests$warming_C==6], pch=21,bg="red")
 points(spests$winT.forecast[spests$warming_C==7],spests$chill.forecast[spests$warming_C==7], pch=21,bg="darkred")
 dev.off()
+
+#are chilling and forcing correlated?
+pdf("figures/cor_force_chill_nature.pdf", width=11,height=5)
+plot(spests$sprT[spests$warming_C==0], spests$chill.forecast[spests$warming_C==0],type="p", pch=21, bg="gray",xlab= "Spring Temperature (°C)", ylab="Chilling (Utah units")
+abline(lm(spests$sprT[spests$warming_C==0]~spests$chill.forecast[spests$warming_C==0]))
+dev.off()
+cor.test(spests$chill.forecast[spests$warming_C==0],spests$sprT[spests$warming_C==0])
+#0.7471090 0.7767555
+#sample estimates:
+# cor 
+#0.7623319 
+#range of forcetemps
+range(as.numeric(bb.stan.expramptypes$forcetemp), na.rm=TRUE) #5-32
+
+
