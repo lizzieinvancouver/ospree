@@ -245,7 +245,7 @@ d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "a
 ### This section by Geoff
 ### Original ospree file did not include responses over time
 ### Here I remove all okie11 and replace with data from a cleaned
-okie11 <- read.csv("../input/okie_merge.csv", header = TRUE) # read okie11 data
+okie11 <- read.csv("input/okie_merge.csv", header = TRUE) # read okie11 data
 d <- subset(d, datasetID != "okie11") # remove old okie11 data
 d <- rbind(d, okie11)
 
