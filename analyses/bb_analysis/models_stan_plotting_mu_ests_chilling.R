@@ -27,11 +27,11 @@ figpath <- "figures"
 ## set up the flags
 use.chillports = FALSE
 use.zscore = FALSE
-use.allspp =TRUE # for the main model this is false
+use.allspp =FALSE # for the main model this is false
 use.multcuespp = FALSE
-use.cropspp = TRUE
+use.cropspp = FALSE
 # Default is species complex use  alltypes of designs
-use.expramptypes.fp = FALSE
+use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
@@ -97,7 +97,9 @@ chilltemps<-seq(min(as.numeric(bb.stan$chilltemp), na.rm=TRUE),max(as.numeric(bb
 #range(round(as.numeric(bb.stan.expramptypes$chilldays), digits=0), na.rm=TRUE)#ranges from 0-235 days
 chilldays<-seq(from=0, to=240,by=20)
 
-temps<-seq(min(c(chilltemps,forcetemps)),max(c(chilltemps,forcetemps)), by=1)
+#temps<-seq(min(c(chilltemps,forcetemps)),max(c(chilltemps,forcetemps)), by=1)
+temps<-seq(min(c(-6,chilltemps)),max(c(chilltemps,forcetemps)), by=1)#min temp in oeo is -6
+
 dl1<-8
 dl2<-16
 chillport<-mean(bb.stan$chill.ports)
@@ -200,7 +202,7 @@ ylim = c(range(c(predicts[,2:3],chillpredicts[,2:3],bothpredicts[,2:3])))
 if(use.chillports==TRUE){figname<-paste("mupredictschill_chillport.pdf", sep="_")}
 if(use.chillports==FALSE){figname<-paste("mupredictschill_utah.pdf", sep="_")}
 
-pdf(file.path(figpath,figname), width = 9, height = 6)
+pdf(file.path(figpath,figname), width = 6, height = 6)
 
 #quartz()
 par(mar=c(8,7,3,5))
@@ -218,10 +220,7 @@ if(use.chillports==FALSE){legend("topleft",legend=c("forcing","chilling","both")
 
 dev.off()
 
-#Make a 2-d plot using PEP data to estimate chilling instead of above
-#Now make the same figure but using PEP field data to get chilling estimates for particular temperatures
-#rather than assuming constant durations
-#Also get min/max 
+
 pepests<-read.csv("..//output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header=TRUE)
 #hist(pepests$winT.forecast[pepests$warming_C==0])#will need to use forecasting data to encompass the range
 #add a column with winter tepmerature rounded to the nearest whol number
@@ -282,9 +281,9 @@ for (i in 1:length(pepchilltemps)){
 
 if(use.chillports==FALSE){pepfigname<-"mupredictschill_utah_pep.pdf"}
 
-pdf(file.path(figpath,pepfigname), width = 9, height = 6)
+pdf(file.path(figpath,pepfigname), width = 6, height = 6)
 
-#quartz()
+#quartz(width = 6, height = 6)
 par(mar=c(8,7,3,5))
 plot(predicts.pep$forcetemp,predicts.pep$dl1, xlim=c(min(pepchilltemps),max(pepchilltemps)), xlab="Temperature (°C)", ylim=ylim,
      ylab="Days to budburst", type="l",bty="l", lty=1, lwd=2, col="darkred")
