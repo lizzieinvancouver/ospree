@@ -119,7 +119,7 @@ d$freeze.treatment.temp_night[d$datasetID=="biasi12"]<-""
 
 #The column d$response..pre.treatment is just the average days to budburst same as d$response.time
 #solution remove values from this column
-d$response..pre.treatment[d$datasetID=="biasi12"]<-""
+d$response..pre.treatment.[d$datasetID=="biasi12"]<-""
 
 #response
 d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment.[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
@@ -233,10 +233,10 @@ d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4"
 
 d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "yes"
 d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "01-Jan-2017"
-d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- 14.4
+d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- 14.3
 
 ##change chill temp column of field chillers  to ambient
-d$chilltemp<-ifelse(!d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
+d$chilltemp<-ifelse(d$datasetID=="prevey18" & !d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
 ##fix night and day temp
 d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "ambient"
 
