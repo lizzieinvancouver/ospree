@@ -57,7 +57,7 @@ if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mai
 
 if(use.flags.for.mainmodel){
   use.chillports = FALSE
-  use.zscore = FALSE
+  use.zscore = TRUE
   use.allspp =FALSE # for the main model this is false
   use.multcuespp = FALSE
   use.cropspp = FALSE
