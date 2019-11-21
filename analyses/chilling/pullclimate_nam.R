@@ -5,9 +5,10 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
+nam<-nam[!(nam$fieldsample.date2=="2017-01-01"),]
 for(i in 1:nrow(nam)){ # i = 5
   # find this location
-  lo <- nam[i,"chill.long"]
+  lo <- nam[i,"chill.long"] + 360
   la <- nam[i,"chill.lat"]
   
   # make sure longitudes are negative, need to be for North America this step is now done in "cleaning/clean_latlong" so it is no longer necessary
@@ -64,11 +65,16 @@ for(i in 1:nrow(nam)){ # i = 5
       chillstart <- ifelse(k%in%leapyears,245, 244)
     }
     
+    for(l in yr){
+      yrendprev <- ifelse(k%in%leapyears, 366, 365)
+      chillstart <- ifelse(k%in%leapyears,245, 244)
+    }
+    
     #jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
     jx$dim$time$vals<-seq(1, yrend, by=1)
     thisyr <- which(jx$dim$time$vals<=doyend)
     
-    jxprev$dim$time$vals<-seq(1, yrend, by=1)
+    jxprev$dim$time$vals<-seq(1, yrendprev, by=1)
     lastyr <- which(jxprev$dim$time$vals>=chillstart)
    
     
@@ -82,7 +88,7 @@ for(i in 1:nrow(nam)){ # i = 5
     long.cell <- which.min(abs(jx$dim$lon$vals-as.numeric(lo)))
     lat.cell <- which.min(abs(jx$dim$lat$vals-as.numeric(la)))
     maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
-    maxtestlastyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
+    maxtestlastyr<-(ncvar_get(jxprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
     maxtest <- c(maxtestthisyr, maxtestlastyr)
     #if no temperature data for the focal lat/long, choose the next closest one. 
     #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
@@ -92,7 +98,7 @@ for(i in 1:nrow(nam)){ # i = 5
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
       lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
       maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
-      maxtestlastyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
+      maxtestlastyr<-(ncvar_get(jxprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
       maxtest <- c(maxtestthisyr, maxtestlastyr)
       if(is.na(unique(maxtest))){
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
@@ -100,7 +106,7 @@ for(i in 1:nrow(nam)){ # i = 5
         long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
         lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
         maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
-        maxtestlastyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
+        maxtestlastyr<-(ncvar_get(jxprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
         maxtest <- c(maxtestthisyr, maxtestlastyr)
         if(is.na(unique(maxtest))){
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
