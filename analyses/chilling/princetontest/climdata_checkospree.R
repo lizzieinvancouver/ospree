@@ -23,46 +23,33 @@ library(lubridate)
 library(geosphere)
 library(raster)
 
-set.seed(1234)
-coords <- as.data.frame(randomCoordinates(100000))
-coords <- coords[(coords$lon>=-125 & coords$lon<=-60 &
-                    coords$lat>=30 & coords$lat<=60),]
+# 1. Get the data
+d <- read.csv("output/ospree_clean.csv")
 
+# 2. Clean the chilltemp column
 
-nam <- data.frame(lon=as.numeric(coords$lon),
-                  lat=as.numeric(coords$lat), 
-                  year=as.numeric(sample(1955:2013, 3317, replace=TRUE)))
+source("chilling/cleaning_chilltemp.R")
 
-noyrs <- c(1960, 1964:1970, 1975:1978, 1986:1990, 1999, 2002, 2005)
+#3. Clean the provenance.latitude and provenance.longitude columns, to get appropriate locations
+#source("chilling/fcleaning_provlatlong.R")
 
-nam <- nam[!(nam$year%in%noyrs),]
-nam <- nam[sample(nrow(nam), 100), ]
+# 4. Estimate field chilling (using growing or provenance lat/long to pull climate data)- REQUIRES EXTERNAL HARD DRIVE FOR THIS
 
-nam$id <- paste(nam$lat, nam$lon, nam$year)
-
-
-
-if(FALSE){ ## Double checking data and code using 5 sites, change to `TRUE' if you want to take a closer look
-#### Let's do a quick check on code.. 
-save<-nam
-c("55.7212644825263 -93.7611439358443 2008", "37.2717079835263 -102.993962494656 2011
-", "57.0535457243981 -65.1322316285223 1972", "43.0070297862561 -121.330744698644 1980",
-  "33.4588942389149 -83.5603736434132 1962")
-
-nam <- save
-nam <- nam[(nam$id=="33.4588942389149 -83.5603736434132 1962"),]
-}
+# 4a: summarize lat/longs needed to pull climate data from europe and north america
+source("chilling/fieldchillcalc_latlong.R")
 
 climatedrive = "/Volumes/climdata" # Cat's climate drive
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
+nam <- nam[(nam$year<=2013),]
+
 tempval_prince <- list() 
 for(i in 1:nrow(nam)){ # i = 1
   # find this location
-  lo <- nam[i,"lon"] + 360
-  la <- nam[i,"lat"]
+  lo <- nam[i,"chill.long"] + 360
+  la <- nam[i,"chill.lat"]
   
   # make sure longitudes are negative, need to be for North America this step is now done in "cleaning/clean_latlong" so it is no longer necessary
   #if(lo > 0) { lo = lo*-1 }
@@ -77,7 +64,7 @@ for(i in 1:nrow(nam)){ # i = 1
   
   ## for now exclude prevey18
   
-  for(j in c(yr)) { # j = 1983
+  for(j in c(yr)) { # j = 1957
     print(c(i, j))
     
     tmax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",yr), full.names = TRUE)
@@ -134,7 +121,7 @@ for(i in 1:nrow(nam)){ # i = 1
     nc_close(jn)
   }
   
-  tempval_prince[[as.character(nam[i,"id"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
+  tempval_prince[[as.character(nam[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long =lo,Date = as.character(seq(stday, endday, by = "day")),  
                                                             Tmin = mins[1:length(seq(stday, endday, by = "day"))], 
                                                             Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
 }
@@ -202,8 +189,8 @@ nafiles <- dir(climatedrive)[grep("livnehclimdata", dir(climatedrive))]
 tempval_liv <- list() 
 for(i in 1:nrow(nam)){ # i = 2
   # find this location
-  lo <- nam[i,"lon"]
-  la <- nam[i,"lat"]
+  lo <- nam[i,"chill.long"]
+  la <- nam[i,"chill.lat"]
   
   # make sure longitudes are negative, need to be for North America this step is now done in "cleaning/clean_latlong" so it is no longer necessary
   #if(lo > 0) { lo = lo*-1 }
@@ -256,8 +243,8 @@ for(i in 1:nrow(nam)){ # i = 2
     nc_close(jx)
   }
   
-  tempval_liv[[as.character(nam[i,"id"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
-                                                                           Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
+  tempval_liv[[as.character(nam[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
+                                                         Tmin = mins[1:length(seq(stday, endday, by = "day"))], Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
 }
 #save(tempval, file="output/fieldclimate.RData")
 
@@ -354,12 +341,12 @@ quartz()
 library(gridExtra)
 compareall <- grid.arrange(comparegdd, comparetmin, comparetmax, ncol=3)
 
-png("compare_gdd_tmin_tmax.png", ### makes it a nice png and saves it so it doesn't take forever to load as a pdf!
+png("ospcompare_gdd_tmin_tmax.png", ### makes it a nice png and saves it so it doesn't take forever to load as a pdf!
     width=8,
     height=5, units="in", res = 350 )
 grid.arrange(compareall)
 dev.off()
 
-write.csv(testall, "chilling/princetontest/livnehvprinceton_fakecoords.csv", row.names=FALSE)
+write.csv(testall, "chilling/princetontest/livnehvprinceton_ospreedata.csv", row.names=FALSE)
 
 
