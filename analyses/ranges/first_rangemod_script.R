@@ -15,6 +15,7 @@ library(gridExtra)
 library("ggpubr")
 library(ggstance)
 library(brms)
+library(reshape2)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -28,82 +29,77 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
-spec<-read.csv("../output/studytype_withBB.csv", header=TRUE)
-sort(table(spec$gen.spa))
-###non-crop species in 4 or more studies in addition to the ones below
-#Populus tremula, Larix decidua, Alnus glutinosa, Tilia cordata, Acer saccharum, Prunus papdus
+
 
 ###run models_stan.R or load model output
 #load("stan/output/m2lni_spcompalltypescp_z.Rda")
 
-### concordance between bb.stan$complex and bb.stan$complex.wnames
-### Fagus sylvatica 15
-##bet pubuscens  10
-##pet pendula 9
-#Corylus avenulla 14
-#Picea abies 19
-##Quercus robur 28
-
-m21.ni.sum<-as.data.frame(summary(m2l.ni))
-m21.ni.sum<-rownames_to_column(m21.ni.sum,"betas") ###sumarise the model and make the rownames a column
-
-selex<-c("b_chill[15]","b_chill[10]","b_chill[9]","b_chill[14]","b_chill[19]","b_chill[28]",
-  "b_force[15]","b_force[10]","b_force[9]","b_force[14]","b_force[19]","b_force[28]",
-  "b_photo[15]","b_photo[10]","b_photo[9]","b_photo[14]","b_photo[19]","b_photo[28]") ## these are the predictors we want
-
-test<-filter(m21.ni.sum, betas %in% selex) ## make a data frame with the mean estimates for each cue for each species.
-test<-select(test,1:2) ##reduce data sets to just the means
+###choose species for lat model
+unique(bb.stan$complex.wname)
+rangesps<-c("Fagus_sylvatica","Betula_pendula","Betula_pubescens","Corylus_avellana",
+"Picea_abies","Quercus_robur","Abies_alba","Acer_pseudoplatanus","Aesculus_hippocastanum")
 
 
-test$complex<-NA ### give each beta a species                    
-test$complex[grepl("15", test$betas)]<-"Fagus_sylvatica"
-test$complex[grepl("10", test$betas)]<-"Betula_pubescens"
-test$complex[grepl("9", test$betas)]<-"Betula_pendula"
-test$complex[grepl("14", test$betas)]<-"Corylus_avellana"
-test$complex[grepl("19", test$betas)]<-"Picea_abies"
-test$complex[grepl("28", test$betas)]<-"Quercus_robur"
+concordance<-dplyr::select(bb.stan, complex,complex.wname)
+concordance<-unique(concordance)
+concordance<-concordance %>% filter(complex.wname %in% rangesps)
 
-test$predictor<-NA ### make predictors
-test$predictor[grepl("force", test$betas)]<-"force"
-test$predictor[grepl("chill", test$betas)]<-"chill"
-test$predictor[grepl("photo", test$betas)]<-"photo"
-test<-select(test,-betas)
+###extract posteriors
+sample <- rstan::extract(m2l.ni)### takes a while
 
-test<-spread(test,predictor,summary.mean) ### spread the means into predictor colummn
-#write.csv(test,file="..//ranges/betameans_for_range.sps.csv",row.names=FALSE)
+sample.force <- melt(sample$b_force)
+sample.chill <- melt(sample$b_chill)
+sample.photo <- melt(sample$b_photo)
+
+names(sample.force) <- c("iter", "complex", "b_force")
+names(sample.chill) <- c("iter", "complex", "b_chill")
+names(sample.photo) <- c("iter", "complex", "b_photo")
+
+output.df<- left_join(sample.force, sample.chill)
+output.df<-left_join(output.df,sample.photo)
+output.live.df <- subset(output.df, iter>1500)
+output.live.df<-filter(output.live.df,complex %in% concordance$complex)
 
 ###read in range data for each species and give it a complex identifyer
 fagrange<-read.csv("..//ranges/climate.in.range1980-2017FagSyl.csv")
-fagrange$complex<-"Fagus_sylvatica"
+fagrange$complex<-21
 betpenrange<-read.csv("..//ranges/climate.in.range1980-2017BetPen.csv")
-betpenrange$complex<-"Betula_pendula"
+betpenrange$complex<-13
 betpubrange<-read.csv("..//ranges/climate.in.range1980-2017BetPub.csv")
-betpubrange$complex<-"Betula_pubescens"
+betpubrange$complex<-14
 coryrange<-read.csv("..//ranges/climate.in.range1980-2017CorAve.csv")
-coryrange$complex<-"Corylus_avellana"
+coryrange$complex<-19
 picearange<-read.csv("..//ranges/climate.in.range1980-2017PicAb1.csv")
-picearange$complex<-"Picea_abies"
+picearange$complex<-28
 querrange<-read.csv("..//ranges/climate.in.range1980-2017QurRo1.csv")
-querrange$complex<-"Quercus_robur"
+querrange$complex<-37
+##updated ones
+abiesrange<-read.csv("..//ranges/output/Climate.in.range.Abies_alba.1980.2017.csv")
+abiesrange$complex<-1
+
+acerrange<-read.csv("..//ranges/output/Climate.in.range.Acer_pseudoplatanus.1980.2017.csv")
+acerrange$complex<-3
+
+aesrange<-read.csv("..//ranges/output/Climate.in.range.Aesculus_hippocastanum.1980.2017.csv")
+aesrange$complex<-6
 
 
-range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange) ###bind all species ranges in one data sheet
-daty<-left_join(range.dat,test,by="complex") ###make a single data sheet where range can predict cue effect sizes
-head(daty)
-tail(daty)
-###take means
-mean.daty<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDchill=mean(SDev.Chill.Portions))
-mean.daty2<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDforce=mean(SDev.GDD.sites))
-mean.data<-left_join(mean.daty,mean.daty2)
-mean.data<-left_join(test,mean.data)
 
-summary(lm(chill~meanSDchill+meanSDforce,data=mean.data))
-mod1<-brm(chill~meanSDchill+meanSDforce,data=mean.data,iter=3000,warmup=1000) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
+range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange,abiesrange,acerrange,aesrange) ###bind all species ranges in one data sheet
+range.dat.noacaes<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange,abiesrange)
+
+range.mns<- range.dat %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDchill=mean(SDev.Chill.Portions),meanSDgdd=mean(SDev.GDD.sites))
+dater<-left_join(output.live.df,range.mns)
+
+range.mns.no<- range.dat.noacaes %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDchill=mean(SDev.Chill.Portions),meanSDgdd=mean(SDev.GDD.sites))
+dater.no<-left_join(output.live.df,range.mns.no)
+###make a single data sheet where range can predict cue effect sizes
+
+mod1<-brm(b_chill~meanSDchill+meanSDgdd,data=dater,iter=3000,warmup=2000) 
 summary(mod1)
-
-mod2<-brm(chill~SDev.Chill.Utah+SDev.GDD.sites+(1|X),data=daty,iter=3000,warmup=1000) #X is year
-summary(mod2)
 pp_check(mod1,nsamples = 50)
-pp_check(mod2,nsamples = 50)
+
+mod1a<-brm(b_chill~meanSDchill+meanSDgdd,data=dater.no,iter=3000,warmup=2000) 
+xsummary(mod1a)
 
 
