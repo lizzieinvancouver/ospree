@@ -114,16 +114,37 @@ out3<-merge(out1, out2, by = c("LastName","FirstName","DatasetID","Dataset","Spe
 
 names(out3)
 out3<-out3[,c(1:17,20,23:28,32:35,37:43,53,54,56,57,64,65,71)]
-Abisko<-melt(out3, 
-            #id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","Latitude","Longitude","Treatment exposition"
-            #          ),
-            measure.vars=c("std_Leaf area: in case of compound leaves leaflet; petiole excluded","std_Leaf carbon content per dry mass","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Plant height vegetative","std_SLA: petiole  excluded"),
-            variable.name = "Trait",
-            value.name = "value")
+abisko<-melt(out3, 
+             # id.vars=c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID"
+             #),
+             measure.vars=c('std_Leaf area: in case of compound leaves leaflet; petiole excluded',"std_Leaf carbon content per dry mass","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_Photosynthesis per leaf area at leaf temperature (A_area)","std_Plant height vegetative","std_SLA: petiole  excluded"),
+             variable.name = "Trait",
+             value.name = "value")
+
+length(abisko$Trait)
+length(unique(abisko$value))
+
+abisko$label<-paste(abisko$ObservationID,abisko$Trait, sep=".")
+head(abisko$label)
+ids <- unique(abisko$label)
+#ids<-unique(abisko$ObservationID)
+stor <- data.frame()
+for(i in 1:length(ids)){
+  temp <- subset(abisko, label == ids[i])
+  stor.temp <- temp[1, ]
+  for (j in 1:nrow(temp)){
+    temp2<-which(!is.na(as.vector(temp[j,])))
+    stor.temp[temp2]<-temp[j, temp2] #for all elements not NA replace
+  }
+  stor <- rbind(stor, stor.temp)
+}
+stor
+unique(stor$value)
+
 #colnames(beech)[colnames(beech)=="Treatment exposition"] <- "Exposition"
-names(Abisko)
+names(abisko)
 #writing a new csv file with just the data we will use
-write.csv(Abisko, '~/Desktop/ospree_trait_analysis/Abisko_SheffieldDatabase.csv', row.names=FALSE)
+write.csv(stor, '~/Desktop/ospree_trait_analysis/Abisko_SheffieldDatabase.csv', row.names=FALSE)
 unique(out3$'std_Leaf area: in case of compound leaves leaflet; petiole excluded')
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
@@ -134,16 +155,37 @@ names(dat_2)
 
 dat_2<-dat_2[,c(1:12,16:21,27:28,30:35,40:42,56)]
 
-AG<-melt(dat_2,
+ag<-melt(dat_2,
            measure.vars=c("std_Leaf age at measurement","std_Leaf nitrogen content per area (Narea)","std_Leaf nitrogen content per dry mass (Nmass)","std_SLA: undefined if petiole in- or excluded"),
            variable.name = "Trait",
            value.name = "value")
 
-write.csv(AG, '~/Desktop/ospree_trait_analysis/cleaned_nov/AGlobalDataSetofLeafPhotosyntheticRates,LeafNandP,andSpecificLeafArea.csv', row.names=FALSE)
+ag$label<-paste(ag$ObservationID,ag$Trait, sep=".")
 
-#unique(temp2$`Exposition`) 
+ids <- unique(ag$label)
 
-#All mature, all in a natural environment
+stor <- data.frame()
+for(i in 1:length(ids)){
+  temp <- subset(ag, label == ids[i])
+  stor.temp <- temp[1, ]
+  for (j in 1:nrow(temp)){
+    temp2<-which(!is.na(as.vector(temp[j,])))
+    stor.temp[temp2]<-temp[j, temp2] #for all elements not NA replace
+  }
+  stor <- rbind(stor, stor.temp)
+}
+head(stor)
+unique(stor$value)
+
+
+write.csv(stor, '~/Desktop/ospree_trait_analysis/cleaned_compressed_nov/AGlobalDataSetofLeafPhotosyntheticRates,LeafNandP,andSpecificLeafArea.csv', row.names=FALSE)
+names(ag)
+unique(ag$`Experimental treatment`)
+unique(ag$`Comments, notes, methods`)
+unique(ag$`Treatment CO2`) # ele, amb, no applic
+unique(ag$`Treatment conditions`) # not applic, months post treatment initiation, tree ago
+unique(ag$`Treatment light`) # no app, shade, sun, upper, lower, high, low
+#experimental treatments are numbers? The only comment is 'no'
 
 #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
 file_list[3]

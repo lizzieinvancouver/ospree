@@ -241,6 +241,15 @@ d$chilltemp<-ifelse(!d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
 d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "ambient"
 
 
+### okie11
+### This section by Geoff
+### Original ospree file did not include responses over time
+### Here I remove all okie11 and replace with data from a cleaned
+okie11 <- read.csv("../input/okie_merge.csv", header = TRUE) # read okie11 data
+d <- subset(d, datasetID != "okie11") # remove old okie11 data
+d <- rbind(d, okie11)
+
+
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
 ##################################################################################################
