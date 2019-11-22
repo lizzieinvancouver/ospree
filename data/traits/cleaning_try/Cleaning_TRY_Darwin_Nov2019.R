@@ -2,6 +2,7 @@
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 setwd("~/Documents/Ph.D/OSPREE/TRY_data/")
+options(fileEncoding="latin1")
 
 library(data.table)
 library(tidyverse)
@@ -31,6 +32,8 @@ for (name in unique(data$Dataset)){
 myfiles = list.files(path="Sep_data/", pattern="*.csv", full.names=TRUE)
 dat_clean = ldply(myfiles, read_csv)
 
+Encoding(url) <- 'UTF-8'
+
 #Why is there a big difference between number of observation 
 Trydata <- dcast(dat_clean, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+OrigUnitStr+UnitName+ErrorRisk+OrigValueStr~DataName, value.var = "StdValue", na.rm=TRUE)
 
@@ -46,8 +49,8 @@ not_all_na <- function(x) any(!is.na(x))
 for (i in 1:length(file_list)){
   out<-assign(file_list[i], 
               read.csv(paste(folder, 
-                             file_list[i], 
-                             sep='')))
+                             file_list[i],
+                             sep=''),fileEncoding = "latin1"))
   out1<-dcast(out, 
               LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+OrigUnitStr~DataName, 
               value.var = c("OrigValueStr"), 
