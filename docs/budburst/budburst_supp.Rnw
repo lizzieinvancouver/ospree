@@ -534,14 +534,17 @@ print(climtable, include.rownames=FALSE, hline.after = c(-1,0,4),caption.placeme
 swapre_stat<-read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/parameters_swapre_mayref.csv", header=TRUE)
 swapost_stat<-read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/parameters_swapost_mayref.csv", header=TRUE)
 
-#swapre <- read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/results_swapre_mayref.csv", header=TRUE)
-#swapost <- read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/results_swapost_mayref.csv", header=TRUE)
+swapre <- read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/results_swapre_bp_mayref.csv", header=TRUE)
+swapost <- read.csv("../../analyses/bb_analysis/pep_sims/simmonds_slidingwin/output/results_swapost_bp_mayref.csv", header=TRUE)
 
-#pre.standslope <- as.numeric(confint(lm(yvar~climate, data=swapre))[2,])
-#pre.standslope <- paste(pre.standslope[[1]], pre.standslope[[2]], sep=" to ")
-#post.standslope <- as.numeric(confint(lm(yvar~climate, data=swapost))[2,])
-#post.standslope <- c(((post.standslope[[1]]*swapre_stat$EST)/swapost_stat$EST), ((post.standslope[[2]]*swapre_stat$EST)/swapost_stat$EST)) ### correct to have both sliding window estimates using the same denominator - see issue #317 for more detailed information
-#post.standslope <- paste(post.standslope[[1]], post.standslope[[2]], sep=" to ")
+pre.standslope <- as.numeric(confint(lm(yvar~climate, data=swapre))[2,])
+pre.standslope.est <- round(coef(lm(yvar~climate, data=swapre))[2], digits=2)
+pre.standslope.ci<- paste0("(",round(pre.standslope[[1]], digits=2), " to ", round(pre.standslope[[2]], digits=2), ")")
+pre.standslopefinal <- paste(pre.standslope.est, pre.standslope.ci)
+post.standslope <- as.numeric(confint(lm(yvar~climate, data=swapost))[2,])
+post.standslope.est <- round((coef(lm(yvar~climate, data=swapost))[2]*swapre_stat$EST)/swapost_stat$EST, digits=2)
+post.standslope.ci<- paste0("(",round(((post.standslope[[1]]*swapre_stat$EST)/swapost_stat$EST), digits=2), " to ", round(((post.standslope[[2]]*swapre_stat$EST)/swapost_stat$EST),digits=2), ")")### correct to have both sliding window estimates using the same denominator - see issue #317 for more detailed information
+post.standslopefinal <- paste(post.standslope.est, post.standslope.ci)
 
 swa <- as.data.frame(rbind(swapre_stat, swapost_stat))
 swa$`Time period` <- c("1950-1960", "2000-2010")
@@ -552,8 +555,8 @@ swa$EST<-round(swa$EST, digits=2)
 swa$SE<-round(swa$SE, digits=2)
 swa$R2<-round(swa$R2, digits=2)
 swa$Temp<-c("7.86 ","5.68 ")
-#swa$Stand.Slope<-c(pre.standslope, post.standslope)
-swa$Stand.Slope<-c("addpre.estwithCI", "addpost.estwithCI")
+swa$Stand.Slope<-c(pre.standslopefinal, post.standslopefinal)
+#swa$Stand.Slope<-c("addpre.estwithCI", "addpost.estwithCI")
 
 names(swa) <- c("Time period", "Intercept (days)", "Slope (days/\\degree C)", "SE", "R2", "Window Open", "Window Closed","Temp (\\degree C)", "Standardized Slope")
 
