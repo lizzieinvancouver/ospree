@@ -27,6 +27,10 @@ d$response.time[which(d$datasetID=="falusi97" & d$study=="exp1")] <- 120
 d$response.time[which(d$datasetID=="pop2000")] <- NA
 d$respvar[which(d$datasetID=="pop2000")] <- "percentoftwigswithbudburst"
 
+# fix devries82, entered as percentbudburst but is percentflowerburst
+# From issue #310 Fig. 2 shows % of flowering (not BB) as as function of 3 forcing treatments and light intensity. There is no response time in the figure (nor in ospree rows corresponding to this study).
+# Note that clean_bbperctodays.R generally removes this whole datasetID as there is no response time
+d$respvar[d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2"] <- "percentflower"
 
 # Additional Edits made by Cat - 31 Jan 2017
 ## Moved from clean_respvar.R in Oct 2017 by Lizzie ##
