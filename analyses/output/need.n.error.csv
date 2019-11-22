@@ -1,1 +1,19 @@
-datasetID,study,fig.table,n_possibletoget?,error.type?,resp_error_possibletoget?,assigneefalusi03,exp1,fig 1,"exact not possible (estimate:  6-9 buds per twig, 15 twigs per lot)",SE,"Yes, requires scraping",ailenefalusi90,exp1,fig 1,,,,catfalusi90,exp1,Table 2,,,,catfalusi96,exp3,fig4,,,,danbasler14,exp1,fig 2,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailenebasler14,exp1,fig 4,"exact not possible (estimate:  726 time series total used in analyses, across all spp/treatments)",SE,"Yes, requires scraping",ailenecaffarra11b,exp2,table 3,,SE,,catghelardini10,exp1,fig 2,,,,danghelardini10,exp2,fig 4,,,,danlaube14a,exp1,fig 2,"Yes (N=902-1000, depending on treatment)",NA,No,ailenelaube14b,exp1,Fig. 1,Yes (n=10 twings per species),"quartiles (upper,lower)","Yes, requires scraping",ailenemyking95,exp1,fig 2,,,,catmyking95,exp1,fig 4,,,,catpartanen01,exp1,Table 1,,,,danworrall67,exp 3,fig 5,,,,aileneworrall67,exp 3,fig 4,,,,aileneworrall67,exp 4,fig 7,,,,ailene
+"","datasetID","study","fig.table","n","error.type","resp_error"
+"1","falusi03","exp1","fig 1","","",""
+"2","falusi90","exp1","fig 1","","",""
+"3","falusi90","exp1","Table 2","","",""
+"4","falusi96","exp3","fig4","","",""
+"5",NA,NA,NA,NA,NA,NA
+"6","basler14","exp1","fig 2","","",""
+"7","basler14","exp1","fig 4","","",""
+"8","caffarra11b","exp2","table 3","","SE",""
+"9","ghelardini10","exp1","fig 2","","",""
+"10","ghelardini10","exp2","fig 4","","",""
+"11","laube14a","exp1","fig 2","","",""
+"12","laube14b","exp1","Fig. 1","","",""
+"13","myking95","exp1","fig 2","","",""
+"14","myking95","exp1","fig 4","","",""
+"15","partanen01","exp1","Table 1","","",""
+"16","worrall67","exp 3","fig 5","","",""
+"17","worrall67","exp 3","fig 4","","",""
+"18","worrall67","exp 4","fig 7","","",""

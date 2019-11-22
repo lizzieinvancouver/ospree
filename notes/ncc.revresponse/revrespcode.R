@@ -112,6 +112,7 @@ d_modstud3<-d_modstud2[d_modstud2$n=="" & d_modstud2$resp_error=="",]
 write.csv(d_modstud3,"..//output/add.n.error.csv")
 length(unique(d_modstud3$datasetID))#12 lack n or error
 
+
 #how many studies include provenance lat?
 head(d_modstud)
 unique(d_modstud$provenance.lat)
