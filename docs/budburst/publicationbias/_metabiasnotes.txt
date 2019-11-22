@@ -1,0 +1,29 @@
+2019 Nov 22
+
+Notes on publication bias and using funnel plots to diagnose it in meta-analyses
+
+Super useful overview of funnel plots for publication bias here:
+https://www.sciencedirect.com/topics/medicine-and-dentistry/funnel-plot
+
+Eco-papers about meta-analyses
+- Gurevitch et al. 1992
+- Gurevitch et al. 1999
+
+
+Reviews of how much bias there is...
+- Kicinski 2018
+
+Reviews of how to deal with publication bias
+- Lin et al. 2018
+- Mueller et al. 2013
+- Ioannidis & Trikalinos_2007 (most clearly shows funnel plots may not be so useful)
+
+Papers on how to do a funnel plot:
+- Sterne et al. 2011
+
+Misc:
+- Hamman et al. 2018, 'Bias in meta-analyses using Hedges’ d'
+
+
+Relationships that fade with time ... (there are more of these in ecology I just cannot find them, may need to search more for 'declining effect')
+- Jennions & Moller 2002
