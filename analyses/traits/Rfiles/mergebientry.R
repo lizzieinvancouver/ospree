@@ -8,8 +8,15 @@ if(length(grep("deirdreloughnan", getwd())>0)) {   setwd("~/Desktop/trait_analys
 } #else if
 #(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
 #} 
+setwd("~/Desktop/trait_analysis/input")
 
-biendat<-read.csv("input/Phylospp_BIEN_traitdata.csv", header=TRUE)
+biendat<-read.csv("newspp_BIEN_traitdata_Nov11.csv", header=TRUE)
+
+length(unique(biendat$scrubbed_species_binomial))
+#94
+
+unique(biendat$trait_name)
+
 biendat<-biendat[,2:25]
 #Need to widen trydata so traits are columns
 #First could remove rows with no value

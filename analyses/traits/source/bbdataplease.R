@@ -8,7 +8,7 @@
 checkdataforNAs <- FALSE # Set to TRUE for looking at missing data rows
 
 #source("source/speciescomplex.R")
-d<-read.csv("..//output/ospree_clean_withchill_BB.csv", header=TRUE)
+d<-read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 
 ## read taxon data to get the 'type' category, then delete what we don't need - do we still want type?
 #bb.all.wtaxa <- bb.wtaxa[(bb.wtaxa$use=="Y"),]
