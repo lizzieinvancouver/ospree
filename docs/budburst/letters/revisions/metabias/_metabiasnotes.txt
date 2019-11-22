@@ -1,4 +1,0 @@
-2019 Nov 19
-
-Super useful overview of funnel plots for publication bias here:
-https://www.sciencedirect.com/topics/medicine-and-dentistry/funnel-plot
