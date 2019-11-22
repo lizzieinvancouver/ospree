@@ -31,19 +31,22 @@ if(length(grep("lizzie", getwd())>0)) {
 
 
 
-###run models_stan.R or load model output
-#load("stan/output/m2lni_spcompalltypescp_z.Rda")
+#run models_stan.R or load model output
+
 
 ###choose species for lat model
 unique(bb.stan$complex.wname)
 rangesps<-c("Fagus_sylvatica","Betula_pendula","Betula_pubescens","Corylus_avellana",
 "Picea_abies","Quercus_robur","Abies_alba","Acer_pseudoplatanus","Aesculus_hippocastanum")
 
+rangyranger<-read.csv("..//ranges/range_extent.eusps.csv")
+spsforphots<-rangyranger$complex
 
 concordance<-dplyr::select(bb.stan, complex,complex.wname)
 concordance<-unique(concordance)
-concordance<-concordance %>% filter(complex.wname %in% rangesps)
 
+concordance1<-concordance %>% filter(complex.wname %in% rangesps)
+concordance2<-concordance %>% filter(complex.wname %in% spsforphots)
 ###extract posteriors
 sample <- rstan::extract(m2l.ni)### takes a while
 
@@ -57,8 +60,14 @@ names(sample.photo) <- c("iter", "complex", "b_photo")
 
 output.df<- left_join(sample.force, sample.chill)
 output.df<-left_join(output.df,sample.photo)
-output.live.df <- subset(output.df, iter>1500)
-output.live.df<-filter(output.live.df,complex %in% concordance$complex)
+unique(output.df$iter)
+output.live.df <- subset(output.df, iter>3500)### 500 posterior draws, should use 1000 for pub
+unique(output.live.df$iter)
+
+
+
+output.for.photomod<-dplyr::filter(output.live.df, complex %in% c(concordance2$complex))
+output.live.df<-filter(output.live.df,complex %in% concordance1$complex)
 
 ###read in range data for each species and give it a complex identifyer
 fagrange<-read.csv("..//ranges/climate.in.range1980-2017FagSyl.csv")
@@ -101,7 +110,7 @@ dater.no<-left_join(output.live.df,range.mns.no)
 colnames(dater)
 dater<-left_join(dater,concordance)
 ###plot raw data
-?stat_summary()
+
 ggplot(dater,aes(meanSDutah,b_chill))+stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
                                                    aes(color=as.factor(complex.wname)))
 library("Hmisc")
@@ -178,5 +187,22 @@ ggplot(plotmodz,aes(Estimate,trait))+geom_point(position=pd,size=3)+
   geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
   theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")
 
+
+####Photoperiods models
+output.for.photomod<-left_join(output.for.photomod,concordance2)
+
+colnames(rangyranger)[1]<-"complex.wname"
+
+
+dater.phots<-left_join(output.for.photomod,rangyranger)
+dater.phots$logdist<-log(dater.phots$distance)
+
+jpeg("..//ranges/photofig.jpeg",width = 8.6, height = 4, units = 'in', res=200)
+ggplot(dater.phots,aes(distance,b_photo,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+theme(legend.position = "none")+
+  geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)
+dev.off()
+priorz<-get_prior(b_photo~distance,data=dater.phots)
+
+phot.mod<-brm(b_photo~distance,data=dater.phots,prior=priorz,chains=2)
 
 ##Questions zscore sdev predictors
