@@ -41,13 +41,13 @@ species.list.maps <- unlist(lapply(strsplit(sub(".*/", "", zipped_names),"_"),
 # get a list of species in ospree for which we have EU maps
 ospreespslist <- species.list[which(species.list %in% species.list.maps)]
 ##remove alnus incana cause of subssp
-ospreespslist=ospreespslist[c(1,2,3,6,7,10,14,20)]
-nsps<-length(ospreespslist)
+ospreespslist2=ospreespslist[-c(5,11,13,18)]
+nsps<-length(ospreespslist2)
 
 listtostore = list()
 for (i in 1:nsps){#i=1
   print(i)
-  spsi<-ospreespslist[i]
+  spsi<-ospreespslist2[i]
   #fullnamei<-fullnames[i]
   
   ## load shape
@@ -69,6 +69,7 @@ for (i in 1:nsps){#i=1
   ## need to re-project shape from lamber equal area to geographic
   ## 
   #spsshapeproj<-spTransform(spsshape,proj4string(chillsub1[[1]]))
+}
 
 par(mar = c(0.5, .5, .5, .5))
 
@@ -83,5 +84,16 @@ plot(listtostore[[7]],add=TRUE,col=rgb(0,0,1,alpha = 0.3))
 plot(listtostore[[8]],add=TRUE,col=rgb(.1,1,1,alpha = 0.3))
 dev.off()
 
+rangeofrange<-data.frame(complex=character(),min=numeric(),max=numeric())
+
+for(i in c(1:length(listtostore))){ 
+min<-ymin(listtostore[[i]])
+max<-ymax(listtostore[[i]])
+dfhere <- data.frame(complex=paste(ospreespslist2[[i]]),min=min,max=max)
+rangeofrange <- rbind(rangeofrange, dfhere) ## rbind it here for safty
+}
+rangeofrange$distance<-rangeofrange$max-rangeofrange$min
+
+write.csv(rangeofrange,"range_extent.eusps.csv",row.names = FALSE)
 ## remove aux unnecessary files
 unlink("chorological_maps_dataset/*", recursive = T)
