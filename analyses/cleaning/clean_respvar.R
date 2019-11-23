@@ -190,6 +190,7 @@ d$respvar.simple[d$respvar == "percentflower"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentcuttingswithflowerbuds"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentnodesflowering"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentflowerbuds"] <- "percentflower"
+d$respvar.simple[d$respvar == "percentflowerburst"] <- "percentflower"
 d$respvar.simple[d$respvar == "percentbudburst(reproductive)"] <- "percentflower"
 
 

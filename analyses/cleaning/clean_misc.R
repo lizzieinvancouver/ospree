@@ -40,6 +40,10 @@ d$response.time[which(d$datasetID=="falusi97" & d$study=="exp1")] <- 120
 d$response.time[which(d$datasetID=="pop2000")] <- NA
 d$respvar[which(d$datasetID=="pop2000")] <- "percentoftwigswithbudburst"
 
+# fix devries82, entered as percentbudburst but is percentflowerburst
+# From issue #310 Fig. 2 shows % of flowering (not BB) as as function of 3 forcing treatments and light intensity. There is no response time in the figure (nor in ospree rows corresponding to this study).
+# Note that clean_bbperctodays.R generally removes this whole datasetID as there is no response time
+d$respvar[d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2"] <- "percentflowerburst"
 
 # Additional Edits made by Cat - 31 Jan 2017
 ## Moved from clean_respvar.R in Oct 2017 by Lizzie ##
@@ -119,7 +123,7 @@ d$freeze.treatment.temp_night[d$datasetID=="biasi12"]<-""
 
 #The column d$response..pre.treatment is just the average days to budburst same as d$response.time
 #solution remove values from this column
-d$response..pre.treatment[d$datasetID=="biasi12"]<-""
+d$response..pre.treatment.[d$datasetID=="biasi12"]<-""
 
 #response
 d$response..post.treatment[d$datasetID=="basler12"]<-d$response..pre.treatment.[d$datasetID=="basler12"]#these were originally located in the response.pretreatment column
@@ -221,6 +225,34 @@ d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d
 
 ### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
 d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
+###prevey18 needs some major cleaning see github issue #312 by DAan of 19 Nov 19
+### change field chill dates to when they came out of the field into forcing chambers
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "01-Jan-2017"
+d$chilltemp[which(d$datasetID=="prevey18" & d$chilltemp=="ambientgreenhouse_4.4")] <- "ambient"
+
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- "01-Jan-2017"
+d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.4")] <- 14.4
+
+d$fieldchill[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "yes"
+d$fieldsample.date[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- "01-Jan-2017"
+d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3")] <- 14.3
+
+##change chill temp column of field chillers  to ambient
+d$chilltemp<-ifelse(d$datasetID=="prevey18" & !d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
+##fix night and day temp
+d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "ambient"
+
+
+### okie11
+### This section by Geoff
+### Original ospree file did not include responses over time
+### Here I remove all okie11 and replace with data from a cleaned
+okie11 <- read.csv("input/okie_merge.csv", header = TRUE) # read okie11 data
+d <- subset(d, datasetID != "okie11") # remove old okie11 data
+d <- rbind(d, okie11)
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################

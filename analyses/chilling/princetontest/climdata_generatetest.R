@@ -21,6 +21,7 @@ library(Interpol.T)
 library(chillR)
 library(lubridate)
 library(geosphere)
+library(raster)
 
 set.seed(1234)
 coords <- as.data.frame(randomCoordinates(100000))
@@ -35,7 +36,7 @@ nam <- data.frame(lon=as.numeric(coords$lon),
 noyrs <- c(1960, 1964:1970, 1975:1978, 1986:1990, 1999, 2002, 2005)
 
 nam <- nam[!(nam$year%in%noyrs),]
-nam <- nam[sample(nrow(nam), 1000), ]
+nam <- nam[sample(nrow(nam), 100), ]
 
 nam$id <- paste(nam$lat, nam$lon, nam$year)
 
@@ -60,7 +61,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 tempval_prince <- list() 
 for(i in 1:nrow(nam)){ # i = 1
   # find this location
-  lo <- nam[i,"lon"]
+  lo <- nam[i,"lon"] + 360
   la <- nam[i,"lat"]
   
   # make sure longitudes are negative, need to be for North America this step is now done in "cleaning/clean_latlong" so it is no longer necessary
@@ -90,7 +91,7 @@ for(i in 1:nrow(nam)){ # i = 1
     if(j%in%leaps){
       yrend <- 366
     } else{
-      365
+      yrend <- 365
     }
     
     gddstart <- vector()
@@ -134,7 +135,7 @@ for(i in 1:nrow(nam)){ # i = 1
   }
   
   tempval_prince[[as.character(nam[i,"id"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),  
-                                                                              Tmin = mins[1:length(seq(stday, endday, by = "day"))], 
+                                                            Tmin = mins[1:length(seq(stday, endday, by = "day"))], 
                                                             Tmax =maxs[1:length(seq(stday, endday, by = "day"))])
 }
 
@@ -191,7 +192,6 @@ for(i in names(tempval_prince)){ #i=2
                                                          testcalc[c("Season","End_year","GDH")],
                                                          tmin=xx$Tmin, tmax=xx$Tmax))
 }
-
 
 ############################################################
 #################### Livneh ################################
@@ -352,7 +352,13 @@ comparetmax <- ggplot(testall, aes(x=tmax_prince, y=tmax_liv)) + geom_point() +
 
 quartz()
 library(gridExtra)
-grid.arrange(comparegdd, comparetmin, comparetmax, ncol=3)
+compareall <- grid.arrange(comparegdd, comparetmin, comparetmax, ncol=3)
+
+png("compare_gdd_tmin_tmax.png", ### makes it a nice png and saves it so it doesn't take forever to load as a pdf!
+    width=8,
+    height=5, units="in", res = 350 )
+grid.arrange(compareall)
+dev.off()
 
 write.csv(testall, "chilling/princetontest/livnehvprinceton_fakecoords.csv", row.names=FALSE)
 

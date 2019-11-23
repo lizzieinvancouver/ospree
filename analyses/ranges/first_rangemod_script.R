@@ -15,7 +15,8 @@ library(gridExtra)
 library("ggpubr")
 library(ggstance)
 library(brms)
-
+library(reshape2)
+library(tibble)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
@@ -28,82 +29,180 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/bb_analysis") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/bb_analysis")
 
-spec<-read.csv("../output/studytype_withBB.csv", header=TRUE)
-sort(table(spec$gen.spa))
-###non-crop species in 4 or more studies in addition to the ones below
-#Populus tremula, Larix decidua, Alnus glutinosa, Tilia cordata, Acer saccharum, Prunus papdus
-
-###run models_stan.R or load model output
-#load("stan/output/m2lni_spcompalltypescp_z.Rda")
-
-### concordance between bb.stan$complex and bb.stan$complex.wnames
-### Fagus sylvatica 15
-##bet pubuscens  10
-##pet pendula 9
-#Corylus avenulla 14
-#Picea abies 19
-##Quercus robur 28
-
-m21.ni.sum<-as.data.frame(summary(m2l.ni))
-m21.ni.sum<-rownames_to_column(m21.ni.sum,"betas") ###sumarise the model and make the rownames a column
-
-selex<-c("b_chill[15]","b_chill[10]","b_chill[9]","b_chill[14]","b_chill[19]","b_chill[28]",
-  "b_force[15]","b_force[10]","b_force[9]","b_force[14]","b_force[19]","b_force[28]",
-  "b_photo[15]","b_photo[10]","b_photo[9]","b_photo[14]","b_photo[19]","b_photo[28]") ## these are the predictors we want
-
-test<-filter(m21.ni.sum, betas %in% selex) ## make a data frame with the mean estimates for each cue for each species.
-test<-select(test,1:2) ##reduce data sets to just the means
 
 
-test$complex<-NA ### give each beta a species                    
-test$complex[grepl("15", test$betas)]<-"Fagus_sylvatica"
-test$complex[grepl("10", test$betas)]<-"Betula_pubescens"
-test$complex[grepl("9", test$betas)]<-"Betula_pendula"
-test$complex[grepl("14", test$betas)]<-"Corylus_avellana"
-test$complex[grepl("19", test$betas)]<-"Picea_abies"
-test$complex[grepl("28", test$betas)]<-"Quercus_robur"
+#run models_stan.R or load model output
 
-test$predictor<-NA ### make predictors
-test$predictor[grepl("force", test$betas)]<-"force"
-test$predictor[grepl("chill", test$betas)]<-"chill"
-test$predictor[grepl("photo", test$betas)]<-"photo"
-test<-select(test,-betas)
 
-test<-spread(test,predictor,summary.mean) ### spread the means into predictor colummn
-#write.csv(test,file="..//ranges/betameans_for_range.sps.csv",row.names=FALSE)
+###choose species for lat model
+unique(bb.stan$complex.wname)
+rangesps<-c("Fagus_sylvatica","Betula_pendula","Betula_pubescens","Corylus_avellana",
+"Picea_abies","Quercus_robur","Abies_alba","Acer_pseudoplatanus","Aesculus_hippocastanum")
+
+rangyranger<-read.csv("..//ranges/range_extent.eusps.csv")
+spsforphots<-rangyranger$complex
+
+concordance<-dplyr::select(bb.stan, complex,complex.wname)
+concordance<-unique(concordance)
+
+concordance1<-concordance %>% filter(complex.wname %in% rangesps)
+concordance2<-concordance %>% filter(complex.wname %in% spsforphots)
+###extract posteriors
+sample <- rstan::extract(m2l.ni)### takes a while
+
+sample.force <- melt(sample$b_force)
+sample.chill <- melt(sample$b_chill)
+sample.photo <- melt(sample$b_photo)
+
+names(sample.force) <- c("iter", "complex", "b_force")
+names(sample.chill) <- c("iter", "complex", "b_chill")
+names(sample.photo) <- c("iter", "complex", "b_photo")
+
+output.df<- left_join(sample.force, sample.chill)
+output.df<-left_join(output.df,sample.photo)
+unique(output.df$iter)
+output.live.df <- subset(output.df, iter>3500)### 500 posterior draws, should use 1000 for pub
+unique(output.live.df$iter)
+
+
+
+output.for.photomod<-dplyr::filter(output.live.df, complex %in% c(concordance2$complex))
+output.live.df<-filter(output.live.df,complex %in% concordance1$complex)
 
 ###read in range data for each species and give it a complex identifyer
 fagrange<-read.csv("..//ranges/climate.in.range1980-2017FagSyl.csv")
-fagrange$complex<-"Fagus_sylvatica"
+fagrange$complex<-21
 betpenrange<-read.csv("..//ranges/climate.in.range1980-2017BetPen.csv")
-betpenrange$complex<-"Betula_pendula"
+betpenrange$complex<-13
 betpubrange<-read.csv("..//ranges/climate.in.range1980-2017BetPub.csv")
-betpubrange$complex<-"Betula_pubescens"
+betpubrange$complex<-14
 coryrange<-read.csv("..//ranges/climate.in.range1980-2017CorAve.csv")
-coryrange$complex<-"Corylus_avellana"
+coryrange$complex<-19
 picearange<-read.csv("..//ranges/climate.in.range1980-2017PicAb1.csv")
-picearange$complex<-"Picea_abies"
+picearange$complex<-28
 querrange<-read.csv("..//ranges/climate.in.range1980-2017QurRo1.csv")
-querrange$complex<-"Quercus_robur"
+querrange$complex<-37
+##updated ones
+abiesrange<-read.csv("..//ranges/output/Climate.in.range.Abies_alba.1980.2017.csv")
+abiesrange$complex<-1
+
+acerrange<-read.csv("..//ranges/output/Climate.in.range.Acer_pseudoplatanus.1980.2017.csv")
+acerrange$complex<-3
+
+aesrange<-read.csv("..//ranges/output/Climate.in.range.Aesculus_hippocastanum.1980.2017.csv")
+aesrange$complex<-6
 
 
-range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange) ###bind all species ranges in one data sheet
-daty<-left_join(range.dat,test,by="complex") ###make a single data sheet where range can predict cue effect sizes
-head(daty)
-tail(daty)
-###take means
-mean.daty<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDchill=mean(SDev.Chill.Portions))
-mean.daty2<- daty %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDforce=mean(SDev.GDD.sites))
-mean.data<-left_join(mean.daty,mean.daty2)
-mean.data<-left_join(test,mean.data)
 
-summary(lm(chill~meanSDchill+meanSDforce,data=mean.data))
-mod1<-brm(chill~meanSDchill+meanSDforce,data=mean.data,iter=3000,warmup=1000) ### I don't think this is the best way to modle this best way to model this, but what are alternatives
+range.dat<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange,abiesrange,acerrange,aesrange) ###bind all species ranges in one data sheet
+range.dat.noacaes<-rbind(fagrange,betpenrange,betpubrange,coryrange,picearange,querrange,abiesrange)
+
+range.mns<- range.dat %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDutah=mean(SDev.Chill.Utah),meanSDgdd=mean(SDev.GDD.sites))
+range.mns.no<- range.dat.noacaes %>% dplyr::group_by(complex) %>% dplyr::summarise(meanSDutah=mean(SDev.Chill.Utah),meanSDgdd=mean(SDev.GDD.sites))
+
+range.mns$zSDutah<-(range.mns$meanSDutah-mean(range.mns$meanSDutah))/sd(range.mns$meanSDutah)
+range.mns$zSDgdd<-(range.mns$meanSDgdd-mean(range.mns$meanSDgdd))/sd(range.mns$meanSDgdd)
+
+
+dater<-left_join(output.live.df,range.mns)
+dater.no<-left_join(output.live.df,range.mns.no)
+
+colnames(dater)
+dater<-left_join(dater,concordance)
+###plot raw data
+
+ggplot(dater,aes(meanSDutah,b_chill))+stat_summary(fun.y = mean, fun.ymin = min, fun.ymax = max,
+                                                   aes(color=as.factor(complex.wname)))
+library("Hmisc")
+dater %>%group_by(complex.wname)%>% summarise(mean=mean(b_chill),sd=sd(b_chill))
+
+nlabels <- unique(dater$complex.wname)
+
+#  To create the median labels, you can use by
+means <- c(by(mtcars$mpg, mtcars$cyl, median))
+
+uts<-ggplot(dater,aes(meanSDutah,b_chill,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+theme(legend.position = "none")+
+geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)+xlim(100,400)
+
+
+gdd<-ggplot(dater,aes(meanSDgdd,b_chill,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+theme(legend.position = "none")+
+  geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)+xlim(90,200)
+
+
+jpeg("..//ranges/firstfig.jpeg",width = 8.6, height = 4, units = 'in', res=200)
+ggpubr::ggarrange(gdd,uts,nrow=2)
+dev.off()
+
+###make a single data sheet where range can predict cue effect sizes
+
+mod1<-brm(b_chill~meanSDutah+meanSDgdd,data=dater,iter=3000,warmup=2000) 
 summary(mod1)
-
-mod2<-brm(chill~SDev.Chill.Utah+SDev.GDD.sites+(1|X),data=daty,iter=3000,warmup=1000) #X is year
-summary(mod2)
 pp_check(mod1,nsamples = 50)
-pp_check(mod2,nsamples = 50)
+
+mod1z<-brm(b_chill~zSDutah+zSDgdd,data=dater,iter=3000,warmup=2000) 
+summary(mod1z)
+extract_coefs<-function(x){rownames_to_column(as.data.frame(fixef(x, summary=TRUE,probs=c(0.025,0.1,0.9,0.975))),"trait")
+}
+
+ninesp<-extract_coefs(mod1)
+ninesp.noi<-filter(ninesp,trait!="Intercept")
+pd=position_dodgev(height=0.4)
+nspsplot<-  ggplot(ninesp,aes(Estimate,trait))+geom_point(position=pd,size=3)+
+  geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
+  theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")
 
 
+
+mod1a<-brm(b_chill~meanSDutah+meanSDgdd,data=dater.no,iter=3000,warmup=2000) 
+summary(mod1a)
+pp_check(mod1a,nsamples = 50)
+
+sevensp<-extract_coefs(mod1a)
+sevensp.noi<-filter(sevensp,trait!="Intercept")
+pd=position_dodgev(height=0.1)
+sspsplot<-ggplot(sevensp,aes(Estimate,trait))+geom_point(position=pd,size=3)+
+  geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
+  theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")+xlim(-3.5,1)
+
+ggpubr::ggarrange(nspsplot,sspsplot)
+
+
+nspsplot.noi<-  ggplot(ninesp.noi,aes(Estimate,trait))+geom_point(position=pd,size=3)+
+  geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
+  theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")
+
+sspsplot.noi<-  ggplot(sevensp.noi,aes(Estimate,trait))+geom_point(position=pd,size=3)+
+  geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
+  theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")
+
+ggpubr::ggarrange(nspsplot.noi,sspsplot.noi)
+
+plotmodz<-extract_coefs(mod1z)
+ggplot(plotmodz,aes(Estimate,trait))+geom_point(position=pd,size=3)+
+  geom_errorbarh(aes(xmin=Q2.5,xmax=Q97.5),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q10,xmax=Q90),position=pd,width=0,linetype="solid")+
+  theme_linedraw(base_size = 11)+geom_vline(aes(xintercept=0),color="black")
+
+
+####Photoperiods models
+output.for.photomod<-left_join(output.for.photomod,concordance2)
+
+colnames(rangyranger)[1]<-"complex.wname"
+
+
+dater.phots<-left_join(output.for.photomod,rangyranger)
+dater.phots$logdist<-log(dater.phots$distance)
+
+jpeg("..//ranges/photofig.jpeg",width = 8.6, height = 4, units = 'in', res=200)
+ggplot(dater.phots,aes(distance,b_photo,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+theme(legend.position = "none")+
+  geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)
+dev.off()
+priorz<-get_prior(b_photo~distance,data=dater.phots)
+
+phot.mod<-brm(b_photo~distance,data=dater.phots,prior=priorz,chains=2)
+
+##Questions zscore sdev predictors
