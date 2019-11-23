@@ -60,9 +60,12 @@ source("bb_dailyclimate/source/bb_daily_dataprep_get_expclimdat.R")
 dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobudburst",]
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dat.bb<-dat.bb[-which(dat.bb$continent=="asia"),]#we only have climate data for north america and europe
+### remove the messy fu and okie again
+fusandokies <- c("fu18", "okie11")
+dat.bb<-dat.bb[-which(dat.bb$datasetID%in%fusandokies),]
 
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1662 * problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -75,7 +78,8 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
     if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilltemp=="ambient + 4"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     if(dim(x.dailyclim)[1]==0 & x$usegrolatlong==1) {
-      if(x$datasetID=="basler14"|x$datasetID=="gomory15"|x$datasetID=="partanen01"|x$datasetID=="Sanz-Perez09"|x$datasetID=="skre08"){
+      if(x$datasetID=="basler14"|x$datasetID=="gomory15"|x$datasetID=="partanen01"|x$datasetID=="Sanz-Perez09"|x$datasetID=="skre08"
+         |x$datasetID=="flynn18"){
         x$growing.lat<-round(x$growing.lat, digits=4)
         x$growing.long<-round(x$growing.long, digits=4)}
      x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & round(daily_ambtemp$lat, digits=4)==x$growing.lat & daily_ambtemp$long==x$growing.long,]
@@ -207,8 +211,13 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb;
 #If there is experimental chilling
   } else if(!is.na(as.numeric(x$chilltemp)|x$datasetID=="jones12"|x$datasetID=="man10")){#if the chilltemp is a single number, then use a combination of the ambient climate data and the experimental chilling data
     x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
-      if(dim(x.ambclim)[1]==0 & x$usegrolatlong==1) {
+      if(dim(x.ambclim)[1]==0 & x$usegrolatlong==1 & !x$datasetID=="flynn18") {
       x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$growing.lat & daily_ambtemp$long==x$growing.long,]
+      x.ambclim$lat<-x$lat
+      x.ambclim$long<-x$long
+      }
+      if(dim(x.ambclim)[1]==0 & x$usegrolatlong==1 & x$datasetID=="flynn18") {
+      x.ambclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & round(daily_ambtemp$lat, digits=2)==round(x$growing.lat, digits=2) & round(daily_ambtemp$long, digits=2)==round(x$growing.long, digits=2),]
       x.ambclim$lat<-x$lat
       x.ambclim$long<-x$long
       }

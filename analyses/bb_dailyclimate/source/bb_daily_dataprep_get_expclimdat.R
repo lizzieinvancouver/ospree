@@ -7,7 +7,12 @@ dat$ID_exptreat2<-paste(dat$datasetID,dat$provenance.lat,dat$provenance.long,dat
 #noexpclimdat<-noexpchilldat[which(noexpchilldat$forcetemp==""|noexpchilldat$forcetemp=="ambient"|noexpchilldat$forcetemp=="meandaily"),]#studies that do NOT need experimental chilling AND ALSO do not need experimental forcing calculated
 #unique(noexpclimdat$photoperiod_day)#some studies manipulate ONLY photoperiod- ignore these for now
 
+#### Added by Cat 22 November 2019 - for some reason fu18 and one bad okie11 is weasling through to this point but should not be included here...
+fusandokies <- c("fu18", "okie11")
+
 expclimdat<-dat[-which(dat$chilltemp=="" & dat$forcetemp==""),]#156 rows removed
+
+expclimdat<-expclimdat[!(expclimdat$datasetID%in%fusandokies),]
 #dim(expclimdat)#7992   rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="")#no rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="ambient")#no rows
@@ -22,10 +27,11 @@ expclimtreats<-sort(unique(expclimdat$ID_exptreat2))#list of all study-chilling&
 #Things the below code does not yet deal with:
 #1.studies that manipulate ONLY photoperiod
 daily_chilltemp<-data.frame()
-for (i in 1:length(expclimtreats)){#i=382
+for (i in 1:length(expclimtreats)){#i=421
   tempdat<-dat[dat$ID_exptreat2==expclimtreats[i],] 
   startdate<-unique(tempdat$fieldsample.date2)
-  for(j in 1:length(startdate)){
+  for(j in 1:length(startdate)){ # j=1
+    print(c(i, j))
     tempdat2<-tempdat[tempdat$fieldsample.date2==startdate[j],]
     datasetID<-unique(tempdat2$datasetID)
     ID_exptreat2<-unique(tempdat2$ID_exptreat2)

@@ -6,14 +6,14 @@
 #If  just looking at nam climate, do this:
 #tempval <- list() 
 
-nafiles <- dir(climatedrive)[grep("livneh", dir(climatedrive))]
+nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
 for(i in 1:nrow(nam)){ # i = 1
   
   # find this location
-  lo <- nam[i,"chill.long"]
+  lo <- nam[i,"chill.long"] + 360
   la <- nam[i,"chill.lat"]
   
   # make sure longitudes are negative, need to be for North America
@@ -33,16 +33,16 @@ for(i in 1:nrow(nam)){ # i = 1
   
   if(nam[i,"fieldsample.date2"]!="" & as.numeric(substr(nam[i,"fieldsample.date2"],6,7))>=9){
     stday <- strptime(paste(yr, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")
-    firstyr <- paste(yr, formatC(1:12, width=2, flag="0"), sep="");#
-    endyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+    firstyr <- yr;#
+    endyr<-yr+1;#month of last date of climate year
     endday <- strptime(paste(yr+1, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     pmpclim<-c(firstyr, endyr)
     }#If field sample date is after september 1, then we use the chilling from the current year, since sept 1
   
   if(nam[i,"fieldsample.date2"]!="" & as.numeric(substr(nam[i,"fieldsample.date2"],6,7))<9){
     stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
-    firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-    endyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+    firstyr <- yr-1;# use previous year's fall months of chilling (Sept-Dec)
+    endyr<-yr;#month of last date of climate year
     endday <- strptime(paste(yr, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
     pmpclim<-c(firstyr, endyr)
   }#If field sample date is before september 1, then we use the chilling from the previous year.
@@ -52,26 +52,29 @@ for(i in 1:nrow(nam)){ # i = 1
     #we will use the latitude of this study to select it out and extend the end yr for climate data to pull
     #unique(nam$datasetID[nam$chill.lat== 38.988])
       stday <- strptime(paste(yr-1, "01-01", sep="-"),"%Y-%m-%d", tz="GMT")#always start getting date jan 1
-      firstyr <- paste(yr-1, formatC(1:12, width=2, flag="0"), sep="");# use previous year's fall months of chilling (Sept-Dec)
-      secondyr<-paste(yr, formatC(1:12, width=2, flag="0"), sep="");# 
-      thirdyr<-paste(yr+1, formatC(1:12, width=2, flag="0"), sep="");# 
-      endyr<-paste(yr+2, formatC(1:12, width=2, flag="0"), sep="");#month of last date of climate year
+      firstyr <- yr-1;# use previous year's fall months of chilling (Sept-Dec)
+      secondyr<-yr;# 
+      thirdyr<-yr+1;# 
+      endyr<-yr+2;#month of last date of climate year
       endday <- strptime(paste(yr+2, "12-31", sep="-"),"%Y-%m-%d", tz = "GMT")
       pmpclim<-c(firstyr,secondyr,thirdyr,endyr)
   }
   # now loop over these year-month combo files and get temperature values for this date range.
   mins <- maxs <- vector()
   
-  for(j in c(pmpclim)){ # j = "200009"
-    file <- file.path(climatedrive,nafiles[grep(j, nafiles)])
-    if(length(nchar(file))==0){next}
-    jx <- nc_open(file)
+  for(j in c(pmpclim)){ # j = 1956
+    filemax <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
+    filemin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
+    if(length(nchar(filemax))==0){next}
+    if(length(nchar(filemin))==0){next}
+    jx <- nc_open(filemax)
+    jn <- nc_open(filemin)
     
     diff.long.cell <- abs(jx$dim$lon$vals-as.numeric(lo))
     diff.lat.cell <- abs(jx$dim$lat$vals-as.numeric(la))
     long.cell <- which(diff.long.cell==min(diff.long.cell))[1] 
     lat.cell <- which(diff.lat.cell==min(diff.lat.cell))[1]
-    mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#check that the lat/long combinations has temperature data. 
+    mintest<-ncvar_get(jn,'tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))#check that the lat/long combinations has temperature data. 
     #print(mintest);print(j)
     #if no temperature data for the focal lat/long, choose the next closest one. 
     #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
@@ -80,23 +83,24 @@ for(i in 1:nrow(nam)){ # i = 1
       diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
       long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
       lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
-      mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+      mintest<-ncvar_get(jn,'tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
       
       if(is.na(unique(mintest))){
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
         diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
         long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
         lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
-        mintest<-ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
+        mintest<-ncvar_get(jn,'tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1))
         if(is.na(unique(mintest))){
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
           diff.long.cell[which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1]]<-NA
           long.cell <- which(diff.long.cell==min(diff.long.cell,na.rm=TRUE))[1] #select the closest longitude & latitude with climate data to longitude[i]
           lat.cell <- which(diff.lat.cell==min(diff.lat.cell,na.rm=TRUE))[1]
           }}}
-    mins <- c(mins, ncvar_get(jx,'Tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
-    maxs <- c(maxs, ncvar_get(jx,'Tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))
+    mins <- c(mins, (ncvar_get(jn,'tmin',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))-273.15)
+    maxs <- c(maxs, (ncvar_get(jx,'tmax',start=c(long.cell,lat.cell,1),count=c(1,1,-1)))-273.15)
     nc_close(jx)
+    nc_close(jn)
     }
   #print(i);print(stday);print(endday)
   tempval[[as.character(nam[i,"ID_fieldsample.date2"])]] <- data.frame(Lat = la,Long = lo,Date = as.character(seq(stday, endday, by = "day")),
