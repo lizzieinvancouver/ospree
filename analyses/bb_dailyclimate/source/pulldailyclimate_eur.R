@@ -6,8 +6,8 @@
 # then use this file and pullclimate_nam_pnp.R
 # Ailene got a start on this: June 13, 2017
 
-eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v15.0.nc"))
-eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v15.0.nc"))
+eur.tempmn <- nc_open(file.path(climatedrive, "tn_0.25deg_reg_v16.0.nc"))
+eur.tempmx <- nc_open(file.path(climatedrive, "tx_0.25deg_reg_v16.0.nc"))
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 tempval <- list() 
