@@ -7,8 +7,9 @@
 
 
 ## correcting the list (removing sps names that are wrong or incomplete)
-sps.list=sort(unique(bb.stan$name))
+#sps.list=sort(unique(bb.stan$species))
 genus.list =sort(unique(bb.stan$genus))
+sps.list<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
 ## load phylogeny
 
 ## load phylo (from Zanne et al. 2014)
@@ -29,17 +30,17 @@ phy.genera.uniq<-sort(unique(phy.genera))
 
 
 ## how many ospree genera are in the phylogeny?
-ospreegenus.inphylo<-genus.list[which(genus.list%in%phy.genera.uniq)]
+ospreegenus.inphylo <- genus.list[which(genus.list%in%phy.genera.uniq)]
 
 
 ## first prune the phylogeny to include only these genera
-phy.genera.ospree<-drop.tip(phy.plants,
+phy.genera.ospree <- drop.tip(phy.plants,
                             which(!phy.genera%in%ospreegenus.inphylo))
 rm(phy.plants)
 
 ## we can add species that may not be present according to their genera
-names.to.add=sps.list[which(!sps.list%in%phy.genera.ospree$tip.label)]
-phy.ospree.clean<-congeneric.merge(phy.genera.ospree,names.to.add,split="_")
+names.to.add = sps.list[which(!sps.list%in%phy.genera.ospree$tip.label)]
+phy.ospree.clean <- congeneric.merge(phy.genera.ospree,names.to.add,split="_")
 
 
 

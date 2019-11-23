@@ -125,7 +125,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     
     ## loop across years to extract each years averages and stddevs
     # save first an array to store results
-    yearlyresults<-array(NA,dim=c(length(period),6))
+    yearlyresults<-array(NA,dim=c(length(period),12))
     
     for(j in period){#j=1981
       print(paste(i,j))
@@ -228,6 +228,13 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       yearlyresults[which(period==j),5]<-mean(chillunitseachcelleachday$Chill_portions,na.rm=T)
       yearlyresults[which(period==j),6]<-sd(chillunitseachcelleachday$Chill_portions,na.rm=T)
       
+      yearlyresults[which(period==j),7]<-mean(gddssum,na.rm=T)
+      yearlyresults[which(period==j),8]<-sd(gddssum,na.rm=T)
+      yearlyresults[which(period==j),9]<-mean(chillunitseachcelleachday$Utah_Model,na.rm=T)
+      yearlyresults[which(period==j),10]<-sd(chillunitseachcelleachday$Utah_Model,na.rm=T)
+      yearlyresults[which(period==j),11]<-mean(chillunitseachcelleachday$Chill_portions,na.rm=T)
+      yearlyresults[which(period==j),12]<-sd(chillunitseachcelleachday$Chill_portions,na.rm=T)
+      
     }
     
     chillforcespsyears[,,i]<-yearlyresults
@@ -241,16 +248,18 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
-Climate.in.range<-extractchillforce(spslist[1],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
 
 
 
 
 ## saving outputs
-save(Climate.in.range, file = paste("output/Climate.in.range",spslist[1],
-                                    period[1],max(period),"RData",sep="."))
+#save(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[4],
+#                                    period[1],max(period),"RData",sep="."))
 
 
+write.csv(Climate.in.range4, file = paste("output/Climate.in.range",ospreespslist[4],
+                                         period[1],max(period),"csv",sep="."))
 
 ## attempt to parallelize code
 n = 2 # modify according to your RAM memory
@@ -258,13 +267,13 @@ cl <- makeCluster(n)
 registerDoParallel(cl)
 
 Sys.time()
-  Climate.in.range.i<-foreach(spslist = ospreespslist[4:5], .packages=c("raster","ncdf4","abind","chillR"),
+  Climate.in.range.i<-foreach(spslist = ospreespslist[4:7], .packages=c("raster","ncdf4","abind","chillR"),
                            .verbose=T,.errorhandling="pass")  %dopar%  
     extractchillforce(spslist,tmin,tmax,period) ## profiling function only / and all paralell process
 Sys.time()
   
   
-## saving outputs
+## saving outputs1         
 for(i in 1:length(Climate.in.range.i)){
 
 Climate.in.range = Climate.in.range.i[[i]][,,1]  
@@ -273,8 +282,8 @@ Climate.in.range = Climate.in.range.i[[i]][,,1]
 write.csv(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
                                          period[1],max(period),"csv",sep="."))
 
-}
 
+}
 
 ## remove aux unnecessary files
 unlink("chorological_maps_dataset/*", recursive = T)
