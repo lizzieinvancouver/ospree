@@ -49,10 +49,10 @@ file_list <- list.files(path=folder, pattern="*.csv")
 file_list[1]
 
 out<-assign(file_list[1], 
-            read.csv(paste(folder, file_list[1], sep=''))); names(out)
+            read.csv(paste(folder, file_list[1], sep=''))); head(out)
 out1<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+OrigUnitStr~DataName, 
-            value.var = c("OrigValueStr"), na.rm=TRUE)
-out$DataName<-paste("std",out$DataName, sep="_")
+            value.var = c("OrigValueStr"), na.rm=TRUE); head(out1)
+out$DataName<-paste("std",out$DataName, sep="_");head(out)
 out2<-dcast(out, LastName+FirstName+DatasetID+Dataset+SpeciesName+ObservationID+ObsDataID+UnitName~DataName, 
             value.var = "StdValue", na.rm=TRUE)
 out3<-merge(out1, out2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","ObsDataID"))
@@ -94,7 +94,7 @@ for (i in 1:length(file_list)){
   assign(paste("dat",i,sep="_"), out3)
 }
 
-#Gives 16 datasets renamed dat_1 to dat_16
+#I get 31 datasets
 
 
 # #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>#
