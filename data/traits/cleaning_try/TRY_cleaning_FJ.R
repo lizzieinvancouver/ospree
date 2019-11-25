@@ -6,15 +6,139 @@ options(stringsAsFactors = FALSE)
 setwd("C:\\Users\\Faith Jones\\Documents\\ubc\\OspreeTraits")
 
 library(tidyr)
+library(dplyr)
 library(data.table)
 
 #read in teh try data 
 tryData <- fread("TRYtraitdataNov2019.txt")
+
+#drop some columns to keep things simpler
 names(tryData)
-View(tryData)
-#select the first 20 observations
+
+tryData$V28 <- NULL
+tryData$Comment <- NULL
+tryData$ObsDataID <- NULL
+
+#select the first 2000 observations because my comuputer cant manage the file file at once
 tryData20 <- tryData[tryData$ObservationID %in%  unique(tryData$ObservationID)[1:2000],]
-tryData20$ObservationID_Trait <- paste(tryData20$Observation, tryData20$TraitID, sep = "_")
+
+head(tryData20)
+unique(tryData20$TraitID)
+
+#trying to make unique observation and Trait IDs
+#tryData20$ObservationID_Trait <- paste(tryData20$Observation, tryData20$TraitID, sep = "_")
+#validObsIDs <- tryData20$ObservationID_Trait[!is.na(tryData20$TraitID)]
+
+#how often are there multiple traits?
+tryData20 %>% 
+	group_by(ObservationID) %>%
+	summarise(nMultiTraits = n_distinct(TraitID, na.rm = TRUE)) %>%
+	filter (nMultiTraits > 1)
+	
+#make a unique id column
+#-----------------------------------
+
+#make a column with the info on how many traits there are in each observation
+tryData202 <- data.frame(tryData20 %>%
+	group_by (ObservationID) %>%
+	mutate(n_Trait = n_distinct(TraitID, na.rm = TRUE)))
+
+#Make a new column for Observation_Trait_ID
+tryData202$Observation_TraitID <- tryData202$ObservationID
+
+#subset of data to play with 
+
+	tryDataObs3 <- tryData202[tryData202$ObservationID ==  unique(tryData202$ObservationID)[200],]
+
+	#for the 1st trait in teh selected observation
+
+	#make a list of the different traits in the observation 
+	traits <- unique(tryDataObs3$TraitID[!is.na(tryDataObs3$TraitID)])
+
+	#remove the trait data that isn't the trait we are currently focused on
+	Trait1 <- traits[1]
+	notTrait <- traits[!traits %in% Trait1]
+	traitData_1 <- tryDataObs3[!tryDataObs3$TraitID %in% notTrait,]
+
+	#make the observation id for this set of trait data
+	traitData_1$Observation_TraitID <- paste(traitData_1$ObservationID, Trait1, sep = "_")
+
+	#add the subset of data int the main list 
+
+#try with three traits
+
+tryDataObs3_ids <- list()
+
+#number of traits for that observation
+ntrait <- tryDataObs3$n_Trait[1] 
+
+#make a list of the different traits in the observation 
+traits <- unique(tryDataObs3$TraitID[!is.na(tryDataObs3$TraitID)])
+
+#make a counter for the number of traits each observation
+i <- 1
+
+for (i in 1:ntrait){
+
+	#remove the trait data that isn't the trait we are currently focused on
+	Traiti <- traits[i]
+	notTraiti <- traits[!traits %in% Traiti]
+	traitData_i <- tryDataObs3[!tryDataObs3$TraitID %in% notTraiti,]
+
+	#make the observation id for this set of trait data
+	traitData_i$Observation_TraitID <- paste(traitData_i$ObservationID, Traiti, sep = "_")
+
+	#add the subset of data int the main list 
+	tryDataObs3_ids[[ traitData_i$Observation_TraitID[1] ]] <- traitData_i
+
+	i <- 1+ 1
+}
+#bring all the data tabels in teh list together into a single data table 
+data.table::rbindlist(tryDataObs3_ids)
+
+#Run the observation_Trait loop for all observations in teh trydata20 data
+#----------------------------------------------------------------------------
+tryData20IDList <- list()
+
+i <- 1
+
+for(obs in unique(tryData202$ObservationID)[1:3]){
+
+	obsData <- tryData202[tryData20$ObservationID == obs,]
+
+	#number of traits for that observation
+	ntrait <- obsData$n_Trait[1] 
+
+	#make a list of the different traits in the observation 
+	traits <- unique(obsData$TraitID[!is.na(obsData$TraitID)])
+
+	#make a counter for the number of traits each observation
+	i <- 1
+
+	for (i in 1:ntrait){
+
+		#remove the trait data that isn't the trait we are currently focused on
+		Traiti <- traits[i]
+		notTraiti <- traits[!traits %in% Traiti]
+		traitData_i <- obsData[!obsData$TraitID %in% notTraiti,]
+
+		#make the observation id for this set of trait data
+		traitData_i$Observation_TraitID <- paste(traitData_i$ObservationID, Traiti, sep = "_")
+
+		#add the subset of data int the main list 
+		tryData20IDList [[ traitData_i$Observation_TraitID[1] ]] <- traitData_i
+
+		i <- i + 1
+	}
+
+}
+
+#bring all the data tabels in teh list together into a single data table 
+tryData20ID <- data.table::rbindlist(tryData20IDList )
+
+
+
+
 
 #long to wide data  
 #------------
