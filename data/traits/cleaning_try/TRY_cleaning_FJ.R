@@ -35,13 +35,6 @@ tryData$ObsDataID <- NULL
 #select the first 2000 observations because my comuputer cant manage the file file at once
 tryData20 <- tryData[tryData$ObservationID %in%  unique(tryData$ObservationID)[1:2000],]
 
-head(tryData20)
-unique(tryData20$TraitID)
-
-#trying to make unique observation and Trait IDs
-#tryData20$ObservationID_Trait <- paste(tryData20$Observation, tryData20$TraitID, sep = "_")
-#validObsIDs <- tryData20$ObservationID_Trait[!is.na(tryData20$TraitID)]
-
 #how often are there multiple traits?
 tryData20 %>% 
 	group_by(ObservationID) %>%
@@ -99,9 +92,6 @@ for(obs in unique(tryData202$ObservationID)){
 
 #bring all the data tabels in teh list together into a single data table 
 tryData20ID <- data.table::rbindlist(tryData20IDList )
-tail(tryData20ID)
-#write.csv(tryData20ID, "TrialIDData.csv")
-names(tryData20ID)
 
 #long to wide data  
 #------------
@@ -135,18 +125,19 @@ dataA2 <- tryData20ID %>%
 #combined stadard and original data 
 outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
 
-variableColumns <- colnames(outAll3)[!colnames(outAll3) %in%  c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID")]
-
 #loop through all observations to make a wide format dataset 
 #----------------------------------
 
+#make a list to hold all the data
 observationListAll <- list()
 counter <- 1
 
 for(i in unique(outAll3$Observation_TraitID)){
 
+	#select relevent observation/trait combination 
 	observationDatai2 <- outAll3[outAll3$Observation_TraitID == i,]
 
+	#collaps all the different values into a single row for that observation/trait
 	collapsedi2 <- data.frame(observationDatai2 %>%
 		group_by(Observation_TraitID) %>%
 		select_if(~sum(!is.na(.)) > 0) %>%
@@ -158,6 +149,9 @@ for(i in unique(outAll3$Observation_TraitID)){
 	counter <- counter + 1
 }
 
+#bind_rows can cope with teh fact that there are different columns in the 
+#different sections of teh list. where there is no value for a column it 
+just puts NA
 
 allObservations <- bind_rows(observationListAll)
 head(allObservations)
