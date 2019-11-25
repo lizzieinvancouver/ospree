@@ -1,7 +1,20 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-#faith playing with teh TRY data cleaning
+#writen by Faith Jones 
+#last modefied 25/11/2019 
+#purpose is to clean the TRY data
+#data is inputed as the original TRY data in the txt format, and makes 
+#a single csv file at the end of teh script
+
+#i couldnt run the whole TRY dataset in one script, so the script is 
+#only set up to run through the first 2000 Observations. A computer 
+#with more ram than mine will probably be able to do it in one go. 
+
+#this code has three different steps. 
+#	1. makes a unique id column for each trait in each observation
+#	2. converts from long to wide
+#	3. condenses the data into one row per Observation_ID	
 
 setwd("C:\\Users\\Faith Jones\\Documents\\ubc\\OspreeTraits")
 
@@ -46,63 +59,14 @@ tryData202 <- data.frame(tryData20 %>%
 #Make a new column for Observation_Trait_ID
 tryData202$Observation_TraitID <- tryData202$ObservationID
 
-#subset of data to play with 
+#run the main loop that replicates the additional information for 
+#each observation-trait so we can make a useful id column 
 
-	tryDataObs3 <- tryData202[tryData202$ObservationID ==  unique(tryData202$ObservationID)[200],]
-
-	#for the 1st trait in teh selected observation
-
-	#make a list of the different traits in the observation 
-	traits <- unique(tryDataObs3$TraitID[!is.na(tryDataObs3$TraitID)])
-
-	#remove the trait data that isn't the trait we are currently focused on
-	Trait1 <- traits[1]
-	notTrait <- traits[!traits %in% Trait1]
-	traitData_1 <- tryDataObs3[!tryDataObs3$TraitID %in% notTrait,]
-
-	#make the observation id for this set of trait data
-	traitData_1$Observation_TraitID <- paste(traitData_1$ObservationID, Trait1, sep = "_")
-
-	#add the subset of data int the main list 
-
-#try with three traits
-
-tryDataObs3_ids <- list()
-
-#number of traits for that observation
-ntrait <- tryDataObs3$n_Trait[1] 
-
-#make a list of the different traits in the observation 
-traits <- unique(tryDataObs3$TraitID[!is.na(tryDataObs3$TraitID)])
-
-#make a counter for the number of traits each observation
-i <- 1
-
-for (i in 1:ntrait){
-
-	#remove the trait data that isn't the trait we are currently focused on
-	Traiti <- traits[i]
-	notTraiti <- traits[!traits %in% Traiti]
-	traitData_i <- tryDataObs3[!tryDataObs3$TraitID %in% notTraiti,]
-
-	#make the observation id for this set of trait data
-	traitData_i$Observation_TraitID <- paste(traitData_i$ObservationID, Traiti, sep = "_")
-
-	#add the subset of data int the main list 
-	tryDataObs3_ids[[ traitData_i$Observation_TraitID[1] ]] <- traitData_i
-
-	i <- 1+ 1
-}
-#bring all the data tabels in teh list together into a single data table 
-data.table::rbindlist(tryDataObs3_ids)
-
-#Run the observation_Trait loop for all observations in teh trydata20 data
-#----------------------------------------------------------------------------
 tryData20IDList <- list()
 
 i <- 1
 
-for(obs in unique(tryData202$ObservationID)[1:3]){
+for(obs in unique(tryData202$ObservationID)){
 
 	obsData <- tryData202[tryData20$ObservationID == obs,]
 
@@ -135,107 +99,56 @@ for(obs in unique(tryData202$ObservationID)[1:3]){
 
 #bring all the data tabels in teh list together into a single data table 
 tryData20ID <- data.table::rbindlist(tryData20IDList )
-
-
-
-
+tail(tryData20ID)
+#write.csv(tryData20ID, "TrialIDData.csv")
+names(tryData20ID)
 
 #long to wide data  
 #------------
 
 colums <- c("LastName","FirstName","DatasetID","Dataset",
-	"SpeciesName","ObservationID","ObsDataID","OrigUnitStr", "ObservationID_Trait", 
-	"DataName", "StdValue","OrigValueStr")
+	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
+	"DataName", "StdValue","OrigValueStr", "TraitID")
 
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
-	"SpeciesName","ObservationID","ObsDataID","OrigUnitStr", "ObservationID_Trait", 
-	"DataName2", "StdValue","OrigValueStr")
+	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
+	"DataName2", "StdValue","OrigValueStr", "TraitID")
 
-
+names(tryData20ID )
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
-dataA1 <- tryData20 %>%
+dataA1 <- tryData20ID %>%
 	select(colums)%>% 
-	group_by(ObservationID_Trait) %>%
+	group_by(Observation_TraitID) %>%
 	spread(key = DataName, value = OrigValueStr)
 
-tryData20$DataName2 <- tryData20$DataName
-tryData20$DataName2 <-  paste("std",tryData20$DataName, sep="_")
+tryData20ID$DataName2 <- tryData20ID$DataName
+tryData20ID$DataName2 <-  paste("std",tryData20ID$DataName, sep="_")
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
-dataA2 <- tryData20 %>%
-	group_by(ObservationID_Trait) %>%
+dataA2 <- tryData20ID %>%
+	group_by(Observation_TraitID) %>%
 	select(colums2)%>% 
 	spread(key = DataName2, value = StdValue)
 
 
 #combined stadard and original data 
-outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID","ObsDataID", "ObservationID_Trait"))
-outAll3$ObsDataID <- NULL #we dont want thsi column because it is the id of each row, and we are trying to collapse rows to plant observations
+outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
 
-head(outAll3)
+variableColumns <- colnames(outAll3)[!colnames(outAll3) %in%  c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID")]
 
-variableColumns <- colnames(outAll3)[!colnames(outAll3) %in%  c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "ObservationID_Trait")]
-
-#Try to collapse for individual observations
-#----------------------------------------------------------
-
-Observation1 <- outAll3[outAll3$ObservationID == "1135904",]
-Observation2 <- outAll3[outAll3$ObservationID == "93437",]
-
-collapsed1 <- Observation1 %>% 
-    group_by(ObservationID) %>%
-	select_if(~sum(!is.na(.)) > 0) %>%
-    summarise_each(funs(first(.[!is.na(.)]))) %>% 
-    ungroup()
-
-collapsed2 <- Observation2 %>% 
-    group_by(ObservationID) %>%
-	select_if(~sum(!is.na(.)) > 0) %>%
-    summarise_each(funs(first(.[!is.na(.)]))) %>% 
-    ungroup()
-
-bind_rows(collapsed1 , collapsed2 )
-#try for multiple  ObservationIDs 
-
-#try to loop through multiple two observations
-#------------------------------------------------
-
-trialData <- outAll3[outAll3$ObservationID %in% c("1135904","93437"),]
-
-observationList <- list()
-counter <- 1
-
-for(i in unique(trialData$ObservationID)){
-
-	observationDatai <- trialData[trialData$ObservationID == i,]
-
-	collapsedi <- data.frame(observationDatai %>%
-		group_by(ObservationID) %>%
-		select_if(~sum(!is.na(.)) > 0) %>%
-    		summarise_each(funs(first(.[!is.na(.)]))) %>% 
-    		ungroup())
-
-	observationList[[counter]] <- collapsedi
-
-	counter <- counter + 1
-}
-
-
-TwoObservations <- bind_rows(observationList)
-
-#loop through all observations 
+#loop through all observations to make a wide format dataset 
 #----------------------------------
 
 observationListAll <- list()
 counter <- 1
 
-for(i in unique(outAll3$ObservationID_Trait)){
+for(i in unique(outAll3$Observation_TraitID)){
 
-	observationDatai2 <- outAll3[outAll3$ObservationID_Trait == i,]
+	observationDatai2 <- outAll3[outAll3$Observation_TraitID == i,]
 
 	collapsedi2 <- data.frame(observationDatai2 %>%
-		group_by(ObservationID_Trait) %>%
+		group_by(Observation_TraitID) %>%
 		select_if(~sum(!is.na(.)) > 0) %>%
     		summarise_each(funs(first(.[!is.na(.)]))) %>% 
     		ungroup())
@@ -249,15 +162,7 @@ for(i in unique(outAll3$ObservationID_Trait)){
 allObservations <- bind_rows(observationListAll)
 head(allObservations)
 
-write.csv( allObservations, "subsetTry2.csv")
-
-
-
-
-
-
-
-
+write.csv( allObservations, "subsetTry2000.csv")
 
 
 
