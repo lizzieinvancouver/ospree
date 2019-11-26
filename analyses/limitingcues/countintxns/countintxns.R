@@ -59,6 +59,9 @@ datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcete
     "photoperiod_day", "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays")) 
 head(datsm)
 
+# Some photoperiods labelled as 'constant' ... should check why (from my quick look at karlsson03 I could not see why; others were "cronje03"   and "devries82
+# constantphoto <- subset(datsm, photoperiod_day=="constant")
+
 ## Okay, since code effectively relies on numeric cues for force and photo we clean these here
 # It's ugly and inaccurate (in terms of numbers assigned) but works *for this code* (don't use the numbers assigned as treatments here for other analyses)
 source("limitingcues/source/countintxns_cleanosp.R")

@@ -54,11 +54,11 @@ dsumm.treat.alt <-
       field.sample.n = mean(fs.date.count, na.rm=TRUE))
 
 dsumm.treat.wchilltemp <-
-      ddply(dmaps, c("datasetID", "study", "force.org", "photo.org", "chilltemp"), summarise,
+      ddply(dmaps, c("datasetID", "study", "force.org", "photo.org", "chilltemp.org"), summarise,
       field.sample.n = mean(fs.date.count, na.rm=TRUE))
 
 dsumm.treat.wchilldays <-
-      ddply(dmaps, c("datasetID", "study", "force.org", "photo.org", "chilltemp", "chilldays"), summarise,
+      ddply(dmaps, c("datasetID", "study", "force.org", "photo.org", "chilltemp.org", "chilldays"), summarise,
       field.sample.n = mean(fs.date.count, na.rm=TRUE))
 
 # Now get counts of treatments ... 
@@ -73,10 +73,10 @@ dsumm.pfs <-
       ddply(dmaps, c("photo.org", "fs.date.count"), summarise,
       n = length(unique(datstudy)))
 dsumm.fc <-
-      ddply(dmaps, c("force.org", "chilltemp"), summarise,
+      ddply(dmaps, c("force.org", "chilltemp.org"), summarise,
       n = length(unique(datstudy)))
 dsumm.pc <-
-      ddply(dmaps, c("photo.org", "chilltemp"), summarise,
+      ddply(dmaps, c("photo.org", "chilltemp.org"), summarise,
       n = length(unique(datstudy)))
 
 
@@ -94,7 +94,7 @@ heatforcphotofielddate <- ggplot(dsumm.treat, aes(force.org, photo.org)) +
         axis.text.x = element_text(angle = 90, hjust = 1))
 
 heatforcephotoexpchilltemp <- ggplot(dsumm.treat.wchilltemp, aes(force.org, photo.org)) +
-    geom_tile(aes(fill=as.numeric(as.character(chilltemp))), colour="white") +
+    geom_tile(aes(fill=as.numeric(as.character(chilltemp.org))), colour="white") +
     scale_fill_gradient2(name="Exp chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
         na.value="gray95")  +
     labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
@@ -122,8 +122,7 @@ heatforcphoto<- ggplot(dsumm.fp, aes(force.org, photo.org)) +
     geom_tile(aes(fill=n), colour="white") +
     # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
     scale_fill_gradient2(name="n of studies", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-    scale_y_discrete(breaks=seq(6,24,2)) +
+        na.value="gray95") +
     labs(colour="n of studies", x="Forcing temp", y="Photoperiod") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize),
@@ -132,8 +131,8 @@ heatforcphoto<- ggplot(dsumm.fp, aes(force.org, photo.org)) +
 heatforcfs <- ggplot(dsumm.ffs, aes(force.org, as.factor(fs.date.count))) +
     geom_tile(aes(fill=n), colour="white") +
     scale_fill_gradient2(name="n of studies", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-    scale_y_discrete(breaks=seq(6,24,2)) +
+        na.value="gray95") + # scale_x_discrete(breaks=seq(-5,35,5)) +
+    # scale_y_discrete(breaks=seq(6,24,2)) +
     labs(colour="n of studies", x="Forcing temp", y="Field sample dates") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize),
@@ -142,34 +141,31 @@ heatforcfs <- ggplot(dsumm.ffs, aes(force.org, as.factor(fs.date.count))) +
 heatphotfs <- ggplot(dsumm.pfs, aes(photo.org, as.factor(fs.date.count))) +
     geom_tile(aes(fill=n), colour="white") +
     scale_fill_gradient2(name="n of studies", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-    scale_y_discrete(breaks=seq(6,24,2)) +
+        na.value="gray95") + 
     labs(colour="n of studies", x="Photoperiod", y="Field sample dates") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize),
         axis.text.x = element_text(angle = 90, hjust = 1))
 
-heatforcc <- ggplot(dsumm.fc, aes(force.org, chilltemp)) +
+heatforcc <- ggplot(dsumm.fc, aes(force.org, chilltemp.org)) +
     geom_tile(aes(fill=n), colour="white") +
     scale_fill_gradient2(name="n of studies", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-    scale_y_discrete(breaks=seq(6,24,2)) +
+        na.value="gray95") + 
     labs(colour="n of studies", x="Forcing temp", y="Chill temp") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize),
         axis.text.x = element_text(angle = 90, hjust = 1))
 
-heatphotc <- ggplot(dsumm.pc, aes(photo.org, chilltemp)) +
+heatphotc <- ggplot(dsumm.pc, aes(photo.org, chilltemp.org)) +
     geom_tile(aes(fill=n), colour="white") +
     scale_fill_gradient2(name="n of studies", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-    scale_y_discrete(breaks=seq(6,24,2)) +
+        na.value="gray95") + 
     labs(colour="n of studies", x="Photoperiod", y="Chill temp") + theme_classic() +
     theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
         panel.background = element_blank(), text=element_text(size=basesize),
         axis.text.x = element_text(angle = 90, hjust = 1))
 
 pdf(paste("limitingcues/figures/heatallosp_4panel.pdf", sep=""), width = 16, height = 12)
-plot_grid(heatforcfs, heatphotfs, heatforcc, heatphotc, 
+plot_grid(heatforcfs, heatforcc, heatphotfs, heatphotc, 
     labels = c('(A)', '(B)', '(C)', '(D)'), ncol=2)
 dev.off()

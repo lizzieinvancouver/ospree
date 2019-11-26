@@ -9,6 +9,8 @@ unique(datsm$forcetemp)
 # for the rest I am setting ambient or mean daily to 10 ... THIS IS NOT ACCURATE!
 # but, it works for here since we just need each treatment to be unique (when it should be) and numeric
 datsm$force.org <- datsm$forcetemp
+datsm$force.unchanged <- datsm$forcetemp
+
 datsm$forcetemp[datsm$forcetemp==""] <- 10
 datsm$forcetemp[datsm$forcetemp=="meandaily"] <- 10
 datsm$forcetemp[datsm$forcetemp=="ambient"] <- 10
@@ -28,6 +30,15 @@ datsm$forcetemp[datsm$forcetemp=="7-27.5"] <- 17.25
 datsm$forcetemp[datsm$forcetemp=="22-27"] <- 24.5
 datsm$forcetemp[datsm$forcetemp=="0 ramped up 3 degrees every 6 days"] <- 15
 datsm$forcetemp[datsm$forcetemp=="mean of 9, 12, 15"] <- 12
+
+# Alternative cleaning -- not numeric, but shorter and consistent
+datsm$force.org[datsm$force.org==""] <- "not given"
+datsm$force.org[datsm$force.org=="ambient + 4"] <- "ambient+4"
+datsm$force.org[datsm$force.org=="ambient + .7"] <- "ambient+0.7"
+datsm$force.org[datsm$force.org=="ambient + 1.5"] <- "ambient+1.5"
+datsm$force.org[datsm$force.org=="ambient + 4.9"] <- "ambient+5"
+datsm$force.org[datsm$force.org=="ambient + 3"] <- "ambient+3"
+datsm$force.org[datsm$force.org=="0 ramped up 3 degrees every 6 days"] <- "0 ramped up 2X/week"
 
 unique(datsm$forcetemp_night)
 datsm$forcetemp_night[datsm$forcetemp_night==""] <- 10
@@ -58,9 +69,18 @@ unique(datsm$forcetemp_night)
 # but, it works for here since we just need each treatment to be unique (when it should be) and numeric
 unique(datsm$photoperiod_day)
 datsm$photo.org <- datsm$photoperiod_day
+datsm$photo.unchanged <- datsm$photoperiod_day
+
 datsm$photoperiod_day[datsm$photoperiod_day==""] <- 12
 datsm$photoperiod_day[datsm$photoperiod_day=="ambient"] <- 12
 datsm$photoperiod_day[datsm$photoperiod_day=="constant"] <- 14
 datsm$photoperiod_day[datsm$photoperiod_day=="14-9.5"] <- 11.75
 datsm$photoperiod_day[datsm$photoperiod_day=="13-9.5"] <- 11.225
 
+## chilltemp
+unique(datsm$chilltemp)
+datsm$chilltemp.org <- datsm$chilltemp
+datsm$chilltemp.unchanged <- datsm$chilltemp
+datsm$chilltemp.org[datsm$chilltemp.org=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"] <- "0.7 with 8 or 12 C interruptions"
+datsm$chilltemp.org[datsm$chilltemp.org=="negative 23 to 13 degrees Celsius"] <- "-23 to -13 C"
+datsm$chilltemp.org[datsm$chilltemp.org=="neg 3,2"] <- "-3 followed by 2 C"
