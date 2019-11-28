@@ -96,13 +96,15 @@ tryData20ID <- data.table::rbindlist(tryData20IDList )
 #long to wide data  
 #------------
 
+head(tryData20ID)
+
 colums <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"DataName", "StdValue","OrigValueStr", "TraitID")
+	"DataName","OrigValueStr", "TraitID", "TraitName")
 
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"DataName2", "StdValue","OrigValueStr", "TraitID")
+	"DataName2", "StdValue", "UnitName", "TraitID", "TraitName")
 
 names(tryData20ID )
 
@@ -123,8 +125,9 @@ dataA2 <- tryData20ID %>%
 
 
 #combined stadard and original data 
-outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
+outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID", "TraitName"))
 
+names(outAll3 )
 #loop through all observations to make a wide format dataset 
 #----------------------------------
 
@@ -150,8 +153,7 @@ for(i in unique(outAll3$Observation_TraitID)){
 }
 
 #bind_rows can cope with teh fact that there are different columns in the 
-#different sections of teh list. where there is no value for a column it 
-just puts NA
+#different sections of teh list. where there is no value for a column it just puts NA
 
 allObservations <- bind_rows(observationListAll)
 head(allObservations)
