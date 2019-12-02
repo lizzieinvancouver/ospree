@@ -61,11 +61,11 @@ dat.bb<-dat[dat$respvar.simple=="percentbudburst"|dat$respvar.simple=="daystobud
 dat.bb<-dat.bb[-which(dat.bb$response.time=="no response"),]#i think this is ok to do...
 dat.bb<-dat.bb[-which(dat.bb$continent=="asia"),]#we only have climate data for north america and europe
 ### remove the messy fu and okie again
-fusandokies <- c("fu18", "okie11")
+fusandokies <- c("fu18", "okie11", "malyshev18")
 dat.bb<-dat.bb[-which(dat.bb$datasetID%in%fusandokies),]
 
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1662 * problem here!!!
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=2992 * problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
