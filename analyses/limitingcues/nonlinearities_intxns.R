@@ -105,8 +105,8 @@ colz <- c("orange", "deeppink", "darkred")
 
 plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-120,70), xlim=c(0,40), main="changing f*p, with all interactions")
 lines(bb.simple~force, data=df, col=colz[3])
-text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=.5)
-text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=.5)
+text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=0.5)
+text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=0.5)
 
 #look at effect of changing the sign and magnitude of fp interaction only (keept pceff constant)
 ncols<-dim(df)[2]
@@ -118,7 +118,7 @@ newcol<- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt[i]*(df$force*
 df<-cbind(df,newcol)
 colnames(df)[ncols+i]<-paste("bb.alt",fpeff.alt[i], sep="_")
 lines(newcol~df$force, col=colz[2])
-text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("f*p=",fpeff.alt[i]),col=colz[2], cex=.5)
+text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("f*p=",fpeff.alt[i]),col=colz[2], cex=0.5)
 
 }
 dev.off()
@@ -129,8 +129,8 @@ fpeff.alt <- c(-0.1,-.01,  0, 0.01,.05,.07, .1, .2)
 #quartz()
 plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-170,60), xlim=c(0,40), main="changing f*p, with only f*p")
 lines(bb.simple~force, data=df, col=colz[3])
-text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=.5)
-text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=.5)
+text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=0.5)
+text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=0.5)
 ncols<-dim(df)[2]
 
 for(i in 1:length(fpeff.alt)){
@@ -138,7 +138,7 @@ for(i in 1:length(fpeff.alt)){
   df<-cbind(df,newcol)
   colnames(df)[ncols+i]<-paste("bb.altonly",fpeff.alt[i], sep="_")
   lines(newcol~df$force, col=colz[2])
-  text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("fp=",fpeff.alt[i]),col=colz[2], cex=.5)
+  text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("fp=",fpeff.alt[i]),col=colz[2], cex=0.5)
 }
 
 dev.off()
