@@ -28,7 +28,7 @@ pceff <- -0.3/6000 # not sure how to convert this!
 fpeff.alt <- 0.01
 pceff.alt <- 0.001 
 
-## make up df
+## make up df where all 3 cues increase ... 
 df <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=6, to=24, length.out=100),
     chill=seq(from=100, to=2000, length.out=100))
 df$bb.simple <- feff*df$force + peff*df$photo + ceff*df$chill
@@ -44,7 +44,6 @@ photohere <- 14
 df$bb.staticchillphoto <- feff*df$force + peff*photohere + ceff*chillhere + fpeff*(df$force*photohere) + fceff*(df$force*chillhere) +
     pceff*(chillhere*photohere)
 
-
 plot(bb~photo, data=df, type="l", ylim=c(-50, 40))
 lines(bb.simple~photo, data=df, col="orange")
 lines(bb.fpaltonly~photo, data=df, col="red")
@@ -52,7 +51,6 @@ lines(bb.alt~photo, data=df, col="deeppink")
 lines(bb.staticchillphoto~photo, data=df, col="grey")
 
 plot(bb.staticchillphoto~photo, data=df)
-
 
 colz <- c("orange", "deeppink", "darkred")
 
@@ -87,15 +85,94 @@ df2$bblin <- feff*df2$force + peff*df2$photo + ceff*df2$chill
 plot(bb~force, data=df2, ylim=c(-60, -30))
 points(bblin~force, data=df2, col="blue")
 
+##
+## START HERE (then clean up above and below!) 
+## Trying to make 8-panel figure....
+
+intxnplotme <- function(df, fpeff.alt, ylim, maintext){
+    df[["bb.nointxn"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]]
+    df[["bb"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff*(df[["force"]]*df[["photo"]]) +
+         fceff*(df[["force"]]*df[["chill"]]) + pceff*(df[["chill"]]*df[["photo"]])
+# Plot the model with interactions and the simple model
+# pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
+
+plot(df[["bb"]]~df[["force"]], data=df, type="l", col=colz[1], ylim=ylim, xlim=c(0,40), main=maintext)
+lines(df[["bb.nointxn"]]~df[["force"]], data=df, col=colz[3])
+text(df[["force"]][length(df[["force"]])]+1,df[["bb"]][length(df[["bb"]])], labels="bb all 2-way intxns",col=colz[1], cex=0.5)
+text(df[["force"]][length(df[["force"]])]+1,df[["bb.nointxn"]][length(df[["bb.nointxn"]])], labels="bb.nointxn",col=colz[3], cex=0.5)
+
+ncols<-dim(dfcpcon)[2]
+for(i in 1:length(fpeff.alt)){
+    newcol <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff.alt[i]*(df[["force"]]*df[["photo"]]) + 
+        fceff*(df[["force"]]*df[["chill"]]) + pceff.alt*(df[["chill"]]*df[["photo"]])
+    dfcpcon <- cbind(dfcpcon,newcol)
+    colnames(dfcpcon)[ncols+i]<-paste("bb.alt", fpeff.alt[i], sep="_")
+    lines(newcol~df[["force"]], col=colz[2])
+    text(df[["force"]][length(df[["force"]])]+1,newcol[length(newcol)], labels=paste("f*p=",fpeff.alt[i]),col=colz[2], cex=0.5)
+}
+}
+
+fpeff.alt <- c(-0.1,-0.01,  0,  0.01, 0.1)
+
+## make up df
+dfcpcon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 100),
+    chill=rep(2000,100))
+dfccon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=14, to=6, length.out=100),
+    chill=rep(2000,100))
+dfpcon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 100),
+    chill=seq(from=2000, to=2000, length.out=100))
+
+par(mfrow=c(2,2))
+colz <- c("orange", "deeppink", "darkred")
+intxnplotme(dfcpcon, fpeff.alt, c(-120,70), "Changing FxP: C, P are constant")
+intxnplotme(dfccon, fpeff.alt, c(-120,70), "Changing FxP: C is constant")
+intxnplotme(dfpcon, fpeff.alt, c(-120,70), "Changing FxP: P is constant")
+
+##
+##
+
+
+## make up df
+dfcpcon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 100),
+    chill=rep(2000,100))
+
+dfccon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=14, to=12.5, length.out=100),
+    chill=rep(2000,100))
+
+dfcpcon$bb.nointxn <- feff*dfcpcon$force + peff*dfcpcon$photo + ceff*dfcpcon$chill
+dfcpcon$bb <- feff*dfcpcon$force + peff*dfcpcon$photo + ceff*dfcpcon$chill + fpeff*(dfcpcon$force*dfcpcon$photo) + fceff*(dfcpcon$force*dfcpcon$chill) +
+    pceff*(dfcpcon$chill*dfcpcon$photo)
+# Plot the model with interactions and the simple model
+# pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
+par(mfrow=c(4,2))
+colz <- c("orange", "deeppink", "darkred")
+plot(bb~force, data=dfcpcon, type="l", col=colz[1], ylim=c(-120,70), xlim=c(0,40), main="Changing FxP: C, P are constant")
+lines(bb.nointxn~force, data=dfcpcon, col=colz[3])
+text(dfcpcon$force[length(dfcpcon$force)]+1,dfcpcon$bb[length(dfcpcon$bb)], labels="bb all 2-way intxns",col=colz[1], cex=0.5)
+text(dfcpcon$force[length(dfcpcon$force)]+1,dfcpcon$bb.nointxn[length(dfcpcon$bb.nointxn)], labels="bb.nointxn",col=colz[3], cex=0.5)
+
+ncols<-dim(dfcpcon)[2]
+for(i in 1:length(fpeff.alt)){
+    newcol <- feff*dfcpcon$force + peff*dfcpcon$photo + ceff*dfcpcon$chill + fpeff.alt[i]*(dfcpcon$force*dfcpcon$photo) + 
+        fceff*(dfcpcon$force*dfcpcon$chill) + pceff.alt*(dfcpcon$chill*dfcpcon$photo)
+    dfcpcon <- cbind(dfcpcon,newcol)
+    colnames(dfcpcon)[ncols+i]<-paste("bb.alt",fpeff.alt[i], sep="_")
+    lines(newcol~dfcpcon$force, col=colz[2])
+    text(dfcpcon$force[length(dfcpcon$force)]+1,newcol[length(newcol)], labels=paste("f*p=",fpeff.alt[i]),col=colz[2], cex=0.5)
+}
+
+
+# dev.off()
+
 
 ## Work by Ailene to look at magnitude of interactive effect ...
-fpeff.alt <- c(-0.1,-.01,  0,  0.01, .1)
+fpeff.alt <- c(-0.1,-0.01,  0,  0.01, 0.1)
 pceff.alt <- pceff
 
 ## make up df
 df <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=6, to=24, length.out=100),
     chill=seq(from=100, to=2000, length.out=100))
-df$bb.simple <- feff*df$force + peff*df$photo + ceff*df$chill
+df$bb.nointxn <- feff*df$force + peff*df$photo + ceff*df$chill
 df$bb <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff*(df$force*df$photo) + fceff*(df$force*df$chill) +
     pceff*(df$chill*df$photo)
 #Plot the model with interactions and the simple model
@@ -104,11 +181,11 @@ pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
 colz <- c("orange", "deeppink", "darkred")
 
 plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-120,70), xlim=c(0,40), main="changing f*p, with all interactions")
-lines(bb.simple~force, data=df, col=colz[3])
+lines(bb.nointxn~force, data=df, col=colz[3])
 text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=0.5)
-text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=0.5)
+text(df$force[length(df$force)]+1,df$bb.nointxn[length(df$bb.nointxn)], labels="bb.nointxn",col=colz[3], cex=0.5)
 
-#look at effect of changing the sign and magnitude of fp interaction only (keept pceff constant)
+#look at effect of changing the sign and magnitude of fp interaction only (keep pceff constant)
 ncols<-dim(df)[2]
 
 for(i in 1:length(fpeff.alt)){
@@ -122,15 +199,16 @@ text(df$force[length(df$force)]+1,newcol[length(newcol)], labels=paste("f*p=",fp
 
 }
 dev.off()
+
 # now look at effect of changing fp with no other interactions
 pdf("limitingcues/figures/intxnsims_onlyfpAE.pdf", width=7.5, height=5)
 fpeff.alt <- c(-0.1,-.01,  0, 0.01,.05,.07, .1, .2)
 
 #quartz()
 plot(bb~force, data=df, type="l", col=colz[1], ylim=c(-170,60), xlim=c(0,40), main="changing f*p, with only f*p")
-lines(bb.simple~force, data=df, col=colz[3])
+lines(bb.nointxn~force, data=df, col=colz[3])
 text(df$force[length(df$force)]+1,df$bb[length(df$bb)], labels="bb",col=colz[1], cex=0.5)
-text(df$force[length(df$force)]+1,df$bb.simple[length(df$bb.simple)], labels="bb.simple",col=colz[3], cex=0.5)
+text(df$force[length(df$force)]+1,df$bb.nointxn[length(df$bb.nointxn)], labels="bb.nointxn",col=colz[3], cex=0.5)
 ncols<-dim(df)[2]
 
 for(i in 1:length(fpeff.alt)){
