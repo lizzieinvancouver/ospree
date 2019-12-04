@@ -309,21 +309,30 @@ dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
 dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
 #dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
 #dim(dailyclim.bb2)#
-#Because the file is so big, I'll break it into 6 files
-quart1<-as.integer(nrow(dailyclim.bb2)/6)
-quart2<-as.integer(nrow(dailyclim.bb2)/3)
-quart3<-as.integer(nrow(dailyclim.bb2)/2)
+#Because the file is so big, I'll break it into 10 files
+#dailyclim.bb2<-read.csv("/Volumes/climdata/percbb_dailyclimALL.csv")
+quart1<-as.integer(nrow(dailyclim.bb2)/10)
+quart2<-as.integer(nrow(dailyclim.bb2)/5)
+quart3<-(quart1+quart2)
 quart4<-(quart1+quart3)
-quart5<-(quart1+quart4)
+quart5<-as.integer(nrow(dailyclim.bb2)/2)
 quart6<-(quart1+quart5)
+quart7<-(quart1+quart6)
+quart8<-(quart1+quart7)
+quart9<-(quart1+quart8)
+quart10<-(quart1+quart9)
 dailyclim.bbA<-dailyclim.bb2[1:quart1,]
 dailyclim.bbB<-dailyclim.bb2[(quart1+1):quart2,]
 dailyclim.bbC<-dailyclim.bb2[(quart2+1):quart3,]
 dailyclim.bbD<-dailyclim.bb2[(quart3+1):quart4,]
 dailyclim.bbE<-dailyclim.bb2[(quart4+1):quart5,]
-dailyclim.bbF<-dailyclim.bb2[(quart5+1):nrow(dailyclim.bb2),]
+dailyclim.bbF<-dailyclim.bb2[(quart5+1):quart6,]
+dailyclim.bbG<-dailyclim.bb2[(quart6+1):quart7,]
+dailyclim.bbH<-dailyclim.bb2[(quart7+1):quart8,]
+dailyclim.bbI<-dailyclim.bb2[(quart8+1):quart9,]
+dailyclim.bbJ<-dailyclim.bb2[(quart9+1):nrow(dailyclim.bb2),]
 #check that everything is in these four datasets
-nrow(dailyclim.bbA)+nrow(dailyclim.bbB)+nrow(dailyclim.bbC)+nrow(dailyclim.bbD)+nrow(dailyclim.bbE)+nrow(dailyclim.bbF)
+nrow(dailyclim.bbA)+nrow(dailyclim.bbB)+nrow(dailyclim.bbC)+nrow(dailyclim.bbD)+nrow(dailyclim.bbE)+nrow(dailyclim.bbF)+nrow(dailyclim.bbG)+nrow(dailyclim.bbH)+nrow(dailyclim.bbI)+nrow(dailyclim.bbJ)
 nrow(dailyclim.bb2)
 clim_dailyA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyA)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
@@ -337,6 +346,14 @@ clim_dailyE<-dplyr::select(dailyclim.bbE,uniqueID,lat,long,year2,doy2, Tmin, Tma
 colnames(clim_dailyE)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_dailyF<-dplyr::select(dailyclim.bbF,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyF)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyG<-dplyr::select(dailyclim.bbG,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyG)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyH<-dplyr::select(dailyclim.bbH,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyH)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyI<-dplyr::select(dailyclim.bbI,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyI)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyJ<-dplyr::select(dailyclim.bbJ,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyJ)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_dailyALL<-dplyr::select(dailyclim.bb2,datasetID,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyALL)<-c("datasetID","uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 
@@ -346,6 +363,10 @@ write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE
 write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
 write.csv(clim_dailyE, "output/dailyclim/percbb_dailyclimE.csv", row.names=FALSE)
 write.csv(clim_dailyF, "output/dailyclim/percbb_dailyclimF.csv", row.names=FALSE)
+write.csv(clim_dailyG, "output/dailyclim/percbb_dailyclimG.csv", row.names=FALSE)
+write.csv(clim_dailyH, "output/dailyclim/percbb_dailyclimH.csv", row.names=FALSE)
+write.csv(clim_dailyI, "output/dailyclim/percbb_dailyclimI.csv", row.names=FALSE)
+write.csv(clim_dailyJ, "output/dailyclim/percbb_dailyclimJ.csv", row.names=FALSE)
 #write.csv(clim_dailyALL, "/Volumes/climdata/percbb_dailyclimALL.csv", row.names=FALSE)
 #some checks on these files
 clim_dailyALL$missingT<-0
