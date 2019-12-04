@@ -309,16 +309,21 @@ dailyclim.bb2$Tmax<-as.numeric(dailyclim.bb2$Tmax)
 dailyclim.bb2$Tmean<-(as.numeric(dailyclim.bb2$Tmin)+as.numeric(dailyclim.bb2$Tmax))/2
 #dailyclim.bb2 <- dailyclim.bb2[!duplicated(dailyclim.bb2), ]
 #dim(dailyclim.bb2)#
-#Because the file is so big, I'll break it into 4 files
-quart1<-as.integer(nrow(dailyclim.bb2)/4)
-quart2<-as.integer(nrow(dailyclim.bb2)/2)
-quart3<-(quart2+quart1)
+#Because the file is so big, I'll break it into 6 files
+quart1<-as.integer(nrow(dailyclim.bb2)/6)
+quart2<-as.integer(nrow(dailyclim.bb2)/3)
+quart3<-as.integer(nrow(dailyclim.bb2)/2)
+quart4<-(quart1+quart3)
+quart5<-(quart1+quart4)
+quart6<-(quart1+quart5)
 dailyclim.bbA<-dailyclim.bb2[1:quart1,]
 dailyclim.bbB<-dailyclim.bb2[(quart1+1):quart2,]
 dailyclim.bbC<-dailyclim.bb2[(quart2+1):quart3,]
-dailyclim.bbD<-dailyclim.bb2[(quart3+1):nrow(dailyclim.bb2),]
+dailyclim.bbD<-dailyclim.bb2[(quart3+1):quart4,]
+dailyclim.bbE<-dailyclim.bb2[(quart4+1):quart5,]
+dailyclim.bbF<-dailyclim.bb2[(quart5+1):nrow(dailyclim.bb2),]
 #check that everything is in these four datasets
-nrow(dailyclim.bbA)+nrow(dailyclim.bbB)+nrow(dailyclim.bbC)+nrow(dailyclim.bbD)
+nrow(dailyclim.bbA)+nrow(dailyclim.bbB)+nrow(dailyclim.bbC)+nrow(dailyclim.bbD)+nrow(dailyclim.bbE)+nrow(dailyclim.bbF)
 nrow(dailyclim.bb2)
 clim_dailyA<-dplyr::select(dailyclim.bbA,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyA)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
@@ -328,6 +333,10 @@ clim_dailyC<-dplyr::select(dailyclim.bbC,uniqueID,lat,long,year2,doy2, Tmin, Tma
 colnames(clim_dailyC)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_dailyD<-dplyr::select(dailyclim.bbD,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyD)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyE<-dplyr::select(dailyclim.bbE,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyE)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
+clim_dailyF<-dplyr::select(dailyclim.bbF,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
+colnames(clim_dailyF)<-c("uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 clim_dailyALL<-dplyr::select(dailyclim.bb2,datasetID,uniqueID,lat,long,year2,doy2, Tmin, Tmax, Tmean)#
 colnames(clim_dailyALL)<-c("datasetID","uniqueID","latitude","longitude","year","doy","Tmin","Tmax","Tmean")
 
@@ -335,7 +344,9 @@ write.csv(clim_dailyA, "output/dailyclim/percbb_dailyclimA.csv", row.names=FALSE
 write.csv(clim_dailyB, "output/dailyclim/percbb_dailyclimB.csv", row.names=FALSE)
 write.csv(clim_dailyC, "output/dailyclim/percbb_dailyclimC.csv", row.names=FALSE)
 write.csv(clim_dailyD, "output/dailyclim/percbb_dailyclimD.csv", row.names=FALSE)
-#write.csv(clim_dailyALL, "output/dailyclim/percbb_dailyclimALL.csv", row.names=FALSE)
+write.csv(clim_dailyE, "output/dailyclim/percbb_dailyclimE.csv", row.names=FALSE)
+write.csv(clim_dailyF, "output/dailyclim/percbb_dailyclimF.csv", row.names=FALSE)
+#write.csv(clim_dailyALL, "/Volumes/climdata/percbb_dailyclimALL.csv", row.names=FALSE)
 #some checks on these files
 clim_dailyALL$missingT<-0
 clim_dailyALL$missingT[which(is.na(clim_dailyALL$Tmin))]<-1

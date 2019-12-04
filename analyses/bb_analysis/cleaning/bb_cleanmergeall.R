@@ -25,27 +25,27 @@ library(geosphere)
 library(lubridate)
 
 # 1. Get the data (that has already been cleaned for respvar and chilling)
-d <- read.csv("output/ospree_clean_withchill.csv") # 5 Sept 2019: 14603 (30 Oct 2018: 12693)
+d <- read.csv("output/ospree_clean_withchill.csv") # 4 Dec 2019: 15158 (30 Oct 2018: 12693)
 
 # 2. Need to deal with thermal time to days
-source("bb_analysis/cleaning/clean_thermaltimetodays.R") # 15 Oct 2019: 14603 
+source("bb_analysis/cleaning/clean_thermaltimetodays.R") # 4 Dec 2019: 15158 
 
 # 3. Clean phenstage to get a little more data (a little, but still!). 
-source("bb_analysis/cleaning/clean_respvarmore.R") # 15 Oct 2019: 14062 
+source("bb_analysis/cleaning/clean_respvarmore.R") # 4 Dec 2019: 14617 
 
 # 4. Select out the highest percentage of budburst only, and remove studies that contain duplicate data in two forms
-source("bb_analysis/cleaning/multiresp.R") #  15 Oct 2019: 11404 (5 Sept 2019: 11567; pre-update: 9717 rows)
+source("bb_analysis/cleaning/multiresp.R") #  4 Dec 2019: 11959 (5 Sept 2019: 11567; pre-update: 9717 rows)
 
 # 5. Clean ambient forcing
 # 5a. Clean up entries where we can estimate the forcing from the paper (e.g., ramped temps or they give monthly temps)
-source("bb_analysis/cleaning/clean_rampedandexpforcing.R") # 15 Oct: 11404 (no changes needed)
+source("bb_analysis/cleaning/clean_rampedandexpforcing.R") # 4 Dec 2019: 11959 (no changes needed)
 
 # 5b. Check date of daily climate files used in step 5c-
 #if they are too old for your taste,run pulldailyclim.R and bb_daily_dataprep.R scripts (these take a while)
-source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") #  15 Oct 2019: 11404 (30 Oct 2018: 9717 rows)
+source("bb_analysis/cleaning/clean_checkdateofclimatedata.R") #  4 Dec 2019: 11959 (30 Oct 2018: 9717 rows)
 
 # 5c. Clean ambient forcing data using daily climate data ... slow
-source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # 15 Oct 2019: still 11404 
+source("bb_analysis/cleaning/clean_ambientforcingfromdailyclimate.R") # 4 Dec 11959: (still 11404)
 
 # 6. Clean/convert percentBB to days, using a specified target bud-burst level (i.e. 90%)
 # ... with an allowable buffer (i.e., 55%)
