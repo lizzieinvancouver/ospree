@@ -26,21 +26,17 @@ library(data.table)
 tryData <- fread("TRYtraitdataNov2019.txt")
 
 #drop some columns to keep things simpler
-names(tryData)
+
 
 tryData$V28 <- NULL
 tryData$Comment <- NULL
 tryData$ObsDataID <- NULL
 
+
+
 #select the first 2000 observations because my comuputer cant manage the file file at once
 tryData20 <- tryData[tryData$ObservationID %in%  unique(tryData$ObservationID)[1:2000],]
 
-#how often are there multiple traits?
-tryData20 %>% 
-	group_by(ObservationID) %>%
-	summarise(nMultiTraits = n_distinct(TraitID, na.rm = TRUE)) %>%
-	filter (nMultiTraits > 1)
-	
 #make a unique id column
 #-----------------------------------
 
@@ -48,6 +44,7 @@ tryData20 %>%
 tryData202 <- data.frame(tryData20 %>%
 	group_by (ObservationID) %>%
 	mutate(n_Trait = n_distinct(TraitID, na.rm = TRUE)))
+
 
 #Make a new column for Observation_Trait_ID
 tryData202$Observation_TraitID <- tryData202$ObservationID
@@ -61,7 +58,7 @@ i <- 1
 
 for(obs in unique(tryData202$ObservationID)){
 
-	obsData <- tryData202[tryData20$ObservationID == obs,]
+	obsData <- tryData202[tryData202$ObservationID == obs,]
 
 	#number of traits for that observation
 	ntrait <- obsData$n_Trait[1] 
@@ -96,7 +93,6 @@ tryData20ID <- data.table::rbindlist(tryData20IDList )
 #long to wide data  
 #------------
 
-head(tryData20ID)
 
 colums <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
@@ -105,8 +101,7 @@ colums <- c("LastName","FirstName","DatasetID","Dataset",
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
 	"DataName2", "StdValue", "UnitName", "TraitID", "TraitName")
-
-names(tryData20ID )
+head( outAll3 )
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
 dataA1 <- tryData20ID %>%
@@ -123,11 +118,18 @@ dataA2 <- tryData20ID %>%
 	select(colums2)%>% 
 	spread(key = DataName2, value = StdValue)
 
+#how often are the values for non nstandard and standard values the same?
+tryData20ID$DataName2
 
 #combined stadard and original data 
 outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID", "TraitName"))
 
-names(outAll3 )
+#remove the standard longditude and lattitude colums because they shold be the same as the non standard value 
+outAll3$std_Latitude <- NULL
+outAll3$std_Longitude <- NULL
+
+
+names(outAll3)
 #loop through all observations to make a wide format dataset 
 #----------------------------------
 
@@ -155,10 +157,17 @@ for(i in unique(outAll3$Observation_TraitID)){
 #bind_rows can cope with teh fact that there are different columns in the 
 #different sections of teh list. where there is no value for a column it just puts NA
 
-allObservations <- bind_rows(observationListAll)
-head(allObservations)
+allObservations2000 <- bind_rows(observationListAll)
+head(allObservations2000 )
+#convert to long format 
+allObservations2000LongStd <- data.frame(allObservations2000 %>%
+	gather(key = "Trait", 
+		value = "TraitValue", 
+		26:112,
+		na.rm = TRUE)
+	)
 
-write.csv( allObservations, "subsetTry2000.csv")
+write.csv(allObservations20000, "subsetTry20000.csv")
 
 
 
