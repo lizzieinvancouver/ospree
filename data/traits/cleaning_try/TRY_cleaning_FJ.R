@@ -101,7 +101,7 @@ colums <- c("LastName","FirstName","DatasetID","Dataset",
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
 	"DataName2", "StdValue", "UnitName", "TraitID", "TraitName")
-head( outAll3 )
+
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
 dataA1 <- tryData20ID %>%
@@ -118,14 +118,10 @@ dataA2 <- tryData20ID %>%
 	select(colums2)%>% 
 	spread(key = DataName2, value = StdValue)
 
-#how often are the values for non nstandard and standard values the same?
-tryData20ID$DataName2
 
 #combined stadard and original data 
 outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID", "TraitName"))
 
-
-names(outAll3)
 #loop through all observations to make a wide format dataset 
 #----------------------------------
 
