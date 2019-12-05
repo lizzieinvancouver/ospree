@@ -124,10 +124,6 @@ tryData20ID$DataName2
 #combined stadard and original data 
 outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID", "TraitName"))
 
-#remove the standard longditude and lattitude colums because they shold be the same as the non standard value 
-outAll3$std_Latitude <- NULL
-outAll3$std_Longitude <- NULL
-
 
 names(outAll3)
 #loop through all observations to make a wide format dataset 
@@ -159,13 +155,6 @@ for(i in unique(outAll3$Observation_TraitID)){
 
 allObservations2000 <- bind_rows(observationListAll)
 head(allObservations2000 )
-#convert to long format 
-allObservations2000LongStd <- data.frame(allObservations2000 %>%
-	gather(key = "Trait", 
-		value = "TraitValue", 
-		26:112,
-		na.rm = TRUE)
-	)
 
 write.csv(allObservations20000, "subsetTry20000.csv")
 
