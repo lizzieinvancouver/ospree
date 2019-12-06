@@ -89,28 +89,52 @@ points(bblin~force, data=df2, col="blue")
 ## START HERE (then clean up above and below!) 
 ## Trying to make 8-panel figure....
 
-intxnplotme <- function(df, fpeff.alt, ylim, maintext){
+intxnplotmefp <- function(df, intxnsvector, ylim, xlab, ylab, maintext, cexmain){
     df[["bb.nointxn"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]]
     df[["bb"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff*(df[["force"]]*df[["photo"]]) +
          fceff*(df[["force"]]*df[["chill"]]) + pceff*(df[["chill"]]*df[["photo"]])
 # Plot the model with interactions and the simple model
 # pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
 
-plot(df[["bb"]]~df[["force"]], data=df, type="l", col=colz[1], ylim=ylim, xlim=c(0,40), main=maintext)
+plot(df[["bb"]]~df[["force"]], data=df, type="l", col=colz[1], ylim=ylim, xlim=c(0,40), main=maintext, cex.main=cexmain, xlab=xlab, ylab=ylab)
 lines(df[["bb.nointxn"]]~df[["force"]], data=df, col=colz[3])
 text(df[["force"]][length(df[["force"]])]+1,df[["bb"]][length(df[["bb"]])], labels="bb all 2-way intxns",col=colz[1], cex=0.5)
 text(df[["force"]][length(df[["force"]])]+1,df[["bb.nointxn"]][length(df[["bb.nointxn"]])], labels="bb.nointxn",col=colz[3], cex=0.5)
 
 ncols<-dim(dfcpcon)[2]
-for(i in 1:length(fpeff.alt)){
-    newcol <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff.alt[i]*(df[["force"]]*df[["photo"]]) + 
+for(i in 1:length(intxnsvector)){
+    newcol <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + intxnsvector[i]*(df[["force"]]*df[["photo"]]) + 
         fceff*(df[["force"]]*df[["chill"]]) + pceff.alt*(df[["chill"]]*df[["photo"]])
     dfcpcon <- cbind(dfcpcon,newcol)
-    colnames(dfcpcon)[ncols+i]<-paste("bb.alt", fpeff.alt[i], sep="_")
+    colnames(dfcpcon)[ncols+i]<-paste("bb.alt", intxnsvector[i], sep="_")
     lines(newcol~df[["force"]], col=colz[2])
-    text(df[["force"]][length(df[["force"]])]+1,newcol[length(newcol)], labels=paste("f*p=",fpeff.alt[i]),col=colz[2], cex=0.5)
+    text(df[["force"]][length(df[["force"]])]+1,newcol[length(newcol)], labels=paste("f*p=",intxnsvector[i]),col=colz[2], cex=0.5)
 }
 }
+
+intxnplotmefc <- function(df, intxnsvector, ylim, xlab, ylab, maintext, cexmain){
+    df[["bb.nointxn"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]]
+    df[["bb"]] <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff*(df[["force"]]*df[["photo"]]) +
+         fceff*(df[["force"]]*df[["chill"]]) + pceff*(df[["chill"]]*df[["photo"]])
+# Plot the model with interactions and the simple model
+# pdf("limitingcues/figures/intxnsims_allintsAE.pdf", width=7.5, height=5)
+
+plot(df[["bb"]]~df[["force"]], data=df, type="l", col=colz[1], ylim=ylim, xlim=c(0,40), main=maintext, cex.main=cexmain, xlab=xlab, ylab=ylab)
+lines(df[["bb.nointxn"]]~df[["force"]], data=df, col=colz[3])
+text(df[["force"]][length(df[["force"]])]+1,df[["bb"]][length(df[["bb"]])], labels="bb all 2-way intxns",col=colz[1], cex=0.5)
+text(df[["force"]][length(df[["force"]])]+1,df[["bb.nointxn"]][length(df[["bb.nointxn"]])], labels="bb.nointxn",col=colz[3], cex=0.5)
+
+ncols<-dim(dfcpcon)[2]
+for(i in 1:length(intxnsvector)){
+    newcol <- feff*df[["force"]] + peff*df[["photo"]] + ceff*df[["chill"]] + fpeff*(df[["force"]]*df[["photo"]]) + 
+        intxnsvector[i]*(df[["force"]]*df[["chill"]]) + pceff.alt*(df[["chill"]]*df[["photo"]])
+    dfcpcon <- cbind(dfcpcon,newcol)
+    colnames(dfcpcon)[ncols+i]<-paste("bb.alt", intxnsvector[i], sep="_")
+    lines(newcol~df[["force"]], col=colz[2])
+    text(df[["force"]][length(df[["force"]])]+1,newcol[length(newcol)], labels=paste("f*p=",intxnsvector[i]),col=colz[2], cex=0.5)
+ }
+}
+
 
 fpeff.alt <- c(-0.1,-0.01,  0,  0.01, 0.1)
 
@@ -120,13 +144,44 @@ dfcpcon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 
 dfccon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=14, to=6, length.out=100),
     chill=rep(2000,100))
 dfpcon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 100),
-    chill=seq(from=2000, to=2000, length.out=100))
+    chill=seq(from=2000, to=500, length.out=100))
+dfallchange <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=seq(from=14, to=6, length.out=100),
+    chill=seq(from=2000, to=500, length.out=100))
 
-par(mfrow=c(2,2))
+dfthreshpc <- data.frame("force"=c(seq(from=5, to=20, length.out=40), rep(20, 60)), photo=rep(12, 100),
+    chill=rep(2000,100))
+dfpthreshccon <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=c(seq(from=14, to=12, length.out=40), rep(12, 60)),
+    chill=rep(2000,100))
+dfpconcthresh <- data.frame("force"=seq(from=5, to=30, length.out=100), photo=rep(12, 100),
+    chill=c(seq(from=2000, to=1000, length.out=40), rep(1000, 60)))
+
+pdf("limitingcues/figures/intxnsims_changingFP.pdf", width=9, height=6)
+par(mfrow=c(2,3))
+par(mar=c(3,5,2,2)) 
 colz <- c("orange", "deeppink", "darkred")
-intxnplotme(dfcpcon, fpeff.alt, c(-120,70), "Changing FxP: C, P are constant")
-intxnplotme(dfccon, fpeff.alt, c(-120,70), "Changing FxP: C is constant")
-intxnplotme(dfpcon, fpeff.alt, c(-120,70), "Changing FxP: P is constant")
+intxnplotmefp(dfcpcon, fpeff.alt, c(-120,70), "Forcing", "Budburst day", "Changing FxP: F increases, C, P are constant", 0.75)
+intxnplotmefp(dfccon, fpeff.alt, c(-120,70), "Forcing", "Budburst day", "Changing FxP: F increases, P decreases, C constant", 0.75)
+intxnplotmefp(dfpcon, fpeff.alt, c(-120,70),  "Forcing","Budburst day", "Changing FxP: F increases, P constant, C decreases", 0.75)
+intxnplotmefp(dfallchange, fpeff.alt, c(-120,70), "Forcing","Budburst day", "Changing FxP: F increases, P and C both decrease", 0.75)
+intxnplotmefp(dfthreshpc, fpeff.alt, c(-120,70), "Forcing","Budburst day", "Changing FxP: F threshold", 0.75)
+intxnplotmefp(dfpthreshccon, fpeff.alt, c(-120,70), "Forcing","Budburst day", "Changing FxP: F increases, P threshold", 0.75)
+intxnplotmefp(dfpconcthresh, fpeff.alt, c(-120,70), "Forcing","Budburst day", "Changing FxP: F increases, C threshold", 0.75)
+
+dev.off()
+
+fceff.alt <- c(-0.05, -0.01, 0,  0.01, 0.05)
+
+pdf("limitingcues/figures/intxnsims_changingFC.pdf", width=7.5, height=6)
+par(mfrow=c(2,2))
+par(mar=c(3,5,2,2)) 
+colz <- c("orange", "deeppink", "darkred")
+intxnplotmefc(dfcpcon, fceff.alt, c(-300, 300), "Forcing", "Budburst day", "Changing FxC: F increases, C, P are constant", 0.75)
+intxnplotmefc(dfccon, fceff.alt, c(-300, 300), "Forcing", "Budburst day", "Changing FxC: F increases, P decreases, C constant", 0.75)
+intxnplotmefc(dfpcon, fceff.alt, c(-300, 300),  "Forcing","Budburst day", "Changing FxC: F increases, P constant, C decreases", 0.75)
+intxnplotmefc(dfallchange, fceff.alt, c(-300, 300), "Forcing","Budburst day", "Changing FxC: F increases, P and C both decrease", 0.75)
+dev.off()
+
+
 
 ##
 ##
