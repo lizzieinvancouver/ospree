@@ -217,9 +217,10 @@ save(model_NOphylo.FULL.b.sps,file = "output/full_nophylomodsps.b.RData")
 save(model_phylo.FULL.c.sps,file = "output/full_phylomod.csps.RData")
 
 #load("output/full_nophylomod.RData")
-#load("output/full_nophylomod.b.RData")
+#load("output/full_nophylomodsps.b.RData")
 #load("output/model_phylo.FULL.c.RData")
 
+model_NOphylo.FULL.b.sps
 #model_NOphylo.FULL
 
 
@@ -371,7 +372,12 @@ model_beta.photo.sps <- brm(
 )
 
 
-## 
+## saving
+
+save(model_beta.force.sps,file = 'output/model_beta.force.sps.RData')
+save(model_beta.chill.sps,file = 'output/model_beta.chill.sps.RData')
+save(model_beta.photo.sps,file = 'output/model_beta.photo.sps.RData')
+
 
 #####################################################
 #### check phylogenetic signal in sensitivities  ####
@@ -479,13 +485,13 @@ abline(v=mean(lambda.phylo.photo$samples[,1]),lty=2,col="blue")
 
 plot.contMap(obj.force,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Forcing (H² = 0.37)",xpd = T)
+title("Forcing (H² = 0.73)",xpd = T)
 plot.contMap(obj.chill,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Chilling (H² = 0.18)",xpd = T)
+title("Chilling (H² = 0.47)",xpd = T)
 plot.contMap(obj.photo,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Photo (H² = 0.68)",xpd = T)
+title("Photo (H² = 0.55)",xpd = T)
 
 dev.off()
 
