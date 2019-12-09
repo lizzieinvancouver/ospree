@@ -4,9 +4,6 @@
 ## Trying to flesh out how non-linearities via intxns work ##
 ## IMPT Note: the effects (fpeff etc.) are overwritten throughout the code, so check which you're using!
 
-## TO DO ##
-# Think on what set of cue shifts we want (all change at once, only one shifts, two shift at once ...) ##
-
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
@@ -128,23 +125,25 @@ dfpconcthresh <- data.frame("forcereal"=seq(from=5, to=30, length.out=100), phot
     chill=c(seq(from=2000, to=1000, length.out=40), rep(1000, 60)),
     "force"=seq(from=5, to=30, length.out=100))
 
+
+colz <- c("orange", "deeppink", "darkred")
+
 pdf("limitingcues/figures/intxnsims_changingFP.pdf", width=9, height=6)
 par(mfrow=c(2,3))
 par(mar=c(3,5,2,2)) 
-colz <- c("orange", "deeppink", "darkred")
-intxnplotmefp(dfcpcon, fpeff.alt, c(-120,70), c(0,40), "force", "Forcing", "Budburst day",
+intxnplotmefp(dfcpcon, fpeff.alt, 180, c(90,200), c(0,40), "force", "Forcing", "Budburst day",
       "Changing FxP: F increases, C, P are constant", 0.75)
-intxnplotmefp(dfccon, fpeff.alt, c(-120,70), c(0,40),  "force","Forcing", "Budburst day",
+intxnplotmefp(dfccon, fpeff.alt, 180,  c(90,200), c(0,40),  "force","Forcing", "Budburst day",
       "Changing FxP: F increases, P decreases, C constant", 0.75)
-intxnplotmefp(dfpcon, fpeff.alt, c(-120,70), c(0,40), "force", "Forcing","Budburst day",
+intxnplotmefp(dfpcon, fpeff.alt, 180, c(90,200), c(0,40), "force", "Forcing","Budburst day",
       "Changing FxP: F increases, P constant, C decreases", 0.75)
-intxnplotmefp(dfallchange, fpeff.alt, c(-120,70), c(0,40), "force", "Forcing","Budburst day",
+intxnplotmefp(dfallchange, fpeff.alt, 180, c(90,200), c(0,40), "force", "Forcing","Budburst day",
      "Changing FxP: F increases, P and C both decrease", 0.75)
 # intxnplotmefp(dfthreshpc, fpeff.alt, c(-120,70), c(0,40),"force", "Forcing","Budburst day",
  #   "Changing FxP: F threshold", 0.75)
-intxnplotmefp(dfpthreshccon, fpeff.alt, c(-120,70), c(0, 40),  "force", "Forcing","Budburst day",
+intxnplotmefp(dfpthreshccon, fpeff.alt, 180, c(90,200), c(0, 40),  "force", "Forcing","Budburst day",
     "Changing FxP: F increases, P threshold", 0.75)
-intxnplotmefp(dfpconcthresh, fpeff.alt, c(-120,70), c(0,40), "force",  "Forcing", "Budburst day",
+intxnplotmefp(dfpconcthresh, fpeff.alt, 180, c(90,200), c(0,40), "force",  "Forcing", "Budburst day",
     "Changing FxP: F increases, C threshold", 0.75)
 dev.off()
 
@@ -153,19 +152,53 @@ fceff.alt <- c(-0.005, -0.01, -0.001, 0, 0.001, 0.01, 0.005)
 pdf("limitingcues/figures/intxnsims_changingFC.pdf", width=7.5, height=6)
 par(mfrow=c(2,2))
 par(mar=c(3,5,2,2)) 
-colz <- c("orange", "deeppink", "darkred")
-intxnplotmefc(dfcpcon, fceff.alt, c(-300, 300), c(0,40),"force", "Forcing", "Budburst day",
+intxnplotmefc(dfcpcon, fceff.alt, 180, c(-100, 320), c(0,40),"force", "Forcing", "Budburst day",
     "Changing FxC: F increases, C, P are constant", 0.75)
-intxnplotmefc(dfccon, fceff.alt, c(-300, 300), c(0,40),"force", "Forcing", "Budburst day",
+intxnplotmefc(dfccon, fceff.alt, 180, c(-100, 320), c(0,40),"force", "Forcing", "Budburst day",
     "Changing FxC: F increases, P decreases, C constant", 0.75)
-intxnplotmefc(dfpcon, fceff.alt, c(-300, 300),  c(0,40),"force", "Forcing","Budburst day",
+intxnplotmefc(dfpcon, fceff.alt, 180, c(-100, 320),  c(0,40),"force", "Forcing","Budburst day",
      "Changing FxC: F increases, P constant, C decreases", 0.75)
-intxnplotmefc(dfallchange, fceff.alt, c(-300, 300), c(0,40),"force", "Forcing","Budburst day",
+intxnplotmefc(dfallchange, fceff.alt, 180, c(-100, 320), c(0,40),"force", "Forcing","Budburst day",
     "Changing FxC: F increases, P and C both decrease", 0.75)
 dev.off()
 
 
+dfms.fp <- data.frame("force"=seq(from=1, to=20, length.out=100), photo=seq(from=16, to=10, length.out=100),
+    chill=rep(1000,100))
+dfms.fc <- data.frame("force"=seq(from=1, to=20, length.out=100), photo=rep(12, 100),
+    chill=seq(from=1500, to=500, length.out=100))
+fpeff.ms <- c(-0.1, 0, 0.1)
 
+
+pdf("limitingcues/figures/intxnsims_FPexample.pdf", width=9, height=4)
+par(mfrow=c(1,2))
+par(mar=c(3,5,2,2))
+intxnplotmefp(dfms.fp, fpeff.ms, 180, c(110, 180), c(0,25), "force", "Forcing", "Budburst day",
+      "Changing FxP: F increases, P decreases, C constant", 0.75)
+intxnplotmefp(dfms.fc, fpeff.ms, 180, c(110, 180), c(0,25), "force", "Forcing", "Budburst day",
+      "Changing FxP: F increases, P constant, C decreases", 0.75)
+dev.off()
+
+
+if(FALSE){
+# Why is F*P=0 linear?
+checkme <- feff*dfms.fp$force + peff*dfms.fp$photo + ceff*dfms.fp$chill + 0*(dfms.fp$force*dfms.fp$photo) +
+    fceff*(dfms.fp$force*dfms.fp$chill) + pceff*(dfms.fp$chill*dfms.fp$photo)
+# Because peff is large ... 
+
+# change peff?
+peff <- -0.05
+
+pdf("limitingcues/figures/intxnsims_FPexample_lowpeff.pdf", width=9, height=4)
+par(mfrow=c(1,2))
+par(mar=c(3,5,2,2))
+intxnplotmefp(dfms.fp, fpeff.ms, 180, c(110, 180), c(0,25), "force", "Forcing", "Budburst day",
+      "Changing FxP: F increases, P decreases, C constant", 0.75)
+intxnplotmefp(dfms.fc, fpeff.ms, 180, c(110, 180), c(0,25), "force", "Forcing", "Budburst day",
+      "Changing FxP: F increases, P constant, C decreases", 0.75)
+dev.off()
+
+}
 
 ###
 ## Work by Ailene to look at magnitude of interactive effect ...
