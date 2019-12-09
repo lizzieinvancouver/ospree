@@ -2,23 +2,38 @@ Started 24 August 2017
 By Lizzie
 
 
+GET these articles:
+- Chilling and forcing requirements for foliage bud burst of European beech (\emph{Fagus sylvatica} L.) differ between provenances and are phenotypically plastic
+- Optimization of endodormancy release models using series of endodormancy release data collected in France. Acta Horticulturae 872:51-60.
+- Fu et al. 2019 (GCB)
+
+NEED citations 
+- Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues 
+- chilling varies by population and is higher at the coast (I don't think Ford 2016; Howe 2003 or Aitken 2008 work)
+- the same genes can be triggered by very different environmental cues
+- warming increases the forcing plants experience each day
+- Similarly, long photoperiods can lead to budburst sooner than predicted by solely low chilling or forcing conditions
+- For example, at very low photoperiod (short days) plants often will not grow, similarly maximum growth may occur at photoperiods of 18 hours, meaning photoperiods longer than 18 hours will have no additional effect on budburst timing.  
+-  For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst
+- Examples of controlled environment studies that *specifically* compare some design more similar to the natural environment (e.g., ramped temps, varying day/night temps) to less natural, but common-to-growth-chamber-studies designs (e.g., constant temps). 
+- experimental results support that all cues are dependent on the level of other cues
+- To date, most evidence suggests species will lag in their spatial responses \citep{Loarie:2009ax ... OTHERS?}, meaning shifts in cues in the current range may be important to the fate of trailing edge populations (CITES)
+- studies have shown differing day/night temperatures are important for some species
+- Equally, a few studies have attempted to replicate certain aspects of the environment, such as fluctuating temperatures, ramped temperatures and light throughout the day, the coinicidence of temperature and sunrise
+- Correlations between these predictors, however, are almost always too high for any useful analysis
+
 <><><><><><><><><><><><><><><><><><><><>
 November 2019 to do
 <><><><><><><><><><><><><><><><><><><><>
+(*) Fix the FIX ME section on interactions
+(*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
+(*) Do NECTAR species number
+(*) our review of controlled environment studies found more than one study on only XX species
 (*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
 (*) Every other time I pick this up I must work on the TEXT! (Things to do -- add citations (and make a list of citation types that I need), see notes of 'to-do items from this summer' and `MS problems to fix' (both below).  
 (*) Fix heatmaps and ask Cat about gomory15 in countintxns.R code
 
 >>> Check if I have fixed this! (ABOVE)
-
-(*) Code challenge 2: Work up the interactions plots! Do an interaction plot (4-8 panels, notes below) and a threshold plot (hint: cheap threshold plot could just mean setting photo or chill or force as a constant number -- like photo goes up until some point and then is set at 16 hrs no matter what).
-
-Four (or 8? or whatever) panel plot showing what Ailene showed across:
-F increases, P, C constant
-F increases, P decreases, C constant
-F increases, P constant, C decreases
-F increases, P and C both decrease
-* Plus threshold effects?
 
 (*) Should we add a figure for correlations of cues in nature?
 (*) Eventually, start on Rnw file for supp.
