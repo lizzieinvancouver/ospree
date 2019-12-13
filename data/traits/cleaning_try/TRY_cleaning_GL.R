@@ -1,6 +1,9 @@
 ## No one likes factors
 options(stringsAsFactors = FALSE)
 
+
+##setwd("C:\\Users\\Faith Jones\\Documents\\ubc\\OspreeTraits")
+
 ## Load libraries
 library(tidyr)
 library(dplyr)
@@ -8,6 +11,7 @@ library(data.table)
 
 ## Read the data (modify path as needed) 
 tryData <- fread("~/Downloads/TRYtraitdataNov2019.txt")
+#tryData <- fread("TRYtraitdataNov2019.txt")
 
 ## Drop some columns to keep things simpler
 tryData$V28 <- NULL
