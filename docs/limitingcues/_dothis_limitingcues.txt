@@ -8,19 +8,14 @@ GET these articles:
 - Fu et al. 2019 (GCB)
 
 NEED citations 
-- Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues 
-- chilling varies by population and is higher at the coast (I don't think Ford 2016; Howe 2003 or Aitken 2008 work)
-- the same genes can be triggered by very different environmental cues
-- warming increases the forcing plants experience each day
-- Similarly, long photoperiods can lead to budburst sooner than predicted by solely low chilling or forcing conditions
-- For example, at very low photoperiod (short days) plants often will not grow, similarly maximum growth may occur at photoperiods of 18 hours, meaning photoperiods longer than 18 hours will have no additional effect on budburst timing.  
--  For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst
-- Examples of controlled environment studies that *specifically* compare some design more similar to the natural environment (e.g., ramped temps, varying day/night temps) to less natural, but common-to-growth-chamber-studies designs (e.g., constant temps). 
-- experimental results support that all cues are dependent on the level of other cues
-- To date, most evidence suggests species will lag in their spatial responses \citep{Loarie:2009ax ... OTHERS?}, meaning shifts in cues in the current range may be important to the fate of trailing edge populations (CITES)
-- studies have shown differing day/night temperatures are important for some species
-- Equally, a few studies have attempted to replicate certain aspects of the environment, such as fluctuating temperatures, ramped temperatures and light throughout the day, the coinicidence of temperature and sunrise
-- Correlations between these predictors, however, are almost always too high for any useful analysis
+1. Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues *\cite{zohner2014}* 
+2. chilling varies by population and is higher at the coast *campbell1979*
+
+4. warming increases the forcing plants experience each day: not great, but *skinner2018amplification* could work 
+
+7.  For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst 
+
+13. Correlations between these predictors, however, are almost always too high for any useful analysis *NEED help*
 
 <><><><><><><><><><><><><><><><><><><><>
 November 2019 to do
