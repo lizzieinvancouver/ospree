@@ -388,8 +388,8 @@ model_beta.photo.sps <- brm(
 ## saving
 
 save(model_beta.force.sps,file = 'output/model_beta.force.sps_angio.RData')
-save(model_beta.chill.sps,file = 'output/model_beta.chill.sps.RData')
-save(model_beta.photo.sps,file = 'output/model_beta.photo.sps.RData')
+save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_angio.RData')
+save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_angio.RData')
 
 
 #####################################################
@@ -472,8 +472,8 @@ obj.photo<-setMap(obj.photo,colors=c("yellow","darkcyan","purple"))
 
 ## combined plot of three phylogenies and cues
 par(mfrow=c(2,3),mar=c(1.5,1.5,1,1))
-par(mfrow=c(2,3))
-par(mar=c(2,2,1,1))
+#par(mfrow=c(2,3))
+#par(mar=c(2,2,1,1))
 layout(matrix(c(1,2,3,4,5,6,4,5,6), nrow = 3, ncol = 3, byrow = TRUE))
 
 ## plot hypotheses on upper row
@@ -498,16 +498,37 @@ abline(v=mean(lambda.phylo.photo$samples[,1]),lty=2,col="blue")
 
 plot.contMap(obj.force,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Forcing (H² = 0.73)",xpd = T)
+title("Forcing (H² = 0.33)",xpd = T)
 plot.contMap(obj.chill,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Chilling (H² = 0.47)",xpd = T)
+title("Chilling (H² = 0.37)",xpd = T)
 plot.contMap(obj.photo,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Photo (H² = 0.55)",xpd = T)
+title("Photo (H² = 0.40)",xpd = T)
 
 dev.off()
 
+
+par(mfrow=c(1,3))
+plot(chill.slopes$estimate,
+     xlab="Chilling sensitivity",
+     ylab="Photo sensitivity",
+     
+     #      force.slopes$estimate,
+     photo.slopes$estimate,col="grey",pch=19)
+abline(lm(photo.slopes$estimate~chill.slopes$estimate),col="black")
+
+plot(chill.slopes$estimate,
+     xlab="Chilling sensitivity",
+     ylab="Forcing sensitivity",
+     force.slopes$estimate,col="grey",pch=19)
+abline(lm(force.slopes$estimate~chill.slopes$estimate),col="black")
+
+plot(photo.slopes$estimate,
+     xlab="Photo sensitivity",
+     ylab="Forcing sensitivity",
+     force.slopes$estimate,col="grey",pch=19)
+abline(lm(force.slopes$estimate~photo.slopes$estimate),col="black")
 
 
 ###########################################################
