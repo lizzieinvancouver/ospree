@@ -466,3 +466,53 @@ text(5.5, 5, "Change (days) due to change in chilling", font = 2, pos = 3)
 
 dev.off();#system(paste("open", file.path(figpath, "Fig2_4panel.pdf"), "-a /Applications/Preview.app"))
 
+## Plot with chilling x photoperiod ... (very hacky)
+pdf(file.path(paste(figpath, "/cuebycue/", figpathmore, "model_cuebycuephoto.pdf", sep="")), width = 7, height = 7)
+par(mar=rep(1,4))
+layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of where labels end up
+                4, 5, 6,
+                7, 8, 9),ncol = 3, byrow = TRUE),
+       widths = c(1, 4, 4),
+       heights = c(4, 4, 1))
+plotblank = function(){plot(1:10, type="n",bty="n",xaxt="n",yaxt="n",ylab="",xlab="")}
+
+plotblank() 
+text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90) # \n\n add two line breaks
+
+plotlet("b_photo", "b_photo", 4, 5, 
+         ylim = c(-20, 5),
+         xlim = c(-15, 5),
+         data = sumer.ni)
+
+plotlet("b_chill", "b_photo", 40, 5, 
+        ylim = c(-20, 5),
+        xlim = c(-20, 5),
+        yaxt="n",
+        data = sumer.ni)
+axis(2, seq(0, -25, by = -5), labels = FALSE)
+
+plotblank()
+text(5,5, "Budburst \n Change (days) due to longer photoperiod", font = 2, srt = 90)
+
+plotlet("b_photo", "b_photo", 4, 5, 
+        ylim = c(-20, 5),
+        xlim = c(-15, 5),
+        data = sumer.ni)
+
+plotlet("b_chill", "b_photo", 20, 5,  
+        ylim = c(-20, 5),
+        xlim = c(-20, 5),
+        yaxt="n",
+        data = sumer.ni)
+axis(2, seq(0, -25, by = -5), labels = FALSE)
+
+plotblank()
+
+plotblank()
+text(5.5, 5, "Change (days) due to longer photoperiod", font = 2, pos = 3)
+
+plotblank()
+text(5.5, 5, "Change (days) due to change in chilling", font = 2, pos = 3)
+
+dev.off();
+
