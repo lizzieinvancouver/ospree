@@ -127,16 +127,15 @@ for(i in 1:nrow(bb)){
 ## saving results to output - d
 
 # generate indexes
-uniquevalsd<-apply(d,1,paste,collapse="")
-uniquevalsbb<-apply(bb[which(names(bb)%in%names(d))],1,paste,collapse="")
+uniquevalsd <- apply(d,1,paste,collapse="")
+uniquevalsbb <- apply(bb[which(names(bb)%in%names(d))],1,paste,collapse="")
 
-indexbb<-which(uniquevalsbb%in%uniquevalsd)
-indexd<-which(uniquevalsd%in%uniquevalsbb)
-
+indexbb <- which(uniquevalsbb %in% uniquevalsd)
+indexd <- which(uniquevalsd %in% uniquevalsbb)
 
 # append average ambient forcing temperature to ospree dataset d 
-d$avg_bbtemp<-NA
-d[indexd,"avg_bbtemp"]<-bb$avg_bbtemp[indexbb]
+d$avg_bbtemp <- NA
+d[indexd,"avg_bbtemp"] <- bb$avg_bbtemp[indexbb]
 
 # note that only 2K rows have entires in avg_bbtemp and all have forcetemp
 if(FALSE){
