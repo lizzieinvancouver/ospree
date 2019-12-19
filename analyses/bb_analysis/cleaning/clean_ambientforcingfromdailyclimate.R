@@ -47,15 +47,21 @@ clima <- read.csv("output/dailyclim/percbb_dailyclimA.csv", header=TRUE)
 climb <- read.csv("output/dailyclim/percbb_dailyclimB.csv", header=TRUE)
 climc <- read.csv("output/dailyclim/percbb_dailyclimC.csv", header=TRUE)
 climd <- read.csv("output/dailyclim/percbb_dailyclimD.csv", header=TRUE)
+clime <- read.csv("output/dailyclim/percbb_dailyclimE.csv", header=TRUE)
+climf <- read.csv("output/dailyclim/percbb_dailyclimF.csv", header=TRUE)
+climg <- read.csv("output/dailyclim/percbb_dailyclimG.csv", header=TRUE)
+climh <- read.csv("output/dailyclim/percbb_dailyclimH.csv", header=TRUE)
+climi <- read.csv("output/dailyclim/percbb_dailyclimI.csv", header=TRUE)
+climj <- read.csv("output/dailyclim/percbb_dailyclimJ.csv", header=TRUE)
 
-climdatab <- rbind(clima,climb,climc,climd)
+climdatab <- rbind(clima,climb,climc,climd,clime,climf,climg,climh,climi,climj)
 #dim(climdatab)#3331203
 climdatab<-climdatab[-which(is.na(climdatab$Tmean)),]#Ailene added for now
 #to remove climate data with NAs (need to fix dailyclim file)
 #on 25 april 2018: there are 43 unique ids with NA climate data (from 7 studies)
 climdat <- climdatab[!duplicated(climdatab), ]#559231 rows...why so much smaller?
 #not sure why there are duplicates- duplicates were removed at the end of the bb_daily_dataprep.R code
-rm(clima,climb,climc,climd)
+rm(clima,climb,climc,climd,clime,climf,climg,climh,climi,climj)
 
 ## get all the BB data and format a little
 #dat.all <- read.csv("output/ospree_clean_withchill.csv", header=TRUE)
