@@ -1,3 +1,4 @@
+rm(list = ls())
 ## No one likes factors
 options(stringsAsFactors = FALSE)
 
@@ -88,6 +89,8 @@ for(i in 1:length(trait.list)){
 #faith's Cleaning code
 #--------------------------------------------------------------
 
+
+
 #merge back the reference data 
 tryDataReferenceData <- subset(tryData2, TraitName == "")
 tryDataRef <- rbind(tryData, tryDataReferenceData, fill = TRUE)
@@ -100,7 +103,9 @@ tryDataRef$TraitName[tryDataRef$TraitName == ""] <- tryDataRef$DataName[tryDataR
 tryDataRef$TraitName2 <- tryDataRef$TraitName
 
 #select the first 2000 observations because my comuputer cant manage the file file at once
-tryData20 <- tryDataRef[tryDataRef$ObservationID %in%  unique(tryDataRef$ObservationID)[1:2000],]
+tryData20 <- tryDataRef[tryDataRef$ObservationID %in%  unique(tryDataRef$ObservationID)[1:20000],]
+
+#tryData20 <- tryDataRef
 
 #make a unique id column
 #-----------------------------------
@@ -284,5 +289,5 @@ allTraitsLong <- merge(longTraits, LonTraitsStdAll, by = c("Observation_TraitID"
 #make sure there are no duplicated lines
 allTraitsLong <- allTraitsLong[!duplicated(allTraitsLong),]
 head(allTraitsLong)
-write.csv(allObservations20000, "subsetTry20000.csv")
+write.csv(allTraitsLong, "subsetTry20000.csv")
 
