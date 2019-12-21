@@ -160,6 +160,8 @@ for(obs in unique(tryData202$ObservationID)){
 #bring all the data tabels in teh list together into a single data table 
 tryData20ID <- data.table::rbindlist(tryData20IDList )
 
+head(tryData20ID)
+tryData20ID$Observation_TraitID
 #long to wide data  
 #------------
 tryData20ID$TraitNameStd <- tryData20ID$TraitName
@@ -173,21 +175,28 @@ colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
 	"TraitNameStd","StdValue", "UnitName", "TraitID")
 
+tryData20ID[c(217123, 217124),]
 
-#try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
+
+#spread data 
 dataA1 <- tryData20ID %>%
 	select(colums)%>% 
 	group_by(Observation_TraitID) %>%
-	spread(key = TraitName, value = OrigValueStr)
+	group_by(TraitName) %>% 
+	mutate(group_ID = row_number()) %>% # thsi creates an index group to avoid an error 
+	spread(key = TraitName, value = OrigValueStr) %>%
+    select(-group_ID)  # drop the index
 
 
-#try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
+#spread standard values 
 dataA2 <- tryData20ID %>%
 	select(colums2)%>% 
 	filter(!is.na(StdValue)) %>%
 	group_by(Observation_TraitID) %>%
+	group_by(TraitName) %>%
+	mutate(group_ID = row_number()) %>%
 	spread(key = TraitNameStd, value = StdValue)
-
+    select(-group_ID)  # drop the index
 
 #combined stadard and original data 
 #outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
