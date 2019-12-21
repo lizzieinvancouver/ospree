@@ -36,15 +36,25 @@ tryData <- subset(tryData, TraitName != "")
 ### Skip plant biomass data (only 104 measurements)
 tryData <- subset(tryData, TraitName != c("Plant biomass and allometry: Leaves per plant (emergent, mature, senescent)"))
 ### Lump together all SLA measurements
-tryData$TraitName <- gsub(pattern = "Leaf area per leaf dry mass.*uded", replacement = "Specific leaf area", x = tryData$TraitName)
+tryData$TraitName <- gsub(pattern = "Leaf area per leaf dry mass.*uded", replacement = "Specific_leaf_area", x = tryData$TraitName)
 ### Lump together all Leaf area measurements
-tryData$TraitName <- gsub(pattern = "Leaf area .*)", replacement = "Leaf area", x = tryData$TraitName)
+tryData$TraitName <- gsub(pattern = "Leaf area .*)", replacement = "Leaf_area", x = tryData$TraitName)
 ### Rename Stem specific density
-tryData$TraitName <- gsub(pattern = "Stem specific density.*)", replacement = "Stem specific density", x = tryData$TraitName)
+tryData$TraitName <- gsub(pattern = "Stem specific density.*)", replacement = "Stem_specific_density", x = tryData$TraitName)
 ### Rename Leaf dry mass per leaf
-tryData$TraitName <- gsub(pattern = "Leaf dry mass per leaf.*)", replacement = "Leaf dry matter content", x = tryData$TraitName)
+tryData$TraitName <- gsub(pattern = "Leaf dry mass per leaf.*)", replacement = "Leaf_dry_matter_content", x = tryData$TraitName)
 ### Rename Crown height
-tryData$TraitName <- gsub(pattern = "Crown.*)", replacement = "Crown height", x = tryData$TraitName)
+tryData$TraitName <- gsub(pattern = "Crown.*)", replacement = "Crown_height", x = tryData$TraitName)
+
+#remove any other symbols that might caouse problems later 
+tryData$TraitName  <- gsub( " ", "_", tryData$TraitName )
+tryData$TraitName  <- gsub( "\\(", ".", tryData$TraitName )
+tryData$TraitName  <- gsub( "\\)", ".", tryData$TraitName )
+tryData$TraitName <- gsub( "\\:", ".", tryData$TraitName )
+tryData$TraitName <- gsub( ",", ".", tryData$TraitName )
+
+
+
 ### Now how we do look?
 traitN <- unique(tryData$TraitName)
 traitN # much nicer
@@ -147,15 +157,16 @@ tryData20ID <- data.table::rbindlist(tryData20IDList )
 
 #long to wide data  
 #------------
-
+tryData20ID$TraitNameStd <- tryData20ID$TraitName
+tryData20ID$TraitNameStd <-  paste("std",tryData20ID$TraitName, sep="_")
 
 colums <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"TraitName","OrigValueStr", "TraitID", "TraitName")
+	"TraitName","OrigValueStr", "TraitID")
 
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"TraitName2","StdValue", "UnitName", "TraitID", "TraitName")
+	"TraitNameStd","StdValue", "UnitName", "TraitID")
 
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
@@ -164,39 +175,38 @@ dataA1 <- tryData20ID %>%
 	group_by(Observation_TraitID) %>%
 	spread(key = TraitName, value = OrigValueStr)
 
-tryData20ID$DataName2 <- tryData20ID$DataName
-tryData20ID$DataName2 <-  paste("std",tryData20ID$DataName, sep="_")
 
 #try in dplyr for all - doesnt work, too big. onlyt 2000 observation ids 
 dataA2 <- tryData20ID %>%
-	group_by(Observation_TraitID) %>%
 	select(colums2)%>% 
-	spread(key = TraitName2, value = StdValue)
+	filter(!is.na(StdValue)) %>%
+	group_by(Observation_TraitID) %>%
+	spread(key = TraitNameStd, value = StdValue)
 
 
 #combined stadard and original data 
-outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
+#outAll3 <- merge(dataA1, dataA2, by = c("LastName","FirstName","DatasetID","Dataset","SpeciesName","ObservationID", "Observation_TraitID", "TraitID"))
 
-#loop through all observations to make a wide format dataset 
+#loop through all observations to make a wide format dataset - seperatly for original and standardized data 
 #----------------------------------
 
-#make a list to hold all the data
+#make a list to hold all the data for unstandard data
 observationListAll <- list()
 counter <- 1
 
-for(i in unique(outAll3$Observation_TraitID)){
+for(i in unique(dataA1$Observation_TraitID)){
 
 	#select relevent observation/trait combination 
-	observationDatai2 <- outAll3[outAll3$Observation_TraitID == i,]
+	observationDatai1 <- dataA1[dataA1$Observation_TraitID == i,]
 
 	#collaps all the different values into a single row for that observation/trait
-	collapsedi2 <- data.frame(observationDatai2 %>%
+	collapsedi1 <- data.frame(observationDatai1 %>%
 		group_by(Observation_TraitID) %>%
 		select_if(~sum(!is.na(.)) > 0) %>%
     		summarise_each(funs(first(.[!is.na(.)]))) %>% 
     		ungroup())
 
-	observationListAll[[counter]] <- collapsedi2
+	observationListAll[[counter]] <- collapsedi1
 
 	counter <- counter + 1
 }
@@ -205,12 +215,74 @@ for(i in unique(outAll3$Observation_TraitID)){
 #different sections of teh list. where there is no value for a column it just puts NA
 
 allObservations2000 <- bind_rows(observationListAll)
-names(allObservations2000)
-View(allObservations2000)
+
+#select trait columns 
+colnames(allObservations2000)
+
+traitColumns <- names(allObservations2000)[names(allObservations2000) %in% traitN]
+
+names(allObservations2000)[names(allObservations2000) %in% selectingTraits]
+longTraits <- allObservations2000 %>%
+	pivot_longer(cols = traitColumns , names_to = "Traits", values_drop_na = TRUE)
+
+#repeat, but for standard data 
+#----------------------------------
+
+#make a list to hold all the data for standard data
+observationListAll2 <- list()
+counter2 <- 1
+
+for(i in unique(dataA2$Observation_TraitID)){
+
+	#select relevent observation/trait combination 
+	observationDatai2 <- dataA2[dataA2$Observation_TraitID == i,]
+
+	#collaps all the different values into a single row for that observation/trait
+	collapsedi2 <- data.frame(observationDatai2 %>%
+		group_by(Observation_TraitID) %>%
+		select_if(~sum(!is.na(.)) > 0) %>%
+    		summarise_each(funs(first(.[!is.na(.)]))) %>% 
+    		ungroup())
+
+	observationListAll2[[counter2]] <- collapsedi2
+
+	counter2 <- counter2 + 1
+}
+
+#bind_rows can cope with teh fact that there are different columns in the 
+#different sections of teh list. where there is no value for a column it just puts NA
+
+allObservations20002 <- bind_rows(observationListAll2)
+
+#select only standard trait columns (not standard laittitude, longitude or altitude)
+columnSelect <- c("Observation_TraitID", "LastName",   "FirstName",  "DatasetID",   
+	"Dataset" , "SpeciesName",   "ObservationID" ,"OrigUnitStr",    "UnitName",  "TraitID",
+	"std_Latitude", "std_Longitude", "std_Altitude"  )  
+
+columnsStd <- names(allObservations20002)[!names(allObservations20002) %in% columnSelect]
+
+#move to long format so we have a column for standard trait 
+longTraitsStd <- allObservations20002 %>%
+	pivot_longer(cols = columnsStd, names_to = "Std_Traits", values_drop_na = TRUE)
+
+#move to long format but keep all NAs because otherwise we lose the times when there is 
+	#a standard lat/long but no standard trait 
+longTraitsStdNAs <- allObservations20002 %>%
+	pivot_longer(cols = columnsStd, names_to = "Std_Traits", values_drop_na = FALSE) %>%
+	filter(is.na(value), !is.na(std_Latitude) | !is.na(std_Altitude)) %>%
+	mutate(Std_Traits = replace(Std_Traits , !is.na(Std_Traits), NA))	
+
+#combine the two data tables so we have standard trait data and standard lat/long/altitude data 
+LonTraitsStdAll <- rbind(longTraitsStd, longTraitsStdNAs)
 
 
+#merge long trait and long standardisd traits/values together 
 
+allTraitsLong <- merge(longTraits, LonTraitsStdAll, by = c("Observation_TraitID", "LastName",
+	"DatasetID", "SpeciesName", "ObservationID", "TraitID", "Dataset", "FirstName"))
 
-
+#make sure there are no duplicated lines
+allTraitsLong <- allTraitsLong[!duplicated(allTraitsLong),]
+head(allTraitsLong)
 write.csv(allObservations20000, "subsetTry20000.csv")
 
