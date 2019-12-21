@@ -193,9 +193,9 @@ dataA2 <- tryData20ID %>%
 	select(colums2)%>% 
 	filter(!is.na(StdValue)) %>%
 	group_by(Observation_TraitID) %>%
-	group_by(TraitName) %>%
+	group_by(TraitNameStd) %>%
 	mutate(group_ID = row_number()) %>%
-	spread(key = TraitNameStd, value = StdValue)
+	spread(key = TraitNameStd, value = StdValue)%>%
     select(-group_ID)  # drop the index
 
 #combined stadard and original data 
@@ -235,7 +235,6 @@ colnames(allObservations2000)
 
 traitColumns <- names(allObservations2000)[names(allObservations2000) %in% traitN]
 
-names(allObservations2000)[names(allObservations2000) %in% selectingTraits]
 longTraits <- allObservations2000 %>%
 	pivot_longer(cols = traitColumns , names_to = "Traits", values_drop_na = TRUE)
 
