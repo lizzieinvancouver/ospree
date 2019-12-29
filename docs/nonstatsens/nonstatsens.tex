@@ -13,8 +13,8 @@
 
 % \bibliographystyle{..//..//refs/bibstyles/Science.bst}
 
-\title{Sensitivities are not declining with warming} 
-\author{E. M. Wolkovich$^{1,2,3,a}$, C. J. Chamberlain$^{1,2}$, D. M. Buonaiuto$^{1,2}$, \\ A. K. Ettinger$^1$, I. Morales-Castilla$^{1,2,4}$}
+\title{A simple explanation for declining temperature sensitivity with warming} % Sensitivities are not declining with warming OR As climate change accelerates biology, chasing statistical artifacts ensues
+\author{E. M. Wolkovich$^{1,2,3,a}$, C. J. Chamberlain$^{1,2}$, D. M. Buonaiuto$^{1,2}$, \\ A. K. Ettinger$^1$, I. Morales-Castilla$^{1,2,4}$} % Add Jonathan and Andrew
 
 \date{\today} 
 \maketitle
@@ -26,7 +26,21 @@ $^a$Corresponding author.
 
 \section{Outline \& notes}
 
-Need to work on this, notes to date on \href{https://github.com/lizzieinvancouver/ospree/wiki/Statistical-artifacts-in-sensitivities}{here}
+Need to work on this, notes to date on \href{https://github.com/lizzieinvancouver/ospree/wiki/Statistical-artifacts-in-sensitivities}{here}.\\
+
+\emph{Meeting with Jonathan Auerbach \& Andrew Gelman on 18 December 2019:} 
+
+Fundamental issue is that we have a non-linear relationship ($y=1/x$) being described by a linear function ($y=x$), where $x$ is the mean temp and 1 could be the GDD. The time until you reach a threshold is inversely porportional to the speed you go at. So, at very low temperatures plants would (theoretically) never leaf out and at 200 C days it would take one day. \\
+
+The classic algebra example (they tell me) is how long does it take to drive 200 miles? It depends on your miles per hour. (Side note by Lizzie while typing up these notes: the speed analogy is sort of nice, climate change is stepping on the accelerator, making this algebra problem relevant.)
+
+\begin{itemize}
+\item The artifact comes from the mean getting larger while the variance goes down (I think, I may have this noted wrong, but it's about the mean relative to the variance, not just the variance or the mean). If you make the variance scale with the mean you will see the issue go away (though Andrew pointed out this should be done on the $SD$ scale, not the $var$).
+\item ``The statistical artifact is that fitting a linear regression requires linearity''said  Jonathan Auerbach.
+\item If this was all simple, we could fix it two ways: percent scale (decline relative to some base C temp) or log both axes. (Note from Lizzie: but we don't know when to start accumulating so not sure how this works, though Jonathan seemed to have insight into this.)
+\item An example of inferring process from an artifact is regression to the mean, though Andrew pointed out regression to the mean is more complicated compared to this as regression to the mean is a statistical issue and this is just a deterministic reality. 
+\item Convexity in economics has had similar problems to this. 
+\end{itemize}
 
 \section{Tasks, milestones etc.}
 \begin{itemize}
@@ -35,6 +49,7 @@ Need to work on this, notes to date on \href{https://github.com/lizzieinvancouve
 \item Produce simulated data where chilling is not met (Lizzie has notes on this below enddocument command ... (bucket model).
 \item Do sliding windows for ... BETPEN (done) and FAGSYL from PEP725 and for simulated data.
 \end{itemize}
+\item Chat with Rob Guy for foundational papers that many events like leafout are based on temperature accumulations. 
 \item Review the literature
 \begin{itemize}
 \item Cat did some of this [add LINK HERE]
@@ -46,7 +61,13 @@ Need to work on this, notes to date on \href{https://github.com/lizzieinvancouve
 \item Submit the paper
 \end{itemize}
 
+\section{Literature notes}
 
+
+Sagarin 2001: False estimates of the advance of spring (leap year issues). \\
+
+I noticed as you go back to 2014 and before in my ISI searches, you get a lot of soil respiration lit. And in that literature they use $Q_{10}$ for temperature sensitivities, ``[t]he temperature sensitivity of soil respiration is often expressed as the Q10 value; that is, the factor by which soil respiration increases by a 10°C increase in temperature (e.g., Kirschbaum, 1995; Van't Hoff, 1898),'' which would avoid a good dose of the issue we're seeing.  % definition from https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2017GB005644
+% Van't Hoff, J. H. (1898). Lectures on theoretical and physical chemistry. In Chemical Dynamics Part I (pp. 224–229). London: Edward Arnold.
 
 \section* {Figures}
 
