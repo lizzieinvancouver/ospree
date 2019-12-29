@@ -37,7 +37,7 @@ y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F+ \epsilon_{phe
 
 Put them together somehow like:
 \begin{align*}
-\beta_{forcing_{sp[i]}} &= \alpha_{trait, sp[i]} + \epsilon_{pheno x trait, i}\\
+\beta_{forcing_{sp}} &= \alpha + \beta_{pheno x trait}*\alpha_{trait, sp} + \epsilon_{pheno x trait}\\
 ...
 \end{align*}
 
