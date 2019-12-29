@@ -15,7 +15,7 @@
 {\bf Joint modeling notes and thoughts}\\
 \emph{By Lizzie}\\
 
-Example here is whether traits may help predict phenology from growth chamber studies. Even though we generally estimate chilling, forcing and photoperiod from growth chamber studies I just focus on forcing here to keep things simple (but we could start with even simpler models ... e.g., intercept-only, if needed).\\
+Example here is whether traits may help predict phenology from growth chamber studies. Even though we generally estimate chilling, forcing and photoperiod from growth chamber studies I just focus on forcing ($F$) here to keep things simple (but we could start with even simpler models ... e.g., intercept-only, if needed).\\
 
 One option: Keep each model separate and then try to put together posteriors in new model (this is similar to what Heather Kharouba and I did in our 2018 paper, though only from a single model):\\
 
@@ -23,7 +23,7 @@ Trait model:
 \begin{align*}
 y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
 \alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
-\alpha_{study}  & \sim N(\mu_{study}, \sigma_{study})\\
+\alpha_{study}  & \sim N(\mu_{\alpha, study}, \sigma_{\alpha, study})\\
 \epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
 \end{align*}
 
@@ -48,13 +48,13 @@ In discussion with Michael Betancourt (18 December 2019), he suggested a good op
 \begin{align*}
 y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
 \alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
-\alpha_{study}  & \sim N(\mu_{study}, \sigma_{study})\\
+\alpha_{study}  & \sim N(\mu_{\alpha, study}, \sigma_{\alpha, study})\\
 \epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
 \vspace{1ex}\\
 y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F + \epsilon_{pheno, i}\\
 \beta_{forcing_{sp}} & = \alpha_{forcing_{sp}} + \beta_{trait x pheno}*\alpha_{trait, sp} \\
 \alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
-\alpha_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing})\\
+\alpha_{forcing_{sp}} & \sim N(\mu_{\alpha, forcing}, \sigma_{\alpha, forcing})\\
 \epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
 \end{align*}
 
