@@ -1,0 +1,63 @@
+\documentclass[11pt,letter]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+
+\def\labelitemi{--}
+\parindent=0pt
+
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\renewcommand{\refname}{\CHead{}}
+
+{\bf Joint modeling notes and thoughts}\\
+\emph{By Lizzie}\\
+
+Example here is whether traits may help predict phenology from growth chamber studies. Even though we generally estimate chilling, forcing and photoperiod from growth chamber studies I just focus on forcing here to keep things simple (but we could start with even simpler models ... e.g., intercept-only, if needed).\\
+
+One option: Keep each model separate and then try to put together posteriors in new model (this is similar to what Heather Kharouba and I did in our 2018 paper, though only from a single model):\\
+
+Trait model:
+\begin{align*}
+y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
+\alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
+\alpha_{study}  & \sim N(\mu_{study}, \sigma_{study})\\
+\epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
+\end{align*}
+
+Phenology model:
+\begin{align*}
+y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F+ \epsilon_{pheno, i}\\
+\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
+\beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing})\\
+\epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
+\end{align*}
+
+Put them together somehow like:
+\begin{align*}
+\beta_{forcing_{sp[i]}} &= \alpha_{trait, sp[i]} + \epsilon_{pheno x trait, i}\\
+...
+\end{align*}
+
+Alternatively, we could joint model them. In this case, these three models would be run together in Stan but---because all the parameters are estimated at once---you have to be cautious in formulating a model so that you don't force correlations (in BUGS I am told the `cut' function was designed for just this issue, from openbugs.net: ``[use cut] when we want evidence from one part of a model to form a prior distribution for a second part of the model, but we do not want `feedback' from this second part''). The best approach of course is to try to build your question more clearly into the model. \\
+
+In discussion with Michael Betancourt (18 December 2019), he suggested a good option: add a latent parameter in the phenology model, which can go to zero, if there is no correlation due to traits. Here's my first stab at this (trait model is unchanged but carries through to phenology model):
+
+\begin{align*}
+y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
+\alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
+\alpha_{study}  & \sim N(\mu_{study}, \sigma_{study})\\
+\epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
+\vspace{1ex}\\
+y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F + \epsilon_{pheno, i}\\
+\beta_{forcing_{sp}} & = \alpha_{forcing_{sp}} + \beta_{trait x pheno}*\alpha_{trait, sp} \\
+\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
+\alpha_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing})\\
+\epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
+\end{align*}
+
+Ideally (if we write this correctly, which I am not sure I have), the model would test our question about how much traits may inform phenology via the $\beta_{trait x pheno}$ term; if the traits don't correlate with phenology then $\beta_{trait x pheno}$ can go to zero (and variation can load on $\alpha_{forcing_{sp}}$).
+
+\end{document}
