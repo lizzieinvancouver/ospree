@@ -31,7 +31,7 @@ sigma <- 4
 basetemp <- 6
 fstar <- 150
 
-df <- data.frame(degwarm=numeric(), rep=numeric(), simplelm=numeric(), loglm=numeric())
+df <- data.frame(degwarm=numeric(), rep=numeric(), simplelm=numeric(), loglm=numeric(), perlm=numeric())
 
 for (i in degreez){
    for (j in 1:sitez){
@@ -39,16 +39,21 @@ for (i in degreez){
        daily_temp <- sapply(yearly_expected_temp, function(x) rnorm(daysperyr, basetemp + i, sigma)) 
        leafout_date <- sapply(1:ncol(daily_temp), function(x) min(which(cumsum(daily_temp[,x]) > fstar)))
        yearly_temp <- colMeans(daily_temp)
+       per_leafout_date <- leafout_date/mean(leafout_date)
+       per_yearly_temp <- yearly_temp/mean(yearly_temp)
        plot(yearly_temp, leafout_date, pch=20)
        # yearly_temp_trunc <- sapply(1:ncol(daily_temp), function(x) mean(daily_temp[1:leafout_date[x], x]))
        dfadd <- data.frame(degwarm=i, rep=j, simplelm=coef(lm(leafout_date~yearly_temp))[2],
-           loglm=coef(lm(log(leafout_date)~log(yearly_temp)))[2])
+           loglm=coef(lm(log(leafout_date)~log(yearly_temp)))[2],
+           perlm=coef(lm(per_leafout_date~per_yearly_temp))[2])
        df <- rbind(df, dfadd)
     }
 }
 
 plot(simplelm~degwarm, data=df, pch=16, ylab="Sensitivity (days/C or log(days)/log(C)", xlab="Degree warming")
 points(loglm~degwarm, data=df, col="dodgerblue")
+plot(perlm~degwarm, data=df, col="firebrick")
+
 
 plot(abs(simplelm)~degwarm, data=df, col="lightgrey",
     ylab="Abs(Sensitivity (days/C or log(days)/log(C))", xlab="Degree warming")
