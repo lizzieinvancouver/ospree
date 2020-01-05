@@ -31,6 +31,7 @@ sigma <- 4
 basetemp <- 6
 fstar <- 150
 
+# Step 2: Build the data and calculate sensitivities
 df <- data.frame(degwarm=numeric(), rep=numeric(), simplelm=numeric(), loglm=numeric(), perlm=numeric())
 
 for (i in degreez){
