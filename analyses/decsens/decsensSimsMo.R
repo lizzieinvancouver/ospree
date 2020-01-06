@@ -11,6 +11,15 @@
 # (a) Make sure daily temp is working correctly
 # (b) Look more at the intermediate output to make sure it makes sense
 
+## housekeeping
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
+
+# set.seed(113)
+
+# Setting working directory. 
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/decsens")
+
 
 # Step 1: Set up years, days per year, temperatures, required GDD (fstar), required chill (cstar) and how much higher fstar is when cstar is not met
 daysperseason <- 100
@@ -123,3 +132,38 @@ for (i in degreez){
 plot(simplelm~degwarm, data=df, pch=16, ylab="Sensitivity (days/C or log(days)/log(C)", xlab="Degree warming")
 points(loglm~degwarm, data=df, col="dodgerblue")
 plot(perlm~degwarm, data=df, col="firebrick")
+
+
+##############
+## Plotting ##
+##############
+
+mean.sims <- aggregate(df[c("simplelm", "loglm", "perlm")], df["degwarm"], FUN=mean)
+sd.sims <- aggregate(df[c("simplelm", "loglm", "perlm")], df["degwarm"], FUN=sd)
+
+cexhere <- 0.95
+pdf(file.path("figures/shiftingcuessims.pdf"), width = 6, height = 4)
+par(xpd=FALSE)
+par(mar=c(5,5,2,2))
+plot(x=NULL,y=NULL, xlim=c(-0.5, 8), ylim=c(-15, 5),
+     ylab=expression(paste("Estimated sensitivity (days/", degree, "C)"), sep=""),
+         xlab=expression(paste("Warming (", degree, "C)")), main="")
+# abline(h=0, lty=2, col="darkgrey")
+for(i in 1:length(unique(mean.sims$degwarm))){
+  pos.x <- mean.sims$degwarm[i]
+  pos.y <- mean.sims$simplelm[i]
+  sdhere <- sd.sims$simplelm[i]
+  lines(x=rep(pos.x, 2), y=c(pos.y-sdhere, pos.y+sdhere), col="darkblue")
+  points(pos.x, pos.y, cex=cexhere, pch=19, col="darkblue")
+  }
+for(i in 1:length(unique(mean.sims$degwarm))){
+  pos.x <- mean.sims$degwarm[i]
+  pos.y <- mean.sims$loglm[i]
+  sdhere <- sd.sims$loglm[i]
+  lines(x=rep(pos.x, 2), y=c(pos.y-sdhere, pos.y+sdhere), col="salmon")
+  points(pos.x, pos.y, cex=cexhere, pch=19, col="salmon")
+  }
+# par(xpd=TRUE) # so I can plot legend outside
+legend("bottomright", pch=c(19, 19), col=c("darkblue", "salmon"), legend=c("Simple linear regression", "Using logged variables"),
+   cex=1, bty="n")
+dev.off()
