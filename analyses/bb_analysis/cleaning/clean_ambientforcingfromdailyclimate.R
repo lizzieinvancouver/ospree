@@ -125,7 +125,10 @@ for(i in 1:nrow(bb)){
 ## this data is not appended to d, but it is not a problem given that it is all NAs belonging to biasi12
 
 ## saving results to output - d
+bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, lastchilldate, uniqueID))
+d <- full_join(d, bb.sub)
 
+if(FALSE){
 # generate indexes
 uniquevalsd <- apply(d,1,paste,collapse="")
 uniquevalsbb <- apply(bb[which(names(bb)%in%names(d))],1,paste,collapse="")
@@ -136,6 +139,7 @@ indexd <- which(uniquevalsd %in% uniquevalsbb)
 # append average ambient forcing temperature to ospree dataset d 
 d$avg_bbtemp <- NA
 d[indexd,"avg_bbtemp"] <- bb$avg_bbtemp[indexbb]
+}
 
 # note that only 2K rows have entires in avg_bbtemp and all have forcetemp
 if(FALSE){
