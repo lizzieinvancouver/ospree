@@ -91,26 +91,28 @@ for(i in 1:length(trait.list)){
 
 
 
-#merge back the reference data 
+#merge back the reference data
 tryDataReferenceData <- subset(tryData2, TraitName == "")
 tryDataRef <- rbind(tryData, tryDataReferenceData, fill = TRUE)
 tryDataRef <- tryDataRef[order(tryDataRef$counterID),] 
 
-#fill TraitName column with the the extra reference data
+#fill TraitName column with the the extra reference data, so now we know what rows refer to 
+#lat and long data for example. This makes reshaping data later much easier  
 tryDataRef$TraitName[tryDataRef$TraitName == ""] <- tryDataRef$DataName[tryDataRef$TraitName == ""]
 
 #make a second Trait column for the unstandardised values of non-traits 
 tryDataRef$TraitName2 <- tryDataRef$TraitName
 
-#select the first 2000 observations because my comuputer cant manage the file file at once
-tryData20 <- tryDataRef[tryDataRef$ObservationID %in%  unique(tryDataRef$ObservationID)[1:20000],]
+#select the first 2000 observations because my comuputer cant manage the file file at once (i dodnt need to do that now fj)
+#tryData20 <- tryDataRef[tryDataRef$ObservationID %in%  unique(tryDataRef$ObservationID)[1:2000],]
 
-#tryData20 <- tryDataRef
+tryData20 <- tryDataRef
 
 #make a unique id column
 #-----------------------------------
 
 #make a column with the info on how many traits there are in each observation
+#so we can see how much of a problem this is and for the loop below 
 tryData202 <- data.frame(tryData20 %>%
 	group_by (ObservationID) %>%
 	mutate(n_Trait = n_distinct(TraitID, na.rm = TRUE)))
@@ -120,11 +122,12 @@ tryData202 <- data.frame(tryData20 %>%
 tryData202$Observation_TraitID <- tryData202$ObservationID
 
 #run the main loop that replicates the additional information for 
-#each observation-trait so we can make a useful id column 
+#each observation-trait so we can make a useful id column (Observation_TraitID)
 
 tryData20IDList <- list()
 
 i <- 1
+#obs <- 16000
 
 for(obs in unique(tryData202$ObservationID)){
 
@@ -162,6 +165,7 @@ tryData20ID <- data.table::rbindlist(tryData20IDList )
 
 head(tryData20ID)
 tryData20ID$Observation_TraitID
+
 #long to wide data  
 #------------
 tryData20ID$TraitNameStd <- tryData20ID$TraitName
@@ -225,7 +229,7 @@ for(i in unique(dataA1$Observation_TraitID)){
 	counter <- counter + 1
 }
 
-#bind_rows can cope with teh fact that there are different columns in the 
+#bind_rows can cope with the fact that there are different columns in the 
 #different sections of teh list. where there is no value for a column it just puts NA
 
 allObservations2000 <- bind_rows(observationListAll)
@@ -262,12 +266,12 @@ for(i in unique(dataA2$Observation_TraitID)){
 	counter2 <- counter2 + 1
 }
 
-#bind_rows can cope with teh fact that there are different columns in the 
+#bind_rows can cope with the fact that there are different columns in the 
 #different sections of teh list. where there is no value for a column it just puts NA
 
 allObservations20002 <- bind_rows(observationListAll2)
 
-#select only standard trait columns (not standard laittitude, longitude or altitude)
+#select only standard trait columns 
 columnSelect <- c("Observation_TraitID", "LastName",   "FirstName",  "DatasetID",   
 	"Dataset" , "SpeciesName",   "ObservationID" ,"OrigUnitStr",    "UnitName",  "TraitID",
 	"std_Latitude", "std_Longitude", "std_Altitude"  )  
@@ -297,5 +301,5 @@ allTraitsLong <- merge(longTraits, LonTraitsStdAll, by = c("Observation_TraitID"
 #make sure there are no duplicated lines
 allTraitsLong <- allTraitsLong[!duplicated(allTraitsLong),]
 head(allTraitsLong)
-write.csv(allTraitsLong, "subsetTry20000.csv")
-
+#write.csv(allTraitsLong, "subsetTry20000.csv")
+write.csv(allTraitsLong, "TryDataCleaned.csv")
