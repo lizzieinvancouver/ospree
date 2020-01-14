@@ -32,34 +32,72 @@ library('foreach')
 library('doParallel')
 
 
-
 climatedrive = "/Volumes/climdata" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
-## as they are heavy - 2.2Gb) - E-OBS at http://opendap.knmi.nl/knmi/thredds/catalog/e-obs_0.50regular/catalog.html
-tmin<-brick("~/Data_Harvard/EU trees/tn_0.50deg_reg_v17.0.nc", varname="tn", sep="")
-tmax<-brick("~/Data_Harvard/EU trees/tx_0.50deg_reg_v17.0.nc", varname="tx", sep="")
-tmin<-brick("~/Data_Harvard/EU trees/tn_ens_mean_0.25deg_reg_v20.0e.nc", varname="tn", sep="")
-tmax<-brick("~/Data_Harvard/EU trees/tx_ens_mean_0.25deg_reg_v20.0e.nc", varname="tx", sep="")
+nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 
 
-
-## load species list (beware this list has both species and complexes and is not the final one
-## please change accordingly to read final species list)
-species.list <- read.csv("../phylogeny/input/spslist.csv")
-species.list <- sort(species.list$Species_binomial)
+## load species list 
+species.list <- read.csv("..//output/masterspecieslist.csv")
+species.list <- as.vector(species.list$x)
 
 
 ## read in list of species with distribution shapefiles
 # get a list of the polygon shapefiles in the .zip with the maps
-zipped_names <- grep('\\_plg.shp$', unzip("../../data/distributiondata/chorological_maps_dataset_20170220.zip",
+zipped_names <- grep('\\.shp', unzip("NA_range_files/NA_ranges.zip",
                                           list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
-species.list.maps <- unlist(lapply(strsplit(sub(".*/", "", zipped_names),"_"),
-                                   function(x){return(paste(x[1],x[2],sep="_"))}))
+species.list.maps <- unlist(zipped_names)
+species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
+
+## Now I need to rename these folders to match the ospree info
+names(species.list.maps) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
+                              "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+                              "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
+                              "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca")
 
 # get a list of species in ospree for which we have EU maps
-ospreespslist <- species.list[which(species.list %in% species.list.maps)]
+ospreespslist <- species.list[which(species.list %in% names(species.list.maps))]
+## This takes out:
+  # Alnus rubra
+ospreespslist <- c(ospreespslist, "Alnus_rubra")
+
+### Attempt to stack raster layers for princeton to maybe make more streamlined...
+allclimyrs <- 1979:2016
+tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",for(i in allclimyrs){print(i)}), full.names = TRUE)
+tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",1979), full.names = TRUE)
+tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",for(i in allclimyrs){i}), full.names = TRUE)
+#tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",yr-1), full.names = TRUE)
+tmaxstack<-stack(tmaxlist)
+
+tmaxtest <- brick(tmaxstack)
+ncvar_put(tmaxtest)
+#nc_close(tmaxtest)
+
+plot(tmaxtest[[1]])
+
+
+
+leapyears <- seq(1952, 2020, by=4)
+yrend <- vector()
+chillstart <- vector()
+for(k in yr){
+  yrend <- ifelse(k%in%leapyears, 366, 365)
+  chillstart <- ifelse(k%in%leapyears,245, 244)
+}
+
+for(l in yr){
+  yrendprev <- ifelse(k%in%leapyears, 366, 365)
+  chillstart <- ifelse(k%in%leapyears,245, 244)
+}
+
+#jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
+jx$dim$time$vals<-seq(1, yrend, by=1)
+thisyr <- which(jx$dim$time$vals<=doyend)
+
+jxprev$dim$time$vals<-seq(1, yrendprev, by=1)
+lastyr <- which(jxprev$dim$time$vals>=chillstart)
 
 
 # define period
