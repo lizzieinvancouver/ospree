@@ -126,7 +126,8 @@ for(i in 1:nrow(bb)){
 
 ## saving results to output - d
 bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, lastchilldate, uniqueID))
-d <- full_join(d, bb.sub)
+foo <- merge(d, bb.sub) ## 7857 rows of data (so subsets down to only data with ambient forcing)
+goo <- full_join(d, bb.sub) ## is still full dataset 11959 rows
 
 if(FALSE){
 # generate indexes
