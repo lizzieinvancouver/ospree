@@ -88,4 +88,72 @@ summary(lm(mean.resp~mean_whole_ht,data=bey), col="red")
 # Coefficients:
 #   Estimate Std. Error t value Pr(>|t|)    
 # (Intercept)    21.0946     3.6834   5.727 1.14e-06 ***
-#   mean_whole_ht   0.6100     0.2358   2.587   0.0134 *  
+#   mean_whole_ht   0.6100     0.2358   2.587   0.0134 * 
+
+
+###### LDMC ###################################
+sp_list<-unique(trt$speciesname)
+names(trt)
+icecube<-data.frame(genus=c(),species=c(), mean.ldmc=c())
+for (i in 1:length(sp_list)){
+  temp<-subset(trt, speciesname == sp_list[i] & ldmc>0)
+  icecube.temp<-data.frame(genus=temp$genus[1],species=temp$species[1],mean.ldmc=mean(temp$ldmc))
+  icecube<-rbind(icecube, icecube.temp)
+}
+head(icecube)
+
+# Merge with the ospree data for each species, but only for respvar== budburst day
+names(bb.noNA)
+unique(bb.noNA$chilltemp)
+
+
+beyonce<-subset(bb.noNA, respvar == "daystobudburst" & response.time<999 & chilltemp=="")
+
+beyonce<-beyonce[,c(5,6,26,27,28)];
+#head(beyonce)
+mean.resp<-beyonce %>%
+  group_by(genus,species) %>%
+  summarise(mean.resp=mean(response.time))
+
+bey<-merge(icecube, mean.resp, by=c("genus","species"))
+head(bey)
+
+unique(beyonce$response)
+plot(mean.resp~mean.ldmc,data=bey)
+abline(lm(mean.resp~mean.ldmc,data=bey), col="red")
+summary(lm(mean.resp~mean.ldmc,data=bey), col="red")
+
+###### Wood stem density ###################################
+sp_list<-unique(trt$speciesname)
+names(trt)
+
+chance<-data.frame(genus=c(),species=c(), mean.swd=c())
+for (i in 1:length(sp_list)){
+  temp<-subset(trt, speciesname == sp_list[i] & stem.wood.density>0)
+  chance.temp<-data.frame(genus=temp$genus[1],species=temp$species[1],mean.swd=mean(temp$stem.wood.density))
+  chance<-rbind(chance, chance.temp)
+}
+head(chance)
+
+# Merge with the ospree data for each species, but only for respvar== budburst day
+names(bb.noNA)
+unique(bb.noNA$chilltemp)
+
+
+pak<-subset(bb.noNA, respvar == "daystobudburst" & response.time<999 & chilltemp=="")
+
+pak<-pak[,c(5,6,26,27,28)];
+#head(beyonce)
+mean.resp<-pak %>%
+  group_by(genus,species) %>%
+  summarise(mean.resp=mean(response.time))
+
+pac<-merge(chance, mean.resp, by=c("genus","species"))
+head(pac)
+
+
+plot(mean.resp~mean.swd,data=pac)
+abline(lm(mean.resp~mean.swd,data=pac), col="red")
+summary(lm(mean.resp~mean.swd,data=pac), col="red")
+
+## Ailene's paper includes mean values - rerun model with updated data, extracting mean values * values reported in paper = mean response value

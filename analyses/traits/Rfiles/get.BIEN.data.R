@@ -195,7 +195,7 @@ for (i in c(2:length(test))){
 
 BIEN_traitdata<-rbind(result, traitadd)
 
-head(traitadd)
+length(unique(BIEN_traitdata$scrubbed_species_binomial))
 
 
 require(tidyr)

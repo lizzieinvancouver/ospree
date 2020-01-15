@@ -10,7 +10,7 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 #} 
 
 #Since the try data is still being cleaned, we are moving forward with the cleaning and plotting/preliminary testing of our hypotheses with the BIEN data
-biendat<-read.csv("input/Phylospp_BIEN_traitdata.csv", header=TRUE)
+biendat<-read.csv("input/newspp_BIEN_traitdata_Nov11.csv", header=TRUE)
 
 head(biendat)
 length(unique(biendat$scrubbed_species_binomial))
@@ -25,6 +25,8 @@ colnames(biendat)[colnames(biendat)=="maximum.whole.plant.height"] <- "maximum.p
 colnames(biendat)[colnames(biendat)=="leaf.area.per.leaf.dry.mass"] <- "ldmc"
 colnames(biendat)[colnames(biendat)=="leaf.carbon.content.per.leaf.nitrogen.content"] <- "leaf carbon/nitrogen (c/n) ratio"
 colnames(biendat)[colnames(biendat)=="leaf.dry.mass.per.leaf.fresh.mass"] <-"leaf.dry.matter.content.per.leaf.water-saturated.mass.(ldmc)"
+colnames(biendat)[colnames(biendat)=="trait_value"] <-"value"
+colnames(biendat)[colnames(biendat)=="trait_name"] <-"trait"
 
 names(biendat)
 
