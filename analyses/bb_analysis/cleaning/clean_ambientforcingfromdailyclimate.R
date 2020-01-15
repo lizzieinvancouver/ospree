@@ -125,8 +125,10 @@ for(i in 1:nrow(bb)){
 ## this data is not appended to d, but it is not a problem given that it is all NAs belonging to biasi12
 
 ## saving results to output - d
-bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, lastchilldate, uniqueID))
-foo <- merge(d, bb.sub) ## 7857 rows of data (so subsets down to only data with ambient forcing)
+bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, lastchilldate))
+d$uniqueID <- paste(d$datasetID, d$fieldsample.date2, d$forcetemp, d$chilltemp, 
+                        d$chilldays,d$chillphotoperiod, d$photoperiod_day)
+foo <- merge(d, bb.sub, by="uniqueID", all.y=TRUE) ## 7857 rows of data (so subsets down to only data with ambient forcing)
 goo <- full_join(d, bb.sub) ## is still full dataset 11959 rows
 
 if(FALSE){
