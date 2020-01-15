@@ -25,6 +25,7 @@ if(length(grep("lizzie", getwd())>0)) {
 
 ## load packages
 library('raster')
+library(rgdal)
 library('ncdf4')
 library('abind')
 library('chillR')
@@ -65,39 +66,21 @@ ospreespslist <- c(ospreespslist, "Alnus_rubra")
 
 ### Attempt to stack raster layers for princeton to maybe make more streamlined...
 allclimyrs <- 1979:2016
-tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",for(i in allclimyrs){print(i)}), full.names = TRUE)
-tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",1979), full.names = TRUE)
-tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",for(i in allclimyrs){i}), full.names = TRUE)
-#tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",yr-1), full.names = TRUE)
-tmaxstack<-stack(tmaxlist)
+tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE)
+tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs, collapse="|"), full.names = TRUE)
+tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",1979), full.names = TRUE)
+tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
 
-tmaxtest <- brick(tmaxstack)
-ncvar_put(tmaxtest)
-#nc_close(tmaxtest)
-
-plot(tmaxtest[[1]])
-
-
+test <- stack(tminprev)
 
 leapyears <- seq(1952, 2020, by=4)
 yrend <- vector()
-chillstart <- vector()
-for(k in yr){
+for(k in allclimyrs){
   yrend <- ifelse(k%in%leapyears, 366, 365)
-  chillstart <- ifelse(k%in%leapyears,245, 244)
 }
 
-for(l in yr){
-  yrendprev <- ifelse(k%in%leapyears, 366, 365)
-  chillstart <- ifelse(k%in%leapyears,245, 244)
-}
-
-#jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")
-jx$dim$time$vals<-seq(1, yrend, by=1)
+names(tmaxtest)<-rep(seq(1, yrend, by=1), 37)
 thisyr <- which(jx$dim$time$vals<=doyend)
-
-jxprev$dim$time$vals<-seq(1, yrendprev, by=1)
-lastyr <- which(jxprev$dim$time$vals>=chillstart)
 
 
 # define period
