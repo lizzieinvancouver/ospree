@@ -98,8 +98,8 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
   row.names(chillforcespsyears)<-period
-  colnames(chillforcespsyears)<-c("UtahChill","ChillPortions",
-                                  "GDD", "MeanTemp", "Site")
+  colnames(chillforcespsyears)<-c("GDD", "GDD.sd", "UtahChill", "UtahChill.sd", "ChillPortions",
+                                  "ChillPortions.sd")
   #dimnames(chillforcespsyears)<-spslist
   
   mins <- maxs <- vector()
@@ -131,7 +131,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     yrend <- ifelse((j-1)%in%leapyears,366,365)
     
     
-    yearlyresults<-array(NA,dim=c(length(period),5))
+    yearlyresults<-array(NA,dim=c(length(period),6))
     ## commence loop  
     for (i in 1:nsps){#i=1 #spslist=ospreespslist[i]
       print(c(i, j))
@@ -160,25 +160,26 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       tminshpchill <- stack(c(tminshpchill1, tminshpchill2))
       values(tminshpchill)<-values(tminshpchill)-273.15
       
-      #spsshapeproj <- spsshape
-      #proj4string(spsshapeproj) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+      spsshapeproj <- spsshape
+      proj4string(spsshapeproj) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
       
       # extract values and format to compute means and sdevs
-      tempsforcemin<-extract(tminshpforce,spsshape)
-      tempsforcemax<-extract(tmaxshpforce,spsshape)
-      tempschillmin<-extract(tminshpchill,spsshape)
-      tempschillmax<-extract(tmaxshpchill,spsshape)
+      tempsforcemin<-extract(tminshpforce,spsshapeproj,cellnumbers=TRUE)
+      tempsforcemax<-extract(tmaxshpforce,spsshapeproj,cellnumbers=TRUE)
+      tempschillmin<-extract(tminshpchill,spsshapeproj,cellnumbers=TRUE)
+      tempschillmax<-extract(tmaxshpchill,spsshapeproj,cellnumbers=TRUE)
       #tempsforces<-extract(yearsforce,spsshapeproj,cellnumbers=T)
       
       chmin<-do.call("rbind",tempschillmin)
       chmin<-subset(chmin,!is.na(rowSums(chmin)))
       chmin<-as.data.frame(chmin)
-      names(chmin) <- c(c(chillstart:yrend), c(1:chillend))
+      names(chmin) <- c("z", c(chillstart:yrend), c(1:chillend))
       chmax<-do.call("rbind",tempschillmax)
       chmax<-subset(chmax,!is.na(rowSums(chmax)))
       chmax<-as.data.frame(chmax)
-      names(chmax) <- c(c(chillstart:yrend), c(1:chillend))
+      names(chmax) <- c("z", c(chillstart:yrend), c(1:chillend))
       
+      # get coordinates and names
       chcoordmin<-coordinates(tminshpchill[[1]])[chmin[,1],]
       chcoordmax<-coordinates(tmaxshpchill[[1]])[chmax[,1],]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
@@ -203,91 +204,114 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         
       }
       
-      minmaxtemp<-abind(chmin,chmax, along = 3)
-      
-      tmaxchill <- as.vector(apply(minmaxtemp, 1, function(x){x[3:nrow(x),2]}))
-      tminchill <- as.vector(apply(minmaxtemp, 1, function(x){x[3:nrow(x),1]}))
-      meandaily <- (tmaxchill+tminchill)/2
-      
-      hrly.temp=
-        data.frame(
-          Temp = c(rep(meandaily, each = 24)), ##length=3178248
-          Year = c(rep(as.numeric(j), times=3178248)),
-          #JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
-          JDay = sort(c(rep(seq(1:length(colnames(minmaxtemp))), times=3178248)))
-        )
-      
-      #turn into data frame and remove NAs
       wamin<-do.call("rbind",tempsforcemin)
       wamin<-subset(wamin,!is.na(rowSums(wamin)))
       wamin<-as.data.frame(wamin)
-      names(wamin) <- c(c(forcestart:forceend))
+      names(wamin) <- c("z",forcestart:forceend)
       wamax<-do.call("rbind",tempsforcemax)
       wamax<-subset(wamax,!is.na(rowSums(wamax)))
       wamax<-as.data.frame(wamax)
-      names(wamax) <- c(c(forcestart:forceend))
+      names(wamax) <- c("z",forcestart:forceend)
       
-      wamin<-cbind(chcoordmin,wamin[,2:ncol(wamin)])
-      wamax<-cbind(chcoordmax,wamax[,2:ncol(wamax)])
+      ffcoordmin<-coordinates(tminshpforce[[1]])[wamin[,1],]
+      ffcoordmax<-coordinates(tmaxshpforce[[1]])[wamax[,1],]
+      ffmin<-cbind(ffcoordmin,wamin[,2:ncol(wamin)])
+      ffmax<-cbind(ffcoordmin,wamax[,2:ncol(wamax)])
       
-      if(nrow(wamin)!=nrow(wamax)){
-        namcoo1<-apply(chcoordmin,1,function(x){return(paste(x[1],x[2],sep="_"))})  
-        namcoo2<-apply(chcoordmax,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+      wamin<-wamin[,2:93]
+      wamax<-wamax[,2:93]
+      
+      if(nrow(ffmin)!=nrow(ffmax)){
+        namcoo1<-apply(ffcoordmin,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+        namcoo2<-apply(ffcoordmax,1,function(x){return(paste(x[1],x[2],sep="_"))})  
         
         torem<-which(!namcoo1%in%namcoo2)
         torem2<-which(!namcoo2%in%namcoo1)
         
         
         if(length(torem)>0){
-          wamin=wamin[-torem,]    
+          ffmin=ffmin[-torem,]    
         }
         
         if(length(torem2)>0){
-          wamax=wamax[-torem2,]    
+          ffmax=ffmax[-torem2,]    
         }
         
         
       }
       
-      minmaxtemp.force<-abind(wamin,wamax, along = 3)
+      minmaxtemp.warm<-abind(ffmin,ffmax, along = 3)
+      dateswa<-as.Date(as.numeric(colnames(wamin)),origin=paste0(j,"-01-01"))
       
-      tmaxforce <- as.vector(apply(minmaxtemp.force, 1, function(x){x[3:nrow(x),2]}))
-      tminforce <- as.vector(apply(minmaxtemp.force, 1, function(x){x[3:nrow(x),1]}))
-      meandaily.force <- (tmaxforce+tminforce)/2
+      warmunitseachcelleachday<-do.call(rbind,
+                                         apply(minmaxtemp.warm,1,function(x){
+                                           #x<-minmaxtemp[300,,]
+                                           extracweathdf<-data.frame(
+                                             Year=as.numeric(format(dateswa,"%Y")),
+                                             Month=as.numeric(format(dateswa,"%m")),
+                                             Day=as.numeric(format(dateswa,"%d")),
+                                             Tmax=x[3:nrow(x),2],
+                                             Tmin=x[3:nrow(x),1]
+                                           )
+                                           weather<-fix_weather(extracweathdf)
+                                           hourtemps<-stack_hourly_temps(weather,latitude=x[2])
+                                           wrm<-chilling(hourtemps,forcestart,forceend)
+                                           
+                                           return(wrm)
+                                           
+                                         }
+                                         ))
       
-      hrly.temp.force=
-        data.frame(
-          Temp = c(rep(meandaily.force, each = 24)), ##length=1915368
-          Year = c(rep(as.numeric(j), times=1915368)),
-          #JDay = sort(c(rep(seq(1:length(colnames(meandaily))), times = 24)))
-          JDay = sort(c(rep(seq(1:length(colnames(minmaxtemp.force))), times=1915368)))
-        )
+      #chmin<-chmin[,3:151]
+      #chmax<-chmax[,3:151]
+      minmaxtemp<-abind(chmin,chmax, along = 3)
+      chmindates<-chmin[,3:154]
+      days<-as.numeric(colnames(chmindates))
+      jfordates<-ifelse(days>=270, j-1, j)
+      datesch<-as.Date(days,origin=paste0(jfordates,"-01-01"))
       
-      chillcalc.mn<-chilling(hrly.temp, hrly.temp$JDay[1], hrly.temp$JDay[nrow(hrly.temp[1])])
-      warmcalc.mn<-chilling(hrly.temp.force, hrly.temp.force$JDay[1], hrly.temp.force$JDay[nrow(hrly.temp.force[1])])
+      chillunitseachcelleachday<-do.call(rbind,
+                                         apply(minmaxtemp,1,function(x){
+                                           #x<-minmaxtemp[300,,]
+                                           extracweathdf<-data.frame(
+                                             Year=as.numeric(format(datesch,"%Y")),
+                                             Month=as.numeric(format(datesch,"%m")),
+                                             Day=as.numeric(format(datesch,"%d")),
+                                             Tmax=x[3:nrow(x),2],
+                                             Tmin=x[3:nrow(x),1]
+                                           )
+                                           weather<-fix_weather(extracweathdf)
+                                           hourtemps<-stack_hourly_temps(weather,latitude=x[2])
+                                           chll<-chilling(hourtemps,275,60)
+                                           
+                                           return(chll)
+                                           
+                                         }
+                                         ))
       
-      yearlyresults[which(period==j),1]<-chillcalc.mn$Utah_Model[which(chillcalc.mn$End_year==j)]
-      yearlyresults[which(period==j),2]<-chillcalc.mn$Chill_portions[which(chillcalc.mn$End_year==j)]
-      yearlyresults[which(period==j),3]<-(warmcalc.mn$GDH[which(warmcalc.mn$End_year==j)])/24
-      yearlyresults[which(period==j),4]<-mean(hrly.temp.warm$Temp, na.rm=TRUE)
       
-      yearlyresults[which(period==j),5]<-sites$siteslist[i]
+      
+      yearlyresults[which(period==j),1]<-mean((warmunitseachcelleachday$GDH)/24,na.rm=T)
+      yearlyresults[which(period==j),2]<-sd((warmunitseachcelleachday$GDH)/24,na.rm=T)
+      yearlyresults[which(period==j),3]<-mean(chillunitseachcelleachday$Utah_Model,na.rm=T)
+      yearlyresults[which(period==j),4]<-sd(chillunitseachcelleachday$Utah_Model,na.rm=T)
+      yearlyresults[which(period==j),5]<-mean(chillunitseachcelleachday$Chill_portions,na.rm=T)
+      yearlyresults[which(period==j),6]<-sd(chillunitseachcelleachday$Chill_portions,na.rm=T)
       
     }
     
-    climateyears[,,i]<-yearlyresults
+    chillforcespsyears[,,i]<-yearlyresults
     
-  } 
+  }  
   
-  return(climateyears)
+  return(chillforcespsyears)
   
 }
-
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 climaterangecheck <- extractchillforce(ospreelist[[1]], tmin, tmax, 1980)
-Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
+#Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
 
 
 
