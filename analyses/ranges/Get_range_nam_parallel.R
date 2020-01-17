@@ -64,35 +64,36 @@ ospreespslist <- species.list[which(species.list %in% names(species.list.maps))]
   # Alnus rubra
 ospreespslist <- c(ospreespslist, "Alnus_rubra")
 
+if(FALSE){
 ### Attempt to stack raster layers for princeton to maybe make more streamlined...
-allclimyrs <- 1979:2016
-tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE)
-tmin <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs, collapse="|"), full.names = TRUE)
-tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",1979), full.names = TRUE)
-tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
+allclimyrs <- 1980:2016
+tmaxlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE), raster)
+tmaxstack <- stack(tmaxlist)
+tmaxall <- brick(tmaxstack)
+#plot(tmax[[1]])
+tminlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs,collapse="|"), full.names = TRUE), raster)
+tminstack <- stack(tminlist)
+tminall <- brick(tminstack)
+#tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
 
-test <- stack(tminprev)
+tmaxall <- rotate(tmaxall)
+tminall <- rotate(tminall)
 
-leapyears <- seq(1952, 2020, by=4)
-yrend <- vector()
-for(k in allclimyrs){
-  yrend <- ifelse(k%in%leapyears, 366, 365)
+e <- extent(-180, -50, 25, 80)
+tmaxall <- crop(tmaxall, e)
+tminall <- crop(tminall, e)
 }
 
-names(tmaxtest)<-rep(seq(1, yrend, by=1), 37)
-thisyr <- which(jx$dim$time$vals<=doyend)
-
-
 # define period
-period<-1980:2017
+period<-1980:2016
 #period<-2009:2010
 
 
 ## set function
 extractchillforce<-function(spslist,tmin,tmax,period){
   
-  ## define array to store results
-  nsps<-length(spslist)
+  ## define array to store results ## i=1
+  nsps<-length(ospreespslist) #nsps<-length(spslist)
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
   row.names(chillforcespsyears)<-period
@@ -101,48 +102,59 @@ extractchillforce<-function(spslist,tmin,tmax,period){
                                   "Mean.Chill.Portions","SDev.Chill.Portions")
   #dimnames(chillforcespsyears)<-spslist
   
-  ## subset climate years
-  yearsinclim<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
-  yearsinperiod<-which(yearsinclim%in%period)
-  climsub.min<-subset(tmin,yearsinperiod)
-  climsub.max<-subset(tmax,yearsinperiod)
+  mins <- maxs <- vector()
   
-  ## subset climate days
-  monthsinclim<-as.numeric(format(as.Date(names(climsub.min),format="X%Y.%m.%d"),"%m"))
-  chillmonths<-c(10:12,1:2)
-  forcingmonths<-c(3:5)
-  monthsinchill<-which(monthsinclim%in%chillmonths)
-  monthsinforce<-which(monthsinclim%in%forcingmonths)
-  chillsub1<-subset(climsub.min,monthsinchill)
-  chillsub2<-subset(climsub.max,monthsinchill)
-  
-  forcesub<-subset(climsub.max,monthsinforce)
-  
-  ## commence loop  
-  for (i in 1:nsps){#i=1
-    print(i)
-    spsi<-spslist[i]
-    #fullnamei<-fullnames[i]
+  for(j in c(period)) { # j = 1980
+    print(c(i, j))
     
-    ## load shape
+    if(TRUE){
+    tmaxthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
+    tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
+    tminthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
+    tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j-1), full.names = TRUE)
+    #jx <- nc_open(tmax)
+    tmax <- brick(tmaxthisyr)
+    tmax <- rotate(tmax)
+    tmaxprev <- brick(tmaxprev)
+    tmaxprev <- rotate(tmaxprev)
+    tmin <- brick(tminthisyr)
+    tmin <- rotate(tmin)
+    tminprev <- brick(tminprev)
+    tminprev <- rotate(tminprev)
+    }
     
-    path.source.i <- "../../data/distributiondata/chorological_maps_dataset_20170220.zip"
+    leapyears <- seq(1952, 2020, by=4)
+    chillstart <- ifelse((j-1)%in%leapyears,275,274)
+    chillend <- ifelse(j%in%leapyears,60,59)
+    forcestart <- ifelse(j%in%leapyears,61,60)
+    forceend <- ifelse(j%in%leapyears,152,151)
+    yrend <- ifelse((j-1)%in%leapyears,366,365)
     
-    # get the file address for target file
-    zipped_name.i <- grep(paste(spsi,'_plg',sep=""), 
-                          unzip(path.source.i,
-                                list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
-    
-    # extract target file
-    unzip(path.source.i, files=zipped_name.i)
-    
-    # load shapefile
-    spsshape <- shapefile(zipped_name.i[3])
-    
-    
-    ## need to re-project shape from lamber equal area to geographic
-    ## 
-    spsshapeproj<-spTransform(spsshape,proj4string(chillsub1[[1]]))
+    ## commence loop  
+    for (i in 1:nsps){#i=1 #spslist=ospreespslist[i]
+      print(i)
+      
+      ## load shape
+      path.source.i <- "NA_range_files/NA_ranges.zip"
+      
+      zipped_name.i <- grep('\\.shp', unzip(path.source.i,
+                                            list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+      # load shapefile
+      spsshape <- shapefile(zipped_name.i[i])
+      
+      e <- extent(spsshape)
+      tmaxshpforce <- crop(tmax[[forcestart:forceend]], e)
+      tminshpforce <- crop(tmin[[forcestart:forceend]], e)
+      
+      tmaxshpchill1 <- crop(tmaxprev[[chillstart:yrend]], e)
+      tmaxshpchill2 <- crop(tmaxprev[[1:chillend]], e)
+      tmaxshpchill <- stack(c(tmaxshpchill1, tmaxshpchill2))
+      
+      tminshpchill1 <- crop(tminprev[[chillstart:yrend]], e)
+      tminshpchill2 <- crop(tminprev[[1:chillend]], e)
+      tminshpchill <- stack(c(tminshpchill1, tminshpchill2))
+      
+    }
     
     ## loop across years to extract each years averages and stddevs
     # save first an array to store results
@@ -151,22 +163,12 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     for(j in period){#j=1981
       print(paste(i,j))
       
-      # select year's layer
-      chillyears<-which(as.numeric(format(as.Date(
-        names(chillsub1),format="X%Y.%m.%d"),"%Y"))==j)
-      forceyears<-which(as.numeric(format(as.Date(
-        names(forcesub),format="X%Y.%m.%d"),"%Y"))==j)
-      
-      yearschillmin<-subset(chillsub1,chillyears)
-      yearschillmax<-subset(chillsub2,chillyears)
-      
-      yearsforce<-subset(forcesub,forceyears)
-      
       # extract values and format to compute means and sdevs
-      tempschillsmin<-extract(yearschillmin,spsshapeproj,cellnumbers=T)
-      tempschillsmax<-extract(yearschillmax,spsshapeproj,cellnumbers=T)
-      
-      tempsforces<-extract(yearsforce,spsshapeproj,cellnumbers=T)
+      tempsforcemin<-extract(tminshpforce)
+      tempsforcemax<-extract(tmaxshpforce)
+      tempschillmin<-extract(tminshpchill)
+      tempschillmax<-extract(tmaxshpchill)
+      #tempsforces<-extract(yearsforce,spsshapeproj,cellnumbers=T)
       
       #turn into data frame and remove NAs
       ch<-do.call("rbind",tempschillsmin)
