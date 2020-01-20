@@ -10,44 +10,29 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-# Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/treegarden/budreview/ospree/analyses/ranges/") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/ranges/")
-}else if(length(grep("Ignacio", getwd()))>0) { 
-  setwd("~/GitHub/ospree/analyses/ranges/") 
-} else if(length(grep("catchamberlain", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/ranges/") 
-} else if(length(grep("danielbuonaiuto", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/ranges/") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
-
-
 ## load packages
+library(sp)
 library('raster')
 library(rgdal)
 library('ncdf4')
 library('abind')
 library('chillR')
-library('foreach')
-library('doParallel')
 library(lubridate)
 
 
-climatedrive = "/Volumes/climdata" # Cat's climate drive
+climatedrive = "/n/wolkovich_lab/Lab/Cat/" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 
-
 ## load species list 
-species.list <- read.csv("..//output/masterspecieslist.csv")
+species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
 species.list <- as.vector(species.list$x)
 
 
 ## read in list of species with distribution shapefiles
 # get a list of the polygon shapefiles in the .zip with the maps
-zipped_names <- grep('\\.shp', unzip("NA_range_files/NA_ranges.zip",
-                                          list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                                     list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
@@ -62,27 +47,27 @@ names(species.list.maps) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_gr
 # get a list of species in ospree for which we have EU maps
 ospreespslist <- species.list[which(species.list %in% names(species.list.maps))]
 ## This takes out:
-  # Alnus rubra
+# Alnus rubra
 ospreespslist <- c(ospreespslist, "Alnus_rubra")
 
 if(FALSE){
-### Attempt to stack raster layers for princeton to maybe make more streamlined...
-allclimyrs <- 1980:2016
-tmaxlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE), raster)
-tmaxstack <- stack(tmaxlist)
-tmaxall <- brick(tmaxstack)
-#plot(tmax[[1]])
-tminlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs,collapse="|"), full.names = TRUE), raster)
-tminstack <- stack(tminlist)
-tminall <- brick(tminstack)
-#tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
-
-tmaxall <- rotate(tmaxall)
-tminall <- rotate(tminall)
-
-e <- extent(-180, -50, 25, 80)
-tmaxall <- crop(tmaxall, e)
-tminall <- crop(tminall, e)
+  ### Attempt to stack raster layers for princeton to maybe make more streamlined...
+  allclimyrs <- 1980:2016
+  tmaxlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE), raster)
+  tmaxstack <- stack(tmaxlist)
+  tmaxall <- brick(tmaxstack)
+  #plot(tmax[[1]])
+  tminlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs,collapse="|"), full.names = TRUE), raster)
+  tminstack <- stack(tminlist)
+  tminall <- brick(tminstack)
+  #tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
+  
+  tmaxall <- rotate(tmaxall)
+  tminall <- rotate(tminall)
+  
+  e <- extent(-180, -50, 25, 80)
+  tmaxall <- crop(tmaxall, e)
+  tminall <- crop(tminall, e)
 }
 
 # define period
@@ -108,19 +93,19 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     print(j)
     
     if(TRUE){
-    tmaxthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
-    tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
-    tminthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
-    tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j-1), full.names = TRUE)
-    #jx <- nc_open(tmax)
-    tmax <- brick(tmaxthisyr)
-    tmax <- rotate(tmax)
-    tmaxprev <- brick(tmaxprev)
-    tmaxprev <- rotate(tmaxprev)
-    tmin <- brick(tminthisyr)
-    tmin <- rotate(tmin)
-    tminprev <- brick(tminprev)
-    tminprev <- rotate(tminprev)
+      tmaxthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
+      tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
+      tminthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
+      tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j-1), full.names = TRUE)
+      #jx <- nc_open(tmax)
+      tmax <- brick(tmaxthisyr)
+      tmax <- rotate(tmax)
+      tmaxprev <- brick(tmaxprev)
+      tmaxprev <- rotate(tmaxprev)
+      tmin <- brick(tminthisyr)
+      tmin <- rotate(tmin)
+      tminprev <- brick(tminprev)
+      tminprev <- rotate(tminprev)
     }
     
     leapyears <- seq(1952, 2020, by=4)
@@ -244,23 +229,23 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       dateswa<-as.Date(as.numeric(colnames(wamin)),origin=paste0(j,"-01-01"))
       
       warmunitseachcelleachday<-do.call(rbind,
-                                         apply(minmaxtemp.warm,1,function(x){
-                                           #x<-minmaxtemp[300,,]
-                                           extracweathdf<-data.frame(
-                                             Year=as.numeric(format(dateswa,"%Y")),
-                                             Month=as.numeric(format(dateswa,"%m")),
-                                             Day=as.numeric(format(dateswa,"%d")),
-                                             Tmax=x[3:nrow(x),2],
-                                             Tmin=x[3:nrow(x),1]
-                                           )
-                                           weather<-fix_weather(extracweathdf)
-                                           hourtemps<-stack_hourly_temps(weather,latitude=x[2])
-                                           wrm<-chilling(hourtemps,forcestart,forceend)
-                                           
-                                           return(wrm)
-                                           
-                                         }
-                                         ))
+                                        apply(minmaxtemp.warm,1,function(x){
+                                          #x<-minmaxtemp[300,,]
+                                          extracweathdf<-data.frame(
+                                            Year=as.numeric(format(dateswa,"%Y")),
+                                            Month=as.numeric(format(dateswa,"%m")),
+                                            Day=as.numeric(format(dateswa,"%d")),
+                                            Tmax=x[3:nrow(x),2],
+                                            Tmin=x[3:nrow(x),1]
+                                          )
+                                          weather<-fix_weather(extracweathdf)
+                                          hourtemps<-stack_hourly_temps(weather,latitude=x[2])
+                                          wrm<-chilling(hourtemps,forcestart,forceend)
+                                          
+                                          return(wrm)
+                                          
+                                        }
+                                        ))
       
       #chmin<-chmin[,3:151]
       #chmax<-chmax[,3:151]
@@ -310,8 +295,8 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
-climaterangecheck <- extractchillforce(ospreelist[[1]], tmin, tmax, 1980)
-#Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
+#climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
+Climate.in.range<-extractchillforce(ospreespslist,tmin,tmax,period)
 
 
 
@@ -321,33 +306,32 @@ climaterangecheck <- extractchillforce(ospreelist[[1]], tmin, tmax, 1980)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range4, file = paste("output/Climate.in.range",ospreespslist[4],
-                                         period[1],max(period),"csv",sep="."))
+write.csv(Climate.in.range, file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.csv", row.names=FALSE)
 if(FALSE){
-## attempt to parallelize code
-n = 2 # modify according to your RAM memory
-cl <- makeCluster(n)
-registerDoParallel(cl)
-
-Sys.time()
+  ## attempt to parallelize code
+  n = 2 # modify according to your RAM memory
+  cl <- makeCluster(n)
+  registerDoParallel(cl)
+  
+  Sys.time()
   Climate.in.range.i<-foreach(spslist = ospreespslist[4:7], .packages=c("raster","ncdf4","abind","chillR"),
-                           .verbose=T,.errorhandling="pass")  %dopar%  
+                              .verbose=T,.errorhandling="pass")  %dopar%  
     extractchillforce(spslist,tmin,tmax,period) ## profiling function only / and all paralell process
-Sys.time()
+  Sys.time()
   
   
-## saving outputs1         
-for(i in 1:length(Climate.in.range.i)){
-
-Climate.in.range = Climate.in.range.i[[i]][,,1]  
-#save(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
- #                                     period[1],max(period),"RData",sep="."))
-write.csv(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
-                                         period[1],max(period),"csv",sep="."))
-
-
-}
-
-## remove aux unnecessary files
-unlink("chorological_maps_dataset/*", recursive = T)
+  ## saving outputs1         
+  for(i in 1:length(Climate.in.range.i)){
+    
+    Climate.in.range = Climate.in.range.i[[i]][,,1]  
+    #save(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
+    #                                     period[1],max(period),"RData",sep="."))
+    write.csv(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
+                                             period[1],max(period),"csv",sep="."))
+    
+    
+  }
+  
+  ## remove aux unnecessary files
+  unlink("chorological_maps_dataset/*", recursive = T)
 }
