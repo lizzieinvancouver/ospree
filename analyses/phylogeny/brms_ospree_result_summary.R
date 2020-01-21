@@ -1,7 +1,7 @@
-## Started 6 July 2017 ##
-## By Cat and Dan and others ##
-# Updated a tiny bit by Dan 19 June 2018
-# Updated 8 Oct 2018
+## Started 3 January 2020 ##
+## By Nacho ##
+## Code to summarize phylogenetic modelling results ##
+
 # housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -28,7 +28,7 @@ library(MCMCglmm)
 library(dplyr)
 library(knitr)
 library(broom)
-
+library(loo)
 
 
 #######################################
@@ -97,6 +97,8 @@ namesdat<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
 unique(bb.stan$complex.wname)
 
 
+#######################################
+
 ####################################
 #### get phylogeny              ####
 ####################################
@@ -137,6 +139,9 @@ rownames(A) <- rownames(inv.phylo$Ainv)
 bb.stan$spps<-paste(bb.stan$genus,bb.stan$species,sep="_")
 
 
+
+#######################################
+
 #######################################
 #### clean data for angiosperm only   ####
 #######################################
@@ -149,168 +154,109 @@ phylo <- drop.tip(phylo, 57:63)
 gymnospp.allsp <- phy.plants.ospree$tip.label[136:151]
 phylo.angio <- drop.tip(phylo, 136:151)
 plot(phylo.angio,cex=.6)
+#phylo<-phylo.angio
 
 bb.stan <- subset(bb.stan, !spps %in% gymnospp.allsp)
 
 
 #######################################
-#### load and plot PGLMM results   ####
-#######################################
-
-PGLMM_results_ospree <- read.csv("output/PGLMM_results_ospree.csv")
-PGLMM_results_ospree[is.na.data.frame(PGLMM_results_ospree)] = ""
-#kable(PGLMM_results_ospree)
-PGLMM_results_ospree
 
 
-#According to PGLMM BB responses to all three cues are strongly phylogenetically structured/inherited. in other words ~90% of the variance is explained by the (phylogenetically structured) differences across species. Phylogenetically close species are more likely to show similar responses to each of the cues (a little more so for forcing).
-#A comparison of PGLMM results against our previous results in the BB ms. reveal a shift in importance between chilling and forcing. Forcing shows a stronger effect size than chilling, at least according to PGLMM.
 
 #######################################
+#### load previous BRMS models     ####
+#######################################
+
+subset.type="complex"
+subset.type="sps.bbms"
+subset.type="sps.bbms.angio"
+subset.type="all.sps"
+subset.type="all.sps.angio"
+
+if(subset.type=="complex"){ ## 2675 obs; 52 complexes
+load("output/full_nophylomod.RData")
+load("output/full_nophylomod.b.RData")
+#load("output/model_phylo.FULL.c.RData")
+#load("output/model_phylo.int.only.RData")
+}
+summary(model_NOphylo.FULL)
+summary(model_NOphylo.FULL.b)
+unique(model_NOphylo.FULL$data$complex.wname)==unique(model_NOphylo.FULL.b$data$complex.wname)
+#rm(list=ls()) 
 
 
-#################################################
-#### Running, saving, loading BRMS models    ####
-#################################################
-
-#### First model: Non-phylogenetic model ####
-"$$Budbreak = \alpha_{species} + \beta_{1}forcing
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon$$"
-
-
-summary(model_NOphylo.FULL.sps)
-
-# BRMS repeated measures, species as grouping on intercept MODEL 
-model_NOphylo.FULL.sps <- brm(
-  resp ~ force.z + chill.z + photo.z + ## fixed 
-    (1|spps),  ## rnd effs 
-    data = bb.stan, 
-  family = gaussian(),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 2, cores = 2, 
-  iter = 2000, warmup = 500
-)
-
-## repeat but put random on slope too
-model_NOphylo.FULL.b.sps <- brm(
-  resp ~ force.z + chill.z + photo.z + ## fixed 
-    (1 + force.z + chill.z + photo.z|spps),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 500
-)
-
-#bb.stan$phylo <- bb.stan$spps
-## repeat but put random-phylo on intercept too
-model_phylo.FULL.c.sps <- brm(
-  resp ~ force.z + chill.z + photo.z + ## fixed 
-    (1 |phylo) +
-    (1 + force.z + chill.z + photo.z|spps),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 1000, control = list(adapt_delta = 0.99) 
-)
-
+if(subset.type=="sps.bbms"){ ## 2675 obs; 117 species
+  load("output/full_nophylomodsps.RData")
+  load("output/full_nophylomodsps.b.RData")
+  load("output/full_phylomod.csps.RData")
+  load("output/model_phylo.int.only.RData")
+}
 summary(model_NOphylo.FULL.sps)
 summary(model_NOphylo.FULL.b.sps)
 summary(model_phylo.FULL.c.sps)
+summary(model_phylo.int.only.sps)
+#unique(model_NOphylo.FULL.sps$data$spps) == unique(model_NOphylo.FULL.b.sps$data$spps)
+#unique(model_NOphylo.FULL.b.sps$data$spps) == unique(model_phylo.int.only.sps$data$spps)
+#unique(model_phylo.FULL.c.sps$data$spps) == unique(model_phylo.int.only.sps$data$spps)
+#rm(list=ls()) 
 
-#load model result
-save(model_NOphylo.FULL.sps,file = "output/full_nophylomodsps_ang215sps.RData")
-save(model_NOphylo.FULL.b.sps,file = "output/full_nophylomodsps.b_ang215sps.RData")
-save(model_phylo.FULL.c.sps,file = "output/full_phylomod.csps_ang215sps.RData")
-
-#load("output/full_nophylomod.RData")
-#load("output/full_nophylomodsps.b.RData")
-#load("output/model_phylo.FULL.c.RData")
-
-model_NOphylo.FULL.b.sps
-#model_NOphylo.FULL
-
-
-
-#### Second model: Phylogenetic model ####
-"$$Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon$$"
-
-#This is the simple multilevel model for repeated measures, where intraspecific variation for the cues is considered. Grouping factors on the intercept consider the phylogenetic structure ($\alpha_{phylo}$) and other inter-specific variation independent from the phylogeny ($\alpha_{species}$).
-#This model makes a bit more sense than the previous one, but we still lack information of interest. While this model informs us about the convenience of accounting for phylogenetic non-independence, and gives us a measure of how much the residual variation is phylogenetically structured, we still lack specific sensitivities to each cue (we'd need grouping on the slopes too). 
-model_phylo.int.only.sps <- brm(
-  resp ~ force.z + chill.z + photo.z +      ## fixed effs
-    (1 |phylo) + (1|spps),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
- ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 1000
-)
-
-#load model result
-save(model_phylo.int.only.sps,file = "output/model_phylo.int.only_215spp.RData")
-#load("output/model_phylo.int.only.RData")
-#model_phylo.int.only
+if(subset.type=="sps.bbms.angio"){ ## 2376 obs; 110 species
+  load("output/full_nophylomodsps_angio.RData")
+  load("output/full_nophylomodsps.b_angio.RData")
+  load("output/full_phylomod.csps_angio.RData")
+  #load("output/model_phylo.int.only_angio.RData")
+}
+summary(model_NOphylo.FULL.sps)
+summary(model_NOphylo.FULL.b.sps)
+summary(model_phylo.FULL.c.sps)
+summary(model_phylo.int.only.sps)
+#unique(model_NOphylo.FULL.sps$data$spps) == unique(model_NOphylo.FULL.b.sps$data$spps)
+#rm(list=ls()) 
 
 
+if(subset.type=="all.sps"){ ## 4083 obs; 231 species
+  load("output/full_nophylomodsps_all231sps.RData")
+  load("output/full_nophylomodsps.b_all231sps.RData")
+  load("output/full_phylomod.csps_all231sps.RData")
+  load("output/model_phylo.int.only_231spp.RData")
+}
+summary(model_NOphylo.FULL.sps)
+summary(model_NOphylo.FULL.b.sps)
+summary(model_phylo.FULL.c.sps)
+summary(model_phylo.int.only.sps)
+#unique(model_NOphylo.FULL.sps$data$spps) == unique(model_NOphylo.FULL.b.sps$data$spps)
+#rm(list=ls()) 
 
-#### Third model: Phylogenetic model with rnd on slopes too ####
-"$$Budbreak = \alpha_{phylo,species} + \beta_{1, phylo, species}forcing
-+ \beta_{2, phylo, species}chilling + \beta_{3, phylo, species}photo + \varepsilon$$"
-
-
-## this model is pretty slow
-model_phylo.int.slope.sps <- brm(
-  resp ~ force.z + chill.z + photo.z +      ## fixed effs
-    (1 + force.z + chill.z + photo.z|phylo) + 
-    (1 + force.z + chill.z + photo.z|complex.wname),  ## rnd effs 
-  data = bb.stan, 
-  family = gaussian(), cov_ranef = list(phylo = A),
-  prior = c(
-    prior(normal(0, 20), "b"),
-    prior(normal(0, 50), "Intercept"),
-    prior(student_t(3, 0, 20), "sd"),
-    prior(student_t(3, 0, 20), "sigma")
-  )
-  ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 1000
-)
-
-#load model result
-save(model_phylo.int.slope.sps,file = "output/model_phylo.int.slope.RData")
-#load("output/model_phylo.int.only.RData")
-#model_phylo.int.only
+if(subset.type=="all.sps.angio"){ ## 3569 obs; 215 species
+  load("output/full_nophylomodsps_ang215sps.RData")
+  load("output/full_nophylomodsps.b_ang215sps.RData")
+  load("output/full_phylomod.csps_ang215sps.RData")
+  load("output/model_phylo.int.only_215spp.RData")
+}
+summary(model_NOphylo.FULL.sps)
+summary(model_NOphylo.FULL.b.sps)
+summary(model_phylo.FULL.c.sps)
+summary(model_phylo.int.only.sps)
+#unique(model_NOphylo.FULL.sps$data$spps) == unique(model_NOphylo.FULL.b.sps$data$spps)
+#rm(list=ls()) 
 
 
-#### Fourth model: Slopes of non-phylo model as a response ####
 
-## Fourth model A: sensitivity to forcing - phylo structure
+
+
+#######################################
+
+
+
+#################################################
+#### BRMS models for sensitivities (slopes)  ####
+#################################################
 
 # we first get back the coefficients from the BB models (fitted in BRMS)
 mod.summary <- tidy(model_NOphylo.FULL.b.sps)
 summary(model_NOphylo.FULL.b.sps)
+
+
 
 # We first fit a random-slope model for forcing, then get the slopes
 # then check the following model
@@ -341,7 +287,7 @@ model_beta.force.sps <- brm(
   iter = 2000, warmup = 500
 )
 
-model_beta.force.sps
+#model_beta.force.sps
 
 
 ## Fourth model B: sensitivity to chilling - phylo structure
@@ -368,7 +314,7 @@ model_beta.chill.sps <- brm(
   iter = 2000, warmup = 1000
 )
 
-summary(model_beta.chill.sps)
+#summary(model_beta.chill.sps)
 
 
 ## Fourth model C: sensitivity to photo - phylo structure
@@ -396,10 +342,9 @@ model_beta.photo.sps <- brm(
 
 
 ## saving
-
-save(model_beta.force.sps,file = 'output/model_beta.force.sps_231spp.RData')
-save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_231spp.RData')
-save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_231spp.RData')
+save(model_beta.force.sps,file = 'output/model_beta.force.sps_215spp.RData')
+save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_215spp.RData')
+save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_215spp.RData')
 
 
 #####################################################
@@ -508,13 +453,13 @@ abline(v=mean(lambda.phylo.photo$samples[,1]),lty=2,col="blue")
 
 plot.contMap(obj.force,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Forcing (H� = 0.43)",xpd = T)
+title("Forcing (H� = 0.53)",xpd = T)
 plot.contMap(obj.chill,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Chilling (H� = 0.53)",xpd = T)
+title("Chilling (H� = 0.57)",xpd = T)
 plot.contMap(obj.photo,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Photo (H� = 0.26)",xpd = T)
+title("Photo (H� = 0.33)",xpd = T)
 
 dev.off()
 
@@ -558,7 +503,7 @@ sensitivities.compdat <- comparative.data(phylo,sensitivities,
 
 # fit pgls model for each cue
 pgls.force.ml = pgls(force ~ 1,
-                  data=sensitivities.compdat,lambda="ML")
+                     data=sensitivities.compdat,lambda="ML")
 pgls.chill.ml = pgls(chill ~ 1,
                      data=sensitivities.compdat,lambda="ML")
 pgls.photo.ml = pgls(photo ~ 1,
@@ -568,7 +513,7 @@ summary(pgls.force.ml)
 summary(pgls.chill.ml)
 summary(pgls.photo.ml)
 
-
+######################################################
 
 
 ######################################################
@@ -577,28 +522,34 @@ summary(pgls.photo.ml)
 model_NOphylo.FULL.b.sps
 # inspect R2s
 R2table<-as.data.frame(rbind(
-bayes_R2(model_NOphylo.FULL.sps),
-bayes_R2(model_phylo.int.only.sps),
-bayes_R2(model_NOphylo.FULL.b.sps),
-bayes_R2(model_phylo.FULL.c.sps)
-#,bayes_R2(model_phylo.int.slope.sps)
+  bayes_R2(model_NOphylo.FULL.sps),
+  bayes_R2(model_phylo.int.only.sps),
+  bayes_R2(model_NOphylo.FULL.b.sps),
+  bayes_R2(model_phylo.FULL.c.sps)
+  #,bayes_R2(model_phylo.int.slope.sps)
 ))
 rownames(R2table) = c("mod.sps.intercept","mod.sps.phylo.intercept",
-                      "mod.sps.interc.slope","mod.sps.interc.slope.phy.int",
-                      "mod.sps.phylo.interc.slope")
+                      "mod.sps.interc.slope","mod.sps.interc.slope.phy.int"
+                      #,"mod.sps.phylo.interc.slope"
+                      )
 R2table
-write.csv(R2table,file = "output/bayesR2_model_comparison.csv")
+write.csv(R2table,file = "output/bayesR2_model_comparison215sps.csv")
 
 # inspect LOOs
-(loo1 <- loo(model_NOphylo.FULL))
-(loo2 <- loo(model_phylo.int.only))
-(loo3 <- loo(model_NOphylo.FULL.b))
-(loo4 <- loo(model_phylo.FULL.c))
-(loo5 <- loo(model_phylo.int.slope))
+(loo1 <- loo(model_NOphylo.FULL.sps))
+(loo2 <- loo(model_phylo.int.only.sps))
+(loo3 <- loo(model_NOphylo.FULL.b.sps))
+(loo4 <- loo(model_phylo.FULL.c.sps))
+#(loo5 <- loo(model_phylo.int.slope))
 
-loocomparisons = loo_compare(loo1,loo2,loo3,loo4,loo5)
+loos_215sps<-list(loo1,loo2,loo3,loo4)
+save(loos_215sps,file = "output/loos_215sps.RData")
+load("output/loos_215sps.RData")
+
+
+loocomparisons = loo_compare(loo1,loo2,loo3,loo4)
 #write.csv(loocomparisons,file = "output/LOO_model_comparison.csv")
-
+?loo_c
 ## NEXT STEPS
 
 #* Check model sensitivity to removing Gymnosperms - DONE

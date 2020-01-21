@@ -8,6 +8,7 @@
 \usepackage{amssymb} % for math symbols
 \usepackage{amsmath} % for aligning equations
 \usepackage{textcomp}
+\usepackage{booktabs}
 \usepackage{mdframed}
 \usepackage{natbib}
 \usepackage[small]{caption}
@@ -28,7 +29,7 @@
 
 %% R Script
 
-\title{Evolution constrains tree phenology in experimental settings - Outline}
+\title{Evolution constrains tree phenological responses to environmental cues in experimental settings too - Outline}
 
 \begin{document}
 
@@ -63,6 +64,7 @@ Nevertheless, previous work on the phylogenetic conservatism of phenology has st
 - How the sensitivities to different environmental cues are conserved?\\
 - Are the responses to cues more strongly conserved than others?\\
 - How does accounting for phylogeny affects model estimations of cue sensitivity?\\
+- Emphasis has been put on the phenotype rather than on the cues themselves\\
 
 The potential interest of findings in this direction stem from:\\
 - better predictions of phenology (or need to account for it in models)\\
@@ -123,25 +125,97 @@ The potential interest of findings in this direction stem from:\\
 \item Should we test/analyze provenace or climate-effects? If so, we would need to 
 \end{enumerate}
 
-\subsection*{Data Analysis}
+\subsection*{Hierarchical models to estimate cue sensitivity}
 \begin{enumerate}
-\item We used a Bayesian hierarchical model approach to estimate the number of days until budburst is reached as a function of forcing, chilling and photoperiod. 
+\item Our approach used Bayesian hierarchical models to estimate the number of days until budburst as a function of forcing, chilling and photoperiod. We used different specifications of partial pooling from the simplest models with species as a grouping factor on the intercept (Eq. \ref{eq:1}), to more sophisticated models with species as grouping factor on the slopes too (Eq. \ref{eq:2}) and adding phylogeny as a grouping factor on the intercept (Eq. \ref{eq:3}).    
 
-\item The Bayesian hierarchical model was fit using the brms package \citep{brms}, in R \citep{R}, version 3.5.1, and followed the notation: 
-
-\item Copy model specifications below (TBD).
-
-\item Specify model evaluation and metrics of accuracy (Rhat, Rsq, more?)
-
-\item To test the ability of phylogeny to improve models/predictions of budburst we: (describe procedure)
+\item The Bayesian hierarchical models were fit using the brms package \citep{brms}, in R \citep{R}, version 3.5.1, and followed the notations: 
 
 
-\subsection*{The Bayesian Phylogenetic hierarchical model}
+\begin{equation}
+\label{eq:1} 
+Budbreak = \alpha_{species} + \beta_{1}forcing 
++ \beta_{2}chilling + \beta_{3}photo + \varepsilon
+\end{equation}
 
-\item Explain how the model is fit, and how the $H^{2}$ metric is analogous to lambda in PGLS.
 
+\begin{equation} 
+\label{eq:2} 
+Budbreak = \alpha_{spp} + \beta_{1,spp}forcing
++ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon\end{equation}
+
+\begin{equation} 
+\label{eq:3} 
+Budbreak = \alpha_{phylo,spp} + \beta_{1,spp}forcing
++ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon
+\end{equation}
+
+\begin{equation} 
+\label{eq:4} 
+Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
++ \beta_{2}chilling + \beta_{3}photo + \varepsilon
+\end{equation}
+
+% I'm ignoring the model below for now as it runs very slow, and it does not seem like we are using it
+%\begin{equation} 
+%\label{eq:5} 
+%Budbreak = \alpha_{phylo,spp} + \beta_{1, phylo, spp}forcing +\\
+% \beta_{2, phylo, spp}chilling + \\
+% \beta_{3, phylo, spp}photo + \varepsilon
+%\end{equation}
+
+\item These models were run for three subsets of species:
+\begin{itemize}
+\item All species in the latest version of OSPREE (including 231 species)
+\item All angiosperm species in the latest version of OSPREE (including XX species)
+\item Species grouped in generic complexes, to ensure enough cross-treatment data, as in Ettinger et al. (under review) (including XX complexes)
+\end{itemize}
+
+\item We assessed model performance according to $\hat{R}$ values (that should be close to one to ensure convergence). As for metrics of model accuracy we computed $R^{2}$, and \emph{Leave One Out} (LOO) metrics, in addition to inspection of posterior predictive checks.
+
+\item To test the ability of phylogeny to improve models/predictions of budburst we compared metrics of model accuracy between models that include phylogeny and models that do not.
+
+
+\subsection*{The Bayesian phylogenetic model}
+
+% Explain how the model is fit, and how the $H^{2}$ metric is analogous to lambda in PGLS.
+\item To determine phylogenetic signal in the responses to each of the environmental cues--i.e. forcing, chilling, photoperiod--we run a second batch of models in brms, that use the slopes of the models specified above as a response variable, following the notation:
+
+
+
+\begin{equation}
+\label{eq:5} 
+\beta_{1}forcing = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\begin{equation}
+\label{eq:6} 
+\beta_{2}chilling = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\begin{equation}
+\label{eq:7} 
+\beta_{3}photo = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\item Once this set of models is computed, calculating phylogenetic signal ($H^{2}$) is straightforward:
+
+\begin{equation}
+\label{eq:8} 
+\quad   H^{2} = \frac{\varepsilon_{phylo}}{\varepsilon_{phylo} + \varepsilon_{non-phylo}}
+\end{equation}
+
+\item $H^{2}$ is equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution. 
+
+\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Mathematically, this is equivalent to the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance.
+
+\item The interpretation of $\lambda$ is as a metric that informs how much phylogenetically closely related species resemble each other.
+
+%\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
 
 \end{enumerate}
+
+
 
 
 \section*{Results}
@@ -169,8 +243,41 @@ The potential interest of findings in this direction stem from:\\
   
 
 \end{enumerate}
+
+
+
+\section*{Next steps and directions (based on Lizzie's suggestions)}
+\begin{enumerate}
+\item Compute phylogenetic signal on the outcome of the cues -- that is, we could calculate budburst day given our model (maybe a model without phylogeny?) under perhaps two scenarios:
+     
+\begin{enumerate}
+\item High chill, long-ish photoperiod, and moderate forcing (regular scenario)
+
+\item Low chill, shorter photoperiod, higher forcing (climate change scenario)
+
+\item The trick will be first, which model to use to calculate these values and how to keep the paper then logically consistent.
+\end{enumerate}
   
-  
+\end{enumerate}
+
+\section*{Questions to be addressed}
+
+Some questions we need to answer (suggestions by Lizzie and Nacho's addings):
+
+\begin{enumerate}
+\item How do we approach wanting to use species-level output from the models and wanting to fit phylogenetically-informed models? I think our current approach of using phylo-corrected and uncorrected models is fine, but we should discuss.
+\item Do we want to compare North America and Europe somehow? sounds cool!
+\item Do we want to add any traits or range stuff? - I don't think I'd go there unless there is a really pressing question or idea to address
+\item Can people add refs? Especially recent refs and refs about leafout and budburst? We also should have some refs on WITHIN-species variation. This is a task that would be great if people could contribute.
+\item Would it make sense to look at other response variables in OSPREE (other than budburst)?\\
+
+And a very important question:\\
+
+\item How do we want to pitch this paper? About phenology? About moving beyond phenotypes? About using experimental (lab) data? About climate change forecasts being affected by phylogenetic structuring?
+
+\item If the latter, can we think of ways to show how accounting for phylogenetic structuring would affect (or best case scenario, improve) forecasts of phenology? Perhaps by focusing on well studied species (usual PEP75 suspects?)... 
+
+\end{enumerate}
 
 
 
@@ -179,6 +286,25 @@ The potential interest of findings in this direction stem from:\\
 
 \section*{Tables and Figures} 
 
+\begin{table}[H]
+\caption{Leave One Out analyses for models fitted to two subsets of data.}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+\textbf{Model}     & \textbf{nsps} & \textbf{elpd\_diff} & \textbf{se\_diff} & \textbf{elpd\_loo} & \textbf{se\_elpd\_loo} \\ \midrule
+phylo.FULL.c       & 117           & 0                   & 0                 & -10951.57927       & 75.85827637            \\
+NOphylo.FULL.b     & 117           & -0.543111109        & 0.591327747       & -10952.12239       & 75.80314884            \\
+phylo.int.slope    & 117           & -0.729725786        & 2.427434551       & -10952.309         & 75.723124              \\
+phylo.int.only     & 117           & -242.3752625        & 25.72665616       & -11193.95454       & 75.0307041             \\
+NOphylo.FULL       & 117           & -242.5815496        & 25.69052496       & -11194.16082       & 75.09682333            \\
+NOphylo.FULL.b.sps & 215           & 0                   & 0                 & -14195.89791       & 89.9292618             \\
+phylo.FULL.c.sps   & 215           & -1.945200656        & 2.410917044       & -14197.84311       & 90.07455729            \\
+phylo.int.only.sps & 215           & -302.8426832        & 27.21650046       & -14498.74059       & 89.75867558            \\
+NOphylo.FULL.sps   & 215           & -305.0350316        & 27.30609914       & -14500.93294       & 89.76455198            \\ \bottomrule
+\end{tabular}
+ \label{table:lootable}
+\end{table}
+
+\clearpage
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Correlations_sensitivities.png}
@@ -211,5 +337,22 @@ The potential interest of findings in this direction stem from:\\
   \label{fig:phylosig_angiosperm}
   \end{center}
 \end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev231.png}
+  \caption{Phylogenetic signal results for the sensitivities of each species (231 species included) to the forcing (A), chilling (B) and photoperiod (C) cues.}
+  \label{fig:phylosig_231spp}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev215angio.png}
+  \caption{Phylogenetic signal results for the sensitivities of each species (215 angiosperm only species included) to the forcing (A), chilling (B) and photoperiod (C) cues.}
+  \label{fig:phylosig_215spp}
+  \end{center}
+\end{figure}
+
 
 \end{document}
