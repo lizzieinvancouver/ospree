@@ -11,13 +11,13 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 ## load packages
-library(sp)
-library('raster')
-library(rgdal)
-library('ncdf4')
-library('abind')
-library('chillR')
-library(lubridate)
+require(sp)
+require(raster)
+require(rgdal)
+require(ncdf4)
+require(abind)
+require(chillR)
+require(lubridate)
 
 
 climatedrive = "/n/wolkovich_lab/Lab/Cat/" # Cat's climate drive
