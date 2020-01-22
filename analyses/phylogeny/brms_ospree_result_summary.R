@@ -176,8 +176,8 @@ subset.type="all.sps.angio"
 if(subset.type=="complex"){ ## 2675 obs; 52 complexes
 load("output/full_nophylomod.RData")
 load("output/full_nophylomod.b.RData")
-#load("output/model_phylo.FULL.c.RData")
-#load("output/model_phylo.int.only.RData")
+load("output/model_phylo.FULL.c.RData")
+load("output/model_phylo.int.only.complex.RData")
 }
 summary(model_NOphylo.FULL)
 summary(model_NOphylo.FULL.b)
@@ -253,6 +253,11 @@ summary(model_phylo.int.only.sps)
 #################################################
 
 # we first get back the coefficients from the BB models (fitted in BRMS)
+# for complexes
+mod.summary <- tidy(model_NOphylo.FULL.b)
+summary(model_NOphylo.FULL.b)
+
+# for other specifications
 mod.summary <- tidy(model_NOphylo.FULL.b.sps)
 summary(model_NOphylo.FULL.b.sps)
 
@@ -262,7 +267,7 @@ summary(model_NOphylo.FULL.b.sps)
 # then check the following model
 positions = grep(",force.z]", mod.summary$term)
 force.slopes <- mod.summary[positions,] 
-force.slopes$phylo <- sort(unique(bb.stan$spps))
+force.slopes$phylo <- sort(unique(bb.stan$complex.wname))
 
 
 # model A
@@ -284,7 +289,7 @@ model_beta.force.sps <- brm(
     prior(student_t(3, 0, 20), "sigma")
   )
   ,sample_prior = TRUE, chains = 2, cores = 2, 
-  iter = 2000, warmup = 500
+  iter = 2000, warmup = 1000,control = list(adapt_delta = 0.99) 
 )
 
 #model_beta.force.sps
@@ -295,7 +300,7 @@ model_beta.force.sps <- brm(
 
 positions = grep(",chill.z]", mod.summary$term)
 chill.slopes <- mod.summary[positions,] 
-chill.slopes$phylo <- sort(unique(bb.stan$spps))
+chill.slopes$phylo <- sort(unique(bb.stan$complex.wname))
 
 
 # BRMS repeated measures, species as grouping on intercept MODEL 
@@ -311,7 +316,7 @@ model_beta.chill.sps <- brm(
     prior(student_t(3, 0, 20), "sigma")
   )
   ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 1000
+  iter = 2000, warmup = 1000,control = list(adapt_delta = 0.99)
 )
 
 #summary(model_beta.chill.sps)
@@ -322,7 +327,7 @@ model_beta.chill.sps <- brm(
 
 positions = grep(",photo.z]", mod.summary$term)
 photo.slopes <- mod.summary[positions,] 
-photo.slopes$phylo <- sort(unique(bb.stan$spps))
+photo.slopes$phylo <- sort(unique(bb.stan$complex.wname))
 
 
 model_beta.photo.sps <- brm(
@@ -337,24 +342,19 @@ model_beta.photo.sps <- brm(
     prior(student_t(3, 0, 20), "sigma")
   )
   ,sample_prior = TRUE, chains = 4, cores = 2, 
-  iter = 2000, warmup = 1000
+  iter = 2000, warmup = 1000,control = list(adapt_delta = 0.99)
 )
 
 
 ## saving
-save(model_beta.force.sps,file = 'output/model_beta.force.sps_215spp.RData')
-save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_215spp.RData')
-save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_215spp.RData')
+save(model_beta.force.sps,file = 'output/model_beta.force.sps_52complex.RData')
+save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_52complex.RData')
+save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_52complex.RData')
 
 
 #####################################################
 #### check phylogenetic signal in sensitivities  ####
 #####################################################
-summary(model_beta.force.sps)
-summary(model_beta.chill.sps)
-summary(model_beta.photo.sps)
-
-
 
 
 ## the phylogenetic signal
@@ -453,17 +453,17 @@ abline(v=mean(lambda.phylo.photo$samples[,1]),lty=2,col="blue")
 
 plot.contMap(obj.force,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Forcing (H² = 0.53)",xpd = T)
+title(paste("Forcing (H² = ",round(lambda.phylo.force$hypothesis$Estimate,2),")",sep=""),xpd = T)
 plot.contMap(obj.chill,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Chilling (H² = 0.57)",xpd = T)
+title(paste("Chilling (H² = ",round(lambda.phylo.chill$hypothesis$Estimate,2),")",sep=""),xpd = T)
 plot.contMap(obj.photo,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
              fsize = c(0.45, 0.7), outline=FALSE,lwd=2,mar = c(1,1,2,1))
-title("Photo (H² = 0.33)",xpd = T)
+title(paste("Photo (H² = ",round(lambda.phylo.photo$hypothesis$Estimate,2),")",sep=""),
+      xpd = T)
 
 dev.off()
 
-dev.off()
 par(mfrow=c(1,3))
 plot(chill.slopes$estimate,
      xlab="Chilling sensitivity",
@@ -513,13 +513,39 @@ summary(pgls.force.ml)
 summary(pgls.chill.ml)
 summary(pgls.photo.ml)
 
+PGLS.lambdas<-rbind(c(pgls.force.ml$param[2],
+                      pgls.force.ml$param.CI$lambda$ci.val),
+                    c(pgls.chill.ml$param[2],
+                      pgls.chill.ml$param.CI$lambda$ci.val),
+                    c(pgls.photo.ml$param[2],
+                      pgls.photo.ml$param.CI$lambda$ci.val))
+colnames(PGLS.lambdas)<-c("lambda","Lower95CI","Upper95CI")
+rownames(PGLS.lambdas)<-c("forcing","chilling","photo")
+
+BRMS.H2<-rbind(lambda.phylo.force$hypothesis[c(2,4,5)],
+               lambda.phylo.chill$hypothesis[c(2,4,5)],
+               lambda.phylo.photo$hypothesis[c(2,4,5)])
+colnames(BRMS.H2)<-c("H2","Lower95CI","Upper95CI")
+PhyloSigs<-cbind(PGLS.lambdas,BRMS.H2)
+write.csv(PhyloSigs,file = "output/Phylosig_PGLS_BRMS_52complex.csv")
+
+
 ######################################################
 
 
 ######################################################
 #### Model evaluation - LOO - phylo vs. non-phylo ####
 ######################################################
-model_NOphylo.FULL.b.sps
+
+# inspect R2s for complex
+R2table<-as.data.frame(rbind(
+  bayes_R2(model_NOphylo.FULL),
+  bayes_R2(model_phylo.int.only),
+  bayes_R2(model_NOphylo.FULL.b),
+  bayes_R2(model_phylo.FULL.c)
+  #,bayes_R2(model_phylo.int.slope.sps)
+))
+
 # inspect R2s
 R2table<-as.data.frame(rbind(
   bayes_R2(model_NOphylo.FULL.sps),
@@ -528,12 +554,19 @@ R2table<-as.data.frame(rbind(
   bayes_R2(model_phylo.FULL.c.sps)
   #,bayes_R2(model_phylo.int.slope.sps)
 ))
+
 rownames(R2table) = c("mod.sps.intercept","mod.sps.phylo.intercept",
                       "mod.sps.interc.slope","mod.sps.interc.slope.phy.int"
                       #,"mod.sps.phylo.interc.slope"
                       )
 R2table
-write.csv(R2table,file = "output/bayesR2_model_comparison215sps.csv")
+write.csv(R2table,file = "output/bayesR2_model_comparison52complex.csv")
+
+# inspect LOOs for complexes
+(loo1 <- loo(model_NOphylo.FULL))
+(loo2 <- loo(model_phylo.int.only))
+(loo3 <- loo(model_NOphylo.FULL.b))
+(loo4 <- loo(model_phylo.FULL.c))
 
 # inspect LOOs
 (loo1 <- loo(model_NOphylo.FULL.sps))
@@ -542,14 +575,30 @@ write.csv(R2table,file = "output/bayesR2_model_comparison215sps.csv")
 (loo4 <- loo(model_phylo.FULL.c.sps))
 #(loo5 <- loo(model_phylo.int.slope))
 
+loos_52complex<-list(loo1,loo2,loo3,loo4)
+save(loos_52complex,file = "output/loos_52complex.RData")
+
 loos_215sps<-list(loo1,loo2,loo3,loo4)
 save(loos_215sps,file = "output/loos_215sps.RData")
-load("output/loos_215sps.RData")
+
+#load("output/loos_215sps.RData")
 
 
 loocomparisons = loo_compare(loo1,loo2,loo3,loo4)
-#write.csv(loocomparisons,file = "output/LOO_model_comparison.csv")
-?loo_c
+#write.csv(loocomparisons,file = "output/LOO_model_comparison52complex.csv")
+
+predict.brmsfit
+
+pp<-predict(model_NOphylo.FULL.b)
+head(pp)
+hist(model_NOphylo.FULL.b$data$complex.wname)
+newdata<-data.frame(force.z=c(2,-1,0),
+                    chill.z=c(3,-2,0),
+                    photo.z=c(1,-1,0),
+                    complex.wname=c("Acer_complex","Acer_complex","Acer_complex"))
+
+try<-predict(model_NOphylo.FULL.b,newdata = newdata)
+
 ## NEXT STEPS
 
 #* Check model sensitivity to removing Gymnosperms - DONE

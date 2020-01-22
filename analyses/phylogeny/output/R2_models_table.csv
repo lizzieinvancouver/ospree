@@ -1,0 +1,13 @@
+Model,nsps,R2,Est.Error,Q2.5,Q97.5
+mod.sps.intercept,52,0.369,0.012,0.346,0.392
+mod.sps.phylo.intercept,52,0.370,0.012,0.345,0.393
+mod.sps.interc.slope,52,0.478,0.011,0.456,0.498
+mod.sps.interc.slope.phy.int,52,0.478,0.011,0.455,0.499
+mod.sps.intercept,117,0.369,0.012,0.344,0.393
+mod.sps.phylo.intercept,117,0.369,0.012,0.345,0.392
+mod.sps.interc.slope,117,0.486,0.011,0.465,0.506
+mod.sps.interc.slope.phy.int,117,0.487,0.011,0.465,0.507
+mod.sps.intercept,215,0.582,0.007,0.566,0.596
+mod.sps.phylo.intercept,215,0.582,0.007,0.567,0.596
+mod.sps.interc.slope,215,0.659,0.006,0.646,0.670
+mod.sps.interc.slope.phy.int,215,0.658,0.006,0.646,0.671
