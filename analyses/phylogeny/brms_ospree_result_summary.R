@@ -41,8 +41,8 @@ setwd("~/GitHub/ospree/analyses/bb_analysis")
 
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- F
-use.flags.for.allsppmodel <- T
+use.flags.for.mainmodel <- T
+use.flags.for.allsppmodel <- F
 use.yourown.flagdesign <- FALSE
 
 if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
@@ -267,7 +267,7 @@ summary(model_NOphylo.FULL.b.sps)
 # then check the following model
 positions = grep(",force.z]", mod.summary$term)
 force.slopes <- mod.summary[positions,] 
-force.slopes$phylo <- sort(unique(bb.stan$complex.wname))
+force.slopes$phylo <- sort(unique(bb.stan$spps))
 
 
 # model A
@@ -300,7 +300,7 @@ model_beta.force.sps <- brm(
 
 positions = grep(",chill.z]", mod.summary$term)
 chill.slopes <- mod.summary[positions,] 
-chill.slopes$phylo <- sort(unique(bb.stan$complex.wname))
+chill.slopes$phylo <- sort(unique(bb.stan$spps))
 
 
 # BRMS repeated measures, species as grouping on intercept MODEL 
@@ -327,7 +327,7 @@ model_beta.chill.sps <- brm(
 
 positions = grep(",photo.z]", mod.summary$term)
 photo.slopes <- mod.summary[positions,] 
-photo.slopes$phylo <- sort(unique(bb.stan$complex.wname))
+photo.slopes$phylo <- sort(unique(bb.stan$spps))
 
 
 model_beta.photo.sps <- brm(
@@ -350,6 +350,10 @@ model_beta.photo.sps <- brm(
 save(model_beta.force.sps,file = 'output/model_beta.force.sps_52complex.RData')
 save(model_beta.chill.sps,file = 'output/model_beta.chill.sps_52complex.RData')
 save(model_beta.photo.sps,file = 'output/model_beta.photo.sps_52complex.RData')
+
+load('output/model_beta.force.sps.RData')
+load('output/model_beta.chill.sps.RData')
+load('output/model_beta.photo.sps.RData')
 
 
 #####################################################
@@ -527,7 +531,7 @@ BRMS.H2<-rbind(lambda.phylo.force$hypothesis[c(2,4,5)],
                lambda.phylo.photo$hypothesis[c(2,4,5)])
 colnames(BRMS.H2)<-c("H2","Lower95CI","Upper95CI")
 PhyloSigs<-cbind(PGLS.lambdas,BRMS.H2)
-write.csv(PhyloSigs,file = "output/Phylosig_PGLS_BRMS_52complex.csv")
+write.csv(PhyloSigs,file = "output/Phylosig_PGLS_BRMS_117spp.csv")
 
 
 ######################################################
@@ -583,28 +587,93 @@ save(loos_215sps,file = "output/loos_215sps.RData")
 
 #load("output/loos_215sps.RData")
 
-
 loocomparisons = loo_compare(loo1,loo2,loo3,loo4)
 #write.csv(loocomparisons,file = "output/LOO_model_comparison52complex.csv")
+######################################################
 
-predict.brmsfit
 
-pp<-predict(model_NOphylo.FULL.b)
-head(pp)
-hist(model_NOphylo.FULL.b$data$complex.wname)
-newdata<-data.frame(force.z=c(2,-1,0),
-                    chill.z=c(3,-2,0),
-                    photo.z=c(1,-1,0),
-                    complex.wname=c("Acer_complex","Acer_complex","Acer_complex"))
+######################################################
+#### Making predictions for two scenarios ####
+######################################################
 
-try<-predict(model_NOphylo.FULL.b,newdata = newdata)
+# make values for each scenario 
+# 1) High chill, long-ish photoperiod, and moderate forcing (regular scenario)
 
-## NEXT STEPS
+forcereg <- quantile(model_NOphylo.FULL.b.sps$data$force.z,0.4)
+chillingreg <- quantile(model_NOphylo.FULL.b.sps$data$chill.z,0.75)
+photoreg <- quantile(model_NOphylo.FULL.b.sps$data$photo.z,0.75)
 
-#* Check model sensitivity to removing Gymnosperms - DONE
+# 2) Low chill, shorter photoperiod, higher forcing (climate change scenario)
 
-#* Calculate days to BB using our model output for each species 
-# and a baseline scenario .... could help with structuring the paper.
+forceCC <- quantile(model_NOphylo.FULL.b.sps$data$force.z,0.75)
+chillingCC <- quantile(model_NOphylo.FULL.b.sps$data$chill.z,0.4)
+photoCC <- quantile(model_NOphylo.FULL.b.sps$data$photo.z,0.50)
+
+
+# now generate new data for predictions:
+spps = sort(unique(model_NOphylo.FULL.b.sps$data$spps))
+rep(spps,2)
+
+newdata<-data.frame(force.z=c(rep(forcereg,117),rep(forceCC,117)),
+                    chill.z=c(rep(chillingreg,117),rep(chillingCC,117)),
+                    photo.z=c(rep(photoreg,117),rep(photoCC,117)),
+                    spps=rep(spps,2),
+                    phylo=rep(spps,2))
+head(newdata)
+
+
+## make prediction according to the above scenarios
+Phen.predictionsB<-predict(model_NOphylo.FULL.b.sps, newdata = newdata)
+Phen.predictionsC<-predict(model_phylo.FULL.c.sps, newdata = newdata)
+
+SavePreds.B<-data.frame(Species=spps,
+                      bubburst_reg=Phen.predictionsB[1:117,1],
+                      bubburst_reg_SE=Phen.predictionsB[1:117,2],
+                      bubburst_CC=Phen.predictionsB[118:234,1],
+                      bubburst_CC_SE=Phen.predictionsB[118:234,1])
+SavePreds.C<-data.frame(Species=spps,
+                        bubburst_reg=Phen.predictionsC[1:117,1],
+                        bubburst_reg_SE=Phen.predictionsC[1:117,2],
+                        bubburst_CC=Phen.predictionsC[118:234,1],
+                        bubburst_CC_SE=Phen.predictionsC[118:234,1])
+
+cor(SavePreds.B[,4],SavePreds.C[,4])
+#SavePreds.B[,4]-SavePreds.B[,2]
+#SavePreds.C[,4]-SavePreds.C[,2]
+
+write.csv(SavePreds,file = "output/PhenForecasts_117sps_modb.csv")
+
+## visualize results (from bbmuplot code)
+
+dev.off()
+par(mar=c(5,5,3,10))
+plot(x=NULL,y=NULL, xlim=c(0,3), xaxt='n', ylim=c(0,55),
+     xlab="Model estimate days to budburst", ylab="days to budburst",cex.lab=1.2)
+axis(1, at=1:2, labels=c("Current", "Climate Change"), las=1)
+
+#abline(v=0, lty=2, col="darkgrey")
+  pos.x<-1:2
+  
+  for(spsi in 1:117){#spsi=1
+    pos.sps.i<-spsi
+    jitt<-runif(1,0.05,0.4)
+    pos.x.sps.i<-pos.x-jitt
+    pos.y.sps.i<-SavePreds.B[spsi,c(2,4)]
+    lines(rep(pos.x.sps.i[1],2),c(SavePreds.B[spsi,2]+SavePreds.B[spsi,3],
+          SavePreds.B[spsi,2]-SavePreds.B[spsi,3]),
+          col=adjustcolor(spsi, 0.5))
+    lines(rep(pos.x.sps.i[2],2),c(SavePreds.B[spsi,4]+SavePreds.B[spsi,5],
+                                   SavePreds.B[spsi,4]-SavePreds.B[spsi,5]),
+           col=adjustcolor(spsi, 0.5))
+    
+    points(pos.x.sps.i,pos.y.sps.i,cex=0.8, pch=19, col=adjustcolor(spsi, 0.5))
+    
+  }
+
+par(xpd=TRUE) # so I can plot legend outside
+legend(leg1, leg2, sort(unique(gsub("_", " ", bb.stan$complex.wname))), pch=my.pch[1:spnum],
+       col=alpha(my.pal[1:spnum], alphahere),
+       cex=0.75, bty="n", text.font=3)
 
 
 
