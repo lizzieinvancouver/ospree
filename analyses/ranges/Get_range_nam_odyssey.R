@@ -296,7 +296,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreespslist,tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
 
 
 
