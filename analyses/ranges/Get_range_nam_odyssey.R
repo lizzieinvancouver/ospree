@@ -79,7 +79,7 @@ period<-1980:2016
 extractchillforce<-function(spslist,tmin,tmax,period){
   
   ## define array to store results ## i=1
-  nsps<-length(ospreespslist) #nsps<-length(spslist)
+  nsps<-length(spslist) #nsps<-length(spslist)
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
   row.names(chillforcespsyears)<-period
@@ -296,7 +296,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreespslist[1],tmin,tmax,period)
 
 
 
@@ -306,7 +306,8 @@ Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.csv", row.names=FALSE)
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreespslist[i],
+                                         period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
   n = 2 # modify according to your RAM memory
