@@ -94,7 +94,7 @@ period<-1980:2016
 extractchillforce<-function(spslist,tmin,tmax,period){
   
   ## define array to store results ## i=1
-  nsps<-length(ospreespslist) #nsps<-length(spslist)
+  nsps<-length(ospreespslist[1]) #nsps<-length(spslist)
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
   row.names(chillforcespsyears)<-period
@@ -142,7 +142,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       zipped_name.i <- grep('\\.shp', unzip(path.source.i,
                                             list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
       # load shapefile
-      spsshape <- shapefile(zipped_name.i[i])
+      spsshape <- shapefile()
       
       e <- extent(spsshape)
       tmaxshpforce <- crop(tmax[[forcestart:forceend]], e)
@@ -310,7 +310,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
-climaterangecheck <- extractchillforce(ospreelist[[1]], tmin, tmax, 1980)
+climaterangecheck <- extractchillforce(ospreespslist[[1]], tmin, tmax, 1980)
 #Climate.in.range<-extractchillforce(ospreespslist[i],tmin,tmax,period)
 
 

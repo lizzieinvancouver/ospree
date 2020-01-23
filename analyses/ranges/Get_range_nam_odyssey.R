@@ -26,6 +26,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 
 ## load species list 
 species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
+#species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
 species.list <- as.vector(species.list$x)
 
 
@@ -33,22 +34,29 @@ species.list <- as.vector(species.list$x)
 # get a list of the polygon shapefiles in the .zip with the maps
 zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
                                      list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip",
+ #                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
 species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
+species.list.clean <- species.list.maps
 
 ## Now I need to rename these folders to match the ospree info
-names(species.list.maps) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
+names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
                               "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
                               "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca")
 
 # get a list of species in ospree for which we have EU maps
-ospreespslist <- species.list[which(species.list %in% names(species.list.maps))]
+ospreespslist <- species.list[which(species.list %in% names(species.list.clean))]
 ## This takes out:
 # Alnus rubra
 ospreespslist <- c(ospreespslist, "Alnus_rubra")
+
+ospreefolder <- species.list.maps
+
+
 
 if(FALSE){
   ### Attempt to stack raster layers for princeton to maybe make more streamlined...
@@ -78,7 +86,7 @@ period<-1980:2016
 ## set function
 extractchillforce<-function(spslist,tmin,tmax,period){
   
-  ## define array to store results ## i=1
+  ## define array to store results ## i=1 spslist=ospreefolder[1]
   nsps<-length(spslist) #nsps<-length(spslist)
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
@@ -120,14 +128,25 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     ## commence loop  
     for (i in 1:nsps){#i=1 #spslist=ospreespslist[i]
       print(c(i, j))
+      spsi<-spslist
       
       ## load shape
-      path.source.i <- "NA_range_files/NA_ranges.zip"
+      path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+      #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+      unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                        list = TRUE)$Name
+      #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip",
+       #               list = TRUE)$Name
       
-      zipped_name.i <- grep('\\.shp', unzip(path.source.i,
-                                            list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+      shpsource <-"NA_ranges"
+      
+      zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
+      
       # load shapefile
-      spsshape <- shapefile(zipped_name.i[i])
+      unzip(path.source.i, files=zipped_name.i)
+      
+      # load shapefile
+      spsshape <- shapefile(zipped_name.i[1])
       
       e <- extent(spsshape)
       tmaxshpforce <- crop(tmax[[forcestart:forceend]], e)
@@ -250,7 +269,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       #chmin<-chmin[,3:151]
       #chmax<-chmax[,3:151]
       minmaxtemp<-abind(chmin,chmax, along = 3)
-      chmindates<-chmin[,3:154]
+      chmindates<-chmin[,3:ncol(chmin)]
       days<-as.numeric(colnames(chmindates))
       jfordates<-ifelse(days>=270, j-1, j)
       datesch<-as.Date(days,origin=paste0(jfordates,"-01-01"))
@@ -296,7 +315,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreespslist[1],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreefolder[1],tmin,tmax,period)
 
 
 
@@ -306,7 +325,7 @@ Climate.in.range<-extractchillforce(ospreespslist[1],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreespslist[i],
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreespslist[1],
                                          period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
