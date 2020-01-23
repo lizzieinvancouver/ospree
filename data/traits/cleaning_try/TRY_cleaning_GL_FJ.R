@@ -173,11 +173,11 @@ tryData20ID$TraitNameStd <-  paste("std",tryData20ID$TraitName, sep="_")
 
 colums <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"TraitName","OrigValueStr", "TraitID")
+	"TraitName","OrigValueStr", "TraitID", "Reference")
 
 colums2 <- c("LastName","FirstName","DatasetID","Dataset",
 	"SpeciesName","ObservationID","OrigUnitStr", "Observation_TraitID", 
-	"TraitNameStd","StdValue", "UnitName", "TraitID")
+	"TraitNameStd","StdValue", "UnitName", "TraitID", "Reference")
 
 tryData20ID[c(217123, 217124),]
 
@@ -266,6 +266,8 @@ for(i in unique(dataA2$Observation_TraitID)){
 	counter2 <- counter2 + 1
 }
 
+
+
 #bind_rows can cope with the fact that there are different columns in the 
 #different sections of teh list. where there is no value for a column it just puts NA
 
@@ -274,7 +276,7 @@ allObservations20002 <- bind_rows(observationListAll2)
 #select only standard trait columns 
 columnSelect <- c("Observation_TraitID", "LastName",   "FirstName",  "DatasetID",   
 	"Dataset" , "SpeciesName",   "ObservationID" ,"OrigUnitStr",    "UnitName",  "TraitID",
-	"std_Latitude", "std_Longitude", "std_Altitude"  )  
+	"std_Latitude", "std_Longitude", "std_Altitude" , "Reference" )  
 
 columnsStd <- names(allObservations20002)[!names(allObservations20002) %in% columnSelect]
 
@@ -296,10 +298,17 @@ LonTraitsStdAll <- rbind(longTraitsStd, longTraitsStdNAs)
 #merge long trait and long standardisd traits/values together 
 
 allTraitsLong <- merge(longTraits, LonTraitsStdAll, by = c("Observation_TraitID", "LastName",
-	"DatasetID", "SpeciesName", "ObservationID", "TraitID", "Dataset", "FirstName"))
+	"DatasetID", "SpeciesName", "ObservationID", "TraitID", "Dataset", "FirstName", "Reference" ))
 
 #make sure there are no duplicated lines
 allTraitsLong <- allTraitsLong[!duplicated(allTraitsLong),]
-head(allTraitsLong)
+names(allTraitsLong)[names(allTraitsLong) == "value.y"] <- "TraitValue_std"
+names(allTraitsLong)[names(allTraitsLong) == "value.x"] <- "TraitValue"
+names(allTraitsLong)
+
+#removing duplicate lines 
+allTraitsLongCropped <- allTraitsLong[!is.na(allTraitsLong$TraitValue_std),]
+
 #write.csv(allTraitsLong, "subsetTry20000.csv")
-write.csv(allTraitsLong, "TryDataCleaned.csv")
+write.csv(allTraitsLongCropped, "TryDataCleaned.csv")
+
