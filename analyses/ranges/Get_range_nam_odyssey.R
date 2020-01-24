@@ -79,7 +79,7 @@ if(FALSE){
 }
 
 # define period
-period<-1980:2016
+period<-1980:1990
 #period<-2009:2010
 
 
@@ -325,7 +325,7 @@ Climate.in.range<-extractchillforce(ospreefolder[1],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreespslist[1],
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[1],
                                          period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
