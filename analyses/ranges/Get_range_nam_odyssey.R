@@ -79,7 +79,7 @@ if(FALSE){
 }
 
 # define period
-period<-1980:1990
+period<-1980:1998
 #period<-2009:2010
 
 
@@ -96,6 +96,8 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   #dimnames(chillforcespsyears)<-spslist
   
   mins <- maxs <- vector()
+  
+  yearlyresults<-array(NA,dim=c(length(period),6))
   
   for(j in c(period)) { # j = 1980
     print(j)
@@ -123,8 +125,6 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     forceend <- ifelse(j%in%leapyears,152,151)
     yrend <- ifelse((j-1)%in%leapyears,366,365)
     
-    
-    yearlyresults<-array(NA,dim=c(length(period),6))
     ## commence loop  
     for (i in 1:nsps){#i=1 #spslist=ospreespslist[i]
       print(c(i, j))
