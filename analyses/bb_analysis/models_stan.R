@@ -52,9 +52,9 @@ if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mai
 if(use.flags.for.mainmodel){
 use.chillports = FALSE
 use.zscore = FALSE
-use.allspp =FALSE # for the main model this is false
+use.allspp =TRUE # for the main model this is false
 use.multcuespp = FALSE
-use.cropspp = FALSE
+use.cropspp =TRUE
 # Default is species complex use  alltypes of designs
 use.expramptypes.fp = TRUE
 use.exptypes.fp = FALSE
@@ -63,7 +63,7 @@ use.expchillonly = FALSE
 
 if(use.flags.for.allsppmodel){
 use.chillports = FALSE
-use.zscore = FALSE
+use.zscore = TRUE
 use.allspp = TRUE
 use.multcuespp = FALSE
 use.cropspp = TRUE
@@ -93,9 +93,10 @@ use.expchillonly = FALSE # change to true for only experimental chilling
 
 source("source/bbstanleadin.R")
 
-if(use.flags.for.mainmodel){
+if(use.flags.for.mainmodel & use.allspp & use.cropspp){
 write.csv(bb.stan, "..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", row.names=FALSE) 
 }
+
 
 if(use.flags.for.allsppmodel){
 write.csv(bb.stan, "..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", row.names=FALSE)
