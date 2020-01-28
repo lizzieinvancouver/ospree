@@ -40,68 +40,22 @@ if(length(grep("lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R #
 ######################################
 
-# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- TRUE
-use.flags.for.allsppmodel <- FALSE
+# Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
+use.flags.for.mainmodel <- TRUE#centered predictors, spcomplex with utah units. Fig 2 in main text of budburst ms
+use.flags.for.spcomp.cp <- FALSE
+use.flags.for.allspp.utah <- FALSE
+use.flags.for.spcomp.utah.nonz <- FALSE
+use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
+use.flags.for.allspp.utah.nonz <- FALSE
 use.yourown.flagdesign <- FALSE
 
-if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
-    use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
-    & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
-
-if(use.flags.for.mainmodel){
-use.chillports = FALSE
-use.zscore = FALSE
-use.allspp =FALSE # for the main model this is false
-use.multcuespp = FALSE
-use.cropspp = FALSE
-# Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
-use.exptypes.fp = FALSE
-use.expchillonly = FALSE
-}
-
-if(use.flags.for.allsppmodel){
-use.chillports = FALSE
-use.zscore = FALSE
-use.allspp = TRUE
-use.multcuespp = FALSE
-use.cropspp = TRUE
-use.expramptypes.fp = FALSE
-use.exptypes.fp = FALSE
-use.expchillonly = FALSE
-}
-
-if(use.yourown.flagdesign){
-use.chillports = TRUE # change to false for using utah instead of chill portions (most models use chill portions z)
-use.zscore = TRUE # change to false to use raw predictors
-
-# Default is species complex and no crops
-use.allspp = FALSE
-use.multcuespp = FALSE
-use.cropspp = FALSE
-
-# Default is species complex use  alltypes of designs
-use.expramptypes.fp = TRUE
-use.exptypes.fp = FALSE
-
-#Default is all chilling data
-use.expchillonly = FALSE # change to true for only experimental chilling 
-#note: with only exp chilling, there is only exp photo and force too.
-#also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
-}
+source("source/flags.for.models.in.bbms.R")
 
 source("source/bbstanleadin.R")
 
 if(use.flags.for.mainmodel){
-write.csv(bb.stan, "..//output/bbstan_mainmodel_utah_allsppwcrops_allfp_allchill.csv", row.names=FALSE) 
+write.csv(bb.stan, "..//output/bbstan_mainmodel.csv", row.names=FALSE) 
 }
-
-if(use.flags.for.allsppmodel){
-write.csv(bb.stan, "..//output/bbstan_allsppmodel_utahzscore_wcrops_allfp_allchill.csv", row.names=FALSE)
-}
-
-# write.csv(bb.stan, "..//output/bbstan_utahzscore_nocrops_exprampedfp_allchill.csv", row.names=FALSE)
 
 ######################################
 ## Overview of the model run below ##
@@ -135,22 +89,61 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 
 
 # Code if you want to save your models (do NOT push output to git)
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
+
+if(use.flags.for.mainmodel){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
 }
 
+if (use.flags.for.spcomp.cp){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
+}
+
+if (use.flags.for.allspp.utah){
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z.Rda")
+}
+
+if (use.flags.for.spcomp.utah.nonz){
+  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
+}
+
+if (use.flags.for.spcomp.cp.nonz){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz.Rda")
+}
+
+if (use.flags.for.allspp.utah.nonz){
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
+}
+
+#Other combinations of flags used at some point (but not in the main bb manuscript)
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
+}
+
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
+}
+
+if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
+    use.chillports==FALSE){
+  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
+}
+
+
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
     use.chillports==TRUE){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz.Rda")
+save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
 }
 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
@@ -159,53 +152,6 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
 }
 
-# utah ...
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE &
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
-    use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
-}
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z.Rda")
-}
 
 ###### SIDE BAR #####
 ## Getting R2 etc. ##
