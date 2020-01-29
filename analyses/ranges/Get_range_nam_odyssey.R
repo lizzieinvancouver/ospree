@@ -34,8 +34,7 @@ species.list <- as.vector(species.list$x)
 # get a list of the polygon shapefiles in the .zip with the maps
 zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
                                      list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip",
- #                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
@@ -79,8 +78,8 @@ if(FALSE){
 }
 
 # define period
-period<-1999:2016
-#period<-1980:1998
+#period<-1999:2016
+period<-1980:1998
 
 
 ## set function
@@ -315,7 +314,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreefolder[2],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreefolder[3],tmin,tmax,period)
 
 
 
@@ -325,7 +324,7 @@ Climate.in.range<-extractchillforce(ospreefolder[2],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[2],
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[3],
                                          period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
