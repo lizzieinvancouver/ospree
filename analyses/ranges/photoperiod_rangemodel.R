@@ -123,11 +123,29 @@ dater.phots$logdist100<-log(dater.phots$dist100)
 unique(dater.phots$complex.wname) 
 unique(dater.phots$distance) 
 
+jpeg("..//ranges/figures/rawphotoperiod.jpeg",height = 6, width=14, units = "in",res=100)
 ggplot(dater.phots,aes(distance,b_photo,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+
   geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)+theme_minimal()+theme(legend.position = "none")
+dev.off()
+
 ggplot(dater.phots,aes(logdist,b_photo,label=complex.wname))+stat_summary(fun.data = "mean_sdl",aes(color=complex.wname))+
   geom_text(stat = 'summary', fun.y=mean, aes(label = complex.wname),size=3)+theme_minimal()+theme(legend.position = "none")
 
-phot.mod<-brm(b_photo~logdist,data=dater.phots,iter=3000,warmup=2000,chains=4)
+phot.mod<-brm(b_photo~logdist,data=dater.phots,iter=3000,warmup=2000,control = list(adapt_delta=0.95),chains=4)
 
 summary(phot.mod)
+extract_coefs<-function(x){rownames_to_column(as.data.frame(fixef(x, summary=TRUE,probs=c(0.05,0.25,0.75,0.95))),"climate_var")
+}
+
+photo.var.out<-extract_coefs(phot.mod)
+pd=position_dodgev(height=0.2)
+
+jpeg("..//ranges/figures/photo_model_mus.jpeg",width = 6, height = 4, units = 'in', res=150)
+photo.var.out%>%
+  arrange(Estimate) %>%
+  mutate(climate_var = factor(climate_var, levels=c("logdist","Intercept"))) %>%
+  ggplot(aes(Estimate,climate_var))+geom_point(position=pd,size=1,shape=1)+
+  geom_errorbarh(aes(xmin=Q5,xmax=Q95),position=pd,width=0,linetype="dotted")+
+  geom_errorbarh(aes(xmin=Q25,xmax=Q75),position=pd,width=0,linetype="solid")+
+  ggthemes::theme_base(base_size = 11)+geom_vline(aes(xintercept=0),color="black")+xlim(-2.2,.5)
+dev.off()
