@@ -6,9 +6,9 @@
 
 #SBATCH -N 1
 
-#SBATCH -t 0-100:00:00
+#SBATCH -t 0-30:00:00
 
-#SBATCH --mem 100000
+#SBATCH --mem 200000
 
 #SBATCH -o hostname.out
 

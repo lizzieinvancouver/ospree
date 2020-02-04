@@ -71,18 +71,6 @@ for (i in 1:nsps){#i=1
   #spsshapeproj<-spTransform(spsshape,proj4string(chillsub1[[1]]))
 }
 
-par(mar = c(0.5, .5, .5, .5))
-
-jpeg("..//ranges/overlay_8sp.jpeg",width = 8.6, height = 4, units = 'in', res=200)
-plot(listtostore[[4]])
-plot(listtostore[[1]],add=TRUE,col=rgb(1,.5,1,alpha = 0.3))
-plot(listtostore[[2]],add=TRUE,col=rgb(0,.5,1,alpha = 0.3))
-plot(listtostore[[3]],add=TRUE,col=rgb(1,0,0,alpha = 0.3))
-plot(listtostore[[5]],add=TRUE,col=rgb(1,0,1,alpha = 0.3))
-plot(listtostore[[6]],add=TRUE,col=rgb(1,0,.5,alpha = 0.3))
-plot(listtostore[[7]],add=TRUE,col=rgb(0,0,1,alpha = 0.3))
-plot(listtostore[[8]],add=TRUE,col=rgb(.1,1,1,alpha = 0.3))
-dev.off()
 
 rangeofrange<-data.frame(complex=character(),min=numeric(),max=numeric())
 
