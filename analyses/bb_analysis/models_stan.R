@@ -41,7 +41,7 @@ if(length(grep("lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
-use.flags.for.mainmodel <- TRUE#centered predictors, spcomplex with utah units. Fig 2 in main text of budburst ms
+use.flags.for.mainmodel <- TRUE
 use.flags.for.spcomp.cp <- FALSE
 use.flags.for.allspp.utah <- FALSE
 use.flags.for.spcomp.utah.nonz <- FALSE

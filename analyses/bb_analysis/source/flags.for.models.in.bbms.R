@@ -8,7 +8,7 @@ if(length(which(c(use.flags.for.mainmodel,use.flags.for.spcomp.cp,use.flags.for.
                   use.yourown.flagdesign) =="TRUE"))==0) 
   print("ALERT! You have not set any master flags; you must pick one!")
 
-if(use.flags.for.mainmodel){
+if(use.flags.for.mainmodel){#centered predictors, spcomplex with utah units. Fig 2 in main text of budburst ms
   use.chillports = FALSE
   use.zscore = TRUE
   use.allspp =FALSE 
@@ -19,7 +19,7 @@ if(use.flags.for.mainmodel){
   use.expchillonly = FALSE
 }
 
-if(use.flags.for.spcomp.cp) {
+if(use.flags.for.spcomp.cp) {#centered predictors, spcomplex with chill portions units. Table ms
   use.chillports = TRUE
   use.zscore = TRUE
   use.allspp =FALSE 
