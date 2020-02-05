@@ -78,8 +78,8 @@ if(FALSE){
 }
 
 # define period
-period<-1980:2016
-#period<-1980:1998
+#period<-1999:2016
+period<-1980:1998
 
 
 ## set function
@@ -314,7 +314,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreefolder[5],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreefolder[4],tmin,tmax,period)
 
 
 
@@ -324,7 +324,7 @@ Climate.in.range<-extractchillforce(ospreefolder[5],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[5],
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[4],
                                          period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
