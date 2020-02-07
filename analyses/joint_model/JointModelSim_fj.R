@@ -57,108 +57,150 @@ simulatedTrait$yTraiti <- simulatedTrait$alphaTraitSp + simulatedTrait$alphaStud
 
 #build a model in stan that gets these values back
 #-----------------------------------------------------
+stan_data <- list(yTraiti = yTraiti, N = N, n_spec = nSpecies, species = simulatedTrait$species, 
+	study = simulatedTrait$Study, n_study = nStudy)
 
+write("// running a simle model of teh fisrt part of teh joint model
+	// it should get species specific trait values 
 
 
+data {
+	int < lower = 1 > N; // Sample size
+ 
+ 	//level 1
+ 	vector[N] yTraiti; // Outcome
 
+ 	//level 2
+	int < lower = 1 > n_spec; // number of random effect levels (species) 
+	int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
 
+	int < lower = 1 > n_study; // number of random effect levels (study) 
+	int < lower = 1, upper = n_study > study[N]; // id of random effect (study)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#what if there were multiple traits considered?
-
-simulatedTraits <- data.frame(matrix(NA, N, 2))
-names(simulatedTraits) <- c("obs", "Trait")
-simulatedTraits$obs <- c(1:N)
-simulatedTraits$Trait <- rep(1:nTrait, each = nSpecies)
-simulatedTraits$Species <- rep(1:nSpecies, times = nTrait)
-simulatedTraits$Study <- rep(1:nStudy, each = nTrait*nSpecies)
-tail(simulatedTraits)
-table(simulatedTraits$Trait)
-
-#trait and species specific interecpts
-sigmaTraitAlpha <- 8 # variation around alpha because of the trait
-sigmaTraitAlphaY <- rtruncnorm(nTrait, 0, sigmaTraitAlpha) # get an alpha value for each trait 
-
-sigmaAlphaSpecies <- 4 # varation for different species 
-#sigmaAlphaSpeciesS <- rtruncnorm(nSpecies, 0, sigmaAlphaSpecies) # get intercept values for each species
-
-for (i in i:nTrait){ # modify species intercepts based on the effect of trait 
-	iTrait <- rnorm(nSpecies, sigmaTraitAlphaY[i], sigmaAlphaSpecies)  
-	simulatedTraits$AlphaTraitSpecies[simulatedTraits$Trait == i] <- iTrait
 }
 
 
-sigmaAlphaTrait <- 5 # variation  between different trait/species combinations  
-alphaTraitSp <- rnorm(nSpecies*nTrait, muAlphaTrait, sigmaAlphaTrait) # get iterecpt values for each species/trait 
-simulatedTraits$alphaTraitSp <- rep(alphaTraitSp , times = nStudy) # repeat values 15 times so each observation has a trait alpha attached 
+parameters{
 
-#study specific intercepts 
-muAlphaStudy <- 12 # mean of teh effect of study 
-sigmaAlphaStudy <- 6 # variation for different studies in the intercept 
-alphaStudy <- rnorm(nStudy, muAlphaStudy, sigmaAlphaStudy ) # getting an intercept values for each study 
-simulatedTraits$alphaStudy <- rep(alphaStudy, each = nTrait*nSpecies) # repeat values as many times as there are traits and species
+	//level 1
+	// general varience/error
+	real <lower =0> sigmaTrait_y; // overall variation accross observations
 
-#general varience
-sigma2Trait <- 2 
-sigma2TraitY <- rtruncnorm(nTrait, 0 , sigma2Trait)
-for ( i in 1:nTrait){
-	eTraiti <- rtruncnorm(n*nSpecies, 0, sigma2TraitY[i]) # get a distribution of observation errors based on trait variation 
-	simulatedTraits$eTrait[simulatedTraits$Trait == i] <- eTraiti 
+
+	//level 2
+	real <lower = 0> sigma_sp; // variation of intercept amoung species
+	real muSp[n_spec]; // mean of the alpha value for species
+
+	real <lower = 0> sigma_stdy; // variation of intercept amoung studies
+	real muStdy[n_study]; // mean of the alpha value for studies 
 
 }
-simulatedTraits$eTrait <- rnorm(N, 0, sigma2Trait)
+
+transformed parameters{
+	//Individual mean for species and study
+	real ymu[N];
+
+	//Individual mean calculation 
+	for (i in 1:N){
+		ymu[i] = muSp[species[i]] + muStdy[study[i]];  
+	}
+}
+model{ 
+	//assign priors
+	sigmaTrait_y ~ normal(0,5);
+
+	sigma_sp ~ normal(0,5);
+	muSp ~ normal(10, sigma_sp);
+
+	sigma_stdy ~ normal(0, 5);
+	muStdy ~ normal(10, sigma_stdy);
+
+	// run the actual model - likihood
+	for (i in 1:N){
+		yTraiti[i] ~ normal(ymu[i], sigmaTrait_y);
+	}
+
+
+}
+
+
+generated quantities {
+} // The posterior predictive distribution",
+
+"stan_Part1.stan")
+
+
+stan_Part1 <- "stan_Part1.stan"
+
+
+fit1 <- stan(file = stan_Part1, data = stan_data, warmup = 1000, iter = 2000, chains = 3, cores = 3, thin = 1)
+
+str(fit1)
+
+posterior1 <- extract(fit1)
+str(fit1)
+
+plot(density(posterior1$muStdy))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
