@@ -34,7 +34,7 @@ simulatedTrait$obs <- c(1:N)
 simulatedTrait$Study <- rep(1:nStudy, each = nSpecies)
 simulatedTrait$species <- rep(1:nSpecies, times = nStudy)
 tail(simulatedTrait)
-table(simulatedTraits$Trait)
+
 
 #different alpha values for each species
 muTrait <- 8 # mean of the distribution of intercepts of different species for that trait 
@@ -57,7 +57,7 @@ simulatedTrait$yTraiti <- simulatedTrait$alphaTraitSp + simulatedTrait$alphaStud
 
 #build a model in stan that gets these values back
 #-----------------------------------------------------
-stan_data <- list(yTraiti = yTraiti, N = N, n_spec = nSpecies, species = simulatedTrait$species, 
+stan_data <- list(yTraiti = simulatedTrait$yTraiti, N = N, n_spec = nSpecies, species = simulatedTrait$species, 
 	study = simulatedTrait$Study, n_study = nStudy)
 
 write("// running a simle model of teh fisrt part of teh joint model
@@ -133,20 +133,67 @@ generated quantities {
 stan_Part1 <- "stan_Part1.stan"
 
 
-fit1 <- stan(file = stan_Part1, data = stan_data, warmup = 1000, iter = 2000, chains = 3, cores = 3, thin = 1)
+fit1 <- stan(file = stan_Part1, data = stan_data, warmup = 1000, iter = 4000, chains = 4, cores = 4, thin = 1)
 
 str(fit1)
 
 posterior1 <- extract(fit1)
 str(fit1)
 
-plot(density(posterior1$muStdy))
+# values look close enouph, and rhat = 1
+plot(density(posterior1$sigmaTrait_y ))
+plot(density(posterior1$muSp ))
+plot(density(posterior1$sigma_stdy))
+plot(density(posterior1$sigma_sp))
 
+#simulate the second half of teh joint model 
+#--------------------------------------
 
+nSpecies # here to renmind me that there is teh same number of species 
+#in this part of the model as there was in the first part
+alphaTraitSp # this is the effect of species trait differences from teh first half of the model 
 
+#nPheno <- 12 # there shoudl be a phenology and forcing value for each species 
+#nForcing <- 10 # number of different forcing 
+nph <- 200 # number of observations per species/phenological combination 
+#Nph <- nSpecies * nForcing * nph * nPheno #overall number of observations
+Nph <- nSpecies * nph # 20 obervations per species for phenological event and forcing 
 
+#make a dataframe to keep things organised
+phenoData <- data.frame(matrix(NA, Nph, 2))
+names(phenoData) <- c("obs", "species")
+phenoData$obs <- c(1:Nph)
+phenoData$species <- rep(c(1:nSpecies), each = nph)
 
+#phenological values for different species
+muPhenoSp <- 3
+sigmaPhenoSp <- 5
+alphaPhenoSp <- rnorm(nSpecies, muPhenoSp, sigmaPhenoSp) 
+phenoData$alphaPhenoSp <- rep(alphaPhenoSp, each = nph)
 
+#different forcing values for each species 
+muForcingSp <- -2
+sigmaForcingSp <- 2
+alphaForcingSp <- rnorm(nSpecies, muForcingSp, sigmaForcingSp)
+
+#interaction between trait and phenology?
+betaTraitxPheno <- 1.5
+
+#combine teh effects of forning and species trait differences 
+betaForcingSP1 <- alphaForcingSp + alphaTraitSp*betaTraitxPheno
+betaForcingSp <- rep(betaForcingSP1, )
+phenoData$betaForcingSp <- rep(betaForcingSp, each = nph)
+
+#big F in the  model - some sort of slope? 
+Forcing <- 2
+
+#general variance
+ePhenoSigma <- 4
+ePheno <- rnorm(Nph, 0, ePhenoSigma) 
+phenoData$ePheno <- ePheno
+
+#"run" the full model to simulate data 
+phenoData$yPhenoi <- phenoData$alphaPhenoSp + phenoData$betaForcingSp * Forcing + phenoData$ePheno
 
 
 
