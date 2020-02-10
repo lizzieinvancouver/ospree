@@ -471,3 +471,4 @@ plot(density(posterior3$muPhenoSp)) # 3
 plot(density(posterior3$sigmaPhenoSp)) # 5
 
 
+#the model is struggling with the mean intercept values for the first part of the model
