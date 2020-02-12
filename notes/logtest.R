@@ -1,0 +1,12 @@
+t<-rev(seq(from =1, to= 11, by = 1))
+warmt<-t+10
+bb.sens<-seq(from = 100, to = 120, by= 2)
+bb<-seq(from = 100, to = 109, by = 1)
+logt<-log(t)
+logwarmt<-log(warmt)
+logbb.sens<-log(bb.sens)
+logbb<-log(bb)
+lm(bb.sens~t)
+lm(bb.sens~warmt)
+lm(logbb.sens~logwarmt)
+lm(logbb.sens~logt)

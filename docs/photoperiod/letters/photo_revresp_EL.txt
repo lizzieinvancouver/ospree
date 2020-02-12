@@ -1,0 +1,93 @@
+\documentclass[11pt,a4paper]{letter}
+\usepackage[top=1.00in, bottom=1.0in, left=0.75in, right=0.75in]{geometry}
+\usepackage{graphicx}
+\usepackage{natbib}
+
+\begin{document}
+
+\begin{letter}{}
+\includegraphics[width=0.2\textwidth]{/Users/aileneettinger/Dropbox/Documents/Work/AA_heading.pdf}
+
+\opening{Dear Dr. Chase and Dr. Hillebrand:}
+We are submitting a Review \& Synthesis to address an urgent ecological question: What are the implications of the altered photoperiod that plants and animals experience as they shift their ranges and seasonal activities with climate change? The two most-observed biological impacts of climate change are shifts in space (range shifts) and time (phenological shifts). Both alter experienced photoperiod, which could dramatically affect performance and fitness. However, the magnitude of effects from shifts in photoperiod with climate change are unknown or unquantified for the vast majority of species.  
+\par We address this need by synthesizing the large body of controlled climate experiments that test effects of temperature and photoperiod on spring phenology \emph{(1)}. Our review differs from previous work \emph{(e.g., 2)} in that it quantifies expected changes in experienced photoperiod due to shifts in space versus time. It is broadly relevant, as photoperiod acts as a cue for the spring emergence and migration timing of diverse species, and altered photoperiod can affect development, growth, and fitness for plants, insects, fish, and mammals, among other organisms. Thus, understanding these changes is critical for scientists studying basic ecology, as well as those who wish to forecast species responses to climate change and use forecasts to develop adaptation strategies. Yet, photoperiod has rarely been included in forecasts of climate change responses, and implications of climate-change-induced shifts in photoperiod are largely unexplored, especially for early-season spring events, where changes will be most dramatic. 
+\par This piece is timely and important because of its focus on the intersection of photoperiod and spring phenology (similar to \emph{3,4,5})---this is an area of growing interest given recent studies suggesting that photoperiod may underlie declining responses to warming. To date, the role of photoperiod has received far more detailed attention for end-of-season activities, such as growth cessation in the fall, than for spring activities. Though photoperiod cues dominate in the fall for many organisms, fall phenology responses to climate change have been muted. In contrast, spring phenology responds strongly to temperature and thus has advanced substantially with warming---causing cascading, and generally unexplored, effects on photoperiod experienced at the start of spring. We demonstrate that incorporating photoperiod into forecasts is possible by leveraging existing experimental data: as an example, we show that growth chamber experiments on woody plant spring phenology often have data relevant for climate change impacts (e.g., Fig. 1). 
+
+\par This paper was inspired by a meta-analysis, currently in review at \emph{Nature Climate Change} and attached to this submission per your requirements, that quantifies the effects of chilling, forcing, and photoperiod on budburst phenology of woody plants. Both that meta-analysis and the manuscript submitted here use data from a new database of spring phenology responses \emph{(1)}; the analyses, figures, and writing in the manuscript we submit to you are entirely unique and not under consideration elsewhere. Co-authors are D. Buonaiuto, C. Chamberlain, I. Morales-Castilla, and E. Wolkovich.  Our international team includes researchers well-versed in techniques of controlled climate experiments, having conducted such studies ourselves  \emph{(e.g., 6)}, as well as scientists with expertise in meta-analytical approaches  \emph{(e.g., 7,8)}. We expect our Review \& Synthesis will inspire innovative research to improve mechanistic understanding of photoperiod as a cue for diverse biological processes, as well as a deeper appreciation for the ways that experienced photoperiod may both affect and be affected by species responses to climate change; we hope you will consider it for \emph{Ecology Letters}. We suggest the following potential reviewers: Josep Pe\~nuelas, David Inouye, and Mark Schwartz.
+
+Sincerely,\\
+
+\includegraphics[scale=.4]{/Users/aileneettinger/Dropbox/Documents/Work/AileneEttingerSignature.png} \\
+Ailene Ettinger
+\begin{footnotesize}\\
+Quantitative Ecologist, The Nature Conservancy- Washington Field Office\\
+Visiting Fellow, Arnold Arboretum of Harvard University 
+\end{footnotesize}
+\\
+\\
+\noindent \emph{References in cover letter}
+
+\begin{footnotesize}
+\begin{enumerate}
+\item Wolkovich, E.M.,  et al. 2019. Observed Spring Phenology Responses in Experimental Environments (OSPREE). Knowledge Network for Biocomplexity. urn:uuid:b2ab2746-b830-4
+\item Saikkonen, K., et al. 2012. Climate change-driven species' range shifts filtered by photoperiodism. \emph{Nature Climate Change}, 2:239.
+\item Chamberlain, C.J., et al. 2019. Rethinking false spring risk.  \emph{Global Change Biology}.
+\item Richardson, A.D., et al. 2018. Ecosystem warming extends vegetation activity but heightens vulnerability to cold temperatures. \emph{Nature}, 560: 368.
+\item Fu, Y.H., et al. 2019. Daylength helps temperate deciduous trees to leaf-out at the optimal time. \emph{Global change biology}.
+\item Flynn D.F. \& Wolkovich EM. 2018. Temperature and photoperiod drive spring phenology across all species in a temperate forest community. \emph{New Phytologist}, 219:1353-62.
+\item Wolkovich, E.M.,  et al. 2011. Warming experiments underpredict plant phenological responses to climate change. \emph{Nature} 485: 494.
+\item Ettinger, A. K., et al. 2019. "How do climate change experiments alter plot?scale climate?. \emph{Ecology letters}, 22: 748-763.
+ 
+\end{letter}
+\end{document}
+
+Referees' comments to the author(s):
+
+Referee: 1
+
+Comments for the Authors
+I am happy to review this manuscript as a Reviews and Synthesis paper to Ecology Letters. Basically, this paper aims at answering the three questions: 1. How will climate change alter the photoperiod experienced by organisms? 2. What are the implications of altered photoperiods for biological responses to climate change? 3. Can research apply data from experiments that alter photoperiod to aid in forecasting biological implications of climate change? Absolutely, these three questions are very important for understanding the changes of photoperiods and its impacts to biological phenophases. However, it is pity that I found very limited new knowledge by reading this paper, and many places are very difficulty to follow. I have several major concerns as followings. 
+
+1. The authors seem to focus on the responses of spring phenophases to photoperiods, but it may be a wrong direction. There is obvious asymmetry of radiation and temperature on seasonal changes. The peak of radiation is always earlier than that of temperature, and which means the limited environmental variable in Spring is temperature not radiation. Therefore, the photoperiod is not important for plant phenology in Spring. On contrary, in autumn, the radiation or daylength is very low when the temperature keeps still very high. However, I did not find some reviews on the changes in autumn phenophases in response to photoperiod. 
+
+2. the abstract is very week because it fails to summarize the main content of this review manuscript. The authors are going to review the study progresses on photoperiods and its impacts, therefore, the abstract should also focus on the three key scientific questions. However, the current abstract does not highlight the key results and conclusions but repeat the background. 
+
+3. The introduction starts from the impacts of climate warming on phenophases (the first paragraph). I would like to read the importance of photoperiods first, and then to know the connections between temperature and photoperiods. 
+
+4. Line 36: these two references did not support your statement "Some studies suggest that, with additional warming, photoperiod will limit phenological shifts of certain species such that they will not track rising temperatures (e.g., by leaf out earlier in the spring, Korner and Basler, 2010; Way and Montgomery, 2015)." These two papers are review papers, and both describe the contrary conclusion with the authors. For example, the first paper states "However, no study has demonstrated that photoperiod is more dominant than temperature when predicting leaf senescence (1), leafing, or flowering" The authors should double check and be cautious for all conclusions in the manuscript. Therefore, I doubt the main topic in this review paper as I mentioned before that the impacts of photoperiods is very limited to phenophases in Spring. 
+
+5. Figure 1 and 2 are two the most important results in this review paper. However, the authors fail to introduce their importance clearly. Figure 1 only shows the temporal changes of daylength at two locations, and I have no idea about other information in the figure. Figure 2 is very low level greenness map, and I did not find any useful information at all. In addition, these two figures can not support the conclusion in the text very well. For example, how can the authors arrive at this conclusion "A general pattern of longer photoperiod at green-up toward the poles is consistent across years (Fig. 2b) and green-up does not appear to occur at daylengths less than 10 hours."? (Line 82-83)
+
+6. the authors fail to summarize the knowledge on "How will climate change alter the photoperiod experienced by organisms?" I only get very limited knowledge on current conditions of photoperiods experiences by organisms and future changes. In addition, these information focus on the local scale, no global pattern shown. I do not think this kind review can promote science advances. Same feelings for other two sections. 
+
+7. Figure 3 and 5 are results derived from OSPREE database, but it is very hard to understand how the experiments have been conducted and if the conclusions are reliable because the authors did not introduce them adequately. 
+
+8. There are too many conclusions no evidence supported to list them all. 
+
+Referee: 2
+
+Comments for the Authors
+Manuscript is a good review of what is known about the effects of photoperiod in the context of climate change. Although the title doesn't make this clear, it's mostly plant (and tree) oriented.  I think I made a few notes about places where relevance to animals could be included.  It's pretty well written, although I've flagged some editorial issues on the PDF.  I think the relevant literature is cited, and the figures are useful and clear.  The ideas are presented clearly and the discussion is good.  See a few other comments on the PDF.  
+
+Referee: 3
+
+Comments for the Authors
+Comments to Authors:
+
+The shifts of photoperiod is not only the result of phenology changes, such as earlier in spring leaf-out and geographic shifts in species distribution, but also the reason/driver of phenology change, for example the shortening photoperiod associating with earlier leaf-out reduced the temperature sensitivity. I do think this is an interesting review in the photoperiod shifts, although many papers have discussed such photoperiod effect on phenology, and agree that the photoperiod effect should be coupled into the phenology modeling, especially considering the larger uncertainty of phenology modeling in the global carbon simulations. One major issue is that, although the importance of photoperiod has been addressed by many papers, such as Korner and Basler 2010 science paper, as well as papers the authors cited, how the photoperiod plays its role during the phenology processes is still largely unclear. For example, the interactive effect among photoperiod, chilling and forcing in the spring leaf-out processes, and the relative importance among these drivers for phenological processes. In one recently study, the authors proposed a framework that the photoperiod interacts with chilling and forcing (GDD) to modify the leaf-out dates to ensure the tree leaf out at the right time, and further suggested that the photoperiod plays its role depending on the phenology dates, i.e. whether or not the phenological dates filling into its optimal periods, see Fu et al, gcb (daylength helps the ..).based on such framework, the species-specific difference, as well as spatial difference in photoperiod effect could be explained. Anyway, such integrative effect need to be reviewed clearly. 
+In addition, the authors suggested that the experimental results could be coupled into the modelling approaches, however the phenological experimental studies might be underestimated, comparing to its natural response, see Wolkovich et al, 2012 nature, how to improve the experimental study to be more reliable and reality is thus important, rather only suggesting couples the experimental results into the modeling approaches. In the review paper in Hänninen et al, 2019, Trends in plant science, in which the authors suggested even the processed-based modeling is still unreliable, because the key sub-processes are omitted during the experiments and thus physiological experiments are needed, for example controlling the dates of end endodormancy (Chine et al, 2016 gcb).
+Hänninen H, Kramer K, Tanino K, et al. Experiments are necessary in process-based tree phenology modelling[J]. Trends in plant science, 2019, 24(3): 199-209.
+Fu, Y H. et al. Daylength helps temperate deciduous trees to leaf-out at the optimal time[J]. Global change biology, 2019, 25(7), 2410-2418.
+Chuine, I. et al. Can phenological models predict tree phenology accurately in the future? the unrevealed hurdle of endodormancy break. Glob. Change Biol. 2016, 22, 3444-3460
+
+more comments:
+Line 7-9, Larger spatial photoperiod shifts than temporal shifts was reported... does it suggest the local climate is more important than air temperature? or the interactive effect among environmental cues plays more important role than air temperature only?
+L152-153, yes, but the rate of frost damage may also increase...
+L158-159, also identifying the species-specific photoperiod sensitivity is important...
+
+******************************************
+Editor's comments to the author(s):
+
+Editor
+Editors Comments for the Author(s):
+Please consider the serious concerns of the referees, especially those of referee 1
