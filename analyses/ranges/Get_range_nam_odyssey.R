@@ -78,14 +78,15 @@ if(FALSE){
 }
 
 # define period
-period<-1999:2016
-#period<-1980:1998
+#period<-1999:2016
+period<-1985:1998
+#period<-1986:1998
 
 
 ## set function
 extractchillforce<-function(spslist,tmin,tmax,period){
   
-  ## define array to store results ## i=1 spslist=ospreefolder[1]
+  ## define array to store results ## i=1 spslist=ospreefolder[8]
   nsps<-length(spslist) #nsps<-length(spslist)
   nyears<-length(period)
   chillforcespsyears<-array(NA,dim=c(nyears,6,nsps))
@@ -134,8 +135,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
       unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
                         list = TRUE)$Name
-      #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip",
-       #               list = TRUE)$Name
+      #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
       
       shpsource <-"NA_ranges"
       
@@ -314,7 +314,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range<-extractchillforce(ospreefolder[12],tmin,tmax,period)
+Climate.in.range<-extractchillforce(ospreefolder[6],tmin,tmax,period)
 
 
 
@@ -324,7 +324,7 @@ Climate.in.range<-extractchillforce(ospreefolder[12],tmin,tmax,period)
 #                                    period[1],max(period),"RData",sep="."))
 
 
-write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[12],
+write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[6],
                                          period[1],max(period),"csv",sep="."))
 if(FALSE){
   ## attempt to parallelize code
