@@ -79,7 +79,7 @@ if(FALSE){
 
 # define period
 #period<-1999:2016
-period<-1985:1998
+period<-1980:1998
 #period<-1986:1998
 
 
@@ -131,9 +131,9 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       spsi<-spslist
       
       ## load shape
-      path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+      path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/betupapy.zip"
       #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-      unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+      unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/betupapy.zip",
                         list = TRUE)$Name
       #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
       
