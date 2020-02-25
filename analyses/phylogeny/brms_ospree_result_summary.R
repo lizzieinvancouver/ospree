@@ -91,6 +91,7 @@ if(use.yourown.flagdesign){
   #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
 }
 
+
 source("..//bb_analysis/source/bbstanleadin.R")
 
 namesdat<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
@@ -172,6 +173,15 @@ subset.type="sps.bbms"
 subset.type="sps.bbms.angio"
 subset.type="all.sps"
 subset.type="all.sps.angio"
+subset.type="all.sps.HQ"
+
+
+
+#Species list is built using analyses/bb_analysis/source/speciescomplex.multcues.R
+#1 all three cues were manipulated in one study (i.e., two levels) - applies to species
+#2 all three cues were manipulated somehow across >1 study (i.e., each study used must have two levels of at least one cue) - applies to species and complexes
+#And then crops were removed: Actinidia deliciosa, Malus domestica, Vitis vinifera, Ribes nigrum
+
 
 if(subset.type=="complex"){ ## 2675 obs; 52 complexes
 load("output/full_nophylomod.RData")
