@@ -568,7 +568,7 @@ swa$Stand.Slope<-c(pre.standslopefinal, post.standslopefinal)
 
 names(swa) <- c("Time period", "Intercept (days)", "Slope (days/\\degree C)", "SE", "R2", "Window Open", "Window Closed","Temp (\\degree C)", "Standardized Slope")
 
-swaresults <- xtable(swa, caption="\\textbf{Absolute sliding time window results} for before climate change (1950-1960) and after climate change (2000-2010). `Temp' is the average temperature, and 'Standardized Slope' is the slope, adjusted to pre-climate change thermal unit days, with 95 percent uncertainty intervals.",
+swaresults <- xtable(swa, caption="\\textbf{Absolute sliding time window results} for before climate change (1950-1960) and after climate change (2000-2010). `Temp' is the average temperature, and `Standardized Slope' is the slope, adjusted to pre-climate change thermal unit days, with 95 percent uncertainty intervals.",
        label="tab:swa",align=c(
                "p{0.01\\textwidth}|",
                "|p{0.15\\textwidth}|",
