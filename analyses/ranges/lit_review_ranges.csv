@@ -1,8 +1,8 @@
 ﻿paperID,reader,cue(s)_examined,comments
 Osada2018,Cat,all three,"just looking at Fagus crenata in Japan but across 7 sites and 9 deg latitude. Day of budburst was earlier from more northern populations, forcing was lower for more northern populations. Chilling was strongly correlated to origin, with more chilling, less GDDs required. Longer photoperiods for more northern populations and more southern populations had more variability in photoperiod"
-Morin2008,Cat,,
-Liang2019,Cat,,
-Kramer2017,Cat,,
+Morin2008,Cat,all three using Phenofit,Look at 16 European tree species and their ranges. Find local exctinctions at southern end of species ranges due to flower frost damage and drought mortality but increased expansion northward under A2 and B2. More extinctions under A2 but overall slower rate of extinction than previously predicted
+Liang2019,Cat,"all three - chilling for dormancy break, forcing for budbreak, and photoperiod for autumn senescence ","Common gardent experiment with Fraxinus americana, looking at interannual climate variability for budburst and latitudinal gradients for budset. They found that budset timing more strongly related to provenance latitude but also found that individuals from more northern populations required a stronger chilling cue and less of a forcing cue"
+Kramer2017,Cat,Chilling and forcing,Find that Fagus sylvatica has a flexible phenology in relation to temperature shifts. 
 Brown et al 2016,Darwin,,
 Chuine et al 1999,Darwin,,
 Chunie 2010,Darwin,,
