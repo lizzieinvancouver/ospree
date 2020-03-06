@@ -3,10 +3,10 @@ Osada2018,Cat,all three,"just looking at Fagus crenata in Japan but across 7 sit
 Morin2008,Cat,all three using Phenofit,Look at 16 European tree species and their ranges. Find local exctinctions at southern end of species ranges due to flower frost damage and drought mortality but increased expansion northward under A2 and B2. More extinctions under A2 but overall slower rate of extinction than previously predicted
 Liang2019,Cat,"all three - chilling for dormancy break, forcing for budbreak, and photoperiod for autumn senescence ","Common gardent experiment with Fraxinus americana, looking at interannual climate variability for budburst and latitudinal gradients for budset. They found that budset timing more strongly related to provenance latitude but also found that individuals from more northern populations required a stronger chilling cue and less of a forcing cue"
 Kramer2017,Cat,Chilling and forcing,Find that Fagus sylvatica has a flexible phenology in relation to temperature shifts. 
-Brown et al 2016,Darwin,,
-Chuine et al 1999,Darwin,,
-Chunie 2010,Darwin,,
-Clark et al 2014,Darwin,,
+Brown et al 2016,Darwin,Forcing,This is a meta-analysis of phenology data on range limits and phenology for fishes!
+Chuine et al 1999,Darwin,Forcing and Chilling ,"Looked at 4 species: Platanus acerifolia, Quercus pubescens, Castanea sativa and Vitis Vinifera. Found species were very well adapted to their own geographical area despite moving plants to different regions. "
+Chunie 2010,Darwin,None,This paper is more of a review of phenology with no actual data collected or shown 
+Clark et al 2014,Darwin,Forcing,Focusses more on model comparison but does show that warming at range limits tends to increase budburst and leafout
 Muffler et al.,Deidre,,
 Doi et al 2008,Deidre,,
 Ford 2001,Deidre,,
@@ -20,6 +20,3 @@ Saikkonen,Dan,photoperiod,"phenology of many plants is regu
 lated by changes in day length, particularly north and south of the
 
 tropics of Cancer and Capricorn."
-,,,
-,,,
-,,,
