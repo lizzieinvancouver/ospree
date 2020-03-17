@@ -1,8 +1,11 @@
 library(dplyr)
-#How many studies include error in figs/tables/:
+#How many studies do not include error in figs/tables/:
 d<-read.csv("..//..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 length(d$resp_error[which(is.na(d$resp_error))])
-(length(d$resp_error[d$resp_error=="no response"])+length(d$resp_error[d$resp_error=="0"])+length(d$resp_error[d$resp_error==""])+length(d$resp_error[which(is.na(d$resp_error))]))/length(d$resp_error)
+(length(d$resp_error[d$resp_error=="no response"])+
+    length(d$resp_error[d$resp_error=="0"])+
+    length(d$resp_error[d$resp_error==""])+
+    length(d$resp_error[which(is.na(d$resp_error))]))/length(d$resp_error)
 
 #what proportion of studies used utah as their reported units?
 
@@ -36,17 +39,28 @@ modstud <- bbstan %>% # start with the data frame
 modstud2 <- bbstan %>% # start with the data frame
   distinct(ID_study, .keep_all = TRUE) %>% # establishing grouping variables
   dplyr::select(datasetID, study)
-d_modstud<-semi_join(d,modstud2)
-d_modstud2<-subset(d_modstud,select=c(datasetID,study,response,n,error.type,resp_error,figure.table..if.applicable.))
-d_modstud3<-d_modstud2[d_modstud2$n=="" & d_modstud2$resp_error=="",]
+d$datasetID<-as.character(d$datasetID)
+modstud$datasetID<-as.character(modstud$datasetID)
+d$study<-as.character(d$study)
+modstud$study<-as.character(modstud$study)
+d_modstud<-semi_join(d,modstud)
+d_modstud2<-subset(d_modstud,select=c(datasetID,study,Entered.By,response,n,error.type,resp_error,figure.table..if.applicable.))
+#Make a list of studies that need n and/or errir
+colnames(d_modstud2)[8]<-"fig.table"
+
+non<-d_modstud2[d_modstud2$n=="",]
+
+noerror<-d_modstud2[d_modstud2$resp_error==""| d_modstud2$resp_error=="0"| d_modstud2$resp_error=="cant see bars, very small"| is.na(d_modstud2$resp_error),]
 # write.csv(d_modstud3,"..//output/add.n.error.csv")
-# 
-
-length(unique(d_modstud3$datasetID))#12 lack n or error
-colnames(d_modstud3)[7]<-"fig.table"
-d_modstud3$ID_study_fig<-paste(d_modstud3$datasetID,d_modstud3$study,d_modstud3$fig.table,sep="_")
-
+nonerr<-full_join(non,noerror)
+nonerr$ID_study_fig<-paste(nonerr$datasetID,nonerr$study,nonerr$fig.table,sep="_")
+neednerror <- nonerr %>% # start with the data frame
+     distinct(ID_study_fig, .keep_all = TRUE) %>% # establishing grouping variables
+     dplyr::select(datasetID, study, Entered.By,fig.table,n,resp_error,error.type)
+ write.csv(neednerror,"..//output/need.n.error.csv")
+  
 #check quantiles of forcing treatments
+
 
 # ns<-bbstan %>% # start with the data frame
 #   distinct(ID_study, .keep_all = TRUE) %>% # establishing grouping variables
