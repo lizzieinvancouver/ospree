@@ -138,6 +138,17 @@ fit1 <- stan(file = stan_Part1, data = stan_data, warmup = 1000, iter = 4000, ch
 
 str(fit1)
 
+fit1sum <- summary(fit1)$summary
+
+# These look pretty close, the 4.7 and 6.4 are a little concerning (but I got closer to these when setting sigmaTrait_y to 0.2 so probably okay)
+fit1sum[grep("sigma", rownames(fit1sum)),"mean"]
+
+# These are not great matches, I tried setting a lower overall sigma and still found poor matches, I would lower the overall sigma (sigmaTrait_y), up the reps and see if you can better recover these estimates before moving forward. 
+fit1sum[grep("muSp\\[", rownames(fit1sum)),"mean"]
+alphaTraitSp
+fit1sum[grep("muStdy\\[", rownames(fit1sum)),"mean"] 
+alphaStudy
+
 posterior1 <- extract(fit1)
 str(fit1)
 
