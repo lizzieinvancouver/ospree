@@ -35,11 +35,11 @@ Dan B,myking98,exp1,EW,"fig3 -- did not take last point for each species (date o
 Dan B,li05,exp1,EF,,5,"cant see bars, very small",SE,,,hard to tell 33?,No,,Done
 Dan B,heide93,exp3,TLS,fig5,5,,,,5cuttings/3tree/species,32 (6intakes*6light&forcing),No,,Done
 Dan B,zohner16,Exp1,DB,,8,,,,,6,Yes,Yes,Done
-Nacho,basler12,exp1,TS,fig3,,4.34,SD,,,,,,
-Nacho,basler12,exp1,TS,fig4,,31.408,SD,,,,,,
-Nacho,partanen98,exp1,JAS,Table 1,90,,,,,,,,
-Nacho,partanen98,exp2,JAS,Table 2,97,,,,,,,,
-Nacho,partanen98,exp3,JAS,Table 3,97,,,,,,,,
+Nacho,basler12,exp1,TS,fig3,,4.34,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of Days to Budburst),Yes,Done
+Nacho,basler12,exp1,TS,fig4,,31.408,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of GDD>0C),Yes,Done
+Nacho,partanen98,exp1,JAS,Table 1,90,,,exact not possible,8-10 per location,3,No,NA,Done
+Nacho,partanen98,exp2,JAS,Table 2,97,,,exact not possible,8-10 per location,3,No,NA,Done
+Nacho,partanen98,exp3,JAS,Table 3,97,,,exact not possible,8-10 per location,3,No,NA,Done
 Tim,heide93,exp1,TLS,fig2,5,,,,,,,,
 Tim,heide93,exp2,TLS,fig2,5,,,,,,,,
 Tim,calme94,exp1,TS,fig 5,15,,,,,,,,
