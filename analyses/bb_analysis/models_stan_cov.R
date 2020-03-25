@@ -41,7 +41,7 @@ if(length(grep("lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
-use.flags.for.mainmodel <- TRUE
+use.flags.for.mainmodel <- TRUE#centered predictors, spcomplex with utah units. Fig 2 in main text of budburst ms
 use.flags.for.spcomp.cp <- FALSE
 use.flags.for.allspp.utah <- FALSE
 use.flags.for.spcomp.utah.nonz <- FALSE
@@ -86,13 +86,42 @@ par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 }
+#make datalist for model with cov matrix
+nVars <-4
+Imat <- diag(4,nVars)
 
+datalist.bb <- with(bb.stan, 
+                    list(y=resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = complex,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex)),
+                         nVars = nVars,
+                         Imat = Imat
+                    )
+)
 
+#run model with correlated slopes/ints
+#nVars<-3#number of predictors
+m2l.ni2.cov = stan('stan/nointer_2level_cov.stan', data = datalist.bb,
+                  iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+
+m2lni.cov.sum <- summary(m2l.ni2.cov)$summary
+m2lni.cov.sum[grep("mu_", rownames(m2lni.cov.sum)),]
+m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
+#compare cov mod with original model
+cov.comp<-cbind(m2lni.sum[grep("mu_", rownames(m2lni.sum)),1],m2lni.cov.sum[grep("mu_", rownames(m2lni.cov.sum)),1])
+colnames(cov.comp)<-c("mainmod","mainmodwcov")
+write.csv(cov.comp,"..//output/covcomp.csv")
 # Code if you want to save your models (do NOT push output to git)
 
 if(use.flags.for.mainmodel){
   save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
-}
+  save(m2l.ni.cov, file="stan/output/m2lni_spcompexprampfputah_z_cov.Rda")
+  
+  }
 
 if (use.flags.for.spcomp.cp){
   save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
