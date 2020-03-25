@@ -92,12 +92,12 @@ mean(as.numeric(d_modstud$forcetemp),na.rm=TRUE)#15.67971
 
 #Plot sample size sv error
 #can we add in SE
-quartz()
+pdf("figures/sdvsn.pdf", width = 7, height = 5)
 
-plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,25), ylim=c(0,25), xlab="Sample size (treatment-level)",ylab= "StDev")
+plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,28), ylim=c(0,28), bty="l",xlab="Sample size (treatment-level)",ylab= "StDev")
 #no SDs currently have sample size!
 points(as.numeric(d$n[d$error.type=="SE"]),(as.numeric(d$resp_error[d$error.type=="SE"])*sqrt(as.numeric(d$n[d$error.type=="SE"]))),pch=21,bg="goldenrod")
-
+dev.off()
 unique(d_modstud$error.type)
 
 #Old code
