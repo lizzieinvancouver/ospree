@@ -57,7 +57,11 @@ source("bb_analysis/cleaning/clean_moreduplicates.R") # As of 12 Dec 2018, delet
 # 8. Clean photoperiod entries to try to get as much data as possible
 source("bb_analysis/cleaning/clean_photoperiod.R")
 
-# 9. Write out the final file! 
+# 9. Add sample size and error to studies, if possible
+source("bb_analysis/cleaning/clean_addnanderror.R")
+
+
+# 10. Write out the final file! 
 write.csv(d, "output/ospree_clean_withchill_BB.csv", row.names=FALSE) ## As of 27 March 2019: 7643 (12 Dec 2018: 7383; 8 June 2018: 7370)
 
 

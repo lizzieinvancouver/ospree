@@ -1,47 +1,1 @@
-person_checking,datasetID,study,Entered.By,fig.table,n.inosppree,resp_error.inospree,error.type,n_possibletoget?,n_per_group,Num_groups,resp_error_possibletoget?,Requires_scraping?,To Do
-Ailene,laube14a,exp1,TS,fig 2,,,NA,Yes ,"N=902-1000 per treatment, depending on treatment",,No,NA,Done
-Ailene,falusi03,exp1,TS,fig 1,,,SE,exact not possible," 6-9 buds per twig, 15 twigs per lot",15,Yes,Yes,Done
-Ailene,basler14,exp1,TS,fig 2,,,SE,exact not possible ,"726 time series total used in analyses, across all spp/treatments",,Yes,Yes,Done
-Ailene,basler14,exp1,TS,fig 4,,,SE,exact not possible ,"726 time series total used in analyses, across all spp/treatments",,Yes,Yes,Done
-Ailene,worrall67,exp 3,TS,fig 5,,,,,n=5,,NA,No,Get n per ?? And how many groups
-Ailene,worrall67,exp 3,TS,fig 4,,,,,n=5,,NA,No,Get n per ?? And how many groups
-Ailene,worrall67,exp 4,TS,fig 7,,,,,n=5,,NA,No,Get n per ?? And how many groups
-Ailene,laube14b,exp1,DF,Fig. 1,,,"quartiles (upper,lower)",Yes, (n=10 twings per species),,Yes,Yes,Get n per treatment and how many treatments
-Ailene,caffarra11a,exp3,TS,fig 1,,10.524,SE,,,,,,
-Ailene,caffarra11a,exp2,TS,fig 3,,1.157,SE,,,,,,
-Ailene,myking97,exp1,EF,fig1,,0.52,SE,,,,,,
-Ailene,falusi97,exp2,EF,fig2,15,,,,,,,,
-Ailene,falusi97,exp1,EF,fig1,8,,,,,,,,
-Ailene,Sanz-Perez09,exp1,AE,fig 1,50,,,,,,,,
-Ailene,skuterud94,exp1,TLS,fig4,12,,,,,,,,
-Ailene,skuterud94,exp1,AE,fig3,12,,,,,,,,
-Ailene,skuterud94,exp1,TLS,fig5,48,,,,,,,,
-Ailene,thielges75,exp1,AE,fig1,230,,,,,,,,
-Cat,falusi96,exp3,TS,fig4,n=8 /treatment/provenance,No,NA,,,,No,NA,Done
-Cat,falusi90,exp1,TS,fig 1,,falusi90,NA,exact not possible,"average of 6.5 buds per group 1, 9.5 buds per group 2, 12.1 per group 3",3,No,NA,Done
-Cat,falusi90,exp1,TS,Table 2,,falusi90,NA,No (percentage),NA,NA,No,NA,Done
-Cat,caffarra11b,exp2,TS,table 3,,,SE,No (percentage),NA,NA,Yes,Yes,Done
-Cat,myking95,exp1,TS,fig 2,,,NA,"Yes, can scrape from Table 2",,,No,NA,Done
-Cat,myking95,exp1,TS,fig 4,,,SE,Yes, n=5,,Yes,Yes,Get n per ?? And how many groups
-Cat,campbell75,exp3,EW,fig5,5,,,,,,,,
-Cat,rinne94,exp1,JAS,Figure2A,12 to 16,,,,,,,,
-Cat,rinne94,exp1,JAS,Figure2B,12 to 16,,,,,,,,
-Cat,heide93a,exp1,EW,table1,15,,,,,,,,
-Cat,heide93a,exp3,EW,fig2,15,,,,,,,,
-Dan B,partanen01,exp1,JAS,Table 1,,,,Yes,n=20 seedlings (groups 1-3) or n=5 cuttings (groups 4-5),"groups = 3, cuttings = 2",NA,No,Done
-Dan B,ghelardini10,exp1,TS,fig 2,,,SE,Yes,n=45 /clone/treatment,groups=12 (6 intake dates*2photoperiod treatments),Yes,Yes,Done
-Dan B,ghelardini10,exp2,TS,fig 4,,,SE,Yes,n=30 /clone/treatment,groups=12 (6 intake dates*2focing treatments),Yes,Yes,Done
-Dan B,myking98,exp1,EW,"fig3 -- did not take last point for each species (date of field budbreak) as very tricky to estimate well; monthly mean, max, min temps given in Table 1 if needed. Elevation taken from Heide 1993a paper.",,0.971,SE,Yes,n=4 buds/twig; 3 twigs/tree,groups=7,,,Done
-Dan B,li05,exp1,EF,,5,"cant see bars, very small",SE,,,hard to tell 33?,No,,Done
-Dan B,heide93,exp3,TLS,fig5,5,,,,5cuttings/3tree/species,32 (6intakes*6light&forcing),No,,Done
-Dan B,zohner16,Exp1,DB,,8,,,,,6,Yes,Yes,Done
-Nacho,basler12,exp1,TS,fig3,,4.34,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of Days to Budburst),Yes,Done
-Nacho,basler12,exp1,TS,fig4,,31.408,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of GDD>0C),Yes,Done
-Nacho,partanen98,exp1,JAS,Table 1,90,,,exact not possible,8-10 per location,3,No,NA,Done
-Nacho,partanen98,exp2,JAS,Table 2,97,,,exact not possible,8-10 per location,3,No,NA,Done
-Nacho,partanen98,exp3,JAS,Table 3,97,,,exact not possible,8-10 per location,3,No,NA,Done
-Tim,heide93,exp1,TLS,fig2,5,,,,,,,,
-Tim,heide93,exp2,TLS,fig2,5,,,,,,,,
-Tim,calme94,exp1,TS,fig 5,15,,,,,,,,
-Tim,webb78,exp2,TS,fig 1,12,,,,,,,,
-Tim,webb78,exp1,TS,fig 1,12,,,,,,,,
+person_checking,datasetID,study,Entered.By,fig.table,n.inosppree,resp_error.inospree,error.type,n_possibletoget?,n_per_group,Num_groups,resp_error_possibletoget?,Requires_scraping?,Error Notes,To Do,Added to clean_addnanderror.R?Ailene,laube14a,exp1,TS,fig 2,,,NA,Yes ,"N=902-1000 per treatment, depending on treatment",,No,NA,,Done,Ailene,falusi03,exp1,TS,fig 1,,,SE,Yes,15,4,Yes,Yes,,Done,DoneAilene,basler14,exp1,TS,fig 2,,,SE,Yes,20,20/treatment/species/sampling dates (1200 totalN),Yes,Yes,error bars narrow (usually less than +/- 2; always <+/- 5),Done,DoneAilene,basler14,exp1,TS,fig 4,,,SE,Yes,20,20/treatment/species/sampling dates (1200 totalN),Yes,Yes,error bars narrow ( always <+/- 5 days),Done,DoneAilene,worrall67,exp 3,TS,fig 5,,,,,n=5,,NA,No,,Get n per ?? And how many groups,Ailene,worrall67,exp 3,TS,fig 4,,,,,n=5,,NA,No,,Get n per ?? And how many groups,Ailene,worrall67,exp 4,TS,fig 7,,,,,n=5,,NA,No,,Get n per ?? And how many groups,Ailene,laube14b,exp1,DF,Fig. 1,,,"quartiles (upper,lower)",Yes, (n=10 twings per species),,Yes,Yes,,Get n per treatment and how many treatments,Ailene,caffarra11a,exp3,TS,fig 1,,10.524,SE,,,,,,,,Ailene,caffarra11a,exp2,TS,fig 3,,1.157,SE,,,,,,,,Ailene,myking97,exp1,EF,fig1,,0.52,SE,,,,,,,,Ailene,falusi97,exp2,EF,fig2,15,,,,,,,,,,Ailene,falusi97,exp1,EF,fig1,8,,,,,,,,,,Ailene,Sanz-Perez09,exp1,AE,fig 1,50,,,,,,,,,,Ailene,skuterud94,exp1,TLS,fig4,12,,,,,,,,,,Ailene,skuterud94,exp1,AE,fig3,12,,,,,,,,,,Ailene,skuterud94,exp1,TLS,fig5,48,,,,,,,,,,Ailene,thielges75,exp1,AE,fig1,230,,,,,,,,,,Cat,falusi96,exp3,TS,fig4,n=8 /treatment/provenance,No,NA,,,,No,NA,,Done,Cat,falusi90,exp1,TS,fig 1,,falusi90,NA,exact not possible,"average of 6.5 buds per group 1, 9.5 buds per group 2, 12.1 per group 3",3,No,NA,,Done,Cat,falusi90,exp1,TS,Table 2,,falusi90,NA,No (percentage),NA,NA,No,NA,,Done,Cat,caffarra11b,exp2,TS,table 3,,,SE,No (percentage),NA,NA,Yes,Yes,,Done,Cat,myking95,exp1,TS,fig 2,,,NA,"Yes, can scrape from Table 2",,,No,NA,,Done,Cat,myking95,exp1,TS,fig 4,,,SE,Yes, n=5,,Yes,Yes,,Get n per ?? And how many groups,Cat,campbell75,exp3,EW,fig5,5,,,,,,,,,,Cat,rinne94,exp1,JAS,Figure2A,12 to 16,,,,,,,,,,Cat,rinne94,exp1,JAS,Figure2B,12 to 16,,,,,,,,,,Cat,heide93a,exp1,EW,table1,15,,,,,,,,,,Cat,heide93a,exp3,EW,fig2,15,,,,,,,,,,Dan B,partanen01,exp1,JAS,Table 1,,,,Yes,n=20 seedlings (groups 1-3) or n=5 cuttings (groups 4-5),"groups = 3, cuttings = 2",NA,No,,Done,Dan B,ghelardini10,exp1,TS,fig 2,,,SE,Yes,n=45 /clone/treatment,groups=12 (6 intake dates*2photoperiod treatments),Yes,Yes,,Done,Dan B,ghelardini10,exp2,TS,fig 4,,,SE,Yes,n=30 /clone/treatment,groups=12 (6 intake dates*2focing treatments),Yes,Yes,,Done,Dan B,myking98,exp1,EW,"fig3 -- did not take last point for each species (date of field budbreak) as very tricky to estimate well; monthly mean, max, min temps given in Table 1 if needed. Elevation taken from Heide 1993a paper.",,0.971,SE,Yes,n=4 buds/twig; 3 twigs/tree,groups=7,,,,Done,Dan B,li05,exp1,EF,,5,"cant see bars, very small",SE,,,hard to tell 33?,No,,,Done,Dan B,heide93,exp3,TLS,fig5,5,,,,5cuttings/3tree/species,32 (6intakes*6light&forcing),No,,,Done,Dan B,zohner16,Exp1,DB,,8,,,,,6,Yes,Yes,,Done,Nacho,basler12,exp1,TS,fig3,,4.34,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of Days to Budburst),Yes,,Done,Nacho,basler12,exp1,TS,fig4,,31.408,SD,Yes,10,8 (2 orientations x 2 heights x 2 photoperiods),Yes (SD of GDD>0C),Yes,,Done,Nacho,partanen98,exp1,JAS,Table 1,90,,,exact not possible,8-10 per location,3,No,NA,,Done,Nacho,partanen98,exp2,JAS,Table 2,97,,,exact not possible,8-10 per location,3,No,NA,,Done,Nacho,partanen98,exp3,JAS,Table 3,97,,,exact not possible,8-10 per location,3,No,NA,,Done,Tim,heide93,exp1,TLS,fig2,5,,,,,,,,,,Tim,heide93,exp2,TLS,fig2,5,,,,,,,,,,Tim,calme94,exp1,TS,fig 5,15,,,,,,,,,,Tim,webb78,exp2,TS,fig 1,12,,,,,,,,,,Tim,webb78,exp1,TS,fig 1,12,,,,,,,,,,
