@@ -102,6 +102,7 @@ head(richdf.simple)
 
 ## We should have both chilling and forcing information... they were both entered as ambient in the 
 # initial push so it is being deleted somewhere in the code early on for forcing. Need to check on chilling.
+# I think it's because we are missing a field sample date since this takes place in a chamber outside. 
 
 # 2) man17
 mandf <- mdbb[(mdbb$datasetID=="man17"),] ## 112 observations
