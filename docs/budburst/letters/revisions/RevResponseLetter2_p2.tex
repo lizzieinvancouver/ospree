@@ -45,7 +45,7 @@ transformation could then be applied after within subject centering.}
 \par The reviewer brings up some interesting points about spatial versus temporal variation (e.g., days to budburst may vary geographically as well as across years). This is certainly the case. Separating temporal versus spatial variation might be an especially critical component of long-term observational studies in the natural world, and within subject centering may be an effective approach in these cases.  
 \par The focus of our study is to understand the effects of chilling versus forcing versus photoperiod as drivers of temporal variation in budburst (i.e. days to budburst), and, to address this, our study synthesizes short-term experiments conducted in controlled environment chambers. There are two main reasons why controlled environment chamber experiments are unlikely to show the substantial temporal and spatial variation described by the reviewer. First, these are short-term studies, with nearly all experiments (27/28, or 96\%) lasting less than 1 year. The mean length of chilling treatments was 56 days (range= 1-254 days) and the mean length of forcing treatments was 39 days (range = 0 to 423 days). Second, the fact that these are controlled environment studies means that the chilling, forcing, and photoperiod treatments imposed by these experiments are decoupled from spatial variation in climate. 
 
-\par Nonetheless, we should try using the within-subject centering approach in Van de Pol and Wright (also in \url{http://www.stat.columbia.edu/~gelman/research/unpublished/Bafumi_Gelman_Midwest06.pdf}). I suggest starting with simulated data for 1 species across 3-5 experiments that have distinct, non-overlapping forcing treatments to start. We could then see the effects of using within subject centering vs not using it on estimates. 
+\par Nonetheless, we did try using the within-subject centering approach suggested by the reviewer,  in Van de Pol and Wright (also in \url{http://www.stat.columbia.edu/~gelman/research/unpublished/Bafumi_Gelman_Midwest06.pdf}). We did this with simulated data and found that.....(Dan is working on this for 1 species across 3-5 experiments that have distinct, non-overlapping forcing treatments to start to look at effects of using within subject centering vs not using it.)
 
 \par Note: I am not exactly sure what the reviewer means by spatial versus temporal effects for our study. Some studies may have had a couple of years of replicates (?) and others have multiple sites. 
 \item \emph{ Is it really chilling? My gravest concern relates to a point raised by reviewer 3 on whether the
@@ -55,7 +55,8 @@ being a hypothesis (though this is not apparent in the abstract) but I think thi
 undermines what can be inferred from this approach and the key finding of the study. There is
 a lot that is good about this study, but the limitation of the methods for robustly teasing apart
 chilling from forcing means that I think it confuses our understanding more than it advances it.}
-\par The reviewer brings up a challenge commonly faced in phenology research-- disentangling forcing from chilling-- and this questions highlights that we did not adequeatly clarify the methods in our meta-analysis. The chilling estimates that we use in our study are simply the chilling treatments applied in the studies we synthesized. My only idea here is to add clarifying language about our methods, the methods of the authors o the original studies, and add support in the form of references to the many studies that have previously been published using the same methods that we did to estimate chilling. I think this comment stems from a misunderstanding of the data and their experimental nature. We use standard chilling metrics, that have been developed through rigorous experiments and are widely used. We left it to the authors of the original studies to decide on chilling versus forcing; I'm not sure what else we could realistically do. 
+\par LIZZIE: please work on this especially! Below are my notes so far
+The reviewer brings up a challenge commonly faced in phenology research-- disentangling forcing from chilling-- and this questions highlights that we did not adequeatly clarify the methods in our meta-analysis. The chilling estimates that we use in our study are simply the chilling treatments applied in the studies we synthesized. My only idea here is to add clarifying language about our methods, the methods of the authors o the original studies, and add support in the form of references to the many studies that have previously been published using the same methods that we did to estimate chilling. I think this comment stems from a misunderstanding of the data and their experimental nature. We use standard chilling metrics, that have been developed through rigorous experiments and are widely used. We left it to the authors of the original studies to decide on chilling versus forcing; I'm not sure what else we could realistically do. 
 
 \item \emph{Measurement error. The fact that 75\% of studies had a sample size < 8 suggests that
 measurement error is likely to be substantial. On page 7 of the methods it is stated that
@@ -89,7 +90,7 @@ drivers. I think the covariances between these random slopes and the with the ra
 intercept should be estimated i.e. estimate a 4 x 4 covariance matrix (alphasp, betaforcing,
 betaphotoperiod, betachilling).}
 \end{enumerate}
-\par We have added parameters to our main model to allow slope and intercept to vary. 
+\par We have added parameters to our main model to allow slope and intercept to vary, and added a table to the supplemental methods comparing the estimates of both models. We did not find that adding the covariance matrix altered parameter estimates very much.
 
 \par \emph{Minor comments}
 \par \emph{Line 26. Insert ``forcing" before temperature.}
@@ -98,20 +99,19 @@ betaphotoperiod, betachilling).}
 dependent on how you define importance. If importance is defined as it's influence on year to year
 variation then in the UK we find chilling to be a less important cue than forcing --see fig 1 in Roberts et
 al.}
-\par We thank the reviewer for pointing out a need for greater clarification here. We previously cited only one example of a study using proces-based approach that found stronger effects of chilling than forcing. We have added two additional studies that use process-based approaches and also found stronger effects of chilling. We have also added the Roberts et al paper suggested by the reviewer so that the sentence now says:
+\par LIZZIE: Please work on this especially. A start is below, but last we talked you disagreed with this edit so feel free to modify!
+
+We thank the reviewer for pointing out a need for greater clarification here. We previously cited only one example of a study using proces-based approach that found stronger effects of chilling than forcing. We have added two additional studies that use process-based approaches and also found stronger effects of chilling. We have also added the Roberts et al paper suggested by the reviewer so that the sentence now says:
 ``Process-based phenological models, however, that explicitly model chilling often find this cue to be most critical (e.g., gauzere2019,laube14a,Heide:2005aa, but see roberts et al 2015).''
 
 \par \emph{Last paragraph of methods: The start date of GDD models does not have to be specified by the
 researcher, it can be estimated from the data.}
-\par We thank the reviewer for pointing this out, and estimating a start date for GDD (as done in Roberts et al 2015) may be a useful approach for many question. For this aspect of the methods, the goal was to examine potential statistical artifacts in estimating changes in forcing sensitivity. To evaluate this potential, we chose a specific start and end date for two main reasons: 1) we wanted to follow the method of previous studies that have reported declining sensitivities (e.g.
+\par We thank the reviewer for pointing this out, and estimating a start date for GDD (as done in Roberts et al 2015) may be a useful approach for many questions. For this aspect of the methods, the goal was to examine potential statistical artifacts in estimating changes in forcing sensitivity. To evaluate this potential, we chose a specific start and end date because this is an approach used by many studies (e.g., XXX) and because this simplification allowed for a more straightforward understanding of the potential effects of statistical artifacts.
 \par \emph{Table S2. Are the window open and closed in ordinal days? I'm also skeptical as to the informativeness
 of fitting a sliding window to just 10 years of data.}
 \par Yes, the windows are opened and closed in ordinal days; we have added the following to the Table legend to clarify this:
 
 To do this analysis, we followed the methods in , the reference suggested by the reviewer in the previous version. We were happy to incorporate this and feel it has strengthened our manuscript. Additional sliding window analyses may be interesting, and if the reviewer has specific requests we can try to address them, though they may be beyond the scope of this manuscript, given the substantial analytical work already included in this manuscript.
-
-
-\par Should we expand to 20 years? Ask cat/lizzie
 
 \par \emph{Signed}
 \par \emph{Ally Phillimore}
