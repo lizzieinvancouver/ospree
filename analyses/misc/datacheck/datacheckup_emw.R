@@ -109,6 +109,7 @@ launch_shinystan(modhere) # please go to: Explore -> Click on 'bivariate' on rig
 
 # Some plotting (if you have a good model!)
 bb.stan <- bb.noNA
+post.mohere <- extract(modhere)
 sumer.here <- summary(modhere)$summary
 whichmodel <- sumer.here
 spp <- sort(unique(bb.noNA$complex))
