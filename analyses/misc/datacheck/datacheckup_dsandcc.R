@@ -100,12 +100,18 @@ head(richdf.simple)
 ## Okay so for richardson18 we are missing both forcing and chilling. 
 # Let's go back through the paper to make sure that is true.
 
+## We should have both chilling and forcing information... they were both entered as ambient in the 
+# initial push so it is being deleted somewhere in the code early on for forcing. Need to check on chilling.
+
 # 2) man17
 mandf <- mdbb[(mdbb$datasetID=="man17"),] ## 112 observations
 dim(mandf) 
 unique(mandf$respvar.simple) # othernums - so that's why! 
 
 ## Let's double check the paper to make sure the response variable is correct!
+
+#### CJC checked man17 on 27 March 2020: response variable is cumulative chilling hours 
+# which is correctly reported in the ospree database.
 
 #### Alright now let's see why we are losing those 11 rows of data from nanninga17
 nanndf <- mdbb[(mdbb$datasetID=="nanninga17"),] ## 112 observations
@@ -122,6 +128,9 @@ nanndf.exp1 <- nanndf.simple[(nanndf.simple$study=="exp1"),]
 # CHECK THIS OUT! Exp1 needs to be revisited for nanninga17
 
 nanndf.exp2 <- nanndf.simple[(nanndf.simple$study=="exp2"),] ## This checks out! We can continue on with this study below.
+
+### Experiment 1: we should be getting field chilling. There must be a flaw in chilling code somewhere.
+## This needs to be updated!
 
 ########################################################################################
 ########################################################################################
