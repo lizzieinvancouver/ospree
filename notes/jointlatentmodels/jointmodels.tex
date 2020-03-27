@@ -15,33 +15,43 @@
 {\bf Joint modeling notes and thoughts}\\
 
 
-Question: For modeling trait values estimated at the species level from one model to help predict phenology data from OSPREE, which model (of the two sets below) makes more sense? Or does some other model?\\
+For modeling trait values estimated at the species-level from one model to help predict phenology data from OSPREE, which model makes the most sense?\\
 
-\emph{Update thoughts, 24 March 2020}\\
+\emph{Update thoughts, 26 March 2020}\\
 
-Trait model:
+Joint trait and phenology mode formulated like thisl:
 \begin{align*}
-y_{trait, i} &= \alpha_{grand} + \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
+\hat{y}_{trait, i} &= \alpha_{trait.grand} + \alpha_{trait, sp[i]} + \alpha_{study[i]}\\
 \alpha_{trait, sp} & \sim N(0, \sigma_{\alpha, trait}) \\
 \alpha_{study}  & \sim N(0, \sigma_{\alpha, study})\\
+y_{trait}& \sim N(\hat{y}_{trait},\sigma^2_{trait, y}) \\
+\vspace{1ex}\\
+\hat{y}_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i \\
+\beta_{forcing_{sp}} & = \alpha_{forcing_{sp}} + \beta_{trait x pheno}*\alpha_{trait, sp} \\
+\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
+\alpha_{forcing_{sp}} & \sim N(\mu_{\alpha, forcing}, \sigma_{\alpha, forcing})\\
+y_{pheno} & \sim N(\hat{y}_{pheno},\sigma^2_{y, pheno}) 
+\end{align*}
+
+\vspace{5ex}
+Side note ... this model:
+\begin{align*}
+\hat{y}_{trait, i} &= \alpha_{trait.grand} + \alpha_{trait, sp[i]} + \alpha_{study[i]}\\
+\alpha_{trait, sp} & \sim N(0, \sigma_{\alpha, trait}) \\
+\alpha_{study}  & \sim N(0, \sigma_{\alpha, study})\\
+y_{trait}& \sim N(\hat{y}_{trait},\sigma^2_{trait, y}) \\
+\end{align*}
+
+And this model:
+\begin{align*}
+y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
+\alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
+\alpha_{study}  & \sim N(\mu_{\alpha, study}, \sigma_{\alpha, study})\\
 \epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
 \end{align*}
+I believe are the same, but I was clearer about $\hat{y}_{trait}$ (predicted $y$) versus the data ($y_{trait}$) in the first version, and in the first version I showed that you need to break out $\alpha_{trait.grand}$ when you have multiple intercepts.\\
 
-Phenology model:
-\begin{align*}
-y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i+ \epsilon_{pheno, i}\\
-\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
-\epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
-\end{align*}
-
-Put them together:
-\begin{align*}
-\beta_{forcing_{sp}} &= \alpha_{betaforce} + \beta_{pheno x trait}*\alpha_{trait, sp} + \epsilon_{pheno x trait}\\
-\alpha_{betaforce} & \sim N(\mu_{betaforce}, \sigma_{betaforce})\\
-...
-\end{align*}
-
-
+\newpage
 \emph{By Lizzie, from before March}\\
 
 Example here is whether traits may help predict phenology from growth chamber studies. Even though we generally estimate chilling, forcing and photoperiod from growth chamber studies I just focus on forcing ($F$) here to keep things simple (but we could start with even simpler models ... e.g., intercept-only, if needed).\\
@@ -58,7 +68,7 @@ y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\
 
 Phenology model:
 \begin{align*}
-y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F+ \epsilon_{pheno, i}\\
+y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i+ \epsilon_{pheno, i}\\
 \alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
 \beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing})\\
 \epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
