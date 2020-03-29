@@ -5,6 +5,9 @@ if(is.data.frame(d)){
   d$n[which(d$datasetID=="falusi03")]<-15
 ##Basler14 (Ailene)  
   d$n[which(d$datasetID=="basler14")]<-20#"1200twigs after the 3rd sampling" divded by 4 species and 3 sampling dates and 5 treatments
+##caffara11a (Ailene)  
+  d$n[which(d$datasetID=="caffarra11a" & d$study=="exp3")]<-8#
+  d$n[which(d$datasetID=="caffarra11a" & d$study=="exp2")]<-10#
   
 } else {
   print("Error: d not a data.frame")
