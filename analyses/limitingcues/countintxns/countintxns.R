@@ -488,10 +488,26 @@ bbintxnsdf <- rbind(bbintxnsdf, data.frame(treat1="total-variedwsometreats-varyd
     n=nrow(studiesinclforceperiodicity)))
 # Enough already?
 
+# Get the study names (tried to pull all the 'Simple one-by-one interactions')
+bbintxnsdfstudnames <- rbind(bb14d.fpintxn[order(bb14d.fpintxn$datasetID),], bb14d.ctfintxn[order(bb14d.ctfintxn$datasetID),],
+    bb14d.cdfintxn[order(bb14d.cdfintxn$datasetID),], bb14d.ctpintxn[order(bb14d.ctpintxn$datasetID),],
+    bb14d.cdpintxn[order(bb14d.cdpintxn$datasetID),], bb14d.daysfintxn[order(bb14d.daysfintxn$datasetID),],
+    bb14d.dayspintxn[order(bb14d.dayspintxn$datasetID),])
+bbintxnsdfstudnames <- bbintxnsdfstudnames[!duplicated(bbintxnsdfstudnames), ]
+
+
 if(mainmodelbb){
 names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")
 write.csv(bbintxnsdf, "limitingcues/output/bbstan_mainmodel_countinxns.csv", row.names=FALSE)
 }
+
+
+if(mainmodelbb){
+# names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")
+write.csv(bbintxnsdfstudnames, "limitingcues/output/bbstan_mainmodel_countinxns_datasetIDs.csv", row.names=FALSE)
+}
+
+
 
 if(!mainmodelbb){
 names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")

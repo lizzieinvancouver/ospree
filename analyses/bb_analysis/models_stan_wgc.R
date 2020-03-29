@@ -57,7 +57,10 @@ if(use.flags.for.mainmodel){
 write.csv(bb.stan, "..//output/bbstan_mainmodel.csv", row.names=FALSE) 
 }
 
-## within group center the predictors -- cheap code!
+########################################
+## within group center the predictors ##
+## cheap code!
+########################################
 bb.stan.new <- bb.stan[1,]
 bb.stan.new$force.wgc <- NA
 bb.stan.new$photo.wgc <- NA
@@ -81,6 +84,29 @@ datalist.bb <- with(bb.stan,
                            sp = complex,
                            N = nrow(bb.stan),
                            n_sp = length(unique(bb.stan$complex))
+                      )
+)
+
+
+#####################################
+## Get studies with interactions  ##
+## Lizzie took from countinxns. R ##
+## Need to deal with species complex! ##
+####################################
+
+datesetIDincl <- read.csv("..//limitingcues/output/bbstan_mainmodel_countinxns_datasetIDs.csv")
+datesetIDincl$datIDstudy <- paste(datesetIDincl$datasetID, datesetIDincl$study)
+bb.stan$datIDstudy <- paste(bb.stan$datasetID, bb.stan$study)
+bb.stan.sm <- bb.stan[which(bb.stan$datIDstudy %in% datesetIDincl$datIDstudy),]
+
+datalist.bb.sm <- with(bb.stan.sm, 
+                      list(y = resp, 
+                           chill = chill.wgc, # should change
+                           force = force.wgc, 
+                           photo = photo.wgc,
+                           sp = complex,
+                           N = nrow(bb.stan.sm),
+                           n_sp = length(unique(bb.stan.sm$complex))
                       )
 )
 

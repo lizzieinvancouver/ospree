@@ -6,13 +6,13 @@
 "chilldays","photo",7
 "fieldsample.date","force",7
 "fieldsample.date","photo",10
-"total-datasetIDstudies","NA",42
-"total-datasetIDs","NA",30
-"total-species","NA",67
+"total-datasetIDstudies","NA",39
+"total-datasetIDs","NA",28
+"total-species","NA",65
 "total-exp-chill-fpintxns","NA",5
 "total-fielddate-chill-fpintxns","NA",12
 "total-exp-chill","NA",7
-"total-fielddate-chill","NA",18
+"total-fielddate-chill","NA",17
 "total-varied-forcing","NA",15
 "total-wsometreats-constant-forcing","NA",15
 "total-variedwsometreats-varydaynight-forcing","NA",3
