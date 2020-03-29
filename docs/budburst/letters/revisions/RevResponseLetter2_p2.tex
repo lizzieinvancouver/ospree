@@ -118,7 +118,7 @@ drivers. I think the covariances between these random slopes and the with the ra
 intercept should be estimated i.e. estimate a 4 x 4 covariance matrix (alphasp, betaforcing,
 betaphotoperiod, betachilling).}\\
 
-We have added parameters to our main model to allow slope and intercept to vary, and added a table to the supplemental methods comparing the estimates of both models. We did not find that adding the covariance matrix altered parameter estimates very much.\\
+The reviewer is correct about our model formulation, we did not originally include this based on the use of this type of covariance matrix being a modelling choice \citep{gelman2006}, unless there are strong covariances in which case this should be included or the model re-formulated to better address the reasons for such covariances (and our review of our models strongly suggested we were not missing any critical covariances). Based on the reviewer'se request, we have added parameters to our main model to allow slope and intercept to vary, and added a table to the supplemental methods comparing the estimates of both models---estimates are similar across both models.\\ % I got divergent transitions in rstanarm so it might be hard to get the 4 x 4 to run, but we can work on it.  
 
 \emph{Minor comments}\\
 
