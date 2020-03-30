@@ -81,7 +81,21 @@ make_stancode(y ~ force + photo + chill +#main effects
 
 
 ###### Now, let's check map2stan...
+m2l.ni.map <- map2stan(
+  alist(
+    resp ~ dnorm(mu, sigma),
+    mu <- a[sp] + bf[sp]*force + bp[sp]*photo + bc[sp]*chill,
+    c(a, bf, bp, bc)[sp] ~ dmvnorm2(mu_species, sigma_species, Rho),
+    mu_species ~ dnorm(0, 50),
+    sigma ~ dnorm(0,10),
+    sigma_species ~ dnorm(0,10),
+    Rho ~ dlkjcorr(4)
+  ),
+  data=datalist.bb,
+  chains=2, iter=4000, warmup=2000 
+)
 
+stancode(m2l.ni.map)
 
 
 
