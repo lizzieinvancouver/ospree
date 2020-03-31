@@ -185,3 +185,98 @@ for (sp in c(1:length(spp))){
     }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
            whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
+
+
+#Making some nice data plots 
+#------------------------------------
+
+head(bb.noNA)
+
+#boxplots by species and study 
+chillPlotF <- ggplot(data = bb.noNA[bb.noNA$datasetID == "flynn18",], aes(x = latbi, y = chill))
+chillPlotF2  <- chillPlotF + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ggtitle("flynn18")
+
+chillPlotM <- ggplot(data = bb.noNA[bb.noNA$datasetID == "malyshev18",], aes(x = latbi, y = chill))
+chillPlotM2  <- chillPlotM + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  ggtitle("malyshev18")+
+  theme(axis.title.y=element_blank())
+
+forcePlotF <- ggplot(data = bb.noNA[bb.noNA$datasetID == "flynn18",], aes(x = latbi, y = force))
+forcePlotF2  <- forcePlotF + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
+
+forcePlotM <- ggplot(data = bb.noNA[bb.noNA$datasetID == "malyshev18",], aes(x = latbi, y = force))
+forcePlotM2  <- forcePlotM + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())+
+  theme(axis.title.y=element_blank())
+
+photoPlotF <- ggplot(data = bb.noNA[bb.noNA$datasetID == "flynn18",], aes(x = latbi, y = photo))
+photoPlotF2  <- photoPlotF + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=14,face="bold"))
+
+photoPlotM <- ggplot(data = bb.noNA[bb.noNA$datasetID == "malyshev18",], aes(x = latbi, y = photo))
+photoPlotM2  <- photoPlotM + 
+  geom_boxplot() + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+ xlab("Species")+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  theme(axis.title.y=element_blank())
+
+cowplot::plot_grid(chillPlotF2, chillPlotM2, forcePlotF2, forcePlotM2, photoPlotF2, photoPlotM2, ncol = 2,  align = "v", rel_heights = c(1,1,2))
+
+#how much overlap of species?
+
+speciesCount <- data.frame(table(bb.noNA$latbi, bb.noNA$datasetID))
+names(speciesCount) <- c("Species", "datasetID", "n_spec")
+
+
+speciesCountPlot <- ggplot(data = bb.noNA, aes(x=latbi, fill=datasetID)) 
+speciesCountPlot2 <- speciesCountPlot + geom_histogram(alpha=0.2, position="identity", stat="count")+
+  xlab("Species")+ 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
+
+#chilling vs focrcing and photoperiod
+chillForce <- ggplot(data = bb.noNA, aes(x = chill, y = force, colour = datasetID))
+chillForce + geom_point() + facet_wrap(~photo)+ 
+  theme_bw() +
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))
