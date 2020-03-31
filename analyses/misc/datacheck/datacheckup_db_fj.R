@@ -133,9 +133,9 @@ datalist.bb <- with(bb.noNA,
                          n_sp = length(unique(bb.noNA$complex))
                     ))
 
-modhere = stan('stan/nointer_2level.stan', data = datalist.bb,
-    iter = 6000, warmup=5000,control=list(adapt_delta=.99))
-###7 diverget transitions with z-scoring but still bad.
+modhere = stan('stan/datacheckup_db_fj_intonly.stan', data = datalist.bb,
+    iter = 4000, warmup=3000,control=list(adapt_delta=.99))
+
 
 
 library(shinystan)
