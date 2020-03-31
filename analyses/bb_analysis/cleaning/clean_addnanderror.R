@@ -14,6 +14,42 @@ if(is.data.frame(d)){
   d$n[which(d$datasetID=="worrall67")]<-5#
   ##laube14b (Ailene)  
   d$n[which(d$datasetID=="laube14b")]<-10#
+  ##calm94 (Ailene added)  
+  d$resp_error[which(d$datasetID=="calme94")]<-0.3230#maximum SE reported by author
+  d$error.type[which(d$datasetID=="calme94")]<-"SE"
+  ##calm94 (Ailene added)  
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="7")]<-0.3
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="4")]<-0.0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="5")]<-0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="11")]<-1.2
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="23")]<-1.0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="29")]<-2.1
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="58")]<-3.6
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="americana" & d$response.time=="47")]<-4.2
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="4" & d$chilltemp=="")]<-1.4
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="4" & d$chilltemp=="5")]<-0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="5")]<-0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="7")]<-0.9
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="17")]<-1.2
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="25")]<-1.6
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="35")]<-2.3
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="41")]<-2.9
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharinum" & d$response.time=="62")]<-2.9
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$response.time=="4")]<-0.3
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$response.time=="3")]<-0.0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$response.time=="6")]<-0.0
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$response.time=="17")]<-1.22
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$chilldays=="92" & d$response.time=="38")]<-2.51
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$chilldays=="61" & d$response.time=="38")]<-1.48
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$chilltemp=="" & d$response.time=="58")]<-3.29
+  d$resp_error[which(d$datasetID=="webb78" & d$species=="saccharum" & d$chilltemp=="5" & d$response.time=="58")]<-2.03
+  d$error.type[which(d$datasetID=="webb78")]<-"SE"
+  
+  #maximum SE reported by author
+  d$error.type[which(d$datasetID=="calme94")]<-"SE"
+  
+  ##basler12 (Ailene added, Nacho checked)  
+  d$n[which(d$datasetID=="basler12")]<-10#
   
 } else {
   print("Error: d not a data.frame")

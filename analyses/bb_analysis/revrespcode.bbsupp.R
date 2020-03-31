@@ -10,7 +10,7 @@ length(d$resp_error[which(is.na(d$resp_error))])
     length(d$resp_error[d$resp_error=="0"])+
     length(d$resp_error[d$resp_error==""])+
     length(d$resp_error[which(is.na(d$resp_error))]))/length(d$resp_error)
-
+#91.6% do not have resp. error
 #what proportion of studies used utah as their reported units?
 
 #what proportion of studies are temperate?
@@ -30,7 +30,7 @@ length(unique(d$genus.species[d$datasetID=="zohner16"]))
 
 
 #check which papers make it into the final model with use.flags.for.mainmodel
-bbstan<-read.csv("..//..//analyses/output/bbstan_mainmodel.csv", header=TRUE) 
+bbstan<-read.csv("..//analyses/output/bbstan_mainmodel.csv", header=TRUE) 
 dim(bbstan)
 length(unique(bbstan$datasetID))#30
 bbstan$ID_study_resp<-paste(bbstan$datasetID,bbstan$study,bbstan$resp,sep="_")
@@ -94,7 +94,8 @@ mean(as.numeric(d_modstud$forcetemp),na.rm=TRUE)#15.67971
 #can we add in SE
 pdf("figures/sdvsn.pdf", width = 7, height = 5)
 
-plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,28), ylim=c(0,28), bty="l",xlab="Sample size (treatment-level)",ylab= "StDev")
+plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"])/as.numeric(d$response.time[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,28), ylim=c(0,5), bty="l",xlab="Sample size",ylab= "StDev (standardized)")
+
 #no SDs currently have sample size!
 points(as.numeric(d$n[d$error.type=="SE"]),(as.numeric(d$resp_error[d$error.type=="SE"])*sqrt(as.numeric(d$n[d$error.type=="SE"]))),pch=21,bg="goldenrod")
 dev.off()
