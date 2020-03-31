@@ -8,6 +8,9 @@ options(stringsAsFactors = FALSE)
 library(rstan)
 library(RColorBrewer)
 library(ggplot2)
+library(gridExtra)#for arranging plots in a grid 
+library(cowplot)#f
+library(shinystan)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 
