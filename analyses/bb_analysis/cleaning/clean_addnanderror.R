@@ -51,6 +51,18 @@ if(is.data.frame(d)){
   ##basler12 (Ailene added, Nacho checked)  
   d$n[which(d$datasetID=="basler12")]<-10#
   
+  
+  ##partanan98 (Dan B)
+  d$n[which(d$datasetID=="partanen01")]<-20
+  
+  ##ghelardini10 (Dan B)
+  d$n[which(d$datasetID=="ghelardini10" & d$study=="exp1")]<-45
+  d$n[which(d$datasetID=="ghelardini10" & d$study=="exp2")]<-30
+  
+  
+  ##myking98 (Dan B)
+  d$n[which(d$datasetID=="myking98")]<-4
+  
 } else {
   print("Error: d not a data.frame")
 }
