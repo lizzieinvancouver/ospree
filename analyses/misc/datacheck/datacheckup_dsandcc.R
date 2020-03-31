@@ -213,3 +213,62 @@ for (sp in c(1:length(spp))){
     }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
            whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
+
+##### plotting raw data
+# Grab the data, all of it
+dall <- read.csv("output/ospree_clean.csv", header=TRUE)
+dbb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+
+# Get your subset ... 
+sort(unique(dbb$datasetID))
+medata <- c("richardson18", "man17", "nanninga17")
+
+mall <- dall[which(dall$datasetID %in% medata),]
+mdbb <- dbb[which(dbb$datasetID %in% medata),]
+
+# check if you lose data between all and bb (if you do, find out what is lost!)
+dim(mall)
+dim(mdbb) 
+
+str(mall)
+str(mdbb)
+
+# Fix species... so it plays well with rstan
+mdbb$latbi <- paste(mdbb$genus, mdbb$species)
+mdbb$complex <- as.numeric(as.factor(mdbb$latbi))
+
+## make a bunch of things numeric (eek!)
+mdbb$forceday <- as.numeric(mdbb$forcetemp)
+mdbb$forcenight <- as.numeric(mdbb$forcetemp_night)
+mdbb$photonight <- as.numeric(mdbb$photoperiod_night)
+
+# Correct forcing for day/night differences
+mdbb$photo <- as.numeric(mdbb$photoperiod_day)
+mdbb$force <- mdbb$forceday
+mdbb$force[is.na(mdbb$forcenight)==FALSE & is.na(mdbb$photo)==FALSE &
+                is.na(mdbb$photonight)==FALSE] <-
+  (mdbb$forceday[is.na(mdbb$forcenight)==FALSE & is.na(mdbb$photo)==FALSE &
+                      is.na(mdbb$photonight)==FALSE]*
+     mdbb$photo[is.na(mdbb$forcenight)==FALSE & is.na(mdbb$photo)==FALSE &
+                     is.na(mdbb$photonight)==FALSE] +
+     mdbb$forcenight[is.na(mdbb$forcenight)==FALSE & is.na(mdbb$photo)==FALSE &
+                          is.na(mdbb$photonight)==FALSE]*
+     mdbb$photonight[is.na(mdbb$forcenight)==FALSE & is.na(mdbb$photo)==FALSE &
+                          is.na(mdbb$photonight)==FALSE])/24
+
+mdbb$chill <- as.numeric(mdbb$Total_Utah_Model) 
+mdbb$chill.hrs <- as.numeric(mdbb$Total_Chilling_Hours)
+mdbb$chill.ports <- as.numeric(mdbb$Total_Chill_portions) 
+
+mdbb$resp <- as.numeric(mdbb$response.time)
+
+
+path <- unique(mdbb$datasetID)
+
+
+mdbb2.0<- subset(mdbb, datasetID == path[3])
+
+ggplot(mdbb, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
+ggplot(mdbb, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one forcing
+ggplot(mdbb, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.)
+  
