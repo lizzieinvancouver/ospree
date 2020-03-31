@@ -14,15 +14,17 @@ if(length(grep("lizzie", getwd())>0)) {
 } else setwd("~/Documents/git/ospree/analyses/ranges") 
 
 
+### From Lines 17-96 are just cleaning files so masked for now to make plots
+if(FALSE){
 ### Let's open up all climate files first...
 # Name the objects first
-mycsv = as.vector(dir("output", pattern=".csv"))
+mycsv = as.vector(dir("climoutput", pattern=".csv"))
 
 # Then create a list of dataframes
 n <- length(mycsv)
 mylist <- vector("list", n)
 
-for(i in 1:n) mylist[[i]] <- read.csv(paste0("output/",mycsv[i]))
+for(i in 1:n) mylist[[i]] <- read.csv(paste0("climoutput/",mycsv[i]))
 names(mylist) <- substr(mycsv, 18,30)
 
 # Now, let's make sure all of the dataframes have the same column names
@@ -93,4 +95,116 @@ df$source <- NULL
 
 # Let's quickly save our work:
 write.csv(df, "ranges_climclean.csv", row.names=FALSE)
+}
 
+####################################################
+############# Now for the plots!! ##################
+####################################################
+library(ggplot2)
+library(RColorBrewer)
+library(gridExtra)
+
+# Set up colors
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+my.pch <- rep(15:18, each=12)
+
+allgdd <- ggplot(df, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+  theme_classic() + coord_cartesian(ylim=c(50, 850)) +
+  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pch) # + guides(linetype=FALSE)
+
+allutah <- ggplot(df, aes(x=year, y=utah, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+  theme_classic() + coord_cartesian(ylim=c(450, 2500)) +
+  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pch)
+
+
+if(FALSE){
+eurdat <- df[(df$continent=="europe"),]
+eurgdd <- ggplot(eurdat, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line() +
+  theme_classic() + coord_cartesian(ylim=c(50, 850)) +
+  scale_color_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pch) + guides(linetype=FALSE)
+
+namdat <- df[(df$continent=="north america"),]
+namgdd <- ggplot(namdat, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+  theme_classic() + coord_cartesian(ylim=c(50, 850)) +
+  scale_color_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pch) + guides(linetype=FALSE)
+}
+
+
+quartz()
+allgdd
+allutah
+#eurgdd
+#namgdd
+
+
+#### Thinking about some barplots now...
+eurdat$gddmean <- ave(eurdat$gdd, eurdat$year)
+eurdat$gddmean.sd <- ave(eurdat$gdd, eurdat$year, FUN=sd)
+namdat$gddmean <- ave(namdat$gdd, namdat$year, FUN=sd)
+namdat$gddmean.sd <- ave(namdat$gdd, namdat$year, FUN=sd)
+
+eurdat.bar <- subset(eurdat, select=c(year, continent, gddmean, gddmean.sd))
+namdat.bar <- subset(namdat, select=c(year, continent, gddmean, gddmean.sd))
+
+all.bar <- dplyr::full_join(eurdat.bar, namdat.bar)
+all.bar <- all.bar[!duplicated(all.bar),]
+
+all.bar$ymin <- all.bar$gddmean-all.bar$gddmean.sd
+all.bar$ymax <- all.bar$gddmean+all.bar$gddmean.sd
+
+cont.pal <- brewer.pal(n = 8, name = "Dark2")
+
+gddbar<- ggplot(all.bar, aes(x=as.factor(year), y=gddmean, fill=continent)) + 
+  geom_bar(stat="identity", position=position_dodge()) +
+  geom_errorbar(aes(ymin=ymin, ymax=ymax),width = 0.2, position=position_dodge(0.9)) +
+  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.text.align = 0,
+        legend.position = c(0.1, .95),
+        legend.title = element_blank(),
+        axis.text.x = element_text(face = "italic", angle=45, hjust=1),
+        legend.key = element_rect(colour = "transparent", fill = "white")) +
+  xlab("") + 
+  ylab("GDD mean") + 
+  scale_fill_manual(name="Continent", values=cont.pal,
+                    labels=sort(unique(all.bar$continent))) 
+
+quartz()
+gddbar
+
+#### Now for utah chill
+eurdat$utahmean <- ave(eurdat$utah, eurdat$year)
+eurdat$utahmean.sd <- ave(eurdat$utah, eurdat$year, FUN=sd)
+namdat$utahmean <- ave(namdat$utah, namdat$year, FUN=sd)
+namdat$utahmean.sd <- ave(namdat$utah, namdat$year, FUN=sd)
+
+eurdat.utahbar <- subset(eurdat, select=c(year, continent, utahmean, utahmean.sd))
+namdat.utahbar <- subset(namdat, select=c(year, continent, utahmean, utahmean.sd))
+
+all.barutah <- dplyr::full_join(eurdat.utahbar, namdat.utahbar)
+all.barutah <- all.barutah[!duplicated(all.barutah),]
+
+all.barutah$ymin <- all.barutah$utahmean-all.barutah$utahmean.sd
+all.barutah$ymax <- all.barutah$utahmean+all.barutah$utahmean.sd
+
+cont.pal <- brewer.pal(n = 8, name = "Dark2")
+
+utahbar<- ggplot(all.barutah, aes(x=as.factor(year), y=utahmean, fill=continent)) + 
+  geom_bar(stat="identity", position=position_dodge()) +
+  geom_errorbar(aes(ymin=ymin, ymax=ymax),width = 0.2, position=position_dodge(0.9)) +
+  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.text.align = 0,
+        legend.position = c(0.1, .95),
+        legend.title = element_blank(),
+        axis.text.x = element_text(face = "italic", angle=45, hjust=1),
+        legend.key = element_rect(colour = "transparent", fill = "white")) +
+  xlab("") + 
+  ylab("GDD mean") + 
+  scale_fill_manual(name="Continent", values=cont.pal,
+                    labels=sort(unique(all.bar$continent))) 
+
+quartz()
+utahbar
