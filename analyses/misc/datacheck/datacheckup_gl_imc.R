@@ -33,20 +33,28 @@ mdbb <- dbb[which(dbb$datasetID %in% medata),]
 dim(mall)
 dim(mdbb) ## 62 lines are lost
 
+# which studies?
+data.frame(study = c("anzanello16", "fu19", "prevey18"),
+           before = c(length(which(mall$datasetID == "anzanello16")),
+                      length(which(mall$datasetID == "fu19")),
+                      length(which(mall$datasetID == "prevey18"))),
+           after = c(length(which(mdbb$datasetID == "anzanello16")),
+                      length(which(mdbb$datasetID == "fu19")),
+                      length(which(mdbb$datasetID == "prevey18"))))
+
+# 60 lines of percentbudburst are removed from Anzanello16 in mdbb
+# 2 lines are removed from Fu19 
+# 0 lines removed from prevey18
 
 str(mall)
 str(mdbb)
 
 #why (and which) lines are lost 
-stu_exp_sps = paste(mall$datasetID,mall$study,mall$species,mall$figure.table..if.applicable.)
+stu_exp_sps_all = paste(mall$datasetID,mall$study,mall$species,mall$figure.table..if.applicable.)
 stu_exp_sps_dbb = paste(mdbb$datasetID,mdbb$study,mdbb$species,mdbb$figure.table..if.applicable.)
 
-table(stu_exp_sps)
+table(stu_exp_sps_all)
 table(stu_exp_sps_dbb)
-
-# 60 lines of percentbudburst are removed from Anzanello16 in mdbb
-# 2 lines are removed from Fu19 
-
 
 ## bb stuff... this code poached from:
 # models_stan.R, models_stan_plotting.R, bbstanleadin.R, and bbdataplease.R 
@@ -91,7 +99,7 @@ unique(bb.noNA$datasetID) ## all rows are removed because all chill=NA
 ###################### Let's check on some things individually #########################
 ########################################################################################
 
-### Before moving on, let's check out why we are losing 1) richardson18 and 2) man17 
+### Before moving on, let's check out why we are losing data
 # 1) fu19
 fudf <- mdbb[(mdbb$datasetID=="fu19"),]
 dim(fudf) ## 26 rows of data
@@ -114,6 +122,17 @@ head(fudf.simple)
 ## It seems like temperature of the treatments is explicited in the paper (Fig. 1) 
 ## This information has not been input in ospree yet
 
+## forcetemp appears to have data in fudf.all, however
+fudf.all <- mall[(mall$datasetID=="fu19"),]
+fudf.all$forcetemp
+
+## There also appears to be a space after the genus name "Aesculus" (i.e., entered as "Aesculus ")
+
+## It is not clear why 2 rows of data were removed from the bb set either
+## They appear to correspond to response.time = 89, 91
+subset(fudf.all, genus == "Aesculus " & response.time %in% c("89", "91"))
+subset(fudf, genus == "Aesculus " & response.time %in% c(89, 91))
+### no clear differences between these except the missing rows
 
 # 2) anzanello16
 anzanellodf <- mdbb[(mdbb$datasetID=="anzanello16"),] ## 60 observations
@@ -122,7 +141,8 @@ unique(anzanellodf$respvar.simple) # daystobudburst
 
 ## The paper is missing percentbudburst observations from dall to dbb
 ## this is half the observations in the paper
-
+anzanellodf.all <- mall[(mall$datasetID=="anzanello16"),] ## 60 observations
+unique(anzanellodf.all$respvar) # daystobudburst
 
 ## no rows are removed from Prevey18
 
