@@ -11,6 +11,7 @@ library(ggplot2)
 library(gridExtra)#for arranging plots in a grid 
 library(cowplot)#f
 library(shinystan)
+library(bayesplot)# nice posterior check plots
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 
@@ -140,7 +141,6 @@ modhere = stan('stan/datacheckup_db_fj_intonly.stan', data = datalist.bb,
     iter = 4000, warmup=3000,control=list(adapt_delta=.99))
 
 
-
 library(shinystan)
 launch_shinystan(modhere) # please go to: Explore -> Click on 'bivariate' on right and make sure y-axis is log-posterior
 ##signa force is the worst, but so is sigma chill, photo not great either
@@ -189,11 +189,30 @@ for (sp in c(1:length(spp))){
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
            whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
 
+#Faith's model plots 
+speciesEffects <- as.data.frame(post.mohere)
 
+mainEffects<- c("mu_a_sp", "sigma_a_sp", "sigma_y",  "b_force", "b_photo", "b_chill") #important model parameters 
+mainEffectsPlot <- mcmc_intervals(speciesEffects[,mainEffects] ) + yaxis_text(on = TRUE, size = 14)+
+   xaxis_text(on = TRUE, size = 14) +
+  xaxis_title(size = 14, family = "sans") +
+  ggplot2::xlab("Esimated model values") 
+
+spNames <- names(speciesEffects)[grep("a_sp.", names(speciesEffects))]
+names(speciesEffects)[names(speciesEffects) %in% spNames] <- levels(as.factor(bb.noNA$latbi))
+speciesAlphas <- c("mu_a_sp", levels(as.factor(bb.noNA$latbi))) # mian alpha and all the individual species alphas
+alphaPlot <- mcmc_intervals(speciesEffects[,speciesAlphas] )
+SpeciesPlot <- alphaPlot +
+  xaxis_title(size = 14, family = "sans") +
+  ggplot2::xlab("Estimated alpha budburst") + 
+  vline_at(median(speciesEffects$mu_a_sp), color = "gray20", alpha = 0.2) + 
+  yaxis_text(on = TRUE, size = 14)
+
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/ModelParameterEstimates_fj", width = 800, height = 500)
+cowplot::plot_grid(mainEffectsPlot, SpeciesPlot, nrow = 1,  align = "h", rel_widths = c(1,1.6))
+dev.off()
 #Making some nice data plots 
 #------------------------------------
-
-head(bb.noNA)
 
 #boxplots by species and study 
 chillPlotF <- ggplot(data = bb.noNA[bb.noNA$datasetID == "flynn18",], aes(x = latbi, y = chill))
@@ -261,14 +280,14 @@ photoPlotM2  <- photoPlotM +
         axis.title=element_text(size=14,face="bold"))+
   theme(axis.title.y=element_blank())
 
-cowplot::plot_grid(chillPlotF2, chillPlotM2, forcePlotF2, forcePlotM2, photoPlotF2, photoPlotM2, ncol = 2,  align = "v", rel_heights = c(1,1,2))
+
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/SPecies_data_split_fj", width = 600, height = 750)
+cowplot::plot_grid(chillPlotF2, chillPlotM2, forcePlotF2, forcePlotM2, photoPlotF2, photoPlotM2, ncol = 2,  align = "v", rel_heights = c(1,1,1.75))
+dev.off()
 
 #how much overlap of species?
-
 speciesCount <- data.frame(table(bb.noNA$latbi, bb.noNA$datasetID))
 names(speciesCount) <- c("Species", "datasetID", "n_spec")
-
-
 speciesCountPlot <- ggplot(data = bb.noNA, aes(x=latbi, fill=datasetID)) 
 speciesCountPlot2 <- speciesCountPlot + geom_histogram(alpha=0.2, position="identity", stat="count")+
   xlab("Species")+ 
@@ -277,9 +296,17 @@ speciesCountPlot2 <- speciesCountPlot + geom_histogram(alpha=0.2, position="iden
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))
 
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/SPecies_data_split_fj", width = 600, height = 400)
+speciesCountPlot2
+dev.off()
+
 #chilling vs focrcing and photoperiod
 chillForce <- ggplot(data = bb.noNA, aes(x = chill, y = force, colour = datasetID))
-chillForce + geom_point() + facet_wrap(~photo)+ 
+chillForcePlot <- chillForce + geom_point() + facet_wrap(~photo)+ 
   theme_bw() +
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))
+
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/chill_force_photo_fj", width = 600, height = 400)
+chillForcePlot
+dev.off()
