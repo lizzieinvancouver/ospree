@@ -45,7 +45,7 @@ table(stu_exp_sps)
 table(stu_exp_sps_dbb)
 
 # 60 lines of percentbudburst are removed from Anzanello16 in mdbb
-# 2 lines are removed from Fu19
+# 2 lines are removed from Fu19 
 
 
 ## bb stuff... this code poached from:
@@ -83,67 +83,50 @@ bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
                     is.na(chill)==FALSE & is.na(resp)==FALSE)
-dim(bb.noNA) ### super tiny... only 49 rows of data
-unique(bb.noNA$datasetID) ## just includes nanninga17
+dim(bb.noNA) ### 0 rows of data
+unique(bb.noNA$datasetID) ## all rows are removed because all chill=NA
 
-dim(d[(d$datasetID=="nanninga17"),]) ### so we are removing 11 rows from nanninga17, plus man17 and richardson17
 
 ########################################################################################
 ###################### Let's check on some things individually #########################
 ########################################################################################
 
 ### Before moving on, let's check out why we are losing 1) richardson18 and 2) man17 
-# 1) Richardson18
-richdf <- mdbb[(mdbb$datasetID=="richardson18"),]
-dim(richdf) ## 17 rows of data
-unique(richdf$respvar.simple) # daystobudburst, so that checks out... 
-richdf.simple <- subset(richdf, select=c("genus", "species", "provenance.lat", "forcetemp", 
+# 1) fu19
+fudf <- mdbb[(mdbb$datasetID=="fu19"),]
+dim(fudf) ## 26 rows of data
+unique(fudf$respvar.simple) # daystobudburst, so that checks out... 
+fudf.simple <- subset(fudf, select=c("genus", "species", "provenance.lat", "forcetemp", 
                                          "photoperiod_day", "Total_Utah_Model", "response.time"))
 
-head(richdf.simple)
-#     genus   species provenance.lat forcetemp photoperiod_day Total_Utah_Model response.time
-#6527 Larix laricinia       47.50285      <NA>              14               NA       113.239
-#6528 Larix laricinia       47.50285      <NA>              14               NA       106.555
-#6529 Picea   mariana       47.50285      <NA>              11               NA        64.615
-#6530 Picea   mariana       47.50285      <NA>              11               NA        67.692
-#6531 Larix laricinia       47.50285      <NA>              14               NA       103.985
-#6532 Picea   mariana       47.50285      <NA>              12               NA        68.205
+head(fudf.simple)
+#         genus       species provenance.lat forcetemp photoperiod_day Total_Utah_Model response.time
+#2534 Aesculus  hippocastanum          50.78      <NA>              13               NA            89
+#2535 Aesculus  hippocastanum          50.78      <NA>              10               NA            81
+#2536 Aesculus  hippocastanum          50.78      <NA>            <NA>               NA            NA
+#2537     Fagus     sylvatica          50.78      <NA>              13               NA           125
+#2538     Fagus     sylvatica          50.78      <NA>              13               NA           127
+#2539     Fagus     sylvatica          50.78      <NA>              13               NA           123
 
-## Okay so for richardson18 we are missing both forcing and chilling. 
-# Let's go back through the paper to make sure that is true.
+## For fu19 we are missing both forcing and chilling. 
 
-## We should have both chilling and forcing information... they were both entered as ambient in the 
-# initial push so it is being deleted somewhere in the code early on for forcing. Need to check on chilling.
-# I think it's because we are missing a field sample date since this takes place in a chamber outside. 
+## We should have both chilling and forcing information... 
+## It seems like temperature of the treatments is explicited in the paper (Fig. 1) 
+## This information has not been input in ospree yet
 
-# 2) man17
-mandf <- mdbb[(mdbb$datasetID=="man17"),] ## 112 observations
-dim(mandf) 
-unique(mandf$respvar.simple) # othernums - so that's why! 
 
-## Let's double check the paper to make sure the response variable is correct!
+# 2) anzanello16
+anzanellodf <- mdbb[(mdbb$datasetID=="anzanello16"),] ## 60 observations
+dim(anzanellodf) 
+unique(anzanellodf$respvar.simple) # daystobudburst
 
-#### CJC checked man17 on 27 March 2020: response variable is cumulative chilling hours 
-# which is correctly reported in the ospree database.
+## The paper is missing percentbudburst observations from dall to dbb
+## this is half the observations in the paper
 
-#### Alright now let's see why we are losing those 11 rows of data from nanninga17
-nanndf <- mdbb[(mdbb$datasetID=="nanninga17"),] ## 112 observations
-dim(nanndf)  ## 60 rows of data
-unique(nanndf$respvar.simple) ## okay daystobudburst so that checks out...
-colnames(nanndf)
-nanndf.simple <- subset(nanndf, select=c("study", "genus", "species", "woody", "provenance.lat", "forcetemp", 
-                                         "photoperiod_day", "Total_Utah_Model", "response.time"))
 
-head(nanndf.simple)
-# Looks like we have some NAs in the Total_Utah_Model
-nanndf.exp1 <- nanndf.simple[(nanndf.simple$study=="exp1"),]
-## Okay, so there are 12 observations and all have no chilling reported except for one observation
-# CHECK THIS OUT! Exp1 needs to be revisited for nanninga17
+## no rows are removed from Prevey18
 
-nanndf.exp2 <- nanndf.simple[(nanndf.simple$study=="exp2"),] ## This checks out! We can continue on with this study below.
 
-### Experiment 1: we should be getting field chilling. There must be a flaw in chilling code somewhere.
-## This needs to be updated!
 
 ########################################################################################
 ########################################################################################
