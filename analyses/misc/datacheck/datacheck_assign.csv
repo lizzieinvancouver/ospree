@@ -1,13 +1,13 @@
 datasetID,team,other.figs.toenter,alldata.entered,dataconverts.correctly,other.notes
 richardson18,CC and DS,NA,yes,no,ambient forcing and chilling but no field sample date so data lost in climate data conversion
 flynn18,FJ and DB,,,,
-fu19,GL and IMC,,,,
+fu19,GL and IMC,no,yes,yes,"there are redundant rows without meaningful data in ospree (respvar=NA): 15521, 15528, 15535, 15542"
 fu18,DL and MG and AK,no,yes,no,"will need to pull climate data to calculate forcing, chilling, and photoperiod (all ambient plus XXC)"
 man17,CC and DS,NA,yes,yes,not able to include. Response variable is cumulative chilling
 malyshev18,FJ and DB,,,,
-anzanello16,GL and IMC,,,,
+anzanello16,GL and IMC,no,yes,yes,figure 5 has been transcripted as figure 10 in the dataset (not sure why)
 anzanello18,DL and MG and AK,no,yes,no,chilling entered incorrectly - not calculating to Utah Chill Units. Only 1 out of 10 replicates in bb datasheet. 
 nanninga17,CC and DS,NA,yes,no,missing data from experiment 1. Something is happening with chilling code. This needs to be fixed. 
 ramos17,FJ and DB,,,,
-prevey18,GL and IMC,,,,
+prevey18,GL and IMC,yes?,yes,yes,data from Fig. 2A perc.budburst vs. DOY could perhaps be scraped
 vitra17,DL and MG and AK,no,yes,no,need to calculate chilling and photoperiod from ambient
