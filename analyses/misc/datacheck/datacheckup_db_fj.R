@@ -208,7 +208,7 @@ SpeciesPlot <- alphaPlot +
   vline_at(median(speciesEffects$mu_a_sp), color = "gray20", alpha = 0.2) + 
   yaxis_text(on = TRUE, size = 14)
 
-png("~/Documents/github/ospree/analyses/bb_analysis/stan/ModelParameterEstimates_fj", width = 800, height = 500)
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/ModelParameterEstimates_fj.png", width = 800, height = 500)
 cowplot::plot_grid(mainEffectsPlot, SpeciesPlot, nrow = 1,  align = "h", rel_widths = c(1,1.6))
 dev.off()
 #Making some nice data plots 
@@ -281,7 +281,7 @@ photoPlotM2  <- photoPlotM +
   theme(axis.title.y=element_blank())
 
 
-png("~/Documents/github/ospree/analyses/bb_analysis/stan/SPecies_data_split_fj", width = 600, height = 750)
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/SPecies_data_split_fj.png", width = 600, height = 750)
 cowplot::plot_grid(chillPlotF2, chillPlotM2, forcePlotF2, forcePlotM2, photoPlotF2, photoPlotM2, ncol = 2,  align = "v", rel_heights = c(1,1,1.75))
 dev.off()
 
@@ -296,7 +296,7 @@ speciesCountPlot2 <- speciesCountPlot + geom_histogram(alpha=0.2, position="iden
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))
 
-png("~/Documents/github/ospree/analyses/bb_analysis/stan/SPecies_data_split_fj", width = 600, height = 400)
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/SpeciesCount_fj.png", width = 600, height = 400)
 speciesCountPlot2
 dev.off()
 
@@ -307,6 +307,6 @@ chillForcePlot <- chillForce + geom_point() + facet_wrap(~photo)+
   theme(axis.text=element_text(size=12),
         axis.title=element_text(size=14,face="bold"))
 
-png("~/Documents/github/ospree/analyses/bb_analysis/stan/chill_force_photo_fj", width = 600, height = 400)
+png("~/Documents/github/ospree/analyses/bb_analysis/stan/chill_force_photo_fj,png", width = 600, height = 400)
 chillForcePlot
 dev.off()
