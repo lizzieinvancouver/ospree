@@ -1,14 +1,13 @@
 datasetID,team,other.figs.toenter,alldata.entered,dataconverts.correctly,other.notes,extranotes.bycjc
 richardson18,CC and DS,NA,yes,no,ambient forcing and chilling but no field sample date so data lost in climate data conversion,no field sample date because in outdoor chambers
-flynn18,FJ and DB,,,,,
-fu19,GL and IMC,no,yes,yes,"there are redundant rows without meaningful data in ospree (respvar=NA): 15521, 15528, 15535, 15542"
+flynn18,FJ and DB,no,yes,yes,,
+fu19,GL and IMC,no,yes,yes,"there are redundant rows without meaningful data in ospree (respvar=NA): 15521, 15528, 15535, 15542",
 fu18,DL and MG and AK,no,yes,no,"will need to pull climate data to calculate forcing, chilling, and photoperiod (all ambient plus XXC)",missing provenance.lat and provenance.long so cannot pull climate data or photoperiod
 man17,CC and DS,NA,yes,yes,not able to include. Response variable is cumulative chilling,
-malyshev18,FJ and DB,,,,,
-anzanello16,GL and IMC,no,yes,yes,figure 5 has been transcripted as figure 10 in the dataset (not sure why)
+malyshev18,FJ and DB,no,no,yes,We need to enter teh different chilling treatment levels ,
+anzanello16,GL and IMC,no,yes,yes,figure 5 has been transcripted as figure 10 in the dataset (not sure why),
 anzanello18,DL and MG and AK,no,yes,no,chilling entered incorrectly - not calculating to Utah Chill Units. Only 1 out of 10 replicates in bb datasheet. ,
 nanninga17,CC and DS,NA,yes,no,missing data from experiment 1. Something is happening with chilling code. This needs to be fixed. ,chilling code is incorrectly pulling year...
-ramos17,FJ and DB,,,,,this should work... May have to update after getting year column filled in
-prevey18,GL and IMC,yes?,yes,yes,data from Fig. 2A perc.budburst vs. DOY could perhaps be scraped
+ramos17,FJ and DB,na,na,na,this data gets lost during the chilling cleaning ,this should work... May have to update after getting year column filled in
+prevey18,GL and IMC,yes?,yes,yes,data from Fig. 2A perc.budburst vs. DOY could perhaps be scraped,
 vitra17,DL and MG and AK,no,yes,no,need to calculate chilling and photoperiod from ambient,chilltemp column missing data. Chilling code won't work until that is fixed
-
