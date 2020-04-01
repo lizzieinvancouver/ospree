@@ -140,7 +140,7 @@ datalist.bb <- with(bb.noNA,
 modhere = stan('stan/datacheckup_db_fj_intonly.stan', data = datalist.bb,
     iter = 9000, warmup=7000,control=list(adapt_delta=.99))
 
-
+y<-bb.noNA$resp
 library(shinystan)
 launch_shinystan(modhere) # please go to: Explore -> Click on 'bivariate' on right and make sure y-axis is log-posterior
 ##signa force is the worst, but so is sigma chill, photo not great either
