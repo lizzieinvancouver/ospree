@@ -86,16 +86,17 @@ richdf <- mdbb[(mdbb$datasetID=="richardson18"),]
 dim(richdf) ## 17 rows of data
 unique(richdf$respvar.simple) # daystobudburst, so that checks out... 
 richdf.simple <- subset(richdf, select=c("genus", "species", "provenance.lat", "forcetemp", 
-                                         "photoperiod_day", "Total_Utah_Model", "response.time"))
+                                         "photoperiod_day", "Total_Utah_Model", "response.time", 
+                                         "fieldsample.date", "chilltemp"))
 
 head(richdf.simple)
-#     genus   species provenance.lat forcetemp photoperiod_day Total_Utah_Model response.time
-#6527 Larix laricinia       47.50285      <NA>              14               NA       113.239
-#6528 Larix laricinia       47.50285      <NA>              14               NA       106.555
-#6529 Picea   mariana       47.50285      <NA>              11               NA        64.615
-#6530 Picea   mariana       47.50285      <NA>              11               NA        67.692
-#6531 Larix laricinia       47.50285      <NA>              14               NA       103.985
-#6532 Picea   mariana       47.50285      <NA>              12               NA        68.205
+#     genus   species provenance.lat forcetemp photoperiod_day Total_Utah_Model response.time   fieldsample.date    chilltemp
+#6527 Larix laricinia       47.50285      <NA>              14               NA       113.239                     ambient + 2.25
+#6528 Larix laricinia       47.50285      <NA>              14               NA       106.555                     ambient + 2.25
+#6529 Picea   mariana       47.50285      <NA>              11               NA        64.615                     ambient + 2.25
+#6530 Picea   mariana       47.50285      <NA>              11               NA        67.692                     ambient + 2.25
+#6531 Larix laricinia       47.50285      <NA>              14               NA       103.985                     ambient + 4.5
+#6532 Picea   mariana       47.50285      <NA>              12               NA        68.205                     ambient + 4.5
 
 ## Okay so for richardson18 we are missing both forcing and chilling. 
 # Let's go back through the paper to make sure that is true.
@@ -156,14 +157,12 @@ if(FALSE){
 datalist.bb <- with(bb.noNA, 
                     list(y = resp, 
                          chill = chill, 
-                         force = force, 
-                         photo = photo,
                          sp = complex,
                          N = nrow(bb.noNA),
                          n_sp = length(unique(bb.noNA$complex))
                     ))
 
-modhere = stan('bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
+modhere = stan('bb_analysis/stan/datacheckup_cc_ds_chillonly.stan', data = datalist.bb,
     iter = 4000, warmup=3000)
 
 library(shinystan)
@@ -181,38 +180,17 @@ n <- length(spp)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 
-par(mfrow=c(1,3))
 plot(resp~chill, data=bb.stan, type="n")
 for (sp in c(1:length(spp))){
     subby <- subset(bb.stan, complex==spp[sp])
     points(resp~chill, data=subby, main=subby$complex.wname[1], col=colv[sp])
     intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
+    slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1]
     abline(intercepthere, slopehere, col=colv[sp])
     }
 abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-    whichmodel[grep("mu_b_chill_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    whichmodel[grep("b_chill", rownames(whichmodel)),1], col="black", lwd=3)
 
-plot(resp~force, data=bb.stan, type="n")
-for (sp in c(1:length(spp))){
-    subby <- subset(bb.stan, complex==spp[sp])
-    points(resp~force, data=subby, main=subby$complex.wname[1], col=colv[sp])
-    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_force", rownames(whichmodel)),1][spp[sp]+2]
-    abline(intercepthere, slopehere, col=colv[sp])
-    }
-abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-    whichmodel[grep("mu_b_force_sp", rownames(whichmodel)),1], col="black", lwd=3)
-plot(resp~photo, data=bb.stan, type="n")
-for (sp in c(1:length(spp))){
-    subby <- subset(bb.stan, complex==spp[sp])
-    points(resp~photo, data=subby, main=subby$complex.wname[1], col=colv[sp])
-    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_photo", rownames(whichmodel)),1][spp[sp]+2]
-    abline(intercepthere, slopehere, col=colv[sp])
-    }
-abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-           whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
 
 ##### plotting raw data
 # Grab the data, all of it
@@ -261,6 +239,7 @@ mdbb$chill.hrs <- as.numeric(mdbb$Total_Chilling_Hours)
 mdbb$chill.ports <- as.numeric(mdbb$Total_Chill_portions) 
 
 mdbb$resp <- as.numeric(mdbb$response.time)
+mdbb.noman <- mdbb[!(mdbb$datasetID=="man17"),]
 
 
 path <- unique(mdbb$datasetID)
@@ -268,7 +247,100 @@ path <- unique(mdbb$datasetID)
 
 mdbb2.0<- subset(mdbb, datasetID == path[3])
 
-ggplot(mdbb, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
-ggplot(mdbb, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one forcing
-ggplot(mdbb, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.)
+ggplot(mdbb.noman, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
+ggplot(mdbb.noman, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one forcing
+ggplot(mdbb.noman, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.)
   
+
+##### Alright, now let's checkout what is happening in our cleaning code.
+my.pal <- brewer.pal(n = 8, name = "Dark2")
+
+## make a bunch of things numeric - and change ambient to 100 just to see
+ambs <- c("ambient","ambient + 2.25","ambient + 4.5","ambient + 6.75","ambient + 9")
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient", 100, as.numeric(mall$forcetemp))
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 2.25", 102.25, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 4.5", 104.5, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 6.75", 106.75, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 9", 109, mall$forcetemp.conv)
+
+chills <- c("ambient","ambient + 2.25","ambient + 4.5","ambient + 6.75","ambient + 9","")
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient", 100, as.numeric(mall$chilltemp))
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 2.25", 102.25, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 4.5", 104.5, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 6.75", 106.75, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 9", 109, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="", 0, mall$chilltemp.conv)
+
+mall$photo.conv <-  ifelse(mall$photoperiod_day=="ambient", 30, as.numeric(mall$photoperiod_day))
+
+
+fc <- ggplot(mall, aes(chilltemp.conv, forcetemp.conv, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+cp <- ggplot(mall, aes(chilltemp.conv, photo.conv, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+pf <- ggplot(mall, aes(photo.conv, forcetemp.conv, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+library(gridExtra)
+quartz()
+grid.arrange(fc, cp, pf)
+
+### And now we compare to the cleaned code...
+## make a bunch of things numeric - and change ambient to 100 just to see
+ambs <- c("ambient","ambient + 2.25","ambient + 4.5","ambient + 6.75","ambient + 9")
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient", 100, as.numeric(mall$forcetemp))
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 2.25", 102.25, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 4.5", 104.5, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 6.75", 106.75, mall$forcetemp.conv)
+mall$forcetemp.conv <- ifelse(mall$forcetemp=="ambient + 9", 109, mall$forcetemp.conv)
+
+chills <- c("ambient","ambient + 2.25","ambient + 4.5","ambient + 6.75","ambient + 9","")
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient", 100, as.numeric(mall$chilltemp))
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 2.25", 102.25, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 4.5", 104.5, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 6.75", 106.75, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="ambient + 9", 109, mall$chilltemp.conv)
+mall$chilltemp.conv <- ifelse(mall$chilltemp=="", 0, mall$chilltemp.conv)
+
+mall$photo.conv <-  ifelse(mall$photoperiod_day=="ambient", 30, as.numeric(mall$photoperiod_day))
+
+
+fc.clean <- ggplot(mdbb, aes(chill, force, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+cp.clean <- ggplot(mdbb, aes(chill, photo, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+pf.clean <- ggplot(mdbb, aes(photo, force, colour=datasetID)) + geom_point() +
+  scale_color_manual(name="Dataset", values = my.pal, labels=sort(unique(mall$datasetID)))
+
+grid.arrange(fc.clean, cp.clean, pf.clean)
+
+
+#### More model output
+quartz()
+par(mar=c(4,7,3,4))
+plot(x=NULL,y=NULL, xlim=c(-15, 60), yaxt='n', ylim=c(0,2),
+     xlab="Model estimate change in days to budburst", ylab="")
+axis(2, at=1:2, labels=rev(c("Intercept", "Chill")), las=1)
+abline(v=0, lty=2, col="darkgrey")
+rownameshere <- c("mu_a_sp", "b_chill")
+ppeffects <- c("mu_a_sp", "b_chill") 
+for(i in 1:2){
+  pos.y<-(2:1)[i]
+  pos.x<-whichmodel[rownameshere[i],"mean"]
+  lines(whichmodel[rownameshere[i],c("25%","75%")],rep(pos.y,2),col="darkgrey")
+  points(pos.x,pos.y,cex=1.5,pch=19,col="black")
+  for(spsi in 1:6){
+    pos.sps.i<-which(grepl(paste0("a_sp", "[",spsi,"]"),rownames(whichmodel),fixed=TRUE))
+    jitt<-(spsi/20) + 0.1
+    pos.y.sps.i<-pos.y-jitt
+    pos.x.sps.i<-whichmodel[pos.sps.i[i],"mean"]
+    lines(whichmodel[pos.sps.i[i],c("25%","75%")],rep(pos.y.sps.i,2),
+          col=my.pal[spsi])
+    points(pos.x.sps.i,pos.y.sps.i,cex=0.8, col=my.pal[spsi])
+    
+  }
+}
