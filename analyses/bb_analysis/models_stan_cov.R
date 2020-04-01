@@ -117,6 +117,16 @@ colnames(cov.comp)<-c("mainmod","mainmodwcov")
 write.csv(cov.comp,"..//output/covcomp.csv")
 # Code if you want to save your models (do NOT push output to git)
 
+m2l.ni2.mapcov = stan('stan/nointer_2level_map2stan.stan', data = datalist.bb,
+                   iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+
+#Compare to map2stan model
+
+
+
+
+
+
 if(use.flags.for.mainmodel){
   save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
   save(m2l.ni.cov, file="stan/output/m2lni_spcompexprampfputah_z_cov.Rda")

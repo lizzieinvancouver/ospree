@@ -4,7 +4,7 @@ options(stringsAsFactors = FALSE)
 library(dplyr)
 
 #How many studies do not include error in figs/tables/:
-d<-read.csv("..//..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
+d<-read.csv("..//analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 length(d$resp_error[which(is.na(d$resp_error))])
 (length(d$resp_error[d$resp_error=="no response"])+
     length(d$resp_error[d$resp_error=="0"])+
@@ -94,12 +94,18 @@ mean(as.numeric(d_modstud$forcetemp),na.rm=TRUE)#15.67971
 #can we add in SE
 pdf("figures/sdvsn.pdf", width = 7, height = 5)
 
+plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,28), ylim=c(0,165), bty="l",xlab="Sample size",ylab= "StDev")
+#no SDs currently have sample size!
+points(as.numeric(d$n[d$error.type=="SE"]),(as.numeric(d$resp_error[d$error.type=="SE"])*sqrt(as.numeric(d$n[d$error.type=="SE"]))),pch=21,bg="goldenrod")
+dev.off()
+unique(d_modstud$error.type)
+pdf("figures/sdvsn_stand.pdf", width = 7, height = 5)
+
 plot(as.numeric(d$n[d$error.type=="SD"]),as.numeric(d$resp_error[d$error.type=="SD"])/as.numeric(d$response.time[d$error.type=="SD"]),pch=21,bg="darkblue",xlim=c(0,28), ylim=c(0,5), bty="l",xlab="Sample size",ylab= "StDev (standardized)")
 
 #no SDs currently have sample size!
 points(as.numeric(d$n[d$error.type=="SE"]),(as.numeric(d$resp_error[d$error.type=="SE"])*sqrt(as.numeric(d$n[d$error.type=="SE"]))),pch=21,bg="goldenrod")
 dev.off()
-unique(d_modstud$error.type)
 
 #Old code
 # ns<-bbstan %>% # start with the data frame
@@ -111,3 +117,7 @@ unique(d_modstud$error.type)
 #   distinct(ID_study_fig, .keep_all = TRUE) %>% # establishing grouping variables
 #   dplyr::select(datasetID, study, fig.table,n,error.type,resp_error)
 # write.csv(neednerror,"..//output/need.n.error.csv")
+
+#To do:
+# Color by species and study
+# Report regression of model reporting
