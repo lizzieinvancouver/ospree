@@ -129,18 +129,18 @@ bb.noNA$photo.z<-(bb.noNA$photo-mean(bb.noNA$photo))/sd(bb.noNA$photo)
 # rstan
 datalist.bb <- with(bb.noNA, 
                     list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
                          sp = complex,
                          N = nrow(bb.noNA),
                          n_sp = length(unique(bb.noNA$complex))
                     ))
 
 modhere = stan('stan/datacheckup_db_fj_intonly.stan', data = datalist.bb,
-    iter = 4000, warmup=3000,control=list(adapt_delta=.99))
+    iter = 9000, warmup=7000,control=list(adapt_delta=.99))
 
-
+y<-bb.noNA$resp
 library(shinystan)
 launch_shinystan(modhere) # please go to: Explore -> Click on 'bivariate' on right and make sure y-axis is log-posterior
 ##signa force is the worst, but so is sigma chill, photo not great either
@@ -156,39 +156,35 @@ n <- length(spp)
 qual_col_pals = brewer.pal.info[brewer.pal.info$category == 'qual',]
 colv = unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
 
+jpeg("..//misc/datacheck/modpreds_db_fj.jpeg", width = 800, height = 500)
+
 par(mfrow=c(1,3))
 plot(resp~chill, data=bb.stan, type="n")
+
 for (sp in c(1:length(spp))){
     subby <- subset(bb.stan, complex==spp[sp])
-    points(resp~chill, data=subby, main=subby$complex.wname[1], col=colv[sp])
-    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_chill", rownames(whichmodel)),1][spp[sp]+2]
-    abline(intercepthere, slopehere, col=colv[sp])
-    }
-abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-    whichmodel[grep("mu_b_chill_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    points(resp~chill, data=subby, main=subby$complex.wname[1], col=colv[sp])}
+abline(a=whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],b=whichmodel[grep("b_chill", rownames(whichmodel)),1], col="black", lwd=2)
+
+
 
 plot(resp~force, data=bb.stan, type="n")
 for (sp in c(1:length(spp))){
     subby <- subset(bb.stan, complex==spp[sp])
-    points(resp~force, data=subby, main=subby$complex.wname[1], col=colv[sp])
-    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_force", rownames(whichmodel)),1][spp[sp]+2]
-    abline(intercepthere, slopehere, col=colv[sp])
-    }
-abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-    whichmodel[grep("mu_b_force_sp", rownames(whichmodel)),1], col="black", lwd=3)
+    points(resp~force, data=subby, main=subby$complex.wname[1], col=colv[sp])}
+abline(a=whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],b=whichmodel[grep("b_force", rownames(whichmodel)),1], col="black", lwd=2)
+
+
+
 plot(resp~photo, data=bb.stan, type="n")
 for (sp in c(1:length(spp))){
     subby <- subset(bb.stan, complex==spp[sp])
     points(resp~photo, data=subby, main=subby$complex.wname[1], col=colv[sp])
-    intercepthere <- whichmodel[grep("a_sp", rownames(whichmodel)),1][spp[sp]+2]
-    slopehere <- whichmodel[grep("b_photo", rownames(whichmodel)),1][spp[sp]+2]
-    abline(intercepthere, slopehere, col=colv[sp])
     }
-abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
-           whichmodel[grep("mu_b_photo_sp", rownames(whichmodel)),1], col="black", lwd=3)
 
+abline(whichmodel[grep("mu_a_sp", rownames(whichmodel)),1],
+           whichmodel[grep("b_photo", rownames(whichmodel)),1], col="black", lwd=3)
+dev.off()
 #Faith's model plots 
 speciesEffects <- as.data.frame(post.mohere)
 
