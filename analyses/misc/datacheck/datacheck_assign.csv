@@ -1,1 +1,13 @@
-datasetID,team,other.figs.toenter,alldata.entered,dataconverts.correctly,other.notesrichardson18,CC and DS,,,,flynn18,FJ and DB,,,,fu19,GL and IMC,,,,fu18,DL and MG and AK,no,yes,no,"will need to pull climate data to calculate forcing, chilling, and photoperiod (all ambient plus XXC)"man17,CC and DS,,,,malyshev18,FJ and DB,,,,anzanello16,GL and IMC,,,,anzanello18,DL and MG and AK,,,,nanninga17,CC and DS,,,,ramos17,FJ and DB,,,,prevey18,GL and IMC,,,,vitra17,DL and MG and AK,,,,
+datasetID,team,other.figs.toenter,alldata.entered,dataconverts.correctly,other.notes
+richardson18,CC and DS,,,,
+flynn18,FJ and DB,,,,
+fu19,GL and IMC,,,,
+fu18,DL and MG and AK,no,yes,no,"will need to pull climate data to calculate forcing, chilling, and photoperiod (all ambient plus XXC)"
+man17,CC and DS,,,,
+malyshev18,FJ and DB,,,,
+anzanello16,GL and IMC,,,,
+anzanello18,DL and MG and AK,,,,
+nanninga17,CC and DS,,,,
+ramos17,FJ and DB,,,,
+prevey18,GL and IMC,,,,
+vitra17,DL and MG and AK,no,yes,no,need to calculate chilling and photoperiod from ambient
