@@ -2,13 +2,53 @@ Started 24 August 2017
 By Lizzie
 
 
-GET these articles:
-- Chilling and forcing requirements for foliage bud burst of European beech (\emph{Fagus sylvatica} L.) differ between provenances and are phenotypically plastic
-- Optimization of endodormancy release models using series of endodormancy release data collected in France. Acta Horticulturae 872:51-60.
-- Fu et al. 2019 (GCB)
 
+<><><><><><><><><><><><><><><><><><><><>
+April 2020 to do
+<><><><><><><><><><><><><><><><><><><><>
+
+(*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done)
+(*) Check this damn file and figure out what is done or not or can be not-done now.
+(*) Maybe work on schematic figure (see 'FIX ME' in tex for where it goes)...(Or other non-writing priority tasks that come up from reviewing this file)
+
+In no particular order but need to be done...
+(*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
+(*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
+(*) Fix heatmaps and ask Cat about gomory15 in countintxns.R code (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date
+(*) Check this statement: PEP725 and NECTAR databases together have multi-site data on more than 1,600 species
+(*) Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
+(*) Start on Rnw file for supp.
+(*) Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174
+
+<><><><><><>
+Fix the text ...
+
+Comments from Jan 2020 review ...
+
+Overall it feels like there are 2 major threads in this paper…
+1. Biology of interacting cues
+2. The theoretical utility but current limitation of growth chamber studies to test these.
+
+It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2.
+
+Ailene and Dan say add a figure for paragraph starting: These cues may create non-linear responses with warming in two major ways.
+
+- Show correlations of GDD x Photoperiod at Harvard Forest?
+- Dan and Ailene like Figure 8: Maybe on way to clean it up is to do lump all ambient+X studies as “ambient+” or remove the text one as “other” and and describe them in a supplemental table.
+
+And my notes on ms issues: 
+
+- Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
+
+- We probably need to better explain the cues earlier. Explain endo- versus eco-dormancy earlier. Or is it okay the way it is?
+
+<><><><><><><><><><><><><><><><><><><><>
+Citations work, notes etc.
+<><><><><><><><><><><><><><><><><><><><>
 NEED citations 
-1. Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues *\cite{zohner2014}* 
+
+1. Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues *\cite{zohner2014}* Kramer et al. 2017 does it too (but with clones I think)
+ 
 2. chilling varies by population and is higher at the coast *campbell1979*
 
 4. warming increases the forcing plants experience each day: not great, but *skinner2018amplification* could work 
@@ -17,109 +57,15 @@ NEED citations
 
 13. Correlations between these predictors, however, are almost always too high for any useful analysis *NEED help*
 
-<><><><><><><><><><><><><><><><><><><><>
-April 2020 to do
-<><><><><><><><><><><><><><><><><><><><>
-
-(*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done)
-(*) Check this damn file and figure out what is done or not or can be not-done now.
-(*) Maybe work on schematic figure? (Or other non-writing priority tasks that come up from reviewing this file)
-
-
-Comments from Jan 2020 review ...
-
-<><><><><><><><><><><><><><><><><><><><>
-November 2019 to do
-<><><><><><><><><><><><><><><><><><><><>
-(*) Fix the FIX ME section on interactions
-(*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
-(*) Do NECTAR species number
-(*) our review of controlled environment studies found more than one study on only XX species
-(*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
-(*) Every other time I pick this up I must work on the TEXT! (Things to do -- add citations (and make a list of citation types that I need), see notes of 'to-do items from this summer' and `MS problems to fix' (both below).  
-(*) Fix heatmaps and ask Cat about gomory15 in countintxns.R code
-
->>> Check if I have fixed this! (ABOVE)
-
-(*) Should we add a figure for correlations of cues in nature?
-(*) Eventually, start on Rnw file for supp.
-
-
-And here are my notes of to-do items from this summer ....
-- Need help on review of studies across day versus night temperatures on budburst and leafout
-- Need help on review of warming across seasons!
-- Review Weinberger and chilling studies in general
-- Review the chilling temp papers we have in OSPREE!
-- Can we estimate how many studies did sequential tissue removal from chambers to test for ecodormancy? (relevant clause is "but given that this is labor- and space-intensive most studies considering chilling do not do this.")
-
-MS problems to fix:
-
-- Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
-
-- We probably need to better explain the cues earlier. Explain endo- versus eco-dormancy earlier. Or is it okay the way it is?
-
 
 
 <><><><><><><><><><><><><><><><><><><><>
-General to do...
+Extra notes ...
 <><><><><><><><><><><><><><><><><><><><>
-(1) Work on outline: This needs to be filled in once the figures and stats are done ... right now it says 'get this data' so we should get that and change 'get this data' to the actual take-home message ... then I could start writing. 
-(2) Work on figures 
-	- PEP725 comparison
-	- Heat maps:
+- Heat maps:
 		(1) Make sure that I gather correctly: see https://stackoverflow.com/questions/48772829/heatmap-in-r-with-ggplot2 AND https://www.worldfullofdata.com/three-ways-create-heatmap-r/
 		(2) Multi-panel: https://jcoliver.github.io/learn-r/006-heatmaps.html
 		(3) Backup multipanel option: https://www.biostars.org/p/86379/
 
 
-<><><><><><><><><><><><><><><><><><><><>
-Figures to make for the concept paper …
-<><><><><><><><><><><><><><><><><><><><>
 
-FIGURES that are DONE (more or less):
-PEP725 spp. 1980 figures
-PEP725 spp. Future figures
-
-
-STOP and think, how do we really want to plot these? As percentage of studies doing one thing or totals?!
-
-# of studies by year
-# of species by year
-# of studies manipulating each cue by year
-
-X\% of studies manipulated which interacting cues? (i.e., how many studies manipulate 1 cues, 2 cues, 3 cues ... of those manipulating 1 cue, what is the breakdown by cue etc.)
-
-maps of cues manipulated (see Dan B.’s work)
- 
-maps of each cue manipulated
-
-materials figure or numbers?
-
-<><><><><><><><><><><><><><><><><><><><>
-To do items …
-<><><><><><><><><><><><><><><><><><><><>
-Work on (issue #174):
-0. See what of the stuff below this list is done and delete/add!
-1. Make 3 panel version of heat map
-2. # of studies that manipulated each cue (table)
-3. done
-4. done
-5. re-make maps and check on lat/long
-
-Make a f(x) to make the following the figures:
-	yvar~latitude
-	yvar~year
-	where yvar is:
-		- temp (max, min, range)
-		- photo (max, min, range)
-		- chill days (max, min, range)
-		- chill temp (max, min, range)
-
-Heat map for photo by temp (temp is a combo of chilling and forcing temps)
-	- relatedly, can use PCO (0/1 data) and PCA for analyses if needed
-
-# of studies than manipulated which cue each year, include: chill, photo, force, field.sample
-# of studies that manipulated more than one cue each year done by: chill, photo, force, field.sample
-
-% or n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date
- 
