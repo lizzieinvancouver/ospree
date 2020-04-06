@@ -1,5 +1,5 @@
 ## Started 23 March 2020 ##
-## By Lizzie mainly pulling from JointModelSim_fj.R ##
+## By Lizzie, pulling some from JointModelSim_fj.R ##
 
 # housekeeping
 rm(list=ls()) 

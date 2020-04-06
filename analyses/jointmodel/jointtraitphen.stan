@@ -1,6 +1,5 @@
-/* running a joint model to try and see how trait variation might help 
-predict phenology. BAsed off Lizzie's joint model exqation 
-By Faith Jones, extracted from JointModelSim_fj.R on 21 Feb 2020 by Lizzie */
+/* First pass at a joint model to best estimate species-level trait values
+and use that to predict phenoloy, by Lizzie with help from Faith and Geoff */
 
 
 data {
@@ -68,7 +67,7 @@ model{
         sigma_apheno ~ normal(0, 10);
         sigma_bforce ~ normal(0, 10);
 
-	// likelihoods
+	// likelihoods (is this bad)?
         traitdat ~ normal(ypred, sigma_y);
         phendat ~ normal(ypredpheno, sigma_ypheno);
 }
@@ -80,4 +79,4 @@ generated quantities { // Not updated beyond trait ...
       y_ppc[n] = agrand + muaSp[species[n]] + muaStudy[study[n]];
     for (n in 1:N)
       y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
-} // The posterior predictive distribution
+} 

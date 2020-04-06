@@ -1,0 +1,34 @@
+\documentclass[11pt,letter]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+
+\def\labelitemi{--}
+\parindent=0pt
+
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\renewcommand{\refname}{\CHead{}}
+
+{\bf `Joint' modeling notes and thoughts}\\
+
+For modeling trait values estimated at the species-level from one model for a giant trait database (TRY, which has a lot of noise to it) to help predict phenology at the species-level, with data from OSPREE (our in-house phenology database of experiments of leafout dates in reponse to forcing ($F$), chilling, daylength etc.).\\
+
+\emph{Update thoughts, 26 March 2020}\\
+
+\begin{align*}
+\hat{y}_{trait, i} &= \alpha_{trait.grand} + \alpha_{trait, sp[i]} + \alpha_{study[i]}\\
+\alpha_{trait, sp} & \sim N(0, \sigma_{\alpha, trait}) \\
+\alpha_{study}  & \sim N(0, \sigma_{\alpha, study})\\
+y_{trait}& \sim N(\hat{y}_{trait},\sigma^2_{trait, y}) \\
+\vspace{1ex}\\
+\hat{y}_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i \\
+\beta_{forcing_{sp}} & = \alpha_{forcing_{sp}} + \beta_{trait x pheno}*\alpha_{trait, sp} \\
+\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
+\alpha_{forcing_{sp}} & \sim N(\mu_{\alpha, forcing}, \sigma_{\alpha, forcing})\\
+y_{pheno} & \sim N(\hat{y}_{pheno},\sigma^2_{y, pheno}) 
+\end{align*}
+
+\end{document}
