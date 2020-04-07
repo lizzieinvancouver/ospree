@@ -23,6 +23,8 @@ options(stringsAsFactors = FALSE)
 
 # libraries
 library(shinystan)
+library(brms)
+library(rethinking)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -74,7 +76,10 @@ check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
 
 m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+coefs<-m2lni.sum[grep("mu_", rownames(m2lni.sum)),1]
+coefs.lci<-m2lni.sum[grep("mu_", rownames(m2lni.sum)),4]
+coefs.uci<-m2lni.sum[grep("mu_", rownames(m2lni.sum)),8]
+
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
 
 ys<-datalist.bb$y
@@ -86,6 +91,56 @@ par(mfrow=c(1,2))
 hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
 hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 }
+
+
+######################################
+## BRMS model for correlated slopes/intercepts ##
+######################################
+
+m2l.ni.brms <- brm(y ~ force + photo + chill +#main effects
+                     ((force + photo+ chill)|sp), #random effects
+                   data = datalist.bb,
+                   prior=prior(normal(0,50), class=Intercept) +
+                     prior(normal(0,10), class=sd) +
+                     prior(normal(0,50), class=b),
+                   chains = 4, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+summary(m2l.ni.brms)
+summary(m2l.ni.brms$cov_ranef)
+        
+coefscov<-fixef(m2l.ni.brms)[,1]
+coefscov.lci<-fixef(m2l.ni.brms)[,3]
+coefscov.uci<-fixef(m2l.ni.brms)[,4]
+
+m2lnibrms.sum <- summary(m2l.ni.brms)
+
+m2lni.cov.sum <- summary(m2l.ni2.cov)$summary
+m2lni.cov.sum[grep("mu_", rownames(m2lni.cov.sum)),]
+m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
+#We want 2 tables for the reviewer response
+#Table 1: Compares estimates for model with our main model and one with correlation between slopes/intercepts (the brms model)
+
+#compare cov mod with original model
+cov.comp<-cbind(coefs,coefs.lci,coefs.uci,coefscov,coefscov.lci,coefscov.uci)
+row.names(cov.comp)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$","$\\mu_{chilling}$")
+
+#colnames(cov.comp)<-c("mainmod","mainmodwcov")
+write.csv(cov.comp,"..//output/covcomp.csv")
+
+#Table 2: Shows the covarance matrix
+varcor.brms<-VarCorr(m2l.ni.brms)$sp$cor[,1,]
+write.csv(varcor.brms,"..//output/varcor.csv")
+make_stancode(y ~ force + photo + chill +#main effects
+                ((force + photo+ chill)|sp), #random effects
+              data = datalist.bb,
+              prior=prior(normal(0,50), class=Intercept) +
+                prior(normal(0,10), class=sd) +
+                prior(normal(0,50), class=b),
+              chains = 2, cores = 2,iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+
+
+#The below was my attempt at writing the code myself and it did not work...
+
+
 #make datalist for model with cov matrix
 nVars <-4
 Imat <- diag(4,nVars)
@@ -108,89 +163,7 @@ datalist.bb <- with(bb.stan,
 m2l.ni2.cov = stan('stan/nointer_2level_cov.stan', data = datalist.bb,
                   iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
 
-m2lni.cov.sum <- summary(m2l.ni2.cov)$summary
-m2lni.cov.sum[grep("mu_", rownames(m2lni.cov.sum)),]
-m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
-#compare cov mod with original model
-cov.comp<-cbind(m2lni.sum[grep("mu_", rownames(m2lni.sum)),1],m2lni.cov.sum[grep("mu_", rownames(m2lni.cov.sum)),1])
-colnames(cov.comp)<-c("mainmod","mainmodwcov")
-write.csv(cov.comp,"..//output/covcomp.csv")
 # Code if you want to save your models (do NOT push output to git)
-
-m2l.ni2.mapcov = stan('stan/nointer_2level_map2stan.stan', data = datalist.bb,
-                   iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
-
-#Compare to map2stan model
-
-
-
-
-
-
-if(use.flags.for.mainmodel){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
-  save(m2l.ni.cov, file="stan/output/m2lni_spcompexprampfputah_z_cov.Rda")
-  
-  }
-
-if (use.flags.for.spcomp.cp){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
-}
-
-if (use.flags.for.allspp.utah){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z.Rda")
-}
-
-if (use.flags.for.spcomp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
-}
-
-if (use.flags.for.spcomp.cp.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz.Rda")
-}
-
-if (use.flags.for.allspp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
-}
-
-#Other combinations of flags used at some point (but not in the main bb manuscript)
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
-}
-
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
-}
-
 
 ###### SIDE BAR #####
 ## Getting R2 etc. ##
@@ -213,7 +186,7 @@ mod.R2 <- 1- sum((observed.here-preds.mod.sum[,1])^2)/sum((observed.here-mean(ob
 rsq <- function (x, y) cor(x, y) ^ 2
 rsq(observed.here, preds.mod.sum[,1])
 summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
-
+save()
 # spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
 #  0.5689911
 }

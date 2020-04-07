@@ -120,21 +120,38 @@ write.csv(modsummn,"..//..//analyses/output/measerr/allmodsums.csv")
 load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
 fit.z <- summary(m2l.ni)$summary
 mu<-fit.z[grep("mu_", rownames(fit.z)),]
-sigma<-fit.z[grep("sigma_", rownames(fit.z)),]
+sig<-fit.z[grep("sigma_", rownames(fit.z)),]
 
 quartz()
-#par(mfrow=c(4,1))
-plot(mu[1,1],4,pch=16,cex=1.5,col="black",xlab="Model estimate",ylab="",yaxt="n",ylim=c(0,5), xlim= c(-10,40)) 
-points(mu[2,1],3,pch=16,cex=1.5,col="black")
-points(mu[3,1],2,pch=16,cex=1.5,col="black")
-points(mu[4,1],1,pch=16,cex=1.5,col="black")
+par(mfrow=c(1,2))
+plot(mu[1,1],5,pch=16,cex=1.5,col="black",xlab="Model estimate",ylab="",yaxt="n",ylim=c(0,6), xlim= c(-10,40), main= "Mu") 
+points(mu[2,1],4,pch=16,cex=1.5,col="black")
+points(mu[3,1],3,pch=16,cex=1.5,col="black")
+points(mu[4,1],2,pch=16,cex=1.5,col="black")
 
 jit<-seq(from =0.01,to =0.4, by = .02 )
-points(modsummn[1,],3.9-jit,pch=16,cex=.9,col="gray")
-points(modsummn[2,],2.9-jit,pch=16,cex=.9,col="gray")
-points(modsummn[3,],1.9-jit,pch=16,cex=.9,col="gray")
-points(modsummn[4,],0.9-jit,pch=16,cex=.9,col="gray")
-axis(2,at=c(4,3,2,1), labels = c("Intercept", "Forcing","Photoperiod","Chilling"))
+points(modsummn[1,],4.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[2,],3.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[3,],2.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[4,],1.9-jit,pch=16,cex=.9,col="gray")
+axis(2,at=c(5,4,3,2), labels = c("Inter.", "Force","Photo","Chill"), las=1,cex=.9)
+
+plot(sigm[1,1],5,pch=16,cex=1.5,col="black",xlab="Model estimate",ylab="",yaxt="n",ylim=c(0,6), xlim= c(-10,40), main= "Sigma") 
+points(sigm[2,1],4,pch=16,cex=1.5,col="black")
+points(sigm[3,1],3,pch=16,cex=1.5,col="black")
+points(sigm[4,1],2,pch=16,cex=1.5,col="black")
+points(sigm[5,1],1,pch=16,cex=1.5,col="black")
+
+points(modsummn[5,],4.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[6,],3.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[7,],2.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[8,],1.9-jit,pch=16,cex=.9,col="gray")
+points(modsummn[9,],0.9-jit,pch=16,cex=.9,col="gray")
+
+axis(2,at=c(5,4,3,2,1), labels = c("Inter.", "Force","Photo","Chill","y"), las=1,cex=.9)
+
+
+
 #####################################
 ## Get studies with interactions  ##
 ## Lizzie took from countinxns. R ##

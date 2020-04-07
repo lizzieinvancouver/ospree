@@ -92,3 +92,5 @@ row.names(nozohztab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperio
                                                  , "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$")
 colnames(nozohztab)<- c("mean","25%", "75%","2.5%","97.5%")
 write.csv(nozohztab,"../../analyses/output/supptables/nozohnzmodtable.csv", row.names = FALSE)
+
+

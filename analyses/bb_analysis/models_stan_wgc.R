@@ -130,6 +130,8 @@ m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
 
+#zmodtable<-read.csv("../../analyses/output/supptables/zmodetable.csv", header=TRUE)
+
 ys<-datalist.bb$y
 # posterior predictive checks....
 if(FALSE){
@@ -144,27 +146,27 @@ hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
 # Code if you want to save your models (do NOT push output to git)
 
 if(use.flags.for.mainmodel){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z.Rda")
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z_wgc.Rda")
 }
 
 if (use.flags.for.spcomp.cp){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z.Rda")
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z_wgc.Rda")
 }
 
 if (use.flags.for.allspp.utah){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z.Rda")
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z_wgc.Rda")
 }
 
 if (use.flags.for.spcomp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz.Rda")
+  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz_wgc.Rda")
 }
 
 if (use.flags.for.spcomp.cp.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz.Rda")
+  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz_wgc.Rda")
 }
 
 if (use.flags.for.allspp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
+  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz_wgc.Rda")
 }
 
 #Other combinations of flags used at some point (but not in the main bb manuscript)
