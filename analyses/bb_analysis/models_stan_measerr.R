@@ -117,12 +117,12 @@ modsummn<-cbind(modsummn,modsum[,1])
 write.csv(modsummn,"..//..//analyses/output/measerr/allmodsums.csv")
 
 #Make figure comparing all mods
-load("..//..//analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
+load("stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
 fit.z <- summary(m2l.ni)$summary
 mu<-fit.z[grep("mu_", rownames(fit.z)),]
 sig<-fit.z[grep("sigma_", rownames(fit.z)),]
 
-quartz()
+png("figures/measerrcomp.png")
 par(mfrow=c(1,2))
 plot(mu[1,1],5,pch=16,cex=1.5,col="black",xlab="Model estimate",ylab="",yaxt="n",ylim=c(0,6), xlim= c(-10,40), main= "Mu") 
 points(mu[2,1],4,pch=16,cex=1.5,col="black")
@@ -149,125 +149,4 @@ points(modsummn[8,],1.9-jit,pch=16,cex=.9,col="gray")
 points(modsummn[9,],0.9-jit,pch=16,cex=.9,col="gray")
 
 axis(2,at=c(5,4,3,2,1), labels = c("Inter.", "Force","Photo","Chill","y"), las=1,cex=.9)
-
-
-
-#####################################
-## Get studies with interactions  ##
-## Lizzie took from countinxns. R ##
-## Need to deal with species complex! ##
-####################################
-
-datesetIDincl <- read.csv("..//limitingcues/output/bbstan_mainmodel_countinxns_datasetIDs.csv")
-datesetIDincl$datIDstudy <- paste(datesetIDincl$datasetID, datesetIDincl$study)
-bb.stan$datIDstudy <- paste(bb.stan$datasetID, bb.stan$study)
-bb.stan.sm <- bb.stan[which(bb.stan$datIDstudy %in% datesetIDincl$datIDstudy),]
-
-datalist.bb <- with(bb.stan, 
-                      list(y = resp, 
-                           chill = chill.z, # should change
-                           force = force.z, 
-                           photo = photo.z,
-                           sp = complex,
-                           N = nrow(bb.stan),
-                           n_sp = length(unique(bb.stan$complex))
-                      )
-)
-
-######################################
-## Overview of the model run below ##
-######################################
-# Main model:
-# m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
-
-########################################################
-# real data on 2 level model (sp) with no interactions 
-# Note the notation: nointer_2level.stan: m2l.ni
-########################################################
-m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
-               iter = 3500, warmup=2500)
-
-check_all_diagnostics(m2l.ni)
-# launch_shinystan(m2l.ni)
-
-m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
-m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
-
-#zmodtable<-read.csv("../../analyses/output/supptables/zmodetable.csv", header=TRUE)
-
-ys<-datalist.bb$y
-# posterior predictive checks....
-if(FALSE){
-y_pred <- extract(m2l.ni, 'y_ppc')
-
-par(mfrow=c(1,2))
-hist(bb.stan$response.time, breaks=40, xlab="real data response time", main="No intxn model")
-hist(y_pred[[1]][1,], breaks=40, xlab="PPC response time", main="")
-}
-
-
-# Code if you want to save your models (do NOT push output to git)
-
-if(use.flags.for.mainmodel){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_z_wgc.Rda")
-}
-
-if (use.flags.for.spcomp.cp){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_z_wgc.Rda")
-}
-
-if (use.flags.for.allspp.utah){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_z_wgc.Rda")
-}
-
-if (use.flags.for.spcomp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_nonz_wgc.Rda")
-}
-
-if (use.flags.for.spcomp.cp.nonz){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfpcp_nonz_wgc.Rda")
-}
-
-if (use.flags.for.allspp.utah.nonz){
-  save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz_wgc.Rda")
-}
-
-#Other combinations of flags used at some point (but not in the main bb manuscript)
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
-}
-
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
-}
-
+dev.off()

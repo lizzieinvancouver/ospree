@@ -85,7 +85,7 @@ load("../../analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_nozohner_
 fit.nozohz <- summary(m2l.ni)$summary
 #summary(fit.z)# min n_ef: 1198 
 
-nozohztab<-as.data.frame(round(cbind(fit.nozohz[1:9,1],fit.z[1:9,5],fit.z[1:9,7],fit.z[1:9,4],fit.z[1:9,8]),digits=2))
+nozohztab<-as.data.frame(round(cbind(fit.nozohz[1:9,1],fit.nozohz[1:9,5],fit.nozohz[1:9,7],fit.nozohz[1:9,4],fit.nozohz[1:9,8]),digits=2))
 nozohztab<-rbind(nozohztab,c(length(fit.nozohz[grep("a_sp", rownames(fit.nozohz)),1])-2,"","","","",""))
 row.names(nozohztab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$",   
                                                  "$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$"
@@ -93,4 +93,15 @@ row.names(nozohztab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperio
 colnames(nozohztab)<- c("mean","25%", "75%","2.5%","97.5%")
 write.csv(nozohztab,"../../analyses/output/supptables/nozohnzmodtable.csv", row.names = FALSE)
 
+#load model fit with only studies that include atleast 2 interactions
+load("../../analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z_sm.Rda") # m2l.ni
+fit.sm <- summary(m2l.ni)$summary
+#summary(fit.z)# min n_ef: 1198 
 
+smtab<-as.data.frame(round(cbind(fit.sm[1:9,1],fit.sm[1:9,5],fit.sm[1:9,7],fit.sm[1:9,4],fit.sm[1:9,8]),digits=2))
+smtab<-rbind(smtab,c(length(fit.sm[grep("a_sp", rownames(fit.sm)),1])-2,"","","","",""))
+row.names(smtab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$",   
+                        "$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$"
+                        , "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$")
+colnames(smtab)<- c("mean","25%", "75%","2.5%","97.5%")
+write.csv(smtab,"../../analyses/output/supptables/smmodtable.csv", row.names = FALSE)

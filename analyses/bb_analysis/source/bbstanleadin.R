@@ -148,8 +148,8 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
 
 # Species complex and all types & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.alltypes.nocrops
     source("source/bb_zscorepreds.R")
     
@@ -171,8 +171,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # This is ALL species (no species complex used) with only exp & ramped photoforce & z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
@@ -190,8 +190,8 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # This is ALL species (no species complex used) with only exp & ramped photoforce & NOT z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE
-    & use.chillports == TRUE & use.zscore == FALSE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
+    use.chillports == TRUE & use.zscore == FALSE){
     bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -209,8 +209,8 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex with only exp & ramped photoforce & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.expramptypes.nocrops
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
@@ -228,8 +228,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex with only exp & ramped photoforce WITH crops & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.expramptypes
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
@@ -246,8 +246,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 
 # Species complex with only exp & ramped photoforce & NOT z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == FALSE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
+    use.chillports == TRUE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes.nocrops
   datalist.bb <- with(bb.stan, 
                       list(y = resp, 
@@ -264,8 +264,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex with only exp & ramped photoforce WITH crops & NOT z-scored 
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == FALSE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
+    use.chillports == TRUE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes
   datalist.bb <- with(bb.stan, 
                       list(y = resp, 
@@ -285,8 +285,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 
 # Species complex with only exp photoforce & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE &
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.exptypes.nocrops
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
@@ -303,8 +303,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # ALL species with only exp photoforce & z-scored
 if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE 
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE  &
+    use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.expphotoforce)
     source("source/bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
@@ -326,8 +326,8 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
 
 # Species complex, default photo and forcing and ONLY exp chill & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-  use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE 
-  & use.chillports == TRUE & use.zscore == TRUE){
+  use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE &
+  use.chillports == TRUE & use.zscore == TRUE){
   bb.stan <- bb.stan.exprampphotoforceexpch.nocrops
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
@@ -343,8 +343,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 # Species complex, ALL photo and forcing and ONLY exp chill & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE 
-    & use.chillports == TRUE & use.zscore == TRUE){
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE &
+    use.chillports == TRUE & use.zscore == TRUE){
   bb.stan <- bb.stan.alltypesexpch.nocrops
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
@@ -360,8 +360,8 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
 }
 # Species complex, exo and photo and forcing and using utah & z-scored
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
-    & use.chillports == FALSE & use.zscore == TRUE){
+    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
+    use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes.nocrops
   source("source/bb_zscorepreds.R")#37 species, 1729 rows of data
   datalist.bb <- with(bb.stan, 

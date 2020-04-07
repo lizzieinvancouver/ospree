@@ -19,6 +19,7 @@ options(stringsAsFactors=FALSE)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+ } else if(length(grep("ailene", getwd())>0)){  setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses")
 } else setwd("~/Documents/git/ospree/analyses")
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify

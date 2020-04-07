@@ -5,7 +5,7 @@ Observed Spring Phenology Responses in Éxperimental Environments
 <><><><><><><><><><>
 Files used to create figures in the main manuscript
 <><><><><><><><><><>
-
+#Figure 1: 
 #Figure 2: analyses/bb_analysis/models_stan_plotting_justmuplot.R
 
 #Figure 3: analyses/bb_analysis/models_stan_plotting_mu_ests_chilling.R
@@ -14,7 +14,9 @@ Files used to create figures in the main manuscript
 #Figure 4: analyses/bb_analysis/forecasting/forecast_changebb.R (also used for matching 2D figure in supp and for chill forecast 4-panel figure in sup)
 
 In the text ....
-# Numbers of chilling treatments come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
+# Sample size, min max treatments come from get_n.R
+# Numbers of chilling treatments come from tables prepared in ospree/analyses/
+limitingcues/countintxns/countintxns.R
 
 <><><><><><><><><><>
 Files used to create tables and figures in the supplemental materials
@@ -31,9 +33,12 @@ Files used to create tables and figures in the supplemental materials
 
 #Table 5S: analyses/bb_analysis/weinberger.R
 
+#Figure XS: map of all study locations
+#Figure XS: map of min max chill/photo/force treatments
 
 #Figure XS: analyses/bb_analysis/forecasting/forecast_changebb_lat.R
 #Figure XS: analyses/bb_analysis/weinberger.R
+
 
 In the text ....
 # Numbers of chilling treatments, numbers of studies that tested interactions between cues and thermoperiodicity numbers come from tables prepared in ospree/analyses/limitingcues/countintxns/countintxns.R
