@@ -6,7 +6,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #the climate data that we are pulling is daily min and max temperature
 
 nam<-nam[!(nam$fieldsample.date2=="2017-01-01"),]
-for(i in 1:nrow(nam)){ # i = 5
+for(i in 1:nrow(nam)){ # i = 68
   # find this location
   lo <- nam[i,"chill.long"] + 360
   la <- nam[i,"chill.lat"]
@@ -66,8 +66,8 @@ for(i in 1:nrow(nam)){ # i = 5
     }
     
     for(l in yr){
-      yrendprev <- ifelse(k%in%leapyears, 366, 365)
-      chillstart <- ifelse(k%in%leapyears,245, 244)
+      yrendprev <- ifelse(l%in%leapyears, 366, 365)
+      chillstart <- ifelse(l%in%leapyears,245, 244)
     }
     
     #jx$dim$time$vals<-seq(as.Date(paste0(yr,"-01-01")), as.Date(paste0(yr,"-12-31")), by="day")

@@ -15,10 +15,14 @@ calibration_l = list(
 
 chillcalcs <- vector()
 
-for(i in names(tempval)){ 
+for(i in names(tempval)){ #i="okie11_32.12_-83.12_2008-01-18_0"
   
   xx <- tempval[[i]]
   xx$Date<-strptime(xx$Date,"%Y-%m-%d", tz="GMT")
+  
+  ### Adding in code for random missing values from new North America climate data
+  xx <- xx[!is.na(xx$Tmin),]
+  
   #add interpolated climate data for studies with warming treatments (ambient plus 0.76, ambient plus 4 degrees)
   if(length(grep("ambplus0.76",i))==1){xx$Tmin<-xx$Tmin+0.76;xx$Tmax<-xx$Tmax+0.76}# pagter15
   if(length(grep("ambplus4",i))==1){xx$Tmin<-xx$Tmin+4;xx$Tmax<-xx$Tmax+4}#skre08
