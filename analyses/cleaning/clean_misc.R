@@ -253,6 +253,11 @@ okie11 <- read.csv("input/okie_merge.csv", header = TRUE) # read okie11 data
 d <- subset(d, datasetID != "okie11") # remove old okie11 data
 d <- rbind(d, okie11)
 
+### Vitra17
+### March 2020 Datacheck, edits made by Deirdre
+### chilltemp column should be ambinent, not NA
+d$chilltemp[which(d$datasetID=="vitra17")] <- "ambient"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
