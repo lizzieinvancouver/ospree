@@ -144,7 +144,7 @@ allutah
 #### Thinking about some barplots now...
 eurdat$gddmean <- ave(eurdat$gdd, eurdat$year)
 eurdat$gddmean.sd <- ave(eurdat$gdd, eurdat$year, FUN=sd)
-namdat$gddmean <- ave(namdat$gdd, namdat$year, FUN=sd)
+namdat$gddmean <- ave(namdat$gdd, namdat$year)
 namdat$gddmean.sd <- ave(namdat$gdd, namdat$year, FUN=sd)
 
 eurdat.bar <- subset(eurdat, select=c(year, continent, gddmean, gddmean.sd))
@@ -178,7 +178,7 @@ gddbar
 #### Now for utah chill
 eurdat$utahmean <- ave(eurdat$utah, eurdat$year)
 eurdat$utahmean.sd <- ave(eurdat$utah, eurdat$year, FUN=sd)
-namdat$utahmean <- ave(namdat$utah, namdat$year, FUN=sd)
+namdat$utahmean <- ave(namdat$utah, namdat$year)
 namdat$utahmean.sd <- ave(namdat$utah, namdat$year, FUN=sd)
 
 eurdat.utahbar <- subset(eurdat, select=c(year, continent, utahmean, utahmean.sd))
