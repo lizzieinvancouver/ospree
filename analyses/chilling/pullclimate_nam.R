@@ -6,7 +6,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #the climate data that we are pulling is daily min and max temperature
 
 nam<-nam[!(nam$fieldsample.date2=="2017-01-01"),]
-for(i in 1:nrow(nam)){ # i = 91
+for(i in 1:nrow(nam)){ # i = 88
   # find this location
   lo <- nam[i,"chill.long"] + 360
   la <- nam[i,"chill.lat"]
@@ -90,7 +90,7 @@ for(i in 1:nrow(nam)){ # i = 91
     lat.cell <- which.min(abs(jx$dim$lat$vals-as.numeric(la)))
     maxtestthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15#check that the lat/long combinations has temperature data. 
     maxtestlastyr<-(ncvar_get(jxprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15#check that the lat/long combinations has temperature data. 
-    maxtest <- c(maxtestthisyr, maxtestlastyr)
+    maxtest <- c(maxtestlastyr, maxtestthisyr)
     #if no temperature data for the focal lat/long, choose the next closest one. 
     #the below code goes up to 0.1 degrees (~10km) away from the closest lat/long)
     if(is.na(unique(maxtest))){#if there are no temp data for the selected lat/long, choose a different one
@@ -118,10 +118,10 @@ for(i in 1:nrow(nam)){ # i = 91
     
     maxthisyr<-(ncvar_get(jx,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15
     maxlastyr<-(ncvar_get(jxprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15
-    maxs <- c(maxthisyr, maxlastyr)#minimum temperatures for selected lat/long
+    maxs <- c(maxlastyr, maxthisyr)#minimum temperatures for selected lat/long
     minthisyr<-(ncvar_get(jn,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[thisyr]-273.15
     minlastyr<-(ncvar_get(jnprev,start=c(long.cell,lat.cell,1),count=c(1,1,-1)))[lastyr]-273.15
-    mins <- c(minthisyr, minlastyr)#minimum temperatures for selected lat/long
+    mins <- c(minlastyr, minthisyr)#minimum temperatures for selected lat/long
     nc_close(jx)
     nc_close(jxprev)
     nc_close(jn)
