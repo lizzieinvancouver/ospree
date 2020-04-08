@@ -23,6 +23,8 @@ d[which(d$datasetID=="karlsson03"),]$continent<-"europe"#
 d$fieldsample.date[which(d$datasetID=="morin10")]<-"01-Jan-2004"
 d$fieldsample.date[which(d$datasetID=="laube14b")]<-"03-Mar-2012" ###gets 17 more rows
 
+d[which(d$datasetID=="nanninga17" & d$fieldsample.date=="02-Feb-2010"),]$fieldsample.date<-"02-Feb-2012"#
+
 #For Sanz Perez10, even though we can use the growing lat/long for the provenance lat/long:
 #sansperez10 has provenance lat and long columns wrong in excel file. 
 #also, it is not possible to distinguish between the two provenances given in the study

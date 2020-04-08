@@ -1,5 +1,6 @@
 #### Working on making some climate plots for ranges
 # Started 31 March 2020 by Cat
+#started 7th of April 2020 by Darwin
 
 # housekeeping
 rm(list=ls()) 
@@ -11,7 +12,9 @@ if(length(grep("lizzie", getwd())>0)) {
 } else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/ranges")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/ranges") 
-} else setwd("~/Documents/git/ospree/analyses/ranges") 
+} else if (length(grep("darwin", getwd()))>0){setwd("~/Documents/GitHub/ospree/analyses/ranges")
+} 
+else setwd("~/Documents/git/ospree/analyses/ranges") 
 
 
 ### From Lines 17-96 are just cleaning files so masked for now to make plots
@@ -50,7 +53,7 @@ if(FALSE){
   
   
   ### Alright, now I would like to clean up the species names and also add a column to mark NAM vs EUR
-  species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+  species.list <- read.csv("~/Documents/GitHub/ospree/analyses/rangesoutput/masterspecieslist.csv")
   species.list <- as.vector(species.list$x)
   spplist <- as.data.frame(species.list)
   spplist <- rbind(spplist, "Alnus_rubra")
@@ -108,43 +111,47 @@ library(gridExtra)
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pch <- rep(15:18, each=12)
 
-allgdd <- ggplot(df, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+allgdd <- ggplot(ranges_climclean, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
   theme_classic() + coord_cartesian(ylim=c(50, 850)) +
-  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal) +
-  scale_shape_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pch) # + guides(linetype=FALSE)
+  scale_color_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pch) # + guides(linetype=FALSE)
 
-allutah <- ggplot(df, aes(x=year, y=utah, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+allutah <- ggplot(ranges_climclean, aes(x=year, y=utah, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
   theme_classic() + coord_cartesian(ylim=c(450, 2500)) +
-  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal) +
-  scale_shape_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pch)
+  scale_color_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pch)
+
+min(ranges_climclean$ports)
+max(ranges_climclean$ports)
 
 
 if(FALSE){
-  eurdat <- df[(df$continent=="europe"),]
+  eurdat <- ranges_climclean[(ranges_climclean$continent=="europe"),]
   eurgdd <- ggplot(eurdat, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line() +
     theme_classic() + coord_cartesian(ylim=c(50, 850)) +
     scale_color_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pal) +
     scale_shape_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pch) + guides(linetype=FALSE)
   
-  namdat <- df[(df$continent=="north america"),]
+  namdat <- ranges_climclean[(ranges_climclean$continent=="north america"),]
   namgdd <- ggplot(namdat, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
     theme_classic() + coord_cartesian(ylim=c(50, 850)) +
     scale_color_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pal) +
     scale_shape_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pch) + guides(linetype=FALSE)
-}
+
+  }
 
 
 quartz()
 allgdd
 allutah
-#eurgdd
-#namgdd
+eurgdd
+namgdd
 
 
 #### Thinking about some barplots now...
 eurdat$gddmean <- ave(eurdat$gdd, eurdat$year)
 eurdat$gddmean.sd <- ave(eurdat$gdd, eurdat$year, FUN=sd)
-namdat$gddmean <- ave(namdat$gdd, namdat$year)
+namdat$gddmean <- ave(namdat$gdd, namdat$year, FUN=sd)
 namdat$gddmean.sd <- ave(namdat$gdd, namdat$year, FUN=sd)
 
 eurdat.bar <- subset(eurdat, select=c(year, continent, gddmean, gddmean.sd))
@@ -178,7 +185,7 @@ gddbar
 #### Now for utah chill
 eurdat$utahmean <- ave(eurdat$utah, eurdat$year)
 eurdat$utahmean.sd <- ave(eurdat$utah, eurdat$year, FUN=sd)
-namdat$utahmean <- ave(namdat$utah, namdat$year)
+namdat$utahmean <- ave(namdat$utah, namdat$year, FUN=sd)
 namdat$utahmean.sd <- ave(namdat$utah, namdat$year, FUN=sd)
 
 eurdat.utahbar <- subset(eurdat, select=c(year, continent, utahmean, utahmean.sd))
@@ -209,7 +216,6 @@ utahbar<- ggplot(all.barutah, aes(x=as.factor(year), y=utahmean, fill=continent)
 quartz()
 utahbar
 
-
 ####### now let's try something wild... I want to somehow show all of the data we have
 eur.pal <- rep(brewer.pal(n = 8, name = "Dark2"), 3)
 
@@ -222,6 +228,10 @@ ggplot(eurdat, aes(x=year, y=gdd, col=complex_name)) + geom_point() +
   facet_wrap(~complex_name) + theme(legend.position = "none") +
   scale_color_manual(name="Species", labels=sort(unique(eurdat$complex_name)), 
                      values=eur.pal)
+
+
+
+
 
 
 eurdat$utahymax <- eurdat$utah + eurdat$utah.sd
@@ -259,4 +269,81 @@ ggplot(namdat, aes(x=year, y=utah, col=complex_name)) + geom_point() +
                      values=nam.pal)
 
 
+###### Darwin's plots based on Cat's code
+#plots species variation for each year based on location
 
+nam.pal <- rep(brewer.pal(n = 8, name = "Dark2"), 2)
+
+namdat$portsmax <- namdat$ports + namdat$ports.sd
+namdat$portsmin <- namdat$ports - namdat$ports.sd
+
+ggplot(namdat, aes(x=year, y=ports, col=complex_name)) + geom_point() +
+  theme_classic() + geom_errorbar(aes(ymin=portsmin, ymax=portsmax),width = 0.2, position=position_dodge(0.9)) +
+  facet_wrap(~complex_name) + theme(legend.position = "none") +
+  scale_color_manual(name="Species", labels=sort(unique(namdat$complex_name)), 
+                     values=nam.pal)
+
+eur.pal <- rep(brewer.pal(n = 8, name = "Dark2"), 3)
+
+eurdat$portsmax <- eurdat$ports + eurdat$ports.sd
+eurdat$portsmin <- eurdat$ports - eurdat$ports.sd
+
+ggplot(eurdat, aes(x=year, y=ports, col=complex_name)) + geom_point() +
+  theme_classic() + geom_errorbar(aes(ymin=portsmin, ymax=portsmax),width = 0.2, position=position_dodge(0.9)) +
+  facet_wrap(~complex_name) + theme(legend.position = "none") +
+  scale_color_manual(name="Species", labels=sort(unique(eurdat$complex_name)), 
+                     values=eur.pal)
+
+#### plots variation in chill portions across years per region
+eurdat$portsmean <- ave(eurdat$ports, eurdat$year)
+eurdat$portsmean.sd <- ave(eurdat$ports, eurdat$year, FUN=sd)
+namdat$portsmean <- ave(namdat$ports, namdat$year)
+namdat$portsmean.sd <- ave(namdat$ports, namdat$year, FUN=sd)
+
+eurdat.portsbar <- subset(eurdat, select=c(year, continent, portsmean, portsmean.sd))
+namdat.portsbar <- subset(namdat, select=c(year, continent, portsmean, portsmean.sd))
+
+all.barports <- dplyr::full_join(eurdat.portsbar, namdat.portsbar)
+all.barports <- all.barports[!duplicated(all.barports),]
+
+all.barports$ymin <- all.barports$portsmean-all.barports$portsmean.sd
+all.barports$ymax <- all.barports$portsmean+all.barports$portsmean.sd
+
+cont.pal <- brewer.pal(n = 8, name = "Dark2")
+
+portsbar<- ggplot(all.barports, aes(x=as.factor(year), y=portsmean, fill=continent)) + 
+  geom_bar(stat="identity", position=position_dodge()) +
+  geom_errorbar(aes(ymin=ymin, ymax=ymax),width = 0.2, position=position_dodge(0.9)) +
+  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.text.align = 0,
+        legend.position = c(0.1, .95),
+        legend.title = element_blank(),
+        axis.text.x = element_text(face = "italic", angle=45, hjust=1),
+        legend.key = element_rect(colour = "transparent", fill = "white")) +
+  xlab("") + 
+  ylab("ports mean") + 
+  scale_fill_manual(name="Continent", values=cont.pal,
+                    labels=sort(unique(all.bar$continent))) 
+
+quartz()
+portsbar
+
+#Plots chill portions for all species and labels continent 
+allports<- ggplot(ranges_climclean, aes(x=year, y=ports, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+  theme_classic() + coord_cartesian(ylim=c(10, 125)) +
+  scale_color_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(ranges_climclean$complex_name)), values=my.pch)
+
+#plots chill portions for only European Species
+eurdat <- ranges_climclean[(ranges_climclean$continent=="europe"),]
+eurports <- ggplot(eurdat, aes(x=year, y=ports, col=complex_name, shape=complex_name)) + geom_point() + geom_line() +
+  theme_classic() + coord_cartesian(ylim=c(20, 80)) +
+  scale_color_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(eurdat$complex_name)), values=my.pch) + guides(linetype=FALSE)
+
+#plots chill portions for only North-American Species
+namdat <- ranges_climclean[(ranges_climclean$continent=="north america"),]
+namports <- ggplot(namdat, aes(x=year, y=ports, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
+  theme_classic() + coord_cartesian(ylim=c(25, 105)) +
+  scale_color_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pal) +
+  scale_shape_manual(name="Species", labels=sort(unique(namdat$complex_name)), values=my.pch) + guides(linetype=FALSE)

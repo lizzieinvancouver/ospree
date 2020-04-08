@@ -19,6 +19,11 @@ setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/joint_model
 # trait ~ agrand + a[sp] + a[study] + sigma_y 
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
+# Check code from Mike, if you see a long tail, you may need an NCP 
+if(FALSE){
+    get_sampler_params(cp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1] get_sampler_params(ncp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1] cp_steps <- do.call(rbind, get_sampler_params(cp_fit, inc_warmup=FALSE))[,'n_leapfrog__'] hist(cp_steps, breaks=0:700-0.5, main="", col=c_dark, border=c_dark_highlight, xlab="Number of Leapfrog Steps", yaxt='n', ylab="") ncp_steps <- do.call(rbind, get_sampler_params(ncp_fit, inc_warmup=FALSE))[,'n_leapfrog__'] hist(ncp_steps, breaks=0:700-0.5, col=c_light, border=c_light_highlight, add=T)
+    }
+
 # Parameters
 agrand <- 40
 sigma_asp <- 7

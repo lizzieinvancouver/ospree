@@ -1,5 +1,8 @@
-#### Working on making some climate plots for ranges
-# Started 31 March 2020 by Cat
+#### Plotting range data ####
+#Faith Jones, started April 7th, 2020, 
+#based partly on code in clean_rangesclimatedata.R by Cat 
+
+
 
 # housekeeping
 rm(list=ls()) 
@@ -12,101 +15,32 @@ if(length(grep("lizzie", getwd())>0)) {
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/ranges") 
 } else setwd("~/Documents/git/ospree/analyses/ranges") 
+setwd("~/Documents/github/ospree/analyses/ranges")
 
-
-### From Lines 17-96 are just cleaning files so masked for now to make plots
-if(FALSE){
-  ### Let's open up all climate files first...
-  # Name the objects first
-  mycsv = as.vector(dir("climoutput", pattern=".csv"))
-  
-  # Then create a list of dataframes
-  n <- length(mycsv)
-  mylist <- vector("list", n)
-  
-  for(i in 1:n) mylist[[i]] <- read.csv(paste0("climoutput/",mycsv[i]))
-  names(mylist) <- substr(mycsv, 18,30)
-  
-  # Now, let's make sure all of the dataframes have the same column names
-  mylist <- lapply(mylist, function(x) 
-  {names(x) <- c("year", "gdd", "gdd.sd", "utah", "utah.sd", "ports", "ports.sd") ; 
-  return(x)})
-  
-  # Okay, now let's merge them all together into one major dataframe 
-  # (not sure how to do this other than using dplyr or purrr)
-  mylist <- dplyr::bind_rows(mylist, .id = "source")
-  
-  
-  ### Source names are a nightmare, so let's fix below
-  df <- mylist ## just to save mylist as is
-  df$gen <- substr(df$source, 0, 3) # easy to get first three letters of genus code
-  df$spp <- substr(gsub('.*_(.*)','\\1', df$source), 0, 3) ## now for the species code
-  df$spp <- ifelse(df$gen==df$spp, substr(df$source, 5, 7), df$spp)
-  
-  df$species <- paste0(df$gen, df$spp)
-  
-  # Need to make all species names the same, which means I need to make the first letter of genus capital 
-  df$gen <- paste0(toupper(substr(df$gen, 0, 1)), substr(df$gen, 2, 3))
-  
-  
-  ### Alright, now I would like to clean up the species names and also add a column to mark NAM vs EUR
-  species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
-  species.list <- as.vector(species.list$x)
-  spplist <- as.data.frame(species.list)
-  spplist <- rbind(spplist, "Alnus_rubra")
-  
-  ## The NAM species are listed by 6-digit code, need to fix...
-  zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-  
-  # generate a list of species with maps in the .zip  
-  species.list.maps <- unlist(zipped_names)
-  species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
-  species.list.clean <- species.list.maps
-  
-  namspp <- data.frame(simpspp = species.list.clean,
-                       compspp = c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
-                                   "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-                                   "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca"))
-  
-  for(i in 1:c(nrow(spplist))){ # i=1
-    for(j in 1:c(nrow(namspp))) #j=1
-      spplist$species.list[i] <- ifelse(spplist$species.list[i]==namspp$simpspp[j], 
-                                        namspp$compspp[j], spplist$species.list[i])
-  }
-  ## Okay, all species names are complete now need to fix the main dataframe with climate data
-  df$complex_name <- NA
-  for(i in 1:c(nrow(df))){ # i=1
-    for(j in 1:c(nrow(spplist))) #j=1
-      df$complex_name[i] <- ifelse(df$gen[i]==substr(spplist$species.list[j], 0,3) & df$spp[i]==substr(gsub('.*_(.*)','\\1', spplist$species.list[j]), 0, 3),
-                                   spplist$species.list[j], df$complex_name[i])
-    
-  }
-  
-  
-  #### Alright, now just need to add if NAM or EU
-  nam <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-           "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
-           "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-           "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca", "Alnus_rubra")
-  
-  df$continent <- ifelse(df$complex_name%in%nam, "north america", "europe")
-  df$source <- NULL
-  
-  # Let's quickly save our work:
-  write.csv(df, "ranges_climclean.csv", row.names=FALSE)
-}
-
-####################################################
-############# Now for the plots!! ##################
-####################################################
 library(ggplot2)
 library(RColorBrewer)
 library(gridExtra)
+library(dplyr)
+library(tidyr)
 
 # Set up colors
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pch <- rep(15:18, each=12)
+
+df <- read.csv("ranges_climclean.csv")
+head(df)
+
+
+#plots by Cat and dan 
+#-------------------------
+
+
+# Set up colors
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+my.pch <- rep(15:18, each=12)
+
+df <- read.csv("ranges_climclean.csv")
+head(df)
 
 allgdd <- ggplot(df, aes(x=year, y=gdd, col=complex_name, shape=complex_name)) + geom_point() + geom_line(aes(linetype=continent)) +
   theme_classic() + coord_cartesian(ylim=c(50, 850)) +
@@ -144,7 +78,7 @@ allutah
 #### Thinking about some barplots now...
 eurdat$gddmean <- ave(eurdat$gdd, eurdat$year)
 eurdat$gddmean.sd <- ave(eurdat$gdd, eurdat$year, FUN=sd)
-namdat$gddmean <- ave(namdat$gdd, namdat$year)
+namdat$gddmean <- ave(namdat$gdd, namdat$year, FUN=sd)
 namdat$gddmean.sd <- ave(namdat$gdd, namdat$year, FUN=sd)
 
 eurdat.bar <- subset(eurdat, select=c(year, continent, gddmean, gddmean.sd))
@@ -178,7 +112,7 @@ gddbar
 #### Now for utah chill
 eurdat$utahmean <- ave(eurdat$utah, eurdat$year)
 eurdat$utahmean.sd <- ave(eurdat$utah, eurdat$year, FUN=sd)
-namdat$utahmean <- ave(namdat$utah, namdat$year)
+namdat$utahmean <- ave(namdat$utah, namdat$year, FUN=sd)
 namdat$utahmean.sd <- ave(namdat$utah, namdat$year, FUN=sd)
 
 eurdat.utahbar <- subset(eurdat, select=c(year, continent, utahmean, utahmean.sd))
@@ -258,5 +192,93 @@ ggplot(namdat, aes(x=year, y=utah, col=complex_name)) + geom_point() +
   scale_color_manual(name="Species", labels=sort(unique(namdat$complex_name)), 
                      values=nam.pal)
 
+#Faith's plots
+ #---------------------------------
+wd <- getwd()
+#Do species with large ragne variation also experience large interannual variation?
 
+#get the mean amount of standard deviation in a given year 
+meandf <- df %>% group_by(complex_name)%>%
+	 summarise_at(c("gdd.sd", "utah.sd", "ports.sd"), mean) 
+names(meandf)[2:4] <- c("range.sd.gdd", "range.sd.utah", "range.sd.ports")
 
+#get the standard deviation around the year mean temperature (sd between years)
+sddf <- df %>% group_by(complex_name)%>%
+	summarise_at(c("gdd", "utah", "ports"), sd) 
+names(sddf)[2:4] <- c("year.sd.gdd", "year.sd.utah", "year.sd.ports")
+
+#combine
+meanSDData <- merge(meandf, sddf, by = "complex_name")
+
+forcePlot <- ggplot(data = meanSDData, aes(x = range.sd.gdd, y = year.sd.gdd))
+forcePlot2 <- forcePlot + geom_point(aes(colour = complex_name)) +
+	xlab ("within range mean sd ggd") +
+	ylab("between year sd of mean ggd") +
+	theme_classic() + 
+	ggtitle("Forcing") +
+	theme(text = element_text(size=20),
+		legend.position = "none")
+
+ChillPlot <- ggplot(data = meanSDData, aes(x = range.sd.utah, y = year.sd.utah))
+ChillPlot2 <- ChillPlot + geom_point(aes(colour = complex_name))+
+	xlab ("within range mean sd utah") +
+	ylab("between year sd of mean utah") +
+	theme_classic() + 
+	ggtitle("Chilling") +
+	theme(text = element_text(size=20),
+		legend.position = "none")
+
+photoPlot  <- ggplot(data = meanSDData, aes(x = range.sd.ports, y = year.sd.ports))
+photoPlot2 <- photoPlot + geom_point(aes(colour = complex_name))+
+	xlab ("within range mean sd ports") +
+	ylab("between year sd of mean ports") +
+	theme_classic() + 
+	ggtitle("Photoperiod") +
+	theme(text = element_text(size=20))
+
+png(paste(wd, "/figures/meantimeVsrangeSD.png", sep = ""), width = 1800, height = 600, units = "px")
+grid.arrange(forcePlot2, ChillPlot2,photoPlot2, nrow = 1, widths = c(0.5, 0.5,1))
+dev.off()
+
+#how do mean values relate to sd? (relates to H2 Chilling.)
+head(df)
+
+forcemeanPlot <- ggplot(data = df, aes(x = gdd, y = gdd.sd))
+forcemeanPlot2 <- forcemeanPlot + geom_point(aes(colour = continent))+
+	theme_classic()+ 
+	ggtitle("Forcing") + 
+	theme(text = element_text(size=20),
+		legend.position = "none")
+
+chillmeanPlot <- ggplot(data = df, aes(x = utah, y = utah.sd))
+chillmeanPlot2 <- chillmeanPlot + geom_point(aes(colour = continent))+
+	theme_classic()+ 
+	ggtitle("Chilling") + 
+	theme(text = element_text(size=20),
+		legend.position = "none")
+
+photomeanPlot <- ggplot(data = df, aes(x = ports, y = ports.sd))
+photomeanPlot2 <- photomeanPlot + geom_point(aes(colour = continent))+
+	theme_classic()+ 
+	ggtitle("Photoperiod") + 
+	theme(text = element_text(size=20))
+
+png(paste(wd, "/figures/meanAganistSD.png", sep = ""), width = 1200, height = 400, units = "px")
+grid.arrange(forcemeanPlot2, chillmeanPlot2,photomeanPlot2, nrow = 1, widths = c(1, 1,1.3))
+dev.off()
+
+#How does the sd around chilling relate to teh sd around forcing?
+
+forceChillsdPlot <- ggplot(data = df, aes(x = utah.sd, y = gdd.sd))
+forceChillsdPlot2 <- forceChillsdPlot + geom_point(aes(colour = continent))+
+	theme_classic()+ 
+	theme(text = element_text(size=20))
+
+forceChillsdPlot <- ggplot(data = df, aes(x = utah.sd, y = gdd.sd))
+forceChillsdPlot3 <- forceChillsdPlot + geom_point(aes(colour = complex_name))+
+	theme_classic()+ 
+	theme(text = element_text(size=20))
+
+png(paste(wd, "/figures/focesdchillsd.png", sep = ""), width = 1200, height = 400, units = "px")
+grid.arrange(forceChillsdPlot2, forceChillsdPlot3, nrow = 1, widths = c(1.2, 2))
+dev.off()
