@@ -6,12 +6,13 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 ## Set working directory
-if(length(grep("lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/treegarden/budreview/ospree/ranges") 
+if(length(grep("Lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/ranges")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/ranges") 
-} else setwd("~/Documents/git/ospree/analyses/ranges") 
+} else
+setwd("~/Documents/git/ospree/analyses/ranges") 
 
 
 ### From Lines 17-96 are just cleaning files so masked for now to make plots
