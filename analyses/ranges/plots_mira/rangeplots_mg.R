@@ -263,6 +263,7 @@ ggplot(namdat, aes(x=year, y=utah, col=complex_name)) + geom_point() +
 #-------------Mira's Plots---------------#
 
 quartz()
+
 sd_sp <- ggplot(df, aes(x=complex_name, y=gdd.sd, col=complex_name)) + geom_bar(stat = "identity") + theme_classic() + 
   theme(axis.text.x = element_text(angle = 90)) + theme(legend.position = "none") +
   scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal)
@@ -273,10 +274,17 @@ eur_yrsd <- ggplot(eurdat, aes(x=year, y= gdd.sd, col=complex_name)) +
   scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal)
 eur_yrsd
 
+# is the species with low gdd.sd Acer psudoplatanus or Corylus avellana?
+# plotting just A. psudoplatanus
+acer <- eurdat[which(eurdat$complex_name == "Acer_pseudoplatanus"), ]
+quartz()
+acerplot <- ggplot(acer, aes(x=year, y= gdd.sd)) + 
+  geom_point() + geom_line() + 
+  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal)
+acerplot
+
 nam_yrsd <- ggplot(namdat, aes(x=year, y=gdd.sd, col=complex_name))+
   geom_point() + geom_line() +
-  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal)
+  scale_color_manual(name="Species", labels=sort(unique(df$complex_name)), values=my.pal) +
 nam_yrsd
-
-
 
