@@ -81,7 +81,6 @@ d.sub$response.time[which(d.sub$response.time==-23.76)]<-"no response"
 d.sub$response.time<-ifelse(d.sub$response.time=="no response", 0, d.sub$response.time)
 
 
-
 # Okay, we'll use a loop to match the extracted GDD values to days
 # The way we do it, we'll need the upper and lower GDD range for each day, so build that here
 laube14$upper <- NA
@@ -113,7 +112,32 @@ d$response.time[which(d$datasetID=="swartz81")] <-
     as.numeric(d$forcetemp[which(d$datasetID=="swartz81")]) - 4.5)
 #d$response[which(d$datasetID=="karlsson03" & d$respvar.simple=="thermaltime")] <- "timeonly"
 d<-within(d, respvar.simple[datasetID=="swartz81"]<-"daystobudburst")
+
+
+######## New data edits by Cat: 14 April 2020 ####
+### man17: weinberger study with field forcing and also GH forcing at 15degC day and 5degC night. Day is 14 hours and night is 10
+# one day in GH is then 15*14 + 10*5 = 260 gdh 
+# field forcing doesn't start to accumulate until March 10 according to Figure 1
+# scraped from figure 1: March 10 = 176; March 30 = 427; April 20 = 1685; May 11 = 3596; May 31 = 6663; Jun 20 = 8952 
+## not sure where the extra dates are coming from...
+noforcefieldsamps <- c("2014-10-01", "2014-10-11", "2014-10-21", "2014-10-31", "2014-11-10", "2014-11-20", "2014-11-30", 
+                       "2015-01-09", "2015-01-29", "2015-02-18")
+
+d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)] <-
+  as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])/(260)
+
+d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-10")] <-
+  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-176)/(260) ### IS THIS CORRECT??? SHOULD I SUBTRACT THE FIELD FORCING THIS WAY??
+
+d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")] <-
+  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-427)/(260)
+
+#d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")] <-
+ # (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-6663)/(260) ### I'm not sure how to deal with the outdoor treatment...?
     
+
+d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!="2015-05-31"]<-"daystobudburst")
+
 } else {
   print("Error: d is not a data.frame")
 }
