@@ -37,7 +37,7 @@ osp.df <- data.frame(datasetID="prevey18", study="exp1", Entered.By="CJC",
                   photoperiod_day="ambient",
                   photoperiod_night="ambient", 
                   respvar="daystoflower",
-                  response=1, response.time="", n=meanprev$nflo, error.type="standard deviation", resp.error=meanprev$sdflo,
+                  response=1, response.time=meanprev$meanflo, n=meanprev$nflo, error.type="standard deviation", resp.error=meanprev$sdflo,
                   figure.table..if.applicable.="", growing.lat="", growing.long="", 
                   field.chill.units="NA", 
                   cu.model="")
@@ -50,14 +50,15 @@ nochilldays <- c("ambient_5.7", "webster_4.5")
 osp.df$chilldays <- NA
 osp.df$chilldays <- ifelse(!osp.df$chilltemp%in%nochilldays, 90, "")
 
-highforces <- c("4", "9", "ambientgreenhouse")
+highforces <- c("4", "9", "ambientgreenhouse_4.4")
+ambs <- c("ambient_5.7", "webster_4.5")
 osp.df$forcetemp <- NA
-osp.df$forcetemp <- ifelse(meanprev$Treatment%in%highforces, 16, osp.df$forcetemp)
-osp.df$forcetemp <- ifelse(meanprev$Treatment==c("ambient_5.7"), 5.7, osp.df$forcetemp)
-osp.df$forcetemp <- ifelse(meanprev$Treatment==c("webstergreenhouse_4.3"), 14.4, osp.df$forcetemp)
-osp.df$forcetemp <- ifelse(meanprev$Treatment==c("webster_4.5"), 4.3, osp.df$forcetemp)
+osp.df$forcetemp <- ifelse(osp.df$chilltemp%in%highforces, 16, osp.df$forcetemp)
+osp.df$forcetemp <- ifelse(osp.df$chilltemp%in%ambs, "ambient", osp.df$forcetemp)
+osp.df$forcetemp <- ifelse(osp.df$chilltemp=="webstergreenhouse_4.3", 14.4, osp.df$forcetemp)
 
 
 osp.df$forcetemp_night <- osp.df$forcetemp
+
 
 write.csv(osp.df, "~/Documents/git/ospree/data/update2019/prevey18_data.csv", row.names=FALSE)
