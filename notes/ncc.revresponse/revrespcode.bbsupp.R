@@ -49,7 +49,7 @@ modstud$datasetID<-as.character(modstud$datasetID)
 d$study<-as.character(d$study)
 modstud$study<-as.character(modstud$study)
 d_modstud<-semi_join(d,modstud)
-d_modstud2<-subset(d_modstud,select=c(datasetIDstudy,study,Entered.By,genus,species,response,response.time,n,error.type,resp_error,figure.table..if.applicable.))
+d_modstud2<-subset(d_modstud,select=c(datasetIDstudy,study,Entered.By,genus,species,response,response.time,n,error.type,resp_error,figure.table..if.applicable.,))
 #Make a list of studies that need n and/or errir
 colnames(d_modstud2)[11]<-"fig.table"
 
@@ -117,6 +117,10 @@ studynum<-length(unique(d_modstud2$datasetID))
 d_modstud2$genus.species<-paste(d_modstud2$genus,d_modstud2$species, sep=".")
 spnum <- length(unique(d_modstud2$genus.species))
 
+#Look at sample size?
+summary(d_modstud2$n)#75% came from treatment sample sizes less than 12
+
+
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 2)
 my.pal.sp<-my.pal[1:spnum]
@@ -136,6 +140,8 @@ d_modstud4$SD<-NA
 d_modstud4$SD[d_modstud4$error.type=="SD"]<-d_modstud4$resp_error[d_modstud4$error.type=="SD"]
 d_modstud4$SD[d_modstud4$error.type=="SE"]<-d_modstud4$resp_error[d_modstud4$error.type=="SE"]*sqrt(d_modstud4$n[d_modstud4$error.type=="SE"])
 
+#look at SD compared to response
+d_modstud4$SD/d_modstud4$
 # display.brewer.all()
 #my.pch <- rep(15:19, each=12)
 #alphahere = 0.4

@@ -49,7 +49,7 @@ modstud$datasetID<-as.character(modstud$datasetID)
 d$study<-as.character(d$study)
 modstud$study<-as.character(modstud$study)
 d_modstud<-semi_join(d,modstud)
-d_modstud2<-subset(d_modstud,select=c(datasetIDstudy,study,Entered.By,genus,species,response,response.time,n,error.type,resp_error,figure.table..if.applicable.))
+d_modstud2<-as.data.frame(subset(d_modstud,select=c(datasetIDstudy,study,Entered.By,genus,species,response,response.time,n,error.type,resp_error,figure.table..if.applicable.)))
 #Make a list of studies that need n and/or errir
 colnames(d_modstud2)[11]<-"fig.table"
 
@@ -71,9 +71,10 @@ neednerror <- nonerr %>% # start with the data frame
      distinct(ID_study_fig, .keep_all = TRUE) %>% # establishing grouping variables
      dplyr::select(datasetIDstudy, Entered.By,fig.table,n,resp_error,error.type)
  #write.csv(neednerror,"..//output/need.n.error.csv")
-  
-#check quantiles of forcing treatments
 
+d_modstud2$resp_error<-as.numeric(d_modstud2$resp_error)
+d_modstud2$response.time<-as.numeric(d_modstud2$response.time)
+summary(as.numeric(d_modstud2$n))
 
 #Check the mean and range of experiment length of studies
 range(as.numeric(d_modstud$chilldays),na.rm=TRUE)#0 182
