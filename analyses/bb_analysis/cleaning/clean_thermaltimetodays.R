@@ -127,10 +127,10 @@ d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefield
   as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])/(260)
 
 d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-10")] <-
-  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-176)/(260) ### IS THIS CORRECT??? SHOULD I SUBTRACT THE FIELD FORCING THIS WAY??
+  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-10")])-176)/(260) ### IS THIS CORRECT??? SHOULD I SUBTRACT THE FIELD FORCING THIS WAY??
 
 d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")] <-
-  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-427)/(260)
+  (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")])-427)/(260)
 
 #d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")] <-
  # (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-6663)/(260) ### I'm not sure how to deal with the outdoor treatment...?
