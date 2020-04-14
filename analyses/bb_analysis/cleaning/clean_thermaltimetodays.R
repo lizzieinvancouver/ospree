@@ -120,8 +120,8 @@ d<-within(d, respvar.simple[datasetID=="swartz81"]<-"daystobudburst")
 # field forcing doesn't start to accumulate until March 10 according to Figure 1
 # scraped from figure 1: March 10 = 176; March 30 = 427; April 20 = 1685; May 11 = 3596; May 31 = 6663; Jun 20 = 8952 
 ## not sure where the extra dates are coming from...
-noforcefieldsamps <- c("2014-10-01", "2014-10-11", "2014-10-21", "2014-10-31", "2014-11-10", "2014-11-20", "2014-11-30", 
-                       "2015-01-09", "2015-01-29", "2015-02-18")
+noforcefieldsamps <- c("2014-10-01", "2014-10-11", "2014-10-21", "2014-10-31", "2014-11-10", "2014-11-20", "2014-11-30", "2014-12-10",
+                      "2014-12-20", "2014-12-30", "2015-01-09", "2015-01-29", "2015-02-18")
 
 d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)] <-
   as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])/(260)
