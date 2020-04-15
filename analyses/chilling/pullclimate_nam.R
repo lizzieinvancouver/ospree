@@ -5,7 +5,7 @@ nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #loop through each lat/long for which we want to calculate chilling and pull the climate data for that lat/long
 #the climate data that we are pulling is daily min and max temperature
 
-nam<-nam[!(nam$fieldsample.date2=="2017-01-01"),]
+nam<-nam[!(nam$year=="2017"),]
 for(i in 1:nrow(nam)){ # i = 88
   # find this location
   lo <- nam[i,"chill.long"] + 360

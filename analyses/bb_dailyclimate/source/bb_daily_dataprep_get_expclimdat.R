@@ -2,17 +2,25 @@
 #For part 1b, we need to modify the climate data so that it switches from field 
 #(ambient) conditions currently in cdat to experimental chilling conditions after the field sampling date. 
 #First look to see how many studies have experimental climate (either/both chilling (chilltemp, chilldays, chillphotoperiod) and forcing (forctemp)):
+
+## okay need to fix provenance lat and long again for fu18
+dat[which(dat$datasetID=="fu18"),]$provenance.lat <- dat[which(dat$datasetID=="fu18"),]$growing.lat
+dat[which(dat$datasetID=="fu18"),]$provenance.long <- dat[which(dat$datasetID=="fu18"),]$growing.long
+
+# Now fix okie11
+dat[which(dat$datasetID=="okie11"),]$chillphotoperiod <- ""
+
 dat$ID_exptreat2<-paste(dat$datasetID,dat$provenance.lat,dat$provenance.long,dat$chilltemp,dat$chilldays,dat$chillphotoperiod,dat$forcetemp,dat$forcetemp_night,sep=".")
 #noexpchilldat<-dat[which(dat$chilltemp==""|dat$chilltemp=="ambient"),]#studies that do NOT need experimental chilling calculated
 #noexpclimdat<-noexpchilldat[which(noexpchilldat$forcetemp==""|noexpchilldat$forcetemp=="ambient"|noexpchilldat$forcetemp=="meandaily"),]#studies that do NOT need experimental chilling AND ALSO do not need experimental forcing calculated
 #unique(noexpclimdat$photoperiod_day)#some studies manipulate ONLY photoperiod- ignore these for now
 
 #### Added by Cat 22 November 2019 - for some reason fu18 and one bad okie11 is weasling through to this point but should not be included here...
-fusandokies <- c("fu18", "okie11")
+#fusandokies <- c("fu18", "okie11")
+#expclimdat<-expclimdat[!(expclimdat$datasetID%in%fusandokies),]
 
 expclimdat<-dat[-which(dat$chilltemp=="" & dat$forcetemp==""),]#156 rows removed
 
-expclimdat<-expclimdat[!(expclimdat$datasetID%in%fusandokies),]
 #dim(expclimdat)#7992   rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="")#no rows
 #which(expclimdat$chilltemp=="ambient" & expclimdat$forcetemp=="ambient")#no rows
@@ -27,7 +35,7 @@ expclimtreats<-sort(unique(expclimdat$ID_exptreat2))#list of all study-chilling&
 #Things the below code does not yet deal with:
 #1.studies that manipulate ONLY photoperiod
 daily_chilltemp<-data.frame()
-for (i in 1:length(expclimtreats)){#i=421
+for (i in 1:length(expclimtreats)){#i=148
   tempdat<-dat[dat$ID_exptreat2==expclimtreats[i],] 
   startdate<-unique(tempdat$fieldsample.date2)
   for(j in 1:length(startdate)){ # j=1
@@ -44,7 +52,7 @@ for (i in 1:length(expclimtreats)){#i=421
    if(chilltemp==""|chilltemp=="ambient"){next}
     #in this case, there is no experimental chilling, so we 
     #skip ahead to the next treatment. there may still be experimental forcing but we will calculate this in the monster loop below
-    if(chilldays==""){next}
+    if(chilldays==""|is.na(chilldays)){next}
     enddate<-as.Date(startdate[j])+as.numeric(chilldays)-1
     if(as.Date(startdate[j])>as.Date(enddate)){enddate<-startdate[j]}
     if(as.Date(startdate[j])==as.Date(enddate)){next}

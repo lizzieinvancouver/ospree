@@ -136,7 +136,7 @@ d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")]
  # (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-6663)/(260) ### I'm not sure how to deal with the outdoor treatment...?
     
 
-d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!="2015-05-31"]<-"daystobudburst")
+d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!=""]<-"daystobudburst")
 
 } else {
   print("Error: d is not a data.frame")

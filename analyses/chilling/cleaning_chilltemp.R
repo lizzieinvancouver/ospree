@@ -86,7 +86,7 @@ d[which(d$chilltemp=="3_15(18 h_6 h)"),]$chilltemp <- 6 ### Taking the average f
 ######fu18 (Ailene April 2020)
 #cbind(d$study[which(d$datasetID=="fu18")],d$response.time[which(d$datasetID=="fu18")],d$figure.table..if.applicable.[which(d$datasetID=="fu18")])
 d$chilltemp[which(d$datasetID=="fu18")]<-d$forcetemp[which(d$datasetID=="fu18")]
-d$chilltemp[which(d$chilltemp =="ambient-1")]<-"ambient + -1"
+d$chilltemp[which(d$chilltemp =="ambient-1")]<-"ambient - 1"
 d$chilltemp[which(d$chilltemp =="ambient+1")]<-"ambient + 1"
 d$chilltemp[which(d$chilltemp =="ambient+2")]<-"ambient + 2"
 d$chilltemp[which(d$chilltemp =="ambient+3")]<-"ambient + 3"

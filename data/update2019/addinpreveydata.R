@@ -45,7 +45,7 @@ osp.df <- data.frame(datasetID="prevey18", study="exp1", Entered.By="cjc",
 latefieldsamps <- c("webstergreenhouse_4.3", "ambientgreenhouse_4.4")
 osp.df$fieldsample.date <- NA
 osp.df$fieldsample.date <- ifelse(!osp.df$chilltemp%in%latefieldsamps, "01-Nov-2016", osp.df$fieldsample.date)
-osp.df$fieldsample.date <- ifelse(osp.df$chilltemp%in%latefieldsamps, "12-Jan-2017", osp.df$fieldsample.date)
+osp.df$fieldsample.date <- ifelse(osp.df$chilltemp%in%latefieldsamps, "31-Jan-2017", osp.df$fieldsample.date)
 
 nochilldays <- c("ambient_5.7", "webster_4.5")
 osp.df$chilldays <- NA

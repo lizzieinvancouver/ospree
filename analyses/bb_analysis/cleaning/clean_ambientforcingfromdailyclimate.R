@@ -69,6 +69,9 @@ dat.all<-d
 dat.some <- subset(dat.all, respvar.simple=="daystobudburst"|respvar.simple=="percentbudburst")
 bbdat <- subset(dat.some, response.time!="")
 
+bbdat$chilldays <- ifelse(is.na(bbdat$chilldays), "", bbdat$chilldays)
+bbdat$chillphotoperiod <- ifelse(is.na(bbdat$chillphotoperiod), "", bbdat$chillphotoperiod)
+
 # format: make a column to match to climate data, and merge the BB and climate data
 bbdat$uniqueID <- paste(bbdat$datasetID, bbdat$fieldsample.date2, bbdat$forcetemp, bbdat$chilltemp, 
     bbdat$chilldays,bbdat$chillphotoperiod, bbdat$photoperiod_day)  
@@ -126,10 +129,11 @@ for(i in 1:nrow(bb)){
 
 ## saving results to output - d
 bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, lastchilldate))
+d$chilldays <- ifelse(is.na(d$chilldays), "", d$chilldays)
 d$uniqueID <- paste(d$datasetID, d$fieldsample.date2, d$forcetemp, d$chilltemp, 
                         d$chilldays,d$chillphotoperiod, d$photoperiod_day)
-foo <- merge(d, bb.sub, by="uniqueID", all.y=TRUE) ## 7857 rows of data (so subsets down to only data with ambient forcing)
-goo <- full_join(d, bb.sub) ## is still full dataset 11959 rows
+addavgbbtemp <- merge(d, bb.sub, by="uniqueID", all.y=TRUE) ## 7857 rows of data (so subsets down to only data with ambient forcing)
+d <- full_join(d, bb.sub) ## is still full dataset 11959 rows
 
 if(FALSE){
 # generate indexes
