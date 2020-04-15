@@ -210,10 +210,6 @@ d$response.time.num<-NULL ## get ride of transitory numerica column
 
 
 ### Updates to fieldsample.date column for new data
-##################################################################################################
-###################### TO BE MOVED TO CLEAN_MISC.R BY CAT WHEN CODE IS READY #####################
-### Not all fieldsample.dates were entered in the same format, so that needs to be fixed first. 
-# This should be moved to clean_misc.R - 19 Aug 2019 note by Cat
 d$fieldsample.date <- gsub("/", "-", d$fieldsample.date)
 d$fieldsample.date <- gsub("-13", "-2013", d$fieldsample.date)
 d$fieldsample.date <- gsub("-14", "-2014", d$fieldsample.date)
@@ -223,6 +219,8 @@ d$fieldsample.date <- gsub("-16", "-2016", d$fieldsample.date)
 ### flynn18: fieldsample.date entered incorrectly
 d$fieldsample.date <- ifelse(d$fieldsample.date=="26-Jan-2018", "26-Jan-2015", d$fieldsample.date)
 
+### Cat updated the prevey18 data based on raw data provided in the supplement on 15 April 2020. We can now delete this code below
+if(FALSE){ # we will keep for now
 ### ### For now, fix prevey18 because we don't have climdata past 2016-11-01
 d$fieldsample.date <- ifelse(d$datasetID=="prevey18", "01-Nov-2016", d$fieldsample.date)
 ###prevey18 needs some major cleaning see github issue #312 by DAan of 19 Nov 19
@@ -243,7 +241,7 @@ d$forcetemp[which(d$datasetID=="prevey18" & d$chilltemp=="webstergreenhouse14.3"
 d$chilltemp<-ifelse(d$datasetID=="prevey18" & !d$chilltemp%in%c(4,9),"ambient",d$chilltemp)
 ##fix night and day temp
 d$forcetemp_night[which(d$datasetID=="prevey18" & d$forcetemp=="ambient")] <- "ambient"
-
+}
 
 ### okie11
 ### This section by Geoff
@@ -257,6 +255,10 @@ d <- rbind(d, okie11)
 ### March 2020 Datacheck, edits made by Deirdre
 ### chilltemp column should be ambinent, not NA
 d$chilltemp[which(d$datasetID=="vitra17")] <- "ambient"
+
+#### Man17
+## One fieldsample.date should be removed as this treatment remains outside
+d$fieldsample.date[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- ""
 
 
 stop("Not an error, just wanted to let you know d is clean")
