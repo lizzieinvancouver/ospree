@@ -63,7 +63,7 @@ chill.lats<-d2[d2$chill.lat==d2$growing.lat,]
 clats <- chill.lats %>% # start with the data frame
   distinct(ID_fieldsample.date2, .keep_all = TRUE) %>% # establishing grouping variables
   dplyr::select(datasetID, chill.lat, chill.long, growing.lat,growing.long,provenance.lat,provenance.long)
-clats <- clats[apply(clats, 1, function(x) all(!is.na(x))),] # only keep rows of all not na
+#clats <- clats[apply(clats, 1, function(x) all(!is.na(x))),] # only keep rows of all not na; when activated this removes fu18
 clats <- clats[!duplicated(clats), ]
 
 write.csv(clats,"output/dailyclim/chill.lat.conversion.csv", row.names=FALSE, eol="\r\n")
