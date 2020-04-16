@@ -328,6 +328,58 @@ d<- within(d, respvar.simple[datasetID=="falusi90" & respvar=="percentbudburst"]
 d$response.time[which(d$forcetemp==30 & d$datasetID=="ramos99")]<-14
 d$response.time[which(d$forcetemp==20 & d$datasetID=="ramos99")]<-21
 d$response.time[which(d$forcetemp==12.5 & d$datasetID=="ramos99")]<-NA
+### Ailene (edits in April 2020) - to fix ramos17
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 1")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig1")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="09-Jan-1997")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="23-Jan-1997")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="07-Feb-1997")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="20-Feb-1997")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="17-Oct-1996")]<-18
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="20-Nov-1996")]<-12
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="18-Dec-1996")]<-8
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="09-Jan-1997")]<-4
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="23-Jan-1997")]<-3
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="12.5" & d$fieldsample.date=="07-Feb-1997")]<-1
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="17-Oct-1996")]<-25#chose 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="20-Nov-1996")]<-25#chose 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="18-Dec-1996")]<-25#chose 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="07-Feb-1997")]<-25#chose 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="20" & d$fieldsample.date=="20-Feb-1997")]<-25#chose 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="17-Oct-1996")]<-18#chose 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="20-Nov-1996")]<-18#chose 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="18-Dec-1996")]<-18#chose 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="09-Jan-1997")]<-18#chose 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 2" & d$forcetemp=="30" & d$fieldsample.date=="23-Jan-1997")]<-18#chose 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="09-Jan-1997")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="23-Jan-1997")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="07-Feb-1997")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="20-Feb-1997")]<-21
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="17-Oct-1996")]<-18
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="20-Nov-1996")]<-12
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="18-Dec-1996")]<-8
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="09-Jan-1997")]<-4
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="23-Jan-1997")]<-3
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="12.5" & d$fieldsample.date=="07-Feb-1997")]<-1
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="17-Oct-1996")]<-25#entered 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="20-Nov-1996")]<-25#entered 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="18-Dec-1996")]<-25#entered 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="07-Feb-1997")]<-25#entered 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="20" & d$fieldsample.date=="20-Feb-1997")]<-25#entered 25 because the figure says there was "3-4 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="17-Oct-1996")]<-18#entered 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="20-Nov-1996")]<-18#entered 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="18-Dec-1996")]<-18#entered 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="09-Jan-1997")]<-18#entered 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 3" & d$forcetemp=="30" & d$fieldsample.date=="23-Jan-1997")]<-18#entered 18 because the figure says there was "2-3 weeks of forcing"
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="30")]<-14
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="20" & d$fieldsample.date=="23-Jan-1998")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="20" & d$fieldsample.date=="09-Jan-1998")]<-28
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="30" & d$fieldsample.date=="06-Feb-1998")]<-14
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="30" & d$fieldsample.date=="20-Feb-1998")]<-14
+d$response.time[which(d$datasetID=="ramos17" & d$figure.table..if.applicable=="fig 4" & d$forcetemp=="15" & d$fieldsample.date=="12-Dec-1997")]<-35
+
+
+
 
 
 ###############################################################
