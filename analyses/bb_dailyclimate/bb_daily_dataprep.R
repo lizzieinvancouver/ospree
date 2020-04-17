@@ -64,8 +64,12 @@ dat.bb<-dat.bb[-which(dat.bb$continent=="asia"),]#we only have climate data for 
 #fusandokies <- c("fu18", "okie11", "malyshev18")
 #dat.bb<-dat.bb[-which(dat.bb$datasetID%in%fusandokies),]
 
+## Issues with NAs versus blank entries. Fix here:
+dat.bb$chilldays <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
+dat.bb$chillphotoperiod <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
+
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=2992 * problem here!!!
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -79,7 +83,7 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=2992 * problem here!!!
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     if(dim(x.dailyclim)[1]==0 & x$usegrolatlong==1) {
       if(x$datasetID=="basler14"|x$datasetID=="gomory15"|x$datasetID=="partanen01"|x$datasetID=="Sanz-Perez09"|x$datasetID=="skre08"
-         |x$datasetID=="flynn18"){
+         |x$datasetID=="flynn18"|x$datasetID=="malyshev18"){
         x$growing.lat<-round(x$growing.lat, digits=4)
         x$growing.long<-round(x$growing.long, digits=4)}
      x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & round(daily_ambtemp$lat, digits=4)==x$growing.lat & daily_ambtemp$long==x$growing.long,]
