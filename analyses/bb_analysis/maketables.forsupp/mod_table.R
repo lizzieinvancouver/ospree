@@ -14,7 +14,7 @@ load("../../analyses/bb_analysis/stan/output/m2lni_spcompexprampfputah_z.Rda") #
 fit.z <- summary(m2l.ni)$summary
 #summary(fit.z)# min n_ef: 1198 
 
-ztab<-as.data.frame(round(cbind(fit.z[1:9,1],fit.z[1:9,5],fit.z[1:9,7],fit.z[1:9,4],fit.z[1:9,8]),digits=2))
+ztab<-as.data.frame(cbind(round(fit.z[1:9,1], digits =2),round(fit.z[1:9,5], digits = 2),round(fit.z[1:9,7], digits = 2),round(fit.z[1:9,4], digits = 2),round(fit.z[1:9,8],digits=2)))
 ztab<-rbind(ztab,c(length(fit.z[grep("a_sp", rownames(fit.z)),1])-2,"","","","",""))
 rownames(ztab)[10]<-"n_sp"
 
@@ -47,7 +47,7 @@ load("../../analyses/bb_analysis/stan/output/m2lni_allsppwcrop_utah_z.Rda") # m2
 fitallsp.z <- summary(m2l.ni)$summary
 #summary(fitallsp.z)# min n_ef: 432.1 
 
-zallsptab<-as.data.frame(round(cbind(fitallsp.z[1:9,1],fitallsp.z[1:9,5],fitallsp.z[1:9,7],fitallsp.z[1:9,4],fitallsp.z[1:9,8]),digits=2))
+zallsptab<-as.data.frame(cbind(round(fitallsp.z[1:9,1], digits = 2),round(fitallsp.z[1:9,5], digits = 2),round(fitallsp.z[1:9,7], digits = 2),round(fitallsp.z[1:9,4], digits = 2),round(fitallsp.z[1:9,8],digits=2)))
 zallsptab<-rbind(zallsptab,c(length(fitallsp.z[grep("a_sp", rownames(fitallsp.z)),1])-2,"","","","",""))
 rownames(zallsptab)[10]<-"n_sp"
 
@@ -87,6 +87,7 @@ fit.nozohz <- summary(m2l.ni)$summary
 
 nozohztab<-as.data.frame(round(cbind(fit.nozohz[1:9,1],fit.nozohz[1:9,5],fit.nozohz[1:9,7],fit.nozohz[1:9,4],fit.nozohz[1:9,8]),digits=2))
 nozohztab<-rbind(nozohztab,c(length(fit.nozohz[grep("a_sp", rownames(fit.nozohz)),1])-2,"","","","",""))
+
 row.names(nozohztab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$",   
                                                  "$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$"
                                                  , "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$")
@@ -99,7 +100,9 @@ fit.sm <- summary(m2l.ni)$summary
 #summary(fit.z)# min n_ef: 1198 
 
 smtab<-as.data.frame(round(cbind(fit.sm[1:9,1],fit.sm[1:9,5],fit.sm[1:9,7],fit.sm[1:9,4],fit.sm[1:9,8]),digits=2))
+
 smtab<-rbind(smtab,c(length(fit.sm[grep("a_sp", rownames(fit.sm)),1])-2,"","","","",""))
+
 row.names(smtab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$",   
                         "$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$"
                         , "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$")

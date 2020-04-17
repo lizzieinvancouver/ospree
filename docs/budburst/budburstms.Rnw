@@ -1,4 +1,3 @@
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
 \documentclass{article}
 
@@ -39,7 +38,8 @@
 
 %cross referencing:
 \usepackage{xr}
-\externaldocument{budburst_supp} % Ailene, relative paths should work here I think....
+
+\externaldocument{budburst_supp} 
 
 %\usepackage{zref-xr}
 %\zxrsetup{toltxlabel=true, tozreflabel=false}
@@ -50,8 +50,6 @@
 \newcommand{\lr}[1]{line~\lineref{#1}}
 
 \doublespacing
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE 
 
 %Start of the document
@@ -179,7 +177,7 @@ totexpchill<-intxns.all$n[intxns.all$Treatment.1=="total-exp-chill"]
 weinchill<-intxns.all$n[intxns.all$Treatment.1=="total-fielddate-chill"]
 @
 \newpage
-\begin{abstract} % XXX words-ish
+\begin{abstract} % 200 words-ish
 Decades of fundamental research on woody plant species highlight three major cues that shape spring phenological events: chilling, forcing, and photoperiod \emph{\citep[e.g.,][]{Campbell:1975aa,Heide:2008aa,flynn2018}}. Increasing research on the phenological impacts of climate change has led to debate over how common these cues are across species, and---if prevalent---whether chilling and/or photoperiod cues may be slowing phenological responses to warming in recent years \emph{\citep{Heide:2011aa,fu2015,zohner2016}}. Here we use a global meta-analysis of all published \R{ee1}experiments to test for the relative effects of these cues across \Sexpr{nsp_mod} species in controlled conditions. We find almost all species show strong responses to all three cues, with chilling being the strongest (\Sexpr{chill.relforce}X greater than forcing), and photoperiod the weakest (\Sexpr{photo.relforce}X forcing). Simple forecasts from our findings for a well-studied region (Central Europe) suggest that spring phenology will continue to advance, as stalling effects of chilling generally appear above 4\degree C warming in this region\R{ece1}. \R{unifydebatestart}Our results unify both sides of the debate over phenological cues: while all species may respond to all cues strongly in experimental conditions, in current environmental conditions the dominant signal of climate change is from increased forcing\R{unifydebateend}. Further progress to improve budburst forecasts will require fully separating chilling and forcing effects at the physiological-level.\R{R2_1}
 \end{abstract}
 
@@ -218,7 +216,7 @@ y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + 
 \beta_{chilling{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})
 \end{align*}
 
-where $i$ represents each unique observation, $sp$ is the species (or species complex grouping, explained below), $\alpha$ represents the intercept, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied. Some species were represented in only one dataset in the OSPREE database, making it impossible to statistically differentiate between species and dataset for these taxa. To address this, we focus on estimates (reported as mean with 95\% uncertainty intervals, unless otherwise noted) from a model of  \Sexpr{nsp_mod} taxa, which were included in multiple datasets and treatments (generally this occurred at the species-level, but in some cases we collapsed species found in only one study into ``complexes" at the level of genera, see the \emph{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database} section in the Supplemental Materials for details). Estimates from this model were generally similar to estimates from a model of all \Sexpr{nsp} species (Tables \ref{tab:modsz}, \ref{tab:modsnonz}). To directly compare the effects of chilling, forcing and photoperiod we fit models using standardized predictor variables \citep[\normalfont{following}][\normalfont{which we refer to as ``standard units''}]{gelman2006} and predictors in their natural units (chill units, \degree C, hours).  We further fit several additional models, including a model testing provenance latitude effects,  one testing effects of chilling study design, and one testing effects of life-stage (see \emph{Models} in the Supplemental Materials for model equations and other details). 
+where $i$ represents each unique observation, $sp$ is the species (or species complex grouping, explained below), $\alpha$ represents the intercept, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied. Some species were represented in only one dataset in the OSPREE database, making it difficult to statistically differentiate between species, study, and treatment effects for these taxa. To address this, we focus on estimates (reported as mean with 95\% uncertainty intervals, unless otherwise noted) from a model of  \Sexpr{nsp_mod} taxa, which were included in multiple datasets and treatments (generally this occurred at the species-level, but in some cases we collapsed species found in only one study into ``complexes" at the level of genera, see the \emph{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database} section in the Supplemental Materials for details). Estimates from this model were generally similar to estimates from a model of all \Sexpr{nsp} species (Tables \ref{tab:modsz}, \ref{tab:modsnonz}). To directly compare the effects of chilling, forcing and photoperiod we fit models using standardized predictor variables \citep[\normalfont{following}][\normalfont{which we refer to as ``standard units''}]{gelman2006} and predictors in their natural units (chill units, \degree C, hours).  We further fit several additional models, including a model testing provenance latitude effects,  one testing effects of chilling study design, and one testing effects of life-stage (see \emph{Models} in the Supplemental Materials for model equations and other details). 
 
 \par Across experiments\R{ee5}, all cues---chilling, forcing, and photoperiod---advance budburst phenology (Fig. \ref{fig:mu}, Tables \ref{tab:modsz}, \ref{tab:modsnonz}). Chilling was the strongest cue (\Sexpr{ch.z} days/standard unit [\Sexpr{ch.z.lci} to \Sexpr{ch.z.uci}] or \Sexpr{ch.nonz} days per chill unit [\Sexpr{ch.nonz.lci} to \Sexpr{ch.nonz.uci}]), followed by forcing (\Sexpr{f.z} days/standard unit [\Sexpr{f.z.lci} to \Sexpr{f.z.uci}] or \Sexpr{f.nonz} days per \degree C of warming, [\Sexpr{f.nonz.lci} to \Sexpr{f.nonz.uci}]), and photoperiod (\Sexpr{p.z} days/standard unit [\Sexpr{p.z.lci} to \Sexpr{p.z.uci}] or \Sexpr{p.nonz} days per hour of daylight [\Sexpr{p.nonz.lci} to  \Sexpr{p.nonz.uci}]; Figs.\ref{fig:3dfieldchillutah}, \ref{fig:3dexpchillutah}, \ref{fig:betfag2d}; Tables \ref{tab:modsz}, \ref{tab:modsnonz}; see Supplemental Materials for more details). While photoperiod had the smallest effect among the three cues, our results contrast with the extensive literature suggesting photoperiod is an unimportant cue for many species \emph{\citep{zohner2016,fu2019}}---instead we found it was surprisingly large, even when accounting for its interaction with provenance latitude (\emph{i.e.}, the latitude of origin for plant material; see Supplemental Materials for details, especially Figs. \ref{fig:lat}, \ref{fig:fagsyllat}, Table \ref{tab:lat}). It was also generally consistent across species (variance = \Sexpr{p.sigma.z} days/standard unit), only deviating in \emph{Fagus sylvatica}, a species well-known for having a large response to photoperiod (which we also found, Figs. \ref{fig:mu}, \ref{fig:lat}). Species responses to chilling were slightly more variable (variance = \Sexpr{c.sigma.z} days/standard unit, Fig. \ref{fig:mu}) than responses to forcing (variance = \Sexpr{f.sigma.z} days/standard unit Fig. \ref{fig:mu}, Table \ref{tab:modsz}). 
 

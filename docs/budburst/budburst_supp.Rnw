@@ -85,7 +85,7 @@ intxns.all<-read.csv("..//..//analyses/limitingcues/output/bbstan_allsppmodel_co
 npape<-intxns.all$n[intxns.all$Treatment.1=="total-datasetIDs"]
 nsp<-intxns.all$n[intxns.all$Treatment.1=="total-species"]
 nst<-intxns.all$n[intxns.all$Treatment.1=="total-datasetIDstudies"]#
-npape<-intxns.all$n[intxns.all$Treatment.1=="total-datasetIDs"]
+npape_mod<-intxns$n[intxns$Treatment.1=="total-datasetIDs"]
 nsp_mod<-intxns$n[intxns$Treatment.1=="total-species"]
 nst_mod<-intxns$n[intxns$Treatment.1=="total-datasetIDstudies"]
 npape_mod<-intxns$n[intxns$Treatment.1=="total-datasetIDs"]
@@ -101,13 +101,13 @@ min.n<-min(as.numeric(d_modstud$n), na.rm=TRUE)
 ns<-as.numeric(d_modstud$n[-which(is.na(as.numeric(d_modstud$n)))])
 perc75n<-quantile(ns,probs=0.75)
 perc10n<-quantile(ns,probs=0.10)
-mnSD<-mean(d_modstud2$resp_error[d_modstud2$error.type=="SD"]/d_modstud2$response.time[d_modstud2$error.type=="SD"], na.rm=TRUE)*100
+mnSD<-round(mean(d_modstud2$resp_error[d_modstud2$error.type=="SD"]/d_modstud2$response.time[d_modstud2$error.type=="SD"], na.rm=TRUE)*100, digits = 2)
 
 @
 
 The initial searches yielded 201 papers, which we reviewed and assessed for inclusion in the database. To be included, papers needed to focus on woody plants in temperate ecosystems and test for photoperiod and/or temperature effects on budburst, leafout, or flowering, and we needed to be able to quantify the phenological response to chilling, forcing, and/or photoperiod. We used ImageJ to scrape these response data from figures, whenever possible, and added additional relevant information from the tables and text of each manuscript that could not be scraped. Multiple people checked scraping and data-entry, and mis-entered data and other mistakes were cleaned in R.
 
-\par Our meta-analysis relies on the published literature where positive effects and larger effect sizes may be more likely to be be published \emph{\citep{Kicinski2013}}. Methods such as a funnel plot of effect size versus sample size can help diagnose the potential for such biases, but have many drawbacks and complications as well \emph{\citep{Gurevitch1992,Gurevitch1999,Lin2018}}. We could not use funnel plot methods here for several reasons: (1) our fundamental study design is based on three factors that can influence plant phenology, thus variation in effect size could be due to other levels of each factor, (2) studies had low sample sizes (75\% of data came from studies with treatment sample sizes less than \Sexpr{perc75n}) and most often sample size was not reported (i.e., in 25 out of 39 studies in the model with well-represented species), and finally (3) our modeling approach (see below) is designed to standardize and regularize data, thus it will pool some extreme effects that may arise from publication bias. Further, we note that these environmental cues have a firm physiological basis---thus, multiple lines of evidence (outside of publication bias) support that most studies should find an effect of (at least) chilling and forcing. 
+\par Our meta-analysis relies on the published literature where positive effects and larger effect sizes may be more likely to be be published \emph{\citep{Kicinski2013}}. Methods such as a funnel plot of effect size versus sample size can help diagnose the potential for such biases, but have many drawbacks and complications as well \emph{\citep{Gurevitch1992,Gurevitch1999,Lin2018}}. We could not use funnel plot methods here for several reasons: (1) our fundamental study design is based on three factors that can influence plant phenology, thus variation in effect size could be due to other levels of each factor, (2) studies had low sample sizes (75\% of data came from studies with treatment sample sizes less than \Sexpr{perc75n}) and most often sample size was not reported (i.e., in 25 out of \Sexpr{nst_mod} studies in the model with well-represented species), and finally (3) our modeling approach (see below) is designed to standardize and regularize data, thus it will pool some extreme effects that may arise from publication bias. Further, we note that these environmental cues have a firm physiological basis---thus, multiple lines of evidence (outside of publication bias) support that most studies should find an effect of (at least) chilling and forcing. 
 
 \par Some species are only represented in one dataset in the OSPREE database. In these instances, it is not possible to statistically differentiate between species, study, and treatment effects. To address this, we combined species found in only one study into ``complexes" at the level of genera---such that each taxonomic unit we use in our model occurs across multiple studies (and treatments). Thus our taxonomic units of analysis are ``species complexes," which are either species represented in $>$1 dataset or complexes combining multiple species within a genus that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from most of our analyses, except when analyzing ``all species.''
 
@@ -225,7 +225,7 @@ In our figures  we show means $\pm$ 50\% uncertainty intervals from our models (
 
 The few studies that did incorporate interactions generally used the Weinberger method, which is not designed to robustly tease out of the effects of multiple cues (Table \ref{tab:methods}, Fig. \ref{fig:weinberger}).  Similarly we found variation in thermoperiodicity and variation in study material were too infrequent to test for effects with current data (though our life-stage model found no large differences in days to budburst between material from juveniles versus adults). Our estimated effects therefore average over interactions \emph{\citep{gelman2006}}, but identifying them in future research will be critical to understanding and predicting budburst. This will be particularly challenging for forcing and chilling, as a lack of information on endodormancy requirements makes  disentangling forcing from chilling conditions impossible with current data \emph{\citep{chuine2016}}.
 
-\par Our model does not include measurement error because these data were not possible to include for 25 out of 39 experiments included in the OSPREE model with well-represented species. For those studies that did report measurement error, the error was generally small relative to the magnitude of the responses (e.g., standard deviation was, on average \Sexp{mnSD}\% of the  response variable for studies for which standard deviation was extracted). Thus, it is unlikely that adding measurement error to our analyses would have a large effect on our estimates \emph{\citep{rstan2019}}. \\
+\par Our model does not include measurement error because these data were not possible to include for 25 out of 39 experiments included in the OSPREE model with well-represented species. For those studies that did report measurement error, the error was generally small relative to the magnitude of the responses (e.g., standard deviation was, on average \Sexpr{mnSD} \% of the  response variable for studies for which standard deviation was extracted). Thus, it is unlikely that adding measurement error to our analyses would have a large effect on our estimates \emph{\citep{rstan2019}}. \\
  
 
 % For example, the most commonly observed interaction between chilling and forcing---that lower amounts of chilling increases forcing requirements for budburst  (cite papers in the ospree database that interact chilling and forcing) ---is the hypothesized cause of declining sensitivities in European trees \citep{fu2015,vitasse2018}. As more data become available, it would allow additional tests of important interactions, such as how responses vary across latitudes (ref latitude figure). 
@@ -311,6 +311,7 @@ ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for
 print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
 @
 
+\pagebreak
 
 <<label=xtablesp, echo=FALSE, results=tex>>=
 
@@ -329,6 +330,7 @@ print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,nrow(sp.table)),cap
 
 @
 
+\pagebreak
 
 <<label=countints, echo=FALSE, results=tex>>=
 #load models to report estimates
@@ -336,7 +338,7 @@ print(sp.table, include.rownames=FALSE, hline.after = c(-1,0,nrow(sp.table)),cap
 intxns<-read.csv("..//..//analyses/limitingcues/output/bbstan_mainmodel_countinxns.csv", header=TRUE)
 intxn.table<-rbind(intxns[1:7,])
 
-intxntable <- xtable(intxn.table, caption="\\textbf{Number of studies testing for interactions between chilling, forcing, and photoperiod treatments}, out of the 42 studies (across 30 papers) included in the main budburst model.",
+intxntable <- xtable(intxn.table, caption="\\textbf{Number of studies testing for interactions between chilling, forcing, and photoperiod treatments}, out of the 39 studies (from 28 papers) included in the main budburst model.",
        label="tab:intxn",align=c(
                "p{0.01\\textwidth}|",
                "|p{0.15\\textwidth}|",
@@ -347,7 +349,7 @@ print(intxntable, include.rownames=FALSE, hline.after = c(-1,0, nrow(intxntable)
 @
 
 \pagebreak
-%
+
 <<label=xtablerefs, echo=FALSE, results=tex>>=
 utahmod<-read.csv("..//..//refs/utahmod.csv", header=TRUE)
 colnames(utahmod)<-c("Temperature","Units per hour")
@@ -378,7 +380,7 @@ source("../../analyses/bb_analysis/maketables.forsupp/mod_table.R")
   addtorow$pos <- list(-1)
   addtorow$command <- c("\\hline & \\multicolumn{5}{c |}{Utah units} &\\multicolumn{5}{c |}{chill portions} &\\multicolumn{5}{c |}{All species, Utah units}\\\\\n ")
 
-zmod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in chill portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar to the Utah model. These models were fit to a dataset including species that are well-represented in the OSPREE database, with 36 taxa or ``species complexes'' (consisting of 67 unique species). We also present coefficients from a model including all species with all treatment types (with no species complexes used). We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from models in which the predictors have been standardized so that they are directly comparable.", 
+zmod.table <- xtable(zmodtable, caption="\\textbf{Estimates from model fit with standardized predictors}. The model we present in the main text uses Utah units for chilling and includes studies that experimentally manipulated forcing and photoperiod. Using instead a model with chilling in chill portions results in quantitatively different species-level and overall estimates, though the results are qualitatively similar to the Utah model. These models were fit to a dataset including species that are well-represented in the OSPREE database, with 36 taxa or ``species complexes'' (consisting of 65 unique species). We also present coefficients from a model including all species with all treatment types (with no species complexes used). We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from models in which the predictors have been standardized so that they are directly comparable.", 
         label="tab:modsz",align=c(
                "|p{0.10\\textwidth}|",
                "p{0.04\\textwidth}",
@@ -518,7 +520,7 @@ colnames(stage.table) <- c('mean','25%', '75%', '2.5%', '97.5%' )
 stage.table[which(rownames(stage.table)=="$N_{sp}$"),]<-c("9","","","","")
 
 #rownames(wein.table)[which(rownames(wein.table)=="$N_{sp}$")]<-"$N_{spcomp}$"
-stagetable <- xtable(stage.table, caption="\\textbf{Estimates from the life stage model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of life stage (juveninle versus adult) and the three main environmental cues shows that budburst is generally later for juveniles versus adults. We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from models in which the predictors have been standardized so that they are directly comparable.",
+stagetable <- xtable(stage.table, caption="\\textbf{Estimates from the life stage model fit with standardized predictors}. Using a model with Utah chilling units and testing the effects of life stage (juvenile versus adult) and the three main environmental cues shows that budburst is generally later for juveniles versus adults. We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from models in which the predictors have been standardized so that they are directly comparable.",
        label="tab:stage",align=c(
                "|p{0.18\\textwidth}|",
                "p{0.06\\textwidth}",
@@ -616,8 +618,8 @@ print(swaresults, include.rownames=FALSE, hline.after = c(-1,0,2),caption.placem
 
 \begin{figure}[h!]
 \centering
-\noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/minmaxtreatmentsmap.png}
-\caption{\textbf{Map of chilling, forcing, and photoperiod treatments} across all species' days to budburst responses included in our main model, and the locations where each controlled environment experiment was conducted. We did not find strong spatial patterns in either minimum (a,c,e) or maximum (b,d,f) treatments, as measured by Moran's \emph{I}; insets show relationship of each cue's treatment level with the latitude of the experiment.}
+\noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/minmaxtreatmentsmap_corr.png}
+\caption{\textbf{Map of maximum and minimum chilling, forcing, and photoperiod treatments}, across lld ata included in our main model, and the locations where each controlled environment experiment was conducted. We did not find strong positive spatial autocorrelation-- i.e., indicating higher similarity in the treatments applied to experiments in nearby locations-- in either minimum (A,C,E) or maximum (B,D,F) treatments, as measured by Moran's \emph{I}. Insets show relationship of each cue's treatment level with the latitude of the experiment.}
 \label{fig:trtmap}
 \end{figure}
 
