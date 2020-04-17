@@ -69,7 +69,7 @@ dat.bb$chilldays <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
 dat.bb$chillphotoperiod <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
 
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1667 * problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -79,7 +79,8 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
   
   daystobb<-round(as.numeric(x$response.time), digits=0)
   #If no experimental chilling for focal budburst event, use ambient climate data
-    if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilltemp=="ambient + 4"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
+    if(x$chilltemp==""|x$chilltemp=="ambient"|x$chilltemp=="ambient + 1"|x$chilltemp=="ambient + 2"|x$chilltemp=="ambient + 3"
+       |x$chilltemp=="ambient + 4"|x$chilltemp=="ambient + 5"|x$chilltemp=="ambient - 1"|x$chilldays==0){#select out ambient climate data from same datasetID, fieldsampledate, lat and long
     x.dailyclim<-daily_ambtemp[daily_ambtemp$datasetID==x$datasetID & daily_ambtemp$fieldsample.date2==x$fieldsample.date2 & daily_ambtemp$lat==x$lat & daily_ambtemp$long==x$long,]
     if(dim(x.dailyclim)[1]==0 & x$usegrolatlong==1) {
       if(x$datasetID=="basler14"|x$datasetID=="gomory15"|x$datasetID=="partanen01"|x$datasetID=="Sanz-Perez09"|x$datasetID=="skre08"
@@ -96,7 +97,7 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
       x.dailyclim$lat<-x$lat
       x.dailyclim$long<-x$long
     } 
-    if(x$chilltemp=="ambient + 4"){
+    if(x$chilltemp=="ambient + 4" && x$datasetID!="fu18"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+4
       x.dailyclim$Tmax<-x.dailyclim$Tmax+4
     }
@@ -121,7 +122,13 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
       x.dailyclim$Tmin<-x.dailyclim$Tmin+3
       x.dailyclim$Tmax<-x.dailyclim$Tmax+3
       x.all<-join(x,x.dailyclim)
-      }
+    }
+    #for studies with forcing that warms 1 degree below ambient:
+    if(x$forcetemp=="ambient-1"){
+      x.dailyclim$Tmin<-x.dailyclim$Tmin-1
+      x.dailyclim$Tmax<-x.dailyclim$Tmax-1
+      x.all<-join(x,x.dailyclim)
+    }
     #for studies with forcing that warms 1 degree above ambient:
     if(x$forcetemp=="ambient+1"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+1
@@ -132,18 +139,6 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=3004 * problem here!!!
     if(x$forcetemp=="ambient+2"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+2
       x.dailyclim$Tmax<-x.dailyclim$Tmax+2
-      x.all<-join(x,x.dailyclim)
-    }
-    #for studies with forcing that warms 3 degrees above ambient:
-    if(x$forcetemp=="ambient+3"){
-      x.dailyclim$Tmin<-x.dailyclim$Tmin+3
-      x.dailyclim$Tmax<-x.dailyclim$Tmax+3
-      x.all<-join(x,x.dailyclim)
-    }
-    #for studies with forcing that warms 4 degrees above ambient:
-    if(x$forcetemp=="ambient+4"){
-      x.dailyclim$Tmin<-x.dailyclim$Tmin+4
-      x.dailyclim$Tmax<-x.dailyclim$Tmax+4
       x.all<-join(x,x.dailyclim)
     }
     #for studies with forcing that warms 5 degrees above ambient:
