@@ -260,6 +260,21 @@ d$chilltemp[which(d$datasetID=="vitra17")] <- "ambient"
 ## One fieldsample.date should be removed as this treatment remains outside
 d$fieldsample.date[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- ""
 
+# anzanello18. Mira edits April 2020
+# Field chill hours were left out of dataset, all samples from July have 62 field chill hours
+d$field.chill.units[which(d$datasetID == "anzanello18" & d$fieldsample.date == "07-Jul-2010")] <- 62
+# cu.model was input incorrectly with different models depending on variety ("840 Hc below 7.2" for Chardonnay, "1120 Hc below 7.2" for Merlot and Cabernet Sauvignon). Correcting cu.model (chill hour = hour below 7.2 degrees C)
+d$cu.model[which(d$datasetID == "anzanello18")] <- "hoursbelow7.2deg"
+# The chill hours were input as response.time. Instead, they need to be converted to chill days based on the 3 thermal regimes, input as chill.days, and removed from response.time. Study does not give info (no force time) to calculate days to budburst.
+# Treatment 1: every hour in chamber is chill hour
+d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == 3)] <- as.numeric(d$response.time[which(d$datasetID == "anzanello18" & d$chilltemp == 3)])/24
+# Treatment 2: 12/24 hours in chamber are chill hours so 24h = half chill day, 48h = whole chill day
+d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == "3_15 (12 h)")] <- as.numeric(d$response.time[which(d$datasetID == "anzanello18" & d$chilltemp == "3_15 (12 h)")])/48
+# Treatment 3: 18/24 hours in chamber are chill hours so 24h = 0.75 chill day, 32h = whole chill day 
+d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == "3_15(18 h_6 h)")] <- as.numeric(d$response.time[which(d$datasetID == "anzanello18" & d$chilltemp == "3_15(18 h_6 h)")])/32
+# remove response.time
+d$response.time[which(d$datasetID == "anzanello18")] <- NA
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
