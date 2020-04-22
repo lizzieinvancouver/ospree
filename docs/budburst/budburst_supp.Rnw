@@ -619,7 +619,7 @@ print(swaresults, include.rownames=FALSE, hline.after = c(-1,0,2),caption.placem
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/minmaxtreatmentsmap_corr.png}
-\caption{\textbf{Map of maximum and minimum chilling, forcing, and photoperiod treatments}, across all data included in our main model, and the locations where each experiment was conducted. We did not find strong positive spatial autocorrelation---i.e., indicating higher similarity in the treatments applied to experiments in nearby locations---in either minimum (A,C,E) or maximum (B,D,F) treatments, as measured by Moran's \emph{I}. Insets show relationship of each cue's treatment level with the latitude of the experiment.}
+\caption{\textbf{Map of maximum and minimum chilling, forcing, and photoperiod treatments}, across all data included in our main model, and the locations where each experiment was conducted. We did not find strong positive spatial autocorrelation---i.e., indicating higher similarity in the treatments applied to experiments in nearby locations---in either minimum (A,C,E) or maximum (B,D,F) treatments, as measured by Moran's \emph{I} (shown above for European sites). Insets show relationship of each cue's treatment level with the latitude of the experiment.}
 \label{fig:trtmap}
 \end{figure}
 

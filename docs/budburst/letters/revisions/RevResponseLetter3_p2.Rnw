@@ -40,6 +40,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
 
 \externaldocument{..//..//budburstms}
+\externaldocument{..//..//budburst_supp} 
+
 % line numbers for letter
 \usepackage{lineno}
 \newcommand{\R}[1]{\label{#1}\linelabel{#1}}
@@ -166,13 +168,12 @@ We thank the reviewer for bringing attention to the potential for measurement er
 
 We have further worked to address the reviewer's concerns through two additional analyses. We first tested whether there was evidence in our database for the reviewer's concern that studies that report standard error tend to be the ones with larger sample sizes. We looked at the relationship between sample size and error across these studies, and found that, counter to what might be expected, responses for which no error was reported have a slightly \emph{higher} sample size than in those for which measurement error was reported (t=2.92, df=1851.9, p = 0.004): mean sample size for responses with no error was 13.26 (n=2446 responses), whereas mean sample size for responses with measurement error was 11.53 (n = 364 responses).
 
-Next, we evaluated how measurement error might affect our estimates by simulating response distributions for each response in the budburst data used in our main centered model. The simulated response distributions were generated using the reported response as the mean, and the reported sample size and reported standard deviations, whenever possible (substituting the mean $n$ and and mean standard deviation when not possible). A random response from this simulated distribution of responses (rather than the reported response itself) was input into our main centered model. We did this simulation 20 times and compared model estimates to our main model using the reported responses themselves (Figure below). We found model estimates from the models fit to the simulations with measurement error did not differ dramatically from the estimates using the responses themselves (i.e., the 50th percentile uncertainty intervals overlapped). The only exception to this was an increase in $\sigma_{y}$ (as would be expected) with simulated response models. 
-Given that the estimates to our main effects are so similar to the estimates we already present, we have chosen not to add this to the Supplemental Materials, though we can if requested.\\
+Next, we evaluated how measurement error might affect our estimates by simulating response distributions for each response in the budburst data used in our main centered model. The simulated response distributions were generated using the reported response as the mean, and the reported sample size and reported standard deviations, whenever possible (substituting the mean $n$ and and mean standard deviation when not possible). A random response from this simulated distribution of responses (rather than the reported response itself) was input into our main centered model. We did this simulation 20 times and compared model estimates to our main model using the reported responses themselves (Figure below). We found model estimates from the models fit to the simulations with measurement error did not differ dramatically from the estimates using the responses themselves (i.e., the 50th percentile uncertainty intervals overlapped). The only exception to this was an increase in $\sigma_{y}$ (as would be expected) with simulated response models.\\
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//..//..//analyses/bb_analysis/figures/measerrcomp.png}
-\caption{Comparison of main budburst model estimates (black circles) to estimates from models that incorporate estimated measurement error (gray circles) for the main effects in our budburst model:$\mu_{\alpha}$ (`Interc.'),$\mu_{forcing}$ (`Force'),$\mu_{photoperiod}$ (`Photo'),and $\mu_{chilling}$ (`Chill'), as well as their associated $\sigma$ s ($\sigma_{\alpha}$, $\sigma_{forcing}$, $\sigma_{photoperiod}$,$\sigma_{chilling}$) and error ($\sigma_{y}$). We show means from the posterior distribution for Mus ($\mu$) in the left panel and Sigmas ($\sigma$) in the right panel.}
-\label{fig:trtmap}
+\caption{Comparison of main budburst model estimates (black circles) to estimates from models that incorporate estimated measurement error (gray circles) for the main effects in our budburst model:$\mu_{\alpha}$ (`Interc.' for intercept),$\mu_{forcing}$ (`Force'),$\mu_{photoperiod}$ (`Photo'),and $\mu_{chilling}$ (`Chill'), as well as their associated $\sigma$ s ($\sigma_{\alpha}$, $\sigma_{forcing}$, $\sigma_{photoperiod}$,$\sigma_{chilling}$) and error ($\sigma_{y}$). We show means from the posterior distribution for Mus ($\mu$) in the left panel and Sigmas ($\sigma$) in the right panel.}
+\label{fig:measerr}
 \end{figure}
 
 
@@ -186,7 +187,7 @@ forcing.}\\
 
 Again, we apologize as we suspect this concern may be related to a lack of clarity on our meta-analysis focusing on short-term experiments that manipulate temperature and/or photoperiod, which we have attempted to clarify throughout the manuscript (see reply to 1. above for more details). As these are short-term experiments there is no consistent temporal window of when chilling was applied. We now mention that treatments vary by study early on in the caption to Fig. 1 and in the main text (see \lr{heatmap}), where we reference a heatmap figure that shows the treatments we have via our meta-analysis.
 
-The length of time that chilling treatments were applied (as well as the temperature of these treatments) varied across experiments: chilling treatments from 1 to 182 days in duration (mean = 71.4 days) and temperatures ranged from  0 to 16 \degree C (mean = 4.4\degree C). The predictor variable ``chilling'' in our model is derived by applying standard chilling calculations to estimate the amount of chilling applied in these chilling treatments (we use both Utah units and Chill Portions in separate models, to compare the effect of using different chilling metrics). The predictor variable "forcing" is simply the forcing temperature applied; this also varied across experiments. To clarify this, we have also added the following to the legend of Figure 1: "Across \Sexpr{nst} studies examined, we found treatments varied uniquely for each study, but some were more common than others, see Fig. \ref{fig:treatheatmaps}: chilling treatments averaged 71.4 days (range: 1-182 days) at an average temperature of 4.4 \degree C (range: 0-16 \degree C), forcing treatments averaged 15.7 \degree C (range: 5 to 32 \degree C)."
+The length of time that chilling treatments were applied (as well as the temperature of these treatments) varied across experiments: chilling treatments from 1 to 182 days in duration (mean = 71.4 days) and temperatures ranged from  0 to 16 \degree C (mean = 4.4\degree C). The predictor variable ``chilling'' in our model is derived by applying standard chilling calculations to estimate the amount of chilling applied in these chilling treatments (we use both Utah units and Chill Portions in separate models, to compare the effect of using different chilling metrics). The predictor variable "forcing" is simply the forcing temperature applied; this also varied across experiments. To clarify this, we have also added the following to the legend of Figure 1: ``Across \Sexpr{nst} studies examined, we found treatments varied uniquely for each study, but some were more common than others, see Fig. \ref{fig:treatheatmaps}: chilling treatments averaged 71.4 days (range: 1-182 days) at an average temperature of 4.4 \degree C (range: 0-16 \degree C), forcing treatments averaged 15.7 \degree C (range: 5 to 32 \degree C).''
 
 More detailed information, e.g., the temperatures and durations for forcing and chilling in each study can be found in the OSPREE database, which will be publicly available upon publication via the Knowledge Network for Biodiversity (part of DataONE, which should make these data discoverable through multiple portals). \\
 
@@ -196,7 +197,7 @@ drivers. I think the covariances between these random slopes and the with the ra
 intercept should be estimated i.e. estimate a 4 x 4 covariance matrix (alphasp, betaforcing,
 betaphotoperiod, betachilling).}\\
 
-The reviewer is correct about our model formulation: we did not originally include these covariances. The use of this type of covariance matrix is generally considered a modelling choice \citep{gelman2006}, unless there are strong covariances, in which case a covariance matrix should definitely be included or the model re-formulated to better address the reasons for such covariances.  Our review of our models strongly suggested we were not missing any critical covariances. Based on the reviewer's request, we have added a covariance matrix to our main model to allow random slopes and intercepts to covary. The estimates from this new model are similar to those from our main model (e.g., 50\% credible intervals overlap). Please see table below, which compares model estimates from the two models below; we show the correlation matrix for species-level intercepts and slopes below. Given that these estimates are so similar to the estimates we already present, we have chosen not to add this to the Supplemental Materials, though we can if requested.
+The reviewer is correct about our model formulation: we did not originally include these covariances. The use of this type of covariance matrix is generally considered a modelling choice \citep{gelman2006}, unless there are strong covariances, in which case a covariance matrix should definitely be included or the model re-formulated to better address the reasons for such covariances.  Our review of our models strongly suggested we were not missing any critical covariances. Based on the reviewer's request, we have added a covariance matrix to our main model to allow random slopes and intercepts to covary. The estimates from this new model are similar to those from our main model (e.g., 50\% credible intervals overlap). Please see table below, which compares model estimates from the two models below; we show the correlation matrix for species-level intercepts and slopes below.
 
 Table comparing model estimates from main model (e.g., Figure 2 in the main text, Figure S4 in the Supplemental Materials) to estimates from a model that includes a covariance matrix for species-level intercepts and slopes (i.e., random effects), with 95\% uncertainty intervals in parentheses:
 
@@ -222,19 +223,17 @@ covcomp.table <- xtable(covcomptab, caption="\\textbf{Comparison of model estima
 print(covcomp.table, include.rownames=TRUE, hline.after = c(-1,0,4),floating= FALSE,size="\\footnotesize",caption.placement="top",sanitize.text.function = identity)
 @
 
-\\ 
-\\Correlation matrix for species-level intercepts and slopes (i.e., random effects):
+
+Correlation matrix for species-level intercepts and slopes (i.e., random effects):
 
 <<label=xtablevcov, echo=FALSE, results=tex>>=
 #Add table caomparing the main model to the main model with covariance matrix model
 varcor<-read.csv("..//..//..//..//analyses/output/varcor.csv") # m2l.ni
 varcortab<-round(varcor[,2:5],digits= 2)
 
-row.names(varcortab)<-c("$\\alpha_{sp}}$","$\\beta_{forcing_{sp}}$","$\\beta_{photoperiod_{sp}}$",   
-                           "$\\beta_{chilling_{sp}}$") 
+row.names(varcortab)<-c("$\\alpha_{sp}}$","$\\beta_{forcing_{sp}}$","$\\beta_{photoperiod_{sp}}$","$\\beta_{chilling_{sp}}$") 
 
-colnames(varcortab)<-c("$\\alpha_{sp}}$","$\\beta_{forcing_{sp}}$","$\\beta_{photoperiod_{sp}}$",   
-                           "$\\beta_{chilling_{sp}}$") 
+colnames(varcortab)<-c("$\\alpha_{sp}}$","$\\beta_{forcing_{sp}}$","$\\beta_{photoperiod_{sp}}$", "$\\beta_{chilling_{sp}}$") 
 varcor.table <- xtable(varcortab, caption="\\textbf{Correlation matrix for species-level intercepts and slopes (i.e., random effects).}",
       label="tab:cor",align=c(
               "|p{0.10\\textwidth}|",
@@ -246,7 +245,7 @@ varcor.table <- xtable(varcortab, caption="\\textbf{Correlation matrix for speci
 print(varcor.table, include.rownames=TRUE, hline.after = c(-1,0,4),floating= FALSE,size="\\footnotesize",caption.placement="top",sanitize.text.function = identity)
 @
 
-\\ 
+
 
 \par \emph{Minor comments}\\
 
