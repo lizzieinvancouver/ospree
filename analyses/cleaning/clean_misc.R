@@ -276,6 +276,11 @@ d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == "3_15(18 h_6 h)"
 d$response.time[which(d$datasetID == "anzanello18")] <- NA
 
 
+# anzanello16. Nacho edits April 2020
+# Need to correct a typo in Fig naming - Fig. 10 is in reality Fig. 5
+d$figure.table..if.applicable[which(d$datasetID == "anzanello16" & d$figure.table..if.applicable == "fig 10")] <- "fig 5"
+
+
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
 ##################################################################################################
