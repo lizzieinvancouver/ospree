@@ -19,21 +19,19 @@ parameters{
 	real <lower =0> sigma_y; // overall variation accross observations
         real agrand; // grand mean for trait
 	real <lower = 0> sigma_sp; // variation of intercept amoung species
-	real muaSp[nsp]; // mean of the alpha value for species
+	real mua_sp[nsp]; // mean of the alpha value for species
 	real <lower = 0> sigma_study; // variation of intercept amoung studies
-	real muaStudy[nstudy]; // mean of the alpha value for studies 
+	real mua_study[nstudy]; // mean of the alpha value for studies 
 }
 
-transformed parameters{ 
+model{ 
 	real ypred[N];
 	for (i in 1:N){
-	    ypred[i] = agrand + muaSp[species[i]] + muaStudy[study[i]];  
+	    ypred[i] = agrand + mua_sp[species[i]] + mua_study[study[i]];  
 	}
-}
-model{ 
 	// Model of trait
-	muaSp ~ normal(0, sigma_sp);
-	muaStudy ~ normal(0, sigma_study);
+	mua_sp ~ normal(0, sigma_sp);
+	mua_study ~ normal(0, sigma_study);
 
 	sigma_y ~ normal(0, 10);
         agrand ~ normal(0, 20);
@@ -48,7 +46,7 @@ model{
 generated quantities {
    real y_ppc[N];
    for (n in 1:N)
-      y_ppc[n] = agrand + muaSp[species[n]] + muaStudy[study[n]];
+      y_ppc[n] = agrand + mua_sp[species[n]] + mua_study[study[n]];
     for (n in 1:N)
       y_ppc[n] = normal_rng(y_ppc[n], sigma_y);
 } // The posterior predictive distribution

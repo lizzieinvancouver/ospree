@@ -12,28 +12,33 @@ runtraitmodel <- FALSE
 runfullmodel <- TRUE
 
 # setwd
-setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/joint_model")
+setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/jointmodel")
 
 #--------------------------------------
 # Set up the trait model
 # trait ~ agrand + a[sp] + a[study] + sigma_y 
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
-# Check code from Mike, if you see a long tail, you may need an NCP 
+# Check sampler code from Mike B., if you see a long tail, you may need an NCP 
 if(FALSE){
-    get_sampler_params(cp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1] get_sampler_params(ncp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1] cp_steps <- do.call(rbind, get_sampler_params(cp_fit, inc_warmup=FALSE))[,'n_leapfrog__'] hist(cp_steps, breaks=0:700-0.5, main="", col=c_dark, border=c_dark_highlight, xlab="Number of Leapfrog Steps", yaxt='n', ylab="") ncp_steps <- do.call(rbind, get_sampler_params(ncp_fit, inc_warmup=FALSE))[,'n_leapfrog__'] hist(ncp_steps, breaks=0:700-0.5, col=c_light, border=c_light_highlight, add=T)
-    }
+get_sampler_params(cp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1]
+get_sampler_params(ncp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1]
+cp_steps <- do.call(rbind, get_sampler_params(cp_fit, inc_warmup=FALSE))[,'n_leapfrog__']
+hist(cp_steps, breaks=0:700-0.5, main="", col=c_dark, border=c_dark_highlight, xlab="Number of Leapfrog Steps", yaxt='n', ylab="")
+ncp_steps <- do.call(rbind, get_sampler_params(ncp_fit, inc_warmup=FALSE))[,'n_leapfrog__']
+hist(ncp_steps, breaks=0:700-0.5, col=c_light, border=c_light_highlight, add=T)
+}
 
 # Parameters
 agrand <- 40
-sigma_asp <- 7
-sigma_astudy <- 4
+sigma_asp <- 10
+sigma_astudy <- 5
 sigma_y <- 0.5
 
-n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
-nsp <- 20 # number of species
-nstudy <- 30 # number of studies
-studymin <- 10 # min number of studies a species appears in
+n <- 20 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
+nsp <- 50 # number of species
+nstudy <- 50 # number of studies
+studymin <- nstudy # min number of studies a species appears in
 studymax <- nstudy # max number of studies as species appears in
 howmanystudiespersp <- round(runif(nsp, studymin, studymax)) # get list of studies per species
 
@@ -68,31 +73,30 @@ traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrai
 if(runtraitmodel){
 # Try to run the Stan model
 traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 3000, iter = 4000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15))
+    chains = 4, cores = 4)
 
 fitsum <- summary(traitfit)$summary
 
 pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
-pairs(traitfit, pars=c("agrand", "muaSp", "muaStudy", "lp__"))
-pairs(traitfit, pars=c("muaSp", "muaStudy", "lp__"))
+# pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__"))
 
 # Checking against sim data
 sigma_y
-mua_sp
-mua_study
+sigma_asp
+sigma_astudy
 fitsum[grep("sigma", rownames(fitsum)), "mean"]
-
+    
 # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
 agrand
 fitsum[grep("agrand", rownames(fitsum)),"mean"]
 
 mua_sp
-fitsum[grep("muaSp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("muaSp\\[", rownames(fitsum)),"mean"]~mua_sp)
+fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
+plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp)
 
 mua_study
-fitsum[grep("muaStudy\\[", rownames(fitsum)),"mean"] 
-plot(fitsum[grep("muaStudy\\[", rownames(fitsum)),"mean"]~mua_study)
+fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
+plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study)
 }
 
 #--------------------------------------
@@ -176,16 +180,16 @@ mean(bigfitpost[["sigma_study"]])
 
 # Hyperparameters
 mua_sp
-bigfitsum[grep("muaSp\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("muaSp\\[", rownames(bigfitsum)),"mean"]~mua_sp)
+bigfitsum[grep("mua_sp\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mua_sp\\[", rownames(bigfitsum)),"mean"]~mua_sp)
 
 mua_study
-bigfitsum[grep("muaStudy\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("muaStudy\\[", rownames(bigfitsum)),"mean"]~mua_study)
+bigfitsum[grep("mua_study\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mua_study\\[", rownames(bigfitsum)),"mean"]~mua_study)
 
-muaSpheno
-bigfitsum[grep("muaSpheno\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("muaSpheno\\[", rownames(bigfitsum)),"mean"]~mua_pheno)
+mua_spheno
+bigfitsum[grep("mua_spheno\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mua_spheno\\[", rownames(bigfitsum)),"mean"]~mua_pheno)
 
 muaforce
 bigfitsum[grep("muaforce\\[", rownames(bigfitsum)),"mean"]
