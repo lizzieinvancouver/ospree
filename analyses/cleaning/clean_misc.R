@@ -133,7 +133,9 @@ d$freeze.treatment.temp_night[d$datasetID=="basler12"]<-""
 d$freeze.treatment.temp_day[d$datasetID=="ruesink98"]<-""#one was "1" which was an error
 d$freeze.treatment.photoperiod_night[d$datasetID=="ruesink98"]<-""#one was "21" which was an error
 d$freeze.treatment.photoperiod_day[d$datasetID=="spann04"]<-""#was "d)."- mistake!
-d$freeze.treatment.time[d$datasetID=="spann04"]<-""#these are all my mistake! 
+d$freeze.treatment.time[d$datasetID=="spann04"]<-""#these are all my mistake!
+
+## End of freeze treatment cleaning.
 
 #cleaning field sample date in caffarra11b, which are currently all "1-Jun-2004"
 d$fieldsample.date[d$datasetID=="caffarra11b" & d$figure.table..if.applicable.=="table 3" & d$chilldays==30]<-"30-Dec-2004"
