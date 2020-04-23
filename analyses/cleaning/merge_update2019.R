@@ -14,9 +14,11 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
 } else if
 (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses")
+}else if 
+(length(grep("faith", getwd()))>0) {setwd("~/Documents/github/ospree/analyses")
 } else 
 setwd("~/Documents/git/ospree/analyses")
-setwd("~/Documents/github/ospree/analyses")
+
 
 # Get the data
 cjc <- read.csv("input/update2019/ospree_2019update_cjc.csv")
@@ -78,6 +80,8 @@ dss$fieldsample.date[which(dss$datasetID=="malyshev18")] <- format(maly18add$fie
 if(FALSE){
 # Check by plotting and compare to paper
   malycheck <- dss[which(dss$datasetID=="malyshev18"),]
+  str(malycheck) # at the moment malucheck$feildsampledate is a character rather than a Date 
+  #when you convert it to a date, then the plots look fine. (exept for one data point)
   anothercheck <- data.frame(response.time=dss$response.time[which(dss$datasetID=="malyshev18")],
       dayssince=maly18add$dayssince_dec1st, photoperiod_day=dss$photoperiod_day[which(dss$datasetID=="malyshev18")],
       genus=dss$genus[which(dss$datasetID=="malyshev18")])
@@ -88,6 +92,22 @@ if(FALSE){
       geom_point() + facet_wrap(genus~.)
 }
 
+#More plotting to compare - Fj playing with data 
+head(dss)
+head(malycheck)#from main dss, selcted response time, photo period, days sincedec1st, genus. Old data.
+malycheck$dayssince_dec1st  <- maly18add$dayssince_dec1st # add in teh days since dec 1 data to our "final" dataset
+malycheck$fieldsample.date <- as.Date(malycheck$fieldsample.date, "%Y-%b-%d")
+malycheck$photoperiod_day <- as.factor(malycheck$photoperiod_day)
+plot(x = malycheck$fieldsample.date, y = malycheck$dayssince_dec1st)# the days since ce1st seems to match with new dates
+
+#this plot looks ok, exept for the one odd point in Acer. But Lizzies above looks wrong. Why? Answer: I think the date format?
+properDates <- ggplot(data = malycheck, aes(x = fieldsample.date, y = response.time, colour = photoperiod_day))
+properDates + geom_point() + facet_wrap(genus~.)
+
+sinceDec1dates <- ggplot(data = malycheck, aes(x = dayssince_dec1st, y = response.time, colour = photoperiod_day))
+sinceDec1dates + geom_point() + facet_wrap(genus~.)
+
+max(malycheck$response.time[malycheck$genus == "Acer"])
 # next steps  ...
 # (1) Figure out why the plot from malycheck does not look like Figure 2 (or another check) ... maybe date is not plotting properly?
 # fj - I dont understand what teh problem is with this figure. Too me it looks the same, exept that species are in a different order
