@@ -9,6 +9,11 @@ Updated
 
 New groups assigned (see datacheck_assign.csv, round 2), and each group has two SEPARATE groupings of data to review. Please review the set under round 2 for your team and separately analyze set 2.
 
+Columns to fill in:
+other.figs.toenter -- when you compare it to the paper, does all relevant data look to be entered from all figures?	
+alldata.entered	-- when you compare it to the paper, does all relevant data look to be entered? That is, do the row numbers seem about right for what you see?
+dataconverts.correctly	-- compare the data across cleaning files and see if things look about right (see sample datacheckup_emw.R)
+other.notes -- any other notes
 
 See also issues:
 # 355 Check up for the new data
