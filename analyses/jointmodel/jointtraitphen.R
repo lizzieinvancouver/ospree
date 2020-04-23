@@ -36,8 +36,8 @@ sigma_astudy <- 5
 sigma_y <- 0.5
 
 n <- 20 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
-nsp <- 50 # number of species
-nstudy <- 50 # number of studies
+nsp <- 30 # number of species
+nstudy <- 30 # number of studies
 studymin <- nstudy # min number of studies a species appears in
 studymax <- nstudy # max number of studies as species appears in
 howmanystudiespersp <- round(runif(nsp, studymin, studymax)) # get list of studies per species
@@ -59,6 +59,7 @@ table(simtrait$sp, simtrait$study)
 
 library(lme4)
 # Fixed effects should be very close to coefficients used in simulating data
+# These look good, they get better with higher nsp and nstudy
 summary(lme1 <- lmer(trait ~ (1|sp) + (1|study), data = simtrait)) 
 ranef(lme1)
 fixef(lme1)
@@ -72,8 +73,8 @@ traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrai
 	study = simtrait$study, nstudy = nstudy)
 if(runtraitmodel){
 # Try to run the Stan model
-traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 3000, iter = 4000,
-    chains = 4, cores = 4)
+traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 2000, iter = 3000,
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 45 mins on Lizzie's machine
 
 fitsum <- summary(traitfit)$summary
 

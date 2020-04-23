@@ -36,7 +36,8 @@ parameters{
         real bforce_trait; // our beta!
 }
 
-transformed parameters{ 
+
+model{ 
         real ypred[N];
 	vector[nsppheno] b_force_final;
 	real ypredpheno[Npheno];
@@ -48,24 +49,22 @@ transformed parameters{
 	}
 	for (iph in 1:Npheno){
 	ypredpheno[iph] = mua_spheno[speciespheno[iph]] + b_force_final[speciespheno[iph]] * forcing[iph];
-		}
-}
-model{ 
+
 	// Model of trait
 	mua_sp ~ normal(0, sigma_sp);
 	mua_study ~ normal(0, sigma_study);
 
-	sigma_y ~ normal(0, 10);
-        agrand ~ normal(0, 20);
-	sigma_sp ~ normal(0, 20);
-	sigma_study ~ normal(0, 20);
+	sigma_y ~ normal(0, 3);
+        agrand ~ normal(30, 10);
+	sigma_sp ~ normal(0, 10);
+	sigma_study ~ normal(0, 10);
 
         // Model of pheno
         mua_spheno ~ normal(0, sigma_apheno);
         muaforce ~ normal(0, sigma_bforce);
-        sigma_ypheno ~ normal(0, 10);
+        sigma_ypheno ~ normal(0, 5);
         sigma_apheno ~ normal(0, 10);
-        sigma_bforce ~ normal(0, 10);
+        sigma_bforce ~ normal(0, 5);
 
 	// likelihoods (is this bad)?
         traitdat ~ normal(ypred, sigma_y);

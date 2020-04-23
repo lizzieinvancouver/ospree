@@ -29,14 +29,13 @@ model{
 	for (i in 1:N){
 	    ypred[i] = agrand + mua_sp[species[i]] + mua_study[study[i]];  
 	}
-	// Model of trait
+	// Model of trait priors
 	mua_sp ~ normal(0, sigma_sp);
 	mua_study ~ normal(0, sigma_study);
-
-	sigma_y ~ normal(0, 10);
-        agrand ~ normal(0, 20);
-	sigma_sp ~ normal(0, 20);
-	sigma_study ~ normal(0, 20);
+	sigma_y ~ normal(0, 3);
+        agrand ~ normal(30, 10);
+	sigma_sp ~ normal(0, 10);
+	sigma_study ~ normal(0, 10);
 
 	// likelihood
         traitdat ~ normal(ypred, sigma_y);
