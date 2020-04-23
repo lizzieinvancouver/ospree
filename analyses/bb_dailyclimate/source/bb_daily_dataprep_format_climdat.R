@@ -7,7 +7,7 @@ cdater$doy <- as.numeric(format(cdater$date , "%j"))
 # makes Tmean while we'here ... should check this
 cdater$Tmean <- rowMeans(cbind(cdater$Tmin, cdater$Tmax))
 # Get ambient photoperiod 
-cdater$daylength <- daylength(lat=cdater$lat, doy=cdater$date)
+cdater$daylength <- geosphere::daylength(lat=cdater$lat, doy=cdater$date)
 cdat <- cdater
 #not sure what the difference is between the "date" column and the "Date" column in cdat; using Date for now
 daily_ambtemp<-dplyr::select(cdat, datasetID, lat,long,fieldsample.date2,Date,Tmin,Tmax,daylength)
