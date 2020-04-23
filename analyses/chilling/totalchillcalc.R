@@ -20,8 +20,11 @@ chilldat<-rbind(chilldat,byhand)
 rownames(chilldat)<-NULL
 expchillcalcs <- vector()
 ###First, need file with hrly temperature data for each row in dataframe
+
+chilldat$chilldays <- round(as.numeric(chilldat$chilldays), digits=0) ##  need to fix anzanello
            
-for(i in 1:nrow(chilldat)) {
+for(i in 1:nrow(chilldat)) { #i=331
+  print(i)
  # First, calculate chilling when chilltemp and chilldays do not ==NA (i.e. )
   if(!is.na(chilldat$chilltemp[i]) & chilldat$chilldays[i] !=0 & !is.na(chilldat$chilldays[i]) & chilldat$chillbyhand[i]==0) {
   yr <- as.numeric(chilldat$year[i]) 

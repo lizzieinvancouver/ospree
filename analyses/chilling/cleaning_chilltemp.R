@@ -1,7 +1,7 @@
 #Cleaning columns for chilling calculations:fieldsample.date, chilltemp, and chilldays###############################################
 #Started by Ailene January 30, 2017
 #Add field sample date to those columns for which it was not entered
-d[which(d$datasetID=="cook05" & d$figure.table=="fig 1"),]$fieldsample.date<-"7-Jul-1999"
+d[which(d$datasetID=="cook05" & d$figure.table..if.applicable.=="fig 1"),]$fieldsample.date<-"7-Jul-1999"
 d[which(d$datasetID=="laube14a"),]$year<-2011
 d[which(d$datasetID=="laube14a" & d$chilldays==33),]$fieldsample.date<-"14-Dec-2011"
 d[which(d$datasetID=="laube14a" & d$chilldays==73),]$fieldsample.date<-"30-Jan-2012"

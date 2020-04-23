@@ -27,6 +27,7 @@ ks <- read.csv("input/update2019/ospree_2019update_ks.csv")
 my <- read.csv("input/update2019/ospree_2019update_my.csv")
 maly18add <- read.csv("input/update2019/ospree_2019update_DSSaddmaly18.csv") #fj couldnt fine thsi file. I found it ina different place though 
 maly18add <-read.csv("/home/faith/Documents/github/ospree/data/update2019/ospree_2019update_DSSaddmaly18.csv")
+maly18add <-read.csv("~/Documents/git/ospree/data/update2019/ospree_2019update_DSSaddmaly18.csv")
 
 # See how the data looks and do a little clean-up
 dim(cjc)
@@ -118,3 +119,4 @@ d <- rbind(d, my)
 sum(nrow(cjc), nrow(dl), nrow(dmb), nrow(dss), nrow(ks), nrow(my)) # check! 
 
 write.csv(d, "output/ospree2019update.csv", row.names=FALSE)
+
