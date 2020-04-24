@@ -43,29 +43,29 @@ fu10<-d[which(d$datasetID=="fu13" & d$year==2010),]
 mean(fu10$response.time)
 fu11<-d[which(d$datasetID=="fu13" & d$year==2011),]
 mean(fu11$response.time)
-daylength(51.317, "2010-04-07") # -> 13
-daylength(51.317, "2011-04-10") # -> 13
+geosphere::daylength(51.317, "2010-04-07") # -> 13
+geosphere::daylength(51.317, "2011-04-10") # -> 13
 d$photoperiod_day[which(d$datasetID=="fu13")] <- 13
 d$photoperiod_night[which(d$datasetID=="fu13")] <- 11
 
 
 # gansert02:
-daylength(35.3583 , "1998-04-29")
+geosphere::daylength(35.3583 , "1998-04-29")
 d$photoperiod_day[which(d$datasetID=="gansert02" & d$photoperiod_day=="ambient")] <- 14
 d$photoperiod_night[which(d$datasetID=="gansert02" & d$photoperiod_day==14)] <- 10
 
 # gomory15: "In spring 2011, budburst phenology was scored on each plant at approx. 
 # two-week intervals between March 1 and June 29"
 # Taking average (as we do elsewhere)...
-low.initial<-daylength(48.44820, "2011-03-01") # 10.9715
-low.start<-daylength(48.44820, "2011-04-14") # 13.56398
-low.end<-daylength(48.44820, "2011-04-26") # 14.23436
+low.initial<-geosphere::daylength(48.44820, "2011-03-01") # 10.9715
+low.start<-geosphere::daylength(48.44820, "2011-04-14") # 13.56398
+low.end<-geosphere::daylength(48.44820, "2011-04-26") # 14.23436
 gom<-c(10.9715, 13.56398, 14.23436)
 gom.photo<-mean(gom) #  13 hr photo
 
-high.initial<-daylength(49.01791, "2011-03-01") # 10.9490
-high.start<-daylength(49.01791, "2011-05-06") # 14.8131
-high.end<-daylength(49.01791, "2011-05-21") # 15.5071
+high.initial<-geosphere::daylength(49.01791, "2011-03-01") # 10.9490
+high.start<-geosphere::daylength(49.01791, "2011-05-06") # 14.8131
+high.end<-geosphere::daylength(49.01791, "2011-05-21") # 15.5071
 gomz<-c(10.9490, 14.8131, 15.5071)
 gom.high<-mean(gomz) #14 hr photo
 
@@ -76,8 +76,8 @@ d$photoperiod_day[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 14
 d$photoperiod_night[which(d$datasetID=="gomory15" & d$forcetemp==4.9)] <- 10
 
 # gunderson12: clear panels on growth chamber kept outside, use coordinates and day of year from figure 2 to calculate
-oak.start<-daylength(35.931428, "2002-03-01") # 11.3705
-oak.end<-daylength(35.931428, "2002-05-05") # 13.7482
+oak.start<-geosphere::daylength(35.931428, "2002-03-01") # 11.3705
+oak.end<-geosphere::daylength(35.931428, "2002-05-05") # 13.7482
 gund<-c(11.3705, 13.7482)
 gund.photo<-mean(gund) # 13 hr photo
 
@@ -85,9 +85,9 @@ d$photoperiod_day[which(d$datasetID=="gunderson12")] <- 13
 d$photoperiod_night[which(d$datasetID=="gunderson12")] <- 11
 
 #hawkins12
-south.hawk<-daylength(48.43, "1998-04-07") # 13.1584
-central.hawk<-daylength(50.68, "1998-04-27") # 14.4765
-north.hawk<-daylength(53.90, "1998-05-03") # 15.1800
+south.hawk<-geosphere::daylength(48.43, "1998-04-07") # 13.1584
+central.hawk<-geosphere::daylength(50.68, "1998-04-27") # 14.4765
+north.hawk<-geosphere::daylength(53.90, "1998-05-03") # 15.1800
 
 d$photoperiod_day[which(d$datasetID=="hawkins12" & d$growing.lat==48.43)] <- 13
 d$photoperiod_night[which(d$datasetID=="hawkins12" & d$growing.lat==48.43)] <- 11
@@ -197,40 +197,40 @@ d$photoperiod_night[which(d$datasetID=="partanen01")]<- 24-as.numeric(d$photoper
 d<-dplyr::select(d, -photo, -resp)
 
 # schnabel87: ambient entries are in field comparisons to experiment - we will keep these!
-sch.1<-daylength(46.206, "1984-10-11") # 11.1698
+sch.1<-geosphere::daylength(46.206, "1984-10-11") # 11.1698
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="11-Oct-1984")] <- 11
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="11-Oct-1984")] <- 13
-sch.2<-daylength(46.206, "1984-10-25") # 10.4364
+sch.2<-geosphere::daylength(46.206, "1984-10-25") # 10.4364
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="25-Oct-1984")] <- 10
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="25-Oct-1984")] <- 14
-sch.3<-daylength(46.206, "1984-11-8") # 9.7562
+sch.3<-geosphere::daylength(46.206, "1984-11-8") # 9.7562
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="8-Nov-1984")] <- 10
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="8-Nov-1984")] <- 14
-sch.4<-daylength(46.206, "1984-11-22") # 9.1797
+sch.4<-geosphere::daylength(46.206, "1984-11-22") # 9.1797
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="22-Nov-1984")] <- 9
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="22-Nov-1984")] <- 15
-sch.5<-daylength(46.206, "1984-12-06") # 8.7750
+sch.5<-geosphere::daylength(46.206, "1984-12-06") # 8.7750
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="6-Dec-1984")] <- 9
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="6-Dec-1984")] <- 15
-sch.6<-daylength(46.206, "1984-12-20") # 8.6099
+sch.6<-geosphere::daylength(46.206, "1984-12-20") # 8.6099
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="20-Dec-1984")] <- 9
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="20-Dec-1984")] <- 15
-sch.7<-daylength(46.206, "1985-1-3") # 8.7066
+sch.7<-geosphere::daylength(46.206, "1985-1-3") # 8.7066
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="3-Jan-1985")] <- 9
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="3-Jan-1985")] <- 15
-sch.8<-daylength(46.206, "1985-1-17") # 9.0567
+sch.8<-geosphere::daylength(46.206, "1985-1-17") # 9.0567
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="17-Jan-1985")] <- 9
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="117-Jan-1985")] <- 15
-sch.9<-daylength(46.206, "1985-1-31") # 9.6008
+sch.9<-geosphere::daylength(46.206, "1985-1-31") # 9.6008
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="31-Jan-1985")] <- 10
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="31-Jan-1985")] <- 14
-sch.10<-daylength(46.206, "1985-2-14") # 10.2680
+sch.10<-geosphere::daylength(46.206, "1985-2-14") # 10.2680
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="14-Feb-1985")] <- 10
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="14-Feb-1985")] <- 14
-sch.11<-daylength(46.206, "1985-2-28") # 11.0016
+sch.11<-geosphere::daylength(46.206, "1985-2-28") # 11.0016
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="28-Feb-1985")] <- 11
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="28-Feb-1985")] <- 13
-sch.12<-daylength(46.206, "1985-3-14") # 11.7643
+sch.12<-geosphere::daylength(46.206, "1985-3-14") # 11.7643
 d$photoperiod_day[which(d$datasetID=="schnabel87" & d$photoperiod_day=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
 d$photoperiod_night[which(d$datasetID=="schnabel87" & d$photoperiod_night=="ambient" & d$fieldsample.date=="14-Mar-1985")] <- 12
 
@@ -252,8 +252,8 @@ d$photoperiod_night[which(d$photoperiod_day==24 & d$figure.table..if.applicable.
 
 
 # guak98: Should be able to calculate
-guak.start<-daylength(44.5659, "1996-2-17") # 10.5147
-guak.end<-daylength(44.5659, "1996-4-8") # 13.1222
+guak.start<-geosphere::daylength(44.5659, "1996-2-17") # 10.5147
+guak.end<-geosphere::daylength(44.5659, "1996-4-8") # 13.1222
 guak<-c(10.5147,13.1222)
 guak.photo<-mean(guak) # 12 hr photo
 
@@ -261,11 +261,11 @@ d$photoperiod_day[which(d$datasetID=="guak98")] <- 12
 d$photoperiod_night[which(d$datasetID=="guak98")] <- 12
 
 # yazdaniha64: 60 days and 100 days, latitude is 41.143
-daylength(41.143, "1964-02-24")
+geosphere::daylength(41.143, "1964-02-24")
 d$photoperiod_day[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 11
 d$photoperiod_night[which(d$response.time==60 & d$datasetID=="yazdaniha64")] <- 13
 
-daylength(41.143, "1964-04-06")
+geosphere::daylength(41.143, "1964-04-06")
 d$photoperiod_day[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 13
 d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <- 11
 
@@ -275,9 +275,9 @@ d$photoperiod_night[which(d$response.time==100 & d$datasetID=="yazdaniha64")] <-
 ##################### New additions 30 October 2017 ###########################
 # sanzperez10: uses ambient light but also uses shade cloth to manipulate percentage of sunlight... not sure if we can calculate
 # percentage of light is 100%, 20%, or 5%, for the purposes of this study we will convert only the 100% light treatments
-daylength(40.47, "2004-01-24")
-daylength(40.47, "2004-04-10")
-daylength(40.47, "2004-06-26")
+geosphere::daylength(40.47, "2004-01-24")
+geosphere::daylength(40.47, "2004-04-10")
+geosphere::daylength(40.47, "2004-06-26")
 sanz<-c(9.830631, 13.06944, 15.05556)
 mean(sanz)
 d$photoperiod_day[which(d$photoperiod_day=="ambient" & d$datasetID=="sanzperez10")] <- 13 ## Changed all!! May want to change back to just 100% irradiance
@@ -288,7 +288,7 @@ d$photoperiod_night[which(d$photoperiod_day==13 & d$datasetID=="sanzperez10")] <
 jones<-subset(d, d$datasetID=="jones12")
 jones$date<-as.Date(jones$response.time, origin = "2008-01-01") ## date found from paper
 for(i in c(1:nrow(jones))){
-  jones$photoperiod_day[i] <- daylength(jones$provenance.lat[i], jones$date[i])  ## uses daylength function from geosphere library to calculate photoperiod for each observation
+  jones$photoperiod_day[i] <- geosphere::daylength(jones$provenance.lat[i], jones$date[i])  ## uses daylength function from geosphere library to calculate photoperiod for each observation
 }
 jones$photoperiod_day<-as.numeric(jones$photoperiod_day) ## preparing to change photoperiod_night column, won't change in main dataframe!
 jones$photoperiod_day<- round(jones$photoperiod_day, digits=0) # still preparing
@@ -302,7 +302,7 @@ d$photoperiod_night[which(d$datasetID=="jones12")]<-jones$photoperiod_night
 rin<-subset(d, d$datasetID=="rinne97")
 rin$date<-as.Date(rin$response.time, origin = "1995-01-15")
 for(i in c(1:nrow(rin))){
-  rin$photoperiod_day[i] <- daylength(rin$provenance.lat[i], rin$date[i])
+  rin$photoperiod_day[i] <- geosphere::daylength(rin$provenance.lat[i], rin$date[i])
 }
 rin$photoperiod_day<-as.numeric(rin$photoperiod_day)
 rin$photoperiod_day<- round(rin$photoperiod_day, digits=0)
@@ -316,7 +316,7 @@ d$photoperiod_night[which(d$datasetID=="rinne97")]<-rin$photoperiod_night
 chav<-subset(d, d$datasetID=="chavarria09")
 chav$date<-as.Date(chav$response.time, origin = "2005-02-01")
 for(i in c(1:nrow(chav))){
-  chav$photoperiod_day[i] <- daylength(chav$provenance.lat[i], chav$date[i])
+  chav$photoperiod_day[i] <- geosphere::daylength(chav$provenance.lat[i], chav$date[i])
 }
 chav$photoperiod_day<-as.numeric(chav$photoperiod_day)
 chav$photoperiod_day<- round(chav$photoperiod_day, digits=0)
@@ -329,7 +329,7 @@ d$photoperiod_night[which(d$datasetID=="chavarria09")]<-chav$photoperiod_night
 link<-subset(d, d$datasetID=="linkosalo06")
 link$date<-as.Date(link$response.time, origin = "2003-01-01")
 for(i in c(1:nrow(link))){
-  link$photoperiod_day[i] <- daylength(link$provenance.lat[i], link$date[i])
+  link$photoperiod_day[i] <- geosphere::daylength(link$provenance.lat[i], link$date[i])
 }
 link$photoperiod_day<-as.numeric(link$photoperiod_day)
 link$photoperiod_day<- round(link$photoperiod_day, digits=0)
@@ -342,7 +342,7 @@ d$photoperiod_night[which(d$datasetID=="linkosalo06")]<-link$photoperiod_night
 mo<-subset(d, d$datasetID=="morin10")
 mo$date<-as.Date(mo$response.time, origin = "2004-01-01")
 for(i in c(1:nrow(mo))){
-  mo$photoperiod_day[i] <- daylength(mo$provenance.lat[i], mo$date[i])
+  mo$photoperiod_day[i] <- geosphere::daylength(mo$provenance.lat[i], mo$date[i])
 }
 mo$photoperiod_day<-as.numeric(mo$photoperiod_day)
 mo$photoperiod_day<- round(mo$photoperiod_day, digits=0)
@@ -356,7 +356,7 @@ fals<-subset(d, d$datasetID=="falusi96")
 fals$date<-as.Date(fals$response.time, origin = "1988-03-01")
 for(i in c(1:nrow(fals))){
   fals$photoperiod_day[i] <- ifelse(fals$study[i]=="exp1" | fals$study[i]=="exp2",
-                                    (daylength(fals$provenance.lat[i], fals$date[i])), fals$photoperiod_day[i])
+                                    (geosphere::daylength(fals$provenance.lat[i], fals$date[i])), fals$photoperiod_day[i])
 }
 fals$photoperiod_day<-as.numeric(fals$photoperiod_day)
 fals$photoperiod_day<- round(fals$photoperiod_day, digits=0)
@@ -369,7 +369,7 @@ d$photoperiod_night[which(d$datasetID=="falusi96")]<-fals$photoperiod_night
 gian<-subset(d, d$datasetID=="gianfagna85")
 gian$date<-as.Date(gian$response.time, origin = "1984-03-01")
 for(i in c(1:nrow(gian))){
-  gian$photoperiod_day[i] <- daylength(gian$provenance.lat[i], gian$date[i])
+  gian$photoperiod_day[i] <- geosphere::daylength(gian$provenance.lat[i], gian$date[i])
 }
 gian$photoperiod_day<-as.numeric(gian$photoperiod_day)
 gian$photoperiod_day<- round(gian$photoperiod_day, digits=0)
@@ -383,7 +383,7 @@ d$photoperiod_night[which(d$datasetID=="gianfagna85")]<-gian$photoperiod_night
 nish<-subset(d, d$datasetID=="nishimoto95")
 nish$date<-as.Date(nish$response.time, origin = "1989-03-30")
 for(i in c(1:nrow(nish))){
-  nish$photoperiod_day[i] <- daylength(nish$provenance.lat[i], nish$date[i])
+  nish$photoperiod_day[i] <-geosphere::daylength(nish$provenance.lat[i], nish$date[i])
 }
 nish$photoperiod_day<-as.numeric(nish$photoperiod_day)
 nish$photoperiod_day<- round(nish$photoperiod_day, digits=0)
@@ -406,7 +406,7 @@ d$photoperiod_day[which(d$datasetID=="lamb37")] <- 12
 sons<-subset(d, d$datasetID=="sonsteby13")
 sons$date<-as.Date(sons$response.time, origin = "2011-06-13")
 for(i in c(1:nrow(sons))){
-  sons$photoperiod_day[i] <- daylength(sons$provenance.lat[i], sons$date[i])
+  sons$photoperiod_day[i] <- geosphere::daylength(sons$provenance.lat[i], sons$date[i])
 }
 sons$photoperiod_day<-as.numeric(sons$photoperiod_day)
 sons$photoperiod_day<- round(sons$photoperiod_day, digits=0)
@@ -451,8 +451,8 @@ fu19<-subset(d, d$datasetID=="fu19")
 fu19$date<-as.Date(fu19$response.time, origin = "2016-01-01")
 for(i in c(1:nrow(fu19))){
   fu19$photoperiod_day[i] <- ifelse(fu19$photoperiod_day=="ambient", 
-                                    daylength(fu19$provenance.lat[i], fu19$date[i]),
-                                    daylength(fu19$provenance.lat[i], fu19$date[i]) - 2)
+                                    geosphere::daylength(fu19$provenance.lat[i], fu19$date[i]),
+                                    geosphere::daylength(fu19$provenance.lat[i], fu19$date[i]) - 2)
 }
 fu19$photoperiod_day<-as.numeric(fu19$photoperiod_day)
 fu19$photoperiod_day<- round(fu19$photoperiod_day, digits=0)
@@ -464,7 +464,7 @@ d$photoperiod_night[which(d$datasetID=="fu19")]<-fu19$photoperiod_night
 prev<-subset(d, d$datasetID=="prevey18")
 prev$date<-as.Date(prev$response.time, origin = "2017-01-31")
 for(i in c(1:nrow(prev))){
-  prev$photoperiod_day[i] <- daylength(prev$provenance.lat[i], prev$date[i])
+  prev$photoperiod_day[i] <- geosphere::daylength(prev$provenance.lat[i], prev$date[i])
 }
 prev$photoperiod_day<-as.numeric(prev$photoperiod_day)
 prev$photoperiod_day<- round(prev$photoperiod_day, digits=0)
@@ -476,7 +476,7 @@ d$photoperiod_night[which(d$datasetID=="prevey18")]<-prev$photoperiod_night
 rich<-subset(d, d$datasetID=="richardson18")
 rich$date<-as.Date(rich$response.time, origin = "2016-01-01")
 for(i in c(1:nrow(rich))){
-  rich$photoperiod_day[i] <- daylength(rich$provenance.lat[i], rich$date[i])
+  rich$photoperiod_day[i] <- geosphere::daylength(rich$provenance.lat[i], rich$date[i])
 }
 rich$photoperiod_day<-as.numeric(rich$photoperiod_day)
 rich$photoperiod_day<- round(rich$photoperiod_day, digits=0)
