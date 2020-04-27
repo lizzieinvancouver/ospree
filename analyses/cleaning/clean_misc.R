@@ -282,7 +282,13 @@ d$response.time[which(d$datasetID == "anzanello18")] <- NA
 # Need to correct a typo in Fig naming - Fig. 10 is in reality Fig. 5
 d$figure.table..if.applicable[which(d$datasetID == "anzanello16" & d$figure.table..if.applicable == "fig 10")] <- "fig 5"
 
+#Fixing data point in malyshev18
+#
+d$response.time[which(d$datasetID=="malyshev18") & d$genus=="Acer" & d$species=="pseudolatauns" & d$fieldsample.date=="2014-Mar-31" & d$photoperiod_day=="16"]  <- 5.574 #  incorrect original entry of data (was 68.837, way too high).
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
 ##################################################################################################
+
+
