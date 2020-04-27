@@ -74,7 +74,7 @@ traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrai
 if(runtraitmodel){
 # Try to run the Stan model
 traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 2000, iter = 3000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 45 mins on Lizzie's machine
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 45 mins on Lizzie's machine (50 mins vectorized)
 
 fitsum <- summary(traitfit)$summary
 
