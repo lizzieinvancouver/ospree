@@ -1,5 +1,5 @@
 ## Started 24 March 2020 ##
-## DL edits March 27, 2020
+## DL edits April28, 2020
 ## Let's review the new data! ##
 
 # housekeeping
@@ -31,16 +31,17 @@ mall <- dall[which(dall$datasetID %in% medata),]
 mdbb <- dbb[which(dbb$datasetID %in% medata),]
 
 # check if you lose data between all and bb (if you do, find out what is lost!)
-dim(mall) #229, 61
-dim(mdbb) #67, 87
+dim(mall) #247, 62
+dim(mdbb) #247, 62
 #me data bb - subsets down to bb data only; goes through additional cleaning to remove treatments that were double entered
-
 #may find data size decreases if things get deleted, report what gets deleted so know only good stuff gets deleted
+
+#Nothing deleted!
 
 ## bb stuff... this code poached from:
 # models_stan.R, models_stan_plotting.R, bbstanleadin.R, and bbdataplease.R 
 ## just the bb data ...
-d <- mdbb # renaming the subset
+d <- mdbb 
 respvars.thatwewant <- c("daystobudburst", "percentbudburst") #subset down to the two variables using
 bb.resp <- d[which(d$respvar.simple %in% respvars.thatwewant),] #double checking dont have thermal time
 bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
@@ -71,20 +72,20 @@ bb.resp$chill.ports <- as.numeric(bb.resp$Total_Chill_portions)
 bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE 
-                 # & is.na(chill)==FALSE 
+                  & is.na(chill)==FALSE 
                   & is.na(resp)==FALSE)
 #issue is with the chill factor
 
-dim(bb.noNA) #without chilling have 18 and 96 columns
+dim(bb.noNA) #without chilling have 158 and 100 columns
 
 #extract chilling from the field and calc utah chilling etc and delete all the NA in the critical models, loosing data, check what gets lost
 # Fix species... so it plays well with rstan
 bb.noNA$latbi <- paste(bb.noNA$genus, bb.noNA$species) #paste together to get a latin binomial
 bb.noNA$complex <- as.numeric(as.factor(bb.noNA$latbi)) #rstan arm can use character values, stan only uses numeric
 
-
+bb.resp$chill
 # Start looking at the data ...
-ggplot(bb.noNA, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) #plots chilling by study id, should have plot for each study, now think about response values and one chilling value, look for odd datapoints
+ggplot(bb.noNA, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) #look for odd datapoints
 ggplot(bb.noNA, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) #repeat for other factors
 ggplot(bb.noNA, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.)
 #Think about how many levels, if only one value of photoperiod, need model that doesn't run photoperiod. possible wont have enough sp or a lot of variation in c f p. 
@@ -114,9 +115,9 @@ modhere = stan('bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
 library(shinystan)
 launch_shinystan(modhere) # please go to: Explore -> Click on 'bivariate' on right and make sure y-axis is log-posterior
 
-#Start by looking at main page, see really bad chains, varying wildly and vary a lot for bb date. bivariate: mu_ looks like a gunshot, fine, sigma looks BAD, skewed to one side, bunched at low values, may see concavity; suggests models have more moderate problems, getting bunched up and divergingif parameter rich model you would rather do a pairs plot, good if dont have too many parameters, shape is often diagnosic enough 
-#fact that sigmas are failing you could start with a noncentered parameterization, noncenter the places you have problems, center the data, replot what asking the model to do, may just be asking too much of the model bc just 2 levels, don't have a lot of photoperiod inferrence. could drop it from the model
-# At this point I would try a different model formulation! Which ones would you try?
+#Start by looking at main page, see really bad chains, varying wildly and vary a lot for bb date. bivariate: mu_ looks like a gunshot, fine, sigma looks BAD, skewed to one side, bunched at low values, may see concavity; suggests models have more moderate problems, getting bunched up and diverging if parameter rich model you would rather do a pairs plot, good if dont have too many parameters, shape is often diagnosic enough 
+#fact that sigmas are failing you could start with a noncentered parameterization, noncenter the places you have problems, center the data, replot what asking the model to do, may just be asking too much of the model bc few levels, don't have a lot of photoperiod inferrence. could drop it from the model
+# 
 
 # Some plotting (if you have a good model!)
 bb.stan <- bb.noNA
