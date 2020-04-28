@@ -137,10 +137,9 @@ d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")]
     
 #### Man17
 ## One fieldsample.date should be removed as this treatment remains outside
-d$respvar.simple[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-2015")] <- "othernums"
-d$fieldsample.date[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-2015")] <- ""
+d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!="2015-05-31"]<-"daystobudburst")
 
-d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!=""]<-"daystobudburst")
+d$fieldsample.date[which(d$datasetID=="man17" & d$fieldsample.date=="31-May-2015")] <- ""
 
 } else {
   print("Error: d is not a data.frame")

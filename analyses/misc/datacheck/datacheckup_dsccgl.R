@@ -104,13 +104,14 @@ bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
 dim(bb.noNA) ### 892 ## Losing 108 rows
 unique(bb.noNA$datasetID) ## "flynn18"    "man17"      "nanninga17"
 
-## Okay so we're losing anzanello16, fu19, and vitra17... why?
+## Okay so we're losing anzanello16 and fu19 and two additional rows... why?
+man17 <- bb.resp[(bb.resp$datasetID=="man17"),]
 
 fu19 <- bb.resp[(bb.resp$datasetID=="fu19"),] ### No chilling data and can't calculate forcing = 26 rows
 
 anzanello16 <- bb.resp[(bb.resp$datasetID=="anzanello16"),] ## can't calculate chilling in South America
 
-vitra17 <- bb.resp[(bb.resp$datasetID=="vitra17"),] ### Losing due to photoperiod issues! Can fix.
+#vitra17 <- bb.resp[(bb.resp$datasetID=="vitra17"),] ### Losing due to photoperiod issues! Can fix. Fixed!
 
 ########################################################################################
 ########################################################################################
@@ -118,8 +119,6 @@ vitra17 <- bb.resp[(bb.resp$datasetID=="vitra17"),] ### Losing due to photoperio
 # Fix species... so it plays well with rstan
 bb.noNA$latbi <- paste(bb.noNA$genus, bb.noNA$species)
 bb.noNA$complex <- as.numeric(as.factor(bb.noNA$latbi))
-
-bb.noNA <- bb.noNA[(bb.noNA$resp<600),]
 
 quartz()
 # Start looking at the data ...
