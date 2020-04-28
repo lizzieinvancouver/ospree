@@ -62,11 +62,16 @@ bb.resp <- subset(bb.resp, respvar != "thermaltime") # doesn't remove anything
 dim(bb.resp) ### 1000; losing 122 rows
 
 dim(mdbb[(mdbb$datasetID=="flynn18"),]) ## 830
-dim(bb.resp[(bb.resp$datasetID=="flynn18"),]) ## 720 ## accounts for 110 rows due to 'daystoflower' response
+dim(bb.resp[(bb.resp$datasetID=="flynn18"),]) ## 720 ## accounts for 110 rows due to 'daystoflower' respvar
 
-dim(mdbb[(mdbb$datasetID=="man17"),]) ## 830
-dim(bb.resp[(bb.resp$datasetID=="man17"),])
+dim(mdbb[(mdbb$datasetID=="man17"),]) ## 112
+dim(bb.resp[(bb.resp$datasetID=="man17"),]) ## 112
 
+dim(mdbb[(mdbb$datasetID=="anzanello16"),]) ## 60
+dim(bb.resp[(bb.resp$datasetID=="anzanello16"),]) ## 60
+
+dim(mdbb[(mdbb$datasetID=="prevey18"),]) ## 12
+dim(bb.resp[(bb.resp$datasetID=="prevey18"),]) ## 0 ## yay!! Last 12 rows due to 'daystoflower' respvar
 
 
 ## make a bunch of things numeric (eek!)
@@ -96,10 +101,17 @@ bb.resp$resp <- as.numeric(bb.resp$response.time)
 
 bb.noNA <- subset(bb.resp, is.na(force)==FALSE & is.na(photo)==FALSE &
                     is.na(chill)==FALSE & is.na(resp)==FALSE)
-dim(bb.noNA) ### super tiny... only 49 rows of data
-unique(bb.noNA$datasetID) ## just includes nanninga17
+dim(bb.noNA) ### 892 ## Losing 108 rows
+unique(bb.noNA$datasetID) ## "flynn18"    "man17"      "nanninga17"
 
-dim(d[(d$datasetID=="nanninga17"),]) ### so we are removing 11 rows from nanninga17, plus man17 and richardson17
+## Okay so we're losing anzanello16, fu19, and vitra17... why?
+
+fu19 <- bb.resp[(bb.resp$datasetID=="fu19"),] ### No chilling data and can't calculate forcing = 26 rows
+
+anzanello16 <- bb.resp[(bb.resp$datasetID=="anzanello16"),] ## can't calculate chilling in South America
+
+vitra17 <- bb.resp[(bb.resp$datasetID=="vitra17"),] ### Losing due to photoperiod issues! Can fix.
+
 
 ########################################################################################
 ###################### Let's check on some things individually #########################
