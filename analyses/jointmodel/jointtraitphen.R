@@ -6,6 +6,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 library(rstan)
+set.seed(7899)
 
 # flags to run Stan
 runtraitmodel <- FALSE
@@ -19,7 +20,7 @@ setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/jointmodel"
 # trait ~ agrand + a[sp] + a[study] + sigma_y 
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
-# Check sampler code from Mike B., if you see a long tail, you may need an NCP 
+# Check sampler code from Mike B., if you see a long tail, you may need an NCP (not currently using)
 if(FALSE){
 get_sampler_params(cp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1]
 get_sampler_params(ncp_fit, inc_warmup=FALSE)[[1]][,'stepsize__'][1]
@@ -35,7 +36,7 @@ sigma_asp <- 10
 sigma_astudy <- 5
 sigma_y <- 0.5
 
-n <- 20 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
+n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
 nsp <- 30 # number of species
 nstudy <- 30 # number of studies
 studymin <- nstudy # min number of studies a species appears in
@@ -71,33 +72,33 @@ plot(ranef(lme1)$sp[,], mua_sp)
 N <- length(simtrait$trait)
 traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrait$sp, 
 	study = simtrait$study, nstudy = nstudy)
+
 if(runtraitmodel){
 # Try to run the Stan model
 traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 2000, iter = 3000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 45 mins on Lizzie's machine (50 mins vectorized)
-
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
 fitsum <- summary(traitfit)$summary
 
-pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
-# pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__"))
+# pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
+# pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
 
 # Checking against sim data
 sigma_y
 sigma_asp
 sigma_astudy
-fitsum[grep("sigma", rownames(fitsum)), "mean"]
+fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 10.5, 6 currently
     
 # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
 agrand
-fitsum[grep("agrand", rownames(fitsum)),"mean"]
+fitsum[grep("agrand", rownames(fitsum)),"mean"] # 38.5 
 
 mua_sp
 fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp)
+plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty good
 
 mua_study
 fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
-plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study)
+plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
 }
 
 #--------------------------------------
@@ -143,8 +144,8 @@ traitstanpheno <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = si
 
 if(runfullmodel){
 # Try to run the Stan model (takes an hour with 4 cores, [gulp])
-bigfit <- stan(file = "jointtraitphen.stan", data = traitstanpheno, warmup = 3000, iter = 4000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15))
+bigfit <- stan(file = "jointtraitphen.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
 
 save(bigfit, file="output/stan/bigtry.Rda")
 }
@@ -188,7 +189,7 @@ mua_study
 bigfitsum[grep("mua_study\\[", rownames(bigfitsum)),"mean"]
 plot(bigfitsum[grep("mua_study\\[", rownames(bigfitsum)),"mean"]~mua_study)
 
-mua_spheno
+mua_pheno
 bigfitsum[grep("mua_spheno\\[", rownames(bigfitsum)),"mean"]
 plot(bigfitsum[grep("mua_spheno\\[", rownames(bigfitsum)),"mean"]~mua_pheno)
 
