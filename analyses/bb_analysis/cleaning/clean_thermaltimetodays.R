@@ -135,6 +135,10 @@ d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")]
 #d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2=="2015-03-30")] <-
  # (as.numeric(d$response.time[which(d$datasetID=="man17" & d$fieldsample.date2%in%noforcefieldsamps)])-6663)/(260) ### I'm not sure how to deal with the outdoor treatment...?
     
+#### Man17
+## One fieldsample.date should be removed as this treatment remains outside
+d$respvar.simple[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- "othernums"
+d$fieldsample.date[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- ""
 
 d<-within(d, respvar.simple[datasetID=="man17" & d$fieldsample.date2!=""]<-"daystobudburst")
 

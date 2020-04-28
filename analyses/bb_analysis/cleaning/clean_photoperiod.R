@@ -485,7 +485,18 @@ rich$photoperiod_day<-as.character(rich$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="richardson18")]<-rich$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="richardson18")]<-rich$photoperiod_night
 
-#### Vitra17 is thermaltime to days so I can't determine the day of budburst at this point to figure out photoperiod
+#### Vitra17 
+vitra<-subset(d, d$datasetID=="vitra17")
+vitra$date<-as.Date(vitra$response.time, origin = "2014-01-01")
+for(i in c(1:nrow(vitra))){
+  vitra$photoperiod_day[i] <- geosphere::daylength(vitra$provenance.lat[i], vitra$date[i])
+}
+vitra$photoperiod_day<-as.numeric(vitra$photoperiod_day)
+vitra$photoperiod_day<- round(vitra$photoperiod_day, digits=0)
+vitra$photoperiod_night<-24-vitra$photoperiod_day
+vitra$photoperiod_day<-as.character(vitra$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="vitra17")]<-vitra$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="vitra17")]<-vitra$photoperiod_night
 
 
 } else {

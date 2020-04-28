@@ -112,65 +112,6 @@ anzanello16 <- bb.resp[(bb.resp$datasetID=="anzanello16"),] ## can't calculate c
 
 vitra17 <- bb.resp[(bb.resp$datasetID=="vitra17"),] ### Losing due to photoperiod issues! Can fix.
 
-
-########################################################################################
-###################### Let's check on some things individually #########################
-########################################################################################
-
-### Before moving on, let's check out why we are losing 1) richardson18 and 2) man17 
-# 1) Richardson18
-richdf <- mdbb[(mdbb$datasetID=="richardson18"),]
-dim(richdf) ## 17 rows of data
-unique(richdf$respvar.simple) # daystobudburst, so that checks out... 
-richdf.simple <- subset(richdf, select=c("genus", "species", "provenance.lat", "forcetemp", 
-                                         "photoperiod_day", "Total_Utah_Model", "response.time", 
-                                         "fieldsample.date", "chilltemp"))
-
-head(richdf.simple)
-#     genus   species provenance.lat forcetemp photoperiod_day Total_Utah_Model response.time   fieldsample.date    chilltemp
-#6527 Larix laricinia       47.50285      <NA>              14               NA       113.239                     ambient + 2.25
-#6528 Larix laricinia       47.50285      <NA>              14               NA       106.555                     ambient + 2.25
-#6529 Picea   mariana       47.50285      <NA>              11               NA        64.615                     ambient + 2.25
-#6530 Picea   mariana       47.50285      <NA>              11               NA        67.692                     ambient + 2.25
-#6531 Larix laricinia       47.50285      <NA>              14               NA       103.985                     ambient + 4.5
-#6532 Picea   mariana       47.50285      <NA>              12               NA        68.205                     ambient + 4.5
-
-## Okay so for richardson18 we are missing both forcing and chilling. 
-# Let's go back through the paper to make sure that is true.
-
-## We should have both chilling and forcing information... they were both entered as ambient in the 
-# initial push so it is being deleted somewhere in the code early on for forcing. Need to check on chilling.
-# I think it's because we are missing a field sample date since this takes place in a chamber outside. 
-
-# 2) man17
-mandf <- mdbb[(mdbb$datasetID=="man17"),] ## 112 observations
-dim(mandf) 
-unique(mandf$respvar.simple) # othernums - so that's why! 
-
-## Let's double check the paper to make sure the response variable is correct!
-
-#### CJC checked man17 on 27 March 2020: response variable is cumulative chilling hours 
-# which is correctly reported in the ospree database.
-
-#### Alright now let's see why we are losing those 11 rows of data from nanninga17
-nanndf <- mdbb[(mdbb$datasetID=="nanninga17"),] ## 112 observations
-dim(nanndf)  ## 60 rows of data
-unique(nanndf$respvar.simple) ## okay daystobudburst so that checks out...
-colnames(nanndf)
-nanndf.simple <- subset(nanndf, select=c("study", "genus", "species", "woody", "provenance.lat", "forcetemp", 
-                                         "photoperiod_day", "Total_Utah_Model", "response.time"))
-
-head(nanndf.simple)
-# Looks like we have some NAs in the Total_Utah_Model
-nanndf.exp1 <- nanndf.simple[(nanndf.simple$study=="exp1"),]
-## Okay, so there are 12 observations and all have no chilling reported except for one observation
-# CHECK THIS OUT! Exp1 needs to be revisited for nanninga17
-
-nanndf.exp2 <- nanndf.simple[(nanndf.simple$study=="exp2"),] ## This checks out! We can continue on with this study below.
-
-### Experiment 1: we should be getting field chilling. There must be a flaw in chilling code somewhere.
-## This needs to be updated!
-
 ########################################################################################
 ########################################################################################
 
@@ -178,7 +119,9 @@ nanndf.exp2 <- nanndf.simple[(nanndf.simple$study=="exp2"),] ## This checks out!
 bb.noNA$latbi <- paste(bb.noNA$genus, bb.noNA$species)
 bb.noNA$complex <- as.numeric(as.factor(bb.noNA$latbi))
 
+bb.noNA <- bb.noNA[(bb.noNA$resp<600),]
 
+quartz()
 # Start looking at the data ...
 ggplot(bb.noNA, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
 ggplot(bb.noNA, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one forcing
@@ -189,17 +132,19 @@ comppaper <- subset(bb.noNA, select=c("datasetID", "latbi", "chill", "force",
 comppaperfig <- subset(bb.noNA, select=c("datasetID", "latbi", "figure.table..if.applicable."))
 comppaperfig[!duplicated(comppaperfig), ]
 
-if(FALSE){
+if(TRUE){
 # rstan
 datalist.bb <- with(bb.noNA, 
                     list(y = resp, 
+                         force = force,
+                         photo = photo,
                          chill = chill, 
                          sp = complex,
                          N = nrow(bb.noNA),
                          n_sp = length(unique(bb.noNA$complex))
                     ))
 
-modhere = stan('bb_analysis/stan/datacheckup_cc_ds_chillonly.stan', data = datalist.bb,
+modhere = stan('bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
     iter = 4000, warmup=3000)
 
 library(shinystan)

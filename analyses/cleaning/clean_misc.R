@@ -258,11 +258,6 @@ d <- rbind(d, okie11)
 ### chilltemp column should be ambinent, not NA
 d$chilltemp[which(d$datasetID=="vitra17")] <- "ambient"
 
-#### Man17
-## One fieldsample.date should be removed as this treatment remains outside
-d$respvar.simple[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- "othernums"
-d$fieldsample.date[which(d$datsetID=="man17" & d$fieldsample.date=="31-May-15")] <- ""
-
 # anzanello18. Mira edits April 2020
 # Field chill hours were left out of dataset, all samples from July have 62 field chill hours
 d$field.chill.units[which(d$datasetID == "anzanello18" & d$fieldsample.date == "07-Jul-2010")] <- 62
@@ -285,7 +280,7 @@ d$figure.table..if.applicable[which(d$datasetID == "anzanello16" & d$figure.tabl
 
 #Fixing data point in malyshev18
 #
-d$response.time[which(d$datasetID=="malyshev18") & d$genus=="Acer" & d$species=="pseudolatauns" & d$fieldsample.date=="2014-Mar-31" & d$photoperiod_day=="16"]  <- 5.574 #  incorrect original entry of data (was 68.837, way too high).
+d$response.time[which(d$datasetID=="malyshev18" & d$genus=="Acer" & d$species=="pseudolatauns" & d$fieldsample.date=="2014-Mar-31" & d$photoperiod_day=="16")]  <- 5.574 #  incorrect original entry of data (was 68.837, way too high).
 
 
 stop("Not an error, just wanted to let you know d is clean")
