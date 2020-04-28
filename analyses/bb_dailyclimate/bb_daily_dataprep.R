@@ -68,6 +68,9 @@ dat.bb<-dat.bb[-which(dat.bb$continent=="asia"),]#we only have climate data for 
 dat.bb$chilldays <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
 dat.bb$chillphotoperiod <- ifelse(is.na(dat.bb$chilldays), "", dat.bb$chilldays)
 
+dat.bb[which(dat.bb$datasetID=="fu18"),]$provenance.lat <- dat.bb[which(dat.bb$datasetID=="fu18"),]$growing.lat
+dat.bb[which(dat.bb$datasetID=="fu18"),]$provenance.long <- dat.bb[which(dat.bb$datasetID=="fu18"),]$growing.long
+
 dailyclim.bb<-data.frame()
 for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1667 * problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
