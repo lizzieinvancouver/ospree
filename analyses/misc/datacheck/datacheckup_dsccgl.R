@@ -122,9 +122,11 @@ bb.noNA$complex <- as.numeric(as.factor(bb.noNA$latbi))
 
 quartz()
 # Start looking at the data ...
-ggplot(bb.noNA, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
-ggplot(bb.noNA, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one forcing
-ggplot(bb.noNA, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) # only one photoperiod
+chilling <- ggplot(bb.noNA, aes(chill, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) + theme_classic() + theme(legend.position = "none") ## multiple chill but have one abberrant chiling! Probably from exp1, I am assuming it is a misentry
+forcing <- ggplot(bb.noNA, aes(force, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) + theme_classic() + theme(legend.position = "none") # only one forcing
+photoing <- ggplot(bb.noNA, aes(photo, resp, colour=latbi)) + geom_point() + facet_grid(datasetID~.) + theme_classic() + theme(legend.position = "none") # only one photoperiod
+
+
 # Compare it to  the paper ....
 comppaper <- subset(bb.noNA, select=c("datasetID", "latbi", "chill", "force",
     "photo", "resp", "figure.table..if.applicable."))
