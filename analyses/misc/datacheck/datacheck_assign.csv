@@ -13,7 +13,7 @@ round,datasetID,link.to.paper,team,set2,other.figs.toenter,alldata.entered,datac
 1,vitra17,,DL and MG and AK,,no,yes,no,"Switzerland (47.47N, 7.5E)",Thermal time to budburst,2014,need to calculate chilling and photoperiod from ambient,chilltemp column missing data. Chilling code won't work until that is fixed
 2,richardson18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,flynn18,,MG and FJ and AKE ,CC and DS and GL,,,,Harvard (HF) and Quebec (SH),days to budburst and leafout ,2015,loses 110 rows of data due to daystoflower respvar,
-2,fu19,,CC and DS and GL,DL and DB and IMC,,,,,,,Missing chilling data,
+2,fu19,,CC and DS and GL,DL and DB and IMC,no,yes,no,Belgium,leafout date,,Missing chilling data; forcetemp does not convert correctly,
 2,fu18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,man17,,MG and FJ and AKE ,CC and DS and GL,,,,Ontario,days to budburst,2014,most response.times appear to have been converted from cumulative chilling to days but some are still very large numbers.,
 2,malyshev18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
@@ -21,5 +21,5 @@ round,datasetID,link.to.paper,team,set2,other.figs.toenter,alldata.entered,datac
 2,anzanello18,,CC and DS and GL,DL and DB and IMC,,,,,,,crops so not included in main model,missing response.time!!
 2,nanninga17,,CC and DS and GL,DL and DB and IMC,no,yes,yes,Minnesota,days to budburst,2012-2013,IMC-I wonder if data from fig. 2 should be scraped GL: I think Fig 2 repeats data from Fig 1 | no data is lost after cleaning,
 2,ramos17,,MG and FJ and AKE ,DL and DB and IMC,yes,yes,no,Spain,max (%) budburst,1995-1998,"228 rows go away: all percentbudburst(reproductive) is deleted, then more rows are deleted by clean_bbperctodays.R. Only 5 rows are kept for Fig. 4 - there is no chilling info",chilling is being calculated from ambient
-2,prevey18,,CC and DS and GL,MG and FJ and AKE ,yes,yes,yes,Washington,days to flowering,2016-2017,"Data from Fig. 2A could be scrapped, however flowering data is not included in main model; one NA for response.time in the data set",
+2,prevey18,https://doi.org/10.7717/peerj.5221,CC and DS and GL,MG and FJ and AKE ,yes,yes,yes,Washington,days to flowering,2016-2017,"Data from Fig. 2A could be scrapped, however flowering data is not included in main model; one NA for response.time in the data set",
 2,vitra17,,DL and DB and IMC,CC and DS and GL,,,,,,,losing photoperiod data for some reason...,
