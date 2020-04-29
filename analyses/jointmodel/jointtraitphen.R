@@ -10,10 +10,17 @@ set.seed(7899)
 
 # flags to run Stan
 runtraitmodel <- FALSE
-runfullmodel <- TRUE
+runfullmodel <- FALSE
+runtraitmodelncp <- TRUE
+runfullmodelncp <- FALSE
 
 # setwd
-setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/jointmodel")
+# Set working directory: 
+if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/jointmodel") 
+} else if
+(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
+} else 
+  setwd("~/Documents/git/ospree/analyses")
 
 #--------------------------------------
 # Set up the trait model
@@ -100,6 +107,40 @@ mua_study
 fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
 plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
 }
+
+#--------------------------------------
+# Now try the ncp model
+
+if(runtraitmodelncp){
+  # Try to run the Stan model
+  traitfit <- stan(file = "jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
+                   chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
+  fitsum <- summary(traitfit)$summary
+  
+  # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
+  # pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
+  
+  # Checking against sim data
+  sigma_y
+  sigma_asp
+  sigma_astudy
+  fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 10.5, 6 currently
+  
+  # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
+  agrand
+  fitsum[grep("agrand", rownames(fitsum)),"mean"] # 38.5 
+  
+  mua_sp
+  fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
+  plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty good
+  
+  mua_study
+  fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
+  plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
+}
+
+
+
 
 #--------------------------------------
 # Now simulate the phenology side
