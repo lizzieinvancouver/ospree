@@ -13,7 +13,7 @@ round,datasetID,link.to.paper,team,set2,other.figs.toenter,alldata.entered,datac
 1,vitra17,,DL and MG and AK,,no,yes,no,"Switzerland (47.47N, 7.5E)",Thermal time to budburst,2014,need to calculate chilling and photoperiod from ambient,chilltemp column missing data. Chilling code won't work until that is fixed
 2,richardson18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,flynn18,,MG and FJ and AKE ,CC and DS and GL,,,,Harvard (HF) and Quebec (SH),days to budburst and leafout ,2015,loses 110 rows of data due to daystoflower respvar,
-2,fu19,,CC and DS and GL,DL and DB and IMC,no,yes,no,Belgium,leafout date,,Missing chilling data; forcetemp does not convert correctly,
+2,fu19,,CC and DS and GL,DL and DB and IMC,no,yes,no,Belgium,leafout date,,"2 rows with photoperiod_day = “ambient-2” are being deleted, possibly because the responses match other responses (response = 89, 91); Missing chilling data", forcetemp does not convert correctly
 2,fu18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,man17,,MG and FJ and AKE ,CC and DS and GL,,,,Ontario,days to budburst,2014,most response.times appear to have been converted from cumulative chilling to days but some are still very large numbers.,
 2,malyshev18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
