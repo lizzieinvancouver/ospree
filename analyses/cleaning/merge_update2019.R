@@ -61,11 +61,8 @@ maly18add$fieldsampledate[which(maly18add$dayssince_dec1stadjmore>365)] <- # for
     as.Date(paste(maly18add$dayssince_dec1stadjmore[which(maly18add$dayssince_dec1stadjmore>365)]-365,
     rep("2014", length(maly18add$dayssince_dec1stadjmore[which(maly18add$dayssince_dec1stadjmore>365)]))), "%j %Y")
 
-dss$fieldsample.date[which(dss$datasetID=="malyshev18")] <- format(maly18add$fieldsampledate, format="%Y-%b-%d")# replace dates in malyshev18.
-# this code assumes the data ae in the exact same row order (that's dangerous bit, see commented out code below where we check it)
-
-#FJ checking dss clean (properly in clean_misc.R) works fine. It seems to solve the problem of a miss sentered data (fj)
-dss$response.time[which(dss$datasetID=="malyshev18" & dss$genus=="Acer" & dss$species=="pseudolatauns" & dss$fieldsample.date=="2014-Mar-31" & dss$photoperiod_day=="16")]  <- 5.574 #  incorrect original entry of data (was 68.837, way too high).
+dss$fieldsample.date[which(dss$datasetID=="malyshev18")] <- format(maly18add$fieldsampledate, format="%d-%b-%Y")# replace dates in malyshev18.
+# this code assumes the data are in the exact same row order (that's dangerous bit, see commented out code below where we check it)
 
 
 if(FALSE){
@@ -80,8 +77,6 @@ if(FALSE){
   ggplot(anothercheck, aes(dayssince, response.time, group=photoperiod_day, col=photoperiod_day))+
       geom_point() + facet_wrap(genus~.) # look good
   plot(x = malycheck$fieldsample.date, y = malycheck$dayssince_dec1st) # the days since Dec 1st seems to match with new dates
-  # Remaining issue .. 
-  max(malycheck$response.time[malycheck$genus == "Acer"])
 }
  
 ## end of fix malyshev18
