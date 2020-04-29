@@ -1,6 +1,6 @@
 round,datasetID,link.to.paper,team,set2,other.figs.toenter,alldata.entered,dataconverts.correctly,location,respvar,sampling_yr,other.notes,extranotes.bycjc
 1,richardson18,,CC and DS,NA,NA,yes,no,Minnesota,days to budburst,2016,ambient forcing and chilling but no field sample date so data lost in climate data conversion,no field sample date because in outdoor chambers
-1,flynn18,,FJ and DB,NA,no,yes,yes,"Harvard (HF, 42.5��_��_N, 72.2��_��_W) and Quebec (SH, 45.9��_��_N, 74.0��_��_W)",days to budburst and leafout ,2015,,
+1,flynn18,,FJ and DB,NA,no,yes,yes,Harvard (HF) and Quebec (SH),days to budburst and leafout ,2015,,
 1,fu19,,GL and IMC,NA,no,yes,yes,Belgium,leafout date,2015,"there are redundant rows without meaningful data in ospree (respvar=NA): 15521, 15528, 15535, 15542",
 1,fu18,,DL and MG and AK,NA,no,yes,no,Belgium,"daystoleafout, days to senescence",2016,"will need to pull climate data to calculate forcing, chilling, and photoperiod (all ambient plus XXC)",missing provenance.lat and provenance.long so cannot pull climate data or photoperiod
 1,man17,,CC and DS,NA,NA,yes,yes,Ontario,days to budburst,2014,not able to include. Response variable is cumulative chilling,
@@ -12,14 +12,14 @@ round,datasetID,link.to.paper,team,set2,other.figs.toenter,alldata.entered,datac
 1,prevey18,,GL and IMC,NA,yes?,yes,yes,WA US,"% budburst, date of budburst",2016,data from Fig. 2A perc.budburst vs. DOY could perhaps be scraped,
 1,vitra17,,DL and MG and AK,,no,yes,no,"Switzerland (47.47N, 7.5E)",Thermal time to budburst,2014,need to calculate chilling and photoperiod from ambient,chilltemp column missing data. Chilling code won't work until that is fixed
 2,richardson18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
-2,flynn18,,MG and FJ and AKE ,CC and DS and GL,,,,"Harvard (HF, 42.5��_��_N, 72.2��_��_W) and Quebec (SH, 45.9��_��_N, 74.0��_��_W)",days to budburst and leafout ,2015,loses 110 rows of data due to daystoflower respvar,
+2,flynn18,,MG and FJ and AKE ,CC and DS and GL,,,,Harvard (HF) and Quebec (SH),days to budburst and leafout ,2015,loses 110 rows of data due to daystoflower respvar,
 2,fu19,,CC and DS and GL,DL and DB and IMC,,,,,,,Missing chilling data,
 2,fu18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,man17,,MG and FJ and AKE ,CC and DS and GL,,,,Ontario,days to budburst,2014,most response.times appear to have been converted from cumulative chilling to days but some are still very large numbers.,
 2,malyshev18,,DL and DB and IMC,MG and FJ and AKE ,,,,,,,,
 2,anzanello16,,MG and FJ and AKE ,CC and DS and GL,,,,,,,can't calculate chilling because in South America,
 2,anzanello18,,CC and DS and GL,DL and DB and IMC,,,,,,,crops so not included in main model,missing response.time!!
-2,nanninga17,,CC and DS and GL,DL and DB and IMC,no,yes,yes,Minnesota,days to budburst,2012,IMC-I wonder if data from fig. 2 should be scraped GL: I think Fig 2 repeats data from Fig 1 | no data is lost after cleaning,
+2,nanninga17,,CC and DS and GL,DL and DB and IMC,no,yes,yes,Minnesota,days to budburst,2012-2013,IMC-I wonder if data from fig. 2 should be scraped GL: I think Fig 2 repeats data from Fig 1 | no data is lost after cleaning,
 2,ramos17,,MG and FJ and AKE ,DL and DB and IMC,yes,yes,no,Spain,max (%) budburst,1995-1998,"228 rows go away: all percentbudburst(reproductive) is deleted, then more rows are deleted by clean_bbperctodays.R. Only 5 rows are kept for Fig. 4 - there is no chilling info",chilling is being calculated from ambient
-2,prevey18,,CC and DS and GL,MG and FJ and AKE ,,,,,,,flowering data so not included in main model,
+2,prevey18,,CC and DS and GL,MG and FJ and AKE ,yes,yes,yes,Washington,days to flowering,2016-2017,"Data from Fig. 2A could be scrapped, however flowering data is not included in main model; one NA for response.time in the data set",
 2,vitra17,,DL and DB and IMC,CC and DS and GL,,,,,,,losing photoperiod data for some reason...,
