@@ -33,11 +33,11 @@ transformed parameters{
   
   //Study and Species means
   for (j in 1:nsp){
-    mua_sp[j] = agrand + mua_sp_ncp[j] * sigma_sp; // non-centred effect of variety on alpha  
+    mua_sp[j] = mua_sp_ncp[j] * sigma_sp; // non-centred effect of variety on alpha  
   }
   
   for (j in 1:nstudy){
-    mua_study[j] = agrand + mua_study_ncp[j] * sigma_study; // non-centred effect of variety on alpha  
+    mua_study[j] = mua_study_ncp[j] * sigma_study; // non-centred effect of variety on alpha  
   }
 
   
@@ -47,7 +47,7 @@ model{
   real ypred[N];
   
 	for (i in 1:N){
-	    ypred[i] = mua_sp[species[i]] + mua_study[study[i]];  
+	    ypred[i] = agrand + mua_sp[species[i]] + mua_study[study[i]];  
 	}
 	// Model of trait priors
 	//mua_sp_ncp ~ normal(0, sigma_mua_sp_ncp);

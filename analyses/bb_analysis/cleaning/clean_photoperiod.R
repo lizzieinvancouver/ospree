@@ -461,6 +461,24 @@ fu19$photoperiod_day<-as.character(fu19$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="fu19")]<-fu19$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="fu19")]<-fu19$photoperiod_night
 
+
+fu18<-subset(d, d$datasetID=="fu18")
+fu18$date<-as.Date(fu18$response.time, origin = "2016-01-01")
+for(i in c(1:nrow(fu18))){
+  fu18$photoperiod_day[i] <- ifelse(fu18$photoperiod_day=="", 
+                                    geosphere::daylength(fu18$provenance.lat[i], fu18$date[i]),
+                                    geosphere::daylength(fu18$provenance.lat[i], fu18$date[i]) - 2)
+}
+fu18$photoperiod_day<-as.numeric(fu18$photoperiod_day)
+fu18$photoperiod_day<- round(fu18$photoperiod_day, digits=0)
+fu18$photoperiod_night<-24-fu18$photoperiod_day
+fu18$photoperiod_day<-as.character(fu18$photoperiod_day)
+d$photoperiod_day[which(d$datasetID=="fu18")]<-fu18$photoperiod_day
+d$photoperiod_night[which(d$datasetID=="fu18")]<-fu18$photoperiod_night
+
+
+
+
 prev<-subset(d, d$datasetID=="prevey18")
 prev$date<-as.Date(prev$response.time, origin = "2017-01-31")
 for(i in c(1:nrow(prev))){

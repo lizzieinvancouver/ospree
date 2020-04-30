@@ -290,6 +290,10 @@ d$study[d$study=="exp 4"] <- "exp4"
 d$study[d$study=="exp 5"] <- "exp5"
 
 
+### Need to update fu19:
+d$fieldsample.date[which(d$datasetID=="fu19")] <- "01-Jan-2016"
+
+
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
 ##################################################################################################

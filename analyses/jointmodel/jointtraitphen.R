@@ -114,7 +114,7 @@ plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty g
 if(runtraitmodelncp){
   # Try to run the Stan model
   traitfit <- stan(file = "stan/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
-                   chains = 4, cores = 4,  control=list(max_treedepth = 12)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
+                   chains = 4, cores = 4, control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, bad R-hats!
   fitsum <- summary(traitfit)$summary
   
   # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
