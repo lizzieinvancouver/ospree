@@ -282,6 +282,13 @@ d$figure.table..if.applicable[which(d$datasetID == "anzanello16" & d$figure.tabl
 #
 d$response.time[which(d$datasetID=="malyshev18" & d$genus=="Acer" & d$species=="pseudolatauns" & d$fieldsample.date=="2014-Mar-31" & d$photoperiod_day=="16")]  <- 5.574 #  incorrect original entry of data (was 68.837, way too high).
 
+# Lizzie standardizing the study naming formats (note: unique(goo$datasetID) ... a few don't have a study)
+d$study[d$study=="Exp1"] <- "exp1"
+d$study[d$study=="ex1"] <- "exp1"
+d$study[d$study=="exp 3"] <- "exp3"
+d$study[d$study=="exp 4"] <- "exp4"
+d$study[d$study=="exp 5"] <- "exp5"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
