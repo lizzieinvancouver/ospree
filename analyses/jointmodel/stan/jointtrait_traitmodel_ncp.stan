@@ -22,31 +22,41 @@ parameters{
 	real <lower = 0> sigma_study; // variation of intercept amoung studies
 	
 	
-	vector[nsp] mua_sp_ncp; // NCP mean of alpha value for species 
-	real<lower=0> sigma_mua_sp_ncp;
-  vector[nstudy] mua_study_ncp; // NCP mean of alpha value for study
-  real<lower=0> sigma_mua_study_ncp;
+	real mua_sp_ncp[nsp]; // NCP mean of alpha value for species 
+  real mua_study_ncp[nstudy]; // NCP mean of alpha value for study
+  
 }  
+
+transformed parameters{
+  real mua_sp[nsp]; // mean of the alpha value for species
+  real mua_study[nstudy]; // mean of the alpha value for studies 
+  
+  //Study and Species means
+  for (j in 1:nsp){
+    mua_sp[j] = agrand + mua_sp_ncp[j] * sigma_sp; // non-centred effect of variety on alpha  
+  }
+  
+  for (j in 1:nstudy){
+    mua_study[j] = agrand + mua_study_ncp[j] * sigma_study; // non-centred effect of variety on alpha  
+  }
+
+  
+}
   
 model{ 
   real ypred[N];
-  vector[nsp] mua_sp; // mean of the alpha value for species
-  vector[nstudy] mua_study; // mean of the alpha value for studies 
-  
-  mua_sp = mua_sp_ncp*sigma_mua_sp_ncp;
-  mua_study = mua_study_ncp*sigma_mua_study_ncp;
   
 	for (i in 1:N){
-	    ypred[i] = agrand + mua_sp[species[i]] + mua_study[study[i]];  
+	    ypred[i] = mua_sp[species[i]] + mua_study[study[i]];  
 	}
 	// Model of trait priors
-	mua_sp_ncp ~ normal(0, sigma_mua_sp_ncp);
-	mua_study_ncp ~ normal(0, sigma_mua_study_ncp);
-	sigma_mua_sp_ncp ~ normal(0, 10);
-	sigma_mua_study_ncp ~ normal(0, 10);
+	//mua_sp_ncp ~ normal(0, sigma_mua_sp_ncp);
+	//mua_study_ncp ~ normal(0, sigma_mua_study_ncp);
+	//sigma_mua_sp_ncp ~ normal(0, 10);
+	//sigma_mua_study_ncp ~ normal(0, 10);
 	
-	mua_sp ~ normal(0, sigma_sp);
-	mua_study ~ normal(0, sigma_study);
+	mua_sp_ncp ~ normal(0, sigma_sp);
+	mua_study_ncp ~ normal(0, sigma_study);
 	sigma_y ~ normal(0, 3);
         agrand ~ normal(30, 10);
 	sigma_sp ~ normal(0, 10);
