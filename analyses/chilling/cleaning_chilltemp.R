@@ -93,5 +93,8 @@ d$chilltemp[which(d$chilltemp =="ambient+3")]<-"ambient + 3"
 d$chilltemp[which(d$chilltemp =="ambient+4")]<-"ambient + 4"
 d$chilltemp[which(d$chilltemp =="ambient+5")]<-"ambient + 5"
 
+d$chilltemp[which(d$datasetID=="fu19")] <- "ambient"
+d$fieldchill[which(d$datasetID=="fu19")] <- "yes"
+
 stop("Not an error, just stopping here to say we're now done cleaning the chilltemp column. The d item in your workspace is now all cleaned up and ready to pull climate data in to estimate field chilling. Yay!")
 
