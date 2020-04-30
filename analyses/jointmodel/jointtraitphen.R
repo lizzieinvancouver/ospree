@@ -18,9 +18,9 @@ runfullmodelncp <- FALSE
 # Set working directory: 
 if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/jointmodel") 
 } else if
-(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
+(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses/jointmodel") 
 } else 
-  setwd("~/Documents/git/ospree/analyses")
+  setwd("~/Documents/git/ospree/analyses/jointmodel")
 
 #--------------------------------------
 # Set up the trait model
@@ -82,7 +82,7 @@ traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrai
 
 if(runtraitmodel){
 # Try to run the Stan model
-traitfit <- stan(file = "jointtrait_traitmodel.stan", data = traitstan, warmup = 2000, iter = 3000,
+traitfit <- stan(file = "stan/jointtrait_traitmodel.stan", data = traitstan, warmup = 2000, iter = 3000,
     chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
 fitsum <- summary(traitfit)$summary
 
@@ -113,8 +113,8 @@ plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty g
 
 if(runtraitmodelncp){
   # Try to run the Stan model
-  traitfit <- stan(file = "jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
-                   chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
+  traitfit <- stan(file = "stan/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
+                   chains = 4, cores = 4,  control=list(max_treedepth = 12)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
   fitsum <- summary(traitfit)$summary
   
   # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
