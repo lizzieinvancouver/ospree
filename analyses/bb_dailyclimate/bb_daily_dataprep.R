@@ -72,7 +72,7 @@ dat.bb[which(dat.bb$datasetID=="fu18"),]$provenance.lat <- dat.bb[which(dat.bb$d
 dat.bb[which(dat.bb$datasetID=="fu18"),]$provenance.long <- dat.bb[which(dat.bb$datasetID=="fu18"),]$growing.long
 
 dailyclim.bb<-data.frame()
-for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1667 * problem here!!!
+for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1674* problem here!!!
   #also, a question: are all sites missing climate data on the day of budburst event (because of >, <)?
   print(i)
   x<-dat.bb[i,]#focal budburst event
@@ -105,9 +105,12 @@ for(i in 1:dim(dat.bb)[1]){#4549 rows in dat.bb; i=1 i=1667 * problem here!!!
       x.dailyclim$Tmax<-x.dailyclim$Tmax+4
     }
     #if no experimental forcing, no need to add anything:
-    if(x$forcetemp=="ambient"|x$forcetemp==""|x$forcetemp=="meandaily"){
+    if(x$forcetemp=="ambient" & x$chilltemp!="ambient"){
       x.all<-join(x,x.dailyclim)
-      }
+    }
+    if(x$forcetemp==""|x$forcetemp=="meandaily"){
+      x.all<-join(x,x.dailyclim)
+    }
     #for studies with forcing that warms 4 degrees above ambient:
     if(x$forcetemp=="ambient + 4"|x$forcetemp=="ambient+4"){
       x.dailyclim$Tmin<-x.dailyclim$Tmin+4

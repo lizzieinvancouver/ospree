@@ -47,6 +47,9 @@ d$forcetemp_night[which(d$datasetID == "schnabel87" & d$other.treatment=="enviro
 d$forcetemp[which(d$datasetID == "schnabel87" & d$other.treatment=="environmental Trial 4 (Z, growth chamber); sowing date: 11/29/1984")]<-"10"
 
 
+## fix fu19
+d$forcetemp_night[which(d$datasetID=="fu19")] <- d$forcetemp[which(d$datasetID=="fu19")]
+
 d$other.treatment[d$datasetID == "schnabel87"]
 # yazdaniha64 - change ambient to ambient to 17
 d <- within(d, forcetemp[datasetID== 'yazdaniha64' & forcetemp == 'ambient'] <- 17)
