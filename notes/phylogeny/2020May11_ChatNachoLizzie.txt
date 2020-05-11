@@ -1,0 +1,41 @@
+Chat with Nacho
+11 May 2020
+
+* Joint model?
+- Run basic budbreak model
+- Then use the coefficients in an intercept-only model.
+- Have to code in Stan.
+- Lizzie thought about it and thinks this would be a really good approach for the phylogenetic signal analysis. It will be more work, but I (Lizzie) have some time to help and can ask for more help. 
+
+* Re-run which groupings of data? (We need fewer groupings! We also discussed that the phylogeny SHOULD lead to more correct partial pooling; that is, a low-data Quercus species will be pooled towards Quercus mean, not Betula for example ... this was a problem we wanted to avoid in the budburst ms.)
+- all species incl. crops
+- all species incl. crops -- angiosperms only
+- all species no crops
+- all species no crops -- angiosperms only
+
+* Models
+
+Just to review, I think ideally we would model this:
+(a) Run a[sp-phylo] + bchill[sp-phylo] + bforce[sp-phylo] + bphoto[sp-phylo] ... can you *confirm* this does not run? Just to clarify I think we should try it as:
+
+y ~ (1|specphylo) + (force|specphylo) + (chill||specphylo) + (photo|specphylo) ... cov_ranef = list(specphylo = A) 
+
+That is, skip all the sp random effects and the specmean + withspecmean centering brms wants us to do. 
+
+Alternative given the above does not work:
+(b) Run a[sp-phylo] + bchill[sp] + bforce[sp] + bphoto[sp] (I think this is one of the main models you're using?) 
+(c) Run a[genus-phylo] + bchill[sp] + bforce[sp] + bphoto[sp] 
+* Note that I think you should use the FULL dataset (don't simplify to specie for genus, just include all the observations)
+
+
+* Options for paper:
+	(a) phylogeny and phenology (may need to add in some of the climate range data, but would be easier to write)
+	(b) moving from TRY level analyses of observational data to cue-level analyses that recognizes trait-variation within species driven by environment (maybe we are more excited about this one?)
+
+* Check Zohner paper and Montgomery, here's how Montgomery presented the Zohner paper: "There is growing evidence that suggests interannual spring temperature variability (STV) influences regional strategies in phenology (40). Species from areas with high STV have higher chilling requirements to ward against inappropriate leafing and subsequent frost damage (40). In addition, research suggests that regions with warmer, earlier springs house species with greater extent of photoperiodic control (29). Both high chilling re- quirements and photoperiodic control will constrain phenologi- cal shifts in response to climate change." (BTW, hello, one paper is not necessarily growing evidence.)
+
+Here's that Zohner paper: https://onlinelibrary.wiley.com/doi/full/10.1111/ele.12746 ... note the methods for Zohner paper refer back to a lot of other phenology papers; which refer to "Bayesian models for comparative analysis integrating phylogenetic uncertainty" https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-12-102 This paper is about multiple trees, which I don't think is critical to our analysis, I can't tell if they then apply PGLS or PMM....
+
+Another relevant Zohner paper with phylogeny: https://www.nature.com/articles/nclimate3138
+
+Side question: What can I do for the PMM stuff? But maybe we keep that moving just because of joint model issue?
