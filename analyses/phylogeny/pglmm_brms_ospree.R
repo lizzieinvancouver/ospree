@@ -7,8 +7,8 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/treegarden/budreview/ospree/analyses/phylogeny") 
+if(length(grep("Lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/phylogeny") 
@@ -37,7 +37,7 @@ library(broom)
 
 # Flags to choose for bbstanleadin.R #
 ######################################
-setwd("~/GitHub/ospree/analyses/bb_analysis") 
+setwd("..//bb_analysis") 
 
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
@@ -101,7 +101,7 @@ unique(bb.stan$complex.wname)
 #### get phylogeny              ####
 ####################################
 
-setwd("~/GitHub/ospree/analyses/phylogeny") 
+setwd("..//phylogeny") 
 source("source/get_phylo_models.R")
 
 ## read and pre-process phylogeny
