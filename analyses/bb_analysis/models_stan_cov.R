@@ -1,21 +1,10 @@
-## Started 20 November 2018 ##
-## By Lizzie ##
+## Created March 2020 ##
+## By Ailene ##
 
 
-## Try to run REAL Ospree data ##
-## With Stan! ##
-
-## See also: models_stan_previous.R
-
-## Take 1: This code is based heavily off bbmodel1_stan.R 
-## Take 2: February 2017! ##
-## Take 3: July 2017! ## New code to run stan models on Ospree (by Nacho, Lizzie and more)
-## Take 4: June 2018! Lizzie re-organizes code and adds rstanarm
-## Take 5: 4-5 December 2018! Big reorganization (see models_stan_previous.R)
-
-## To do
-# (a) subset down to relevant block/transplant treatments for gomory15??
-# Impt: not dealing with provenance and material (which mean some treatments show up more than once but the partial pooling should handle this we think)
+## Compare brms model (which has sp-level correlated slopes/intercepts)##
+## to main ospree model##
+## See also: models_stan.R
 
 # housekeeping
 rm(list=ls()) 
@@ -162,33 +151,3 @@ datalist.bb <- with(bb.stan,
 #nVars<-3#number of predictors
 m2l.ni2.cov = stan('stan/nointer_2level_cov.stan', data = datalist.bb,
                   iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
-
-# Code if you want to save your models (do NOT push output to git)
-
-###### SIDE BAR #####
-## Getting R2 etc. ##
-
-
-if(FALSE){
-modelhere <- m2l.ni # m2l.nistudy 
-observed.here <- bb.stan$resp
-
-mod.sum <- summary(modelhere)$summary
-mod.sum[grep("mu_", rownames(mod.sum)),] 
-
-# getting predicted values if needed
-preds.mod.sum <- mod.sum[grep("yhat", rownames(mod.sum)),]
-
-# Here's our method to calculate R sq
-mod.R2 <- 1- sum((observed.here-preds.mod.sum[,1])^2)/sum((observed.here-mean(observed.here))^2)
-
-# Which seems correct! See  https://stackoverflow.com/questions/40901445/function-to-calculate-r2-r-squared-in-r
-rsq <- function (x, y) cor(x, y) ^ 2
-rsq(observed.here, preds.mod.sum[,1])
-summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
-save()
-# spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
-#  0.5689911
-}
-####### END SIDE BAR #######
-
