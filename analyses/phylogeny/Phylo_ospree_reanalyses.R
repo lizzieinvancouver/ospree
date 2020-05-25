@@ -26,8 +26,8 @@ options(stringsAsFactors = FALSE)
 
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/treegarden/budreview/ospree/analyses/phylogeny") 
+if(length(grep("Lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/phylogeny") 
@@ -56,7 +56,7 @@ options(mc.cores = parallel::detectCores())
 #'######################################
 
 # Flags to choose for bbstanleadin.R #
-setwd("~/GitHub/ospree/analyses/bb_analysis") 
+setwd("..//bb_analysis") 
 
 
 # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
@@ -123,7 +123,7 @@ bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
 #### get phylogeny              ####
 #'###################################
 
-setwd("~/GitHub/ospree/analyses/phylogeny") 
+setwd("..//phylogeny") 
 source("source/get_phylo_models.R")
 
 ## read and pre-process phylogeny
@@ -201,7 +201,79 @@ save(phylo.allnocrop214,file = '~/Data_Harvard/phylogeny/input/phylo.allnocrop21
 phylos=list(phylo.allnocrop214,phylo.angio216,phylo.angionocrop195)
 save(phylos,file = '~/Data_Harvard/phylogeny/input/phylos.RData')
 
+## TEST
+# Step 1: Get spps and VCVPHY in same order
+# bb.stan$spps[phylo$tip.label]
+phylo$tip.label
+d <- bb.stan[match(phylo$tip.label, bb.stan$spps),] # hmmm, only gives ONE match
 
+phymatch <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+d <- merge(bb.stan, phymatch, by.x="spps", by.y="tip")
+d <- d[order(d$sppnum),]
+# Tilia_cordata versus Tilia_Cordata in phylo
+
+# Step 2: Run a simple version of the model 
+nspecies <- max(d$sppnum)
+testme <- stan("stan/nointer_2level_force.stan",
+                data=list(N=nrow(d), n_sp=nspecies, sp=d$sppnum,
+                force=d$force.z, y=d$resp,
+                Vphy=vcv(phylo, corr=TRUE)),
+                iter=1000, chains=4, seed=123456)
+summary(testme)$summary
+
+testme2 <- stan("stan/nointer_2levelphyall.stan",
+                data=list(N=nrow(d), n_sp=nspecies, sp=d$sppnum,
+                force=d$force.z, chill=d$chill.z, photo=d$photo.z,
+                y=d$resp,
+                Vphy=vcv(phylo, corr=TRUE)),
+                iter=2000, chains=4, seed=123456)
+summary(testme2)$summary
+
+testme3 <- stan("stan/nointer_2levelphy.stan",
+                data=list(N=nrow(d), n_sp=nspecies, sp=d$sppnum,
+                force=d$force.z, chill=d$chill.z, photo=d$photo.z,
+                y=d$resp,
+                Vphy=vcv(phylo, corr=TRUE)),
+                iter=3000, chains=4, seed=123456)
+summary(testme3)$summary
+# use shinystan to see that this model is struggling on null_interceptsbf and null_interceptsbp
+# save(testme3, file="stan/output/nointer_2levelphy.Rda")
+
+source("source/bb_muplotphylo.R")
+modelhere <- testme3
+figpathmore <- "testme3"
+library(RColorBrewer)
+cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+my.pch <- rep(15:18, each=12)
+alphahere = 0.4
+
+muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5)
+
+par(mfrow=c(2,3))
+hist(extract(modelhere)[["null_interceptsbf"]], main="force")
+hist(extract(modelhere)[["null_interceptsbc"]], main="chill")
+hist(extract(modelhere)[["null_interceptsbp"]], main="photo")
+
+hist(extract(modelhere)[["lam_interceptsbf"]], main="lambda force")
+hist(extract(modelhere)[["lam_interceptsbc"]], main="lambda chill")
+hist(extract(modelhere)[["lam_interceptsbp"]], main="lambda photo")
+
+
+lamf.int <- mean(extract(modelhere)[["lam_interceptsbf"]])
+nullf.int <- mean(extract(modelhere)[["null_interceptsbf"]])
+lamf.int / (nullf.int + lamf.int)
+
+lamc.int <- mean(extract(modelhere)[["lam_interceptsbc"]])
+nullc.int <- mean(extract(modelhere)[["null_interceptsbc"]])
+lamc.int / (nullc.int + lamc.int)
+
+lamp.int <- mean(extract(modelhere)[["lam_interceptsbp"]])
+nullp.int <- mean(extract(modelhere)[["null_interceptsbp"]])
+lamp.int / (nullp.int + lamp.int)
+
+
+## END TEST
 
 
 #'################################################

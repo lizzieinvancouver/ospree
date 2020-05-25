@@ -39,6 +39,8 @@ analyses/output/ospree_clean_withchill_BB_2018Mar26.csv
 analyses/output/ospree_clean_withchill_BB_2018Jul12.csv
 analyses/.Rhistory
 analyses/bb_analysis/figures/old
+analyses/bb_analysis/stan/output
+analyses/phylogeny/stan/output
 
 analyses/photoperiod/figures/obstemplm.pdf
 docs/budburst/budburstms_ailene.tex
