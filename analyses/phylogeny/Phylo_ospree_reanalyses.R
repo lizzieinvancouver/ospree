@@ -241,6 +241,7 @@ summary(testme3)$summary
 
 source("source/bb_muplotphylo.R")
 modelhere <- testme3
+figpath <- "figures"
 figpathmore <- "testme3"
 library(RColorBrewer)
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
