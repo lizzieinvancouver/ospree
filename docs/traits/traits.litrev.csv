@@ -8,13 +8,13 @@ dorji13,CC,Tibetan plateau,alpine species,reproductive phenology,rooting depth,"
 evan16,CC,Rocky mountains,Populus angustifolia,"budburst, budset",height and dbh ,"Great paper but not totally relevant to this study. Common garden study spanning latitudinal gradient in the Rockies. Finds strong genetic signal for budset but not budburst. Look at height and dbh, trees were biggest when growing slightly north of their provenance location. Southern, taller trees ceased growth later in the season"
 garate-escamilla18,DL,Europe,Fagus sylvatica ,leaf flushing,"height, dbh, young tree survival","Not very relevatn. Provenance trial, comparing models with one or two traits, northern rangle limit constrained by flushing and southern range shaped by mortality due to drought"
 gomory11,,,,,,
-gomory15,DL,Slovakia,Fagus sylvatica ,"budburst, leaf discoloration, chlorophyll a fluorescence, and gas exchange","height, dbh","Provenance trial, scored frost damage: clear local adaptation for phenological traits, but none for functional traits"
-hart16,DB,,,,,
+gomory15,DL,Slovakia,Fagus sylvatica ,"budburst, leaf discoloration, chlorophyll a fluorescence, and gas exchange",specific leaf area (SLA) and chlorophyll content],"Provenance trial, scored frost damage: clear local adaptation for phenological traits, but none for functional traits"
+hart16,DB,China,Rhododendron sp.,"flowering mean, first and last ","""reproductive fitness""-# flowers/plant, #fruits/plant, Flower:fruit set raitio", flowering time negatively correlates with fruit size
 konig18,DL,NA,NA,First flowering,TRY trait data,Lit review of publsihed observational studies in the northern hemisphere: traits related to compeition and growth rate related to the magnitude of pheno advances; traits were as important as climate in explaining observed pheno responses
 markesteijn11,,,,,,
 mckown16,,,,,,
 meng09,,,,,,
-pandey14,DB,,,,,
+pandey14,DB,India,8 tropical sps,deciduous-ness,"[leaf area (LA), leaf water content (LWC), leaf fresh weight (LFW), leaf dry weight (LDW), specific leaf area (SLA), chlorophyll content]","Highest SLA in  longest leafless season deciduous sps,  leaf fall earlier in dry sites, leaf traits differed signicantly across sites"
 park19,,,,,,
 rungwattana18,,,,,,
 salmela20,,,,,,
