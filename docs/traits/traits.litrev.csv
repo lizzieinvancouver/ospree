@@ -11,7 +11,19 @@ gomory11,FJ,Europe,Fagus sylvatica ,,"hight, diameter growth and frost damage (t
 gomory15,DL,Slovakia,Fagus sylvatica ,"budburst, leaf discoloration, chlorophyll a fluorescence, and gas exchange",specific leaf area (SLA) and chlorophyll content],"Provenance trial, scored frost damage: clear local adaptation for phenological traits, but none for functional traits",
 hart16,DB,China,Rhododendron sp.,"flowering mean, first and last ","""reproductive fitness""-# flowers/plant, #fruits/plant, Flower:fruit set raitio", flowering time negatively correlates with fruit size,
 konig18,DL,NA,NA,First flowering,TRY trait data,Lit review of publsihed observational studies in the northern hemisphere: traits related to compeition and growth rate related to the magnitude of pheno advances, traits were as important as climate in explaining observed pheno responses
-markesteijn11,,,,,,,
+markesteijn11,FJ,Bolivia,"Astronium urundeuva 
+Bougainvillea modesta 
+Cecropia concolor 
+Ceiba speciosa 
+Centrolobium microchaete 
+Solanum riparium 
+Acosmium cardenasii 
+Anadenanthera colubrina 
+Aspidosperma cylindrocarpon 
+Aspidosperma tomentosum 
+Casearia gossypiosperma 
+Copaifera chodatiana 
+Trichilia elegans ",,"Caviation resistance, stem volume, maximum vessel length, Huber-value, Dr leaf matter content, Average leaf size, Specific leaf area",They aimed to ecxpain how well different rees did ecologially in relation to traits of their hydraulic architecture.  They compare evergreen and deciduous trees. I dont think they specifically looked at phenological timing though. ,
 mckown16,,,,,,,
 meng09,,,,,,,
 pandey14,DB,India,8 tropical sps,deciduous-ness,"[leaf area (LA), leaf water content (LWC), leaf fresh weight (LFW), leaf dry weight (LDW), specific leaf area (SLA), chlorophyll content]","Highest SLA in  longest leafless season deciduous sps,  leaf fall earlier in dry sites, leaf traits differed signicantly across sites",
