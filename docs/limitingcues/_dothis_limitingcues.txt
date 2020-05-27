@@ -8,8 +8,7 @@ April 2020 to do
 <><><><><><><><><><><><><><><><><><><><>
 
 (*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done)
-(*) Check this damn file and figure out what is done or not or can be not-done now.
-(*) Maybe work on schematic figure (see 'FIX ME' in tex for where it goes)...(Or other non-writing priority tasks that come up from reviewing this file)
+(*) Maybe work on schematic figure (see 'FIX ME' in tex for where it goes and I extracted notes below)...(Or other non-writing priority tasks that come up from reviewing this file)
 
 In no particular order but need to be done...
 (*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
@@ -20,6 +19,12 @@ In no particular order but need to be done...
 (*) Start on Rnw file for supp.
 (*) Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174
 
+
+FIX ME figure:
+- each cue alone may be non-linear when examined across a wide range of values. Cues may be linear in the mid-range of values, while extremely high or low values of some cues (e.g., photoperiod) may produce alternative response 
+- interactions between cues can produce non-linearities in environments where levels of cues are correlated over time.
+- we should expect the most dramatic changes in phenology in systems with non-linear responses where climate change pushes the system across a critical threshold or inflection point. For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst. Similarly the complexity of chilling could produce myriad non-linearities. If, as currently hypothesized, chilling follows an optimum curve (i.e., chilling does not accumulate at very low or high temperatures but in between it accumulates at a maximum rate at some temperature optimum), then endodormancy break would shift earlier in systems where warming pushes winter temperatures into a chilling-accumulation temperature or closer to the optimum temperature, and delay where warming pushes winter temperatures beyond the optimum (with more complex predictions if high temperatures decrease accumulated chilling). Interactive cues could also produce non-linear responses, but predicting these requires a refined understanding of the interaction and whether there are critical inflection points that may be crossed with continued warming. These complexities highlight how difficult predictions may be without careful efforts to tease out how each cue works alone and interactively. 
+
 <><><><><><>
 Fix the text ...
 
@@ -29,7 +34,7 @@ Overall it feels like there are 2 major threads in this paper…
 1. Biology of interacting cues
 2. The theoretical utility but current limitation of growth chamber studies to test these.
 
-It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2.
+It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2. *Lizzie says* I think it is supposed to be 'where we're at with limiting cues.' 
 
 Ailene and Dan say add a figure for paragraph starting: These cues may create non-linear responses with warming in two major ways.
 
