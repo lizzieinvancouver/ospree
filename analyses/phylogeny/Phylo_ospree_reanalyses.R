@@ -343,7 +343,78 @@ save(mod1_sp_int,file = "~/Data_Harvard/phylogeny/output/mod1_sp_int_232sps.RDat
 save(mod2_sp_int_slope,file = "~/Data_Harvard/phylogeny/output/mod2_sp_int_slope_232sps.RData")
 save(mod3_phylo_int_slope,file = "~/Data_Harvard/phylogeny/output/mod3_phylo_int_slope_232sps.RData")
 
+## Some code Lizzie wrote to check if ...
+## Matching the order of the species in ...
+## the dataframe to the phylo matters ##
+if(FALSE){
+# Phylo on intercept only -- species in bb.stan not in same order as phhylo
+modtest <- brm(
+  resp ~ force.z + chill.z + photo.z + ## fixed 
+    (1|phylo),  ## rnd effs 
+  data = bb.stan, 
+  family = gaussian(), cov_ranef = list(phylo = VCVPHY),
+  prior = c(
+    prior(normal(0, 20), "b"),
+    prior(normal(0, 50), "Intercept"),
+    prior(student_t(3, 0, 20), "sd"),
+    prior(student_t(3, 0, 20), "sigma")
+  )
+  ,sample_prior = TRUE, chains = 4, cores = 4, 
+  iter = 2000, warmup = 1000, control = list(adapt_delta = 0.99) 
+)
 
+
+# Phylo on intercept only -- species in d *are* in same order as phhylo
+
+# Get spps and VCVPHY in same order
+phylo$tip.label
+phymatch <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+d <- merge(bb.stan, phymatch, by.x="spps", by.y="tip")
+d <- d[order(d$sppnum),]
+
+modtestorder <- brm(
+  resp ~ force.z + chill.z + photo.z + ## fixed 
+    (1|phylo),  ## rnd effs 
+  data = d, 
+  family = gaussian(), cov_ranef = list(phylo = VCVPHY),
+  prior = c(
+    prior(normal(0, 20), "b"),
+    prior(normal(0, 50), "Intercept"),
+    prior(student_t(3, 0, 20), "sd"),
+    prior(student_t(3, 0, 20), "sigma")
+  )
+  ,sample_prior = TRUE, chains = 4, cores = 4, 
+  iter = 2000, warmup = 1000, control = list(adapt_delta = 0.99) 
+)
+
+# I got totally weird results!
+# Model summary output the SAME, but modtestorder reported "There were 1770 transitions after warmup that exceeded the maximum treedepth" *but* when looking at ...
+launch_shinystan(modtestorder) # I do NOT see them and all (not one red dot) the Rhat, neff/N and mcse/sd look good
+launch_shinystan(modtest) # also no divergences but the r_phylo[] terms all have low neff/N
+# both model show wandering intercepts though
+
+
+# Side activity: Model I think we want ...
+modtestslopes <- brm(
+  resp ~ force.z + chill.z + photo.z + ## fixed 
+    (0 +  force.z + chill.z + photo.z|phylo),  ## rnd effs 
+  data = d, 
+  family = gaussian(), cov_ranef = list(phylo = VCVPHY),
+  prior = c(
+    prior(normal(0, 20), "b"),
+    prior(normal(0, 50), "Intercept"),
+    prior(student_t(3, 0, 20), "sd"),
+    prior(student_t(3, 0, 20), "sigma")
+  )
+  ,sample_prior = TRUE, chains = 4, cores = 4, 
+  iter = 2000, warmup = 1000, control = list(adapt_delta = 0.99) 
+)
+
+# Took 16+hours to run, 2694 transitions after warmup that exceeded the maximum treedepth, Rhats look okay
+# sd(force) is 95, sd(chill) is 40 and sd(photo) is 16; cor(force.z,photo.z)  is  -0.95
+# intercept is 28; force is +3, chill is -5, photo is -2.5
+save(modtestslopes, file="output/brms_modtestslopes.Rdata")  
+}
 
 
 #'############################################################
