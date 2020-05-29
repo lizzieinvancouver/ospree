@@ -15,6 +15,8 @@ It:
 
 2. There are some weird columns that get read in. We delete these. Poof… and they are gone!
 
+3. We add the okie11 data here.
+
 3. Clean some miscellaneous issue (e.g., year missing from Zohner)
 
 4. Next, we source the clean_respvar.R code.

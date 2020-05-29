@@ -14,4 +14,4 @@ Read me explaining what Geoff did with the okie11 data:
 
 ## Finally, the subset is exported as okie_merge.csv to ../input/okie_merge.csv
 
-## File okie_merge.csv is added to the ospree data set in script analyses/cleaning/clean_misc.R
+## File okie_merge.csv is added to the ospree data set in script clean_addata.r (Lizzie moved the code to this new file from analyses/cleaning/clean_misc.R in late May 2020 since this doesn't exactly fall under clean_misc.R)
