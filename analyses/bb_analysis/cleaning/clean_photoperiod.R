@@ -460,7 +460,7 @@ fu19$photoperiod_night<-24-fu19$photoperiod_day
 fu19$photoperiod_day<-as.character(fu19$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="fu19")]<-fu19$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="fu19")]<-fu19$photoperiod_night
-
+d$photo_type[which(d$datasetID=="fu19")]<-"amb" #added by Dan
 
 fu18<-subset(d, d$datasetID=="fu18")
 fu18$date<-as.Date(fu18$response.time, origin = "2016-01-01")
@@ -475,7 +475,7 @@ fu18$photoperiod_night<-24-fu18$photoperiod_day
 fu18$photoperiod_day<-as.character(fu18$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="fu18")]<-fu18$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="fu18")]<-fu18$photoperiod_night
-
+d$photo_type[which(d$datasetID=="fu18")]<-"amb" ##added by Dan
 
 
 
@@ -490,6 +490,7 @@ prev$photoperiod_night<-24-prev$photoperiod_day
 prev$photoperiod_day<-as.character(prev$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="prevey18")]<-prev$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="prevey18")]<-prev$photoperiod_night
+d$photo_type[which(d$datasetID=="prevey18")]<-"amb" ##added by Dan
 
 rich<-subset(d, d$datasetID=="richardson18")
 rich$date<-as.Date(rich$response.time, origin = "2016-01-01")
@@ -502,6 +503,7 @@ rich$photoperiod_night<-24-rich$photoperiod_day
 rich$photoperiod_day<-as.character(rich$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="richardson18")]<-rich$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="richardson18")]<-rich$photoperiod_night
+d$photo_type[which(d$datasetID=="richardson18")]<-"amb" ##added by Dan
 
 #### Vitra17 
 vitra<-subset(d, d$datasetID=="vitra17")
@@ -515,10 +517,11 @@ vitra$photoperiod_night<-24-vitra$photoperiod_day
 vitra$photoperiod_day<-as.character(vitra$photoperiod_day)
 d$photoperiod_day[which(d$datasetID=="vitra17")]<-vitra$photoperiod_day
 d$photoperiod_night[which(d$datasetID=="vitra17")]<-vitra$photoperiod_night
-
+d$photo_type[which(d$datasetID=="vitra17")]<-"amb" ##added by Dan
 
 } else {
   print("Error: d not a data.frame")
 }
+
 
 stop("Not an error, photoperiod is clean. Also, you can ignore the warning message below -- code converts a column to character, but the column is created in a different dataframe that is used and deleted in this source code and should not (that I can imagine) have any other impact.")
