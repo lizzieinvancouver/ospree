@@ -180,6 +180,15 @@ d$force_type<-ifelse(is.na(d$force_type), "exp", d$force_type)
   print("Error: d not a data.frame")
 }
 
+###fix ambient + x forcings
+d$force_type<-ifelse(d$datasetID=="fu18" & d$force_type=="exp", "amb", d$force_type)
+d$force_type<-ifelse(d$datasetID=="fu19" & d$force_type=="exp", "amb", d$force_type)
+d$force_type<-ifelse(d$datasetID=="richardson18" & d$force_type=="exp", "amb", d$force_type)
+
+
+
+
+
 stop("Not an error, ambient forcing to days now... getting closer. Also, you can ignore the two warning messages below -- code converts a column to character (twice), but the column is created, used and deleted in this source code and should not (that I can imagine) have any other impact.")
 #setwd("~Documents/git/ospree/analyses/output")
 #write.csv(d,"ospree_clean_withforce.csv")
