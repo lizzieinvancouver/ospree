@@ -39,13 +39,9 @@ transformed parameters{
 }
   
 model{ 
-  real ypred[N];
+  vector[N] ypred;
+	ypred = agrand + a_sp[species] + a_study[study];  
   
-  for (i in 1:N){
-	    ypred[i] = agrand + a_sp[species[i]] + a_study[study[i]];  
-	}
-  
-	
 	a_sp_ncp ~ normal(0, 1);
 	a_study_ncp ~ normal(0, 1);
 	
