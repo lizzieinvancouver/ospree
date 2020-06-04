@@ -26,4 +26,4 @@ module load geos/3.6.2-fasrc01
 module load proj/5.0.1-fasrc01
 export R_LIBS_USER=$HOME/apps/R:$R_LIBS_USER
 
-R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/jointtraitphen_odys.R 
+R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/jointlatphoto_odys.R 

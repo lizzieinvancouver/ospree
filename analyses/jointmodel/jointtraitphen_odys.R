@@ -2,14 +2,12 @@
 ## By Lizzie, pulling some from JointModelSim_fj.R ##
 ## Converted by Cat for the cluster
 
+library(rstanarm)
 library(rstan)
-set.seed(7899)
 
-# flags to run Stan
-runtraitmodel <- FALSE
-runfullmodel <- FALSE
-runtraitmodelncp <- TRUE
-runfullmodelncp <- FALSE
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
+
 
 --------------------------------
 # Set up the trait model
@@ -44,15 +42,6 @@ for (sp in 1:nsp){
 simtrait$trait <- agrand+simtrait$mua_sp+simtrait$mua_study+rnorm(nrow(simtrait), 0, sigma_y)
 table(simtrait$sp, simtrait$study)
 
-library(lme4)
-# Fixed effects should be very close to coefficients used in simulating data
-# These look good, they get better with higher nsp and nstudy
-summary(lme1 <- lmer(trait ~ (1|sp) + (1|study), data = simtrait)) 
-ranef(lme1)
-fixef(lme1)
-
-plot(ranef(lme1)$study[,], mua_study)
-plot(ranef(lme1)$sp[,], mua_sp)
 
 # Close enough to validate trying Stan, I think
 N <- length(simtrait$trait)
@@ -115,8 +104,8 @@ traitstanpheno <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = si
 
 
 
-bigfit.ncp <- stan(file = "jointtraitphen_ncp.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+bigfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtraitphen_ncp.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
                chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
 
-save(bigfit.ncp, file="/n/wolkovich_lab/Lab/Cat/bigtry.Rda")
+save(bigfit.ncp, file="/n/wolkovich_lab/Lab/Cat/bigtry_ncp.Rda")
 
