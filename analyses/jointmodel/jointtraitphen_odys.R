@@ -2,7 +2,6 @@
 ## By Lizzie, pulling some from JointModelSim_fj.R ##
 ## Converted by Cat for the cluster
 
-library(rstanarm)
 library(rstan)
 
 rstan_options(auto_write = TRUE)
