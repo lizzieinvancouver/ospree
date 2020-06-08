@@ -2,7 +2,8 @@
 ## By Lizzie, pulling some from JointModelSim_fj.R ##
 ## Converted by Cat for the cluster
 
-library(rstan)
+install.packages('rstan', dependencies = TRUE, INSTALL_opts = '--no-lock', repos="http://cran.r-project.org")
+require(rstan)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -46,11 +47,6 @@ table(simtrait$sp, simtrait$study)
 N <- length(simtrait$trait)
 traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrait$sp, 
                   study = simtrait$study, nstudy = nstudy)
-
-traitfit.ncpvector <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtrait_traitmodel_ncp_vectorized.stan", data = traitstan, warmup = 2000, iter = 3000,
-                 chains = 4, cores = 4) #,  control=list(max_treedepth = 15)) 
-
-save(traitfit.ncpvector, file="/n/wolkovich_lab/Lab/Cat/traitfit_ncpvector.Rda")
 
 traitfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
                            chains = 4, cores = 4) #,  control=list(max_treedepth = 15)) 

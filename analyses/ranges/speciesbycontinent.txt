@@ -1,0 +1,66 @@
+RANGES: Species by continent
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+North American species:
+
+Betula lenta
+Populus grandidentata
+Fagus grandifolia
+Quercus rubra
+Acer pensylvanicum
+Betula papyrifera
+Fraxinus excelsior
+Alnus rubra
+Pseudotsuga menziesii
+Prunus pensylvanica
+Betula alleghaniensis
+Acer saccharum
+Alnus incana
+Acer rubrum
+Cornus cornuta
+Picea glauca
+
+******* Code to copy into R ********
+
+c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
+"Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+"Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
+"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca")
+
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+European species:
+
+Abies alba
+Acer pseudoplatanus
+Aesculus hippocastanum
+Alnus glutinosa
+Alnus incana
+Betula pendula
+Betula pubescens
+Carpinus betulus
+Cornus mas
+Corylus avellana
+Fagus sylvatica
+Fraxinus excelsior
+Larix decidua
+Picea abies
+Populus tremula
+Prunus avium
+Prunus padus
+Quercus ilex
+Quercus petraea
+Quercus robur
+Sorbus aucuparia
+Tilia cordata     
+
+******* Code to copy into R ********
+
+c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnus_glutinosa",
+"Alnus_incana", "Betula_pendula", "Betula_pubescens", "Carpinus_betulus",
+"Cornus_mas", "Corylus_avellana", "Fagus_sylvatica", "Fraxinus_excelsior", "Larix_decidua", "Picea_abies", "Populus_tremula", "Prunus_avium", "Prunus_padus", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Sorbus_aucuparia", "Tilia_cordata")    
+
