@@ -2,12 +2,12 @@
 ## By Lizzie, pulling some from JointModelSim_fj.R ##
 ## Converted by Cat for the cluster
 
-install.packages('rstan', dependencies = TRUE, INSTALL_opts = '--no-lock', repos="http://cran.r-project.org")
+#install.packages('shinystan', dependencies = TRUE, INSTALL_opts = '--no-lock', repos="http://cran.r-project.org")
+
 require(rstan)
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
-
 
 --------------------------------
 # Set up the trait model
@@ -48,8 +48,9 @@ N <- length(simtrait$trait)
 traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrait$sp, 
                   study = simtrait$study, nstudy = nstudy)
 
+
 traitfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
-                           chains = 4, cores = 4) #,  control=list(max_treedepth = 15)) 
+                           chains = 4, cores = 4,  control=list(max_treedepth = 15)) 
 
 save(traitfit.ncp, file="/n/wolkovich_lab/Lab/Cat/traitfit_ncp.Rda")
 
@@ -92,6 +93,7 @@ table(simpheno$sp)
 
 
 # Nothing left to do but to try Stan, I think
+N <- length(simtrait$trait)
 Npheno <- length(simpheno$pheno)
 traitstanpheno <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrait$sp, 
                        study = simtrait$study, nstudy = nstudy, phendat = simpheno$pheno, Npheno = Npheno, nsppheno = nsp,

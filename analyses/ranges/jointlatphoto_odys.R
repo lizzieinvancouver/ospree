@@ -13,8 +13,8 @@ options(mc.cores = parallel::detectCores())
 # trait ~ agrand + a[sp] + a[study] + sigma_y 
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
-  # Parameters
-  agrand <- 40
+# Parameters
+agrand <- 40
 sigma_asp <- 10
 sigma_astudy <- 5
 sigma_y <- 0.5
@@ -70,6 +70,7 @@ sigma_apheno <- 3
 sigma_ypheno <- 0.5
 sigma_aphoto <- 2
 betaLatxPheno <- 1.1
+betaExtentxPheno <- -0.5
 
 nsp # Same as above (you could vary it but would be a little trickier) 
 mua_sp # this is the effect of species trait differences from the trait model (above)
@@ -77,14 +78,14 @@ mua_pheno <- rnorm(nsp, 0, sigma_apheno)
 mua_photo <- rnorm(nsp, 0, sigma_aphoto)
 
 nph <- 100 # number of observations per species/phenological combination 
-Nph <- nsp * nph # obervations per species for phenological event and forcing
-Fmean <- 3
-Fsigma <- 10
+Nph <- nsp * nph # obervations per species for phenological event and photoperiod
+Pmean <- 6
+Psigma <- 10
 
 # Set up the data ...
 bphoto <- data.frame(sp=1:nsp, mua_photo=mua_photo, mua_sp=mua_sp)
-bphoto$bphoto <- bforce$mua_force + betaTraitxPheno*bphoto$mua_sp
-simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), F=numeric())
+bphoto$bphoto <- bphoto$mua_photo + betaLatxPheno*bphoto$mua_sp + betaExtentxPheno*bphoto$mua_sp
+simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), P=numeric())
 for (sp in 1:nsp){
   Phere <- rnorm(nph, Pmean, Psigma)
   simphenoadd <- data.frame(sp=rep(sp, nph), mua_pheno=rep(mua_pheno[sp], nph),

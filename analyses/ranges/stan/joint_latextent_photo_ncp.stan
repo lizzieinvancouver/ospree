@@ -37,19 +37,19 @@ parameters{
         real bphoto_lat; // our beta!
         real bphoto_extent; // our beta!
         
-  /*real a_sp_ncp; // NCP mean of alpha value for species 
+  real a_sp_ncp; // NCP mean of alpha value for species 
   real a_study_ncp; // NCP mean of alpha value for study
   real a_spheno_ncp;
-  real a_photo_ncp;*/
+  real a_photo_ncp;
   
 }
 
 transformed parameters{
 	
-	/*vector[nsp] a_sp = mua_sp + a_sp_ncp * sigma_sp; // mean of the alpha value for species
+	vector[nsp] a_sp = mua_sp + a_sp_ncp * sigma_sp; // mean of the alpha value for species
   vector[nstudy] a_study = mua_study + a_study_ncp * sigma_study; // mean of the alpha value for studies 
 	vector[nsppheno] a_spheno = mua_spheno + a_spheno_ncp * sigma_apheno;
-	vector[nsppheno] a_photo = mua_photo + a_photo_ncp * sigma_bphoto;*/
+	vector[nsppheno] a_photo = mua_photo + a_photo_ncp * sigma_bphoto;
 	
         
 	 real b_photo_final =  muaphoto + bphoto_lat * mua_sp + bphoto_extent * mua_sp;

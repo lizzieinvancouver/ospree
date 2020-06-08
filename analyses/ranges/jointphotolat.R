@@ -13,11 +13,6 @@ options(stringsAsFactors = FALSE)
 library(rstan)
 set.seed(12221)
 
-# flags to run Stan
-runphotomodel <- FALSE
-runfullmodel <- FALSE
-runphotomodelncp <- TRUE
-runfullmodelncp <- FALSE
 
 # setwd
 # Set working directory: 
@@ -33,7 +28,8 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
 # Parameters
-agrand <- 40
+agrand_lat <- 40
+agrand_extent <- 10
 sigma_asp <- 10
 sigma_astudy <- 5
 sigma_y <- 0.5
@@ -52,12 +48,15 @@ mua_study <- rnorm(nstudy, 0, sigma_astudy)
 # Set up the data ...
 simlat <- data.frame(sp=numeric(), study=numeric(), mua_sp=numeric(), mua_study=numeric())
 for (sp in 1:nsp){
-    whichstudies <- sample(c(1:nstudy), howmanystudiespersp[sp])
-    simlatadd <- data.frame(sp=rep(sp, length(whichstudies)*n), study=rep(whichstudies, each=n),
-        mua_sp=rep(mua_sp[sp], length(whichstudies)*n), mua_study=rep(mua_study[whichstudies], each=n))
-    simlat <- rbind(simlat, simlatadd)
-    }
-simlat$lat <- agrand+simlat$mua_sp+simlat$mua_study+rnorm(nrow(simlat), 0, sigma_y)
+  whichstudies <- sample(c(1:nstudy), howmanystudiespersp[sp])
+  simlatadd <- data.frame(sp=rep(sp, length(whichstudies)*n), study=rep(whichstudies, each=n),
+                          mua_sp=rep(mua_sp[sp], length(whichstudies)*n), mua_study=rep(mua_study[whichstudies], each=n),
+                          lat=rnorm(length((whichstudies)*n), 45, 10), extent=rnorm((length(whichstudies)*n), 10, 10))
+  simlat <- rbind(simlat, simlatadd)
+}
+simlat$lat<- agrand_lat + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$extent<- agrand_extent + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$range <- agrand_lat + agrand_extent + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
 table(simlat$sp, simlat$study)
 
 library(lme4)
@@ -67,19 +66,21 @@ summary(lme1 <- lmer(lat ~ (1|sp) + (1|study), data = simlat))
 ranef(lme1)
 fixef(lme1)
 
-plot(ranef(lme1)$study[,], mua_study)
+summary(lme2 <- lmer(extent ~ (1|sp) + (1|study), data = simlat)) 
+ranef(lme2)
+fixef(lme2)
+
 plot(ranef(lme1)$sp[,], mua_sp)
+plot(ranef(lme2)$sp[,], mua_sp)
 
 # Close enough to validate trying Stan, I think
 N <- length(simlat$lat)
-latstan <- list(latdat = simlat$lat, N = N, nsp = nsp, species = simlat$sp, 
+latstan <- list(latdat = simlat$lat, extentdat = simlat$extent, rangedat = simlat$range, N = N, nsp = nsp, species = simlat$sp, 
 	study = simlat$study, nstudy = nstudy)
 
-if(runtraitmodel){
 # Try to run the Stan model
-latfit <- stan(file = "stan/jointlat_latmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # needs treedepth to avoid divergences, takes about 10 mins on Lizzie's machine, vectorized didn't speed things up and +1000 iterations did not produce values closer to the given params
-fitsum <- summary(traitlat)$summary
+latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 500, iter = 1000,
+    chains = 1, cores = 1,  control=list(max_treedepth = 15)) 
 
 # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
 # pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
@@ -88,7 +89,7 @@ fitsum <- summary(traitlat)$summary
 sigma_y
 sigma_asp
 sigma_astudy
-fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 10.5, 6 currently
+fitsum[grep("sigma", rownames(fitsum)), "mean"] # 3.5, 4, 4.5 currently
     
 # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
 agrand
@@ -101,7 +102,7 @@ plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty good
 mua_study
 fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
 plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
-}
+
 
 
 #--------------------------------------
@@ -114,6 +115,7 @@ sigma_apheno <- 3
 sigma_ypheno <- 0.5
 sigma_aphoto <- 2
 betaLatxPheno <- 1.1
+betaExtentxPheno <- -0.5
 
 nsp # Same as above (you could vary it but would be a little trickier) 
 mua_sp # this is the effect of species trait differences from the trait model (above)
@@ -121,20 +123,20 @@ mua_pheno <- rnorm(nsp, 0, sigma_apheno)
 mua_photo <- rnorm(nsp, 0, sigma_aphoto)
 
 nph <- 100 # number of observations per species/phenological combination 
-Nph <- nsp * nph # obervations per species for phenological event and forcing
-Fmean <- 3
-Fsigma <- 10
+Nph <- nsp * nph # obervations per species for phenological event and photoperiod
+Pmean <- 6
+Psigma <- 10
 
 # Set up the data ...
 bphoto <- data.frame(sp=1:nsp, mua_photo=mua_photo, mua_sp=mua_sp)
-bphoto$bphoto <- bforce$mua_force + betaTraitxPheno*bphoto$mua_sp
-simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), F=numeric())
+bphoto$bphoto <- bphoto$mua_photo + betaLatxPheno*bphoto$mua_sp + betaExtentxPheno*bphoto$mua_sp
+simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), P=numeric())
 for (sp in 1:nsp){
-    Phere <- rnorm(nph, Pmean, Psigma)
-    simphenoadd <- data.frame(sp=rep(sp, nph), mua_pheno=rep(mua_pheno[sp], nph),
-        bphoto=rep(bphoto$bphoto[sp], nph), P=Phere)
-    simpheno <- rbind(simpheno, simphenoadd)
-    }
+  Phere <- rnorm(nph, Pmean, Psigma)
+  simphenoadd <- data.frame(sp=rep(sp, nph), mua_pheno=rep(mua_pheno[sp], nph),
+                            bphoto=rep(bphoto$bphoto[sp], nph), P=Phere)
+  simpheno <- rbind(simpheno, simphenoadd)
+}
 simpheno$pheno <- simpheno$mua_pheno+simpheno$bphoto*simpheno$P+rnorm(nrow(simpheno), 0, sigma_ypheno)
 table(simpheno$sp)
 
@@ -142,16 +144,16 @@ table(simpheno$sp)
 # Nothing left to do but to try Stan, I think
 Npheno <- length(simpheno$pheno)
 latstanpheno <- list(latdat = simlat$lat, N = N, nsp = nsp, species = simlat$sp, 
-	study = simlat$study, nstudy = nstudy, phendat = simpheno$pheno, Npheno = Npheno, nsppheno = nsp,
-        speciespheno = simpheno$sp, photoperiod = simpheno$P)
+                     study = simlat$study, nstudy = nstudy, phendat = simpheno$pheno, Npheno = Npheno, nsppheno = nsp,
+                     speciespheno = simpheno$sp, photoperiod = simpheno$P)
 
-if(runfullmodel){
+
 # Try to run the Stan model (takes an hour with 4 cores, [gulp])
-jointfit <- stan(file = "jointlatphen.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+jointfit <- stan(file = "joint_latextent_photo.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
     chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
 
 save(jointfit, file="output/stan/jointlatphoto.Rda")
-}
+
 
 
 if(!runfullmodel){
