@@ -81,6 +81,7 @@ latstan <- list(latdat = simlat$lat, extentdat = simlat$extent, rangedat = simla
 # Try to run the Stan model
 latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 500, iter = 1000,
     chains = 1, cores = 1,  control=list(max_treedepth = 15)) 
+fitsum <- summary(latfit)$summary
 
 # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
 # pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
@@ -89,16 +90,19 @@ latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 50
 sigma_y
 sigma_asp
 sigma_astudy
-fitsum[grep("sigma", rownames(fitsum)), "mean"] # 3.5, 4, 4.5 currently
+fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 11.5, 0.01 currently
     
 # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
-agrand
-fitsum[grep("agrand", rownames(fitsum)),"mean"] # 38.5 
+agrand_lat
+fitsum[grep("agrand_lat", rownames(fitsum)),"mean"] # 38.8 
+agrand_extent
+fitsum[grep("agrand_extent", rownames(fitsum)),"mean"] # 8.9 
 
 mua_sp
 fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
 plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty good
 
+## Study is bad!!!
 mua_study
 fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
 plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
