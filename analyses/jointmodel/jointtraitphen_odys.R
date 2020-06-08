@@ -6,7 +6,6 @@
 
 require(rstan)
 
-rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
 --------------------------------
@@ -50,7 +49,7 @@ traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrai
 
 
 traitfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
-                           chains = 4, cores = 4,  control=list(max_treedepth = 15)) 
+                           chains = 4, cores = 2,  control=list(max_treedepth = 15)) 
 
 save(traitfit.ncp, file="/n/wolkovich_lab/Lab/Cat/traitfit_ncp.Rda")
 
@@ -102,7 +101,7 @@ traitstanpheno <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = si
 
 
 bigfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtraitphen_ncp.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
-               chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
+               chains = 4, cores = 2,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
 
 save(bigfit.ncp, file="/n/wolkovich_lab/Lab/Cat/bigtry_ncp.Rda")
 
