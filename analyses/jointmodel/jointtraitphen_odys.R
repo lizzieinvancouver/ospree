@@ -2,13 +2,14 @@
 ## By Lizzie, pulling some from JointModelSim_fj.R ##
 ## Converted by Cat for the cluster
 
-#install.packages('shinystan', dependencies = TRUE, INSTALL_opts = '--no-lock', repos="http://cran.r-project.org")
-
+require(shinystan)
 require(rstan)
 
+options(stringsAsFactors = FALSE)
+
+rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
---------------------------------
 # Set up the trait model
 # trait ~ agrand + a[sp] + a[study] + sigma_y 
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect

@@ -5,6 +5,7 @@
 
 #Betaphotosp=alpha_photo_sp+beta_LIXphoto*alphaLI,sp 
 
+library(rstan)
 
 # housekeeping
 rm(list=ls()) 
@@ -28,59 +29,51 @@ if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegard
 # a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
 
 # Parameters
-agrand_lat <- 40
-agrand_extent <- 10
-sigma_asp <- 10
-sigma_astudy <- 5
-sigma_y <- 0.5
+a_min <- 30
+a_max <- 60
+a_mean <- 45
+sigma_y <- 5
 
 n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
 nsp <- 30 # number of species
-nstudy <- 30 # number of studies
-studymin <- nstudy # min number of studies a species appears in
-studymax <- nstudy # max number of studies as species appears in
-howmanystudiespersp <- round(runif(nsp, studymin, studymax)) # get list of studies per species
 
-# Sp and study-level parameters (hyperparameters?)
+### This will be a fixed effects model but I think we need some mua_sp to create some variation around our species estimates
+sigma_asp <- 0.5
 mua_sp <- rnorm(nsp, 0, sigma_asp)
-mua_study <- rnorm(nstudy, 0, sigma_astudy)
 
 # Set up the data ...
-simlat <- data.frame(sp=numeric(), study=numeric(), mua_sp=numeric(), mua_study=numeric())
-for (sp in 1:nsp){
-  whichstudies <- sample(c(1:nstudy), howmanystudiespersp[sp])
-  simlatadd <- data.frame(sp=rep(sp, length(whichstudies)*n), study=rep(whichstudies, each=n),
-                          mua_sp=rep(mua_sp[sp], length(whichstudies)*n), mua_study=rep(mua_study[whichstudies], each=n),
-                          lat=rnorm(length((whichstudies)*n), 45, 10), extent=rnorm((length(whichstudies)*n), 10, 10))
-  simlat <- rbind(simlat, simlatadd)
-}
-simlat$lat<- agrand_lat + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-simlat$extent<- agrand_extent + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-simlat$range <- agrand_lat + agrand_extent + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-table(simlat$sp, simlat$study)
+simlat <- data.frame(sp=rep(1:nsp, each=10), mua_sp=rep(mua_sp, each=10))
+
+simlat$minlat <- a_min + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$maxlat <- a_max + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$meanlat <- a_mean + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
 
 library(lme4)
 # Fixed effects should be very close to coefficients used in simulating data
-# These look good, they get better with higher nsp and nstudy
-summary(lme1 <- lmer(lat ~ (1|sp) + (1|study), data = simlat)) 
+summary(lme1 <- lmer(minlat ~ (1|sp), data = simlat)) 
 ranef(lme1)
 fixef(lme1)
 
-summary(lme2 <- lmer(extent ~ (1|sp) + (1|study), data = simlat)) 
+summary(lme2 <- lmer(maxlat ~ (1|sp), data = simlat)) 
 ranef(lme2)
 fixef(lme2)
 
+summary(lme3 <- lmer(meanlat ~ (1|sp), data = simlat)) 
+ranef(lme3)
+fixef(lme3)
+
 plot(ranef(lme1)$sp[,], mua_sp)
 plot(ranef(lme2)$sp[,], mua_sp)
+plot(ranef(lme3)$sp[,], mua_sp)
 
 # Close enough to validate trying Stan, I think
-N <- length(simlat$lat)
-latstan <- list(latdat = simlat$lat, extentdat = simlat$extent, rangedat = simlat$range, N = N, nsp = nsp, species = simlat$sp, 
-	study = simlat$study, nstudy = nstudy)
+N <- length(simlat$minlat)
+latstan <- list(mindat = simlat$minlat, maxdat = simlat$maxlat, meandat = simlat$meanlat, N = N, 
+                nsp = nsp, species = simlat$sp)
 
 # Try to run the Stan model
-latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 500, iter = 1000,
-    chains = 1, cores = 1,  control=list(max_treedepth = 15)) 
+latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
+    chains = 4,  control=list(max_treedepth = 15)) 
 fitsum <- summary(latfit)$summary
 
 # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
@@ -88,25 +81,40 @@ fitsum <- summary(latfit)$summary
 
 # Checking against sim data
 sigma_y
-sigma_asp
-sigma_astudy
-fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 11.5, 0.01 currently
+a_min
+a_max
+a_mean
+fitsum[grep("sigma", rownames(fitsum)), "mean"] # 5.09
+fitsum[grep("a_", rownames(fitsum)), "mean"]
     
 # Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
-agrand_lat
-fitsum[grep("agrand_lat", rownames(fitsum)),"mean"] # 38.8 
-agrand_extent
-fitsum[grep("agrand_extent", rownames(fitsum)),"mean"] # 8.9 
+a_min
+mean(fitsum[grep("a_mins_sp", rownames(fitsum)),"mean"]) # 30.19
+a_max
+mean(fitsum[grep("a_maxs_sp", rownames(fitsum)),"mean"]) # 60.08
+a_mean
+mean(fitsum[grep("a_means_sp", rownames(fitsum)),"mean"]) # 44.7
 
-mua_sp
-fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty good
+fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]
+plot(fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$minlat, simlat$sp))) # pretty good
 
-## Study is bad!!!
-mua_study
-fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
-plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty good
+fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]
+plot(fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$maxlat, simlat$sp))) # pretty good
 
+fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]
+plot(fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$meanlat, simlat$sp))) # pretty good
+
+
+##### Great! Now let's work with real data...
+latdat <- read.csv("output/latitudeextents_allspp.csv")
+
+N <- length(latdat$lat)
+latstan <- list(mindat = latdat$lat[latdat$type=="min"], maxdat = latdat$lat[latdat$type=="max"], 
+                meandat = latdat$lat[latdat$type=="mean"], N = N, 
+                nsp = nsp, species = latdat$species)
+
+latmodel <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
+               chains = 4,  control=list(max_treedepth = 15)) 
 
 
 #--------------------------------------
@@ -118,8 +126,9 @@ plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty g
 sigma_apheno <- 3
 sigma_ypheno <- 0.5
 sigma_aphoto <- 2
-betaLatxPheno <- 1.1
-betaExtentxPheno <- -0.5
+betaMinLatxPheno <- -1
+betaMaxLatxPheno <- -0.5
+betaMeanLatxPheno <- -2
 
 nsp # Same as above (you could vary it but would be a little trickier) 
 mua_sp # this is the effect of species trait differences from the trait model (above)
@@ -133,15 +142,24 @@ Psigma <- 10
 
 # Set up the data ...
 bphoto <- data.frame(sp=1:nsp, mua_photo=mua_photo, mua_sp=mua_sp)
-bphoto$bphoto <- bphoto$mua_photo + betaLatxPheno*bphoto$mua_sp + betaExtentxPheno*bphoto$mua_sp
-simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), P=numeric())
+bphoto$bphotomin <- bphoto$mua_photo + betaMinLatxPheno*bphoto$mua_sp
+bphoto$bphotomax <- bphoto$mua_photo + betaMaxLatxPheno*bphoto$mua_sp
+bphoto$bphotomean <- bphoto$mua_photo + betaMeanLatxPheno*bphoto$mua_sp
+
+simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), 
+                       bphotomin=numeric(), bphotomax=numeric(), bphotomean=numeric(), 
+                       P=numeric())
 for (sp in 1:nsp){
   Phere <- rnorm(nph, Pmean, Psigma)
   simphenoadd <- data.frame(sp=rep(sp, nph), mua_pheno=rep(mua_pheno[sp], nph),
-                            bphoto=rep(bphoto$bphoto[sp], nph), P=Phere)
+                            bphotomin=rep(bphoto$bphotomin[sp], nph),
+                            bphotomax=rep(bphoto$bphotomax[sp], nph),
+                            bphotomean=rep(bphoto$bphotomean[sp], nph), P=Phere)
   simpheno <- rbind(simpheno, simphenoadd)
 }
-simpheno$pheno <- simpheno$mua_pheno+simpheno$bphoto*simpheno$P+rnorm(nrow(simpheno), 0, sigma_ypheno)
+simpheno$pheno <- simpheno$mua_pheno + simpheno$bphotomin*simpheno$P +
+  simpheno$bphotomax*simpheno$P + simpheno$bphotomean*simpheno$P +
+  rnorm(nrow(simpheno), 0, sigma_ypheno)
 table(simpheno$sp)
 
 
