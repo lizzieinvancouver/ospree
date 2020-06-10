@@ -96,8 +96,8 @@ for (i in 1:nsps){#i=1
   max.threshold <- quantile(allcoords$lat, probs=c(0.90))
   maxlats.df <- allcoords[(allcoords$lat>=max.threshold),]
   
-  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.42))
-  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.58))
+  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.40))
+  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.60))
   meanlats.df <- allcoords[(allcoords$lat<=meanmax.threshold & allcoords$lat>=meanmin.threshold),]
   
   minlats.spsi <- cbind(minlats.df, rep(spsi, nrow(minlats.df)))
@@ -113,6 +113,17 @@ for (i in 1:nsps){#i=1
 }  
   
 
+minlats.eur <- as.data.frame(minlatspecies)
+colnames(minlats.eur) <- c("minlong","minlat", "species")
+minlats.eur$continent <- "europe"
+
+maxlats.eur <- as.data.frame(maxlatspecies)
+colnames(maxlats.eur) <- c("maxlong", "maxlat", "species")
+maxlats.eur$continent <- "europe"
+
+minmax.eur <- cbind(minlats.eur, maxlats.eur)
+
+if(FALSE){
 minlats.eur <- as.data.frame(minlatspecies)
 colnames(minlats.eur) <- c("long","lat", "species")
 minlats.eur$continent <- "europe"
@@ -131,7 +142,7 @@ meanlats.eur$continent <- "europe"
 meanlats.eur$type <- "mean"
 
 eur.lats <- full_join(eur.lats, meanlats.eur)
-
+}
 
 ####### Now it's North American species time! #######
 
@@ -219,6 +230,46 @@ for (i in 1:nsps){#i=1
 
 
 minlats.nam <- as.data.frame(minlatspecies)
+colnames(minlats.nam) <- c("minlong","minlat", "species")
+minlats.nam$continent <- "north america"
+
+maxlats.nam <- as.data.frame(maxlatspecies)
+colnames(maxlats.nam) <- c("maxlong", "maxlat", "species")
+maxlats.nam$continent <- "north america"
+
+minmax.nam <- cbind(minlats.nam, maxlats.nam)
+
+
+minmaxs <- rbind(minmax.eur, minmax.nam)
+
+
+
+minmaxs$species <- ifelse(minmaxs$species=="betulent", "Betula_lenta", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="popugran", "Populus_grandidentata", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="fagugran", "Fagus_grandifolia", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="querrubr", "Quercus_rubra", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="acerpens", "Acer_pensylvanicum", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="betupapy", "Betula_papyrifera", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="fraxnigr", "Fraxinus_excelsior", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="alnurubr", "Alnus_rubra", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="pseumenz", "Pseudotsuga_menziesii", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="prunpens", "Prunus_pensylvanica", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="betualle", "Betula_alleghaniensis", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="acersacr", "Acer_saccharum", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="alnurugo", "Alnus_incana", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="acerrubr", "Acer_rubrum", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="corycorn", "Cornus_cornuta", minmaxs$species)
+minmaxs$species <- ifelse(minmaxs$species=="piceglau", "Picea_glauca", minmaxs$species)
+
+minmaxs<- subset(minmaxs, select=c("minlong", "minlat", "species", "continent", "maxlong", "maxlat"))
+
+write.csv(minmaxs, file="output/minmax_rangeextent.csv", row.names=FALSE)
+
+
+
+
+##### TO SAVE FOR NOW!!! INCLUDES CENTROID DATA! #########
+minlats.nam <- as.data.frame(minlatspecies)
 colnames(minlats.nam) <- c("long","lat", "species")
 minlats.nam$continent <- "north america"
 minlats.nam$type <- "min"
@@ -261,4 +312,11 @@ allspplats$species <- ifelse(allspplats$species=="corycorn", "Cornus_cornuta", a
 allspplats$species <- ifelse(allspplats$species=="piceglau", "Picea_glauca", allspplats$species)
 
 write.csv(allspplats, file="~/Documents/git/ospree/analyses/ranges/output/latitudeextents_allspp.csv", row.names=FALSE)
+
+
+
+######## JUST PREPPING FOR LAT MODELS NOW WITHOUT CENTROID DATA TO START ###########
+
+
+
 

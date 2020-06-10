@@ -10,7 +10,8 @@ data {
   // Model of pheno
   int < lower = 1 > Npheno; // Sample size for pheno data 
   
-  vector[N] rangedat; // y lat data 
+  vector[N] mindat; // y min lat data 
+  vector[N] maxdat; // y max lat data 
   
  	vector[Npheno] phendat; // y pheno data 
  	vector[Npheno] photoperiod; // predictor photoperiod 
@@ -23,43 +24,47 @@ parameters{
 	// Model of lat
 	real <lower =0> sigma_y; // overall variation accross observations for lat
 	
-  vector[nsp] a_lat_sp; // grand mean for lat
-  vector[nsp] a_extent_sp; // grand mean for latitudinal extent of range
-  
-	real <lower = 0> sigma_sp; // variation of intercept amoung species
-	vector[nsp] mua_sp; // mean of the alpha value for species
+  vector[nsp] a_mins_sp; // lower 10% of min latitudes per species
+  vector[nsp] a_maxs_sp; // upper 10% of max latitudes per species
 	
   // Model of pheno
 	real <lower =0> sigma_ypheno; // overall variation accross observations for pheno
 	real <lower = 0> sigma_apheno; // variation of intercept amoung species for pheno
+	real <lower = 0> sigma_sp; // variation of intercept amoung species
+	vector[nsp] mua_sp; // mean of the alpha value for species
 	vector[nsppheno] mua_spheno; // mean of the alpha value for species for pheno
 	real <lower = 0> sigma_bphoto; // variation of intercept amoung species for pheno
 	vector[nsppheno] muaphoto; // mean of the alpha value for species for pheno
-  real bphoto_range; // our beta!
+	
+  real bphoto_minlat; // our beta!
+  real bphoto_maxlat; // another beta!
   
 }
 
 transformed parameters{
-	 real b_photo_final =  muaphoto + bphoto_range * mua_sp;
+	 vector[nsppheno] b_photomin_final =  muaphoto + bphoto_minlat * mua_sp;
+   vector[nsppheno] b_photomax_final =  muaphoto + bphoto_maxlat * mua_sp;
+	 
 }
 
 
 model{ 
-	real ypredpheno[Npheno];
+	real ypredpheno;
 	
-	vector[N] ymins = a_mins_sp[species];  
+	vector[N] ymins = a_mins_sp[species]; 
+	vector[N] ymaxs = a_maxs_sp[species]; 
 	
 	for (iph in 1:Npheno){
-	ypredpheno[iph] = a_spheno[speciespheno[iph]] + b_photo_final[iph] * photoperiod[iph];
+	ypredpheno = mua_spheno[speciespheno[iph]] + 
+	                          b_photomin_final[speciespheno[iph]] * photoperiod[iph] + 
+	                    b_photomax_final[speciespheno[iph]] * photoperiod[iph];
         }
 	
-	mua_sp ~ normal(0, sigma_sp);
+	//mua_sp ~ normal(0, sigma_sp);
 
 	sigma_y ~ normal(0, 3);
-  a_lat_sp ~ normal(40, 10);
-  a_extent_sp ~ normal(10, 10);
-  
-	sigma_sp ~ normal(0, 10);
+	mua_sp ~ normal(0, sigma_sp);
+  sigma_sp ~ normal(0, 10);
 
   // Model of pheno
   mua_spheno ~ normal(0, sigma_apheno);
@@ -69,7 +74,8 @@ model{
   sigma_bphoto ~ normal(0, 5);
 
 	// likelihoods 
-  rangedat ~ normal(yrange, sigma_y);
+  mindat ~ normal(ymins, sigma_y);
+  maxdat ~ normal(ymaxs, sigma_y);
   phendat ~ normal(ypredpheno, sigma_ypheno);
   
 }
