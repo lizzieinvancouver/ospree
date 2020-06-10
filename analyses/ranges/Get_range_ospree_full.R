@@ -110,15 +110,13 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     spsshape <- shapefile(zipped_name.i[3])
     
     ## need to re-project shape from lamber equal area to geographic
-    ## 
     spsshapeproj<-spTransform(spsshape,proj4string(chillsub1[[1]]))
-    #lines(spsshapeproj)
-    #plot(chillsub1[[1]])
+    
+    # get list of pixels to extract data (speeds things up)
     pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
-    npix<-length(pixels.sps.i)
-    ## loop across years to extract each years averages and stddevs
-    # save first an array to store results
-    #period=2005:2007
+    npix<-length(pixels.sps.i) # number of pixels
+    
+    # create an array to store results
     yearlyresults<-array(NA,dim=c(npix,9,length(period)))
     colnames(yearlyresults)<-c("x","y",
                                "GDD","GDD.lastfrost",
@@ -126,23 +124,28 @@ extractchillforce<-function(spslist,tmin,tmax,period){
                                "Mean.Chill.Utah","Mean.Chill.Portions")
     
     
+    
+    ## loop across years to extract each years averages and stddevs
+    
     for(j in period){#j=1980
       print(paste(i,j))
       
-      
+      ## load two consecutive years each time
       yearsinperiod<-which(yearsinclim%in%c(j,j+1))
       climsub.min<-subset(tmin,yearsinperiod)
       climsub.max<-subset(tmax,yearsinperiod)
       
-      ## subset climate by months & days
+      ## subset climate by months & days (10th Oct - 28Feb; 1Jan - 31st May)
       chillsub1<-subset(climsub.min,274:424)
       chillsub2<-subset(climsub.max,274:424)
       forcesub1<-subset(climsub.min,1:151)
       forcesub2<-subset(climsub.max,1:151)
       
+      ## find if there are NAs in some pixels (due to overlap with lakes or sea)
       nas<-which(is.na(values(forcesub1)[pixels.sps.i]))
       
       
+      ## remove NAs if necessary
       if(length(nas)>0){
         # extract values and format to compute means and sdevs
         ch<-chillsub1[pixels.sps.i][-nas,]
@@ -153,28 +156,33 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         # add coordinates and names
       chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i[-nas],]
       yearlyresults[-nas,1:2,]<-chcoord
+      
       } else {
+        
         ch<-chillsub1[pixels.sps.i]
         ch2<-chillsub2[pixels.sps.i]
         ff<-forcesub1[pixels.sps.i]
         ff2<-forcesub2[pixels.sps.i]
         
-      chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i,]
-      yearlyresults[,1:2,]<-chcoord
+        # add coordinates and names
+        chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i,]
+        yearlyresults[,1:2,]<-chcoord
+        
       }
+      
+      # build final data to extract climate for chilling and forcing 
       ch<-cbind(chcoord,ch[,1:ncol(ch)])
       ch2<-cbind(chcoord,ch2[,1:ncol(ch2)])
       ff<-cbind(chcoord,ff[,1:ncol(ff)])
       ff2<-cbind(chcoord,ff2[,1:ncol(ff2)])
       
-      
+      # correct if row numbers do not agree
       if(nrow(ch)!=nrow(ch2)){
         namcoo1<-apply(chcoord,1,function(x){return(paste(x[1],x[2],sep="_"))})  
         namcoo2<-apply(chcoord2,1,function(x){return(paste(x[1],x[2],sep="_"))})  
         
         torem<-which(!namcoo1%in%namcoo2)
         torem2<-which(!namcoo2%in%namcoo1)
-        
         
         if(length(torem)>0){
           ch=ch[-torem,]    
@@ -183,15 +191,15 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         if(length(torem2)>0){
           ch2=ch2[-torem2,]    
         }
-        
-        
       }
       
+      ## dates in data
       datesch<-as.Date(colnames(ch),format="X%Y.%m.%d")[3:ncol(ch)]
       
       
       
       ## calculate chilling (Utah) and GDD across the period
+      
       ## GDDs
       gddseachcelleachday<-apply(ff2[,3:ncol(ff2)],2,function(x){
         Tb<-10
@@ -202,15 +210,12 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       
       
       ## GDDs till day of last frost
-      
       ## calculate last date of frost and GDD until then
       last.frost<-apply(ff[,3:ncol(ff)],1,function(x){
         a<-which(x<(-5))
-        return(ifelse(length(a)>0,max(a),NA)) 
-      }) 
+        return(ifelse(length(a)>0,max(a),NA))}) 
       
       ff3<-cbind(last.frost,ff2[,-c(1:2)])
-      
       
       gddseachcelleachdaylastfrost<-apply(ff3,1,function(x){
         #x<-ff3[922,]
@@ -228,9 +233,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         }
         return(gdd)})
       
-      
       gddssumlastfrost<-rowSums(t(gddseachcelleachdaylastfrost),na.rm = T)
-      
       
       
       #library(abind)
@@ -238,6 +241,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       
       #for(i in 1:366){print(sum(is.na(minmaxtemp[i,,])))}
       
+      ## compute chilling
       nodata<-which(apply(minmaxtemp,1,function(x){return(ifelse(sum(is.na(x[,1:2]))>0,T,F))}))
       if(length(nodata)>0){minmaxtemp=minmaxtemp[-nodata,,]}
 
@@ -262,7 +266,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
                                          }
                                          ))
 
-    
+     ## store results
       yearlyresults[-nas,3,which(period == j)] <- gddssum
       yearlyresults[-nas,4,which(period == j)] <- gddssumlastfrost
       yearlyresults[-nas,5,which(period == j)] <- last.frost
@@ -287,7 +291,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
 }
 
 
-## apply function (beware this function takes ~7mins per year, consider 
+## apply function (beware this function takes a couple mins per year, consider 
 ## parallelizing)
 Climate.in.range.list<-list()
 for(i in 1:length(spslist)){
@@ -295,7 +299,7 @@ for(i in 1:length(spslist)){
 }
 
 #save(Climate.in.range.list,file = "output/Climate.in.range.EUspFULL.RData")
-load("output/Climate.in.range.EUspFULL.RData")
+#load("output/Climate.in.range.EUspFULL.RData")
 
 
 
@@ -388,6 +392,21 @@ write.csv(list.allspsjoint,file = "output/Synthesis_climate_EUsps.csv")
 
 ## plot geographic vs. temporal variation
 
+seqgdd<-seq(1,nrow(list.allspsjoint),7)
+seqgdd.frost<-seq(2,nrow(list.allspsjoint),7)
+seqmintemp<-seq(4,nrow(list.allspsjoint),7)
+
+plot(list.allspsjoint$Geo.Mean[seqgdd],
+     list.allspsjoint$Temp.Mean[seqgdd],xlim=c(360,430),ylim=c(360,430),
+     pch=16,xlab="GDD - geographic mean",ylab="GDD - temporal mean")
+
+
+plot(list.allspsjoint$Geo.Mean[seqgdd.frost],
+     list.allspsjoint$Temp.Mean[seqgdd.frost],#xlim=c(360,430),ylim=c(360,430),
+     pch=16,xlab="GDD last frost - geographic mean",ylab="GDD last frost - temporal mean")
+
+plot(list.allspsjoint$Geo.Mean[seqmintemp],
+     list.allspsjoint$Temp.Mean[seqmintemp])
 
 
 
@@ -427,6 +446,90 @@ save(Climate.in.range, file = paste("output/climate.in.range",
 
 ## remove aux unnecessary files
 unlink("chorological_maps_dataset/*", recursive = T)
+
+
+
+
+## load packages
+library('raster')
+library('ncdf4')
+library('abind')
+library('chillR')
+
+dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
+
+
+year1<-subset(dat,year==1980)
+
+synth.data<-function(dat){
+  
+  years = unique(dat$year)
+  nyears = length(years)
+  dat$ID = rep(1:nrow(year1),nyears)
+  
+  storing = array(NA, dim=c(7,4))
+  row.names(storing) = colnames(dat)[4:10]
+  colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+  
+  
+  means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
+  SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
+  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+  
+  storing[,1] <- colMeans(means.years, na.rm = T)[5:11]
+  storing[,2] <- colMeans(SDs.years, na.rm = T)[5:11]
+  storing[,3] <- colMeans(means.sites, na.rm = T)[5:11]
+  storing[,4] <- colMeans(SDs.sites, na.rm = T)[5:11]
+  
+  return(storing)
+}
+
+
+sps.1<-synth.data(dat)
+
+
+
+
+## load climate data rasters (these data are not currently in the ospree folder 
+tmin<-brick("~/Data_Harvard/EU trees/tn_0.50deg_reg_v17.0.nc", varname="tn", sep="")
+
+
+# get the file address for target file
+# spsi = "Abies_alba"
+
+# load shapefile
+spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset/Abies alba/shapefiles/Abies_alba_plg.shp")
+
+## need to re-project shape from lamber equal area to geographic
+## 
+spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
+## code to plot within range climate interannual variation
+library(RColorBrewer)
+
+means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+
+par(mfrow=c(2,3))
+for(i in c(5,6,8:11)){
+  
+  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
+  
+  plot(means.sites$x,means.sites$y,col=cols1,pch=16,cex=1.5,
+       main=colnames(SDs.sites)[i])
+  lines(spsshapeproj)
+}
+
+par(mfrow=c(2,3))
+for(i in c(5,6,8:11)){
+  
+  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.years[,i],breaks = 100))]
+  
+  plot(means.years$x,means.years$y,#col=cols1,pch=16,cex=1.5,
+       main=colnames(SDs.sites)[i])
+  lines(spsshapeproj)
+}
+
 
 
 
