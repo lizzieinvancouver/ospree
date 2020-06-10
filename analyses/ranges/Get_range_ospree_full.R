@@ -29,6 +29,7 @@ library('raster')
 library('ncdf4')
 library('abind')
 library('chillR')
+library('RColorBrewer')
 
 
 
@@ -68,14 +69,8 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   ## define array to store results
   nsps<-length(spslist)
   nyears<-length(period)
-  #chillforcespsyears <- array(NA,dim=c(nyears,6,nsps))
-  #row.names(chillforcespsyears)<-period
-  #colnames(chillforcespsyears)<-c("Mean.GDD",
-   #                               "SDev.GDD.sites","Mean.Chill.Utah","SDev.Chill.Utah",
-    #                              "Mean.Chill.Portions","SDev.Chill.Portions")
   minmaxtemps.eachsps <- list()
   
-  #dimnames(chillforcespsyears)<-spslist
   
   ## subset climate years
   yearsinclim<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
@@ -84,7 +79,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   values(ras.numpixels)<-1:ncell(ras.numpixels)
   
   ## commence loop  
-  for (i in 1:nsps){#i=2
+  for (i in 1:nsps){#i=3
     spsi<-spslist[i]
     print(spsi)
     
@@ -147,24 +142,23 @@ extractchillforce<-function(spslist,tmin,tmax,period){
       
       nas<-which(is.na(values(forcesub1)[pixels.sps.i]))
       
-      # extract values and format to compute means and sdevs
-      #tempschillsmin<-extract(yearschillmin,spsshapeproj,cellnumbers=T)
-      ch<-chillsub1[pixels.sps.i][-nas,]
       
-      #tempschillsmax<-extract(yearschillmax,spsshapeproj,cellnumbers=T)
-      ch2<-chillsub2[pixels.sps.i][-nas,]
-      
-      #tempsforces<-extract(yearsforce,spsshapeproj,cellnumbers=T)
-      ff<-forcesub1[pixels.sps.i][-nas,]
-      ff2<-forcesub2[pixels.sps.i][-nas,]
-      
-    
-      
-      # add coordinates and names
       if(length(nas)>0){
+        # extract values and format to compute means and sdevs
+        ch<-chillsub1[pixels.sps.i][-nas,]
+        ch2<-chillsub2[pixels.sps.i][-nas,]
+        ff<-forcesub1[pixels.sps.i][-nas,]
+        ff2<-forcesub2[pixels.sps.i][-nas,]
+        
+        # add coordinates and names
       chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i[-nas],]
       yearlyresults[-nas,1:2,]<-chcoord
       } else {
+        ch<-chillsub1[pixels.sps.i]
+        ch2<-chillsub2[pixels.sps.i]
+        ff<-forcesub1[pixels.sps.i]
+        ff2<-forcesub2[pixels.sps.i]
+        
       chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i,]
       yearlyresults[,1:2,]<-chcoord
       }
@@ -299,7 +293,133 @@ Climate.in.range.list<-list()
 for(i in 1:length(spslist)){
   Climate.in.range.list[[i]]<-extractchillforce(spslist[i],tmin,tmax,period)
 }
-Climate.in.range.list[[1]][[1]][,,20]
+
+#save(Climate.in.range.list,file = "output/Climate.in.range.EUspFULL.RData")
+load("output/Climate.in.range.EUspFULL.RData")
+
+
+
+## Code to save individual species
+#Climate.in.range.list[[1]][[1]][,,20]
+
+
+for(j in 1:length(Climate.in.range.list)){  
+sps.1<-as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
+sps.1$year<-1980
+
+for(i in 2:37){
+  print(i)
+  temp.sps<-as.data.frame(Climate.in.range.list[[4]][[1]][,,i])
+  temp.sps$year<-c(1980:2016)[i]
+  sps.1<-rbind(sps.1,temp.sps)
+  
+}
+
+namesave <- paste("output/",spslist[j],"_fullextract.csv",sep="")
+write.csv(sps.1,file = namesave)
+}
+
+
+#spslist
+#write.csv(sps.1,file = "output/Abies_alba_fullextract.csv")
+
+
+
+## synthetize and summarize data geographically and temporally
+#dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
+
+
+
+synth.data<-function(Climate.in.range.list){
+  list.synthesis<-list()
+  
+  for(j in 1:length(Climate.in.range.list)){  #j=1
+    sps.1<-as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
+    sps.1$year<-1980
+    
+    for(i in 2:37){
+      print(paste(spslist[j],i))
+      temp.sps<-as.data.frame(Climate.in.range.list[[4]][[1]][,,i])
+      temp.sps$year<-c(1980:2016)[i]
+      sps.1<-rbind(sps.1,temp.sps)
+      
+    }
+    
+  dat<-sps.1
+  year1<-subset(dat,year==1980)
+  
+  
+  years = unique(dat$year)
+  nyears = length(years)
+  dat$ID = paste(dat$x,dat$y)
+  
+  storing = array(NA, dim=c(7,4))
+  row.names(storing) = colnames(dat)[3:9]
+  colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+  
+  
+  means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
+  SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
+  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+  
+  storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
+  storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
+  storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
+  storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
+  
+  list.synthesis[[j]]<-storing
+  }
+  
+  return(list.synthesis)
+}
+
+
+list.allsps<-synth.data(Climate.in.range.list)
+
+
+## join values from the list and save
+list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
+list.allspsjoint$species <- sort(rep(spslist,7))
+list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],22)
+
+write.csv(list.allspsjoint,file = "output/Synthesis_climate_EUsps.csv")
+
+
+## plot geographic vs. temporal variation
+
+
+
+
+
+### plotting a few example species
+# get the file address for target file
+# spsi = "Abies_alba"
+
+# load shapefile
+spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset/Abies alba/shapefiles/Abies_alba_plg.shp")
+
+## need to re-project shape from lamber equal area to geographic
+## 
+spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
+## code to plot within range climate interannual variation
+
+means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+
+par(mfrow=c(2,3))
+for(i in c(5,6,8:11)){
+  
+  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
+  
+  plot(means.sites$x,means.sites$y,col=cols1,pch=16,cex=1.5,
+       main=colnames(SDs.sites)[i])
+  lines(spsshapeproj)
+}
+
+
+
+
 
 ## saving outputs
 save(Climate.in.range, file = paste("output/climate.in.range",
