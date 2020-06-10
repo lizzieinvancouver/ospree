@@ -90,14 +90,14 @@ for (i in 1:nsps){#i=1
   allcoords <- as.data.frame(coordinates(spTransform(spsshape, CRS("+proj=longlat +datum=WGS84"))))
   colnames(allcoords) <- c("long", "lat")
   
-  min.threshold <- quantile(allcoords$lat, probs=c(0.20))
+  min.threshold <- quantile(allcoords$lat, probs=c(0.10))
   minlats.df <- allcoords[(allcoords$lat<=min.threshold),]
   
-  max.threshold <- quantile(allcoords$lat, probs=c(0.80))
+  max.threshold <- quantile(allcoords$lat, probs=c(0.90))
   maxlats.df <- allcoords[(allcoords$lat>=max.threshold),]
   
-  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.40))
-  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.60))
+  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.42))
+  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.58))
   meanlats.df <- allcoords[(allcoords$lat<=meanmax.threshold & allcoords$lat>=meanmin.threshold),]
   
   minlats.spsi <- cbind(minlats.df, rep(spsi, nrow(minlats.df)))
@@ -167,7 +167,7 @@ maxlatspecies <- c()
 meanlatspecies <- c()
 
 ## commence loop  
-for (i in 1:nsps){#i=17
+for (i in 1:nsps){#i=1
   spsi<-ospreefolder[i]
   print(spsi)
   
@@ -180,7 +180,7 @@ for (i in 1:nsps){#i=17
   
   # get the file address for target file
   shpsource <-"NA_ranges"
-  zipped_name.i <- grep(paste0(paste(shpsource, spsi, spsi, sep="/"), ".shp"), 
+  zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), 
                         unzipped, ignore.case = TRUE, value = TRUE)
   
   # extract target file
@@ -195,14 +195,14 @@ for (i in 1:nsps){#i=17
   allcoords <- as.data.frame(coordinates(spTransform(spsshape, CRS("+proj=longlat +datum=WGS84"))))
   colnames(allcoords) <- c("long", "lat")
   
-  min.threshold <- quantile(allcoords$lat, probs=c(0.20))
+  min.threshold <- quantile(allcoords$lat, probs=c(0.10))
   minlats.df <- allcoords[(allcoords$lat<=min.threshold),]
   
-  max.threshold <- quantile(allcoords$lat, probs=c(0.80))
+  max.threshold <- quantile(allcoords$lat, probs=c(0.90))
   maxlats.df <- allcoords[(allcoords$lat>=max.threshold),]
   
-  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.40))
-  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.60))
+  meanmin.threshold <- quantile(allcoords$lat, probs=c(0.42))
+  meanmax.threshold <- quantile(allcoords$lat, probs=c(0.58))
   meanlats.df <- allcoords[(allcoords$lat<=meanmax.threshold & allcoords$lat>=meanmin.threshold),]
   
   minlats.spsi <- cbind(minlats.df, rep(spsi, nrow(minlats.df)))

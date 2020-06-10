@@ -48,14 +48,38 @@ N <- length(simtrait$trait)
 traitstan <- list(traitdat = simtrait$trait, N = N, nsp = nsp, species = simtrait$sp, 
                   study = simtrait$study, nstudy = nstudy)
 
-
+if(FALSE){
 traitfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointtrait_traitmodel_ncp.stan", data = traitstan, warmup = 2000, iter = 3000,
                            chains = 4, cores = 2,  control=list(max_treedepth = 15)) 
 
 save(traitfit.ncp, file="/n/wolkovich_lab/Lab/Cat/traitfit_ncp.Rda")
 
 
+load("~/Desktop/traitfit_ncp.Rda")
+traitfitpost <- extract(traitfit.ncp)
+fitsum <- summary(traitfit.ncp)$summary
 
+# pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
+# pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
+
+# Checking against sim data
+sigma_y
+sigma_asp
+sigma_astudy
+fitsum[grep("sigma", rownames(fitsum)), "mean"] # 0.5, 10.5, 4.9 currently
+
+# Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
+agrand
+fitsum[grep("agrand", rownames(fitsum)),"mean"] # 35.5 
+
+mua_sp
+fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]
+plot(fitsum[grep("mua_sp\\[", rownames(fitsum)),"mean"]~mua_sp) # pretty not good
+
+mua_study
+fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"] 
+plot(fitsum[grep("mua_study\\[", rownames(fitsum)),"mean"]~mua_study) # pretty not good
+}
 
 #--------------------------------------
 # Now simulate the phenology side
