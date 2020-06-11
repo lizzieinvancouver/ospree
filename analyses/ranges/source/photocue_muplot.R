@@ -20,13 +20,13 @@ plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
      xlab="Model estimate change in photoperiod cue", ylab="", main=nameforfig)
 axis(2, at=1:3, labels=rev(c("Intercept", "Minimum \nLatitude", "Maximum \nLatitude")), las=1)
 abline(v=0, lty=2, col="darkgrey")
-rownameshere <- c("a_photo", "a_mins_sp", "a_maxs_sp")
-ppeffects <- c("a_photo", "a_mins_sp", "a_maxs_sp") # or 1:4 here...
+rownameshere <- c("a_photo", "b_photomin", "b_photomax")
+ppeffects <- c("a_photo", "b_photomin", "b_photomax") # or 1:4 here...
 for(i in 1:3){ #i=2
   p <- NA
   p <- ifelse(i==1, "a_photo", p)
-  p <- ifelse(i==2, "a_mins_sp", p)
-  p <- ifelse(i==3, "a_maxs_sp", p)
+  p <- ifelse(i==2, "b_forcemin", p)
+  p <- ifelse(i==3, "b_forcemax", p)
   pos.y<-(3:1)[i]
   pos.x<-summary(modelhere)$summary[mean(grep(p, rownames(summary(modelhere)$summary))),"mean"]
   lines(summary(modelhere)$summary[mean(grep(p, rownames(summary(modelhere)$summary))),c("25%","75%")],rep(pos.y,2),col="darkgrey")

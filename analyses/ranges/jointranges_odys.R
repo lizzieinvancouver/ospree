@@ -7,144 +7,11 @@
 
 library(rstan)
 
-# housekeeping
-rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-library(rstan)
-set.seed(12221)
+rstan_options(auto_write = TRUE)
+options(mc.cores = parallel::detectCores())
 
-
-# setwd
-# Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
-} else if
-(length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses/ranges") 
-} else 
-  setwd("~/Documents/git/ospree/analyses/ranges")
-
-#--------------------------------------
-# Set up the lat model - we can change to whatever range parameter we choose to use in the future
-# lat ~ agrand + a[sp] + a[study] + sigma_y 
-# a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
-
-# Parameters
-a_min <- 30
-a_max <- 60
-#a_mean <- 45
-sigma_y <- 5
-
-n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
-nsp <- 30 # number of species
-
-### This will be a fixed effects model but I think we need some mua_sp to create some variation around our species estimates
-sigma_asp <- 0.5
-mua_sp <- rnorm(nsp, 0, sigma_asp)
-
-# Set up the data ...
-simlat <- data.frame(sp=rep(1:nsp, each=10), mua_sp=rep(mua_sp, each=10))
-
-simlat$minlat <- a_min + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-simlat$maxlat <- a_max + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-#simlat$meanlat <- a_mean + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
-
-library(lme4)
-# Fixed effects should be very close to coefficients used in simulating data
-summary(lme1 <- lmer(minlat ~ (1|sp), data = simlat)) 
-ranef(lme1)
-fixef(lme1)
-
-summary(lme2 <- lmer(maxlat ~ (1|sp), data = simlat)) 
-ranef(lme2)
-fixef(lme2)
-
-#summary(lme3 <- lmer(meanlat ~ (1|sp), data = simlat)) 
-#ranef(lme3)
-#fixef(lme3)
-
-plot(ranef(lme1)$sp[,], mua_sp)
-plot(ranef(lme2)$sp[,], mua_sp)
-#plot(ranef(lme3)$sp[,], mua_sp)
-
-# Close enough to validate trying Stan, I think
-N <- length(simlat$minlat)
-latstan <- list(mindat = simlat$minlat, maxdat = simlat$maxlat, meandat = simlat$meanlat, N = N, 
-                nsp = nsp, species = simlat$sp)
-
-# Try to run the Stan model
-latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
-    chains = 4,  control=list(max_treedepth = 15)) 
-fitsum <- summary(latfit)$summary
-
-# pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
-# pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
-
-# Checking against sim data
-sigma_y
-a_min
-a_max
-a_mean
-fitsum[grep("sigma", rownames(fitsum)), "mean"] # 5.09
-fitsum[grep("a_", rownames(fitsum)), "mean"]
-    
-# Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
-a_min
-mean(fitsum[grep("a_mins_sp", rownames(fitsum)),"mean"]) # 30.19
-a_max
-mean(fitsum[grep("a_maxs_sp", rownames(fitsum)),"mean"]) # 60.08
-a_mean
-mean(fitsum[grep("a_means_sp", rownames(fitsum)),"mean"]) # 44.7
-
-fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$minlat, simlat$sp))) # pretty good
-
-fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$maxlat, simlat$sp))) # pretty good
-
-fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$meanlat, simlat$sp))) # pretty good
-
-
-if(FALSE){
-##### Great! Now let's work with real data...
-latdat <- read.csv("output/minmax_rangeextent.csv")
-
-N <- length(latdat$minlat)
-latstan <- list(mindat = latdat$minlat, maxdat = latdat$maxlat, 
-                N = N, 
-                species = as.numeric(as.factor(latdat$species)), nsp = length(unique(latdat$species)))
-
-latmodel <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
-               chains = 4,  control=list(max_treedepth = 15)) 
-
-fitsum <- summary(latmodel)$summary
-
-ymins <- latdat$minlat
-ymaxs <- latdat$maxlat
-
-fitsum[grep("sigma", rownames(fitsum)), "mean"] # 5.09
-fitsum[grep("a_", rownames(fitsum)), "mean"]
-
-# Checking against sim data more, these are okay matches (sp plots suggest we need more species for good estimates?)
-mean(latdat$minlat) ## 40.1
-mean(fitsum[grep("a_mins_sp", rownames(fitsum)),"mean"]) # 38.2
-mean(latdat$maxlat) ## 53.96
-mean(fitsum[grep("a_maxs_sp", rownames(fitsum)),"mean"]) # 51.9
-#a_mean
-#mean(fitsum[grep("a_means_sp", rownames(fitsum)),"mean"]) # 44.7
-
-fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("a_mins_sp\\[", rownames(fitsum)),"mean"]~unique(ave(latdat$minlat, latdat$species))) # okay
-
-fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]
-plot(fitsum[grep("a_maxs_sp\\[", rownames(fitsum)),"mean"]~unique(ave(latdat$maxlat, latdat$species))) # not great
-
-#fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]
-#plot(fitsum[grep("a_means_sp\\[", rownames(fitsum)),"mean"]~unique(ave(simlat$meanlat, simlat$sp))) 
-
-
-shinystan::launch_shinystan(latmodel)
-}
 
 #--------------------------------------
 # Now simulate the phenology side
@@ -260,10 +127,10 @@ latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
 jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 1000, iter = 2000,
     chains = 2, cores = 2,  control=list(max_treedepth = 15)) 
 
-#save(jointfit, file="output/stan/jointlatphoto.Rda")
+save(jointfit, file="/n/wolkovich_lab/Lab/Cat/ranges_jointmod.Rda")
 
 
-
+if(FALSE){
 if(!runfullmodel){
 load("output/stan/jointlatphoto.Rda")
 }
@@ -383,4 +250,4 @@ source("source/chillcue_muplot.R")
 figpathmore <- "chillcue"
 muplotfx(modelhere, "", 7, 8, c(0,3), c(-15, 10) , 12, 3)
 
-
+}

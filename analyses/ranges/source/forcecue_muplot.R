@@ -20,13 +20,13 @@ plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
      xlab="Model estimate change in forcing cue", ylab="", main=nameforfig)
 axis(2, at=1:3, labels=rev(c("Intercept", "Minimum \nLatitude", "Maximum \nLatitude")), las=1)
 abline(v=0, lty=2, col="darkgrey")
-rownameshere <- c("a_force", "a_mins_sp", "a_maxs_sp")
-ppeffects <- c("a_force", "a_mins_sp", "a_maxs_sp") # or 1:4 here...
+rownameshere <- c("a_force", "b_forcmin", "b_forcmax")
+ppeffects <- c("a_force", "b_forcmin", "b_forcmax") # or 1:4 here...
 for(i in 1:3){
   f <- NA
   f <- ifelse(i==1, "a_force", f)
-  f <- ifelse(i==2, "a_mins_sp", f)
-  f <- ifelse(i==3, "a_maxs_sp", f)
+  f <- ifelse(i==2, "b_forcemin", f)
+  f <- ifelse(i==3, "b_forcemax", f)
   pos.y<-(3:1)[i]
   pos.x<-summary(modelhere)$summary[mean(grep(f, rownames(summary(modelhere)$summary))),"mean"]
   lines(summary(modelhere)$summary[mean(grep(f, rownames(summary(modelhere)$summary))),c("25%","75%")],rep(pos.y,2),col="darkgrey")

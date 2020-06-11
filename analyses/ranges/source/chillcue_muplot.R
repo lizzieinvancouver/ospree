@@ -20,13 +20,13 @@ plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
      xlab="Model estimate change in chilling cue", ylab="", main=nameforfig)
 axis(2, at=1:3, labels=rev(c("Intercept", "Minimum \nLatitude", "Maximum \nLatitude")), las=1)
 abline(v=0, lty=2, col="darkgrey")
-rownameshere <- c("a_chill", "a_mins_sp", "a_maxs_sp")
-ppeffects <- c("a_chill", "a_mins_sp", "a_maxs_sp") # or 1:4 here...
+rownameshere <- c("a_chill", "b_chillmin", "b_chillmax")
+ppeffects <- c("a_chill", "b_chillmin", "b_chillmax") # or 1:4 here...
 for(i in 1:3){ #i=2
   c <- NA
   c <- ifelse(i==1, "a_chill", c)
-  c <- ifelse(i==2, "a_mins_sp", c)
-  c <- ifelse(i==3, "a_maxs_sp", c)
+  c <- ifelse(i==2, "b_chillmin", c)
+  c <- ifelse(i==3, "b_chillmax", c)
   pos.y<-(3:1)[i]
   pos.x<-summary(modelhere)$summary[mean(grep(c, rownames(summary(modelhere)$summary))),"mean"]
   lines(summary(modelhere)$summary[mean(grep(c, rownames(summary(modelhere)$summary))),c("25%","75%")],rep(pos.y,2),col="darkgrey")
