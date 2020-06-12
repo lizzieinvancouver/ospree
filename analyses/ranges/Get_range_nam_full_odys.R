@@ -157,7 +157,10 @@ extractchillforce<-function(spslist){
       values(tminshpchill)<-values(tminshpchill)-273.15
       
       ## need to re-project shape from lamber equal area to geographic
-      spsshapeproj<-spTransform(spsshape,proj4string(tminshpchill[[1]]))
+      #spsshapeproj <- spsshape
+      proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+      
+      spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
       
       ras.numpixels<-tminshpchill[[1]]
       values(ras.numpixels)<-1:ncell(ras.numpixels)
