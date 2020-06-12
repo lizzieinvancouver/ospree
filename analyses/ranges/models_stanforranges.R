@@ -53,8 +53,20 @@ eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnu
 "Alnus_incana", "Betula_pendula", "Betula_pubescens", "Carpinus_betulus",
 "Cornus_mas", "Corylus_avellana", "Fagus_sylvatica", "Fraxinus_excelsior", "Larix_decidua", "Picea_abies", "Populus_tremula", "Prunus_avium", "Prunus_padus", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Sorbus_aucuparia", "Tilia_cordata")    
 
-
 allspphere <- c(naspp, eurspp)
+allspphere[which(!allspphere %in% unique(bb.stan$complex.wname))]
+
+# To discuss! I swap in some species
+## START HERE! Instead of the below, better to actually pull out the original species I think ... 
+subspecies <- c("Populus_grandidentata"="Populus_tremuloides",
+                "Fagus_grandifolia"="Fagus_complex",
+                "Acer_pensylvanicum"="",
+                "Alnus_rubra"="",
+                "Prunus_pensylvanica"="",
+                "Cornus_cornuta"="",
+                "Quercus_ilex"="")
+allsppwsubs <- unname(subspecies[allspphere])
+
 
 bb.stan.orig <- bb.stan
 bb.stan <- bb.stan[which(bb.stan$complex.wname %in% allspphere),]
