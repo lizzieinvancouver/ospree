@@ -99,7 +99,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   
   yearlyresults<-array(NA,dim=c(length(period),6))
   
-  for(j in c(period)) { # j = 1980
+  for(j in period) { # j = 1980
     print(j)
     
     if(TRUE){

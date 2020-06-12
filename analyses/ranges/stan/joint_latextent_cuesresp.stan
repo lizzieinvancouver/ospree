@@ -38,8 +38,8 @@ parameters{
   real mu_photo_sp;
   real a_photo[nsppheno]; // mean of the alpha value for species for photo
   
-  real mu_bphotomin;
-  real mu_bphotomax;
+  real mu_bphotomin[nsppheno];
+  real mu_bphotomax[nsppheno];
   
 	real <lower=0> sigma_yphoto; // overall variation accross observations for photo
 	real <lower=0> sigma_bphotomin;
@@ -48,8 +48,8 @@ parameters{
 	real mu_force_sp;
 	real a_force[nsppheno]; // mean of the alpha value for species for force
 	
-	real mu_bforcemin;
-	real mu_bforcemax;
+	real mu_bforcemin[nsppheno];
+	real mu_bforcemax[nsppheno];
   
 	real <lower=0> sigma_yforce; // overall variation accross observations for force
 	real <lower=0> sigma_bforcemin;
@@ -58,8 +58,8 @@ parameters{
   real mu_chill_sp;
 	real a_chill[nsppheno]; // mean of the alpha value for species for chill
 	
-	real mu_bchillmin;
-	real mu_bchillmax;
+	real mu_bchillmin[nsppheno];
+	real mu_bchillmax[nsppheno];
   
 	real <lower=0> sigma_ychill; // overall variation accross observations for chill
 	real <lower=0> sigma_bchillmin;
@@ -77,14 +77,14 @@ transformed parameters{
   
   for(i in 1:nsppheno){
     
-    b_photomin[i] =  a_photo[i] + mu_bphotomin * mua_sp[i];
-    b_photomax[i] =  a_photo[i] + mu_bphotomax * mua_sp[i];
+    b_photomin[i] =  a_photo[i] + mu_bphotomin[i] * mua_sp[i];
+    b_photomax[i] =  a_photo[i] + mu_bphotomax[i] * mua_sp[i];
     
-	  b_forcemin[i] =  a_force[i] + mu_bforcemin * mua_sp[i];
-	  b_forcemax[i] =  a_force[i] + mu_bforcemax * mua_sp[i];
+	  b_forcemin[i] =  a_force[i] + mu_bforcemin[i] * mua_sp[i];
+	  b_forcemax[i] =  a_force[i] + mu_bforcemax[i] * mua_sp[i];
 	  
-	  b_chillmin[i] =  a_chill[i] + mu_bchillmin * mua_sp[i];
-	  b_chillmax[i] =  a_chill[i] + mu_bchillmax * mua_sp[i];
+	  b_chillmin[i] =  a_chill[i] + mu_bchillmin[i] * mua_sp[i];
+	  b_chillmax[i] =  a_chill[i] + mu_bchillmax[i] * mua_sp[i];
 	  
 	}
 }
@@ -103,14 +103,14 @@ model{
 	
 	for(i in 1:Npheno){
 	  
-	ypredphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*latmins[speciespheno[i]] + 
-	                b_photomax[speciespheno[i]]*latmaxs[speciespheno[i]];
+	ypredphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_photomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-	ypredforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*latmins[speciespheno[i]] + 
-	                b_forcemax[speciespheno[i]]*latmaxs[speciespheno[i]];
+	ypredforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_forcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-	ypredchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*latmins[speciespheno[i]] + 
-	                b_chillmax[speciespheno[i]]*latmaxs[speciespheno[i]];
+	ypredchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_chillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	
 	}
   
@@ -179,14 +179,14 @@ generated quantities {
    
    for(i in 1:Npheno){
      
-   y_ppphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*y_ppmin[speciespheno[i]] + 
-	                b_photomax[speciespheno[i]]*y_ppmax[speciespheno[i]];
+   y_ppphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_photomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*y_ppmin[speciespheno[i]] + 
-	                b_forcemax[speciespheno[i]]*y_ppmax[speciespheno[i]];
+   y_ppforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_forcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*y_ppmin[speciespheno[i]] + 
-	                b_chillmax[speciespheno[i]]*y_ppmax[speciespheno[i]];
+   y_ppchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                b_chillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
    
    }
    

@@ -11,7 +11,6 @@ library(rstan)
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-library(rstan)
 set.seed(12221)
 
 
@@ -257,35 +256,35 @@ latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
 
 
 # Try to run the Stan model 
-jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 1000, iter = 2000,
-    chains = 2, cores = 2,  control=list(max_treedepth = 15)) 
+jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 500, iter = 1000,
+    chains = 1, cores = 2,  control=list(max_treedepth = 12)) 
 
 #save(jointfit, file="output/stan/jointlatphoto.Rda")
 
 
 
 if(!runfullmodel){
-load("output/stan/jointlatphoto.Rda")
+load("~/Desktop/ranges_jointmod.Rda")
 }
 
 # Checking against sim data
 bigfitpost <- extract(jointfit)
 bigfitsum <- summary(jointfit)$summary
 
-sd(simpheno$photo) ## 7.5
-mean(bigfitsum[grep("sigma_yphoto", rownames(bigfitsum)),"mean"]) ### 7.2
-sd(simpheno$force) ## 5.4
-mean(bigfitsum[grep("sigma_yforce", rownames(bigfitsum)),"mean"]) ### 5.1
-sd(simpheno$chill) ## 7.2
-mean(bigfitsum[grep("sigma_ychill", rownames(bigfitsum)),"mean"]) ### 6.9
+sd(simpheno$photo) ## 6.74
+mean(bigfitsum[grep("sigma_yphoto", rownames(bigfitsum)),"mean"]) ### 6.96
+sd(simpheno$force) ## 12.42
+mean(bigfitsum[grep("sigma_yforce", rownames(bigfitsum)),"mean"]) ### 13.71
+sd(simpheno$chill) ## 19.64
+mean(bigfitsum[grep("sigma_ychill", rownames(bigfitsum)),"mean"]) ### 20.95
 
 
-mean(simpheno$mua_photo) ## -1.9
-mean(bigfitsum[grep("a_photo", rownames(bigfitsum)),"mean"]) ## -1.7
+mean(simpheno$mua_photo) ## -1.89
+mean(bigfitsum[grep("a_photo", rownames(bigfitsum)),"mean"]) ## 0.32
 mean(simpheno$mua_force) ## -4.1
-mean(bigfitsum[grep("a_force", rownames(bigfitsum)),"mean"]) ## -4.3
+mean(bigfitsum[grep("a_force", rownames(bigfitsum)),"mean"]) ## 0.5
 mean(simpheno$mua_chill) ## -6.4
-mean(bigfitsum[grep("a_chill", rownames(bigfitsum)),"mean"]) ## -5.5
+mean(bigfitsum[grep("a_chill", rownames(bigfitsum)),"mean"]) ## 0.92
 
 mean(simlat$minlat) ## 0.16
 mean(bigfitsum[grep("a_mins_sp", rownames(bigfitsum)),"mean"]) # 0.09
