@@ -56,9 +56,9 @@
 \begin{document}
 \SweaveOpts{concordance=FALSE}
 %SweaveOpts{concordance=TRUE}
-\bibliographystyle{..//..//refs/bibstyles/Science.bst}% 
+\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
-\title{Winter temperatures dominate spring phenological responses to warming} 
+\title{Winter temperatures predominate in spring phenological responses to warming} 
 %or Winter temperatures dominate spring phenological responses to warming
 
 \author[1,a]{A. K. Ettinger}
@@ -97,8 +97,13 @@
 
 \affil[a]{Corresponding author; current email: ailene.ettinger@tnc.org; phone: 781-296-4821; mailing address: 74 Wall Street, Seattle, Washington USA}
 
-\date{} 
+%\date{} 
 \maketitle %put the fancy title on
+\textbf{Statement of Author Contributions} 
+DF, TS, and EW conceived of the OSPREE database, which gave rise to this manuscript. All authors worked tirelessly to build the database, and all contributed data analysis and/or code. CC, DB, EW, IM, and AE created the figures. AE and EW wrote the majority of the manuscript, with substantial contributions from CC, DB, and IM; all authors reviewed and revised the manuscript. 
+
+\textbf{Data Accessibility} The OSPREE budburst database and code for models fit in this manuscript are publicly archived at KNB, doi:10.5063/F1QV3JQR \citep{wolkovich2019}.
+
 %\tableofcontents %add a table of contents
 %\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -247,6 +252,9 @@ Portions of Central Europe have experienced more dramatic warming in winter vers
 % IM-C: I guess we don't want to abound on the interactions across cues since we finally do not include those analyses, however I wouldn't be surprised if a reviewer would pick on that. I'm sure you've pondered this already, but how about including a 'caveat' sentence acknowledging that while our data don't allow to test for the effects of interactions, further experimental research would benefit from 'systematizing' those interactions to assess their role in modulating sensitivity shifts. 
 
 \bibliography{..//..//refs/ospreebibplus.bib}
+\section*{Correspondence Statement}
+Please direct correspondence and requests related to this article to the corresponding author, A. K. Ettinger, ailene.ettinger@tnc.org
+
 \section*{Acknowledgements}
 We thank the many researchers who conducted the experiments synthesized in this manuscript, B. Cook for help with climate data, E. Forrestel for assisting with data scraping; C. Zohner for sharing tables; and J. Davies, S. Elmendorf, J. HilleRisLambers, A. Phillimore, and two anonymous reviewers for helpful comments that improved the manuscript. The National Science Foundation (DBI 14-01854 to AKE), NSERC Discovery Award (RGPIN-05038 to EMW), Canada Research Chair in Temporal Ecology (EMW), and Spanish Ministry for Science and Innovation (CGL2017-86926-P to IMC) provided funding. Any opinion, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the National Science Foundation.
 
