@@ -155,3 +155,19 @@ ggpubr::ggarrange(ggplot(plotty.data,aes(cent.lat,b_force))+stat_summary(aes(col
                     geom_smooth(method="lm"),ncol=3,nrow=3,common.legend = TRUE,legend="bottom")
 dev.off()
 
+
+force1<-brm(b_force~min.y*max.y,data=plotty.data)
+chill1<-brm(b_chill~min.y*max.y,data=plotty.data)
+photo1<-brm(b_photo~min.y*max.y,data=plotty.data)
+
+
+
+force2<-brm(b_force~lat.extent*lon.extent,data=plotty.data)
+chill2<-brm(b_chill~lat.extent*lon.extent,data=plotty.data)
+photo2<-brm(b_photo~lat.extent,data=plotty.data)
+
+force3<-brm(b_force~lat.extent*cent.lat,data=plotty.data)
+chill3<-brm(b_chill~lat.extent*cent.lat,data=plotty.data)
+photo3<-brm(b_photo~lat.extent*cent.lat,data=plotty.data)
+
+
