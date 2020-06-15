@@ -80,12 +80,12 @@ if(FALSE){
 
 # define period
 #period<-1999:2016
-period<-1980:1998
+period<-c(1980:1998)
 #period<-1986:1998
 
-
+#spslist=ospreefolder
 ## set function
-extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
+extractchillforce<-function(spslist){ 
   
   ## define array to store results
   nsps<-length(spslist)
@@ -95,7 +95,7 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
     ## commence loop  
     for (i in 1:nsps){#i=1 #spslist=ospreefolder[i]
       #print(c(i, j))
-      spsi<-spslist
+      spsi<-spslist[i]
       
       ## load shape
       path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
@@ -114,8 +114,9 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
       # load shapefile
       spsshape <- shapefile(zipped_name.i[1])
       
-      for(j in c(period)) { # j = 1980
+      for(j in period) { # j = 1980
         print(j)
+        #j <- j + 1979
         
         if(TRUE){
           tmaxthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
@@ -148,13 +149,6 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
         
         spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
         
-        ras.numpixels<-tminshpchill[[1]]
-        values(ras.numpixels)<-1:ncell(ras.numpixels)
-        
-        # get list of pixels to extract data (speeds things up)
-        pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
-        npix<-length(pixels.sps.i) # number of pixels
-        
         
         
       e <- extent(spsshapeproj)
@@ -176,6 +170,13 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
       tminshpchill <- stack(c(tminshpchill1, tminshpchill2))
       values(tminshpchill)<-values(tminshpchill)-273.15
       #tminshpchill <- tminshpchill[pixels.sps.i] ### ADDING THIS ROUND !!
+      
+      ras.numpixels<-tminshpchill[[1]]
+      values(ras.numpixels)<-1:ncell(ras.numpixels)
+      
+      # get list of pixels to extract data (speeds things up)
+      pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
+      npix<-length(pixels.sps.i) # number of pixels
       
       
       
@@ -230,7 +231,7 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
       
       # get coordinates and names
       chcoordmin<-coordinates(tminshpchill[[1]])[chmin[,1],]
-      chcoordmax<-coordinates(tmaxshpchill[[1]])[chmin[,1],]
+      chcoordmax<-coordinates(tmaxshpchill[[1]])[chmax[,1],]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -383,7 +384,7 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
       
     }  
   
-  return(minmaxtemps.eachsps)
+  #return(minmaxtemps.eachsps)
   
 }
 
@@ -391,13 +392,16 @@ extractchillforce<-function(spslist){ #spslist=ospreefolder[1]
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-Climate.in.range.list<-list()
+#limate.in.range.list<-list()
 period <- 1980:1999
+#spslist=ospreefolder[1]
 for(i in 1:length(ospreefolder)){ #i=1
   Climate.in.range[[i]]<-extractchillforce(ospreefolder[i])
   
   write.csv(Climate.in.range[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[i],
-                                           period[1],max(period),"csv",sep="."))
+                                                   period[1],max(period),"csv",sep="."))
+  
+  
 }
 
 
