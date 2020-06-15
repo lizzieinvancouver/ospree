@@ -21,8 +21,7 @@
 source new-modules.sh
 
 export R_LIBS_USER=$HOME/apps/R:$R_LIBS_USER
-module load gcc/7.1.0-fasrc01 R_core/3.5.1-fasrc02
-module load gcc/7.1.0-fasrc01 R_packages/3.5.1-fasrc02
+module load gcc/8.2.0-fasrc01 openmpi/3.1.1-fasrc01 R_core/3.6.1-fasrc01 R_packages/3.6.1-fasrc01
 module load gdal/2.3.0-fasrc01
 module load geos/3.6.2-fasrc01
 module load proj/5.0.1-fasrc01
