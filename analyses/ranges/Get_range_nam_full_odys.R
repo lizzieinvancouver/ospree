@@ -382,6 +382,9 @@ extractchillforce<-function(spslist){
       
       minmaxtemps.eachsps[[i]] <- yearlyresults
       
+      write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[i],
+                                                    period[1],max(period),"csv",sep="."))
+      
     }  
   
   #return(minmaxtemps.eachsps)
@@ -392,14 +395,14 @@ extractchillforce<-function(spslist){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-#limate.in.range.list<-list()
+Climate.in.range<-list()
 period <- 1980:1999
 #spslist=ospreefolder[1]
 for(i in 1:length(ospreefolder)){ #i=1
   Climate.in.range[[i]]<-extractchillforce(ospreefolder[i])
   
   write.csv(Climate.in.range[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[i],
-                                                   period[1],max(period),"csv",sep="."))
+                                                 period[1],max(period),"csv",sep="."))
   
   
 }

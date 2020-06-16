@@ -71,10 +71,11 @@ latstan <- list(mindat = simlat$minlat, maxdat = simlat$maxlat, meandat = simlat
                 nsp = nsp, species = simlat$sp)
 
 # Try to run the Stan model
+if(FALSE){
 latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
     chains = 4,  control=list(max_treedepth = 15)) 
 fitsum <- summary(latfit)$summary
-
+}
 # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
 # pairs(traitfit, pars=c("mua_sp", "mua_study", "lp__")) # very big!
 
@@ -268,7 +269,7 @@ load("~/Desktop/ranges_jointmod.Rda")
 }
 
 # Checking against sim data
-bigfitpost <- extract(jointfit)
+bigfitpost <- rstan::extract(jointfit)
 bigfitsum <- summary(jointfit)$summary
 
 sd(simpheno$photo) ## 6.74
