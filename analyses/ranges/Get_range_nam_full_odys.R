@@ -54,7 +54,7 @@ ospreespslist <- species.list[which(species.list %in% names(species.list.clean))
 # Alnus rubra
 ospreespslist <- c(ospreespslist, "Alnus_rubra")
 
-ospreefolder <- species.list.maps
+spslist <- species.list.maps
 
 
 
@@ -80,7 +80,7 @@ if(FALSE){
 
 # define period
 #period<-1999:2016
-period<-c(1980:1998)
+period<-1980:1999
 #period<-1986:1998
 
 #spslist=ospreefolder
@@ -93,8 +93,9 @@ extractchillforce<-function(spslist){
   minmaxtemps.eachsps <- list()
     
     ## commence loop  
-    for (i in 1:nsps){#i=1 #spslist=ospreefolder[i]
+    for (i in 1:nsps){#i=2 #spslist=2
       #print(c(i, j))
+      #spslist=ospreefolder[i]
       spsi<-spslist[i]
       
       ## load shape
@@ -382,12 +383,12 @@ extractchillforce<-function(spslist){
       
       minmaxtemps.eachsps[[i]] <- yearlyresults
       
-      write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[i],
+      write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
                                                     period[1],max(period),"csv",sep="."))
       
     }  
   
-  #return(minmaxtemps.eachsps)
+  return(minmaxtemps.eachsps)
   
 }
 
@@ -398,14 +399,14 @@ extractchillforce<-function(spslist){
 Climate.in.range<-list()
 period <- 1980:1999
 #spslist=ospreefolder[1]
-for(i in 1:length(ospreefolder)){ #i=1
-  Climate.in.range[[i]]<-extractchillforce(ospreefolder[i])
+#for(i in 2:length(spslist)){ #i=1
+  Climate.in.range<-extractchillforce(spslist[3])
   
-  write.csv(Climate.in.range[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",ospreefolder[i],
+  write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[3],
                                                  period[1],max(period),"csv",sep="."))
   
   
-}
+#}
 
 
 

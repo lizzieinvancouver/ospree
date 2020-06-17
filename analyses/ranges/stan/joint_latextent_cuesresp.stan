@@ -10,8 +10,8 @@ data {
   // Model of pheno
   int < lower = 1 > Npheno; // Sample size for pheno data 
   
-  vector[N] mindat; // y min lat data 
-  vector[N] maxdat; // y max lat data 
+  real mindat[N]; // y min lat data 
+  real maxdat[N]; // y max lat data 
   
  	vector[Npheno] photodat; // y photo data 
  	vector[Npheno] forcedat; // y photo data 
@@ -128,16 +128,16 @@ model{
   mua_schill ~ normal(0, sigma_achill);
   
   mua_sp ~ normal(0, sigma_sp);
-  sigma_sp ~ normal(0, 10);
+  sigma_sp ~ normal(0, 5);
   
   sigma_y ~ normal(0, 3);
   sigma_yphoto ~ normal(0, 2);
   sigma_yforce ~ normal(0, 2);
   sigma_ychill ~ normal(0, 2);
   
-  sigma_aphoto ~ normal(0, 10);
-  sigma_aforce ~ normal(0, 10);
-  sigma_achill ~ normal(0, 10);
+  sigma_aphoto ~ normal(0, 2);
+  sigma_aforce ~ normal(0, 2);
+  sigma_achill ~ normal(0, 2);
   
 
 	// likelihoods 
@@ -161,22 +161,24 @@ generated quantities {
    y_ppmin = a_mins_sp[species];
    y_ppmax = a_maxs_sp[species];
    
+   y_ppmin = normal_rng(y_ppmin, sigma_y);
+   y_ppmax = normal_rng(y_ppmax, sigma_y);
+   
    for(i in 1:Npheno){
      
-   y_ppphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+   y_ppphoto[i] = mua_sphoto[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
 	                b_photomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+   y_ppforce[i] = mua_sforce[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
 	                b_forcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+   y_ppchill[i] = mua_schill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
 	                b_chillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
    
    }
    
    //y_pp = agrand + y_ppphoto + y_ppforce + y_ppchill;
-   y_ppmin = normal_rng(y_ppmin, sigma_y);
-   y_ppmax = normal_rng(y_ppmax, sigma_y);
+   
    y_ppphoto = normal_rng(y_ppphoto, sigma_yphoto);
    y_ppforce = normal_rng(y_ppforce, sigma_yforce);
    y_ppchill = normal_rng(y_ppchill, sigma_ychill);
