@@ -37,22 +37,22 @@ parameters{
   
   real a_photo[nsppheno]; // mean of the alpha value for species for photo
   
-  real mu_bphotomin;
-  real mu_bphotomax;
+  real mu_bphotomin[nsppheno];
+  real mu_bphotomax[nsppheno];
   
 	real <lower=0> sigma_yphoto; // overall variation accross observations for photo
 
 	real a_force[nsppheno]; // mean of the alpha value for species for force
 	
-	real mu_bforcemin;
-	real mu_bforcemax;
+	real mu_bforcemin[nsppheno];
+	real mu_bforcemax[nsppheno];
   
 	real <lower=0> sigma_yforce; // overall variation accross observations for force
 
 	real a_chill[nsppheno]; // mean of the alpha value for species for chill
 	
-	real mu_bchillmin;
-	real mu_bchillmax;
+	real mu_bchillmin[nsppheno];
+	real mu_bchillmax[nsppheno];
   
 	real <lower=0> sigma_ychill; // overall variation accross observations for chill
 	

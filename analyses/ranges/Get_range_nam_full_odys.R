@@ -80,7 +80,7 @@ if(FALSE){
 
 # define period
 #period<-1999:2016
-period<-1980:1999
+#period<-1980:1999
 #period<-1986:1998
 
 #spslist=ospreefolder
@@ -93,7 +93,7 @@ extractchillforce<-function(spslist){
   minmaxtemps.eachsps <- list()
     
     ## commence loop  
-    for (i in 1:nsps){#i=2 #spslist=2
+    for (i in 1:nsps){#i=6 #spslist=2
       #print(c(i, j))
       #spslist=ospreefolder[i]
       spsi<-spslist[i]
@@ -188,51 +188,29 @@ extractchillforce<-function(spslist){
                                  "DayLastFrost","MeanTmins","SDev.Tmins",
                                  "Mean.Chill.Utah","Mean.Chill.Portions")
       
-      ## find if there are NAs in some pixels (due to overlap with lakes or sea)
-      #nas<-which(is.na(values(tmaxshpforce)[pixels.sps.i]))
-      #nas<-which(is.na(values(tminshpforce)[pixels.sps.i]))
-      #nas<-which(is.na(values(tminshpchill)[pixels.sps.i]))
-      #nas<-which(is.na(values(tminshpchill)[pixels.sps.i]))
       
-      
-      
-      #spsshapeproj <- spsshape
-      #proj4string(spsshapeproj) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
-      
-      # extract values and format to compute means and sdevs
+      # extract values and format to compute means and sdev
       forcesub1<-extract(tminshpforce,spsshapeproj,cellnumbers=TRUE)
       forcesub2<-extract(tmaxshpforce,spsshapeproj,cellnumbers=TRUE)
       chillsub1<-extract(tminshpchill,spsshapeproj,cellnumbers=TRUE)
       chillsub2<-extract(tmaxshpchill,spsshapeproj,cellnumbers=TRUE)
       
       
-      if(FALSE){
-      extractCoords <- function(spsshapeproj)
-      {
-        results <- list()
-        for(i in 1:(length(spsshapeproj@polygons)-1))
-        {
-          results[[i]] <- spsshapeproj@polygons[[i]]@Polygons[[1]]@coords
-        }
-        results <- Reduce(rbind, results)
-        results
-      }
-      sppscoords <- extractCoords(spsshapeproj)
-      }
-    
-      #foo <- chmin[pixels.sps.i] ### ADDING THIS ROUND !!
       chmin<-do.call("rbind",chillsub1)
-      chmin<-subset(chmin,!is.na(rowSums(chmin)))
       chmin<-as.data.frame(chmin)
       names(chmin) <- c("z", c(chillstart:yrend), c(1:chillend))
+      chmin <- chmin[!is.na(chmin$z),]
+      chmin <- chmin[!duplicated(chmin$z),]
       chmax<-do.call("rbind",chillsub2)
-      chmax<-subset(chmax,!is.na(rowSums(chmax)))
       chmax<-as.data.frame(chmax)
       names(chmax) <- c("z", c(chillstart:yrend), c(1:chillend))
+      chmax <- chmax[!is.na(chmax$z),]
+      chmax <- chmax[!duplicated(chmax$z),]
       
       # get coordinates and names
-      chcoordmin<-coordinates(tminshpchill[[1]])[chmin[,1],]
-      chcoordmax<-coordinates(tmaxshpchill[[1]])[chmax[,1],]
+      chcoordmin<-coordinates(tminshpchill[[1]])[pixels.sps.i,]
+      yearlyresults[,1:2,]<-chcoordmin
+      chcoordmax<-coordinates(tmaxshpchill[[1]])[pixels.sps.i,]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -256,18 +234,20 @@ extractchillforce<-function(spslist){
       }
       
       wamin<-do.call("rbind",forcesub1)
-      wamin<-subset(wamin,!is.na(rowSums(wamin)))
       wamin<-as.data.frame(wamin)
       names(wamin) <- c("z",forcestart:forceend)
+      wamin <- wamin[!is.na(wamin$z),]
+      wamin <- wamin[!duplicated(wamin$z),]
       wamax<-do.call("rbind",forcesub2)
-      wamax<-subset(wamax,!is.na(rowSums(wamax)))
       wamax<-as.data.frame(wamax)
       names(wamax) <- c("z",forcestart:forceend)
+      wamax <- wamax[!is.na(wamax$z),]
+      wamax <- wamax[!duplicated(wamax$z),]
       
-      ffcoordmin<-coordinates(tminshpforce[[1]])[wamin[,1],]
+      ffcoordmin<-coordinates(tminshpforce[[1]])[wamax[,1],]
       ffcoordmax<-coordinates(tmaxshpforce[[1]])[wamax[,1],]
-      ffmin<-cbind(ffcoordmin,wamin[,2:ncol(wamin)])
-      ffmax<-cbind(ffcoordmin,wamax[,2:ncol(wamax)])
+      ffmin<-cbind(ffcoordmin,wamin[,1:ncol(wamin)])
+      ffmax<-cbind(ffcoordmin,wamax[,1:ncol(wamax)])
       
       wamin<-wamin[,2:93]
       wamax<-wamax[,2:93]
@@ -302,7 +282,7 @@ extractchillforce<-function(spslist){
         gdd<-ifelse((x-Tb)<0,0,x-Tb)
         return(gdd)})
       gddssum<-rowSums(gddseachcelleachday)
-      #hist(gddssum)
+      names(gddssum) <- NULL
       
       
       ## GDDs till day of last frost
@@ -330,6 +310,7 @@ extractchillforce<-function(spslist){
         return(gdd)})
       
       gddssumlastfrost<-rowSums(t(gddseachcelleachdaylastfrost),na.rm = T)
+      names(gddssumlastfrost) <- NULL
       
       
       #library(abind)
@@ -383,8 +364,8 @@ extractchillforce<-function(spslist){
       
       minmaxtemps.eachsps[[i]] <- yearlyresults
       
-      write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
-                                                    period[1],max(period),"csv",sep="."))
+      #write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
+       #                                             period[1],max(period),"csv",sep="."))
       
     }  
   
@@ -397,16 +378,16 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1980:1999
-#spslist=ospreefolder[1]
-#for(i in 2:length(spslist)){ #i=1
-  Climate.in.range<-extractchillforce(spslist[3])
+period <- 1985:1990
+#spslist=spslist[16]
+for(i in 1:length(spslist)){ #i=1
+  Climate.in.range[[i]]<-extractchillforce(spslist[15])
   
-  write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[3],
+  write.csv(Climate.in.range[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[3],
                                                  period[1],max(period),"csv",sep="."))
   
   
-#}
+}
 
 
 
