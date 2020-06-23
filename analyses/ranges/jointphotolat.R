@@ -257,8 +257,8 @@ latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
 
 
 # Try to run the Stan model 
-jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 500, iter = 1000,
-    chains = 1, cores = 2,  control=list(max_treedepth = 12)) 
+jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 1000, iter = 2500,
+    chains = 4, cores = 2,  control=list(max_treedepth = 12)) 
 
 #save(jointfit, file="output/stan/jointlatphoto.Rda")
 
