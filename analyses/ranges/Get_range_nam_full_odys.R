@@ -20,7 +20,7 @@ require(chillR)
 require(lubridate)
 
 
-climatedrive = "/n/wolkovich_lab/Lab/Cat/" # Cat's climate drive
+climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
 #climatedrive = "/Volumes/climdata" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
@@ -56,31 +56,85 @@ ospreespslist <- c(ospreespslist, "Alnus_rubra")
 
 spslist <- species.list.maps
 
-
-
 if(FALSE){
   ### Attempt to stack raster layers for princeton to maybe make more streamlined...
-  allclimyrs <- 1980:2016
-  tmaxlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs, collapse="|"), full.names = TRUE), raster)
-  tmaxstack <- stack(tmaxlist)
-  tmaxall <- brick(tmaxstack)
-  #plot(tmax[[1]])
-  tminlist <- sapply(list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs,collapse="|"), full.names = TRUE), raster)
-  tminstack <- stack(tminlist)
-  tminall <- brick(tminstack)
-  #tmaxtest <- raster::stack(tmaxlist, varname="tmax",sep="")
+  allclimyrs <- 1979:2016
+  e <- extent(190, 300, 15, 75)
+  tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs,collapse="|"), full.names = TRUE)
+  # Now, let's make sure all of the dataframes have the same column names
+  tmaxlist.nam <- lapply(tmaxlist, function(x)
+    {x <- brick(x);
+  return(x)})
+  tmaxlist.nam <- lapply(tmaxlist.nam, function(x) 
+  {x <- crop(x, e) ; 
+  return(x)})
+  newextent <- extent(-170, -60, 15, 75)
+  tmaxlist.nam <- lapply(tmaxlist.nam, function(x) 
+    {extent(x) <- newextent ; 
+  return(x)})
+  tmaxlist.nam <- lapply(tmaxlist.nam, function(x)
+    {values(x)<-values(x)-273.15;
+  return(x)})
   
-  tmaxall <- rotate(tmaxall)
-  tminall <- rotate(tminall)
+  maxL <- setNames(tmaxlist.nam, paste0("tmaxcrop",c(1979:2016)))
   
-  e <- extent(-180, -50, 25, 80)
-  tmaxall <- crop(tmaxall, e)
-  tminall <- crop(tminall, e)
+  for(i in 1:(length(maxL))){
+    writeRaster(maxL[[i]], filename=paste0("/n/wolkovich_lab/Lab/Cat/princetonclimdata/tmaxcrop",i+1978), overwrite=TRUE, format="CDF")
+  }
+  
+  #for (i in seq(tmaxlist.nam))
+   # assign(paste0("tmax", i+1979), tmaxlist.nam[[i]])
+  
+
+  tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",allclimyrs, collapse="|"), full.names = TRUE)
+  # Now, let's make sure all of the dataframes have the same column names
+  tminlist.nam <- lapply(tminlist, function(x)
+  {x <- brick(x);
+  return(x)})
+  tminlist.nam <- lapply(tminlist.nam, function(x) 
+  {x <- crop(x, e) ; 
+  return(x)})
+  newextent <- extent(-170, -60, 15, 75)
+  tminlist.nam <- lapply(tminlist.nam, function(x)
+  {extent(x) <- newextent;
+  return(x)})
+  tminlist.nam <- lapply(tminlist.nam, function(x)
+  {values(x)<-values(x)-273.15;
+  return(x)})
+  
+  minL <- setNames(tminlist.nam, paste0("tmincrop",c(1979:2016)))
+  
+  for(i in 1:(length(minL))){
+    writeRaster(minL[[i]], filename=paste0("/n/wolkovich_lab/Lab/Cat/princetonclimdata/tmincrop",i+1978), overwrite=TRUE, format="CDF")
+  }
 }
+
+
+allclimyrs <- 1979:2016
+tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmaxcrop",allclimyrs,collapse="|"), full.names = TRUE)
+tmaxlist.tobrick <- lapply(tmaxlist, function(x)
+    {x <- brick(x);
+  return(x)})
+
+for (i in seq(tmaxlist.tobrick))
+  assign(paste0("tmax", i+1978), tmaxlist.tobrick[[i]])
+
+pdf(file="/n/wolkovich_lab/Lab/Cat/testraster.pdf")
+plot(tmax1980[[1]])
+#plot(spsshapeproj, add=TRUE)
+dev.off()
+
+tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
+tminlist.tobrick <- lapply(tminlist, function(x)
+    {x <- brick(x);
+  return(x)})
+
+for (i in seq(tminlist.tobrick))
+  assign(paste0("tmin", i+1978), tminlist.tobrick[[i]])
 
 # define period
 #period<-1999:2016
-#period<-1980:1999
+#period<-1980:2016
 #period<-1986:1998
 
 #spslist=ospreefolder
@@ -93,7 +147,7 @@ extractchillforce<-function(spslist){
   minmaxtemps.eachsps <- list()
     
     ## commence loop  
-    for (i in 1:nsps){#i=6 #spslist=2
+    for (i in 1:nsps){#i=1 #spslist=2
       #print(c(i, j))
       #spslist=ospreefolder[i]
       spsi<-spslist[i]
@@ -115,24 +169,35 @@ extractchillforce<-function(spslist){
       # load shapefile
       spsshape <- shapefile(zipped_name.i[1])
       
-      for(j in period) { # j = 1980
+      ## need to re-project shape from lamber equal area to geographic
+      #spsshapeproj <- spsshape
+      proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+      
+      spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
+      
+      ras.numpixels<-tmin1980[[1]]
+      values(ras.numpixels)<-1:ncell(ras.numpixels)
+    
+      
+      # get list of pixels to extract data (speeds things up)
+      pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
+      npix<-length(pixels.sps.i) # number of pixels
+      
+      # create an array to store results
+      yearlyresults<-array(NA,dim=c(npix,9,length(period)))
+      colnames(yearlyresults)<-c("x","y",
+                                 "GDD","GDD.lastfrost",
+                                 "DayLastFrost","MeanTmins","SDev.Tmins",
+                                 "Mean.Chill.Utah","Mean.Chill.Portions")
+      
+      for(j in period) { # j = 1981
         print(j)
-        #j <- j + 1979
         
         if(TRUE){
-          tmaxthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j), full.names = TRUE)
-          tmaxprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",j-1), full.names = TRUE)
-          tminthisyr <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j), full.names = TRUE)
-          tminprev <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmin",j-1), full.names = TRUE)
-          #jx <- nc_open(tmax)
-          tmax <- brick(tmaxthisyr)
-          tmax <- rotate(tmax)
-          tmaxprev <- brick(tmaxprev)
-          tmaxprev <- rotate(tmaxprev)
-          tmin <- brick(tminthisyr)
-          tmin <- rotate(tmin)
-          tminprev <- brick(tminprev)
-          tminprev <- rotate(tminprev)
+          tmax <- tmaxlist.tobrick[[j-1978]]
+          tmaxprev <- tmaxlist.tobrick[[j-1979]]
+          tmin <- tminlist.tobrick[[j-1978]]
+          tminprev <- tminlist.tobrick[[j-1979]]
         }
         
         leapyears <- seq(1952, 2020, by=4)
@@ -143,50 +208,25 @@ extractchillforce<-function(spslist){
         yrend <- ifelse((j-1)%in%leapyears,366,365)
       
         
-        
-        ## need to re-project shape from lamber equal area to geographic
-        #spsshapeproj <- spsshape
-        proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
-        
-        spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
-        
-        
-        
       e <- extent(spsshapeproj)
       tmaxshpforce <- crop(tmax[[forcestart:forceend]], e)
-      values(tmaxshpforce)<-values(tmaxshpforce)-273.15
+      #values(tmaxshpforce)<-values(tmaxshpforce)-273.15
       
       tminshpforce <- crop(tmin[[forcestart:forceend]], e)
-      values(tminshpforce)<-values(tminshpforce)-273.15
+      #values(tminshpforce)<-values(tminshpforce)-273.15
       #tminshpforce <- tminshpforce[pixels.sps.i] ### ADDING THIS ROUND !!
       
       tmaxshpchill1 <- crop(tmaxprev[[chillstart:yrend]], e)
       tmaxshpchill2 <- crop(tmaxprev[[1:chillend]], e)
       tmaxshpchill <- stack(c(tmaxshpchill1, tmaxshpchill2))
-      values(tmaxshpchill)<-values(tmaxshpchill)-273.15
+      #values(tmaxshpchill)<-values(tmaxshpchill)-273.15
       #tmaxshpchill <- tmaxshpchill[pixels.sps.i] ### ADDING THIS ROUND !!
       
       tminshpchill1 <- crop(tminprev[[chillstart:yrend]], e)
       tminshpchill2 <- crop(tminprev[[1:chillend]], e)
       tminshpchill <- stack(c(tminshpchill1, tminshpchill2))
-      values(tminshpchill)<-values(tminshpchill)-273.15
+      #values(tminshpchill)<-values(tminshpchill)-273.15
       #tminshpchill <- tminshpchill[pixels.sps.i] ### ADDING THIS ROUND !!
-      
-      ras.numpixels<-tminshpchill[[1]]
-      values(ras.numpixels)<-1:ncell(ras.numpixels)
-      
-      # get list of pixels to extract data (speeds things up)
-      pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
-      npix<-length(pixels.sps.i) # number of pixels
-      
-      
-      
-      # create an array to store results
-      yearlyresults<-array(NA,dim=c(npix,9,length(period)))
-      colnames(yearlyresults)<-c("x","y",
-                                 "GDD","GDD.lastfrost",
-                                 "DayLastFrost","MeanTmins","SDev.Tmins",
-                                 "Mean.Chill.Utah","Mean.Chill.Portions")
       
       
       # extract values and format to compute means and sdev
@@ -208,9 +248,9 @@ extractchillforce<-function(spslist){
       chmax <- chmax[!duplicated(chmax$z),]
       
       # get coordinates and names
-      chcoordmin<-coordinates(tminshpchill[[1]])[pixels.sps.i,]
+      chcoordmin<-coordinates(tmin1980[[1]])[pixels.sps.i,]
       yearlyresults[,1:2,]<-chcoordmin
-      chcoordmax<-coordinates(tmaxshpchill[[1]])[pixels.sps.i,]
+      chcoordmax<-coordinates(tmin1980[[1]])[pixels.sps.i,]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -244,8 +284,8 @@ extractchillforce<-function(spslist){
       wamax <- wamax[!is.na(wamax$z),]
       wamax <- wamax[!duplicated(wamax$z),]
       
-      ffcoordmin<-coordinates(tminshpforce[[1]])[wamax[,1],]
-      ffcoordmax<-coordinates(tmaxshpforce[[1]])[wamax[,1],]
+      ffcoordmin<-coordinates(tmin1980[[1]])[wamax[,1],]
+      ffcoordmax<-coordinates(tmin1980[[1]])[wamax[,1],]
       ffmin<-cbind(ffcoordmin,wamin[,1:ncol(wamin)])
       ffmax<-cbind(ffcoordmin,wamax[,1:ncol(wamax)])
       
@@ -378,12 +418,12 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1985:1990
+period <- 1980:1999  ### for 3 did 1985:2005, 1980:1985, 
 #spslist=spslist[16]
 for(i in 1:length(spslist)){ #i=1
-  Climate.in.range[[i]]<-extractchillforce(spslist[15])
+  Climate.in.range<-extractchillforce(spslist[2])
   
-  write.csv(Climate.in.range[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[3],
+  write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[2],
                                                  period[1],max(period),"csv",sep="."))
   
   
