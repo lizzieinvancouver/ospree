@@ -419,11 +419,11 @@ extractchillforce<-function(spslist){
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
 period <- 1980:1999  ### for 3 did 1985:2005, 1980:1985, 
-#spslist=spslist[16]
+spslist=spslist[11:16]
 for(i in 1:length(spslist)){ #i=1
-  Climate.in.range<-extractchillforce(spslist[2])
+  Climate.in.range<-extractchillforce(spslist[i])
   
-  write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[2],
+  write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
                                                  period[1],max(period),"csv",sep="."))
   
   
