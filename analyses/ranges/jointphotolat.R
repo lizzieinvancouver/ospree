@@ -206,19 +206,6 @@ mua_photo <- rnorm(nsp, -2, sigma_aphoto)
 mua_force <- rnorm(nsp, -4, sigma_aforce)
 mua_chill <- rnorm(nsp, -7, sigma_achill)
 
-bphoto_min <- mua_photo + beta_photomin*mua_sp
-bphoto_max <- mua_photo + beta_photomax*mua_sp
-
-bforce_min <- mua_force + beta_forcemin*mua_sp
-bforce_max <- mua_force + beta_forcemax*mua_sp
-
-bchill_min <- mua_chill + beta_chillmin*mua_sp
-bchill_max <- mua_chill + beta_chillmax*mua_sp
-
-nph <- 50 # number of observations per species/phenological combination 
-Nph <- nsp * nph # obervations per species for phenological event and photoperiod
-
-
 simpheno <- data.frame(sp=numeric(), mua_photo=numeric(), mua_force=numeric(), mua_chill=numeric())
 
 for (sp in 1:nsp){
@@ -228,9 +215,22 @@ for (sp in 1:nsp){
   simpheno <- rbind(simpheno, simphenoadd)
 }
 
-simpheno$photo <- simpheno$mua_photo + simlat$minlat*bphoto_min + simlat$maxlat*bphoto_max + rnorm(nrow(simpheno), 0, sigma_yphoto)
-simpheno$force <- simpheno$mua_force + simlat$minlat*bforce_min + simlat$maxlat*bforce_max + rnorm(nrow(simpheno), 0, sigma_yforce)
-simpheno$chill <- simpheno$mua_chill + simlat$minlat*bchill_min + simlat$maxlat*bchill_max + rnorm(nrow(simpheno), 0, sigma_ychill)
+bphoto_min <- mua_photo + beta_photomin*mua_sp 
+bphoto_max <- mua_photo + beta_photomax*mua_sp 
+
+bforce_min <- mua_force + beta_forcemin*mua_sp 
+bforce_max <- mua_force + beta_forcemax*mua_sp 
+
+bchill_min <- mua_chill + beta_chillmin*mua_sp 
+bchill_max <- mua_chill + beta_chillmax*mua_sp 
+
+nph <- 50 # number of observations per species/phenological combination 
+Nph <- nsp * nph # obervations per species for phenological event and photoperiod
+
+
+simpheno$photodat <- simpheno$mua_photo + simlat$minlat*bphoto_min + simlat$maxlat*bphoto_max + rnorm(nrow(simpheno), 0, sigma_yphoto)
+simpheno$forcedat <- simpheno$mua_force + simlat$minlat*bforce_min + simlat$maxlat*bforce_max + rnorm(nrow(simpheno), 0, sigma_yforce)
+simpheno$chilldat <- simpheno$mua_chill + simlat$minlat*bchill_min + simlat$maxlat*bchill_max + rnorm(nrow(simpheno), 0, sigma_ychill)
 
 #agrand <- 40
 
@@ -257,8 +257,8 @@ latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
 
 
 # Try to run the Stan model 
-jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 1000, iter = 2500,
-    chains = 4, cores = 2,  control=list(max_treedepth = 12)) 
+jointfit <- stan(file = "stan/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 500, iter = 1000,
+    chains = 1, cores = 2,  control=list(max_treedepth = 12)) 
 
 #save(jointfit, file="output/stan/jointlatphoto.Rda")
 
@@ -313,11 +313,11 @@ bigfitsum[grep("a_photo\\[", rownames(bigfitsum)),"mean"]
 plot(bigfitsum[grep("a_photo\\[", rownames(bigfitsum)),"mean"]~mua_photo) ### this okay...
 
 bphoto_min
-bigfitsum[grep("b_photomin\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_photomin\\[", rownames(bigfitsum)),"mean"]~bphoto_min) ### bad!!!!
+bigfitsum[grep("mu_bphotomin\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bphotomin\\[", rownames(bigfitsum)),"mean"]~bphoto_min) ### bad!!!!
 bphoto_max
-bigfitsum[grep("b_photomax\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_photomax\\[", rownames(bigfitsum)),"mean"]~bphoto_max) ### bad
+bigfitsum[grep("mu_bphotomax\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bphotomax\\[", rownames(bigfitsum)),"mean"]~bphoto_max) ### bad
 
 #######
 mua_force
@@ -325,11 +325,11 @@ bigfitsum[grep("a_force\\[", rownames(bigfitsum)),"mean"]
 plot(bigfitsum[grep("a_force\\[", rownames(bigfitsum)),"mean"]~mua_force) ### this is good
 
 bforce_min
-bigfitsum[grep("b_forcemin\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_forcemin\\[", rownames(bigfitsum)),"mean"]~bforce_min) ### this okay...
+bigfitsum[grep("mu_bforcemin\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bforcemin\\[", rownames(bigfitsum)),"mean"]~bforce_min) ### this okay...
 bforce_max
-bigfitsum[grep("b_forcemax\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_forcemax\\[", rownames(bigfitsum)),"mean"]~bforce_max) ### this okay...
+bigfitsum[grep("mu_bforcemax\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bforcemax\\[", rownames(bigfitsum)),"mean"]~bforce_max) ### this okay...
 
 #######
 mua_chill
@@ -337,17 +337,17 @@ bigfitsum[grep("a_chill\\[", rownames(bigfitsum)),"mean"]
 plot(bigfitsum[grep("a_chill\\[", rownames(bigfitsum)),"mean"]~mua_chill) ### this looks good!
 
 bchill_min
-bigfitsum[grep("b_chillmin\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_chillmin\\[", rownames(bigfitsum)),"mean"]~bchill_min) ### this okay...
+bigfitsum[grep("mu_bchillmin\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bchillmin\\[", rownames(bigfitsum)),"mean"]~bchill_min) ### this okay...
 bchill_max
-bigfitsum[grep("b_chillmax\\[", rownames(bigfitsum)),"mean"]
-plot(bigfitsum[grep("b_chillmax\\[", rownames(bigfitsum)),"mean"]~bchill_max) ### this okay...
+bigfitsum[grep("mu_bchillmax\\[", rownames(bigfitsum)),"mean"]
+plot(bigfitsum[grep("mu_bchillmax\\[", rownames(bigfitsum)),"mean"]~bchill_max) ### this okay...
 
 
 #######
-yphotos <- simpheno$photo
-yforces <- simpheno$force
-ychills <- simpheno$chill
+yphotos <- simpheno$photodat
+yforces <- simpheno$forcedat
+ychills <- simpheno$chilldat
 
 y_ppphoto <- bigfitpost$y_ppphoto[1:1500]
 y_ppforce <- bigfitpost$y_ppforce[1:1500]

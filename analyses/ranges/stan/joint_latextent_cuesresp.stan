@@ -37,22 +37,22 @@ parameters{
   
   real a_photo[nsppheno]; // mean of the alpha value for species for photo
   
-  real mu_bphotomin;
-  real mu_bphotomax;
+  vector[nsppheno] mu_bphotomin;
+  vector[nsppheno] mu_bphotomax;
   
 	real <lower=0> sigma_yphoto; // overall variation accross observations for photo
 
 	real a_force[nsppheno]; // mean of the alpha value for species for force
 	
-	real mu_bforcemin;
-	real mu_bforcemax;
+	vector[nsppheno] mu_bforcemin;
+	vector[nsppheno] mu_bforcemax;
   
 	real <lower=0> sigma_yforce; // overall variation accross observations for force
 
 	real a_chill[nsppheno]; // mean of the alpha value for species for chill
 	
-	real mu_bchillmin;
-	real mu_bchillmax;
+	vector[nsppheno] mu_bchillmin;
+	vector[nsppheno] mu_bchillmax;
   
 	real <lower=0> sigma_ychill; // overall variation accross observations for chill
 	
@@ -103,14 +103,14 @@ model{
 	
 	for(i in 1:Npheno){
 	  
-	ypredphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_photomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+	ypredphoto[i] = a_photo[speciespheno[i]] + mu_bphotomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bphotomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-	ypredforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_forcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+	ypredforce[i] = a_force[speciespheno[i]] + mu_bforcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bforcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-	ypredchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_chillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+	ypredchill[i] = a_chill[speciespheno[i]] + mu_bchillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bchillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	
 	}
   
@@ -174,14 +174,14 @@ generated quantities {
    
    for(i in 1:Npheno){
      
-   y_ppphoto[i] = a_photo[speciespheno[i]] + b_photomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_photomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+   y_ppphoto[i] = a_photo[speciespheno[i]] + mu_bphotomin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bphotomax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppforce[i] = a_force[speciespheno[i]] + b_forcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_forcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+   y_ppforce[i] = a_force[speciespheno[i]] + mu_bforcemin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bforcemax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
 	                
-   y_ppchill[i] = a_chill[speciespheno[i]] + b_chillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
-	                b_chillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
+   y_ppchill[i] = a_chill[speciespheno[i]] + mu_bchillmin[speciespheno[i]]*a_mins_sp[speciespheno[i]] + 
+	                mu_bchillmax[speciespheno[i]]*a_maxs_sp[speciespheno[i]];
    
    }
    

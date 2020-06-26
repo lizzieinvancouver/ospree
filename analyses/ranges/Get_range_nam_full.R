@@ -120,10 +120,10 @@ tmaxlist.tobrick <- lapply(tmaxlist, function(x)
 for (i in seq(tmaxlist.tobrick))
   assign(paste0("tmax", i+1978), tmaxlist.tobrick[[i]])
 
-pdf(file="~/Desktop/testraster.pdf")
-plot(tmax1980[[1]])
+#pdf(file="~/Desktop/testraster.pdf")
+#plot(tmax1980[[1]])
 #plot(spsshapeproj, add=TRUE)
-dev.off()
+#dev.off()
 
 tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
 tminlist.tobrick <- lapply(tminlist, function(x)
@@ -142,7 +142,7 @@ extractchillforce<-function(spslist){
   minmaxtemps.eachsps <- list()
     
     ## commence loop  
-    for (i in 1:nsps){#i=1 #spslist=2
+    for (i in 1:nsps){#i=2 #spslist=2
       #print(c(i, j))
       #spslist=ospreefolder[i]
       spsi<-spslist[i]
@@ -177,6 +177,7 @@ extractchillforce<-function(spslist){
       # get list of pixels to extract data (speeds things up)
       pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
       npix<-length(pixels.sps.i) # number of pixels
+      npix <- npix-2
       
       # create an array to store results
       yearlyresults<-array(NA,dim=c(npix,9,length(period)))
@@ -185,7 +186,7 @@ extractchillforce<-function(spslist){
                                  "DayLastFrost","MeanTmins","SDev.Tmins",
                                  "Mean.Chill.Utah","Mean.Chill.Portions")
       
-      for(j in period) { # j = 1981
+      for(j in period) { # j = 1980
         print(j)
         
         if(TRUE){
@@ -242,10 +243,11 @@ extractchillforce<-function(spslist){
       chmax <- chmax[!is.na(chmax$z),]
       chmax <- chmax[!duplicated(chmax$z),]
       
+      
       # get coordinates and names
-      chcoordmin<-coordinates(tmin1980[[1]])[pixels.sps.i,]
+      chcoordmin<-coordinates(tmin1980[[1]])[chmin[,1],]
       yearlyresults[,1:2,]<-chcoordmin
-      chcoordmax<-coordinates(tmin1980[[1]])[pixels.sps.i,]
+      chcoordmax<-coordinates(tmin1980[[1]])[chmax[,1],]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -413,8 +415,8 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1980:1999  
-spslist=spslist[3] #missing 2,8
+period <- 1980:2016  
+spslist=spslist[2] #missing 2,8
 for(i in 1:length(spslist)){ #i=1
   Climate.in.range<-extractchillforce(spslist[i])
   
