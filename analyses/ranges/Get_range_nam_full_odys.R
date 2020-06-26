@@ -182,6 +182,7 @@ extractchillforce<-function(spslist){
       # get list of pixels to extract data (speeds things up)
       pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
       npix<-length(pixels.sps.i) # number of pixels
+      npix <- npix-2
       
       # create an array to store results
       yearlyresults<-array(NA,dim=c(npix,9,length(period)))
@@ -418,8 +419,8 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1980:1999  ### for 3 did 1985:2005, 1980:1985, 
-spslist=spslist[11:16]
+period <- 1980:2016  ### for 3 did 1985:2005, 1980:1985, 
+spslist=spslist[16]
 for(i in 1:length(spslist)){ #i=1
   Climate.in.range<-extractchillforce(spslist[i])
   
