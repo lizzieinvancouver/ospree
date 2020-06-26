@@ -416,7 +416,7 @@ extractchillforce<-function(spslist){
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
 period <- 1980:2016  
-spslist=spslist[2] #missing 2,8
+spslist=spslist[16] #missing 2,8
 for(i in 1:length(spslist)){ #i=1
   Climate.in.range<-extractchillforce(spslist[i])
   

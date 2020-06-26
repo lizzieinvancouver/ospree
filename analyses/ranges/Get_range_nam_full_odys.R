@@ -119,10 +119,10 @@ tmaxlist.tobrick <- lapply(tmaxlist, function(x)
 for (i in seq(tmaxlist.tobrick))
   assign(paste0("tmax", i+1978), tmaxlist.tobrick[[i]])
 
-pdf(file="/n/wolkovich_lab/Lab/Cat/testraster.pdf")
-plot(tmax1980[[1]])
+#pdf(file="/n/wolkovich_lab/Lab/Cat/testraster.pdf")
+#plot(tmax1980[[1]])
 #plot(spsshapeproj, add=TRUE)
-dev.off()
+#dev.off()
 
 tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
 tminlist.tobrick <- lapply(tminlist, function(x)
@@ -145,70 +145,70 @@ extractchillforce<-function(spslist){
   nsps<-length(spslist)
   nyears<-length(period)
   minmaxtemps.eachsps <- list()
+  
+  ## commence loop  
+  for (i in 1:nsps){#i=2 #spslist=2
+    #print(c(i, j))
+    #spslist=ospreefolder[i]
+    spsi<-spslist[i]
     
-    ## commence loop  
-    for (i in 1:nsps){#i=1 #spslist=2
-      #print(c(i, j))
-      #spslist=ospreefolder[i]
-      spsi<-spslist[i]
-      
-      ## load shape
-      path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
-      #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-      unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-                        list = TRUE)$Name
-      #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
-      
-      shpsource <-"NA_ranges"
-      
-      zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
-      
-      # load shapefile
-      unzip(path.source.i, files=zipped_name.i)
-      
-      # load shapefile
-      spsshape <- shapefile(zipped_name.i[1])
-      
-      ## need to re-project shape from lamber equal area to geographic
-      #spsshapeproj <- spsshape
-      proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
-      
-      spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
-      
-      ras.numpixels<-tmin1980[[1]]
-      values(ras.numpixels)<-1:ncell(ras.numpixels)
+    ## load shape
+    path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+    #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+    unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                     list = TRUE)$Name
+    #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
     
+    shpsource <-"NA_ranges"
+    
+    zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
+    
+    # load shapefile
+    unzip(path.source.i, files=zipped_name.i)
+    
+    # load shapefile
+    spsshape <- shapefile(zipped_name.i[1])
+    
+    ## need to re-project shape from lamber equal area to geographic
+    #spsshapeproj <- spsshape
+    proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+    
+    spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
+    
+    ras.numpixels<-tmin1980[[1]]
+    values(ras.numpixels)<-1:ncell(ras.numpixels)
+    
+    
+    # get list of pixels to extract data (speeds things up)
+    pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
+    npix<-length(pixels.sps.i) # number of pixels
+    npix <- npix-2
+    
+    # create an array to store results
+    yearlyresults<-array(NA,dim=c(npix,9,length(period)))
+    colnames(yearlyresults)<-c("x","y",
+                               "GDD","GDD.lastfrost",
+                               "DayLastFrost","MeanTmins","SDev.Tmins",
+                               "Mean.Chill.Utah","Mean.Chill.Portions")
+    
+    for(j in period) { # j = 1980
+      print(j)
       
-      # get list of pixels to extract data (speeds things up)
-      pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
-      npix<-length(pixels.sps.i) # number of pixels
-      npix <- npix-2
+      if(TRUE){
+        tmax <- tmaxlist.tobrick[[j-1978]]
+        tmaxprev <- tmaxlist.tobrick[[j-1979]]
+        tmin <- tminlist.tobrick[[j-1978]]
+        tminprev <- tminlist.tobrick[[j-1979]]
+      }
       
-      # create an array to store results
-      yearlyresults<-array(NA,dim=c(npix,9,length(period)))
-      colnames(yearlyresults)<-c("x","y",
-                                 "GDD","GDD.lastfrost",
-                                 "DayLastFrost","MeanTmins","SDev.Tmins",
-                                 "Mean.Chill.Utah","Mean.Chill.Portions")
+      leapyears <- seq(1952, 2020, by=4)
+      chillstart <- ifelse((j-1)%in%leapyears,275,274)
+      chillend <- ifelse(j%in%leapyears,60,59)
+      forcestart <- ifelse(j%in%leapyears,61,60)
+      forceend <- ifelse(j%in%leapyears,152,151)
+      yrend <- ifelse((j-1)%in%leapyears,366,365)
       
-      for(j in period) { # j = 1981
-        print(j)
-        
-        if(TRUE){
-          tmax <- tmaxlist.tobrick[[j-1978]]
-          tmaxprev <- tmaxlist.tobrick[[j-1979]]
-          tmin <- tminlist.tobrick[[j-1978]]
-          tminprev <- tminlist.tobrick[[j-1979]]
-        }
-        
-        leapyears <- seq(1952, 2020, by=4)
-        chillstart <- ifelse((j-1)%in%leapyears,275,274)
-        chillend <- ifelse(j%in%leapyears,60,59)
-        forcestart <- ifelse(j%in%leapyears,61,60)
-        forceend <- ifelse(j%in%leapyears,152,151)
-        yrend <- ifelse((j-1)%in%leapyears,366,365)
       
-        
       e <- extent(spsshapeproj)
       tmaxshpforce <- crop(tmax[[forcestart:forceend]], e)
       #values(tmaxshpforce)<-values(tmaxshpforce)-273.15
@@ -248,10 +248,11 @@ extractchillforce<-function(spslist){
       chmax <- chmax[!is.na(chmax$z),]
       chmax <- chmax[!duplicated(chmax$z),]
       
+      
       # get coordinates and names
-      chcoordmin<-coordinates(tmin1980[[1]])[pixels.sps.i,]
+      chcoordmin<-coordinates(tmin1980[[1]])[chmin[,1],]
       yearlyresults[,1:2,]<-chcoordmin
-      chcoordmax<-coordinates(tmin1980[[1]])[pixels.sps.i,]
+      chcoordmax<-coordinates(tmin1980[[1]])[chmax[,1],]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -401,14 +402,14 @@ extractchillforce<-function(spslist){
         yearlyresults[c(c(1:npix)),9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
         
       }
-      }
-      
-      minmaxtemps.eachsps[[i]] <- yearlyresults
-      
-      #write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
-       #                                             period[1],max(period),"csv",sep="."))
-      
-    }  
+    }
+    
+    minmaxtemps.eachsps[[i]] <- yearlyresults
+    
+    #write.csv(minmaxtemps.eachsps[[i]], file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
+    #                                             period[1],max(period),"csv",sep="."))
+    
+  }  
   
   return(minmaxtemps.eachsps)
   
@@ -419,17 +420,16 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1980:2016  ### for 3 did 1985:2005, 1980:1985, 
-spslist=spslist[16]
+period <- 1980:2016  
+spslist=spslist[16] #missing 2,8
 for(i in 1:length(spslist)){ #i=1
   Climate.in.range<-extractchillforce(spslist[i])
   
   write.csv(Climate.in.range, file = paste("/n/wolkovich_lab/Lab/Cat/Climate.in.range",spslist[i],
-                                                 period[1],max(period),"csv",sep="."))
+                                           period[1],max(period),"csv",sep="."))
   
   
 }
-
 
 
 
