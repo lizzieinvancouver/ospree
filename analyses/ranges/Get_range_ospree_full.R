@@ -75,11 +75,12 @@ extractchillforce<-function(spslist,tmin,tmax,period){
   ## subset climate years
   yearsinclim<-as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
   
-  ras.numpixels<-chillsub1[[1]]
+  ras.numpixels<-tmin[[1]]
   values(ras.numpixels)<-1:ncell(ras.numpixels)
   
+  
   ## commence loop  
-  for (i in 1:nsps){#i=3
+  for (i in 1:nsps){#i=1
     spsi<-spslist[i]
     print(spsi)
     
@@ -110,7 +111,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
     spsshape <- shapefile(zipped_name.i[3])
     
     ## need to re-project shape from lamber equal area to geographic
-    spsshapeproj<-spTransform(spsshape,proj4string(chillsub1[[1]]))
+    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
     
     # get list of pixels to extract data (speeds things up)
     pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
@@ -154,7 +155,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         ff2<-forcesub2[pixels.sps.i][-nas,]
         
         # add coordinates and names
-      chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i[-nas],]
+      chcoord<-coordinates(ras.numpixels)[pixels.sps.i[-nas],]
       yearlyresults[-nas,1:2,]<-chcoord
       
       } else {
@@ -165,7 +166,7 @@ extractchillforce<-function(spslist,tmin,tmax,period){
         ff2<-forcesub2[pixels.sps.i]
         
         # add coordinates and names
-        chcoord<-coordinates(yearschillmin[[1]])[pixels.sps.i,]
+        chcoord<-coordinates(ras.numpixels)[pixels.sps.i,]
         yearlyresults[,1:2,]<-chcoord
         
       }
@@ -301,20 +302,33 @@ for(i in 1:length(spslist)){
 #save(Climate.in.range.list,file = "output/Climate.in.range.EUspFULL.RData")
 #load("output/Climate.in.range.EUspFULL.RData")
 
-
+ff<-extractchillforce(spslist[3],tmin,tmax,period)
+ff[[1]][,,1]
 
 ## Code to save individual species
 #Climate.in.range.list[[1]][[1]][,,20]
-
-
+#j=3
 for(j in 1:length(Climate.in.range.list)){  
-sps.1<-as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
-sps.1$year<-1980
+sps.1 <- as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
+sps.1 <- as.data.frame(Climate.in.range.list[[j]][[1]][,,15])
 
+to.rem.nas <- which(apply(sps.1,1,function(x)sum(is.na(x)))>6)
+if(length(to.rem.nas)>0){
+  sps.1 <- sps.1[-to.rem.nas,]
+}
+
+sps.1$year<-1980
+sps.1$ID<-1:nrow(sps.1)
+  
 for(i in 2:37){
-  print(i)
-  temp.sps<-as.data.frame(Climate.in.range.list[[4]][[1]][,,i])
+  print(paste(j,i))
+  temp.sps<-as.data.frame(Climate.in.range.list[[j]][[1]][,,i])
+  to.rem.nas.j <- which(apply(temp.sps,1,function(x)sum(is.na(x)))==9)
+  if(length(to.rem.nas.j)>0){
+  temp.sps <- temp.sps[-to.rem.nas.j,]
+  }
   temp.sps$year<-c(1980:2016)[i]
+  temp.sps$ID<-1:nrow(temp.sps)
   sps.1<-rbind(sps.1,temp.sps)
   
 }
@@ -331,8 +345,6 @@ write.csv(sps.1,file = namesave)
 
 ## synthetize and summarize data geographically and temporally
 #dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
-
-
 
 synth.data<-function(Climate.in.range.list){
   list.synthesis<-list()
@@ -389,7 +401,7 @@ list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],22)
 
 write.csv(list.allspsjoint,file = "output/Synthesis_climate_EUsps.csv")
 
-
+head(list.allspsjoint)
 ## plot geographic vs. temporal variation
 
 seqgdd<-seq(1,nrow(list.allspsjoint),7)
@@ -406,8 +418,9 @@ plot(list.allspsjoint$Geo.Mean[seqgdd.frost],
      pch=16,xlab="GDD last frost - geographic mean",ylab="GDD last frost - temporal mean")
 
 plot(list.allspsjoint$Geo.Mean[seqmintemp],
-     list.allspsjoint$Temp.Mean[seqmintemp])
-
+     list.allspsjoint$Temp.Mean[seqmintemp],xlim=c(-3,-2),
+     pch=16,xlab="Min Temp - geographic mean",ylab="Min Temp - temporal mean")
+abline(a=0,b=1,lty=2,col='red')
 
 
 
@@ -423,9 +436,14 @@ spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset
 spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
 ## code to plot within range climate interannual variation
 
+dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
+dat = as.data.frame(na.omit(dat))
+unique(paste(dat$x,dat$y))
+
 means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
 SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
 
+dev.off()
 par(mfrow=c(2,3))
 for(i in c(5,6,8:11)){
   
@@ -441,8 +459,8 @@ for(i in c(5,6,8:11)){
 
 
 ## saving outputs
-save(Climate.in.range, file = paste("output/climate.in.range",
-                                    period[1],max(period),"RData",sep="."))
+#save(Climate.in.range, file = paste("output/climate.in.range",
+ #                                   period[1],max(period),"RData",sep="."))
 
 ## remove aux unnecessary files
 unlink("chorological_maps_dataset/*", recursive = T)
@@ -458,8 +476,11 @@ library('chillR')
 
 dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
 
-
-year1<-subset(dat,year==1980)
+year1<-subset(dat,year==1981)
+head(year1)
+dev.off()
+plot(year1$x,year1$y)
+lines(spsshapeproj,col='red')
 
 synth.data<-function(dat){
   
@@ -504,9 +525,9 @@ spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset
 ## need to re-project shape from lamber equal area to geographic
 ## 
 spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
-## code to plot within range climate interannual variation
-library(RColorBrewer)
 
+
+## code to plot within range climate interannual variation
 means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
 SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
 
