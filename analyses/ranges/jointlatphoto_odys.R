@@ -7,105 +7,145 @@ library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
-
---------------------------------
-# Set up the trait model
-# trait ~ agrand + a[sp] + a[study] + sigma_y 
-# a[sp] and a[study] are your standard hierarhical thingys, given hierarchical effect
-
-# Parameters
-agrand <- 40
-sigma_asp <- 10
-sigma_astudy <- 5
-sigma_y <- 0.5
-
-n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
-nsp <- 30 # number of species
-nstudy <- 30 # number of studies
-studymin <- nstudy # min number of studies a species appears in
-studymax <- nstudy # max number of studies as species appears in
-howmanystudiespersp <- round(runif(nsp, studymin, studymax)) # get list of studies per species
-
-# Sp and study-level parameters (hyperparameters?)
-mua_sp <- rnorm(nsp, 0, sigma_asp)
-mua_study <- rnorm(nstudy, 0, sigma_astudy)
-
-# Set up the data ...
-simlat <- data.frame(sp=numeric(), study=numeric(), mua_sp=numeric(), mua_study=numeric())
-for (sp in 1:nsp){
-  whichstudies <- sample(c(1:nstudy), howmanystudiespersp[sp])
-  simlatadd <- data.frame(sp=rep(sp, length(whichstudies)*n), study=rep(whichstudies, each=n),
-                          mua_sp=rep(mua_sp[sp], length(whichstudies)*n), mua_study=rep(mua_study[whichstudies], each=n))
-  simlat <- rbind(simlat, simlatadd)
-}
-simlat$lat <- agrand+simlat$mua_sp+simlat$mua_study+rnorm(nrow(simlat), 0, sigma_y)
-table(simlat$sp, simlat$study)
-
-
-# Close enough to validate trying Stan, I think
-N <- length(simlat$lat)
-latstan <- list(latdat = simlat$lat, N = N, nsp = nsp, species = simlat$sp, 
-                study = simlat$study, nstudy = nstudy)
-
-latfit.ncpvector <- stan(file = "stan/jointlat_latmodel_ncp.stan", data = latstan, warmup = 2000, iter = 3000,
-               chains = 4, cores = 4,  control=list(max_treedepth = 15)) 
-
-save(latfit.ncpvector, file="/n/wolkovich_lab/Lab/Cat/latfit_ncpvector.Rda")
-
-latfit.ncp <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointlat_latmodel_ncp.stan", data = latstan, warmup = 2000, iter = 3000,
-                           chains = 4, cores = 4) #,  control=list(max_treedepth = 15)) 
-
-save(latfit.ncp, file="/n/wolkovich_lab/Lab/Cat/latfit_ncp.Rda")
-
-
-
-
 #--------------------------------------
 # Now simulate the phenology side
 # pheno ~ a_pheno[sp] + bphoto[sp]*P + sigma_y_pheno
 # bphoto[sp] ~ aphoto[sp] + betaLatxPheno*mua_sp
 
 # Parameters for pheno
-sigma_apheno <- 3
-sigma_ypheno <- 0.5
-sigma_aphoto <- 2
-betaLatxPheno <- 1.1
-betaExtentxPheno <- -0.5
+sigma_yphoto <- 1
+sigma_yforce <- 2
+sigma_ychill <- 2
+sigma_y <- 2
+
+### Okay do we actually want to know what the influence of "more northern than normal" 
+## lats is rather than the actual latitude?
+# So maybe we should center the data?
+# Parameters
+a_min <- 0
+a_max <- 0
+
+sigma_bphotomin <- 2
+sigma_bphotomax <- 2
+sigma_bforcemin <- 0.5
+sigma_bforcemax <- 0.5
+sigma_bchillmin <- 1
+sigma_bchillmax <- 1
+
+beta_photomin <- 1
+beta_photomax <- 2
+
+beta_forcemin <- -1
+beta_forcemax <- -2
+
+beta_chillmin <- -0.5
+beta_chillmax <- 3
+
+n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
+nsp <- 30 # number of species
+
+### This will be a fixed effects model but I think we need some mua_sp to create some variation around our species estimates
+## And now let's add a greater sigma since our data is centered
+sigma_asp <- 2
+mua_sp <- rnorm(nsp, 0, sigma_asp)
+
+# Set up the data ...
+simlat <- data.frame(sp=rep(1:nsp, each=10), mua_sp=rep(mua_sp, each=10))
+
+simlat$minlat <- a_min + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$maxlat <- a_max + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+
 
 nsp # Same as above (you could vary it but would be a little trickier) 
 mua_sp # this is the effect of species trait differences from the trait model (above)
-mua_pheno <- rnorm(nsp, 0, sigma_apheno)
-mua_photo <- rnorm(nsp, 0, sigma_aphoto)
 
-nph <- 100 # number of observations per species/phenological combination 
-Nph <- nsp * nph # obervations per species for phenological event and photoperiod
+sigma_aphoto <- 1
+sigma_aforce <- 1.5
+sigma_achill <- 2
+
+a_photo <- rnorm(nsp, -2, sigma_aphoto)
+a_force <- rnorm(nsp, -4, sigma_aforce)
+a_chill <- rnorm(nsp, -7, sigma_achill)
+
+mua_photomin <- -2
+mua_photomax <- -1
+
+mua_forcemin <- -2
+mua_forcemax <- 0.5
+
+mua_chillmin <- -1
+mua_chillmax <- 2
+
+sigma_aphotomin <- 0.5
+sigma_aphotomax <- 0.5
+sigma_aforcemin <- 0.5
+sigma_aforcemax <- 0.5
+sigma_achillmin <- 0.5
+sigma_achillmax <- 0.5
+
 Pmean <- 6
-Psigma <- 10
+Psigma <- 2
 
-# Set up the data ...
-bphoto <- data.frame(sp=1:nsp, mua_photo=mua_photo, mua_sp=mua_sp)
-bphoto$bphoto <- bphoto$mua_photo + betaLatxPheno*bphoto$mua_sp + betaExtentxPheno*bphoto$mua_sp
-simpheno <- data.frame(sp=numeric(), mua_pheno=numeric(), bphoto=numeric(), P=numeric())
+Fmean <- 10
+Fsigma <- 3
+
+Cmean <- 5
+Csigma <- 3
+
+simpheno <- data.frame(sp=numeric(), a_photo=numeric(), a_force=numeric(), a_chill=numeric(), P=numeric(), F=numeric(), C=numeric())
+
+nph <- 50 # number of observations per species/phenological combination 
+Nph <- nsp * nph # obervations per species for phenological event and photoperiod
+
 for (sp in 1:nsp){
   Phere <- rnorm(nph, Pmean, Psigma)
-  simphenoadd <- data.frame(sp=rep(sp, nph), mua_pheno=rep(mua_pheno[sp], nph),
-                            bphoto=rep(bphoto$bphoto[sp], nph), P=Phere)
+  Fhere <- rnorm(nph, Fmean, Fsigma)
+  Chere <- rnorm(nph, Cmean, Csigma)
+  simphenoadd <- data.frame(sp=rep(sp, nph), a_photo=rep(a_photo[sp], nph),
+                            a_force=rep(a_force[sp], nph),
+                            a_chill=rep(a_chill[sp], nph), P=Phere, F=Fhere, C=Chere)
   simpheno <- rbind(simpheno, simphenoadd)
 }
-simpheno$pheno <- simpheno$mua_pheno+simpheno$bphoto*simpheno$P+rnorm(nrow(simpheno), 0, sigma_ypheno)
-table(simpheno$sp)
 
 
 # Nothing left to do but to try Stan, I think
-Npheno <- length(simpheno$pheno)
-latstanpheno <- list(latdat = simlat$lat, N = N, nsp = nsp, species = simlat$sp, 
-                     study = simlat$study, nstudy = nstudy, phendat = simpheno$pheno, Npheno = Npheno, nsppheno = nsp,
-                     speciespheno = simpheno$sp, photoperiod = simpheno$P)
+simlat <- data.frame(sp=rep(1:nsp, each=10), mua_sp=rep(mua_sp, each=10))
 
+simlat$minlat <- a_min + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
+simlat$maxlat <- a_max + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
 
+#bphoto_min <- mua_photomin + beta_photomin*mua_sp 
+bphoto_min <- mua_photomin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aphotomin)
+bphoto_max <- mua_photomax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aphotomax)
 
-jointfit <- stan(file = "/n/wolkovich_lab/Lab/Cat/jointlatphen.stan", data = latstanpheno, warmup = 2000, iter = 3000,
-                 chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
+bforce_min <- mua_forcemin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aforcemin)
+bforce_max <- mua_forcemax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aforcemax)
 
-save(jointfit, file="/n/wolkovich_lab/Lab/Cat/jointlatphoto.Rda")
+bchill_min <- mua_chillmin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_achillmin)
+bchill_max <- mua_chillmax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_achillmax)
+
+simpheno$photodat <- simpheno$a_photo + simpheno$P*bphoto_min + simpheno$P*bphoto_max + rnorm(nrow(simpheno), 0, sigma_yphoto)
+simpheno$forcedat <- simpheno$a_force + simpheno$F*bforce_min + simpheno$F*bforce_max + rnorm(nrow(simpheno), 0, sigma_yforce)
+simpheno$chilldat <- simpheno$a_chill + simpheno$C*bchill_min + simpheno$C*bchill_max + rnorm(nrow(simpheno), 0, sigma_ychill)
+
+#agrand <- 40
+
+#simpheno$bbresp <- agrand + simpheno$photo + simpheno$force + simpheno$chill + rnorm(nrow(simpheno), 0, sigma_y) 
+
+table(simpheno$sp)
+
+N <- length(simlat$minlat)
+
+Npheno <- length(simpheno$photodat)
+latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
+                     photodat = simpheno$photodat, forcedat = simpheno$forcedat,
+                     chilldat = simpheno$chilldat,
+                     N = N, nsp = nsp, species = simlat$sp, 
+                     Npheno = Npheno, nsppheno = nsp,
+                     speciespheno = simpheno$sp, photoperiod = simpheno$P, forcing = simpheno$F, chilling = simpheno$C)
+
+jointfit <- stan(file = "/n/wolkovich_lab/Lab/Cat/joint_latextent_cuesresp.stan", data = latstanpheno, warmup = 2000, iter = 3000,
+                 chains = 4, cores = 4,  control=list(max_treedepth = 15)) 
+
+save(jointfit, file="/n/wolkovich_lab/Lab/Cat/jointlatallcue.Rda")
 
