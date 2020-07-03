@@ -1,6 +1,9 @@
 ## Started 8 June 2020 ##
 ## By Lizzie ##
 
+## Where'd Lizzie go? She disappeared ... #
+## but wait! It's 3 July 2020 and she's back. ##
+
 ## Take 1: Stole this code from bb_analysis/models_stan.R
 
 ## To do
@@ -31,9 +34,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
-use.flags.for.mainmodel <- TRUE
+use.flags.for.mainmodel <- FALSE
 use.flags.for.spcomp.cp <- FALSE
-use.flags.for.allspp.utah <- FALSE
+use.flags.for.allspp.utah <- TRUE
 use.flags.for.spcomp.utah.nonz <- FALSE
 use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
 use.flags.for.allspp.utah.nonz <- FALSE
@@ -44,48 +47,50 @@ source("source/flags.for.models.in.bbms.R")
 source("source/bbstanleadin.R")
 setwd("..//ranges")
 
+bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
+unique(bb.stan$latbi)
+
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
-"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca")
+"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca") 
 
 eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnus_glutinosa",
 "Alnus_incana", "Betula_pendula", "Betula_pubescens", "Carpinus_betulus",
 "Cornus_mas", "Corylus_avellana", "Fagus_sylvatica", "Fraxinus_excelsior", "Larix_decidua", "Picea_abies", "Populus_tremula", "Prunus_avium", "Prunus_padus", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Sorbus_aucuparia", "Tilia_cordata")    
 
 allspphere <- c(naspp, eurspp)
-allspphere[which(!allspphere %in% unique(bb.stan$complex.wname))]
-
-# To discuss! I swap in some species
-## START HERE! Instead of the below, better to actually pull out the original species I think ... 
-subspecies <- c("Populus_grandidentata"="Populus_tremuloides",
-                "Fagus_grandifolia"="Fagus_complex",
-                "Acer_pensylvanicum"="",
-                "Alnus_rubra"="",
-                "Prunus_pensylvanica"="",
-                "Cornus_cornuta"="",
-                "Quercus_ilex"="")
-allsppwsubs <- unname(subspecies[allspphere])
-
+allspphere[which(!allspphere %in% unique(bb.stan$latbi))]
+# To discuss! How did we pick these species? See issue #379 ... I think we do not want Alnus rubra so okay to let it drop
 
 bb.stan.orig <- bb.stan
-bb.stan <- bb.stan[which(bb.stan$complex.wname %in% allspphere),]
+bb.stan <- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of the bb.stan.orig data
 
-# Next ... add column for home continent ... then figure out model... then re-label species names as numeric... 
-
+bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
+   
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = latbinum,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$latbinum))
+                    )
+)
 
 ######################################
 ## Overview of the model run below ##
 ######################################
-# New model ... THINKING still.... 
+# It's our basic model with partial pooliing on slopes and intercepts
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
 # Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
-m2l.ni = stan('stan/nointer_2levelTEST.stan', data = datalist.bb,
-               iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) 
 
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
@@ -131,43 +136,6 @@ if (use.flags.for.allspp.utah.nonz){
   save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
 }
 
-#Other combinations of flags used at some point (but not in the main bb manuscript)
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
-}
-
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
-}
-
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
-}
-
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
-}
 
 
 ###### SIDE BAR #####
@@ -192,8 +160,6 @@ rsq <- function (x, y) cor(x, y) ^ 2
 rsq(observed.here, preds.mod.sum[,1])
 summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
 
-# spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
-#  0.5689911
 }
 ####### END SIDE BAR #######
 
