@@ -90,14 +90,14 @@ transformed parameters{
   
   for(i in 1:nsppheno){
     
-    b_photomin =  mu_aphotomin[i] + mu_bphotomin * a_mins_sp[i];
-    b_photomax =  mu_aphotomax[i] + mu_bphotomax * a_maxs_sp[i];
+    b_photomin =  mu_aphotomin[i] + mu_bphotomin[i] * a_mins_sp[i];
+    b_photomax =  mu_aphotomax[i] + mu_bphotomax[i] * a_maxs_sp[i];
     
-	  b_forcemin =  mu_aforcemin[i] + mu_bforcemin * a_mins_sp[i];
-	  b_forcemax =  mu_aforcemax[i] + mu_bforcemax * a_maxs_sp[i];
+	  b_forcemin =  mu_aforcemin[i] + mu_bforcemin[i] * a_mins_sp[i];
+	  b_forcemax =  mu_aforcemax[i] + mu_bforcemax[i] * a_maxs_sp[i];
 	  
-	  b_chillmin =  mu_achillmin[i] + mu_bchillmin * a_mins_sp[i];
-	  b_chillmax =  mu_achillmax[i] + mu_bchillmax * a_maxs_sp[i];
+	  b_chillmin =  mu_achillmin[i] + mu_bchillmin[i] * a_mins_sp[i];
+	  b_chillmax =  mu_achillmax[i] + mu_bchillmax[i] * a_maxs_sp[i];
 	  
 	}
 	  
@@ -153,12 +153,12 @@ model{
   sigma_yforce ~ normal(0, 2);
   sigma_ychill ~ normal(0, 2);
   
-  sigma_aphotomin ~ normal(0, 5);
-  sigma_aphotomax ~ normal(0, 5);
-  sigma_aforcemin ~ normal(0, 5);
-  sigma_aforcemax ~ normal(0, 5);
-  sigma_achillmin ~ normal(0, 5);
-  sigma_achillmax ~ normal(0, 5);
+  sigma_aphotomin ~ normal(0, 2);
+  sigma_aphotomax ~ normal(0, 2);
+  sigma_aforcemin ~ normal(0, 2);
+  sigma_aforcemax ~ normal(0, 2);
+  sigma_achillmin ~ normal(0, 2);
+  sigma_achillmax ~ normal(0, 2);
   
 
 	// likelihoods 
@@ -171,7 +171,7 @@ model{
   
 }
 
-generated quantities {
+/*generated quantities {
    real y_ppmin[N];
    real y_ppmax[N];
    real y_ppphoto[Npheno];
@@ -206,4 +206,4 @@ generated quantities {
    
    //y_pp = normal_rng(y_pp, sigma_y);
    
-} 
+}*/ 

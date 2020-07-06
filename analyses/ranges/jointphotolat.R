@@ -72,8 +72,8 @@ latstan <- list(mindat = simlat$minlat, maxdat = simlat$maxlat, meandat = simlat
 
 # Try to run the Stan model
 if(FALSE){
-latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 1000, iter = 2000,
-    chains = 4,  control=list(max_treedepth = 15)) 
+latfit <- stan(file = "stan/jointlat_latmodel.stan", data = latstan, warmup = 500, iter = 1000,
+    chains = 1,  control=list(max_treedepth = 15)) 
 fitsum <- summary(latfit)$summary
 }
 # pairs(traitfit, pars=c("sigma_sp", "sigma_study", "sigma_y", "lp__"))
@@ -177,13 +177,13 @@ sigma_bchillmin <- 1
 sigma_bchillmax <- 1
 
 beta_photomin <- 1
-beta_photomax <- 2
+beta_photomax <- 0.5
 
-beta_forcemin <- -1
-beta_forcemax <- -2
+beta_forcemin <- -0.5
+beta_forcemax <- -1
 
 beta_chillmin <- -0.5
-beta_chillmax <- 3
+beta_chillmax <- 1.5
 
 n <- 10 # number of replicates per sp x study (may eventually want to draw this from a distribution to make data more realistic)
 nsp <- 30 # number of species
@@ -211,14 +211,14 @@ a_photo <- rnorm(nsp, -2, sigma_aphoto)
 a_force <- rnorm(nsp, -4, sigma_aforce)
 a_chill <- rnorm(nsp, -7, sigma_achill)
 
-mua_photomin <- -2
-mua_photomax <- -1
+mua_photomin <- -1
+mua_photomax <- -0.5
 
-mua_forcemin <- -2
+mua_forcemin <- -1
 mua_forcemax <- 0.5
 
-mua_chillmin <- -1
-mua_chillmax <- 2
+mua_chillmin <- -0.5
+mua_chillmax <- 1
 
 sigma_aphotomin <- 0.5
 sigma_aphotomax <- 0.5
@@ -230,10 +230,10 @@ sigma_achillmax <- 0.5
 Pmean <- 6
 Psigma <- 2
 
-Fmean <- 10
-Fsigma <- 3
+Fmean <- 5
+Fsigma <- 2
 
-Cmean <- 5
+Cmean <- 2
 Csigma <- 3
 
 simpheno <- data.frame(sp=numeric(), a_photo=numeric(), a_force=numeric(), a_chill=numeric(), P=numeric(), F=numeric(), C=numeric())
@@ -259,14 +259,14 @@ simlat$minlat <- a_min + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
 simlat$maxlat <- a_max + simlat$mua_sp + rnorm(nrow(simlat), 0, sigma_y)
 
 #bphoto_min <- mua_photomin + beta_photomin*mua_sp 
-bphoto_min <- mua_photomin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aphotomin)
-bphoto_max <- mua_photomax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aphotomax)
+bphoto_min <- mua_photomin + beta_photomin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aphotomin)
+bphoto_max <- mua_photomax + beta_photomax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aphotomax)
 
-bforce_min <- mua_forcemin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aforcemin)
-bforce_max <- mua_forcemax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aforcemax)
+bforce_min <- mua_forcemin + beta_forcemin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_aforcemin)
+bforce_max <- mua_forcemax + beta_forcemax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_aforcemax)
 
-bchill_min <- mua_chillmin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_achillmin)
-bchill_max <- mua_chillmax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_achillmax)
+bchill_min <- mua_chillmin + beta_chillmin * simlat$minlat + rnorm(nrow(simpheno), 0, sigma_achillmin)
+bchill_max <- mua_chillmax + beta_chillmax * simlat$maxlat + rnorm(nrow(simpheno), 0, sigma_achillmax)
 
 simpheno$photodat <- simpheno$a_photo + simpheno$P*bphoto_min + simpheno$P*bphoto_max + rnorm(nrow(simpheno), 0, sigma_yphoto)
 simpheno$forcedat <- simpheno$a_force + simpheno$F*bforce_min + simpheno$F*bforce_max + rnorm(nrow(simpheno), 0, sigma_yforce)
@@ -287,7 +287,8 @@ latstanpheno <- list(mindat = simlat$minlat, maxdat = simlat$maxlat,
                      chilldat = simpheno$chilldat,
                      N = N, nsp = nsp, species = simlat$sp, 
                      Npheno = Npheno, nsppheno = nsp,
-                     speciespheno = simpheno$sp, photoperiod = simpheno$P, forcing = simpheno$F, chilling = simpheno$C)
+                     speciespheno = simpheno$sp, photoperiod = simpheno$P, 
+                     forcing = simpheno$F, chilling = simpheno$C, latmins = simlat$a_min, latmaxs = simlat$a_max)
 
 
 
@@ -305,7 +306,7 @@ load("~/Desktop/ranges_jointmod.Rda")
 
 # Checking against sim data
 bigfitpost <- rstan::extract(jointfit)
-bigfitsum <- summary(jointfit)$summary
+bigfitsum <- rstan::summary(jointfit)$summary
 
 sd(simpheno$photo) ## 6.74
 mean(bigfitsum[grep("sigma_yphoto", rownames(bigfitsum)),"mean"]) ### 6.96
