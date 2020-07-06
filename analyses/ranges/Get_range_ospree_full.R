@@ -30,7 +30,7 @@ library('ncdf4')
 library('abind')
 library('chillR')
 library('RColorBrewer')
-
+library('dismo')
 
 
 ## load climate data rasters (these data are not currently in the ospree folder 
@@ -438,6 +438,7 @@ seqgdd<-seq(1,nrow(list.allspsjoint),7)
 seqgdd.frost<-seq(2,nrow(list.allspsjoint),7)
 seqmintemp<-seq(4,nrow(list.allspsjoint),7)
 
+par(mfrow=c(1,3),mar=c(4,4,1,1))
 plot(list.allspsjoint$Geo.Mean[seqgdd],
      list.allspsjoint$Temp.Mean[seqgdd],xlim=c(360,430),ylim=c(360,430),
      xlab="GDD - geographic mean",ylab="GDD - temporal mean",
@@ -456,6 +457,7 @@ plot(list.allspsjoint$Geo.Mean[seqmintemp],
      pch=16,col=adjustcolor(1,0.4))
 abline(a=0,b=1,lty=2,col='red')
 
+dev.off()
 
 ## For some species, GDDs and Min Temps tend to have sensibly lower 
 ## temporal means than geographic means (i.e. lower values are reached
@@ -474,168 +476,169 @@ spslist[rank(list.allspsjoint$Temp.Mean[seqmintemp]/
 
 
 
+
 #'######################################
 #### plotting a few example species ####
 #'######################################
 
-# get the file address for target file
-# spsi = "Abies_alba"
+library(rworldmap)
+library(RColorBrewer)
 
-# load shapefile
-spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset/Abies alba/shapefiles/Abies_alba_plg.shp")
+worldmap <- getMap(resolution="high") 
+#plot(worldmap,col="grey",border="grey",xlim=c(-10,50),ylim=c(32,72))
 
-## need to re-project shape from lamber equal area to geographic
- spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
-## code to plot within range climate interannual variation
 
-dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
-dat = as.data.frame(na.omit(dat))
-unique(paste(dat$x,dat$y))
-
-means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
-
-dev.off()
-par(mfrow=c(2,3))
-for(i in c(5,6,8:11)){
+## function to extract/correct the shape for a given species
+getspsshape<-function(spslist,sps.num,ras.numpixels){
   
-  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
+  i<-sps.num
+  spsi<-spslist[i]
+  print(spsi)
   
-  plot(means.sites$x,means.sites$y,col=cols1,pch=16,cex=1.5,
-       main=colnames(SDs.sites)[i])
-  lines(spsshapeproj)
+  #fullnamei<-fullnames[i]
+  
+  ## load shape
+  
+  path.source.i <- "../../data/distributiondata/chorological_maps_dataset_20170220.zip"
+  
+  # get the file address for target file
+  zipped_name.i <- grep(paste(spsi,'_plg',sep=""), 
+                        unzip(path.source.i,
+                              list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
+  
+  if(length(zipped_name.i)==0){
+    
+    specific <- unlist(strsplit(spsi,"_"))[2]
+    zipped_name.i <- grep(paste(spsi,specific,'plg',sep="_"), 
+                          unzip(path.source.i,
+                                list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
+    
+  }
+  
+  # extract target file
+  unzip(path.source.i, files=zipped_name.i)
+  
+  # load shapefile
+  spsshape <- shapefile(zipped_name.i[3])
+  
+  ## need to re-project shape from lamber equal area to geographic
+  spsshapeproj <- spTransform(spsshape,proj4string(ras.numpixels))
+  #lines(spsshapeproj)
+  #
+  
+  return(spsshapeproj)
 }
 
+## examples of application
+abialb <- getspsshape(spslist,1,tmin[[1]])
+sorauc <- getspsshape(spslist,21,tmin[[1]])
 
 
+
+
+## plot shape with data on top
+dir.fig = "figures/eu_sps_climate_maps/"
+
+plot.shape.data<-function(spsshape,sps.name,
+                          dir.out,dir.fig,
+                          type=c("means","sds")){
+  
+  #sps.name<-spslist[3]
+  
+  ## plot base map + range map
+  extent.sps.i <- extent(spsshape)+3
+  
+  if(extent.sps.i[2]>50){extent.sps.i[2] = 50}
+  if(extent.sps.i[3]<32){extent.sps.i[3] = 32}
+  
+  ## retrieve and format data
+  ## code to plot within range climate interannual variation
+  #dir.out <- "~/GitHub/ospree/analyses/ranges/output/"
+  files.out <- dir(dir.out)
+  
+  sps.out <- files.out[which(grepl(sps.name,files.out)&grepl("fullextract",files.out))]
+  
+  dat = read.csv(paste(dir.out,sps.out,sep=""))
+  dat = as.data.frame(na.omit(dat))
+  
+  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+  
+  
+  if(type=="means"){
+    pdf(paste(dir.fig,sps.name,'.means.pdf',sep="")
+        #,width = 11
+    )
+  }
+  
+  
+  if(type=="sds"){
+    pdf(paste(dir.fig,sps.name,'.sds.pdf',sep="")
+        # ,width = 11
+    )
+  }
+  
+  par(mfrow=c(2,3),mar=c(1,1,1,1))
+  
+  
+  for(i in c(5,6,8:11)){#i=5
+    
+    
+    if(type=="means"){
+      cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-means.sites[,i],breaks = 100))]
+    }
+    
+    if(type=="sds"){
+      cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
+    }
+    
+    
+    plot(worldmap,col="lightgrey",border="lightgrey",
+         xlim=c(extent.sps.i[1],extent.sps.i[2]),
+         ylim=c(extent.sps.i[3],extent.sps.i[4]))
+    text(extent.sps.i[2]-1,extent.sps.i[4],
+         paste(sps.name,colnames(SDs.sites)[i]),pos=2)
+    plot(spsshape,col=adjustcolor('black',0),add=T,
+         border=adjustcolor('black',0.5))
+    
+    points(means.sites$x,means.sites$y,col=cols1,pch=19,cex=0.8)
+    
+  }
+  dev.off()
+  
+  
+  
+}
+
+# example of usage
+plot.shape.data(sorauc,spslist[i],dir.out,dir.fig,"means")
+
+
+#### loop across species ####
+
+for (i in 1:length(spslist)){
+  
+  print(spslist[i])
+  
+  spsshape <- getspsshape(spslist,i,tmin[[1]])
+  
+  plot.shape.data(spsshape,spslist[i],
+                  dir.out,dir.fig,'sds')
+  plot.shape.data(spsshape,spslist[i],
+                  dir.out,dir.fig,'means')
+  
+}
+
+dev.off()
 
 
 ## saving outputs
 #save(Climate.in.range, file = paste("output/climate.in.range",
- #                                   period[1],max(period),"RData",sep="."))
+#                                   period[1],max(period),"RData",sep="."))
 
 ## remove aux unnecessary files
 unlink("chorological_maps_dataset/*", recursive = T)
 
 
 
-
-## load packages
-library('raster')
-library('ncdf4')
-library('abind')
-library('chillR')
-
-dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
-
-year1<-subset(dat,year==1981)
-head(year1)
-dev.off()
-plot(year1$x,year1$y)
-lines(spsshapeproj,col='red')
-
-synth.data<-function(dat){
-  
-  years = unique(dat$year)
-  nyears = length(years)
-  dat$ID = rep(1:nrow(year1),nyears)
-  
-  storing = array(NA, dim=c(7,4))
-  row.names(storing) = colnames(dat)[4:10]
-  colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
-  
-  
-  means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
-  SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
-  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
-  
-  storing[,1] <- colMeans(means.years, na.rm = T)[5:11]
-  storing[,2] <- colMeans(SDs.years, na.rm = T)[5:11]
-  storing[,3] <- colMeans(means.sites, na.rm = T)[5:11]
-  storing[,4] <- colMeans(SDs.sites, na.rm = T)[5:11]
-  
-  return(storing)
-}
-
-
-sps.1<-synth.data(dat)
-
-
-
-
-## load climate data rasters (these data are not currently in the ospree folder 
-tmin<-brick("~/Data_Harvard/EU trees/tn_0.50deg_reg_v17.0.nc", varname="tn", sep="")
-
-
-# get the file address for target file
-# spsi = "Abies_alba"
-
-# load shapefile
-spsshape <- shapefile("~/GitHub/ospree/analyses/ranges/chorological_maps_dataset/Abies alba/shapefiles/Abies_alba_plg.shp")
-
-## need to re-project shape from lamber equal area to geographic
-## 
-spsshapeproj<-spTransform(spsshape,proj4string(tmin[[1]]))
-
-
-## code to plot within range climate interannual variation
-means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
-
-par(mfrow=c(2,3))
-for(i in c(5,6,8:11)){
-  
-  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
-  
-  plot(means.sites$x,means.sites$y,col=cols1,pch=16,cex=1.5,
-       main=colnames(SDs.sites)[i])
-  lines(spsshapeproj)
-}
-
-par(mfrow=c(2,3))
-for(i in c(5,6,8:11)){
-  
-  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.years[,i],breaks = 100))]
-  
-  plot(means.years$x,means.years$y,#col=cols1,pch=16,cex=1.5,
-       main=colnames(SDs.sites)[i])
-  lines(spsshapeproj)
-}
-
-
-
-
-spsi<-spslist[i]
-print(spsi)
-
-#fullnamei<-fullnames[i]
-
-## load shape
-
-path.source.i <- "../../data/distributiondata/chorological_maps_dataset_20170220.zip"
-
-# get the file address for target file
-zipped_name.i <- grep(paste(spsi,'_plg',sep=""), 
-                      unzip(path.source.i,
-                            list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
-
-if(length(zipped_name.i)==0){
-  
-  specific <- unlist(strsplit(spsi,"_"))[2]
-  zipped_name.i <- grep(paste(spsi,specific,'plg',sep="_"), 
-                        unzip(path.source.i,
-                              list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
-  
-}
-
-# extract target file
-unzip(path.source.i, files=zipped_name.i)
-
-# load shapefile
-spsshape <- shapefile(zipped_name.i[3])
-
-## need to re-project shape from lamber equal area to geographic
-spsshapeproj <- spTransform(spsshape,proj4string(ras.numpixels))
-#lines(spsshapeproj)
 
