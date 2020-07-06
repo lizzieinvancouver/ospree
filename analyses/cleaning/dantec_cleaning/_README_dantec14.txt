@@ -9,13 +9,12 @@ New cleaning steps:
 
 - fieldsample.date was changed from "15-Oct-10" to "unclear 15-Oct-10 to 15-Apr-11" in all datasets. The paper lists the sample schedule as about every two weeks mid-Oct 2010 to mid-Apr 2011 without giving specific start or end dates and without
 
-- added letters to figure numbers (FJ = 3a, MDG = 3b, DF = 3c). Previously all said "fig 3)"
+- added letters to figure numbers (FJ = 3a, MDG = 3b, DF = 3c). Previously all said "fig 3"
 
 - fixed entry labeled "dantec15" in MDG dataset
 - fixed population.altitude.m entries for MDG F. sylvatica (first high elevation entry labeled as low elevation and first low elevation entry labeled as high elevation)
 
 - Chill days from paper were entered in field.chill.units for FJ dataset. This information was moved to chill.days.
 
-# add readme about what we did, why we scraped, and data problems
-# chill units = chilling calc, 5degthreshold, see paper
+- chill units are from the chilling calculation in the paper using a 5 degree threshold (10 degree threshold for fig 3b), see paper.
 # Is the data from Faith and Mira the same just using different threshold for calculation - if so do we keep both?

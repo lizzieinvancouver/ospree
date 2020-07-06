@@ -17,6 +17,8 @@ fj <- read.csv("cleaning/dantec_cleaning/Dantec14_fj.csv", header = TRUE)
 # merge datasets
 dan <- rbind(mdg, fj)
 
+### dan has more columns than new data - why???
+
 # correct datasetID for entry 39 MDG dataset from "dantec15"
 dan$datasetID[which(dan$datasetID == "dantec15")] <- "dantec14"
 
@@ -35,7 +37,16 @@ dan$population.altitude.m[which(dan$Entered.By == "MDG" & dan$chilldays == "0")]
 
 # FJ entered chill.days in field.chill.units. Move this info to chill.days and delete from field.chill.units
 dan$chilldays[which(dan$Entered.By == "FJ")] <- dan$field.chill.units[which(dan$Entered.By == "FJ")]
-dan$field.chill.units[which(dan$Entered.By == "FJ")] <- c() ##
+dan$field.chill.units[which(dan$Entered.By == "FJ")] <- "NA" ## IS IT OKAY TO HAVE NAs
+
+# add more info to cu.model
+dan$cu.model[which(dan$cu.model == "day-5")] <- "chillcalc,5degthreshold,see paper"
+dan$cu.model[which(dan$cu.model == "day-10")] <- "chillcalc,10degthreshold,see paper"
+
+# same for DF data
+df$cu.model <- "chillcalc,10degthreshold,see paper"
 
 # remove empty row
 dan2 <- dan[which(dan$datasetID != ""),]
+
+# merge them together?? MG and FJ data has less columns - not sure where the other columns are coming from in ospree
