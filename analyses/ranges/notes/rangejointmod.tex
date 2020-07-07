@@ -21,12 +21,6 @@
 y_{mins}& \sim N(\hat{y}_{mins},\sigma_{mins, y}) \\
 y_{maxs}& \sim N(\hat{y}_{maxs},\sigma_{maxs, y}) \\
 \vspace{1ex}\\
-\hat{y}_{photo, i} &= \alpha_{photo, sp[i]} + \beta_{photoperiod_{sp[i]}}*P_i \\
-\beta_{photoperiod_{sp}} & = \alpha_{photoperiod_{sp}} + \beta_{minlat x photo}*\alpha_{minlat,sp}  + \beta_{maxlat x photo}*\alpha_{maxlat,sp}\\
-\alpha_{photo, sp} & \sim N(\mu_{\alpha, photo}, \sigma_{\alpha, photo}) \\
-\alpha_{photoperiod_{sp}} & \sim N(\mu_{\alpha, photoperiod}, \sigma_{\alpha, photoperiod})\\
-y_{photo} & \sim N(\hat{y}_{photo},\sigma_{y, photo}) \\
-\vspace{1ex}\\
 \hat{y}_{photo, i} &= \alpha_{photo, sp[i]} + \beta_{photomin_{sp[i]}}*P_i + \beta_{photomax_{sp[i]}}*P_i\\
 \beta_{photomin_{sp}} & = \alpha_{photomin_{sp}} + \beta_{minlat x photo}*\alpha_{minlat,sp}\\
 \beta_{photomax_{sp}} & = \alpha_{photomax_{sp}} + \beta_{maxlat x photo}*\alpha_{maxlat,sp}\\
