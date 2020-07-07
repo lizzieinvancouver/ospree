@@ -532,12 +532,13 @@ getspsshape<-function(spslist,sps.num,ras.numpixels){
 ## examples of application
 abialb <- getspsshape(spslist,1,tmin[[1]])
 sorauc <- getspsshape(spslist,21,tmin[[1]])
-
+cornmas <- getspsshape(spslist,9,tmin[[1]])
 
 
 
 ## plot shape with data on top
 dir.fig = "figures/eu_sps_climate_maps/"
+dir.out <- "~/GitHub/ospree/analyses/ranges/output/"
 
 plot.shape.data<-function(spsshape,sps.name,
                           dir.out,dir.fig,
@@ -567,14 +568,14 @@ plot.shape.data<-function(spsshape,sps.name,
   
   if(type=="means"){
     pdf(paste(dir.fig,sps.name,'.means.pdf',sep="")
-        #,width = 11
+        ,width = 12
     )
   }
   
   
   if(type=="sds"){
     pdf(paste(dir.fig,sps.name,'.sds.pdf',sep="")
-        # ,width = 11
+         ,width = 12
     )
   }
   
@@ -611,7 +612,7 @@ plot.shape.data<-function(spsshape,sps.name,
 }
 
 # example of usage
-plot.shape.data(sorauc,spslist[i],dir.out,dir.fig,"means")
+plot.shape.data(cornmas,spslist[9],dir.out,dir.fig,"means")
 
 
 #### loop across species ####
