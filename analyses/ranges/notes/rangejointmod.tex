@@ -14,31 +14,27 @@
 
 
 \begin{align*}
-\hat{y}_{trait, i} &= \alpha_{trait.grand} + \alpha_{trait, sp[i]}\\
-\alpha_{trait, sp} & \sim N(0, \sigma_{\alpha, trait}) \\
-\alpha_{study}  & \sim N(0, \sigma_{\alpha, study})\\
-y_{trait}& \sim N(\hat{y}_{trait},\sigma^2_{trait, y}) \\
+\hat{y}_{minlat, i} &= \alpha_{minlat, sp[i]}\\
+\hat{y}_{maxlat, i} &= \alpha_{maxlat, sp[i]}\\
+\alpha_{minlat, sp} & \sim N(0, \sigma_{\alpha, minlat}) \\
+\alpha_{maxlat, sp} & \sim N(0, \sigma_{\alpha, maxlat}) \\
+y_{mins}& \sim N(\hat{y}_{mins},\sigma_{mins, y}) \\
+y_{maxs}& \sim N(\hat{y}_{maxs},\sigma_{maxs, y}) \\
 \vspace{1ex}\\
-\hat{y}_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i \\
-\beta_{forcing_{sp}} & = \alpha_{forcing_{sp}} + \beta_{trait x pheno}*\alpha_{trait, sp} \\
-\alpha_{pheno, sp} & \sim N(\mu_{\alpha, pheno}, \sigma_{\alpha, pheno}) \\
-\alpha_{forcing_{sp}} & \sim N(\mu_{\alpha, forcing}, \sigma_{\alpha, forcing})\\
-y_{pheno} & \sim N(\hat{y}_{pheno},\sigma^2_{y, pheno}) 
+\hat{y}_{photo, i} &= \alpha_{photo, sp[i]} + \beta_{photoperiod_{sp[i]}}*P_i \\
+\beta_{photoperiod_{sp}} & = \alpha_{photoperiod_{sp}} + \beta_{minlat x photo}*\alpha_{minlat,sp}  + \beta_{maxlat x photo}*\alpha_{maxlat,sp}\\
+\alpha_{photo, sp} & \sim N(\mu_{\alpha, photo}, \sigma_{\alpha, photo}) \\
+\alpha_{photoperiod_{sp}} & \sim N(\mu_{\alpha, photoperiod}, \sigma_{\alpha, photoperiod})\\
+y_{photo} & \sim N(\hat{y}_{photo},\sigma_{y, photo}) \\
+\vspace{1ex}\\
+\hat{y}_{photo, i} &= \alpha_{photo, sp[i]} + \beta_{photomin_{sp[i]}}*P_i + \beta_{photomax_{sp[i]}}*P_i\\
+\beta_{photomin_{sp}} & = \alpha_{photomin_{sp}} + \beta_{minlat x photo}*\alpha_{minlat,sp}\\
+\beta_{photomax_{sp}} & = \alpha_{photomax_{sp}} + \beta_{maxlat x photo}*\alpha_{maxlat,sp}\\
+\alpha_{photo, sp} & \sim N(\mu_{\alpha, photo}, \sigma_{\alpha, photo}) \\
+\alpha_{photomin_{sp}} & \sim N(\mu_{\alpha, photomin}, \sigma_{\alpha, photomin})\\
+\alpha_{photomax_{sp}} & \sim N(\mu_{\alpha, photomax}, \sigma_{\alpha, photomax})\\
+y_{photo} & \sim N(\hat{y}_{photo},\sigma_{y, photo}) 
 \end{align*}
 
-\vspace{5ex}
-\begin{align*}
-\hat{y}_{trait, i} &= \alpha_{trait.grand} + \alpha_{trait, sp[i]} + \alpha_{study[i]}\\
-\alpha_{trait, sp} & \sim N(0, \sigma_{\alpha, trait}) \\
-\alpha_{study}  & \sim N(0, \sigma_{\alpha, study})\\
-y_{trait}& \sim N(\hat{y}_{trait},\sigma^2_{trait, y}) \\
-\end{align*}
-
-\begin{align*}
-y_{trait, i} &= \alpha_{trait, sp[i]} + \alpha_{study[i]} + \epsilon_{trait, i}\\
-\alpha_{trait, sp} & \sim N(\mu_{\alpha, trait}, \sigma_{\alpha, trait}) \\
-\alpha_{study}  & \sim N(\mu_{\alpha, study}, \sigma_{\alpha, study})\\
-\epsilon_{trait} & \sim N(0,\sigma^2_{trait, y}) \\
-\end{align*}
 
 \end{document}
