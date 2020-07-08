@@ -15,8 +15,32 @@ if(length(grep("Lizzie", getwd())>0)) {
 setwd("~/Documents/git/ospree/analyses/ranges") 
 
 
-### From Lines 17-96 are just cleaning files so masked for now to make plots
+
+### From Lines 19-99 are just cleaning files so masked for now to make plots - takes a long time to run
 if(FALSE){
+  
+  ### Alright, now I would like to clean up the species names and also add a column to mark NAM vs EUR
+  species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+  species.list <- as.vector(species.list$x)
+  spplist <- as.data.frame(species.list)
+  #spplist <- rbind(spplist, "Alnus_rubra")
+  
+  ## The NAM species are listed by 6-digit code, need to fix...
+  zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+  
+  # generate a list of species with maps in the .zip  
+  species.list.maps <- unlist(zipped_names)
+  species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
+  species.list.clean <- species.list.maps
+  species.list.clean <- species.list.clean[-8]
+  
+  namspp <- data.frame(simpspp = species.list.clean,
+                       compspp = c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
+                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", #"Alnus_rubra",
+                                   "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
+                                   "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca"))
+  
+
   ### Let's open up all climate files first...
   # Name the objects first
   mycsv = as.vector(dir("climoutput", pattern=".csv"))
@@ -26,12 +50,52 @@ if(FALSE){
   mylist <- vector("list", n)
   
   for(i in 1:n) mylist[[i]] <- read.csv(paste0("climoutput/",mycsv[i]))
-  names(mylist) <- substr(mycsv, 18,30)
+  names(mylist) <- substr(mycsv, 18, 25)
+  
+  namspp <- namspp[-2,]
+  
+  for(i in c(1:nrow(namspp))){
+    
+    spp1 <- read.csv(paste0("climoutput/Climate.in.range.",namspp$simpspp[i],".1980.1999.csv"))
+    spp2 <- read.csv(paste0("climoutput/Climate.in.range.",namspp$simpspp[i],".2000.2016.csv"))
+  
+      spp1$X <- NULL
+      spp2$X <- NULL
+      
+      colnames(spp1) <- paste0(rep(c("long","lat","GDD","GDD.lastfrost", 
+                                 "DayLastFrost","MeanTmins","SDevs.Tmins",	
+                                 "Mean.Utah.Chill", "Mean.Chill.Portions"), 19), rep(1980:1999, each=9))
+      
+      colnames(spp2) <- paste0(rep(c("long","lat","GDD","GDD.lastfrost", 
+                                        "DayLastFrost","MeanTmins","SDevs.Tmins",	
+                                        "Mean.Utah.Chill", "Mean.Chill.Portions"), 17), rep(2000:2016, each=9))
+      
+      spp <- as.data.frame(cbind(spp1, spp2))
+      
+      write.csv(corcor, paste0("climoutput/Climate.in.range.",namspp$compspp[i],".1980.2016.csv"), row.names = FALSE)
+}
+  
+  ### Let's open up all climate files first...
+  # Name the objects first
+  mycsv = as.vector(dir("climoutput", pattern=".csv"))
+  
+  # Then create a list of dataframes
+  n <- length(mycsv)
+  mylist <- vector("list", n)
+  
+  for(i in 1:n) mylist[[i]] <- read.csv(paste0("climoutput/",mycsv[i]))
+  names(mylist) <- substr(mycsv, 18, 35)
+  #starts <- as.numeric(substr(mycsv, 27, 30))
+  #ends <- as.numeric(substr(mycsv, 32, 35))
+  
+  #years <- cbind(starts, ends)
   
   # Now, let's make sure all of the dataframes have the same column names
   mylist <- lapply(mylist, function(x) 
-  {names(x) <- c("year", "gdd", "gdd.sd", "utah", "utah.sd", "ports", "ports.sd") ; 
+  {names(x) <- c("",rep(c("long", "lat", "GDD",	"GDD.lastfrost", "DayLastFrost",	"MeanTmins",	"SDev.Tmins",	"Mean.Chill.Utah",	"Mean.Chill.Portions"), 17)) ; 
   return(x)})
+  
+  
   
   # Okay, now let's merge them all together into one major dataframe 
   # (not sure how to do this other than using dplyr or purrr)
@@ -54,7 +118,7 @@ if(FALSE){
   species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
   species.list <- as.vector(species.list$x)
   spplist <- as.data.frame(species.list)
-  spplist <- rbind(spplist, "Alnus_rubra")
+  #spplist <- rbind(spplist, "Alnus_rubra")
   
   ## The NAM species are listed by 6-digit code, need to fix...
   zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
@@ -66,9 +130,9 @@ if(FALSE){
   
   namspp <- data.frame(simpspp = species.list.clean,
                        compspp = c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", #"Alnus_rubra",
                                    "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-                                   "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca"))
+                                   "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca"))
   
   for(i in 1:c(nrow(spplist))){ # i=1
     for(j in 1:c(nrow(namspp))) #j=1
@@ -85,11 +149,11 @@ if(FALSE){
   }
   
   
-  #### Alright, now just need to add if NAM or EU
+  #### Alright, now just need to add in NAM or EU
   nam <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-           "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+           "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", #"Alnus_rubra",
            "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-           "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca", "Alnus_rubra")
+           "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
   
   df$continent <- ifelse(df$complex_name%in%nam, "north america", "europe")
   df$source <- NULL
