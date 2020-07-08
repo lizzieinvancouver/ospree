@@ -285,6 +285,9 @@ d$study[d$study=="exp 5"] <- "exp5"
 ### Need to update fu19:
 d$fieldsample.date[which(d$datasetID=="fu19")] <- "01-Jan-2016"
 
+### We mis-entered a species from Flynn & Wolkovich (yes, we mis-entered our own data)
+d$genus[which(d$datasetID=="flynn18" & d$genus=="Cornus")] <- "Corylus"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
