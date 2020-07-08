@@ -14,8 +14,10 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+
 # libraries
 library(shinystan)
+library(reshape2)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
@@ -163,3 +165,23 @@ summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
 }
 ####### END SIDE BAR #######
 
+
+#####part2 extract the posteriors for cue~range paramenter modeling
+sample <- rstan::extract(m2l.ni)### extract the posteriors
+
+sample.force <- melt(sample$b_force) ###grab them for each cue
+sample.chill <- melt(sample$b_chill)
+sample.photo <- melt(sample$b_photo)
+
+names(sample.force) <- c("iter", "latbinum", "b_force") ##rename
+names(sample.chill) <- c("iter", "latbinum", "b_chill")
+names(sample.photo) <- c("iter", "latbinum", "b_photo")
+
+cue.df<-left_join(sample.force, sample.chill) ##merge them into one data sheet step1
+cue.df<-left_join(cue.df,sample.photo) ### "" step 2
+cue.df <- subset(cue.df, iter>1500) ## remove warmup iterations from analyses
+concordance<-dplyr::select(bb.stan,latbi,latbinum)
+concordance<-unique(concordance)
+
+cue.df<-left_join(cue.df,concordance)
+write.csv(cue.df,"output/cue_posteriors.csv",row.names = FALSE)
