@@ -53,7 +53,7 @@ unique(bb.stan$latbi)
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
-"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca") 
+"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca") # Will be Corylus_cornuta once data updated
 
 eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnus_glutinosa",
 "Alnus_incana", "Betula_pendula", "Betula_pubescens", "Carpinus_betulus",
@@ -65,6 +65,12 @@ allspphere[which(!allspphere %in% unique(bb.stan$latbi))]
 
 bb.stan.orig <- bb.stan
 bb.stan <- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of the bb.stan.orig data
+
+# Check on ambient-only studies ... delete some rows
+bb.stanamb <- subset(bb.stan, photo_type=="amb" | force_type=="amb")
+unique(bb.stanamb$latbi) # I am not going to check Fagus_sylvatica, but I checked the rest and they all have exp treatments also
+# bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes the same rows as below ...
+bb.stan <- subset(bb.stan, force_type!="amb") # deletes about 100 rows
 
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
    
