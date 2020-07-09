@@ -35,17 +35,18 @@ if(length(grep("Lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R #
 ######################################
 
-# Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
-use.flags.for.mainmodel <- FALSE
-use.flags.for.spcomp.cp <- FALSE
-use.flags.for.allspp.utah <- TRUE
-use.flags.for.spcomp.utah.nonz <- FALSE
-use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
-use.flags.for.allspp.utah.nonz <- FALSE
-use.yourown.flagdesign <- FALSE
+# Our flags for ranges, for now ... (see issue #379)
+use.chillports = FALSE
+use.zscore = TRUE
+use.allspp = TRUE
+use.multcuespp = FALSE
+use.cropspp = TRUE
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+    
 
 setwd("..//bb_analysis")
-source("source/flags.for.models.in.bbms.R")
 source("source/bbstanleadin.R")
 setwd("..//ranges")
 
@@ -71,8 +72,7 @@ bb.stan <- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of th
 # Check on ambient-only studies ... delete some rows
 bb.stanamb <- subset(bb.stan, photo_type=="amb" | force_type=="amb")
 unique(bb.stanamb$latbi) # I am not going to check Fagus_sylvatica, but I checked the rest and they all have exp treatments also
-# bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes the same rows as below ...
-bb.stan <- subset(bb.stan, force_type!="amb") # deletes about 100 rows
+# bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes about 100 rows 
 
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
    
