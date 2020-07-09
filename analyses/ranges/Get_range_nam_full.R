@@ -45,16 +45,12 @@ species.list.clean <- species.list.maps
 
 ## Now I need to rename these folders to match the ospree info
 names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                              "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+                              "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior",
                               "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
                               "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
 
 # get a list of species in ospree for which we have EU maps
 ospreespslist <- species.list[which(species.list %in% names(species.list.clean))]
-## This takes out:
-# Alnus rubra
-ospreespslist <- c(ospreespslist, "Alnus_rubra")
-
 spslist <- species.list.maps
 
 if(FALSE){

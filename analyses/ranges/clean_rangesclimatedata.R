@@ -85,15 +85,6 @@ if(FALSE){
   
   for(i in 1:n) mylist[[i]] <- read.csv(paste0("climoutput/",mycsv[i]))
   names(mylist) <- substr(mycsv, 18, 35)
-  #starts <- as.numeric(substr(mycsv, 27, 30))
-  #ends <- as.numeric(substr(mycsv, 32, 35))
-  
-  #years <- cbind(starts, ends)
-  
-  # Now, let's make sure all of the dataframes have the same column names
-  mylist <- lapply(mylist, function(x) 
-  {names(x) <- c("",rep(c("long", "lat", "GDD",	"GDD.lastfrost", "DayLastFrost",	"MeanTmins",	"SDev.Tmins",	"Mean.Chill.Utah",	"Mean.Chill.Portions"), 17)) ; 
-  return(x)})
   
   
   
