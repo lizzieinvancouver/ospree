@@ -54,7 +54,7 @@ if(FALSE){
   
   namspp <- namspp[-2,]
   
-  for(i in c(1:nrow(namspp))){
+  for(i in c(1:nrow(namspp))){ #i=1
     
     spp1 <- read.csv(paste0("climoutput/Climate.in.range.",namspp$simpspp[i],".1980.1999.csv"))
     spp2 <- read.csv(paste0("climoutput/Climate.in.range.",namspp$simpspp[i],".2000.2016.csv"))
@@ -72,7 +72,7 @@ if(FALSE){
       
       spp <- as.data.frame(cbind(spp1, spp2))
       
-      write.csv(corcor, paste0("climoutput/Climate.in.range.",namspp$compspp[i],".1980.2016.csv"), row.names = FALSE)
+      write.csv(spp, paste0("climoutput/Climate.in.range.",namspp$compspp[i],".1980.2016.csv"), row.names = FALSE)
 }
   
   ### Let's open up all climate files first...
