@@ -29,7 +29,8 @@
 \usepackage{setspace}
 \usepackage{xr}
 \externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms}
-
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_supp}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_extdat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -109,7 +110,7 @@ Our studies included a diversity of designs for applying forcing and/or photoper
 
 \par As our primary goal was to directly compare the effects of chilling, forcing, and photoperiod we standardized these predictor variables \emph{\citep{gelman2006}}. This was necessary because the range and scale of each predictor varied widely (total chilling ranged from \Sexpr{minchill} to \Sexpr{maxchill} Utah units; forcing ranged from \Sexpr{minforce} to \Sexpr{maxforce}\degree C, photoperiod ranged from \Sexpr{minphot} to \Sexpr{maxphot} hours). We followed well-established methods of subtracting the mean and dividing by the standard deviation \emph{\citep{gelman2006}} to yield ``z-score'' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which predictors were not standardized. 
 
-\par All models were fit using the programming language \texttt{Stan} \emph{\citep{Carpenter:2016aa}} (\texttt{www.mc-stan.org}), accessed via the \texttt{rstan} package (version 2.18.0) in R \emph{\citep{Rcore:2017,rstan2018}}}, version 3.6.0. \texttt{Stan} provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \emph{\citep{BDA}} and in \emph{\citep{Carpenter:2016aa}}). We validated our models using test data, then fit the models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied.  
+\par All models were fit using the programming language \texttt{Stan} \emph{\citep{Carpenter:2016aa}} (\texttt{www.mc-stan.org}), accessed via the \texttt{rstan} package (version 2.18.0) in R \emph{\citep{Rcore:2017,rstan2018}}, version 3.6.0. \texttt{Stan} provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \emph{\citep{BDA}} and in \emph{\citep{Carpenter:2016aa}}). We validated our models using test data, then fit the models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied.  
 
 \begin{enumerate}
 \item \underline{Main budburst model}:

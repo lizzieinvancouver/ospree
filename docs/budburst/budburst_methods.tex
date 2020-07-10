@@ -1,8 +1,6 @@
 
-% Straight up stealing preamble from Eli Holmes 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass{article}
-%Required: You must have these
 \usepackage{Sweave}
 \usepackage{graphicx}
 \usepackage{tabularx}
@@ -15,54 +13,34 @@
 \usepackage{longtable}
 \usepackage{xr}
 
-%Strongly recommended
-  %put your figures in one place
-%\SweaveOpts{prefix.string=figures/, eps=FALSE} 
-%you'll want these for pretty captioning
 \usepackage[small]{caption}
 
-\setkeys{Gin}{width=0.8\textwidth}  %make the figs 50 perc textwidth
+\setkeys{Gin}{width=0.8\textwidth}  
 \setlength{\captionmargin}{30pt}
 \setlength{\abovecaptionskip}{10pt}
 \setlength{\belowcaptionskip}{10pt}
-% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
-
-%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
-%Here's how to do that
  \topmargin -1.5cm        
  \oddsidemargin -0.04cm   
- \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \evensidemargin -0.04cm  
  \textwidth 16.59cm
  \textheight 21.94cm 
- %\pagestyle{empty}       % Uncomment if don't want page numbers
- \parskip 7.2pt           % sets spacing between paragraphs
- %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
-\parindent 0pt% sets leading space for paragraphs
+ \parskip 7.2pt          
+\parindent 0pt
 \usepackage{setspace}
-%\doublespacing
 \usepackage{xr}
 \externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms}
-%Optional: I like fancy headers
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
-%\fancyhead[LO]{How do climate change experiments actually change climate}
-%\fancyhead[RO]{2016}
- 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_supp}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_extdat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%Start of the document
 \begin{document}
 
-%\SweaveOpts{concordance=TRUE}
-\bibliographystyle{..//..//refs/bibstyles/Science.bst}
+\bibliographystyle{..//..//refs/bibstyles/naturemag}
 \title{Methods:  Winter temperatures predominate in spring phenological responses to warming} 
-% or Chilling dominates tree budburst in controlled climate experiments, but not in the great outdoors
 
 \author{A. K. Ettinger, C. J. Chamberlain, I. Morales-Castilla, D. M. Buonaiuto, D. F. B. Flynn, \\ T. Savas, J. A. Samaha \& E. M. Wolkovich}
 \date{} 
-\maketitle  %put the fancy title on
-%\tableofcontents      %add a table of contents
-%\clearpage
+\maketitle  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database}
 \par To conduct this meta-analysis, we followed systematic review methods to facilitate replication and use by other researchers \emph{\citep[e.g., {\normalfont we include at least 22/27 items on the PRISMA checklist, as summarized in Appendix 1,}][]{moher2009}}. We searched the literature for research papers that experimentally addressed controls of temperature, chilling, and/or photoperiod requirements on the spring phenology of woody plant species. To identify phenological experiments that manipulated chilling, forcing, and/or photoperiod, we searched both ISI Web of Science and Google Scholar with the following terms: 
@@ -104,7 +82,7 @@ Our studies included a diversity of designs for applying forcing and/or photoper
 
 \par As our primary goal was to directly compare the effects of chilling, forcing, and photoperiod we standardized these predictor variables \emph{\citep{gelman2006}}. This was necessary because the range and scale of each predictor varied widely (total chilling ranged from -1304 to 4724 Utah units; forcing ranged from -5.2 to 32\degree C, photoperiod ranged from 6 to 24 hours). We followed well-established methods of subtracting the mean and dividing by the standard deviation \emph{\citep{gelman2006}} to yield ``z-score'' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which predictors were not standardized. 
 
-\par All models were fit using the programming language \texttt{Stan} \emph{\citep{Carpenter:2016aa}} (\texttt{www.mc-stan.org}), accessed via the \texttt{rstan} package (version 2.18.0) in R \emph{\citep{Rcore:2017,rstan2018}}}, version 3.6.0. \texttt{Stan} provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \emph{\citep{BDA}} and in \emph{\citep{Carpenter:2016aa}}). We validated our models using test data, then fit the models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied.  
+\par All models were fit using the programming language \texttt{Stan} \emph{\citep{Carpenter:2016aa}} (\texttt{www.mc-stan.org}), accessed via the \texttt{rstan} package (version 2.18.0) in R \emph{\citep{Rcore:2017,rstan2018}}, version 3.6.0. \texttt{Stan} provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \emph{\citep{BDA}} and in \emph{\citep{Carpenter:2016aa}}). We validated our models using test data, then fit the models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied.  
 
 \begin{enumerate}
 \item \underline{Main budburst model}:
@@ -182,7 +160,6 @@ y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + 
 \par The life-stage model is summarized in Table \ref{tab:stage}.
 
 \end{enumerate}
-%Question: Add equations for new models (continent and life stage) ?
 \noindent For all models, we chose weakly informative priors; increasing the priors three-fold did not change the model results. We ran four chains simultaneously, each with 2 500 sampling iterations (1 500 of which were used for warm-up), yielding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as 713 for a few parameters in the latitude model), as well as visual consideration of chain convergence and posteriors \emph{\citep{BDA}}. 
 
 In our figures  we show means $\pm$ 50\% uncertainty intervals from our models (Figs. \ref{fig:mu}, \ref{fig:3dfieldchillutah}, \ref{fig:lat}, \ref{fig:weinberger}, \ref{fig:betfag2d}, \ref{fig:fagsyllat}), because our focus here is on the most likely value for each parameter (\emph{e.g.}, estimated response to forcing) and because they are computationally stable \emph{\citep{Carpenter:2016aa,BDA}}. See Tables \ref{tab:modsz}- \ref{tab:stage} for 95\% uncertainty intervals. 
@@ -194,7 +171,9 @@ In our figures  we show means $\pm$ 50\% uncertainty intervals from our models (
 The few studies that did incorporate interactions generally used the Weinberger method, which is not designed to robustly tease apart the effects of multiple cues (Table \ref{tab:methods}, Fig. \ref{fig:weinberger}).  Similarly we found variation in thermoperiodicity and variation in study material were too infrequent to test for effects with current data (though our life-stage model found no large differences in days to budburst between material from adults [$\mu_{\alpha}$ = 25.29] versus juveniles [$\beta_{stage}$ = 24.2; 50\% uncertainty intervals overlap], Table \ref{tab:stage}). Our estimated effects therefore average over interactions \emph{\citep{gelman2006}}, but identifying them in future research will be critical to understanding and predicting budburst. This will be particularly challenging for forcing and chilling, as a lack of information on endodormancy requirements makes  disentangling forcing from chilling conditions impossible with current data \emph{\citep{chuine2016}}.
 
 \par Our model does not include measurement error because these data were not possible to include for 25 out of 39 experiments included in the OSPREE model with well-represented species. For those studies that did report measurement error, the error was generally small relative to the magnitude of the responses (\emph{e.g.}, standard deviation was, on average 12.07 \% of the  response variable for studies for which standard deviation was extracted). Thus, it is unlikely that adding measurement error to our analyses would have a large effect on our estimates \emph{\citep{rstan2019}}. \\
- 
+
+\bibliography{..//..//refs/ospreebibplus.bib}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

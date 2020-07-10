@@ -1,0 +1,106 @@
+
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{longtable}
+\usepackage{xr}
+\usepackage{pdflscape}
+\usepackage{amsmath}
+% manual for caption  http://www.dd.chalmers.se/latex/Docs/PDF/caption.pd
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ %\pagestyle{empty}       % Uncomment if don't want page numbers
+ \parskip 7.2pt           % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 0pt% sets leading space for paragraphs
+\usepackage{setspace}
+%\doublespacing
+\usepackage{xr}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_supp} 
+
+%Optional: I like fancy headers
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhead[LO]{How do climate change experiments actually change climate}
+%\fancyhead[RO]{2016}
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+
+
+%Start of the document
+\begin{document}
+
+\pagenumbering{gobble}
+\setlength\parindent{0pt}
+
+%\SweaveOpts{concordance=TRUE}
+
+\title{Response to Reviewers}
+\emph{Reviewer comments are in italics.} Author responses are in plain text.\\
+
+\emph{{\bf Reviewer \#1 (Remarks to the Author)}}\\
+
+\emph{The authors have done a very good job of addressing my comments and I really enjoyed reading this version. I now just have a couple of further quite minor suggestions.}
+\par We thank te reviewer for these kind words, as well as his time and thoughtful suggestions for improvement throughout the review process.
+
+\par \emph{1) The explanation of chilling is greatly improved. I still feel a bit uncomfortable as to whether this really is capturing chilling (or whether the form that chilling takes for peach is really appropriate for these high latitude species), but I accept that this may be as much as can be achieved with these data. I was pleased to see that the assumptions/limitations are much more clearly presented. Is it possible for each study to identify the days over which forcing and chilling units were accumulated? Perhaps this could then be presented as a figure. For instance, if days before event was the x axis and study/population was up the y axis – with different colour used to indicate the accumulation of forcing and chilling units. It would help the reader to get a sense of the degree to which chilling units precede or coincide with forcing units.} 
+\par We have added a new figure (new Figure S1), as the reviewer suggested, to the Supplemental Information. This figure presents the days over which chilling and forcing were accumulated for each row of data in our analyses. 
+\par \emph{2) I thank the authors for checking the results are robust to within subject mean centering. I think this analysis is worth adding to the supplementary materials as it will help to convince readers who might otherwise have been sceptical of the results like myself. While I agree with the authors' argument in the response to reviewers that purely observational studies may be more susceptible to having spatial differences in mean conditions, such differences are plausible in experimental studies too -  for instance, at higher latitudes one might very likely adopt a lower range of temperatures. Fig S2 is a great addition. }
+\par We have added the table summarizing the within subject mean centering approach to our Supplemental Materials (Table S7), as the reviewer suggested.
+
+\par \emph{3) Latitude:photoperiod interaction - This interaction is tested but rather inexplicably only the fact that it is significant is mentioned, with no discussion of the effect. From table S9 it looks as though as you go further north there is a non-significant tendency for the photoperiod effect to weaken, which I think is pretty interesting and consistent with what one might expect. I wonder (no need to follow this up) if the chilling effect also interacts with latitude as one might also expect.}
+\par We thank the reviewer for pointing this out. Because the interactive effect was not strong (i.e., 50\% uncertainty intervals overlap zero), we do not mention the direction of the interaction.  
+
+
+\underline{\emph{Minor comments}}
+
+\emph{Line 9. When you make the comparison of the magnitude of the effect of the different cues this must all be very dependent on the scale across which they have been manipulated. Some brief comment to that effect would aid interpretation.}
+\par We thank the reviewer for this suggestion. The abstract has been modified extensively by the Editor, and this comment is no longer relevant. 
+\emph{Line 22. I think this sentence would benefit from rewording to make the meaning clearer.}
+\par We have reworded the sentence in question to improve clarity in our intended meaning. The sentence now says:
+``Though responses to warming are widespread, showing strong advancement on average, there is substantial variation among species and sites.''
+\par \emph{Line 115. The fact that the credible intervals overlap could simply arise if parameters are poorly estimated. A better measure would be the \% difference of the effect sizes. In table S5 the two chilling methods give very similar estimates, but the model including all species gives estimates that are more strikingly different.}
+\par We thank the reviewer for pointing this out. Indeed, the percent difference between the effect sizes is quite low, as well. We have modified the text to include this. It now says:
+``While we found that applying a different chilling model did not strongly affect our estimates (\emph{i.e.}, 95\% uncertainty intervals of estimates for chilling, photoperiod, and forcing effects overlapped using two different chill metrics, Utah and chill portions, and the mean posterior of these estimates varied by about 10\% or less between the two metrics, see Table \ref{tab:modsz})...''
+\par \emph{Congratulations on a fascinating and very detailed study.}
+\par Thank you!
+\par \emph{Signed}
+
+\par \emph{Ally Phillimore}
+\par \emph{[I sign all of my reviews]}
+
+
+\par \emph{\bf{Reviewer \#2 (Comments for the Author):}}\\
+
+\par \emph{Thanks for the reply. The estimation in chilling and forcing is still challenge, which I totally agree with the reviewer 1, although the gdd or chilling days were widely used in phenology studies. The temperature thresholds should be site- and species-specific, as well as the chilling periods should be spatial different even within species, and thus the estimation on the relatively weight of these cues, among these experimental studies, likely involve larger uncertainty, even if the statistic method is novel and reliable.}
+\par The reviewer points out an ongoing challenge of estimating forcing and chilling, when the extent of site- and taxa-specific variation in temperature thresholds for these cues are poorly understood. It is our hope that our manuscript and the full OSPREE database will shine a light on this challenge and inspire additional research to address it. We now mention the potential for site- and species-specific temperature thresholds in chilling in Lines 110-113, where write:
+``Thus, while researchers generally define ``chilling'' and ``forcing'' treatments based on temperatures in controlled experiments (including in the studies used here, see Fig. \ref{fig:concept}), fully separating out what plants experience as chilling versus forcing (as well as how this varies across species and sites) will likely require new methods to measure endo- and ecodormancy..."
+\par \emph{Furthermore, the experimental results, should carefully applied in the natural conditions because the experimental setting is largely different from the natural conditions, and the temperature response might be substantially different as well. I would thus suggest the authors to highlight the results carefully, but highlight the results comes from a meta experiments.}
+
+\par We thank the reviewer for this important reminder. We now higlight that our findings come from a meta-analysis of experiments in the following places:
+\begin{itemize}
+\item Abstract: ``Here we use a global meta-analysis of all published experiments to test the relative effects of these cues."
+\item Line 52: ``Here, we leverage these short-term controlled environment experiments in a meta-analysis..."
+\item Lines 147-149: ``Reinterpreting our estimates of effects of chilling, forcing, and photoperiod (from experiments) using climate and phenology data that have led to observations of declining temperature sensitivities in Central Europe suggests that chilling and photoperiod are unlikely to cause the observed declines.''
+\item Figure 3 caption: ``Estimates of budburst across a range of forcing temperatures and estimated chilling (converted to a representative mean temperature, see Estimating chilling in Methods and Supplemental Materials) based on overall estimates of chilling and forcing effects from a meta-analysis
+of short-term experiments using controlled temperature and/or photoperiod conditions''
+\item Figure 4 caption : ``Here we show species-level estimates from our model based on a meta-analysis of experiments...''
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

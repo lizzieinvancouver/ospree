@@ -39,20 +39,9 @@
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
 
-\externaldocument{..//..//budburstms}
-\externaldocument{..//..//budburst_supp} 
-\renewcommand{\thetable}{L\arabic{table}}
-\renewcommand{\thefigure}{L\arabic{figure}}
-
-% line numbers for letter
-\usepackage{lineno}
-\newcommand{\R}[1]{\label{#1}\linelabel{#1}}
-\newcommand{\lr}[1]{line~\lineref{#1}}
-
 
 %Start of the document
 \begin{document}
-\bibliographystyle{..//..//..//..//refs/bibstyles/amnat.bst}
 
 \pagenumbering{gobble}
 \setlength\parindent{0pt}
@@ -64,12 +53,37 @@
 
 \emph{{\bf Reviewer \#1 (Remarks to the Author)}}\\
 
-\emph{To Authors}
+\emph{The authors have done a very good job of addressing my comments and I really enjoyed reading this version. I now just have a couple of further quite minor suggestions.}
+\par We thank te reviewer for these kind words, as well as his time and thoughtful suggestions for improvement throughout the review process.
 
-\emph{As I said in my last review, this study addresses an important question using a really impressive
-dataset and sophisticated analyses. It is well written and the authors have done a good job of
-addressing my previous concerns -- certainly the methods are easier to follow now and I appreciate
-the addition of the PRISMA checklist.}
+\emph{1) The explanation of chilling is greatly improved. I still feel a bit uncomfortable as to whether this really is capturing chilling (or whether the form that chilling takes for peach is really appropriate for these high latitude species), but I accept that this may be as much as can be achieved with these data. I was pleased to see that the assumptions/limitations are much more clearly presented. Is it possible for each study to identify the days over which forcing and chilling units were accumulated? Perhaps this could then be presented as a figure. For instance, if days before event was the x axis and study/population was up the y axis – with different colour used to indicate the accumulation of forcing and chilling units. It would help the reader to get a sense of the degree to which chilling units precede or coincide with forcing units.} 
+\par We have added a new figure, as the reviewer suggested, to the Supplemental Information. This figure presents the days over which chilling and forcing were accumulated for each row of data in our analyses. 
+\emph{2) I thank the authors for checking the results are robust to within subject mean centering. I think this analysis is worth adding to the supplementary materials as it will help to convince readers who might otherwise have been sceptical of the results like myself. While I agree with the authors’ argument in the response to reviewers that purely observational studies may be more susceptible to having spatial differences in mean conditions, such differences are plausible in experimental studies too – for instance, at higher latitudes one might very likely adopt a lower range of temperatures. Fig S2 is a great addition. }
+
+\emph{3) Latitude:photoperiod interaction – This interaction is tested but rather inexplicably only the fact that it is significant is mentioned, with no discussion of the effect. From table S9 it looks as though as you go further north there is a non-significant tendency for the photoperiod effect to weaken, which I think is pretty interesting and consistent with what one might expect. I wonder (no need to follow this up) if the chilling effect also interacts with latitude as one might also expect.}
+
+\underline{\emph{Minor comments}}
+
+\emph{Line 9. When you make the comparison of the magnitude of the effect of the different cues this must all be very dependent on the scale across which they have been manipulated. Some brief comment to that effect would aid interpretation.}
+
+\emph{Line 22. I think this sentence would benefit from rewording to make the meaning clearer.}
+
+\emph{Line 115. The fact that the credible intervals overlap could simply arise if parameters are poorly estimated. A better measure would be the \% difference of the effect sizes. In table S5 the two chilling methods give very similar estimates, but the model including all species gives estimates that are more strikingly different.}
+
+\emph{Congratulations on a fascinating and very detailed study.}
+
+\emph{Signed}
+
+\emph{Ally Phillimore}
+\emph{[I sign all of my reviews]}
+
+
+\emph{Reviewer #2 (Comments for the Author):}
+
+Thanks for the reply. The estimation in chilling and forcing is still challenge, which I totally agree with the reviewer 1, although the gdd or chilling days were widely used in phenology studies. The temperature thresholds should be site- and species-specific, as well as the chilling periods should be spatial different even within species, and thus the estimation on the relatively weight of these cues, among these experimental studies, likely involve larger uncertainty, even if the statistic method is novel and reliable.
+
+Furthermore, the experimental results, should carefully applied in the natural conditions because the experimental setting is largely different from the natural conditions, and the temperature response might be substantially different as well. I would thus suggest the authors to highlight the results carefully, but highlight the results comes from a meta experiments.
+}
 
 We thank the reviewer for this positive feedback and for helping us improve the manuscript. Based on this most recent review we have found many places where additional clarity was needed, especially in differentiating between our meta-analysis of short-term experiments in controlled (generally lab) environments and how we applied it to long-term data. We hope our current manuscript is easier to follow and understand.
 
