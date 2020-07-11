@@ -56,7 +56,7 @@
 \emph{{\bf Reviewer \#1 (Remarks to the Author)}}\\
 
 \emph{The authors have done a very good job of addressing my comments and I really enjoyed reading this version. I now just have a couple of further quite minor suggestions.}
-\par We thank te reviewer for these kind words, as well as his time and thoughtful suggestions for improvement throughout the review process.
+\par We thank the reviewer for these kind words, as well as his time and thoughtful suggestions for improvement throughout the review process.
 
 \par \emph{1) The explanation of chilling is greatly improved. I still feel a bit uncomfortable as to whether this really is capturing chilling (or whether the form that chilling takes for peach is really appropriate for these high latitude species), but I accept that this may be as much as can be achieved with these data. I was pleased to see that the assumptions/limitations are much more clearly presented. Is it possible for each study to identify the days over which forcing and chilling units were accumulated? Perhaps this could then be presented as a figure. For instance, if days before event was the x axis and study/population was up the y axis – with different colour used to indicate the accumulation of forcing and chilling units. It would help the reader to get a sense of the degree to which chilling units precede or coincide with forcing units.} 
 \par We have added a new figure (new Figure S1), as the reviewer suggested, to the Supplemental Information. This figure presents the days over which chilling and forcing were accumulated for each row of data in our analyses. 

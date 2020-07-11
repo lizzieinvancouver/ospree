@@ -101,7 +101,7 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/peprealandsims.pdf}
-\caption{\textbf{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact.} We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP725 data for \emph{Betula pendula} from 45 sites (``European data'') with estimated declines in simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (``Simulations'') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed, see \emph{Understanding declines in temperature sensitivity in European long-term data} for further details.}
+\caption{\textbf{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact.} We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP725 data for \emph{Betula pendula} from 45 sites (``European data'') with estimated declines in simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (``Simulations'') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed, see \emph{Potential statistical artifacts in declines of temperature sensitivity in observational long-term data} in the Supplemental Materials for further details.}
 \label{fig:pepsims}
 \end{figure}
 
@@ -116,7 +116,7 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=1\textwidth]{..//..//analyses/bb_analysis/figures/gddbyutah_pepspp.pdf}
-\caption{\textbf{Growing degree days (GDD) versus chill units at the time of budburst} from the OSPREE database for common species in the PEP725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Understanding declines in temperature sensitivity in European long-term data}). We calculated GDD here as the average daily forcing temperature multiplied by days to budburst.}
+\caption{\textbf{Growing degree days (GDD) versus chill units at the time of budburst} from the OSPREE database for common species in the PEP725 long-term phenological database. The black line shows the range of chilling (10-90\% quantiles) accumulated from 1 September to 1 March for 45 sites for \emph{Betula pendula} (see also \emph{Potential statistical artifacts in declines of temperature sensitivity in observational long-term data} in the Supplemental Materials). We calculated GDD here as the average daily forcing temperature multiplied by days to budburst.}
 \label{fig:pepgddchill}
 \end{figure}
 

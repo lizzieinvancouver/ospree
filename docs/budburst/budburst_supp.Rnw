@@ -219,7 +219,7 @@ rownames(wgctab)[10]<-"n_sp"
 row.names(wgctab)<-c("$\\mu_{\\alpha}$","$\\mu_{forcing}$","$\\mu_{photoperiod}$","$\\mu_{chilling}$","$\\sigma_{\\alpha}$", "$\\sigma_{forcing}$", "$\\sigma_{photoperiod}$","$\\sigma_{chilling}$","$\\sigma_{y}$","$N_{sp}$") 
 
 colnames(wgctab)<-c("mean","25%", "75%","2.5%","97.5%")
-wgc.table <- xtable(wgctab, caption="\\textbf{Estimates from model fit to data to which within group centering was applied}, using Utah units and data from 36 species or species complexes across 19 experiments from 16 papers. Estimates of chilling, forcing, and photoperiod  converged on those of our standardized predictor (z-scored) model (in Table \ref{tab:modsnonz}). We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from the model.", 
+wgc.table <- xtable(wgctab, caption="\\textbf{Estimates from model fit to data to which within group centering was applied}, using Utah units and data from 36 species or species complexes across 19 experiments from 16 papers. Estimates of chilling, forcing, and photoperiod  converged on those of our standardized predictor (z-scored) model (in Table \\ref{tab:modsnonz}). We present posterior means, as well as 50 percent and 95 percent uncertainty intervals from the model.", 
         label="tab:wgc",align=c(
                "|p{0.10\\textwidth}|",
                "p{0.04\\textwidth}",
