@@ -50,7 +50,7 @@ dim(spests)#
 range(spests$lat)#46.7167-54.8000
 #
 #quartz()
-pdf("figures/forecasting/fagsyl_3lats.pdf", width=11,height=5)
+png("figures/exp_vs_field_chill_withwarmingcols.png", width=800,height=500)
 
 plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chilling temperature (°C)", ylab= "Total Chilling (Utah units)", ylim=c(-6,25), bty = "l")
 points(spests$winT.forecast,spests$chill.forecast, pch=21,bg="darkgreen")
@@ -76,7 +76,7 @@ chillests<-as.data.frame(cbind(chilltemps,chillcalc$Chill_portions,chillcalc$Uta
 colnames(chillests)<-c("temp","chillport","utah.240")
 points(chillests$temp,chillests$utah.240, pch=21,bg="lightblue")
 
-legend(x=-10,y=25, legend=c("OSPREE","Constant duration","Field","Field +1°C warming","Field +7°C warming"), pch=21,pt.bg=c("gray","lightblue","dark green","yellowgreen","darkred"), bty = "n")
+legend(x=-10,y=25, legend=c("OSPREE","Constant temperature","Field","Field +1°C warming","Field +7°C warming"), pch=21,pt.bg=c("gray","lightblue","dark green","yellowgreen","darkred"), bty = "n")
 points(spests$winT.forecast[spests$warming_C==1],spests$chill.forecast[spests$warming_C==1], pch=21,bg="yellowgreen")
 points(spests$winT.forecast[spests$warming_C==2],spests$chill.forecast[spests$warming_C==2], pch=21,bg="yellow")
 points(spests$winT.forecast[spests$warming_C==3],spests$chill.forecast[spests$warming_C==3], pch=21,bg="goldenrod")
