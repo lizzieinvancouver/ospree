@@ -1,0 +1,708 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{article}
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{longtable}
+\usepackage{xr}
+
+\usepackage[small]{caption}
+
+\setkeys{Gin}{width=0.8\textwidth}  
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{10pt}
+ \topmargin -1.5cm        
+ \oddsidemargin -0.04cm   
+ \evensidemargin -0.04cm  
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ \parskip 7.2pt          
+\parindent 0pt
+\usepackage{setspace}
+\usepackage{xr}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_supp}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_extdat}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\bibliographystyle{..//..//refs/bibstyles/naturemag}
+\title{Methods:  Winter temperatures predominate in spring phenological responses to warming} 
+
+\author{A. K. Ettinger, C. J. Chamberlain, I. Morales-Castilla, D. M. Buonaiuto, D. F. B. Flynn, \\ T. Savas, J. A. Samaha \& E. M. Wolkovich}
+\date{} 
+\maketitle  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database}
+\par To conduct this meta-analysis, we followed systematic review methods to facilitate replication and use by other researchers \emph{\citep[e.g., {\normalfont we include at least 22/27 items on the PRISMA checklist, as summarized in Appendix 1,}][]{moher2009}}. We searched the literature for research papers that experimentally addressed controls of temperature, chilling, and/or photoperiod requirements on the spring phenology of woody plant species. To identify phenological experiments that manipulated chilling, forcing, and/or photoperiod, we searched both ISI Web of Science and Google Scholar with the following terms: 
+\begin{enumerate}
+\item TOPIC = (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*, which yielded 85 publications
+
+\item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
+\end{enumerate}
+
+
+
+The initial searches yielded 201 papers, which we reviewed and assessed for inclusion in the database. To be included, papers needed to focus on woody plants in temperate ecosystems and test for photoperiod and/or temperature effects on budburst, leafout, or flowering, and we needed to be able to quantify the phenological response to chilling, forcing, and/or photoperiod. We used ImageJ to scrape these response data from figures, whenever possible, and added additional relevant information from the tables and text of each manuscript that could not be scraped. Multiple people checked scraping and data-entry, and mis-entered data and other mistakes were cleaned in R.
+
+\par Our meta-analysis relies on the published literature where positive effects and larger effect sizes may be more likely to be be published \emph{\citep{Kicinski2013}}. Methods such as a funnel plot of effect size versus sample size can help diagnose the potential for such biases, but have many drawbacks and complications as well \emph{\citep{Gurevitch1992,Gurevitch1999,Lin2018}}. We could not use funnel plot methods here for several reasons: (1) our fundamental study design is based on three factors that can influence plant phenology, thus variation in effect size could be due to other levels of each factor, (2) studies had low sample sizes (75\% of data came from studies with treatment sample sizes less than 10) and most often sample size was not reported (\emph{i.e.}, in 25 out of 39 studies in the model with well-represented species), and finally (3) our modeling approach (see below) is designed to standardize and regularize data, thus it will pool some extreme effects that may arise from publication bias. Further, we note that these environmental cues have a firm physiological basis---thus, multiple lines of evidence (outside of publication bias) support that most studies should find an effect of (at least) chilling and forcing. 
+
+\par Some species are only represented in one dataset in the OSPREE database. In these instances, it is not possible to statistically differentiate between species, study, and treatment effects. To address this, we combined species found in only one study into ``complexes" at the level of genera---such that each taxonomic unit we use in our model occurs across multiple studies (and treatments). Thus our taxonomic units of analysis are ``species complexes," which are either species represented in $>$1 dataset or complexes combining multiple species within a genus that are each singly represented in the dataset. Species represented in only one dataset with no congenerics in other datasets were excluded from most of our analyses, except when analyzing ``all species.''
+
+\par Although all studies measured days to budburst, many communicated results differently (\emph{e.g.}, days to budburst, degree-days to budburst, percent budburst, number of leaves). We standardized papers to common units whenever possible (details below) and further restricted studies to those for which forcing, chilling, and photoperiod treatments could be quantitatively identified. For this paper, we focus on studies measuring days to budburst. This subset of OSPREE includes data across 72 experiments (in 49 papers, Table \ref{tab:ref}), 39 years, and 203 species (Table \ref{tab:sp}, Fig. \ref{fig:map}). These experiments span a wide range of chilling, forcing, and photoperiod treatment levels (Fig. \ref{fig:trtmap}), and many test for interactions between two of these cues (Table \ref{tab:intxn}). This subset of OSRPREE is freely available on KNB \emph{\citep{wolkovich2019}} and we hope other researchers will find it useful. 
+
+\par \emph{Defining budburst}
+
+Most studies defined budburst as initial ``green tips'' (33/49 papers). Select studies defined budburst as a specific increment of growth (\emph{e.g.}, ``0.5 cm of new growth'') or as bud swell, leaf emergence, leaf unfolded, open bud scales, or petiole emerged. The remaining papers (4/49) did not include a definition of budburst. The majority of papers using the above definitions (34/49) required only one bud to have met the defined criteria of budburst, however, the remaining studies implemented specific thresholds to be met (\emph{i.e.}, 10-100\% of all buds on an individual needed to have bursted bud). For studies that quantified multiple measurements of percent budburst over time (days), we extracted one value of ``days to budburst" of these multiple measurements to make them comparable to other studies. To extract this summary value, we selected the days to budburst when percent budburst was closest to 90\%, including estimates as low as 49.5\% budburst. 
+
+\par{\emph{Estimating chilling}}
+
+Chilling was reported far less in the OSPREE database than forcing and photoperiod. Although not all studies applied multiple treatments of forcing or photoperiod they generally all maintained and explicitly defined the forcing temperatures and daylengths applied in their treatments. In contrast, we found that most studies did not experimentally apply chilling by manipulating duration or temperature of chilling in controlled environments, nor did most quantify the total chilling imposed in their experiment. We therefore calculated the total chilling imposed by all studies;  it would otherwise have been impossible to provide estimates with only experimental chilling given the rarity of such study designs (Fig. \ref{fig:treatheatmaps}). 
+
+\par To estimate total chilling we combined chilling from the field (\emph{i.e.}, chilling before plant material was brought into controlled environment conditions) and experimental chilling (\emph{i.e.}, chilling that plant material experienced in controlled environment conditions) into two widely used metrics of chilling: Utah units (Table \ref{tab:utah}) and dynamic chill portions \emph{\citep{dennis2003,Luedeling:2011qe}}. We used the \texttt{chillR} package (version 0.70.17) in R \emph{\citep{Rcore:2017, chillR2019}}, version 3.6.0, to calculate both Utah units and dynamic chill portions from time-series of hourly temperature data. To estimate field chilling, we generated hourly time series from a European-wide gridded dataset \emph{\citep{cornes2018}} and a North American gridded climate dataset \emph{\citep{livneh2015}}, from which we extracted daily minimum and maximum temperature from the grid cells and dates during which experiments were conducted. For experimental chilling, we used reported chilling treatments to generate time-series of hourly temperature data.
+\par In the formulation we used, Utah chilling units accumulated the most at temperatures between 2.4-9.1$^{\circ}$C but slightly less at temperatures between 1.4-2.4$^{\circ}$C and from 9.1-12.4$^{\circ}$C. Utah units were reduced when temperatures fell below or exceeded this range (Table \ref{tab:utah}). Chill portions accumulated when temperatures were between 0 and 7.2$^{\circ}$C. We note that these models for chilling (both of which were originally developed for peach species) are \emph{hypotheses} for how chilling may accumulate to affect the process of endodormancy release, but are likely to be inaccurate for many species. These models are, however, some of our current best approximations, and versions of them are routinely applied to forest trees \emph{\citep[e.g.,][]{Harrington:2010}}. We found the effects of chilling and other cues remained qualitatively consistent across the two methods of estimating total chilling (\emph{i.e.}, 95\% uncertainty intervals of estimates for all cues in the standardized models overlapped, Table \ref{tab:modsz}).
+\par We wished to explore model predictions across a wide range of experimental temperature conditions (\emph{i.e.}, chilling and forcing temperatures) applied by studies included in the OSPREE database (Fig. \ref{fig:3dfieldchillutah}). To do this, we needed to convert chilling temperature to total chilling units, which could be input into our model. There is no straightforward conversion between chilling temperature and total chilling, since the duration a temperature is applied affects chilling (Fig. \ref{fig:chillexpfield}). We therefore made these conversions using two alternative approaches and we present both. For one approach, we generated daily time series of a range of experimental chilling temperatures for a range of durations spanning those in the OSPREE database (from -10 to 16\degree C for 7 to 240 days). We averaged across the range of durations for each temperature to get one chilling estimate per chilling temperature (Fig. \ref{fig:chillexpfield}, \ref{fig:3dexpchillutah}). For the alternative approach, we used historical climate data from a gridded climate dataset \emph{\citep[{\normalfont E-OBS},][]{cornes2018}} to estimate chilling, and used these historical relationships between mean winter temperature and total chilling to  convert chilling temperature to a representative amount of total chilling (Fig. \ref{fig:3dfieldchillutah}). We present this alternative approach in the main text as it is more closely related to field chilling conditions, which was by far the most common type of chilling across experiments.
+
+\par{\emph{Estimating forcing \& photoperiod}}
+
+Our studies included a diversity of designs for applying forcing and/or photoperiod experimentally, including studies that imposed constant forcing temperatures and forcing temperatures that varied between day and night.  Additionally several studies applied forcing or photoperiod using a ``ramped" design, such that treatments increased or decreased gradually over time throughout the duration of the application. For all studies we used the daylength of light as our photoperiod estimate (\emph{e.g.}, a study with 8 hours of light and 16 hours of dark was recorded as ``8''). For forcing, we used the temperature applied when forcing temperatures were constant (\emph{i.e.}, the same temperature was applied 24 hours per day); if forcing varied with photoperiod, we estimated the mean daily temperature weighted by the hours that temperature was applied. Similarly, for studies that ramped forcing, we calculated a weighted average of forcing temperature over the period from when forcing treatments were applied until budburst day. For studies that ramped photoperiod, we used the photoperiod conditions that individuals initially experienced (\emph{e.g.}, studies with photoperiod lengthening from 6 hours until budburst, we recorded as ``6''). When forcing and photoperiod treatments were reported as ambient, we used the E-OBS  dataset to estimate mean forcing temperature and the R package \texttt{geosphere} to estimate daylength associated with each  date and latitude \emph{\citep{cornes2018}}. 
+
+\subsection*{Models}
+
+\par We fit four overall models: the main budburst model fit to species in OSPREE that measured days to budburst, the latitude model, which included only studies that had provenance latitude information, a model to examine how the design of chilling treatments affects estimated effects, and a model to test for life-stage differences in budburst responses. Given the complexity of our meta-analytic data, we fit each model separately, and present the main model in the main text as it was designed to best estimate chilling, forcing, and photoperiod cues (our primary goal here). The other models represent subsets of the data in the main model that allow more direct tests of relevant, related questions. 
+
+\par As our primary goal was to directly compare the effects of chilling, forcing, and photoperiod we standardized these predictor variables \emph{\citep{gelman2006}}. This was necessary because the range and scale of each predictor varied widely (total chilling across the 28 papers included in our main model ranged from -244 to 4724 Utah units; forcing ranged from 5 to 32\degree C, photoperiod ranged from 6 to 24 hours). We followed well-established methods of subtracting the mean and dividing by the standard deviation \emph{\citep{gelman2006}} to yield ``z-score'' values for all predictor variables (total chilling units, forcing temperatures, and photoperiods in the experiments).  In addition to these models with standardized predictors (Table \ref{tab:modsz}), we also fit models in which predictors were not standardized (Table \ref{tab:modsnonz}) so that estimates could be more easily interpreted on their natural scales. For all figures in which predictors are shown on their natural scales, we use estimates from models in which predictors were not standardized. 
+
+\par All models were fit using the programming language \texttt{Stan} \emph{\citep{Carpenter:2016aa}} (\texttt{www.mc-stan.org}), accessed via the \texttt{rstan} package (version 2.18.0) in R \emph{\citep{Rcore:2017,rstan2018}}, version 3.6.0. \texttt{Stan} provides efficient MCMC sampling via a No-U-Turn Hamiltonian Monte Carlo approach (more details can be found in \emph{\citep{BDA}} and in \emph{\citep{Carpenter:2016aa}}). We validated our models using test data, then fit the models described below. In all models $i$ represents each unique observation, $sp$ is the species or species complex grouping, $\alpha$ terms represent intercepts, $\beta$ terms represent slope estimates, and $y$ is the days to budburst since forcing conditions were applied.  
+
+\begin{enumerate}
+\item \underline{Main budburst model}:
+\begin{align*}
+y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \epsilon_i\\,
+\end{align*}
+\begin{align*}
+\epsilon_i & \sim N(0,\sigma^2_y) \\
+\end{align*}
+\noindent The $\alpha$ and each of the three $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} & \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})
+\end{align*}
+
+We applied this model to both a dataset with 203 species (``all species''), as well as with 65 species grouped into 36 taxa or ``species complexes'' (Tables \ref{tab:modsz}, \ref{tab:modsnonz}) and a model excluding a single study \citep{zohner2016} because this study contains 112 species (Table \ref{tab:nozohn}). We present estimates from the model fit to the reduced dataset in the main text (including for Figs. 2-3) as these estimates summarize across species that were more well-represented in multiple papers and study designs, and thus are likely to be more accurate estimates (more details above in section describing the OSPREE database). Based on our modeling approach, species from fewer studies will be pooled towards the overall mean. The reduced dataset model also excluded studies which reported only ``ambient'' forcing and photoperiod; these studies were included in the dataset with 203 species (``all species'' model).
+\item \underline{Latitude model}:
+
+Given continuing debate over the role of photoperiod on budburst timing across a species' latitudinal range  \emph{\citep[e.g.,][]{zohner2016,gauzere2017}}, we examined the effect of including provenance latitude in a model similar to our main one, but designed to estimate effects of provenance latitude. This model estimated the effects of each phenological cue (chilling, forcing, photoperiod) on days to budburst (as in the main model), in addition to the effect of provenance latitude (i..e., the latitude of origin of plant material used in the experiment) and the interaction of photoperiod and provenance latitude. We include this interaction because photoperiod effects are expected to vary by latitude and this interaction may have important implications under climate change \emph{\citep{gauzere2017,saikkonen2012,way2015}}.
+\par We followed the methods above for including species or species complex (see \emph{Observed Spring Phenology Responses in Experimental Environments (OSPREE) database} section above), including only species and species complexes that had multiple provenance locations across different latitudes. This yielded the following model:
+
+\begin{align*}
+y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{latitude_{sp[i]}} + \beta_{photoperiod : latitude_{sp[i]}} + \epsilon_i,
+\end{align*}
+\begin{align*}
+\epsilon_i & \sim N(0,\sigma^2_y) \\
+\end{align*}
+
+\noindent The $\alpha$ and each of the five $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} & \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling_{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})\\
+\beta_{latitude_{sp}} & \sim N(\mu_{latitude}, \sigma_{latitude})\\
+\beta_{photoperiod : latitude_{sp}} & \sim N(\mu_{photoperiod : latitude}, \sigma_{photoperiod : latitude})
+\end{align*}
+
+\par The latitude model is summarized in Table \ref{tab:lat} and Fig. \ref{fig:lat}.
+\item \underline{Chilling study design model}:
+As we found chilling to be the strongest cue, and given how few studies directly manipulate it (Fig. \ref{fig:treatheatmaps}), we also used a subset of our data to estimate how a study's experimental design for chilling impacts model estimates. For this, we included only species or species complexes used in both experiments that employed the Weinberger method (in this method plant tissue is sequentially removed from the field and then exposed to ``forcing'' conditions, with the assumption that tissues collected later experience more field chilling \emph{\citep{weinberger1950}} and those that experimentally manipulated chilling (\emph{i.e.}, by varying chilling temperatures and/or the duration of chilling conditions). We defined Weinberger studies as those with two or more field sample dates, each two or more weeks apart, that did not otherwise manipulate chilling. The chilling study-design model was thus:
+\begin{align*}
+y_i &= \alpha_{sp[i]} + \beta_{forcing} + \beta_{photoperiod} + \beta_{chilling} + \beta_{chillmethod} + \\ & \beta_{forcing:chillmethod} + \beta_{photoperiod:chillmethod} + \beta_{chilling:chillmethod} + \epsilon_{i},
+\end{align*}
+\begin{align*}
+\epsilon_i & \sim N(0,\sigma^2_y) \\
+\end{align*}
+\noindent The $\alpha$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\end{align*}
+\par The chilling design model is summarized in Table \ref{tab:methods} and and Fig. \ref{fig:weinberger}.
+
+\item \underline{Life stage model}:
+Previous research has found differences in spring phenology across life stages \emph{\citep[e.g.{\normalfont, juvenile versus adult trees}][]{vitasse2013ont}}. We tested for differences in days to budburst across life stages. 
+\par We followed the guidelines above for including species or species complex (see \emph{Observed Spring Phenology Responses in Experimental Environments (OSPREE) database} section above), including only the species and species complexes used in experiments involving plant material from adult trees as well as juvenile life stages (seedlings or saplings). The life-stage model was thus:
+\begin{align*}
+y_i &= \alpha_{sp[i]} + \beta_{forcing_{sp[i]}} + \beta_{photoperiod_{sp[i]}} + \beta_{chilling_{sp[i]}} + \beta_{stage_{sp[i]}} + \epsilon_{i},
+\end{align*}
+\begin{align*}
+\epsilon_i & \sim N(0,\sigma^2_y) \\
+\end{align*}
+\noindent The $\alpha$ and each of the four $\beta$ coefficients were modeled at the species level, as follows:
+\begin{align*}
+\alpha_{sp} & \sim N(\mu_{\alpha}, \sigma_{\alpha}) \\
+\beta_{forcing_{sp}} & \sim N(\mu_{forcing}, \sigma_{forcing}) \\
+\beta_{photoperiod_{sp}} & \sim N(\mu_{photoperiod}, \sigma_{photoperiod})\\
+\beta_{chilling_{sp}} & \sim N(\mu_{chilling}, \sigma_{chilling})\\
+\beta_{stage_{sp}} & \sim N(\mu_{stage}, \sigma_{stage})\\
+\end{align*}
+\par The life-stage model is summarized in Table \ref{tab:stage}.
+
+\end{enumerate}
+\noindent For all models, we chose weakly informative priors; increasing the priors three-fold did not change the model results. We ran four chains simultaneously, each with 2 500 sampling iterations (1 500 of which were used for warm-up), yielding 4 000 posterior samples for each parameter. We assessed model performance through $\hat{R}$ close to 1 and high $n_{eff}$ (4 000 for most parameters, but as low as 713 for a few parameters in the latitude model), as well as visual consideration of chain convergence and posteriors \emph{\citep{BDA}}. 
+
+In our figures  we show means $\pm$ 50\% uncertainty intervals from our models (Figs. \ref{fig:mu}, \ref{fig:3dfieldchillutah}, \ref{fig:lat}, \ref{fig:weinberger}, \ref{fig:betfag2d}, \ref{fig:fagsyllat}), because our focus here is on the most likely value for each parameter (\emph{e.g.}, estimated response to forcing) and because they are computationally stable \emph{\citep{Carpenter:2016aa,BDA}}. See Tables \ref{tab:modsz}- \ref{tab:stage} for 95\% uncertainty intervals. 
+
+\noindent \emph{Modeling limitations based on experimental designs}
+\par An ideal model to predict budburst would potentially include (but is not limited to): interactions between cues, sigmoidal or other non-linearities to assess potential threshold effects, provenance location, methodological details (\emph{e.g.}, if plant material was whole plant versus twigs, or whether temperatures were constant or varied each day, etc.), and measurement error. As with all models, though, we were limited in how many parameters we could estimate given available data. Thus we focused on species differences and used additional models to assess some of the potentially largest other effects (latitude, methods of estimating chilling, life stage). We were unable to estimate interactions between cues in our meta-analysis because very few studies design experiments to test for interactions between chilling, forcing, and photoperiod (Table \ref{tab:intxn}). Most experiments in our dataset, however, did include interactions between at least two cues (Table \ref{tab:intxn}); we fit our main budburst model to this subset of experiments (Table \ref{tab:intxnmod}), which resulted in qualitatively similar estimates to those of the model fit to the full set of experiments (Table \ref{tab:modsz}).
+\par As our focus is on experiments, which---by design---often impose high variation in phenological cues, we expected a linear model for chilling, forcing, and photoperiod would be most appropriate. Non-linear models, however, are often appropriate for phenological cues, especially in nature, where chilling may typically be very high or extremely short photoperiods are rare. Thus we tested a non-linear (sigmoidal) model on the OSPREE data \emph{\citep{pmp}}. As chilling was the least experimentally manipulated in our database, we examined whether a sigmoidal curve for chilling would be more appropriate, but found that it was a poorer fit than a comparable all-linear model (R-squared = 0.53 versus 0.57), did not qualitatively alter estimates of forcing (-0.83 versus -0.79) or photoperiod (-0.25 versus -0.54) and led to non-biologically relevant estimates of chilling. Fitting meaningful non-linear models to experimental data may require more data, and/or data at very high and low chilling, forcing, and photoperiod values than are currently available. 
+
+The few studies that did incorporate interactions generally used the Weinberger method, which is not designed to robustly tease apart the effects of multiple cues (Table \ref{tab:methods}, Fig. \ref{fig:weinberger}).  Similarly we found variation in thermoperiodicity and variation in study material were too infrequent to test for effects with current data (though our life-stage model found no large differences in days to budburst between material from adults [$\mu_{\alpha}$ = 25.29] versus juveniles [$\beta_{stage}$ = 24.2; 50\% uncertainty intervals overlap], Table \ref{tab:stage}). Our estimated effects therefore average over interactions \emph{\citep{gelman2006}}, but identifying them in future research will be critical to understanding and predicting budburst. This will be particularly challenging for forcing and chilling, as a lack of information on endodormancy requirements makes  disentangling forcing from chilling conditions impossible with current data \emph{\citep{chuine2016}}.
+
+\par Our model does not include measurement error because these data were not possible to include for 25 out of 39 experiments included in the OSPREE model with well-represented species. For those studies that did report measurement error, the error was generally small relative to the magnitude of the responses (\emph{e.g.}, standard deviation was, on average 12.07 \% of the  response variable for studies for which standard deviation was extracted). Thus, it is unlikely that adding measurement error to our analyses would have a large effect on our estimates \emph{\citep{rstan2019}}. \\
+
+%\bibliography{..//..//refs/ospreebibplus.bib}
+\begin{thebibliography}{10}
+\expandafter\ifx\csname url\endcsname\relax
+  \def\url#1{\texttt{#1}}\fi
+\expandafter\ifx\csname urlprefix\endcsname\relax\def\urlprefix{URL }\fi
+\providecommand{\bibinfo}[2]{#2}
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{vautard2014}
+\bibinfo{author}{Vautard, R.} \emph{et~al.}
+\newblock \bibinfo{title}{{The European climate under a 2 \degree C global
+  warming}}.
+\newblock \emph{\bibinfo{journal}{Environmental Research Letters}}
+  \textbf{\bibinfo{volume}{9}}, \bibinfo{pages}{034006} (\bibinfo{year}{2014}).
+
+\bibitem{eea2019}
+\bibinfo{author}{Agency, D.} \& \bibinfo{author}{K{\"o}rner, C.}
+\newblock \bibinfo{title}{Global and {E}uropean temperature}
+  (\bibinfo{year}{2019}).
+
+\bibitem{Templ2018}
+\bibinfo{author}{Templ, B.} \emph{et~al.}
+\newblock \bibinfo{title}{{Pan European Phenological database (PEP725): a
+  single point of access for European data}}.
+\newblock \emph{\bibinfo{journal}{International Journal of Biometeorology}}
+  \textbf{\bibinfo{volume}{62}}, \bibinfo{pages}{1109--1113}
+  (\bibinfo{year}{2018}).
+
+\bibitem{cornes2018}
+\bibinfo{author}{Cornes, R.~C.}, \bibinfo{author}{van~der Schrier, G.},
+  \bibinfo{author}{van~den Besselaar, E.~J.} \& \bibinfo{author}{Jones, P.~D.}
+\newblock \bibinfo{title}{An ensemble version of the {E-OBS} temperature and
+  precipitation data sets}.
+\newblock \emph{\bibinfo{journal}{Journal of Geophysical Research:
+  Atmospheres}} \textbf{\bibinfo{volume}{123}}, \bibinfo{pages}{9391--9409}
+  (\bibinfo{year}{2018}).
+
+\bibitem{chuine2016}
+\bibinfo{author}{Chuine, I.} \emph{et~al.}
+\newblock \bibinfo{title}{Can phenological models predict tree phenology
+  accurately in the future? {T}he unrevealed hurdle of endodormancy break}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{22}}, \bibinfo{pages}{3444--3460}
+  (\bibinfo{year}{2016}).
+
+\bibitem{fu2015}
+\bibinfo{author}{Fu, Y. S.~H.} \emph{et~al.}
+\newblock \bibinfo{title}{Declining global warming effects on the phenology of
+  spring leaf unfolding}.
+\newblock \emph{\bibinfo{journal}{Nature}} \textbf{\bibinfo{volume}{526}},
+  \bibinfo{pages}{104--107} (\bibinfo{year}{2015}).
+
+\bibitem{IPCC:2014sm}
+\bibinfo{author}{IPCC}.
+\newblock \emph{\bibinfo{title}{Climate Change 2014: Impacts, Adaptation, and
+  Vulnerability}} (\bibinfo{publisher}{Cambridge University Press},
+  \bibinfo{address}{Cambridge, United Kingdom and New York, NY, USA},
+  \bibinfo{year}{2014}).
+
+\bibitem{ford2016}
+\bibinfo{author}{Ford, K.~R.}, \bibinfo{author}{Harrington, C.~A.},
+  \bibinfo{author}{Bansal, S.}, \bibinfo{author}{Gould, J., Peter} \&
+  \bibinfo{author}{St.~Clair, J.~B.}
+\newblock \bibinfo{title}{Will changes in phenology track climate change? {A}
+  study of growth initiation timing in coast {Douglas--fir}}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{22}}, \bibinfo{pages}{3712--3723}
+  (\bibinfo{year}{2016}).
+
+\bibitem{simmonds2019}
+\bibinfo{author}{Simmonds, E.~G.}, \bibinfo{author}{Cole, E.~F.} \&
+  \bibinfo{author}{Sheldon, B.~C.}
+\newblock \bibinfo{title}{Cue identification in phenology: a case study of the
+  predictive performance of current statistical tools}.
+\newblock \emph{\bibinfo{journal}{Journal of Animal Ecology}}
+  (\bibinfo{year}{2019}).
+
+\bibitem{Bailey2016}
+\bibinfo{author}{Bailey, L.~D.} \& \bibinfo{author}{van~de Pol, M.}
+\newblock \bibinfo{title}{climwin: An r toolbox for climate window analysis}.
+\newblock \emph{\bibinfo{journal}{PLOS ONE}} \textbf{\bibinfo{volume}{11}},
+  \bibinfo{pages}{1--27} (\bibinfo{year}{2016}).
+
+\bibitem{vandepol2016}
+\bibinfo{author}{van~de Pol, M.} \emph{et~al.}
+\newblock \bibinfo{title}{Identifying the best climatic predictors in ecology
+  and evolution}.
+\newblock \emph{\bibinfo{journal}{Methods in Ecology and Evolution}}
+  \textbf{\bibinfo{volume}{7}}, \bibinfo{pages}{1246--1257}
+  (\bibinfo{year}{2016}).
+\newblock
+  \eprint{https://besjournals.onlinelibrary.wiley.com/doi/pdf/10.1111/2041-210X.12590}.
+
+\bibitem{gusewell2017}
+\bibinfo{author}{G{\"u}sewell, S.}, \bibinfo{author}{Furrer, R.},
+  \bibinfo{author}{Gehrig, R.} \& \bibinfo{author}{Pietragalla, B.}
+\newblock \bibinfo{title}{{Changes in temperature sensitivity of spring
+  phenology with recent climate warming in Switzerland are related to shifts of
+  the preseason}}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{23}}, \bibinfo{pages}{5189--5202}
+  (\bibinfo{year}{2017}).
+
+\bibitem{clark2014a}
+\bibinfo{author}{Clark, J.~S.}, \bibinfo{author}{Melillo, J.},
+  \bibinfo{author}{Mohan, J.} \& \bibinfo{author}{Salk, C.}
+\newblock \bibinfo{title}{The seasonal timing of warming that controls onset of
+  the growing season}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{1136--1145}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Basler:2012}
+\bibinfo{author}{Basler, D.} \& \bibinfo{author}{K{\"o}rner, C.}
+\newblock \bibinfo{title}{Photoperiod sensitivity of bud burst in 14 temperate
+  forest tree species}.
+\newblock \emph{\bibinfo{journal}{Agricultural and Forest Meteorology}}
+  \textbf{\bibinfo{volume}{165}}, \bibinfo{pages}{73--81}
+  (\bibinfo{year}{2012}).
+
+\bibitem{Basler:2014aa}
+\bibinfo{author}{Basler, D.} \& \bibinfo{author}{K{\"o}rner, C.}
+\newblock \bibinfo{title}{Photoperiod and temperature responses of bud swelling
+  and bud burst in four temperate forest tree species}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{34}}, \bibinfo{pages}{377--388}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Biasi:2012}
+\bibinfo{author}{Biasi, L.}, \bibinfo{author}{Zanette, F.} \&
+  \bibinfo{author}{Carvalho, R.}
+\newblock \bibinfo{title}{Dormancy dynamics of grape and kiwifruit buds in a
+  region of low chill occurrence}.
+\newblock In \emph{\bibinfo{booktitle}{XXVIII International Horticultural
+  Congress on Science and Horticulture for People (IHC2010): International
+  Symposium on Plant 932}}, \bibinfo{pages}{507--512} (\bibinfo{year}{2012}).
+
+\bibitem{Caffarra:2011a}
+\bibinfo{author}{Caffarra, A.} \& \bibinfo{author}{Donnelly, A.}
+\newblock \bibinfo{title}{The ecological significance of phenology in four
+  different tree species: effects of light and temperature on bud burst}.
+\newblock \emph{\bibinfo{journal}{International Journal of Biometeorology}}
+  \textbf{\bibinfo{volume}{55}}, \bibinfo{pages}{711--721}
+  (\bibinfo{year}{2011}).
+
+\bibitem{Caffarra:2011b}
+\bibinfo{author}{Caffarra, A.}, \bibinfo{author}{Donnelly, A.},
+  \bibinfo{author}{Chuine, I.} \& \bibinfo{author}{Jones, M.~B.}
+\newblock \bibinfo{title}{{Modelling the timing of \textit{Betula pubescens}
+  bud-burst. I. Temperature and photoperiod: A conceptual model}}.
+\newblock \emph{\bibinfo{journal}{Climate Research}}
+  \textbf{\bibinfo{volume}{46}}, \bibinfo{pages}{147} (\bibinfo{year}{2011}).
+
+\bibitem{Calme:1994aa}
+\bibinfo{author}{Calm{\'e}, S.}, \bibinfo{author}{Bigras, F.~J.},
+  \bibinfo{author}{Margolis, H.~A.} \& \bibinfo{author}{H{\'e}bert, C.}
+\newblock \bibinfo{title}{Frost tolerance and bud dormancy of container-grown
+  yellow birch, red oak and sugar maple seedlings}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{14}}, \bibinfo{pages}{1313--1325}
+  (\bibinfo{year}{1994}).
+
+\bibitem{Campbell:1975aa}
+\bibinfo{author}{Campbell, R.~K.} \& \bibinfo{author}{Sugano, A.~I.}
+\newblock \bibinfo{title}{{Phenology of bud burst in Douglas-fir related to
+  provenance, photoperiod, chilling, and flushing temperature}}.
+\newblock \emph{\bibinfo{journal}{Botanical Gazette}} \bibinfo{pages}{290--298}
+  (\bibinfo{year}{1975}).
+
+\bibitem{Chavarria:2009aa}
+\bibinfo{author}{Chavarria, G.} \emph{et~al.}
+\newblock \bibinfo{title}{Mild temperatures on bud breaking dormancy in
+  peaches}.
+\newblock \emph{\bibinfo{journal}{Ci{\^e}ncia Rural}}
+  \textbf{\bibinfo{volume}{39}}, \bibinfo{pages}{2016--2021}
+  (\bibinfo{year}{2009}).
+
+\bibitem{Cook:2000aa}
+\bibinfo{author}{Cook, C.} \& \bibinfo{author}{Jacobs, G.}
+\newblock \bibinfo{title}{Progression of apple (malus$\times$ domestica borkh.)
+  bud dormancy in two mild winter climates}.
+\newblock \emph{\bibinfo{journal}{The Journal of Horticultural Science and
+  Biotechnology}} \textbf{\bibinfo{volume}{75}}, \bibinfo{pages}{233--236}
+  (\bibinfo{year}{2000}).
+
+\bibitem{Falusi:2003aa}
+\bibinfo{author}{Falusi, M.} \& \bibinfo{author}{Calamassi, R.}
+\newblock \bibinfo{title}{{Dormancy of \emph{Fagus sylvatica} L. buds III.
+  Temperature and hormones in the evolution of dormancy in one-node cuttings}}.
+\newblock \emph{\bibinfo{journal}{Plant Biosystems-An International Journal
+  Dealing with all Aspects of Plant Biology}} \textbf{\bibinfo{volume}{137}},
+  \bibinfo{pages}{185--191} (\bibinfo{year}{2003}).
+
+\bibitem{Falusi:1990aa}
+\bibinfo{author}{Falusi, M.} \& \bibinfo{author}{Calamassi, R.}
+\newblock \bibinfo{title}{{Bud dormancy in beech (\textit{Fagus sylvatica} L.).
+  Effect of chilling and photoperiod on dormancy release of beech seedlings}}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{429--438}
+  (\bibinfo{year}{1990}).
+
+\bibitem{Falusi:1996aa}
+\bibinfo{author}{Falusi, M.} \& \bibinfo{author}{Calamassi, R.}
+\newblock \bibinfo{title}{{Geographic variation and bud dormancy in beech
+  seedlings (\emph{Fagus sylvatica} L)}}.
+\newblock In \emph{\bibinfo{booktitle}{Annales des Sciences foresti{\`e}res}},
+  vol.~\bibinfo{volume}{53}, \bibinfo{pages}{967--979} (\bibinfo{publisher}{EDP
+  Sciences}, \bibinfo{year}{1996}).
+
+\bibitem{Falusi:1997aa}
+\bibinfo{author}{Falusi, M.} \& \bibinfo{author}{Calamassi, R.}
+\newblock \bibinfo{title}{{Bud dormancy in \emph{Fagus sylvatica} L. II. The
+  evolution of dormancy in seedlings and one-node cuttings}}.
+\newblock \emph{\bibinfo{journal}{Plant Biosystems-An International Journal
+  Dealing with all Aspects of Plant Biology}} \textbf{\bibinfo{volume}{131}},
+  \bibinfo{pages}{143--148} (\bibinfo{year}{1997}).
+
+\bibitem{Ghelardini:2010aa}
+\bibinfo{author}{Ghelardini, L.}, \bibinfo{author}{Santini, A.},
+  \bibinfo{author}{Black-Samuelsson, S.}, \bibinfo{author}{Myking, T.} \&
+  \bibinfo{author}{Falusi, M.}
+\newblock \bibinfo{title}{Bud dormancy release in elm ( {\emph{ulmus}} spp.)
+  clones---a case study of photoperiod and temperature responses}.
+\newblock \emph{\bibinfo{journal}{Tree physiology}}
+  \textbf{\bibinfo{volume}{30}}, \bibinfo{pages}{264--274}
+  (\bibinfo{year}{2010}).
+
+\bibitem{Gianfagna:1985aa}
+\bibinfo{author}{Gianfagna, T.} \& \bibinfo{author}{Mehlenbacher, S.}
+\newblock \bibinfo{title}{Importance of heat requirement for bud break and time
+  of flowering in apple}.
+\newblock \emph{\bibinfo{journal}{HortScience}} \textbf{\bibinfo{volume}{20}},
+  \bibinfo{pages}{909--911} (\bibinfo{year}{1985}).
+
+\bibitem{Gomory:2015aa}
+\bibinfo{author}{G{\"o}m{\"o}ry, D.}, \bibinfo{author}{Foffov{\'a}, E.},
+  \bibinfo{author}{Longauer, R.} \& \bibinfo{author}{Krajmerov{\'a}, D.}
+\newblock \bibinfo{title}{{Memory effects associated with early-growth
+  environment in Norway spruce and European larch}}.
+\newblock \emph{\bibinfo{journal}{European Journal of Forest Research}}
+  \textbf{\bibinfo{volume}{134}}, \bibinfo{pages}{89--97}
+  (\bibinfo{year}{2015}).
+
+\bibitem{Guak:1998aa}
+\bibinfo{author}{Guak, S.}, \bibinfo{author}{Olsyzk, D.~M.},
+  \bibinfo{author}{Fuchigami, L.~H.} \& \bibinfo{author}{Tingey, D.~T.}
+\newblock \bibinfo{title}{Effects of elevated {CO}2 and temperature on cold
+  hardiness and spring bud burst and growth in douglas-fir (\emph{Pseudotsuga
+  menziesii})}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{18}}, \bibinfo{pages}{671--679}
+  (\bibinfo{year}{1998}).
+
+\bibitem{guerriero:1990}
+\bibinfo{author}{Guerriero, P.}, \bibinfo{author}{Scalabrelli, G.} \&
+  \bibinfo{author}{Grazzini, G.}
+\newblock \bibinfo{title}{Chilling effect on inhibition removal in kiwifruit
+  dormant lateral buds}.
+\newblock In \emph{\bibinfo{booktitle}{I International Symposium on Kiwifruit
+  282}}, \bibinfo{pages}{79--86} (\bibinfo{year}{1990}).
+
+\bibitem{Heide:2012aa}
+\bibinfo{author}{Heide, O.~M.} \& \bibinfo{author}{S{\o}nsteby, A.}
+\newblock \bibinfo{title}{{Floral initiation in black currant cultivars
+  (\emph{Ribes nigrum} L.): Effects of plant size, photoperiod, temperature,
+  and duration of short day exposure}}.
+\newblock \emph{\bibinfo{journal}{Scientia Horticulturae}}
+  \textbf{\bibinfo{volume}{138}}, \bibinfo{pages}{64--72}
+  (\bibinfo{year}{2012}).
+
+\bibitem{Heide:1993}
+\bibinfo{author}{Heide, O.}
+\newblock \bibinfo{title}{Daylength and thermal time responses of budburst
+  during dormancy release in some northern deciduous trees}.
+\newblock \emph{\bibinfo{journal}{Physiologia Plantarum}}
+  \textbf{\bibinfo{volume}{88}}, \bibinfo{pages}{531--540}
+  (\bibinfo{year}{1993}).
+
+\bibitem{Heide:1993a}
+\bibinfo{author}{Heide, O.}
+\newblock \bibinfo{title}{{Dormancy release in beech buds (\textit{Fagus
+  sylvatica}) requires both chilling and long days}}.
+\newblock \emph{\bibinfo{journal}{Physiologia Plantarum}}
+  \textbf{\bibinfo{volume}{89}}, \bibinfo{pages}{187--191}
+  (\bibinfo{year}{1993}).
+
+\bibitem{Jones:2012}
+\bibinfo{author}{Jones, H.}, \bibinfo{author}{Hillis, R.},
+  \bibinfo{author}{Gordon, S.} \& \bibinfo{author}{Brennan, R.}
+\newblock \bibinfo{title}{{An approach to the determination of winter chill
+  requirements for different \emph{Ribes} cultivars}}.
+\newblock \emph{\bibinfo{journal}{Plant Biology}}
+  \textbf{\bibinfo{volume}{15}}, \bibinfo{pages}{18--27}
+  (\bibinfo{year}{2012}).
+
+\bibitem{Laube:2014a}
+\bibinfo{author}{Laube, J.} \emph{et~al.}
+\newblock \bibinfo{title}{Chilling outweighs photoperiod in preventing
+  precocious spring development}.
+\newblock \emph{\bibinfo{journal}{Global Change Biology}}
+  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{170--182}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Laube:2014b}
+\bibinfo{author}{Laube, J.}, \bibinfo{author}{Sparks, T.~H.},
+  \bibinfo{author}{Estrella, N.} \& \bibinfo{author}{Menzel, A.}
+\newblock \bibinfo{title}{Does humidity trigger tree phenology? {Proposal} for
+  an air humidity based framework for bud development in spring}.
+\newblock \emph{\bibinfo{journal}{New Phytologist}}
+  \textbf{\bibinfo{volume}{202}}, \bibinfo{pages}{350--355}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Li:2005aa}
+\bibinfo{author}{Li, C.} \emph{et~al.}
+\newblock \bibinfo{title}{{Differential responses of silver birch (\emph{Betula
+  pendula}) ecotypes to short-day photoperiod and low temperature}}.
+\newblock \emph{\bibinfo{journal}{Tree physiology}}
+  \textbf{\bibinfo{volume}{25}}, \bibinfo{pages}{1563--1569}
+  (\bibinfo{year}{2005}).
+
+\bibitem{Linkosalo:2006aa}
+\bibinfo{author}{Linkosalo, T.} \& \bibinfo{author}{Lechowicz, M.~J.}
+\newblock \bibinfo{title}{{Twilight far-red treatment advances leaf bud burst
+  of silver birch (\emph{Betula pendula})}}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{26}}, \bibinfo{pages}{1249--1256}
+  (\bibinfo{year}{2006}).
+
+\bibitem{Man:2010aa}
+\bibinfo{author}{Man, R.} \& \bibinfo{author}{Lu, P.}
+\newblock \bibinfo{title}{Effects of thermal model and base temperature on
+  estimates of thermal time to bud break in white spruce seedlings}.
+\newblock \emph{\bibinfo{journal}{Canadian Journal of Forest Research}}
+  \textbf{\bibinfo{volume}{40}}, \bibinfo{pages}{1815--1820}
+  (\bibinfo{year}{2010}).
+
+\bibitem{Morin:2010aa}
+\bibinfo{author}{Morin, X.}, \bibinfo{author}{Roy, J.},
+  \bibinfo{author}{Soni{\'e}, L.} \& \bibinfo{author}{Chuine, I.}
+\newblock \bibinfo{title}{{Changes in leaf phenology of three European oak
+  species in response to experimental climate change}}.
+\newblock \emph{\bibinfo{journal}{New Phytologist}}
+  \textbf{\bibinfo{volume}{186}}, \bibinfo{pages}{900--910}
+  (\bibinfo{year}{2010}).
+
+\bibitem{Myking:1995}
+\bibinfo{author}{Myking, T.} \& \bibinfo{author}{Heide, O.}
+\newblock \bibinfo{title}{{Dormancy release and chilling requirement of buds of
+  latitudinal ecotypes of \textit{Betula pendula} and \textit{B. pubescens}}}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{15}}, \bibinfo{pages}{697--704}
+  (\bibinfo{year}{1995}).
+
+\bibitem{Myking:1997aa}
+\bibinfo{author}{Myking, T.}
+\newblock \bibinfo{title}{{Effects of constant and fluctuating temperature on
+  time to budburst in \emph{Betula pubescens} and its relation to bud
+  respiration}}.
+\newblock \emph{\bibinfo{journal}{Trees}} \textbf{\bibinfo{volume}{12}},
+  \bibinfo{pages}{107--112} (\bibinfo{year}{1997}).
+
+\bibitem{Myking:1998aa}
+\bibinfo{author}{Myking, T.}
+\newblock \bibinfo{title}{Interrelations between respiration and dormancy in
+  buds of three hardwood species with different chilling requirements for
+  dormancy release}.
+\newblock \emph{\bibinfo{journal}{Trees}} \textbf{\bibinfo{volume}{12}},
+  \bibinfo{pages}{224--229} (\bibinfo{year}{1998}).
+
+\bibitem{Pagter:2015}
+\bibinfo{author}{Pagter, M.}, \bibinfo{author}{Andersen, U.~B.} \&
+  \bibinfo{author}{Andersen, L.}
+\newblock \bibinfo{title}{Winter warming delays dormancy release, advances
+  budburst, alters carbohydrate metabolism and reduces yield in a temperate
+  shrub}.
+\newblock \emph{\bibinfo{journal}{AoB plants}} \textbf{\bibinfo{volume}{7}},
+  \bibinfo{pages}{plv024} (\bibinfo{year}{2015}).
+
+\bibitem{Partanen:2001aa}
+\bibinfo{author}{Partanen, J.}, \bibinfo{author}{Leinonen, I.} \&
+  \bibinfo{author}{Repo, T.}
+\newblock \bibinfo{title}{{Effect of accumulated duration of the light period
+  on bud burst in Norway spruce (\emph{Picea abies}) of varying ages}}.
+\newblock \emph{\bibinfo{journal}{Silva Fennica}}
+  \textbf{\bibinfo{volume}{35}}, \bibinfo{pages}{111--117}
+  (\bibinfo{year}{2001}).
+
+\bibitem{Partanen:1998aa}
+\bibinfo{author}{Partanen, J.}, \bibinfo{author}{Koski, V.} \&
+  \bibinfo{author}{H{\"a}nninen, H.}
+\newblock \bibinfo{title}{{Effects of photoperiod and temperature on the timing
+  of bud burst in Norway spruce (\emph{Picea abies})}}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology}}
+  \textbf{\bibinfo{volume}{18}}, \bibinfo{pages}{811--816}
+  (\bibinfo{year}{1998}).
+
+\bibitem{ramos:1999}
+\bibinfo{author}{Ramos, A.} \& \bibinfo{author}{Rallo, L.}
+\newblock \bibinfo{title}{Effect of the bearing condition of the tree, chilling
+  and defoliation on the forced budburst of olive cuttings at different
+  tempeartures}.
+\newblock In \bibinfo{editor}{Metzidakis, I.~T.} \& \bibinfo{editor}{Voyiatzis,
+  D.~G.} (eds.) \emph{\bibinfo{booktitle}{III International Symposium on Olive
+  Growing 474}}, \bibinfo{pages}{251--254} (\bibinfo{year}{1999}).
+
+\bibitem{Rinne:1994}
+\bibinfo{author}{Rinne, P.}, \bibinfo{author}{Saarelainen, A.} \&
+  \bibinfo{author}{Junttila, O.}
+\newblock \bibinfo{title}{{Growth cessation and bud dormancy in relation to ABA
+  level in seedlings and coppice shoots of \emph{Betula pubescens} as affected
+  by a short photoperiod, water stress and chilling}}.
+\newblock \emph{\bibinfo{journal}{Physiologia Plantarum}}
+  \textbf{\bibinfo{volume}{90}}, \bibinfo{pages}{451--458}
+  (\bibinfo{year}{1994}).
+
+\bibitem{Rinne:1997aa}
+\bibinfo{author}{Rinne, P.}, \bibinfo{author}{H{\"a}nninen, H.},
+  \bibinfo{author}{Kaikuranta, P.}, \bibinfo{author}{Jalonen, J.} \&
+  \bibinfo{author}{Repo, T.}
+\newblock \bibinfo{title}{{Freezing exposure releases bud dormancy in
+  \emph{Betula pubescens} and \emph{B. pendula}}}.
+\newblock \emph{\bibinfo{journal}{Plant, Cell \& Environment}}
+  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{1199--1204}
+  (\bibinfo{year}{1997}).
+
+\bibitem{Sanz-Perez:2009aa}
+\bibinfo{author}{Sanz-Perez, V.}, \bibinfo{author}{Castro-Diez, P.} \&
+  \bibinfo{author}{Valladares, F.}
+\newblock \bibinfo{title}{Differential and interactive effects of temperature
+  and photoperiod on budburst and carbon reserves in two co-occurring
+  {M}editerranean oaks}.
+\newblock \emph{\bibinfo{journal}{Plant Biology}}
+  \textbf{\bibinfo{volume}{11}}, \bibinfo{pages}{142--51}
+  (\bibinfo{year}{2009}).
+
+\bibitem{Sanz-Perez:2010aa}
+\bibinfo{author}{Sanz-P{\'e}rez, V.} \& \bibinfo{author}{Castro-D{\'\i}ez, P.}
+\newblock \bibinfo{title}{Summer water stress and shade alter bud size and
+  budburst date in three {Mediterranean \emph{Quercus}} species}.
+\newblock \emph{\bibinfo{journal}{Trees}} \textbf{\bibinfo{volume}{24}},
+  \bibinfo{pages}{89--97} (\bibinfo{year}{2010}).
+
+\bibitem{Schnabel:1987aa}
+\bibinfo{author}{Schnabel, B.~J.} \& \bibinfo{author}{Wample, R.~L.}
+\newblock \bibinfo{title}{{Dormancy and cold hardiness in \emph{Vitis vinifera}
+  L. cv. White Riesling as influenced by photoperiod and temperature}}.
+\newblock \emph{\bibinfo{journal}{American Journal of Enology and Viticulture}}
+  \textbf{\bibinfo{volume}{38}}, \bibinfo{pages}{265--272}
+  (\bibinfo{year}{1987}).
+
+\bibitem{Skuterud:1994aa}
+\bibinfo{author}{Skuterud, R.} \& \bibinfo{author}{Dietrichson, J.}
+\newblock \bibinfo{title}{{Budburst in detached birch shoots (\emph{Betula
+  pendula}) of different varieties winter-stored in darkness at three different
+  temperatures.}}
+\newblock \emph{\bibinfo{journal}{Silva Fennica}}
+  \textbf{\bibinfo{volume}{28}}, \bibinfo{pages}{223--224}
+  (\bibinfo{year}{1994}).
+
+\bibitem{Sonsteby:2014aa}
+\bibinfo{author}{S{\o}nsteby, A.} \& \bibinfo{author}{Heide, O.~M.}
+\newblock \bibinfo{title}{{Chilling requirements of contrasting black currant
+  (\emph{Ribes nigrum} L.) cultivars and the induction of secondary bud
+  dormancy}}.
+\newblock \emph{\bibinfo{journal}{Scientia Horticulturae}}
+  \textbf{\bibinfo{volume}{179}}, \bibinfo{pages}{256--265}
+  (\bibinfo{year}{2014}).
+
+\bibitem{Spann:2004aa}
+\bibinfo{author}{Spann, T.~M.}, \bibinfo{author}{Williamson, J.~G.} \&
+  \bibinfo{author}{Darnell, R.~L.}
+\newblock \bibinfo{title}{Photoperiod and temperature effects on growth and
+  carbohydrate storage in southern highbush blueberry interspecific hybrid}.
+\newblock \emph{\bibinfo{journal}{Journal of the American Society for
+  Horticultural Science}} \textbf{\bibinfo{volume}{129}},
+  \bibinfo{pages}{294--298} (\bibinfo{year}{2004}).
+
+\bibitem{Spiers:1974aa}
+\bibinfo{author}{Spiers, J.} \& \bibinfo{author}{Draper, A.}
+\newblock \bibinfo{title}{Effect of chilling on bud break in rabbiteye
+  blueberry cultivars.}
+\newblock \emph{\bibinfo{journal}{Journal American Society for Horticultural
+  Science}}  (\bibinfo{year}{1974}).
+
+\bibitem{Swartz:1981aa}
+\bibinfo{author}{Swartz, H.} \& \bibinfo{author}{Powell~Jr, L.}
+\newblock \bibinfo{title}{The effect of long chilling requirement on time of
+  bud break in apple}.
+\newblock In \emph{\bibinfo{booktitle}{Symposium on Growth Regulators in Fruit
+  Production 120}}, \bibinfo{pages}{173--178} (\bibinfo{year}{1981}).
+
+\bibitem{Thielges:1976aa}
+\bibinfo{author}{Thielges, B.} \& \bibinfo{author}{Beck, R.}
+\newblock \bibinfo{title}{{Control of bud break and its inheritance in
+  \emph{Populus deltoides}}}.
+\newblock \emph{\bibinfo{journal}{Tree Physiology and Yield Improvement}}
+  \textbf{\bibinfo{volume}{14}}, \bibinfo{pages}{253--259}
+  (\bibinfo{year}{1976}).
+
+\bibitem{Webb:1977}
+\bibinfo{author}{Webb, D.~P.}
+\newblock \bibinfo{title}{Root regeneration and bud dormancy of sugar maple,
+  silver maple, and white ash seedlings: effects of chilling}.
+\newblock \emph{\bibinfo{journal}{Forest Science}}
+  \textbf{\bibinfo{volume}{23}}, \bibinfo{pages}{474--483}
+  (\bibinfo{year}{1977}).
+
+\bibitem{Worrall:1967aa}
+\bibinfo{author}{Worrall, J.} \& \bibinfo{author}{Mergen, F.}
+\newblock \bibinfo{title}{{Environmental and genetic control of dormancy in
+  \emph{Picea abies}}}.
+\newblock \emph{\bibinfo{journal}{Physiologia Plantarum}}
+  \textbf{\bibinfo{volume}{20}}, \bibinfo{pages}{733--745}
+  (\bibinfo{year}{1967}).
+
+\bibitem{zohner2016}
+\bibinfo{author}{Zohner, C.~M.}, \bibinfo{author}{Benito, B.~M.},
+  \bibinfo{author}{Svenning, J.~C.} \& \bibinfo{author}{Renner, S.~S.}
+\newblock \bibinfo{title}{Day length unlikely to constrain climate-driven
+  shifts in leaf-out times of northern woody plants}.
+\newblock \emph{\bibinfo{journal}{Nature Climate Change}}
+  \textbf{\bibinfo{volume}{6}}, \bibinfo{pages}{1120--1123}
+  (\bibinfo{year}{2016}).
+
+\bibitem{richardson1974}
+\bibinfo{author}{Richardson, E.}
+\newblock \bibinfo{title}{A model for estimating the completion of rest for
+  {`Redhaven' and 'Elberta'} peach trees}.
+\newblock \emph{\bibinfo{journal}{HortScience}} \textbf{\bibinfo{volume}{9}},
+  \bibinfo{pages}{331--332} (\bibinfo{year}{1974}).
+
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
