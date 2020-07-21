@@ -36,7 +36,7 @@ X<-split(rangies, with(rangies, rangies$variable), drop = TRUE)
 Y <- lapply(seq_along(X), function(x) as.data.frame(X[[x]])[, 1:7]) 
 
 #names(Y) <-(c("GDD","GDD.lastfrost","DayLastFrost","MeanTmins",          
-               "SDev.Tmins","Mean.Chill.Utah","Mean.Chill.Portions"))
+              # "SDev.Tmins","Mean.Chill.Utah","Mean.Chill.Portions"))
 
 names(Y)<-(c("DayLastFrost","GDD","GDD.lastfrost"
              ,"Mean.Chill.Portions","Mean.Chill.Utah","MeanTmins","SDev.Tmins"))
