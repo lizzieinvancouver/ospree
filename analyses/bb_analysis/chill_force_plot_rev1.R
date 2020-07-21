@@ -52,7 +52,7 @@ bb.stan$chillend[which(is.na(bb.stan$chillend) & bb.stan$chill_type=="fldest")]<
 bb.stan$forcestart<-bb.stan$chillend
 bb.stan$bbday<-bb.stan$forcestart+bb.stan$response.time
 bb.stan<-bb.stan[order(bb.stan$datasetID,bb.stan$chillend),]
-pdf("figures/chilldaysforcedays.pdf", width=8,height=12)
+pdf("figures/chilldaysforcedays2.pdf", width=8,height=25)
 
 
   #quartz(height=12,width=8)#for pc you replace "quartz" with X11
@@ -60,6 +60,7 @@ pdf("figures/chilldaysforcedays.pdf", width=8,height=12)
   plot(10,15, type="p", cex=.8,pch=21, col="white", bty="L", xlab="Number of Days",ylab=" ", ylim=c(1,dim(bb.stan)[1]), yaxt='n',xlim=c(1,200),las=1)
  
    y<-rev(seq(from =1, to = dim(bb.stan)[1], by = 1))
+   bb.stan<-bb.stan[-which(is.na(bb.stan$forcestart)),]
    for(i in 1:dim(bb.stan)[1]){
      lines(c(bb.stan$chillstart[i],bb.stan$chillend[i]),c(y[i],y[i]), col="lightblue",lwd=2)
      lines(c(bb.stan$forcestart[i],bb.stan$bbday[i]),c(y[i],y[i]), col="darkred",lwd=2)
@@ -68,8 +69,9 @@ pdf("figures/chilldaysforcedays.pdf", width=8,height=12)
    #Make new label for y-axis that is has species name only once
    namelocs<-table(bb.stan$datasetID)
    namelocs<-cumsum(namelocs[order(names(namelocs),decreasing = TRUE)])
-   axis(side=2,at=namelocs,labels=names(namelocs),las=1, tick=FALSE)
- 
+   n=length(names(namelocs))
+   axis(side=2,at=namelocs[seq(1,n,2)],labels=names(namelocs)[seq(1,n,2)],las=1, tick=FALSE, cex.axis=1)
+   axis(side=2,at=namelocs[seq(2,n,2)],labels=names(namelocs)[seq(2,n,2)],las=1, tick=FALSE, cex.axis=1)
 dev.off()
        
 #Other reviewer issue: find % difference in estimates from utah and chill model

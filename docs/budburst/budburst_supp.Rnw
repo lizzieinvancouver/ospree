@@ -87,7 +87,8 @@ moddat<-read.csv("..//..//analyses/output/bbstan_allsppmodel_utahzscore_wcrops_a
 source("../../analyses/bb_analysis/maketables.forsupp/datasetIDref_table.R")
 
 colnames(reftable)<-c("Dataset","Reference")
-
+reftable<-as.data.frame(reftable)
+reftable$Dataset<-as.character(reftable$Dataset)
 ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for papers in the OSPREE database.}",
       label="tab:ref",align=c(
                "p{0.01\\textwidth}",
