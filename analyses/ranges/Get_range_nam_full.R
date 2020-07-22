@@ -20,15 +20,15 @@ require(chillR)
 require(lubridate)
 
 
-#climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
-climatedrive = "~/Desktop/Big Data Files" # Cat's climate drive
+climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
+#climatedrive = "~/Desktop/Big Data Files" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
-#nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
-nafiles <- dir(climatedrive)[grep("princetondata", dir(climatedrive))]
+nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
+#nafiles <- dir(climatedrive)[grep("princetondata", dir(climatedrive))]
 
 ## load species list 
-#species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
-species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
+#species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
 species.list <- as.vector(species.list$x)
 
 
@@ -144,11 +144,11 @@ extractchillforce<-function(spslist){
       spsi<-spslist[i]
       
       ## load shape
-      #path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
-      path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-      #unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-       #                 list = TRUE)$Name
-      unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+      path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+      #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+      unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                        list = TRUE)$Name
+      #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
       
       shpsource <-"NA_ranges"
       
@@ -164,16 +164,17 @@ extractchillforce<-function(spslist){
       #spsshapeproj <- spsshape
       proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
       
-      spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
-      
       ras.numpixels<-tmin1980[[1]]
       values(ras.numpixels)<-1:ncell(ras.numpixels)
+      
+      spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+      #spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
     
       
       # get list of pixels to extract data (speeds things up)
       pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
       npix<-length(pixels.sps.i) # number of pixels
-      npix <- npix-2
+      #npix <- npix-2
       
       # create an array to store results
       yearlyresults<-array(NA,dim=c(npix,9,length(period)))
@@ -239,11 +240,20 @@ extractchillforce<-function(spslist){
       chmax <- chmax[!is.na(chmax$z),]
       chmax <- chmax[!duplicated(chmax$z),]
       
+      nas <- which(is.na(values(tminshpforce)[pixels.sps.i]))
+      
+      
+      
+      #ext <- extent(spsshapeproj)
+      #r <- raster(ext, res=0.5)  
+      #r <- rasterize(spsshapeproj, r)
+      #crs(r) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
       
       # get coordinates and names
-      chcoordmin<-coordinates(tmin1980[[1]])[chmin[,1],]
+      chcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,]
+      #chcoordmin<-coordinates(tmin[[1]])[chmin[,1],]
       yearlyresults[,1:2,]<-chcoordmin
-      chcoordmax<-coordinates(tmin1980[[1]])[chmax[,1],]
+      chcoordmax<-coordinates(ras.numpixels)[pixels.sps.i,]
       chmin<-cbind(chcoordmin,chmin[,2:ncol(chmin)])
       chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       
@@ -277,8 +287,8 @@ extractchillforce<-function(spslist){
       wamax <- wamax[!is.na(wamax$z),]
       wamax <- wamax[!duplicated(wamax$z),]
       
-      ffcoordmin<-coordinates(tmin1980[[1]])[wamax[,1],]
-      ffcoordmax<-coordinates(tmin1980[[1]])[wamax[,1],]
+      ffcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,]
+      ffcoordmax<-coordinates(ras.numpixels)[pixels.sps.i,]
       ffmin<-cbind(ffcoordmin,wamin[,1:ncol(wamin)])
       ffmax<-cbind(ffcoordmin,wamax[,1:ncol(wamax)])
       
@@ -411,51 +421,336 @@ extractchillforce<-function(spslist){
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
-period <- 1980:2016  
-spslist=spslist[16] #missing 2,8
-for(i in 1:length(spslist)){ #i=1
-  Climate.in.range<-extractchillforce(spslist[i])
+period <- 1980:2016 
+#spslist=spslist[1] #missing 2,8
+
+Climate.in.range.list<-list()
+for(i in 1:length(spslist)){
+  Climate.in.range.list[[i]]<-extractchillforce(spslist[i])
+}
+
+save(Climate.in.range.list,file = "output/Climate.in.range.NAMspFULL.RData")
+
+
+#for(i in 1:length(spslist)){ #i=1
+ # Climate.in.range<-extractchillforce(spslist[i])
   
-  write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
-                                                 period[1],max(period),"csv",sep="."))
+  #write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
+   #                                              period[1],max(period),"csv",sep="."))
   
+  
+#}
+
+
+
+if(FALSE){
+load("output/Climate.in.range.NAMspFULL.RData")
+
+## corrections
+##ff<-extractchillforce(spslist[13],tmin,tmax,period)
+##Climate.in.range.list[[13]] <- ff
+
+
+for(i in 1:length(Climate.in.range.list)){
+  print(paste(i,
+              sum(is.na(Climate.in.range.list[[i]][[1]][,3,1]))==nrow(Climate.in.range.list[[i]][[1]][,,1])))
   
 }
 
 
 
-
-## saving outputs
-#save(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[4],
-#                                    period[1],max(period),"RData",sep="."))
-
-
-
-if(FALSE){
-  ## attempt to parallelize code
-  n = 2 # modify according to your RAM memory
-  cl <- makeCluster(n)
-  registerDoParallel(cl)
+## Code to save individual species
+#Climate.in.range.list[[3]][[1]][,,1]
+#j=16
+for(j in 1:length(Climate.in.range.list)){  
+  sps.1 <- as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
   
-  Sys.time()
-  Climate.in.range.i<-foreach(spslist = ospreespslist[4:7], .packages=c("raster","ncdf4","abind","chillR"),
-                              .verbose=T,.errorhandling="pass")  %dopar%  
-    extractchillforce(spslist,tmin,tmax,period) ## profiling function only / and all paralell process
-  Sys.time()
+  to.rem.nas <- which(apply(sps.1,1,function(x)sum(is.na(x)))>5)
+  if(length(to.rem.nas)>0){
+    sps.1 <- sps.1[-to.rem.nas,]
+  }
   
+  sps.1$year<-1980
+  sps.1$ID<-1:nrow(sps.1)
   
-  ## saving outputs1         
-  for(i in 1:length(Climate.in.range.i)){
-    
-    Climate.in.range = Climate.in.range.i[[i]][,,1]  
-    #save(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
-    #                                     period[1],max(period),"RData",sep="."))
-    write.csv(Climate.in.range, file = paste("output/Climate.in.range",ospreespslist[i],
-                                             period[1],max(period),"csv",sep="."))
-    
+  for(i in 2:37){
+    print(paste(j,i))
+    temp.sps<-as.data.frame(Climate.in.range.list[[j]][[1]][,,i])
+    to.rem.nas.j <- which(apply(temp.sps,1,function(x)sum(is.na(x)))>5)
+    if(length(to.rem.nas.j)>0){
+      temp.sps <- temp.sps[-to.rem.nas.j,]
+    }
+    temp.sps$year<-c(1980)[i]
+    temp.sps$ID<-1:nrow(temp.sps)
+    sps.1<-rbind(sps.1,temp.sps)
     
   }
   
-  ## remove aux unnecessary files
-  unlink("chorological_maps_dataset/*", recursive = T)
+  namesave <- paste("output/",spslist[j],"_fullextract.csv",sep="")
+  write.csv(sps.1,file = namesave)
+}
+
+
+#spslist
+#write.csv(sps.1,file = "output/Abies_alba_fullextract.csv")
+
+
+
+## synthetize and summarize data geographically and temporally
+#dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
+
+synth.data<-function(Climate.in.range.list){
+  list.synthesis<-list()
+  
+  for(j in 1:length(Climate.in.range.list)){  #j=1
+    sps.1<-as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
+    sps.1$year<-1980
+    
+    for(i in 2:37){
+      print(paste(spslist[j],i))
+      temp.sps<-as.data.frame(Climate.in.range.list[[1]][[1]][,,i])
+      temp.sps$year<-c(1980:2016)[i]
+      sps.1<-rbind(sps.1,temp.sps)
+      
+    }
+    
+    dat<-sps.1
+    year1<-subset(dat,year==1980)
+    
+    
+    years = unique(dat$year)
+    nyears = length(years)
+    dat$ID = paste(dat$x,dat$y)
+    
+    storing = array(NA, dim=c(7,4))
+    row.names(storing) = colnames(dat)[3:9]
+    colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+    
+    
+    means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
+    SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
+    means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+    SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+    
+    storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
+    storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
+    storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
+    storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
+    
+    list.synthesis[[j]]<-storing
+  }
+  
+  return(list.synthesis)
+}
+
+
+list.allsps<-synth.data(Climate.in.range.list)
+
+
+## join values from the list and save
+list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
+list.allspsjoint$species <- sort(rep(spslist,7))
+list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],22)
+
+#write.csv(list.allspsjoint,file = "output/Synthesis_climate_NAMsps.csv")
+
+head(list.allspsjoint)
+## plot geographic vs. temporal variation
+
+seqgdd<-seq(1,nrow(list.allspsjoint),7)
+seqgdd.frost<-seq(2,nrow(list.allspsjoint),7)
+seqmintemp<-seq(4,nrow(list.allspsjoint),7)
+
+par(mfrow=c(1,3),mar=c(4,4,1,1))
+plot(list.allspsjoint$Geo.Mean[seqgdd],
+     list.allspsjoint$Temp.Mean[seqgdd],xlim=c(360,430),ylim=c(360,430),
+     xlab="GDD - geographic mean",ylab="GDD - temporal mean",
+     pch=16,col=adjustcolor(1,0.4))
+abline(a=0,b=1,col='red',lty=2)
+
+plot(list.allspsjoint$Geo.Mean[seqgdd.frost],
+     list.allspsjoint$Temp.Mean[seqgdd.frost],#xlim=c(360,430),ylim=c(360,430),
+     xlab="GDD last frost - geographic mean",ylab="GDD last frost - temporal mean",
+     pch=16,col=adjustcolor(1,0.4))
+abline(a=0,b=1,col='red',lty=2)
+
+plot(list.allspsjoint$Geo.Mean[seqmintemp],
+     list.allspsjoint$Temp.Mean[seqmintemp],xlim=c(-3,-2),
+     xlab="Min Temp - geographic mean",ylab="Min Temp - temporal mean",
+     pch=16,col=adjustcolor(1,0.4))
+abline(a=0,b=1,lty=2,col='red')
+
+dev.off()
+
+## For some species, GDDs and Min Temps tend to have sensibly lower 
+## temporal means than geographic means (i.e. lower values are reached
+## when averaging across years than averaging across sites). 
+## Which are these species?
+
+## for GDDs
+spslist[rank(list.allspsjoint$Temp.Mean[seqgdd]/
+               list.allspsjoint$Geo.Mean[seqgdd])][1:2]
+
+## for minTemps
+spslist[rank(list.allspsjoint$Temp.Mean[seqmintemp]/
+               list.allspsjoint$Geo.Mean[seqmintemp])][1:8]
+
+## we should check if these species share something in common
+
+
+
+
+#'######################################
+#### plotting a few example species ####
+#'######################################
+
+library(rworldmap)
+library(RColorBrewer)
+
+worldmap <- getMap(resolution="high") 
+#plot(worldmap,col="grey",border="grey",xlim=c(-10,50),ylim=c(32,72))
+
+
+## function to extract/correct the shape for a given species
+getspsshape<-function(spslist,sps.num,ras.numpixels){
+  
+  i<-sps.num #sps.num=1
+  spsi<-spslist[i]
+  print(spsi)
+  
+  #fullnamei<-fullnames[i]
+  
+  ## load shape
+  
+  path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+  
+  # get the file address for target file
+  unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+  
+  if(length(zipped_name.i)==0){
+    
+    specific <- unlist(strsplit(spsi,"_"))[2]
+    unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+    
+  }
+  
+  # extract target file
+  unzip(path.source.i, files=zipped_name.i)
+  
+  # load shapefile
+  spsshape <- shapefile(zipped_name.i[1])
+  
+  ## need to re-project shape from lamber equal area to geographic
+  proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+  
+  spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
+  #lines(spsshapeproj)
+  #
+  
+  return(spsshapeproj)
+}
+
+## examples of application
+betlen <- getspsshape(spslist,1,tmin[[1]])
+#sorauc <- getspsshape(spslist,15,tmin[[1]])
+#cornmas <- getspsshape(spslist,9,tmin[[1]])
+
+
+
+## plot shape with data on top
+dir.fig = "figures/nam_sps_climate_maps/"
+dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
+
+plot.shape.data<-function(spsshape,sps.name,
+                          dir.out,dir.fig,
+                          type=c("means","sds")){
+  
+  sps.name<-spslist[1]
+  
+  ## plot base map + range map
+  extent.sps.i <- extent(spsshape)+3
+  
+  if(extent.sps.i[2]>50){extent.sps.i[2] = 50}
+  if(extent.sps.i[3]<32){extent.sps.i[3] = 32}
+  
+  ## retrieve and format data
+  ## code to plot within range climate interannual variation
+  dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
+  files.out <- dir(dir.out)
+  
+  sps.out <- files.out[which(grepl(sps.name,files.out)&grepl("fullextract",files.out))]
+  
+  dat = read.csv(paste(dir.out,sps.out,sep=""))
+  dat = as.data.frame(na.omit(dat))
+  
+  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+  
+  
+  if(type=="means"){
+    pdf(paste(dir.fig,sps.name,'.means.pdf',sep="")
+        ,width = 12
+    )
+  }
+  
+  
+  if(type=="sds"){
+    pdf(paste(dir.fig,sps.name,'.sds.pdf',sep="")
+        ,width = 12
+    )
+  }
+  
+  par(mfrow=c(2,3),mar=c(1,1,1,1))
+  
+  
+  for(i in c(5,6,8:11)){#i=5
+    
+    
+    if(type=="means"){
+      cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-means.sites[,i],breaks = 100))]
+    }
+    
+    if(type=="sds"){
+      cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-SDs.sites[,i],breaks = 100))]
+    }
+    
+    
+    plot(worldmap,col="lightgrey",border="lightgrey",
+         xlim=c(extent.sps.i[1],extent.sps.i[2]),
+         ylim=c(extent.sps.i[3],extent.sps.i[4]))
+    text(extent.sps.i[2]-1,extent.sps.i[4],
+         paste(sps.name,colnames(SDs.sites)[i]),pos=2)
+    plot(spsshapeproj,col=adjustcolor('black',0),add=T,
+         border=adjustcolor('black',0.5))
+    
+    points(sps.1$x,sps.1$y,col=cols1,pch=19,cex=0.8)
+    
+  }
+  dev.off()
+  
+  
+  
+}
+
+# example of usage
+plot.shape.data(betlen,spslist[1],dir.out,dir.fig,"means")
+
+
+#### loop across species ####
+
+for (i in 1:length(spslist)){
+  
+  print(spslist[i])
+  
+  spsshape <- getspsshape(spslist,i,tmin[[1]])
+  
+  plot.shape.data(spsshape,spslist[i],
+                  dir.out,dir.fig,'sds')
+  plot.shape.data(spsshape,spslist[i],
+                  dir.out,dir.fig,'means')
+  
+}
+
+dev.off()
+
 }
