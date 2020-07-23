@@ -34,9 +34,9 @@ species.list <- as.vector(species.list$x)
 
 ## read in list of species with distribution shapefiles
 # get a list of the polygon shapefiles in the .zip with the maps
-#zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
- #                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                                     list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
@@ -429,7 +429,7 @@ for(i in 1:length(spslist)){
   Climate.in.range.list[[i]]<-extractchillforce(spslist[i])
 }
 
-save(Climate.in.range.list,file = "output/Climate.in.range.NAMspFULL.RData")
+save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAMspFULL.RData")
 
 
 #for(i in 1:length(spslist)){ #i=1
