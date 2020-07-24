@@ -27,4 +27,4 @@ module load geos/3.6.2-fasrc01
 module load proj/5.0.1-fasrc01
 
 
-R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/Get_range_nam_full_odys.R ranges
+R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/Get_range_nam_full.R ranges
