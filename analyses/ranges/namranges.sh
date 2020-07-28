@@ -1,14 +1,14 @@
 #!/bin/bash
 
-#SBATCH -p wolkovich
+#SBATCH -p shared
 
-#SBATCH -n 4
+#SBATCH -n 1
 
 #SBATCH -N 1
 
-#SBATCH -t 0-30:00:00
+#SBATCH -t 0-40:00:00
 
-#SBATCH --mem 250000
+#SBATCH --mem 100000
 
 #SBATCH -o hostname.out
 

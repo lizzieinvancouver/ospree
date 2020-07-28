@@ -20,32 +20,35 @@ require(chillR)
 require(lubridate)
 
 
-#climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
-climatedrive = "~/Desktop/Big Data Files" # Cat's climate drive
+climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
+#climatedrive = "/Volumes/timemachine/" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #nafiles <- dir(climatedrive)[grep("princetondata", dir(climatedrive))]
 
 ## load species list 
-#species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
-species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
+#species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
 species.list <- as.vector(species.list$x)
 
 
 ## read in list of species with distribution shapefiles
 # get a list of the polygon shapefiles in the .zip with the maps
-#zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-#                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
 species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
 species.list.clean <- species.list.maps
 
+rmspp <- c("alnurubr")
+species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
+
 ## Now I need to rename these folders to match the ospree info
 names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior",
+                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra",
                                "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
                                "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
 
@@ -138,17 +141,17 @@ extractchillforce<-function(spslist){
   minmaxtemps.eachsps <- list()
   
   ## commence loop  
-  for (i in 1:nsps){#i=2 #spslist=2
+  for (i in 1:nsps){#i=6 #spslist=2
     #print(c(i, j))
     #spslist=ospreefolder[i]
     spsi<-spslist[i]
     
     ## load shape
-    #path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
-    path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-    #unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-    #                 list = TRUE)$Name
-    unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+    path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+    #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+    unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+                     list = TRUE)$Name
+    #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
     
     shpsource <-"NA_ranges"
     
@@ -174,8 +177,9 @@ extractchillforce<-function(spslist){
     # get list of pixels to extract data (speeds things up)
     pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
     npix<-length(pixels.sps.i) # number of pixels
-    #npix <- npix-2
-    
+    if(spsi=="popugran" | spsi=="piceglau"){
+    npix <- npix-2
+    }
     # create an array to store results
     yearlyresults<-array(NA,dim=c(npix,9,length(period)))
     colnames(yearlyresults)<-c("x","y",
@@ -232,25 +236,22 @@ extractchillforce<-function(spslist){
       chmin<-as.data.frame(chmin)
       #names(chmin) <- substring(names(chmin), 2)
       names(chmin) <- c("z", c(chillstart:yrend), c(1:chillend))
+      chmin <- chmin[!duplicated(chmin),]
       
-      nas <- which(is.na(chmin$z))
+      nas <- which(is.na(chmin)[pixels.sps.i])
+      if(spsi=="popugran" | spsi=="piceglau"){
+        nas <- c(nas, nas+1)
+      }
       
       chmin <- chmin[!is.na(chmin$z),]
-      chmin <- chmin[!duplicated(chmin$z),]
       chmax<-do.call("rbind",chillsub2)
       chmax<-as.data.frame(chmax)
       names(chmax) <- c("z", c(chillstart:yrend), c(1:chillend))
       chmax <- chmax[!is.na(chmax$z),]
       chmax <- chmax[!duplicated(chmax$z),]
       
-      
-      
-      ## find if there are NAs in some pixels (due to overlap with lakes or sea)
-      #nas <- which(is.na(values(tminshpchill)[pixels.sps.i]))
-      
-      
       ## remove NAs if necessary
-      if(length(nas)>0){
+      if(length(nas)>0 & spsi != "betupapy"){
         
         # get coordinates and names
         chcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,][-nas,]
@@ -261,7 +262,8 @@ extractchillforce<-function(spslist){
         chmax<-cbind(chcoordmax,chmax[,2:ncol(chmax)])
       }
       
-      if(length(nas)==0){
+        
+      if(length(nas)==0 | spsi == "betupapy"){
         
         # get coordinates and names
         chcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,]
@@ -302,7 +304,7 @@ extractchillforce<-function(spslist){
       wamax <- wamax[!is.na(wamax$z),]
       wamax <- wamax[!duplicated(wamax$z),]
       
-      if(length(nas)>0){
+      if(length(nas)>0 & spsi != "betupapy"){
         
         ffcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,][-nas,]
         ffcoordmax<-coordinates(ras.numpixels)[pixels.sps.i,][-nas,]
@@ -310,7 +312,7 @@ extractchillforce<-function(spslist){
         ffmax<-cbind(ffcoordmin,wamax[,1:ncol(wamax)])
       }
       
-      if(length(nas)==0){
+      if(length(nas)==0 | spsi == "betupapy"){
         
         ffcoordmin<-coordinates(ras.numpixels)[pixels.sps.i,]
         ffcoordmax<-coordinates(ras.numpixels)[pixels.sps.i,]
@@ -449,24 +451,25 @@ extractchillforce<-function(spslist){
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
 Climate.in.range<-list()
 period <- 1980:2016 
-#spslist=spslist[1] #missing 2,8
+spslist=spslist #missing 2,8
+#spslist <- species.list.maps
 
 Climate.in.range.list<-list()
 for(i in 1:length(spslist)){
   Climate.in.range.list[[i]]<-extractchillforce(spslist[i])
 }
 
-save(Climate.in.range.list,file = "~/Documents/git/ospree/analyses/ranges/output/Climate.in.range.NAMspFULL.RData")
+save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAMspALL.RData")
 
 
-#for(i in 1:length(spslist)){ #i=1
-# Climate.in.range<-extractchillforce(spslist[i])
+for(i in 1:length(spslist)){ #i=1
+Climate.in.range<-extractchillforce(spslist[2]) ## 1, 2
 
-#write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
-#                                              period[1],max(period),"csv",sep="."))
+  write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
+                                              period[1],max(period),"csv",sep="."))
 
 
-#}
+}
 
 
 
