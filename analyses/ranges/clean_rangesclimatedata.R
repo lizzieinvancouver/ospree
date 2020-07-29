@@ -36,7 +36,7 @@ if(FALSE){
   
   namspp <- data.frame(simpspp = species.list.clean,
                        compspp = c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", #"Alnus_rubra",
+                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", #"Alnus_rubra",
                                    "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
                                    "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca"))
   

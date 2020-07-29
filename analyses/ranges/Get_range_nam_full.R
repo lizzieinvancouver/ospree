@@ -20,23 +20,23 @@ require(chillR)
 require(lubridate)
 
 
-climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
-#climatedrive = "/Volumes/timemachine/" # Cat's climate drive
+#climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
+climatedrive = "/Volumes/timemachine/" # Cat's climate drive
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #nafiles <- dir(climatedrive)[grep("princetondata", dir(climatedrive))]
 
 ## load species list 
-species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
-#species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+#species.list <- read.csv("/n/wolkovich_lab/Lab/Cat/masterspecieslist.csv")
+species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
 species.list <- as.vector(species.list$x)
 
 
 ## read in list of species with distribution shapefiles
 # get a list of the polygon shapefiles in the .zip with the maps
-zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-                                    list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-#zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+#zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+ #                                   list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
 
 # generate a list of species with maps in the .zip  
 species.list.maps <- unlist(zipped_names)
@@ -147,11 +147,11 @@ extractchillforce<-function(spslist){
     spsi<-spslist[i]
     
     ## load shape
-    path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
-    #path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-    unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-                     list = TRUE)$Name
-    #unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+    #path.source.i <- "/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip"
+    path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+    #unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
+     #                list = TRUE)$Name
+    unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
     
     shpsource <-"NA_ranges"
     
@@ -463,7 +463,7 @@ save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAM
 
 
 for(i in 1:length(spslist)){ #i=1
-Climate.in.range<-extractchillforce(spslist[2]) ## 1, 2
+Climate.in.range<-extractchillforce(spslist[4]) ## 1, 
 
   write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
                                               period[1],max(period),"csv",sep="."))

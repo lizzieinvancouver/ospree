@@ -8,7 +8,7 @@
 
 #SBATCH -t 0-40:00:00
 
-#SBATCH --mem 100000
+#SBATCH --mem 150000
 
 #SBATCH -o hostname.out
 
@@ -27,4 +27,4 @@ module load geos/3.6.2-fasrc01
 module load proj/5.0.1-fasrc01
 
 
-R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/Get_range_nam_full.R ranges
+R CMD BATCH --quiet --no-restore --save /n/wolkovich_lab/Lab/Cat/Get_range_nam_odys.R ranges
