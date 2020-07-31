@@ -96,9 +96,9 @@ All authors conceived of this manuscript and each contributed data analysis and 
 
 \textbf{Key words} phenology, global warming, range shifts, timing, spring, budburst,daylength 
 
-\textbf{Paper type} `Review' or `Perspective'
+\textbf{Paper type} `Research review' or `Viewpoint'
 
-%\textbf{Number of words in abstract} 196
+%\textbf{Number of words in abstract} 200
 
 %\textbf{Number of words in main text} 3,481
 
