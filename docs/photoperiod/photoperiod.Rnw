@@ -90,7 +90,7 @@
 \textbf{Statement of authorship} 
 All authors conceived of this manuscript and each contributed data analysis and figures. AKE wrote the manuscript, and all authors contributed revisions to the manuscript. 
 
-\textbf{Data Accessibility} Should the manuscript be accepted in \emph{Nature Plants}, the data supporting our results will be archived in an appropriate public repository. The OSPREE database will be publicly archived at KNB, doi:10.5063/F1QV3JQR \citep{wolkovich2019}.
+\textbf{Data Accessibility} Should the manuscript be accepted, the data supporting our results will be archived in an appropriate public repository. The OSPREE database will be publicly archived at KNB, doi:10.5063/F1QV3JQR \citep{wolkovich2019}.
 
 \textbf{Running head} Shifts in photoperiod with climate change
 
