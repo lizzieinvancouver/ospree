@@ -449,28 +449,28 @@ extractchillforce<-function(spslist){
 ## apply function (beware this function takes ~7mins per year, consider 
 ## parallelizing)
 #climaterangecheck <- extractchillforce("Alnus_rubra", tmin, tmax, period)
-#Climate.in.range<-list()
+Climate.in.range<-list()
 period <- 1980:2016 
-spslist=spslist[1:8] #missing 2,8
+spslist=spslist[1:4] #missing 2,8
 #spslist <- species.list.maps
 
-Climate.in.range.list<-list()
-for(i in 1:length(spslist)){
-  Climate.in.range.list[[i]]<-extractchillforce(spslist[i])
-}
+#Climate.in.range.list<-list()
+#for(i in 1:length(spslist)){
+ # Climate.in.range.list[[i]]<-extractchillforce(spslist[i])
+#}
 
-save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAMsp1to8.RData")
+#save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAMsp1to8.RData")
 
-if(FALSE){
+
 for(i in 1:length(spslist)){ #i=1
-  Climate.in.range<-extractchillforce(spslist[4]) ## 1, 
+  Climate.in.range<-extractchillforce(spslist[2]) ## 1, 
   
-  write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
+  write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[2],
                                            period[1],max(period),"csv",sep="."))
   
   
 }
-}
+
 
 
 if(FALSE){

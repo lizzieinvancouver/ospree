@@ -463,7 +463,7 @@ save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.NAM
 
 
 for(i in 1:length(spslist)){ #i=1
-Climate.in.range<-extractchillforce(spslist[4]) ## 1, 
+Climate.in.range<-extractchillforce(spslist[6]) ## 1, 4, 5 
 
   write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
                                               period[1],max(period),"csv",sep="."))
