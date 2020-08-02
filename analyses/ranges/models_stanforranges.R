@@ -144,7 +144,14 @@ if (use.flags.for.allspp.utah.nonz){
   save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
 }
 
-
+if(FALSE){
+########################################################
+# testing 1, 2, 3 ....
+# need to make up new data list with unique ID for each pop x sp
+########################################################
+m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
+               iter = 2500, warmup=1500)
+    }
 
 ###### SIDE BAR #####
 ## Getting R2 etc. ##
