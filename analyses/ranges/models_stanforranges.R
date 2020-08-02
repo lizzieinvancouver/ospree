@@ -149,8 +149,21 @@ if(FALSE){
 # testing 1, 2, 3 ....
 # need to make up new data list with unique ID for each pop x sp
 ########################################################
+getpop <- paste(bb.stan$latbinum, bb.stan$provenance.lat)
+bb.stan$pophere <- as.numeric(as.factor(getpop))
+datalist.bb.pop <- with(bb.stan, 
+                    list(y = resp,  
+                         force = force.z, 
+                         sp = latbinum,
+                         pop = pophere,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$latbinum)),
+                         n_pop = length(unique(bb.stan$pophere))
+                    )
+)
+    
 m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
-               iter = 2500, warmup=1500)
+               iter = 4500, warmup=3000, control=list(adapt_delta=0.9))
     }
 
 ###### SIDE BAR #####
