@@ -56,7 +56,7 @@
 %\SweaveOpts{concordance=FALSE}
 \SweaveOpts{concordance=TRUE}
 
-\bibliographystyle{..//..//refs/bibstyles/amnat.bst}
+\bibliographystyle{..//..//refs/bibstyles/ecology.bst}
 \title{Spatial and temporal shifts in photoperiod with climate change} % perspective paper for OSPREE analyses
 
 
