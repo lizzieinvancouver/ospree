@@ -8,7 +8,7 @@
 ################
 ## To do here ##
 ################
-# (*) Decide how to deal with forcing having varying night and day treatments
+# (*) Decide how to deal with forcing having varying night and day treatments (do I mean check that it is NOT what they varied? I think if I take forcemean I should capture this)
 # (*) Make heatmaps ...
 # (*) Deal with 'CHECK WHY' below
 
