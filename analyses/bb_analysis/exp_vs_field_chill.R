@@ -50,7 +50,7 @@ dim(spests)#
 range(spests$lat)#46.7167-54.8000
 #
 #quartz()
-png("figures/exp_vs_field_chill_withwarmingcols.png", width=800,height=500)
+pdf("figures/exp_vs_field_chill_withwarmingcols.pdf", width=8,height=5)
 
 plot(as.numeric(bb.stan.expramptypes$chilltemp), as.numeric(bb.stan.expramptypes$chill), pch=21, bg="gray", xlab="Chilling temperature (°C)", ylab= "Total Chilling (Utah units)", ylim=c(-6,25), bty = "l")
 points(spests$winT.forecast,spests$chill.forecast, pch=21,bg="darkgreen")

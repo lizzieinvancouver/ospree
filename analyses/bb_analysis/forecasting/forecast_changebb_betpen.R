@@ -10,11 +10,6 @@
 ## By Ailene  ##
 
 ############################################
-## STILL NEED TO DO THE FOLLOWING:
-##1) Recalculate chilling using Cat's months  (see https://docs.google.com/spreadsheets/d/1MXhI_82W3AC81sSdoUZFvB3CRn483aqYkGaGC9MBk5o/edit#gid=0)
-##2) Clip years down to 1960
-##3) Then redo these forecasts...
-
 # housekeeping
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
