@@ -53,6 +53,13 @@ setwd("..//ranges")
 bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
 unique(bb.stan$latbi)
 
+################################################
+## Start sidebar on how we picked these studies
+
+
+## End sidebar on how we picked these studies
+################################################
+
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
