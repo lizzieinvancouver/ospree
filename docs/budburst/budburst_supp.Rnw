@@ -26,7 +26,7 @@
  \parskip 7.2pt          
  \parindent 0pt
 \usepackage{setspace}
-\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms}
+\externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburstms_withbib_methods}
 \externaldocument{/Users/aileneettinger/Documents/GitHub/ospree/docs/budburst/budburst_extdat}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -420,7 +420,7 @@ npape_mod<-intxns$n[intxns$Treatment.1=="total-datasetIDs"]
 @
 \begin{figure}[hp!]
 \centering
-\noindent \includegraphics[width=0.50\textwidth]{..//..//analyses/bb_analysis/figures/chilldaysforcedays.pdf}
+\noindent \includegraphics[width=0.35\textwidth]{..//..//analyses/bb_analysis/figures/chilldaysforcedays.pdf}
 \caption{\textbf{Days over which chilling and forcing were accumulated}, across all data included in our main model (i.e., this represents \Sexpr{nst_mod} studies found in \Sexpr{npape_mod} papers studies). Paper name is on the x-axis; blue bars represent chilling treatment length; red bars represent forcing length (i.e., days to budburst, after chilling treatments ended).}
 \label{fig:chillforceplot}
 \end{figure}
