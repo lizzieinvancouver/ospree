@@ -688,7 +688,7 @@ if(FALSE){
   
   
   ## plot shape with data on top
-  dir.fig = "figures/nam_sps_climate_maps/"
+  dir.fig = "~/Documents/git/ospree/analyses/ranges/figures/nam_sps_climate_maps/"
   dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
   
   plot.shape.data<-function(spsshape,sps.name,
