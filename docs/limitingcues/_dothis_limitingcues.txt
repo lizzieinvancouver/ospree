@@ -4,16 +4,20 @@ By Lizzie
 
 
 <><><><><><><><><><><><><><><><><><><><>
-April 2020 to do
+April 2020 to do, working on it in August 2020
 <><><><><><><><><><><><><><><><><><><><>
 
-(*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done) ... Update Aug 2020: I think I *inputted* all the comments in the tex as best I can tell. 
-(*) Maybe work on schematic figure (see 'FIX ME' in tex for where it goes and I extracted notes below)...(Or other non-writing priority tasks that come up from reviewing this file)
-
-In no particular order but need to be done...
+I have cleaned up the countinxns.R code ... 
+(*) Fix heatmaps (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date)?
 (*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
 (*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
-(*) Fix heatmaps and ask Cat about gomory15 in countintxns.R code (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date
+(*) FIX ME figure below ... do soon or start writing first?
+
+(*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done) ... ** Update Aug 2020: I think I *inputted* all the comments in the tex as best I can tell.** 
+
+
+In no particular order but need to be done...
+
 (*) Check this statement: PEP725 and NECTAR databases together have multi-site data on more than 1,600 species
 (*) Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
 (*) Start on Rnw file for supp.
