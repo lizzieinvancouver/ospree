@@ -61,15 +61,7 @@ getpopz5 <- subset(getpopz, provenance.lat>4) # 9
 getpopz3 <- subset(getpopz, provenance.lat>2) # 29
 getpopz2 <- subset(getpopz, provenance.lat>1) # 54
 
-################################################
-## Start sidebar on how we picked these studies
-
-
-
-
-## End sidebar on how we picked these studies
-################################################
-
+# Species list ...
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
@@ -81,7 +73,48 @@ eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnu
 
 allspphere <- c(naspp, eurspp)
 allspphere[which(!allspphere %in% unique(bb.stan$latbi))]
-# To discuss! How did we pick these species? See issue #379 ... I think we do not want Alnus rubra so okay to let it drop
+
+################################################
+## Start sidebar on how we picked these studies
+
+# species in more than two papers
+getspp2papers1 <- subset(bb.stan, select=c("latbi", "datasetID")) 
+getspp2papers2 <- getspp2papers1[!duplicated(getspp2papers1), ]
+getspp2papers3 <- aggregate(getspp2papers2["datasetID"], getspp2papers2["latbi"], FUN=length)
+spp2papers <- subset(getspp2papers3, datasetID>1)
+spp2papers[order(spp2papers$latbi),]
+
+spp3cues1 <- subset(bb.stan, chill_type!="fldest")
+spp3cues2 <- subset(spp3cues1, select=c("latbi", "datasetID", "study", "force", "photo", "chill"))
+spp3cuescounts <-
+      ddply(spp3cues2, c("latbi", "datasetID", "study"), summarise,
+      nforce = length(unique(force)),
+      nphoto = length(unique(photo)),
+      nchill = length(unique(chill)))
+
+spp3cues <- subset(spp3cuescounts, nforce>1 & nphoto>1 & nchill>1) # this is 172 spp if you exclude field chilling you get worrall67 and flynn18 added
+
+justcues1 <- subset(bb.stan, chill_type!="fldest")
+justcues2 <- subset(justcues1, select=c("latbi", "force", "photo", "chill"))
+justcuescounts <-
+      ddply(justcues2, c("latbi"), summarise,
+      nforce = length(unique(force)),
+      nphoto = length(unique(photo)),
+      nchill = length(unique(chill)))
+
+sppcuecounts <- subset(justcuescounts, nforce>2 & nphoto>2 & nchill>2) # 5 species
+
+unique(spp3cues$latbi)
+sort(union(unique(spp3cues$latbi), spp2papers$latbi))
+setdiff(allspphere, union(unique(spp3cues$latbi), spp2papers$latbi))
+
+setdiff(union(unique(spp3cues$latbi), spp2papers$latbi), allspphere)
+
+# Okay, will update what we did in issue #379, as best I can guess it now.
+
+## End sidebar on how we picked these studies
+################################################
+
 
 bb.stan.orig <- bb.stan
 bb.stan <- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of the bb.stan.orig data
