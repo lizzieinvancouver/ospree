@@ -288,6 +288,20 @@ d$fieldsample.date[which(d$datasetID=="fu19")] <- "01-Jan-2016"
 ### We mis-entered a species from Flynn & Wolkovich (yes, we mis-entered our own data)
 d$genus[which(d$datasetID=="flynn18" & d$genus=="Cornus")] <- "Corylus"
 
+### We have a mis-spelling (well, bad capital letter) in one species and ahh! I found and fixed some whitespace and other problems!
+d$species[which(d$species=="Cordata")] <- "cordata"
+d$species[which(d$species=="communis L.")] <- "communis"
+
+stripwhite <- function(x) {
+    if (!is.character(x)) {
+        stop("x must be a character vector")
+    }
+    sub("^ *([^ ]*) *$", "\\1", x)
+}
+
+d$species <- stripwhite(d$species)
+d$genus <- stripwhite(d$genus)
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
