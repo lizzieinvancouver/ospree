@@ -51,10 +51,20 @@ source("source/bbstanleadin.R")
 setwd("..//ranges")
 
 bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
-unique(bb.stan$latbi)
+# unique(bb.stan$latbi)
+
+## Do some population stuff, by latitude
+getpopz1 <- subset(bb.stan, select=c("latbi", "provenance.lat")) # "datasetID", "study",
+getpopz2 <- getpopz1[!duplicated(getpopz1), ]
+getpopz <- aggregate(getpopz2["provenance.lat"], getpopz2["latbi"], FUN=length)
+getpopz5 <- subset(getpopz, provenance.lat>4) # 9
+getpopz3 <- subset(getpopz, provenance.lat>2) # 29
+getpopz2 <- subset(getpopz, provenance.lat>1) # 54
 
 ################################################
 ## Start sidebar on how we picked these studies
+
+
 
 
 ## End sidebar on how we picked these studies
@@ -82,7 +92,11 @@ unique(bb.stanamb$latbi) # I am not going to check Fagus_sylvatica, but I checke
 # bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes about 100 rows 
 
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
-   
+
+bb.stan.pop5 <- bb.stan[which(bb.stan$latbi %in% getpopz5$latbi),] # 8 species!
+bb.stan.pop3 <- bb.stan[which(bb.stan$latbi %in% getpopz3$latbi),] # 25 species
+bb.stan.pop2 <- bb.stan[which(bb.stan$latbi %in% getpopz2$latbi),] # 34 species
+
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -156,21 +170,23 @@ if(FALSE){
 # testing 1, 2, 3 ....
 # need to make up new data list with unique ID for each pop x sp
 ########################################################
-getpop <- paste(bb.stan$latbinum, bb.stan$provenance.lat)
-bb.stan$pophere <- as.numeric(as.factor(getpop))
-datalist.bb.pop <- with(bb.stan, 
+bb.stan.here <- bb.stan.pop3
+getpop <- paste(bb.stan.here$latbinum, bb.stan.here$provenance.lat)
+bb.stan.here$pophere <- as.numeric(as.factor(getpop))
+bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+datalist.bb.pop <- with(bb.stan.here, 
                     list(y = resp,  
                          force = force.z, 
                          sp = latbinum,
                          pop = pophere,
-                         N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$latbinum)),
-                         n_pop = length(unique(bb.stan$pophere))
+                         N = nrow(bb.stan.here),
+                         n_sp = length(unique(bb.stan.here$latbinum)),
+                         n_pop = length(unique(bb.stan.here$pophere))
                     )
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
-               iter = 4500, warmup=3000, control=list(adapt_delta=0.9))
+               iter = 4500, warmup=3000, control=list(adapt_delta=0.95))
     }
 
 ###### SIDE BAR #####
