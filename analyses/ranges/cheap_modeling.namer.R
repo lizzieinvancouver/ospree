@@ -26,24 +26,40 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangies<-read.csv("output/Synthesis_climate_NAMsps.csv")
-unique(rangies$variable)
-##clean it
-rangies$variable[which(rangies$variable=="GDD.")]<-"GDD"
-rangies$variable[which(rangies$variable=="GDD.lastfrost.")]<-"GDD.lastfrost"
-rangies$variable[which(rangies$variable=="DayLastFrost.")]<-"DayLastFrost"
-rangies$variable[which(rangies$variable=="MeanTmins.")]<-"MeanTmins"
-rangies$variable[which(rangies$variable=="SDev.Tmins.")]<-"SDevs.Tmins"
-rangies$variable[which(rangies$variable=="Mean.Chill.Utah.")]<-"Mean.Chill.Utah"
-rangies$variable[which(rangies$variable=="Mean.Utah.Chill")]<-"Mean.Chill.Utah"
-rangies$variable[which(rangies$variable=="Mean.Chill.Portions.")]<-"Mean.Chill.Portions"
+unique(rangies$species)
 
-rangies$variable[which(rangies$variable=="GDD.1")]<-"GDD"
-rangies$variable[which(rangies$variable=="GDD.lastfrost.1")]<-"GDD.lastfrost"
-rangies$variable[which(rangies$variable=="DayLastFrost.1")]<-"DayLastFrost"
-rangies$variable[which(rangies$variable=="MeanTmins.1")]<-"MeanTmins"
-rangies$variable[which(rangies$variable=="SDev.Tmins.1")]<-"SDevs.Tmins"
-rangies$variable[which(rangies$variable=="Mean.Chill.Utah.1")]<-"Mean.Chill.Utah"
-rangies$variable[which(rangies$variable=="Mean.Chill.Portions.1")]<-"Mean.Chill.Portions"
+##fix species names
+rangies$species[which(rangies$species=="betulent")]<- "Betula_lenta"
+rangies$species[which(rangies$species=="popugran")]<- "Populus_grandidentata"
+rangies$species[which(rangies$species=="querrubr")]<- "Quercus_rubra"
+rangies$species[which(rangies$species=="acerpens")]<- "Acer_pensylvanicum"
+rangies$species[which(rangies$species=="betupapy")]<- "Betula_papyrifera"
+rangies$species[which(rangies$species=="fraxnigr")]<- "Fraxinus_nigra"
+rangies$species[which(rangies$species=="alnurubr")]<- "Alnus_rubra"
+rangies$species[which(rangies$species=="pseumenz")]<- "Pseudotsuga_menziesii"
+rangies$species[which(rangies$species=="prunpens")]<- "Prunus_pensylvanicum"
+rangies$species[which(rangies$species=="betualle")]<- "Betula_alleghaniensis"
+rangies$species[which(rangies$species=="acersacr")]<- "Acer_saccharum"
+rangies$species[which(rangies$species=="acerrubr")]<- "Acer_rubrum"
+rangies$species[which(rangies$species=="corycorn")]<- "Cornus_cornuta"
+rangies$species[which(rangies$species=="piceglau")]<- "Picea_glauca"
+##clean it
+#rangies$variable[which(rangies$variable=="GDD.")]<-"GDD"
+#rangies$variable[which(rangies$variable=="GDD.lastfrost.")]<-"GDD.lastfrost"
+#rangies$variable[which(rangies$variable=="DayLastFrost.")]<-"DayLastFrost"
+#rangies$variable[which(rangies$variable=="MeanTmins.")]<-"MeanTmins"
+#rangies$variable[which(rangies$variable=="SDev.Tmins.")]<-"SDevs.Tmins"
+#rangies$variable[which(rangies$variable=="Mean.Chill.Utah.")]<-"Mean.Chill.Utah"
+#rangies$variable[which(rangies$variable=="Mean.Utah.Chill")]<-"Mean.Chill.Utah"
+#rangies$variable[which(rangies$variable=="Mean.Chill.Portions.")]<-"Mean.Chill.Portions"
+
+#rangies$variable[which(rangies$variable=="GDD.1")]<-"GDD"
+#rangies$variable[which(rangies$variable=="GDD.lastfrost.1")]<-"GDD.lastfrost"
+#rangies$variable[which(rangies$variable=="DayLastFrost.1")]<-"DayLastFrost"
+#rangies$variable[which(rangies$variable=="MeanTmins.1")]<-"MeanTmins"
+#rangies$variable[which(rangies$variable=="SDev.Tmins.1")]<-"SDevs.Tmins"
+#rangies$variable[which(rangies$variable=="Mean.Chill.Utah.1")]<-"Mean.Chill.Utah"
+#rangies$variable[which(rangies$variable=="Mean.Chill.Portions.1")]<-"Mean.Chill.Portions"
 
 ## more formating
 
@@ -60,6 +76,7 @@ colnames(posties)[6]<-"species" ##merge them
 
 list2env(Y, envir = .GlobalEnv)
 ###make the data sheets
+
 GDD.lastfrost<-left_join(posties,GDD.lastfrost)
 GDD.lastfrost.NA<-filter(GDD.lastfrost,species %in% unique(rangies$species))
 
@@ -118,3 +135,8 @@ magforb<-ggplot(GDD.NA,aes(Temp.Mean,b_force))+geom_smooth(method="lm",aes())+st
 jpeg(file = "figures/cheap_approach/magnitude_influence_NAsp.jpg",width = 9, height = 5,units = "in",res=300)
 ggpubr::ggarrange(magfora,magforb,magchilla,magchillb,nrow=2,ncol=2,common.legend = TRUE)
 dev.off()
+
+
+####3models
+
+brm(b_chill)
