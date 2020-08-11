@@ -3,8 +3,7 @@
 ## Updated by Dan in later 2018; updated by Lizzie in February 2019 ##
 
 ## TO DO ##
-# (*) Should check/merge with studydesignplots.R so they use same data and counts #
-# (1) Should we get the centroid of the lat/long points for each study?
+# (1) Should we get the centroid of the lat/long points for each study? (Dan)
 # Right now I cheaply take average lat and average long #
 # (2) Calculate mean, min, max field sample date and plot (semi-done)
 # (3) Work on heat-maps, more notes on this below
@@ -41,6 +40,34 @@ dat <- dat[dat$woody=="yes",]
 dat$latbi <- paste(dat$genus, dat$species)
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
 dat$doy <- format(dat$fieldsample.date, "%j")
+
+# a look at what we lose in converting to numeric
+if(FALSE){
+sort(unique(dat$forcetemp))
+sort(unique(dat$forcetemp_night))
+sort(unique(dat$photoperiod_night))
+sort(unique(dat$photoperiod_day))
+sort(unique(dat$chilltemp))
+}
+
+# re-label some non-numerics to add back in later ...
+dat$photoext <- dat$photoperiod_day
+dat$photoext[dat$photoext=="13-9.5"|dat$photoext=="14-9.5"] <- "variable"
+dat$photoext[dat$photoext=="constant"|dat$photoext=="ambient"] <- "ambient" # looked up the constant paper (karlsson03) and it's room ambient daylength I think
+dat$tempext <- dat$forcetemp
+dat$tempext[grep("ambient", dat$tempext)] <- "ambient"
+dat$tempext[dat$tempext=="0 ramped up 3 degrees every 6 days"|dat$tempext=="18-27 (20 average)"|
+    dat$tempext=="7-27.5"|dat$tempext=="22-27"|dat$tempext=="mean of 9, 12, 15"|
+    dat$tempext=="meandaily"] <- "variable"
+dat$chillext <- dat$chilltemp
+dat$chillext[dat$chillext=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"] <- "variable"
+dat$chillext[grep("\\, ", dat$chillext)] <- "variable"
+dat$chillext[dat$chillext=="negative 23 to 13 degrees Celsius"] <- "variable"
+dat$chillext[dat$chillext=="<16"|dat$chillext==">16"|dat$chillext=="ambient plus days at 4C"|
+    dat$chillext=="neg 3,2"|dat$chillext=="Low"| dat$chillext=="High"|dat$chillext=="elevated"|
+    dat$chillext=="6,.5"] <- "other"
+
+## START HERE! I made the above so we could work these labels back into the heat maps ... 
 
 # make a bunch of things numeric (eek!)
 dat$forcetemp <- as.numeric(dat$forcetemp)
