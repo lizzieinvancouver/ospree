@@ -302,6 +302,14 @@ stripwhite <- function(x) {
 d$species <- stripwhite(d$species)
 d$genus <- stripwhite(d$genus)
 
+# cleaning for dantec14 dataset already in OSPREE
+# change sample date of "15-Oct-10" to "unclear 15-Oct-10 to 15-Apr-11"
+d$fieldsample.date[which(d$datasetID == "dantec14")] <- "unclear Oct-10 to Apr-11"
+# add figure numbers for DF data (3c)
+d$figure.table..if.applicable.[which(d$datasetID == "dantec14" & d$Entered.By == "DF")] <- "3c"
+#add more info to cu.model
+d$cu.model[which(d$datasetID == "dantec14")] <- "chillcalc,10degthreshold,see paper"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
