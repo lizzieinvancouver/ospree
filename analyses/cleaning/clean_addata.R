@@ -10,3 +10,7 @@
 okie11 <- read.csv("input/okie_merge.csv", header = TRUE) # read okie11 data
 d <- subset(d, datasetID != "okie11") # remove old okie11 data
 d <- rbind(d, okie11)
+
+# adding the new dantec14 data that never made it into ospree. MG 10 Aug 2020
+dantec14 <- read.csv("input/dantec_merge.csv", header = TRUE)
+d <- rbind(d,dantec14)
