@@ -218,8 +218,8 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
-               iter = 4500, warmup=3000, control=list(adapt_delta=0.95))
+m3l.ni = stan('stan/nointer_3levelwpop_ncp.stan', data = datalist.bb.pop,
+               iter = 4500, warmup=3000, chains=2,control=list(adapt_delta=0.95))
     }
 
 ###### SIDE BAR #####
