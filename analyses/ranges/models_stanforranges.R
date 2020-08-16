@@ -219,9 +219,27 @@ datalist.bb.pop <- with(bb.stan.here,
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_ncp.stan', data = datalist.bb.pop,
-               iter = 4500, warmup=3000, chains=2,control=list(adapt_delta=0.95))
+               iter = 4500, warmup=3000, chains=2) # control=list(adapt_delta=0.95)
     }
 
+modelhere <- m3l.ni 
+mod.sum <- summary(modelhere)$summary
+mod.sum[grep("b_force", rownames(mod.sum)),]
+mod.sum[grep("sigma", rownames(mod.sum)),] 
+
+# Not sure if I am doing this right, but on first blush seem similar to each other!
+mod.sum[grep("b_force\\[", rownames(mod.sum)),] 
+mean(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+range(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+
+mean(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+range(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+
+if(FALSE){
+goo <- stan_lmer(formula = resp ~ force.z|(latbinum:pophere), 
+                         data = bb.stan.here)
+
+}
 ###### SIDE BAR #####
 ## Getting R2 etc. ##
 
