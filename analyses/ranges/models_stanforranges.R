@@ -18,7 +18,8 @@ options(stringsAsFactors = FALSE)
 # libraries
 library(shinystan)
 library(reshape2)
-
+library(rstan)
+library(rstanarm)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -219,7 +220,7 @@ datalist.bb.pop <- with(bb.stan.here,
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_ncp.stan', data = datalist.bb.pop,
-               iter = 4500, warmup=3000, chains=2) # control=list(adapt_delta=0.95)
+               iter = 5000, warmup=4000, chains=4) # control=list(adapt_delta=0.95)
     }
 
 modelhere <- m3l.ni 
@@ -231,15 +232,25 @@ mod.sum[grep("sigma", rownames(mod.sum)),]
 mod.sum[grep("b_force\\[", rownames(mod.sum)),] 
 mean(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
 range(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+sd(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
 
 mean(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 range(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+
 
 if(FALSE){
-goo <- stan_lmer(formula = resp ~ force.z|(latbinum:pophere), 
-                         data = bb.stan.here)
+  ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
+goo <- stan_lmer(formula = resp ~ force.z+(force.z|latbinum)+(force.z|latbinum:pophere), 
+                         data = bb.stan.here,iter=4000,warmup=3000,chains=2 )
 
+ coef(goo)
+goo.sum[grep("force.z lat", rownames(goo.sum)),] [,1]
+goo.sum[grep("force.z pop", rownames(goo.sum)),]
+      
 }
+
+
 ###### SIDE BAR #####
 ## Getting R2 etc. ##
 
