@@ -49,12 +49,13 @@ zipped_names <- grep('\\.shp', unzip("~/GitHub/ospree/analyses/ranges/NA_range_f
 species.list.maps <- unlist(zipped_names)
 species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
 species.list.clean <- species.list.maps
+species.list.clean <- species.list.clean[-13]
 
 ## Now I need to rename these folders to match the ospree info
 names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior",
+                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra","Alnus_incana",
                                "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-                               "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
+                               "Acer_saccharum", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
 
 # get a list of species in ospree for which we have EU maps
 ospreespslist <- species.list[which(species.list %in% names(species.list.clean))]
@@ -73,52 +74,65 @@ synth.data <- function(splist){
   
   list.synthesis<-list()
   
-  for(i in 1:length(splist)){  #i=2
+  for(i in 1:length(splist)){  #i=7
     sps.i <- names(splist[i])
-  
+  print(sps.i)
     sps.out <- files.out[which(grepl(sps.i,files.out)&
                                  grepl("in.range.",files.out)&
                                  grepl("1980.2016.",files.out))]
-  
-    dat.1 <- read.csv(paste("climoutput/",sps.out,sep=""))
-   
-    if (i ==2){
-      dat.1 <- dat.1[,-1]
-    }
-      
-    #colnames(dat.1)[seq(3,ncol(dat.1),9)]
     
-    storing = as.data.frame(array(NA, dim=c(7,4)))
+    dat.1 <- read.csv(paste("climoutput/",sps.out[1],sep=""))
+    
+    
+    year1<-subset(dat.1,year==1980)
+    
+    
+    years = unique(dat.1$year)
+    nyears = length(years)
+    dat.1$ID = paste(dat.1$long,dat.1$lat)
+    
+    storing = array(NA, dim=c(7,4))
     row.names(storing) = colnames(dat.1)[3:9]
     colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
     
     
-    for(var in 1:7){
-      print(paste(i,var))
-      dat.i.j<-dat.1[,seq(var+2,ncol(dat.1),9)]
-      
-      storing[var,1] <- mean(rowMeans(dat.i.j,na.rm=T))
-      storing[var,2] <- sd(rowMeans(dat.i.j,na.rm=T))
-      storing[var,3] <- mean(colMeans(dat.i.j,na.rm=T))
-      storing[var,4] <- sd(colMeans(dat.i.j,na.rm=T))
+    means.years <- aggregate(dat.1,by=list(Year = dat.1$year),FUN = mean,na.rm=T)
+    SDs.years <- aggregate(dat.1,by=list(Year = dat.1$year),FUN = sd,na.rm=T)
+    means.sites <- aggregate(dat.1,by=list(Year = dat.1$ID),FUN = mean,na.rm=T)
+    SDs.sites <- aggregate(dat.1,by=list(Year = dat.1$ID),FUN = sd,na.rm=T)
     
-      }      
+    storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
+    storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
+    storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
+    storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
     
-    storing$species <- sps.i
-    if(i != 2){
-    storing$variable <- unlist(strsplit(colnames(dat.1)[3:9],"1980"))
-    } else {
-    storing$variable <- unlist(strsplit(colnames(dat.1)[3:9],"1"))
-      
-    }
-    
-    list.synthesis[[i]] <- storing
-    
+    list.synthesis[[i]]<-storing
+
+
+
   }
   
   return(list.synthesis)
 
 }
+
+
+list.allsps<-synth.data(splist[1:15])
+
+nams<-list()
+for(i in 1:15){
+  nams[[i]]=rep(splist[i],7)
+}
+nams=unlist(nams)
+
+## join values from the list and save
+list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
+list.allspsjoint$species <- nams
+list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],15)
+
+write.csv(list.allspsjoint,file = "output/Synthesis_climate_Namsps.csv")
+
+
 
 
 try.synth.nam <- synth.data(splist)
