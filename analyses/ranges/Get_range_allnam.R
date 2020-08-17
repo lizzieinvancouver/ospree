@@ -116,222 +116,222 @@ extractchillforce<-function(spslist){
   ## define array to store results
   nyears<-length(period)
   minmaxtemps.eachsps <- list()
-
-    # load shapefile
-    spsshape <- NamMap
+  
+  # load shapefile
+  spsshape <- NamMap
+  
+  ras.numpixels<-tmin1980[[1]]
+  values(ras.numpixels)<-1:ncell(ras.numpixels)
+  
+  spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+  
+  # get list of pixels to extract data (speeds things up)
+  pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
+  npix<-length(pixels.sps.i) # number of pixels
+  
+  # create an array to store results
+  yearlyresults<-array(NA,dim=c(npix,9,length(period)))
+  colnames(yearlyresults)<-c("x","y",
+                             "GDD","GDD.lastfrost",
+                             "DayLastFrost","MeanTmins","SDev.Tmins",
+                             "Mean.Chill.Utah","Mean.Chill.Portions")
+  
+  for(j in period) { # j = 1980
+    print(j)
     
-    ras.numpixels<-tmin1980[[1]]
-    values(ras.numpixels)<-1:ncell(ras.numpixels)
-    
-    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
-
-    # get list of pixels to extract data (speeds things up)
-    pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
-    npix<-length(pixels.sps.i) # number of pixels
-    
-    # create an array to store results
-    yearlyresults<-array(NA,dim=c(npix,9,length(period)))
-    colnames(yearlyresults)<-c("x","y",
-                               "GDD","GDD.lastfrost",
-                               "DayLastFrost","MeanTmins","SDev.Tmins",
-                               "Mean.Chill.Utah","Mean.Chill.Portions")
-    
-    for(j in period) { # j = 1980
-      print(j)
-      
-      if(TRUE){
-        tmax <- tmaxlist.tobrick[[j-1978]]
-        tmaxprev <- tmaxlist.tobrick[[j-1979]]
-        tmin <- tminlist.tobrick[[j-1978]]
-        tminprev <- tminlist.tobrick[[j-1979]]
-      }
-      
-      leapyears <- seq(1952, 2020, by=4)
-      chillstart <- ifelse((j-1)%in%leapyears,275,274)
-      chillend <- ifelse(j%in%leapyears,60,59)
-      forcestart <- ifelse(j%in%leapyears,61,60)
-      forceend <- ifelse(j%in%leapyears,152,151)
-      yrend <- ifelse((j-1)%in%leapyears,366,365)
-      
-      ## subset climate by months & days (10th Oct - 28Feb; 1Jan - 31st May)
-      chillsubmin1 <- subset(tminprev,chillstart:yrend)
-      chillsubmin2 <- subset(tmin,1:chillend)
-      chillsub1 <- stack(chillsubmin1, chillsubmin2)
-      
-      chillsubmax1 <- subset(tmaxprev,chillstart:yrend)
-      chillsubmax2 <- subset(tmax,1:chillend)
-      chillsub2 <- stack(chillsubmax1, chillsubmax2)
-      
-      forcesub1 <- subset(tmin,forcestart:forceend)
-      forcesub2 <- subset(tmax,forcestart:forceend)
-      
-      ## find if there are NAs in some pixels (due to overlap with lakes or sea)
-      nas <- which(is.na(values(forcesub1)[pixels.sps.i]))
-      
-      
-      ## remove NAs if necessary
-      if(length(nas)>0){
-        # extract values and format to compute means and sdevs
-        ch <- chillsub1[pixels.sps.i][-nas,]
-        ch2 <- chillsub2[pixels.sps.i][-nas,]
-        ff <- forcesub1[pixels.sps.i][-nas,]
-        ff2 <- forcesub2[pixels.sps.i][-nas,]
-        
-        # add coordinates and names
-        chcoord <- coordinates(ras.numpixels)[pixels.sps.i[-nas],]
-        yearlyresults[-nas,1:2,] <- chcoord
-        
-      } else {
-        
-        ch <- chillsub1[pixels.sps.i]
-        ch2 <- chillsub2[pixels.sps.i]
-        ff <- forcesub1[pixels.sps.i]
-        ff2 <- forcesub2[pixels.sps.i]
-        
-        # add coordinates and names
-        chcoord <- coordinates(ras.numpixels)[pixels.sps.i,]
-        yearlyresults[,1:2,] <- chcoord
-        
-      }
-      
-      # build final data to extract climate for chilling and forcing 
-      ch <- cbind(chcoord,ch[,1:ncol(ch)])
-      ch2 <- cbind(chcoord,ch2[,1:ncol(ch2)])
-      ff <- cbind(chcoord,ff[,1:ncol(ff)])
-      ff2 <- cbind(chcoord,ff2[,1:ncol(ff2)])
-      
-      # correct if row numbers do not agree
-      if(nrow(ch)!=nrow(ch2)){
-        namcoo1 <- apply(chcoord,1,function(x){return(paste(x[1],x[2],sep="_"))})  
-        namcoo2 <- apply(chcoord2,1,function(x){return(paste(x[1],x[2],sep="_"))})  
-        
-        torem <- which(!namcoo1%in%namcoo2)
-        torem2 <- which(!namcoo2%in%namcoo1)
-        
-        if(length(torem)>0){
-          ch=ch[-torem,]    
-        }
-        
-        if(length(torem2)>0){
-          ch2=ch2[-torem2,]    
-        }
-      }
-      
-      ## dates in data
-      colnames(ch) <- c("x", "y", c(chillstart:yrend), c(1:chillend))
-      chmindates<-ch[,3:ncol(ch)]
-      days<-as.numeric(colnames(chmindates))
-      jfordates<-ifelse(days>=270, j-1, j)
-      datesch<-as.Date(days,origin=paste0(jfordates,"-01-01"))
-      
-      #dateswa<-as.Date(as.numeric(colnames(wamin)),origin=paste0(j,"-01-01"))
-      
-      ## calculate chilling (Utah) and GDD across the period
-      
-      ## GDDs
-      gddseachcelleachday <- apply(ff2[,3:ncol(ff2)],2,function(x){
-        Tb <- 10
-        gdd <- ifelse((x-Tb)<0,0,x-Tb)
-        return(gdd)})
-      gddssum <- rowSums(gddseachcelleachday)
-      #hist(gddssum)
-      
-      
-      ## GDDs till day of last frost
-      ## calculate last date of frost and GDD until then
-      last.frost <- apply(ff[,3:ncol(ff)],1,function(x){
-        a <- which(x<(-5))
-        return(ifelse(length(a)>0,max(a),NA))}) 
-      
-      ff3 <- cbind(last.frost,ff2[,-c(1:2)])
-      
-      gddseachcelleachdaylastfrost <- apply(ff3,1,function(x){
-        #x <- ff3[922,]
-        elems <- length(x)-1
-        daylastfrost <- x[1]
-        if(!is.na(daylastfrost) & daylastfrost>1){
-          temps <- x[2:daylastfrost]
-          Tb <- 10
-          gdd <- ifelse((temps-Tb)<0,0,temps-Tb)
-          gdd <- c(gdd,rep(0,elems-x[1]+1))
-          names(gdd) <- colnames(ff3[,2:93])      
-        } else {
-          gdd <- rep(0,elems)
-          names(gdd) <- colnames(ff3[,2:93])
-        }
-        return(gdd)})
-      
-      gddssumlastfrost <- rowSums(t(gddseachcelleachdaylastfrost),na.rm = T)
-      
-      
-      #library(abind)
-      minmaxtemp <- abind(ch,ch2, along = 3)
-      
-      ## compute chilling
-      nodata <- which(apply(minmaxtemp,1,function(x){return(ifelse(sum(is.na(x[,1:2]))>0,T,F))}))
-      if(length(nodata)>0){minmaxtemp=minmaxtemp[-nodata,,]}
-      
-      chillunitseachcelleachday <- do.call(rbind,
-                                           apply(minmaxtemp,1,function(x){
-                                             #x <- minmaxtemp[300,,]
-                                             #if(sum(is.na(x[3:nrow(x),2]))<151){
-                                             extracweathdf <- data.frame(
-                                               Year=as.numeric(format(datesch,"%Y")),
-                                               Month=as.numeric(format(datesch,"%m")),
-                                               Day=as.numeric(format(datesch,"%d")),
-                                               Tmax=x[3:nrow(x),2],
-                                               Tmin=x[3:nrow(x),1]
-                                             )
-                                             weather <- fix_weather(extracweathdf)
-                                             hourtemps <- stack_hourly_temps(weather,latitude=x[2])
-                                             chll <- chilling(hourtemps,275,60)
-                                             
-                                             
-                                             #}
-                                             return(chll)
-                                           }
-                                           ))
-      
-      ## store results
-      ## 
-      if(length(nas)==0){
-        
-        yearlyresults[,3,which(period == j)] <- gddssum
-        yearlyresults[,4,which(period == j)] <- gddssumlastfrost
-        yearlyresults[,5,which(period == j)] <- last.frost
-        yearlyresults[,6,which(period == j)] <- rowMeans(ch,na.rm=T)
-        yearlyresults[,7,which(period == j)] <- apply(ch,1,sd,na.rm=T)
-        if(length(nodata)>0){
-          yearlyresults[c(c(1:npix))[-nodata],8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
-          yearlyresults[c(c(1:npix))[-nodata],9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
-        } else {
-          yearlyresults[c(c(1:npix)),8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
-          yearlyresults[c(c(1:npix)),9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
-          
-        }
-      } else {
-        
-        
-        yearlyresults[-nas,3,which(period == j)] <- gddssum
-        yearlyresults[-nas,4,which(period == j)] <- gddssumlastfrost
-        yearlyresults[-nas,5,which(period == j)] <- last.frost
-        yearlyresults[-nas,6,which(period == j)] <- rowMeans(ch,na.rm=T)
-        yearlyresults[-nas,7,which(period == j)] <- apply(ch,1,sd,na.rm=T)
-        if(length(nodata)>0){
-          yearlyresults[c(c(1:npix)[-nas])[-nodata],8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
-          yearlyresults[c(c(1:npix)[-nas])[-nodata],9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
-        } else {
-          yearlyresults[c(c(1:npix)[-nas]),8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
-          yearlyresults[c(c(1:npix)[-nas]),9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
-          
-        }
-      }
-    
+    if(TRUE){
+      tmax <- tmaxlist.tobrick[[j-1978]]
+      tmaxprev <- tmaxlist.tobrick[[j-1979]]
+      tmin <- tminlist.tobrick[[j-1978]]
+      tminprev <- tminlist.tobrick[[j-1979]]
     }
     
-    minmaxtemps.eachsps[[i]] <- yearlyresults
+    leapyears <- seq(1952, 2020, by=4)
+    chillstart <- ifelse((j-1)%in%leapyears,275,274)
+    chillend <- ifelse(j%in%leapyears,60,59)
+    forcestart <- 1
+    forceend <- ifelse(j%in%leapyears,152,151)
+    yrend <- ifelse((j-1)%in%leapyears,366,365)
+    
+    ## subset climate by months & days (10th Oct - 28Feb; 1Jan - 31st May)
+    chillsubmin1 <- subset(tminprev,chillstart:yrend)
+    chillsubmin2 <- subset(tmin,1:chillend)
+    chillsub1 <- stack(chillsubmin1, chillsubmin2)
+    
+    chillsubmax1 <- subset(tmaxprev,chillstart:yrend)
+    chillsubmax2 <- subset(tmax,1:chillend)
+    chillsub2 <- stack(chillsubmax1, chillsubmax2)
+    
+    forcesub1 <- subset(tmin,forcestart:forceend)
+    forcesub2 <- subset(tmax,forcestart:forceend)
+    
+    ## find if there are NAs in some pixels (due to overlap with lakes or sea)
+    nas <- which(is.na(values(forcesub1)[pixels.sps.i]))
     
     
+    ## remove NAs if necessary
+    if(length(nas)>0){
+      # extract values and format to compute means and sdevs
+      ch <- chillsub1[pixels.sps.i][-nas,]
+      ch2 <- chillsub2[pixels.sps.i][-nas,]
+      ff <- forcesub1[pixels.sps.i][-nas,]
+      ff2 <- forcesub2[pixels.sps.i][-nas,]
+      
+      # add coordinates and names
+      chcoord <- coordinates(ras.numpixels)[pixels.sps.i[-nas],]
+      yearlyresults[-nas,1:2,] <- chcoord
+      
+    } else {
+      
+      ch <- chillsub1[pixels.sps.i]
+      ch2 <- chillsub2[pixels.sps.i]
+      ff <- forcesub1[pixels.sps.i]
+      ff2 <- forcesub2[pixels.sps.i]
+      
+      # add coordinates and names
+      chcoord <- coordinates(ras.numpixels)[pixels.sps.i,]
+      yearlyresults[,1:2,] <- chcoord
+      
+    }
+    
+    # build final data to extract climate for chilling and forcing 
+    ch <- cbind(chcoord,ch[,1:ncol(ch)])
+    ch2 <- cbind(chcoord,ch2[,1:ncol(ch2)])
+    ff <- cbind(chcoord,ff[,1:ncol(ff)])
+    ff2 <- cbind(chcoord,ff2[,1:ncol(ff2)])
+    
+    # correct if row numbers do not agree
+    if(nrow(ch)!=nrow(ch2)){
+      namcoo1 <- apply(chcoord,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+      namcoo2 <- apply(chcoord2,1,function(x){return(paste(x[1],x[2],sep="_"))})  
+      
+      torem <- which(!namcoo1%in%namcoo2)
+      torem2 <- which(!namcoo2%in%namcoo1)
+      
+      if(length(torem)>0){
+        ch=ch[-torem,]    
+      }
+      
+      if(length(torem2)>0){
+        ch2=ch2[-torem2,]    
+      }
+    }
+    
+    ## dates in data
+    colnames(ch) <- c("x", "y", c(chillstart:yrend), c(1:chillend))
+    chmindates<-ch[,3:ncol(ch)]
+    days<-as.numeric(colnames(chmindates))
+    jfordates<-ifelse(days>=270, j-1, j)
+    datesch<-as.Date(days,origin=paste0(jfordates,"-01-01"))
+    
+    #dateswa<-as.Date(as.numeric(colnames(wamin)),origin=paste0(j,"-01-01"))
+    
+    ## calculate chilling (Utah) and GDD across the period
+    
+    ## GDDs
+    gddseachcelleachday <- apply(ff2[,3:ncol(ff2)],2,function(x){
+      Tb <- 10
+      gdd <- ifelse((x-Tb)<0,0,x-Tb)
+      return(gdd)})
+    gddssum <- rowSums(gddseachcelleachday)
+    #hist(gddssum)
+    
+    
+    ## GDDs till day of last frost
+    ## calculate last date of frost and GDD until then
+    last.frost <- apply(ff[,3:ncol(ff)],1,function(x){
+      a <- which(x<(-5))
+      return(ifelse(length(a)>0,max(a),NA))}) 
+    
+    ff3 <- cbind(last.frost,ff2[,-c(1:2)])
+    
+    gddseachcelleachdaylastfrost <- apply(ff3,1,function(x){
+      #x <- ff3[922,]
+      elems <- length(x)-1
+      daylastfrost <- x[1]
+      if(!is.na(daylastfrost) & daylastfrost>1){
+        temps <- x[2:daylastfrost]
+        Tb <- 10
+        gdd <- ifelse((temps-Tb)<0,0,temps-Tb)
+        gdd <- c(gdd,rep(0,elems-x[1]+1))
+        names(gdd) <- colnames(ff3[,2:93])      
+      } else {
+        gdd <- rep(0,elems)
+        names(gdd) <- colnames(ff3[,2:93])
+      }
+      return(gdd)})
+    
+    gddssumlastfrost <- rowSums(t(gddseachcelleachdaylastfrost),na.rm = T)
+    
+    
+    #library(abind)
+    minmaxtemp <- abind(ch,ch2, along = 3)
+    
+    ## compute chilling
+    nodata <- which(apply(minmaxtemp,1,function(x){return(ifelse(sum(is.na(x[,1:2]))>0,T,F))}))
+    if(length(nodata)>0){minmaxtemp=minmaxtemp[-nodata,,]}
+    
+    chillunitseachcelleachday <- do.call(rbind,
+                                         apply(minmaxtemp,1,function(x){
+                                           #x <- minmaxtemp[300,,]
+                                           #if(sum(is.na(x[3:nrow(x),2]))<151){
+                                           extracweathdf <- data.frame(
+                                             Year=as.numeric(format(datesch,"%Y")),
+                                             Month=as.numeric(format(datesch,"%m")),
+                                             Day=as.numeric(format(datesch,"%d")),
+                                             Tmax=x[3:nrow(x),2],
+                                             Tmin=x[3:nrow(x),1]
+                                           )
+                                           weather <- fix_weather(extracweathdf)
+                                           hourtemps <- stack_hourly_temps(weather,latitude=x[2])
+                                           chll <- chilling(hourtemps,275,60)
+                                           
+                                           
+                                           #}
+                                           return(chll)
+                                         }
+                                         ))
+    
+    ## store results
+    ## 
+    if(length(nas)==0){
+      
+      yearlyresults[,3,which(period == j)] <- gddssum
+      yearlyresults[,4,which(period == j)] <- gddssumlastfrost
+      yearlyresults[,5,which(period == j)] <- last.frost
+      yearlyresults[,6,which(period == j)] <- rowMeans(ch,na.rm=T)
+      yearlyresults[,7,which(period == j)] <- apply(ch,1,sd,na.rm=T)
+      if(length(nodata)>0){
+        yearlyresults[c(c(1:npix))[-nodata],8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+        yearlyresults[c(c(1:npix))[-nodata],9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
+      } else {
+        yearlyresults[c(c(1:npix)),8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+        yearlyresults[c(c(1:npix)),9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
+        
+      }
+    } else {
+      
+      
+      yearlyresults[-nas,3,which(period == j)] <- gddssum
+      yearlyresults[-nas,4,which(period == j)] <- gddssumlastfrost
+      yearlyresults[-nas,5,which(period == j)] <- last.frost
+      yearlyresults[-nas,6,which(period == j)] <- rowMeans(ch,na.rm=T)
+      yearlyresults[-nas,7,which(period == j)] <- apply(ch,1,sd,na.rm=T)
+      if(length(nodata)>0){
+        yearlyresults[c(c(1:npix)[-nas])[-nodata],8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+        yearlyresults[c(c(1:npix)[-nas])[-nodata],9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
+      } else {
+        yearlyresults[c(c(1:npix)[-nas]),8,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+        yearlyresults[c(c(1:npix)[-nas]),9,which(period == j)] <- chillunitseachcelleachday$Chill_portions
+        
+      }
+    }
+    
+  }
+  
+  minmaxtemps.eachsps[[i]] <- yearlyresults
+  
+  
   
   return(minmaxtemps.eachsps)
   
@@ -349,31 +349,31 @@ Climate.in.range.list<-extractchillforce(period)
 save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.allyearsstacked.RData")
 
 if(FALSE){
-for(i in 1:length(spslist)){ #i=1
-Climate.in.range<-extractchillforce(spslist[6]) ## 1, 4, 5 
-
-  write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
-                                              period[1],max(period),"csv",sep="."))
-
-
-}
-
-
-
-if(FALSE){
-  load("~/Desktop/Climate.in.range.allyearsstacked.RData")
-  
-  ## corrections
-  ##ff<-extractchillforce(spslist[13],tmin,tmax,period)
-  ##Climate.in.range.list[[13]] <- ff
-  
-  
-  for(i in 1:length(Climate.in.range.list)){ #i=38
-    print(paste(i,
-                sum(is.na(Climate.in.range.list[[i]][[1]][,3,1]))==nrow(Climate.in.range.list[[i]][[1]][,,1])))
+  for(i in 1:length(spslist)){ #i=1
+    Climate.in.range<-extractchillforce(spslist[6]) ## 1, 4, 5 
+    
+    write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
+                                             period[1],max(period),"csv",sep="."))
+    
     
   }
-}
+  
+  
+  
+  if(FALSE){
+    load("~/Desktop/Climate.in.range.allyears.RData")
+    
+    ## corrections
+    ##ff<-extractchillforce(spslist[13],tmin,tmax,period)
+    ##Climate.in.range.list[[13]] <- ff
+    
+    
+    for(i in 1:length(Climate.in.range.list)){ #i=38
+      print(paste(i,
+                  sum(is.na(Climate.in.range.list[[i]][[1]][,3,1]))==nrow(Climate.in.range.list[[i]][[1]][,,1])))
+      
+    }
+  }
   
   
   ## Code to save individual species
@@ -409,7 +409,7 @@ if(FALSE){
   }
   
   sps.1$year <- rep(1980:2016, each=44622)
-  #write.csv(sps.1, file = "~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract.csv")
+  write.csv(sps.1, file = "~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract.csv")
   
   #spslist
   #write.csv(sps.1,file = "output/Abies_alba_fullextract.csv")
@@ -531,59 +531,37 @@ if(FALSE){
   worldmap <- getMap(resolution="high") 
   #plot(worldmap,col="grey",border="grey",xlim=c(-10,50),ylim=c(32,72))
   
-  species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
-  species.list <- as.vector(species.list$x)
-  
-  
-  ## read in list of species with distribution shapefiles
-  # get a list of the polygon shapefiles in the .zip with the maps
-  #zipped_names <- grep('\\.shp', unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-  #                                   list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-  zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
-  
-  # generate a list of species with maps in the .zip  
-  species.list.maps <- unlist(zipped_names)
-  species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
-  species.list.clean <- species.list.maps
-  
-  rmspp <- c("alnurubr")
-  species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
-  
-  ## Now I need to rename these folders to match the ospree info
-  names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra",
-                                 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-                                 "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
-  
-  # get a list of species in ospree for which we have EU maps
-  ospreespslist <- species.list[which(species.list %in% names(species.list.clean))]
-  spslist <- species.list.maps
-  spslist <- spslist[-8]
-  
   
   ## function to extract/correct the shape for a given species
-  getspsshape<-function(spslist,sps.num, ras.numpixels){ #i=1
+  getspsshape<-function(spslist,sps.num,ras.numpixels){
     
     i<-sps.num #sps.num=1
     spsi<-spslist[i]
+    print(spsi)
+    
+    #fullnamei<-fullnames[i]
+    
+    ## load shape
     
     path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
-    #unzipped <- unzip("/n/wolkovich_lab/Lab/Cat/NA_range_files/NA_ranges.zip",
-    #                list = TRUE)$Name
+    
+    # get the file address for target file
     unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
     
-    shpsource <-"NA_ranges"
+    if(length(zipped_name.i)==0){
+      
+      specific <- unlist(strsplit(spsi,"_"))[2]
+      unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+      
+    }
     
-    zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
-    
-    # load shapefile
+    # extract target file
     unzip(path.source.i, files=zipped_name.i)
     
     # load shapefile
     spsshape <- shapefile(zipped_name.i[1])
     
     ## need to re-project shape from lamber equal area to geographic
-    #spsshapeproj <- spsshape
     proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
     
     spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
@@ -593,41 +571,12 @@ if(FALSE){
     return(spsshapeproj)
   }
   
-  names(sps.1)[names(sps.1) == "x"] <- "long"
-  names(sps.1)[names(sps.1) == "y"] <- "lat"
-  
-  spg <- sps.1
-  coordinates(spg) <- ~ long + lat
-  # coerce to SpatialPixelsDataFrame
-  gridded(spg) <- TRUE
-  # coerce to raster
-  rasterDF <- raster(spg) 
-  ras.numpixels<-rasterDF[[1]]
-  values(ras.numpixels)<-1:ncell(ras.numpixels)
-  sps.1$lat.long <- paste(sps.1$lat, sps.1$long)
-  
-  namspp <- data.frame(simpspp = species.list.clean,
-                       compspp = c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                   "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", #"Alnus_rubra",
-                                   "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis",
-                                   "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca"))
+  ## examples of application
+  betlen <- getspsshape(spslist,1,tmin[[1]])
+  #sorauc <- getspsshape(spslist,15,tmin[[1]])
+  #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
   
-  for(i in 1:length(spslist)){ #i=2
-    spps <- getspsshape(spslist,i,sps.1)
-    print(i)
-    
-    pixels.sps.i<-unique(sort(unlist(extract(ras.numpixels,spps))))
-    coords <- as.data.frame(coordinates(ras.numpixels)[pixels.sps.i,])
-    names(coords) <- c("long", "lat")
-    coords$lat.long <- paste(coords$lat, coords$long)
-    
-    spps.clim <- sps.1[(sps.1$lat.long%in%coords$lat.long),]
-  
-    write.csv(spps.clim, paste0("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range.",namspp$compspp[i],".1980.2016.csv"), row.names = FALSE)
-  
-    }
-
   
   ## plot shape with data on top
   dir.fig = "figures/nam_sps_climate_maps/"
@@ -716,7 +665,7 @@ if(FALSE){
     
     print(spslist[i])
     
-    spsshape <- getspsshape(spslist,i,sps.1)
+    spsshape <- getspsshape(spslist,i,tmin[[1]])
     
     plot.shape.data(spsshape,spslist[i],
                     dir.out,dir.fig,'sds')
@@ -729,14 +678,14 @@ if(FALSE){
   
 }
 
-  
+
 #load("~/Desktop/Climate.in.range.allyears.RData")
 library(RColorBrewer)
 library(ggplot2)
 
 
 #mapWorld <- borders("world", colour="gray72", fill="gray65",ylim=c(30,70),xlim=c(-10,35)) # create a layer of borders
-site<-dplyr::select(spps.clim, lat, long, GDD, year)
+site<-dplyr::select(sps.1, y, x, Mean.Chill.Utah, year)
 site<-site[!duplicated(site),]
 myPalette <- colorRampPalette(brewer.pal(9, "YlOrRd"))
 sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 2500)) ### this is the range of budburst data we have
@@ -746,7 +695,7 @@ NamMap1<-fortify(NamMap)
 aes <- ggplot() + 
   geom_polygon(aes(x = NamMap1$long, y = NamMap1$lat, group = NamMap1$group),
                color = 'gray', fill="lightgrey", size = .2) + ### This creates the base map
-  geom_jitter(width=3,aes(x=site[site$year==2000,]$long, y=site[site$year==2000,]$lat, color=site[site$year==2000,]$GDD), size=0.6, alpha=0.4) + theme_classic() + 
+  geom_jitter(width=3,aes(x=site[site$year==2000,]$x, y=site[site$year==2000,]$y, color=site[site$year==2000,]$Mean.Chill.Utah), size=0.6, alpha=0.4) + theme_classic() + 
   theme(panel.border = element_blank(), ### extra tweaks to background and plot to make sure it doesn't have grid lines, etc.
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
