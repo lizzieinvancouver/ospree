@@ -76,7 +76,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & 
     use.expchillonly == FALSE & use.chillports == FALSE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.all)
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -111,7 +111,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.alltypes.nocrops
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -134,7 +134,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.exprampphotoforce)
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.ports.z, 
@@ -170,7 +170,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.expramptypes.nocrops
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.ports.z, 
@@ -189,7 +189,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.expramptypes
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.ports.z, 
@@ -247,7 +247,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE &
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- bb.stan.exptypes.nocrops
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
                          chill = chill.ports.z, 
@@ -265,7 +265,7 @@ if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FALSE  &
     use.chillports == TRUE & use.zscore == TRUE){
     bb.stan <- addcomplex.allspp(bb.expphotoforce)
-    source("source/bb_zscorepreds.R")
+    source("bb_zscorepreds.R")
     datalist.bb <- with(bb.stan, 
                     list(y=resp, 
                          chill = chill.ports.z, 
@@ -288,7 +288,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
   use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE &
   use.chillports == TRUE & use.zscore == TRUE){
   bb.stan <- bb.stan.exprampphotoforceexpch.nocrops
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill.ports.z, 
@@ -305,7 +305,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE &
     use.chillports == TRUE & use.zscore == TRUE){
   bb.stan <- bb.stan.alltypesexpch.nocrops
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill.ports.z, 
@@ -322,7 +322,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE &
     use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes.nocrops
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill.z, 
@@ -340,7 +340,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
     use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill.z, 
@@ -374,7 +374,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE & 
     use.chillports == FALSE & use.zscore == TRUE){
   bb.stan <- bb.stan.expramptypes
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill, 
@@ -393,7 +393,7 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.chillports == FALSE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes
   
-  source("source/bb_zscorepreds.R")
+  source("bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 
                       list(y=resp, 
                            chill = chill, 
