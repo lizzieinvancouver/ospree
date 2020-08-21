@@ -18,8 +18,8 @@ library(rstan)
 ######################################
 
 # Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors)
-use.flags.for.mainmodel <- TRUE
-use.flags.for.spcomp.cp <- FALSE
+use.flags.for.mainmodel <- FALSE
+use.flags.for.spcomp.cp <- TRUE
 use.flags.for.allspp.utah <- FALSE
 use.flags.for.spcomp.utah.nonz <- FALSE
 use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with chill portions units for chilling
@@ -37,6 +37,7 @@ bb<-read.csv("ospreebb_forknb.csv", header = TRUE)
 
 source("source/bbstanleadin_knb.R")
 
+#optional:
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
 
