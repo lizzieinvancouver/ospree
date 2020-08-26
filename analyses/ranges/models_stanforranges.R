@@ -20,6 +20,7 @@ library(shinystan)
 library(reshape2)
 library(rstan)
 library(rstanarm)
+library(dplyr)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -52,15 +53,19 @@ source("source/bbstanleadin.R")
 setwd("..//ranges")
 
 bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
-# unique(bb.stan$latbi)
+
+### find only studies with 2 or more lattitudes
+multilats<-bb.stan %>% group_by(datasetID) %>% dplyr::summarise(Unique_lats = n_distinct(provenance.lat))
+multilats<-filter(multilats, Unique_lats>=2)
+bb.stan.lat<-filter(bb.stan,datasetID %in% c(multilats$datasetID)) ###### this is the datasheet for the intra/inter model
 
 ## Do some population stuff, by latitude
-getpopz1 <- subset(bb.stan, select=c("latbi", "provenance.lat")) # "datasetID", "study",
+getpopz1 <- subset(bb.stan.lat, select=c("latbi", "provenance.lat")) # "datasetID", "study",
 getpopz2 <- getpopz1[!duplicated(getpopz1), ]
 getpopz <- aggregate(getpopz2["provenance.lat"], getpopz2["latbi"], FUN=length)
-getpopz5 <- subset(getpopz, provenance.lat>4) # 9
-getpopz3 <- subset(getpopz, provenance.lat>2) # 29
-getpopz2 <- subset(getpopz, provenance.lat>1) # 54
+getpopz5 <- subset(getpopz, provenance.lat>4) # 4
+getpopz3 <- subset(getpopz, provenance.lat>2) # 13
+getpopz2 <- subset(getpopz, provenance.lat>1) # 39
 
 # Species list ...
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
@@ -125,11 +130,11 @@ bb.stanamb <- subset(bb.stan, photo_type=="amb" | force_type=="amb")
 unique(bb.stanamb$latbi) # I am not going to check Fagus_sylvatica, but I checked the rest and they all have exp treatments also
 # bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes about 100 rows 
 
-bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
+bb.stan.lat$latbinum <- as.numeric(as.factor(bb.stan.lat$latbi))
 
-bb.stan.pop5 <- bb.stan[which(bb.stan$latbi %in% getpopz5$latbi),] # 8 species!
-bb.stan.pop3 <- bb.stan[which(bb.stan$latbi %in% getpopz3$latbi),] # 25 species
-bb.stan.pop2 <- bb.stan[which(bb.stan$latbi %in% getpopz2$latbi),] # 34 species
+bb.stan.pop5 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz5$latbi),] # 4 species!
+bb.stan.pop3 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz3$latbi),] # 13 species
+bb.stan.pop2 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz2$latbi),] # 39 species
 
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 
@@ -204,7 +209,7 @@ if(FALSE){
 # testing 1, 2, 3 ....
 # need to make up new data list with unique ID for each pop x sp
 ########################################################
-bb.stan.here <- bb.stan.pop3
+bb.stan.here <- bb.stan.pop3 ##lets do the 3 pop
 getpop <- paste(bb.stan.here$latbinum, bb.stan.here$provenance.lat)
 bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
@@ -241,12 +246,25 @@ sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 
 if(FALSE){
   ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
-goo <- stan_lmer(formula = resp ~ force.z+(force.z|latbinum)+(force.z|latbinum:pophere), 
-                         data = bb.stan.here,iter=4000,warmup=3000,chains=2 )
+modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
+                         data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
 
- coef(goo)
-goo.sum[grep("force.z lat", rownames(goo.sum)),] [,1]
-goo.sum[grep("force.z pop", rownames(goo.sum)),]
+
+
+
+bb.stan.here <- bb.stan.pop5 ##lets do the 5 pop
+getpop <- paste(bb.stan.here$latbinum, bb.stan.here$provenance.lat)
+bb.stan.here$pophere <- as.numeric(as.factor(getpop))
+bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+
+modpop5 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
+                     data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+
+
+
+
+PPD1 <- posterior_predict(goo, re.form =  ~ latbinum)
+PPD2 <- posterior_predict(goo, re.form =  ~ latbinum:pophere)
       
 }
 
