@@ -34,9 +34,10 @@ NamMap <- crop(NamMap, e)
 
 climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
 #climatedrive = "/Volumes/timemachine/" # Cat's climate drive
+#climatedrive = "~/Desktop" 
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
-#nafiles <- dir(climatedrive)[grep("princetondata", dir(climatedrive))]
+#nafiles <- dir(climatedrive)[grep("tmincrop1980", dir(climatedrive))]
 
 
 if(FALSE){
@@ -357,11 +358,11 @@ if(FALSE){
     
     
   }
-  
+}
   
   
   if(FALSE){
-    load("~/Desktop/Climate.in.range.allyears.RData")
+    load("~/Desktop/Climate.in.range.allyearsstacked.RData")
     
     ## corrections
     ##ff<-extractchillforce(spslist[13],tmin,tmax,period)
@@ -379,7 +380,7 @@ if(FALSE){
   ## Code to save individual species
   #Climate.in.range.list[[3]][[1]][,,1]
   #j=16
-  #period=1980:2016
+  period=1980:2016
   for(i in 1:length(period)){  
     sps.1 <- as.data.frame(Climate.in.range.list[[38]][,,i])
     
@@ -409,7 +410,7 @@ if(FALSE){
   }
   
   sps.1$year <- rep(1980:2016, each=44622)
-  write.csv(sps.1, file = "~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract.csv")
+  #write.csv(sps.1, file = "~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract.csv")
   
   #spslist
   #write.csv(sps.1,file = "output/Abies_alba_fullextract.csv")
@@ -422,7 +423,7 @@ if(FALSE){
   synth.data<-function(Climate.in.range.list){
     list.synthesis<-list()
     
-    for(i in 1:length(period)){  #j=1
+    for(i in 1:length(period)){  #i=1
       sps.1<-as.data.frame(Climate.in.range.list[[38]][,,1])
       sps.1$year<-1980
       
@@ -441,7 +442,7 @@ if(FALSE){
       
       years = unique(dat$year)
       nyears = length(years)
-      dat$ID = paste(dat$x.1,dat$y.1)
+      dat$ID = paste(dat$x,dat$y)
       
       storing = array(NA, dim=c(7,4))
       row.names(storing) = colnames(dat)[3:9]
@@ -458,7 +459,7 @@ if(FALSE){
       storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
       storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
       
-      list.synthesis[[j]]<-storing
+      list.synthesis[[i]]<-storing
     }
     
     return(list.synthesis)
@@ -531,11 +532,38 @@ if(FALSE){
   worldmap <- getMap(resolution="high") 
   #plot(worldmap,col="grey",border="grey",xlim=c(-10,50),ylim=c(32,72))
   
+  ## load species list 
+  species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
+  species.list <- as.vector(species.list$x)
+  
+  
+  ## read in list of species with distribution shapefiles
+  # get a list of the polygon shapefiles in the .zip with the maps
+  zipped_names <- grep('\\.shp', unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list=TRUE)$Name,ignore.case=TRUE, value=TRUE)
+  
+  # generate a list of species with maps in the .zip  
+  species.list.maps <- unlist(zipped_names)
+  species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
+  species.list.clean <- species.list.maps
+  
+  rmspp <- c("alnurubr", "._robipseu", "._poputrem")
+  species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
+  
+  ## Now I need to rename these folders to match the ospree info
+  names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
+                                 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", "Robinia_pseudoacacia",
+                                 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Populus_tremuloides", "Betula_alleghaniensis",
+                                 "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
+  
+  # get a list of species in ospree for which we have EU maps
+  ospreespslist <- species.list[which(species.list %in% names(species.list.clean))]
+  spslist <- unname(species.list.clean)
+  
   
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=1
+    i<-sps.num #sps.num=11  
     spsi<-spslist[i]
     print(spsi)
     
@@ -548,6 +576,10 @@ if(FALSE){
     # get the file address for target file
     unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
     
+    shpsource <-"NA_ranges"
+    
+    zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
+    
     if(length(zipped_name.i)==0){
       
       specific <- unlist(strsplit(spsi,"_"))[2]
@@ -559,12 +591,22 @@ if(FALSE){
     unzip(path.source.i, files=zipped_name.i)
     
     # load shapefile
-    spsshape <- shapefile(zipped_name.i[1])
+    spsshape <- shapefile(zipped_name.i[3])
     
     ## need to re-project shape from lamber equal area to geographic
-    proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+    newadds <- c(8, 11)
+    if(sps.num%in%newadds){
+      proj4string(spsshape) <- CRS("+proj=aea +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+    } 
     
-    spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 "))
+    if(!sps.num%in%newadds){
+      proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
+    }
+   
+    
+    
+    spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84
+                                           +ellps=WGS84 +towgs84=0,0,0"))
     #lines(spsshapeproj)
     #
     
@@ -572,43 +614,61 @@ if(FALSE){
   }
   
   ## examples of application
-  betlen <- getspsshape(spslist,1,tmin[[1]])
+  betlen <- getspsshape(spslist,1,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
   
   
   ## plot shape with data on top
-  dir.fig = "figures/nam_sps_climate_maps/"
+  dir.fig = "~/Documents/git/ospree/analyses/ranges/figures/nam_sps_climate_maps/"
   dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
+  
+  library(RColorBrewer)
+  library(ggplot2)
   
   plot.shape.data<-function(spsshape,sps.name,
                             dir.out,dir.fig,
                             type=c("means","sds")){
     
-    sps.name<-spslist[1]
-    sps.name <- "all"
+    
+    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
     
     ## plot base map + range map
-    extent.sps.i <- extent(spsshape)
+    extent.sps.i <- extent(spsshape)+3
     
-    if(extent.sps.i[2]>50){extent.sps.i[2] = 50}
-    if(extent.sps.i[3]<32){extent.sps.i[3] = 32}
+    ras.numpixels<-tmin1980[[1]]
+    values(ras.numpixels)<-1:ncell(ras.numpixels)
+    
+    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+    
+    # get list of pixels to extract data (speeds things up)
+    pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
+    
+    chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
+    chcoord$lat.long <- paste(chcoord$x, chcoord$y)
+    
+    dat$lat.long <- paste(dat$x, dat$y)
+    
+    #if(extent.sps.i[2]>50){extent.sps.i[2] = 50}
+    #if(extent.sps.i[3]<32){extent.sps.i[3] = 32}
     
     ## retrieve and format data
     ## code to plot within range climate interannual variation
     dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
     files.out <- dir(dir.out)
     
-    sps.out <- files.out[which(grepl(sps.name,files.out)&grepl("fullextract",files.out))]
+    #sps.out <- files.out[which(grepl(sps.name,files.out)&grepl("fullextract",files.out))]
     
-    dat = read.csv(paste(dir.out,sps.out,sep=""))
-    dat = as.data.frame(na.omit(dat))
+    #dat = read.csv(paste(dir.out,sps.out,sep=""))
+    #dat = as.data.frame(na.omit(dat))
     
-    means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-    SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+    sps.i <- dat[(dat$lat.long%in%chcoord$lat.long),]
     
-    dat <- sps.1
+    means.sites <- aggregate(sps.i,by=list(ID = sps.i$lat.long),FUN = mean,na.rm=T)
+    SDs.sites <- aggregate(sps.i,by=list(ID = sps.i$lat.long),FUN = sd,na.rm=T)
+    
+    #dat <- sps.1
     
     if(type=="means"){
       pdf(paste(dir.fig,sps.name,'.means.pdf',sep="")
@@ -626,7 +686,7 @@ if(FALSE){
     par(mfrow=c(2,3),mar=c(1,1,1,1))
     
     
-    for(i in c(5,6,8:11)){#i=5
+    for(i in c(4,5,7:10)){#i=5
       
       
       if(type=="means"){
@@ -642,11 +702,11 @@ if(FALSE){
            xlim=c(extent.sps.i[1],extent.sps.i[2]),
            ylim=c(extent.sps.i[3],extent.sps.i[4]))
       text(extent.sps.i[2]-1,extent.sps.i[4],
-           paste(sps.name,colnames(SDs.sites)[i]),pos=2)
+           colnames(SDs.sites)[i],pos=2)
       plot(spsshapeproj,col=adjustcolor('black',0),add=T,
            border=adjustcolor('black',0.5))
       
-      points(sps.1$x.1,sps.1$y.1,col=sps.1$GDD.1,pch=19,cex=0.8)
+      points(means.sites$x,means.sites$y,col=cols1,pch=19,cex=0.8)
       
     }
     dev.off()
@@ -656,7 +716,7 @@ if(FALSE){
   }
   
   # example of usage
-  plot.shape.data(betlen,spslist[1],dir.out,dir.fig,"means")
+  #plot.shape.data(spsshape,spslist[1],dir.out,dir.fig,"means")
   
   
   #### loop across species ####
@@ -665,37 +725,38 @@ if(FALSE){
     
     print(spslist[i])
     
-    spsshape <- getspsshape(spslist,i,tmin[[1]])
+    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
     
-    plot.shape.data(spsshape,spslist[i],
+    plot.shape.data(spsshape,names(species.list.clean)[i],
                     dir.out,dir.fig,'sds')
-    plot.shape.data(spsshape,spslist[i],
+    plot.shape.data(spsshape,names(species.list.clean)[i],
                     dir.out,dir.fig,'means')
-    
   }
+    
   
   dev.off()
   
-}
 
 
+if(FALSE){
 #load("~/Desktop/Climate.in.range.allyears.RData")
 library(RColorBrewer)
 library(ggplot2)
 
 
 #mapWorld <- borders("world", colour="gray72", fill="gray65",ylim=c(30,70),xlim=c(-10,35)) # create a layer of borders
-site<-dplyr::select(sps.1, y, x, Mean.Chill.Utah, year)
+site<-dplyr::select(means.sites, y, x, GDD, year)
 site<-site[!duplicated(site),]
 myPalette <- colorRampPalette(brewer.pal(9, "YlOrRd"))
 sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 2500)) ### this is the range of budburst data we have
+
 #a.site<-filter(site, species=="AESHIP")
 #boundars<-readShapeSpatial("~/Documents/git/regionalrisk/analyses/input/natural_earth_vector/50m_cultural/ne_50m_admin_0_countries.shp")
 NamMap1<-fortify(NamMap)
 aes <- ggplot() + 
   geom_polygon(aes(x = NamMap1$long, y = NamMap1$lat, group = NamMap1$group),
                color = 'gray', fill="lightgrey", size = .2) + ### This creates the base map
-  geom_jitter(width=3,aes(x=site[site$year==2000,]$x, y=site[site$year==2000,]$y, color=site[site$year==2000,]$Mean.Chill.Utah), size=0.6, alpha=0.4) + theme_classic() + 
+  geom_jitter(width=3,aes(x=site$x, y=site$y, color=site$GDD), size=0.6, alpha=0.4) + theme_classic() + 
   theme(panel.border = element_blank(), ### extra tweaks to background and plot to make sure it doesn't have grid lines, etc.
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
@@ -723,6 +784,6 @@ save(sps.1, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fulle
 #write.csv(sps.1b, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract_p2.csv")
 #write.csv(sps.1c, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract_p3.csv")
 #write.csv(sps.1d, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract_p4.csv")
-
+}
 
 
