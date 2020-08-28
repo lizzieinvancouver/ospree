@@ -13,4 +13,5 @@ d <- rbind(d, okie11)
 
 # adding the new dantec14 data that never made it into ospree. MG 10 Aug 2020
 dantec14 <- read.csv("input/dantec_merge.csv", header = TRUE)
+dantec14$X <- NULL
 d <- rbind(d,dantec14)
