@@ -54,11 +54,11 @@ sort(unique(dat$chilltemp))
 dat$photoext <- dat$photoperiod_day
 dat$photoext[dat$photoext=="13-9.5"|dat$photoext=="14-9.5"] <- "variable"
 dat$photoext[dat$photoext=="constant"|dat$photoext=="ambient"] <- "ambient" # looked up the constant paper (karlsson03) and it's room ambient daylength I think
-dat$tempext <- dat$forcetemp
-dat$tempext[grep("ambient", dat$tempext)] <- "ambient"
-dat$tempext[dat$tempext=="0 ramped up 3 degrees every 6 days"|dat$tempext=="18-27 (20 average)"|
-    dat$tempext=="7-27.5"|dat$tempext=="22-27"|dat$tempext=="mean of 9, 12, 15"|
-    dat$tempext=="meandaily"] <- "variable"
+dat$forceext <- dat$forcetemp
+dat$forceext[grep("ambient", dat$forceext)] <- "ambient"
+dat$forceext[dat$forceext=="0 ramped up 3 degrees every 6 days"|dat$forceext=="18-27 (20 average)"|
+    dat$forceext=="7-27.5"|dat$forceext=="22-27"|dat$forceext=="mean of 9, 12, 15"|
+    dat$forceext=="meandaily"] <- "variable"
 dat$chillext <- dat$chilltemp
 dat$chillext[dat$chillext=="Chilling treatment at 0.7 \xb1 0.7 C interrupted by mild spells of 14 days duration at a constant temperature of 8 or 12 C"] <- "variable"
 dat$chillext[grep("\\, ", dat$chillext)] <- "variable"
@@ -66,8 +66,6 @@ dat$chillext[dat$chillext=="negative 23 to 13 degrees Celsius"] <- "variable"
 dat$chillext[dat$chillext=="<16"|dat$chillext==">16"|dat$chillext=="ambient plus days at 4C"|
     dat$chillext=="neg 3,2"|dat$chillext=="Low"| dat$chillext=="High"|dat$chillext=="elevated"|
     dat$chillext=="6,.5"] <- "other"
-
-## START HERE! I made the above so we could work these labels back into the heat maps ... 
 
 # make a bunch of things numeric (eek!)
 dat$forcetemp <- as.numeric(dat$forcetemp)
@@ -83,9 +81,8 @@ columnstokeep <- c("datasetID", "study", "datasetIDstudy", "genus", "species", "
     "woody","provenance.lat", "provenance.long", "material", "year", 
     "fieldsample.date", "doy", "forcetemp", "forcetemp_night",  
     "photoperiod_day","photoperiod_night","chilltemp", "chillphotoperiod",
-    "chilldays", "response", "response.time")        
+    "chilldays", "response", "response.time", "photoext", "forceext", "chillext")        
                    
-
 d <- subset(dat, select=c(columnstokeep))
 
 # Summarize the forcetemp by photoperiod
@@ -389,7 +386,6 @@ dev.off()
 ###
 
 ## TO DO for heatmap:
-# (*) For BB paper: chill x force x photo; fieldsample x force x photo; chill portions x force x photo
 # (1) Make sure I am counting correctly
 # (2) What to do with NA
 # (3) Make much, much prettier!
@@ -402,8 +398,19 @@ d$force.int <- as.integer(d$force)
 d$photo.int <- as.integer(d$photoperiod_day)
 d$chill.int <- as.integer(d$chilltemp)
 
+## Add back in "photoext", "forceext", "chillext" to data so can add to heat maps ... 
+d$force.plot <- d$force.int
+d$force.plot[which(d$forceext=="variable"|d$forceext=="ambient")] <-
+    d$forceext[which(d$forceext=="variable"|d$forceext=="ambient")]
+d$photo.plot <- d$photo.int
+d$photo.plot[which(d$photoext=="variable"|d$photoext=="ambient")] <-
+    d$photoext[which(d$photoext=="variable"|d$photoext=="ambient")]
+d$chill.plot <- d$chill.int
+d$chill.plot[which(d$chillext=="variable"|d$chillext=="other")] <-
+    d$chillext[which(d$chillext=="variable"|d$chillext=="other")]
+
 dsumm.treat <-
-      ddply(d, c("datasetID", "study", "force.int", "photo.int", "chill.int"), summarise,
+      ddply(d, c("datasetID", "study", "force.plot", "photo.plot", "chill.plot"), summarise,
       mean.lat = mean(provenance.lat),
       mean.long = mean(provenance.long),
       mean.year = mean(year),
@@ -413,68 +420,73 @@ dsumm.treat <-
       min.fieldsamp = min(doy),
       max.fieldsamp = max(doy))
 
+# sort the factors so that they show up in a logical order
+dsumm.treat$force.plot <- factor(dsumm.treat$force.plot, levels=c(sort(unique(d$force.int)), "ambient", "variable", "NA"))
+dsumm.treat$photo.plot <- factor(dsumm.treat$photo.plot, levels=c(sort(unique(d$photo.int)), "ambient", "variable", "NA"))
+dsumm.treat$chill.plot <- factor(dsumm.treat$chill.plot, levels=c(sort(unique(d$chill.int)), "variable", "other", "NA"))
+
+
 ## The below heat maps show the COUNT of studies across different treatments
 # For example, x is 20 C, y is 12 days and the third dimension is how many did that.
 dsumm.nums <-
-      ddply(dsumm.treat, c("force.int", "photo.int"), summarise,
-      count = length(force.int))
+      ddply(dsumm.treat, c("force.plot", "photo.plot"), summarise,
+      count = length(force.plot))
 # dsumm.nums[is.na(dsumm.nums)] <- 0
 
-pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
-ggplot(dsumm.nums, aes(as.factor(force.int), as.factor(photo.int))) +
+pdf("limitingcues/figures/newcheck/heatmapforcexphoto.pdf", width = 6, height = 6)
+ggplot(dsumm.nums, aes(as.factor(force.plot), as.factor(photo.plot))) +
     geom_tile(aes(fill=count)) +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
 dsumm.numschph <-
-      ddply(dsumm.treat, c("chill.int", "photo.int"), summarise,
-      count = length(chill.int))
+      ddply(dsumm.treat, c("chill.plot", "photo.plot"), summarise,
+      count = length(chill.plot))
 # dsumm.numsch[is.na(dsumm.numsch)] <- 0
 
 dsumm.numschfor <-
-      ddply(dsumm.treat, c("chill.int", "force.int"), summarise,
-      count = length(chill.int))
+      ddply(dsumm.treat, c("chill.plot", "force.plot"), summarise,
+      count = length(chill.plot))
 
-pdf("limitingcues/figures/heatmapchillxphoto.pdf", width = 6, height = 6)
-ggplot(dsumm.numschph, aes(as.factor(chill.int), as.factor(photo.int))) +
+pdf("limitingcues/figures/newcheck/heatmapchillxphoto.pdf", width = 6, height = 6)
+ggplot(dsumm.numschph, aes(as.factor(chill.plot), as.factor(photo.plot))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
-pdf("limitingcues/figures/heatmapchillxforce.pdf", width = 6, height = 6)
-ggplot(dsumm.numschfor, aes(as.factor(chill.int), as.factor(force.int))) +
+pdf("limitingcues/figures/newcheck/heatmapchillxforce.pdf", width = 6, height = 6)
+ggplot(dsumm.numschfor, aes(as.factor(chill.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
 
 dsumm.numschfs <-
-      ddply(dsumm.treat, c("chill.int", "field.sample.n"), summarise,
-      count = length(chill.int))
+      ddply(dsumm.treat, c("chill.plot", "field.sample.n"), summarise,
+      count = length(chill.plot))
 
-pdf("limitingcues/figures/heatmapchillxfs.date.pdf", width = 6, height = 4)
-ggplot(dsumm.numschfs, aes(as.factor(chill.int), as.factor(field.sample.n))) +
+pdf("limitingcues/figures/newcheck/heatmapchillxfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numschfs, aes(as.factor(chill.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
-
 dsumm.numsforfs <-
-      ddply(dsumm.treat, c("force.int", "field.sample.n"), summarise,
-      count = length(chill.int))
+      ddply(dsumm.treat, c("force.plot", "field.sample.n"), summarise,
+      count = length(chill.plot))
 
-pdf("limitingcues/figures/heatmapforcexfs.date.pdf", width = 6, height = 4)
-ggplot(dsumm.numsforfs, aes(as.factor(force.int), as.factor(field.sample.n))) +
+pdf("limitingcues/figures/newcheck/heatmapforcexfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numsforfs, aes(as.factor(force.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
 dsumm.numsphfs <-
-      ddply(dsumm.treat, c("photo.int", "field.sample.n"), summarise,
-      count = length(chill.int))
+      ddply(dsumm.treat, c("photo.plot", "field.sample.n"), summarise,
+      count = length(chill.plot))
 
-pdf("limitingcues/figures/heatmapphotoxfs.date.pdf", width = 6, height = 4)
-ggplot(dsumm.numsphfs, aes(as.factor(photo.int), as.factor(field.sample.n))) +
+pdf("limitingcues/figures/newcheck/heatmapphotoxfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.numsphfs, aes(as.factor(photo.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
@@ -484,8 +496,9 @@ dev.off()
 basesize <- 12
 
 # summarize by design, include all chilling (field and exp)
+# START HERE also ... .The below needs work, I think I stole this code from studydesignplotsbb.R without ever updating it to work here ...
 dsumm.treat <-
-      ddply(d, c("datasetID", "study", "force.int", "photo.int", "chill.int"), summarise,
+      ddply(d, c("datasetID", "study", "force.plot", "photo.plot", "chill.plot"), summarise,
       mean.lat = mean(provenance.lat),
       spp.n = length(unique(latbi)),
       field.sample.n = mean(fs.date.count, na.rm=TRUE),
@@ -493,7 +506,12 @@ dsumm.treat <-
       min.fieldsamp = min(doy),
       max.fieldsamp = max(doy))
 
-heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
+# sort the factors so that they show up in a logical order
+dsumm.treat$force.plot <- factor(dsumm.treat$force.plot, levels=c(sort(unique(d$force.int)), "ambient", "variable", "NA"))
+dsumm.treat$photo.plot <- factor(dsumm.treat$photo.plot, levels=c(sort(unique(d$photo.int)), "ambient", "variable", "NA"))
+dsumm.treat$chill.plot <- factor(dsumm.treat$chill.plot, levels=c(sort(unique(d$chill.int)), "variable", "other", "NA"))
+
+heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.plot), as.factor(photo.plot))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
     # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
     scale_fill_gradient2(name="Field sample \ndates", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
