@@ -1,14 +1,14 @@
 Started 24 August 2017
 By Lizzie
 
-
+29 Aug 2020: studydesignplots.R -- compare plots to old version in newcheck, and go through where it says START HERE (which is twice)
 
 <><><><><><><><><><><><><><><><><><><><>
 April 2020 to do, working on it in August 2020
 <><><><><><><><><><><><><><><><><><><><>
 
 I have cleaned up the countinxns.R code ... am working on studydesignplots.R
-(*) Fix heatmaps (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force: one panel EACH for 1-2 field sample, and >2 field sample date)?
+(*) Fix heatmaps (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force (I think I mean interactive studies): one panel EACH for 1-2 field sample, and >2 field sample date)?
 (*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
 (*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
 (*) FIX ME figure below ... do soon or start writing first?

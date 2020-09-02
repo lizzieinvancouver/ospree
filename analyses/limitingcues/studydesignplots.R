@@ -387,7 +387,7 @@ dev.off()
 
 ## TO DO for heatmap:
 # (1) Make sure I am counting correctly
-# (2) What to do with NA
+# (2) What to do with NA -- some are likely ambient, but not sure if all are... see "work on NAs" below
 # (3) Make much, much prettier!
 
 ## Prep the data, make a column concatenating a bunch of info, merge in field sample dates,
@@ -420,11 +420,20 @@ dsumm.treat <-
       min.fieldsamp = min(doy),
       max.fieldsamp = max(doy))
 
-# sort the factors so that they show up in a logical order
+# sort the factors so that they show up in a logical order (I checked the new maps produced versus the old and they look good!)
 dsumm.treat$force.plot <- factor(dsumm.treat$force.plot, levels=c(sort(unique(d$force.int)), "ambient", "variable", "NA"))
 dsumm.treat$photo.plot <- factor(dsumm.treat$photo.plot, levels=c(sort(unique(d$photo.int)), "ambient", "variable", "NA"))
 dsumm.treat$chill.plot <- factor(dsumm.treat$chill.plot, levels=c(sort(unique(d$chill.int)), "variable", "other", "NA"))
 
+# work on NAs (ask lab to check?)
+if(FALSE){
+checkforcena <- subset(dsumm.treat, is.na(force.plot)==TRUE)
+checkphotona <- subset(dsumm.treat, is.na(photo.plot)==TRUE)
+checkchillna <- subset(dsumm.treat, is.na(chill.plot)==TRUE)
+unique(checkforcena$datasetID)
+unique(checkphotona$datasetID)
+unique(checkchillna$datasetID)
+    }
 
 ## The below heat maps show the COUNT of studies across different treatments
 # For example, x is 20 C, y is 12 days and the third dimension is how many did that.
@@ -433,7 +442,7 @@ dsumm.nums <-
       count = length(force.plot))
 # dsumm.nums[is.na(dsumm.nums)] <- 0
 
-pdf("limitingcues/figures/newcheck/heatmapforcexphoto.pdf", width = 6, height = 6)
+pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
 ggplot(dsumm.nums, aes(as.factor(force.plot), as.factor(photo.plot))) +
     geom_tile(aes(fill=count)) +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
@@ -448,13 +457,13 @@ dsumm.numschfor <-
       ddply(dsumm.treat, c("chill.plot", "force.plot"), summarise,
       count = length(chill.plot))
 
-pdf("limitingcues/figures/newcheck/heatmapchillxphoto.pdf", width = 6, height = 6)
+pdf("limitingcues/figures/heatmapchillxphoto.pdf", width = 6, height = 6)
 ggplot(dsumm.numschph, aes(as.factor(chill.plot), as.factor(photo.plot))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
 dev.off()
 
-pdf("limitingcues/figures/newcheck/heatmapchillxforce.pdf", width = 6, height = 6)
+pdf("limitingcues/figures/heatmapchillxforce.pdf", width = 6, height = 6)
 ggplot(dsumm.numschfor, aes(as.factor(chill.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
@@ -465,7 +474,7 @@ dsumm.numschfs <-
       ddply(dsumm.treat, c("chill.plot", "field.sample.n"), summarise,
       count = length(chill.plot))
 
-pdf("limitingcues/figures/newcheck/heatmapchillxfs.date.pdf", width = 6, height = 4)
+pdf("limitingcues/figures/heatmapchillxfs.date.pdf", width = 6, height = 4)
 ggplot(dsumm.numschfs, aes(as.factor(chill.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
@@ -475,7 +484,7 @@ dsumm.numsforfs <-
       ddply(dsumm.treat, c("force.plot", "field.sample.n"), summarise,
       count = length(chill.plot))
 
-pdf("limitingcues/figures/newcheck/heatmapforcexfs.date.pdf", width = 6, height = 4)
+pdf("limitingcues/figures/heatmapforcexfs.date.pdf", width = 6, height = 4)
 ggplot(dsumm.numsforfs, aes(as.factor(force.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
@@ -485,7 +494,7 @@ dsumm.numsphfs <-
       ddply(dsumm.treat, c("photo.plot", "field.sample.n"), summarise,
       count = length(chill.plot))
 
-pdf("limitingcues/figures/newcheck/heatmapphotoxfs.date.pdf", width = 6, height = 4)
+pdf("limitingcues/figures/heatmapphotoxfs.date.pdf", width = 6, height = 4)
 ggplot(dsumm.numsphfs, aes(as.factor(photo.plot), as.factor(field.sample.n))) +
     geom_tile(aes(fill=count), colour="white") +
     scale_fill_gradient2(low = "white", mid ="lightgoldenrodyellow", high = "darkred")
@@ -495,46 +504,17 @@ dev.off()
 # make figures prettier than average
 basesize <- 12
 
-# summarize by design, include all chilling (field and exp)
-# START HERE also ... .The below needs work, I think I stole this code from studydesignplotsbb.R without ever updating it to work here ...
-dsumm.treat <-
-      ddply(d, c("datasetID", "study", "force.plot", "photo.plot", "chill.plot"), summarise,
-      mean.lat = mean(provenance.lat),
-      spp.n = length(unique(latbi)),
-      field.sample.n = mean(fs.date.count, na.rm=TRUE),
-      mean.fieldsamp = mean(doy),
-      min.fieldsamp = min(doy),
-      max.fieldsamp = max(doy))
-
-# sort the factors so that they show up in a logical order
-dsumm.treat$force.plot <- factor(dsumm.treat$force.plot, levels=c(sort(unique(d$force.int)), "ambient", "variable", "NA"))
-dsumm.treat$photo.plot <- factor(dsumm.treat$photo.plot, levels=c(sort(unique(d$photo.int)), "ambient", "variable", "NA"))
-dsumm.treat$chill.plot <- factor(dsumm.treat$chill.plot, levels=c(sort(unique(d$chill.int)), "variable", "other", "NA"))
-
-heatforcphotofielddate <- ggplot(dsumm.treat, aes(as.factor(force.plot), as.factor(photo.plot))) +
+pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
+ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
-    # alt color: scale_fill_viridis(option="C", direction=-1, na.value="gray97") + # requires viridis
-    scale_fill_gradient2(name="Field sample \ndates", low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-  scale_y_discrete(breaks=seq(6,24,2)) +
-    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
-    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
+    scale_fill_gradient2(name="Field sample \ndates n", low = "white", mid ="lightgoldenrodyellow",
+        high = "darkred",na.value="gray95") +
+    # scale_x_discrete(breaks=seq(-5,35,5)) +
+    # scale_y_discrete(breaks=seq(6,24,2)) +
+    theme_classic() +
+    labs(colour="Field sample dates", y="Forcing temp", x="Photoperiod") +
+    theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
+dev.off()
 
-heatforcephotoallchill <- ggplot(dsumm.treat, aes(as.factor(force.int), as.factor(photo.int))) +
-    geom_tile(aes(fill=chill.int), colour="white") +
-    scale_fill_gradient2(name="All chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-  scale_y_discrete(breaks=seq(6,24,2)) + theme_classic() +
-    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") +
-    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
-        panel.background = element_blank(), text=element_text(size=basesize))
-
-heatforcephotoexpchill <- ggplot(dsumm.treat.chilltemp, aes(as.factor(force.int), as.factor(photo.int))) +
-    geom_tile(aes(fill=chilltemp.int), colour="white") +
-    scale_fill_gradient2(name="Exp chill \ntemps",low = "white", mid ="lightgoldenrodyellow", high = "darkred",
-        na.value="gray95") + scale_x_discrete(breaks=seq(-5,35,5)) +
-  scale_y_discrete(breaks=seq(6,24,2)) +
-    labs(colour="Field sample dates", x="Forcing temp", y="Photoperiod") + theme_classic() +
-    theme(legend.position=c(0.9, 0.2) , legend.background=element_blank(),
-        panel.background = element_blank(), text=element_text(size=basesize))
