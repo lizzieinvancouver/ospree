@@ -33,7 +33,7 @@ e <- c( -170, -60, 15, 75)
 NamMap <- crop(NamMap, e)
 
 climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
-#climatedrive = "/Volumes/timemachine/" # Cat's climate drive
+#climatedrive = "/Volumes/climdata/" # Cat's climate drive
 #climatedrive = "~/Desktop" 
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
@@ -362,7 +362,7 @@ if(FALSE){
   
   
   if(FALSE){
-    load("~/Desktop/Climate.in.range.allyearsstacked.RData")
+    load("~/Desktop/Misc/Ospree Misc/Climate.in.range.allyearsstacked.RData")
     
     ## corrections
     ##ff<-extractchillforce(spslist[13],tmin,tmax,period)
@@ -563,7 +563,7 @@ if(FALSE){
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=11  
+    i<-sps.num #sps.num=1  
     spsi<-spslist[i]
     print(spsi)
     
@@ -594,9 +594,11 @@ if(FALSE){
     spsshape <- shapefile(zipped_name.i[3])
     
     ## need to re-project shape from lamber equal area to geographic
-    newadds <- c(8, 11)
+    newadds <- c(8, 11, 14)
     if(sps.num%in%newadds){
-      proj4string(spsshape) <- CRS("+proj=aea +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs")
+      proj4string(spsshape) <- CRS("+proj=aea  
+                                   +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
+                                   +units=m +datum=NAD27 +ellps=clrk66 +no_defs" )
     } 
     
     if(!sps.num%in%newadds){
@@ -614,7 +616,7 @@ if(FALSE){
   }
   
   ## examples of application
-  betlen <- getspsshape(spslist,1,tmin1980[[1]])
+  betlen <- getspsshape(spslist,11,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
@@ -626,6 +628,9 @@ if(FALSE){
   
   library(RColorBrewer)
   library(ggplot2)
+  
+  save <- spslist
+  spslist <- spslist[[14]]
   
   plot.shape.data<-function(spsshape,sps.name,
                             dir.out,dir.fig,
