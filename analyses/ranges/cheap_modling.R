@@ -23,10 +23,27 @@ if(length(grep("Lizzie", getwd())>0)) {
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
-rangies<-read.csv("output/Synthesis_climate_EUsps.csv")
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps.csv")
 
+unique(rangiesNa$species)
+##clean North America names
+rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
+rangiesNa$species[which(rangiesNa$species=="popugran")]<- "Populus_grandidentata"
+rangiesNa$species[which(rangiesNa$species=="querrubr")]<- "Quercus_rubra"
+rangiesNa$species[which(rangiesNa$species=="acerpens")]<- "Acer_pensylvanicum"
+rangiesNa$species[which(rangiesNa$species=="betupapy")]<- "Betula_papyrifera"
+rangiesNa$species[which(rangiesNa$species=="fraxnigr")]<- "Fraxinus_nigra"
+rangiesNa$species[which(rangiesNa$species=="alnurubr")]<- "Alnus_rubra"
+rangiesNa$species[which(rangiesNa$species=="pseumenz")]<- "Pseudotsuga_menziesii"
+rangiesNa$species[which(rangiesNa$species=="prunpens")]<- "Prunus_pensylvanicum"
+rangiesNa$species[which(rangiesNa$species=="betualle")]<- "Betula_alleghaniensis"
+rangiesNa$species[which(rangiesNa$species=="acersacr")]<- "Acer_saccharum"
+rangiesNa$species[which(rangiesNa$species=="acerrubr")]<- "Acer_rubrum"
+rangiesNa$species[which(rangiesNa$species=="corycorn")]<- "Corylus_cornuta"
+rangiesNa$species[which(rangiesNa$species=="piceglau")]<- "Picea_glauca"
 
-
+unique(rangiesNa$species)
 
 
 ## more formating
