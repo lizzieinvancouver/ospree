@@ -410,7 +410,7 @@ if(FALSE){
   }
   
   sps.1$year <- rep(1980:2016, each=44622)
-  #write.csv(sps.1, file = "~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract.csv")
+  #write.csv(sps.1, file = "~/Desktop/Misc/Ospree Misc/Nam_allspp_fullextract.csv")
   
   #spslist
   #write.csv(sps.1,file = "output/Abies_alba_fullextract.csv")
@@ -419,105 +419,6 @@ if(FALSE){
   
   ## synthetize and summarize data geographically and temporally
   #dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
-  
-  synth.data<-function(Climate.in.range.list){
-    list.synthesis<-list()
-    
-    for(i in 1:length(period)){  #i=1
-      sps.1<-as.data.frame(Climate.in.range.list[[38]][,,1])
-      sps.1$year<-1980
-      
-      for(i in 2:37){
-        print(paste(i))
-        temp.sps<-as.data.frame(Climate.in.range.list[[38]][,,i])
-        temp.sps$year<-c(1980:2016)[i]
-        sps.1<-rbind(sps.1,temp.sps)
-        
-      }
-      
-      dat<-sps.1
-      dat$year <- 1980
-      year1<-subset(dat,year==1980)
-      
-      
-      years = unique(dat$year)
-      nyears = length(years)
-      dat$ID = paste(dat$x,dat$y)
-      
-      storing = array(NA, dim=c(7,4))
-      row.names(storing) = colnames(dat)[3:9]
-      colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
-      
-      
-      means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
-      SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
-      means.sites <- aggregate(dat,by=list(dat$ID, dat$year),FUN = mean,na.rm=T)
-      SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
-      
-      storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
-      storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
-      storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
-      storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
-      
-      list.synthesis[[i]]<-storing
-    }
-    
-    return(list.synthesis)
-  }
-  
-  
-  list.allsps<-synth.data(Climate.in.range.list)
-  
-  
-  ## join values from the list and save
-  list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
-  list.allspsjoint$species <- sort(rep(spslist,7))
-  list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],22)
-  
-  #write.csv(list.allspsjoint,file = "output/Synthesis_climate_NAMsps.csv")
-  
-  head(list.allspsjoint)
-  ## plot geographic vs. temporal variation
-  
-  seqgdd<-seq(1,nrow(list.allspsjoint),7)
-  seqgdd.frost<-seq(2,nrow(list.allspsjoint),7)
-  seqmintemp<-seq(4,nrow(list.allspsjoint),7)
-  
-  par(mfrow=c(1,3),mar=c(4,4,1,1))
-  plot(list.allspsjoint$Geo.Mean[seqgdd],
-       list.allspsjoint$Temp.Mean[seqgdd],xlim=c(360,430),ylim=c(360,430),
-       xlab="GDD - geographic mean",ylab="GDD - temporal mean",
-       pch=16,col=adjustcolor(1,0.4))
-  abline(a=0,b=1,col='red',lty=2)
-  
-  plot(list.allspsjoint$Geo.Mean[seqgdd.frost],
-       list.allspsjoint$Temp.Mean[seqgdd.frost],#xlim=c(360,430),ylim=c(360,430),
-       xlab="GDD last frost - geographic mean",ylab="GDD last frost - temporal mean",
-       pch=16,col=adjustcolor(1,0.4))
-  abline(a=0,b=1,col='red',lty=2)
-  
-  plot(list.allspsjoint$Geo.Mean[seqmintemp],
-       list.allspsjoint$Temp.Mean[seqmintemp],xlim=c(-3,-2),
-       xlab="Min Temp - geographic mean",ylab="Min Temp - temporal mean",
-       pch=16,col=adjustcolor(1,0.4))
-  abline(a=0,b=1,lty=2,col='red')
-  
-  dev.off()
-  
-  ## For some species, GDDs and Min Temps tend to have sensibly lower 
-  ## temporal means than geographic means (i.e. lower values are reached
-  ## when averaging across years than averaging across sites). 
-  ## Which are these species?
-  
-  ## for GDDs
-  spslist[rank(list.allspsjoint$Temp.Mean[seqgdd]/
-                 list.allspsjoint$Geo.Mean[seqgdd])][1:2]
-  
-  ## for minTemps
-  spslist[rank(list.allspsjoint$Temp.Mean[seqmintemp]/
-                 list.allspsjoint$Geo.Mean[seqmintemp])][1:8]
-  
-  ## we should check if these species share something in common
   
   
   
@@ -546,7 +447,7 @@ if(FALSE){
   species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
   species.list.clean <- species.list.maps
   
-  rmspp <- c("alnurubr", "._robipseu", "._poputrem")
+  rmspp <- c("alnurubr", "._robipseu", "._poputrem", "._alnurugo")
   species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
   
   ## Now I need to rename these folders to match the ospree info
@@ -563,7 +464,7 @@ if(FALSE){
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=1  
+    i<-sps.num #sps.num=14  
     spsi<-spslist[i]
     print(spsi)
     
@@ -591,32 +492,25 @@ if(FALSE){
     unzip(path.source.i, files=zipped_name.i)
     
     # load shapefile
-    spsshape <- shapefile(zipped_name.i[3])
+    spsshape <- shapefile(zipped_name.i[1])
     
     ## need to re-project shape from lamber equal area to geographic
-    newadds <- c(8, 11, 14)
-    if(sps.num%in%newadds){
-      proj4string(spsshape) <- CRS("+proj=aea  
-                                   +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
-                                   +units=m +datum=NAD27 +ellps=clrk66 +no_defs" )
-    } 
+    proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
     
-    if(!sps.num%in%newadds){
-      proj4string(spsshape) <- CRS("+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0 ")
-    }
+    spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
    
-    
-    
-    spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84
-                                           +ellps=WGS84 +towgs84=0,0,0"))
+    #spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84
+     #                                      +ellps=WGS84 +towgs84=0,0,0"))
     #lines(spsshapeproj)
     #
     
     return(spsshapeproj)
   }
   
+  tmin1980[[1]] <- projectRaster(tmintest, crs=crs("+proj=longlat +init=epsg:4326")) ### just added 7 Sept 2:29pm
+  
   ## examples of application
-  betlen <- getspsshape(spslist,11,tmin1980[[1]])
+  betlen <- getspsshape(spslist,14,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
@@ -629,8 +523,11 @@ if(FALSE){
   library(RColorBrewer)
   library(ggplot2)
   
-  save <- spslist
-  spslist <- spslist[[14]]
+  #save <- spslist
+  #spslist <- spslist[[14]]
+  #spslist <- save
+  
+  dat <- sps.1
   
   plot.shape.data<-function(spsshape,sps.name,
                             dir.out,dir.fig,
@@ -708,8 +605,8 @@ if(FALSE){
            ylim=c(extent.sps.i[3],extent.sps.i[4]))
       text(extent.sps.i[2]-1,extent.sps.i[4],
            colnames(SDs.sites)[i],pos=2)
-      plot(spsshapeproj,col=adjustcolor('black',0),add=T,
-           border=adjustcolor('black',0.5))
+      plot(spsshapeproj,col=adjustcolor('lightgrey',0),add=T,
+           border=adjustcolor('lightgrey',0.5))
       
       points(means.sites$x,means.sites$y,col=cols1,pch=19,cex=0.8)
       
@@ -791,4 +688,123 @@ save(sps.1, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fulle
 #write.csv(sps.1d, file="~/Documents/git/ospree/analyses/ranges/output/Nam_allspp_fullextract_p4.csv")
 }
 
+  period=1980
+  synth.data<-function(Climate.in.range.list){
+    list.synthesis<-list()
+    
+    for(i in 1:length(period)){  #i=1
+      sps.1<-as.data.frame(Climate.in.range.list[[i]][,,i])
+      sps.1$year<-1980
+      
+      for(i in 2:37){
+        print(paste(i))
+        temp.sps<-as.data.frame(Climate.in.range.list[[i]][,,i])
+        temp.sps$year<-c(1980:2016)[i]
+        sps.1<-rbind(sps.1,temp.sps)
+        
+      }
+      
+      dat<-sps.1
+      dat$year <- 1980
+      year1<-subset(dat,year==1980)
+      
+        for(j in 1:length(spslist)){ #j=1
+        spsshape <- getspsshape(spslist,j,tmin1980[[1]])
+        
+        ## plot base map + range map
+        extent.sps.i <- extent(spsshape)+3
+        
+        ras.numpixels<-tmin1980[[1]]
+        values(ras.numpixels)<-1:ncell(ras.numpixels)
+        
+        spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+        
+        # get list of pixels to extract data (speeds things up)
+        pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
+        
+        chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
+        chcoord$lat.long <- paste(chcoord$x, chcoord$y)
+        
+        dat$lat.long <- paste(dat$x, dat$y)
+        }
+      
+      
+      years = unique(dat$year)
+      nyears = length(years)
+      dat$ID = paste(dat$x,dat$y)
+      
+      storing = array(NA, dim=c(7,4))
+      row.names(storing) = colnames(dat)[3:9]
+      colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+      
+      
+      means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
+      SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
+      means.sites <- aggregate(dat,by=list(dat$ID, dat$year),FUN = mean,na.rm=T)
+      SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+      
+      storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
+      storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
+      storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
+      storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
+      
+      list.synthesis[[i]]<-storing
+    }
+    
+    return(list.synthesis)
+  }
+  
+  
+  list.allsps<-synth.data(Climate.in.range.list)
+  
+  
+  ## join values from the list and save
+  list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
+  list.allspsjoint$species <- sort(rep(spslist,7))
+  list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],22)
+  
+  #write.csv(list.allspsjoint,file = "output/Synthesis_climate_NAMsps.csv")
+  
+  head(list.allspsjoint)
+  ## plot geographic vs. temporal variation
+  
+  seqgdd<-seq(1,nrow(list.allspsjoint),7)
+  seqgdd.frost<-seq(2,nrow(list.allspsjoint),7)
+  seqmintemp<-seq(4,nrow(list.allspsjoint),7)
+  
+  par(mfrow=c(1,3),mar=c(4,4,1,1))
+  plot(list.allspsjoint$Geo.Mean[seqgdd],
+       list.allspsjoint$Temp.Mean[seqgdd],xlim=c(360,430),ylim=c(360,430),
+       xlab="GDD - geographic mean",ylab="GDD - temporal mean",
+       pch=16,col=adjustcolor(1,0.4))
+  abline(a=0,b=1,col='red',lty=2)
+  
+  plot(list.allspsjoint$Geo.Mean[seqgdd.frost],
+       list.allspsjoint$Temp.Mean[seqgdd.frost],#xlim=c(360,430),ylim=c(360,430),
+       xlab="GDD last frost - geographic mean",ylab="GDD last frost - temporal mean",
+       pch=16,col=adjustcolor(1,0.4))
+  abline(a=0,b=1,col='red',lty=2)
+  
+  plot(list.allspsjoint$Geo.Mean[seqmintemp],
+       list.allspsjoint$Temp.Mean[seqmintemp],xlim=c(-3,-2),
+       xlab="Min Temp - geographic mean",ylab="Min Temp - temporal mean",
+       pch=16,col=adjustcolor(1,0.4))
+  abline(a=0,b=1,lty=2,col='red')
+  
+  dev.off()
+  
+  ## For some species, GDDs and Min Temps tend to have sensibly lower 
+  ## temporal means than geographic means (i.e. lower values are reached
+  ## when averaging across years than averaging across sites). 
+  ## Which are these species?
+  
+  ## for GDDs
+  spslist[rank(list.allspsjoint$Temp.Mean[seqgdd]/
+                 list.allspsjoint$Geo.Mean[seqgdd])][1:2]
+  
+  ## for minTemps
+  spslist[rank(list.allspsjoint$Temp.Mean[seqmintemp]/
+                 list.allspsjoint$Geo.Mean[seqmintemp])][1:8]
+  
+  ## we should check if these species share something in common
 
