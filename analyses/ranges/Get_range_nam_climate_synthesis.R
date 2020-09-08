@@ -65,8 +65,57 @@ spslist <- unname(species.list.clean)
 ## to summarize it in a short dataframe
 
 files.out <- dir("~/Documents/git/ospree/analyses/ranges/climoutput/")
-splist <- species.list.clean[1:15]
 
+dat <- read.csv("~/Desktop/Misc/Ospree Misc/Nam_allspp_fullextract.csv")
+dat <- dat[-1]
+
+tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tmincrop1980.nc")
+
+## function to extract/correct the shape for a given species
+getspsshape<-function(spslist,sps.num,ras.numpixels){
+  
+  i<-sps.num #sps.num=14  
+  spsi<-spslist[i]
+  print(spsi)
+  
+  #fullnamei<-fullnames[i]
+  
+  ## load shape
+  
+  path.source.i <- "~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip"
+  
+  # get the file address for target file
+  unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+  
+  shpsource <-"NA_ranges"
+  
+  zipped_name.i <- grep(paste(shpsource, spsi, spsi, sep="/"), unzipped, ignore.case = TRUE, value = TRUE)
+  
+  if(length(zipped_name.i)==0){
+    
+    specific <- unlist(strsplit(spsi,"_"))[2]
+    unzipped <- unzip("~/Documents/git/ospree/analyses/ranges/NA_range_files/NA_ranges.zip", list = TRUE)$Name
+    
+  }
+  
+  # extract target file
+  unzip(path.source.i, files=zipped_name.i)
+  
+  # load shapefile
+  spsshape <- shapefile(zipped_name.i[1])
+  
+  ## need to re-project shape from lamber equal area to geographic
+  proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
+  
+  spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
+  
+  #spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84
+  #                                      +ellps=WGS84 +towgs84=0,0,0"))
+  #lines(spsshapeproj)
+  #
+  
+  return(spsshapeproj)
+}
 
 
 synth.data <- function(splist){
@@ -75,8 +124,7 @@ synth.data <- function(splist){
   
   for(i in 1:length(splist)){  #i=7
     
-    for(j in 1:length(spslist)){ #j=1
-      spsshape <- getspsshape(spslist,j,tmin1980[[1]])
+      spsshape <- getspsshape(splist,i,tmin1980[[1]])
       
       ## plot base map + range map
       extent.sps.i <- extent(spsshape)+3
@@ -119,10 +167,8 @@ synth.data <- function(splist){
       storing[,3] <- colMeans(means.sites[,4:10], na.rm = T)
       storing[,4] <- colMeans(SDs.sites[,4:10], na.rm = T)
     
-    }
+      
     list.synthesis[[i]]<-storing
-
-
 
   }
   
@@ -131,7 +177,7 @@ synth.data <- function(splist){
 }
 
 
-list.allsps<-synth.data(spslist[1:17])
+list.allsps<-synth.data(spslist[1:17]) #1:17
 
 nams<-list()
 for(i in 1:17){
@@ -144,8 +190,8 @@ list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
 list.allspsjoint$species <- nams
 list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],17)
 
-write.csv(list.allspsjoint,file = "~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv")
+write.csv(list.allspsjoint,file = "~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv", row.names=FALSE)
 
-
+#checksynth <- read.csv("~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv")
 
 
