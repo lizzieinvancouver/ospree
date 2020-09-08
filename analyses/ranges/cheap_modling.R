@@ -9,6 +9,8 @@ options(stringsAsFactors = FALSE)
 # libraries
 library(shinystan)
 library(reshape2)
+library(dplyr)
+library(ggplot2)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
@@ -26,26 +28,32 @@ posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
 rangiesNa<-read.csv("output/Synthesis_climate_NAMsps.csv")
 
-unique(rangiesNa$species)
+head(rangiesNa,14)
 ##clean North America names
 rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
 rangiesNa$species[which(rangiesNa$species=="popugran")]<- "Populus_grandidentata"
+rangiesNa$species[which(rangiesNa$species=="fagugran")]<- "Fagus_grandifolia"
 rangiesNa$species[which(rangiesNa$species=="querrubr")]<- "Quercus_rubra"
 rangiesNa$species[which(rangiesNa$species=="acerpens")]<- "Acer_pensylvanicum"
 rangiesNa$species[which(rangiesNa$species=="betupapy")]<- "Betula_papyrifera"
 rangiesNa$species[which(rangiesNa$species=="fraxnigr")]<- "Fraxinus_nigra"
-rangiesNa$species[which(rangiesNa$species=="alnurubr")]<- "Alnus_rubra"
+rangiesNa$species[which(rangiesNa$species=="robipseu")]<- "Robinia_pseudoacacia"
 rangiesNa$species[which(rangiesNa$species=="pseumenz")]<- "Pseudotsuga_menziesii"
 rangiesNa$species[which(rangiesNa$species=="prunpens")]<- "Prunus_pensylvanicum"
+rangiesNa$species[which(rangiesNa$species=="poputrem")]<- "Populus_tremuloides"
 rangiesNa$species[which(rangiesNa$species=="betualle")]<- "Betula_alleghaniensis"
 rangiesNa$species[which(rangiesNa$species=="acersacr")]<- "Acer_saccharum"
 rangiesNa$species[which(rangiesNa$species=="acerrubr")]<- "Acer_rubrum"
+rangiesNa$species[which(rangiesNa$species=="alnurugo")]<- "Alnus_incana"
 rangiesNa$species[which(rangiesNa$species=="corycorn")]<- "Corylus_cornuta"
 rangiesNa$species[which(rangiesNa$species=="piceglau")]<- "Picea_glauca"
 
 unique(rangiesNa$species)
+rangiesEu$continent<-"EU"
+rangiesEu<-dplyr::select(rangiesEu,-X)
+rangiesNa$continent<-"NA"
 
-
+rangies<-rbind(rangiesEu,rangiesNa)
 ## more formating
 
 X<-split(rangies, with(rangies, rangies$variable), drop = TRUE)
@@ -63,59 +71,93 @@ list2env(Y, envir = .GlobalEnv)
 ###make the data sheets
 
 ####if activated this removes 2 outlyerspecies
-posties<-filter(posties,!species %in% c("Quercus_ilex","Larix_decidua"))
+#posties<-filter(posties,!species %in% c("Quercus_ilex","Larix_decidua"))
+colnames(rangies)
+geos<-data.frame(species=unique(rangies$species),continent=unique(rangies$continent))
+
+cuecomps<-left_join(geos,posties)
+a<-ggplot(cuecomps,aes(continent,b_force))+geom_boxplot()
+b<-ggplot(cuecomps,aes(continent,b_chill))+geom_boxplot()
+c<-ggplot(cuecomps,aes(continent,b_photo))+geom_boxplot()
+
+pdf("figures/continental_cues.pdf")
+ggpubr::ggarrange(a,b,c, nrow=1,ncol=3)
+dev.off()
+
 
 GDD.lastfrost<-left_join(posties,GDD.lastfrost)
-GDD.lastfrost.EU<-filter(GDD.lastfrost,species %in% unique(rangies$species))
+GDD.lastfrost<-filter(GDD.lastfrost,species %in% unique(rangies$species))
+
+
 
 GDD<-left_join(posties,GDD)
-GDD.EU<-filter(GDD,species %in% unique(rangies$species))
+GDD<-filter(GDD,species %in% unique(rangies$species))
 
 SDev.Tmins<-left_join(posties,SDev.Tmins)
-SDev.Tmins.EU<-filter(SDev.Tmins,species %in% unique(rangies$species))
+SDev.Tmins<-filter(SDev.Tmins,species %in% unique(rangies$species))
 
 MeanTmins<-left_join(posties,MeanTmins)
-MeanTmins.EU<-filter(MeanTmins,species %in% unique(rangies$species))
+MeanTmins<-filter(MeanTmins,species %in% unique(rangies$species))
 
 Mean.Chill.Utah<-left_join(posties,Mean.Chill.Utah)
-Mean.Chill.Utah.EU<-filter(Mean.Chill.Utah,species %in% unique(rangies$species))
+Mean.Chill.Utah<-filter(Mean.Chill.Utah,species %in% unique(rangies$species))
 
 rangegeo<-read.csv("output/zolder_datagrabs/full_extent_data.csv") ##not sure this is the best extent data
 rangegeo<-left_join(posties,rangegeo)
-rangegeo.EU<-filter(rangegeo,species %in% unique(rangies$species))
+rangegeo<-filter(rangegeo,species %in% unique(rangies$species))
+
 
 #####plots
+colnames(GDD.lastfrost)
 
-lastfrosta<-ggplot(GDD.lastfrost.EU,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
-lastfrostb<-ggplot(GDD.lastfrost.EU,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
+lastfrost.geo<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Geographic variation in GDDs to last frost")
+last.frost.geo2<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent,scale="free_x")+theme(legend.position = "none")+xlab("Geographic variation in GDDs to last frost") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
+
+jpeg(file = "figures/cheap_approach/gdd_2_lastfrost_geo.jpg",width = 9, height = 9,units = "in",res=200)
+ggpubr::ggarrange(lastfrost.geo,last.frost.geo2,ncol=1,nrow=2)
+dev.off()
+
+lastfrost.temp<-ggplot(GDD.lastfrost,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Temporal variation in GDDs to last frost")
+
+lastfrost.temp2<-ggplot(GDD.lastfrost,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent,scale="free_x")+theme(legend.position = "none")+xlab("Temporal variation in GDDs to last frost") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
+
+jpeg(file = "figures/cheap_approach/gdd_2_lastfrost_temporal.jpg",width = 9, height = 9,units = "in",res=200)
+ggpubr::ggarrange(lastfrost.temp,lastfrost.temp2,ncol=1,nrow=2)
+dev.off()
 #I think Sdev of the Sdev is not what we want
 #ggplot(SDev.Tmins.EU,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+geom_point(aes(color=species),size=0.3,alpha=0.6)
 #ggplot(SDev.Tmins.EU,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+geom_point(aes(color=species),size=0.3,alpha=0.6)
 #or
 ####STV 
-stva<-ggplot(MeanTmins.EU,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-stvb<-ggplot(MeanTmins.EU,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
+stv.geo<-ggplot(MeanTmins,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Geographic variation in STV")
+stv.geo2<-ggplot(MeanTmins,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+xlab("Geographic variation in STV")+
+  facet_wrap(~continent, scales = "free_x")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-jpeg(file = "figures/cheap_approach/chill_variation_nool.jpg",width = 9, height = 5,units = "in",res=300)
-ggpubr::ggarrange(lastfrosta,lastfrostb,stva,stvb,ncol=2,nrow=2,labels = c("GDD to last frost","b","STV","b","Chill magnitude","b"))
+jpeg(file = "figures/cheap_approach/stv_geo.jpg",width = 9, height = 9,units = "in",res=200)
+ggpubr::ggarrange(stv.geo,stv.geo2,ncol=1,nrow=2)
 dev.off()
 
+stv.temp<-ggplot(MeanTmins,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Temporal variation in STV")
+stv.temp2<-ggplot(MeanTmins,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+xlab("Temporal variation in STV")+
+  facet_wrap(~continent, scales = "free_x")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-maxychill<-ggplot(rangegeo.EU,aes(max.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minychill<-ggplot(rangegeo.EU,aes(min.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centchill<-ggplot(rangegeo.EU,aes(cent.lat,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-maxyforce<-ggplot(rangegeo.EU,aes(max.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minyforce<-ggplot(rangegeo.EU,aes(min.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centforce<-ggplot(rangegeo.EU,aes(cent.lat,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-maxyphoto<-ggplot(rangegeo.EU,aes(max.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minyphoto<-ggplot(rangegeo.EU,aes(min.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centphoto<-ggplot(rangegeo.EU,aes(cent.lat,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+maxychill<-ggplot(rangegeo,aes(max.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)#+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minychill<-ggplot(rangegeo,aes(min.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centchill<-ggplot(rangegeo,aes(cent.lat,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-jpeg(file = "figures/cheap_approach/geographic_influence_nool.jpg",width = 7, height = 7,units = "in",res=300)
-ggpubr::ggarrange(maxyforce,minyforce,centforce,maxyphoto,minyphoto,centphoto,maxychill,minychill,centchill,nrow=3,ncol=3)
+maxyforce<-ggplot(rangegeo,aes(max.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minyforce<-ggplot(rangegeo,aes(min.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centforce<-ggplot(rangegeo,aes(cent.lat,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+
+maxyphoto<-ggplot(rangegeo,aes(max.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minyphoto<-ggplot(rangegeo,aes(min.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centphoto<-ggplot(rangegeo,aes(cent.lat,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+
+jpeg(file = "figures/cheap_approach/geographic_influence.jpg",width = 10, height = 9,units = "in",res=200)
+ggpubr::ggarrange(maxyforce,minyforce,centforce,maxyphoto,minyphoto,centphoto,maxychill,minychill,centchill,nrow=3,ncol=3,common.legend = TRUE,legend="bottom")
 dev.off()
 
 #chilling
@@ -123,17 +165,29 @@ dev.off()
 
 
 
-###photocue by chiling var
-magchilla<-ggplot(Mean.Chill.Utah.EU,aes(Geo.Mean,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-magchillb<-ggplot(Mean.Chill.Utah.EU,aes(Temp.Mean,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+###photocue by chiling var ##currently not plotted
+magchilla<-ggplot(Mean.Chill.Utah,aes(Geo.Mean,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+magchillb<-ggplot(Mean.Chill.Utah,aes(Temp.Mean,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
 
-magfora<-ggplot(GDD.EU,aes(Geo.Mean,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-magforb<-ggplot(GDD.EU,aes(Temp.Mean,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+magfora<-ggplot(GDD,aes(Geo.Mean,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+magforb<-ggplot(GDD,aes(Temp.Mean,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-jpeg(file = "figures/cheap_approach/magnitude_influence_nool.jpg",width = 9, height = 5,units = "in",res=300)
-ggpubr::ggarrange(magfora,magforb,magchilla,magchillb,nrow=2,ncol=2)
-dev.off()
+## dirtay models
+#b_chill~var. gglast frost* Mean Chill Utah
+meanposts<- posties %>% group_by(species) %>% summarise(mean_b_chill=mean(b_chill))
+meanposts<-left_join(meanposts,rangies)
+mod.dat<-dplyr::filter(meanposts, variable %in% c("Mean.Chill.Utah"))
+mod.dat2<-dplyr::filter(meanposts, variable %in% c("GDD.lastfrost"))
+mod.dat3<-dplyr::filter(meanposts, variable %in% c("MeanTmins"))
+
+library(xtable)
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat2$Geo.SD)),caption = "magnitude of  geographic chilling x geo variation in GDD to last frost")
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Temp.Mean*mod.dat2$Temp.SD)),caption = "magnitude of temporal chilling x temporal variation in GDD to last frost")
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat2$Temp.SD)),caption = "magnitude of  geographic chilling x temporal variation in GDD to last frost")
 
 
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat3$Geo.SD)),caption = "magnitude of  geographic chilling x geo variation STV")
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Temp.Mean*mod.dat3$Temp.SD)),caption = "magnitude of  temporal chilling x temporal variation STV")
+xtable(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat3$Temp.SD)),caption = "magnitude of  geographic chilling x temporal variation STV")
 
