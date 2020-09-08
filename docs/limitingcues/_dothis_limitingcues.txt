@@ -1,7 +1,22 @@
 Started 24 August 2017
 By Lizzie
 
-29 Aug 2020: studydesignplots.R -- compare plots to old version in newcheck, and go through where it says START HERE (which is twice)
+<><><><><><><><><><><><>
+<> Code in the paper <>
+<><><><><><><><><><><><>
+
+studydesignplots.R -- makes the heatmaps
+countintxns.R 
+nonlinearities_intxns.R 
+
+
+8 Sep 2020: 
+- update countixns.R 
+	(*) Check issue from Cat
+	(1) Check the work here and update #s in paper (see note below)
+	(2) Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
+- Need to clean up the heat maps, but can perhaps wait until we know what we want.
+
 
 <><><><><><><><><><><><><><><><><><><><>
 April 2020 to do, working on it in August 2020

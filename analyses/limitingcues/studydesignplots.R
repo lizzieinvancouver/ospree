@@ -28,6 +28,7 @@ library(tidyr)
 library(ggplot2)
 library(gridExtra)
 library(geosphere)
+library(viridis)
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("misc/getcuesbystudy_fxs.R") # f(x) counts up cues
@@ -502,13 +503,14 @@ dev.off()
 
 
 # make figures prettier than average
+# ARGHH! Colors not working..
 basesize <- 12
-
+colz <- viridis_pal(option="magma")(3)
 pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
 ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
-    scale_fill_gradient2(name="Field sample \ndates n", low = "white", mid ="lightgoldenrodyellow",
-        high = "darkred",na.value="gray95") +
+    scale_fill_gradient2(name="Field sample \ndates n", low = colz[1], mid=colz[3],
+        high = colz[2], na.value="gray95") +
     # scale_x_discrete(breaks=seq(-5,35,5)) +
     # scale_y_discrete(breaks=seq(6,24,2)) +
     theme_classic() +
@@ -518,3 +520,9 @@ ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
         panel.background = element_blank(), text=element_text(size=basesize))
 dev.off()
 
+
+library(scales)
+show_col(viridis_pal(option="magma")(3))
+show_col(viridis_pal(option="magma")(3)[1])
+show_col(viridis_pal(option="magma")(3)[2])
+show_col(viridis_pal(option="magma")(3)[3])
