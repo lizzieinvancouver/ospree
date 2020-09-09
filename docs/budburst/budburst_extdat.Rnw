@@ -45,7 +45,7 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/EDFig1_OSPREECOORDSwcoords.png}
-\caption{\textbf{Map of days to budburst experiments in the OSPREE database.} Legend shows each dataset included in the main OSPREE model with all species and treatments (Tables \ref{tab:modsz}, \ref{tab:modsnonz}); symbols outlined in black represent datasets for which chilling was manipulated experimentally or through multiple field sample dates. See Table \ref{tab:ref} for the reference associated with each dataset.}
+\caption{\textbf{Map of days to budburst experiments in the OSPREE database.} Legend shows each dataset included in the main OSPREE model with all species and treatments (Tables \ref{tab:modsz}, \ref{tab:modsnonz}); symbols outlined in black represent datasets included in the main budburst model; triangles represent studies in which chilling was manipulated experimentally or through multiple field sample dates; circles represent studies that did not manipulate chilling. See Table \ref{tab:ref} for the reference associated with each dataset.}
 \label{fig:map}
 \end{figure}
 
@@ -53,7 +53,7 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/EDFig2_minmaxtreatments_COORDS.png}
-\caption{\textbf{Map of maximum and minimum chilling, forcing, and photoperiod treatments}, across all data included in our main model, and the locations where each experiment was conducted. We did not find strong positive spatial autocorrelation---\emph{i.e.}, indicating higher similarity in the treatments applied to experiments in nearby locations---in either minimum (A,C,E) or maximum (B,D,F) treatments, as measured by Moran's \emph{I} (shown above for European sites). Insets show relationship of each cue's treatment level with the latitude of the experiment.}
+\caption{\textbf{Map of maximum and minimum chilling, forcing, and photoperiod treatments}, across all data included in our main model, and the locations where each experiment was conducted. We did not find strong positive spatial autocorrelation---that is, indicating higher similarity in the treatments applied to experiments in nearby locations---in either minimum (A,C,E) or maximum (B,D,F) treatments, as measured by Moran's \emph{I} (shown here for European sites). Insets show relationship of each cue's treatment level with the latitude of the experiment.}
 \label{fig:trtmap}
 \end{figure}
 
@@ -61,8 +61,8 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/EDFig3_studydesign_heat3panelallsppmodel.pdf}
-\noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/studydesign_heat3panelmainmodel.pdf}
-\caption{\textbf{The diversity of study designs used in analyses.} Heatmaps show the range and commonness of different forcing (x-axis in all panels) by photoperiod (y-axis in all panels) combinations and with which chilling they were combined. In (A, top and bottom) we show our estimated chill units, which integrate across field (B, top and bottom) and experimental chilling (C, top and bottom). The top row shows all data included in the full model with 203 species, while the bottom row shows the data included in the main model with a subset of species well-represented across treatments and studies. Gray squares indicate a treatment was not applied (\emph{i.e.}, the prevalence of gray squares in (C) highlights how few studies include experimental chilling). Field sample dates are counted as any reported sampling dates more than 14 days apart.}
+\noindent \includegraphics[width=0.9\textwidth]{..//..//analyses/bb_analysis/figures/studydesign/EDFig3_studydesign_heat3panelmainmodel.pdf}
+\caption{\textbf{The diversity of study designs used in analyses.} Heatmaps show the range and commonness of different forcing (x-axis in all panels) by photoperiod (y-axis in all panels) combinations and with which chilling they were combined. In (A, top and bottom) we show our estimated chill units, which integrate across field (B, top and bottom) and experimental chilling (C, top and bottom). The top row shows all data included in the full model with 203 species, while the bottom row shows the data included in the main model with a subset of species well-represented across treatments and studies. Gray squares indicate a treatment was not applied (that is, the prevalence of gray squares in (C) highlights how few studies include experimental chilling). Field sample dates are counted as any reported sampling dates more than 14 days apart.}
 \label{fig:treatheatmaps}
 \end{figure}
 
@@ -70,14 +70,14 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.50\textwidth]{..//..//analyses/bb_analysis/figures/EDFig4_exp_vs_field_chill_withwarmingcols.png}
-\caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems}, in which temperature is more strongly correlated with chilling. See `Estimating chilling' in \emph{Methods} for a detailed description of ``Field'' climate data, for which we use historical climate data from Europe. Fig. \ref{fig:3dfieldchillutah} uses ``Field'' relationships (i.e., climate data and relationships from field chilling conditions to convert chill temperature to total chilling), whereas Fig. \ref{fig:3dexpchillutah} uses ``Constant temperature'' conditions (i.e., analogous to most experimental conditions) to estimate total chilling.}
+\caption{\textbf{Chilling accumulates differently in experiments with constant temperatures versus natural systems}, in which temperature is more strongly correlated with chilling. See `Estimating chilling' in \emph{Methods} for a detailed description of ``Field'' climate data, for which we use historical climate data from Europe. Fig. \ref{fig:3dfieldchillutah} uses ``Field'' relationships (that is, climate data and relationships from field chilling conditions to convert chill temperature to total chilling), whereas Fig. \ref{fig:3dexpchillutah} uses ``Constant temperature'' conditions (analogous to most experimental conditions) to estimate total chilling.}
 \label{fig:chillexpfield}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/lat_analysis/figures/EDFig5_latanalysis_spcom_expramp_fp.pdf}
-\caption{\textbf{Estimates for effects of chilling exceeded estimates for forcing, photoperiod, provenance latitude, and the interaction between latitude and photoperiod, for most species,} in the latitude budburst model, using Utah units (Table \ref{tab:lat}). Using standardized units, which allow comparisons across cues, we show that, as with the main budburst model (Fig. \ref{fig:mu}), most species (smaller symbols) are responsive to most cues. Chilling is the strongest cue when considering overall estimates across species (larger, dark blue circles).}
+\caption{\textbf{Estimates for effects of chilling exceeded estimates for forcing, photoperiod, provenance latitude, and the interaction between latitude and photoperiod, for most species,} in the latitude budburst model. Using Utah units for chilling (Table \ref{tab:lat}) and standardized predictor variables, which allow comparisons across cues, we show that, as with the main budburst model (Fig. \ref{fig:mu}), most species (smaller symbols) are responsive to most cues. Chilling is the strongest cue when considering overall estimates across species (larger, dark blue circles).}
 \label{fig:lat}
 \end{figure}
 
@@ -100,7 +100,7 @@
 \begin{figure}[h!]
 \centering
 \noindent \includegraphics[width=0.75\textwidth]{..//..//analyses/bb_analysis/PEP_climate/figures/EDFig8_peprealandsims.pdf}
-\caption{\textbf{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact.} We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP725 data for \emph{Betula pendula} from 45 sites (``European data'') with estimated declines in simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (``Simulations'') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed, see \emph{Potential statistical artifacts in declines of temperature sensitivity in observational long-term data} in the Supplemental Materials for further details.}
+\caption{\textbf{Declining sensitivities observed in long-term European data for a suite of common trees may be explained by a statistical artifact.} We compared the sensitivity estimated from linear regressions of day of leafout versus mean spring temperature (estimated thus as days/$^{\circ}$C) from PEP725 data for \emph{Betula pendula} from 45 sites (``European data'') with estimated declines using simulations where the cues were held constant but spring temperatures warmed by 1-4$^{\circ}$C (``Simulations'') and found the estimated temperature sensitivity measured as days/$^{\circ}$C declined even though the underlying cues had not changed. See \emph{Potential statistical artifacts in declines of temperature sensitivity in observational long-term data} in the Supplemental Materials for further details.}
 \label{fig:pepsims}
 \end{figure}
 

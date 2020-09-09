@@ -10,18 +10,19 @@ library(shinystan)
 library(plyr)
 library(dplyr)
 ## (1) Get the data and slim down to correct response and no NAs ..
-d<-read.csv("../../../analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
-source("prep_for_knb/bbdataplease_knb.R")
+d<-read.csv("../../../../analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
+use.chillports=FALSE
+source("source/bbdataplease_knb.R")
 ## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
-source("prep_for_knb/othertreats.R")
+source("source/othertreats.R")
 dim(bb.noNA)
 bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 18 March October should delete about 273 rows
 dim(bb.noNA)
 d <- bb.noNA
 ## (3) Get fewer columns for sanity
-source("prep_for_knb/commoncols.R")
+source("source/commoncols.R")
 bb <- subset(d, select=c(columnstokeep, columnschillunits))
 
 # remove the values above 600 (which means remove the right-censored data, coded as 999)
 bb <- subset(bb, resp<600)
-write.csv(bb,"ospreebb_forknb.csv", row.names = FALSE)
+write.csv(bb,"../ospreebb_forknb.csv", row.names = FALSE)
