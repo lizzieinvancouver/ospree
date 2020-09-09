@@ -507,7 +507,7 @@ if(FALSE){
     return(spsshapeproj)
   }
   
-  tmin1980[[1]] <- projectRaster(tmintest, crs=crs("+proj=longlat +init=epsg:4326")) ### just added 7 Sept 2:29pm
+  #tmin1980[[1]] <- projectRaster(tmintest, crs=crs("+proj=longlat +init=epsg:4326")) ### just added 7 Sept 2:29pm
   
   ## examples of application
   betlen <- getspsshape(spslist,14,tmin1980[[1]])
@@ -535,6 +535,7 @@ if(FALSE){
     
     
     spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+     #spsshape <- NamMap
     
     ## plot base map + range map
     extent.sps.i <- extent(spsshape)+3
@@ -627,12 +628,18 @@ if(FALSE){
     
     print(spslist[i])
     
-    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+    #spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+    spsshape <- NamMap
     
     plot.shape.data(spsshape,names(species.list.clean)[i],
                     dir.out,dir.fig,'sds')
     plot.shape.data(spsshape,names(species.list.clean)[i],
                     dir.out,dir.fig,'means')
+    
+    #plot.shape.data(spsshape,"all",
+     #               dir.out,dir.fig,'sds')
+    #plot.shape.data(spsshape,"all",
+     #               dir.out,dir.fig,'means')
   }
     
   
