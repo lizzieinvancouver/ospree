@@ -511,6 +511,7 @@ if(FALSE){
   
   ## examples of application
   betlen <- getspsshape(spslist,14,tmin1980[[1]])
+  spsshape <- getspsshape(spslist,14,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
@@ -533,8 +534,8 @@ if(FALSE){
                             dir.out,dir.fig,
                             type=c("means","sds")){
     
-    
-    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+    #i=14
+    #spsshape <- getspsshape(spslist,i,tmin1980[[1]])
      #spsshape <- NamMap
     
     ## plot base map + range map
@@ -543,7 +544,7 @@ if(FALSE){
     ras.numpixels<-tmin1980[[1]]
     values(ras.numpixels)<-1:ncell(ras.numpixels)
     
-    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+    #spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
     
     # get list of pixels to extract data (speeds things up)
     pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
@@ -567,9 +568,13 @@ if(FALSE){
     #dat = as.data.frame(na.omit(dat))
     
     sps.i <- dat[(dat$lat.long%in%chcoord$lat.long),]
+    sps.i <- na.omit(sps.i)
+    sps.i <- sps.i[!duplicated(sps.i),]
     
-    means.sites <- aggregate(sps.i,by=list(ID = sps.i$lat.long),FUN = mean,na.rm=T)
-    SDs.sites <- aggregate(sps.i,by=list(ID = sps.i$lat.long),FUN = sd,na.rm=T)
+    means.sites <- aggregate(sps.i,by=list(coord = sps.i$lat.long),FUN = mean,na.rm=T)
+    means.sites$lat.long <- NULL
+    SDs.sites <- aggregate(sps.i,by=list(coord = sps.i$lat.long),FUN = sd,na.rm=T)
+    SDs.sites$lat.long <- NULL
     
     #dat <- sps.1
     
@@ -624,12 +629,12 @@ if(FALSE){
   
   #### loop across species ####
   
-  for (i in 1:length(spslist)){
+  for (i in 1:length(spslist)){ #i=14
     
-    print(spslist[i])
+    print(spslist[i]) 
     
-    #spsshape <- getspsshape(spslist,i,tmin1980[[1]])
-    spsshape <- NamMap
+    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+    #spsshape <- NamMap
     
     plot.shape.data(spsshape,names(species.list.clean)[i],
                     dir.out,dir.fig,'sds')
@@ -651,13 +656,15 @@ if(FALSE){
 #load("~/Desktop/Climate.in.range.allyears.RData")
 library(RColorBrewer)
 library(ggplot2)
-
+  cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-means.sites[,i],breaks = 100))]
 
 #mapWorld <- borders("world", colour="gray72", fill="gray65",ylim=c(30,70),xlim=c(-10,35)) # create a layer of borders
-site<-dplyr::select(means.sites, y, x, GDD, year)
+site<-dplyr::select(SDs.sites, GDD, coord)
+coords <- dplyr::select(means.sites, coord, y, x)
+site <- dplyr::full_join(site, coords)
 site<-site[!duplicated(site),]
-myPalette <- colorRampPalette(brewer.pal(9, "YlOrRd"))
-sc <- scale_colour_gradientn(colours = myPalette(100), limits=c(0, 2500)) ### this is the range of budburst data we have
+myPalette <- colorRampPalette(brewer.pal(9, "RdYlBu"))
+sc <- scale_colour_gradientn(colours = myPalette(100)) ### this is the range of budburst data we have
 
 #a.site<-filter(site, species=="AESHIP")
 #boundars<-readShapeSpatial("~/Documents/git/regionalrisk/analyses/input/natural_earth_vector/50m_cultural/ne_50m_admin_0_countries.shp")
