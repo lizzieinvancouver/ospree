@@ -137,6 +137,43 @@ bb.stan.pop5 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz5$latbi),] # 4 s
 bb.stan.pop3 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz3$latbi),] # 13 species
 bb.stan.pop2 <- bb.stan.lat[which(bb.stan.lat$latbi %in% getpopz2$latbi),] # 39 species
 
+############################################################################
+########## Quick data checks and looking for collinearity issues ###########
+#################### Started by Cat on 9 Sept 2020 #########################
+############################################################################
+#ggplot(bb.stan.pop5, aes(as.numeric(photo), as.numeric(chill), colour=latbi)) + geom_point() + facet_grid(datasetID~.)
+
+library(egg)
+quartz()
+cf <- ggplot(bb.stan.pop5, aes(chill, force, colour=latbi)) + geom_point() 
+fp <- ggplot(bb.stan.pop5, aes(force, photo, colour=latbi)) + geom_point() 
+pc <- ggplot(bb.stan.pop5, aes(photo, chill, colour=latbi)) + geom_point()
+ggarrange(cf, fp, pc)
+
+cl <- ggplot(bb.stan.pop5, aes(chill, provenance.lat, colour=latbi)) + geom_point()
+fl <- ggplot(bb.stan.pop5, aes(force, provenance.lat, colour=latbi)) + geom_point()
+pl <- ggplot(bb.stan.pop5, aes(photo, provenance.lat, colour=latbi)) + geom_point()
+ggarrange(cl, fl, pl)
+
+quartz()
+cf <- ggplot(bb.stan.pop3, aes(chill, force, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+fp <- ggplot(bb.stan.pop3, aes(force, photo, colour=latbi)) + geom_point() 
+pc <- ggplot(bb.stan.pop3, aes(photo, chill, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+ggarrange(cf, fp, pc)
+
+quartz()
+cl <- ggplot(bb.stan.pop3, aes(chill, provenance.lat, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+fl <- ggplot(bb.stan.pop3, aes(force, provenance.lat, colour=latbi)) + geom_point()
+pl <- ggplot(bb.stan.pop3, aes(photo, provenance.lat, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+ggarrange(cl, fl, pl)
+
+### Notes: 1) Should we should remove Vitis and Ribes from pop3 and Ribes from pop5?
+
+
+
+############################################################################
+############################################################################
+
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -247,9 +284,13 @@ sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 
 if(FALSE){
   ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
-modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
-                         data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  nocrops <- c("Vitis_vinifera", "Ribes_nigrum")
+  bb.stan.here <- bb.stan.pop3[!(bb.stan.pop3$latbi%in%nocrops),]
+#modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
+ #                        data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
 
+modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum/pophere), 
+                     data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
 
 
 

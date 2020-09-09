@@ -654,6 +654,12 @@ if(FALSE){
 
 if(FALSE){
 #load("~/Desktop/Climate.in.range.allyears.RData")
+  
+  quartz()
+  plot(tmin1980[[80]], col=cols1)
+  rect(xleft=-105, ybottom=45, xright=-98, ytop=72)
+  
+  
 library(RColorBrewer)
 library(ggplot2)
   cols1<-colorRampPalette(brewer.pal(9,"RdYlBu"))(100)[as.numeric(cut(-means.sites[,i],breaks = 100))]
@@ -672,7 +678,7 @@ NamMap1<-fortify(NamMap)
 aes <- ggplot() + 
   geom_polygon(aes(x = NamMap1$long, y = NamMap1$lat, group = NamMap1$group),
                color = 'gray', fill="lightgrey", size = .2) + ### This creates the base map
-  geom_jitter(width=3,aes(x=site$x, y=site$y, color=site$GDD), size=0.6, alpha=0.4) + theme_classic() + 
+  geom_point(aes(x=site$x, y=site$y, color=site$GDD), size=0.6, alpha=0.4) + theme_classic() + 
   theme(panel.border = element_blank(), ### extra tweaks to background and plot to make sure it doesn't have grid lines, etc.
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
