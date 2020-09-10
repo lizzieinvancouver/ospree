@@ -35,7 +35,7 @@ clim <- rbind(climeur, climnam)
 # spatialtemporal_means.pdf
 ggplot(clim, aes(x=Geo.Mean, y=Temp.Mean, color=species, group=cont, shape=cont)) +
     geom_point() +
-    geom_smooth(method = "lm", linetype = 2, lwd=0.25, se = FALSE) +
+    geom_smooth(aes(color=cont, group=cont), method = "lm", linetype = 2, lwd=0.25, se = TRUE) +
     facet_wrap(.~variable, scales="free") +
     theme_minimal()  +
     theme(
@@ -47,7 +47,7 @@ ggplot(clim, aes(x=Geo.Mean, y=Temp.Mean, color=species, group=cont, shape=cont)
 # spatialtemporal_sds.pdf
 ggplot(clim, aes(x=Geo.SD, y=Temp.SD, color=species, group=cont, shape=cont)) +
     geom_point() +
-    geom_smooth(method = "lm", linetype = 2, lwd=0.25, se = FALSE) +
+    geom_smooth(aes(color=cont, group=cont), method = "lm", linetype = 2, lwd=0.25, se = TRUE) +
     facet_wrap(.~variable, scales="free") +
     theme_minimal() +
     theme(
@@ -59,7 +59,7 @@ ggplot(clim, aes(x=Geo.SD, y=Temp.SD, color=species, group=cont, shape=cont)) +
 # geo_meansd.pdf
 ggplot(clim, aes(x=Geo.Mean, y=Geo.SD, color=species, group=cont, shape=cont)) +
     geom_point() +
-    geom_smooth(method = "lm", linetype = 2, lwd=0.25, se = FALSE) +
+    geom_smooth(aes(color=cont, group=cont), method = "lm", linetype = 2, lwd=0.25, se = TRUE) +
     facet_wrap(.~variable, scales="free") +
     theme_minimal() +
     theme(
@@ -71,7 +71,7 @@ ggplot(clim, aes(x=Geo.Mean, y=Geo.SD, color=species, group=cont, shape=cont)) +
 # temporal_meansd.pdf
 ggplot(clim, aes(x=Temp.Mean, y=Temp.SD, color=species, group=cont, shape=cont)) +
     geom_point() +
-    geom_smooth(method = "lm", linetype = 2, lwd=0.25, se = FALSE) +
+    geom_smooth(aes(color=cont, group=cont), method = "lm", linetype = 2, lwd=0.25, se = TRUE) +
     facet_wrap(.~variable, scales="free") +
     theme_minimal() +
     theme(
