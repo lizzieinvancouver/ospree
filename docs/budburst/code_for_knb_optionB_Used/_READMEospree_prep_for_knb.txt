@@ -1,7 +1,7 @@
-_README for ospree_prep_for_knb.R
+_README for ospree_prep_for_knb_B.R
 This folder contains the scripts and ospree database to post to knb
 
-The main script file is models_stan_knb.R
+The main script file is models_stan_knb_B.R
 
 This script sources or relies on the following additional files:
 
@@ -14,4 +14,4 @@ This script sources or relies on the following additional files:
 -nointer_2level.stan
 
 
-The prep_for_knb folder contains scripts to create ospree_bb_forknb.csv and does not need to be posted to knb)
+The prep_for_knb folder contains scripts to create ospree_bb_forknb_B.csv and was not posted to knb)

@@ -13,19 +13,13 @@ library(plyr)
 library(dplyr)
 library(rstan)
 
-######################################
-# Flags to choose for bbstanleadin.R #
-######################################
-
-# Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors)
-use.flags.for.mainmodel <- FALSE 
-use.flags.for.spcomp.cp <- FALSE #chill portions for chilling, all predictors centered
-use.flags.for.allspp.utah <- TRUE
-use.flags.for.spcomp.utah.nonz <- FALSE
-use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with chill portions units for chilling
-use.flags.for.allspp.utah.nonz <- FALSE # predictors on natural scale, spcomplex with utah units for chilling, as in. Fig 3-4 in main text of budburst ms
-
-source("flags.for.models.in.bbms.R")
+##########################################
+# Flags to choose for bbstanleadin_knb.R #
+##########################################
+# Choose if you want the main model (figure 2 in main text) versus all spp model
+use.flags.for.mainmodel <- TRUE
+use.flags.for.allspp <-FALSE
+source("flags.for.models.knb.R")
 
 #some needed functions
 source("speciescomplex.R") # this function makes sure all species/complexes present in 2 or more studies
@@ -33,7 +27,7 @@ source("speciescomplex.multcues.R") # this function similar to above but  requir
 source("speciescomplex.nocrops.R") # similar to speciescomplex.R but removes 4 crop species
 
 #Read in the data
-bb<-read.csv("ospreebb_forknb.csv", header = TRUE)
+bb.all<-bb<-read.csv("ospreebb_forknb.csv", header = TRUE)
 
 source("bbstanleadin_knb.R")
 

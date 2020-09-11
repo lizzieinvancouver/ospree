@@ -9,6 +9,7 @@ options(stringsAsFactors = FALSE)
 library(shinystan)
 library(plyr)
 library(dplyr)
+
 ## (1) Get the data and slim down to correct response and no NAs ..
 d<-read.csv("../../../../analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 use.chillports=FALSE
@@ -25,4 +26,8 @@ bb <- subset(d, select=c(columnstokeep, columnschillunits))
 
 # remove the values above 600 (which means remove the right-censored data, coded as 999)
 bb <- subset(bb, resp<600)
-write.csv(bb,"../ospreebb_forknb.csv", row.names = FALSE)
+
+
+bb.all <- bb
+
+write.csv(bb.all,"../ospreebb_forknb.csv", row.names = FALSE)
