@@ -179,6 +179,16 @@ unique(commoncues5$numforcebysppsite) # [1]  1  3 15 12 11  2  4  5
 unique(commoncues5$numphotobysppsite) # [1] 1 2 3 4 6 5
 unique(commoncues5$numchillbysppsite) # [1]  1  2  9 12  8  3  5 20 25  4  7 23 15  
 ### Chill cue seems the best, then forcing but overall not a lot of species
+## But let's see what cues correlate most with population
+unique(commoncues5$numforcebysite)
+unique(commoncues5$numphotobysite)
+unique(commoncues5$numchillbysite)
+
+csite <- ggplot(bb.stan.pop5, aes(provenance.lat, chill, col=chill_type)) + geom_point()
+psite <- ggplot(bb.stan.pop5, aes(provenance.lat, photo)) + geom_point()
+fsite <- ggplot(bb.stan.pop5, aes(provenance.lat, force)) + geom_point()
+quartz()
+ggarrange(fsite, psite, csite, ncol=3)
 
 
 
@@ -189,6 +199,11 @@ unique(commoncues3$numforcebysppsite) # [1]  1  2  4  3 15 12 11  5 14
 unique(commoncues3$numphotobysppsite) # [1] 1 2 3 4 6 5
 unique(commoncues3$numchillbysppsite) # [1]  1 19  7  3  8 12  2  9  5 20 14 25  4 23 15 22 16 
 ### Again, chill cue seems the best, then forcing
+csite <- ggplot(bb.stan.pop3, aes(provenance.lat, chill, col=chill_type)) + geom_point()
+psite <- ggplot(bb.stan.pop3, aes(provenance.lat, photo)) + geom_point()
+fsite <- ggplot(bb.stan.pop3, aes(provenance.lat, force)) + geom_point()
+quartz()
+ggarrange(fsite, psite, csite, ncol=3)
 
 
 commoncues2 <- countintrxns(bb.stan.pop2.sub)
@@ -198,6 +213,11 @@ unique(commoncues2$numforcebysppsite) # [1]  1  2  4  3 15 12 11  5 14
 unique(commoncues2$numphotobysppsite) # [1] 1 2 3 4 6 5
 unique(commoncues2$numchillbysppsite) # [1]  1 19  3  7  8 12  2  9  5 20 14 42 38 25  4 18 23 15 22 16
 ### Again, chill cue seems the best, then forcing
+csite <- ggplot(bb.stan.pop2, aes(provenance.lat, chill, col=chill_type)) + geom_point()
+psite <- ggplot(bb.stan.pop2, aes(provenance.lat, photo)) + geom_point()
+fsite <- ggplot(bb.stan.pop2, aes(provenance.lat, force)) + geom_point()
+quartz()
+ggarrange(fsite, psite, csite, ncol=3)
   
 
 cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Vitis_vinifera", "Ribes_nigrum", 
