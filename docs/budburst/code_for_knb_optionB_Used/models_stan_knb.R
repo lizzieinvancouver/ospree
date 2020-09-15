@@ -19,12 +19,12 @@ library(rstan)
 # Choose if you want the main model (figure 2 in main text) versus all spp model
 use.flags.for.mainmodel <- TRUE
 use.flags.for.allspp <-FALSE
-source("flags.for.models.knb.R")
+source("flags_for_models_knb.R")
 
 #some needed functions
 source("speciescomplex.R") # this function makes sure all species/complexes present in 2 or more studies
-source("speciescomplex.multcues.R") # this function similar to above but  requires all species/complexes to have more than one cue manipulated
-source("speciescomplex.nocrops.R") # similar to speciescomplex.R but removes 4 crop species
+source("speciescomplex_multcues.R") # this function similar to above but  requires all species/complexes to have more than one cue manipulated
+source("speciescomplex_nocrops.R") # similar to speciescomplex.R but removes 4 crop species
 
 #Read in the data
 bb.all<-bb<-read.csv("ospreebb_forknb.csv", header = TRUE)

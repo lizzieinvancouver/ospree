@@ -1,3 +1,4 @@
+
 ## z-score the predictors:
 bb.stan$force.z <- (bb.stan$force-mean(bb.stan$force,na.rm=TRUE))/sd(bb.stan$force,na.rm=TRUE)
 bb.stan$photo.z <- (bb.stan$photo-mean(bb.stan$photo,na.rm=TRUE))/sd(bb.stan$photo,na.rm=TRUE)
