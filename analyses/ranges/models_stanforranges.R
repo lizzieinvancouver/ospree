@@ -40,12 +40,13 @@ if(length(grep("Lizzie", getwd())>0)) {
 # Our flags for ranges, for now ... (see issue #379)
 use.chillports = FALSE
 use.zscore = TRUE
-use.allspp = TRUE
+use.allspp = FALSE
 use.multcuespp = FALSE
-use.cropspp = TRUE
+use.cropspp = FALSE
 use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
+use.rangespp = TRUE
     
 
 setwd("..//bb_analysis")
