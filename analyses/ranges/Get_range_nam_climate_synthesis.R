@@ -48,12 +48,12 @@ species.list.maps <- unlist(zipped_names)
 species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
 species.list.clean <- species.list.maps
 
-rmspp <- c("alnurubr", "._robipseu", "._poputrem", "._alnurugo")
+rmspp <- c("alnurubr", "._robipseu", "._poputrem", "._alnurugo", "._picemari")
 species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
 
 ## Now I need to rename these folders to match the ospree info
 names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", "Robinia_pseudoacacia",
+                               "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", "Picea_mariana", "Robinia_pseudoacacia",
                                "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Populus_tremuloides", "Betula_alleghaniensis",
                                "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
 
@@ -105,7 +105,13 @@ getspsshape<-function(spslist,sps.num,ras.numpixels){
   spsshape <- shapefile(zipped_name.i[1])
   
   ## need to re-project shape from lamber equal area to geographic
+  if(i==8){
+    proj4string(spsshape) <- CRS("+proj=aea  
+                                 +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
+                                 +units=m +datum=NAD27 +ellps=clrk66 +no_defs")
+  } else{
   proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
+  }
   
   spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
   
@@ -154,7 +160,7 @@ synth.data <- function(splist){
     
       storing = array(NA, dim=c(7,4))
       row.names(storing) = colnames(sps.i)[3:9]
-      colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+      colnames(storing) = c("Temp.Mean","Temp.SD","Geo.Mean","Geo.SD")
     
     
       means.years <- aggregate(sps.i,by=list(Year = sps.i$year),FUN = mean,na.rm=T)
@@ -177,10 +183,10 @@ synth.data <- function(splist){
 }
 
 
-list.allsps<-synth.data(spslist[1:17]) #1:17
+list.allsps<-synth.data(spslist[1:18]) #1:17
 
 nams<-list()
-for(i in 1:17){
+for(i in 1:18){
   nams[[i]]=rep(spslist[i],7)
 }
 nams=unlist(nams)
@@ -188,7 +194,7 @@ nams=unlist(nams)
 ## join values from the list and save
 list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
 list.allspsjoint$species <- nams
-list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],17)
+list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],18)
 
 write.csv(list.allspsjoint,file = "~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv", row.names=FALSE)
 

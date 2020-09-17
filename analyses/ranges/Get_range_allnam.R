@@ -418,9 +418,9 @@ if(FALSE){
   
   
   ## synthetize and summarize data geographically and temporally
-  #dat = read.csv("~/GitHub/ospree/analyses/ranges/output/Abies_alba_fullextract.csv")
-  
-  
+  dat = read.csv("~/Desktop/allnam_fullextract.csv")
+  dat <- dat[,-1]
+  dat$year <- rep(1980:2016, each=44622)
   
   
   #'######################################
@@ -447,12 +447,12 @@ if(FALSE){
   species.list.maps <- gsub(pattern = "(.*/)(.*)(.shp.*)", replacement = "\\2", x = species.list.maps)
   species.list.clean <- species.list.maps
   
-  rmspp <- c("alnurubr", "._robipseu", "._poputrem", "._alnurugo")
+  rmspp <- c("alnurubr", "._robipseu", "._poputrem", "._alnurugo", "._picemari")
   species.list.clean <- species.list.clean[!species.list.clean%in%rmspp]
   
   ## Now I need to rename these folders to match the ospree info
   names(species.list.clean) <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra", 
-                                 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", "Robinia_pseudoacacia",
+                                 "Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", "Picea_mariana", "Robinia_pseudoacacia",
                                  "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Populus_tremuloides", "Betula_alleghaniensis",
                                  "Acer_saccharum", "Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca")
   
@@ -464,7 +464,7 @@ if(FALSE){
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=14  
+    i<-sps.num #sps.num=8 
     spsi<-spslist[i]
     print(spsi)
     
@@ -496,6 +496,12 @@ if(FALSE){
     
     ## need to re-project shape from lamber equal area to geographic
     proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
+    
+    if(i==8){
+    proj4string(spsshape) <- CRS("+proj=aea  
+                                   +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
+                                 +units=m +datum=NAD27 +ellps=clrk66 +no_defs")
+    }
     
     spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
    
@@ -571,9 +577,9 @@ if(FALSE){
     sps.i <- na.omit(sps.i)
     sps.i <- sps.i[!duplicated(sps.i),]
     
-    means.sites <- aggregate(sps.i,by=list(coord = sps.i$lat.long),FUN = mean,na.rm=T)
+    means.sites <- aggregate(sps.i,by=list(Year = sps.i$lat.long),FUN = mean, na.rm=T)
     means.sites$lat.long <- NULL
-    SDs.sites <- aggregate(sps.i,by=list(coord = sps.i$lat.long),FUN = sd,na.rm=T)
+    SDs.sites <- aggregate(sps.i, by=list(Year = sps.i$lat.long), FUN = sd, na.rm=T)
     SDs.sites$lat.long <- NULL
     
     #dat <- sps.1
@@ -626,10 +632,14 @@ if(FALSE){
   # example of usage
   #plot.shape.data(spsshape,spslist[1],dir.out,dir.fig,"means")
   
+  tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tmincrop1980.nc")
+  
+  spslist <- save
+  spslist <- spslist[1]
   
   #### loop across species ####
   
-  for (i in 1:length(spslist)){ #i=14
+  for (i in 1:length(spslist)){ #i=8
     
     print(spslist[i]) 
     
