@@ -31,7 +31,6 @@ sigma_y <- 10
 
 beta_force <- -5
 
-n <- 10 # number of replicates per sp x population (may eventually want to draw this from a distribution to make data more realistic)
 nsp <- 12 # number of species
 npop <- 8
 
@@ -45,8 +44,8 @@ mua_pop <- rnorm(npop, mua_sp, sigma_apop)
 
 b_force <- rnorm(nsp, beta_force, sigma_bforce)
 
-Fmean <- 10
-Fsigma <- 5
+Fmean <- 5
+Fsigma <- 2
 
 
 simpheno <- data.frame(sp=numeric(), mua_pop=numeric(), pop=numeric(), a_force=numeric(), F=numeric())
@@ -55,8 +54,8 @@ simpheno <- data.frame(sp=numeric(), mua_pop=numeric(), pop=numeric(), a_force=n
 nsppop <- nsp * npop# obervations per species for phenological event and photoperiod
 
 for (sp in 1:nsp){
-  Fhere <- rnorm(npop, Fmean, Fsigma)
-  simphenoadd <- data.frame(sp=rep(sp, nsppop), mua_pop=rep(sp, nsppop), pop=rep(1:npop, nsppop),
+  Fhere <- rnorm(nsp, Fmean, Fsigma)
+  simphenoadd <- data.frame(sp=rep(sp, nsppop), mua_pop=rep(mua_pop, nsp), pop=rep(1:npop, nsp),
                             b_force=rep(b_force[sp], nsppop), F=Fhere)
   simpheno <- rbind(simpheno, simphenoadd)
 }
