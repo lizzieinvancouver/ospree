@@ -16,8 +16,8 @@ data {
 	}
 
 parameters {
-  real sigma_a_pop;
-  real sigma_b_pop; 
+  real<lower=0> sigma_a_pop;
+  real<lower=0> sigma_b_pop; 
   real mu_a_sp;   
   real mu_b_force_sp;   
 //  real mu_b_photo_sp;   

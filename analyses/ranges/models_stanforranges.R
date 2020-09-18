@@ -82,7 +82,7 @@ eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnu
 
 allspphere <- c(naspp, eurspp)
 allspphere[which(!allspphere %in% unique(bb.stan$latbi))]
-}
+
 
 ################################################
 ## Start sidebar on how we picked these studies
@@ -119,7 +119,7 @@ sort(union(unique(spp3cues$latbi), spp2papers$latbi))
 setdiff(allspphere, union(unique(spp3cues$latbi), spp2papers$latbi))
 
 setdiff(union(unique(spp3cues$latbi), spp2papers$latbi), allspphere)
-
+}
 # Okay, will update what we did in issue #379, as best I can guess it now.
 
 ## End sidebar on how we picked these studies
@@ -253,7 +253,7 @@ if(FALSE){
 # testing 1, 2, 3 ....
 # need to make up new data list with unique ID for each pop x sp
 ########################################################
-bb.stan.here <- bb.stan.pop2 ##lets do the 3 pop
+bb.stan.here <- bb.stan.pop3 ##lets do the 3 pop
 getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
 bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
@@ -268,14 +268,16 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_ncp.stan', data = datalist.bb.pop,
-               iter = 5000, warmup=4000, chains=4) # control=list(adapt_delta=0.95)
+m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
+               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.95,max_treedepth = 12))
     }
 
 modelhere <- m3l.ni 
 mod.sum <- summary(modelhere)$summary
 mod.sum[grep("b_force", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
+
+launch_shinystan(m3l.ni)
 
 # Not sure if I am doing this right, but on first blush seem similar to each other!
 mod.sum[grep("b_force\\[", rownames(mod.sum)),] 
@@ -291,7 +293,7 @@ sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 if(FALSE){
   
   ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
-  bb.stan.here <- bb.stan.pop2
+  bb.stan.here <- bb.stan.pop3
   getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
   bb.stan.here$pophere <- as.numeric(as.factor(getpop))
   bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
