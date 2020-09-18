@@ -464,7 +464,7 @@ if(FALSE){
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=8 
+    i<-sps.num #sps.num=1
     spsi<-spslist[i]
     print(spsi)
     
@@ -495,12 +495,12 @@ if(FALSE){
     spsshape <- shapefile(zipped_name.i[1])
     
     ## need to re-project shape from lamber equal area to geographic
-    proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
-    
     if(i==8){
     proj4string(spsshape) <- CRS("+proj=aea  
                                    +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
                                  +units=m +datum=NAD27 +ellps=clrk66 +no_defs")
+    } else{
+      proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
     }
     
     spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
@@ -516,7 +516,7 @@ if(FALSE){
   #tmin1980[[1]] <- projectRaster(tmintest, crs=crs("+proj=longlat +init=epsg:4326")) ### just added 7 Sept 2:29pm
   
   ## examples of application
-  betlen <- getspsshape(spslist,14,tmin1980[[1]])
+  betlen <- getspsshape(spslist,1,tmin1980[[1]])
   spsshape <- getspsshape(spslist,14,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
@@ -534,7 +534,7 @@ if(FALSE){
   #spslist <- spslist[[14]]
   #spslist <- save
   
-  dat <- sps.1
+  #dat <- sps.1
   
   plot.shape.data<-function(spsshape,sps.name,
                             dir.out,dir.fig,
@@ -634,12 +634,12 @@ if(FALSE){
   
   tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tmincrop1980.nc")
   
-  spslist <- save
+  #spslist <- save
   spslist <- spslist[1]
   
   #### loop across species ####
   
-  for (i in 1:length(spslist)){ #i=8
+  for (i in 1:length(spslist)){ #i=1
     
     print(spslist[i]) 
     
