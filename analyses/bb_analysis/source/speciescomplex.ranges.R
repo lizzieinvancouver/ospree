@@ -25,6 +25,7 @@
 sppcomplexfx.ranges <- function(d){
 
 #d <- read.csv("~/Documents/git/ospree/analyses/output/ospree_clean_withchill_BB.csv")
+  #d <- bb.all
 d$name<-paste(d$genus,d$species,sep="_") ###make  a column for genus_species
 cropspp <- c("Actinidia_deliciosa", "Malus_domestica", "Malus_pumila", "Vitis_vinifera", "Ribes_nigrum", 
              "Vaccinium_ashei", "Vaccinium_corymbosum", "Prunus_persica", "Syringa_vulgaris", "Olea_europaea",
@@ -78,41 +79,34 @@ taxon<-dplyr::filter(d, name %in% species4taxon)
 taxon$complex<-taxon$name
 taxon$use<-"Y"
 
-## Remove species from South America and Asia for now
-usecontinents <- c("europe", "north america")
-taxon <- taxon[(taxon$continent%in%usecontinents),]
-
 ## Remove below species because no species maps available at this time
 nomaps <- c("Ilex_mucronata", "Kalmia_angustifolia", "Lonicera_canadensis", "Spirea_alba",
             "Vaccinium_myrtilloides", "Viburnum_cassinoides", "Viburnum_lantanoides", "Alnus_rubra",
             "Aronia_melanocarpa", "Symphoricarpos_albus", "Quercus_faginea", "Rhamnus_cathartica",
-            "Salix_smithiana")
+            "Salix_smithiana", "Sorbus_commixta", "Ulmus_parvifolia", "Ulmus_pumila", "Ulmus_villosa")
 
 taxon <- taxon[!(taxon$complex%in%nomaps),]
 
 sort(unique(taxon$complex))
 
-## DO WE NEED TO ADD MAPS???
-# Picea_mariana, Ulmus_minor
 
-####### THE list of range species we have... how do we get here...?
+####### THE list of range species we have...
 #[1] "Abies_alba"             "Acer_pensylvanicum"     "Acer_pseudoplatanus"    "Acer_rubrum"           
 #[5] "Acer_saccharum"         "Aesculus_hippocastanum" "Alnus_glutinosa"        "Alnus_incana"          
 #[9] "Betula_alleghaniensis"  "Betula_lenta"           "Betula_papyrifera"      "Betula_pendula"        
 #[13] "Betula_pubescens"       "Carpinus_betulus"       "Cornus_mas"             "Corylus_avellana"      
 #[17] "Corylus_cornuta"        "Fagus_grandifolia"      "Fagus_sylvatica"        "Fraxinus_excelsior"    
-#[21] "Fraxinus_nigra"         "Larix_decidua"          "Picea_abies"            "Picea_glauca"          
+#[21] "Fraxinus_nigra"         "Larix_decidua"          "Picea_abies"            "Picea_glauca"  
 #[25] "Populus_grandidentata"  "Populus_tremula"        "Populus_tremuloides"    "Prunus_avium"          
 #[29] "Prunus_padus"           "Prunus_pensylvanica"    "Pseudotsuga_menziesii"  "Quercus_ilex"          
 #[33] "Quercus_petraea"        "Quercus_robur"          "Quercus_rubra"          "Robinia_pseudoacacia"  
-#[37] "Sorbus_aucuparia"       "Tilia_cordata"   
+#[37] "Sorbus_aucuparia"       "Tilia_cordata"          "Ulmus_minor"           "Picea_mariana"
 
 
 
 #### No complexes included!!!
-## Brings all the accepted species and accepted complexes together
+## Brings all the accepted species together
 accepties<-taxon
-#accepties$species<-gsub(".*_", "", accepties$name)
 accepties<-subset(accepties, select=c(genus, species, complex, use))
 accepties<-accepties[!duplicated(accepties),]
 
@@ -130,11 +124,7 @@ bb.noNA.wtaxa <- bb.all.wtaxa
 bb.noNA.wtaxa$complex.wname <- bb.noNA.wtaxa$complex
 bb.noNA.wtaxa$complex <- as.numeric(as.factor(bb.noNA.wtaxa$complex))
 
-
 return(bb.noNA.wtaxa)
-#write.csv(bb.wtaxa, file="..//output/ospree_clean_withchill_BB_taxon.csv", row.names = FALSE)
-
-#write.csv(uselist, file="~/Documents/git/ospree/analyses/output/speciescomplex.list.csv", row.names=FALSE)
 
 }
 
