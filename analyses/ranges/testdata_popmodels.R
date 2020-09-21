@@ -85,19 +85,19 @@ nsp = 10 # number of species
 npop = 8 # number of populations
 nsppop = nsp*npop # numbers of species per population 
 
-sample_a <- list(force.env = rnorm(1000, 5, 2))
+sample_a <- list(force.env = rnorm(800, 5, 2))
 
 model.parameters <- list(intercept = 30,
                          force.coef = -10)
 
 #  2) Now, we will make varying intercepts
 env.samples <- sapply(sample_a, FUN = function(x){
-  sample(x, size = nsppop, replace = TRUE)})
+  sample(x, size = 800, replace = TRUE)})
 mm <- model.matrix(~env.samples)
 
 #  4) We need to make a random intercept model for each species
-parameters.sp <- matrix(unlist(model.parameters), ncol = length(model.parameters), nrow = nsppop, byrow = TRUE)
-parameters.pop <- matrix(unlist(model.parameters), ncol = length(model.parameters), nrow = nsppop, byrow = TRUE)
+parameters.sp <- matrix(unlist(model.parameters), ncol = length(model.parameters), nrow = 800, byrow = TRUE)
+parameters.pop <- matrix(unlist(model.parameters), ncol = length(model.parameters), nrow = 800, byrow = TRUE)
 
 # Which parameters are random?
 random.regex <- grep(pattern = paste(c("intercept", "force.coef"), collapse = "|"), x = names(model.parameters))
@@ -116,6 +116,7 @@ parameters.sp[, 1] <- sapply(1:npop, FUN=function(x){
   rnorm(n = nsp, mean = spp.parameters.int[x], sd = 10)})
 parameters.sp[, 2] <- sapply(1:npop, FUN = function(x){ 
   rnorm(n = nsp, mean = spp.parameters.force[x], sd = 5)})
+
 # Calculate response
 response <- sapply(1:nrow(env.samples), FUN = function(x){
   rnorm(n = 1, mean = mm[x, ] %*% parameters.sp[x, ], sd = 10)})
