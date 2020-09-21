@@ -22,7 +22,7 @@ parameters {
   real mu_b_force_sp;   
 //  real mu_b_photo_sp;   
 //  real mu_b_chill_sp;   
-  real<lower=0> sigma_a_sp; 
+  real<lower=0> sigma_a_sp;
   real<lower=0> sigma_b_force_sp; 
 //  real<lower=0> sigma_b_photo_sp; 
 //  real<lower=0> sigma_b_chill_sp; 
@@ -52,14 +52,13 @@ model {
 
 	a_sp ~ normal(mu_a_sp, sigma_a_sp); 
 	b_force ~ normal(mu_b_force_sp, sigma_b_force_sp); 
-	b_force_pop ~ normal(0, 50);
 //	b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp); 
 //	b_chill ~ normal(mu_b_chill_sp, sigma_b_chill_sp); 
 
         sigma_a_pop ~ normal(0, 10);
         sigma_b_pop ~ normal(0, 10);
         mu_b_force_sp ~ normal(0, 50);
-        sigma_b_force_sp ~ normal(0, 10);
+        sigma_b_force_pop ~ normal(0, 10);
 //      mu_b_photo_sp ~ normal(0, 50);
 //      sigma_b_photo_sp ~ normal(0, 10);
 //      mu_b_chill_sp ~ normal(0, 50);
