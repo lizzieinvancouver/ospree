@@ -11,6 +11,7 @@ library(shinystan)
 library(reshape2)
 library(dplyr)
 library(ggplot2)
+library(rstan)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
@@ -73,7 +74,9 @@ list2env(Y, envir = .GlobalEnv)
 ####if activated this removes 2 outlyerspecies
 #posties<-filter(posties,!species %in% c("Quercus_ilex","Larix_decidua"))
 colnames(rangies)
-geos<-data.frame(species=unique(rangies$species),continent=unique(rangies$continent))
+geos<-dplyr::select(rangies,species, continent)
+geos<-geos[!duplicated(geos),]
+
 
 cuecomps<-left_join(geos,posties)
 a<-ggplot(cuecomps,aes(continent,b_force))+geom_boxplot()
@@ -114,6 +117,40 @@ colnames(GDD.lastfrost)
 lastfrost.geo<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Geographic variation in GDDs to last frost")
 last.frost.geo2<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent,scale="free_x")+theme(legend.position = "none")+xlab("Geographic variation in GDDs to last frost") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
+colnames(MeanTmins)[7]<-"Geo_Mean"
+colnames(MeanTmins)[9]<-"Temp_Mean"
+colnames(MeanTmins)[8]<-"Geo_SD"
+colnames(MeanTmins)[10]<-"Temp_SD"
+cheap.geo<-MeanTmins
+datalist.cheap <- with(cheap.geo, 
+                        list(y = b_chill,  
+                             x = Geo_SD, 
+                             N = nrow(cheap.geo)
+                           
+                        )
+)
+
+
+ modstv.geo = stan('stan/cheap_model.stan', data = cheap.geo,
+              iter = 3000, warmup=2000, chains=4) ## my stan hardware seems off
+
+library(rstanarm)
+mod.stv<-brm(b_chill~Geo_SD+(1|species),data=MeanTmins)
+summary(mod.stv)
+
+new.data.stv<-data.frame(Geo_SD=MeanTmins$Geo_SD,continent=MeanTmins$continent)
+stv.proj<-posterior_predict(mod.stv,newdata = new.data.stv)
+
+stv.proj<-cbind(new.data.stv,stv.proj)
+colnames(stv.proj)
+ggplot(stv.proj,aes(Geo_SD,Estimate))+
+  facet_wrap(~continent)+
+  geom_point(data=MeanTmins,aes(Geo_SD,b_chill,color=species))+
+  geom_smooth(aes(Geo_SD,Estimate),method="lm",se=TRUE)+geom_point()
+
+?geom_smooth()
+##### raw data plots below
+
 jpeg(file = "figures/cheap_approach/gdd_2_lastfrost_geo.jpg",width = 9, height = 9,units = "in",res=200)
 ggpubr::ggarrange(lastfrost.geo,last.frost.geo2,ncol=1,nrow=2)
 dev.off()
@@ -144,17 +181,17 @@ stv.temp2<-ggplot(MeanTmins,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes(),
 
 
 
-maxychill<-ggplot(rangegeo,aes(max.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)#+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minychill<-ggplot(rangegeo,aes(min.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centchill<-ggplot(rangegeo,aes(cent.lat,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+maxychill<-ggplot(rangegeo,aes(max.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent)#+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minychill<-ggplot(rangegeo,aes(min.y,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centchill<-ggplot(rangegeo,aes(cent.lat,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-maxyforce<-ggplot(rangegeo,aes(max.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minyforce<-ggplot(rangegeo,aes(min.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centforce<-ggplot(rangegeo,aes(cent.lat,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+maxyforce<-ggplot(rangegeo,aes(max.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minyforce<-ggplot(rangegeo,aes(min.y,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centforce<-ggplot(rangegeo,aes(cent.lat,b_force))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
-maxyphoto<-ggplot(rangegeo,aes(max.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-minyphoto<-ggplot(rangegeo,aes(min.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
-centphoto<-ggplot(rangegeo,aes(cent.lat,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+maxyphoto<-ggplot(rangegeo,aes(max.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+minyphoto<-ggplot(rangegeo,aes(min.y,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
+centphoto<-ggplot(rangegeo,aes(cent.lat,b_photo))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+theme(legend.position = "none")+facet_wrap(~continent)#+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
 jpeg(file = "figures/cheap_approach/geographic_influence.jpg",width = 10, height = 9,units = "in",res=200)
 ggpubr::ggarrange(maxyforce,minyforce,centforce,maxyphoto,minyphoto,centphoto,maxychill,minychill,centchill,nrow=3,ncol=3,common.legend = TRUE,legend="bottom")
