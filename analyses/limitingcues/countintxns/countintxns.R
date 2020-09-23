@@ -50,7 +50,7 @@ ddatefx.all <- subset(dat, select=c("datasetID", "study", "fieldsample.date"))
 ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
 ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
 
-## Change main DF so only relevant dates are included ... not pretty, but should work
+## Change main DF so only relevant dates are included ... not pretty, but should work (and goes on for a while)
 # First get the unique dates in a df
 dates2weeks.count <- countfieldsample(ddatefx, 14)
 uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
@@ -92,6 +92,7 @@ osp.cdfintxn <- subset(osp.cdf, intxn>=2)
 
 lookatunique <- get.uniquetreats(datsm.noNA, "photo", "force")
 
+# Back to the subsetting by field sample dates
 # Now (not pretty part) we'll take all NA dates ...
 datsm$selectcolumn <- paste(datsm$datasetID, datsm$study, datsm$fieldsample.date)
 datsm14d <- datsm[which(datsm$selectcolumn %in% uniquedates.df$selectcolumn),]
@@ -121,7 +122,7 @@ fsdatesosp <- get.treatdists.singletreatment(datsm14d, "fieldsample.date")
 forceall <- union(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), paste(forceospnight$datasetID,
    forceospnight$study, sep="_")) # 46... so I need to deal with this somehow
 
-# chilldays includes experiments and field sample dates ... so we need to check and udpate ...
+# chilldays includes experiments and field sample dates ... so we need to check and update ...
 checkchillist <- setdiff(unique(paste(chilldaysosp$datasetID, chilldaysosp$study, sep="_")), paste(fsdatesosp$datasetID,
    fsdatesosp$study, sep="_")) # these have chilldays but not multiple field sampled dates; need to check the papers!
 chilldaysosp.prep <- data.frame(datasetID=rep(NA, length(checkchillist)), study=rep(NA, length(checkchillist)))
@@ -281,7 +282,7 @@ length(unique(altverf$datasetID))
 length(unique(forceosp$datasetID))
 
 setdiff(unique(paste(altverf$datasetID, altverf$study)), unique(paste(forceosp$datasetID,
-   forceosp$study))) # Cat has gomory15 and I don't think that has multiple forcing temps
+   forceosp$study))) # Cat has gomory15 and I don't think that has multiple forcing temps; that's because the study co-varies forcing temp with sampling dates that are <2 weeks apart (check out issue 249 and my notes from 23 Sep 2020)
 
 altverp <- subset(altver, photo>1)
 length(unique(altverp$datasetID))

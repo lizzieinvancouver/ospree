@@ -10,9 +10,9 @@ countintxns.R
 nonlinearities_intxns.R 
 
 
-8 Sep 2020: 
+8 Sep 2020 (updated 23 Sep 2020):
+- Get the lab to help with some cleanup issues ... see https://github.com/lizzieinvancouver/ospree/issues/249
 - update countixns.R 
-	(*) Check issue from Cat
 	(1) Check the work here and update #s in paper (see note below)
 	(2) Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
 - Need to clean up the heat maps, but can perhaps wait until we know what we want.
