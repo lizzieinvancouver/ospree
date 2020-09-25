@@ -58,7 +58,6 @@ model {
         sigma_a_pop ~ normal(0, 10);
         sigma_b_pop ~ normal(0, 10);
         mu_b_force_sp ~ normal(0, 50);
-        sigma_b_force_pop ~ normal(0, 10);
 //      mu_b_photo_sp ~ normal(0, 50);
 //      sigma_b_photo_sp ~ normal(0, 10);
 //      mu_b_chill_sp ~ normal(0, 50);
