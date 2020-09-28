@@ -66,6 +66,7 @@ getpopz1 <- subset(bb.stan.site, select=c("latbi", "site")) # "datasetID", "stud
 getpopz2 <- getpopz1[!duplicated(getpopz1), ]
 getpopz <- aggregate(getpopz2["site"], getpopz2["latbi"], FUN=length)
 getpopz5 <- subset(getpopz, site>4) # 3
+getpopz4 <- subset(getpopz, site>3) # 3
 getpopz3 <- subset(getpopz, site>2) # 12
 getpopz2 <- subset(getpopz, site>1) # 28
 
@@ -139,6 +140,7 @@ bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
 bb.stan.site$latbinum <- as.numeric(as.factor(bb.stan.site$latbi))
 
 bb.stan.pop5 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz5$latbi),] # 3 species!
+bb.stan.pop4 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz4$latbi),] # 12 species
 bb.stan.pop3 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz3$latbi),] # 12 species
 bb.stan.pop2 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz2$latbi),] # 28 species
 
