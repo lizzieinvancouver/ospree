@@ -431,9 +431,12 @@ if(FALSE){
 checkforcena <- subset(dsumm.treat, is.na(force.plot)==TRUE)
 checkphotona <- subset(dsumm.treat, is.na(photo.plot)==TRUE)
 checkchillna <- subset(dsumm.treat, is.na(chill.plot)==TRUE)
+checkchillna.helper <- subset(dsumm.treat, field.sample.n>0)
+
 unique(checkforcena$datasetID)
 unique(checkphotona$datasetID)
-unique(checkchillna$datasetID)
+unique(checkchillna$datasetID) # but let's subset to those that don't have field sample dates
+unique(checkchillna$datasetID)[which(!unique(checkchillna$datasetID) %in% checkchillna.helper$datasetID)]
     }
 
 ## The below heat maps show the COUNT of studies across different treatments

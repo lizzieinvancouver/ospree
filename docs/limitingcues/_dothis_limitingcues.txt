@@ -12,6 +12,13 @@ nonlinearities_intxns.R
 
 8 Sep 2020 (updated 23 Sep 2020):
 - Get the lab to help with some cleanup issues ... see https://github.com/lizzieinvancouver/ospree/issues/249
+	(1) Do these myself:
+		Check that these should all truly be constant photoperiod (all exp 1: "cronje03" "devries82" "karlsson03")
+		> unique(checkforcena$datasetID)
+		[1] "ashby62"   "gansert02" "hawkins12" "ruesink98"
+		> unique(checkphotona$datasetID)
+		[1] "falusi96"    "gianfagna85" "manson91"    "nishimoto95"
+	(2) Then figure out what to do about the chilling ones!
 - update countixns.R 
 	(1) Check the work here and update #s in paper (see note below)
 	(2) Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
