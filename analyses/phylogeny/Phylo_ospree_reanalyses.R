@@ -255,7 +255,7 @@ testme5 <- stan("stan/nointer_2levelphyall_2.stan",
                 force=d$force.z, # chill=d$chill.z, photo=d$photo.z,
                 y=d$resp,
                 Vphy=vcv(phylo)),
-                iter=3000, chains=4)
+                iter=3000, chains=1)
 }
 
 source("source/bb_muplotphylo.R")

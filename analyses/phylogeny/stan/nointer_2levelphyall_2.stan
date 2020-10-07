@@ -1,4 +1,4 @@
-// OSPREE analysis -- updated with Will's new code in Sep 2020
+// OSPREE analysis -- updated with Will's new code (ubermini_2) in Sep 2020
 // Also, skip the partial pooling on intercepts for now
 // Simplified version of nointe_2level.stan 
 // with phylogeny on intercept and on all the slopes
@@ -40,8 +40,8 @@ parameters {
   //real<lower=0,upper=200> other_interceptsbp;       
   //real<lower=0,upper=200> lam_interceptsbp;    
   real b_f;
-  real b_c;
-  real b_p;
+  //real b_c;
+  // real b_p;
   // real a; // grand mean intercept
   // real a_here; 
   vector[n_sp] a_sp; // intercept for species
@@ -62,15 +62,15 @@ model {
 	//b_chill ~ multi_normal(rep_vector(b_c,n_sp), lambda_vcv(Vphy, lam_interceptsbc, other_interceptsbc)); 
 //	b_photo ~ multi_normal(rep_vector(b_p,n_sp), lambda_vcv(Vphy, lam_interceptsbp, other_interceptsbp)); 
 
-        a_sp ~ normal(10, 30);
+        // a_sp ~ normal(10, 30);
         b_f ~ normal(0, 5);
         // b_c ~ normal(0, 5);
         // b_p ~ normal(0, 5);
         // a_here ~ normal(0, 10); 
         // other_intercepts ~ normal(0, 50);
 	// lam_intercepts ~ normal(0, 50);
-        other_interceptsbf ~ normal(0, 50);
-	lam_interceptsbf ~ normal(0, 50);
+       // other_interceptsbf ~ normal(0, 50);
+	//lam_interceptsbf ~ normal(0, 50);
         //other_interceptsbc ~ normal(0, 50);
 	//lam_interceptsbc ~ normal(0, 50);
         //other_interceptsbp ~ normal(0, 50);
