@@ -210,7 +210,7 @@ testme4 <- stan("stan/nointer_2levelphy_noppint.stan",
                 y=d$resp,
                 Vphy=vcv(phylo, corr=TRUE)),
                 iter=3000, chains=4, seed=123456)
-summary(testme4)$summary # null_interceptsbf, null_interceptsbp struggling some, but close...
+summary(testme4)$summary # null_interceptsbf, null_interceptsbp struggling some, but otherwise close...
 
 
 # This model uses Will's new method, but it is not running, argh!
