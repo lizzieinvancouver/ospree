@@ -9,7 +9,9 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-library(tidyverse)
+#library(tidyverse)
+library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(ggthemes)
 setwd("~/Documents/git/ospree/analyses")
@@ -87,13 +89,32 @@ library(egg)
 colorz<-c("red","orange","dark yellow","light blue","purple")
 
 linez<-c("solid","dashed","dotted")
-plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+geom_rect(aes(xmin=8,xmax=16,ymin=-15,ymax=80),fill="grey98",color="grey44", alpha = .1)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
+plotx<-ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+
+  geom_segment(aes(y=90,yend=350,x=8,xend=16.4),size=.3,alpha=0.3)+
+  geom_segment(aes(y=-15,yend=75,x=16,xend=24),size=.3,alpha=0.3)+
+  #geom_segment(aes(y=-15,yend=66,x=8,xend=16.5),size=2,alpha=0.3)+
+  geom_rect(aes(xmin=8,xmax=16,ymin=-15,ymax=90),fill="grey98",color="grey44", alpha = .1)+
+
+  geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+ylab("Days to budburst")+xlab("Photoperiod (hours)")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
 ploty<-ggplot(ha2,(aes(as.numeric(photoperiod_day),response.time)))+xlim(8,16)+geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+theme_base()+theme(legend.position = "none",axis.title.x=element_blank(),axis.title.y=element_blank())+ggtitle("zoom")+scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"))+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme(panel.background = element_rect(fill = "grey98",color="grey44"))
 
 quantile(ha$Total_Chill_portions)
-jpeg("photoperiod/figures/Photo_curv_FINAL.jpeg",height=675, width=1444,res=75)
-vp <- viewport(width = 0.4, height = 0.7, x = 0.46, y = .99,just=c("left","top"))
+jpeg("photoperiod/figures/Photo_curv_version3.jpeg",height=1900, width=2500,res=75)
+vp <- viewport(width = 0.4, height = 0.7, x = 0.5, y = .99,just=c("left","top"))
 plotx
 print(ploty, vp = vp, )
 dev.off()  
+
+jpeg("photoperiod/figures/Photo_curv_version1.jpeg",height=1000, width=700,res=100)
+ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+
+  geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+
+ylab("Days to budburst")+xlab("Photoperiod (hours)")+
+  scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
+dev.off()
+jpeg("photoperiod/figures/Photo_curv_version2.jpeg",height=1000, width=900,res=100)
+ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+
+  geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+
+  ylab("Days to budburst")+xlab("Photoperiod (hours)")+xlim(8,16)+
+  scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
+dev.off()
 
