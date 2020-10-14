@@ -5,7 +5,8 @@
 #3. Remove data from experiments where they manipulated factors that might change trails: fert additions, temp manip, chamber studies
 #4. Check that the BIEN data is standardized in its trait units, lat/long
 #5. Remove any dup data
-#6. Subset to spp. with sufficient data, focus on leaf economic traits and SSD (one of the only wood economic traits)
+#6. Subset to only deciduous species
+#7. Subset to spp. with sufficient data, focus on leaf economic traits and SSD (one of the only wood economic traits)
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -28,6 +29,8 @@ length(unique(biendat$scrubbed_species_binomial))
 #94 species represented in some form
 
 trydat<-read.csv("input/TryDataCleaned.csv", header=TRUE)
+#trydat<-read.csv("input/TryDataCleaned22012020.csv", header=TRUE)
+
 head(trydat)
 length(unique(trydat$SpeciesName))
 #122 species represented...but I think some of these were typos
@@ -57,12 +60,16 @@ trydat$SpeciesName[which(trydat$SpeciesName == "Picea abies.x.obovata")] <- "Pic
 trydat$SpeciesName[which(trydat$SpeciesName == "Picea glauca (Moench) Voss")] <- "Picea glauca"
 trydat$SpeciesName[which(trydat$SpeciesName == "Pieris japonica (Thunb.) D. Don ex G. Don")] <- "Pieris japonica"
 trydat$SpeciesName[which(trydat$SpeciesName == "Pinus nigra Arnold")] <- "Pinus nigra"
+trydat$SpeciesName[which(trydat$SpeciesName == "Pinus banksianamb.")] <- "Pinus banksiana"
+trydat$SpeciesName[which(trydat$SpeciesName == "Pinus banksianana")] <- "Pinus banksiana"
 trydat$SpeciesName[which(trydat$SpeciesName == "Sorbus decora (Sarg.) C.K. Schneid.")] <- "Sorbus decora"
 trydat$SpeciesName[which(trydat$SpeciesName == "Rhododendron canadense (L.) Torr.")] <- "Rhododendron canadense"
 trydat$SpeciesName[which(trydat$SpeciesName == "Prunus pensylvanica f.")] <- "Prunus pensylvanica"
 trydat$SpeciesName[which(trydat$SpeciesName == "Pinus contorta Douglas exuden")] <- "Pinus contorta"
 trydat$SpeciesName[which(trydat$SpeciesName == "Pinus contorta Douglas exuden var. contorta")] <- "Pinus contorta"
 trydat$SpeciesName[which(trydat$SpeciesName == "Quercus velutinam.")] <- "Quercus velutina"
+trydat$SpeciesName[which(trydat$SpeciesName == "Vaccinium myrtilLoides")] <- "Vaccinium myrtilloides"
+
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," (L.)","") 
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," L.","") 
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," Jacq.","") 
@@ -70,6 +77,7 @@ trydat$SpeciesName<-str_replace(trydat$SpeciesName," Ehrh.","")
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," Marsh.","") 
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," Hook.","") 
 trydat$SpeciesName<-str_replace(trydat$SpeciesName," Maxim.","") 
+
 length(unique(trydat$SpeciesName))
 # Once species names are fixed, try dataset only has 75 species
 
@@ -141,26 +149,56 @@ unique(trydat$std_Longitude)
 # To get the ball rolling on the analysis, we can start working with a still curated subset of the try data that does not include experiments and subsets species to those that have several functional traits
 
 # Start by subsetting out studies that are growth chamber studies or experiments
-trysub<-subset(trydat, Exposition == "Botanical garden"| Exposition == "Natural Vegetation"| Exposition == "natural vegetation, but not top canopy"| Exposition == "natural environment"| Exposition == "forest stand"| Exposition == "natural"| Exposition == "NA") 
+trysub<-subset(trydat, Exposition == "Botanical garden"| Exposition == "Natural Vegetation"| Exposition == "natural vegetation, but not top canopy"| Exposition == "natural environment"| Exposition == "forest stand"| Exposition == "natural"| is.na(Exposition)) 
 
-unique(trysub$Exposition) # why have we lost the NA?
+#removing a few others....still to do!
+#trysub1<-subset(trysub, is.na(Treatment.water.supply)) 
 
 #Other factors that should be subset
-unique(trydat$Treatment.water.supply)
-unique(trydat$Exposition..position.of.plant.in.the.canopy) # Variable, some numbers (5,6,7), bottom, middle etc., coments about understory
-unique(trydat$Treatment.water.supply) #Intermediate, high, low
-unique(trydat$Treatment.ozon) # high, low
-unique(trydat$Treatment.conditions) # descriptions of experiments, 17 different comments, but includes an n/a and "no treatment"
-unique(trydat$Treatment.CO2) # Various values, as well as "ambient (about 360ppm)" "actual" 
-unique(trydat$Leaf.exposition) # not clear what these numbers represent
-unique(trydat$Treatment.nutrient.solution.per.week) # a range of comments, including "Natural conditions", "none","None", "natural", and details of how much and when fertilizers were applied
-unique(trydat$Treatment.nutrient.supply) # intermediate, low, high
-unique(trydat$Treatment.light) # 2,1,0 no indication of what this represents
+# unique(trydat$Treatment.water.supply)
+# unique(trydat$Exposition..position.of.plant.in.the.canopy) # Variable, some numbers (5,6,7), bottom, middle etc., coments about understory
+# unique(trydat$Treatment.water.supply) #Intermediate, high, low
+# unique(trydat$Treatment.ozon) # high, low
+# unique(trydat$Treatment.conditions) # descriptions of experiments, 17 different comments, but includes an n/a and "no treatment"
+# unique(trydat$Treatment.CO2) # Various values, as well as "ambient (about 360ppm)" "actual" 
+# unique(trydat$Leaf.exposition) # not clear what these numbers represent
+# unique(trydat$Treatment.nutrient.solution.per.week) # a range of comments, including "Natural conditions", "none","None", "natural", and details of how much and when fertilizers were applied
+# unique(trydat$Treatment.nutrient.supply) # intermediate, low, high
+# unique(trydat$Treatment.light) # 2,1,0 no indication of what this represents
 
+###########################################################################
+#6. Remove conifer species - focus on just deciduous that have leaf trait data
+
+# want to remove the Abies alba, Picea abies, all Pinus, Pseudotsuga menziesii
+
+###########################################################################
+
+#7. Subsetting the species to those that have the most trait data
 # how many species remain in this subset dataset?
 length(unique(trysub$SpeciesName)) 
 
 # What traits?
 unique(trysub$Traits)
 
+library(dplyr)
+
+table<- trysub1 %>%
+  group_by(SpeciesName,Traits) %>%
+  summarise(no_rows = length(Traits))
+table
+
 # At minimum, I think we want species with SLA, LDMC, LNC, LCC, height, stem.diameter/DBH
+trysubtrait<-subset(trydat, Traits == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| Traits == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | Traits == "Specific_leaf_area"| Traits == "Plant_height_vegetative"| Traits == "Leaf_dry_matter_content" | Traits == "Stem_diameter" | Traits == "Stem_specific_density" | Traits == "Leaf_photosynthesis_rate_per_leaf_area") 
+
+table<- trysubtrait %>%
+  group_by(SpeciesName,Traits) %>%
+  summarise(no_rows = length(Traits))
+table
+
+table<- trysubtrait %>%
+  group_by(Traits, SpeciesName) %>%
+  summarise(no_rows = length(Traits))
+table
+
+length(unique(trysubtrait$SpeciesName))
+unique(trysubtrait$TraitValue_std)
