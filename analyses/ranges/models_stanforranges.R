@@ -127,9 +127,11 @@ setdiff(union(unique(spp3cues$latbi), spp2papers$latbi), allspphere)
 ################################################
 
 
-bb.stan.orig <- bb.stan
+bb.stan.orig <- bb.stan 
 # I think we can remove this line because of new species code but double check!
 #bb.stan<- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of the bb.stan.orig data
+
+
 
 # Check on ambient-only studies ... delete some rows
 bb.stanamb <- subset(bb.stan, photo_type=="amb" | force_type=="amb")
@@ -192,6 +194,12 @@ datalist.bb <- with(bb.stan,
                          n_sp = length(unique(bb.stan$latbinum))
                     )
 )
+
+### find the two data sets from each continent with the most species
+contsp<-bb.stan %>% dplyr::group_by(datasetID) %>% dplyr::count(complex.wname)
+table(contsp$datasetID) 
+
+bb.stan.2dfs<-filter(bb.stan,datasetID %in% c("flynn18","laube14a"))
 
 ######################################
 ## Overview of the model run below ##
