@@ -1,18 +1,21 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
-
+graphics.off()
 
 library(raster)
 library(sp)
 library(rgdal)
 #library(insol)
-library(googleway)
+#library(googleway)
 library(geosphere)
-setwd("~/Desktop/greenness")
+setwd("~/Documents/git/ospree/analyses/green_up/greenup_files/")
+
+
+files<-list.files(path = ".", full.names = TRUE)
 
 ####load data
-M<-raster("MCD12Q2.005_Onset_Greenness_Increase_0_doy2013001_aid0001.tif") ###
-M
+for (file in files){
+M<-raster(file) ###
 ###make the raster more coarse
 resampleFactor <- 25        
 inputRaster <- raster(M)      
@@ -33,7 +36,8 @@ resampledRaster <- resample(M,resampledRaster,method='bilinear',overwrite=TRUE)
 spts <- rasterToPoints(resampledRaster, spatial = TRUE)
 ###make it a data frame
 dat <- as.data.frame(spts)
-dat$Day<-as.Date(dat$MCD12Q2.005_Onset_Greenness_Increase_0_doy2013001_aid0001,origin = "2000-01-01")
+colnames(dat)[1]<-"source"
+dat$Day<-as.Date(dat$source,origin = "2000-01-01")
 head(dat)
 long<-c(dat$x)
 lat<-c(dat$y)
@@ -44,7 +48,7 @@ DOY<-c(dat$Day)
 dl2<-geosphere::daylength(c(lat),c(DOY))
 
 
-head(dl2)
+
 dl2<-as.data.frame(dl2)
 
 ###select day length
@@ -56,17 +60,23 @@ gooddat2<-cbind(dl2,dat) #geosphere
 #to make it a raster drop green up variable (si.x.averages etc)
 
 d2<-dplyr::select(gooddat2,x,y, dl2) #geosphere
+
 ###convert back to raster
 
 dfr2<-rasterFromXYZ(d2) #geosphere
 ##view it
 par(mar=c(1,1,1,1))
-
+  
+tiff(filename = paste("output_",basename(file)))
 plot(dfr2)
-??write.raster()
-writeRaster(dfr2,"2013_global", format="GTiff",overwrite=TRUE)
+dev.off()
+}
 
-  #geosphere
+
+#writeRaster(dfr2,filename = paste("output_",basename(file),sep=''), format="GTiff",overwrite=TRUE)
+# above was generating a blank map
+ 
+ #geosphere
 #hmmm, geosphere and insol give different values for days length
 #how to trouble shoot this
 
