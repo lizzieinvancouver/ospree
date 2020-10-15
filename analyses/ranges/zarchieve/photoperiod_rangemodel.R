@@ -97,12 +97,12 @@ concordance2<-concordance %>% filter(complex.wname %in% extend.sps)
 ###extract posteriors
 sample <- rstan::extract(m2l.ni)### takes a while
 
-#sample.force <- melt(sample$b_force)
-#sample.chill <- melt(sample$b_chill)
+sample.force <- melt(sample$b_force)
+sample.chill <- melt(sample$b_chill)
 sample.photo <- melt(sample$b_photo)
 
-#names(sample.force) <- c("iter", "complex", "b_force")
-#names(sample.chill) <- c("iter", "complex", "b_chill")
+names(sample.force) <- c("iter", "complex", "b_force")
+names(sample.chill) <- c("iter", "complex", "b_chill")
 names(sample.photo) <- c("iter", "complex", "b_photo")
 
 
@@ -110,6 +110,7 @@ photo.df <- subset(sample.photo, iter>3000)### 1000 posterior estimates
 
 output.for.photomod<-dplyr::filter(photo.df, complex %in% c(concordance2$complex))
 output.for.photomod<-left_join(output.for.photomod,concordance2)
+
 
 
 

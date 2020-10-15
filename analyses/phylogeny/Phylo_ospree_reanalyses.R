@@ -239,6 +239,25 @@ summary(testme3)$summary
 # use shinystan to see that this model is struggling on null_interceptsbf and null_interceptsbp
 # save(testme3, file="stan/output/nointer_2levelphy.Rda")
 
+testme4 <- stan("stan/nointer_2levelphy_nopp_int.stan",
+                data=list(N=nrow(d), n_sp=nspecies, sp=d$sppnum,
+                force=d$force.z, chill=d$chill.z, photo=d$photo.z,
+                y=d$resp,
+                Vphy=vcv(phylo, corr=TRUE)),
+                iter=3000, chains=4, seed=123456)
+summary(testme4)$summary # null_interceptsbf, null_interceptsbp struggling some, but close...
+
+
+if(FALSE){
+# This model is not running, argh!
+testme5 <- stan("stan/nointer_2levelphyall_2.stan",
+                data=list(N=nrow(d), n_sp=nspecies, sp=d$sppnum,
+                force=d$force.z, # chill=d$chill.z, photo=d$photo.z,
+                y=d$resp,
+                Vphy=vcv(phylo)),
+                iter=3000, chains=1)
+}
+
 source("source/bb_muplotphylo.R")
 modelhere <- testme3
 figpath <- "figures"

@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\begin{document}
+
+<<echo=FALSE >>=
+rm(list=ls())
+options(stringsAsFactors = FALSE)
+
+
+# libraries
+library(shinystan)
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+
+# Setting working directory. Add in your own path in an if statement for your file structure
+  setwd("~/Documents/git/ospree/analyses/ranges") 
+
+
+posties<-read.csv("output/cue_posteriors.csv") ##read in both data
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps.csv")
+
+
+unique(rangiesNa$species)
+rangiesEu$continent<-"EU"
+rangiesEu<-dplyr::select(rangiesEu,-X)
+rangiesNa$continent<-"NA"
+
+colnames(posties)[6]<-"species"
+rangies<-rbind(rangiesEu,rangiesNa)
+
+#####plots
+
+## dirtay models
+#b_chill~var. gglast frost* Mean Chill Utah
+meanposts<- posties %>% group_by(species) %>% summarise(mean_b_chill=mean(b_chill))
+meanposts<-left_join(meanposts,rangies)
+mod.dat<-dplyr::filter(meanposts, variable %in% c("Mean.Chill.Utah"))
+mod.dat2<-dplyr::filter(meanposts, variable %in% c("GDD.lastfrost"))
+mod.dat3<-dplyr::filter(meanposts, variable %in% c("MeanTmins"))
+
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat2$Geo.SD)))
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Temp.Mean*mod.dat2$Temp.SD)))
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat2$Temp.SD)))
+
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat3$Geo.SD)))
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Temp.Mean*mod.dat3$Temp.SD)))
+print(summary(lm(mod.dat$mean_b_chill~mod.dat$Geo.Mean*mod.dat3$Temp.SD)))
+
+@
+
+\end{document}

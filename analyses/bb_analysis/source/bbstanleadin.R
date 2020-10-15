@@ -8,10 +8,12 @@ source('..//stan/savestan.R') # Dan Flynn code
 source("source/speciescomplex.R") # this makes sure all species/complexes present in 2 or more studies
 source("source/speciescomplex.multcues.R") # as above, but requires all species/complexes to have more than one cue manipulated
 source("source/speciescomplex.nocrops.R") # similar to speciescomplex.R but removes 4 crop species
+source("source/speciescomplex.ranges.R") # similar to speciescomplex.R but removes 4 crop species
 source("source/stan_utility.R") # From Mike Betancourt
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
+
 
 #################################################################
 # Running the models with fake data? See bb_testdata_analysis.R #
@@ -69,6 +71,7 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FA
     bb.stan.alltypes <- sppcomplexfx(bb.all) 
     bb.stan.alltypes.multcue <- sppcomplexfx.multcue(bb.all) 
     bb.stan.alltypes.nocrops <- sppcomplexfx.nocrops(bb.all)
+    bb.stan.alltypes.ranges <- sppcomplexfx.ranges(bb.all)
 }
 
 
@@ -77,6 +80,7 @@ if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FAL
     bb.stan.expramptypes <- sppcomplexfx(bb.exprampphotoforce) 
     bb.stan.expramptypes.multcue <- sppcomplexfx.multcue(bb.exprampphotoforce) 
     bb.stan.expramptypes.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforce)
+    bb.stan.expramptypes.ranges <- sppcomplexfx.ranges(bb.exprampphotoforce)
 }
 
 
@@ -85,19 +89,24 @@ if (use.expramptypes.fp==FALSE & use.exptypes.fp==TRUE & use.expchillonly == FAL
     bb.stan.exptypes <- sppcomplexfx(bb.expphotoforce) 
     bb.stan.exptypes.multcue <- sppcomplexfx.multcue(bb.expphotoforce) 
     bb.stan.exptypes.nocrops <- sppcomplexfx.nocrops(bb.expphotoforce)
+    bb.stan.exptypes.ranges <- sppcomplexfx.ranges(bb.expphotoforce)
 }
 
 # set up data for when using only experimental chilling
 if (use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
-  bb.stan.exprampphotoforceexpch<- sppcomplexfx(bb.exprampphotoforceexpch) 
+  bb.stan.exprampphotoforceexpch <- sppcomplexfx(bb.exprampphotoforceexpch) 
   bb.stan.exprampphotoforceexpch.multcue <- sppcomplexfx.multcue(bb.exprampphotoforceexpch) 
   bb.stan.exprampphotoforceexpch.nocrops <- sppcomplexfx.nocrops(bb.exprampphotoforceexpch)
+  bb.stan.exprampphotoforceexpch.ranges <- sppcomplexfx.ranges(bb.exprampphotoforceexpch)
 }
+
 if (use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == TRUE){
-  bb.stan.alltypesexpch<- sppcomplexfx(bb.allexpch) 
-  bb.stan.alltypesexpch <- sppcomplexfx.multcue(bb.allexpch) 
-  bb.stan.alltypesexpch <- sppcomplexfx.nocrops(bb.allexpch)
+  bb.stan.alltypesexpch <- sppcomplexfx(bb.allexpch) 
+  bb.stan.alltypesexpch.multcue <- sppcomplexfx.multcue(bb.allexpch) 
+  bb.stan.alltypesexpch.nocrops <- sppcomplexfx.nocrops(bb.allexpch)
+  bb.stan.alltypesexpch.ranges <- sppcomplexfx.ranges(bb.allexpch)
 }
+
 ##################################
 ## Prep the data for Stan model ##
 ##################################
@@ -600,6 +609,25 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
     use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == FALSE){
   bb.stan <- bb.stan.expramptypes
+  
+  datalist.bb <- with(bb.stan, 
+                      list(y=resp, 
+                           chill = chill, 
+                           force = force, 
+                           photo = photo,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
+
+
+# Species complex for ranges, without crops and need species that do not only have field chilling, z-scored
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE & use.rangespp==TRUE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
+    & use.chillports == FALSE & use.zscore == TRUE){
+  bb.stan <- bb.stan.alltypes.ranges
   
   source("source/bb_zscorepreds.R")
   datalist.bb <- with(bb.stan, 

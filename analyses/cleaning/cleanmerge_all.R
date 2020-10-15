@@ -41,7 +41,7 @@ d <- rbind(dorg, dup) # damn, you think research is rushing on but new data is o
 source("cleaning/clean_addata.R")
 
 # 4. Clean up some super miscellaneous stuff
-source("cleaning/clean_misc.R") # Updated by Dan 25 August
+source("cleaning/clean_misc.R") # Updated by Lizzie 8 August 2020
 # The other error comes from making a temporary numeric column for cleaning linkosalo06
 
 # 4. Clean up response variable names

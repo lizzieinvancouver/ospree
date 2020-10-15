@@ -1,0 +1,34 @@
+\documentclass[11pt,letter]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+
+\def\labelitemi{--}
+\parindent=0pt
+
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\renewcommand{\refname}{\CHead{}}
+
+
+\begin{align*}
+\hat{y}_{minlat, i} &= \alpha_{minlat, sp[i]}\\
+\hat{y}_{maxlat, i} &= \alpha_{maxlat, sp[i]}\\
+\alpha_{minlat, sp} & \sim N(0, \sigma_{\alpha, minlat}) \\
+\alpha_{maxlat, sp} & \sim N(0, \sigma_{\alpha, maxlat}) \\
+y_{mins}& \sim N(\hat{y}_{mins},\sigma_{mins, y}) \\
+y_{maxs}& \sim N(\hat{y}_{maxs},\sigma_{maxs, y}) \\
+\vspace{1ex}\\
+\hat{y}_{photo, i} &= \alpha_{photo, sp[i]} + \beta_{photomin_{sp[i]}}*P_i + \beta_{photomax_{sp[i]}}*P_i\\
+\beta_{photomin_{sp}} & = \alpha_{photomin_{sp}} + \beta_{minlat x photo}*\alpha_{minlat,sp}\\
+\beta_{photomax_{sp}} & = \alpha_{photomax_{sp}} + \beta_{maxlat x photo}*\alpha_{maxlat,sp}\\
+\alpha_{photo, sp} & \sim N(\mu_{\alpha, photo}, \sigma_{\alpha, photo}) \\
+\alpha_{photomin_{sp}} & \sim N(\mu_{\alpha, photomin}, \sigma_{\alpha, photomin})\\
+\alpha_{photomax_{sp}} & \sim N(\mu_{\alpha, photomax}, \sigma_{\alpha, photomax})\\
+y_{photo} & \sim N(\hat{y}_{photo},\sigma_{y, photo}) 
+\end{align*}
+
+
+\end{document}

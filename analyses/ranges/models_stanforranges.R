@@ -1,6 +1,9 @@
 ## Started 8 June 2020 ##
 ## By Lizzie ##
 
+## Where'd Lizzie go? She disappeared ... #
+## but wait! It's 3 July 2020 and she's back. ##
+
 ## Take 1: Stole this code from bb_analysis/models_stan.R
 
 ## To do
@@ -11,9 +14,13 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+
 # libraries
 library(shinystan)
-
+library(reshape2)
+library(rstan)
+library(rstanarm)
+library(dplyr)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -30,62 +37,182 @@ if(length(grep("Lizzie", getwd())>0)) {
 # Flags to choose for bbstanleadin.R #
 ######################################
 
-# Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
-use.flags.for.mainmodel <- TRUE
-use.flags.for.spcomp.cp <- FALSE
-use.flags.for.allspp.utah <- FALSE
-use.flags.for.spcomp.utah.nonz <- FALSE
-use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
-use.flags.for.allspp.utah.nonz <- FALSE
-use.yourown.flagdesign <- FALSE
+# Our flags for ranges, for now ... (see issue #379)
+use.chillports = FALSE
+use.zscore = TRUE
+use.allspp = FALSE
+use.multcuespp = FALSE
+use.cropspp = FALSE
+use.expramptypes.fp = FALSE
+use.exptypes.fp = FALSE
+use.expchillonly = FALSE
+use.rangespp = TRUE
+    
 
 setwd("..//bb_analysis")
-source("source/flags.for.models.in.bbms.R")
 source("source/bbstanleadin.R")
 setwd("..//ranges")
 
+bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
+bb.stan$site <-  paste(bb.stan$provenance.lat, bb.stan$provenance.long)
+
+### find only studies with 2 or more latitudes
+multisites<-bb.stan %>% group_by(datasetID) %>% dplyr::summarise(unique_sites = n_distinct(site))
+multisites<-filter(multisites, unique_sites>=2)
+bb.stan.site<-filter(bb.stan,datasetID %in% c(multisites$datasetID)) ###### this is the datasheet for the intra/inter model
+
+## Do some population stuff, by latitude
+getpopz1 <- subset(bb.stan.site, select=c("latbi", "site")) # "datasetID", "study",
+getpopz2 <- getpopz1[!duplicated(getpopz1), ]
+getpopz <- aggregate(getpopz2["site"], getpopz2["latbi"], FUN=length)
+getpopz5 <- subset(getpopz, site>4) # 3
+getpopz4 <- subset(getpopz, site>3) # 3
+getpopz3 <- subset(getpopz, site>2) # 12
+getpopz2 <- subset(getpopz, site>1) # 28
+
+if(FALSE){ ## we shouldn't need this anymore with the new species code but save for now
+# Species list ...
 naspp <- c("Betula_lenta", "Populus_grandidentata", "Fagus_grandifolia", "Quercus_rubra",
-"Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_excelsior", "Alnus_rubra",
+"Acer_pensylvanicum", "Betula_papyrifera", "Fraxinus_nigra", #"Alnus_rubra",
 "Pseudotsuga_menziesii", "Prunus_pensylvanica", "Betula_alleghaniensis", "Acer_saccharum",
-"Alnus_incana", "Acer_rubrum", "Cornus_cornuta", "Picea_glauca")
+"Alnus_incana", "Acer_rubrum", "Corylus_cornuta", "Picea_glauca","Robinia_pseudoacacia","Populus_tremuloides") # Will be Corylus_cornuta once data updated
 
 eurspp <- c("Abies_alba", "Acer_pseudoplatanus", "Aesculus_hippocastanum", "Alnus_glutinosa",
 "Alnus_incana", "Betula_pendula", "Betula_pubescens", "Carpinus_betulus",
 "Cornus_mas", "Corylus_avellana", "Fagus_sylvatica", "Fraxinus_excelsior", "Larix_decidua", "Picea_abies", "Populus_tremula", "Prunus_avium", "Prunus_padus", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Sorbus_aucuparia", "Tilia_cordata")    
 
 allspphere <- c(naspp, eurspp)
-allspphere[which(!allspphere %in% unique(bb.stan$complex.wname))]
-
-# To discuss! I swap in some species
-## START HERE! Instead of the below, better to actually pull out the original species I think ... 
-subspecies <- c("Populus_grandidentata"="Populus_tremuloides",
-                "Fagus_grandifolia"="Fagus_complex",
-                "Acer_pensylvanicum"="",
-                "Alnus_rubra"="",
-                "Prunus_pensylvanica"="",
-                "Cornus_cornuta"="",
-                "Quercus_ilex"="")
-allsppwsubs <- unname(subspecies[allspphere])
+allspphere[which(!allspphere %in% unique(bb.stan$latbi))]
 
 
-bb.stan.orig <- bb.stan
-bb.stan <- bb.stan[which(bb.stan$complex.wname %in% allspphere),]
+################################################
+## Start sidebar on how we picked these studies
 
-# Next ... add column for home continent ... then figure out model... then re-label species names as numeric... 
+# species in more than two papers
+getspp2papers1 <- subset(bb.stan, select=c("latbi", "datasetID")) 
+getspp2papers2 <- getspp2papers1[!duplicated(getspp2papers1), ]
+getspp2papers3 <- aggregate(getspp2papers2["datasetID"], getspp2papers2["latbi"], FUN=length)
+spp2papers <- subset(getspp2papers3, datasetID>1)
+spp2papers[order(spp2papers$latbi),]
 
+spp3cues1 <- subset(bb.stan, chill_type!="fldest")
+spp3cues2 <- subset(spp3cues1, select=c("latbi", "datasetID", "study", "force", "photo", "chill"))
+spp3cuescounts <-
+      ddply(spp3cues2, c("latbi", "datasetID", "study"), summarise,
+      nforce = length(unique(force)),
+      nphoto = length(unique(photo)),
+      nchill = length(unique(chill)))
+
+spp3cues <- subset(spp3cuescounts, nforce>1 & nphoto>1 & nchill>1) # this is 172 spp if you exclude field chilling you get worrall67 and flynn18 added
+
+justcues1 <- subset(bb.stan, chill_type!="fldest")
+justcues2 <- subset(justcues1, select=c("latbi", "force", "photo", "chill"))
+justcuescounts <-
+      ddply(justcues2, c("latbi"), summarise,
+      nforce = length(unique(force)),
+      nphoto = length(unique(photo)),
+      nchill = length(unique(chill)))
+
+sppcuecounts <- subset(justcuescounts, nforce>2 & nphoto>2 & nchill>2) # 5 species
+
+unique(spp3cues$latbi)
+sort(union(unique(spp3cues$latbi), spp2papers$latbi))
+setdiff(allspphere, union(unique(spp3cues$latbi), spp2papers$latbi))
+
+setdiff(union(unique(spp3cues$latbi), spp2papers$latbi), allspphere)
+}
+# Okay, will update what we did in issue #379, as best I can guess it now.
+
+## End sidebar on how we picked these studies
+################################################
+
+
+bb.stan.orig <- bb.stan 
+# I think we can remove this line because of new species code but double check!
+#bb.stan<- bb.stan[which(bb.stan$latbi %in% allspphere),] # uses about 50% of the bb.stan.orig data
+
+
+
+# Check on ambient-only studies ... delete some rows
+bb.stanamb <- subset(bb.stan, photo_type=="amb" | force_type=="amb")
+unique(bb.stanamb$latbi) # I am not going to check Fagus_sylvatica, but I checked the rest and they all have exp treatments also
+# bb.stan <- subset(bb.stan, photo_type!="amb" | force_type!="amb") # deletes about 100 rows 
+
+bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
+bb.stan.site$latbinum <- as.numeric(as.factor(bb.stan.site$latbi))
+
+bb.stan.pop5 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz5$latbi),] # 3 species!
+bb.stan.pop4 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz4$latbi),] # 12 species
+bb.stan.pop3 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz3$latbi),] # 12 species
+bb.stan.pop2 <- bb.stan.site[which(bb.stan.site$latbi %in% getpopz2$latbi),] # 28 species
+
+############################################################################
+########## Quick data checks and looking for collinearity issues ###########
+#################### Started by Cat on 9 Sept 2020 #########################
+############################################################################
+#ggplot(bb.stan.pop5, aes(as.numeric(photo), as.numeric(chill), colour=latbi)) + geom_point() + facet_grid(datasetID~.)
+
+if(FALSE){
+library(egg)
+quartz()
+cf <- ggplot(bb.stan.pop5, aes(chill, force, colour=latbi)) + geom_point() 
+fp <- ggplot(bb.stan.pop5, aes(force, photo, colour=latbi)) + geom_point() 
+pc <- ggplot(bb.stan.pop5, aes(photo, chill, colour=latbi)) + geom_point()
+ggarrange(cf, fp, pc)
+
+cl <- ggplot(bb.stan.pop5, aes(chill, provenance.lat, colour=latbi)) + geom_point()
+fl <- ggplot(bb.stan.pop5, aes(force, provenance.lat, colour=latbi)) + geom_point()
+pl <- ggplot(bb.stan.pop5, aes(photo, provenance.lat, colour=latbi)) + geom_point()
+ggarrange(cl, fl, pl)
+
+quartz()
+cf <- ggplot(bb.stan.pop3, aes(chill, force, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+fp <- ggplot(bb.stan.pop3, aes(force, photo, colour=latbi)) + geom_point() 
+pc <- ggplot(bb.stan.pop3, aes(photo, chill, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+ggarrange(cf, fp, pc)
+
+quartz()
+cl <- ggplot(bb.stan.pop3, aes(chill, provenance.lat, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+fl <- ggplot(bb.stan.pop3, aes(force, provenance.lat, colour=latbi)) + geom_point()
+pl <- ggplot(bb.stan.pop3, aes(photo, provenance.lat, colour=latbi)) + geom_point() + theme(legend.position = "none") 
+ggarrange(cl, fl, pl)
+
+### Notes: 1) Should we should remove Vitis and Ribes from pop3 and Ribes from pop5?
+
+}
+
+############################################################################
+############################################################################
+
+datalist.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = latbinum,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$latbinum))
+                    )
+)
+
+### find the two data sets from each continent with the most species
+contsp<-bb.stan %>% dplyr::group_by(datasetID) %>% dplyr::count(complex.wname)
+table(contsp$datasetID) 
+
+bb.stan.2dfs<-filter(bb.stan,datasetID %in% c("flynn18","laube14a"))
 
 ######################################
 ## Overview of the model run below ##
 ######################################
-# New model ... THINKING still.... 
+# It's our basic model with partial pooliing on slopes and intercepts
 # m2l.ni: a(sp) + f(sp) + p(sp) + c(sp)
 
 ########################################################
 # real data on 2 level model (sp) with no interactions 
 # Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
-m2l.ni = stan('stan/nointer_2levelTEST.stan', data = datalist.bb,
-               iter = 2500, warmup=1500,control = list(adapt_delta = 0.99))
+m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
+               iter = 2500, warmup=1500) 
 
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
@@ -131,42 +258,92 @@ if (use.flags.for.allspp.utah.nonz){
   save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
 }
 
-#Other combinations of flags used at some point (but not in the main bb manuscript)
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE &
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompalltypesutah_z.Rda")
-}
+if(FALSE){
+########################################################
+# testing 1, 2, 3 ....
+# need to make up new data list with unique ID for each pop x sp
+########################################################
+bb.stan.here <- bb.stan.pop3 ##lets do the 3 pop
+getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
+bb.stan.here$pophere <- as.numeric(as.factor(getpop))
+bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+datalist.bb.pop <- with(bb.stan.here, 
+                    list(y = resp,  
+                         force = force.z, 
+                         sp = latbinum,
+                         pop = pophere,
+                         N = nrow(bb.stan.here),
+                         n_sp = length(unique(bb.stan.here$latbinum)),
+                         n_pop = length(unique(bb.stan.here$pophere))
+                    )
+)
+    
+m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
+               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.95,max_treedepth = 12))
+    }
 
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_spcompexprampfputah_nonz.Rda")
-}
+modelhere <- m3l.ni 
+mod.sum <- summary(modelhere)$summary
+mod.sum[grep("b_force", rownames(mod.sum)),]
+mod.sum[grep("sigma", rownames(mod.sum)),] 
 
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_z.Rda")
-}
+launch_shinystan(m3l.ni)
 
-if (use.allspp==TRUE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==FALSE & 
-    use.chillports==FALSE){
-  save(m2l.ni, file="stan/output/m2lni_allsppexprampfputah_nonz.Rda")
-}
+# Not sure if I am doing this right, but on first blush seem similar to each other!
+mod.sum[grep("b_force\\[", rownames(mod.sum)),] 
+mean(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+range(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+sd(mod.sum[grep("b_force\\[", rownames(mod.sum)),] [,1])
+
+mean(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+range(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
+sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 
 
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE &
-    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompalltypescp_z.Rda")
-}
+if(FALSE){
+  
+  ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
+  bb.stan.here <- bb.stan.pop3
+  getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
+  bb.stan.here$pophere <- as.numeric(as.factor(getpop))
+  bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+  
+  #modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
+    #                        data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
 
-if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
-    use.expramptypes.fp==TRUE & use.exptypes.fp==FALSE & use.zscore==TRUE & 
-    use.chillports==TRUE){
-save(m2l.ni, file="stan/output/m2lni_spcompwcropsexprampfpcp_z.Rda")
+  modpop3.force <- stan_lmer(formula = resp ~ force.z+(force.z|latbinum/pophere), 
+                       data = bb.stan.here,iter=4500,warmup=2500,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  modpop3.photo <- stan_lmer(formula = resp ~ photo.z+(photo.z|latbinum/pophere), 
+                       data = bb.stan.here,iter=4500,warmup=2500,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  modpop3.chill <- stan_lmer(formula = resp ~ chill.z+(chill.z|latbinum/pophere), 
+                       data = bb.stan.here,iter=4500,warmup=2500,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  modpop3.forcephoto <- stan_lmer(formula = resp ~ force.z+photo.z+(force.z+photo.z|latbinum/pophere), 
+                       data = bb.stan.here,iter=4500,warmup=2500,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  modpop3 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum/pophere), 
+                     data = bb.stan.here,iter=4500,warmup=2500,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  save(modpop3, file="~/Desktop/Misc/Ospree misc/popmodel3_arm.Rdata")
+
+#launch_shinystan(modpop3)
+
+  bb.stan.here <- bb.stan.pop5 ##lets do the 5 pop
+  getpop <- paste(bb.stan.here$latbinum, bb.stan.here$provenance.lat)
+  bb.stan.here$pophere <- as.numeric(as.factor(getpop))
+  bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+  
+  modpop5 <- stan_lmer(formula = resp ~ force.z+chill.z+photo.z+(force.z+chill.z+photo.z|latbinum)+(force.z+chill.z+photo.z|latbinum:pophere), 
+                       data = bb.stan.here,iter=8000,warmup=7000,chains=4, prior = normal(0,20),prior_intercept = normal(35,20) )
+  
+  
+  
+  
+  PPD1 <- posterior_predict(goo, re.form =  ~ latbinum)
+  PPD2 <- posterior_predict(goo, re.form =  ~ latbinum:pophere)
+      
 }
 
 
@@ -192,8 +369,26 @@ rsq <- function (x, y) cor(x, y) ^ 2
 rsq(observed.here, preds.mod.sum[,1])
 summary(lm(preds.mod.sum[,1]~observed.here)) # Multiple R-squared
 
-# spcomplex, no crops, group by sp>9: 0.6028132, 0.6086478 for sp>4 ... mult R2 around 0.58
-#  0.5689911
 }
 ####### END SIDE BAR #######
 
+
+#####part2 extract the posteriors for cue~range paramenter modeling
+sample <- rstan::extract(m2l.ni)### extract the posteriors
+
+sample.force <- melt(sample$b_force) ###grab them for each cue
+sample.chill <- melt(sample$b_chill)
+sample.photo <- melt(sample$b_photo)
+
+names(sample.force) <- c("iter", "latbinum", "b_force") ##rename
+names(sample.chill) <- c("iter", "latbinum", "b_chill")
+names(sample.photo) <- c("iter", "latbinum", "b_photo")
+
+cue.df<-left_join(sample.force, sample.chill) ##merge them into one data sheet step1
+cue.df<-left_join(cue.df,sample.photo) ### "" step 2
+cue.df <- subset(cue.df, iter>1500) ## remove warmup iterations from analyses
+concordance<-dplyr::select(bb.stan,latbi,latbinum)
+concordance<-unique(concordance)
+
+cue.df<-left_join(cue.df,concordance)
+write.csv(cue.df,"output/cue_posteriors.csv",row.names = FALSE)

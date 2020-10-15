@@ -285,6 +285,31 @@ d$study[d$study=="exp 5"] <- "exp5"
 ### Need to update fu19:
 d$fieldsample.date[which(d$datasetID=="fu19")] <- "01-Jan-2016"
 
+### We mis-entered a species from Flynn & Wolkovich (yes, we mis-entered our own data)
+d$genus[which(d$datasetID=="flynn18" & d$genus=="Cornus")] <- "Corylus"
+
+### We have a mis-spelling (well, bad capital letter) in one species and ahh! I found and fixed some whitespace and other problems!
+d$species[which(d$species=="Cordata")] <- "cordata"
+d$species[which(d$species=="communis L.")] <- "communis"
+
+stripwhite <- function(x) {
+    if (!is.character(x)) {
+        stop("x must be a character vector")
+    }
+    sub("^ *([^ ]*) *$", "\\1", x)
+}
+
+d$species <- stripwhite(d$species)
+d$genus <- stripwhite(d$genus)
+
+# cleaning for dantec14 dataset already in OSPREE
+# change sample date of "15-Oct-10" to "unclear 15-Oct-10 to 15-Apr-11"
+d$fieldsample.date[which(d$datasetID == "dantec14")] <- "unclear Oct-10 to Apr-11"
+# add figure numbers for DF data (3c)
+d$figure.table..if.applicable.[which(d$datasetID == "dantec14" & d$Entered.By == "DF")] <- "3c"
+#add more info to cu.model
+d$cu.model[which(d$datasetID == "dantec14")] <- "chillcalc,10degthreshold,see paper"
+
 
 stop("Not an error, just wanted to let you know d is clean")
 ##################################################################################################
