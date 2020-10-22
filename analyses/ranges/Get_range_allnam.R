@@ -418,7 +418,7 @@ if(FALSE){
   
   
   ## synthetize and summarize data geographically and temporally
-  dat = read.csv("~/Desktop/allnam_fullextract.csv")
+  dat = read.csv("~/Desktop/Misc/Ospree Misc/allnam_fullextract.csv")
   dat <- dat[,-1]
   dat$year <- rep(1980:2016, each=44622)
   
@@ -464,7 +464,7 @@ if(FALSE){
   ## function to extract/correct the shape for a given species
   getspsshape<-function(spslist,sps.num,ras.numpixels){
     
-    i<-sps.num #sps.num=1
+    i<-sps.num #sps.num=14  
     spsi<-spslist[i]
     print(spsi)
     
@@ -496,17 +496,17 @@ if(FALSE){
     
     ## need to re-project shape from lamber equal area to geographic
     if(i==8){
-    proj4string(spsshape) <- CRS("+proj=aea  
+      proj4string(spsshape) <- CRS("+proj=aea  
                                    +lat_1=38 +lat_2=42 +lat_0=40 +lon_0=-82 +x_0=0 +y_0=0
-                                 +units=m +datum=NAD27 +ellps=clrk66 +no_defs")
+                                   +units=m +datum=NAD27 +ellps=clrk66 +no_defs")
     } else{
       proj4string(spsshape) <- CRS("+proj=longlat +init=epsg:4326")
     }
     
     spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +towgs84=0,0,0 "))
-   
+    
     #spsshapeproj<-spTransform(spsshape,CRS("+proj=longlat +datum=WGS84
-     #                                      +ellps=WGS84 +towgs84=0,0,0"))
+    #                                      +ellps=WGS84 +towgs84=0,0,0"))
     #lines(spsshapeproj)
     #
     
@@ -517,7 +517,7 @@ if(FALSE){
   
   ## examples of application
   betlen <- getspsshape(spslist,1,tmin1980[[1]])
-  spsshape <- getspsshape(spslist,14,tmin1980[[1]])
+  spsshape <- getspsshape(spslist,1,tmin1980[[1]])
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
@@ -539,10 +539,8 @@ if(FALSE){
   plot.shape.data<-function(spsshape,sps.name,
                             dir.out,dir.fig,
                             type=c("means","sds")){
-    
-    #i=14
-    #spsshape <- getspsshape(spslist,i,tmin1980[[1]])
-     #spsshape <- NamMap
+  
+    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
     
     ## plot base map + range map
     extent.sps.i <- extent(spsshape)+3
@@ -550,10 +548,10 @@ if(FALSE){
     ras.numpixels<-tmin1980[[1]]
     values(ras.numpixels)<-1:ncell(ras.numpixels)
     
-    #spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
     
     # get list of pixels to extract data (speeds things up)
-    pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
+    pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj, weights=TRUE, normalizeWeights=FALSE)))) ### by making weights=TRUE and normalizeWeights=FALSE then we are averaging values by grid cell size
     
     chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
     chcoord$lat.long <- paste(chcoord$x, chcoord$y)
@@ -635,7 +633,7 @@ if(FALSE){
   tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tmincrop1980.nc")
   
   #spslist <- save
-  spslist <- spslist[1]
+  #spslist <- spslist[1]
   
   #### loop across species ####
   

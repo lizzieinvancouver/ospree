@@ -30,7 +30,6 @@ library('ncdf4')
 library('abind')
 library('chillR')
 library('RColorBrewer')
-library('dismo')
 
 
 # the below is copied from code to extract NAM data
@@ -128,7 +127,7 @@ synth.data <- function(splist){
   
   list.synthesis<-list()
   
-  for(i in 1:length(splist)){  #i=7
+  for(i in 1:length(splist)){  #i=1
     
       spsshape <- getspsshape(splist,i,tmin1980[[1]])
       
@@ -140,8 +139,14 @@ synth.data <- function(splist){
       
       spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
       
+      ### 22 October 2020 by Cat: trying to add averaging of grid cells
+      #foo <- spsshapeproj
+      #cell_size<-round(area(foo) / 10000000,1)
+      ##NAs lie outside of the rastered region, can thus be omitted
+      #cell_size<-cell_size[!is.na(cell_size)]
+      
       # get list of pixels to extract data (speeds things up)
-      pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
+      pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj, weights=TRUE, normalizeWeights=FALSE)))) ### by making weights=TRUE and normalizeWeights=FALSE then we are averaging values by grid cell size
       
       chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
       chcoord$lat.long <- paste(chcoord$x, chcoord$y)
@@ -183,7 +188,7 @@ synth.data <- function(splist){
 }
 
 
-list.allsps<-synth.data(spslist[1:18]) #1:17
+list.allsps<-synth.data(spslist[1:18]) # splist <- spslist[1]    #1:17
 
 nams<-list()
 for(i in 1:18){
@@ -196,7 +201,7 @@ list.allspsjoint <- as.data.frame(do.call(rbind,list.allsps))
 list.allspsjoint$species <- nams
 list.allspsjoint$variable <- rep(row.names(list.allspsjoint)[1:7],18)
 
-write.csv(list.allspsjoint,file = "~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv", row.names=FALSE)
+write.csv(list.allspsjoint,file = "~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps_weighted.csv", row.names=FALSE)
 
 #checksynth <- read.csv("~/Documents/git/ospree/analyses/ranges/output/Synthesis_climate_Namsps.csv")
 
