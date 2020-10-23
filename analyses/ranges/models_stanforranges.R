@@ -212,7 +212,7 @@ bb.stan.2dfs<-filter(bb.stan,datasetID %in% c("flynn18","laube14a"))
 # Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = datalist.bb,
-               iter = 2500, warmup=1500) 
+               iter = 4000, warmup=2500) 
 
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
@@ -278,8 +278,8 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop.stan', data = datalist.bb.pop,
-               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.95,max_treedepth = 12))
+m3l.ni = stan('stan/nointer_3levelwpop_classroomexamp.stan', data = datalist.bb.pop,
+               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
     }
 
 modelhere <- m3l.ni 

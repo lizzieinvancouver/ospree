@@ -38,17 +38,17 @@ ntot = nsp * npop * nobs
 ## Budburst intercept
 intercept   <- 50
 ## Forcing slope
-b_force    <- -10
-sigma_y <- 10
+b_force    <- -5
+sigma_y <- 5
 
 ## Level-1 errors
-sigma_a   <- 10
+sigma_a   <- 5
 e_int <- rnorm(n = ntot, mean = 0, sd = sigma_a)
 
 ## Level-2 errors (species)
-sigma_sp <- 15
+sigma_sp <- 10
 e_sp <- rnorm(n = npop * nsp, mean = 0, sd = sigma_sp)
-sigma_bsp <- 10
+sigma_bsp <- 5
 e_bsp <- rnorm(n = npop * nsp, mean = 0, sd = sigma_bsp)
 
 ## Level-3 errors (population)
@@ -83,7 +83,6 @@ modtest <- lmer(resp ~ force + (force|species/pop), data=simpheno) ## Quick look
 
 write.csv(simpheno, file="~/Desktop/testing123.csv", row.names=FALSE)
 
-
 N <- length(simpheno$resp)
 forcepop <- list(y = simpheno$resp,
                  N = N, 
@@ -97,14 +96,19 @@ forcepop <- list(y = simpheno$resp,
 
 
 # Try to run the Stan model 
-forcepopfit <- stan(file = "stan/nointer_3levelwpop.stan", data = forcepop, warmup = 2000, iter = 4000,
-                    chains = 4,  control=list(max_treedepth = 12, adapt_delta=0.95)) 
+brms::get_prior(formula = resp ~ force + ( force |species/pop), 
+                          data = simpheno)
+
+forcepopfit <- stan(file = "stan/nointer_3levelwpop_classroomexamp.stan", data = forcepop, warmup = 4000, iter = 5000,
+                    chains = 4,  control=list(max_treedepth = 15, adapt_delta=0.99)) 
 
 
 modelhere <- forcepopfit 
 mod.sum <- summary(modelhere)$summary
 mod.sum[grep("b_force", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
+
+launch_shinystan(forcepopfit)
 
 #save(jointfit, file="output/stan/jointlatphoto.Rda")
 

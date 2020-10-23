@@ -55,15 +55,18 @@ model {
 //	b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp); 
 //	b_chill ~ normal(mu_b_chill_sp, sigma_b_chill_sp); 
 
-        sigma_a_pop ~ normal(0, 10);
-        sigma_b_pop ~ normal(0, 10);
+        sigma_a_pop ~ student_t(3, 0, 35);
+        sigma_b_pop ~ student_t(3, 0, 35);  // at 0,10 only 1 divergent transition and 1.1 rhat
         mu_b_force_sp ~ normal(0, 50);
+        sigma_b_force_sp ~ normal(0, 35); 
 //      mu_b_photo_sp ~ normal(0, 50);
 //      sigma_b_photo_sp ~ normal(0, 10);
 //      mu_b_chill_sp ~ normal(0, 50);
 //      sigma_b_chill_sp ~ normal(0, 10);
         mu_a_sp ~ normal(0, 50);
-        sigma_a_sp ~ normal(0, 10);
+        sigma_a_sp ~ student_t(3, 0, 35); // at 15, only 1 diverent transitino and 1.1 rhat
+        
+        sigma_y ~ student_t(3, 0, 35);
 	
 	y ~ normal(yhat, sigma_y);
 
