@@ -437,6 +437,13 @@ unique(checkforcena$datasetID)
 unique(checkphotona$datasetID)
 unique(checkchillna$datasetID) # but let's subset to those that don't have field sample dates
 unique(checkchillna$datasetID)[which(!unique(checkchillna$datasetID) %in% checkchillna.helper$datasetID)]
+
+dfbb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+dfbbchill <- dfbb[which(dfbb$datasetID %in% checkchillna$datasetID),]
+dfbbchillsm <- subset(dfbbchill, select=c("datasetID", "study", "chill_type"))
+checkchillbb <- dfbbchillsm[!duplicated(dfbbchillsm),]
+checkchillbyhand <- checkchillna[!which(checkchillna$datasetID %in% dfbb$datasetID),]
+# So, a few rows in ashby62 (exp 1), caffarra11a (exp 1), cannell83 (exp 1-2), charrier11 (exp 1-2), falusi90 exp1, cook05 (exp 1), gansert02 (exp 1-2), granhus09 (exp 1), heide05 (exp 1-2), heide11 (exp 1-3), howe95 (exp 1), nishimoto95 (exp 1), pettersen71 (exp 1-2), sonsteby13 (exp 1 - 2), and worrall67 exp 1, 2, 5 still show as NA -- the rest are a mix.
     }
 
 ## The below heat maps show the COUNT of studies across different treatments

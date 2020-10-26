@@ -129,6 +129,13 @@ chilldaysosp.prep <- data.frame(datasetID=rep(NA, length(checkchillist)), study=
 chilldaysosp.prep$datasetID <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[1]))
 chilldaysosp.prep$study <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[2]))
 chilldaysospuse <- merge(chilldaysosp.prep, chilldaysosp, by=c("datasetID", "study"), all.x=TRUE)
+# There are a LOT of studies in checkchillist, so I will pull in some of the info from BB analysis
+dfbb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
+dfbbchill <- dfbb[which(paste(dfbb$datasetID, dfbb$study, sep="_") %in% checkchillist),]
+dfbbchillsm <- subset(dfbbchill, select=c("datasetID", "study", "chill_type"))
+checkchillbb <- dfbbchillsm[!duplicated(dfbbchillsm),]
+checkchillbyhand <- checkchillist[!which(checkchillist %in% paste(dfbb$datasetID, dfbb$study, sep="_"))]
+# So, a few rows in falusi90 exp1, cannell83 (exp 1-2), granhus09 (exp 1) and worrall67 exp 2 still show as NA -- the rest are a mix
 
 # combine chilldays and chilltemp (so, experimental chilling)
 allchill <- union(checkchillist, paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
