@@ -12,7 +12,7 @@ library(reshape2)
 library(dplyr)
 library(ggplot2)
 library(rstan)
-
+library(brms)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -25,9 +25,10 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
+load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
-rangiesNa<-read.csv("output/Synthesis_climate_NAMsps.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
 head(rangiesNa,14)
 ##clean North America names
@@ -48,7 +49,7 @@ rangiesNa$species[which(rangiesNa$species=="acerrubr")]<- "Acer_rubrum"
 rangiesNa$species[which(rangiesNa$species=="alnurugo")]<- "Alnus_incana"
 rangiesNa$species[which(rangiesNa$species=="corycorn")]<- "Corylus_cornuta"
 rangiesNa$species[which(rangiesNa$species=="piceglau")]<- "Picea_glauca"
-
+rangiesNa$species[which(rangiesNa$species=="picemari")]<- "Picea_mariana"
 unique(rangiesNa$species)
 rangiesEu$continent<-"EU"
 rangiesEu<-dplyr::select(rangiesEu,-X)
@@ -117,11 +118,138 @@ colnames(GDD.lastfrost)
 lastfrost.geo<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Geographic variation in GDDs to last frost")
 last.frost.geo2<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent,scale="free_x")+theme(legend.position = "none")+xlab("Geographic variation in GDDs to last frost") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
+
+## hypothesis 2 last frost should im pact 
+
+colnames(GDD.lastfrost)[7]<-"Geo_Mean"
+colnames(GDD.lastfrost)[9]<-"Temp_Mean"
+colnames(GDD.lastfrost)[8]<-"Geo_SD"
+colnames(GDD.lastfrost)[10]<-"Temp_SD"
+
+
+## Stv
 colnames(MeanTmins)[7]<-"Geo_Mean"
 colnames(MeanTmins)[9]<-"Temp_Mean"
 colnames(MeanTmins)[8]<-"Geo_SD"
 colnames(MeanTmins)[10]<-"Temp_SD"
-cheap.geo<-MeanTmins
+
+cheap.stv<-MeanTmins
+cheap.geo<-GDD.lastfrost
+
+## model it
+library(brms)
+
+### try it with fewer iterations
+range(cheap.geo$iter)
+cheap.geo.small<-dplyr::filter(cheap.geo,iter>3500)
+cheap.stv.small<-dplyr::filter(cheap.stv,iter>3500)
+
+mod.ggdlf.geo<-brm(b_chill~Geo_SD*continent+(1|iter),data=cheap.geo.small)
+summary(mod.ggdlf.geo)
+
+
+#mod.ggdlf.geo.sp<-brm(b_chill~Geo_SD*continent+(1|species),data=cheap.geo.small) doesnt run
+
+
+new.data.ggdlf.temp<-data.frame(Geo_SD=cheap.geo.small$Geo_SD,iter=cheap.geo.small$iter,continent=cheap.geo.small$continent)
+
+ggdlf<-predict(mod.ggdlf.geo,newdata = new.data.ggdlf)
+ggdlf<-as.data.frame(ggdlf)
+#head(ggdlf)
+new.data.ggdlf<-cbind(new.data.ggdlf,ggdlf)
+
+library(ggplot2)
+png("figures/cheap_approach/geo_sd_gdd2lf.png",width = 7,height = 6,units = "in",res=200)
+gdd.geo.plot<-ggplot()+geom_point(data=cheap.geo,aes(Geo_SD,b_chill),size=0.3)+
+  stat_summary(data=cheap.geo,aes(Geo_SD,b_chill),size=1,color="gray")+
+ # geom_point(data=new.data.ggdlf,aes(Geo_SD,Estimate),color="skyblue1")+
+#  geom_errorbar(data=new.data.ggdlf,aes(Geo_SD,ymin=Q2.5,ymax=Q97.5),color="red")+
+geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Estimate),method="lm",fullrange=TRUE)+
+  geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Q2.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Q97.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+    facet_wrap(~continent)+theme_bw()+ylim(-50,50)
+dev.off()
+
+mod.ggdlf.temp<-brm(b_chill~Temp_SD*continent+(1|iter),data=cheap.geo.small)
+
+new.data.ggdlf.temp<-data.frame(Temp_SD=cheap.geo.small$Temp_SD,iter=cheap.geo.small$iter,continent=cheap.geo.small$continent)
+
+ggdlf.temp<-predict(mod.ggdlf.temp,newdata = new.data.ggdlf.temp)
+ggdlf.temp<-as.data.frame(ggdlf.temp)
+new.data.ggdlf.temp<-cbind(new.data.ggdlf.temp,ggdlf.temp)
+
+png("figures/cheap_approach/temp_sd_gdd2lf.png",width = 7,height = 6,units = "in",res=200)
+gdd.temp.plot<-ggplot()+geom_point(data=cheap.geo,aes(Temp_SD,b_chill),size=0.3)+
+  stat_summary(data=cheap.geo,aes(Temp_SD,b_chill),size=1,color="gray")+
+  # geom_point(data=new.data.ggdlf,aes(Geo_SD,Estimate),color="skyblue1")+
+  #  geom_errorbar(data=new.data.ggdlf,aes(Geo_SD,ymin=Q2.5,ymax=Q97.5),color="red")+
+  geom_smooth(data=new.data.ggdlf.temp,aes(Temp_SD,Estimate),method="lm",fullrange=TRUE)+
+  geom_smooth(data=new.data.ggdlf.temp,aes(Temp_SD,Q2.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  geom_smooth(data=new.data.ggdlf.temp,aes(Temp_SD,Q97.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  facet_wrap(~continent)+theme_bw()+ylim(-100,50)
+dev.off()
+
+png("figures/cheap_approach/modeled_gdd2lf.png",width = 7,height = 7,units = "in",res=200)
+ggpubr::ggarrange(gdd.temp.plot,gdd.geo.plot,nrow=2,ncol=1)
+dev.off()
+
+mod.stv.geo<-brm(b_chill~Geo_SD*continent+(1|iter),data=cheap.stv.small)
+
+new.data.stv.geo<-data.frame(Geo_SD=cheap.stv.small$Geo_SD,iter=cheap.stv.small$iter,continent=cheap.stv.small$continent)
+
+stv.geo<-predict(mod.stv.geo,newdata = new.data.stv.geo)
+stv.geo<-as.data.frame(stv.geo)
+new.data.stv.geo<-cbind(new.data.stv.geo,stv.geo)
+
+png("figures/cheap_approach/geo_sd_stv.png",width = 7,height = 6,units = "in",res=200)
+stv.geo.plot<-ggplot()+geom_point(data=cheap.stv,aes(Geo_SD,b_chill),size=0.3)+
+  stat_summary(data=cheap.stv,aes(Geo_SD,b_chill),size=1,color="gray")+
+  # geom_point(data=new.data.ggdlf,aes(Geo_SD,Estimate),color="skyblue1")+
+  #  geom_errorbar(data=new.data.ggdlf,aes(Geo_SD,ymin=Q2.5,ymax=Q97.5),color="red")+
+  geom_smooth(data=new.data.stv.geo,aes(Geo_SD,Estimate),method="lm",fullrange=TRUE)+
+  geom_smooth(data=new.data.stv.geo,aes(Geo_SD,Q2.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  geom_smooth(data=new.data.stv.geo,aes(Geo_SD,Q97.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  facet_wrap(~continent)+theme_bw()+ylim(-100,50)
+dev.off()
+
+mod.stv.temp<-brm(b_chill~Temp_SD*continent+(1|iter),data=cheap.stv.small)
+
+new.data.stv.temp<-data.frame(Temp_SD=cheap.stv.small$Temp_SD,iter=cheap.stv.small$iter,continent=cheap.stv.small$continent)
+
+stv.temp<-predict(mod.stv.temp,newdata = new.data.stv.temp)
+stv.temp<-as.data.frame(stv.temp)
+new.data.stv.temp<-cbind(new.data.stv.temp,stv.temp)
+
+png("figures/cheap_approach/temp_sd_stv.png",width = 7,height = 6,units = "in",res=200)
+stv.temp.plot<-ggplot()+geom_point(data=cheap.stv,aes(Temp_SD,b_chill),size=0.3)+
+  stat_summary(data=cheap.stv,aes(Temp_SD,b_chill),size=1,color="gray")+
+  # geom_point(data=new.data.ggdlf,aes(Geo_SD,Estimate),color="skyblue1")+
+  #  geom_errorbar(data=new.data.ggdlf,aes(Geo_SD,ymin=Q2.5,ymax=Q97.5),color="red")+
+  geom_smooth(data=new.data.stv.temp,aes(Temp_SD,Estimate),method="lm",fullrange=TRUE)+
+  geom_smooth(data=new.data.stv.temp,aes(Temp_SD,Q2.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  geom_smooth(data=new.data.stv.temp,aes(Temp_SD,Q97.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
+  facet_wrap(~continent)+theme_bw()+ylim(-100,50)
+dev.off()
+
+png("figures/cheap_approach/modeled_stv.png",width = 7,height = 7,units = "in",res=200)
+ggpubr::ggarrange(stv.temp.plot,stv.geo.plot,nrow=2,ncol=1)
+dev.off()
+rangegeo<-filter(rangegeo,!is.na(continent))
+
+maxy<-ggplot(rangegeo,aes(min.y,b_chill))+geom_point()+facet_wrap(~continent)+stat_smooth(method="lm")
+miny<-ggplot(rangegeo,aes(max.y,b_chill))+geom_point()+facet_wrap(~continent)+stat_smooth(method="lm")
+
+png("figures/cheap_approach/unmodeled_lat.png",width = 7,height = 7,units = "in",res=200)
+ggpubr::ggarrange(maxy,miny,nrow=2,ncol=1)
+dev.off()
+save.image("cheap.mods.Rda")
+
+
+
+
+stop("below is scratch")
+
+dev.off()
 datalist.cheap <- with(cheap.geo, 
                         list(y = b_chill,  
                              x = Geo_SD, 
@@ -135,7 +263,7 @@ datalist.cheap <- with(cheap.geo,
               iter = 3000, warmup=2000, chains=4) ## my stan hardware seems off
 
 library(rstanarm)
-mod.stv<-brm(b_chill~Geo_SD+(1|species),data=MeanTmins)
+
 summary(mod.stv)
 
 new.data.stv<-data.frame(Geo_SD=MeanTmins$Geo_SD,continent=MeanTmins$continent)
