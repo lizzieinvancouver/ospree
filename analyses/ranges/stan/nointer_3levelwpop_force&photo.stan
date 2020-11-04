@@ -12,7 +12,8 @@
    int<lower=0> n_pop;
    
    //Cue parameters
-   vector[N] force; 
+   vector[N] force;
+   vector[N] photo;
  
    // Cluster IDs
    int<lower=1> sp[N];
@@ -32,6 +33,7 @@
    real mu_a_sp;
    // Population slope
    real mu_b_force_sp;
+   real mu_b_photo_sp;
  
    // Level-1 errors
    real<lower=0> sigma_y;
@@ -40,6 +42,7 @@
    // Level-2 random effect
    //real mu_a_pop[n_sp];
    real<lower=0> sigma_b_force_sp;
+   real<lower=0> sigma_b_photo_sp;
  
    // Level-3 random effect
    //real u_0k[Nk];
@@ -49,10 +52,12 @@
    // Varying intercepts
    real a_sppop[n_pop];
    real b_force_sppop[n_pop];
+   real b_photo_sppop[n_pop];
  
    // Individual mean
    real a_sp[n_sp];
    real b_force[n_sp];
+   real b_photo[n_sp];
    
  }
  
@@ -61,7 +66,8 @@
    // Individual mean
    for(i in 1:N){
             yhat[i] = a_sppop[pop[i]] + // indexed with population
-		b_force_sppop[pop[i]] * force[i];
+		b_force_sppop[pop[i]] * force[i] +
+		b_photo_sppop[pop[i]] * photo[i];
 			     	}
  }
  
@@ -78,13 +84,21 @@
    for (j in 1:n_pop) {
      b_force_sppop[j] ~ normal(b_force[sp[j]], sigma_b_pop);
    }
+   
+   for (j in 1:n_pop) {
+     b_photo_sppop[j] ~ normal(b_photo[sp[j]], sigma_b_pop);
+   }
  
    // Random effects distribution
    a_sp  ~ normal(mu_a_sp, sigma_a_sp);
    b_force ~ normal(mu_b_force_sp, sigma_b_force_sp);
+   b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp);
    
    mu_b_force_sp ~ normal(0, 20);
    sigma_b_force_sp ~ normal(0, 10); 
+   
+   mu_b_photo_sp ~ normal(0, 20);
+   sigma_b_photo_sp ~ normal(0, 10); 
    
    mu_a_sp ~ normal(0, 50);
    sigma_a_sp ~ normal(0, 20);

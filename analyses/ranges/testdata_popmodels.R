@@ -40,7 +40,8 @@ intercept   <- 50
 sigma_y <- 15
 ## Forcing slope
 b_force    <- -5
-#sigma_b <- 3
+b_photo    <- -2
+
 
 ## Level-1 errors
 #sigma_a   <- 3
@@ -67,23 +68,21 @@ b_force_sp  <- b_force + rnorm(nsp, 0, sigma_bsp) ### maybe this should be n = n
 b_force_sppop <- b_force_sp + rnorm(npop*nsp, 0, sigma_bpop)
 b_force_sppop <- rep(b_force_sppop, each=nobs)
 
+b_photo_sp  <- b_photo + rnorm(nsp, 0, sigma_bsp) ### maybe this should be n = nsp*nobs or something different
+## Level 2 
+b_photo_sppop <- b_photo_sp + rnorm(npop*nsp, 0, sigma_bpop)
+b_photo_sppop <- rep(b_photo_sppop, each=nobs)
+
 ## Predictor
 force   <- rnorm(n = ntot, 5, 2)
+photo   <- rnorm(n = ntot, 3, 2)
 
 ## Outcome
-resp <- a_sppop + b_force_sppop*force + rnorm(ntot, 0, sigma_y)
+resp <- a_sppop + b_force_sppop*force + b_photo_sppop*photo + rnorm(ntot, 0, sigma_y)
 simpheno <- data.frame(species=rep(1:nsp, each=nobs), pop=rep(1:npop, each=nobs*nsp),
-                       force=force, a_sppop=a_sppop, b_force_sppop=b_force_sppop, resp=resp)
+                       force=force, a_sppop=a_sppop, b_force_sppop=b_force_sppop,
+                       photo=photo, b_photo_sppop=b_photo_sppop,resp=resp)
 
-#simpheno$resp_bysp <- ave(simpheno$a_sppop, simpheno$species)
-#simpheno$resp_bysp_sd <- ave(simpheno$a_sppop, simpheno$species, FUN=sd)
-
-#simpheno$resp    <- simpheno$a_sppop + simpheno$b_force_sppop*simpheno$force + rnorm(nrow(simpheno), 0, sigma_y)
-
-#library(lme4)
-#modtest <- lmer(resp ~ force + (force|species/pop), data=simpheno) ## Quick look looks good!
-
-#write.csv(simpheno, file="~/Desktop/testing123.csv", row.names=FALSE)
 
 N <- length(simpheno$resp)
 forcepop <- list(y = simpheno$resp,
@@ -93,26 +92,15 @@ forcepop <- list(y = simpheno$resp,
                  sp = simpheno$species,
                  pop = simpheno$pop,
                  N = N, 
-                 force = simpheno$force)
+                 force = simpheno$force,
+                 photo = simpheno$photo)
 
 
 
-# Try to run the Stan model 
-library(brms)
-check <- brm(resp ~ force + (force|species/pop), data=simpheno, warmup = 1500, iter = 2000, 
-             control = list( adapt_delta = 0.99, max_treedepth=15))
+#forcepopfit <- stan(file = "stan/nointer_3levelwpop_classroomexamp.stan", data = forcepop, warmup = 4000, iter = 5000,
+ #                   chains = 4,  control=list(max_treedepth = 15, adapt_delta=0.99)) 
 
-checkreal.force <- brm(resp ~ force + (force|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
-                       control = list( adapt_delta = 0.99, max_treedepth=15))
-checkreal.chill <- brm(resp ~ chill + (chill|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
-                       control = list( adapt_delta = 0.99, max_treedepth=15))
-checkreal.photo <- brm(resp ~ photo + (photo|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
-                       control = list( adapt_delta = 0.99, max_treedepth=15))
-
-checkreal.all <- brm(resp ~ force + photo + (force + photo|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
-                     control = list( adapt_delta = 0.99, max_treedepth=15))
-
-forcepopfit <- stan(file = "stan/nointer_3levelwpop_classroomexamp.stan", data = forcepop, warmup = 4000, iter = 5000,
+forcephotopopfit <- stan(file = "stan/nointer_3levelwpop_force&photo.stan", data = forcepop, warmup = 4000, iter = 5000,
                     chains = 4,  control=list(max_treedepth = 15, adapt_delta=0.99)) 
 
 
