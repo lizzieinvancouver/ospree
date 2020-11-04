@@ -302,6 +302,18 @@ sd(mod.sum[grep("b_force_pop\\[", rownames(mod.sum)),] [,1])
 
 if(FALSE){
   
+  library(brms)
+  checkreal.force <- brm(resp ~ force + (force|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                         control = list( adapt_delta = 0.99, max_treedepth=15))
+  checkreal.chill <- brm(resp ~ chill + (chill|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                         control = list( adapt_delta = 0.99, max_treedepth=15))
+  checkreal.photo <- brm(resp ~ photo + (photo|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                         control = list( adapt_delta = 0.99, max_treedepth=15))
+  
+  checkreal.all <- brm(resp ~ force + photo + (force + photo|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                       control = list( adapt_delta = 0.99, max_treedepth=15))
+  
+  
   ###(1 | A/B) translates to (1 | A) + (1 | A:B) where A:B simply means creating a new grouping factor with the levels of A and B pasted together. 
   bb.stan.here <- bb.stan.pop3
   getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
