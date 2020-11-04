@@ -13,7 +13,7 @@ Group-Level Effects:
 ~latbi (Number of levels: 12) 
                      Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
 sd(Intercept)           20.37      6.32    10.43    34.88       1209 1.00
-sd(force)                1.05      0.38     0.42     1.91       1230 1.00
+0     0.38     0.42     1.91       1230 1.00
 sd(photo)                0.71      0.40     0.06     1.61        612 1.00
 cor(Intercept,force)    -0.65      0.26    -0.96     0.02       1001 1.00
 cor(Intercept,photo)     0.14      0.39    -0.65     0.83       1907 1.00
