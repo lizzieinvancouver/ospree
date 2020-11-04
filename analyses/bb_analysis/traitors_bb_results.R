@@ -36,9 +36,25 @@ m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
 
-# Extract random slopes and save
-m2lni.slopes <- summary(m2l.ni, pars = list("mu_b_force_sp", "sigma_b_force_sp", "b_force",
-                                            "mu_b_photo_sp", "sigma_b_photo_sp", "b_photo",
-                                            "mu_b_chill_sp", "sigma_b_chill_sp", "b_chill"))$summary
+## # Extract random slopes and mu's / sigmas
+## m2lni.all <- summary(m2l.ni, pars = list("mu_b_force_sp", "sigma_b_force_sp", "b_force",
+##                                          "mu_b_photo_sp", "sigma_b_photo_sp", "b_photo",
+##                                          "mu_b_chill_sp", "sigma_b_chill_sp", "b_chill"))$summary
 
-write.table(x = m2lni.slopes, file = "bb_results_geoff.csv", row.names = TRUE, sep = ",")
+# Extract random slopes and save
+m2lni.slopes <- summary(m2l.ni, pars = list("b_force", "b_photo", "b_chill"))$summary
+
+# Make table containing species names and numbers
+## Base table
+sp.names.num <- data.frame(Species = bb.stan$complex.wname,
+                           Number = bb.stan$complex)
+## Remove duplicates
+sp.names.num <- sp.names.num[!duplicated(sp.names.num$Number), ]
+## Order
+sp.names.num <- sp.names.num[order(sp.names.num$Number), ]
+
+# Merge summary table and species names
+m2lni.slopes <- cbind(sp.names.num, m2lni.slopes)
+
+write.table(x = m2lni.slopes, file = "traitors_bb_results.csv", row.names = FALSE, sep = ",")
+
