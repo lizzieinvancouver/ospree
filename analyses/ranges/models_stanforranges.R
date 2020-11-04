@@ -269,7 +269,8 @@ bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
 datalist.bb.pop <- with(bb.stan.here, 
                     list(y = resp,  
-                         force = force.z, 
+                         force = force.z,
+                         photo = photo.z,
                          sp = latbinum,
                          pop = pophere,
                          N = nrow(bb.stan.here),
@@ -278,8 +279,8 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_classroomexamp.stan', data = datalist.bb.pop,
-               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo.stan', data = datalist.bb.pop,
+               iter = 2000, warmup=1500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
     }
 
 modelhere <- m3l.ni 
@@ -311,6 +312,10 @@ if(FALSE){
                          control = list( adapt_delta = 0.99, max_treedepth=15))
   
   checkreal.all <- brm(resp ~ force + photo + (force + photo|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                       control = list( adapt_delta = 0.99, max_treedepth=15))
+  
+  bb.stan.here$studynum <- as.numeric(as.factor(bb.stan.here$datasetID))
+  checkreal.all <- brm(resp ~ datasetID + force.z + photo.z + (force.z + photo.z|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
                        control = list( adapt_delta = 0.99, max_treedepth=15))
   
   

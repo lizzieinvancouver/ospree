@@ -46,7 +46,8 @@
  
    // Level-3 random effect
    //real u_0k[Nk];
-   real<lower=0> sigma_b_pop;
+   real<lower=0> sigma_b_force_pop;
+   real<lower=0> sigma_b_photo_pop;
    real<lower=0> sigma_a_pop;
    
    // Varying intercepts
@@ -82,11 +83,11 @@
    }
    // Level-2 (100 level-2 random intercepts)
    for (j in 1:n_pop) {
-     b_force_sppop[j] ~ normal(b_force[sp[j]], sigma_b_pop);
+     b_force_sppop[j] ~ normal(b_force[sp[j]], sigma_b_force_pop);
    }
    
    for (j in 1:n_pop) {
-     b_photo_sppop[j] ~ normal(b_photo[sp[j]], sigma_b_pop);
+     b_photo_sppop[j] ~ normal(b_photo[sp[j]], sigma_b_photo_pop);
    }
  
    // Random effects distribution
@@ -104,7 +105,8 @@
    sigma_a_sp ~ normal(0, 20);
    
    sigma_a_pop ~ normal(0, 20);
-   sigma_b_pop ~ normal(0, 10);
+   sigma_b_force_pop ~ normal(0, 10);
+   sigma_b_photo_pop ~ normal(0, 10);
    sigma_y ~ normal(0, 20);
  
    // Likelihood part of Bayesian inference

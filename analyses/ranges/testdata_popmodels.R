@@ -37,7 +37,7 @@ ntot = nsp * npop * nobs
 
 ## Budburst intercept
 intercept   <- 50
-sigma_y <- 15
+sigma_y <- 5
 ## Forcing slope
 b_force    <- -5
 b_photo    <- -2
@@ -47,12 +47,14 @@ b_photo    <- -2
 #sigma_a   <- 3
 
 ## Level-2 errors (population)
-sigma_apop <- 10
-sigma_bpop <- 5
+sigma_apop <- 5
+sigma_b_force_pop <- 2
+sigma_b_photo_pop <- 2
 
 ## Level-3 errors (species)
 sigma_asp <- 15
-sigma_bsp <- 10
+sigma_b_force_sp <- 10
+sigma_b_photo_sp <- 10
 
 ## Varying intercepts
 ## Level 3 (repeat for level 2)
@@ -63,14 +65,14 @@ a_sppop <- rep(a_sppop, each=nobs)
 
 ## Varying slopes
 ## Level 3 (repeat for level 2)
-b_force_sp  <- b_force + rnorm(nsp, 0, sigma_bsp) ### maybe this should be n = nsp*nobs or something different
+b_force_sp  <- b_force + rnorm(nsp, 0, sigma_b_force_sp) ### maybe this should be n = nsp*nobs or something different
 ## Level 2 
-b_force_sppop <- b_force_sp + rnorm(npop*nsp, 0, sigma_bpop)
+b_force_sppop <- b_force_sp + rnorm(npop*nsp, 0, sigma_b_force_pop)
 b_force_sppop <- rep(b_force_sppop, each=nobs)
 
-b_photo_sp  <- b_photo + rnorm(nsp, 0, sigma_bsp) ### maybe this should be n = nsp*nobs or something different
+b_photo_sp  <- b_photo + rnorm(nsp, 0, sigma_b_photo_sp) ### maybe this should be n = nsp*nobs or something different
 ## Level 2 
-b_photo_sppop <- b_photo_sp + rnorm(npop*nsp, 0, sigma_bpop)
+b_photo_sppop <- b_photo_sp + rnorm(npop*nsp, 0, sigma_b_photo_pop)
 b_photo_sppop <- rep(b_photo_sppop, each=nobs)
 
 ## Predictor
@@ -100,13 +102,14 @@ forcepop <- list(y = simpheno$resp,
 #forcepopfit <- stan(file = "stan/nointer_3levelwpop_classroomexamp.stan", data = forcepop, warmup = 4000, iter = 5000,
  #                   chains = 4,  control=list(max_treedepth = 15, adapt_delta=0.99)) 
 
-forcephotopopfit <- stan(file = "stan/nointer_3levelwpop_force&photo.stan", data = forcepop, warmup = 4000, iter = 5000,
+forcephotopopfit <- stan(file = "stan/nointer_3levelwpop_force&photo.stan", data = forcepop, warmup = 1500, iter = 2000,
                     chains = 4,  control=list(max_treedepth = 15, adapt_delta=0.99)) 
 
 
-modelhere <- forcepopfit 
+modelhere <- forcephotopopfit 
 mod.sum <- summary(modelhere)$summary
-mod.sum[grep("b_force", rownames(mod.sum)),]
+mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
+mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
 
 launch_shinystan(forcepopfit)
