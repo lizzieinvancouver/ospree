@@ -1,6 +1,66 @@
 ### BRMS output for testing inter vs intraspecific variation
 
 
+#### Photoperiod and Forcing, z-scored with datasetID as intercept:
+
+> checkreal.all
+ Family: gaussian 
+  Links: mu = identity; sigma = identity 
+Formula: resp ~ datasetID + force.z + photo.z + (force.z + photo.z | latbi/pophere) 
+   Data: bb.stan.here (Number of observations: 948) 
+Samples: 4 chains, each with iter = 2000; warmup = 1500; thin = 1;
+         total post-warmup samples = 2000
+
+Group-Level Effects: 
+~latbi (Number of levels: 12) 
+                       Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+sd(Intercept)             11.61      4.16     5.72    21.65        490 1.01
+sd(force.z)                7.17      2.25     3.86    12.62        813 1.00
+sd(photo.z)                2.76      1.85     0.16     6.89        679 1.00
+cor(Intercept,force.z)    -0.23      0.39    -0.85     0.59        350 1.01
+cor(Intercept,photo.z)    -0.11      0.43    -0.87     0.73       1237 1.00
+cor(force.z,photo.z)      -0.09      0.46    -0.87     0.79       1277 1.00
+
+~latbi:pophere (Number of levels: 65) 
+                       Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+sd(Intercept)              1.77      1.12     0.11     4.38        660 1.00
+sd(force.z)                1.65      1.26     0.06     4.68        471 1.01
+sd(photo.z)                0.62      0.55     0.02     1.94       1435 1.00
+cor(Intercept,force.z)     0.13      0.50    -0.85     0.92       1247 1.00
+cor(Intercept,photo.z)    -0.04      0.51    -0.89     0.88       2621 1.00
+cor(force.z,photo.z)      -0.04      0.52    -0.90     0.89       1792 1.00
+
+Population-Level Effects: 
+                    Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+Intercept              37.24      6.94    23.56    51.25        342 1.01
+datasetIDcalme94       -2.34     11.84   -25.99    20.83        362 1.01
+datasetIDcampbell75    14.38     18.26   -25.97    48.61        381 1.01
+datasetIDfalusi96     -11.02      7.19   -24.31     2.53        366 1.00
+datasetIDfalusi97      28.75     12.95     3.54    53.68        589 1.00
+datasetIDflynn18       -9.36     10.11   -30.16    10.01        251 1.01
+datasetIDheide93a     -21.29      9.59   -40.09    -3.46        397 1.00
+datasetIDli05           6.86     11.63   -15.43    29.40        829 1.00
+datasetIDmalyshev18   -14.71      7.77   -29.75    -0.15        354 1.00
+datasetIDman17         21.03     11.32    -2.78    43.14        322 1.01
+datasetIDmyking95      -7.30      7.47   -21.01     8.06        570 1.00
+datasetIDpartanen01   -16.96      7.57   -31.80    -2.66        467 1.00
+datasetIDpartanen98    34.15      6.07    22.48    45.82        481 1.00
+datasetIDskuterud94   -21.36      6.42   -33.34    -8.20        649 1.00
+force.z                -6.94      2.99   -12.68    -1.06        543 1.01
+photo.z                -1.89      1.48    -4.94     0.99        939 1.00
+
+Family Specific Parameters: 
+      Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+sigma    14.64      0.35    13.98    15.36       2015 1.00
+
+Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
+is a crude measure of effective sample size, and Rhat is the potential 
+scale reduction factor on split chains (at convergence, Rhat = 1).
+> 
+
+
+
+
 #### Photoperiod and Forcing:
 Family: gaussian 
   Links: mu = identity; sigma = identity 

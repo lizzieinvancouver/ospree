@@ -580,6 +580,14 @@ if(FALSE){
     SDs.sites <- aggregate(sps.i, by=list(Year = sps.i$lat.long), FUN = sd, na.rm=T)
     SDs.sites$lat.long <- NULL
     
+    ### Now we need to get the area weighted average across grid cells. See Issue #387
+    tempvals <- mean(ras.numpixels, na.rm=TRUE)
+    cellStats(sm, mean, na.rm=TRUE)
+    
+    sps.area <- area(spsshapeproj) / 10000
+    newweights <- tempvals * sps.area ### So really, the tempvals will be from the means below, just need to make sure the grid cells line up
+    wt.grids <- cellStats(newweights, sum) / cellStats(sps.area, sum)
+    
     #dat <- sps.1
     
     if(type=="means"){
