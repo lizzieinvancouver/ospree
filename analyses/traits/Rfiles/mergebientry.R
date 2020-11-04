@@ -85,6 +85,7 @@ sort(unique(trydat$SpeciesName))
 ##################################################################################
 names(trydat) # so many of these columns are not useful right now
 
+
 trydat<-trydat[,c("SpeciesName","Dataset","Reference","Latitude","Longitude","Traits","TraitValue", "OrigUnitStr.y","UnitName","std_Latitude","std_Longitude","Std_Traits","TraitValue_std", "Exposition","Exposition.temperature","Leaf.exposition" )]
 
 # Excluding experiment data
@@ -202,3 +203,119 @@ table
 
 length(unique(trysubtrait$SpeciesName))
 unique(trysubtrait$TraitValue_std)
+
+
+
+
+
+#Faith's subsetting code - The end goal might be to move thsi to teh try cleaning code?
+#----------------------------------------
+
+#Remove columns with NA only in them
+data2 <- trydat[colSums(!is.na(trydat)) > 0]
+data[1:2,2:5]
+
+#Get rid of rows of experimental data
+unique(data$Exposition) # I think we should subset out all experiments
+expList <- c( "Open Top", "open-top chamber",  "open-sided growth chamber", "forest fertilization",
+ "Climate Chamber", "FACE",  "mini-ecosystem")#We dont know what mini-ecosystem or face is so removing them 
+
+unique(data$Exposition[!data$Exposition %in% expList]) 
+data3 <- data2[!data2$Exposition %in% expList,]
+# Start by subsetting out studies that are growth chamber studies or experiments
+
+unique(data3$Exposition.temperature) 
+data4 <- data3[is.na(data3$Exposition.temperature),] # Remove studies with an exposition temperature
+
+unique(data4$Exposition..position.of.plant.in.the.canopy) # 
+plnList <- c("7"  ,"6"  , "5", "bottom", "middle" , "top" ) # maybe these are experiments?
+data5 <- data4[!data4$Exposition..position.of.plant.in.the.canopy %in% plnList,]
+
+unique(data$Treatment.water.supply) # All NA #Intermediate, high, low. Just chose NA values. 
+data6 <- data5[is.na(data5$Treatment.water.supply),] 
+
+unique(data$Treatment.ozon) # high, low. chose na rows 
+data7 <- data6[is.na(data6$Treatment.ozon),]
+
+table(data8$DatasetID)
+
+unique(data7$Treatment.conditions) #by this point in the cleaning there are only NAs
+
+unique(data7$Treatment.CO2) 
+table(data7$Treatment.CO2)#Remove all rows where they specify elevation 
+data8 <- data7[is.na(data7$Treatment.CO2),]
+
+unique(data8$Leaf.exposition) #Not an issue after previous cleaning
+
+unique(data8$Treatment.relative.humidity..Relative.humidity..) # All NA
+
+unique(data8$Treatment.plant.growth.temperature.during.night)  #Not an issue after previous cleaning
+
+unique(data8$Treatment.daylength) 
+
+unique(data8$Treatment.nutrient.solution.per.week) #Not an issue after previous cleaning
+
+unique(data8$Treatment.K..potassium..supply) # All NA
+
+unique(data8$Treatment.P..phosphorus..supply) # All N
+
+unique(data8$Treatment.nutrient.supply) # intermediate, low, high
+
+unique(data8$Treatment.light) # 2,1,0 no indication of what this represents
+
+unique(data8$Treatment.growth.medium...substrat...soil) # All NA
+
+
+
+#Get rid of climate columns 
+
+
+#Columns to remove
+#----------------------------
+
+#climate columsn - precipitation 
+names(data8)
+
+precipNames <- grep( "precip", names(data2),  value = TRUE)
+evapotransNames <-  grep( "evapotranspiration", names(data2),  value = TRUE)
+radNames <-  grep( "radiation", names(data2),  value = TRUE)
+tempNames <-  grep( "temperature", names(data2),  value = TRUE)
+soilNames <-  grep( "oil", names(data2),  value = TRUE)
+herbNames <-  grep( "erbivory", names(data2),  value = TRUE)
+vpdNames <- grep("VPD", names(data2), value = TRUE)
+seedNames <- grep("Seed", names(data2), value= TRUE)
+dateNames <- grep("Measurement.date", names(data2), value= TRUE)
+ageNames <- grep("age", names(data2), value= TRUE)
+expNames <- grep("xposition", names(data2), value= TRUE)
+treatNames <- grep("Treatment.", names(data2), value= TRUE)
+litterNames <- grep("litter", names(data2), value = TRUE)
+
+otherNames <- c("Soil.carbon.nitrogen..C.N..ratio", "Plant.developmental.status...plant.age...maturity...plant.life.stage",
+	"Plant.environment" ,"Altitude.of.provenance.of.litter" , "Climate.zone.of.provenance.of.litter"      ,
+	"Nitrogen.deposition.at.the.site", "Ecocraft.regression.ID", "Nitrogen.mineralisation.rate",
+	"Plant.cover", "Plot.ID", "Atmospheric.CO2.concentration.during.measurement..Ca.",
+	"Light.during.measurement" , "Phylogenetically.isolated...not.isolated.individuals",
+	"Annual.moisture.balance" ,  "Location...Site.Name" , "Moisture.balance.code",
+	"Moisture.balance.during.growth.season", "Radiation.classes.1", "Radiation.classes.2",
+	"Temperature.during.respiration.measurements", "Altitude.comments", 
+	"Plant.height.reference", "Altitude.comments" , "Plant.height.reference", "Stocking",
+	"Slope.of.site", "Number.of.replicates", "Provenance.of.species", "Temperature.during.measurement", 
+	"Leaf.area.index.of.the.site..LAI.", "Plant.longevity.reference",    "Method.by.which.dispersal.syndrom.was.acertained",
+	"Reference.for.dispersal",  "O2.concentration.during.measurement", "Canopy.height.observed" ,
+	 "Number.of.tree.rings.visible.in.core",  "Height.of.measurement..stem.diameter..tree.rings..bark.thickness" ,
+	  "Age.of.the.stand" , "Analysis.ID.in.Kattge.Leaf.Physiology" , "Plant.growth.form.reference" ,  "Rooting.Volume..m3.", 
+	  "Ecocraft.parameter.value.ID"  , "Sampling.date..year"  ,  "Site.burned.year"  , 
+	        "Net.primary.productivity.of.the.site..NPP."  , "Vegetation.type...Biome" , "Species.phylogenic.group" ,
+	        "Canopy.position..sun.vers..Shade.leaf.qualifier..light.exposure" ,  "Description.of.chamber",
+	         "Vegetation.type...Biome...2." ,  "Pests.and.treatmens" )
+
+
+namesRemove <- c(expNames,treatNames, dateNames, ageNames, seedNames, otherNames, litterNames, vpdNames, evapotransNames, precipNames,radNames, tempNames, soilNames, herbNames)
+
+
+colNamesNoClim <- names(data2)[!names(data2) %in% namesRemove]
+
+
+
+dataNoExpshort <- data8 [,colNamesNoClim]
+
