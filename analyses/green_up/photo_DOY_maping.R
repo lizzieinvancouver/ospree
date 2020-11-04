@@ -10,9 +10,9 @@ library(rgdal)
 library(geosphere)
 setwd("~/Documents/git/ospree/analyses/green_up/greenup_files/")
 
-
+savemap= FALSE #set to TRUE if you want to create new raster maps to save
 files<-list.files(path = ".", full.names = TRUE)
-
+files<-files[1:10]
 ####load data
 for (file in files){
 M<-raster(file) ###
@@ -60,16 +60,19 @@ gooddat2<-cbind(dl2,dat) #geosphere
 #to make it a raster drop green up variable (si.x.averages etc)
 
 d2<-dplyr::select(gooddat2,x,y, dl2) #geosphere
-
+d3<-dplyr::select(gooddat2,y,x,Day,dl2) #geosphere
+colnames(d3)<-c("lat","long","date","daylength")
+doyfilename<-paste("../greenup_dates/greenup",substr(file,36,39),".csv", sep = "")
+write.csv(d3,doyfilename, row.names = FALSE)
 ###convert back to raster
 
-dfr2<-rasterFromXYZ(d2) #geosphere
+if(savemap == TRUE){dfr2<-rasterFromXYZ(d2) #geosphere
 ##view it
 par(mar=c(1,1,1,1))
   
 tiff(filename = paste("output_",basename(file)))
 plot(dfr2)
-dev.off()
+dev.off()}
 }
 
 
