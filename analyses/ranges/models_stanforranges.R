@@ -289,25 +289,29 @@ bb.stan.here <- bb.stan.pop3 ##lets do the 3 pop
 getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
 bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
+bb.stan.here$datasetnum <- as.numeric(as.factor(bb.stan.here$datasetID))
 datalist.bb.pop <- with(bb.stan.here, 
                     list(y = resp,  
                          force = force.z,
                          photo = photo.z,
                          sp = latbinum,
+                         study = datasetnum,
                          pop = pophere,
                          N = nrow(bb.stan.here),
                          n_sp = length(unique(bb.stan.here$latbinum)),
+                         n_study = length(unique(bb.stan.here$datasetID)),
                          n_pop = length(unique(bb.stan.here$pophere))
                     )
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_force&photo.stan', data = datalist.bb.pop,
-               iter = 2000, warmup=1500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
     }
 
 modelhere <- m3l.ni 
 mod.sum <- summary(modelhere)$summary
-mod.sum[grep("b_force", rownames(mod.sum)),]
+mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
+mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
 
 launch_shinystan(m3l.ni)

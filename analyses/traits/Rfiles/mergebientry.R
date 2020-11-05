@@ -22,7 +22,7 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 #} 
 
 #Since the try data is still being cleaned, we are moving forward with the cleaning and plotting/preliminary testing of our hypotheses with the BIEN data
-biendat<-read.csv("input/newspp_BIEN_traitdata_Nov11.csv", header=TRUE)
+#biendat<-read.csv("input/newspp_BIEN_traitdata_Nov11.csv", header=TRUE)
 
 head(biendat)
 length(unique(biendat$scrubbed_species_binomial))
@@ -83,10 +83,17 @@ length(unique(trydat$SpeciesName))
 
 sort(unique(trydat$SpeciesName))
 ##################################################################################
+# Removing the gymnosperm from the try data 
+gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
+
+trydat <- trydat[!trydat$genus %in% gymno,]
+unique(trydat$SpeciesNames)
+
+##########################################################################################
 names(trydat) # so many of these columns are not useful right now
 
 
-trydat<-trydat[,c("SpeciesName","Dataset","Reference","Latitude","Longitude","Traits","TraitValue", "OrigUnitStr.y","UnitName","std_Latitude","std_Longitude","Std_Traits","TraitValue_std", "Exposition","Exposition.temperature","Leaf.exposition" )]
+#trydat<-trydat[,c("SpeciesName","Dataset","Reference","Latitude","Longitude","Traits","TraitValue", "OrigUnitStr.y","UnitName","std_Latitude","std_Longitude","Std_Traits","TraitValue_std", "Exposition","Exposition.temperature","Leaf.exposition" )]
 
 # Excluding experiment data
 unique(trydat$Exposition) # I think we should subset out all experiments
@@ -318,4 +325,12 @@ colNamesNoClim <- names(data2)[!names(data2) %in% namesRemove]
 
 
 dataNoExpshort <- data8 [,colNamesNoClim]
+
+#Deirdre's summary notes:
+# Final dataset dataNoExpshort
+length(unique(dataNoExpshort$DatasetID)) #17
+length(unique(dataNoExpshort$SpeciesName)) # 77 species - ~12 gymno
+length(unique(dataNoExpshort$Traits)) # 12 traits
+
+sort(unique(dataNoExpshort$SpeciesName))
 

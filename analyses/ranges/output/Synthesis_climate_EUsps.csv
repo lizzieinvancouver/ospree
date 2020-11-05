@@ -1,4 +1,4 @@
-"","Geo.Mean","Geo.SD","Temp.Mean","Temp.SD","species","variable"
+"X","Temp.Mean","Temp.SD","Geo.Mean","Geo.SD","species","variable"
 "GDD",411.107524965379,205.955673949293,415.581594934648,85.9943834686028,"Abies_alba","GDD"
 "GDD.lastfrost",11.5658341483886,23.2335061071888,11.8536884580392,21.1053936247018,"Abies_alba","GDD.lastfrost"
 "DayLastFrost",82.1367212532442,25.2111253048202,79.7797110724444,15.3142679238914,"Abies_alba","DayLastFrost"
