@@ -8,6 +8,7 @@
    int<lower=0> N;
    // Number of level-2 clusters
    int<lower=0> n_sp;
+   int<lower=0> n_study;
    // Number of level-3 clusters
    int<lower=0> n_pop;
    
@@ -16,8 +17,9 @@
    vector[N] photo;
  
    // Cluster IDs
-   int<lower=1> sp[N];
-   int<lower=1> pop[N];
+   int<lower=1, upper=n_sp> sp[N];
+   int<lower=1, upper=n_study> study[N];
+   int<lower=1, upper=n_pop> pop[N]; //wait should this be by n_sp rather than N???
  
    // Level 3 look up vector for level 2
    //int<lower=1> popLookup[n_sp];
@@ -31,6 +33,7 @@
    // Define parameters to estimate
    // Population intercept (a real number)
    real mu_a_sp;
+   real mu_a_study;
    // Population slope
    real mu_b_force_sp;
    real mu_b_photo_sp;
@@ -38,6 +41,7 @@
    // Level-1 errors
    real<lower=0> sigma_y;
    real<lower=0> sigma_a_sp;
+   real<lower=0> sigma_a_study;
  
    // Level-2 random effect
    //real mu_a_pop[n_sp];
@@ -57,8 +61,11 @@
  
    // Individual mean
    real a_sp[n_sp];
+   real a_study[n_study];
    real b_force[n_sp];
    real b_photo[n_sp];
+   
+   real alpha; // 'grand mean' ... needed when you have more than one level
    
  }
  
@@ -66,7 +73,8 @@
    real yhat[N];
    // Individual mean
    for(i in 1:N){
-            yhat[i] = a_sppop[pop[i]] + // indexed with population
+            yhat[i] = alpha +
+            a_study[study[i]] + a_sppop[pop[i]] + // indexed with population
 		b_force_sppop[pop[i]] * force[i] +
 		b_photo_sppop[pop[i]] * photo[i];
 			     	}
@@ -92,6 +100,7 @@
  
    // Random effects distribution
    a_sp  ~ normal(mu_a_sp, sigma_a_sp);
+   a_study  ~ normal(mu_a_study, sigma_a_study);
    b_force ~ normal(mu_b_force_sp, sigma_b_force_sp);
    b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp);
    
@@ -101,13 +110,16 @@
    mu_b_photo_sp ~ normal(0, 20);
    sigma_b_photo_sp ~ normal(0, 10); 
    
-   mu_a_sp ~ normal(0, 50);
-   sigma_a_sp ~ normal(0, 20);
+   mu_a_sp ~ normal(0, 40);
+   sigma_a_sp ~ normal(0, 10);
    
-   sigma_a_pop ~ normal(0, 20);
+   mu_a_study ~ normal(0, 30);
+   sigma_a_study ~ normal(0, 10);
+   
+   sigma_a_pop ~ normal(0, 10);
    sigma_b_force_pop ~ normal(0, 10);
    sigma_b_photo_pop ~ normal(0, 10);
-   sigma_y ~ normal(0, 20);
+   sigma_y ~ normal(0, 10);
  
    // Likelihood part of Bayesian inference
    // Outcome model N(mu, sigma^2) (use SD rather than Var)
