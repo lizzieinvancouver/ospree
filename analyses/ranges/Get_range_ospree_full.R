@@ -401,7 +401,7 @@ synth.data<-function(Climate.in.range.list){
   
   storing = array(NA, dim=c(7,4))
   row.names(storing) = colnames(dat)[3:9]
-  colnames(storing) = c("Geo.Mean","Geo.SD","Temp.Mean","Temp.SD")
+  colnames(storing) = c("Temp.Mean","Temp.SD", "Geo.Mean","Geo.SD")
   
   
   means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
@@ -641,5 +641,10 @@ dev.off()
 unlink("chorological_maps_dataset/*", recursive = T)
 
 
+### Need to fix column names for synthesis data:
+synthdat <- read.csv("output/Synthesis_climate_EUsps.csv")
 
+colnames(synthdat) <- c("X", "Temp.Mean", "Temp.SD", "Geo.Mean", "Geo.SD", "species", "variable")
+
+write.csv(synthdat, file="output/Synthesis_climate_EUsps.csv", row.names=FALSE)
 
