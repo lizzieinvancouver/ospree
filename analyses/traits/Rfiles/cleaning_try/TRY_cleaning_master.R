@@ -323,38 +323,7 @@ allTraitsLongCropped <- allTraitsLong[!is.na(allTraitsLong$TraitValue_std),]
 
 trydat<-allTraitsLongCropped
 
-### Start by cleaning species names ################################################### MG Started 4 Nov 2020
 
-namelist <- sort(unique(trydat$SpeciesName))
-
-#split into genus and species columns and a third column for authority/subsp/any other words
-# break up name column into genus, species, extra stuff columns
-breakname <- strsplit(as.character(trydat$SpeciesName), " ", fixed=TRUE)
-trydat$genus <- unlist(lapply(breakname, function(x) x[1]))
-trydat$species <- unlist(lapply(breakname, function(x) x[2]))
-trydat$authority.subsp <- unlist(lapply(breakname, function(x) x[3]))
-
-# just using this dataset to visualize the names so I don't have to scroll passed all the empty columns
-trynames <- trydat[,c("SpeciesName", "Genus", "genus", "species", "authority.subsp")]
-
-#acutal cleaning
-trydat$genus[which(trydat$genus == "Facus")] <- "Fagus"
-trydat$species[which(trydat$species == "pensilvanicum")] <- "pensylvanicum"
-trydat$species[which(trydat$species == "grandfolia")] <- "grandifolia"
-trydat$species[which(trydat$species == "pennsylvanicum")] <- "pensylvanicum"
-trydat$species[which(trydat$species == "catharticus")] <- "cathartica"
-trydat$species[which(trydat$species =="myrtilLoides")] <- "myrtilloides"
-
-
-# can recombine genus and species if needed but ospree lists them as separate
-
-######################################################################################################
-# Next removing gymnosperm because their traits are different from decidous species
-# Removing the gymnosperm from the try data 
-gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
-
-trydat <- trydat[!trydat$genus %in% gymno,]
-unique(trydat$SpeciesNames)
 ######################################################################################################
 # Next we need to remove all the experiments, so anything that manipulates fertilizer, light, soil moisture 
 
@@ -363,14 +332,14 @@ unique(trydat$SpeciesNames)
 
 #Remove columns with NA only in them
 data2 <- trydat[colSums(!is.na(trydat)) > 0]
-data[1:2,2:5]
+#data[1:2,2:5]
 
 #Get rid of rows of experimental data
-unique(data$Exposition) # I think we should subset out all experiments
+#unique(data$Exposition) # I think we should subset out all experiments
 expList <- c( "Open Top", "open-top chamber",  "open-sided growth chamber", "forest fertilization",
               "Climate Chamber", "FACE",  "mini-ecosystem")#We dont know what mini-ecosystem or face is so removing them 
 
-unique(data$Exposition[!data$Exposition %in% expList]) 
+#unique(data$Exposition[!data$Exposition %in% expList]) 
 data3 <- data2[!data2$Exposition %in% expList,]
 # Start by subsetting out studies that are growth chamber studies or experiments
 
@@ -381,13 +350,13 @@ unique(data4$Exposition..position.of.plant.in.the.canopy) #
 plnList <- c("7"  ,"6"  , "5", "bottom", "middle" , "top" ) # maybe these are experiments?
 data5 <- data4[!data4$Exposition..position.of.plant.in.the.canopy %in% plnList,]
 
-unique(data$Treatment.water.supply) # All NA #Intermediate, high, low. Just chose NA values. 
+#unique(data$Treatment.water.supply) # All NA #Intermediate, high, low. Just chose NA values. 
 data6 <- data5[is.na(data5$Treatment.water.supply),] 
 
-unique(data$Treatment.ozon) # high, low. chose na rows 
+#unique(data$Treatment.ozon) # high, low. chose na rows 
 data7 <- data6[is.na(data6$Treatment.ozon),]
 
-table(data8$DatasetID)
+#table(data8$DatasetID)
 
 unique(data7$Treatment.conditions) #by this point in the cleaning there are only NAs
 
@@ -423,7 +392,7 @@ unique(data8$Treatment.growth.medium...substrat...soil) # All NA
 #Columns to remove
 #----------------------------
 
-#climate columsn - precipitation 
+#climate columns - precipitation 
 names(data8)
 
 precipNames <- grep( "precip", names(data2),  value = TRUE)
@@ -457,7 +426,7 @@ otherNames <- c("Soil.carbon.nitrogen..C.N..ratio", "Plant.developmental.status.
                 "Ecocraft.parameter.value.ID"  , "Sampling.date..year"  ,  "Site.burned.year"  , 
                 "Net.primary.productivity.of.the.site..NPP."  , "Vegetation.type...Biome" , "Species.phylogenic.group" ,
                 "Canopy.position..sun.vers..Shade.leaf.qualifier..light.exposure" ,  "Description.of.chamber",
-                "Vegetation.type...Biome...2." ,  "Pests.and.treatmens" )
+                "Vegetation.type...Biome...2." ,  "Pests.and.treatmens" , "Pretreatment.of.plants")
 
 
 namesRemove <- c(expNames,treatNames, dateNames, ageNames, seedNames, otherNames, litterNames, vpdNames, evapotransNames, precipNames,radNames, tempNames, soilNames, herbNames)
@@ -468,6 +437,37 @@ colNamesNoClim <- names(data2)[!names(data2) %in% namesRemove]
 
 
 dataNoExpshort <- data8 [,colNamesNoClim]
+
+### Start by cleaning species names ################################################### MG Started 4 Nov 2020
+
+namelist <- sort(unique(dataNoExpshort$SpeciesName))
+
+#split into genus and species columns and a third column for authority/subsp/any other words
+# break up name column into genus, species, extra stuff columns
+breakname <- strsplit(as.character(dataNoExpshort$SpeciesName), " ", fixed=TRUE)
+dataNoExpshort$genus <- unlist(lapply(breakname, function(x) x[1]))
+dataNoExpshort$species <- unlist(lapply(breakname, function(x) x[2]))
+dataNoExpshort$authority.subsp <- unlist(lapply(breakname, function(x) x[3]))
+
+#acutal cleaning
+dataNoExpshort$genus[which(dataNoExpshort$genus == "Facus")] <- "Fagus"
+dataNoExpshort$species[which(dataNoExpshort$species == "pensilvanicum")] <- "pensylvanicum"
+dataNoExpshort$species[which(dataNoExpshort$species == "grandfolia")] <- "grandifolia"
+dataNoExpshort$species[which(dataNoExpshort$species == "pennsylvanica")] <- "pensylvanica"
+dataNoExpshort$species[which(dataNoExpshort$species == "catharticus")] <- "cathartica"
+dataNoExpshort$species[which(dataNoExpshort$species =="myrtilLoides")] <- "myrtilloides"
+
+head(dataNoExpshort)
+# can recombine genus and species if needed but ospree lists them as separate
+dataNoExpshort$new.SpeciesName <- paste(dataNoExpshort$genus, dataNoExpshort$species, sep = "_")
+
+######################################################################################################
+# Next removing gymnosperm because their traits are different from decidous species
+# Removing the gymnosperm from the try data 
+gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
+
+dataNoExpshort <- dataNoExpshort[!dataNoExpshort$genus %in% gymno,]
+
 
 #################################################################################################
 #Deirdre's summary notes:
