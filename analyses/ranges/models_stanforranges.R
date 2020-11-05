@@ -219,7 +219,11 @@ datalist.bb <- with(bb.stan,
 ############################################################################
 ############################################################################
 # Sidebar by Lizzie on 5 November 2020
-
+if(FALSE){
+# Trying to see if we could combine the basic OSPREE model with a simmple linear model (see cheapish_model.stan)
+# Not working AT ALL now, the Stan code needs to be updated to walk through each observation, not just the b_force vector, see jointtraitphen.stan and follow that method... #
+    
+# Create a fake variable to test if my model runs ...     
 climvar <- rnorm(length(unique(bb.stan$latbinum)), 10, 5)
 
 goober.bb <- with(bb.stan, 
@@ -236,7 +240,9 @@ goober.bb <- with(bb.stan,
 )
 
 goober = stan('stan/cheapish_model.stan', data = goober.bb,
-               iter = 4000, warmup=2500) 
+               iter = 4000, warmup=2500)
+}
+
 
 ### find the two data sets from each continent with the most species
 contsp<-bb.stan %>% dplyr::group_by(datasetID) %>% dplyr::count(complex.wname)
