@@ -195,6 +195,28 @@ datalist.bb <- with(bb.stan,
                     )
 )
 
+############################################################################
+############################################################################
+# Sidebar by Lizzie on 5 November 2020
+
+climvar <- rnorm(length(unique(bb.stan$latbinum)), 10, 5)
+
+goober.bb <- with(bb.stan, 
+                    list(y = resp, 
+                         chill = chill.z, 
+                         force = force.z, 
+                         photo = photo.z,
+                         sp = latbinum,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$latbinum)),
+                         X = length(climvar),
+                         climvar=climvar
+                    )
+)
+
+goober = stan('stan/cheapish_model.stan', data = goober.bb,
+               iter = 4000, warmup=2500) 
+
 ### find the two data sets from each continent with the most species
 contsp<-bb.stan %>% dplyr::group_by(datasetID) %>% dplyr::count(complex.wname)
 table(contsp$datasetID) 
