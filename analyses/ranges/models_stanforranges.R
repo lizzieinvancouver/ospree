@@ -51,6 +51,27 @@ use.rangespp = TRUE
 
 setwd("..//bb_analysis")
 source("source/bbstanleadin.R")
+
+
+# Species complex for ranges, without crops and need species that do not only have field chilling, z-scored
+if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE & use.rangespp==TRUE &
+    use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
+    & use.chillports == FALSE & use.zscore == TRUE){
+  bb.stan <- bb.stan.alltypes.ranges
+  
+  source("source/bb_zscorepreds.R")
+  datalist.bb <- with(bb.stan, 
+                      list(y=resp, 
+                           chill = chill, 
+                           force = force, 
+                           photo = photo,
+                           sp = complex,
+                           N = nrow(bb.stan),
+                           n_sp = length(unique(bb.stan$complex))
+                      )
+  )
+}
+
 setwd("..//ranges")
 
 bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
