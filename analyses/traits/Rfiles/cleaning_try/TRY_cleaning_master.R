@@ -323,10 +323,33 @@ allTraitsLongCropped <- allTraitsLong[!is.na(allTraitsLong$TraitValue_std),]
 
 trydat<-allTraitsLongCropped
 
-### Start by cleaning species names ###################################################
+### Start by cleaning species names ################################################### MG Started 4 Nov 2020
+
+namelist <- sort(unique(trydat$SpeciesName))
+
+#split into genus and species columns and a third column for authority/subsp/any other words
+# break up name column into genus, species, extra stuff columns
+breakname <- strsplit(as.character(trydat$SpeciesName), " ", fixed=TRUE)
+trydat$genus <- unlist(lapply(breakname, function(x) x[1]))
+trydat$species <- unlist(lapply(breakname, function(x) x[2]))
+trydat$authority.subsp <- unlist(lapply(breakname, function(x) x[3]))
+
+# just using this dataset to visualize the names so I don't have to scroll passed all the empty columns
+trynames <- trydat[,c("SpeciesName", "Genus", "genus", "species", "authority.subsp")]
+
+#acutal cleaning
+trydat$genus[which(trydat$genus == "Facus")] <- "Fagus"
+trydat$species[which(trydat$species == "pensilvanicum")] <- "pensylvanicum"
+trydat$species[which(trydat$species == "grandfolia")] <- "grandifolia"
+trydat$species[which(trydat$species == "pennsylvanicum")] <- "pensylvanicum"
+trydat$species[which(trydat$species == "catharticus")] <- "cathartica"
+trydat$species[which(trydat$species =="myrtilLoides")] <- "myrtilloides"
+
+
+# can recombine genus and species if needed but ospree lists them as separate
 
 ######################################################################################################
-# Next removing gymnosperm becuase their traits are different from decidous species
+# Next removing gymnosperm because their traits are different from decidous species
 # Removing the gymnosperm from the try data 
 gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
 
