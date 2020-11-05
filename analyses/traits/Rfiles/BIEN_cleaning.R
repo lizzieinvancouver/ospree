@@ -68,7 +68,10 @@ head(biendat.subtrait)
 
 # start with leaf area per leaf dry mass (ie SLA)
 #despite the units be so different, I think they are equivalent 1m^2/kg = 1000000 mm^2/ 1000000 mg
+#changing sla set
 sla<-subset(biendat.subtrait, trait_name == "leaf area per leaf dry mass" )
+sla$trait_value <- (sla$trait_value * 1000000 )
+sla$unit <- "m2.mg-1"
 unique(sla$unit)
 range(sla$trait_value)
 hist(sla$trait_value)
@@ -77,19 +80,30 @@ temp<-sla[order(sla$trait_value),]
 
 # ldmc
 ldmc<-subset(biendat.subtrait, trait_name == "leaf dry mass per leaf fresh mass")
-unique(ldmc$unit)
+unique(ldmc$unit) #correct unit based on Pérez-Harguindeguy
 
 # seed mass
 seed<-subset(biendat.subtrait, trait_name == "seed mass")
+unique(seed$unit) #correct unit based on Pérez-Harguindeguy
 hist(seed$trait_value)
 
 # height
 maxht<-subset(biendat.subtrait, trait_name == "maximum whole plant height")
+unique(maxht$unit) #correct unit based on Pérez-Harguindeguy
 hist(maxht$trait_value)
 
 wlht<-subset(biendat.subtrait, trait_name == "whole plant height")
+unique(wlht$unit) #correct unit based on Pérez-Harguindeguy
 hist(wlht$trait_value)
 temp<-wlht[order(wlht$trait_value),]
+
+######
+##### Merging datasets together
+#creates dataset with all relevant data not including SLA
+test <- subset(biendat.subtrait, trait_name != "leaf area per leaf dry mass" )
+
+#rowbinds the new SLA values with the rest of the data we are interested in
+biendat2.0<- rbind(test,sla)
 
 
 # Darwin and I agree that the simplest way to convert it might just to make it wide again and then long again
