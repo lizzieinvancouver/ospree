@@ -27,12 +27,13 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 #load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv")
-mysps<-filter(posties,latbi %in% c("Populus_grandidentata","Betula_lenta","Acer_pensylvanicum","Populus_tremuloides",
+colnames(posties)[6]<-"species"
+mysps<-filter(posties,species %in% c("Populus_grandidentata","Betula_lenta","Acer_pensylvanicum","Populus_tremuloides",
                                    "Acer_rubrum","Betula_papyrifera"))
-mysps$type<-ifelse(mysps$latbi %in%c("Populus_grandidentata","Betula_lenta","Acer_pensylvanicum"),"small","big")
-unique(mysps$latbi)
+mysps$type<-ifelse(mysps$species %in%c("Populus_grandidentata","Betula_lenta","Acer_pensylvanicum"),"small","big")
+
 #coool
-a<-ggpubr::ggboxplot(x='latbi',y='b_chill',data=mysps,color='type')
+a<-ggpubr::ggboxplot(x='species',y='b_chill',data=mysps,color='type')
 #now for other paramentere
 rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
@@ -71,6 +72,29 @@ b<-ggpubr::ggbarplot(x='species',y='Temp.SD',data=myclim.gg2lf,color='type',main
   myclim.stv$species<-as.factor(myclim.stv$species)
  
    c<-ggpubr::ggbarplot(x='species',y='Temp.SD',data=myclim.stv,color='type',main="stv")
-png("./figures/biggysmalls_comps.png",height=12,width=8,units='in',res=200)
+#png("./figures/biggysmalls_comps.png",height=12,width=8,units='in',res=200)
    ggpubr::ggarrange(a,b,c,nrow=3,common.legend = TRUE)  
 dev.off()
+
+##more legit
+rangearea<-read.csv(file = "output/rangeareas.csv")
+
+
+
+area.dat<-left_join(posties,rangearea)
+area.dat<-filter(area.dat,species!="Ulmus_minor")
+ggpubr::ggscatter(data = area.dat,x = 'range_area',y='b_chill',color='species',facet.by = 'continent',add = "reg.line")
+
+Betu<-filter(area.dat, species %in%c("Betula_alleghaniensis","Betula_lenta","Corylus_cornuta","Alnus_incana","Betula_papyrifera",
+                                     "Alnus_glutinosa","Alnus_incana","Betula_pendula","Betula_pubescens","Carpinus_betulus","Corylus_avellana"))
+
+Betuclim<-filter(rangiesNa,species %in%c("Betula_alleghaniensis","Betula_lenta","Corylus_cornuta","Alnus_incana","Betula_papyrifera"))
+
+
+ggpubr::ggscatter(data = Betu,x = 'range_area',y='b_chill',facet.by = 'continent',add = "reg.line",,conf.int = TRUE)
+
+ggpubr::ggboxplot(x='species',y='b_chill',data=BetuEU)
+ggpubr::ggboxplot(x='species',y='b_chill',data=BetuNA)
+
+
+
