@@ -521,6 +521,7 @@ if(FALSE){
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
   
+  tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tminclean1980.nc")
   
   
   ## plot shape with data on top
@@ -540,7 +541,7 @@ if(FALSE){
                             dir.out,dir.fig,
                             type=c("means","sds")){
   
-    spsshape <- getspsshape(spslist,i,tmin1980[[1]])
+    spsshape <- getspsshape(spslist,i,tmin1980[[1]]) # i=1
     
     ## plot base map + range map
     extent.sps.i <- extent(spsshape)+3
@@ -558,35 +559,22 @@ if(FALSE){
     
     dat$lat.long <- paste(dat$x, dat$y)
     
-    #if(extent.sps.i[2]>50){extent.sps.i[2] = 50}
-    #if(extent.sps.i[3]<32){extent.sps.i[3] = 32}
-    
     ## retrieve and format data
     ## code to plot within range climate interannual variation
     dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
     files.out <- dir(dir.out)
     
-    #sps.out <- files.out[which(grepl(sps.name,files.out)&grepl("fullextract",files.out))]
-    
-    #dat = read.csv(paste(dir.out,sps.out,sep=""))
-    #dat = as.data.frame(na.omit(dat))
-    
     sps.i <- dat[(dat$lat.long%in%chcoord$lat.long),]
     sps.i <- na.omit(sps.i)
     sps.i <- sps.i[!duplicated(sps.i),]
     
-    means.sites <- aggregate(sps.i,by=list(Year = sps.i$lat.long),FUN = mean, na.rm=T)
-    means.sites$lat.long <- NULL
-    SDs.sites <- aggregate(sps.i, by=list(Year = sps.i$lat.long), FUN = sd, na.rm=T)
-    SDs.sites$lat.long <- NULL
-    
     ### Now we need to get the area weighted average across grid cells. See Issue #387
-    tempvals <- mean(ras.numpixels, na.rm=TRUE)
-    cellStats(sm, mean, na.rm=TRUE)
-    
     sps.area <- area(spsshapeproj) / 10000
-    newweights <- tempvals * sps.area ### So really, the tempvals will be from the means below, just need to make sure the grid cells line up
-    wt.grids <- cellStats(newweights, sum) / cellStats(sps.area, sum)
+    
+    means.sites <- aggregate(sps.i,by=list(Year = sps.i$lat.long), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    means.sites$lat.long <- NULL
+    SDs.sites <- aggregate(sps.i, by=list(Year = sps.i$lat.long), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    SDs.sites$lat.long <- NULL
     
     #dat <- sps.1
     

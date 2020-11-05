@@ -139,12 +139,6 @@ synth.data <- function(splist){
       
       spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
       
-      ### 22 October 2020 by Cat: trying to add averaging of grid cells
-      #foo <- spsshapeproj
-      #cell_size<-round(area(foo) / 10000000,1)
-      ##NAs lie outside of the rastered region, can thus be omitted
-      #cell_size<-cell_size[!is.na(cell_size)]
-      
       # get list of pixels to extract data (speeds things up)
       pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj, weights=TRUE, normalizeWeights=FALSE)))) ### by making weights=TRUE and normalizeWeights=FALSE then we are averaging values by grid cell size
       
@@ -166,12 +160,14 @@ synth.data <- function(splist){
       storing = array(NA, dim=c(7,4))
       row.names(storing) = colnames(sps.i)[3:9]
       colnames(storing) = c("Temp.Mean","Temp.SD","Geo.Mean","Geo.SD")
+      
+      ### Now we need to get the area weighted average across grid cells. See Issue #387
+      sps.area <- area(spsshapeproj) / 10000
     
-    
-      means.years <- aggregate(sps.i,by=list(Year = sps.i$year),FUN = mean,na.rm=T)
-      SDs.years <- aggregate(sps.i,by=list(Year = sps.i$year),FUN = sd,na.rm=T)
-      means.sites <- aggregate(sps.i,by=list(Year = sps.i$ID),FUN = mean,na.rm=T)
-      SDs.sites <- aggregate(sps.i,by=list(Year = sps.i$ID),FUN = sd,na.rm=T)
+      means.years <- aggregate(sps.i,by=list(Year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      SDs.years <- aggregate(sps.i,by=list(Year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      means.sites <- aggregate(sps.i,by=list(Year = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      SDs.sites <- aggregate(sps.i,by=list(Year = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
     
       storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
       storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
