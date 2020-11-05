@@ -404,6 +404,25 @@ synth.data<-function(Climate.in.range.list){
   colnames(storing) = c("Temp.Mean","Temp.SD", "Geo.Mean","Geo.SD")
   
   
+  ### ADDED BY CAT 5 NOVEMBER 2020: need species shapefiles in order to update this code...
+  # Lines 409-423 are my suggestions:
+  if(FALSE){
+    ### Now we need to get the area weighted average across grid cells. See Issue #387
+    spsshape <- getspsshape(splist,i,tmin1980[[1]])
+    
+    ras.numpixels<-tmin1980[[1]]
+    values(ras.numpixels)<-1:ncell(ras.numpixels)
+    
+    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
+    
+    sps.area <- area(spsshapeproj) / 10000
+    
+    means.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    SDs.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    means.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    SDs.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+  }
+  
   means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)
   SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
   means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
@@ -562,8 +581,11 @@ plot.shape.data<-function(spsshape,sps.name,
   dat = read.csv(paste(dir.out,sps.out,sep=""))
   dat = as.data.frame(na.omit(dat))
   
-  means.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
+  ### Now we need to get the area weighted average across grid cells. See Issue #387
+  sps.area <- area(spsshape / 10000)
+  
+  means.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+  SDs.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
   
   
   if(type=="means"){
