@@ -147,6 +147,13 @@ dfhere$spnum <- as.numeric(gsub('s', '', dfhere$sp))
     
 dfhere$yerr <- dfhere$y + rnorm(nrow(dfhere), 0, sigy)
 
+testme <- stan("phylogeny/stan/ubermini_2_biggerpriors.stan", # Note: changed to a new model
+                data=list(N=nrow(dfhere), n_sp=nspecies, sp=dfhere$spnum,
+                x=dfhere$x, y=dfhere$yerr,
+                Vphy=vcv(spetree)), # Note: dropped the corr=TRUE
+                iter=4000, chains=4)
+
+
 #Compare test data to ospree data
 #test data are in red, ospree in blue- not meant to be political! just whats on my brain today...
 pdf("../phylogeny/figures/phylotestospcomp.pdf", height = 6, width = 10)
