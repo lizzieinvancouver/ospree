@@ -341,6 +341,8 @@ mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
 mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
 
+save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
+
 launch_shinystan(m3l.ni)
 
 # Not sure if I am doing this right, but on first blush seem similar to each other!
@@ -369,6 +371,9 @@ if(FALSE){
   
   bb.stan.here$studynum <- as.numeric(as.factor(bb.stan.here$datasetID))
   checkreal.all <- brm(resp ~ datasetID + force.z + photo.z + (force.z + photo.z|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                       control = list( adapt_delta = 0.99, max_treedepth=15))
+  
+  checkreal.all <- brm(resp ~ (1|datasetID) + force.z + photo.z + (force.z + photo.z|latbi/pophere), data=bb.stan.here, warmup = 2500, iter = 4000, 
                        control = list( adapt_delta = 0.99, max_treedepth=15))
   
   
