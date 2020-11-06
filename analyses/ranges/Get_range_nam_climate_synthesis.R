@@ -148,14 +148,8 @@ synth.data <- function(splist){
       dat$lat.long <- paste(dat$x, dat$y)
     
       sps.i <- dat[(dat$lat.long%in%chcoord$lat.long),]
-    
-    
-      year1<-subset(sps.i,year==1980)
-    
-    
-      years = unique(sps.i$year)
-      nyears = length(years)
-      sps.i$ID = paste(sps.i$long,sps.i$lat)
+      sps.i$lat.long <- NULL
+      sps.i$ID = as.numeric(as.factor(paste(sps.i$x,sps.i$y)))
     
       storing = array(NA, dim=c(7,4))
       row.names(storing) = colnames(sps.i)[3:9]
@@ -164,10 +158,10 @@ synth.data <- function(splist){
       ### Now we need to get the area weighted average across grid cells. See Issue #387
       sps.area <- area(spsshapeproj) / 10000
     
-      means.years <- aggregate(sps.i,by=list(Year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      SDs.years <- aggregate(sps.i,by=list(Year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      means.sites <- aggregate(sps.i,by=list(Year = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      SDs.sites <- aggregate(sps.i,by=list(Year = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      means.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      SDs.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      means.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      SDs.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
     
       storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
       storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
@@ -188,7 +182,7 @@ list.allsps<-synth.data(spslist[1:18]) # splist <- spslist[1]    #1:17
 
 nams<-list()
 for(i in 1:18){
-  nams[[i]]=rep(spslist[i],7)
+  nams[[i]]=rep(names(species.list.clean)[i],7)
 }
 nams=unlist(nams)
 

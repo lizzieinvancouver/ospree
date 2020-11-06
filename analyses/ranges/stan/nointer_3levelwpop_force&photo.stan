@@ -86,12 +86,12 @@
    
    // Varying intercepts definition
    // Level-3 (10 level-3 random intercepts)
-   for (k in 1:n_pop) {
-     a_sppop[k] ~ normal(a_sp[sp[k]], sigma_a_pop);
+   for (j in 1:n_pop) {
+     a_sppop[j] ~ normal(a_sp[sp[j]], sigma_a_pop);
    }
    // Level-2 (100 level-2 random intercepts)
-   for (j in 1:n_pop) {
-     b_force_sppop[j] ~ normal(b_force[sp[j]], sigma_b_force_pop);
+   for (k in 1:n_pop) {
+     b_force_sppop[k] ~ normal(b_force[sp[k]], sigma_b_force_pop);
    }
    
    for (l in 1:n_pop) {
