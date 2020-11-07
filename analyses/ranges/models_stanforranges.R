@@ -20,7 +20,6 @@ library(shinystan)
 library(reshape2)
 library(rstan)
 library(rstanarm)
-library(dplyr)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
