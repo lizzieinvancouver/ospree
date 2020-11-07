@@ -10,22 +10,24 @@ rm(list = ls())
 options(stringsAsFactors = FALSE)
 
 
-setwd("/home/faith/Documents/mnt/UBC/ospree")
+#setwd("/home/faith/Documents/mnt/UBC/ospree")
 
+#DL's directory
+setwd("~/Desktop/ospree_trait_analysis")
 ## Load libraries
 library(tidyr)
 library(dplyr)
 library(data.table)
 
 ## Read the data (modify path as needed) 
-#tryData <- fread("~/Downloads/TRYtraitdataNov2019.txt")
-tryData2 <- fread("TryData.txt")
+tryData <- fread("input/TRYtraitdataNov2019.txt")
+#tryData2 <- fread("TryData.txt")
 tryData2$counterID <- 1:nrow(tryData2)
 
 #-----------------------------------------------------------------
 #faith's Cleaning code
 #--------------------------------------------------------------
-
+head(tryData2)
 #Remove rows with irrelevant information to make things easier to cope with 
 precipNames <- grep( "precip", unique(tryData2$DataName),  value = TRUE)
 evapotransNames <-  grep( "evapotranspiration", unique(tryData2$DataName),  value = TRUE)
@@ -61,10 +63,8 @@ otherNames <- c("Soil.carbon.nitrogen..C.N..ratio", "Plant.developmental.status.
 valuesRemove <- c( dateNames, ageNames, seedNames, otherNames, 
 	litterNames, vpdNames, evapotransNames, precipNames,radNames, tempNames, soilNames, herbNames)
 
-head(tryDataShort)
-
-
 tryDataShort <- tryData2[!tryData2$DataName %in% valuesRemove,]
+head(tryDataShort)
 
 #Remove experimental studies by removing observations with information pertaining to treatments or expositions
 expNames <- grep("xposition",unique(tryData2$DataName), value= TRUE)
@@ -75,12 +75,16 @@ experimentsObIDs <- tryDataShort$ObservationID[tryDataShort$DataName %in% c(expN
 tryDataShort2 <- tryDataShort[!tryDataShort$ObservationID %in% experimentsObIDs,]
 
 expositionOptions <- unique(tryData2$OrigValueStr[tryData2$DataName=="Exposition"])#Get a list of all exposition comment options
-#I chose to keep studies where thety are described  as in a forest, a garden or a natural system
-naturalNames  <- grep("atural", expositionOptions, value = TRUE)
-forestNames <- grep("orest", expositionOptions, value = TRUE)
+#I chose to keep studies where they are described  as in a forest, a garden or a natural system
+naturalNames  <- grep("atural", expositionOptions, value = TRUE) # I think a few experiments might be sneaking in here
+#forestNames <- grep("orest", expositionOptions, value = TRUE) # this would include both forests and forest fertilization
+forestNames <- grep("stand", expositionOptions, value = TRUE)
 gardenNames <- grep("arden", expositionOptions, value = TRUE)
+feildNames <- grep("ield", expositionOptions, value = TRUE) # I am not sure what is meant by field, but it seems like it might be relevant
+insituNames <- grep("situ", expositionOptions, value = TRUE) # I assume this also means natural pop 
 
-nonExperiments <- c(naturalNames, forestNames, gardenNames)
+
+nonExperiments <- c(naturalNames, forestNames, gardenNames,feildNames,insituNames)
 experiments2 <- expositionOptions[!expositionOptions %in% nonExperiments]
 
 naturalObservations2 <- tryData2$ObservationID[!tryData2$OrigValueStr %in% experiments2] # Obseravtion ids for experimental systems 
@@ -88,6 +92,7 @@ tryDataShort3 <- tryDataShort2[tryDataShort2$ObservationID %in% naturalObservati
 
 head(tryDataShort3)
 
+unique(tryDataShort3$TraitName)
 
 #Get the extra data out of the Traits column 
 #------------------------------------------------
@@ -96,10 +101,9 @@ head(tryDataShort3)
 
 #Select only traits, not extra info
 traitsOnly <- tryDataShort3[!is.na(tryDataShort3$TraitID),]
-
+unique(traitsOnly$TraitName) # here we are losing the blank Trait columns that include other data like lat long etc
 #Make a trail/observation ID column 
 traitsOnly$Observation_TraitID <- paste(traitsOnly$ObservationID, traitsOnly$TraitID, sep = "_")
-
 
 
 #Select only traits, not extra info
@@ -121,7 +125,9 @@ wideExtraInfo <- spread(ExtraInfoColumns2, key = DataName, value = OrigValueStr)
 #---------------------------------------------------------
 tryData <- merge(traitsOnly, wideExtraInfo, by = "ObservationID")
 
-
+length(unique(tryData$Dataset)) #46
+length(unique(tryData$SpeciesName)) #206
+length(unique(tryData$TraitName)) #22
 #---------------------------------------------------
 #Geoff's cleaning code
 #--------------------------------------------------
@@ -191,10 +197,12 @@ for(i in 1:length(trait.list)){
 }
 
 
-
+length(unique(tryData$Dataset)) #46
+length(unique(tryData$SpeciesName)) #206
+length(unique(tryData$TraitName)) #13
 
 #Save Data as a csv
 #--------------------------------------------
 
-write.csv(tryData, "TryDataCleanedNew.csv")
+write.csv(tryData, "TryDataCleanedNew_Nov2020.csv")
 

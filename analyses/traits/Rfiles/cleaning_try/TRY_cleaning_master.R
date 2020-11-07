@@ -442,7 +442,7 @@ library(data.table)
 ### Start by cleaning species names ################################################### MG Started 4 Nov 2020
 
 ## UPDATE: Now using the new post Nov 2020 cleaned Try dataset
-dataNoExpshort<-read.csv("TryDataCleanedNew_dl.csv")
+dataNoExpshort<-read.csv("TryDataCleanedNew_Nov2020.csv", fileEncoding="latin1")
 namelist <- sort(unique(dataNoExpshort$SpeciesName))
 
 #split into genus and species columns and a third column for authority/subsp/any other words
@@ -456,6 +456,8 @@ dataNoExpshort$authority.subsp <- unlist(lapply(breakname, function(x) x[3]))
 dataNoExpshort$genus[which(dataNoExpshort$genus == "Facus")] <- "Fagus"
 dataNoExpshort$genus[which(dataNoExpshort$genus == "Coryluss")] <- "Corylus"
 dataNoExpshort$genus[which(dataNoExpshort$genus == "Beta")] <- "Betula"
+dataNoExpshort$genus[which(dataNoExpshort$genus == "BETA")] <- "Betula"
+dataNoExpshort$genus[which(dataNoExpshort$genus == "BETULA")] <- "Betula"
 
 
 dataNoExpshort$species[which(dataNoExpshort$species == "pensilvanicum")] <- "pensylvanicum"
@@ -485,18 +487,18 @@ dataNoExpshort$species[which(dataNoExpshort$species == "AVELLANA")] <- "avellana
 dataNoExpshort$species[which(dataNoExpshort$species == "EXCELSIOR")] <- "excelsior"
 dataNoExpshort$species[which(dataNoExpshort$species == "ANGUSTIFOLIA")] <- "angustifolia"
 dataNoExpshort$species[which(dataNoExpshort$species == "albo-sinensis")] <- "albosinensis"
-
-
-
-unique(dataNoExpshort$genus)
-
+dataNoExpshort$species[which(dataNoExpshort$species == "VULGARIS")] <- "vulgaris"
+dataNoExpshort$species[which(dataNoExpshort$species == "cf_alba")] <- "alba"
+dataNoExpshort$species[which(dataNoExpshort$species == "PUBESCENS")] <- "pubescens"
+sort(unique(dataNoExpshort$genus))
 sort(unique(dataNoExpshort$species))
+
 head(dataNoExpshort)
 # can recombine genus and species if needed but ospree lists them as separate
 dataNoExpshort$new.SpeciesName <- paste(dataNoExpshort$genus, dataNoExpshort$species, sep = "_")
 sort(unique(dataNoExpshort$new.SpeciesName))
 
-dataNoExpshort$new.SpeciesName[which(dataNoExpshort$new.SpeciesName == "Betual_")] <- "Betula_ermannii"
+dataNoExpshort$new.SpeciesName[which(dataNoExpshort$new.SpeciesName == "Betula_")] <- "Betula_ermannii"
 
 ######################################################################################################
 # Next removing gymnosperm because their traits are different from decidous species
@@ -513,11 +515,11 @@ dataNoExpshort_es<-subset(dataNoExpshort, TraitName == "Leaf_nitrogen_.N._conten
 #################################################################################################
 #Deirdre's summary notes:
 # Final dataset dataNoExpshort
-length(unique(dataNoExpshort_es$DatasetID)) #32
-length(unique(dataNoExpshort_es$new.SpeciesName)) # 89
-length(unique(dataNoExpshort_es$TraitName)) # 6 traits
+length(unique(dataNoExpshort_es$DatasetID)) #41
+length(unique(dataNoExpshort_es$new.SpeciesName)) # 95
+length(unique(dataNoExpshort_es$TraitName)) #  traits
 # Interesting, we seem to have lost our photosyn data
 
-sort(unique(dataNoExpshort$SpeciesName))
+sort(unique(dataNoExpshort$new.SpeciesName))
 
 #write.csv(dataNoExpshort_es, "input/try_subsptraits.csv")
