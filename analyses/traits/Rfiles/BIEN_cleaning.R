@@ -61,8 +61,11 @@ biendat.subtrait$species <- unlist(lapply(breakname, function(x) x[2]))
 head(biendat.subtrait)
 
 # this dataset has pear! 
+gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
 
-
+biendat.subtrait.deci<- biendat.subtrait[!biendat.subtrait$genus %in% gymno,] # only want the deciduous species
+biendat.subtrait.deci$new.SpeciesName<-paste(biendat.subtrait.deci$genus,biendat.subtrait.deci$species,sep="_")
+unique(biendat.subtrait.deci$SpeciesName)
 ##################################################
 # Standardize the units and thinking about 
 
@@ -105,57 +108,7 @@ test <- subset(biendat.subtrait, trait_name != "leaf area per leaf dry mass" )
 #rowbinds the new SLA values with the rest of the data we are interested in
 biendat2.0<- rbind(test,sla)
 
-
-# Darwin and I agree that the simplest way to convert it might just to make it wide again and then long again
-library(tidyr)
-biendat.subtrait$trait_value<-as.numeric(biendat.subtrait$trait_value)
-bien_wide<-spread(biendat.subtrait, key=c("trait_name"), value="trait_value")
-head(bien_wide)
-
-require(reshape2)
-bien_w<-dcast(biendat.subtrait, SpeciesName + url_source + id  ~ trait_name, value.var= "trait_value", fun.aggregate = NULL)
-?dcast
-
-#this is a crude way of seeing what units there are for a trait
-library(dplyr)
-table<- biendat.subtrait %>%
-  group_by(trait_name,unit) %>%
-  summarise(mtrait = mean(trait_value))
-table
-
-try.tbl<- trydat %>%
-  group_by(Traits,UnitName) %>%
-  summarise(mtrait = mean(TraitValue_std))
-try.tbl
-
-#### Merge bien with the ospree model output #######
-ospree<-read.csv("input/traitors_bb_results.csv")
-head(ospree)
-
-breakname <- strsplit(as.character(ospree$Species), "_", fixed=TRUE)
-ospree$genus <- unlist(lapply(breakname, function(x) x[1]))
-ospree$species <- unlist(lapply(breakname, function(x) x[2]))
-ospree$ospree.sp<-paste(ospree$genus, ospree$species, sep=" ")
-head(ospree)
-
-
-# Removing the gymnosperm from the ospree model data 
-gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
-
-ospree.angio <- ospree[!ospree$genus %in% gymno,]
-unique(ospree.angio$Species)
-
-# I think for now, we could remove the complexes
-cmplx<-"complex"
-ospree.angio.nocmplx <- ospree.angio[!ospree$species %in% cmplx,]
-unique(ospree.angio$Species)
-
-## Create table of known pairwise interactions
-ids.list <- unique(ospree.angio$ospree.sp)
-stor <- vector()
-for(i in 1:length(ids.list)){
-  temp <- subset(ospree.angio, ospree.sp == ids.list[i]) #creates new subset for every pair
-}
+write.csv(biendat2.0, "bien_cleaned_Nov2020.csv")
 
 ## Weird datasets to be aware of ##################
  

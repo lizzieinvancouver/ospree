@@ -31,10 +31,11 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 trydat<-read.csv("input/try_subsptraits.csv",head=TRUE)
 #trydat<-read.csv("input/TryDataCleaned22012020.csv", header=TRUE)
 
+biendat<-read.csv("input/bien_cleaned_Nov2020.csv")
 ospree<-read.csv("input/traitors_bb_results_nocomplex.csv", header=TRUE)
 ospree<-ospree[,c("Coefficient","Species","mean")]
 
-
+length(unique(biendat$SpeciesName)) #85
 length(unique(trydat$new.SpeciesName)) #62
 length(unique(ospree$Species)) #234
 
@@ -52,30 +53,46 @@ ospree.deci$new.SpeciesName<-paste(ospree.deci$genus,ospree.deci$species, sep="_
 sort(unique(ospree.deci$new.SpeciesName))
 length(unique(ospree.deci$new.SpeciesName)) # left with 222 species
 
+###########################################################
+#Changing names in BIEN to better match those in try
+colnames(biendat)[colnames(biendat)=="trait_name"] <-"TraitName"
+colnames(biendat)[colnames(biendat)=="SpeciesName"] <-"new.SpeciesName"
+colnames(biendat)[colnames(biendat)=="trait_value"] <-"TraitValue" # Are the bien trait values standardized, something to check!! 
+colnames(biendat)[colnames(biendat)=="unit"] <- "UnitName"
+colnames(biendat)[colnames(biendat)=="longitude"] <- "Longitude"
+colnames(biendat)[colnames(biendat)=="latitude"] <- "Latitude"
+
+colnames(trydat)[colnames(trydat)=="StdValue"] <-"TraitValue"
+
+
+# adding a new column witht the database the data is from
+biendat$database<-"bien"
+trydat$database<-"try"
+
+#issue with the biend longtitude
+trydat$Longitdue<-as.numeric(as.character(trydat$Longitude))
+##########################################################################################
+# Merge the beind and try trait data
+
+trybien<-rbind.fill(trydat, biendat)
+nrow(biendat)+nrow(trydat) #looks good
 ##########################################################################################
 # Calculating the average trait value for the try dat
-unique(trydat$UnitName)
-unique(trydat$Traits)
-unique(trydat$new.SpeciesName)
+unique(trybien$UnitName)
+unique(trybien$TraitName)
+unique(trybien$new.SpeciesName)
 
-trtmean<-trydat %>% 
-  group_by(new.SpeciesName,Traits) %>% 
-  summarize(trait.mean=mean(TraitValue_std,na.rm=TRUE),)
-
+trtmean<-trybien %>% 
+  group_by(new.SpeciesName,TraitName) %>% 
+  summarize(trait.mean=mean(TraitValue,na.rm=TRUE),)
+unique(trtmean$new.SpeciesName)
 ##################################################################################
 fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
 unique(fin$new.SpeciesName)
 
 head(fin)
 
-write.csv(fin, "try_ospreecoeff.csv")
-#Changing names in BIEN to better match those in try
-colnames(biendat)[colnames(biendat)=="scrubbed_species_binomial"] <- "SpeciesName"
-colnames(biendat)[colnames(biendat)=="trait_name"] <-"Traits"
-colnames(biendat)[colnames(biendat)=="trait_value"] <-"TraitValue" # Are the bien trait values standardized, something to check!! 
-colnames(biendat)[colnames(biendat)=="unit"] <- "UnitName"
-colnames(biendat)[colnames(biendat)=="longitude"] <- "Longitdue"
-colnames(biendat)[colnames(biendat)=="latitude"] <- "Latitude"
+write.csv(fin, "input/try_ospree_Nov2020.csv")
 
 ##################################################################################
 # But is the BIEN data standardized, ie lat long and trait units?
