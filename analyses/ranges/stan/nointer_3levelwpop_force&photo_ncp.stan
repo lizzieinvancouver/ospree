@@ -62,9 +62,9 @@
    // Individual mean
    real a_sp[n_sp];
    real a_study[n_study];
-   vector[n_sp] b_force_raw; //do NCP here 
+   real b_force_raw[n_sp]; //do NCP here 
    //real b_force[n_sp];
-   vector[n_sp] b_photo_raw; //do NCP here 
+   real b_photo_raw[n_sp]; //do NCP here 
    //real b_photo[n_sp];
    
    real alpha; // 'grand mean' ... needed when you have more than one level
@@ -73,11 +73,13 @@
  
  transformed parameters  {
    real yhat[N];
-   vector[n_sp] b_photo;
-   vector[n_sp] b_force;
+   real b_photo[n_sp];
+   real b_force[n_sp];
    
-   b_photo = mu_b_photo_sp + sigma_b_photo_sp * b_photo_raw; //NCP
-   b_force = mu_b_force_sp + sigma_b_force_sp * b_force_raw; //NCP
+  for (j in 1:n_sp){
+    b_photo[j] = mu_b_photo_sp + sigma_b_photo_sp * b_photo_raw[j];
+    b_force[j] = mu_b_force_sp + sigma_b_force_sp * b_force_raw[j];
+        }
    
    // Individual mean
    for(i in 1:N){
