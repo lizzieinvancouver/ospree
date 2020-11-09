@@ -45,7 +45,6 @@ use.cropspp = FALSE
 use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
-use.rangespp = TRUE
     
 
 setwd("..//bb_analysis")
@@ -53,6 +52,7 @@ source("source/bbstanleadin.R")
 
 
 # Species complex for ranges, without crops and need species that do not only have field chilling, z-scored
+use.rangespp = TRUE
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE & use.rangespp==TRUE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
@@ -330,8 +330,8 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo.stan', data = datalist.bb.pop,
-               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp.stan', data = datalist.bb.pop,
+               iter = 3000, warmup=2000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
     }
 
 modelhere <- m3l.ni 
