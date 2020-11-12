@@ -35,7 +35,7 @@ mysps$type<-ifelse(mysps$species %in%c("Populus_grandidentata","Betula_lenta","A
 #coool
 a<-ggpubr::ggboxplot(x='species',y='b_chill',data=mysps,color='type')
 #now for other paramentere
-rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps.csv")
 
 head(rangiesNa,14)
 ##clean North America names
@@ -83,18 +83,25 @@ rangearea<-read.csv(file = "output/rangeareas.csv")
 
 area.dat<-left_join(posties,rangearea)
 area.dat<-filter(area.dat,species!="Ulmus_minor")
-ggpubr::ggscatter(data = area.dat,x = 'range_area',y='b_chill',color='species',facet.by = 'continent',add = "reg.line")
+ggpubr::ggscatter(data = area.dat,x = 'range_area',y='b_chill',facet.by = 'continent',add = "reg.line")
 
 Betu<-filter(area.dat, species %in%c("Betula_alleghaniensis","Betula_lenta","Corylus_cornuta","Alnus_incana","Betula_papyrifera",
                                      "Alnus_glutinosa","Alnus_incana","Betula_pendula","Betula_pubescens","Carpinus_betulus","Corylus_avellana"))
 
 Betuclim<-filter(rangiesNa,species %in%c("Betula_alleghaniensis","Betula_lenta","Corylus_cornuta","Alnus_incana","Betula_papyrifera"))
 
+clim<-left_join(rangiesNa,rangearea)
+clim<-filter(clim,continent=="north america")
+ggpubr::ggscatter(data = clim,x = 'range_area',y='Temp.SD',facet.by = 'variable',add = "reg.line",conf.int = TRUE)
+ggpubr::ggscatter(data = clim,x = 'range_area',y='Geo.SD',facet.by = 'variable',add = "reg.line",conf.int = TRUE)
 
 ggpubr::ggscatter(data = Betu,x = 'range_area',y='b_chill',facet.by = 'continent',add = "reg.line",,conf.int = TRUE)
 
-ggpubr::ggboxplot(x='species',y='b_chill',data=BetuEU)
-ggpubr::ggboxplot(x='species',y='b_chill',data=BetuNA)
+ggplot(clim,aes(range_area,Temp.SD))+geom_smooth(method="lm")+facet_wrap(~variable,scales="free")
+ggplot(clim,aes(range_area,Geo.SD))+geom_smooth(method="lm")+facet_wrap(~variable,scales="free")
+
+
+
 
 
 
