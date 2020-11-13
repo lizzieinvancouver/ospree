@@ -153,12 +153,6 @@ print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),size="\\f
 \clearpage
 \section* {Supplemental Figures}
 
-\begin{figure}[h]
-\includegraphics{..//..//analyses/photoperiod/figures/2D_actual_combined.png} 
-\caption{\textbf{Experienced photoperiods in growth chamber experiments differ from those in the natural world}, shown here by latitude (left panels) and by day of budburst (right panels) for \emph{Fagus sylvatica} (A, upper panels) and \emph{Quercus robur} (B, lower panels). Triangles show experimental treatments of photoperiod in the OSPREE database (Box 1). To illuminate potential gaps between experiments and the natural world, we show the photoperiod when budburst occurs in its current (1981-2000) and projected ranges \citep[2081-2100, using the A1Fi Phenofit scenario, see][]{duputie2015}. We scaled the days to budburst for all OSPREE data points by adding the day of budburst from the first Phenofit observation. See Supplemental Materials and \citet{duputie2015} for additional details.} 
- \label{fig:fagus}
- \end{figure}
- 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
