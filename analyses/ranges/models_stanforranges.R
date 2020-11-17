@@ -20,7 +20,6 @@ library(shinystan)
 library(reshape2)
 library(rstan)
 library(rstanarm)
-library(dplyr)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -46,7 +45,6 @@ use.cropspp = FALSE
 use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
-use.rangespp = TRUE
     
 
 setwd("..//bb_analysis")
@@ -54,6 +52,7 @@ source("source/bbstanleadin.R")
 
 
 # Species complex for ranges, without crops and need species that do not only have field chilling, z-scored
+use.rangespp = TRUE
 if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==FALSE & use.rangespp==TRUE &
     use.expramptypes.fp==FALSE & use.exptypes.fp==FALSE & use.expchillonly == FALSE 
     & use.chillports == FALSE & use.zscore == TRUE){
@@ -219,7 +218,11 @@ datalist.bb <- with(bb.stan,
 ############################################################################
 ############################################################################
 # Sidebar by Lizzie on 5 November 2020
-
+if(FALSE){
+# Trying to see if we could combine the basic OSPREE model with a simmple linear model (see cheapish_model.stan)
+# Not working AT ALL now, the Stan code needs to be updated to walk through each observation, not just the b_force vector, see jointtraitphen.stan and follow that method... #
+    
+# Create a fake variable to test if my model runs ...     
 climvar <- rnorm(length(unique(bb.stan$latbinum)), 10, 5)
 
 goober.bb <- with(bb.stan, 
@@ -236,7 +239,9 @@ goober.bb <- with(bb.stan,
 )
 
 goober = stan('stan/cheapish_model.stan', data = goober.bb,
-               iter = 4000, warmup=2500) 
+               iter = 4000, warmup=2500)
+}
+
 
 ### find the two data sets from each continent with the most species
 contsp<-bb.stan %>% dplyr::group_by(datasetID) %>% dplyr::count(complex.wname)
@@ -325,8 +330,8 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo.stan', data = datalist.bb.pop,
-               iter = 5000, warmup=4000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp.stan', data = datalist.bb.pop,
+               iter = 3000, warmup=2000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
     }
 
 modelhere <- m3l.ni 
@@ -334,6 +339,8 @@ mod.sum <- summary(modelhere)$summary
 mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
 mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
+
+save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
 
 launch_shinystan(m3l.ni)
 
@@ -363,6 +370,9 @@ if(FALSE){
   
   bb.stan.here$studynum <- as.numeric(as.factor(bb.stan.here$datasetID))
   checkreal.all <- brm(resp ~ datasetID + force.z + photo.z + (force.z + photo.z|latbi/pophere), data=bb.stan.here, warmup = 1500, iter = 2000, 
+                       control = list( adapt_delta = 0.99, max_treedepth=15))
+  
+  checkreal.all <- brm(resp ~ (1|datasetID) + force.z + photo.z + (force.z + photo.z|latbi/pophere), data=bb.stan.here, warmup = 2500, iter = 4000, 
                        control = list( adapt_delta = 0.99, max_treedepth=15))
   
   

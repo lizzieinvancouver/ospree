@@ -405,7 +405,7 @@ synth.data<-function(Climate.in.range.list){
   
   
   ### ADDED BY CAT 5 NOVEMBER 2020: need species shapefiles in order to update this code...
-  # Lines 409-423 are my suggestions:
+  # Lines 409-423 are my suggestions, need to remove lines 426-429:
   if(FALSE){
     ### Now we need to get the area weighted average across grid cells. See Issue #387
     spsshape <- getspsshape(splist,i,tmin1980[[1]])
@@ -418,9 +418,9 @@ synth.data<-function(Climate.in.range.list){
     sps.area <- area(spsshapeproj) / 10000
     
     means.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-    SDs.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    SDs.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
     means.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-    SDs.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+    SDs.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
   }
   
   means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm=T)

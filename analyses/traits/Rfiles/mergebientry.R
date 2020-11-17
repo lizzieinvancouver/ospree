@@ -24,126 +24,81 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 #Since the try data is still being cleaned, we are moving forward with the cleaning and plotting/preliminary testing of our hypotheses with the BIEN data
 #biendat<-read.csv("input/newspp_BIEN_traitdata_Nov11.csv", header=TRUE)
 
-head(biendat)
-length(unique(biendat$scrubbed_species_binomial))
+# head(biendat)
+# length(unique(biendat$scrubbed_species_binomial))
 #94 species represented in some form
 
-trydat<-read.csv("input/TryDataCleaned.csv", header=TRUE)
+trydat<-read.csv("input/try_subsptraits.csv",head=TRUE)
 #trydat<-read.csv("input/TryDataCleaned22012020.csv", header=TRUE)
 
-head(trydat)
-length(unique(trydat$SpeciesName))
-#122 species represented...but I think some of these were typos
+biendat<-read.csv("input/bien_cleaned_Nov2020.csv")
+ospree<-read.csv("input/traitors_bb_results_nocomplex.csv", header=TRUE)
+ospree<-ospree[,c("Coefficient","Species","mean")]
 
-## Fixing species names ############################################################
-trydat$SpeciesName[which(trydat$SpeciesName == "Acer pensilvanicum")] <- "Acer pensylvanicum"
-trydat$SpeciesName[which(trydat$SpeciesName == "Rhamnus catharticus")] <- "Rhamnus cathartica"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus velutinam.")] <- "Quercus velutina"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus rubra I")] <- "Quercus rubra"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus shumardii Buckley")] <- "Quercus shumardii"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus ilex ilex")] <- "Quercus ilex"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pseudotsuga menziesii (Mirb.) Franco")] <- "Pseudotsuga menziesii" 
-trydat$SpeciesName[which(trydat$SpeciesName == "Pseudotsuga menziesii var. menziesii")] <- "Pseudotsuga menziesii" 
-trydat$SpeciesName[which(trydat$SpeciesName == "Prunus pensylvanica f.")] <- "Prunus pensylvanica"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus bicolor Willd.")] <- "Quercus bicolor"
-trydat$SpeciesName[which(trydat$SpeciesName == "Alnus glutinosa (L.) Gaertn.")] <- "Alnus glutinosa"
-trydat$SpeciesName[which(trydat$SpeciesName == "Betula pendula Roth")] <- "Betula pendula"
-trydat$SpeciesName[which(trydat$SpeciesName == "Alnus incana (L.) Moench")] <- "Alnus incana"
-trydat$SpeciesName[which(trydat$SpeciesName == "Facus grandifolia")] <- "Fagus grandifolia"
-trydat$SpeciesName[which(trydat$SpeciesName == "Fagus grandfolia")] <- "Fagus grandifolia"
-trydat$SpeciesName[which(trydat$SpeciesName == "Photinia melanocarpa (Michx.) K.R. Robertson & Phipps")] <- "Photinia melanocarpa"
-trydat$SpeciesName[which(trydat$SpeciesName == "Populus grandidentata Michx.")] <- "Populus grandidentata"
-trydat$SpeciesName[which(trydat$SpeciesName == "Prunus pennsylvanica")] <- "Prunus pensylvanica"
-trydat$SpeciesName[which(trydat$SpeciesName == "Picea abies (L.) Karst.")] <- "Picea abies"
-trydat$SpeciesName[which(trydat$SpeciesName == "Picea abies/obovata")] <- "Picea abies"
-trydat$SpeciesName[which(trydat$SpeciesName == "Picea abies.x.obovata")] <- "Picea abies"
-trydat$SpeciesName[which(trydat$SpeciesName == "Picea glauca (Moench) Voss")] <- "Picea glauca"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pieris japonica (Thunb.) D. Don ex G. Don")] <- "Pieris japonica"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pinus nigra Arnold")] <- "Pinus nigra"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pinus banksianamb.")] <- "Pinus banksiana"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pinus banksianana")] <- "Pinus banksiana"
-trydat$SpeciesName[which(trydat$SpeciesName == "Sorbus decora (Sarg.) C.K. Schneid.")] <- "Sorbus decora"
-trydat$SpeciesName[which(trydat$SpeciesName == "Rhododendron canadense (L.) Torr.")] <- "Rhododendron canadense"
-trydat$SpeciesName[which(trydat$SpeciesName == "Prunus pensylvanica f.")] <- "Prunus pensylvanica"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pinus contorta Douglas exuden")] <- "Pinus contorta"
-trydat$SpeciesName[which(trydat$SpeciesName == "Pinus contorta Douglas exuden var. contorta")] <- "Pinus contorta"
-trydat$SpeciesName[which(trydat$SpeciesName == "Quercus velutinam.")] <- "Quercus velutina"
-trydat$SpeciesName[which(trydat$SpeciesName == "Vaccinium myrtilLoides")] <- "Vaccinium myrtilloides"
+length(unique(biendat$SpeciesName)) #85
+length(unique(trydat$new.SpeciesName)) #62
+length(unique(ospree$Species)) #234
 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," (L.)","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," L.","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," Jacq.","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," Ehrh.","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," Marsh.","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," Hook.","") 
-trydat$SpeciesName<-str_replace(trydat$SpeciesName," Maxim.","") 
-
-length(unique(trydat$SpeciesName))
-# Once species names are fixed, try dataset only has 75 species
-
-sort(unique(trydat$SpeciesName))
 ##################################################################################
-# Removing the gymnosperm from the try data 
+# Removing the gymnosperm from the ospree data 
+
+breakname <- strsplit(as.character(ospree$Species), "_", fixed=TRUE)
+ospree$genus <- unlist(lapply(breakname, function(x) x[1]))
+ospree$species <- unlist(lapply(breakname, function(x) x[2]))
+
 gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
 
-trydat <- trydat[!trydat$genus %in% gymno,]
-unique(trydat$SpeciesNames)
+ospree.deci <- ospree[!ospree$genus %in% gymno,] # only want the deciduous species
+ospree.deci$new.SpeciesName<-paste(ospree.deci$genus,ospree.deci$species, sep="_")
+sort(unique(ospree.deci$new.SpeciesName))
+length(unique(ospree.deci$new.SpeciesName)) # left with 222 species
 
-##########################################################################################
-names(trydat) # so many of these columns are not useful right now
-
-
-#trydat<-trydat[,c("SpeciesName","Dataset","Reference","Latitude","Longitude","Traits","TraitValue", "OrigUnitStr.y","UnitName","std_Latitude","std_Longitude","Std_Traits","TraitValue_std", "Exposition","Exposition.temperature","Leaf.exposition" )]
-
-# Excluding experiment data
-unique(trydat$Exposition) # I think we should subset out all experiments
-# "Open Top" "open-top chamber"  "open-sided growth chamber" "forest fertilization" "Climate Chamber"
-
-unique(trydat$Exposition.temperature) # Several studies manipulate temp
-unique(trydat$Treatment..exposition.to.measurement.temperature.before.measurement) # All NA
-unique(trydat$Treatment..period.of.darkness.before.respiration.measurement) # All NA
-
-unique(trydat$Exposition..position.of.plant.in.the.canopy) # Variable, some numbers (5,6,7), bottom, middle etc., coments about understory
-
-unique(trydat$Treatment.water.supply) # All NA #Intermediate, high, low
-unique(trydat$Treatment.ozon) # high, low
-unique(trydat$Treatment.conditions) # descriptions of experiments, 17 different comments, but includes an n/a and "no treatment"
-unique(trydat$Treatment.CO2) # Various values, as well as "ambient (about 360ppm)" "actual" 
-unique(trydat$Leaf.exposition) # not clear what these numbers represent
-unique(trydat$Treatment.relative.humidity..Relative.humidity..) # All NA
-unique(trydat$Treatment.plant.growth.temperature.during.night) # All NA
-unique(trydat$Treatment.daylength) # All NA
-unique(trydat$Treatment.plant.growth.temperature.during.day) # All NA
-unique(trydat$Treatment.nutrient.solution.per.week) # a range of comments, including "Natural conditions", "none","None", "natural", and details of how much and when fertilizers were applied
-unique(trydat$Treatment.K..potassium..supply) # All NA
-unique(trydat$Treatment.P..phosphorus..supply) # All NA
-unique(trydat$Treatment.nutrient.supply) # intermediate, low, high
-unique(trydat$Treatment.light) # 2,1,0 no indication of what this represents
-unique(trydat$Treatment.growth.medium...substrat...soil) # All NA
-
-##################################################################################
+###########################################################
 #Changing names in BIEN to better match those in try
-colnames(biendat)[colnames(biendat)=="scrubbed_species_binomial"] <- "SpeciesName"
-colnames(biendat)[colnames(biendat)=="trait_name"] <-"Traits"
+colnames(biendat)[colnames(biendat)=="trait_name"] <-"TraitName"
+colnames(biendat)[colnames(biendat)=="SpeciesName"] <-"new.SpeciesName"
 colnames(biendat)[colnames(biendat)=="trait_value"] <-"TraitValue" # Are the bien trait values standardized, something to check!! 
 colnames(biendat)[colnames(biendat)=="unit"] <- "UnitName"
-colnames(biendat)[colnames(biendat)=="longitude"] <- "Longitdue"
+colnames(biendat)[colnames(biendat)=="longitude"] <- "Longitude"
 colnames(biendat)[colnames(biendat)=="latitude"] <- "Latitude"
+
+colnames(trydat)[colnames(trydat)=="StdValue"] <-"TraitValue"
+
+
+# adding a new column witht the database the data is from
+biendat$database<-"bien"
+trydat$database<-"try"
+
+#issue with the biend longtitude
+trydat$Longitdue<-as.numeric(as.character(trydat$Longitude))
+##########################################################################################
+# Merge the beind and try trait data
+
+trybien<-rbind.fill(trydat, biendat)
+nrow(biendat)+nrow(trydat) #looks good
+##########################################################################################
+# Calculating the average trait value for the try dat
+unique(trybien$UnitName)
+unique(trybien$TraitName)
+unique(trybien$new.SpeciesName)
+
+trtmean<-trybien %>% 
+  group_by(new.SpeciesName,TraitName) %>% 
+  summarize(trait.mean=mean(TraitValue,na.rm=TRUE),)
+unique(trtmean$new.SpeciesName)
+##################################################################################
+fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
+unique(fin$new.SpeciesName)
+
+head(fin)
+
+write.csv(fin, "input/try_ospree_Nov2020.csv")
 
 ##################################################################################
 # But is the BIEN data standardized, ie lat long and trait units?
 unique(biendat$unit)
 
-# There are some none-standard units: 
-gcm3<-subset(biendat, unit == "g.cm-3") # this study has stem wood density in cm
-temp1<-subset(trydat, Traits == "Stem_specific_density") # this study has stem wood density in cm
-# There are no units for the SSD or SWD from try, but the values are similar
 
-m2kg<-subset(biendat, unit == "m2.kg-1") # this study has leaf area per day mass in m and kg! ie SLA
-temp2<-subset(trydat, Traits == "Specific_leaf_area") 
-
-mgg<-subset(biendat, unit == "mg.g-1") # this study has leaf dry mass per fresh mass in m and mg! ie LDMC
-temp3<-subset(trydat, Traits == "Leaf_dry_matter_content") #standardized is g per g
 
 # What about lat/long
 unique(biendat$latitude)
@@ -159,20 +114,7 @@ unique(trydat$std_Longitude)
 # Start by subsetting out studies that are growth chamber studies or experiments
 trysub<-subset(trydat, Exposition == "Botanical garden"| Exposition == "Natural Vegetation"| Exposition == "natural vegetation, but not top canopy"| Exposition == "natural environment"| Exposition == "forest stand"| Exposition == "natural"| is.na(Exposition)) 
 
-#removing a few others....still to do!
-#trysub1<-subset(trysub, is.na(Treatment.water.supply)) 
 
-#Other factors that should be subset
-# unique(trydat$Treatment.water.supply)
-# unique(trydat$Exposition..position.of.plant.in.the.canopy) # Variable, some numbers (5,6,7), bottom, middle etc., coments about understory
-# unique(trydat$Treatment.water.supply) #Intermediate, high, low
-# unique(trydat$Treatment.ozon) # high, low
-# unique(trydat$Treatment.conditions) # descriptions of experiments, 17 different comments, but includes an n/a and "no treatment"
-# unique(trydat$Treatment.CO2) # Various values, as well as "ambient (about 360ppm)" "actual" 
-# unique(trydat$Leaf.exposition) # not clear what these numbers represent
-# unique(trydat$Treatment.nutrient.solution.per.week) # a range of comments, including "Natural conditions", "none","None", "natural", and details of how much and when fertilizers were applied
-# unique(trydat$Treatment.nutrient.supply) # intermediate, low, high
-# unique(trydat$Treatment.light) # 2,1,0 no indication of what this represents
 
 ###########################################################################
 #6. Remove conifer species - focus on just deciduous that have leaf trait data
@@ -211,126 +153,4 @@ table
 length(unique(trysubtrait$SpeciesName))
 unique(trysubtrait$TraitValue_std)
 
-
-
-
-
-#Faith's subsetting code - The end goal might be to move thsi to teh try cleaning code?
-#----------------------------------------
-
-#Remove columns with NA only in them
-data2 <- trydat[colSums(!is.na(trydat)) > 0]
-data[1:2,2:5]
-
-#Get rid of rows of experimental data
-unique(data$Exposition) # I think we should subset out all experiments
-expList <- c( "Open Top", "open-top chamber",  "open-sided growth chamber", "forest fertilization",
- "Climate Chamber", "FACE",  "mini-ecosystem")#We dont know what mini-ecosystem or face is so removing them 
-
-unique(data$Exposition[!data$Exposition %in% expList]) 
-data3 <- data2[!data2$Exposition %in% expList,]
-# Start by subsetting out studies that are growth chamber studies or experiments
-
-unique(data3$Exposition.temperature) 
-data4 <- data3[is.na(data3$Exposition.temperature),] # Remove studies with an exposition temperature
-
-unique(data4$Exposition..position.of.plant.in.the.canopy) # 
-plnList <- c("7"  ,"6"  , "5", "bottom", "middle" , "top" ) # maybe these are experiments?
-data5 <- data4[!data4$Exposition..position.of.plant.in.the.canopy %in% plnList,]
-
-unique(data$Treatment.water.supply) # All NA #Intermediate, high, low. Just chose NA values. 
-data6 <- data5[is.na(data5$Treatment.water.supply),] 
-
-unique(data$Treatment.ozon) # high, low. chose na rows 
-data7 <- data6[is.na(data6$Treatment.ozon),]
-
-table(data8$DatasetID)
-
-unique(data7$Treatment.conditions) #by this point in the cleaning there are only NAs
-
-unique(data7$Treatment.CO2) 
-table(data7$Treatment.CO2)#Remove all rows where they specify elevation 
-data8 <- data7[is.na(data7$Treatment.CO2),]
-
-unique(data8$Leaf.exposition) #Not an issue after previous cleaning
-
-unique(data8$Treatment.relative.humidity..Relative.humidity..) # All NA
-
-unique(data8$Treatment.plant.growth.temperature.during.night)  #Not an issue after previous cleaning
-
-unique(data8$Treatment.daylength) 
-
-unique(data8$Treatment.nutrient.solution.per.week) #Not an issue after previous cleaning
-
-unique(data8$Treatment.K..potassium..supply) # All NA
-
-unique(data8$Treatment.P..phosphorus..supply) # All N
-
-unique(data8$Treatment.nutrient.supply) # intermediate, low, high
-
-unique(data8$Treatment.light) # 2,1,0 no indication of what this represents
-
-unique(data8$Treatment.growth.medium...substrat...soil) # All NA
-
-
-
-#Get rid of climate columns 
-
-
-#Columns to remove
-#----------------------------
-
-#climate columsn - precipitation 
-names(data8)
-
-precipNames <- grep( "precip", names(data2),  value = TRUE)
-evapotransNames <-  grep( "evapotranspiration", names(data2),  value = TRUE)
-radNames <-  grep( "radiation", names(data2),  value = TRUE)
-tempNames <-  grep( "temperature", names(data2),  value = TRUE)
-soilNames <-  grep( "oil", names(data2),  value = TRUE)
-herbNames <-  grep( "erbivory", names(data2),  value = TRUE)
-vpdNames <- grep("VPD", names(data2), value = TRUE)
-seedNames <- grep("Seed", names(data2), value= TRUE)
-dateNames <- grep("Measurement.date", names(data2), value= TRUE)
-ageNames <- grep("age", names(data2), value= TRUE)
-expNames <- grep("xposition", names(data2), value= TRUE)
-treatNames <- grep("Treatment.", names(data2), value= TRUE)
-litterNames <- grep("litter", names(data2), value = TRUE)
-
-otherNames <- c("Soil.carbon.nitrogen..C.N..ratio", "Plant.developmental.status...plant.age...maturity...plant.life.stage",
-	"Plant.environment" ,"Altitude.of.provenance.of.litter" , "Climate.zone.of.provenance.of.litter"      ,
-	"Nitrogen.deposition.at.the.site", "Ecocraft.regression.ID", "Nitrogen.mineralisation.rate",
-	"Plant.cover", "Plot.ID", "Atmospheric.CO2.concentration.during.measurement..Ca.",
-	"Light.during.measurement" , "Phylogenetically.isolated...not.isolated.individuals",
-	"Annual.moisture.balance" ,  "Location...Site.Name" , "Moisture.balance.code",
-	"Moisture.balance.during.growth.season", "Radiation.classes.1", "Radiation.classes.2",
-	"Temperature.during.respiration.measurements", "Altitude.comments", 
-	"Plant.height.reference", "Altitude.comments" , "Plant.height.reference", "Stocking",
-	"Slope.of.site", "Number.of.replicates", "Provenance.of.species", "Temperature.during.measurement", 
-	"Leaf.area.index.of.the.site..LAI.", "Plant.longevity.reference",    "Method.by.which.dispersal.syndrom.was.acertained",
-	"Reference.for.dispersal",  "O2.concentration.during.measurement", "Canopy.height.observed" ,
-	 "Number.of.tree.rings.visible.in.core",  "Height.of.measurement..stem.diameter..tree.rings..bark.thickness" ,
-	  "Age.of.the.stand" , "Analysis.ID.in.Kattge.Leaf.Physiology" , "Plant.growth.form.reference" ,  "Rooting.Volume..m3.", 
-	  "Ecocraft.parameter.value.ID"  , "Sampling.date..year"  ,  "Site.burned.year"  , 
-	        "Net.primary.productivity.of.the.site..NPP."  , "Vegetation.type...Biome" , "Species.phylogenic.group" ,
-	        "Canopy.position..sun.vers..Shade.leaf.qualifier..light.exposure" ,  "Description.of.chamber",
-	         "Vegetation.type...Biome...2." ,  "Pests.and.treatmens" )
-
-
-namesRemove <- c(expNames,treatNames, dateNames, ageNames, seedNames, otherNames, litterNames, vpdNames, evapotransNames, precipNames,radNames, tempNames, soilNames, herbNames)
-
-
-colNamesNoClim <- names(data2)[!names(data2) %in% namesRemove]
-
-
-
-dataNoExpshort <- data8 [,colNamesNoClim]
-
-#Deirdre's summary notes:
-# Final dataset dataNoExpshort
-length(unique(dataNoExpshort$DatasetID)) #17
-length(unique(dataNoExpshort$SpeciesName)) # 77 species - ~12 gymno
-length(unique(dataNoExpshort$Traits)) # 12 traits
-
-sort(unique(dataNoExpshort$SpeciesName))
 

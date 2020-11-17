@@ -86,16 +86,16 @@
    
    // Varying intercepts definition
    // Level-3 (10 level-3 random intercepts)
-   for (k in 1:n_pop) {
-     a_sppop[k] ~ normal(a_sp[sp[k]], sigma_a_pop);
+   for (j in 1:n_pop) {
+     a_sppop[j] ~ normal(a_sp[sp[j]], sigma_a_pop);
    }
    // Level-2 (100 level-2 random intercepts)
-   for (j in 1:n_pop) {
-     b_force_sppop[j] ~ normal(b_force[sp[j]], sigma_b_force_pop);
+   for (k in 1:n_pop) {
+     b_force_sppop[k] ~ normal(b_force[sp[k]], sigma_b_force_pop);
    }
    
-   for (j in 1:n_pop) {
-     b_photo_sppop[j] ~ normal(b_photo[sp[j]], sigma_b_photo_pop);
+   for (l in 1:n_pop) {
+     b_photo_sppop[l] ~ normal(b_photo[sp[l]], sigma_b_photo_pop);
    }
  
    // Random effects distribution
@@ -116,9 +116,9 @@
    mu_a_study ~ normal(0, 30);
    sigma_a_study ~ normal(0, 10);
    
-   sigma_a_pop ~ normal(0, 10);
-   sigma_b_force_pop ~ normal(0, 10);
-   sigma_b_photo_pop ~ normal(0, 10);
+   sigma_a_pop ~ normal(0, 5);
+   sigma_b_force_pop ~ normal(0, 5);
+   sigma_b_photo_pop ~ normal(0, 5);
    sigma_y ~ normal(0, 10);
  
    // Likelihood part of Bayesian inference

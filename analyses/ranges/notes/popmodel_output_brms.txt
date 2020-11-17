@@ -6,58 +6,47 @@
 > checkreal.all
  Family: gaussian 
   Links: mu = identity; sigma = identity 
-Formula: resp ~ datasetID + force.z + photo.z + (force.z + photo.z | latbi/pophere) 
+Formula: resp ~ (1 | datasetID) + force.z + photo.z + (force.z + photo.z | latbi/pophere) 
    Data: bb.stan.here (Number of observations: 948) 
-Samples: 4 chains, each with iter = 2000; warmup = 1500; thin = 1;
-         total post-warmup samples = 2000
+Samples: 4 chains, each with iter = 4000; warmup = 2500; thin = 1;
+         total post-warmup samples = 6000
 
 Group-Level Effects: 
+~datasetID (Number of levels: 14) 
+              Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+sd(Intercept)    18.92      4.13    12.48    28.48       2444 1.00
+
 ~latbi (Number of levels: 12) 
                        Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-sd(Intercept)             11.61      4.16     5.72    21.65        490 1.01
-sd(force.z)                7.17      2.25     3.86    12.62        813 1.00
-sd(photo.z)                2.76      1.85     0.16     6.89        679 1.00
-cor(Intercept,force.z)    -0.23      0.39    -0.85     0.59        350 1.01
-cor(Intercept,photo.z)    -0.11      0.43    -0.87     0.73       1237 1.00
-cor(force.z,photo.z)      -0.09      0.46    -0.87     0.79       1277 1.00
+sd(Intercept)             11.21      3.52     5.93    19.56       2455 1.00
+sd(force.z)                7.07      2.29     3.68    12.69       2549 1.00
+sd(photo.z)                2.89      1.86     0.15     7.15       1757 1.00
+cor(Intercept,force.z)    -0.34      0.34    -0.87     0.39       2040 1.00
+cor(Intercept,photo.z)    -0.09      0.41    -0.85     0.71       4698 1.00
+cor(force.z,photo.z)      -0.14      0.45    -0.89     0.74       3799 1.00
 
 ~latbi:pophere (Number of levels: 65) 
                        Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-sd(Intercept)              1.77      1.12     0.11     4.38        660 1.00
-sd(force.z)                1.65      1.26     0.06     4.68        471 1.01
-sd(photo.z)                0.62      0.55     0.02     1.94       1435 1.00
-cor(Intercept,force.z)     0.13      0.50    -0.85     0.92       1247 1.00
-cor(Intercept,photo.z)    -0.04      0.51    -0.89     0.88       2621 1.00
-cor(force.z,photo.z)      -0.04      0.52    -0.90     0.89       1792 1.00
+sd(Intercept)              1.72      1.05     0.12     3.99       1781 1.00
+sd(force.z)                1.59      1.23     0.06     4.59       1817 1.00
+sd(photo.z)                0.63      0.53     0.03     2.05       5097 1.00
+cor(Intercept,force.z)     0.17      0.50    -0.81     0.93       3413 1.00
+cor(Intercept,photo.z)    -0.03      0.50    -0.89     0.86       8472 1.00
+cor(force.z,photo.z)      -0.04      0.50    -0.89     0.86       6704 1.00
 
 Population-Level Effects: 
-                    Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-Intercept              37.24      6.94    23.56    51.25        342 1.01
-datasetIDcalme94       -2.34     11.84   -25.99    20.83        362 1.01
-datasetIDcampbell75    14.38     18.26   -25.97    48.61        381 1.01
-datasetIDfalusi96     -11.02      7.19   -24.31     2.53        366 1.00
-datasetIDfalusi97      28.75     12.95     3.54    53.68        589 1.00
-datasetIDflynn18       -9.36     10.11   -30.16    10.01        251 1.01
-datasetIDheide93a     -21.29      9.59   -40.09    -3.46        397 1.00
-datasetIDli05           6.86     11.63   -15.43    29.40        829 1.00
-datasetIDmalyshev18   -14.71      7.77   -29.75    -0.15        354 1.00
-datasetIDman17         21.03     11.32    -2.78    43.14        322 1.01
-datasetIDmyking95      -7.30      7.47   -21.01     8.06        570 1.00
-datasetIDpartanen01   -16.96      7.57   -31.80    -2.66        467 1.00
-datasetIDpartanen98    34.15      6.07    22.48    45.82        481 1.00
-datasetIDskuterud94   -21.36      6.42   -33.34    -8.20        649 1.00
-force.z                -6.94      2.99   -12.68    -1.06        543 1.01
-photo.z                -1.89      1.48    -4.94     0.99        939 1.00
+          Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
+Intercept    36.34      5.87    24.61    47.89       1467 1.00
+force.z      -7.18      2.72   -12.43    -1.48       2930 1.00
+photo.z      -1.76      1.51    -4.77     1.39       3388 1.00
 
 Family Specific Parameters: 
       Estimate Est.Error l-95% CI u-95% CI Eff.Sample Rhat
-sigma    14.64      0.35    13.98    15.36       2015 1.00
+sigma    14.64      0.35    13.96    15.34       7880 1.00
 
 Samples were drawn using sampling(NUTS). For each parameter, Eff.Sample 
 is a crude measure of effective sample size, and Rhat is the potential 
 scale reduction factor on split chains (at convergence, Rhat = 1).
-> 
-
 
 
 
@@ -103,6 +92,39 @@ is a crude measure of effective sample size, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
 > 
 
+
+
+###### Rstan output #####
+
+> mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
+        mean      se_mean           sd         2.5%          25%          50%          75% 
+  -7.7064480    0.2021413    6.6608426  -21.0832132  -11.6946003   -7.8321428   -3.7617553 
+       97.5%        n_eff         Rhat 
+   6.1045730 1085.7959306    1.0034097 
+> mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
+       mean     se_mean          sd        2.5%         25%         50%         75%       97.5% 
+ -1.9606170   0.1540649   4.2529167 -10.3103830  -3.7355903  -2.0618324  -0.4541093   7.3714106 
+      n_eff        Rhat 
+762.0198916   1.0051863 
+> mod.sum[grep("sigma", rownames(mod.sum)),]
+                       mean     se_mean        sd       2.5%       25%        50%       75%     97.5%
+sigma_y           14.681558 0.006714841 0.3449153 14.0276970 14.444327 14.6740800 14.907262 15.377323
+sigma_a_sp         9.168422 0.220980750 4.7179822  2.6501405  5.712004  8.2439798 11.791994 20.639990
+sigma_a_study     18.560799 0.058072197 3.3653385 13.1611920 16.094145 18.2173641 20.570241 26.269023
+sigma_b_force_sp   9.746073 0.197430280 4.5445834  3.4257886  6.336321  8.9074048 12.188660 20.660084
+sigma_b_photo_sp   4.526440 0.365749694 4.0516857  0.1743911  1.710177  3.4374703  6.080753 15.594543
+sigma_b_force_pop  5.601860 0.169241166 1.7341778  1.6550083  4.581963  5.6959397  6.781297  8.673552
+sigma_b_photo_pop  0.846863 0.079507095 0.5994716  0.0898620  0.420295  0.7033132  1.147127  2.338394
+sigma_a_pop        2.490659 0.216737611 1.5082468  0.3741930  1.254091  2.3006821  3.470325  5.884951
+                       n_eff      Rhat
+sigma_y           2638.47779 1.0011842
+sigma_a_sp         455.83084 1.0019968
+sigma_a_study     3358.31163 0.9995242
+sigma_b_force_sp   529.85939 1.0032526
+sigma_b_photo_sp   122.71667 1.0356808
+sigma_b_force_pop  104.99660 1.0329623
+sigma_b_photo_pop   56.84935 1.0478412
+sigma_a_pop         48.42574 1.0602018
 
 
 
