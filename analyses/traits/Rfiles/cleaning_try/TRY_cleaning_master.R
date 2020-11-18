@@ -442,7 +442,7 @@ library(data.table)
 ### Start by cleaning species names ################################################### MG Started 4 Nov 2020
 
 ## UPDATE: Now using the new post Nov 2020 cleaned Try dataset
-dataNoExpshort<-read.csv("TryDataCleanedNew_Nov2020.csv", fileEncoding="latin1")
+dataNoExpshort<-read.csv("input/TryDataCleanedNew_Nov2020.csv", fileEncoding="latin1")
 namelist <- sort(unique(dataNoExpshort$SpeciesName))
 
 #split into genus and species columns and a third column for authority/subsp/any other words
@@ -461,6 +461,7 @@ dataNoExpshort$genus[which(dataNoExpshort$genus == "BETULA")] <- "Betula"
 
 
 dataNoExpshort$species[which(dataNoExpshort$species == "pensilvanicum")] <- "pensylvanicum"
+dataNoExpshort$species[which(dataNoExpshort$species == "pennsylvanicum")] <- "pensylvanicum"
 dataNoExpshort$species[which(dataNoExpshort$species == "grandfolia")] <- "grandifolia"
 dataNoExpshort$species[which(dataNoExpshort$species == "pennsylvanica")] <- "pensylvanica"
 dataNoExpshort$species[which(dataNoExpshort$species == "catharticus")] <- "cathartica"
@@ -510,16 +511,18 @@ sort(unique(dataNoExpshort$new.SpeciesName))
 # now have 94 species
 #################################################################################################
 # 
-dataNoExpshort_es<-subset(dataNoExpshort, TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | TraitName == "Specific_leaf_area"| TraitName == "Plant_height_vegetative"| TraitName == "Leaf_dry_matter_content" | TraitName == "Stem_diameter" | TraitName == "Stem_specific_density" | TraitName == "Leaf_photosynthesis_rate_per_leaf_area") 
+dataNoExpshort_es<-subset(dataNoExpshort, TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | TraitName == "Specific_leaf_area"| TraitName == "Plant_height_vegetative"| TraitName == "Leaf_dry_matter_content" | TraitName == "Stem_diameter" | TraitName == "Stem_specific_density" | TraitName == "Leaf_photosynthesis_rate_per_leaf_area"| TraitName == "Leaf_carbon_.C._content_per_leaf_dry_mass") 
 
 #################################################################################################
 #Deirdre's summary notes:
 # Final dataset dataNoExpshort
-length(unique(dataNoExpshort_es$DatasetID)) #41
-length(unique(dataNoExpshort_es$new.SpeciesName)) # 95
-length(unique(dataNoExpshort_es$TraitName)) #  traits
+length(unique(dataNoExpshort_es$DatasetID)) #43
+length(unique(dataNoExpshort_es$new.SpeciesName)) # 96
+length(unique(dataNoExpshort_es$TraitName)) # 8 traits
 # Interesting, we seem to have lost our photosyn data
 
 sort(unique(dataNoExpshort$new.SpeciesName))
 
-#write.csv(dataNoExpshort_es, "input/try_subsptraits.csv")
+dataNoExpshort_es$project_pi<-paste(dataNoExpshort_es$FirstName,dataNoExpshort_es$LastName, sep=" ")
+
+write.csv(dataNoExpshort_es, "input/try_subsptraits.csv", row.names=FALSE)

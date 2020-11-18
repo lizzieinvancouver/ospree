@@ -12,61 +12,101 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 #} 
 
 require(ggplot2)
-trydat<-read.csv("input/try_subsptraits.csv")
-head(trydat)
 
-tryosp<-read.csv("input/try_ospree.csv")
+trybien<-read.csv("input/try_bien_Nov2020.csv")
 
-unique(trydat$UnitName)
-unique(trydat$TraitName)
+all<-read.csv("input/try_bien_ospree_Nov2020.csv")
+
+bien<-read.csv("input/bien_cleaned_Nov2020.csv")
+try<-read.csv("input/try_subsptraits.csv")
+unique(trybien$UnitName)
+unique(trybien$TraitName)
 
 #sla
-sla<-subset(trydat, TraitName=="Specific_leaf_area")
-hist(sla$StdValue)
-range(sla$StdValue)
-temp<-sla[order(sla$StdValue),]
+sla<-subset(trybien, TraitName=="Specific_leaf_area")
+hist(sla$TraitValue)
+range(sla$TraitValue)
+temp<-sla[order(sla$TraitValue),]
 
+ggplot(sla, aes(TraitValue,database)) +
+  geom_point()
 # should just subset the 0 value
+
+slatry<-subset(try, TraitName=="Specific_leaf_area"); unique(slatry$UnitName)
+slabien<-subset(bien, trait_name=="leaf area per leaf dry mass"); unique(slabien$unit)
+head(bien)
+
 #####################################################################
 
 #ldmc
-ldmc<-subset(trydat, TraitName=="Leaf_dry_matter_content")
-hist(ldmc$StdValue)
+ldmc<-subset(trybien, TraitName=="Leaf_dry_matter_content")
+hist(ldmc$TraitValue)
+
+ggplot(ldmc, aes(TraitValue,database)) +
+  geom_point()
+
+ldmctry<-subset(try, TraitName=="Leaf_dry_matter_content"); unique(ldmctry$UnitName)
+ldmcbien<-subset(bien, trait_name=="leaf dry mass per leaf fresh mass"); unique(ldmcbien$unit)
+head(bien)
 
 #lnc
-lnc<-subset(trydat, TraitName=="Leaf_nitrogen_.N._content_per_leaf_dry_mass")
-hist(lnc$StdValue)
+lnc<-subset(trybien, TraitName=="Leaf_nitrogen_.N._content_per_leaf_dry_mass")
+hist(lnc$TraitValue)
 
-range(lnc$StdValue)
-temp<-lnc[order(lnc$StdValue),]
+ggplot(lnc, aes(TraitValue,database)) +
+  geom_point()
+#one exceedingly large value over 800
+
+range(lnc$TraitValue)
+temp<-lnc[order(lnc$TraitValue),]
+
+#lnc
+cn<-subset(trybien, TraitName=="leaf carbon content per leaf nitrogen content")
+hist(cn$TraitValue)
+
+ggplot(cn, aes(TraitValue,database)) +
+  geom_point()
+#one exceedingly large value over 30
+temp<-cn[order(cn$TraitValue),]
 
 
 #phr
-phr<-subset(trydat, TraitName=="Leaf_photosynthesis_rate_per_leaf_area")
-hist(phr$StdValue)
+phr<-subset(trybien, TraitName=="Leaf_photosynthesis_rate_per_leaf_area")
+hist(phr$TraitValue)
+
+ggplot(phr, aes(TraitValue,database)) +
+  geom_point()
 
 #ssd
-ssd<-subset(trydat, TraitName=="Stem_specific_density")
-hist(ssd$StdValue)
+ssd<-subset(trybien, TraitName=="Stem_specific_density")
+hist(ssd$TraitValue)
+
+ggplot(ssd, aes(TraitValue,database)) +
+  geom_point()
 
 #diam
-diam<-subset(trydat, TraitName=="Stem_diameter")
-hist(diam$StdValue)
+diam<-subset(trybien, TraitName=="Stem_diameter")
+hist(diam$TraitValue)
 
-range(diam$StdValue)
-temp<-diam[order(diam$StdValue),]
+ggplot(diam, aes(TraitValue,database)) +
+  geom_point()
+
+range(diam$TraitValue)
+temp<-diam[order(diam$TraitValue),]
 # again we have some werid zero values and I am a little suspicious of the Betula that have stem diameters of less than one cm -- could these be juveniles or seedlings? I think it would be fair to subset them out
 
 #veg ht
-ht<-subset(trydat, TraitName=="Plant_height_vegetative")
-hist(ht$StdValue)
-range(ht$StdValue)
+ht<-subset(trybien, TraitName=="Plant_height_vegetative")
+hist(ht$TraitValue)
+range(ht$TraitValue)
+
+ggplot(ht, aes(TraitValue,database)) +
+  geom_point()
 #subset out the zero values
 
 head(tryosp)
-chill<-subset(tryosp, Coefficient=="b_chill")
-force<-subset(tryosp, Coefficient=="b_force")
-photo<-subset(tryosp, Coefficient=="b_photo")
+chill<-subset(all, Coefficient=="b_chill")
+force<-subset(all, Coefficient=="b_force")
+photo<-subset(all, Coefficient=="b_photo")
 
-ggplot(data=chill,aes(mean,trait.mean)) +
-  geom_point()
+

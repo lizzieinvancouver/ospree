@@ -65,37 +65,45 @@ gymno<-c("Abies","Pinus","Picea","Pseudotsuga")
 
 biendat.subtrait.deci<- biendat.subtrait[!biendat.subtrait$genus %in% gymno,] # only want the deciduous species
 biendat.subtrait.deci$new.SpeciesName<-paste(biendat.subtrait.deci$genus,biendat.subtrait.deci$species,sep="_")
-unique(biendat.subtrait.deci$SpeciesName)
+unique(biendat.subtrait.deci$new.SpeciesName)
 ##################################################
 # Standardize the units and thinking about 
 
 # start with leaf area per leaf dry mass (ie SLA)
-#despite the units be so different, I think they are equivalent 1m^2/kg = 1000000 mm^2/ 1000000 mg
+#need to convert from m2/kg to mm2/mg
 #changing sla set
-sla<-subset(biendat.subtrait, trait_name == "leaf area per leaf dry mass" )
-sla$trait_value <- (sla$trait_value * 1000000 )
-sla$unit <- "m2.mg-1"
+sla<-subset(biendat.subtrait.deci, trait_name == "leaf area per leaf dry mass" )
+#sla$trait_value <- (sla$trait_value * 1000000 )
+sla$unit <- "mm2 mg-1"
 unique(sla$unit)
 range(sla$trait_value)
 hist(sla$trait_value)
 
 temp<-sla[order(sla$trait_value),]
+head(temp)
 
 # ldmc
-ldmc<-subset(biendat.subtrait, trait_name == "leaf dry mass per leaf fresh mass")
-unique(ldmc$unit) #correct unit based on Pérez-Harguindeguy
+ldmc<-subset(biendat.subtrait.deci, trait_name == "leaf dry mass per leaf fresh mass")
+unique(ldmc$unit) #correct unit based on Pérez-Harguindeguy but not the same as try
+#try has units g/g, bien has units mg/g
+ldmc$trait_value <- (ldmc$trait_value * 0.001 )
+ldmc$unit <- "g g-1"
+
+range(ldmc$trait_value)
+
+
 
 # seed mass
-seed<-subset(biendat.subtrait, trait_name == "seed mass")
+seed<-subset(biendat.subtrait.deci, trait_name == "seed mass")
 unique(seed$unit) #correct unit based on Pérez-Harguindeguy
 hist(seed$trait_value)
 
 # height
-maxht<-subset(biendat.subtrait, trait_name == "maximum whole plant height")
+maxht<-subset(biendat.subtrait.deci, trait_name == "maximum whole plant height")
 unique(maxht$unit) #correct unit based on Pérez-Harguindeguy
 hist(maxht$trait_value)
 
-wlht<-subset(biendat.subtrait, trait_name == "whole plant height")
+wlht<-subset(biendat.subtrait.deci, trait_name == "whole plant height")
 unique(wlht$unit) #correct unit based on Pérez-Harguindeguy
 hist(wlht$trait_value)
 temp<-wlht[order(wlht$trait_value),]
@@ -103,18 +111,27 @@ temp<-wlht[order(wlht$trait_value),]
 ######
 ##### Merging datasets together
 #creates dataset with all relevant data not including SLA
-test <- subset(biendat.subtrait, trait_name != "leaf area per leaf dry mass" )
+test <- subset(biendat.subtrait.deci, trait_name != "leaf area per leaf dry mass" )
 
 #rowbinds the new SLA values with the rest of the data we are interested in
-biendat2.0<- rbind(test,sla)
+biendat2<- rbind(test,sla)
+head(biendat2)
 
-write.csv(biendat2.0, "bien_cleaned_Nov2020.csv")
+## Now adding LDMC
+test3 <- subset(biendat2, trait_name != "leaf dry mass per leaf fresh mass" )
+
+#rowbinds the new SLA values with the rest of the data we are interested in
+biendat3<- rbind(test3,ldmc)
+head(biendat3)
+unique(biendat3$trait_name)
+
+#write.csv(biendat3, "input/bien_cleaned_Nov2020.csv")
 
 ## Weird datasets to be aware of ##################
  
 # 1. Greg Reams height data:  3019683 ie 96% of the Bien data 
-reams<-subset(dat, project_pi == "Greg Reams")
-unique(reams$SpeciesName) # 35 species
-unique(reams$trait_name) # just whole plant height 
-
-length(unique(dat$url_source))
+# reams<-subset(dat, project_pi == "Greg Reams")
+# unique(reams$SpeciesName) # 35 species
+# unique(reams$trait_name) # just whole plant height 
+# 
+# length(unique(dat$url_source))

@@ -12,6 +12,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 require(stringr)
+require(dplyr)
 
 # Set working directory: 
 
@@ -35,7 +36,7 @@ biendat<-read.csv("input/bien_cleaned_Nov2020.csv")
 ospree<-read.csv("input/traitors_bb_results_nocomplex.csv", header=TRUE)
 ospree<-ospree[,c("Coefficient","Species","mean")]
 
-length(unique(biendat$SpeciesName)) #85
+length(unique(biendat$new.SpeciesName)) #85
 length(unique(trydat$new.SpeciesName)) #62
 length(unique(ospree$Species)) #234
 
@@ -56,7 +57,6 @@ length(unique(ospree.deci$new.SpeciesName)) # left with 222 species
 ###########################################################
 #Changing names in BIEN to better match those in try
 colnames(biendat)[colnames(biendat)=="trait_name"] <-"TraitName"
-colnames(biendat)[colnames(biendat)=="SpeciesName"] <-"new.SpeciesName"
 colnames(biendat)[colnames(biendat)=="trait_value"] <-"TraitValue" # Are the bien trait values standardized, something to check!! 
 colnames(biendat)[colnames(biendat)=="unit"] <- "UnitName"
 colnames(biendat)[colnames(biendat)=="longitude"] <- "Longitude"
@@ -71,6 +71,16 @@ trydat$database<-"try"
 
 #issue with the biend longtitude
 trydat$Longitdue<-as.numeric(as.character(trydat$Longitude))
+
+#bien has sla as and ldmc as
+unique(biendat$TraitName)
+unique(trydat$TraitName)
+
+biendat$TraitName[which(biendat$TraitName == "leaf area per leaf dry mass")] <- "Specific_leaf_area"
+biendat$TraitName[which(biendat$TraitName == "leaf dry mass per leaf fresh mass")] <- "Leaf_dry_matter_content"
+biendat$TraitName[which(biendat$TraitName == "maximum whole plant height")] <- "Plant_height_vegetative"
+biendat$TraitName[which(biendat$TraitName == "whole plant height")] <- "Plant_height_vegetative"
+biendat$TraitName[which(biendat$TraitName == "stem wood density")] <- "Stem_specific_density"
 ##########################################################################################
 # Merge the beind and try trait data
 
@@ -82,75 +92,98 @@ unique(trybien$UnitName)
 unique(trybien$TraitName)
 unique(trybien$new.SpeciesName)
 
+
 trtmean<-trybien %>% 
   group_by(new.SpeciesName,TraitName) %>% 
   summarize(trait.mean=mean(TraitValue,na.rm=TRUE),)
 unique(trtmean$new.SpeciesName)
+unique(ospree.deci$new.SpeciesName)
 ##################################################################################
 fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
-unique(fin$new.SpeciesName)
+unique(fin$new.SpeciesName) #70
+unique(fin$TraitName) #11 traits
 
 head(fin)
 
-write.csv(fin, "input/try_ospree_Nov2020.csv")
+#write.csv(fin, "input/try_bien_ospree_Nov2020.csv")
+#write.csv(trybien,"input/try_bien_Nov2020.csv", row.names=FALSE)
 
 ##################################################################################
-# But is the BIEN data standardized, ie lat long and trait units?
-unique(biendat$unit)
 
+##################################################################################
+# I think there might be duplicates in the data, but these will need to be looked into carefully
+names(trybien)
 
+trybien<-trybien[order(trybien$new.SpeciesName,trybien$TraitValue),]
+trybien$label<-paste(trybien$new.SpeciesName,trybien$TraitValue,trybien$UnitName, sep="_")
+trybien$dup<-duplicated(trybien[,"label"])
 
-# What about lat/long
-unique(biendat$latitude)
-unique(biendat$longitude)
+head(trybien);nrow(trybien)
 
-unique(trydat$std_Latitude) 
-unique(trydat$std_Longitude) 
+dat.dup<-subset(trybien, dup=="TRUE")
+head(dat.dup);nrow(dat.dup)
 
-# Are there any duplicates in the dataset
+nrow(trybien)-nrow(dat.dup) # this suggests that there are only 27195 rows of unique data
 
-# To get the ball rolling on the analysis, we can start working with a still curated subset of the try data that does not include experiments and subsets species to those that have several functional traits
+t.dup<- aggregate(dat.dup["database"], dat.dup[c("new.SpeciesName","TraitName", "project_pi")], FUN=length) 
 
-# Start by subsetting out studies that are growth chamber studies or experiments
-trysub<-subset(trydat, Exposition == "Botanical garden"| Exposition == "Natural Vegetation"| Exposition == "natural vegetation, but not top canopy"| Exposition == "natural environment"| Exposition == "forest stand"| Exposition == "natural"| is.na(Exposition)) 
+t.dup<-t.dup[order(t.dup$new.SpeciesName,t.dup$TraitName),]
+# This look worked on a subset, but I ran it for over 40 min...too slow
+# dupdat <- vector()
+# for(i in 1:length(trybien$dup)){
+#   if(trybien$dup[i] == "TRUE"){ 
+#    dupdat<-rbind(dupdat, trybien[i,])
+#   }
+# }  
 
+try<-subset(trybien, database== "try"); sort(unique(try$project_pi))
+bien<-subset(trybien, database== "bien"); sort(unique(bien$project_pi))
+bien$project_pi[which(bien$project_pi == " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J")] <- "Amy Zanne"
 
+# Lopez-gonzalez 
+lopezgonz <-  grep( "onzalez", unique(trybien$project_pi),  value = TRUE)
+lg<-subset(trybien, project_pi==" Lopez-Gonzalez" | project_pi=="Lopez-Gonzalez G")
+lg$dup<-duplicated(lg[,"label"])
 
-###########################################################################
-#6. Remove conifer species - focus on just deciduous that have leaf trait data
+dupdat <- vector()
+for(i in 1:length(lg$dup)){
+  if(lg$dup[i] == "TRUE"){
+   dupdat<-rbind(dupdat, lg[i,])
+  }
+}
 
-# want to remove the Abies alba, Picea abies, all Pinus, Pseudotsuga menziesii
+# Zanne A
+zanne <-  grep( "anne", unique(trybien$project_pi),  value = TRUE)
+zan<-subset(trybien, project_pi=="Amy Zanne" | project_pi==" Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J"| project_pi=="Zanne AE")
+zan$dup<-duplicated(zan[,"label"])
 
-###########################################################################
+##bien project_pi " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J" is the same as try referces: "Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366."
 
-#7. Subsetting the species to those that have the most trait data
-# how many species remain in this subset dataset?
-length(unique(trysub$SpeciesName)) 
+#Angela moles
+moles<-  grep( "ole", unique(trybien$project_pi),  value = TRUE)
+moles<-subset(trybien, project_pi=="Angela Moles" )
+moles<-moles[order(moles$TraitValue),]
+# I think these are different but it is hard to tell since there is no reference for the bien dataset
 
-# What traits?
-unique(trysub$Traits)
+# C.E.T Paine
+paine<-  grep( "ain", unique(trybien$project_pi),  value = TRUE)
+paine<-subset(trybien, project_pi=="C. E. Timothy Paine" |  project_pi=="Paine CET" )
+paine<-paine[order(paine$TraitValue,paine$new.SpeciesName),]
 
-library(dplyr)
+# yes the try: "Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401" 
+#is the same as the bien:  "http://datadryad.org/resource/doi:10.5061/dryad.h9083"
 
-table<- trysub1 %>%
-  group_by(SpeciesName,Traits) %>%
-  summarise(no_rows = length(Traits))
-table
+#MJ Spasojevic
+spas<-  grep( "pasoj", unique(trybien$project_pi),  value = TRUE)
+spas<-subset(trybien, project_pi=="Marko Spasojevic" |  project_pi=="Spasojevic MJ" )
+spas<-spas[order(spas$TraitValue),]
 
-# At minimum, I think we want species with SLA, LDMC, LNC, LCC, height, stem.diameter/DBH
-trysubtrait<-subset(trydat, Traits == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| Traits == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | Traits == "Specific_leaf_area"| Traits == "Plant_height_vegetative"| Traits == "Leaf_dry_matter_content" | Traits == "Stem_diameter" | Traits == "Stem_specific_density" | Traits == "Leaf_photosynthesis_rate_per_leaf_area") 
+# yes try's "Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518" 
+# is the same as biens: http://datadryad.org/resource/doi:10.5061/dryad.rr4pm
 
-table<- trysubtrait %>%
-  group_by(SpeciesName,Traits) %>%
-  summarise(no_rows = length(Traits))
-table
-
-table<- trysubtrait %>%
-  group_by(Traits, SpeciesName) %>%
-  summarise(no_rows = length(Traits))
-table
-
-length(unique(trysubtrait$SpeciesName))
-unique(trysubtrait$TraitValue_std)
-
+dupdat
+unique(lg$Reference...source)
+dupdat
+nrow(dup) 
+b.studies<- aggregate(biendat["TraitName"], biendat[c("url_source", "project_pi")], FUN=length) 
 
