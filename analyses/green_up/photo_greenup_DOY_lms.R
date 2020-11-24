@@ -4,9 +4,11 @@
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
-
 setwd("~/Documents/GitHub/ospree/analyses/green_up/")
 
+#load libraries
+library(scales)
+library(tidyr)
 #put all the greenup doy info together
 files<-list.files(path = "./greenup_dates", full.names = FALSE)
 allyears<-c()
@@ -22,7 +24,7 @@ dim(allyears)
 
 allyears$doy<-as.integer(format(as.Date(allyears$date),format ="%j"))
 
-allyears$loc<-paste(allyears$lat, allyears$long, sep = "")
+allyears$loc<-paste(allyears$lat, allyears$long, sep = "_")
 locs<-unique(allyears$loc)
 doymods<-matrix(data = NA,nrow = length(locs),ncol =6)
 dlmods<-matrix(data = NA,nrow = length(locs),ncol =6)
@@ -45,45 +47,45 @@ range(dlmods$yr.p, na.rm = TRUE)
 mean(dlmods$yr.p, na.rm = TRUE)
 
 #plot the effect sizes of both so we can see what they look like
-pdf("greenuptrendsplot.pdf", height = 6, width = 10)
+png("greenuptrendsplot.png", height = 600, width = 1000)
 par(mfrow = c(1,2))
 plot(as.numeric(substr(locs,1,8)),doymods$yr.coef, 
      type = "p",col = alpha("black", 0.5), pch = 16, bty = "l",
-     xlab = "Latitude", ylab = "2009-2018 trend", main = "DOY of Greenup")
+     xlab = "Latitude", ylab = "2009-2018 trend", main = "DOY of Greenup", ylim = c(-50,50))
 abline(h=0,col ="red", lty = 2)
-for (i in 1:length(locs)){
-  arrows(as.numeric(substr(locs,1,8))[i],doymods$yr.2.5[i],as.numeric(substr(locs,1,8))[i],doymods$yr.97.5[i],
-         code = 3, length = 0, col = alpha("black", 0.2))
-  }
+#for (i in 1:length(locs)){#this takes a long time to plot!
+#  arrows(as.numeric(substr(locs,1,8))[i],doymods$yr.2.5[i],as.numeric(substr(locs,1,8))[i],doymods$yr.97.5[i],
+#         code = 3, length = 0, col = alpha("black", 0.2))
+#  }
                 
 plot(as.numeric(substr(locs,1,8)),dlmods$yr.coef, 
      type = "p",col = alpha("black", 0.5), pch = 16, bty = "l",
-     xlab = "Latitude", ylab = "2009-2018 trend", main = "Daylength at Greenup")
+     xlab = "Latitude", ylab = "2009-2018 trend", main = "Daylength at Greenup", ylim = c(-5,5))
 abline(h=0,col ="red", lty = 2)
-for (i in 1:length(locs)){
-  arrows(as.numeric(substr(locs,1,8))[i],dlmods$yr.2.5[i],as.numeric(substr(locs,1,8))[i],dlmods$yr.97.5[i],
-         code = 3, length = 0, col = alpha("black", 0.2))
-}
+#for (i in 1:length(locs)){
+#  arrows(as.numeric(substr(locs,1,8))[i],dlmods$yr.2.5[i],as.numeric(substr(locs,1,8))[i],dlmods$yr.97.5[i],
+#         code = 3, length = 0, col = alpha("black", 0.2))
+#}
 dev.off()
-pdf("dldoytrendsplot.pdf", height = 6, width = 6)
+png("dldoytrendsplot.png", height = 600, width = 600)
 plot(doymods$yr.coef, dlmods$yr.coef,
      type = "p",col = alpha("darkblue", 0.5), pch = 16, bty = "l",
      xlab = "DOY trend", ylab = "Daylength trend")
 abline(h= 0, lwd = 2)
 abline(v= 0, lwd = 2)
 
-for (i in 1:length(doymods$yr.coef)){
-  arrows(doymods$yr.coef[i],dlmods$yr.2.5[i],doymods$yr.coef[i],dlmods$yr.97.5[i],
-         code = 3, length = 0, col = alpha("darkblue", 0.2))
-}
-for (i in 1:length(doymods$yr.coef)){
-  arrows(doymods$yr.2.5[i],dlmods$yr.coef[i],doymods$yr.97.5[i],dlmods$yr.coef[i],
-         code = 3, length = 0, col = alpha("darkblue", 0.2))
-}
+# for (i in 1:length(doymods$yr.coef)){
+#   arrows(doymods$yr.coef[i],dlmods$yr.2.5[i],doymods$yr.coef[i],dlmods$yr.97.5[i],
+#          code = 3, length = 0, col = alpha("darkblue", 0.2))
+# }
+# for (i in 1:length(doymods$yr.coef)){
+#   arrows(doymods$yr.2.5[i],dlmods$yr.coef[i],doymods$yr.97.5[i],dlmods$yr.coef[i],
+#          code = 3, length = 0, col = alpha("darkblue", 0.2))
+# }
 
 dev.off()
 
-pdf("dldoycoefsp.pdf", height = 6, width = 6)
+png("dldoycoefsp.png", height = 600, width = 600)
 par(mfrow=c(2,2))
 boxplot(doymods$yr.coef,main = "DOY of greenup trends")
 boxplot(dlmods$yr.p, main = "DOY trend p-values")
@@ -91,4 +93,8 @@ boxplot(dlmods$yr.p, main = "DOY trend p-values")
 boxplot(dlmods$yr.coef,main = "Daylength at greenup trends")
 boxplot(dlmods$yr.p, main = "Daylength trend p-values")
 dev.off()
-  
+
+#save all the model output for a table
+locs<-as.data.frame(locs)
+locs.df<-separate(locs, locs,c("lat", "long"),sep = "_")
+bothmods<-cbind(locs.df,doymods,dlmods)

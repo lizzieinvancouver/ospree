@@ -6,7 +6,7 @@ library(TeachingDemos)
 lats<-c(22.5,45)# focl latitudes
 doy<-c(1:365)
 
-quartz(height=6.5,width=6)
+quartz(height=6.5,width=6.5)
 par(oma=c(0.1,0.1,0.1,0.1), mar=c(5,4,4,2) + 0.1)
 plot(doy,daylength(0,doy), xlim=c(1,380), ylim=c(8,17.5), xlab="Day of year", ylab="Daylength (hours)", bty="l",type="l", lwd=2)
 
@@ -27,14 +27,14 @@ shape<-c(21,22)
 #for lat 45, do both doys
 points(doys,daylength(45,doys), pch=21,bg=cols[2], cex=1.1)
   
-#for lat 22.5, just  the second doy
-points(doys[2],daylength(22.5,doys[2]), pch=21,bg=cols[2], cex=1.1)
+#for lat 22.5, 
+points(doys,daylength(22.5,doys), pch=21,bg=cols[2], cex=1.1)
 
 #}
 #add rectangles for zoom-in around each point
 #for(i in 1:length(lats)){
   rect(doys-9,daylength(45,doys)+-.2,doys+9,daylength(45,doys)--.2)
-  rect(doys[2]-9,daylength(22.5,doys[2])+-.2,doys[2]+9,daylength(22.5,doys[2])--.2)
+  rect(doys-9,daylength(22.5,doys)+-.2,doys+9,daylength(22.5,doys)--.2)
   
 #}
 #add shifts
@@ -46,7 +46,7 @@ lat.shift<-0.5
 temp.shift<-30
 #for(i in 1:length(lats)){
   arrows(doys,daylength(45,doys), doys-temp.shift,daylength(45,doys-temp.shift), col="salmon4", length=0.1, lwd=3)
-  arrows(doys[2],daylength(22.5,doys[2]), doys[2]-temp.shift,daylength(22.5,doys[2]-temp.shift), col="salmon4", length=0.1, lwd=3)
+  arrows(doys,daylength(22.5,doys), doys-temp.shift,daylength(22.5,doys-temp.shift), col="salmon4", length=0.1, lwd=3)
   
 #}
 #Add insets for spatial change- need to zoom in
@@ -55,8 +55,8 @@ doy2<-c(181,182,183)
 ins1<-subplot( 
   plot(doy2,daylength(lats[2],doy2),xlim=c(181,183),ylim=c(15.54,15.64), col=1, type="l",lwd=2, mgp=c(1,0.4,0),
        xlab='', ylab='', cex.axis=0.5, cex.lab=0.5,xaxt="n",tck=-0.02), 
-  x=grconvertX(c(0.65,0.9), from='npc'),
-  y=grconvertY(c(0.6,0.85), from='npc'),
+  x=grconvertX(c(0.8,0.95), from='npc'),
+  y=grconvertY(c(0.8,0.95), from='npc'),
   type='fig', pars=list( mar=c(2,1.5,0,0)+0.1) )
 par(new = T)
 subplot(
@@ -122,3 +122,20 @@ legend(0,17.5,legend=c("Temporal shift","Spatial shift"), lty=1,col=c("salmon4",
 #  arrows(doys-10,daylength(lats[i],doys)+-.2, doys-temp.shift,daylength(lats[i],doys-temp.shift), col="salmon4", length=0.1, lwd=3)
   
 #}
+
+#Print changes
+#Spatial shifts
+(daylength(lats[2]+lat.shift, 182)-daylength(lats[2],182))*60
+#3.979415
+ (daylength(lats[1]+lat.shift, 182)-daylength(lats[1],182))*60
+# 2.082619
+(daylength(lats[1]+lat.shift, 91)-daylength(lats[1],91))*60
+#0.3749076
+(daylength(lats[2]+lat.shift, 91)-daylength(lats[2],91))*60
+#0.6837888
+#Temporal shifts
+(daylength(lats[1],doys) - daylength(lats[1],doys-temp.shift))*60
+(daylength(lats[2],doys) - daylength(lats[2],doys-temp.shift))*60
+
+
+                               
