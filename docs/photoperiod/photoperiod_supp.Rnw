@@ -149,8 +149,6 @@ photoeff.table <- xtable(photo_tab, caption="\\textbf{Locations, photoperiod tre
 print(photoeff.table, include.rownames=FALSE, hline.after = c(-1,0,30),size="\\footnotesize",include.colnames = TRUE,sanitize.text.function = identity, caption.placement = "top")
 @
 \end{footnotesize} 
-\clearpage
-\section* {Supplemental Figures}
 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

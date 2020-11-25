@@ -9,10 +9,10 @@ library(rgdal)
 #library(googleway)
 library(geosphere)
 setwd("~/Documents/git/ospree/analyses/green_up/greenup_files/")
-#setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/green_up/greenup_files/")
+setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/green_up/greenup_files/")
 savemap= FALSE #set to TRUE if you want to create new raster maps to save
 files<-list.files(path = "./modis_original_files", full.names = TRUE)
-
+files<-files[grep(".tif",files)]
 ####load data
 for (file in files){
 M<-raster(file) ###
@@ -28,17 +28,13 @@ resampledRaster <- resample(M,resampledRaster,method='bilinear',overwrite=TRUE)
 
 ###measured in days since 1/1/2000
 
-#plot(M2)#I think this is areas in the south that green up before Dec 31
-
-
-
 ###make all the lat longs points
 spts <- rasterToPoints(resampledRaster, spatial = TRUE)
 ###make it a data frame
 dat <- as.data.frame(spts)
 colnames(dat)[1]<-"source"
 
-dat$Day<-as.Date(dat$source,origin = "2000-01-01")
+dat$Day<-as.Date(dat$source,origin = "2000-01-01")#this does not seem right
 head(dat)
 long<-c(dat$x)
 lat<-c(dat$y)
@@ -63,7 +59,12 @@ gooddat2<-cbind(dl2,dat) #geosphere
 d2<-dplyr::select(gooddat2,x,y, dl2) #geosphere
 d3<-dplyr::select(gooddat2,y,x,Day,dl2) #geosphere
 colnames(d3)<-c("lat","long","date","daylength")
-doyfilename<-paste("../greenup_dates/greenup",substr(file,36,39),".csv", sep = "")
+d3$year<-substr(file,49,52)
+date <- as.Date(as.character(paste(d3$year, substr(d3$date,6,10), sep="-"),
+                       format="%Y-%b-%d"))
+d3$doy <- as.numeric(format(date, "%j"))
+
+doyfilename<-paste("../greenup_dates/greenup",substr(file,49,52),".csv", sep = "")
 write.csv(d3,doyfilename, row.names = FALSE)
 ###convert back to raster
 
