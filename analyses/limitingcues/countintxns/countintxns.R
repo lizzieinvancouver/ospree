@@ -123,6 +123,9 @@ forceall <- union(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), pa
    forceospnight$study, sep="_")) # 46... so I need to deal with this somehow
 
 # chilldays includes experiments and field sample dates ... so we need to check and update ...
+# Lizzie worked through many of these in 2020 for her studydesignplots.R code
+# Definitely check out studydesignplots.R code for some relevant cleaning... 
+# She wrote notes in https://github.com/lizzieinvancouver/ospree/issues/249 on many of the studies here  
 checkchillist <- setdiff(unique(paste(chilldaysosp$datasetID, chilldaysosp$study, sep="_")), paste(fsdatesosp$datasetID,
    fsdatesosp$study, sep="_")) # these have chilldays but not multiple field sampled dates; need to check the papers!
 chilldaysosp.prep <- data.frame(datasetID=rep(NA, length(checkchillist)), study=rep(NA, length(checkchillist)))

@@ -410,6 +410,27 @@ d$chill.plot <- d$chill.int
 d$chill.plot[which(d$chillext=="variable"|d$chillext=="other")] <-
     d$chillext[which(d$chillext=="variable"|d$chillext=="other")]
 
+## Fix a photo NA value (all the forcing ones are okay as best I can tell)
+d$photo.plot[which(d$datasetID=="manson91" & d$study=="exp1")] <- "ambient"
+## Compare against chill info from BB analysis work ... trying to make sure we don't miss anything
+# First we get and format the BB data
+dfbb <- read.csv("output/ospree_clean_withchill_BB.csv")
+dfbbchillall <- subset(dfbb, select=c("datasetID", "study", "chill_type"))
+dfbbchill <- dfbbchillall[!duplicated(dfbbchillall),]
+dfbbchillnoNA <- subset(dfbbchill, is.na(chill_type)==FALSE)
+# Okay, to be make sure we don't double-assign any experiments, first delete out experiments with values
+dchillall <- subset(d, select=c("datasetID", "study", "chill.plot"))
+dchill <- dchillall[!duplicated(dchillall),]
+dchillokay <- subset(dchill, is.na(chill.plot)==FALSE)
+dchillfix <- dchill[which(!(paste(dchill$datasetID, dchill$study) %in% paste(dchillokay$datasetID, dchillokay$study))),]
+# Now we merge in the values where we have NA currently
+dcheck <- merge(dchillfix, dfbbchill, by=c("datasetID", "study"))
+dcheck$chill.plot[which(is.na(dcheck$chill.plot)==TRUE)] <- dcheck$chill_type[which(is.na(dcheck$chill.plot)==TRUE)] 
+subset(dcheck, chill.plot=="bothrep")
+subset(dcheck, chill.plot=="bothest")
+subset(dcheck, chill.plot=="exp")
+## Hmm ... I think we still need to go back to these papers to add values!
+
 dsumm.treat <-
       ddply(d, c("datasetID", "study", "force.plot", "photo.plot", "chill.plot"), summarise,
       mean.lat = mean(provenance.lat),
@@ -428,7 +449,7 @@ dsumm.treat$chill.plot <- factor(dsumm.treat$chill.plot, levels=c(sort(unique(d$
 
 # work on NAs (ask lab to check?)
 if(FALSE){
-checkforcena <- subset(dsumm.treat, is.na(force.plot)==TRUE)
+checkforcena <- subset(dsumm.treat, is.na(force.plot)==TRUE) # these should all be NA according to github issue #249
 checkphotona <- subset(dsumm.treat, is.na(photo.plot)==TRUE)
 checkchillna <- subset(dsumm.treat, is.na(chill.plot)==TRUE)
 checkchillna.helper <- subset(dsumm.treat, field.sample.n>0)
@@ -438,12 +459,15 @@ unique(checkphotona$datasetID)
 unique(checkchillna$datasetID) # but let's subset to those that don't have field sample dates
 unique(checkchillna$datasetID)[which(!unique(checkchillna$datasetID) %in% checkchillna.helper$datasetID)]
 
-dfbb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dfbbchill <- dfbb[which(dfbb$datasetID %in% checkchillna$datasetID),]
 dfbbchillsm <- subset(dfbbchill, select=c("datasetID", "study", "chill_type"))
-checkchillbb <- dfbbchillsm[!duplicated(dfbbchillsm),]
+dfbbchill <- dfbbchillsm[!duplicated(dfbbchillsm),]
+dfbbchillnoNA <- subset(dfbbchill, is.na(chill_type)==FALSE)
 checkchillbyhand <- checkchillna[!which(checkchillna$datasetID %in% dfbb$datasetID),]
 # So, a few rows in ashby62 (exp 1), caffarra11a (exp 1), cannell83 (exp 1-2), charrier11 (exp 1-2), falusi90 exp1, cook05 (exp 1), gansert02 (exp 1-2), granhus09 (exp 1), heide05 (exp 1-2), heide11 (exp 1-3), howe95 (exp 1), nishimoto95 (exp 1), pettersen71 (exp 1-2), sonsteby13 (exp 1 - 2), and worrall67 exp 1, 2, 5 still show as NA -- the rest are a mix.
+
+# get the BB data as we labelled experimental types there ...
+
     }
 
 ## The below heat maps show the COUNT of studies across different treatments
