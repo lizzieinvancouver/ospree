@@ -9,6 +9,10 @@ studydesignplots.R -- makes the heatmaps
 countintxns.R 
 nonlinearities_intxns.R 
 
+27 Nov 2020
+- I think best to figure out what figures I want and ask for coding help!
+- I have done a good deal on issue 249 so time to just ask for help and get the paper moving! Move, move!
+
 
 8 Sep 2020 (updated 23 Sep 2020):
 - Get the lab to help with some cleanup issues ... see https://github.com/lizzieinvancouver/ospree/issues/249
