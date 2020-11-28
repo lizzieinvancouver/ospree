@@ -22,4 +22,7 @@ It also includes the climate data.
 ## Ospree Climate (external hard drive)
 Just the climate data. 
 
+Justin Sheffield’s v3 of the Princeton Global Forcing dataset data:
+http://hydrology.princeton.edu/data/pgf/v3/0.25deg/daily/
+
 ##Phenofit data came from Isabelle Chuine (Isabelle.CHUINE@cefe.cnrs.fr) and Ann Duputie (anne.duputie@univ-lille1.fr), corresponds to the following paper: Duputie, A, et al. 2015. Phenological plasticity will not help all species adapt to climate change. Global Change Biology. doi: 10.1111/gcb.12914
