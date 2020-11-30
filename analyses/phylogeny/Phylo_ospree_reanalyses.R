@@ -35,7 +35,7 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+} else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
 
 # Loading packages
 library(shinystan)
@@ -185,7 +185,7 @@ if(!nocrops & agiosponly){
   VCVPHY<-vcv.phylo(phylo,corr=T)
 } 
 
-
+if(FALSE){ # only works if you're Nacho
 phylo.all235<-phylo
 save(phylo.all235,file = '~/Data_Harvard/phylogeny/input/phylo.all235.RData')
 
@@ -200,6 +200,13 @@ save(phylo.allnocrop214,file = '~/Data_Harvard/phylogeny/input/phylo.allnocrop21
 
 phylos=list(phylo.allnocrop214,phylo.angio216,phylo.angionocrop195)
 save(phylos,file = '~/Data_Harvard/phylogeny/input/phylos.RData')
+}
+
+if(FALSE){
+# Save some things for testing in PMM repo
+write.tree(phylo, "..//..//..//..//..//..//teaching/stan/pmm/analyses/input/ospreephylo.tre")
+write.csv(bb.stan, "..//..//..//..//..//..//teaching/stan/pmm/analyses/input/ospreebb.csv")
+}
 
 ## TEST
 # Step 1: Get spps and VCVPHY in same order
