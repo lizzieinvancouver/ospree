@@ -14,6 +14,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(ggthemes)
+library(RColorBrewer)
 setwd("~/Documents/git/ospree/analyses")
 
 
@@ -116,5 +117,13 @@ ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+
   geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+
   ylab("Days to budburst")+xlab("Photoperiod (hours)")+xlim(8,16)+
   scale_color_manual(values=c("red","sienna2","darkseagreen4","deepskyblue3","purple"),name="Chill Level")+scale_linetype_manual(values=c("solid","dotted","twodash"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
+dev.off()
+#adding a new version with differentcolors
+jpeg("photoperiod/figures/Photo_curv_version2blue.jpeg",height=1000, width=900,res=100)
+blus<-colorRampPalette(brewer.pal(9,"Blues"))(7)[3:7]
+ggplot(ha,(aes(as.numeric(photoperiod_day),response.time)))+
+  geom_line(aes(color=chill_level,linetype=GENSPA,group=thingy),size=1.1)+
+  ylab("Days to budburst")+xlab("Photoperiod (hours)")+xlim(8,16)+
+  scale_color_manual(values=alpha(blus, 0.9),name="Chill Level")+scale_linetype_manual(values=c("longdash","dotted","solid"),name="Taxa",guide=guide_legend(label.theme = element_text(angle = 0, face = "italic")))+theme_base()+theme(legend.key.width = unit(1.5,"cm"))
 dev.off()
 
