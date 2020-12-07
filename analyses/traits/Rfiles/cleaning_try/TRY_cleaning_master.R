@@ -511,13 +511,27 @@ sort(unique(dataNoExpshort$new.SpeciesName))
 # now have 94 species
 #################################################################################################
 # 
-dataNoExpshort_es<-subset(dataNoExpshort, TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | TraitName == "Specific_leaf_area"| TraitName == "Plant_height_vegetative"| TraitName == "Leaf_dry_matter_content" | TraitName == "Stem_diameter" | TraitName == "Stem_specific_density" | TraitName == "Leaf_photosynthesis_rate_per_leaf_area"| TraitName == "Leaf_carbon_.C._content_per_leaf_dry_mass") 
+# Removing duplicate datasets that are also in Bien: 
+#1. "Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366."
+#2."Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401" 
+#3."Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518" 
+
+dupstudies <- c("Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366.","Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401","Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518") 
+dataNoExpshort_nodup <- dataNoExpshort[!dataNoExpshort$Reference %in% dupstudies,]
+
+length(unique(dataNoExpshort$Reference))
+length(unique(dataNoExpshort_nodup$Reference))
+#Looks good, removed just 3 studies
+#################################################################################################
+#
+
+dataNoExpshort_es<-subset(dataNoExpshort_nodup, TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"| TraitName == "Leaf_nitrogen_.N._content_per_leaf_dry_mass" | TraitName == "Specific_leaf_area"| TraitName == "Plant_height_vegetative"| TraitName == "Leaf_dry_matter_content" | TraitName == "Stem_diameter" | TraitName == "Stem_specific_density" | TraitName == "Leaf_photosynthesis_rate_per_leaf_area"| TraitName == "Leaf_carbon_.C._content_per_leaf_dry_mass") 
 
 #################################################################################################
 #Deirdre's summary notes:
 # Final dataset dataNoExpshort
 length(unique(dataNoExpshort_es$DatasetID)) #43
-length(unique(dataNoExpshort_es$new.SpeciesName)) # 96
+length(unique(dataNoExpshort_es$new.SpeciesName)) # 94
 length(unique(dataNoExpshort_es$TraitName)) # 8 traits
 # Interesting, we seem to have lost our photosyn data
 

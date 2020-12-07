@@ -136,54 +136,56 @@ t.dup<-t.dup[order(t.dup$new.SpeciesName,t.dup$TraitName),]
 #   }
 # }  
 
-try<-subset(trybien, database== "try"); sort(unique(try$project_pi))
-bien<-subset(trybien, database== "bien"); sort(unique(bien$project_pi))
-bien$project_pi[which(bien$project_pi == " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J")] <- "Amy Zanne"
-
-# Lopez-gonzalez 
-lopezgonz <-  grep( "onzalez", unique(trybien$project_pi),  value = TRUE)
-lg<-subset(trybien, project_pi==" Lopez-Gonzalez" | project_pi=="Lopez-Gonzalez G")
-lg$dup<-duplicated(lg[,"label"])
-
-dupdat <- vector()
-for(i in 1:length(lg$dup)){
-  if(lg$dup[i] == "TRUE"){
-   dupdat<-rbind(dupdat, lg[i,])
-  }
-}
-
-# Zanne A
-zanne <-  grep( "anne", unique(trybien$project_pi),  value = TRUE)
-zan<-subset(trybien, project_pi=="Amy Zanne" | project_pi==" Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J"| project_pi=="Zanne AE")
-zan$dup<-duplicated(zan[,"label"])
-
-##bien project_pi " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J" is the same as try referces: "Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366."
-
-#Angela moles
-moles<-  grep( "ole", unique(trybien$project_pi),  value = TRUE)
-moles<-subset(trybien, project_pi=="Angela Moles" )
-moles<-moles[order(moles$TraitValue),]
-# I think these are different but it is hard to tell since there is no reference for the bien dataset
-
-# C.E.T Paine
-paine<-  grep( "ain", unique(trybien$project_pi),  value = TRUE)
-paine<-subset(trybien, project_pi=="C. E. Timothy Paine" |  project_pi=="Paine CET" )
-paine<-paine[order(paine$TraitValue,paine$new.SpeciesName),]
-
-# yes the try: "Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401" 
-#is the same as the bien:  "http://datadryad.org/resource/doi:10.5061/dryad.h9083"
-
-#MJ Spasojevic
-spas<-  grep( "pasoj", unique(trybien$project_pi),  value = TRUE)
-spas<-subset(trybien, project_pi=="Marko Spasojevic" |  project_pi=="Spasojevic MJ" )
-spas<-spas[order(spas$TraitValue),]
-
-# yes try's "Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518" 
-# is the same as biens: http://datadryad.org/resource/doi:10.5061/dryad.rr4pm
-
-dupdat
-unique(lg$Reference...source)
-dupdat
-nrow(dup) 
-b.studies<- aggregate(biendat["TraitName"], biendat[c("url_source", "project_pi")], FUN=length) 
-
+# try<-subset(trybien, database== "try"); sort(unique(try$project_pi))
+# bien<-subset(trybien, database== "bien"); sort(unique(bien$project_pi))
+# bien$project_pi[which(bien$project_pi == " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J")] <- "Amy Zanne"
+# 
+# # Lopez-gonzalez 
+# lopezgonz <-  grep( "onzalez", unique(trybien$project_pi),  value = TRUE)
+# lg<-subset(trybien, project_pi==" Lopez-Gonzalez" | project_pi=="Lopez-Gonzalez G")
+# lg$dup<-duplicated(lg[,"label"])
+# 
+# dupdat <- vector()
+# for(i in 1:length(lg$dup)){
+#   if(lg$dup[i] == "TRUE"){
+#    dupdat<-rbind(dupdat, lg[i,])
+#   }
+# }
+# 
+# # Zanne A
+# zanne <-  grep( "anne", unique(trybien$project_pi),  value = TRUE)
+# zan<-subset(trybien, project_pi=="Amy Zanne" | project_pi==" Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J"| project_pi=="Zanne AE")
+# zan$dup<-duplicated(zan[,"label"])
+# 
+# ##bien project_pi " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J" is the 
+# #same as try referces: 
+# #"Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366."
+# 
+# #Angela moles
+# moles<-  grep( "ole", unique(trybien$project_pi),  value = TRUE)
+# moles<-subset(trybien, project_pi=="Angela Moles" )
+# moles<-moles[order(moles$TraitValue),]
+# # I think these are different but it is hard to tell since there is no reference for the bien dataset
+# 
+# # C.E.T Paine
+# paine<-  grep( "ain", unique(trybien$project_pi),  value = TRUE)
+# paine<-subset(trybien, project_pi=="C. E. Timothy Paine" |  project_pi=="Paine CET" )
+# paine<-paine[order(paine$TraitValue,paine$new.SpeciesName),]
+# 
+# # yes the try: "Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401" 
+# #is the same as the bien:  "http://datadryad.org/resource/doi:10.5061/dryad.h9083"
+# 
+# #MJ Spasojevic
+# spas<-  grep( "pasoj", unique(trybien$project_pi),  value = TRUE)
+# spas<-subset(trybien, project_pi=="Marko Spasojevic" |  project_pi=="Spasojevic MJ" )
+# spas<-spas[order(spas$TraitValue),]
+# 
+# # yes try's "Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518" 
+# # is the same as biens: http://datadryad.org/resource/doi:10.5061/dryad.rr4pm
+# 
+# dupdat
+# unique(lg$Reference...source)
+# dupdat
+# nrow(dup) 
+# b.studies<- aggregate(biendat["TraitName"], biendat[c("url_source", "project_pi")], FUN=length) 
+# 
