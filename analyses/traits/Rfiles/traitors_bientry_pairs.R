@@ -1,13 +1,16 @@
-
+## Load libraries
+library(vegan)
 
 dat <- read.csv("../input/try_bien_ospree_Nov2020.csv", header = TRUE, stringsAsFactors = FALSE)
 
 dat <- dat[, -c(1, 8, 9)]
 
+## Remove Fagus
+dat <- subset(dat, Species != c("Fagus_sylvatica"))
+              
+## Store unique values for species, traits
 species <- unique(dat$new.SpeciesName)
-
 ## traits <- unique(dat$TraitName)
-
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
 coefficients <- c("b_force", "b_chill", "b_photo")
@@ -27,9 +30,12 @@ for(i in 1:length(species)){
 colnames(mat) <- c("Height", "SLA", "Photosyn",
                    "N", "SSD", "LDMC", "Stem", "force", "chill", "photo")
 
+## Remove traits with few entries and retain only complete cases
 mat2 <- mat[, c(1, 2, 4:10)]
-        
-mat2 <- mat2[complete.cases(mat2), ]        
+mat2 <- mat2[complete.cases(mat2), ]
+
+## Standardize (normalize) trait values
+mat2[, 1:6] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
 ranges <- list(c(-.4, .4),
                c(-.2, .2),
