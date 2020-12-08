@@ -148,7 +148,7 @@ traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_nitrogen_.N._
 
 coefficients <- c("b_force", "b_chill", "b_photo")
 
-mat <- matrix(NA, ncol = length(traits) + length(coefficients), nrow = length(species))
+mat <- matrix(NA, ncol = length(traits)+1 + length(coefficients), nrow = length(species))
 
 for(i in 1:length(species)){
   temp <- subset(fin, new.SpeciesName == species[i])
@@ -167,10 +167,10 @@ mat
 mat8trt <- mat[complete.cases(mat), ]# with 8 traits, we have 16 species
 
 mat7 <- mat[, c(1:5,7:10)] #if we get rid of stem diameter
-mat7trt <- mat7[complete.cases(mat7), ]# with 8 traits, we have 23 species
+mat7trt <- mat7[complete.cases(mat7), ]# with 7 traits, we have 23 species
 
 mat6 <- mat[, c(1:5,7,9:10)] #if we get rid of stem diameter & seed mass
-mat6trt <- mat6[complete.cases(mat6), ]# with 8 traits, we have 26 species
+mat6trt <- mat6[complete.cases(mat6), ]# with 6 traits, we have 26 species
 
 ##################################################################################
 
@@ -183,7 +183,8 @@ unique(fin$TraitName)
 ##################################################################################
 
 #create the new files
-write.csv(fin, "input/try_bien_ospree_Nov2020.csv", row.names=FALSE)
-write.csv(trybien,"input/try_bien_Nov2020.csv", row.names=FALSE)
+write.csv(fin, "input/try_bien_ospree.csv", row.names=FALSE)
+write.csv(trybien,"input/try_bien.csv", row.names=FALSE)
+write.csv(mat7trt,"input/matrix.data.cc.csv", row.names=FALSE)
 
 ##################################################################################
