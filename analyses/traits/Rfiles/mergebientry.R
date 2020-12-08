@@ -82,10 +82,31 @@ biendat$TraitName[which(biendat$TraitName == "maximum whole plant height")] <- "
 biendat$TraitName[which(biendat$TraitName == "whole plant height")] <- "Plant_height_vegetative"
 biendat$TraitName[which(biendat$TraitName == "stem wood density")] <- "Stem_specific_density"
 ##########################################################################################
+
+# Bien has a number of experiments, data from satellites, databases that we have decided to remvoe
+#the one excpetion we are making is for seed data, since Kew is the usual souce, we will keep in that data for now
+
+# Remvoing the following studies:
+sort(unique(biendat$project_pi))
+notfield <- c("Aakala T", #common garden
+              "Ameztegui A", #datamined
+              "Charles Price", #GLOPNET database
+              "Dalponte M", #not direct measure, calc from drones
+              "Lopez-Gonzalez G", # repo of wood economic traits
+              "Maire V", #altered soil
+              "Michael Kleyer", #LEDA database
+              "Price CA", # database
+              "Zanne AE" #decaying plant matter
+              ) 
+
+biendatfield <- biendat[!biendat$project_pi %in% notfield,]
+
+##########################################################################################
+
 # Merge the beind and try trait data
 
-trybien<-rbind.fill(trydat, biendat)
-nrow(biendat)+nrow(trydat) #looks good
+trybien<-rbind.fill(trydat, biendatfield)
+names(trybien)
 ##########################################################################################
 # Calculating the average trait value for the try dat
 unique(trybien$UnitName)
@@ -93,99 +114,76 @@ unique(trybien$TraitName)
 unique(trybien$new.SpeciesName)
 
 
-trtmean<-trybien %>% 
+# trtmean<-trybien %>% 
+#   group_by(new.SpeciesName,TraitName) %>% 
+#   summarize(trait.mean=mean(TraitValue,na.rm=TRUE),)
+# unique(trtmean$new.SpeciesName)
+# unique(ospree.deci$new.SpeciesName)
+
+# to deal with outliers, looking at the median values
+trtmedian<-trybien %>% 
   group_by(new.SpeciesName,TraitName) %>% 
-  summarize(trait.mean=mean(TraitValue,na.rm=TRUE),)
-unique(trtmean$new.SpeciesName)
+  summarize(trait.median=median(TraitValue,na.rm=TRUE),)
+unique(trtmedian$new.SpeciesName)
 unique(ospree.deci$new.SpeciesName)
 ##################################################################################
-fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
+
+# fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
+
+fin<-merge(trtmedian,ospree.deci, by="new.SpeciesName")
+head(fin)
+fin<-fin[,c("new.SpeciesName", "TraitName","trait.median","Coefficient","mean")]
+# now that we have removed the databases, we lost a lot of leaf lifespan data, cn, photosynthesis data
+
+cn<-subset(fin, TraitName=="leaf carbon content per leaf nitrogen content"); unique(cn$new.SpeciesName) #only one! 
+nit<-subset(fin, TraitName=="Leaf_nitrogen_.N._content_per_leaf_dry_mass"); unique(nit$new.SpeciesName) #53 species
+carb<-subset(fin, TraitName=="Leaf_carbon_.C._content_per_leaf_dry_mass"); unique(carb$new.SpeciesName) #36 species
+life<-subset(fin, TraitName=="leaf life span"); unique(life$new.SpeciesName) #only one! 
+stem<-subset(fin, TraitName=="Leaf_photosynthesis_rate_per_leaf_area"); unique(stem$new.SpeciesName) #47
+
+# This is code written by Geoff to look into complete cases across traits
+dat<-fin
+species <- unique(fin$new.SpeciesName)
+traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter","Leaf_carbon_.C._content_per_leaf_dry_mass","seed mass")
+
+coefficients <- c("b_force", "b_chill", "b_photo")
+
+mat <- matrix(NA, ncol = length(traits) + length(coefficients), nrow = length(species))
+
+for(i in 1:length(species)){
+  temp <- subset(fin, new.SpeciesName == species[i])
+  for(j in 1:length(traits)){
+    mat[i, j] <- subset(temp, TraitName == traits[j])$trait.median[1]
+  }
+  for(k in 1:length(coefficients)){
+    mat[i, (length(traits) + k)] <- subset(temp, Coefficient == coefficients[k])$mean[1]
+  }
+}
+
+colnames(mat) <- c("Height", "SLA",
+                   "N", "SSD", "LDMC", "Stem","C","seedmass", "force", "chill", "photo")
+mat
+
+mat8trt <- mat[complete.cases(mat), ]# with 8 traits, we have 16 species
+
+mat7 <- mat[, c(1:5,7:10)] #if we get rid of stem diameter
+mat7trt <- mat7[complete.cases(mat7), ]# with 8 traits, we have 23 species
+
+mat6 <- mat[, c(1:5,7,9:10)] #if we get rid of stem diameter & seed mass
+mat6trt <- mat6[complete.cases(mat6), ]# with 8 traits, we have 26 species
+
+##################################################################################
+
 unique(fin$new.SpeciesName) #70
 unique(fin$TraitName) #11 traits
 
 head(fin)
-
-#write.csv(fin, "input/try_bien_ospree_Nov2020.csv")
-#write.csv(trybien,"input/try_bien_Nov2020.csv", row.names=FALSE)
+unique(fin$TraitName)
 
 ##################################################################################
 
+#create the new files
+write.csv(fin, "input/try_bien_ospree_Nov2020.csv", row.names=FALSE)
+write.csv(trybien,"input/try_bien_Nov2020.csv", row.names=FALSE)
+
 ##################################################################################
-# I think there might be duplicates in the data, but these will need to be looked into carefully
-names(trybien)
-
-trybien<-trybien[order(trybien$new.SpeciesName,trybien$TraitValue),]
-trybien$label<-paste(trybien$new.SpeciesName,trybien$TraitValue,trybien$UnitName, sep="_")
-trybien$dup<-duplicated(trybien[,"label"])
-
-head(trybien);nrow(trybien)
-
-dat.dup<-subset(trybien, dup=="TRUE")
-head(dat.dup);nrow(dat.dup)
-
-nrow(trybien)-nrow(dat.dup) # this suggests that there are only 27195 rows of unique data
-
-t.dup<- aggregate(dat.dup["database"], dat.dup[c("new.SpeciesName","TraitName", "project_pi")], FUN=length) 
-
-t.dup<-t.dup[order(t.dup$new.SpeciesName,t.dup$TraitName),]
-# This look worked on a subset, but I ran it for over 40 min...too slow
-# dupdat <- vector()
-# for(i in 1:length(trybien$dup)){
-#   if(trybien$dup[i] == "TRUE"){ 
-#    dupdat<-rbind(dupdat, trybien[i,])
-#   }
-# }  
-
-# try<-subset(trybien, database== "try"); sort(unique(try$project_pi))
-# bien<-subset(trybien, database== "bien"); sort(unique(bien$project_pi))
-# bien$project_pi[which(bien$project_pi == " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J")] <- "Amy Zanne"
-# 
-# # Lopez-gonzalez 
-# lopezgonz <-  grep( "onzalez", unique(trybien$project_pi),  value = TRUE)
-# lg<-subset(trybien, project_pi==" Lopez-Gonzalez" | project_pi=="Lopez-Gonzalez G")
-# lg$dup<-duplicated(lg[,"label"])
-# 
-# dupdat <- vector()
-# for(i in 1:length(lg$dup)){
-#   if(lg$dup[i] == "TRUE"){
-#    dupdat<-rbind(dupdat, lg[i,])
-#   }
-# }
-# 
-# # Zanne A
-# zanne <-  grep( "anne", unique(trybien$project_pi),  value = TRUE)
-# zan<-subset(trybien, project_pi=="Amy Zanne" | project_pi==" Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J"| project_pi=="Zanne AE")
-# zan$dup<-duplicated(zan[,"label"])
-# 
-# ##bien project_pi " Zanne, A.E., Lopez-Gonzalez, G., Coomes, D.A., Ilic, J., Jansen, S., Lewis, S.L., Miller, R.B., Swenson, N.G., Wiemann, M.C., and Chave, J" is the 
-# #same as try referces: 
-# #"Chave, J., D. Coomes, S. Jansen, S. L. Lewis, N. G. Swenson, and A. E. Zanne. 2009. Towards a world wide wood economics spectrum. Ecology Letters 12:351-366."
-# 
-# #Angela moles
-# moles<-  grep( "ole", unique(trybien$project_pi),  value = TRUE)
-# moles<-subset(trybien, project_pi=="Angela Moles" )
-# moles<-moles[order(moles$TraitValue),]
-# # I think these are different but it is hard to tell since there is no reference for the bien dataset
-# 
-# # C.E.T Paine
-# paine<-  grep( "ain", unique(trybien$project_pi),  value = TRUE)
-# paine<-subset(trybien, project_pi=="C. E. Timothy Paine" |  project_pi=="Paine CET" )
-# paine<-paine[order(paine$TraitValue,paine$new.SpeciesName),]
-# 
-# # yes the try: "Paine CET, Amissah L, Auge H, Baraloto C, Baruffol M, Bourland N, Bruelheide H, Dainou K, de Gouvenain RC, Doucet J-L, Doust SJ, Fine PV a, Fortunel C, Haase J, Holl KD, Jactel H, Li X, Kitajima K, Koricheva J, Martinez-Garza C, Messier C, Paquette A, Philipson CD, Piotto D, Poorter L, Posada JM, Potvin C, Rainio K, Russo SE, Ruiz-Jaen M, Scherer-Lorenzen M, Webb CO, Zahawi RA & Hector A (2015) Globally, functional traits are weak predictors of juvenile tree growth, and we do not know why. Journal of Ecology, 103, 978\u0096989. DOI: 10.1111/1365-2745.12401" 
-# #is the same as the bien:  "http://datadryad.org/resource/doi:10.5061/dryad.h9083"
-# 
-# #MJ Spasojevic
-# spas<-  grep( "pasoj", unique(trybien$project_pi),  value = TRUE)
-# spas<-subset(trybien, project_pi=="Marko Spasojevic" |  project_pi=="Spasojevic MJ" )
-# spas<-spas[order(spas$TraitValue),]
-# 
-# # yes try's "Spasojevic, M. J., Turner, B. L., and Myers, J. A. (2016) When does intraspecific trait variation contribute to functional beta?diversity? J Ecol, 104: 487-496. doi:10.1111/1365-2745.12518" 
-# # is the same as biens: http://datadryad.org/resource/doi:10.5061/dryad.rr4pm
-# 
-# dupdat
-# unique(lg$Reference...source)
-# dupdat
-# nrow(dup) 
-# b.studies<- aggregate(biendat["TraitName"], biendat[c("url_source", "project_pi")], FUN=length) 
-# 
