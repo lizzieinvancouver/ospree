@@ -1,0 +1,1162 @@
+"new.SpeciesName","TraitName","TraitValue","Coefficient","mean"
+"Acer_pensylvanicum","Specific_leaf_area",41.381781207,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Specific_leaf_area",41.381781207,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Specific_leaf_area",41.381781207,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","Leaf_dry_matter_content",0.236614490105,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Leaf_dry_matter_content",0.236614490105,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Leaf_dry_matter_content",0.236614490105,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","seed mass",40.8641,"b_force",-7.46659560445811
+"Acer_pensylvanicum","seed mass",40.8641,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","seed mass",40.8641,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.87,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.87,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.87,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","Leaf_carbon_.C._content_per_leaf_dry_mass",470.65,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Leaf_carbon_.C._content_per_leaf_dry_mass",470.65,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Leaf_carbon_.C._content_per_leaf_dry_mass",470.65,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","Plant_height_vegetative",9.144,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Plant_height_vegetative",9.144,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Plant_height_vegetative",9.144,"b_photo",-2.37369096412502
+"Acer_pensylvanicum","Stem_specific_density",0.44,"b_force",-7.46659560445811
+"Acer_pensylvanicum","Stem_specific_density",0.44,"b_chill",-9.07147236186307
+"Acer_pensylvanicum","Stem_specific_density",0.44,"b_photo",-2.37369096412502
+"Acer_pseudoplatanus","Leaf_dry_matter_content",0.356652949247771,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Leaf_dry_matter_content",0.356652949247771,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Leaf_dry_matter_content",0.356652949247771,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Stem_diameter",0.9,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Stem_diameter",0.9,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Stem_diameter",0.9,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Specific_leaf_area",12.9499028320673,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Specific_leaf_area",12.9499028320673,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Specific_leaf_area",12.9499028320673,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","seed mass",88.765133,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","seed mass",88.765133,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","seed mass",88.765133,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Leaf_carbon_.C._content_per_leaf_dry_mass",465.80701389,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Leaf_carbon_.C._content_per_leaf_dry_mass",465.80701389,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Leaf_carbon_.C._content_per_leaf_dry_mass",465.80701389,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Stem_specific_density",0.51,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Stem_specific_density",0.51,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Stem_specific_density",0.51,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Plant_height_vegetative",30,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Plant_height_vegetative",30,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Plant_height_vegetative",30,"b_chill",-10.7047738802165
+"Acer_pseudoplatanus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.1,"b_force",-7.25557726815105
+"Acer_pseudoplatanus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.1,"b_photo",-4.33777057741591
+"Acer_pseudoplatanus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.1,"b_chill",-10.7047738802165
+"Acer_rubrum","Leaf_carbon_.C._content_per_leaf_dry_mass",474.25,"b_force",-0.243102687023387
+"Acer_rubrum","Leaf_carbon_.C._content_per_leaf_dry_mass",474.25,"b_chill",-18.8314423663757
+"Acer_rubrum","Leaf_carbon_.C._content_per_leaf_dry_mass",474.25,"b_photo",0.0121998959776436
+"Acer_rubrum","Leaf_dry_matter_content",0.2701926064,"b_force",-0.243102687023387
+"Acer_rubrum","Leaf_dry_matter_content",0.2701926064,"b_chill",-18.8314423663757
+"Acer_rubrum","Leaf_dry_matter_content",0.2701926064,"b_photo",0.0121998959776436
+"Acer_rubrum","Plant_height_vegetative",8,"b_force",-0.243102687023387
+"Acer_rubrum","Plant_height_vegetative",8,"b_chill",-18.8314423663757
+"Acer_rubrum","Plant_height_vegetative",8,"b_photo",0.0121998959776436
+"Acer_rubrum","Specific_leaf_area",20.292546863,"b_force",-0.243102687023387
+"Acer_rubrum","Specific_leaf_area",20.292546863,"b_chill",-18.8314423663757
+"Acer_rubrum","Specific_leaf_area",20.292546863,"b_photo",0.0121998959776436
+"Acer_rubrum","Stem_specific_density",0.49,"b_force",-0.243102687023387
+"Acer_rubrum","Stem_specific_density",0.49,"b_chill",-18.8314423663757
+"Acer_rubrum","Stem_specific_density",0.49,"b_photo",0.0121998959776436
+"Acer_rubrum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.65,"b_force",-0.243102687023387
+"Acer_rubrum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.65,"b_chill",-18.8314423663757
+"Acer_rubrum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.65,"b_photo",0.0121998959776436
+"Acer_rubrum","Stem_diameter",0.242552133,"b_force",-0.243102687023387
+"Acer_rubrum","Stem_diameter",0.242552133,"b_chill",-18.8314423663757
+"Acer_rubrum","Stem_diameter",0.242552133,"b_photo",0.0121998959776436
+"Acer_saccharum","seed mass",64.5,"b_force",-5.27058238701227
+"Acer_saccharum","seed mass",64.5,"b_photo",-2.65243659076745
+"Acer_saccharum","seed mass",64.5,"b_chill",-6.41606689804976
+"Acer_saccharum","Specific_leaf_area",34.982785424,"b_force",-5.27058238701227
+"Acer_saccharum","Specific_leaf_area",34.982785424,"b_photo",-2.65243659076745
+"Acer_saccharum","Specific_leaf_area",34.982785424,"b_chill",-6.41606689804976
+"Acer_saccharum","Leaf_carbon_.C._content_per_leaf_dry_mass",479.745,"b_force",-5.27058238701227
+"Acer_saccharum","Leaf_carbon_.C._content_per_leaf_dry_mass",479.745,"b_photo",-2.65243659076745
+"Acer_saccharum","Leaf_carbon_.C._content_per_leaf_dry_mass",479.745,"b_chill",-6.41606689804976
+"Acer_saccharum","Stem_diameter",0.358988537,"b_force",-5.27058238701227
+"Acer_saccharum","Stem_diameter",0.358988537,"b_photo",-2.65243659076745
+"Acer_saccharum","Stem_diameter",0.358988537,"b_chill",-6.41606689804976
+"Acer_saccharum","Plant_height_vegetative",18.288,"b_force",-5.27058238701227
+"Acer_saccharum","Plant_height_vegetative",18.288,"b_photo",-2.65243659076745
+"Acer_saccharum","Plant_height_vegetative",18.288,"b_chill",-6.41606689804976
+"Acer_saccharum","Leaf_dry_matter_content",0.32934854784,"b_force",-5.27058238701227
+"Acer_saccharum","Leaf_dry_matter_content",0.32934854784,"b_photo",-2.65243659076745
+"Acer_saccharum","Leaf_dry_matter_content",0.32934854784,"b_chill",-6.41606689804976
+"Acer_saccharum","Stem_specific_density",0.56,"b_force",-5.27058238701227
+"Acer_saccharum","Stem_specific_density",0.56,"b_photo",-2.65243659076745
+"Acer_saccharum","Stem_specific_density",0.56,"b_chill",-6.41606689804976
+"Acer_saccharum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.33,"b_force",-5.27058238701227
+"Acer_saccharum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.33,"b_photo",-2.65243659076745
+"Acer_saccharum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.33,"b_chill",-6.41606689804976
+"Aesculus_hippocastanum","seed mass",15625,"b_force",0.891991677977055
+"Aesculus_hippocastanum","seed mass",15625,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","seed mass",15625,"b_photo",-1.10884241994206
+"Aesculus_hippocastanum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.6,"b_force",0.891991677977055
+"Aesculus_hippocastanum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.6,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.6,"b_photo",-1.10884241994206
+"Aesculus_hippocastanum","Leaf_dry_matter_content",0.334,"b_force",0.891991677977055
+"Aesculus_hippocastanum","Leaf_dry_matter_content",0.334,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","Leaf_dry_matter_content",0.334,"b_photo",-1.10884241994206
+"Aesculus_hippocastanum","Plant_height_vegetative",25,"b_force",0.891991677977055
+"Aesculus_hippocastanum","Plant_height_vegetative",25,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","Plant_height_vegetative",25,"b_photo",-1.10884241994206
+"Aesculus_hippocastanum","Specific_leaf_area",13.700047197,"b_force",0.891991677977055
+"Aesculus_hippocastanum","Specific_leaf_area",13.700047197,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","Specific_leaf_area",13.700047197,"b_photo",-1.10884241994206
+"Aesculus_hippocastanum","Stem_specific_density",0.5,"b_force",0.891991677977055
+"Aesculus_hippocastanum","Stem_specific_density",0.5,"b_chill",-5.43082756562458
+"Aesculus_hippocastanum","Stem_specific_density",0.5,"b_photo",-1.10884241994206
+"Alnus_glutinosa","Stem_specific_density",0.429555,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Stem_specific_density",0.429555,"b_force",-10.3390309012087
+"Alnus_glutinosa","Stem_specific_density",0.429555,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Stem_diameter",0.52,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Stem_diameter",0.52,"b_force",-10.3390309012087
+"Alnus_glutinosa","Stem_diameter",0.52,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",35.375,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",35.375,"b_force",-10.3390309012087
+"Alnus_glutinosa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",35.375,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Leaf_dry_matter_content",0.32780104441,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Leaf_dry_matter_content",0.32780104441,"b_force",-10.3390309012087
+"Alnus_glutinosa","Leaf_dry_matter_content",0.32780104441,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Specific_leaf_area",14.427258348,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Specific_leaf_area",14.427258348,"b_force",-10.3390309012087
+"Alnus_glutinosa","Specific_leaf_area",14.427258348,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Plant_height_vegetative",13.5636,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Plant_height_vegetative",13.5636,"b_force",-10.3390309012087
+"Alnus_glutinosa","Plant_height_vegetative",13.5636,"b_chill",-6.01834188694045
+"Alnus_glutinosa","Leaf_carbon_.C._content_per_leaf_dry_mass",486.8,"b_photo",-0.510703265297257
+"Alnus_glutinosa","Leaf_carbon_.C._content_per_leaf_dry_mass",486.8,"b_force",-10.3390309012087
+"Alnus_glutinosa","Leaf_carbon_.C._content_per_leaf_dry_mass",486.8,"b_chill",-6.01834188694045
+"Alnus_glutinosa","seed mass",1.347971,"b_photo",-0.510703265297257
+"Alnus_glutinosa","seed mass",1.347971,"b_force",-10.3390309012087
+"Alnus_glutinosa","seed mass",1.347971,"b_chill",-6.01834188694045
+"Alnus_incana","seed mass",0.671989,"b_force",-10.4402788176696
+"Alnus_incana","seed mass",0.671989,"b_photo",-0.539589192693632
+"Alnus_incana","seed mass",0.671989,"b_chill",-1.18564835393526
+"Alnus_incana","Specific_leaf_area",14.9253731343284,"b_force",-10.4402788176696
+"Alnus_incana","Specific_leaf_area",14.9253731343284,"b_photo",-0.539589192693632
+"Alnus_incana","Specific_leaf_area",14.9253731343284,"b_chill",-1.18564835393526
+"Alnus_incana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",33.3,"b_force",-10.4402788176696
+"Alnus_incana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",33.3,"b_photo",-0.539589192693632
+"Alnus_incana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",33.3,"b_chill",-1.18564835393526
+"Alnus_incana","Stem_specific_density",0.474555,"b_force",-10.4402788176696
+"Alnus_incana","Stem_specific_density",0.474555,"b_photo",-0.539589192693632
+"Alnus_incana","Stem_specific_density",0.474555,"b_chill",-1.18564835393526
+"Alnus_incana","Plant_height_vegetative",12,"b_force",-10.4402788176696
+"Alnus_incana","Plant_height_vegetative",12,"b_photo",-0.539589192693632
+"Alnus_incana","Plant_height_vegetative",12,"b_chill",-1.18564835393526
+"Alnus_incana","Leaf_dry_matter_content",0.22128,"b_force",-10.4402788176696
+"Alnus_incana","Leaf_dry_matter_content",0.22128,"b_photo",-0.539589192693632
+"Alnus_incana","Leaf_dry_matter_content",0.22128,"b_chill",-1.18564835393526
+"Alnus_incana","Leaf_carbon_.C._content_per_leaf_dry_mass",598.7373568,"b_force",-10.4402788176696
+"Alnus_incana","Leaf_carbon_.C._content_per_leaf_dry_mass",598.7373568,"b_photo",-0.539589192693632
+"Alnus_incana","Leaf_carbon_.C._content_per_leaf_dry_mass",598.7373568,"b_chill",-1.18564835393526
+"Alnus_incana","Stem_diameter",0.093,"b_force",-10.4402788176696
+"Alnus_incana","Stem_diameter",0.093,"b_photo",-0.539589192693632
+"Alnus_incana","Stem_diameter",0.093,"b_chill",-1.18564835393526
+"Aronia_melanocarpa","Specific_leaf_area",9.3023255814,"b_chill",0.723836701463247
+"Aronia_melanocarpa","Specific_leaf_area",9.3023255814,"b_force",-5.21677925488956
+"Aronia_melanocarpa","Specific_leaf_area",9.3023255814,"b_photo",-1.04586792088646
+"Aronia_melanocarpa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.4,"b_chill",0.723836701463247
+"Aronia_melanocarpa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.4,"b_force",-5.21677925488956
+"Aronia_melanocarpa","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.4,"b_photo",-1.04586792088646
+"Aronia_melanocarpa","Plant_height_vegetative",2.6,"b_chill",0.723836701463247
+"Aronia_melanocarpa","Plant_height_vegetative",2.6,"b_force",-5.21677925488956
+"Aronia_melanocarpa","Plant_height_vegetative",2.6,"b_photo",-1.04586792088646
+"Betula_alleghaniensis","Plant_height_vegetative",15.8496,"b_force",-6.78922951407756
+"Betula_alleghaniensis","Plant_height_vegetative",15.8496,"b_chill",-10.3096888620872
+"Betula_alleghaniensis","Plant_height_vegetative",15.8496,"b_photo",-2.33031378053119
+"Betula_alleghaniensis","Stem_specific_density",0.55,"b_force",-6.78922951407756
+"Betula_alleghaniensis","Stem_specific_density",0.55,"b_chill",-10.3096888620872
+"Betula_alleghaniensis","Stem_specific_density",0.55,"b_photo",-2.33031378053119
+"Betula_alleghaniensis","Specific_leaf_area",23.52954203,"b_force",-6.78922951407756
+"Betula_alleghaniensis","Specific_leaf_area",23.52954203,"b_chill",-10.3096888620872
+"Betula_alleghaniensis","Specific_leaf_area",23.52954203,"b_photo",-2.33031378053119
+"Betula_alleghaniensis","seed mass",1,"b_force",-6.78922951407756
+"Betula_alleghaniensis","seed mass",1,"b_chill",-10.3096888620872
+"Betula_alleghaniensis","seed mass",1,"b_photo",-2.33031378053119
+"Betula_lenta","Plant_height_vegetative",17.0688,"b_photo",-1.36785727271992
+"Betula_lenta","Plant_height_vegetative",17.0688,"b_force",-5.95534224361745
+"Betula_lenta","Plant_height_vegetative",17.0688,"b_chill",-0.814228965431474
+"Betula_lenta","Specific_leaf_area",23.63334003,"b_photo",-1.36785727271992
+"Betula_lenta","Specific_leaf_area",23.63334003,"b_force",-5.95534224361745
+"Betula_lenta","Specific_leaf_area",23.63334003,"b_chill",-0.814228965431474
+"Betula_lenta","seed mass",0.7,"b_photo",-1.36785727271992
+"Betula_lenta","seed mass",0.7,"b_force",-5.95534224361745
+"Betula_lenta","seed mass",0.7,"b_chill",-0.814228965431474
+"Betula_lenta","Stem_specific_density",0.6,"b_photo",-1.36785727271992
+"Betula_lenta","Stem_specific_density",0.6,"b_force",-5.95534224361745
+"Betula_lenta","Stem_specific_density",0.6,"b_chill",-0.814228965431474
+"Betula_nana","seed mass",0.32,"b_force",-6.0444369545102
+"Betula_nana","seed mass",0.32,"b_photo",-1.12008475452993
+"Betula_nana","seed mass",0.32,"b_chill",-5.09265703821516
+"Betula_nana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_force",-6.0444369545102
+"Betula_nana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_photo",-1.12008475452993
+"Betula_nana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_chill",-5.09265703821516
+"Betula_nana","Leaf_dry_matter_content",0.426755,"b_force",-6.0444369545102
+"Betula_nana","Leaf_dry_matter_content",0.426755,"b_photo",-1.12008475452993
+"Betula_nana","Leaf_dry_matter_content",0.426755,"b_chill",-5.09265703821516
+"Betula_nana","Plant_height_vegetative",0.54,"b_force",-6.0444369545102
+"Betula_nana","Plant_height_vegetative",0.54,"b_photo",-1.12008475452993
+"Betula_nana","Plant_height_vegetative",0.54,"b_chill",-5.09265703821516
+"Betula_nana","Leaf_carbon_.C._content_per_leaf_dry_mass",538,"b_force",-6.0444369545102
+"Betula_nana","Leaf_carbon_.C._content_per_leaf_dry_mass",538,"b_photo",-1.12008475452993
+"Betula_nana","Leaf_carbon_.C._content_per_leaf_dry_mass",538,"b_chill",-5.09265703821516
+"Betula_nana","Specific_leaf_area",12.2814948764316,"b_force",-6.0444369545102
+"Betula_nana","Specific_leaf_area",12.2814948764316,"b_photo",-1.12008475452993
+"Betula_nana","Specific_leaf_area",12.2814948764316,"b_chill",-5.09265703821516
+"Betula_nana","Stem_diameter",0.0065,"b_force",-6.0444369545102
+"Betula_nana","Stem_diameter",0.0065,"b_photo",-1.12008475452993
+"Betula_nana","Stem_diameter",0.0065,"b_chill",-5.09265703821516
+"Betula_papyrifera","Specific_leaf_area",16.298784811,"b_photo",1.50503824715372
+"Betula_papyrifera","Specific_leaf_area",16.298784811,"b_force",-5.51101183965531
+"Betula_papyrifera","Specific_leaf_area",16.298784811,"b_chill",-32.734374770863
+"Betula_papyrifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.625,"b_photo",1.50503824715372
+"Betula_papyrifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.625,"b_force",-5.51101183965531
+"Betula_papyrifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.625,"b_chill",-32.734374770863
+"Betula_papyrifera","Stem_specific_density",0.48,"b_photo",1.50503824715372
+"Betula_papyrifera","Stem_specific_density",0.48,"b_force",-5.51101183965531
+"Betula_papyrifera","Stem_specific_density",0.48,"b_chill",-32.734374770863
+"Betula_papyrifera","seed mass",0.32,"b_photo",1.50503824715372
+"Betula_papyrifera","seed mass",0.32,"b_force",-5.51101183965531
+"Betula_papyrifera","seed mass",0.32,"b_chill",-32.734374770863
+"Betula_papyrifera","Stem_diameter",0.014,"b_photo",1.50503824715372
+"Betula_papyrifera","Stem_diameter",0.014,"b_force",-5.51101183965531
+"Betula_papyrifera","Stem_diameter",0.014,"b_chill",-32.734374770863
+"Betula_papyrifera","Plant_height_vegetative",15.8496,"b_photo",1.50503824715372
+"Betula_papyrifera","Plant_height_vegetative",15.8496,"b_force",-5.51101183965531
+"Betula_papyrifera","Plant_height_vegetative",15.8496,"b_chill",-32.734374770863
+"Betula_papyrifera","Leaf_carbon_.C._content_per_leaf_dry_mass",468.8,"b_photo",1.50503824715372
+"Betula_papyrifera","Leaf_carbon_.C._content_per_leaf_dry_mass",468.8,"b_force",-5.51101183965531
+"Betula_papyrifera","Leaf_carbon_.C._content_per_leaf_dry_mass",468.8,"b_chill",-32.734374770863
+"Betula_pendula","Plant_height_vegetative",1.7,"b_photo",-0.419260509153369
+"Betula_pendula","Plant_height_vegetative",1.7,"b_chill",-4.29895986036566
+"Betula_pendula","Plant_height_vegetative",1.7,"b_force",-1.26521648111649
+"Betula_pendula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.5,"b_photo",-0.419260509153369
+"Betula_pendula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.5,"b_chill",-4.29895986036566
+"Betula_pendula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.5,"b_force",-1.26521648111649
+"Betula_pendula","Stem_diameter",0.108,"b_photo",-0.419260509153369
+"Betula_pendula","Stem_diameter",0.108,"b_chill",-4.29895986036566
+"Betula_pendula","Stem_diameter",0.108,"b_force",-1.26521648111649
+"Betula_pendula","seed mass",0.27,"b_photo",-0.419260509153369
+"Betula_pendula","seed mass",0.27,"b_chill",-4.29895986036566
+"Betula_pendula","seed mass",0.27,"b_force",-1.26521648111649
+"Betula_pendula","Leaf_dry_matter_content",0.37100994244,"b_photo",-0.419260509153369
+"Betula_pendula","Leaf_dry_matter_content",0.37100994244,"b_chill",-4.29895986036566
+"Betula_pendula","Leaf_dry_matter_content",0.37100994244,"b_force",-1.26521648111649
+"Betula_pendula","Specific_leaf_area",12.61,"b_photo",-0.419260509153369
+"Betula_pendula","Specific_leaf_area",12.61,"b_chill",-4.29895986036566
+"Betula_pendula","Specific_leaf_area",12.61,"b_force",-1.26521648111649
+"Betula_pendula","Stem_specific_density",0.52521,"b_photo",-0.419260509153369
+"Betula_pendula","Stem_specific_density",0.52521,"b_chill",-4.29895986036566
+"Betula_pendula","Stem_specific_density",0.52521,"b_force",-1.26521648111649
+"Betula_pendula","Leaf_carbon_.C._content_per_leaf_dry_mass",496.20523934,"b_photo",-0.419260509153369
+"Betula_pendula","Leaf_carbon_.C._content_per_leaf_dry_mass",496.20523934,"b_chill",-4.29895986036566
+"Betula_pendula","Leaf_carbon_.C._content_per_leaf_dry_mass",496.20523934,"b_force",-1.26521648111649
+"Betula_populifolia","Plant_height_vegetative",12.4968,"b_force",-6.20663176515703
+"Betula_populifolia","Plant_height_vegetative",12.4968,"b_chill",-2.80721203801117
+"Betula_populifolia","Plant_height_vegetative",12.4968,"b_photo",-0.989826985334937
+"Betula_populifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.9,"b_force",-6.20663176515703
+"Betula_populifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.9,"b_chill",-2.80721203801117
+"Betula_populifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.9,"b_photo",-0.989826985334937
+"Betula_populifolia","Stem_diameter",0.23,"b_force",-6.20663176515703
+"Betula_populifolia","Stem_diameter",0.23,"b_chill",-2.80721203801117
+"Betula_populifolia","Stem_diameter",0.23,"b_photo",-0.989826985334937
+"Betula_populifolia","seed mass",0.1032885,"b_force",-6.20663176515703
+"Betula_populifolia","seed mass",0.1032885,"b_chill",-2.80721203801117
+"Betula_populifolia","seed mass",0.1032885,"b_photo",-0.989826985334937
+"Betula_populifolia","Stem_specific_density",0.45,"b_force",-6.20663176515703
+"Betula_populifolia","Stem_specific_density",0.45,"b_chill",-2.80721203801117
+"Betula_populifolia","Stem_specific_density",0.45,"b_photo",-0.989826985334937
+"Betula_populifolia","Leaf_dry_matter_content",0.423284533642023,"b_force",-6.20663176515703
+"Betula_populifolia","Leaf_dry_matter_content",0.423284533642023,"b_chill",-2.80721203801117
+"Betula_populifolia","Leaf_dry_matter_content",0.423284533642023,"b_photo",-0.989826985334937
+"Betula_populifolia","Specific_leaf_area",16.7787502892952,"b_force",-6.20663176515703
+"Betula_populifolia","Specific_leaf_area",16.7787502892952,"b_chill",-2.80721203801117
+"Betula_populifolia","Specific_leaf_area",16.7787502892952,"b_photo",-0.989826985334937
+"Betula_pubescens","Plant_height_vegetative",20,"b_chill",-2.05763298996388
+"Betula_pubescens","Plant_height_vegetative",20,"b_photo",-0.759935313706615
+"Betula_pubescens","Plant_height_vegetative",20,"b_force",-6.77931711828694
+"Betula_pubescens","Stem_specific_density",0.6,"b_chill",-2.05763298996388
+"Betula_pubescens","Stem_specific_density",0.6,"b_photo",-0.759935313706615
+"Betula_pubescens","Stem_specific_density",0.6,"b_force",-6.77931711828694
+"Betula_pubescens","seed mass",0.2618585,"b_chill",-2.05763298996388
+"Betula_pubescens","seed mass",0.2618585,"b_photo",-0.759935313706615
+"Betula_pubescens","seed mass",0.2618585,"b_force",-6.77931711828694
+"Betula_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",556.555934055,"b_chill",-2.05763298996388
+"Betula_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",556.555934055,"b_photo",-0.759935313706615
+"Betula_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",556.555934055,"b_force",-6.77931711828694
+"Betula_pubescens","Specific_leaf_area",14.45,"b_chill",-2.05763298996388
+"Betula_pubescens","Specific_leaf_area",14.45,"b_photo",-0.759935313706615
+"Betula_pubescens","Specific_leaf_area",14.45,"b_force",-6.77931711828694
+"Betula_pubescens","Stem_diameter",0.9,"b_chill",-2.05763298996388
+"Betula_pubescens","Stem_diameter",0.9,"b_photo",-0.759935313706615
+"Betula_pubescens","Stem_diameter",0.9,"b_force",-6.77931711828694
+"Betula_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26.4245901577599,"b_chill",-2.05763298996388
+"Betula_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26.4245901577599,"b_photo",-0.759935313706615
+"Betula_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26.4245901577599,"b_force",-6.77931711828694
+"Corylus_avellana","Plant_height_vegetative",5.67,"b_force",-5.0095562162503
+"Corylus_avellana","Plant_height_vegetative",5.67,"b_photo",-1.15886498543921
+"Corylus_avellana","Plant_height_vegetative",5.67,"b_chill",-7.74602863707213
+"Corylus_avellana","seed mass",1080,"b_force",-5.0095562162503
+"Corylus_avellana","seed mass",1080,"b_photo",-1.15886498543921
+"Corylus_avellana","seed mass",1080,"b_chill",-7.74602863707213
+"Corylus_avellana","Leaf_dry_matter_content",0.393788168779683,"b_force",-5.0095562162503
+"Corylus_avellana","Leaf_dry_matter_content",0.393788168779683,"b_photo",-1.15886498543921
+"Corylus_avellana","Leaf_dry_matter_content",0.393788168779683,"b_chill",-7.74602863707213
+"Corylus_avellana","Specific_leaf_area",15.514285714,"b_force",-5.0095562162503
+"Corylus_avellana","Specific_leaf_area",15.514285714,"b_photo",-1.15886498543921
+"Corylus_avellana","Specific_leaf_area",15.514285714,"b_chill",-7.74602863707213
+"Corylus_avellana","Stem_specific_density",0.5166,"b_force",-5.0095562162503
+"Corylus_avellana","Stem_specific_density",0.5166,"b_photo",-1.15886498543921
+"Corylus_avellana","Stem_specific_density",0.5166,"b_chill",-7.74602863707213
+"Corylus_avellana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.6,"b_force",-5.0095562162503
+"Corylus_avellana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.6,"b_photo",-1.15886498543921
+"Corylus_avellana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.6,"b_chill",-7.74602863707213
+"Corylus_avellana","Leaf_carbon_.C._content_per_leaf_dry_mass",452.1,"b_force",-5.0095562162503
+"Corylus_avellana","Leaf_carbon_.C._content_per_leaf_dry_mass",452.1,"b_photo",-1.15886498543921
+"Corylus_avellana","Leaf_carbon_.C._content_per_leaf_dry_mass",452.1,"b_chill",-7.74602863707213
+"Fagus_grandifolia","Plant_height_vegetative",15.5448,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Plant_height_vegetative",15.5448,"b_force",-9.3702014309156
+"Fagus_grandifolia","Plant_height_vegetative",15.5448,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Stem_specific_density",0.56,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Stem_specific_density",0.56,"b_force",-9.3702014309156
+"Fagus_grandifolia","Stem_specific_density",0.56,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_force",-9.3702014309156
+"Fagus_grandifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Leaf_dry_matter_content",0.369921875,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Leaf_dry_matter_content",0.369921875,"b_force",-9.3702014309156
+"Fagus_grandifolia","Leaf_dry_matter_content",0.369921875,"b_chill",-13.6337114614543
+"Fagus_grandifolia","seed mass",265.2,"b_photo",-3.76848976268984
+"Fagus_grandifolia","seed mass",265.2,"b_force",-9.3702014309156
+"Fagus_grandifolia","seed mass",265.2,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Specific_leaf_area",40.921465257,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Specific_leaf_area",40.921465257,"b_force",-9.3702014309156
+"Fagus_grandifolia","Specific_leaf_area",40.921465257,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",485.17,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",485.17,"b_force",-9.3702014309156
+"Fagus_grandifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",485.17,"b_chill",-13.6337114614543
+"Fagus_grandifolia","Stem_diameter",0.137446209,"b_photo",-3.76848976268984
+"Fagus_grandifolia","Stem_diameter",0.137446209,"b_force",-9.3702014309156
+"Fagus_grandifolia","Stem_diameter",0.137446209,"b_chill",-13.6337114614543
+"Fagus_sylvatica","seed mass",221,"b_chill",-14.2565291446652
+"Fagus_sylvatica","seed mass",221,"b_force",-2.41446451820193
+"Fagus_sylvatica","seed mass",221,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Stem_specific_density",0.657711267605634,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Stem_specific_density",0.657711267605634,"b_force",-2.41446451820193
+"Fagus_sylvatica","Stem_specific_density",0.657711267605634,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Plant_height_vegetative",30,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Plant_height_vegetative",30,"b_force",-2.41446451820193
+"Fagus_sylvatica","Plant_height_vegetative",30,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Leaf_dry_matter_content",0.430751785715,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Leaf_dry_matter_content",0.430751785715,"b_force",-2.41446451820193
+"Fagus_sylvatica","Leaf_dry_matter_content",0.430751785715,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.9,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.9,"b_force",-2.41446451820193
+"Fagus_sylvatica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.9,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Stem_diameter",0.32385,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Stem_diameter",0.32385,"b_force",-2.41446451820193
+"Fagus_sylvatica","Stem_diameter",0.32385,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Specific_leaf_area",13.6774452805,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Specific_leaf_area",13.6774452805,"b_force",-2.41446451820193
+"Fagus_sylvatica","Specific_leaf_area",13.6774452805,"b_photo",-10.2787968845833
+"Fagus_sylvatica","Leaf_carbon_.C._content_per_leaf_dry_mass",469.95121364,"b_chill",-14.2565291446652
+"Fagus_sylvatica","Leaf_carbon_.C._content_per_leaf_dry_mass",469.95121364,"b_force",-2.41446451820193
+"Fagus_sylvatica","Leaf_carbon_.C._content_per_leaf_dry_mass",469.95121364,"b_photo",-10.2787968845833
+"Fraxinus_excelsior","Stem_specific_density",0.622294068034861,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Stem_specific_density",0.622294068034861,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Stem_specific_density",0.622294068034861,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Leaf_dry_matter_content",0.340782122907514,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Leaf_dry_matter_content",0.340782122907514,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Leaf_dry_matter_content",0.340782122907514,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Stem_diameter",1.7,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Stem_diameter",1.7,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Stem_diameter",1.7,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","seed mass",67.535,"b_force",-8.11104376820259
+"Fraxinus_excelsior","seed mass",67.535,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","seed mass",67.535,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Leaf_carbon_.C._content_per_leaf_dry_mass",447.872908695,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Leaf_carbon_.C._content_per_leaf_dry_mass",447.872908695,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Leaf_carbon_.C._content_per_leaf_dry_mass",447.872908695,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Specific_leaf_area",12.6903553299492,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Specific_leaf_area",12.6903553299492,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Specific_leaf_area",12.6903553299492,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.7,"b_chill",-8.28282473569445
+"Fraxinus_excelsior","Plant_height_vegetative",25,"b_force",-8.11104376820259
+"Fraxinus_excelsior","Plant_height_vegetative",25,"b_photo",-1.68007067359549
+"Fraxinus_excelsior","Plant_height_vegetative",25,"b_chill",-8.28282473569445
+"Fraxinus_nigra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.15,"b_force",-11.7733093467948
+"Fraxinus_nigra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.15,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.15,"b_chill",-8.82409724476399
+"Fraxinus_nigra","Stem_specific_density",0.45,"b_force",-11.7733093467948
+"Fraxinus_nigra","Stem_specific_density",0.45,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Stem_specific_density",0.45,"b_chill",-8.82409724476399
+"Fraxinus_nigra","seed mass",40,"b_force",-11.7733093467948
+"Fraxinus_nigra","seed mass",40,"b_photo",-1.79333049311915
+"Fraxinus_nigra","seed mass",40,"b_chill",-8.82409724476399
+"Fraxinus_nigra","Plant_height_vegetative",14.9352,"b_force",-11.7733093467948
+"Fraxinus_nigra","Plant_height_vegetative",14.9352,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Plant_height_vegetative",14.9352,"b_chill",-8.82409724476399
+"Fraxinus_nigra","Leaf_carbon_.C._content_per_leaf_dry_mass",474.1,"b_force",-11.7733093467948
+"Fraxinus_nigra","Leaf_carbon_.C._content_per_leaf_dry_mass",474.1,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Leaf_carbon_.C._content_per_leaf_dry_mass",474.1,"b_chill",-8.82409724476399
+"Fraxinus_nigra","Stem_diameter",0.0414359895,"b_force",-11.7733093467948
+"Fraxinus_nigra","Stem_diameter",0.0414359895,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Stem_diameter",0.0414359895,"b_chill",-8.82409724476399
+"Fraxinus_nigra","Specific_leaf_area",18.281535649,"b_force",-11.7733093467948
+"Fraxinus_nigra","Specific_leaf_area",18.281535649,"b_photo",-1.79333049311915
+"Fraxinus_nigra","Specific_leaf_area",18.281535649,"b_chill",-8.82409724476399
+"Hamamelis_japonica","seed mass",39.7,"b_chill",-9.48314476518979
+"Hamamelis_japonica","seed mass",39.7,"b_photo",-0.964007293638294
+"Hamamelis_japonica","seed mass",39.7,"b_force",-6.09227703217399
+"Hamamelis_japonica","Plant_height_vegetative",2.5,"b_chill",-9.48314476518979
+"Hamamelis_japonica","Plant_height_vegetative",2.5,"b_photo",-0.964007293638294
+"Hamamelis_japonica","Plant_height_vegetative",2.5,"b_force",-6.09227703217399
+"Hamamelis_japonica","Specific_leaf_area",13.986013986,"b_chill",-9.48314476518979
+"Hamamelis_japonica","Specific_leaf_area",13.986013986,"b_photo",-0.964007293638294
+"Hamamelis_japonica","Specific_leaf_area",13.986013986,"b_force",-6.09227703217399
+"Hamamelis_virginiana","Specific_leaf_area",20.9935483870968,"b_chill",-9.52304680280171
+"Hamamelis_virginiana","Specific_leaf_area",20.9935483870968,"b_photo",-1.89618357412583
+"Hamamelis_virginiana","Specific_leaf_area",20.9935483870968,"b_force",-10.5810343865249
+"Hamamelis_virginiana","seed mass",46.284936,"b_chill",-9.52304680280171
+"Hamamelis_virginiana","seed mass",46.284936,"b_photo",-1.89618357412583
+"Hamamelis_virginiana","seed mass",46.284936,"b_force",-10.5810343865249
+"Hamamelis_virginiana","Plant_height_vegetative",1,"b_chill",-9.52304680280171
+"Hamamelis_virginiana","Plant_height_vegetative",1,"b_photo",-1.89618357412583
+"Hamamelis_virginiana","Plant_height_vegetative",1,"b_force",-10.5810343865249
+"Hamamelis_virginiana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.1,"b_chill",-9.52304680280171
+"Hamamelis_virginiana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.1,"b_photo",-1.89618357412583
+"Hamamelis_virginiana","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.1,"b_force",-10.5810343865249
+"Hamamelis_virginiana","Stem_specific_density",0.56,"b_chill",-9.52304680280171
+"Hamamelis_virginiana","Stem_specific_density",0.56,"b_photo",-1.89618357412583
+"Hamamelis_virginiana","Stem_specific_density",0.56,"b_force",-10.5810343865249
+"Juglans_ailantifolia","seed mass",6486.9455,"b_force",-5.72713987309983
+"Juglans_ailantifolia","seed mass",6486.9455,"b_chill",-10.1778638275825
+"Juglans_ailantifolia","seed mass",6486.9455,"b_photo",-1.0849230507473
+"Juglans_ailantifolia","Plant_height_vegetative",20,"b_force",-5.72713987309983
+"Juglans_ailantifolia","Plant_height_vegetative",20,"b_chill",-10.1778638275825
+"Juglans_ailantifolia","Plant_height_vegetative",20,"b_photo",-1.0849230507473
+"Juglans_cinerea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26,"b_photo",-0.925655441808429
+"Juglans_cinerea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26,"b_chill",-8.78455140518336
+"Juglans_cinerea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",26,"b_force",-5.63060230304347
+"Juglans_cinerea","Plant_height_vegetative",15.24,"b_photo",-0.925655441808429
+"Juglans_cinerea","Plant_height_vegetative",15.24,"b_chill",-8.78455140518336
+"Juglans_cinerea","Plant_height_vegetative",15.24,"b_force",-5.63060230304347
+"Juglans_cinerea","Specific_leaf_area",16.4,"b_photo",-0.925655441808429
+"Juglans_cinerea","Specific_leaf_area",16.4,"b_chill",-8.78455140518336
+"Juglans_cinerea","Specific_leaf_area",16.4,"b_force",-5.63060230304347
+"Juglans_cinerea","Stem_specific_density",0.36,"b_photo",-0.925655441808429
+"Juglans_cinerea","Stem_specific_density",0.36,"b_chill",-8.78455140518336
+"Juglans_cinerea","Stem_specific_density",0.36,"b_force",-5.63060230304347
+"Juglans_cinerea","seed mass",14702.87,"b_photo",-0.925655441808429
+"Juglans_cinerea","seed mass",14702.87,"b_chill",-8.78455140518336
+"Juglans_cinerea","seed mass",14702.87,"b_force",-5.63060230304347
+"Juglans_regia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.9333333333333,"b_chill",-5.57239298694084
+"Juglans_regia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.9333333333333,"b_force",-6.09698368631013
+"Juglans_regia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.9333333333333,"b_photo",-1.08160018566887
+"Juglans_regia","Stem_specific_density",0.55104,"b_chill",-5.57239298694084
+"Juglans_regia","Stem_specific_density",0.55104,"b_force",-6.09698368631013
+"Juglans_regia","Stem_specific_density",0.55104,"b_photo",-1.08160018566887
+"Juglans_regia","Plant_height_vegetative",24.5,"b_chill",-5.57239298694084
+"Juglans_regia","Plant_height_vegetative",24.5,"b_force",-6.09698368631013
+"Juglans_regia","Plant_height_vegetative",24.5,"b_photo",-1.08160018566887
+"Juglans_regia","Specific_leaf_area",14.606606545,"b_chill",-5.57239298694084
+"Juglans_regia","Specific_leaf_area",14.606606545,"b_force",-6.09698368631013
+"Juglans_regia","Specific_leaf_area",14.606606545,"b_photo",-1.08160018566887
+"Juglans_regia","seed mass",11339.80925,"b_chill",-5.57239298694084
+"Juglans_regia","seed mass",11339.80925,"b_force",-6.09698368631013
+"Juglans_regia","seed mass",11339.80925,"b_photo",-1.08160018566887
+"Juglans_regia","Leaf_dry_matter_content",0.31185563709,"b_chill",-5.57239298694084
+"Juglans_regia","Leaf_dry_matter_content",0.31185563709,"b_force",-6.09698368631013
+"Juglans_regia","Leaf_dry_matter_content",0.31185563709,"b_photo",-1.08160018566887
+"Kalmia_angustifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.2,"b_chill",-6.19825769799164
+"Kalmia_angustifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.2,"b_force",-12.0754397281702
+"Kalmia_angustifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.2,"b_photo",-2.09840122835752
+"Kalmia_angustifolia","Specific_leaf_area",8.77974514919396,"b_chill",-6.19825769799164
+"Kalmia_angustifolia","Specific_leaf_area",8.77974514919396,"b_force",-12.0754397281702
+"Kalmia_angustifolia","Specific_leaf_area",8.77974514919396,"b_photo",-2.09840122835752
+"Kalmia_angustifolia","Leaf_dry_matter_content",0.484077435124032,"b_chill",-6.19825769799164
+"Kalmia_angustifolia","Leaf_dry_matter_content",0.484077435124032,"b_force",-12.0754397281702
+"Kalmia_angustifolia","Leaf_dry_matter_content",0.484077435124032,"b_photo",-2.09840122835752
+"Kalmia_angustifolia","Plant_height_vegetative",1,"b_chill",-6.19825769799164
+"Kalmia_angustifolia","Plant_height_vegetative",1,"b_force",-12.0754397281702
+"Kalmia_angustifolia","Plant_height_vegetative",1,"b_photo",-2.09840122835752
+"Larix_decidua","Plant_height_vegetative",28.0416,"b_photo",6.30051903196642
+"Larix_decidua","Plant_height_vegetative",28.0416,"b_chill",19.014915651216
+"Larix_decidua","Plant_height_vegetative",28.0416,"b_force",-17.2740114982295
+"Larix_decidua","seed mass",5.88,"b_photo",6.30051903196642
+"Larix_decidua","seed mass",5.88,"b_chill",19.014915651216
+"Larix_decidua","seed mass",5.88,"b_force",-17.2740114982295
+"Larix_decidua","Stem_specific_density",0.47355,"b_photo",6.30051903196642
+"Larix_decidua","Stem_specific_density",0.47355,"b_chill",19.014915651216
+"Larix_decidua","Stem_specific_density",0.47355,"b_force",-17.2740114982295
+"Larix_decidua","Specific_leaf_area",15.508,"b_photo",6.30051903196642
+"Larix_decidua","Specific_leaf_area",15.508,"b_chill",19.014915651216
+"Larix_decidua","Specific_leaf_area",15.508,"b_force",-17.2740114982295
+"Lonicera_canadensis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.975,"b_force",-6.42049235333572
+"Lonicera_canadensis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.975,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.975,"b_chill",-2.35007830842291
+"Lonicera_canadensis","Specific_leaf_area",15.0148898898899,"b_force",-6.42049235333572
+"Lonicera_canadensis","Specific_leaf_area",15.0148898898899,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Specific_leaf_area",15.0148898898899,"b_chill",-2.35007830842291
+"Lonicera_canadensis","Plant_height_vegetative",0.8,"b_force",-6.42049235333572
+"Lonicera_canadensis","Plant_height_vegetative",0.8,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Plant_height_vegetative",0.8,"b_chill",-2.35007830842291
+"Lonicera_canadensis","Leaf_carbon_.C._content_per_leaf_dry_mass",477.06,"b_force",-6.42049235333572
+"Lonicera_canadensis","Leaf_carbon_.C._content_per_leaf_dry_mass",477.06,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Leaf_carbon_.C._content_per_leaf_dry_mass",477.06,"b_chill",-2.35007830842291
+"Lonicera_canadensis","Leaf_dry_matter_content",0.325885896527286,"b_force",-6.42049235333572
+"Lonicera_canadensis","Leaf_dry_matter_content",0.325885896527286,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Leaf_dry_matter_content",0.325885896527286,"b_chill",-2.35007830842291
+"Lonicera_canadensis","Stem_diameter",0.00432,"b_force",-6.42049235333572
+"Lonicera_canadensis","Stem_diameter",0.00432,"b_photo",-1.15127287516726
+"Lonicera_canadensis","Stem_diameter",0.00432,"b_chill",-2.35007830842291
+"Populus_grandidentata","Stem_specific_density",0.36,"b_force",-11.2435376849225
+"Populus_grandidentata","Stem_specific_density",0.36,"b_chill",-17.852532469361
+"Populus_grandidentata","Stem_specific_density",0.36,"b_photo",-1.31991736377427
+"Populus_grandidentata","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.4,"b_force",-11.2435376849225
+"Populus_grandidentata","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.4,"b_chill",-17.852532469361
+"Populus_grandidentata","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.4,"b_photo",-1.31991736377427
+"Populus_grandidentata","Specific_leaf_area",13.7940199335548,"b_force",-11.2435376849225
+"Populus_grandidentata","Specific_leaf_area",13.7940199335548,"b_chill",-17.852532469361
+"Populus_grandidentata","Specific_leaf_area",13.7940199335548,"b_photo",-1.31991736377427
+"Populus_grandidentata","seed mass",0.151,"b_force",-11.2435376849225
+"Populus_grandidentata","seed mass",0.151,"b_chill",-17.852532469361
+"Populus_grandidentata","seed mass",0.151,"b_photo",-1.31991736377427
+"Populus_grandidentata","Stem_diameter",0.2284032585,"b_force",-11.2435376849225
+"Populus_grandidentata","Stem_diameter",0.2284032585,"b_chill",-17.852532469361
+"Populus_grandidentata","Stem_diameter",0.2284032585,"b_photo",-1.31991736377427
+"Populus_grandidentata","Plant_height_vegetative",19.5072,"b_force",-11.2435376849225
+"Populus_grandidentata","Plant_height_vegetative",19.5072,"b_chill",-17.852532469361
+"Populus_grandidentata","Plant_height_vegetative",19.5072,"b_photo",-1.31991736377427
+"Populus_grandidentata","Leaf_carbon_.C._content_per_leaf_dry_mass",493.4,"b_force",-11.2435376849225
+"Populus_grandidentata","Leaf_carbon_.C._content_per_leaf_dry_mass",493.4,"b_chill",-17.852532469361
+"Populus_grandidentata","Leaf_carbon_.C._content_per_leaf_dry_mass",493.4,"b_photo",-1.31991736377427
+"Populus_tremula","Leaf_carbon_.C._content_per_leaf_dry_mass",503.1,"b_force",-7.43894647504378
+"Populus_tremula","Leaf_carbon_.C._content_per_leaf_dry_mass",503.1,"b_photo",0.166900676479599
+"Populus_tremula","Leaf_carbon_.C._content_per_leaf_dry_mass",503.1,"b_chill",0.471838288987206
+"Populus_tremula","Leaf_dry_matter_content",0.35959,"b_force",-7.43894647504378
+"Populus_tremula","Leaf_dry_matter_content",0.35959,"b_photo",0.166900676479599
+"Populus_tremula","Leaf_dry_matter_content",0.35959,"b_chill",0.471838288987206
+"Populus_tremula","Specific_leaf_area",3.1,"b_force",-7.43894647504378
+"Populus_tremula","Specific_leaf_area",3.1,"b_photo",0.166900676479599
+"Populus_tremula","Specific_leaf_area",3.1,"b_chill",0.471838288987206
+"Populus_tremula","Stem_specific_density",0.38745,"b_force",-7.43894647504378
+"Populus_tremula","Stem_specific_density",0.38745,"b_photo",0.166900676479599
+"Populus_tremula","Stem_specific_density",0.38745,"b_chill",0.471838288987206
+"Populus_tremula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.048924138,"b_force",-7.43894647504378
+"Populus_tremula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.048924138,"b_photo",0.166900676479599
+"Populus_tremula","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25.048924138,"b_chill",0.471838288987206
+"Populus_tremula","Stem_diameter",0.9,"b_force",-7.43894647504378
+"Populus_tremula","Stem_diameter",0.9,"b_photo",0.166900676479599
+"Populus_tremula","Stem_diameter",0.9,"b_chill",0.471838288987206
+"Populus_tremula","seed mass",0.1215,"b_force",-7.43894647504378
+"Populus_tremula","seed mass",0.1215,"b_photo",0.166900676479599
+"Populus_tremula","seed mass",0.1215,"b_chill",0.471838288987206
+"Populus_tremula","Plant_height_vegetative",1.3775,"b_force",-7.43894647504378
+"Populus_tremula","Plant_height_vegetative",1.3775,"b_photo",0.166900676479599
+"Populus_tremula","Plant_height_vegetative",1.3775,"b_chill",0.471838288987206
+"Prunus_avium","Stem_diameter",0.9,"b_photo",-0.811865984068014
+"Prunus_avium","Stem_diameter",0.9,"b_chill",-9.61378492063446
+"Prunus_avium","Stem_diameter",0.9,"b_force",-2.98699510944133
+"Prunus_avium","Plant_height_vegetative",15,"b_photo",-0.811865984068014
+"Prunus_avium","Plant_height_vegetative",15,"b_chill",-9.61378492063446
+"Prunus_avium","Plant_height_vegetative",15,"b_force",-2.98699510944133
+"Prunus_avium","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.513797507,"b_photo",-0.811865984068014
+"Prunus_avium","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.513797507,"b_chill",-9.61378492063446
+"Prunus_avium","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.513797507,"b_force",-2.98699510944133
+"Prunus_avium","Stem_specific_density",0.55,"b_photo",-0.811865984068014
+"Prunus_avium","Stem_specific_density",0.55,"b_chill",-9.61378492063446
+"Prunus_avium","Stem_specific_density",0.55,"b_force",-2.98699510944133
+"Prunus_avium","seed mass",190.66,"b_photo",-0.811865984068014
+"Prunus_avium","seed mass",190.66,"b_chill",-9.61378492063446
+"Prunus_avium","seed mass",190.66,"b_force",-2.98699510944133
+"Prunus_avium","Leaf_carbon_.C._content_per_leaf_dry_mass",466.50222222,"b_photo",-0.811865984068014
+"Prunus_avium","Leaf_carbon_.C._content_per_leaf_dry_mass",466.50222222,"b_chill",-9.61378492063446
+"Prunus_avium","Leaf_carbon_.C._content_per_leaf_dry_mass",466.50222222,"b_force",-2.98699510944133
+"Prunus_avium","Specific_leaf_area",13.4471219385,"b_photo",-0.811865984068014
+"Prunus_avium","Specific_leaf_area",13.4471219385,"b_chill",-9.61378492063446
+"Prunus_avium","Specific_leaf_area",13.4471219385,"b_force",-2.98699510944133
+"Prunus_cerasifera","seed mass",454.775,"b_force",-6.53262840902889
+"Prunus_cerasifera","seed mass",454.775,"b_chill",-4.57176361178386
+"Prunus_cerasifera","seed mass",454.775,"b_photo",-0.911265499959247
+"Prunus_cerasifera","Specific_leaf_area",10.8005,"b_force",-6.53262840902889
+"Prunus_cerasifera","Specific_leaf_area",10.8005,"b_chill",-4.57176361178386
+"Prunus_cerasifera","Specific_leaf_area",10.8005,"b_photo",-0.911265499959247
+"Prunus_cerasifera","Plant_height_vegetative",6.17,"b_force",-6.53262840902889
+"Prunus_cerasifera","Plant_height_vegetative",6.17,"b_chill",-4.57176361178386
+"Prunus_cerasifera","Plant_height_vegetative",6.17,"b_photo",-0.911265499959247
+"Prunus_cerasifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",2.5655,"b_force",-6.53262840902889
+"Prunus_cerasifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",2.5655,"b_chill",-4.57176361178386
+"Prunus_cerasifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",2.5655,"b_photo",-0.911265499959247
+"Prunus_padus","Stem_diameter",0.5,"b_chill",-1.32443149202627
+"Prunus_padus","Stem_diameter",0.5,"b_photo",-1.00800430502239
+"Prunus_padus","Stem_diameter",0.5,"b_force",-10.7739797182056
+"Prunus_padus","seed mass",50.908235,"b_chill",-1.32443149202627
+"Prunus_padus","seed mass",50.908235,"b_photo",-1.00800430502239
+"Prunus_padus","seed mass",50.908235,"b_force",-10.7739797182056
+"Prunus_padus","Specific_leaf_area",19.34,"b_chill",-1.32443149202627
+"Prunus_padus","Specific_leaf_area",19.34,"b_photo",-1.00800430502239
+"Prunus_padus","Specific_leaf_area",19.34,"b_force",-10.7739797182056
+"Prunus_padus","Leaf_carbon_.C._content_per_leaf_dry_mass",459.893619940769,"b_chill",-1.32443149202627
+"Prunus_padus","Leaf_carbon_.C._content_per_leaf_dry_mass",459.893619940769,"b_photo",-1.00800430502239
+"Prunus_padus","Leaf_carbon_.C._content_per_leaf_dry_mass",459.893619940769,"b_force",-10.7739797182056
+"Prunus_padus","Plant_height_vegetative",12.5,"b_chill",-1.32443149202627
+"Prunus_padus","Plant_height_vegetative",12.5,"b_photo",-1.00800430502239
+"Prunus_padus","Plant_height_vegetative",12.5,"b_force",-10.7739797182056
+"Prunus_padus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_chill",-1.32443149202627
+"Prunus_padus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_photo",-1.00800430502239
+"Prunus_padus","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21,"b_force",-10.7739797182056
+"Prunus_padus","Stem_specific_density",0.454500201342282,"b_chill",-1.32443149202627
+"Prunus_padus","Stem_specific_density",0.454500201342282,"b_photo",-1.00800430502239
+"Prunus_padus","Stem_specific_density",0.454500201342282,"b_force",-10.7739797182056
+"Prunus_padus","Leaf_dry_matter_content",0.34365,"b_chill",-1.32443149202627
+"Prunus_padus","Leaf_dry_matter_content",0.34365,"b_photo",-1.00800430502239
+"Prunus_padus","Leaf_dry_matter_content",0.34365,"b_force",-10.7739797182056
+"Prunus_pensylvanica","Plant_height_vegetative",12.8016,"b_photo",-1.12735401849482
+"Prunus_pensylvanica","Plant_height_vegetative",12.8016,"b_force",-6.25382836585992
+"Prunus_pensylvanica","Plant_height_vegetative",12.8016,"b_chill",-3.17445057781306
+"Prunus_pensylvanica","Stem_specific_density",0.36,"b_photo",-1.12735401849482
+"Prunus_pensylvanica","Stem_specific_density",0.36,"b_force",-6.25382836585992
+"Prunus_pensylvanica","Stem_specific_density",0.36,"b_chill",-3.17445057781306
+"Prunus_pensylvanica","seed mass",38.5,"b_photo",-1.12735401849482
+"Prunus_pensylvanica","seed mass",38.5,"b_force",-6.25382836585992
+"Prunus_pensylvanica","seed mass",38.5,"b_chill",-3.17445057781306
+"Prunus_pensylvanica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.2,"b_photo",-1.12735401849482
+"Prunus_pensylvanica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.2,"b_force",-6.25382836585992
+"Prunus_pensylvanica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.2,"b_chill",-3.17445057781306
+"Prunus_pensylvanica","Specific_leaf_area",16.666666667,"b_photo",-1.12735401849482
+"Prunus_pensylvanica","Specific_leaf_area",16.666666667,"b_force",-6.25382836585992
+"Prunus_pensylvanica","Specific_leaf_area",16.666666667,"b_chill",-3.17445057781306
+"Prunus_persica","seed mass",2941,"b_photo",0.343733975760489
+"Prunus_persica","seed mass",2941,"b_chill",2.36229810981088
+"Prunus_persica","seed mass",2941,"b_force",-5.1446449576619
+"Prunus_persica","Specific_leaf_area",16.92307692,"b_photo",0.343733975760489
+"Prunus_persica","Specific_leaf_area",16.92307692,"b_chill",2.36229810981088
+"Prunus_persica","Specific_leaf_area",16.92307692,"b_force",-5.1446449576619
+"Prunus_persica","Plant_height_vegetative",4.2672,"b_photo",0.343733975760489
+"Prunus_persica","Plant_height_vegetative",4.2672,"b_chill",2.36229810981088
+"Prunus_persica","Plant_height_vegetative",4.2672,"b_force",-5.1446449576619
+"Prunus_persica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",40.5,"b_photo",0.343733975760489
+"Prunus_persica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",40.5,"b_chill",2.36229810981088
+"Prunus_persica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",40.5,"b_force",-5.1446449576619
+"Prunus_serotina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_force",-4.71505696795967
+"Prunus_serotina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_chill",-12.0305930427712
+"Prunus_serotina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_photo",-1.00261568792253
+"Prunus_serotina","Specific_leaf_area",17.699115044,"b_force",-4.71505696795967
+"Prunus_serotina","Specific_leaf_area",17.699115044,"b_chill",-12.0305930427712
+"Prunus_serotina","Specific_leaf_area",17.699115044,"b_photo",-1.00261568792253
+"Prunus_serotina","Plant_height_vegetative",14.0208,"b_force",-4.71505696795967
+"Prunus_serotina","Plant_height_vegetative",14.0208,"b_chill",-12.0305930427712
+"Prunus_serotina","Plant_height_vegetative",14.0208,"b_photo",-1.00261568792253
+"Prunus_serotina","seed mass",102.6,"b_force",-4.71505696795967
+"Prunus_serotina","seed mass",102.6,"b_chill",-12.0305930427712
+"Prunus_serotina","seed mass",102.6,"b_photo",-1.00261568792253
+"Prunus_serotina","Leaf_carbon_.C._content_per_leaf_dry_mass",470.9325,"b_force",-4.71505696795967
+"Prunus_serotina","Leaf_carbon_.C._content_per_leaf_dry_mass",470.9325,"b_chill",-12.0305930427712
+"Prunus_serotina","Leaf_carbon_.C._content_per_leaf_dry_mass",470.9325,"b_photo",-1.00261568792253
+"Prunus_serotina","Stem_specific_density",0.505,"b_force",-4.71505696795967
+"Prunus_serotina","Stem_specific_density",0.505,"b_chill",-12.0305930427712
+"Prunus_serotina","Stem_specific_density",0.505,"b_photo",-1.00261568792253
+"Prunus_serotina","Leaf_dry_matter_content",0.27777777778,"b_force",-4.71505696795967
+"Prunus_serotina","Leaf_dry_matter_content",0.27777777778,"b_chill",-12.0305930427712
+"Prunus_serotina","Leaf_dry_matter_content",0.27777777778,"b_photo",-1.00261568792253
+"Prunus_serrulata","Plant_height_vegetative",3.955,"b_chill",-7.55245882221602
+"Prunus_serrulata","Plant_height_vegetative",3.955,"b_photo",-0.831139710485881
+"Prunus_serrulata","Plant_height_vegetative",3.955,"b_force",-6.02498824392671
+"Prunus_serrulata","seed mass",52.91,"b_chill",-7.55245882221602
+"Prunus_serrulata","seed mass",52.91,"b_photo",-0.831139710485881
+"Prunus_serrulata","seed mass",52.91,"b_force",-6.02498824392671
+"Prunus_tenella","Plant_height_vegetative",0.8,"b_force",-6.42092663542431
+"Prunus_tenella","Plant_height_vegetative",0.8,"b_chill",-4.04137084677771
+"Prunus_tenella","Plant_height_vegetative",0.8,"b_photo",-1.07802739781552
+"Pyrus_pyrifolia","Plant_height_vegetative",15,"b_chill",-3.87467453542597
+"Pyrus_pyrifolia","Plant_height_vegetative",15,"b_force",-6.4976391050397
+"Pyrus_pyrifolia","Plant_height_vegetative",15,"b_photo",-1.25389285241273
+"Pyrus_pyrifolia","seed mass",45,"b_chill",-3.87467453542597
+"Pyrus_pyrifolia","seed mass",45,"b_force",-6.4976391050397
+"Pyrus_pyrifolia","seed mass",45,"b_photo",-1.25389285241273
+"Pyrus_ussuriensis","seed mass",49.845315,"b_force",-6.35452447012403
+"Pyrus_ussuriensis","seed mass",49.845315,"b_chill",-8.68988750527108
+"Pyrus_ussuriensis","seed mass",49.845315,"b_photo",-0.863262049924723
+"Pyrus_ussuriensis","Plant_height_vegetative",9.5,"b_force",-6.35452447012403
+"Pyrus_ussuriensis","Plant_height_vegetative",9.5,"b_chill",-8.68988750527108
+"Pyrus_ussuriensis","Plant_height_vegetative",9.5,"b_photo",-0.863262049924723
+"Quercus_alba","Stem_specific_density",0.63,"b_force",-10.7026642505549
+"Quercus_alba","Stem_specific_density",0.63,"b_chill",-11.440002002704
+"Quercus_alba","Stem_specific_density",0.63,"b_photo",-2.20770849896328
+"Quercus_alba","seed mass",2408,"b_force",-10.7026642505549
+"Quercus_alba","seed mass",2408,"b_chill",-11.440002002704
+"Quercus_alba","seed mass",2408,"b_photo",-2.20770849896328
+"Quercus_alba","Leaf_dry_matter_content",0.29894179894,"b_force",-10.7026642505549
+"Quercus_alba","Leaf_dry_matter_content",0.29894179894,"b_chill",-11.440002002704
+"Quercus_alba","Leaf_dry_matter_content",0.29894179894,"b_photo",-2.20770849896328
+"Quercus_alba","Plant_height_vegetative",17.9832,"b_force",-10.7026642505549
+"Quercus_alba","Plant_height_vegetative",17.9832,"b_chill",-11.440002002704
+"Quercus_alba","Plant_height_vegetative",17.9832,"b_photo",-2.20770849896328
+"Quercus_alba","Specific_leaf_area",15.450361818,"b_force",-10.7026642505549
+"Quercus_alba","Specific_leaf_area",15.450361818,"b_chill",-11.440002002704
+"Quercus_alba","Specific_leaf_area",15.450361818,"b_photo",-2.20770849896328
+"Quercus_alba","Stem_diameter",0.417391796,"b_force",-10.7026642505549
+"Quercus_alba","Stem_diameter",0.417391796,"b_chill",-11.440002002704
+"Quercus_alba","Stem_diameter",0.417391796,"b_photo",-2.20770849896328
+"Quercus_alba","Leaf_carbon_.C._content_per_leaf_dry_mass",486.9173,"b_force",-10.7026642505549
+"Quercus_alba","Leaf_carbon_.C._content_per_leaf_dry_mass",486.9173,"b_chill",-11.440002002704
+"Quercus_alba","Leaf_carbon_.C._content_per_leaf_dry_mass",486.9173,"b_photo",-2.20770849896328
+"Quercus_alba","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.2,"b_force",-10.7026642505549
+"Quercus_alba","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.2,"b_chill",-11.440002002704
+"Quercus_alba","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.2,"b_photo",-2.20770849896328
+"Quercus_bicolor","Stem_specific_density",0.66,"b_chill",-9.40227943831123
+"Quercus_bicolor","Stem_specific_density",0.66,"b_force",-5.43139555538712
+"Quercus_bicolor","Stem_specific_density",0.66,"b_photo",-1.20040419101667
+"Quercus_bicolor","seed mass",3250.9,"b_chill",-9.40227943831123
+"Quercus_bicolor","seed mass",3250.9,"b_force",-5.43139555538712
+"Quercus_bicolor","seed mass",3250.9,"b_photo",-1.20040419101667
+"Quercus_bicolor","Plant_height_vegetative",16.764,"b_chill",-9.40227943831123
+"Quercus_bicolor","Plant_height_vegetative",16.764,"b_force",-5.43139555538712
+"Quercus_bicolor","Plant_height_vegetative",16.764,"b_photo",-1.20040419101667
+"Quercus_coccifera","Leaf_carbon_.C._content_per_leaf_dry_mass",479.3,"b_photo",-1.2242502664957
+"Quercus_coccifera","Leaf_carbon_.C._content_per_leaf_dry_mass",479.3,"b_chill",-36.0442889124182
+"Quercus_coccifera","Leaf_carbon_.C._content_per_leaf_dry_mass",479.3,"b_force",-6.90152982287153
+"Quercus_coccifera","Leaf_dry_matter_content",0.3669008587,"b_photo",-1.2242502664957
+"Quercus_coccifera","Leaf_dry_matter_content",0.3669008587,"b_chill",-36.0442889124182
+"Quercus_coccifera","Leaf_dry_matter_content",0.3669008587,"b_force",-6.90152982287153
+"Quercus_coccifera","Plant_height_vegetative",1.42,"b_photo",-1.2242502664957
+"Quercus_coccifera","Plant_height_vegetative",1.42,"b_chill",-36.0442889124182
+"Quercus_coccifera","Plant_height_vegetative",1.42,"b_force",-6.90152982287153
+"Quercus_coccifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.05,"b_photo",-1.2242502664957
+"Quercus_coccifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.05,"b_chill",-36.0442889124182
+"Quercus_coccifera","Leaf_nitrogen_.N._content_per_leaf_dry_mass",12.05,"b_force",-6.90152982287153
+"Quercus_coccifera","Stem_specific_density",0.150859528884026,"b_photo",-1.2242502664957
+"Quercus_coccifera","Stem_specific_density",0.150859528884026,"b_chill",-36.0442889124182
+"Quercus_coccifera","Stem_specific_density",0.150859528884026,"b_force",-6.90152982287153
+"Quercus_coccifera","Specific_leaf_area",4.62962962962963,"b_photo",-1.2242502664957
+"Quercus_coccifera","Specific_leaf_area",4.62962962962963,"b_chill",-36.0442889124182
+"Quercus_coccifera","Specific_leaf_area",4.62962962962963,"b_force",-6.90152982287153
+"Quercus_coccifera","seed mass",1742.3,"b_photo",-1.2242502664957
+"Quercus_coccifera","seed mass",1742.3,"b_chill",-36.0442889124182
+"Quercus_coccifera","seed mass",1742.3,"b_force",-6.90152982287153
+"Quercus_ellipsoidalis","Leaf_carbon_.C._content_per_leaf_dry_mass",472.09,"b_photo",-1.20669109960458
+"Quercus_ellipsoidalis","Leaf_carbon_.C._content_per_leaf_dry_mass",472.09,"b_force",-6.6106135023658
+"Quercus_ellipsoidalis","Leaf_carbon_.C._content_per_leaf_dry_mass",472.09,"b_chill",-18.5878262356202
+"Quercus_ellipsoidalis","Specific_leaf_area",15.955993399,"b_photo",-1.20669109960458
+"Quercus_ellipsoidalis","Specific_leaf_area",15.955993399,"b_force",-6.6106135023658
+"Quercus_ellipsoidalis","Specific_leaf_area",15.955993399,"b_chill",-18.5878262356202
+"Quercus_ellipsoidalis","seed mass",1851.397429,"b_photo",-1.20669109960458
+"Quercus_ellipsoidalis","seed mass",1851.397429,"b_force",-6.6106135023658
+"Quercus_ellipsoidalis","seed mass",1851.397429,"b_chill",-18.5878262356202
+"Quercus_ellipsoidalis","Plant_height_vegetative",15.5448,"b_photo",-1.20669109960458
+"Quercus_ellipsoidalis","Plant_height_vegetative",15.5448,"b_force",-6.6106135023658
+"Quercus_ellipsoidalis","Plant_height_vegetative",15.5448,"b_chill",-18.5878262356202
+"Quercus_ellipsoidalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.071,"b_photo",-1.20669109960458
+"Quercus_ellipsoidalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.071,"b_force",-6.6106135023658
+"Quercus_ellipsoidalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.071,"b_chill",-18.5878262356202
+"Quercus_faginea","Specific_leaf_area",8,"b_chill",-36.9986140238312
+"Quercus_faginea","Specific_leaf_area",8,"b_photo",-3.86758599926611
+"Quercus_faginea","Specific_leaf_area",8,"b_force",-9.66310349377255
+"Quercus_faginea","Plant_height_vegetative",20,"b_chill",-36.9986140238312
+"Quercus_faginea","Plant_height_vegetative",20,"b_photo",-3.86758599926611
+"Quercus_faginea","Plant_height_vegetative",20,"b_force",-9.66310349377255
+"Quercus_faginea","Leaf_dry_matter_content",0.46117208939,"b_chill",-36.9986140238312
+"Quercus_faginea","Leaf_dry_matter_content",0.46117208939,"b_photo",-3.86758599926611
+"Quercus_faginea","Leaf_dry_matter_content",0.46117208939,"b_force",-9.66310349377255
+"Quercus_faginea","Stem_specific_density",0.58,"b_chill",-36.9986140238312
+"Quercus_faginea","Stem_specific_density",0.58,"b_photo",-3.86758599926611
+"Quercus_faginea","Stem_specific_density",0.58,"b_force",-9.66310349377255
+"Quercus_faginea","Leaf_carbon_.C._content_per_leaf_dry_mass",481.6,"b_chill",-36.9986140238312
+"Quercus_faginea","Leaf_carbon_.C._content_per_leaf_dry_mass",481.6,"b_photo",-3.86758599926611
+"Quercus_faginea","Leaf_carbon_.C._content_per_leaf_dry_mass",481.6,"b_force",-9.66310349377255
+"Quercus_faginea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.926,"b_chill",-36.9986140238312
+"Quercus_faginea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.926,"b_photo",-3.86758599926611
+"Quercus_faginea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.926,"b_force",-9.66310349377255
+"Quercus_ilex","Leaf_dry_matter_content",0.439509872749309,"b_chill",-43.8177830569485
+"Quercus_ilex","Leaf_dry_matter_content",0.439509872749309,"b_force",-19.2339640248964
+"Quercus_ilex","Leaf_dry_matter_content",0.439509872749309,"b_photo",-1.42605620620662
+"Quercus_ilex","Stem_specific_density",0.150643806881871,"b_chill",-43.8177830569485
+"Quercus_ilex","Stem_specific_density",0.150643806881871,"b_force",-19.2339640248964
+"Quercus_ilex","Stem_specific_density",0.150643806881871,"b_photo",-1.42605620620662
+"Quercus_ilex","seed mass",2489.3,"b_chill",-43.8177830569485
+"Quercus_ilex","seed mass",2489.3,"b_force",-19.2339640248964
+"Quercus_ilex","seed mass",2489.3,"b_photo",-1.42605620620662
+"Quercus_ilex","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.9625,"b_chill",-43.8177830569485
+"Quercus_ilex","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.9625,"b_force",-19.2339640248964
+"Quercus_ilex","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.9625,"b_photo",-1.42605620620662
+"Quercus_ilex","Leaf_carbon_.C._content_per_leaf_dry_mass",498.4,"b_chill",-43.8177830569485
+"Quercus_ilex","Leaf_carbon_.C._content_per_leaf_dry_mass",498.4,"b_force",-19.2339640248964
+"Quercus_ilex","Leaf_carbon_.C._content_per_leaf_dry_mass",498.4,"b_photo",-1.42605620620662
+"Quercus_ilex","Plant_height_vegetative",0.37,"b_chill",-43.8177830569485
+"Quercus_ilex","Plant_height_vegetative",0.37,"b_force",-19.2339640248964
+"Quercus_ilex","Plant_height_vegetative",0.37,"b_photo",-1.42605620620662
+"Quercus_ilex","Specific_leaf_area",6.3277148568,"b_chill",-43.8177830569485
+"Quercus_ilex","Specific_leaf_area",6.3277148568,"b_force",-19.2339640248964
+"Quercus_ilex","Specific_leaf_area",6.3277148568,"b_photo",-1.42605620620662
+"Quercus_petraea","Leaf_dry_matter_content",0.39050914483,"b_force",-12.4224833626102
+"Quercus_petraea","Leaf_dry_matter_content",0.39050914483,"b_photo",-1.92445686592206
+"Quercus_petraea","Leaf_dry_matter_content",0.39050914483,"b_chill",-15.3053964917235
+"Quercus_petraea","seed mass",2479.095,"b_force",-12.4224833626102
+"Quercus_petraea","seed mass",2479.095,"b_photo",-1.92445686592206
+"Quercus_petraea","seed mass",2479.095,"b_chill",-15.3053964917235
+"Quercus_petraea","Stem_diameter",0.397,"b_force",-12.4224833626102
+"Quercus_petraea","Stem_diameter",0.397,"b_photo",-1.92445686592206
+"Quercus_petraea","Stem_diameter",0.397,"b_chill",-15.3053964917235
+"Quercus_petraea","Leaf_carbon_.C._content_per_leaf_dry_mass",485.094273514747,"b_force",-12.4224833626102
+"Quercus_petraea","Leaf_carbon_.C._content_per_leaf_dry_mass",485.094273514747,"b_photo",-1.92445686592206
+"Quercus_petraea","Leaf_carbon_.C._content_per_leaf_dry_mass",485.094273514747,"b_chill",-15.3053964917235
+"Quercus_petraea","Specific_leaf_area",11.922582641,"b_force",-12.4224833626102
+"Quercus_petraea","Specific_leaf_area",11.922582641,"b_photo",-1.92445686592206
+"Quercus_petraea","Specific_leaf_area",11.922582641,"b_chill",-15.3053964917235
+"Quercus_petraea","Plant_height_vegetative",40,"b_force",-12.4224833626102
+"Quercus_petraea","Plant_height_vegetative",40,"b_photo",-1.92445686592206
+"Quercus_petraea","Plant_height_vegetative",40,"b_chill",-15.3053964917235
+"Quercus_petraea","Stem_specific_density",0.65,"b_force",-12.4224833626102
+"Quercus_petraea","Stem_specific_density",0.65,"b_photo",-1.92445686592206
+"Quercus_petraea","Stem_specific_density",0.65,"b_chill",-15.3053964917235
+"Quercus_petraea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.891914969,"b_force",-12.4224833626102
+"Quercus_petraea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.891914969,"b_photo",-1.92445686592206
+"Quercus_petraea","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.891914969,"b_chill",-15.3053964917235
+"Quercus_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.1471,"b_force",-16.6194411300686
+"Quercus_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.1471,"b_chill",-0.71920401922768
+"Quercus_pubescens","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.1471,"b_photo",-0.873209054869322
+"Quercus_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",471.8,"b_force",-16.6194411300686
+"Quercus_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",471.8,"b_chill",-0.71920401922768
+"Quercus_pubescens","Leaf_carbon_.C._content_per_leaf_dry_mass",471.8,"b_photo",-0.873209054869322
+"Quercus_pubescens","Plant_height_vegetative",20,"b_force",-16.6194411300686
+"Quercus_pubescens","Plant_height_vegetative",20,"b_chill",-0.71920401922768
+"Quercus_pubescens","Plant_height_vegetative",20,"b_photo",-0.873209054869322
+"Quercus_pubescens","Specific_leaf_area",10.6,"b_force",-16.6194411300686
+"Quercus_pubescens","Specific_leaf_area",10.6,"b_chill",-0.71920401922768
+"Quercus_pubescens","Specific_leaf_area",10.6,"b_photo",-0.873209054869322
+"Quercus_pubescens","Leaf_dry_matter_content",0.43651,"b_force",-16.6194411300686
+"Quercus_pubescens","Leaf_dry_matter_content",0.43651,"b_chill",-0.71920401922768
+"Quercus_pubescens","Leaf_dry_matter_content",0.43651,"b_photo",-0.873209054869322
+"Quercus_robur","Plant_height_vegetative",0.6,"b_photo",2.68657829868697
+"Quercus_robur","Plant_height_vegetative",0.6,"b_force",-11.3170080958924
+"Quercus_robur","Plant_height_vegetative",0.6,"b_chill",-10.3313526066494
+"Quercus_robur","Specific_leaf_area",10.7040514469453,"b_photo",2.68657829868697
+"Quercus_robur","Specific_leaf_area",10.7040514469453,"b_force",-11.3170080958924
+"Quercus_robur","Specific_leaf_area",10.7040514469453,"b_chill",-10.3313526066494
+"Quercus_robur","Leaf_carbon_.C._content_per_leaf_dry_mass",495.545033402081,"b_photo",2.68657829868697
+"Quercus_robur","Leaf_carbon_.C._content_per_leaf_dry_mass",495.545033402081,"b_force",-11.3170080958924
+"Quercus_robur","Leaf_carbon_.C._content_per_leaf_dry_mass",495.545033402081,"b_chill",-10.3313526066494
+"Quercus_robur","seed mass",3489.172077,"b_photo",2.68657829868697
+"Quercus_robur","seed mass",3489.172077,"b_force",-11.3170080958924
+"Quercus_robur","seed mass",3489.172077,"b_chill",-10.3313526066494
+"Quercus_robur","Stem_specific_density",0.588832448717948,"b_photo",2.68657829868697
+"Quercus_robur","Stem_specific_density",0.588832448717948,"b_force",-11.3170080958924
+"Quercus_robur","Stem_specific_density",0.588832448717948,"b_chill",-10.3313526066494
+"Quercus_robur","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.836695332,"b_photo",2.68657829868697
+"Quercus_robur","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.836695332,"b_force",-11.3170080958924
+"Quercus_robur","Leaf_nitrogen_.N._content_per_leaf_dry_mass",20.836695332,"b_chill",-10.3313526066494
+"Quercus_robur","Stem_diameter",1.23,"b_photo",2.68657829868697
+"Quercus_robur","Stem_diameter",1.23,"b_force",-11.3170080958924
+"Quercus_robur","Stem_diameter",1.23,"b_chill",-10.3313526066494
+"Quercus_robur","Leaf_dry_matter_content",0.388,"b_photo",2.68657829868697
+"Quercus_robur","Leaf_dry_matter_content",0.388,"b_force",-11.3170080958924
+"Quercus_robur","Leaf_dry_matter_content",0.388,"b_chill",-10.3313526066494
+"Quercus_rubra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.6333333331667,"b_photo",-2.28852142313603
+"Quercus_rubra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.6333333331667,"b_force",-11.1296623833873
+"Quercus_rubra","Leaf_nitrogen_.N._content_per_leaf_dry_mass",22.6333333331667,"b_chill",-18.4639884705276
+"Quercus_rubra","Stem_diameter",0.282977489,"b_photo",-2.28852142313603
+"Quercus_rubra","Stem_diameter",0.282977489,"b_force",-11.1296623833873
+"Quercus_rubra","Stem_diameter",0.282977489,"b_chill",-18.4639884705276
+"Quercus_rubra","Leaf_dry_matter_content",0.2955465587,"b_photo",-2.28852142313603
+"Quercus_rubra","Leaf_dry_matter_content",0.2955465587,"b_force",-11.1296623833873
+"Quercus_rubra","Leaf_dry_matter_content",0.2955465587,"b_chill",-18.4639884705276
+"Quercus_rubra","Plant_height_vegetative",19.2024,"b_photo",-2.28852142313603
+"Quercus_rubra","Plant_height_vegetative",19.2024,"b_force",-11.1296623833873
+"Quercus_rubra","Plant_height_vegetative",19.2024,"b_chill",-18.4639884705276
+"Quercus_rubra","Specific_leaf_area",15.706,"b_photo",-2.28852142313603
+"Quercus_rubra","Specific_leaf_area",15.706,"b_force",-11.1296623833873
+"Quercus_rubra","Specific_leaf_area",15.706,"b_chill",-18.4639884705276
+"Quercus_rubra","seed mass",3628.73896,"b_photo",-2.28852142313603
+"Quercus_rubra","seed mass",3628.73896,"b_force",-11.1296623833873
+"Quercus_rubra","seed mass",3628.73896,"b_chill",-18.4639884705276
+"Quercus_rubra","Leaf_carbon_.C._content_per_leaf_dry_mass",489.0004,"b_photo",-2.28852142313603
+"Quercus_rubra","Leaf_carbon_.C._content_per_leaf_dry_mass",489.0004,"b_force",-11.1296623833873
+"Quercus_rubra","Leaf_carbon_.C._content_per_leaf_dry_mass",489.0004,"b_chill",-18.4639884705276
+"Quercus_rubra","Stem_specific_density",0.56,"b_photo",-2.28852142313603
+"Quercus_rubra","Stem_specific_density",0.56,"b_force",-11.1296623833873
+"Quercus_rubra","Stem_specific_density",0.56,"b_chill",-18.4639884705276
+"Quercus_shumardii","Plant_height_vegetative",19.2024,"b_chill",-14.6368056096182
+"Quercus_shumardii","Plant_height_vegetative",19.2024,"b_force",-5.91877256043258
+"Quercus_shumardii","Plant_height_vegetative",19.2024,"b_photo",-1.34243505256138
+"Quercus_shumardii","Specific_leaf_area",10.136,"b_chill",-14.6368056096182
+"Quercus_shumardii","Specific_leaf_area",10.136,"b_force",-5.91877256043258
+"Quercus_shumardii","Specific_leaf_area",10.136,"b_photo",-1.34243505256138
+"Quercus_shumardii","Leaf_nitrogen_.N._content_per_leaf_dry_mass",16.6,"b_chill",-14.6368056096182
+"Quercus_shumardii","Leaf_nitrogen_.N._content_per_leaf_dry_mass",16.6,"b_force",-5.91877256043258
+"Quercus_shumardii","Leaf_nitrogen_.N._content_per_leaf_dry_mass",16.6,"b_photo",-1.34243505256138
+"Quercus_shumardii","seed mass",4535.9237,"b_chill",-14.6368056096182
+"Quercus_shumardii","seed mass",4535.9237,"b_force",-5.91877256043258
+"Quercus_shumardii","seed mass",4535.9237,"b_photo",-1.34243505256138
+"Quercus_shumardii","Stem_specific_density",0.644,"b_chill",-14.6368056096182
+"Quercus_shumardii","Stem_specific_density",0.644,"b_force",-5.91877256043258
+"Quercus_shumardii","Stem_specific_density",0.644,"b_photo",-1.34243505256138
+"Quercus_velutina","Stem_specific_density",0.56,"b_chill",-12.5281949812819
+"Quercus_velutina","Stem_specific_density",0.56,"b_force",-11.2995749029497
+"Quercus_velutina","Stem_specific_density",0.56,"b_photo",-1.63103198031617
+"Quercus_velutina","Stem_diameter",0.27,"b_chill",-12.5281949812819
+"Quercus_velutina","Stem_diameter",0.27,"b_force",-11.2995749029497
+"Quercus_velutina","Stem_diameter",0.27,"b_photo",-1.63103198031617
+"Quercus_velutina","Plant_height_vegetative",18.288,"b_chill",-12.5281949812819
+"Quercus_velutina","Plant_height_vegetative",18.288,"b_force",-11.2995749029497
+"Quercus_velutina","Plant_height_vegetative",18.288,"b_photo",-1.63103198031617
+"Quercus_velutina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.4,"b_chill",-12.5281949812819
+"Quercus_velutina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.4,"b_force",-11.2995749029497
+"Quercus_velutina","Leaf_nitrogen_.N._content_per_leaf_dry_mass",23.4,"b_photo",-1.63103198031617
+"Quercus_velutina","seed mass",1851.397429,"b_chill",-12.5281949812819
+"Quercus_velutina","seed mass",1851.397429,"b_force",-11.2995749029497
+"Quercus_velutina","seed mass",1851.397429,"b_photo",-1.63103198031617
+"Quercus_velutina","Leaf_dry_matter_content",0.30199430199,"b_chill",-12.5281949812819
+"Quercus_velutina","Leaf_dry_matter_content",0.30199430199,"b_force",-11.2995749029497
+"Quercus_velutina","Leaf_dry_matter_content",0.30199430199,"b_photo",-1.63103198031617
+"Quercus_velutina","Specific_leaf_area",13.0086683335,"b_chill",-12.5281949812819
+"Quercus_velutina","Specific_leaf_area",13.0086683335,"b_force",-11.2995749029497
+"Quercus_velutina","Specific_leaf_area",13.0086683335,"b_photo",-1.63103198031617
+"Rhamnus_alpina","Plant_height_vegetative",2.25,"b_force",-5.6649751014785
+"Rhamnus_alpina","Plant_height_vegetative",2.25,"b_chill",-16.4953639792193
+"Rhamnus_alpina","Plant_height_vegetative",2.25,"b_photo",-0.858611417593436
+"Rhamnus_cathartica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",28.65,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",28.65,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Leaf_nitrogen_.N._content_per_leaf_dry_mass",28.65,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","Stem_specific_density",0.61131,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Stem_specific_density",0.61131,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Stem_specific_density",0.61131,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","seed mass",19.1691,"b_force",-10.6170191734059
+"Rhamnus_cathartica","seed mass",19.1691,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","seed mass",19.1691,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","Plant_height_vegetative",4,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Plant_height_vegetative",4,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Plant_height_vegetative",4,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","Specific_leaf_area",18.2851339112498,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Specific_leaf_area",18.2851339112498,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Specific_leaf_area",18.2851339112498,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","Leaf_dry_matter_content",0.308100929612437,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Leaf_dry_matter_content",0.308100929612437,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Leaf_dry_matter_content",0.308100929612437,"b_photo",-2.03522370743136
+"Rhamnus_cathartica","Leaf_carbon_.C._content_per_leaf_dry_mass",430.019,"b_force",-10.6170191734059
+"Rhamnus_cathartica","Leaf_carbon_.C._content_per_leaf_dry_mass",430.019,"b_chill",-2.71743403490442
+"Rhamnus_cathartica","Leaf_carbon_.C._content_per_leaf_dry_mass",430.019,"b_photo",-2.03522370743136
+"Rhamnus_frangula","Plant_height_vegetative",12.192,"b_chill",-6.61087390525064
+"Rhamnus_frangula","Plant_height_vegetative",12.192,"b_photo",-1.07414163204539
+"Rhamnus_frangula","Plant_height_vegetative",12.192,"b_force",-9.71415701029981
+"Rhamnus_frangula","Stem_specific_density",0.49938,"b_chill",-6.61087390525064
+"Rhamnus_frangula","Stem_specific_density",0.49938,"b_photo",-1.07414163204539
+"Rhamnus_frangula","Stem_specific_density",0.49938,"b_force",-9.71415701029981
+"Rhamnus_frangula","seed mass",16.799717,"b_chill",-6.61087390525064
+"Rhamnus_frangula","seed mass",16.799717,"b_photo",-1.07414163204539
+"Rhamnus_frangula","seed mass",16.799717,"b_force",-9.71415701029981
+"Rhododendron_dauricum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.1,"b_chill",-4.41713472251296
+"Rhododendron_dauricum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.1,"b_photo",-0.581270930924202
+"Rhododendron_dauricum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",21.1,"b_force",-5.99241754669283
+"Rhododendron_dauricum","Plant_height_vegetative",2,"b_chill",-4.41713472251296
+"Rhododendron_dauricum","Plant_height_vegetative",2,"b_photo",-0.581270930924202
+"Rhododendron_dauricum","Plant_height_vegetative",2,"b_force",-5.99241754669283
+"Rhododendron_mucronulatum","Plant_height_vegetative",1.5,"b_photo",-0.820838210551697
+"Rhododendron_mucronulatum","Plant_height_vegetative",1.5,"b_chill",-6.24892111712222
+"Rhododendron_mucronulatum","Plant_height_vegetative",1.5,"b_force",-6.44385414760537
+"Rhododendron_prinophyllum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.1,"b_photo",-1.1004662910642
+"Rhododendron_prinophyllum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.1,"b_force",-8.78229009202049
+"Rhododendron_prinophyllum","Leaf_nitrogen_.N._content_per_leaf_dry_mass",11.1,"b_chill",-8.41485854305304
+"Rhododendron_prinophyllum","Specific_leaf_area",22.081942041,"b_photo",-1.1004662910642
+"Rhododendron_prinophyllum","Specific_leaf_area",22.081942041,"b_force",-8.78229009202049
+"Rhododendron_prinophyllum","Specific_leaf_area",22.081942041,"b_chill",-8.41485854305304
+"Sorbus_aria","Leaf_carbon_.C._content_per_leaf_dry_mass",455.3,"b_force",-5.7432711408061
+"Sorbus_aria","Leaf_carbon_.C._content_per_leaf_dry_mass",455.3,"b_chill",-16.0216162967807
+"Sorbus_aria","Leaf_carbon_.C._content_per_leaf_dry_mass",455.3,"b_photo",-1.13131582045575
+"Sorbus_aria","Plant_height_vegetative",10,"b_force",-5.7432711408061
+"Sorbus_aria","Plant_height_vegetative",10,"b_chill",-16.0216162967807
+"Sorbus_aria","Plant_height_vegetative",10,"b_photo",-1.13131582045575
+"Sorbus_aria","Leaf_dry_matter_content",0.23601,"b_force",-5.7432711408061
+"Sorbus_aria","Leaf_dry_matter_content",0.23601,"b_chill",-16.0216162967807
+"Sorbus_aria","Leaf_dry_matter_content",0.23601,"b_photo",-1.13131582045575
+"Sorbus_aria","Leaf_nitrogen_.N._content_per_leaf_dry_mass",5.881,"b_force",-5.7432711408061
+"Sorbus_aria","Leaf_nitrogen_.N._content_per_leaf_dry_mass",5.881,"b_chill",-16.0216162967807
+"Sorbus_aria","Leaf_nitrogen_.N._content_per_leaf_dry_mass",5.881,"b_photo",-1.13131582045575
+"Sorbus_aria","Stem_diameter",0.5,"b_force",-5.7432711408061
+"Sorbus_aria","Stem_diameter",0.5,"b_chill",-16.0216162967807
+"Sorbus_aria","Stem_diameter",0.5,"b_photo",-1.13131582045575
+"Sorbus_aria","Specific_leaf_area",15.596,"b_force",-5.7432711408061
+"Sorbus_aria","Specific_leaf_area",15.596,"b_chill",-16.0216162967807
+"Sorbus_aria","Specific_leaf_area",15.596,"b_photo",-1.13131582045575
+"Sorbus_aria","Stem_specific_density",0.67158,"b_force",-5.7432711408061
+"Sorbus_aria","Stem_specific_density",0.67158,"b_chill",-16.0216162967807
+"Sorbus_aria","Stem_specific_density",0.67158,"b_photo",-1.13131582045575
+"Sorbus_aria","seed mass",35.38,"b_force",-5.7432711408061
+"Sorbus_aria","seed mass",35.38,"b_chill",-16.0216162967807
+"Sorbus_aria","seed mass",35.38,"b_photo",-1.13131582045575
+"Sorbus_aucuparia","Plant_height_vegetative",15,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Plant_height_vegetative",15,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Plant_height_vegetative",15,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Leaf_dry_matter_content",0.368027252267977,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Leaf_dry_matter_content",0.368027252267977,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Leaf_dry_matter_content",0.368027252267977,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Stem_specific_density",0.679265,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Stem_specific_density",0.679265,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Stem_specific_density",0.679265,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Leaf_carbon_.C._content_per_leaf_dry_mass",495.543450415,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Leaf_carbon_.C._content_per_leaf_dry_mass",495.543450415,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Leaf_carbon_.C._content_per_leaf_dry_mass",495.543450415,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Stem_diameter",0.5,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Stem_diameter",0.5,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Stem_diameter",0.5,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.4,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.4,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",24.4,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","seed mass",3.2,"b_force",-5.8913296739492
+"Sorbus_aucuparia","seed mass",3.2,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","seed mass",3.2,"b_chill",-7.14861117986401
+"Sorbus_aucuparia","Specific_leaf_area",12.9798542195949,"b_force",-5.8913296739492
+"Sorbus_aucuparia","Specific_leaf_area",12.9798542195949,"b_photo",-1.03981427600176
+"Sorbus_aucuparia","Specific_leaf_area",12.9798542195949,"b_chill",-7.14861117986401
+"Sorbus_commixta","Plant_height_vegetative",6.83,"b_force",-6.23388042016459
+"Sorbus_commixta","Plant_height_vegetative",6.83,"b_chill",-6.94224591921304
+"Sorbus_commixta","Plant_height_vegetative",6.83,"b_photo",-0.90208435946938
+"Sorbus_commixta","Specific_leaf_area",13.605442177,"b_force",-6.23388042016459
+"Sorbus_commixta","Specific_leaf_area",13.605442177,"b_chill",-6.94224591921304
+"Sorbus_commixta","Specific_leaf_area",13.605442177,"b_photo",-0.90208435946938
+"Sorbus_commixta","seed mass",3.6,"b_force",-6.23388042016459
+"Sorbus_commixta","seed mass",3.6,"b_chill",-6.94224591921304
+"Sorbus_commixta","seed mass",3.6,"b_photo",-0.90208435946938
+"Sorbus_decora","Plant_height_vegetative",9.144,"b_chill",-8.64152034711172
+"Sorbus_decora","Plant_height_vegetative",9.144,"b_force",-6.15106149879504
+"Sorbus_decora","Plant_height_vegetative",9.144,"b_photo",-0.98201741606706
+"Sorbus_decora","seed mass",3.571594,"b_chill",-8.64152034711172
+"Sorbus_decora","seed mass",3.571594,"b_force",-6.15106149879504
+"Sorbus_decora","seed mass",3.571594,"b_photo",-0.98201741606706
+"Sorbus_torminalis","Specific_leaf_area",11.4,"b_force",-7.04140215311596
+"Sorbus_torminalis","Specific_leaf_area",11.4,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Specific_leaf_area",11.4,"b_chill",-12.2674853223086
+"Sorbus_torminalis","Stem_specific_density",0.660655,"b_force",-7.04140215311596
+"Sorbus_torminalis","Stem_specific_density",0.660655,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Stem_specific_density",0.660655,"b_chill",-12.2674853223086
+"Sorbus_torminalis","seed mass",16.88,"b_force",-7.04140215311596
+"Sorbus_torminalis","seed mass",16.88,"b_photo",-1.11841835995677
+"Sorbus_torminalis","seed mass",16.88,"b_chill",-12.2674853223086
+"Sorbus_torminalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.68,"b_force",-7.04140215311596
+"Sorbus_torminalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.68,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Leaf_nitrogen_.N._content_per_leaf_dry_mass",17.68,"b_chill",-12.2674853223086
+"Sorbus_torminalis","Stem_diameter",0.9,"b_force",-7.04140215311596
+"Sorbus_torminalis","Stem_diameter",0.9,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Stem_diameter",0.9,"b_chill",-12.2674853223086
+"Sorbus_torminalis","Leaf_dry_matter_content",0.25116,"b_force",-7.04140215311596
+"Sorbus_torminalis","Leaf_dry_matter_content",0.25116,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Leaf_dry_matter_content",0.25116,"b_chill",-12.2674853223086
+"Sorbus_torminalis","Plant_height_vegetative",18,"b_force",-7.04140215311596
+"Sorbus_torminalis","Plant_height_vegetative",18,"b_photo",-1.11841835995677
+"Sorbus_torminalis","Plant_height_vegetative",18,"b_chill",-12.2674853223086
+"Syringa_vulgaris","Specific_leaf_area",12.81,"b_force",-1.42113926388287
+"Syringa_vulgaris","Specific_leaf_area",12.81,"b_photo",-1.14731880391905
+"Syringa_vulgaris","Specific_leaf_area",12.81,"b_chill",-5.08837928472603
+"Syringa_vulgaris","Plant_height_vegetative",4.9,"b_force",-1.42113926388287
+"Syringa_vulgaris","Plant_height_vegetative",4.9,"b_photo",-1.14731880391905
+"Syringa_vulgaris","Plant_height_vegetative",4.9,"b_chill",-5.08837928472603
+"Syringa_vulgaris","seed mass",5.27433,"b_force",-1.42113926388287
+"Syringa_vulgaris","seed mass",5.27433,"b_photo",-1.14731880391905
+"Syringa_vulgaris","seed mass",5.27433,"b_chill",-5.08837928472603
+"Syringa_vulgaris","Leaf_dry_matter_content",0.32643,"b_force",-1.42113926388287
+"Syringa_vulgaris","Leaf_dry_matter_content",0.32643,"b_photo",-1.14731880391905
+"Syringa_vulgaris","Leaf_dry_matter_content",0.32643,"b_chill",-5.08837928472603
+"Tilia_cordata","seed mass",32.869012,"b_photo",-3.09611119739677
+"Tilia_cordata","seed mass",32.869012,"b_force",-10.0604420417515
+"Tilia_cordata","seed mass",32.869012,"b_chill",-3.75250397353125
+"Tilia_cordata","Specific_leaf_area",14.504,"b_photo",-3.09611119739677
+"Tilia_cordata","Specific_leaf_area",14.504,"b_force",-10.0604420417515
+"Tilia_cordata","Specific_leaf_area",14.504,"b_chill",-3.75250397353125
+"Tilia_cordata","Plant_height_vegetative",9.2,"b_photo",-3.09611119739677
+"Tilia_cordata","Plant_height_vegetative",9.2,"b_force",-10.0604420417515
+"Tilia_cordata","Plant_height_vegetative",9.2,"b_chill",-3.75250397353125
+"Tilia_cordata","Stem_specific_density",0.42189,"b_photo",-3.09611119739677
+"Tilia_cordata","Stem_specific_density",0.42189,"b_force",-10.0604420417515
+"Tilia_cordata","Stem_specific_density",0.42189,"b_chill",-3.75250397353125
+"Ulmus_minor","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_photo",-2.89393752831397
+"Ulmus_minor","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_chill",-16.362787750114
+"Ulmus_minor","Leaf_nitrogen_.N._content_per_leaf_dry_mass",25,"b_force",-9.89381255727408
+"Ulmus_minor","Leaf_carbon_.C._content_per_leaf_dry_mass",419.761483775,"b_photo",-2.89393752831397
+"Ulmus_minor","Leaf_carbon_.C._content_per_leaf_dry_mass",419.761483775,"b_chill",-16.362787750114
+"Ulmus_minor","Leaf_carbon_.C._content_per_leaf_dry_mass",419.761483775,"b_force",-9.89381255727408
+"Ulmus_minor","Leaf_dry_matter_content",0.24479,"b_photo",-2.89393752831397
+"Ulmus_minor","Leaf_dry_matter_content",0.24479,"b_chill",-16.362787750114
+"Ulmus_minor","Leaf_dry_matter_content",0.24479,"b_force",-9.89381255727408
+"Ulmus_minor","Plant_height_vegetative",35,"b_photo",-2.89393752831397
+"Ulmus_minor","Plant_height_vegetative",35,"b_chill",-16.362787750114
+"Ulmus_minor","Plant_height_vegetative",35,"b_force",-9.89381255727408
+"Ulmus_minor","Stem_specific_density",0.55104,"b_photo",-2.89393752831397
+"Ulmus_minor","Stem_specific_density",0.55104,"b_chill",-16.362787750114
+"Ulmus_minor","Stem_specific_density",0.55104,"b_force",-9.89381255727408
+"Ulmus_minor","Specific_leaf_area",25,"b_photo",-2.89393752831397
+"Ulmus_minor","Specific_leaf_area",25,"b_chill",-16.362787750114
+"Ulmus_minor","Specific_leaf_area",25,"b_force",-9.89381255727408
+"Ulmus_minor","Stem_diameter",1.3,"b_photo",-2.89393752831397
+"Ulmus_minor","Stem_diameter",1.3,"b_chill",-16.362787750114
+"Ulmus_minor","Stem_diameter",1.3,"b_force",-9.89381255727408
+"Ulmus_parvifolia","Plant_height_vegetative",25,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Plant_height_vegetative",25,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Plant_height_vegetative",25,"b_force",-8.54839625064182
+"Ulmus_parvifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",395.614035087719,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",395.614035087719,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Leaf_carbon_.C._content_per_leaf_dry_mass",395.614035087719,"b_force",-8.54839625064182
+"Ulmus_parvifolia","Specific_leaf_area",10.5862619045,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Specific_leaf_area",10.5862619045,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Specific_leaf_area",10.5862619045,"b_force",-8.54839625064182
+"Ulmus_parvifolia","seed mass",3.7,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","seed mass",3.7,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","seed mass",3.7,"b_force",-8.54839625064182
+"Ulmus_parvifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.8409671532847,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.8409671532847,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Leaf_nitrogen_.N._content_per_leaf_dry_mass",13.8409671532847,"b_force",-8.54839625064182
+"Ulmus_parvifolia","Stem_specific_density",0.773178,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Stem_specific_density",0.773178,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Stem_specific_density",0.773178,"b_force",-8.54839625064182
+"Ulmus_parvifolia","Leaf_dry_matter_content",0.466707516339935,"b_photo",-2.49830649097246
+"Ulmus_parvifolia","Leaf_dry_matter_content",0.466707516339935,"b_chill",-15.7819982090413
+"Ulmus_parvifolia","Leaf_dry_matter_content",0.466707516339935,"b_force",-8.54839625064182
+"Ulmus_pumila","Stem_specific_density",0.5435895,"b_photo",-1.44035493567595
+"Ulmus_pumila","Stem_specific_density",0.5435895,"b_chill",-11.8037796165586
+"Ulmus_pumila","Stem_specific_density",0.5435895,"b_force",-10.138288391218
+"Ulmus_pumila","seed mass",6.299894,"b_photo",-1.44035493567595
+"Ulmus_pumila","seed mass",6.299894,"b_chill",-11.8037796165586
+"Ulmus_pumila","seed mass",6.299894,"b_force",-10.138288391218
+"Ulmus_pumila","Plant_height_vegetative",12.4968,"b_photo",-1.44035493567595
+"Ulmus_pumila","Plant_height_vegetative",12.4968,"b_chill",-11.8037796165586
+"Ulmus_pumila","Plant_height_vegetative",12.4968,"b_force",-10.138288391218
+"Ulmus_pumila","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.8,"b_photo",-1.44035493567595
+"Ulmus_pumila","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.8,"b_chill",-11.8037796165586
+"Ulmus_pumila","Leaf_nitrogen_.N._content_per_leaf_dry_mass",27.8,"b_force",-10.138288391218
+"Ulmus_pumila","Specific_leaf_area",8.40318067226891,"b_photo",-1.44035493567595
+"Ulmus_pumila","Specific_leaf_area",8.40318067226891,"b_chill",-11.8037796165586
+"Ulmus_pumila","Specific_leaf_area",8.40318067226891,"b_force",-10.138288391218
+"Ulmus_pumila","Leaf_photosynthesis_rate_per_leaf_area",7.065,"b_photo",-1.44035493567595
+"Ulmus_pumila","Leaf_photosynthesis_rate_per_leaf_area",7.065,"b_chill",-11.8037796165586
+"Ulmus_pumila","Leaf_photosynthesis_rate_per_leaf_area",7.065,"b_force",-10.138288391218
+"Ulmus_pumila","Leaf_dry_matter_content",0.482269503548049,"b_photo",-1.44035493567595
+"Ulmus_pumila","Leaf_dry_matter_content",0.482269503548049,"b_chill",-11.8037796165586
+"Ulmus_pumila","Leaf_dry_matter_content",0.482269503548049,"b_force",-10.138288391218
+"Vaccinium_myrtilloides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",15.4,"b_chill",-2.60025385960878
+"Vaccinium_myrtilloides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",15.4,"b_force",-6.93660412776666
+"Vaccinium_myrtilloides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",15.4,"b_photo",-0.917005701808893
+"Vaccinium_myrtilloides","Specific_leaf_area",15.6243387109375,"b_chill",-2.60025385960878
+"Vaccinium_myrtilloides","Specific_leaf_area",15.6243387109375,"b_force",-6.93660412776666
+"Vaccinium_myrtilloides","Specific_leaf_area",15.6243387109375,"b_photo",-0.917005701808893
+"Viburnum_cassinoides","leaf life span",5.81395348837209,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","leaf life span",5.81395348837209,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","leaf life span",5.81395348837209,"b_force",-4.66371862140502
+"Viburnum_cassinoides","seed mass",16.417253,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","seed mass",16.417253,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","seed mass",16.417253,"b_force",-4.66371862140502
+"Viburnum_cassinoides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.42074993,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.42074993,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","Leaf_nitrogen_.N._content_per_leaf_dry_mass",19.42074993,"b_force",-4.66371862140502
+"Viburnum_cassinoides","leaf carbon content per leaf nitrogen content",32.37165961,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","leaf carbon content per leaf nitrogen content",32.37165961,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","leaf carbon content per leaf nitrogen content",32.37165961,"b_force",-4.66371862140502
+"Viburnum_cassinoides","Leaf_carbon_.C._content_per_leaf_dry_mass",595.863133205,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","Leaf_carbon_.C._content_per_leaf_dry_mass",595.863133205,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","Leaf_carbon_.C._content_per_leaf_dry_mass",595.863133205,"b_force",-4.66371862140502
+"Viburnum_cassinoides","Specific_leaf_area",11.4160839160839,"b_chill",-2.50281233081438
+"Viburnum_cassinoides","Specific_leaf_area",11.4160839160839,"b_photo",-1.58016802743667
+"Viburnum_cassinoides","Specific_leaf_area",11.4160839160839,"b_force",-4.66371862140502

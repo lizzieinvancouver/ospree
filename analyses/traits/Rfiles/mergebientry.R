@@ -11,8 +11,9 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
-require(stringr)
-require(dplyr)
+library(stringr)
+library(plyr)
+library(dplyr)
 
 # Set working directory: 
 
@@ -29,11 +30,11 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_
 # length(unique(biendat$scrubbed_species_binomial))
 #94 species represented in some form
 
-trydat<-read.csv("input/try_subsptraits.csv",head=TRUE)
+trydat<-read.csv("/input/try_subsptraits.csv",head=TRUE)
 #trydat<-read.csv("input/TryDataCleaned22012020.csv", header=TRUE)
 
-biendat<-read.csv("input/bien_cleaned_Nov2020.csv")
-ospree<-read.csv("input/traitors_bb_results_nocomplex.csv", header=TRUE)
+biendat<-read.csv("/input/bien_cleaned_Nov2020.csv")
+ospree<-read.csv("/input/traitors_bb_results_nocomplex.csv", header=TRUE)
 ospree<-ospree[,c("Coefficient","Species","mean")]
 
 length(unique(biendat$new.SpeciesName)) #85
@@ -121,25 +122,23 @@ unique(trybien$new.SpeciesName)
 # unique(ospree.deci$new.SpeciesName)
 
 # to deal with outliers, looking at the median values
-trtmedian<-trybien %>% 
-  group_by(new.SpeciesName,TraitName) %>% 
-  summarize(trait.median=median(TraitValue,na.rm=TRUE),)
-unique(trtmedian$new.SpeciesName)
-unique(ospree.deci$new.SpeciesName)
+trtmedian <- aggregate(TraitValue ~ new.SpeciesName * TraitName,
+                       data = trybien,
+                       FUN = function(X) { median(X, na.rm = TRUE)})
 ##################################################################################
 
 # fin<-merge(trtmean,ospree.deci, by="new.SpeciesName")
 
 fin<-merge(trtmedian,ospree.deci, by="new.SpeciesName")
 head(fin)
-fin<-fin[,c("new.SpeciesName", "TraitName","trait.median","Coefficient","mean")]
+fin<-fin[,c("new.SpeciesName", "TraitName","TraitValue","Coefficient","mean")]
 # now that we have removed the databases, we lost a lot of leaf lifespan data, cn, photosynthesis data
 
 cn<-subset(fin, TraitName=="leaf carbon content per leaf nitrogen content"); unique(cn$new.SpeciesName) #only one! 
 nit<-subset(fin, TraitName=="Leaf_nitrogen_.N._content_per_leaf_dry_mass"); unique(nit$new.SpeciesName) #53 species
 carb<-subset(fin, TraitName=="Leaf_carbon_.C._content_per_leaf_dry_mass"); unique(carb$new.SpeciesName) #36 species
 life<-subset(fin, TraitName=="leaf life span"); unique(life$new.SpeciesName) #only one! 
-stem<-subset(fin, TraitName=="Leaf_photosynthesis_rate_per_leaf_area"); unique(stem$new.SpeciesName) #47
+stem<-subset(fin, TraitName=="Leaf_photosynthesis_rate_per_leaf_area"); unique(stem$new.SpeciesName)
 
 # This is code written by Geoff to look into complete cases across traits
 dat<-fin
