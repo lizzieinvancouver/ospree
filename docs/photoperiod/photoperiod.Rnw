@@ -166,7 +166,7 @@ We thank the many researchers who conducted the experiments synthesized in this 
 \bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
 \clearpage
 
-\par \textbf{Supporting Information}:
+\section*{Supporting Information}:
 \par Methods S1 includes additional details of the database and analyses performed.
 \par Table S1 includes locations, photoperiod treatments, and whether or not photoperiod had an effect on budburst for studies in \citet{wolkovich2019} with atleast two photoperiod treatments. 
 
