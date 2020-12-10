@@ -330,9 +330,24 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp.stan', data = datalist.bb.pop,
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
                iter = 3000, warmup=2000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
-    }
+}
+
+#Warning messages:
+ # 1: There were 4000 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 15. See
+#http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded 
+#2: Examine the pairs() plot to diagnose sampling problems
+
+#3: The largest R-hat is 4.46, indicating chains have not mixed.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#r-hat 
+#4: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#bulk-ess 
+#5: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#tail-ess 
 
 modelhere <- m3l.ni 
 mod.sum <- summary(modelhere)$summary
