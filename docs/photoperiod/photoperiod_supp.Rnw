@@ -27,18 +27,25 @@
 \usepackage{setspace}
 
 \begin{document}
+
 \SweaveOpts{concordance=FALSE}
- \bibliographystyle{..//..//refs/bibstyles/amnat.bst}
-\title{Supplemental Methods for \emph{Spatial and temporal shifts in photoperiod with climate change}} 
+
+ \bibliographystyle{..//..//refs/bibstyles/ecology.bst}
+ 
+\title{Supporting Information for \emph{Spatial and temporal shifts in photoperiod with climate change}} 
+
 
 \author{A.K. Ettinger, D. Buonaiuto, C. J. Chamberlain, I. Morales-Castilla, E. Wolkovich}
+\date{Article acceptance date: December 8, 2020} 
+
 \maketitle  %put the fancy title on
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-\section*{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database}
+\section*{Methods S1}
+\par \textbf{The Observed Spring Phenology Responses in Experimental Environments (OSPREE) database}
 \par The OSPREE database is a compilation of 72 controlled environment studies of budburst responses to temperature and photoperiod, and spans 39 years and 203 woody plant species \citep{wolkovich2019}.  To identify studies for the database, we searched ISI Web of Science and Google Scholar with the following terms: 
 \begin{enumerate}
 \item TOPIC = (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*, which yielded 85 publications
@@ -49,19 +56,19 @@
 The initial searches yielded 201 papers, which we reviewed. OSPREE includes the subset of those studies that focus on temperate woody plants, tested for photoperiod and/or temperature effects on budburst, leafout, or flowering, and for which we could quantitatively identify forcing, photoperiod, and chilling treatments. See \citet{ettinger2020} and \citet{wolkovich2019} for additional details.
 
 
-\section*{Quantifying and mapping differences in green-up across the United States and Europe (Figure 2)}
-\par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics---to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using the R function `daylength' in package \texttt{geosphere} (see Figure 2A,B in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we subtracted the 2012 green-up map from the 2009 one (Figure 2C). Thus, a negative difference signifies earlier green-up in 2012 versus 2009;  a positive difference is the result of later green-up in 2012 compared with 2009. The spatial resolution corresponding to the maps is 0.1 x 0.1 degrees.
+\par \textbf{Quantifying and mapping differences in green-up across the United States and Europe (Figure 2 in the main text)}
+\par Satellite images can be combined with algorithms---e.g. MODIS Land Cover Dynamics---to identify the dates on which phenophases transition from one to the next. Using data from the MODIS sensor (available at:  https://lpdaacsvc.cr.usgs.gov/appeears/), we extracted spatial data for North American and Western European green-up---the beginning of seasonal greening---for the years 2009 and 2012. Green-up dates are calculated on the basis of the onset of the Enhanced Vegetation Index \citep{huete2002}. From green-up maps for each year, we derived the photoperiod corresponding to each pixel (according to its geographic coordinates and day of the year), using the R function `daylength' in package \texttt{geosphere} (see Figure 2A,B in main text). Finally, we mapped spatial patterns of temporal shifts in green-up by comparing an early and late spring years. To do so, we subtracted the 2012 green-up map from the 2009 one (Figure 2C). Thus, a negative difference signifies earlier green-up in 2012 versus 2009;  a positive difference is the result of later green-up in 2012 compared with 2009. The spatial resolution corresponding to the maps is 0.1$^{\circ}$ x 0.1$^{\circ}$.
 
-\section*{Mapping temporal and spatial shifts in space and time (Figure 3)}
+\par \textbf{Mapping temporal and spatial shifts in space and time (Figure 3 in the main text)}
 \par To examine the range of photoperiod treatments imposed in growth chamber experiments of woody plants, and compare these treatments to shifts in photoperiod that may be expected due to climate change-induced spatial and temporal shifts, we identified all experiments in the OSPREE database with at least two photoperiod treatments; this resulted in 30 experiments \citep[Table \ref{tab:eff},][]{wolkovich2019}. 
 \par We wanted to compare experimental photoperiod treatment levels in these 30 experiments to temporal shifts that would be required for species to experience equivalent photoperiod shifts with climate change. To do this, we identified the dates between the winter and summer solstices on which daylengths at the latitude of the experiments matched treatment levels. When no date matched the experimental treatment level exactly, we chose the date with the most similar daylength, as long as it was within 0.5 hours of the photoperiod treatment level. For studies with only two photoperiod treatment levels, we identified matching dates for both levels. For studies with more than two daylength treatments, we identified matching dates for the lowest treatment level and the second lowest treatment level (e.g., if treatment levels were 10, 12, 14, and 16 hours of daylight, we identified dates with 10 and 12 hours of daylength only). This provided an estimate for the minimum temporal shift required during the spring that would equal the difference between the two treatments; that is, the minimum difference, in days, between dates with the lower daylength treatment and dates with higher daylength treatment.
 In 11 out of 30 cases, the difference between experimental treatments exceeded the range in photoperiod experienced across the entire year at the study latitude (Xs in Figure 3).
 
-\par To compare differences between experimental photoperiod treatment levels to differences in photoperiod organisms would experience with spatial shifts, we identified the daylength on the summer solstice for the latitudes of all 30 experiments in Table \ref{tab:eff}. To get potential changes in daylength experienced, we compared the summer solstice daylength at each latitude to the daylength on latitudes up to 40\degree poleward (in continuous increments of 0.1\degree). Because latitudinal variation in daylength is greatest during the solstices, this provides a maximum possible shift in daylength, at a constant day of year. We then matched the experimental change in photoperiod between two treatments levels to the latitudinal shift that provided an equivalent change in photoperiod. In 13 out of 30 cases, the experimental treatment differences exceeded the photoperiod change that would be experienced with a latitudinal shift of up to 40\degree  (Figure 3). 
+\par To compare differences between experimental photoperiod treatment levels to differences in photoperiod organisms would experience with spatial shifts, we identified the daylength on the summer solstice for the latitudes of all 30 experiments in Table \ref{tab:eff}. To get potential changes in daylength experienced, we compared the summer solstice daylength at each latitude to the daylength on latitudes up to 40$^{\circ}$ poleward (in continuous increments of 0.1$^{\circ}$). Because latitudinal variation in daylength is greatest during the solstices, this provides a maximum possible shift in daylength, at a constant day of year. We then matched the experimental change in photoperiod between two treatments levels to the latitudinal shift that provided an equivalent change in photoperiod. In 13 out of 30 cases, the experimental treatment differences exceeded the photoperiod change that would be experienced with a latitudinal shift of up to 40$^{\circ}$ (Figure 3). 
 
 \par The experiments assessed may not have originally aimed at assessing effects of climate change on phenological responses, yet in many cases, treatments do occur at scales that could be relevant for understanding spatial and temporal shifts in photoperiod with climate change (Figure 3). To be most relevant for understanding implications of photoperiod shifts with climate change, future studies should consider the range of potential photoperiod shifts that are likely to occur in nature as experimental treatment levels are designed.   
 
-\section*{Nonlinearities in phenological responses to daylength (Figure Box 1-1 in the main text)}
+\par \textbf{Nonlinearities in phenological responses to daylength (Figure Box 1-1 in the main text)}
 \par To explore the extent to which spring phenology responds linearly (or non-linearly) to photoperiod, we selected OSPREE publications that had three or more photoperiod treatments, and, after reading the methods of these papers in detail, identified three that used three or more photoperiod treatments in the same experiment: \citet{Ashby:1962aa}, \citet{Heide:1993a}, and \citet{Caffarra:2011b}. \citet{Ashby:1962aa} used two North American populations of \textit{Tilia america}. \citet{Heide:1993a} studied populations of \textit{Fagus sylvatica} from Basel, Switzerland; Copenhagen, Denmark; As, Norway; and the Carpathian Mountains, Poland. \citet{Caffarra:2011b} used plant material of \textit{Betula pubescens} from Wexford, Ireland. These experiments all used forcing temperatures of 21 or 22\degree C. Chilling varied considerably across experiments, and chilling level was categorized as follows:
 \begin{itemize}
 \item <1 Chill Portions = None
@@ -73,12 +80,12 @@ In 11 out of 30 cases, the difference between experimental treatments exceeded t
 
 \par Emerging patterns suggest that non-linear responses differ across species and may interact with varying chilling (see Figure Box 1-2). It is important to recognize, however, that the sample of studies reviewed is limited taxonomically, occurs across a narrow range of forcing temperatures, and comprises only three papers. A better understanding of photoperiod responses requires additional experimental work conducted across a range of photoperiod treatments, ideally spanning diverse taxa.
 
-\section*{Comparing shifts in experienced photoperiod in experiments to those in the natural world with climate change (Figure Box 1-2 in the main text)}
+\par \textbf{Comparing shifts in experienced photoperiod in experiments to those in the natural world with climate change (Figure Box 1-2 in the main text)}
 \par We took current budburst estimates (1981-2000) from PhenoFit \citep{duputie2015} and projected budburst (2081-2100) using the A1Fi Phenofit scenario for two species -- \textit{Fagus sylvatica} and \textit{Quercus robur} -- and compared these points to data obtained from OSPREE. The OSPREE data points were collected from experiments and days of budburst were calculated from the start of the experiment, rather than from the start of the year. In order to render these points comparable to the PhenoFit current estimates and projections, we re-scaled the OSPREE days to budburst by adding the day of budburst from the first Phenofit observation to all of the OSPREE data points. We only used PhenoFit estimates that had both current and projected estimates. Note that the three OSPREE data points for \textit{Quercus robur} with extremely high days to budburst (right panels of Figure Box 1-2) were from an experiment with very low forcing temperatures \citep[][3.8-5.7\degree C]{Morin:2010aa}. 
 
 \bibliography{/Users/aileneettinger/Documents/GitHub/ospree/refs/ospreebibplus}
 \clearpage
-\section* {Supplemental Tables}
+\section* {Supporting  Information Table}
 \begin{footnotesize} 
 <<label=xtable1, echo=FALSE, results=tex>>=
 library(dplyr)
