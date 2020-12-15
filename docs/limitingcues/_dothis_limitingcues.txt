@@ -13,6 +13,18 @@ nonlinearities_intxns.R
 - I think best to figure out what figures I want and ask for coding help!
 - I have done a good deal on issue 249 so time to just ask for help and get the paper moving! Move, move!
 
+15 Dec 2020
+- Alter non-linearity figure to include: "First, as discussed above, each cue alone may be non-linear when examined across a wide range of values. Cues may be linear in the mid-range of values, while extremely high or low values of some cues (e.g., photoperiod) may produce alternative response \citep{gauzere2017}. For example, at very low photoperiod (short days) plants often will not grow, similarly maximum growth may occur at photoperiods of 18 hours, meaning photoperiods longer than 18 hours will have no additional effect on budburst timing \citep{major1980}."
+
+AND .... need a figure for this:
+Given our current understanding of phenological cues, we should expect the most dramatic changes in phenology in systems with non-linear responses where climate change pushes the system across a critical threshold or inflection point. For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst (needCITES). Similarly the complexity of chilling could produce myriad non-linearities. If, as currently hypothesized, chilling follows an optimum curve (i.e., chilling does not accumulate at very low or high temperatures but in between it accumulates at a maximum rate at some temperature optimum), then endodormancy break would shift earlier in systems where warming pushes winter temperatures into a chilling-accumulation temperature or closer to the optimum temperature, and delay where warming pushes winter temperatures beyond the optimum (with more complex predictions if high temperatures decrease accumulated chilling)
+
+Think about how to make the heat maps stress multiple cues? 
+
+Figure about multiple cues over time:
+	- Move to supp and make a new one with ...
+	- # of studies over time; % that are one cue; % that are two or more?
+
 
 8 Sep 2020 (updated 23 Sep 2020):
 - Get the lab to help with some cleanup issues ... see https://github.com/lizzieinvancouver/ospree/issues/249

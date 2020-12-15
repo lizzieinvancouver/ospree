@@ -261,3 +261,35 @@ for(i in 1:length(fpeff.alt)){
 dev.off()
 
 
+####################
+## Starting again ##
+### 15 Dec 2020 ####
+####################
+
+## make up photoeffects plot
+pefflinear <- -1
+howlong <- 100
+df <- data.frame("photo"=seq(from=6, to=24, length.out=howlong))
+df$photolinear <- 14+df$photo*pefflinear
+df$photohinge <- df$photolinear
+df$photohinge[which(df$photo>14)] <- 0
+
+plot(photolinear~photo, data=df, type="l")
+lines(photohinge~photo, data=df, lty=2, col="dodgerblue")
+
+
+## make up df with budburst based on above 
+howlong <- 100
+df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong))
+df$photolinear <- Goober
+
+
+# Now estimate bb with no intxns and with intxns
+df$bb.simple <- feff*df$force + peff*df$photo + ceff*df$chill
+df$bb <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff*(df$force*df$photo) +
+    fceff*(df$force*df$chill) + pceff*(df$chill*df$photo)
+    
+df$bb.alt <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt*(df$force*df$photo) +
+    fceff*(df$force*df$chill) + pceff.alt*(df$chill*df$photo)
+    
+# ... and PLOT!
