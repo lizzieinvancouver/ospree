@@ -50,19 +50,24 @@
  
    // Level-3 random effect
    //real u_0k[Nk];
+   // Population slope
+   real mu_b_force_pop;
+   real mu_b_photo_pop;
    real<lower=0> sigma_b_force_pop;
    real<lower=0> sigma_b_photo_pop;
    real<lower=0> sigma_a_pop;
    
    // Varying intercepts
    real a_sppop[n_pop];
-   real b_force_sppop[n_pop];
-   real b_photo_sppop[n_pop];
+   //real b_force_sppop[n_pop];
+   real b_force_sppop_raw[n_pop]; //do NCP here
+   //real b_photo_sppop[n_pop];
+   real b_photo_sppop_raw[n_pop]; //do NCP here
  
    // Individual mean
    real a_sp[n_sp];
    real a_study[n_study];
-   real b_force_raw[n_sp]; //do datalist.bb.popNCP here 
+   real b_force_raw[n_sp]; //do NCP here 
    //real b_force[n_sp];
    real b_photo_raw[n_sp]; //do NCP here 
    //real b_photo[n_sp];
@@ -75,10 +80,18 @@
    real yhat[N];
    real b_photo[n_sp];
    real b_force[n_sp];
+   real b_force_sppop[n_pop];
+   real b_photo_sppop[n_pop];
+   
    
   for (j in 1:n_sp){
     b_photo[j] = mu_b_photo_sp + sigma_b_photo_sp * b_photo_raw[j];
     b_force[j] = mu_b_force_sp + sigma_b_force_sp * b_force_raw[j];
+        }
+        
+  for (j in 1:n_pop){
+    b_photo_sppop[j] = mu_b_photo_pop + sigma_b_photo_pop * b_photo_sppop_raw[j];
+    b_force_sppop[j] = mu_b_force_pop + sigma_b_force_pop * b_force_sppop_raw[j];
         }
    
    // Individual mean
