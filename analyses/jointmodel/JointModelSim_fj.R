@@ -9,6 +9,8 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 dev.off()
 
+setwd("/home/faith/Documents/github/ospree/ospree/analyses/jointmodel")
+
 library(truncnorm)
 library(rstan)
 
@@ -35,17 +37,18 @@ simulatedTrait$Study <- rep(1:nStudy, each = nSpecies)
 simulatedTrait$species <- rep(1:nSpecies, times = nStudy)
 tail(simulatedTrait)
 
+#grand alpha trait value 
+muTrait <- 8 # mean of the distribution of intercepts of different species for that trait 
 
 #different alpha values for each species
-muTrait <- 8 # mean of the distribution of intercepts of different species for that trait 
 sigmaAlphTrait <- 4 # variation around the mean because species differ a bit  
-alphaTraitSp <- rnorm(nSpecies, muTrait, sigmaAlphTrait)
+alphaTraitSp <- rnorm(nSpecies, 0, sigmaAlphTrait)
 simulatedTrait$alphaTraitSp <- rep(alphaTraitSp, times = nStudy) # pop in the dataframe 
 
 #study specific intercepts 
-muAlphaStudy <- 12 # mean of teh effect of study 
+#muAlphaStudy <- 12 # mean of teh effect of study - Faith is trying a grand mean insted now Dec 2020
 sigmaAlphaStudy <- 6 # variation for different studies in the intercept 
-alphaStudy <- rnorm(nStudy, muAlphaStudy, sigmaAlphaStudy ) # getting an intercept values for each study 
+alphaStudy <- rnorm(nStudy, 0, sigmaAlphaStudy ) # getting an intercept values for each study 
 simulatedTrait$alphaStudy <- rep(alphaStudy, each = nSpecies) # repeat values as many times as there are traits and species
 
 #general varience
@@ -53,7 +56,7 @@ sigma2Trait <- 2
 simulatedTrait$eTrait <- rnorm(N, 0, sigma2Trait)
 
 #simulate teh data by "running" the model 
-simulatedTrait$yTraiti <- simulatedTrait$alphaTraitSp + simulatedTrait$alphaStudy + simulatedTrait$eTrait
+simulatedTrait$yTraiti <- muTrait + simulatedTrait$alphaTraitSp + simulatedTrait$alphaStudy + simulatedTrait$eTrait
 
 
 #build a model in stan that gets these values back
@@ -61,102 +64,28 @@ simulatedTrait$yTraiti <- simulatedTrait$alphaTraitSp + simulatedTrait$alphaStud
 stan_data <- list(yTraiti = simulatedTrait$yTraiti, N = N, n_spec = nSpecies, species = simulatedTrait$species, 
 	study = simulatedTrait$Study, n_study = nStudy)
 
-write("// running a simle model of teh fisrt part of teh joint model
-	// it should get species specific trait values 
+#Comment Dec2020 by Faith - What is teh predictor value for thsi model????
 
+fit1 <- stan(file = "stan/OneTraitOnlyModel.stan", data = stan_data, warmup = 1000, iter = 2000, chains = 4, cores = 4, thin = 1)
 
-data {
-	int < lower = 1 > N; // Sample size
- 
- 	//level 1
- 	vector[N] yTraiti; // Outcome
-
- 	//level 2
-	int < lower = 1 > n_spec; // number of random effect levels (species) 
-	int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
-
-	int < lower = 1 > n_study; // number of random effect levels (study) 
-	int < lower = 1, upper = n_study > study[N]; // id of random effect (study)
-
-}
-
-
-parameters{
-
-	//level 1
-	// general varience/error
-	real <lower =0> sigmaTrait_y; // overall variation accross observations
-
-
-	//level 2
-	real <lower = 0> sigma_sp; // variation of intercept amoung species
-	real muSp[n_spec]; // mean of the alpha value for species
-
-	real <lower = 0> sigma_stdy; // variation of intercept amoung studies
-	real muStdy[n_study]; // mean of the alpha value for studies 
-
-}
-
-transformed parameters{
-	//Individual mean for species and study
-	real ymu[N];
-
-	//Individual mean calculation 
-	for (i in 1:N){
-		ymu[i] = muSp[species[i]] + muStdy[study[i]];  
-	}
-}
-model{ 
-	//assign priors
-	sigmaTrait_y ~ normal(0,5);
-
-	sigma_sp ~ normal(0,5);
-	muSp ~ normal(10, sigma_sp);
-
-	sigma_stdy ~ normal(0, 5);
-	muStdy ~ normal(10, sigma_stdy);
-
-	// run the actual model - likihood
-	for (i in 1:N){
-		yTraiti[i] ~ normal(ymu[i], sigmaTrait_y);
-	}
-
-
-}
-
-
-generated quantities {
-} // The posterior predictive distribution",
-
-"stan_Part1.stan")
-
-
-stan_Part1 <- "stan_Part1.stan"
-
-
-fit1 <- stan(file = stan_Part1, data = stan_data, warmup = 1000, iter = 4000, chains = 4, cores = 4, thin = 1)
-
-str(fit1)
-
+pairs(fit1, pars= c("sigmaTrait_y", "mu_grand", "sigma_sp", "sigma_stdy", "lp__" ))
+fit1_post <- rstan::extract(fit1)
 fit1sum <- summary(fit1)$summary
 
-# These look pretty close, the 4.7 and 6.4 are a little concerning (but I got closer to these when setting sigmaTrait_y to 0.2 so probably okay)
-fit1sum[grep("sigma", rownames(fit1sum)),"mean"]
+#str(fit1)
 
-# These are not great matches, I tried setting a lower overall sigma and still found poor matches, I would lower the overall sigma (sigmaTrait_y), up the reps and see if you can better recover these estimates before moving forward. 
-fit1sum[grep("muSp\\[", rownames(fit1sum)),"mean"]
-alphaTraitSp
-fit1sum[grep("muStdy\\[", rownames(fit1sum)),"mean"] 
-alphaStudy
+# values look close enouph, and rhat = 1. Some fitting problems because not many itterations.
+plot(density(fit1_post$sigmaTrait_y ))
+sigma2Trait
 
-posterior1 <- extract(fit1)
-str(fit1)
+plot(density(fit1_post$mu_grand))
+muTrait
 
-# values look close enouph, and rhat = 1
-plot(density(posterior1$sigmaTrait_y ))
-plot(density(posterior1$muSp ))
-plot(density(posterior1$sigma_stdy))
-plot(density(posterior1$sigma_sp))
+plot(density(fit1_post$sigma_stdy))
+sigmaAlphaStudy
+
+plot(density(fit1_post$sigma_sp))
+sigmaAlphTrait
 
 #simulate the second half of teh joint model 
 #--------------------------------------
@@ -178,32 +107,32 @@ phenoData$obs <- c(1:Nph)
 phenoData$species <- rep(c(1:nSpecies), each = nph)
 
 #phenological values for different species
-muPhenoSp <- 3
-sigmaPhenoSp <- 5
+muPhenoSp <- 150# day 100 is mean phenological date
+sigmaPhenoSp <- 2 # species generally vary around 2 days from mean 150
 alphaPhenoSp <- rnorm(nSpecies, muPhenoSp, sigmaPhenoSp) 
 phenoData$alphaPhenoSp <- rep(alphaPhenoSp, each = nph)
 
 #different forcing values for each species 
-muForcingSp <- -3
-sigmaForcingSp <- 2
+muForcingSp <- -2 # mean effect of forcing is negative because more forcing means budburst earlier 
+sigmaForcingSp <- 0.5
 alphaForcingSp <- rnorm(nSpecies, muForcingSp, sigmaForcingSp)
 
 #interaction between trait and phenology?
-betaTraitxPheno <- 1.5
+betaTraitxPheno <- 2 # realtive trait value has a positive effect i.e taller trees need more forcing 
 
 #combine teh effects of forcing and species trait differences into a slope
 betaForcingSP1 <- alphaForcingSp + alphaTraitSp*betaTraitxPheno
 betaForcingSp <- rep(betaForcingSP1, )
 phenoData$betaForcingSp <- rep(betaForcingSp, each = nph)
 
-#big F in the  model - I thunk this should be the x value, although there is no i in the lizzie's annotation 
-muForcing <- 5
-sigmaForcing <- 2
+#big F in the  model - I think this should be the x value, although there is no i in the lizzie's annotation 
+muForcing <- 5 #amount of GDD on average?
+sigmaForcing <- 1 # how much teh amount of forcing varies for all values 
 forcingi <- rnorm(Nph, muForcing, sigmaForcing)
 phenoData$forcingi <- forcingi
 
 #general variance
-ePhenoSigma <- 4
+ePhenoSigma <- 2
 ePheno <- rnorm(Nph, 0, ePhenoSigma) 
 phenoData$ePheno <- ePheno
 
@@ -211,108 +140,38 @@ phenoData$ePheno <- ePheno
 phenoData$yPhenoi <- phenoData$alphaPhenoSp + phenoData$betaForcingSp * phenoData$forcingi + phenoData$ePheno
 
 
-
+hist(phenoData$yPhenoi )
 
 
 #build a stan model for the second part of the model 
 #--------------------------------------------------------------
+
+#This model is predictng values well. 
 stan_data2 <- list(yPhenoi = phenoData$yPhenoi, Nph = Nph, n_spec = nSpecies, species = phenoData$species, 
 	alphaTraitSp = alphaTraitSp, forcingi = forcingi)
 
-write("// running a simple model of the second part of the model 
-	// it shoult get species specific forcing and phenology data 
-
-
-data {
-	int < lower = 1 > Nph; // Sample size
- 
- 	vector[Nph] yPhenoi; // Outcome
- 	vector[Nph] forcingi; // predictor
-
-	int < lower = 1 > n_spec; // number of random effect levels (species) 
-	int < lower = 1, upper = n_spec > species[Nph]; // id of random effect (species)
-
-	vector [n_spec] alphaTraitSp; //species level trait data from the first level of the model
-}
-
-
-parameters{
-
-	//level 1
-
-	//level 2
-	real alphaForcingSp[n_spec]; //the distribution of species forcing values
-	real muForceSp; // the mean of the effect of forcing
-	real <lower = 0> sigmaForceSp; //variation around the mean of the effect of forcing 
-
-	real alphaPhenoSp[n_spec]; //the distribution of species forcing effects 
-	real muPhenoSp; // the mean of the effect of phenology
-	real <lower = 0> sigmaPhenoSp; //variation around the mean of the effect of phenology  
-
-	real betaTraitxPheno; //the interaction of alphatrait species with phenology?
-
-	// general varience/error
-	real <lower =0> sigmapheno_y; // overall variation accross observations
-
-}
-
-transformed parameters{
-	
-	real betaForcingSp[n_spec]; 	//species level beta forcing 
-
-	//get betaForcingSp values for each species
-	for (isp in 1:n_spec){
-		betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxPheno * alphaTraitSp[isp];
-	}
-
-}
-
-model{ 
-
-	//priors - level 1
-	sigmapheno_y ~ normal(0, 5); // prior for general variance around the mean 
-
-	//priors level 2
-
-	sigmaForceSp ~ normal(0, 5);// prior for forcing 
-	muForceSp ~ normal(0, 5);
-	alphaForcingSp ~ normal(muForceSp, sigmaForceSp); 
-
-	sigmaPhenoSp ~ normal(0, 5); //priors for phenology 
-	muPhenoSp ~ normal(0, 5);
-	alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp); 
-
-	betaTraitxPheno ~ normal(0, 10);
-
-	//likelihood 
-		for (i in 1:Nph){
-	yPhenoi[i] ~ normal( alphaPhenoSp[species[i]] + betaForcingSp[species[i]] * forcingi[i], sigmapheno_y);
-		}
-
-}
-
-
-generated quantities {
-} // The posterior predictive distribution",
-
-"stan_Part2.stan")
-
-
-stan_Part2 <- "stan_Part2.stan"
-
-
-fit2 <- stan(file = stan_Part2, data = stan_data2, warmup = 1000, iter = 6000, chains = 4, cores = 4, thin = 1)
+fit2 <- stan(file = "stan/forcingOnlyModel.stan", data = stan_data2, warmup = 1000, iter = 2000, chains = 4, cores = 4, thin = 1)
 
 
 posterior2 <- extract(fit2)
 
-plot(density(posterior2$sigmapheno_y )) # 4
-plot(density(posterior2$betaTraitxPheno )) # 1.5
-plot(density(posterior2$muForceSp)) # -3
-plot(density(posterior2$sigmaForceSp)) # 2
-plot(density(posterior2$muPhenoSp)) # 3
-plot(density(posterior2$sigmaPhenoSp)) # 5
+plot(density(posterior2$sigmapheno_y )) # 
+ePhenoSigma
 
+plot(density(posterior2$betaTraitxPheno )) # 
+betaTraitxPheno
+
+plot(density(posterior2$muForceSp)) #
+muForcingSp
+
+plot(density(posterior2$sigmaForceSp)) # 
+sigmaForcingSp
+
+plot(density(posterior2$muPhenoSp)) # 
+muPhenoSp
+
+plot(density(posterior2$sigmaPhenoSp)) # 
+sigmaPhenoSp
 
 
 
@@ -328,140 +187,7 @@ stan_data3 <- list(yTraiti = simulatedTrait$yTraiti, N = N, n_spec = nSpecies, s
 	species2 = phenoData$species)
 
 
-write("// running a joint model to try and see how trait variation might help 
-	//predict phenology. BAsed off Lizzie's joint model exqation 
-
-
-data {
-
-
-	//MODEL 1 ------------------------------------------------
-	int < lower = 1 > N; // Sample size for trait data 
- 
- 	int < lower = 1 > n_study; // number of random effect levels (study) 
-	int < lower = 1, upper = n_study > study[N]; // id of random effect (study)
-
- 	vector[N] yTraiti; // Outcome trait data 
-
- 	//both models --------------------------------------------------------
-	int < lower = 1 > n_spec; // number of random effect levels (species) 
-	int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
-
-	//MODEL 2 ------------------------------------------------
-	int < lower = 1 > Nph; // Sample size for forcing 
- 
- 	vector[Nph] yPhenoi; // Outcome phenology
- 	vector[Nph] forcingi; // predictor forcing 
-
-	int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
-
-
-}
-
-
-parameters{
-
-	//MODEL 1 ------------------------------------------------
-	//level 1
-	real <lower =0> sigmaTrait_y; // overall variation accross observations
-
-	//level 2
-	real <lower = 0> sigma_sp; // variation of intercept amoung species
-	real muSp[n_spec]; // mean of the alpha value for species
-
-	real <lower = 0> sigma_stdy; // variation of intercept amoung studies
-	real muStdy[n_study]; // mean of the alpha value for studies 
-
-	//MODEL 2 -----------------------------------------------------
-	//level 2
-	real alphaForcingSp[n_spec]; //the distribution of species forcing values
-	real muForceSp; // the mean of the effect of forcing
-	real <lower = 0> sigmaForceSp; //variation around the mean of the effect of forcing 
-
-	real alphaPhenoSp[n_spec]; //the distribution of species forcing effects 
-	real muPhenoSp; // the mean of the effect of phenology
-	real <lower = 0> sigmaPhenoSp; //variation around the mean of the effect of phenology  
-
-	real betaTraitxPheno; //the interaction of alphatrait species with phenology?
-
-	// general varience/error
-	real <lower =0> sigmapheno_y; // overall variation accross observations
-
-
-
-}
-
-transformed parameters{
-	//MODEL 1 ----------------------------------------
-	//Individual mean for species and study
-	real ymu[N];
-
-	//MODEL 2------------------------------------------------
-	real betaForcingSp[n_spec]; 	//species level beta forcing 
-
-	//MODEL 1
-	//Individual mean calculation 
-	for (i in 1:N){
-		ymu[i] = muSp[species[i]] + muStdy[study[i]];  //muSp is used in 2nd level of model
-	}
-
-	//MODEL 2----------------------------------------
-	//get betaForcingSp values for each species
-	for (isp in 1:n_spec){
-	betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxPheno * muSp[isp];
-	}
-
-}
-model{ 
-	//MODEL 1 ---------------------------------------------
-	//assign priors
-	sigmaTrait_y ~ normal(0,5);
-
-	sigma_sp ~ normal(0,5);
-	muSp ~ normal(10, sigma_sp);
-
-	sigma_stdy ~ normal(0, 5);
-	muStdy ~ normal(10, sigma_stdy);
-
-	// run the actual model - likihood
-	for (i in 1:N){
-		yTraiti[i] ~ normal(ymu[i], sigmaTrait_y);
-	}
-
-	//MODEL 2 -----------------------------------------------
-	//priors - level 1
-	sigmapheno_y ~ normal(0, 5); // prior for general variance around the mean 
-
-	//priors level 2
-
-	sigmaForceSp ~ normal(0, 5);// prior for forcing 
-	muForceSp ~ normal(0, 5);
-	alphaForcingSp ~ normal(muForceSp, sigmaForceSp); 
-
-	sigmaPhenoSp ~ normal(0, 5); //priors for phenology 
-	muPhenoSp ~ normal(0, 5);
-	alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp); 
-
-	betaTraitxPheno ~ normal(0, 10);
-
-	//likelihood 
-		for (i in 1:Nph){
-	yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForcingSp[species2[i]] * forcingi[i], sigmapheno_y);
-		}
-
-}
-
-
-generated quantities {
-} // The posterior predictive distribution",
-
-"stan_joint.stan")
-
-
-stan_joint <- "stan_joint.stan"
-
-
-fit3 <- stan(file = stan_joint, data = stan_data3, warmup = 1500, iter = 6500, chains = 4, cores = 4, thin = 1)
+fit3 <- stan(file = "stan/stan_joint.stan", data = stan_data3, warmup = 1500, iter = 6500, chains = 4, cores = 4, thin = 1)
 
 posterior3 <- extract(fit3)
 
