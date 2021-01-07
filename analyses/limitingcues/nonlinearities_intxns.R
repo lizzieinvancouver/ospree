@@ -266,6 +266,13 @@ dev.off()
 ### 15 Dec 2020 ####
 ####################
 
+feff <- -8.8/5
+peff <- -4.5/4
+ceff <- -15.8/1248
+fpeff <- -0.6/20 # not sure how to convert this! 
+fceff <- 9.1/6000 # not sure how to convert this! 
+pceff <- -0.3/6000 # not sure how to convert this! (super small)
+
 ## make up photoeffects plot
 pefflinear <- -1
 howlong <- 100
@@ -280,16 +287,29 @@ lines(photohinge~photo, data=df, lty=2, col="dodgerblue")
 
 ## make up df with budburst based on above 
 howlong <- 100
-df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong))
-df$photolinear <- Goober
+df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong), "photo"=seq(from=6, to=24, length.out=howlong))
+df$photolinear <- 14+df$photo*pefflinear
+df$photohinge <- df$photolinear
+df$photohinge[which(df$photo>14)] <- 0
+df$force <- df$temperature
 
 
 # Now estimate bb with no intxns and with intxns
-df$bb.simple <- feff*df$force + peff*df$photo + ceff*df$chill
-df$bb <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff*(df$force*df$photo) +
-    fceff*(df$force*df$chill) + pceff*(df$chill*df$photo)
-    
-df$bb.alt <- feff*df$force + peff*df$photo + ceff*df$chill + fpeff.alt*(df$force*df$photo) +
-    fceff*(df$force*df$chill) + pceff.alt*(df$chill*df$photo)
-    
+intercept <- 120
+df$bbforce <- intercept + feff*df$force
+df$bbforcephoto <- intercept + feff*df$force + peff*df$photolinear
+df$bbforcephotohinge <- intercept + feff*df$force + peff*df$photohinge
+df$bbforcephotoint <- intercept + feff*df$force + peff*df$photolinear + fpeff*(df$force*df$photolinear)
+df$bbforcephotohingeint <- intercept + feff*df$force + peff*df$photohinge + fpeff*(df$force*df$photohinge)
+
 # ... and PLOT!
+par(mfrow=c(1,2))
+plot(bbforce~temperature, data=df, type="l")
+lines(bbforcephoto~temperature, data=df, col="blue")
+lines(bbforcephotoint~temperature, data=df, col="blue", lty=2)
+
+plot(bbforce~temperature, data=df, type="l")
+lines(bbforcephotohinge~temperature, data=df, col="red")
+lines(bbforcephotohingeint~temperature, data=df, col="red", lty=2)
+
+
