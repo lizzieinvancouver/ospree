@@ -266,23 +266,16 @@ dev.off()
 ### 15 Dec 2020 ####
 ####################
 
+
 feff <- -8.8/5
 peff <- -4.5/4
 ceff <- -15.8/1248
-fpeff <- -0.6/20 # not sure how to convert this! 
-fceff <- 9.1/6000 # not sure how to convert this! 
-pceff <- -0.3/6000 # not sure how to convert this! (super small)
+fpeff <- peff/20
+fceff <- 9.1/6000 
+pceff <- ceff/2
 
-## make up photoeffects plot
-pefflinear <- -1
-howlong <- 100
-df <- data.frame("photo"=seq(from=6, to=24, length.out=howlong))
-df$photolinear <- 14+df$photo*pefflinear
-df$photohinge <- df$photolinear
-df$photohinge[which(df$photo>14)] <- 0
+fpeff2 <- peff/100
 
-plot(photolinear~photo, data=df, type="l")
-lines(photohinge~photo, data=df, lty=2, col="dodgerblue")
 
 
 ## make up df with budburst based on above 
@@ -302,14 +295,45 @@ df$bbforcephotohinge <- intercept + feff*df$force + peff*df$photohinge
 df$bbforcephotoint <- intercept + feff*df$force + peff*df$photolinear + fpeff*(df$force*df$photolinear)
 df$bbforcephotohingeint <- intercept + feff*df$force + peff*df$photohinge + fpeff*(df$force*df$photohinge)
 
+df$bbforcephotoint2 <- intercept + feff*df$force + peff*df$photolinear + fpeff2*(df$force*df$photolinear)
+df$bbforcephotohingeint2 <- intercept + feff*df$force + peff*df$photohinge + fpeff2*(df$force*df$photohinge)
+
+
+## make up photoeffects plot
+pefflinear <- -1
+howlong <- 100
+df <- data.frame("photo"=seq(from=6, to=24, length.out=howlong))
+df$photolinear <- 14+df$photo*pefflinear
+df$photohinge <- df$photolinear
+df$photohinge[which(df$photo>14)] <- 0
+
 # ... and PLOT!
-par(mfrow=c(1,2))
-plot(bbforce~temperature, data=df, type="l")
+
+library("viridis")
+colz <- viridis(4, alpha = 0.1)
+
+usr <- par('usr') # was supposed to help with rectangles, but did not
+
+
+pdf("limitingcues/figures/intxnsims2021photo.pdf", width=8, height=3)
+par(mfrow=c(1,3))
+plot(photolinear~photo, data=df, type="l", xlim=c(0,24), xlab="photoperiod", ylab="Photoperiod effect", col="blue")
+lines(photohinge~photo, data=df, lty=2, col="red")
+rect(0, -11, 6, 10, col=colz[1], border="NA") # xleft, ybottom, xright, ytop
+
+plot(bbforce~temperature, data=df, type="l", ylab="Budburst day")
 lines(bbforcephoto~temperature, data=df, col="blue")
 lines(bbforcephotoint~temperature, data=df, col="blue", lty=2)
+lines(bbforcephotoint2~temperature, data=df, col="blue", lty=2)
 
-plot(bbforce~temperature, data=df, type="l")
+plot(bbforce~temperature, data=df, type="l", ylab="Budburst day")
 lines(bbforcephotohinge~temperature, data=df, col="red")
 lines(bbforcephotohingeint~temperature, data=df, col="red", lty=2)
+lines(bbforcephotohingeint2~temperature, data=df, col="red", lty=2)
+dev.off()
 
+
+
+##
+##
 
