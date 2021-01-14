@@ -69,6 +69,8 @@ biendat$TraitName[which(biendat$TraitName == "maximum whole plant height")] <- "
 biendat$TraitName[which(biendat$TraitName == "whole plant height")] <- "Plant_height_vegetative"
 biendat$TraitName[which(biendat$TraitName == "stem wood density")] <- "Stem_specific_density"
 
+biendat$UnitName[which(biendat$UnitName == "g.cm-3")] <- "g/cm3"
+
 ##########################################################################################
 
 # Bien has a number of experiments, data from satellites, databases that we have decided to remvoe
@@ -94,7 +96,8 @@ biendatfield <- biendat[!biendat$project_pi %in% notfield,]
 # Removing extaneous columns that are not needed
 biendatfield.sub<-biendatfield[,c("SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude","project_pi","genus","species","new.SpeciesName", "database")]
 
-trydat.sub<-trydat[,c("SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude","project_pi","genus","species","new.SpeciesName", "database", "DatasetID","Reference","Reference...source")]
+trydat.sub<-trydat[,c("SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude","project_pi","genus","species","new.SpeciesName", "database", "DatasetID","Reference","Reference...source","Reference")]
+
 
 
 # Merge the beind and try trait data

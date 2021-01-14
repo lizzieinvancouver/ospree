@@ -1,4 +1,4 @@
-# Looking for duplicated data 
+# Looking for duplicated data in the traits data
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -47,3 +47,11 @@ refs.nd <- aggregate(trt.sub.no.dup["SpeciesName"], trt.sub.no.dup[c("Reference"
 
 # Think it worked, but it would be useful to get someone else to do some double checks.
 write.csv(trt.sub.no.dup, "try_bien_dodups.csv")
+
+
+# Don't seem to have lost anything unique
+length(unique(d$SpeciesName)); length(unique(trt.sub.no.dup$SpeciesName))
+length(unique(d$TraitName)); length(unique(trt.sub.no.dup$TraitName))
+length(unique(d$TraitValue)); length(unique(trt.sub.no.dup$TraitValue))
+
+              
