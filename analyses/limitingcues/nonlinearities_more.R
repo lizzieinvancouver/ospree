@@ -102,16 +102,22 @@ lines(utah~degC, type="l", ylab="Chill accumulated", xlab="", col="darkslategray
 dev.off()
 
 feff <- -8.8/5
-ceff <- -15.8/1248
+cefflinear <- (-15.8/1248)*0.8
+chillhinge <- -15.8/1248
 fceff <- 9.1/6000
 fceff2 <- fceff/10
 
-## make up photoeffects plot
-cefflinear <- -0.1
+## make up chill-effects plot
+# y = a + bx
+# -bx = a
+whenhinge <- 2000
+intercepthere <- -(chillhinge*whenhinge)
+whenlinear <-
+
 howlong <- 100
 df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong), "chill"=seq(from=100, to=3000, length.out=howlong))
-df$chilllinear <- df$chill*pefflinear
-df$chillhinge <- df$chilllinear
+df$chilllinear <- intercepthere + df$chill*cefflinear
+df$chillhinge <- intercepthere + df$chill*chillhinge
 df$chillhinge[which(df$chill>2000)] <- 0
 df$force <- df$temperature
 
