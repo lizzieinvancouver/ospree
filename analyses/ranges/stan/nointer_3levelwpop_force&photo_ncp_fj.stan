@@ -51,18 +51,18 @@
    // Level-3 random effect
    //real u_0k[Nk];
    // Population slope
-   real mu_b_force_pop;
-   real mu_b_photo_pop;
-   real<lower=0> sigma_b_force_pop;
-   real<lower=0> sigma_b_photo_pop;
+   real mu_b_force_sppop;
+   //real mu_b_photo_sppop;
+   real<lower=0> sigma_b_force_sppop;
+   real<lower=0> sigma_b_photo_sppop;
    real<lower=0> sigma_a_pop;
    
    // Varying intercepts
    real a_sppop[n_pop];
    //real b_force_sppop[n_pop];
    real b_force_sppop_raw[n_pop]; //do NCP here
-   //real b_photo_sppop[n_pop];
-   real b_photo_sppop_raw[n_pop]; //do NCP here
+   real b_photo_sppop[n_pop];
+   //real b_photo_sppop_raw[n_pop]; //do NCP here
  
    // Individual mean
    real a_sp[n_sp];
@@ -81,7 +81,7 @@
    real b_photo[n_sp];
    real b_force[n_sp];
    real b_force_sppop[n_pop];
-   real b_photo_sppop[n_pop];
+   //real b_photo_sppop[n_pop];
    
    
   for (j in 1:n_sp){
@@ -90,8 +90,8 @@
         }
         
   for (j in 1:n_pop){
-    b_photo_sppop[j] = mu_b_photo_pop + sigma_b_photo_pop * b_photo_sppop_raw[j];
-    b_force_sppop[j] = mu_b_force_pop + sigma_b_force_pop * b_force_sppop_raw[j];
+    //b_photo_sppop[j] = mu_b_photo_sppop + sigma_b_photo_sppop * b_photo_sppop_raw[j];
+    b_force_sppop[j] = mu_b_force_sppop + sigma_b_force_sppop * b_force_sppop_raw[j];
         }
    
    // Individual mean
@@ -114,29 +114,31 @@
    }
    // Level-2 (100 level-2 random intercepts)
    for (k in 1:n_pop) {
-     b_force_sppop[k] ~ normal(b_force[sp[k]], sigma_b_force_pop);
+     b_force_sppop[k] ~ normal(b_force[sp[k]], sigma_b_force_sppop);
    }
    
    for (l in 1:n_pop) {
-     b_photo_sppop[l] ~ normal(b_photo[sp[l]], sigma_b_photo_pop);
+     b_photo_sppop[l] ~ normal(b_photo[sp[l]], sigma_b_photo_sppop);
    }
  
    // Random effects distribution
    a_sp  ~ normal(mu_a_sp, sigma_a_sp);
    a_study  ~ normal(mu_a_study, sigma_a_study);
-   //Faith commnted these lines out because this bit is handled in the loop with the raw ncp parameters
-   //b_force ~ normal(mu_b_force_sp, sigma_b_force_sp);
-   //b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp);
-   
-   mu_b_force_sp ~ normal(0, 20);
-   sigma_b_force_sp ~ normal(0, 10); 
    
    //Faith added priors for the raw 0 to 1 bit of ncp
    b_photo_raw ~ normal(0, 1);
    b_force_raw ~ normal(0, 1);
+   //b_photo_sppop_raw ~ normal(0, 1);
+   b_force_sppop_raw ~ normal(0, 1);
+   
+   mu_b_force_sp ~ normal(0, 20);
+   sigma_b_force_sp ~ normal(0, 10); 
    
    mu_b_photo_sp ~ normal(0, 20);
    sigma_b_photo_sp ~ normal(0, 10); 
+   
+   mu_b_force_sppop ~ normal(0, 20);
+   //mu_b_photo_sppop ~ normal(0, 20);
    
    mu_a_sp ~ normal(0, 40);
    sigma_a_sp ~ normal(0, 10);
@@ -145,8 +147,8 @@
    sigma_a_study ~ normal(0, 10);
    
    sigma_a_pop ~ normal(0, 5);
-   sigma_b_force_pop ~ normal(0, 5);
-   sigma_b_photo_pop ~ normal(0, 5);
+   sigma_b_force_sppop ~ normal(0, 5);
+   sigma_b_photo_sppop ~ normal(0, 5);
    sigma_y ~ normal(0, 10);
  
    // Likelihood part of Bayesian inference

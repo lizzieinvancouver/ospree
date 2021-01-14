@@ -203,7 +203,7 @@ ggarrange(cl, fl, pl)
 
 ############################################################################
 ############################################################################
-
+if(FALSE){
 datalist.bb <- with(bb.stan, 
                     list(y = resp, 
                          chill = chill.z, 
@@ -305,8 +305,9 @@ if (use.flags.for.spcomp.cp.nonz){
 if (use.flags.for.allspp.utah.nonz){
   save(m2l.ni, file="stan/output/m2lni_allsppwcrop_utah_nonz.Rda")
 }
+}
 
-if(FALSE){
+
 ########################################################
 # testing 1, 2, 3 ....
 # need to make up new data list with unique ID for each pop x sp
@@ -331,8 +332,8 @@ datalist.bb.pop <- with(bb.stan.here,
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
-               iter = 3000, warmup=2000, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
-}
+               iter = 2000, warmup=1500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+
 
 #Warning messages:
  # 1: There were 4000 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 15. See

@@ -12,8 +12,12 @@ options(stringsAsFactors = FALSE)
 
 #setwd("/home/faith/Documents/mnt/UBC/ospree")
 
-#DL's directory
-setwd("~/Desktop/ospree_trait_analysis")
+
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_analysis")
+} #else if
+#(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
+#} 
+
 ## Load libraries
 library(tidyr)
 library(dplyr)
@@ -188,13 +192,13 @@ tryData <- subset(tryData, UnitName != c("g/m2/d"))
 aggregate(UnitName ~ TraitName, data = tryData, unique) # much better
 
 ## Generate sample plots of key traits (hopefully not much variation)
-testspecies <- subset(tryData, SpeciesName == c("Abies alba"))
-trait.list <- c("Stem specific density", "Leaf dry matter content", "Crown height", "Specific leaf area")
-par(mfrow = c(2, 2), mar = c(5, 5, 2, 1))
-for(i in 1:length(trait.list)){
-    temp <- subset(testspecies, TraitName == trait.list[i])
-    plot(temp$StdValue, main = trait.list[i], xlab = "Observation", ylab = "Trait value")
-}
+# testspecies <- subset(tryData, SpeciesName == c("Abies alba"))
+# trait.list <- c("Stem specific density", "Leaf dry matter content", "Crown height", "Specific leaf area")
+# par(mfrow = c(2, 2), mar = c(5, 5, 2, 1))
+# for(i in 1:length(trait.list)){
+#     temp <- subset(testspecies, TraitName == trait.list[i])
+#     plot(temp$StdValue, main = trait.list[i], xlab = "Observation", ylab = "Trait value")
+# }
 
 
 length(unique(tryData$Dataset)) #46
