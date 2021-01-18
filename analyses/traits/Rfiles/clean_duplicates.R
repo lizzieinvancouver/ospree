@@ -66,21 +66,42 @@ refs.nd <- aggregate(trt.sub.no.dup5["SpeciesName"], trt.sub.no.dup5[c("Referenc
 #write.csv(trt.sub.no.dup5, "try_bien_dodups.csv")
 
 #Let's take a closer look at the duplicated data
-dup5<-d[duplicated(trt.sub5),]
 
-unique(dup5$database) # removing data from both bien and try
-dupbien<-subset(dup5, database == "bien") # this is 33.9% of the full bien data that we started with
+unique(trt.dup5$database) # removing data from both bien and try
+dupbien<-subset(trt.dup5, database == "bien") # this is 33.9% of the full bien data that we started with
 #How many studies have data lost -- 20 studies, 99.7% of the removed data is from the height dataset by greg reams
 unique(dupbien$project_pi)
 greams<-subset(dupbien, project_pi == "Greg Reams")
 
 
-duptry <-subset(dup5, database == "try") # this is 48.6% of the full try data that we started with
+duptry <-subset(trt.dup5, database == "try") # this is 48.6% of the full try data that we started with
 #How many studies have data lost -- 19 studies
 length(unique(duptry$DatasetID)) 
 length(unique(duptry$Reference...source)) 
 
+#########################################################################################################################
+# What are we gaining when we include lat long ref?
+tar.var<-c("SpeciesName","TraitName","UnitName","refabr5")
+resp.var<-c("TraitValue")
 
+## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
+trt.sub<-d[,c(tar.var,resp.var)]
+head(trt.sub)
+## remove duplicated rows in a simple way
+trt.sub.no.dup<-d[!duplicated(trt.sub),]
+
+dim(trt.sub5)
+dim(trt.sub.no.dup5) 
+dim(trt.sub.no.dup) 
+
+length(unique(trt.sub.no.dup$Latitude))
+length(unique(trt.sub.no.dup5$Latitude))
+
+length(unique(trt.sub.no.dup$Longitude))
+length(unique(trt.sub.no.dup5$Longitude))
+
+length(unique(trt.sub.no.dup$refabr5))
+length(unique(trt.sub.no.dup5$refabr5))
 #########################################################################################################################
 # Code that was used to verify that neither 4 (too short) or 6 (too long) were appropraite numbers of characters to be using
 ######### Subset with 4 characters ####################################################################################
