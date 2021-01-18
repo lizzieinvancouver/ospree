@@ -8,6 +8,7 @@ By Lizzie
 studydesignplots.R -- makes the heatmaps
 countintxns.R 
 nonlinearities_intxns.R 
+nonlinearities_more.R 
 
 27 Nov 2020
 - I think best to figure out what figures I want and ask for coding help!
