@@ -76,7 +76,7 @@ greams<-subset(dupbien, project_pi == "Greg Reams")
 
 
 duptry <-subset(dup5, database == "try") # this is 48.6% of the full try data that we started with
-#How many studies have data lost -- 19 studies,
+#How many studies have data lost -- 19 studies
 length(unique(duptry$DatasetID)) 
 length(unique(duptry$Reference...source)) 
 
