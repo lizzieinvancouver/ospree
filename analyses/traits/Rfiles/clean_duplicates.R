@@ -42,7 +42,7 @@ d$Reference...source[d$Reference...source== "Kudo9"] <- "Kudo_9"
 d$refabr5<-strtrim(d$Reference...source,5);head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 sort(unique(d$refabr5))
 ## select target variables for which we will search for duplicates:
-tar.var5<-c("SpeciesName","TraitName","UnitName","refabr5")
+tar.var5<-c("SpeciesName","TraitName","UnitName","refabr5", "Latitude","Longitude","Reference")
 resp.var<-c("TraitValue")
 
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
@@ -53,7 +53,8 @@ trt.sub.no.dup5<-d[!duplicated(trt.sub5),]
 
 dim(trt.sub5)
 dim(trt.sub.no.dup5) 
-# with 5 characters we are left with only 28578 rows of data, deleting 1233622
+# with 5 characters, and without including project_pi and lat/long we are left with only 28578 rows of data, deleting 1233622, only 2% of the data left
+# with 5 characters, and with including reference and lat/long we are left with only 826786 rows of data,  65.5% of the data kept
 
 sort(unique(trt.sub.no.dup5$refabr5))
 length((unique(trt.sub.no.dup5$refabr5))) #197
@@ -62,7 +63,23 @@ refs <- aggregate(d["SpeciesName"], d[c("Reference", "Reference...source", "refa
 refs.nd <- aggregate(trt.sub.no.dup5["SpeciesName"], trt.sub.no.dup5[c("Reference", "Reference...source", "refabr5","database")], FUN=length) 
 
 # Think it worked, but it would be useful to get someone else to do some double checks.
-write.csv(trt.sub.no.dup5, "try_bien_dodups.csv")
+#write.csv(trt.sub.no.dup5, "try_bien_dodups.csv")
+
+#Let's take a closer look at the duplicated data
+dup5<-d[duplicated(trt.sub5),]
+
+unique(dup5$database) # removing data from both bien and try
+dupbien<-subset(dup5, database == "bien") # this is 33.9% of the full bien data that we started with
+#How many studies have data lost -- 20 studies, 99.7% of the removed data is from the height dataset by greg reams
+unique(dupbien$project_pi)
+greams<-subset(dupbien, project_pi == "Greg Reams")
+
+
+duptry <-subset(dup5, database == "try") # this is 48.6% of the full try data that we started with
+#How many studies have data lost -- 19 studies,
+length(unique(duptry$DatasetID)) 
+length(unique(duptry$Reference...source)) 
+
 
 #########################################################################################################################
 # Code that was used to verify that neither 4 (too short) or 6 (too long) were appropraite numbers of characters to be using
