@@ -51,7 +51,7 @@
    // Level-3 random effect
    //real u_0k[Nk];
    // Population slope
-   real mu_b_force_sppop;
+   //real mu_b_force_sppop;
    //real mu_b_photo_sppop;
    real<lower=0> sigma_b_force_sppop;
    real<lower=0> sigma_b_photo_sppop;
@@ -61,8 +61,8 @@
    real a_sppop[n_pop];
    //real b_force_sppop[n_pop];
    real b_force_sppop_raw[n_pop]; //do NCP here
-   real b_photo_sppop[n_pop];
-   //real b_photo_sppop_raw[n_pop]; //do NCP here
+   //real b_photo_sppop[n_pop];
+   real b_photo_sppop_raw[n_pop]; //do NCP here
  
    // Individual mean
    real a_sp[n_sp];
@@ -81,7 +81,7 @@
    real b_photo[n_sp];
    real b_force[n_sp];
    real b_force_sppop[n_pop];
-   //real b_photo_sppop[n_pop];
+   real b_photo_sppop[n_pop];
    
    
   for (j in 1:n_sp){
@@ -90,8 +90,8 @@
         }
         
   for (j in 1:n_pop){
-    //b_photo_sppop[j] = mu_b_photo_sppop + sigma_b_photo_sppop * b_photo_sppop_raw[j];
-    b_force_sppop[j] = mu_b_force_sppop + sigma_b_force_sppop * b_force_sppop_raw[j];
+    b_photo_sppop[j] = sigma_b_photo_sppop * b_photo_sppop_raw[j];
+    b_force_sppop[j] = sigma_b_force_sppop * b_force_sppop_raw[j];
         }
    
    // Individual mean
@@ -128,8 +128,11 @@
    //Faith added priors for the raw 0 to 1 bit of ncp
    b_photo_raw ~ normal(0, 1);
    b_force_raw ~ normal(0, 1);
-   //b_photo_sppop_raw ~ normal(0, 1);
+   b_photo_sppop_raw ~ normal(0, 1);
    b_force_sppop_raw ~ normal(0, 1);
+   
+   target += normal_lpdf(to_vector(b_photo) | 0, 20);
+	 target += normal_lpdf(to_vector(b_force) | 0, 20);
    
    mu_b_force_sp ~ normal(0, 20);
    sigma_b_force_sp ~ normal(0, 10); 
@@ -137,7 +140,7 @@
    mu_b_photo_sp ~ normal(0, 20);
    sigma_b_photo_sp ~ normal(0, 10); 
    
-   mu_b_force_sppop ~ normal(0, 20);
+   //mu_b_force_sppop ~ normal(0, 20);
    //mu_b_photo_sppop ~ normal(0, 20);
    
    mu_a_sp ~ normal(0, 40);

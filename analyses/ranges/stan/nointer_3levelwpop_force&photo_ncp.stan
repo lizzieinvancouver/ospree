@@ -111,8 +111,11 @@
    // Random effects distribution
    a_sp  ~ normal(mu_a_sp, sigma_a_sp);
    a_study  ~ normal(mu_a_study, sigma_a_study);
-   b_force ~ normal(mu_b_force_sp, sigma_b_force_sp);
-   b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp);
+   //b_force ~ normal(mu_b_force_sp, sigma_b_force_sp);
+   //b_photo ~ normal(mu_b_photo_sp, sigma_b_photo_sp);
+   
+   target += normal_lpdf(to_vector(b_force) | 0, 20);
+	 target += normal_lpdf(to_vector(b_photo) | 0, 20);
    
    mu_b_force_sp ~ normal(0, 20);
    sigma_b_force_sp ~ normal(0, 10); 
