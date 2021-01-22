@@ -13,7 +13,7 @@ options(stringsAsFactors = FALSE)
 #setwd("/home/faith/Documents/mnt/UBC/ospree")
 
 
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_analysis")
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trait_analysis")
 } #else if
 #(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
 #} 
@@ -125,10 +125,26 @@ ExtraInfoColumns2 <- ExtraInfoColumns[ExtraInfoColumns$DataName %in% dataCare, ]
 #Change these extra data to a wide format for each category in dataCare
 wideExtraInfo <- spread(ExtraInfoColumns2, key = DataName, value = OrigValueStr)
 
+############ Get the right lat long values ####################
+ext<- ExtraInfo[,c("DataName", "ObservationID", "StdValue")]
+
+#These are the information I think might be useful to retain 
+la <- c("Latitude")
+lo <- c("Longitude")
+
+extlat <- ext[ext$DataName %in% la, ]
+extlon <- ext[ext$DataName %in% lo, ]
+#Change these extra data to a wide format for each category in dataCare
+lat <- spread(extlat, key = DataName, value = StdValue)
+lon <- spread(extlon, key = DataName, value = StdValue)
+
 #Merge in extra data to trait data based on observation ID
 #---------------------------------------------------------
+latlon <- merge(lat,lon, by = "ObservationID")
 tryData <- merge(traitsOnly, wideExtraInfo, by = "ObservationID")
+tryData <- merge(tryData, latlon, by = "ObservationID")
 
+head(tryData)
 length(unique(tryData$Dataset)) #46
 length(unique(tryData$SpeciesName)) #206
 length(unique(tryData$TraitName)) #22
