@@ -10,7 +10,7 @@ library(dplyr)
 # Set working directory: 
 
 #Anyone else working with this code should add their info/path here
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_analysis/")
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trait_analysis/")
 } #else if
 #(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
 #} 
@@ -45,7 +45,7 @@ d$Reference...source[d$Reference...source== "Kr\xf6ber et al, 2012"] <- "Kleyer"
 d$refabr5<-strtrim(d$Reference...source,5);head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 sort(unique(d$refabr5))
 ## select target variables for which we will search for duplicates:
-tar.var5<-c("SpeciesName","TraitName","UnitName","refabr5", "Latitude","Longitude","Reference")
+tar.var5<-c("SpeciesName","TraitName","UnitName","refabr5", "Latitude","Longitude","Reference","project_pi")
 resp.var<-c("TraitValue")
 
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
@@ -57,7 +57,8 @@ trt.sub.no.dup5<-d[!duplicated(trt.sub5),]
 dim(trt.sub5)
 dim(trt.sub.no.dup5) 
 # with 5 characters, and without including project_pi and lat/long we are left with only 28578 rows of data, deleting 1233622, only 2% of the data left
-# with 5 characters, and with including reference and lat/long we are left with only 826786 rows of data,  65.5% of the data kept
+# with 5 characters, and with including reference and lat/long we are left with only 823610 rows of data,  ~65% of the data kept
+# with 5 characters, and with including project_pi,reference and lat/long we are left with only 823754 rows of data,  ~65% of the data kept
 
 sort(unique(trt.sub.no.dup5$refabr5))
 length((unique(trt.sub.no.dup5$refabr5))) #197

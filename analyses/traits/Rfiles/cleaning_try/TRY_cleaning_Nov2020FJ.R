@@ -24,7 +24,7 @@ library(dplyr)
 library(data.table)
 
 ## Read the data (modify path as needed) 
-tryData2 <- fread("input/TRYtraitdataNov2019.csv")
+tryData2 <- fread("input/TRYtraitdataNov2019.txt")
 #tryData2 <- fread("TryData.txt")
 tryData2$counterID <- 1:nrow(tryData2)
 
@@ -117,7 +117,7 @@ ExtraInfo <- tryDataShort3[is.na(tryDataShort3$TraitID),]
 ExtraInfoColumns<- ExtraInfo[,c("DataName", "ObservationID", "OrigValueStr")]
 
 #These are the information I think might be useful to retain 
-dataCare <- c("Reference / source" ,"Latitude",  "Longitude" , "Comments, notes, methods", "Location Site ID", "Altitude"  ,  
+dataCare <- c("Reference / source" , "Comments, notes, methods", "Location Site ID", "Altitude"  ,  
 	"Data type" , "Sample size" , "Location Name"  , "Reference 2", "Part of plant measured" , "Study ID; external Dataset ID ")
 
 ExtraInfoColumns2 <- ExtraInfoColumns[ExtraInfoColumns$DataName %in% dataCare, ]
