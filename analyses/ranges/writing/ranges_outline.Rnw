@@ -1,0 +1,187 @@
+\documentclass[11pt]{article}
+%Required: You must have these
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{authblk}
+\usepackage{gensymb}
+\usepackage{amsmath}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[small]{caption}
+
+\setkeys{Gin}{width=0.8\textwidth}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{10pt}
+
+ \topmargin -1.5cm 
+ \oddsidemargin -0.04cm 
+ \evensidemargin -0.04cm 
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ \parskip 7.2pt 
+\renewcommand{\baselinestretch}{1} 	
+\parindent 0pt
+\usepackage{setspace}
+\usepackage{lineno}
+
+\bibliographystyle{}
+\usepackage{xr-hyper}
+\usepackage{hyperref}
+
+
+\title{Ranger Outline: We will come up with a better title when we feel more grounded in the results}
+\date{}
+\author{Dan, Cat, Nacho and Lizzie}
+\begin{document}
+\maketitle
+\section*{Figures to make:}
+\begin{enumerate}
+\item Climate maps for species (some in supp. too)
+\item Conceptual figure illustrating why variation in forcing should impact cue use
+\item Results from cheapo models
+\item some comparison of North America to Europe
+\item Results from inter vs. intra specific model
+
+\end{enumerate}
+\section*{Abstract}
+\section*{Introduction}
+\textbf{For woody plants of the temperate zone, the phenology, or annual timing, of spring budburst influences a myriad of ecological processes including patterns of resource allocation \citep{}, trophic interactions \citep{} and biogeochemical cycling \citep{}.}
+\begin{enumerate}
+\item Through budburst timing, woody plants balance the advantages of precocious growth resumption for resource gains with the risk of damage from late season frost \citep{}.
+\item To navigate this tradeoff, woody plants have evolved complicated networks of sensory organs, hormone signaling, and physiological responses to sense environmental cues; changes in their physical environment, that signal the arrival of appropriate conditions for resuming growth.
+\end{enumerate}
+
+\textbf{Decades of research suggest that warming spring temperatures (forcing), cool winter temperatures (chilling) and day length (photoperiod) are primary environmental cues utilized by woody plants that determine the timing of spring phenological events \cite{}}.
+\begin{enumerate}
+\item These studies also demonstrate the there are substantial cue-use differences among species, with some species relying more heavily on some cues over others.
+\item  As anthropogenic climate change has already driven shifts in spring phenology \citep{} identifying these interspecific differences in cue use has emerged as a major goal of phenological research \citep{} as the differences have strong implications for both predicting the rate of phenological shifts as the climate continues to warm \citep{}, and anticipating the ecological consequences of these shifts \citep{}.
+\end{enumerate}
+\textbf{ But the quantification of cue use difference among species offers even more---a novel opportunity to interrogate long-standing theories regarding the biology underlying cue-use difference among species.}
+\begin{enumerate}
+\item One particular relationship that can now be examined this the relationship species' geographic ranges and phenological cue use.
+% might need a sentence to tie to new section more clearly
+\end{enumerate}
+\subsection*{Ranges and cues}
+\textbf{Theoretical treatments of the evolution of phenological cues suggest that cue-use differences should reflect differences in the  environment these species encounter \citep{}.}
+\begin{enumerate}
+\item That is, the relative reliance on forcing, chilling and photoperiod for each species should be shaped by the unique environmental conditions across a species geographic range.
+\item With the recent quantification for cue use of many species \citep{} and the accessibility of high resolution climate data it is now possible to rigorously test this theory with data.
+\item Below, we briefly review the specific assumptions and predictions presented in the literature about the relationship between phenological cue-use and species' range characteristics. and then test these predictions using Bayesian models for a large suite of temperate woody species from North America vs Europe.
+
+\end{enumerate}
+\subsection*{Assumptions and predictions for the relationship between the cue-use and species' ranges}
+\subsubsection{Magnitude}
+\begin{enumerate}
+\item The environmental condition must be present to be a cue.
+\item For example, tropical species should lack a chilling cue.
+\item For the temperate species of North American and Europe, this is not an issue \textbf{(Supplemental figure showing magnitude of chilling, forcing and photoperiod )} so our study will not focus on magnitude.
+\end{enumerate}
+\subsubsection{Relative reliance}
+\begin{enumerate}
+\item Assumptions:
+\begin{enumerate}
+\item Forcing is the predominant cure
+\item Photoperiod and chill reliance evolves when forcing alone is not a reliable cue of safe growing condition \textbf{Since Nacho is an author, maybe illustrate this with a beautiful conceptual figure?}
+\item Forcing is an unreliable cue where there is significant variation in it.
+\begin{enumerate}
+\item Intra-annual variation: explain using our logic 
+\item Inter-annual (cite Zohner) and explain using their logic.
+\end{enumerate}
+\end{enumerate}
+\item Predictions
+\begin{enumerate}
+\item Higher variation in GDDs to last frost should correlate with stronger chilling and photoperiod
+\item Higher STV should correlate with stronger chilling and photoperiod
+\item Larger ranges should correlate with more variation which should correlate with stronger chilling and photoperiod.
+\item Macro-geographic patterns should also be detectable. Since spring climate is less stable in NA than Europe, we should see differences between the continents.
+\end{enumerate}
+\end{enumerate}
+
+\subsubsection{Species vs. Populations}
+\begin{enumerate}
+\item All of the prediction above rely of the assumption that cue-use is conserved across species level. Yet there is some evidence cue use is locally adapted \citep{}.
+\item if so: Predictions:
+\begin{enumerate}
+\item Not see strong relationships between species level traits and range characteristics.
+\item Intra-specific variation should be high; similar or larger order than inter-specific.
+\item Intra-specific should follow the same predictions for mentioned above (ie more forcing variation at a site should driver higher reliance on secondary cues.)
+\end{enumerate}
+\end{enumerate}
+\begin{enumerate}
+\item We tested these specific predictions using the OSPREE database, and climate data, and models. % is this redunant. Could go in to more detail here.
+\item Our interrogation of these relationships between climate and cue use not only clarifies the evolutionary drivers of cue use, but offers new insights regarding implications of climate change as both species' ranges and phenology continue to shift with warming.
+\end{enumerate}
+\section*{Methods}
+\subsection*{Phenological data and cue-use estimates}
+Dan and/or Lizzie write:
+\begin{itemize}
+\item Introduce OSPREE
+\item Species selection
+\item Model description
+\end{itemize}
+
+\subsection*{Species' range characteristics}
+Cat and/or Nacho write?\\
+\begin{itemize}
+\item Climate data \textbf{(Figure of range maps with one climate variable, other could go to supplement)}
+\item note on temp vs. geographic variation
+\item calculation of GDD last frost
+\item STV
+\item range area
+\end{itemize}
+
+
+\subsection*{Statistical analysis}
+\subsubsection*{Variation and secondary cue use}
+Dan write description of cheapo models. Name them something cool. 
+\subsubsection*{Intra vs. interspecific models}
+Cat or Lizzie or Dan write
+
+\section*{Results}
+\subsection*{Variation and secondary cue use}
+\begin{enumerate}
+\item Nothing really here.(could do sub-subsection for each model (GGlf,are, STV, NA vs. EU) )
+\item Note that area doesn't correlate with variation so well.
+\item \textbf{(Figure with Mu plots or linear regression from cheapo models)}
+\item Note to self, should probably also check the converse (high variation in GDD to last frost drive weaker forcing response)
+\item
+\end{enumerate}
+\subsection*{Inter. vs. intra- specific variation}
+\begin{enumerate}
+\item I can't exactly remember what our finding was. I think that intra-specific variation is high but not as high as interspecific. Cat probably knows the answer to this.
+\item I also can't remember if this model can test the predictions at the population level or if we would need to write a different model, or if we already thought of this and ruled it out.
+\item Either way this result should also have a \textbf{(figure)}.
+\end{enumerate}
+
+\section*{Discussion}
+Question: where to attempt to reconcile our null results with Zohners
+\begin{enumerate}
+\item Summarize findings
+\item Emphasize that these null results are informative because this is a common assumption.
+\item We should stop using area as a proxy for variation.
+\item Alternative hypotheses:
+\begin{enumerate}
+\item The relationship phenology cues and ranges are indirect: ie cues influence cold hardiness which influences ranges \citep{}.
+\item too much noise in data to pick this up
+\item Cue use reflects community assembly and other tradeoffs ie. traits
+\item Cue use is highly constrained (phylogeny)
+\item Modern range distribution do not reflect selection environment (ie ranges are not in equilibrium, glaciers and stuff
+\item cues interaction in complex ways. Forcing and chilling can substitute for each other. We don't really understand how they work. Chilling is just a hypothesis etc.
+\end{enumerate}
+\item Interestingly others have found a relationship between STV (reconcile our finding with Zohner. I could use help here but here are some ideas)
+\begin{enumerate}
+\item  Noise in our data
+\item the thing Lizzie asked me to check about 1 observation/continenent
+\item STV windows are bad over geographic space because they can capture ``spring" in all locations.
+\end{enumerate}
+\item Explicitly address any differences between NA and Europe.
+\item Bold claim 1: Does our work suggest phenological constraints to range shifts aren't as big a deal as some people think?
+\item We need to explore the alternative hypotheses while improving our understanding and modeling of the physiology and genetics that underpin phenological responses to the environment.
+\end{enumerate}
+
+
+
+\end{document}
