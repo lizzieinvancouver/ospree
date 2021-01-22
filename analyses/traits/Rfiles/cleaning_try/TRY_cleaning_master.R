@@ -7,7 +7,7 @@ options(stringsAsFactors = FALSE)
 #setwd("/home/faith/Documents/UBC/ospree")
 
 #Anyone else working with this code should add their info/path here
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trait_analysis")
 } #else if
 #(length(grep("XXX", getwd())>0)) {   setwd("XXX")
 #}
@@ -18,9 +18,9 @@ library(dplyr)
 library(data.table)
 
 ### Start by cleaning species names ################################################### MG Started 4 Nov 2020
-source("Rfiles/cleaning_try/TRY_cleaning_Nov2020FJ.R")
+#source("Rfiles/cleaning_try/TRY_cleaning_Nov2020FJ.R")
 ## UPDATE: Now using the new post Nov 2020 cleaned Try dataset
-dataNoExpshort<-read.csv("input/TryDataCleanedNew_Nov2020.csv", fileEncoding="latin1")
+dataNoExpshort<-read.csv("input/TryDataCleanedNew_Jan212021.csv", fileEncoding="latin1")
 namelist <- sort(unique(dataNoExpshort$SpeciesName))
 
 #split into genus and species columns and a third column for authority/subsp/any other words

@@ -24,7 +24,7 @@ library(dplyr)
 library(data.table)
 
 ## Read the data (modify path as needed) 
-tryData2 <- fread("input/TRYtraitdataNov2019.txt")
+tryData2 <- fread("input/TRYtraitdataNov2019.csv")
 #tryData2 <- fread("TryData.txt")
 tryData2$counterID <- 1:nrow(tryData2)
 
@@ -224,5 +224,5 @@ length(unique(tryData$TraitName)) #13
 #Save Data as a csv
 #--------------------------------------------
 
-#write.csv(tryData, "input/TryDataCleanedNew_Nov2020.csv")
+write.csv(tryData, "input/TryDataCleanedNew_Jan212021.csv")
 

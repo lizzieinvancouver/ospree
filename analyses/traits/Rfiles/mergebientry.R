@@ -18,7 +18,7 @@ library(dplyr)
 # Set working directory: 
 
 #Anyone else working with this code should add their info/path here
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Desktop/ospree_trait_analysis/")
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trait_analysis/")
 } #else if
 #(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
 #} 
