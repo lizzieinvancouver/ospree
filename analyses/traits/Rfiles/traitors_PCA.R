@@ -22,23 +22,22 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trai
 dat <- read.csv("input/try_bien_nodups.csv") 
 names(dat)
 
+dat<-dat[,c("new.SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude","project_pi","database","DatasetID")]
 
-## Store unique values for species, traits
+## I started by trying to just alter Geoff's code (below) and while it worked well for the mean values, I am not sure how to get it to work with the raw data
 species <- unique(dat$new.SpeciesName)
-
-## traits <- unique(dat$TraitName)
-# Here Geoff is creating a matrix with the traits data, but you are left with only one value per species, but we want all the data per species
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
 mat <- matrix(NA, ncol = length(traits), nrow = length(species))
 
 for(i in 1:length(species)){
-    temp <- subset(dat, new.SpeciesName == species[1])
+    temp <- subset(dat, new.SpeciesName == species[i])
     for(j in 1:length(traits)){
         mat[i, j] <- subset(temp, TraitName == traits[j])$TraitValue[1]
     }
 }
 
+mat
 
 colnames(mat) <- c("Height", "SLA", "Photosyn",
                    "N", "SSD", "LDMC", "StemD")
@@ -53,17 +52,28 @@ mat
 ## Standardize (normalize) trait values
 #mat2[, 1:6] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
+head(dat)
+# Attempt 2
+require(reshape2)
+temp<-reshape2::dcast(dat, new.SpeciesName + DatasetID ~TraitName , value.var= "TraitValue")
+
+head(temp)
+
+# Attempt 3 using tidyr
+test<-spread(dat,TraitName,TraitValue)
+
+
 ## PCA plots 
-# ranges <- list(c(-.4, .4),
-#                c(-.2, .2),
-#                c(-.1, .1))
-pdf(file = "pca.pdf", width = 12, height = 5)
+ranges <- list(c(-.4, .4),
+               c(-.2, .2),
+               c(-.1, .1))
 par(mfrow = c(1, 3), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
 for(i in 1:length(ranges)){
     biplot(prcomp(mat2), cex = c(.7, 1.25), col = "black")
 }
-dev.off()
 
+
+# 
 ##############################################################################################
 # Doing the PCA for the geometric mean:
 # Start by calculating the average by speceis x trait
@@ -101,5 +111,5 @@ ranges <- list(c(-.4, .4),
                c(-.2, .2),
                c(-.1, .1))
 for(i in 1:length(ranges)){
-    biplot(prcomp(mat2), cex = c(.7, 1.25), col = "black")
+    biplot(prcomp(mat2), col = "black")
 }

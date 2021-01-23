@@ -67,7 +67,7 @@ refs <- aggregate(d["SpeciesName"], d[c("Reference", "Reference...source", "refa
 refs.nd <- aggregate(trt.sub.no.dup5["SpeciesName"], trt.sub.no.dup5[c("Reference", "Reference...source", "refabr5","database")], FUN=length) 
 
 # Think it worked, but it would be useful to get someone else to do some double checks.
-#write.csv(trt.sub.no.dup5, "try_bien_dodups.csv")
+#write.csv(trt.sub.no.dup5, "try_bien_nodups.csv", row.names=FALSE)
 
 #Let's take a closer look at the duplicated data
 
