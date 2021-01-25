@@ -1,3 +1,5 @@
+#Simulated code by Geoff to simulate trait data for the join model. Faith then tries to fit the joint model and see what we get back.  
+
 
 ## Load libraries
 library(rstan)
@@ -77,3 +79,28 @@ dat2 <- matrix(c(dat[, "studyID"],
                  phen.response),
                ncol = 5,
                byrow = FALSE)
+
+
+## make into a df so I can use column names 
+dat2df <- as.data.frame(dat2)
+names(dat2df) <- c("studyID", "speciesID", "forcing", "trait.observe", "phen.response")
+
+#Try and fit the joint model 
+#-----------------------------------------
+
+
+traitstanpheno <- list(
+                        yTraiti = trait.observe, 
+                        N = length(trait.observe), # sampel size for trait data is teh same as phenology data in this simulation 
+                        n_spec = nsp, 
+                        species = dat2df$speciesID, 
+                        study = dat2df$studyID, 
+                        n_study = nstudy, 
+                        yPhenoi = dat2df$phen.response, 
+                        Nph = length(dat2df$trait.observe), # sampel size for trait data is teh same as phenology data in this simulation  
+                        forcingi = dat2df$forcing,
+                        species2 = dat2df$speciesID) # number of species is teh same for traits and phenology data.  
+
+
+trialFit <- stan(file = "joint1TraitForcing.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
