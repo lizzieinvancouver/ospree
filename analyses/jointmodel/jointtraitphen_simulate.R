@@ -1,5 +1,5 @@
 #Simulated code by Geoff to simulate trait data for the join model. Faith then tries to fit the joint model and see what we get back.  
-
+getwd() # the workdrive in midge is where the R file is stored 
 
 ## Load libraries
 library(rstan)
@@ -102,5 +102,5 @@ traitstanpheno <- list(
                         species2 = dat2df$speciesID) # number of species is teh same for traits and phenology data.  
 
 
-trialFit <- stan(file = "joint1TraitForcing.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+trialFit <- stan(file = "stan/joint1TraitForcing.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
     chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
