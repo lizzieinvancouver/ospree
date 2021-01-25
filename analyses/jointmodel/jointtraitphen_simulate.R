@@ -1,5 +1,6 @@
 #Simulated code by Geoff to simulate trait data for the join model. Faith then tries to fit the joint model and see what we get back.  
-getwd() # the workdrive in midge is where the R file is stored 
+
+setwd("/home/faith/Documents/github/ospree/ospree/analyses/jointmodel/")
 
 ## Load libraries
 library(rstan)
@@ -102,5 +103,69 @@ traitstanpheno <- list(
                         species2 = dat2df$speciesID) # number of species is teh same for traits and phenology data.  
 
 
-trialFit <- stan(file = "stan/stan_joint_newPriors.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
-    chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
+trialFit <- stan(file = "stan/stan_joint_newPriors.stan", data = traitstanpheno, warmup = 3000, iter = 4000,
+    chains = 4, cores = 4,  control=list(max_treedepth = 15)) 
+
+
+posterior <- extract(trialFit)
+
+pdf("JointModel_GeoffSimFit.pdf")
+
+#model 1
+plot(density(posterior$sigmaTrait_y ), main = "sigmaTrait_y/sigma_obs") # sigma_obs 0.4
+abline(v =  param$sigma_obs, col="red", lwd=3, lty=2)
+
+plot(density(posterior$sigma_sp ), main = "sigma_sp/sigma_species") #sigma_species 1.1
+abline(v =  param$sigma_species, col="red", lwd=3, lty=2)
+
+plot(density(posterior$mu_g), main = "mu_g/mu_species") # mu_species 3
+abline(v =  param$mu_species, col="red", lwd=3, lty=2)
+
+plot(density(posterior$muSp ), xlim = c(-4,7), ylim = c(0,0.5), main = "muSp/traits") #trait1
+par(new=TRUE)
+plot(density(traits), col = "red", lwd=3, lty=2, xlim = c(-4,7), ylim = c(0,0.5),xlab = "", ylab = "", main = "")
+
+plot(density(posterior$sigma_stdy), main = "sigma_stdy/sigma_study") #sigma_study 0.6.
+abline(v =  param$sigma_study, col="red", lwd=3, lty=2)
+
+plot(density(posterior$muStdy ), xlim = c(-3,4), ylim = c(0,0.6), main = "muStdy/study_offset") #study_offset
+par(new=TRUE)
+plot(density(study_offset), col = "red", lwd=3, lty=2, xlim = c(-3,4), ylim = c(0,0.6), xlab = "", ylab = "", main = "")
+
+
+
+#model 2
+plot(density(posterior$sigmapheno_y ), xlim = c(4.4,5.4), ylim = c(0,4), main = "sigmapheno_y/sigma_phen") #  sigma_phen 5
+abline(v =  param$sigma_phen, col="red", lwd=3, lty=2)
+
+plot(density(posterior$sigmaForceSp ), xlim = c(1,4), ylim = c(0,1.1), main = "sigmaForceSp/sigma_a_forcing") # sigma_a_forcing 2
+abline(v =  param$sigma_a_forcing, col="red", lwd=3, lty=2)
+
+plot(density(posterior$muForceSp ), xlim = c(-6,4), ylim = c(0,0.33), main = "muForceSp/mu_a_forcing") #mu_a_forcing -0.8 
+abline(v =  param$mu_a_forcing, col="red", lwd=3, lty=2)
+
+plot(density(posterior$alphaForcingSp), xlim = c(-10,10), ylim = c(0,0.25), main = "alphaForcingSp/forcing_a") # //forcing_a
+par(new=TRUE)
+plot(density(forcing_a), col="red", lwd=3, lty=2, xlim = c(-10,10), ylim = c(0,0.25), main = "", xlab = "", ylab = "")
+
+plot(density(posterior$sigmaPhenoSp), xlim = c(4.5,20), ylim = c(0,0.3), main = "sigmaPhenoSp/sigma_a_phen") # sigma_a_phen 10
+abline(v =  param$sigma_a_phen, col="red", lwd=3, lty=2)
+
+
+plot(density(posterior$muPhenoSp), xlim = c(87,110), ylim = c(0,0.2), main = "muPhenoSp/mu_a_phen") # mu_a_phen 100
+abline(v =  param$mu_a_phen, col="red", lwd=3, lty=2)
+
+
+plot(density(posterior$sigmaPhenoSp), xlim = c(5,16), ylim = c(0,0.3), main = "sigmaPhenoSp/sigma_a_phen") # sigma_a_phen 10
+abline(v =  param$sigma_a_phen, col="red", lwd=3, lty=2)
+
+
+plot(density(posterior$alphaPhenoSp), xlim = c(70,125), ylim = c(0,0.05), main = "alphaPhenoSp/phenology_a") # //phenology_a
+par(new=TRUE)
+plot(density(phenology_a), col="red", lwd=3, lty=2, xlim = c(70,125), ylim = c(0,0.05), main = "", xlab = "", ylab = "")
+
+plot(density(posterior$betaTraitxPheno), xlim = c(-3,1), ylim = c(0,1.3), main = "betaTraitxPheno/forcing_b") # // b_forcing. Geoff has one for each species though.  
+par(new=TRUE)
+plot(density(forcing_b), col="red", lwd=3, lty=2, xlim = c(-3,1), ylim = c(0,1.3), main = "", xlab = "", ylab = "")
+
+dev.off()
