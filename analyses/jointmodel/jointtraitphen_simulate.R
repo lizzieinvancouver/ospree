@@ -102,5 +102,5 @@ traitstanpheno <- list(
                         species2 = dat2df$speciesID) # number of species is teh same for traits and phenology data.  
 
 
-trialFit <- stan(file = "stan/joint1TraitForcing.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
+trialFit <- stan(file = "stan/stan_joint_newPriors.stan", data = traitstanpheno, warmup = 2000, iter = 3000,
     chains = 4, cores = 4,  control=list(max_treedepth = 15)) # 3 hrs on Lizzie's machine!
