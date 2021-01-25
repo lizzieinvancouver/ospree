@@ -1,6 +1,17 @@
 Started 24 August 2017
 By Lizzie
 
+
+
+
+Git issue ...
+
+
+Ailene to help on analyses/limitingcues/nonlinearities_more.R
+
+https://github.com/lizzieinvancouver/ospree/blob/bbculdesac/docs/limitingcues/figures/limcues_intxns.png (pretty sure I have chill effect plot mislabelled, I think chilling goes up with warming in the code)
+
+
 <><><><><><><><><><><><>
 <> Code in the paper <>
 <><><><><><><><><><><><>

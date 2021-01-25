@@ -537,7 +537,6 @@ dev.off()
 
 
 # make figures prettier than average
-# ARGHH! Colors not working..
 basesize <- 12
 colz <- viridis_pal(option="magma")(3)
 pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
@@ -553,6 +552,22 @@ ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
 dev.off()
+
+
+basesize <- 12
+colz <- viridis_pal(option="magma")(3)
+pdf("limitingcues/figures/heatmapphotoxforcexchill.pdf", width = 6, height = 4)
+ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
+    geom_tile(aes(fill=as.numeric(as.character(chill.plot))), colour="white") + # but we lose variable and ambient!
+    scale_fill_gradient2(name="Exp chill temperature", low = colz[1], mid=colz[3],
+        high = colz[2], na.value="gray95") +
+    theme_classic() +
+    labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
+    theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        panel.background = element_blank(), text=element_text(size=basesize))
+dev.off()
+
 
 
 library(scales)
