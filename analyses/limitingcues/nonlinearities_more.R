@@ -2,7 +2,7 @@
 ## By Lizzie so far ##
 
 ## Plotting interactions for limiting cues paper ##
-## Taken from nonlinearities_intxns.R and decsensSimsGrandma.R (utah chill) ##
+## Taken from nonlinearities_intxns.R and decsensSimsGrandma.R (the utah chill figure) ##
 
 # See also _dothis_limitingcues.txt #
 
@@ -45,11 +45,11 @@ fpeff2 <- peff/100
 
 ##
 ## My first attempt 
-## Here I made the 'effects' panel separate from the budburst panels
+## Here I made the 'effects' panel using one slope and not much thought into how to plot the 'photoperiod effects' (first panel of figure)
 ## Note that for photoperiod I also added a little 'no effect' rectangle, but that's a small issue
 ##
 
-## make up df with budburst based on above 
+## make up df of photoperiod effects and temperature
 howlong <- 100
 pefflinear <- -1
 df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong), "photo"=seq(from=6, to=24, length.out=howlong))
@@ -59,7 +59,6 @@ df$photohinge[which(df$photo>14)] <- 0
 df$force <- df$temperature
 
 # Now estimate bb with no intxns and with intxns
-
 df$bbforce <- interceptbb + feff*df$force
 df$bbforcephoto <- interceptbb + feff*df$force + peff*df$photolinear
 df$bbforcephotohinge <- interceptbb + feff*df$force + peff*df$photohinge
@@ -71,7 +70,6 @@ df$bbforcephotohingeint2 <- interceptbb + feff*df$force + peff*df$photohinge + f
 
 # ... and PLOT!
 usr <- par('usr') # was supposed to help with rectangles, but did not
-
 pdf("figures/intxnsims2021photo.pdf", width=8, height=3)
 par(mfrow=c(1,3))
 plot(photolinear~photo, data=df, type="l", xlim=c(0,24), xlab="photoperiod", ylab="Photoperiod effect", col="blue")
@@ -92,8 +90,11 @@ dev.off()
 
 ##
 ## My second attempt 
-## Here I made the 'effects' and budburst panels from the same underlying data
+## Here I made the 'effects' and budburst panels in a way that I could control the shape of the photoperiod effects plot better
 ##
+# Some basic math I used to get the lines to cross zero at the right spot
+# y = a + bx
+# -bx = a
 howlong <- 100
 plineff <- -4.5/4
 phingeff <- (-4.5/4)*0.8
