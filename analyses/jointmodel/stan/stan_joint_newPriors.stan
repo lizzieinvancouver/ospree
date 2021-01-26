@@ -2,7 +2,7 @@
 // running a joint model to try and see how trait variation might help 
     //predict phenology. BAsed off Lizzie's joint model exqation 
 
-//priors are centred around values from Geoffs similation code 
+//priors are centred around values from Geoffs similation code   
 
 data {
 
