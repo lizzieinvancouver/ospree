@@ -97,6 +97,25 @@ y_{pheno, i} &= \alpha_{pheno, sp[i]} + \beta_{forcing_{sp[i]}}*F_i + \epsilon_{
 \epsilon_{pheno} & \sim N(0,\sigma^2_{y, pheno}) 
 \end{align*}
 
-Ideally (if we write this correctly, which I am not sure I have), the model would test our question about how much traits may inform phenology via the $\beta_{trait x pheno}$ term; if the traits don't correlate with phenology then $\beta_{trait x pheno}$ can go to zero (and variation can load on $\alpha_{forcing_{sp}}$).
+Ideally (if we write this correctly, which I am not sure I have), the model would test our question about how much traits may inform phenology via the $\beta_{trait x pheno}$ term; if the traits don't correlate with phenology then $\beta_{trait x pheno}$ can go to zero (and variation can load on $\alpha_{forcing_{sp}}$). \\
+
+25 January 2021 Version of the above model:
+
+\begin{align*}
+  \textbf{Model for trait 1} \\
+  x_{i} & \sim N(f(i), \sigma^2_{measure}) \\
+  f(i) &= \alpha_{sp[i]} + \alpha_{studytrait[i]} \\
+  \alpha_{sp[i]} & \sim N(\mu_{\alpha trait}, \sigma^2_{\alpha trait}) \\
+  \alpha_{studytrait[i]}  & \sim N(0, \sigma^2_{studytrait})\\[.75em]
+  Priors &: \sigma^2_{measure}, \mu_{\alpha trait}, \sigma^2_{\alpha trait}, \sigma^2_{studytrait} \\
+  \vspace{1ex}\\
+  \textbf{Phenology model} \\
+  y_{i} & \sim N(\phi(i), \sigma^2_{pheno}) \\
+  \phi(i) &= \gamma_{sp[i]} + g(i) \cdot F_i\\
+  g(i) & = \rho_{sp[i]} + \beta_{forcing} \cdot \alpha_{sp[i]} \\
+  \gamma_{sp[i]} & \sim N(\mu_{\alpha pheno}, \sigma^2_{\alpha pheno}) \\
+  \rho_{sp[i]} & \sim N(\mu_{\alpha forcing}, \sigma^2_{\alpha forcing})\\
+  Priors &: \sigma^2_{pheno}, \beta_{forcing}, \mu_{\alpha pheno}, \sigma^2_{\alpha pheno}, \mu_{\alpha forcing}, \sigma^2_{\alpha forcing}
+\end{align*}
 
 \end{document}
