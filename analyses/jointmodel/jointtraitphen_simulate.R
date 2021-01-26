@@ -29,8 +29,7 @@ param <- list(
     sigma_a_phen = 10,
     mu_a_forcing  = -.8,
     sigma_a_forcing  = 2,
-    mu_b_forcing = -.6,
-    sigma_b_forcing = .4)
+    b_forcing = -.6)
 
 ## Generate forcing
 forcing <- rnorm(n = nstudy, mean = 10, sd = 5)
@@ -42,8 +41,8 @@ traits <- rnorm(n = nsp, mean = param[["mu_species"]], sd = param[["sigma_specie
 phenology_a <- rnorm(n = nsp, mean = param[["mu_a_phen"]], sd = param[["sigma_a_phen"]])
 ## Generate forcing intercept
 forcing_a <- rnorm(n = nsp, mean = param[["mu_a_forcing"]], sd = param[["sigma_a_forcing"]])
-## Generate forcing coefficients
-forcing_b <- rnorm(n = nsp, mean = param[["mu_b_forcing"]], sd = param[["sigma_b_forcing"]])
+## Generate forcing coefficient
+forcing_b <- param[["b_forcing"]]
 
 ## Create data table
 dat <- matrix(NA, ncol = 8, nrow = 0)
@@ -55,7 +54,7 @@ for(i in 1:nstudy){
                      rep(traits, n), # true trait value
                      rep(phenology_a, n), # phenology interecept
                      rep(forcing_a, n), # forcing intercept
-                     rep(forcing_b, n)), # forcing coefficient                  
+                     rep(forcing_b, n * nsp)), # forcing coefficient                  
                    ncol = 8,
                    byrow = FALSE)
     dat <- rbind(dat, temp)
@@ -86,21 +85,21 @@ dat2 <- matrix(c(dat[, "studyID"],
 dat2df <- as.data.frame(dat2)
 names(dat2df) <- c("studyID", "speciesID", "forcing", "trait.observe", "phen.response")
 
-#Try and fit the joint model 
+#Try to fit the joint model 
 #-----------------------------------------
 
 
 traitstanpheno <- list(
                         yTraiti = trait.observe, 
-                        N = length(trait.observe), # sampel size for trait data is teh same as phenology data in this simulation 
+                        N = length(trait.observe), # sample size for trait data is the same as phenology data in this simulation 
                         n_spec = nsp, 
                         species = dat2df$speciesID, 
                         study = dat2df$studyID, 
                         n_study = nstudy, 
                         yPhenoi = dat2df$phen.response, 
-                        Nph = length(dat2df$trait.observe), # sampel size for trait data is teh same as phenology data in this simulation  
+                        Nph = length(dat2df$trait.observe), # sample size for trait data is the same as phenology data in this simulation  
                         forcingi = dat2df$forcing,
-                        species2 = dat2df$speciesID) # number of species is teh same for traits and phenology data.  
+                        species2 = dat2df$speciesID) # number of species is the same for traits and phenology data.  
 
 
 trialFit <- stan(file = "stan/stan_joint_newPriors.stan", data = traitstanpheno, warmup = 3000, iter = 4000,
