@@ -317,6 +317,10 @@ getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
 bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
 bb.stan.here$datasetnum <- as.numeric(as.factor(bb.stan.here$datasetID))
+poppies <- arrange(bb.stan.here, pophere, latbinum)
+popLookupVec <- unique(poppies[c("pophere","latbinum")])[,"latbinum"]
+popLookupVec <- unique(popLookupVec)
+desMat <- model.matrix(object = ~ 1 + force.z + photo.z + latbinum + datasetnum + pophere, data = bb.stan.here)
 datalist.bb.pop <- with(bb.stan.here, 
                     list(y = resp,  
                          force = force.z,
@@ -332,7 +336,8 @@ datalist.bb.pop <- with(bb.stan.here,
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
-               iter = 2000, warmup=1500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+               iter = 1000, warmup=500, chains=2, control=list(adapt_delta=0.99,max_treedepth = 15))
+
 
 
 #Warning messages:

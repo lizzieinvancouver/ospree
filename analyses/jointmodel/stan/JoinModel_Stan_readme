@@ -1,0 +1,41 @@
+JoinModel_Stan_readme
+
+This is a description of teh different stan files in the /ospree/analyses/jointmodel/stan folder
+
+- forcingOnlyModel.stan
+This model was part of the process Faith went in building a joint model. it focusing only on foring and a singel trait value per species to predict phenology day of year event.
+
+
+- joint1TraitForcing.stan
+This is a full joint model with a singel trait and just forcing. It includes a grand mean on the trait values, but the priors are not biologically relevant. 
+
+- jointtraitphen.stan
+First pass at a joint model to best estimate species-level trait values
+and use that to predict phenoloy, by Lizzie with help from Faith and Geoff 
+
+- jointtraitphen_ncp.stan
+an old attempt at pon centred parameterisation of jointtraitphen.stan
+
+- jointtrait_traitmodel.stan
+and old attempt at a joint model.  BAsed off Lizzie's joint model exqation. By Faith Jones, extracted from JointModelSim_fj.R on 21 Feb 2020 by Lizzie 
+
+- jointtrait_traitmodel_ncp.stan
+Running a joint model to try and see how trait variation might help predict phenology. BAsed off Lizzie's joint model exqation. By Faith Jones, extracted from JointModelSim_fj.R on 21 Feb 2020 by Lizzie 
+
+- jointtrait_traitmodel_vectorized.stan
+An old attempt at vectorization to make teh code faster 
+
+- OneTraitOnlyModel.stan
+Based on Faith's second attempt at making a joint model with 1 trait and 1 phenology influence(forcing). Model based on stan_Part1.stan writen by Faith in Feb 2020, but split from that model Dec 2020 because Faith wanted to try a grand alpha it should get species specific trait effect values 
+
+- stan_joint.stan
+Faith's second attempt at making a joint model with 1 trait and 1 phenology influence(forcing). It doesnt have bioloigically relevant priosrs. 
+
+- stan_joint_newPriors.stan
+Geoff sent Faith some simulation code to try, but without a grand mean, so this the code with priors relating to that simulation.  
+
+- stan_Part1.stan 
+The trait half of stan_joint.stan
+
+- stan_Part2.stan 
+The phenology half of stan_joint.stan
