@@ -15,16 +15,18 @@ library(vegan)
 
 #Anyone else working with this code should add their info/path here
 if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/ospree_trait_analysis/")
-} #else if
-#(length(grep("XXX", getwd())>0)) {   setwd("XXX") 
-#} 
+} else if
+(length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
+} 
 
 dat <- read.csv("input/try_bien_nodups.csv") 
 names(dat)
 
-dat<-dat[,c("new.SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude","project_pi","database","DatasetID")]
+dat <- dat[,c("new.SpeciesName","TraitName","TraitValue","UnitName","Latitude","Longitude",
+    "project_pi","database","DatasetID")]
 
 ## I started by trying to just alter Geoff's code (below) and while it worked well for the mean values, I am not sure how to get it to work with the raw data
+# Does the code below actually take the geometric mean per species? It looks to me like it takes the first value?!
 species <- unique(dat$new.SpeciesName)
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
@@ -44,7 +46,13 @@ colnames(mat) <- c("Height", "SLA", "Photosyn",
 rownames(mat) <- species
 mat
 
-## Remove photosynthesis 
+## Which traits to drop to keep more species?
+for (whichcol in 1:ncol(mat)){
+    print(colnames(mat)[whichcol])
+    print(sum(is.na(mat[,whichcol])))
+    }
+
+## Remove photosynthesis ...and StemD?
  mat2 <- mat[, c("Height", "SLA",
                  "N", "SSD", "LDMC", "StemD")]
  mat2 <- mat[complete.cases(mat2), ]
@@ -52,9 +60,15 @@ mat
 ## Standardize (normalize) trait values
 #mat2[, 1:6] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
+if(FALSE){
 head(dat)
-# Attempt 2
+# Attempts by Lizzie ...
+datsm <- subset(dat, select=c("new.SpeciesName", "TraitName", "TraitValue"))
+tryreshape <- reshape(datsm, timevar="TraitName", idvar="new.SpeciesName", direction="wide")
 require(reshape2)
+trydcast <- dcast(dat, new.SpeciesName + Latitude + Longitude ~ TraitName, value.var = "TraitValue", drop = FALSE)
+}
+# Attempt 2
 temp<-reshape2::dcast(dat, new.SpeciesName + DatasetID ~TraitName , value.var= "TraitValue")
 
 head(temp)
