@@ -90,7 +90,7 @@ test<-spread(dat, key = TraitName,value = TraitValue)
 ranges <- list(c(-.4, .4),
                c(-.2, .2),
                c(-.1, .1))
-par(mfrow = c(1, 3), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
+par(mfrow = c(1, 1), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
 for(i in 1:length(ranges)){
     biplot(prcomp(mat2), cex = c(.7, 1.25), col = "black")
 }
@@ -98,20 +98,58 @@ for(i in 1:length(ranges)){
 
 # 
 ##############################################################################################
+
 # Doing the PCA for the geometric mean:
 # Start by calculating the average by speceis x trait
-mtrt <- aggregate(dat["TraitValue"], dat[c("new.SpeciesName","TraitName")], FUN=mean) 
+mtrt <- aggregate(dat["TraitValue"], dat[c("new.SpeciesName","TraitName")], FUN=mean, na.rm=TRUE) 
 
+mtrt.ddply<- ddply(dat, c("new.SpeciesName","TraitName"), summarise, mean = mean(TraitValue), sd = sd(TraitValue), sem = sd(TraitValue)/sqrt(length(TraitValue)) )
+
+#This is one of the mehtods mentioned on stack over.flow, https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in 
+mtrt.stk<-exp(tapply(log(dat$TraitValue), dat[c("new.SpeciesName","TraitName")], mean, na.rm=TRUE))
+
+#This is another of the mehtods mentioned on stack over.flow, this function is suppose to deal with missing values, but it results in NA for traits that only have one observation, which isn't really what we want.
+# gm_mean = function(x, na.rm=TRUE){
+#     exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
+# }
+
+gm_mean = function(x, na.rm=TRUE){
+    exp(sum(log(x) / length(x)))
+}
+
+spsub <- subset(dat, new.SpeciesName == species[1]) 
+sptrtsub <- subset(spsub, TraitName == trait[2]) 
+gmmean<-gm_mean(sptrtsub$TraitValue); gmmean  # this value is very different from the three above
+
+# First I create this object that has every unique trait by species combination, it also includes the number of observations for each (which is what indicated to me that we don't want to use the function on line 112)
+tm <- aggregate(dat["TraitValue"], dat[c("new.SpeciesName","TraitName")], FUN=length) 
+
+species<-tm$new.SpeciesName
+trait<-tm$TraitName
+
+trtmeans<-vector()
+for(i in 1:length(species)){
+    spsub <- subset(dat, new.SpeciesName == species[i])
+    for(j in 1:length(trait)){
+        sptrtsub <- subset(spsub, TraitName == trait[j])
+        gmmean<-gm_mean(sptrtsub$TraitValue)
+    }
+    trtmeans<-rbind(trtmeans,gmmean)
+}
+tm$mean<-trtmeans[,1]
+head(tm)
+
+#########################################################################
 # create a new matrix for feeding into the PCA
-species <- unique(dat$new.SpeciesName)
+species <- unique(tm$new.SpeciesName)
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
 mat <- matrix(NA, ncol = length(traits), nrow = length(species))
 
 for(i in 1:length(species)){
-    temp <- subset(mtrt, new.SpeciesName == species[i])
+    temp <- subset(tm, new.SpeciesName == species[i])
     for(j in 1:length(traits)){
-        mat[i, j] <- subset(temp, TraitName == traits[j])$TraitValue[1]
+        mat[i, j] <- subset(temp, TraitName == traits[j])$mean[1]
     }
 }
 
@@ -130,9 +168,10 @@ mat2 <- mat2[complete.cases(mat2), ]
 #mat2[, 1:6] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
 ## PCA plots 
-ranges <- list(c(-.4, .4),
-               c(-.2, .2),
+ranges <- list(c(-.7, .7),
+               c(-.4, .4),
                c(-.1, .1))
+par(mfrow = c(1, 1), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
 for(i in 1:length(ranges)){
     biplot(prcomp(mat2), col = "black")
 }
