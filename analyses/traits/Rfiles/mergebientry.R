@@ -57,7 +57,7 @@ trydat$database<-"try"
 
 #issue with the biend longtitude
 trydat$Longitdue<-as.numeric(as.character(trydat$Longitude))
-
+sort(names(trydat))
 ###########################################################
 #bien has sla as and ldmc as
 unique(biendat$TraitName)
@@ -107,11 +107,11 @@ names(trybien)
 
 write.csv(trybien,"input/try_bien.csv", row.names=FALSE)
 
-require(corrplot)
-require(tidyr)
-require(reshape2)
-
-trait_wide<-spread(trybien, TraitName, TraitValue)
+# require(corrplot)
+# require(tidyr)
+# require(reshape2)
+# 
+# trait_wide<-spread(trybien, TraitName, TraitValue)
 
 
 # ##########################################################################################

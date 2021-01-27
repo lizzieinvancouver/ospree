@@ -118,7 +118,8 @@ ExtraInfoColumns<- ExtraInfo[,c("DataName", "ObservationID", "OrigValueStr")]
 
 #These are the information I think might be useful to retain 
 dataCare <- c("Reference / source" , "Comments, notes, methods", "Location Site ID", "Altitude"  ,  
-	"Data type" , "Sample size" , "Location Name"  , "Reference 2", "Part of plant measured" , "Study ID; external Dataset ID ")
+	"Data type" , "Sample size" , "Location Name"  , "Reference 2", "Part of plant measured" , "Study ID; external Dataset ID ")      
+	#,"Latitude","Longitude")
 
 ExtraInfoColumns2 <- ExtraInfoColumns[ExtraInfoColumns$DataName %in% dataCare, ]
 
@@ -128,7 +129,7 @@ wideExtraInfo <- spread(ExtraInfoColumns2, key = DataName, value = OrigValueStr)
 ############ Get the right lat long values ####################
 ext<- ExtraInfo[,c("DataName", "ObservationID", "StdValue")]
 
-#These are the information I think might be useful to retain 
+#These are the information I think might be useful to retain
 la <- c("Latitude")
 lo <- c("Longitude")
 
@@ -138,8 +139,8 @@ extlon <- ext[ext$DataName %in% lo, ]
 lat <- spread(extlat, key = DataName, value = StdValue)
 lon <- spread(extlon, key = DataName, value = StdValue)
 
-#Merge in extra data to trait data based on observation ID
-#---------------------------------------------------------
+# #Merge in extra data to trait data based on observation ID
+# #---------------------------------------------------------
 latlon <- merge(lat,lon, by = "ObservationID")
 tryData <- merge(traitsOnly, wideExtraInfo, by = "ObservationID")
 tryData <- merge(tryData, latlon, by = "ObservationID")
@@ -222,7 +223,8 @@ length(unique(tryData$SpeciesName)) #206
 length(unique(tryData$TraitName)) #13
 
 #Save Data as a csv
+sort(names(tryData))
 #--------------------------------------------
 
-write.csv(tryData, "input/TryDataCleanedNew_Jan212021.csv")
+write.csv(tryData, "input/TryDataCleanedNew_Jan212021.csv", row.names = FALSE)
 

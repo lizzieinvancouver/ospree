@@ -7,6 +7,7 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 
+library(tidyr)
 library(plyr)
 library(dplyr)
 library(vegan)
@@ -28,16 +29,23 @@ dat<-dat[,c("new.SpeciesName","TraitName","TraitValue","UnitName","Latitude","Lo
 species <- unique(dat$new.SpeciesName)
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
-mat <- matrix(NA, ncol = length(traits), nrow = length(species))
+# looking at the number of observations per trait, we could imagine we would need 801485 rows for all the height data
+nopertrait <- dat %>%
+    group_by(TraitName) %>%
+    summarise(no_rows = length(TraitName))
+
+mat <- matrix(NA, ncol = length(traits), nrow = 801485) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
 
 for(i in 1:length(species)){
     temp <- subset(dat, new.SpeciesName == species[i])
     for(j in 1:length(traits)){
-        mat[i, j] <- subset(temp, TraitName == traits[j])$TraitValue[1]
+       mat[i,j] <- subset(temp, TraitName == traits[j])$TraitValue[i]
     }
 }
-
 mat
+
+temp <- subset(dat, new.SpeciesName == species[1])
+temp2<-subset(temp, TraitName == traits[1])
 
 colnames(mat) <- c("Height", "SLA", "Photosyn",
                    "N", "SSD", "LDMC", "StemD")
@@ -60,7 +68,8 @@ temp<-reshape2::dcast(dat, new.SpeciesName + DatasetID ~TraitName , value.var= "
 head(temp)
 
 # Attempt 3 using tidyr
-test<-spread(dat,TraitName,TraitValue)
+
+test<-spread(dat, key = TraitName,value = TraitValue)
 
 
 ## PCA plots 
@@ -77,7 +86,7 @@ for(i in 1:length(ranges)){
 ##############################################################################################
 # Doing the PCA for the geometric mean:
 # Start by calculating the average by speceis x trait
-mtrt <- aggregate(dat["TraitValue"], d[c("new.SpeciesName","TraitName")], FUN=mean) 
+mtrt <- aggregate(dat["TraitValue"], dat[c("new.SpeciesName","TraitName")], FUN=mean) 
 
 # create a new matrix for feeding into the PCA
 species <- unique(dat$new.SpeciesName)
