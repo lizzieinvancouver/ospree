@@ -36,7 +36,7 @@ parameters{
     //MODEL 1 ------------------------------------------------
     //level 1
     real <lower =0> sigmaTrait_y; // overall variation accross observations
-
+    real mu_grand; // Grand mean for trait value 
     //level 2
     real <lower = 0> sigma_sp; // variation of intercept amoung species
     real mu_g; // mean of the alpha value for species
@@ -75,7 +75,7 @@ transformed parameters{
     //MODEL 1
     //Individual mean calculation 
     for (i in 1:N){
-        ymu[i] = muSp[species[i]] + muStdy[study[i]];  //muSp is used in 2nd level of model
+        ymu[i] = mu_grand + muSp[species[i]] + muStdy[study[i]];  //muSp is used in 2nd level of model
     }
 
     //MODEL 2----------------------------------------
@@ -91,8 +91,9 @@ model{
     sigmaTrait_y ~ normal(0,5); // sigma_obs 0.4
 
     sigma_sp ~ normal(0,5); //sigma_species 1.1
-    mu_g ~ normal(0, 5); // mu_species 3
-    muSp ~ normal(mu_g, sigma_sp); //trait1
+    sigmaTrait_y ~ normal(0,5);
+    mu_grand ~ normal(0, 5); // mu_species 3
+    muSp ~ normal(0, sigma_sp); //trait1
 
     sigma_stdy ~ normal(0, 5);
     muStdy ~ normal(0, sigma_stdy);//sigma_study 0.6. Centred around 0 because muSp acts as the center of the distribution
