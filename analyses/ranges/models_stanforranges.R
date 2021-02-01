@@ -335,8 +335,26 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_matrix.stan', data = datalist.bb.pop,
-               iter = 1000, warmup=500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
+               iter = 2000, warmup=1500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
+
+#Warning messages:
+#  1: There were 68 divergent transitions after warmup. See
+#http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+#to find out why this is a problem and how to eliminate them. 
+#2: There were 4 chains where the estimated Bayesian Fraction of Missing Information was low. See
+#http://mc-stan.org/misc/warnings.html#bfmi-low 
+#3: Examine the pairs() plot to diagnose sampling problems
+
+#4: The largest R-hat is 1.33, indicating chains have not mixed.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#r-hat 
+#5: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#bulk-ess 
+#6: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
+#Running the chains for more iterations may help. See
+#http://mc-stan.org/misc/warnings.html#tail-ess 
 
 
 modelhere <- m3l.ni 

@@ -135,14 +135,14 @@ data {
    target += normal_lpdf(to_vector(b_force_raw) | 0, 1);
    
    // Random effects distribution of remaining priors
-   target += normal_lpdf(to_vector(b_photo_sppop) | 0, 30);
-   target += normal_lpdf(to_vector(b_force_sppop) | 0, 30);
+   target += normal_lpdf(to_vector(b_photo_sppop) | 0, 20);
+   target += normal_lpdf(to_vector(b_force_sppop) | 0, 20);
    
-   target += normal_lpdf(to_vector(a_sp) | 0, 40);
-	 target += normal_lpdf(to_vector(a_study) | 0, 30);
+   target += normal_lpdf(to_vector(a_sp) | 0, 20);
+	 target += normal_lpdf(to_vector(a_study) | 0, 20);
    
    //target += normal_lpdf(to_vector(a_sppop) | 0, 10);
-   target += normal_lpdf(to_vector(a_sppop) | 0, 40);
+   target += normal_lpdf(to_vector(a_sppop) | 0, 20);
    
    target += normal_lpdf(to_vector(b_photo) | 0, 20);
 	 target += normal_lpdf(to_vector(b_force) | 0, 20);
