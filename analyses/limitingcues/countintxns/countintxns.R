@@ -1,7 +1,8 @@
 ## Started 2 March 2019 ##
 ## By Lizzie ##
 
-# Start your own R file to make a f(x) to count interactive experiments, ideally for all possible intxns across photoperiod, chilling, forcing, and field sample date (maybe provenance) treatments! #
+# This tries to count *interactive experiments*, ideally for all possible intxns across photoperiod, chilling, forcing, and field sample date (maybe provenance) treatments! #
+# I don't recommend it for counting the number of cues. For that, I think Cat's code studydesign_numcues.R is much saner. #
 
 ## See also: https://github.com/lizzieinvancouver/ospree/issues/235
 
@@ -46,11 +47,13 @@ studybycontinent <- studybycontinentfull[!duplicated(studybycontinentfull), ]
 table(studybycontinent$continent)
 
 # Get the number of field sampling dates that are 14 or more weeks apart, first for each datasetIDx study ...
+# This is just to correct for studies that truly meant to have muultiple field sample dates (versus, for example, when ...
+# we go to a site and it takes us three days to sample) #
 ddatefx.all <- subset(dat, select=c("datasetID", "study", "fieldsample.date"))
 ddatefx <- ddatefx.all[!duplicated(ddatefx.all), ]
 ddatefx$datasetIDstudy <- paste(ddatefx$datasetID, ddatefx$study)
 
-## Change main DF so only relevant dates are included ... not pretty, but should work (and goes on for a while)
+## START: Change main DF so only relevant dates are included ... not pretty, but should work (and goes on for a while)
 # First get the unique dates in a df
 dates2weeks.count <- countfieldsample(ddatefx, 14)
 uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
@@ -106,11 +109,15 @@ setdiff(unique(paste(datsm$datasetID, datsm$study)), unique(paste(datsm14d$datas
 datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 dim(datsm14d.noNA)
 dim(datsm14d) # Good, again we should not lose any rows here
+## END: Change main DF so only relevant dates are included
 
-# Start gathering data ... 
+
+# Start gathering data ...
+# My whole approach is to count studies, so set up empty DF
 ospcounts <- data.frame(treat1=character(), treat2=character(), n=numeric())
 
-## Single treatments
+## Let's start with single treatments ....
+# get.treatdists.singletreatment f(x) counts based on one treatment (ignoring the other treatments)
 forceosp <- get.treatdists.singletreatment(datsm14d, "force")
 forceospnight <- get.treatdists.singletreatment(datsm14d, "forcetemp_night")
 photoosp <- get.treatdists.singletreatment(datsm14d, "photo")
@@ -122,17 +129,20 @@ fsdatesosp <- get.treatdists.singletreatment(datsm14d, "fieldsample.date")
 forceall <- union(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), paste(forceospnight$datasetID,
    forceospnight$study, sep="_")) # 46... so I need to deal with this somehow
 
-# chilldays includes experiments and field sample dates ... so we need to check and update ...
+# The column chilldays includes chilldays due to experiments and due field sample dates ...
+# So we need to check that we count these accurately! To do so ... 
 # Lizzie worked through many of these in 2020 for her studydesignplots.R code
 # Definitely check out studydesignplots.R code for some relevant cleaning... 
-# She wrote notes in https://github.com/lizzieinvancouver/ospree/issues/249 on many of the studies here  
+# She wrote notes in https://github.com/lizzieinvancouver/ospree/issues/249 on many of the studies here
+
+# But for here ... below I grab studies that have chilldays but not multiple field sampled dates; need to check the papers!
 checkchillist <- setdiff(unique(paste(chilldaysosp$datasetID, chilldaysosp$study, sep="_")), paste(fsdatesosp$datasetID,
-   fsdatesosp$study, sep="_")) # these have chilldays but not multiple field sampled dates; need to check the papers!
+   fsdatesosp$study, sep="_")) 
 chilldaysosp.prep <- data.frame(datasetID=rep(NA, length(checkchillist)), study=rep(NA, length(checkchillist)))
 chilldaysosp.prep$datasetID <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[1]))
 chilldaysosp.prep$study <- unlist(lapply(strsplit(as.character(checkchillist), "_", fixed=TRUE), function(x) x[2]))
 chilldaysospuse <- merge(chilldaysosp.prep, chilldaysosp, by=c("datasetID", "study"), all.x=TRUE)
-# There are a LOT of studies in checkchillist, so I will pull in some of the info from BB analysis
+# There are a LOT of studies in checkchillist, so I will pull in some of the info from BB analysis in case that helps
 dfbb <- read.csv("output/ospree_clean_withchill_BB.csv", header=TRUE)
 dfbbchill <- dfbb[which(paste(dfbb$datasetID, dfbb$study, sep="_") %in% checkchillist),]
 dfbbchillsm <- subset(dfbbchill, select=c("datasetID", "study", "chill_type"))
@@ -152,7 +162,8 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="single treat",
     n=nrow(fsdatesosp)))
 
 ## From here we can ask about which studies did two factors ...
-# (but not neccessarily interactively) ##
+# But not neccessarily interactively! We're just using the intersect command to see....
+# which studies have >1 cue manipulated in multiple cues ##
 osp14d.fpall <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
    paste(photoosp$datasetID, photoosp$study, sep="_"))
 osp14d.ctfall <- intersect(unique(paste(forceosp$datasetID, forceosp$study, sep="_")), 
@@ -190,7 +201,7 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo ALL",
     n=length(osp14d.pc)))
 
 ## Now ask which studies did three factors ...
-# (but not neccessarily interactively) ##
+# (but, again, not neccessarily interactively) ##
 fpct <- intersect(osp14d.fpall, paste(chilltemposp$datasetID, chilltemposp$study, sep="_"))
 fpcd <- intersect(osp14d.fpall, checkchillist)
 fpfs <- intersect(osp14d.fpall, paste(fsdatesosp$datasetID, fsdatesosp$study, sep="_"))
@@ -202,7 +213,8 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="force", treat2="photo and chill
     n=length(fpfs)), data.frame(treat1="photo", treat2="force and chill days or temp ALL",
     n=length(fpfs)))
 
-## Two-way interactive treatments 
+## Two-way interactive treatments
+# get.treatdists f(x) is designed to look for interactions!
 osp14d.fp <- get.treatdists(datsm14d, "photo", "force")
 osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
 osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
@@ -275,7 +287,25 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="
     n=nrow(osp14d.studiesinclforceperiodicity)), data.frame(treat1="ALL studies", treat2="NA",
     n=length(unique(paste(datsm14d$datasetID, datsm14d$study)))))
 
+# maybe useful? A dataframe of how each study was categorized -- IMPT! a study can get into multiple categories
+ospintxnstudies <- data.frame(datasetID=character(), study=character(), intxn=character())
+
+ospintxnstudies <- rbind(ospintxnstudies,
+    data.frame(datasetID=osp14d.fpintxn$datasetID, study=osp14d.fpintxn$study, intxn=rep("force x photo", nrow(osp14d.fpintxn))),
+    data.frame(datasetID=osp14d.ctfintxn$datasetID, study=osp14d.ctfintxn$study, intxn=rep("force x chilltemp", nrow(osp14d.ctfintxn))),
+    data.frame(datasetID=osp14d.ctpintxn$datasetID, study=osp14d.ctpintxn$study, intxn=rep("photo x chilltemp", nrow(osp14d.ctpintxn))),
+    data.frame(datasetID=osp14d.cdfintxn$datasetID, study=osp14d.cdfintxn$study, intxn=rep("force x chilldays", nrow(osp14d.cdfintxn))),
+    data.frame(datasetID=osp14d.cdpintxn$datasetID, study=osp14d.cdpintxn$study, intxn=rep("photo x chilldays", nrow(osp14d.cdpintxn))),
+    data.frame(datasetID=osp14d.daysfintxn$datasetID, study=osp14d.daysfintxn$study, intxn=rep("force x fieldsample dates",
+        nrow(osp14d.daysfintxn))),
+    data.frame(datasetID=osp14d.dayspintxn$datasetID, study=osp14d.dayspintxn$study, intxn=rep("photo x fieldsample dates",
+        nrow(osp14d.dayspintxn)))) # Does not include osp14d.allchillf and osp14d.allchillp work
+
+ospintxnstudies <- ospintxnstudies[order(ospintxnstudies$datasetID),]
+
+
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
+write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
 write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE)
 
 

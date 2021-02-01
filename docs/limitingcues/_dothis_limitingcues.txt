@@ -8,10 +8,6 @@ By Lizzie
 
 ... I am reviewing the text, but I *skipped the abstract for now*
 
-- Way too much going on intro .... can I way shorten it? What chunk could be pulled out into new opening section?
-- Cut move or overhaul first paragraph in `How will chilling, forcing and photoperiod shift with climate change?'
-
-
 (1) Ask for help on new interactions figure
 
 - From Ailene and Nacho, set up a git issue ...
@@ -34,11 +30,16 @@ Given our current understanding of phenological cues, we should expect the most 
 <><><><><><><><><><><><>
 <> Code in the paper <>
 <><><><><><><><><><><><>
-
+studydesign_numcues.R -- probably the best way to count single and multiple cues and makes one of the plots
 studydesignplots.R -- makes the heatmaps
-countintxns.R 
+countintxns.R -- counts interactions, which is a PAIN!
 nonlinearities_intxns.R 
 nonlinearities_more.R 
+
+Also... for "PEP725 and NECTAR databases together have multi-site data on more than 2500 species"
+goober <- read.csv("~/Documents/Subversion/phenology/Data/pheno_raw.csv")
+unique(paste(goober$genus, goober$species))
+unique(goober$site)
 
 27 Nov 2020
 - I think best to figure out what figures I want and ask for coding help!
@@ -74,21 +75,24 @@ I have cleaned up the countinxns.R code ... am working on studydesignplots.R
 (*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
 (*) FIX ME figure below ... do soon or start writing first?
 
-(*) Finish organizing and inputting comments from Jan 2020 (but don't start reading this clunky text until descens is done) ... ** Update Aug 2020: I think I *inputted* all the comments in the tex as best I can tell.** 
 
 
 In no particular order but need to be done...
 
-(*) Check this statement: PEP725 and NECTAR databases together have multi-site data on more than 1,600 species
 (*) Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
 (*) Start on Rnw file for supp.
 (*) Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174
+(*) Cue or cue mechanism or what?
+
+Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
+
+Salk 2020
+
+"I focus mostly on what I call ‘cueing mechanisms’ (e.g. spring tempera- ture, chilling, photoperiod) rather than ‘cues’ (e.g. the specific critical photoperiod or degree-day requirement of a plant) as these are more likely to be a shared feature within a species. Because of its fundamental importance for carbon balance, especially in deciduous species (Dragoni et al. 2011), this paper focuses on leafing phenology in temperate and boreal trees."
+
+Chmura et al. 2019 defines, "Cue: an attribute of the environment that initiates a phenological response" but their definitions are beyond that sort of sloppy (
 
 
-FIX ME figure:
-- each cue alone may be non-linear when examined across a wide range of values. Cues may be linear in the mid-range of values, while extremely high or low values of some cues (e.g., photoperiod) may produce alternative response 
-- interactions between cues can produce non-linearities in environments where levels of cues are correlated over time.
-- we should expect the most dramatic changes in phenology in systems with non-linear responses where climate change pushes the system across a critical threshold or inflection point. For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst. Similarly the complexity of chilling could produce myriad non-linearities. If, as currently hypothesized, chilling follows an optimum curve (i.e., chilling does not accumulate at very low or high temperatures but in between it accumulates at a maximum rate at some temperature optimum), then endodormancy break would shift earlier in systems where warming pushes winter temperatures into a chilling-accumulation temperature or closer to the optimum temperature, and delay where warming pushes winter temperatures beyond the optimum (with more complex predictions if high temperatures decrease accumulated chilling). Interactive cues could also produce non-linear responses, but predicting these requires a refined understanding of the interaction and whether there are critical inflection points that may be crossed with continued warming. These complexities highlight how difficult predictions may be without careful efforts to tease out how each cue works alone and interactively. 
 
 <><><><><><>
 Fix the text ...
@@ -106,11 +110,6 @@ Ailene and Dan say add a figure for paragraph starting: These cues may create no
 - Show correlations of GDD x Photoperiod at Harvard Forest?
 - Dan and Ailene like Figure 8: Maybe on way to clean it up is to do lump all ambient+X studies as “ambient+” or remove the text one as “other” and and describe them in a supplemental table.
 
-And my notes on ms issues: 
-
-- Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
-
-- We probably need to better explain the cues earlier. Explain endo- versus eco-dormancy earlier. Or is it okay the way it is?
 
 <><><><><><><><><><><><><><><><><><><><>
 Citations work, notes etc.
