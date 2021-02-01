@@ -317,10 +317,10 @@ getpop <- paste(bb.stan.here$latbinum, bb.stan.here$site)
 bb.stan.here$pophere <- as.numeric(as.factor(getpop))
 bb.stan.here$latbinum <- as.numeric(as.factor(bb.stan.here$latbi))
 bb.stan.here$datasetnum <- as.numeric(as.factor(bb.stan.here$datasetID))
-poppies <- arrange(bb.stan.here, pophere, latbinum)
-popLookupVec <- unique(poppies[c("pophere","latbinum")])[,"latbinum"]
-popLookupVec <- unique(popLookupVec)
-desMat <- model.matrix(object = ~ 1 + force.z + photo.z + latbinum + datasetnum + pophere, data = bb.stan.here)
+#poppies <- arrange(bb.stan.here, pophere, latbinum)
+#popLookupVec <- unique(poppies[c("pophere","latbinum")])[,"latbinum"]
+#popLookupVec <- unique(popLookupVec)
+#desMat <- model.matrix(object = ~ 1 + force.z + photo.z + latbinum + datasetnum + pophere, data = bb.stan.here)
 datalist.bb.pop <- with(bb.stan.here, 
                     list(y = resp,  
                          force = force.z,
@@ -335,25 +335,9 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
-               iter = 1000, warmup=500, chains=2, control=list(adapt_delta=0.99,max_treedepth = 15))
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_matrix.stan', data = datalist.bb.pop,
+               iter = 1000, warmup=500, chains=4, control=list(adapt_delta=0.99,max_treedepth = 15))
 
-
-
-#Warning messages:
- # 1: There were 4000 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 15. See
-#http://mc-stan.org/misc/warnings.html#maximum-treedepth-exceeded 
-#2: Examine the pairs() plot to diagnose sampling problems
-
-#3: The largest R-hat is 4.46, indicating chains have not mixed.
-#Running the chains for more iterations may help. See
-#http://mc-stan.org/misc/warnings.html#r-hat 
-#4: Bulk Effective Samples Size (ESS) is too low, indicating posterior means and medians may be unreliable.
-#Running the chains for more iterations may help. See
-#http://mc-stan.org/misc/warnings.html#bulk-ess 
-#5: Tail Effective Samples Size (ESS) is too low, indicating posterior variances and tail quantiles may be unreliable.
-#Running the chains for more iterations may help. See
-#http://mc-stan.org/misc/warnings.html#tail-ess 
 
 modelhere <- m3l.ni 
 mod.sum <- summary(modelhere)$summary

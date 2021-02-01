@@ -24,9 +24,13 @@ data {
    int<lower=1, upper=n_pop> pop[N]; 
  
    // Continuous outcome
-   real y[N];
-   
- }
+  vector[N] y;
+}
+
+transformed data {
+   vector[N] y_cen;
+   y_cen = (y - mean(y))/sd(y);
+}
  
  parameters {
    // Define parameters to estimate
@@ -78,6 +82,7 @@ data {
  }
  
  transformed parameters  {
+
    vector[n_sp] b_photo = mu_b_photo_sp + sigma_b_photo_sp * b_photo_raw;
    vector[n_sp] b_force = mu_b_force_sp + sigma_b_force_sp * b_force_raw;
    
@@ -142,7 +147,7 @@ data {
 	 target += normal_lpdf(to_vector(a_study) | 0, 30);
    
    //target += normal_lpdf(to_vector(a_sppop) | 0, 10);
-   target += normal_lpdf(to_vector(a_sppop) | 0, 40);
+   target += normal_lpdf(to_vector(a_sppop) | 0, 20);
    
    target += normal_lpdf(to_vector(b_photo) | 0, 20);
 	 target += normal_lpdf(to_vector(b_force) | 0, 20);
@@ -168,7 +173,7 @@ data {
  
    // Likelihood part of Bayesian inference
    for (i in 1:N) {
-     target += normal_lpdf(y[i] | yhat[i], sigma_y);
+     target += normal_lpdf(y_cen[i] | yhat[i], sigma_y);
      //y[i] ~ normal(yhat[i], sigma_y);
    }
  }
