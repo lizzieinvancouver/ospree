@@ -82,7 +82,6 @@ dupbien <- subset(trt.dup5, database == "bien") # this is 33.9% of the full bien
 unique(dupbien$project_pi)
 greams <- subset(dupbien, project_pi == "Greg Reams")
 
-
 duptry <- subset(trt.dup5, database == "try") # this is 48.6% of the full try data that we started with
 #How many studies have data lost -- 19 studies
 length(unique(duptry$DatasetID)) 
@@ -133,7 +132,6 @@ dim(trt.sub.no.dup4)
 sort(unique(trt.sub.no.dup4$refabr4))
 length((unique(trt.sub.no.dup4$refabr4))) #190
 
-
 ######### Subset with 6 characters ####################################################################################
 d$refabr6 <- strtrim(d$Reference...source, 6); head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 
@@ -170,8 +168,6 @@ koba <- subset(trt.sub.no.dup6, refabr4 == "Koba") # no duplicated data, all dif
 #unpublished
 unpub <- subset(trt.sub.no.dup6, refabr4 == "unpu") # no obviously duplicated data, appears to be all different
 
-
-
 # Don't seem to have lost anything unique
 length(unique(d$SpeciesName)); length(unique(trt.sub.no.dup5$SpeciesName))
 length(unique(d$TraitName)); length(unique(trt.sub.no.dup5$TraitName))
@@ -189,4 +185,3 @@ ldmc <- subset(trt.sub.no.dup, TraitName == "Leaf_dry_matter_content"); hist (ld
 lcc <- subset(trt.sub.no.dup, TraitName == "Leaf_carbon_.C._content_per_leaf_dry_mass"); hist (lcc$TraitValue)
 photo <- subset(trt.sub.no.dup, TraitName == "Leaf_photosynthesis_rate_per_leaf_area"); hist (photo$TraitValue)
 life <- subset(trt.sub.no.dup, TraitName == "leaf life span"); hist (life$TraitValue)
-
