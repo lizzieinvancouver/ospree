@@ -46,6 +46,15 @@ studybycontinentfull <- subset(dat, select=c("continent", "datasetID"))
 studybycontinent <- studybycontinentfull[!duplicated(studybycontinentfull), ]
 table(studybycontinent$continent)
 
+# Studies by species ...
+spbydatasetIDfull <- subset(dat, select=c("datasetID", "latbi"))
+spbydatasetID <- spbydatasetIDfull[!duplicated(spbydatasetIDfull), ]
+spbydatasetID.df <- aggregate(spbydatasetID["datasetID"], spbydatasetID["latbi"], FUN=length)
+spbydatasetID.df <- spbydatasetID.df[order(spbydatasetID.df$datasetID),]
+nrow(spbydatasetID.df)
+nrow(subset(spbydatasetID.df, datasetID>1))
+nrow(subset(spbydatasetID.df, datasetID>2))
+
 # Get the number of field sampling dates that are 14 or more weeks apart, first for each datasetIDx study ...
 # This is just to correct for studies that truly meant to have muultiple field sample dates (versus, for example, when ...
 # we go to a site and it takes us three days to sample) #
@@ -287,7 +296,7 @@ ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="
     n=nrow(osp14d.studiesinclforceperiodicity)), data.frame(treat1="ALL studies", treat2="NA",
     n=length(unique(paste(datsm14d$datasetID, datsm14d$study)))))
 
-# maybe useful? A dataframe of how each study was categorized -- IMPT! a study can get into multiple categories
+# Now! A dataframe of how each study was categorized -- IMPT! a study can get into multiple categories, so I manually fix it below (ugly code) so each study is one row
 ospintxnstudies <- data.frame(datasetID=character(), study=character(), intxn=character())
 
 ospintxnstudies <- rbind(ospintxnstudies,
@@ -301,8 +310,50 @@ ospintxnstudies <- rbind(ospintxnstudies,
     data.frame(datasetID=osp14d.dayspintxn$datasetID, study=osp14d.dayspintxn$study, intxn=rep("photo x fieldsample dates",
         nrow(osp14d.dayspintxn)))) # Does not include osp14d.allchillf and osp14d.allchillp work
 
-ospintxnstudies <- ospintxnstudies[order(ospintxnstudies$datasetID),]
+ospintxnstudiesall <- ospintxnstudies[order(ospintxnstudies$datasetID),]
+ospintxnstudies.count <- aggregate(ospintxnstudies["intxn"], ospintxnstudies[c("datasetID",
+    "study")], FUN=length)
+ospintxnstudies.rm <- subset(ospintxnstudies.count, intxn>1)
+ospintxnstudies <- ospintxnstudiesall[!duplicated(paste(ospintxnstudiesall$datasetID, ospintxnstudiesall$study)),]
 
+# Remove and re-label the datasetID-study in ospintxnstudies.count with intxn>1
+# How did I check these to relabel them?
+# (1) I looked at the data if it was short enough to quickly look through after subsetting datsm14d...
+# (2) Otherwise I checked the paper
+# (3) Then I crossed-checked against ospintxnstudiesall: three-way interactions should have 3 rows, and otherwise what intxns are found should match to my notes
+# (4) I checked any suspicious ones using code below
+if(FALSE){
+test <- subset(datsm14d, datasetID=="okie11" & study=="exp2")
+testsm <- subset(test, select=c("forcetemp", "forcetemp_night", "photoperiod_day",
+    "fieldsample.date", "chilltemp", "chilldays"))
+testtreats <- testsm[!duplicated(testsm),]
+}
+
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="worrall67" &
+    ospintxnstudies$study=="exp 3")] <-
+    "photo/force x exp chilldays (force and photo are NOT interactive)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="basler14" &
+    ospintxnstudies$study=="exp1")] <- "photo x force x field sample dates"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="falusi90" &
+    ospintxnstudies$study=="exp1")] <- "photo x exp chilling (temp and days)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="heide12" &
+    ospintxnstudies$study=="exp1")] <- "photo x exp chilling (x different sized plants)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="heide93" &
+    ospintxnstudies$study=="exp1")] <- "photo x force x field sample dates"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="heide93" &
+    ospintxnstudies$study=="exp2")] <- "photo x force x field sample dates"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="myking95" &
+    ospintxnstudies$study=="exp1")] <- "photo x chilltemp (with also change in chilldays)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="partanen98" &
+    ospintxnstudies$study=="exp1")] <-
+    "photo/force x field sample dates (force and photo are NOT full factorial)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="schnabel87" &
+    ospintxnstudies$study=="exp1")] <-
+    "force/photo x field sample (but mainly field sample dates)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="skuterud94" &
+    ospintxnstudies$study=="exp1")] <- "force x field sample x chilltemp (x provenance)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="okie11" &
+    ospintxnstudies$study=="exp2")] <- "photo x force x chill days"
 
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)

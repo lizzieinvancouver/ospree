@@ -537,10 +537,11 @@ dev.off()
 
 
 # make figures prettier than average
-basesize <- 12
+
 colz <- viridis_pal(option="magma")(3)
-pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
-ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
+basesize <- 12
+
+heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
     scale_fill_gradient2(name="Field sample \ndates n", low = colz[1], mid=colz[3],
         high = colz[2], na.value="gray95") +
@@ -551,21 +552,32 @@ ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
-dev.off()
 
-
-basesize <- 12
-colz <- viridis_pal(option="magma")(3)
-pdf("limitingcues/figures/heatmapphotoxforcexchill.pdf", width = 6, height = 4)
-ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
+heatmapphotoxforcexchill <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=as.numeric(as.character(chill.plot))), colour="white") + # but we lose variable and ambient!
-    scale_fill_gradient2(name="Exp chill temperature", low = colz[1], mid=colz[3],
+    scale_fill_gradient2(name="Exp chill temp", low = colz[1], mid=colz[3],
         high = colz[2], na.value="gray95") +
     theme_classic() +
     labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
+
+
+pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
+heatmapphotoxforcexfs.date
+dev.off()
+
+pdf("limitingcues/figures/heatmapphotoxforcexchill.pdf", width = 6, height = 4)
+heatmapphotoxforcexchill
+dev.off()
+
+
+require(cowplot)
+pdf(paste("limitingcues/figures/heatmapphotoxforcexchill2panel.pdf", sep=""), width = 16, height = 8)
+plot_grid(heatmapphotoxforcexchill, heatmapphotoxforcexfs.date, 
+    # labels = c('(a) Force x photo x experimental chill', '(b) Force x photo x field sample chilling'),
+    ncol=2)
 dev.off()
 
 

@@ -4,6 +4,8 @@
 ## With a few tweaks the PEP 725 code should still run ##
 ## Right now, each chunk is set up to run separately (model, then plotting) ##
 
+# Run models_stan.R until before first Stan model runs ... then run the below. 
+
 #########################
 ## For PEP 725 species ##
 #########################
@@ -95,6 +97,52 @@ ggplot(subset(bb.stan, complex.wname=="Betula_pendula"), aes(chill, quickgdd, co
     xlim(-1, 15) +
     geom_segment(y=-15, x=4.95, yend=-15, xend=14.70, col="black") + # these numbers come from comparetopepsims.R: range(bp$chillutah)/240
     theme_classic()
+
+bb.stan.2spp <- bb.stan[which(bb.stan$latbi %in% c("Betula pendula", "Fagus sylvatica")),]
+
+ggplot(bb.stan.2spp, aes(utah, quickgdd, colour=photo)) +
+    geom_point() +
+    facet_wrap(~latbi, scales="free") +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+
+pdf(file.path("figures/gddbyutah_betpenfagsyl.pdf"), width = 10, height = 4.5)
+ggplot(bb.stan.2spp, aes(utah, quickgdd, colour=datasetID)) +
+    geom_point() +
+    facet_wrap(~latbi, scales="free") +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+dev.off()
+
+ggplot(bb.stan.2spp, aes(utah, quickgdd, color=latbi)) +
+    geom_point() +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+
+ggplot(bb.stan.2spp, aes(utah, quickgdd, color=datasetID, group=latbi)) +
+    geom_point(aes(shape=latbi, color=datasetID)) +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+
+# Or do by studyID? (See also in decsens repo betpenexp.R)
+ggplot(subset(bb.stan.2spp, latbi=="Fagus sylvatica"), aes(utah, quickgdd, colour=photo)) +
+    geom_point() +
+    facet_wrap(~datasetID) +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+
+ggplot(subset(bb.stan.2spp, latbi=="Betula pendula"), aes(utah, quickgdd, colour=photo)) +
+    geom_point() +
+    facet_wrap(~datasetID) +
+    ylab("Forcing units until budburst") +
+    xlab(expression(paste("Chilling units until budburst (Utah)"), sep="")) +
+    theme_classic()
+
 
 
 ## Model plot!

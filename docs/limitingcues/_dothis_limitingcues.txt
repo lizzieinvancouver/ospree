@@ -2,13 +2,29 @@ Started 24 August 2017
 By Lizzie
 
 
+Hi Ailene,
+
+I was trying to track down where I made one of the supp figures, but they all changed names and so I cannot track them down by searching my computer for in what R code file they were made ... and when I checked budburstms_README.txt it does not seem very updated. Maybe there is somewhere else this info is? If not, maybe you update the budburstms_README.txt sometime before we lose track of this?
+
+I managed to roll back to the old supp on git and find the file name which seemed to be similar to the one you had with additions, so maybe that was the formatting and we can quickly find things and update this file? Maybe we could ask folks to do the figures they were responsible for with your guidance on how you updated the names? I'd just love not to lose the connection to what R code built what figures if possible.
+
+Thanks!
+Lizzie
+
 <><><><><><><><><><><><><><>
 <> Next steps (Jan 2021) <>
 <><><><><><><><><><><><><><>
 
 ... I am reviewing the text, but I *skipped the abstract for now*
 
-(1) Ask for help on new interactions figure
+(*) Ask for Cat's help for counts in the manuscript (set up new issue with info on my files and here)
+
+@XXX
+
+Can you help me update the text in 'How studies and their experimental treatments vary globally' and 'How studies manipulate cues'? I ask because I think to do this requires your code in studydesign_numcues.R and my code in countintxns.R and I am a bit overwhelmed by the task. To make it easier though I have added to countintxns.R new output ospree_studyinxns.csv ... this *should* be every interactive study labeled with its interaction. I wondered if between this and your studytype_table.csv you could write new code (in one of the relevant current files or make a new one) you could write code that gets all the numbers currently in those sections of the manuscript *and* provide a little more on the single cue studies (which cues get manipulated? Any other relevant info? Once we have that I can update that ADDINFO spot in the ms.
+
+
+(*) Ask for help on new interactions figure
 
 - From Ailene and Nacho, set up a git issue ...
 	- Need help on this figure https://github.com/lizzieinvancouver/ospree/blob/bbculdesac/docs/limitingcues/figures/limcues_intxns.png (pretty sure I have chill effect plot mislabelled, I think chilling goes up with warming in the code)
@@ -21,20 +37,23 @@ Relevant text from old version of ms:
 AND .... need a figure for this:
 Given our current understanding of phenological cues, we should expect the most dramatic changes in phenology in systems with non-linear responses where climate change pushes the system across a critical threshold or inflection point. For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst (needCITES). Similarly the complexity of chilling could produce myriad non-linearities. If, as currently hypothesized, chilling follows an optimum curve (i.e., chilling does not accumulate at very low or high temperatures but in between it accumulates at a maximum rate at some temperature optimum), then endodormancy break would shift earlier in systems where warming pushes winter temperatures into a chilling-accumulation temperature or closer to the optimum temperature, and delay where warming pushes winter temperatures beyond the optimum (with more complex predictions if high temperatures decrease accumulated chilling)
 
-(2) Ask for help on other figures (see below section `Code in the paper')
+(*) Ask for help on other figures (see below section `Code in the paper')
 
-(3) Do all the stuff mentioned in April and August 2020 notes below (ugh)
+(*) Do all the stuff mentioned in April and August 2020 notes below (ugh)
 
-(4) Add new citations
+(*) Add new citations
 
 <><><><><><><><><><><><>
 <> Code in the paper <>
 <><><><><><><><><><><><>
 studydesign_numcues.R -- probably the best way to count single and multiple cues and makes one of the plots
-studydesignplots.R -- makes the heatmaps
-countintxns.R -- counts interactions, which is a PAIN!
+studydesignplots.R -- makes the heatmaps incl heatmapphotoxforcexchill.pdf and heatmapphotoxforcexfs.date.pdf *and* makes the latitude plots
+countintxns.R -- counts interactions and labels interactive studies
 nonlinearities_intxns.R 
 nonlinearities_more.R 
+models_stan_pepspp.R -- for gddbyutah_betpenfagsyl.pdf GDD by Utah plot (see also betpenexp.R in decsens repo and betpen_experiments.pdf)
+
+
 
 Also... for "PEP725 and NECTAR databases together have multi-site data on more than 2500 species"
 goober <- read.csv("~/Documents/Subversion/phenology/Data/pheno_raw.csv")
