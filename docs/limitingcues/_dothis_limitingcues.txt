@@ -1,47 +1,19 @@
 Started 24 August 2017
 By Lizzie
 
-
-Hi Ailene,
-
-I was trying to track down where I made one of the supp figures, but they all changed names and so I cannot track them down by searching my computer for in what R code file they were made ... and when I checked budburstms_README.txt it does not seem very updated. Maybe there is somewhere else this info is? If not, maybe you update the budburstms_README.txt sometime before we lose track of this?
-
-I managed to roll back to the old supp on git and find the file name which seemed to be similar to the one you had with additions, so maybe that was the formatting and we can quickly find things and update this file? Maybe we could ask folks to do the figures they were responsible for with your guidance on how you updated the names? I'd just love not to lose the connection to what R code built what figures if possible.
-
-Thanks!
-Lizzie
-
 <><><><><><><><><><><><><><>
 <> Next steps (Jan 2021) <>
 <><><><><><><><><><><><><><>
 
-... I am reviewing the text, but I *skipped the abstract for now*
+(*) Fix the abstract
 
-(*) Ask for Cat's help for counts in the manuscript (set up new issue with info on my files and here)
+(*) Get help (issues 393-395)
 
-@XXX
+(*) Do all the stuff mentioned in April and August 2020 notes below -- CHECK, a lot might be done
 
-Can you help me update the text in 'How studies and their experimental treatments vary globally' and 'How studies manipulate cues'? I ask because I think to do this requires your code in studydesign_numcues.R and my code in countintxns.R and I am a bit overwhelmed by the task. To make it easier though I have added to countintxns.R new output ospree_studyinxns.csv ... this *should* be every interactive study labeled with its interaction. I wondered if between this and your studytype_table.csv you could write new code (in one of the relevant current files or make a new one) you could write code that gets all the numbers currently in those sections of the manuscript *and* provide a little more on the single cue studies (which cues get manipulated? Any other relevant info? Once we have that I can update that ADDINFO spot in the ms.
+(*) Add new citations? There's a few in the folder. 
 
-
-(*) Ask for help on new interactions figure
-
-- From Ailene and Nacho, set up a git issue ...
-	- Need help on this figure https://github.com/lizzieinvancouver/ospree/blob/bbculdesac/docs/limitingcues/figures/limcues_intxns.png (pretty sure I have chill effect plot mislabelled, I think chilling goes up with warming in the code)
-	- Ailene to help on analyses/limitingcues/nonlinearities_more.R
-
-Relevant text from old version of ms:
-
-- Alter non-linearity figure to include: "First, as discussed above, each cue alone may be non-linear when examined across a wide range of values. Cues may be linear in the mid-range of values, while extremely high or low values of some cues (e.g., photoperiod) may produce alternative response \citep{gauzere2017}. For example, at very low photoperiod (short days) plants often will not grow, similarly maximum growth may occur at photoperiods of 18 hours, meaning photoperiods longer than 18 hours will have no additional effect on budburst timing \citep{major1980}."
-
-AND .... need a figure for this:
-Given our current understanding of phenological cues, we should expect the most dramatic changes in phenology in systems with non-linear responses where climate change pushes the system across a critical threshold or inflection point. For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst (needCITES). Similarly the complexity of chilling could produce myriad non-linearities. If, as currently hypothesized, chilling follows an optimum curve (i.e., chilling does not accumulate at very low or high temperatures but in between it accumulates at a maximum rate at some temperature optimum), then endodormancy break would shift earlier in systems where warming pushes winter temperatures into a chilling-accumulation temperature or closer to the optimum temperature, and delay where warming pushes winter temperatures beyond the optimum (with more complex predictions if high temperatures decrease accumulated chilling)
-
-(*) Ask for help on other figures (see below section `Code in the paper')
-
-(*) Do all the stuff mentioned in April and August 2020 notes below (ugh)
-
-(*) Add new citations
+(*) Pick a journal!
 
 <><><><><><><><><><><><>
 <> Code in the paper <>
