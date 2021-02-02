@@ -56,8 +56,9 @@ data {
    real<lower=0> sigma_a_pop;
    
    // Varying intercepts
-   real a_sppop[n_pop];
-   //vector[n_pop] a_sppop_raw;
+   //real a_sppop[n_pop];
+   
+   vector[n_pop] a_sppop_raw;
    real b_force_sppop[n_pop];
    //vector[n_pop] b_force_sppop_raw; //do NCP here
    real b_photo_sppop[n_pop];
@@ -83,8 +84,15 @@ data {
    
    vector[n_sp] a_sp = mu_a_sp + sigma_a_sp * a_sp_raw;
    vector[n_study] a_study = mu_a_study + sigma_a_study * a_study_raw;
-   
-   //vector[n_pop] a_sppop = mu_a_sppop + sigma_a_pop * a_sppop_raw;
+
+   vector[n_pop] a_sppop0 = sigma_a_pop * a_sppop_raw; // I seperated out the population effect from teh species effect mean to make things easier for the indexing
+   vector[n_pop] a_sppop;
+   for (j in 1:n_pop){ //
+     a_sppop[j] = a_sp[sp[j]] + a_sppop0[j];
+   }
+
+
+   //vector[n_pop] a_sppop = mu_a_sppop + sigma_a_pop * a_sppop_raw; 
    
    //vector[n_pop] b_force_sppop = mu_b_force_sppop + sigma_b_photo_sppop * b_photo_sppop_raw;
    //vector[n_pop] b_photo_sppop = mu_b_force_sppop + sigma_b_force_sppop * b_force_sppop_raw;
@@ -108,7 +116,7 @@ data {
    // Individual mean
    for(i in 1:N){
             yhat[i] = alpha +
-            a_study[study[i]] + a_sppop[pop[i]] + // indexed with population
+            a_study[study[i]] + a_sppop[pop[i]] + // indexed with population 
 		b_force_sppop[pop[i]] * force[i] +
 		b_photo_sppop[pop[i]] * photo[i];
 			     	}
@@ -119,7 +127,7 @@ data {
    // Varying intercepts definition
    // Level-3 (10 level-3 random intercepts)
    for (j in 1:n_pop) {
-     target += normal_lpdf(a_sppop[j] | a_sp[sp[j]], sigma_a_pop);
+     // target += normal_lpdf(a_sppop[j] | a_sp[sp[j]], sigma_a_pop);
      
      // Level-2 (100 level-2 random intercepts)
      target += normal_lpdf(b_force_sppop[j] | b_force[sp[j]], sigma_b_force_sppop);
@@ -129,7 +137,7 @@ data {
    // Random effects distribution of raw (ncp) priors
    target += normal_lpdf(to_vector(a_sp_raw) | 0, 1);
    target += normal_lpdf(to_vector(a_study_raw) | 0, 1);
-   //target += normal_lpdf(to_vector(a_sppop_raw) | 0, 1);
+   target += normal_lpdf(to_vector(a_sppop_raw) | 0, 1);
    
    target += normal_lpdf(to_vector(b_photo_raw) | 0, 1);
    target += normal_lpdf(to_vector(b_force_raw) | 0, 1);
