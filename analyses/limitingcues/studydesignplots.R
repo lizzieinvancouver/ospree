@@ -553,10 +553,17 @@ heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
 
-heatmapphotoxforcexchill <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
-    geom_tile(aes(fill=as.numeric(as.character(chill.plot))), colour="white") + # but we lose variable and ambient!
+#heatmapphotoxforcexchill <-
+dsumm.treat$chill.plot2<-NA
+dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="other"] <- "other" 
+dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="variable"] <- "variable"  
+dsumm.treat$chill.plot2[is.na(dsumm.treat$chill.plot2)] <- "fixed"  
+
+
+heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=as.numeric(as.character(chill.plot)),color=chill.plot2),size=0.5,width=0.8,height=0.8) + # but we lose variable and ambient!
     scale_fill_gradient2(name="Exp chill temp", low = colz[1], mid=colz[3],
         high = colz[2], na.value="gray95") +
+  scale_color_manual(values=c(NA,"black","firebrick1"))+
     theme_classic() +
     labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
