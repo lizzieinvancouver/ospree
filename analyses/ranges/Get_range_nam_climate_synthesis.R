@@ -69,6 +69,7 @@ dat <- read.csv("~/Desktop/Misc/Ospree Misc/Nam_allspp_fullextract.csv")
 dat <- dat[-1]
 
 tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tmincrop1980.nc")
+tmin <- tmin1980
 
 ## function to extract/correct the shape for a given species
 getspsshape<-function(spslist,sps.num,ras.numpixels){
@@ -156,12 +157,18 @@ synth.data <- function(splist){
       colnames(storing) = c("Temp.Mean","Temp.SD","Geo.Mean","Geo.SD")
       
       ### Now we need to get the area weighted average across grid cells. See Issue #387
-      sps.area <- area(spsshapeproj) / 10000
+      ras.areas <- area(tmin[[1]]) ## this step generates a raster file with vales for each pixel corresponding to its area
+      
+      values(ras.areas) <- (values(ras.areas) - min(values(ras.areas),na.rm=T))/
+        (max(values(ras.areas),na.rm=T)-min(values(ras.areas),na.rm=T)) ## this step (optional) would re-scale pixel's area values to range between 0 and 1, but it is easy to do 1-2 by adding 1.
+      
+      ## then you'd need to add a column with either areas or rescaled areas:
+      sps.i$weights <- extract(ras.areas,sps.i[,1:2])
     
-      means.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      SDs.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      means.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-      SDs.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
+      means.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) mean(x*sps.i$weights, na.rm=TRUE))
+      SDs.years <- aggregate(sps.i[,-11],by=list(year = sps.i$year), FUN = function(x) sd(x*sps.i$weights, na.rm=TRUE))
+      means.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) mean(x*sps.i$weights, na.rm=TRUE))
+      SDs.sites <- aggregate(sps.i[,-10],by=list(id = sps.i$ID), FUN = function(x) sd(x*sps.i$weights, na.rm=TRUE))
     
       storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
       storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
