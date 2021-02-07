@@ -158,7 +158,7 @@ for(i in 1:length(species)){
     }
 }
 colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "llife", "seed", "C")
-#rownames(mat) <- species
+rownames(mat) <- species
 mat
 
 ## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 28 species
@@ -176,3 +176,23 @@ par(mfrow = c(1, 1), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
 for(i in 1:length(ranges)){
     biplot(prcomp(mat2), col = "black")
 }
+
+trtGeoPca <- prcomp(mat2, center = T, scale. = T)
+summary(trtGeoPca)
+
+library(ggbiplot)
+
+ggbiplot(trtGeoPca, labels = rownames(mat2))
+
+
+#####
+# This PCA is really different from the one above, but so is the data, removing NA's above left 28 species, while removing cc from mtrt.sub only leaves 28 speices. I need to still get to the bottom of this! 
+mtrt.stk<-as.data.frame(mtrt.stk)
+names(mtrt.stk)
+mtrt.stk$species <- rownames(mtrt.stk)
+
+mtrt.sub <- mtrt.stk[, c("Leaf_carbon_.C._content_per_leaf_dry_mass", "Leaf_dry_matter_content", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Plant_height_vegetative", "seed mass", "Specific_leaf_area", "Stem_specific_density")]
+mtrt.sub <- mtrt.sub[complete.cases(mtrt.sub), ]
+
+trtGeoPca <- prcomp(mtrt.sub, center = T, scale. = T)
+ggbiplot(trtGeoPca, labels = rownames(mtrt.sub))
