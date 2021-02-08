@@ -7,7 +7,7 @@ By Lizzie
 
 (*) Fix the abstract
 
-(*) Get help (issues 393-395)
+(*) Get help (git issues 393-395, also issue 249)
 
 (*) Do all the stuff mentioned in April and August 2020 notes below -- CHECK, a lot might be done
 
@@ -15,65 +15,50 @@ By Lizzie
 
 (*) Pick a journal!
 
+(*) Small things to maybe do ...
+- Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
+- Confirm color gradient with Nacho (should we add an obvious color bar legend?)
+- Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
+- Start on Rnw file for supp?
+- Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
+
+
+Comments from Jan 2020 review ... we can trash these after the next review (if they don't re-appear):
+
+Overall it feels like there are 2 major threads in this paper…
+1. Biology of interacting cues
+2. The theoretical utility but current limitation of growth chamber studies to test these.
+
+It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2. *Lizzie says* I think it is supposed to be 'where we're at with limiting cues.' 
+
+
+<><><><><><><><><><><><><><><><><><><><>
+Citations work, notes etc.
+<><><><><><><><><><><><><><><><><><><><>
+NEED citations 
+
+
 <><><><><><><><><><><><>
 <> Code in the paper <>
 <><><><><><><><><><><><>
-studydesign_numcues.R -- probably the best way to count single and multiple cues and makes one of the plots
-studydesignplots.R -- makes the heatmaps incl heatmapphotoxforcexchill.pdf and heatmapphotoxforcexfs.date.pdf *and* makes the latitude plots
-countintxns.R -- counts interactions and labels interactive studies
-nonlinearities_intxns.R 
-nonlinearities_more.R 
-models_stan_pepspp.R -- for gddbyutah_betpenfagsyl.pdf GDD by Utah plot (see also betpenexp.R in decsens repo and betpen_experiments.pdf)
+(*) studydesign_numcues.R -- probably the best way to count single and multiple cues and makes one of the plots
+(*) studydesignplots.R -- makes the heatmaps incl heatmapphotoxforcexchill.pdf and heatmapphotoxforcexfs.date.pdf *and* makes the latitude plots
+(*) countintxns.R -- counts interactions and labels interactive studies
+(*) nonlinearities_intxns.R  -- code started to understand how interactions can create non-linearities (not currently used in ms)
+(*) nonlinearities_more.R -- code to make non-linearity plots 
+(*) models_stan_pepspp.R -- for gddbyutah_betpenfagsyl.pdf GDD by Utah plot (see also betpenexp.R in decsens repo and betpen_experiments.pdf)
 
 
 
-Also... for "PEP725 and NECTAR databases together have multi-site data on more than 2500 species"
+Also, for "PEP725 and NECTAR databases together have multi-site data on more than 2500 species" you can just run this:
 goober <- read.csv("~/Documents/Subversion/phenology/Data/pheno_raw.csv")
 unique(paste(goober$genus, goober$species))
 unique(goober$site)
 
-27 Nov 2020
-- I think best to figure out what figures I want and ask for coding help!
-- I have done a good deal on issue 249 so time to just ask for help and get the paper moving! Move, move!
 
-Figure about multiple cues over time:
-	- Move to supp and make a new one with ...
-	- # of studies over time; % that are one cue; % that are two or more?
-
-
-8 Sep 2020 (updated 23 Sep 2020):
-- Get the lab to help with some cleanup issues ... see https://github.com/lizzieinvancouver/ospree/issues/249
-	(1) Do these myself:
-		Check that these should all truly be constant photoperiod (all exp 1: "cronje03" "devries82" "karlsson03")
-		> unique(checkforcena$datasetID)
-		[1] "ashby62"   "gansert02" "hawkins12" "ruesink98"
-		> unique(checkphotona$datasetID)
-		[1] "falusi96"    "gianfagna85" "manson91"    "nishimoto95"
-	(2) Then figure out what to do about the chilling ones!
-- update countixns.R 
-	(1) Check the work here and update #s in paper (see note below)
-	(2) Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
-- Need to clean up the heat maps, but can perhaps wait until we know what we want.
-
-
-<><><><><><><><><><><><><><><><><><><><>
-April 2020 to do, working on it in August 2020
-<><><><><><><><><><><><><><><><><><><><>
-
-I have cleaned up the countinxns.R code ... am working on studydesignplots.R
-(*) Fix heatmaps (old possibly useful idea? Get n of studies with n >= 2 cues of photo, temp, force (I think I mean interactive studies): one panel EACH for 1-2 field sample, and >2 field sample date)?
-(*) Update the interaction #s (search for '% Need to update once below') -- CHECK WHOLE section! 
-(*) Confirm color gradient with Nacho (should we add an obvious color bar legend?)
-(*) FIX ME figure below ... do soon or start writing first?
-
-
-
-In no particular order but need to be done...
-
-(*) Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
-(*) Start on Rnw file for supp.
-(*) Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174
-(*) Cue or cue mechanism or what?
+<><><><><><><><><><><><><><><><><><><><><><><>
+Should we call them cues or cue levels or ...?
+<><><><><><><><><><><><><><><><><><><><><><><>
 
 Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
 
@@ -84,48 +69,14 @@ Salk 2020
 Chmura et al. 2019 defines, "Cue: an attribute of the environment that initiates a phenological response" but their definitions are beyond that sort of sloppy (
 
 
-
-<><><><><><>
-Fix the text ...
-
-Comments from Jan 2020 review ...
-
-Overall it feels like there are 2 major threads in this paper…
-1. Biology of interacting cues
-2. The theoretical utility but current limitation of growth chamber studies to test these.
-
-It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2. *Lizzie says* I think it is supposed to be 'where we're at with limiting cues.' 
-
-Ailene and Dan say add a figure for paragraph starting: These cues may create non-linear responses with warming in two major ways.
-
-- Show correlations of GDD x Photoperiod at Harvard Forest?
-- Dan and Ailene like Figure 8: Maybe on way to clean it up is to do lump all ambient+X studies as “ambient+” or remove the text one as “other” and and describe them in a supplemental table.
-
-
-<><><><><><><><><><><><><><><><><><><><>
-Citations work, notes etc.
-<><><><><><><><><><><><><><><><><><><><>
-NEED citations 
-
-1. Studies using long-term data to try to tease out forcing and/or photoperiod and/or chilling cues *\cite{zohner2014}* Kramer et al. 2017 does it too (but with clones I think)
- 
-2. chilling varies by population and is higher at the coast *campbell1979*
-
-4. warming increases the forcing plants experience each day: not great, but *skinner2018amplification* could work 
-
-7.  For example, if some species have a critical photoperiod for budburst and warming means forcing cues are met before the critical threshold, then we would expect incomplete or highly delayed budburst 
-
-13. Correlations between these predictors, however, are almost always too high for any useful analysis *NEED help*
-
-
-
 <><><><><><><><><><><><><><><><><><><><>
 Extra notes ...
 <><><><><><><><><><><><><><><><><><><><>
-- Heat maps:
-		(1) Make sure that I gather correctly: see https://stackoverflow.com/questions/48772829/heatmap-in-r-with-ggplot2 AND https://www.worldfullofdata.com/three-ways-create-heatmap-r/
-		(2) Multi-panel: https://jcoliver.github.io/learn-r/006-heatmaps.html
-		(3) Backup multipanel option: https://www.biostars.org/p/86379/
+- Heat maps (see also some links in https://github.com/lizzieinvancouver/ospree/issues/395):
+
+- Multi-panel: https://jcoliver.github.io/learn-r/006-heatmaps.html
+- Backup multipanel option: https://www.biostars.org/p/86379/
+- Great link: https://www.r-graph-gallery.com/215-the-heatmap-function
 
 
 
