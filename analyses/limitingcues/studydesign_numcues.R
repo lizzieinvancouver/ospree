@@ -18,10 +18,10 @@ library(RColorBrewer)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
-#d <- read.csv("output/ospree_clean.csv")
-d2<-read.csv("output/ospree_clean_withchill_BB.csv")
-#studfile <- read.csv("output/studytype_table.csv", header=TRUE)
-studfile2 <- read.csv("output/studytype_withBB.csv", header=TRUE)
+d2 <- read.csv("output/ospree_clean.csv")
+#d2<-read.csv("output/ospree_clean_withchill_BB.csv")
+studfile2 <- read.csv("output/studytype_table.csv", header=TRUE)
+#studfile2 <- read.csv("output/studytype_withBB.csv", header=TRUE)
 
 #d <- d[d$woody=="yes",]
 d2 <- d2[d2$woody=="yes",]
@@ -63,7 +63,7 @@ studies<-studies%>%rename(yr=Var1)%>%rename(studies=Freq)
 studies$yr<-as.numeric(as.character(studies$yr))
 cues<-cues[!duplicated(cues),]
 
-cues<-inner_join(cues, studies)
+cues<-full_join(cues, studies)
 cues$cols<-NA
 cues$cols<-ifelse(cues$numcues==1, "red", cues$cols)
 cues$cols<-ifelse(cues$numcues==2, "green", cues$cols)

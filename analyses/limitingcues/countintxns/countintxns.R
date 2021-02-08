@@ -359,6 +359,88 @@ write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALS
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
 write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE)
 
+#### Cat adding in some code to fill in MS with info. Using code from studydesing_numcues.R
+## 8 Feb 2021
+## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
+# Get packages
+osp <- read.csv("output/ospree_clean.csv")
+#osp<-read.csv("output/ospree_clean_withchill_BB.csv")
+studfile <- read.csv("output/studytype_table.csv", header=TRUE)
+#studfile <- read.csv("output/studytype_withBB.csv", header=TRUE)
+
+osp <- osp[osp$woody=="yes",]
+osp$fieldsample.date <- as.Date(osp$fieldsample.date, format="%d-%b-%Y")
+#head(d)
+
+###
+###
+lookupstudyyr <- aggregate(osp[c("year")], osp[c("datasetID", "study")], FUN=mean)
+stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+
+cues<-subset(stud, select=c("study", "datasetID", "force", "photo", "chill", "chilltime", "year", "prov.lat", "spp", "field.sample"))
+cues<-cues[!duplicated(cues),]
+
+cues$force<-ifelse(cues$force<=1, 0, 1)
+cues$photo<-ifelse(cues$photo<=1, 0, 1)
+cues$chill<-ifelse(cues$chill<=1, 0, 1)
+cues$chilltime<-ifelse(cues$chilltime<=1, 0, 1)
+cues$chill<-ifelse(cues$chill==1 | cues$chilltime==1, 1, 0)
+
+cues$numcues<-cues$force + cues$photo + cues$chill
+
+cues<-cues[!(cues$datasetID=="sogaard08" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="guerriero90" & cues$numcues==0 & cues$field.sample==1),]
+cues<-cues[!(cues$datasetID=="spiers74" & cues$numcues==0 & cues$field.sample==1),]
+cues<-cues[!(cues$datasetID=="worrall67" & cues$numcues==0 & cues$prov.lat==1),]
+cues<-cues[!(cues$datasetID=="falusi97" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="jones12" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="sonsteby14" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="thielges" & cues$numcues==0),]
+cues<-cues[!(cues$datasetID=="granhus09" | cues$datasetID=="rinne94" | cues$datasetID=="spann04"),]
+
+cues$year<-round(cues$year, digits=0)
+cues<-cues[!duplicated(cues),]
+
+cues <- subset(cues, select=c("datasetID", "study", "force", "photo", "chill", "chilltime", "year", "spp",
+                              "field.sample", "numcues"))
+
+ospintxnstudiesall$interaction <- 1
+ospstudies_cues <- merge(cues, ospintxnstudiesall, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+
+ospstudies_cues$interaction <- ifelse(is.na(ospstudies_cues$interaction), 0, ospstudies_cues$interaction)
+lookupintxns<- aggregate(ospstudies_cues[c("interaction")], ospstudies_cues[c("datasetID")], FUN=sum)
+lookupintxns$foo <- ifelse(lookupintxns$interaction>=1, 1, 0)
+
+## Okay now, to bring in the info on cues manipulated:
+ospcues <- within(osp, { force <- as.numeric(ifelse(forcetemp!=0, ave(forcetemp, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult forcetemp
+ospcues <- within(ospcues, { photo <- as.numeric(ifelse(photoperiod_day!=0, ave(photoperiod_day, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult photoperiod_day
+ospcues <- within(ospcues, { chill <- as.numeric(ifelse(chilltemp!=0, ave(chilltemp, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult studychill
+ospcues <- within(ospcues, { chilltime <- as.numeric(ifelse(chilldays!=0, ave(chilldays, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult studychill
+
+ospcues <- subset(ospcues, select=c("datasetID", "force", "photo", "chill", "chilltime"))
+ospcues <- ospcues[!duplicated(ospcues),]
+
+lookupcues<- aggregate(ospcues[c("force", "photo", "chill", "chilltime")], ospcues[c("datasetID")], FUN=sum)
+
+#### List of numbers in manuscript:
+numspps <- nrow(spbydatasetID.df)
+eurstudies <- nrow(studybycontinent[(studybycontinent=="europe"),])
+allstudies <- nrow(studybycontinent)
+namstudies <- nrow(studybycontinent[(studybycontinent=="north america"),])
+
+photocue <- round(nrow(lookupcues[(lookupcues$photo>1),])/nrow(lookupcues) * 100, digits=0)
+forcecue <- round(nrow(lookupcues[(lookupcues$force>1),])/nrow(lookupcues) * 100, digits=0)
+chillcue <- round(nrow(lookupcues[(lookupcues$chill>1 | lookupcues$chilltime>1),])/nrow(lookupcues) * 100, digits=0)
+
+numsinglestudies <- round(nrow(lookupintxns[(lookupintxns$interaction==0),])/nrow(lookupintxns) *100, digits=0)
+
+num.fp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x photo"),])
+num.pw <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x fieldsample dates"),])
+num.fw <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x fieldsample dates"),])
+
+num.cf <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x chilldays" | ospintxnstudiesall$intxn=="force x chilltemp"),])
+num.cp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x chilldays"| ospintxnstudiesall$intxn=="photo x chilltemp"),])
+
 
 ###############
 ## This is just a side-bar where I check some of my results versus what
