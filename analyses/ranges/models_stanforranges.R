@@ -342,9 +342,11 @@ m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist
 
 modelhere <- m3l.ni 
 mod.sum <- summary(modelhere)$summary
+modtosave <- mod.sum[c(1:12),]
 mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
 mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
+
 
 save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
 
