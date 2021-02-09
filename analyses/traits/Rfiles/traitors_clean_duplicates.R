@@ -71,9 +71,24 @@ length((unique(trt.sub.no.dup5$refabr5))) #197
 refs <- aggregate(d["new.SpeciesName"], d[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
 refs.nd <- aggregate(trt.sub.no.dup5["new.SpeciesName"], trt.sub.no.dup5[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
 
-# Think it worked, but it would be useful to get someone else to do some double checks.
-#write.csv(trt.sub.no.dup5, "try_bien_nodups.csv", row.names = FALSE)
 
+## Becuase the file is still so large, I am splitting it in two and pushing the halves to the repo:
+# first I am renaming things and removing columns: genus, species, Reference.1, & refabr5
+trt.final <- trt.sub.no.dup5[, c("TraitName", "TraitValue", "UnitName"
+                                 ,"Latitude","Longitude","project_pi",
+                                 "new.SpeciesName", "database", "DatasetID",
+                                 "Reference","Reference...source")]
+
+names(trt.final) <- c("traitname", "traitvalue", "unitname"
+                      ,"latitude","longitude","piname","speciesname"
+                      , "database", "datasetid", "reference", "origref")
+head(trt.final)
+
+trt.final1 <- trt.final[1:411877,]
+trt.final2 <- trt.final[411877:823754,]
+
+write.csv(trt.final1, "try_bien_nodups_1.csv", row.names = FALSE)
+write.csv(trt.final2, "try_bien_nodups_2.csv", row.names = FALSE)
 #Let's take a closer look at the duplicated data
 
 unique(trt.dup5$database) # removing data from both bien and try
