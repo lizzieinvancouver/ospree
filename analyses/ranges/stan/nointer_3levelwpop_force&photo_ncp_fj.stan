@@ -59,10 +59,10 @@ data {
    //real a_sppop[n_pop];
    
    vector[n_pop] a_sppop_raw;
-   real b_force_sppop[n_pop];
-   //vector[n_pop] b_force_sppop_raw; //do NCP here
-   real b_photo_sppop[n_pop];
-   //vector[n_pop] b_photo_sppop_raw; //do NCP here
+   //real b_force_sppop[n_pop];
+   vector[n_pop] b_force_sppop_raw; //do NCP here
+   //real b_photo_sppop[n_pop];
+   vector[n_pop] b_photo_sppop_raw; //do NCP here
  
    // Individual mean
    //real a_sp[n_sp];
@@ -87,11 +87,19 @@ data {
 
    vector[n_pop] a_sppop0 = sigma_a_pop * a_sppop_raw; // I seperated out the population effect from teh species effect mean to make things easier for the indexing
    vector[n_pop] a_sppop;
+   
+   vector[n_pop] b_force_sppop0 = sigma_b_force_sppop * b_force_sppop_raw; 
+   vector[n_pop] b_force_sppop;
+   
+   vector[n_pop] b_photo_sppop0 = sigma_b_photo_sppop * b_photo_sppop_raw;
+   vector[n_pop] b_photo_sppop;
+   
    for (j in 1:n_pop){ //
      a_sppop[j] = a_sp[sp[j]] + a_sppop0[j];
+     b_force_sppop[j] = b_force[sp[j]] + b_force_sppop0[j];
+     b_photo_sppop[j] = b_photo[sp[j]] + b_photo_sppop0[j];
    }
-
-
+   
    //vector[n_pop] a_sppop = mu_a_sppop + sigma_a_pop * a_sppop_raw; 
    
    //vector[n_pop] b_force_sppop = mu_b_force_sppop + sigma_b_photo_sppop * b_photo_sppop_raw;
@@ -126,13 +134,13 @@ data {
    // Flat prior for mu (no need to specify if non-informative)
    // Varying intercepts definition
    // Level-3 (10 level-3 random intercepts)
-   for (j in 1:n_pop) {
+   /*for (j in 1:n_pop) {
      // target += normal_lpdf(a_sppop[j] | a_sp[sp[j]], sigma_a_pop);
      
      // Level-2 (100 level-2 random intercepts)
      target += normal_lpdf(b_force_sppop[j] | b_force[sp[j]], sigma_b_force_sppop);
      target += normal_lpdf(b_photo_sppop[j] | b_photo[sp[j]], sigma_b_photo_sppop);
-   }
+   }*/
    
    // Random effects distribution of raw (ncp) priors
    target += normal_lpdf(to_vector(a_sp_raw) | 0, 1);
@@ -142,10 +150,10 @@ data {
    target += normal_lpdf(to_vector(b_photo_raw) | 0, 1);
    target += normal_lpdf(to_vector(b_force_raw) | 0, 1);
    
-   // Random effects distribution of remaining priors
-   target += normal_lpdf(to_vector(b_photo_sppop) | 0, 20);
-   target += normal_lpdf(to_vector(b_force_sppop) | 0, 20);
+   target += normal_lpdf(to_vector(b_photo_sppop_raw) | 0, 1);
+   target += normal_lpdf(to_vector(b_force_sppop_raw) | 0, 1);
    
+   // Random effects distribution of remaining priors
    target += normal_lpdf(to_vector(a_sp) | 0, 20);
 	 target += normal_lpdf(to_vector(a_study) | 0, 20);
    
@@ -154,6 +162,8 @@ data {
    
    target += normal_lpdf(to_vector(b_photo) | 0, 20);
 	 target += normal_lpdf(to_vector(b_force) | 0, 20);
+	 target += normal_lpdf(to_vector(b_photo_sppop) | 0, 20);
+   target += normal_lpdf(to_vector(b_force_sppop) | 0, 20);
    
    /*mu_b_force_sp ~ normal(0, 20);
    //sigma_b_force_sp ~ normal(0, 10); 
@@ -168,10 +178,10 @@ data {
    //target += normal_lpdf(mu_a_sp | 0, 40);
    //target += normal_lpdf(sigma_a_sp | 0, 10);
    //target += normal_lpdf(mu_a_sppop | 0, 10);
-   target += normal_lpdf(sigma_a_pop | 0, 5);
+   //target += normal_lpdf(sigma_a_pop | 0, 5);
    
-   target += normal_lpdf(sigma_b_force_sppop | 0, 5);
-   target += normal_lpdf(sigma_b_photo_sppop | 0, 5);
+   //target += normal_lpdf(sigma_b_force_sppop | 0, 5);
+   //target += normal_lpdf(sigma_b_photo_sppop | 0, 5);
    target += normal_lpdf(sigma_y | 0, 10);
  
    // Likelihood part of Bayesian inference
