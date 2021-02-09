@@ -94,16 +94,17 @@ biendatfield <- biendat[!biendat$project_pi %in% notfield, ]
 ##########################################################################################
 ###########################################################
 # Removing extaneous columns that are not needed
-biendatfield.sub <- biendatfield[, c("SpeciesName", "TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database")]
+biendatfield.sub <- biendatfield[, c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database")]
 
-trydat.sub <- trydat[,c("SpeciesName", "TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID", "Reference", "Reference...source", "Reference")]
+trydat.sub <- trydat[,c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID", "Reference", "Reference...source", "Reference")]
+
 
 
 
 # Merge the beind and try trait data
 
 trybien <- rbind.fill(trydat.sub, biendatfield.sub)
-names(trybien)
+
 
 write.csv(trybien,"input/try_bien.csv", row.names = FALSE)
 

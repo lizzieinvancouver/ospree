@@ -169,13 +169,6 @@ mat2
 #mat2[, 1:6] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
 ## PCA plots 
-ranges <- list(c(-.7, .7),
-               c(-.4, .4),
-               c(-.1, .1))
-par(mfrow = c(1, 1), mar = c(5, 5, 2, 2), oma = c(0, 0, 0, 0))
-for(i in 1:length(ranges)){
-    biplot(prcomp(mat2), col = "black")
-}
 
 trtGeoPca <- prcomp(mat2, center = T, scale. = T)
 summary(trtGeoPca)
@@ -184,15 +177,21 @@ library(ggbiplot)
 
 ggbiplot(trtGeoPca, labels = rownames(mat2))
 
-
-#####
-# This PCA is really different from the one above, but so is the data, removing NA's above left 28 species, while removing cc from mtrt.sub only leaves 28 speices. I need to still get to the bottom of this! 
+## This method also works, but with fewer steps and without needing to use a matrix, which gives an error message
 mtrt.stk<-as.data.frame(mtrt.stk)
-names(mtrt.stk)
+
 mtrt.stk$species <- rownames(mtrt.stk)
 
-mtrt.sub <- mtrt.stk[, c("Leaf_carbon_.C._content_per_leaf_dry_mass", "Leaf_dry_matter_content", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Plant_height_vegetative", "seed mass", "Specific_leaf_area", "Stem_specific_density")]
+mtrt.sub <- mtrt.stk[, c( "Leaf_dry_matter_content", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Plant_height_vegetative", "seed mass", "Specific_leaf_area", "Stem_specific_density")]
+names(mtrt.sub) <- c("LDMC","N", "Height", "seed","SLA","SSD")
 mtrt.sub <- mtrt.sub[complete.cases(mtrt.sub), ]
 
 trtGeoPca <- prcomp(mtrt.sub, center = T, scale. = T)
+
+#pdf(file.path( "figures/trait_pca.pdf"), width = 7, height = 8)
 ggbiplot(trtGeoPca, labels = rownames(mtrt.sub))
+#dev.off()
+
+
+c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area",
+  "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")

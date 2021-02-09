@@ -20,7 +20,7 @@ if(length(grep("deirdreloughnan", getwd()) > 0)) {  setwd("~/Documents/ospree_tr
 
 d <- read.csv("input/try_bien.csv") 
 
-refs <- aggregate(d["SpeciesName"], d[c("Reference", "Reference...source", "database")], FUN = length) 
+refs <- aggregate(d["new.SpeciesName"], d[c("Reference", "Reference...source", "database")], FUN = length) 
 #There are abou 38 datasets that might be duplicated
 
 head(d)
@@ -50,7 +50,7 @@ d$Reference...source[d$Reference...source ==  "Kudo9"] <- "Kudo_9"
 d$refabr5 <- strtrim(d$Reference...source,5); head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 sort(unique(d$refabr5))
 ## select target variables for which we will search for duplicates:
-tar.var5 <- c("SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi")
+tar.var5 <- c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi")
 resp.var <- c("TraitValue")
 
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
@@ -68,8 +68,8 @@ dim(trt.sub.no.dup5)
 sort(unique(trt.sub.no.dup5$refabr5))
 length((unique(trt.sub.no.dup5$refabr5))) #197
 
-refs <- aggregate(d["SpeciesName"], d[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
-refs.nd <- aggregate(trt.sub.no.dup5["SpeciesName"], trt.sub.no.dup5[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
+refs <- aggregate(d["new.SpeciesName"], d[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
+refs.nd <- aggregate(trt.sub.no.dup5["new.SpeciesName"], trt.sub.no.dup5[c("Reference", "Reference...source", "refabr5", "database")], FUN = length) 
 
 # Think it worked, but it would be useful to get someone else to do some double checks.
 #write.csv(trt.sub.no.dup5, "try_bien_nodups.csv", row.names = FALSE)
