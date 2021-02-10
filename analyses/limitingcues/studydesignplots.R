@@ -559,14 +559,27 @@ dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="other"] <- "other"
 dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="variable"] <- "variable"  
 dsumm.treat$chill.plot2[is.na(dsumm.treat$chill.plot2)] <- "fixed"  
 
+dsumm.treat$chill.plot3<-as.numeric(levels(dsumm.treat$chill.plot))[dsumm.treat$chill.plot]
+dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="variable",27,dsumm.treat$chill.plot3)
+dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="other",30,dsumm.treat$chill.plot3)
 
-heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=as.numeric(as.character(chill.plot)),color=chill.plot2),size=0.5,width=0.8,height=0.8) + # but we lose variable and ambient!
+heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=as.numeric(as.character(chill.plot)),color=chill.plot2),width=0.8,height=0.8) + # but we lose variable and ambient!
     scale_fill_gradient2(name="Exp chill temp", low = colz[1], mid=colz[3],
         high = colz[2], na.value="gray95") +
-  scale_color_manual(values=c(NA,"black","firebrick1"))+
+  scale_color_manual(values=c(NA,"black","darkgrey"))+
     theme_classic() +
     labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
+        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+        panel.background = element_blank(), text=element_text(size=basesize))
+
+
+
+heatmapphotoxforcexchill2<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=chill.plot3),height=0.9,width=0.9)+
+  scale_fill_gradientn(name="Exp chill temp",colours = topo.colors(6) ,breaks=c(-10,0,10,20,27,30),labels=c(-10,0,10,20,"variable","other"))+
+  theme_classic() +
+  labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
+  theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))
 
@@ -579,6 +592,9 @@ pdf("limitingcues/figures/heatmapphotoxforcexchill.pdf", width = 6, height = 4)
 heatmapphotoxforcexchill
 dev.off()
 
+pdf("limitingcues/figures/heatmapphotoxforcexchill_alt.pdf", width = 6, height = 4)
+heatmapphotoxforcexchill2
+dev.off()
 
 require(cowplot)
 pdf(paste("limitingcues/figures/heatmapphotoxforcexchill2panel.pdf", sep=""), width = 16, height = 8)
