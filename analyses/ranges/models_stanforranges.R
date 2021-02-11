@@ -335,7 +335,7 @@ datalist.bb.pop <- with(bb.stan.here,
                     )
 )
     
-m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp_fj.stan', data = datalist.bb.pop,
+m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp.stan', data = datalist.bb.pop,
                iter = 7000, warmup=5000, chains=4, control=list(adapt_delta=0.999,max_treedepth = 15))
 
 

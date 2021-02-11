@@ -4,7 +4,7 @@ Model output from range model looking at inter vs intraspecific variation in cue
 
 See...
 analyses/ranges/models_stanforranges.R
-analyses/ranges/stan/nointer_3levelwpop_force&photo_ncp_fj.stan
+analyses/ranges/stan/nointer_3levelwpop_force&photo_ncp.stan
 
 
 
