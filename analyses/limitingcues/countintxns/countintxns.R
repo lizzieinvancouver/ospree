@@ -420,7 +420,11 @@ ospcues <- within(ospcues, { chilltime <- as.numeric(ifelse(chilldays!=0, ave(ch
 ospcues <- subset(ospcues, select=c("datasetID", "force", "photo", "chill", "chilltime"))
 ospcues <- ospcues[!duplicated(ospcues),]
 
-lookupcues<- aggregate(ospcues[c("force", "photo", "chill", "chilltime")], ospcues[c("datasetID")], FUN=sum)
+lookupcues <- aggregate(ospcues[c("force", "photo", "chill", "chilltime")], ospcues[c("datasetID")], FUN=sum)
+
+### Look into single cue studies a little ...
+singlecues <- lookupintxns[(lookupintxns$interaction==0),]
+lookupcues[which(lookupcues$datasetID %in% singlecues$datasetID),]
 
 #### List of numbers in manuscript:
 numspps <- nrow(spbydatasetID.df)
@@ -453,6 +457,10 @@ altver <- altver.all[which(paste(altver.all$datasetID, altver.all$study) %in%
 altverf <- subset(altver, force>1)
 length(unique(altverf$datasetID))
 length(unique(forceosp$datasetID))
+
+# May use to see which single cue studies had multiple provenances
+multiprov <- subset(altver.all,  prov.lat>1)
+unique(paste(multiprov$datasetID, multiprov$study))
 
 setdiff(unique(paste(altverf$datasetID, altverf$study)), unique(paste(forceosp$datasetID,
    forceosp$study))) # Cat has gomory15 and I don't think that has multiple forcing temps; that's because the study co-varies forcing temp with sampling dates that are <2 weeks apart (check out issue 249 and my notes from 23 Sep 2020)
