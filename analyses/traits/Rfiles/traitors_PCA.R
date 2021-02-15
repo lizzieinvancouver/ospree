@@ -48,16 +48,6 @@ tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname")], FUN=length)
 # 9682 is the max rows needed for a given trait
 mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
 
-species <-species[1:3]
-for(i in 1:length(species)){
-    temp <- subset(other.trt, speciesname == species[i])
-    for(j in 1:length(traits)){
-        temp2 <- subset(temp, traitname == traits[j])
-        for (k in 1:nrow(temp2)){
-            mat[k,j] <- temp2$traitvalue[k]
-        }
-    }
-}
 # this is arranging the traits by columns, but it is compressing the matricies of different species together I can't figure out how to add species as the row names.
 
 mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
