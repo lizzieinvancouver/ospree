@@ -17,6 +17,8 @@
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 
+runninginR <- FALSE
+
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
@@ -25,8 +27,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 source("misc/getfielddates.R") # f(x) counts up field sample dates separated by a number of days you specify
 source("misc/gettreatdists.R") # f(x) counts up treatment interactions, and more!
+if(runninginR){
 print('Code also relies on sourcing limitingcues/source/countintxns_cleanosp.R (see below)')
-
+}
 ###################
 # All OSPREE data #
 ###################
