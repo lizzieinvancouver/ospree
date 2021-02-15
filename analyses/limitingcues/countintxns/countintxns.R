@@ -49,12 +49,18 @@ studybycontinentfull <- subset(dat, select=c("continent", "datasetID"))
 studybycontinent <- studybycontinentfull[!duplicated(studybycontinentfull), ]
 table(studybycontinent$continent)
 
-# Studies by species ...
+studybycontinentfullwstudy <- subset(dat, select=c("continent", "datasetID", "study"))
+studybycontinentwstudy <- studybycontinentfullwstudy[!duplicated(studybycontinentfullwstudy), ]
+table(studybycontinentwstudy$continent)
+
+
+# Papers by species ...
 spbydatasetIDfull <- subset(dat, select=c("datasetID", "latbi"))
 spbydatasetID <- spbydatasetIDfull[!duplicated(spbydatasetIDfull), ]
 spbydatasetID.df <- aggregate(spbydatasetID["datasetID"], spbydatasetID["latbi"], FUN=length)
 spbydatasetID.df <- spbydatasetID.df[order(spbydatasetID.df$datasetID),]
 nrow(spbydatasetID.df)
+nrow(subset(spbydatasetID.df, datasetID==1))
 nrow(subset(spbydatasetID.df, datasetID>1))
 nrow(subset(spbydatasetID.df, datasetID>2))
 
@@ -292,6 +298,10 @@ osp14d.moreforcinginfo <- get.treatdists.daynight(datsm14d, "forcetemp", "forcet
 osp14d.forcingvaried <- subset(osp14d.moreforcinginfo, treatinfo!="forcing does not vary")
 osp14d.studiesinclconstantforce <- subset(osp14d.forcingvaried, numconstantforce>0) # some studies have both
 osp14d.studiesinclforceperiodicity <- subset(osp14d.forcingvaried, numdiffforce>0) # some studies have both
+
+studieswANDwothermoperiodicity <- intersect(paste(osp14d.studiesinclforceperiodicity$datasetID,
+    osp14d.studiesinclforceperiodicity$study),
+    paste(osp14d.studiesinclconstantforce$datasetID, osp14d.studiesinclconstantforce$study))
 
 ospcounts <- rbind(ospcounts, data.frame(treat1="total-varied-forcing", treat2="NA",
     n=nrow(osp14d.forcingvaried)), data.frame(treat1="total-wsometreats-constant-forcing", treat2="NA",

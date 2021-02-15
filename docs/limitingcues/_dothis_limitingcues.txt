@@ -2,14 +2,12 @@ Started 24 August 2017
 By Lizzie
 
 <><><><><><><><><><><><><><>
-<> Next steps (Jan 2021) <>
+<> Next steps (Feb 2021) <>
 <><><><><><><><><><><><><><>
 
-(*) Fix the abstract
-
-(*) Get help (git issues 393-395, also issue 249)
-
-(*) Do all the stuff mentioned in April and August 2020 notes below -- CHECK, a lot might be done
+(*) Get help (git issues 393-395, also issue 249) also ...
+	- Ask Dan for help with supp and latitudinal trends
+	- 
 
 (*) Add new citations? There's a few in the folder. 
 
@@ -18,8 +16,6 @@ By Lizzie
 (*) Small things to maybe do ...
 - Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
 - Confirm color gradient with Nacho (should we add an obvious color bar legend?)
-- Add an average species number maybe to this text: our review of controlled environment studies found most studies focused on only one species with data on a total of 227 species
-- Start on Rnw file for supp?
 - Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
 
 
@@ -47,6 +43,7 @@ NEED citations
 (*) nonlinearities_intxns.R  -- code started to understand how interactions can create non-linearities (not currently used in ms)
 (*) nonlinearities_more.R -- code to make non-linearity plots 
 (*) models_stan_pepspp.R -- for gddbyutah_betpenfagsyl.pdf GDD by Utah plot (see also betpenexp.R in decsens repo and betpen_experiments.pdf)
+(*) GDD_plottinglimcues.R does what it says!
 
 
 
@@ -60,6 +57,9 @@ unique(goober$site)
 Should we call them cues or cue levels or ...?
 <><><><><><><><><><><><><><><><><><><><><><><>
 
+As of Feb 2021, I sort of feel fine with how it is says Lizzie, see what co-authors say.
+
+Previously I wrote ...
 Cues is not a good term as we use it -- the environment does not CHANGE cues, does it? It changes the experienced cue ... or the response predicted at that level of the cue. We need to refine our language. ... Gauzere says cue for presence of a response (e.g., to photoperiod) ... they also use `compensatory effects of chilling on forcing requirements' ... as a way to subadditive I believe. They seem to describe the underlying curves as responses (e.g., `chilling and forcing responses') ... hmm, but they also say stuff like: "the effective response to day length simulated by the models can highly differ according to the adjusted reaction norms" so maybe response curve and reaction norm are interchangeable?
 
 Salk 2020

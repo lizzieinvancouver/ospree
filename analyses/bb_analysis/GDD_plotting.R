@@ -68,6 +68,16 @@ bb.wstart<-read.csv("output/bbdata_wgdd.csv")
 bb.wstart<-bb.wstart[,-1]
 head(bb.wstart)
 
+
+## plotting for limitingcues
+unique(bb.wstart$respvar.simple)
+bbdat <- subset(bb.wstart, respvar.simple=="daystobudburst")
+ggplot(subset(bbdat, Total_Utah_Model>0), aes(Total_Utah_Model, gdd, col=as.factor(photoperiod_day))) +
+    geom_point() + facet_wrap(datasetID ~ .)
+## Hmm, missing heide03 ...
+
+##
+
 ## plotting gdd vs different metrics of chilling (subsetted to gdd up to 3500, does not plot Malus)
 chills<-c(21,22,23,37,65,70,72,76,78,79,81)
 par(mfrow=c(3,4))
