@@ -1,0 +1,56 @@
+\documentclass[11pt,letter]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{lineno}
+
+
+\def\labelitemi{--}
+\parindent=0pt
+
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\renewcommand{\refname}{\CHead{}}
+\begin{flushright}
+Version dated: \today
+\end{flushright}
+\bigskip
+\medskip
+\begin{center}
+
+\noindent{\Large {\bf Limiting cues: How spring warming, winter chilling and daylength will shape climate change responses}}\\ 
+\bigskip
+
+\noindent {\normalsize \sc
+The lab as it was in 2017$^{1,2}$}\\ % Ailene, Cat, Dan, Lizzie, Nacho
+\noindent {\small \it
+$^1$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, 02131, USA\\
+$^2$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, 02138, USA\\
+$^3$ Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4}\\
+\end{center}
+
+\section{Overview of OSPREE}
+Studies versus papers ... how many crops versus wild species ....
+
+\section{Trends in experimental treatments over space}
+
+<<label=goober, echo=FALSE, results=tex>>=
+@
+
+The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is -0.12, for max it's -0.08, see Fig \ref{fig:lat}; for chilling it's -0.1 for min and -0.07 for max); and the maximum studied photoperiod increases with latitude (0.08 hr per degree $\degree$ latitude). 
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/tempxlatminmaxcorr.pdf}
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/photoxlatcorr2plots.pdf}
+\caption{Some correlations with latitude plots.}
+  \label{fig:lat}
+\end{figure}
+
+\end{document}
+
+\clearpage
+
