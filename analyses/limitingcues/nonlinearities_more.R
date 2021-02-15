@@ -149,9 +149,9 @@ dev.off()
 # utah chill figure
 
 # full utah (values taken from supp of Ettinger et al. 2020)
-pdf("figures/utahcill.pdf", width=5, height=4)
-degC <- c(1.39, 1.4, 2.39, 2.4, 9.09, 9.1, 12.39, 12.4, 15.89, 15.9, 17.89, 17.9)
-utah <- c(0, 0.5,  0.5, 1, 1,  0.5,  0.5, 0, -0, -0.5, -0.5, -1)
+pdf("figures/utahchill.pdf", width=5, height=4)
+degC <- c(-5,0,1.39, 1.4, 2.39, 2.4, 9.09, 9.1, 12.39, 12.4, 15.89, 15.9, 17.89, 17.9)
+utah <- c(0,0,0, 0.5,  0.5, 1, 1,  0.5,  0.5, 0, -0, -0.5, -0.5, -1)
 plot(utah~degC, ylab="Chill accumulated", xlab="", col="darkslategray3",
      type="n", xlim=c(-5, 20), ylim=c(-1.5, 1.5)) # cex.lab=1.5, cex.axis=1.5, 
 abline(0, 0, col="gray", lty=2, lwd=2)
