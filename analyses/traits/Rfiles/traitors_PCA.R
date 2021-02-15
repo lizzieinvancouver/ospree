@@ -14,45 +14,98 @@ library(vegan)
 
 # Set working directory: 
 
-#Anyone else working with this code should add their info/path here
-if(length(grep("deirdreloughnan", getwd()) > 0)) {  setwd("~/Documents/ospree_trait_analysis/")
+# Set working directory: 
+# Anyone else working with this code should add their info/path here
+if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
 } else if
-(length(grep("Lizzie", getwd()) > 0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
+(length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
 } 
 
-dat <- read.csv("input/try_bien_nodups.csv") 
-names(dat)
+# Get the data
+dat1 <- read.csv("input/try_bien_nodups_1.csv") 
+dat2 <- read.csv("input/try_bien_nodups_2.csv") 
 
-dat <- dat[, c("new.SpeciesName", "TraitName", "TraitValue", "UnitName", "Latitude", "Longitude",
-    "project_pi", "database", "DatasetID")]
+dat <- rbind(dat1, dat2)
+names(dat)
+dat <- dat[, c("speciesname", "traitname", "traitvalue", "unitname", "latitude", "longitude",
+    "piname", "database", "datasetid")]
+
+## starting with a PCA of the raw data, with sampling for species with a lot of height data
+
+#starting by separating out the height data:
+height <- subset(dat, traitname == "Plant_height_vegetative")
+
+other.trt <- subset(dat, traitname != "Plant_height_vegetative")
 
 ## I started by trying to just alter Geoff's code (below) and while it worked well for the mean values, I am not sure how to get it to work with the raw data
 # Does the code below actually take the geometric mean per species? It looks to me like it takes the first value?!
-species <- unique(dat$new.SpeciesName)
-traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
+species <- unique(other.trt$speciesname)
+traits <- c("Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass", "seed mass")
 
 # looking at the number of observations per trait, we could imagine we would need 801485 rows for all the height data
-nopertrait <- dat %>%
-    group_by(TraitName) %>%
-    summarise(no_rows = length(TraitName))
 
-mat <- matrix(NA, ncol = length(traits), nrow = 801485) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
+tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname")], FUN=length) 
+# 9682 is the max rows needed for a given trait
+mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
 
+species <-species[1:3]
 for(i in 1:length(species)){
-    temp <- subset(dat, new.SpeciesName == species[i])
+    temp <- subset(other.trt, speciesname == species[i])
     for(j in 1:length(traits)){
-       mat[i,j] <- subset(temp, TraitName == traits[j])$TraitValue[i]
+        temp2 <- subset(temp, traitname == traits[j])
+        for (k in 1:nrow(temp2)){
+            mat[k,j] <- temp2$traitvalue[k]
+        }
     }
 }
-mat
+# this is arranging the traits by columns, but it is compressing the matricies of different species together I can't figure out how to add species as the row names.
 
-temp <- subset(dat, new.SpeciesName == species[1])
-temp2 <- subset(temp, TraitName == traits[1])
+mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
+species <-species[1:6]
+for(i in 1:length(species)){
+    temp <- subset(other.trt, speciesname == species[i])
+    for(j in 1:length(traits)){
+        temp2 <- subset(temp, traitname == traits[j])
+        for (k in 1:nrow(temp2)){
+            mat2[k,j] <- temp2$traitvalue[k]
+            mat2[k,7] <- temp2$speciesname[k]
+        }
+    }
+}
 
-colnames(mat) <- c("Height", "SLA", "Photosyn",
-                   "N", "SSD", "LDMC", "StemD")
+head(mat)
+colnames(mat) <- c("SLA", "N", "SSD", "ldmc", "lcc", "seed", "speciesname")
 rownames(mat) <- species
-mat
+mat[, 2]
+
+# test <- data.frame(speciesname = character, sla = numeric(),  lnc = numeric(), 
+#                    sdd = numeric(), ldmc = numeric(), lcc = numeric(), seed = numeric())
+# 
+# for(i in 1:length(species)){
+#     temp <- subset(other.trt, speciesname == species[1])
+#     for(j in 1:length(traits)){
+#         temp2 <- subset(temp, traitname == traits[1])
+#         temp2 <- temp2[,c("speciesname", "traitvalue")]
+#         names(temp2) <- c("speciesname", traits[1])
+#     }
+# }
+# 
+# dfadd <- data.frame(resample.n = i, mean = mean(mysample), sd = sd(mysample))
+# 
+# for( i in 1: length(species)){
+#     temp <- subset(other.trt, speciesname == species[1])
+#     for(j in 1:length(traits)){
+#         temp2 <- subset(temp, traitname == traits[1])
+#         temp3 <- merge(test, temp2, by == speciesname)
+#     }
+# }
+# temp <- subset(dat, new.SpeciesName == species[1])
+# temp2 <- subset(temp, TraitName == traits[1])
+# 
+# colnames(mat) <- c("Height", "SLA", "Photosyn",
+#                    "N", "SSD", "LDMC", "StemD")
+# rownames(mat) <- species
+# mat
 
 ## Which traits to drop to keep more species?
 for (whichcol in 1:ncol(mat)){
@@ -77,10 +130,11 @@ require(reshape2)
 trydcast <- dcast(dat, new.SpeciesName + Latitude + Longitude ~ TraitName, value.var = "TraitValue", drop = FALSE)
 }
 # Attempt 2
-temp <- reshape2::dcast(dat, new.SpeciesName + DatasetID ~ TraitName , value.var= "TraitValue")
+temp <- reshape2::dcast(other.trt, speciesname + no ~ traitname , value.var= "traitvalue")
 
 # Attempt 3 using tidyr
-test <- spread(dat, key = TraitName, value = TraitValue)
+other.trt$no <- 1:nrow(other.trt)
+test <- spread(other.trt, key = traitname, value = traitvalue)
 
 ## PCA plots 
 ranges <- list(c(-.4, .4),
