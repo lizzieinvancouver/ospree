@@ -30,25 +30,24 @@ sort(unique(d$Reference...source))
 # there are some irregular references that also need fixing:
 # Feng and Feng_
 d$Reference...source[d$Reference...source == "Feng_etal_Halle"] <- "Feng et al Halle"
-#Guilia
-# d$Reference...source[d$Reference...source == "Gul\xedas et al 2002"] <- "Gulias et al 2002"
-# d$Reference...source[d$Reference...source == "Gul\xedas et al 2003"] <- "Gulias et al 2003"
 
+#Guilia
 d$Reference...source[d$Reference...source ==  "Gulía et al 2002"] <- "Gulias et al 2002"
 d$Reference...source[d$Reference...source ==  "Gulía et al 2003"] <- "Gulias et al 2003"
 
 #Kudo
 d$Reference...source[d$Reference...source ==  "KudoCorn"] <- "Kudo_Cornelissen"
 d$Reference...source[d$Reference...source ==  "Kudo9"] <- "Kudo_9"
-# d$Reference...source[d$Reference...source ==  "\xd6sterdahl Sofia(2003): V\xe4xtsamh\xe4llen p\xe5 fj\xe4llr\xe4vslyor iett subarktiskt/alpint landskap / (Plant comm"] <- "Kleyer"
-# d$Reference...source[d$Reference...source ==  "Ant\xfanez Isabel(2001): Relative growth rate in phylogenetically related deciduous and evergreen ..."] <- "Kleyer"
-# d$Reference...source[d$Reference...source ==  "Kr\xf6ber et al, 2012"] <- "Kleyer"
 
 #######################################################################################################################
 ######### Subset with 5 characters ####################################################################################
 
 d$refabr5 <- strtrim(d$Reference...source,5); head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
+
+d$dup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue")])
 sort(unique(d$refabr5))
+temp <- subset(d, dup == "TRUE") # 434905 rows
+
 ## select target variables for which we will search for duplicates:
 tar.var5 <- c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi")
 resp.var <- c("TraitValue")
@@ -56,11 +55,16 @@ resp.var <- c("TraitValue")
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
 trt.sub5 <- d[, c(tar.var5, resp.var)]
 head(trt.sub5)
+
 ## remove duplicated rows in a simple way
 trt.sub.no.dup5 <- d[!duplicated(trt.sub5), ]
 
+trt.sub.dups5 <- d[duplicated(trt.sub5), ]
+
 dim(trt.sub5)
 dim(trt.sub.no.dup5) 
+dim(trt.sub.dups5) 
+
 # with 5 characters, and without including project_pi and lat/long we are left with only 28578 rows of data, deleting 1233622, only 2% of the data left
 # with 5 characters, and with including reference and lat/long we are left with only 823610 rows of data,  ~65% of the data kept
 # with 5 characters, and with including project_pi,reference and lat/long we are left with only 823754 rows of data,  ~65% of the data kept
