@@ -8,7 +8,15 @@ Ettinger, A.K., Chamberlain, C.J., Morales-Castilla, I. et al.
 Winter temperatures predominate in spring phenological responses to warming. 
 Nat. Clim. Chang. 10, 1137–1142 (2020). https://doi.org/10.1038/s41558-020-00917-3
 
-<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+The version of the OSPREE database used in this manuscript is publicly available on knb:
+Elizabeth Wolkovich, Ailene Ettinger, Daniel Flynn, Tim Savas, Catherine Chamberlain, et al. 2019. 
+Observed Spring Phenology Responses in Experimental Environments (OSPREE). 
+Knowledge Network for Biocomplexity. doi:10.5063/F1CZ35KB.
+
+It includes only the budburst-related data.
+Code used to select these data from the full OSPREE database are located in 
+docs/budburst/code_for_knb_optionB_Used
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 Files used to create figures in main manuscript
