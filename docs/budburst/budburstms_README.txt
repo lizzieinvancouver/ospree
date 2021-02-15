@@ -2,13 +2,17 @@ Budburst Manuscript README
 OSPREE
 Observed Spring Phenology Responses in Éxperimental Environments
 
-<><><><><><><><><><><><><><><><<><><><><><><><><><><><><><><><><><><><>><><><><>
+<><><><><><><><><><><><><><><><<><><><><><><><><><><><><><><><><><><><>>
 Files used to create the main budburst manuscript:
 Ettinger, A.K., Chamberlain, C.J., Morales-Castilla, I. et al. 
 Winter temperatures predominate in spring phenological responses to warming. 
 Nat. Clim. Chang. 10, 1137–1142 (2020). https://doi.org/10.1038/s41558-020-00917-3
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+Files used to create figures in main manuscript
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 #Figure 1: conceptual figure,created in Adobe Illustrator by Nacho primarily 
 	All versons located in ospree/docs/buddburst/figures/concept; 
 	filename in published version is Fig_bbconcept_dormant_V8.png
@@ -82,23 +86,24 @@ Files used to create tables and figures in the supplemental materials
 
 
 #Table S1: Dataset names and references for papers in the OSPREE database
-	Built in analyses/bb_analysis/maketables.forsupp/make_sp_table_forsupp.R
+	
+	Built in analyses/bb_analysis/maketables.forsupp/datasetIDref_table.R
 
-#Table S2: Species included in the OSPREE database
-	Built in analyses/bb_analysis/maketables.forsupp/mod_table.R
+#Table S2: Species included in the OSPREE 
+	File name: analyses/output/supptables/speciestable.csv
+	Built in analyses/limitingcues/output/bbstan_mainmodel_countinxns.csv
 
 #Table S3: Number of studies testing for interactions between chilling, forcing, photoperiod
-	Built in analyses/bb_analysis/maketables.forsupp/mod_table.R
+	Built in analyses/limitingcues/countinxns/countinxns.R
 
 #Table S4: Utah chill units
+	File utahmod.csv, created from Utah model in from Richardson 1974 HortScience
 
 #Table S5: Estimates from models fit with standardized predictors
-
 #Table S6: Estimates from models fit with predictors on their natural scales	
-
 #Table S7: Estimates from model fit to data to which within group centering was applied
-
 #Table S8: Estimates from model fit to data from experiments with two interactions between cues 
+	These four tablesbuilt int analyses/bb_analysis/maketables.forsupp/mod_table.R
 
 #Table S9: Estimates from model fit to data excluding Zohner
 
