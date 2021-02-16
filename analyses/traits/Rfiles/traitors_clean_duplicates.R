@@ -18,7 +18,7 @@ if(length(grep("deirdreloughnan", getwd()) > 0)) {  setwd("~/Documents/ospree_tr
 ## reading in data
 #setwd("~/GitHub/ospree/analyses/output/")
 
-d <- read.csv("input/try_bien.csv") 
+d <- read.csv("input/try_bien_Feb15.csv") 
 
 refs <- aggregate(d["new.SpeciesName"], d[c("Reference", "Reference...source", "database")], FUN = length) 
 #There are abou 38 datasets that might be duplicated
@@ -45,8 +45,17 @@ d$Reference...source[d$Reference...source ==  "Kudo9"] <- "Kudo_9"
 d$refabr5 <- strtrim(d$Reference...source,5); head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 
 d$dup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue")])
+d$trydup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue", "OrigObsDataID.x")])
+d$trydup <- duplicated(d[,c("OrigObsDataID.x")])
+
 sort(unique(d$refabr5))
 temp <- subset(d, dup == "TRUE") # 434905 rows
+temp <- subset(temp, database == "try") #22400
+
+temp.try <- subset(d, trydup == "TRUE") # 429877 rows
+temp.try <- subset(temp.try, database == "try") #17372
+
+temp.nodup <- subset(d, dup != "TRUE") # 823754 rows
 
 ## select target variables for which we will search for duplicates:
 tar.var5 <- c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi")
@@ -204,3 +213,13 @@ ldmc <- subset(trt.sub.no.dup, TraitName == "Leaf_dry_matter_content"); hist (ld
 lcc <- subset(trt.sub.no.dup, TraitName == "Leaf_carbon_.C._content_per_leaf_dry_mass"); hist (lcc$TraitValue)
 photo <- subset(trt.sub.no.dup, TraitName == "Leaf_photosynthesis_rate_per_leaf_area"); hist (photo$TraitValue)
 life <- subset(trt.sub.no.dup, TraitName == "leaf life span"); hist (life$TraitValue)
+
+
+## The differences between try and our approaches to finding dup
+temp <- subset(d, is.na(OrigObsDataID.x) & database == "try") 
+temp2 <- subset(d,  database == "try")
+
+d$iden <- identical(d$dup, d$trydup)
+test <- subset(d, dup == "TRUE" & trydup == "FALSE")
+length(unique(test$DatasetID))
+length(unique(test$refabr5))

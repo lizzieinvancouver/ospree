@@ -37,37 +37,59 @@ height <- subset(dat, traitname == "Plant_height_vegetative")
 
 other.trt <- subset(dat, traitname != "Plant_height_vegetative")
 
+## sampling height: start by separating out the species with few obs
+a.lot.ht <- c("Quercus_ellipsoidalis", "Alnus_rubra", "Fraxinus_nigra", "Populus_grandidentata", "Betula_lenta", "Betula_alleghaniensis", "Betula_papyrifera", "Fagus_grandifolia", "Quercus_velutina", "Prunus_serotina", "Quercus_rubra", "Acer_saccharum", "Quercus_alba")
+
+sm <- height[!height$speciesname %in% a.lot.ht, ]
+sm.sub <- sm[, c("traitname", "traitvalue", "speciesname")]
+
+lg <- height[height$speciesname %in% a.lot.ht, ]
+
+# now sampling for species with a lot of data
+ht <- data.frame(speciesname = character(), height = numeric())
+species <- unique(lg$speciesname)
+
+for (sp in 1: length(species)){
+    testsp <- subset(lg, speciesname == species[sp])
+    mysample <- sample(testsp$traitvalue, 5000)
+    dfadd <- data.frame(speciesname = species[sp], traitvalue = mysample)
+    # mysample$speciesname <- species[sp]
+    ht <- rbind(ht, dfadd)
+}
+
+ht$traitname <- "Plant_height_vegetative"
+
+ht.sample <- rbind(sm.sub, ht)
+
+####################################################################################################################
 ## I started by trying to just alter Geoff's code (below) and while it worked well for the mean values, I am not sure how to get it to work with the raw data
-# Does the code below actually take the geometric mean per species? It looks to me like it takes the first value?!
+
 species <- unique(other.trt$speciesname)
 traits <- c("Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass", "seed mass")
 
-# looking at the number of observations per trait, we could imagine we would need 801485 rows for all the height data
-
+# looking at the number of observations per trait, we could imagine we would need 9685 rows for all the trait data
 tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname")], FUN=length) 
 # 9682 is the max rows needed for a given trait
-mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
 
-# this is arranging the traits by columns, but it is compressing the matricies of different species together I can't figure out how to add species as the row names.
-
-mat <- matrix(NA, ncol = 7, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
+mat <- matrix(NA, ncol = length(traits)+1, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
 species <-species[1:6]
 for(i in 1:length(species)){
     temp <- subset(other.trt, speciesname == species[i])
     for(j in 1:length(traits)){
         temp2 <- subset(temp, traitname == traits[j])
         for (k in 1:nrow(temp2)){
-            mat2[k,j] <- temp2$traitvalue[k]
-            mat2[k,7] <- temp2$speciesname[k]
+            mat[k,j] <- temp2$traitvalue[k]
+            mat[k,7] <- temp2$speciesname[k]
         }
     }
 }
 
 head(mat)
 colnames(mat) <- c("SLA", "N", "SSD", "ldmc", "lcc", "seed", "speciesname")
-rownames(mat) <- species
-mat[, 2]
 
+# this is arranging the traits by columns, but it is compressing the matricies of different species together 
+
+# Below are my other attempts -- to be deleted
 # test <- data.frame(speciesname = character, sla = numeric(),  lnc = numeric(), 
 #                    sdd = numeric(), ldmc = numeric(), lcc = numeric(), seed = numeric())
 # 
