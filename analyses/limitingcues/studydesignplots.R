@@ -440,7 +440,7 @@ dsumm.treat <-
       field.sample.n = mean(fs.date.count, na.rm=TRUE),
       mean.fieldsamp = mean(doy),
       min.fieldsamp = min(doy),
-      max.fieldsamp = max(doy))
+      max.fieldsamp = max(doy)) ### DB This gather seems correct to me
 
 # sort the factors so that they show up in a logical order (I checked the new maps produced versus the old and they look good!)
 dsumm.treat$force.plot <- factor(dsumm.treat$force.plot, levels=c(sort(unique(d$force.int)), "ambient", "variable", "NA"))
@@ -475,6 +475,9 @@ checkchillbyhand <- checkchillna[!which(checkchillna$datasetID %in% dfbb$dataset
 dsumm.nums <-
       ddply(dsumm.treat, c("force.plot", "photo.plot"), summarise,
       count = length(force.plot))
+### DB check alternatitve way
+#goo<-dsumm.treat %>% dplyr::group_by(force.plot,photo.plot) %>% dplyr::count() #yeilds same answers
+
 # dsumm.nums[is.na(dsumm.nums)] <- 0
 
 pdf("limitingcues/figures/heatmapforcexphoto.pdf", width = 6, height = 6)
@@ -538,13 +541,13 @@ dev.off()
 
 # make figures prettier than average
 
-colz <- viridis_pal(option="magma")(3)
+colz <- viridis_pal()(6)
 basesize <- 12
 
 heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
     geom_tile(aes(fill=field.sample.n), colour="white") +
-    scale_fill_gradient2(name="Field sample \ndates n", low = colz[1], mid=colz[3],
-        high = colz[2], na.value="gray95") +
+    scale_fill_gradient2(name="Field sample \ndates n", low = colz[1], mid=colz[2],
+        high = colz[5], na.value="gray95") +
     # scale_x_discrete(breaks=seq(-5,35,5)) +
     # scale_y_discrete(breaks=seq(6,24,2)) +
     theme_classic() +
@@ -554,29 +557,29 @@ heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.
         panel.background = element_blank(), text=element_text(size=basesize))
 
 #heatmapphotoxforcexchill <-
-dsumm.treat$chill.plot2<-NA
-dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="other"] <- "other" 
-dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="variable"] <- "variable"  
-dsumm.treat$chill.plot2[is.na(dsumm.treat$chill.plot2)] <- "fixed"  
+#dsumm.treat$chill.plot2<-NA
+#dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="other"] <- "other" 
+#dsumm.treat$chill.plot2[dsumm.treat$chill.plot=="variable"] <- "variable"  
+#dsumm.treat$chill.plot2[is.na(dsumm.treat$chill.plot2)] <- "fixed"  
 
 dsumm.treat$chill.plot3<-as.numeric(levels(dsumm.treat$chill.plot))[dsumm.treat$chill.plot]
-dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="variable",27,dsumm.treat$chill.plot3)
+dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="variable",30,dsumm.treat$chill.plot3)
 dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="other",30,dsumm.treat$chill.plot3)
 
-heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=as.numeric(as.character(chill.plot)),color=chill.plot2),width=0.8,height=0.8) + # but we lose variable and ambient!
-    scale_fill_gradient2(name="Exp chill temp", low = colz[1], mid=colz[3],
-        high = colz[2], na.value="gray95") +
-  scale_color_manual(values=c(NA,"black","darkgrey"))+
-    theme_classic() +
-    labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
-    theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
-        axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-        panel.background = element_blank(), text=element_text(size=basesize))
+#heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=as.numeric(as.character(chill.plot)),color=chill.plot2),width=0.8,height=0.8) + # but we lose variable and ambient!
+ #   scale_fill_gradient2(name="Exp chill temp", low = colz[1], mid=colz[3],
+#        high = colz[2], na.value="gray95") +
+#  scale_color_manual(values=c(NA,"black","darkgrey"))+
+ #   theme_classic() +
+  #  labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
+   # theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
+    #    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+     #   panel.background = element_blank(), text=element_text(size=basesize)) # DB alternative plot, not usin g
 
 
 
-heatmapphotoxforcexchill2<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=chill.plot3),height=0.9,width=0.9)+
-  scale_fill_gradientn(name="Exp chill temp",colours = topo.colors(6) ,breaks=c(-10,0,10,20,27,30),labels=c(-10,0,10,20,"variable","other"))+
+heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=chill.plot3),height=0.9,width=0.9)+
+  scale_fill_gradientn(name="Exp chill temp",colours = viridis(9), na.value="gray95" ,breaks=c(-10,0,10,20,30),labels=c(-10,0,10,20,"variable/other"))+
   theme_classic() +
   labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
   theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
@@ -590,10 +593,6 @@ dev.off()
 
 pdf("limitingcues/figures/heatmapphotoxforcexchill.pdf", width = 6, height = 4)
 heatmapphotoxforcexchill
-dev.off()
-
-pdf("limitingcues/figures/heatmapphotoxforcexchill_alt.pdf", width = 6, height = 4)
-heatmapphotoxforcexchill2
 dev.off()
 
 require(cowplot)
