@@ -145,13 +145,14 @@ cheap.geo.small<-dplyr::filter(cheap.geo,iter>3500)
 cheap.stv.small<-dplyr::filter(cheap.stv,iter>3500)
 
 mod.ggdlf.geo<-brm(b_chill~Geo_SD*continent+(1|iter),data=cheap.geo.small)
-summary(mod.ggdlf.geo)
 
+mod.ggdlf.multivar.geo<-brm(mvbind(b_force,b_photo,b_chill)~Geo_SD*continent+(1|p|iter),data=cheap.geo.small)
 
 #mod.ggdlf.geo.sp<-brm(b_chill~Geo_SD*continent+(1|species),data=cheap.geo.small) doesnt run
 
 
 new.data.ggdlf.temp<-data.frame(Geo_SD=cheap.geo.small$Geo_SD,iter=cheap.geo.small$iter,continent=cheap.geo.small$continent)
+
 
 ggdlf<-predict(mod.ggdlf.geo,newdata = new.data.ggdlf)
 ggdlf<-as.data.frame(ggdlf)
@@ -171,7 +172,15 @@ geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Estimate),method="lm",fullrange=TRUE)
 dev.off()
 
 mod.ggdlf.temp<-brm(b_chill~Temp_SD*continent+(1|iter),data=cheap.geo.small)
+mod.ggdlf.temp.photo<-brm(b_photo~Temp_SD*continent+(1|iter),data=cheap.geo.small)
+mod.ggdlf.temp.force<-brm(b_force~Temp_SD*continent+(1|iter),data=cheap.geo.small)
+fixef(mod.ggdlf.temp)
+fixef(mod.ggdlf.temp.photo)
+fixef(mod.ggdlf.temp.force)
 
+mod.ggdlf.geo.photo<-brm(b_photo~Geo_SD*continent+(1|iter),data=cheap.geo.small)
+mod.ggdlf.geo.force<-brm(b_force~Geo_SD*continent+(1|iter),data=cheap.geo.small)
+fixef(mod.ggdlf.temp)
 new.data.ggdlf.temp<-data.frame(Temp_SD=cheap.geo.small$Temp_SD,iter=cheap.geo.small$iter,continent=cheap.geo.small$continent)
 
 ggdlf.temp<-predict(mod.ggdlf.temp,newdata = new.data.ggdlf.temp)
@@ -246,6 +255,11 @@ save.image("cheap.mods.Rda")
 
 
 
+
+##muplots
+fixef(mod.ggdlf.geo)
+pp_check(mod.ggdlf.temp)
+pp_check(mod.stv.temp)
 
 stop("below is scratch")
 
