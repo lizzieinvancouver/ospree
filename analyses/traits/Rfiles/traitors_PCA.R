@@ -68,11 +68,14 @@ species <- unique(other.trt$speciesname)
 traits <- c("Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass", "seed mass")
 
 # looking at the number of observations per trait, we could imagine we would need 9685 rows for all the trait data
-tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname")], FUN=length) 
+tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname", "speciesname")], FUN=length) 
 # 9682 is the max rows needed for a given trait
+species <- c("Betula_occidentalis", "Rhododendron_prinophyllum")
+sp.sub <- subset(other.trt, speciesname == "Rhododendron_prinophyllum")
+sp.sub2 <- subset(other.trt, speciesname == "Betula_occidentalis")
 
 mat <- matrix(NA, ncol = length(traits)+1, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
-species <-species[1:6]
+species <- species[1:6]
 for(i in 1:length(species)){
     temp <- subset(other.trt, speciesname == species[i])
     for(j in 1:length(traits)){
@@ -85,8 +88,53 @@ for(i in 1:length(species)){
 }
 
 head(mat)
+
 colnames(mat) <- c("SLA", "N", "SSD", "ldmc", "lcc", "seed", "speciesname")
 
+print(i)
+print(j)
+print(k)
+
+# I think the issue is that the matrix gets overwritten with each loop beacuse k is always the first row
+
+mat <- matrix(NA, ncol = length(traits)+1, nrow = 7) 
+
+f <- 2
+i <- 1
+temp <- subset(other.trt, speciesname == species[i])
+    
+for(j in 1:length(traits)){
+    temp2 <- subset(temp, traitname == traits[j])
+    
+    for (k in 1:nrow(temp2)){
+        mat[f,j] <- temp2$traitvalue[k]
+        mat[f,7] <- temp2$speciesname[k]
+    }
+}
+
+mat
+
+# This is my idea, but it doesn't work
+for (f in 1:nrow(mat)){ 
+    for(i in 1:length(species)){
+    temp <- subset(other.trt, speciesname == species[i])
+    
+        for(j in 1:length(traits)){
+        temp2 <- subset(temp, traitname == traits[j])
+        
+            for (k in 1:nrow(temp2)){
+              mat[f,j] <- temp2$traitvalue[k]
+              mat[f,7] <- temp2$speciesname[k]
+          }
+        }
+    }
+}
+mat
+
+print(i)
+print(j)
+print(k)
+print(f)
 # this is arranging the traits by columns, but it is compressing the matricies of different species together 
 
 # Below are my other attempts -- to be deleted
