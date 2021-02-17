@@ -31,30 +31,30 @@ rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
 rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
 area<-read.csv("output/rangeareas.csv")
-head(rangiesNa,14)
+#head(rangiesNa,14)
 ##clean North America names
-rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
-rangiesNa$species[which(rangiesNa$species=="popugran")]<- "Populus_grandidentata"
-rangiesNa$species[which(rangiesNa$species=="fagugran")]<- "Fagus_grandifolia"
-rangiesNa$species[which(rangiesNa$species=="querrubr")]<- "Quercus_rubra"
-rangiesNa$species[which(rangiesNa$species=="acerpens")]<- "Acer_pensylvanicum"
-rangiesNa$species[which(rangiesNa$species=="betupapy")]<- "Betula_papyrifera"
-rangiesNa$species[which(rangiesNa$species=="fraxnigr")]<- "Fraxinus_nigra"
-rangiesNa$species[which(rangiesNa$species=="robipseu")]<- "Robinia_pseudoacacia"
-rangiesNa$species[which(rangiesNa$species=="pseumenz")]<- "Pseudotsuga_menziesii"
-rangiesNa$species[which(rangiesNa$species=="prunpens")]<- "Prunus_pensylvanicum"
-rangiesNa$species[which(rangiesNa$species=="poputrem")]<- "Populus_tremuloides"
-rangiesNa$species[which(rangiesNa$species=="betualle")]<- "Betula_alleghaniensis"
-rangiesNa$species[which(rangiesNa$species=="acersacr")]<- "Acer_saccharum"
-rangiesNa$species[which(rangiesNa$species=="acerrubr")]<- "Acer_rubrum"
-rangiesNa$species[which(rangiesNa$species=="alnurugo")]<- "Alnus_incana"
-rangiesNa$species[which(rangiesNa$species=="corycorn")]<- "Corylus_cornuta"
-rangiesNa$species[which(rangiesNa$species=="piceglau")]<- "Picea_glauca"
-rangiesNa$species[which(rangiesNa$species=="picemari")]<- "Picea_mariana"
-unique(rangiesNa$species)
-rangiesEu$continent<-"EU"
+#rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
+#rangiesNa$species[which(rangiesNa$species=="popugran")]<- "Populus_grandidentata"
+#rangiesNa$species[which(rangiesNa$species=="fagugran")]<- "Fagus_grandifolia"
+#rangiesNa$species[which(rangiesNa$species=="querrubr")]<- "Quercus_rubra"
+#rangiesNa$species[which(rangiesNa$species=="acerpens")]<- "Acer_pensylvanicum"
+#rangiesNa$species[which(rangiesNa$species=="betupapy")]<- "Betula_papyrifera"
+#rangiesNa$species[which(rangiesNa$species=="fraxnigr")]<- "Fraxinus_nigra"
+#rangiesNa$species[which(rangiesNa$species=="robipseu")]<- "Robinia_pseudoacacia"
+#rangiesNa$species[which(rangiesNa$species=="pseumenz")]<- "Pseudotsuga_menziesii"
+#rangiesNa$species[which(rangiesNa$species=="prunpens")]<- "Prunus_pensylvanicum"
+#rangiesNa$species[which(rangiesNa$species=="poputrem")]<- "Populus_tremuloides"
+#rangiesNa$species[which(rangiesNa$species=="betualle")]<- "Betula_alleghaniensis"
+#rangiesNa$species[which(rangiesNa$species=="acersacr")]<- "Acer_saccharum"
+#rangiesNa$species[which(rangiesNa$species=="acerrubr")]<- "Acer_rubrum"
+#rangiesNa$species[which(rangiesNa$species=="alnurugo")]<- "Alnus_incana"
+#rangiesNa$species[which(rangiesNa$species=="corycorn")]<- "Corylus_cornuta"
+#rangiesNa$species[which(rangiesNa$species=="piceglau")]<- "Picea_glauca"
+#rangiesNa$species[which(rangiesNa$species=="picemari")]<- "Picea_mariana"
+#unique(rangiesNa$species)
+rangiesEu$continent<-"Europe"
 rangiesEu<-dplyr::select(rangiesEu,-X)
-rangiesNa$continent<-"NA"
+rangiesNa$continent<-"N. America"
 
 rangies<-rbind(rangiesEu,rangiesNa)
 ## more formating
@@ -72,28 +72,166 @@ colnames(posties)[6]<-"species" ##merge them
 
 list2env(Y, envir = .GlobalEnv)
 ###make the data sheets
+
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Geo.SD,Temp.SD))
+
+a<-ggplot(GDD.lastfrost,aes(Geo.SD,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  xlab("Geographic variation in GDDs to last frost")+annotate("text", x = 40, y = 150, 
+label = "Correlation= 0.88
+         EU= 0.37
+         NA= 0.83")
+
+colnames(MeanTmins)[4]<-"STV"
+MeanTmins<-dplyr::select(MeanTmins,STV,species)
+GDD.lastfrost<-left_join(GDD.lastfrost,MeanTmins)
+
 cor(GDD.lastfrost$Temp.SD,GDD.lastfrost$Geo.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(STV,Temp.SD))
 
-cor(MeanTmins$Temp.SD,GDD.lastfrost$Geo.SD)
-cor(MeanTmins$Temp.SD,GDD.lastfrost$Temp.SD)
+b<-ggplot(GDD.lastfrost,aes(STV,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 150,
+label = "Correlation= 0.789
+         EU= -.39
+         NA =.75")
 
+cor(GDD.lastfrost$STV,GDD.lastfrost$Geo.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(STV,Geo.SD))
+
+c<-ggplot(GDD.lastfrost,aes(STV,Geo.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
+  xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 80, 
+label = "Correlation= 0.639
+          EU= -.18
+          NA= 0.5")
+
+options(scipen = 999)
 area<-select(area,-continent)
 area<-left_join(GDD.lastfrost,area)
-cor(area$range_area,area$Temp.SD)
+
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(STV,range_area))
+d<-ggplot(area,aes(range_area,STV))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Interannual spring temperature variability (STV)")+
+  xlab("Range area (km^2)")+annotate("text", x = 8000000, y = 4, 
+label = "Correlation= -.07
+         EU=.59
+         NA =-.42")
+
+
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.SD,range_area))
+
+e<-ggplot(area,aes(range_area,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  xlab("Range area (km^2)")+annotate("text", x = 8000000, y = 100, 
+label = "Correlation= -.39
+                  EU= -.41
+                  NA= -.73")
+
 cor(area$range_area,area$Geo.SD)
 
-area<-left_join(area,posties)
-ggplot(area,aes(range_area,Geo.SD,color=continent))+geom_smooth(method="lm")
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Geo.SD,range_area))
 
-ggplot(area,aes(range_area,b_chill,color=continent))+geom_smooth(method="lm")
-ggplot(area,aes(range_area,b_photo,color=continent))+geom_smooth(method="lm")
-ggplot(area,aes(range_area,b_force,color=continent))+geom_smooth(method="lm")
+f<-ggplot(area,aes(range_area,Geo.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
+  xlab("Range area (km^2)")+annotate("text", x = 8000000, y = 75, 
+  label = "Correlation= -.349
+            EU= -.03
+            NA= -.78")
 
 
-plot(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD)
-abline(lm(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD))
-text(round(cor(MeanTmins$Temp.SD,GDD.lastfrost$Temp.SD),digits=4),x=30,y=4)
-summary(lm(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD))
+
+### what about latitude extent
+extent<-read.csv("output/zolder_datagrabs/full_extent_data.csv")
+extent<-dplyr::select(extent,species,cent.lat,lat.extent)
+area<-left_join(area,extent)
+
+cor(area$lat.extent,area$cent.lat,use = "complete.obs")
+cor(area$range_area,area$cent.lat,use = "complete.obs")
+
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(lat.extent,cent.lat,use = "complete.obs"))
+
+g<-ggplot(area,aes(cent.lat,lat.extent))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Range extent (latititude)")+
+  xlab("range centroid (latitude)")+annotate("text", x = 40, y = 40, 
+  label = "Correlation= 0.51
+            EU= 0.6
+            NA= 0.47")
+
+cor(area$range_area,area$cent.lat,use = "complete.obs")
+
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(range_area,cent.lat,use = "complete.obs"))
+
+j<-ggplot(area,aes(range_area,cent.lat))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("range centroid (latitude)")+
+  xlab("Range area (km2)")+annotate("text", x = 10000000, y = 58, 
+   label = "Correlation= 0.34
+            EU= 0.22
+            NA= 0.88")
+
+
+cor(area$lat.extent,area$STV,use = "complete.obs")
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(lat.extent,STV,use = "complete.obs"))
+
+h<-ggplot(area,aes(lat.extent,STV))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Interannual spring temperature variability (STV)")+
+  xlab("Range extent (latititude)")+annotate("text", x = 15, y = 4, 
+label = "Correlation= 0.15
+          EU= .73
+          NA= -.03")
+
+cor(area$lat.extent,area$Temp.SD,use = "complete.obs")
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(lat.extent,Temp.SD,use = "complete.obs"))
+
+i<-ggplot(area,aes(lat.extent,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  xlab("Range extent (latititude)")+annotate("text", x = 15, y = 120, 
+      label = "Correlation= -0.18,
+      EU= -.59
+      NA= -.19")
+
+
+cor(area$lat.extent,area$Geo.SD,use = "complete.obs")
+area %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(lat.extent,Geo.SD,use = "complete.obs"))
+
+k<-ggplot(area,aes(lat.extent,Geo.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
+  xlab("Range extent (latititude)")+annotate("text", x = 10, y = 75,
+    label = "Correlation= -0.17,
+    EU= .08
+    NA= -.31")
+
+aa<-ggpubr::ggarrange(a,b,c,nrow=1)
+bb<-ggpubr::ggarrange(g,j,nrow=1)
+cc<-ggpubr::ggarrange(d,e,f,h,i,k,nrow=2,ncol=3)
+jpeg("figures/clim_params.jpeg",width=14,height=10,units = "in",res=200)
+ggpubr::ggarrange(a,b,c,g,j,d,e,f,h,i,nrow=2,ncol=5,common.legend = TRUE,
+                  labels = c("a)","b)","c)","d)","e)","f)","g)","h)","i)","j)"))
+
+dev.off()
+
 
 ####if activated this removes 2 outlyerspecies
 #posties<-filter(posties,!species %in% c("Quercus_ilex","Larix_decidua"))
@@ -111,7 +249,7 @@ summary(aov(b_chill~continent,data=cuecomps))
 summary(aov(b_photo~continent,data=cuecomps))
 summary(aov(b_force~continent,data=cuecomps))
 
-pdf("figures/continental_cues.pdf")
+jpeg("figures/continental_cues.jpeg",height= 5, width=8, units = "in",res=200)
 ggpubr::ggarrange(a,b,c, nrow=1,ncol=3)
 dev.off()
 
