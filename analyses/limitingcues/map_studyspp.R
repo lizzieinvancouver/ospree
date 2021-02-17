@@ -113,7 +113,7 @@ legendplot <- ggplot() +
         #legend.position=c(0.95, 0.85),
         #legend.position = "none",
         legend.key = element_rect(fill="white", color="white"),
-        legend.box.background = element_rect(fill="white"),legend.text = element_text(size=6), legend.key.size = unit(0.1,"cm"),
+        legend.box.background = element_rect(fill="white"),#legend.text = element_text(size=6), legend.key.size = unit(0.1,"cm"),
         legend.title = element_text(size=8))+
   guides(size=FALSE)  +
   scale_colour_manual(name="DatasetID", values=my.pal,
