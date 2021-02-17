@@ -25,11 +25,12 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-load("cheap.mods.Rda")
+#load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
 rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
+area<-read.csv("output/rangeareas.csv")
 head(rangiesNa,14)
 ##clean North America names
 rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
@@ -71,6 +72,28 @@ colnames(posties)[6]<-"species" ##merge them
 
 list2env(Y, envir = .GlobalEnv)
 ###make the data sheets
+cor(GDD.lastfrost$Temp.SD,GDD.lastfrost$Geo.SD)
+
+cor(MeanTmins$Temp.SD,GDD.lastfrost$Geo.SD)
+cor(MeanTmins$Temp.SD,GDD.lastfrost$Temp.SD)
+
+area<-select(area,-continent)
+area<-left_join(GDD.lastfrost,area)
+cor(area$range_area,area$Temp.SD)
+cor(area$range_area,area$Geo.SD)
+
+area<-left_join(area,posties)
+ggplot(area,aes(range_area,Geo.SD,color=continent))+geom_smooth(method="lm")
+
+ggplot(area,aes(range_area,b_chill,color=continent))+geom_smooth(method="lm")
+ggplot(area,aes(range_area,b_photo,color=continent))+geom_smooth(method="lm")
+ggplot(area,aes(range_area,b_force,color=continent))+geom_smooth(method="lm")
+
+
+plot(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD)
+abline(lm(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD))
+text(round(cor(MeanTmins$Temp.SD,GDD.lastfrost$Temp.SD),digits=4),x=30,y=4)
+summary(lm(MeanTmins$Temp.SD~GDD.lastfrost$Temp.SD))
 
 ####if activated this removes 2 outlyerspecies
 #posties<-filter(posties,!species %in% c("Quercus_ilex","Larix_decidua"))
@@ -80,9 +103,13 @@ geos<-geos[!duplicated(geos),]
 
 
 cuecomps<-left_join(geos,posties)
-a<-ggplot(cuecomps,aes(continent,b_force))+geom_boxplot()
-b<-ggplot(cuecomps,aes(continent,b_chill))+geom_boxplot()
-c<-ggplot(cuecomps,aes(continent,b_photo))+geom_boxplot()
+a<-ggplot(cuecomps,aes(continent,b_force))+geom_violin(fill="pink")+geom_boxplot(outlier.shape = NA)+theme_bw()
+b<-ggplot(cuecomps,aes(continent,b_chill))+geom_violin(fill="lightblue")+geom_boxplot(outlier.shape = NA)+theme_bw()
+c<-ggplot(cuecomps,aes(continent,b_photo))+geom_violin(fill="yellow")+geom_boxplot(outlier.shape = NA)+theme_bw()
+
+summary(aov(b_chill~continent,data=cuecomps))
+summary(aov(b_photo~continent,data=cuecomps))
+summary(aov(b_force~continent,data=cuecomps))
 
 pdf("figures/continental_cues.pdf")
 ggpubr::ggarrange(a,b,c, nrow=1,ncol=3)
@@ -170,7 +197,10 @@ geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Estimate),method="lm",fullrange=TRUE)
   geom_smooth(data=new.data.ggdlf,aes(Geo_SD,Q97.5),method="lm",color="red",linetype="dashed",fullrange=TRUE)+
     facet_wrap(~continent)+theme_bw()+ylim(-50,50)
 dev.off()
+range(cheap.geo.small$Temp_SD)
 
+mod.ggdlf.temp.nocont<-brm(b_chill~Temp_SD+(1|iter),data=cheap.geo.small)
+mod.ggdlf.temp.nocon.nopool<-brm(b_chill~Temp_SD,data=cheap.geo.small)
 mod.ggdlf.temp<-brm(b_chill~Temp_SD*continent+(1|iter),data=cheap.geo.small)
 mod.ggdlf.temp.photo<-brm(b_photo~Temp_SD*continent+(1|iter),data=cheap.geo.small)
 mod.ggdlf.temp.force<-brm(b_force~Temp_SD*continent+(1|iter),data=cheap.geo.small)
