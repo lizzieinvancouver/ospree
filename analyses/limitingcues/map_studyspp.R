@@ -45,8 +45,8 @@ sp$numspp<-ifelse(sp$numspp>=1 & sp$numspp<=5, 1, sp$numspp)
 sp$numspp<-ifelse(sp$numspp>5 & sp$numspp<=10, 2, sp$numspp)
 sp$numspp<-ifelse(sp$numspp>10 & sp$numspp<=20, 3, sp$numspp)
 sp$numspp<-ifelse(sp$numspp>20 & sp$numspp<=30, 4, sp$numspp)
-sp$numspp<-ifelse(sp$numspp>30 & sp$numspp<=100, 5, sp$numspp)
-sp$numspp<-ifelse(sp$numspp>100, 6, sp$numspp)
+sp$numspp<-ifelse(sp$numspp>30, 5, sp$numspp) #& sp$numspp<=100
+#sp$numspp<-ifelse(sp$numspp>100, 6, sp$numspp)
 
 my.pal<-rep(brewer.pal(n=12, name="Set3"),7)
 my.pch<-rep(c(4,6,8,15:18), each=12)
@@ -63,31 +63,17 @@ mp <- ggplot() +
            panel.grid.major = element_blank(),
            panel.grid.minor = element_blank(),
         plot.background = element_rect(fill = "white"),
-        legend.position=c(0.075, 0.163),
+        legend.position=c(0.95, 0.85),
         #legend.position = "none",
         legend.key = element_rect(fill="white", color="white"),
-        legend.box.background = element_rect(fill="white"),legend.text = element_text(size=7), legend.key.size = unit(0.3,"cm"),
+        legend.box.background = element_rect(fill="white"),legend.text = element_text(size=6), legend.key.size = unit(0.1,"cm"),
         legend.title = element_text(size=8))+
   guides(color=FALSE, shape=FALSE)  +
   scale_colour_manual(name="DatasetID", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
-  scale_size_manual(values=c(1,2,3,4,5,6), labels = c("1-5","6-10","11-20","21-30","31-100",">100"), name="Number of Species") +
+  scale_size_manual(values=c(1,2,3,4,5), labels = c("1-5","6-10","11-20","21-30","31-100+"), name="Number of Species") +
   xlab("") + ylab("") + coord_cartesian(xlim=c(-125, 190), ylim=c(-55, 100))
 
-#g_legend<-function(a.gplot){
-#  tmp <- ggplot_gtable(ggplot_build(a.gplot))
-#  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
- # legend <- tmp$grobs[[leg]]
-#  return(legend)}
-
-#datasets<-g_legend(mp)
-
-#quartz()
-#pdf("limitingcues/figures/maps/map_studyspp_legend.pdf", 
-#    width=convertWidth(sum(datasets$width), "in", valueOnly=TRUE),
-#    height=convertHeight(sum(datasets$heights), "in", valueOnly=TRUE))
-#grid.draw(datasets)
-#dev.off()
 
 euro<-ggplot() +
   geom_polygon(aes(x = mapWorld$long, y = mapWorld$lat, group = mapWorld$group),
@@ -103,7 +89,7 @@ euro<-ggplot() +
   guides(color=FALSE, shape=FALSE)  + 
   scale_colour_manual(name="DatasetID", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
-  scale_size_manual(values=c(1,2,3,4,5,6), labels = c("1-5","6-10","11-20","21-30","31-100",">100"), name="Number of Species") +
+  scale_size_manual(values=c(1,2,3,4,5), labels = c("1-5","6-10","11-20","21-30","31-100+"), name="Number of Species") +
   xlab("") + ylab("") + coord_cartesian(xlim=c(-13,40), ylim=c(34,72)) + labs(x=NULL, y=NULL)
 
 vp <- viewport(width = 0.25, height = 0.4, x = 0.864, y = 0.315)
@@ -112,5 +98,40 @@ quartz()
 print(mp)
 print(euro, vp = vp)
 
+### Now to make the legend 
+d$numspp <- ifelse(d$datasetID=="basler12", 14, d$numspp)
+d$datasetID <- paste(d$datasetID, d$numspp, sep="; ")
 
+legendplot <- ggplot() +
+  geom_polygon(aes(x = mapWorld$long, y = mapWorld$lat, group = mapWorld$group),
+               color = 'gray', fill="lightgrey", size = .2) +
+  geom_jitter(width=1.5,aes(x=d$provenance.long, y=d$provenance.lat, color=d$datasetID, size=as.factor(d$numspp), shape=d$datasetID)) + theme_classic() +
+  theme(panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.background = element_rect(fill = "white"),
+        #legend.position=c(0.95, 0.85),
+        #legend.position = "none",
+        legend.key = element_rect(fill="white", color="white"),
+        legend.box.background = element_rect(fill="white"),legend.text = element_text(size=6), legend.key.size = unit(0.1,"cm"),
+        legend.title = element_text(size=8))+
+  guides(size=FALSE)  +
+  scale_colour_manual(name="DatasetID", values=my.pal,
+                      labels=sort(unique(d$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(d$datasetID))) +
+  #scale_size_manual(values=c(1,2,3,4,5), labels = c("1-5","6-10","11-20","21-30","31-100+"), name="Number of Species") +
+  xlab("") + ylab("") + coord_cartesian(xlim=c(-125, 190), ylim=c(-55, 100))
 
+g_legend<-function(a.gplot){
+  tmp <- ggplot_gtable(ggplot_build(a.gplot))
+  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+  legend <- tmp$grobs[[leg]]
+  return(legend)}
+
+datasets<-g_legend(legendplot)
+
+quartz()
+pdf("limitingcues/figures/maps/map_studyspp_legend.pdf", 
+    width=convertWidth(sum(datasets$width), "in", valueOnly=TRUE),
+    height=convertHeight(sum(datasets$heights), "in", valueOnly=TRUE))
+grid.draw(datasets)
+dev.off()
