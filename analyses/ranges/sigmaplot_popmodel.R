@@ -19,11 +19,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 } else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/ranges")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/ranges") 
-} else if(length(grep("catchamberlain", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/ranges") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/ranges") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
+}else setwd("~/Documents/git/ospree/analyses/ranges") 
 
 # Our flags for ranges, for now ... (see issue #379)
 use.chillports = FALSE
@@ -115,9 +113,9 @@ bball <- bb.stan.here
 spnum <- length(unique(bball$latbi))
 quartz()
 par(xpd=FALSE)
-par(mar=c(5,8,3,12))
+par(mar=c(5,8,3,3))
 plot(x=NULL,y=NULL, xlim=c(-20,20), yaxt='n', ylim=c(0,6),
-     xlab="Model estimate change in growing degree days to budburst", ylab="")
+     xlab="Model estimate change in days to budburst", ylab="")
 axis(2, at=1:6, labels=rev(labs), las=1)
 abline(v=0, lty=2, col="darkgrey")
 rownameshere <- c("sigma_a_sp", "sigma_b_force_sp", "sigma_b_photo_sp", "sigma_a_pop",
@@ -130,9 +128,9 @@ for(i in 1:6){
   
 }
 par(xpd=TRUE) # so I can plot legend outside
-legend(22, 6, sort(unique(gsub("_", " ", bball$latbi))), pch=my.pch[1:spnum],
-       col=alpha(my.pal[1:spnum], alphahere),
-       cex=1, bty="n", text.font=3)
+#legend(22, 6, sort(unique(gsub("_", " ", bball$latbi))), pch=my.pch[1:spnum],
+ #      col=alpha(my.pal[1:spnum], alphahere),
+  #     cex=1, bty="n", text.font=3)
 
 
 

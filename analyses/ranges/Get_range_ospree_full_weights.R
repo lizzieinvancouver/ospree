@@ -38,6 +38,8 @@ library('dismo')
 tmin<-brick("~/Data_Harvard/EU trees/tn_0.50deg_reg_v17.0.nc", varname="tn", sep="")
 tmax<-brick("~/Data_Harvard/EU trees/tx_0.50deg_reg_v17.0.nc", varname="tx", sep="")
 
+#tmin <- brick("~/Desktop/Big Data Files/tn_0.25deg_reg_v16.0.nc")
+#tmin <- brick("~/Desktop/Big Data Files/tx_0.25deg_reg_v16.0.nc")
 
 ## load species list (beware this list has both species and complexes and is not the final one
 ## please change accordingly to read final species list)
