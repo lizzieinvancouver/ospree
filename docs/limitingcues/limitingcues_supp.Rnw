@@ -1,4 +1,4 @@
-\documentclass[11pt,letter]{article}
+\documentclass[11pt]{article}
 \usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
 \renewcommand{\baselinestretch}{1.1}
 \usepackage{graphicx}
@@ -37,10 +37,32 @@ Studies versus papers ... how many crops versus wild species ....
 
 \section{Trends in experimental treatments over space}
 
-<<label=goober, echo=FALSE, results=tex>>=
+<<label=numbers, echo=FALSE, results='hide', message=FALSE>>=
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
+setwd("~/Documents/git/ospree/docs/limitingcues")
+dat<-read.csv("..//..//analyses/limitingcues/output/studydesign_forsupp.csv") #made from studydesignplots.R
+linearize<-function(yvar,  xvar, dat){
+   summary(lm(dat[[yvar]]~dat[[xvar]]))
+}
+
+min<-linearize("min.temp", "mean.lat", dat)
+max<-linearize("max.temp", "mean.lat", dat)
+force.min<-round(min$coefficients[2,1],digits=2)
+force.max<-round(max$coefficients[2,1],digits=2)
+
+minchill<-linearize("min.chill", "mean.lat", dat)
+maxchill<-linearize("max.chill", "mean.lat", dat)
+
+chill.min<-round(minchill$coefficients[2,1],digits=2)
+chill.max<-round(maxchill$coefficients[2,1],digits=2)
+
+maxphoto<-linearize("max.photo", "mean.lat", dat)
+photo<-round(maxphoto$coefficients[2,1],digits=2)
+
 @
 
-The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is -0.12, for max it's -0.08, see Fig \ref{fig:lat}; for chilling it's -0.1 for min and -0.07 for max); and the maximum studied photoperiod increases with latitude (0.08 hr per degree $\degree$ latitude). 
+The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is \Sexpr{force.min}, for max it's \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it's \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per degree $\degree$ latitude). 
 
 \begin{figure}[t!]
 \centering
