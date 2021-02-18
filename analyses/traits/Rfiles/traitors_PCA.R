@@ -29,7 +29,7 @@ dat <- rbind(dat1, dat2)
 names(dat)
 dat <- dat[, c("speciesname", "traitname", "traitvalue", "unitname", "latitude", "longitude",
     "piname", "database", "datasetid")]
-
+head(dat)
 ## starting with a PCA of the raw data, with sampling for species with a lot of height data
 
 #starting by separating out the height data:
@@ -71,11 +71,11 @@ traits <- c("Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass",
 tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname", "speciesname")], FUN=length) 
 # 9682 is the max rows needed for a given trait
 species <- c("Betula_occidentalis", "Rhododendron_prinophyllum")
-sp.sub <- subset(other.trt, speciesname == "Rhododendron_prinophyllum")
-sp.sub2 <- subset(other.trt, speciesname == "Betula_occidentalis")
+sp.sub2 <- subset(other.trt, speciesname == "Rhododendron_prinophyllum")
+sp.sub <- subset(other.trt, speciesname == "Betula_occidentalis")
 
 mat <- matrix(NA, ncol = length(traits)+1, nrow = 9682) # the max number of rows of the matrix should be the nrows for the trait we have the most data for, height, which is 801485
-species <- species[1:6]
+
 for(i in 1:length(species)){
     temp <- subset(other.trt, speciesname == species[i])
     for(j in 1:length(traits)){
@@ -97,24 +97,10 @@ print(k)
 
 # I think the issue is that the matrix gets overwritten with each loop beacuse k is always the first row
 
-mat <- matrix(NA, ncol = length(traits)+1, nrow = 7) 
+mat <- matrix(NA, ncol = length(traits)+1, nrow = 7)  # 7 is the rows of data for these two species
 
-f <- 2
-i <- 1
-temp <- subset(other.trt, speciesname == species[i])
-    
-for(j in 1:length(traits)){
-    temp2 <- subset(temp, traitname == traits[j])
-    
-    for (k in 1:nrow(temp2)){
-        mat[f,j] <- temp2$traitvalue[k]
-        mat[f,7] <- temp2$speciesname[k]
-    }
-}
 
-mat
-
-# This is my idea, but it doesn't work
+# This is my idea, which adds a new loop for the row of the matrix (f), but it doesn't work and gives the below error
 for (f in 1:nrow(mat)){ 
     for(i in 1:length(species)){
     temp <- subset(other.trt, speciesname == species[i])
@@ -129,13 +115,46 @@ for (f in 1:nrow(mat)){
         }
     }
 }
+# Error in mat[f, j] <- temp2$traitvalue[k] : replacement has length zero
 mat
 
 print(i)
 print(j)
 print(k)
 print(f)
-# this is arranging the traits by columns, but it is compressing the matricies of different species together 
+
+mat <- matrix(NA, ncol = length(traits)+1, nrow = 7) 
+
+f <- 1
+i <- 2
+temp <- subset(other.trt, speciesname == species[i])
+        
+j <- 1
+temp2 <- subset(temp, traitname == traits[j])
+            
+k <- 1
+mat[f,j] <- temp2$traitvalue[k]
+mat[f,7] <- temp2$speciesname[k]
+
+head(mat)
+
+# next, I will start to put it back together and see where it goes wrong
+mat <- matrix(NA, ncol = length(traits)+1, nrow = 7) 
+
+f <- 1
+i <- 2
+temp <- subset(other.trt, speciesname == species[i])
+
+for(j in 1:length(traits)){
+    temp2 <- subset(temp, traitname == traits[j])
+    
+    for (k in 1:nrow(temp2)){  
+        mat[f,j] <- temp2$traitvalue[k]
+        mat[f,7] <- temp2$speciesname[k]
+    }
+}
+head(mat)
+
 
 # Below are my other attempts -- to be deleted
 # test <- data.frame(speciesname = character, sla = numeric(),  lnc = numeric(), 
