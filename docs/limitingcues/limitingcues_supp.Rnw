@@ -37,15 +37,13 @@ Studies versus papers ... how many crops versus wild species ....
 
 \section{Trends in experimental treatments over space}
 
-<<label=numbers, echo=FALSE, results='hide', message=FALSE>>=
+<<label=numbers,echo=FALSE,message=FALSE>>=
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
-setwd("~/Documents/git/ospree/docs/limitingcues")
 dat<-read.csv("..//..//analyses/limitingcues/output/studydesign_forsupp.csv") #made from studydesignplots.R
 linearize<-function(yvar,  xvar, dat){
    summary(lm(dat[[yvar]]~dat[[xvar]]))
 }
-
 min<-linearize("min.temp", "mean.lat", dat)
 max<-linearize("max.temp", "mean.lat", dat)
 force.min<-round(min$coefficients[2,1],digits=2)
@@ -59,10 +57,10 @@ chill.max<-round(maxchill$coefficients[2,1],digits=2)
 
 maxphoto<-linearize("max.photo", "mean.lat", dat)
 photo<-round(maxphoto$coefficients[2,1],digits=2)
-
 @
 
 The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is \Sexpr{force.min}, for max it's \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it's \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per degree $\degree$ latitude). 
+
 
 \begin{figure}[t!]
 \centering
@@ -72,7 +70,10 @@ The actual cues studied varied across latitude with a general trend toward exami
   \label{fig:lat}
 \end{figure}
 
+
 \end{document}
 
-\clearpage
+
+
+
 
