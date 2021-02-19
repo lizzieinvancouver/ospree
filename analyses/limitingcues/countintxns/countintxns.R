@@ -482,7 +482,7 @@ lookupcueintxns <- dplyr::full_join(lookupintxns, lookupcues, by=c("datasetID", 
 intxnstudies <- unique(paste(lookupintxns[lookupintxns$interaction>0,]$datasetID, lookupintxns[lookupintxns$interaction>0,]$study))
 singlecuestudies <- unique(paste(lookupintxns[lookupintxns$interaction==0,]$datasetID, lookupintxns[lookupintxns$interaction==0,]$study))
 
-numintxnstudies <- nrow(lookupcueintxns[lookupcueintxns$interaction>0])
+numintxnstudies <- nrow(lookupcueintxns[which(lookupcueintxns$interaction>0),])
 lookupcues$datasetID_study <- paste(lookupcues$datasetID, lookupcues$study)
 
 num.force.all <- round(nrow(lookupcues[(lookupcues$force>1),]), digits=0)
