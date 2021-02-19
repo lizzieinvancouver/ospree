@@ -431,24 +431,37 @@ ospcues <- within(ospcues, { chill <- as.numeric(ifelse(chilltemp!=0, ave(chillt
 ospcues <- within(ospcues, { chilltime <- as.numeric(ifelse(chilldays!=0, ave(chilldays, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult studychill
 
 ospcues <- subset(ospcues, select=c("datasetID", "study", "force", "photo", "chill", "chilltime"))
+ospcues$chill <- ifelse(ospcues$chill > 1 | ospcues$chilltime>1, ospcues$chill + ospcues$chilltime, ospcues$chill)
+ospcues$chilltime <- NULL
 ospcues <- ospcues[!duplicated(ospcues),]
 
-lookupcues <- aggregate(ospcues[c("force", "photo", "chill", "chilltime")], ospcues[c("datasetID", "study")], FUN=sum)
+
+lookupcues <- aggregate(ospcues[c("force", "photo", "chill")], ospcues[c("datasetID", "study")], FUN=sum)
 
 ### Look into single cue studies a little ...
 singlecues <- lookupintxns[(lookupintxns$interaction==0),]
 singlecues.lookup <- merge(lookupcues, singlecues, by=c("datasetID", "study"))
 lookupcues[which(lookupcues$datasetID %in% singlecues$datasetID),]
 
+numsinglestudies <- nrow(singlecues.lookup)
+
 #### List of numbers in manuscript:
 numspps <- nrow(spbydatasetID.df)
-eurstudies <- nrow(studybycontinent[(studybycontinent=="europe"),])
-allstudies <- nrow(studybycontinent)
-namstudies <- nrow(studybycontinent[(studybycontinent=="north america"),])
+
+IDstudybycontinent <- merge(studybycontinent, ospcues, by="datasetID")
+IDstudybycontinent <- IDstudybycontinent[!duplicated(IDstudybycontinent),]
+
+eurpapers <- nrow(studybycontinent[(studybycontinent=="europe"),])
+allpapers <- nrow(studybycontinent)
+nampapers <- nrow(studybycontinent[(studybycontinent=="north america"),])
+
+eurstudies <- nrow(IDstudybycontinent[(IDstudybycontinent=="europe"),])
+allstudies <- nrow(IDstudybycontinent)
+namstudies <- nrow(IDstudybycontinent[(IDstudybycontinent=="north america"),])
 
 photocue <- round(nrow(lookupcues[(lookupcues$photo>1),])/nrow(lookupcues) * 100, digits=0)
 forcecue <- round(nrow(lookupcues[(lookupcues$force>1),])/nrow(lookupcues) * 100, digits=0)
-chillcue <- round(nrow(lookupcues[(lookupcues$chill>1 | lookupcues$chilltime>1),])/nrow(lookupcues) * 100, digits=0)
+chillcue <- round(nrow(lookupcues[(lookupcues$chill>1),])/nrow(lookupcues) * 100, digits=0)
 
 num.force.single <- round(nrow(singlecues.lookup[(singlecues.lookup$force>1),]), digits=0)
 num.photo.single <- round(nrow(singlecues.lookup[(singlecues.lookup$photo>1),]), digits=0)
@@ -457,26 +470,36 @@ num.chill.single <- round(nrow(singlecues.lookup[(singlecues.lookup$chill>1),]),
 num.twocues.single <- round(nrow(singlecues.lookup[((singlecues.lookup$force>1 & singlecues.lookup$photo>1) |
                                                       (singlecues.lookup$force>1 & singlecues.lookup$chill>1) |
                                                       (singlecues.lookup$photo>1 & singlecues.lookup$chill>1)),]), digits=0)
+#listoftwocues.single <- singlecues.lookup[((singlecues.lookup$force>1 & singlecues.lookup$photo>1) |
+ #                    (singlecues.lookup$force>1 & singlecues.lookup$chill>1) |
+  #                   (singlecues.lookup$photo>1 & singlecues.lookup$chill>1)),]
+
+#singletwocue.studies <- unique(paste(listoftwocues.single$datasetID, listoftwocues.single$study))
 
 
-intxnstudies <- unique(paste(lookupintxns$datasetID, lookupintxns$study))
+lookupcueintxns <- dplyr::full_join(lookupintxns, lookupcues, by=c("datasetID", "study"))
+#lookupcueintxns <- lookupcueintxns[!duplicated(lookupcueintxns),]
+intxnstudies <- unique(paste(lookupintxns[lookupintxns$interaction>0,]$datasetID, lookupintxns[lookupintxns$interaction>0,]$study))
+singlecuestudies <- unique(paste(lookupintxns[lookupintxns$interaction==0,]$datasetID, lookupintxns[lookupintxns$interaction==0,]$study))
+
+numintxnstudies <- nrow(lookupcueintxns[lookupcueintxns$interaction>0])
 lookupcues$datasetID_study <- paste(lookupcues$datasetID, lookupcues$study)
 
 num.force.all <- round(nrow(lookupcues[(lookupcues$force>1),]), digits=0)
 num.photo.all <- round(nrow(lookupcues[(lookupcues$photo>1),]), digits=0)
 num.chill.all <- round(nrow(lookupcues[(lookupcues$chill>1),]), digits=0)
 
-num.twocues.all <- round(nrow(lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
-                                            (lookupcues$force>1 & lookupcues$chill>1) |
-                                            (lookupcues$photo>1 & lookupcues$chill>1)),]), digits=0)
+num.twocues.all <- round(nrow(lookupcueintxns[((lookupcueintxns$force>1 & lookupcueintxns$photo>1) |
+                                            (lookupcueintxns$force>1 & lookupcueintxns$chill>1) |
+                                            (lookupcueintxns$photo>1 & lookupcueintxns$chill>1)),]), digits=0)
 
-num.twocues.intxn.setup <- lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
-                                   (lookupcues$force>1 & lookupcues$chill>1) |
-                                   (lookupcues$photo>1 & lookupcues$chill>1)),]
+#num.twocues.intxn.setup <- lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
+ #                                  (lookupcues$force>1 & lookupcues$chill>1) |
+  #                                 (lookupcues$photo>1 & lookupcues$chill>1)),]
 
-num.twocues.intxn <- round(nrow(num.twocues.intxn.setup[(num.twocues.intxn.setup$datasetID_study%in%intxnstudies),]), digits=0)
+#num.twocues.intxn <- round(nrow(num.twocues.intxn.setup[(num.twocues.intxn.setup$datasetID_study%in%intxnstudies),]), digits=0)
 
-numsinglestudies <- round(nrow(lookupintxns[(lookupintxns$interaction==0),])/nrow(lookupintxns) *100, digits=0)
+#percsinglestudies <- round(nrow(lookupintxns[(lookupintxns$interaction==0),])/nrow(lookupintxns) *100, digits=0)
 
 num.fp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x photo"),])
 num.pw <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x fieldsample dates"),])
