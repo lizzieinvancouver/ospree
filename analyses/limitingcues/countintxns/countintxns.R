@@ -493,11 +493,11 @@ num.twocues.all <- round(nrow(lookupcueintxns[((lookupcueintxns$force>1 & lookup
                                             (lookupcueintxns$force>1 & lookupcueintxns$chill>1) |
                                             (lookupcueintxns$photo>1 & lookupcueintxns$chill>1)),]), digits=0)
 
-#num.twocues.intxn.setup <- lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
- #                                  (lookupcues$force>1 & lookupcues$chill>1) |
-  #                                 (lookupcues$photo>1 & lookupcues$chill>1)),]
+num.twocues.intxn.setup <- lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
+                                   (lookupcues$force>1 & lookupcues$chill>1) |
+                                   (lookupcues$photo>1 & lookupcues$chill>1)),]
 
-#num.twocues.intxn <- round(nrow(num.twocues.intxn.setup[(num.twocues.intxn.setup$datasetID_study%in%intxnstudies),]), digits=0)
+num.twocues.intxn <- round(nrow(num.twocues.intxn.setup[(num.twocues.intxn.setup$datasetID_study%in%intxnstudies),]), digits=0)
 
 #percsinglestudies <- round(nrow(lookupintxns[(lookupintxns$interaction==0),])/nrow(lookupintxns) *100, digits=0)
 
