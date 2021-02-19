@@ -331,6 +331,7 @@ for(i in 1:length(spslist)){
 
 #save(Climate.in.range.list,file = "output/Climate.in.range.EUspFULL.RData")
 load("output/Climate.in.range.EUspFULL.RData")
+#load("~/Desktop/Climate.in.range.EUspFULL.RData")
 
 ## corrections
 ##ff<-extractchillforce(spslist[13],tmin,tmax,period)
@@ -361,6 +362,7 @@ values(ras.areas) <- (values(ras.areas) - min(values(ras.areas),na.rm=T))/
 #j=1
 for(j in 1:length(Climate.in.range.list)){  
 sps.1 <- as.data.frame(Climate.in.range.list[[j]][[1]][,,1])
+}
 
 to.rem.nas <- which(apply(sps.1,1,function(x)sum(is.na(x)))>5)
 if(length(to.rem.nas)>0){
@@ -431,52 +433,36 @@ synth.data<-function(Climate.in.range.list,ras.areas){
   storing = array(NA, dim=c(7,4))
   row.names(storing) = colnames(dat)[3:9]
   colnames(storing) = c("Temp.Mean","Temp.SD", "Geo.Mean","Geo.SD")
-  
-  
-  ### ADDED BY CAT 5 NOVEMBER 2020: need species shapefiles in order to update this code...
-  # Lines 409-423 are my suggestions, need to remove lines 426-429:
-  if(FALSE){
-    ### Now we need to get the area weighted average across grid cells. See Issue #387
-    spsshape <- getspsshape(splist,i,tmin1980[[1]])
     
-    ras.numpixels<-tmin1980[[1]]
-    values(ras.numpixels)<-1:ncell(ras.numpixels)
-    
-    spsshapeproj<-spTransform(spsshape,proj4string(ras.numpixels))
-    
-    sps.area <- area(spsshapeproj) / 10000
-    
-    means.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-    SDs.years <- aggregate(dat,by=list(Year = dat$year), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-    means.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(mean(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-    SDs.sites <- aggregate(dat,by=list(Year = dat$ID), FUN = function(x) sum(sd(x, na.rm=TRUE)*sps.area)/sum(sps.area))
-  }
-  
-  ### ADDED BY NACHO 17 NOVEMBER 2020: applying different weighting scheme based
-  ### on grid-cells areas
-  if(FALSE){
-  #weigh in variables before computing means
-  datmult <- dat
-  datmult[,3:9] <- dat[,3:9]*dat[,11]
-  
-  means.yearsa <- aggregate(datmult[-12],by=list(Year = datmult$year),
-                           sum, na.rm=TRUE)
-  means.yearsb <- means.yearsa[,4:10]/means.yearsa[,12]
-  
-  
-  means.sitesa <- aggregate(datmult[-12],by=list(ID = datmult$ID),
-                            sum, na.rm=TRUE)
-  means.sitesb <- means.sitesa[,4:10]/means.sitesa[,12]
+  means.years <- aggregate(dat[,-12],by=list(Year = dat$year), FUN = function(z) mean(z, na.rm=TRUE)*mean(dat$weights, na.rm=TRUE))
+  SDs.years <- aggregate(dat[,-12],by=list(Year = dat$year), FUN = function(z) sd(z, na.rm=TRUE)*mean(dat$weights, na.rm=TRUE))
+  means.sites <- aggregate(dat[,-10],by=list(Year = dat$ID), FUN = function(z) mean(z, na.rm=TRUE)*mean(dat$weights, na.rm=TRUE)) ## Something is wrong here...
+  SDs.sites <- aggregate(dat[,-10],by=list(Year = dat$ID), FUN = function(z) sd(z, na.rm=TRUE)*mean(dat$weights, na.rm=TRUE))
 
-## here's where I got stuck as I didn't manage to find a straightforward way  
-## to get weighted sds from aggregate, any help here is much appreciated 
-  
+  if(FALSE){
+        ### ADDED BY NACHO 17 NOVEMBER 2020: applying different weighting scheme based
+        ### on grid-cells areas
+        #weigh in variables before computing means
+        datmult <- dat
+        datmult[,3:9] <- dat[,3:9]*dat[,11]
+        
+        means.yearsa <- aggregate(datmult[-12],by=list(Year = datmult$year),
+                                 sum, na.rm=TRUE)
+        means.yearsb <- means.yearsa[,4:10]/means.yearsa[,12]
+        
+        
+        means.sitesa <- aggregate(datmult[-12],by=list(ID = datmult$ID),
+                                  sum, na.rm=TRUE)
+        means.sitesb <- means.sitesa[,4:10]/means.sitesa[,12]
+      
+      ## here's where I got stuck as I didn't manage to find a straightforward way  
+      ## to get weighted sds from aggregate, any help here is much appreciated 
+        
+        means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm = T) 
+        SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
+        means.sites <- aggregate(datmult,by=list(Year = dat$ID),FUN = mean,na.rm=T)
+        SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
   }
-  
-  means.years <- aggregate(dat,by=list(Year = dat$year),FUN = mean,na.rm = T) 
-  SDs.years <- aggregate(dat,by=list(Year = dat$year),FUN = sd,na.rm=T)
-  means.sitesa <- aggregate(datmult,by=list(Year = dat$ID),FUN = mean,na.rm=T)
-  SDs.sites <- aggregate(dat,by=list(Year = dat$ID),FUN = sd,na.rm=T)
   
   storing[,1] <- colMeans(means.years[,4:10], na.rm = T)
   storing[,2] <- colMeans(SDs.years[,4:10], na.rm = T)
