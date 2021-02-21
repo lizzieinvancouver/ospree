@@ -467,6 +467,9 @@ lookupintxns$foo <- ifelse(lookupintxns$interaction>=1, 1, 0)
 #### List of numbers in manuscript:
 numspps <- length(unique(spbydatasetID.df$latbi))
 
+minyear <- min(ospstudiescues$year, na.rm=TRUE)
+maxyear <- max(ospstudiescues$year, na.rm=TRUE)
+
 allpapers <- length(unique(dat$datasetID))
 allstudies <-  length(unique(paste(dat$datasetID, dat$study)))
 
@@ -480,6 +483,16 @@ eurstudiesdf <- studybycontinentwstudy[(studybycontinentwstudy=="europe"),]
 namstudiesdf <- studybycontinentwstudy[(studybycontinentwstudy=="north america"),]
 eurstudies <- length(unique(paste(eurstudiesdf$datasetID, eurstudiesdf$study)))
 namstudies <- length(unique(paste(namstudiesdf$datasetID, namstudiesdf$study)))
+
+# cues hell!
+atleastonecue <- ospstudiescues[which(ospstudiescues$force>0 | ospstudiescues$photo>0 |
+    ospstudiescues$chillany>0),]
+
+nocuesmanip <- ospstudiescues[which(ospstudiescues$force==0 & ospstudiescues$photo==0 &
+    ospstudiescues$chillany==0),]
+
+numatleastonecue <- length(unique(paste(atleastonecue$datasetID, atleastonecue$study)))
+length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
 
 onlyforce <- ospstudiescues[(ospstudiescues$force>0 & ospstudiescues$photo<1 & ospstudiescues$chillany<1),]
 onlyphoto <- ospstudiescues[(ospstudiescues$force<1 & ospstudiescues$photo>0 & ospstudiescues$chillany<1),]
@@ -496,15 +509,22 @@ numonlyfieldsample <- length(unique(paste(onlyfieldsample$datasetID, onlyfieldsa
 
 numonecuestudies <- numonlyforce + numonlyphoto + numonlychill
 
-photocue <- round(numonlyforce/numonecuestudies * 100, digits=0)
-forcecue <- round(numonlyphoto/numonecuestudies * 100, digits=0)
-chillcue <- round(numonlychill/numonecuestudies * 100, digits=0)
 
-atleastonecue <- ospstudiescues[which(ospstudiescues$force>0 | ospstudiescues$photo>0 |
-    ospstudiescues$chillany>0),]
+# cues manipulated across all studies ...
+wforcedf <- ospstudiescues[(ospstudiescues$force>0),]
+wphotodf <- ospstudiescues[(ospstudiescues$photo>0),]
+wchilldf <- ospstudiescues[(ospstudiescues$chillany>0),]
+wfieldsampledf <- ospstudiescues[(ospstudiescues$field.sample>1),]
 
-numatleastonecue <- length(unique(paste(atleastonecue$datasetID, atleastonecue$study)))
-length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
+numwforce <- length(unique(paste(wforcedf$datasetID, wforcedf$study)))
+numwphoto <- length(unique(paste(wphotodf$datasetID, wphotodf$study)))
+numwchill <- length(unique(paste(wchilldf$datasetID, wchilldf$study)))
+numwfieldsample <- length(unique(paste(wfieldsampledf$datasetID, wfieldsampledf$study)))
+
+photocue <- round(numwforce/numatleastonecue * 100, digits=0)
+forcecue <- round(numwphoto/numatleastonecue * 100, digits=0)
+chillcue <- round(numwchill/numatleastonecue * 100, digits=0)
+fielsampcue <- round(numwfieldsample/numatleastonecue * 100, digits=0)
 
 twocuesdf <- ospstudiescues[((ospstudiescues$force>0 & ospstudiescues$photo>0 & ospstudiescues$chillany<1) |
     (ospstudiescues$force>0 &  ospstudiescues$photo<1 & ospstudiescues$chillany>0) |

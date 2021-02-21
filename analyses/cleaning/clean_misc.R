@@ -32,6 +32,9 @@ d$respvar[which(d$datasetID=="pop2000")] <- "percentoftwigswithbudburst"
 # Note that clean_bbperctodays.R generally removes this whole datasetID as there is no response time
 d$respvar[d$datasetID=="devries82" & d$figure.table..if.applicable.=="fig2"] <- "percentflower"
 
+# fixing spann04, which should be flowerburst (Lizzie Feb 2021)
+d$respvar[d$respvar=="percentbudburst" & d$datasetID=="spann04"] <- "percentflower"
+
 # Additional Edits made by Cat - 31 Jan 2017
 ## Moved from clean_respvar.R in Oct 2017 by Lizzie ##
 # ghelardini10 issues - removed 8 rows not affiliated with study

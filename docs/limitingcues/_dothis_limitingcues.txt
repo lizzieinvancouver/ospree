@@ -6,10 +6,8 @@ By Lizzie
 <><><><><><><><><><><><><><>
 
 (*) Get help (git issues 393-395, also issue 249) also ...
-	- Ask Dan for help with supp and latitudinal trends
-	- 
 
-(*) Add new citations? There's a few in the folder. 
+(*) Add new citations? There's a few in the folder. Also, add citations in depauperate areas
 
 (*) Pick a journal!
 
@@ -37,8 +35,8 @@ NEED citations
 <><><><><><><><><><><><>
 <> Code in the paper <>
 <><><><><><><><><><><><>
-(*) studydesign_numcues.R -- probably the best way to count single and multiple cues and makes one of the plots
-(*) studydesignplots.R -- makes the heatmaps incl heatmapphotoxforcexchill.pdf and heatmapphotoxforcexfs.date.pdf *and* makes the latitude plots
+(*) studydesign_numcues.R -- makes the number of cues x time figure.
+(*) studydesignplots.R -- makes the heatmaps incl heatmapphotoxforcexchill.pdf and heatmapphotoxforcexfs.date.pdf *and* makes the latitude plots *AND* gets the cue diffs used in the PEP725 figure!
 (*) countintxns.R -- counts interactions and labels interactive studies
 (*) nonlinearities_intxns.R  -- code started to understand how interactions can create non-linearities (not currently used in ms)
 (*) nonlinearities_more.R -- code to make non-linearity plots 

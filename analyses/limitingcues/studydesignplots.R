@@ -2,6 +2,9 @@
 ## By Lizzie ##
 ## Updated by Dan in later 2018; updated by Lizzie in February 2019 ##
 
+## This code makes the heatmaps for the limitingcues paper *and* ...
+# gets the cue differences that we plot with PEP725 data for Betpen and Fagsyl ##
+
 ## TO DO ##
 # (1) Should we get the centroid of the lat/long points for each study? (Dan)
 # Right now I cheaply take average lat and average long #
@@ -236,6 +239,10 @@ betpencues <- rbind(betpen.chilltempcues, betpen.forcecues)
 betpencues$sp <- "Betula_pendula"
 
 betfagcues <- rbind(betpencues, fagsylcues)
+
+## numbers for ms
+
+numbpfsstudies <- length(unique(paste(betfagcues$datasetID, betfagcues$study)))
 
 write.csv(betfagcues, "limitingcues/output/cues_fagben.csv", row.names=FALSE)
 write.csv(forcecues.alldiffs, "limitingcues/output/cuesforce.alldiffs.csv", row.names=FALSE)
@@ -606,9 +613,10 @@ plot_grid(heatmapphotoxforcexchill, heatmapphotoxforcexfs.date,
 dev.off()
 
 
-
+if(FALSE){
 library(scales)
 show_col(viridis_pal(option="magma")(3))
 show_col(viridis_pal(option="magma")(3)[1])
 show_col(viridis_pal(option="magma")(3)[2])
 show_col(viridis_pal(option="magma")(3)[3])
+}
