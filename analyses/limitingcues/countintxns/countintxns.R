@@ -9,7 +9,7 @@
 ################
 ## To do here ##
 ################
-# (*) Decide how to deal with forcing having varying night and day treatments (do I mean check that it is NOT what they varied? I think if I take forcemean I should capture this)
+# (*) Decide how to deal with forcing having varying night and day treatments (do I mean check that it is NOT what they varied? I think if I take forcemean spbydatasetID.dfI should capture this)
 # (*) Make heatmaps ...
 # (*) Deal with 'CHECK WHY' below
 
@@ -35,6 +35,7 @@ print('Code also relies on sourcing limitingcues/source/countintxns_cleanosp.R (
 ###################
 dat <- read.csv("output/ospree_clean.csv", header = TRUE)
 dat <- dat[dat$woody=="yes",]
+dat <- dat[which(dat$datasetID!="spann04"),] # seems only to treatments during bud formation (I think)
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
 dat$doy <- format(dat$fieldsample.date, "%j")
 dat$latbi <- paste(dat$genus, dat$species)
@@ -372,141 +373,221 @@ write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALS
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
 write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE)
 
-#### Cat adding in some code to fill in MS with info. Using code from studydesing_numcues.R
-## 8 Feb 2021
-## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
-# Get packages
-osp <- read.csv("output/ospree_clean.csv")
-#osp<-read.csv("output/ospree_clean_withchill_BB.csv")
+#### Cat adding in some code to fill in manuscript with info.
+## Using code from studydesing_numcues.R
+## 8 Feb 2021, heavy-editing by Lizze on 20 Feb 2021
+## and a bunch of this code is taken from cleaning/cleanup_checksmaps.R
+
 studfile <- read.csv("output/studytype_table.csv", header=TRUE)
-#studfile <- read.csv("output/studytype_withBB.csv", header=TRUE)
+studfile <- studfile[which(studfile$datasetID!="spann04"),] # seems only to treatments during bud formation (I think)
 
-osp <- osp[osp$woody=="yes",]
-osp$fieldsample.date <- as.Date(osp$fieldsample.date, format="%d-%b-%Y")
-#head(d)
-
-###
-###
-lookupstudyyr <- aggregate(osp[c("year")], osp[c("datasetID", "study")], FUN=mean)
+lookupstudyyr <- aggregate(dat[c("year")], dat[c("datasetID", "study")], FUN=mean)
 stud <- merge(studfile, lookupstudyyr, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
 
-cues<-subset(stud, select=c("study", "datasetID", "force", "photo", "chill", "chilltime", "year", "prov.lat", "spp", "field.sample"))
-cues<-cues[!duplicated(cues),]
+# The studfile has a row per species so below we get rid of that and delete repeating rows
+cuesall <- subset(stud, select=c("study", "datasetID", "force", "photo", "chill", "chilltime",
+    "year", "prov.lat", "spp", "field.sample"))
+cuesall$datasetIDstudy <- paste(cuesall$datasetID, cuesall$study)
+cuesall$year <- round(cuesall$year, digits=0)
+cuesall <- cuesall[!duplicated(cuesall),]
 
-cues$force<-ifelse(cues$force<=1, 0, 1)
-cues$photo<-ifelse(cues$photo<=1, 0, 1)
-cues$chill<-ifelse(cues$chill<=1, 0, 1)
-cues$chilltime<-ifelse(cues$chilltime<=1, 0, 1)
-cues$chill<-ifelse(cues$chill==1 | cues$chilltime==1, 1, 0)
+# Some issues where the same study can have multiple values: Examaples
+subset(studfile, datasetID=="biasi12") # can replace studile with cuesall also ...
+subset(studfile, datasetID=="caffarra11a" & study=="exp3")
 
-cues$numcues<-cues$force + cues$photo + cues$chill
+# Take max values per study for those with mutiple rows....
+dupstudiessetup <- subset(cuesall, select=c("datasetIDstudy", "year"))
+dupstudiesagg <- aggregate(dupstudiessetup["year"], dupstudiessetup["datasetIDstudy"], FUN=length)
+dupstudies <- subset(dupstudiesagg, year>1)
 
-cues<-cues[!(cues$datasetID=="sogaard08" & cues$numcues==0),]
-cues<-cues[!(cues$datasetID=="guerriero90" & cues$numcues==0 & cues$field.sample==1),]
-cues<-cues[!(cues$datasetID=="spiers74" & cues$numcues==0 & cues$field.sample==1),]
-cues<-cues[!(cues$datasetID=="worrall67" & cues$numcues==0 & cues$prov.lat==1),]
-cues<-cues[!(cues$datasetID=="falusi97" & cues$numcues==0),]
-cues<-cues[!(cues$datasetID=="jones12" & cues$numcues==0),]
-cues<-cues[!(cues$datasetID=="sonsteby14" & cues$numcues==0),]
-cues<-cues[!(cues$datasetID=="thielges" & cues$numcues==0),]
-cues<-cues[!(cues$datasetID=="granhus09" | cues$datasetID=="rinne94" | cues$datasetID=="spann04"),]
+cues <- cuesall[which(!cuesall$datasetIDstudy %in% dupstudies$datasetIDstudy),]
+cues$studfilerows <- 1
 
-cues$year<-round(cues$year, digits=0)
-cues<-cues[!duplicated(cues),]
+cuesadd <- data.frame(
+        study=character(),
+        datasetID=character(),
+        force=numeric(),
+        photo=numeric(),
+        chill=numeric(),
+        chilltime=numeric(),
+        year=numeric(),
+        prov.lat=numeric(),
+        spp=numeric(),
+        field.sample=numeric(),
+        datasetIDstudy=character(),
+        studfilerows=numeric())
 
-cues <- subset(cues, select=c("datasetID", "study", "force", "photo", "chill", "chilltime", "year", "spp",
-                              "field.sample", "numcues"))
+for(datasetIDstudyhere in unique(dupstudies$datasetIDstudy)){
+    subby <- subset(cuesall, datasetIDstudy==datasetIDstudyhere)
+    cuesaddhere <- data.frame(
+        study=unique(subby$study),
+        datasetID=unique(subby$datasetID),
+        force=max(subby$force),
+        photo=max(subby$photo),
+        chill=max(subby$chill),
+        chilltime=max(subby$chilltime),
+        year=max(subby$year),
+        prov.lat=max(subby$prov.lat),
+        spp=max(subby$spp),
+        field.sample=max(subby$field.sample),
+        datasetIDstudy=datasetIDstudyhere,
+        studfilerows=nrow(subby))
+    cuesadd <- rbind(cuesadd, cuesaddhere)
+}
 
-ospintxnstudiesall$interaction <- 1
-ospstudies_cues <- merge(cues, ospintxnstudiesall, by=c("datasetID", "study"), all.x=TRUE, all.y=TRUE)
+cues <- rbind(cues, cuesadd)
+length(unique(cues$datasetIDstudy))
 
-ospstudies_cues$interaction <- ifelse(is.na(ospstudies_cues$interaction), 0, ospstudies_cues$interaction)
-lookupintxns<- aggregate(ospstudies_cues[c("interaction")], ospstudies_cues[c("datasetID", "study")], FUN=sum)
+# Now we re-assign the force/photo/chill which have the # of levels to just presense or absence of multiple levels
+cues$force <- ifelse(cues$force<=1, 0, 1)
+cues$photo <- ifelse(cues$photo<=1, 0, 1)
+cues$chill <- ifelse(cues$chill<=1, 0, 1)
+cues$chilltime <- ifelse(cues$chilltime<=1, 0, 1)
+cues$chill <- ifelse(cues$chill==1 | cues$chilltime==1, 1, 0)
+
+cues$numcues <- cues$force + cues$photo + cues$chill
+
+cues <- subset(cues, select=c("datasetID", "study", "force", "photo", "chill", "chilltime", 
+    "year", "spp", "field.sample", "numcues"))
+
+# Get a 0/1 column for chill/chilltime/fieldsample
+cues$chillany <- 0
+cues$chillany[which(cues$chill>0|cues$chilltime>0|cues$field.sample>1)] <- 1
+
+# Okay, now we take the work above that lists out studies with intxns
+ospintxnstudies$interaction <- 1
+                    
+ospstudiescues <- merge(cues, ospintxnstudies, by=c("datasetID", "study"), all.x=TRUE, all.y=FALSE) # same nrow as if you used all.y=TRUE
+
+ospstudiescues$interaction <- ifelse(is.na(ospstudiescues$interaction), 0, ospstudiescues$interaction)
+lookupintxns <- aggregate(ospstudiescues[c("interaction")], ospstudiescues[c("datasetID", "study")], FUN=sum)
 lookupintxns$foo <- ifelse(lookupintxns$interaction>=1, 1, 0)
 
-## Okay now, to bring in the info on cues manipulated:
-ospcues <- within(osp, { force <- as.numeric(ifelse(forcetemp!=0, ave(forcetemp, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult forcetemp
-ospcues <- within(ospcues, { photo <- as.numeric(ifelse(photoperiod_day!=0, ave(photoperiod_day, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult photoperiod_day
-ospcues <- within(ospcues, { chill <- as.numeric(ifelse(chilltemp!=0, ave(chilltemp, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult studychill
-ospcues <- within(ospcues, { chilltime <- as.numeric(ifelse(chilldays!=0, ave(chilldays, datasetID, FUN=function(x) length(unique(x))), 0))}) # mult studychill
-
-ospcues <- subset(ospcues, select=c("datasetID", "study", "force", "photo", "chill", "chilltime"))
-ospcues$chill <- ifelse(ospcues$chill > 1 | ospcues$chilltime>1, ospcues$chill + ospcues$chilltime, ospcues$chill)
-ospcues$chilltime <- NULL
-ospcues <- ospcues[!duplicated(ospcues),]
-
-
-lookupcues <- aggregate(ospcues[c("force", "photo", "chill")], ospcues[c("datasetID", "study")], FUN=sum)
-
-### Look into single cue studies a little ...
-singlecues <- lookupintxns[(lookupintxns$interaction==0),]
-singlecues.lookup <- merge(lookupcues, singlecues, by=c("datasetID", "study"))
-lookupcues[which(lookupcues$datasetID %in% singlecues$datasetID),]
-
-numsinglestudies <- nrow(singlecues.lookup)
 
 #### List of numbers in manuscript:
+numspps <- length(unique(spbydatasetID.df$latbi))
+
+allpapers <- length(unique(dat$datasetID))
+allstudies <-  length(unique(paste(dat$datasetID, dat$study)))
+
 numspps <- nrow(spbydatasetID.df)
+eurpapersdf <- studybycontinent[(studybycontinent=="europe"),]
+nampapersdf <- studybycontinent[(studybycontinent=="north america"),]
+eurpapers <- length(unique(eurpapersdf$datasetID))
+nampapers <- length(unique(nampapersdf$datasetID))
 
-IDstudybycontinent <- merge(studybycontinent, ospcues, by="datasetID")
-IDstudybycontinent <- IDstudybycontinent[!duplicated(IDstudybycontinent),]
+eurstudiesdf <- studybycontinentwstudy[(studybycontinentwstudy=="europe"),]
+namstudiesdf <- studybycontinentwstudy[(studybycontinentwstudy=="north america"),]
+eurstudies <- length(unique(paste(eurstudiesdf$datasetID, eurstudiesdf$study)))
+namstudies <- length(unique(paste(namstudiesdf$datasetID, namstudiesdf$study)))
 
-eurpapers <- nrow(studybycontinent[(studybycontinent=="europe"),])
-allpapers <- nrow(studybycontinent)
-nampapers <- nrow(studybycontinent[(studybycontinent=="north america"),])
+onlyforce <- ospstudiescues[(ospstudiescues$force>0 & ospstudiescues$photo<1 & ospstudiescues$chillany<1),]
+onlyphoto <- ospstudiescues[(ospstudiescues$force<1 & ospstudiescues$photo>0 & ospstudiescues$chillany<1),]
+onlychill <- ospstudiescues[(ospstudiescues$force<1 & ospstudiescues$photo<1 & ospstudiescues$chillany>0),]
+onlyfieldsample <- ospstudiescues[(ospstudiescues$force<1 & ospstudiescues$photo<1 & ospstudiescues$field.sample>1),]
 
-eurstudies <- nrow(IDstudybycontinent[(IDstudybycontinent=="europe"),])
-allstudies <- nrow(IDstudybycontinent)
-namstudies <- nrow(IDstudybycontinent[(IDstudybycontinent=="north america"),])
+notfieldsampleonecue <- ospstudiescues[(ospstudiescues$force<1 & ospstudiescues$photo<1 &
+    ospstudiescues$field.sample==1 & ospstudiescues$chillany>0),]
 
+numonlyforce <- length(unique(paste(onlyforce$datasetID, onlyforce$study)))
+numonlyphoto <- length(unique(paste(onlyphoto$datasetID, onlyphoto$study)))
+numonlychill <- length(unique(paste(onlychill$datasetID, onlychill$study)))
+numonlyfieldsample <- length(unique(paste(onlyfieldsample$datasetID, onlyfieldsample$study)))
+
+numonecuestudies <- numonlyforce + numonlyphoto + numonlychill
+
+photocue <- round(numonlyforce/numonecuestudies * 100, digits=0)
+forcecue <- round(numonlyphoto/numonecuestudies * 100, digits=0)
+chillcue <- round(numonlychill/numonecuestudies * 100, digits=0)
+
+atleastonecue <- ospstudiescues[which(ospstudiescues$force>0 | ospstudiescues$photo>0 |
+    ospstudiescues$chillany>0),]
+
+numatleastonecue <- length(unique(paste(atleastonecue$datasetID, atleastonecue$study)))
+length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
+
+twocuesdf <- ospstudiescues[((ospstudiescues$force>0 & ospstudiescues$photo>0 & ospstudiescues$chillany<1) |
+    (ospstudiescues$force>0 &  ospstudiescues$photo<1 & ospstudiescues$chillany>0) |
+    (ospstudiescues$force<1 & ospstudiescues$photo>0 & ospstudiescues$chillany>0)),]
+
+twocuesdfintxn <- subset(twocuesdf, interaction>0)
+twocuesdfnointxn <- subset(twocuesdf, interaction==0)
+
+numtwocuestudies <- length(unique(paste(twocuesdf$datasetID, twocuesdf$study)))
+numtwocuestudiesintxn <- length(unique(paste(twocuesdfintxn$datasetID, twocuesdfintxn$study)))
+numtwocuestudiesnointxn <- length(unique(paste(twocuesdfnointxn$datasetID, twocuesdfnointxn$study)))
+
+
+percentintxntwocues <- round((numtwocuestudiesintxn/numtwocuestudies)*100, digits=0)
+
+threecuesdf <- ospstudiescues[which(ospstudiescues$force>0 & ospstudiescues$photo>0 &
+    ospstudiescues$chillany>0),]
+
+numthreecuestudies <- length(paste(threecuesdf$datasetID, threecuesdf$study))
+
+# safety-check, should be true...
+numonecuestudies+numtwocuestudies+numthreecuestudies==numatleastonecue
+
+# which papers do we say did 3 cues in ms?
+sort(unique(paste(threecuesdf$datasetID, threecuesdf$study)))
+
+# Now .... which interactions?
+twocuesospintxns <- ospintxnstudies[which(paste(ospintxnstudies$datasetID, ospintxnstudies$study) %in%
+    paste(twocuesdfintxn$datasetID, twocuesdfintxn$study)),]
+table(twocuesospintxns$intxn)
+
+num.fp <- nrow(twocuesospintxns[(twocuesospintxns$intxn=="force x photo"),])
+num.pw <- nrow(twocuesospintxns[(twocuesospintxns$intxn=="photo x fieldsample dates"),])
+num.fw <- nrow(twocuesospintxns[(twocuesospintxns$intxn=="force x fieldsample dates"|twocuesospintxns$intxn=="force x field sample x chilltemp (x provenance)"),])
+num.cf <- nrow(twocuesospintxns[(twocuesospintxns$intxn=="force x chilldays" | twocuesospintxns$intxn=="force x chilltemp"),])
+num.cp <- nrow(twocuesospintxns[(twocuesospintxns$intxn=="photo x chilldays"| twocuesospintxns$intxn=="photo x chilltemp"| twocuesospintxns$intxn=="photo x chilltemp (with also change in chilldays)"| twocuesospintxns$intxn=="photo x exp chilling (x different sized plants)" | twocuesospintxns$intxn=="photo x exp chilling (temp and days)"),])
+
+# lump the types of chilling
+num.pwc <- sum(num.pw, num.cp)
+num.fwc <- sum(num.fw, num.cf)
+num.wein <- sum(num.pw, num.fw)
+num.expchill <- sum(num.cf, num.cp)
+
+# Should be true ...
+numtwocuestudiesintxn==sum(num.fp, num.pw, num.fw, num.cf, num.cp)
+
+num.allforce <- nrow(osp14d.forcingvaried)
+num.constantforce <- nrow(osp14d.studiesinclconstantforce)
+num.thermoperiod <- nrow(osp14d.studiesinclforceperiodicity)
+num.bothconsthemo <- length(studieswANDwothermoperiodicity)
+
+numspps1paper <- nrow(subset(spbydatasetID.df, datasetID==1))
+numspps2or3paper <- nrow(subset(spbydatasetID.df, datasetID==2 | datasetID==3))
+numsppsmopapers <- nrow(subset(spbydatasetID.df, datasetID>3))
+
+## Checks on data remaining across different dataframes
+length(unique(ospstudiescues$datasetID))
+length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
+# At this point we have 84 papers, 136 studies
+
+
+## End of numbers in manuscript
+###############
+
+if(FALSE){ # Cat, can we delete? I am not sure what this is doing and I don't think we need it, but let me know ... 
 photocue <- round(nrow(lookupcues[(lookupcues$photo>1),])/nrow(lookupcues) * 100, digits=0)
 forcecue <- round(nrow(lookupcues[(lookupcues$force>1),])/nrow(lookupcues) * 100, digits=0)
 chillcue <- round(nrow(lookupcues[(lookupcues$chill>1),])/nrow(lookupcues) * 100, digits=0)
 
-num.force.single <- round(nrow(singlecues.lookup[(singlecues.lookup$force>1),]), digits=0)
-num.photo.single <- round(nrow(singlecues.lookup[(singlecues.lookup$photo>1),]), digits=0)
-num.chill.single <- round(nrow(singlecues.lookup[(singlecues.lookup$chill>1),]), digits=0)
+num.force.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$force>1),]), digits=0)
+num.photo.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$photo>1),]), digits=0)
+num.chill.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$chill>1),]), digits=0)
 
-num.twocues.single <- round(nrow(singlecues.lookup[((singlecues.lookup$force>1 & singlecues.lookup$photo>1) |
-                                                      (singlecues.lookup$force>1 & singlecues.lookup$chill>1) |
-                                                      (singlecues.lookup$photo>1 & singlecues.lookup$chill>1)),]), digits=0)
-#listoftwocues.single <- singlecues.lookup[((singlecues.lookup$force>1 & singlecues.lookup$photo>1) |
- #                    (singlecues.lookup$force>1 & singlecues.lookup$chill>1) |
-  #                   (singlecues.lookup$photo>1 & singlecues.lookup$chill>1)),]
-
-#singletwocue.studies <- unique(paste(listoftwocues.single$datasetID, listoftwocues.single$study))
-
+num.twocues.nointxns <- round(nrow(nointxns.lookup[((nointxns.lookup$force>1 & nointxns.lookup$photo>1) |
+    (nointxns.lookup$force>1 & nointxns.lookup$chill>1) |
+    (nointxns.lookup$photo>1 & nointxns.lookup$chill>1)),]), digits=0)
 
 lookupcueintxns <- dplyr::full_join(lookupintxns, lookupcues, by=c("datasetID", "study"))
-#lookupcueintxns <- lookupcueintxns[!duplicated(lookupcueintxns),]
 intxnstudies <- unique(paste(lookupintxns[lookupintxns$interaction>0,]$datasetID, lookupintxns[lookupintxns$interaction>0,]$study))
 singlecuestudies <- unique(paste(lookupintxns[lookupintxns$interaction==0,]$datasetID, lookupintxns[lookupintxns$interaction==0,]$study))
+}
 
-numintxnstudies <- nrow(lookupcueintxns[which(lookupcueintxns$interaction>0),])
-lookupcues$datasetID_study <- paste(lookupcues$datasetID, lookupcues$study)
 
-num.force.all <- round(nrow(lookupcues[(lookupcues$force>1),]), digits=0)
-num.photo.all <- round(nrow(lookupcues[(lookupcues$photo>1),]), digits=0)
-num.chill.all <- round(nrow(lookupcues[(lookupcues$chill>1),]), digits=0)
-
-num.twocues.all <- round(nrow(lookupcueintxns[((lookupcueintxns$force>1 & lookupcueintxns$photo>1) |
-                                            (lookupcueintxns$force>1 & lookupcueintxns$chill>1) |
-                                            (lookupcueintxns$photo>1 & lookupcueintxns$chill>1)),]), digits=0)
-
-num.twocues.intxn.setup <- lookupcues[((lookupcues$force>1 & lookupcues$photo>1) |
-                                   (lookupcues$force>1 & lookupcues$chill>1) |
-                                   (lookupcues$photo>1 & lookupcues$chill>1)),]
-
-num.twocues.intxn <- round(nrow(num.twocues.intxn.setup[(num.twocues.intxn.setup$datasetID_study%in%intxnstudies),]), digits=0)
-
-#percsinglestudies <- round(nrow(lookupintxns[(lookupintxns$interaction==0),])/nrow(lookupintxns) *100, digits=0)
-
-num.fp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x photo"),])
-num.pw <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x fieldsample dates"),])
-num.fw <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x fieldsample dates"),])
-
-num.cf <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="force x chilldays" | ospintxnstudiesall$intxn=="force x chilltemp"),])
-num.cp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x chilldays"| ospintxnstudiesall$intxn=="photo x chilltemp"),])
 
 
 ###############
@@ -514,7 +595,7 @@ num.cp <- nrow(ospintxnstudiesall[(ospintxnstudiesall$intxn=="photo x chilldays"
 ## Cat got in her studytype_table.csv ##
 
 if(FALSE){
-altver.all <- read.csv("output/studytype_table.csv")
+altver.all <- studfile
 altver <- altver.all[which(paste(altver.all$datasetID, altver.all$study) %in%
     unique(paste(datsm14d$datasetID, datsm14d$study))),] # just a check that we're using the same studies
 altverf <- subset(altver, force>1)
