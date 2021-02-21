@@ -92,9 +92,20 @@ notfield <- c("Aakala T", #common garden
 biendatfield <- biendat[!biendat$project_pi %in% notfield, ]
 
 ##########################################################################################
+# we need a unique identifier for each study
+names(biendatfield)
+names(trydat)
+
+bien.id <- aggregate(biendatfield["TraitValue"], biendatfield[c("url_source","project_pi")], FUN=length)
+biendatfield$lab <- paste(biendatfield$url_source, biendatfield$project_pi, sep = "_")
+biendatfield$study.fact<-as.numeric(as.factor(biendatfield$lab))
+
+biendatfield$DatasetID <- paste(biendatfield$study.fact, biendatfield$database, sep = "_")
+
+trydat$DatasetID <- paste(trydat$DatasetID, trydat$database, sep = "_")
 ###########################################################
 # Removing extaneous columns that are not needed
-biendatfield.sub <- biendatfield[, c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database")]
+biendatfield.sub <- biendatfield[, c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID")]
 
 trydat.sub <- trydat[,c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID", "Reference", "Reference...source", "Reference")]
 

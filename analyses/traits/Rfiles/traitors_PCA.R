@@ -68,7 +68,8 @@ species <- unique(other.trt$speciesname)
 traits <- c("Specific_leaf_area", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass", "seed mass")
 
 # looking at the number of observations per trait, we could imagine we would need 9685 rows for all the trait data
-tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname", "speciesname")], FUN=length) 
+tm <- aggregate(other.trt["traitvalue"], other.trt[c("traitname", "speciesname", "datasetid")], FUN=length) 
+
 # 9682 is the max rows needed for a given trait
 species <- c("Betula_occidentalis", "Rhododendron_prinophyllum")
 sp.sub2 <- subset(other.trt, speciesname == "Rhododendron_prinophyllum")
@@ -156,6 +157,75 @@ for(j in 1:length(traits)){
 head(mat)
 
 
+
+f <- 1
+i <- 2
+temp <- subset(other.trt, speciesname == species[i])
+
+
+for(i in 1:length(species)){
+    temp <- subset(other.trt, speciesname == species[i])
+    mat <- matrix(NA, ncol = length(traits)+1, nrow = 10) 
+    for(j in 1:length(traits)){
+        temp2 <- subset(temp, traitname == traits[j])
+        for (k in 1:nrow(temp2)){
+            mat[k,j] <- temp2$traitvalue[k]
+            mat[k,7] <- temp2$speciesname[k]
+        }
+        mat <- rbind(mat[i], mat[i])
+    }
+}
+head(mat)
+ ## <><><><><><><><><><><><<><><><><><><><><><
+# DL exploring the data more
+trt.rm <- c("leaf life span", "Stem_diameter", "leaf carbon content per leaf nitrogen content", "Leaf_photosynthesis_rate_per_leaf_area")
+
+trt.dataset <- dat %>%
+    group_by(datasetid, speciesname) %>%
+    summarise(no_rows = length(unique(traitname)))
+
+dat <- dat[!dat$traitname %in% trt.rm,]
+mtrt.ddply <- ddply(dat, c("speciesname", "traitname", "datasetid"),
+                    summarise, mean = mean(traitvalue),
+                    sd = sd(traitvalue),
+                    sem = sd(traitvalue)/sqrt(length(traitvalue)),
+                    geomean = exp(sum(log(traitvalue)/length(traitvalue))) )
+head(mtrt.ddply)
+
+#This is one of the mehtods mentioned on stack over.flow, https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in 
+dat$lab <- paste(dat$speciesname, dat$datasetid, sep = "_")
+mtrt.stk <- tapply(dat$traitvalue,
+                      dat[c("lab","traitname")], 
+                       mean)
+head(mtrt.stk)
+mtrt.stk <- mtrt.stk %>% separate(lab, c("speciesname", "studyid","database"))
+
+species <- sort(unique(dat$speciesname))
+dsid <- sort(unique(dat$datasetid))
+traits <- c("Plant_height_vegetative", "Specific_leaf_area","Leaf_nitrogen_.N._content_per_leaf_dry_mass", 
+            "Stem_specific_density", "Leaf_dry_matter_content",
+            "leaf life span","seed mass", "Leaf_carbon_.C._content_per_leaf_dry_mass")
+
+sp.study <- unique(paste(dat$speciesname, dat$datasetid, sep ="_")) # there are 840 uniuqe combinations of species by studyid
+mat <- matrix(NA, ncol = length(traits), nrow = length(sp.study))
+
+for (id in 1:length(dsid)){
+    temp <- subset(mtrt.ddply, datasetid == dsid[id])
+for(i in 1:length(sp.study)){
+    temp2 <- subset(temp, speciesname == species[i])
+    for(j in 1:length(traits)){
+        mat[i, j] <- subset(temp2, traitname == traits[j])$geomean[1]
+    }
+    }
+}
+colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "llife", "seed", "C")
+rownames(mat) <- sort(sp.study)
+head(mat)
+
+## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 28 species
+mat2 <- mat[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")]
+mat2 <- mat2[complete.cases(mat2), ]
+## <><><><><><><><><><><><<><><><><><><><><><
 # Below are my other attempts -- to be deleted
 # test <- data.frame(speciesname = character, sla = numeric(),  lnc = numeric(), 
 #                    sdd = numeric(), ldmc = numeric(), lcc = numeric(), seed = numeric())
@@ -178,8 +248,8 @@ head(mat)
 #         temp3 <- merge(test, temp2, by == speciesname)
 #     }
 # }
-# temp <- subset(dat, new.SpeciesName == species[1])
-# temp2 <- subset(temp, TraitName == traits[1])
+# temp <- subset(dat, speciesname == species[1])
+# temp2 <- subset(temp, traitname == traits[1])
 # 
 # colnames(mat) <- c("Height", "SLA", "Photosyn",
 #                    "N", "SSD", "LDMC", "StemD")
@@ -203,17 +273,17 @@ for (whichcol in 1:ncol(mat)){
 if(FALSE){
 head(dat)
 # Attempts by Lizzie ...
-datsm <- subset(dat, select=c("new.SpeciesName", "TraitName", "TraitValue"))
-tryreshape <- reshape(datsm, timevar="TraitName", idvar="new.SpeciesName", direction="wide")
+datsm <- subset(dat, select=c("speciesname", "traitname", "traitvalue"))
+tryreshape <- reshape(datsm, timevar="traitname", idvar="speciesname", direction="wide")
 require(reshape2)
-trydcast <- dcast(dat, new.SpeciesName + Latitude + Longitude ~ TraitName, value.var = "TraitValue", drop = FALSE)
+trydcast <- dcast(dat, speciesname + latitude + longitude + datasetid ~ traitname, value.var = "traitvalue", drop = FALSE)
 }
 # Attempt 2
-temp <- reshape2::dcast(other.trt, speciesname + no ~ traitname , value.var= "traitvalue")
+temp <- reshape2::dcast(other.trt, speciesname + datasetid ~ traitname , value.var= "traitvalue")
 
 # Attempt 3 using tidyr
 other.trt$no <- 1:nrow(other.trt)
-test <- spread(other.trt, key = traitname, value = traitvalue)
+test <- spread(other.trt, key = c(traitname, datasetid), value = traitvalue)
 
 ## PCA plots 
 ranges <- list(c(-.4, .4),
@@ -227,16 +297,16 @@ for(i in 1:length(ranges)){
 
 # Doing the PCA for the geometric mean:
 # Start by calculating the average by speceis x trait
-mtrt.ddply <- ddply(dat, c("new.SpeciesName", "TraitName"),
-                    summarise, mean = mean(TraitValue),
-                    sd = sd(TraitValue),
-                    sem = sd(TraitValue)/sqrt(length(TraitValue)),
-                    geomean = exp(sum(log(TraitValue)/length(TraitValue))) )
+mtrt.ddply <- ddply(dat, c("speciesname", "traitname"),
+                    summarise, mean = mean(traitvalue),
+                    sd = sd(traitvalue),
+                    sem = sd(traitvalue)/sqrt(length(traitvalue)),
+                    geomean = exp(sum(log(traitvalue)/length(traitvalue))) )
 head(mtrt.ddply)
 
 #This is one of the mehtods mentioned on stack over.flow, https://stackoverflow.com/questions/2602583/geometric-mean-is-there-a-built-in 
-mtrt.stk <- exp(tapply(log(dat$TraitValue),
-                       dat[c("new.SpeciesName","TraitName")], 
+mtrt.stk <- exp(tapply(log(dat$traitvalue),
+                       dat[c("speciesname","traitname")], 
                        mean, na.rm=TRUE))
 head(mtrt.stk)
 
@@ -246,7 +316,7 @@ head(mtrt.stk)
 #     exp(sum(log(x[x > 0]), na.rm=na.rm) / length(x))
 # }
 
-species <- sort(unique(dat$new.SpeciesName))
+species <- sort(unique(dat$speciesname))
 traits <- c("Plant_height_vegetative", "Specific_leaf_area", "Leaf_photosynthesis_rate_per_leaf_area",
             "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Stem_specific_density", "Leaf_dry_matter_content", "Stem_diameter")
 
@@ -254,21 +324,21 @@ gm_mean = function(x, na.rm=TRUE){
     exp(sum(log(x) / length(x)))
 }
 
-spsub <- subset(dat, new.SpeciesName == species[5]) 
-sptrtsub <- subset(spsub, TraitName == traits[4]) 
-gmmean <- gm_mean(sptrtsub$TraitValue); gmmean  
+spsub <- subset(dat, speciesname == species[5]) 
+sptrtsub <- subset(spsub, traitname == traits[4]) 
+gmmean <- gm_mean(sptrtsub$traitvalue); gmmean  
 
 # this value is matches the above for several of the species and traits, confirming that the funciton gives the same values as those in mtrt.ddply and mtrt.stk
 
 # DL did try to make a loop to calculate the mean with the funciton, but it doesn't quite work yet and is slower than the above methods
-# tm <- aggregate(dat["TraitValue"], dat[c("new.SpeciesName","TraitName")], FUN=length) 
+# tm <- aggregate(dat["traitvalue"], dat[c("speciesname","traitname")], FUN=length) 
 # 
 # trtmeans <- vector()
 # for(i in 1:length(species)){
-#     spsub <- subset(dat, new.SpeciesName == species[i])
+#     spsub <- subset(dat, speciesname == species[i])
 #     for(j in 1:length(traits)){
-#         sptrtsub <- subset(spsub, TraitName == traits[j])
-#         gmmean <- gm_mean(sptrtsub$TraitValue)
+#         sptrtsub <- subset(spsub, traitname == traits[j])
+#         gmmean <- gm_mean(sptrtsub$traitvalue)
 #         trtmeans <- rbind(trtmeans, gmmean)
 #     }
 # }
@@ -277,7 +347,7 @@ gmmean <- gm_mean(sptrtsub$TraitValue); gmmean
 
 #########################################################################
 # create a new matrix for feeding into the PCA
-species <- sort(unique(dat$new.SpeciesName))
+species <- sort(unique(dat$speciesname))
 traits <- c("Plant_height_vegetative", "Specific_leaf_area","Leaf_nitrogen_.N._content_per_leaf_dry_mass", 
             "Stem_specific_density", "Leaf_dry_matter_content",
             "leaf life span","seed mass", "Leaf_carbon_.C._content_per_leaf_dry_mass")
@@ -285,9 +355,9 @@ traits <- c("Plant_height_vegetative", "Specific_leaf_area","Leaf_nitrogen_.N._c
 mat <- matrix(NA, ncol = length(traits), nrow = length(species))
 
 for(i in 1:length(species)){
-    temp <- subset(mtrt.ddply, new.SpeciesName == species[i])
+    temp <- subset(mtrt.ddply, speciesname == species[i])
     for(j in 1:length(traits)){
-        mat[i, j] <- subset(temp, TraitName == traits[j])$geomean[1]
+        mat[i, j] <- subset(temp, traitname == traits[j])$geomean[1]
     }
 }
 colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "llife", "seed", "C")

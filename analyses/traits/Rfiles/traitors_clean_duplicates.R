@@ -18,7 +18,7 @@ if(length(grep("deirdreloughnan", getwd()) > 0)) {  setwd("~/Documents/ospree_tr
 ## reading in data
 #setwd("~/GitHub/ospree/analyses/output/")
 
-d <- read.csv("input/try_bien_Feb15.csv") 
+d <- read.csv("input/try_bien.csv") 
 
 refs <- aggregate(d["new.SpeciesName"], d[c("Reference", "Reference...source", "database")], FUN = length) 
 #There are abou 38 datasets that might be duplicated
