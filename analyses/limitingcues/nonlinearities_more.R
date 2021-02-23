@@ -263,7 +263,7 @@ threshcol="red4"
 photocol="turquoise3"
 df$warming<-df$temperature-5
 df$dl<-daylength(lat,as.integer(df$bbforcephoto))
-pdf("figures/intxnsims2021photoaltwithchill_8panels.pdf", width=8, height=6)
+pdf("figures/intxnsims2021photoaltwithchill_8panels.pdf", width=12, height=6)
 #windows()
 par(mfrow=c(2,4),
     mar=(c(4,4,2,4)+0.1))
@@ -338,7 +338,7 @@ cex.lab = 1.2
 
 #plot of how chilling and forcing change with warming
 #plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
-plot(dl~warming, data=df, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Photoperiod at budburst", col="turquoise3", cex.lab = 1.2, bty= "u")
+plot(chill~warming, data=chilldf, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Chilling", col="purple", cex.lab = 1.2, bty= "u")
 
 par(new = TRUE)                             # Add new plot
 plot(df$force~df$warming, type = "l", col = "darkorange",              # Create second plot without axes
