@@ -22,6 +22,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 library("viridis")
 library(plotfunctions)
+library(geosphere)
 colz <- viridis(4, alpha = 0.1)
 interceptbb <- 120
 
@@ -217,6 +218,13 @@ dev.off()
 ######## with both photoperiod & chilling effects #######
 ############# Started by Ailene, Feb 9, 2021 ############
 #########################################################
+feff <- -8.8/5
+peff <- -4.5/4
+ceff <- -15.8/1248
+fpeff <- peff/20
+fceff <- 9.1/6000 
+pceff <- ceff/2
+fpeff2 <- peff/100
 interceptbb <- 120
 
 
@@ -229,6 +237,8 @@ whenlinearp <- 24
 interceptplinear <- -(plineff*whenlinearp)
 
 photcoef <- -0.1
+
+lat = 48#for daylength
 
 df <- data.frame("temperature"=seq(from=5, to=20, length.out=howlong), "photo"=seq(from=6, to=24, length.out=howlong))
 df$photolinear <- interceptphinge + df$photo*plineff
@@ -251,8 +261,23 @@ df$bbforcephotohingeint2 <- interceptbb + feff*df$force + photcoef*df$photohinge
 linecol<-"blue4"
 threshcol="red4"
 photocol="turquoise3"
-pdf("figures/intxnsims2021photoaltwithchill.pdf", width=8, height=6)
-par(mfrow=c(2,3))
+df$warming<-df$temperature-5
+df$dl<-daylength(lat,as.integer(df$bbforcephoto))
+pdf("figures/intxnsims2021photoaltwithchill_8panels.pdf", width=8, height=6)
+#windows()
+par(mfrow=c(2,4),
+    mar=(c(4,4,2,4)+0.1))
+
+#plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
+plot(dl~warming, data=df, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Photoperiod at budburst", col="turquoise3", cex.lab = 1.2, bty= "u")
+
+par(new = TRUE)                             # Add new plot
+plot(df$force~df$warming, type = "l", col = "darkorange",              # Create second plot without axes
+     axes = FALSE, xlab = "", ylab = "")
+axis(side = 4)      # Add second axis
+mtext("Forcing", side = 4, line = 2, cex=.9)       
+
+
 plot(photolinear~photo, data=df, type="l", xlim=c(0,24), xlab="photoperiod", ylab="Photoperiod effect", col=linecol, cex.lab = 1.2)
 lines(photohinge~photo, data=df, lty=2, col=threshcol)
 rect(0, -15, 6, 10, col=alpha(photocol, f=.5), border="NA") # xleft, ybottom, xright, ytop
@@ -307,6 +332,23 @@ make.chilldf<-function(howlong,whenhingec,intercepcthinge,whenclinear,interceptc
 }
 
 chilldf<-make.chilldf(howlong,whenhingec,intercepcthinge,whenclinear,interceptclinear)
+chilldf$warming<-chilldf$temperature-5
+
+cex.lab = 1.2
+
+#plot of how chilling and forcing change with warming
+#plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
+plot(dl~warming, data=df, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Photoperiod at budburst", col="turquoise3", cex.lab = 1.2, bty= "u")
+
+par(new = TRUE)                             # Add new plot
+plot(df$force~df$warming, type = "l", col = "darkorange",              # Create second plot without axes
+     axes = FALSE, xlab = "", ylab = "")
+axis(side = 4)      # Add second axis
+mtext("Forcing", side = 4, line = 2, cex=.9)       
+
+
+
+
 
 plot(chilllinear~chill, data=chilldf, type="l", xlab="Chilling", ylab="Chill effect", col="blue")
 lines(chillhinge~chill, data=chilldf, lty=2, col="red")
