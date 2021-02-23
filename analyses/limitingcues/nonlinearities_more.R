@@ -332,17 +332,19 @@ make.chilldf<-function(howlong,whenhingec,intercepcthinge,whenclinear,interceptc
 }
 
 chilldf<-make.chilldf(howlong,whenhingec,intercepcthinge,whenclinear,interceptclinear)
-chilldf$warming<-chilldf$temperature-5
+#THE BELOW IS WRONG.WE NEED TO DECIDE HOW WE WANT TO CONVERT TEMP to CHILLING (exp vs field- as in bb ms)
+chilldf$chillwarming5<-chilldf$temperature-5
+
 
 cex.lab = 1.2
 
 #plot of how chilling and forcing change with warming
 #plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
-plot(chill~warming, data=chilldf, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Chilling", col="purple", cex.lab = 1.2, bty= "u")
+plot(chill~warming5, data=chilldf, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Chilling", col=alpha("purple", 0.8), cex.lab = 1.2, bty= "u")
 
 par(new = TRUE)                             # Add new plot
-plot(df$force~df$warming, type = "l", col = "darkorange",              # Create second plot without axes
-     axes = FALSE, xlab = "", ylab = "")
+plot(df$force~df$warming5, type = "l", col = "darkorange",              # Create second plot without axes
+     axes = FALSE, xlab = "", 5lab = "")
 axis(side = 4)      # Add second axis
 mtext("Forcing", side = 4, line = 2, cex=.9)       
 
