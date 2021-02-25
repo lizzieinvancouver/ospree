@@ -45,8 +45,8 @@ d$Reference...source[d$Reference...source ==  "Kudo9"] <- "Kudo_9"
 d$refabr5 <- strtrim(d$Reference...source,5); head(d); #since the references are often not written in the same format, I am creating a new variable of just the first four letters
 
 d$dup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue")])
-d$trydup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue", "OrigObsDataID.x")])
-d$trydup <- duplicated(d[,c("OrigObsDataID.x")])
+#d$trydup <- duplicated(d[,c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "TraitValue", "OrigObsDataID.x")])
+#d$trydup <- duplicated(d[,c("OrigObsDataID.x")])
 
 sort(unique(d$refabr5))
 temp <- subset(d, dup == "TRUE") # 434905 rows
@@ -58,7 +58,7 @@ temp.try <- subset(temp.try, database == "try") #17372
 temp.nodup <- subset(d, dup != "TRUE") # 823754 rows
 
 ## select target variables for which we will search for duplicates:
-tar.var5 <- c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi")
+tar.var5 <- c("new.SpeciesName", "TraitName", "UnitName", "refabr5", "Latitude", "Longitude", "Reference", "project_pi", "ObservationID")
 resp.var <- c("TraitValue")
 
 ## subset data to look for duplicates (resp.var are included or most of the subset is duplicated)
@@ -90,11 +90,11 @@ refs.nd <- aggregate(trt.sub.no.dup5["new.SpeciesName"], trt.sub.no.dup5[c("Refe
 trt.final <- trt.sub.no.dup5[, c("TraitName", "TraitValue", "UnitName"
                                  ,"Latitude","Longitude","project_pi",
                                  "new.SpeciesName", "database", "DatasetID",
-                                 "Reference","Reference...source")]
+                                 "Reference","Reference...source", "ObservationID")]
 
 names(trt.final) <- c("traitname", "traitvalue", "unitname"
                       ,"latitude","longitude","piname","speciesname"
-                      , "database", "datasetid", "reference", "origref")
+                      , "database", "datasetid", "reference", "origref", "observationid")
 head(trt.final)
 
 trt.final1 <- trt.final[1:411877,]

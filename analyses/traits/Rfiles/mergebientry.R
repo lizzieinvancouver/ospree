@@ -107,15 +107,12 @@ trydat$DatasetID <- paste(trydat$DatasetID, trydat$database, sep = "_")
 # Removing extaneous columns that are not needed
 biendatfield.sub <- biendatfield[, c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID")]
 
-trydat.sub <- trydat[,c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID", "Reference", "Reference...source", "Reference")]
-
-
-
+trydat.sub <- trydat[,c("TraitName", "TraitValue", "UnitName", "Latitude", "Longitude", "project_pi", "genus", "species", "new.SpeciesName", "database", "DatasetID", "Reference", "Reference...source", "Reference", "ObservationID")]
 
 # Merge the beind and try trait data
 
 trybien <- rbind.fill(trydat.sub, biendatfield.sub)
-
+names(trybien)
 
 write.csv(trybien,"input/try_bien.csv", row.names = FALSE)
 
