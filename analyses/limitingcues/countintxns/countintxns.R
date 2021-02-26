@@ -346,6 +346,9 @@ testtreats <- testsm[!duplicated(testsm),]
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="worrall67" &
     ospintxnstudies$study=="exp 3")] <-
     "photo/force x exp chilldays (force and photo are NOT interactive)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="sogaard08" &
+                              ospintxnstudies$study=="exp2")] <-
+  "force/photo x chill days"
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="basler14" &
     ospintxnstudies$study=="exp1")] <- "photo x force x field sample dates"
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="falusi90" &
@@ -361,13 +364,16 @@ ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="myking95" &
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="partanen98" &
     ospintxnstudies$study=="exp1")] <-
     "photo/force x field sample dates (force and photo are NOT full factorial)"
+ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="partanen98" &
+                              ospintxnstudies$study=="exp3")] <-
+  "photo/force x field sample dates (force and photo are NOT full factorial)"
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="schnabel87" &
     ospintxnstudies$study=="exp1")] <-
-    "force/photo x field sample (but mainly field sample dates)"
+    "force/photo x cold hardiness treatment"
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="skuterud94" &
     ospintxnstudies$study=="exp1")] <- "force x field sample x chilltemp (x provenance)"
 ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="okie11" &
-    ospintxnstudies$study=="exp2")] <- "photo x force x chill days"
+    ospintxnstudies$study=="exp2")] <- "photo x force x field sample date (and chill days for `Sunland' cultivar)"
 
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
@@ -583,31 +589,45 @@ numsppsmopapers <- nrow(subset(spbydatasetID.df, datasetID>3))
 ## Checks on data remaining across different dataframes
 length(unique(ospstudiescues$datasetID))
 length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
+
+### Adding in number of studies and papers that use crops
+cropspp <- c("Actinidia deliciosa", "Malus domestica", "Vitis vinifera", "Ribes nigrum", 
+             "Vaccinium ashei", "Vaccinium corymbosum", "Prunus persica")
+
+studiestoinclude <- unique(paste(ospstudiescues$datasetID, ospstudiescues$study))
+cropdf <- dat[(dat$datasetIDstudy%in%studiestoinclude),]
+cropdf <- cropdf[(cropdf$latbi%in%cropspp),]
+
+numcroppapers <- length(unique(cropdf$datasetID))
+numcropstudies <- length(unique(paste(cropdf$datasetID, cropdf$study)))
 # At this point we have 84 papers, 136 studies
 
 
 ## End of numbers in manuscript
 ###############
+### 26 Feb 2021 by Cat - moving studydesign_numcues.R to here so that our methods are consistent
+if(FALSE){ ## I am just commenting this out because we have already made the figure
+cues$cols<-NA
+cues$cols<-ifelse(cues$numcues==1, "red", cues$cols)
+cues$cols<-ifelse(cues$numcues==2, "green", cues$cols)
+cues$cols<-ifelse(cues$numcues==3, "blue", cues$cols)
+cues$cols<-ifelse(cues$numcues==0 & cues$field.sample>1, "violet", cues$cols)
+cues$cols<-ifelse(cues$numcues==0 & cues$field.sample<=1, "white", cues$cols)
 
-if(FALSE){ # Cat, can we delete? I am not sure what this is doing and I don't think we need it, but let me know ... 
-photocue <- round(nrow(lookupcues[(lookupcues$photo>1),])/nrow(lookupcues) * 100, digits=0)
-forcecue <- round(nrow(lookupcues[(lookupcues$force>1),])/nrow(lookupcues) * 100, digits=0)
-chillcue <- round(nrow(lookupcues[(lookupcues$chill>1),])/nrow(lookupcues) * 100, digits=0)
+#ggplot(cues, aes(x=yr, fill=cols)) + geom_histogram()
+mecolors<-colorRampPalette(brewer.pal(11,"Spectral"))(5)
+hist<-ggplot(cues, aes(x=year)) + geom_histogram(aes(fill=cols), size=0.3) +
+  xlab("Year") + ylab("Number of Studies") + scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_manual(values=mecolors, name="Number of Cues Manipulated",
+                    labels=c("blue"="3", "green"="2", "red"="1", "violet"="Multiple Field Sample Dates", "white"="Multiple Provenance Latitudes \nand/or Species")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
+  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"), legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),
+        axis.title=element_text(size=12), legend.title = element_text(size=8), axis.text=element_text(size=10), legend.text.align = 0)
 
-num.force.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$force>1),]), digits=0)
-num.photo.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$photo>1),]), digits=0)
-num.chill.nointxns <- round(nrow(nointxns.lookup[(nointxns.lookup$chill>1),]), digits=0)
-
-num.twocues.nointxns <- round(nrow(nointxns.lookup[((nointxns.lookup$force>1 & nointxns.lookup$photo>1) |
-    (nointxns.lookup$force>1 & nointxns.lookup$chill>1) |
-    (nointxns.lookup$photo>1 & nointxns.lookup$chill>1)),]), digits=0)
-
-lookupcueintxns <- dplyr::full_join(lookupintxns, lookupcues, by=c("datasetID", "study"))
-intxnstudies <- unique(paste(lookupintxns[lookupintxns$interaction>0,]$datasetID, lookupintxns[lookupintxns$interaction>0,]$study))
-singlecuestudies <- unique(paste(lookupintxns[lookupintxns$interaction==0,]$datasetID, lookupintxns[lookupintxns$interaction==0,]$study))
+pdf("limitingcues/figures/studyyearcues.pdf", 
+    width=6,height=4)
+hist
+dev.off()
 }
-
-
 
 
 ###############
