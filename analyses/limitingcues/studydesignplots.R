@@ -39,6 +39,7 @@ source("misc/getcuesbystudy_fxs.R") # f(x) counts up cues
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
 dat <- dat[dat$woody=="yes",]
+dat <- dat[which(dat$datasetID!="spann04"),] # seems only to treatments during bud formation
 
 # format species and date
 dat$latbi <- paste(dat$genus, dat$species)

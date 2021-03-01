@@ -377,7 +377,7 @@ ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="okie11" &
 
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
-write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE)
+write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE) # this is a nice idea, but not easy to add
 
 #### Cat adding in some code to fill in manuscript with info.
 ## Using code from studydesing_numcues.R
@@ -607,6 +607,8 @@ numcropstudies <- length(unique(paste(cropdf$datasetID, cropdf$study)))
 ###############
 ### 26 Feb 2021 by Cat - moving studydesign_numcues.R to here so that our methods are consistent
 if(FALSE){ ## I am just commenting this out because we have already made the figure
+library(RColorBrewer)
+library(ggplot2)
 cues$cols<-NA
 cues$cols<-ifelse(cues$numcues==1, "red", cues$cols)
 cues$cols<-ifelse(cues$numcues==2, "green", cues$cols)
@@ -616,15 +618,18 @@ cues$cols<-ifelse(cues$numcues==0 & cues$field.sample<=1, "white", cues$cols)
 
 #ggplot(cues, aes(x=yr, fill=cols)) + geom_histogram()
 mecolors<-colorRampPalette(brewer.pal(11,"Spectral"))(5)
-hist<-ggplot(cues, aes(x=year)) + geom_histogram(aes(fill=cols), size=0.3) +
+hist <- ggplot(cues, aes(x=year)) + geom_histogram(aes(fill=cols), size=0.3) +
   xlab("Year") + ylab("Number of Studies") + scale_y_continuous(expand = c(0, 0)) +
-  scale_fill_manual(values=mecolors, name="Number of Cues Manipulated",
-                    labels=c("blue"="3", "green"="2", "red"="1", "violet"="Multiple Field Sample Dates", "white"="Multiple Provenance Latitudes \nand/or Species")) + scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
-  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"), legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),
-        axis.title=element_text(size=12), legend.title = element_text(size=8), axis.text=element_text(size=10), legend.text.align = 0)
-
-pdf("limitingcues/figures/studyyearcues.pdf", 
-    width=6,height=4)
+  scale_fill_manual(values=mecolors, name="Number of fues manipulated",
+                    labels=c("blue"="3", "green"="2", "red"="1",
+                            "violet"="Multiple field fample fates",
+                            "white"="Multiple provenance latitudes \nand/or fpecies")) +
+  scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
+  theme(panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),
+        axis.title=element_text(size=12), legend.title = element_text(size=8),
+        axis.text=element_text(size=10), legend.text.align = 0)
+pdf("limitingcues/figures/studyyearcues.pdf", width=6,height=4)
 hist
 dev.off()
 }
