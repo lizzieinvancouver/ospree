@@ -13,6 +13,8 @@ options(stringsAsFactors=FALSE)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/limitingcues") 
+} else if(length(grep("ailene", getwd())>0)) { 
+  setwd("~/Documents/GitHub/ospree/analyses/limitingcues") 
 } else setwd("~/Documents/git/ospree/analyses/limitingcues")
 
 
@@ -221,7 +223,7 @@ dev.off()
 feff <- -8.8/5
 peff <- -4.5/4
 ceff <- -15.8/1248
-fpeff <- peff/20
+fpeff <- peff/25
 fceff <- 9.1/6000 
 pceff <- ceff/2
 fpeff2 <- peff/100
@@ -253,49 +255,76 @@ df$bbforcephoto <- interceptbb + feff*df$force + photcoef*df$photolinear
 df$bbforcephotohinge <- interceptbb + feff*df$force + photcoef*df$photohinge
 df$bbforcephotoint <- interceptbb + feff*df$force + photcoef*df$photolinear + fpeff*(df$force*df$photolinear)
 df$bbforcephotohingeint <- interceptbb + feff*df$force + photcoef*df$photohinge + fpeff*(df$force*df$photohinge)
-df$bbforcephotoint2 <- interceptbb + feff*df$force + photcoef*df$photolinear + fpeff2*(df$force*df$photolinear)
+df$bbforcephotoint2 <- interceptbb + feff*df$force + photcoef*df$photolinear + fpeff2*(df$force*df$photolinear)#weaker interaction
 df$bbforcephotohingeint2 <- interceptbb + feff*df$force + photcoef*df$photohinge + fpeff2*(df$force*df$photohinge)
 
 
 # ... and PLOT!
-linecol<-"blue4"
-threshcol="red4"
-photocol="turquoise3"
+chillcol<-"blue4"
+photcol="darkorchid"
+forcecol="darkorange"
 df$warming<-df$temperature-5
 df$dl<-daylength(lat,as.integer(df$bbforcephoto))
-pdf("figures/intxnsims2021photoaltwithchill_8panels.pdf", width=12, height=6)
+df$dl.rel<-(df$dl-df$dl[1])/df$dl[1]#relative change
+df$force.rel<-(df$force-df$force[1])/df$force[1]#relative change
+
+#add chilling, use betpen PEP sites and chill forecasts from main bb ms
+chill<-read.csv("../output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header = TRUE)
+chillobs<-cbind(chill$warming_C,chill$winT.forecast,chill$chill.forecast,chill$lat,chill$lon)
+chillobs2<-as.data.frame(rbind(chillobs[1:8,],chillobs[17:24,]))#select out 2 different lat/longs with differenbt patterns of changes to chilling with warming
+colnames(chillobs2)<-c("warming", "winT.forecast", "chill.forecast","lat","lon" )
+chillobs2$chill.rel<-NA
+chillobs2$chill.rel[1:8]<-(chillobs2$chill.forecast[1:8]-chillobs2$chill.forecast[1])/chillobs2$chill.forecast[1]#relative change
+chillobs2$chill.rel[9:16]<-(chillobs2$chill.forecast[9:16]-chillobs2$chill.forecast[9])/chillobs2$chill.forecast[9]#relative change
+
+pdf("figures/intxnsims2021photoaltwithchill_6panels.pdf", width=12, height=6)
 #windows()
-par(mfrow=c(2,4),
-    mar=(c(4,4,2,4)+0.1))
+#quartz(width =12, height =6)
+par(mfrow=c(2,3),
+    mar=(c(4,4,2,3)+0.1))
 
 #plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
-plot(dl~warming, data=df, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Photoperiod at budburst", col="turquoise3", cex.lab = 1.2, bty= "u")
+plot(dl.rel~warming, data=df, type="l", xlim=c(0,7), ylim=c(-.2,1.4),xlab="Amount of warming (C)", ylab="Relative change in cue", col=alpha(photcol, .5), lwd=2,cex.lab = 1.2, bty= "l")
+text(4,-0.2,"photoperiod", col=alpha(photcol,.7))
 
-par(new = TRUE)                             # Add new plot
-plot(df$force~df$warming, type = "l", col = "darkorange",              # Create second plot without axes
-     axes = FALSE, xlab = "", ylab = "")
-axis(side = 4)      # Add second axis
-mtext("Forcing", side = 4, line = 2, cex=.9)       
+abline(h=0, lty =2)
+lines(df$force.rel~df$warming, col = alpha(forcecol, .5), lwd=2)#forcing
+text(4,1,"forcing", col=alpha(forcecol,.7))
 
+#add chilling
+lines(chill.rel~warming,data=chillobs2[1:8,], lwd=2, col = alpha(chillcol,.5))
 
-plot(photolinear~photo, data=df, type="l", xlim=c(0,24), xlab="photoperiod", ylab="Photoperiod effect", col=linecol, cex.lab = 1.2)
-lines(photohinge~photo, data=df, lty=2, col=threshcol)
-rect(0, -15, 6, 10, col=alpha(photocol, f=.5), border="NA") # xleft, ybottom, xright, ytop
-mtext ("No budburst", side = 3, line = 1, adj = 0, cex = 0.9)
-mtext ("<6 hours", side = 3, line = 0, adj = 0, cex = 0.9)
-text (whenhingep+5,0+.6,"threshold response", col = threshcol)
-text (whenhingep+5,0-4,"linear response", col = linecol)
+lines(chill.rel~warming,data=chillobs2[9:16,], lwd=2, col = alpha(chillcol,.5))
+text(4,.25,"chilling", col=alpha(chillcol,.7))
 
+mtext("A)", side =3,lin=1, adj=0)
 
-plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", cex.lab = 1.2)
-lines(bbforcephoto~temperature, data=df, col=linecol)
-lines(bbforcephotoint~temperature, data=df, col=linecol, lty=2)
-lines(bbforcephotoint2~temperature, data=df, col=linecol, lty=2)
+plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
+text(max(df$temperature), df$bbforce[which(df$temperature ==max(df$temperature))],"forceonly", col =alpha(forcecol,.5))
+lines(bbforcephoto~temperature, data=df, col=alpha(photcol,.5), lwd = 2)#no interaction
+text(max(df$temperature)-1, df$bbforce[which(df$temperature ==max(df$temperature))]+4,"noint", col =alpha(photcol,.5))
+lines(bbforcephotoint~temperature, data=df, col=photcol, lty=1, lwd = 2)#strong interaction
+text(max(df$temperature)-1, 100,"strong -", col =photcol)
+lines(bbforcephotoint2~temperature, data=df, col=alpha(photcol,.7), lty=1, lwd = 2)#weak interaction
+text(max(df$temperature)-1, df$bbforce[which(df$temperature ==max(df$temperature))]+8,"weak -", col=alpha(photcol,.7))
+mtext("linear response", side = 3, line = 1)
+mtext("to second cue", side = 3, line = 0)
+mtext("C)", side =3,line=0, adj=0)
 
-plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", cex.lab = 1.2)
-lines(bbforcephotohinge~temperature, data=df, col=threshcol)
-lines(bbforcephotohingeint~temperature, data=df, col=threshcol, lty=2)
-lines(bbforcephotohingeint2~temperature, data=df, col=threshcol, lty=2)
+plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
+text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))],"forceonly", col =alpha(forcecol,.5))
+
+lines(bbforcephotohinge~temperature, data=df, col=alpha(photcol,.5), lwd = 2)#no interaction
+text(min(df$temperature)+3, 109,"noint", col =alpha(photcol,.5))
+
+lines(bbforcephotohingeint~temperature, data=df, col=photcol, lty=1, lwd = 2)#strong interaction
+text(min(df$temperature)+3, 102,"strong -", col =photcol)
+
+lines(bbforcephotohingeint2~temperature, data=df, col=alpha(photcol,.7), lty=1, lwd =2)#weaker interaction
+text(min(df$temperature)+5, df$bbforce[which(df$temperature ==min(df$temperature))]-5,"weak -", col=alpha(photcol,.7))
+mtext("E)", side =3,line=0, adj=0)
+mtext("threshold response", side = 3, line = 1)
+mtext("to second cue", side = 3, line = 0)
 
 #now add chilling plots
 
@@ -303,7 +332,7 @@ feff <- -8.8/5
 clineff <- (-15.8/1248)*0.8 
 chingeff <- -15.8/1248
 fceff <- 9.1/200
-fceff2 <- fceff/10
+fceff2 <- fceff/4
 chillcoef <- -0.2
 
 whenhingec <- 2000
@@ -335,38 +364,42 @@ chilldf<-make.chilldf(howlong,whenhingec,intercepcthinge,whenclinear,interceptcl
 #THE BELOW IS WRONG.WE NEED TO DECIDE HOW WE WANT TO CONVERT TEMP to CHILLING (exp vs field- as in bb ms)
 chilldf$chillwarming5<-chilldf$temperature-5
 
-
-cex.lab = 1.2
-
-#plot of how chilling and forcing change with warming
-#plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
-plot(chill~warming5, data=chilldf, type="l", xlim=c(0,7), xlab="Amount of warming (C)", ylab="Chilling", col=alpha("purple", 0.8), cex.lab = 1.2, bty= "u")
-
-par(new = TRUE)                             # Add new plot
-plot(df$force~df$warming5, type = "l", col = "darkorange",              # Create second plot without axes
-     axes = FALSE, xlab = "", 5lab = "")
-axis(side = 4)      # Add second axis
-mtext("Forcing", side = 4, line = 2, cex=.9)       
+plot(photolinear~photo, data=df, type="l", xlim=c(6,24), xaxt="n",yaxt="n",xlab="Cue (e.g., photoperiod, chilling)", ylab="Cue effect", col=chillcol, cex.lab = 1.2, bty= "l", lwd =2)
+lines(photohinge~photo, data=df, lty=1, col=chillcol, lwd=2)
+#rect(0, -15, 6, 10, col=alpha(photocol, f=.5), border="NA") # xleft, ybottom, xright, ytop
+#mtext ("No budburst", side = 3, line = 1, adj = 0, cex = 0.9)
+#mtext ("<6 hours", side = 3, line = 0, adj = 0, cex = 0.9)
+text (whenhingep+5,0+.6,"threshold response", col = chillcol)
+text (whenhingep+5,0-4,"linear response", col = chillcol)
+mtext("B)", side =3,line=0, adj=0)
 
 
+plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day", lty=2, lwd =2, col = alpha("darkorange", .3), bty="l")
+text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))]-2,"forceonly", col = alpha("darkorange", .5))
 
+lines(bbforcechill~temperature, data=chilldf, col=alpha(chillcol,.5), lwd = 2)#no interaction
+text(min(df$temperature)+3, 100,"noint", col =alpha(chillcol,.5))
 
+lines(bbforcechillint~temperature, data=chilldf, col=chillcol, lty=1, lwd = 2)#strong interaction
+text(min(df$temperature)+3, 111,"strong +", col =chillcol)
 
-plot(chilllinear~chill, data=chilldf, type="l", xlab="Chilling", ylab="Chill effect", col="blue")
-lines(chillhinge~chill, data=chilldf, lty=2, col="red")
-text (whenhingec -500,0-1,"threshold response", col = threshcol)
-text (whenhingec,0+10,"linear response", col = linecol)
-mtext ("When chilling decreases with warming:", side = 3, line = 1, adj = 0, cex = 0.9)
+lines(bbforcechillint2~temperature, data=chilldf, col=alpha(chillcol,.6), lty=1, lwd =2)#weaker interaction
+text(min(df$temperature)+3, df$bbforce[which(df$temperature ==min(df$temperature))]-6,"weak +", col=alpha(chillcol,.7))
 
-plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day")
-lines(bbforcechill~temperature, data=chilldf, col=linecol)
-lines(bbforcechillint~temperature, data=chilldf, col=linecol, lty=2)
-lines(bbforcechillint2~temperature, data=chilldf, col=linecol, lty=2)
+mtext("D)", side =3,line=0, adj=0)
 
-plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day")
-lines(bbforcechillhinge~temperature, data=chilldf, col=threshcol)
-lines(bbforcechillhingeint~temperature, data=chilldf, col=threshcol, lty=2)
-lines(bbforcechillhingeint2~temperature, data=chilldf, col=threshcol, lty=2)
+plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day",lty=2,col=alpha(forcecol,.3), bty="l", lwd=2)
+text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))],"forceonly", col =alpha(forcecol,.3))
+
+lines(bbforcechillhinge~temperature, data=chilldf, col=alpha(chillcol,.5), lwd = 2)#no interaction
+text(min(df$temperature)+3, 100,"noint", col =alpha(chillcol,.5))
+
+lines(bbforcechillhingeint~temperature, data=chilldf,  col=chillcol, lty=1, lwd = 2)#strong interaction
+text(min(df$temperature)+3, 111,"strong +", col =chillcol)
+
+lines(bbforcechillhingeint2~temperature, data=chilldf, col=alpha(chillcol,.7), lty=1, lwd =2)#weaker interaction
+text(min(df$temperature)+3, 106,"weak +", col=alpha(chillcol,.7))
+mtext("F)", side =3,line=0, adj=0)
 
 
 dev.off()
