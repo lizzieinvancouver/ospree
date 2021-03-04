@@ -233,7 +233,7 @@ interceptbb <- 120
 howlong <- 100
 plineff <- -4.5/4
 phingeff <- (-4.5/4)*0.8
-whenhingep <- 14
+whenhingep <- 18
 interceptphinge <- -(phingeff*whenhingep)
 whenlinearp <- 24
 interceptplinear <- -(plineff*whenlinearp)
@@ -270,12 +270,15 @@ df$force.rel<-(df$force-df$force[1])/df$force[1]#relative change
 
 #add chilling, use betpen PEP sites and chill forecasts from main bb ms
 chill<-read.csv("../output/betpen_for3dplot/betpen.forecast.forheatmap.csv", header = TRUE)
-chillobs<-cbind(chill$warming_C,chill$winT.forecast,chill$chill.forecast,chill$lat,chill$lon)
-chillobs2<-as.data.frame(rbind(chillobs[1:8,],chillobs[17:24,]))#select out 2 different lat/longs with differenbt patterns of changes to chilling with warming
-colnames(chillobs2)<-c("warming", "winT.forecast", "chill.forecast","lat","lon" )
+chillobs<-as.data.frame(cbind(chill$warming_C,chill$winT.forecast,chill$chill.forecast,chill$lat,chill$lon))
+
+chillobs2<-as.data.frame(rbind(chillobs[1:8,],chillobs[17:24,],chillobs[18137:18144,]))#select out 3 different lat/longs with differenbt patterns of changes to chilling with warming
+colnames(chillobs2)<-colnames(chillobs)<-c("warming", "winT.forecast", "chill.forecast","lat","lon" )
+
 chillobs2$chill.rel<-NA
 chillobs2$chill.rel[1:8]<-(chillobs2$chill.forecast[1:8]-chillobs2$chill.forecast[1])/chillobs2$chill.forecast[1]#relative change
 chillobs2$chill.rel[9:16]<-(chillobs2$chill.forecast[9:16]-chillobs2$chill.forecast[9])/chillobs2$chill.forecast[9]#relative change
+chillobs2$chill.rel[17:24]<-(chillobs2$chill.forecast[17:24]-chillobs2$chill.forecast[17])/chillobs2$chill.forecast[17]#relative change
 
 pdf("figures/intxnsims2021photoaltwithchill_6panels.pdf", width=12, height=6)
 #windows()
@@ -284,7 +287,7 @@ par(mfrow=c(2,3),
     mar=(c(4,4,2,3)+0.1))
 
 #plot how photoperiod at budburst (and forcing) change with warming, starting from 5 degrees temp for forcing
-plot(dl.rel~warming, data=df, type="l", xlim=c(0,7), ylim=c(-.2,1.4),xlab="Amount of warming (C)", ylab="Relative change in cue", col=alpha(photcol, .5), lwd=2,cex.lab = 1.2, bty= "l")
+plot(dl.rel~warming, data=df, type="l", xlim=c(0,7), ylim=c(-.5,1.4),xlab="Amount of warming",xaxt="n",yaxt="n", ylab="Relative change in cue", col=alpha(photcol, .5), lwd=2,cex.lab = 1.2, bty= "l")
 text(4,-0.2,"photoperiod", col=alpha(photcol,.7))
 
 abline(h=0, lty =2)
@@ -295,11 +298,13 @@ text(4,1,"forcing", col=alpha(forcecol,.7))
 lines(chill.rel~warming,data=chillobs2[1:8,], lwd=2, col = alpha(chillcol,.5))
 
 lines(chill.rel~warming,data=chillobs2[9:16,], lwd=2, col = alpha(chillcol,.5))
+lines(chill.rel~warming,data=chillobs2[17:24,], lwd=2, col = alpha(chillcol,.5))
+
 text(4,.25,"chilling", col=alpha(chillcol,.7))
 
 mtext("A)", side =3,lin=1, adj=0)
 
-plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
+plot(bbforce~temperature, data=df, type="l", xlab="Amount of warming",xaxt="n",yaxt="n",ylab="Budburst day", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
 text(max(df$temperature), df$bbforce[which(df$temperature ==max(df$temperature))],"forceonly", col =alpha(forcecol,.5))
 lines(bbforcephoto~temperature, data=df, col=alpha(photcol,.5), lwd = 2)#no interaction
 text(max(df$temperature)-1, df$bbforce[which(df$temperature ==max(df$temperature))]+4,"noint", col =alpha(photcol,.5))
@@ -311,7 +316,7 @@ mtext("linear response", side = 3, line = 1)
 mtext("to second cue", side = 3, line = 0)
 mtext("C)", side =3,line=0, adj=0)
 
-plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
+plot(bbforce~temperature, data=df, type="l", ylab="Budburst day", xlab="Amount of warming",xaxt="n",yaxt="n", lty=2,col=alpha(forcecol,.3), cex.lab = 1.2, lwd = 2, bty= "l")
 text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))],"forceonly", col =alpha(forcecol,.5))
 
 lines(bbforcephotohinge~temperature, data=df, col=alpha(photcol,.5), lwd = 2)#no interaction
@@ -374,7 +379,7 @@ text (whenhingep+5,0-4,"linear response", col = chillcol)
 mtext("B)", side =3,line=0, adj=0)
 
 
-plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day", lty=2, lwd =2, col = alpha("darkorange", .3), bty="l")
+plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day",yaxt="n",xlab="Amount of warming",xaxt="n", lty=2, lwd =2, col = alpha("darkorange", .3), bty="l")
 text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))]-2,"forceonly", col = alpha("darkorange", .5))
 
 lines(bbforcechill~temperature, data=chilldf, col=alpha(chillcol,.5), lwd = 2)#no interaction
@@ -388,7 +393,7 @@ text(min(df$temperature)+3, df$bbforce[which(df$temperature ==min(df$temperature
 
 mtext("D)", side =3,line=0, adj=0)
 
-plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day",lty=2,col=alpha(forcecol,.3), bty="l", lwd=2)
+plot(bbforce~temperature, data=chilldf, type="l", ylab="Budburst day",yaxt="n", xlab="Amount of warming",xaxt="n",lty=2,col=alpha(forcecol,.3), bty="l", lwd=2)
 text(min(df$temperature)+1, df$bbforce[which(df$temperature ==min(df$temperature))],"forceonly", col =alpha(forcecol,.3))
 
 lines(bbforcechillhinge~temperature, data=chilldf, col=alpha(chillcol,.5), lwd = 2)#no interaction
