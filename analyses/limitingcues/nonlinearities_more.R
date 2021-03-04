@@ -280,7 +280,7 @@ chillobs2$chill.rel[1:8]<-(chillobs2$chill.forecast[1:8]-chillobs2$chill.forecas
 chillobs2$chill.rel[9:16]<-(chillobs2$chill.forecast[9:16]-chillobs2$chill.forecast[9])/chillobs2$chill.forecast[9]#relative change
 chillobs2$chill.rel[17:24]<-(chillobs2$chill.forecast[17:24]-chillobs2$chill.forecast[17])/chillobs2$chill.forecast[17]#relative change
 
-pdf("figures/intxnsims2021photoaltwithchill_6panels.pdf", width=12, height=6)
+pdf("figures/intxnsims2021photoaltwithchill_6panels_new.pdf", width=12, height=6)
 #windows()
 #quartz(width =12, height =6)
 par(mfrow=c(2,3),
