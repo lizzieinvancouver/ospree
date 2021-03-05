@@ -123,7 +123,7 @@ Dan write about continent comparisions.\\
 
 \section*{Results}
 \subsection*{Intra vs. interspecific}
-We found that inter-specific variation in cue us was higher than intraspecific.
+We found that inter-specific variation in cue us was higher than intraspecific. (Fig. \ref{fig:popy}).
 \subsection*{Coherance of forcing variation}
 \begin{enumerate}
 \item Good corelation between spatial and temporal intra-annual variability (Fig \ref{fig:climcor} a)
@@ -157,10 +157,25 @@ Things to address in the discussion:
 \bibliography{..//..//refs/ranges}
 
 \section*{Figures}
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/sigmaplot_popmodel.pdf} 
+    \caption{ Interspecific variation exceeds intraspecific}
+    \label{fig:popy}
+\end{figure}
+
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/clim_params.jpeg} 
     \caption{Correlations between levels of forcing variation. }
+    \label{fig:climcor}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/seq_mu_rough.jpeg} 
+    \caption{Well needs some plot with better data, models, and more more more to test our hypotehsis, but here is what I am thinking }
     \label{fig:climcor}
 \end{figure}
 

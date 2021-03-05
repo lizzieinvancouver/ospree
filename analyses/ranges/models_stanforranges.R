@@ -218,28 +218,67 @@ datalist.bb <- with(bb.stan,
 ############################################################################
 ############################################################################
 # Sidebar by Lizzie on 5 November 2020
-if(FALSE){
+if(TRUE){
 # Trying to see if we could combine the basic OSPREE model with a simmple linear model (see cheapish_model.stan)
 # Not working AT ALL now, the Stan code needs to be updated to walk through each observation, not just the b_force vector, see jointtraitphen.stan and follow that method... #
     
 # Create a fake variable to test if my model runs ...     
 climvar <- rnorm(length(unique(bb.stan$latbinum)), 10, 5)
+###try it with real data
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
+rangiesEu$continent<-"Europe"
+rangiesEu<-dplyr::select(rangiesEu,-X)
+rangiesNa$continent<-"N. America"
+rangies<-rbind(rangiesEu,rangiesNa)
+ggdlf<-filter(rangies,variable=="GDD.lastfrost")
+ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
+colnames(ggdlf)[1]<-"complex.wname"
+ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+
+#bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
+ ## remove duplicat4e for alnus incana
+goodsp<-intersect(unique(bb.stan$complex.wname),ggdlf$complex.wname)
+
+intersect(ggdlf$complex.wname,unique(bb.stan$complex.wname))
+bb.stan<-filter(bb.stan,complex.wname %in% goodsp)
+ggdlf<-filter(ggdlf,complex.wname %in% goodsp)
+
+      
+bb.stan<-left_join(bb.stan,ggdlf)
+
+bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 goober.bb <- with(bb.stan, 
-                    list(y = resp, 
-                         chill = chill.z, 
-                         force = force.z, 
-                         photo = photo.z,
-                         sp = latbinum,
+                    list(yPhenoi = resp, 
+                    forcingi = force.z, 
+                         species = latbinum,
                          N = nrow(bb.stan),
-                         n_sp = length(unique(bb.stan$latbinum)),
-                         X = length(climvar),
-                         climvar=climvar
-                    )
-)
+                         n_spec = length(unique(bb.stan$complex.wname)),
+                         climvar=bb.stan$Temp.SD.cent
+))
 
-goober = stan('stan/cheapish_model.stan', data = goober.bb,
-               iter = 4000, warmup=2500)
+#goober = stan('stan/cheapish_model.stan', data = goober.bb,
+#               iter = 4000, warmup=2500)
+
+
+goober = stan('stan/jointish_climvar_db.stan', data = goober.bb,
+              iter = 6000, warmup=4000)
+
+goobsum<-summary(goober)$summary
+
+goobsum[grep("muPhenoSp", rownames(goobsum)),]
+goobsum[grep("muForceSp", rownames(goobsum)),] # why is the forcing effect so small? Is it coause theere is no chilling and photoperiod in the model?
+goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
+##can't get it to run in stan try brms
+#goob2<-brm(resp~chill.z+force.z+photo.z+chill.z:Temp.SD+(chill.z+force.z+photo.z|complex.wname),data=bb.stan, iter=4000,warmup = 2500)
+#goob2<-brm(resp~chill.z+force.z+photo.z+force.z:Temp.SD.cent+photo.z:Temp.SD.cent+chill.z:Temp.SD.cent+(chill.z+force.z+photo.z|complex.wname),data=bb.stan, iter=4000,warmup = 2500)
+
+summary(goob2)
+fixef(goob2,probs = c(.025,.25,.75,.975))
+launch_shinystan(goob2)
+coef(goob2)
+pp_check(goob2)
 }
 
 

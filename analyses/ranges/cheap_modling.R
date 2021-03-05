@@ -25,7 +25,7 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-#load("cheap.mods.Rda")
+load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
 rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
@@ -253,23 +253,9 @@ jpeg("figures/continental_cues.jpeg",height= 5, width=8, units = "in",res=200)
 ggpubr::ggarrange(a,b,c, nrow=1,ncol=3)
 dev.off()
 
+area2<-area
+area<-left_join(posties,area)
 
-GDD.lastfrost<-left_join(posties,GDD.lastfrost)
-GDD.lastfrost<-filter(GDD.lastfrost,species %in% unique(rangies$species))
-
-
-
-GDD<-left_join(posties,GDD)
-GDD<-filter(GDD,species %in% unique(rangies$species))
-
-SDev.Tmins<-left_join(posties,SDev.Tmins)
-SDev.Tmins<-filter(SDev.Tmins,species %in% unique(rangies$species))
-
-MeanTmins<-left_join(posties,MeanTmins)
-MeanTmins<-filter(MeanTmins,species %in% unique(rangies$species))
-
-Mean.Chill.Utah<-left_join(posties,Mean.Chill.Utah)
-Mean.Chill.Utah<-filter(Mean.Chill.Utah,species %in% unique(rangies$species))
 
 rangegeo<-read.csv("output/zolder_datagrabs/full_extent_data.csv") ##not sure this is the best extent data
 rangegeo<-left_join(posties,rangegeo)
@@ -277,39 +263,129 @@ rangegeo<-filter(rangegeo,species %in% unique(rangies$species))
 
 
 #####plots
-colnames(GDD.lastfrost)
+
+dev.off()
 
 
-lastfrost.geo<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+xlab("Geographic variation in GDDs to last frost")
-last.frost.geo2<-ggplot(GDD.lastfrost,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes(),color="black")+stat_summary(aes(color=species,shape=continent))+theme_bw(base_size = 11)+facet_wrap(~continent,scale="free_x")+theme(legend.position = "none")+xlab("Geographic variation in GDDs to last frost") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 
 
-## hypothesis 2 last frost should im pact 
-
-colnames(GDD.lastfrost)[7]<-"Geo_Mean"
-colnames(GDD.lastfrost)[9]<-"Temp_Mean"
-colnames(GDD.lastfrost)[8]<-"Geo_SD"
-colnames(GDD.lastfrost)[10]<-"Temp_SD"
-
-
-## Stv
-colnames(MeanTmins)[7]<-"Geo_Mean"
-colnames(MeanTmins)[9]<-"Temp_Mean"
-colnames(MeanTmins)[8]<-"Geo_SD"
-colnames(MeanTmins)[10]<-"Temp_SD"
-
-cheap.stv<-MeanTmins
-cheap.geo<-GDD.lastfrost
-
-## model it
 library(brms)
 
 ### try it with fewer iterations
-range(cheap.geo$iter)
-cheap.geo.small<-dplyr::filter(cheap.geo,iter>3500)
-cheap.stv.small<-dplyr::filter(cheap.stv,iter>3500)
 
-mod.ggdlf.geo<-brm(b_chill~Geo_SD*continent+(1|iter),data=cheap.geo.small)
+area<-dplyr::filter(area,iter>3500)
+area<-dplyr::filter(area,iter>3800)
+table(area$continent)
+
+goo<-posties %>% dplyr::group_by(species) %>%dplyr::summarise(meanchill=mean(b_chill),sdchill=sd(b_chill),
+                                                              meanforce=mean(b_force),sdforce=sd(b_force),
+                                                              meanphoto=mean(b_photo),sdphoto=sd(b_photo))
+goo<-left_join(goo,area2)
+
+
+mod.ggdlf.chill.nopool<-brm(b_chill~Temp.SD,data=area)
+
+na.area<-filter(area,continent=="N. America")
+mod.ggdlf.chill.nopool.a<-brm(b_chill~Temp.SD,data=na.area)
+fixef(mod.ggdlf.chill.nopool.a)
+fixef(mod.ggdlf.chill.nopool.cont)
+
+mod.alt.c<-brm(meanchill|mi(sdchill)~Temp.SD,data=goo)
+mod.alt.f<-brm(meanforce|mi(sdforce)~Temp.SD,data=goo)
+mod.alt.p<-brm(meanphoto|mi(sdphoto)~Temp.SD,data=goo)
+
+mod.area.c<-brm(meanchill|mi(sdchill)~lat.extent,data=goo)
+mod.area.p<-brm(meanphoto|mi(sdphoto)~lat.extent,data=goo)
+mod.area.f<-brm(meanforce|mi(sdforce)~lat.extent,data=goo)
+fixef(mod.alt.p)
+
+mod.area2.f<-brm(meanforce|mi(sdforce)~lat.extent*continent,data=goo)
+mod.area2.c<-brm(meanchill|mi(sdchill)~lat.extent*continent,data=goo)
+mod.area2.p<-brm(meanphoto|mi(sdphoto)~lat.extent*continent,data=goo)
+
+mod.ggdlf.chill.nopool.cont<-brm(b_chill~Temp.SD*continent,data=area)
+mod.ggdlf.chill.pool.cont<-brm(b_chill~Temp.SD*continent+(1|iter),data=area)
+
+fixef(mod.ggdlf.chill.pool.cont)
+fixef(mod.alt2.c)
+
+pp_check(mod.ggdlf.chill.pool.cont,nsamples = 100)
+pp_check(mod.alt2.c,nsamples = 100)
+
+mod.alt2.c<-brm(meanchill|mi(sdchill)~Temp.SD*continent,data=goo)
+mod.alt2.f<-brm(meanforce|mi(sdforce)~Temp.SD*continent,data=goo,iter=4000,warmup=3000)
+#mod.alt2.p<-brm(meanphoto|mi(sdphoto)~Temp.SD*continent,data=goo,iter=8000,warmup=6000,control=list(adapt_delta=.999))
+get_prior(meanphoto|mi(sdphoto)~Temp.SD*continent,data=goo)
+
+fixef(mod.stv2.c)
+fixef(mod.alt2.c)
+fixef(mod.stvna)
+fixef(mod.tempna)
+pp_check(mod.tempna,nsamples = 100)
+nadata<-filter(goo, continent=="N. America")
+
+
+mod.stvna<-brm(meanchill|mi(sdchill)~STV,data=nadata)
+mod.tempna<-brm(meanchill|mi(sdchill)~Temp.SD,data=nadata)
+
+
+mod.stv2.c<-brm(meanchill|mi(sdchill)~STV*continent,data=goo)
+mod.stv2.f<-brm(meanforce|mi(sdforce)~STV*continent,data=goo)
+mod.stv2.p<-brm(meanphoto|mi(sdphoto)~STV*continent,data=goo)
+
+
+
+pp_check(mod.alt,nsamples = 100)
+pp_check(mod.ggdlf.chill.nopool.cont,nsamples = 100)
+
+fixef(mod.ggdlf.chill.nopool.cont)
+goober<-as.data.frame(fixef(mod.alt,probs = c(.025,.25,.75,.975)))
+goober <- goober %>% filter(row.names(goober) %in% c("Temp.SD","Temp.SD:continentN.America"))
+goober$continent<-row.names(goober)
+ggplot(goober,aes(Estimate,continent))+geom_point(shape=1)+geom_errorbarh(aes(xmax=Q75,xmin=Q25),height=0)+
+  geom_errorbarh(aes(xmax=Q97.5,xmin=Q2.5),height=0,linetype="dotted")
+
+fixef(mod.alt2)
+mod.ggdlf.photo.nopool<-brm(b_photo~Temp.SD,data=area)
+mod.ggdlf.force.nopool<-brm(b_force~Temp.SD,data=goo)
+
+#does this give the same resutl as a measurement erro model?
+
+
+conditional_effects(mod.ggdlf.chill.nopool.cont,conditions ="Temp.SD:continent" )
+?conditional_effects()
+conditional_effects(mod.alt2.c)
+conditional_effects(mod.stv2.c)
+
+
+conditional_effects(mod.ggdlf.photo.nopool)
+pp_check(mod.ggdlf.chill.nopool)## nor a good fit
+chilly<-as.data.frame(fixef(mod.ggdlf.chill.nopool,probs = c(.025,.25,.75,.975)))
+chilly$param<-"chilling"
+photoy<-as.data.frame(fixef(mod.ggdlf.photo.nopool,probs = c(.025,.25,.75,.975)))
+photoy$param<-"photoperiod"
+forcy<-as.data.frame(fixef(mod.ggdlf.force.nopool,probs = c(.025,.25,.75,.975)))
+forcy$param<-"forcing"
+plotyggd2lf<-rbind(chilly,forcy,photoy)
+plotyggd2lf <- plotyggd2lf %>% filter(row.names(plotyggd2lf) %in% c("Temp.SD","Temp.SD1","Temp.SD2"))
+jpeg("figures/seq_mu_rough.jpeg",height=4, width=12, unit="in", res=200)
+ggplot(plotyggd2lf,aes(Estimate,param))+geom_point(shape=1)+geom_errorbarh(aes(xmax=Q75,xmin=Q25),height=0)+
+  geom_errorbarh(aes(xmax=Q97.5,xmin=Q2.5),height=0,linetype="dotted")+geom_vline(xintercept=0)+xlim(-0.03,0.03)+ggthemes::theme_base(base_size = 10)+
+  xlab("\u0394 cue strength per \u0394 unit of variance of growing degree day to last frost")+ ylab("cue sensitivity")
+dev.off()
+ggplot(area,aes(iter,b_chill))+stat_summary()
+ggplot(area,aes(species,b_chill))+stat_summary()
+
+mod.ggdlf.chill.cont.sp<-brm(b_chill~Temp.SD+species+continent+Temp.SD:continent,data=area)
+library(lme4)
+summary(lmer(b_chill~Temp.SD+(1|species)+(1|iter),data=area))
+pp_check(mod.ggdlf.chill.nopool.cont)
+mod.ggdlf.photo.nopool.cont<-brm(b_photo~Temp.SD*continent,data=area)
+mod.ggdlf.force.nopool.cont<-brm(b_force~Temp.SD*continent,data=area)
+
+save.image("cheap.mods.Rda")
+stop("below is scratch")
+
 
 mod.ggdlf.multivar.geo<-brm(mvbind(b_force,b_photo,b_chill)~Geo_SD*continent+(1|p|iter),data=cheap.geo.small)
 
@@ -419,7 +495,7 @@ miny<-ggplot(rangegeo,aes(max.y,b_chill))+geom_point()+facet_wrap(~continent)+st
 png("figures/cheap_approach/unmodeled_lat.png",width = 7,height = 7,units = "in",res=200)
 ggpubr::ggarrange(maxy,miny,nrow=2,ncol=1)
 dev.off()
-save.image("cheap.mods.Rda")
+
 
 
 

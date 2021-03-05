@@ -4,14 +4,14 @@ Not correct so far, see jointtraitphen.stan and follow that method */
 
 data {
   int<lower=1> N;
-  int<lower=1> X; // length of range data
+ // int<lower=1> X; // length of range data
   int<lower=1> n_sp;
   int<lower=1, upper=n_sp> sp[N];
   vector[N] y; 		// response
   vector[N] chill; 	// experiment predictor
   vector[N] force; 	// experiment predictor
   vector[N] photo; 	// experiment predictor
-  vector[X] climvar; 	// climate predictor
+  vector[N] climvar; 	// climate predictor
 
   
 }
@@ -28,7 +28,7 @@ parameters {
   real<lower=0> sigma_y; 
 
   real alpha;
-  real beta;jointtraitphen.stan and follow that method
+  real beta; //jointtraitphen.stan and follow that method
   real<lower=0> sigma;
   
   real a_sp[n_sp]; // intercept for species
