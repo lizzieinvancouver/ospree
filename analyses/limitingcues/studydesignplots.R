@@ -309,18 +309,20 @@ plot(mean.chill~mean.year, data=dsumm.yr, type="l")
 dev.off()
 
 
-colz <- topo.colors(90, alpha = 0.5)
+colz <- viridis(90, alpha = 0.5)
 plotxydat <- function(yvar, xvar, bywhat,  dat, legendwhere,ylaby,xlaby){
     plot(dat[[yvar]]~dat[[xvar]], ylab=ylaby, xlab=xlaby, type="n")
     for (i in c(1:length(unique(dat[[bywhat]])))){
         subby <- dat[which(dat[[bywhat]]==unique(dat[[bywhat]])[i]),]
         points(subby[[yvar]]~subby[[xvar]], ylab="", xlab="",
             col=colz[i], pch=16)
-        }
-    # legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
-     #    cex=0.2, bty="n")
-    abline(lm(dat[[yvar]]~dat[[xvar]]))
-    summary(lm(dat[[yvar]]~dat[[xvar]]))
+    }
+  abline(lm(dat[[yvar]]~dat[[xvar]]))
+  summary(lm(dat[[yvar]]~dat[[xvar]]))
+ 
+     legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
+        cex=0.4, bty="n")
+
            }
 
 plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere, ylaby, xlaby){
@@ -329,20 +331,26 @@ plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere, ylaby, xlaby){
         subby <- dat[which(dat[[bywhat]]==unique(dat[[bywhat]])[i]),]
         points(subby[[yvar]]~abs(subby[[xvar]]), ylab="", xlab="",
             col=colz[i], pch=16)
-        }
-    # legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
-     #    cex=0.2, bty="n")
-    abline(lm(dat[[yvar]]~dat[[xvar]]))
-    summary(lm(dat[[yvar]]~dat[[xvar]]))
-           }
+    }
+  abline(lm(dat[[yvar]]~dat[[xvar]]))
+  summary(lm(dat[[yvar]]~dat[[xvar]]))
+  #par(xpd=FALSE)
+   #  legend(legendwhere, unique(dat[[bywhat]]), col=colz, pch=16,
+    #     cex=0.5, bty="n")
+   
+}
+
+  
 
 ## plotting!
+
+
 
 ### make a csv of this data for the suppliment so you don'y have to run all this code everytime you want to use it
 write.csv(dsumm,"limitingcues/output/studydesign_forsupp.csv",row.names = FALSE)
 pdf("limitingcues/figures/tempxlat.pdf", width = 8, height = 6)
 par(mfrow=c(2,2))
-plotxydat("mean.temp", "mean.lat", "datasetID", dsumm, "topleft","Mean temperature","Mean latitude") # -0.1
+plotxydat("mean.temp", "mean.lat", "datasetID", dsumm, "right","Mean temperature","Mean latitude") # -0.1
 plotxydat("min.temp", "mean.lat", "datasetID", dsumm, "topleft","Minimum temperature","Mean latitude") # -0.1
 plotxydat("max.temp", "mean.lat", "datasetID", dsumm, "topleft","Maximum temperature","Mean latitude") # -0.08
 plotxydat("range.temp", "mean.lat", "datasetID", dsumm, "topleft","Temperature range","Mean latitude") # NR
@@ -351,7 +359,7 @@ dev.off()
 # hmm, correcting the latitude doesn't seem to change temp or photo answers much
 pdf("limitingcues/figures/tempxlatcorr.pdf", width = 8, height = 6)
 par(mfrow=c(2,2))
-plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "topleft","Mean temperature","Mean latitude") # -0.1
+plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "right","Mean temperature","Mean latitude") # -0.1
 plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "topleft","Minimum temperature","Mean latitude") # -0.1
 plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "topleft","Maximum temperature","Mean latitude") # -0.08
 plotxydatabsX("range.temp", "mean.lat", "datasetID", dsumm, "topleft","Temperature range","Mean latitude") # NR
@@ -393,7 +401,38 @@ plotxydat("max.chill", "mean.lat", "datasetID", dsumm, "topleft","Maximum chilli
 plotxydat("range.chill", "mean.lat", "datasetID", dsumm, "topleft","Chilling range","Mean latitide") # NR
 dev.off()
 
+### This code makes a pdf of relvant lattitude study plots for the supplimnet
+#mean photo meanchill, mean forcing
+
+pdf("limitingcues/figures/cueXlat4supp.pdf", width = 8, height = 6)
+par(mfrow=c(4,3))
+par(mar=c(4.1, 4.1, 2.1, 2.1))
+
+
+
+par(xpd=FALSE)
+plotxydatabsX("mean.temp", "mean.lat", "datasetID", dsumm, "right","Mean Temperature","") # -0.1
+
+plotxydatabsX("mean.photo", "mean.lat", "datasetID", dsumm, "right","Mean Photoperiod","") # 0.08
+
+plotxydatabsX("mean.chill", "mean.lat", "datasetID", dsumm, "topleft","Mean Chilling","") # -0.09
+
+
+plotxydatabsX("max.temp", "mean.lat", "datasetID", dsumm, "right","Max. Temperature ","") # -0.1
+plotxydatabsX("max.photo", "mean.lat", "datasetID", dsumm, "right","Max. Photoperiod","") # 0.08
+plotxydatabsX("max.chill", "mean.lat", "datasetID", dsumm, "right","Max. Chilling","") # -0.09
+
+
+plotxydatabsX("min.temp", "mean.lat", "datasetID", dsumm, "right","Min. Temperature","Mean latitude") # -0.1
+plotxydatabsX("min.photo", "mean.lat", "datasetID", dsumm, "right","Min. Photoperiod","Mean latitude") # 0.08
+legend(-15,-25, unique(dat$datasetID), col=colz, pch=16, xpd=NA,
+       cex=.7, bty="n",ncol=6)
+plotxydatabsX("min.chill", "mean.lat", "datasetID", dsumm, "topleft","Min. Chilling","Mean latitide") # -0.09
+
+dev.off()
+
 ###
+
 ###
 ###
 
