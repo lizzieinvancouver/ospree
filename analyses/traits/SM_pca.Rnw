@@ -1,0 +1,42 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+
+% required 
+\usepackage{Sweave}
+\usepackage{graphicx}
+
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+\parindent 0pt		  % sets leading space for paragraphs
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+%%% end preambling. %%%
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{{\huge Traits: Supplementary Material}}
+\maketitle 
+
+To test for correlations in the data and look for previously observed relationships accross traits, we performed a principle compoent analysis. Despite our intentions to use ecologically significant traits, as supported by the leaf economic spectrum and wood economic spectrum, data limitiations meant we only had complete trait data for six traits (height, SLA, LDMC, leaf nitrogen content, and see mass) for 26 of our 96 candidate species. 
+
+The first two components of the PCA explain 32.2\% and 23.4\% respectively. As expected from previous work and known assoications between traits, SLA was inversely related to LDMC and both height and SSD showed similar vector directions. Based on these findings, we further subsetted the traits used in this study to SLA, LNC, height and seed mass. We also feel confident in our decision to model the effects of single traits on species responses to budburst cues. 
+
+\begin{figure}
+<<label= fig1, echo= FALSE, fig=TRUE >>=
+setwd("~/Documents/github/ospree/analyses/traits")
+source("Rfiles/traitors_PCA.R")
+pcageom
+@
+\caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 speices for which complete trait data was available}
+
+\end{figure}
+
+\end{document}

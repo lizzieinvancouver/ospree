@@ -89,9 +89,7 @@ summary(lab.Pca)
 
 ggbiplot(lab.Pca, labels = rownames(mtrt.cc))
 
-pdf(file="PCA_unique_spperstudy.pdf", width = 5, height = 5)
 ggbiplot(lab.Pca)
-dev.off()
 
 ##################################################################
 # Ideally we would use data from unique individuals to make the PCA, which is denoted by observationid
@@ -126,9 +124,7 @@ summary(obid.Pca)
 
 ggbiplot(obid.Pca, labels = rownames(mtrt.obid.cc))
 
-pdf(file="PCA_unique_perobservationid.pdf", width = 5, height = 5)
 ggbiplot(obid.Pca)
-dev.off()
 
 # How many species is represented in the matrix?
 obs.rep <- rownames(mtrt.obid.cc)
@@ -147,7 +143,6 @@ mtrt.ddply <- ddply(dat, c("speciesname", "traitname"),
                     sd = sd(traitvalue),
                     sem = sd(traitvalue)/sqrt(length(traitvalue)),
                     geomean = exp(sum(log(traitvalue)/length(traitvalue))) )
-head(mtrt.ddply)
 
 mat <- matrix(NA, ncol = length(traits), nrow = length(species))
 
@@ -159,12 +154,11 @@ for(i in 1:length(species)){
 }
 colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "llife", "seed", "C")
 rownames(mat) <- species
-mat
 
-## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 28 species
+## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 26 species
 mat2 <- mat[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")]
 mat2 <- mat2[complete.cases(mat2), ]
-mat2
+
 ## Standardize (normalize) trait values
 mat.stan <- mat2[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
@@ -174,9 +168,7 @@ summary(trtGeoPca)
 
 ggbiplot(trtGeoPca, labels = rownames(mat2))
 
-pdf(file="PCA_geometricmean.pdf", width = 5, height = 5)
-ggbiplot(trtGeoPca)
-dev.off()
+pcageom <- ggbiplot(trtGeoPca) + xlim(-3,3)
 
 
 # Finally, making a plot comparable to the one with data of multiple traits per individual
@@ -191,6 +183,5 @@ summary(geo.obsid)
 
 ggbiplot(geo.obsid, labels = rownames(mat.comp))
 
-pdf(file="PCA_obsid_geometricmean.pdf", width = 5, height = 5)
 ggbiplot(geo.obsid)
-dev.off()
+
