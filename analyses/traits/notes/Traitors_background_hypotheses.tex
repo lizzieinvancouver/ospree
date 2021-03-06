@@ -1,0 +1,127 @@
+%%% start preambling . . .  %%%
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}\usepackage[]{graphicx}\usepackage[]{color}
+
+% required 
+\usepackage{Sweave}
+\usepackage{graphicx}
+
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+
+% more optionals! %
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+%%% end preambling. %%%
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\title{{\huge Traitors:} \\ Background and hypotheses}
+\date{5 March 2021}
+\maketitle 
+
+\section{Traits and their importance as a functional trait}
+
+Following the PCA, we are focusing on the following traits: height, specific leaf area, leaf nitrogen content, seed mass.
+\begin{itemize}
+\item Height: related to species position in the canopy and competition for light, tall trees require greater structural strength and have denser wood
+\item Specific leaf area: the area of a leaf over the dry mass, positively correlates with relative growth rate, LNC, and photosynthetic rate; negatively correlated with leaf lifespan. Leaves with smaller SLA should be more frost tolerant, with relatively smaller leaf areas.
+\item Leaf nitrogen content per mass: positively correlated with photosynthesis and SLA; leaves with high LNC are more nutritious  
+\item Seed mass: relates to seedling survival, especially in the understory, smaller seeds tend to have longer seed banks
+\end{itemize}
+
+Plants with fast growth are predicted to how high values of SLA, higher nutrient content, and maybe smaller seeds (exact citation needed). These tradeoffs reflect physiological requirements, and nutrient requirements for photosynthesis and respiration. 
+
+\section{Working hypotheses}
+
+These hypotheses were developed by the traitors group prior to the start of 2021, with more recent updates to be discussed. 
+
+\begin{enumerate}
+\item Chilling
+\begin{itemize}
+\item Species with high chilling requirements will have traits associated with greater protection from harsh conditions and higher competitive abilities, but requiring longer periods to accumulate chilling and days to budburst.
+\item SLA should positively correlate with increasing chill requirements, leaves with large SLA are less frost tolerant 
+\item Height should positively correlate since there will be more competition for light
+\item Seed mass may negatively correlate as later species have less time for seed development 
+\end{itemize}
+
+\item Forcing
+\begin{itemize}
+\item Species with low forcing requirements will express traits related to frost tolerance and high productivity through faster resource acquisition.
+\item Leaves should have smaller SLA; smaller, thicker leaves are more frost tolerant
+\item Heights can be smaller as there is less competition for light prior to canopy closure
+\item Seed mass may greater as there is more time for seed development 
+\item LNC will be greater and is a proxy for photosynthetic rates
+\end{itemize}
+
+\item Photoperiod
+\begin{itemize}
+\item Species with high photoperiod requirements will budburst later and should have traits associated with greater competitive abilities.
+\item SLA should positively correlate with increasing photoperiod requirements 
+\item Height should positively correlate since there will be more competition for light
+\item LNC will be lower in later budbursting species  
+\end{itemize}
+
+\end{enumerate}
+
+\end{document}
