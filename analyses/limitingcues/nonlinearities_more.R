@@ -14,7 +14,7 @@ options(stringsAsFactors=FALSE)
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/limitingcues") 
 } else if(length(grep("ailene", getwd())>0)) { 
-  setwd("~/Documents/GitHub/ospree/analyses/limitingcues") 
+  setwd("~/GitHub/ospree/analyses/limitingcues") 
 } else setwd("~/Documents/git/ospree/analyses/limitingcues")
 
 
@@ -220,6 +220,8 @@ dev.off()
 ######## with both photoperiod & chilling effects #######
 ############# Started by Ailene, Feb 9, 2021 ############
 #########################################################
+
+#I believe the below were based loosely on Flynn & Wolovich 2018?
 feff <- -8.8/5
 peff <- -4.5/4
 ceff <- -15.8/1248
@@ -273,6 +275,7 @@ chill<-read.csv("../output/betpen_for3dplot/betpen.forecast.forheatmap.csv", hea
 chillobs<-as.data.frame(cbind(chill$warming_C,chill$winT.forecast,chill$chill.forecast,chill$lat,chill$lon))
 
 chillobs2<-as.data.frame(rbind(chillobs[1:8,],chillobs[17:24,],chillobs[18137:18144,]))#select out 3 different lat/longs with differenbt patterns of changes to chilling with warming
+rownames(chillobs2)<-NULL
 colnames(chillobs2)<-colnames(chillobs)<-c("warming", "winT.forecast", "chill.forecast","lat","lon" )
 
 chillobs2$chill.rel<-NA
