@@ -1,6 +1,16 @@
 Started 18 April 2016
 By Lizzie
 
+<><><><><><><><><><><><><><><><><>
+Summary of climate data used
+<><><><><><><><><><><><><><><><><>
+
+In Ettinger et al. 2020 (budburst ms) we used E-OBS version XX (?which
+one)? and Livneh (https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.nodc:0129374;view=html) climate data.
+
+For work on OSPREE data after we are -- as of July 2019 -- using E-OBS
+version 16 and Princteon (version 3) climate data.
+
 
 <><><><><><><><><><><><><><><><><>
 Daily climate data …
