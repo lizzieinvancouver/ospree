@@ -6,7 +6,13 @@ By Lizzie
 <><><><><><><><><><><><><><>
 
 
-WORKING THROUGH PDF comments ... start at pg 6!
+* Read through the txt file of comments! *
+
+A few things remaining in PDF ...
+- Check Rnw for WORK ON: 
+- GDD x chill figure -- fix the x axis and explain the NA for photoperiod! 
+- Heatmaps ... see my issue request to Dan on Cat's request. And explain the gray shading.
+- Nacho's figure: Perhaps the x-axis label could say "Temperature change" or "Temperature difference" to make clear that the x axes is not raw temperature?
 
 
 (*) Get help (git issues 393-395, also issue 249) also ...
