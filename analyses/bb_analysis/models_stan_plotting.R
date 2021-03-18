@@ -396,6 +396,13 @@ dev.off()
 
 
 # Cue by cue plots
+
+if(FALSE){ # For running this on 18 March 2021, without running the above code .. two models I have are ...
+load("stan/output/m2lni_spcompexprampfputah_z.Rda") # m2l.ni
+# load("stan/output/m2lni_spcompexprampfpcp_nonz.Rda") # m2l.ni
+sumer.ni <- summary(m2l.ni)$summary
+}
+
 colz = c("brown", "blue3")
 spp <- sort(unique(bb.stan$complex.wname))
 
@@ -406,6 +413,8 @@ sumer.ni <- summary(m2l.ni)$summary
 sumer.ni[grep("mu_", rownames(sumer.ni)),]
 }
 
+ylimhere <- c(-20, 5)
+xlimhere <- c(-20, 5)
 
 pdf(file.path(paste(figpath, "/cuebycue/", figpathmore, "model_cuebycue.pdf", sep="")), width = 7, height = 7)
 par(mar=rep(1,4))
@@ -419,42 +428,42 @@ plotblank = function(){plot(1:10, type="n",bty="n",xaxt="n",yaxt="n",ylab="",xla
 plotblank() 
 text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90) # \n\n add two line breaks
 
-plotlet("b_photo", "b_force", 4, 5, 
-         ylim = c(-20, 5),
-         xlim = c(-15, 5),
+plotlet("b_photo", "b_force", 1, 1, 
+         ylim = ylimhere,
+         xlim = xlimhere,
          #  xaxt="n", 
          # group = treeshrub,
          data = sumer.ni)
 
-plotlet("b_chill", "b_force", 40, 5, 
-        ylim = c(-20, 5),
-        xlim = c(-20, 5),
+plotlet("b_chill", "b_force", 1, 1, 
+        ylim = ylimhere,
+        xlim = xlimhere,
         yaxt="n",
         # xaxt="n", 
         # group = treeshrub,
         data = sumer.ni)
-axis(2, seq(0, -25, by = -5), labels = FALSE)
+axis(2, seq(0, ylimhere[1], by = -5), labels = FALSE)
 
 plotblank()
 text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90)
 
-plotlet("b_photo", "b_force", 4, 5, 
+plotlet("b_photo", "b_force", 1, 1, 
         #    ylab = "Advance due to 5° warming", 
         #     xlab = "Advance due to 4 hr longer photoperiod", 
-        ylim = c(-20, 5),
-        xlim = c(-15, 5),
+        ylim = ylimhere,
+        xlim = xlimhere,
         #group = treeshrub,
         data = sumer.ni)
 
-plotlet("b_chill", "b_force", 20, 5, 
+plotlet("b_chill", "b_force", 1, 1, 
         #   ylab = "Advance due to 5° warming", 
         #   xlab = "Advance due to 30d 4° chilling", 
-        ylim = c(-20, 5),
-        xlim = c(-20, 5),
+        ylim = ylimhere,
+        xlim = xlimhere,
         yaxt="n",
         # group = treeshrub,
         data = sumer.ni)
-axis(2, seq(0, -25, by = -5), labels = FALSE)
+axis(2, seq(0, ylimhere[1], by = -5), labels = FALSE)
 
 plotblank()
 
@@ -466,7 +475,7 @@ text(5.5, 5, "Change (days) due to change in chilling", font = 2, pos = 3)
 
 dev.off();#system(paste("open", file.path(figpath, "Fig2_4panel.pdf"), "-a /Applications/Preview.app"))
 
-## Plot with chilling x photoperiod ... (very hacky)
+## Plot with chilling x photoperiod ... (very hacky!)
 pdf(file.path(paste(figpath, "/cuebycue/", figpathmore, "model_cuebycuephoto.pdf", sep="")), width = 7, height = 7)
 par(mar=rep(1,4))
 layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of where labels end up
@@ -477,34 +486,34 @@ layout(matrix(c(1, 2, 3, # use layout instead of par(mfrow for more control of w
 plotblank = function(){plot(1:10, type="n",bty="n",xaxt="n",yaxt="n",ylab="",xlab="")}
 
 plotblank() 
-text(5,5, "Budburst \n Change (days) due to warming", font = 2, srt = 90) # \n\n add two line breaks
+text(5,5, "Budburst \n Change (days) due to photoperiod", font = 2, srt = 90) # \n\n add two line breaks
 
-plotlet("b_photo", "b_photo", 4, 5, 
-         ylim = c(-20, 5),
-         xlim = c(-15, 5),
+plotlet("b_photo", "b_photo", 1, 1,
+         ylim = ylimhere,
+         xlim = xlimhere,
          data = sumer.ni)
 
-plotlet("b_chill", "b_photo", 40, 5, 
-        ylim = c(-20, 5),
-        xlim = c(-20, 5),
+plotlet("b_chill", "b_photo", 1, 1, 
+        ylim = ylimhere,
+        xlim = xlimhere,
         yaxt="n",
         data = sumer.ni)
-axis(2, seq(0, -25, by = -5), labels = FALSE)
+axis(2, seq(0, ylimhere[1], by = -5), labels = FALSE)
 
 plotblank()
 text(5,5, "Budburst \n Change (days) due to longer photoperiod", font = 2, srt = 90)
 
-plotlet("b_photo", "b_photo", 4, 5, 
-        ylim = c(-20, 5),
-        xlim = c(-15, 5),
+plotlet("b_photo", "b_photo", 1, 1,
+        ylim = ylimhere,
+        xlim = xlimhere,
         data = sumer.ni)
 
-plotlet("b_chill", "b_photo", 20, 5,  
-        ylim = c(-20, 5),
-        xlim = c(-20, 5),
+plotlet("b_chill", "b_photo", 1, 1,  
+        ylim = ylimhere,
+        xlim = xlimhere,
         yaxt="n",
         data = sumer.ni)
-axis(2, seq(0, -25, by = -5), labels = FALSE)
+axis(2, seq(0, ylimhere[1], by = -5), labels = FALSE)
 
 plotblank()
 
