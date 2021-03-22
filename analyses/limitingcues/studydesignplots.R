@@ -595,16 +595,17 @@ colz <- viridis_pal()(6)
 basesize <- 12
 
 heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot))) +
-    geom_tile(aes(fill=field.sample.n), colour="white") +
-    scale_fill_gradient2(name="Field sample \ndates n", low = colz[1], mid=colz[2],
+    geom_tile(aes(fill=field.sample.n), colour="black") +
+    scale_fill_gradient2(name=expression("Field \nsample dates "  *italic(n)), low = colz[1], mid=colz[2],
         high = colz[5], na.value="gray95") +
     # scale_x_discrete(breaks=seq(-5,35,5)) +
     # scale_y_discrete(breaks=seq(6,24,2)) +
     theme_classic() +
-    labs(colour="Field sample dates", y="Forcing temp", x="Photoperiod") +
+    labs(colour="Field sample dates", y=expression("Forcing temperature " (degree*C)), x="Photoperiod (hours)") +
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-        panel.background = element_blank(), text=element_text(size=basesize))
+        panel.background = element_blank(), text=element_text(size=basesize))+
+  ggtitle("Force x photo cue-space \n with field chilling")+theme(axis.text=element_text(size=16)) 
 
 #heatmapphotoxforcexchill <-
 #dsumm.treat$chill.plot2<-NA
@@ -628,13 +629,15 @@ dsumm.treat$chill.plot3<-ifelse(dsumm.treat$chill.plot=="other",30,dsumm.treat$c
 
 
 
-heatmapphotoxforcexchill<-ggplot() +geom_tile(data=dsumm.treat,aes(x=as.factor(photo.plot), y=as.factor(force.plot),fill=chill.plot3),height=0.9,width=0.9)+
+heatmapphotoxforcexchill<-ggplot(dsumm.treat, aes(as.factor(photo.plot), as.factor(force.plot)))+
+  geom_tile(aes(fill=chill.plot3),colour="black")+
   scale_fill_gradientn(name="Exp chill temp",colours = viridis(9), na.value="gray95" ,breaks=c(-10,0,10,20,30),labels=c(-10,0,10,20,"variable/other"))+
   theme_classic() +
-  labs(colour="Chilling", y="Forcing temp", x="Photoperiod") +
+  labs(colour="Chilling", y=expression("Forcing temperature " (degree*C)), x="Photoperiod (hours)") +
   theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-        panel.background = element_blank(), text=element_text(size=basesize))
+        panel.background = element_blank(), text=element_text(size=basesize))+
+  ggtitle("Force x photo cue-space \n with experimental chilling")+theme(axis.text=element_text(size=16)) 
 
 
 pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
@@ -648,7 +651,7 @@ dev.off()
 require(cowplot)
 pdf(paste("limitingcues/figures/heatmapphotoxforcexchill2panel.pdf", sep=""), width = 16, height = 8)
 plot_grid(heatmapphotoxforcexchill, heatmapphotoxforcexfs.date, 
-    # labels = c('(a) Force x photo x experimental chill', '(b) Force x photo x field sample chilling'),
+     labels = c('(a)', '(b)'),
     ncol=2)
 dev.off()
 
