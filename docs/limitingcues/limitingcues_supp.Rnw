@@ -6,12 +6,16 @@
 \usepackage{gensymb}
 \usepackage{amsmath}
 \usepackage{lineno}
-
+\usepackage{xr-hyper}
+\externaldocument{limitingcues}
 
 \def\labelitemi{--}
 \parindent=0pt
 
 \begin{document}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
 \bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
 \renewcommand{\refname}{\CHead{}}
 \begin{flushright}
@@ -72,6 +76,24 @@ photo<-round(maxphoto$coefficients[2,1],digits=2)
 @
 
 The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is \Sexpr{force.min}, for max it's \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it's \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per degree $\degree$ latitude). 
+
+
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp.pdf}
+\includegraphics[width=0.5\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp_legend.pdf}
+\caption{We review seven decades of controlled environment studies, from \citet{Lamb:1948aa} to \citet{zohner2016}, conducted across the globe generally on 1-3 species in each experiment (size of circles and exact number of species given after each each study). }
+  \label{fig:datamap} % Ailene: This figure is nice. i would say, though, that i don't find the size of the shapes to be particularly easy to interpret. seeing the numbers next to each study is a much more effective at showing that most studies have fewer than 5 spp.
+\end{figure}
+
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.8\textwidth]{..//..//analyses/limitingcues/figures/studyyearcues.pdf}
+\caption{Cues manipulated over time.}
+  \label{fig:ts}
+\end{figure}
 
 
 \begin{figure}[t!]
