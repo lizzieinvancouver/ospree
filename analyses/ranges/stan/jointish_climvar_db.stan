@@ -66,10 +66,10 @@ model{
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp); 
 
     sigmaPhenoSp ~ normal(0, 5); //priors for phenology 
-    muPhenoSp ~ normal(0, 5);
+    muPhenoSp ~ normal(200, 5);
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp); 
 
-    betaTraitxPheno ~ normal(0, 10);
+    betaTraitxPheno ~ normal(0, 1);
 
     //likelihood 
         for (i in 1:N){
