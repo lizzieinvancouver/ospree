@@ -11,6 +11,7 @@ Check on figure help:
 - https://github.com/lizzieinvancouver/ospree/issues/395
 - https://github.com/lizzieinvancouver/ospree/issues/393
 - https://github.com/lizzieinvancouver/ospree/issues/399
+- ME: check countintxns for photo x temp and whether they are usually sub additive
 
 (*) git issues 393-395, also issue 249) also ...
 
