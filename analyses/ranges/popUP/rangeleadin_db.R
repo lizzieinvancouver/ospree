@@ -138,7 +138,7 @@ bb.force.only <- with(bb.stan,
                        climvar=bb.stan$Temp.SD.z
                   ))
 
-forceonly = stan('popUP/stan/jointish_climvar_db.stan', data = bb.force.only,
+#forceonly = stan('popUP/stan/jointish_climvar_db.stan', data = bb.force.only,
               iter = 6000, warmup=4000)
 
 
@@ -159,11 +159,11 @@ bb.3param <- with(bb.stan,
                            species = latbinum,
                            N = nrow(bb.stan),
                            n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=bb.stan$Temp.SD.cent
+                           climvar=unique(bb.stan$Temp.SD.cent)
                       ))
 
-threeparam_jnt = stan('popUP/stan/joint_climvar_3param.stan', data = bb.3param,
-                 iter = 6000, warmup=4000)
+threeparam_jnt = stan('popUP/stan/joint_climvar_3param_db.stan', data = bb.3param,
+                 iter = 3000, warmup=2000)
 
 
 goobsum<-summary(threeparam_jnt)$summary

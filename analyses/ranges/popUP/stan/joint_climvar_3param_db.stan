@@ -4,7 +4,7 @@ data {
         int < lower = 1 > N; // Sample size 
     int < lower = 1 > n_spec; // number of random effect levels (species) 
     int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
-        vector[N] climvar; // climate variable for each species
+        vector[n_spec] climvar; // climate variable for each species
 
     //MODEL 2 ------------------------------------------------
 
@@ -58,15 +58,15 @@ transformed parameters{
     //MODEL 2----------------------------------------
     //get betaCUESp values for each species
     for (isp in 1:n_spec){
-    betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxForcing*climvar[N];
+    betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxForcing*climvar[isp];
     }
     
     for (isp in 1:n_spec){
-    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto*climvar[N];
+    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto*climvar[isp];
     }
     
     for (isp in 1:n_spec){
-    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill*climvar[N];
+    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill*climvar[isp];
     }
 }
 
@@ -93,16 +93,19 @@ model{
 
 
    // sigmaPhenoSp ~ normal(0, 5); //priors for phenology 
-    muPhenoSp ~ normal(0, 5);
+    muPhenoSp ~ normal(60, 20);
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp); 
 
     betaTraitxForcing~ normal(0, 10);
-     betaTraitxPhoto ~ normal(0, 10);
-         betaTraitxChill ~ normal(0, 10);
+    betaTraitxPhoto ~ normal(0, 10);
+    betaTraitxChill ~ normal(0, 10);
 
     //likelihood 
         for (i in 1:N){
-    yPhenoi[i] ~ normal( alphaPhenoSp[species[i]] + betaForcingSp[species[i]] * forcingi[i]+ betaPhotoSp[species[i]] * photoi[i]+ betaChillSp[species[i]] * chillingi[i], sigmapheno_y);
+        yPhenoi[i] ~ normal(alphaPhenoSp[species[i]] + 
+           betaForcingSp[species[i]] * forcingi[i] + 
+           betaPhotoSp[species[i]] * photoi[i] + 
+           betaChillSp[species[i]] * chillingi[i], sigmapheno_y);
         }
 
 }
