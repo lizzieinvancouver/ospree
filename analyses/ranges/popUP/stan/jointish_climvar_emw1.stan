@@ -1,3 +1,8 @@
+/* Started 25 March 2021 
+By Lizzie, very similar to other jointish_climvar.stan but...
+climvar is indexed by species (and by isp in loop in transformed parameters block) */
+
+
 data {
 
     //both models --------------------------------------------------------

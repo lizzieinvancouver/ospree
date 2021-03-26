@@ -1,3 +1,8 @@
+/* Started 25 March 2021 
+By Lizzie, very similar to other jointish_climvar.stan but...
+this code takes OUT the transformed parameter block and moves that into the yhat equation
+It thus also uses climvar indexed by observation (not species) */
+
 data {
 
     //both models --------------------------------------------------------
