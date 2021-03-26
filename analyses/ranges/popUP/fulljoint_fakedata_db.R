@@ -1,14 +1,4 @@
 ### Dan changes, based on Faith fake data for traits joint model. This fits a 1 parementer version of the ospree model.
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
-dev.off()
-
-setwd("~/Documents/git/ospree/analyses/ranges/popUP/")
-
-#library(truncnorm)
-library(rstan)
-
-
 
 
 ### Dan changes, based on Faith fake data for traits joint model. This fits a 1 parementer version of the ospree model.
@@ -23,7 +13,7 @@ library(rstan)
 
 
 
-nSpecies<-20 # number of species
+nSpecies<-60 # number of species
 #in this part of the model as there was in the first part
 
 
@@ -47,7 +37,7 @@ phenoData$climparam <- rep(climparam , each = nph)
 
 #big F in the  model - I think this should be the x value, although there is no i in the lizzie's annotation 
 muForcing <- 20 #amount of GDD on average?
-sigmaForcing <- 1 # how much teh amount of forcing varies for all values 
+sigmaForcing <- 5 # how much teh amount of forcing varies for all values 
 forcingi <- rnorm(Nph, muForcing, sigmaForcing)
 phenoData$forcingi <- forcingi
 
@@ -55,12 +45,12 @@ phenoData$forcingi <- forcingi
 ##chilling
 
 muChilling<- 20 #amount of chillingon average?
-sigmaChilling<- 1 # how much teh amount of forcing varies for all values 
+sigmaChilling<- 5 # how much teh amount of forcing varies for all values 
 chillingi <- rnorm(Nph, muChilling, sigmaChilling)
 phenoData$chillingi <- chillingi
 
 muPhoto<-20 #amount of photo average?
-sigmaPhoto<- 1 # how much teh amount of forcing varies for all values 
+sigmaPhoto<- 5 # how much teh amount of forcing varies for all values 
 photoi <- rnorm(Nph, muPhoto, sigmaPhoto)
 phenoData$photoi <- photoi
 
@@ -90,9 +80,9 @@ alphaPhotoSp <- rnorm(nSpecies, muPhotoSp, sigmaPhotoSp)
 
 
 #interaction between trait and phenology?
-betaTraitxchill <- -.2 # more
-betaTraitxphoto<- -.1 # more
-betaTraitxforce <- .2 # more
+betaTraitxchill <- -.8 # more
+betaTraitxphoto<- -.8 # more
+betaTraitxforce <- .8 # more
 
 #combine teh effects of forcing and species trait differences into a slope
 betaForcingSP1 <- alphaForcingSp + climparam*betaTraitxforce
@@ -124,16 +114,15 @@ phenoData$yPhenoi <- phenoData$alphaPhenoSp + phenoData$betaForcingSp * phenoDat
 
 
 hist(phenoData$yPhenoi )
-faker<- with(phenoData, 
-             list(yPhenoi = yPhenoi, 
-                  forcingi = forcingi,
-                  chillingi = chillingi,
-                  photoi = photoi,
-                  species = species,
+faker<- list(yPhenoi = phenoData$yPhenoi, 
+                  forcingi = phenoData$forcingi,
+                  chillingi = phenoData$chillingi,
+                  photoi = phenoData$photoi,
+                  species = phenoData$species,
                   N = nrow(phenoData),
                   n_spec = length(unique(phenoData$species)),
                   climvar=climparam
-             ))
+             )
 
 
 
