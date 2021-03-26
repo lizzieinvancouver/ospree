@@ -62,7 +62,7 @@ model{
     //likelihood 
     for (i in 1:N){
     yPhenoi[i] ~ normal( alphaPhenoSp[species[i]] +
-        (alphaForcingSp[species[i]] + betaTraitxPheno*climvar[species[i]]) * forcingi[i], sigmapheno_y);
+        (alphaForcingSp[species[i]] + betaTraitxPheno*climvar[i]) * forcingi[i], sigmapheno_y);
         }
 
 }
