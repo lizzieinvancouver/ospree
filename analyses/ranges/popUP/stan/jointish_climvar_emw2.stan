@@ -36,7 +36,7 @@ parameters{
     // general varience/error
     real <lower =0> sigmapheno_y; // overall variation accross observations
 
-    real betaForcingSp[n_spec];     //species level beta forcing 
+    // real betaForcingSp[n_spec];     //species level beta forcing 
 
 
 }

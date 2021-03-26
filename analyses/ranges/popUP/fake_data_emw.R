@@ -83,7 +83,7 @@ faker1 <-  list(yPhenoi = phenoData$yPhenoi,
              )
 system.time(
 mod1 <- stan('stan/jointish_climvar_emw1.stan', data = faker1,
-           iter = 500, warmup=300, chains=4)
+           iter = 5000, warmup=4000, chains=4)
 )
 
 
@@ -100,7 +100,7 @@ faker2 <- with(phenoData,
 
 system.time(
 mod2 <- stan('stan/jointish_climvar_emw2.stan', data = faker2,
-           iter = 500, warmup=300, chains=4)
+           iter = 5000, warmup=4000, chains=4)
 )
 
 
