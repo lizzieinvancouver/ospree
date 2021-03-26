@@ -4,7 +4,7 @@ options(stringsAsFactors = FALSE)
 dev.off()
 
 setwd("~/Documents/git/ospree/analyses/ranges/popUP/")
-
+options(mc.cores = parallel::detectCores())
 #library(truncnorm)
 library(rstan)
 
@@ -16,7 +16,7 @@ nSpecies<-20 # number of species
 
 nph <- 200 # number of observations per species/phenological combination 
 #Nph <- nSpecies * nForcing * nph * nPheno #overall number of observations
-Nph <- nSpecies * nph # 20 obervations per species for phenological event and forcing 
+Nph <- nSpecies * nph # 200 obervations per species for phenological event and forcing 
 
 #make a dataframe to keep things organised
 phenoData <- data.frame(matrix(NA, Nph, 2))
