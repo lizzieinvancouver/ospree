@@ -6,7 +6,11 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 dev.off()
 
+options(mc.cores = parallel::detectCores())
+
+
 setwd("~/Documents/git/ospree/analyses/ranges/popUP/")
+setwd("~/GitHub/ospree/analyses/ranges/popUP/")
 
 #library(truncnorm)
 library(rstan)
@@ -18,7 +22,7 @@ nSpecies<-60 # number of species
 
 
 #nPheno <- 12 # there shoudl be a phenology and forcing value for each species 
-nph <- 200 # number of observations per species/phenological combination 
+nph <- 20 # number of observations per species/phenological combination 
 #Nph <- nSpecies * nForcing * nph * nPheno #overall number of observations
 Nph <- nSpecies * nph # 20 obervations per species for phenological event and forcing 
 
@@ -115,16 +119,24 @@ phenoData$yPhenoi <- phenoData$alphaPhenoSp + phenoData$betaForcingSp * phenoDat
 
 hist(phenoData$yPhenoi )
 faker<- list(yPhenoi = phenoData$yPhenoi, 
-                  forcingi = phenoData$forcingi,
-                  chillingi = phenoData$chillingi,
-                  photoi = phenoData$photoi,
-                  species = phenoData$species,
-                  N = nrow(phenoData),
-                  n_spec = length(unique(phenoData$species)),
-                  climvar=climparam
-             )
+             forcingi = phenoData$forcingi,
+             chillingi = phenoData$chillingi,
+             photoi = phenoData$photoi,
+             species = phenoData$species,
+             N = nrow(phenoData),
+             n_spec = length(unique(phenoData$species)),
+             climvar=climparam
+)
 
 
 
-fake_jnt = stan('stan/joint_climvar_3param_db.stan', data = faker,
-                      iter = 6000, warmup=4000)
+fake_jnt = stan('stan/joint_climvar_3param_emw.stan', data = faker,
+                iter = 6000, warmup=4000)
+
+
+fake_jnt$betaTraitxForcing
+
+threeparam_jntsum <- summary(fake_jnt)$summary
+threeparam_jntsum[grep("betaTrait", rownames(threeparam_jntsum)),]
+
+
