@@ -605,7 +605,7 @@ heatmapphotoxforcexfs.date <- ggplot(dsumm.treat, aes(as.factor(photo.plot), as.
     theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))+
-  ggtitle("Force x photo cue-space \n with field chilling")+theme(axis.text=element_text(size=16)) 
+  ggtitle("")+theme(axis.text=element_text(size=16), axis.title=element_text(size=16)) 
 
 #heatmapphotoxforcexchill <-
 #dsumm.treat$chill.plot2<-NA
@@ -637,7 +637,7 @@ heatmapphotoxforcexchill<-ggplot(dsumm.treat, aes(as.factor(photo.plot), as.fact
   theme(legend.background=element_blank(), # legend.position=c(0.1, 0.85) , 
         axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
         panel.background = element_blank(), text=element_text(size=basesize))+
-  ggtitle("Force x photo cue-space \n with experimental chilling")+theme(axis.text=element_text(size=16)) 
+  ggtitle("")+theme(axis.text=element_text(size=16), axis.title=element_text(size=16)) # add a line break to title: \n 
 
 
 pdf("limitingcues/figures/heatmapphotoxforcexfs.date.pdf", width = 6, height = 4)
@@ -651,7 +651,7 @@ dev.off()
 require(cowplot)
 pdf(paste("limitingcues/figures/heatmapphotoxforcexchill2panel.pdf", sep=""), width = 16, height = 8)
 plot_grid(heatmapphotoxforcexchill, heatmapphotoxforcexfs.date, 
-     labels = c('(a)', '(b)'),
+     labels = c('(a) Force x photo cue-space with experimental chilling', '(b) Force x photo cue-space with field chilling'), hjust=c(-0.05, -0.05), 
     ncol=2)
 dev.off()
 

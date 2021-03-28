@@ -6,6 +6,8 @@ By Lizzie
 <><><><><><><><><><><><><><>
 
 A few things remaining in PDF ...
+- Ailene's interaction stuff
+- Word count with numbered citations
 - GDD x chill figure -- fix the x axis and explain the NA for photoperiod! 
 Check on figure help:
 - https://github.com/lizzieinvancouver/ospree/issues/395
