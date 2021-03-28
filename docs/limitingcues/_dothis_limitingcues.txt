@@ -1,39 +1,40 @@
 Started 24 August 2017
 By Lizzie
 
+
+<><><><><><><><><><><><><><><><><><><><>
+Moving to a longer format journal? READ ME ...
+<><><><><><><><><><><><><><><><><><><><>
+Look for ...
+% longerformatchange
+and reverse the noted changes.
+
+
 <><><><><><><><><><><><><><>
-<> Next steps (Feb 2021) <>
+<> Next steps (March 2021) <>
 <><><><><><><><><><><><><><>
 
-A few things remaining in PDF ...
-- Ailene's interaction stuff
-- Word count with numbered citations
+DONE:
 - GDD x chill figure -- fix the x axis and explain the NA for photoperiod! 
-Check on figure help:
+- Ailene's interaction stuff (to discuss on Tuesday)
+
+(*) Check on figure help:
 - https://github.com/lizzieinvancouver/ospree/issues/395
 - https://github.com/lizzieinvancouver/ospree/issues/393
 - https://github.com/lizzieinvancouver/ospree/issues/399
-- ME: check countintxns for photo x temp and whether they are usually sub additive
+
+- NEW general issue: Thielges photoperiod  -- is 16/8 hours (end of first paragraph of M&M, no?)
+
+(*) Finish the supp!
 
 (*) git issues 393-395, also issue 249) also ...
 
-(*) Add new citations? There's a few in the folder. Also, add citations in depauperate areas
-
-(*) Pick a journal!
+(*) Pick a journal! (See March 2021 notes below)
 
 (*) Small things to maybe do ...
 - Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
 - Confirm color gradient with Nacho (should we add an obvious color bar legend?)
 - Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
-
-Comments from Jan 2020 review ... we can trash these after the next review (if they don't re-appear):
-
-Overall it feels like there are 2 major threads in this paper…
-1. Biology of interacting cues
-2. The theoretical utility but current limitation of growth chamber studies to test these.
-
-It feels like the set up of the paper is that we are going to talk mostly about number one, but the main take away feels like it is coming from part 2. *Lizzie says* I think it is supposed to be 'where we're at with limiting cues.' 
-
 
 
 <><><><><><><><><><><><><><><><><><><><>
@@ -57,8 +58,9 @@ BTW, in case you (like me) did not know -- you can combine comments in Adobe Acr
 TITLE:
 Limiting cues: How spring warming, winter chilling and daylength shape plant climate change responses
 OR 
-How interactive cues will shape climate change responses
-
+How interactive environmental cues will shape climate change responses
+OR 
+How interactive cues will shape non-linear climate change responses
 
 
 What to move to supp?

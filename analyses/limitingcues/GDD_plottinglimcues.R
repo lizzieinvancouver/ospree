@@ -3,7 +3,7 @@
 
 ## See also models_stan_pepspp.R and betpenexp.R (in decsens) ##
 ## And GDD_plotting, which has not been updated since 2017 and is missing heide03 ...
-# so I did not use. ##
+# so I did not use (notes about this in issue 398). ##
 
 rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
@@ -11,6 +11,7 @@ graphics.off()
 
 # Load libraries
 library(ggplot2)
+library(viridis)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -60,7 +61,7 @@ ggplot(subset(d, Total_Utah_Model>0), aes(Total_Utah_Model, gddreq, col=as.facto
     geom_point() + facet_wrap(datasetstudy ~ ., scales="free")
 dev.off()
 
-relevstud <- c("cronje03 exp1", "sonsteby14 exp1", "thielges75 exp1") # which are apples, black currant and Populus deltoides, respectively
+relevstud <- c("cronje03 exp1", "sonsteby14 exp1", "thielges75 exp1") # which are apples (color code by chill days?), black currant (color code by prov lat?) and Populus deltoides, respectively
 
 plotme <- d[which(d$datasetstudy %in% relevstud),]
 unique(plotme$datasetstudy)
@@ -75,3 +76,36 @@ ggplot(plotme, aes(Total_Utah_Model, gddreq, col=as.factor(photo))) +
     ylab(expression(paste("GDD until budburst (in ", degree, "C)"), sep="")) +
     theme_minimal()
 dev.off()
+
+
+plotme1 <- d[which(d$datasetstudy %in% relevstud[1]),] # chilldays is a mess -- not sure it's best to include
+plotme2 <- d[which(d$datasetstudy %in% relevstud[2]),]
+plotme3 <- d[which(d$datasetstudy %in% relevstud[3]),]
+
+plotme2 <- plotme2[with(plotme2, order(provenance.lat)),]
+
+colz <- viridis(6, alpha = 0.5)
+pchhere <- 19
+ylabhere <- expression(paste("GDD until budburst (in ", degree, "C)"), sep="")
+xlabhere <- "Total chilling (in Utah model units)"
+
+pdf(file.path("..//limitingcues/figures/gddbyutahpretty.pdf"), width = 8, height = 4)
+par(mfrow=c(1,2))
+plot(gddreq ~ Total_Utah_Model, data=plotme2, xlab=xlabhere, ylab=ylabhere)
+mtext(expression(paste("(a)",  italic("Ribes nigrum"), sep=" ")), side=3, adj = 0) 
+points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[1]),
+       col=colz[6], pch=pchhere)
+points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[2]),
+       col=colz[5], pch=pchhere)
+points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[3]),
+       col=colz[4], pch=pchhere)
+points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[4]),
+       col=colz[3], pch=pchhere)
+points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[5]),
+       col=colz[2], pch=pchhere)
+legend(x=2300, y=480, pch=rep(pchhere, 5),  col=colz[6:2], legend=unique(round(plotme2$provenance.lat, 0)),
+   cex=0.75, bty="n", title="provenance \n latitude")
+plot(gddreq ~ Total_Utah_Model, data=plotme3, pch=pchhere,  col=colz[1], xlab=xlabhere, ylab=ylabhere)
+mtext(expression(paste("(b)", italic("Populus deltoides"), sep=" ")), side=3, adj = 0) 
+dev.off()
+
