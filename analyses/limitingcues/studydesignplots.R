@@ -244,6 +244,12 @@ betfagcues <- rbind(betpencues, fagsylcues)
 ## numbers for ms
 
 numbpfsstudies <- length(unique(paste(betfagcues$datasetID, betfagcues$study)))
+numbpstudies <- length(unique(paste(betpencues$datasetID, betpencues$study)))
+numfsstudies <- length(unique(paste(fagsylcues$datasetID, fagsylcues$study)))
+
+numforcecuestudies <- length(unique(paste(forcecues$datasetID, forcecues$study)))
+numchillcuestudies <- length(unique(paste(chilltempcues$datasetID, chilltempcues$study)))
+
 
 write.csv(betfagcues, "limitingcues/output/cues_fagben.csv", row.names=FALSE)
 write.csv(forcecues.alldiffs, "limitingcues/output/cuesforce.alldiffs.csv", row.names=FALSE)

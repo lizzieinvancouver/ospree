@@ -590,6 +590,18 @@ numsppsmopapers <- nrow(subset(spbydatasetID.df, datasetID>3))
 length(unique(ospstudiescues$datasetID))
 length(unique(paste(ospstudiescues$datasetID, ospstudiescues$study)))
 
+## Checking on plant material
+materialsfull <- subset(dat, select=c("datasetID", "study", "material"))
+materials <- materialsfull[!duplicated(materialsfull),]
+materialsnums <- as.data.frame(table(materials$material))
+materialsnums <- materialsnums[order(materialsnums$Freq),]
+cuttingsdf <- materialsnums[grep("cutting", materialsnums$Var1),]
+saplingsdf <- materialsnums[grep("sapling", materialsnums$Var1),]
+seedlingsdf <- materialsnums[grep("seedling", materialsnums$Var1),]
+numcuttings <- sum(cuttingsdf$Freq)
+numsaplings <- sum(saplingsdf$Freq)
+numseedlings <- sum(seedlingsdf$Freq)
+
 ### Adding in number of studies and papers that use crops
 cropspp <- c("Actinidia deliciosa", "Malus domestica", "Vitis vinifera", "Ribes nigrum", 
              "Vaccinium ashei", "Vaccinium corymbosum", "Prunus persica")
@@ -604,6 +616,7 @@ numcropstudies <- length(unique(paste(cropdf$datasetID, cropdf$study)))
 
 
 ## End of numbers in manuscript
+
 ###############
 ### 26 Feb 2021 by Cat - moving studydesign_numcues.R to here so that our methods are consistent
 if(FALSE){ ## I am just commenting this out because we have already made the figure
@@ -668,7 +681,7 @@ setdiff(unique(paste(altverp$datasetID, altverp$study)), unique(paste(photoosp$d
 ##################
 ## Tried to ref bbstandleadin.R here but a pain ... ##
 ## So below I just read in dataframes I built in bbstanleadin.R ##
-
+if(FALSE){
 mainmodelbb <- TRUE # set to FALSE for larger species set
 
 if(mainmodelbb){
@@ -886,3 +899,4 @@ names(bbintxnsdf) <- c("Treatment 1", "Treatment 2", "n studies")
 write.csv(bbintxnsdf, "limitingcues/output/bbstan_allsppmodel_countinxns.csv", row.names=FALSE)
 }
 
+}

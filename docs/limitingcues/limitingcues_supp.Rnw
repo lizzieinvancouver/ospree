@@ -7,6 +7,8 @@
 \usepackage{amsmath}
 \usepackage{lineno}
 \usepackage{xr-hyper}
+\usepackage{longtable}
+
 \externaldocument{limitingcues}
 
 \def\labelitemi{--}
@@ -36,6 +38,11 @@ $^2$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, C
 $^3$ Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4}\\
 \end{center}
 
+<<label=sourcecountintxms, echo=FALSE, message=FALSE>>=
+source("..//..//analyses/limitingcues/countintxns/countintxns.R")
+setwd("..//docs/limitingcues/")
+@
+
 \section{Overview of OSPREE}
 Studies versus papers ... how many crops versus wild species ....
 
@@ -51,11 +58,11 @@ We built the Observed Spring Phenology Responses in Experimental Environments (O
 \item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
 \end{enumerate}
 
+49 papers in budburst table ... here we present \Sexpr{allpapers} or which \Sexpr{numcroppapers} are focused on crops (\emph{Actinidia deliciosa, Malus domestica, Vitis vinifera, Ribes nigrum, Vaccinium ashei, Vaccinium corymbosum, Prunus persica}). Studies spanned a variety of plant materials, though studies on `seedlings' (\Sexpr{numseedlings} studies) and `cuttings' (\Sexpr{numcuttings} studies) were most common. 
+
 \section{Trends in experimental treatments over space}
 
 <<label=numbers,echo=FALSE,message=FALSE>>=
-rm(list=ls()) 
-options(stringsAsFactors = FALSE)
 dat<-read.csv("..//..//analyses/limitingcues/output/studydesign_forsupp.csv") #made from studydesignplots.R
 linearize<-function(yvar,  xvar, dat){
    summary(lm(dat[[yvar]]~dat[[xvar]]))
@@ -77,7 +84,40 @@ photo<-round(maxphoto$coefficients[2,1],digits=2)
 
 The actual cues studied varied across latitude with a general trend toward examining more extreme values at higher latitudes. Thus, forcing and chilling treatments decline 0.1$\degree$C per 1 $\degree$ latitude (for forcing, min is \Sexpr{force.min}, for max it's \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it's \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per degree $\degree$ latitude). 
 
+\section{Comparing experimental treatments to forecasted trends}
+% studydesignplots.R
 
+ Treatment differences were calculated as the differences within varying forcing and chilling treatments within a single study (e.g., a study with a 1 and 4$\degree$C chilling treatment would yield a value of 3$\degree$C). 
+ 
+ 19 studies for \emph{Fagus sylvatica}  and 17 for \emph{Betula pendula},
+ 
+ 136 total studies
+ 
+\newpage
+\section{References}
+\bibliography{..//..//refs/ospreebibplus}
+
+\newpage
+\section* {Supplemental Tables}
+\begin{footnotesize} 
+
+<<label=xtablerefs, echo=FALSE, results=tex>>=
+source("..//..//analyses/limitingcues/reftable_limitingcues.R")
+library(xtable)
+colnames(reftable) <- c("Dataset","Reference")
+reftable <- as.data.frame(reftable)
+reftable$Dataset <- as.character(reftable$Dataset)
+ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for papers in the OSPREE database.}",
+      label="tab:ref",align=c(
+               "p{0.01\\textwidth}",
+               "p{0.15\\textwidth}",
+               "p{0.30\\textwidth}"))
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
+@
+\end{footnotesize} 
+
+
+\pagebreak
 
 \begin{figure}[t!]
 \centering
