@@ -1,0 +1,206 @@
+% Straight up stealing preamble from Eli Holmes 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%START PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+\documentclass{article}
+
+%Required: You must have these
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{authblk}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{lineno}
+\usepackage{xr-hyper}
+\usepackage{longtable}
+
+\renewcommand{\baselinestretch}{1.8}
+%\usepackage{lineno}
+%\usepackage[backend=bibtex]{biblatex}
+%Strongly recommended
+ %put your figures in one place
+ 
+%you'll want these for pretty captioning
+\usepackage[small]{caption}
+
+\setkeys{Gin}{width=0.8\textwidth} %make the figs 50 perc textwidth
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+% manual for caption http://www.dd.chalmers.se/latex/Docs/PDF/caption.pdf
+
+%Optional: I like to muck with my margins and spacing in ways that LaTeX frowns on
+%Here's how to do that
+ \topmargin -2cm 
+ \oddsidemargin -0.04cm 
+ \evensidemargin -0.04cm % same as oddsidemargin but for left-hand pages
+ \textwidth 16.59cm
+ \textheight 22.94cm 
+ %\pagestyle{empty} % Uncomment if don't want page numbers
+ %\parskip 7.2pt  % sets spacing between paragraphs
+ %\renewcommand{\baselinestretch}{1.5} 	% Uncomment for 1.5 spacing between lines
+\parindent 0pt% sets leading space for paragraphs
+\usepackage[doublespacing]{setspace}
+%\doublespacing
+
+%Optional: I like fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Soil moisture and plant phenology}
+\fancyhead[RO]{2018}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%END PREAMBLE THAT IS THE SAME FOR ALL EXAMPLES
+
+%Start of the document
+\begin{document}
+
+% \SweaveOpts{concordance=TRUE}
+\bibliographystyle{..//..//refs/bibstyles/naturemag}
+
+\title{Supplemental Materials for Soil moisture interacts with temperature to affect plant phenology}
+
+
+\author[1,2,a]{A.K. Ettinger}
+\author[3,b]{J.S. Dukes}
+\author[4,c]{M.R. Johnston}
+\author[5,d]{C.R. Rollinson}
+\author[1,4,6,e]{E.M. Wolkovich}
+
+\affil[1]{Arnold Arboretum of Harvard University, Boston, Massachusetts 02131, USA}
+
+\affil[2]{Northwest Fisheries Science Center, NOAA, Seattle, Washington}
+
+
+\affil[3]{Department of Forestry \& Natural Resources and Department of Biological Sciences, Purdue University, West Lafayette, Indiana 47907, USA}
+
+\affil[4]{Department of Organismic \& Evolutionary Biology, Harvard University, Cambridge, Massachusetts 02138, USA}
+
+\affil[5]{The Morton Arboretum, Lisle, Illinois 60532, USA}
+
+\affil[6]{Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, Vancouver, BC, Canada}
+
+\affil[a]{Corresponding author; email: aettinger@fas.harvard.edu; phone: 781-296-4821; mailing address: 1300 Centre Street, Boston, Massachusetts 02140, USA }
+
+%\affil[d]{jsdukes@purdue.edu}
+
+%\affil[f]{mjohnston@g.harvard.edu}
+
+%\affil[h]{crollinson@mortonarb.org}
+
+%\affil[j]{e.wolkovich@ubc.ca}
+
+\date{\today}
+\maketitle %put the fancy title on
+%\tableofcontents %add a table of contents
+
+\newpage
+\section* {Supplemental Tables}
+\begin{footnotesize} 
+
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Wed Mar 31 09:35:32 2021
+\begingroup\footnotesize
+\begin{longtable}{p{0.15\textwidth}p{0.30\textwidth}}
+\caption{\textbf{Dataset names and references for papers in the OSPREE database.}} \\ 
+  \hline
+Dataset & Reference \\ 
+  \hline \endhead  \hline
+ashby62 & \citep{Ashby:1962aa} \\ 
+  basler12 & \citep{Basler:2012} \\ 
+  basler14 & \citep{Basler:2014aa} \\ 
+  biasi12 & \citep{Biasi:2012} \\ 
+  boyer & \citep{Boyer:1986} \\ 
+  caffarra11a & \citep{Caffarra:2011a} \\ 
+  caffarra11b & \citep{Caffarra:2011b} \\ 
+  calme94 & \citep{Calme:1994aa} \\ 
+  campbell75 & \citep{Campbell:1975aa} \\ 
+  cannell83 & \citep{Cannell:1983} \\ 
+  charrier11 & \citep{Charrier:2011aa} \\ 
+  chavarria09 & \citep{Chavarria:2009aa} \\ 
+  cook00b & \citep{Cook:2000aa} \\ 
+  cook05 & \citep{Cook:2005aa} \\ 
+  cronje03 & \citep{Cronje:2003aa} \\ 
+  dantec14 & \citep{Dantec:2014aa} \\ 
+  devries82 & \citep{DeVries:1982aa} \\ 
+  falusi03 & \citep{Falusi:2003aa} \\ 
+  falusi90 & \citep{Falusi:1990aa} \\ 
+  falusi96 & \citep{Falusi:1996aa} \\ 
+  falusi97 & \citep{Falusi:1997aa} \\ 
+  fu13 & \citep{Fu:2013aa} \\ 
+  gansert02 & \citep{Gansert:2002aa} \\ 
+  ghelardini10 & \citep{Ghelardini:2010aa} \\ 
+  gianfagna85 & \citep{Gianfagna:1985aa} \\ 
+  gomory15 & \citep{Gomory:2015aa} \\ 
+  granhus09 & \citep{Granhus:2009aa} \\ 
+  guak98 & \citep{Guak:1998aa} \\ 
+  guerriero90 & \citep{guerriero:1990} \\ 
+  gunderson12 & \citep{Gunderson:2012aa} \\ 
+  hawerroth13 & \citep{Hawerroth:2013aa} \\ 
+  hawkins12 & \citep{Hawkins:2012} \\ 
+  Heide03 & \citep{Heide:2003aa} \\ 
+  heide05 & \citep{Heide:2005aa} \\ 
+  heide08 & \citep{Heide:2008aa} \\ 
+  heide11 & \citep{Heide:2011aa} \\ 
+  heide12 & \citep{Heide:2012aa} \\ 
+  heide15 & \citep{Heide:2015aa} \\ 
+  heide93 & \citep{Heide:1993} \\ 
+  heide93a & \citep{Heide:1993a} \\ 
+  howe95 & \citep{Howe:1995aa} \\ 
+  jones12 & \citep{Jones:2012} \\ 
+  junttila12 & \citep{Junttila:2012aa} \\ 
+  karlsson03 & \citep{Karlsson:2003aa} \\ 
+  lamb37 & \citep{Lamb:1948aa} \\ 
+  laube14a & \citep{Laube:2014a} \\ 
+  laube14b & \citep{Laube:2014b} \\ 
+  li05 & \citep{Li:2005aa} \\ 
+  linkosalo06 & \citep{Linkosalo:2006aa} \\ 
+  man10 & \citep{Man:2010aa} \\ 
+  manson91 & \citep{Manson:1991aa} \\ 
+  morin10 & \citep{Morin:2010aa} \\ 
+  myking95 & \citep{Myking:1995} \\ 
+  myking97 & \citep{Myking:1997aa} \\ 
+  myking98 & \citep{Myking:1998aa} \\ 
+  nienstaedt66 & \citep{Nienstaedt:1966aa} \\ 
+  nishimoto95 & \citep{Nishimoto:1994aa} \\ 
+  okie11 & \citep{Okie:2011aa} \\ 
+  pagter15 & \citep{Pagter:2015} \\ 
+  partanen01 & \citep{Partanen:2001aa} \\ 
+  partanen05 & \citep{Partanen:2005aa} \\ 
+  partanen98 & \citep{Partanen:1998aa} \\ 
+  pettersen71 & \citep{Pettersen:1972aa} \\ 
+  pop2000 & \citep{Pop:2000aa} \\ 
+  ramos99 & \citep{ramos:1999} \\ 
+  rinne94 & \citep{Rinne:1994} \\ 
+  rinne97 & \citep{Rinne:1997aa} \\ 
+  ruesink98 & \citep{Ruesink:1998aa} \\ 
+  Sanz-Perez09 & \citep{Sanz-Perez:2009aa} \\ 
+  sanzperez10 & \citep{Sanz-Perez:2010aa} \\ 
+  schnabel87 & \citep{Schnabel:1987aa} \\ 
+  skre08 & \citep{Skre:2008aa} \\ 
+  skuterud94 & \citep{Skuterud:1994aa} \\ 
+  sogaard08 & \citep{Sogaard:2008aa} \\ 
+  sonsteby13 & \citep{Sonsteby:2013aa} \\ 
+  sonsteby14 & \citep{Sonsteby:2014aa} \\ 
+  spiers74 & \citep{Spiers:1974aa} \\ 
+  swartz81 & \citep{Swartz:1981aa} \\ 
+  thielges75 & \citep{Thielges:1976aa} \\ 
+  viheraaarnio06 & \citep{Vihera-Aarnio:2006aa} \\ 
+  webb78 & \citep{Webb:1977} \\ 
+  worrall67 & \citep{Worrall:1967aa} \\ 
+  yazdaniha64 & \citep{Yazdaniha:1967aa} \\ 
+  zohner16 & \citep{zohner2016} \\ 
+  \hline
+\label{tab:ref}
+\end{longtable}
+\endgroup\end{footnotesize} 
+
+\bibliography{..//..//refs/ospreebibplus.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
