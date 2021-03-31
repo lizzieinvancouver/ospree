@@ -8,6 +8,8 @@
 \usepackage{lineno}
 \usepackage{xr-hyper}
 \usepackage{longtable}
+% \usepackage{tabularx}
+% \usepackage{array}
 
 \externaldocument{limitingcues}
 
@@ -104,18 +106,14 @@ The actual cues studied varied across latitude with a general trend toward exami
 <<label=xtablerefs, echo=FALSE, results=tex>>=
 source("..//..//analyses/limitingcues/reftable_limitingcues.R")
 library(xtable)
-colnames(reftable) <- c("Dataset","Reference")
-reftable <- as.data.frame(reftable)
-reftable$Dataset <- as.character(reftable$Dataset)
 ref.table <- xtable(reftable, caption="\\textbf{Dataset names and references for papers in the OSPREE database.}",
       label="tab:ref",align=c(
                "p{0.01\\textwidth}",
                "p{0.15\\textwidth}",
-               "p{0.30\\textwidth}"))
+               "p{0.40\\textwidth}"))
 print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity)
 @
 \end{footnotesize} 
-
 
 \pagebreak
 

@@ -22,7 +22,7 @@ dat$latbi <- paste(dat$genus, dat$species)
 
 
 ## Ref list for papers in the manusrcipt
-datasetIDs <- sort(unique(dat$datasetID))
+datasetIDs <- sort(unique(tolower(dat$datasetID)))
 
 refs <- c("\\citep{Ashby:1962aa}","\\citep{Basler:2012}","\\citep{Basler:2014aa}",
         "\\citep{Biasi:2012}", "\\citep{Boyer:1986}",
@@ -79,5 +79,7 @@ refs <- c("\\citep{Ashby:1962aa}","\\citep{Basler:2012}","\\citep{Basler:2014aa}
         "\\citep{Yazdaniha:1967aa}",
         "\\citep{zohner2016}")
 
-reftable <- cbind(datasetIDs,refs)
+
+reftable <- data.frame(Dataset=as.character(datasetIDs), Reference=refs)
+
 ## End of ref list for papers in the manusrcipt
