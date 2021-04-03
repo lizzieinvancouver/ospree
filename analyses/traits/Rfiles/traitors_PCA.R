@@ -27,11 +27,16 @@ dat2 <- read.csv("input/try_bien_nodups_2.csv")
 
 dat <- rbind(dat1, dat2)
 names(dat)
-
+dat$traitname[which(dat$traitname == "seed mass")] <- "Seed_mass"
 ## starting with a PCA of the raw data, with sampling for species with a lot of height data
 
 #starting by separating out the height data:
 height <- subset(dat, traitname == "Plant_height_vegetative")
+
+# I think for this trait we are really only interested in adults - selecting only values greater than 1.42 m, the height at which you can measure DBH
+small <- subset(height, traitvalue < 1.42) # this is 1.7% of the data 
+
+height <- subset(height, traitvalue > 1.42)
 
 other.trt <- subset(dat, traitname != "Plant_height_vegetative")
 
@@ -57,6 +62,17 @@ for (sp in 1: length(species)){
 ht.sample <- rbind(sm, ht)
 
 trt.dat <- rbind(other.trt, ht.sample)
+#write.csv(trt.dat, "input/trt.dat.htsampled.csv")
+
+ht <-subset(trt.dat, traitname == "Plant_height_vegetative") 
+length(unique(ht$speciesname))
+lnc <-subset(trt.dat, traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass")
+length(unique(lnc$speciesname))
+sla <-subset(trt.dat, traitname == "Specific_leaf_area")
+length(unique(sla$speciesname))
+sm <-subset(trt.dat, traitname == "Seed_mass")
+length(unique(sm$speciesname))
+
 ####################################################################################################################
 # These are traits that do not have enough data to be worth including but I wish we did
 trt.rm <- c("leaf life span", "Stem_diameter", "leaf carbon content per leaf nitrogen content", "Leaf_photosynthesis_rate_per_leaf_area")
@@ -159,6 +175,7 @@ rownames(mat) <- species
 mat2 <- mat[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")]
 mat2 <- mat2[complete.cases(mat2), ]
 
+write.csv(mat2, "geoPCA_mat.csv")
 ## Standardize (normalize) trait values
 mat.stan <- mat2[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
@@ -185,3 +202,5 @@ ggbiplot(geo.obsid, labels = rownames(mat.comp))
 
 ggbiplot(geo.obsid)
 
+traitors_sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa",
+"Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
