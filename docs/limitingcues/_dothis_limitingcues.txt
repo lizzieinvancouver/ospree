@@ -32,8 +32,6 @@ DONE:
 (*) Pick a journal! (See March 2021 notes below)
 
 (*) Small things to maybe do ...
-- Say something about material (seeds/saplings/cuttings)? Can we tie to relevance of predicting future forest communities or such?
-- Confirm color gradient with Nacho (should we add an obvious color bar legend?)
 - Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
 
 
@@ -49,21 +47,39 @@ NACHO-specific, you wrote a few things about explaining details early on that I 
 
 Dear limiting cues co-authors,
 
+Here's the new draft of the limiting cues. I am hoping we might submit once I input any comments from this draft and finalize a few things. But! See what you think. 
+
+Please send edits by 13 April if possible? If not possible, please let me know. Please reply with your thoughts on the below also:
+
+(A) We need a title, some ideas are:
+
+t1: Limiting cues: How spring warming, winter chilling and daylength shape plant climate change responses (though not sure all journals allow colons)
+t2: How spring warming, winter chilling and daylength will limit plant climate change responses
+t3: How interactive environmental cues will shape climate change responses
+t4: How interactive cues will shape non-linear climate change responses
+
+(B) We need to determine authorship order. You've all contributed a lot so if you have a strong preference please let me know. Also, Nacho and Ailene, do your organizations favor any order when you're not first? Does last mean more than second or...?
+
+Thanks for your help on supp figures (there was strong support for the couple that got moved) and for journal ideas I am proposing ... 
+
+(1) Nature Plants (https://www.nature.com/nplants/about/content also note about presubmission inquiries: . If your manuscript is already written please proceed with a full formal submission.) Review is 3000-4000 words with 4-6 figures and 100 citations
+
+(2) GCB (https://onlinelibrary.wiley.com/page/journal/13652486/homepage/forauthors.html) Research Reviews examine a defined specialist subject that is of topical interest. Reviews should begin with an abstract and an introduction, followed by up to 10 sections following a logically developed plan, and end with a Conclusion. Reviews should be no more than 8000 words (count includes Abstract, Introduction, body, Conclusions and Acknowledgements).
+
+(3 or 4?) Journal of Experimental Botany (https://academic.oup.com/jxb/pages/what-does-jxb-publish) Review or Darwin review ... 6500 words
+
+(3 or 4?) ELE -- did not check but pretty sure its 6-8K words
+
+We're over the word limit on Nature Plants by ~300 words so please don't add any but do suggest edits. On that note, I did cut some stuff I will add back in once we get rejected from Nature Plants. 
+
 BTW, in case you (like me) did not know -- you can combine comments in Adobe Acrobat. This is what I now do whenever I go to edit a manuscript and it's great! (Well, except for that fact that it tallies up all your comments so you see something like '129 comments.')
 
-
-..
-
-
-TITLE:
-Limiting cues: How spring warming, winter chilling and daylength shape plant climate change responses
-OR 
-How interactive environmental cues will shape climate change responses
-OR 
-How interactive cues will shape non-linear climate change responses
+All the best,
+Lizzie
 
 
-What to move to supp?
+
+What Figures to move to supp?
 
 2. (i)
 3. i
