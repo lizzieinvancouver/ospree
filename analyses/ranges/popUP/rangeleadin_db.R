@@ -118,37 +118,24 @@ bb.stan<-left_join(bb.stan,ggdlf)
 
 ##Range size
 area<-read.csv("output/rangeareas.csv")
+area<-dplyr::filter(area,(species!="Alnus_incana") | (continent!="europe"))
 area<-select(area,-continent)
 colnames(area)[2]<-"complex.wname"
 
-
+setdiff(unique(area$complex.wname),unique(bb.stan$complex.wname))
+setdiff(unique(bb.stan$complex.wname),unique(area$complex.wname))
+area<-dplyr::filter(area,complex.wname!="Picea_mariana")
+table(area$complex.wname)
 bb.stan<-left_join(bb.stan,area)
+
+
 
 bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
 bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
 bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
 
-bb.force.only <- with(bb.stan, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z, 
-                       species = latbinum,
-                       N = nrow(bb.stan),
-                       n_spec = length(unique(bb.stan$complex.wname)),
-                       climvar=bb.stan$Temp.SD.z
-                  ))
-
-#forceonly = stan('popUP/stan/jointish_climvar_db.stan', data = bb.force.only,
-              iter = 6000, warmup=4000)
-
-
-
-
-goobsum<-summary(forceonly )$summary
-
-goobsum[grep("muPhenoSp", rownames(goobsum)),]
-goobsum[grep("muForceSp", rownames(goobsum)),] #
-goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
+bb.stan$area.z<-(bb.stan$range_area-mean(bb.stan$range_area))/sd(bb.stan$range_area)
 
 
 bb.3param <- with(bb.stan, 
@@ -159,17 +146,72 @@ bb.3param <- with(bb.stan,
                            species = latbinum,
                            N = nrow(bb.stan),
                            n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$Temp.SD.cent)
+                           climvar=unique(bb.stan$Temp.SD.z)
                       ))
 
 threeparam_jnt = stan('popUP/stan/joint_climvar_3param_db.stan', data = bb.3param,
                  iter = 3000, warmup=2000)
 
 
-goobsum<-summary(threeparam_jnt)$summary
+threeparam_jntsum <- summary(threeparam_jnt)$summary
+threeparam_jntsum[grep("betaTraitx", rownames(threeparam_jntsum)),]
+threeparam_jntsum[grep("mu", rownames(threeparam_jntsum)),]
 
-goobsum[grep("mu", rownames(goobsum)),] # why is the forcing effect so small? Is it coause theere is no chilling and photoperiod in the model?
-goobsum[grep("betaTrait", rownames(goobsum)),]## should be negative
+threeparam_jntsum[grep("alpha", rownames(threeparam_jntsum)),]
+
+popupbetas<-as.data.frame(threeparam_jntsum[grep("beta", rownames(threeparam_jntsum)),])
+
+write.csv(popupbetas,"betasfromPOPUP.csv",row.names = TRUE)
+
+
+bb.3param.stv <- with(bb.stan, 
+                  list(yPhenoi = resp, 
+                       forcingi = force.z,
+                       photoi = photo.z,
+                       chillingi = chill.z,
+                       species = latbinum,
+                       N = nrow(bb.stan),
+                       n_spec = length(unique(bb.stan$complex.wname)),
+                       climvar=unique(bb.stan$STV.z)
+                  ))
+
+
+threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_db.stan', data = bb.3param.stv,
+                      iter = 3000, warmup=2000)
+
+
+goobsum2<-summary(threeparam_jnt.stv)$summary
+
+goobsum2[grep("mu", rownames(goobsum2)),] # 
+
+goobsum2[grep("betaTrait", rownames(goobsum2)),]## should be negative
+
+
+
+bb.3param.area <- with(bb.stan, 
+                      list(yPhenoi = resp, 
+                           forcingi = force.z,
+                           photoi = photo.z,
+                           chillingi = chill.z,
+                           species = latbinum,
+                           N = nrow(bb.stan),
+                           n_spec = length(unique(bb.stan$complex.wname)),
+                           climvar=unique(bb.stan$area.z)
+                      ))
+
+
+threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_db.stan', data = bb.3param.area,
+                          iter = 3000, warmup=2000)
+
+
+
+goobsum3<-summary(threeparam_jnt.area)$summary
+
+goobsum3[grep("mu", rownames(goobsum3)),] # 
+
+goobsum3[grep("betaTrait", rownames(goobsum3)),]## should be negative
+
+
 
 
 ##try NAM only
@@ -188,8 +230,8 @@ bb.3param.nam <- with(bb.stan.nam,
                        species = latbinum,
                        N = nrow(bb.stan.nam),
                        n_spec = length(unique(bb.stan.nam$complex.wname)),
-                       climvar=bb.stan.nam$Temp.SD.cent
+                       climvar=unique(bb.stan.nam$Temp.SD.z)
                   ))
 
-threeparam_jnt.nam = stan('stan/joint_climvar_3param.stan', data = bb.3param.nam,
-                      iter = 6000, warmup=4000)
+threeparam_jnt.nam = stan('popUP/stan/joint_climvar_3param_db.stan', data = bb.3param.nam,
+                      iter = 4000, warmup=3000,control=list(adapt_delta=.99))

@@ -128,7 +128,7 @@ bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
 bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
 bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
-
+range(bb.stan$Temp.SD.z)
 if(FALSE){ # Skip the force-only model for now...
 bb.force.only <- with(bb.stan, 
                   list(yPhenoi = resp, 
@@ -151,6 +151,22 @@ goobsum[grep("muForceSp", rownames(goobsum)),] #
 goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
 }
 
+og.ospree <- with(bb.stan, 
+                  list(y = resp, 
+                       force = force.z,
+                       photo = photo.z,
+                       chill = chill.z,
+                       sp = latbinum,
+                       N = nrow(bb.stan),
+                       n_sp = length(unique(bb.stan$complex.wname))
+                  ))
+
+
+###run original Ospree model for comparision
+m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = og.ospree,
+              iter = 4000, warmup=2500) 
+
+### run out range model
 bb.3param <- with(bb.stan, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -159,19 +175,58 @@ bb.3param <- with(bb.stan,
                            species = latbinum,
                            N = nrow(bb.stan),
                            n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$Temp.SD.cent)
+                           climvar=unique(bb.stan$Temp.SD.z)
                       ))
 
 threeparam_jnt = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                 iter = 6000, warmup=4000)
+                 iter = 4000, warmup=2500)
 
 
+
+### extract ospree
+m2lni.sum <- summary(m2l.ni)$summary
+m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
+betasOSP<-as.data.frame(m2lni.sum[grep("b_", rownames(m2lni.sum)),])
+betasOSP$cue<-NA
+betasOSP$cue[grepl("b_force", rownames(betasOSP))]<-"force"
+betasOSP$cue[grepl("b_photo", rownames(betasOSP))]<-"photo"
+betasOSP$cue[grepl("b_chill", rownames(betasOSP))]<-"chill"
+
+betasOSP$param<-NA
+betasOSP$param[grepl("mu", rownames(betasOSP))]<-"mu"
+betasOSP$param[grepl("sigma", rownames(betasOSP))]<-"sigma"
+betasOSP$param[is.na(betasOSP$param)]<-"beta[sp]"
+
+betasOSP$model<-"OSPREE"
+
+#extract 3 range model
 threeparam_jntsum <- summary(threeparam_jnt)$summary
-threeparam_jntsum[grep("betaTraitx", rownames(threeparam_jntsum)),]
-threeparam_jntsum[grep("mu", rownames(threeparam_jntsum)),]
+threeparamys<-as.data.frame(threeparam_jntsum)
 
+threeparamys$cue<-NA
+threeparamys$cue[grepl("Forcing", rownames(threeparamys))]<-"force"
+threeparamys$cue[grepl("Photo", rownames(threeparamys))]<-"photo"
+threeparamys$cue[grepl("Chill", rownames(threeparamys))]<-"chill"
+
+threeparamys$param<-NA
+threeparamys$param[grepl("mu", rownames(threeparamys))]<-"mu"
+threeparamys$param[grepl("sigma", rownames(threeparamys))]<-"sigma"
+threeparamys$param[grepl("alpha", rownames(threeparamys))]<-"alpha[sp]"
+threeparamys$param[grepl("beta", rownames(threeparamys))]<-"beta[sp]"
+threeparamys$param[grepl("betaTraitx", rownames(threeparamys))]<-"beta[range]"
+
+threeparamys$model<-"Ranges"
+
+outy<-rbind(threeparamys,betasOSP)
+
+
+write.csv(outy,"betasandmorefromPOPUP.csv",row.names = TRUE)
 # On 26 March 2021 the code above runs!
 # Who knows about the below ...
+
+save.image("popupmods.Rda")
+
 
 ##try NAM only
 

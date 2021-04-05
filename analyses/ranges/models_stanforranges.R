@@ -307,7 +307,8 @@ check_all_diagnostics(m2l.ni)
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
-
+betasOSP<-as.data.frame(m2lni.sum[grep("b_", rownames(m2lni.sum)),])
+write.csv(betasOSP,"betasfromOSP.csv",row.names = TRUE)
 ys<-datalist.bb$y
 # posterior predictive checks....
 if(FALSE){
