@@ -633,10 +633,10 @@ cues$cols<-ifelse(cues$numcues==0 & cues$field.sample<=1, "white", cues$cols)
 mecolors<-colorRampPalette(brewer.pal(11,"Spectral"))(5)
 hist <- ggplot(cues, aes(x=year)) + geom_histogram(aes(fill=cols), size=0.3) +
   xlab("Year") + ylab("Number of Studies") + scale_y_continuous(expand = c(0, 0)) +
-  scale_fill_manual(values=mecolors, name="Number of fues manipulated",
+  scale_fill_manual(values=mecolors, name="Number of cues manipulated",
                     labels=c("blue"="3", "green"="2", "red"="1",
-                            "violet"="Multiple field fample fates",
-                            "white"="Multiple provenance latitudes \nand/or fpecies")) +
+                            "violet"="Multiple field sample dates",
+                            "white"="Multiple provenance latitudes \nand/or species")) +
   scale_x_continuous(breaks=c(1950, 1960, 1970, 1980, 1990, 2000, 2010)) +
   theme(panel.background = element_blank(), axis.line = element_line(colour = "black"),
         legend.text = element_text(size=8), legend.key.size = unit(0.5, "cm"),

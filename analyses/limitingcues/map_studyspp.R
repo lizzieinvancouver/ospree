@@ -15,7 +15,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-library(RColorBrewer)
+library(viridis)
 library(maps)
 library(grid)
 library(gridExtra)
@@ -24,7 +24,8 @@ library(ggplotify)
 
 ## a bunch of this code is taken from cleaning/cleanup_checksmaps.R
 # Get packages
-d<-read.csv("output/ospree_clean_withchill_BB.csv")
+#d<-read.csv("output/ospree_clean_withchill_BB.csv")
+d<-read.csv("output/ospree_clean.csv")
 
 d<-subset(d, select=c("datasetID", "genus", "species", "provenance.lat", "provenance.long"))
 d<-d[!duplicated(d),]
@@ -48,7 +49,7 @@ sp$numspp<-ifelse(sp$numspp>20 & sp$numspp<=30, 4, sp$numspp)
 sp$numspp<-ifelse(sp$numspp>30, 5, sp$numspp) #& sp$numspp<=100
 #sp$numspp<-ifelse(sp$numspp>100, 6, sp$numspp)
 
-my.pal<-rep(brewer.pal(n=12, name="Set3"),7)
+my.pal <-rep(viridis_pal(option="viridis")(12), 7)
 my.pch<-rep(c(4,6,8,15:18), each=12)
 
 
@@ -69,7 +70,7 @@ mp <- ggplot() +
         legend.box.background = element_rect(fill="white"),legend.text = element_text(size=6), legend.key.size = unit(0.1,"cm"),
         legend.title = element_text(size=8))+
   guides(color=FALSE, shape=FALSE)  +
-  scale_colour_manual(name="DatasetID", values=my.pal,
+  scale_colour_manual(name="Dataset", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
   scale_size_manual(values=c(1,2,3,4,5), labels = c("1-5","6-10","11-20","21-30","31-100+"), name="Number of Species") +
   xlab("") + ylab("") + coord_cartesian(xlim=c(-125, 190), ylim=c(-55, 100))
@@ -87,7 +88,7 @@ euro<-ggplot() +
         axis.text = element_blank(), 
         plot.margin = unit(c(0,0,-0.5,-0.5), "lines"), panel.background = element_rect(colour="black")) + 
   guides(color=FALSE, shape=FALSE)  + 
-  scale_colour_manual(name="DatasetID", values=my.pal,
+  scale_colour_manual(name="Dataset", values=my.pal,
                       labels=sort(unique(sp$datasetID))) + scale_shape_manual(name="DatasetID", values=my.pch, labels=sort(unique(sp$datasetID))) +
   scale_size_manual(values=c(1,2,3,4,5), labels = c("1-5","6-10","11-20","21-30","31-100+"), name="Number of Species") +
   xlab("") + ylab("") + coord_cartesian(xlim=c(-13,40), ylim=c(34,72)) + labs(x=NULL, y=NULL)
@@ -129,7 +130,6 @@ g_legend<-function(a.gplot){
 
 datasets<-g_legend(legendplot)
 
-quartz()
 pdf("limitingcues/figures/maps/map_studyspp_legend.pdf", 
     width=convertWidth(sum(datasets$width), "in", valueOnly=TRUE),
     height=convertHeight(sum(datasets$heights), "in", valueOnly=TRUE))
