@@ -231,9 +231,10 @@ save.image("popupmods.Rda")
 ##try NAM only
 
 bb.stan.nam<-filter(bb.stan, continent=="N. America")
-
+bb.stan.eu<-filter(bb.stan, continent!="N. America")
 ##runierate atbinum
 bb.stan.nam$latbinum <- as.numeric(as.factor(bb.stan.nam$latbi))
+bb.stan.eu$latbinum <- as.numeric(as.factor(bb.stan.eu$latbi))
 
 
 bb.3param.nam <- with(bb.stan.nam, 
@@ -244,8 +245,31 @@ bb.3param.nam <- with(bb.stan.nam,
                        species = latbinum,
                        N = nrow(bb.stan.nam),
                        n_spec = length(unique(bb.stan.nam$complex.wname)),
-                       climvar=bb.stan.nam$Temp.SD.cent
+                       climvar=unique(bb.stan.nam$Temp.SD.z)
                   ))
 
-threeparam_jnt.nam = stan('stan/joint_climvar_3param.stan', data = bb.3param.nam,
-                      iter = 6000, warmup=4000)
+bb.3param.eu <- with(bb.stan.eu, 
+                      list(yPhenoi = resp, 
+                           forcingi = force.z,
+                           photoi = photo.z,
+                           chillingi = chill.z,
+                           species = latbinum,
+                           N = nrow(bb.stan.eu),
+                           n_spec = length(unique(bb.stan.eu$complex.wname)),
+                           climvar=unique(bb.stan.eu$Temp.SD.z)
+                      ))
+threeparam_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.eu,
+                          iter = 4000, warmup=3000)
+EU.sum <- summary(threeparam_jnt.eu)$summary
+EU.sum[grep("betaT", rownames(EU.sum)),]
+EU.sum[grep("mu", rownames(EU.sum)),]
+
+threeparam_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.nam,
+                      iter = 6000, warmup=5000,control = list(adapt_delta=0.99)) #10 divergent transitions
+
+NAM.sum <- summary(threeparam_jnt.nam)$summary
+NAM.sum[grep("betaT", rownames(NAM.sum)),]
+
+NAM.sum[grep("mu", rownames(NAM.sum)),]
+
+launch_shinystan(threeparam_jnt.nam)
