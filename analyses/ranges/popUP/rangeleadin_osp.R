@@ -102,8 +102,8 @@ colnames(STV)[c(1,2)]<-c("complex.wname","STV")
 
 ggdlf<-left_join(ggdlf,STV)
 
-## remove duplicat4e for alnus incana
-ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+## remove duplicat4e for alnus incana only if you are running everything together
+#ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
 
 #bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
 
@@ -118,7 +118,8 @@ bb.stan<-left_join(bb.stan,ggdlf)
 
 ##Range size
 area<-read.csv("output/rangeareas.csv")
-area<-select(area,-continent)
+area$continent[area$continent=="europe"]<-"Europe"
+area$continent[area$continent=="north america"]<-"N. America"
 colnames(area)[2]<-"complex.wname"
 
 
@@ -126,8 +127,11 @@ bb.stan<-left_join(bb.stan,area)
 
 bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
+bb.stan$range.cent<-bb.stan$range_area-mean(bb.stan$range_area)
 bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
 bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
+bb.stan$range.z<-(bb.stan$range_area-mean(bb.stan$range_area))/sd(bb.stan$range_area)
+
 range(bb.stan$Temp.SD.z)
 if(FALSE){ # Skip the force-only model for now...
 bb.force.only <- with(bb.stan, 
@@ -151,6 +155,7 @@ goobsum[grep("muForceSp", rownames(goobsum)),] #
 goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
 }
 
+if(FALSE){ # Skip the original for now... and full model
 og.ospree <- with(bb.stan, 
                   list(y = resp, 
                        force = force.z,
@@ -224,20 +229,25 @@ outy<-rbind(threeparamys,betasOSP)
 write.csv(outy,"betasandmorefromPOPUP.csv",row.names = TRUE)
 # On 26 March 2021 the code above runs!
 # Who knows about the below ...
+}
 
-save.image("popupmods.Rda")
 
 
 ##try NAM only
 
 bb.stan.nam<-filter(bb.stan, continent=="N. America")
 bb.stan.eu<-filter(bb.stan, continent!="N. America")
+
+
+unique(bb.stan.eu$complex.wname)
+unique(bb.stan.eu$range.z)
+
 ##runierate atbinum
 bb.stan.nam$latbinum <- as.numeric(as.factor(bb.stan.nam$latbi))
 bb.stan.eu$latbinum <- as.numeric(as.factor(bb.stan.eu$latbi))
 
-
-bb.3param.nam <- with(bb.stan.nam, 
+###North America
+bb.gddlf.nam <- with(bb.stan.nam, 
                   list(yPhenoi = resp, 
                        forcingi = force.z,
                        photoi = photo.z,
@@ -248,7 +258,31 @@ bb.3param.nam <- with(bb.stan.nam,
                        climvar=unique(bb.stan.nam$Temp.SD.z)
                   ))
 
-bb.3param.eu <- with(bb.stan.eu, 
+bb.stv.nam <- with(bb.stan.nam, 
+                     list(yPhenoi = resp, 
+                          forcingi = force.z,
+                          photoi = photo.z,
+                          chillingi = chill.z,
+                          species = latbinum,
+                          N = nrow(bb.stan.nam),
+                          n_spec = length(unique(bb.stan.nam$complex.wname)),
+                          climvar=unique(bb.stan.nam$STV.z)
+                     ))
+
+bb.area.nam <- with(bb.stan.nam, 
+                   list(yPhenoi = resp, 
+                        forcingi = force.z,
+                        photoi = photo.z,
+                        chillingi = chill.z,
+                        species = latbinum,
+                        N = nrow(bb.stan.nam),
+                        n_spec = length(unique(bb.stan.nam$complex.wname)),
+                        climvar=unique(bb.stan.nam$range.z)
+                   ))
+
+
+
+bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
                            photoi = photo.z,
@@ -258,18 +292,93 @@ bb.3param.eu <- with(bb.stan.eu,
                            n_spec = length(unique(bb.stan.eu$complex.wname)),
                            climvar=unique(bb.stan.eu$Temp.SD.z)
                       ))
-threeparam_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.eu,
-                          iter = 4000, warmup=3000)
-EU.sum <- summary(threeparam_jnt.eu)$summary
+
+
+bb.stv.eu <- with(bb.stan.eu, 
+                    list(yPhenoi = resp, 
+                         forcingi = force.z,
+                         photoi = photo.z,
+                         chillingi = chill.z,
+                         species = latbinum,
+                         N = nrow(bb.stan.eu),
+                         n_spec = length(unique(bb.stan.eu$complex.wname)),
+                         climvar=unique(bb.stan.eu$STV.z)
+                    ))
+
+bb.area.eu <- with(bb.stan.eu, 
+                  list(yPhenoi = resp, 
+                       forcingi = force.z,
+                       photoi = photo.z,
+                       chillingi = chill.z,
+                       species = latbinum,
+                       N = nrow(bb.stan.eu),
+                       n_spec = length(unique(bb.stan.eu$complex.wname)),
+                       climvar=unique(bb.stan.eu$range.z)
+                  ))
+
+###models
+gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gddlf.eu,
+                          iter = 5000, warmup=4000) #
+
+check_all_diagnostics(gddlf_jnt.eu)
+stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.stv.eu,
+                   iter = 5000, warmup=4000) #runs
+check_all_diagnostics(stv_jnt.eu)
+
+stv_area.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.area.eu,
+                 iter = 5000, warmup=4000)
+check_all_diagnostics(stv_area.eu)
+
+gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.nam,
+                     iter = 6000, warmup=5000,control = list(adapt_delta=0.999)) #10 divergent transitions
+
+check_all_diagnostics(gddlf_jnt.nam)
+
+stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.stv.nam,
+                     iter = 6000, warmup=5000,control = list(adapt_delta=0.99))
+
+check_all_diagnostics(stv_jnt.nam)
+area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
+                   iter = 6000, warmup=5000,control = list(adapt_delta=0.99))
+
+check_all_diagnostics(area_jnt.nam)
+
+save.image("")
+#10divergent transitions
+
+EU.sum <- summary(gddlf_jnt.eu)$summary
+
+a<-stan_plot(gddlf_jnt.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("Europe GDD2LF")+geom_vline(xintercept=0,color="blue")
+
+b<-stan_plot(gddlf_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("NA GDD2LF")+geom_vline(xintercept=0,color="blue")
+
+c<-stan_plot(stv_jnt.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("Europe stv")+geom_vline(xintercept=0,color="blue")
+d<-stan_plot(stv_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("NA stv")+geom_vline(xintercept=0,color="blue")
+
+e<-stan_plot(stv_area.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("Europe range area")+geom_vline(xintercept=0,color="blue")
+f<-stan_plot(area_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
+  ggtitle("NA range area")+geom_vline(xintercept=0,color="blue")
+
+
+ggpubr::ggarrange(a,b,c,d,e,f,nrow=3,ncol=2)
+
+EU.sum2 <- summary(stv_jnt.eu)$summary
+NAM.sum2 <- summary(stv_jnt.nam)$summary
+
+EU.sum3 <- summary(stv_area.eu)$summary
+NAM.sum3 <- summary(area_jnt.nam)$summary
+
 EU.sum[grep("betaT", rownames(EU.sum)),]
-EU.sum[grep("mu", rownames(EU.sum)),]
-
-threeparam_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.nam,
-                      iter = 6000, warmup=5000,control = list(adapt_delta=0.99)) #10 divergent transitions
-
-NAM.sum <- summary(threeparam_jnt.nam)$summary
 NAM.sum[grep("betaT", rownames(NAM.sum)),]
 
-NAM.sum[grep("mu", rownames(NAM.sum)),]
+EU.sum2[grep("betaT", rownames(EU.sum2)),]
+NAM.sum2[grep("betaT", rownames(NAM.sum2)),]
 
-launch_shinystan(threeparam_jnt.nam)
+EU.sum3[grep("betaT", rownames(EU.sum3)),]
+NAM.sum3[grep("betaT", rownames(NAM.sum3)),]
+
