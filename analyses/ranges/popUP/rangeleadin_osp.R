@@ -364,9 +364,10 @@ e<-stan_plot(stv_area.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhot
 f<-stan_plot(area_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
   ggtitle("NA range area")+geom_vline(xintercept=0,color="blue")
 
-
+pdf("figures/explore_mus.pdf")
 ggpubr::ggarrange(a,b,c,d,e,f,nrow=3,ncol=2)
 
+dev.off()
 EU.sum2 <- summary(stv_jnt.eu)$summary
 NAM.sum2 <- summary(stv_jnt.nam)$summary
 
