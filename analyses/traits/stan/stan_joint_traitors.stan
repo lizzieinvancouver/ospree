@@ -22,8 +22,8 @@ data {
  
     vector[Nph] yPhenoi; // Outcome phenology
     vector[Nph] forcingi; // predictor forcing 
-    vector[N] photoi; // predictor photoperiod 
-    vector[N] chillingi; // predictor chilling
+    vector[Nph] photoi; // predictor photoperiod 
+    vector[Nph] chillingi; // predictor chilling
 
     int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
 
@@ -104,7 +104,7 @@ model{
     //MODEL 1 ---------------------------------------------
     //assign priors
     sigmaTrait_y ~ normal(0,10); // sigma_obs 10
-    sigma_sp ~ normal(0,10); //sigma_species 10
+    sigma_sp ~ normal(0,20); //sigma_species 10
     mu_grand ~ normal(0, 20); // mu_species 20
     muSp ~ normal(0, sigma_sp); //trait1
 
@@ -122,25 +122,25 @@ model{
 
     //priors level 2
 
-    sigmaForceSp ~ normal(0, 5); //sigma_a_forcing 2
-    muForceSp ~ normal(0, 5);// mu_a_forcing -0.8 
+    sigmaForceSp ~ normal(0, 1); //sigma_a_forcing 2
+    muForceSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //forcing_a
 
-    sigmaPhotoSp ~ normal(0, 5); //sigma_a_forcing 2
-    muPhotoSp ~ normal(0, 5);// mu_a_forcing -0.8 
+    sigmaPhotoSp ~ normal(0, 1); //sigma_a_forcing 2
+    muPhotoSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //forcing_a
     
-    sigmaChillSp ~ normal(0, 5); //sigma_a_forcing 2
-    muChillSp ~ normal(0, 5);// mu_a_forcing -0.8 
+    sigmaChillSp ~ normal(0, 1); //sigma_a_forcing 2
+    muChillSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //forcing_a
     
     sigmaPhenoSp ~ normal(0, 10); // sigma_a_phen 10
     muPhenoSp ~ normal(100, 50);  //mu_a_phen 100
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//phenology_a
 
-    betaTraitxForcing ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
-    betaTraitxPhoto ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
-    betaTraitxChill ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
+    betaTraitxForcing ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
+    betaTraitxPhoto ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
+    betaTraitxChill ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
 
     //likelihood 
         for (i in 1:Nph){

@@ -153,7 +153,8 @@ spp.obsid <- unique(spp$speciesname)
 species <- sort(unique(dat$speciesname))
 traits <- c("Plant_height_vegetative", "Specific_leaf_area","Leaf_nitrogen_.N._content_per_leaf_dry_mass", 
             "Stem_specific_density", "Leaf_dry_matter_content",
-            "leaf life span","seed mass", "Leaf_carbon_.C._content_per_leaf_dry_mass")
+           "Seed_mass", "Leaf_carbon_.C._content_per_leaf_dry_mass")
+
 mtrt.ddply <- ddply(dat, c("speciesname", "traitname"),
                     summarise, mean = mean(traitvalue),
                     sd = sd(traitvalue),
@@ -168,7 +169,7 @@ for(i in 1:length(species)){
         mat[i, j] <- subset(temp, traitname == traits[j])$geomean[1]
     }
 }
-colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "llife", "seed", "C")
+colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "seed", "C")
 rownames(mat) <- species
 
 ## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 26 species

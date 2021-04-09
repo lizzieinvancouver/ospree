@@ -4,10 +4,11 @@
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
-  setwd("/home/faith/Documents/github/ospree/ospree/analyses/jointmodel/") 
+  setwd("~/R/Deirdre/Deirdre/traitors")
 }
 
 library(rstan)
+require(shinystan)
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -17,7 +18,7 @@ Nspp <- 5 # number of species with traits
 
 # First making a data frame for the test trait data
 trtrep <- 10 # rep per trait
-Ntrt <- Nspp * trtrep * Nstudy
+Ntrt <- Nspp * trtrep * Nstudy # total number of traits observations
 
 #make a dataframe for height
 trt.dat <- data.frame(matrix(NA, Ntrt, 3))
@@ -26,13 +27,23 @@ trt.dat$rep <- c(1:Ntrt)
 trt.dat$species <- rep(c(1:Nspp), each = trtrep)
 trt.dat$study <- rep(c(1:Nstudy), each = trtrep)
 
-mu.trt <- 20
-sigma.trt <- 10
-ht <- rnorm(Nspp, mu.trt, sigma.trt)
+# now generating the species trait data, here it is for height
+mu.trt <- 20 # the grand mean trait value?
+sigma.trtsp <- 10
+alpha.trtsp <- rnorm(Nspp, 0, sigma.trtsp)
+trt.dat$alpha.trtsp <- rep(alpha.trtsp, each = trtrep) #adding ht data for ea. sp
 
-#adding ht data for ea. sp
-trt.dat$trt <- rep(ht, each = trtrep)
+#now generating the effects of study
+sigma.study <- 5
+alpha.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
+trt.dat$alpha.study <- rep(alpha.study, each = Nspp) # generate data for ea study
 
+# general variance
+trt.var <- 2
+trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
+
+# generate yhat for this first trt model
+trt.dat$yTraiti <- mu.trt + trt.dat$alpha.trtsp + trt.dat$alpha.study + trt.dat$trt.er
 #########################################################
 # Next, making a data frame for the pheno data
 
@@ -43,7 +54,6 @@ pheno.dat <- data.frame(matrix(NA, Nph, 2))
 names(pheno.dat) <- c("species", "rep")
 pheno.dat$rep <- c(1:Nph)
 pheno.dat$species <- rep(c(1:Nspp), each = nphen)
-
 
 # Generating data for the cues:
 mu.force <- 20
@@ -86,42 +96,87 @@ betaTraitxchill <- -.8
 betaTraitxphoto<- -.8 
 betaTraitxforce <- .8 
 
-#combine teh effects of forcing and species trait differences into a slope
-beta.forcing.sp1 <- alpha.force.sp + ht*betaTraitxforce
+#combine the effects of forcing and species trait differences into a slope
+beta.forcing.sp1 <- alpha.force.sp + alpha.trtsp*betaTraitxforce
 beta.forcing.sp <- rep(beta.forcing.sp1, )
 pheno.dat$beta.forcing.sp <- rep(beta.forcing.sp, each = nphen)
 
-beta.chilling.sp1 <- alpha.chill.sp + ht*betaTraitxchill
+beta.chilling.sp1 <- alpha.chill.sp + alpha.trtsp*betaTraitxchill
 beta.chilling.sp <- rep(beta.chilling.sp1, )
 pheno.dat$beta.chilling.sp <- rep(beta.chilling.sp, each = nphen)
 
-beta.photo.sp1 <- alpha.photo.sp + ht*betaTraitxphoto
+beta.photo.sp1 <- alpha.photo.sp + alpha.trtsp*betaTraitxphoto
 beta.photo.sp <- rep(beta.photo.sp1, )
 pheno.dat$beta.photo.sp <- rep(beta.photo.sp, each = nphen)
 
 #general variance
 sigma.gen <- 2
 gen.var <- rnorm(Nph, 0, sigma.gen) 
-pheno.dat$gen.var <- gen.var
+pheno.dat$gen.er <- gen.var
 
 #"run" the full model to simulate data 
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
-  pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.var
+  pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
 
 hist(pheno.dat$doy.i)
 
-trt.pheno <- list(
-  yTraiti = trt.dat$trt, 
-  N = length(trt.dat), # sample size for trait data is the same as phenology data 
-  n_spec = Nspp,  # number of species is the same for traits and phenology data
-  species = trt.dat$species, 
-  study = trt.dat$study, 
-  n_study = Nstudy, 
-  yPhenoi = pheno.dat$doy.i, 
-  Nph = length(pheno.dat), # sample size for trait data is the same as phenology data  
-  forcingi = pheno.dat$forcingi,
-  photoi = pheno.dat$photoi,
-  chillingi = pheno.dat$chillingi)  
+# trt.pheno <- list(
+#   yTraiti = trt.dat$yTraiti, 
+#   N = length(trt.dat), # sample size for trait data is the same as phenology data 
+#   n_spec = Nspp,  # number of species is the same for traits and phenology data
+#   species = trt.dat$species, 
+#   study = trt.dat$study, 
+#   n_study = Nstudy, 
+#   yPhenoi = pheno.dat$doy.i, 
+#   Nph = length(pheno.dat), # sample size for trait data is the same as phenology data  
+#   forcingi = pheno.dat$forcingi,
+#   photoi = pheno.dat$photoi,
+#   chillingi = pheno.dat$chillingi)  
 
-test.dat <- stan('stan/stan_joint_traitors.stan', data = trt.pheno,
-                 iter = 1000, warmup=1000)
+stan_data <- list(yTraiti = trt.dat$yTraiti, 
+                  N = Ntrt, 
+                  n_spec = Nspp, 
+                  species = trt.dat$species, 
+                  study = trt.dat$study, 
+                  n_study = Nstudy, 
+                  yPhenoi = pheno.dat$doy.i, 
+                  Nph = Nph, 
+                  forcingi = forcingi,
+                  photoi = photoi, 
+                  chillingi = chillingi,
+                  species2 = pheno.dat$species)
+
+test.dat <- stan('stan/stan_joint_traitors.stan', data = stan_data, iter = 8000)
+
+#as of April 8, 5043 div trans, rhat >>1 and ESS too low
+ssm <-  as.shinystan(test.dat)
+launch_shinystan(ssm)
+
+sumer <- summary(test.dat)$summary
+post <- extract(test.dat)
+
+#model 1
+plot(density(post$sigmaTrait_y )) #
+plot(density(post$muSp )) #super yikes
+plot(density(post$sigma_sp)) 
+plot(density(post$sigma_stdy)) 
+plot(density(post$muStdy )) 
+
+#model 2
+plot(density(post$alphaForcingSp))
+plot(density(post$alphaChillSp))
+plot(density(post$alphaPhotoSp))
+plot(density(post$sigmapheno_y )) #
+
+plot(density(post$betaTraitxForcing))
+plot(density(post$betaTraitxPhoto))
+plot(density(post$betaTraitxChill))# 
+
+plot(density(post$muForceSp)) # 
+plot(density(post$sigmaForceSp)) # 
+
+plot(density(post$muChillSp)) # 
+plot(density(post$sigmaChillSp)) # 
+
+plot(density(post$muPhotoSp)) # 
+plot(density(post$sigmaPhotoSp)) # 
