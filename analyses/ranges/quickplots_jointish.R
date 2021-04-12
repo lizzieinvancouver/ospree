@@ -13,7 +13,9 @@ library(rstanarm)
 library(dplyr)
 library(ggplot2)
 library(stringr)
-# Setting working directory. Add in your own path in an if statement for your file structure
+
+# Setting working directory.
+# Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("~/Documents/GitHub/ospree/analyses/ranges")
@@ -25,20 +27,59 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-outy<-read.csv(file = "betasandmorefromPOPUP.csv")
+# f(x)s
 substrRight <- function(x, n){
   substr(x, nchar(x)-n+1, nchar(x))
 }
+
+# Get the data (meaning data and model output) 
+outy <- read.csv(file = "betasandmorefromPOPUP.csv")
+rangiesEu <- read.csv("output/Synthesis_climate_EUspsw.csv")
+rangiesNa <- read.csv("output/Synthesis_climate_Namsps_weighted.csv")
+
+# Range data ...
+rangiesEu$continent<-"Europe"
+rangiesEu<-dplyr::select(rangiesEu,-X)
+rangiesNa$continent<-"N. America"
+rangies<-rbind(rangiesEu,rangiesNa)
+ggdlf<-filter(rangies,variable=="GDD.lastfrost")
+ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
+colnames(ggdlf)[1]<-"complex.wname"
+STV<-filter(rangies,variable=="MeanTmins")
+STV<-dplyr::select(STV,species,Temp.SD,continent)
+colnames(STV)[c(1,2)]<-c("complex.wname","STV")
+ggdlf<-left_join(ggdlf,STV)
+
+# CHECK ME!!
+# hmmm I think we don't want "Picea_mariana" or one of the  "Alnus_incana"
+ggdlfuse <- subset(ggdlf, complex.wname!="Picea_mariana")
+ggdlfuse <- ggdlfuse[-(which(ggdlfuse$continent=="Europe" & ggdlfuse$complex.wname=="Alnus_incana")),]
+
+# CHECK ME!!
+# blithley assuming this is the ordering of Stan model output!
+ggdlfuse <- ggdlfuse[with(ggdlfuse, order(complex.wname)), ]
+
+
+# doing something ... 
 outy$species<-substrRight(outy$X, 4)
 outy$species<-str_remove(outy$species, "p")
 outy$species<-str_remove(outy$species, "e")
 outy$species<-str_remove(outy$species, "o")
 outy$species<-str_remove(outy$species, "l")
 
+##
+## lizzie trying to do the popUpmodels.jpg
+sloperow <- outy[which(outy$X=="betaTraitxForcing"),]
+interceptrow <-outy[which(outy$X=="muForceSp"),]
+
+forcefigY <- outy[grep("betaForcingSp", outy$X),]
+plot(forcefigY$mean~ggdlfuse$STV, xlab="STV", ylab="species-level estimated forcing cue") # is the model of STV? 
+abline(a=interceptrow$mean, b=sloperow$mean)
+
+## end lizzie trying to do the popUpmodels.jpg
+##
 
 beta<-filter(outy,param=="beta[sp]")
-
-
 
 png("figures/betacomps.png",width = 10,height=10, units = "in",res=300)
 pd=position_dodge(width=.5)
