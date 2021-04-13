@@ -35,6 +35,8 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
+
+load("popupmods.Rda")
 ######################################
 # Flags to choose for bbstanleadin.R #
 ######################################
@@ -103,7 +105,7 @@ colnames(STV)[c(1,2)]<-c("complex.wname","STV")
 ggdlf<-left_join(ggdlf,STV)
 
 ## remove duplicat4e for alnus incana only if you are running everything together
-#ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
 
 #bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
 
@@ -132,7 +134,7 @@ bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
 bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
 bb.stan$range.z<-(bb.stan$range_area-mean(bb.stan$range_area))/sd(bb.stan$range_area)
 
-range(bb.stan$Temp.SD.z)
+
 if(FALSE){ # Skip the force-only model for now...
 bb.force.only <- with(bb.stan, 
                   list(yPhenoi = resp, 
@@ -155,7 +157,7 @@ goobsum[grep("muForceSp", rownames(goobsum)),] #
 goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
 }
 
-if(FALSE){ # Skip the original for now... and full model
+if(FALSE){ # Skip the original for now.
 og.ospree <- with(bb.stan, 
                   list(y = resp, 
                        force = force.z,
@@ -170,9 +172,9 @@ og.ospree <- with(bb.stan,
 ###run original Ospree model for comparision
 m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = og.ospree,
               iter = 4000, warmup=2500) 
-
-### run out range model
-bb.3param <- with(bb.stan, 
+}
+### run range model for all 3 parementers of interest, gdd2lf, stv, range area
+bb.3param.gddlf <- with(bb.stan, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
                            photoi = photo.z,
@@ -183,12 +185,44 @@ bb.3param <- with(bb.stan,
                            climvar=unique(bb.stan$Temp.SD.z)
                       ))
 
-threeparam_jnt = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+
+bb.3param.stv <- with(bb.stan, 
+                        list(yPhenoi = resp, 
+                             forcingi = force.z,
+                             photoi = photo.z,
+                             chillingi = chill.z,
+                             species = latbinum,
+                             N = nrow(bb.stan),
+                             n_spec = length(unique(bb.stan$complex.wname)),
+                             climvar=unique(bb.stan$STV.z)
+                        ))
+
+
+bb.3param.area <- with(bb.stan, 
+                        list(yPhenoi = resp, 
+                             forcingi = force.z,
+                             photoi = photo.z,
+                             chillingi = chill.z,
+                             species = latbinum,
+                             N = nrow(bb.stan),
+                             n_spec = length(unique(bb.stan$complex.wname)),
+                             climvar=unique(bb.stan$range.z)
+                        ))
+
+
+
+threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                  iter = 4000, warmup=2500)
 
+threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                          iter = 4000, warmup=2500)
+
+threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                          iter = 4000, warmup=2500)
 
 
-### extract ospree
+
+if(FALSE){ # Skip extracting original model unless you want to compare the parameters
 m2lni.sum <- summary(m2l.ni)$summary
 m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
 m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
@@ -204,29 +238,33 @@ betasOSP$param[grepl("sigma", rownames(betasOSP))]<-"sigma"
 betasOSP$param[is.na(betasOSP$param)]<-"beta[sp]"
 
 betasOSP$model<-"OSPREE"
+}
 
+summary(threeparam_jnt.gdd)$summary
 #extract 3 range model
-threeparam_jntsum <- summary(threeparam_jnt)$summary
-threeparamys<-as.data.frame(threeparam_jntsum)
+scrape<-function(x){
+goo <- summary(x)$summary
+goo<-as.data.frame(goo)
+goo<-tibble::rownames_to_column(goo, var = "rowname")
+goo<-dplyr::filter(goo,grepl("mu|sigma|beta",rowname))
 
-threeparamys$cue<-NA
-threeparamys$cue[grepl("Forcing", rownames(threeparamys))]<-"force"
-threeparamys$cue[grepl("Photo", rownames(threeparamys))]<-"photo"
-threeparamys$cue[grepl("Chill", rownames(threeparamys))]<-"chill"
-
-threeparamys$param<-NA
-threeparamys$param[grepl("mu", rownames(threeparamys))]<-"mu"
-threeparamys$param[grepl("sigma", rownames(threeparamys))]<-"sigma"
-threeparamys$param[grepl("alpha", rownames(threeparamys))]<-"alpha[sp]"
-threeparamys$param[grepl("beta", rownames(threeparamys))]<-"beta[sp]"
-threeparamys$param[grepl("betaTraitx", rownames(threeparamys))]<-"beta[range]"
-
-threeparamys$model<-"Ranges"
-
-outy<-rbind(threeparamys,betasOSP)
+}
 
 
-write.csv(outy,"betasandmorefromPOPUP.csv",row.names = TRUE)
+stvout<-scrape(threeparam_jnt.stv)
+gddlfout<-scrape(threeparam_jnt.gdd)
+areaout<-scrape(threeparam_jnt.area)
+
+stvout$climparam<-"stv"
+gddlfout$climparam<-"gdd2lf"
+  areaout$climparam<-"area"
+
+
+outy<-rbind(stvout,gddlfout,areaout)
+
+
+write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
+
 # On 26 March 2021 the code above runs!
 # Who knows about the below ...
 }
@@ -343,43 +381,43 @@ area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.na
 
 check_all_diagnostics(area_jnt.nam)
 
-save.image("")
-#10divergent transitions
+save.image("popupmods.Rda")
 
-EU.sum <- summary(gddlf_jnt.eu)$summary
 
-a<-stan_plot(gddlf_jnt.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("Europe GDD2LF")+geom_vline(xintercept=0,color="blue")
 
-b<-stan_plot(gddlf_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("NA GDD2LF")+geom_vline(xintercept=0,color="blue")
 
-c<-stan_plot(stv_jnt.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("Europe stv")+geom_vline(xintercept=0,color="blue")
-d<-stan_plot(stv_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("NA stv")+geom_vline(xintercept=0,color="blue")
+stvout.eu<-scrape(stv_jnt.eu)
+stvout.nam<-scrape(stv_jnt.nam)
 
-e<-stan_plot(stv_area.eu,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("Europe range area")+geom_vline(xintercept=0,color="blue")
-f<-stan_plot(area_jnt.nam,c("betaTraitxForcing","betaTraitxChill","betaTraitxPhoto"),ci_level=.5)+
-  ggtitle("NA range area")+geom_vline(xintercept=0,color="blue")
+gddout.eu<-scrape(gddlf_jnt.eu)
+gddout.nam<-scrape(gddlf_jnt.nam)
 
-pdf("figures/explore_mus.pdf")
-ggpubr::ggarrange(a,b,c,d,e,f,nrow=3,ncol=2)
+areaout.eu<-scrape(stv_area.eu)
+areaout.nam<-scrape(area_jnt.nam)
 
-dev.off()
-EU.sum2 <- summary(stv_jnt.eu)$summary
-NAM.sum2 <- summary(stv_jnt.nam)$summary
+###columns
+stvout.eu$continent<-"Europe"
+stvout.nam$continent<-"N. America"
+stvcont<-rbind(stvout.eu,stvout.nam)
 
-EU.sum3 <- summary(stv_area.eu)$summary
-NAM.sum3 <- summary(area_jnt.nam)$summary
+gddout.eu$continent<-"Europe"
+gddout.nam$continent<-"N. America"
+gddcont<-rbind(gddout.eu,gddout.nam)
 
-EU.sum[grep("betaT", rownames(EU.sum)),]
-NAM.sum[grep("betaT", rownames(NAM.sum)),]
+areaout.eu$continent<-"Europe"
+areaout.nam$continent<-"N. America"
+areacont<-rbind(areaout.eu,areaout.nam)
 
-EU.sum2[grep("betaT", rownames(EU.sum2)),]
-NAM.sum2[grep("betaT", rownames(NAM.sum2)),]
+areacont$climparam<-"area"
+stvcont$climparam<-"stv"
+gddcont$climparam<-"gdd2lf"
 
-EU.sum3[grep("betaT", rownames(EU.sum3)),]
-NAM.sum3[grep("betaT", rownames(NAM.sum3)),]
+outycont<-rbind(stvcont,gddcont,areacont)
+
+
+write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
+
+
+
+
 
