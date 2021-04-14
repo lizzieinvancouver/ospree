@@ -80,12 +80,12 @@ model{
 
     //priors level 2
 
-    sigmaForceSp ~ normal(0, 5);// prior for forcing 
-    muForceSp ~ normal(0, 5);
+    sigmaForceSp ~ normal(0, 20);// prior for forcing 
+    muForceSp ~ normal(0, 10);
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);
     
     sigmaPhotoSp ~ normal(0, 5);// prior for photoperiod
-    muPhotoSp ~ normal(0, 5);
+    muPhotoSp ~ normal(0, 10);
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp); 
     
     sigmaChillSp ~ normal(0, 10);// prior for photoperiod

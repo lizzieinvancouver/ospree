@@ -368,12 +368,13 @@ stv_area.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.area.eu,
 check_all_diagnostics(stv_area.eu)
 
 gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.nam,
-                     iter = 6000, warmup=5000,control = list(adapt_delta=0.999)) #10 divergent transitions
+                     iter = 4000, warmup=3000,control = list(adapt_delta=0.999)) #10 divergent transitions
 
 check_all_diagnostics(gddlf_jnt.nam)
-
+summary(gddlf_jnt.nam)
+launch_shinystan(gddlf_jnt.nam)
 stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.stv.nam,
-                     iter = 6000, warmup=5000,control = list(adapt_delta=0.99))
+                     iter = 7000, warmup=6500,control = list(adapt_delta=0.99))
 
 check_all_diagnostics(stv_jnt.nam)
 area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
