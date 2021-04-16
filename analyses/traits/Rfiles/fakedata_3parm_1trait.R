@@ -1,17 +1,18 @@
 # Date started: March 31, 2021
 # The purpose of this code is to generate test data for the traitors model with all three climate parameters and a single trait, here we start with height:
 
-if(length(grep("deirdreloughnan", getwd()) > 0)) {
-  setwd("~/Documents/github/ospree/analyses/traits")
-} else{
-  setwd("~/R/Deirdre/Deirdre/traitors")
-}
+# if(length(grep("deirdreloughnan", getwd()) > 0)) {
+#   setwd("~/Documents/github/ospree/analyses/traits")
+# } else{
+#   setwd("~/R/Deirdre/Deirdre/traitors")
+# }
 
 library(rstan)
 require(shinystan)
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
+options(mc.cores = parallel::detectCores())
 
 Nstudy <- 10 # number of studies w/ traits
 Nspp <- 5 # number of species with traits
@@ -151,35 +152,39 @@ test.dat <- stan('stan/stan_joint_traitors.stan',
                  data = stan_data, iter = 8000,
                  control = list(adapt_delta = 0.99, max_treedepth = 20))
 
-#as of April 8, 5043 div trans, rhat >>1 and ESS too low
+save(test.dat, file = "output.traitors.Rda")
 ssm <-  as.shinystan(test.dat)
 launch_shinystan(ssm)
+# 
+# sumer <- summary(test.dat)$summary
+# post <- extract(test.dat)
+# 
+# #model 1
+# plot(density(post$sigmaTrait_y )) #
+# plot(density(post$muSp )) #super yikes
+# plot(density(post$sigma_sp)) 
+# plot(density(post$sigma_stdy)) 
+# plot(density(post$muStdy )) 
+# 
+# #model 2
+# plot(density(post$alphaForcingSp))
+# plot(density(post$alphaChillSp))
+# plot(density(post$alphaPhotoSp))
+# plot(density(post$sigmapheno_y )) #
+# 
+# plot(density(post$betaTraitxForcing))
+# plot(density(post$betaTraitxPhoto))
+# plot(density(post$betaTraitxChill))# 
+# 
+# plot(density(post$muForceSp)) # 
+# plot(density(post$sigmaForceSp)) # 
+# 
+# plot(density(post$muChillSp)) # 
+# plot(density(post$sigmaChillSp)) # 
+# 
+# plot(density(post$muPhotoSp)) # 
+# plot(density(post$sigmaPhotoSp)) # 
+load("output/output.traitors3div.Rda")
 
-sumer <- summary(test.dat)$summary
-post <- extract(test.dat)
-
-#model 1
-plot(density(post$sigmaTrait_y )) #
-plot(density(post$muSp )) #super yikes
-plot(density(post$sigma_sp)) 
-plot(density(post$sigma_stdy)) 
-plot(density(post$muStdy )) 
-
-#model 2
-plot(density(post$alphaForcingSp))
-plot(density(post$alphaChillSp))
-plot(density(post$alphaPhotoSp))
-plot(density(post$sigmapheno_y )) #
-
-plot(density(post$betaTraitxForcing))
-plot(density(post$betaTraitxPhoto))
-plot(density(post$betaTraitxChill))# 
-
-plot(density(post$muForceSp)) # 
-plot(density(post$sigmaForceSp)) # 
-
-plot(density(post$muChillSp)) # 
-plot(density(post$sigmaChillSp)) # 
-
-plot(density(post$muPhotoSp)) # 
-plot(density(post$sigmaPhotoSp)) # 
+ssm <-  as.shinystan(test.dat)
+launch_shinystan(ssm)

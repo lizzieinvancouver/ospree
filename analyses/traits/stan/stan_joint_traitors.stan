@@ -56,13 +56,12 @@ parameters{
     
     real alphaPhotoSp[n_spec]; //the distribution of species photoperiod values
     real muPhotoSp; // the mean of the effect of photoperiod
-    real <lower = 0> sigmaPhotoSp; //variation around the mean of the effect of photoperiod
+    real <lower = 0> sigmaPhotoSp; //variation around the mean of the effect of photo
 
     real alphaPhenoSp[n_spec]; //the species level intercept 
     real muPhenoSp; // 
     real <lower = 0> sigmaPhenoSp; 
 
-   //real betaTraitxPheno; //the interaction of alphatrait species with phenology?
     real betaTraitxForcing; 
     real betaTraitxChill; 
     real betaTraitxPhoto; 
@@ -134,7 +133,7 @@ model{
     muChillSp ~ normal(0, 1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
-    sigmaPhenoSp ~ normal(5, 10); // 
+    sigmaPhenoSp ~ normal(2, 10); // 
     muPhenoSp ~ normal(100, 50);  //
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
