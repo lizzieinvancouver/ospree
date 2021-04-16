@@ -29,14 +29,15 @@ trt.dat$study <- rep(c(1:Nstudy), each = trtrep)
 
 # now generating the species trait data, here it is for height
 mu.trt <- 20 # the grand mean trait value?
-sigma.trtsp <- 10
+sigma.trtsp <- 10 #the species sigma for the traits model
+
 alpha.trtsp <- rnorm(Nspp, 0, sigma.trtsp)
 trt.dat$alpha.trtsp <- rep(alpha.trtsp, each = trtrep) #adding ht data for ea. sp
 
 #now generating the effects of study
 sigma.study <- 5
 alpha.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
-trt.dat$alpha.study <- rep(alpha.study, each = Nspp) # generate data for ea study
+trt.dat$alpha.study <- rep(alpha.study, each = Nstudy) # generate data for ea study
 
 # general variance
 trt.var <- 2
@@ -146,7 +147,9 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   chillingi = chillingi,
                   species2 = pheno.dat$species)
 
-test.dat <- stan('stan/stan_joint_traitors.stan', data = stan_data, iter = 8000)
+test.dat <- stan('stan/stan_joint_traitors.stan', 
+                 data = stan_data, iter = 8000,
+                 control = list(adapt_delta = 0.99, max_treedepth = 20))
 
 #as of April 8, 5043 div trans, rhat >>1 and ESS too low
 ssm <-  as.shinystan(test.dat)

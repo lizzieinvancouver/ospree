@@ -37,7 +37,7 @@ parameters{
     real mu_grand; // Grand mean for trait value 
     //level 2
     real <lower = 0> sigma_sp; // variation of intercept amoung species
-    real mu_g; // mean of the alpha value for species
+    //real mu_g; // mean of the alpha value for species
     real muSp[n_spec]; //The trait effect of each species without stdy 
 
     real <lower = 0> sigma_stdy; // variation of intercept amoung studies
@@ -58,14 +58,14 @@ parameters{
     real muPhotoSp; // the mean of the effect of chilling
     real <lower = 0> sigmaPhotoSp; //variation around the mean of the effect of chilling
 
-    real alphaPhenoSp[n_spec]; //the distribution of species forcing effects 
-    real muPhenoSp; // the mean of the effect of phenology
-    real <lower = 0> sigmaPhenoSp; //variation around the mean of the effect of phenology  
+    real alphaPhenoSp[n_spec]; //the species level intercept 
+    real muPhenoSp; // 
+    real <lower = 0> sigmaPhenoSp; 
 
    //real betaTraitxPheno; //the interaction of alphatrait species with phenology?
-    real betaTraitxForcing; //the interaction of alphatrait species with phenology?
-    real betaTraitxChill; //the interaction of alphatrait species with phenology?
-    real betaTraitxPhoto; //the interaction of alphatrait species with phenology?
+    real betaTraitxForcing; 
+    real betaTraitxChill; 
+    real betaTraitxPhoto; 
     // general varience/error
     real <lower =0> sigmapheno_y; // overall variation accross observations
 }
@@ -89,26 +89,26 @@ transformed parameters{
     //MODEL 2----------------------------------------
     //get betaForcingSp values for each species
     for (isp in 1:n_spec){
-    betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxForcing * muSp[isp];
+    betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxForcing * (mu_grand + muSp[isp]);
     }
     
     for (isp in 1:n_spec){
-    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto* muSp[isp];
+    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto* (mu_grand + muSp[isp]);
     }
     
     for (isp in 1:n_spec){
-    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* muSp[isp];
+    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* (mu_grand + muSp[isp]);
     }
 }
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(0,10); // sigma_obs 10
-    sigma_sp ~ normal(0,20); //sigma_species 10
+    sigmaTrait_y ~ normal(10,10); // sigma_obs 10
+    sigma_sp ~ normal(10,20); //sigma_species 10
     mu_grand ~ normal(0, 20); // mu_species 20
     muSp ~ normal(0, sigma_sp); //trait1
 
-    sigma_stdy ~ normal(0, 5);
+    sigma_stdy ~ normal(5, 2);
     muStdy ~ normal(0, sigma_stdy);//sigma_study 0.6. Centred around 0 because muSp acts as the center of the distribution
 
     // run the actual model - likihood
@@ -118,29 +118,29 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(0, 10); // sigma_phen 5
+    sigmapheno_y ~ normal(2, 10); // sigma_phen 5
 
     //priors level 2
 
-    sigmaForceSp ~ normal(0, 1); //sigma_a_forcing 2
+    sigmaForceSp ~ normal(5, 1); //sigma_a_forcing 2
     muForceSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //forcing_a
 
-    sigmaPhotoSp ~ normal(0, 1); //sigma_a_forcing 2
+    sigmaPhotoSp ~ normal(5, 1); //sigma_a_forcing 2
     muPhotoSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //forcing_a
     
-    sigmaChillSp ~ normal(0, 1); //sigma_a_forcing 2
+    sigmaChillSp ~ normal(5, 1); //sigma_a_forcing 2
     muChillSp ~ normal(0, 1);// mu_a_forcing -0.8 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //forcing_a
     
-    sigmaPhenoSp ~ normal(0, 10); // sigma_a_phen 10
+    sigmaPhenoSp ~ normal(5, 10); // sigma_a_phen 10
     muPhenoSp ~ normal(100, 50);  //mu_a_phen 100
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//phenology_a
 
-    betaTraitxForcing ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
-    betaTraitxPhoto ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
-    betaTraitxChill ~ normal(0, 5); // b_forcing. Geoff has one for each species though.  
+    betaTraitxForcing ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
+    betaTraitxPhoto ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
+    betaTraitxChill ~ normal(0, 10); // b_forcing. Geoff has one for each species though.  
 
     //likelihood 
         for (i in 1:Nph){
