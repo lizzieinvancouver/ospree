@@ -15,10 +15,10 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 Nstudy <- 10 # number of studies w/ traits
-Nspp <- 5 # number of species with traits
+Nspp <- 20 # number of species with traits
 
 # First making a data frame for the test trait data
-trtrep <- 10 # rep per trait
+trtrep <- 5 # rep per trait
 Ntrt <- Nspp * trtrep * Nstudy # total number of traits observations
 
 #make a dataframe for height
@@ -120,7 +120,7 @@ pheno.dat$gen.er <- gen.var
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
   pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
 
-hist(pheno.dat$doy.i)
+#hist(pheno.dat$doy.i)
 
 # trt.pheno <- list(
 #   yTraiti = trt.dat$yTraiti, 
@@ -149,42 +149,43 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   species2 = pheno.dat$species)
 
 test.dat <- stan('stan/stan_joint_traitors.stan', 
-                 data = stan_data, iter = 8000,
-                 control = list(adapt_delta = 0.99, max_treedepth = 20))
+                 data = stan_data, iter = 6000,
+                 control = list(adapt_delta = 0.99, max_treedepth = 15))
 
 save(test.dat, file = "output.traitors.Rda")
-ssm <-  as.shinystan(test.dat)
-launch_shinystan(ssm)
-# 
-# sumer <- summary(test.dat)$summary
-# post <- extract(test.dat)
-# 
-# #model 1
-# plot(density(post$sigmaTrait_y )) #
-# plot(density(post$muSp )) #super yikes
-# plot(density(post$sigma_sp)) 
-# plot(density(post$sigma_stdy)) 
-# plot(density(post$muStdy )) 
-# 
-# #model 2
-# plot(density(post$alphaForcingSp))
-# plot(density(post$alphaChillSp))
-# plot(density(post$alphaPhotoSp))
-# plot(density(post$sigmapheno_y )) #
-# 
-# plot(density(post$betaTraitxForcing))
-# plot(density(post$betaTraitxPhoto))
-# plot(density(post$betaTraitxChill))# 
-# 
-# plot(density(post$muForceSp)) # 
-# plot(density(post$sigmaForceSp)) # 
-# 
-# plot(density(post$muChillSp)) # 
-# plot(density(post$sigmaChillSp)) # 
-# 
-# plot(density(post$muPhotoSp)) # 
-# plot(density(post$sigmaPhotoSp)) # 
-load("output/output.traitors3div.Rda")
+
+load("output/output.traitors.Rda")
 
 ssm <-  as.shinystan(test.dat)
 launch_shinystan(ssm)
+
+sumer <- summary(test.dat)$summary
+post <- extract(test.dat)
+
+#model 1
+plot(density(post$sigmaTrait_y )) #
+plot(density(post$muSp )) # a bit add
+plot(density(post$sigma_sp))
+plot(density(post$sigma_stdy))
+plot(density(post$muStdy )) # really odd looking
+
+#model 2
+plot(density(post$alphaForcingSp))
+plot(density(post$alphaChillSp))
+plot(density(post$alphaPhotoSp))
+plot(density(post$sigmapheno_y )) #
+
+plot(density(post$betaTraitxForcing))
+plot(density(post$betaTraitxPhoto))
+plot(density(post$betaTraitxChill))#
+
+plot(density(post$muForceSp)) #
+plot(density(post$sigmaForceSp)) #
+
+plot(density(post$muChillSp)) #
+plot(density(post$sigmaChillSp)) #
+
+plot(density(post$muPhotoSp)) #
+plot(density(post$sigmaPhotoSp)) #
+
+

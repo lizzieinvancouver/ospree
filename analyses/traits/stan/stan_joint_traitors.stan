@@ -102,9 +102,9 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(10,10); // sigma_trt 10
-    sigma_sp ~ normal(10,20); //sigma_species 10
-    mu_grand ~ normal(0, 20); //
+    sigmaTrait_y ~ normal(10,1); // sigma_trt 10
+    sigma_sp ~ normal(10,2); //sigma_species 10
+    mu_grand ~ normal(0, 2); //
     muSp ~ normal(0, sigma_sp); //
 
     sigma_stdy ~ normal(5, 2);
@@ -117,7 +117,7 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(2, 10); // 
+    sigmapheno_y ~ normal(2, 1); // 
 
     //priors level 2
 
@@ -133,13 +133,13 @@ model{
     muChillSp ~ normal(0, 1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
-    sigmaPhenoSp ~ normal(2, 10); // 
-    muPhenoSp ~ normal(100, 50);  //
+    sigmaPhenoSp ~ normal(2, 1); // 
+    muPhenoSp ~ normal(100, 5);  //
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForcing ~ normal(0, 10); // 
-    betaTraitxPhoto ~ normal(0, 10); // 
-    betaTraitxChill ~ normal(0, 10); // 
+    betaTraitxForcing ~ normal(0, 1); // 
+    betaTraitxPhoto ~ normal(0, 1); // 
+    betaTraitxChill ~ normal(0, 1); // 
 
     //likelihood 
         for (i in 1:Nph){
