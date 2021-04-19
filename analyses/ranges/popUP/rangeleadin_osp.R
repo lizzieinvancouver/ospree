@@ -217,8 +217,8 @@ threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.
 threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                           iter = 4000, warmup=2500)
 
-threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                          iter = 4000, warmup=2500)
+#threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+ #                         iter = 4000, warmup=2500)
 
 
 
@@ -253,14 +253,14 @@ goo<-dplyr::filter(goo,grepl("mu|sigma|beta",rowname))
 
 stvout<-scrape(threeparam_jnt.stv)
 gddlfout<-scrape(threeparam_jnt.gdd)
-areaout<-scrape(threeparam_jnt.area)
+#areaout<-scrape(threeparam_jnt.area)
 
 stvout$climparam<-"stv"
 gddlfout$climparam<-"gdd2lf"
-  areaout$climparam<-"area"
+ # areaout$climparam<-"area"
 
 
-outy<-rbind(stvout,gddlfout,areaout)
+outy<-rbind(stvout,gddlfout)#,areaout)
 
 
 write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
@@ -306,7 +306,7 @@ bb.stv.nam <- with(bb.stan.nam,
                           n_spec = length(unique(bb.stan.nam$complex.wname)),
                           climvar=unique(bb.stan.nam$STV.z)
                      ))
-
+if(FALSE){
 bb.area.nam <- with(bb.stan.nam, 
                    list(yPhenoi = resp, 
                         forcingi = force.z,
@@ -319,7 +319,18 @@ bb.area.nam <- with(bb.stan.nam,
                    ))
 
 
+bb.area.eu <- with(bb.stan.eu, 
+                   list(yPhenoi = resp, 
+                        forcingi = force.z,
+                        photoi = photo.z,
+                        chillingi = chill.z,
+                        species = latbinum,
+                        N = nrow(bb.stan.eu),
+                        n_spec = length(unique(bb.stan.eu$complex.wname)),
+                        climvar=unique(bb.stan.eu$range.z)
+                   ))
 
+}
 bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -329,6 +340,7 @@ bb.gddlf.eu <- with(bb.stan.eu,
                            N = nrow(bb.stan.eu),
                            n_spec = length(unique(bb.stan.eu$complex.wname)),
                            climvar=unique(bb.stan.eu$Temp.SD.z)
+                           
                       ))
 
 
@@ -343,16 +355,7 @@ bb.stv.eu <- with(bb.stan.eu,
                          climvar=unique(bb.stan.eu$STV.z)
                     ))
 
-bb.area.eu <- with(bb.stan.eu, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z,
-                       photoi = photo.z,
-                       chillingi = chill.z,
-                       species = latbinum,
-                       N = nrow(bb.stan.eu),
-                       n_spec = length(unique(bb.stan.eu$complex.wname)),
-                       climvar=unique(bb.stan.eu$range.z)
-                  ))
+
 
 ###models
 gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gddlf.eu,
@@ -363,9 +366,9 @@ stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.stv.eu,
                    iter = 5000, warmup=4000) #runs
 check_all_diagnostics(stv_jnt.eu)
 
-stv_area.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.area.eu,
-                 iter = 5000, warmup=4000)
-check_all_diagnostics(stv_area.eu)
+#stv_area.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.area.eu,
+ #                iter = 5000, warmup=4000)
+#check_all_diagnostics(stv_area.eu)
 
 gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.nam,
                      iter = 4000, warmup=3000,control = list(adapt_delta=0.999)) #10 divergent transitions
@@ -377,10 +380,10 @@ stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.stv.nam,
                      iter = 7000, warmup=6500,control = list(adapt_delta=0.99))
 
 check_all_diagnostics(stv_jnt.nam)
-area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
-                   iter = 6000, warmup=5000,control = list(adapt_delta=0.99))
+#area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
+ #                  iter = 6000, warmup=5000,control = list(adapt_delta=0.99))
 
-check_all_diagnostics(area_jnt.nam)
+#check_all_diagnostics(area_jnt.nam)
 
 save.image("popupmods.Rda")
 
