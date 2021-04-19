@@ -306,7 +306,7 @@ bb.stv.nam <- with(bb.stan.nam,
                           n_spec = length(unique(bb.stan.nam$complex.wname)),
                           climvar=unique(bb.stan.nam$STV.z)
                      ))
-if(FALSE){
+if(FALSE){ #skip area models now
 bb.area.nam <- with(bb.stan.nam, 
                    list(yPhenoi = resp, 
                         forcingi = force.z,
@@ -331,6 +331,7 @@ bb.area.eu <- with(bb.stan.eu,
                    ))
 
 }
+
 bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -376,6 +377,8 @@ gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.
 check_all_diagnostics(gddlf_jnt.nam)
 summary(gddlf_jnt.nam)
 launch_shinystan(gddlf_jnt.nam)
+
+
 stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.stv.nam,
                      iter = 7000, warmup=6500,control = list(adapt_delta=0.99))
 
@@ -408,15 +411,15 @@ gddout.eu$continent<-"Europe"
 gddout.nam$continent<-"N. America"
 gddcont<-rbind(gddout.eu,gddout.nam)
 
-areaout.eu$continent<-"Europe"
-areaout.nam$continent<-"N. America"
-areacont<-rbind(areaout.eu,areaout.nam)
+#areaout.eu$continent<-"Europe"
+#areaout.nam$continent<-"N. America"
+#areacont<-rbind(areaout.eu,areaout.nam)
 
-areacont$climparam<-"area"
+#areacont$climparam<-"area"
 stvcont$climparam<-"stv"
 gddcont$climparam<-"gdd2lf"
 
-outycont<-rbind(stvcont,gddcont,areacont)
+outycont<-rbind(stvcont,gddcont)#,areacont)
 
 
 write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
