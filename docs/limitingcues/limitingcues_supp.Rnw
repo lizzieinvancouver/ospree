@@ -76,7 +76,7 @@ maxphoto<-linearize("max.photo", "mean.lat", dat)
 photo<-round(maxphoto$coefficients[2,1],digits=2)
 @
 
-Cue levels studied varied across latitude, with a general trend toward examining more extreme values at higher latitudes. Forcing and chilling treatments decline 0.1$\degree$C per 1$\degree$ of latitude (for forcing, min is \Sexpr{force.min}, for max it is \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it is \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per $\degree$ latitude, see Fig \ref{fig:lat}). 
+Treatments (cue levels) varied across latitude, with a general trend toward more extreme values at higher latitudes. Forcing and chilling treatments decline 0.1$\degree$C per 1$\degree$ of latitude (for forcing, min is \Sexpr{force.min}, for max it is \Sexpr{force.max}, see Fig \ref{fig:lat}; for chilling it is \Sexpr{chill.min} for min and \Sexpr{chill.max} for max); and the maximum studied photoperiod increases with latitude (\Sexpr{photo} hr per $\degree$ latitude, see Fig \ref{fig:lat}). 
 
 \section{Comparing experimental treatments to forecasted trends}
 % studydesignplots.R
@@ -116,10 +116,10 @@ print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,s
 \begin{figure}[t!]
 \centering
 \includegraphics[width=0.8\textwidth]{..//..//analyses/limitingcues/figures/studyyearcues.pdf}
-\caption{Prevalence of number of cues (chilling, forcing, photoperiod) manipulated in studies over time over time.}
+\caption{Prevalence of number of cues (1-3 possible: chilling, forcing, photoperiod) manipulated in studies over time. Studies that had multiple field sample dates but did not otherwise manipulate experimental chilling were counted as manipulating the chill cue. We separately counted the number of studies that had multiple field sample dates and manipulated experimental chilling (shown in green). Some studies had only multiple provenance latitudes and/or species (shown in blue). }
   \label{fig:ts}
 \end{figure}
-
+% From Cat: We counted the number of cues (chilling, forcing and/or photoperiod) maniputed in studies over time. Studies that had multiple field sample dates but did not otherwise manipulate experimental chilling were included as manipulating the chill cue. We additionally counted the number of studies that had multiple field sample dates as well as manipulated experimental chill (shown in green). Finally, we counted the number of studies that had multiple provenance latitudes and/or species (shown in blue). 
 
 \begin{figure}[t!]
 \centering
