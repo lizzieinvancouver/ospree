@@ -173,7 +173,7 @@ og.ospree <- with(bb.stan,
 m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = og.ospree,
               iter = 4000, warmup=2500) 
 }
-### run range model for all 3 parementers of interest, gdd2lf, stv, range area
+### run range model for all 3 parameters of interest, gdd2lf, stv, range area
 bb.3param.gddlf <- with(bb.stan, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -270,11 +270,11 @@ write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
 }
 
 
+##
+## NAM (North America) only
 
-##try NAM only
-
-bb.stan.nam<-filter(bb.stan, continent=="N. America")
-bb.stan.eu<-filter(bb.stan, continent!="N. America")
+bb.stan.nam <- filter(bb.stan, continent=="N. America")
+bb.stan.eu <- filter(bb.stan, continent!="N. America")
 
 
 unique(bb.stan.eu$complex.wname)
@@ -371,8 +371,16 @@ check_all_diagnostics(stv_jnt.eu)
  #                iter = 5000, warmup=4000)
 #check_all_diagnostics(stv_area.eu)
 
+if(FALSE){
 gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.nam,
                      iter = 4000, warmup=3000,control = list(adapt_delta=0.999)) #10 divergent transitions
+}
+
+gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.gddlf.nam,
+                     iter = 4000, warmup=3000) # Purring away now!
+# (NCP on photo got it down to 1 divergent trans, NCP on forcing took it home!)
+
+
 
 check_all_diagnostics(gddlf_jnt.nam)
 summary(gddlf_jnt.nam)
@@ -427,4 +435,23 @@ write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
 
 
 
+# Lizzie playing around with another model
+if(FALSE){
+# need to add continent dummy variable to bb.stan ...
+# then add it to list
+    
+bb.3paramcont.gddlf <- with(bb.stan, 
+                      list(yPhenoi = resp, 
+                           forcingi = force.z,
+                           photoi = photo.z,
+                           chillingi = chill.z,
+                           species = latbinum,
+                           N = nrow(bb.stan),
+                           n_spec = length(unique(bb.stan$complex.wname)),
+                           climvar=unique(bb.stan$Temp.SD.z)
+                      ))
 
+goober = stan('popUP/stan/.stan', data=bb.3paramcont.gddlf,
+                     iter = 4000, warmup=3000)
+
+    }
