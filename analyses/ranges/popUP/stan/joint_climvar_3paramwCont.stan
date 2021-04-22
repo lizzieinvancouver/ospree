@@ -47,6 +47,9 @@ parameters{
     real betaTraitxPhoto; //the interaction of climvar species with Photo?
     real betaTraitxChill; //the interaction of climvar species with Chill?
     real betaFS; // attempt at continent*clim effect
+    real betaPS; // attempt at continent*clim effect
+    real betaCS; // attempt at continent*clim effect
+
 
     // general varience/error
     real <lower =0> sigmapheno_y; // overall variation accross observations
@@ -68,11 +71,13 @@ transformed parameters{
     }
     
     for (isp in 1:n_spec){
-    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto*climvar[isp];
+    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto*climvar[isp] +
+        betaPS*inter_fs[isp];
     }
     
     for (isp in 1:n_spec){
-    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill*climvar[isp];
+    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill*climvar[isp] + 
+        betaCS*inter_fs[isp];
     }
 }
 
@@ -101,6 +106,9 @@ model{
     betaTraitxPhoto ~ normal(0, 10);
     betaTraitxChill ~ normal(0, 10);
     betaFS ~ normal(0,10);
+    betaPS ~ normal(0,10);
+    betaCS ~ normal(0,10);
+
 
     //likelihood 
         for (i in 1:N){

@@ -461,8 +461,11 @@ goober = stan('popUP/stan/joint_climvar_3paramwCont.stan', data=bb.3paramcont.gd
                      iter = 4000, warmup=3000)
 
 goobsumCont <- summary(goober)$summary
-goobsumCont[grep("muPhenoSp", rownames(goobsumCont)),]
-goobsumCont[grep("muForceSp", rownames(goobsumCont)),] 
-goobsumCont[grep("betaTraitxPheno", rownames(goobsumCont)),]
+goobsumCont[grep("mu", rownames(goobsumCont)),]
+goobsumCont[grep("betaTraitx", rownames(goobsumCont)),]
+goobsumCont[grep("betaFS", rownames(goobsumCont)),]
+goobsumCont[grep("betaPS", rownames(goobsumCont)),]
+goobsumCont[grep("betaCS", rownames(goobsumCont)),]
+
 
     }
