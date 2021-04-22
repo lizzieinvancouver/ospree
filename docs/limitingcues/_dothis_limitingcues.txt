@@ -2,6 +2,10 @@ Started 24 August 2017
 By Lizzie
 
 
+Now: START on page 6 of all comments PDF ...
+
+
+
 <><><><><><><><><><><><><><><><><><><><>
 Moving to a longer format journal? READ ME ...
 <><><><><><><><><><><><><><><><><><><><>
@@ -13,6 +17,9 @@ and reverse the noted changes.
 <><><><><><><><><><><><><><>
 <> Next steps (March 2021) <>
 <><><><><><><><><><><><><><>
+
+
+CHANGE title on supp: How interactive effects of temperature and photoperiod shape plant phenology responses to climate change
 
 DONE:
 - GDD x chill figure -- fix the x axis and explain the NA for photoperiod! 
