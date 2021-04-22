@@ -436,9 +436,14 @@ write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
 
 
 # Lizzie playing around with another model
+# Can we include continent in our current model so we don't have to split them?
 if(FALSE){
-# need to add continent dummy variable to bb.stan ...
-# then add it to list
+# add continent dummy variable to bb.stan ...
+bb.stan$continentdummy <- 1
+bb.stan$continentdummy[which(bb.stan$continent=="Europe")] <- 0
+continentquick <- subset(bb.stan, select=c("complex.wname", "continentdummy"))
+continentquick <- continentquick[!duplicated(continentquick), ]
+                        
     
 bb.3paramcont.gddlf <- with(bb.stan, 
                       list(yPhenoi = resp, 
@@ -448,10 +453,16 @@ bb.3paramcont.gddlf <- with(bb.stan,
                            species = latbinum,
                            N = nrow(bb.stan),
                            n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$Temp.SD.z)
+                           climvar=unique(bb.stan$Temp.SD.z),
+                           continent=continentquick$continentdummy
                       ))
 
-goober = stan('popUP/stan/.stan', data=bb.3paramcont.gddlf,
+goober = stan('popUP/stan/joint_climvar_3paramwCont.stan', data=bb.3paramcont.gddlf,
                      iter = 4000, warmup=3000)
+
+goobsumCont <- summary(goober)$summary
+goobsumCont[grep("muPhenoSp", rownames(goobsumCont)),]
+goobsumCont[grep("muForceSp", rownames(goobsumCont)),] 
+goobsumCont[grep("betaTraitxPheno", rownames(goobsumCont)),]
 
     }
