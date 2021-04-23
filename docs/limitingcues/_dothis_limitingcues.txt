@@ -2,10 +2,6 @@ Started 24 August 2017
 By Lizzie
 
 
-Now: START on page 6 of all comments PDF ...
-
-
-
 <><><><><><><><><><><><><><><><><><><><>
 Moving to a longer format journal? READ ME ...
 <><><><><><><><><><><><><><><><><><><><>
@@ -15,28 +11,16 @@ and reverse the noted changes.
 
 
 <><><><><><><><><><><><><><>
-<> Next steps (March 2021) <>
+<> Next steps (April 2021) <>
 <><><><><><><><><><><><><><>
-
-
-CHANGE title on supp: How interactive effects of temperature and photoperiod shape plant phenology responses to climate change
-
-DONE:
-- GDD x chill figure -- fix the x axis and explain the NA for photoperiod! 
-- Ailene's interaction stuff (to discuss on Tuesday)
-
 (*) Check on figure help:
+(*) git issues 393-395, also issue 249) also ...
 - https://github.com/lizzieinvancouver/ospree/issues/395
 - https://github.com/lizzieinvancouver/ospree/issues/393
 - https://github.com/lizzieinvancouver/ospree/issues/399
 
 - NEW general issue: Thielges photoperiod  -- is 16/8 hours (end of first paragraph of M&M, no?)
 
-(*) Finish the supp!
-
-(*) git issues 393-395, also issue 249) also ...
-
-(*) Pick a journal! (See March 2021 notes below)
 
 (*) Small things to maybe do ...
 - Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
@@ -45,6 +29,9 @@ DONE:
 <><><><><><><><><><><><><><><><><><><><>
 Journal and figure decisions (March 2021)
 <><><><><><><><><><><><><><><><><><><><>
+
+Came up with:
+How interactive effects of temperature and photoperiod shape plant phenology responses to climate change
 
 TITLE:
 

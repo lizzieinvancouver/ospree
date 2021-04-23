@@ -30,15 +30,18 @@ Version dated: \today
 \medskip
 \begin{center}
 
-\noindent{\Large {\bf Limiting cues: How spring warming, winter chilling and daylength will shape climate change responses}}\\ 
+\noindent{\Large {\bf How interactive effects of temperature and photoperiod shape plant phenology responses to warming}}\\ 
 \bigskip
 
 \noindent {\normalsize \sc
-The lab as it was in 2017$^{1,2}$}\\ % Ailene, Cat, Dan, Lizzie, Nacho
+E. M. Wolkovich$^{1,2}$, C. J. Chamberlain$^{1,2}$, D. M. Buonaiuto$^{1,2}$, A. K. Ettinger$^{3}$ \\ \& I. Morales-Castilla$^{5}$}\\ % The lab in 2017 -- Lizzie, Ailene, Cat, Dan, Nacho
+
 \noindent {\small \it
-$^1$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, 02131, USA\\
-$^2$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, 02138, USA\\
-$^3$ Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4}\\
+$^1$ Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4\\
+$^2$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, 02131, USA\\
+$^3$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, 02138, USA\\
+$^4$ The Nature Conservancy, 74 Wall Street, Seattle, Washington USA\\
+$^5$ Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\`a, Alcal\`a de Henares 28805, Spain}
 \end{center}
 
 
@@ -54,7 +57,7 @@ We extracted data (using ImageJ for figures, transcribing values from tables and
 \section{Trends in experimental treatments over space}
 
 
-Cue levels studied varied across latitude, with a general trend toward examining more extreme values at higher latitudes. Forcing and chilling treatments decline 0.1$\degree$C per 1$\degree$ of latitude (for forcing, min is -0.1, for max it is -0.06, see Fig \ref{fig:lat}; for chilling it is -0.06 for min and -0.09 for max); and the maximum studied photoperiod increases with latitude (0.09 hr per $\degree$ latitude, see Fig \ref{fig:lat}). 
+Treatments (cue levels) varied across latitude, with a general trend toward more extreme values at higher latitudes. Forcing and chilling treatments decline 0.1$\degree$C per 1$\degree$ of latitude (for forcing, min is -0.1, for max it is -0.06, see Fig \ref{fig:lat}; for chilling it is -0.06 for min and -0.09 for max); and the maximum studied photoperiod increases with latitude (0.09 hr per $\degree$ latitude, see Fig \ref{fig:lat}). 
 
 \section{Comparing experimental treatments to forecasted trends}
 % studydesignplots.R
@@ -69,7 +72,7 @@ To compare the magnitude of experimental treatments to forecasted changes in tem
 \begin{footnotesize} 
 
 % latex table generated in R 3.5.1 by xtable 1.8-3 package
-% Fri Apr  2 20:13:46 2021
+% Fri Apr 23 15:48:20 2021
 \begingroup\footnotesize
 \begin{longtable}{p{0.15\textwidth}p{0.40\textwidth}}
 \caption{\textbf{Dataset names and references for papers in the OSPREE database.}} \\ 
@@ -170,7 +173,7 @@ ashby62 & \citep{Ashby:1962aa} \\
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp.pdf}
-\includegraphics[width=0.5\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp_legend.pdf}
+\includegraphics[width=0.9\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp_legend.pdf}
 \caption{We reviewed seven decades of controlled environment studies, from \citet{Lamb:1948aa} to \citet{zohner2016}, conducted across the globe generally on 1-3 species in each experiment (size of circles and exact number of species given after each each study). See Table \ref{tab:ref} for references for each `Dataset.'}
   \label{fig:datamap} % Ailene: This figure is nice. i would say, though, that i don't find the size of the shapes to be particularly easy to interpret. seeing the numbers next to each study is a much more effective at showing that most studies have fewer than 5 spp.
 \end{figure}
@@ -179,15 +182,15 @@ ashby62 & \citep{Ashby:1962aa} \\
 \begin{figure}[t!]
 \centering
 \includegraphics[width=0.8\textwidth]{..//..//analyses/limitingcues/figures/studyyearcues.pdf}
-\caption{Prevalence of number of cues (chilling, forcing, photoperiod) manipulated in studies over time over time.}
+\caption{Prevalence of number of cues (1-3 possible: chilling, forcing, photoperiod) manipulated in studies over time. Studies that had multiple field sample dates but did not otherwise manipulate experimental chilling were counted as manipulating the chill cue. We separately counted the number of studies that had multiple field sample dates and manipulated experimental chilling (shown in green). Some studies had only multiple provenance latitudes and/or species (shown in blue). }
   \label{fig:ts}
 \end{figure}
-
+% From Cat: We counted the number of cues (chilling, forcing and/or photoperiod) maniputed in studies over time. Studies that had multiple field sample dates but did not otherwise manipulate experimental chilling were included as manipulating the chill cue. We additionally counted the number of studies that had multiple field sample dates as well as manipulated experimental chill (shown in green). Finally, we counted the number of studies that had multiple provenance latitudes and/or species (shown in blue). 
 
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/supplatplots4panel.pdf}
-\caption{Experimental treatments correlate with latitude. Here we show the average latitude of a study (averaged over all latitudes from which tissue was taken) versus the minimum (upper left) and maximum (upper right) forcing treatments and the maximum (lower left) photoperiod treatment and range of photoperiod treatments (lower right, range calculated as maximum versus minimum treatments in a study). Colors represent unique datasets (see Table \ref{tab:ref}).}
+\caption{Experimental treatments correlate with latitude. Here we show the average latitude of a study (averaged over all latitudes from which tissue was taken) versus the minimum (upper left) and maximum (upper right) forcing treatments and the maximum (lower left) photoperiod treatment and range of photoperiod treatments (lower right, range calculated as maximum versus minimum treatments in a study). Colors represent unique datasets (see Table \ref{tab:ref}) and $R^2$ values are given in the upper-right corner of each plot.}
   \label{fig:lat}
 \end{figure}
 % studydesignplots.R

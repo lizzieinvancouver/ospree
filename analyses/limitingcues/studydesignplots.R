@@ -352,9 +352,11 @@ plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere, ylaby, xlaby){
 
 
 ## MS plots (in supp in 2021)
+xtexthere <- 68
 pdf("limitingcues/figures/supplatplots4panel.pdf", width = 8, height = 6)
 par(mfrow=c(2,2), oma=c(1,1,1,1), mar=c(4.5,5,0,0))
 plot(dsumm[["min.temp"]]~abs(dsumm[["mean.lat"]]), ylab=expression(paste("Minimum temperature (", degree, "C)", sep="")), xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
+text(xtexthere, 24, labels=round(summary(lm(dsumm[["min.temp"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     subby <- dsumm[which(dsumm[["datasetID"]]==unique(dsumm[["datasetID"]])[i]),]
     points(subby[["min.temp"]]~abs(subby[["mean.lat"]]), ylab="", xlab="",
@@ -362,6 +364,7 @@ for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     }
 abline(lm(dsumm[["min.temp"]]~abs(dsumm[["mean.lat"]])))
 plot(dsumm[["max.temp"]]~abs(dsumm[["mean.lat"]]), ylab=expression(paste("Maximum temperature (", degree, "C)", sep="")), xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
+text(xtexthere, 31, labels=round(summary(lm(dsumm[["max.temp"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     subby <- dsumm[which(dsumm[["datasetID"]]==unique(dsumm[["datasetID"]])[i]),]
     points(subby[["max.temp"]]~abs(subby[["mean.lat"]]), ylab="", xlab="",
@@ -369,6 +372,7 @@ for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     }
 abline(lm(dsumm[["max.temp"]]~abs(dsumm[["mean.lat"]]) ))
 plot(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]]), ylab="Maximum photoperiod (hours)", xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
+text(xtexthere, 21, labels=round(summary(lm(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     subby <- dsumm[which(dsumm[["datasetID"]]==unique(dsumm[["datasetID"]])[i]),]
     points(subby[["max.photo"]]~abs(subby[["mean.lat"]]), ylab="", xlab="",
@@ -376,6 +380,7 @@ for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     }
 abline(lm(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]]) ))
 plot(dsumm[["range.photo"]]~abs(dsumm[["mean.lat"]]), ylab="Photoperiod range (hours)", xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
+text(xtexthere, 15, labels=round(summary(lm(dsumm[["range.photo"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
     subby <- dsumm[which(dsumm[["datasetID"]]==unique(dsumm[["datasetID"]])[i]),]
     points(subby[["range.photo"]]~abs(subby[["mean.lat"]]), ylab="", xlab="",
