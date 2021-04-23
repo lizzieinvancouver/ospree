@@ -4,7 +4,7 @@
 # if(length(grep("deirdreloughnan", getwd()) > 0)) {
 #   setwd("~/Documents/github/ospree/analyses/traits")
 # } else{
-#   setwd("~/R/Deirdre/Deirdre/traitors")
+#   setwd("~/R/traitors")
 # }
 
 library(rstan)
@@ -14,9 +14,9 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 10 # rep per trait
-Nstudy <- 10 # number of studies w/ traits
-Nspp <- 10 # number of species with traits
+Nrep <- 6 # rep per trait
+Nstudy <- 15 # number of studies w/ traits
+Nspp <- 12 # number of species with traits
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
@@ -121,20 +121,6 @@ pheno.dat$gen.er <- gen.var
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
   pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
 
-#hist(pheno.dat$doy.i)
-
-# trt.pheno <- list(
-#   yTraiti = trt.dat$yTraiti, 
-#   N = length(trt.dat), # sample size for trait data is the same as phenology data 
-#   n_spec = Nspp,  # number of species is the same for traits and phenology data
-#   species = trt.dat$species, 
-#   study = trt.dat$study, 
-#   n_study = Nstudy, 
-#   yPhenoi = pheno.dat$doy.i, 
-#   Nph = length(pheno.dat), # sample size for trait data is the same as phenology data  
-#   forcingi = pheno.dat$forcingi,
-#   photoi = pheno.dat$photoi,
-#   chillingi = pheno.dat$chillingi)  
 
 stan_data <- list(yTraiti = trt.dat$yTraiti, 
                   N = Ntrt, 
@@ -149,49 +135,48 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   chillingi = chillingi,
                   species2 = pheno.dat$species) 
 
-test.dat <- stan('stan/stan_joint_traitors.stan', 
+mdl.test <- stan('stan/stan_joint_traitors.stan',
                  data = stan_data, iter = 8000,
                  control = list(adapt_delta = 0.99, max_treedepth = 18))
 
-save(test.dat, file = "output.traitors.Rda")
+save(mdl.test, file = "output.traitors.Rda")
 
-# load("output/output.traitors.Rda")
-#  
-# ssm <-  as.shinystan(test.dat)
-# launch_shinystan(ssm)
-# 
-# sumer <- summary(test.dat)$summary
-# post <- extract(test.dat)
-# 
-# y<-trt.dat$yTraiti
-# yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
-# 
-# ppc_dens_overlay(y, yrep[1:50, ])
-# 
+#load("output/output.traitors.Rda")
+
+ssm <-  as.shinystan(mdl.test)
+launch_shinystan(ssm)
+
+sumer <- summary(mdl.test)$summary
+post <- extract(mdl.test)
+#
+y<-trt.dat$yTraiti
+yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
+
+ppc_dens_overlay(y, yrep[1:50, ])
+#
 # #model 1
-# plot(density(post$sigmaTrait_y )) #
-# plot(density(post$muSp )) # a bit add
-# plot(density(post$sigma_sp))
-# plot(density(post$sigma_stdy))
-# plot(density(post$muStdy )) # really odd looking
-# 
-# #model 2
-# plot(density(post$alphaForcingSp))
-# plot(density(post$alphaChillSp))
-# plot(density(post$alphaPhotoSp))
-# plot(density(post$sigmapheno_y )) #
-# 
-# plot(density(post$betaTraitxForcing))
-# plot(density(post$betaTraitxPhoto))
-# plot(density(post$betaTraitxChill))#
-# 
-# plot(density(post$muForceSp)) #
-# plot(density(post$sigmaForceSp)) #
-# 
-# plot(density(post$muChillSp)) #
-# plot(density(post$sigmaChillSp)) #
-# 
-# plot(density(post$muPhotoSp)) #
-# plot(density(post$sigmaPhotoSp)) #
-# 
-# sigma_sp <- sumer[grep("sigma", rownames(sumer))]
+plot(density(post$sigmaTrait_y )) #
+plot(density(post$muSp )) # a bit add
+plot(density(post$sigma_sp))
+plot(density(post$sigma_stdy))
+plot(density(post$muStdy )) # really odd looking
+
+#model 2
+plot(density(post$alphaForcingSp))
+plot(density(post$alphaChillSp))
+plot(density(post$alphaPhotoSp))
+plot(density(post$sigmapheno_y )) #
+
+plot(density(post$betaTraitxForcing))
+plot(density(post$betaTraitxPhoto))
+plot(density(post$betaTraitxChill))#
+
+plot(density(post$muForceSp)) #
+plot(density(post$sigmaForceSp)) #
+
+plot(density(post$muChillSp)) #
+plot(density(post$sigmaChillSp)) #
+
+plot(density(post$muPhotoSp)) #
+plot(density(post$sigmaPhotoSp)) #
+

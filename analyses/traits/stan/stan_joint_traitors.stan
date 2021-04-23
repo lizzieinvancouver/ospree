@@ -1,8 +1,10 @@
 //Model started by Faith in Feb 2020 based on Lizzie's notes 
-// running a joint model to try and see how trait variation might help 
-    //predict phenology. BAsed off Lizzie's joint model exqation 
+// Modified by Deirdre based on the rangers model 
 
-//priors are centred around values from Geoffs similation code   
+// running a joint model to try and see how trait variation might help 
+    //predict phenology. BAsed off Lizzie's joint model exquation 
+
+//priors are centred around values from Deirdre's similation code: fakedata_3parm_1trait.R   
 
 data {
     //MODEL 1 ------------------------------------------------
@@ -37,7 +39,7 @@ parameters{
     real mu_grand; // Grand mean for trait value 
     //level 2
     real <lower = 0> sigma_sp; // variation of intercept amoung species
-    //real mu_g; // mean of the alpha value for species
+
     real muSp[n_spec]; //The trait effect of each species without stdy 
 
     real <lower = 0> sigma_stdy; // variation of intercept amoung studies
@@ -102,12 +104,12 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(10,1); // sigma.trtsp 10
+    sigmaTrait_y ~ normal(2,1); // trt.var
     sigma_sp ~ normal(10,1); //sigma_species 10
     mu_grand ~ normal(0, 1); //
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_stdy ~ normal(5, 1);
+    sigma_stdy ~ normal(5, 1); //sigma.study 5
     muStdy ~ normal(0, sigma_stdy);//
     
     // run the actual model - likihood
@@ -121,20 +123,20 @@ model{
 
     //priors level 2
 
-sigmaForceSp ~ normal(0.5, 1); //
+sigmaForceSp ~ normal(5, 1); // sigma.force 5
     muForceSp ~ normal(0, 1);//
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
 
-    sigmaPhotoSp ~ normal(0.5, 1); //
+    sigmaPhotoSp ~ normal(5, 1); //sigma.photo 5
     muPhotoSp ~ normal(0, 1);// 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaChillSp ~ normal(0.5, 1); //
+    sigmaChillSp ~ normal(5, 1); //sigma.chill 5
     muChillSp ~ normal(0, 1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
-    sigmaPhenoSp ~ normal(2, 1); // 
-    muPhenoSp ~ normal(150, 2);  //
+    sigmaPhenoSp ~ normal(2, 1); // sigma.pheno.sp =2
+    muPhenoSp ~ normal(150, 2);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
     betaTraitxForcing ~ normal(0, 1); // 
