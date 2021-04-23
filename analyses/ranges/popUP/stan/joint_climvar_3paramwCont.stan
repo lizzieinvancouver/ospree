@@ -2,8 +2,7 @@
 /* Lizzie started this on 22 April 2021 */
 
 /* Model below is ... day ~ alpha_sp + betaForce + betaChill + betaPhoto + betaSite +  
-    betaForce*Site where Site=continent ... 
-    if it ever worked, we could add + betaChill*Site + betaForce*Site and ...
+    betaForce*Site + betaChill*Site + betaForce*Site where Site=continent ... 
     we could add site to intercept but I skipped it as not sure we need it */
 
 data {
