@@ -387,8 +387,8 @@ summary(gddlf_jnt.nam)
 launch_shinystan(gddlf_jnt.nam)
 
 
-stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.stv.nam,
-                     iter = 7000, warmup=6500,control = list(adapt_delta=0.99))
+stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.stv.nam,
+                     iter = 4000, warmup=3000) ## Dan ran this too.
 
 check_all_diagnostics(stv_jnt.nam)
 #area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
