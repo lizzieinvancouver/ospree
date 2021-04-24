@@ -10,39 +10,78 @@ Look for ...
 and reverse the noted changes.
 
 
+Also ...
+(*) Add acknowledgements
+(*) Check we're happy with heat map caption (what IS the gray?)
+
+
 <><><><><><><><><><><><><><>
 <> Next steps (April 2021) <>
 <><><><><><><><><><><><><><>
-(*) Check on figure help:
-(*) git issues 393-395, also issue 249) also ...
-- https://github.com/lizzieinvancouver/ospree/issues/395
-- https://github.com/lizzieinvancouver/ospree/issues/393
-- https://github.com/lizzieinvancouver/ospree/issues/399
 
-- NEW general issue: Thielges photoperiod  -- is 16/8 hours (end of first paragraph of M&M, no?)
+Closed FIGURE (and numbers) issues that may someday be reopened:
 
-
-(*) Small things to maybe do ...
-- Review issue on figures: https://github.com/lizzieinvancouver/ospree/issues/174 (I read this in early Feb 2021 and I think we can close it soon; it does have some good info we may want top refer back to though in terms of how we made other figures)
+- Conceptual non-linearity figure: https://github.com/lizzieinvancouver/ospree/issues/393
+- Study-design help (heatmaps and the plots by latitude): https://github.com/lizzieinvancouver/ospree/issues/395
+- Numbers in ms: https://github.com/lizzieinvancouver/ospree/issues/394
+- GDD by Utah chill figure: https://github.com/lizzieinvancouver/ospree/issues/398
+- Compare OSPREE to forecasts for BetPen and FigSyl: https://github.com/lizzieinvancouver/ospree/issues/399
+- Study cue number and map figure: https://github.com/lizzieinvancouver/ospree/issues/174 and https://github.com/lizzieinvancouver/ospree/issues/408
 
 
 <><><><><><><><><><><><><><><><><><><><>
-Journal and figure decisions (March 2021)
+Journal, author, title, figure decisions (March-April 2021)
 <><><><><><><><><><><><><><><><><><><><>
-
-Came up with:
-How interactive effects of temperature and photoperiod shape plant phenology responses to climate change
 
 TITLE:
+How interactive effects of temperature and photoperiod shape non-linear plant phenology responses to climate change
 
-t1: Limiting cues: How spring warming, winter chilling and daylength shape plant climate change responses (though not sure all journals allow colons)
-t2: How spring warming, winter chilling and daylength will limit plant climate change responses
+t1: Limiting cues: How spring warming, winter chilling and daylength
+shape plant climate change responses (though not sure all journals allow
+colons)
+PTS: 1 + 3 + 4 + Ailene
+
+t2: How spring warming, winter chilling and daylength will limit plant
+climate change responses
+PTS: 2
+
 t3: How interactive environmental cues will shape climate change responses
+PTS: 4 + 4 + 3
+
 t4: How interactive cues will shape non-linear climate change responses
+PTS: 3 + Ailene
+
+
+Ailene also suggested:
+
+- t1a: Limiting cues: How spring warming, winter chilling and daylength shape plant phenology under climate change
+- t1b: Limiting cues: How spring warming, winter chilling and daylength shape plant phenological responses to climate change
+- t4a: How interactive cues will shape non-linear phenology responses to climate change
+- t4b: Interactive cues shape non-linear plant phenology responses to climate change 
 
 AUTHORSHIP ORDER ...
 
-Waiting to hear.
+So ... Dan and Cat have each been SECOND, Ailene is first on two and Dan will lead Rangers ... Nacho appreciates last
+
+Me, C. J. Chamberlain, D. M. Buonaiuto, A. K. Ettinger & I. Morales-Castilla
+
+
+Order on budburst:
+A. K. Ettinger, C. J. Chamberlain, I. Morales-Castilla, D. M. Buonaiuto, D. F. B. Flynn, T. Savas, J. A. Samaha, and E. M. Wolkovich
+
+Order on photoperiod:
+A. K. Ettinger  D. M. Buonaiuto  C. J. Chamberlain  I. Morales‐Castilla  E. M. Wolkovich
+
+Lab said ...
+
+Ailene: As for authorship, I have no preference at all- TNC does not care where I am and neither do I. I feel like you have clearly driven this paper, and you probably have the best idea of who put in large amounts of effort and what the order should be.  I do not feel that I put in a large amount of work, so please list me in whatever position you feel reflects that! I honestly have no preference at all. Thank you for asking, though!
+
+Cat: No strong preference 
+
+Dan: No strong feelings about authorship
+
+Nacho: The Spanish system is quite particular (and annoying) about quantifying author contributions, so yes, my institution and evaluators would favor a last position over a second. However, I will be happy with whatever author order you decide
+
 
 What Figures to move to supp?
 
@@ -77,6 +116,9 @@ AFM (your article, your way but you still need highlights; https://www.elsevier.
 Frontiers in Ecology and the Environment (https://esajournals.onlinelibrary.wiley.com/hub/journal/15409309/resources/author-guidelines-FEE#Reviews) Length: about 150 words for the abstract, 3000 words, not including a short abstract, not more than 35 references, and a total of 4/5 figures, tables, and/or panels
 
 Ecological Modeling -- good if we end up in a cascade? (Also Elsevier, so also your article your way)
+
+Nacho/Cat: My preferred order would be NatPlants, GCB, ELE, JEB (perhaps if we end up going to this last one I would emphasize the focus on controlled experiments in the title). I was wondering if it should include/mention/stress somehow that a strong focus of the paper is on how controlled experiments can improve our predictive ability of climate change effects on phenology. I’m aware doing so could under-sell the paper as it might sound too specific, but just in case you want to consider.
+
 
 
 <><><><><><><><><><><><><><><><><><><><>
