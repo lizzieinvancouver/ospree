@@ -14,16 +14,16 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 6 # rep per trait
-Nstudy <- 15 # number of studies w/ traits
-Nspp <- 12 # number of species with traits
+Nrep <- 5 # rep per trait
+Nstudy <- 20 # number of studies w/ traits
+Nspp <- 20 # number of species with traits
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
 #make a dataframe for height
 trt.dat <- data.frame(matrix(NA, Ntrt, 2))
-names(trt.dat) <- c("rep","study")
+names(trt.dat) <- c("rep"," study")
 trt.dat$rep <- c(1:Ntrt)
 trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
 trt.dat$species <- rep(c(1:Nspp), each = Nstudy)
@@ -143,40 +143,40 @@ save(mdl.test, file = "output.traitors.Rda")
 
 #load("output/output.traitors.Rda")
 
-ssm <-  as.shinystan(mdl.test)
-launch_shinystan(ssm)
-
-sumer <- summary(mdl.test)$summary
-post <- extract(mdl.test)
-#
-y<-trt.dat$yTraiti
-yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
-
-ppc_dens_overlay(y, yrep[1:50, ])
-#
-# #model 1
-plot(density(post$sigmaTrait_y )) #
-plot(density(post$muSp )) # a bit add
-plot(density(post$sigma_sp))
-plot(density(post$sigma_stdy))
-plot(density(post$muStdy )) # really odd looking
-
-#model 2
-plot(density(post$alphaForcingSp))
-plot(density(post$alphaChillSp))
-plot(density(post$alphaPhotoSp))
-plot(density(post$sigmapheno_y )) #
-
-plot(density(post$betaTraitxForcing))
-plot(density(post$betaTraitxPhoto))
-plot(density(post$betaTraitxChill))#
-
-plot(density(post$muForceSp)) #
-plot(density(post$sigmaForceSp)) #
-
-plot(density(post$muChillSp)) #
-plot(density(post$sigmaChillSp)) #
-
-plot(density(post$muPhotoSp)) #
-plot(density(post$sigmaPhotoSp)) #
-
+# ssm <-  as.shinystan(mdl.test)
+# launch_shinystan(ssm)
+# 
+# sumer <- summary(mdl.test)$summary
+# post <- extract(mdl.test)
+# # #
+# y<-trt.dat$yTraiti
+# yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
+# 
+# ppc_dens_overlay(y, yrep[1:50, ])
+# #
+# # #model 1
+# plot(density(post$sigmaTrait_y )) #
+# plot(density(post$muSp )) # a bit add
+# plot(density(post$sigma_sp))
+# plot(density(post$sigma_stdy))
+# plot(density(post$muStdy )) # really odd looking
+# 
+# #model 2
+# plot(density(post$alphaForcingSp))
+# plot(density(post$alphaChillSp))
+# plot(density(post$alphaPhotoSp))
+# plot(density(post$sigmapheno_y )) #
+# 
+# plot(density(post$betaTraitxForcing))
+# plot(density(post$betaTraitxPhoto))
+# plot(density(post$betaTraitxChill))#
+# 
+# plot(density(post$muForceSp)) #
+# plot(density(post$sigmaForceSp)) #
+# 
+# plot(density(post$muChillSp)) #
+# plot(density(post$sigmaChillSp)) #
+# 
+# plot(density(post$muPhotoSp)) #
+# plot(density(post$sigmaPhotoSp)) #
+# 
