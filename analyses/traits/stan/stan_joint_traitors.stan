@@ -123,15 +123,15 @@ model{
 
     //priors level 2
 
-sigmaForceSp ~ normal(5, 0.1); // sigma.force 5
+    sigmaForceSp ~ normal(.1, 0.5); // sigma.force.sp
     muForceSp ~ normal(-1, .5);//
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
 
-    sigmaPhotoSp ~ normal(5, 0.1); //sigma.photo 5
+    sigmaPhotoSp ~ normal(.1, 0.5); //sigma.photo.sp
     muPhotoSp ~ normal(-2, 0.5);// 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaChillSp ~ normal(5, 0.1); //sigma.chill 5
+    sigmaChillSp ~ normal(.1, 0.5); //sigma.chill.sp
     muChillSp ~ normal(-2, 0.1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
