@@ -14,27 +14,26 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 5 # rep per trait
-Nstudy <- 20 # number of studies w/ traits
-Nspp <- 20 # number of species with traits
+Nrep <- 2 # rep per trait
+Nstudy <- 3 # number of studies w/ traits
+Nspp <- 3 # number of species with traits
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
 #make a dataframe for height
-trt.dat <- data.frame(matrix(NA, Ntrt, 2))
-names(trt.dat) <- c("rep"," study")
-trt.dat$rep <- c(1:Ntrt)
+trt.dat <- data.frame(matrix(NA, Ntrt, 1))
+names(trt.dat) <- c("rep")
+trt.dat$rep <- c(1:Nrep)
 trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
-trt.dat$species <- rep(c(1:Nspp), each = Nstudy)
-
+trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
 mu.trt <- 20 # the grand mean trait value?
 sigma.trtsp <- 10 #the species sigma for the traits model
 
 alpha.trtsp <- rnorm(Nspp, 0, sigma.trtsp)
-trt.dat$alpha.trtsp <- rep(alpha.trtsp, each = Nstudy) #adding ht data for ea. sp
+trt.dat$alpha.trtsp <- rep(alpha.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
 sigma.study <- 5
@@ -50,7 +49,7 @@ trt.dat$yTraiti <- mu.trt + trt.dat$alpha.trtsp + trt.dat$alpha.study + trt.dat$
 #########################################################
 # Next, making a data frame for the pheno data
 
-nphen <- 20 # rep per pheno event 
+nphen <- 2 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
 pheno.dat <- data.frame(matrix(NA, Nph, 2))
@@ -136,18 +135,19 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   species2 = pheno.dat$species) 
 
 mdl.test <- stan('stan/stan_joint_traitors.stan',
-                 data = stan_data, iter = 8000,
-                 control = list(adapt_delta = 0.99, max_treedepth = 18))
+                 data = stan_data, iter = 4000)
+
+#,control = list(adapt_delta = 0.99, max_treedepth = 18))
 
 save(mdl.test, file = "output.traitors.Rda")
 
-#load("output/output.traitors.Rda")
-
+# load("output/output.traitors.Rda")
+# 
 # ssm <-  as.shinystan(mdl.test)
 # launch_shinystan(ssm)
-# 
+#  
 # sumer <- summary(mdl.test)$summary
-# post <- extract(mdl.test)
+# post <- rstan::extract(mdl.test)
 # # #
 # y<-trt.dat$yTraiti
 # yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y

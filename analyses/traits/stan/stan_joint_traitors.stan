@@ -104,8 +104,8 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(2,1); // trt.var
-    sigma_sp ~ normal(10,1); //sigma_species 10
+    sigmaTrait_y ~ normal(2,0.5); // trt.var
+    sigma_sp ~ normal(10,2); //sigma_species 10
     mu_grand ~ normal(0, 1); //
     muSp ~ normal(0, sigma_sp); //
 
@@ -119,29 +119,29 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(2, 1); // 
+    sigmapheno_y ~ normal(2, 0.5); // 
 
     //priors level 2
 
-sigmaForceSp ~ normal(0.1, 0.5); // sigma.force 5
+sigmaForceSp ~ normal(0.1, 0.1); // sigma.force 5
     muForceSp ~ normal(0, 1);//
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
 
-    sigmaPhotoSp ~ normal(0.1, 0.5); //sigma.photo 5
-    muPhotoSp ~ normal(0, 1);// 
+    sigmaPhotoSp ~ normal(0.1, 0.1); //sigma.photo 5
+    muPhotoSp ~ normal(0, 0.1);// 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaChillSp ~ normal(0.1, 0.5); //sigma.chill 5
-    muChillSp ~ normal(0, 1);// 
+    sigmaChillSp ~ normal(0.1, 0.1); //sigma.chill 5
+    muChillSp ~ normal(0, 0.1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
-    sigmaPhenoSp ~ normal(2, 1); // sigma.pheno.sp =2
-    muPhenoSp ~ normal(150, 2);  // mu.pheno.sp = 150
+    sigmaPhenoSp ~ normal(2, 0.5); // sigma.pheno.sp =2
+    muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForcing ~ normal(0, 1); // 
-    betaTraitxPhoto ~ normal(0, 1); // 
-    betaTraitxChill ~ normal(0, 1); // 
+    betaTraitxForcing ~ normal(-0.8, 0.5); // 
+    betaTraitxPhoto ~ normal(-0.8, 0.5); // 
+    betaTraitxChill ~ normal(-0.8, 0.5); // 
 
     //likelihood 
         for (i in 1:Nph){
