@@ -106,7 +106,7 @@ model{
     //assign priors
     sigmaTrait_y ~ normal(2,0.5); // trt.var
     sigma_sp ~ normal(10,2); //sigma_species 10
-    mu_grand ~ normal(0, 1); //
+    mu_grand ~ normal(20, 1); //
     muSp ~ normal(0, sigma_sp); //
 
     sigma_stdy ~ normal(5, 1); //sigma.study 5
@@ -123,16 +123,16 @@ model{
 
     //priors level 2
 
-sigmaForceSp ~ normal(0.1, 0.1); // sigma.force 5
-    muForceSp ~ normal(0, 1);//
+sigmaForceSp ~ normal(5, 0.1); // sigma.force 5
+    muForceSp ~ normal(-1, .5);//
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
 
-    sigmaPhotoSp ~ normal(0.1, 0.1); //sigma.photo 5
-    muPhotoSp ~ normal(0, 0.1);// 
+    sigmaPhotoSp ~ normal(5, 0.1); //sigma.photo 5
+    muPhotoSp ~ normal(-2, 0.5);// 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaChillSp ~ normal(0.1, 0.1); //sigma.chill 5
-    muChillSp ~ normal(0, 0.1);// 
+    sigmaChillSp ~ normal(5, 0.1); //sigma.chill 5
+    muChillSp ~ normal(-2, 0.1);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     
     sigmaPhenoSp ~ normal(2, 0.5); // sigma.pheno.sp =2
