@@ -1,7 +1,7 @@
 # Date started: March 31, 2021
 # The purpose of this code is to generate test data for the traitors model with all three climate parameters and a single trait, here we start with height:
 # 
-# if(length(grep("deirdreloughnan", getwd()) > 0)) {
+#  if(length(grep("deirdreloughnan", getwd()) > 0)) {
 #   setwd("~/Documents/github/ospree/analyses/traits")
 # } else{
 #   setwd("~/R/traitors")
@@ -14,13 +14,15 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 10 # rep per trait
+# May 7: making the number of species huge and the number of reps small
+Nrep <- 5 # rep per trait
 Nstudy <- 10 # number of studies w/ traits
-Nspp <- 10 # number of species with traits
+Nspp <- 100 # number of species with traits
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
+
 #make a dataframe for height
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
 names(trt.dat) <- c("rep")
@@ -29,10 +31,11 @@ trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
 trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
-mu.grand <- 20 # the grand mean trait value?
-sigma.trtsp <- 10 #the species sigma for the traits model
+mu.grand <- 20 # the grand mean of the trait model
+# May 7: we want to keep the variaiton across spp. high, so I am keeping this at 10
+sigma.species <- 10 
 
-alpha.trtsp <- rnorm(Nspp, 0, sigma.trtsp)
+alpha.trtsp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$alpha.trtsp <- rep(alpha.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
@@ -41,7 +44,7 @@ alpha.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$alpha.study <- rep(alpha.study, each = Nspp) # generate data for ea study
 
 # general variance
-trt.var <- 2
+trt.var <- 0.5 #sigmaTrait_y in the stan code?
 trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 
 # generate yhat for this first trt model
@@ -57,7 +60,8 @@ names(pheno.dat) <- c("rep","species")
 pheno.dat$rep <- c(1:Nph)
 pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
-# Generating data for the cues:
+# Generating data for the cues: this is the overall effect of each cue, not the species level effect
+# May 7: in previous model runs making these values very small (0.1) resulted in divergent transitions
 mu.force <- 20
 sigma.force <- 5
 forcingi <- rnorm(Nph, mu.force, sigma.force)
@@ -75,28 +79,30 @@ pheno.dat$photoi <- photoi
 
 # adding the species level differences
 mu.pheno.sp <- 150
-sigma.pheno.sp <- 2
+sigma.pheno.sp <- 2 #for a mu this large, I think this is pretty small
 
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
 # Adding species variation in cue use:
+# May 7: I am making these values kinda large (I think?) and making the sigmas 2
 mu.force.sp <- -1 # negative bc warmer means earlier
-sigma.force.sp <- 4
+sigma.force.sp <- 2
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 
 mu.chill.sp <- -2 
-sigma.chill.sp <- 3
+sigma.chill.sp <- 2
 alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
 
-mu.photo.sp <- -2 
-sigma.photo.sp <- 2.4
+mu.photo.sp <- -3 
+sigma.photo.sp <- 2
 alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
 
-#interaction between trait and phenology?
-betaTraitxchill <- -.8 
-betaTraitxphoto<- -.8 
-betaTraitxforce <- -.8 
+#interaction between trait and phenology
+# May 7: increasing this value from -0.8
+betaTraitxchill <- -2 
+betaTraitxphoto<- -2
+betaTraitxforce <- -2
 
 #combine the effects of forcing and species trait differences into a slope
 beta.forcing.sp1 <- alpha.force.sp + alpha.trtsp*betaTraitxforce
@@ -112,7 +118,8 @@ beta.photo.sp <- rep(beta.photo.sp1, )
 pheno.dat$beta.photo.sp <- rep(beta.photo.sp, each = nphen)
 
 #general variance
-sigma.gen <- 2
+# May 7: making this value, the general noise in the phenology model much smaller
+sigma.gen <- 0.5
 gen.var <- rnorm(Nph, 0, sigma.gen) 
 pheno.dat$gen.er <- gen.var
 
@@ -120,7 +127,7 @@ pheno.dat$gen.er <- gen.var
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
   pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
 
-
+head(trt.dat)
 stan_data <- list(yTraiti = trt.dat$yTraiti, 
                   N = Ntrt, 
                   n_spec = Nspp, 
@@ -135,15 +142,19 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   species2 = pheno.dat$species) 
 
 mdl.test <- stan('stan/stan_joint_traitors.stan',
-                 data = stan_data, iter = 4000 ,control = list(adapt_delta = 0.99, max_treedepth = 18))
+                 data = stan_data, iter = 4000) 
+                 #,control = list(adapt_delta = 0.99, max_treedepth = 18))
 
-save(mdl.test, file = "output.traitors.Rda")
+save(mdl.test, file = "output.traitors.lgNspp.Rda")
 
-#load("output/output.traitors.Rda")
-# load("output/output.traitors.Rda")
-# with 0.1, 0.5 for the cue sigma, produces 14 div transitions, all for the three cue sigmas and log-posterior
-#load("output/output.traitors.5.Rda")
-load("output/output.traitors.4,3,2.4.Rda")
+load("output/output.traitors.lgNspp1.Rda")
+
+ssm <-  as.shinystan(mdl.test)
+launch_shinystan(ssm)
+
+sumer <- summary(mdl.test)$summary
+post <- rstan::extract(mdl.test)
+
 # no divergent transitions if 5
 # muForceSp -0.6/-1
 # sigmaForceSp 5.43/5
@@ -163,44 +174,39 @@ load("output/output.traitors.4,3,2.4.Rda")
 # Sigmapheno_y 2.2/0
 #load("output/output.traitors.02.Rda") #values look worse!
 
-ssm <-  as.shinystan(mdl.test)
-launch_shinystan(ssm)
-
-sumer <- summary(mdl.test)$summary
-post <- rstan::extract(mdl.test)
-# #
-y<-trt.dat$yTraiti
-yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
-
-ppc_dens_overlay(y, yrep[1:50, ])
-#
-# #model 1
+# # #
+# y<-trt.dat$yTraiti
+# yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
 # 
-plot(density(post$sigmaTrait_y )) ; abline(v = trt.var, col = "red")
-plot(density(post$sigma_sp)); abline(v = sigma.trtsp, col = "red")
-plot(density(post$sigma_stdy)); abline(v = sigma.study, col = "red")
-plot(density(post$muStdy )); abline(v = 0, col = "red")
-plot(density(post$muSp )); abline(v = 0, col = "red")
-
-#model 2
-par(mfrow= c(1,1))
-plot(density(post$alphaForcingSp)); abline(v = mu.force.sp, col = "red")
-plot(density(post$alphaChillSp)); abline(v = mu.chill.sp, col = "red")
-plot(density(post$alphaPhotoSp)); abline(v = mu.photo.sp, col = "red")
-plot(density(post$sigmapheno_y )); abline(v = sigma.gen, col = "red")
-
-plot(density(post$betaTraitxForcing), xlim = c(-0.9,1)); abline(v = betaTraitxforce, col = "red")
-plot(density(post$betaTraitxPhoto), xlim = c(-0.9,1)); abline(v = betaTraitxphoto, col = "red")
-plot(density(post$betaTraitxChill), xlim = c(-0.9,1)); abline(v = betaTraitxchill, col = "red")
-
-plot(density(post$muForceSp));  abline(v = mu.force.sp, col = "red")
-plot(density(post$sigmaForceSp)); abline(v = sigma.force, col = "red")
-
-plot(density(post$muChillSp)) ; abline(v = mu.chill.sp, col = "red")
-plot(density(post$sigmaChillSp)); abline(v = sigma.chill, col = "red")
-
-plot(density(post$muPhotoSp));  abline(v = mu.photo.sp, col = "red")
-plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
+# ppc_dens_overlay(y, yrep[1:50, ])
+# #
+# # #model 1
+# # 
+# plot(density(post$sigmaTrait_y )) ; abline(v = trt.var, col = "red")
+# plot(density(post$sigma_sp)); abline(v = sigma.trtsp, col = "red")
+# plot(density(post$sigma_stdy)); abline(v = sigma.study, col = "red")
+# plot(density(post$muStdy )); abline(v = 0, col = "red")
+# plot(density(post$muSp )); abline(v = 0, col = "red")
+# 
+# #model 2
+# par(mfrow= c(1,1))
+# plot(density(post$alphaForcingSp)); abline(v = mu.force.sp, col = "red")
+# plot(density(post$alphaChillSp)); abline(v = mu.chill.sp, col = "red")
+# plot(density(post$alphaPhotoSp)); abline(v = mu.photo.sp, col = "red")
+# plot(density(post$sigmapheno_y )); abline(v = sigma.gen, col = "red")
+# 
+# plot(density(post$betaTraitxForcing), xlim = c(-0.9,1)); abline(v = betaTraitxforce, col = "red")
+# plot(density(post$betaTraitxPhoto), xlim = c(-0.9,1)); abline(v = betaTraitxphoto, col = "red")
+# plot(density(post$betaTraitxChill), xlim = c(-0.9,1)); abline(v = betaTraitxchill, col = "red")
+# 
+# plot(density(post$muForceSp));  abline(v = mu.force.sp, col = "red")
+# plot(density(post$sigmaForceSp)); abline(v = sigma.force, col = "red")
+# 
+# plot(density(post$muChillSp)) ; abline(v = mu.chill.sp, col = "red")
+# plot(density(post$sigmaChillSp)); abline(v = sigma.chill, col = "red")
+# 
+# plot(density(post$muPhotoSp));  abline(v = mu.photo.sp, col = "red")
+# plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
 
 ######################################################################
 # checking to see if it is an identifiability issue:
@@ -209,123 +215,199 @@ plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
 # plot the densities of these two things, if they overlap a lot then we know different values are producing the same outcome, 
 
 # starting with the trait model:
-trait <- 1:5
-
-mu.grand <- rnorm(1000, 20, 10)
-mu.sp <- rnorm(1000, 0,10)
-mu.study <- rnorm(1000, 0, 5)
-
-sigmatrait.y <- rnorm(1000, 2, 0.5)
-sigma.sp <- rnorm(1000, 10, 2)
-sigma.study <- rnorm(1000, 5,1)
-
-ymu <- mu.grand[1] + mu.sp[1] + mu.study[1] 
-yhat <- rnorm(1000,ymu, sigmatrait.y[1]) # why does this generate 19 values?
-
-# now lets loop it
-
-known.values <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
-names(known.values) <- c("iteration","trait.value")
-known.values$pred.y <- NA  
-
-for(i in 1:1000){
-  ymu <- mu.grand[i] + mu.sp[i] + mu.study[i] 
-  yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
-  known.values$pred.y[known.values$iteration == i] <- yhat
-}
-head(known.values)
-
-## But the above doesn't account for the species or study level effects, should it be something like
-mu.grand <- rnorm(1000, 20, 10)
-mu.sp <- 0
-mu.study <- 0
-mu.sp.splvl <- rnorm(mu.sp, sigma.sp)
-mu.study.stlvl <- rnorm(mu.sp, sigma.study)
-ymu <- mu.grand[1] + mu.sp.splvl[1] + mu.study.stlvl[1]
-yhat <- rnorm(1000,ymu, sigmatrait.y[1]) # why does this generate 19 values unless 1000 are specified?
-
-# now let's try generating values for the betaCueSp values
-
-mu.force.sp <- -1 
-sigma.force.sp <- 4
-alphaf.sp <- rnorm(1000, mu.force.sp, sigma.force.sp)
-
-mu.chill.sp <- -2 
-sigma.chill.sp <- 3
-alphac.sp <- rnorm(1000, mu.chill.sp, sigma.chill.sp)
-
-mu.photo.sp <- -2 
-sigma.photo.sp <- 2.4
-alphap.sp <- rnorm(1000, mu.photo.sp, sigma.photo.sp)
-
-#interaction between trait and phenology?
-betaTraitxchill <- -.8 
-betaTraitxphoto<- -.8 
-betaTraitxforce <- -.8
-
-betaForcingSp <- alphaf.sp[1] + betaTraitxforce * (mu_grand[1] + mu.sp.splvl[1])
-betaChillingSp <- alphac.sp[1] + betaTraitxchill * (mu_grand[1] + mu.sp.splvl[1])
-betaPhotoSp <- alphap.sp[1] + betaTraitxphoto * (mu_grand[1] + mu.sp.splvl[1])
-
-# finally generate data for the phenology model
-# now lets loop it
-known.trait <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
-names(known.trait) <- c("iteration","trait.value")
-known.trait$pred.trait <- NA  
-
-for(i in 1:1000){
-  ymu <- mu.grand[i] + mu.sp.splvl[i] + mu.study.stlvl[i]
-  yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
-  known.trait$pred.trait[known.trait$iteration == i] <- yhat
-  
-  btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand[i] + mu.sp.splvl[i]) 
-  btc <- alphac.sp[i] + betaTraitxchill * (mu_grand[i] + mu.sp.splvl[i]) 
-  btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand[i] + mu.sp.splvl[i]) 
-  known.trait$pred.betaTforce[known.trait$iteration == i] <- btf
-  known.trait$pred.betaTchill[known.trait$iteration == i] <- btc
-  known.trait$pred.betaTphoto[known.trait$iteration == i] <- btp
-}
-head(known.trait)
-####################################################################################
-
-# generate the data
-known.trait$pred.betaTforce <- NA  
-known.trait$pred.betaTchill <- NA  
-known.trait$pred.betaTphoto <- NA  
-
-for(i in 1:1000){
-  btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand[i] + mu.sp.splvl[i]) 
-  btc <- alphac.sp[i] + betaTraitxchill * (mu_grand[i] + mu.sp.splvl[i]) 
-  btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand[i] + mu.sp.splvl[i]) 
-  known.trait$pred.betaTforce[known.trait$iteration == i] <- btf
-  known.trait$pred.betaTchill[known.trait$iteration == i] <- btc
-  known.trait$pred.betaTphoto[known.trait$iteration == i] <- btp
-  
-}
-head(known.trait)
-
-####################################################################################
-
-yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForcingSp[species2[i]] * forcingi[i] + betaPhotoSp[species2[i]] * photoi[i] + betaChillSp[species2[i]] * chillingi[i], sigmapheno_y)
-
-mu.trait <- 20 + 10*trait + 5*trait # I am not sure this is right, but taking 10 from muSp and 5 from muStudy..
-ymu <- rnorm(mu.trait, 2) # 2 is the trt.var
-
-
-
-mu.force.sp <- -1 
-sigma.force.sp <- 4
-alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
-
-mu.chill.sp <- -2 
-sigma.chill.sp <- 3
-alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
-
-mu.photo.sp <- -2 
-sigma.photo.sp <- 2.4
-alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
-
-#interaction between trait and phenology?
-betaTraitxchill <- -.8 
-betaTraitxphoto<- -.8 
-betaTraitxforce <- -.8 
+# trait <- 1:5
+# 
+# mu.grand <- rnorm(1000, 20, 10)
+# mu.sp <- rnorm(1000, 0,10)
+# mu.study <- rnorm(1000, 0, 5)
+# 
+# sigmatrait.y <- rnorm(1000, 2, 0.5)
+# sigma.sp <- rnorm(1000, 10, 2)
+# sigma.study <- rnorm(1000, 5,1)
+# 
+# ymu <- mu.grand[1] + mu.sp[1] + mu.study[1] 
+# yhat <- rnorm(1000,ymu, sigmatrait.y[1]) # why does this generate 19 values?
+# 
+# # now lets loop it
+# 
+# known.values <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
+# names(known.values) <- c("iteration","trait.value")
+# known.values$pred.y <- NA  
+# 
+# for(i in 1:1000){
+#   ymu <- mu.grand[i] + mu.sp[i] + mu.study[i] 
+#   yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
+#   known.values$pred.y[known.values$iteration == i] <- yhat
+# }
+# head(known.values)
+# 
+# ## But the above doesn't account for the species or study level effects, should it be something like
+# mu.grand <- rnorm(1000, 20, 10)
+# mu.sp <- 0
+# mu.study <- 0
+# mu.sp.splvl <- rnorm(1000, mu.sp, sigma.sp)
+# mu.study.stlvl <- rnorm(1000,mu.sp, sigma.study)
+# ymu <- mu.grand[1] + mu.sp.splvl[1] + mu.study.stlvl[1]
+# yhat <- rnorm(1000,ymu, sigmatrait.y[1]) # why does this generate 19 values unless 1000 are specified?
+# 
+# # now let's try generating values for the betaCueSp values
+# 
+# mu.force.sp <- -1 
+# sigma.force.sp <- 4
+# alphaf.sp <- rnorm(1000, mu.force.sp, sigma.force.sp)
+# 
+# mu.chill.sp <- -2 
+# sigma.chill.sp <- 3
+# alphac.sp <- rnorm(1000, mu.chill.sp, sigma.chill.sp)
+# 
+# mu.photo.sp <- -2 
+# sigma.photo.sp <- 2.4
+# alphap.sp <- rnorm(1000, mu.photo.sp, sigma.photo.sp)
+# 
+# #interaction between trait and phenology?
+# betaTraitxchill <- -.8 
+# betaTraitxphoto<- -.8 
+# betaTraitxforce <- -.8
+# 
+# betaForcingSp <- alphaf.sp[1] + betaTraitxforce * (mu.grand[1] + mu.sp.splvl[1])
+# betaChillingSp <- alphac.sp[1] + betaTraitxchill * (mu.grand[1] + mu.sp.splvl[1])
+# betaPhotoSp <- alphap.sp[1] + betaTraitxphoto * (mu.grand[1] + mu.sp.splvl[1])
+# 
+# mu.force <- 20
+# sigma.force <- 5
+# forcingi <- rnorm(1000, mu.force, sigma.force)
+# 
+# mu.chill <- 20
+# sigma.chill <- 5
+# chillingi <- rnorm(1000, mu.chill, sigma.chill)
+# 
+# mu.photo <- 20
+# sigma.photo <- 5
+# photoi <- rnorm(1000, mu.photo, sigma.photo)
+# 
+# mu.pheno.sp <- 150
+# sigma.pheno.sp <- 2
+# alpha.pheno.sp <- rnorm(1000, mu.pheno.sp, sigma.pheno.sp)
+# 
+# sigmatrait.y <- 2
+# betaForcingSp
+# ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
+# yhat <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
+# 
+# # or are the betaForcingSp supposed to be alpha.force.sp + alpha.trtsp*betaTraitxforce
+# 
+# #combine the effects of forcing and species trait differences into a slope
+# beta.forcing.sp <- alphaf.sp + alpha.trtsp*betaTraitxforce
+# beta.chilling.sp <- alpha.chill.sp + alpha.trtsp*betaTraitxchill
+# beta.photo.sp <- alpha.photo.sp + alpha.trtsp*betaTraitxphoto
+# 
+# # finally generate data for the phenology model
+# # now lets loop it
+# known.trait <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
+# names(known.trait) <- c("iteration","trait.value")
+# known.trait$pred.trait <- NA  
+# 
+# for(i in 1:1000){
+#   ymu <- mu.grand[i] + mu.sp.splvl[i] + mu.study.stlvl[i]
+#   yhat <- rnorm(1000, ymu, sigmatrait.y[1]) # is it correct to have the 1000 there? It doesn't work otherwise
+#   known.trait$pred.trait[known.trait$iteration == i] <- yhat
+#   
+#   btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand[i] + mu.sp.splvl[i]) 
+#   btc <- alphac.sp[i] + betaTraitxchill * (mu_grand[i] + mu.sp.splvl[i]) 
+#   btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand[i] + mu.sp.splvl[i]) 
+#   known.trait$pred.betaTforce[known.trait$iteration == i] <- btf
+#   known.trait$pred.betaTchill[known.trait$iteration == i] <- btc
+#   known.trait$pred.betaTphoto[known.trait$iteration == i] <- btp
+#   
+#   ypheno <- alpha.pheno.sp[1] + btf[1] * forcingi[1] + btp[1] * photoi[1] + btc[1] * chillingi[1]
+#   yhat.pheno <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
+#   known.trait$pred.pheno[known.trait$iteration == i] <- yhat.pheno
+#   
+# }
+# head(known.trait)
+# 
+# plot(density(known.trait$pred.trait))
+# ####################################################################################
+# ####################################################################################
+# ####################################################################################
+#  # now repeating for the values produced from the model
+# mu.grand <- rnorm(1000, 20, 10)
+# mu.sp <- 0
+# mu.study <- 0
+# mu.sp.splvl <- rnorm(mu.sp, sigma.sp)
+# mu.study.stlvl <- rnorm(mu.sp, sigma.study)
+# 
+# sigmatrait.y <- rnorm(1000, 2, 0.5)
+# sigma.sp <- rnorm(1000, 10.5, 2)
+# sigma.study <- rnorm(1000, 5.8,1)
+# 
+# mu.force.sp <- -0.7
+# sigma.force.sp <- 4.7
+# alphaf.sp <- rnorm(1000, mu.force.sp, sigma.force.sp)
+# 
+# mu.chill.sp <- -2 
+# sigma.chill.sp <- 3.9
+# alphac.sp <- rnorm(1000, mu.chill.sp, sigma.chill.sp)
+# 
+# mu.photo.sp <- -1.5 
+# sigma.photo.sp <- 3.6
+# alphap.sp <- rnorm(1000, mu.photo.sp, sigma.photo.sp)
+# 
+# #interaction between trait and phenology?
+# betaTraitxchill <- -.29 
+# betaTraitxphoto<- -.23 
+# betaTraitxforce <- -.39
+# 
+# mu.force <- 20
+# sigma.force <- 5
+# forcingi <- rnorm(1000, mu.force, sigma.force)
+# 
+# mu.chill <- 20
+# sigma.chill <- 5
+# chillingi <- rnorm(1000, mu.chill, sigma.chill)
+# 
+# mu.photo <- 20
+# sigma.photo <- 5
+# photoi <- rnorm(1000, mu.photo, sigma.photo)
+# 
+# mu.pheno.sp <- 151
+# sigma.pheno.sp <- 1.9
+# alpha.pheno.sp <- rnorm(1000, mu.pheno.sp, sigma.pheno.sp)
+# 
+# sigma.gen <- 2.11
+# 
+# 
+# 
+# betaForcingSp
+# ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
+# yhat <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
+# # or are the betaForcingSp supposed to be alpha.force.sp + alpha.trtsp*betaTraitxforce
+# 
+# 
+# # finally generate data for the phenology model
+# # now lets loop it
+# mdl.trait <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
+# names(mdl.trait) <- c("iteration","trait.value")
+# mdl.esti$pred.trait <- NA  
+# 
+# for(i in 1:1000){
+#   ymu <- mu.grand[i] + mu.sp.splvl[i] + mu.study.stlvl[i]
+#   yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
+#   mdl.esti$pred.trait[mdl.esti$iteration == i] <- yhat
+#   
+#   btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand[i] + mu.sp.splvl[i]) 
+#   btc <- alphac.sp[i] + betaTraitxchill * (mu_grand[i] + mu.sp.splvl[i]) 
+#   btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand[i] + mu.sp.splvl[i]) 
+#   mdl.esti$pred.betaTforce[mdl.esti$iteration == i] <- btf
+#   mdl.esti$pred.betaTchill[mdl.esti$iteration == i] <- btc
+#   mdl.esti$pred.betaTphoto[mdl.esti$iteration == i] <- btp
+#   
+#   ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
+#   yhat.pheno <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
+#   mdl.esti$pred.pheno[mdl.esti$iteration == i] <- yhat.pheno
+#   
+# }
+# head(mdl.esti)
+# 
+# plot(density(known.trait$pred.trait))
+# 
