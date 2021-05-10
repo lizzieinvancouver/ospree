@@ -141,13 +141,13 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   chillingi = chillingi,
                   species2 = pheno.dat$species) 
 
-mdl.test <- stan('stan/stan_joint_traitors.stan',
-                 data = stan_data, iter = 4000) 
-                 #,control = list(adapt_delta = 0.99, max_treedepth = 18))
+# mdl.test <- stan('stan/stan_joint_traitors.stan',
+#                  data = stan_data, iter = 4000) 
+#                  #,control = list(adapt_delta = 0.99, max_treedepth = 18))
+#
+#save(mdl.test, file = "output.traitors.lgNspp2.Rda")
 
-save(mdl.test, file = "output.traitors.lgNspp.Rda")
-
-load("output/output.traitors.lgNspp1.Rda")
+load("output/output.traitors.lgNspp2.Rda")
 
 ssm <-  as.shinystan(mdl.test)
 launch_shinystan(ssm)
