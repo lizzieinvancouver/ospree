@@ -23,9 +23,9 @@ data {
     int < lower = 1 > Nph; // Sample size for forcing 
  
     vector[Nph] yPhenoi; // Outcome phenology
-    vector[Nph] forcingi; // predictor forcing 
+    vector[Nph] forcei; // predictor forcing 
     vector[Nph] photoi; // predictor photoperiod 
-    vector[Nph] chillingi; // predictor chilling
+    vector[Nph] chilli; // predictor chilling
 
     int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
 
@@ -40,15 +40,15 @@ parameters{
     //level 2
     real <lower = 0> sigma_sp; // variation of intercept amoung species
 
-    real muSp[n_spec]; //The trait effect of each species without stdy 
+    real muSp[n_spec]; //The trait effect of each species without study 
 
-    real <lower = 0> sigma_stdy; // variation of intercept amoung studies
-    real muStdy[n_study]; // mean of the alpha value for studies 
+    real <lower = 0> sigma_study; // variation of intercept amoung studies
+    real muStudy[n_study]; // mean of the alpha value for studies 
 
     //MODEL 2 -----------------------------------------------------
     //level 2
     
-    real alphaForcingSp[n_spec]; //the distribution of species forcing values
+    real alphaForceSp[n_spec]; //the distribution of species forcing values
     real muForceSp; // the mean of the effect of forcing
     real <lower = 0> sigmaForceSp; //variation around the mean of the effect of forcing 
     
@@ -64,7 +64,7 @@ parameters{
     real muPhenoSp; // 
     real <lower = 0> sigmaPhenoSp; 
 
-    real betaTraitxForcing; 
+    real betaTraitxForce; 
     real betaTraitxChill; 
     real betaTraitxPhoto; 
     // general varience/error
@@ -77,20 +77,20 @@ transformed parameters{
     real ymu[N];
 
     //MODEL 2------------------------------------------------
-    real betaForcingSp[n_spec];     //species level beta forcing 
+    real betaForceSp[n_spec];     //species level beta forcing 
     real betaPhotoSp[n_spec];     //species level beta photoperiod
     real betaChillSp[n_spec];     //species level beta chilling 
 
     //MODEL 1
     //Individual mean calculation 
     for (i in 1:N){
-        ymu[i] = mu_grand + muSp[species[i]] + muStdy[study[i]];  //muSp is used in 2nd level of model
+        ymu[i] = mu_grand + muSp[species[i]] + muStudy[study[i]];  //muSp is used in 2nd level of model
     }
 
     //MODEL 2----------------------------------------
     //get beta-cue-Sp values for each species
     for (isp in 1:n_spec){
-    betaForcingSp[isp] = alphaForcingSp[isp] + betaTraitxForcing * (mu_grand + muSp[isp]);
+    betaForceSp[isp] = alphaForceSp[isp] + betaTraitxForce * (mu_grand + muSp[isp]);
     }
     
     for (isp in 1:n_spec){
@@ -109,8 +109,8 @@ model{
     mu_grand ~ normal(20, 1); // 
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_stdy ~ normal(5,0.5); //sigma.study 5
-    muStdy ~ normal(0, sigma_stdy);//
+    sigma_study ~ normal(5,0.5); //sigma.study 5
+    muStudy ~ normal(0, sigma_study);//
     
     // run the actual model - likihood
     for (i in 1:N){
@@ -125,7 +125,7 @@ model{
 
     sigmaForceSp ~ normal(2, 0.5); //
     muForceSp ~ normal(-1, 0.5);//
-    alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
+    alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
     sigmaChillSp ~ normal(2, 0.5); //sigma.chill.sp
     muChillSp ~ normal(-2, 0.5);// 
@@ -139,13 +139,13 @@ model{
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForcing ~ normal(-2, 0.5); // 
+    betaTraitxForce ~ normal(-2, 0.5); // 
     betaTraitxPhoto ~ normal(-2, 0.5); // 
     betaTraitxChill ~ normal(-2, 0.5); // 
 
     //likelihood 
         for (i in 1:Nph){
-    yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForcingSp[species2[i]] * forcingi[i] + betaPhotoSp[species2[i]] * photoi[i] + betaChillSp[species2[i]] * chillingi[i], sigmapheno_y);
+    yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForceSp[species2[i]] * forcei[i] + betaPhotoSp[species2[i]] * photoi[i] + betaChillSp[species2[i]] * chilli[i], sigmapheno_y);
         }
 
 }

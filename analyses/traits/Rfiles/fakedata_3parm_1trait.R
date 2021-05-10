@@ -136,9 +136,9 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   n_study = Nstudy, 
                   yPhenoi = pheno.dat$doy.i, 
                   Nph = Nph, 
-                  forcingi = forcingi,
+                  forcei = forcingi,
                   photoi = photoi, 
-                  chillingi = chillingi,
+                  chilli = chillingi,
                   species2 = pheno.dat$species) 
 
 mdl.test <- stan('stan/stan_joint_traitors.stan',
@@ -147,13 +147,37 @@ mdl.test <- stan('stan/stan_joint_traitors.stan',
 
 save(mdl.test, file = "output.traitors.lgNspp2.Rda")
 
-# load("output/output.traitors.lgNspp2.Rda")
-# 
-# ssm <-  as.shinystan(mdl.test)
-# launch_shinystan(ssm)
-# 
-# sumer <- summary(mdl.test)$summary
-# post <- rstan::extract(mdl.test)
+load("output/output.traitors.lgNspp2.Rda")
+
+ssm <-  as.shinystan(mdl.test)
+launch_shinystan(ssm)
+
+sumer <- summary(mdl.test)$summary
+post <- rstan::extract(mdl.test)
+
+mu_grand <- sumer[grep("mu_grand", rownames(sumer))]
+muSp <- sumer[grep("muSp", rownames(sumer))]
+muStudy <- sumer[grep("muStudy", rownames(sumer))]
+
+muForceSp <- sumer[grep("muForceSp", rownames(sumer))]
+muChillSp <- sumer[grep("muChillSp", rownames(sumer))]
+muPhotoSp <- sumer[grep("muPhotoSp", rownames(sumer))]
+muPhenoSp <- sumer[grep("muPhenoSp", rownames(sumer))]
+
+betaTraitxForcing <- sumer[grep("betaTraitxForce", rownames(sumer))]
+betaTraitxChill <- sumer[grep("betaTraitxChill", rownames(sumer))]
+betaTraitxPhoto <- sumer[grep("betaTraitxPhoto", rownames(sumer))]
+
+
+sigma_sp <- sumer[grep("sigma_sp", rownames(sumer))]
+sigma_study <- sumer[grep("sigma_study", rownames(sumer))]
+sigmaTrait_y <- sumer[grep("sigmaTrait_y", rownames(sumer))]
+sigmapheno_y <- sumer[grep("sigmapheno_y", rownames(sumer))]
+
+sigmaForceSp <- sumer[grep("sigmaForceSp", rownames(sumer))]
+sigmaChillSp <- sumer[grep("sigmaChillSp", rownames(sumer))]
+sigmaPhotoSp <- sumer[grep("sigmaPhotoSp", rownames(sumer))]
+sigmaPhenoSp <- sumer[grep("sigmaPhenoSp", rownames(sumer))]
 
 # no divergent transitions if 5
 # muForceSp -0.6/-1
