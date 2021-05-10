@@ -105,11 +105,11 @@ model{
     //MODEL 1 ---------------------------------------------
     //assign priors
     sigmaTrait_y ~ normal(0.5,0.5); // trt.var 0.5
-    sigma_sp ~ normal(0,10); //sigma_species 10
+    sigma_sp ~ normal(10,0.5); //sigma_species 10
     mu_grand ~ normal(20, 1); // 
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_stdy ~ normal(0,5); //sigma.study 5
+    sigma_stdy ~ normal(5,0.5); //sigma.study 5
     muStdy ~ normal(0, sigma_stdy);//
     
     // run the actual model - likihood
@@ -123,17 +123,17 @@ model{
 
     //priors level 2
 
-    sigmaForceSp ~ normal(5, 0.5); //
+    sigmaForceSp ~ normal(2, 0.5); //
     muForceSp ~ normal(-1, 0.5);//
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);  //
-
-    sigmaPhotoSp ~ normal(2, 0.5); //sigma.photo.sp
-    muPhotoSp ~ normal(-2, 0.5);// 
-    alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
     sigmaChillSp ~ normal(2, 0.5); //sigma.chill.sp
-    muChillSp ~ normal(-2, 0.1);// 
+    muChillSp ~ normal(-2, 0.5);// 
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
+    
+    sigmaPhotoSp ~ normal(2, 0.5); //sigma.photo.sp
+    muPhotoSp ~ normal(-3, 0.5);// 
+    alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
     sigmaPhenoSp ~ normal(2, 0.5); // sigma.pheno.sp =2
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150

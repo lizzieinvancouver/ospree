@@ -141,19 +141,19 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   chillingi = chillingi,
                   species2 = pheno.dat$species) 
 
-# mdl.test <- stan('stan/stan_joint_traitors.stan',
-#                  data = stan_data, iter = 4000) 
-#                  #,control = list(adapt_delta = 0.99, max_treedepth = 18))
-#
-#save(mdl.test, file = "output.traitors.lgNspp2.Rda")
+mdl.test <- stan('stan/stan_joint_traitors.stan',
+                 data = stan_data, iter = 4000)
+                 #,control = list(adapt_delta = 0.99, max_treedepth = 18))
 
-load("output/output.traitors.lgNspp2.Rda")
+save(mdl.test, file = "output.traitors.lgNspp2.Rda")
 
-ssm <-  as.shinystan(mdl.test)
-launch_shinystan(ssm)
-
-sumer <- summary(mdl.test)$summary
-post <- rstan::extract(mdl.test)
+# load("output/output.traitors.lgNspp2.Rda")
+# 
+# ssm <-  as.shinystan(mdl.test)
+# launch_shinystan(ssm)
+# 
+# sumer <- summary(mdl.test)$summary
+# post <- rstan::extract(mdl.test)
 
 # no divergent transitions if 5
 # muForceSp -0.6/-1
