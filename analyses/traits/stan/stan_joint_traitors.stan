@@ -90,15 +90,15 @@ transformed parameters{
     //MODEL 2----------------------------------------
     //get beta-cue-Sp values for each species
     for (isp in 1:n_spec){
-    betaForceSp[isp] = alphaForceSp[isp] + betaTraitxForce * (mu_grand + muSp[isp]);
+    betaForceSp[isp] = alphaForceSp[isp] + betaTraitxForce * ( muSp[isp]);
     }
     
     for (isp in 1:n_spec){
-    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto* (mu_grand + muSp[isp]);
+    betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto* ( muSp[isp]);
     }
     
     for (isp in 1:n_spec){
-    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* (mu_grand + muSp[isp]);
+    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* (muSp[isp]);
     }
 }
 model{ 
