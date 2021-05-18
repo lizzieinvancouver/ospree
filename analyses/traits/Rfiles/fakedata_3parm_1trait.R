@@ -434,21 +434,38 @@ mdl.esti$pred.trait <- NA
 for(i in 1:1000){
   ymu <- mu.grand + mu.sp.splvl[1] + mu.study.stlvl[1]
   yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
-  mdl.esti$pred.trait[mdl.esti$iteration == i] <- yhat
+  mdl.esti$esti.trait[mdl.esti$iteration == i] <- yhat
 
   btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
   btc <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
   btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand + mu.sp.splvl[i])
-  mdl.esti$pred.betaTforce[mdl.esti$iteration == i] <- btf
-  mdl.esti$pred.betaTchill[mdl.esti$iteration == i] <- btc
-  mdl.esti$pred.betaTphoto[mdl.esti$iteration == i] <- btp
+  mdl.esti$esti.betaTforce[mdl.esti$iteration == i] <- btf
+  mdl.esti$esti.betaTchill[mdl.esti$iteration == i] <- btc
+  mdl.esti$esti.betaTphoto[mdl.esti$iteration == i] <- btp
 
   ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
   yhat.pheno <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
-  mdl.esti$pred.pheno[mdl.esti$iteration == i] <- yhat.pheno
+  mdl.esti$esti.pheno[mdl.esti$iteration == i] <- yhat.pheno
 
 }
 head(mdl.esti)
+head(known.trait)
 
-plot(density(known.trait$pred.trait))
+plot(density(known.trait$pred.trait), col = "blue", ylim = c(0,0.3))
+points(density(mdl.esti$esti.trait), col ="red", pch=20)
 
+plot(density(known.trait$pred.betaTforce), col = "blue", ylim = c(0,0.3))
+points(density(mdl.esti$esti.betaTforce), col ="red", pch=20)
+
+plot(density(known.trait$pred.betaTchill), col = "blue", ylim = c(0,0.3))
+points(density(mdl.esti$esti.betaTchill), col ="red", pch=20)
+
+plot(density(known.trait$pred.betaTphoto), col = "blue", ylim = c(0,0.3))
+points(density(mdl.esti$esti.betaTphoto), col ="red", pch=20)
+
+plot(density(known.trait$pred.pheno), col = "blue", ylim = c(0,0.3))
+points(density(mdl.esti$esti.pheno), col ="red", pch=20)
+
+
+plot(density(known.trait$pred.pheno))
+plot(density(mdl.esti$esti.pheno))
