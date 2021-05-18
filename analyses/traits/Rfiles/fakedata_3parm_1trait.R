@@ -338,7 +338,7 @@ betaForcingSp
 # or are the betaForcingSp supposed to be alpha.force.sp + alpha.trtsp*betaTraitxforce
 
 #combine the effects of forcing and species trait differences into a slope
-beta.forcing.sp <- alphaf.sp + alpha.trtsp*betaTraitxforce
+beta.forcing.sp <- alpha.force.sp + alpha.trtsp*betaTraitxforce
 beta.chilling.sp <- alpha.chill.sp + alpha.trtsp*betaTraitxchill
 beta.photo.sp <- alpha.photo.sp + alpha.trtsp*betaTraitxphoto
 
@@ -349,16 +349,9 @@ names(known.trait) <- c("iteration","trait.value")
 known.trait$pred.trait <- NA
 
 for(i in 1:1000){
-  ymu <- mu.grand + mu.sp[i] + mu.study[i]
-  yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
-  known.values$pred.y[known.values$iteration == i] <- yhat
-}
-head(known.values)
-
-for(i in 1:1000){
   ymu <- mu.grand + mu.sp.splvl[i] + mu.study.stlvl[i]
   yhat <- rnorm(1000, ymu, sigmatrait.y[1]) # is it correct to have the 1000 there? It doesn't work otherwise
-  known.trait$pred.trait[known.trait$iteration == i] <- yhat
+  known.trait$pred.trait<- yhat
 
   btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
   btc <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
@@ -367,16 +360,15 @@ for(i in 1:1000){
   known.trait$pred.betaTchill[known.trait$iteration == i] <- btc
   known.trait$pred.betaTphoto[known.trait$iteration == i] <- btp
 
-  ypheno <- alpha.pheno.sp[1] + btf[1] * forcingi[1] + btp[1] * photoi[1] + btc[1] * chillingi[1]
+  ypheno <- alpha.pheno.sp[i] + btf * forcingi[i] + btp * photoi[i] + btc * chillingi[i]
   yhat.pheno <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
-  known.trait$pred.pheno[known.trait$iteration == i] <- yhat.pheno
+  known.trait$pred.pheno <- yhat.pheno
 
 }
 head(known.trait)
 ####################################################################################
-####################################################################################
-####################################################################################
- # now repeating for the values produced from the model
+
+# now repeating for the values produced from the model
 mu.grand <- 20
 mu.sp <- 0
 mu.study <- 0
@@ -429,29 +421,30 @@ yhat <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
 # now lets loop it
 mdl.esti <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
 names(mdl.esti) <- c("iteration","esti.value")
-mdl.esti$pred.trait <- NA
+mdl.esti$esti.trait <- NA
 
 for(i in 1:1000){
-  ymu <- mu.grand + mu.sp.splvl[1] + mu.study.stlvl[1]
+  ymu <- mu.grand + mu.sp.splvl[i] + mu.study.stlvl[i]
   yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
-  mdl.esti$esti.trait[mdl.esti$iteration == i] <- yhat
+  mdl.esti$esti.trait <- yhat
 
-  btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
-  btc <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
-  btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand + mu.sp.splvl[i])
-  mdl.esti$esti.betaTforce[mdl.esti$iteration == i] <- btf
-  mdl.esti$esti.betaTchill[mdl.esti$iteration == i] <- btc
-  mdl.esti$esti.betaTphoto[mdl.esti$iteration == i] <- btp
+  betaForcingSp <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
+  betaChillingSp <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
+  betaPhotoSp <- alphap.sp[i] + betaTraitxphoto * (mu_grand + mu.sp.splvl[i])
+  mdl.esti$esti.betaTforce[mdl.esti$iteration == i] <- betaForcingSp
+  mdl.esti$esti.betaTchill[mdl.esti$iteration == i] <- betaChillingSp
+  mdl.esti$esti.betaTphoto[mdl.esti$iteration == i] <- betaPhotoSp
 
-  ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
-  yhat.pheno <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
-  mdl.esti$esti.pheno[mdl.esti$iteration == i] <- yhat.pheno
+  ypheno <- alpha.pheno.sp[i] + betaForcingSp * forcingi[i] + betaPhotoSp * photoi[i] + betaChillingSp * chillingi[i]
+  yhat.pheno <- rnorm(1000,ypheno, sigma.gen) # sigma.gen = 2
+  mdl.esti$esti.pheno <- yhat.pheno
 
 }
 head(mdl.esti)
+
 head(known.trait)
 
-plot(density(known.trait$pred.trait), col = "blue", ylim = c(0,0.3))
+plot(density(known.trait$pred.trait), col = "blue", ylim = c(0,0.3), xlim = c(-30,30))
 points(density(mdl.esti$esti.trait), col ="red", pch=20)
 
 plot(density(known.trait$pred.betaTforce), col = "blue", ylim = c(0,0.3))
