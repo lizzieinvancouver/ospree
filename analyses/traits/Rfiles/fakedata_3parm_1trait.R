@@ -130,28 +130,7 @@ pheno.dat$gen.er <- gen.var
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
   pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
 
-#######################################################################################
-# Is the issue the test data? Lizzie suggested running the data with linear models
-betaTraitxchill <- 0
-betaTraitxphoto<- 0
-betaTraitxforce <- 0
-
-require(lme4)
-# I don't think this is the correct way to write the first model in a linear equation
-#fm.trait <- lmer(yTraiti~ mu.grand + (1| species) + (1|study), data = trt.dat)
-#fm.trait <- lmer(yTraiti~ mu.grand + alpha.species + alpha.study + (1| species) + (1|study), data = trt.dat)
-
-fm.trait <- lmer(yTraiti~ 1 + (1| species) + (1|study), data = trt.dat)
-summary(fm.trait)
-
-#bc setting betaTraitxforce to zero, btf will be equal to the cue level variation
-# btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand[i] + mu.sp.splvl[i])
-# btc <- alphac.sp[i] + betaTraitxchill * (mu_grand[i] + mu.sp.splvl[i])
-# btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand[i] + mu.sp.splvl[i])
-
-fm.pheno <- lmer(doy.i ~ forcingi + photoi + chillingi + (1|species), data = pheno.dat)
-summary(fm.pheno)
-#######################################################################################
+#################################################################################
 head(trt.dat)
 stan_data <- list(yTraiti = trt.dat$yTraiti, 
                   N = Ntrt, 
@@ -193,7 +172,7 @@ betaTraitxChill <- sumer[grep("betaTraitxChill", rownames(sumer))]
 betaTraitxPhoto <- sumer[grep("betaTraitxPhoto", rownames(sumer))]
 
 sigma_sp <- sumer[grep("sigma_sp", rownames(sumer))]
-sigma_study <- sumer[grep("sigma_study", rownames(sumer))]
+sigma_study_esti <- sumer[grep("sigma_study", rownames(sumer))]
 sigmaTrait_y <- sumer[grep("sigmaTrait_y", rownames(sumer))]
 sigmapheno_y <- sumer[grep("sigmapheno_y", rownames(sumer))]
 
@@ -202,20 +181,20 @@ sigmaChillSp <- sumer[grep("sigmaChillSp", rownames(sumer))]
 sigmaPhotoSp <- sumer[grep("sigmaPhotoSp", rownames(sumer))]
 sigmaPhenoSp <- sumer[grep("sigmaPhenoSp", rownames(sumer))]
 
-mdl.out <- data.frame( "Parameter" = c("mu_grand","muForceSp","muChillSp","muPhotoSp","muPhenoSp",
-                                       "betaTraitxForcing","betaTraitxChill","betaTraitxPhoto","sigma_sp",
-                                       "sigma_study", "sigmaTrait_y", "sigmapheno_y",
-                                       "sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "sigmaPhenoSp"),
-                       "Test.data.values" = c(mu.grand, mu.force.sp, mu.chill.sp, mu.photo.sp, mu.pheno.sp,
-                                   betaTraitxforce.test, betaTraitxchill.test, betaTraitxphoto.test,sigma.species,
-                                   sigma.study, trt.var, sigma.gen,
-                                   sigma.force.sp, sigma.chill.sp, sigma.photo.sp, sigma.pheno.sp),
-                       "Estiamte" = c(mu_grand,muForceSp,muChillSp,muPhotoSp,muPhenoSp,
-                                      betaTraitxForcing,betaTraitxChill,betaTraitxPhoto,sigma_sp,
-                                      sigma_study, sigmaTrait_y, sigmapheno_y,
-                                      sigmaForceSp, sigmaChillSp, sigmaPhotoSp, sigmaPhenoSp))
-
-mdl.out
+# mdl.out <- data.frame( "Parameter" = c("mu_grand","muForceSp","muChillSp","muPhotoSp","muPhenoSp",
+#                                        "betaTraitxForcing","betaTraitxChill","betaTraitxPhoto","sigma_sp",
+#                                        "sigma_study", "sigmaTrait_y", "sigmapheno_y",
+#                                        "sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "sigmaPhenoSp", "sigma_study"),
+#                        "Test.data.values" = c(mu.grand, mu.force.sp, mu.chill.sp, mu.photo.sp, mu.pheno.sp,
+#                                    betaTraitxforce, betaTraitxchill, betaTraitxphoto,sigma.species,
+#                                    sigma.study, trt.var, sigma.gen,
+#                                    sigma.force.sp, sigma.chill.sp, sigma.photo.sp, sigma.pheno.sp, sigma.study),
+#                        "Estiamte" = c(mu_grand, muForceSp, muChillSp, muPhotoSp, muPhenoSp,
+#                                       betaTraitxForcing, betaTraitxChill, betaTraitxPhoto, sigma_sp,
+#                                       sigma_study, sigmaTrait_y, sigmapheno_y,
+#                                       sigmaForceSp, sigmaChillSp, sigmaPhotoSp, sigmaPhenoSp, sigma_study_esti))
+# 
+# mdl.out
 
 # # #
 y<-trt.dat$yTraiti
@@ -251,6 +230,33 @@ plot(density(post$muPhotoSp));  abline(v = mu.photo.sp, col = "red")
 plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
 
 ######################################################################
+#######################################################################################
+# Is the issue the test data? Lizzie suggested running the data with linear models
+
+require(lme4)
+# I don't know if this is the correct way to write the first model in a linear equation
+fm.trait <- lmer(yTraiti ~ (1| species) + (1|study), data = trt.dat)
+summary(fm.trait)
+coef(fm.trait)
+
+#bc setting betaTraitxforce to zero, btf will be equal to the cue level variation
+betaTraitxchill <- 0
+betaTraitxphoto<- 0
+betaTraitxforce <- 0
+
+beta.force.sp <- pheno.dat$alpha.force.sp + trt.dat$alpha.trtsp*betaTraitxforce
+beta.chill.sp <- pheno.dat$alpha.chill.sp + trt.dat$alpha.trtsp*betaTraitxchill
+beta.photo.sp <- pheno.dat$alpha.photo.sp + trt.dat$alpha.trtsp*betaTraitxphoto
+
+fm.pheno <- lmer(doy.i ~ forcingi*beta.forcing.sp + photoi*beta.photo.sp + chillingi*beta.chill.sp + (1|species), data = pheno.dat)
+#Error in model.frame.default(data = pheno.dat, drop.unused.levels = TRUE,: variable lengths differ (found for 'beta.chill.sp')
+
+# Becuase the beta.forcing.sp is just alpha.force.sp etc, I am subbing it in directly
+fm.pheno <- lmer(doy.i ~ forcingi*alpha.force.sp + photoi*alpha.photo.sp + chillingi*alpha.chill.sp + (1|species), data = pheno.dat)
+summary(fm.pheno)
+
+#######################################################################################
+
 # checking to see if it is an identifiability issue:
 # simulate the model using the true values and generate a set of outcomes
 # simulate the model with the wrong values that the model is producing
@@ -310,10 +316,6 @@ betaTraitxchill <- -.8
 betaTraitxphoto<- -.8
 betaTraitxforce <- -.8
 
-betaForcingSp <- alphaf.sp[1] + betaTraitxforce * (mu.grand[1] + mu.sp.splvl[1])
-betaChillingSp <- alphac.sp[1] + betaTraitxchill * (mu.grand[1] + mu.sp.splvl[1])
-betaPhotoSp <- alphap.sp[1] + betaTraitxphoto * (mu.grand[1] + mu.sp.splvl[1])
-
 mu.force <- 20
 sigma.force <- 5
 forcingi <- rnorm(1000, mu.force, sigma.force)
@@ -332,8 +334,6 @@ alpha.pheno.sp <- rnorm(1000, mu.pheno.sp, sigma.pheno.sp)
 
 sigmatrait.y <- 2
 betaForcingSp
-ypheno <- alpha.pheno.sp[1] + betaForcingSp[1] * forcingi[1] + betaPhotoSp[1] * photoi[1] + betaChillingSp[1] * chillingi[1]
-yhat <- rnorm(1000, ypheno, sigma.gen) # sigma.gen = 2
 
 # or are the betaForcingSp supposed to be alpha.force.sp + alpha.trtsp*betaTraitxforce
 
