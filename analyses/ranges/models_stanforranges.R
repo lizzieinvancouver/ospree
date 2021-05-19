@@ -376,7 +376,7 @@ datalist.bb.pop <- with(bb.stan.here,
 )
     
 m3l.ni = stan('stan/nointer_3levelwpop_force&photo_ncp.stan', data = datalist.bb.pop,
-               iter = 7000, warmup=5000, chains=4, control=list(adapt_delta=0.999,max_treedepth = 15))
+               iter = 3000, warmup=2500, chains=4)
 
 
 
@@ -389,6 +389,24 @@ mod.sum[grep("sigma", rownames(mod.sum)),]
 
 
 save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
+
+ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop")) +
+  scale_y_discrete(limits=rev(c("Sigma species", "Sigma study", "Sigma population"))) + ggtitle("Sigma intercepts") +
+  coord_cartesian(xlim=c(0,25))
+
+forces <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_force_sp", "sigma_b_force_sppop")) +
+  scale_y_discrete(limits=rev(c("Sigma forcing \n(species)", "Sigma forcing \n(population)"))) + ggtitle ("Sigma forcing") +
+  coord_cartesian(xlim=c(0,25))
+
+photos <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_photo_sp", "sigma_b_photo_sppop")) + 
+  scale_y_discrete(limits=rev(c("Sigma photoperiod \n(species)", "Sigma photoperiod \n(population)"))) + ggtitle("Sigma photoperiod") +
+  coord_cartesian(xlim=c(0,25))
+
+library(egg)
+pdf("figures/variancepartitioning.pdf", width=12, height=4, onefile=FALSE)
+ggarrange(ints, forces, photos, ncol=3)
+dev.off()
+
 
 launch_shinystan(m3l.ni)
 

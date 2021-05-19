@@ -103,7 +103,7 @@ data {
 			     	}
    
    
-   // Random effects distribution of raw (ncp) priors, they should always be (0, 1)
+  // Random effects distribution of raw (ncp) priors
    target += normal_lpdf(to_vector(a_sp_raw) | 0, 1);
    target += normal_lpdf(to_vector(a_study_raw) | 0, 1);
    target += normal_lpdf(to_vector(a_sppop_raw) | 0, 1);
@@ -111,21 +111,25 @@ data {
    target += normal_lpdf(to_vector(b_photo_raw) | 0, 1);
    target += normal_lpdf(to_vector(b_force_raw) | 0, 1);
    
+   target += normal_lpdf(to_vector(a_sppop_raw) | 0, 1);
    target += normal_lpdf(to_vector(b_photo_sppop_raw) | 0, 1);
    target += normal_lpdf(to_vector(b_force_sppop_raw) | 0, 1);
    
    // Random effects distribution of remaining priors
-   target += normal_lpdf(to_vector(a_sp) | 0, 20);
-	 target += normal_lpdf(to_vector(a_study) | 0, 20);
-   target += normal_lpdf(to_vector(a_sppop) | 0, 20);
+   target += normal_lpdf(to_vector(a_sp) | 0, 30);
    
-   target += normal_lpdf(to_vector(b_photo) | 0, 20);
-	 target += normal_lpdf(to_vector(b_force) | 0, 20);
-	 target += normal_lpdf(to_vector(b_photo_sppop) | 0, 20);
-   target += normal_lpdf(to_vector(b_force_sppop) | 0, 20);
+   target += normal_lpdf(to_vector(a_sppop) | 0, 10);
    
+   target += normal_lpdf(to_vector(b_photo) | 0, 30);
+	 target += normal_lpdf(to_vector(b_force) | 0, 30);
+   
+   target += normal_lpdf(mu_a_study | 0, 30);
+   target += normal_lpdf(sigma_a_study | 0, 10);
+   
+   target += normal_lpdf(sigma_b_force_sppop | 0, 20);
+   target += normal_lpdf(sigma_b_photo_sppop | 0, 20);
    target += normal_lpdf(sigma_y | 0, 10);
- 
+   
    // Likelihood part of Bayesian inference
    for (i in 1:N) {
      target += normal_lpdf(y[i] | yhat[i], sigma_y);

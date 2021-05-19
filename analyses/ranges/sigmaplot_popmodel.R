@@ -105,8 +105,8 @@ alphahere = 0.4
 
 modoutput <- summary(m3l.ni)$summary
 noncps <- modoutput[!grepl("_ncp", rownames(modoutput)),]
-labs <- c("Species", "Forcing \n(Species)", "Photoperiod \n(Species)", "Population", "Forcing \n(Population)", 
-                                 "Photoperiod \n(Population)")
+labs <- c("Sigma Species", "Sigma Forcing \n(Species)", "Sigma Photoperiod \n(Species)", "Sigma Population", "Sigma Forcing \n(Population)", 
+                                 "Sigma Photoperiod \n(Population)")
 
 modelhere <- m3l.ni
 bball <- bb.stan.here
