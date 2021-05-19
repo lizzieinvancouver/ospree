@@ -387,8 +387,11 @@ mod.sum[grep("mu_b_force_sp", rownames(mod.sum)),]
 mod.sum[grep("mu_b_photo_sp", rownames(mod.sum)),]
 mod.sum[grep("sigma", rownames(mod.sum)),] 
 
+sigmas <- mod.sum[grep("sigma", rownames(mod.sum)),] 
 
-save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
+
+#save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
+load("~/Desktop/forcephoto_popmodel.Rdata")
 
 ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop")) +
   scale_y_discrete(limits=rev(c("Sigma species", "Sigma study", "Sigma population"))) + ggtitle("Sigma intercepts") +
