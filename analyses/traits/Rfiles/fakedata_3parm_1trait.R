@@ -31,24 +31,59 @@ trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
 trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
-mu.grand <- 20 # the grand mean of the trait model
-# May 7: we want to keep the variaiton across spp. high, so I am keeping this at 10
+mu.grand <- 20 # the grand mean of the height model
+# we want to keep the variaiton across spp. high, so I am keeping this at 10
 sigma.species <- 10 
 
-alpha.trtsp <- rnorm(Nspp, 0, sigma.species)
-trt.dat$alpha.trtsp <- rep(alpha.trtsp, Nstudy) #adding ht data for ea. sp
+mu.trtsp <- rnorm(Nspp, 0, sigma.species)
+trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
 sigma.study <- 5
-alpha.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
-trt.dat$alpha.study <- rep(alpha.study, each = Nspp) # generate data for ea study
+mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
+trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
 
 # general variance
-trt.var <- 0.5 #sigmaTrait_y in the stan code?
+trt.var <- 0.5 #sigmaTrait_y in the stan code
 trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 
-# generate yhat for this first trt model
-trt.dat$yTraiti <- mu.grand + trt.dat$alpha.trtsp + trt.dat$alpha.study + trt.dat$trt.er
+# generate yhat - heights -  for this first trt model
+trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
+
+# prior pred check
+#build dataframe with length of iteraction, should have a prior for each parameter
+#have col. with iteration and save to each iteration, or could save as a list and bind at the end as dataframe, 
+trait <- 1:10
+mu.grand.prior <- rnorm(1000, 20, 10) # is from above, 10 just seems like a reasonable value to me
+mu.trtsp.prior <- rnorm(1000, 0, 10)
+mu.study.prior <- rnorm(1000, 0, 5)
+sigma.sp.prior <- rnorm(1000,10, 1)
+sigma.study.prior <- rnorm(1000, 5, 0.5)
+sigmaTraity.prior <- rnorm(1000, 0, 0.5)
+
+# start by setting up the dataframe
+trt.ppc <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
+names(trt.ppc) <- c("iteration","trait.value")
+trt.ppc$trt.prior <- NA
+
+for(i in 1:1000){
+  traity.prior <- mu.grand.prior[i] + mu.trtsp.prior[i] + mu.study.prior[i] + sigmaTraity.prior[i] # yTraiti will be as long as x values
+  trt.ppc$trt.prior[trt.ppc$iteration == i] <- traity.prior
+  trt.ppc$mu.grand[trt.ppc$iteration == i] <- mu.grand.prior[i]
+  trt.ppc$mu.trtsp[trt.ppc$iteration == i] <- mu.trtsp.prior[i]
+  trt.ppc$mu.study[trt.ppc$iteration == i] <- mu.study.prior[i]
+}
+head(trt.ppc)
+
+hist(trt.ppc$trt.prior)
+hist(trt.ppc$mu.grand)
+hist(trt.ppc$mu.trtsp)
+hist(trt.ppc$mu.study)
+
+temp1 <- subset(trt.ppc, iteration < 1000)
+plot(temp1$trt.prior ~ temp1$mu.grand)
+plot(temp1$trt.prior ~ temp1$mu.trtsp)
+plot(temp1$trt.prior ~ temp1$mu.study)
 #########################################################
 # Next, making a data frame for the pheno data
  
@@ -61,21 +96,21 @@ pheno.dat$rep <- c(1:Nph)
 pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
 # Generating data for the cues: this is the overall effect of each cue, not the species level effect
-# May 7: in previous model runs making these values very small (0.1) resulted in divergent transitions
+#in previous model runs making these values very small (0.1) resulted in divergent transitions
 mu.force <- 20
 sigma.force <- 5
-forcingi <- rnorm(Nph, mu.force, sigma.force)
-pheno.dat$forcingi <- forcingi
+force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
+pheno.dat$force.i <- force.i
 
 mu.chill <- 20
 sigma.chill <- 5
-chillingi <- rnorm(Nph, mu.chill, sigma.chill)
-pheno.dat$chillingi <- chillingi
+chill.i <- rnorm(Nph, mu.chill, sigma.chill) # predictor chilling, chilli in stan
+pheno.dat$chill.i <- chill.i
 
 mu.photo <- 20
 sigma.photo <- 5
-photoi <- rnorm(Nph, mu.photo, sigma.photo)
-pheno.dat$photoi <- photoi
+photo.i <- rnorm(Nph, mu.photo, sigma.photo)
+pheno.dat$photo.i <- photo.i
 
 # adding the species level differences
 mu.pheno.sp <- 150
@@ -108,15 +143,15 @@ betaTraitxphoto<- -2
 betaTraitxforce <- -2
 
 #combine the effects of forcing and species trait differences into a slope
-beta.forcing.sp1 <- alpha.force.sp + alpha.trtsp*betaTraitxforce
+beta.forcing.sp1 <- alpha.force.sp + mu.trtsp*betaTraitxforce
 beta.forcing.sp <- rep(beta.forcing.sp1, )
 pheno.dat$beta.forcing.sp <- rep(beta.forcing.sp, each = nphen)
 
-beta.chilling.sp1 <- alpha.chill.sp + alpha.trtsp*betaTraitxchill
+beta.chilling.sp1 <- alpha.chill.sp + mu.trtsp*betaTraitxchill
 beta.chilling.sp <- rep(beta.chilling.sp1, )
 pheno.dat$beta.chilling.sp <- rep(beta.chilling.sp, each = nphen)
 
-beta.photo.sp1 <- alpha.photo.sp + alpha.trtsp*betaTraitxphoto
+beta.photo.sp1 <- alpha.photo.sp + mu.trtsp*betaTraitxphoto
 beta.photo.sp <- rep(beta.photo.sp1, )
 pheno.dat$beta.photo.sp <- rep(beta.photo.sp, each = nphen)
 
@@ -127,8 +162,8 @@ gen.var <- rnorm(Nph, 0, sigma.gen)
 pheno.dat$gen.er <- gen.var
 
 #"run" the full model to simulate data 
-pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forcingi +
-  pheno.dat$beta.chilling.sp * pheno.dat$chillingi + pheno.dat$beta.photo.sp * pheno.dat$photoi + pheno.dat$gen.er
+pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$forc.i +
+  pheno.dat$beta.chilling.sp * pheno.dat$chill.i + pheno.dat$beta.photo.sp * pheno.dat$photo.i + pheno.dat$gen.er
 
 #################################################################################
 head(trt.dat)
@@ -140,9 +175,9 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   n_study = Nstudy, 
                   yPhenoi = pheno.dat$doy.i, 
                   Nph = Nph, 
-                  forcei = forcingi,
-                  photoi = photoi, 
-                  chilli = chillingi,
+                  forcei = forc.i,
+                  photoi = photo.i, 
+                  chilli = chill.i,
                   species2 = pheno.dat$species) 
 
 mdl.test <- stan('stan/stan_joint_traitors.stan',
@@ -234,8 +269,8 @@ plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
 # Is the issue the test data? Lizzie suggested running the data with linear models
 
 require(lme4)
-# I don't know if this is the correct way to write the first model in a linear equation
-fm.trait <- lmer(yTraiti ~ (1| species) + (1|study), data = trt.dat)
+# It is unclear to me how to incorporate a grand mean into a linear model
+fm.trait <- lmer(yTraiti ~ (1| mu.trtsp) + (1|mu.study), data = trt.dat)
 summary(fm.trait)
 coef(fm.trait)
 
@@ -244,11 +279,11 @@ betaTraitxchill <- 0
 betaTraitxphoto<- 0
 betaTraitxforce <- 0
 
-beta.force.sp <- pheno.dat$alpha.force.sp + trt.dat$alpha.trtsp*betaTraitxforce
-beta.chill.sp <- pheno.dat$alpha.chill.sp + trt.dat$alpha.trtsp*betaTraitxchill
-beta.photo.sp <- pheno.dat$alpha.photo.sp + trt.dat$alpha.trtsp*betaTraitxphoto
+beta.force.sp <- pheno.dat$alpha.force.sp + trt.dat$mu.trtsp*betaTraitxforce
+beta.chill.sp <- pheno.dat$alpha.chill.sp + trt.dat$mu.trtsp*betaTraitxchill
+beta.photo.sp <- pheno.dat$alpha.photo.sp + trt.dat$mu.trtsp*betaTraitxphoto
 
-fm.pheno <- lmer(doy.i ~ forcingi*beta.forcing.sp + photoi*beta.photo.sp + chillingi*beta.chill.sp + (1|species), data = pheno.dat)
+fm.pheno <- lmer(doy.i ~ forcingi*beta.force.sp + photoi*beta.photo.sp + chillingi*beta.chill.sp + (1|species), data = pheno.dat)
 #Error in model.frame.default(data = pheno.dat, drop.unused.levels = TRUE,: variable lengths differ (found for 'beta.chill.sp')
 
 # Becuase the beta.forcing.sp is just alpha.force.sp etc, I am subbing it in directly
@@ -265,9 +300,11 @@ summary(fm.pheno)
 # starting with the trait model:
 trait <- 1:5
 
-mu.grand <- 20
-mu.sp <- rnorm(1000, 0,10)
-mu.study <- rnorm(1000, 0, 5)
+#when simulate data have a y value that you think it could really be, 1000 different y values bc 1000 different x values
+#prior predictive check, you have x values (10), and we have a distribution of potential parameter values, some are more likley, stan searches through possible values and see which are right, simulate many iterations of your model using the potential parameter values.
+mu.grand <- rnorm(1000, 20, 10)
+mu.sp <- rnorm(20, 0,10)
+mu.study <- rnorm(10, 0, 5)
 
 sigmatrait.y <- rnorm(1000, 2, 0.5)
 sigma.sp <- rnorm(1000, 10, 2)
@@ -278,8 +315,8 @@ names(known.values) <- c("iteration","trait.value")
 known.values$pred.y <- NA
 
 for(i in 1:1000){
-  ymu <- mu.grand + mu.sp[i] + mu.study[i]
-  yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
+  ymu <- mu.grand + mu.sp[i] + mu.study[i] # should repeat these values 
+  yhat <- rnorm(1, ymu, sigmatrait.y[i]) # should be one
   known.values$pred.y[known.values$iteration == i] <- yhat
 }
 head(known.values)
@@ -295,7 +332,7 @@ mu.study <- 0
 mu.sp.splvl <- rnorm(1000, mu.sp, sigma.sp)
 mu.study.stlvl <- rnorm(1000,mu.sp, sigma.study)
 ymu <- mu.grand[1] + mu.sp.splvl[1] + mu.study.stlvl[1]
-yhat <- rnorm(1000,ymu, sigmatrait.y[1]) # why does this generate 19 values unless 1000 are specified?
+yhat <- rnorm(1000,ymu, sigmatrait.y[1]) 
 
 # now let's try generating values for the betaCueSp values
 
@@ -335,12 +372,12 @@ alpha.pheno.sp <- rnorm(1000, mu.pheno.sp, sigma.pheno.sp)
 sigmatrait.y <- 2
 betaForcingSp
 
-# or are the betaForcingSp supposed to be alpha.force.sp + alpha.trtsp*betaTraitxforce
+# or are the betaForcingSp supposed to be alpha.force.sp + mu.trtsp*betaTraitxforce
 
 #combine the effects of forcing and species trait differences into a slope
-beta.forcing.sp <- alpha.force.sp + alpha.trtsp*betaTraitxforce
-beta.chilling.sp <- alpha.chill.sp + alpha.trtsp*betaTraitxchill
-beta.photo.sp <- alpha.photo.sp + alpha.trtsp*betaTraitxphoto
+beta.forcing.sp <- alpha.force.sp + mu.trtsp*betaTraitxforce
+beta.chilling.sp <- alpha.chill.sp + mu.trtsp*betaTraitxchill
+beta.photo.sp <- alpha.photo.sp + mu.trtsp*betaTraitxphoto
 
 # finally generate data for the phenology model
 # now lets loop it
@@ -353,9 +390,9 @@ for(i in 1:1000){
   yhat <- rnorm(1000, ymu, sigmatrait.y[1]) # is it correct to have the 1000 there? It doesn't work otherwise
   known.trait$pred.trait<- yhat
 
-  btf <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
-  btc <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
-  btp <- alphap.sp[i] + betaTraitxphoto * (mu_grand + mu.sp.splvl[i])
+  btf <- alphaf.sp[i] + betaTraitxforce * mu.sp.splvl[i]
+  btc <- alphac.sp[i] + betaTraitxchill * mu.sp.splvl[i]
+  btp <- alphap.sp[i] + betaTraitxphoto * mu.sp.splvl[i]
   known.trait$pred.betaTforce[known.trait$iteration == i] <- btf
   known.trait$pred.betaTchill[known.trait$iteration == i] <- btc
   known.trait$pred.betaTphoto[known.trait$iteration == i] <- btp
@@ -428,9 +465,9 @@ for(i in 1:1000){
   yhat <- rnorm(1000, ymu, sigmatrait.y[i]) # is it correct to have the 1000 there? It doesn't work otherwise
   mdl.esti$esti.trait <- yhat
 
-  betaForcingSp <- alphaf.sp[i] + betaTraitxforce * (mu_grand + mu.sp.splvl[i])
-  betaChillingSp <- alphac.sp[i] + betaTraitxchill * (mu_grand + mu.sp.splvl[i])
-  betaPhotoSp <- alphap.sp[i] + betaTraitxphoto * (mu_grand + mu.sp.splvl[i])
+  betaForcingSp <- alphaf.sp[i] + betaTraitxforce * mu.sp.splvl[i]
+  betaChillingSp <- alphac.sp[i] + betaTraitxchill * mu.sp.splvl[i]
+  betaPhotoSp <- alphap.sp[i] + betaTraitxphoto * mu.sp.splvl[i]
   mdl.esti$esti.betaTforce[mdl.esti$iteration == i] <- betaForcingSp
   mdl.esti$esti.betaTchill[mdl.esti$iteration == i] <- betaChillingSp
   mdl.esti$esti.betaTphoto[mdl.esti$iteration == i] <- betaPhotoSp
