@@ -53,12 +53,12 @@ trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.
 # prior pred check
 #build dataframe with length of iteraction, should have a prior for each parameter; have col. with iteration and save to each iteration, or could save as a list and bind at the end as dataframe, 
 trait <- 1:10 #heights
-mu.grand.prior <- rnorm(1000, 20, 10)
+mu.grand.prior <- rtruncnorm(1000, a = 0, b = 100 ,mean = 40, sd = 1) # since heights can't be negative, I am making this truncated
 mu.trtsp.prior <- rnorm(1000, 0, 10)
 mu.study.prior <- rnorm(1000, 0, 5)
 sigma.sp.prior <- rnorm(1000,10, 1)
-sigma.study.prior <- rnorm(1000, 5, 0.5)
-sigmaTraity.prior <- rnorm(1000, 0, 0.5)
+sigma.study.prior <- rnorm(1000, 1, 0.5)
+sigmaTraity.prior <- rnorm(1000, 1, 0.5)
 
 # start by setting up the dataframe
 trt.ppc <- data.frame(cbind(rep(1:1000, times = length(trait)), rep(trait, times = 1000)))
@@ -72,7 +72,6 @@ for(i in 1:1000){
   trt.ppc$mu.trtsp[trt.ppc$iteration == i] <- mu.trtsp.prior[i]
   trt.ppc$mu.study[trt.ppc$iteration == i] <- mu.study.prior[i]
 }
-head(trt.ppc)
 
 hist(trt.ppc$trt.prior)
 hist(trt.ppc$mu.grand)
@@ -179,7 +178,7 @@ alpha.photo.sp.prior <- rnorm(1000, -3, 2)
 mu.photo.sp.prior <- rnorm(1000, -3, 0.5)
 sigma.photo.sp.prior <- rnorm(1000, 2, 0.5)
 
-alpha.pheno.sp.prior <- rnorm(1000, 150, 10)
+alpha.pheno.sp.prior <- rnorm(1000, 150, 10) 
 mu.pheno.sp.prior <- rnorm(1000, 150, 10)
 sigma.pheno.sp.prior <- rnorm(1000, 2, 0.5)
 
@@ -205,8 +204,44 @@ for(i in 1:1000){
   pheno.ppc$beta.forcing.sp[pheno.ppc$iteration == i] <- beta.forcing.sp
   pheno.ppc$beta.chilling.sp[pheno.ppc$iteration == i] <- beta.chilling.sp
   pheno.ppc$beta.photo.sp[pheno.ppc$iteration == i] <- beta.photo.sp
+  pheno.ppc$alpha.pheno.sp[pheno.ppc$iteration == i] <- alpha.pheno.sp.prior
 }
-head(pheno.ppc)
+hist(pheno.ppc$doy.prior)
+
+plot( 1, type = "n", xlim = c(-25,20), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+points(pheno.ppc$beta.chilling.sp, pheno.ppc$doy.prior, col = "forestgreen", pch = 19)
+
+plot( 1, type = "n", xlim = c(-25,20), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+points(pheno.ppc$beta.forcing.sp, pheno.ppc$doy.prior, col = "purple", pch = 19)
+
+plot( 1, type = "n", xlim = c(-25,20), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+points(pheno.ppc$beta.photo.sp, pheno.ppc$doy.prior, col = "red", pch = 19)
+
+plot( 1, type = "n", xlim = c(0,10), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+points(pheno.ppc$chilling, pheno.ppc$doy.prior, col = "forestgreen", pch = 19)
+
+
+plot( 1, type = "n", ylim = c(-25,20), xlim = c(-20,20), xlab = "Cue Value", ylab = "Day of bb")
+points(pheno.ppc$beta.forcing.sp, pheno.ppc$beta.chilling.sp, col = "purple", pch = 19)
+points(pheno.ppc$beta.forcing.sp, pheno.ppc$beta.photo.sp, col = "red", pch = 19)
+points(pheno.ppc$beta.chilling.sp, pheno.ppc$beta.photo.sp, col = "goldenrod", pch = 19)
+
+plot( 1, type = "n", xlim = c(-40,65), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+points(trt.ppc$trt.prior, pheno.ppc$doy.prior, col = "forestgreen", pch = 19)
+
+plot( 1, type = "n", xlim = c(0,10), ylim = c(-500, 700), xlab = "Cue Value", ylab = "Day of bb")
+fit <- lm( doy.prior ~ alpha.pheno.sp + beta.forcing.sp * forcing +
+               beta.chilling.sp * chilling + beta.photo.sp * photo, data = pheno.ppc)
+lines(fitted(fit))
+
+plot( 1, type = "n", xlim = c(0,10), ylim = c(-500, 700), xlab = "Cue Value", ylab = "Day of bb")
+for (i in 1:length(unique(pheno.ppc$iteration))){
+  temp <- subset(pheno.ppc, iteration == i)
+  fit <- lm( doy.prior ~ alpha.pheno.sp + beta.forcing.sp * forcing +
+               beta.chilling.sp * chilling + beta.photo.sp * photo, data = temp)
+  lines(fitted(fit))
+}
+
 #################################################################################
 head(trt.dat)
 stan_data <- list(yTraiti = trt.dat$yTraiti, 
@@ -311,25 +346,27 @@ plot(density(post$sigmaPhotoSp)) ; abline(v = sigma.photo, col = "red")
 # Is the issue the test data? Lizzie suggested running the data with linear models
 
 require(lme4)
-# It is unclear to me how to incorporate a grand mean into a linear model
+# It is unclear to me how to incorporate a grand mean into a linear model, isn't it just adding one value?
+fm.trait <- lmer(yTraiti ~ mu.grand + (1| mu.trtsp) + (1|mu.study), data = trt.dat)
+#Error in model.frame.default(data = trt.dat, drop.unused.levels = TRUE,  : variable lengths differ (found for 'mu.grand')
 fm.trait <- lmer(yTraiti ~ (1| mu.trtsp) + (1|mu.study), data = trt.dat)
 summary(fm.trait)
 coef(fm.trait)
 
 #bc setting betaTraitxforce to zero, btf will be equal to the cue level variation
 betaTraitxchill <- 0
-betaTraitxphoto<- 0
+betaTraitxphoto <- 0
 betaTraitxforce <- 0
 
 beta.force.sp <- pheno.dat$alpha.force.sp + trt.dat$mu.trtsp*betaTraitxforce
 beta.chill.sp <- pheno.dat$alpha.chill.sp + trt.dat$mu.trtsp*betaTraitxchill
 beta.photo.sp <- pheno.dat$alpha.photo.sp + trt.dat$mu.trtsp*betaTraitxphoto
 
-fm.pheno <- lmer(doy.i ~ forcingi*beta.force.sp + photoi*beta.photo.sp + chillingi*beta.chill.sp + (1|species), data = pheno.dat)
+fm.pheno <- lmer(doy.i ~ force.i*beta.force.sp + photo.i*beta.photo.sp + chill.i*beta.chill.sp + (1|species), data = pheno.dat)
 #Error in model.frame.default(data = pheno.dat, drop.unused.levels = TRUE,: variable lengths differ (found for 'beta.chill.sp')
 
 # Becuase the beta.forcing.sp is just alpha.force.sp etc, I am subbing it in directly
-fm.pheno <- lmer(doy.i ~ forcingi*alpha.force.sp + photoi*alpha.photo.sp + chillingi*alpha.chill.sp + (1|species), data = pheno.dat)
+fm.pheno <- lmer(doy.i ~ force.i*alpha.force.sp + photo.i*alpha.photo.sp + chill.i*alpha.chill.sp + (1|species), data = pheno.dat)
 summary(fm.pheno)
 
 
