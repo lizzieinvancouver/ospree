@@ -211,7 +211,7 @@ hist(pheno.ppc$doy.prior)
 plot( 1, type = "n", xlim = c(-15,5), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
 points(pheno.ppc$beta.chilling.sp, pheno.ppc$doy.prior, col = "forestgreen", pch = 19)
 
-plot( 1, type = "n", xlim = c(-15,5), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
+plot( 1, type = "n", xlim = c(-15,10), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
 points(pheno.ppc$beta.forcing.sp, pheno.ppc$doy.prior, col = "purple", pch = 19)
 
 plot( 1, type = "n", xlim = c(-15,5), ylim = c(-400, 700), xlab = "Cue Value", ylab = "Day of bb")
@@ -234,7 +234,7 @@ fit.total <- lm( doy.prior ~ alpha.pheno.sp + beta.forcing.sp * forcing +
                beta.chilling.sp * chilling + beta.photo.sp * photo, data = pheno.ppc)
 lines(fitted(fit.total))
 
-plot( 1, type = "n", xlim = c(0,11), ylim = c(-300, 300), xlab = "Cue Value", ylab = "Day of bb")
+plot( 1, type = "n", xlim = c(0,11), ylim = c(-100, 300), xlab = "Cue Value", ylab = "Day of bb")
 for (i in 1:length(unique(pheno.ppc$iteration))){
   temp <- subset(pheno.ppc, iteration == i)
   fit <- lm( doy.prior ~ alpha.pheno.sp + beta.forcing.sp * forcing +
