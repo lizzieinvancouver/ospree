@@ -15,7 +15,7 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 # May 7: making the number of species huge and the number of reps small
-Nrep <- 5 # rep per trait
+Nrep <- 10 # rep per trait
 Nstudy <- 20 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
 Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
 
@@ -50,7 +50,12 @@ trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 # generate yhat - heights -  for this first trt model
 trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
 
-# prior pred check 
+# Stop here and test your work a little ...okay, it's hard to interpret this output but we can check the general variance and intercept and check the relative variance of species and study (maybe using the SD?)
+library(lme4)
+testtrt <- lmer(yTraiti ~ (1|study) + (1|species), data = trt.dat)
+
+
+# prior pred check (not critical until you know your code fundamentally works; I might comment this out for now...)
 #build dataframe with length of iteraction, should have a prior for each parameter; have col. with iteration and save to each iteration, or could save as a list and bind at the end as dataframe, 
 trait <- 1:10 #heights
 mu.grand.prior <- rtruncnorm(1000, a = 0, b = 100 ,mean = 20, sd = 1) # since heights can't be negative, I am making this truncated
