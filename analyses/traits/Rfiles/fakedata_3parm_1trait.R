@@ -16,8 +16,8 @@ options(mc.cores = parallel::detectCores())
 
 # May 7: making the number of species huge and the number of reps small
 Nrep <- 5 # rep per trait
-Nstudy <- 10 # number of studies w/ traits
-Nspp <- 100 # number of species with traits
+Nstudy <- 20 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
+Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
@@ -32,8 +32,8 @@ trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
 mu.grand <- 20 # the grand mean of the height model
-# we want to keep the variaiton across spp. high, so I am keeping this at 10
-sigma.species <- 1
+# we want to keep the variaiton across spp. high, so I am keeping this at 10 (wait, why was it 1 then? I am making it 10)
+sigma.species <- 10
 
 mu.trtsp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
@@ -50,7 +50,7 @@ trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 # generate yhat - heights -  for this first trt model
 trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
 
-# prior pred check
+# prior pred check 
 #build dataframe with length of iteraction, should have a prior for each parameter; have col. with iteration and save to each iteration, or could save as a list and bind at the end as dataframe, 
 trait <- 1:10 #heights
 mu.grand.prior <- rtruncnorm(1000, a = 0, b = 100 ,mean = 20, sd = 1) # since heights can't be negative, I am making this truncated
@@ -95,7 +95,7 @@ pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
 # Generating data for the cues: this is the overall effect of each cue, not the species level effect
 #in previous model runs making these values very small (0.1) resulted in divergent transitions
-mu.force <- 20
+mu.force <- 20 # This is a big forcing effect. It seems a little high to me, but may be okay. You'll just want to be cautious on your priors and make sure they encompass this ..
 sigma.force <- 5
 force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
 pheno.dat$force.i <- force.i
@@ -117,6 +117,7 @@ sigma.pheno.sp <- 2 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
+# Alert! I don't understand what the below does compared to the above ...? I feel like above you generated species variation in cues ... I think I am confused about what the above versus below does. 
 # Adding species variation in cue use:
 # May 7: I am making these values kinda large (I think?) and making the sigmas 2
 mu.force.sp <- -1 # negative bc warmer means earlier
@@ -134,6 +135,7 @@ sigma.photo.sp <- 2
 alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
 pheno.dat$alpha.photo.sp <- rep(alpha.photo.sp, each = nphen)
 
+# I suggest you set these below to zero and make sure your pheno model runs on its own before you add this  in...
 #interaction between trait and cues
 #increasing this value from -0.8
 betaTraitxchill <- -2
