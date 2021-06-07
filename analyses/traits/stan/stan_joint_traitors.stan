@@ -74,7 +74,7 @@ parameters{
 transformed parameters{
     //MODEL 1 ----------------------------------------
     //Individual mean for species and study
-    real ymu[N];
+    real ymu[N]; // the trait value, height, ssd, etc.
 
     //MODEL 2------------------------------------------------
     real betaForceSp[n_spec];     //species level beta forcing 
@@ -135,7 +135,7 @@ model{
     muPhotoSp ~ normal(-3, 0.5);// 
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaPhenoSp ~ normal(2, 0.5); // sigma.pheno.sp =2
+    sigmaPhenoSp ~ normal(2, 0.5); // sigma.pheno.sp =2  
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
