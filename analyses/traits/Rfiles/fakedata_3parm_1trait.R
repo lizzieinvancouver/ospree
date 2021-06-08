@@ -58,8 +58,8 @@ trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.
 str(trt.dat)
 library(lme4)
 
-trt.dat$study <- as.factor(trt.dat$study)
-trt.dat$species <- as.factor(trt.dat$species)
+# trt.dat$study <- as.factor(trt.dat$study)
+# trt.dat$species <- as.factor(trt.dat$species)
 
 testtrt <- lmer(yTraiti ~ (1|study) + (1|species), data = trt.dat)
 summary(testtrt)
@@ -445,5 +445,7 @@ fm.pheno <- lmer(doy.i ~ force.i*beta.force.sp + photo.i*beta.photo.sp + chill.i
 # BUT becuase the beta.forcing.sp is just alpha.force.sp when betaTraitxForce is 0, I am subbing it in directly
 fm.pheno <- lmer(doy.i ~ force.i*alpha.force.sp + photo.i*alpha.photo.sp + chill.i*alpha.chill.sp + (1|species), data = pheno.dat)
 summary(fm.pheno)
+
+
 
 
