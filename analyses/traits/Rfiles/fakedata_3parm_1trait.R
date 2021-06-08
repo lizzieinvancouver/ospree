@@ -54,7 +54,13 @@ trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
 
 # Stop here and test your work a little ...okay, it's hard to interpret this output but we can check the general variance and intercept and check the relative variance of species and study (maybe using the SD?)
+
+str(trt.dat)
 library(lme4)
+
+trt.dat$study <- as.factor(trt.dat$study)
+trt.dat$species <- as.factor(trt.dat$species)
+
 testtrt <- lmer(yTraiti ~ (1|study) + (1|species), data = trt.dat)
 summary(testtrt)
 
@@ -201,16 +207,17 @@ pheno.dat$gen.er <- gen.var
 #"run" the full model to simulate data 
 pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$force.i +
   pheno.dat$beta.chilling.sp * pheno.dat$chill.i + pheno.dat$beta.photo.sp * pheno.dat$photo.i + pheno.dat$gen.er
-
+#
 # Taking a step back and trying to get the phenology model to run with just a linear model:
 
 fm.pheno <- lmer(doy.i ~ force.i*beta.forcing.sp + photo.i*beta.photo.sp + chill.i*beta.chilling.sp + (1|species), data = pheno.dat)
 summary(fm.pheno)
 
-fm.pheno <- lmer(yPhenoi ~ forcingi*betaForcingSp + (1|species), data = phenoData)
+fm.pheno <- lmer(doy.i ~ force.i*beta.forcing.sp + (1|species), data = pheno.dat)
 summary(fm.pheno)
 
 ### Phenology only stan model ############################################
+# For future when we think the linear model works! 
 pheno_data <- list(yTraiti = trt.dat$yTraiti, 
                   N = Ntrt, 
                   n_spec = Nspp, 
