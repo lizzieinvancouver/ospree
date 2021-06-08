@@ -448,3 +448,5 @@ fm.pheno <- lmer(doy.i ~ force.i*alpha.force.sp + photo.i*alpha.photo.sp + chill
 summary(fm.pheno)
 
 
+
+
