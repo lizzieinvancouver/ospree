@@ -4,7 +4,7 @@
  if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
-  setwd("~/R/traitors")
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits")
 }
 
 library(rstan)
@@ -328,8 +328,7 @@ stan_data <- list(yTraiti = trt.dat$yTraiti,
                   species2 = pheno.dat$species) 
 
 mdl.test <- stan('stan/stan_joint_traitors.stan',
-                 data = stan_data, iter = 8000
-                ,control = list(max_treedepth = 15))
+                 data = stan_data, iter = 3000)
 
 save(mdl.test, file = "output.traitors.lgNspp_highdepth.Rda")
 
