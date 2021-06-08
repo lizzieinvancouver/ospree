@@ -58,8 +58,8 @@ trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.
 str(trt.dat)
 library(lme4)
 
-trt.dat$study <- as.factor(trt.dat$study)
-trt.dat$species <- as.factor(trt.dat$species)
+# trt.dat$study <- as.factor(trt.dat$study)
+# trt.dat$species <- as.factor(trt.dat$species)
 
 testtrt <- lmer(yTraiti ~ (1|study) + (1|species), data = trt.dat)
 summary(testtrt)
