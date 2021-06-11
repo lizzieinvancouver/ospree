@@ -39,7 +39,7 @@ trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
 trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
-mu.grand <- 20 # the grand mean of the height model
+mu.grand <- 10 # the grand mean of the height model
 sigma.species <- 10 # we want to keep the variaiton across spp. high
 
 #the alphaTraitSp in Faiths original code:
@@ -74,12 +74,18 @@ mdl.traitonly <- stan('stan/stan_joint_traitonly.stan',
 # June 10: 26 transitions after warmup exceed max depth, large rhats
 # 1. The sigmaTrait_y looked really weird, unrealistically narrow and low, so I changed the prior to it to: sigmaTrait_y ~ normal(10, 1) --> The Ess was still too low
 # 2. Played around with the sigmaTrait_y prior, I tried (10, 5), nothing really changed
-# 3. then I tried (15, 1) amd got no warning messages! Mu grand looks better, but not as good as everything else, the esti is 19.46 (vs 20), but the other esti look great! all within 0.04 of the true value
+# 3. then I tried (15, 1) amd got no warning messages! Mu grand looks better, but the chains are not as good as everything else, the esti is 20.04 (vs 20), but the other esti look ok! all within 0.15 of the true value
 save(mdl.traitonly, file = "output.traitonly.3.Rda")
 # 4. I am going to see what happens when I decrease mu grand to 10 -- > model output was slightly worse, 10.39 for mu_grand, but sigma_stidy was also off by 0.2
-# 5. What is i made the the prior variance smaller? The chains look better, but the estimates are not as good for the other factors
+# 5. What is i made the the prior variance smaller (10, 0.5)? The chains look better, but the estimates are not as good for the other factors
 save(mdl.traitonly, file = "output.traitonly.5.Rda")
-
+# 6. Out of curiosity, i increased the mu_grand prior to (20,2) --> a bit mixed, mugrand is 20.26, sigmasp and sigmay are closer but sigmastudy is off by .25, the chains for mu grand look aweful again though
+# 7. Decreasing the variances for the larger mugrand (20, 0.5), not the best, but (10, 0.5) looked interesting:
+# Parameter Test.data.values  Estiamte
+# 1     mu_grand               10  9.993991
+# 2     sigma_sp               10 10.075637
+# 3  sigma_study                5  4.937649
+# 4 sigmaTrait_y               15 15.140083
 ####################################################################
 ssm <-  as.shinystan(mdl.traitonly)
 launch_shinystan(ssm)
