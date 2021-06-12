@@ -147,171 +147,125 @@ mdl.out
 ##########################################################################
 ##########################################################################
 
+
+Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
 nphen <- 10 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
+
+# the trait effect
+sigma.species <- 5
+alpha.trait.sp<- rnorm(Nspp, 0, sigma.species)
+
 pheno.dat <- data.frame(matrix(NA, Nph, 2))
 names(pheno.dat) <- c("rep","species")
 pheno.dat$rep <- c(1:Nph)
 pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
-mu.trtsp #the effect of species trait differences from the trait model
-for(i in 1:length(mu.trtsp)){
-  pheno.dat$mu.trtsp[pheno.dat$species == i] <- mu.trtsp[i]
-}
-
 # Generating data for the cues: this is the overall effect of each cue, not the species level effect
-#Generate the cue values (ie the F that gets multipled with betaForcing{sp})
-mu.force <- 20 # This is a big forcing effect. It seems a little high to me, but may be okay. You'll just want to be cautious on your priors and make sure they encompass this ..
-sigma.force <- 5
-force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
-pheno.dat$force.i <- force.i
-
-mu.chill <- 20
-sigma.chill <- 5
-chill.i <- rnorm(Nph, mu.chill, sigma.chill) # predictor chilling, chilli in stan
-pheno.dat$chill.i <- chill.i
-
-mu.photo <- 20
-sigma.photo <- 5
-photo.i <- rnorm(Nph, mu.photo, sigma.photo)
-pheno.dat$photo.i <- photo.i
 
 # Now generating the values for different species
 # Phenological values across the different species
 mu.pheno.sp <- 150
-sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
-
-alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
+sigma.pheno.sp <- 20 #for a mu this large, I think this is pretty small
+alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
-# Alert! I don't understand what the below does compared to the above ...? I feel like above you generated species variation in cues ... I think I am confused about what the above versus below does. 
-# Adding species variation in cue use:
-# May 7: I am making these values kinda large (I think?) and making the sigmas 2
 mu.force.sp <- -1 # negative bc warmer means earlier
 sigma.force.sp <- 2
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
-mu.chill.sp <- -2 
-sigma.chill.sp <- 2
-alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
-pheno.dat$alpha.chill.sp <- rep(alpha.chill.sp, each = nphen)
+betaTraitxforce <- 2 #interaction between trait and phenology
 
-mu.photo.sp <- -3 
-sigma.photo.sp <- 2
-alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
-pheno.dat$alpha.photo.sp <- rep(alpha.photo.sp, each = nphen)
+beta.force.temp <- alpha.force.sp + alpha.trait.sp * betaTraitxforce
+beta.force.sp <- rep(beta.force.temp,)
+pheno.dat$beta.force.sp <- rep(beta.force.sp, each = nphen)
 
-# I suggest you set these below to zero and make sure your pheno model runs on its own before you add this  in...
-#interaction between trait and cues
-#increasing this value from -0.8
-betaTraitxchill <- 0
-betaTraitxphoto<- 0
-betaTraitxforce <- 0
-
-#combine the effects of forcing and species trait differences into a slope
-beta.forcing.sp <- alpha.force.sp + mu.trtsp*betaTraitxforce
-pheno.dat$beta.forcing.sp <- rep(beta.forcing.sp, each = nphen)
-
-beta.chilling.sp <- alpha.chill.sp + mu.trtsp*betaTraitxchill
-pheno.dat$beta.chilling.sp <- rep(beta.chilling.sp, each = nphen)
-
-beta.photo.sp <- alpha.photo.sp + mu.trtsp*betaTraitxphoto
-pheno.dat$beta.photo.sp <- rep(beta.photo.sp, each = nphen)
+#Generate the cue values (ie the F that gets multipled with betaForcing{sp})
+mu.force <- 5 # This is a big forcing effect.  turned down to 5
+sigma.force <- 1
+force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
+pheno.dat$force.i <- force.i
 
 #general variance
-# May 7: making this value, the general noise in the phenology model much smaller
-sigma.gen <- 0.5
+sigma.gen <- 5
 gen.var <- rnorm(Nph, 0, sigma.gen) 
 pheno.dat$gen.er <- gen.var
 
 #"run" the full model to simulate data 
-pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.forcing.sp * pheno.dat$force.i +
-  pheno.dat$beta.chilling.sp * pheno.dat$chill.i + pheno.dat$beta.photo.sp * pheno.dat$photo.i + pheno.dat$gen.er
-#
-# Taking a step back and trying to get the phenology model to run with just a linear model:
-
-fm.pheno <- lmer(doy.i ~ force.i*beta.forcing.sp + photo.i*beta.photo.sp + chill.i*beta.chilling.sp + (1|species), data = pheno.dat)
-summary(fm.pheno)
-
-fm.pheno <- lmer(doy.i ~ force.i*beta.forcing.sp + (1|species), data = pheno.dat)
-summary(fm.pheno)
+pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.force.sp * pheno.dat$force.i + pheno.dat$gen.er
 
 ### Phenology only stan model ############################################
 # For future when we think the linear model works! 
-pheno_data <- list(yTraiti = trt.dat$yTraiti, 
-                   N = Ntrt, 
-                   n_spec = Nspp, 
-                   species = trt.dat$species, 
-                   study = trt.dat$study, 
-                   n_study = Nstudy, 
+pheno_data <- list(n_spec = Nspp, 
+                   species = pheno.dat$species, 
                    yPhenoi = pheno.dat$doy.i, 
+                   alphaTraitSp = alpha.trait.sp,
                    Nph = Nph, 
-                   forcei = force.i,
-                   photoi = photo.i, 
-                   chilli = chill.i,
-                   species2 = pheno.dat$species) 
+                   forcei = force.i) 
 
 mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
                   data = pheno_data, iter = 4000)
 
-save(mdl.traitonly, file = "output.traitonly.7.Rda")
-# Parameter Test.data.values  Estiamte
-# 1     mu_grand               10  9.993991
-# 2     sigma_sp               10 10.075637
-# 3  sigma_study                5  4.937649
-# 4 sigmaTrait_y               15 15.140083
 
+save(mdl.pheno, file = "output.phenoonly.1.Rda")
+
+# June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
 ####################################################################
-ssm <-  as.shinystan(mdl.traitonly)
+ssm <-  as.shinystan(mdl.pheno)
 launch_shinystan(ssm)
 
-sumer <- summary(mdl.traitonly)$summary
-post <- rstan::extract(mdl.traitonly)
+sum.p <- summary(mdl.pheno)$summary
+post.p <- rstan::extract(mdl.pheno)
 
 
-range(sumer[, "n_eff"])
-range(sumer[, "Rhat"])
+range(sum.p[, "n_eff"])
+range(sum.p[, "Rhat"])
 
 # ppc and trying to figure out what is going on! 
-y<-as.numeric(trt.dat$yTraiti)
-yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
+y<- as.numeric(pheno.dat$doy.i)
+yrep<-post.p$ypred # I want this to be a matrix, which it is, with one element for each data point in y
 
 ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
 plot(density(yrep))
 plot(density(y))
 
-stan_hist(mdl.traitonly) # defualt is the firest 10 parameters
-stan_hist(mdl.traitonly, pars = c("sigmaTrait_y", "mu_grand", "sigma_sp","sigma_study"))
+stan_hist(mdl.pheno) # defualt is the firest 10 parameters
+stan_hist(mdl.pheno, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
-
-post2 <- as.matrix(mdl.traitonly, par = c("sigmaTrait_y", "mu_grand", "sigma_sp","sigma_study"))
+stan_hist(mdl.pheno, pars = "alphaForceSp")
+post.p2 <- as.matrix(mdl.pheno, par = c("muForceSp", "muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
 plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 
-mcmc_areas(post2,
-           pars = c("sigmaTrait_y", "mu_grand", "sigma_sp","sigma_study"),
+mcmc_areas(post.p2,
+           pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title
 
-mcmc_areas(post2,
-           pars = c("sigmaTrait_y"),
+mcmc_areas(post.p2,
+           pars = c("muForceSp","muPhenoSp"),
            prob = 0.8) + plot_title    
 
-mcmc_areas(post2,
-           pars = c("mu_grand"),
+mcmc_areas(post.p2,
+           pars = c("sigmaForceSp","sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title        
 
 # Is it giving me back the values?
-mu_grand <- sumer[grep("mu_grand", rownames(sumer))]
-sigma_sp <- sumer[grep("sigma_sp", rownames(sumer))]
-sigma_studyesti <- sumer[grep("sigma_study", rownames(sumer))]
-sigmaTrait_y <- sumer[grep("sigmaTrait_y", rownames(sumer))]
+mu_forcesp <- sum.p[grep("muForceSp", rownames(sum.p))]
+mu_phenosp <- sum.p[grep("muPhenoSp", rownames(sum.p))]
+alpha.forcingsp <- sum.p[grep("alphaForcingSp", rownames(sum.p))]
+sigma_forcesp <- sum.p[grep("sigmaForceSp", rownames(sum.p))]
+sigma_phenosp <- sum.p[grep("sigmaPhenoSp", rownames(sum.p))]
+sigma_phenoy <- sum.p[grep("sigmapheno_y", rownames(sum.p))]
+beta_tp <- sum.p[grep("betaTraitxPheno", rownames(sum.p))]
 
-mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y"),
-                       "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var),
-                       "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y))
+mdl.out <- data.frame( "Parameter" = c("mu_forcesp","mu_phenosp","sigma_forcesp","sigma_phenosp", 
+                                       "sigma_phenoy", "beta_tp"),
+                       "Test.data.values" = c(mu.force.sp, mu.pheno.sp, sigma.force.sp, sigma.pheno.sp, 
+                                              sigma.gen, betaTraitxforce),
+                       "Estiamte" = c(mu_forcesp, mu_phenosp, sigma_forcesp, sigma_phenosp, sigma_phenoy, beta_tp))
 
 mdl.out
 
