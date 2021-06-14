@@ -176,7 +176,7 @@ pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 # Now generating the values for different species
 # Phenological values across the different species
 mu.pheno.sp <- 150
-sigma.pheno.sp <- 20 #for a mu this large, I think this is pretty small
+sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
@@ -222,7 +222,24 @@ mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
 
 # June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
 # Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close, changed prior to (150,20) 
-save(mdl.pheno, file = "output.phenoonly.1.Rda")
+#Increaing the variance on the 20 results in less accurate estimates of forcing
+# 3.  Nspp = 20, muPheno 150, sigmPheno.sp =10
+# Parameter Test.data.values   Estiamte
+# 1    mu_forcesp               -1  -1.090547
+# 2    mu_phenosp              150 147.680986
+# 3 sigma_forcesp                2   1.907712
+# 4 sigma_phenosp               10  10.063475
+# 5  sigma_phenoy                5   5.026779
+# 6       beta_tp                2   2.186578
+#save(mdl.pheno, file = "output.phenoonly.3.Rda")
+#4. Nspp = 30,  muPheno 150, sigmPheno.sp =10
+# Parameter Test.data.values   Estiamte
+# 1    mu_forcesp               -1  -1.135565
+# 2    mu_phenosp              150 147.109729
+# 3 sigma_forcesp                2   2.326816
+# 4 sigma_phenosp               10  10.262958
+# 5  sigma_phenoy                5   4.813544
+# 6       beta_tp                2   1.917434
 ####################################################################
 ssm <-  as.shinystan(mdl.pheno)
 launch_shinystan(ssm)
