@@ -89,12 +89,15 @@ save(mdl.traitonly, file = "output.traitonly.7.Rda")
 # 4 sigmaTrait_y               15 15.140083
 
 ####################################################################
+
+load(file = "output.traitonly.7.Rda")
 ssm <-  as.shinystan(mdl.traitonly)
 launch_shinystan(ssm)
 
 sumer <- summary(mdl.traitonly)$summary
 post <- rstan::extract(mdl.traitonly)
 
+# extract a few random species allone and see if we get the estimates back
 
 range(sumer[, "n_eff"])
 range(sumer[, "Rhat"])
@@ -143,12 +146,18 @@ mdl.out
 # mu_grand is still not great: but does that look that bad?
 #plot(density(rnorm(1000, 10, 0.5)), col = "red", xlim = c(0,20),  ylim = c(0, 0.8)); lines(density(post$mu_grand ), lty = 1)
 
-##########################################################################
-##########################################################################
-##########################################################################
+# The odd effect from increasing the Nspp and Nstudy, is weird, but could try upping the warm up, could just be a scaling issue.
+# could change the number and see if the value changes
 
+##########################################################################
+##########################################################################
+##########################################################################
+#increase Nspp and see if closer 150
+# check the internal values for indiv spp. 
+# look at the log posterior, bivariate plots: mu_phenosp on y and log_post on x
+# always check the other parameter if a combination of 2 parameters
 
-Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
+Nspp <- 30 # number of species with traits (making this 20 just for speed for now)
 nphen <- 10 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
@@ -166,8 +175,8 @@ pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
 # Now generating the values for different species
 # Phenological values across the different species
-mu.pheno.sp <- 150
-sigma.pheno.sp <- 20 #for a mu this large, I think this is pretty small
+mu.pheno.sp <- 30
+sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
@@ -209,9 +218,11 @@ mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
                   data = pheno_data, iter = 4000)
 
 
-save(mdl.pheno, file = "output.phenoonly.1.Rda")
+#save(mdl.pheno, file = "output.phenoonly.1.Rda")
 
 # June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
+# Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close 
+save(mdl.pheno, file = "output.phenoonly.1.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.pheno)
 launch_shinystan(ssm)

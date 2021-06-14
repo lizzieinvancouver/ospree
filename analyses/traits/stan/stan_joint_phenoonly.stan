@@ -52,8 +52,8 @@ sigmapheno_y ~ normal(5, 3); //
     muForceSp ~ normal(-1, 0.5);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    sigmaPhenoSp ~ normal(20, 0.5); // sigma.pheno.sp =2  
-    muPhenoSp ~ normal(150, 5);  // mu.pheno.sp = 150
+    sigmaPhenoSp ~ normal(10, 0.5); // sigma.pheno.sp =2  
+    muPhenoSp ~ normal(30, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
     
     betaTraitxPheno ~ normal(2,1);
