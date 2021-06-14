@@ -175,8 +175,8 @@ pheno.dat$species <- rep(c(1:Nspp), each = nphen)
 
 # Now generating the values for different species
 # Phenological values across the different species
-mu.pheno.sp <- 30
-sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
+mu.pheno.sp <- 150
+sigma.pheno.sp <- 20 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
@@ -221,7 +221,7 @@ mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
 #save(mdl.pheno, file = "output.phenoonly.1.Rda")
 
 # June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
-# Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close 
+# Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close, changed prior to (150,20) 
 save(mdl.pheno, file = "output.phenoonly.1.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.pheno)
