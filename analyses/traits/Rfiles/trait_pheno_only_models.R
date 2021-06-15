@@ -158,7 +158,7 @@ mdl.out
 # always check the other parameter if a combination of 2 parameters
 
 Nspp <- 30 # number of species with traits (making this 20 just for speed for now)
-nphen <- 10 # rep per pheno event 
+nphen <- 15 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
 
@@ -218,28 +218,58 @@ mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
                   data = pheno_data, iter = 4000)
 
 
-#save(mdl.pheno, file = "output.phenoonly.1.Rda")
+save(mdl.pheno, file = "output.phenoonly.6.Rda")
 
 # June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
 # Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close, changed prior to (150,20) 
 #Increaing the variance on the 20 results in less accurate estimates of forcing
-# 3.  Nspp = 20, muPheno 150, sigmPheno.sp =10
-# Parameter Test.data.values   Estiamte
-# 1    mu_forcesp               -1  -1.090547
-# 2    mu_phenosp              150 147.680986
-# 3 sigma_forcesp                2   1.907712
-# 4 sigma_phenosp               10  10.063475
-# 5  sigma_phenoy                5   5.026779
-# 6       beta_tp                2   2.186578
+# 3.  Nspp = 20, muPheno 150, sigmPheno.sp =10, everything great, excetp mupheno so 147
 #save(mdl.pheno, file = "output.phenoonly.3.Rda")
-#4. Nspp = 30,  muPheno 150, sigmPheno.sp =10
-# Parameter Test.data.values   Estiamte
-# 1    mu_forcesp               -1  -1.135565
-# 2    mu_phenosp              150 147.109729
-# 3 sigma_forcesp                2   2.326816
-# 4 sigma_phenosp               10  10.262958
-# 5  sigma_phenoy                5   4.813544
-# 6       beta_tp                2   1.917434
+
+#4. Nspp = 30,  muPheno 150, sigmPheno.sp =10, some estimates are off by 0.2-0.3, but muphenosp is still 147
+
+#5. Making muPheno more realistic (30, 10) Nspp 20, mufocesp way lower at -0.76, and other values off by 0.2-0.5, but muphenosp is good at 30.99
+
+#6. making muPheno more realistic (30, 10), with Nspp of 30:
+#       Parameter Test.data.values  Estiamte
+# 1    mu_forcesp               -1 -1.083666
+# 2    mu_phenosp               30 27.442441
+# 3 sigma_forcesp                2  2.068836
+# 4 sigma_phenosp               10  9.916716
+# 5  sigma_phenoy                5  5.100674
+# 6       beta_tp                2  2.005857
+save(mdl.pheno, file = "output.phenoonly.6.Rda")
+# Lizzie commented that this can't be scaled directly, so to see it is important we could have to increase the reps or Nspp, I increased the reps to 15: it kinda just made everything worse
+# Parameter Test.data.values  Estiamte
+# 1    mu_forcesp               -1 -1.292711
+# 2    mu_phenosp               30 33.991997
+# 3 sigma_forcesp                2  1.711115
+# 4 sigma_phenosp               10  9.911498
+# 5  sigma_phenoy                5  5.123357
+# 6       beta_tp                2  2.067010
+
+# 7. Can I improve the estimates for the mu.pheno.sp by decreasing the variance to 5? 
+# Parameter Test.data.values  Estiamte
+#sigmaPhenoSp ~ normal(5, 0.5);   muPhenoSp ~ normal(30, 5);  
+# 1    mu_forcesp               -1 -0.718529
+# 2    mu_phenosp               30 29.459860
+# 3 sigma_forcesp                2  2.071941
+# 4 sigma_phenosp                5  5.041610
+# 5  sigma_phenoy                5  4.810782
+# 6       beta_tp                2  2.148108
+
+# sigmaPhenoSp ~ normal(5, 0.5);   muPhenoSp ~ normal(30, 10);  
+# Parameter Test.data.values  Estiamte
+# 1    mu_forcesp               -1 -1.143172
+# 2    mu_phenosp               30 31.531197
+# 3 sigma_forcesp                2  2.119935
+# 4 sigma_phenosp                5  5.122597
+# 5  sigma_phenoy                5  4.771651
+# 6       beta_tp                2  2.095064
+
+# sigmaPhenoSp ~ normal(10, 0.5);   muPhenoSp ~ normal(30, 5);  wow the mu.force.sp is terrible, only -0.368, other values look fine
+
+
 ####################################################################
 ssm <-  as.shinystan(mdl.pheno)
 launch_shinystan(ssm)

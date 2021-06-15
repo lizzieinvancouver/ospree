@@ -53,7 +53,7 @@ sigmapheno_y ~ normal(5, 3); //
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
     sigmaPhenoSp ~ normal(10, 0.5); // sigma.pheno.sp =2  
-    muPhenoSp ~ normal(150, 20);  // mu.pheno.sp = 150, try (30, 10) , estpecially for 150, 5 is very low
+    muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150, try (30, 10) , estpecially for 150, 5 is very low
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
     
     betaTraitxPheno ~ normal(2,1);
