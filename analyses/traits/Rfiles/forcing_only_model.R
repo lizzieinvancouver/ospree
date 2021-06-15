@@ -129,68 +129,68 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                    # chilli = chill.i,
                    species2 = pheno.dat$species) 
 
-mdl.pheno <- stan('stan/stan_joint_forcingonly.stan',
+mdl.force <- stan('stan/stan_joint_forcingonly.stan',
                   data = pheno_data, iter = 4000)
 
 
-save(mdl.pheno, file = "output.phenoonly.6.Rda")
+save(mdl.force, file = "output.forcingonly.1.Rda")
 
 
-
+load(file = "output/output.forcingonly.Rda")
 ####################################################################
-ssm <-  as.shinystan(mdl.pheno)
+ssm <-  as.shinystan(mdl.force)
 launch_shinystan(ssm)
 
-sum.p <- summary(mdl.pheno)$summary
-post.p <- rstan::extract(mdl.pheno)
+sum.f <- summary(mdl.force)$summary
+post.f <- rstan::extract(mdl.force)
 
 
-range(sum.p[, "n_eff"])
-range(sum.p[, "Rhat"])
+range(sum.f[, "n_eff"])
+range(sum.f[, "Rhat"])
 
 # ppc and trying to figure out what is going on! 
 y<- as.numeric(pheno.dat$doy.i)
-yrep<-post.p$ypred # I want this to be a matrix, which it is, with one element for each data point in y
+yrep<-post.f$ymu # I want this to be a matrix, which it is, with one element for each data point in y
 
 ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
 plot(density(yrep))
 plot(density(y))
 
-stan_hist(mdl.pheno) # defualt is the firest 10 parameters
-stan_hist(mdl.pheno, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
+stan_hist(mdl.force) # defualt is the firest 10 parameters
+stan_hist(mdl.force, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
-stan_hist(mdl.pheno, pars = "alphaForceSp")
-post.p2 <- as.matrix(mdl.pheno, par = c("muForceSp", "muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
+stan_hist(mdl.force, pars = "alphaForceSp")
+post.f2 <- as.matrix(mdl.force, par = c("muForceSp", "muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
 plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 
-mcmc_areas(post.p2,
+mcmc_areas(post.f2,
            pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title
 
-mcmc_areas(post.p2,
+mcmc_areas(post.f2,
            pars = c("muForceSp","muPhenoSp"),
            prob = 0.8) + plot_title    
 
-mcmc_areas(post.p2,
+mcmc_areas(post.f2,
            pars = c("sigmaForceSp","sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title        
 
 # Is it giving me back the values?
 # Is it giving me back the values?
-mu_grand <- sumer[grep("mu_grand", rownames(sumer))]
-sigma_sp <- sumer[grep("sigma_sp", rownames(sumer))]
-sigma_studyesti <- sumer[grep("sigma_study", rownames(sumer))]
-sigmaTrait_y <- sumer[grep("sigmaTrait_y", rownames(sumer))]
+mu_grand <- sum.f[grep("mu_grand", rownames(sum.f))]
+sigma_sp <- sum.f[grep("sigma_sp", rownames(sum.f))]
+sigma_studyesti <- sum.f[grep("sigma_study", rownames(sum.f))]
+sigmaTrait_y <- sum.f[grep("sigmaTrait_y", rownames(sum.f))]
 
-mu_forcesp <- sum.p[grep("muForceSp", rownames(sum.p))]
-mu_phenosp <- sum.p[grep("muPhenoSp", rownames(sum.p))]
-alpha.forcingsp <- sum.p[grep("alphaForcingSp", rownames(sum.p))]
-sigma_forcesp <- sum.p[grep("sigmaForceSp", rownames(sum.p))]
-sigma_phenosp <- sum.p[grep("sigmaPhenoSp", rownames(sum.p))]
-sigma_phenoy <- sum.p[grep("sigmapheno_y", rownames(sum.p))]
-beta_tp <- sum.p[grep("betaTraitxPheno", rownames(sum.p))]
+mu_forcesp <- sum.f[grep("muForceSp", rownames(sum.f))]
+mu_phenosp <- sum.f[grep("muPhenoSp", rownames(sum.f))]
+alpha.forcingsp <- sum.f[grep("alphaForcingSp", rownames(sum.f))]
+sigma_forcesp <- sum.f[grep("sigmaForceSp", rownames(sum.f))]
+sigma_phenosp <- sum.f[grep("sigmaPhenoSp", rownames(sum.f))]
+sigma_phenoy <- sum.f[grep("sigmapheno_y", rownames(sum.f))]
+beta_tp <- sum.f[grep("betaTraitxForce", rownames(sum.f))]
 
 
 mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 
@@ -204,3 +204,10 @@ mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sig
                                       sigma_phenoy, beta_tp))
 
 mdl.out
+
+# fit1 <- stan(...)
+# fit1.extract <- extract(fit1)
+# # Real data
+# plot(doy.i ~ alpha.pheno.sp + beta.force.sp * force.i, data = pheno.dat, type = "l", col = "black")
+# # Iteration 22 of the generated quantity y_pred
+# points(post.f$ymu[22, ] ~ x, col = rgb(0, 0, 1, alpha = .4), type = "l")
