@@ -94,11 +94,21 @@ sigma.force.sp <- 2
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
+mu.chill.sp <- -1 # negative bc warmer means earlier
+sigma.chill.sp <- 2
+alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
+pheno.dat$alpha.chill.sp <- rep(alpha.chill.sp, each = nphen)
+
 betaTraitxforce <- 2 #interaction between trait and phenology
+betaTraitxchill <- 2 #interaction between trait and phenology
 
 beta.force.temp <- alpha.force.sp + mu.trtsp * betaTraitxforce
 beta.force.sp <- rep(beta.force.temp,)
 pheno.dat$beta.force.sp <- rep(beta.force.sp, each = nphen)
+
+beta.chill.temp <- alpha.chill.sp + mu.trtsp * betaTraitxchill
+beta.chill.sp <- rep(beta.chill.temp,)
+pheno.dat$beta.chill.sp <- rep(beta.chill.sp, each = nphen)
 
 #Generate the cue values (ie the F that gets multipled with betaForcing{sp})
 mu.force <- 5 # This is a big forcing effect.  turned down to 5
@@ -106,13 +116,18 @@ sigma.force <- 1
 force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
 pheno.dat$force.i <- force.i
 
+mu.chill <- 5 # This is a big forcing effect.  turned down to 5
+sigma.chill <- 1
+chill.i <- rnorm(Nph, mu.chill, sigma.chill)  # predictor frocing, chilli in stan
+pheno.dat$chill.i <- chill.i
+
 #general variance
 sigma.gen <- 5
 gen.var <- rnorm(Nph, 0, sigma.gen) 
 pheno.dat$gen.er <- gen.var
 
 #"run" the full model to simulate data 
-pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.force.sp * pheno.dat$force.i + pheno.dat$gen.er
+pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.force.sp * pheno.dat$force.i + pheno.dat$beta.chill.sp * pheno.dat$chill.i + pheno.dat$gen.er
 
 ### Phenology only stan model ############################################
 # For future when we think the linear model works! 
@@ -126,14 +141,14 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                    Nph = Nph, 
                    forcei = force.i,
                    # photoi = photo.i, 
-                   # chilli = chill.i,
+                    chilli = chill.i,
                    species2 = pheno.dat$species) 
 
-mdl.force <- stan('stan/stan_joint_forcingonly.stan',
+mdl.force <- stan('stan/joint_forcingchilling.stan',
                   data = pheno_data, iter = 4000)
 
 
-save(mdl.force, file = "output.forcingonly.1.Rda")
+save(mdl.force, file = "output.joint.forcingchilling.Rda") 
 
 
 load(file = "output/output.forcingonly.Rda")
@@ -184,24 +199,26 @@ sigma_sp <- sum.f[grep("sigma_sp", rownames(sum.f))]
 sigma_studyesti <- sum.f[grep("sigma_study", rownames(sum.f))]
 sigmaTrait_y <- sum.f[grep("sigmaTrait_y", rownames(sum.f))]
 
+mu_chillsp <- sum.f[grep("muChillSp", rownames(sum.f))]
+sigma_chillsp <- sum.f[grep("sigmaChillSp", rownames(sum.f))]
+beta_tc <- sum.f[grep("betaTraitxChill", rownames(sum.f))]
 mu_forcesp <- sum.f[grep("muForceSp", rownames(sum.f))]
 mu_phenosp <- sum.f[grep("muPhenoSp", rownames(sum.f))]
 alpha.forcingsp <- sum.f[grep("alphaForcingSp", rownames(sum.f))]
 sigma_forcesp <- sum.f[grep("sigmaForceSp", rownames(sum.f))]
 sigma_phenosp <- sum.f[grep("sigmaPhenoSp", rownames(sum.f))]
 sigma_phenoy <- sum.f[grep("sigmapheno_y", rownames(sum.f))]
-beta_tp <- sum.f[grep("betaTraitxForce", rownames(sum.f))]
+beta_tf <- sum.f[grep("betaTraitxPheno", rownames(sum.f))]
 
 
 mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 
-                                       "mu_forcesp","mu_phenosp","sigma_forcesp","sigma_phenosp", 
-                                       "sigma_phenoy", "beta_tp"),
+                                       "mu_forcesp","mu_chillsp","mu_phenosp","sigma_forcesp","sigma_chillsp", "sigma_phenosp", 
+                                       "sigma_phenoy", "beta_tf", "beta_tc"),
                        "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var, 
-                                              mu.force.sp, mu.pheno.sp, sigma.force.sp, sigma.pheno.sp, 
-                                              sigma.gen, betaTraitxforce),
+                                              mu.force.sp, mu.chill.sp, mu.pheno.sp, sigma.force.sp, sigma.chill.sp, sigma.pheno.sp, 
+                                              sigma.gen, betaTraitxforce, betaTraitxchill),
                        "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y, 
-                                      mu_forcesp, mu_phenosp, sigma_forcesp, sigma_phenosp, 
-                                      sigma_phenoy, beta_tp))
+                                      mu_forcesp, mu_chillsp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc))
 
 mdl.out
 

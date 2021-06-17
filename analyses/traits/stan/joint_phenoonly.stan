@@ -13,7 +13,8 @@ data {
  
     vector[Nph] yPhenoi; // Outcome phenology
     vector[Nph] forcei; // predictor forcing 
-    
+    vector[Nph] chilli; // predictor forcing 
+
     vector[n_spec] alphaTraitSp; // species level trait data
 
 }
@@ -28,7 +29,7 @@ parameters{
     real muPhenoSp; // 
     real <lower = 0> sigmaPhenoSp; 
     
-    real betaTraitxPheno;
+    real betaTraitxForce;
 
     // general varience/error
     real <lower =0> sigmapheno_y; // overall variation accross observations
@@ -39,7 +40,7 @@ transformed parameters{
 
     //get betaForceSp values for each species
     for (i in 1:n_spec){
-        betaForceSp[i] = alphaForceSp[i] + betaTraitxPheno * alphaTraitSp[i];
+        betaForceSp[i] = alphaForceSp[i] + betaTraitxForce * alphaTraitSp[i];
     }
 }
 
@@ -56,7 +57,7 @@ sigmapheno_y ~ normal(5, 3); //
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150, try (30, 10) , estpecially for 150, 5 is very low
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
     
-    betaTraitxPheno ~ normal(2,1);
+    betaTraitxForce ~ normal(2,1);
 
     //likelihood 
             for (i in 1:Nph){

@@ -10,7 +10,7 @@ data {
     //MODEL 1 ------------------------------------------------
     int < lower = 1 > N; // Sample size for trait data 
  
-    int < lower = 1 > n_study; // number of random effect levels (study) 
+    int < lower = 1 > n_study; // number of random effect levels (study)
     int < lower = 1, upper = n_study > study[N]; // id of random effect (study)
 
     vector[N] yTraiti; // Outcome trait data 
@@ -25,7 +25,7 @@ data {
     vector[Nph] yPhenoi; // Outcome phenology
     vector[Nph] forcei; // predictor forcing 
     // vector[Nph] photoi; // predictor photoperiod 
-    // vector[Nph] chilli; // predictor chilling
+    vector[Nph] chilli; // predictor chilling
 
     int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
 
@@ -43,7 +43,7 @@ parameters{
     real muSp[n_spec]; //The trait effect of each species without study 
 
     real <lower = 0> sigma_study; // variation of intercept amoung studies
-    real muStudy[n_study]; // mean of the alpha value for studies 
+    real muStudy[n_study]; // mean of the alpha value for studies
 
     //MODEL 2 -----------------------------------------------------
     //level 2
@@ -52,9 +52,9 @@ parameters{
     real muForceSp; // the mean of the effect of forcing
     real <lower = 0> sigmaForceSp; //variation around the mean of the effect of forcing 
     
-    // real alphaChillSp[n_spec]; //the distribution of species chilling values
-    // real muChillSp; // the mean of the effect of chilling
-    // real <lower = 0> sigmaChillSp; //variation around the mean of the effect of chilling
+    real alphaChillSp[n_spec]; //the distribution of species chilling values
+    real muChillSp; // the mean of the effect of chilling
+    real <lower = 0> sigmaChillSp; //variation around the mean of the effect of chilling
     // 
     // real alphaPhotoSp[n_spec]; //the distribution of species photoperiod values
     // real muPhotoSp; // the mean of the effect of photoperiod
@@ -65,7 +65,7 @@ parameters{
     real <lower = 0> sigmaPhenoSp; 
 
     real betaTraitxForce; 
-    // real betaTraitxChill; 
+    real betaTraitxChill;
     // real betaTraitxPhoto; 
     // general varience/error
     real <lower =0> sigmapheno_y; // overall variation accross observations
@@ -79,7 +79,7 @@ transformed parameters{
     //MODEL 2------------------------------------------------
     real betaForceSp[n_spec];     //species level beta forcing 
     // real betaPhotoSp[n_spec];     //species level beta photoperiod
-    // real betaChillSp[n_spec];     //species level beta chilling 
+    real betaChillSp[n_spec];     //species level beta chilling
 
     //MODEL 1
     //Individual mean calculation 
@@ -97,9 +97,9 @@ transformed parameters{
     // betaPhotoSp[isp] = alphaPhotoSp[isp] + betaTraitxPhoto* ( muSp[isp]);
     // }
     // 
-    // for (isp in 1:n_spec){
-    // betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* (muSp[isp]);
-    // }
+    for (isp in 1:n_spec){
+    betaChillSp[isp] = alphaChillSp[isp] + betaTraitxChill* (muSp[isp]);
+    }
 }
 model{ 
     //MODEL 1 ---------------------------------------------
@@ -127,9 +127,9 @@ model{
     muForceSp ~ normal(-1, 0.5);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    // sigmaChillSp ~ normal(2, 0.5); //sigma.chill.sp
-    // muChillSp ~ normal(-2, 0.5);// 
-    // alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
+    sigmaChillSp ~ normal(2, 0.5); //sigma.chill.sp
+    muChillSp ~ normal(-2, 0.5);//
+    alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     // 
     // sigmaPhotoSp ~ normal(2, 0.5); //sigma.photo.sp
     // muPhotoSp ~ normal(-3, 0.5);// 
@@ -141,11 +141,11 @@ model{
 
     betaTraitxForce ~ normal(-2, 1); // 
     // betaTraitxPhoto ~ normal(-2, 0.5); // 
-    // betaTraitxChill ~ normal(-2, 0.5); // 
+    betaTraitxChill ~ normal(-2, 0.5); //
 
     //likelihood 
             for (i in 1:Nph){
-    yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForceSp[species2[i]] * forcei[i], sigmapheno_y);
+    yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForceSp[species2[i]] * forcei[i] + betaChillSp[species2[i]] * chilli[i], sigmapheno_y);
         }
     //     for (i in 1:Nph){
     // yPhenoi[i] ~ normal( alphaPhenoSp[species2[i]] + betaForceSp[species2[i]] * forcei[i] + betaPhotoSp[species2[i]] * photoi[i] + betaChillSp[species2[i]] * chilli[i], sigmapheno_y);
@@ -156,3 +156,14 @@ model{
 
 generated quantities {
 } // The posterior predictive distribution
+
+
+//generated quantities {
+//    real y_pred[N];
+//    for (i in 1:N) {
+//        y_pred[i] = normal_rng(ymu, sigma);
+ //   }
+    
+//    # could have poster for both the trait and the phenology model with two loops in the //generated quantities with different parameters
+ //   # could make a 3-D plot, and do indiv comparison, comparing the real trait data to ypre data
+//} // The posterior predictive distribution
