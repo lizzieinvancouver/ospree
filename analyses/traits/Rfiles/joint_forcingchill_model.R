@@ -90,12 +90,12 @@ alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
 mu.force.sp <- -1 # negative bc warmer means earlier
-sigma.force.sp <- 2
+sigma.force.sp <- 5
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
-mu.chill.sp <- -1 # negative bc warmer means earlier
-sigma.chill.sp <- 2
+mu.chill.sp <- -2 # negative bc warmer means earlier
+sigma.chill.sp <- 5
 alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
 pheno.dat$alpha.chill.sp <- rep(alpha.chill.sp, each = nphen)
 
@@ -144,24 +144,32 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                     chilli = chill.i,
                    species2 = pheno.dat$species) 
 
-mdl.force <- stan('stan/joint_forcingchilling.stan',
+mdl.jointfc <- stan('stan/joint_forcingchilling.stan',
                   data = pheno_data, iter = 4000)
 
 
-save(mdl.force, file = "output.joint.forcingchilling.Rda") 
+# Just running the code together with chilling: worst esti off by 0.5 or less, mu_forcesp, mu_chillsp, sigma_pheno_y
+
+# 1. mu_force_sp changed from -1 to -2, muforcesp didn't change, but other values got worse, most still not terrible
+# 2. changed sigma_chill_sp and sigma_force_sp to 5, didn't change the mu_force_sp and the other values are way off --> muforcesp looks better, but sigma_forcesp is off by 0.3 and muchill sp is off.
+
+# 3. After working on just the pheno only model, I am trying the priors for the best model I came across from that:
+# changed prior for sigmaForceSp ~ normal(5, 0.1);and muChillSp ~ normal(-2, 0.5);//
+
+save(mdl.jointfc, file = "output.joint.forcingchilling.3.Rda") 
 
 
-load(file = "output/output.forcingonly.Rda")
+load(file = "output/output.joint.forcingchilling.3.Rda")
 ####################################################################
-ssm <-  as.shinystan(mdl.force)
+ssm <-  as.shinystan(mdl.jointfc)
 launch_shinystan(ssm)
 
-sum.f <- summary(mdl.force)$summary
-post.f <- rstan::extract(mdl.force)
+sum.jfc <- summary(mdl.jointfc)$summary
+post.f <- rstan::extract(mdl.jointfc)
 
 
-range(sum.f[, "n_eff"])
-range(sum.f[, "Rhat"])
+range(sum.jfc[, "n_eff"])
+range(sum.jfc[, "Rhat"])
 
 # ppc and trying to figure out what is going on! 
 y<- as.numeric(pheno.dat$doy.i)
@@ -171,17 +179,17 @@ ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
 plot(density(yrep))
 plot(density(y))
 
-stan_hist(mdl.force) # defualt is the firest 10 parameters
-stan_hist(mdl.force, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
+stan_hist(mdl.jointfc) # defualt is the firest 10 parameters
+stan_hist(mdl.jointfc, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
-stan_hist(mdl.force, pars = "alphaForceSp")
-post.f2 <- as.matrix(mdl.force, par = c("muForceSp", "muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
+stan_hist(mdl.jointfc, pars = "alphaForceSp")
+post.f2 <- as.matrix(mdl.jointfc, par = c("muForceSp", "muPhenoSp", "sigmaForceSp","muChillSp", "sigmaChillSp", "sigmaPhenoSp","sigmapheno_y"))
 
 plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 
 mcmc_areas(post.f2,
-           pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"),
+           pars = c("muForceSp","muPhenoSp", "sigmaForceSp","muChillSp", "sigmaChillSp", "sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title
 
 mcmc_areas(post.f2,
@@ -194,21 +202,21 @@ mcmc_areas(post.f2,
 
 # Is it giving me back the values?
 # Is it giving me back the values?
-mu_grand <- sum.f[grep("mu_grand", rownames(sum.f))]
-sigma_sp <- sum.f[grep("sigma_sp", rownames(sum.f))]
-sigma_studyesti <- sum.f[grep("sigma_study", rownames(sum.f))]
-sigmaTrait_y <- sum.f[grep("sigmaTrait_y", rownames(sum.f))]
+mu_grand <- sum.jfc[grep("mu_grand", rownames(sum.jfc))]
+sigma_sp <- sum.jfc[grep("sigma_sp", rownames(sum.jfc))]
+sigma_studyesti <- sum.jfc[grep("sigma_study", rownames(sum.jfc))]
+sigmaTrait_y <- sum.jfc[grep("sigmaTrait_y", rownames(sum.jfc))]
 
-mu_chillsp <- sum.f[grep("muChillSp", rownames(sum.f))]
-sigma_chillsp <- sum.f[grep("sigmaChillSp", rownames(sum.f))]
-beta_tc <- sum.f[grep("betaTraitxChill", rownames(sum.f))]
-mu_forcesp <- sum.f[grep("muForceSp", rownames(sum.f))]
-mu_phenosp <- sum.f[grep("muPhenoSp", rownames(sum.f))]
-alpha.forcingsp <- sum.f[grep("alphaForcingSp", rownames(sum.f))]
-sigma_forcesp <- sum.f[grep("sigmaForceSp", rownames(sum.f))]
-sigma_phenosp <- sum.f[grep("sigmaPhenoSp", rownames(sum.f))]
-sigma_phenoy <- sum.f[grep("sigmapheno_y", rownames(sum.f))]
-beta_tf <- sum.f[grep("betaTraitxPheno", rownames(sum.f))]
+mu_chillsp <- sum.jfc[grep("muChillSp", rownames(sum.jfc))]
+sigma_chillsp <- sum.jfc[grep("sigmaChillSp", rownames(sum.jfc))]
+beta_tc <- sum.jfc[grep("betaTraitxChill", rownames(sum.jfc))]
+mu_forcesp <- sum.jfc[grep("muForceSp", rownames(sum.jfc))]
+mu_phenosp <- sum.jfc[grep("muPhenoSp", rownames(sum.jfc))]
+alpha.forcingsp <- sum.jfc[grep("alphaForcingSp", rownames(sum.jfc))]
+sigma_forcesp <- sum.jfc[grep("sigmaForceSp", rownames(sum.jfc))]
+sigma_phenosp <- sum.jfc[grep("sigmaPhenoSp", rownames(sum.jfc))]
+sigma_phenoy <- sum.jfc[grep("sigmapheno_y", rownames(sum.jfc))]
+beta_tf <- sum.jfc[grep("betaTraitxForce", rownames(sum.jfc))]
 
 
 mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 

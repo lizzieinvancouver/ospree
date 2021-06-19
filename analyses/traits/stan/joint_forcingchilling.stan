@@ -123,11 +123,11 @@ model{
 
     //priors level 2
 
-    sigmaForceSp ~ normal(2, 0.5); //
+    sigmaForceSp ~ normal(5, 0.1); //
     muForceSp ~ normal(-1, 0.5);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    sigmaChillSp ~ normal(2, 0.5); //sigma.chill.sp
+    sigmaChillSp ~ normal(5, 0.5); //sigma.chill.sp
     muChillSp ~ normal(-2, 0.5);//
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     // 
@@ -139,9 +139,9 @@ model{
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForce ~ normal(-2, 1); // 
+    betaTraitxForce ~ normal(2, 1); // 
     // betaTraitxPhoto ~ normal(-2, 0.5); // 
-    betaTraitxChill ~ normal(-2, 0.5); //
+    betaTraitxChill ~ normal(2, 1); //
 
     //likelihood 
             for (i in 1:Nph){

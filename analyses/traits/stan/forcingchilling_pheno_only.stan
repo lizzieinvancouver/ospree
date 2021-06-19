@@ -59,12 +59,12 @@ model{
 sigmapheno_y ~ normal(5, 3); // 
 
     //priors level 2
-    sigmaForceSp ~ normal(2, 0.5); //
+    sigmaForceSp ~ normal(5, 0.1); //
     muForceSp ~ normal(-1, 0.5);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
 
-    sigmaChillSp ~ normal(2, 0.5); //
-    muChillSp ~ normal(-1, 0.5);//
+    sigmaChillSp ~ normal(5, 0.5); //
+    muChillSp ~ normal(-2, 0.5);//
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
    
     sigmaPhenoSp ~ normal(10, 0.5); // sigma.pheno.sp =2  

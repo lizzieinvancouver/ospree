@@ -90,7 +90,7 @@ save(mdl.traitonly, file = "output.traitonly.7.Rda")
 
 ####################################################################
 
-load(file = "output.traitonly.7.Rda")
+load(file = "output/output.traitonly.7.Rda")
 ssm <-  as.shinystan(mdl.traitonly)
 launch_shinystan(ssm)
 
