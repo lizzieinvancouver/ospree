@@ -168,7 +168,7 @@ mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
 
 # 4.  I think the best model run is with positive betaTraitcue values and variances of 1
 #5. sigma_study was a little low, so I increased the number of studies to 25
-save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.4.Rda") 
+#save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.4.Rda") 
 
 
 load(file = "output/output.joint.forcingchillingphoto.4.Rda")
@@ -184,33 +184,30 @@ range(sum.jfcp[, "n_eff"])
 range(sum.jfcp[, "Rhat"])
 
 # ppc and trying to figure out what is going on! 
-y<- as.numeric(pheno.dat$doy.i)
-yrep<-post.f$ymu # I want this to be a matrix, which it is, with one element for each data point in y
-
-ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
-plot(density(yrep))
-plot(density(y))
+# y<- as.numeric(pheno.dat$doy.i)
+# yrep<-post.f$ymu # I want this to be a matrix, which it is, with one element for each data point in y
+# 
+# ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
+# plot(density(yrep))
+# plot(density(y))
 
 stan_hist(mdl.jointfcp) # defualt is the firest 10 parameters
 stan_hist(mdl.jointfcp, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
 
-stan_hist(mdl.jointfcp, pars = "alphaForceSp")
-post.f2 <- as.matrix(mdl.jointfcp, par = c("muForceSp", "muPhenoSp", "sigmaForceSp","muChillSp", "sigmaChillSp", "sigmaPhenoSp","sigmapheno_y"))
+
+post.f2 <- as.matrix(mdl.jointfcp, par = c("muPhenoSp", "muForceSp",  "sigmaForceSp","muChillSp", "sigmaChillSp","muPhotoSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"))
 
 plot_title <- ggtitle("Posterior distributions",
                       "with medians and 80% intervals")
 
 mcmc_areas(post.f2,
-           pars = c("muForceSp","muPhenoSp", "sigmaForceSp","muChillSp", "sigmaChillSp", "sigmaPhenoSp","sigmapheno_y"),
+           pars = c("sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title
 
 mcmc_areas(post.f2,
-           pars = c("muForceSp","muPhenoSp"),
+           pars = c("muForceSp","muChillSp","muPhotoSp","muPhenoSp"),
            prob = 0.8) + plot_title    
 
-mcmc_areas(post.f2,
-           pars = c("sigmaForceSp","sigmaPhenoSp","sigmapheno_y"),
-           prob = 0.8) + plot_title        
 
 # Is it giving me back the values?
 # Is it giving me back the values?
