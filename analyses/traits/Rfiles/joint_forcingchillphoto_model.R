@@ -25,7 +25,7 @@ options(mc.cores = parallel::detectCores())
 
 Nrep <- 10 # rep per trait
 Nstudy <- 25 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 30 # number of species with traits (making this 20 just for speed for now)
+Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
 # note I changed this to 30 to match the pheno mdl
 
 # First making a data frame for the test trait data
@@ -66,7 +66,7 @@ trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.
 # look at the log posterior, bivariate plots: mu_phenosp on y and log_post on x
 # always check the other parameter if a combination of 2 parameters
 
-Nspp <- 30 # number of species with traits (making this 20 just for speed for now)
+Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
 nphen <- 15 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
@@ -171,7 +171,7 @@ mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
 #save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.4.Rda") 
 
 
-load(file = "output/output.joint.forcingchillingphoto.4.Rda")
+load(file = "output/output.joint.forcingchillingphoto.incrNspp.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.jointfcp)
 launch_shinystan(ssm)
