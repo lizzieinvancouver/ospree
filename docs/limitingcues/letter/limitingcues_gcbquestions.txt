@@ -1,0 +1,57 @@
+Started 7 July 2021
+GCB submission questions
+
+https://onlinelibrary.wiley.com/page/journal/13652486/homepage/forauthors.html#3
+
+>> What is the scientific question you are addressing?
+
+48 words
+
+Recent observations that plant phenological responses to temperature appear non-linear in recent decades with warming has led to growing interest in interactions between the cues that determine spring phenology. Here we ask when such interactions will lead to non-linearities and whether we have the data to predict them. 
+
+
+>> What is/are the key finding(s) that answers this question?
+
+59 words
+
+Our review shows how researchers could better harness the power of controlled environment experiments to transform our fundamental understanding of phenology and advance forecasting. Using seven decades of controlled environment studies we show the cue-space already studied, and how it compares to current and future conditions. Based on this, we outline a cross-disciplinary path forward towards more robust predictions.
+
+
+...Controlled environment studies can critically rule out, or support, hypotheses to explain observed discrepancies in long-term data and open up new pathways to understand current trends. 
+
+>> Why is this work important and timely?
+
+83 words
+
+Climate change has led to growing interest in non-linear biological responses, with multiple papers attributing recent trends to interactive effects. Much of this research, however, has progressed without a strong connection to the basic biology of phenology. This disconnect may explain why recent trends in spring phenology have failed to match predictions based on simple linear models. In contrast, decades of controlled environment studies show that responses will be non-linear because of the cues that determine spring plant phenology (forcing, chilling, and photoperiod).
+
+
+
+While understanding, modeling and predicting interactions among cues and their effects on phenology is challenging, it will yield more accurate predictions---with valuable implications to more realistically assess the effects of climate change on plant biodiversity, including agricultural and forest species. 
+
+ research in phenology---a fundamental process of plant biology that influences carbon storage and climate change itself. 
+
+Previously submitted (decsens): 
+Interpreting declining sensitivities as evidence of biological change is currently common throughout global change biology and may apply broadly to fields using linear methods and fixed time periods with warming. We show that declining sensitivities with higher temperatures is the null expectation of current methods and suggest a simple correction.
+
+
+>> Does your paper fall within the scope of GCB; what biological AND global change aspects does it address?
+
+35 words
+
+Our review leverages decades of research in fundamental plant development theory with recent findings from long-term records commonly used to detect climate change impacts, to provide a path forward for forecasting shifts in plant phenology. 
+
+Previously submitted (decsens): 
+Our paper builds on fundamental plant development theory and experiments alongside long-term records commonly used to detect climate change impacts. We show how the non-linearity of plant responses and the use of linear models may complicate how well we detect when, and how, biological processes will shift with warming.
+
+
+>> What are the three most recently published papers that are relevant to this question? This information will assist the Editors in selecting reviewers.
+
+
+
+Previously submitted (decsens): 
+Gusewell, S., Furrer, R., Gehrig, R. & Pietragalla, B. Changes in temperature sensitivity of spring phenology with recent climate warming in Switzerland are related to shifts of the preseason. Global Change Biology 23, 5189–5202 (2017).
+
+Meng, L. et al. Urban warming advances spring phenology but reduces the response of phenology to temperature in the conterminous United States. Proceedings of the National Academy of Sciences 117, 4228 (2020).
+
+Zohner, C. M., L. D. Mo, T. A. M. Pugh, J. F. Bastin, and T. W. Crowther. 2020. Interactive climate factors restrict future increases in spring productivity of temperate and boreal trees. Global Change Biology 26:4042–4055.
