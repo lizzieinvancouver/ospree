@@ -602,6 +602,16 @@ numcuttings <- sum(cuttingsdf$Freq)
 numsaplings <- sum(saplingsdf$Freq)
 numseedlings <- sum(seedlingsdf$Freq)
 
+## Checking in on flowering versus vegetative phases
+eventzfull <- subset(dat, select=c("datasetID", "study", "respvar.simple"))
+eventz <- eventzfull[!duplicated(eventzfull),]
+eventnums <- as.data.frame(table(eventz$respvar.simple))
+eventnums <- eventnums[order(eventnums$Freq),]
+vegevents <- eventnums[grep("budburst", eventnums$Var1),]
+floevents <- eventnums[grep("flower", eventnums$Var1),]
+pereventsbb <- sum(vegevents$Freq)/(sum(eventnums$Freq)-eventnums$Freq[which(eventnums$Var1=="growth")]) # rm growth as not event
+pereventsflo <- sum(floevents$Freq)/(sum(eventnums$Freq)-eventnums$Freq[which(eventnums$Var1=="growth")]) # rm growth as not event
+
 ### Adding in number of studies and papers that use crops
 cropspp <- c("Actinidia deliciosa", "Malus domestica", "Vitis vinifera", "Ribes nigrum", 
              "Vaccinium ashei", "Vaccinium corymbosum", "Prunus persica")
