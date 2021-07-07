@@ -48,36 +48,58 @@ sla <- subset(dat.sub, traitname == "Specific_leaf_area")
 length(unique(sla$speciesname)) #26 species
 
 
-pheno_data <- list(yTraiti = sla$traitvalue, 
-                   N = nrow(sla), 
-                   n_spec = length(unique(sla$speciesname)), 
-                   species = as.numeric(as.factor(sla$speciesname)), 
-                   study = as.numeric(as.factor(sla$datasetid)), 
-                   n_study = length(unique(sla$datasetid)), 
-                   yPhenoi = bbstan.spp$resp, 
-                   Nph = nrow(bbstan.spp), 
+pheno_data <- list(yTraiti = sla$traitvalue,
+                   N = nrow(sla),
+                   n_spec = length(unique(sla$speciesname)),
+                   species = as.numeric(as.factor(sla$speciesname)),
+                   study = as.numeric(as.factor(sla$datasetid)),
+                   n_study = length(unique(sla$datasetid)),
+                   yPhenoi = bbstan.spp$resp,
+                   Nph = nrow(bbstan.spp),
                    forcei = bbstan.spp$force.z,
-                   photoi = bbstan.spp$photo.z, 
+                   photoi = bbstan.spp$photo.z,
                    chilli = bbstan.spp$chill.z,
-                   species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
+                   species2 = as.numeric(as.factor(bbstan.spp$speciesname))
                    )
 
-mdl.sla <- stan('stan/joint_3cue_newprior.stan',
+mdl.sla <- stan('stan/joint_3cue_sla_stan.stan',
                                          data = pheno_data, iter = 8000, chains = 4)
- 
-save(mdl.sla, file = "output.joint.3cue.sla.Rda") 
- 
+
+save(mdl.sla, file = "output.joint.3cue.sla.Rda")
+
 sort(unique(bbstan.spp$species))
 sort(unique(sla$species))
 
-load("output/output.joint.3cue.sla.Rda")
+load("output/output.joint.3cue.sla.newpriors.Rda")
 
-ssm <-  as.shinystan(mdl.sla)
-launch_shinystan(ssm)
+# ssm <-  as.shinystan(mdl.sla)
+# launch_shinystan(ssm)
 
 sum.sla <- summary(mdl.sla)$summary
 post.sla<- rstan::extract(mdl.sla)
 
+# plot the priors for the traits model
+plot(density(post.sla$sigmaTrait_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5,1)), col = "red")
+plot(density(post.sla$sigma_sp)); lines(density(rnorm(1000, 10, 0.5)), col = "red")
+plot(density(post.sla$sigma_study)); lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.sla$mu_grand), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.1)), col = "red")
+plot(density(post.sla$muSp)); lines(density(rnorm(1000, 0, 10)), col = "red")
+plot(density(post.sla$muStudy)); lines(density(rnorm(1000, 0, 5)), col = "red")
+
+# check the priors for the phenology model
+plot(density(post.sla$sigmapheno_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 15,3)), col = "red")
+plot(density(post.sla$sigmaForceSp)); lines(density(rnorm(1000, 5, 0.1)), col = "red")
+plot(density(post.sla$muForceSp)); lines(density(rnorm(1000, -2, 0.5)), col = "red")
+plot(density(post.sla$sigmaChillSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.sla$muChillSp)); lines(density(rnorm(1000, -3,0.5)), col = "red")
+plot(density(post.sla$sigmaPhotoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.sla$muPhotoSp)); lines(density(rnorm(1000, -2,0.5)), col = "red")
+plot(density(post.sla$sigmaPhenoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.5)), col = "red")
+plot(density(post.sla$muPhenoSp)); lines(density(rnorm(1000, 30, 10)), col = "red")
+
+plot(density(post.sla$betaTraitxChill)); lines(density(rnorm(1000, -2, 1)), col = "red")
+plot(density(post.sla$betaTraitxPhoto)); lines(density(rnorm(1000, -2, 1)), col = "red")
+plot(density(post.sla$betaTraitxForce)); lines(density(rnorm(1000, -2, 1)), col = "red")
 
 col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
 
@@ -108,64 +130,96 @@ pheno_data <- list(yTraiti = ldmc$traitvalue,
                    species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
 )
 
-mdl.ldmc <- stan('stan/joint_3cue_newprior.stan',
+mdl.ldmc <- stan('stan/joint_3cue_ldmcmdl.stan',
                 data = pheno_data, iter = 4000, chains = 4)
 
 save(mdl.ldmc, file = "output.joint.3cue.ldmc.Rda") 
 
+# 8000 exceed tree depth large Rhat
 ####################################################
 # Next traits: LNC
 ####################################################
-lnc <- subset(dat.sub, traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass")
-length(unique(lnc$speciesname)) #26 species
+ lnc <- subset(dat.sub, traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass")
+# length(unique(lnc$speciesname)) #26 species
+# 
+# length(unique(bbstan.spp$speciesname)) 
+# 
+# pheno_data <- list(yTraiti = lnc$traitvalue, 
+#                    N = nrow(lnc), 
+#                    n_spec = length(unique(lnc$speciesname)), 
+#                    species = as.numeric(as.factor(lnc$speciesname)), 
+#                    study = as.numeric(as.factor(lnc$datasetid)), 
+#                    n_study = length(unique(lnc$datasetid)), 
+#                    yPhenoi = bbstan.spp$resp, 
+#                    Nph = nrow(bbstan.spp), 
+#                    forcei = bbstan.spp$force.z,
+#                    photoi = bbstan.spp$photo.z, 
+#                    chilli = bbstan.spp$chill.z,
+#                    species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
+# )
+# 
+# mdl.lnc <- stan('stan/joint_3cue_newprior.stan',
+#                  data = pheno_data, iter = 4000, chains = 4)
+# 
+# save(mdl.lnc, file = "output.joint.3cue.lnc.Rda") 
 
-length(unique(bbstan.spp$speciesname)) 
+load("output/output.joint.3cue.lnc.Rda")
 
-pheno_data <- list(yTraiti = lnc$traitvalue, 
-                   N = nrow(lnc), 
-                   n_spec = length(unique(lnc$speciesname)), 
-                   species = as.numeric(as.factor(lnc$speciesname)), 
-                   study = as.numeric(as.factor(lnc$datasetid)), 
-                   n_study = length(unique(lnc$datasetid)), 
-                   yPhenoi = bbstan.spp$resp, 
-                   Nph = nrow(bbstan.spp), 
-                   forcei = bbstan.spp$force.z,
-                   photoi = bbstan.spp$photo.z, 
-                   chilli = bbstan.spp$chill.z,
-                   species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
-)
+ssm <-  as.shinystan(mdl.sla)
+launch_shinystan(ssm)
 
-mdl.lnc <- stan('stan/joint_3cue_newprior.stan',
-                 data = pheno_data, iter = 4000, chains = 4)
+sum.lnc <- summary(mdl.lnc)$summary
+post.lnc<- rstan::extract(mdl.lnc)
 
-save(mdl.lnc, file = "output.joint.3cue.lnc.Rda") 
+
+plot(density(post.lnc$sigmaTrait_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 15,1)), col = "red")
+plot(density(post.lnc$sigma_sp)); lines(density(rnorm(1000, 10, 0.5)), col = "red")
+plot(density(post.lnc$sigma_study)); lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.lnc$mu_grand), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.1)), col = "red")
+plot(density(post.lnc$muSp)); lines(density(rnorm(1000, 0, 10)), col = "red")
+plot(density(post.lnc$muStudy)); lines(density(rnorm(1000, 0, 5)), col = "red")
+
+# check the priors for the phenology model
+plot(density(post.lnc$sigmapheno_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5,3)), col = "red")
+plot(density(post.lnc$sigmaForceSp)); lines(density(rnorm(1000, 5, 0.1)), col = "red")
+plot(density(post.lnc$muForceSp)); lines(density(rnorm(1000, -1, 0.5)), col = "red")
+plot(density(post.lnc$sigmaChillSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.lnc$muChillSp)); lines(density(rnorm(1000, -2,0.5)), col = "red")
+plot(density(post.lnc$sigmaPhotoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5, 0.5)), col = "red")
+plot(density(post.lnc$muPhotoSp)); lines(density(rnorm(1000, -2,0.5)), col = "red")
+plot(density(post.lnc$sigmaPhenoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.5)), col = "red")
+plot(density(post.lnc$muPhenoSp)); lines(density(rnorm(1000, 30, 10)), col = "red")
+
+plot(density(post.lnc$betaTraitxChill)); lines(density(rnorm(1000, 2, 1)), col = "red")
+plot(density(post.lnc$betaTraitxPhoto)); lines(density(rnorm(1000, 2, 1)), col = "red")
+plot(density(post.lnc$betaTraitxForce)); lines(density(rnorm(1000, 2, 1)), col = "red")
 
 ####################################################
 # Next traits: seed mass
 ####################################################
-seed <- subset(dat.sub, traitname == "seed mass")
-length(unique(seed$speciesname)) #26 species
-
-length(unique(bbstan.spp$speciesname)) 
-
-pheno_data <- list(yTraiti = seed$traitvalue, 
-                   N = nrow(seed), 
-                   n_spec = length(unique(seed$speciesname)), 
-                   species = as.numeric(as.factor(seed$speciesname)), 
-                   study = as.numeric(as.factor(seed$datasetid)), 
-                   n_study = length(unique(seed$datasetid)), 
-                   yPhenoi = bbstan.spp$resp, 
-                   Nph = nrow(bbstan.spp), 
-                   forcei = bbstan.spp$force.z,
-                   photoi = bbstan.spp$photo.z, 
-                   chilli = bbstan.spp$chill.z,
-                   species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
-)
-
-mdl.seed <- stan('stan/joint_3cue_newprior.stan',
-                 data = pheno_data, iter = 4000, chains = 4)
-
-save(mdl.seed, file = "output.joint.3cue.ldmc.Rda") 
+# seed <- subset(dat.sub, traitname == "seed mass")
+# length(unique(seed$speciesname)) #26 species
+# 
+# length(unique(bbstan.spp$speciesname)) 
+# 
+# pheno_data <- list(yTraiti = seed$traitvalue, 
+#                    N = nrow(seed), 
+#                    n_spec = length(unique(seed$speciesname)), 
+#                    species = as.numeric(as.factor(seed$speciesname)), 
+#                    study = as.numeric(as.factor(seed$datasetid)), 
+#                    n_study = length(unique(seed$datasetid)), 
+#                    yPhenoi = bbstan.spp$resp, 
+#                    Nph = nrow(bbstan.spp), 
+#                    forcei = bbstan.spp$force.z,
+#                    photoi = bbstan.spp$photo.z, 
+#                    chilli = bbstan.spp$chill.z,
+#                    species2 = as.numeric(as.factor(bbstan.spp$speciesname)) 
+# )
+# 
+# mdl.seed <- stan('stan/joint_3cue_newprior.stan',
+#                  data = pheno_data, iter = 4000, chains = 4)
+# 
+# save(mdl.seed, file = "output.joint.3cue.ldmc.Rda") 
 
 ####################################################
 # Next traits: SSD
@@ -190,10 +244,11 @@ pheno_data <- list(yTraiti = ssd$traitvalue,
 )
 
 mdl.ssd <- stan('stan/joint_3cue_newprior.stan',
-                 data = pheno_data, iter = 4000, chains = 4)
+                 data = pheno_data, iter = 8000, chains = 4)
 
 save(mdl.ssd, file = "output.joint.3cue.ssd.Rda") 
 
+#8000 that exceed max tree depth
 ####################################################
 # Next traits: height 
 ####################################################
@@ -217,7 +272,8 @@ pheno_data <- list(yTraiti = ht$traitvalue,
 )
 
 mdl.ht <- stan('stan/joint_3cue_newprior.stan',
-                 data = pheno_data, iter = 4000, chains = 4)
+                data = pheno_data, iter = 6000, chains = 4, 
+                control = list(max_treedepth = 11))
 
 save(mdl.ht, file = "output.joint.3cue.ht.Rda") 
-
+#8000 iterations 
