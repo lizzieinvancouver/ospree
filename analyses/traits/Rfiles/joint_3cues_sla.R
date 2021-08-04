@@ -101,13 +101,13 @@ plot(density(post.sla$betaTraitxChill)); lines(density(rnorm(1000, -2, 1)), col 
 plot(density(post.sla$betaTraitxPhoto)); lines(density(rnorm(1000, -2, 1)), col = "red")
 plot(density(post.sla$betaTraitxForce)); lines(density(rnorm(1000, -2, 1)), col = "red")
 
-col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat","n_eff")
 
 # manually to get right order
 mu_params <- c("mu_grand","muPhenoSp","muForceSp","muChillSp","muPhotoSp", "sigmaTrait_y","sigmapheno_y","sigma_sp", "sigma_study","sigmaForceSp","sigmaChillSp","sigmaPhotoSp","sigmaPhenoSp", "betaTraitxForce","betaTraitxChill", "betaTraitxPhoto")
 
 mdl.output <- sum.sla[mu_params, col4table]
-
+mdl.output
 ####################################################
 # Next traits: LDMC
 ####################################################
