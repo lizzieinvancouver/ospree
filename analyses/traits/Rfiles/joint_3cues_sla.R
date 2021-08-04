@@ -78,6 +78,8 @@ load("output/output.joint.3cue.sla.newpriors.Rda")
 sum.sla <- summary(mdl.sla)$summary
 post.sla<- rstan::extract(mdl.sla)
 
+range(sum.sla[, "n_eff"])
+
 # plot the priors for the traits model
 plot(density(post.sla$sigmaTrait_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5,1)), col = "red")
 plot(density(post.sla$sigma_sp)); lines(density(rnorm(1000, 10, 0.5)), col = "red")
