@@ -6,10 +6,12 @@
 #3. Merge the two models only once 1 and 2 are done.
 #4.If all goes well we could add in chilling and photoperiod. To do this, go back and do step 2 (adding chill and photo) then merge.
 
+# modified Aug 5, 2021: We are concerned by the fact that the betatraitxcue did not do well when positive. I am looking into this more to better understand the issue and the sensitivities of the model
+
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
-  setwd("~/R/traitors")
+  setwd("/home/deirdre/ospree")
 }
 
 library(rstan)
@@ -162,6 +164,9 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
 mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
                   data = pheno_data, iter = 4000)
 
+mdl.jointfcp <- stan('stan/joint_3cue_newprior.stan',
+                     data = pheno_data, iter = 4000)
+
 # playing around with the betaTcue values, at first all (2,1), but trying them out as -ve values
 # 2. with negative values look pretty good, but the sigma chill and photo are off by 0.4
 # 3. trying to run the above, with -ve betaTraitcue, but with sigmachillsp and sigmaphotosp with smaller variances of 0.1 --> estimates were worse
@@ -178,6 +183,12 @@ launch_shinystan(ssm)
 
 sum.jfcp <- summary(mdl.jointfcp)$summary
 post.f <- rstan::extract(mdl.jointfcp)
+
+h1 <- hist(rnorm(1000, 2, 3))
+h2 <- hist(post.f$betaTraitxChill)
+
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-2, 6))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 
 range(sum.jfcp[, "n_eff"])

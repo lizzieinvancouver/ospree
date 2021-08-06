@@ -139,9 +139,9 @@ model{
     muPhenoSp ~ normal(30, 10);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForce ~ normal(-2, 1); //  Changing this to negative based on the posteriors
-    betaTraitxPhoto ~ normal(-2, 1); // # this was 0.5 at first and
-    betaTraitxChill ~ normal(-2, 1); //
+    betaTraitxForce ~ normal(0, 1); //  Changing this to negative based on the posteriors, also testing what happens if change it from 2 to 0
+    betaTraitxPhoto ~ normal(0, 1); // # this was 0.5 at first and
+    betaTraitxChill ~ normal(0, 1); //
 
     //likelihood 
     //         for (i in 1:Nph){

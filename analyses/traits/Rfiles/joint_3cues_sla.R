@@ -65,12 +65,12 @@ pheno_data <- list(yTraiti = sla$traitvalue,
 mdl.sla <- stan('stan/joint_3cue_sla_stan.stan',
                                          data = pheno_data, iter = 8000, chains = 4)
 
-save(mdl.sla, file = "output.joint.3cue.sla.Rda")
+save(mdl.sla, file = "output.joint.3cue.sla.2.Rda")
 
 sort(unique(bbstan.spp$species))
 sort(unique(sla$species))
 
-load("output/output.joint.3cue.sla.newpriors.Rda")
+load("output/output.joint.3cue.sla.Rda")
 
 # ssm <-  as.shinystan(mdl.sla)
 # launch_shinystan(ssm)
@@ -82,10 +82,35 @@ range(sum.sla[, "n_eff"])
 
 # plot the priors for the traits model
 plot(density(post.sla$sigmaTrait_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5,1)), col = "red")
+h1 <- hist(rnorm(1000, 5,1))
+h2 <- hist(post.sla$sigmaTrait_y)
+
+plot(h1, col=rgb(1,0,1,1/4), xlim = c(0,8))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
 plot(density(post.sla$sigma_sp)); lines(density(rnorm(1000, 10, 0.5)), col = "red")
+h1 <- hist(rnorm(1000, 10, 0.5))
+h2 <- hist(post.sla$sigma_sp)
+
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(6, 15))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
 plot(density(post.sla$sigma_study)); lines(density(rnorm(1000, 5, 0.5)), col = "red")
+
+h1 <- hist(rnorm(1000, 5, 0.5))
+h2 <- hist(post.sla$sigma_study)
+
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(0, 15))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
 plot(density(post.sla$mu_grand), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.1)), col = "red")
-plot(density(post.sla$muSp)); lines(density(rnorm(1000, 0, 10)), col = "red")
+plot(density(post.sla$muSp)); lines(density(rnorm(1000, 0, 30)), col = "red")
+h1 <- hist(rnorm(1000, 0, 10))
+h2 <- hist(post.sla$muSp)
+
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(0, 15))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
 plot(density(post.sla$muStudy)); lines(density(rnorm(1000, 0, 5)), col = "red")
 
 # check the priors for the phenology model
@@ -99,9 +124,15 @@ plot(density(post.sla$muPhotoSp)); lines(density(rnorm(1000, -2,0.5)), col = "re
 plot(density(post.sla$sigmaPhenoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.5)), col = "red")
 plot(density(post.sla$muPhenoSp)); lines(density(rnorm(1000, 30, 10)), col = "red")
 
-plot(density(post.sla$betaTraitxChill)); lines(density(rnorm(1000, -2, 1)), col = "red")
-plot(density(post.sla$betaTraitxPhoto)); lines(density(rnorm(1000, -2, 1)), col = "red")
-plot(density(post.sla$betaTraitxForce)); lines(density(rnorm(1000, -2, 1)), col = "red")
+plot(density(post.sla$betaTraitxChill), xlim = c(-10,5)); lines(density(rnorm(1000, -2, 1)), col = "red")
+h1 <- hist(rnorm(1000, 0, 1))
+h2 <- hist(post.sla$betaTraitxChill)
+
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-2, 6))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+plot(density(post.sla$betaTraitxPhoto), xlim = c(-2,2)); lines(density(rnorm(1000, -2, 1)), col = "red")
+plot(density(post.sla$betaTraitxForce), xlim = c(-2,2)); lines(density(rnorm(1000, -2, 1)), col = "red")
 
 col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat","n_eff")
 
@@ -110,6 +141,21 @@ mu_params <- c("mu_grand","muPhenoSp","muForceSp","muChillSp","muPhotoSp", "sigm
 
 mdl.output <- sum.sla[mu_params, col4table]
 mdl.output
+
+# go back to the test data and test why it only worked when -ve, don't really know what the prior should be
+# try making the priors very large! ie wide, look into what the postivie slopes do with other numbers
+# model is very sensitive to test
+# if it is very sensitive then you just want to know the limitations
+
+# start my increasing the no. samples, see if mdl drifts bc it is difficult, increase sp and reps
+
+# if worried it is sensitive, make a set of test data that is small and very similar to the actual data
+
+#plot the data and plot the data and then plot the slopes on top
+
+#double check that the cues are z-scored both if 1 and if in the bb lead in
+
+# Email Thackeray and check in with them
 ####################################################
 # Next traits: LDMC
 ####################################################
