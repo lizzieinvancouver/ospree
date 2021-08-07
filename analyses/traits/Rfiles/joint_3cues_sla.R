@@ -2,6 +2,12 @@
 
 # Finally we have a working model for the test data. Now we can start trying to get the model to run with the actual data!
 
+# August 6, 2021
+# There are still issues with the sla model and the n_eff -- my hope is that this can be corrected by fixing the priors
+
+# 2. sigma_sp (rnorm(1000, 10, 1))
+# 2. widen the prior for the muSP rnorm(1000, 0, 30)
+
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
@@ -70,10 +76,10 @@ save(mdl.sla, file = "output.joint.3cue.sla.2.Rda")
 sort(unique(bbstan.spp$species))
 sort(unique(sla$species))
 
-load("output/output.joint.3cue.sla.Rda")
+load("output/output.joint.3cue.sla.2.Rda")
 
-# ssm <-  as.shinystan(mdl.sla)
-# launch_shinystan(ssm)
+ssm <-  as.shinystan(mdl.sla)
+launch_shinystan(ssm)
 
 sum.sla <- summary(mdl.sla)$summary
 post.sla<- rstan::extract(mdl.sla)
@@ -81,40 +87,51 @@ post.sla<- rstan::extract(mdl.sla)
 range(sum.sla[, "n_eff"])
 
 # plot the priors for the traits model
+# pink = prior, blue = model 
 plot(density(post.sla$sigmaTrait_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5,1)), col = "red")
 h1 <- hist(rnorm(1000, 5,1))
 h2 <- hist(post.sla$sigmaTrait_y)
-
 plot(h1, col=rgb(1,0,1,1/4), xlim = c(0,8))
 plot(h2, col=rgb(0,0,1,1/4), add = T)
 
 plot(density(post.sla$sigma_sp)); lines(density(rnorm(1000, 10, 0.5)), col = "red")
-h1 <- hist(rnorm(1000, 10, 0.5))
+h1 <- hist(rnorm(1000, 10, 1))
 h2 <- hist(post.sla$sigma_sp)
-
-plot(h2, col=rgb(0,0,1,1/4), xlim = c(6, 15))
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(0, 15))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 plot(density(post.sla$sigma_study)); lines(density(rnorm(1000, 5, 0.5)), col = "red")
-
-h1 <- hist(rnorm(1000, 5, 0.5))
+h1 <- hist(rnorm(1000, 5, 1))
 h2 <- hist(post.sla$sigma_study)
-
 plot(h2, col=rgb(0,0,1,1/4), xlim = c(0, 15))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 plot(density(post.sla$mu_grand), xlim = c(0, 20)) ; lines(density(rnorm(1000, 10, 0.1)), col = "red")
-plot(density(post.sla$muSp)); lines(density(rnorm(1000, 0, 30)), col = "red")
-h1 <- hist(rnorm(1000, 0, 10))
-h2 <- hist(post.sla$muSp)
+h1 <- hist(rnorm(1000, 10, 1))
+h2 <- hist(post.sla$mu_grand)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(8, 12))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
 
-plot(h2, col=rgb(0,0,1,1/4), xlim = c(0, 15))
+plot(density(post.sla$muSp)); lines(density(rnorm(1000, 0, 30)), col = "red")
+h1 <- hist(rnorm(1000, 0, 30))
+h2 <- hist(post.sla$muSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,30))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 plot(density(post.sla$muStudy)); lines(density(rnorm(1000, 0, 5)), col = "red")
+h1 <- hist(rnorm(1000, 0, 10))
+h2 <- hist(post.sla$muStudy)
 
+plot(h1, col=rgb(1,0,1,1/4), xlim =c(-40, 40))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
 # check the priors for the phenology model
+
 plot(density(post.sla$sigmapheno_y), xlim = c(0, 20)) ; lines(density(rnorm(1000, 15,3)), col = "red")
+h1 <- hist(rnorm(1000, 15, 3))
+h2 <- hist(post.sla$sigmapheno_y)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(0,30))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
 plot(density(post.sla$sigmaForceSp)); lines(density(rnorm(1000, 5, 0.1)), col = "red")
 plot(density(post.sla$muForceSp)); lines(density(rnorm(1000, -2, 0.5)), col = "red")
 plot(density(post.sla$sigmaChillSp), xlim = c(0, 20)) ; lines(density(rnorm(1000, 5, 0.5)), col = "red")
@@ -125,10 +142,9 @@ plot(density(post.sla$sigmaPhenoSp), xlim = c(0, 20)) ; lines(density(rnorm(1000
 plot(density(post.sla$muPhenoSp)); lines(density(rnorm(1000, 30, 10)), col = "red")
 
 plot(density(post.sla$betaTraitxChill), xlim = c(-10,5)); lines(density(rnorm(1000, -2, 1)), col = "red")
-h1 <- hist(rnorm(1000, 0, 1))
+h1 <- hist(rnorm(1000, 0,1))
 h2 <- hist(post.sla$betaTraitxChill)
-
-plot(h2, col=rgb(0,0,1,1/4), xlim = c(-2, 6))
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 plot(density(post.sla$betaTraitxPhoto), xlim = c(-2,2)); lines(density(rnorm(1000, -2, 1)), col = "red")

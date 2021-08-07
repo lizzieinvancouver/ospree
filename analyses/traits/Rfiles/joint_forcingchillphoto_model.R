@@ -106,9 +106,9 @@ sigma.photo.sp <- 5
 alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
 pheno.dat$alpha.photo.sp <- rep(alpha.photo.sp, each = nphen)
 
-betaTraitxforce <- 2 #interaction between trait and phenology
-betaTraitxchill <- 2 #interaction between trait and phenology
-betaTraitxphoto <- 2 #interaction between trait and phenology
+betaTraitxforce <- 0 #interaction between trait and phenology
+betaTraitxchill <- 0 #interaction between trait and phenology
+betaTraitxphoto <- 0 #interaction between trait and phenology
 
 beta.force.temp <- alpha.force.sp + mu.trtsp * betaTraitxforce
 beta.force.sp <- rep(beta.force.temp,)
@@ -161,22 +161,23 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                    chilli = chill.i,
                    species2 = pheno.dat$species) 
 
-mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
-                  data = pheno_data, iter = 4000)
+# mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
+#                   data = pheno_data, iter = 4000)
 
 mdl.jointfcp <- stan('stan/joint_3cue_newprior.stan',
                      data = pheno_data, iter = 4000)
 
+sum.jfcp <- summary(mdl.jointfcp)$summary
 # playing around with the betaTcue values, at first all (2,1), but trying them out as -ve values
 # 2. with negative values look pretty good, but the sigma chill and photo are off by 0.4
 # 3. trying to run the above, with -ve betaTraitcue, but with sigmachillsp and sigmaphotosp with smaller variances of 0.1 --> estimates were worse
 
 # 4.  I think the best model run is with positive betaTraitcue values and variances of 1
 #5. sigma_study was a little low, so I increased the number of studies to 25
-#save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.4.Rda") 
+#save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.Aug6.40.Rda") 
 
 
-load(file = "output/output.joint.forcingchillingphoto.incrNspp.Rda")
+load(file = "output/output.joint.forcingchillingphoto.Aug6.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.jointfcp)
 launch_shinystan(ssm)
@@ -184,13 +185,71 @@ launch_shinystan(ssm)
 sum.jfcp <- summary(mdl.jointfcp)$summary
 post.f <- rstan::extract(mdl.jointfcp)
 
-h1 <- hist(rnorm(1000, 2, 3))
-h2 <- hist(post.f$betaTraitxChill)
+# poorly estimated parameters include:
+#muSp 
 
-plot(h2, col=rgb(0,0,1,1/4), xlim = c(-2, 6))
+h1 <- hist(rnorm(1000, 0, 20))
+h2 <- hist(post.f$muSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,30))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 20, 10))
+h2 <- hist(post.f$sigma_sp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,40))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#muStudy
+h1 <- hist(rnorm(1000, 0, 10))
+h2 <- hist(post.f$muStudy)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-30,30))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#betaTraitxForce
+h1 <- hist(rnorm(1000, 0,1))
+h2 <- hist(post.f$betaTraitxChill)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#betaTraitxChill
+h1 <- hist(rnorm(1000, 0,1))
+h2 <- hist(post.f$betaTraitxChill)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#betaTraitxPhoto
+h1 <- hist(rnorm(1000, 0,1))
+h2 <- hist(post.f$betaTraitxChill)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 
+# mu_phenosp:
+h1 <- hist(rnorm(1000, 150, 10))
+h2 <- hist(post.f$muPhenoSp)
+
+plot(h2, col=rgb(0,0,1,1/4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+plot(h2, col=rgb(0,0,1,1/4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+# sigmaPhenoSp
+h1 <- hist(rnorm(1000, 10, 1))
+h2 <- hist(post.f$sigmaPhenoSp)
+
+plot(h2, col=rgb(0,0,1,1/4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+plot(h2, col=rgb(0,0,1,1/4))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+# Make more plots!! 
+plot(mu.study~ musp.esti, pch =19)
+#hist of posterior and include visual to the predicted value
+# if some parameters are really bad, plot parameters agains each 
+# if mixed effect mdl: plot sigma and the pred dist values for that variable (eg sites on doy, sigma site vs pred doy) --> could need to plot the sigma on the log
+
+# could go back to the one trait one cue model and see if the n_eff 
 range(sum.jfcp[, "n_eff"])
 range(sum.jfcp[, "Rhat"])
 
