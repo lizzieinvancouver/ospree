@@ -167,17 +167,7 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
 mdl.jointfcp <- stan('stan/joint_3cue_newprior.stan',
                      data = pheno_data, iter = 4000)
 
-sum.jfcp <- summary(mdl.jointfcp)$summary
-# playing around with the betaTcue values, at first all (2,1), but trying them out as -ve values
-# 2. with negative values look pretty good, but the sigma chill and photo are off by 0.4
-# 3. trying to run the above, with -ve betaTraitcue, but with sigmachillsp and sigmaphotosp with smaller variances of 0.1 --> estimates were worse
-
-# 4.  I think the best model run is with positive betaTraitcue values and variances of 1
-#5. sigma_study was a little low, so I increased the number of studies to 25
-#save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.Aug6.40.Rda") 
-
-
-load(file = "output/output.joint.forcingchillingphoto.Aug6.40.Rda")
+#load(file = "output/output.joint.forcingchillingphoto.Aug6.40.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.jointfcp)
 launch_shinystan(ssm)
@@ -188,14 +178,52 @@ post.f <- rstan::extract(mdl.jointfcp)
 range(sum.jfcp[, "n_eff"]) #646.4967 23451.4129
 range(sum.jfcp[, "Rhat"])
 
-# poorly estimated parameters include:
-#muSp 
+####################################################################
+# Is it giving me back the values? Generate the summary table
+mu_grand <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp))]
+sigma_sp <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp))]
+sigma_studyesti <- sum.jfcp[grep("sigma_study", rownames(sum.jfcp))]
+sigmaTrait_y <- sum.jfcp[grep("sigmaTrait_y", rownames(sum.jfcp))]
 
+mu_chillsp <- sum.jfcp[grep("muChillSp", rownames(sum.jfcp))]
+sigma_chillsp <- sum.jfcp[grep("sigmaChillSp", rownames(sum.jfcp))]
+beta_tc <- sum.jfcp[grep("betaTraitxChill", rownames(sum.jfcp))]
+
+mu_photosp <- sum.jfcp[grep("muPhotoSp", rownames(sum.jfcp))]
+sigma_photosp <- sum.jfcp[grep("sigmaPhotoSp", rownames(sum.jfcp))]
+beta_tp <- sum.jfcp[grep("betaTraitxPhoto", rownames(sum.jfcp))]
+
+mu_forcesp <- sum.jfcp[grep("muForceSp", rownames(sum.jfcp))]
+mu_phenosp <- sum.jfcp[grep("muPhenoSp", rownames(sum.jfcp))]
+alpha.forcingsp <- sum.jfcp[grep("alphaForcingSp", rownames(sum.jfcp))]
+sigma_forcesp <- sum.jfcp[grep("sigmaForceSp", rownames(sum.jfcp))]
+sigma_phenosp <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp))]
+sigma_phenoy <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp))]
+beta_tf <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp))]
+
+
+mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 
+                                       "mu_forcesp","mu_chillsp","mu_photosp","mu_phenosp","sigma_forcesp","sigma_chillsp","sigma_photosp", "sigma_phenosp", 
+                                       "sigma_phenoy", "beta_tf", "beta_tc","beta_tp"),
+                       "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var, 
+                                              mu.force.sp, mu.chill.sp, mu.photo.sp, mu.pheno.sp, sigma.force.sp, sigma.chill.sp, sigma.photo.sp, sigma.pheno.sp, 
+                                              sigma.gen, betaTraitxforce, betaTraitxchill, betaTraitxphoto),
+                       "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y, 
+                                      mu_forcesp, mu_chillsp, mu_photosp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_photosp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc,  beta_tp))
+
+mdl.out
+####################################################################
+
+# Histograms of the model output
+# poorly estimated parameters include:
+
+#muSp 
 h1 <- hist(rnorm(1000, 0, 20))
 h2 <- hist(post.f$muSp)
 plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,30))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
+#sigma_sp
 h1 <- hist(rnorm(1000, 20, 10))
 h2 <- hist(post.f$sigma_sp)
 plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,40))
@@ -209,7 +237,7 @@ plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 #betaTraitxForce
 h1 <- hist(rnorm(1000, 0,1))
-h2 <- hist(post.f$betaTraitxChill)
+h2 <- hist(post.f$betaTraitxForce)
 plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
@@ -221,7 +249,7 @@ plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 #betaTraitxPhoto
 h1 <- hist(rnorm(1000, 0,1))
-h2 <- hist(post.f$betaTraitxChill)
+h2 <- hist(post.f$betaTraitxPhoto)
 plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
@@ -262,18 +290,14 @@ abline(v = post.f$muStudy[2], lwd =2, col = "blue")
 abline(v = post.f$muStudy[3], lwd =2, col = "blue")
 abline(v = post.f$muStudy[40], lwd =2, col = "blue")
 
-# Make more plots!! 
+# Faith suggested to make more plots! These are a work in progress
 names(trt.dat)
 musp.esti <- sum.jfcp[grep("muSp", rownames(sum.jfcp))]
 mustudy.esti <- sum.jfcp[grep("muStudy", rownames(sum.jfcp))]
 yhat.esti <- 
 plot(unique(trt.dat$mu.trtsp) ~ musp.esti, pch =19)
 
-# plot(trt.dat$mu.trtsp ~ trt.dat$species, pch = 19)
-# points(musp.esti, pch = 19, col = "blue")
-
 plot(unique(trt.dat$mu.study) ~ mustudy.esti, pch = 19)
-
 
 #hist of posterior and include visual to the predicted value
 # if some parameters are really bad, plot parameters agains each 
@@ -290,60 +314,20 @@ plot(unique(trt.dat$mu.study) ~ mustudy.esti, pch = 19)
 # plot(density(yrep))
 # plot(density(y))
 
-stan_hist(mdl.jointfcp) # defualt is the firest 10 parameters
-stan_hist(mdl.jointfcp, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
-
-
-post.f2 <- as.matrix(mdl.jointfcp, par = c("muPhenoSp", "muForceSp",  "sigmaForceSp","muChillSp", "sigmaChillSp","muPhotoSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"))
-
-plot_title <- ggtitle("Posterior distributions",
-                      "with medians and 80% intervals")
-
-mcmc_areas(post.f2,
-           pars = c("sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"),
-           prob = 0.8) + plot_title
-
-mcmc_areas(post.f2,
-           pars = c("muForceSp","muChillSp","muPhotoSp","muPhenoSp"),
-           prob = 0.8) + plot_title    
-
-# Is it giving me back the values?
-mu_grand <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp))]
-sigma_sp <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp))]
-sigma_studyesti <- sum.jfcp[grep("sigma_study", rownames(sum.jfcp))]
-sigmaTrait_y <- sum.jfcp[grep("sigmaTrait_y", rownames(sum.jfcp))]
-
-mu_chillsp <- sum.jfcp[grep("muChillSp", rownames(sum.jfcp))]
-sigma_chillsp <- sum.jfcp[grep("sigmaChillSp", rownames(sum.jfcp))]
-beta_tc <- sum.jfcp[grep("betaTraitxChill", rownames(sum.jfcp))]
-
-mu_photosp <- sum.jfcp[grep("muPhotoSp", rownames(sum.jfcp))]
-sigma_photosp <- sum.jfcp[grep("sigmaPhotoSp", rownames(sum.jfcp))]
-beta_tp <- sum.jfcp[grep("betaTraitxPhoto", rownames(sum.jfcp))]
-
-mu_forcesp <- sum.jfcp[grep("muForceSp", rownames(sum.jfcp))]
-mu_phenosp <- sum.jfcp[grep("muPhenoSp", rownames(sum.jfcp))]
-alpha.forcingsp <- sum.jfcp[grep("alphaForcingSp", rownames(sum.jfcp))]
-sigma_forcesp <- sum.jfcp[grep("sigmaForceSp", rownames(sum.jfcp))]
-sigma_phenosp <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp))]
-sigma_phenoy <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp))]
-beta_tf <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp))]
-
-
-mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 
-                                       "mu_forcesp","mu_chillsp","mu_photosp","mu_phenosp","sigma_forcesp","sigma_chillsp","sigma_photosp", "sigma_phenosp", 
-                                       "sigma_phenoy", "beta_tf", "beta_tc","beta_tp"),
-                       "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var, 
-                                              mu.force.sp, mu.chill.sp, mu.photo.sp, mu.pheno.sp, sigma.force.sp, sigma.chill.sp, sigma.photo.sp, sigma.pheno.sp, 
-                                              sigma.gen, betaTraitxforce, betaTraitxchill, betaTraitxphoto),
-                       "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y, 
-                                      mu_forcesp, mu_chillsp, mu_photosp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_photosp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc,  beta_tp))
-
-mdl.out
-
-# fit1 <- stan(...)
-# fit1.extract <- extract(fit1)
-# # Real data
-# plot(doy.i ~ alpha.pheno.sp + beta.force.sp * force.i, data = pheno.dat, type = "l", col = "black")
-# # Iteration 22 of the generated quantity y_pred
-# points(post.f$ymu[22, ] ~ x, col = rgb(0, 0, 1, alpha = .4), type = "l")
+# stan_hist(mdl.jointfcp) # defualt is the firest 10 parameters
+# stan_hist(mdl.jointfcp, pars = c("muForceSp","muPhenoSp", "sigmaForceSp", "sigmaPhenoSp","sigmapheno_y"))
+# 
+# 
+# post.f2 <- as.matrix(mdl.jointfcp, par = c("muPhenoSp", "muForceSp",  "sigmaForceSp","muChillSp", "sigmaChillSp","muPhotoSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"))
+# 
+# plot_title <- ggtitle("Posterior distributions",
+#                       "with medians and 80% intervals")
+# 
+# mcmc_areas(post.f2,
+#            pars = c("sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "sigmaPhenoSp","sigmapheno_y"),
+#            prob = 0.8) + plot_title
+# 
+# mcmc_areas(post.f2,
+#            pars = c("muForceSp","muChillSp","muPhotoSp","muPhenoSp"),
+#            prob = 0.8) + plot_title    
+# 
