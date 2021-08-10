@@ -177,13 +177,16 @@ sum.jfcp <- summary(mdl.jointfcp)$summary
 #save(mdl.jointfcp, file = "output.joint.forcingchillingphoto.Aug6.40.Rda") 
 
 
-load(file = "output/output.joint.forcingchillingphoto.Aug6.Rda")
+load(file = "output/output.joint.forcingchillingphoto.Aug6.40.Rda")
 ####################################################################
 ssm <-  as.shinystan(mdl.jointfcp)
 launch_shinystan(ssm)
 
 sum.jfcp <- summary(mdl.jointfcp)$summary
 post.f <- rstan::extract(mdl.jointfcp)
+
+range(sum.jfcp[, "n_eff"]) #646.4967 23451.4129
+range(sum.jfcp[, "Rhat"])
 
 # poorly estimated parameters include:
 #muSp 
@@ -222,7 +225,6 @@ h2 <- hist(post.f$betaTraitxChill)
 plot(h2, col=rgb(0,0,1,1/4), xlim = c(-4, 4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
-
 # mu_phenosp:
 h1 <- hist(rnorm(1000, 150, 10))
 h2 <- hist(post.f$muPhenoSp)
@@ -243,15 +245,42 @@ plot(h1, col=rgb(1,0,1,1/4), add = T)
 plot(h2, col=rgb(0,0,1,1/4))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
+# Trying to understand why the muSp for different sp get such low n_eff
+h1 <- hist(rnorm(1000, 0, 10))
+plot(h1, col=rgb(1,0,1,1/4), xlim = c(-50, 50))
+abline(v = post.f$muSp[1], lwd =2, col = "blue")
+abline(v = post.f$muSp[2], lwd =2, col = "blue")
+abline(v = post.f$muSp[3], lwd =2, col = "blue")
+abline(v = post.f$muSp[26], lwd =2, col = "blue")
+# interesting, the estimates are all close to 25-28
+
+# And for muStudy
+h1 <- hist(rnorm(1000, 0, 5))
+plot(h1, col=rgb(1,0,1,1/4), xlim = c(-50,50))
+abline(v = post.f$muStudy[1], lwd =2, col = "blue")
+abline(v = post.f$muStudy[2], lwd =2, col = "blue")
+abline(v = post.f$muStudy[3], lwd =2, col = "blue")
+abline(v = post.f$muStudy[40], lwd =2, col = "blue")
+
 # Make more plots!! 
-plot(mu.study~ musp.esti, pch =19)
+names(trt.dat)
+musp.esti <- sum.jfcp[grep("muSp", rownames(sum.jfcp))]
+mustudy.esti <- sum.jfcp[grep("muStudy", rownames(sum.jfcp))]
+yhat.esti <- 
+plot(unique(trt.dat$mu.trtsp) ~ musp.esti, pch =19)
+
+# plot(trt.dat$mu.trtsp ~ trt.dat$species, pch = 19)
+# points(musp.esti, pch = 19, col = "blue")
+
+plot(unique(trt.dat$mu.study) ~ mustudy.esti, pch = 19)
+
+
 #hist of posterior and include visual to the predicted value
 # if some parameters are really bad, plot parameters agains each 
 # if mixed effect mdl: plot sigma and the pred dist values for that variable (eg sites on doy, sigma site vs pred doy) --> could need to plot the sigma on the log
 
 # could go back to the one trait one cue model and see if the n_eff 
-range(sum.jfcp[, "n_eff"])
-range(sum.jfcp[, "Rhat"])
+
 
 # ppc and trying to figure out what is going on! 
 # y<- as.numeric(pheno.dat$doy.i)
@@ -278,8 +307,6 @@ mcmc_areas(post.f2,
            pars = c("muForceSp","muChillSp","muPhotoSp","muPhenoSp"),
            prob = 0.8) + plot_title    
 
-
-# Is it giving me back the values?
 # Is it giving me back the values?
 mu_grand <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp))]
 sigma_sp <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp))]
