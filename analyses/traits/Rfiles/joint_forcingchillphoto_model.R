@@ -10,14 +10,16 @@
 
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
-} else{
+}else if(length(grep("Lizzie", getwd()) > 0)) {
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits")
+}else{
   setwd("/home/deirdre/ospree")
 }
 
 library(rstan)
 require(shinystan)
 require(bayesplot)
-require(truncnorm)
+require(truncnorm) 
 library(ggplot2)
 
 
@@ -177,6 +179,15 @@ post.f <- rstan::extract(mdl.jointfcp)
 
 range(sum.jfcp[, "n_eff"]) #646.4967 23451.4129
 range(sum.jfcp[, "Rhat"])
+
+# some plots (from Lizzie, please move/edit as needed! I did not go through code below, where it may fit better)
+sumer <- summary(mdl.jointfcp)$summary
+plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
+abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
+
+plot(alpha.pheno.sp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
+abline(a = 0, b = 1, lty = "dotted") # hmm, I must not be plotting the right things ...
+
 
 ####################################################################
 # Is it giving me back the values? Generate the summary table
