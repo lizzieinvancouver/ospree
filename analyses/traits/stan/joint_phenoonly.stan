@@ -46,18 +46,18 @@ transformed parameters{
 
 model{ 
     //priors - level 1
-sigmapheno_y ~ normal(5, 3); // 
+sigmapheno_y ~ normal(1,1); // 
 
     //priors level 2
-    sigmaForceSp ~ normal(2, 0.5); //
-    muForceSp ~ normal(-1, 0.5);//
+    sigmaForceSp ~ normal(1, 1); //
+    muForceSp ~ normal(-2, 1);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    sigmaPhenoSp ~ normal(10, 0.5); // sigma.pheno.sp =2  
+    sigmaPhenoSp ~ normal(10,1); // sigma.pheno.sp =2  
     muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150, try (30, 10) , estpecially for 150, 5 is very low
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
     
-    betaTraitxForce ~ normal(2,1);
+    betaTraitxForce ~ normal(0,1);
 
     //likelihood 
             for (i in 1:Nph){

@@ -182,8 +182,8 @@ sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
-mu.force.sp <- 0 
-sigma.force.sp <- 10
+mu.force.sp <- -2 
+sigma.force.sp <- 1
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
@@ -194,7 +194,7 @@ beta.force.sp <- rep(beta.force.temp,)
 pheno.dat$beta.force.sp <- rep(beta.force.sp, each = nphen)
 
 #Generate the cue values (ie the F that gets multipled with betaForcing{sp})
-mu.force <- 5 # This is a big forcing effect.  turned down to 5
+mu.force <- 1 # This is a big forcing effect.  turned down to 5
 sigma.force <- 1
 force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
 pheno.dat$force.i <- force.i
@@ -209,18 +209,39 @@ pheno.dat$doy.i <- pheno.dat$alpha.pheno.sp + pheno.dat$beta.force.sp * pheno.da
 
 ### Phenology only stan model ############################################
 # For future when we think the linear model works! 
+force.z <- (force.i-mean(force.i,na.rm=TRUE))/sd(force.i,na.rm=TRUE)
+
 pheno_data <- list(n_spec = Nspp, 
                    species = pheno.dat$species, 
                    yPhenoi = pheno.dat$doy.i, 
                    alphaTraitSp = alpha.trait.sp,
                    Nph = Nph, 
-                   forcei = force.i) 
+                   forcei = force.z) 
 
 mdl.pheno <- stan('stan/joint_phenoonly_aug15.stan',
                   data = pheno_data, iter = 4000)
 
 
-save(mdl.pheno, file = "output.phenoonly.6.Rda")
+#save(mdl.pheno, file = "output.phenoonly.6.Rda")
+
+sum.p <- summary(mdl.pheno)$summary
+
+# Is it giving me back the values?
+mu_forcesp <- sum.p[grep("muForceSp", rownames(sum.p))]
+mu_phenosp <- sum.p[grep("muPhenoSp", rownames(sum.p))]
+alpha.forcingsp <- sum.p[grep("alphaForcingSp", rownames(sum.p))]
+sigma_forcesp <- sum.p[grep("sigmaForceSp", rownames(sum.p))]
+sigma_phenosp <- sum.p[grep("sigmaPhenoSp", rownames(sum.p))]
+sigma_phenoy <- sum.p[grep("sigmapheno_y", rownames(sum.p))]
+beta_tp <- sum.p[grep("betaTraitxForce", rownames(sum.p))]
+
+mdl.out <- data.frame( "Parameter" = c("mu_forcesp","mu_phenosp","sigma_forcesp","sigma_phenosp", 
+                                       "sigma_phenoy", "beta_tp"),
+                       "Test.data.values" = c(mu.force.sp, mu.pheno.sp, sigma.force.sp, sigma.pheno.sp, 
+                                              sigma.gen, betaTraitxforce),
+                       "Estiamte" = c(mu_forcesp, mu_phenosp, sigma_forcesp, sigma_phenosp, sigma_phenoy, beta_tp))
+
+mdl.out
 
 # June 11: Initially the model runs with no issues, but it does a poor job of predicting mu_phenosp, sigmaFsp, sigma_phenosp, sigma_phenoy and the beta_tp
 # Increased the Nspp to 30 and the mu_phenosp value did get closser to 150! The other values are still pretty close, changed prior to (150,20) 
@@ -312,6 +333,8 @@ mcmc_areas(post.p2,
            pars = c("sigmaForceSp","sigmaPhenoSp","sigmapheno_y"),
            prob = 0.8) + plot_title        
 
+sum.p <- summary(mdl.pheno)$summary
+
 # Is it giving me back the values?
 mu_forcesp <- sum.p[grep("muForceSp", rownames(sum.p))]
 mu_phenosp <- sum.p[grep("muPhenoSp", rownames(sum.p))]
@@ -328,6 +351,13 @@ mdl.out <- data.frame( "Parameter" = c("mu_forcesp","mu_phenosp","sigma_forcesp"
                        "Estiamte" = c(mu_forcesp, mu_phenosp, sigma_forcesp, sigma_phenosp, sigma_phenoy, beta_tp))
 
 mdl.out
+
+h1 <- hist(rnorm(1000, 0, 20))
+h2 <- hist(post.p$muForceSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-50,50))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+
 
 # mu_grand is still not great: but does that look that bad?
 plot(density(rnorm(1000, 10, 0.5)), col = "red", xlim = c(0,20),  ylim = c(0, 0.8)); lines(density(post$mu_grand ), lty = 1)
