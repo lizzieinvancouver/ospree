@@ -23,9 +23,9 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 10 # rep per trait
-Nstudy <- 20 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
+Nrep <- 15 # rep per trait
+Nstudy <- 25 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
+Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
@@ -68,7 +68,7 @@ trait_data <- list(yTraiti = trt.dat$yTraiti,
                    study = trt.dat$study, 
                    n_study = Nstudy) 
 
-mdl.traitonly <- stan('stan/stan_joint_traitonly.stan',
+mdl.traitonly <- stan('stan/joint_traitonly.stan',
                       data = trait_data, iter = 4000)
 
 # June 10: 26 transitions after warmup exceed max depth, large rhats
@@ -97,6 +97,8 @@ launch_shinystan(ssm)
 sumer <- summary(mdl.traitonly)$summary
 post <- rstan::extract(mdl.traitonly)
 
+plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
+abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
 # extract a few random species allone and see if we get the estimates back
 
 range(sumer[, "n_eff"])
@@ -163,7 +165,7 @@ Nph <- Nspp * nphen
 Nph
 
 # the trait effect
-sigma.species <- 5
+sigma.species <- 1
 alpha.trait.sp<- rnorm(Nspp, 0, sigma.species)
 
 pheno.dat <- data.frame(matrix(NA, Nph, 2))
@@ -180,12 +182,12 @@ sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
-mu.force.sp <- -1 # negative bc warmer means earlier
-sigma.force.sp <- 2
+mu.force.sp <- 0 
+sigma.force.sp <- 10
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
-betaTraitxforce <- 2 #interaction between trait and phenology
+betaTraitxforce <- 0 #interaction between trait and phenology
 
 beta.force.temp <- alpha.force.sp + alpha.trait.sp * betaTraitxforce
 beta.force.sp <- rep(beta.force.temp,)
@@ -198,7 +200,7 @@ force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in sta
 pheno.dat$force.i <- force.i
 
 #general variance
-sigma.gen <- 5
+sigma.gen <- 1
 gen.var <- rnorm(Nph, 0, sigma.gen) 
 pheno.dat$gen.er <- gen.var
 
@@ -214,7 +216,7 @@ pheno_data <- list(n_spec = Nspp,
                    Nph = Nph, 
                    forcei = force.i) 
 
-mdl.pheno <- stan('stan/stan_joint_phenoonly.stan',
+mdl.pheno <- stan('stan/joint_phenoonly_aug15.stan',
                   data = pheno_data, iter = 4000)
 
 
@@ -317,7 +319,7 @@ alpha.forcingsp <- sum.p[grep("alphaForcingSp", rownames(sum.p))]
 sigma_forcesp <- sum.p[grep("sigmaForceSp", rownames(sum.p))]
 sigma_phenosp <- sum.p[grep("sigmaPhenoSp", rownames(sum.p))]
 sigma_phenoy <- sum.p[grep("sigmapheno_y", rownames(sum.p))]
-beta_tp <- sum.p[grep("betaTraitxPheno", rownames(sum.p))]
+beta_tp <- sum.p[grep("betaTraitxForce", rownames(sum.p))]
 
 mdl.out <- data.frame( "Parameter" = c("mu_forcesp","mu_phenosp","sigma_forcesp","sigma_phenosp", 
                                        "sigma_phenoy", "beta_tp"),
