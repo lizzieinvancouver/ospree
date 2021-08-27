@@ -104,7 +104,7 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(15,1); // trt.var 0.5
+    sigmaTrait_y ~ normal(15,1); // trt.var 0.5 Aug 13, lizzie suggested 1 or 0.5 instead
     sigma_sp ~ normal(10,1); //sigma_species 10
     mu_grand ~ normal(10, 1); // 
     muSp ~ normal(0, sigma_sp); //
@@ -119,20 +119,20 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(5, 3); // 
+    sigmapheno_y ~ normal(5, 3); // Aug 13, lizzie suggested 1 or 0.5 instead
 
     //priors level 2
 
-    sigmaForceSp ~ normal(5, 0.1); //
-    muForceSp ~ normal(-1, 0.5);//
+    sigmaForceSp ~ normal(0,30); //
+    muForceSp ~ normal(0, 40);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    sigmaChillSp ~ normal(5, 0.5); //sigma.chill.sp
-    muChillSp ~ normal(-2, 0.5);//
+    sigmaChillSp ~ normal(0,30); //sigma.chill.sp
+    muChillSp ~ normal(0,40);//
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     // 
-    sigmaPhotoSp ~ normal(5, 0.5); //sigma.photo.sp
-    muPhotoSp ~ normal(-2, 0.5);//
+    sigmaPhotoSp ~ normal(0,10); //sigma.photo.sp
+    muPhotoSp ~ normal(0,40);//
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
     sigmaPhenoSp ~ normal(10, 1); // sigma.pheno.sp =2  

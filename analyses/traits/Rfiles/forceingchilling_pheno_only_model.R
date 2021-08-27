@@ -46,19 +46,25 @@ sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
-mu.force.sp <- -1 # negative bc warmer means earlier
-sigma.force.sp <- 5
+mu.force.sp <- 0 # negative bc warmer means earlier
+sigma.force.sp <- 10
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
-mu.chill.sp <- -2 # negative bc warmer means earlier
-sigma.chill.sp <- 5
+mu.photo.sp <- 0 # negative bc warmer means earlier
+sigma.photo.sp <- 10
+alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
+pheno.dat$alpha.photo.sp <- rep(alpha.photo.sp, each = nphen)
+
+mu.chill.sp <- 0 # negative bc warmer means earlier
+sigma.chill.sp <- 10
 alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
 pheno.dat$alpha.chill.sp <- rep(alpha.chill.sp, each = nphen)
 
 
-betaTraitxforce <- 2 #interaction between trait and phenology
-betaTraitxchill <- 2
+betaTraitxforce <- 0 #interaction between trait and phenology
+betaTraitxphoto <- 0
+betaTraitxchill <- 0
 
 beta.force.temp <- alpha.force.sp + alpha.trait.sp * betaTraitxforce
 beta.force.sp <- rep(beta.force.temp,)
@@ -69,6 +75,16 @@ mu.force <- 5 # This is a big forcing effect.  turned down to 5
 sigma.force <- 1
 force.i <- rnorm(Nph, mu.force, sigma.force)  # predictor frocing, forcei in stan
 pheno.dat$force.i <- force.i
+
+beta.photo.temp <- alpha.photo.sp + alpha.trait.sp * betaTraitxphoto
+beta.photo.sp <- rep(beta.photo.temp,)
+pheno.dat$beta.photo.sp <- rep(beta.photo.sp, each = nphen)
+
+#Generate the cue values (ie the F that gets multipled with betaForcing{sp})
+mu.photo <- 5 # This is a big forcing effect.  turned down to 5
+sigma.photo <- 1
+photo.i <- rnorm(Nph, mu.photo, sigma.photo)  # predictor frocing, photoi in stan
+pheno.dat$photo.i <- photo.i
 
 beta.chill.temp <- alpha.chill.sp + alpha.trait.sp * betaTraitxchill
 beta.chill.sp <- rep(beta.chill.temp,)
@@ -97,6 +113,7 @@ pheno_data <- list(n_spec = Nspp,
                    Nph = Nph, 
                    N = Nph,
                    forcei = force.i,
+                   photoi = photo.i,
                    chilli = chill.i) 
 
 mdl.pheno <- stan('stan/forcingchilling_pheno_only.stan',
