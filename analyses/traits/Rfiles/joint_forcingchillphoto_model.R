@@ -28,8 +28,8 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 Nrep <- 10 # rep per trait
-Nstudy <- 25 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
+Nstudy <- 30 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
+Nspp <- 80 # number of species with traits (making this 20 just for speed for now)
 # note I changed this to 30 to match the pheno mdl
 
 # First making a data frame for the test trait data
@@ -70,7 +70,6 @@ trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.
 # look at the log posterior, bivariate plots: mu_phenosp on y and log_post on x
 # always check the other parameter if a combination of 2 parameters
 
-Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
 nphen <- 15 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
@@ -167,7 +166,7 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
 #                   data = pheno_data, iter = 4000)
 
 mdl.jointfcp <- stan('stan/joint_3cue_newprior.stan',
-                     data = pheno_data, iter = 4000)
+                     data = pheno_data, warmup=3000, iter = 4000)
 
 #load(file = "output/output.joint.forcingchillingphoto.Aug6.40.Rda")
 ####################################################################
@@ -187,6 +186,15 @@ abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
 
 plot(alpha.pheno.sp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
 abline(a = 0, b = 1, lty = "dotted") # hmm, I must not be plotting the right things ...
+
+par(mfrow=c(1,3))
+hist(alpha.force.sp, breaks=20)
+hist(alpha.chill.sp, breaks=20)
+hist(alpha.photo.sp, breaks=20)
+
+mean(alpha.force.sp)
+mean(alpha.chill.sp)
+mean(alpha.photo.sp)
 
 
 ####################################################################

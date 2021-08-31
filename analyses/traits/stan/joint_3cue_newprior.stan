@@ -104,12 +104,12 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(15,1); // trt.var 0.5 Aug 13, lizzie suggested 1 or 0.5 instead
-    sigma_sp ~ normal(10,1); //sigma_species 10
-    mu_grand ~ normal(10, 1); // 
+    sigmaTrait_y ~ normal(15, 10); // 
+    sigma_sp ~ normal(10, 10); // sigma_species 10
+    mu_grand ~ normal(10, 10); // 
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_study ~ normal(5,1); //sigma.study 5
+    sigma_study ~ normal(5, 10); //sigma.study 5
     muStudy ~ normal(0, sigma_study);//
     
     // run the actual model - likihood
@@ -124,15 +124,15 @@ model{
     //priors level 2
 
     sigmaForceSp ~ normal(0,30); //
-    muForceSp ~ normal(0, 40);//
+    muForceSp ~ normal(0, 10);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
     sigmaChillSp ~ normal(0,30); //sigma.chill.sp
-    muChillSp ~ normal(0,40);//
+    muChillSp ~ normal(0,10);//
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     // 
     sigmaPhotoSp ~ normal(0,10); //sigma.photo.sp
-    muPhotoSp ~ normal(0,40);//
+    muPhotoSp ~ normal(0,10);//
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
     sigmaPhenoSp ~ normal(10, 1); // sigma.pheno.sp =2  
