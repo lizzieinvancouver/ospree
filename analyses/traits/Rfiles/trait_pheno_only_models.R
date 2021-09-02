@@ -69,7 +69,17 @@ trait_data <- list(yTraiti = trt.dat$yTraiti,
                    n_spec = Nspp, 
                    species = trt.dat$species, 
                    study = trt.dat$study, 
-                   n_study = Nstudy) 
+                   n_study = Nstudy,
+                   prior_mu_grand = 10,
+                   prior_sigma_grand = 20,
+                   prior_mu_sp = 0,
+                   prior_sigma_sp_mu = 10,
+                   prior_sigma_sp_sigma = 10,
+                   prior_mu_study = 0,
+                   prior_sigma_study_mu = 10,
+                   prior_sigma_sp_sigma = 10,
+                   prior_sigma_traity_mu = 1,
+                   prior_sigma_traity_sigma = 1) 
 
 mdl.traitonly <- stan('stan/joint_traitonly.stan',
                       data = trait_data, iter = 4000, warmup = 3000)
