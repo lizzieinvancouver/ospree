@@ -104,12 +104,12 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(15, 1); // trt.var 0.5
-    sigma_sp ~ normal(10, 0.5); //sigma_species 10
-    mu_grand ~ normal(10, 0.1); // 
+    sigmaTrait_y ~ normal(1, 1); // trt.var 0.5
+    sigma_sp ~ normal(10, 10); //sigma_species 10
+    mu_grand ~ normal(10, 20); // 
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_study ~ normal(5,0.5); //sigma.study 5
+    sigma_study ~ normal(1,10); //sigma.study 5
     muStudy ~ normal(0, sigma_study);//
     
     // run the actual model - likihood

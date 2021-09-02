@@ -18,14 +18,17 @@ require(bayesplot)
 require(truncnorm)
 library(ggplot2)
 
-
+# 50 study, spp, reps, drop sigmatrait_y to 1
+# boxplots of all the dots by species and study
+#compare sp to study and make sure no correlations
+# run test data through rstan arm - how fast? accurate? 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 15 # rep per trait
-Nstudy <- 25 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
+Nrep <- 50 # rep per trait
+Nstudy <- 50 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
+Nspp <- 50 # number of species with traits (making this 20 just for speed for now)
 
 # First making a data frame for the test trait data
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
@@ -47,12 +50,12 @@ mu.trtsp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
-sigma.study <- 5
+sigma.study <- 1
 mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
 
 # general variance
-trt.var <- 15 #sigmaTrait_y in the stan code
+trt.var <- 1 #sigmaTrait_y in the stan code
 trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 
 # generate yhat - heights -  for this first trt model
@@ -69,7 +72,7 @@ trait_data <- list(yTraiti = trt.dat$yTraiti,
                    n_study = Nstudy) 
 
 mdl.traitonly <- stan('stan/joint_traitonly.stan',
-                      data = trait_data, iter = 4000)
+                      data = trait_data, iter = 4000, warmup = 3000)
 
 # June 10: 26 transitions after warmup exceed max depth, large rhats
 # 1. The sigmaTrait_y looked really weird, unrealistically narrow and low, so I changed the prior to it to: sigmaTrait_y ~ normal(10, 1) --> The Ess was still too low
@@ -81,28 +84,36 @@ mdl.traitonly <- stan('stan/joint_traitonly.stan',
 #save(mdl.traitonly, file = "output.traitonly.5.Rda")
 # 6. Out of curiosity, i increased the mu_grand prior to (20,2) --> a bit mixed, mugrand is 20.26, sigmasp and sigmay are closer but sigmastudy is off by .25, the chains for mu grand look aweful again though
 # 7. Decreasing the variances for the larger mugrand (20, 0.5), not the best, but (10, 0.5) looked interesting:
-save(mdl.traitonly, file = "output.traitonly.7.Rda")
+save(mdl.traitonly, file = "output.traitonly.Sept1.Rda")
 # Parameter Test.data.values  Estiamte
 # 1     mu_grand               10  9.993991
 # 2     sigma_sp               10 10.075637
 # 3  sigma_study                5  4.937649
 # 4 sigmaTrait_y               15 15.140083
 
+# Sept 1: the priors are too narrow, need to try to get it working for wider priors and see if I can fix the issues with n_eff for study and speices
+
 ####################################################################
 
-load(file = "output/output.traitonly.7.Rda")
+load(file = "output/output.traitonly.Sept1.Rda")
 ssm <-  as.shinystan(mdl.traitonly)
 launch_shinystan(ssm)
 
 sumer <- summary(mdl.traitonly)$summary
 post <- rstan::extract(mdl.traitonly)
 
-plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
-abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
-# extract a few random species allone and see if we get the estimates back
-
 range(sumer[, "n_eff"])
 range(sumer[, "Rhat"])
+
+#pdf("standis_study.pdf", width=5, height=5)
+plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
+abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
+#dev.off()
+
+#pdf("standis_species.pdf", width=5, height=5)
+plot(mu.trtsp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
+abline(a = 0, b = 1, lty = "dotted")
+#dev.off()
 
 # ppc and trying to figure out what is going on! 
 y<-as.numeric(trt.dat$yTraiti)
@@ -139,11 +150,63 @@ sigma_sp <- sumer[grep("sigma_sp", rownames(sumer))]
 sigma_studyesti <- sumer[grep("sigma_study", rownames(sumer))]
 sigmaTrait_y <- sumer[grep("sigmaTrait_y", rownames(sumer))]
 
+mu_grand2.5 <- sumer[grep("mu_grand", rownames(sumer)), "2.5%"]
+sigma_sp2.5 <- sumer[grep("sigma_sp", rownames(sumer)), "2.5%"]
+sigma_studyesti2.5 <- sumer[grep("sigma_study", rownames(sumer)), "2.5%"]
+sigmaTrait_y2.5 <- sumer[grep("sigmaTrait_y", rownames(sumer)), "2.5%"]
+
+# ------------------------------------------------------------# 
+mu_grand97.5 <- sumer[grep("mu_grand", rownames(sumer)), "97.5%"]
+sigma_sp97.5 <- sumer[grep("sigma_sp", rownames(sumer)), "97.5%"]
+sigma_studyesti97.5 <- sumer[grep("sigma_study", rownames(sumer)), "97.5%"]
+sigmaTrait_y97.5 <- sumer[grep("sigmaTrait_y", rownames(sumer)), "97.5%"]
+
 mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y"),
                        "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var),
-                       "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y))
+                       "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y),
+                       "2.5" = c(mu_grand2.5, sigma_sp2.5, sigma_studyesti2.5, sigmaTrait_y2.5),
+                       "97.5" = c(mu_grand97.5, sigma_sp97.5, sigma_studyesti97.5, sigmaTrait_y97.5))
 
 mdl.out
+
+# Histograms of the model output
+# poorly estimated parameters include:
+# mu_grand
+h1 <- hist(rnorm(1000, 10, 20))
+h2 <- hist(post$muSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-100,100))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#sigmaTrait_y
+h1 <- hist(rnorm(1000, 1, 1))
+h2 <- hist(post$sigmaTrait_y)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-10,10))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#muSp 
+h1 <- hist(rnorm(1000, 0, 10))
+h2 <- hist(post$muSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-100,100))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#sigma_sp
+h1 <- hist(rnorm(1000, 10, 10))
+h2 <- hist(post$sigma_sp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-30,40))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#muStudy
+h1 <- hist(rnorm(1000, 0, 10))
+h2 <- hist(post$muStudy)
+plot(h2, col=rgb(0,0,1,1/4), xlim = c(-30,30))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+#sigma_study
+h1 <- hist(rnorm(1000, 1,10))
+h2 <- hist(post$sigma_study)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-5,5))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
 
 # mu_grand is still not great: but does that look that bad?
 #plot(density(rnorm(1000, 10, 0.5)), col = "red", xlim = c(0,20),  ylim = c(0, 0.8)); lines(density(post$mu_grand ), lty = 1)
@@ -159,8 +222,8 @@ mdl.out
 # look at the log posterior, bivariate plots: mu_phenosp on y and log_post on x
 # always check the other parameter if a combination of 2 parameters
 
-Nspp <- 30 # number of species with traits (making this 20 just for speed for now)
-nphen <- 15 # rep per pheno event 
+Nspp <- 40 # number of species with traits (making this 20 just for speed for now)
+nphen <- 30 # rep per pheno event 
 Nph <- Nspp * nphen
 Nph
 
@@ -183,7 +246,7 @@ alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp)
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
 mu.force.sp <- -2 
-sigma.force.sp <- 1
+sigma.force.sp <- 1 # 1 --> 50 --> 10
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
@@ -352,9 +415,14 @@ mdl.out <- data.frame( "Parameter" = c("mu_forcesp","mu_phenosp","sigma_forcesp"
 
 mdl.out
 
-h1 <- hist(rnorm(1000, 0, 20))
+h1 <- hist(rnorm(1000, -2,1))
 h2 <- hist(post.p$muForceSp)
-plot(h2, col=rgb(0,0,1,1/4), xlim =c(-50,50))
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-5,5))
+plot(h1, col=rgb(1,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 1,10))
+h2 <- hist(post.p$sigmaForceSp)
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-25,25))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 
