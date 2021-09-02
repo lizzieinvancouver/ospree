@@ -220,6 +220,49 @@ sigma_phenosp <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp))]
 sigma_phenoy <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp))]
 beta_tf <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp))]
 
+# ------------------------------------------------------------# 
+mu_grand2.5 <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp)), "2.5%"]
+sigma_sp2.5 <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp)), "2.5%"]
+sigma_studyesti2.5 <- sum.jfcp[grep("sigma_study", rownames(sum.jfcp)), "2.5%"]
+sigmaTrait_y2.5 <- sum.jfcp[grep("sigmaTrait_y", rownames(sum.jfcp)), "2.5%"]
+
+mu_chillsp2.5 <- sum.jfcp[grep("muChillSp", rownames(sum.jfcp)), "2.5%"]
+sigma_chillsp2.5 <- sum.jfcp[grep("sigmaChillSp", rownames(sum.jfcp)), "2.5%"]
+beta_tc2.5 <- sum.jfcp[grep("betaTraitxChill", rownames(sum.jfcp)), "2.5%"]
+
+mu_photosp2.5 <- sum.jfcp[grep("muPhotoSp", rownames(sum.jfcp)), "2.5%"]
+sigma_photosp2.5 <- sum.jfcp[grep("sigmaPhotoSp", rownames(sum.jfcp)), "2.5%"]
+beta_tp2.5 <- sum.jfcp[grep("betaTraitxPhoto", rownames(sum.jfcp)), "2.5%"]
+
+mu_forcesp2.5 <- sum.jfcp[grep("muForceSp", rownames(sum.jfcp)), "2.5%"]
+mu_phenosp2.5 <- sum.jfcp[grep("muPhenoSp", rownames(sum.jfcp)), "2.5%"]
+alpha.forcingsp2.5 <- sum.jfcp[grep("alphaForcingSp", rownames(sum.jfcp)), "2.5%"]
+sigma_forcesp2.5 <- sum.jfcp[grep("sigmaForceSp", rownames(sum.jfcp)), "2.5%"]
+sigma_phenosp2.5 <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp)), "2.5%"]
+sigma_phenoy2.5 <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp)), "2.5%"]
+beta_tf2.5 <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp)), "2.5%"]
+
+# ------------------------------------------------------------# 
+mu_grand97.5 <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp)), "97.5%"]
+sigma_sp97.5 <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp)), "97.5%"]
+sigma_studyesti97.5 <- sum.jfcp[grep("sigma_study", rownames(sum.jfcp)), "97.5%"]
+sigmaTrait_y97.5 <- sum.jfcp[grep("sigmaTrait_y", rownames(sum.jfcp)), "97.5%"]
+
+mu_chillsp97.5 <- sum.jfcp[grep("muChillSp", rownames(sum.jfcp)), "97.5%"]
+sigma_chillsp97.5 <- sum.jfcp[grep("sigmaChillSp", rownames(sum.jfcp)), "97.5%"]
+beta_tc97.5 <- sum.jfcp[grep("betaTraitxChill", rownames(sum.jfcp)), "97.5%"]
+
+mu_photosp97.5 <- sum.jfcp[grep("muPhotoSp", rownames(sum.jfcp)), "97.5%"]
+sigma_photosp97.5 <- sum.jfcp[grep("sigmaPhotoSp", rownames(sum.jfcp)), "97.5%"]
+beta_tp97.5 <- sum.jfcp[grep("betaTraitxPhoto", rownames(sum.jfcp)), "97.5%"]
+
+mu_forcesp97.5 <- sum.jfcp[grep("muForceSp", rownames(sum.jfcp)), "97.5%"]
+mu_phenosp97.5 <- sum.jfcp[grep("muPhenoSp", rownames(sum.jfcp)), "97.5%"]
+alpha.forcingsp97.5 <- sum.jfcp[grep("alphaForcingSp", rownames(sum.jfcp)), "97.5%"]
+sigma_forcesp97.5 <- sum.jfcp[grep("sigmaForceSp", rownames(sum.jfcp)), "97.5%"]
+sigma_phenosp97.5 <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp)), "97.5%"]
+sigma_phenoy97.5 <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp)), "97.5%"]
+beta_tf97.5 <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp)), "97.5%"]
 
 mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sigmaTrait_y", 
                                        "mu_forcesp","mu_chillsp","mu_photosp","mu_phenosp","sigma_forcesp","sigma_chillsp","sigma_photosp", "sigma_phenosp", 
@@ -228,7 +271,13 @@ mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study", "sig
                                               mu.force.sp, mu.chill.sp, mu.photo.sp, mu.pheno.sp, sigma.force.sp, sigma.chill.sp, sigma.photo.sp, sigma.pheno.sp, 
                                               sigma.gen, betaTraitxforce, betaTraitxchill, betaTraitxphoto),
                        "Estiamte" = c(mu_grand, sigma_sp, sigma_studyesti, sigmaTrait_y, 
-                                      mu_forcesp, mu_chillsp, mu_photosp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_photosp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc,  beta_tp))
+                                      mu_forcesp, mu_chillsp, mu_photosp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_photosp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc,  beta_tp),
+                       "2.5" = c(mu_grand2.5, sigma_sp2.5, sigma_studyesti2.5, sigmaTrait_y2.5, 
+                                 mu_forcesp2.5, mu_chillsp2.5, mu_photosp2.5, mu_phenosp2.5, sigma_forcesp2.5, sigma_chillsp2.5, sigma_photosp2.5, sigma_phenosp2.5, sigma_phenoy2.5, beta_tf2.5, beta_tc2.5,  beta_tp2.5),
+                       "97.5" = c(mu_grand97.5, sigma_sp97.5, sigma_studyesti97.5, sigmaTrait_y97.5, 
+                                  mu_forcesp97.5, mu_chillsp97.5, mu_photosp97.5, mu_phenosp97.5, sigma_forcesp97.5, sigma_chillsp97.5, sigma_photosp97.5, sigma_phenosp97.5, sigma_phenoy97.5, beta_tf97.5, beta_tc97.5,  beta_tp97.5)
+                       
+)
 
 mdl.out
 ####################################################################
