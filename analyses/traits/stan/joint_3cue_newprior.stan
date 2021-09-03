@@ -29,6 +29,41 @@ data {
 
     int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
 
+    real prior_mu_grand; 
+    real prior_sigma_grand;
+    real prior_mu_sp;
+    real prior_sigma_sp_mu;
+    real prior_sigma_sp_sigma;
+    real prior_mu_study;
+    real prior_sigma_study_mu;
+    real prior_sigma_study_sigma;
+    real prior_sigma_traity_mu;
+    real prior_sigma_traity_sigma;
+    
+    real prior_sigmaphenoy_mu;
+    real prior_sigmaphenoy_sigma;
+    real prior_muForceSp_mu;
+    real prior_muForceSp_sigma;
+    real prior_muChillSp_mu;
+    real prior_muChillSp_sigma;
+    real prior_muPhotoSp_mu;
+    real prior_muPhotoSp_sigma;
+    real prior_muPhenoSp_mu;
+    real prior_muPhenoSp_sigma;
+    real prior_sigmaForceSp_mu;
+    real prior_sigmaForceSp_sigma;
+    real prior_sigmaChillSp_mu;
+    real prior_sigmaChillSp_sigma;
+    real prior_sigmaPhotoSp_mu;
+    real prior_sigmaPhotoSp_sigma;
+    real prior_sigmaPhenoSp_mu;
+    real prior_sigmaPhenoSp_sigma;
+    real prior_betaTraitxForce_mu;
+    real prior_betaTraitxForce_sigma;
+    real prior_betaTraitxChill_mu;
+    real prior_betaTraitxChill_sigma;
+    real prior_betaTraitxPhoto_mu;
+    real prior_betaTraitxPhoto_sigma;
 }
 
 parameters{
@@ -104,13 +139,14 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(15, 10); // 
-    sigma_sp ~ normal(10, 10); // sigma_species 10
-    mu_grand ~ normal(10, 10); // 
-    muSp ~ normal(0, sigma_sp); //
+    sigmaTrait_y ~ normal(prior_sigma_traity_mu, prior_sigma_traity_sigma); // trt.var 0.5
+    sigma_sp ~ normal(prior_sigma_sp_mu, prior_sigma_sp_sigma); //sigma_species 10
+    
+    mu_grand ~ normal(prior_mu_grand, prior_sigma_grand); // 
+    muSp ~ normal(prior_mu_sp, sigma_sp); //
 
-    sigma_study ~ normal(5, 10); //sigma.study 5
-    muStudy ~ normal(0, sigma_study);//
+    sigma_study ~ normal(prior_sigma_study_mu, prior_sigma_study_sigma); //sigma.study 5
+    muStudy ~ normal(prior_mu_study, sigma_study);//
     
     // run the actual model - likihood
     for (i in 1:N){
@@ -119,29 +155,29 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(5, 3); // Aug 13, lizzie suggested 1 or 0.5 instead
+    sigmapheno_y ~ normal( prior_sigmaphenoy_mu,  prior_sigmaphenoy_sigma); // Aug 13, lizzie suggested 1 or 0.5 instead
 
     //priors level 2
 
-    sigmaForceSp ~ normal(0,30); //
-    muForceSp ~ normal(0, 10);//
+    sigmaForceSp ~ normal(prior_sigmaForceSp_mu,prior_sigmaForceSp_sigma); //
+    muForceSp ~ normal(prior_muForceSp_mu,  prior_muForceSp_sigma);//
     alphaForceSp ~ normal(muForceSp, sigmaForceSp);  //
     
-    sigmaChillSp ~ normal(0,30); //sigma.chill.sp
-    muChillSp ~ normal(0,10);//
+    sigmaChillSp ~ normal(prior_sigmaChillSp_mu,prior_sigmaChillSp_sigma); //sigma.chill.sp
+    muChillSp ~ normal(prior_muChillSp_mu,prior_muChillSp_sigma);//
     alphaChillSp ~ normal(muChillSp, sigmaChillSp);  //
     // 
-    sigmaPhotoSp ~ normal(0,10); //sigma.photo.sp
-    muPhotoSp ~ normal(0,10);//
+    sigmaPhotoSp ~ normal(prior_sigmaPhotoSp_mu,prior_sigmaPhotoSp_sigma); //sigma.photo.sp
+    muPhotoSp ~ normal(prior_muPhotoSp_mu,prior_muPhotoSp_sigma);//
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);  //
     
-    sigmaPhenoSp ~ normal(10, 1); // sigma.pheno.sp =2  
-    muPhenoSp ~ normal(150, 10);  // mu.pheno.sp = 150
+    sigmaPhenoSp ~ normal(prior_sigmaPhenoSp_mu,prior_sigmaPhenoSp_sigma); // sigma.pheno.sp =2  
+    muPhenoSp ~ normal(prior_muPhenoSp_mu, prior_muPhenoSp_sigma);  // mu.pheno.sp = 150
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);//
 
-    betaTraitxForce ~ normal(0, 1); // Aug 5: widen these and see what the impact is
-    betaTraitxPhoto ~ normal(0, 1); // # this was 0.5 at first and
-    betaTraitxChill ~ normal(0, 1); //
+    betaTraitxForce ~ normal(prior_betaTraitxForce_mu, prior_betaTraitxForce_sigma); // Aug 5: widen these and see what the impact is
+    betaTraitxPhoto ~ normal(prior_betaTraitxPhoto_mu, prior_betaTraitxPhoto_sigma); // # this was 0.5 at first and
+    betaTraitxChill ~ normal(prior_betaTraitxChill_mu, prior_betaTraitxChill_sigma); 
 
     //likelihood 
     //         for (i in 1:Nph){

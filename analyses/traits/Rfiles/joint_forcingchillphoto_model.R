@@ -160,7 +160,36 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                    forcei = force.i,
                    photoi = photo.i, 
                    chilli = chill.i,
-                   species2 = pheno.dat$species) 
+                   species2 = pheno.dat$species,
+                   prior_mu_grand = 10,
+                   prior_sigma_grand = 20,
+                   prior_mu_sp = 0,
+                   prior_sigma_sp_mu = 10,
+                   prior_sigma_sp_sigma = 10,
+                   prior_mu_study = 0,
+                   prior_sigma_study_mu = 10,
+                   prior_sigma_study_sigma = 10,
+                   prior_sigma_traity_mu = 1,
+                   prior_sigma_traity_sigma = 1,
+                   
+                   prior_sigmaphenoy_mu = 5,
+                   prior_sigmaphenoy_sigma = 3,
+                   
+                   prior_muForceSp_mu = 0,
+                   prior_muForceSp_sigma = 30,
+                   prior_muChillSp_mu = 0,
+                   prior_muChillSp_sigma = 30,
+                   prior_muPhotoSp_mu = 0,
+                   prior_muPhotoSp_sigma = 10,
+                   prior_muPhenoSp_mu = 150,
+                   prior_muPhenoSp_sigma = 10,
+                   
+                   prior_sigma_sp_sigma = 10,
+                   prior_mu_study = 0,
+                   prior_sigma_study_mu = 10,
+                   prior_sigma_study_sigma = 10,
+                   prior_sigma_traity_mu = 1,
+                   prior_sigma_traity_sigma = 1)
 
 # mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
 #                   data = pheno_data, iter = 4000)

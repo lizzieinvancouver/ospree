@@ -9,10 +9,11 @@
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
-  setwd("~/R/traitors")
+  setwd("/home/ospree/traitors")
 }
 
 library(rstan)
+require(rstanarm)
 require(shinystan)
 require(bayesplot)
 require(truncnorm)
@@ -50,7 +51,7 @@ mu.trtsp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
-sigma.study <- 1
+sigma.study <- 10
 mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
 
@@ -61,6 +62,20 @@ trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 # generate yhat - heights -  for this first trt model
 trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
 
+## Exploring the test data - boxplots!  ###########################################
+names(trt.dat)
+boxplot(yTraiti ~ study, data = trt.dat)
+boxplot(yTraiti ~ species, data = trt.dat)
+
+plot(yTraiti ~ study, data = trt.dat)
+# What about running the model with rstanarm?  ####################################
+# library(rstanarm)
+mdl.arm <- stan_lmer(yTraiti ~ mu.trtsp + mu.study + (1 | study) + (1 + |species),
+                     data = trt.dat)
+prior_summary(object = mdl.arm)
+summary(mdl.arm, probs = c(0.025, 0.975),
+        digits = 2)
+mdl.arm
 # Stop here and test your work a little ...okay, it's hard to interpret this output but we can check the general variance and intercept and check the relative variance of species and study (maybe using the SD?)
 
 ## Trait only stan model ###########################################################
@@ -77,7 +92,7 @@ trait_data <- list(yTraiti = trt.dat$yTraiti,
                    prior_sigma_sp_sigma = 10,
                    prior_mu_study = 0,
                    prior_sigma_study_mu = 10,
-                   prior_sigma_sp_sigma = 10,
+                   prior_sigma_study_sigma = 10,
                    prior_sigma_traity_mu = 1,
                    prior_sigma_traity_sigma = 1) 
 
@@ -194,7 +209,7 @@ plot(h2, col=rgb(0,0,1,1/4), xlim =c(-10,10))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 #muSp 
-h1 <- hist(rnorm(1000, 0, 10))
+h1 <- hist(rnorm(1000, 0, 20))
 h2 <- hist(post$muSp)
 plot(h2, col=rgb(0,0,1,1/4), xlim =c(-100,100))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
@@ -212,9 +227,9 @@ plot(h2, col=rgb(0,0,1,1/4), xlim = c(-30,30))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 #sigma_study
-h1 <- hist(rnorm(1000, 1,10))
+h1 <- hist(rnorm(1000, 1,20))
 h2 <- hist(post$sigma_study)
-plot(h2, col=rgb(0,0,1,1/4), xlim =c(-5,5))
+plot(h2, col=rgb(0,0,1,1/4), xlim =c(-50,50))
 plot(h1, col=rgb(1,0,1,1/4), add = T)
 
 
