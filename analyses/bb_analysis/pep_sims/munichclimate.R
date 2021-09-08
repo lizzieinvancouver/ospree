@@ -39,3 +39,14 @@ beforeLO <- subset(dsm.agg.spr, when=="before" & doy<115 & doy>(115-30))
 
 mean(afterLO$meanC)
 mean(beforeLO$meanC)
+
+## Sept 2021 for Fulbright grant etc.
+
+d1955 <- subset(d, year==1955)
+d2003 <- subset(d, year==2003)
+d2018 <- subset(d, year==2018)
+
+
+plot(meanC~doy, data=d1955, type="l")
+plot(meanC~doy, data=d2018, type="l")
+lines(meanC~doy, data=d2003, col="darkred")
