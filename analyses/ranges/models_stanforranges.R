@@ -391,21 +391,25 @@ sigmas <- mod.sum[grep("sigma", rownames(mod.sum)),]
 
 
 #save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
-load("~/Desktop/forcephoto_popmodel.Rdata")
+load("~/Desktop/Misc/forcephoto_popmodel.Rdata")
+library(rstan)
 
 ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop")) +
-  scale_y_discrete(limits=rev(c("Sigma species", "Sigma study", "Sigma population"))) + ggtitle("Sigma intercepts") +
-  coord_cartesian(xlim=c(0,25))
+  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+                                  expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," intercepts"))) +
+  coord_cartesian(xlim=c(0,25)) 
 
 forces <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_force_sp", "sigma_b_force_sppop")) +
-  scale_y_discrete(limits=rev(c("Sigma forcing \n(species)", "Sigma forcing \n(population)"))) + ggtitle ("Sigma forcing") +
+  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+                                                                                       expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," forcing"))) +
   coord_cartesian(xlim=c(0,25))
 
 photos <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_photo_sp", "sigma_b_photo_sppop")) + 
-  scale_y_discrete(limits=rev(c("Sigma photoperiod \n(species)", "Sigma photoperiod \n(population)"))) + ggtitle("Sigma photoperiod") +
+  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+                                                                                       expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," photoperiod"))) +
   coord_cartesian(xlim=c(0,25))
 
-library(egg)
+library(gridExtra)
 pdf("figures/variancepartitioning.pdf", width=12, height=4, onefile=FALSE)
 ggarrange(ints, forces, photos, ncol=3)
 dev.off()
