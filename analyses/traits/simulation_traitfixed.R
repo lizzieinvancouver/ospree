@@ -1,5 +1,6 @@
 
 library("rstan")
+library("shinystan")
 
 options(mc.cores = 4)
 
@@ -101,6 +102,9 @@ fit.stan1 <- stan("stan/3cue_traitfixed.stan",
                  warmup = 1000,
                  chains = 4,
                  seed = 20200602)
+
+options(browser = "chromium")
+launch_shinystan(fit.stan1)
 
 ## Summarize posterior of continuous parameters
 summary(fit.stan1, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "muPhenoSp", "sigmaPhenoSp", "sigmapheno_y"))$summary[, "mean"]
