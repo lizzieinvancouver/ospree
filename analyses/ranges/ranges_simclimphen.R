@@ -24,51 +24,68 @@ library(ggplot2)
 
 # Some attempts ...
 
+
+frostdamage <- 0
+fstar <- 200
+yearz <- 50 # 
+sitez <- 45 # sites, basically useful as *replicates*
+simsnum <- 10
+
+# START inter/intra-annual variation parameter edits here
 dayswinter <- 120
 daysspring <- 90
-wintertemp <- 1
-springtemp <- 2
+wintertemp <- -1
+springtemp <- 1
 springtempinc <- 0.1
-fstar <- 200
+sigma <- 4 # let's treat this as intra-annual ...
+sigmainter <- seq(0, 10, length.out=simsnum) # inter-annual, let's start by varying this ...
+# END inter/intra-annual variation parameter edits here
+
+if(FALSE){ # not using just now ... as it's chilling
 cstar <- 0
 fstaradjforchill <- 3 # how much more GDD to you need based on diff from cstar at end of daystostart
-yearz <- 50 # used to be 20, adjusted to 50 to compare to Jonathan's code 
-sitez <- 45 # sites, basically useful as replicates
-simsnum <- 10
-# things we may want to vary?
-sigma <- 4 # let's treat this as intra-annual ...
-sigmainter <- seq(0, 10, length.out=simsnum) # inter-annual, let's start by varying this ... 
+}
 
 ## Step 2: Now I put together the seasonal temps, varying fstar (increases when chill is low) and calculate the sensitivities    
-df <- data.frame(sigmainter=numeric(), rep=numeric(), chill=numeric(), fstar=numeric())
+df <- data.frame(intervar=numeric(),
+                 intravar=numeric(),
+                 meanwinter=numeric(),
+                 meanspring=numeric(),
+                 meantemp=numeric(),
+                 rep=numeric(),
+                 year=numeric(),
+                 fstar=numeric(),
+                 frostevents=numeric()) 
     
 for (i in sigmainter){
    for (j in 1:sitez){
+       # TO DO ... inter-annual variation ... and then intra-annual within it
+       # If you're working on that edit here ... START within looop edits
        daily_temp <- sapply(rep(NA, yearz), function(x) c(rnorm(dayswinter, wintertemp + i, sigma),
            (rnorm(daysspring, springtemp + i , sigma) + c(1:daysspring)*springtempinc)))
-       daily_temp <- daily_temp + rnorm(1, 0, i) # add same value to WHOLE year ... is this best way to do it?
-       # TO DO ... add a switch at the + so that we multiple by -1 or 1 and thus do not always ADD the variation
-       chill <- daily_temp
-       chill[(chill)<0] <- 0
-       chill[(chill)>5] <- 0
+       # END within loop edits here for inter/intra-annual variation
+       
        gdd <- daily_temp
        gdd[(gdd)<0] <- 0
-       gddreq <- c()
        leafout_date <- c()
-       for (k in 1:ncol(chill)){
-           chillsum <- sapply(1:ncol(chill), function(x) (cumsum(chill[,x])))
+       frostevents <- c()
+       for (k in 1:ncol(daily_temp)){
            gddsum <- sapply(1:ncol(gdd), function(x) (cumsum(gdd[dayswinter:nrow(gdd),x])))
-           if (chillsum[dayswinter,k]>cstar) {
-           gddreq[k] <- fstar
-           } else {
-           gddreq[k] <- fstar + (cstar-chillsum[dayswinter,k])*fstaradjforchill
-           }
-           leafout_date[k] <- min(which(gddsum[,k] > gddreq[k])) # leafout_date unit of days *after* dayswinter
-           meanchill <- mean(chillsum[dayswinter,])
-           meanfstar <- mean(gddreq)
+           leafout_date[k] <- min(which(gddsum[,k] > fstar)) # leafout_date unit of days *after* dayswinter
+           colddays <- which(daily_temp[,k] < frostdamage) # Cat, please check all my edits!
+           frostz <- which(colddays > leafout_date[k]) 
+           frostevents[k] <- length(frostz)
            }
            yearly_temp <- colMeans(daily_temp)
-           dfadd <- data.frame(sigmainter=i, rep=j, chill=meanchill, fstar=meanfstar)
+           dfadd <- data.frame(intervar=rep(i, yearz),
+                               intravar=NA,
+                               meanwinter=rep(wintertemp, yearz),
+                               meanspring=rep(springtemp, yearz),
+                               meantemp=yearly_temp,
+                               rep=rep(j, yearz),
+                               year=c(1:yearz),
+                               fstar=rep(fstar),
+                               frostevents=frostevents)
            df <- rbind(df, dfadd)     
        }
    }
