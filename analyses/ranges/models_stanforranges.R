@@ -392,7 +392,6 @@ sigmas <- mod.sum[grep("sigma", rownames(mod.sum)),]
 
 #save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
 load("~/Desktop/Misc/forcephoto_popmodel.Rdata")
-library(rstan)
 
 ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop")) +
   scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
@@ -409,7 +408,7 @@ photos <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple
                                                                                        expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," photoperiod"))) +
   coord_cartesian(xlim=c(0,25))
 
-library(gridExtra)
+library(egg)
 pdf("figures/variancepartitioning.pdf", width=12, height=4, onefile=FALSE)
 ggarrange(ints, forces, photos, ncol=3)
 dev.off()
