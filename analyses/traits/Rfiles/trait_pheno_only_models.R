@@ -9,7 +9,7 @@
 if(length(grep("deirdreloughnan", getwd()) > 0)) {
   setwd("~/Documents/github/ospree/analyses/traits")
 } else{
-  setwd("/home/ospree/traitors")
+  setwd("/home/deirdre/ospree")
 }
 
 library(rstan)
@@ -27,7 +27,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
-Nrep <- 50 # rep per trait
+Nrep <- 100 # rep per trait
 Nstudy <- 50 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
 Nspp <- 50 # number of species with traits (making this 20 just for speed for now)
 
@@ -44,14 +44,14 @@ trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
 mu.grand <- 10 # the grand mean of the height model
-sigma.species <- 10 # we want to keep the variaiton across spp. high
+sigma.species <- 1 # we want to keep the variaiton across spp. high
 
 #the alphaTraitSp in Faiths original code:
 mu.trtsp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
-sigma.study <- 10
+sigma.study <- 1
 mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
 
@@ -63,19 +63,19 @@ trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
 
 ## Exploring the test data - boxplots!  ###########################################
-names(trt.dat)
-boxplot(yTraiti ~ study, data = trt.dat)
-boxplot(yTraiti ~ species, data = trt.dat)
-
-plot(yTraiti ~ study, data = trt.dat)
-# What about running the model with rstanarm?  ####################################
-# library(rstanarm)
-mdl.arm <- stan_lmer(yTraiti ~ mu.trtsp + mu.study + (1 | study) + (1 + |species),
-                     data = trt.dat)
-prior_summary(object = mdl.arm)
-summary(mdl.arm, probs = c(0.025, 0.975),
-        digits = 2)
-mdl.arm
+# names(trt.dat)
+# boxplot(yTraiti ~ study, data = trt.dat)
+# boxplot(yTraiti ~ species, data = trt.dat)
+# 
+# plot(yTraiti ~ study, data = trt.dat)
+# # What about running the model with rstanarm?  ####################################
+# # library(rstanarm)
+# mdl.arm <- stan_lmer(yTraiti ~ mu.trtsp + mu.study + (1 | study) + (1 + |species),
+#                      data = trt.dat)
+# prior_summary(object = mdl.arm)
+# summary(mdl.arm, probs = c(0.025, 0.975),
+#         digits = 2)
+# mdl.arm
 # Stop here and test your work a little ...okay, it's hard to interpret this output but we can check the general variance and intercept and check the relative variance of species and study (maybe using the SD?)
 
 ## Trait only stan model ###########################################################
@@ -86,63 +86,64 @@ trait_data <- list(yTraiti = trt.dat$yTraiti,
                    study = trt.dat$study, 
                    n_study = Nstudy,
                    prior_mu_grand = 10,
-                   prior_sigma_grand = 20,
+                   prior_sigma_grand = 1,
                    prior_mu_sp = 0,
-                   prior_sigma_sp_mu = 10,
-                   prior_sigma_sp_sigma = 10,
+                   prior_sigma_sp_mu = 1,
+                   prior_sigma_sp_sigma = 0.5,
                    prior_mu_study = 0,
-                   prior_sigma_study_mu = 10,
-                   prior_sigma_study_sigma = 10,
+                   prior_sigma_study_mu = 1,
+                   prior_sigma_study_sigma = 0.5,
                    prior_sigma_traity_mu = 1,
-                   prior_sigma_traity_sigma = 1) 
+                   prior_sigma_traity_sigma = 0.25) 
 
-mdl.traitonly <- stan('stan/joint_traitonly.stan',
-                      data = trait_data, iter = 4000, warmup = 3000)
+mdl.trait <- stan('stan/joint_traitonly_ncp.stan',
+                      data = trait_data,
+                      iter = 3000,
+                      warmup = 2000,
+                      chains = 4,
+                      include = FALSE,
+                      pars = "mu_y")
 
-# June 10: 26 transitions after warmup exceed max depth, large rhats
-# 1. The sigmaTrait_y looked really weird, unrealistically narrow and low, so I changed the prior to it to: sigmaTrait_y ~ normal(10, 1) --> The Ess was still too low
-# 2. Played around with the sigmaTrait_y prior, I tried (10, 5), nothing really changed
-# 3. then I tried (15, 1) amd got no warning messages! Mu grand looks better, but the chains are not as good as everything else, the esti is 20.04 (vs 20), but the other esti look ok! all within 0.15 of the true value
-#save(mdl.traitonly, file = "output.traitonly.3.Rda")
-# 4. I am going to see what happens when I decrease mu grand to 10 -- > model output was slightly worse, 10.39 for mu_grand, but sigma_stidy was also off by 0.2
-# 5. What is i made the the prior variance smaller (10, 0.5)? The chains look better, but the estimates are not as good for the other factors
-#save(mdl.traitonly, file = "output.traitonly.5.Rda")
-# 6. Out of curiosity, i increased the mu_grand prior to (20,2) --> a bit mixed, mugrand is 20.26, sigmasp and sigmay are closer but sigmastudy is off by .25, the chains for mu grand look aweful again though
-# 7. Decreasing the variances for the larger mugrand (20, 0.5), not the best, but (10, 0.5) looked interesting:
-save(mdl.traitonly, file = "output.traitonly.Sept1.Rda")
-# Parameter Test.data.values  Estiamte
-# 1     mu_grand               10  9.993991
-# 2     sigma_sp               10 10.075637
-# 3  sigma_study                5  4.937649
-# 4 sigmaTrait_y               15 15.140083
-
-# Sept 1: the priors are too narrow, need to try to get it working for wider priors and see if I can fix the issues with n_eff for study and speices
+save(mdl.trait, file = "output_trait_ncp.Rda")
 
 ####################################################################
 
-load(file = "output/output.traitonly.Sept1.Rda")
-ssm <-  as.shinystan(mdl.traitonly)
+load(file = "output/output.traitonly.ncp.Rda")
+load(file = "output/output.traitonly.Rda")
+
+ssm <-  as.shinystan(mdl.trait)
 launch_shinystan(ssm)
 
-sumer <- summary(mdl.traitonly)$summary
-post <- rstan::extract(mdl.traitonly)
+sumer <- summary(mdl.trait)$summary
+post <- rstan::extract(mdl.trait)
 
 range(sumer[, "n_eff"])
 range(sumer[, "Rhat"])
 
+###########################################################
+ssm <-  as.shinystan(mdl.traitonly)
+launch_shinystan(ssm)
+
+sum_ncp <- summary(mdl.traitonly)$summary
+post_ncp <- rstan::extract(mdl.traitonly)
+
+range(sum_ncp[, "n_eff"])
+range(sum_ncp[, "Rhat"])
+
+pairs(mdl.traitonly, pars=c("sigmaTrait_y", "mu_grand", "sigma_sp","sigma_study"))
 #pdf("standis_study.pdf", width=5, height=5)
 plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
 abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
 #dev.off()
 
 #pdf("standis_species.pdf", width=5, height=5)
-plot(mu.trtsp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
+plot(mu.grand + mu.trtsp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
 abline(a = 0, b = 1, lty = "dotted")
 #dev.off()
 
 # ppc and trying to figure out what is going on! 
 y<-as.numeric(trt.dat$yTraiti)
-yrep<-post$ymu # I want this to be a matrix, which it is, with one element for each data point in y
+yrep<-post_ncp$y_hat # I want this to be a matrix, which it is, with one element for each data point in y
 
 ppc_dens_overlay(y, yrep[1:100, ]) # hmm the yrep does not appear
 plot(density(yrep))
