@@ -315,8 +315,11 @@ cols <- adjustcolor("indianred3", alpha.f = 0.3)
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
+posspsindata <- list(10:28,30:48,50:68)
 
-muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5)
+muplotfx_phylo(modelhere, "", 7, 8, c(0,3), c(-25, 15) , 18, 2.5, posspsindata)
+
+
 
 par(mfrow=c(2,3))
 hist(extract(modelhere)[["null_interceptsbf"]], main="force")

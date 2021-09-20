@@ -48,7 +48,7 @@ dev.off()
 ## modified version of the above function, tweaked to plot results from
 ## phylogenetic models once a fit object has been renamed to be used by the
 ## stan utility
-muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg2){
+muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1, leg2, posspsindata){
     #width = 7 
     #height = 8 
     #ylim =  c(0,3) 
