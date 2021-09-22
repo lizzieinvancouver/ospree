@@ -82,11 +82,13 @@ muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1,
         }
     }
     
+    if(agiosponly){cexleg = 0.4}
+    if(gymnosonly){cexleg = 0.8}
     
     par(xpd=TRUE) # so I can plot legend outside
     legend(leg1, leg2, sort(unique(gsub("_", " ", bb.stan$spps))), pch=my.pch[1:spnum],
            col=alpha(my.pal[1:spnum], alphahere),
-           cex=0.4, bty="n", text.font=3)
+           cex=cexleg, bty="n", text.font=3)
     #dev.off()
     
 }

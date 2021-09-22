@@ -11,6 +11,7 @@
 \usepackage{booktabs}
 \usepackage{mdframed}
 \usepackage{natbib}
+\usepackage{comment}
 \usepackage[colorinlistoftodos]{todonotes} % to make comments on the margin
 \usepackage[small]{caption}
 \setlength{\captionmargin}{30pt}
@@ -30,7 +31,9 @@
 
 %% R Script
 
-\title{Evolution constrains tree responses to environmental cues in experimental settings too - Outline}
+\title{Evolution constrains tree responses to environmental cues in experimental settings too - Outline\\
+			or\\
+			Revisiting the Phylogenetic Mixed Model}
 
 \begin{document}
 
@@ -68,6 +71,15 @@ Nevertheless, previous work on the phylogenetic conservatism of phenology has st
 - Are the responses to certain cues more strongly conserved than to others?\\
 - How does accounting for phylogeny affects model estimations of cue sensitivity?\\
 
+And beyond work on phylogenetic conservatisms, previous comparative research on phenological responses to cues (experimental or observational) has either:\\
+
+- Ignored phylogenetic relationships (or the fact that species are not independent units)\\
+- Accounted for phylogenetic relationships assuming that they are \emph{stationary} across predictors-traits and can be modelled by including phylogenetic Variance-Covariance in model residuals. This is the rationale behind common-use PGLS approaches but it \"hides\" the partial phylogenetic constraints to model predictors.\\ 
+
+An overlooked question so far is whether we could gain any additional information by accounting for independent phylogenetic structuring in each species responses to each predictor in a multi-linear response model setting. Typical methods are good to account for species non-independence but provide little insight relative to phylogenetic effects on each predictor.
+\todo{I think the new approach is a bit of a game changer as it shifts the focus from empirical results of phylo-constrains on phenology to a more methodsy paper. We need to decide a focus.}
+
+
 
 The potential interest of findings in this direction stem from:\\
 - better predictions of phenology (or need to account for it in models)\\
@@ -78,7 +90,7 @@ The potential interest of findings in this direction stem from:\\
 \section*{Abstract}
 \begin{enumerate}
 
-Plants have long evolved responses to environmental cues, able to inform the organisms about the temporal distribution of key resources---i.e. energy and light. The plasticity of these responses may ultimately determine species ability to withstand ongoing environmental change because non-plastic species may undergo developmental events under unadequate conditions---e.g. a species advancing flowering too much could see increased the risk of frost events. Phenology describes the responses to seasonal change in environmental cues and while it is often regarded to as a rather plastic trait, it is still unknown whether or not phenology is a phylogenetically conserved trait.ere we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if tree species responses to cues are conserved phylogenetically, (b) compare the phylogenetic signal in the responses to different cues and, (c) test the abiltiy of phylogenetically informed models to improve predictive accuracy of phenology. Results show non-random phylogenetic structuring of phenological responses, highly variable across cues.  
+Plants have long evolved responses to environmental cues, able to inform the organisms about the temporal distribution of key resources---i.e. energy and light. The plasticity of these responses may ultimately determine species ability to withstand ongoing environmental change because non-plastic species may undergo developmental events under unadequate conditions---e.g. a species advancing flowering too much could see increased the risk of frost events. Phenology describes the responses to seasonal change in environmental cues and while it is often regarded to as a rather plastic trait, it is still unknown whether or not phenology is a phylogenetically conserved trait. Here we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if tree species responses to cues are conserved phylogenetically, (b) compare the phylogenetic signal in the responses to different cues and, (c) test the abiltiy of phylogenetically informed models to improve predictive accuracy of phenology. Results show non-random phylogenetic structuring of phenological responses, highly variable across cues.  
 Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been constrained through evolution and thus are not independent.  
 
 \item How plants respond to environmental cues--i.e. temperature, daylight--may determine their resilience or vulnerability to ongoing climate change. 
@@ -174,101 +186,81 @@ Taken together, our results suggest that phylogeny should be incorporated into s
 \todo{I belive this can be done (roughly) through the NAm vs. Eur comparison?} 
 \end{enumerate}
 
-\subsection*{Hierarchical models to estimate species-level cue sensitivity}
-\begin{enumerate}
-\item Our approach used Bayesian hierarchical models to estimate the number of days until budburst as a function of forcing, chilling and photoperiod. We used different specifications of partial pooling to determine in which approach the sensitivies to the cues most accurately predict budburst. We used 5 model specifications: 
-\begin{enumerate}
-\item species as a grouping factor on the intercept (Eq. \ref{eq:1})
-\item species as grouping factor on the intercept and slopes too (Eq. \ref{eq:2})
-\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
-\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
-
-\end{enumerate}
-
-\item In all specifications, the Bayesian hierarchical models were fit using the brms package \citep{brms}, in R \citep{R}, version 3.5.1, and followed the notations: 
-
-
-\begin{equation}
-\label{eq:1} 
-Budbreak = \alpha_{species} + \beta_{1}forcing 
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon
-\end{equation}
-
-
-\begin{equation} 
-\label{eq:2} 
-Budbreak = \alpha_{spp} + \beta_{1,spp}forcing
-+ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon\end{equation}
-
-\begin{equation} 
-\label{eq:3} 
-Budbreak = \alpha_{phylo,spp} + \beta_{1,spp}forcing
-+ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon
-\end{equation}
-
-\begin{equation} 
-\label{eq:4} 
-Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon
-\end{equation}
-
-% I'm ignoring the model below for now as it runs very slow, and it does not seem like we are using it
-%\begin{equation} 
-%\label{eq:5} 
-%Budbreak = \alpha_{phylo,spp} + \beta_{1, phylo, spp}forcing +\\
-% \beta_{2, phylo, spp}chilling + \\
-% \beta_{3, phylo, spp}photo + \varepsilon
-%\end{equation}
-
-
-\item We assessed model performance according to $\hat{R}$ values (that should be close to one to ensure convergence). As for metrics of model accuracy we computed $R^{2}$, and the expected log predictive density (ELPD) that results from \emph{Leave-one-out} cross-validation, in addition to inspection of posterior predictive checks.
-
-\item To test the ability of phylogeny to improve models/predictions of budburst we compared metrics of model accuracy between models that include phylogeny and models that do not.
-
-\end{enumerate}
-
-
-\subsection*{The Bayesian phylogenetic model}
-\begin{enumerate}
-% Explain how the model is fit, and how the $H^{2}$ metric is analogous to lambda in PGLS.
-\item To determine phylogenetic signal in the responses to each of the environmental cues--i.e. forcing, chilling, photoperiod--we run a second batch of models in brms, that use the slopes of the models specified above as a response variable, following the notation:
 
 
 
-\begin{equation}
-\label{eq:5} 
-\beta_{1}forcing = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
+\subsection*{The Bayesian hierarchical phylogenetic model}
 
-\begin{equation}
-\label{eq:6} 
-\beta_{2}chilling = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
+%The following text is literally copied from Geoff's
 
-\begin{equation}
-\label{eq:7} 
-\beta_{3}photo = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
+For each of $n$ species, we assumed that data were generated from the following sampling distribution:
 
-\item Once this set of models is computed, calculating phylogenetic signal ($H^{2}$) is straightforward:
+\begin{align}
+  \label{modely}
+  y_j \sim \mathcal{N}(\mu_j, \sigma_e^2)
+\end{align}
+where
+\begin{align}
+  \label{modelmu}
+  \mu_j = \alpha_j + \beta_{1,j} X_2 + \beta_{2,j} X_2 + \beta_{3,j} X_3
+\end{align}
 
-\begin{equation}
-\label{eq:8} 
-\quad   H^{2} = \frac{\varepsilon_{phylo}}{\varepsilon_{phylo} + \varepsilon_{non-phylo}}
-\end{equation}
+Predictors $X_1$, $X_2$, $X_3$ are standardized forcing, chilling, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{1,j}$, $\beta_{2,j}$, $\beta_{3,j}$ representing traits. These traits, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
+\begin{align}
+  \boldsymbol{\alpha} = \{\alpha_1, \ldots, \alpha_n\}^T & \text{ such that }
+  \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
+  \boldsymbol{\beta_1} =  \{\beta_{1,1}, \ldots, \beta_{1,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_1} \sim \mathcal{N}(\mu_{\beta_1},\boldsymbol{\Sigma_{\beta_1}}) \nonumber \\
+  \boldsymbol{\beta_2} =  \{\beta_{2,1}, \ldots, \beta_{2,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_2} \sim \mathcal{N}(\mu_{\beta_2},\boldsymbol{\Sigma_{\beta_2}}) \nonumber \\
+  \boldsymbol{\beta_3} =  \{\beta_{3,1}, \ldots, \beta_{3,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_3} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_3}}) \nonumber
+\end{align}
 
-\item $H^{2}$ is equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). This is, for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
+\noindent where the means of the multivariate normal distributions are root trait values (i.e., trait values prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\
 
-\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Our approach, in contrast computes the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance \ref{eq:8}.
-\todo{Results from our approach and PGLS differ in the 215spp dataset - to discuss} 
+\begin{align}
+  \label{phymat}
+\begin{bmatrix}
+  \sigma^2_i & \lambda_i \times \sigma_{i} \times \rho_{12} & \ldots & \lambda_i \times \sigma_{i} \times \rho_{1n} \\
+  \lambda_i \times \sigma_i \times \rho_{21} & \sigma^2_i & \ldots & \lambda_i \times \sigma_{i} \times \rho_{2n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  \lambda_i \times \sigma_i \times \rho_{n1} & \lambda_i \times \sigma_i \times \rho_{n2} & \ldots & \sigma^2_i \\
+\end{bmatrix}
+\end{align}
 
-\item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
+\noindent where $\sigma_i^2$ is the rate of evolution across a tree for trait $i$ (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the ``phylogenetic signal'' within a species trait, and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
+
+The above specification is exactly equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
+
+\begin{align}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\beta_{1,j}} + e_{\beta_{2,j}} + e_{\beta_{3,j}}
+\end{align}
+
+\noindent where the residual error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}.
+
+
+\subsection*{Interpretation of \lambda_i}
+
+\item In contrast to classic approaches to controlling for phylogenetic non-independence of analysis units (i.e. species), see \citep{freckleton2002phylogenetic}, where Pagel's \cite{pagel1999inferring} $\lambda$ is assumed constant across multiple predictors if those enter a PGLS model, our approach retrieves 
+
+\item The $\lambda$ in our models is analogous to, but not fully equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). This is because in our approach, a $\lambda$  is estimated for each predictor in the model whilst in PGLS and similar approaches, $\lambda$ is computed simultaneously across the predictor matrix. 
+
+
+% for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
+\todo{Should we compare Results from our approach and those from PGLS? - to discuss} 
+
+%\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Our approach, in contrast computes the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance \ref{eq:8}.
+%\todo{Results from our approach and PGLS differ in the 215spp dataset - to discuss} 
+
+%\item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
 %\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
 
-\end{enumerate}
+
+
 
 \subsection*{Phylogeny in forecasts of phenology}
-This sections needs to be fleshed out, but first we need to think and decide how to proceed:
+This sections needs to be fleshed out, but first we need to think and decide how to proceed (or if we want to proceed at all):
 
 \begin{enumerate}
 
@@ -286,29 +278,39 @@ This sections needs to be fleshed out, but first we need to think and decide how
 
 \section*{Results}
 
-\subsection*{Cue sensitivities: model accuracy and correlations across cues}
-\begin{enumerate}
-\item the model we used in the main model is the most accurate 
-\item Accuracy does not depend on whether partial pooling is on the phylogeny or on species
-\item point towards the R2 and LOO tables
-\item explain correlations across cues
-\end{enumerate}
+%\subsection*{Cue sensitivities: model accuracy and correlations across cues}
+%\begin{enumerate}
+%\item the model we used in the main model is the most accurate 
+%\item Accuracy does not depend on whether partial pooling is on the phylogeny or on species
+%\item point towards the R2 and LOO tables
+%\item explain correlations across cues
+%\end{enumerate}
+
+\subsection*{Cue sensitivities: are there major shifts when phylogeny is accounted for?}
+
+\item Perhaps we can compare the new results against those in Ailene's paper more closely \ref{fig:muplot_angio}, and \ref{fig:muplot_gymno}.
+
+\item A first glance comparing results here with those in the NCC paper suggest that after taking phylogeny into account, the associations with photoperiod may decrease and the variance around estimations of sensitivity to chilling gets larger.
+
 
 
 \subsection*{Phylogenetic signal in phenological responses}
 \begin{enumerate}
-\item Phenological responses to the three studied cues are overall phylogenetically conserved but estimates of phylogenetic signal differ across species subsets.
-\item When all species (from main model) are considered, responses to forcing are more conserved ($H^{2}$ = 0.73) than responses to chilling ($H^{2}$ = 0.47) or to photoperiod ($H^{2}$ = 0.55) (see Figure \ref{fig:phylosig_spp}).  
-\item When species belonging to the same genera (usually showing large polytomies in the phylogeny) are grouped into species complexes (for which data on cross-treatments are more complete), responses to forcing ($H^{2}$ = 0.37) and photoperiod ($H^{2}$ = 0.68) are conserved but responses to chilling ($H^{2}$ = 0.18) are not Figure \ref{fig:phylosig_complex}).  
-\item The marked differences in the responses to each cue are buffered when only angiosperm species are considered, with all responses being mildly conserved: forcing ($H^{2}$ = 0.33), chilling ($H^{2}$ = 0.37) and photoperiod ($H^{2}$ = 0.40). This suggests gymnosperms, even few species can have a major  effect in apparent differences across cues (Figure \ref{fig:phylosig_angiosperm}). 
-\item The correlations among responses to the cues are positive but only markedly high between photoperiod and chilling (Figure \ref{fig:sensicorrs}).
+\item Phenological responses to the three studied cues are overall phylogenetically conserved but estimates of phylogenetic signal differ strongly across species subsets (angio vs. gymno).
+\item When angiosperm species (from main model) are considered, responses to forcing are more conserved ($\lambda$ = 0.64) than responses to chilling ($\lambda$ = 0.66) or to photoperiod ($\lambda$ = 0.35) (see Figure \ref{fig:phylosig_angio}).  
+
+\item When gymnosperm species are considered, all responses to cues are similarly low (yet different from zero): forcing ($\lambda$ = 0.36), chilling ($\lambda$ = 0.32) and photoperiod ($\lambda$ = 0.37) and show almost overlapping posterior distributions, which may be driven by a low number of species (19) \ref{fig:phylosig_gymno}).  
+
+%\item The marked differences in the responses to each cue are buffered when only angiosperm species are considered, with all responses being mildly conserved: forcing ($\lambda$ = 0.33), chilling ($\lambda$ = 0.37) and photoperiod ($\lambda$ = 0.40). This suggests gymnosperms, even few species can have a major  effect in apparent differences across cues (Figure \ref{fig:phylosig_angiosperm}). 
+%\item The correlations among responses to the cues are positive but only markedly high between photoperiod and chilling (Figure \ref{fig:sensicorrs}).
 
 \end{enumerate}
 
 
 \subsection*{Budburst models, phylogenetic and non-phylogenetic}
 \begin{enumerate}
-\item Insert table here summarizing changes in coefficients and Rsq with/without phylogeny
+\item Do we still want to do this comparison?
+%\item Insert table here summarizing changes in coefficients and Rsq with/without phylogeny
 \end{enumerate}
 
 
@@ -319,6 +321,10 @@ This sections needs to be fleshed out, but first we need to think and decide how
 
 \section*{Discussion}
 To be fleshed out.
+
+
+
+
 
 
 
@@ -335,6 +341,7 @@ To be fleshed out.
 \end{enumerate}
   
 \end{enumerate}
+
 
 \section*{Questions to be addressed}
 
@@ -367,6 +374,41 @@ And a very important question:\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Tables and Figures} 
 
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_angiosperm.pdf}
+  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, chilling and photoperiod for 194 angiosperm species.}
+  \label{fig:muplot_angio}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_gymnosperm.pdf}
+  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, chilling and photoperiod for 19 gymnosperm species.}
+  \label{fig:muplot_gymno}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_density.pdf}
+  \caption{Posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
+  \label{fig:phylosig_angio}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_density_gymno.pdf}
+  \caption{Posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
+  \label{fig:pphylosig_gymno}
+  \end{center}
+\end{figure}
+
+
+\begin{comment}
 \begin{table}[H]
   \begin{center}
 
@@ -430,6 +472,10 @@ subset     & cue      & $\lambda$      & Lower95CI   & Upper95CI   & $H^2$      
  \label{table:phylosigtable}
 \end{center}
 \end{table}
+
+
+
+
 
 \clearpage
 \begin{figure} [H]
@@ -499,5 +545,104 @@ subset     & cue      & $\lambda$      & Lower95CI   & Upper95CI   & $H^2$      
   \end{center}
 \end{figure}
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff from old version of the ms.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Stuff from old version (to be deleted at some point)} 
+
+\subsection*{Hierarchical models to estimate species-level cue sensitivity}
+\begin{enumerate}
+\item Our approach used Bayesian hierarchical models to estimate the number of days until budburst as a function of forcing, chilling and photoperiod. We used different specifications of partial pooling to determine in which approach the sensitivies to the cues most accurately predict budburst. We used 5 model specifications: 
+\begin{enumerate}
+\item species as a grouping factor on the intercept (Eq. \ref{eq:1})
+\item species as grouping factor on the intercept and slopes too (Eq. \ref{eq:2})
+\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
+\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
+
+\end{enumerate}
+
+\item In all specifications, the Bayesian hierarchical models were fit using the brms package \citep{brms}, in R \citep{R}, version 3.5.1, and followed the notations: 
+
+
+\begin{equation}
+\label{eq:1} 
+Budbreak = \alpha_{species} + \beta_{1}forcing 
++ \beta_{2}chilling + \beta_{3}photo + \varepsilon
+\end{equation}
+
+
+\begin{equation} 
+\label{eq:2} 
+Budbreak = \alpha_{spp} + \beta_{1,spp}forcing
++ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon\end{equation}
+
+\begin{equation} 
+\label{eq:3} 
+Budbreak = \alpha_{phylo,spp} + \beta_{1,spp}forcing
++ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon
+\end{equation}
+
+\begin{equation} 
+\label{eq:4} 
+Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
++ \beta_{2}chilling + \beta_{3}photo + \varepsilon
+\end{equation}
+
+% I'm ignoring the model below for now as it runs very slow, and it does not seem like we are using it
+%\begin{equation} 
+%\label{eq:5} 
+%Budbreak = \alpha_{phylo,spp} + \beta_{1, phylo, spp}forcing +\\
+% \beta_{2, phylo, spp}chilling + \\
+% \beta_{3, phylo, spp}photo + \varepsilon
+%\end{equation}
+
+
+\item We assessed model performance according to $\hat{R}$ values (that should be close to one to ensure convergence). As for metrics of model accuracy we computed $R^{2}$, and the expected log predictive density (ELPD) that results from \emph{Leave-one-out} cross-validation, in addition to inspection of posterior predictive checks.
+
+\item To test the ability of phylogeny to improve models/predictions of budburst we compared metrics of model accuracy between models that include phylogeny and models that do not.
+
+\end{enumerate}
+
+
+\begin{enumerate}
+% Explain how the model is fit, and how the $H^{2}$ metric is analogous to lambda in PGLS.
+\item To determine phylogenetic signal in the responses to each of the environmental cues--i.e. forcing, chilling, photoperiod--we run a second batch of models in brms, that use the slopes of the models specified above as a response variable, following the notation:
+
+
+
+\begin{equation}
+\label{eq:5} 
+\beta_{1}forcing = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\begin{equation}
+\label{eq:6} 
+\beta_{2}chilling = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\begin{equation}
+\label{eq:7} 
+\beta_{3}photo = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
+\end{equation}
+
+\item Once this set of models is computed, calculating phylogenetic signal ($H^{2}$) is straightforward:
+
+\begin{equation}
+\label{eq:8} 
+\quad   H^{2} = \frac{\varepsilon_{phylo}}{\varepsilon_{phylo} + \varepsilon_{non-phylo}}
+\end{equation}
+
+\item $H^{2}$ is equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). This is, for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
+
+\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Our approach, in contrast computes the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance \ref{eq:8}.
+\todo{Results from our approach and PGLS differ in the 215spp dataset - to discuss} 
+
+\item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
+%\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
+
+\end{enumerate}
+\end{comment}
 
 \end{document}

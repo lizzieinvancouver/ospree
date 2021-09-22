@@ -321,27 +321,40 @@ muplotfx_phylo(modelhere, "", 7, 8, c(0,3), c(-25, 15) , 18, 2.5, posspsindata)
 
 
 
-par(mfrow=c(2,3))
-hist(extract(modelhere)[["null_interceptsbf"]], main="force")
-hist(extract(modelhere)[["null_interceptsbc"]], main="chill")
-hist(extract(modelhere)[["null_interceptsbp"]], main="photo")
-
-hist(extract(modelhere)[["lam_interceptsbf"]], main="lambda force")
-hist(extract(modelhere)[["lam_interceptsbc"]], main="lambda chill")
-hist(extract(modelhere)[["lam_interceptsbp"]], main="lambda photo")
 
 
-lamf.int <- mean(extract(modelhere)[["lam_interceptsbf"]])
-nullf.int <- mean(extract(modelhere)[["null_interceptsbf"]])
-lamf.int / (nullf.int + lamf.int)
+## plotting lambdas
+names(extract(modelhere))
+dev.off()
 
-lamc.int <- mean(extract(modelhere)[["lam_interceptsbc"]])
-nullc.int <- mean(extract(modelhere)[["null_interceptsbc"]])
-lamc.int / (nullc.int + lamc.int)
+if(agiosponly){
+  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,5),ylab="density",
+       xlab="lambda", main="")
+  
+  lines(density(extract(modelhere)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
+  text(0.5,3,"intercept",col='grey')
+  text(0.8,1.8,"force",col='indianred3')
+  text(0.3,4.5,"chill",col='cyan4')
+  text(0.8,0.7,"photo",col='orange')
+}
 
-lamp.int <- mean(extract(modelhere)[["lam_interceptsbp"]])
-nullp.int <- mean(extract(modelhere)[["null_interceptsbp"]])
-lamp.int / (nullp.int + lamp.int)
+if(gymnosonly){
+  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,2),ylab="density",
+       xlab="lambda", main="")
+  
+  lines(density(extract(modelhere)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
+  text(0.9,1,"intercept",col='grey')
+  text(0.1,1.65,"force",col='indianred3')
+  text(0.1,2,"chill",col='cyan4')
+  text(0.2,1.4,"photo",col='orange')
+}
+
 
 
 ## END TEST
