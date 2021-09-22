@@ -73,7 +73,7 @@ muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1,
         points(pos.x,pos.y,cex=1.5,pch=19,col="darkblue")
         for(spsi in 1:spnum){#spsi=1
             pos.sps.i <- posspsindata[[i]][spsi]
-            jitt <- runif(1,0.05,0.4)
+            jitt <- runif(1,0.05,0.8)
             pos.y.sps.i <- pos.y-jitt
             pos.x.sps.i <- summary(modelhere)$summary[pos.sps.i,"mean"]
             lines(summary(modelhere)$summary[pos.sps.i,c("25%","75%")],rep(pos.y.sps.i,2),
@@ -86,7 +86,7 @@ muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1,
     par(xpd=TRUE) # so I can plot legend outside
     legend(leg1, leg2, sort(unique(gsub("_", " ", bb.stan$spps))), pch=my.pch[1:spnum],
            col=alpha(my.pal[1:spnum], alphahere),
-           cex=0.8, bty="n", text.font=3)
+           cex=0.4, bty="n", text.font=3)
     #dev.off()
     
 }
