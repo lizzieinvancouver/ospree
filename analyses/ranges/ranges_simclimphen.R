@@ -17,37 +17,28 @@ options(stringsAsFactors = FALSE)
 library(ggplot2)
 
 ## NEXT STEPS ...
-# 1) Step back and build and check climate data ... check values of inter and intra SD
-# 2) Add in leafout via GDD
-# 3) then add in chilling effect (or photoperiod) 
+# Add in a version with a chilling effect (or photoperiod)?
 # Check for TO DO items  throughout code
 
-# Some attempts ...
-
-
-frostdamage <- 0
-fstar <- 200
-yearz <- 20 # 
+## Step 1: Set up parameters 
+frostdamage <- 0 # below what temperature we assign as a frost
+fstar <- 200 # themal sum needed to trigger budburst
+yearz <- 20 
 sitez <- 20 # sites, basically useful as *replicates*
-simsnum <- 5#
-# START inter/intra-annual variation parameter edits here
+simsnum <- 5
 dayswinter <- 120
 daysspring <- 90
-
 wintemp_mean <- 1
-#sprtemp_mean <- 2#not used in this version- instead spring temp is 1 degree more than winter temp
-springtempinc <- 0.1
-sigma <- seq(0, 4, length.out=simsnum) # let's treat this as intra-annual (i.e., daily variation)- 
-sigmainter <- seq(0, 10, length.out=simsnum) # inter-annual, let's start by varying this ... 
+# sprtemp_mean <- 2 # not used in this version; instead spring temp is 1 degree more than winter temp
+springtempinc <- 0.1 # increase in daily temperatures during spring
+sigma <- seq(0, 4, length.out=simsnum) # let's treat this as intra-annual (i.e., daily variation)
+sigmainter <- seq(0, 10, length.out=simsnum) # inter-annual
 
-# END inter/intra-annual variation parameter edits here
 
-if(FALSE){ # not using just now ... as it's chilling
-   cstar <- 0
-   fstaradjforchill <- 3 # how much more GDD to you need based on diff from cstar at end of daystostart
-}
+## Step 2: Run sims for varying inter and intra-annual climate variation
+# daily_temp here is built as draws around wintertemp running for dayswinter followed by springtemp increase
 
-## Step 2: Now I put together the seasonal temps, varying fstar (increases when chill is low) and calculate the sensitivities    
+# set up empty dataframe to hold sim results 
 df <- data.frame(intervar=numeric(),
                  intravar=numeric(),
                  meanwinter=numeric(),
@@ -59,19 +50,13 @@ df <- data.frame(intervar=numeric(),
                  frostevents=numeric()) 
 
 for (i in sigmainter){
-   
    for (j in 1:sitez){
-      wintertemp <- rnorm(yearz, wintemp_mean,i)
+      wintertemp <- rnorm(yearz, wintemp_mean, i)
       springtemp <- wintertemp+1
-      
       for (l in sigma){
-         
-         # TO DO ... inter-annual variation ... and then intra-annual within it
-         # If you're working on that edit here ... START within looop edits
          daily_temp <- sapply(rep(NA, yearz), function(x) c(rnorm(dayswinter, wintertemp, l),
-                                                            (rnorm(daysspring, springtemp, l) + c(1:daysspring)*springtempinc)))
-         # END within loop edits here for inter/intra-annual variation
-         
+             (rnorm(daysspring, springtemp, l) + c(1:daysspring)*springtempinc)))
+         plot(daily_temp[,1]~c(1:nrow(daily_temp)))
          gdd <- daily_temp
          gdd[(gdd)<0] <- 0
          leafout_date <- c()
@@ -79,7 +64,7 @@ for (i in sigmainter){
          for (k in 1:ncol(daily_temp)){
             gddsum <- sapply(1:ncol(gdd), function(x) (cumsum(gdd[dayswinter:nrow(gdd),x])))
             leafout_date[k] <- min(which(gddsum[,k] > fstar)) # leafout_date unit of days *after* dayswinter
-            colddays <- which(daily_temp[,k] < frostdamage) # Cat, please check all my edits!
+            colddays <- which(daily_temp[,k] < frostdamage) 
             frostz <- which(colddays > leafout_date[k]) 
             frostevents[k] <- length(frostz)
          }
@@ -97,10 +82,10 @@ for (i in sigmainter){
       }
    }
 }
-# has some warnings sometimes? Last run I did worked... 
 
-#Make some simple plots to see if the code is working
-plot(df$intervar,df$intravar)#seems to be fitting every combination of intra and inter
+
+# Make some simple plots to see if the code is working
+plot(df$intervar,df$intravar) # seems to be fitting every combination of intra and inter
 par(mfrow=c(2,4))
 boxplot(meanwinter~intervar,data=df)
 boxplot(meanspring~intervar,data=df)
@@ -111,10 +96,13 @@ boxplot(meanspring~intravar,data=df)
 boxplot(meantemp~intravar,data=df)
 boxplot(frostevents~intravar,data=df)
 
-# code chunks we may want ...
 
 
-# Original code from decsensSimsMultCues.R, leaving here for now
+
+## 
+## code chunks we may want ...
+
+# Original code copied from decsensSimsMultCues.R, leaving here for now.... that file also has photoperiod cue code
 if(FALSE){ 
 # Step 1: Set up years, days per year, temperatures, required GDD (fstar), required chill (cstar) and how much higher fstar is when cstar is not met
 dayswinter <- 120
