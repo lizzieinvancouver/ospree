@@ -21,7 +21,13 @@ if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv")
 	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv")
 } else if(MidgeFlag == FALSE) {
-	setwd("/home/faith/Documents/github/ospree/analyses/traits/")
+
+    if(length(grep("Lizzie", getwd())>0)) { 
+        setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
+        traitsData1 <- read.csv("input/try_bien_nodups_1.csv")
+	traitsData2 <- read.csv("input/try_bien_nodups_2.csv")}
+else
+        setwd("/home/faith/Documents/github/ospree/analyses/traits/")
 	traitsData1 <- read.csv("input/try_bien_nodups_1.csv")
 	traitsData2 <- read.csv("input/try_bien_nodups_2.csv")
 }
