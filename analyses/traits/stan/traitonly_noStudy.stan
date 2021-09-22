@@ -11,12 +11,14 @@ data {
     vector[N] yTraiti; // Outcome trait data 
     int < lower = 1 > n_spec; // number of random effect levels (species) 
     int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
+    
     //Priors
     real prior_mu_grand; 
     real prior_sigma_grand;
     real prior_mu_sp;
     real prior_sigma_sp_mu;
     real prior_sigma_sp_sigma;
+    
     real prior_sigma_traity_mu;
     real prior_sigma_traity_sigma;
 }
@@ -29,7 +31,6 @@ parameters{
     
     real <lower = 0> sigmaTrait_y; // overall variation accross observations
     real <lower = 0> sigma_sp; // variation of intercept amoung species
-    real <lower = 0> sigma_study; // variation of intercept amoung studies
 }
 
 transformed parameters{
