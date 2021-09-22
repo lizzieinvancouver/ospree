@@ -1,6 +1,42 @@
 Started 24 August 2017
 By Lizzie
 
+<><><><><><><><><><><><><><><><><><><><>
+Sep 2021 efforts to re-submit somewhere
+<><><><><><><><><><><><><><><><><><><><>
+
+Where? (Currently 5K)
+
+New Phytologist (if we cut it down to 4K)
+
+Journal of Experimental Botany
+
+Ag Forest Met
+
+Title: 
+
+Do interactive effects of temperature and photoperiod shapespring plant phenology responses to warming? Data limitations....
+
+Data limitations to predicting interactive effects of temperature and photoperiod on spring plant phenology
+
+Integrating experiments to predict the interactive effects of temperature and photoperiod on spring phenological responses to warming
+
+Other edits:
+
+Abstract: Maybe instead of arguing for more integration to start we say we don't really have the best data to estimate these and then argue for more integration? ... Also, (l 55-57) this is what we do that's novel: "We then synthesize controlled environment studies to quantify how much of the cue-space (i.e., the possible range of each cue and interactions across cues) has been studied and how treatments compare to shifts in cues caused by climate change."
+
+Last paragraph of intro could be adapted to better contrast what we do here ... we show that data across experiments. 
+
+Could potentially cut a fair bit of "1.2 How will chilling, forcing and photoperiod shift with climate change?" section. Some could go into a figure caption ... and mainly focus on lines 153 onward in that section?
+
+Digest caption of Fig. 4 better.
+
+Stronger statements throughout perhaps? About what is missing or inadequate. Do we want to say that current explanations of how non-linearities should come about are often vague? And that's why we have Figure 1?
+
+Cite Ailene's paper for ideas on how to integrate these experimental studies into larger models?
+
+Add some refs (Baumgarten etc.)
+
 
 <><><><><><><><><><><><><><><><><><><><>
 July 2021 efforts to submit to GCB
@@ -109,7 +145,7 @@ Maybe start at these ...
 
 NEE -- identical to Nature Plants
 
-New Phyt -- 3500-400K unless we got a Tansey (https://nph.onlinelibrary.wiley.com/hub/journal/14698137/about/author-guidelines#5 Short Research reviews should be in the range of 3,500–4,000 words, with up to 60 references and six figures/tables. Following a short introduction, putting the area into context, and providing a ‘way in’ for the non-specialist, these will concentrate on the most recent developments in the field. We also commission content, such as Commentaries, Meeting reports, Tansley reviews and Tansley insights. Enquiries or suggestions about these or other types of article are always welcome.) 
+New Phyt -- 3500-4000K unless we got a Tansey (https://nph.onlinelibrary.wiley.com/hub/journal/14698137/about/author-guidelines#5 Short Research reviews should be in the range of 3,500–4,000 words, with up to 60 references and six figures/tables. Following a short introduction, putting the area into context, and providing a ‘way in’ for the non-specialist, these will concentrate on the most recent developments in the field. We also commission content, such as Commentaries, Meeting reports, Tansley reviews and Tansley insights. Enquiries or suggestions about these or other types of article are always welcome.) 
 
 
 AFM (your article, your way but you still need highlights; https://www.elsevier.com/journals/agricultural-and-forest-meteorology/0168-1923/guide-for-authors)
