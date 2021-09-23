@@ -429,6 +429,7 @@ gddcont$climparam<-"gdd2lf"
 
 outycont<-rbind(stvcont,gddcont)#,areacont)
 
+write.csv(dplyr::filter(outycont, grepl("Trait",rowname)),"seperate_ests.csv",row.names=FALSE)
 
 write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
 
@@ -462,6 +463,7 @@ goober = stan('popUP/stan/joint_climvar_3paramwCont.stan', data=bb.3paramcont.gd
 
 goobsumCont <- summary(goober)$summary
 goobsumCont[grep("mu", rownames(goobsumCont)),]
+
 goobsumCont[grep("betaTraitx", rownames(goobsumCont)),]
 goobsumCont[grep("betaFS", rownames(goobsumCont)),]
 goobsumCont[grep("betaPS", rownames(goobsumCont)),]
