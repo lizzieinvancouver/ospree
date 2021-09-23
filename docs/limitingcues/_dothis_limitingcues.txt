@@ -21,9 +21,27 @@ Data limitations to predicting interactive effects of temperature and photoperio
 
 Integrating experiments to predict the interactive effects of temperature and photoperiod on spring phenological responses to warming
 
+Six decades of experiments cannot identify interactive effects of photoperiod and temperature on spring phenology
+
+
+Sections/ideas:
+
+1.1 retitle: observational studies are not enough (BTW, they have to be experiments, and the right type of experiments)
+
+New section of: interactions alone do not produce non-linearities 
+
+Can we show the outcome of getting this wrong?
+
+Figure 4 caption: Stress what the gray means, stress that we're good at 8 hours and 16 hours ... 
+
+Clarify that spring phenology is what we can do with cuttings ... we can't easily do this with flowers etc. (This is a place we can get good leverage.)
+
+
 Other edits:
 
 Abstract: Maybe instead of arguing for more integration to start we say we don't really have the best data to estimate these and then argue for more integration? ... Also, (l 55-57) this is what we do that's novel: "We then synthesize controlled environment studies to quantify how much of the cue-space (i.e., the possible range of each cue and interactions across cues) has been studied and how treatments compare to shifts in cues caused by climate change."
+
+Abstract should also be more clear about *interactions* ...
 
 Last paragraph of intro could be adapted to better contrast what we do here ... we show that data across experiments. 
 
@@ -37,6 +55,9 @@ Cite Ailene's paper for ideas on how to integrate these experimental studies int
 
 Add some refs (Baumgarten etc.)
 
+* Who is the audience?
+- Experimental biologists because we need to more experiments: is our key message that -- okay, we cannot use observational data to do this, we need experimnts, we have decades of these experiments and still cannot partition them. 
+- People who forecast phenology
 
 <><><><><><><><><><><><><><><><><><><><>
 July 2021 efforts to submit to GCB
