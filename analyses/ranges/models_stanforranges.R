@@ -393,18 +393,18 @@ sigmas <- mod.sum[grep("sigma", rownames(mod.sum)),]
 #save(m3l.ni, file="~/Desktop/forcephoto_popmodel.Rdata")
 load("~/Desktop/Misc/forcephoto_popmodel.Rdata")
 
-ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop")) +
-  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+ints <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c( "sigma_a_study", "sigma_a_sp", "sigma_a_pop")) +
+  scale_y_discrete(limits=c("sigma_a_study", "sigma_a_sp", "sigma_a_pop"),labels=rev(c( expression(paste(sigma," study")), expression(paste(sigma," species")),
                                   expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," intercepts"))) +
   coord_cartesian(xlim=c(0,25)) 
 
 forces <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_force_sp", "sigma_b_force_sppop")) +
-  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+  scale_y_discrete(limits=c("sigma_a_study", "sigma_a_sp", "sigma_a_pop"),labels=rev(c( expression(paste(sigma," study")),expression(paste(sigma," species")),
                                                                                        expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," forcing"))) +
   coord_cartesian(xlim=c(0,25))
 
 photos <- plot(m3l.ni, show_density = TRUE, ci_level = 0.5, fill_color = "purple", pars=c("sigma_b_photo_sp", "sigma_b_photo_sppop")) + 
-  scale_y_discrete(limits=c("sigma_a_sp", "sigma_a_study", "sigma_a_pop"),labels=rev(c(expression(paste(sigma," species")), expression(paste(sigma," study")),
+  scale_y_discrete(limits=c("sigma_a_study", "sigma_a_sp", "sigma_a_pop"),labels=rev(c( expression(paste(sigma," study")),expression(paste(sigma," species")),
                                                                                        expression(paste(sigma," population"))))) + ggtitle(expression(paste(sigma," photoperiod"))) +
   coord_cartesian(xlim=c(0,25))
 
