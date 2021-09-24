@@ -239,8 +239,6 @@ names(fit)[grep(pattern = "^b_photo", x = names(fit))] <- phylo$tip.label
 ## default plots by predictor
 #pdf(file = "output/estimates1.pdf", onefile = TRUE, height = 35, width = 6)
 plot(fit, pars = c("a_z", "a"))
-
-
 plot(fit, pars = c("b_zf", "b_force"))
 plot(fit, pars = c("b_zc", "b_chill"))
 plot(fit, pars = c("b_zp", "b_photo"))
@@ -261,7 +259,7 @@ modelhere <- fit
 library(RColorBrewer)
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 17)
-my.pch <- rep(15:18, each=49)
+my.pch <- rep(16, each=194)
 alphahere = 0.4
 
 
