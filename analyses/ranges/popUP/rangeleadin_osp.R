@@ -459,7 +459,7 @@ bb.3paramcont.gddlf <- with(bb.stan,
                       ))
 
 goober = stan('popUP/stan/joint_climvar_3paramwCont.stan', data=bb.3paramcont.gddlf,
-                     iter = 4000, warmup=3000)
+              iter = 4000, warmup=3000)
 
 goobsumCont <- summary(goober)$summary
 goobsumCont[grep("mu", rownames(goobsumCont)),]
@@ -469,5 +469,26 @@ goobsumCont[grep("betaFS", rownames(goobsumCont)),]
 goobsumCont[grep("betaPS", rownames(goobsumCont)),]
 goobsumCont[grep("betaCS", rownames(goobsumCont)),]
 
+## sequntial for just forcing
+bb.seq.gddlf<- with(bb.stan, 
+                            list(y = resp, 
+                                 force = force.z,
+                                 photo = photo.z,
+                                 chill = chill.z,
+                                 species = latbinum,
+                                 N = nrow(bb.stan),
+                                 n_sp = length(unique(bb.stan$complex.wname)),
+                                 sp = latbinum,
+                                 climvar=unique(bb.stan$Temp.SD.z),
+                                 continent=continentquick$continentdummy
+                            ))
+
+
+
+
+goober2 = stan('popUP/stan/seq_climvar.stan', data=bb.seq.gddlf,
+              iter = 4000, warmup=3000)
+
+goobsum2Cont <- summary(goober2)$summary
 
     }
