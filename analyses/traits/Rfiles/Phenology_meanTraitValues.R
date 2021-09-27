@@ -240,14 +240,14 @@ pheno_data <- list(alphaTraitSp = SLAData$SLA, #mean species trait value
 #Run model
 mdl.phen <- stan('stan/joint_3cue_phenoonly.stan',
                      data = pheno_data, warmup=3000, iter = 4000, cores = 4)
-
 postMeanSLA <- extract(mdl.phen)
 
 if(Midge== TRUE){ # only save data if on Midge
-  save(postMeanSLA, file = "phenologyMeanTrait_SLA.RData")
+  save(mdl.phen, file = "phenologyMeanTrait_SLA.RData")
 }
 
-if(Midge == FALSE){
+if(Midge == FALSE){ #if running on my computer I can load output from Midge
   load("Rfiles/phenologyMeanTrait_SLA.RData")
 }
 
+str(postMeanSLA)
