@@ -14,11 +14,13 @@ library(plyr)
 library(dplyr)
 library(reshape2)
 library(rstan)
+library(bayesplot)# nice posterior check plots 
+library(shinystan)
 
 # Set Midge Flag
 Midge <- TRUE
 
-
+color_scheme_set("viridis")
 
 #Source ospree trators data if thsi runs on Faith's section of Midge
 if(Midge == TRUE){
@@ -250,4 +252,106 @@ if(Midge == FALSE){ #if running on my computer I can load output from Midge
   load("Rfiles/phenologyMeanTrait_SLA.RData")
 }
 
-str(postMeanSLA)
+
+
+#Assessing output(not on Midge)
+#-----------------------------------------------
+
+
+
+if(Midge == FALSE){
+
+
+  postMeanSLA<- extract(mdl.phen)
+  str(mdl.phen)
+
+  mean(postMeanSLA$betaTraitxChill)
+
+  plot(mdl.phen)
+  pairs(mdl.phen, pars = c("alphaForceSp", "alphaPhotoSp", "alphaChillSp", "alphaPhenoSp", "lp__")) 
+
+
+  #launch_shinystan(mdl.phen)
+
+  #plot main effects of cues
+
+  cueEffects <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% c("muPhenoSp", "muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y")]
+
+  cueEffectPlot <- mcmc_intervals(cueEffects) + 
+     theme_classic() + 
+      labs(title = "main intercept, cue slopes and general error")
+
+  #Different species slopes for forcing, without the effect of trait
+  postMeanSLAdf <- data.frame(postMeanSLA)
+  postMeanSLA_alpaForceSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "alphaForceSp", colnames(postMeanSLAdf), value = TRUE)]
+     colnames(postMeanSLA_alpaForceSp) <- levels(as.factor(SLAData$spps))
+
+  alphaForcePlot <- mcmc_intervals(postMeanSLA_alpaForceSp) + 
+     geom_vline(xintercept = mean(postMeanSLAdf$muForceSp), linetype="dotted", color = "grey")  +
+     theme_classic() + 
+     labs(subtitle = paste0("Mean muForceSp was ", round(mean(postMeanSLAdf$muForceSp),3)),
+      title = "muForceSp - species forcing slopes no trait")
+
+  #Different species slopes for forcing, with the effect of trait
+  postMeanSLA_betaForceSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "betaForceSp", colnames(postMeanSLAdf), value = TRUE)]
+  colnames(postMeanSLA_betaForceSp) <- levels(as.factor(SLAData$spps))
+
+  betaForcePlot <- mcmc_intervals(postMeanSLA_betaForceSp) + 
+      theme_classic() + 
+      labs(title = "betaForceSp - Species forcing slopes with trait value")
+
+  #Different species slopes for chilling, without the effect of trait
+  postMeanSLA_alphaChillSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "alphaChillSp", colnames(postMeanSLAdf), value = TRUE)]
+  colnames(postMeanSLA_alphaChillSp) <- levels(as.factor(SLAData$spps))
+
+  alphaChillPlot <- mcmc_intervals(postMeanSLA_alphaChillSp) + 
+      geom_vline(xintercept = mean(postMeanSLAdf$muChillSp), linetype="dotted", color = "grey")  +
+      theme_classic() + 
+      labs(subtitle = paste0("Mean muChillSp was ", round(mean(postMeanSLAdf$muChillSp),3)),
+        title = "alphaChillSp - Species chill slopes no trait")
+
+  #Different species slopes for forcing, with the effect of trait
+  postMeanSLA_betaChillSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "betaChillSp", colnames(postMeanSLAdf), value = TRUE)]
+  colnames(postMeanSLA_betaChillSp) <- levels(as.factor(SLAData$spps))
+
+  betaChillPlot <- mcmc_intervals(postMeanSLA_betaChillSp) + 
+      theme_classic() + 
+      labs(title = "betaChillSp - Species chilling slopes with trait value")
+
+  #Different species slopes for photoperiod, without the effect of trait
+  postMeanSLA_alphaPhotoSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "alphaPhotoSp", colnames(postMeanSLAdf), value = TRUE)]
+  colnames(postMeanSLA_alphaPhotoSp) <- levels(as.factor(SLAData$spps))
+
+  alphaPhotoPlot <- mcmc_intervals(postMeanSLA_alphaPhotoSp) + 
+      geom_vline(xintercept = mean(postMeanSLAdf$muPhotoSp), linetype="dotted", color = "grey")  +
+      theme_classic() + 
+      labs(subtitle = paste0("Mean muPhotoSp was ", round(mean(postMeanSLAdf$muPhotoSp),3)),
+        title = "muPhotoSp - Species photo period slopes no trait")
+
+  #Different species slopes for forcing, with the effect of trait
+  postMeanSLA_betaPhotoSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "betaPhotoSp", colnames(postMeanSLAdf), value = TRUE)]
+  colnames(postMeanSLA_betaPhotoSp) <- levels(as.factor(SLAData$spps))
+
+  betaPhotoPlot <- mcmc_intervals(postMeanSLA_betaPhotoSp) + 
+      theme_classic() + 
+      labs(title = "betaPhotoSp - Species photoperiod slopes with trait value")
+
+
+  #Different species slopes for forcing only the effect of trait
+  postMeanSLA_betaTraitx <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "betaTraitx", colnames(postMeanSLAdf), value = TRUE)]
+
+  betaTraitxPlot <- mcmc_intervals(postMeanSLA_betaTraitx) + 
+    theme_classic() + 
+    labs(title = "effect's of traits on cue slopes")
+
+  pdf("figures/MeanSLAphenologyPlots.pdf")
+  cueEffectPlot
+  betaTraitxPlot
+  alphaForcePlot
+  betaForcePlot
+  alphaChillPlot
+  betaChillPlot
+  alphaPhotoPlot
+  betaPhotoPlot
+  dev.off()
+}
