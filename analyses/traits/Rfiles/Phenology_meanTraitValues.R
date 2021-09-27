@@ -198,23 +198,23 @@ pheno_data <- list(alphaTraitSp = SLAData$SLA, #mean species trait value
                    photoi = photo.i, 
                    chilli = chill.i,
                 #Priors
-                   prior_sigmaphenoy_mu = 5,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
-                   prior_sigmaphenoy_sigma = 3, # variance of the prior distribution of the general error sigma)y around the mean predicted value
+                   prior_sigmaphenoy_mu =20,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
+                   prior_sigmaphenoy_sigma = 5, # variance of the prior distribution of the general error sigma)y around the mean predicted value
                    
                    prior_muForceSp_mu = 0, # mean of the prior distribution of the mean effect of forcing 
-                   prior_muForceSp_sigma = 30, # vareince of the prior distributionof the mean effect of forcing 
-                   prior_sigmaForceSp_mu = 0, # mean of the prior distribution of the varience around the mean effect of forcing 
-                   prior_sigmaForceSp_sigma = 10,# variance of the prior distribution of the varience around the mean effect of forcing ,
+                   prior_muForceSp_sigma = 5, # vareince of the prior distributionof the mean effect of forcing 
+                   prior_sigmaForceSp_mu = 5, # mean of the prior distribution of the varience around the mean effect of forcing 
+                   prior_sigmaForceSp_sigma = 5,# variance of the prior distribution of the varience around the mean effect of forcing ,
 
                    prior_muChillSp_mu = 0,# mean of the prior distribution of the mean effect of chilling 
-                   prior_muChillSp_sigma = 30,# varience of the prior distribution of the mean effect of chilling 
-                   prior_sigmaChillSp_mu = 0,# mean of the prior distribution of the varience around the mean effect of chilling 
-                   prior_sigmaChillSp_sigma= 10, #variance of the prior distribution of the varience around the mean effect of chilling
+                   prior_muChillSp_sigma = 5,# varience of the prior distribution of the mean effect of chilling 
+                   prior_sigmaChillSp_mu = 5,# mean of the prior distribution of the varience around the mean effect of chilling 
+                   prior_sigmaChillSp_sigma= 5, #variance of the prior distribution of the varience around the mean effect of chilling
 
                    prior_muPhotoSp_mu = 0,# mean of the prior distribution of the varience around the mean effect of photoperiod 
-                   prior_muPhotoSp_sigma = 30,# varience of the prior distribution of the varience around the mean effect of photoperiod 
-                   prior_sigmaPhotoSp_mu=0,# mean of the prior distribution of the varience around the mean effect of photoperiod
-                   prior_sigmaPhotoSp_sigma=10,#variance of the prior distribution of the varience around the mean effect of photoperiod
+                   prior_muPhotoSp_sigma = 5,# varience of the prior distribution of the varience around the mean effect of photoperiod 
+                   prior_sigmaPhotoSp_mu=5,# mean of the prior distribution of the varience around the mean effect of photoperiod
+                   prior_sigmaPhotoSp_sigma=5,#variance of the prior distribution of the varience around the mean effect of photoperiod
 
                    prior_muPhenoSp_mu = 150, # mean of prior distribution of the mean (grand alpha) value of the phenology model
                    prior_muPhenoSp_sigma = 10, # variance of prior distribution of the mean (grand alpha) value of the phenology model
@@ -242,6 +242,12 @@ mdl.phen <- stan('stan/joint_3cue_phenoonly.stan',
                      data = pheno_data, warmup=3000, iter = 4000, cores = 4)
 
 postMeanSLA <- extract(mdl.phen)
-save(postSLA, file = "phenologyMeanTrait_SLA.RData")
 
-pheno_data$prior_sigmaForceSp_mu
+if(Midge== TRUE){ # only save data if on Midge
+  save(postMeanSLA, file = "phenologyMeanTrait_SLA.RData")
+}
+
+if(Midge == FALSE){
+  load("Rfiles/phenologyMeanTrait_SLA.RData")
+}
+
