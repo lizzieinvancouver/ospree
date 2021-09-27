@@ -17,9 +17,9 @@ library(dplyr)
 
 #source('..//stan/savestan.R')
 source("traits/source/trait.species.R")
-source("bb_analysis/source/bbdataplease.R")
-source("bb_analysis/source/commoncols.R")
-source("bb_analysis/source/othertreats.R")
+source("traits/source/bbdataplease.R")
+source("traits/source/commoncols.R")
+source("traits/source/othertreats.R")
 
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -33,15 +33,15 @@ options(mc.cores = parallel::detectCores())
 ## Be sure to keep an eye on this part of the code and the files it sources, they will need updating!
 
 ## (1) Get the data and slim down to correct response and no NAs ...
-source("source/bbdataplease.R")
+source("traits/source/bbdataplease.R")
 ## (2) Remove rows that had freezing or dormancy treatments set to anything other than 'ambient'
-source("source/othertreats.R")
+source("traits/source/othertreats.R")
 dim(bb.noNA)
 bb.noNA <- bb.noNA[-c(othertreats.delete),] # as of 18 March October should delete about 273 rows
 dim(bb.noNA)
 d <- bb.noNA
 ## (3) Get fewer columns for sanity
-source("source/commoncols.R")
+source("traits/source/commoncols.R")
 bb <- subset(d, select=c(columnstokeep, columnscentered, columnschillunits))
 
 # remove the two values above 600
