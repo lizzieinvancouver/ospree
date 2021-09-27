@@ -111,7 +111,7 @@ get_tips_in_ape_plot_order <- function (tree) {
 ## phylogenetic models once a fit object has been renamed to be used by the
 ## stan utility
 muplotfx_phylo_contmap<-function(modelhere, nameforfig, width, height, 
-                         ylim, xlim, leg1, leg2, posspsindata,cue){
+                         ylim, xlim, leg1, leg2, posspsindata,cue,to.rem){
     #width = 7 
     #height = 8 
     #ylim =  c(0,194) 
@@ -135,14 +135,15 @@ muplotfx_phylo_contmap<-function(modelhere, nameforfig, width, height,
         obj.cue<-setMap(obj.cue,colors=c("yellow","darkcyan","purple"))
        
         dev.off()
-        par(mfrow=c(1,2),mar=c(0.5,0.5,1,0.1))
-        
-        plot.contMap(obj.cue,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
-                     fsize = c(0.45, 0.7),ftype="off", 
-                     xlim=c(-0.1,1)*max(nodeHeights(phylo)),
-                     outline=FALSE,lwd=2,mar = c(1,1,2,0))
         
         
+        if(agiosponly){
+            par(mfrow=c(1,2),mar=c(0.5,0.5,1,0.1))
+            plot.contMap(obj.cue,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
+                         fsize = c(0.45, 0.7),ftype="off", 
+                         xlim=c(-0.1,1)*max(nodeHeights(phylo)),
+                         outline=FALSE,lwd=2,mar = c(1,1,2,0))
+            
         par(mar=c(5,6.5,2,1))
         
         plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
@@ -156,6 +157,33 @@ muplotfx_phylo_contmap<-function(modelhere, nameforfig, width, height,
         #points(pos.x,pos.y,cex=1.5,pch=19,col="darkblue")
         tips.order = get_tips_in_ape_plot_order(phylo)
         par(xpd=TRUE) # so I can plot legend outside
+        }
+        
+        if(gymnosonly){
+            par(mfrow=c(1,2),mar=c(0.5,1,1,0))
+            plot.contMap(obj.cue,type = "phylogram",legend = 0.6*max(nodeHeights(phylo)),
+                         fsize = c(0.45, 0.7),ftype="off", 
+                         xlim=c(-0.1,1)*max(nodeHeights(phylo)),
+                         outline=FALSE,lwd=2,mar = c(1,1,2,0))
+            
+            #ylim =  c(1,19) 
+            #xlim = c(-20, 2)  
+            par(mar=c(5,6,2,1))
+            
+            plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
+                 xlab="Model estimate change in days to budburst", ylab="", main="")
+            #axis(2, at=1.1, labels=c("Forcing", "Chilling", "Photoperiod")[cue], las=1)
+            abline(v=0, lty=2, col="darkgrey")
+            
+            #pos.y<-1
+            #pos.x<-mean(summary(modelhere)$summary[which(grepl(slopeshere[i] ,rownames(summary(modelhere)$summary),fixed=TRUE),)])
+            # need to add uncertainty intervals
+            #points(pos.x,pos.y,cex=1.5,pch=19,col="darkblue")
+            tips.order = get_tips_in_ape_plot_order(phylo)
+            par(xpd=TRUE) # so I can plot legend outside
+        }
+        
+        
         
         for(spsi in 1:spnum){#spsi=1
            
@@ -177,7 +205,8 @@ muplotfx_phylo_contmap<-function(modelhere, nameforfig, width, height,
                    col=col.sps.i)
             
             
-        text(xlim[1]-1,pos.y.sps.i,tips.order[pos.y.sps.i],cex=0.5,las=1,pos=2)
+            
+        text(xlim[1]-to.rem,pos.y.sps.i,tips.order[pos.y.sps.i],cex=0.5,las=1,pos=4)
             #axis(2,at=1:194,labels=,las=1,cex=0.5)
 
                     }  #plot(obj.force,fsize=c(0.5,1),outline=FALSE,lwd=c(3,7),leg.txt="forcing")

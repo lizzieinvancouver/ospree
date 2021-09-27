@@ -238,15 +238,15 @@ names(fit)[grep(pattern = "^b_photo", x = names(fit))] <- phylo$tip.label
 
 ## default plots by predictor
 #pdf(file = "output/estimates1.pdf", onefile = TRUE, height = 35, width = 6)
-plot(fit, pars = c("a_z", "a"))
-plot(fit, pars = c("b_zf", "b_force"))
-plot(fit, pars = c("b_zc", "b_chill"))
-plot(fit, pars = c("b_zp", "b_photo"))
-dev.off()
+#plot(fit, pars = c("a_z", "a"))
+#plot(fit, pars = c("b_zf", "b_force"))
+#plot(fit, pars = c("b_zc", "b_chill"))
+#plot(fit, pars = c("b_zp", "b_photo"))
+#dev.off()
 #pdf(file = "output/estimates2.pdf", onefile = TRUE, height = 11.5, width = 8)
-plot(fit, pars = c("lam_interceptsa", "lam_interceptsbf", "lam_interceptsbc", "lam_interceptsbp"))
-plot(fit, pars = c("sigma_interceptsa", "sigma_interceptsbf", "sigma_interceptsbc", "sigma_interceptsbp", "sigma_y"))
-dev.off()
+#plot(fit, pars = c("lam_interceptsa", "lam_interceptsbf", "lam_interceptsbc", "lam_interceptsbp"))
+#plot(fit, pars = c("sigma_interceptsa", "sigma_interceptsbf", "sigma_interceptsbc", "sigma_interceptsbp", "sigma_y"))
+#dev.off()
 
 
 
@@ -281,29 +281,47 @@ muplotfx_phylo(modelhere, "", 7, 8, c(0,3), c(-25, 15) , 18, 3.2, posspsindata)
 
 
 ## combining mu plots with phylogenetic structuring
-
-
+dev.off()
+if(agiosponly){
 ## for forcing
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
                        c(0,194), c(-20, 5) , 18, 3.2, 
-                       posspsindata,1)
+                       posspsindata,1,15)
 
 ## for chilling
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
                        c(0,194), c(-120, 15) , 18, 3.2, 
-                       posspsindata,2)
+                       posspsindata,2,85)
 
 ## for photoperiod
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
-                       c(0,194), c(-10, 5) , 18, 3.2, 
-                       posspsindata,3)
+                       c(0,194), c(-10, 2) , 18, 3.2, 
+                       posspsindata,3,7.2)
+}
 
+if(gymnosperm){
+  ## for forcing
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(1,19), c(-20, 2) , 18, 3.2, 
+                         posspsindata,1,12.2)
+  
+  ## for chilling
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(1,19), c(-23, 15) , 18, 3.2, 
+                         posspsindata,2,21.2)
+  
+  ## for photoperiod
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(1,19), c(-7, 14) , 18, 3.2, 
+                         posspsindata,3,11.7)
+}
 
 ## plotting lambdas
 names(extract(modelhere))
 dev.off()
 
 if(agiosponly){
+  par(mfrow=c(1,2))
   plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,5),ylab="density",
        xlab="lambda", main="")
   
@@ -311,13 +329,30 @@ if(agiosponly){
   lines(density(extract(modelhere)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
-  text(0.5,3,"intercept",col='grey')
-  text(0.8,1.8,"force",col='indianred3')
+  text(0.55,3,"intercept",col='grey')
+  text(0.8,1.85,"force",col='indianred3')
   text(0.3,4.5,"chill",col='cyan4')
-  text(0.8,0.7,"photo",col='orange')
+  text(0.8,0.75,"photo",col='orange')
+  text(0,5,"a",cex=1.5)
+  
+  
+  plot(x=NULL,y=NULL, xlim=c(0,25), ylim=c(0,1),ylab="density",
+       xlab="sigma", main="")
+  
+  lines(density(extract(modelhere)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  text(21,0.3,"intercept",col='grey')
+  text(7.5,0.45,"force",col='indianred3')
+  text(15.5,0.4,"chill",col='cyan4')
+  text(5.5,0.8,"photo",col='orange')
+  text(0,1,"b",cex=1.5)
+  
 }
 
 if(gymnosonly){
+  par(mfrow=c(1,2))
   plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,2),ylab="density",
        xlab="lambda", main="")
   
@@ -325,10 +360,24 @@ if(gymnosonly){
   lines(density(extract(modelhere)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
-  text(0.9,1,"intercept",col='grey')
+  text(0.9,1.1,"intercept",col='grey')
   text(0.1,1.65,"force",col='indianred3')
   text(0.1,2,"chill",col='cyan4')
   text(0.2,1.4,"photo",col='orange')
+  text(0,2,"a",cex=1.5)
+  
+  plot(x=NULL,y=NULL, xlim=c(0,45), ylim=c(0,0.2),ylab="density",
+       xlab="sigma", main="")
+  
+  lines(density(extract(modelhere)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(modelhere)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  text(35.5,0.03,"intercept",col='grey')
+  text(12.5,0.17,"force",col='indianred3')
+  text(13.5,0.14,"chill",col='cyan4')
+  text(10.5,0.185,"photo",col='orange')
+  text(0,.2,"b",cex=1.5)
 }
 
 
