@@ -57,7 +57,7 @@ mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
 
 # general variance
-trt.var <- 15 #sigmaTrait_y in the stan code
+trt.var <- 5 #sigmaTrait_y in the stan code
 trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 
 # generate yhat - heights -  for this first trt model
@@ -92,18 +92,18 @@ sigma.pheno.sp <- 10 #for a mu this large, I think this is pretty small
 alpha.pheno.sp <- rnorm(Nspp, mu.pheno.sp, sigma.pheno.sp) 
 pheno.dat$alpha.pheno.sp <- rep(alpha.pheno.sp, each = nphen)
 
-mu.force.sp <- -1 # negative bc warmer means earlier
-sigma.force.sp <- 5
+mu.force.sp <- 0 # negative bc warmer means earlier
+sigma.force.sp <- 30
 alpha.force.sp <- rnorm(Nspp, mu.force.sp, sigma.force.sp)
 pheno.dat$alpha.force.sp <- rep(alpha.force.sp, each = nphen)
 
-mu.chill.sp <- -2 # negative bc warmer means earlier
-sigma.chill.sp <- 5
+mu.chill.sp <- 0 # negative bc warmer means earlier
+sigma.chill.sp <- 30
 alpha.chill.sp <- rnorm(Nspp, mu.chill.sp, sigma.chill.sp)
 pheno.dat$alpha.chill.sp <- rep(alpha.chill.sp, each = nphen)
 
-mu.photo.sp <- -2 # negative bc warmer means earlier
-sigma.photo.sp <- 5
+mu.photo.sp <- 0 # negative bc warmer means earlier
+sigma.photo.sp <- 10
 alpha.photo.sp <- rnorm(Nspp, mu.photo.sp, sigma.photo.sp)
 pheno.dat$alpha.photo.sp <- rep(alpha.photo.sp, each = nphen)
 
@@ -184,22 +184,32 @@ pheno_data <- list(yTraiti = trt.dat$yTraiti,
                    prior_muPhenoSp_mu = 150,
                    prior_muPhenoSp_sigma = 10,
                    
-                   prior_sigma_sp_sigma = 10,
-                   prior_mu_study = 0,
-                   prior_sigma_study_mu = 10,
-                   prior_sigma_study_sigma = 10,
-                   prior_sigma_traity_mu = 1,
-                   prior_sigma_traity_sigma = 1)
+                   prior_sigmaForceSp_mu = 0,
+                   prior_sigmaForceSp_sigma = 30,
+                   prior_sigmaChillSp_mu = 0,
+                   prior_sigmaChillSp_sigma = 30,
+                   prior_sigmaPhotoSp_mu = 0,
+                   prior_sigmaPhotoSp_sigma = 10,
+                   prior_sigmaPhenoSp_mu = 10,
+                   prior_sigmaPhenoSp_sigma = 1,
+                   
+                   prior_betaTraitxForce_mu = 0,
+                   prior_betaTraitxForce_sigma = 1,
+                   prior_betaTraitxChill_mu = 0,
+                   prior_betaTraitxChill_sigma = 1,
+                   prior_betaTraitxPhoto_mu = 0,
+                   prior_betaTraitxPhoto_sigma = 1
+                  )
 
 # mdl.jointfcp <- stan('stan/joint_forcingchillingphoto.stan',
 #                   data = pheno_data, iter = 4000)
 
 mdl.jointfcp <- stan('stan/joint_3cue_newprior.stan',
-                     data = pheno_data, warmup=3000, iter = 4000)
+                     data = pheno_data,  iter = 4000)
 
-#load(file = "output/output.joint.forcingchillingphoto.Aug6.40.Rda")
+load(file = "output/output_compare_smallvslarge.Rda")
 ####################################################################
-ssm <-  as.shinystan(mdl.jointfcp)
+ssm <-  as.shinystan(mdl.traitonly)
 launch_shinystan(ssm)
 
 sum.jfcp <- summary(mdl.jointfcp)$summary
@@ -213,7 +223,7 @@ sumer <- summary(mdl.jointfcp)$summary
 plot(mu.study , sumer[grep("muStudy\\[", rownames(sumer)), "mean"])
 abline(a = 0, b = 1, lty = "dotted") # not amazing ... but not horrible
 
-plot(alpha.pheno.sp , (sumer[grep("mu_grand", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
+plot(alpha.pheno.sp , (sumer[grep("muPhenoSp", rownames(sumer)), "mean"] + sumer[grep("muSp\\[", rownames(sumer)), "mean"]))
 abline(a = 0, b = 1, lty = "dotted") # hmm, I must not be plotting the right things ...
 
 par(mfrow=c(1,3))

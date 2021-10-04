@@ -1,6 +1,7 @@
 ## Started 30 January 2021 ##
-## By Lizzie so far ... ## 
-
+## Modified by Deirdre 14 February 2021## 
+## The bien datasets includes a large amount of height data, with a particularly large dataset submitted by Greg Reams.
+## To make the height data more managable, we are subsampling the data to limit the number of height measurements per species to 5000
 
 #housekeeping
 rm(list=ls()) 
