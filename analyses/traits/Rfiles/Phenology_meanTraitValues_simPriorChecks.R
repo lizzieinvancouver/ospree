@@ -48,9 +48,9 @@ if(Midge == FALSE){
 
 
 #number fo species
-n_spec <- 200
+n_spec <- 20
 #Number of repeat observations per species
-nRep <- 200
+nRep <- 20
 #Overall number of pbservations (rows)
 Nph <- n_spec * nRep
 
@@ -70,36 +70,36 @@ pheno.dat$alphaTraitSp <- rep(meanSLA, each = nRep)
 #Simulate cues (z scored)
 pheno.dat$forcei <- rnorm(Nph, 1, 1)
 pheno.dat$photoi <- rnorm(Nph, 1, 0.5) # less photoperiod 
-pheno.dat$chilli <- rnorm(Nph, 1, 1.5) #more chilling
+pheno.dat$chilli <- rnorm(Nph, 1, 1) #more chilling
 
 # Parameter Values
 
 
 #Species means
 sigmaPhenoSp <- 40
-muPhenoSp <- 85
+muPhenoSp <- 120
 alphaPhenoSp <- rnorm(n_spec, muPhenoSp, sigmaPhenoSp)
 pheno.dat$alphaPhenoSp <- rep(alphaPhenoSp, each = nRep)
 
 
 #Cue effects
-betaTraitxForce <- -0.2 
-betaTraitxPhoto <- -0.1
-betaTraitxChill <- -0.2
+betaTraitxForce <- -0.3 
+betaTraitxPhoto <- -0.4
+betaTraitxChill <- -0.4
 
 #Species level slopes sans trait data
-muForceSp <- -0.20
-sigmaForceSp <- 5
+muForceSp <- 0
+sigmaForceSp <- 3
 alphaForceSp <- rnorm(n_spec, muForceSp, sigmaForceSp)
 pheno.dat$alphaForceSp <- rep(alphaForceSp, each = nRep)
 
-muPhotoSp <- -0.4
-sigmaPhotoSp <- 4
+muPhotoSp <- -1
+sigmaPhotoSp <- 2
 alphaPhotoSp <- rnorm(n_spec, muPhotoSp, sigmaPhotoSp)
 pheno.dat$alphaPhotoSp <- rep(alphaPhotoSp, each = nRep)
 
-muChillSp <- -0.40
-sigmaChillSp <- 5
+muChillSp <- -2
+sigmaChillSp <- 1
 alphaChillSp <- rnorm(n_spec, muChillSp, sigmaChillSp)
 pheno.dat$alphaChillSp <- rep(alphaChillSp, each = nRep)
 
@@ -159,22 +159,22 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
                    prior_sigmaphenoy_sigma = 5, # variance of the prior distribution of the general error sigma)y around the mean predicted value
                    
                    prior_muForceSp_mu = 0, # mean of the prior distribution of the mean effect of forcing 
-                   prior_muForceSp_sigma = 5, # vareince of the prior distributionof the mean effect of forcing 
-                   prior_sigmaForceSp_mu = 4.5, # mean of the prior distribution of the varience around the mean effect of forcing 
+                   prior_muForceSp_sigma = 3, # vareince of the prior distributionof the mean effect of forcing 
+                   prior_sigmaForceSp_mu = 5, # mean of the prior distribution of the varience around the mean effect of forcing 
                    prior_sigmaForceSp_sigma = 5,# variance of the prior distribution of the varience around the mean effect of forcing ,
 
                    prior_muChillSp_mu = 0,# mean of the prior distribution of the mean effect of chilling 
-                   prior_muChillSp_sigma = 5,# varience of the prior distribution of the mean effect of chilling 
-                   prior_sigmaChillSp_mu = 4.5,# mean of the prior distribution of the varience around the mean effect of chilling 
+                   prior_muChillSp_sigma = 3,# varience of the prior distribution of the mean effect of chilling 
+                   prior_sigmaChillSp_mu = 5,# mean of the prior distribution of the varience around the mean effect of chilling 
                    prior_sigmaChillSp_sigma= 5, #variance of the prior distribution of the varience around the mean effect of chilling
 
                    prior_muPhotoSp_mu = 0,# mean of the prior distribution of the varience around the mean effect of photoperiod 
-                   prior_muPhotoSp_sigma = 5,# varience of the prior distribution of the varience around the mean effect of photoperiod 
-                   prior_sigmaPhotoSp_mu=4.5,# mean of the prior distribution of the varience around the mean effect of photoperiod
+                   prior_muPhotoSp_sigma = 3,# varience of the prior distribution of the varience around the mean effect of photoperiod 
+                   prior_sigmaPhotoSp_mu=5,# mean of the prior distribution of the varience around the mean effect of photoperiod
                    prior_sigmaPhotoSp_sigma=5,#variance of the prior distribution of the varience around the mean effect of photoperiod
 
                    prior_muPhenoSp_mu = 150, # mean of prior distribution of the mean (grand alpha) value of the phenology model
-                   prior_muPhenoSp_sigma = 10, # variance of prior distribution of the mean (grand alpha) value of the phenology model
+                   prior_muPhenoSp_sigma = 30, # variance of prior distribution of the mean (grand alpha) value of the phenology model
                    prior_sigmaPhenoSp_mu = 0,#the mean of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
                    prior_sigmaPhenoSp_sigma = 10,  #the varience of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
 
@@ -187,11 +187,11 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
 
 
                    prior_betaTraitxForce_mu=0, # the mean of the prior distribution of the effect of trait on the slope of forcing 
-                   prior_betaTraitxForce_sigma=1, # the varience of the prior distribution of the effect of trait on the slope of forcing 
+                   prior_betaTraitxForce_sigma=0.5, # the varience of the prior distribution of the effect of trait on the slope of forcing 
                    prior_betaTraitxChill_mu=0,# the mean of the prior distribution of the effect of trait on the slope of chilling 
-                   prior_betaTraitxChill_sigma=1,# the varience of the prior distribution of the effect of trait on the slope of chilling 
+                   prior_betaTraitxChill_sigma=0.5,# the varience of the prior distribution of the effect of trait on the slope of chilling 
                    prior_betaTraitxPhoto_mu=0,# the mean of the prior distribution of the effect of trait on the slope of photo period 
-                   prior_betaTraitxPhoto_sigma=1# the varience of the prior distribution of the effect of trait on the slope of photo period 
+                   prior_betaTraitxPhoto_sigma=0.5# the varience of the prior distribution of the effect of trait on the slope of photo period 
                 ) 
 
 
@@ -199,13 +199,71 @@ if(runStan == TRUE){
 
 #Run model
 	mdl.phen <- stan('stan/joint_3cue_phenoonly.stan',
-                     data = pheno_data, warmup=3000, iter = 4000, cores = 4)
+                     data = pheno_data, warmup=3000, iter = 4000, cores = 4,control = list( adapt_delta = 0.97) )
 
 	save(mdl.phen, file = "phenologyMeanTrait_sim.RData")
 
 }
 
+if(Midge == FALSE){
+
+load("Rfiles/phenologyMeanTrait_sim.RData")
+
 postMeanSLA <- extract(mdl.phen)
+
+#plot main effects of cues
+postMeanSLAdf <- data.frame(postMeanSLA)
+
+  cueEffects <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% c("muPhenoSp", "muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y")]
+
+  cueEffectPlot <- mcmc_intervals(cueEffects) + 
+     theme_classic() + 
+      labs(title = "main intercept, cue slopes and general error")
+
+      #Compare results to simulated values
+      hist(postMeanSLAdf$muPhenoSp)
+      abline(v = muPhenoSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muForceSp)
+      abline(v = muForceSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muChillSp)
+      abline(v = muChillSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muPhotoSp)
+      abline(v = muPhotoSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmapheno_y)
+      abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxForce)
+      abline(v = betaTraitxForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxChill)
+      abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxPhoto)
+      abline(v = betaTraitxPhoto, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaChillSp)
+      abline(v = sigmaChillSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaForceSp)
+      abline(v = sigmaForceSp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaPhotoSp)
+      abline(v = sigmaPhotoSp, col="red", lwd=3, lty=2)
+
+pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
+pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y", "lp__")) 
+
+
+}
+
+
+
+
+
 
 
 
@@ -243,8 +301,8 @@ if(priorCheck == TRUE){
 
 	#Simulate cues (z scored)
 	priorCheck$forcei <- rnorm(Nph, 1, 1)
-	priorCheck$photoi <- rnorm(Nph, 1, 0.5) # less photoperiod 
-	priorCheck$chilli <- rnorm(Nph, 1, 1.5) #more chilling
+	priorCheck$photoi <- rnorm(Nph, 1, 1) # less photoperiod 
+	priorCheck$chilli <- rnorm(Nph, 1, 1) #more chilling
 
 
 	for (ir in 1:nRepPrior){
