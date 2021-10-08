@@ -27,7 +27,7 @@ Midge <- TRUE
 priorCheck <- FALSE
 
 
-#Source ospree trators data if thsi runs on Faith's section of Midge
+#Source ospree trators data if this runs on Faith's section of Midge
 if(Midge == TRUE){
   setwd("~/traits")
 
@@ -63,7 +63,7 @@ pheno.dat$species <- rep(c(1:n_spec), each = nRep)
 
 #Simulate mean SLA data per species
 meanSLA <- rnorm(n_spec, 20, 5)
-#Make thsi teh name of teh full vector of sla per species values - alphaTraitSp 
+#Make this the name of the full vector of sla per species values - alphaTraitSp 
 pheno.dat$alphaTraitSp <- rep(meanSLA, each = nRep)
 
 
@@ -175,8 +175,8 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
 
                    prior_muPhenoSp_mu = 150, # mean of prior distribution of the mean (grand alpha) value of the phenology model
                    prior_muPhenoSp_sigma = 10, # variance of prior distribution of the mean (grand alpha) value of the phenology model
-                   prior_sigmaPhenoSp_mu = 0,#the mean of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
-                   prior_sigmaPhenoSp_sigma = 10,  #the varience of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
+                   prior_sigmaPhenoSp_mu = 0,#the mean of the prior of the spread of species phenology values around the grand mean muPhenoSp 
+                   prior_sigmaPhenoSp_sigma = 10,  #the varience of the prior of the spread of species phenology values around the grand mean muPhenoSp 
 
 
                    #prior_sigma_sp_sigma = 10,  # Faith doesn't knwo what these might
@@ -237,7 +237,7 @@ if(priorCheck == TRUE){
 
 	#Simulate mean SLA data per species
 	meanSLA <- rnorm(n_spec, 20, 5)
-	#Make thsi teh name of teh full vector of sla per species values - alphaTraitSp 
+	#Make this the name of the full vector of sla per species values - alphaTraitSp 
 	priorCheck$alphaTraitSp <-  rep(rep(meanSLA, each = nRep), times = nRepPrior)
 
 
