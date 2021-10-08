@@ -64,7 +64,7 @@ tail(yPhenotable)
 
 data.stan <- list(n_spec = nsp,
                   species = yPhenotable$Species,
-                  yTrait = yPhenotable$trait,
+                  alphaTraitSp = yTrait,
                   Nph = nrow(yPhenotable),
                   yPhenoi = yPhenotable$ypheno,
                   forcei = forcei,
@@ -96,15 +96,15 @@ data.stan <- list(n_spec = nsp,
                   prior_sigmaphenoy_sigma = 0.5
                   )
 ### Call Stan
-fit.stan1 <- stan("stan/3cue_traitfixed.stan",
+fit.stan1 <- stan("../stan/joint_3cue_phenoonly.stan",
                  data = data.stan,
                  iter = 2000,
                  warmup = 1000,
                  chains = 4,
                  seed = 20200602)
 
-options(browser = "chromium")
-launch_shinystan(fit.stan1)
+## options(browser = "chromium")
+## launch_shinystan(fit.stan1)
 
 ## Summarize posterior of continuous parameters
 summary(fit.stan1, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmaForceSp", "sigmaChillSp", "sigmaPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "muPhenoSp", "sigmaPhenoSp", "sigmapheno_y"))$summary[, "mean"]
