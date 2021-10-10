@@ -22,7 +22,7 @@ data {
     vector[Nph] photoi; // predictor photoperiod
     vector[Nph] chilli; // predictor chilling
 
-    vector[n_spec] alphaTraitSp; // species level trait data
+    vector[Nph] alphaTraitSp; // species level trait data
 
     real prior_sigmaphenoy_mu;
     real prior_sigmaphenoy_sigma;
