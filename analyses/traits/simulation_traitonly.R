@@ -1,78 +1,92 @@
 
+## Load libraries
 library(rstan)
-## require(rstanarm)
 require(shinystan)
-## require(bayesplot)
-## require(truncnorm)
-## library(ggplot2)
 
-# 50 study, spp, reps, drop sigmatrait_y to 1
-# boxplots of all the dots by species and study
-#compare sp to study and make sure no correlations
-# run test data through rstan arm - how fast? accurate? 
+## Set number of cores
 options(mc.cores = 4)
 
-Nrep <- 50 # rep per trait
-Nstudy <- 13 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 13 # number of species with traits (making this 20 just for speed for now)
+## Set seed
+set.seed(202109)
 
-# First making a data frame for the test trait data
-Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
-Ntrt
+## Set parameters
+param <- list(
+    Nrep = 20, # rep per trait
+    Nstudy = 15, # number of studies with traits
+    Nspp = 15, # number of species with traits
+    trait_mu_grand = 20,
+    trait_sigma_sp = 4,
+    trait_sigma_study = 2,
+    trait_sigma_traity = 3)
 
-#make a dataframe for height
-trt.dat <- data.frame(matrix(NA, Ntrt, 1))
-names(trt.dat) <- c("rep")
-trt.dat$rep <- c(1:Nrep)
-trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
-trt.dat$species <- rep(1:Nspp, Nstudy)
+## Generate species and study offsets
+mu_sp <- rnorm(n = param[["Nspp"]], mean = 0, sd = param[["trait_sigma_sp"]])
+mu_study <- rnorm(n = param[["Nstudy"]], mean = 0, sd = param[["trait_sigma_study"]])
 
-# now generating the species trait data, here it is for height
-mu.grand <- 1.3 # the grand mean of the height model
-sigma.species <- 2 # we want to keep the variaiton across spp. high
+## Make empty table
+yTraittable <- data.frame(Species = c(),
+                          Study = c(),
+                          Replicate = c(),
+                          mu_grand = c(),
+                          mu_sp = c(),
+                          mu_study = c())
+## Fill table with parameters
+for(i in 1:param[["Nspp"]]){
+    for(j in 1:param[["Nstudy"]]){        
+        temp <- data.frame(Species = i,
+                           Study = j,
+                           Replicate = 1:param[["Nrep"]],
+                           mu_grand = param[["trait_mu_grand"]],
+                           mu_sp = mu_sp[i],
+                           mu_study = mu_study[j])
+        yTraittable <- rbind(yTraittable, temp)
+    }
+}
 
-#the alphaTraitSp in Faiths original code:
-mu.trtsp <- rnorm(Nspp, 0, sigma.species)
-trt.dat$mu.trtsp <- rep(mu.trtsp, Nstudy) #adding ht data for ea. sp
-
-#now generating the effects of study
-sigma.study <- 3
-mu.study <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
-trt.dat$mu.study <- rep(mu.study, each = Nspp) # generate data for ea study
-
-# general variance
-trt.var <- 1 #sigmaTrait_y in the stan code
-trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
-
-# generate yhat - heights -  for this first trt model
-trt.dat$yTraiti <- mu.grand + trt.dat$mu.trtsp + trt.dat$mu.study + trt.dat$trt.er
+## Generate trait observation using parameters
+yTraittable$yTraiti <- rnorm(n = nrow(yTraittable),
+                             mean = yTraittable$mu_grand + yTraittable$mu_sp + yTraittable$mu_study,
+                             sd = param[["trait_sigma_traity"]])
 
 ## Trait only stan model ###########################################################
-trait_data <- list(y = trt.dat$yTraiti, 
-                   N = Ntrt, 
-                   n_variety = nrow(trt.dat), 
-                   variety = trt.dat$species, 
-                   company = trt.dat$study, 
-                   n_company = Nstudy,
-                   prior_a_grand_mu = 1.3,
-                   prior_a_grand_sigma = 0.3,
-                   prior_sigma_a_variety_mu = 2,
-                   prior_sigma_a_variety_sigma = .75,
-                   prior_sigma_a_company_mu = 3,
-                   prior_sigma_a_company_sigma = 1.5,
-                   prior_sigma_y_mu = 1,
-                   prior_sigma_y_sigma = .25) 
+trait_data <- list(yTraiti = yTraittable$yTraiti,
+                   N = nrow(yTraittable),
+                   n_spec = param[["Nspp"]], 
+                   species = yTraittable$Species,
+                   n_study = param[["Nstudy"]],
+                   study = yTraittable$Study,
+                   prior_mu_grand_mu = param[["trait_mu_grand"]],
+                   prior_mu_grand_sigma = 5,
+                   prior_sigma_sp_mu = param[["trait_sigma_sp"]],
+                   prior_sigma_sp_sigma = 5,
+                   prior_sigma_study_mu = param[["trait_sigma_study"]],
+                   prior_sigma_study_sigma = 5,
+                   prior_sigma_traity_mu = param[["trait_sigma_traity"]],
+                   prior_sigma_traity_sigma = 5) 
 
-mdl.traitonly <- stan("stan/int_variety_company.stan",
+mdl.traitonly <- stan("trait_only2.stan",
                       data = trait_data,
-                      iter = 3000,
-                      warmup = 2000,
+                      iter = 2000,
+                      warmup = 1000,
                       chains = 4,
-                      include = FALSE,
-                      pars = "mu_y",
-                      seed = 202199)## ,
-                      ## control = list(max_treedepth = 15))
+                      include = FALSE, pars = c("y_hat"),
+                      seed = 202109)
 
-summary(mdl.traitonly, pars = c("a_grand", "sigma_a_company", "sigma_a_variety", "sigma_y"))$summary
+summary(mdl.traitonly, pars = c("mu_grand"))$summary
+## True value
+param[["trait_mu_grand"]]
 
-summary(mdl.traitonly, pars = c("a_variety", "a_company"))$summary
+summary(mdl.traitonly, pars = c("sigma_sp"))$summary
+## True value
+param[["trait_sigma_sp"]]
+
+summary(mdl.traitonly, pars = c("sigma_study"))$summary
+## True value
+param[["trait_sigma_study"]]
+
+summary(mdl.traitonly, pars = c("sigma_traity"))$summary
+## True value
+param[["trait_sigma_traity"]]
+
+## summary(mdl.traitonly, pars = c("mu_grand", "sigma_sp", "sigma_study", "sigma_traity"))$summary
+## t(param)

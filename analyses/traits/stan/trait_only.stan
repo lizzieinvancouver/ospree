@@ -44,7 +44,7 @@ model{
     sigmaTrait_y ~ normal(prior_sigma_traity_mu, prior_sigma_traity_sigma); // trt.var 0.5
     sigma_sp ~ normal(prior_sigma_sp_mu, prior_sigma_sp_sigma); //sigma_species 10
     mu_grand ~ normal(prior_mu_grand, prior_sigma_grand); // 
-    muSp ~ normal(prior_mu_sp, sigma_sp); //
+    muSp ~ normal(0, sigma_sp); //
 
     sigma_study ~ normal(prior_sigma_study_mu, prior_sigma_study_sigma); //sigma.study 5
     muStudy ~ normal(prior_mu_study, sigma_study);//
