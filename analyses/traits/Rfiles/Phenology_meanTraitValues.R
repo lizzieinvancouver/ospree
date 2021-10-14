@@ -16,9 +16,10 @@ library(reshape2)
 library(rstan)
 library(bayesplot)# nice posterior check plots 
 library(shinystan)
+library(viridis)
 
 # Set Midge Flag
-Midge <- TRUE
+Midge <- FALSE
 
 color_scheme_set("viridis")
 
@@ -191,7 +192,7 @@ chill.i <- SLAData$chill.z
 yPhenoi <- SLAData$resp
 
 ## pehnology and mean trait stan model ###########################################################
-pheno_data <- list(alphaTraitSp = SLAData$SLA, #mean species trait value 
+pheno_data <- list(alphaTraitSp = SLAData$SLA - mean( SLAData$SLA), #mean species trait value 
                    Nph = N, 
                    n_spec = Nspp, 
                    species = species, 
@@ -267,13 +268,16 @@ if(Midge == FALSE){
 
   mean(postMeanSLA$betaTraitxChill)
 
-  plot(mdl.phen)
-  pairs(mdl.phen, pars = c("alphaForceSp", "alphaPhotoSp", "alphaChillSp", "alphaPhenoSp", "lp__")) 
+  hist(postMeanSLA$betaTraitxChill)
+  hist(postMeanSLA$betaTraitxForce)
+  hist(postMeanSLA$betaTraitxPhoto)
 
+  plot(mdl.phen)
 
   #launch_shinystan(mdl.phen)
 
   #plot main effects of cues
+    postMeanSLAdf <- data.frame(postMeanSLA)
 
   cueEffects <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% c("muPhenoSp", "muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y")]
 
@@ -282,7 +286,7 @@ if(Midge == FALSE){
       labs(title = "main intercept, cue slopes and general error")
 
   #Different species slopes for forcing, without the effect of trait
-  postMeanSLAdf <- data.frame(postMeanSLA)
+
   postMeanSLA_alpaForceSp <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% grep( "alphaForceSp", colnames(postMeanSLAdf), value = TRUE)]
      colnames(postMeanSLA_alpaForceSp) <- levels(as.factor(SLAData$spps))
 
