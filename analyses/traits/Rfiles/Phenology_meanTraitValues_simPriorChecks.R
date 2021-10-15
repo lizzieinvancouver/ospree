@@ -14,7 +14,7 @@ library(rstan)
 library(bayesplot)# nice posterior check plots 
 library(shinystan)
 library(truncnorm)
-
+library(ggplot2)
 
 
 set.seed(197365)
@@ -22,10 +22,10 @@ set.seed(197365)
 #Set flags
 #_-----------------------
 
-runStan <- TRUE
-Midge <- TRUE
+runStan <- FALSE
+Midge <- FALSE
 priorCheck <- FALSE
-
+BayesSweave <- TRUE
 
 #Source ospree trators data if this runs on Faith's section of Midge
 if(Midge == TRUE){
@@ -48,9 +48,9 @@ if(Midge == FALSE){
 
 
 #number fo species
-n_spec <-30
+n_spec <-150
 #Number of repeat observations per species
-nRep <- 25
+nRep <- 15
 #Overall number of pbservations (rows)
 Nph <- n_spec * nRep
 
@@ -61,8 +61,8 @@ pheno.dat$rep <- c(1:Nph)
 pheno.dat$species <- rep(c(1:n_spec), each = nRep)
 
 
-#Simulate mean SLA data per species
-meanSLA <- rnorm(n_spec, 20, 5)
+#Simulate mean SLA offset data per species (not mean value)
+meanSLA <- rnorm(n_spec, 0, 5)
 #Make this the name of the full vector of sla per species values - alphaTraitSp 
 pheno.dat$alphaTraitSp <- rep(meanSLA, each = nRep)
 
@@ -84,22 +84,22 @@ pheno.dat$alphaPhenoSp <- rep(alphaPhenoSp, each = nRep)
 
 #Cue effects
 betaTraitxForce <- -0.3 
-betaTraitxPhoto <- -0.4
+betaTraitxPhoto <- -0.2
 betaTraitxChill <- -0.4
 
 #Species level slopes sans trait data
-muForceSp <- -0.1
-sigmaForceSp <- 3
+muForceSp <- -0.4
+sigmaForceSp <- 4
 alphaForceSp <- rnorm(n_spec, muForceSp, sigmaForceSp)
 pheno.dat$alphaForceSp <- rep(alphaForceSp, each = nRep)
 
-muPhotoSp <- -0.3
-sigmaPhotoSp <- 2
+muPhotoSp <- -0.05
+sigmaPhotoSp <- 4
 alphaPhotoSp <- rnorm(n_spec, muPhotoSp, sigmaPhotoSp)
 pheno.dat$alphaPhotoSp <- rep(alphaPhotoSp, each = nRep)
 
-muChillSp <- -0.4
-sigmaChillSp <- 1
+muChillSp <- -0.6
+sigmaChillSp <- 4
 alphaChillSp <- rnorm(n_spec, muChillSp, sigmaChillSp)
 pheno.dat$alphaChillSp <- rep(alphaChillSp, each = nRep)
 
@@ -155,29 +155,29 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
                    photoi = pheno.dat$photoi, 
                    chilli = pheno.dat$chilli,
                 #Priors
-                   prior_sigmaphenoy_mu =10,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
+                #Priors
+                   prior_sigmaphenoy_mu =20,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
                    prior_sigmaphenoy_sigma = 5, # variance of the prior distribution of the general error sigma)y around the mean predicted value
                    
                    prior_muForceSp_mu = 0, # mean of the prior distribution of the mean effect of forcing 
                    prior_muForceSp_sigma = 1, # vareince of the prior distributionof the mean effect of forcing 
                    prior_sigmaForceSp_mu = 4, # mean of the prior distribution of the varience around the mean effect of forcing 
-                   prior_sigmaForceSp_sigma = 2,# variance of the prior distribution of the varience around the mean effect of forcing ,
+                   prior_sigmaForceSp_sigma = 3,# variance of the prior distribution of the varience around the mean effect of forcing ,
 
                    prior_muChillSp_mu = 0,# mean of the prior distribution of the mean effect of chilling 
                    prior_muChillSp_sigma = 1,# varience of the prior distribution of the mean effect of chilling 
                    prior_sigmaChillSp_mu = 4,# mean of the prior distribution of the varience around the mean effect of chilling 
-                   prior_sigmaChillSp_sigma= 2, #variance of the prior distribution of the varience around the mean effect of chilling
+                   prior_sigmaChillSp_sigma= 3, #variance of the prior distribution of the varience around the mean effect of chilling
 
                    prior_muPhotoSp_mu = 0,# mean of the prior distribution of the varience around the mean effect of photoperiod 
                    prior_muPhotoSp_sigma = 1,# varience of the prior distribution of the varience around the mean effect of photoperiod 
                    prior_sigmaPhotoSp_mu=4,# mean of the prior distribution of the varience around the mean effect of photoperiod
-                   prior_sigmaPhotoSp_sigma=2,#variance of the prior distribution of the varience around the mean effect of photoperiod
+                   prior_sigmaPhotoSp_sigma=3,#variance of the prior distribution of the varience around the mean effect of photoperiod
 
                    prior_muPhenoSp_mu = 100, # mean of prior distribution of the mean (grand alpha) value of the phenology model
-                   prior_muPhenoSp_sigma = 10, # variance of prior distribution of the mean (grand alpha) value of the phenology model
+                   prior_muPhenoSp_sigma = 20, # variance of prior distribution of the mean (grand alpha) value of the phenology model
                    prior_sigmaPhenoSp_mu = 0,#the mean of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
-                   prior_sigmaPhenoSp_sigma = 30,  #the varience of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
-
+                   prior_sigmaPhenoSp_sigma = 10,  #the varience of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
 
 
                    #prior_sigma_sp_sigma = 10,  # Faith doesn't knwo what these might
@@ -195,14 +195,16 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
                    prior_betaTraitxPhoto_sigma=0.5# the varience of the prior distribution of the effect of trait on the slope of photo period 
                 ) 
 
-
+	warmupNumber <- 4000
+	itterNumber <- 6000
 if(runStan == TRUE){
 
 #Run model
-	mdl.phen <- stan('stan/joint_3cue_phenoonly.stan',
-                     data = pheno_data, warmup=3500, iter = 4500, cores = 4 )
 
-	save(mdl.phen, file = "phenologyMeanTrait_sim.RData")
+	mdl.phen <- stan('stan/joint_3cue_phenoonly.stan',
+                     data = pheno_data, warmup=warmupNumber, iter = itterNumber, cores = 4 )
+
+	save(mdl.phen, file = "Rfiles/phenologyMeanTrait_sim.RData")
 
 }
 
@@ -221,55 +223,52 @@ postMeanSLAdf <- data.frame(postMeanSLA)
      theme_classic() + 
       labs(title = "main intercept, cue slopes and general error")
 
+      
+      png("figures/simPosteriorHist.png")
+      par(mfrow=c(3,4))
       #Compare results to simulated values
-      hist(postMeanSLAdf$muPhenoSp)
+      hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(muPhenoSp,3), sep = ""))
       abline(v = muPhenoSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$muForceSp)
+      hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
       abline(v = muForceSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$muChillSp)
+      hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(muChillSp,3), sep = ""))
       abline(v = muChillSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$muPhotoSp)
+      hist(postMeanSLAdf$muPhotoSp, main = paste("muPhotoSp is " , signif(muPhotoSp,3), sep = ""))
       abline(v = muPhotoSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$sigmapheno_y)
+      hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
       abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$betaTraitxForce)
+      hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(betaTraitxForce,3), sep = ""))
       abline(v = betaTraitxForce, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$betaTraitxChill)
+      hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
       abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$betaTraitxPhoto)
+      hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(betaTraitxPhoto,3), sep = ""))
       abline(v = betaTraitxPhoto, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$sigmaChillSp)
+      hist(postMeanSLAdf$sigmaChillSp, main = paste("sigmaChillSp is " , signif(sigmaChillSp,3), sep = ""))
       abline(v = sigmaChillSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$sigmaForceSp)
+      hist(postMeanSLAdf$sigmaForceSp, main = paste("sigmaForceSp is " , signif(sigmaForceSp,3), sep = ""))
       abline(v = sigmaForceSp, col="red", lwd=3, lty=2)
 
-      hist(postMeanSLAdf$sigmaPhotoSp)
-      abline(v = sigmaPhotoSp, col="red", lwd=3, lty=2)
+      hist(postMeanSLAdf$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(sigmaPhotoSp,3), sep = ""))
+      abline(v = sigmaPhotoSp, col="red", lwd=3, lty=2) 
+      dev.off()
+      par(mfrow=c(1,1))
 
+png("figures/simulatedPairs.png")
 pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
+dev.off()
 pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y", "lp__")) 
 
 
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -282,7 +281,7 @@ if(priorCheck == TRUE){
 	#------------------------------------------------------------
 
 	#Number fo prior check itterations 
-	nRepPrior <- 1000
+	nRepPrior <- 300
 
 	#Make a data frame for input simulation data
 	priorCheck <- data.frame(matrix(NA, Nph*nRepPrior, 3))
@@ -311,7 +310,7 @@ if(priorCheck == TRUE){
 		#ir <- 1
 
 		#Species means
-		sigmaPhenoSp <- rtruncnorm(1, a = 0, pheno_data$prior_sigmaPhenoSp_mu, pheno_data$prior_sigmaPhenoSp_sigma)
+		sigmaPhenoSp <- rtruncnorm(1, a = 0, mean = pheno_data$prior_sigmaPhenoSp_mu, sd = pheno_data$prior_sigmaPhenoSp_sigma)
 		muPhenoSp <- rnorm(1, pheno_data$prior_muPhenoSp_mu, pheno_data$prior_muPhenoSp_sigma)
 		alphaPhenoSp <- rnorm(n_spec, muPhenoSp, sigmaPhenoSp)
 		priorCheck$alphaPhenoSp[priorCheck$simRep == ir] <- rep(alphaPhenoSp, each = nRep)
@@ -324,17 +323,17 @@ if(priorCheck == TRUE){
 
 		#Species level slopes sans trait data
 		muForceSp <- rnorm(1,pheno_data$prior_muForceSp_mu,  pheno_data$prior_muForceSp_sigma)
-		sigmaForceSp <- rtruncnorm(1, a = 0,pheno_data$prior_sigmaForceSp_mu,pheno_data$prior_sigmaForceSp_sigma)
+		sigmaForceSp <- rtruncnorm(1, a = 0,mean = pheno_data$prior_sigmaForceSp_mu,sd = pheno_data$prior_sigmaForceSp_sigma)
 		alphaForceSp <- rnorm(n_spec, muForceSp, sigmaForceSp)
 		priorCheck$alphaForceSp[priorCheck$simRep == ir] <- rep(alphaForceSp, each = nRep)
 
 		muPhotoSp <- rnorm(1, pheno_data$prior_muPhotoSp_mu, pheno_data$prior_muPhotoSp_sigma)
-		sigmaPhotoSp <- rtruncnorm(1, a = 0,pheno_data$prior_sigmaPhotoSp_mu, pheno_data$prior_sigmaPhotoSp_sigma )
+		sigmaPhotoSp <- rtruncnorm(1, a = 0,mean = pheno_data$prior_sigmaPhotoSp_mu, sd = pheno_data$prior_sigmaPhotoSp_sigma )
 		alphaPhotoSp <- rnorm(n_spec, muPhotoSp, sigmaPhotoSp)
 		priorCheck$alphaPhotoSp[priorCheck$simRep == ir] <- rep(alphaPhotoSp, each = nRep)
 
 		muChillSp <-  rnorm(1,pheno_data$prior_sigmaChillSp_mu,pheno_data$prior_sigmaChillSp_sigma)
-		sigmaChillSp <- rtruncnorm(1, a = 0,pheno_data$prior_sigmaChillSp_mu,pheno_data$prior_sigmaChillSp_sigma)
+		sigmaChillSp <- rtruncnorm(1, a = 0,mean = pheno_data$prior_sigmaChillSp_mu,sd = pheno_data$prior_sigmaChillSp_sigma)
 		alphaChillSp <- rnorm(n_spec, muChillSp, sigmaChillSp)
 		priorCheck$alphaChillSp[priorCheck$simRep == ir] <- rep(alphaChillSp, each = nRep)
 
@@ -359,10 +358,39 @@ if(priorCheck == TRUE){
 	#Final values
 	priorCheck$yPhenoi <- priorCheck$yMu + priorCheck$e
 
+	png("figures/densityYPrior.png")
 	plot(density(priorCheck$yPhenoi))
-	plot(priorCheck$yPhenoi ~ priorCheck$photoi)
-	plot(priorCheck$yPhenoi ~ priorCheck$forcei)
-	plot(priorCheck$yPhenoi ~ priorCheck$chilli)
+	dev.off()
+
+	png("figures/photoPlotPrior.png")
+	plot(priorCheck$yPhenoi ~ priorCheck$photoi, xlab = "Photoperiod", ylab = "Phenological Date")
+	dev.off()
+
+	png("figures/forcingPlotPrior.png")
+	plot(priorCheck$yPhenoi ~ priorCheck$forcei, xlab = "Forcing", ylab = "Phenological Date")
+	dev.off()
+
+	png("figures/chillingPlotPrior.png")
+	plot(priorCheck$yPhenoi ~ priorCheck$chilli, xlab = "Chillina", ylab = "Phenological Date")
+	dev.off()
 
 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+if(BayesSweave == TRUE){
+	#For the BayesClass sweave documents 
+	setwd("/home/faith/Documents/github/bayes2020/Projects/Faith/traitorsModel")
 }
