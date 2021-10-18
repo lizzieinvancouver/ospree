@@ -249,99 +249,8 @@ summy[grep("betaTrait", rownames(summy)),]
 
 
 
-#extract paramenter 
-scrape<-function(x){ # this one takes the species level beta values
-goo <- summary(x)$summary
-goo<-as.data.frame(goo)
-goo<-tibble::rownames_to_column(goo, var = "rowname")
-goo<-dplyr::filter(goo,grepl("betaForcing|betaPhoto|betaChill",rowname))
-
-}
-
-scrape2<-function(x){ # this one take the grand mu for each cue, (ie what the beta would be if clim var had no effect)
-  goo <- summary(x)$summary
-  goo<-as.data.frame(goo)
-  goo<-tibble::rownames_to_column(goo, var = "rowname")
-  goo<-dplyr::filter(goo,grepl("mu",rowname))
-  
-}
 
 
-scrape3<-function(x){ ## this one takes the climvar slope estimate for each cue
-  goo <- summary(x)$summary
-  goo<-as.data.frame(goo)
-  goo<-tibble::rownames_to_column(goo, var = "rowname")
-  goo<-dplyr::filter(goo,grepl("betaTrait",rowname))
-  
-}
-
-
-
-gddlfout<-scrape(threeparam_jnt.gdd) ### data for betas
-
-gddlfcept<-scrape2(threeparam_jnt.gdd) #datafor intercept
-
-##make them sortable
-gddlfcept<-filter(gddlfcept,rowname!="muPhenoSp")
-gddlfcept$cue[grepl("muForce", gddlfcept$rowname)]<-"force"
-gddlfcept$cue[grepl("muPhoto", gddlfcept$rowname)]<-"photo"
-gddlfcept$cue[grepl("muChill", gddlfcept$rowname)]<-"chill"
-
-
-gddlfslope<-scrape3(threeparam_jnt.gdd) ## slope estimate 
-gddlfslope$cue[grepl("betaTraitxForcing", gddlfslope$rowname)]<-"force"
-gddlfslope$cue[grepl("betaTraitxPhoto", gddlfslope$rowname)]<-"photo"
-gddlfslope$cue[grepl("betaTraitxChill", gddlfslope$rowname)]<-"chill"
-
-
-gddlfcept<-select(gddlfcept,2,6,8,12) ## filter to columns of use
-colnames(gddlfcept)[1:3]<-c("intercept","bottom","top") # name them in a way that works better with plotting
-
-gdd2lfslope<-left_join(gddlfslope,gddlfcept) #mash em up so you have a slope and intercept for each trendline
-
-
- # areaout$climparam<-"area"
-
-gddlfout$complex<-rep(1:38,3)### this is an index that will help later on
-
-## same as above line 282
-
-gddlfout$cue[grepl("betaForcing", gddlfout$rowname)]<-"force"
-gddlfout$cue[grepl("betaPhoto", gddlfout$rowname)]<-"photo"
-gddlfout$cue[grepl("betaChill", gddlfout$rowname)]<-"chill"
-
-concordance<-unique(select(bb.stan,complex,complex.wname)) ## this translate our numeric species to their names
-
-gddlfout<-left_join(gddlfout,concordance) ## merige
-
-
-gddlfout<-left_join(gddlfout,ggdlf)## merge
-
-
-colnames(gddlfout)[6:8]<-c("twofive","fiveoh","sevenfive")# again column names with % in them dont work so change them
-
-gddlfout$Temp.SD.z<-(gddlfout$Temp.SD-mean(gddlfout$Temp.SD))/sd(gddlfout$Temp.SD) ## zscore the clim var for plotting cause that what the model used
-range(bb.stan$Temp.SD.z)
-
-colnames(gdd2lfslope)[6:8]<-c("twofive","fiveoh","sevenfive")# again column names with % in them dont work so change them
-jpeg("popUP/popUpmods_try1.jpg")
-ggplot()+
-  geom_point(data=gddlfout,aes(Temp.SD.z,mean,shape=continent,color=cue))+geom_errorbar(data=gddlfout,aes(x=Temp.SD.z,ymin=twofive, ymax=sevenfive,color=cue))+
-  geom_segment(data=gdd2lfslope,aes(x = -0.5881806,xend=2.606941,y=intercept,yend=intercept+(mean*2.606941)),size=1.5)+
-facet_wrap(~cue)+ggthemes::theme_few()+ylab("Cue sensitivity")+xlab("Variation in Growing degrees to last frost")+scale_color_viridis_d()
-
-dev.off()
-
-#why do the trend line seem counter to the data? I think its the pooling thouch could also be a clerical error but I've check a few times
-stop()
-##are is geom_smooth the same as our model
-gddlfout %>% 
-  group_by(cue) %>% 
-  do({
-    mod = lm(mean ~ Temp.SD, data = .)
-    data.frame(Intercept = coef(mod)[1],
-               Slope = coef(mod)[2])
-  })
 
 outy<-rbind(stvout,gddlfout)#,areaout)
 
@@ -354,8 +263,7 @@ write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
 
 ###now plot it
 
-# Who knows about the below ...
-}
+# Who knows about the below ...}
 
 
 ##

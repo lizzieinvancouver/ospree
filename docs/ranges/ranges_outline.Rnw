@@ -1,31 +1,25 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 %Required: You must have these
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{natbib}
-\usepackage{pdflscape}
+
 \usepackage{array}
-\usepackage{authblk}
-\usepackage{gensymb}
 \usepackage{amsmath}
 %\usepackage[backend=bibtex]{biblatex}
-\usepackage[small]{caption}
-
 \setkeys{Gin}{width=0.8\textwidth}
-\setlength{\captionmargin}{30pt}
+%\setlength{\captionmargin}{30pt}
 \setlength{\abovecaptionskip}{10pt}
 \setlength{\belowcaptionskip}{10pt}
-
  \topmargin -1.5cm 
  \oddsidemargin -0.04cm 
  \evensidemargin -0.04cm 
  \textwidth 16.59cm
  \textheight 21.94cm 
  \parskip 7.2pt 
-\renewcommand{\baselinestretch}{1} 	
+\renewcommand{\baselinestretch}{1.2} 	
 \parindent 0pt
-\usepackage{setspace}
-\usepackage{lineno}
+
 \bibliographystyle{..//..//refs/bibstyles/amnat.bst}
 \usepackage{xr-hyper}
 \usepackage{hyperref}
@@ -33,18 +27,10 @@
 
 \title{Ranger Outline: We will come up with a better title when we feel more grounded in the results}
 \date{}
-\author{Dan, Cat, Nacho and Lizzie}
+\author{Dan, Cat, Nacho and Lizzie and the lab}
 \begin{document}
 \maketitle
-\section*{Figures to make:}
-\begin{enumerate}
-\item Climate maps for species (some in supp. too)
-\item Conceptual figure illustrating why variation in forcing should impact cue use
-\item Results from cheapo models
-\item some comparison of North America to Europe
-\item Results from inter vs. intra specific model
 
-\end{enumerate}
 \section*{Abstract}
 \section*{Introduction}
 \textbf{For woody plants of the temperate zone the phenology, or annual timing, of spring budburst influences a myriad of ecological processes including patterns of resource allocation \citep{}, trophic interactions \citep{} and biogeochemical cycling \citep{}.}
@@ -76,18 +62,15 @@ A major hurdle for testing the range cue-use hypothesis is that, when considered
 
  Any of these level of varation could itself drive selecion for secondary cue usage (photoperiod/chilling) and it is unclear how they interact or which is most important \citep{Zagmajster:2014aa}. Understanding the relationships between spring forcing variation at multiple spatio-temporal scales is a second key to robustly testing the range-cue use hypothesis.
 
-A possible alternative method that avoids this issue is to consider the realtionship between range sizes and cue use. Rapoport's rule, a long established concept in biogeography suggest that species ranges should be larger closer to the poles \citep{}. The proposed mechanism underlying this pattern is increased climatic heteregineity selects for larger range sizes \citep{}. While Rapoport's rule does not explictly address climate hetergenity in the early spring (the time relevant to leaf phenology), ranges extents have been suggested to explain cue use patterns among species \citep{Saikkonen:2012aa,Seyednasrollah2020}, and a more general apllication of  Rapoports rule has been supported for temperate trees of North America \citep{Morin:2011aa}. However, it is unclear how generalizable Rapoports rule is \citep{Gaston:1999aa} and its relevance to spring phenological cues should be tested explicitly.\\
 
 \textbf{Predictions}\\
 For these theoretical frameworks we can make several predictions regarding the range-cue use hypothesis:\\
 \begin{enumerate}
 \item More STV or variation in GGD2lf should increase chill and photo sensitivity. Decrease forcing sensittivity. (First principles)
 \item North America should increase chill and photo sensitivity. Decrease forcing sensitivity.
-\item Larger ranges should correlate with increase chill and photo sensitivity. Decrease forcing sensittivity. (Rapoport)
-\item More northern ranges should correlate with increase chill and photo sensitivity. Decrease forcing sensittivity. (Rapoport)
 \end{enumerate}
 
-We tested these underlying assumptions aboutt he relationship between climate variables in a species ranges and specific predictions for the relationship between range climate and cue use using the OSPREE database, and climate data, and models. Our interrogation of these relationships between climate and cue use not only clarifies the evolutionary drivers of cue use, but offers new insights regarding implications of climate change as both species' ranges and phenology continue to shift with warming.
+We tested these underlying assumptions about he relationship between climate variables in a species ranges and specific predictions for the relationship between range climate and cue use using the OSPREE database, and climate data, and models. Our interrogation of these relationships between climate and cue use not only clarifies the evolutionary drivers of cue use, but offers new insights regarding implications of climate change as both species' ranges and phenology continue to shift with warming.
 
 \section*{Methods}
 \subsection*{Phenological data and cue-use estimates}
@@ -105,86 +88,54 @@ Cat and/or Nacho write?\\
 \item note on temp vs. geographic variation
 \item calculation of GDD last frost
 \item STV
-\item range area
+
 \end{itemize}
 
+\subsubsection*{Secondary cue use}
+Dan write description of joint model
 
 \subsection*{Statistical analysis}
 \subsubsection*{Intra vs. interspecific models}
-Cat or Lizzie or Dan write
-
-\subsubsection*{Range-climate correlations}
-Correlation coefficents for NA and EU (basically how we made fig \ref{fig:climcor} )
+Cat 
 
 
-\subsubsection*{Secondary cue use}
-Dan write description of ``Sequential modeling".\\
-Dan write about continent comparisions.\\
+
+
+
 
 \section*{Results}
-\subsection*{Intra vs. interspecific}
-We found that inter-specific variation in cue us was higher than intraspecific. (Fig. \ref{fig:popy}).
-\subsection*{Coherance of forcing variation}
-\begin{enumerate}
-\item Good corelation between spatial and temporal intra-annual variability (Fig \ref{fig:climcor} a)
-\item Decentcorelation between inter and intra-annual variability in North America but not in Europe  (Fig \ref{fig:climcor} b,c)
-\item Also please note the magnitude of variation between NA and Europe is quite different.
-\end{enumerate}
-
-\subsection*{Rapoports Rule in spring climate variability}
-\begin{enumerate}
-\item Basic prediction (increase latitude correlated with larger ranges) of Rapoports Rule is met for our species subset (Fig \ref{fig:climcor} d,e)
-\item Predictions about range size and variability of cliamte varaible not well supported
-(Fig \ref{fig:climcor} f-j though okay for STV in Europe pannel h,i)
-\end{enumerate}
+Some combo of simulations and real data to talk about the coherance of gdd2lf, stv and geographic variability, and maybe  a figure too. Model plots and \ref:fig:mods} and \ref{fig:popy} (not sure why my referencing isn't working) to show it is all futile and nothing matters.
 
 
-\subsection*{Climate variation and secondary cue use}
-\begin{itemize}
-\item mu plot for STV,ggglftemp and ggdlfgeo.
-\item Area by cue. centroid by cue.
-\item Discuss differences between NA and EU in above plots and that overall, North America does have stronger secondary cue use (Fig \ref{fig:conts}) 
-\end{itemize}
 \section*{Discussion}
 Things to address in the discussion:
 \begin{enumerate}
 \item Why differences between NA and EU show up for correlation between temp and geo variation, and STV and range area. (perhaps this is where we can talk about the artifact of STV not capturing ``biological spring" across a large range)
 \item In general why these continents show different trends
-\item Not surprised we dont see Rapaports rule strongly. It's not so well supported in general \citep{Gaston:1998aa}
 \item Alterntaive explainations: A ton of hypotehses about community dynamics, phylogeny etc
 
-
+\end{enumerate}
 \bibliography{..//..//refs/ranges}
 
 \section*{Figures}
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/sigmaplot_popmodel.pdf} 
-    \caption{ Interspecific variation exceeds intraspecific}
+ \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/mock1.jpeg} 
+    \caption{Who okay this figure is definitely under construction. Orange is gdd to last frost variation and green is stv. solid lines (on right pannels) North America and dashed is Europe. Is there a good way to demonstrate that the slopes fit the data poorly? }
+    \label{fig:mods}
+\end{figure}
+
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/variancepartitioning.pdf} 
+    \caption{Interspecific variation exceeds intraspecific.  Maybe Cat should write this?}
     \label{fig:popy}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/clim_params.jpeg} 
-    \caption{Correlations between levels of forcing variation. }
-    \label{fig:climcor}
-\end{figure}
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/seq_mu_rough.jpeg} 
-    \caption{Well needs some plot with better data, models, and more more more to test our hypotehsis, but here is what I am thinking }
-    \label{fig:climcor}
-\end{figure}
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/continental_cues.jpeg} 
-    \caption{North American species which experience high spring forcing variation have stronger (more negative) chilling and photoperiod sensitivity and weaker (less negative) forcing sensitivity than European speccies. This is based on posertior estimates for each species grouped by continent}
-    \label{fig:conts}
-\end{figure}
 
 
 \end{document}
