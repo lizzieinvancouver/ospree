@@ -183,7 +183,7 @@ if(Midge== TRUE){ # only save data if on Midge
 }
 
 if(Midge == FALSE){ #if running on my computer I can load output from Midge
-  load("output/phenologyMeanTrait_Seed.RData")
+  load("output/phenologyMeanTrait_SSD.RData")
 }
 
 
@@ -198,7 +198,10 @@ if(Midge == FALSE){
   sum <- summary(mdl.phen)$summary
   postMeanTrt<- extract(mdl.phen)
   str(mdl.phen)
-
+  
+  ssm <-  as.shinystan(mdl.phen)
+  launch_shinystan(ssm)
+  
   mean(postMeanTrt$betaTraitxChill)
 
   plot(mdl.phen)
