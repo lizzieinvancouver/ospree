@@ -34,7 +34,7 @@ slaData <- traitsData[traitsData$traitname == "Specific_leaf_area",]
 # Read Ospree data and subset
 ospree <- read.csv("bbstan_allspp_utah.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
-ospreeData <- subset(ospree, ospreeData$speciesname %in% traitors.sp)
+ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
 # Sorted species and study list
 specieslist <- sort(unique(slaData$speciesname))
