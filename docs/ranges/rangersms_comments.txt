@@ -1,0 +1,39 @@
+Started 25 October 2021
+Rangers outline
+
+
+<><><><><><><><><><>
+<> Notes by Lizzie <>
+<><><><><><><><><><>
+
+Possible things to discuss on Tuesday:
+- What are the main and alternative hypotheses we test?
+- How many climate variables do we have do we want to present?
+- How to include spatial/temporal?
+- What figures?
+
+
+Wow, I really like the intro! It has a lot of good stuff. I also like the intro bit followed by the hypotheses. Nice! (I think a conceptual figure could help here perhaps?) Is there any way to contrast hypotheses at all? It reads as one hypothesis just now (though I admit that I am reading quickly)... but I think it could be a few (range-cue use driven by STV, range cue-use driven by GDDLF, no relationship due to population variation, no relationship due to other drivers). 
+
+Maybe better to frame as more general, then in discussion STV versus our metric can be one header. Right now it feels like the bulk of the paper hinges on it and that seems harder to write to me.... and maybe does not fully capture what we found. 
+
+What about all the other climate variables? I feel like we analyzed more... I see how only some make a lot of sense, but I wonder about introducing more of them. They made sense to us once, so some reviewers may also want them? 
+
+Also, can we introduce temporal versus spatial variability? I think it is an important point and we should include it in intro, results, discussion (even if we are not excited about it anymore).
+
+Figures --
+	Maps! Yes, I think good idea to include at least one. 
+	I find the STV and GDD2LF on one figure hard. I would break out to multiple and then you can also add uncertainty (uncertainty intervals and/or draws from posterior would work). 
+
+
+A few more thoughts ...
+- What about the whystvbad.pdf figure?
+- I love NAmappers.pdf, will that go anywhere?
+- dans_concept_sketch.pdf -- top of this could be used in the intro with the next part setting up the results and discussion
+- Compared to temp_sd_stv.ng, why does diff between Europe and NA not show up in current similar version? (I think this difference is important and could be a point we need to make.)
+
+
+Alternative hypotheses:
+- 'Pioneer' species versus whatever the other term is (Laube paper ... also, the traits team should reference this).  
+- Answers are really variable across experiments (we could also introduce in the intro a little by saying one reason this has not been done is that experimental effects may be strongly dependent on where the experiment is done so cross-continent syntheses are tricky... Perhaps around where you write 'One particular relationship that can now be examined this the relationship species’ geographic ranges and phenological cue use.'?) ... Isabelle mentioned this.
+
