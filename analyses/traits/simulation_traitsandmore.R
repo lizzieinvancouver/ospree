@@ -9,6 +9,8 @@ options(mc.cores = 4)
 ## Set seed
 set.seed(202109)
 
+ if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")}
+
 ## Set parameters
 param <- list(
     Nrep = 20, # rep per trait
@@ -178,3 +180,216 @@ param[["trait_sigma_traity"]]
 
 ## summary(mdl.traitonly, pars = c("mu_grand", "sigma_sp", "sigma_study", "sigma_traity"))$summary
 ## t(param)
+
+
+#Faith testing to see how well the model estimates simulated parameters
+#---------------------------------------------------------------------------
+
+
+postSLA <- extract(mdl.traitphen)
+
+#plot main effects of cues
+postMeanSLAdf <- data.frame(postSLA)
+names(postMeanSLAdf)
+
+
+      #Compare results to simulated values
+      pdf("figures/simPosteriorHist_fullModel.pdf")
+
+      par(mfrow=c(2,2))
+
+      hist(postMeanSLAdf$mu_grand, main = paste("trait_mu_grand is " , signif(param$trait_mu_grand,3), sep = ""))
+      abline(v = param$trait_mu_grand, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_traity, main = paste("sigma_traity is " , signif(param$trait_sigma_traity,3), sep = ""))
+      abline(v = param$trait_sigma_traity, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_sp, main = paste("sigma_sp is " , signif(param$trait_sigma_sp,3), sep = ""))
+      abline(v = param$trait_sigma_sp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_study, main = paste("sigma_sp is " , signif(param$trait_sigma_study,3), sep = ""))
+      abline(v = param$trait_sigma_study, col="red", lwd=3, lty=2)
+
+
+      par(mfrow=c(3,4))
+
+      hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(param$phenology_muAlpha,3), sep = ""))
+      abline(v = param$phenology_muAlpha, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(param$phenology_muForce,3), sep = ""))
+      abline(v = param$phenology_muForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(param$phenology_sigmaChill,3), sep = ""))
+      abline(v = param$phenology_sigmaChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muPhotoSp, main = paste("muPhotoSp is " , signif(param$phenology_muPhoto,3), sep = ""))
+      abline(v = param$phenology_muPhoto, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(param$phenology_sigmaPheno,3), sep = ""))
+      abline(v = param$phenology_sigmaPheno, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(param$phenology_betaTraitForce,3), sep = ""))
+      abline(v = param$phenology_betaTraitForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(param$phenology_betaTraitChill,3), sep = ""))
+      abline(v = param$phenology_betaTraitChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(param$phenology_betaTraitPhoto,3), sep = ""))
+      abline(v = param$phenology_betaTraitPhoto, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaChillSp, main = paste("sigmaChillSp is " , signif(param$phenology_sigmaChill,3), sep = ""))
+      abline(v = param$phenology_sigmaChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaForceSp, main = paste("sigmaForceSp is " , signif(param$phenology_sigmaForce,3), sep = ""))
+      abline(v = param$phenology_sigmaForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(param$phenology_sigmaPhoto,3), sep = ""))
+      abline(v = param$phenology_sigmaPhoto, col="red", lwd=3, lty=2) 
+      dev.off()
+
+    par(mfrow=c(1,1))
+
+
+
+
+
+
+    #Try with much wider Priors 
+    #--------------------------------
+
+
+
+
+## Prepare all data for Stan
+all_data2 <- list(yTraiti = yTable$yTraiti,
+                   N = nrow(yTable),
+                   n_spec = param[["Nspp"]], 
+                   trait_species = yTable$Species,
+                   n_study = param[["Nstudy"]],
+                   study = yTable$Study,
+                   prior_mu_grand_mu = param[["trait_mu_grand"]],
+                   prior_mu_grand_sigma = 5,
+                   prior_sigma_sp_mu = param[["trait_sigma_sp"]],
+                   prior_sigma_sp_sigma = 5,
+                   prior_sigma_study_mu = param[["trait_sigma_study"]],
+                   prior_sigma_study_sigma = 5,
+                   prior_sigma_traity_mu = param[["trait_sigma_traity"]],
+                   prior_sigma_traity_sigma = 5,
+                   ## Phenology
+                   phenology_species = yTable$Species,
+                   Nph = nrow(yTable),
+                   yPhenoi = yTable$yPhenologyi,
+                   forcei = yTable$forcei,
+                   chilli = yTable$chilli,
+                   photoi = yTable$photoi,
+                   prior_muForceSp_mu = 0, # mean of the prior distribution of the mean effect of forcing 
+                   prior_muForceSp_sigma = 1, # vareince of the prior distributionof the mean effect of forcing 
+                   prior_muChillSp_mu = 0,# mean of the prior distribution of the mean effect of chilling 
+                   prior_muChillSp_sigma = 1,# varience of the prior distribution of the mean effect of chilling
+                   prior_muPhotoSp_mu = 0,
+                   prior_muPhotoSp_sigma = 1,
+                   prior_muPhenoSp_mu = 80,
+                   prior_muPhenoSp_sigma = 20,
+                   prior_sigmaForceSp_mu = 4,
+                   prior_sigmaForceSp_sigma = 3,
+                   prior_sigmaChillSp_mu = 4,
+                   prior_sigmaChillSp_sigma = 3,
+                   prior_sigmaPhotoSp_mu = 4,
+                   prior_sigmaPhotoSp_sigma = 3,
+                   prior_sigmaPhenoSp_mu = 0,
+                   prior_sigmaPhenoSp_sigma = 10,
+                   prior_betaTraitxForce_mu = 0,
+                   prior_betaTraitxForce_sigma = 0.5,
+                   prior_betaTraitxChill_mu = 0,
+                   prior_betaTraitxChill_sigma = 0.5,
+                   prior_betaTraitxPhoto_mu = 0,
+                   prior_betaTraitxPhoto_sigma = 0.5,
+                   prior_sigmaphenoy_mu =20,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
+                   prior_sigmaphenoy_sigma = 5 # variance of the prior distribution of the general error sigma)y around the mean predicted value
+                   ) 
+
+
+                   
+                   
+
+mdl.traitphen2 <- stan("stan/phenology_combined.stan",
+                      data = all_data2,
+                      iter = 2000,
+                      warmup = 1000,
+                      chains = 4,
+                      include = FALSE, pars = c("y_hat"),
+                      seed = 202109)
+
+
+#Faith testing to see how well the model estimates simulated parameters
+#---------------------------------------------------------------------------
+
+
+postSLA2 <- extract(mdl.traitphen2)
+
+#plot main effects of cues
+postMeanSLAdf <- data.frame(postSLA2)
+names(postMeanSLAdf)
+
+
+      #Compare results to simulated values
+      pdf("figures/simPosteriorHist_fullModel_widePriors.pdf")
+
+      par(mfrow=c(2,2))
+
+      hist(postMeanSLAdf$mu_grand, main = paste("trait_mu_grand is " , signif(param$trait_mu_grand,3), sep = ""))
+      abline(v = param$trait_mu_grand, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_traity, main = paste("sigma_traity is " , signif(param$trait_sigma_traity,3), sep = ""))
+      abline(v = param$trait_sigma_traity, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_sp, main = paste("sigma_sp is " , signif(param$trait_sigma_sp,3), sep = ""))
+      abline(v = param$trait_sigma_sp, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigma_study, main = paste("sigma_sp is " , signif(param$trait_sigma_study,3), sep = ""))
+      abline(v = param$trait_sigma_study, col="red", lwd=3, lty=2)
+
+
+      par(mfrow=c(3,4))
+
+      hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(param$phenology_muAlpha,3), sep = ""))
+      abline(v = param$phenology_muAlpha, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(param$phenology_muForce,3), sep = ""))
+      abline(v = param$phenology_muForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(param$phenology_sigmaChill,3), sep = ""))
+      abline(v = param$phenology_sigmaChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$muPhotoSp, main = paste("muPhotoSp is " , signif(param$phenology_muPhoto,3), sep = ""))
+      abline(v = param$phenology_muPhoto, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(param$phenology_sigmaPheno,3), sep = ""))
+      abline(v = param$phenology_sigmaPheno, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(param$phenology_betaTraitForce,3), sep = ""))
+      abline(v = param$phenology_betaTraitForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(param$phenology_betaTraitChill,3), sep = ""))
+      abline(v = param$phenology_betaTraitChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(param$phenology_betaTraitPhoto,3), sep = ""))
+      abline(v = param$phenology_betaTraitPhoto, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaChillSp, main = paste("sigmaChillSp is " , signif(param$phenology_sigmaChill,3), sep = ""))
+      abline(v = param$phenology_sigmaChill, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaForceSp, main = paste("sigmaForceSp is " , signif(param$phenology_sigmaForce,3), sep = ""))
+      abline(v = param$phenology_sigmaForce, col="red", lwd=3, lty=2)
+
+      hist(postMeanSLAdf$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(param$phenology_sigmaPhoto,3), sep = ""))
+      abline(v = param$phenology_sigmaPhoto, col="red", lwd=3, lty=2) 
+      dev.off()
+
+    par(mfrow=c(1,1))
+
+
+
+
+
+
