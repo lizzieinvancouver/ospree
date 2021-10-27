@@ -1,5 +1,4 @@
 "datasetID","study","intxn"
-"Sanz-Perez09","exp1","force x photo"
 "ashby62","exp2","photo x fieldsample dates"
 "basler14","exp1","photo x force x field sample dates"
 "caffarra11a","exp3","photo x chilldays"
@@ -42,6 +41,7 @@
 "pop2000","exp1","force x chilldays"
 "ramos99","exp1","force x fieldsample dates"
 "ruesink98","exp3","force x photo"
+"Sanz-Perez09","exp1","force x photo"
 "schnabel87","exp1","force/photo x cold hardiness treatment"
 "skuterud94","exp1","force x field sample x chilltemp (x provenance)"
 "worrall67","exp 3","photo/force x exp chilldays (force and photo are NOT interactive)"

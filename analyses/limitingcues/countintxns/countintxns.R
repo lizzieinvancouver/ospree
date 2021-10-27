@@ -42,6 +42,7 @@ dat$latbi <- paste(dat$genus, dat$species)
 
 # Some basic counts
 sort(unique(dat$latbi)) # 227 species
+sort(unique(dat$datasetID))
 table(dat$continent)
 spbycontinentfull <- subset(dat, select=c("continent", "latbi"))
 spbycontinent <- spbycontinentfull[!duplicated(spbycontinentfull), ]
@@ -910,3 +911,9 @@ write.csv(bbintxnsdf, "limitingcues/output/bbstan_allsppmodel_countinxns.csv", r
 }
 
 }
+
+##woof Dan is trying to find how many studies might have  photo thermon issues
+inters<-unique(osp.fpintxn$datasetID,osp.fpintxn$study)
+perioprobs<-unique(osp14d.studiesinclforceperiodicity$datasetID,osp14d.studiesinclforceperiodicity$study)      
+
+intersect(inters,perioprobs) ### I am pretty sure zohner and flynn and falusi should have these problems why dont they show up
