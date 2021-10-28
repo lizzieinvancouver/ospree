@@ -176,6 +176,22 @@ head(pheno.dat)
 #set up date for model 
 
 ## pehnology and mean trait stan model ###########################################################
+trt_data <- list(alphaTraitSp = trt.dat$alphaTraitSp,
+                   Ntrt = Ntrt,
+                   n_spec = Nspp,
+                   species = as.integer(as.factor(trt.dat$species)),
+                   yTraiti = trt.dat$yTraiti,
+                   #Priors
+                   prior_mu_grand_mu = 17,
+                   prior_mu_grand_sigma = 2,
+                   prior_sigma_sp_mu = 10,
+                   prior_sigma_sp_sigma = 2,
+                   prior_sigma_study_mu = 5,
+                   prior_sigma_study_sigma = 2,
+                   prior_sigma_traity_mu = 2,
+                   prior_sigma_traity_sigma = 0.5,
+                   )
+
 pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait value 
                    Nph = Nph, 
                    n_spec = n_spec, 
@@ -186,14 +202,6 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
                    chilli = pheno.dat$chilli,
               
                 #Priors
-                   prior_mu_grand_mu = 17,
-                   prior_mu_grand_sigma = 2,
-                   prior_sigma_sp_mu = 10,
-                   prior_sigma_sp_sigma = 2,
-                   prior_sigma_study_mu = 5,
-                   prior_sigma_study_sigma = 2,
-                   prior_sigma_traity_mu = 2,
-                   prior_sigma_traity_sigma = 0.5,
                    prior_sigmaphenoy_mu =2,  #mean of prior distribution of the general error (sigma_y) around the mean predicted value
                    prior_sigmaphenoy_sigma = 2, # variance of the prior distribution of the general error sigma)y around the mean predicted value
                    
@@ -217,13 +225,10 @@ pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait va
                    prior_sigmaPhenoSp_mu = 5,#the mean of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
                    prior_sigmaPhenoSp_sigma = 5,  #the varience of the prior of the spread of species phenology values around teh grand mean muPhenoSp 
 
-
                    #prior_sigma_sp_sigma = 10,  # Faith doesn't knwo what these might
                    #prior_mu_study = 0,
                    #prior_sigma_study_mu = 10,
                    #prior_sigma_study_sigma = 10,
-
-
 
                    prior_betaTraitxForce_mu= 0, # the mean of the prior distribution of the effect of trait on the slope of forcing 
                    prior_betaTraitxForce_sigma= 2, # the varience of the prior distribution of the effect of trait on the slope of forcing 
@@ -316,7 +321,41 @@ if(priorCheck == TRUE){
 
 	#Number fo prior check itterations 
 	nRepPrior <- 300
-
+	
+	# ppc for traits portion
+	priorCheckTrait <- data.frame(matrix(NA, Ntrt*nRepPrior, 3))
+	names(priorCheckTrait) <- c("simRep", "rep", "species")
+	priorCheckTrait$simRep <- rep(1:nRepPrior, each = Ntrt)
+	priorCheckTrait$rep <- rep(1:Ntrt, times = nRepPrior)
+	priorCheckTrait$species <- rep(1:Nspp, each = nRep)
+	priorCheckTrait$study <- rep(1:Nstudy, each = nRep)
+	
+	traitSLA <- rnorm(Ntrt, 20, 5)
+	
+	#Make this the name of the full vector of sla per species values - alphaTraitSp 
+	priorCheckTrait$alphaTraitSp <-  rep(rep(traitSLA, times = nRepPrior))
+	
+	for (ir in 1:nRepPrior){
+	  # Parameter Values
+	  #ir <- 1
+	  
+	  muGrand <- rtruncnorm(1, a = 0, mean = trt_data$prior_mu_grand_mu, sd = trt_data$prior_mu_grand_sigma)
+	  sigmaSp <- rtruncnorm(1, a = 0, mean = trt_data$prior_sigma_sp_mu, sd = trt_data$prior_sigma_sp_sigma)
+	  sigmaStudy <- rtruncnorm(1, a = 0, mean = trt_data$prior_sigma_study_mu, sd = trt_data$prior_sigma_study_sigma)
+	  
+	  alphaTraitSp <- rnorm(Nspp, 0, sigmaSp)
+	  priorCheckTrait$alphaTraitSp[priorCheckTrait$simRep == ir] <- rep(alphaTraitSp, each = nRep)
+	  
+	  #general varience
+	  priorCheckTrait$sigmatrait_y[priorCheckPheno$simRep == ir] <- rtruncnorm(trt_data$prior_sigmatraity_mu,  a = 0, trt_data$prior_sigmatraity_sigma)
+	  priorCheckTraut$e[priorCheckTrait$simRep == ir] <- rnorm(Ntrt, 0, sigmatrait_y)
+	  
+	}# end simulating new priors, from here vectorize code
+	  
+	#Final values
+	priorCheckPheno$yPhenoi <- priorCheckPheno$yMu + priorCheckPheno$e
+#####################################################################################
+	
 	#Make a data frame for input simulation data
 	priorCheckPheno <- data.frame(matrix(NA, Nph*nRepPrior, 3))
 	names(priorCheckPheno) <- c("simRep","rep","species")
@@ -325,12 +364,13 @@ if(priorCheck == TRUE){
 
 	priorCheckPheno$rep <- rep(c(1:Nph), times = nRepPrior)
 	priorCheckPheno$species <- rep(rep(c(1:n_spec), each = nRep), times = nRepPrior)
+	
 
 
-	#Simulate mean SLA data per species
-	SLA <- rnorm(Nph, 20, 5)
+	#Simulate SLA data per species
+	phenoSLA <- rnorm(Nph, 20, 5)
 	#Make this the name of the full vector of sla per species values - alphaTraitSp 
-	priorCheckPheno$alphaTraitSp <-  rep(rep(SLA, times = nRepPrior))
+	priorCheckPheno$alphaTraitSp <-  rep(rep(phenoSLA, times = nRepPrior))
 
 
 	#Simulate cues (z scored)
@@ -406,8 +446,6 @@ if(priorCheck == TRUE){
 	png("figures/chillingPlotPrior_joint.png")
 	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$chilli, xlab = "Chillina", ylab = "Phenological Date")
 	dev.off()
-
-
 
 }
 
