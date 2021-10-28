@@ -54,6 +54,11 @@ Nspp <- 150 # number of species with traits (making this 20 just for speed for n
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
 
+sigmaTrait_y <- 5
+sigmaSp <- 10
+sigmaStudy <- 5
+
+
 #make a dataframe for height
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
 names(trt.dat) <- c("rep")
@@ -189,7 +194,7 @@ trt_data <- list(alphaTraitSp = trt.dat$alphaTraitSp,
                    prior_sigma_study_mu = 5,
                    prior_sigma_study_sigma = 2,
                    prior_sigma_traity_mu = 2,
-                   prior_sigma_traity_sigma = 0.5,
+                   prior_sigma_traity_sigma = 0.5
                    )
 
 pheno_data <- list(alphaTraitSp = pheno.dat$alphaTraitSp, #mean species trait value 
@@ -346,14 +351,38 @@ if(priorCheck == TRUE){
 	  alphaTraitSp <- rnorm(Nspp, 0, sigmaSp)
 	  priorCheckTrait$alphaTraitSp[priorCheckTrait$simRep == ir] <- rep(alphaTraitSp, each = nRep)
 	  
+	  muSp <- rnorm(Nspp, 0, sigmaSp)
+	  priorCheckTrait$muSp[priorCheckTrait$simRep == ir] <- rep(muSp, each = nRep)
+	  
+	  muStudy <- rnorm(Nstudy, 0, sigmaStudy)
+	  priorCheckTrait$muStudy[priorCheckTrait$simRep == ir] <- rep(muStudy, each = nRep)
+	  
 	  #general varience
-	  priorCheckTrait$sigmatrait_y[priorCheckPheno$simRep == ir] <- rtruncnorm(trt_data$prior_sigmatraity_mu,  a = 0, trt_data$prior_sigmatraity_sigma)
-	  priorCheckTraut$e[priorCheckTrait$simRep == ir] <- rnorm(Ntrt, 0, sigmatrait_y)
+	  priorCheckTrait$sigmaTrait_y[priorCheckTrait$simRep == ir] <- rtruncnorm(trt_data$prior_sigma_traity_mu,  a = 0, trt_data$prior_sigma_traity_sigma)
+	  priorCheckTrait$e[priorCheckTrait$simRep == ir] <- rnorm(Ntrt, 0, sigmaTrait_y)
 	  
+	  priorCheckTrait$yTraiti <- muGrand + priorCheckTrait$muSp + priorCheckTrait$muStudy + priorCheckTrait$e
 	}# end simulating new priors, from here vectorize code
-	  
+
 	#Final values
-	priorCheckPheno$yPhenoi <- priorCheckPheno$yMu + priorCheckPheno$e
+	priorCheckTrait$muGrandSp <- muGrand + priorCheckTrait$muSp
+
+	
+	png("figures/density_Trait_Prior_joint.png")
+	plot(density(priorCheckTrait$yTraiti))
+	dev.off()
+	
+	png("figures/GrandSp_PlotPrior_joint.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muGrandSp, xlab = "muGrandSp", ylab = "Trait")
+	dev.off()
+	
+	png("figures/MuSp_PlotPrior_joint.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Phenological Date")
+	dev.off()
+	
+	png("figures/MuStudy_PlotPrior_joint.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Phenological Date")
+	dev.off()
 #####################################################################################
 	
 	#Make a data frame for input simulation data
