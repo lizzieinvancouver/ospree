@@ -54,10 +54,10 @@ Nspp <- 150 # number of species with traits (making this 20 just for speed for n
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
 
+mu.grand <- 10 # the grand mean of the height model
+sigma.species <- 10 # we want to keep the variaiton across spp. high
+sigma.study <- 5
 sigmaTrait_y <- 5
-sigmaSp <- 10
-sigmaStudy <- 5
-
 
 #make a dataframe for height
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
@@ -67,15 +67,11 @@ trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
 trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for height
-mu.grand <- 10 # the grand mean of the height model
-sigma.species <- 10 # we want to keep the variaiton across spp. high
-
 #the alphaTraitSp in Faiths original code:
 alphaTraitSp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$alphaTraitSp <- rep(alphaTraitSp, Nstudy) #adding ht data for ea. sp
 
 #now generating the effects of study
-sigma.study <- 5
 muStudy <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
 trt.dat$muStudy <- rep(muStudy, each = Nspp) # generate data for ea study
 
@@ -113,6 +109,7 @@ pheno.dat$alphaTraitSp <- rep(alphaTraitSp, each = nRep)
 
 #Simulate cues (z scored)
 pheno.dat$forcei <- rnorm(Nph, 1, 1)
+
 pheno.dat$photoi <- rnorm(Nph, 1, 0.5) # less photoperiod 
 pheno.dat$chilli <- rnorm(Nph, 1, 1) #more chilling
 
@@ -335,10 +332,10 @@ if(priorCheck == TRUE){
 	priorCheckTrait$species <- rep(1:Nspp, each = nRep)
 	priorCheckTrait$study <- rep(1:Nstudy, each = nRep)
 	
-	traitSLA <- rnorm(Ntrt, 20, 5)
+	#traitSLA <- rnorm(Ntrt, 20, 5)
 	
 	#Make this the name of the full vector of sla per species values - alphaTraitSp 
-	priorCheckTrait$alphaTraitSp <-  rep(rep(traitSLA, times = nRepPrior))
+	#priorCheckTrait$alphaTraitSp <-  rep(rep(trt.dat$mu_grand_sp, times = nRepPrior))
 	
 	for (ir in 1:nRepPrior){
 	  # Parameter Values
@@ -348,10 +345,10 @@ if(priorCheck == TRUE){
 	  sigmaSp <- rtruncnorm(1, a = 0, mean = trt_data$prior_sigma_sp_mu, sd = trt_data$prior_sigma_sp_sigma)
 	  sigmaStudy <- rtruncnorm(1, a = 0, mean = trt_data$prior_sigma_study_mu, sd = trt_data$prior_sigma_study_sigma)
 	  
-	  alphaTraitSp <- rnorm(Nspp, 0, sigmaSp)
+	  alphaTraitSp <- rnorm(Nspp, 0, sigma.species)
 	  priorCheckTrait$alphaTraitSp[priorCheckTrait$simRep == ir] <- rep(alphaTraitSp, each = nRep)
 	  
-	  muSp <- rnorm(Nspp, 0, sigmaSp)
+	  muSp <- rnorm(Nspp, 0, sigma.species)
 	  priorCheckTrait$muSp[priorCheckTrait$simRep == ir] <- rep(muSp, each = nRep)
 	  
 	  muStudy <- rnorm(Nstudy, 0, sigmaStudy)
@@ -377,11 +374,11 @@ if(priorCheck == TRUE){
 	dev.off()
 	
 	png("figures/MuSp_PlotPrior_joint.png")
-	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Phenological Date")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Trait")
 	dev.off()
 	
 	png("figures/MuStudy_PlotPrior_joint.png")
-	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Phenological Date")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Trait")
 	dev.off()
 #####################################################################################
 	
@@ -397,9 +394,9 @@ if(priorCheck == TRUE){
 
 
 	#Simulate SLA data per species
-	phenoSLA <- rnorm(Nph, 20, 5)
+	muGrandSp <- muGrand + muSp
 	#Make this the name of the full vector of sla per species values - alphaTraitSp 
-	priorCheckPheno$alphaTraitSp <-  rep(rep(phenoSLA, times = nRepPrior))
+	priorCheckPheno$alphaTraitSp <-  rep(rep(muGrandSp, times = nRepPrior)) # use the mean mu_grand_sp, grand mean + study, not study
 
 
 	#Simulate cues (z scored)
