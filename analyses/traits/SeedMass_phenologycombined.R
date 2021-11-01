@@ -28,8 +28,8 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", 
 # Subset data to traitors species list
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 
-# SLA trait only
-slaData <- traitsData[traitsData$traitname == "Specific_leaf_area",]
+# Seed mass trait only
+seedData <- traitsData[traitsData$traitname == "seed mass",]
 
 # Read Ospree data and subset
 ospree <- read.csv("input/bbstan_allspp_utah.csv", header = TRUE)
@@ -37,20 +37,20 @@ ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
 # Sorted species and study list
-specieslist <- sort(unique(slaData$speciesname))
-studylist <- sort(unique(slaData$datasetid))
+specieslist <- sort(unique(seedData$speciesname))
+studylist <- sort(unique(seedData$datasetid))
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = slaData$traitvalue,
-                 N = nrow(slaData),
+all.data <- list(yTraiti = seedData$traitvalue,
+                 N = nrow(seedData),
                  n_spec = length(specieslist),
-                 trait_species = as.numeric(as.factor(slaData$speciesname)),
+                 trait_species = as.numeric(as.factor(seedData$speciesname)),
                  n_study = length(studylist),
-                 study = as.numeric(as.factor(slaData$datasetid)),
-                 prior_mu_grand_mu = 17,
+                 study = as.numeric(as.factor(seedData$datasetid)),
+                 prior_mu_grand_mu = 70,
                  prior_mu_grand_sigma = 2,
-                 prior_sigma_sp_mu = 10,
-                 prior_sigma_sp_sigma = 2,
+                 prior_sigma_sp_mu = 100,
+                 prior_sigma_sp_sigma = 10,
                  prior_sigma_study_mu = 5,
                  prior_sigma_study_sigma = 2,
                  prior_sigma_traity_mu = 2,
@@ -112,7 +112,7 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "SLA_estimates.pdf", onefile = TRUE)
+pdf(file = "SeedMass_estimates.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
@@ -126,4 +126,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
 plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "SLA_stanfit.RDS")
+saveRDS(object = mdl.traitphen, file = "SeedMass_stanfit.RDS")

@@ -28,33 +28,33 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", 
 # Subset data to traitors species list
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 
-# SLA trait only
-slaData <- traitsData[traitsData$traitname == "Specific_leaf_area",]
+# LNC specific density trait only
+lncData <- traitsData[traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass",]
 
 # Read Ospree data and subset
 ospree <- read.csv("input/bbstan_allspp_utah.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
-ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
+ospreeData <- subset(ospree, ospree$speciesname %in% unique(lncData$speciesname)) # note change here
 
 # Sorted species and study list
-specieslist <- sort(unique(slaData$speciesname))
-studylist <- sort(unique(slaData$datasetid))
+specieslist <- sort(unique(lncData$speciesname))
+studylist <- sort(unique(lncData$datasetid))
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = slaData$traitvalue,
-                 N = nrow(slaData),
+all.data <- list(yTraiti = lncData$traitvalue,
+                 N = nrow(lncData),
                  n_spec = length(specieslist),
-                 trait_species = as.numeric(as.factor(slaData$speciesname)),
+                 trait_species = as.numeric(as.factor(lncData$speciesname)),
                  n_study = length(studylist),
-                 study = as.numeric(as.factor(slaData$datasetid)),
-                 prior_mu_grand_mu = 17,
-                 prior_mu_grand_sigma = 2,
-                 prior_sigma_sp_mu = 10,
+                 study = as.numeric(as.factor(lncData$datasetid)),
+                 prior_mu_grand_mu = 20,
+                 prior_mu_grand_sigma = 5,
+                 prior_sigma_sp_mu = 5,
                  prior_sigma_sp_sigma = 2,
                  prior_sigma_study_mu = 5,
                  prior_sigma_study_sigma = 2,
                  prior_sigma_traity_mu = 2,
-                 prior_sigma_traity_sigma = .5,
+                 prior_sigma_traity_sigma = 1,
                  ## Phenology
                  Nph = nrow(ospreeData),
                  phenology_species = as.numeric(as.factor(ospreeData$speciesname)),
@@ -112,7 +112,7 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "SLA_estimates.pdf", onefile = TRUE)
+pdf(file = "LNC_estimates.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
@@ -126,4 +126,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
 plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "SLA_stanfit.RDS")
+saveRDS(object = mdl.traitphen, file = "LNC_stanfit.RDS")
