@@ -27,6 +27,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 load("popupmods.Rda")
 
+###
+
+
 concordance<-unique(dplyr::select(bb.stan,complex,complex.wname)) ### for adding ordinal data
 ###z-score orginal variable for plotting because the model ran on zscored bariables
 ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)

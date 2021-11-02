@@ -30,7 +30,7 @@ posties<-read.csv("output/cue_posteriors.csv") ##read in both data
 rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
 rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
 
-area<-read.csv("output/rangeareas.csv")
+#area<-read.csv("output/rangeareas.csv")
 #head(rangiesNa,14)
 ##clean North America names
 #rangiesNa$species[which(rangiesNa$species=="betulent")]<- "Betula_lenta"
@@ -78,15 +78,21 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(Geo.SD,Temp.SD))
 
 a<-ggplot(GDD.lastfrost,aes(Geo.SD,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
   xlab("Geographic variation in GDDs to last frost")+annotate("text", x = 40, y = 150, 
 label = "Correlation= 0.88
          EU= 0.37
          NA= 0.83")
 
 colnames(MeanTmins)[4]<-"STV"
-MeanTmins<-dplyr::select(MeanTmins,STV,species)
-GDD.lastfrost<-left_join(GDD.lastfrost,MeanTmins)
+#MeanTmins<-dplyr::select(MeanTmins,STV,species)
+#GDD.lastfrost<-left_join(GDD.lastfrost,MeanTmins)
+###add few other climate paramenters
+GDD.lastfrost$STV<-MeanTmins$STV
+GDD.lastfrost$Geo.Mean.GDD<-GDD$Geo.Mean
+GDD.lastfrost$Temp.Mean.GDD<-GDD$Temp.Mean
+GDD.lastfrost$Geo.Mean.Chill<-Mean.Chill.Portions$Geo.Mean
+GDD.lastfrost$Temp.Mean.Chill<-Mean.Chill.Portions$Temp.Mean
 
 cor(GDD.lastfrost$Temp.SD,GDD.lastfrost$Geo.SD)
 GDD.lastfrost %>%
@@ -94,7 +100,7 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(STV,Temp.SD))
 
 b<-ggplot(GDD.lastfrost,aes(STV,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
   xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 150,
 label = "Correlation= 0.789
          EU= -.39
@@ -106,11 +112,119 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(STV,Geo.SD))
 
 c<-ggplot(GDD.lastfrost,aes(STV,Geo.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis(discrete=TRUE,begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
   xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 80, 
 label = "Correlation= 0.639
           EU= -.18
           NA= 0.5")
+
+ggpubr::ggarrange(a,b,c,ncol=1,nrow=3)
+
+#cor(GDD.lastfrost$Geo.Mean.GDD,GDD.lastfrost$Geo.Mean.Chill)
+#GDD.lastfrost %>%
+ # dplyr::group_by(continent) %>%
+  #dplyr::summarize(COR=cor(Temp.Mean.Chill,Temp.Mean.GDD))
+
+#ggplot(GDD.lastfrost,aes(Temp.Mean.Chill,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  #scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)
+
+
+
+cor(GDD.lastfrost$Temp.Mean.Chill,GDD.lastfrost$Temp.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean.Chill,Temp.SD))
+####################
+cor(GDD.lastfrost$Temp.Mean,GDD.lastfrost$Temp.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean,Temp.SD))
+
+d<-ggplot(GDD.lastfrost,aes(Temp.Mean,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+
+  ylab("Temporal variation in GDDs to last frost")+
+  xlab("Temporal Mean GDD to last frost ")+annotate("text", x = 50, y =150, 
+                                                                    label = "Correlation= 0.89
+          EU= .96
+          NA= .78")
+
+ggpubr::ggarrange(a,b,c,d,nrow=2,ncol=2)
+
+
+cor(GDD.lastfrost$Temp.Mean.GDD,GDD.lastfrost$Temp.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean.GDD,Temp.SD))
+
+e<-ggplot(GDD.lastfrost,aes(Temp.Mean.GDD,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+
+  ylab("Temporal variation in GDDs to last frost")+
+  xlab("Mean GDDs in range ")+annotate("text", x = 250, y =120, 
+                                                    label = "Correlation= 0.36
+          EU= .70
+          NA= .81")
+
+ggpubr::ggarrange(a,b,c,d,e,nrow=3,ncol=2)
+
+cor(GDD.lastfrost$Temp.Mean.Chill,GDD.lastfrost$Temp.SD)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean.Chill,Temp.SD))
+g<-ggplot(GDD.lastfrost,aes(Temp.Mean.Chill,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+
+  ylab("Temporal variation in GDDs to last frost")+
+  xlab("Mean Chill Portions in range ")+annotate("text", x = 35, y =120, 
+                                       label = "Correlation= -0.31
+          EU= .66
+          NA= .80")
+ggpubr::ggarrange(a,b,c,d,e,g,nrow=3,ncol=2)
+
+cor(GDD.lastfrost$Temp.Mean.Chill,GDD.lastfrost$STV)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean.Chill,STV))
+
+h<-ggplot(GDD.lastfrost,aes(Temp.Mean.Chill,STV))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+
+  ylab("Interannual spring temperature variability (STV)")+
+  xlab("Mean Chill Portions in range ")+annotate("text", x = 35, y =4,
+                                                 label = "Correlation= -0.44
+          EU= -.91.
+          NA= .44")
+
+
+cor(GDD.lastfrost$Temp.Mean.GDD,GDD.lastfrost$STV)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.Mean.GDD,STV))
+
+i<-ggplot(GDD.lastfrost,aes(Temp.Mean.GDD,STV))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+
+  ylab("Interannual spring temperature variability (STV)")+
+  xlab("Mean GDD's in range ")+annotate("text", x = 230, y =4,
+                                                 label = "Correlation= 0.16
+          EU= -.56
+          
+          NA= .54")
+
+ggpubr::ggarrange(a,b,c,d,nrow=2,ncol=2,common.legend=TRUE)
+ggpubr::ggarrange(e,h,g,i,nrow=2,ncol=2,common.legend=TRUE)
+
+jpeg("figures/clim_params.jpeg",width=14,height=10,units = "in",res=200)
+ggpubr::ggarrange(e,g,h,i,a,b,c,d,nrow=2,ncol=4,common.legend = TRUE,
+                  labels = c("a)","b)","c)","d)","e)","f)","g)","h)"))
+
+dev.off()
+
+
+
+
+cor(GDD.lastfrost$Temp.Mean.GDD,GDD.lastfrost$Temp.Mean.Chill)
+GDD.lastfrost %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Geo.Mean.Chill,Geo.Mean.GDD))
+
+
 
 options(scipen = 999)
 area<-select(area,-continent)
