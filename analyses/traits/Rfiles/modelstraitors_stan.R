@@ -15,6 +15,7 @@ options(stringsAsFactors = FALSE)
 # libraries
 library(shinystan)
 library(ggplot2)
+library(gridExtra)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -132,6 +133,7 @@ selectData <- dat_sp[dat_sp$traitname %in% triatSelect,]
 
 #Calculate mean values for each species
 meanTrait <- aggregate(selectData$traitvalue, by = list(selectData$traitname, selectData$speciesname), FUN = mean)
+
 names(meanTrait) <- c("traitname", "speciesname", "traitvalue")
 
 meanSSD <- meanTrait[meanTrait$traitname == "SSD",]
@@ -145,15 +147,130 @@ nrow(meanSeed)
 meanHeight <- meanTrait[meanTrait$traitname == "Plant_height_vegetative",]
 nrow(meanHeight)
 
+
+
 bchill <- as.data.frame(b_chill)
 chill <- cbind(meanSSD, bchill); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanSSD"
-chill <- cbind(meanSLA, chill); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanSLA"
-chill <- cbind(meanLNC, chill); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanLNC"
-chill <- cbind(meanSeed, chill); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanSeed"
-chill <- cbind(meanHeight, chill); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanHeight"
+chill <- merge(chill[,2:13], meanSLA, by = "speciesname"); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanSLA"
+chill <- merge(chill, meanLNC, by = "speciesname"); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanLNC"
+chill <- merge(chill, meanSeed, by = "speciesname"); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanSeed"
+chill <- merge(chill, meanHeight, by = "speciesname"); colnames(chill)[colnames(chill) == "traitvalue"] <- "meanHeight"
+chill <- chill[,c("speciesname","meanSSD","meanSLA","meanLNC","meanSeed","meanHeight","mean","se_mean","sd","2.5%","25%","50%","75%","97.5%")]
 
-ggplot() +
-  geom_point(aes(x= meanSSD$traitvalue, y = bchill$mean)) +
-  +
-  geom_errorbar(aes(ymin=len, ymax=len+sd), width=.2,
-                position=position_dodge(.9)) 
+cSSD <- ggplot(chill, aes(x= meanSSD, y = mean)) +
+  geom_point()+ labs(y="chilling cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+  
+cSLA <- ggplot(chill, aes(x= meanSLA, y = mean)) +
+  geom_point()+ labs(y="chilling cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+cSeed <- ggplot(chill, aes(x= meanSeed, y = mean)) +
+  geom_point()+ labs(y="chilling cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+cLNC <- ggplot(chill, aes(x= meanLNC, y = mean)) +
+  geom_point()+ labs(y="chilling cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+cHeight <- ggplot(chill, aes(x= meanHeight, y = mean)) +
+  geom_point()+ labs(y="chilling cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pdf("..//traits/figures/chillvstraits.pdf", width = 15, height = 3)
+grid.arrange(cSSD, cSLA,cLNC,cHeight,cSeed, nrow=1)
+dev.off()
+
+bforce <- as.data.frame(b_force)
+force <- cbind(meanSSD, bforce); colnames(force)[colnames(force) == "traitvalue"] <- "meanSSD"
+force <- merge(force[,2:13], meanSLA, by = "speciesname"); colnames(force)[colnames(force) == "traitvalue"] <- "meanSLA"
+force <- merge(force, meanLNC, by = "speciesname"); colnames(force)[colnames(force) == "traitvalue"] <- "meanLNC"
+force <- merge(force, meanSeed, by = "speciesname"); colnames(force)[colnames(force) == "traitvalue"] <- "meanSeed"
+force <- merge(force, meanHeight, by = "speciesname"); colnames(force)[colnames(force) == "traitvalue"] <- "meanHeight"
+force <- force[,c("speciesname","meanSSD","meanSLA","meanLNC","meanSeed","meanHeight","mean","se_mean","sd","2.5%","25%","50%","75%","97.5%")]
+
+fSSD <- ggplot(force, aes(x= meanSSD, y = mean)) +
+  geom_point()+ labs(y="forceing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+fSLA <- ggplot(force, aes(x= meanSLA, y = mean)) +
+  geom_point()+ labs(y="forceing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+fSeed <- ggplot(force, aes(x= meanSeed, y = mean)) +
+  geom_point()+ labs(y="forceing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+fLNC <- ggplot(force, aes(x= meanLNC, y = mean)) +
+  geom_point()+ labs(y="forceing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+fHeight <- ggplot(force, aes(x= meanHeight, y = mean)) +
+  geom_point()+ labs(y="forceing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pdf("..//traits/figures/forcevstraits.pdf", width = 15, height = 3)
+grid.arrange(fSSD, fSLA,fLNC,fHeight,fSeed, nrow=1)
+dev.off()
+
+bphoto <- as.data.frame(b_photo)
+photo <- cbind(meanSSD, bphoto); colnames(photo)[colnames(photo) == "traitvalue"] <- "meanSSD"
+photo <- merge(photo[,2:13], meanSLA, by = "speciesname"); colnames(photo)[colnames(photo) == "traitvalue"] <- "meanSLA"
+photo <- merge(photo, meanLNC, by = "speciesname"); colnames(photo)[colnames(photo) == "traitvalue"] <- "meanLNC"
+photo <- merge(photo, meanSeed, by = "speciesname"); colnames(photo)[colnames(photo) == "traitvalue"] <- "meanSeed"
+photo <- merge(photo, meanHeight, by = "speciesname"); colnames(photo)[colnames(photo) == "traitvalue"] <- "meanHeight"
+photo <- photo[,c("speciesname","meanSSD","meanSLA","meanLNC","meanSeed","meanHeight","mean","se_mean","sd","2.5%","25%","50%","75%","97.5%")]
+
+pSSD <- ggplot(photo, aes(x= meanSSD, y = mean)) +
+  geom_point()+ labs(y="photoing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pSLA <- ggplot(photo, aes(x= meanSLA, y = mean)) +
+  geom_point()+ labs(y="photoing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pSeed <- ggplot(photo, aes(x= meanSeed, y = mean)) +
+  geom_point()+ labs(y="photoing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pLNC <- ggplot(photo, aes(x= meanLNC, y = mean)) +
+  geom_point()+ labs(y="photoing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pHeight <- ggplot(photo, aes(x= meanHeight, y = mean)) +
+  geom_point()+ labs(y="photoing cue") +
+  geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"))
+
+pdf("..//traits/figures/photovstraits.pdf", width = 15, height = 3)
+grid.arrange(pSSD, pSLA,pLNC,pHeight,pSeed, nrow=1)
+dev.off()
