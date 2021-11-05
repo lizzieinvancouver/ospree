@@ -75,8 +75,12 @@
 \usepackage{hyperref}
 
 
-\title{Ranger Outline: We will come up with a better title when we feel more grounded in the results}
-\date{}
+\title{Continental divides: How the climate shapes the phenological cue strength of woody species in temperate North America and Europe\\ or\\
+Spring climate stability shapes phenological cue sensitivities of temperate forest in North America but not Europe\\ or\\
+Limited support for range-wide climate patterns shaping phenological cue differences among woody plants of temperate North America and Europe \\or\\
+Other
+}
+
 \author{Dan, Cat, Nacho and Lizzie and the lab}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
@@ -91,37 +95,28 @@
 
 \textbf{ But the quantification of cue use difference among species offers even more---a novel opportunity to interrogate long-standing theories regarding the biology underlying cue-use difference among species.} One particular relationship that can now be examined this the relationship species' geographic ranges and phenological cue use.
 
-Climate is the major selective force on both species' geographic ranges \citep{} and their phenology \citep{}, and therefore, it is widely assumed that phenological cue-use differences among species reflect correlate with the climate of there repsecitve ranges \citep{}. That is, a species' relative reliance on forcing, chilling and photoperiod for each species should be shaped by the unique environmental conditions across a species' geographic range.\\
+Climate is the major selective force on both species' geographic ranges \citep{} and their phenology \citep{}, and therefore, it is widely assumed that phenological cue-use differences among species reflect correlate with the climate of their respective ranges \citep{}. That is, a species' relative reliance on forcing, chilling and photoperiod for each species should be shaped by the unique environmental conditions across a species' geographic range.\\
 
-This has never really been tested (say better but see \citep{Zohner:2017aa}). With the recent quantification for cue use of many species \citep{} and the accessibility of high resolution climate data it is now possible to rigorously test this theory with data. Below, we briefly review the specific assumptions and predictions presented in the literature about the relationship between phenological cue-use and species' range characteristics. We then test these predictions using Bayesian models for a large suite of temperate woody species from North America and Europe.
-
-
-\subsection*{Assumptions and predictions for the relationship between the cue-use and species' ranges}
-
-Current understanding of the evolution of phenological cues assume that forcing is the prodominant cue. In this framework,a secondary reliance on photoperiod and/or chill cues evolve when forcing alone is not a reliable cue of safe growing condition \citep{Korner:2010aa}. Forcing is is an unreliable cue when patterns of forcing are unstable in the spring time. In other words when forcing is variable. When considered at the macro-ecological scale, this conceptual framework predicts species with high variation in forcing in there range should have a stronger response to chilling and or photoperiod and a weaker sensitivity to forcing \citep{Wang:2014aa, Muffler2016}. Here after, we refer to this as the range-cue use hypothesis\\
-
-An implicit assumption the range-cue use hypothesis is that among species cue variation is higher than within speices (ie cue use is ``conserved" at the species level). If rather, cue use patterns are locally adapted, the range-cue use hypothesis would not hold. There is not yet a strong consensus about to whar degree cue use is locally adapted and it likely varies between phenophases \citep{}, and organisms \citep{}. As such, any analysis considering species ranges and cue use must account for intra-specific differeneces as well.
-
-A major hurdle for testing the range cue-use hypothesis is that, when considered in the context of a species' geographic range, forcing variation occurs on multiple temporal and spatial scale.
-\begin{enumerate}
-\item Intra-annual variation (Temp.var ggdlf)
-\item Inter-annual (cite Zohner) (Temp.var stv)
-\item local cliamte variation (Geo.var ggdlf)
-\item Deeper time stability \citep{} (literature)
-\item global climate varaition (continents). In general NA is more variable than Europe
-\end{enumerate}
-
- Any of these level of varation could itself drive selecion for secondary cue usage (photoperiod/chilling) and it is unclear how they interact or which is most important \citep{Zagmajster:2014aa}. Understanding the relationships between spring forcing variation at multiple spatio-temporal scales is a second key to robustly testing the range-cue use hypothesis.
+This has never really been tested (say better but see \citep{Zohner:2017aa}). With the recent quantification for cue use of many species \citep{} and the accessibility of high resolution climate data it is now possible to rigorously test this theory with data. Below, we briefly outline two hypotheses presented in the literature about the relationship between phenological cue-use and species' climatic range characteristics. We then test these predictions using Bayesian models for a large suite of temperate woody species from North America and Europe.
 
 
-\textbf{Predictions}\\
-For these theoretical frameworks we can make several predictions regarding the range-cue use hypothesis:\\
-\begin{enumerate}
-\item More STV or variation in GGD2lf should increase chill and photo sensitivity. Decrease forcing sensittivity. (First principles)
-\item North America should increase chill and photo sensitivity. Decrease forcing sensitivity.
-\end{enumerate}
+\subsection{Climate intensity hypothesis}
+One hypothesis for the evolution of cue use differences across species is that species utilize the climate cues to which they have the most exposure. Simply stated, there should be a positive correlation between the amount or intensity of a cue across a species' range and the species phenological sensitivity to that cue. This hypothesis predicts that species with  a) high numbers growing degree days in their range should have stronger forcing cues, b) higher amount of chilling should have stronger chilling cues and c) more annual photoperiod variation should have stronger photoperiod cues. This hypothesis has been applied to explain large, macro-ecological patterns in phenology like why the tropical phenology cues primary to forcing and temperate and arctic phenology is more dependent on photoperiod and/or chilling \citep{} but has not been widely tested within biomes for species with overlapping ranges.  
 
-We tested these underlying assumptions about he relationship between climate variables in a species ranges and specific predictions for the relationship between range climate and cue use using the OSPREE database, and climate data, and models. Our interrogation of these relationships between climate and cue use not only clarifies the evolutionary drivers of cue use, but offers new insights regarding implications of climate change as both species' ranges and phenology continue to shift with warming.
+\subsection{Climate variability hypothesis}
+
+Current understanding of the evolution of phenological cues assume that forcing is the predominant cue. In this framework,a secondary reliance on photoperiod and/or chill cues evolve when forcing alone is not a reliable cue of safe growing condition \citep{Korner:2010aa}. Forcing is is an unreliable cue when temperatures unstable in the spring time. The climate variability hypothesis predicts species with high variation in spring temperature in there range should evolve a stronger response to all three cues, especially chilling and or photoperiod,  \citep{Wang:2014aa, Muffler2016}. This hypothesis potentially explains the stronger cue sensitivity of temperate North American species to those in Europe where there is less climate variability in the spring \citep{Zohner}.
+
+However, a major hurdle to robustly testing this hypothesis is that, when considered in the context of a species' geographic range, spring temperature variation occurs on multiple temporal and spatial scale. Phenology may be shaped by intra-annual temperature variation (e.g. frequency of late season frost, diurnal temperature functions), inter-annual variation (e.g. annual mean temperatures) and the interaction between them (e.g. inter-annual variation in last season frost episodes). Further, each of the level of variation be quite different across a species range, suggesting geographic variation with the range must also be accounted for.
+Any of these level of variation could itself drive selection for secondary cue usage (photoperiod/chilling), and it is unclear how they interact or which is most important \citep{Zagmajster:2014aa}. Key to testing the climate variability hypotheses is to first characterize relationships between spring temperature variation at multiple spatio-temporal scales.
+
+\subsection{Local climate hypothesis}
+An implicit assumption of the previously stated hypotheses is that among species cue-use variation is higher than within species (ie cue use is ``conserved" at the species level). If rather, cue use patterns are locally adapted, while climate intensity and climate variability may still drive cue-use patterns at the population level, it would be difficult to detect consistent patterns across a species full geographic range. There is not yet a strong consensus about to what degree cue use is locally adapted and it likely varies between phenophases \citep{}, and organisms \citep{}. As such, any analysis considering species ranges and cue use must account for intra-specific differences as well.
+
+\subsection{Non-climate drivers of cue use}
+It is also important to recognize that though climate is the mechanism underlying woody plant phenology, there may be other selective forces driving cue use. Cue use differences may be the product of other tradeoffs. Could say this here or leave for the discussion.
+
+We leveraged over 50 years worth of phenology experiments in the OSPREE database \citep{} and climate data collected across the ranges of temperate woody species to test the three major climate-cue use hypotheses. We used a Bayesian hierarchical approach to jointly fit models estimating of forcing, chilling and photoperiod sensitivity for each species and the effects of several dimensions of climate intensity and variability in the species ranges on these estimates. With this approach we 1) clarify the relationships between climatic variability across multiple scales of spatio-temporality, 2) identify the climate drivers that are more and less likely to drive selection on phenological cues and 3) compare variation in cue-use among and within species and between temperate Europe and North America. Our interrogation of these relationships between climate and cue use not only clarifies the evolutionary drivers of phenoloical cues, but offers new insights regarding implications of climate change as both species' ranges and phenology continue to shift with warming.
 
 \section*{Methods}
 \subsection*{Phenological data and cue-use estimates}
@@ -142,10 +137,11 @@ Cat and/or Nacho write?\\
 
 \end{itemize}
 
-\subsubsection*{Secondary cue use}
+\subsection*{Statistical analysis}
+\subsubsection*{Coherance of climate variability}
+\subsubsection*{climate cue-use relationships}
 Dan write description of joint model
 
-\subsection*{Statistical analysis}
 \subsubsection*{Intra vs. interspecific models}
 Cat 
 
@@ -155,10 +151,35 @@ Cat
 
 
 \section*{Results}
-Some combo of simulations and real data to talk about the coherance of gdd2lf, stv and geographic variability, and maybe  a figure too. Model plots and \ref:fig:mods} and \ref{fig:popy} (not sure why my referencing isn't working) to show it is all futile and nothing matters.
+\subsection*{Climate intensity and cue use}
+Overall, the mean forcing (GDDs) and chilling (Chill Portions) had weak effects on estimated cue use. 
+In our full species models mean GDDs and had a weakly negative or neutral association with cue strength (GDD:Chill=X ,GDD:Force=Y, GDD:Photo=Z, (Fig. \ref{fig:mods1 a),b)})). The general sign of these relationships persisted in the continent subset models (Fig. \ref{fig: mods1} d),e),f)) with the exception of the relationship between mean GDDs and chilling for North American species which became positive (mean= Z, (Fig. \ref{fig: mods1} c)). Generally, there was high uncertainty around these estimates suggesting climate intensity is a poor predictor for cue use. 
 
+\subsection*{Coherance of spatio-temporal spring climate variability}
+The spatio-temporal coherence of spring climate variability and intensity varied across continent and scales. Generally climate intensity (mean GDDs in range mean Chill Portions in range and Mean GDDs to last frost) were well correlated with climate variability (Fig. \ref{fig:corrs}a),b),c),d),h)) though strong differences can be observed between North American and Europe.  Intra-annual, inter-annual and spatial variability in spring climate were also well correlated  (Fig. \ref{fig:corrs}e),f),g)), though the variability of spring climate in Europe was very low, suggesting that these correlation are likely more relevant in North America.
+
+\subsection*{Climate variation and cue use}
+In our full models, our two measures of spring climate variability (GDD to last frost and STV), were weakly positively associated with forcing and photoperiod sensitivity and negatively associated with chilling sensitivity (Fig. \ref{fig:mods2}a),b)). Generally, the was more uncertainly around our estimates of STV effects than GDD to last frost. However, our continent subset models shows different effect. Both STV and GDD to last frost are poorly estimate the European models, and STV is also a poor predictor of cue use in North American models (Fig. \ref{fig:mods2}d),e), f)). In the North America subset model variation in GDD to last frost increases sensistivity in all three cues (Chilling:X Forcing:Y Photoperiod:Z, (Fig. \ref{fig:mods2}c))) suggesting there may be support for the climate variation hypotheses in North America where spring climate variation can be extreme.
+
+\subsection*{Local adaptation of phenological cues}
+We detected limited population level variation in forcing and photoperiod cue sensitivity, though this within species variation was less substantial than among species variation(Fig. \ref{fig:popy}). 
 
 \section*{Discussion}
+\begin{enumerate}
+\item Generally we found that the the climate-cue hypotheses were not well supported in our data. 
+\item Little evidence for climate intensity, and support for  the climate variability hypothesis only in North America with one metric GDD to last frost.
+\item This finding is inline with Zohners study, which favored variability and suggests as a result North America should have stronger cues.
+\item We are not surprise GDD2lst frost is a better metric than STV. 
+\item We found that among species variation exceedes within species. But this suggest some levels of local adaptation which can muddy the signal.
+\item Look at the maps, ranges are highly overlapping especially in Europe. Maybe this cliamte cues hypotheses only opperate across biomes.
+\item While our analyses suggest the climate-cue relationships are murkey, on of our standout results are the differences between Europe and North America, in climate, cue strength and their relationship. Talk about the get stream. And maybe conenct to climate change here. IE if jet stream breaks, and EU varaiability increases, plants might not know what hit them
+\item This tells us  Analyzing data across continents may be a bad aproach and obscure inportant relationships.  We see this too in our analyses experimental effects may be strongly dependent on where the experiment is done, so cross-continent syntheses are tricky. 
+
+\item Alternate hypotheses: 'Pioneer' species versus whatever the other term is (Laube paper), phylogeny.
+
+\end{enumerate}
+
+
 Things to address in the discussion:
 \begin{enumerate}
 \item Why differences between NA and EU show up for correlation between temp and geo variation, and STV and range area. (perhaps this is where we can talk about the artifact of STV not capturing ``biological spring" across a large range)
@@ -172,17 +193,26 @@ Things to address in the discussion:
 
 \begin{figure}[h!]
     \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/mock2.jpeg} 
+    \caption{The effects of climate intensitives on the phenological sensitivity to chilling, forcing and photoperiod of temperatue woody species. Figure a) depicts the effects of mean GDDs on cue sensitivity for all 40 species in the study and b) depicts effects of chilling on cue sensitivity. All values on the x axis are standardized with zscoring for comparision across plots. The thick, bolded lines indicated the mean estimates of the effect of the climate variables on cue sensitivity estimates and the thinner lines represent 100 random draws from the posterior distrubrion of these estimates to characterize uncertainty. c) and d) depict the relationships between mean GDD and cue sensitivity and e) and f) the relationships between mean chilling and cue sensitivity for models run on only North American species or European species respectivey. }
+    \label{fig:mods1}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/clim_params.jpeg} 
-    \caption{ }
+    \caption{Corelations between spatio-temporal axes of climate varation and intesities in the full data set and across North American and European species ranges. a)  and b) depicts correlation between inter-annual variation in growing degrees to last frost and mean growing degree days and mean levels of chilling in range respectively.  c)  and d) depicts correlation between interannual variation in mean spring temperature (STV) and mean growing degree days and mean levels of chilling in range respectively. e) demonstrate correlations between temporal and spatial inter-annual variation in growing degrees to last frost. f) and g) show the corelations between temporal and spatial variation in GDDs to last frost and STV respectively and h) the correlations between variation in GDDs to last frost and mean number of GDDs to last frost. }
     \label{fig:corrs}
 \end{figure}
+
+
 
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/mock1.jpeg} 
-    \caption{Who okay this figure is definitely under construction. Orange is gdd to last frost variation and green is stv. solid lines (on right pannels) North America and dashed is Europe. Is there a good way to demonstrate that the slopes fit the data poorly? }
-    \label{fig:mods}
+    \caption{ The effects of two measures of spring climate variabilitity on the phenological sensitivity to chilling, forcing and photoperiod of temperatue woody species. Figure a) depicts the effects of variability in number of growing degree days to last frost on cue sensitivity for all 40 species in the study and b) depicts effects of interannual mean spring temperature variation (STV) on cue sensitivity. All values on the x axis are standardized with zscoring for comparision across plots. The thick, bolded lines indicated the mean estimates of the effect of the climate variables on cue sensitivity estimates and the thinner lines represent 100 random draws from the posterior distrubrion of these estimates to characterize uncertainty. c) and d) depict the relationships between variation in GDDs to last frost and cue sensitivity and e) and f) the relationships between STV and cue sensitivity for models run on only North American species or European species respectivey. }
+    \label{fig:mods2}
 \end{figure}
 
 
@@ -194,6 +224,7 @@ Things to address in the discussion:
 \end{figure}
 
 \pagebreak
+\iffalse 
 
 \section*{Tables}
 \begin{table}
@@ -258,6 +289,6 @@ muChillSp & -5.66 & -12.59 & -9.28 & -2.05 & 1.28 & Eu \\
 \end{tabular}
 \caption{}
 \end{table}
-
+\fi 
 
 \end{document}
