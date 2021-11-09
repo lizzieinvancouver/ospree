@@ -30,7 +30,7 @@ A few more thoughts ...
 - What about the whystvbad.pdf figure?
 - I love NAmappers.pdf, will that go anywhere?
 - dans_concept_sketch.pdf -- top of this could be used in the intro with the next part setting up the results and discussion
-- Compared to temp_sd_stv.ng, why does diff between Europe and NA not show up in current similar version? (I think this difference is important and could be a point we need to make.)
+- Compared to temp_sd_stv.png, why does diff between Europe and NA not show up in current similar version? (I think this difference is important and could be a point we need to make.)
 
 
 Alternative hypotheses:

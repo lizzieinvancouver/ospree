@@ -169,7 +169,7 @@ cSLA <- ggplot(chill, aes(x= meanSLA, y = mean)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-cSeed <- ggplot(chill, aes(x= meanSeed, y = mean)) +
+cSeed <- ggplot(chill, aes(x= log10(meanSeed), y = mean)) +
   geom_point()+ labs(y="chilling cue") +
   geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -191,6 +191,8 @@ pdf("..//traits/figures/chillvstraits.pdf", width = 15, height = 3)
 grid.arrange(cSSD, cSLA,cLNC,cHeight,cSeed, nrow=1)
 dev.off()
 
+
+
 bforce <- as.data.frame(b_force)
 force <- cbind(meanSSD, bforce); colnames(force)[colnames(force) == "traitvalue"] <- "meanSSD"
 force <- merge(force[,2:13], meanSLA, by = "speciesname"); colnames(force)[colnames(force) == "traitvalue"] <- "meanSLA"
@@ -211,7 +213,7 @@ fSLA <- ggplot(force, aes(x= meanSLA, y = mean)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-fSeed <- ggplot(force, aes(x= meanSeed, y = mean)) +
+fSeed <- ggplot(force, aes(x= log10(meanSeed), y = mean)) +
   geom_point()+ labs(y="forceing cue") +
   geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -253,7 +255,7 @@ pSLA <- ggplot(photo, aes(x= meanSLA, y = mean)) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-pSeed <- ggplot(photo, aes(x= meanSeed, y = mean)) +
+pSeed <- ggplot(photo, aes(x= log10(meanSeed), y = mean)) +
   geom_point()+ labs(y="photoing cue") +
   geom_errorbar(aes(ymin = mean - se_mean, ymax = mean + se_mean))+ 
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
