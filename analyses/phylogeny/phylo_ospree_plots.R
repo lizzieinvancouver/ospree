@@ -200,22 +200,37 @@ d <- d[order(d$sppnum),]
 nspecies <- max(d$sppnum)
 
 
+## remove outliers
+d$resp
+head(d)
+ff = subset(d,latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+d = subset(d,!latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+nspecies = 192
+phylo <- drop.tip(phylo, c("Populus_balsamifera","Populus_tremuloides"))
+d$sppnum <- as.numeric(as.factor(d$sppnum))
+
+
 
 
 #'###################################
 #### diagnose and make plots     ####
 #'###################################
-
+lambdazero <- F
 
 ## load model
-if(agiosponly){
-  
-  fit <- readRDS("output/testmeangyo.rds")
-  
+
+if(agiosponly & lambdazero){
+  fit <- readRDS("output/testme_lambda0_nooutlier.rds")
 } else {
-  
+  fit <- readRDS("output/testme_lambdaest_nooutlier.rds")
+}
+
+
+
+if(agiosponly){
+  fit <- readRDS("output/testmeangyo.rds")
+} else {
   fit <- readRDS("output/testmegymno.rds")
-  
 }
 
 
@@ -259,14 +274,16 @@ modelhere <- fit
 library(RColorBrewer)
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 17)
-my.pch <- rep(16, each=194)
+my.pch <- rep(16, each=192)
 alphahere = 0.4
 
 
 names(fit)
+row.names(summary(modelhere)$summary)
+
 if(agiosponly){
   
-  posspsindata <- list(10:203,205:398,400:593)
+  posspsindata <- list(10:201,203:394,396:587)
   
 } else {
   
@@ -285,17 +302,17 @@ dev.off()
 if(agiosponly){
 ## for forcing
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
-                       c(0,194), c(-20, 5) , 18, 3.2, 
+                       c(0,192), c(-20, 5) , 18, 3.2, 
                        posspsindata,1,15)
 
 ## for chilling
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
-                       c(0,194), c(-120, 15) , 18, 3.2, 
+                       c(0,192), c(-30, 15) , 18, 3.2, 
                        posspsindata,2,85)
 
 ## for photoperiod
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
-                       c(0,194), c(-10, 2) , 18, 3.2, 
+                       c(0,192), c(-10, 2) , 18, 3.2, 
                        posspsindata,3,7.2)
 }
 
@@ -322,18 +339,18 @@ dev.off()
 
 if(agiosponly){
   par(mfrow=c(1,2))
-  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,5),ylab="density",
+  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,4),ylab="density",
        xlab="lambda", main="")
   
   lines(density(extract(modelhere)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
-  text(0.55,3,"intercept",col='grey')
-  text(0.8,1.85,"force",col='indianred3')
-  text(0.3,4.5,"chill",col='cyan4')
+  text(0.50,3.5,"intercept",col='grey')
+  text(0.8,2,"force",col='indianred3')
+  text(0.6,2.7,"chill",col='cyan4')
   text(0.8,0.75,"photo",col='orange')
-  text(0,5,"a",cex=1.5)
+  text(0,4,"a",cex=1.5)
   
   
   plot(x=NULL,y=NULL, xlim=c(0,25), ylim=c(0,1),ylab="density",
@@ -343,10 +360,10 @@ if(agiosponly){
   lines(density(extract(modelhere)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(modelhere)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
-  text(21,0.3,"intercept",col='grey')
-  text(7.5,0.45,"force",col='indianred3')
-  text(15.5,0.4,"chill",col='cyan4')
-  text(5.5,0.8,"photo",col='orange')
+  text(19,0.3,"intercept",col='grey')
+  text(5,0.45,"force",col='indianred3')
+  text(9,0.4,"chill",col='cyan4')
+  text(5.1,0.8,"photo",col='orange')
   text(0,1,"b",cex=1.5)
   
 }

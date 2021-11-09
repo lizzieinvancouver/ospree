@@ -56,7 +56,7 @@ muplotfx_phylo<-function(modelhere, nameforfig, width, height, ylim, xlim, leg1,
     #leg1 = 12 
     #leg2 = 3.5
     #posspsindata <- list(10:28,30:48,50:68)
-    spnum <- length(unique(bb.stan$spps))
+    spnum <- length(unique(d$spps))
     par(xpd=FALSE)
     par(mar=c(5,7,3,10))
     plot(x=NULL,y=NULL, xlim=xlim, yaxt='n', ylim=ylim,
@@ -118,14 +118,14 @@ muplotfx_phylo_contmap<-function(modelhere, nameforfig, width, height,
     #xlim = c(-20, 5)  
     #leg1 = 12 
     #leg2 = 3.5
-    spnum <- length(unique(bb.stan$spps))
+    spnum <- length(unique(d$spps))
     par(xpd=FALSE)
     
     
     slopeshere <- c("b_zf","b_zc","b_zp")
     
     
-    for(i in cue){#cue=1;i=cue
+    for(i in cue){#cue=2;i=cue
         
         ## forcing
         cueresponse = summary(modelhere)$summary[posspsindata[[i]],"mean"]
