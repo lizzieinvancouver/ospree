@@ -78,8 +78,8 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(Geo.SD,Temp.SD))
 
 a<-ggplot(GDD.lastfrost,aes(Geo.SD,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
-  xlab("Geographic variation in GDDs to last frost")+annotate("text", x = 40, y = 150, 
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_few(base_size = 10)+ylab("Temporal variation \nin GDDs to last frost")+
+  xlab("Geographic variation \nin GDDs to last frost")+annotate("text", x = 40, y = 150, 
 label = "Correlation= 0.88
          EU= 0.37
          NA= 0.83")
@@ -100,8 +100,8 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(STV,Temp.SD))
 
 b<-ggplot(GDD.lastfrost,aes(STV,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Temporal variation in GDDs to last frost")+
-  xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 150,
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_few(base_size = 10)+ylab("Temporal variation in \nGDDs to last frost")+
+  xlab("Spring temperature variability \n(STV)")+annotate("text", x = 2.5, y = 150,
 label = "Correlation= 0.789
          EU= -.39
          NA =.75")
@@ -112,8 +112,8 @@ GDD.lastfrost %>%
   dplyr::summarize(COR=cor(STV,Geo.SD))
 
 c<-ggplot(GDD.lastfrost,aes(STV,Geo.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",color="black")+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
-  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_base(base_size = 10)+ylab("Geographic variation in GDDs to last frost")+
-  xlab("Interannual spring temperature variability (STV)")+annotate("text", x = 2.5, y = 80, 
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_few(base_size = 10)+ylab("Geographic variation in \nGDDs to last frost")+
+  xlab("Spring temperature variability \n(STV)")+annotate("text", x = 2.5, y = 80, 
 label = "Correlation= 0.639
           EU= -.18
           NA= 0.5")
@@ -207,12 +207,11 @@ i<-ggplot(GDD.lastfrost,aes(Temp.Mean.GDD,STV))+geom_point(aes(color=continent))
           
           NA= .54")
 
-ggpubr::ggarrange(a,b,c,d,nrow=2,ncol=2,common.legend=TRUE)
+ggpubr::ggarrange(a,b,c,nrow=1,ncol=3,common.legend=TRUE)
 ggpubr::ggarrange(e,h,g,i,nrow=2,ncol=2,common.legend=TRUE)
 
-jpeg("figures/clim_params.jpeg",width=14,height=10,units = "in",res=200)
-ggpubr::ggarrange(e,g,h,i,a,b,c,d,nrow=2,ncol=4,common.legend = TRUE,
-                  labels = c("a)","b)","c)","d)","e)","f)","g)","h)"))
+jpeg("figures/clim_params.jpeg",width=8,height=6,units = "in",res=200)
+ggpubr::ggarrange(a,b,c,nrow=1,ncol=3,common.legend=TRUE,labels=c("a)","b)","c)"))
 
 dev.off()
 

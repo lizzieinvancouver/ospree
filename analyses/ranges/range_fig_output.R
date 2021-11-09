@@ -128,10 +128,11 @@ betasggdf<-filter(betasggdf,complex!=99)
 cuebert<-scrapeslopes(threeparam_jnt.gdd)
 betameans<-scrapegrandies(threeparam_jnt.gdd)
 
-
+range(betasggdf$Temp.SD.z)
 a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
-  geom_point(aes(color=cue,shape=continent))+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(0,16))
+  geom_point(aes(color=cue,shape=continent),size=2)+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+geom_rect(xmin=-0.8,xmax=-0.6,ymin=-70,ymax=25,color=
+                                                                                                     "lightgray",alpha=0.001)
 
 gddfull<-a+geom_abline(data=cuebert,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -179,28 +180,62 @@ cueberteustv<-scrapeslopes(stv_jnt.eu)
 betameanswustv<-scrapegrandies(stv_jnt.eu)
 
 
-aa<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
-  geom_point(color="white")
+betasggdf.na<-filter(betasggdf,continent=="N. America")
+betasggdf.eu<-filter(betasggdf,continent=="Europe")
+
+aa.na<-ggplot(betasggdf.na,aes(Temp.SD.z,mean))+geom_point(color="white")
+aa.e<-ggplot(betasggdf.eu,aes(Temp.SD.z,mean))+geom_point(color="white")
 
 
-bb<-ggplot(betaSTV,aes(STV.z,mean))+
-  geom_point(color="white")
+bb<-ggplot(betaSTV,aes(STV.z,mean))+geom_point(aes(color=cue,shape=continent))
  
 
 
-namplot<-aa+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameansNA,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none") 
+  theme(legend.position = "none")+ylab("")+ylim(-40,5)
+
+  
 
 
-europlot<-aa+ geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+
+europlot<-aa.e+ geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("Europe")+
+  xlab("Europe")+ylab("Cue sensitivity")+
+  theme(legend.position = "none")+scale_x_continuous(breaks=c(-.725,-.72))+ylim(-40,5)
+
+europlot2<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+ylab("Cue sensitivity")+
   theme(legend.position = "none")
+
+europlot3<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+ylab("")+
+  theme(legend.position = "none")
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank() 
+  )
+
+two<-ggpubr::ggarrange(europlot,namplot,nrow=1,ncol=2,widths = c(.2,.5),labels = c("b)","c)"))
+twob<-ggpubr::ggarrange(europlot2,namplot,nrow=1,ncol=2,widths = c(.5,.5),labels = c("b)","c)"))
+twoc<-ggpubr::ggarrange(europlot,europlot3,nrow=1,ncol=2,widths = c(.2,.4),labels = c("b)","c)"))
+
+jpeg("./figures/mock1.jpeg",width = 10,height=8, units = "in",res = 300)
+ggpubr::ggarrange(gddfull,two,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
+dev.off()
+
+ggpubr::ggarrange(gddfull,twob,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
+ggpubr::ggarrange(gddfull,twoc,namplot,nrow=3, ncol=1,common.legend = TRUE,labels=c("a)"))
+
+library(patchwork)
+europlot2+inset_element(europlot, 0, 0.05, 0.4, 0.5, align_to = 'full')
 
 
 namplotstv<-bb+geom_abline(data=cuebertNAstv,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
@@ -218,7 +253,7 @@ europlotstv<-bb+ geom_abline(data=cueberteustv,aes(intercept=mu,slope=trait_beta
 
 two<-ggpubr::ggarrange(namplot,europlot,namplotstv,europlotstv,nrow=1,ncol=4,labels=c("c)","d)","e)","f)"))
 
-jpeg("./figures/mock1.jpeg",width = 10,height=8, units = "in",res = 300)
+#jpeg("./figures/mock1.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(one,two,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
 ###table of results
@@ -337,8 +372,8 @@ cuebertmeanGDD<-scrapeslopes(threeparam_jnt.meangdd)
 betameanGDD2<-scrapegrandies(threeparam_jnt.meangdd)
 
 gddplot<-ggplot(betameanGDD,aes(GDD.z,mean))+
-  geom_point(aes(color=cue,shape=continent))+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(0,16))
+  geom_point(aes(color=cue,shape=continent),size=2.5)+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))
 
 gddplot<-gddplot+geom_abline(data=cuebertmeanGDD,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -354,8 +389,8 @@ cuebertmeanCP<-scrapeslopes(threeparam_jnt.cp)
 betameanCP2<-scrapegrandies(threeparam_jnt.cp)
 
 cpplot<-ggplot(betameanCP,aes(CP.z,mean))+
-  geom_point(aes(color=cue,shape=continent))+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(0,16))
+  geom_point(aes(color=cue,shape=continent),size=2.5)+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))
 
 cpplot<-cpplot+geom_abline(data=cuebertmeanCP,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -377,50 +412,59 @@ betameansNAcp<-scrapegrandies(cp_jnt.nam)
 cueberteucp<-scrapeslopes(cp_jnt.eu)
 betameanswucp<-scrapegrandies(cp_jnt.eu)
 
+betameanGDD.na<-filter(betameanGDD,continent=="N. America")
+betameanGDD.eu<-filter(betameanGDD,continent!="N. America")
 
-aaa<-ggplot(betameanGDD,aes(GDD.z,mean))+
+aaa.eu<-ggplot(betameanGDD.eu,aes(GDD.z,mean))+
+  geom_point(color="white")
+aaa.na<-ggplot(betameanGDD.na,aes(GDD.z,mean))+
   geom_point(color="white")
 
 
-bbb<-ggplot(betameanCP,aes(CP.z,mean))+
+betameanCP.na<-filter(betameanCP,continent=="N. America")
+betameanCP.eu<-filter(betameanCP,continent!="N. America")
+
+bbb.eu<-ggplot(betameanCP.eu,aes(CP.z,mean))+
+  geom_point(color="white")
+
+bbb.na<-ggplot(betameanCP.na,aes(CP.z,mean))+
   geom_point(color="white")
 
 
-
-namplotgdd<-aaa+geom_abline(data=cuebertNAgdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+namplotgdd<-aaa.na+geom_abline(data=cuebertNAgdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameansNAgdd,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none") 
+  theme(legend.position = "none")+ylim(-40,5)
 
 
-euplotgdd<-aaa+geom_abline(data=cueberteugdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+euplotgdd<-aaa.eu+geom_abline(data=cueberteugdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswugdd,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("Europe")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none") 
+  theme(legend.position = "none") +ylim(-40,5)
 
 
-namplotcp<-bbb+geom_abline(data=cuebertNAcp,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+namplotcp<-bbb.na+geom_abline(data=cuebertNAcp,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameansNAcp,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none") 
+  theme(legend.position = "none") +ylim(-40,5)
 
 
-euplotcp<-bbb+geom_abline(data=cueberteucp,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+euplotcp<-bbb.eu+geom_abline(data=cueberteucp,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswucp,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("Europe")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none") 
+  theme(legend.position = "none") +ylim(-40,5)
 
 
 oneone<-ggpubr::ggarrange(gddplot,cpplot,common.legend = TRUE,labels = c("a)","b)"))
-twotwo<-ggpubr::ggarrange(namplotgdd,euplotgdd,namplotcp,euplotcp,nrow=1,ncol=4,labels=c("c)","d)","e)","f)"))
+twotwo<-ggpubr::ggarrange(euplotgdd,namplotgdd,euplotcp,namplotcp,nrow=1,ncol=4,labels=c("c)","d)","e)","f)"),widths=c(.2,.3,.2,.3))
 jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(oneone,twotwo,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
