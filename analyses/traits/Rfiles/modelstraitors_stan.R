@@ -87,7 +87,7 @@ datalist.bb <- with(bb.traitors,
 # Note the notation: nointer_2level.stan: m2l.ni
 ########################################################
 m2l.ni = stan('stan/nointer_2level.stan', data = datalist.bb,
-               iter = 3000, warmup=1500,control = list(adapt_delta = 0.99))
+               iter = 3000, warmup=1500)
 
 check_all_diagnostics(m2l.ni)
 # launch_shinystan(m2l.ni)
@@ -118,7 +118,23 @@ b_force <- sumer[grep("^b_force", rownames(sumer)),]
 b_photo <- sumer[grep("^b_photo", rownames(sumer)),]
 
 ## Side bar to compare to cues estimated from joint model (ooh! Exciting)
-lnccues <- read.csv("traits/output/lnccues.csv", header=TRUE)
+lnccues <- read.csv("..//traits/output/lnccues.csv", header=TRUE)
+row.names(lnccues) <- lnccues$X
+lncphoto <- lnccues[grep("betaPhoto", rownames(lnccues)),]
+lncforce <- lnccues[grep("betaForce", rownames(lnccues)),]
+lncchill <- lnccues[grep("betaChill", rownames(lnccues)),]
+
+pdf("..//traits/figures/comparecuesestimates_phenovslncjoint.pdf", width=10, height=4)
+par(mfrow=c(1,3))
+plot(b_chill[,"mean"]~lncchill$mean, ylab="pheno-only model cue estimate", xlab="LNC-model cue estimate", main="chill")
+abline(0,1)
+plot(b_force[,"mean"]~lncforce$mean, ylab="pheno-only model cue estimate", xlab="LNC-model cue estimate", main="force")
+abline(0,1)
+plot(b_photo[,"mean"]~lncphoto$mean, ylab="pheno-only model cue estimate", xlab="LNC-model cue estimate", main="photo")
+abline(0,1)
+dev.off()
+## End side bar
+
 
 dat1 <- read.csv("..//traits/input/try_bien_nodups_1.csv") 
 dat2 <- read.csv("..//traits/input/try_bien_nodups_2.csv") 
