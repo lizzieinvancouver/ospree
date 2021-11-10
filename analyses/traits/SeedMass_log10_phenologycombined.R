@@ -41,18 +41,18 @@ specieslist <- sort(unique(seedData$speciesname))
 studylist <- sort(unique(seedData$datasetid))
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = log(seedData$traitvalue),
+all.data <- list(yTraiti = log10(seedData$traitvalue),
                  N = nrow(seedData),
                  n_spec = length(specieslist),
                  trait_species = as.numeric(as.factor(seedData$speciesname)),
                  n_study = length(studylist),
                  study = as.numeric(as.factor(seedData$datasetid)),
-                 prior_mu_grand_mu = log10(70),
-                 prior_mu_grand_sigma = 1,
-                 prior_sigma_sp_mu = log10(100),
+                 prior_mu_grand_mu = log10(100),
+                 prior_mu_grand_sigma = .75,
+                 prior_sigma_sp_mu = log10(10),
                  prior_sigma_sp_sigma = 0.5,
-                 prior_sigma_study_mu = log10(5),
-                 prior_sigma_study_sigma = 0.5,
+                 prior_sigma_study_mu = 0.06,
+                 prior_sigma_study_sigma = 0.01,
                  prior_sigma_traity_mu = log10(2),
                  prior_sigma_traity_sigma = 0.1,
                  ## Phenology
@@ -90,8 +90,8 @@ all.data <- list(yTraiti = log(seedData$traitvalue),
 
 mdl.traitphen <- stan("stan/phenology_combined.stan",
                       data = all.data,
-                      iter = 2000,
-                      warmup = 1000,
+                      iter = 4000,
+                      warmup = 3000,
                       chains = 4,
                       include = FALSE, pars = c("y_hat"),
                       seed = 202109)
