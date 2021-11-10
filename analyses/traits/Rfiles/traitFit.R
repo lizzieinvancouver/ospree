@@ -39,14 +39,15 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospr
 	traitsData$traitname [traitsData$traitname == "Specific_leaf_area"] <- "SLA"
 	traitsData$traitname [traitsData$traitname == "Stem_specific_density"] <- "SSD"
 	traitsData$traitname [traitsData$traitname == "seed mass"] <- "SeedMass"
-	traitsData$traitname [traitsData$traitname == "Specific_leaf_area"] <- "LNC"
-	traitsData$traitname [traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"] <- "SLA"
+	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "height"
+	traitsData$traitname [traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"] <- "LNC"
 
 
 for(traiti in 1:length(traitModelNames)){
 
 
-	#traiti <- 2
+
+	#traiti <- 4
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
@@ -116,14 +117,19 @@ for(traiti in 1:length(traitModelNames)){
 	plot(alphaPhenoSpMean ~ betaCombined)
 
 
-
 	#Trait data 
 	#--------------
 
-	traitSelection <- 
-	slaData <- traitsData[traitsData$traitname == "traitName",]
-	specieslist <- sort(unique(slaData$speciesname))
+	if(traitModelNames[traiti] == "SeedMass_log10"){
+		slaData <- traitsData[traitsData$traitname == traitName,]
+		specieslist <- sort(unique(slaData$speciesname))
+		slaData$traitvalue <- log10(slaData$traitvalue)
 
+	} else {
+		slaData <- traitsData[traitsData$traitname == traitName,]
+		specieslist <- sort(unique(slaData$speciesname))
+	}
+	
 	meanRealTrait <- aggregate(slaData$traitvalue, by = list(slaData$speciesname), FUN = mean)
 	names(meanRealTrait) <- c("species","meanTrait")
 
@@ -145,16 +151,26 @@ for(traiti in 1:length(traitModelNames)){
 		geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
 
 
-	traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue))+
-		geom_point( alpha = 0.5, colour = "red", size = 0.5)+
+	traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+		geom_point( alpha = 0.5, size = 0.5, aes(colour = "red"))+
 		theme_classic() +  
 		theme(text = element_text(size=20))+
 	  stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
-	  geom_point(data = meanRealTrait, aes(x = meanTrait,y = species), colour = "green", shape = 3)+
-	  labs(title = traitName)
+	  geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "green"), shape = 3)+
+	  labs(title = traitName)+ 
+	  scale_color_identity(name = "Model fit",
+                          breaks = c("black", "red", "green"),
+                          labels = c("Model Posterior", "Raw Data", "Data Mean"),
+                          guide = guide_legend(override.aes = list(
+                         	linetype = c(NA, NA, NA),
+                         	shape = c(16, 20, 3)))) + 
+	  theme(legend. title = element_blank())
+
+
 
 	 ggsave(paste(paste0("figures/traitFit_", traitName), "png", sep = "."), traitFit,   width = 10,
   height = 6,  units = "in")
+	
 
 }
 
