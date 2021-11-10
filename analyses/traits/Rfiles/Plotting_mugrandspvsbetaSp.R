@@ -27,219 +27,18 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", 
 
 # Subset data to traitors species list
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
-
+# 
+# qrobur
+# qilex
+# qcoccifera <- subset(traitsData, speciesname == "Quercus_coccifera")
+# qcoccifera <- subset(qcoccifera, traitname == "Plant_height_vegetative")
+# dim(qcoccifera)
+# sort(unique(qcoccifera$piname))
+# range(qcoccifera$traitvalue)
 # Read Ospree data and subset
 # ospree <- read.csv("bbstan_allspp_utah.csv", header = TRUE)
 # ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 # ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
-
-# Sorted species and study listtry_bien_nodups_2.csv")
-
-load("output/joint_height.RData")
-
-sum <- summary(mdl.traitphen)$summary
-
-head(sum)
-trait_esti <- as.data.frame(sum[grep("mu_grand_sp", rownames(sum)),])
-trait_esti <- trait_esti[,c("mean", "25%", "75%")]
-colnames(trait_esti)[colnames(trait_esti) == "mean"] <- "height"
-colnames(trait_esti)[colnames(trait_esti) == "25%"] <- "height25"
-colnames(trait_esti)[colnames(trait_esti) == "75%"] <- "height75"
-
-force_esti <- sum[grep("betaForceSp", rownames(sum)),]
-force_esti <- force_esti[,c("mean", "25%", "75%")]
-colnames(force_esti)[colnames(force_esti) == "mean"] <- "force"
-colnames(force_esti)[colnames(force_esti) == "25%"] <- "force25"
-colnames(force_esti)[colnames(force_esti) == "75%"] <- "force75"
-
-chill_esti <- sum[grep("betaChillSp", rownames(sum)),]
-chill_esti <- chill_esti[,c("mean", "25%", "75%")]
-colnames(chill_esti)[colnames(chill_esti) == "mean"] <- "chill"
-colnames(chill_esti)[colnames(chill_esti) == "25%"] <- "chill25"
-colnames(chill_esti)[colnames(chill_esti) == "75%"] <- "chill75"
-
-photo_esti <- sum[grep("betaPhotoSp", rownames(sum)),]
-photo_esti <- photo_esti[,c("mean", "25%", "75%")]
-colnames(photo_esti)[colnames(photo_esti) == "mean"] <- "photo"
-colnames(photo_esti)[colnames(photo_esti) == "25%"] <- "photo25"
-colnames(photo_esti)[colnames(photo_esti) == "75%"] <- "photo75"
-
-mdl_out <- cbind(trait_esti, force_esti, chill_esti, photo_esti)
-
-cheight <- ggplot(mdl_out, aes(x = height, y = chill)) +
-  geom_point()+ labs(y="chilling cue") +
-  geom_errorbar(aes(xmin = height25, xmax = height75)) +
-  geom_errorbar(aes(ymin = chill25, ymax = chill75)) +
- theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-        panel.background = element_blank(), axis.line = element_line(colour = "black"))
-
-fheight <- ggplot(mdl_out, aes(x = height, y = force)) +
-  geom_point()+ labs(y="forcing cue") +
-  geom_errorbar(aes(xmin = height25, xmax = height75)) +
-  geom_errorbar(aes(ymin = force25, ymax = force75)) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
-
-pheight <- ggplot(mdl_out, aes(x = height, y = photo)) +
-  geom_point()+ labs(y="photo cue") +
-  geom_errorbar(aes(xmin = height25, xmax = height75)) +
-  geom_errorbar(aes(ymin = photo25, ymax = photo75)) +
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
-
-##############################################
-#SLA
-slaModel <- readRDS("output/SLA_stanfit.RDS")
-# sum <- summary(slaModel)$summary
-# test <- sum[grep("betaForceSp", rownames(sum)), "mean"]
-# rownames(sum)
-# ssm <-  as.shinystan(slaModel)
-# launch_shinystan(ssm)
-# 
-# str(slaModel)
-
-slaModelFit <- rstan::extract(slaModel)
-
-muGrandSp <- data.frame(slaModelFit$mu_grand_sp)
-muGrandSpMean <- colMeans(muGrandSp)
-
-betaForceSp <- data.frame(slaModelFit$betaForceSp)
-betaForceSpMean <- colMeans(betaForceSp)
-
-quantile2575 <- function(x){
-  returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
-  return(returnQuanilte)
-}
-
-bf_quan <- apply(betaForceSp, 2, quantile2575)
-mugrand_quan <- apply(muGrandSp, 2, quantile2575)
-
-bfs <- rbind(betaForceSpMean, bf_quan)
-bfs_t <- t(bfs)
-bfs_df <- data.frame(bfs_t)
-colnames(bfs_df)[colnames(bfs_df) == "X25."] <- "force25"
-colnames(bfs_df)[colnames(bfs_df) == "X75."] <- "force75"
-
-mg<- rbind(muGrandSpMean, mugrand_quan)
-mg_t <- t(mg)
-mg_df <- data.frame(mg_t)
-colnames(mg_df)[colnames(mg_df) == "X25."] <- "sla25"
-colnames(mg_df)[colnames(mg_df) == "X75."] <- "sla75"
-
-
-muForceSp <- data.frame(slaModelFit$muForceSp)
-muForceSpMean <- colMeans(muForceSp)
-
-betaTraitxForce<- data.frame(slaModelFit$betaTraitxForce)
-betaTraitxForceMean <- colMeans(betaTraitxForce)
-
-pdf("figures/force_sla.pdf")
-plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$sla25), max(mg_df$sla75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75))) # blank plot with x range 
-# 3 columns, mean, quantile
-# min and max defined by quantiles
-arrows(
-  mg_df[,"muGrandSpMean"], # x mean
-  bfs_df[,"force25"], # y 25
-  mg_df[,"muGrandSpMean"],
-  bfs_df[,"force75"],
-  length = 0
-)
-
-arrows(
-  mg_df[,"sla25"], # x mean
-  bfs_df[,"betaForceSpMean"], # y 25
-  mg_df[,"sla75"], # x mean
-  bfs_df[,"betaForceSpMean"],
-  length = 0
-)
-
-for(i in 1:length(muForceSp[,1])){
-  abline(a = muForceSp[i,], b = betaTraitxForceMean, col=alpha("lightpink", 0.025))
-}
-abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
-dev.off()
-#------------------------------------------------------------------------------#
-betaChillSp <- data.frame(slaModelFit$betaChillSp)
-betaChillSpMean <- colMeans(betaChillSp)
-bc_quan <- apply(betaChillSp, 2, quantile2575)
-
-bcs <- rbind(betaChillSpMean, bc_quan)
-bcs_t <- t(bcs)
-bcs_df <- data.frame(bcs_t)
-colnames(bcs_df)[colnames(bcs_df) == "X25."] <- "chill25"
-colnames(bcs_df)[colnames(bcs_df) == "X75."] <- "chill75"
-
-muChillSp <- data.frame(slaModelFit$muChillSp)
-muChillSpMean <- colMeans(muChillSp)
-
-betaTraitxChill<- data.frame(slaModelFit$betaTraitxChill)
-betaTraitxChillMean <- colMeans(betaTraitxChill)
-
-pdf("figures/chill_sla.pdf")
-plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$sla25), max(mg_df$sla75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75))) # blank plot with x range 
-# 3 columns, mean, quantile
-# min and max defined by quantiles
-arrows(
-  mg_df[,"muGrandSpMean"], # x mean
-  bcs_df[,"chill25"], # y 25
-  mg_df[,"muGrandSpMean"],
-  bcs_df[,"chill75"],
-  length = 0
-)
-
-arrows(
-  mg_df[,"sla25"], # x mean
-  bcs_df[,"betaChillSpMean"], # y 25
-  mg_df[,"sla75"], # x mean
-  bcs_df[,"betaChillSpMean"],
-  length = 0
-)
-
-for(i in 1:length(muChillSp[,1])){
-  abline(a = muChillSp[i,], b = betaTraitxChillMean, col=alpha("lightpink", 0.025))
-}
-abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
-dev.off()
-#------------------------------------------------------------------------------#
-betaPhotoSp <- data.frame(slaModelFit$betaPhotoSp)
-betaPhotoSpMean <- colMeans(betaPhotoSp)
-bp_quan <- apply(betaPhotoSp, 2, quantile2575)
-
-bps <- rbind(betaPhotoSpMean, bp_quan)
-bps_t <- t(bps)
-bps_df <- data.frame(bps_t)
-colnames(bps_df)[colnames(bps_df) == "X25."] <- "photo25"
-colnames(bps_df)[colnames(bps_df) == "X75."] <- "photo75"
-
-muPhotoSp <- data.frame(slaModelFit$muPhotoSp)
-muPhotoSpMean <- colMeans(muPhotoSp)
-
-betaTraitxPhoto<- data.frame(slaModelFit$betaTraitxPhoto)
-betaTraitxPhotoMean <- colMeans(betaTraitxPhoto)
-
-pdf("figures/photo_sla.pdf")
-plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$sla25), max(mg_df$sla75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75))) # blank plot with x range 
-# 3 columns, mean, quantile
-# min and max defined by quantiles
-arrows(
-  mg_df[,"muGrandSpMean"], # x mean
-  bps_df[,"photo25"], # y 25
-  mg_df[,"muGrandSpMean"],
-  bps_df[,"photo75"],
-  length = 0
-)
-
-arrows(
-  mg_df[,"sla25"], # x mean
-  bps_df[,"betaPhotoSpMean"], # y 25
-  mg_df[,"sla75"], # x mean
-  bps_df[,"betaPhotoSpMean"],
-  length = 0
-)
-
-for(i in 1:length(muPhotoSp[,1])){
-  abline(a = muPhotoSp[i,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.025))
-}
-abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
-dev.off()
 
 # Write a loop to run all the different traits plots:
 ################################
@@ -312,8 +111,8 @@ for (i in length(files)){
     length = 0
   )
   
-  for(i in 1:length(muForceSp[,1])){
-    abline(a = muForceSp[i,], b = betaTraitxForceMean, col=alpha("lightpink", 0.025))
+  for(j in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.025))
   }
   abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
   dev.off()
@@ -354,8 +153,8 @@ for (i in length(files)){
     length = 0
   )
   
-  for(i in 1:length(muChillSp[,1])){
-    abline(a = muChillSp[i,], b = betaTraitxChillMean, col=alpha("lightpink", 0.025))
+  for(j in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.025))
   }
   abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
   dev.off()
@@ -396,7 +195,7 @@ for (i in length(files)){
     length = 0
   )
   
-  for(i in 1:length(muPhotoSp[,1])){
+  for(j in 1:length(muPhotoSp[,1])){
     abline(a = muPhotoSp[i,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.025))
   }
   abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
@@ -404,3 +203,388 @@ for (i in length(files)){
   
 }
 
+############################################################
+# minus alphaForceSp - if the alpha is really strong then it could be driving the relationship
+files
+for (i in length(files)){
+  
+  Model <- readRDS(paste("output/", files[i], sep = ""))
+  #slaModel <- readRDS("output/height_stanfit.RDS")
+  # sum <- summary(slaModel)$summary
+  # test <- sum[grep("betaForceSp", rownames(sum)), "mean"]
+  # rownames(sum)
+  # ssm <-  as.shinystan(slaModel)
+  # launch_shinystan(ssm)
+  # 
+  # str(slaModel)
+  
+  ModelFit <- rstan::extract(Model)
+  
+  muGrandSp <- data.frame(ModelFit$mu_grand_sp)
+  muGrandSpMean <- colMeans(muGrandSp)
+  
+  betaForceSp <- data.frame(ModelFit$betaForceSp)
+  alphaForceSp <- data.frame(ModelFit$alphaForceSp)
+  
+  betaForceSpMean <- colMeans(betaForceSp)
+  alphaForceSpMean <- colMeans(alphaForceSp)
+  diff <- betaForceSp - alphaForceSp
+  diffForceMean <- colMeans(diff)
+  
+  quantile2575 <- function(x){
+    returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
+    return(returnQuanilte)
+  }
+  
+  diff_quan <- apply(diff, 2, quantile2575)
+  alpha_quan <- apply(alphaForceSp, 2, quantile2575)
+  beta_quan <- apply(betaForceSp, 2, quantile2575)
+  mugrand_quan <- apply(muGrandSp, 2, quantile2575)
+  
+  df <- rbind(diffForceMean, diff_quan)
+  df_t <- t(df)
+  df_df <- data.frame(df_t)
+  colnames(df_df)[colnames(df_df) == "X25."] <- "force25"
+  colnames(df_df)[colnames(df_df) == "X75."] <- "force75"
+  
+  alpha <- rbind(alphaForceSpMean, alpha_quan)
+  a_t <- t(alpha)
+  a_df <- data.frame(a_t)
+  colnames(a_df)[colnames(a_df) == "X25."] <- "force25"
+  colnames(a_df)[colnames(a_df) == "X75."] <- "force75"
+  
+  beta <- rbind(betaForceSpMean, beta_quan)
+  b_t <- t(beta)
+  b_df <- data.frame(b_t)
+  colnames(b_df)[colnames(b_df) == "X25."] <- "force25"
+  colnames(b_df)[colnames(b_df) == "X75."] <- "force75"
+  
+  mg<- rbind(muGrandSpMean, mugrand_quan)
+  mg_t <- t(mg)
+  mg_df <- data.frame(mg_t)
+  colnames(mg_df)[colnames(mg_df) == "X25."] <- "trait25"
+  colnames(mg_df)[colnames(mg_df) == "X75."] <- "trait75"
+  
+  
+  muForceSp <- data.frame(ModelFit$muForceSp)
+  muForceSpMean <- colMeans(muForceSp)
+  
+  betaTraitxForce<- data.frame(ModelFit$betaTraitxForce)
+  betaTraitxForceMean <- colMeans(betaTraitxForce)
+  
+pdf(paste("figures/force_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
+  par(mfrow = c(1,3))
+  plot( x= mg_df$muGrandSpMean, y = df_df$diffForceMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$force25), max(df_df$force75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    df_df[,"force25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    df_df[,"force75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    df_df[,"diffForceMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    df_df[,"diffForceMean"],
+    length = 0
+  )
+  
+  for(r in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[r,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  # dev.off()
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = a_df$alphaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(a_df$force25), max(a_df$force75))) # blank plot with x range 
+  
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    a_df[,"force25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    a_df[,"force75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    a_df[,"alphaForceSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    a_df[,"alphaForceSpMean"],
+    length = 0
+  )
+  
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = b_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(b_df$force25), max(a_df$force75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    b_df[,"force25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    b_df[,"force75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    b_df[,"betaForceSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    b_df[,"betaForceSpMean"],
+    length = 0
+  )
+  # for(i in 1:length(muForceSp[,1])){
+  #   abline(a = muForceSp[i,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  # }
+  # abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  dev.off()
+  #------------------------------------------------------------------------------#
+  betaChillSp <- data.frame(ModelFit$betaChillSp)
+  alphaChillSp <- data.frame(ModelFit$alphaChillSp)
+  
+  betaChillSpMean <- colMeans(betaChillSp)
+  alphaChillSpMean <- colMeans(alphaChillSp)
+  diff <- betaChillSp - alphaChillSp
+  diffChillMean <- colMeans(diff)
+  
+  quantile2575 <- function(x){
+    returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
+    return(returnQuanilte)
+  }
+  
+  diff_quan <- apply(diff, 2, quantile2575)
+  alpha_quan <- apply(alphaChillSp, 2, quantile2575)
+  beta_quan <- apply(betaChillSp, 2, quantile2575)
+  mugrand_quan <- apply(muGrandSp, 2, quantile2575)
+  
+  df <- rbind(diffChillMean, diff_quan)
+  df_t <- t(df)
+  df_df <- data.frame(df_t)
+  colnames(df_df)[colnames(df_df) == "X25."] <- "chill25"
+  colnames(df_df)[colnames(df_df) == "X75."] <- "chill75"
+  
+  alpha <- rbind(alphaChillSpMean, alpha_quan)
+  a_t <- t(alpha)
+  a_df <- data.frame(a_t)
+  colnames(a_df)[colnames(a_df) == "X25."] <- "chill25"
+  colnames(a_df)[colnames(a_df) == "X75."] <- "chill75"
+  
+  beta <- rbind(betaChillSpMean, beta_quan)
+  b_t <- t(beta)
+  b_df <- data.frame(b_t)
+  colnames(b_df)[colnames(b_df) == "X25."] <- "chill25"
+  colnames(b_df)[colnames(b_df) == "X75."] <- "chill75"
+  
+  mg<- rbind(muGrandSpMean, mugrand_quan)
+  mg_t <- t(mg)
+  mg_df <- data.frame(mg_t)
+  colnames(mg_df)[colnames(mg_df) == "X25."] <- "trait25"
+  colnames(mg_df)[colnames(mg_df) == "X75."] <- "trait75"
+  
+  
+  muChillSp <- data.frame(ModelFit$muChillSp)
+  muChillSpMean <- colMeans(muChillSp)
+  
+  betaTraitxChill<- data.frame(ModelFit$betaTraitxChill)
+  betaTraitxChillMean <- colMeans(betaTraitxChill)
+  
+  pdf(paste("figures/chill_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
+  par(mfrow = c(1,3))
+  plot( x= mg_df$muGrandSpMean, y = df_df$diffChillMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$chill25), max(df_df$chill75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    df_df[,"chill25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    df_df[,"chill75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    df_df[,"diffChillMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    df_df[,"diffChillMean"],
+    length = 0
+  )
+  
+  for(r in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[r,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  # dev.off()
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = a_df$alphaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(a_df$chill25), max(a_df$chill75))) # blank plot with x range 
+  
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    a_df[,"chill25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    a_df[,"chill75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    a_df[,"alphaChillSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    a_df[,"alphaChillSpMean"],
+    length = 0
+  )
+  
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = b_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(b_df$chill25), max(a_df$chill75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    b_df[,"chill25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    b_df[,"chill75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    b_df[,"betaChillSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    b_df[,"betaChillSpMean"],
+    length = 0
+  )
+  # for(i in 1:length(muForceSp[,1])){
+  #   abline(a = muForceSp[i,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  # }
+  # abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  dev.off()
+
+  #------------------------------------------------------------------------------#
+  betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
+  alphaPhotoSp <- data.frame(ModelFit$alphaPhotoSp)
+  
+  betaPhotoSpMean <- colMeans(betaPhotoSp)
+  alphaPhotoSpMean <- colMeans(alphaPhotoSp)
+  diff <- betaPhotoSp - alphaPhotoSp
+  diffPhotoMean <- colMeans(diff)
+  
+  quantile2575 <- function(x){
+    returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
+    return(returnQuanilte)
+  }
+  
+  diff_quan <- apply(diff, 2, quantile2575)
+  alpha_quan <- apply(alphaPhotoSp, 2, quantile2575)
+  beta_quan <- apply(betaPhotoSp, 2, quantile2575)
+  mugrand_quan <- apply(muGrandSp, 2, quantile2575)
+  
+  df <- rbind(diffPhotoMean, diff_quan)
+  df_t <- t(df)
+  df_df <- data.frame(df_t)
+  colnames(df_df)[colnames(df_df) == "X25."] <- "photo25"
+  colnames(df_df)[colnames(df_df) == "X75."] <- "photo75"
+  
+  alpha <- rbind(alphaPhotoSpMean, alpha_quan)
+  a_t <- t(alpha)
+  a_df <- data.frame(a_t)
+  colnames(a_df)[colnames(a_df) == "X25."] <- "photo25"
+  colnames(a_df)[colnames(a_df) == "X75."] <- "photo75"
+  
+  beta <- rbind(betaPhotoSpMean, beta_quan)
+  b_t <- t(beta)
+  b_df <- data.frame(b_t)
+  colnames(b_df)[colnames(b_df) == "X25."] <- "photo25"
+  colnames(b_df)[colnames(b_df) == "X75."] <- "photo75"
+  
+  mg<- rbind(muGrandSpMean, mugrand_quan)
+  mg_t <- t(mg)
+  mg_df <- data.frame(mg_t)
+  colnames(mg_df)[colnames(mg_df) == "X25."] <- "trait25"
+  colnames(mg_df)[colnames(mg_df) == "X75."] <- "trait75"
+  
+  
+  muPhotoSp <- data.frame(ModelFit$muPhotoSp)
+  muPhotoSpMean <- colMeans(muPhotoSp)
+  
+  betaTraitxPhoto<- data.frame(ModelFit$betaTraitxPhoto)
+  betaTraitxPhotoMean <- colMeans(betaTraitxPhoto)
+  
+  pdf(paste("figures/photo_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
+  par(mfrow = c(1,3))
+  plot( x= mg_df$muGrandSpMean, y = df_df$diffPhotoMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$photo25), max(df_df$photo75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    df_df[,"photo25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    df_df[,"photo75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    df_df[,"diffPhotoMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    df_df[,"diffPhotoMean"],
+    length = 0
+  )
+  
+  for(r in 1:length(muPhotoSp[,1])){
+    abline(a = muPhotoSp[r,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  # dev.off()
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = a_df$alphaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(a_df$photo25), max(a_df$photo75))) # blank plot with x range 
+  
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    a_df[,"photo25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    a_df[,"photo75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    a_df[,"alphaPhotoSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    a_df[,"alphaPhotoSpMean"],
+    length = 0
+  )
+  
+  #________________________________________________________________#
+  plot( x= mg_df$muGrandSpMean, y = b_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(b_df$photo25), max(a_df$photo75))) # blank plot with x range 
+  # 3 columns, mean, quantile
+  # min and max defined by quantiles
+  arrows(
+    mg_df[,"muGrandSpMean"], # x mean
+    b_df[,"photo25"], # y 25
+    mg_df[,"muGrandSpMean"],
+    b_df[,"photo75"],
+    length = 0
+  )
+  
+  arrows(
+    mg_df[,"trait25"], # x mean
+    b_df[,"betaPhotoSpMean"], # y 25
+    mg_df[,"trait75"], # x mean
+    b_df[,"betaPhotoSpMean"],
+    length = 0
+  )
+  # for(i in 1:length(muPhotoSp[,1])){
+  #   abline(a = muPhotoSp[i,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  # }
+  # abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  dev.off()
+  
+}
