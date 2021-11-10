@@ -10,13 +10,17 @@ options(mc.cores = 4)
 set.seed(202109)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- TRUE
+MidgeFlag <- FALSE
 
 if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 } else if(MidgeFlag == FALSE) {
-	setwd("/home/faith/Documents/github/ospree/analyses/traits/")
+    if(length(grep("Lizzie", getwd()))>0)
+	setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
+        else {
+        setwd("boomboom/")
+        }
 	traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 }
@@ -98,6 +102,11 @@ mdl.traitphen <- stan("stan/phenology_combined.stan",
 
 ## N effective?
 summary(mdl.traitphen)$summary[, "n_eff"]
+
+## Side bar by Lizzie to grab the species level cue estimates
+lnccues <- summary(mdl.traitphen)$summary[grep("beta", rownames(summary(mdl.traitphen)$summary)),]
+write.csv(lnccues, "output/lnccues.csv", row.names=TRUE)
+
 
 ### Add species and study names to Stan object
 names(mdl.traitphen)[grep(pattern = "^muSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")

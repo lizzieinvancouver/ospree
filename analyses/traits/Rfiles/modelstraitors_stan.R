@@ -117,6 +117,9 @@ b_chill <- sumer[grep("^b_chill", rownames(sumer)),]
 b_force <- sumer[grep("^b_force", rownames(sumer)),]
 b_photo <- sumer[grep("^b_photo", rownames(sumer)),]
 
+## Side bar to compare to cues estimated from joint model (ooh! Exciting)
+lnccues <- read.csv("traits/output/lnccues.csv", header=TRUE)
+
 dat1 <- read.csv("..//traits/input/try_bien_nodups_1.csv") 
 dat2 <- read.csv("..//traits/input/try_bien_nodups_2.csv") 
 dat <- rbind(dat1, dat2)
