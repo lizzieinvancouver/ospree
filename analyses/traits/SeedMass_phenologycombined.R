@@ -41,15 +41,15 @@ specieslist <- sort(unique(seedData$speciesname))
 studylist <- sort(unique(seedData$datasetid))
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = seedData$traitvalue,
+all.data <- list(yTraiti = log10(seedData$traitvalue),
                  N = nrow(seedData),
                  n_spec = length(specieslist),
                  trait_species = as.numeric(as.factor(seedData$speciesname)),
                  n_study = length(studylist),
                  study = as.numeric(as.factor(seedData$datasetid)),
-                 prior_mu_grand_mu = 70,
+                 prior_mu_grand_mu = log10(70),
                  prior_mu_grand_sigma = 2,
-                 prior_sigma_sp_mu = 100,
+                 prior_sigma_sp_mu = log10(100),
                  prior_sigma_sp_sigma = 10,
                  prior_sigma_study_mu = 5,
                  prior_sigma_study_sigma = 2,
