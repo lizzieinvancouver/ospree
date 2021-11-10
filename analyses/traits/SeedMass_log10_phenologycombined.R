@@ -41,20 +41,20 @@ specieslist <- sort(unique(seedData$speciesname))
 studylist <- sort(unique(seedData$datasetid))
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = seedData$traitvalue,
+all.data <- list(yTraiti = log(seedData$traitvalue),
                  N = nrow(seedData),
                  n_spec = length(specieslist),
                  trait_species = as.numeric(as.factor(seedData$speciesname)),
                  n_study = length(studylist),
                  study = as.numeric(as.factor(seedData$datasetid)),
-                 prior_mu_grand_mu = 70,
-                 prior_mu_grand_sigma = 2,
-                 prior_sigma_sp_mu = 100,
-                 prior_sigma_sp_sigma = 10,
-                 prior_sigma_study_mu = 5,
-                 prior_sigma_study_sigma = 2,
-                 prior_sigma_traity_mu = 2,
-                 prior_sigma_traity_sigma = .5,
+                 prior_mu_grand_mu = log10(70),
+                 prior_mu_grand_sigma = 1,
+                 prior_sigma_sp_mu = log10(100),
+                 prior_sigma_sp_sigma = 0.5,
+                 prior_sigma_study_mu = log10(5),
+                 prior_sigma_study_sigma = 0.5,
+                 prior_sigma_traity_mu = log10(2),
+                 prior_sigma_traity_sigma = 0.1,
                  ## Phenology
                  Nph = nrow(ospreeData),
                  phenology_species = as.numeric(as.factor(ospreeData$speciesname)),
@@ -112,7 +112,7 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "SeedMass_estimates.pdf", onefile = TRUE)
+pdf(file = "SeedMass_log10_estimates.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
@@ -126,4 +126,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
 plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "SeedMass_stanfit.RDS")
+saveRDS(object = mdl.traitphen, file = "SeedMass_log10_stanfit.RDS")
