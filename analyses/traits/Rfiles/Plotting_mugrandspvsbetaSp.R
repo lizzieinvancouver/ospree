@@ -244,9 +244,10 @@ dev.off()
 # Write a loop to run all the different traits plots:
 ################################
 files <- list.files(path = "output", pattern =".RDS" )
-files <- 1
+files
 for (i in length(files)){
-  Model <- readRDS(paste("output/", files[2], sep = ""))
+  
+  Model <- readRDS(paste("output/", files[i], sep = ""))
   #slaModel <- readRDS("output/height_stanfit.RDS")
   # sum <- summary(slaModel)$summary
   # test <- sum[grep("betaForceSp", rownames(sum)), "mean"]
@@ -291,7 +292,7 @@ for (i in length(files)){
   betaTraitxForce<- data.frame(ModelFit$betaTraitxForce)
   betaTraitxForceMean <- colMeans(betaTraitxForce)
   
-  pdf(paste("figures/force", files[2], ".pdf", sep = ""))
+  pdf(paste("figures/force", files[i], ".pdf", sep = ""))
   plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75))) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
@@ -333,7 +334,7 @@ for (i in length(files)){
   betaTraitxChill<- data.frame(ModelFit$betaTraitxChill)
   betaTraitxChillMean <- colMeans(betaTraitxChill)
   
-  pdf(paste("figures/chill", files[2], ".pdf", sep = ""))
+  pdf(paste("figures/chill", files[i], ".pdf", sep = ""))
   plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75))) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
@@ -375,7 +376,7 @@ for (i in length(files)){
   betaTraitxPhoto<- data.frame(ModelFit$betaTraitxPhoto)
   betaTraitxPhotoMean <- colMeans(betaTraitxPhoto)
   
-  pdf(paste("figures/photo", files[2], ".pdf", sep = ""))
+  pdf(paste("figures/photo", files[i], ".pdf", sep = ""))
   plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75))) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
