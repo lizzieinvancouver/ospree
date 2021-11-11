@@ -1,0 +1,31 @@
+Started 10 November 2021
+Notes on Zohner et al. 2017 ('Spring predictability ...')
+
+<><><><><><><>
+By Lizzie from re-reading this (for the first time in a long time) on 8 November 2021
+
+Big points: they use MONTHLY climate data, 'ordinal' chilling requirements (1, 2, 3) and complicated stats, often by GRIDCELL. And, they don't address within-species variability, but we do! Go us.
+
+Here are my in-order notes:
+
+'Intuitively...' -- why can't I use that to explain hypotheses that I have?
+
+Hypotheses: "Our expectation was that species from regions with a less predictable onset of spring condi- tions, would have ‘safer’ leaf-out strategies, meaning that they would require longer chilling periods and higher spring warm- ing to leaf-out than species from regions with more predictable frost-free spring conditions."
+
+Chilling is BINNED data -- it's C1, C2, C3 (or 1, 2, 3 later) with three being a HIGH chilling requirement. 
+
+STV is "STV was calculated as the standard deviation (SD) of mean minimum temperatures of the March–May period over the past 100 years (1901–2013)."
+
+STV is based on *monthly* data. [In contrast, we have daily climate data.]
+
+They excluded species that show up on more than one continent (e.g., Betula nana). 
+
+Stats in this paper are way more complicated than I remembered! They did a bunch of random forests (pg 454, under 'Correlations...' on the left). I also don't really understand how you can test continental differences when species are confounded with continent. They keep citing other papers by non-stats experts with some sort of hierarchical bayesian approach they use (see last full paragraph on pg 454). I also don't fully know what recursive partitioning is (pg 456, under the heading 'the link between...').
+
+They do grid cell analysis! I never really got this, but I think it is in plots Fig 1c (and 1d) and so each point is a grid cell and then they treat each species a 1, 2, 3 for chilling requirement (higher number means higher chilling requirement) so higher values on the Y are HIGHER chill (so they get the opposite result to our current results). 
+
+Western vs Eastern North America, "Indeed, when grown together, the leaf-out dates of western NA species preceded those of eastern NA species by an average of 12 days (Figure S14a and Table S5)."
+
+I personally think that botanical garden species grown from seed do undergo selection in the nursery (so I disagree with their point on pg. 458, near the very end of the pg). 
+
+"We did not address within-species phenological variability and therefore cannot draw conclusions about population- level adaptations to temperature variability, a topic to be explored in the future."
