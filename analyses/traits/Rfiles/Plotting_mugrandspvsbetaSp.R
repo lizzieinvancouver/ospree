@@ -44,7 +44,7 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 ################################
 files <- list.files(path = "output", pattern =".RDS" )
 files
-for (i in length(files)){
+for (i in 1:length(files)){
   
   Model <- readRDS(paste("output/", files[i], sep = ""))
   #slaModel <- readRDS("output/height_stanfit.RDS")
@@ -205,7 +205,8 @@ for (i in length(files)){
 
 ############################################################
 # minus alphaForceSp - if the alpha is really strong then it could be driving the relationship
-Model <- readRDS(paste("output/", files[1], sep = ""))
+for (i in 1:length(files)){
+Model <- readRDS(paste("output/", files[i], sep = ""))
 #slaModel <- readRDS("output/height_stanfit.RDS")
 # sum <- summary(slaModel)$summary
 # test <- sum[grep("betaForceSp", rownames(sum)), "mean"]
@@ -269,7 +270,7 @@ muForceSpMean <- colMeans(muForceSp)
 betaTraitxForce<- data.frame(ModelFit$betaTraitxForce)
 betaTraitxForceMean <- colMeans(betaTraitxForce)
 
-pdf(paste("figures/force_bdecomp", files[1], ".pdf", sep = ""), height = 5, width =15)
+pdf(paste("figures/force_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
 par(mfrow = c(1,3))
 plot( x= mg_df$muGrandSpMean, y = df_df$diffForceMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$force25), max(df_df$force75))) # blank plot with x range 
 # 3 columns, mean, quantile
@@ -336,9 +337,9 @@ arrows(
   length = 0
 )
 for(r in 1:length(muPhotoSp[,1])){
-  abline(a = muPhotoSp[r,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  abline(a = muPhotoSp[r,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
 }
-abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+abline(a=muPhotoSpMean, b=betaTraitxForceMean, col = "grey")
 dev.off()
 
 #------------------------------------------------------------------------------#
@@ -391,7 +392,7 @@ muChillSpMean <- colMeans(muChillSp)
 betaTraitxChill<- data.frame(ModelFit$betaTraitxChill)
 betaTraitxChillMean <- colMeans(betaTraitxChill)
 
-pdf(paste("figures/chill_bdecomp", files[1], ".pdf", sep = ""), height = 5, width =15)
+pdf(paste("figures/chill_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
 par(mfrow = c(1,3))
 plot( x= mg_df$muGrandSpMean, y = df_df$diffChillMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$chill25), max(df_df$chill75))) # blank plot with x range 
 # 3 columns, mean, quantile
@@ -458,9 +459,9 @@ arrows(
   length = 0
 )
 for(r in 1:length(muPhotoSp[,1])){
-  abline(a = muPhotoSp[r,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  abline(a = muPhotoSp[r,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
 }
-abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")  
+abline(a=muPhotoSpMean, b=betaTraitxChillMean, col = "grey")  
 dev.off()
 
 #------------------------------------------------------------------------------#
@@ -513,7 +514,7 @@ muPhotoSpMean <- colMeans(muPhotoSp)
 betaTraitxPhoto<- data.frame(ModelFit$betaTraitxPhoto)
 betaTraitxPhotoMean <- colMeans(betaTraitxPhoto)
 
-pdf(paste("figures/photo_bdecomp", files[1], ".pdf", sep = ""), height = 5, width =15)
+pdf(paste("figures/photo_bdecomp", files[i], ".pdf", sep = ""), height = 5, width =15)
 par(mfrow = c(1,3))
 plot( x= mg_df$muGrandSpMean, y = df_df$diffPhotoMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(df_df$photo25), max(df_df$photo75))) # blank plot with x range 
 # 3 columns, mean, quantile
@@ -584,4 +585,4 @@ for(r in 1:length(muPhotoSp[,1])){
 }
 abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
 dev.off()
-
+}
