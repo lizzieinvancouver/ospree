@@ -32,15 +32,28 @@ if(length(grep("lizzie", getwd())>0)) {
 ######################################
 # Flags to choose for bbstanleadin.R #
 ######################################
+runzscoremodel <- TRUE # as of Nov 2021, you can run the z-scored model or natural units model
 
+if(!runzscoremodel){
 # Master flags! Here you pick if you want the flags for the main model (figure 2 in main text) versus other versions (all spp model, chill portions, uncentered predictors, as in supp table and figures 3-4)
+use.flags.for.mainmodel <- FALSE
+use.flags.for.spcomp.cp <- FALSE
+use.flags.for.allspp.utah <- FALSE # March 2021 -- picking this as includes the MOST data
+use.flags.for.spcomp.utah.nonz <- FALSE
+use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
+use.flags.for.allspp.utah.nonz <- TRUE
+use.yourown.flagdesign <- FALSE
+}
+
+if(runzscoremodel){
 use.flags.for.mainmodel <- FALSE
 use.flags.for.spcomp.cp <- FALSE
 use.flags.for.allspp.utah <- TRUE # March 2021 -- picking this as includes the MOST data
 use.flags.for.spcomp.utah.nonz <- FALSE
 use.flags.for.spcomp.cp.nonz <- FALSE # predictors on natural scale, spcomplex with utah units. Fig 3-4 in main text of budburst ms
 use.flags.for.allspp.utah.nonz <- FALSE
-use.yourown.flagdesign <- FALSE
+use.yourown.flagdesign <- FALSE    
+}
 
 source("source/flags.for.models.in.bbms.R")
 
@@ -56,11 +69,12 @@ runtraitorssp <- TRUE
 # Some hacky code to get the species #
 ######################################
 
-if(runtraitorssp){
 traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
-
 traitors.sp[which(!traitors.sp %in% unique(bb.stan$latbi))] # promising
 
+
+if(runzscoremodel){
+if(runtraitorssp){
 bb.traitors <- bb.stan[which(bb.stan$latbi %in% traitors.sp),]
 bb.traitors$complex <- as.numeric(as.factor(bb.traitors$latbi)) # re-number the species
 
@@ -74,6 +88,25 @@ datalist.bb <- with(bb.traitors,
                          n_sp = length(unique(bb.traitors$complex))
                     )
 )
+}
+}
+
+if(!runzscoremodel){
+if(runtraitorssp){
+bb.traitors <- bb.stan[which(bb.stan$latbi %in% traitors.sp),]
+bb.traitors$complex <- as.numeric(as.factor(bb.traitors$latbi)) # re-number the species
+
+datalist.bb <- with(bb.traitors, 
+                    list(y = resp, 
+                         chill = chill, 
+                         force = force, 
+                         photo = photo,
+                         sp = complex,
+                         N = nrow(bb.traitors),
+                         n_sp = length(unique(bb.traitors$complex))
+                    )
+)
+}
 }
 
 ######################################
@@ -117,6 +150,41 @@ b_chill <- sumer[grep("^b_chill", rownames(sumer)),]
 b_force <- sumer[grep("^b_force", rownames(sumer)),]
 b_photo <- sumer[grep("^b_photo", rownames(sumer)),]
 
+## Side bar to look at cues versus leafout day
+if(!runzscoremodel){ # this makes the most sense using a natural units model (where the intercept is cues=0)
+a_sp <- sumer[grep("^a_sp", rownames(sumer)),]
+
+# set up some values of cues
+hist(bb.stan$chill)
+chillvalue <- 15
+forcevalue <- 10
+photovalue <- 14
+
+leafoutdays <- a_sp[,"mean"] + b_chill[,"mean"]*chillvalue + b_force[,"mean"]*forcevalue + b_photo[,"mean"]*photovalue
+plot(leafoutdays~b_chill[,"mean"], ylab="Leafout day estimated from model", xlab="chilling cue", pch=16)
+text(x=b_chill[,"mean"], y=leafoutdays, labels=unique(bb.traitors$latbi))
+# Sort of what I expected, known late-budburst species (non-ilex and cocc. Quercus, Fagus show up as the earliest leafout since they have higher photo and chill cues and we use linear regression
+
+par(mfrow=c(1,4))
+plot(leafoutdays ~ a_sp[,"mean"], ylab="leafoutdays", xlab="intercept")
+plot(leafoutdays ~ b_chill[,"mean"], ylab="leafoutdays", xlab="chilling cue")
+plot(leafoutdays ~ b_force[,"mean"], ylab="leafoutdays", xlab="forcing cue")
+plot(leafoutdays ~ b_photo[,"mean"], ylab="leafoutdays", xlab="photoperiod cue")
+par(mfrow=c(1,3))
+plot(a_sp[,"mean"] ~ b_chill[,"mean"], xlab="chilling cue", ylab="intercept")
+abline(lm((a_sp[,"mean"] ~ b_chill[,"mean"])))
+plot(a_sp[,"mean"] ~ b_force[,"mean"], xlab="forcing cue", ylab="intercept")
+abline(lm((a_sp[,"mean"] ~ b_force[,"mean"])))
+plot(a_sp[,"mean"] ~ b_photo[,"mean"], xlab="photoperiod cue", ylab="intercept")
+abline(lm((a_sp[,"mean"] ~ b_photo[,"mean"])))
+
+# Lizzie's take-homes from this:
+# (a) We can't use the model to establish lafe versus early, if we model everything as thresholds and not linear regression we could perhaps, but we don't
+# (b) There is a correlation between chill and intercept, suggestive that higher chill cues are later-active species
+
+}
+## End side bar looking at leafout days
+
 ## Side bar to compare to cues estimated from joint model (ooh! Exciting)
 lnccues <- read.csv("..//traits/output/lnccues.csv", header=TRUE)
 row.names(lnccues) <- lnccues$X
@@ -133,7 +201,7 @@ abline(0,1)
 plot(b_photo[,"mean"]~lncphoto$mean, ylab="pheno-only model cue estimate", xlab="LNC-model cue estimate", main="photo")
 abline(0,1)
 dev.off()
-## End side bar
+## End side bar compare cues between models
 
 
 dat1 <- read.csv("..//traits/input/try_bien_nodups_1.csv") 
