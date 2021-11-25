@@ -5,6 +5,10 @@ By Lizzie
 November 2021: Trying to organize myself to do this!
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 
+NEXT UP! (Written 25 Nov 2021: Work on fixing text in section 'Forecasting non-linear responses: Do we have the necessary data?' to make it more on the new focus of paper (estimating interactions) and more declarative.
+
+
+
 Take-home from September was to cut out EXTRA messages and keep this focused (and shorter, we want to slim down to 4K words and submit to NPH)
 
 Messages we want to come through: 
@@ -15,6 +19,11 @@ Other to do items:
 - Make section headers more declarative and then CUT them so that they match to that header text. 
 - Make the take home messages of the figures super clear (even if it means you do not hit every message you wanted to). 
 
+
+TO DO:
+- Update Fig 1 and refs to it
+- Add refs
+- Can someone help check these refs? Even when interactions are invoked to explain declining responses to warming, they are often not estimated \citep[e.g.,][]{fu2015,asse2018}. For Asse, they write "We assessed the independent and joint contribution of predicting variables and detected possible interactions between them with variance partitioning using the library Vegan"... but I do not see interactions in the model, but maybe there were there?
 <><><><><><><><><><><><><><><><><><><><>
 Sep 2021 efforts to re-submit somewhere
 <><><><><><><><><><><><><><><><><><><><>

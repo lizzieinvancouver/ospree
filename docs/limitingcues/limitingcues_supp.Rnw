@@ -48,6 +48,7 @@ source("..//..//analyses/limitingcues/countintxns/countintxns.R")
 setwd("..//docs/limitingcues/")
 @
 
+
 \section{Overview of OSPREE database}
 % We could add info on ..
 % types of events?
@@ -56,7 +57,7 @@ We built the Observed Spring Phenology Responses in Experimental Environments (O
 \item TOPIC = (budburst OR leaf-out) AND (photoperiod or daylength) AND temperature*, which yielded 85 publications
 \item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 193 publications
 \end{enumerate}
-We extracted data (using ImageJ for figures, transcribing values from tables and extracting date, location and other methods from the text) from papers on woody plants that test for photoperiod and/or temperature effects on budburst, leafout, or flowering. \citet{ettinger2020} used a subset of these data (studies on budburst for which we could estimate forcing, chilling and photoperiod treatments), while here we present the full database, capturing data from \Sexpr{allpapers} papers (see Table \ref{tab:ref} for a list), of which \Sexpr{numcroppapers} are focused on crops (\emph{Actinidia deliciosa, Malus domestica, Vitis vinifera, Ribes nigrum, Vaccinium ashei, Vaccinium corymbosum, Prunus persica}).  Papers often reported more than one experiment, which we refer to as a `study.' OSPREE includes \Sexpr{allstudies} studies (with the earliest study was conducted in \Sexpr{minyear} \citep{Lamb:1948aa}), which spanned a variety of plant materials, though studies on `seedlings' (\Sexpr{numseedlings} studies) and `cuttings' (\Sexpr{numcuttings} studies) were most common. The most reported events were related to vegetative phases (days until or percent budburst or leafout, \Sexpr{round(pereventsbb, 2)*100}\% of events across studies), followed by flowering (\Sexpr{round(pereventsflo, 2)*100}\% of events across studies).
+We extracted data (using ImageJ for figures, transcribing values from tables and extracting date, location and other methods from the text) from papers on woody plants that test for photoperiod and/or temperature effects on budburst, leafout, or flowering  (Fig. \ref{fig:datamap}) . \citet{ettinger2020} used a subset of these data (studies on budburst for which we could estimate forcing, chilling and photoperiod treatments), while here we present the full database, capturing data from \Sexpr{allpapers} papers (see Table \ref{tab:ref} for a list), of which \Sexpr{numcroppapers} are focused on crops (\emph{Actinidia deliciosa, Malus domestica, Vitis vinifera, Ribes nigrum, Vaccinium ashei, Vaccinium corymbosum, Prunus persica}). Papers often reported more than one experiment, which we refer to as a `study.' OSPREE includes \Sexpr{allstudies} studies (with the earliest study was conducted in \Sexpr{minyear} \citep{Lamb:1948aa}), which spanned a variety of plant materials, though studies on `seedlings' (\Sexpr{numseedlings} studies) and `cuttings' (\Sexpr{numcuttings} studies) were most common. The most reported events were related to vegetative phases (days until or percent budburst or leafout, \Sexpr{round(pereventsbb, 2)*100}\% of events across studies), followed by flowering (\Sexpr{round(pereventsflo, 2)*100}\% of events across studies).
 
 \section{Chilling's a bitch, baby}
 Our poor understanding of chilling, however, makes estimating historical and predicted shifts in chilling difficult \citep{chuine2016}. 
@@ -118,6 +119,7 @@ print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,s
 
 \pagebreak
 
+
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\textwidth]{..//..//analyses/limitingcues/figures/maps/map_studyspp.pdf}
@@ -126,6 +128,15 @@ print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,s
   \label{fig:datamap} % Ailene: This figure is nice. i would say, though, that i don't find the size of the shapes to be particularly easy to interpret. seeing the numbers next to each study is a much more effective at showing that most studies have fewer than 5 spp.
 \end{figure}
 
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/utahchill_limiting.png}
+\caption{Current models of chilling suggest it may decrease or increase with winter warming. Here we show a common version of the Utah chilling model (top right inset and also turquoise line in main figure) with two conceptual scenarios of mean daily winter temperatures. When temperatures are generally below zero warming may increase accumulated chilling (left), while if pre-climate change temperatures are generally higher (near where chilling accumulates most per $\degree$C) then warming may decrease accumulated chilling (right).}
+  \label{fig:chilling}
+\end{figure}
+
+\clearpage
 
 \begin{figure}[t!]
 \centering
