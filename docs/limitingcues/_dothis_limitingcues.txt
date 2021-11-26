@@ -5,8 +5,7 @@ By Lizzie
 November 2021: Trying to organize myself to do this!
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-NEXT UP! (Written 25 Nov 2021: Work on fixing text in section 'Forecasting non-linear responses: Do we have the necessary data?' to make it more on the new focus of paper (estimating interactions) and more declarative.
-
+NEXT UP! (Written 26 Nov 2021: Get some numbers of what treatment levels are most common! Then re-read 1.3.
 
 
 Take-home from September was to cut out EXTRA messages and keep this focused (and shorter, we want to slim down to 4K words and submit to NPH)
@@ -22,6 +21,7 @@ Other to do items:
 
 TO DO:
 - Update Fig 1 and refs to it
+- Check year (2020?!) on Gelman and Hill
 - Add refs
 - Can someone help check these refs? Even when interactions are invoked to explain declining responses to warming, they are often not estimated \citep[e.g.,][]{fu2015,asse2018}. For Asse, they write "We assessed the independent and joint contribution of predicting variables and detected possible interactions between them with variance partitioning using the library Vegan"... but I do not see interactions in the model, but maybe there were there?
 <><><><><><><><><><><><><><><><><><><><>
