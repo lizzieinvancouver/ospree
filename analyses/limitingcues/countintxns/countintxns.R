@@ -66,6 +66,7 @@ nrow(subset(spbydatasetID.df, datasetID==1))
 nrow(subset(spbydatasetID.df, datasetID>1))
 nrow(subset(spbydatasetID.df, datasetID>2))
 
+
 # Get the number of field sampling dates that are 14 or more weeks apart, first for each datasetIDx study ...
 # This is just to correct for studies that truly meant to have muultiple field sample dates (versus, for example, when ...
 # we go to a site and it takes us three days to sample) #
@@ -379,6 +380,43 @@ ospintxnstudies$intxn[which(ospintxnstudies$datasetID=="okie11" &
 write.csv(ospcounts, "limitingcues/output/ospree_countinxns.csv", row.names=FALSE)
 write.csv(ospintxnstudies, "limitingcues/output/ospree_studyinxns.csv", row.names=FALSE)
 write.csv(datsm14d, "limitingcues/output/osp14d_forheatmaps.csv", row.names=FALSE) # this is a nice idea, but not easy to add
+
+
+# Which cues are most common? (By study, not species)
+# Added in November 2021
+commoncuesfull <- subset(datsm, select=c("datasetID", "study", "force", "photo", "chilltemp", "chilldays"))
+commoncues <- commoncuesfull[!duplicated(commoncuesfull),]
+commoncuesphoto <- aggregate(commoncues["force"], commoncues["photo"], FUN=length)
+commoncuesforce <- aggregate(commoncues["photo"], commoncues["force"], FUN=length)
+commoncueschilltemp <- aggregate(commoncues["force"], commoncues["chilltemp"], FUN=length)
+commoncueschilldays <- aggregate(commoncues["force"], commoncues["chilldays"], FUN=length)
+
+names(commoncuesphoto) <- c("photo", "n")
+names(commoncuesforce) <- c("force", "n")
+names(commoncueschilltemp) <- c("chilltemp", "n")
+names(commoncueschilldays) <- c("chilldays", "n")
+
+commoncuesphoto <- commoncuesphoto[order(-commoncuesphoto$n),]
+commoncuesforce <- commoncuesforce[order(-commoncuesforce$n),]
+commoncueschilltemp <- commoncueschilltemp[order(-commoncueschilltemp$n),]
+commoncueschilldays <- commoncueschilldays[order(-commoncueschilldays$n),]
+
+commoncueschilltemp[1:10,]
+
+(sum(commoncuesforce$n[1:3])/sum(commoncuesforce$n))*100 # 47%
+round((commoncuesforce$n[1]/sum(commoncuesforce$n))*100, 0) # 17%
+round((commoncuesforce$n[2]/sum(commoncuesforce$n))*100, 0) # 15%
+round((commoncuesforce$n[3]/sum(commoncuesforce$n))*100, 0) # 14%
+round((commoncuesforce$n[4]/sum(commoncuesforce$n))*100, 0) # 8%
+
+round((commoncuesphoto$n[1]/sum(commoncuesphoto$n))*100, 0) # 29%
+round((commoncuesphoto$n[2]/sum(commoncuesphoto$n))*100, 0) # 24%
+round((sum(commoncuesphoto$n[1:2])/sum(commoncuesphoto$n))*100, 0)
+round((sum(commoncuesphoto$n[1:4])/sum(commoncuesphoto$n))*100, 0) # 75%
+
+
+commoncueschilltemp$chilltemp[2] # row 1 is ""
+round((commoncueschilltemp$n[2]/sum(commoncueschilltemp$n))*100, 0) # 7%, next is 0 at 6%
 
 #### Cat adding in some code to fill in manuscript with info.
 ## Using code from studydesing_numcues.R
