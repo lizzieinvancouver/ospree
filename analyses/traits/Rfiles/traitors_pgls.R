@@ -28,25 +28,10 @@ library(phytools)
 library(MCMCglmm)
 library(dplyr)
 library(knitr)
-library(broom)
+library(broom)  
+library(reshape2)
 
-# Set Midge Flag
-Midge <- FALSE
 
-color_scheme_set("viridis")
-
-#Source ospree trators data if thsi runs on Faith's section of Midge
-if(Midge == TRUE){
-  setwd("~/traits")
-  load("traitOspreeData.Rdata")
-  
-} 
-
-#Code taken from Phylo_ospree_reanalyses.R to feed in the Ospree data
-#----------------------------------------------------------------------
-
-if(Midge == FALSE){
-  # Anyone else working with this code should add their info/path here
   if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
   } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
   } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
@@ -132,15 +117,6 @@ if(Midge == FALSE){
   dat$traitname[which(dat$traitname == "Specific_leaf_area")] <- "SLA"
   dat$traitname[which(dat$traitname == "Stem_specific_density")] <- "SSD"
   
-  #Exploring the data 
-  unique(dat$traitname)
-  table(dat$speciesname, dat$traitname)
-  
-  densityData <- dat[dat$traitname == "SSD",]
-  table(densityData$speciesname)
-  unique(densityData$speciesname)
-  unique(densityData$datasetid)
-  
   #select traits we are interested in
   triatSelect <- c("Seed_mass", "SLA", "SSD", "LNC", "Plant_height_vegetative")
   selectData <- dat[dat$traitname %in% triatSelect,]
@@ -167,17 +143,138 @@ if(Midge == FALSE){
   traitSelect <- meanTraitWide[meanTraitWide$species %in% traitors.sp,]
   
   #combine data 
-  traitOspree <- merge(ospree_traitors,traitSelect, by.y = "speciesname", by.x = "spps")
+  #traitOspree <- merge(ospree_traitors,traitSelect, by.y = "speciesname", by.x = "spps")
   
-  setwd("..//traits") 
-  #save(traitOspree, file = "Rfiles/traitOspreeData.Rdata")
-}
-getwd()
+setwd("..//traits") 
+# get the mean cue estimates for a given trait
+load("Rfiles/traitOspreeData.Rdata")
+Model <- readRDS("output/SLA_stanfit.RDS")
 
+ModelFit <- rstan::extract(Model)
+
+muGrandSp <- data.frame(ModelFit$mu_grand_sp)
+muGrandSpMean <- colMeans(muGrandSp)
+
+betaForceSp <- data.frame(ModelFit$betaForceSp)
+betaForceSpMean <- colMeans(betaForceSp)
+
+quantile2575 <- function(x){
+  returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
+  return(returnQuanilte)
+}
+
+bf_quan <- apply(betaForceSp, 2, quantile2575)
+mugrand_quan <- apply(muGrandSp, 2, quantile2575)
+
+bfs <- rbind(betaForceSpMean, bf_quan)
+bfs_t <- t(bfs)
+bfs_df <- data.frame(bfs_t)
+colnames(bfs_df)[colnames(bfs_df) == "X25."] <- "force25"
+colnames(bfs_df)[colnames(bfs_df) == "X75."] <- "force75"
+
+betaChillSp <- data.frame(ModelFit$betaChillSp)
+betaChillSpMean <- colMeans(betaChillSp)
+bc_quan <- apply(betaChillSp, 2, quantile2575)
+
+bcs <- rbind(betaChillSpMean, bc_quan)
+bcs_t <- t(bcs)
+bcs_df <- data.frame(bcs_t)
+colnames(bcs_df)[colnames(bcs_df) == "X25."] <- "chill25"
+colnames(bcs_df)[colnames(bcs_df) == "X75."] <- "chill75"
+
+betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
+betaPhotoSpMean <- colMeans(betaPhotoSp)
+bp_quan <- apply(betaPhotoSp, 2, quantile2575)
+
+bps <- rbind(betaPhotoSpMean, bp_quan)
+bps_t <- t(bps)
+bps_df <- data.frame(bps_t)
+colnames(bps_df)[colnames(bps_df) == "X25."] <- "photo25"
+colnames(bps_df)[colnames(bps_df) == "X75."] <- "photo75"
+
+cues <- cbind(traitSelect, bfs_df, bcs_df, bps_df)
+#write.csv(cues, "input/trait_cue_means.csv", row.names = F)
 ####################################
 #### get phylogeny              ####
 ####################################
-setwd("traits") 
+
 phylo <- read.tree("data/SBphylo_trait.tre")
 
-load("output/joint_SLA.RData")
+namesphy<-phylo$tip.label
+phylo<-force.ultrametric(phylo, method="extend")
+phylo$node.label<-seq(1,length(phylo$node.label),1)
+is.ultrametric(phylo)
+plot(phylo, cex=0.7)
+
+## get phylogenetic covariance matrix
+inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
+A <- solve(inv.phylo$Ainv)
+rownames(A) <- rownames(inv.phylo$Ainv)
+bb.stan$spps<-paste(bb.stan$genus,bb.stan$species,sep="_")
+
+############################################################################
+## B) generate a comparative.data object merging data and phylogeny
+databbslopesphy = comparative.data(phylo,cues,names.col="speciesname",
+                                   na.omit=T,vcv=T)
+head(databbslopesphy)
+
+phyloplot = databbslopesphy$phy
+x = databbslopesphy$data$betaForceSpMean
+y = databbslopesphy$data$betaChillSpMean
+z = databbslopesphy$data$betaPhotoSpMean
+names(x) = names(y) = names(z) = databbslopesphy$phy$tip.label
+
+pdf("figures/fcp_phylo.pdf")
+par(mfrow=c(1,3))
+force <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
+chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
+photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
+dev.off()
+
+X <- data.frame(forcing = x,
+                chilling = y,
+                photoperiod = z)
+
+library(RColorBrewer)
+cols=brewer.pal(11, name = "Spectral")
+phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
+              split = c(0.65,0.35), col = cols)
+
+## D) fit intercept only models to check for phylogenetic structure in sensitivities
+lambda.force = pgls(betaForceSpMean~1,data = databbslopesphy,lambda='ML')
+summary(lambda.force)
+
+lambda.chill = pgls(betaChillSpMean~1,data = databbslopesphy,lambda='ML')
+summary(lambda.chill)
+
+lambda.photo = pgls(betaPhotoSpMean~1,data = databbslopesphy,lambda='ML')
+summary(lambda.photo)
+
+lambda.sla = pgls(SLA~1,data = databbslopesphy,lambda='ML')
+summary(lambda.sla)
+
+lambda.LNC = pgls(LNC~1,data = databbslopesphy,lambda='ML')
+summary(lambda.LNC)
+
+lambda.ht = pgls(Plant_height_vegetative~1,data = databbslopesphy,lambda='ML')
+summary(lambda.ht)
+
+lambda.seed = pgls(Seed_mass~1,data = databbslopesphy,lambda='ML')
+summary(lambda.seed)
+
+ par(mfrow=c(1,3),mar=c(4,5,3,2))
+plot(pgls.profile(lambda.force),
+     main="forcing")
+plot(pgls.profile(lambda.chill),
+     main="chilling")
+plot(pgls.profile(lambda.photo),
+     main="photoperiod")
+
+
+## resp is the mean across responses and is modelled according
+## the sensitivities of each species to each cue
+lambda.full = pgls(~force.z+chill.z+photo.z,data = databbslopesphy,lambda='ML')
+plot(pgls.profile(lambda.full))
+plot(lambda.full)
+summary(lambda.full)
+
