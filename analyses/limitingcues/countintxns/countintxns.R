@@ -2,7 +2,7 @@
 ## By Lizzie ##
 
 # This tries to count *interactive experiments*, ideally for all possible intxns across photoperiod, chilling, forcing, and field sample date (maybe provenance) treatments! #
-# I don't recommend it for counting the number of cues. For that, I think Cat's code studydesign_numcues.R is much saner. #
+# It also counts the number of cues (see also zarchive/studydesign_numcues.R which used to do that) and makes some the cues x year histogram # 
 
 ## See also: https://github.com/lizzieinvancouver/ospree/issues/235
 
@@ -403,7 +403,7 @@ commoncueschilldays <- commoncueschilldays[order(-commoncueschilldays$n),]
 
 commoncueschilltemp[1:10,]
 
-(sum(commoncuesforce$n[1:3])/sum(commoncuesforce$n))*100 # 47%
+force3levels <- round((sum(commoncuesforce$n[1:3])/sum(commoncuesforce$n))*100, 0) # 47%
 round((commoncuesforce$n[1]/sum(commoncuesforce$n))*100, 0) # 17%
 round((commoncuesforce$n[2]/sum(commoncuesforce$n))*100, 0) # 15%
 round((commoncuesforce$n[3]/sum(commoncuesforce$n))*100, 0) # 14%
@@ -412,11 +412,17 @@ round((commoncuesforce$n[4]/sum(commoncuesforce$n))*100, 0) # 8%
 round((commoncuesphoto$n[1]/sum(commoncuesphoto$n))*100, 0) # 29%
 round((commoncuesphoto$n[2]/sum(commoncuesphoto$n))*100, 0) # 24%
 round((sum(commoncuesphoto$n[1:2])/sum(commoncuesphoto$n))*100, 0)
+photo3levels <- round((sum(commoncuesphoto$n[1:3])/sum(commoncuesphoto$n))*100, 0) # 65%
 round((sum(commoncuesphoto$n[1:4])/sum(commoncuesphoto$n))*100, 0) # 75%
 
-
 commoncueschilltemp$chilltemp[2] # row 1 is ""
-round((commoncueschilltemp$n[2]/sum(commoncueschilltemp$n))*100, 0) # 7%, next is 0 at 6%
+chilltemplevel1 <- round((commoncueschilltemp$n[2]/(sum(commoncueschilltemp$n)-commoncueschilltemp$n[1]))*100, 0) # 14% of chilltemp studies
+chilltemplevel2 <- round((commoncueschilltemp$n[3]/(sum(commoncueschilltemp$n)-commoncueschilltemp$n[1]))*100, 0) # 11%
+chilltemplevel3 <- round((commoncueschilltemp$n[4]/(sum(commoncueschilltemp$n)-commoncueschilltemp$n[1]))*100, 0) # 9%
+chilltemplevel4 <- round((commoncueschilltemp$n[5]/(sum(commoncueschilltemp$n)-commoncueschilltemp$n[1]))*100, 0) # 8%
+chilltemplevel5 <- round((commoncueschilltemp$n[6]/(sum(commoncueschilltemp$n)-commoncueschilltemp$n[1]))*100, 0) # 8%
+nochilltemp <- round((commoncueschilltemp$n[1]/(sum(commoncueschilltemp$n)))*100, 0)
+
 
 #### Cat adding in some code to fill in manuscript with info.
 ## Using code from studydesing_numcues.R
@@ -570,6 +576,7 @@ photocue <- round(numwforce/numatleastonecue * 100, digits=0)
 forcecue <- round(numwphoto/numatleastonecue * 100, digits=0)
 chillcue <- round(numwchill/numatleastonecue * 100, digits=0)
 fielsampcue <- round(numwfieldsample/numatleastonecue * 100, digits=0)
+fielsampcueofchill <- round(numwfieldsample/numwchill * 100, digits=0)
 
 twocuesdf <- ospstudiescues[((ospstudiescues$force>0 & ospstudiescues$photo>0 & ospstudiescues$chillany<1) |
     (ospstudiescues$force>0 &  ospstudiescues$photo<1 & ospstudiescues$chillany>0) |
