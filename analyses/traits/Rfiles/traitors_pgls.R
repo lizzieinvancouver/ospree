@@ -215,9 +215,9 @@ bb.stan$spps<-paste(bb.stan$genus,bb.stan$species,sep="_")
 ############################################################################
 ## B) generate a comparative.data object merging data and phylogeny
 databbslopesphy = comparative.data(phylo,cues,names.col="speciesname",
-                                   na.omit=T,vcv=T)
+                                   na.omit=TRUE,vcv=TRUE, warn.dropped = TRUE)
 head(databbslopesphy)
-
+databbslopesphy$dropped
 phyloplot = databbslopesphy$phy
 x = databbslopesphy$data$betaForceSpMean
 y = databbslopesphy$data$betaChillSpMean
@@ -241,7 +241,7 @@ phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
               split = c(0.65,0.35), col = cols)
 
 ## D) fit intercept only models to check for phylogenetic structure in sensitivities
-lambda.force = pgls(betaForceSpMean~1,data = databbslopesphy,lambda='ML')
+lambda.force = pgls(betaForceSpMean~1,data = databbslopesphy,lambda='ML', bounds = list(lambda=c(0.001,1)))
 summary(lambda.force)
 
 lambda.chill = pgls(betaChillSpMean~1,data = databbslopesphy,lambda='ML')
