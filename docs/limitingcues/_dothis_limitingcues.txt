@@ -2,49 +2,40 @@ Started 24 August 2017
 By Lizzie
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
-November 2021: Trying to organize myself to do this!
+November-December 2021: Trying to organize myself to do this!
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-NEXT UP! Written 2 Dec 2021: Read briefly the whole paper so I can edit the last sections!
+To do...
+https://github.com/lizzieinvancouver/ospree/issues/431
 
 
-Take-home from September was to cut out EXTRA messages and keep this focused (and shorter, we want to slim down to 4K words and submit to NPH)
+<><><><><><><><><><><><><><><><><><><><>
+Sep 2021 efforts to re-submit somewhere
+<><><><><><><><><><><><><><><><><><><><>
+
+As of 3 December 2021..
+I think I have done most of these, search for NOT below for any I didn't do....
 
 Messages we want to come through: 
 - Six decades of experiments are not enough identify interactive effects of photoperiod and temperature on spring phenology
-- (Put another way...) our key message that -- okay, we cannot use observational data to do this, we need experimnts, we have decades of these experiments and still cannot partition them (and we're trying to reach experimental biologists)
+- (Put another way...) our key message that -- okay, we cannot use observational data to do this, we need experiments, we have decades of these experiments and still cannot partition them (and we're trying to reach experimental biologists)
+
 
 Other to do items:
 - Make section headers more declarative and then CUT them so that they match to that header text. 
 - Make the take home messages of the figures super clear (even if it means you do not hit every message you wanted to). 
 
-
-TO DO:
-- Update Fig 1 and refs to it
-- Check year (2020?!) on Gelman and Hill
-- Add refs
-- Can someone help check these refs? Even when interactions are invoked to explain declining responses to warming, they are often not estimated \citep[e.g.,][]{fu2015,asse2018}. For Asse, they write "We assessed the independent and joint contribution of predicting variables and detected possible interactions between them with variance partitioning using the library Vegan"... but I do not see interactions in the model, but maybe there were there?
-<><><><><><><><><><><><><><><><><><><><>
-Sep 2021 efforts to re-submit somewhere
-<><><><><><><><><><><><><><><><><><><><>
-
 Where? (Currently 5K)
 
 New Phytologist (if we cut it down to 4K)
-
 Journal of Experimental Botany
-
 Ag Forest Met
 
 Title: 
-
-Do interactive effects of temperature and photoperiod shapespring plant phenology responses to warming? Data limitations....
-
-Data limitations to predicting interactive effects of temperature and photoperiod on spring plant phenology
-
-Integrating experiments to predict the interactive effects of temperature and photoperiod on spring phenological responses to warming
-
-Six decades of experiments cannot identify interactive effects of photoperiod and temperature on spring phenology
+- Do interactive effects of temperature and photoperiod shapespring plant phenology responses to warming? Data limitations....
+- Data limitations to predicting interactive effects of temperature and photoperiod on spring plant phenology
+- Integrating experiments to predict the interactive effects of temperature and photoperiod on spring phenological responses to warming
+- Six decades of experiments cannot identify interactive effects of photoperiod and temperature on spring phenology
 
 
 Sections/ideas:
@@ -53,7 +44,7 @@ Sections/ideas:
 
 New section of: interactions alone do not produce non-linearities 
 
-Can we show the outcome of getting this wrong?
+Can we show the outcome of getting this wrong? (NOT done.)
 
 Figure 4 caption: Stress what the gray means, stress that we're good at 8 hours and 16 hours ... 
 
@@ -66,7 +57,7 @@ Abstract: Maybe instead of arguing for more integration to start we say we don't
 
 Abstract should also be more clear about *interactions* ...
 
-Last paragraph of intro could be adapted to better contrast what we do here ... we show that data across experiments. 
+Last paragraph of intro could be adapted to better contrast what we do here ... we show that data across experiments. (NOT sure I did this well)
 
 Could potentially cut a fair bit of "1.2 How will chilling, forcing and photoperiod shift with climate change?" section. Some could go into a figure caption ... and mainly focus on lines 153 onward in that section?
 
@@ -74,7 +65,7 @@ Digest caption of Fig. 4 better.
 
 Stronger statements throughout perhaps? About what is missing or inadequate. Do we want to say that current explanations of how non-linearities should come about are often vague? And that's why we have Figure 1?
 
-Cite Ailene's paper for ideas on how to integrate these experimental studies into larger models?
+Cite Ailene's paper for ideas on how to integrate these experimental studies into larger models? (NOT done)
 
 Add some refs (Baumgarten etc.)
 
