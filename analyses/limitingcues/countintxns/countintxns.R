@@ -36,7 +36,7 @@ dates2weeks.count <- countfieldsample(ddatefx, 14)
 uniquedates.df <- fieldsample.getuniquedates(ddatefx, 14)
 uniquedates.df$selectcolumn <- paste(uniquedates.df$datasetIDstudy, uniquedates.df$date)
 # Now subset to sane # of columnns
-datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp", "photoperiod_day", 
+datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp","forcetemp_night", "photoperiod_day", 
     "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays"))
 head(datsm)
 
@@ -72,8 +72,24 @@ datsm14d.noNA <- subset(datsm14d, is.na(force)==FALSE & is.na(photo)==FALSE)
 
 # Repeat of the above but correcting for field sampling date repetition
 osp14d.fp <- get.treatdists(datsm14d.noNA, "photo", "force")
-osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 14 studies
+nrow(osp14d.fp) #107 experiments from
+unique(osp14d.fp$datasetID) ### 64 studies manipulate photo and force
+
+osp14d.fpintxn <- subset(osp14d.fp, intxn>=2) # 15experiments from 
 osp14d.fpintxn[order(osp14d.fpintxn$datasetID),]
+nrow(osp14d.fpintxn) 
+unique(osp14d.fpintxn$datasetID) #from 10 studies
+
+###now indentfy which of the above might have periodicity issues
+thermop<-dplyr::filter(datsm14d, datasetID %in%unique(osp14d.fpintxn$datasetID))
+
+moreforcinginfo <- get.treatdists.daynight(thermop, "forcetemp", "forcetemp_night")
+
+forcingvaried <- subset(moreforcinginfo, treatinfo!="forcing does not vary")
+studiesinclconstantforce <- subset(forcingvaried, numconstantforce>0) # some studies have both
+studiesinclforceperiodicity <- subset(forcingvaried, numdiffforce>0) 
+nrow(studiesinclforceperiodicity) #7 out of 15 might have this issue
+unique(studiesinclforceperiodicity$datasetID) #4
 
 osp14d.ctf <- get.treatdists(datsm14d.noNA, "chilltemp", "force")
 osp14d.ctfintxn <- subset(osp14d.ctf, intxn>=2) # 2 studies
