@@ -36,6 +36,12 @@ ospree <- read.csv("input/bbstan_allspp_utah.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
+# Exclude 12_bien as a study due to one data point
+aggregate(seedData$traitvalue, by = list(seedData$datasetid), FUN = length) # check
+## aggregate(seedData$traitvalue, by = list(seedData$datasetid, seedData$speciesname), FUN = length)
+### Subset
+seedData <- subset(seedData, !(seedData$datasetid == "12_bien"))
+
 # Sorted species and study list
 specieslist <- sort(unique(seedData$speciesname))
 studylist <- sort(unique(seedData$datasetid))
@@ -48,12 +54,12 @@ all.data <- list(yTraiti = log10(seedData$traitvalue),
                  n_study = length(studylist),
                  study = as.numeric(as.factor(seedData$datasetid)),
                  prior_mu_grand_mu = log10(100),
-                 prior_mu_grand_sigma = .75,
-                 prior_sigma_sp_mu = log10(10),
-                 prior_sigma_sp_sigma = 0.5,
-                 prior_sigma_study_mu = 0.06,
-                 prior_sigma_study_sigma = 0.01,
-                 prior_sigma_traity_mu = log10(2),
+                 prior_mu_grand_sigma = .5,
+                 prior_sigma_sp_mu = log10(1),
+                 prior_sigma_sp_sigma = log10(1),
+                 prior_sigma_study_mu = log10(1),
+                 prior_sigma_study_sigma = 1,
+                 prior_sigma_traity_mu = log10(1),
                  prior_sigma_traity_sigma = 0.1,
                  ## Phenology
                  Nph = nrow(ospreeData),
@@ -91,13 +97,13 @@ all.data <- list(yTraiti = log10(seedData$traitvalue),
 mdl.traitphen <- stan("stan/phenology_combined.stan",
                       data = all.data,
                       iter = 4000,
-                      warmup = 3000,
+                      warmup = 2000,
                       chains = 4,
                       include = FALSE, pars = c("y_hat"),
                       seed = 202109)
 
 ## N effective?
-summary(mdl.traitphen)$summary[, "n_eff"]
+head(summary(mdl.traitphen)$summary[order(summary(mdl.traitphen)$summary[, "n_eff"]), "n_eff"])
 
 ### Add species and study names to Stan object
 names(mdl.traitphen)[grep(pattern = "^muSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
