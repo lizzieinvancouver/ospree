@@ -3,6 +3,7 @@
 # aim of this code is to test for phylogenetic effects on cues from the trait model
 # using the casper package
 # test for mean trait values and means of the cue posteriors
+# code adapted from phylosignal_caper.R
 
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
@@ -101,6 +102,7 @@ library(reshape2)
   namesdat<-unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
   bb.stan$spps<-paste(bb.stan$genus,bb.stan$species,sep="_")
   bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
+  bb.stan$speciesname<-paste(bb.stan$genus,bb.stan$species,sep="_")
   
   
   traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", 
@@ -108,7 +110,10 @@ library(reshape2)
                    "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", 
                    "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
   
-  ospree_traitors <- bb.stan[bb.stan$spps %in% traitors.sp,]
+  ospreeTraitors <- bb.stan[bb.stan$spps %in% traitors.sp,]
+  meanResp <- aggregate(ospreeTraitors$resp, by = list(ospreeTraitors$speciesname), FUN = mean)
+  names(meanResp) <- c("speciesname", "meanresp")
+  head(meanResp)
   
   #Get Trait data ready for merging with ospree 
   #Rename some trait names to be more weildy 
@@ -142,10 +147,9 @@ library(reshape2)
   #select species
   traitSelect <- meanTraitWide[meanTraitWide$species %in% traitors.sp,]
   
-  #combine data 
-  #traitOspree <- merge(ospree_traitors,traitSelect, by.y = "speciesname", by.x = "spps")
-  
-setwd("..//traits") 
+  #traitOspree <- merge(ospreeTraitors,traitSelect, by.y = "speciesname", by.x = "spps")
+
+setwd("..//traits")
 # get the mean cue estimates for a given trait
 load("Rfiles/traitOspreeData.Rdata")
 Model <- readRDS("output/SLA_stanfit.RDS")
@@ -192,8 +196,9 @@ bps_df <- data.frame(bps_t)
 colnames(bps_df)[colnames(bps_df) == "X25."] <- "photo25"
 colnames(bps_df)[colnames(bps_df) == "X75."] <- "photo75"
 
-cues <- cbind(traitSelect, bfs_df, bcs_df, bps_df)
-#write.csv(cues, "input/trait_cue_means.csv", row.names = F)
+
+cues <- cbind(meanResp, traitSelect, bfs_df, bcs_df, bps_df)
+# write.csv(cues, "input/sla_cue_means.csv", row.names = F)
 ####################################
 #### get phylogeny              ####
 ####################################
@@ -210,8 +215,8 @@ plot(phylo, cex=0.7)
 inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
 A <- solve(inv.phylo$Ainv)
 rownames(A) <- rownames(inv.phylo$Ainv)
-bb.stan$spps<-paste(bb.stan$genus,bb.stan$species,sep="_")
-
+ospreeTraitors$spps<-paste(ospreeTraitors$genus,ospreeTraitors$species,sep="_")
+unique(ospreeTraitors$spps)
 ############################################################################
 ## B) generate a comparative.data object merging data and phylogeny
 databbslopesphy = comparative.data(phylo,cues,names.col="speciesname",
@@ -224,44 +229,49 @@ y = databbslopesphy$data$betaChillSpMean
 z = databbslopesphy$data$betaPhotoSpMean
 names(x) = names(y) = names(z) = databbslopesphy$phy$tip.label
 
-pdf("figures/fcp_phylo.pdf")
+pdf("figures/sla_phylo.pdf", width = 10)
 par(mfrow=c(1,3))
 force <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
 chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
 photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
 dev.off()
 
-X <- data.frame(forcing = x,
-                chilling = y,
-                photoperiod = z)
+# X <- data.frame(forcing = x,
+#                 chilling = y,
+#                 photoperiod = z)
+# 
+# library(RColorBrewer)
+# cols=brewer.pal(11, name = "Spectral")
+# phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
+#               split = c(0.65,0.35), col = cols)
 
-library(RColorBrewer)
-cols=brewer.pal(11, name = "Spectral")
-phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
-              split = c(0.65,0.35), col = cols)
-
-## D) fit intercept only models to check for phylogenetic structure in sensitivities
-lambda.force = pgls(betaForceSpMean~1,data = databbslopesphy,lambda='ML', bounds = list(lambda=c(0.001,1)))
+## 
+lambda.force = pgls(betaForceSpMean ~ SLA, data = databbslopesphy,lambda='ML')
 summary(lambda.force)
 
-lambda.chill = pgls(betaChillSpMean~1,data = databbslopesphy,lambda='ML')
+lambda.chill = pgls(betaChillSpMean~ SLA,data = databbslopesphy,lambda='ML')
 summary(lambda.chill)
 
-lambda.photo = pgls(betaPhotoSpMean~1,data = databbslopesphy,lambda='ML')
+lambda.photo = pgls(betaPhotoSpMean~ SLA,data = databbslopesphy,lambda='ML')
 summary(lambda.photo)
 
 lambda.sla = pgls(SLA~1,data = databbslopesphy,lambda='ML')
 summary(lambda.sla)
 
-lambda.LNC = pgls(LNC~1,data = databbslopesphy,lambda='ML')
-summary(lambda.LNC)
+#other traits
+# lambda.LNC = pgls(LNC~1,data = databbslopesphy,lambda='ML')
+# summary(lambda.LNC)
+# 
+# lambda.ht = pgls(Plant_height_vegetative~1,data = databbslopesphy,lambda='ML')
+# summary(lambda.ht)
+# 
+# lambda.seed = pgls(Seed_mass~1,data = databbslopesphy,lambda='ML')
+# summary(lambda.seed)
 
-lambda.ht = pgls(Plant_height_vegetative~1,data = databbslopesphy,lambda='ML')
-summary(lambda.ht)
+lambda.full = pgls(meanresp ~ betaForceSpMean + betaChillSpMean + betaPhotoSpMean ,data = databbslopesphy,lambda='ML')
+summary(lambda)
 
-lambda.seed = pgls(Seed_mass~1,data = databbslopesphy,lambda='ML')
-summary(lambda.seed)
-
+databbslopesphy
  par(mfrow=c(1,3),mar=c(4,5,3,2))
 plot(pgls.profile(lambda.force),
      main="forcing")
@@ -273,8 +283,9 @@ plot(pgls.profile(lambda.photo),
 
 ## resp is the mean across responses and is modelled according
 ## the sensitivities of each species to each cue
-lambda.full = pgls(~force.z+chill.z+photo.z,data = databbslopesphy,lambda='ML')
+lambda.full = pgls(meanresp ~ betaForceSpMean + betaChillSpMean + betaPhotoSpMean, data = databbslopesphy,lambda='ML')
 plot(pgls.profile(lambda.full))
 plot(lambda.full)
 summary(lambda.full)
 
+###################################
