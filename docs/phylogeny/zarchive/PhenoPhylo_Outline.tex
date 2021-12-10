@@ -31,17 +31,16 @@
 
 %% R Script
 
-\title{Unravelling the phenology-phylogeny tangle.}
-
-% alternative titles:
-%% An expanded bayesian phylogenetic mixed model to unravel the phenology-phylogeny tangle. %% this sounds too methodsy
+\title{Evolution constrains tree responses to environmental cues in experimental settings too - Outline\\
+			or\\
+			Revisiting the Phylogenetic Mixed Model}
 
 \begin{document}
 
 \maketitle
 
 \noindent Authors:\\
-The Wolkovich Lab in 2019 \& collaborators $^{1,2,3,4}$
+The Wolkovich Lab in 2019 $^{1,2,3,4}$
 \vspace{2ex}\\
 \emph{Author affiliations:}\\
 $^{1}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4;\\
@@ -60,8 +59,6 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \clearpage
-
-\begin{comment}
 \section*{Rationale \& Significance}
 
 Previous work has looked at the phylogenetic conservatism of phenology across plant species, finding that, first flowering is significantly conserved \citep{davies2013phylogenetic} and, when using OU models so are shifts in first flowering and the slopes of the relationship between flowering and year \citep{rafferty2017global}. Research in this area has focused on the phenotype (phenological event or its shifts) rather than on the cues---i.e. how shifts in the environment trigger species responses. Beyond whether or not phenology is phylogenetically conserved, determining evolutionary constraints in phenological responses to temperature and daylight, may have deeper implications for forecasting under ongoing change.\\ 
@@ -74,7 +71,7 @@ Nevertheless, previous work on the phylogenetic conservatism of phenology has st
 - Are the responses to certain cues more strongly conserved than to others?\\
 - How does accounting for phylogeny affects model estimations of cue sensitivity?\\
 
-And beyond work on phylogenetic conservatisms, previous comparative research on phenological responses to cues (experimental or observational) has either:\\
+And beyond work on phylogenetic conservatism, previous comparative research on phenological responses to cues (experimental or observational) has either:\\
 
 - Ignored phylogenetic relationships (or the fact that species are not independent units)\\
 - Accounted for phylogenetic relationships assuming that they are \emph{stationary} across predictors-traits and can be modelled by including phylogenetic Variance-Covariance in model residuals. This is the rationale behind common-use PGLS approaches but it \"hides\" the partial phylogenetic constraints to model predictors.\\ 
@@ -90,20 +87,19 @@ The potential interest of findings in this direction stem from:\\
 - better design the next generation of experiments \\
 
 
-## bits from previous version of the abstract to remove at a later stage
 
-The plasticity of these responses may ultimately determine species ability to withstand ongoing environmental change because non-plastic species may undergo developmental events under unadequate conditions---e.g. a species advancing flowering too much could see increased the risk of frost events. Phenology describes the responses to seasonal change in environmental cues and while it is often regarded to as a rather plastic trait, it is still unknown whether or not phenology is a phylogenetically conserved trait. 
+%%% A few notes/questions from close reading of Housworth et al. 2004
+% - should we change the terminology (lambda) to that in Housworth? H²?
+% - should we care about rho correlations between traits (cues)? if so, they can be estimated through sigma2 and h2 given that h2 = sigma2_inherited / sigma2. 
+% 
 
-
-\end{comment}
 
 \section*{Abstract}
-
-Plants have evolved responses to environmental cues able to inform them about the temporal distribution of key resources---i.e. energy and light. The responses to individual cues such as forcing (or spring warming) have shown to be subjected to some degree of evolutionary conservatism. Yet, plants do not respond to isolated cues but to a combination of interacting cues, which difficults accurate predictions of phenology in the face of environmental change. Whether and how evolution has constrained phenological responses to combinations of interacting cues is not yet understood even when this knowledge could enhance model predictions and inform how different plant lineages have adapted to environmental change along their evolutionary histories. Here we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if phenological responses to three major interacting cues are conserved phylogenetically when considered jointly, (b) compare the phylogenetic signal in the responses to different cues and, (c) test whether coefficient estimates differ between models assuming phylogenetic independence among species and models that explicitly incorporate phylogeny. Results show non-random phylogenetic structuring of phenological responses, highly variable across species and cues. More interestingly, regression coefficients shift when models control for phylogenetic effects, particularly so for forcing, which becomes the most important cue. Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been jointly constrained through evolution and thus are not independent.  
-
-
-\begin{comment}
 \begin{enumerate}
+
+Plants have long evolved responses to environmental cues, able to inform the organisms about the temporal distribution of key resources---i.e. energy and light. The plasticity of these responses may ultimately determine species ability to withstand ongoing environmental change because non-plastic species may undergo developmental events under unadequate conditions---e.g. a species advancing flowering too much could see increased the risk of frost events. Phenology describes the responses to seasonal change in environmental cues and while it is often regarded to as a rather plastic trait, it is still unknown whether or not phenology is a phylogenetically conserved trait. Here we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if tree species responses to cues are conserved phylogenetically, (b) compare the phylogenetic signal in the responses to different cues and, (c) test the abiltiy of phylogenetically informed models to improve predictive accuracy of phenology. Results show non-random phylogenetic structuring of phenological responses, highly variable across cues.  
+Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been constrained through evolution and thus are not independent.  
+
 \item How plants respond to environmental cues--i.e. temperature, daylight--may determine their resilience or vulnerability to ongoing climate change. 
 \item Phenology provides a good description of plant responses to to the environment. 
 \item Phenology has been regarded to as a rather plastic trait, thus with a lot of variation both intra- and inter-specifically.
@@ -114,7 +110,6 @@ Plants have evolved responses to environmental cues able to inform them about th
 \item Results show non-random phylogenetic structuring of phenological responses, highly variable across cues.  
 \item Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been constrained through evolution and thus are not independent.  
 \end{enumerate}
-\end{comment}
 
 % not yet satisfied about the pitch - this is already said in Davies et al. 2013 
 % should we emphasize the fact that we are using experimental/lab data? What are the gains with respect data from the field?
@@ -127,66 +122,38 @@ Plants have evolved responses to environmental cues able to inform them about th
 
 \section*{Introduction}
 \begin{enumerate}
-
-\item Understanding how different plant lineages have evolved their phenotypic responses to the joint effects of interacting environmental cues remains a challenge.
+\item Phenology is a critical trait to studying biological responses to climate change.
+\item Forecasts of phenological responses to environmental change are very important (e.g. agriculture, pest management, etc.) but they are not successful, partly due to data limitations: many species lack data and even those with data may have incomplete time series for all relevant phenophases. Could we impute missing data using phylogeny as a proxy? Even if we have the data, should multi-species forecasts be concerned with phylogenetic constraints? 
+\item Phenology has been shown to be phylogenetically conserved, but studies to date are limited by:
 \begin{enumerate}
-\item Environmental cues matter as they inform organisms about the temporal distribution of key resources.
-\item Responses (and their evolution) to cues are usually studied individually assuming that a given phenotypic response (e.g. time of leafout) is linked to a single cue, when likely multiple ones operate interactively (and have done so across evolutionary history) to shape that response. 
-\item Out of the three major cues that affect plants (forcing, chiling, photoperiod), few multi-species analyses have considered all three simultaneously, with repeated consensus that chilling and forcing would prevail, but would this pattern hold if evolution/phylogeny was accounted for? % or perhaps avoid talking about phenology yet and making this opening more general about traits and phenotypes and their response to cues: from Lizzie's notes: the trait is a phenotype itself is made of underlying traits that respond to different cues. (For example, plant height or growth is a function of responses to water and nutrients.)
-\end{enumerate}
-
-\item Phenology makes for an ideal study case of species' responses to interacting environmental cues.
-\begin{enumerate}
-\item It is amongst the few phenotypic characters (if any other exists) for which there are multi-species experimental data on its responses to the three major environmental cues.   
-\item It is evolutionary conserved (to some extent, review antecedents).
-\item Research in this area has focused on the phenotype (phenological event or its shifts) rather than on the cues---i.e. how shifts in the environment trigger species responses. For example, first flowering is significantly conserved \citep{davies2013phylogenetic}. 
-\item When using OU models so are shifts in first flowering and the slopes of the relationship between flowering and year \citep{rafferty2017global}. 
-\item But many questions remain open: in a multi-species context, have specific lineages adapted more strongly to some of the cues? or to any combination of cues? Is there any cue that is particularly labile?
-\item Answering these questions may: (i) inform about the need to account for phylogeny in phenological models and predictions, and (ii) expand our knowledge on how phenological responses have been constrained so far, which would be relevant in a context where species' sensitivities to warming temperatures seem to decline.  
-\end{enumerate}
-
-\item Current methods have prevented further advances in understanding how specific lineages have adapted phenotypic responses to interacting environmental cues. 
-\begin{enumerate}
-\item Beyond data unavailability, common methodological approaches to studying phylogenetic constraints to phenological responses are not designed to explicitly test constraints in cue responses evolved jointly (nothing wrong with current methods, but they answer a different question). For example most common approaches have:
-\begin{enumerate} % the items below need ordering, trimming and perhaps consider dividing into two pagraphs
-\item Used phylogenetic regression either hierarchical (PMM) or not (PGLS), where only phylogenetic signal or effects are modelled for the residuals (or included as a grouping or random factor). Doing so `hides' information on how each cue's associations with the response have been constrained through evolution while operating in concert with other cues. Research interested in how a given response to a cue would have been constrained through evolution would have, for example, looked at the phylogenetic signal of that particular response.    % we need to be careful accounting by Revell's 2010 paper here
-\item Disregarded phylogenetic non-stationarity (but see \citep{davies2019phylogenetically})
-\item Focused on flowering (and leafout some) times and shifts in them (but see \cite{joly2019importance}, and add REFs!! on other phenological stages: budburst, ripening)
-\item Studied trait correlation \citep{bolmgren2008time} (not a limitation, but a different focus)
-\item Studied different evolutionary models best fitting the data \citep{rafferty2017global}
+\item focused on flowering (and leafout some) times and shifts in them (but see \cite{joly2019importance}, and add REFs!! on other phenological stages: budburst, ripening)
+\item studied trait correlation \citep{bolmgren2008time} (not a limitation, but a different focus)
+\item studied different evolutionary models best fitting the data \citep{rafferty2017global}
 \item measured shifts based on field observation data for both climate and phenology (when slopes are available, they represent shifts with time, not shifts with the environment).
 \item most efforts are on the phenotype rather than on the magnitude of species phenological responsiveness to different environmental cues.
 \end{enumerate}
-\end{enumerate}
-
-
-\item Here, we expand previous phylogenetic regression settings to explicitly estimate phylogenetic constraints on the interactions among predictors (cues). 
+\item Few examples in the literature have tested for phylogenetic signal of phenological responses using growth chamber data (e.g. \cite{joly2019importance}, and yet such a source of data could have advantages such as:
 \begin{enumerate}
-\item Common phylogenetic regression accounts for phylogenetic relationships as a grouping factor either explicitly (PMM) or implicitly (PGLS). Regardless, it fails to account for more complex interactions going on among predictors, which would be reflected in the species-level slopes being allowed to vary as a function of the phylogeny, rather than keeping slopes constant and only allowing the intercepts (or residuals) to vary. 
-\item We ignore whether this is important and maybe current models are fine. 
-\item In a first attempt at establishing whether or not it is important, we compare results from a common hierarchical model with partial pooling on the slopes that does not allow for phylogenetic constraints to affect slope estimates against results from a phylogenetic hierarchical model allowing phylogeny to constrain partially pooled slopes. %% this needs rephrasing!!!
-\item We do so for an unprecedented dataset on phenological responses to environmental cues determined experimentally. 
-\item This is one possible approach but there may be alternative ones.
+\item it makes possible to examine responses to more than one cue and thus not restrict analyses to responses to forcing.
+\item it is possible to compare responses to cues (are some more conserved than others?) 
+\item they may allow testing whether phylogeny can improve models of phenology as a response to a cue
 \end{enumerate}
 
-
-\item Questions rather than specific hypotheses
+\item Shifting the focus to phylogenetic conservatism of the responses to cues may provide additional insights:
 \begin{enumerate}
-\item Based on previous research on phylogenetic signal of phenological responses, we expect non-random phylogenetic structuring of the responses to environmental cues \citep{davies2013phylogenetic,rafferty2017global,joly2019importance} and expect that temperature-related cues display higher phylogenetic signal than photoperiod because the latter has remained more constant through evoutionary time. Yet, rather than specific hypotheses for different lineage-level responses, our work aims at exploring and discussing the following questions:
-\begin{enumerate}
-
-\item Do we need to account for phylogeny in multi-species, multi-cue modelling of the magnitude (strength) and variation of phenological responses to cues? This is, we worry about what are the biggest cues, and we think we may know which are those but if we have the wrong model, we may make the wrong inference or get estimates wrong.
-\item If so, can accounting for phylogeny shed light on the ongoing debate on declining sensitivities? For example, if particular lineages have very different evolutionary constraints on their responses to the cues, they may also display very differt declines in their sensitivities to the cues. % lizzie, I realize I missed important bits on the discussion we had on the relevance of this point, any pointers here are super welcome. 
-\item How can we interpret lambdas and sigmas for each cue, and for the intercept?
-\item What are the implications for phenological predictions and forecasts?
-\item Is this approach transferable to different taxa or biological responses? 
-
-\end{enumerate}
+\item by allowing comparison across cues, which cues are more conserved? which selective processes have been stronger? 
+\item Do we need to care about phylogenetic constraints when we forecast phenology? 
+\item Understand what dimensions of the environment may be more limiting or may be less subject to further adaptation. 
+\item Is the phylogenetic conservatism of phenology affected by geography and/or taxonomy? (e.g. North America vs. Europe; Gymnosperms vs. Angiosperms) 
 \end{enumerate}
 
-
+\item Here we use the largest dataset on experimental phenology to model species responses to three major environmental cues---i.e. forcing, chilling, photoperiod---and test their. We expect non-random phylogenetic conservatism of the cues based on previous research \citep{davies2013phylogenetic,rafferty2017global,joly2019importance} and expect that temperature-related cues display higher phylogenetic signal than photoperiod because the latter has remained more constant through evoutionary time. % it still needs hypotheses/predictions about the forecasts TBD
 
 \end{enumerate}
+\todo{The intro topics need punch and relevant antecedents (I'm still getting acquainted with the literature), help with bibliographic review of the topic would be awesome}
+
+
+
 \clearpage
 
 
@@ -218,6 +185,12 @@ Plants have evolved responses to environmental cues able to inform them about th
 
 \item To build a phylogeny for species complexes, the terminal branches of species belonging to the same complexes were collapsed.  
 
+\end{enumerate}
+
+\subsection*{Provenance-climate Data}
+\begin{enumerate}
+\item Should we test/analyze provenace or climate-effects? 
+\todo{I belive this can be done (roughly) through the NAm vs. Eur comparison?} 
 \end{enumerate}
 
 
@@ -282,7 +255,7 @@ The above specification is exactly equivalent to writing equation \ref{modelmu} 
 
 
 % for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
-%\todo{Should we compare Results from our approach and those from PGLS? - to discuss} 
+\todo{Should we compare Results from our approach and those from PGLS? - to discuss} 
 
 %\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Our approach, in contrast computes the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance \ref{eq:8}.
 %\todo{Results from our approach and PGLS differ in the 215spp dataset - to discuss} 
@@ -341,9 +314,10 @@ This sections needs to be fleshed out, but first we need to think and decide how
 \end{enumerate}
 
 
-\subsection*{Budburst models, phylogenetic vs. non-phylogenetic}
+\subsection*{Budburst models, phylogenetic and non-phylogenetic}
 \begin{enumerate}
-\item Here goes text comparing results with lambda \= 0 against results with estimated lambda.
+\item Do we still want to do this comparison?
+%\item Insert table here summarizing changes in coefficients and Rsq with/without phylogeny
 \end{enumerate}
 
 
@@ -354,6 +328,48 @@ This sections needs to be fleshed out, but first we need to think and decide how
 
 \section*{Discussion}
 To be fleshed out.
+
+
+
+
+
+
+
+\section*{Next steps and directions (based on Lizzie's suggestions)}
+\begin{enumerate}
+\item Compute phylogenetic signal on the outcome of the cues -- that is, we could calculate budburst day given our model (maybe a model without phylogeny?) under perhaps two scenarios:
+     
+\begin{enumerate}
+\item High chill, long-ish photoperiod, and moderate forcing (regular scenario)
+
+\item Low chill, shorter photoperiod, higher forcing (climate change scenario)
+
+\item The trick will be first, which model to use to calculate these values and how to keep the paper then logically consistent.
+\end{enumerate}
+  
+\end{enumerate}
+
+
+\section*{Questions to be addressed}
+
+Some questions we need to answer (suggestions by Lizzie and Nacho's addings):
+
+\begin{enumerate}
+\item How do we approach wanting to use species-level output from the models and wanting to fit phylogenetically-informed models? I think our current approach of using phylo-corrected and uncorrected models is fine, but we should discuss.
+\item Do we want to compare North America and Europe somehow? sounds cool!
+\item Do we want to add any traits or range stuff? - I don't think I'd go there unless there is a really pressing question or idea to address
+\item Can people add refs? Especially recent refs and refs about leafout and budburst? We also should have some refs on WITHIN-species variation. This is a task that would be great if people could contribute.
+\item Would it make sense to look at other response variables in OSPREE (other than budburst)?\\
+
+And a very important question:\\
+
+\item How do we want to pitch this paper? About phenology? About moving beyond phenotypes? About using experimental (lab) data? About climate change forecasts being affected by phylogenetic structuring?
+
+\item If the latter, can we think of ways to show how accounting for phylogenetic structuring would affect (or best case scenario, improve) forecasts of phenology? Perhaps by focusing on well studied species (usual PEP75 suspects?)... 
+
+\item Probably still early for this, but any ideas for target journals? JoE seems a natural outlet given where previous work has been published, but if the pitch is more into forecasts, could we aim higher?
+
+\end{enumerate}
 
 
 
@@ -368,32 +384,23 @@ To be fleshed out.
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, for 194 angiosperm species.}
-  \label{fig:muplot_force}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_angiosperm.pdf}
+  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, chilling and photoperiod for 194 angiosperm species.}
+  \label{fig:muplot_angio}
   \end{center}
 \end{figure}
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_chill.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for chilling, for 194 angiosperm species.}
-  \label{fig:muplot_chill}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_gymnosperm.pdf}
+  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, chilling and photoperiod for 19 gymnosperm species.}
+  \label{fig:muplot_gymno}
   \end{center}
 \end{figure}
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_photo.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for photoperiod, for 194 angiosperm species.}
-  \label{fig:muplot_photo}
-  \end{center}
-\end{figure}
-
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_sigmas_density_noout.pdf}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_density.pdf}
   \caption{Posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
   \label{fig:phylosig_angio}
   \end{center}
@@ -401,34 +408,9 @@ To be fleshed out.
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/sigmas_density_lambda0.pdf}
-  \caption{Posterior distribution of sigma for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
-  \label{fig:sigmas}
-  \end{center}
-\end{figure}
-
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_force_lambda0}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_chilll_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for chilling making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_chill_lambda0}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_photo_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for photoperiod making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_photo_lambda0}
+  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_density_gymno.pdf}
+  \caption{Posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
+  \label{fig:pphylosig_gymno}
   \end{center}
 \end{figure}
 
@@ -666,66 +648,6 @@ Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
 
 \item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
 %\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
-
-\end{enumerate}
-
-
-
-%% from previous version of the intro outline
-\item Few examples in the literature have tested for phylogenetic signal of phenological responses using growth chamber data (e.g. \cite{joly2019importance}, and yet such a source of data could have advantages such as:
-\begin{enumerate}
-\item it makes possible to examine responses to more than one cue and thus not restrict analyses to responses to forcing.
-\item it is possible to compare responses to cues (are some more conserved than others?) 
-\item they may allow testing whether phylogeny can improve models of phenology as a response to a cue
-\end{enumerate}
-
-\item Shifting the focus to phylogenetic conservatism of the responses to cues may provide additional insights:
-\begin{enumerate}
-\item by allowing comparison across cues, which cues are more conserved? which selective processes have been stronger? 
-\item Do we need to care about phylogenetic constraints when we forecast phenology? 
-\item Understand what dimensions of the environment may be more limiting or may be less subject to further adaptation. 
-\item Is the phylogenetic conservatism of phenology affected by geography and/or taxonomy? (e.g. North America vs. Europe; Gymnosperms vs. Angiosperms) 
-\end{enumerate}
-
-\subsection*{Provenance-climate Data}
-\begin{enumerate}
-\item Should we test/analyze provenace or climate-effects? 
-\todo{I belive this can be done (roughly) through the NAm vs. Eur comparison?} 
-\end{enumerate}
-
-\section*{Next steps and directions (based on Lizzie's suggestions)}
-\begin{enumerate}
-\item Compute phylogenetic signal on the outcome of the cues -- that is, we could calculate budburst day given our model (maybe a model without phylogeny?) under perhaps two scenarios:
-     
-\begin{enumerate}
-\item High chill, long-ish photoperiod, and moderate forcing (regular scenario)
-
-\item Low chill, shorter photoperiod, higher forcing (climate change scenario)
-
-\item The trick will be first, which model to use to calculate these values and how to keep the paper then logically consistent.
-\end{enumerate}
-  
-\end{enumerate}
-
-
-\section*{Questions to be addressed}
-
-Some questions we need to answer (suggestions by Lizzie and Nacho's addings):
-
-\begin{enumerate}
-\item How do we approach wanting to use species-level output from the models and wanting to fit phylogenetically-informed models? I think our current approach of using phylo-corrected and uncorrected models is fine, but we should discuss.
-\item Do we want to compare North America and Europe somehow? sounds cool!
-\item Do we want to add any traits or range stuff? - I don't think I'd go there unless there is a really pressing question or idea to address
-\item Can people add refs? Especially recent refs and refs about leafout and budburst? We also should have some refs on WITHIN-species variation. This is a task that would be great if people could contribute.
-\item Would it make sense to look at other response variables in OSPREE (other than budburst)?\\
-
-And a very important question:\\
-
-\item How do we want to pitch this paper? About phenology? About moving beyond phenotypes? About using experimental (lab) data? About climate change forecasts being affected by phylogenetic structuring?
-
-\item If the latter, can we think of ways to show how accounting for phylogenetic structuring would affect (or best case scenario, improve) forecasts of phenology? Perhaps by focusing on well studied species (usual PEP75 suspects?)... 
-
-\item Probably still early for this, but any ideas for target journals? JoE seems a natural outlet given where previous work has been published, but if the pitch is more into forecasts, could we aim higher?
 
 \end{enumerate}
 \end{comment}
