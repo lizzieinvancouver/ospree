@@ -92,10 +92,28 @@ Cat and/or Nacho write?\\
 Dan write description of joint model
 
 \subsubsection*{Intra vs. interspecific models}
-Cat 
+To assess variation within and across sites, we designed a two-level, hierarchical model using data from the OSPREE database. We subsetted the studies to include only those that had multiple provenance locations. 
 
+We used a Bayesian mixed-effects hierarchical model approach to analyze our data to best estimate the day of budburst. We fit a guassian distribution model using study, species and population as intercepts, forcing and photoperiod as predictors (fixed effects) and species nested within population (i.e., site) as modeled groups (random effects). The Bayesian model was fit using Stan modeling language \citep{Carpenter2017}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.15.1), version 2.3.1, in R \citep{R}, version 3.3.1, and was written as follows: 
 
+\begin{align*}
+y \thicksim N(\alpha_{study[i]} + \alpha_{sp[i]} + \alpha_{pop[i]} +& \beta_{forcing_{sp[i]/pop[i]}} + \beta_{photoperiod_{sp[i]/pop[i]}} + \epsilon_[i]}  \\
+\end{align*}
 
+\begin{align*}
+\epsilon_i & \sim N(0,\sigma_y) \\
+\end{align*}
+
+\noindent The $\alpha$ and each of the 5 $\beta$ coefficients were modeled at the study, species, population, or species and population level, as follows:
+\begin{align*}
+\alpha_{study} & \sim N(\mu_{\alpha_study}, \sigma_{\alpha_study}) \\
+\alpha_{sp} & \sim N(\mu_{\alpha_sp}, \sigma_{\alpha_sp}) \\
+\alpha_{pop} & \sim N(\mu_{\alpha_pop}, \sigma_{\alpha_pop}) \\
+\beta_{forcing_{sp/pop}} \thicksim N(\mu_{forcing_[sp/pop]}, \sigma_{forcing_[sp/pop]}) \\
+\beta_{photoperiod_{sp/pop}} \thicksim N(\mu_{photoperiod}, \sigma_{photoperiod_[sp/pop]}) \\
+\end{align*}
+
+We ran four chains, with 2,500 warm-up iterations followed by 3,000 sampling iterations, resulting in 12,000 posterior samples for each parameter. We assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. Using the \textit{Gabry2017} package \citep{bayesplot}, we then plotted the partition of variance across the intercepts and predictors to determine intra- vs. interspecific variation.  
 
 
 
