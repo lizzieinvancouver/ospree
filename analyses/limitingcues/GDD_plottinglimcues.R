@@ -103,9 +103,10 @@ points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(pl
        col=colz[3], pch=pchhere)
 points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[5]),
        col=colz[2], pch=pchhere)
-legend(x=2300, y=480, pch=rep(pchhere, 5),  col=colz[6:2], legend=unique(round(plotme2$provenance.lat, 0)),
+legend(x=2300, y=480, pch=rep(pchhere, 5), col=colz[6:2], legend=unique(round(plotme2$provenance.lat, 0)),
    cex=0.75, bty="n", title="provenance \n latitude")
-plot(gddreq ~ Total_Utah_Model, data=plotme3, pch=pchhere,  col=colz[1], xlab=xlabhere, ylab=ylabhere)
+plot(gddreq ~ Total_Utah_Model, data=plotme3, xlab=xlabhere, ylab=ylabhere)
+points(gddreq ~ Total_Utah_Model, data=plotme3, pch=pchhere,  col=colz[1])
 mtext(expression(paste("(b)", italic("Populus deltoides"), sep=" ")), side=3, adj = 0) 
 dev.off()
 
