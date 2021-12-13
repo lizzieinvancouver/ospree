@@ -16,7 +16,7 @@ library(viridis)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/treegarden/budreview/ospree/bb_analysis") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/bb_analysis")
+} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses/bb_analysis")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/bb_analysis") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
@@ -103,7 +103,7 @@ points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(pl
        col=colz[3], pch=pchhere)
 points(gddreq ~ Total_Utah_Model, data=subset(plotme2, provenance.lat==unique(plotme2$provenance.lat)[5]),
        col=colz[2], pch=pchhere)
-legend(x=2300, y=480, pch=rep(pchhere, 5), col=colz[6:2], legend=unique(round(plotme2$provenance.lat, 0)),
+legend(x=2300, y=480, pch=21, pt.bg=colz[6:2],col="black",legend=unique(round(plotme2$provenance.lat, 0)),
    cex=0.75, bty="n", title="provenance \n latitude")
 plot(gddreq ~ Total_Utah_Model, data=plotme3, xlab=xlabhere, ylab=ylabhere)
 points(gddreq ~ Total_Utah_Model, data=plotme3, pch=pchhere,  col=colz[1])
