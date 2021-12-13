@@ -32,7 +32,7 @@ Version dated: \today
 \bigskip
 
 \noindent {\normalsize \sc
-E. M. Wolkovich$^{1,2}$, C. J. Chamberlain$^{1,2}$, D. M. Buonaiuto$^{1,2}$, A. K. Ettinger$^{3}$ \\ \& I. Morales-Castilla$^{5}$}\\ % The lab in 2017 -- Lizzie, Ailene, Cat, Dan, Nacho
+E. M. Wolkovich$^{1,2}$, C. J. Chamberlain$^{2,3}$, D. M. Buonaiuto$^{2,3}$, A. K. Ettinger$^{4}$ \\ \& I. Morales-Castilla$^{5}$}\\ % The lab in 2017 -- Lizzie, Ailene, Cat, Dan, Nacho
 
 \noindent {\small \it
 $^1$ Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4\\
