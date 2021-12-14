@@ -104,6 +104,7 @@ Plants have evolved responses to environmental cues able to inform them about th
 
 \begin{comment}
 \begin{enumerate}
+\begin{enumerate}
 \item How plants respond to environmental cues--i.e. temperature, daylight--may determine their resilience or vulnerability to ongoing climate change. 
 \item Phenology provides a good description of plant responses to to the environment. 
 \item Phenology has been regarded to as a rather plastic trait, thus with a lot of variation both intra- and inter-specifically.
@@ -124,51 +125,64 @@ Plants have evolved responses to environmental cues able to inform them about th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Meeting call notes: https://github.com/lizzieinvancouver/ospree/wiki/Phylogeny-and-phenology
+
 
 \section*{Introduction}
 \begin{enumerate}
-
-\item Understanding how different plant lineages have evolved their phenotypic responses to the joint effects of interacting environmental cues remains a challenge.
+\item Predicting species responses to recent anthropogenic climate change presents a major challenge to ecological forecasting
 \begin{enumerate}
-\item Environmental cues matter as they inform organisms about the temporal distribution of key resources.
-\item Responses (and their evolution) to cues are usually studied individually assuming that a given phenotypic response (e.g. time of leafout) is linked to a single cue, when likely multiple ones operate interactively (and have done so across evolutionary history) to shape that response. 
-\item Out of the three major cues that affect plants (forcing, chiling, photoperiod), few multi-species analyses have considered all three simultaneously, with repeated consensus that chilling and forcing would prevail, but would this pattern hold if evolution/phylogeny was accounted for? % or perhaps avoid talking about phenology yet and making this opening more general about traits and phenotypes and their response to cues: from Lizzie's notes: the trait is a phenotype itself is made of underlying traits that respond to different cues. (For example, plant height or growth is a function of responses to water and nutrients.)
+\item On average global temperatures are warming, but there is regional and seasonal variation behind this average and shifts along other climate axes such as precipitaion are more complex than simple increases % or  but climate change is atcually multivariate and complex
+\item Over the past few decades empical studies have suggested that plants are shifting in their geographical distributions, moving to more northern latitudes and elevations, and shifting the timing of their life cycles
+\item However, responses are highly variable across species.
+\item Understanding how different species lineages have evolved their phenotypic responses to the combined effects of environmental change would greatly aid prediction
 \end{enumerate}
-
+\item Environmental cues matter as they inform organisms about the temporal distribution of key resources.
+% Understanding how different plant lineages have evolved their phenotypic responses to the joint effects of interacting environmental cues remains a challenge. % Lizzie says: I like this, but the introduce of cues and lineages at once feels too much at the very start... suggested alternative intro, but take or leave what works!
+\begin{enumerate}
+\item Responses (and their evolution) to cues are usually studied individually assuming that a given phenotypic response (e.g. time of leafout) is linked to a single cue, when likely multiple ones operate interactively (and have done so across evolutionary history) to shape that response. 
+\item For example, light, nutrients and water often determine growth rates and size
+\item Or how the timing of many recurring life cycle events (phenology) is determined by a combination of temperature and light. 
+\end{enumerate}
 \item Phenology makes for an ideal study case of species' responses to interacting environmental cues.
 \begin{enumerate}
-\item It is amongst the few phenotypic characters (if any other exists) for which there are multi-species experimental data on its responses to the three major environmental cues.   
+\item Phenology is a critical trait to studying biological responses to climate change.
+\item In temperate species its cue system is generally known: forcing, chiling, photoperiod
+\item It is amongst the few phenotypic characters (if any other exists) for which there are multi-species experimental data on its responses to the three major environmental cues. 
+\item Out of these three major cues that affect plants, few multi-species analyses have considered all three simultaneously, with repeated consensus that chilling and forcing would prevail, but would this pattern hold if evolution/phylogeny was accounted for? % or perhaps avoid talking about phenology yet and making this opening more general about traits and phenotypes and their response to cues: from Lizzie's notes: the trait is a phenotype itself is made of underlying traits that respond to different cues. (For example, plant height or growth is a function of responses to water and nutrients.)
+ \end{enumerate}
+% My suggestion is a paragraph on a pheno by phylo, then one one on phylo methods (short), but you could have an additional paragraph on more pheno x phylo, see commented out chunk below
+\item Phenology x phylogeny quick review ...
+\begin{enumerate}
 \item It is evolutionary conserved (to some extent, review antecedents).
 \item Research in this area has focused on the phenotype (phenological event or its shifts) rather than on the cues---i.e. how shifts in the environment trigger species responses. For example, first flowering is significantly conserved \citep{davies2013phylogenetic}. 
-\item When using OU models so are shifts in first flowering and the slopes of the relationship between flowering and year \citep{rafferty2017global}. 
-\item But many questions remain open: in a multi-species context, have specific lineages adapted more strongly to some of the cues? or to any combination of cues? Is there any cue that is particularly labile?
-\item Answering these questions may: (i) inform about the need to account for phylogeny in phenological models and predictions, and (ii) expand our knowledge on how phenological responses have been constrained so far, which would be relevant in a context where species' sensitivities to warming temperatures seem to decline.  
+\item Whether shifts in first flowering over time are also conserved is less clear and all inference to date is based on observational data, where geographical signals in phylogeny may drive trends attributed to phenology \citep[e.g.,][]{rafferty2017global}, as discussed in \citep{davies2013phylogenetic}. % This Rafferty paper is so flawed analytically that I suggest we better couch how we cite it ... see what you think... could also check Pearse NEE paper for how phylogeny affected answers
+\item Further, additional questions remain open: in a multi-species context, have specific lineages adapted more strongly to some of the cues? or to any combination of cues? Is there any cue that is particularly labile?
+\item Answering these questions may: (i) inform about the need to account for phylogeny in phenological models and predictions, and (ii) expand our knowledge on how phenological responses have been constrained so far, which would be relevant in a context where species' sensitivities to warming temperatures seem to decline.  % And extend to other responses to global change?
 \end{enumerate}
-
-\item Current methods have prevented further advances in understanding how specific lineages have adapted phenotypic responses to interacting environmental cues. 
-\begin{enumerate}
-\item Beyond data unavailability, common methodological approaches to studying phylogenetic constraints to phenological responses are not designed to explicitly test constraints in cue responses evolved jointly (nothing wrong with current methods, but they answer a different question). For example most common approaches have:
-\begin{enumerate} % the items below need ordering, trimming and perhaps consider dividing into two pagraphs
-\item Used phylogenetic regression either hierarchical (PMM) or not (PGLS), where only phylogenetic signal or effects are modelled for the residuals (or included as a grouping or random factor). Doing so `hides' information on how each cue's associations with the response have been constrained through evolution while operating in concert with other cues. Research interested in how a given response to a cue would have been constrained through evolution would have, for example, looked at the phylogenetic signal of that particular response.    % we need to be careful accounting by Revell's 2010 paper here
-\item Disregarded phylogenetic non-stationarity (but see \citep{davies2019phylogenetically})
+% \item most efforts are on the phenotype rather than on the magnitude of species phenological responsiveness to different environmental cues. 
+% Could try to integrate this point above into above paragraph or include in below section that I have commented out ... I think the intro is likely long enough without the below and many of the points could fit in discussion, but up to you!
+\iffalse
 \item Focused on flowering (and leafout some) times and shifts in them (but see \cite{joly2019importance}, and add REFs!! on other phenological stages: budburst, ripening)
 \item Studied trait correlation \citep{bolmgren2008time} (not a limitation, but a different focus)
 \item Studied different evolutionary models best fitting the data \citep{rafferty2017global}
 \item measured shifts based on field observation data for both climate and phenology (when slopes are available, they represent shifts with time, not shifts with the environment).
-\item most efforts are on the phenotype rather than on the magnitude of species phenological responsiveness to different environmental cues.
-\end{enumerate}
-\end{enumerate}
-
-
+\fi
+\item Current methods advanced our understanding of how specific lineages have adapted phenotypic responses to the environment, but don't capture the complexity of responses that depend on interacting environmental cues. 
+\begin{enumerate}
+\item Traditional phylogentic comparative methods (such as PGLS) allow us to fit models to species phenotypic traits while correcting for the non-independence among species.  % Add cite and text to Revell's 2010 paper here OR in methods
+\item But they do not allow the response to environmental cues to evolve over time while operating in concert with other cues. % the response have been constrained through evolution 
+\item However, exploratory methods show that responses can shift dramatically across a phylogenetic  \citep{davies2019phylogenetically}
+% I moved a chunk here down to methods ... I would keep this above section relatively short and save some of this for methods and some for discussion
+\end{enumerate} 
 \item Here, we expand previous phylogenetic regression settings to explicitly estimate phylogenetic constraints on the interactions among predictors (cues). 
 \begin{enumerate}
-\item Common phylogenetic regression accounts for phylogenetic relationships as a grouping factor either explicitly (PMM) or implicitly (PGLS). Regardless, it fails to account for more complex interactions going on among predictors, which would be reflected in the species-level slopes being allowed to vary as a function of the phylogeny, rather than keeping slopes constant and only allowing the intercepts (or residuals) to vary. 
+\item Common phylogenetic regression accounts for phylogenetic relationships as a grouping factor either explicitly (PMM) or implicitly (PGLS). Here we present one possible approach that accounts for more complex interactions going on among predictors, which would be reflected in the species-level slopes being allowed to vary as a function of the phylogeny, rather than keeping slopes constant and only allowing the intercepts (or residuals) to vary. 
 \item We ignore whether this is important and maybe current models are fine. 
 \item In a first attempt at establishing whether or not it is important, we compare results from a common hierarchical model with partial pooling on the slopes that does not allow for phylogenetic constraints to affect slope estimates against results from a phylogenetic hierarchical model allowing phylogeny to constrain partially pooled slopes. %% this needs rephrasing!!!
 \item We do so for an unprecedented dataset on phenological responses to environmental cues determined experimentally. 
-\item This is one possible approach but there may be alternative ones.
+% \item This is one possible approach but there may be alternative ones. % Skip saying there may be others and I moved up first part ... 
 \end{enumerate}
-
 
 \item Questions rather than specific hypotheses
 \begin{enumerate}
@@ -195,6 +209,7 @@ Plants have evolved responses to environmental cues able to inform them about th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Methods}
+% Used phylogenetic regression either hierarchical (PMM) or not (PGLS), where only phylogenetic signal or effects are modelled for the residuals (or included as a grouping or random factor). 
 \subsection*{Phenological and Phylogenetic Data}
 \begin{enumerate}
 \item Description of the OSPREE database (where it comes from, number of species, studies, etc.).  
