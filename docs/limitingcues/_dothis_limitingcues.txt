@@ -2,12 +2,14 @@ Started 24 August 2017
 By Lizzie
 
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
-November-December 2021: Trying to organize myself to do this!
+Small things to fix when bounced however from NPH (Dec 2021)
 <><><><><><><><><><><><><><><><><><><><><><><><><><>
 
-To do...
-https://github.com/lizzieinvancouver/ospree/issues/431
+Fix 'forcingonly' (currently one word) on Figure 1.  
 
+Notes on Asse2018 (I cut it, but I think maybe I should not have ... perhaps add back in someday): 
+- I agree, I think we should cut the Asse et al., 2018 reference because they don’t include the interaction in the model, just GDD + Chilling in some models. Nice catch! 
+- From Nacho: Regarding Asse 2018, the interactions they refer to (identified through variance partitioning) are not explicitly modelled. I believe they just checked that some proportion of shared explained variance among predictors would be negative (thus indicating interaction) but they don’t care to do anything about it.
 
 <><><><><><><><><><><><><><><><><><><><>
 Sep 2021 efforts to re-submit somewhere
