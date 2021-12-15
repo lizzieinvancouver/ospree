@@ -150,10 +150,32 @@ library(reshape2)
   #traitOspree <- merge(ospreeTraitors,traitSelect, by.y = "speciesname", by.x = "spps")
 
 setwd("..//traits")
-# get the mean cue estimates for a given trait
-load("Rfiles/traitOspreeData.Rdata")
-Model <- readRDS("output/SLA_stanfit.RDS")
 
+####################################
+#### get phylogeny              ####
+####################################
+
+phylo <- read.tree("data/SBphylo_trait.tre")
+
+namesphy<-phylo$tip.label
+phylo<-force.ultrametric(phylo, method="extend")
+phylo$node.label<-seq(1,length(phylo$node.label),1)
+is.ultrametric(phylo)
+plot(phylo, cex=0.7)
+
+## get phylogenetic covariance matrix
+inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
+A <- solve(inv.phylo$Ainv)
+rownames(A) <- rownames(inv.phylo$Ainv)
+ospreeTraitors$spps<-paste(ospreeTraitors$genus,ospreeTraitors$species,sep="_")
+############################################################################
+
+# set up loop to get values from output for each trait:
+
+files <- list.files(path = "output", pattern =".RDS" )
+files
+
+Model <- readRDS(paste("output/", files[3], sep = ""))
 ModelFit <- rstan::extract(Model)
 
 muGrandSp <- data.frame(ModelFit$mu_grand_sp)
@@ -199,61 +221,45 @@ colnames(bps_df)[colnames(bps_df) == "X75."] <- "photo75"
 
 cues <- cbind(meanResp, traitSelect, bfs_df, bcs_df, bps_df)
 # write.csv(cues, "input/sla_cue_means.csv", row.names = F)
-####################################
-#### get phylogeny              ####
-####################################
 
-phylo <- read.tree("data/SBphylo_trait.tre")
-
-namesphy<-phylo$tip.label
-phylo<-force.ultrametric(phylo, method="extend")
-phylo$node.label<-seq(1,length(phylo$node.label),1)
-is.ultrametric(phylo)
-plot(phylo, cex=0.7)
-
-## get phylogenetic covariance matrix
-inv.phylo <- inverseA(phylo, nodes = "TIPS", scale = TRUE)
-A <- solve(inv.phylo$Ainv)
-rownames(A) <- rownames(inv.phylo$Ainv)
-ospreeTraitors$spps<-paste(ospreeTraitors$genus,ospreeTraitors$species,sep="_")
-unique(ospreeTraitors$spps)
-############################################################################
 ## B) generate a comparative.data object merging data and phylogeny
 databbslopesphy = comparative.data(phylo,cues,names.col="speciesname",
                                    na.omit=TRUE,vcv=TRUE, warn.dropped = TRUE)
-head(databbslopesphy)
-databbslopesphy$dropped
+
 phyloplot = databbslopesphy$phy
 x = databbslopesphy$data$betaForceSpMean
 y = databbslopesphy$data$betaChillSpMean
 z = databbslopesphy$data$betaPhotoSpMean
 names(x) = names(y) = names(z) = databbslopesphy$phy$tip.label
 
-pdf("figures/sla_phylo.pdf", width = 10)
+pdf(paste("figures/force", files[i], ".pdf", sep = ""), width = 10)
 par(mfrow=c(1,3))
 force <- contMap(phyloplot, x, lwd = 2.5, outline = F,fsize = c(0.8,1))
 chill <- contMap(phyloplot, y, lwd = 2.5, outline = F,fsize = c(0.8,1))
 photo <- contMap(phyloplot, z, lwd = 2.5, outline = F,fsize = c(0.8,1))
 dev.off()
 
-# X <- data.frame(forcing = x,
-#                 chilling = y,
-#                 photoperiod = z)
-# 
-# library(RColorBrewer)
-# cols=brewer.pal(11, name = "Spectral")
-# phylo.heatmap(phyloplot,X,standardize = F, fsize = c(0.65,1,0.8),
-#               split = c(0.65,0.35), col = cols)
 
-## 
-lambda.force = pgls(betaForceSpMean ~ SLA, data = databbslopesphy,lambda='ML')
+lambda.force = pgls(betaForceSpMean ~ Seed_mass, data = databbslopesphy,lambda='ML')
 summary(lambda.force)
+# Height: 0.335 95.0% CI: (NA, 0.845)
+# SLA: 0.377 95.0% CI:(NA, 0.873)
+# LNC:0.552 95.0% CI: (NA, 0.920)
+# Seed: 0.542 95.0% CI: (0.073, 0.894)
 
-lambda.chill = pgls(betaChillSpMean~ SLA,data = databbslopesphy,lambda='ML')
+lambda.chill = pgls(betaChillSpMean~ Seed_mass,data = databbslopesphy,lambda='ML')
 summary(lambda.chill)
+# Height: 0.686 95.0% CI: (0.249, 0.941)
+# SLA: 0.379 95.0% CI: (0.026, 0.759)
+# LNC: 0.240 95.0% CI: (NA, 0.704)
+# Seed: 0.694 95.0% CI: (0.274, 0.954)
 
 lambda.photo = pgls(betaPhotoSpMean~ SLA,data = databbslopesphy,lambda='ML')
 summary(lambda.photo)
+# Height: 0.189 95.0% CI: (NA, 0.753)
+# SLA: 0.000 95.0% CI: (NA, 0.585)
+# LNC: 0.000 95.0% CI: (NA, 0.751)
+# Seed: 0.336 95.0% CI:  (NA, 0.800)
 
 lambda.sla = pgls(SLA~1,data = databbslopesphy,lambda='ML')
 summary(lambda.sla)
@@ -289,3 +295,7 @@ plot(lambda.full)
 summary(lambda.full)
 
 ###################################
+data(shorebird)
+shorebird <- comparative.data(shorebird.tree, shorebird.data, Species, vcv=TRUE)
+mod <- pgls(log(Egg.Mass) ~ log(M.Mass), lambda = "ML", shorebird)
+summary(mod)
