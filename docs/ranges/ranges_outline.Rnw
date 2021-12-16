@@ -79,10 +79,25 @@ Dan and/or Lizzie write:
 \subsection*{Species' range characteristics}
 Cat and/or Nacho write?\\
 \begin{itemize}
-\item Climate data \textbf{(Figure of range maps with one climate variable, other could go to supplement)}
-\item note on temp vs. geographic variation
-\item calculation of GDD last frost
-\item STV
+\item Climate data
+Climate data was extracted from daily gridded meteorological datasets for both Europe and North America. For Europe, we extracted minimum and maximum daily temperatures from the E-OBS dataset (https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview)corresponding to the period comprised between 1980 and 2016. Specifically, we used version 17 at a resolution of 0.5 latitudinal degrees. For North America, we extracted minimum and maximum daily temperatures from the Princeton XXX\textbf{(I'm hoping Cat can provide additional details here)} dataset for the same period. We used version XX at a resolution of 0.xx latitudinal degrees. 
+
+\textbf{(Figure of range maps with one climate variable, other could go to supplement)}
+
+\item Species distributional data
+For 22 European and 16 North American tree species, we obtained published distributional range maps in shapefile format. European species ranges were downloaded from XX \citep{} and North American ranges were obtained from XX \citep{}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range.
+
+\item Climate variables
+Minimum and maximum daily temperatures within species ranges were then used to compute Growing Degree Days (GDD), Growing Degree Days until the last frost (GDDlf) and Spring Temperature Variability (STV). GDD was calculated as the summed temperatures above 10$\degree$C recorded from January 1st until May 31st. GDDlf was calculated as GDD but instead of summing temperatures above a threshold until a fixed date, the sum was performed until the date at which the latest minimum temperature below -5$\degree$C was recorded. STV was calculated as the standard deviation of...            
+
+
+
+
+10th Oct - 28Feb;
+\item Temporal vs. geographic variation in climate variables
+
+%\item calculation of GDD last frost
+%\item STV
 
 \end{itemize}
 
