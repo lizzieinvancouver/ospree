@@ -70,9 +70,14 @@ Dan and/or Lizzie write:
 \item Model description
 \end{itemize}
 
+\subsection*{OSPREE database}
+
 % Lizzie:
 %     Explanation of OSPREE database
 %     Species selection criteria for this project
+
+
+This database aims to include data from all published studies of  ... A full description of the database has previously been described in  \citet{ospreebbms} We updated an earlier version of this database \citep{wolkovich2019} 
 
 \subsection*{Species' range characteristics}
 Cat and/or Nacho write?\\
