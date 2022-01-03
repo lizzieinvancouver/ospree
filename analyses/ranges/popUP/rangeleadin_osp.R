@@ -97,6 +97,7 @@ ggdlf<-filter(rangies,variable=="GDD.lastfrost")
 ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
 colnames(ggdlf)[1]<-"complex.wname"
 
+#stv.eu<-read.csv("output/Synthesis_climate_EUsps_STV.csv")
 ##STV
 STV<-filter(rangies,variable=="MeanTmins")
 STV<-dplyr::select(STV,species,Temp.SD,continent)
@@ -253,8 +254,8 @@ bb.3param.area <- with(bb.stan,
 threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                  iter = 4000, warmup=2500)
 
-threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                          iter = 4000, warmup=2500)
+#threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+#                          iter = 4000, warmup=2500)
 
 threeparam_jnt.cp = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.cp, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                           iter = 4000, warmup=2500)
@@ -262,7 +263,7 @@ threeparam_jnt.cp = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3
 threeparam_jnt.meangdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gdd, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                          iter = 4000, warmup=2500)
 
-summary(threeparam_jnt.cp)
+#summary(threeparam_jnt.cp)
 #threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
  #                         iter = 4000, warmup=2500)
 

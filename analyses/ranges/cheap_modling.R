@@ -211,8 +211,8 @@ ggpubr::ggarrange(a,b,c,nrow=1,ncol=3,common.legend=TRUE)
 ggpubr::ggarrange(e,h,g,i,nrow=2,ncol=2,common.legend=TRUE)
 
 jpeg("figures/clim_params.jpeg",width=8,height=6,units = "in",res=200)
-ggpubr::ggarrange(a,b,c,nrow=1,ncol=3,common.legend=TRUE,labels=c("a)","b)","c)"))
-
+#ggpubr::ggarrange(a,b,c,nrow=1,ncol=3,common.legend=TRUE,labels=c("a)","b)","c)"))
+a
 dev.off()
 
 
