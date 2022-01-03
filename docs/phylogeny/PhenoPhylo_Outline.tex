@@ -211,6 +211,22 @@ Plants have evolved responses to environmental cues able to inform them about th
 \section*{Methods}
 % Used phylogenetic regression either hierarchical (PMM) or not (PGLS), where only phylogenetic signal or effects are modelled for the residuals (or included as a grouping or random factor). 
 \subsection*{Phenological and Phylogenetic Data}
+% See _README_paperresearchmethods.txt
+\emph{Phenological data:} To estimate phenological responses to chilling, forcing and photoperiod we used data from phenological experiments of temperate woody species conducted in controlled environments, brought together in the Observed Spring Phenology Responses in Experimental Environments (OSPREE) database. In July 2019, we updated an earlier version of this database \citep{wolkovich2019} by reviewing all papers found through searching ISI Web of Science and Google Scholar with the following terms: 
+\begin{enumerate}
+\item TOPIC = (budburst OR leaf-out) AND (photoperiod OR daylength) AND temperature*, which yielded 623 publications
+\item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 270 publications
+\end{enumerate}
+We scraped data from all papers of woody species that tested for photoperiod and/or temperature effects on budburst, leafout, or flowering, resulting in XX papers. \citet{ospreebbms} used a portion (72 experiments across 49 papers) of the earlier OSPREE database and provides extensive methods on the database creation and cleaning. For our analysis here, we included all budburst experiments where we could quantify chilling, forcing and photoperiod levels, resulting in YY studies from ZZ papers. 
+% Nacho, please:
+% XX add length(unique(datasetID)) from an OSPREE clean file (make sure it does not have strawberries). 
+% YY add length(unique(paste(datasetID, study)) from datafile you use in the end ... ditto for ZZ
+% Also, we need to publish an updated OSPREE dataset on KNB eventually.
+Across experiments chilling treatments were often fully or partially applied in the filed, thus we estimated field chilling ourselves using daily temperature data from ... [Cat and Nacho -- add here: Be sure to include updated info on our datasets and which chilling metric we used]. \citet{ospreebbms} provides additional details on these calculations (however, to have climate data through all our study years, we usde a different climate dataset here for North America). 
+% We could probably add species info above? If you want to contrast with bb ms: \citet{ospreebbms} had 39 years, and 203 species
+% Lizzie says ... this methods part feels a little short to me, but I think it may be all we need. (Maybe Ailene can eventually take a look to check what might be missing? But I think we can definitely wait for that until we have a full draft.)
+
+
 \begin{enumerate}
 \item Description of the OSPREE database (where it comes from, number of species, studies, etc.).  
 \todo{Lizzie will write this!}
