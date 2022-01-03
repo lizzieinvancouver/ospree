@@ -71,13 +71,13 @@ Dan and/or Lizzie write:
 \end{itemize}
 
 \subsection*{OSPREE database}
+To estimate phenological responses to chilling, forcing and photoperiod we used data from the Observed Spring Phenology Responses in Experimental Environments (OSPREE) database  \citep{wolkovich2019}. This database aims to include data from all published studies of experiments on woody plant responses to chilling, forcing and photoperiod cues, as described in \citet{ospreebbms}. Here we use a subset of data from an updated version of the database containing all papers found in literature searches through June 2019, selecting species for which we could reliably estimate cue responses. 
 
-% Lizzie:
-%     Explanation of OSPREE database
-%     Species selection criteria for this project
-
-
-This database aims to include data from all published studies of  ... A full description of the database has previously been described in  \citet{ospreebbms} We updated an earlier version of this database \citep{wolkovich2019} 
+Estimates of phenological cues (i.e., change in days of an event per change in level of chilling, forcing or photoperiod) can vary strongly due to study location and methodological differences (CITES). For example, many studies often include only one--often extreme---level of a cue, such as a photoperiod of 24 hours or very low chilling, and thus will provide estimated responses to the manipulated cues (e.g., forcing) relevant only in those extremes. [Some statistical methods can estimate responses across such data, but they will estimate cue responses as more similar across all species than they likely are \citep[see][for example]{ospreebbms}, making the type of inter-specific comparisons we were interested in here difficult.] As such, we included only species where we had data for at least two levels of each cue (chilling, forcing and photoperiod) and could obtain published range maps (see below). [While this approach limited our total species number, it provided more reliable estimates of phenological cues.]
+% Lizzie says:
+% Not sure if we need the sentences in [] ... take them out as you like. 
+% Dan, can you skim https://github.com/lizzieinvancouver/ospree/issues/379 and make sure my methods above seem to accurate compared to what we wrote in that issue?
+% I included the longer methods on the update in Nacho's pheno-phylo ms for now (since that ms uses almost all the data). 
 
 \subsection*{Species' range characteristics}
 Cat and/or Nacho write?\\
