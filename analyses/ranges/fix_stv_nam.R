@@ -63,7 +63,7 @@ extractchillforce<-function(spslist){
   npix<-length(pixels.sps.i) # number of pixels
   
   # create an array to store results
-  yearlyresults<-array(NA,dim=c(npix,9,length(period)))
+  yearlyresults<-array(NA,dim=c(npix,3,length(period)))
   colnames(yearlyresults)<-c("x","y", "SDev.Tmins")
   
   for(j in period) { # j = 1980
@@ -96,7 +96,7 @@ extractchillforce<-function(spslist){
       
     } else {
       
-      ff <- forcesub1[pixels.sps.i]
+      ff <- forcesub[pixels.sps.i]
       
       # add coordinates and names
       ffcoord <- coordinates(ras.numpixels)[pixels.sps.i,]
@@ -105,7 +105,7 @@ extractchillforce<-function(spslist){
     }
     
     # build final data to extract climate for forcing 
-    ff <- cbind(chcoord,ff[,1:ncol(ff)])
+    ff <- cbind(ffcoord,ff[,1:ncol(ff)])
   
     ## dates in data
     colnames(ff) <- c("x", "y", c(forcestart:forceend))
@@ -141,6 +141,8 @@ extractchillforce<-function(spslist){
 period <- 1980:2016
 
 Climate.in.range.list<-extractchillforce(period)
+
+save <- Climate.in.range.list
 
 save(Climate.in.range.list,file = "~/Desktop/Climate.in.range.allyearsstacked.RData")
 
@@ -213,7 +215,7 @@ sps.1$year <- rep(1980:2016, each=44622)
 
 
 ## synthetize and summarize data geographically and temporally
-dat = read.csv("~/Desktop/Misc/Ospree Misc/allnam_fullextract.csv")
+dat = read.csv("~/Desktop/allnam_fullextract.csv")
 dat <- dat[,-1]
 dat$year <- rep(1980:2016, each=44622)
 
@@ -349,8 +351,8 @@ plot.shape.data<-function(spsshape,sps.name,
   # get list of pixels to extract data (speeds things up)
   pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj, weights=TRUE, normalizeWeights=FALSE)))) ### by making weights=TRUE and normalizeWeights=FALSE then we are averaging values by grid cell size
   
-  chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
-  chcoord$lat.long <- paste(chcoord$x, chcoord$y)
+  ffcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
+  ffcoord$lat.long <- paste(ffcoord$x, ffcoord$y)
   
   dat$lat.long <- paste(dat$x, dat$y)
   
@@ -359,7 +361,7 @@ plot.shape.data<-function(spsshape,sps.name,
   dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
   files.out <- dir(dir.out)
   
-  sps.i <- dat[(dat$lat.long%in%chcoord$lat.long),]
+  sps.i <- dat[(dat$lat.long%in%ffcoord$lat.long),]
   sps.i <- na.omit(sps.i)
   sps.i <- sps.i[!duplicated(sps.i),]
   
@@ -541,8 +543,8 @@ synth.data<-function(Climate.in.range.list){
       # get list of pixels to extract data (speeds things up)
       pixels.sps.i<-unique(sort(unlist(raster::extract(ras.numpixels,spsshapeproj))))
       
-      chcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
-      chcoord$lat.long <- paste(chcoord$x, chcoord$y)
+      ffcoord <- as.data.frame(coordinates(tmin1980)[pixels.sps.i,])
+      ffcoord$lat.long <- paste(ffcoord$x, ffcoord$y)
       
       dat$lat.long <- paste(dat$x, dat$y)
     }
