@@ -10,19 +10,22 @@ library(reshape2)
 library(viridis)
 library(bayesplot)
 library(tidybayes)
+library(gridExtra) # for arranging plots 
+library(patchwork) # another way of arranging plots 
 
 #set the traits we are assessing
 #this code will only work if you have the model outputs saved locally 
-
-traits <- c("SLA", "height", "LNC", "SeedMass", "SSD")
-filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
-traitModelNames <- grep(".RDS", list.files(filePathData), value = TRUE)
-
 
 if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
     } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
+traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
+filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
+traitModelNames <- grep(".RDS", list.files(filePathData), value = TRUE)
+
+
+
 
 #Load Trait Data
 	dat1 <- read.csv("input/try_bien_nodups_1.csv") 
@@ -39,15 +42,17 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospr
 	traitsData$traitname [traitsData$traitname == "Specific_leaf_area"] <- "SLA"
 	traitsData$traitname [traitsData$traitname == "Stem_specific_density"] <- "SSD"
 	traitsData$traitname [traitsData$traitname == "seed mass"] <- "SeedMass"
-	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "height"
+	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "Height"
 	traitsData$traitname [traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"] <- "LNC"
+	traitsData$speciesname <- gsub("_", " ", traitsData$speciesname )
 
+traitPlotList <- list() #Make a list to save trait plots so we can make 1 pannel with all 4 plots at the end 
 
 for(traiti in 1:length(traitModelNames)){
 
 
 
-	#traiti <- 4
+	#traiti <- 3
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
@@ -89,8 +94,8 @@ for(traiti in 1:length(traitModelNames)){
 	#Predict DOY based on model estimated parameters, One DOY value per species
 	yPhenoi <- vector()
 
-	for(i in 1:length(betaPhotoSpMean)){
-		yPhenoi[i] <- alphaPhenoSpMean[i] + betaForceSpMean[i] * forcingValue + betaPhotoSpMean[i] * photoValue + betaChillSpMean[i] * chillinValue
+	for(ip in 1:length(betaPhotoSpMean)){
+		yPhenoi[ip] <- alphaPhenoSpMean[ip] + betaForceSpMean[ip] * forcingValue + betaPhotoSpMean[ip] * photoValue + betaChillSpMean[ip]* chillinValue
 	}
 
 	#Make a plot of intercept vs full pericted value
@@ -102,14 +107,14 @@ for(traiti in 1:length(traitModelNames)){
 	#Explore the relationship between slope and intercept 
 	#-------------------------------------------------------
 	
-	png(paste("figures/interceptSlope", traitName, sep = "_"), width = 780, height = 380, units = "px")
+	#png(paste("figures/interceptSlope", traitName, sep = "_"), width = 780, height = 380, units = "px")
 	par(mfrow=c(1,4))  
 	plot(alphaPhenoSpMean,betaForceSpMean, main = traitName)
 	plot(alphaPhenoSpMean,betaChillSpMean, main = "Model Intercepts vs slopes")
 	plot(alphaPhenoSpMean,betaPhotoSpMean)
 	betaCombined <- betaPhotoSpMean+betaChillSpMean+betaForceSpMean
 	plot(alphaPhenoSpMean ~ betaCombined)
-	dev.off()
+	#dev.off()
 	par(mfrow=c(1,1))  
 
 
@@ -120,8 +125,8 @@ for(traiti in 1:length(traitModelNames)){
 	#Trait data 
 	#--------------
 
-	if(traitModelNames[traiti] == "SeedMass_log10"){
-		slaData <- traitsData[traitsData$traitname == traitName,]
+	if(traitModelNames[traiti] == "SeedMass_log10_stanfit.RDS"){
+		slaData <- traitsData[traitsData$traitname == "SeedMass",]
 		specieslist <- sort(unique(slaData$speciesname))
 		slaData$traitvalue <- log10(slaData$traitvalue)
 
@@ -150,27 +155,53 @@ for(traiti in 1:length(traitModelNames)){
 		theme(text = element_text(size=20))+
 		geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
 
-
-	traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
-		geom_point( alpha = 0.5, size = 0.5, aes(colour = "red"))+
-		theme_classic() +  
-		theme(text = element_text(size=20))+
-	  stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
-	  geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "green"), shape = 3)+
-	  labs(title = traitName)+ 
-	  scale_color_identity(name = "Model fit",
-                          breaks = c("black", "red", "green"),
+	if(traitName == "SeedMass_log10"){
+		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+			geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
+			theme_classic() +  
+			theme(text = element_text(size=16))+
+	 			 geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
+	 			 labs(title = "Log Seed Mass", y = "Species", x =expression(Log[10]~Trait~Value))+ 
+	 			 scale_color_identity(name = "Model fit",
+                          breaks = c("black", "red", "purple"),
                           labels = c("Model Posterior", "Raw Data", "Data Mean"),
                           guide = guide_legend(override.aes = list(
                          	linetype = c(NA, NA, NA),
-                         	shape = c(16, 20, 3)))) + 
-	  theme(legend. title = element_blank())
+                         	shape = c(19, 20, 8)))) + 
+	  			theme(legend.title = element_blank())
+	} else {
+		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
+				theme_classic() +  
+				theme(text = element_text(size=16))+
+	  		geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
+	  		labs(title = traitName, y = "Species", x ="Trait Value")+ 
+	  		scale_color_identity(name = "Model fit",
+                          breaks = c("black", "red", "purple"),
+                          labels = c("Model Posterior", "Raw Data", "Data Mean"),
+                          guide = guide_legend(override.aes = list(
+                         	linetype = c(NA, NA, NA),
+                         	shape = c(19, 20, 8)))) + 
+	  		theme(legend.title = element_blank())
+	}
 
-
-
-	 ggsave(paste(paste0("figures/traitFit_", traitName), "png", sep = "."), traitFit,   width = 10,
-  height = 6,  units = "in")
 	
 
+
+
+	 #ggsave(paste(paste0("figures/traitFit_", traitName), "png", sep = "."), traitFit,   width = 10, height = 6,  units = "in")
+	  traitPlotList[[traiti]] <-traitFit 
+	
 }
 
+
+
+	#this plotting code needs the patchwork library 
+	  png("figures/FourTraitFit.png", width = 14, height = 11, units = "in", res = 72)
+	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
+	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
+	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
+		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a")#add letter annotation to plots 
+	  dev.off()
