@@ -73,7 +73,7 @@ Dan and/or Lizzie write:
 \subsection*{OSPREE database}
 To estimate phenological responses to chilling, forcing and photoperiod we used data from the Observed Spring Phenology Responses in Experimental Environments (OSPREE) database  \citep{wolkovich2019}. This database aims to include data from all published studies of experiments on woody plant responses to chilling, forcing and photoperiod cues, as described in \citet{ospreebbms}. Here we use a subset of data from an updated version of the database containing all papers found in literature searches through June 2019, selecting species for which we could reliably estimate cue responses. 
 
-Estimates of phenological cues (i.e., change in days of an event per change in level of chilling, forcing or photoperiod) can vary strongly due to study location and methodological differences (CITES). For example, many studies often include only one--often extreme---level of a cue, such as a photoperiod of 24 hours or very low chilling, and thus will provide estimated responses to the manipulated cues (e.g., forcing) relevant only in those extremes. [Some statistical methods can estimate responses across such data, but they will estimate cue responses as more similar across all species than they likely are \citep[see][for example]{ospreebbms}, making the type of inter-specific comparisons we were interested in here difficult.] As such, we included only species where we had data for at least two levels of each cue (chilling, forcing and photoperiod) and could obtain published range maps (see below). [While this approach limited our total species number, it provided more reliable estimates of phenological cues.]
+Estimates of phenological cues (i.e., change in days of an event per change in level of chilling, forcing or photoperiod) can vary strongly due to study location and methodological differences (CITES). For example, many studies often include only one--often extreme---level of a cue, such as a photoperiod of 24 hours or very low chilling, and thus will provide estimated responses to the manipulated cues (e.g., forcing) relevant only in those extremes. [Some statistical methods can estimate responses across such data, but they will estimate cue responses as more similar across all species than they likely are \citep[see][for example]{ospreebbms}, making the type of inter-specific comparisons we were interested in here difficult.] As such, we included species that where: 1) included in two or more studies, 2) we had data for at least two levels of each cue (chilling, forcing and photoperiod; but we excluded species that only had field chilling), and 3) could obtain published range maps (see below). [While this approach limited our total species number, it provided more reliable estimates of phenological cues.]
 % Lizzie says:
 % Not sure if we need the sentences in [] ... take them out as you like. 
 % Dan, can you skim https://github.com/lizzieinvancouver/ospree/issues/379 and make sure my methods above seem to accurate compared to what we wrote in that issue?
@@ -83,12 +83,12 @@ Estimates of phenological cues (i.e., change in days of an event per change in l
 Cat and/or Nacho write?\\
 \begin{itemize}
 \item Climate data
-Climate data was extracted from daily gridded meteorological datasets for both Europe and North America. For Europe, we extracted minimum and maximum daily temperatures from the E-OBS dataset (https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview)corresponding to the period comprised between 1980 and 2016. Specifically, we used version 17 at a resolution of 0.5 latitudinal degrees. For North America, we extracted minimum and maximum daily temperatures from the Princeton XXX\textbf{(I'm hoping Cat can provide additional details here)} dataset for the same period. We used version XX at a resolution of 0.xx latitudinal degrees. 
+Climate data was extracted from daily gridded meteorological datasets for both Europe and North America. For Europe, we extracted minimum and maximum daily temperatures from the E-OBS dataset (https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview)corresponding to the period comprised between 1980 and 2016. Specifically, we used version 17 at a resolution of 0.5 latitudinal degrees. For North America, we extracted minimum and maximum daily temperatures from Justin Sheffield’s Princeton Global Forcing dataset (http://hydrology.princeton.edu/data/pgf/v3/0.25deg/daily/) for the same period. We used version v3 at a resolution of 0.25 latitudinal degrees. 
 
 \textbf{(Figure of range maps with one climate variable, other could go to supplement)}
 
 \item Species distributional data
-For 22 European and 16 North American tree species, we obtained published distributional range maps in shapefile format. European species ranges were downloaded from XX \citep{} and North American ranges were obtained from XX \citep{}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range.
+For 22 European and 16 North American tree species, we obtained published distributional range maps in shapefile format. European species ranges were downloaded from \url{http://www.sciencedirect.com/science/article/pii/S2352340917301981?via\%3Dihub#ec-research-data} \citep{Caudullo2017} and North American ranges were obtained from \url{https://www.fs.fed.us/nrs/atlas/littlefia/#} \citep{Prasad2003}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range.
 
 \item Climate variables
 Minimum and maximum daily temperatures within species ranges were then used to compute Growing Degree Days (GDD), Growing Degree Days until the last frost (GDDlf) and Spring Temperature Variability (STV). GDD was calculated as the summed temperatures above 10$\degree$C recorded from January 1st until May 31st. GDDlf was calculated as GDD but instead of summing temperatures above a threshold until a fixed date, the sum was performed until the date at which the latest minimum temperature below -5$\degree$C was recorded. STV was calculated as the standard deviation of...            
@@ -120,7 +120,7 @@ We used a Bayesian mixed-effects hierarchical model approach to analyze our data
 % See issue 420
 
 \begin{align*}
-y & \thicksim normal(\alpha_{study[i]} + \alpha_{sp[i]} + \alpha_{pop[i]} +& \beta_{forcing_{sp[i]/pop[i]}} + \beta_{photoperiod_{sp[i]/pop[i]}} + \epsilon_[i]} ) \\
+y & \thicksim normal(\alpha_0 + \alpha_{study[i]} + \alpha_{sp[pop[i]]} +& \beta_{forcing_{sp[pop[i]]]}} + \beta_{photoperiod_{sp[pop[i]]}} + \epsilon_[i]} ) \\
 \end{align*}
 
 \begin{align*}
@@ -129,11 +129,13 @@ y & \thicksim normal(\alpha_{study[i]} + \alpha_{sp[i]} + \alpha_{pop[i]} +& \be
 
 \noindent The $\alpha$ and each of the 5 $\beta$ coefficients were modeled at the study, species, population, or species and population level, as follows:
 \begin{align*}
-\alpha_{study} & \sim normal(\mu_{\alpha_study}, \sigma_{\alpha_study}) \\
-\alpha_{sp} & \sim normal(\mu_{\alpha_sp}, \sigma_{\alpha_sp}) \\
-\alpha_{pop} & \sim normal(\mu_{\alpha_pop}, \sigma_{\alpha_pop}) \\
-\beta_{forcing_{sp/pop}} \thicksim normal(\mu_{forcing_[sp/pop]}, \sigma_{forcing_[sp/pop]}) \\
-\beta_{photoperiod_{sp/pop}} \thicksim normal(\mu_{photoperiod}, \sigma_{photoperiod_[sp/pop]}) \\
+\alpha_{study} & \sim normal(\mu_{study}, \sigma_{study}) \\
+\alpha_{sp[pop]} & \sim normal(\mu_{sp}, \sigma_{sp}) \\
+\mu_{sp} & \sim normal(\mu_{pop}, \sigma_{pop}) \\
+\beta_{forcing_{sp[pop]}} \thicksim normal(\mu_{forcing_[sp]}, \sigma_{forcing_[sp]}) \\
+\beta_{forcing_{sp}} \thicksim normal(\mu_{forcing_[pop]}, \sigma_{forcing_[pop]}) \\
+\beta_{photoperiod_{sp[pop]}} \thicksim normal(\mu_{photoperiod_[sp]}, \sigma_{photoperiod_[sp]}) \\
+\beta_{photoperiod_{sp}} \thicksim normal(\mu_{photoperiod_[pop]}, \sigma_{photoperiod_[pop]}) \\
 \end{align*}
 
 We ran four chains, with 2,500 warm-up iterations followed by 3,000 sampling iterations, resulting in 12,000 posterior samples for each parameter. We assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. Using the \textit{Gabry2017} package \citep{bayesplot}, we then plotted the partition of variance across the intercepts and predictors to determine intra- vs. interspecific variation.  
