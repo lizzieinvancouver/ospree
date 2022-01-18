@@ -1,0 +1,23 @@
+OrigTraitName,TraitName,no.studies,no.species
+"Leaf area (in case of compound leaves undefined if leaf or leaflet, undefined if petiole is in- or excluded)",Leaf area,4,11
+"Leaf area (in case of compound leaves: leaf, petiole excluded)",Leaf area,4,21
+"Leaf area (in case of compound leaves: leaf, petiole included)",Leaf area,2,3
+"Leaf area (in case of compound leaves: leaf, undefined if petiole in- or excluded)",Leaf area,2,66
+"Leaf area (in case of compound leaves: leaflet, petiole excluded)",Leaf area,5,38
+"Leaf area (in case of compound leaves: leaflet, petiole included)",Leaf area,4,21
+"Leaf area (in case of compound leaves: leaflet, undefined if petiole is in- or excluded)",Leaf area,3,64
+"Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): petiole excluded",Specific leaf area,9,43
+"Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): petiole included",Specific leaf area,5,34
+"Leaf area per leaf dry mass (specific leaf area, SLA or 1/LMA): undefined if petiole is in- or excluded",Specific leaf area,7,97
+Leaf carbon (C) content per leaf dry mass,Leaf carbon content per leaf dry mass,7,47
+"Leaf dry mass per leaf fresh mass (leaf dry matter content, LDMC)",Leaf dry matter content,8,52
+Leaf nitrogen (N) content per leaf area,Leaf nitrogen content per leaf area,10,85
+Leaf nitrogen (N) content per leaf dry mass,Leaf nitrogen content per leaf dry mass,14,95
+Leaf photosynthesis rate per leaf area,Leaf photosynthesis rate per leaf area,1,2
+"Plant biomass and allometry: Leaves per plant (emergent, mature, senescent)",Plant biomass and allometry,1,1
+Plant height generative,Plant height generative,3,5
+Plant height vegetative,Plant height vegetative,12,95
+Stem diameter,Stem diameter,8,25
+Stem specific density (SSD) or wood density (stem dry mass per stem fresh volume),Stem specific density,4,10
+Stomata conductance per leaf area,Stomata conductance per leaf area,4,26
+Stomata density,Stomata density,1,5
