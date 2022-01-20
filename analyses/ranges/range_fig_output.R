@@ -373,7 +373,8 @@ betameanGDD2<-scrapegrandies(threeparam_jnt.meangdd)
 
 gddplot<-ggplot(betameanGDD,aes(GDD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_rect(xmin=-0.7,xmax=0,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 gddplot<-gddplot+geom_abline(data=cuebertmeanGDD,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -390,7 +391,8 @@ betameanCP2<-scrapegrandies(threeparam_jnt.cp)
 
 cpplot<-ggplot(betameanCP,aes(CP.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_rect(xmin=-0.8,xmax=0.3,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 cpplot<-cpplot+geom_abline(data=cuebertmeanCP,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -469,4 +471,32 @@ jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(oneone,twotwo,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
 
+library(tidybayes)
 
+
+get_variables(gddlf_jnt.nam)
+NAMcueests<-gddlf_jnt.nam%>%
+  spread_draws(muChillSp,muPhotoSp,muForceSp)
+
+NAMcueests<-tidyr::gather(NAMcueests,"cue","Estimate",4:6)
+NAMcueests$continent<-"N. America"
+
+ggplot(NAMcueests,aes(cue,Estimate))+geom_violin()+facet_wrap(~cue)
+
+EUcuests<-gddlf_jnt.eu%>%
+  spread_draws(muChillSp,muPhotoSp,muForceSp)
+EUcuests<-tidyr::gather(EUcuests,"cue","Estimate",4:6)
+EUcuests$continent<-"Europe"
+
+contcomps<-rbind(NAMcueests,EUcuests)
+contcomps$cues<-NA
+contcomps$cues[which(contcomps$cue=="muChillSp" )]<- "Chilling"
+contcomps$cues[which(contcomps$cue=="muForceSp" )]<- "Forcing"
+contcomps$cues[which(contcomps$cue=="muPhotoSp" )]<- "Photoperiod"
+
+jpeg("./figures/ontinental_cues.jpeg",width = 10,height=8, units = "in",res = 300)
+ggplot(contcomps,aes(continent,Estimate))+geom_violin(aes(fill=cues,color=cues),alpha=0.2)+geom_boxplot(aes(fill=cues),alpha=0.8)+facet_wrap(~cues)+
+  ggthemes::theme_few()+scale_fill_viridis_d(option="plasma")+scale_color_viridis_d(option="plasma")+
+  theme(strip.background = element_blank(),
+        strip.text = element_blank())
+dev.off()
