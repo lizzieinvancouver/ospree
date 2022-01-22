@@ -23,7 +23,9 @@ if (MidgeFlag == TRUE){
 
 traitsData <- rbind(traitsData1,traitsData2)
 
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+
+# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
 # Subset data to traitors species list
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
@@ -32,7 +34,7 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 slaData <- traitsData[traitsData$traitname == "Specific_leaf_area",]
 
 # Read Ospree data and subset
-ospree <- read.csv("input/bbstan_allspp_utah.csv", header = TRUE)
+ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
@@ -96,6 +98,7 @@ mdl.traitphen <- stan("stan/phenology_combined.stan",
                       include = FALSE, pars = c("y_hat"),
                       seed = 202109)
 
+save(mdl.traitphen, file = "output/sla_raw_37spp.Rda")
 ## N effective?
 summary(mdl.traitphen)$summary[, "n_eff"]
 
@@ -112,7 +115,7 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "SLA_estimates.pdf", onefile = TRUE)
+pdf(file = "SLA_estimates_37spp.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
@@ -126,4 +129,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
 plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "SLA_stanfit.RDS")
+saveRDS(object = mdl.traitphen, file = "SLA_stanfit_37spp.RDS")

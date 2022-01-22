@@ -16,14 +16,16 @@ if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 } else if(MidgeFlag == FALSE) {
-	setwd("/home/faith/Documents/github/ospree/analyses/traits/")
+	setwd("/home/deirdre/ospree/")
 	traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 }
 
 traitsData <- rbind(traitsData1,traitsData2)
 
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+
+# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
 # Subset data to traitors species list
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
@@ -32,7 +34,7 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 seedData <- traitsData[traitsData$traitname == "seed mass",]
 
 # Read Ospree data and subset
-ospree <- read.csv("input/bbstan_allspp_utah.csv", header = TRUE)
+ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
@@ -99,9 +101,9 @@ mdl.traitphen <- stan("stan/phenology_combined.stan",
                       iter = 4000,
                       warmup = 2000,
                       chains = 4,
-                      include = FALSE, pars = c("y_hat"),
-                      seed = 202109)
+                      include = FALSE, pars = c("y_hat"))
 
+save(mdl.traitphen, file = "output/seedmasslog10_raw_37spp.Rda")
 ## N effective?
 head(summary(mdl.traitphen)$summary[order(summary(mdl.traitphen)$summary[, "n_eff"]), "n_eff"])
 
@@ -118,7 +120,7 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "SeedMass_log10_estimates.pdf", onefile = TRUE)
+pdf(file = "SeedMass_log10_estimates_37spp.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
@@ -132,4 +134,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
 plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "SeedMass_log10_stanfit.RDS")
+saveRDS(object = mdl.traitphen, file = "SeedMass_log10_stanfit_37spp.RDS")

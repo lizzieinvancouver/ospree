@@ -4,25 +4,28 @@ library(rstan)
 require(shinystan)
 
 ## Set number of cores
+rm(list=ls())
+options(stringsAsFactors = FALSE)
+
 options(mc.cores = 4)
 
 ## Set seed
-#set.seed(202109)
+set.seed(2021)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- TRUE
+MidgeFlag <-T
 
 if (MidgeFlag == TRUE){
-	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+  traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 } else if(MidgeFlag == FALSE) {
-    if(length(grep("Lizzie", getwd()))>0)
-	setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
-        else {
-        setwd("boomboom/")
-        }
-	traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-	traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  setwd("/home/deirdreloughnan/Documents/github/ospree/analyses/traits/")
+  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+} else if(MidgeFlag == FALSE) {
+  setwd("~/Documents/github/ospree/analyses/traits")
+  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 }
 
 traitsData <- rbind(traitsData1,traitsData2)
@@ -31,36 +34,36 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","A
 
 # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
-# Subset data to traitors species list
-traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
+heightData <- read.csv("input/height_subsampled.csv")
+heightData  <- subset(heightData , heightData $speciesname %in% traitors.sp)
 
-# LNC specific density trait only
-lncData <- traitsData[traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass",]
 
 # Read Ospree data and subset
 ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
-ospreeData <- subset(ospree, ospree$speciesname %in% unique(lncData$speciesname)) # note change here
+ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
 # Sorted species and study list
-specieslist <- sort(unique(lncData$speciesname))
-studylist <- sort(unique(lncData$datasetid))
+specieslist <- sort(unique(heightData$speciesname))
+studylist <- sort(unique(heightData$datasetid))
+
+#write.csv(heightData, "input/height_subsampled.csv", row.names = F)
 
 ## Prepare all data for Stan
-all.data <- list(yTraiti = lncData$traitvalue,
-                 N = nrow(lncData),
+all.data <- list(yTraiti = heightData$traitvalue,
+                 N = nrow(heightData),
                  n_spec = length(specieslist),
-                 trait_species = as.numeric(as.factor(lncData$speciesname)),
+                 trait_species = as.numeric(as.factor(heightData$speciesname)),
                  n_study = length(studylist),
-                 study = as.numeric(as.factor(lncData$datasetid)),
+                 study = as.numeric(as.factor(heightData$datasetid)),
                  prior_mu_grand_mu = 20,
-                 prior_mu_grand_sigma = 5,
-                 prior_sigma_sp_mu = 5,
-                 prior_sigma_sp_sigma = 2,
-                 prior_sigma_study_mu = 5,
-                 prior_sigma_study_sigma = 2,
-                 prior_sigma_traity_mu = 2,
-                 prior_sigma_traity_sigma = 1,
+                 prior_mu_grand_sigma = 10,
+                 prior_sigma_sp_mu = 4,
+                 prior_sigma_sp_sigma = 5,
+                 prior_sigma_study_mu = 2,
+                 prior_sigma_study_sigma = 5,
+                 prior_sigma_traity_mu = 3,
+                 prior_sigma_traity_sigma = 5,
                  ## Phenology
                  Nph = nrow(ospreeData),
                  phenology_species = as.numeric(as.factor(ospreeData$speciesname)),
@@ -69,30 +72,31 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
                  prior_muForceSp_mu = 0,
-                 prior_muForceSp_sigma = 2,
+                 prior_muForceSp_sigma = 1,
                  prior_muChillSp_mu = 0,
-                 prior_muChillSp_sigma = 2,
+                 prior_muChillSp_sigma = 1,
                  prior_muPhotoSp_mu = 0,
-                 prior_muPhotoSp_sigma = 2,
-                 prior_muPhenoSp_mu = 40,
-                 prior_muPhenoSp_sigma = 2,
-                 prior_sigmaForceSp_mu = 5,
-                 prior_sigmaForceSp_sigma = 2,
-                 prior_sigmaChillSp_mu = 5,
-                 prior_sigmaChillSp_sigma = 2,
-                 prior_sigmaPhotoSp_mu = 5,
-                 prior_sigmaPhotoSp_sigma = 2,
-                 prior_sigmaPhenoSp_mu = 5,
-                 prior_sigmaPhenoSp_sigma = 2,
+                 prior_muPhotoSp_sigma = 1 ,
+                 prior_muPhenoSp_mu = 80,
+                 prior_muPhenoSp_sigma = 20,
+                 prior_sigmaForceSp_mu = 4,
+                 prior_sigmaForceSp_sigma = 3,
+                 prior_sigmaChillSp_mu = 4,
+                 prior_sigmaChillSp_sigma = 3,
+                 prior_sigmaPhotoSp_mu = 4,
+                 prior_sigmaPhotoSp_sigma = 3,
+                 prior_sigmaPhenoSp_mu = 0,
+                 prior_sigmaPhenoSp_sigma = 10,
                  prior_betaTraitxForce_mu = 0,
-                 prior_betaTraitxForce_sigma = 2,
+                 prior_betaTraitxForce_sigma = 0.5,
                  prior_betaTraitxChill_mu = 0,
-                 prior_betaTraitxChill_sigma = 2,
+                 prior_betaTraitxChill_sigma = 0.5,
                  prior_betaTraitxPhoto_mu = 0,
-                 prior_betaTraitxPhoto_sigma = 2,
-                 prior_sigmaphenoy_mu = 2,
-                 prior_sigmaphenoy_sigma = 2
-                   ) 
+                 prior_betaTraitxPhoto_sigma = 0.5,
+                 prior_sigmaphenoy_mu = 20,
+                 prior_sigmaphenoy_sigma = 5) 
+
+
 
 mdl.traitphen <- stan("stan/phenology_combined.stan",
                       data = all.data,
@@ -100,15 +104,13 @@ mdl.traitphen <- stan("stan/phenology_combined.stan",
                       warmup = 2000,
                       chains = 4,
                       include = FALSE, pars = c("y_hat"))
-                      #seed = 202109)
-save(mdl.traitphen, file = "output/lnc_raw_37spp.Rda")
-## N effective?
-summary(mdl.traitphen)$summary[, "n_eff"]
 
-## Side bar by Lizzie to grab the species level cue estimates
-lnccues <- summary(mdl.traitphen)$summary[grep("beta", rownames(summary(mdl.traitphen)$summary)),]
-write.csv(lnccues, "output/lnccues.csv", row.names=TRUE)
+save(mdl.traitphen, file = "output/height_raw_37spp.Rda")
+#saveRDS(object = mdl.traitphen, file = "height_stanfit.RDS")
 
+# N effective?
+range(summary(mdl.traitphen)$summary[, "n_eff"])
+range(summary(mdl.traitphen)$summary[, "Rhat"])
 
 ### Add species and study names to Stan object
 names(mdl.traitphen)[grep(pattern = "^muSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
@@ -123,18 +125,17 @@ names(mdl.traitphen)[grep(pattern = "^betaChillSp", x = names(mdl.traitphen))] <
 names(mdl.traitphen)[grep(pattern = "^betaPhotoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
 
-pdf(file = "LNC_estimates_37spp.pdf", onefile = TRUE)
+pdf(file = "height_estimates_37spp.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
 plot(mdl.traitphen, pars = c("muForceSp", "alphaForceSp"))
 plot(mdl.traitphen, pars = c("muChillSp", "alphaChillSp"))
 plot(mdl.traitphen, pars = c("muPhotoSp", "alphaPhotoSp"))
-plot(mdl.traitphen, pars = c("betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto"))
-plot(mdl.traitphen, pars = c("betaTraitxForce","betaForceSp"))
-plot(mdl.traitphen, pars = c("betaTraitxChill","betaChillSp"))
-plot(mdl.traitphen, pars = c("betaTraitxPhoto","betaPhotoSp"))
-plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPhenoSp", "sigmapheno_y"))
+plot(mdl.traitphen, pars = c("betaTraitxForce", "betaForceSp"))
+plot(mdl.traitphen, pars = c("betaTraitxChill", "betaChillSp"))
+plot(mdl.traitphen, pars = c("betaTraitxPhoto", "betaPhotoSp"))
 dev.off()
 
-saveRDS(object = mdl.traitphen, file = "LNC_stanfit_37spp.RDS")
+
+saveRDS(object = mdl.traitphen, file = "height_stanfit_37spp.RDS")
