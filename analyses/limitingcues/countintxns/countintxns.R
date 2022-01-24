@@ -38,6 +38,7 @@ uniquedates.df$selectcolumn <- paste(uniquedates.df$datasetIDstudy, uniquedates.
 # Now subset to sane # of columnns
 datsm <- subset(dat, select=c("datasetID", "study", "genus", "species", "forcetemp","forcetemp_night", "photoperiod_day", 
     "fieldsample.date", "chilltemp", "chillphotoperiod", "chilldays"))
+datsm$study
 head(datsm)
 
 ## Okay, formatting to look at intxns
@@ -85,6 +86,8 @@ thermop<-dplyr::filter(datsm14d, datasetID %in%unique(osp14d.fpintxn$datasetID))
 
 moreforcinginfo <- get.treatdists.daynight(thermop, "forcetemp", "forcetemp_night")
 
+
+
 forcingvaried <- subset(moreforcinginfo, treatinfo!="forcing does not vary")
 studiesinclconstantforce <- subset(forcingvaried, numconstantforce>0) # some studies have both
 studiesinclforceperiodicity <- subset(forcingvaried, numdiffforce>0) 
@@ -105,6 +108,12 @@ osp14d.dayspintxn <- subset(osp14d.daysp, intxn>=2) # 11 studies
 
 length(unique(paste(datsm14d$datasetID, datsm14d$study)))
 
+##For DAN
+head(datsm.noNA)
+class(datsm.noNA$photo)
+datsm.noNA %>% dplyr::group_by(datasetID,study) %>% 
+dplyr::mutate(count = n(photo)) %>% 
+  unique()
 ##################
 # BB OSPREE data #
 ##################
