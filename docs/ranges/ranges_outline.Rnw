@@ -129,10 +129,10 @@ y & \thicksim normal(\alpha_0 + \alpha_{study[i]} + \alpha_{sp[pop[i]]} +& \beta
 \alpha_{study} & \sim normal(\mu_{study}, \sigma_{study}) \\
 \alpha_{sp[pop]} & \sim normal(\mu_{sp}, \sigma_{sp}) \\
 \mu_{sp} & \sim normal(\mu_{pop}, \sigma_{pop}) \\
-\beta_{forcing_{sp[pop]}} \thicksim normal(\mu_{forcing_[sp]}, \sigma_{forcing_[sp]}) \\
-\beta_{forcing_{sp}} \thicksim normal(\mu_{forcing_[pop]}, \sigma_{forcing_[pop]}) \\
-\beta_{photoperiod_{sp[pop]}} \thicksim normal(\mu_{photoperiod_[sp]}, \sigma_{photoperiod_[sp]}) \\
-\beta_{photoperiod_{sp}} \thicksim normal(\mu_{photoperiod_[pop]}, \sigma_{photoperiod_[pop]}) \\
+\beta_{forcing_{sp[pop]}} & \thicksim normal(\mu_{forcing_[sp]}, \sigma_{forcing_[sp]}) \\
+\beta_{forcing_{sp}} & \thicksim normal(\mu_{forcing_[pop]}, \sigma_{forcing_[pop]}) \\
+\beta_{photoperiod_{sp[pop]}} & \thicksim normal(\mu_{photoperiod_[sp]}, \sigma_{photoperiod_[sp]}) \\
+\beta_{photoperiod_{sp}} s&  \thicksim normal(\mu_{photoperiod_[pop]}, \sigma_{photoperiod_[pop]}) \\
 \end{align*}
 
 We ran four chains, with 2,500 warm-up iterations followed by 3,000 sampling iterations, resulting in 12,000 posterior samples for each parameter. We assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. Using the \textit{Gabry2017} package \citep{bayesplot}, we then plotted the partition of variance across the intercepts and predictors to determine intra- vs. inter-specific variation.  
