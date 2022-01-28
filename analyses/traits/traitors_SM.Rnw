@@ -1,0 +1,58 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+
+% required 
+\usepackage{Sweave}
+\usepackage{graphicx}
+
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
+
+% more optionals! %
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+\title{{\huge Traitors:} \\ Tables and Figures}
+\author{Deirdre Loughnan}
+\maketitle 
+
+\section{General Survival and sucess}
+
+
+<<label=table1, result = 'asis', echo= T >>=
+setwd("~/Documents/github/ospree/analyses/traits")
+source("Rfiles/SM_modelOutputTable.R")
+require(xtable)
+mdl.out <- read.csv("input/seedmassMdlOutput.csv")
+
+make.mdl.out <- xtable(mdl.out, caption="Parameter values for partially pooled models, with and without studyid")
+print(make.mdl.out,include.rownames=F, caption.placement="top", hline.after=c(-1,0))
+
+@
+
+\begin{table}[ht]
+\centering
+\caption{Parameter values for partially pooled models, with and without studyid}
+\begin{tabular}{lrrrrrr}
+\hline Variable & Mean & Sd & \%2.5. & \%50. & \%97.5. & Rhat \\
+\hline
+Grand trait mean & 13.82 & 1.75 & 10.55 & 13.78 & 17.40 & 1.00 \\Grand Species mean & 33.24 & 2.99 & 27.41 & 33.19 & 39.16 & 1.00 \\Beta Forcing & -0.95 & 1.00 & -2.87 & -0.97 & 1.01 & 1.00 \\Beta Chilling & -0.15 & 0.98 & -2.05 & -0.14 & 1.75 & 1.00 \\Beta Photoperiod & 0.25 & 0.93 & -1.59 & 0.25 & 2.08 & 1.00 \\Beta Trait x Forcing & -0.42 & 0.11 & -0.64 & -0.41 & -0.22 & 1.00 \\Beta Trait x Chilling & -0.67 & 0.13 & -0.94 & -0.67 & -0.43 & 1.00 \\Beta Trait x Photoperiod & -0.19 & 0.09 & -0.38 & -0.19 & -0.01 & 1.00 \\
+\end{tabular}
+\end{table}
+\end{document}

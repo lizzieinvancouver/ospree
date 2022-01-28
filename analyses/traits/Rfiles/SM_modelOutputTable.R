@@ -6,7 +6,7 @@ library(rstan)
 require(shinystan)
 library(hdrcde) ## better quantiles
 library(tidybayes)
-setwd("~/Documents/github/ospree/analyses/traits")
+# setwd("~/Documents/github/ospree/analyses/traits")
 ## Set seed
 set.seed(202109)
 
@@ -27,6 +27,8 @@ if(MidgeFlag == TRUE){
   
 }
 
+specieslist <-  c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+
 load("output/raw/height_raw_37spp.Rda")
 get_variables(mdl.traitphen)
 
@@ -34,6 +36,33 @@ sumt <- summary(mdl.traitphen)$summary
 
 col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
 
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp",
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto")
+esti <- sumt[mu_params, col4table]
+
+temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("Grand trait mean",
+                  "Grand Species mean",
+                     "Beta Forcing",
+                     "Beta Chilling",
+                     "Beta Photoperiod",
+                     "Beta Trait x Forcing",
+                     "Beta Trait x Chilling",
+                     "Beta Trait x Photoperiod")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+write.csv(esti.table, "seedmassMdlOutput.csv", row.names = T)
+
+
+# Long tables:
 muStudy <- names(mdl.traitphen)[grep(pattern = "^muStudy", x = names(mdl.traitphen))]
 mugrandsp <- names(mdl.traitphen)[grep(pattern = "^mu_grand_sp", x = names(mdl.traitphen))]
 betaforcesp <- names(mdl.traitphen)[grep(pattern = "^betaForceSp", x = names(mdl.traitphen))]
@@ -48,9 +77,9 @@ mu_params <-   c("mu_grand",
                  "betaTraitxForce",
                  "betaTraitxChill",
                  "betaTraitxPhoto",
-                  betaforcesp,
-                  betachillsp,
-                  betaphotosp)
+                 betaforcesp,
+                 betachillsp,
+                 betaphotosp)
 esti <- sumt[mu_params, col4table]
 
 mugrandtrait<- "Grand trait mean"
@@ -60,34 +89,17 @@ betaForceSpname <- paste("betaForceSp", specieslist, sep = " ")
 betaChillSpname <- paste("betaChillSp", specieslist, sep = " ")
 betaPhotoSpname <- paste("betaPhotoSp", specieslist, sep = " ")
 
-temp <- c(mugrandtrait, muStudyname, muGrandSpname, betaForceSpname)
+temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
 rownames(esti) =c("Grand trait mean",
-                   muStudy,
-                 muGrandSpname,
-                     "Forcing",
-                     "Photoperiod",
-                     "Chilling",
-                     "Trait x Force effect",
-                     "Trait x Chill effect",
-                     "Trait x Photoperiod effect",
-                 betaForceSpname,
-                 betaChillSpname,
-                 betaPhotoSpname
+                  muStudy,
+                  muGrandSpname,
+                  "Forcing",
+                  "Photoperiod",
+                  "Chilling",
+                  "Trait x Force effect",
+                  "Trait x Chill effect",
+                  "Trait x Photoperiod effect",
+                  betaForceSpname,
+                  betaChillSpname,
+                  betaPhotoSpname
 )
-
-esti.table <- sumt[mu_params, col4table]
-row.names(esti.table) <- row.names(esti)
-
-
-
-ModelFit <- rstan::extract(Model)
-
-muGrandSp <- data.frame(ModelFit$mu_grand_sp)
-muGrandSpMean <- colMeans(muGrandSp)
-
-betaForceSp <- data.frame(ModelFit$betaForceSp)
-betaForceSpMean <- colMeans(betaForceSp)
-
-quantile2575 <- function(x){
-  returnQuanilte <- quantile(x, prob = c(0.25, 0.75))
-  return(returnQuanilte)
