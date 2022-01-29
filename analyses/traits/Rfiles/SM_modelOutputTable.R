@@ -10,27 +10,15 @@ library(tidybayes)
 ## Set seed
 set.seed(202109)
 
-# Specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- FALSE
+rm(list=ls()) 
+options(stringsAsFactors = FALSE)
 
-if(MidgeFlag == TRUE){
-  traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-  traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-  ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
-  posterior <- extract(readRDS(file = "../../data/Ospree_traits/SeedMass_log10_stanfit.RDS"))
-} else{
-  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-  ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", stringsAsFactors = FALSE, header = TRUE)
-  posterior <- extract(readRDS(file = "output/SeedMass_log10_stanfit_37spp.RDS"))
-  posteriorOld <- extract(readRDS(file = "output/SeedMass_log10_stanfit.RDS"))
-  
-}
+setwd("~/Documents/github/ospree/analyses/traits")
 
 specieslist <-  c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
 
-load("output/raw/height_raw_37spp.Rda")
-get_variables(mdl.traitphen)
+load("output/raw/sla_raw_37spp.Rda")
+#get_variables(mdl.traitphen)
 
 sumt <- summary(mdl.traitphen)$summary
 
@@ -46,7 +34,7 @@ mu_params <-   c("mu_grand",
                  "betaTraitxPhoto")
 esti <- sumt[mu_params, col4table]
 
-temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
 rownames(esti) =c("Grand trait mean",
                   "Grand Species mean",
                      "Beta Forcing",
@@ -59,7 +47,7 @@ rownames(esti) =c("Grand trait mean",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-write.csv(esti.table, "seedmassMdlOutput.csv", row.names = T)
+write.csv(esti.table, "slaMdlOutput.csv", row.names = T)
 
 
 # Long tables:
