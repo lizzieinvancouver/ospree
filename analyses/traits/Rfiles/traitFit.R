@@ -22,9 +22,8 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospr
     } 
 traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
 filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
-traitModelNames <- grep(".RDS", list.files(filePathData), value = TRUE)
-
-
+#filePathData <- "output/"
+traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 
 #Load Trait Data
@@ -32,7 +31,9 @@ traitModelNames <- grep(".RDS", list.files(filePathData), value = TRUE)
 	dat2 <- read.csv("input/try_bien_nodups_2.csv") 
 	traitsData <- rbind(dat1, dat2)
 
-	traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+	traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+	
+	# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
 # Subset data to traitors species list
 	traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
@@ -41,7 +42,7 @@ traitModelNames <- grep(".RDS", list.files(filePathData), value = TRUE)
 	unique(traitsData$traitname)
 	traitsData$traitname [traitsData$traitname == "Specific_leaf_area"] <- "SLA"
 	traitsData$traitname [traitsData$traitname == "Stem_specific_density"] <- "SSD"
-	traitsData$traitname [traitsData$traitname == "seed mass"] <- "SeedMass"
+	traitsData$traitname [traitsData$traitname == "seed mass"] <- "SeedMass_log10"
 	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "Height"
 	traitsData$traitname [traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"] <- "LNC"
 	traitsData$speciesname <- gsub("_", " ", traitsData$speciesname )
@@ -56,7 +57,7 @@ for(traiti in 1:length(traitModelNames)){
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
-	traitName <- gsub("_stanfit.RDS", "", traitModelNames[traiti])
+	traitName <- gsub("_stanfit_37spp.RDS", "", traitModelNames[traiti])
 	slaModelFit <- rstan::extract(slaModel)
 	data.frame(summary(slaModel))
 
@@ -124,9 +125,9 @@ for(traiti in 1:length(traitModelNames)){
 
 	#Trait data 
 	#--------------
-
+traiti <- "SeedMass_log10_stanfit.RDS"
 	if(traitModelNames[traiti] == "SeedMass_log10_stanfit.RDS"){
-		slaData <- traitsData[traitsData$traitname == "SeedMass",]
+		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
 		slaData$traitvalue <- log10(slaData$traitvalue)
 
@@ -199,9 +200,10 @@ for(traiti in 1:length(traitModelNames)){
 
 
 	#this plotting code needs the patchwork library 
-	  png("figures/FourTraitFit.png", width = 14, height = 11, units = "in", res = 72)
+	  png("figures/FourTraitFit_37spp.png", width = 14, height = 11, units = "in", res = 72)
 	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
 		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a")#add letter annotation to plots 
 	  dev.off()
+	  
