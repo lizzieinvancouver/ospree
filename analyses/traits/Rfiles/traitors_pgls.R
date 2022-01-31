@@ -104,11 +104,12 @@ library(reshape2)
   bb.stan$phylo<-paste(bb.stan$genus,bb.stan$species,sep="_")
   bb.stan$speciesname<-paste(bb.stan$genus,bb.stan$species,sep="_")
   
+  traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
   
-  traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", 
-                   "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", 
-                   "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", 
-                   "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+  # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", 
+  #                  "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", 
+  #                  "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", 
+  #                  "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
   
   ospreeTraitors <- bb.stan[bb.stan$spps %in% traitors.sp,]
   meanResp <- aggregate(ospreeTraitors$resp, by = list(ospreeTraitors$speciesname), FUN = mean)
@@ -172,10 +173,10 @@ ospreeTraitors$spps<-paste(ospreeTraitors$genus,ospreeTraitors$species,sep="_")
 
 # set up loop to get values from output for each trait:
 
-files <- list.files(path = "output", pattern =".RDS" )
+files <- list.files(path = "output", pattern ="_37spp.RDS" )
 files
 
-Model <- readRDS(paste("output/", files[3], sep = ""))
+Model <- readRDS(paste("output/", files[1], sep = ""))
 ModelFit <- rstan::extract(Model)
 
 muGrandSp <- data.frame(ModelFit$mu_grand_sp)
@@ -242,23 +243,44 @@ dev.off()
 
 lambda.force = pgls(betaForceSpMean ~ Seed_mass, data = databbslopesphy,lambda='ML')
 summary(lambda.force)
+# 37 spp:
+# Height: 0.477 95.0% CI:  (0.030, 0.877) p= ns
+# SLA: 0.392 95.0% CI:(NA, 0.866) p = ns
+# LNC:0.378 95.0% CI: (NA, 0.846) ns
+# Seed:  0.443 95.0% CI: (0.022, 0.843) ns
+
+#26spp model
 # Height: 0.335 95.0% CI: (NA, 0.845)
 # SLA: 0.377 95.0% CI:(NA, 0.873)
 # LNC:0.552 95.0% CI: (NA, 0.920)
 # Seed: 0.542 95.0% CI: (0.073, 0.894)
 
-lambda.chill = pgls(betaChillSpMean~ Seed_mass,data = databbslopesphy,lambda='ML')
+lambda.chill = pgls(betaChillSpMean~ Seed_mass ,data = databbslopesphy,lambda='ML')
 summary(lambda.chill)
+# 37 spp:
+# Height: 0.525 95.0% CI: (0.133, 0.866) ns
+# SLA: 0.652 95.0% CI:(0.252, 0.921) p = ns
+# LNC: 0.502 95.0% CI: (0.056, 0.878) sig 0.02
+# Seed: 0.575 95.0% CI: (0.184, 0.886) ns
+
+#26spp model
 # Height: 0.686 95.0% CI: (0.249, 0.941)
 # SLA: 0.379 95.0% CI: (0.026, 0.759)
 # LNC: 0.240 95.0% CI: (NA, 0.704)
 # Seed: 0.694 95.0% CI: (0.274, 0.954)
 
-lambda.photo = pgls(betaPhotoSpMean~ SLA,data = databbslopesphy,lambda='ML')
+lambda.photo = pgls(betaPhotoSpMean~ Seed_mass,data = databbslopesphy,lambda='ML')
 summary(lambda.photo)
+# 37 spp:
+# Height: 0.0 95.0% CI: (NA, 0.575) ns
+# SLA: 0.132 95.0% CI: (NA, 0.723) ns
+# LNC: 0.199 95.0% CI: (NA, 0.750) ns
+# Seed: 0.694 95.0% CI:(NA, 0.764) ns 
+
+#26spp model
 # Height: 0.189 95.0% CI: (NA, 0.753)
 # SLA: 0.000 95.0% CI: (NA, 0.585)
-# LNC: 0.000 95.0% CI: (NA, 0.751)
+# LNC: 0.000 95.0% CI: (NA, 0.751) 
 # Seed: 0.336 95.0% CI:  (NA, 0.800)
 
 lambda.sla = pgls(SLA~1,data = databbslopesphy,lambda='ML')
@@ -294,8 +316,3 @@ plot(pgls.profile(lambda.full))
 plot(lambda.full)
 summary(lambda.full)
 
-###################################
-data(shorebird)
-shorebird <- comparative.data(shorebird.tree, shorebird.data, Species, vcv=TRUE)
-mod <- pgls(log(Egg.Mass) ~ log(M.Mass), lambda = "ML", shorebird)
-summary(mod)
