@@ -21,8 +21,8 @@ if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospr
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
 traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
-filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
-#filePathData <- "output/"
+#filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
+filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 
@@ -51,9 +51,8 @@ traitPlotList <- list() #Make a list to save trait plots so we can make 1 pannel
 
 for(traiti in 1:length(traitModelNames)){
 
-
-
-	#traiti <- 3
+ 
+# 	traiti <- 3
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
@@ -109,35 +108,40 @@ for(traiti in 1:length(traitModelNames)){
 	#-------------------------------------------------------
 	
 	#png(paste("figures/interceptSlope", traitName, sep = "_"), width = 780, height = 380, units = "px")
-	par(mfrow=c(1,4))  
-	plot(alphaPhenoSpMean,betaForceSpMean, main = traitName)
-	plot(alphaPhenoSpMean,betaChillSpMean, main = "Model Intercepts vs slopes")
-	plot(alphaPhenoSpMean,betaPhotoSpMean)
-	betaCombined <- betaPhotoSpMean+betaChillSpMean+betaForceSpMean
-	plot(alphaPhenoSpMean ~ betaCombined)
-	#dev.off()
-	par(mfrow=c(1,1))  
+	# par(mfrow=c(1,4))  
+	# plot(alphaPhenoSpMean,betaForceSpMean, main = traitName)
+	# plot(alphaPhenoSpMean,betaChillSpMean, main = "Model Intercepts vs slopes")
+	# plot(alphaPhenoSpMean,betaPhotoSpMean)
+	# betaCombined <- betaPhotoSpMean+betaChillSpMean+betaForceSpMean
+	# plot(alphaPhenoSpMean ~ betaCombined)
+	# #dev.off()
+	# par(mfrow=c(1,1))  
+	# 
 
-
 	betaCombined <- betaPhotoSpMean+betaChillSpMean+betaForceSpMean
-	plot(alphaPhenoSpMean ~ betaCombined)
+	# plot(alphaPhenoSpMean ~ betaCombined)
 
 
 	#Trait data 
 	#--------------
-traiti <- "SeedMass_log10_stanfit.RDS"
-	if(traitModelNames[traiti] == "SeedMass_log10_stanfit.RDS"){
+#traiti <- "SeedMass_log10_stanfit.RDS"
+	# traiti <- 3
+	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
-		slaData$traitvalue <- log10(slaData$traitvalue)
-
+		slaData$traitvalue_log <- log10(slaData$traitvalue)
+    
+		meanRealTrait <- aggregate(slaData$traitvalue_log, by = list(slaData$speciesname), FUN = mean)
+		names(meanRealTrait) <- c("species","meanTrait")
 	} else {
 		slaData <- traitsData[traitsData$traitname == traitName,]
 		specieslist <- sort(unique(slaData$speciesname))
+		
+		meanRealTrait <- aggregate(slaData$traitvalue, by = list(slaData$speciesname), FUN = mean)
+		names(meanRealTrait) <- c("species","meanTrait")
 	}
 	
-	meanRealTrait <- aggregate(slaData$traitvalue, by = list(slaData$speciesname), FUN = mean)
-	names(meanRealTrait) <- c("species","meanTrait")
+
 
 	#Trait predicted means
 	#--------------------
@@ -151,13 +155,13 @@ traiti <- "SeedMass_log10_stanfit.RDS"
 
 	color_scheme_set("viridis")
 
-	mcmc_intervals(mu_grandDf)+
-	 theme_classic() + 
-		theme(text = element_text(size=20))+
-		geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
-
 	if(traitName == "SeedMass_log10"){
-		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+	  mcmc_intervals(mu_grandDf)+
+	    theme_classic() + 
+	    theme(text = element_text(size=20))+
+	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue_log), alpha = 0.5)
+	  
+		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue_log, colour = "black"))+
 			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
 			geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 			theme_classic() +  
@@ -172,6 +176,11 @@ traiti <- "SeedMass_log10_stanfit.RDS"
                          	shape = c(19, 20, 8)))) + 
 	  			theme(legend.title = element_blank())
 	} else {
+	  mcmc_intervals(mu_grandDf)+
+	    theme_classic() + 
+	    theme(text = element_text(size=20))+
+	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
+	  
 		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
 			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
 				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
