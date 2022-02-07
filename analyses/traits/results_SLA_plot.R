@@ -67,10 +67,10 @@ col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 
 col1.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2))
 col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
 
-pdf(file = "figures/results_sla_forcing_37spp_ac.pdf", width = 7, height = 6)
+pdf(file = "figures/results_sla_37spp_ac.pdf", width = 15, height = 5)
 ## Plotting
 ### Forcing
-par(mar = c(5, 5, 2, 2))
+par(mar = c(5, 5, 2, 2), mfrow =c(1,3))
 xrange <- seq(-2.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(0, 140),
      xlab = "Forcing (z-scored)", ylab = "Day of phenological event",
@@ -103,15 +103,15 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
-                              expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
-                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
+#                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
+#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+#dev.off()
 
-pdf(file = "figures/results_sla_chilling_37spp_ac.pdf", width = 7, height = 6)
+#pdf(file = "figures/results_sla_chilling_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Chilling
 par(mar = c(5, 5, 2, 2))
@@ -147,16 +147,16 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
-                              expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
-                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
+#                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
+#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+#dev.off()
 
 
-pdf(file = "figures/results_sla_photoperiod_37spp_ac.pdf", width = 7, height = 6)
+#pdf(file = "figures/results_sla_photoperiod_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Photoperiod
 par(mar = c(5, 5, 2, 2))
@@ -192,10 +192,11 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
-                              expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
+legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Fagus grandifolia"), ")")),
+                              expression(paste("Conservative  (", italic("Quercus ilex"), ")")),
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp[2], col.sp[1], NA, NA),
+       inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.25, bty = "n")
 dev.off()
+

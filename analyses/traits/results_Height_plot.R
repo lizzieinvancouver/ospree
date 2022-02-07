@@ -97,10 +97,10 @@ col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 
 col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
 col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
 
-pdf(file = "figures/results_height_forcing_37spp_ac.pdf", width = 7, height = 6)
+pdf(file = "figures/results_height_37spp_ac.pdf", width = 15, height = 5)
 ## Plotting
 ### Forcing
-par(mar = c(5, 5, 2, 2))
+par(mar = c(5, 5, 2, 2), mfrow=c(1,3))
 xrange <- seq(-2.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
      xlab = "Forcing (z-scored)", ylab = "Day of phenological event",
@@ -133,18 +133,18 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
-                              expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
-                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
+#                               expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
+#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+# dev.off()
 
-pdf(file = "figures/results_height_chilling_37spp_ac.pdf", width = 7, height = 6)
+# pdf(file = "figures/results_height_chilling_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Chilling
-par(mar = c(5, 5, 2, 2))
+# par(mar = c(5, 5, 2, 2))
 xrange <- seq(-2, 5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
      xlab = "Chilling (z-scored)", ylab = "Day of phenological event",
@@ -177,19 +177,19 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
-                              expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
-                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
-
-
-pdf(file = "figures/results_height_photoperiod_37spp_ac.pdf", width = 7, height = 6)
-## Plotting
-### Photoperiod
-par(mar = c(5, 5, 2, 2))
+# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
+#                               expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
+#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+# dev.off()
+# 
+# 
+# pdf(file = "figures/results_height_photoperiod_37spp_ac.pdf", width = 7, height = 6)
+# ## Plotting
+# ### Photoperiod
+# par(mar = c(5, 5, 2, 2))
 xrange <- seq(-1.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
      xlab = "Photoperiod (z-scored)", ylab = "Day of phenological event",
@@ -227,5 +227,5 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+       inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.25, bty = "n")
 dev.off()
