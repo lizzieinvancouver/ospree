@@ -229,16 +229,16 @@ for(traiti in 1:length(traitModelNames)){
 		traitsDF$GrandMean_lower[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[1]
 
 		#speciesSigma
-		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$muSp)
+		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$sigma_sp)
 		#Uncertainty around speciesSigma
-		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[2]
-		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[1]
+		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[2]
+		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[1]
 
 		#studySigma
-		traitsDF$StudySigma[traiti] <- mean(slaModelFit$muStudy)
+		traitsDF$StudySigma[traiti] <- mean(slaModelFit$sigma_study)
 		#Uncertainty around studySigma
-		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[2]
-		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[1]
+		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[2]
+		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[1]
 
 
 
