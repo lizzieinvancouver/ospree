@@ -18,13 +18,12 @@ library(patchwork) # another way of arranging plots
 
 if(length(grep("deirdreloughnan", getwd())>0)) {  
 	setwd("~/Documents/github/ospree/analyses/traits")
-	filePathData <- "output/"
     } else if (length(grep("faith", getwd())>0)) { 
     	setwd("/home/faith/Documents/github/ospree/analyses/traits") 
-    	filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
 traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
+	filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 
@@ -45,7 +44,7 @@ traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE)
 	traitsData$traitname [traitsData$traitname == "Specific_leaf_area"] <- "SLA"
 	traitsData$traitname [traitsData$traitname == "Stem_specific_density"] <- "SSD"
 	traitsData$traitname [traitsData$traitname == "seed mass"] <- "SeedMass_log10"
-	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "Height"
+	traitsData$traitname [traitsData$traitname == "Plant_height_vegetative"] <- "height"
 	traitsData$traitname [traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass"] <- "LNC"
 	traitsData$speciesname <- gsub("_", " ", traitsData$speciesname )
 
@@ -127,7 +126,7 @@ for(traiti in 1:length(traitModelNames)){
 	#Trait data 
 	#--------------
 #traiti <- "SeedMass_log10_stanfit.RDS"
-	# traiti <- 3
+	# traiti <- 1
 	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
@@ -211,7 +210,7 @@ for(traiti in 1:length(traitModelNames)){
 
 
 	#this plotting code needs the patchwork library 
-	  png("figures/FourTraitFit_37spp.png", width = 14, height = 12, units = "in", res = 72)
+	  png("figures/FourTraitFit_37spp.png", width = 14, height = 15, units = "in", res = 72)
 	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
