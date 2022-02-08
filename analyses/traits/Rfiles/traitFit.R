@@ -16,13 +16,15 @@ library(patchwork) # another way of arranging plots
 #set the traits we are assessing
 #this code will only work if you have the model outputs saved locally 
 
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
-    } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
+if(length(grep("deirdreloughnan", getwd())>0)) {  
+	setwd("~/Documents/github/ospree/analyses/traits")
+	filePathData <- "output/"
+    } else if (length(grep("faith", getwd())>0)) { 
+    	setwd("/home/faith/Documents/github/ospree/analyses/traits") 
+    	filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
 traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
-#filePathData <- "../../../../mnt/UBC/ospree/traitorsModelFits"
-filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 
@@ -209,7 +211,7 @@ for(traiti in 1:length(traitModelNames)){
 
 
 	#this plotting code needs the patchwork library 
-	  png("figures/FourTraitFit_37spp.png", width = 14, height = 11, units = "in", res = 72)
+	  png("figures/FourTraitFit_37spp.png", width = 14, height = 12, units = "in", res = 72)
 	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )

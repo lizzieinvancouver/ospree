@@ -96,7 +96,7 @@ Both TRY and BIEN are large databases compiling plant trait data across many ind
 
 We began by searching for trait data for all 234 species represented in the OSPREE database. Data was also obtained from the BIEN database using the BIEN R package \citep{Maitner2017}. Data was requested or downloaded in December 2018. Our full trait datasets included data on x species .... (S Table x - a table only showing trait data for traits we actually used. Not all the ones we requested.) 
 
-For our analysis we only included trait data from adult individuals with a minimum height of 1.42 m and we removed all data from experiments or growing in non-natural habitats. Traits were also grouped where appropriate, for example, separate entries for specific leaf area (SLA) values with petioles, without petioles, and for which no petiole presence was specified were all categorized as a single trait in our analysis (see Table S1). Duplicated data across the datasets were removed (n= 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait. After our selection criteria, out data includes 26 species with at least one measurement for the following six traits: height, seed mass, LNC, SLA, SSD, \& LDMC (n = 60740, n = 404, n = 243, n = 8524, n = 5474, n = 5101 for each trait, respectively). To test for correlations in our six traits and further refine our trait selection, we performed a PCA. The principle component explained 32.2\% of variation while the second explained 23.4\% of the variation (Fig. S1). Given the strong association between the SLA and LDMC leaf traits, and similarly between stem specific density (SSD) and height, we further reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. In doing so, we were able to increase the number of species we could include in our analysis, as 37 species had at least one measurement for our final four traits. Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis (n = 27318). This reduces the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded seed mass data from the HE Marx dataset from BIEN, as it consisted of only one value, making it challenging to include the study level effect in our model\\ 
+For our analysis we only included trait data from adult individuals with a minimum height of 1.42 m and we removed all data from experiments or growing in non-natural habitats. Traits were also grouped where appropriate, for example, separate entries for specific leaf area (SLA) values with petioles, without petioles, and for which no petiole presence was specified were all categorized as a single trait in our analysis (see Table S1). Duplicated data across the datasets were removed (n= 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait. This resulted in a dataset of only 26 species and six functional traits. To test for correlations in our six traits and further refine our trait selection, we performed a PCA. The principle component explained 32.2\% of variation while the second explained 23.4\% of the variation (Fig. S1). Given the strong association between the SLA and LDMC leaf traits, and similarly between stem specific density (SSD) and height, we further reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we had at least one trait measurement for 37 species (height n = 47781, seed mass n = 281, LNC n = 3853, SLA n = 7656). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis (n = 27318). This reduces the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded seed mass data from the HE Marx dataset from BIEN, as it consisted of only one value, making it challenging to include the study level effect in our model\\ 
 
 To test the relationships between functional traits and species cue responses, we developed a joint hierarchical bayesian model. Our model is composed of two sub-models that are co-estimated and linked by shared parameters. Because each trait varied in the number of studies in which it is included as well as the number of individuals for which it is measured, we chose to model each trait separately. The first part of the model is a hierarchical intercept only model (Equations \ref{TraitsLine_main}, \ref{TraitsLine_sp} \& \ref{TraitsLine_study}) estimating species mean trait value for species $i$ ($trait_{i}$). This ($trait_{i}$) value is a combination of a species mean trait value $\alpha_{sp,i}$ and a hierarchical grouping term on the intercept for study to account for study level differences in the trait data ($\alpha_{study,i}$).  \\
 
@@ -190,7 +190,7 @@ pheno_{b}  \sim N( \alpha pheno_{sp_b} + \beta force_{sp_b} * Forcing_{b} + \bet
 %As such, we model each trait individually using the same model specified above, but with the appropriate priors for each trait. Priors were tested using prior predictive checks. All analyses were done in Stan (version) using the rstan package (version) in R (version). 
 
 % I wrote this up in case we want to include it
-Finally, we used a phylogenetic greneralized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orne2013}.
+Finally, we used a phylogenetic greneralized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orne2013}. \\
 
 
 \begin{align*}
@@ -201,47 +201,70 @@ y & \sim MVN(\mu, S)
 \section{Results}
 % I think there are two ways to structure the results - discuss each cue separately or discuss each trait separately - I think each trait is easier and fits our hypotheses better
 
-- alwasy expect the high trait value to be greater 
-- direction rather than the absolute magnitude
-negative association between trait effects and cue responses leads to a stronger negative cue response
+Our model estimated most mean trait values to be close to the simple geometric mean across the data. However, there were some cases were the effect of study was influential (Fig 2). This lead to differences between the simple geometric means and the species trait estimates without the effect of study (Fig 2).  Our four trait models predicted most species cue responses to be negative, indicating that the average effect of forcing, chilling, and photoperiod cues were to advance budburst date. The exceptions to this were the photoperiod estimates from our height and SLA models, both of which showed a small positive or delaying effect, but considerable variation in the estimated value due to species level differences. The absolute effect of species cue responses was generally greatest for forcing cues, except in our models of LNC, for which chilling cues had the largest absolute response. Photoperiod cues had the smallest cues responses in three of our models, except for our model of tree height, in which the absolute effect of chilling was less than that of photoperiod. The effect of traits on cue responses were all negative and were greatest for forcing and chilling, while the effects of photoperiod cues were weaker across all our models. \\
 
-mention why we see a strong effect for high trait values - bc we are multiplying the slope by a larger value:
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp.png} 
+    \caption{Raw data and posterior esti.}
+    \label{fig2}
+\end{figure}
 
-- more conservative species have higher slope
-- use beta trait x as evidence 
+In our model for SLA, we found all three cue responses to be affected by SLA , but the strongest effects from forcing and chilling cues. Including the effect of SLA had a complimentary effect on the species slopes, causing them to become more negative. With the exception of photoperiod responses, this resulted in the slopes of high and low SLA species to become more similar. In line with our our prediction, the high SLA species had earlier budburst dates than the low SLA species.\\
 
-- extract cue slopes - plot with ht 
-- 
-The trait effect for height caused a more negative trend in chilling responses of species. 
-Our model estimated most mean trait values to be close to the simple geometric mean across the data. However, there were some cases were the effect of study was influential. This lead to differences between the simple geometric means and the species trait estimates without the effect of study (Fig1).  Each of our trait models predicted most species cue responses to be negative, indicating that the average effect of forcing, chilling, and photoperiod cues were to advance budburst date. The exceptions to this were the photoperiod estimates from our height and SLA models, both of which showed a small positive or delaying effect, but considerable variation in the estimated value. The absolute effect of species cue responses was generally greatest for forcing cues, except in our models of LNC, for which chilling cues had the largest absolute response. Photoperiod cues had the smallest cues responses in three of our models, except for our model of tree height, in which the absolute effect of chilling was less than that of photoperiod. The effect of traits on cue responses were all negative and were greatest for forcing and chilling, while the effects of photoperiod cues were weaker across all our models. These trait effects on cue responses were variable across species and for some traits were also dependent on the trait values themselves (Figure 1 \& 2).
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_sla_37spp_ac.pdf} 
+    \caption{Estimated cue responses for acquisitive and conservative spp.}
+    \label{sla}
+\end{figure}
 
-In our model for SLA, we found all three cue responses to be affected by SLA as well as the trait value itself. Species with low SLA were more sensitive to increased forcing, chilling, and photoperiod cues when the trait effects were included (Fig 2). Species with leaves with high SLA , however, showed no difference in their cue responses when the trait effect was included in the model. Interestingly these high trait species only showed cues responses to forcing and chilling, and were relatively insensitive to changes in photoperiod cues (Fig 2). The effect of height and LNC on species cue responses were similarly dependent on the magnitude of the trait value. Taller species all showed a stronger trait effect relative to shorter individuals, with the response to both forcing and chilling changing from a positive slope, or delaying effect, to a negative slope when trait values were accounted for. The effect of photoperiod was less strong, and only noticeable for taller species. As we observed with SLA, shorter species showed a much smaller trait effect and only advanced in budburst dates in response to chilling and forcing. Similarly species that produce leaves with high LNC showed no difference in budburst with increased forcing and a slight delay in response chilling when trait effects were not included. However, with the trait effect these species had a negative cue responses, advancing their budburst with higher cue treatments. Species with low LNC consistently advanced their budburst with increased forcing and chilling irrespective of trait effects, but to our surprise, there was no effect of LNC to photoperiod cues regardless of trait values.
+The effects of height on cue responses were complimentary for all three cues, resulting in more negative slopes and advances in budburst. The magnitude of these effects were greatest for forcing and chilling cues. As we predicted, taller trees associated with a more conservative growth strategy had later budburst than shorter more acquisitive species.\\
 
-Finally, our model estimates for the trait effects of seed mass on cue responses were all negative, however, given the nature of the log10 transformation and the resulting negative trait values, the inclusion of trait effects offset the effects of cue responses in the absence of traits. The inclusion of the trait effect in our model resulted in large seeded species to have no differences in budburst dates with increasing forcing, offsetting the delayed effect the model predicts in the absence of the trait effect. A similar, but stronger response was also estimated the response on large seeded species to chilling temperatures, while the magnitude of the response to longer photoperiods was negligible. Small seeded species produced similar estimates regardless of whether trait effects were considered, and only advanced their budburst dates in response to higher forcing cues. 
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_height_37spp_ac.pdf} 
+    \caption{Estimated cue responses for acquisitive and conservative spp.}
+    \label{height}
+\end{figure}
 
+The effect of LNC on cue responses were complimentary, resulting in a more negative slopes for chilling and forcing cues. However, no considerable relationship was observed between LNC and photoperiod. As we predicted, species with high LNC values budburst earlier than species with low LNC. 
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_lnc_37spp_ac.pdf} 
+    \caption{Estimated cue responses for acquisitive and conservative spp.}
+    \label{lnc}
+\end{figure}
+
+Our model estimates for the trait effects of seed mass on cue responses were all negative, however, given the nature of the log10 transformation and the resulting negative trait values, the inclusion of trait effects creates positive estimates and offset the effects of the cue responses in the absence of traits. Both acquisitive and conservative species exhibited a greater overlap in their budburst dates for both forcing and photoperiod responses. \\ % acq. vs con spp are responding differently, green = the slope is becoming less negative for F & C and not really changing for P, but for purprle, the slopes are all becoming more negative
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_seedmass_37spp_ac.pdf} 
+    \caption{Estimated cue responses for acquisitive and conservative spp.}
+    \label{seedmass}
+\end{figure}
 %need to redo the pgls analysis
-PGLS suggests there are no strong phylogenetic effects
+PGLS suggests there are no strong phylogenetic effects for most of our cue trait relationshps, with the exception of .... This suggests there is a phylogenetic effect influencing the cue response of species for these traits. Given the complexity of our model, however, we were not able to fully incorporate these phylogenetic effects into our current analysis. 
 
 \section{Discussion}
 
 \begin{itemize}
 \item What do our results suggest for the relationship between cue use and traits? 
-- Species responses to forcing, chilling, and photoperiod cues are influenced by species functional traits and the dependent on trait values. 
-- generally in line with previous studies of phenological cues 
+- Species responses to forcing, chilling, and photoperiod cues are influenced by species functional traits. 
+- generally in line with previous studies of phenological cues, cue responses were all negative leading to strong advances in bb date 
 	\begin{itemize}
 	\item Do we find relationships between cues and traits?
-	- yes, but dependent on the trait value; species with hight SLA, Seed mass and heights had a stronger response when the effect of trait was included
-	\item Do these trends agree with a fast/slow tradeoff?
-	- not really, only for height and seed mass
-	- taller trees did have higher chill and forcing requirements
-	- high SLA species required more chilling or higher forcing temperatures to bb earlier - contrary to our prediction
-	- LNC really did not matter, minor increase in response for high LNC which is contrary to our prediction
-	- larger seeds did bb earlier with higher chilling - as predicted
+	- yes, with the exception of LNC and photoperiod, all traits had an effect of the response of species to cues
+	\item Do these trends agree with an acquisitive/conservative tradeoff?
+	- yes, with the exception of seed mass, species with traits associated with acquisitive growth strategies 
 	\end{itemize}
 \item How do our results relate to previous studies? 
 \item What do our results suggest for the bigger picture?
 	\begin{itemize}
 	\item How might traits constrain/facilitate future shifts in phenology?
+	- our findings do partially (maybe not LNC and Seedmass) support the idea that phenology is an important functional trait
 	\item How might ecosystem functioning shift if species track temperature? How to our results relate to seasonality and frost risk?
 	\item What does it mean if more competitive/invasive species respond to warming and start bb earlier - outcompete species and lead to compressed temporal niche?
 	\item Relate our results to invasion success 
