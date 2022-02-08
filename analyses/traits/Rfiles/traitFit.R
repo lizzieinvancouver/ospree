@@ -12,6 +12,7 @@ library(bayesplot)
 library(tidybayes)
 library(gridExtra) # for arranging plots 
 library(patchwork) # another way of arranging plots 
+library(rethinking)
 
 #set the traits we are assessing
 #this code will only work if you have the model outputs saved locally 
@@ -26,6 +27,14 @@ traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
 	filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
+#Make a dataframe for saving traiit estimates for results section
+traitsDF <- data.frame(matrix(NA, 4,18))
+names(traitsDF) <- c("Trait", "GrandMean", "GrandMean_upper", "GrandMean_lower", 
+	"SpeciesSigma",  "SpeciesSigma_upper", "SpeciesSigma_lower", 
+	"StudySigma",  "StudySigma_upper", "StudySigma_lower", 
+	"MaxValue",  "MaxValue_upper", "MaxValue_lower", "MaxValueSp", 
+	"MinValue", "MinValueSp", "MinValue_upper", "MinValue_lower")
+traitsDF$Trait <- traits
 
 #Load Trait Data
 	dat1 <- read.csv("input/try_bien_nodups_1.csv") 
@@ -204,6 +213,54 @@ for(traiti in 1:length(traitModelNames)){
 
 	 #ggsave(paste(paste0("figures/traitFit_", traitName), "png", sep = "."), traitFit,   width = 10, height = 6,  units = "in")
 	  traitPlotList[[traiti]] <-traitFit 
+
+	  #saving model values in a table
+
+	  traitOutput <- data.frame(summary(slaModel))
+	  speciesMeans <-  aggregate(longMeans$traitMean, by = list(longMeans$speciesname), FUN = mean)
+	  names(speciesMeans) <- c("speciesname", "traitMean")
+
+	  #Get Trait Model output for the results section. 
+
+		#Mean trait value
+	  	traitsDF$GrandMean[traiti] <- mean(slaModelFit$mu_grand)
+		#Uncertainty around mu grand
+		traitsDF$GrandMean_upper[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[1]
+		traitsDF$GrandMean_lower[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[2]
+
+		#speciesSigma
+		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$muSp)
+		#Uncertainty around speciesSigma
+		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[1]
+		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[2]
+
+		#studySigma
+		traitsDF$StudySigma[traiti] <- mean(slaModelFit$muStudy)
+		#Uncertainty around studySigma
+		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[1]
+		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[2]
+
+
+
+		#Max trait value
+		traitsDF$MaxValue[traiti] <- max(speciesMeans$traitMean)
+		#max trait value species id
+        traitsDF$MaxValueSp[traiti] <- as.character(speciesMeans$speciesname[speciesMeans$traitMean == max(speciesMeans$traitMean)])
+		#Uncertainty around max species
+		traitsDF$MaxValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]]) , prob=0.90 )[1]
+		traitsDF$MaxValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]]) , prob=0.90 )[2]
+
+
+
+        #Min trait value
+		traitsDF$MinValue[traiti] <- min(speciesMeans$traitMean)
+		#min trait value species id
+        traitsDF$MinValueSp[traiti] <- as.character(speciesMeans$speciesname[speciesMeans$traitMean == min(speciesMeans$traitMean)])
+        #Uncertainty around max species
+		traitsDF$MinValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[1]
+		traitsDF$MinValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[2]
+
+
 	
 }
 
@@ -217,3 +274,4 @@ for(traiti in 1:length(traitModelNames)){
 		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a")#add letter annotation to plots 
 	  dev.off()
 	  
+
