@@ -182,6 +182,26 @@ for(traiti in 1:length(traitModelNames)){
                          	linetype = c(NA, NA, NA),
                          	shape = c(19, 20, 8)))) + 
 	  			theme(legend.title = element_blank())
+	} else if(traitName == "height"){
+	  mcmc_intervals(mu_grandDf)+
+	    theme_classic() + 
+	    theme(text = element_text(size=20))+
+	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
+	  
+		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
+				theme_classic() +  
+				theme(text = element_text(size=16))+
+	  		geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
+	  		labs(title = "Height (m)", y = "Species", x ="Trait Value")+ 
+	  		scale_color_identity(name = "Model fit",
+                          breaks = c("black", "red", "purple"),
+                          labels = c("Model Posterior", "Raw Data", "Data Mean"),
+                          guide = guide_legend(override.aes = list(
+                         	linetype = c(NA, NA, NA),
+                         	shape = c(19, 20, 8)))) + 
+	  		theme(legend.title = element_blank())
 	} else {
 	  mcmc_intervals(mu_grandDf)+
 	    theme_classic() + 
