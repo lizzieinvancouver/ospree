@@ -23,11 +23,11 @@ if(length(grep("deirdreloughnan", getwd())>0)) {
     	setwd("/home/faith/Documents/github/ospree/analyses/traits") 
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
-traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
 	filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 #Make a dataframe for saving traiit estimates for results section
+traits <- c("Height", "LNC", "SeedMass_log10", "SLA")
 traitsDF <- data.frame(matrix(NA, 4,18))
 names(traitsDF) <- c("Trait", "GrandMean", "GrandMean_upper", "GrandMean_lower", 
 	"SpeciesSigma",  "SpeciesSigma_upper", "SpeciesSigma_lower", 
@@ -68,9 +68,6 @@ for(traiti in 1:length(traitModelNames)){
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
 	traitName <- gsub("_stanfit_37spp.RDS", "", traitModelNames[traiti])
 	slaModelFit <- rstan::extract(slaModel)
-	data.frame(summary(slaModel))
-
-
 
 	#sensible cue values
 	#-------------------------------------
@@ -135,7 +132,7 @@ for(traiti in 1:length(traitModelNames)){
 	#Trait data 
 	#--------------
 #traiti <- "SeedMass_log10_stanfit.RDS"
-	# traiti <- 1
+	# traiti <- 3
 	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
@@ -222,6 +219,8 @@ for(traiti in 1:length(traitModelNames)){
 
 	  #Get Trait Model output for the results section. 
 
+	  
+
 		#Mean trait value
 	  	traitsDF$GrandMean[traiti] <- mean(slaModelFit$mu_grand)
 		#Uncertainty around mu grand
@@ -259,6 +258,10 @@ for(traiti in 1:length(traitModelNames)){
         #Uncertainty around max species
 		traitsDF$MinValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[2]
 		traitsDF$MinValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[1]
+
+
+
+
 
 
 	
