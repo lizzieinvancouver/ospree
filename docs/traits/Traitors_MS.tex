@@ -190,18 +190,10 @@ pheno_{b}  \sim N( \alpha pheno_{sp_b} + \beta force_{sp_b} * Forcing_{b} + \bet
 %As such, we model each trait individually using the same model specified above, but with the appropriate priors for each trait. Priors were tested using prior predictive checks. All analyses were done in Stan (version) using the rstan package (version) in R (version). 
 
 % I wrote this up in case we want to include it
-Finally, we used a phylogenetic greneralized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orne2013}. \\
-
-
-\begin{align*}
-y & \sim MVN(\mu, S)
-\mu = \mu_{grand_{sp}} + \alpha study_{study_i} \\
-\end{align*}
+Finally, we used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orne2013}. \\
 
 \section{Results}
 % I think there are two ways to structure the results - discuss each cue separately or discuss each trait separately - I think each trait is easier and fits our hypotheses better
-
-
 
 We estimated mean height as 14m (90\% uncertainty intervals: 11m, 17m). Species height values were distributed with a variance of 6 (90\% uncertainty intervals: 5m, 7m), and study height values were distributed with a variance of 7m (90\% uncertainty intervals: 6m, 9m). The highest estimated mean species height estimate in our dataset was 26m (90\% uncertainty intervals: 22m,29m) for \textit{Quercus petraea}, and the lowest estimated mean height value was 0.7(90\% uncertainty intervals: -2m,4m) for \textit{Rhamnus cathartica}. 
 
@@ -211,13 +203,10 @@ Mean log$_{10}$ seed mass was estimated as 2.0 (90\% uncertainty intervals:1.5, 
 
 We estimated mean SLA as 16.8 (90\% uncertainty intervals:15, 19). Species SLA estimates were distributed with a variance of 8.1 (90\% uncertainty intervals: 6.6, 9.6), and study SLA estimates were distributed with a variance of 3.3 (90\% uncertainty intervals: 1.8, 4.8). The highest estimated mean species SLA estimate in our dataset was 4.9 (90\% uncertainty intervals: 2.9, 6.5) for \textit{Acer pensylvanicum}, and the lowest estimated mean LNC estimate was -1(90\% uncertainty intervals: -1.4,-0.6) for \textit{Quercus coccifera}.
 
-
 In most cases, the simple geometric mean for each species-trait combination fell within the posterior estimations from our models (Fig. \ref{figure:TraitDistributions}). There were a limited number of species in the height model were the simple geometric mean fell outside of predicted species species means after accounting for the effect of study, for example \textit{Quercus ilex}, \textit{Quercus petraea}, \textit{Quercus coccifera}, and \textit{Aesculus hippocastanum}.
 
 
 %Our four trait models predicted most species cue responses to be negative, indicating that the average effect of forcing, chilling, and photoperiod cues were to advance budburst date. The exceptions to this were the photoperiod estimates from our height and SLA models, both of which showed a small positive or delaying effect, but considerable variation in the estimated value due to species level differences. The absolute effect of species cue responses was generally greatest for forcing cues, except in our models of LNC, for which chilling cues had the largest absolute response. Photoperiod cues had the smallest cues responses in three of our models, except for our model of tree height, in which the absolute effect of chilling was less than that of photoperiod. The effect of traits on cue responses were all negative and were greatest for forcing and chilling, while the effects of photoperiod cues were weaker across all our models. \\
-
-The trait model fits well, the geometric means are the same...
 
 \begin{figure}[h!]
     \centering
@@ -226,37 +215,31 @@ The trait model fits well, the geometric means are the same...
     \label{figure:TraitDistributions}
 \end{figure}
 
-In our model for SLA, we found all three cue responses to be affected by SLA , but the strongest effects from forcing and chilling cues. Including the effect of SLA had a complimentary effect on the species slopes, causing them to become more negative. With the exception of photoperiod responses, this resulted in the slopes of high and low SLA species to become more similar. \\
--neg relationship between SLA and cue responses for forcing and chilling - btraitx = XXX, when we include the trait value in our model we see the slopes become more negative, high SLA sp that are more conservative do have more extreme/negative cue responses than the low sla spp (new sm fig)
-- avoid causality, more linking -- affected
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait.pdf} 
+    \caption{Trait relationships with cue slopes}
+    \label{fig:cuetraits}
+\end{figure}
 
-1. We found that as SLA increased, responses to each cue generally became more negative.
-2. tell reader what the btraitvalue is - negative with 90\% credible interval
-3. Describele the panel, including the trait value moves the slopes in x direction
-4. The relationship in the new beta vs grand_mean plot
+We found that as SLA increased, responses to each cue generally became more negative. Chilling had the largest trait slope in response to SLA at -9.3 (90\% uncertainty interval: -17.9, -18.1), followed by the forcing slope at -7.8 (90\% uncertainty interval: -14.5, -10.5), the photoperiod slope at -2.0 (90\% uncertainty interval: -11.1, -11.6). At hight SLA values, such as those of leaves from \textit{Fagus grandifolia}, this negative trait effect produces a more negative slope in the full model relative to the slope when the trait effect is set to zero. There is a much smaller difference in the slopes of species that produces leaves with low SLA, such as \textit{Quercus ilex} \ref{fig:sla}. The relatively small trait effect of photoperiod is reflected in the smaller difference in the slopes between the full model and the cue only model \ref{fig:sla}. Furthermore, the relationship between trait effects and estimated model slopes was negative for each of the cues, indicating that larger trait values are correlated with more negative slope estimates \ref{fig:cuetraits}. 
+
+In modeling relationship between species height and cue responses, we found that as tree height increased cue responses became more negative. Chilling had the largest trait slope in response to height at -9.6 (90\% uncertainty interval: -14.6, -20.8), followed by the forcing slope at -7.5 (90\% uncertainty interval: -12.1, -10.7), the photoperiod slope at -2.3 (90\% uncertainty interval: -7.8, -12.4). This means that the estimated slopes for a tall tree, such as \textit{Acer pseudoplantanus}, could change from having a positive slope when the trait effect is zero, to having a negative slope in response to chilling and forcing cues. The change in slope in response to photoperiod is follows a similar trend, becoming more negative when the trait effect is included, but is more moderate in magnitude. In general, taller tree species, for which there is a greater estimated trait effect,  also have more negative estimated slopes for each of the three cues \ref{fig:cuetraits}. 
+
+In our model of LNC, we found species that produce leaves with hight LNC also had increasingly negative cue responses. Chilling had the largest trait slope in response to LNC at -9.6 (90\% uncertainty interval: -16, -19.1), followed by the forcing slope at -8.1 (90\% uncertainty interval: -12.9, -10.7), the photoperiod slope at -1.7 (90\% uncertainty interval: -8.2, -12.3). Species like \textit{Alnus glutinosa} that have high LNC would have a more negative slope in response to increasing forcing and chilling cues, while species with low LNC like \textit{Quercus ilex} experience a much smaller decrease in their slopes. The model estimated trait effect of LNC for photoperiod is relatively negligible, producing no noticeable differences between the cue only slopes and full model slope.  The effects of LNC and estimated model slopes were negatively correlated for each of the cues, indicating that species with higher LNC have a stronger negative response to increasing cues \ref{fig:cuetraits}. 
+
+Finally, we found that species with increasingly large seeds also had more negative responses to cues when trait effects were incorporated. Chilling had the largest trait slope in response to seed mass at -10 (90\% uncertainty interval: -15.3, -19.4), followed by the forcing slope at -8 (90\% uncertainty interval: -12.2, -10.3), the photoperiod slope at -2.2 (90\% uncertainty interval: -7.9, -12.2). Our model estimates for the model cue slopes were all negative, however, given the nature of the log10 transformation of the seed mass data, the modelled response has a positive slope for species with large seeds. This is shown for \textit{Aesculus hippocastanum} in \ref{fig:mdlresp}, where we found the negative effect of seed mass to make the slopes more negative for each of the cues. The magnitude of the differences between the cue only slopes and full model slopes are much greater for forcing and chilling cues and relatively moderate for photoperiod. As we observed for the other traits, species with larger seeds had larger trail effects, which were again negatively correlated with the estimates cue slopes \ref{fig:cuetraits}
 %In line with our our prediction, the high SLA species had earlier budburst dates than the low SLA species.\\
 
-When the betatrait value overlapped with zero - so there is no strong trend
+Geoff : "Overall, we found that conservative species, which generally had high traits values for SLA, Height, etc., shifted their phenology more and earlier in response to forcing, chilling, and photoperiod, than acquisitive species with low trait values. This responsiveness is linked to later budbursting - earlier sp have lower slopes bc they require less cues in general, having a lower intercept"
 
-Seed mass - log 10 
 
-Geoff Legault11:40 AM
-"We found that as SLA increased, responses to each cue generally became more negative."
-For example...at low SLA values...this would happen at high SLA this would happen 
-
-Overall, we found that conservative species, which generally had high traits values for SLA, Height, etc., shifted their phenology more and earlier in response to forcing, chilling, and photoperiod, than acquisitive species with low trait values. This responsiveness is linked to later budbursting - earlier sp have lower slopes bc they require less cues in general, having a lower intercept
-
-- but bc phenolgoy is intercept + slope *Force etc this doesn't mean....
-
-Cue slopes varied from this value to that
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_sla_37spp_ac.pdf} 
     \caption{Estimated cue responses for acquisitive and conservative spp.}
-    \label{sla}
+    \label{fig:sla}
 \end{figure}
-
-The effects of height on cue responses were complimentary for all three cues, resulting in more negative slopes and advances in budburst. The magnitude of these effects were greatest for forcing and chilling cues. As we predicted, taller trees associated with a more conservative growth strategy had later budburst than shorter more acquisitive species.\\
 
 \begin{figure}[h!]
     \centering
@@ -264,8 +247,6 @@ The effects of height on cue responses were complimentary for all three cues, re
     \caption{Estimated cue responses for acquisitive and conservative spp.}
     \label{height}
 \end{figure}
-
-The effect of LNC on cue responses were complimentary, resulting in a more negative slopes for chilling and forcing cues. However, no considerable relationship was observed between LNC and photoperiod. As we predicted, species with high LNC values budburst earlier than species with low LNC. 
 
 \begin{figure}[h!]
     \centering
