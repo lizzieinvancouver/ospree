@@ -23,11 +23,11 @@ if(length(grep("deirdreloughnan", getwd())>0)) {
     	setwd("/home/faith/Documents/github/ospree/analyses/traits") 
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
-traits <- c("SLA", "Height", "LNC", "SeedMass_log10")
 	filePathData <- "output/"
 traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 #Make a dataframe for saving traiit estimates for results section
+traits <- c("Height", "LNC", "SeedMass_log10", "SLA")
 traitsDF <- data.frame(matrix(NA, 4,18))
 names(traitsDF) <- c("Trait", "GrandMean", "GrandMean_upper", "GrandMean_lower", 
 	"SpeciesSigma",  "SpeciesSigma_upper", "SpeciesSigma_lower", 
@@ -68,9 +68,6 @@ for(traiti in 1:length(traitModelNames)){
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
 	traitName <- gsub("_stanfit_37spp.RDS", "", traitModelNames[traiti])
 	slaModelFit <- rstan::extract(slaModel)
-	data.frame(summary(slaModel))
-
-
 
 	#sensible cue values
 	#-------------------------------------
@@ -135,7 +132,7 @@ for(traiti in 1:length(traitModelNames)){
 	#Trait data 
 	#--------------
 #traiti <- "SeedMass_log10_stanfit.RDS"
-	# traiti <- 1
+	# traiti <- 3
 	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
@@ -185,6 +182,26 @@ for(traiti in 1:length(traitModelNames)){
                          	linetype = c(NA, NA, NA),
                          	shape = c(19, 20, 8)))) + 
 	  			theme(legend.title = element_blank())
+	} else if(traitName == "height"){
+	  mcmc_intervals(mu_grandDf)+
+	    theme_classic() + 
+	    theme(text = element_text(size=20))+
+	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
+	  
+		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
+				theme_classic() +  
+				theme(text = element_text(size=16))+
+	  		geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
+	  		labs(title = "Height (m)", y = "Species", x ="Trait Value")+ 
+	  		scale_color_identity(name = "Model fit",
+                          breaks = c("black", "red", "purple"),
+                          labels = c("Model Posterior", "Raw Data", "Data Mean"),
+                          guide = guide_legend(override.aes = list(
+                         	linetype = c(NA, NA, NA),
+                         	shape = c(19, 20, 8)))) + 
+	  		theme(legend.title = element_blank())
 	} else {
 	  mcmc_intervals(mu_grandDf)+
 	    theme_classic() + 
@@ -222,6 +239,8 @@ for(traiti in 1:length(traitModelNames)){
 
 	  #Get Trait Model output for the results section. 
 
+	  
+
 		#Mean trait value
 	  	traitsDF$GrandMean[traiti] <- mean(slaModelFit$mu_grand)
 		#Uncertainty around mu grand
@@ -229,16 +248,16 @@ for(traiti in 1:length(traitModelNames)){
 		traitsDF$GrandMean_lower[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[1]
 
 		#speciesSigma
-		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$muSp)
+		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$sigma_sp)
 		#Uncertainty around speciesSigma
-		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[2]
-		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muSp) , prob=0.90 )[1]
+		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[2]
+		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[1]
 
 		#studySigma
-		traitsDF$StudySigma[traiti] <- mean(slaModelFit$muStudy)
+		traitsDF$StudySigma[traiti] <- mean(slaModelFit$sigma_study)
 		#Uncertainty around studySigma
-		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[2]
-		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$muStudy) , prob=0.90 )[1]
+		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[2]
+		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[1]
 
 
 
@@ -259,6 +278,10 @@ for(traiti in 1:length(traitModelNames)){
         #Uncertainty around max species
 		traitsDF$MinValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[2]
 		traitsDF$MinValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[1]
+
+
+
+
 
 
 	
