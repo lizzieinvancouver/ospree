@@ -203,6 +203,8 @@ y & \sim MVN(\mu, S)
 
 Our model estimated most mean trait values to be close to the simple geometric mean across the data. However, there were some cases were the effect of study was influential (Fig 2). This lead to differences between the simple geometric means and the species trait estimates without the effect of study (Fig 2).  Our four trait models predicted most species cue responses to be negative, indicating that the average effect of forcing, chilling, and photoperiod cues were to advance budburst date. The exceptions to this were the photoperiod estimates from our height and SLA models, both of which showed a small positive or delaying effect, but considerable variation in the estimated value due to species level differences. The absolute effect of species cue responses was generally greatest for forcing cues, except in our models of LNC, for which chilling cues had the largest absolute response. Photoperiod cues had the smallest cues responses in three of our models, except for our model of tree height, in which the absolute effect of chilling was less than that of photoperiod. The effect of traits on cue responses were all negative and were greatest for forcing and chilling, while the effects of photoperiod cues were weaker across all our models. \\
 
+The trait model fits well, the geometric means are the same...
+
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp.png} 
@@ -210,8 +212,29 @@ Our model estimated most mean trait values to be close to the simple geometric m
     \label{fig2}
 \end{figure}
 
-In our model for SLA, we found all three cue responses to be affected by SLA , but the strongest effects from forcing and chilling cues. Including the effect of SLA had a complimentary effect on the species slopes, causing them to become more negative. With the exception of photoperiod responses, this resulted in the slopes of high and low SLA species to become more similar. In line with our our prediction, the high SLA species had earlier budburst dates than the low SLA species.\\
+In our model for SLA, we found all three cue responses to be affected by SLA , but the strongest effects from forcing and chilling cues. Including the effect of SLA had a complimentary effect on the species slopes, causing them to become more negative. With the exception of photoperiod responses, this resulted in the slopes of high and low SLA species to become more similar. \\
+-neg relationship between SLA and cue responses for forcing and chilling - btraitx = XXX, when we include the trait value in our model we see the slopes become more negative, high SLA sp that are more conservative do have more extreme/negative cue responses than the low sla spp (new sm fig)
+- avoid causality, more linking -- affected
 
+1. We found that as SLA increased, responses to each cue generally became more negative.
+2. tell reader what the btraitvalue is - negative with 90\% credible interval
+3. Describele the panel, including the trait value moves the slopes in x direction
+4. The relationship in the new beta vs grand_mean plot
+%In line with our our prediction, the high SLA species had earlier budburst dates than the low SLA species.\\
+
+When the betatrait value overlapped with zero - so there is no strong trend
+
+Seed mass - log 10 
+
+Geoff Legault11:40 AM
+"We found that as SLA increased, responses to each cue generally became more negative."
+For example...at low SLA values...this would happen at high SLA this would happen 
+
+Overall, we found that conservative species, which generally had high traits values for SLA, Height, etc., shifted their phenology more and earlier in response to forcing, chilling, and photoperiod, than acquisitive species with low trait values. This responsiveness is linked to later budbursting - earlier sp have lower slopes bc they require less cues in general, having a lower intercept
+
+- but bc phenolgoy is intercept + slope *Force etc this doesn't mean....
+
+Cue slopes varied from this value to that
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/results_sla_37spp_ac.pdf} 
@@ -250,6 +273,8 @@ PGLS suggests there are no strong phylogenetic effects for most of our cue trait
 
 \section{Discussion}
 
+Discuss the DF paper again 
+
 \begin{itemize}
 \item What do our results suggest for the relationship between cue use and traits? 
 - Species responses to forcing, chilling, and photoperiod cues are influenced by species functional traits. 
@@ -258,10 +283,13 @@ PGLS suggests there are no strong phylogenetic effects for most of our cue trait
 	\item Do we find relationships between cues and traits?
 	- yes, with the exception of LNC and photoperiod, all traits had an effect of the response of species to cues
 	\item Do these trends agree with an acquisitive/conservative tradeoff?
-	- yes, with the exception of seed mass, species with traits associated with acquisitive growth strategies 
+	- yes, with the exception of seed mass, species with traits associated with acquisitive growth strategies did budburst earlier
 	\end{itemize}
 \item How do our results relate to previous studies? 
+        Huang et al. 2018 - found several growth strategies - all combinations of early- fast, early-slow, late-fast etc - but looked at flowering
+        Osada 2017 - bb later for sp with greater LMA, thickness, Narea – driven by differences across deciduous and evergreen spp; 	Deciduous alone: bb positively correlated with leaf mass, area, vessel diam in cross spp comparisons
 \item What do our results suggest for the bigger picture?
+Sun, S., D. Jin, and R. Li. 2006. LMA neg correl with leafout; larger LMA = earlier
 	\begin{itemize}
 	\item How might traits constrain/facilitate future shifts in phenology?
 	- our findings do partially (maybe not LNC and Seedmass) support the idea that phenology is an important functional trait
@@ -270,7 +298,7 @@ PGLS suggests there are no strong phylogenetic effects for most of our cue trait
 	\item Relate our results to invasion success 
 	\end{itemize}
 
-\item Limitations
+\item Limitations/strengths?
 	\begin{itemize}
 	\item we assume stronger cues mean earlier bb but really it's more complicated than this
 	\item broad approach means lose detail and compromise - traits come from different populations to the phenology data
