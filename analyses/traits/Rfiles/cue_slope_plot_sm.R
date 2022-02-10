@@ -94,7 +94,7 @@ files
   betaTraitxForceMean <- colMeans(betaTraitxForce)
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
-pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
+pdf(paste("figures/cue", "trait_wtrend", ".pdf", sep = ""), height = 16, width = 12)
   par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
   plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = "Species level forcing slope", xlab = "Estimated trait effect", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
@@ -115,10 +115,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Height, Forcing", adj = 0, cex = 1.25)
-  # for(j in 1:length(muForceSp[,1])){
-  #   abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
-  # }
-  # abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  for(j in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
   #dev.off()
   #------------------------------------------------------------------------------#
   betaChillSp <- data.frame(ModelFit$betaChillSp)
@@ -158,10 +158,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Height, Chilling", adj = 0, cex = 1.25)
-  # for(j in 1:length(muChillSp[,1])){
-  #   abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
-  # }
-  # abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  for(j in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
   #dev.off()
   #------------------------------------------------------------------------------#
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
@@ -201,11 +201,11 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Height, Photoperiod", adj = 0, cex = 1.25)
-  # for(j in 1:length(muPhotoSp[,1])){
-  #   abline(a = muPhotoSp[i,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
-  # }
-  # abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
-
+  for(j in 1:length(muPhotoSp[,1])){
+    abline(a = muPhotoSp[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+ 
   ####################
   # LNC
   Model <- readRDS(paste("output/", files[2], sep = ""))
@@ -264,6 +264,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "LNC, Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
   
   betaChillSp <- data.frame(ModelFit$betaChillSp)
   betaChillSpMean <- colMeans(betaChillSp)
@@ -300,7 +304,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "LNC, Chilling", adj = 0, cex = 1.25)
-
+  for(j in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
   
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -338,7 +345,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "LNC, Photoperiod", adj = 0, cex = 1.25)
-
+  for(j in 1:length(muPhotoSp[,1])){
+    abline(a = muPhotoSp[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
   ####################
   # Seed mass
   Model <- readRDS(paste("output/", files[3], sep = ""))
@@ -397,6 +407,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Seed mass, Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
   
   betaChillSp <- data.frame(ModelFit$betaChillSp)
   betaChillSpMean <- colMeans(betaChillSp)
@@ -433,7 +447,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Seed mass, Chilling", adj = 0, cex = 1.25)
-
+  for(j in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
   
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -471,7 +488,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "Seed mass, Photoperiod", adj = 0, cex = 1.25)  
-  
+  for(j in 1:length(muPhotoSp[,1])){
+    abline(a = muPhotoSp[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
 ###############################################
   # SLA
   Model <- readRDS(paste("output/", files[4], sep = ""))
@@ -530,6 +550,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "SLA, Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(muForceSp[,1])){
+    abline(a = muForceSp[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
   
   betaChillSp <- data.frame(ModelFit$betaChillSp)
   betaChillSpMean <- colMeans(betaChillSp)
@@ -566,7 +590,10 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "SLA, Chilling", adj = 0, cex = 1.25)
-  
+  for(j in 1:length(muChillSp[,1])){
+    abline(a = muChillSp[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
   
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -604,5 +631,8 @@ pdf(paste("figures/cue", "trait", ".pdf", sep = ""), height = 16, width = 12)
     length = 0
   )
   mtext(side = 3, text = "SLA, Photoperiod", adj = 0, cex = 1.25)
-  
+  for(j in 1:length(muPhotoSp[,1])){
+    abline(a = muPhotoSp[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
   dev.off()
