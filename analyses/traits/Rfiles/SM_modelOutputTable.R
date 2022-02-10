@@ -91,3 +91,89 @@ rownames(esti) =c("Grand trait mean",
                   betaChillSpname,
                   betaPhotoSpname
 )
+
+
+###################################
+# calculating the 90% intervals for the slopes
+# HPDI95 <- function(x){
+#   #Thsi function used teh UPDI functtion from the rethingink package 
+#   xhpdi <- HPDI(x, prob = 0.90)
+#   return(xhpdi)
+# }
+files <- list.files(path = "output", pattern ="_37spp.RDS" )
+files
+
+htModel <- readRDS(paste("output/", "Height_stanfit_37spp.RDS", sep = ""))
+htModelFit <- rstan::extract(htModel)
+
+htBFSpMean <- round(mean(htModelFit$betaForceSp),1)
+lower_htBFSpMean <- round(HPDI(data.frame(htModelFit$betaForceSp), prob = 0.90)[1],1)
+upper_htBFSpMean <- round(HPDI(data.frame(htModelFit$betaForceSp), prob = 0.90)[2],1)
+htBFSpMean; lower_htBFSpMean; upper_htBFSpMean
+
+htBCSpMean <- round(mean(htModelFit$betaChillSp),1)
+lower_htBCSpMean <- round(HPDI(data.frame(htModelFit$betaChillSp), prob = 0.90)[1],1)
+upper_htBCSpMean <- round(HPDI(data.frame(htModelFit$betaChillSp), prob = 0.90)[2],1)
+htBCSpMean; lower_htBCSpMean; upper_htBCSpMean
+
+htBPSpMean <- round(mean(htModelFit$betaPhotoSp),1)
+lower_htBPSpMean <- round(HPDI(data.frame(htModelFit$betaPhotoSp), prob = 0.90)[1],1)
+upper_htBPSpMean <- round(HPDI(data.frame(htModelFit$betaPhotoSp), prob = 0.90)[2],1)
+htBPSpMean; lower_htBPSpMean; upper_htBPSpMean
+
+##### SLA ###############################
+slaModel <- readRDS(paste("output/", "SLA_stanfit_37spp.RDS", sep = ""))
+slaModelFit <- rstan::extract(slaModel)
+
+slaBFSpMean <- round(mean(slaModelFit$betaForceSp),1)
+lower_slaBFSpMean <- round(HPDI(data.frame(slaModelFit$betaForceSp), prob = 0.90)[1],1)
+upper_slaBFSpMean <- round(HPDI(data.frame(slaModelFit$betaForceSp), prob = 0.90)[2],1)
+slaBFSpMean; lower_slaBFSpMean; upper_slaBFSpMean
+
+slaBCSpMean <- round(mean(slaModelFit$betaChillSp),1)
+lower_slaBCSpMean <- round(HPDI(data.frame(slaModelFit$betaChillSp), prob = 0.90)[1],1)
+upper_slaBCSpMean <- round(HPDI(data.frame(slaModelFit$betaChillSp), prob = 0.90)[2],1)
+slaBCSpMean; lower_slaBCSpMean; upper_slaBCSpMean
+
+slaBPSpMean <- round(mean(slaModelFit$betaPhotoSp),1)
+lower_slaBPSpMean <- round(HPDI(data.frame(slaModelFit$betaPhotoSp), prob = 0.90)[1],1)
+upper_slaBPSpMean <- round(HPDI(data.frame(slaModelFit$betaPhotoSp), prob = 0.90)[2],1)
+slaBPSpMean; lower_slaBPSpMean; upper_slaBPSpMean
+
+##### LNC ###############################
+lncModel <- readRDS(paste("output/", "LNC_stanfit_37spp.RDS", sep = ""))
+lncModelFit <- rstan::extract(lncModel)
+
+lncBFSpMean <- round(mean(lncModelFit$betaForceSp),1)
+lower_lncBFSpMean <- round(HPDI(data.frame(lncModelFit$betaForceSp), prob = 0.90)[1],1)
+upper_lncBFSpMean <- round(HPDI(data.frame(lncModelFit$betaForceSp), prob = 0.90)[2],1)
+lncBFSpMean; lower_lncBFSpMean; upper_lncBFSpMean
+
+lncBCSpMean <- round(mean(lncModelFit$betaChillSp),1)
+lower_lncBCSpMean <- round(HPDI(data.frame(lncModelFit$betaChillSp), prob = 0.90)[1],1)
+upper_lncBCSpMean <- round(HPDI(data.frame(lncModelFit$betaChillSp), prob = 0.90)[2],1)
+lncBCSpMean; lower_lncBCSpMean; upper_lncBCSpMean
+
+lncBPSpMean <- round(mean(lncModelFit$betaPhotoSp),1)
+lower_lncBPSpMean <- round(HPDI(data.frame(lncModelFit$betaPhotoSp), prob = 0.90)[1],1)
+upper_lncBPSpMean <- round(HPDI(data.frame(lncModelFit$betaPhotoSp), prob = 0.90)[2],1)
+lncBPSpMean; lower_lncBPSpMean; upper_lncBPSpMean
+
+##### seed mass  ###############################
+smModel <- readRDS(paste("output/", "SeedMass_log10_stanfit_37spp.RDS", sep = ""))
+smModelFit <- rstan::extract(smModel)
+
+smBFSpMean <- round(mean(smModelFit$betaForceSp),1)
+lower_smBFSpMean <- round(HPDI(data.frame(smModelFit$betaForceSp), prob = 0.90)[1],1)
+upper_smBFSpMean <- round(HPDI(data.frame(smModelFit$betaForceSp), prob = 0.90)[2],1)
+smBFSpMean; lower_smBFSpMean; upper_smBFSpMean
+
+smBCSpMean <- round(mean(smModelFit$betaChillSp),1)
+lower_smBCSpMean <- round(HPDI(data.frame(smModelFit$betaChillSp), prob = 0.90)[1],1)
+upper_smBCSpMean <- round(HPDI(data.frame(smModelFit$betaChillSp), prob = 0.90)[2],1)
+smBCSpMean; lower_smBCSpMean; upper_smBCSpMean
+
+smBPSpMean <- round(mean(smModelFit$betaPhotoSp),1)
+lower_smBPSpMean <- round(HPDI(data.frame(smModelFit$betaPhotoSp), prob = 0.90)[1],1)
+upper_smBPSpMean <- round(HPDI(data.frame(smModelFit$betaPhotoSp), prob = 0.90)[2],1)
+smBPSpMean; lower_smBPSpMean; upper_smBPSpMean
