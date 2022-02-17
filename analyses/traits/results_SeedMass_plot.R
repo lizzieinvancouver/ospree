@@ -1,37 +1,37 @@
-
-## Load libraries
-library(rstan)
-require(shinystan)
-library(hdrcde) ## better quantiles
-
-## Set seed
-set.seed(202109)
-
-# Specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- FALSE
-
-if(MidgeFlag == TRUE){
-    traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-    traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-    ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
-    posterior <- extract(readRDS(file = "../../data/Ospree_traits/SeedMass_log10_stanfit.RDS"))
-} else{
-    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-    ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", stringsAsFactors = FALSE, header = TRUE)
+# 
+# ## Load libraries
+# library(rstan)
+# require(shinystan)
+# library(hdrcde) ## better quantiles
+# 
+# ## Set seed
+# set.seed(202109)
+# 
+# # Specify if this code should be run on Midge or on your own computer.
+# MidgeFlag <- FALSE
+# 
+# if(MidgeFlag == TRUE){
+#     traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+#     traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+#     ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
+#     posterior <- extract(readRDS(file = "../../data/Ospree_traits/SeedMass_log10_stanfit.RDS"))
+# } else{
+#     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+#     traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+#     ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", stringsAsFactors = FALSE, header = TRUE)
     posterior <- extract(readRDS(file = "output/SeedMass_log10_stanfit_37spp.RDS"))
-    posteriorOld <- extract(readRDS(file = "output/SeedMass_log10_stanfit.RDS"))
-    
-}
-
-traitsData <- rbind(traitsData1,traitsData2)
-
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
-
-# traitors.26 <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
-
-# Subset data to traitors species list
-traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
+#     posteriorOld <- extract(readRDS(file = "output/SeedMass_log10_stanfit.RDS"))
+#     
+# }
+# 
+# traitsData <- rbind(traitsData1,traitsData2)
+# 
+# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+# 
+# # traitors.26 <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+# 
+# # Subset data to traitors species list
+# traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 
 # Seed mass trait only
 seedData <- traitsData[traitsData$traitname == "seed mass",]
@@ -41,7 +41,7 @@ ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
-ospreeData.26 <- subset(ospree, ospree$speciesname %in% traitors.26)
+#ospreeData.26 <- subset(ospree, ospree$speciesname %in% traitors.26)
 
 # Exclude 12_bien as a study due to one data point
 aggregate(seedData$traitvalue, by = list(seedData$datasetid), FUN = length) # check
@@ -62,13 +62,13 @@ betaTraitForceeff <- mean(posterior$betaTraitxForce) #-1.306722
 betaTraitChilleff <- mean(posterior$betaTraitxChill) #-2.57087
 betaTraitPhotoeff <- mean(posterior$betaTraitxPhoto) # -0.6908688
 
-forceeff.26 <- apply(posteriorOld$betaForceSp, MARGIN = 2, FUN = mean)
-chilleff.26 <- apply(posteriorOld$betaChillSp, MARGIN = 2, FUN = mean)
-photoeff.26 <- apply(posteriorOld$betaPhotoSp, MARGIN = 2, FUN = mean)
-mugrandeff.26 <- apply(posteriorOld$mu_grand_sp, MARGIN = 2, FUN = mean)
-betaTraitForceeff.26 <- mean(posteriorOld$betaTraitxForce) #-1.799758
-betaTraitChilleff.26 <- mean(posteriorOld$betaTraitxChill) #-3.269759
-betaTraitPhotoeff.26 <- mean(posteriorOld$betaTraitxPhoto) #-0.6908688
+# forceeff.26 <- apply(posteriorOld$betaForceSp, MARGIN = 2, FUN = mean)
+# chilleff.26 <- apply(posteriorOld$betaChillSp, MARGIN = 2, FUN = mean)
+# photoeff.26 <- apply(posteriorOld$betaPhotoSp, MARGIN = 2, FUN = mean)
+# mugrandeff.26 <- apply(posteriorOld$mu_grand_sp, MARGIN = 2, FUN = mean)
+# betaTraitForceeff.26 <- mean(posteriorOld$betaTraitxForce) #-1.799758
+# betaTraitChilleff.26 <- mean(posteriorOld$betaTraitxChill) #-3.269759
+# betaTraitPhotoeff.26 <- mean(posteriorOld$betaTraitxPhoto) #-0.6908688
 
 ## Species to plot and other plotting parameters
 plot.sp <- c("Populus_tremula", "Aesculus_hippocastanum")
@@ -76,10 +76,10 @@ col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 
 col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
 col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
 
-pdf(file = "figures/results_seedmass_forcing_37spp_ac.pdf", width = 7, height = 6)
+#pdf(file = "figures/results_seedmass_37spp_ac.pdf", width = 15, height = 5)
 ## Plotting
 ### Forcing
-par(mar = c(5, 5, 2, 2))
+#par(mar = c(5, 5, 2, 2), mfrow = c(1,3))
 xrange <- seq(-2.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-30, 90),
      xlab = "Forcing (z-scored)", ylab = "Day of phenological event",
@@ -112,17 +112,17 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
-                             expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+# legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
+#                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+# dev.off()
 
-pdf(file = "figures/results_seedmass_chilling_37spp_ac.pdf", width = 7, height = 6)
+#pdf(file = "figures/results_seedmass_chilling_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Chilling
-par(mar = c(5, 5, 2, 2))
+# par(mar = c(5, 5, 2, 2))
 xrange <- seq(-2, 5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-30, 90),
      xlab = "Chilling (z-scored)", ylab = "Day of phenological event",
@@ -155,18 +155,18 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
-                             expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-                              expression(paste("Full model", "  (50% interval)"))),
-       col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+# legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
+#                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("Full model", "  (50% interval)"))),
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
+#dev.off()
 
 
-pdf(file = "figures/results_seedmass_photoperiod_37spp_ac.pdf", width = 7, height = 6)
+#pdf(file = "figures/results_seedmass_photoperiod_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Photoperiod
-par(mar = c(5, 5, 2, 2))
+#par(mar = c(5, 5, 2, 2))
 xrange <- seq(-1.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-30, 90),
      xlab = "Photoperiod (z-scored)", ylab = "Day of phenological event",
@@ -199,10 +199,10 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
+legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
                               expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-dev.off()
+       inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
+#dev.off()

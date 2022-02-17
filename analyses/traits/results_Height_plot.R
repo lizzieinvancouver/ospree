@@ -1,32 +1,32 @@
-
-## Load libraries
-library(rstan)
-require(shinystan)
-library(hdrcde) ## better quantiles
-
-## Set seed
-set.seed(202109)
-
-# Specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- FALSE
-
-if(MidgeFlag == TRUE){
-    traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-    traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-    ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
-    posterior <- extract(readRDS(file = "../../data/Ospree_traits/height_stanfit.RDS"))
-} else{
-    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-    ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
-    posterior <- extract(readRDS(file = "output/height_stanfit_37spp.RDS"))
-    posteriorOld <- extract(readRDS(file = "output/height_stanfit.RDS"))
-    
-}
-
-traitsData <- rbind(traitsData1,traitsData2)
-
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+# 
+# ## Load libraries
+# library(rstan)
+# require(shinystan)
+# library(hdrcde) ## better quantiles
+# 
+# ## Set seed
+# set.seed(202109)
+# 
+# # Specify if this code should be run on Midge or on your own computer.
+# MidgeFlag <- FALSE
+# 
+# if(MidgeFlag == TRUE){
+#     traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+#     traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+#     ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
+#     posterior <- extract(readRDS(file = "../../data/Ospree_traits/height_stanfit.RDS"))
+# } else{
+#     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+#     traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+#     ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
+     posterior <- rstan::extract(readRDS(file = "output/height_stanfit_37spp.RDS"))
+#     posteriorOld <- rstan::extract(readRDS(file = "output/height_stanfit.RDS"))
+#     
+# }
+# 
+# traitsData <- rbind(traitsData1,traitsData2)
+# 
+# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
 
 # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
@@ -34,7 +34,7 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","A
 traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 
 # HEIGHT trait only
-height <- traitsData[traitsData$traitname == "Plant_height_vegetative", ]
+# height <- traitsData[traitsData$traitname == "Plant_height_vegetative", ]
 
 ## Subsampling code from height_phenologycombined_DL.R
 #### Removing dups and resampling height #########################
@@ -83,13 +83,13 @@ betaTraitForceeff <- mean(posterior$betaTraitxForce) # -0.4194243
 betaTraitChilleff <- mean(posterior$betaTraitxChill) #-0.6746085
 betaTraitPhotoeff <- mean(posterior$betaTraitxPhoto) #-0.1920812
 
-forceeff.26 <- apply(posteriorOld$betaForceSp, MARGIN = 2, FUN = mean)
-chilleff.26 <- apply(posteriorOld$betaChillSp, MARGIN = 2, FUN = mean)
-photoeff.26 <- apply(posteriorOld$betaPhotoSp, MARGIN = 2, FUN = mean)
-mugrandeff.26 <- apply(posteriorOld$mu_grand_sp, MARGIN = 2, FUN = mean)
-betaTraitForceeff.26 <- mean(posteriorOld$betaTraitxForce) # -0.3894519
-betaTraitChilleff.26 <- mean(posteriorOld$betaTraitxChill) #-0.5460526
-betaTraitPhotoeff.26 <- mean(posteriorOld$betaTraitxPhoto) #-0.2202021
+# forceeff.26 <- apply(posteriorOld$betaForceSp, MARGIN = 2, FUN = mean)
+# chilleff.26 <- apply(posteriorOld$betaChillSp, MARGIN = 2, FUN = mean)
+# photoeff.26 <- apply(posteriorOld$betaPhotoSp, MARGIN = 2, FUN = mean)
+# mugrandeff.26 <- apply(posteriorOld$mu_grand_sp, MARGIN = 2, FUN = mean)
+# betaTraitForceeff.26 <- mean(posteriorOld$betaTraitxForce) # -0.3894519
+# betaTraitChilleff.26 <- mean(posteriorOld$betaTraitxChill) #-0.5460526
+# betaTraitPhotoeff.26 <- mean(posteriorOld$betaTraitxPhoto) #-0.2202021
 
 ## Species to plot and other plotting parameters
 plot.sp <- c("Corylus_avellana", "Acer_pseudoplatanus") 
@@ -97,10 +97,10 @@ col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 
 col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
 col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
 
-pdf(file = "figures/results_height_37spp_ac.pdf", width = 15, height = 5)
-## Plotting
-### Forcing
-par(mar = c(5, 5, 2, 2), mfrow=c(1,3))
+# pdf(file = "figures/results_height_37spp_ac.pdf", width = 15, height = 5)
+# ## Plotting
+# ### Forcing
+# par(mar = c(5, 5, 2, 2), mfrow=c(1,3))
 xrange <- seq(-2.5, 2.5, by = 0.25)
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
      xlab = "Forcing (z-scored)", ylab = "Day of phenological event",
@@ -227,5 +227,5 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-       inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.25, bty = "n")
-dev.off()
+       inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
+# dev.off()
