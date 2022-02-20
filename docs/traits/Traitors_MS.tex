@@ -186,7 +186,6 @@ Forcing, chilling, and photoperiod ($F_k$, $C_k$, $P_k$) were z-scored to accoun
 Finally, we used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orne2013}. \\
 
 \section{Results}
-% I think there are two ways to structure the results - discuss each cue separately or discuss each trait separately - I think each trait is easier and fits our hypotheses better
 
 We estimated mean height as 14m (90\% credible interval: 11m, 17m). Species height values were distributed with a standard deviation  of 6 (90\% credible interval: 5m, 7m), and study height values were distributed with a standard deviation of 7m (90\% credible interval: 6m, 9m). The highest estimated mean species height estimate in our dataset was 26m (90\% credible interval: 22m,29m) for \textit{Quercus petraea}, and the lowest estimated mean height value was 0.7m (90\% credible interval: -2m,4m) for \textit{Rhamnus cathartica}. 
 
@@ -240,17 +239,16 @@ Finally, we found that species with increasingly large seeds also had more negat
     \label{fig:slopes}
 \end{figure}
 
-%need to redo the pgls analysis
 PGLS suggests there are no strong phylogenetic effects for most of our cue trait relationships, with the exception of the relationships between our traits and chilling responses and between hight and seed mass and forcing cues (SM tableX). This suggests there is a phylogenetic effect influencing the cue response of species for these traits, but given the complexity of our model we were not able to fully incorporate these phylogenetic effects into our current analysis. 
 
 \section{Discussion}
 
-We found that functional traits of all species did influence their responses to phenological cues, suggesting that phenology does correlate with other functional traits and may also follow existing trade-offs in species growth strategies and competitiveness. These findings are in agreement with previous work that has shown
+We found that the functional traits of our assemblage of woody plant species did influence their responses to phenological cues. Overall, we found that hight trait values shifted phenology more and earlier in response to forcing, chilling, and photoperiod, than low trait values. This responsiveness is linked to later budbursting, as the slopes with species trait responses were in line with our predictions. Species associated with having acquisitive growth strategies, had stronger slopes and high trait values for SLA and LNC, but weaker slopes for seed mass and height \ref{fig:slopes}. Conversely, the traits of species associated with conservative growth strategies had weak slopes SLA and LNC as predicted, but stronger slopes for height and seed mass, which are traits that infer a competitive advantage. These correlations and model estimates suggests that phenology follows existing trade-offs in species growth strategies and competitiveness. These findings are in agreement with previous work that has shown...
+
 
 Discuss the DF paper again 
 
 Geoff : "Overall, we found that conservative species, which generally had high traits values for SLA, Height, etc., shifted their phenology more and earlier in response to forcing, chilling, and photoperiod, than acquisitive species with low trait values. This responsiveness is linked to later budbursting - earlier sp have lower slopes bc they require less cues in general, having a lower intercept"
-
 
 \begin{itemize}
 \item What do our results suggest for the relationship between cue use and traits? 
@@ -258,9 +256,9 @@ Geoff : "Overall, we found that conservative species, which generally had high t
 - generally in line with previous studies of phenological cues, cue responses were all negative leading to strong advances in bb date 
 	\begin{itemize}
 	\item Do we find relationships between cues and traits?
-	- yes, with the exception of LNC and photoperiod, all traits had an effect of the response of species to cues
+	- yes, with the exception of LNC and photoperiod being pretty weak, all traits had an effect of the response of species to cues
 	\item Do these trends agree with an acquisitive/conservative tradeoff?
-	- yes, with the exception of seed mass, species with traits associated with acquisitive growth strategies did budburst earlier
+	- yes, species with traits associated with acquisitive growth strategies did budburst earlier
 	\end{itemize}
 \item How do our results relate to previous studies? 
         Huang et al. 2018 - found several growth strategies - all combinations of early- fast, early-slow, late-fast etc - but looked at flowering
@@ -269,7 +267,7 @@ Geoff : "Overall, we found that conservative species, which generally had high t
 Sun, S., D. Jin, and R. Li. 2006. LMA neg correl with leafout; larger LMA = earlier
 	\begin{itemize}
 	\item How might traits constrain/facilitate future shifts in phenology?
-	- our findings do partially (maybe not LNC and Seedmass) support the idea that phenology is an important functional trait
+	- our findings do support the idea that phenology is an important functional trait
 	\item How might ecosystem functioning shift if species track temperature? How to our results relate to seasonality and frost risk?
 	\item What does it mean if more competitive/invasive species respond to warming and start bb earlier - outcompete species and lead to compressed temporal niche?
 	\item Relate our results to invasion success 
@@ -285,6 +283,7 @@ Sun, S., D. Jin, and R. Li. 2006. LMA neg correl with leafout; larger LMA = earl
 	\end{itemize}
 \end{itemize}
 
+The trait data used in this experiment was collected independently of the phenological cue experiments, from individuals in diverse ecosystems and community contexts. While this limits our ability to understand the relationships between cue use and traits at the population and individual level, our approach allowed us to test for general trends that scale across populations and can inform future more fine scale research. 
 
 \pagebreak
 \bibliographystyle{refs/bibstyles/amnat.bst}% 
