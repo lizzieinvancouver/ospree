@@ -313,6 +313,7 @@ if(runStan == TRUE){
                       iter = itterNumber,
                       warmup = warmupNumber,
                       chains = 4,
+                      cores = 4,
                       include = FALSE, pars = c("y_hat"))
 
 	save(mdl.traitphen, file = "Rfiles/phenologyMeanTrait_sim_posF.RData")
