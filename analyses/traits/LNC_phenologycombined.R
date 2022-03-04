@@ -2,6 +2,8 @@
 ## Load libraries
 library(rstan)
 require(shinystan)
+library(ggplot2)
+library(bayesplot)# nice posterior check plots 
 
 ## Set number of cores
 options(mc.cores = 4)
@@ -10,19 +12,25 @@ options(mc.cores = 4)
 #set.seed(202109)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- TRUE
+MidgeFlag <- FALSE
 
 if (MidgeFlag == TRUE){
+   if(length(grep("faith", getwd()))>0) {
+    setwd("~/traits")
+  ospree <- read.csv("bbstan_allspp_utah_37spp.csv", header = TRUE)}
+
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+
+
 } else if(MidgeFlag == FALSE) {
-    if(length(grep("Lizzie", getwd()))>0)
-	setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
-        else {
-        setwd("boomboom/")
-        }
+    if(length(grep("Lizzie", getwd()))>0) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
+        }else if(length(grep("faith", getwd()))>0){ setwd("/home/faith/Documents/github/ospree/analyses/traits")
+        }else setwd("boomboom/")
+
 	traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 }
 
 traitsData <- rbind(traitsData1,traitsData2)
@@ -38,7 +46,7 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 lncData <- traitsData[traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass",]
 
 # Read Ospree data and subset
-ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
+#ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% unique(lncData$speciesname)) # note change here
 
@@ -68,12 +76,12 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  forcei = ospreeData$force.z,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
-                 prior_muForceSp_mu = 0,
-                 prior_muForceSp_sigma = 2,
-                 prior_muChillSp_mu = 0,
-                 prior_muChillSp_sigma = 2,
-                 prior_muPhotoSp_mu = 0,
-                 prior_muPhotoSp_sigma = 2,
+                 prior_muForceSp_mu = -15,
+                 prior_muForceSp_sigma = 10,
+                 prior_muChillSp_mu = -15,
+                 prior_muChillSp_sigma = 10,
+                 prior_muPhotoSp_mu = -15,
+                 prior_muPhotoSp_sigma = 10,
                  prior_muPhenoSp_mu = 40,
                  prior_muPhenoSp_sigma = 2,
                  prior_sigmaForceSp_mu = 5,
@@ -109,6 +117,9 @@ summary(mdl.traitphen)$summary[, "n_eff"]
 lnccues <- summary(mdl.traitphen)$summary[grep("beta", rownames(summary(mdl.traitphen)$summary)),]
 write.csv(lnccues, "output/lnccues.csv", row.names=TRUE)
 
+ postLNC <- extract(mdl.traitphen)
+ postLNCdf <- data.frame(postLNC)
+# 
 
 ### Add species and study names to Stan object
 names(mdl.traitphen)[grep(pattern = "^muSp", x = names(mdl.traitphen))] <- paste(specieslist, sep = "")
@@ -138,3 +149,17 @@ plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPh
 dev.off()
 
 saveRDS(object = mdl.traitphen, file = "LNC_stanfit_37spp.RDS")
+
+
+ cueEffects <- postLNCdf[,colnames(postLNCdf) %in% c("betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto")]
+# 
+   cueEffectPlot <- mcmc_intervals(cueEffects) + 
+     theme_classic() + 
+      labs(title = "main intercept, cue slopes and general error")
+
+hist( postLNC$muForceSp, main = paste("muForceSp is " , signif(mean( postLNC$muForceSp),3), sep = ""))
+       abline(v = mean( postLNC$muForceSp), col="red", lwd=3, lty=2)
+
+hist(postLNC$betaTraitxForce, main = paste("betaTraitxForce is " , signif(mean( postLNC$betaTraitxForce),3), sep = ""))
+       abline(v = mean( postLNC$betaTraitxForce), col="red", lwd=3, lty=2)
+
