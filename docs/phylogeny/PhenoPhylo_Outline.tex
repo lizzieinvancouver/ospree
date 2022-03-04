@@ -151,7 +151,7 @@ Forecasting remains a major challenge in ecology, especially as anthropogenic cl
 \item Or how the timing of many recurring life cycle events (phenology) is determined by a combination of temperature and light. 
 \end{enumerate}
 \end{comment}
-Decades of research show that plants use environmental cues to time their phenotypic responses with the temporal distribution of key resources and to avoid period of high abiotic or biotic stress \citep{larcher1980,Chuine2000}. Commonly, responses to environmental cues, and their evolution, are studied individually, assuming that a given phenotypic response is predominantly linked to a single cue: for example, that time of leafout is driven by summed heat during early spring \citep{Wolkovich:2012n,davies2013phylogenetic}. Such efforts ignore a more likely scenario for most phenotypic traits where multiple cues interacting along evolutionary history have shaped plant responses \citep{}. For example, species-level growth rates or plant height may be determined by the interaction among several cues---e.g. soil nutrients, water availability and light \citep{larcher1980}. Similarly, the timing of recurring life cycle events (phenology) is determined by a combination of temperature and light \citep{chuinearees}.\\
+Decades of research show that plants use environmental cues to time their phenotypic responses with the temporal distribution of key resources and to avoid periods of high abiotic or biotic stress \citep{larcher1980,Chuine2000}. Commonly, responses to environmental cues, and their evolution, are studied individually, assuming that a given phenotypic response is predominantly linked to a single cue: for example, that time of leafout is driven by summed heat during early spring \citep{Wolkovich:2012n,davies2013phylogenetic}. Such efforts ignore a more likely scenario for most phenotypic traits where multiple cues interacting along evolutionary history have shaped plant responses \citep{}. For example, species-level growth rates or plant height may be determined by the interaction among several cues---e.g. soil nutrients, water availability and light \citep{larcher1980}. Similarly, the timing of recurring life cycle events (phenology) is determined by a combination of temperature and light \citep{chuinearees}.\\
 
 \begin{comment}
 \item Phenology makes for an ideal study case of species' responses to interacting environmental cues.
@@ -163,7 +163,7 @@ Decades of research show that plants use environmental cues to time their phenot
  \end{enumerate}
 % My suggestion is a paragraph on a pheno by phylo, then one one on phylo methods (short), but you could have an additional paragraph on more pheno x phylo, see commented out chunk below
 \end{comment}
-Phenology may provide an ideal case study to gain insights on how species responses to interacting environmental cues have evolved because the basic cue system is well established \citep{chuinearees}. In temperate plants, phenology is generally determined by forcing---warm temperatures during the growing season, chilling---cool temperatures during dormancy period over winter, and photoperiod \citep{chuinearees}. Further, phenology is one of few phenotypic traits where decades of research provide multi-species experimental data on plant responses to these three major cues. Recent multi-species analyses considering forcing, chilling and photoperiod have shown that chilling and forcing together determine complex non-linear responses to warming \citep{flynn2018,ettinger2020}, complicating forecasting. Further, studies found remarkable variation across species in their responses to cues, raising the question of whether such variation is phylogenetically structured. If phylogenetically close species have evolved similar responses to cues it could facilitate forecasting to unmeasured species, and provide insights into how cues have evolved in the past. \\
+Phenology may provide an ideal case study to gain insights on how species responses to interacting environmental cues have evolved because the basic cue system is well established \citep{chuinearees}. In temperate plants, phenology is generally determined by forcing---warm temperatures during the growing season, chilling---cool temperatures during dormancy period over winter, and photoperiod \citep{chuinearees}. Further, phenology is one of few phenotypic traits where decades of research provide multi-species experimental data on plant responses to these three major cues. Recent multi-species analyses considering forcing, chilling and photoperiod have shown that chilling and forcing together determine complex non-linear responses to warming \citep{flynn2018,ettinger2020}, complicating forecasting. In addition, studies found remarkable variation across species in their responses to cues, raising the question of whether such variation is phylogenetically structured. If phylogenetically close species have evolved similar responses to cues it could facilitate forecasting to unmeasured species, and provide insights into how cues have evolved in the past. \\
 
 \begin{comment}
 \item Phenology x phylogeny quick review ...
@@ -249,7 +249,7 @@ We scraped data from all papers of woody species that tested for photoperiod and
 % XX add length(unique(datasetID)) from an OSPREE clean file (make sure it does not have strawberries). 
 % YY add length(unique(paste(datasetID, study)) from datafile you use in the end ... ditto for ZZ
 % Also, we need to publish an updated OSPREE dataset on KNB eventually.
-Across experiments chilling treatments were often fully or partially applied in the filed, thus we estimated field chilling ourselves using daily temperature data from ... [Cat and Nacho -- add here: Be sure to include updated info on our datasets and which chilling metric we used]. \citet{ospreebbms} provides additional details on these calculations (however, to have climate data through all our study years, we used a different climate dataset here for North America).\\ 
+Across experiments chilling treatments were often fully or partially applied in the field, thus we estimated field chilling ourselves using daily temperature data from ... [Cat and Nacho -- add here: Be sure to include updated info on our datasets and which chilling metric we used]. \citet{ospreebbms} provides additional details on these calculations (however, to have climate data through all our study years, we used a different climate dataset here for North America).\\ 
 % We could probably add species info above? If you want to contrast with bb ms: \citet{ospreebbms} had 39 years, and 203 species
 % Lizzie says ... this methods part feels a little short to me, but I think it may be all we need. (Maybe Ailene can eventually take a look to check what might be missing? But I think we can definitely wait for that until we have a full draft.)
 % IMC - I may need help from Cat about the latest chilling data sources, the metric and so on. It will be great to have Ailene double-checking this part.
@@ -273,12 +273,16 @@ We analyze 2 different subsets of species in the OSPREE database to explore diff
 \end{enumerate}
 \end{comment}
 
-We used the phylogenetic megatree for seed plant from \citet{smith2018constructing} to extract a subset phylogenetic tree containing only the species in the OSPREE dataset. We pruned the megatree to generate to sub-trees containing only the species in each subset of data. The species that were not present in the megatree were added as polytomies at the generic level (using the function \emph{congeneric.merge}; \citep{pearse2015pez}) with a branch length of zero. Polytomies represent XX\% of the full dataset. To test for their ability to bias results we run sensitivity analyses excluding these species from our models (which lead to XX angiosperms and ZZ gymnosperms; see Supporting Information). \\ 
+We used the phylogenetic megatree for seed plant from \citet{smith2018constructing} to extract a subset phylogenetic tree containing only the species in the OSPREE dataset \citep{wolkovich2019}. We pruned the megatree to generate to sub-trees containing only the species in each subset of data. The species that were not present in the megatree were added as polytomies at the generic level (using the function \emph{congeneric.merge}; \citep{pearse2015pez}) with a branch length of zero. Polytomies represent XX\% of the full dataset. To test for the ability of polytomies to bias our results we run sensitivity analyses excluding these species from models (which lead to XX angiosperms and ZZ gymnosperms; see Supporting Information). \\ 
 
 
 \subsection*{The Bayesian hierarchical phylogenetic model}
 
-In contrast to 
+Traditional phylogenetic regression methods, were originally conceived as a statistical correction for phylogenetic non-independence across observations ---i.e. species---, so that linear regression assumptions were not violated \citep{freckleton2002phylogenetic}. This correction incorporates phylogenetic structure in the regression by modifying the residual Variance-Covariance matrix to substitute off-diagonal elements of zero (under the assumption of independence across observations) for shared phylogenetic branch lengths representing pairwise covariances (under phylogenetic non-independece among observations). Off-diagonals may be allowed to include a multiplying parameter---i.e. the lambda parameter---which is a transformation indicating the amount of phylogenetic relatedness among species (see below). Because the aim was to correct for statistical nuance, the underlying assumption of phylogenetic regressions is that phylogenetic relatedness would only affect either model residuals in PGLS approaches \citep{freckleton2002phylogenetic} where model intercept does not vary across species, or to species intercepts in PMM approaches \citep{housworth2004phylogenetic}.\\ 
+% IMCmar04 - It would be great to have others (Lizzie, Jonathan and/or Will)reviewing this paragraph to double-check it is accurate
+
+Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure to model intercepts, slopes and residuals so that it is possible to estimate  relatedness in the sensitivities to each cue, when considered together.
+% IMCmar04 - starting to flesh out this bit. Needs work.
 
 %The following text is literally copied from Geoff's
 
@@ -348,6 +352,8 @@ The $\lambda$ in our models is analogous to, but not fully equivalent to Pagel's
 
 
 
+\begin{comment}
+% this is a legacy from an old version of the ms. I believe we agreed not to follow this path (of forecasting our models under Climate change). This bit will be removed in the next revision, just leaving it here for now in case someone wants to comment or have suggestions.
 
 \subsection*{Phylogeny in forecasts of phenology}
 This sections needs to be fleshed out, but first we need to think and decide how to proceed (or if we want to proceed at all):
@@ -359,6 +365,7 @@ This sections needs to be fleshed out, but first we need to think and decide how
 \item Are we predicting with and without phylogeny? I'm still not sure about how to do this.
 
 \end{enumerate}
+\end{comment}
 
 
 
