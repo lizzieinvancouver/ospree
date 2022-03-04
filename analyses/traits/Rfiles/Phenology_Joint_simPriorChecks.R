@@ -48,7 +48,7 @@ if(Midge == FALSE){
 
 Nrep <- 15 # rep per trait
 Nstudy <- 10 # number of studies w/ traits (10 seems a little low for early simulation code; remember that you are estimating a distribution of this the same as for species)
-Nspp <- 20 # number of species with traits (making this 20 just for speed for now)
+Nspp <- 20 # number of species 
 # note I changed this to 30 to match the pheno mdl
 
 # First making a data frame for the test trait data
@@ -208,6 +208,13 @@ plot(pheno.dat$alphaForceSp ~ pheno.dat$alphaTraitSp)
 #Cue effects
 betaTraitxForcePos<- 0.5
 
+#alpha value 
+muForceSp_posF <- -30
+sigmaForceSp_posF <- 4
+alphaForceSp_posF <- rnorm(n_spec, muForceSp_posF, sigmaForceSp_posF)
+pheno.dat$alphaForceSp_posF <- rep(alphaForceSp_posF, each = nRep)
+
+
 pheno.dat$betaForceSpPos<- NA
 
 for (iSp in 1:n_spec){
@@ -216,7 +223,7 @@ for (iSp in 1:n_spec){
 		#Select species data of interest 
 		
 		#Forcing
-    betaForceSp2 <- alphaForceSp[iSp] + betaTraitxForcePos * alphaTraitspFull[iSp]
+    betaForceSp2 <- alphaForceSp_posF[iSp] + betaTraitxForcePos * alphaTraitspFull[iSp]
     pheno.dat$betaForceSpPos[pheno.dat$species == iSp] <- betaForceSp2
     
     
@@ -239,8 +246,9 @@ head(pheno.dat)
 
 plot(pheno.dat$betaForceSpPos ~ pheno.dat$alphaTraitSp)
 
+pheno.dat[pheno.dat$species == 1,]
 
-
+plot(density(pheno.dat$yMu_posF))
 
 head(pheno.dat)
 
@@ -273,11 +281,11 @@ all.data <- list(yTraiti = trt.dat$alphaTraitspFull,
                  chilli = pheno.dat$chilli,
                  photoi = pheno.dat$photoi,
                  prior_muForceSp_mu = 0,
-                 prior_muForceSp_sigma = 1,
+                 prior_muForceSp_sigma = 15,
                  prior_muChillSp_mu = 0,
-                 prior_muChillSp_sigma = 1,
+                 prior_muChillSp_sigma = 15,
                  prior_muPhotoSp_mu = 0,
-                 prior_muPhotoSp_sigma = 1 ,
+                 prior_muPhotoSp_sigma = 15 ,
                  prior_muPhenoSp_mu = 80,
                  prior_muPhenoSp_sigma = 20,
                  prior_sigmaForceSp_mu = 4,
@@ -320,20 +328,20 @@ if(runStan == TRUE){
 
 }
 
-# if(Midge == FALSE){
+ if(runStan == FALSE){
+ 
+ load("Rfiles/phenologyMeanTrait_sim_posF.RData")
 # 
-# load("Rfiles/phenologyMeanTrait_sim.RData")
+ postMeanSLA <- extract(mdl.traitphen)
 # 
-# postMeanSLA <- extract(mdl.phen)
+#plot main effects of cues
+ postMeanSLAdf <- data.frame(postMeanSLA)
 # 
-# #plot main effects of cues
-# postMeanSLAdf <- data.frame(postMeanSLA)
+  cueEffects <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% c("muPhenoSp", "muForceSp", "muChillSp", "muPhotoSp")]
 # 
-#   cueEffects <- postMeanSLAdf[,colnames(postMeanSLAdf) %in% c("muPhenoSp", "muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y")]
-# 
-#   cueEffectPlot <- mcmc_intervals(cueEffects) + 
-#      theme_classic() + 
-#       labs(title = "main intercept, cue slopes and general error")
+   cueEffectPlot <- mcmc_intervals(cueEffects) + 
+     theme_classic() + 
+      labs(title = "main intercept, cue slopes and general error")
 # 
 #       
 #       png("figures/simPosteriorHist.png")
@@ -342,8 +350,8 @@ if(runStan == TRUE){
 #       hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(muPhenoSp,3), sep = ""))
 #       abline(v = muPhenoSp, col="red", lwd=3, lty=2)
 # 
-#       hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
-#       abline(v = muForceSp, col="red", lwd=3, lty=2)
+       hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
+       abline(v = muForceSp, col="red", lwd=3, lty=2)
 # 
 #       hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(muChillSp,3), sep = ""))
 #       abline(v = muChillSp, col="red", lwd=3, lty=2)
@@ -354,11 +362,11 @@ if(runStan == TRUE){
 #       hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
 #       abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
 # 
-#       hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(betaTraitxForce,3), sep = ""))
-#       abline(v = betaTraitxForce, col="red", lwd=3, lty=2)
+       plot(density(postMeanSLAdf$betaTraitxForce), main = paste("betaTraitxForce is " , signif(betaTraitxForcePos,3), sep = ""))
+      abline(v = betaTraitxForcePos, col="red", lwd=3, lty=2)
 # 
-#       hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
-#       abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
+      hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
+             abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
 # 
 #       hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(betaTraitxPhoto,3), sep = ""))
 #       abline(v = betaTraitxPhoto, col="red", lwd=3, lty=2)
@@ -375,12 +383,12 @@ if(runStan == TRUE){
 #       par(mfrow=c(1,1))
 # 
 # png("figures/simulatedPairs.png")
-# pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
+ pairs(mdl.traitphen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
 # dev.off()
-# pairs(mdl.phen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y", "lp__")) 
+# pairs(mdl.traitphen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y", "lp__")) 
 # 
 # 
-# }
+}
 
 
 if(priorCheck == TRUE){
