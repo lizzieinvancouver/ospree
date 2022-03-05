@@ -16,9 +16,14 @@ if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 	traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 } else if(MidgeFlag == FALSE) {
-	setwd("/home/deirdre/ospree/")
-	traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-	traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+
+      if(length(grep("Lizzie", getwd()))>0) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
+        }else if(length(grep("faith", getwd()))>0){ setwd("/home/faith/Documents/github/ospree/analyses/traits")
+        }else setwd("/home/deirdre/ospree/")
+
+    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 }
 
 traitsData <- rbind(traitsData1,traitsData2)
@@ -70,12 +75,12 @@ all.data <- list(yTraiti = log10(seedData$traitvalue),
                  forcei = ospreeData$force.z,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
-                 prior_muForceSp_mu = 0,
-                 prior_muForceSp_sigma = 2,
-                 prior_muChillSp_mu = 0,
-                 prior_muChillSp_sigma = 2,
-                 prior_muPhotoSp_mu = 0,
-                 prior_muPhotoSp_sigma = 2,
+                 prior_muForceSp_mu = -15,
+                 prior_muForceSp_sigma = 10,
+                 prior_muChillSp_mu = -15,
+                 prior_muChillSp_sigma = 10,
+                 prior_muPhotoSp_mu = -15,
+                 prior_muPhotoSp_sigma = 10,
                  prior_muPhenoSp_mu = 40,
                  prior_muPhenoSp_sigma = 2,
                  prior_sigmaForceSp_mu = 5,
@@ -135,3 +140,21 @@ plot(mdl.traitphen, pars = c("sigma_traity", "sigma_study", "sigma_sp", "sigmaPh
 dev.off()
 
 saveRDS(object = mdl.traitphen, file = "SeedMass_log10_stanfit_37spp.RDS")
+
+
+ postSLA<- extract(mdl.traitphen)
+ postSLAdf <- data.frame(postSLA)
+# 
+
+ cueEffects <- postSLAdf[,colnames(postSLAdf) %in% c("muForceSp", "muChillSp", "muPhotoSp")]
+# 
+   cueEffectPlot <- mcmc_intervals(cueEffects) + 
+     theme_classic() + 
+      labs(title = "intercep part of species cue slopes")
+
+hist( postSLA$muForceSp, main = paste("muForceSp is " , signif(mean( postSLA$muForceSp),3), sep = ""))
+       abline(v = mean( postSLA$muForceSp), col="red", lwd=3, lty=2)
+
+hist(postSLA$betaTraitxForce, main = paste("betaTraitxForce is " , signif(mean( postSLA$betaTraitxForce),3), sep = ""))
+       abline(v = mean( postSLA$betaTraitxForce), col="red", lwd=3, lty=2)
+       
