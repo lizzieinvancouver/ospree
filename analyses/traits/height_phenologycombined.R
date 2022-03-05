@@ -13,19 +13,21 @@ options(mc.cores = 4)
 set.seed(2021)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <-T
+MidgeFlag <-FALSE
 
 if (MidgeFlag == TRUE){
   traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
   traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 } else if(MidgeFlag == FALSE) {
-  setwd("/home/deirdreloughnan/Documents/github/ospree/analyses/traits/")
-  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-} else if(MidgeFlag == FALSE) {
-  setwd("~/Documents/github/ospree/analyses/traits")
-  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+    if(length(grep("Lizzie", getwd()))>0) {setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits/")
+        }else if(length(grep("faith", getwd()))>0){ setwd("/home/faith/Documents/github/ospree/analyses/traits")
+        }else if(length(grep("deirdreloughnan", getwd()))>0){ setwd("/home/deirdreloughnan/Documents/github/ospree/analyses/traits/")
+      } else  setwd("~/Documents/github/ospree/analyses/traits")
+
+    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
+  heightData <- read.csv("input/height_subsampled.csv")
 }
 
 traitsData <- rbind(traitsData1,traitsData2)
@@ -34,7 +36,6 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","A
 
 # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
-heightData <- read.csv("input/height_subsampled.csv")
 heightData  <- subset(heightData , heightData $speciesname %in% traitors.sp)
 
 
@@ -71,12 +72,12 @@ all.data <- list(yTraiti = heightData$traitvalue,
                  forcei = ospreeData$force.z,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
-                 prior_muForceSp_mu = 0,
-                 prior_muForceSp_sigma = 1,
-                 prior_muChillSp_mu = 0,
-                 prior_muChillSp_sigma = 1,
-                 prior_muPhotoSp_mu = 0,
-                 prior_muPhotoSp_sigma = 1 ,
+                prior_muForceSp_mu = -15,
+                 prior_muForceSp_sigma = 10,
+                 prior_muChillSp_mu = -15,
+                 prior_muChillSp_sigma = 10,
+                 prior_muPhotoSp_mu = -15,
+                 prior_muPhotoSp_sigma = 10,
                  prior_muPhenoSp_mu = 80,
                  prior_muPhenoSp_sigma = 20,
                  prior_sigmaForceSp_mu = 4,
