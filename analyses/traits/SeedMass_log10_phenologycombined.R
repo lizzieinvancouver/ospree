@@ -10,7 +10,7 @@ options(mc.cores = 4)
 set.seed(202109)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- TRUE
+MidgeFlag <- FALSE
 
 if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
@@ -88,8 +88,8 @@ all.data <- list(yTraiti = log10(seedData$traitvalue),
                  prior_sigmaChillSp_mu = 5,
                  prior_sigmaChillSp_sigma = 2,
                  prior_sigmaPhotoSp_mu = 5,
-                 prior_sigmaPhotoSp_sigma = 2,
-                 prior_sigmaPhenoSp_mu = 5,
+                 prior_sigmaPhotoSp_sigma = 5,
+                 prior_sigmaPhenoSp_mu = 10,
                  prior_sigmaPhenoSp_sigma = 2,
                  prior_betaTraitxForce_mu = 0,
                  prior_betaTraitxForce_sigma = 2,
