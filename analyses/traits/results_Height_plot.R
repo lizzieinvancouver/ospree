@@ -1,4 +1,6 @@
-# 
+rm(list=ls())
+options(stringsAsFactors = FALSE)
+
 # ## Load libraries
 # library(rstan)
 # require(shinystan)
@@ -19,7 +21,7 @@
 #     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 #     traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 #     ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
-     posterior <- rstan::extract(readRDS(file = "output/height_stanfit_37spp.RDS"))
+     posterior <- rstan::extract(readRDS(file = "output/height_stanfit_37spp_wp.RDS"))
 #     posteriorOld <- rstan::extract(readRDS(file = "output/height_stanfit.RDS"))
 #     
 # }
@@ -65,7 +67,7 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 # }
 # 
 # heightData <- rbind(few, ht)
-heightData <- read.csv("input/height_377spp_subsampled.csv")
+heightData <- read.csv("input/height_37spp_subsampled.csv")
 # Read Ospree data and subset
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
@@ -229,3 +231,87 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
 # dev.off()
+
+pdf("figures/prior_post_dist.pdf", width = 10, height = 30)
+par(mfrow = c(4,4))
+#plot priors against posteriors
+h1 <- hist(rnorm(1000, -15,10))
+h2 <- hist(posterior$muForceSp)
+plot(h1, col=rgb(1,0,1,1/4), ylim = c(0, 2000))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, -15,10))
+h2 <- hist(posterior$muChillSp)
+plot(h1, col=rgb(1,0,1,1/4), ylim = c(0, 2000))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, -15,10))
+h2 <- hist(posterior$muPhotoSp)
+plot(h1, col=rgb(1,0,1,1/4), ylim = c(0, 2000))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 20,10))
+h2 <- hist(posterior$mu_grand)
+plot(h1, col=rgb(1,0,1,1/4), ylim = c(0, 2000))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 80,40))
+h2 <- hist(posterior$muPhenoSp)
+plot(h1, col=rgb(1,0,1,1/4), ylim = c(0, 2000))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 0,2))
+h2 <- hist(posterior$betaTraitxForce)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 0,2))
+h2 <- hist(posterior$betaTraitxChill)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 0,2))
+h2 <- hist(posterior$betaTraitxPhoto)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 4,5))
+h2 <- hist(posterior$sigma_sp)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 2,5))
+h2 <- hist(posterior$sigma_study)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 3,5))
+h2 <- hist(posterior$sigma_traity)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 4,3))
+h2 <- hist(posterior$sigmaForceSp)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 4,5))
+h2 <- hist(posterior$sigmaChillSp)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 4,3))
+h2 <- hist(posterior$sigmaPhotoSp)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 10,10))
+h2 <- hist(posterior$sigmaPhenoSp)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+
+h1 <- hist(rnorm(1000, 20,5))
+h2 <- hist(posterior$sigmapheno_y)
+plot(h1, col=rgb(1,0,1,1/4))
+plot(h2, col=rgb(0,0,1,1/4), add = T)
+dev.off()
