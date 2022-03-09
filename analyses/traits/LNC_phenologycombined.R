@@ -68,7 +68,7 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  prior_sigma_study_mu = 5,
                  prior_sigma_study_sigma = 2,
                  prior_sigma_traity_mu = 2,
-                 prior_sigma_traity_sigma = 1,
+                 prior_sigma_traity_sigma = 2, #wider
                  ## Phenology
                  Nph = nrow(ospreeData),
                  phenology_species = as.numeric(as.factor(ospreeData$speciesname)),
@@ -77,21 +77,21 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
                  prior_muForceSp_mu = -15,
-                 prior_muForceSp_sigma = 10,
+                 prior_muForceSp_sigma = 20, #wider
                  prior_muChillSp_mu = -15,
-                 prior_muChillSp_sigma = 10,
+                 prior_muChillSp_sigma = 20,#wider
                  prior_muPhotoSp_mu = -15,
-                 prior_muPhotoSp_sigma = 10,
+                 prior_muPhotoSp_sigma = 20,#wider
                  prior_muPhenoSp_mu = 40,
-                 prior_muPhenoSp_sigma = 2,
+                 prior_muPhenoSp_sigma = 10,#wider
                  prior_sigmaForceSp_mu = 5,
                  prior_sigmaForceSp_sigma = 2,
-                 prior_sigmaChillSp_mu = 5,
-                 prior_sigmaChillSp_sigma = 2,
+                 prior_sigmaChillSp_mu = 10,#wider
+                 prior_sigmaChillSp_sigma = 5, #wider
                  prior_sigmaPhotoSp_mu = 5,
                  prior_sigmaPhotoSp_sigma = 2,
-                 prior_sigmaPhenoSp_mu = 5,
-                 prior_sigmaPhenoSp_sigma = 2,
+                 prior_sigmaPhenoSp_mu = 10, #wider
+                 prior_sigmaPhenoSp_sigma = 5, #wider
                  prior_betaTraitxForce_mu = 0,
                  prior_betaTraitxForce_sigma = 2,
                  prior_betaTraitxChill_mu = 0,
@@ -99,7 +99,7 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  prior_betaTraitxPhoto_mu = 0,
                  prior_betaTraitxPhoto_sigma = 2,
                  prior_sigmaphenoy_mu = 2,
-                 prior_sigmaphenoy_sigma = 2
+                 prior_sigmaphenoy_sigma = 10 #wider
                    ) 
 
 mdl.traitphen <- stan("stan/phenology_combined.stan",

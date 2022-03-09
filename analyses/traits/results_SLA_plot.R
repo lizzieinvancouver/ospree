@@ -1,4 +1,5 @@
-# 
+rm(list=ls())
+options(stringsAsFactors = FALSE)
 # ## Load libraries
 # library(rstan)
 # require(shinystan)
@@ -16,17 +17,17 @@
 #     ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
 #     posterior <- extract(readRDS(file = "../../data/Ospree_traits/SLA_stanfit.RDS"))
 # } else{
-#     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-#     traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-#     ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
+    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+    ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
     posterior <- extract(readRDS(file = "output/SLA_stanfit_37spp_wp.RDS"))
 #     posteriorOld <- extract(readRDS(file = "output/SLA_stanfit.RDS"))
 #     
 # }
 # 
-# traitsData <- rbind(traitsData1,traitsData2)
-# 
-# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+traitsData <- rbind(traitsData1,traitsData2)
+
+traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
 # 
 # # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 # 
@@ -200,86 +201,55 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Fagus g
        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
 #dev.off()
 
-
+pdf("figures/sla_prior_post_dist.pdf", width = 15, height = 25)
+par(mfrow = c(4,4))
 #plot priors against posteriors
-h1 <- hist(rnorm(1000, -15,10))
-h2 <- hist(posterior$muForceSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+hist(posterior$muForceSp,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000, -15,10))
-h2 <- hist(posterior$muChillSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+hist(posterior$muChillSp,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000, -15,10))
-h2 <- hist(posterior$muPhotoSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+hist(posterior$muPhotoSp,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000, 17,5))
-h2 <- hist(posterior$mu_grand)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 17,5), col = rgb(1,0,1,1/4))
+hist(posterior$mu_grand,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000,40,5))
-h2 <- hist(posterior$muPhenoSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000,40,10), col = rgb(1,0,1,1/4))
+hist(posterior$muPhenoSp,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000, 0,2))
-h2 <- hist(posterior$betaTraitxForce)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+hist(posterior$betaTraitxForce,add=T,col=rgb(0,0,1,1/4))
 
-h1 <- hist(rnorm(1000, 0,2))
-h2 <- hist(posterior$betaTraitxChill)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+hist(posterior$betaTraitxChill,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 0,2))
-h2 <- hist(posterior$betaTraitxPhoto)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+hist(posterior$betaTraitxPhoto,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 10,2))
-h2 <- hist(posterior$sigma_sp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+hist(posterior$sigma_sp,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000,5,2))
-h2 <- hist(posterior$sigma_study)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000,5,2), col = rgb(1,0,1,1/4))
+hist(posterior$sigma_study,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 5,2))
-h2 <- hist(posterior$sigma_traity)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+hist(posterior$sigma_traity,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 5,2))
-h2 <- hist(posterior$sigmaForceSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+hist(posterior$sigmaForceSp,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 10,5))
-h2 <- hist(posterior$sigmaChillSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+hist(posterior$sigmaChillSp,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 5,2))
-h2 <- hist(posterior$sigmaPhotoSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+hist(posterior$sigmaPhotoSp,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 10,5))
-h2 <- hist(posterior$sigmaPhenoSp)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+hist(posterior$sigmaPhenoSp,col=rgb(0,0,1,1/4),add=T)
 
-h1 <- hist(rnorm(1000, 10,5))
-h2 <- hist(posterior$sigmapheno_y)
-plot(h1, col=rgb(1,0,1,1/4))
-plot(h2, col=rgb(0,0,1,1/4), add = T)
+h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+hist(posterior$sigmapheno_y,add=T,col=rgb(0,0,1,1/4))
 
-
+dev.off()

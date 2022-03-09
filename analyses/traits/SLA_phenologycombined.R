@@ -10,7 +10,7 @@ options(mc.cores = 4)
 set.seed(202109)
 
 #specify if this code should be run on Midge or on your own computer.
-MidgeFlag <- TRUE
+MidgeFlag <- F
 
 if (MidgeFlag == TRUE){
 	traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
@@ -54,13 +54,13 @@ all.data <- list(yTraiti = slaData$traitvalue,
                  n_study = length(studylist),
                  study = as.numeric(as.factor(slaData$datasetid)),
                  prior_mu_grand_mu = 17,
-                 prior_mu_grand_sigma = 2,
+                 prior_mu_grand_sigma = 5, #widened
                  prior_sigma_sp_mu = 10,
-                 prior_sigma_sp_sigma = 2,
+                 prior_sigma_sp_sigma = 5,
                  prior_sigma_study_mu = 5,
                  prior_sigma_study_sigma = 2,
-                 prior_sigma_traity_mu = 2,
-                 prior_sigma_traity_sigma = .5,
+                 prior_sigma_traity_mu = 5,
+                 prior_sigma_traity_sigma = 2,
                  ## Phenology
                  Nph = nrow(ospreeData),
                  phenology_species = as.numeric(as.factor(ospreeData$speciesname)),
@@ -75,24 +75,25 @@ all.data <- list(yTraiti = slaData$traitvalue,
                  prior_muPhotoSp_mu = -15,
                  prior_muPhotoSp_sigma = 10,
                  prior_muPhenoSp_mu = 40,
-                 prior_muPhenoSp_sigma = 2,
+                 prior_muPhenoSp_sigma = 10, #widened
                  prior_sigmaForceSp_mu = 5,
                  prior_sigmaForceSp_sigma = 2,
-                 prior_sigmaChillSp_mu = 5,
-                 prior_sigmaChillSp_sigma = 2,
+                 prior_sigmaChillSp_mu = 10,
+                 prior_sigmaChillSp_sigma = 5,
                  prior_sigmaPhotoSp_mu = 5,
                  prior_sigmaPhotoSp_sigma = 2,
-                 prior_sigmaPhenoSp_mu = 5,
-                 prior_sigmaPhenoSp_sigma = 2,
+                 prior_sigmaPhenoSp_mu = 10,
+                 prior_sigmaPhenoSp_sigma = 5,
                  prior_betaTraitxForce_mu = 0,
                  prior_betaTraitxForce_sigma = 2,
                  prior_betaTraitxChill_mu = 0,
                  prior_betaTraitxChill_sigma = 2,
                  prior_betaTraitxPhoto_mu = 0,
                  prior_betaTraitxPhoto_sigma = 2,
-                 prior_sigmaphenoy_mu = 2,
-                 prior_sigmaphenoy_sigma = 2
-                   ) 
+                 prior_sigmaphenoy_mu = 10,
+                 prior_sigmaphenoy_sigma = 5
+) 
+
 
 mdl.traitphen <- stan("stan/phenology_combined.stan",
                       data = all.data,
