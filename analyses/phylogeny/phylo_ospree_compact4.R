@@ -178,6 +178,20 @@ d <- d[order(d$sppnum),]
 nspecies <- max(d$sppnum)
 
 
+
+## remove outliers
+d$resp
+head(d)
+ff = subset(d,latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+d = subset(d,!latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+nspecies = 192
+phylo <- drop.tip(phylo, c("Populus_balsamifera","Populus_tremuloides"))
+d$sppnum <- as.numeric(as.factor(d$sppnum))
+
+
+
+
+
 # Step 2: Run some version of the model 
 
 # This model uses Geoff's new version of the stan code
@@ -246,7 +260,7 @@ testme <- stan("stan/uber_threeslopeintercept_modified_cholesky.stan",
 )
 
 ## Save fitted posterior
-saveRDS(testme, "output/testme.rds")
+saveRDS(testme, "output/testme_deirdre_noout.rds")
 
 ## Summarize full fit
 summary(testme)$summary
