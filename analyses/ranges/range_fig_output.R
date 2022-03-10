@@ -160,7 +160,7 @@ stvfull<-b+geom_abline(data=cuebertSTV,aes(intercept = mu,slope= trait_beta,colo
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("STV")+ylab("Cue sensitivity")
 
-one<-ggpubr::ggarrange(gddfull,stvfull,common.legend = TRUE,labels = c("a)","b)"))
+ggpubr::ggarrange(gddfull,stvfull,common.legend = TRUE,labels = c("a)","b)"))
 
 
 ggpubr::ggarrange(gddfull,stvfull,common.legend = TRUE)
@@ -228,11 +228,12 @@ namplotstv<-bb.na+geom_abline(data=cuebertNAstv,aes(intercept=mu,slope=trait_bet
 europlotstv<-bb.e+ geom_abline(data=cueberteustv,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswustv,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("Europe")+ylab("Cue sensitivity")+theme(legend.position = "none") 
+  xlab("Europe")+ylab("Cue sensitivity")+theme(legend.position = "none")+
+  scale_x_continuous(breaks=c(-.725,-.72))+ylim(-40,5)
 
 
 
-twostv<-ggpubr::ggarrange(namplotstv,europlotstv,nrow=1,ncol=2,labels=c("b)","c)"))
+twostv<-ggpubr::ggarrange(europlotstv,namplotstv,nrow=1,ncol=2,widths = c(.2,.5),labels=c("b)","c)"))
 
 jpeg("./figures/mockstv.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(stvfull,twostv,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
@@ -257,21 +258,19 @@ ggpubr::ggarrange(ggpubr::ggarrange(stvfull,twostv,nrow=2, ncol=1,common.legend 
 
 
 
-ggpubr::ggarrange(gddfull,twob,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
-ggpubr::ggarrange(gddfull,twoc,namplot,nrow=3, ncol=1,common.legend = TRUE,labels=c("a)"))
+#ggpubr::ggarrange(gddfull,twob,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
+#ggpubr::ggarrange(gddfull,twoc,namplot,nrow=3, ncol=1,common.legend = TRUE,labels=c("a)"))
 
-library(patchwork)
-europlot2+inset_element(europlot, 0, 0.05, 0.4, 0.5, align_to = 'full')
-
-
+#library(patchwork)
+#europlot2+inset_element(europlot, 0, 0.05, 0.4, 0.5, align_to = 'full')
 
 
 
 
 
-#jpeg("./figures/mock1.jpeg",width = 10,height=8, units = "in",res = 300)
-ggpubr::ggarrange(one,two,nrow=2,ncol=1,heights=c(6,5))
-dev.off()
+
+
+
 ###table of results
 
 cp_summary <- summary(threeparam_jnt.cp, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
