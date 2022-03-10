@@ -216,13 +216,14 @@ d$sppnum <- as.numeric(as.factor(d$sppnum))
 #### diagnose and make plots     ####
 #'###################################
 lambdazero <- F
-
+gymnosonly <- F
 ## load model
 
 if(agiosponly & lambdazero){
   fit <- readRDS("output/testme_lambda0_nooutlier.rds")
 } else {
-  fit <- readRDS("output/testme_lambdaest_nooutlier.rds")
+  #fit <- readRDS("output/testme_lambdaest_nooutlier.rds")
+  fit <- readRDS("output/testme_deirdre_noout.rds")
 }
 
 
@@ -312,7 +313,7 @@ muplotfx_phylo_contmap(modelhere, "", 7, 8,
 
 ## for photoperiod
 muplotfx_phylo_contmap(modelhere, "", 7, 8, 
-                       c(0,192), c(-10, 2) , 18, 3.2, 
+                       c(0,192), c(-15, 5) , 18, 3.2, 
                        posspsindata,3,7.2)
 }
 
@@ -347,9 +348,9 @@ if(agiosponly){
   lines(density(extract(modelhere)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
   text(0.50,3.5,"intercept",col='grey')
-  text(0.8,2,"force",col='indianred3')
-  text(0.6,2.7,"chill",col='cyan4')
-  text(0.8,0.75,"photo",col='orange')
+  text(0.85,2,"force",col='indianred3')
+  text(0.25,1.1,"chill",col='cyan4')
+  text(0.9,1.1,"photo",col='orange')
   text(0,4,"a",cex=1.5)
   
   
@@ -361,9 +362,9 @@ if(agiosponly){
   lines(density(extract(modelhere)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(modelhere)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
   text(19,0.3,"intercept",col='grey')
-  text(5,0.45,"force",col='indianred3')
-  text(9,0.4,"chill",col='cyan4')
-  text(5.1,0.8,"photo",col='orange')
+  text(7,0.45,"force",col='indianred3')
+  text(9,0.1,"chill",col='cyan4')
+  text(9,0.04,"photo",col='orange')
   text(0,1,"b",cex=1.5)
   
 }
