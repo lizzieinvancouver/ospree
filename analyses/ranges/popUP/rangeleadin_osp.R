@@ -84,8 +84,12 @@ bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
 
 
-rangiesEu<-read.csv("output/Synthesis_climate_EUspsw.csv")
-rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STV.csv") ### updated STV
+rangiesEu2<-read.csv("output/Synthesis_climate_EUspsw.csv") ### updated STV
+rangiesEu2<-dplyr::filter(rangiesEu2,variable=="Mean.Chill.Portions")
+rangiesEu<-rbind(rangiesEu,rangiesEu2)
+
+rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv") ## updated stv
 
 rangiesEu$continent<-"Europe"
 rangiesEu<-dplyr::select(rangiesEu,-X)
@@ -110,13 +114,15 @@ colnames(GDD)[c(1,2)]<-c("complex.wname","GDD")
 
 CP<-filter(rangies,variable=="Mean.Chill.Portions")
 CP<-dplyr::select(CP,species,Geo.Mean,continent)
-colnames(CP)[c(1,2)]<-c("complex.wname","CP")
+colnames(CP)[c(1,2)]<-c("complex.wname","ChP")
 
 
 
 ggdlf<-left_join(ggdlf,STV)
 ggdlf<-left_join(ggdlf,GDD)
-ggdlf<-left_join(ggdlf,CP)
+ggdlf<-dplyr::left_join(ggdlf,CP)
+
+head(ggdlf)
 
 ## remove duplicat4e for alnus incana only if you are running everything together
 ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
@@ -148,7 +154,7 @@ bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
 bb.stan$range.z<-(bb.stan$range_area-mean(bb.stan$range_area))/sd(bb.stan$range_area)
 
 bb.stan$GDD.z<-(bb.stan$GDD-mean(bb.stan$GDD))/sd(bb.stan$GDD)
-bb.stan$CP.z<-(bb.stan$STV-mean(bb.stan$CP))/sd(bb.stan$CP)
+bb.stan$CP.z<-(bb.stan$ChP-mean(bb.stan$ChP))/sd(bb.stan$ChP)
 
 
 if(FALSE){ # Skip the force-only model for now...
@@ -254,8 +260,8 @@ bb.3param.area <- with(bb.stan,
 threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                  iter = 4000, warmup=2500)
 
-#threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-#                          iter = 4000, warmup=2500)
+threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                          iter = 4000, warmup=2500)
 
 threeparam_jnt.cp = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.cp, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                           iter = 4000, warmup=2500)
