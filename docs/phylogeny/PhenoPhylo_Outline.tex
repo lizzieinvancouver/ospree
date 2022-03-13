@@ -276,16 +276,16 @@ We analyze 2 different subsets of species in the OSPREE database to explore diff
 We used the phylogenetic megatree for seed plant from \citet{smith2018constructing} to extract a subset phylogenetic tree containing only the species in the OSPREE dataset \citep{wolkovich2019}. We pruned the megatree to generate to sub-trees containing only the species in each subset of data. The species that were not present in the megatree were added as polytomies at the generic level (using the function \emph{congeneric.merge}; \citep{pearse2015pez}) with a branch length of zero. Polytomies represent XX\% of the full dataset. To test for the ability of polytomies to bias our results we run sensitivity analyses excluding these species from models (which lead to XX angiosperms and ZZ gymnosperms; see Supporting Information). \\ 
 
 
-\subsection*{The Bayesian hierarchical phylogenetic model}
-
-Traditional phylogenetic regression methods, were originally conceived as a statistical correction for phylogenetic non-independence across observations ---i.e. species---, so that linear regression assumptions were not violated \citep{freckleton2002phylogenetic}. This correction incorporates phylogenetic structure in the regression by modifying the residual Variance-Covariance matrix to substitute off-diagonal elements of zero (under the assumption of independence across observations) for shared phylogenetic branch lengths representing pairwise covariances (under phylogenetic non-independece among observations). Off-diagonals may be allowed to include a multiplying parameter---i.e. the lambda parameter---which is a transformation indicating the amount of phylogenetic relatedness among species (see below). Because the aim was to correct for statistical nuance, the underlying assumption of phylogenetic regressions is that phylogenetic relatedness would only affect either model residuals in PGLS approaches \citep{freckleton2002phylogenetic} where model intercept does not vary across species, or to species intercepts in PMM approaches \citep{housworth2004phylogenetic}.\\ 
+\subsection*{Bayesian hierarchical phylogenetic model}
+% PICs are also sort of a regression phylo thing so adjusted below ..
+Commonly used phylogenetic regression methods today (e.g., PGLS and PMM) were originally conceived as statistical corrections for phylogenetic non-independence across observations---generally species---thus allowing multi-species studies to meet the assumptions linear regression \citep{freckleton2002phylogenetic}. These corrections incorporated phylogenetic structure in the regression by modifying the residual variance-covariance matrix to substitute off-diagonal elements of zero (the value given the assumption of independence across observations) for shared phylogenetic branch lengths representing pairwise covariances (under phylogenetic non-independece among observations). Off-diagonals were also allowed to include a multiplying parameter---generally referred to as lambda---which is a transformation indicating the amount of phylogenetic relatedness among species (see below). Because the original aim of these methods was to correct for statistical nuance, the underlying assumption of phylogenetic regressions is that phylogenetic relatedness would only affect either model residuals \citep[in PGLS approaches,][]{freckleton2002phylogenetic}, or the model intercepts \citep[e.g., in many PMM approaches,][]{housworth2004phylogenetic}.\\ 
 % IMCmar04 - It would be great to have others (Lizzie, Jonathan and/or Will)reviewing this paragraph to double-check it is accurate
 
-Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure to model intercepts, slopes and residuals so that it is possible to estimate  relatedness in the sensitivities to each cue, when considered together.
+Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure accross model intercepts and slopes so that it is possible to estimate relatedness in the sensitivities to each cue, when considered together.
 % IMCmar04 - starting to flesh out this bit. Needs work.
+% EMW (13Mar2022): May want to add a supplement explaining how intercepts and residuals are somewhat similar in our model? Especially as you touch on it above. Geoff has some text for this. 
 
-%The following text is literally copied from Geoff's
-
+% The following text is copied from Geoff's PMM description:
 For each of $n$ species, we assumed that data were generated from the following sampling distribution:
 
 \begin{align}
@@ -350,22 +350,6 @@ The $\lambda$ in our models is analogous to, but not fully equivalent to Pagel's
 %\item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
 %\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
 
-
-
-\begin{comment}
-% this is a legacy from an old version of the ms. I believe we agreed not to follow this path (of forecasting our models under Climate change). This bit will be removed in the next revision, just leaving it here for now in case someone wants to comment or have suggestions.
-
-\subsection*{Phylogeny in forecasts of phenology}
-This sections needs to be fleshed out, but first we need to think and decide how to proceed (or if we want to proceed at all):
-
-\begin{enumerate}
-
-\item How we define the two scenarios (regular scenario; climate change scenario; see below)?
-\item For which subset of species do we test it?
-\item Are we predicting with and without phylogeny? I'm still not sure about how to do this.
-
-\end{enumerate}
-\end{comment}
 
 
 
