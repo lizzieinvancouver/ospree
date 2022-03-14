@@ -273,7 +273,7 @@ We analyze 2 different subsets of species in the OSPREE database to explore diff
 \end{enumerate}
 \end{comment}
 
-We used the phylogenetic megatree for seed plant from \citet{smith2018constructing} to extract a subset phylogenetic tree containing only the species in the OSPREE dataset \citep{wolkovich2019}. We pruned the megatree to generate to sub-trees containing only the species in each subset of data. The species that were not present in the megatree were added as polytomies at the generic level (using the function \emph{congeneric.merge}; \citep{pearse2015pez}) with a branch length of zero. Polytomies represent XX\% of the full dataset. To test for the ability of polytomies to bias our results we run sensitivity analyses excluding these species from models (which lead to XX angiosperms and ZZ gymnosperms; see Supporting Information). \\ 
+We used the phylogenetic megatree for seed plant from \citet{smith2018constructing} to extract a subset phylogenetic tree containing only the species in the OSPREE dataset \citep{wolkovich2019}. We pruned the megatree to generate to sub-trees containing only the species in each subset of data. The species that were not present in the megatree were added as polytomies at the generic level (using the function \emph{congeneric.merge}; \citep{pearse2015pez}) with a branch length of zero. Polytomies represent 26.8\% of the full angiosperm dataset. To test for the ability of polytomies to bias our results we run sensitivity analyses excluding these species from models (which lead to 142 angiosperms; see Supporting Information). \\ 
 
 
 \subsection*{Bayesian hierarchical phylogenetic model}
@@ -281,12 +281,12 @@ We used the phylogenetic megatree for seed plant from \citet{smith2018constructi
 Commonly used phylogenetic regression methods today (e.g., PGLS and PMM) were originally conceived as statistical corrections for phylogenetic non-independence across observations---generally species---thus allowing multi-species studies to meet the assumptions linear regression \citep{freckleton2002phylogenetic}. These corrections incorporated phylogenetic structure in the regression by modifying the residual variance-covariance matrix to substitute off-diagonal elements of zero (the value given the assumption of independence across observations) for shared phylogenetic branch lengths representing pairwise covariances (under phylogenetic non-independece among observations). Off-diagonals were also allowed to include a multiplying parameter---generally referred to as lambda---which is a transformation indicating the amount of phylogenetic relatedness among species (see below). Because the original aim of these methods was to correct for statistical nuance, the underlying assumption of phylogenetic regressions is that phylogenetic relatedness would only affect either model residuals \citep[in PGLS approaches,][]{freckleton2002phylogenetic}, or the model intercepts \citep[e.g., in many PMM approaches,][]{housworth2004phylogenetic}.\\ 
 % IMCmar04 - It would be great to have others (Lizzie, Jonathan and/or Will)reviewing this paragraph to double-check it is accurate
 
-Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure accross model intercepts and slopes so that it is possible to estimate relatedness in the sensitivities to each cue, when considered together.
+Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure accross model intercepts and slopes. Doing so allows explicitly estimating the amount of phylogenetic relatedness in species' sensitivities to each cue, when these sensitivities are modelled in a multi-predictor regression setting.  
 % IMCmar04 - starting to flesh out this bit. Needs work.
 % EMW (13Mar2022): May want to add a supplement explaining how intercepts and residuals are somewhat similar in our model? Especially as you touch on it above. Geoff has some text for this. 
 
 % The following text is copied from Geoff's PMM description:
-For each of $n$ species, we assumed that data were generated from the following sampling distribution:
+For each $j$ species, we assumed that data were generated from the following sampling distribution:
 
 \begin{align}
   \label{modely}
@@ -298,8 +298,9 @@ where
   \mu_j = \alpha_j + \beta_{1,j} X_2 + \beta_{2,j} X_2 + \beta_{3,j} X_3
 \end{align}
 
-Predictors $X_1$, $X_2$, $X_3$ are standardized forcing, chilling, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{1,j}$, $\beta_{2,j}$, $\beta_{3,j}$, representing traits. These traits, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
+Predictors $X_1$, $X_2$, $X_3$ are standardized forcing, chilling, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{1,j}$, $\beta_{2,j}$, $\beta_{3,j}$, representing species' responses (or sensitivities) to each of the cues. These responses, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
 \begin{align}
+    \label{phybetas}
   \boldsymbol{\alpha} = \{\alpha_1, \ldots, \alpha_n\}^T & \text{ such that }
   \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
   \boldsymbol{\beta_1} =  \{\beta_{1,1}, \ldots, \beta_{1,n}\}^T & \text{ such that }
@@ -310,7 +311,7 @@ Predictors $X_1$, $X_2$, $X_3$ are standardized forcing, chilling, and photoperi
   \boldsymbol{\beta_3} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_3}}) \nonumber
 \end{align}
 
-\noindent where the means of the multivariate normal distributions are root trait values (i.e., trait values prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\ 
+\noindent where the means of the multivariate normal distributions are root trait values (i.e., values of cue responses prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\ 
 \begin{align}
   \label{phymat}
 \begin{bmatrix}
@@ -321,23 +322,44 @@ Predictors $X_1$, $X_2$, $X_3$ are standardized forcing, chilling, and photoperi
 \end{bmatrix}
 \end{align}
 
-\noindent where $\sigma_i^2$ is the rate of evolution across a tree for trait $i$ (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the ``phylogenetic signal'' within a species trait, and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
+\noindent where $\sigma_i^2$ is the rate of evolution across a tree for trait $i$ (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the ``phylogenetic signal'' or extent of phylogenetic relatedness on each model parameter (i.e., $\alpha_{j}$, $\beta_{1,j}$, $\beta_{2,j}$, $\beta_{3,j}$), and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
 
 The above specification is exactly equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
 
 \begin{align}
+  \label{eqfive}
   \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\beta_{1,j}} + e_{\beta_{2,j}} + e_{\beta_{3,j}}
 \end{align}
 
 \noindent where the residual error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}.
 
+For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
 
-\subsection*{Interpretation of $\lambda_i$ on slopes and intercepts}
+\begin{align}
+  \label{eqPGLS}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
+\end{align}
 
 
-In contrast to classic approaches to controlling for phylogenetic non-independence of analysis units (i.e. species), see \citep{freckleton2002phylogenetic}, where Pagel's \cite{pagel1999inferring} $\lambda$ is assumed constant across multiple predictors if those enter a PGLS model, our approach retrieves 
+and the PMM version:
 
-The $\lambda$ in our models is analogous to, but not fully equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). This is because in our approach, a $\lambda$  is estimated for each predictor in the model whilst in PGLS and similar approaches, $\lambda$ is computed simultaneously across the predictor matrix. 
+\begin{align}
+  \label{eqPMM}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
+\end{align}
+
+where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
+
+
+\subsection*{Interpretation of $\lambda_j$ and $\sigma_j^2$ on slopes and intercepts}
+
+
+In classic phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units (i.e. species), see \citep{revell2010phylogenetic}, the $\lambda$ scaling parameter is assumed constant across the specific set of predictors that enter the model. $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix, which means it does not allow inferring differences across predictors (i.e. environmental cues in our example, cues hereafter) in how species responses to those cues are phylogenetically structured. For example, in a PGLS model with three cues, it would be possible to have a high (i.e., close to 1) value of $\lambda$, due to either a strong phylogenetic signal in the response but no phylogenetic structuring in the cues, or one or multiple predictors being strongly phylogenetically structured. In the latter case, phylogenetic structuring of responses to cues could be correlated (i.e., responses to cues evolving in a correlated fashion) or uncorrelated (i.e., independent evolution of responses to cues). Discerning these different situations is not trivial as they would inform whether responses to predictors configure in a structured fashion along the evolutionary process. However, in classic approaches act as a black box regarding this information, and merely inform whether or not model residuals are phylogenetically structured (i.e. in PGLS) or the amount of model variance attributable to the phylogeny and independent from other sources of variation (i.e., in PMM, see \cite{housworth2004phylogenetic}).\\
+
+Our approach goes one step beyond in explicitly partitioning model residual variance into specific components relative to the model intercept and predictor slopes (see equation \ref{eqfive}). The multivariate normal distributions of intercept and slopes include each a variance term (see equation \ref{phybetas}), modelled with a $\lambda$ scaling parameter. The interpretation of $\lambda$s in our models are analogous to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). Estimated $\lambda$s are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing to compare among responses known to interact with each other and estimated simultaneously. While classic approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.\\ 
+
+%The interpretation of $\sigma^2$s, which are also estimated for each slope and for the intercept. --- I need to think a bit more about this
+%IMC 14mar - This section still in need of substantial work.
 
 
 % for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
