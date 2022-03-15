@@ -24,7 +24,7 @@ if(length(grep("deirdreloughnan", getwd())>0)) {
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
 	filePathData <- "output/"
-traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
+traitModelNames <- grep("_37spp_wp.RDS", list.files(filePathData), value = TRUE) 
 
 #Make a dataframe for saving traiit estimates for results section
 traits <- c("Height", "LNC", "SeedMass_log10", "SLA")
@@ -66,7 +66,7 @@ for(traiti in 1:length(traitModelNames)){
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
-	traitName <- gsub("_stanfit_37spp.RDS", "", traitModelNames[traiti])
+	traitName <- gsub("_stanfit_37spp_wp.RDS", "", traitModelNames[traiti])
 	slaModelFit <- rstan::extract(slaModel)
 
 	#sensible cue values
@@ -133,7 +133,7 @@ for(traiti in 1:length(traitModelNames)){
 	#--------------
 #traiti <- "SeedMass_log10_stanfit.RDS"
 	# traiti <- 3
-	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
+	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp_wp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
 		slaData$traitvalue_log <- log10(slaData$traitvalue)
@@ -290,7 +290,7 @@ for(traiti in 1:length(traitModelNames)){
 
 
 	#this plotting code needs the patchwork library 
-	  png("figures/FourTraitFit_37spp.png", width = 14, height = 15, units = "in", res = 72)
+	  png("figures/FourTraitFit_37spp_wp.png", width = 14, height = 15, units = "in", res = 72)
 	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
