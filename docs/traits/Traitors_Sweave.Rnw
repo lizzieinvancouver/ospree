@@ -63,8 +63,8 @@
 
 \title{Woody plant phenological responses are strongly associated with key functional traits}
 \date{\today}
-\author{Deirdre Loughnan$^1$, Faith A M Jones$^1$, Geoffrey Legault$^1$, Mira Garner$^2$, Darwin Sodhi$^3$}
-%, Daniel Buonaiuto$^4$, Catherine Chamberlain$^5$, Ignacio Morales Castilla $^6$, Ailene Ettinger$^7$,  and E M Wolkovich$^1$}
+\author{Deirdre Loughnan$^1$, Faith A M Jones$^1$, Geoffrey Legault$^1$, Mira Garner$^2$, Darwin Sodhi$^3$
+, Daniel Buonaiuto$^4$, Catherine Chamberlain$^5$, Ignacio Morales Castilla $^6$, Ailene Ettinger$^7$,  and E M Wolkovich$^1$}
 \maketitle 
 
 $^1$ Department of Forest and Conservation, Faculty of Forestry, University of British Columbia, 2424 Main Mall
