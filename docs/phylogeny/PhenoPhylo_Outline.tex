@@ -12,6 +12,7 @@
 \usepackage{mdframed}
 \usepackage{natbib}
 \usepackage{comment}
+\usepackage{booktabs}
 \usepackage[colorinlistoftodos]{todonotes} % to make comments on the margin
 \usepackage[small]{caption}
 \setlength{\captionmargin}{30pt}
@@ -365,7 +366,7 @@ In classic phylogenetic regression approaches aimed at controlling for phylogene
 
 Our approach goes one step beyond in explicitly partitioning model residual variance into specific components relative to the model intercept and predictor slopes (see equation \ref{eqfive}). The multivariate normal distributions of intercept and slopes include each a variance term (see equation \ref{phybetas}), modelled with a $\lambda$ scaling parameter. The interpretation of $\lambda$s in our models are analogous to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). Estimated $\lambda$s are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing to compare among responses known to interact with each other and estimated simultaneously. While classic approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.\\ 
 
-A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an ‘evolutionary rate’ or phenotypic accummulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with variance–covariance matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, we estimate four $\sigma^2$scorresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three intearcting environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accummulated along the evolutionary process and considered in concert.  
+A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an ‘evolutionary rate’ or phenotypic accummulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with variance–covariance matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, we estimate four $\sigma^2$scorresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three intearcting environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accummulated along the evolutionary process and considered in concert. \\ 
 
 %IMC 14mar - This section still in need of substantial work. Double checking by Lizzie, Jonathan, Will... will help!
 % EMW (19Mar2022): We should have JD edit (he can help once there is a full draft). 
@@ -378,6 +379,10 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Results}
+
+Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, of 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms---chilling > forcing > photoperiod---but with marked quantitative shifts and larger variability around parameters, which led 97.5\% Credible Intervals for estimates of sensitivity to forcing and photoperiod to overlap with zero (see Table \ref{tab:modelgymlamb}). While .\\
+
+
 
 
 
@@ -529,6 +534,58 @@ To be fleshed out.
   \label{fig:muplot_photo_lambda0}
   \end{center}
 \end{figure}
+
+
+\begin{table}[H]
+\begin{center}
+\caption{Full model parameters estimated for 192 angiosperm species.}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{parameter}             & \multicolumn{1}{l}{\textbf{mean}} & \multicolumn{1}{l}{\textbf{sd}} & \multicolumn{1}{l}{\textbf{2.50\%}} & \multicolumn{1}{l}{\textbf{50\%}} & \multicolumn{1}{l}{\textbf{97.50\%}} & \multicolumn{1}{l}{\textbf{n\_eff}} \\ \midrule
+$\mu_\alpha$                   & 30.57                             & 3.41                            & 23.68                               & 30.59                             & 37.14                                & 5031.19                             \\
+$\mu_\beta_{forcing}$          & -5.84                             & 2.01                            & -9.72                               & -5.89                             & -1.79                                & 2374.73                             \\
+$\mu_\beta_{chilling}$         & -7.19                             & 2.03                            & -11.15                              & -7.18                             & -3.18                                & 3694.93                             \\
+$\mu_\beta_{photoperiod}$      & -1.37                             & 0.76                            & -2.92                               & -1.35                             & 0.14                                 & 1565.41                             \\
+$\lambda_\alpha$               & 0.35                              & 0.10                            & 0.16                                & 0.34                              & 0.56                                 & 3416.51                             \\
+$\lambda_\beta_{forcing}$      & 0.68                              & 0.20                            & 0.23                                & 0.71                              & 0.98                                 & 185.35                              \\
+$\lambda_\beta_{chilling}$     & 0.56                              & 0.15                            & 0.25                                & 0.56                              & 0.83                                 & 738.57                              \\
+$\lambda_\beta_{photoperiod}$  & 0.36                              & 0.24                            & 0.02                                & 0.33                              & 0.88                                 & 296.51                              \\
+$\sigma_\alpha^2$              & 15.93                             & 1.17                            & 13.84                               & 15.85                             & 18.41                                & 2988.37                             \\
+$\sigma_\beta^2_{forcing}$     & 5.84                              & 1.04                            & 4.03                                & 5.78                              & 8.15                                 & 502.74                              \\
+$\sigma_\beta^2_{chilling}$    & 7.05                              & 0.87                            & 5.48                                & 7.02                              & 8.92                                 & 1026.77                             \\
+$\sigma_\beta^2_{photoperiod}$ & 2.45                              & 0.41                            & 1.74                                & 2.42                              & 3.32                                 & 469.46                              \\
+$\sigma_y^2$                   & 12.81                             & 0.18                            & 12.47                               & 12.80                             & 13.17                                & 4017.16                             \\ \bottomrule
+\end{tabular}
+\end{center}
+\label{tab:modelanglamb}
+\end{table}
+
+
+\begin{table}[H]
+ \begin{center}
+\caption{Full model parameters estimated for 19 gymnosperm species.}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{parameter}             & \multicolumn{1}{l}{\textbf{mean}} & \multicolumn{1}{l}{\textbf{sd}} & \multicolumn{1}{l}{\textbf{2.50\%}} & \multicolumn{1}{l}{\textbf{50\%}} & \multicolumn{1}{l}{\textbf{97.50\%}} & \multicolumn{1}{l}{\textbf{n\_eff}} \\ \midrule
+$\mu_\alpha$                   & 25.75                             & 4.50                            & 16.88                               & 25.73                             & 34.73                                & 33151.86                            \\
+$\mu_\beta_{forcing}$          & -5.92                             & 3.80                            & -12.97                              & -6.05                             & 1.90                                 & 16443.03                            \\
+$\mu_\beta_{chilling}$         & -8.11                             & 3.63                            & -15.31                              & -8.09                             & -0.94                                & 21379.81                            \\
+$\mu_\beta_{photoperiod}$      & -0.88                             & 3.33                            & -8.01                               & -0.67                             & 5.19                                 & 16301.93                            \\
+$\lambda_\alpha$               & 0.47                              & 0.26                            & 0.02                                & 0.48                              & 0.90                                 & 15934.03                            \\
+$\lambda_\beta_{forcing}$      & 0.36                              & 0.23                            & 0.02                                & 0.33                              & 0.84                                 & 14336.60                            \\
+$\lambda_\beta_{chilling}$     & 0.32                              & 0.23                            & 0.01                                & 0.28                              & 0.82                                 & 13230.88                            \\
+$\lambda_\beta_{photoperiod}$  & 0.37                              & 0.24                            & 0.02                                & 0.34                              & 0.88                                 & 11199.49                            \\
+$\sigma_\alpha^2$              & 23.47                             & 6.20                            & 13.87                               & 22.59                             & 37.81                                & 18272.58                            \\
+$\sigma_\beta^2_{forcing}$     & 8.89                              & 2.45                            & 4.96                                & 8.60                              & 14.51                                & 8126.51                             \\
+$\sigma_\beta^2_{chilling}$    & 10.47                             & 2.66                            & 5.78                                & 10.30                             & 16.17                                & 8539.38                             \\
+$\sigma_\beta^2_{photoperiod}$ & 7.18                              & 2.29                            & 3.29                                & 6.96                              & 12.25                                & 5625.69                             \\
+$\sigma_y^2$                   & 15.81                             & 0.41                            & 15.04                               & 15.81                             & 16.63                                & 28640.16                            \\ \bottomrule
+\end{tabular}
+\end{center}
+\label{tab:modelgymlamb}
+\end{table}
+
+
 
 
 \begin{comment}
