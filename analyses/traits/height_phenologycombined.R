@@ -16,7 +16,10 @@ set.seed(2021)
 MidgeFlag <-TRUE
 
 
-  setwd("/home/deirdre/ospree")
+  if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
+    } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
+    } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
+    } 
   traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
   traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 
@@ -67,30 +70,31 @@ all.data <- list(yTraiti = heightData$traitvalue,
                  forcei = ospreeData$force.z,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
-                prior_muForceSp_mu = -15,
-                 prior_muForceSp_sigma = 10,
+                 prior_muForceSp_mu = -15,
+                 prior_muForceSp_sigma = 10, #wider
                  prior_muChillSp_mu = -15,
-                 prior_muChillSp_sigma = 10,
+                 prior_muChillSp_sigma = 10,#wider
                  prior_muPhotoSp_mu = -15,
-                 prior_muPhotoSp_sigma = 10,
-                 prior_muPhenoSp_mu = 80,
-                 prior_muPhenoSp_sigma = 40, #wider
-                 prior_sigmaForceSp_mu = 5,#wider
-                 prior_sigmaForceSp_sigma = 10,#wider
+                 prior_muPhotoSp_sigma = 10,#wider
+                 prior_muPhenoSp_mu = 40,
+                 prior_muPhenoSp_sigma = 10,#wider
+                 prior_sigmaForceSp_mu = 5,
+                 prior_sigmaForceSp_sigma = 5,
                  prior_sigmaChillSp_mu = 5,#wider
-                 prior_sigmaChillSp_sigma = 10,#wider
-                 prior_sigmaPhotoSp_mu = 5,#wider
-                 prior_sigmaPhotoSp_sigma = 10,#wider
-                 prior_sigmaPhenoSp_mu = 10,#wider
-                 prior_sigmaPhenoSp_sigma = 10,
+                 prior_sigmaChillSp_sigma = 5, #wider
+                 prior_sigmaPhotoSp_mu = 5,
+                 prior_sigmaPhotoSp_sigma = 5,
+                 prior_sigmaPhenoSp_mu = 5, #wider
+                 prior_sigmaPhenoSp_sigma = 5, #wider
                  prior_betaTraitxForce_mu = 0,
-                 prior_betaTraitxForce_sigma = 2,#wider
+                 prior_betaTraitxForce_sigma = 1,
                  prior_betaTraitxChill_mu = 0,
-                 prior_betaTraitxChill_sigma = 2,#wider
+                 prior_betaTraitxChill_sigma = 1,
                  prior_betaTraitxPhoto_mu = 0,
-                 prior_betaTraitxPhoto_sigma = 2,#wider
-                 prior_sigmaphenoy_mu = 20,
-                 prior_sigmaphenoy_sigma = 5) 
+                 prior_betaTraitxPhoto_sigma = 1,
+                 prior_sigmaphenoy_mu = 10,
+                 prior_sigmaphenoy_sigma = 5 #wider
+                 ) 
 
 
 
