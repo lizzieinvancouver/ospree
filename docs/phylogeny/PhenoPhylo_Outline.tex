@@ -12,6 +12,7 @@
 \usepackage{mdframed}
 \usepackage{natbib}
 \usepackage{comment}
+\usepackage{booktabs}
 \usepackage[colorinlistoftodos]{todonotes} % to make comments on the margin
 \usepackage[small]{caption}
 \setlength{\captionmargin}{30pt}
@@ -255,12 +256,12 @@ Across experiments chilling treatments were often fully or partially applied in 
 % IMC - I may need help from Cat about the latest chilling data sources, the metric and so on. It will be great to have Ailene double-checking this part.
 We analyze 2 different subsets of species in the OSPREE database to explore differences across two major groups of taxa, angiosperms and gymnosperms, for which there are markedly different number of species (194 angiosperms vs. 19 gymnosperms), and whose deep evolutionary divergence advises for separate analyses \citep{}.\\
 % IMC - I wonder if we should re-analyze data for the exact subset of species in Ettinger et al. 2020NCC. We mentioned doing so at some point but I never did it.
+% EMW (19Mar2022):I woudl skip it until reviewers ask or we think we desperately need it. 
 
 
 \begin{comment}
 \begin{enumerate}
-\item Description of the OSPREE database (where it comes from, number of species, studies, etc.).  
-\todo{Lizzie will write this!}
+\item Description of the OSPREE database (where it comes from, number of species, studies, etc.). % Lizzie started this -- see above
 
 \item We analyze 5 different subsets of species in the OSPREE database to explore differences across taxa (effect of gymnosperms?) and to test to what extent data resolution affects the results:
 
@@ -325,7 +326,7 @@ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\
 
 \noindent where $\sigma_i^2$ is the rate of evolution across a tree for trait $i$ (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the ``phylogenetic signal'' or extent of phylogenetic relatedness on each model parameter (i.e., $\alpha_{j}$, $\beta_{1,j}$, $\beta_{2,j}$, $\beta_{3,j}$), and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
 
-The above specification is exactly equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
+The above specification is equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
 
 \begin{align}
   \label{eqfive}
@@ -334,40 +335,23 @@ The above specification is exactly equivalent to writing equation \ref{modelmu} 
 
 \noindent where the residual error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}.
 
-% IMC 15mar perhaps we do not need the below bit, but I thought it could be helpful to show how our model specification compares to that of more classic approaches. I have to double check the equations below, and introduce the indices for partial pooling on slopes and intercept (not sure it works as is, please Lizzie, Deirdre, Geoff, can you check this?)
-For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
-
-\begin{align}
-  \label{eqPGLS}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
-\end{align}
-
-
-and the PMM version:
-
-\begin{align}
-  \label{eqPMM}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
-\end{align}
-
-where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
 
 
 % IMC 15mar - somewhere in the methods (I wonder if here) we should mention the sets of analyses that we run:
 % angiosperms phylo model, angiosperms lambda0 model, gymno phylo model, gymno lambda0 model,
 % in addition I think we may need angiosperms lambda1 model, gymno lambda1 model
-
-
+% EMW (19Mar2022): Yes! We really need this, I think it will get the methods section back to our biological aims. 
 
 \subsection*{Interpretation of $\lambda_j$ and $\sigma_j^2$ on slopes and intercepts}
 
-In classic phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units (i.e. species), see \citep{revell2010phylogenetic}, the $\lambda$ scaling parameter is assumed constant across the specific set of predictors that enter the model. $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix, which means it does not allow inferring differences across predictors (i.e. environmental cues in our example, cues hereafter) in how species responses to those cues are phylogenetically structured. For example, in a PGLS model with three cues, it would be possible to have a high (i.e., close to 1) value of $\lambda$, due to either a strong phylogenetic signal in the response but no phylogenetic structuring in the cues, or one or multiple predictors being strongly phylogenetically structured. In the latter case, phylogenetic structuring of responses to cues could be correlated (i.e., responses to cues evolving in a correlated fashion) or uncorrelated (i.e., independent evolution of responses to cues). Discerning these different situations is not trivial as they would inform whether responses to predictors configure in a structured fashion along the evolutionary process. However, in classic approaches act as a black box regarding this information, and merely inform whether or not model residuals are phylogenetically structured (i.e. in PGLS) or the amount of model variance attributable to the phylogeny and independent from other sources of variation (i.e., in PMM, see \cite{housworth2004phylogenetic}).\\
+In classic phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units (i.e. species), see \citep{revell2010phylogenetic}, the $\lambda$ scaling parameter is assumed constant across the specific set of predictors that enter the model. $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix, which means it does not allow inferring differences across predictors (i.e. environmental cues in our example, cues hereafter) in how species responses to those cues are phylogenetically structured. For example, in a PGLS model with three cues, it would be possible to have a high (i.e., close to 1) value of $\lambda$, due to either a strong phylogenetic signal in the response but no phylogenetic structuring in the cues, or one or multiple predictors being strongly phylogenetically structured. In the latter case, phylogenetic structuring of responses to cues could be correlated (i.e., responses to cues evolving in a correlated fashion) or uncorrelated (i.e., independent evolution of responses to cues). Discerning these different situations is not trivial as they would inform whether responses to predictors configure in a structured fashion along the evolutionary process. However, classic approaches act as a black box regarding this information, and merely inform whether or not model residuals are phylogenetically structured (i.e. in PGLS) or the amount of model variance attributable to the phylogeny and independent from other sources of variation (i.e., in PMM, see \cite{housworth2004phylogenetic}).\\
 
 Our approach goes one step beyond in explicitly partitioning model residual variance into specific components relative to the model intercept and predictor slopes (see equation \ref{eqfive}). The multivariate normal distributions of intercept and slopes include each a variance term (see equation \ref{phybetas}), modelled with a $\lambda$ scaling parameter. The interpretation of $\lambda$s in our models are analogous to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). Estimated $\lambda$s are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing to compare among responses known to interact with each other and estimated simultaneously. While classic approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.\\ 
 
-A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an ‘evolutionary rate’ or phenotypic accummulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with variance–covariance matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, we estimate four $\sigma^2$scorresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three intearcting environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accummulated along the evolutionary process and considered in concert.  
+A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an ‘evolutionary rate’ or phenotypic accummulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with variance–covariance matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, we estimate four $\sigma^2$scorresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three intearcting environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accummulated along the evolutionary process and considered in concert. \\ 
 
 %IMC 14mar - This section still in need of substantial work. Double checking by Lizzie, Jonathan, Will... will help!
+% EMW (19Mar2022): We should have JD edit (he can help once there is a full draft). 
 
 
 
@@ -378,13 +362,18 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 
 \section*{Results}
 
+Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, of 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms---chilling > forcing > photoperiod---but with marked quantitative shifts and larger variability around parameters, which led 97.5\% Credible Intervals for estimates of sensitivity to forcing and photoperiod to overlap with zero (see Table \ref{tab:modelgymlamb}). Gymnosperm based results must be interpreted with caution as they are based on a very limited set of observations.\\ %IMC 21mar - We can probably delete teh last sentence, I just wanted to note that results for gymno aren't as reliable.
+
+The above patterns were strongly phylogenetically clustered for forcing ($\lambda$ \= 0.68), moderately so for chilling ($\lambda$ \= 0.56) and weakly for photoperiod ($\lambda$ \= 0.24) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}). This indicates that species responses to interacting cues, when modelled jointly, widely differ in how they are affected by evolutionary relatedness. Sensitivigy to photoperiod treatments does not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}).   
 
 
 
 
 
 
-\todo{If we want to make the point of with and without lambda results, we could just include a scatterplot? With lambda on x and lambda=0 on Y?} % One plot for each cue?
+
+
+\todo{If we want to make the point of with and without lambda results, we could just include a scatterplot? With lambda on x and lambda=0 on Y?} % One plot for each cue? % EMW (19Mar2022): Sure!
 \todo{Careful in comparing with Ailene's results too closely as the species list has changed some} % We added data from 2016-2019 papers.
 
 %\subsection*{Cue sensitivities: model accuracy and correlations across cues}
@@ -463,6 +452,24 @@ To be fleshed out.
 \section*{Tables and Figures} 
 
 
+%IMC 22mar - we should decide among one of the next two figures, instead of having separate figures per cues?
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio.pdf}
+  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \label{fig:muplot_all}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio2.pdf}
+  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \label{fig:muplot_all}
+  \end{center}
+\end{figure}
+
+
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force.pdf}
@@ -529,74 +536,60 @@ To be fleshed out.
   \end{center}
 \end{figure}
 
-
-\begin{comment}
-\begin{table}[H]
-  \begin{center}
-
-\caption{R2 estimates for models fitted to two subsets of data.}
-\begin{tabular}{@{}llcccc@{}}
-\toprule
-Model                        & nsps & R2    & Est.Error & Q2.5  & Q97.5 \\ \midrule
-mod.sps.intercept            & 52   & 0.369 & 0.012     & 0.346 & 0.392 \\
-mod.sps.phylo.intercept      & 52   & 0.370 & 0.012     & 0.345 & 0.393 \\
-mod.sps.interc.slope         & 52   & 0.478 & 0.011     & 0.456 & 0.498 \\
-mod.sps.interc.slope.phy.int & 52   & 0.478 & 0.011     & 0.455 & 0.499 \\
-mod.sps.intercept            & 117  & 0.369 & 0.012     & 0.344 & 0.393 \\
-mod.sps.phylo.intercept      & 117  & 0.369 & 0.012     & 0.345 & 0.392 \\
-mod.sps.interc.slope         & 117  & 0.486 & 0.011     & 0.465 & 0.506 \\
-mod.sps.interc.slope.phy.int & 117  & 0.487 & 0.011     & 0.465 & 0.507 \\
-mod.sps.intercept            & 215  & 0.582 & 0.007     & 0.566 & 0.596 \\
-mod.sps.phylo.intercept      & 215  & 0.582 & 0.007     & 0.567 & 0.596 \\
-mod.sps.interc.slope         & 215  & 0.659 & 0.006     & 0.646 & 0.670 \\
-mod.sps.interc.slope.phy.int & 215  & 0.658 & 0.006     & 0.646 & 0.671 \\ \bottomrule
-\end{tabular}
- \label{table:R2table}
-  \end{center}
-
- \end{table}
-
-
-\begin{table}[H]
-  \begin{center}
-
-\caption{Leave One Out analyses for models fitted to two subsets of data.}
-\begin{tabular}{@{}llrrcc@{}}
-\toprule
-Model                        & nsps & elpd\_diff & se\_diff & elpd\_loo  & se\_elpd\_loo \\ \midrule
-mod.sps.interc.slope         & 52   & 0.000      & 0.000    & -10944.890 & 75.627        \\
-mod.sps.interc.slope.phy.int & 52   & -0.090     & 0.366    & -10944.980 & 75.572        \\
-mod.sps.phylo.intercept      & 52   & -217.806   & 24.087   & -11162.696 & 74.662        \\
-mod.sps.intercept            & 52   & -218.150   & 24.041   & -11163.040 & 74.719        \\
-mod.sps.interc.slope.phy.int & 117  & 0.000      & 0.000    & -10951.579 & 75.858        \\
-mod.sps.interc.slope         & 117  & -0.543     & 0.591    & -10952.122 & 75.803        \\
-mod.sps.phylo.intercept      & 117  & -242.375   & 25.727   & -11193.955 & 75.031        \\
-mod.sps.intercept            & 117  & -242.582   & 25.691   & -11194.161 & 75.097        \\
-mod.sps.interc.slope         & 215  & 0.000      & 0.000    & -14195.898 & 89.929        \\
-mod.sps.interc.slope.phy.int & 215  & -1.945     & 2.411    & -14197.843 & 90.075        \\
-mod.sps.phylo.intercept      & 215  & -302.843   & 27.217   & -14498.741 & 89.759        \\
-mod.sps.intercept            & 215  & -305.035   & 27.306   & -14500.933 & 89.765        \\ \bottomrule
-\end{tabular}
- \label{table:lootable}
-   \end{center}
-\end{table}
-
+% IMC Mar21 - I'm guessing we are going to merge some of the tables below. TBD what we keep for the main text and what is sent to a supp.
 \begin{table}[H]
 \begin{center}
-\caption{Comparison between phylogenetic signal from PGLS and BRMS.}
-\begin{tabular}{@{}llllllll@{}}
+\caption{Full model parameters estimated for 192 angiosperm species.}
+\begin{tabular}{@{}lcccccc@{}}
 \toprule
-subset     & cue      & $\lambda$      & Lower95CI   & Upper95CI   & $H^2$          & Lower95CI   & Upper95CI   \\ \midrule
-52-complex & forcing  & 0.171446841 & NA          & 0.650638627 & 0.330834872 & 0.008358609 & 0.751811447 \\
-           & chilling & 1.00E-06    & NA          & 0.396954468 & 0.194753034 & 0.000682814 & 0.610910681 \\
-           & photo    & 0.655354248 & 0.186405507 & 0.897899618 & 0.662218791 & 0.208150902 & 0.920502832 \\ \bottomrule
+\textbf{parameter}             & \multicolumn{1}{l}{\textbf{mean}} & \multicolumn{1}{l}{\textbf{sd}} & \multicolumn{1}{l}{\textbf{2.50\%}} & \multicolumn{1}{l}{\textbf{50\%}} & \multicolumn{1}{l}{\textbf{97.50\%}} & \multicolumn{1}{l}{\textbf{n\_eff}} \\ \midrule
+$\mu_\alpha$                   & 30.57                             & 3.41                            & 23.68                               & 30.59                             & 37.14                                & 5031.19                             \\
+$\mu_\beta_{forcing}$          & -5.84                             & 2.01                            & -9.72                               & -5.89                             & -1.79                                & 2374.73                             \\
+$\mu_\beta_{chilling}$         & -7.19                             & 2.03                            & -11.15                              & -7.18                             & -3.18                                & 3694.93                             \\
+$\mu_\beta_{photoperiod}$      & -1.37                             & 0.76                            & -2.92                               & -1.35                             & 0.14                                 & 1565.41                             \\
+$\lambda_\alpha$               & 0.35                              & 0.10                            & 0.16                                & 0.34                              & 0.56                                 & 3416.51                             \\
+$\lambda_\beta_{forcing}$      & 0.68                              & 0.20                            & 0.23                                & 0.71                              & 0.98                                 & 185.35                              \\
+$\lambda_\beta_{chilling}$     & 0.56                              & 0.15                            & 0.25                                & 0.56                              & 0.83                                 & 738.57                              \\
+$\lambda_\beta_{photoperiod}$  & 0.36                              & 0.24                            & 0.02                                & 0.33                              & 0.88                                 & 296.51                              \\
+$\sigma_\alpha^2$              & 15.93                             & 1.17                            & 13.84                               & 15.85                             & 18.41                                & 2988.37                             \\
+$\sigma_\beta^2_{forcing}$     & 5.84                              & 1.04                            & 4.03                                & 5.78                              & 8.15                                 & 502.74                              \\
+$\sigma_\beta^2_{chilling}$    & 7.05                              & 0.87                            & 5.48                                & 7.02                              & 8.92                                 & 1026.77                             \\
+$\sigma_\beta^2_{photoperiod}$ & 2.45                              & 0.41                            & 1.74                                & 2.42                              & 3.32                                 & 469.46                              \\
+$\sigma_y^2$                   & 12.81                             & 0.18                            & 12.47                               & 12.80                             & 13.17                                & 4017.16                             \\ \bottomrule
 \end{tabular}
- \label{table:phylosigtable}
 \end{center}
+\label{tab:modelanglamb}
+\end{table}
+
+
+\begin{table}[H]
+ \begin{center}
+\caption{Full model parameters estimated for 19 gymnosperm species.}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+\textbf{parameter}             & \multicolumn{1}{l}{\textbf{mean}} & \multicolumn{1}{l}{\textbf{sd}} & \multicolumn{1}{l}{\textbf{2.50\%}} & \multicolumn{1}{l}{\textbf{50\%}} & \multicolumn{1}{l}{\textbf{97.50\%}} & \multicolumn{1}{l}{\textbf{n\_eff}} \\ \midrule
+$\mu_\alpha$                   & 25.75                             & 4.50                            & 16.88                               & 25.73                             & 34.73                                & 33151.86                            \\
+$\mu_\beta_{forcing}$          & -5.92                             & 3.80                            & -12.97                              & -6.05                             & 1.90                                 & 16443.03                            \\
+$\mu_\beta_{chilling}$         & -8.11                             & 3.63                            & -15.31                              & -8.09                             & -0.94                                & 21379.81                            \\
+$\mu_\beta_{photoperiod}$      & -0.88                             & 3.33                            & -8.01                               & -0.67                             & 5.19                                 & 16301.93                            \\
+$\lambda_\alpha$               & 0.47                              & 0.26                            & 0.02                                & 0.48                              & 0.90                                 & 15934.03                            \\
+$\lambda_\beta_{forcing}$      & 0.36                              & 0.23                            & 0.02                                & 0.33                              & 0.84                                 & 14336.60                            \\
+$\lambda_\beta_{chilling}$     & 0.32                              & 0.23                            & 0.01                                & 0.28                              & 0.82                                 & 13230.88                            \\
+$\lambda_\beta_{photoperiod}$  & 0.37                              & 0.24                            & 0.02                                & 0.34                              & 0.88                                 & 11199.49                            \\
+$\sigma_\alpha^2$              & 23.47                             & 6.20                            & 13.87                               & 22.59                             & 37.81                                & 18272.58                            \\
+$\sigma_\beta^2_{forcing}$     & 8.89                              & 2.45                            & 4.96                                & 8.60                              & 14.51                                & 8126.51                             \\
+$\sigma_\beta^2_{chilling}$    & 10.47                             & 2.66                            & 5.78                                & 10.30                             & 16.17                                & 8539.38                             \\
+$\sigma_\beta^2_{photoperiod}$ & 7.18                              & 2.29                            & 3.29                                & 6.96                              & 12.25                                & 5625.69                             \\
+$\sigma_y^2$                   & 15.81                             & 0.41                            & 15.04                               & 15.81                             & 16.63                                & 28640.16                            \\ \bottomrule
+\end{tabular}
+\end{center}
+\label{tab:modelgymlamb}
 \end{table}
 
 
 
+
+\begin{comment}
 
 
 \clearpage
@@ -824,6 +817,30 @@ And a very important question:\\
 
 \item Probably still early for this, but any ideas for target journals? JoE seems a natural outlet given where previous work has been published, but if the pitch is more into forecasts, could we aim higher?
 \end{enumerate}
+
+
+
+%% from methods
+% IMC 15mar perhaps we do not need the below bit, but I thought it could be helpful to show how our model specification compares to that of more classic approaches. I have to double check the equations below, and introduce the indices for partial pooling on slopes and intercept (not sure it works as is, please Lizzie, Deirdre, Geoff, can you check this?)
+% EMW (19Mar2022): I chatted with JD about this and I think we should be cautious about too much focus on PGLS versus PMM versus our model here -- if we do this, we're inviting a lot of methods-focused reviewers and I don't see that as a good outcome. So I would recommend that we focus on what our method does BEYOND PGLS or PMM and stop there. (So, cut the below equations.) 
+For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
+
+\begin{align}
+  \label{eqPGLS}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
+\end{align}
+
+
+and the PMM version:
+
+\begin{align}
+  \label{eqPMM}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
+\end{align}
+
+where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
+
+
 
 \end{comment}
 

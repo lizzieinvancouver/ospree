@@ -1,5 +1,5 @@
-rm(list=ls())
-options(stringsAsFactors = FALSE)
+# rm(list=ls())
+# options(stringsAsFactors = FALSE)
 # ## Load libraries
 # library(rstan)
 # require(shinystan)
@@ -15,20 +15,20 @@ options(stringsAsFactors = FALSE)
 #     traitsData1 <- read.csv("../../data/Ospree_traits/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 #     traitsData2 <- read.csv("../../data/Ospree_traits/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 #     ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
-#     posterior <- extract(readRDS(file = "../../data/Ospree_traits/SLA_stanfit.RDS"))
+#     posterior_sla <- extract(readRDS(file = "../../data/Ospree_traits/SLA_stanfit.RDS"))
 # } else{
-    traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-    ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
-    posterior <- extract(readRDS(file = "output/SLA_stanfit_37spp_wp.RDS"))
-#     posteriorOld <- extract(readRDS(file = "output/SLA_stanfit.RDS"))
+    # traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+    # traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+    # ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
+    posterior_sla <- extract(readRDS(file = "output/SLA_stanfit_37spp_wp.RDS"))
+#     posterior_slaOld <- extract(readRDS(file = "output/SLA_stanfit.RDS"))
 #     
 # }
 # 
-traitsData <- rbind(traitsData1,traitsData2)
-
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+# traitsData <- rbind(traitsData1,traitsData2)
 # 
+# traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+# # 
 # # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 # 
 # # Subset data to traitors species list
@@ -46,21 +46,21 @@ specieslist <- sort(unique(slaData$speciesname))
 studylist <- sort(unique(slaData$datasetid))
 
 ## Obtain mean effect of forcing, chilling, photoperiod, interaction
-forceeff <- apply(posterior$betaForceSp, MARGIN = 2, FUN = mean)
-chilleff <- apply(posterior$betaChillSp, MARGIN = 2, FUN = mean)
-photoeff <- apply(posterior$betaPhotoSp, MARGIN = 2, FUN = mean)
-mugrandeff <- apply(posterior$mu_grand_sp, MARGIN = 2, FUN = mean)
-betaTraitForceeff <- mean(posterior$betaTraitxForce) #-0.2087023
-betaTraitChilleff <- mean(posterior$betaTraitxChill) #-0.3064649
-betaTraitPhotoeff <- mean(posterior$betaTraitxPhoto) # -0.1439842
+forceeff <- apply(posterior_sla$betaForceSp, MARGIN = 2, FUN = mean)
+chilleff <- apply(posterior_sla$betaChillSp, MARGIN = 2, FUN = mean)
+photoeff <- apply(posterior_sla$betaPhotoSp, MARGIN = 2, FUN = mean)
+mugrandeff <- apply(posterior_sla$mu_grand_sp, MARGIN = 2, FUN = mean)
+betaTraitForceeff <- mean(posterior_sla$betaTraitxForce) #-0.2087023
+betaTraitChilleff <- mean(posterior_sla$betaTraitxChill) #-0.3064649
+betaTraitPhotoeff <- mean(posterior_sla$betaTraitxPhoto) # -0.1439842
 
-# forceeff.26 <- apply(posteriorOld$betaForceSp, MARGIN = 2, FUN = mean)
-# chilleff.26 <- apply(posteriorOld$betaChillSp, MARGIN = 2, FUN = mean)
-# photoeff.26 <- apply(posteriorOld$betaPhotoSp, MARGIN = 2, FUN = mean)
-# mugrandeff.26 <- apply(posteriorOld$mu_grand_sp, MARGIN = 2, FUN = mean)
-# betaTraitForceeff.26 <- mean(posteriorOld$betaTraitxForce) # -0.2053369
-# betaTraitChilleff.26 <- mean(posteriorOld$betaTraitxChill) #-0.2446075
-# betaTraitPhotoeff.26 <- mean(posteriorOld$betaTraitxPhoto) #-0.1767991
+# forceeff.26 <- apply(posterior_slaOld$betaForceSp, MARGIN = 2, FUN = mean)
+# chilleff.26 <- apply(posterior_slaOld$betaChillSp, MARGIN = 2, FUN = mean)
+# photoeff.26 <- apply(posterior_slaOld$betaPhotoSp, MARGIN = 2, FUN = mean)
+# mugrandeff.26 <- apply(posterior_slaOld$mu_grand_sp, MARGIN = 2, FUN = mean)
+# betaTraitForceeff.26 <- mean(posterior_slaOld$betaTraitxForce) # -0.2053369
+# betaTraitChilleff.26 <- mean(posterior_slaOld$betaTraitxChill) #-0.2446075
+# betaTraitPhotoeff.26 <- mean(posterior_slaOld$betaTraitxPhoto) #-0.1767991
 
 ## Species to plot and other plotting parameters
 plot.sp <- c("Quercus_ilex", "Fagus_grandifolia") 
@@ -87,8 +87,8 @@ for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     stor2 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     for(k in 1:4000){
-        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$alphaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
-        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$betaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
+        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$alphaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
+        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$betaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
     }
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
@@ -104,6 +104,8 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
+my.label <- paste("d", ".", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
 #                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
 #                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
@@ -131,8 +133,8 @@ for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     stor2 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     for(k in 1:4000){
-        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$alphaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
-        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$betaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
+        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$alphaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
+        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$betaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
     }
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
@@ -148,6 +150,8 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
+my.label <- paste("e", ".", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
 #                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
 #                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
@@ -176,8 +180,8 @@ for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     stor2 <- matrix(NA, ncol = length(xrange), nrow = 4000)
     for(k in 1:4000){
-        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$alphaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
-        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior$betaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior$sigmapheno_y[k])
+        stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$alphaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
+        stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_sla$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_sla$betaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_sla$sigmapheno_y[k])
     }
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
@@ -199,57 +203,59 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Fagus g
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp[2], col.sp[1], NA, NA),
        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
+my.label <- paste("f", ".", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=2)
 #dev.off()
 
-pdf("figures/sla_prior_post_dist.pdf", width = 15, height = 25)
-par(mfrow = c(4,4))
-#plot priors against posteriors
-h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
-hist(posterior$muForceSp,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
-hist(posterior$muChillSp,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
-hist(posterior$muPhotoSp,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000, 17,5), col = rgb(1,0,1,1/4))
-hist(posterior$mu_grand,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000,40,10), col = rgb(1,0,1,1/4))
-hist(posterior$muPhenoSp,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
-hist(posterior$betaTraitxForce,add=T,col=rgb(0,0,1,1/4))
-
-h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
-hist(posterior$betaTraitxChill,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
-hist(posterior$betaTraitxPhoto,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
-hist(posterior$sigma_sp,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000,5,2), col = rgb(1,0,1,1/4))
-hist(posterior$sigma_study,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
-hist(posterior$sigma_traity,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
-hist(posterior$sigmaForceSp,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
-hist(posterior$sigmaChillSp,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
-hist(posterior$sigmaPhotoSp,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
-hist(posterior$sigmaPhenoSp,col=rgb(0,0,1,1/4),add=T)
-
-h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
-hist(posterior$sigmapheno_y,add=T,col=rgb(0,0,1,1/4))
-
-dev.off()
+# pdf("figures/sla_prior_post_dist_wide.pdf", width = 15, height = 25)
+# par(mfrow = c(4,4))
+# #plot priors against posterior_slas
+# h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$muForceSp,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$muChillSp,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000, -15,10), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$muPhotoSp,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000, 17,5), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$mu_grand,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000,40,10), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$muPhenoSp,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$betaTraitxForce,add=T,col=rgb(0,0,1,1/4))
+# 
+# h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$betaTraitxChill,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 0,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$betaTraitxPhoto,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigma_sp,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000,5,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigma_study,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigma_traity,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigmaForceSp,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigmaChillSp,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 5,2), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigmaPhotoSp,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigmaPhenoSp,col=rgb(0,0,1,1/4),add=T)
+# 
+# h1 <- hist(rnorm(1000, 10,5), col = rgb(1,0,1,1/4))
+# hist(posterior_sla$sigmapheno_y,add=T,col=rgb(0,0,1,1/4))
+# 
+# dev.off()
