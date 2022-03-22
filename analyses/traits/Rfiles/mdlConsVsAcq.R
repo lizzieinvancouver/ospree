@@ -25,11 +25,37 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 ospree$speciesname <- paste(ospree$genus, ospree$species, sep = "_")
 ospreeData <- subset(ospree, ospree$speciesname %in% traitors.sp)
 
-pdf("slopesConsAcqu.pdf", width = 12, height = 16)
-par(mar = c(5, 5, 2, 2), mfrow=c(4,3))
+put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL, 
+                           offset=c(0, 0), ...) {
+  if(length(label) > 1) {
+    warning("length(label) > 1, using label[1]")
+  }
+  if(is.null(x) | is.null(y)) {
+    coords <- switch(location,
+                     topleft = c(0.05,0.98),
+                     topcenter = c(0.5525,0.98),
+                     topright = c(0.985, 0.98),
+                     bottomleft = c(0.015, 0.02), 
+                     bottomcenter = c(0.5525, 0.02), 
+                     bottomright = c(0.985, 0.02),
+                     c(0.015, 0.98) )
+  } else {
+    coords <- c(x,y)
+  }
+  this.x <- grconvertX(coords[1] + offset[1], from="nfc", to="user")
+  this.y <- grconvertY(coords[2] + offset[2], from="nfc", to="user")
+  text(labels=label[1], x=this.x, y=this.y, xpd=T, cex = 2, ...)
+}
 
+pdf("figures/slopesConsAcqu_maintext.pdf", width = 12, height = 8)
+par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
 source("results_Height_plot.R")
 source("results_SLA_plot.R")
+dev.off()
+
+
+pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 8)
+par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
 source("results_SeedMass_plot.R")
 source("results_LNC_plot.R")
 dev.off()
