@@ -77,30 +77,30 @@ all.data <- list(yTraiti = lncData$traitvalue,
                  chilli = ospreeData$chill.z,
                  photoi = ospreeData$photo.z,
                  prior_muForceSp_mu = -15,
-                 prior_muForceSp_sigma = 20, #wider
+                 prior_muForceSp_sigma = 10, #wider
                  prior_muChillSp_mu = -15,
-                 prior_muChillSp_sigma = 20,#wider
+                 prior_muChillSp_sigma = 10,#wider
                  prior_muPhotoSp_mu = -15,
-                 prior_muPhotoSp_sigma = 20,#wider
+                 prior_muPhotoSp_sigma = 10,#wider
                  prior_muPhenoSp_mu = 40,
                  prior_muPhenoSp_sigma = 10,#wider
                  prior_sigmaForceSp_mu = 5,
-                 prior_sigmaForceSp_sigma = 2,
-                 prior_sigmaChillSp_mu = 10,#wider
+                 prior_sigmaForceSp_sigma = 5,
+                 prior_sigmaChillSp_mu = 5,#wider
                  prior_sigmaChillSp_sigma = 5, #wider
                  prior_sigmaPhotoSp_mu = 5,
-                 prior_sigmaPhotoSp_sigma = 2,
-                 prior_sigmaPhenoSp_mu = 10, #wider
+                 prior_sigmaPhotoSp_sigma = 5,
+                 prior_sigmaPhenoSp_mu = 5, #wider
                  prior_sigmaPhenoSp_sigma = 5, #wider
                  prior_betaTraitxForce_mu = 0,
-                 prior_betaTraitxForce_sigma = 2,
+                 prior_betaTraitxForce_sigma = 1,
                  prior_betaTraitxChill_mu = 0,
-                 prior_betaTraitxChill_sigma = 2,
+                 prior_betaTraitxChill_sigma = 1,
                  prior_betaTraitxPhoto_mu = 0,
-                 prior_betaTraitxPhoto_sigma = 2,
-                 prior_sigmaphenoy_mu = 2,
-                 prior_sigmaphenoy_sigma = 10 #wider
-                   ) 
+                 prior_betaTraitxPhoto_sigma = 1,
+                 prior_sigmaphenoy_mu = 10,
+                 prior_sigmaphenoy_sigma = 5 #wider
+                 )
 
 mdl.traitphen <- stan("stan/phenology_combined.stan",
                       data = all.data,
@@ -136,6 +136,7 @@ names(mdl.traitphen)[grep(pattern = "^betaPhenoSp", x = names(mdl.traitphen))] <
 
 pdf(file = "LNC_estimates_37spp.pdf", onefile = TRUE)
 plot(mdl.traitphen, pars = c("mu_grand", "muSp"))
+
 plot(mdl.traitphen, pars = c("muStudy"))
 plot(mdl.traitphen, pars = c("muPhenoSp", "alphaPhenoSp"))
 plot(mdl.traitphen, pars = c("muForceSp", "alphaForceSp"))
@@ -155,11 +156,12 @@ saveRDS(object = mdl.traitphen, file = "LNC_stanfit_37spp.RDS")
 # 
    cueEffectPlot <- mcmc_intervals(cueEffects) + 
      theme_classic() + 
-      labs(title = "main intercept, cue slopes and general error")
+      labs(title = "cue slopes")
 
 hist( postLNC$muForceSp, main = paste("muForceSp is " , signif(mean( postLNC$muForceSp),3), sep = ""))
        abline(v = mean( postLNC$muForceSp), col="red", lwd=3, lty=2)
 
 hist(postLNC$betaTraitxForce, main = paste("betaTraitxForce is " , signif(mean( postLNC$betaTraitxForce),3), sep = ""))
        abline(v = mean( postLNC$betaTraitxForce), col="red", lwd=3, lty=2)
+
 
