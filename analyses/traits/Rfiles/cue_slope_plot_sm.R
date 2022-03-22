@@ -129,8 +129,8 @@ files
   
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
-pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, width = 12)
-  par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
+pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 8, width = 12)
+  par(mar = c(5, 5, 2, 2), mfrow = c(2,3))
   plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = "Species level forcing slope", xlab = "Estimated trait effect", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
@@ -594,8 +594,12 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
   
   my.label <- paste("f", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
+  dev.off()
   ####################
   # Seed mass
+  pdf(paste("figures/cue", "trait_wtrend_supp", ".pdf", sep = ""), height = 8, width = 12)
+  par(mar = c(5, 5, 2, 2), mfrow = c(2,3))
+  
   Model <- readRDS(paste("output/", files[3], sep = ""))
   
   ModelFit <- rstan::extract(Model)
@@ -689,7 +693,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bfs_df[4,"betaForceSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("g", ".", sep="")
+  my.label <- paste("a", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   betaChillSp <- data.frame(ModelFit$betaChillSp)
@@ -764,7 +768,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bcs_df[4,"betaChillSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("h", ".", sep="")
+  my.label <- paste("b", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
@@ -840,7 +844,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bps_df[4,"betaPhotoSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("i", ".", sep="")
+  my.label <- paste("c", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   ####################
@@ -938,7 +942,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bfs_df[29,"betaForceSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("j", ".", sep="")
+  my.label <- paste("d", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   betaChillSp <- data.frame(ModelFit$betaChillSp)
@@ -1013,7 +1017,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bcs_df[29,"betaChillSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("k", ".", sep="")
+  my.label <- paste("e", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
@@ -1089,7 +1093,7 @@ pdf(paste("figures/cue", "trait_wtrend_nprior", ".pdf", sep = ""), height = 16, 
     bps_df[29,"betaPhotoSpMean"],
     length = 0, lwd = 3, col = col.sp[2])
   
-  my.label <- paste("l", ".", sep="")
+  my.label <- paste("f", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
   ###############################################################
   dev.off()
