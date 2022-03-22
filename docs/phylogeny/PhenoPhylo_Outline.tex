@@ -335,24 +335,6 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 
 \noindent where the residual error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}.
 
-% IMC 15mar perhaps we do not need the below bit, but I thought it could be helpful to show how our model specification compares to that of more classic approaches. I have to double check the equations below, and introduce the indices for partial pooling on slopes and intercept (not sure it works as is, please Lizzie, Deirdre, Geoff, can you check this?)
-% EMW (19Mar2022): I chatted with JD about this and I think we should be cautious about too much focus on PGLS versus PMM versus our model here -- if we do this, we're inviting a lot of methods-focused reviewers and I don't see that as a good outcome. So I would recommend that we focus on what our method does BEYOND PGLS or PMM and stop there. (So, cut the below equations.) 
-For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
-
-\begin{align}
-  \label{eqPGLS}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
-\end{align}
-
-
-and the PMM version:
-
-\begin{align}
-  \label{eqPMM}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
-\end{align}
-
-where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
 
 
 % IMC 15mar - somewhere in the methods (I wonder if here) we should mention the sets of analyses that we run:
@@ -380,8 +362,9 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 
 \section*{Results}
 
-Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, of 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms---chilling > forcing > photoperiod---but with marked quantitative shifts and larger variability around parameters, which led 97.5\% Credible Intervals for estimates of sensitivity to forcing and photoperiod to overlap with zero (see Table \ref{tab:modelgymlamb}). While .\\
+Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, of 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms---chilling > forcing > photoperiod---but with marked quantitative shifts and larger variability around parameters, which led 97.5\% Credible Intervals for estimates of sensitivity to forcing and photoperiod to overlap with zero (see Table \ref{tab:modelgymlamb}). Gymnosperm based results must be interpreted with caution as they are based on a very limited set of observations.\\ %IMC 21mar - We can probably delete teh last sentence, I just wanted to note that results for gymno aren't as reliable.
 
+The above patterns were strongly phylogenetically clustered for forcing ($\lambda$ \= 0.68), moderately so for chilling ($\lambda$ \= 0.56) and weakly for photoperiod ($\lambda$ \= 0.24) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}). This indicates that species responses to interacting cues, when modelled jointly, widely differ in how they are affected by evolutionary relatedness. Sensitivigy to photoperiod treatments does not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}).   
 
 
 
@@ -469,6 +452,24 @@ To be fleshed out.
 \section*{Tables and Figures} 
 
 
+%IMC 22mar - we should decide among one of the next two figures, instead of having separate figures per cues?
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio.pdf}
+  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \label{fig:muplot_all}
+  \end{center}
+\end{figure}
+
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio2.pdf}
+  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \label{fig:muplot_all}
+  \end{center}
+\end{figure}
+
+
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force.pdf}
@@ -535,7 +536,7 @@ To be fleshed out.
   \end{center}
 \end{figure}
 
-
+% IMC Mar21 - I'm guessing we are going to merge some of the tables below. TBD what we keep for the main text and what is sent to a supp.
 \begin{table}[H]
 \begin{center}
 \caption{Full model parameters estimated for 192 angiosperm species.}
@@ -589,72 +590,6 @@ $\sigma_y^2$                   & 15.81                             & 0.41       
 
 
 \begin{comment}
-\begin{table}[H]
-  \begin{center}
-
-\caption{R2 estimates for models fitted to two subsets of data.}
-\begin{tabular}{@{}llcccc@{}}
-\toprule
-Model                        & nsps & R2    & Est.Error & Q2.5  & Q97.5 \\ \midrule
-mod.sps.intercept            & 52   & 0.369 & 0.012     & 0.346 & 0.392 \\
-mod.sps.phylo.intercept      & 52   & 0.370 & 0.012     & 0.345 & 0.393 \\
-mod.sps.interc.slope         & 52   & 0.478 & 0.011     & 0.456 & 0.498 \\
-mod.sps.interc.slope.phy.int & 52   & 0.478 & 0.011     & 0.455 & 0.499 \\
-mod.sps.intercept            & 117  & 0.369 & 0.012     & 0.344 & 0.393 \\
-mod.sps.phylo.intercept      & 117  & 0.369 & 0.012     & 0.345 & 0.392 \\
-mod.sps.interc.slope         & 117  & 0.486 & 0.011     & 0.465 & 0.506 \\
-mod.sps.interc.slope.phy.int & 117  & 0.487 & 0.011     & 0.465 & 0.507 \\
-mod.sps.intercept            & 215  & 0.582 & 0.007     & 0.566 & 0.596 \\
-mod.sps.phylo.intercept      & 215  & 0.582 & 0.007     & 0.567 & 0.596 \\
-mod.sps.interc.slope         & 215  & 0.659 & 0.006     & 0.646 & 0.670 \\
-mod.sps.interc.slope.phy.int & 215  & 0.658 & 0.006     & 0.646 & 0.671 \\ \bottomrule
-\end{tabular}
- \label{table:R2table}
-  \end{center}
-
- \end{table}
-
-
-\begin{table}[H]
-  \begin{center}
-
-\caption{Leave One Out analyses for models fitted to two subsets of data.}
-\begin{tabular}{@{}llrrcc@{}}
-\toprule
-Model                        & nsps & elpd\_diff & se\_diff & elpd\_loo  & se\_elpd\_loo \\ \midrule
-mod.sps.interc.slope         & 52   & 0.000      & 0.000    & -10944.890 & 75.627        \\
-mod.sps.interc.slope.phy.int & 52   & -0.090     & 0.366    & -10944.980 & 75.572        \\
-mod.sps.phylo.intercept      & 52   & -217.806   & 24.087   & -11162.696 & 74.662        \\
-mod.sps.intercept            & 52   & -218.150   & 24.041   & -11163.040 & 74.719        \\
-mod.sps.interc.slope.phy.int & 117  & 0.000      & 0.000    & -10951.579 & 75.858        \\
-mod.sps.interc.slope         & 117  & -0.543     & 0.591    & -10952.122 & 75.803        \\
-mod.sps.phylo.intercept      & 117  & -242.375   & 25.727   & -11193.955 & 75.031        \\
-mod.sps.intercept            & 117  & -242.582   & 25.691   & -11194.161 & 75.097        \\
-mod.sps.interc.slope         & 215  & 0.000      & 0.000    & -14195.898 & 89.929        \\
-mod.sps.interc.slope.phy.int & 215  & -1.945     & 2.411    & -14197.843 & 90.075        \\
-mod.sps.phylo.intercept      & 215  & -302.843   & 27.217   & -14498.741 & 89.759        \\
-mod.sps.intercept            & 215  & -305.035   & 27.306   & -14500.933 & 89.765        \\ \bottomrule
-\end{tabular}
- \label{table:lootable}
-   \end{center}
-\end{table}
-
-\begin{table}[H]
-\begin{center}
-\caption{Comparison between phylogenetic signal from PGLS and BRMS.}
-\begin{tabular}{@{}llllllll@{}}
-\toprule
-subset     & cue      & $\lambda$      & Lower95CI   & Upper95CI   & $H^2$          & Lower95CI   & Upper95CI   \\ \midrule
-52-complex & forcing  & 0.171446841 & NA          & 0.650638627 & 0.330834872 & 0.008358609 & 0.751811447 \\
-           & chilling & 1.00E-06    & NA          & 0.396954468 & 0.194753034 & 0.000682814 & 0.610910681 \\
-           & photo    & 0.655354248 & 0.186405507 & 0.897899618 & 0.662218791 & 0.208150902 & 0.920502832 \\ \bottomrule
-\end{tabular}
- \label{table:phylosigtable}
-\end{center}
-\end{table}
-
-
-
 
 
 \clearpage
@@ -882,6 +817,30 @@ And a very important question:\\
 
 \item Probably still early for this, but any ideas for target journals? JoE seems a natural outlet given where previous work has been published, but if the pitch is more into forecasts, could we aim higher?
 \end{enumerate}
+
+
+
+%% from methods
+% IMC 15mar perhaps we do not need the below bit, but I thought it could be helpful to show how our model specification compares to that of more classic approaches. I have to double check the equations below, and introduce the indices for partial pooling on slopes and intercept (not sure it works as is, please Lizzie, Deirdre, Geoff, can you check this?)
+% EMW (19Mar2022): I chatted with JD about this and I think we should be cautious about too much focus on PGLS versus PMM versus our model here -- if we do this, we're inviting a lot of methods-focused reviewers and I don't see that as a good outcome. So I would recommend that we focus on what our method does BEYOND PGLS or PMM and stop there. (So, cut the below equations.) 
+For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
+
+\begin{align}
+  \label{eqPGLS}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
+\end{align}
+
+
+and the PMM version:
+
+\begin{align}
+  \label{eqPMM}
+  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
+\end{align}
+
+where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
+
+
 
 \end{comment}
 
