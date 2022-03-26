@@ -289,29 +289,32 @@ The results of the PGLS analysis suggest there are mostly non-significant phylog
 
 \section{Discussion}
 
-We found that the functional traits of our assemblage of woody plant species did influence their responses to phenological cues. Overall, our findings suggest that hight trait values shifted phenology more and earlier in response to forcing, chilling, and photoperiod, compared to low trait values. The slopes with species trait responses were in line with our predictions for our structural traits, but not leaf traits. Species that have high trait values for height and seed mass, traits associated with conservative growth strategies, shifted their phenology earlier in response to increases in these three cues. Shorter species with smaller seeds that budburst earlier have lower slopes and lower intercepts, indicating that they require weaker cues to budburst and are less responsive to changes in these cues. However, species with high SLA and LNC, traits we associate with more acquisitive growth, also had negative relationships with cue responses suggesting they too will also advance more with rising cues. High trait values for these leaf traits still advance in response to rising cues, but they do not experience the strong trait effect that we predicted. 
+% What do our results suggest for the relationship between cue use and traits? 
+We found that the functional traits of our assemblage of woody plant species did influence plant responses to phenological cues. In general, our findings suggest species associated with acquisitive growth strategies, producing high SLA and LNC leaves, shorter heights, and small seeds, advance their budburst dates in response to increasing chilling cues, compared to more conservative species. Interestingly, the relationships of traits to forcing and photoperiod cues were only partially in line with our predictions. Trees with high SLA and LNC and small seeds did correlate with advances in budburst as forcing increased. However, the response of forcing cues to height contrasted our predictions, with taller trees requiring less forcing temperatures to advance their budburst. Our model estimates also contrasted our predictions for SLA and photoperiod, with species with leaves with high SLA values having a stronger cue response and requiring longer photoperiods to advance budburst. The remaining three traits did follow our predictions, with tall species with large seeds and leaves with low LNC having greater responses to longer photoperiods. 
 
-Traits consistently had the largest influence on chilling cues, suggesting they play a role in species avoidance of false spring events or frost tolerance. As we predicted, there were strong negative relationships between chilling cues and height and seed mass (Fig.\ref{fig:slopes}), indicating that species that are tall and produce large seeds do have greater chilling requirements to budburst and will budburst later in the growing season. This is supported by the identity of species with the largest heights and seed masses, including species in the genus Quercus and \textit{Fagus sylvatica}, which are well known late budbursting species (cite studies showing these species are late). %say something about chilling and leaf traits
- Our model estimates for photoperiod across the four traits also support the findings of previous studies of phenology that observed responses to photoperiod cues to be weakest (citation). To our surprise, the influence of LNC on photoperiod cues was weakest, producing the smallest model estimates. This is a trait most commonly associated with photosynthetic potential and a proxy for the amount of nitrogen rich rubisco enzymes within a leaf. The lack of a relationship therefore suggests that factors other than daylength, such as herbivore pressure, may be selecting for this functional trait.
+Of the three cues commonly included in growth chamber studies, we consistently observed the strongest responses to increases in chilling, while the effects of photoperiod cues are relatively weak. Chilling has frequently been show to be the strongest of the three cues in growth chamber experiments (is this true, find citations). This may reflect the role that chill units play in the transition from endodormancy to ecodormancy, where plants transition from complete dormancy to being more physiologically active and response to forcing cues (citation). While previous work has shown that responses in photoperiod cues also contribute to the timing of budburst, previous growth chamber our model predictions are in line with previous work that suggests that the responses to photoperiod are much weaker.
+
+
+%height and forcing - false spring, sap running, xylem development? Structural integrity? 
+
+%SLA - thickness vs area - evaporation vs light capturing vs?
+
+Traits consistently had the largest influence on chilling cues, suggesting they play a role in species transition from winter dormancy (endodormancy) and their avoidance of false spring events. %something more about endo vs ectodormancy 
+As we predicted, there were strong negative relationships between chilling cues and height and seed mass (Fig.\ref{fig:slopes}), indicating that species that are tall and produce large seeds do have greater chilling requirements to budburst and will budburst later in the growing season. 
+
+Our model estimates for photoperiod across the four traits also support the findings of previous studies of phenology that observed responses to photoperiod cues to be weakest (citation). To our surprise, the influence of LNC on photoperiod cues was weaker than it's cue response to forcing and photoperiod. This is a trait most commonly associated with photosynthetic potential and a proxy for the amount of nitrogen rich rubisco enzymes within a leaf (citation). The lack of a relationship therefore suggests that factors other than daylength, such as herbivore pressure, may be selecting for this functional trait.
  
- Our study relating functional traits to phenology is unique from previous research in that we are drawing associations between the traits and the cue responses that define woody species phenologies. In general our model estimates are   
+ Our study relating functional traits to phenology is unique from previous research in that we are drawing associations between the traits and the cue responses that define woody species phenologies. In general our model estimates are...   
 
 -traits are contributing to cue responses bc the lines are all different
 
 Discuss the DF paper again 
 
-Geoff : "Overall, we found that conservative species, which generally had high traits values for SLA, Height, etc., shifted their phenology more and earlier in response to forcing, chilling, and photoperiod, than acquisitive species with low trait values. This responsiveness is linked to later budbursting - earlier sp have lower slopes bc they require less cues in general, having a lower intercept"
-
 \begin{itemize}
 \item What do our results suggest for the relationship between cue use and traits? 
-- Species responses to forcing, chilling, and photoperiod cues are influenced by species functional traits. 
-- generally in line with previous studies of phenological cues, cue responses were all negative leading to strong advances in bb date 
 	\begin{itemize}
 	\item Do we find relationships between cues and traits?
-	- yes, with the exception of LNC and photoperiod being pretty weak, all traits had an effect of the response of species to cues
 	\item Do these trends agree with an acquisitive/conservative tradeoff?
-	- yes, species structural traits associated with acquisitive growth strategies did budburst earlier
-	- not so much with leaf traits, predicted that high sla and lnc would be earlier, but the slope plots are messier, could be positive for forcing and chilling -- which would be in line with our predictions, but seem to be negative/no trend for photoperiod 
 	\end{itemize}
 \item How do our results relate to previous studies? 
         Huang et al. 2018 - found several growth strategies - all combinations of early- fast, early-slow, late-fast etc - but looked at flowering
@@ -364,117 +367,106 @@ The trait data used in this experiment was collected independently of the phenol
 % Thu Mar 17 13:45:36 2022
 \begin{table}[ht]
 \centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-$\mu_{grand}$ & 12.58 & 1.92 & 8.71 & 12.61 & 16.32 & 1.00 \\ 
-$\mu_{\alpha_{\text{pheno}}}$ & 31.97 & 3.00 & 26.25 & 31.93 & 37.95 & 1.00 \\ 
-$\mu_{\alpha_{\text{force}}}$ & -11.06 & 2.82 & -17.04 & -10.95 & -5.87 & 1.00 \\ 
-$\mu_{\alpha_{\text{chill}}}$ & -3.63 & 4.26 & -12.77 & -3.47 & 4.21 & 1.00 \\ 
-$\mu_{\alpha_{\text{photo}}}$ & 1.42 & 2.33 & -3.34 & 1.44 & 5.84 & 1.00 \\ 
-$\beta_{trait.force}$ & 0.20 & 0.19 & -0.16 & 0.20 & 0.60 & 1.00 \\ 
-$\beta_{trait.chill}$ & -0.57 & 0.30 & -1.12 & -0.58 & 0.05 & 1.00 \\ 
-$\beta_{trait.photo}$ & -0.30 & 0.17 & -0.62 & -0.30 & 0.05 & 1.00 \\ 
-$\sigma_{\alpha_{\text{species}}}$ & 5.91 & 0.78 & 4.59 & 5.83 & 7.65 & 1.00 \\ 
-$\sigma_{\alpha_{\text{study}}}$ & 7.50 & 1.19 & 5.52 & 7.37 & 10.15 & 1.00 \\ 
-$\sigma_{\alpha_{\text{trait}}}$ & 5.39 & 0.02 & 5.36 & 5.39 & 5.43 & 1.00 \\ 
-$\sigma_{\alpha_{\text{phenoSp}}}$ & 16.87 & 2.58 & 12.08 & 16.78 & 22.18 & 1.00 \\ 
-$\sigma_{\alpha_{\text{force}}}$ & 4.77 & 1.18 & 2.85 & 4.65 & 7.38 & 1.00 \\ 
-$\sigma_{\alpha_{\text{chill}}}$ & 8.66 & 2.47 & 5.15 & 8.21 & 14.77 & 1.00 \\ 
-$\sigma_{\alpha_{\text{photo}}}$ & 3.40 & 0.95 & 1.81 & 3.30 & 5.56 & 1.00 \\ 
-$\sigma_{\alpha_{\text{pheno}}}$ & 14.24 & 0.25 & 13.75 & 14.24 & 14.74 & 1.00 \\ 
-   \hline
-\end{tabular}
 \caption{Height model estimates} 
-\end{table}
-
-
-% latex table generated in R 3.6.3 by xtable 1.8-4 package
-% Thu Mar 17 13:45:36 2022
-\begin{table}[ht]
-\centering
-\begin{tabular}{rlrrrrrr}
+\begin{tabular}{lrrrrrr}
   \hline
 Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
   \hline
-$\mu_{grand}$ & 16.41 & 1.53 & 13.49 & 16.37 & 19.64 & 1.00 \\ 
-$\mu_{\alpha_{\text{pheno}}}$ & 31.28 & 2.67 & 26.17 & 31.23 & 36.62 & 1.00 \\ 
-$\mu_{\alpha_{\text{force}}}$ & -10.86 & 2.74 & -16.32 & -10.82 & -5.56 & 1.02 \\ 
-$\mu_{\alpha_{\text{chill}}}$ & -17.27 & 5.10 & -28.33 & -17.02 & -7.91 & 1.01 \\ 
-$\mu_{\alpha_{\text{photo}}}$ & 1.05 & 2.75 & -4.39 & 1.06 & 6.55 & 1.00 \\ 
-$\beta_{trait.force}$ & 0.14 & 0.15 & -0.14 & 0.14 & 0.44 & 1.02 \\ 
-$\beta_{trait.chill}$ & 0.38 & 0.27 & -0.14 & 0.36 & 0.97 & 1.01 \\ 
-$\beta_{trait.photo}$ & -0.20 & 0.15 & -0.50 & -0.20 & 0.10 & 1.00 \\ 
-$\sigma_{\alpha_{\text{species}}}$ & 7.78 & 0.98 & 6.12 & 7.69 & 9.96 & 1.00 \\ 
-$\sigma_{\alpha_{\text{study}}}$ & 3.25 & 0.95 & 1.82 & 3.10 & 5.43 & 1.00 \\ 
-$\sigma_{\alpha_{\text{trait}}}$ & 6.16 & 0.05 & 6.07 & 6.16 & 6.26 & 1.00 \\ 
-$\sigma_{\alpha_{\text{phenoSp}}}$ & 14.45 & 2.35 & 10.10 & 14.37 & 19.33 & 1.00 \\ 
-$\sigma_{\alpha_{\text{force}}}$ & 4.92 & 0.98 & 3.21 & 4.83 & 6.98 & 1.00 \\ 
-$\sigma_{\alpha_{\text{chill}}}$ & 11.28 & 2.66 & 6.97 & 11.01 & 17.33 & 1.00 \\ 
-$\sigma_{\alpha_{\text{photo}}}$ & 3.89 & 0.86 & 2.40 & 3.82 & 5.72 & 1.00 \\ 
-$\sigma_{\alpha_{\text{pheno}}}$ & 14.21 & 0.26 & 13.71 & 14.21 & 14.75 & 1.00 \\ 
-   \hline
-\end{tabular}
+mu\_grand & 12.62 & 1.83 & 8.95 & 12.63 & 16.21 & 1.00 \\ 
+  muPhenoSp & 32.13 & 2.69 & 26.94 & 32.12 & 37.43 & 1.00 \\ 
+  muForceSp & -10.81 & 2.81 & -16.34 & -10.77 & -5.33 & 1.00 \\ 
+  muChillSp & -4.42 & 4.05 & -12.71 & -4.35 & 3.34 & 1.00 \\ 
+  muPhotoSp & 1.44 & 2.23 & -2.98 & 1.44 & 5.77 & 1.00 \\ 
+  betaTraitxForce & 0.18 & 0.19 & -0.21 & 0.18 & 0.56 & 1.00 \\ 
+  betaTraitxChill & -0.51 & 0.28 & -1.04 & -0.52 & 0.06 & 1.00 \\ 
+  betaTraitxPhoto & -0.30 & 0.16 & -0.62 & -0.30 & 0.02 & 1.00 \\ 
+  sigma\_sp & 5.91 & 0.76 & 4.61 & 5.84 & 7.58 & 1.00 \\ 
+  sigma\_study & 7.51 & 1.20 & 5.49 & 7.38 & 10.24 & 1.00 \\ 
+  sigma\_traity & 5.39 & 0.02 & 5.36 & 5.39 & 5.43 & 1.00 \\ 
+  sigmaPhenoSp & 15.17 & 2.07 & 11.23 & 15.11 & 19.42 & 1.00 \\ 
+  sigmaForceSp & 4.95 & 1.18 & 2.99 & 4.84 & 7.56 & 1.00 \\ 
+  sigmaChillSp & 8.63 & 2.19 & 5.25 & 8.33 & 13.72 & 1.00 \\ 
+  sigmaPhotoSp & 3.45 & 0.93 & 1.87 & 3.36 & 5.51 & 1.00 \\ 
+  sigmapheno\_y & 14.22 & 0.25 & 13.74 & 14.22 & 14.72 & 1.00 \\ 
+  \end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
 \caption{SLA model estimates} 
+\begin{tabular}{lrrrrrr}
+  \hline
+Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
+  \hline
+mu\_grand & 16.54 & 1.57 & 13.51 & 16.53 & 19.54 & 1.01 \\ 
+  muPhenoSp & 31.39 & 2.51 & 26.51 & 31.35 & 36.45 & 1.00 \\ 
+  muForceSp & -10.95 & 2.67 & -16.44 & -10.89 & -5.87 & 1.01 \\ 
+  muChillSp & -16.49 & 4.62 & -26.03 & -16.33 & -7.86 & 1.01 \\ 
+  muPhotoSp & 0.97 & 2.56 & -4.29 & 1.02 & 5.74 & 1.02 \\ 
+  betaTraitxForce & 0.15 & 0.15 & -0.13 & 0.15 & 0.45 & 1.01 \\ 
+  betaTraitxChill & 0.34 & 0.25 & -0.12 & 0.33 & 0.84 & 1.01 \\ 
+  betaTraitxPhoto & -0.19 & 0.14 & -0.47 & -0.19 & 0.10 & 1.02 \\ 
+  sigma\_sp & 7.78 & 0.97 & 6.12 & 7.70 & 9.89 & 1.00 \\ 
+  sigma\_study & 3.27 & 0.96 & 1.82 & 3.12 & 5.49 & 1.00 \\ 
+  sigma\_traity & 6.17 & 0.05 & 6.07 & 6.16 & 6.26 & 1.00 \\ 
+  sigmaPhenoSp & 13.96 & 2.10 & 10.03 & 13.91 & 18.20 & 1.00 \\ 
+  sigmaForceSp & 4.91 & 1.13 & 3.07 & 4.79 & 7.43 & 1.00 \\ 
+  sigmaChillSp & 10.48 & 2.29 & 6.60 & 10.28 & 15.35 & 1.00 \\ 
+  sigmaPhotoSp & 3.72 & 0.89 & 2.24 & 3.64 & 5.75 & 1.00 \\ 
+  sigmapheno\_y & 14.21 & 0.26 & 13.71 & 14.21 & 14.72 & 1.00 \\ 
+  \end{tabular}
 \end{table}
 
-% latex table generated in R 3.6.3 by xtable 1.8-4 package
-% Thu Mar 17 13:45:36 2022
 \begin{table}[ht]
 \centering
-\begin{tabular}{rlrrrrrr}
-  \hline
- Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-$\mu_{grand}$ & 1.84 & 0.48 & 0.90 & 1.84 & 2.77 & 1.00 \\ 
-$\mu_{\alpha_{\text{pheno}}}$ & 31.43 & 2.70 & 26.33 & 31.40 & 36.84 & 1.00 \\ 
-$\mu_{\alpha_{\text{force}}}$ & -8.04 & 1.57 & -11.19 & -8.03 & -4.98 & 1.00 \\ 
-$\mu_{\alpha_{\text{chill}}}$ & -9.36 & 2.79 & -15.05 & -9.28 & -4.02 & 1.00 \\ 
-$\mu_{\alpha_{\text{photo}}}$ & -1.44 & 1.27 & -3.90 & -1.47 & 1.06 & 1.00 \\ 
-$\beta_{trait.force}$ & -0.29 & 0.67 & -1.58 & -0.29 & 1.03 & 1.00 \\ 
-$\beta_{trait.chill}$ & -1.08 & 1.09 & -3.20 & -1.09 & 1.07 & 1.00 \\ 
-$\beta_{trait.photo}$ & -0.59 & 0.58 & -1.74 & -0.59 & 0.54 & 1.00 \\ 
-$\sigma_{\alpha_{\text{species}}}$ & 1.62 & 0.19 & 1.30 & 1.60 & 2.03 & 1.00 \\ 
-$\sigma_{\alpha_{\text{study}}}$ & 0.97 & 0.10 & 0.77 & 0.97 & 1.16 & 1.00 \\ 
-$\sigma_{\alpha_{\text{trait}}}$ & 0.25 & 0.01 & 0.23 & 0.25 & 0.27 & 1.00 \\ 
-$\sigma_{\alpha_{\text{phenoSp}}}$ & 14.93 & 2.29 & 10.62 & 14.89 & 19.61 & 1.00 \\ 
-$\sigma_{\alpha_{\text{force}}}$ & 4.92 & 0.99 & 3.18 & 4.85 & 7.06 & 1.00 \\ 
-$\sigma_{\alpha_{\text{chill}}}$ & 10.65 & 2.53 & 6.44 & 10.37 & 16.20 & 1.00 \\ 
-$\sigma_{\alpha_{\text{photo}}}$ & 3.76 & 0.91 & 2.23 & 3.67 & 5.80 & 1.00 \\ 
-$\sigma_{\alpha_{\text{pheno}}}$ & 14.16 & 0.25 & 13.69 & 14.15 & 14.64 & 1.00 \\ 
-   \hline
-\end{tabular}
 \caption{Seed mass model estimates} 
+\begin{tabular}{lrrrrrr}
+  \hline
+Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
+  \hline
+mu\_grand & 1.84 & 0.48 & 0.90 & 1.84 & 2.77 & 1.00 \\ 
+  muPhenoSp & 31.43 & 2.70 & 26.33 & 31.40 & 36.84 & 1.00 \\ 
+  muForceSp & -8.04 & 1.57 & -11.19 & -8.03 & -4.98 & 1.00 \\ 
+  muChillSp & -9.36 & 2.79 & -15.05 & -9.28 & -4.02 & 1.00 \\ 
+  muPhotoSp & -1.44 & 1.27 & -3.90 & -1.47 & 1.06 & 1.00 \\ 
+  betaTraitxForce & -0.29 & 0.67 & -1.58 & -0.29 & 1.03 & 1.00 \\ 
+  betaTraitxChill & -1.08 & 1.09 & -3.20 & -1.09 & 1.07 & 1.00 \\ 
+  betaTraitxPhoto & -0.59 & 0.58 & -1.74 & -0.59 & 0.54 & 1.00 \\ 
+  sigma\_sp & 1.62 & 0.19 & 1.30 & 1.60 & 2.03 & 1.00 \\ 
+  sigma\_study & 0.97 & 0.10 & 0.77 & 0.97 & 1.16 & 1.00 \\ 
+  sigma\_traity & 0.25 & 0.01 & 0.23 & 0.25 & 0.27 & 1.00 \\ 
+  sigmaPhenoSp & 14.93 & 2.29 & 10.62 & 14.89 & 19.61 & 1.00 \\ 
+  sigmaForceSp & 4.92 & 0.99 & 3.18 & 4.85 & 7.06 & 1.00 \\ 
+  sigmaChillSp & 10.65 & 2.53 & 6.44 & 10.37 & 16.20 & 1.00 \\ 
+  sigmaPhotoSp & 3.76 & 0.91 & 2.23 & 3.67 & 5.80 & 1.00 \\ 
+  sigmapheno\_y & 14.16 & 0.25 & 13.69 & 14.15 & 14.64 & 1.00 \\ 
+  \end{tabular}
 \end{table}
 
-% latex table generated in R 3.6.3 by xtable 1.8-4 package
-% Thu Mar 17 13:45:36 2022
 \begin{table}[ht]
 \centering
-\begin{tabular}{rlrrrrrr}
-  \hline
-  Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-$\mu_{grand}$ & 22.80 & 1.40 & 20.06 & 22.78 & 25.58 & 1.01 \\ 
-$\mu_{\alpha_{\text{pheno}}}$ & 30.84 & 2.57 & 25.84 & 30.81 & 35.94 & 1.00 \\ 
-$\mu_{\alpha_{\text{force}}}$ & -21.19 & 6.63 & -34.00 & -21.13 & -8.27 & 1.02 \\ 
-$\mu_{\alpha_{\text{chill}}}$ & -35.95 & 9.54 & -54.91 & -35.83 & -17.01 & 1.01 \\ 
-$\mu_{\alpha_{\text{photo}}}$ & -8.92 & 5.79 & -20.55 & -8.90 & 2.63 & 1.00 \\ 
-$\beta_{trait.force}$ & 0.56 & 0.28 & 0.01 & 0.55 & 1.10 & 1.02 \\ 
-$\beta_{trait.chill}$ & 1.08 & 0.40 & 0.29 & 1.07 & 1.86 & 1.01 \\ 
-$\beta_{trait.photo}$ & 0.28 & 0.24 & -0.19 & 0.28 & 0.75 & 1.00 \\ 
-$\sigma_{\alpha_{\text{species}}}$ & 5.10 & 0.63 & 4.03 & 5.04 & 6.50 & 1.00 \\ 
-$\sigma_{\alpha_{\text{study}}}$ & 3.57 & 0.98 & 2.06 & 3.44 & 5.83 & 1.00 \\ 
-$\sigma_{\alpha_{\text{trait}}}$ & 5.13 & 0.06 & 5.02 & 5.13 & 5.25 & 1.00 \\ 
-$\sigma_{\alpha_{\text{phenoSp}}}$ & 14.14 & 2.13 & 10.15 & 14.05 & 18.53 & 1.00 \\ 
-$\sigma_{\alpha_{\text{force}}}$ & 4.57 & 0.95 & 2.88 & 4.51 & 6.61 & 1.00 \\ 
-$\sigma_{\alpha_{\text{chill}}}$ & 9.73 & 2.22 & 6.14 & 9.46 & 14.87 & 1.00 \\ 
-$\sigma_{\alpha_{\text{photo}}}$ & 3.96 & 0.84 & 2.52 & 3.89 & 5.81 & 1.00 \\ 
-$\sigma_{\alpha_{\text{pheno}}}$ & 14.21 & 0.25 & 13.73 & 14.20 & 14.71 & 1.00 \\ 
-   \hline
-\end{tabular}
 \caption{LNC model estimates} 
+\begin{tabular}{lrrrrrr}
+  \hline
+Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
+  \hline
+mu\_grand & 22.65 & 1.41 & 19.90 & 22.65 & 25.44 & 1.00 \\ 
+  muPhenoSp & 31.21 & 2.51 & 26.35 & 31.15 & 36.32 & 1.00 \\ 
+  muForceSp & -19.42 & 5.45 & -30.39 & -19.50 & -8.61 & 1.01 \\ 
+  muChillSp & -26.48 & 7.09 & -40.56 & -26.52 & -12.15 & 1.00 \\ 
+  muPhotoSp & -10.07 & 4.89 & -19.99 & -10.02 & -0.60 & 1.01 \\ 
+  betaTraitxForce & 0.48 & 0.23 & 0.02 & 0.48 & 0.95 & 1.01 \\ 
+  betaTraitxChill & 0.70 & 0.30 & 0.09 & 0.70 & 1.30 & 1.00 \\ 
+  betaTraitxPhoto & 0.33 & 0.20 & -0.06 & 0.33 & 0.73 & 1.01 \\ 
+  sigma\_sp & 5.12 & 0.61 & 4.05 & 5.07 & 6.44 & 1.00 \\ 
+  sigma\_study & 3.54 & 0.97 & 2.07 & 3.40 & 5.78 & 1.00 \\ 
+  sigma\_traity & 5.13 & 0.06 & 5.02 & 5.13 & 5.25 & 1.00 \\ 
+  sigmaPhenoSp & 14.07 & 1.96 & 10.46 & 13.96 & 18.13 & 1.00 \\ 
+  sigmaForceSp & 4.51 & 1.03 & 2.70 & 4.42 & 6.76 & 1.00 \\ 
+  sigmaChillSp & 8.92 & 2.02 & 5.73 & 8.63 & 13.60 & 1.00 \\ 
+  sigmaPhotoSp & 3.85 & 0.88 & 2.37 & 3.77 & 5.80 & 1.00 \\ 
+  sigmapheno\_y & 14.22 & 0.26 & 13.73 & 14.21 & 14.73 & 1.00 \\ 
+  \end{tabular}
 \end{table}
 
 
