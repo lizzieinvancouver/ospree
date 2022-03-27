@@ -48,8 +48,8 @@
 \fancyhead[RO]{Temporal Ecology Lab}
 % more optionals! %
 
-\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
-\externaldocument[supp-]{DoseResponse_Manuscript_supp}
+%\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
+\externaldocument[supp-]{Traitors_Manuscript_supp}
 
 %%% end preambling. %%%
 
@@ -247,15 +247,18 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 
 In modelling each individual traits' relationship with phenological cues, our models estiamted the simple geometric mean for each species-trait combination to fall within the posterior estimations from our models (Fig. \ref{figure:TraitDistributions}).%with the exception of Rhamnus cathartica?
-There were a limited number of species in the height model where the simple geometric mean fell outside of predicted species means after accounting for the effect of study, for example \textit{Quercus ilex}, \textit{Quercus petraea}, \textit{Quercus coccifera}, \textit{Aesculus hippocastanum}, and \textit{Rhamnus cathartica}.These model estimates may also reflect our use of a normal distribution for our traits. While the normal distribution can result in the estimation of ecologically unrealistic zero or negative values, we used this distribution as it strikes a good balance between being biologically realistic and computationally viable. In general our model produced realistic trait estimates that usually did not cross a zero threshold. \\
+There were a limited number of species in the height model where the simple geometric mean fell outside of predicted species means after accounting for the effect of study, for example \textit{Quercus ilex}, \textit{Quercus petraea}, \textit{Quercus coccifera}, \textit{Aesculus hippocastanum}, and \textit{Rhamnus cathartica}.These model estimates may also reflect our use of a normal distribution for our traits. In using the normal distribution, our model may produce estimations of ecologically unrealistic zero or negative values. The use of the normal distibution in complex models such as ours, however, strikes a good balance between being biologically realistic and computationally viable. In general our model produced realistic trait estimates that usually did not cross a zero threshold. \\
 
-The parameterization of our model allowed for the separation of species and study level effects for each trait. Species height values were distributed with a standard deviation  of \Sexpr{htSD} m (90\% credible interval: \Sexpr{lower_htSD}, \Sexpr{upper_htSD}), and study height values were distributed with a standard deviation of \Sexpr{htStudySD} m (90\% credible interval: \Sexpr{lower_htStudySD}, \Sexpr{upper_htStudySD}). The strong effects of study level variation are most apparent for in the height estimates of... %species such as \textit{Quercus petraea} which produced the highest mean heights, and for the shrub species \textit{Rhamnus cathartica}. As a result of the study level variation in the studies including \textit{Rhamnus cathartica}, our model produced a negative mean estimated height. \\
+The parameterization of our model allowed for the separation of species and study level effects for each trait, and in doing so account for variation in trait data due to differences in observation frequency, datasources sources, as well as inherent differences in habitats, measurement protocols, and observer error. Of our four traits, we have the most data for speices height. The breadth of variation in the raw height data reflects the high number of height measurements we have for most species. For example, \textit{Acer saccharum} has 3000 observations from single study, producing a range of height values, with the model posterior estimate correstponding to the data mean. In contrast, our dataset only includes six observations of \textit{Juglans regia} from four studies, producing a greater study level effect and is reflected by the difference between the posterior and mean estimates \ref{figure:TraitDistributions}. Our seed mass data originates from only five studies, with most data coming from a single study, as such there is very little study level variation. This is reflected in the high degree of overlap betwen the posterior estimates and the mean seed mass for most species. % Is this what Lizzie meant when she suggested we just pick a few species with high study level effects to focus on?  
 
-Species SLA estimates were distributed with a standard deviation  of \Sexpr{slaSD}  (90\% credible interval: \Sexpr{lower_slaSD}, \Sexpr{upper_slaSD}), and study SLA estimates were distributed with a standard deviation  of  \Sexpr{slaStudySD}  (90\% credible interval: \Sexpr{lower_slaStudySD}, \Sexpr{upper_slaStudySD}). The highest estimated mean species SLA estimate in our dataset was for \textit{Acer pensylvanicum}, and the lowest estimated mean LNC estimate was for \textit{Quercus coccifera}.\\
 
-Species log$_{10}$ seed mass values were distributed with a standard deviation  of \Sexpr{smSD} (90\% credible interval: \Sexpr{lower_smSD}, \Sexpr{upper_smSD}), and study log$_{10}$ seed mass values were distributed with a standard deviation  of \Sexpr{smStudySD} (90\% credible interval: \Sexpr{lower_smStudySD}, \Sexpr{upper_smStudySD}). The highest estimated mean species log$_{10}$ seed mass estimate in our dataset was for \textit{Juglans cinerea}, which translates as a seed mass of approximately 10000mg. The lowest estimated mean log$_{10}$ seed mass estimate was for \textit{Betula populifolia}, which translates as a seed mass of approximately 0.1 mg.\\
+%Species height values were distributed with a standard deviation  of \Sexpr{htSD} m (90\% credible interval: \Sexpr{lower_htSD}, \Sexpr{upper_htSD}), and study height values were distributed with a standard deviation of \Sexpr{htStudySD} m (90\% credible interval: \Sexpr{lower_htStudySD}, \Sexpr{upper_htStudySD}). The strong effects of study level variation are most apparent for in the height estimates of... %species such as \textit{Quercus petraea} which produced the highest mean heights, and for the shrub species \textit{Rhamnus cathartica}. As a result of the study level variation in the studies including \textit{Rhamnus cathartica}, our model produced a negative mean estimated height. \\
 
-Finally, mean LNC was estimated as \Sexpr{lncMean}  (90\% credible interval: \Sexpr{lower_lncMean}, \Sexpr{upper_lncMean}). Species LNC values were distributed with a standard deviation  of \Sexpr{lncSD}  (90\% credible interval: \Sexpr{lower_lncSD}, \Sexpr{upper_lncSD}), and study LNC values were distributed with a standard deviation  of \Sexpr{lncStudySD}  (90\% credible interval: \Sexpr{lower_lncStudySD}, \Sexpr{upper_lncStudySD}). The highest estimated mean species LNC estimate in our dataset was \Sexpr{lncMax}  (90\% credible interval: \Sexpr{lower_lncMax}, \Sexpr{upper_lncMax}) for \textit{Prunus persica}, and the lowest estimated mean LNC estimate was \Sexpr{lncMin}  (90\% credible interval: \Sexpr{lower_lncMin}, \Sexpr{upper_lncMin}) for \textit{Hamamelis virginiana}.
+%Species SLA estimates were distributed with a standard deviation  of \Sexpr{slaSD}  (90\% credible interval: \Sexpr{lower_slaSD}, \Sexpr{upper_slaSD}), and study SLA estimates were distributed with a standard deviation  of  \Sexpr{slaStudySD}  (90\% credible interval: \Sexpr{lower_slaStudySD}, \Sexpr{upper_slaStudySD}). The highest estimated mean species SLA estimate in our dataset was for \textit{Acer pensylvanicum}, and the lowest estimated mean LNC estimate was for \textit{Quercus coccifera}.\\
+
+%Species log$_{10}$ seed mass values were distributed with a standard deviation  of \Sexpr{smSD} (90\% credible interval: \Sexpr{lower_smSD}, \Sexpr{upper_smSD}), and study log$_{10}$ seed mass values were distributed with a standard deviation  of \Sexpr{smStudySD} (90\% credible interval: \Sexpr{lower_smStudySD}, \Sexpr{upper_smStudySD}). The highest estimated mean species log$_{10}$ seed mass estimate in our dataset was for \textit{Juglans cinerea}, which translates as a seed mass of approximately 10000mg. The lowest estimated mean log$_{10}$ seed mass estimate was for \textit{Betula populifolia}, which translates as a seed mass of approximately 0.1 mg.\\
+
+%Finally, mean LNC was estimated as \Sexpr{lncMean}  (90\% credible interval: \Sexpr{lower_lncMean}, \Sexpr{upper_lncMean}). Species LNC values were distributed with a standard deviation  of \Sexpr{lncSD}  (90\% credible interval: \Sexpr{lower_lncSD}, \Sexpr{upper_lncSD}), and study LNC values were distributed with a standard deviation  of \Sexpr{lncStudySD}  (90\% credible interval: \Sexpr{lower_lncStudySD}, \Sexpr{upper_lncStudySD}). The highest estimated mean species LNC estimate in our dataset was \Sexpr{lncMax}  (90\% credible interval: \Sexpr{lower_lncMax}, \Sexpr{upper_lncMax}) for \textit{Prunus persica}, and the lowest estimated mean LNC estimate was \Sexpr{lncMin}  (90\% credible interval: \Sexpr{lower_lncMin}, \Sexpr{upper_lncMin}) for \textit{Hamamelis virginiana}.
 
 \begin{figure}[h!]
     \centering
@@ -274,9 +277,9 @@ The relationship between species height and cue responses was varied across the 
 
 We also found variation in the relationship between SLA and each of the three cue responses (Fig. \ref{fig:cuetraits}), with increaing SLA leading responses to forcing and chilling to be more positive, but negative responses with increasing photoperiod. Chilling was most strongly influenced by SLA (interaction parameter: \Sexpr{slaBCSpMean}: 90\% credible interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}). Species' responses to forcing were also positively correlated with SLA values (interaction parameter:  \Sexpr{slaBFSpMean}, 90\% credible interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), however, responses to photoperiod were negative (interaction parameter: \Sexpr{slaBPSpMean}, 90\% credible interval: \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}). For species with high SLA values, such as \textit{Fagus grandifolia}, this positive trait effect in forcing and chilling responses produced a more positive slope in the full model relative to the slope when the trait effect is set to zero. The difference in the slopes of species with leaves with low SLA, such as \textit{Quercus ilex}, is much smaller (Fig.\ref{fig:slopes}). The relatively small trait effect of photoperiod is reflected in the smaller difference in the slopes between the full model and the model without the effect of trait (Fig.\ref{fig:slopes}).
 
-As we predicted, species log seed mass had a negative relationship with all three cue responses \ref{fig:cuetraits}. As we observed for other trait models, seed mass had the largest influence on species responses to chilling  (interaction parameter: \Sexpr{smBCSpMean}: 90\% credible interval: \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). The influence of seed mass on forcing and photoperiod were also negative but relativley negligible, with slopes of \Sexpr{smBFSpMean} (90\% credible interval: \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) and  \Sexpr{smBPSpMean} (90\% credible interval: \Sexpr{lower_smBPSpMean}, \Sexpr{upper_smBPSpMean}) respectivley. The negative trait effect estimated from our model produced more negative slopes, however, given the nature of the log transformation of the seed mass data, the resulting estimated day of budburst can be positive. This is observed in the response of the large seeded species \textit{Aesculus hippocastanum} to forcing cues \ref{fig:slopes}. The negative effect of the seed mass trait still produced a more negative slope in the full model compared to the slope of the model with a zero trait effect for each of the three cues (Fig.\ref{fig:slopes}). The slope differences of small seeded species, like \textit{Alnus glutinosa}, was considerably smaller. Our model also estimated the trait effect of photoperiod to produce similar slopes for both the full model and the model with a trait effect set to zero, indicating a relatively small effect of this cue (Fig.\ref{fig:slopes}).
+As we predicted, species log seed mass had a negative relationship with all three cue responses \ref{fig:cuetraits}. As we observed for other trait models, seed mass had the largest influence on species responses to chilling  (interaction parameter: \Sexpr{smBCSpMean}: 90\% credible interval: \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). The influence of seed mass on forcing and photoperiod were also negative but relativley negligible, with slopes of \Sexpr{smBFSpMean} (90\% credible interval: \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) and  \Sexpr{smBPSpMean} (90\% credible interval: \Sexpr{lower_smBPSpMean}, \Sexpr{upper_smBPSpMean}) respectivley. The negative trait effect estimated from our model produced more negative slopes, however, given the nature of the log transformation of the seed mass data, the resulting estimated day of budburst can be positive. This is observed in the response of the large seeded species \textit{Aesculus hippocastanum} to forcing cues \ref{fig:slopes}. The negative effect of the seed mass trait still produced a more negative slope in the full model compared to the slope of the model with a zero trait effect for each of the three cues (Fig. S\ref{supp -fig:slopes}). The slope differences of small seeded species, like \textit{Alnus glutinosa}, was considerably smaller. Our model also estimated the trait effect of photoperiod to produce similar slopes for both the full model and the model with a trait effect set to zero, indicating a relatively small effect of this cue (Fig. S\ref{supp-fig:slopes}).
 
-Finally, the relationship between LNC and cue responses was also in line with our predictions, producing a positive association between LNC and cue responses (Fig.\ref{fig:cuetraits}). Chilling was most influenced by LNC (interaction parameter: \Sexpr{lncBCSpMean} :90\% credible interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}), followed by the response to forcing (interaction parameter: \Sexpr{lncBFSpMean}: 90\% credible interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}), while photoperiod again had the smallest influence (interaction parameter: \Sexpr{lncBPSpMean} :90\% credible interval: \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}). For species like \textit{Alnus glutinosa} that produce leaves with high LNC, the positive trait effect resulted in a more positive slope in the full model relative to the slope of the zero trait effect model. In contrast, species with low LNC like \textit{Quercus ilex} have a much smaller difference in their slopes (Fig.\ref{fig:slopes}). The model estimated trait effect of LNC for photoperiod is relatively small, producing less of a difference between the full model and the zero trait effect model (Fig.\ref{fig:slopes}). 
+Finally, the relationship between LNC and cue responses was also in line with our predictions, producing a positive association between LNC and cue responses (Fig.\ref{fig:cuetraits}). Chilling was most influenced by LNC (interaction parameter: \Sexpr{lncBCSpMean} :90\% credible interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}), followed by the response to forcing (interaction parameter: \Sexpr{lncBFSpMean}: 90\% credible interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}), while photoperiod again had the smallest influence (interaction parameter: \Sexpr{lncBPSpMean} :90\% credible interval: \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}). For species like \textit{Alnus glutinosa} that produce leaves with high LNC, the positive trait effect resulted in a more positive slope in the full model relative to the slope of the zero trait effect model. In contrast, species with low LNC like \textit{Quercus ilex} have a much smaller difference in their slopes (Fig.S\ref{supp-fig:slopes}). The model estimated trait effect of LNC for photoperiod is relatively small, producing less of a difference between the full model and the zero trait effect model (Fig.S\ref{supp-fig:slopes}). 
 
 \begin{figure}[h!]
     \centering
@@ -290,9 +293,9 @@ The results of the PGLS analysis suggest there are mostly non-significant phylog
 \section{Discussion}
 
 % What do our results suggest for the relationship between cue use and traits? 
-We found that the functional traits of our assemblage of woody plant species did influence plant responses to phenological cues. In general, our findings suggest species associated with acquisitive growth strategies, producing high SLA and LNC leaves, shorter heights, and small seeds, advance their budburst dates in response to increasing chilling cues, compared to more conservative species. Interestingly, the relationships of traits to forcing and photoperiod cues were only partially in line with our predictions. Trees with high SLA and LNC and small seeds did correlate with advances in budburst as forcing increased. However, the response of forcing cues to height contrasted our predictions, with taller trees requiring less forcing temperatures to advance their budburst. Our model estimates also contrasted our predictions for SLA and photoperiod, with species with leaves with high SLA values having a stronger cue response and requiring longer photoperiods to advance budburst. The remaining three traits did follow our predictions, with tall species with large seeds and leaves with low LNC having greater responses to longer photoperiods. 
+We found that the functional traits of our assemblage of woody plant species did influence plant responses to phenological cues. In general, our findings suggest species associated with acquisitive growth strategies, producing high SLA and LNC leaves, shorter heights, and small seeds, advance their budburst dates in response to increasing chilling cues. Interestingly, the relationships of traits to forcing and photoperiod cues were only partially in line with our predictions. Trees with high SLA and LNC and small seeds did correlate with advances in budburst as forcing increased. However, the response of forcing cues to height contrasted our predictions, with taller trees requiring less forcing temperatures to advance their budburst. Our model estimates also contrasted our predictions for SLA and photoperiod, with species with leaves with high SLA values having a stronger cue response and requiring longer photoperiods to advance budburst. %be more explict: The remaining three traits did follow our predictions, with tall species with large seeds and leaves with low LNC having greater responses to longer photoperiods. 
 
-Of the three cues commonly included in growth chamber studies, we consistently observed the strongest responses to increases in chilling, while the effects of photoperiod cues are relatively weak. Chilling has frequently been show to be the strongest of the three cues in growth chamber experiments (is this true, find citations). This may reflect the role that chill units play in the transition from endodormancy to ecodormancy, where plants transition from complete dormancy to being more physiologically active and response to forcing cues (citation). While previous work has shown that responses in photoperiod cues also contribute to the timing of budburst, previous growth chamber our model predictions are in line with previous work that suggests that the responses to photoperiod are much weaker.
+Of the three cues commonly included in growth chamber studies, we consistently observed the strongest responses to increases in chilling, while the effects of photoperiod cues were weakest. This is in line with previous growth chamber studies, which also found chilling cues to have the strongest effect on budburst dates (is this true, find citations). This may reflect the role that chill units play in the transition from endodormancy to ecodormancy, where plants transition from complete dormancy to being more physiologically active and responsive to forcing cues (citation). Previous work has also shown that responses in photoperiod cues contribute less to the timing of budburst. This is reflected in our own results that suggests the effect of other functional traits on photoperiod cue use is relativley less than that to forcing and chilling. \citep{Flynn20180}, however, suggests there are interactions between species forcing and cue use. This might explain the positive response between height and forcing or SLA and photoperiod, however, we were unable to include interactions in our current model given its complexity.
 
 
 %height and forcing - false spring, sap running, xylem development? Structural integrity? 
@@ -346,128 +349,6 @@ The trait data used in this experiment was collected independently of the phenol
 \pagebreak
 \bibliographystyle{refs/bibstyles/amnat.bst}% 
 \bibliography{refs/traitors.bib}
-
-\section{Supplementary Material}
-
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_supp.pdf} 
-    \caption{Trait relationships with cue slopes}
-    \label{fig:cuetraits}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
-    \caption{Estimated cue responses for acquisitive and conservative spp.}
-    \label{fig:slopes}
-\end{figure}
-
-% latex table generated in R 3.6.3 by xtable 1.8-4 package
-% Thu Mar 17 13:45:36 2022
-\begin{table}[ht]
-\centering
-\caption{Height model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 12.62 & 1.83 & 8.95 & 12.63 & 16.21 & 1.00 \\ 
-  muPhenoSp & 32.13 & 2.69 & 26.94 & 32.12 & 37.43 & 1.00 \\ 
-  muForceSp & -10.81 & 2.81 & -16.34 & -10.77 & -5.33 & 1.00 \\ 
-  muChillSp & -4.42 & 4.05 & -12.71 & -4.35 & 3.34 & 1.00 \\ 
-  muPhotoSp & 1.44 & 2.23 & -2.98 & 1.44 & 5.77 & 1.00 \\ 
-  betaTraitxForce & 0.18 & 0.19 & -0.21 & 0.18 & 0.56 & 1.00 \\ 
-  betaTraitxChill & -0.51 & 0.28 & -1.04 & -0.52 & 0.06 & 1.00 \\ 
-  betaTraitxPhoto & -0.30 & 0.16 & -0.62 & -0.30 & 0.02 & 1.00 \\ 
-  sigma\_sp & 5.91 & 0.76 & 4.61 & 5.84 & 7.58 & 1.00 \\ 
-  sigma\_study & 7.51 & 1.20 & 5.49 & 7.38 & 10.24 & 1.00 \\ 
-  sigma\_traity & 5.39 & 0.02 & 5.36 & 5.39 & 5.43 & 1.00 \\ 
-  sigmaPhenoSp & 15.17 & 2.07 & 11.23 & 15.11 & 19.42 & 1.00 \\ 
-  sigmaForceSp & 4.95 & 1.18 & 2.99 & 4.84 & 7.56 & 1.00 \\ 
-  sigmaChillSp & 8.63 & 2.19 & 5.25 & 8.33 & 13.72 & 1.00 \\ 
-  sigmaPhotoSp & 3.45 & 0.93 & 1.87 & 3.36 & 5.51 & 1.00 \\ 
-  sigmapheno\_y & 14.22 & 0.25 & 13.74 & 14.22 & 14.72 & 1.00 \\ 
-  \end{tabular}
-\end{table}
-
-\begin{table}[ht]
-\centering
-\caption{SLA model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 16.54 & 1.57 & 13.51 & 16.53 & 19.54 & 1.01 \\ 
-  muPhenoSp & 31.39 & 2.51 & 26.51 & 31.35 & 36.45 & 1.00 \\ 
-  muForceSp & -10.95 & 2.67 & -16.44 & -10.89 & -5.87 & 1.01 \\ 
-  muChillSp & -16.49 & 4.62 & -26.03 & -16.33 & -7.86 & 1.01 \\ 
-  muPhotoSp & 0.97 & 2.56 & -4.29 & 1.02 & 5.74 & 1.02 \\ 
-  betaTraitxForce & 0.15 & 0.15 & -0.13 & 0.15 & 0.45 & 1.01 \\ 
-  betaTraitxChill & 0.34 & 0.25 & -0.12 & 0.33 & 0.84 & 1.01 \\ 
-  betaTraitxPhoto & -0.19 & 0.14 & -0.47 & -0.19 & 0.10 & 1.02 \\ 
-  sigma\_sp & 7.78 & 0.97 & 6.12 & 7.70 & 9.89 & 1.00 \\ 
-  sigma\_study & 3.27 & 0.96 & 1.82 & 3.12 & 5.49 & 1.00 \\ 
-  sigma\_traity & 6.17 & 0.05 & 6.07 & 6.16 & 6.26 & 1.00 \\ 
-  sigmaPhenoSp & 13.96 & 2.10 & 10.03 & 13.91 & 18.20 & 1.00 \\ 
-  sigmaForceSp & 4.91 & 1.13 & 3.07 & 4.79 & 7.43 & 1.00 \\ 
-  sigmaChillSp & 10.48 & 2.29 & 6.60 & 10.28 & 15.35 & 1.00 \\ 
-  sigmaPhotoSp & 3.72 & 0.89 & 2.24 & 3.64 & 5.75 & 1.00 \\ 
-  sigmapheno\_y & 14.21 & 0.26 & 13.71 & 14.21 & 14.72 & 1.00 \\ 
-  \end{tabular}
-\end{table}
-
-\begin{table}[ht]
-\centering
-\caption{Seed mass model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 1.84 & 0.48 & 0.90 & 1.84 & 2.77 & 1.00 \\ 
-  muPhenoSp & 31.43 & 2.70 & 26.33 & 31.40 & 36.84 & 1.00 \\ 
-  muForceSp & -8.04 & 1.57 & -11.19 & -8.03 & -4.98 & 1.00 \\ 
-  muChillSp & -9.36 & 2.79 & -15.05 & -9.28 & -4.02 & 1.00 \\ 
-  muPhotoSp & -1.44 & 1.27 & -3.90 & -1.47 & 1.06 & 1.00 \\ 
-  betaTraitxForce & -0.29 & 0.67 & -1.58 & -0.29 & 1.03 & 1.00 \\ 
-  betaTraitxChill & -1.08 & 1.09 & -3.20 & -1.09 & 1.07 & 1.00 \\ 
-  betaTraitxPhoto & -0.59 & 0.58 & -1.74 & -0.59 & 0.54 & 1.00 \\ 
-  sigma\_sp & 1.62 & 0.19 & 1.30 & 1.60 & 2.03 & 1.00 \\ 
-  sigma\_study & 0.97 & 0.10 & 0.77 & 0.97 & 1.16 & 1.00 \\ 
-  sigma\_traity & 0.25 & 0.01 & 0.23 & 0.25 & 0.27 & 1.00 \\ 
-  sigmaPhenoSp & 14.93 & 2.29 & 10.62 & 14.89 & 19.61 & 1.00 \\ 
-  sigmaForceSp & 4.92 & 0.99 & 3.18 & 4.85 & 7.06 & 1.00 \\ 
-  sigmaChillSp & 10.65 & 2.53 & 6.44 & 10.37 & 16.20 & 1.00 \\ 
-  sigmaPhotoSp & 3.76 & 0.91 & 2.23 & 3.67 & 5.80 & 1.00 \\ 
-  sigmapheno\_y & 14.16 & 0.25 & 13.69 & 14.15 & 14.64 & 1.00 \\ 
-  \end{tabular}
-\end{table}
-
-\begin{table}[ht]
-\centering
-\caption{LNC model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 22.65 & 1.41 & 19.90 & 22.65 & 25.44 & 1.00 \\ 
-  muPhenoSp & 31.21 & 2.51 & 26.35 & 31.15 & 36.32 & 1.00 \\ 
-  muForceSp & -19.42 & 5.45 & -30.39 & -19.50 & -8.61 & 1.01 \\ 
-  muChillSp & -26.48 & 7.09 & -40.56 & -26.52 & -12.15 & 1.00 \\ 
-  muPhotoSp & -10.07 & 4.89 & -19.99 & -10.02 & -0.60 & 1.01 \\ 
-  betaTraitxForce & 0.48 & 0.23 & 0.02 & 0.48 & 0.95 & 1.01 \\ 
-  betaTraitxChill & 0.70 & 0.30 & 0.09 & 0.70 & 1.30 & 1.00 \\ 
-  betaTraitxPhoto & 0.33 & 0.20 & -0.06 & 0.33 & 0.73 & 1.01 \\ 
-  sigma\_sp & 5.12 & 0.61 & 4.05 & 5.07 & 6.44 & 1.00 \\ 
-  sigma\_study & 3.54 & 0.97 & 2.07 & 3.40 & 5.78 & 1.00 \\ 
-  sigma\_traity & 5.13 & 0.06 & 5.02 & 5.13 & 5.25 & 1.00 \\ 
-  sigmaPhenoSp & 14.07 & 1.96 & 10.46 & 13.96 & 18.13 & 1.00 \\ 
-  sigmaForceSp & 4.51 & 1.03 & 2.70 & 4.42 & 6.76 & 1.00 \\ 
-  sigmaChillSp & 8.92 & 2.02 & 5.73 & 8.63 & 13.60 & 1.00 \\ 
-  sigmaPhotoSp & 3.85 & 0.88 & 2.37 & 3.77 & 5.80 & 1.00 \\ 
-  sigmapheno\_y & 14.22 & 0.26 & 13.73 & 14.21 & 14.73 & 1.00 \\ 
-  \end{tabular}
-\end{table}
 
 
 \end{document}
