@@ -295,12 +295,26 @@ The results of the PGLS analysis suggest there are mostly non-significant phylog
 % What do our results suggest for the relationship between cue use and traits? 
 We found that the functional traits of our assemblage of woody plant species influenced plant responses to phenological cues. In general, our findings indicate that species associated with acquisitive growth strategies, producing high SLA and LNC leaves, shorter heights, and small seeds, are likely to advance their budburst dates in response to increasing chilling cues. Interestingly, the relationships of traits to forcing and photoperiod cues were only partially in line with our predictions. Trees with high SLA and LNC and small seeds did correlate with advances in budburst as forcing increased. However, the response of forcing cues to height contrasted our predictions, with taller trees requiring less forcing temperatures to advance their budburst. Our model estimates also contrasted our predictions for SLA and photoperiod, with species with leaves with high SLA values having a stronger cue response and requiring longer photoperiods to advance budburst. As we predicted, species that produced leaves with high LNC, small seeds, and were shorter, had lower cue responses and earlier budburst. These results suggest that phenology does at least partially align with our established gradients in functional traits, with some traits following shifts from acquisitive and early budburst to more conservative, later budburst.
 
-Of the three cues commonly included in growth chamber studies, we consistently observed the strongest responses to increases in chilling, while the effects of photoperiod cues were weakest. This is in line with previous growth chamber studies, which also found chilling cues to have the strongest effect on budburst dates (citations?). This may reflect the role that chill units play in the transition from endodormancy, the phase in which woody plants are in a internally controlled state of inactivity during the coldest winter months, to ecodormancy, during which time growth inactivity is environmentally controlled and reflects limitations in resource availability \citep{Lang1987} Given the high fitness costs of premature growth in the spring, we would expect stronger selection for chilling cues. Previous work has also shown that responses in photoperiod cues contribute less to the timing of budburst or are more species specific. This is also reflected in our results, which also depict the effect of functional traits on photoperiod cue use to be relatively less than that of forcing and chilling. Some growth chamber studies such as \citep{Flynn20180}, however, have found compensatory interactions between species budburst and forcing and chilling cues, with greater forcing for example offsetting the effects of low chilling on the timing of budburst. The positive relationship we observed between height and forcing, but the negative response to chilling, might also be driving by such interactions between the two cues, however, the complexity of in our current analysis prevented us from exploring such interactions further.
-
-
-To our surprise, the influence of LNC on photoperiod cues was weaker than it's cue response to forcing and photoperiod. This is a trait most commonly associated with photosynthetic potential and a proxy for the amount of nitrogen rich rubisco enzymes within a leaf (citation). The lack of a relationship therefore suggests that factors other than daylength, such as herbivore pressure, may be selecting for this functional trait.
  
+The deviation from our predicted trait-cue relationships we observed for the influence of height on forcing cues and SLA on photoperiod cues may proivide interesting insight into the variable roles and trade-offs that select on plant phenotypes. While height is often associated with compeition for light, spring temperature is also an important factor influencing other woody traits. For example, spring temperature influences growth of the cambial meristem, with spring frost events having the potential to severely affecting the growth and the architecture of a tree (Clements et al., 1972; Dy and Payette, 2007; Augspurger, 2009). This early season damage could pose a stronger selective pressure on shorter species for which early season growth prior to the closure canopy is more critical requiring them to experience higher forcing cues to advance their budburst. It is also worth noting that some growth chamber studies such as \citep{Flynn20180}, have found compensatory interactions between species budburst and forcing and chilling cues, with greater forcing for example offsetting the effects of low chilling on the timing of budburst. The positive relationship we observed between height and forcing, but the negative response to chilling, might also be driven by such interactions between the two cues. We were unable to include such interactions in our currently model given its complexity.
+
+Of the three cues commonly included in growth chamber studies, we consistently observed the strongest responses to increases in chilling, while the effects of photoperiod cues were weakest. This is in line with previous growth chamber studies, which also found chilling cues to have the strongest effect on budburst dates (citations?). The accumulation of chill units determines the transition of plants from endodormancy, the phase in which woody plants are in a internally controlled state of inactivity during the coldest winter months, to ecodormancy, during which time growth inactivity is environmentally controlled and reflects limitations in resource availability \citep{Lang1987}. Given the high fitness costs of premature growth during false spring events, we would expect stronger selection for chilling cues. Previous work has also shown that responses in photoperiod cues contribute less to the timing of budburst or are more species specific (citation). We also found the effect of functional traits on photoperiod cue use to be relatively less than that of forcing and chilling. However we were surprised that the relationship between LNC and photoperiod was similar that of other functional traits, given that this trait is generally thought of as a proxy for photosynthetic potential and was therefore likely to influence photoperiod cue use.
+
+A challenge of inferring the role of functional traits in relation to abiotic cues are a traits likelihood of playing multiple roles in species interactions and mediation of their environmental conditions. Such diversity in the role a trait may play could limit the adaptive potential of species to future climates. 
+
  Our study relating functional traits to phenology is unique from previous research in that we are drawing associations between the traits and the cue responses that define woody species phenologies. In general our model estimates are... connect to previous work....  
+
+
+By incorporating phenology into the broader framework of plant funcitonal traits, we can better understand its role in shaping species communities as cliamtes continue to change. Warming winter and spring temperatures are expected to result in species chilling requirements being met earlier \citep{Guy2014}, which could result in earlier release from endodormancy and budburst as forcing temperature thresholds are also met earlier within a season. Species that are most able to initiate growth in the spring and tolerate late frost events, will be more likely to track these changes in temperature. This could favour species that produce less costly leaves, with high SLA, as loss of tissue to frost would incurr a lower fitness cost. Similarly species that produce smaller seeds will have greater dispersal and be more likely to expend their range and migrate polward as new communities at their range edge become hospitable. 
+
+
+Selection on the timing of budburst may also be constrained by species traits. Species with low LNC for example, may be limited by photoperiod length and thier photosynthetic capacity. Changes in cues and species phenoloiges will also likely alter species temporal niche, altering the compeitive landscape and trophic levels. Advances in late budbursting speices, which are on average taller and stronger competitors for light, would lead to earlier canopy closure and negatively impact understory species that are not also advnacing phenologically. Warming spring temperatures   
+
+The trait data used in this experiment was collected independently of the phenological cue experiments, from individuals in diverse ecosystems and community contexts. While this limits our ability to understand the relationships between cue use and traits at the population and individual level, our approach allowed us to test for general trends that scale across populations and can inform future more fine scale research. 
+Advances in budburst phenology may be faciliatated by a species growth strategy and functional traits.
+
+Areas of future study - will seed germination also shift with changing cues under climate change or will large seeded species seedlings get competitively excluded? 
+
  \begin{itemize}
 \item Huang et al. 2018 - found several growth strategies - all combinations of early- fast, early-slow, late-fast etc - but looked at flowering
 \item Osada 2017 - bb later for sp with greater LMA, thickness, Narea – driven by differences across deciduous and evergreen spp; 	Deciduous alone: bb positively correlated with leaf mass, area, vessel diam in cross spp comparisons
@@ -311,20 +325,20 @@ To our surprise, the influence of LNC on photoperiod cues was weaker than it's c
 Low sla - associated with aridity
 Low SLA = thicker denser leaves that conserve resources better - Ackerley et al 2002 - Leaf size, specific leaf area and microhabitat distribution of chaparral woody plants: contrasting patterns in species level and community level analyses.
 
-Our model findings do support the idea that phenology is an important functional trait for woody plant growth. By incorporating phenology into the broader framework of plant funcitonal traits, we can better understand its role in shaping species communities as cliamtes continue to change. Advances in budburst phenology may be faciliatated by a species growth strategy and functional traits. Warming winter and spring temperatures are expected to result in species chilling requirements being met earlier \citep{Guy2014}, which could result in earlier release from endodormancy and budburst as forcing temperature thresholds are also met. Species that are most able to initiate growth in the spring and tolerate late frost events, will be more likely to track these changes in temperature. This could favour species that produce less costly leaves, with low LNC, as loss of tissue to frost would incurr a low fitness cost. Selection on the timing of budburst may also be constrained by species traits. This is particularly true for species with low LNC, as this trait correlates with the amount of photosynthetic machineray and photosynthetic potential. The rate of phenolgoical advances of these low LNC species may be limited by photoperiod and thier ability to acquire resources. Changes in cues and species phenoloiges will also likely alter species temporal niche, altering the compeitive landscape and trophic levels. Advances in late budbursting speices, which are on average taller and stronger competitors for light, would lead to earlier canopy closure and negatively impact understory species that are not also advnacing phenologically. Warming spring temperatures   
+Lenz, Hoch, Korner, 2012 Early season temperature controls cambial activity and total tree ring width at the alpine treeline
+
+small seeds = greater dispersal and likelihood of tracking climate niche? - invasion
 
 
-
-Areas of future study - will seed germination also shift with changing cues under climate change or will large seeded species seedlings get competitively excluded? 
-
-\beginHow might traits constrain/facilitate future shifts in phenology?
-	- our findings do support the idea that phenology is an important functional trait
-	- traits and relationships to increased frsot risk, increased drought stress, increased herbivore pressure
-	- novel competitive communities
+\begin{itemize}
+	\item How might traits constrain/facilitate future shifts in phenology?
+		\item our findings do support the idea that phenology is an important functional trait
+	\item traits and relationships to increased frsot risk, increased drought stress, increased herbivore pressure
+	\item novel competitive communities
 	\item How might ecosystem functioning shift if species track temperature? How to our results relate to seasonality and frost risk?
 	\item What does it mean if more competitive/invasive species respond to warming and start bb earlier - outcompete species and lead to compressed temporal niche?
 	\item Relate our results to invasion success 
-	
+\end{itemize}
 	
 \begin{itemize}
 \item What do our results suggest for the relationship between cue use and traits? 
@@ -360,7 +374,7 @@ Areas of future study - will seed germination also shift with changing cues unde
 	\end{itemize}
 \end{itemize}
 
-The trait data used in this experiment was collected independently of the phenological cue experiments, from individuals in diverse ecosystems and community contexts. While this limits our ability to understand the relationships between cue use and traits at the population and individual level, our approach allowed us to test for general trends that scale across populations and can inform future more fine scale research. 
+
 
 
 
