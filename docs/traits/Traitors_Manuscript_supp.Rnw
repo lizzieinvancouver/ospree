@@ -9,14 +9,14 @@
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_supp.pdf} 
-    \caption{Trait relationships with cue slopes}
+    \caption{Estimated trait values for seed mass (a-c) and LNC (d-f) traits, correlated against species level cue responses to forcing (a \& d), chilling (b \& e), and photoperiod cues (c \& f). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The pink shading represents the distribution of the posterior estimates. Our model of seed mass estimated a negative correlation between height values and the response to forcing, chilling, and photoperiod cue responses (a - c). The estimated LNC values positively corrleating with the response in forcing, chilling, and photoperiod (d - f). The species used in our illustrative examples in S\ref{fig:slopes} are highlighted in each panel, with the relative small seeded species, \textit{Populus tremula} shown in green, and the large seeded species, \textit{Aesculus hippocastanum} shown in purple in panels a to c. In panels d to f, the species with low LNC, \textit{Alnus glutinosa} is shown in green, and the species with high LNC, \textit{Quercus ilex} shown in purple.}
     \label{fig:cuetraits}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
-    \caption{Estimated cue responses for acquisitive and conservative spp.}
+    \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Associations between seed mass and forcing, chilling, and photoperiod are depicted on panels a to c and associations between LNC and each cue in panel d to f. The green points represent the budburst data for \textit{Populus tremula}, a relatively small seeded species, while the green points are budburst data of the large seeded species, \textit{Aesculus hippocastanum}. Dark bands represent the 50\% credible interval for the posterior cue estimates for the full model. Opaque bands represent the 50\% credible interval for the posterior cue estimates with a trait effect of zero. The negative value of the seed mass model's slope for each cue produces a more negative effect on the day of budburst when seed mass is included in the model. This suggests that trees that produce large seeds advance their budburst dates at a higher rate to increasing cues (a-c). The effect of seed mass however, is relatively small compared to that observed from other traits. Estimates of the cue responses in our LNC model were all positive and produced more positive slopes in the full model. This indicates that high SLA values are less responsive in their budburst to increasing forcing, chilling, and photoperiod values (d to f). The greater effect of slopes on taller trees and high SLA species is a artifact of the trait value itself being larger and not a reflection on the magnitidue of the response.}
     \label{fig:slopes}
 \end{figure}
 
