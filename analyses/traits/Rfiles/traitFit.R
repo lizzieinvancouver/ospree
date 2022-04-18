@@ -27,7 +27,7 @@ if(length(grep("deirdreloughnan", getwd())>0)) {
 traitModelNames <- grep("_37spp_wp.RDS", list.files(filePathData), value = TRUE) 
 
 #Make a dataframe for saving traiit estimates for results section
-traits <- c("Height", "LNC", "SeedMass_log10", "SLA")
+traits <- c("Height","SLA", "SeedMass_log10", "LNC")
 traitsDF <- data.frame(matrix(NA, 4,18))
 names(traitsDF) <- c("Trait", "GrandMean", "GrandMean_upper", "GrandMean_lower", 
 	"SpeciesSigma",  "SpeciesSigma_upper", "SpeciesSigma_lower", 
@@ -291,7 +291,7 @@ for(traiti in 1:length(traitModelNames)){
 
 	#this plotting code needs the patchwork library 
 	  png("figures/FourTraitFit_37spp_wp.png", width = 14, height = 15, units = "in", res = 72)
-	    combined <- traitPlotList[[1]] + traitPlotList[[2]] + traitPlotList[[3]] + traitPlotList[[4]] & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
+	    combined <- traitPlotList[[1]] + traitPlotList[[4]] + traitPlotList[[3]]+ traitPlotList[[2]]  & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
 		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a")#add letter annotation to plots 
