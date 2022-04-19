@@ -363,13 +363,14 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 
 \section*{Results}
 % EMW (28Mar2022): You should switch to sweave (and use \Sexpr{} for the in-text below) for themodel estimates! Let me know if you need help with this. 
-Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms---chilling > forcing > photoperiod---but with marked quantitative shifts and larger variability around parameters, which led 97.5\% Credible Intervals for estimates of sensitivity to forcing and photoperiod to overlap with zero (see Table \ref{tab:modelgymlamb}). Gymnosperm based results must be interpreted with caution as they are based on a very limited set of observations.\\ %IMC 21mar - We can probably delete teh last sentence, I just wanted to note that results for gymno aren't as reliable.
+Most analyzed angiosperm species are sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). For gymnosperms we had far less data---i.e., a tenth of the species and a fifth of the observations we had for angiosperms---,however, the direction of the effects and ranking of cue sentivities were qualitatively similar (see Table \ref{tab:modelgymlamb}).\\ %IMC 21mar - We can probably delete teh last sentence, I just wanted to note that results for gymno aren't as reliable.
 % EMW (28Mar2022): Yes! But we should say it, I would change: Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms ->> For gymnosperms we have far less data (half/a quarter? fewer species and XX fewer observations), however, the direction of the effects and ranking of cue sentivities were qualitatively similar ....
 
 % EMW (28Mar2022): I don't think we should say 'interacting cues' when we don't model interactions, but maybe you mean something else?
-The above patterns were strongly phylogenetically clustered for forcing ($\lambda$ \= 0.68), moderately so for chilling ($\lambda$ \= 0.56) and weakly for photoperiod ($\lambda$ \= 0.24) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}). This indicates that species responses to interacting cues, when modelled jointly, widely differ in how they are affected by evolutionary relatedness. Sensitivity to photoperiod treatments did not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}).   
+The above patterns were strongly phylogenetically clustered for forcing ($\lambda$ \= 0.68), moderately so for chilling ($\lambda$ \= 0.56) and weakly for photoperiod ($\lambda$ \= 0.24) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}). This indicates that, when modelled jointly, species responses to cues widely differ in how they are affected by evolutionary relatedness. Sensitivity to photoperiod treatments did not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}). Along evolution, tree species would have been constrained % I'm aware the term constrained is contentious in this context, so perhaps we can use something else
+in their ability to develop responses to forcing that differ much from those of their close relatives, and less constrained in their responses to chilling.\\
 
-
+Accounting for the effects of phylogenetic structuring on the effects of environmental cues modelled jointly has an effect on model coefficients (Fig. \ref{}) 
 
 
 
@@ -459,7 +460,7 @@ To be fleshed out.
 % EMW (28Mar2022): I vote for the first one, but both are great!
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio.pdf}
+  \includegraphics[width=16cm]{figures/muplot_phylo_allcue_angio.pdf}
   \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:muplot_all}
   \end{center}
@@ -467,78 +468,38 @@ To be fleshed out.
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=16cm]{..//..//analyses/phylogeny/figures/muplot_phylo_allcue_angio2.pdf}
-  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
-  \label{fig:muplot_all}
+  \includegraphics[width=16cm]{figures/muplot_phylo_allcue_gymno.pdf}
+  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 19 gymnosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \label{fig:muplot_allgymno}
   \end{center}
 \end{figure}
 
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing, for 194 angiosperm species.}
-  \label{fig:muplot_force}
+  \includegraphics[width=14cm]{figures/Fig2_lambdas_sigmas.pdf}
+  \caption{Density plots for the posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey). Panels correspond to angiosperms (a-d) and gymnosperms (e-h). Note that lambda estimations corresponding to  panels c-d and g-h as they are constrained to be either equal zero or equal 1.}
+  \label{fig:phylosig_all}
   \end{center}
 \end{figure}
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_chill.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for chilling, for 194 angiosperm species.}
-  \label{fig:muplot_chill}
+  \includegraphics[width=14cm]{figures/Est_correls_vs_lamb01_angio.pdf}
+  \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for angiosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
+  \label{fig:correls_angio}
   \end{center}
 \end{figure}
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_photo.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for photoperiod, for 194 angiosperm species.}
-  \label{fig:muplot_photo}
+  \includegraphics[width=14cm]{figures/Est_correls_vs_lamb01_gymno.pdf}
+  \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for gymnosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
+  \label{fig:correls_gymno}
   \end{center}
 \end{figure}
 
 
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/lambdas_sigmas_density_noout.pdf}
-  \caption{Posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
-  \label{fig:phylosig_angio}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/sigmas_density_lambda0.pdf}
-  \caption{Posterior distribution of sigma for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey).}
-  \label{fig:sigmas}
-  \end{center}
-\end{figure}
-
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_force_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for forcing making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_force_lambda0}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_chilll_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for chilling making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_chill_lambda0}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/muplot_phylo_photo_lambda0.pdf}
-  \caption{Cue sensitivity estimation by hierarchical phylogenetic model showing slopes for photoperiod making lambda \= 0, for 194 angiosperm species.}
-  \label{fig:muplot_photo_lambda0}
-  \end{center}
-\end{figure}
 
 % IMC Mar21 - I'm guessing we are going to merge some of the tables below. TBD what we keep for the main text and what is sent to a supp.
 \begin{table}[H]
@@ -593,259 +554,11 @@ $\sigma_y^2$                   & 15.81                             & 0.41       
 
 
 
-\begin{comment}
 
+\pagebreak
+\bibliographystyle{refs/bibstyles/amnat.bst}% 
+\bibliography{refs/phylorefs.bib}
 
-\clearpage
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/correlations_sensitiv_52complex.png}
-  \caption{Scatterplots showing correlations between the sensitivities of the species complexes in OSPREE to chilling and photoperiod (A), chilling and forcing (B), and forcing and photoperiod (C). Sensitivities are positively correlated among chilling and photoperiod and chilling and forcing, but negatively correlated between forcing and photoperiod.}
-  \label{fig:sensicorrs}
-  \end{center}
-\end{figure}
 
-\clearpage
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Correlations_sensitivities.png}
-  \caption{Scatterplots showing correlations between the sensitivities of the species in OSPREE to chilling and photoperiod (A), chilling and forcing (B), and forcing and photoperiod (C). Sensitivities are  correlated overall, but more so between chilling and photoperiod.}
-  \label{fig:sensicorrs52comp}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/cues_sensit_correlations_231spp.png}
-  \caption{Scatterplots showing correlations between the sensitivities of the species in OSPREE (subset with all 231 species for which there is data) to chilling and photoperiod (A), chilling and forcing (B), and forcing and photoperiod (C). Sensitivities are positively correlated among chilling and photoperiod and chilling and forcing, but negatively correlated between forcing and photoperiod.}
-  \label{fig:sensicorrs231}
-  \end{center}
-\end{figure}
-
-
-\clearpage
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig.png}
-  \caption{Phylogenetic signal results for the sensitivities of each species complex (species grouped by genera) to the forcing (A), chilling (B) and photoperiod (C) cues.}
-  \label{fig:phylosig_complex}
-\end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev.png}
-  \caption{Phylogenetic signal results for the sensitivities of each species (ungrouped) to the forcing (A), chilling (B) and photoperiod (C) cues.}
-  \label{fig:phylosig_spp}
-  \end{center}
-  \end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev_angiosperms.png}
-  \caption{Phylogenetic signal results for the sensitivities of each species (excluding gymnosperms) to the forcing (A), chilling (B) and photoperiod (C) cues.}
-  \label{fig:phylosig_angiosperm}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev231.png}
-  \caption{Phylogenetic signal results for the sensitivities of each species (231 species included) to the forcing (A), chilling (B) and photoperiod (C) cues.}
-  \label{fig:phylosig_231spp}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{..//..//analyses/phylogeny/figures/Sensitivities_phylosig_spslev215angio.png}
-  \caption{Phylogenetic signal results for the sensitivities of each species (215 angiosperm only species included) to the forcing (A), chilling (B) and photoperiod (C) cues.}
-  \label{fig:phylosig_215spp}
-  \end{center}
-\end{figure}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Stuff from old version of the ms.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section*{Stuff from old version (to be deleted at some point)} 
-
-\subsection*{Hierarchical models to estimate species-level cue sensitivity}
-\begin{enumerate}
-\item Our approach used Bayesian hierarchical models to estimate the number of days until budburst as a function of forcing, chilling and photoperiod. We used different specifications of partial pooling to determine in which approach the sensitivies to the cues most accurately predict budburst. We used 5 model specifications: 
-\begin{enumerate}
-\item species as a grouping factor on the intercept (Eq. \ref{eq:1})
-\item species as grouping factor on the intercept and slopes too (Eq. \ref{eq:2})
-\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
-\item phylogeny as a grouping factor on the intercept and species as grouping factor on both  intercept and slopes (Eq. \ref{eq:3})
-
-\end{enumerate}
-
-\item In all specifications, the Bayesian hierarchical models were fit using the brms package \citep{brms}, in R \citep{R}, version 3.5.1, and followed the notations: 
-
-
-\begin{equation}
-\label{eq:1} 
-Budbreak = \alpha_{species} + \beta_{1}forcing 
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon
-\end{equation}
-
-
-\begin{equation} 
-\label{eq:2} 
-Budbreak = \alpha_{spp} + \beta_{1,spp}forcing
-+ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon\end{equation}
-
-\begin{equation} 
-\label{eq:3} 
-Budbreak = \alpha_{phylo,spp} + \beta_{1,spp}forcing
-+ \beta_{2,spp}chilling + \beta_{3,spp}photo + \varepsilon
-\end{equation}
-
-\begin{equation} 
-\label{eq:4} 
-Budbreak = \alpha_{phylo,species} + \beta_{1}forcing
-+ \beta_{2}chilling + \beta_{3}photo + \varepsilon
-\end{equation}
-
-% I'm ignoring the model below for now as it runs very slow, and it does not seem like we are using it
-%\begin{equation} 
-%\label{eq:5} 
-%Budbreak = \alpha_{phylo,spp} + \beta_{1, phylo, spp}forcing +\\
-% \beta_{2, phylo, spp}chilling + \\
-% \beta_{3, phylo, spp}photo + \varepsilon
-%\end{equation}
-
-
-\item We assessed model performance according to $\hat{R}$ values (that should be close to one to ensure convergence). As for metrics of model accuracy we computed $R^{2}$, and the expected log predictive density (ELPD) that results from \emph{Leave-one-out} cross-validation, in addition to inspection of posterior predictive checks.
-
-\item To test the ability of phylogeny to improve models/predictions of budburst we compared metrics of model accuracy between models that include phylogeny and models that do not.
-
-\end{enumerate}
-
-
-\begin{enumerate}
-% Explain how the model is fit, and how the $H^{2}$ metric is analogous to lambda in PGLS.
-\item To determine phylogenetic signal in the responses to each of the environmental cues--i.e. forcing, chilling, photoperiod--we run a second batch of models in brms, that use the slopes of the models specified above as a response variable, following the notation:
-
-
-
-\begin{equation}
-\label{eq:5} 
-\beta_{1}forcing = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
-
-\begin{equation}
-\label{eq:6} 
-\beta_{2}chilling = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
-
-\begin{equation}
-\label{eq:7} 
-\beta_{3}photo = \alpha_{phylo} + \varepsilon_{phylo} + \varepsilon_{non-phylo}
-\end{equation}
-
-\item Once this set of models is computed, calculating phylogenetic signal ($H^{2}$) is straightforward:
-
-\begin{equation}
-\label{eq:8} 
-\quad   H^{2} = \frac{\varepsilon_{phylo}}{\varepsilon_{phylo} + \varepsilon_{non-phylo}}
-\end{equation}
-
-\item $H^{2}$ is equivalent to Pagel's \cite{pagel1999inferring} $\lambda$ parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). This is, for $\lambda = 0$ phylogenetically close species are not more similar than phylogenetically distant species and, for $\lambda = 1$, phylogenetically close species resemble each other according to a BM model, where phenotypic variance accummulates proportional to time.
-
-\item In other words, the $\lambda$ parameter can be defined as a scalar that multiplies the diagonal of the phylogenetic Variance-Covariance metric and that is estimated through \emph{Maximum Likelihood} in traditional comparative approaches \citep{freckleton2002phylogenetic}. Our approach, in contrast computes the ratio between amount of variance attributable to the phylogeny ($\varepsilon_{phylo}$) and the total amount of variance \ref{eq:8}.
-\todo{Results from our approach and PGLS differ in the 215spp dataset - to discuss} 
-
-\item We compare the results from our $H^{2}$ metric against the results for $\lambda$ computed through Phylogenetic Generalized Least Squares \citep{freckleton2002phylogenetic}. 
-%\item An advantage of estimating phylogenetic signal through a Bayesian approach such as ours is that it yields a posterior distribution of $H^{2}$.
-
-\end{enumerate}
-
-
-
-%% from previous version of the intro outline
-\item Few examples in the literature have tested for phylogenetic signal of phenological responses using growth chamber data (e.g. \cite{joly2019importance}, and yet such a source of data could have advantages such as:
-\begin{enumerate}
-\item it makes possible to examine responses to more than one cue and thus not restrict analyses to responses to forcing.
-\item it is possible to compare responses to cues (are some more conserved than others?) 
-\item they may allow testing whether phylogeny can improve models of phenology as a response to a cue
-\end{enumerate}
-
-\item Shifting the focus to phylogenetic conservatism of the responses to cues may provide additional insights:
-\begin{enumerate}
-\item by allowing comparison across cues, which cues are more conserved? which selective processes have been stronger? 
-\item Do we need to care about phylogenetic constraints when we forecast phenology? 
-\item Understand what dimensions of the environment may be more limiting or may be less subject to further adaptation. 
-\item Is the phylogenetic conservatism of phenology affected by geography and/or taxonomy? (e.g. North America vs. Europe; Gymnosperms vs. Angiosperms) 
-\end{enumerate}
-
-\subsection*{Provenance-climate Data}
-\begin{enumerate}
-\item Should we test/analyze provenace or climate-effects? 
-\todo{I belive this can be done (roughly) through the NAm vs. Eur comparison?} 
-\end{enumerate}
-
-\section*{Next steps and directions (based on Lizzie's suggestions)}
-\begin{enumerate}
-\item Compute phylogenetic signal on the outcome of the cues -- that is, we could calculate budburst day given our model (maybe a model without phylogeny?) under perhaps two scenarios:
-     
-\begin{enumerate}
-\item High chill, long-ish photoperiod, and moderate forcing (regular scenario)
-
-\item Low chill, shorter photoperiod, higher forcing (climate change scenario)
-
-\item The trick will be first, which model to use to calculate these values and how to keep the paper then logically consistent.
-\end{enumerate}
-  
-\end{enumerate}
-
-
-\section*{Questions to be addressed}
-
-Some questions we need to answer (suggestions by Lizzie and Nacho's addings):
-
-\begin{enumerate}
-\item How do we approach wanting to use species-level output from the models and wanting to fit phylogenetically-informed models? I think our current approach of using phylo-corrected and uncorrected models is fine, but we should discuss.
-\item Do we want to compare North America and Europe somehow? sounds cool!
-\item Do we want to add any traits or range stuff? - I don't think I'd go there unless there is a really pressing question or idea to address
-\item Can people add refs? Especially recent refs and refs about leafout and budburst? We also should have some refs on WITHIN-species variation. This is a task that would be great if people could contribute.
-\item Would it make sense to look at other response variables in OSPREE (other than budburst)?\\
-
-And a very important question:\\
-
-\item How do we want to pitch this paper? About phenology? About moving beyond phenotypes? About using experimental (lab) data? About climate change forecasts being affected by phylogenetic structuring?
-
-\item If the latter, can we think of ways to show how accounting for phylogenetic structuring would affect (or best case scenario, improve) forecasts of phenology? Perhaps by focusing on well studied species (usual PEP75 suspects?)... 
-
-\item Probably still early for this, but any ideas for target journals? JoE seems a natural outlet given where previous work has been published, but if the pitch is more into forecasts, could we aim higher?
-\end{enumerate}
-
-
-
-%% from methods
-% IMC 15mar perhaps we do not need the below bit, but I thought it could be helpful to show how our model specification compares to that of more classic approaches. I have to double check the equations below, and introduce the indices for partial pooling on slopes and intercept (not sure it works as is, please Lizzie, Deirdre, Geoff, can you check this?)
-% EMW (19Mar2022): I chatted with JD about this and I think we should be cautious about too much focus on PGLS versus PMM versus our model here -- if we do this, we're inviting a lot of methods-focused reviewers and I don't see that as a good outcome. So I would recommend that we focus on what our method does BEYOND PGLS or PMM and stop there. (So, cut the below equations.) 
-For the sake of comparison, the PGLS version of equation \ref{eqfive} would be written:
-
-\begin{align}
-  \label{eqPGLS}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} 
-\end{align}
-
-
-and the PMM version:
-
-\begin{align}
-  \label{eqPMM}
-  \mu_j = \mu_\alpha + \mu_{\beta_1} X_1 + \mu_{\beta_2} X_2 + \mu_{\beta_3} X_3 + e_{\alpha_{j}} + e_{\epsilon_{j}} 
-\end{align}
-
-where e_$\epsilon$ is the error term independent of phylogenetic effects. Thus, the model specification used here \ref{eqfive} can be seen as an extended version of the above, where the error term is decomposed one step further, allowing to partition residual variance into predictor-specific components. 
-
-
-
-\end{comment}
 
 \end{document}
