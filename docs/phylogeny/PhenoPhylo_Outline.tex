@@ -377,13 +377,15 @@ in their ability to develop responses to forcing that differ much from those of 
 \subsection*{Cue sensitivities: are there major shifts when phylogeny is accounted for?}
 
 Accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients both for angiosperms (Fig. \ref{}) and gymnosperms (Fig. \ref{}). Not accounting for phylogeny (or assuming $\lambda$ \= 0) biased model coefficients, particularly so for forcing and somewhat less for chilling (Fig. \ref{}). Specifically, species sensitivities to forcing and chilling were underestimated on average (by XX and XX days per unit of standardized cue, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{}), likely due to their low estimated $\lambda$ values. Model intercepts were not affected either (Fig. \ref{}).\\ 
-
-Assuming phylogenetic structuring to follow a Brownian Model of evolution ($\lambda$ \= 1) biased model coefficients too (Fig. \ref{}) although in the opposite direction. Doing so overestimated sensitivities to forcing and chilling (by XX and XX days per unit of standardized cue, respectively) and overestimated even more species sensitivities to photoperiod (Fig. \ref{}). Bias in model coefficients due to either ignoring or overestimating phylogenetic structuring of predictors seems to correlate with the estimated value of $\lambda$ so that, if their actual value is high, coefficients may suffer stronger bias if phylogeny is disregarded. In contrast, if predictor's $\lambda is actually low, bias would arise by forcing a Brownian Motion on those predictors (this situation being more unlikely in the literature). Results coincided qualitatively with those of gymnosperms, which were more variable as sample size is much lower (Fig. \ref{}).\\
-
-
-
 %\todo{If we want to make the point of with and without lambda results, we could just include a scatterplot? With lambda on x and lambda=0 on Y?} % One plot for each cue? % EMW (19Mar2022): Sure! 
 %IMC(22Apr22): Done
+
+Assuming phylogenetic structuring to follow a Brownian Model of evolution ($\lambda$ \= 1) biased model coefficients too (Fig. \ref{}) although in the opposite direction. Doing so overestimated sensitivities to forcing and chilling (by XX and XX days per unit of standardized cue, respectively) and overestimated even more species sensitivities to photoperiod (Fig. \ref{}). Bias in model coefficients due to either ignoring or overestimating phylogenetic structuring of predictors seems to correlate with the estimated value of $\lambda$ so that, if their actual value is high, coefficients may suffer stronger bias if phylogeny is disregarded. In contrast, if predictor's $\lambda is actually low, bias would arise by imposing a Brownian Motion on the evolution of those predictors. Results coincided qualitatively with those of gymnosperms, which were more variable as sample size is smaller (Fig. \ref{}).\\
+
+
+
+\subsection*{Model accuracy}
+%IMCapr25 - I'd like to include a little subsection here on model accuracy, comparing R2s, LOO, or something similar for our models. Unfortunately, I can't find an easy way to do that (for stanfit objects: https://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/17) any help with this is much appreciated. 
 
 
 %\item Perhaps we can compare the new results against those in Ailene's paper more closely \ref{fig:muplot_angio}, and \ref{fig:muplot_gymno}.
@@ -392,22 +394,6 @@ Assuming phylogenetic structuring to follow a Brownian Model of evolution ($\lam
 
 
 
-\begin{enumerate}
-\item Phenological responses to the three studied cues are overall phylogenetically conserved but estimates of phylogenetic signal differ strongly across species subsets (angio vs. gymno).
-\item When angiosperm species (from main model) are considered, responses to forcing are more conserved ($\lambda$ = 0.64) than responses to chilling ($\lambda$ = 0.66) or to photoperiod ($\lambda$ = 0.35) (see Figure \ref{fig:phylosig_angio}).  
-
-\item When gymnosperm species are considered, all responses to cues are similarly low (yet different from zero): forcing ($\lambda$ = 0.36), chilling ($\lambda$ = 0.32) and photoperiod ($\lambda$ = 0.37) and show almost overlapping posterior distributions, which may be driven by a low number of species (19) \ref{fig:phylosig_gymno}).  
-
-%\item The marked differences in the responses to each cue are buffered when only angiosperm species are considered, with all responses being mildly conserved: forcing ($\lambda$ = 0.33), chilling ($\lambda$ = 0.37) and photoperiod ($\lambda$ = 0.40). This suggests gymnosperms, even few species can have a major  effect in apparent differences across cues (Figure \ref{fig:phylosig_angiosperm}). 
-%\item The correlations among responses to the cues are positive but only markedly high between photoperiod and chilling (Figure \ref{fig:sensicorrs}).
-
-\end{enumerate}
-
-
-\subsection*{Budburst models, phylogenetic vs. non-phylogenetic}
-\begin{enumerate}
-\item Here goes text comparing results with lambda \= 0 against results with estimated lambda.
-\end{enumerate}
 
 
 
@@ -416,7 +402,24 @@ Assuming phylogenetic structuring to follow a Brownian Model of evolution ($\lam
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Discussion}
-To be fleshed out.
+
+Tree phenological responses to environmental cues have been subjected to evolutionary constraints so that closely related species tend to show similar responses to forcing and to less extent, to chilling (Fig. \ref{}). Although our findings coincide in their ranking of cue importance with previous ones \citep{ettinger2020}, they highlight the need to account for phylogeny in multi-species, multi-cue modelling of phenological responses to cues. Indeed, our results indicate that ignoring the phenology (or imposing stronger phylogenetic relationships than they actually are) would induce significant bias in estimated model coefficients, thus compromising the ability of non-phylogenetic models to generate accurate inference and prediction.\\ 
+
+Interestingly, phylogenetic signal differs markedly across cues (Fig. \ref{}). Responses to photoperiod seem evolutionarily labile, with little variation across most species (XX days per standard unit of photoperiod) and a few exceptions from the genus \emph{Fagus}, known as particularly sensitive to photoperiod \citep{fu2019}. The question arises as to why would distantly related species respond more similarly to photoperiod than they do to forcing or chilling. A possibility is that the higher stability/predictability of seasonal photoperiod at any given latitude, would have not promoted a selection as stronger as that of forcing or chilling. %The latter...
+\\
+
+
+
+%\item How can we interpret lambdas and sigmas for each cue, and for the intercept?
+%\item What are the implications for phenological predictions and forecasts?
+%\item Is this approach transferable to different taxa or biological responses? 
+
+
+
+%\item If so, can accounting for phylogeny shed light on the ongoing debate on declining sensitivities? For example, if particular lineages have very different evolutionary constraints on their responses to the cues, they may also display very differt declines in their sensitivities to the cues. % lizzie, I realize I missed important bits on the discussion we had on the relevance of this point, any pointers here are super welcome. 
+
+
+
 
 \begin{enumerate}
 \item Random discussion points with no home, yet ... 
