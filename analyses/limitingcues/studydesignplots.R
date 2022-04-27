@@ -353,8 +353,8 @@ plotxydatabsX <- function(yvar, xvar, bywhat,  dat, legendwhere, ylaby, xlaby){
 
 ## MS plots (in supp in 2021)
 xtexthere <- 68
-pdf("limitingcues/figures/supplatplots4panel.pdf", width = 8, height = 6)
-par(mfrow=c(2,2), oma=c(1,1,1,1), mar=c(4.5,5,0,0))
+pdf("limitingcues/figures/supplatplots4panel.pdf", width = 12, height = 6)
+par(mfrow=c(2,2), oma=c(1,1,1,1), mar=c(4.5,5,3,10),xpd=FALSE)
 plot(dsumm[["min.temp"]]~abs(dsumm[["mean.lat"]]), ylab=expression(paste("Minimum temperature (", degree, "C)", sep="")), xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
 text(xtexthere, 24, labels=round(summary(lm(dsumm[["min.temp"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
@@ -371,6 +371,12 @@ for (i in c(1:length(unique(dsumm[["datasetID"]])))){
         col=colz[i], pch=16)
     }
 abline(lm(dsumm[["max.temp"]]~abs(dsumm[["mean.lat"]]) ))
+
+par(xpd=NA)
+
+legend(x=72,y=35,legend=c(unique(dsumm[["datasetID"]])),pch=16,col=colz,ncol=2, cex=.7)
+par(xpd=FALSE)
+
 plot(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]]), ylab="Maximum photoperiod (hours)", xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
 text(xtexthere, 21, labels=round(summary(lm(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]])))$r.squared, 2))
 for (i in c(1:length(unique(dsumm[["datasetID"]])))){
@@ -387,6 +393,8 @@ for (i in c(1:length(unique(dsumm[["datasetID"]])))){
         col=colz[i], pch=16)
     }
 abline(lm( dsumm[["range.photo"]]~abs(dsumm[["mean.lat"]])))
+
+
 dev.off()
 
 ### make a csv of this data for the suppliment so you don'y have to run all this code everytime you want to use it
