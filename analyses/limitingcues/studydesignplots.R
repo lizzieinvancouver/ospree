@@ -374,7 +374,7 @@ abline(lm(dsumm[["max.temp"]]~abs(dsumm[["mean.lat"]]) ))
 
 par(xpd=NA)
 
-legend(x=72,y=35,legend=c(unique(dsumm[["datasetID"]])),pch=16,col=colz,ncol=2, cex=.7)
+legend(x=72,y=35,legend=c(unique(dsumm[["datasetID"]])),pch=16,col=colz,ncol=2, cex=.7,bty="n")
 par(xpd=FALSE)
 
 plot(dsumm[["max.photo"]]~abs(dsumm[["mean.lat"]]), ylab="Maximum photoperiod (hours)", xlab=expression(paste("Mean latitude (", degree,")", sep="")), type="n")
