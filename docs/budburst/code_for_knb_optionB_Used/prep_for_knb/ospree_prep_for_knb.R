@@ -10,6 +10,12 @@ library(shinystan)
 library(plyr)
 library(dplyr)
 
+#set working directory
+setwd("~/GitHub/ospree/docs/budburst/code_for_knb_optionB_Used/prep_for_knb")
+
+#set whether you want the bb version or not
+getbbonly=FALSE
+
 ## (1) Get the data and slim down to correct response and no NAs ..
 d<-read.csv("../../../../analyses/output/ospree_clean_withchill_BB.csv", header=TRUE)
 use.chillports=FALSE
@@ -30,4 +36,6 @@ bb <- subset(bb, resp<600)
 
 bb.all <- bb
 
-write.csv(bb.all,"../ospreebb_forknb.csv", row.names = FALSE)
+if(getbbonly==TRUE){write.csv(bb.all,"../ospreebb_forknb.csv", row.names = FALSE)}
+if(getbbonly==FALSE){write.csv(bb.all,"../ospreebb_forknb_limcue.csv", row.names = FALSE)}
+

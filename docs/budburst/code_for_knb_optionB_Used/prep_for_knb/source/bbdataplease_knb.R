@@ -2,10 +2,11 @@
 ##### Source file for reading in the data #######
 #################################################
 
-## select out only the budburst data ...
-respvars.thatwewant <- c("daystobudburst", "percentbudburst")
+## for ospree bb version, select out only the budburst data ...
+if(getbbonly==TRUE){respvars.thatwewant <- c("daystobudburst", "percentbudburst")
 bb.resp <- d[which(d$respvar.simple %in% respvars.thatwewant),]
-bb.resp <- subset(bb.resp, respvar != "thermaltime")
+bb.resp <- subset(bb.resp, respvar != "thermaltime")}
+if(getbbonly==FALSE){bb.resp<-d}
 
 ## make a bunch of things numeric
 bb.resp$forceday <- as.numeric(bb.resp$forcetemp)
