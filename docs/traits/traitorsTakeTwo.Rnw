@@ -1,0 +1,161 @@
+%%% start preambling . . .  %%%
+\documentclass{article}
+
+% required 
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{textcomp}%amoung other things, it allows degrees C to be added
+\usepackage{float}
+\usepackage[utf8]{inputenc} % allow funny letters in citaions 
+\usepackage[nottoc]{tocbibind} %should add Refences to the table of contents?
+\usepackage{amsmath} % making nice equations 
+\usepackage{listings} % add in stan code
+\usepackage{xcolor}
+\usepackage{capt-of}%alows me to set a caption for code in appendix 
+\usepackage[export]{adjustbox} % adding a box around a map
+\usepackage{lineno}
+\linenumbers
+% recommended! Uncomment the below line and change the path for your computer!
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
+%put your Fig.s in one place! Also, note that here 'Fig.s' is the folder and 'demoFig' is what each 
+% Fig. produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
+% make your captioning look better
+\usepackage[small]{caption}
+
+\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{hyperref}
+
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Draft early 2022}
+\fancyhead[RO]{Temporal Ecology Lab}
+% more optionals! %
+
+%\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
+\externaldocument[supp-]{Traitors_Manuscript_supp}
+
+%%% end preambling. %%%
+
+\begin{document}
+
+%\renewcommand{\refname}{\CHead{}}%not sure what this was supposed to do 
+\renewcommand{\bibname}{References}%names reference list 
+
+\SweaveOpts{concordance=TRUE} % For RStudio hiccups
+
+
+\title{Woody plant phenological responses are strongly associated with key functional traits}
+\date{\today}
+\author{Deirdre Loughnan$^1$, Faith A M Jones$^1$, Geoffrey Legault$^1$, Mira Garner$^2$,\\
+Darwin Sodhi$^3$, Daniel Buonaiuto$^4$, Catherine Chamberlain$^5$, Ignacio Morales Castilla $^6$,\\
+Ailene Ettinger$^7$,  and E M Wolkovich$^1$}
+\maketitle 
+
+$^1$ Department of Forest and Conservation, Faculty of Forestry, University of British Columbia, 2424 Main Mall
+Vancouver, BC Canada V6T 1Z4. \\
+
+$^2$  Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\ \\
+
+$^3$  Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
+
+$^4$  XXXX \\
+
+$^5$  XXXX\\
+
+$^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+
+$^7$  XXXX \\
+%Fix numbers once I have everyone's affiliations
+
+Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
+
+%Full word count: \\
+%Summary word count: \\
+%Introduction word count: \\
+%Materials and Methods word count: \\
+%Results and figure legends word count: \\
+%Discussion word count: \\
+
+
+\newpage
+
+\section{Summary}
+
+Key Words: Budburst phenology, functional traits, Trees, climate chagne
+
+\section{Introduction}
+
+\section{Methods}
+
+\section{Results}
+<<label=runcode1,  echo=FALSE>>=
+#setwd("../../analyses/traits")
+
+source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
+
+@
+
+\begin{enumerate}
+\item Functional traits did influence the timing of budburst date in response to forcing, chilling, and photoperiod cues
+\item Trait effects varied with species and trait values
+\item In modeling the effects of traits on cue responses we found:
+\begin{enumerate}
+\item unique responses in height to forcing, a smaller advance in budburst with increasing forcing when height effects were included
+\item increasing chilling \& photoperiod lead to a stronger advance in budburst when height's effects were incldued
+\item the trait effect of SLA resulted in weaker responses to increased forcing and chilling cues, but stronger responses with longer photoperiods. 
+\item For both log10 seed mass and LNC the trait effect was consistent across all three cues
+\item the advance in budburst dates with increasing cues were stronger when the effect of log10 seed mass was accounted for
+\item in contrast, the the advance when the effects of LNC were included was smaller as cues increased
+\end{enumerate}
+\item Triats varied in whether responses in cue slopes followed the predicted gradients in trait values:
+\begin{enumerate}
+\item taller species and species with larger seeds had stronger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling, , 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean}) and (\Sexpr{smBCSpMean} mg per standardized chilling, \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, respectively) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod, \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height and \Sexpr{smBPSpMean} mg per standardized  photoperiod, \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean} for seed mass)
+\item but taller species had weaker responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing, \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}), while large seeded species had stronger cue responses to forcing (\Sexpr{smBFSpMean} mg per standardized forcing, \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}), as we predicted
+\item Species with large trait values of both leaf traits, SLA and LNC, had weaker cue responses to forcing and chilling ((\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing, \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling, \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}) for SLA and (\Sexpr{lncBFSpMean} mg/g per standardized forcing, \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized, \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}) for LNC)
+\item but species with large SLA had stronger responses to photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod, \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}), while large LNC speices had weaker photoperiod cue responses (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod, \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean})
+\end{enumerate}
+\end{enumerate}
+
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
+    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modeled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the speceis level means from the raw data, denoted as a purple stars.}
+    \label{figure:TraitDistributions}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_maintext.pdf} 
+    \caption{Estimated trait values for height (a-c) and SLA (d-f) traits, correlated against species level cue responses to forcing (a \& d), chilling (b \& e), and photoperiod cues (c \& f). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The pink shading represents the distribution of the posterior estimates.  The species depicted in Fig \ref{fig:slopes} are highlighted in each panel, with the acquisitive species shown in green, and the conservative species, shown in purple.}
+    \label{fig:cuetraits}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
+    \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Points represent the raw budburst data for each respective species. Dark bands represent the 50\% uncertainty interval for the posterior cue estimates for the full model, while opaque bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero.}
+    \label{fig:slopes}
+\end{figure}
+
+\section{Discussion}
+
+
+\end{document}
