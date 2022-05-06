@@ -73,13 +73,14 @@ if(getbbonly==FALSE){
 
     d$resp <- as.numeric(d$response.time)
 
-d.noNA <- subset(d, is.na(force)==FALSE & is.na(photo)==FALSE &
-                    is.na(chill)==FALSE & is.na(resp)==FALSE)
+#do we want to get rid of nas?
+#d.noNA <- subset(d, is.na(force)==FALSE & is.na(photo)==FALSE &
+#                    is.na(chill)==FALSE & is.na(resp)==FALSE)
 
 #need to add "force_type" and "photo_type"
-d.noNA$force_type<-NA
-d.noNA$photo_type<-NA
-d <- subset(d.noNA, select=c(columnstokeep, columnschillunits))
+d$force_type<-NA
+d$photo_type<-NA
+d <- subset(d, select=c(columnstokeep, columnschillunits))
 
 
 }
