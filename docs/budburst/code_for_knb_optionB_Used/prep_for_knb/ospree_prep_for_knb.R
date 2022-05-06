@@ -82,9 +82,7 @@ d.noNA$photo_type<-NA
 d <- subset(d.noNA, select=c(columnstokeep, columnschillunits))
 
 
-
-
 }
 
-if(getbbonly==FALSE){write.csv(d,"../ospreebb_forknb_limcue.csv", row.names = FALSE)}
+if(getbbonly==FALSE){write.csv(d,"../../../limitingcues/ospree_forknb_limcue.csv", row.names = FALSE)}
 
