@@ -361,23 +361,43 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 % Results & Discussion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Discussion
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\section*{Discussion}
+% EMW (26Apr2022): Some great text here! Would flow really well with a combined R&D.
+%IMC 06may - Giving a try at merging Results and Discussion below
+
+
 \section*{Results \& Discussion}
+
+
+Tree phenological responses to environmental cues have been subjected to evolutionary constraints so that closely related species tend to show similar responses to forcing and to less extent, to chilling (Fig. \ref{}). Although our findings coincide in their ranking of cue importance with previous ones \citep{ettinger2020}, they highlight the need to account for phylogeny in multi-species, multi-cue modelling of phenological responses to cues.  
+
 % EMW (28Mar2022): You should switch to sweave (and use \Sexpr{} for the in-text below) for themodel estimates! Let me know if you need help with this. 
-Most analyzed angiosperm species were sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). For gymnosperms we had far less data---i.e., a tenth of the species and a fifth of the observations we had for angiosperms---however, the direction of the effects and ranking of cue sentivities were qualitatively similar (see Table \ref{tab:modelgymlamb}).\\ %IMC 21mar - We can probably delete teh last sentence, I just wanted to note that results for gymno aren't as reliable.
-% EMW (28Mar2022): Yes! But we should say it, I would change: Direction of the effects and ranking of cue sentivities were qualitatively similar for gymnosperms ->> For gymnosperms we have far less data (half/a quarter? fewer species and XX fewer observations), however, the direction of the effects and ranking of cue sentivities were qualitatively similar ....
+Most analyzed angiosperm species were sensitive to all three environmental cues---i.e., forcing, chilling, and photoperiod (Figs. \ref{fig:}, Supporting Table \ref{tab:}). Cue sensitivity led to average phenological advances of 7.2 days per unit of standardized chilling, 5.8 days per unit of forcing, and 1.4 days/standard unit of photoperiod (see Table \ref{tab:modelanglamb}). For gymnosperms we had far less data---i.e., a tenth of the species and a fifth of the observations we had for angiosperms---however, the direction of the effects and ranking of cue sentivities were qualitatively similar (see Table \ref{tab:modelgymlamb}). These results indicate that ignoring the phenology (or imposing stronger phylogenetic relationships than they actually are) would induce significant bias in estimated model coefficients, thus compromising the ability of non-phylogenetic models to generate accurate inference and prediction.\\
 
 
+Interestingly, phylogenetic signal differs markedly across cues (Fig. \ref{}). Tree phenological responses to environmental cues were strongly phylogenetically clustered for forcing ($\lambda = 0.68$), moderately so for chilling ($\lambda = 0.56$) and weakly for photoperiod ($\lambda= 0.24$) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}), suggesting that cue responses widely differ in how they are affected by evolutionary relatedness. Sensitivity to photoperiod treatments did not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}). Along evolution, tree species would have been constrained % I'm aware the term constrained is contentious in this context, so perhaps we can use something else
+in their ability to develop responses to forcing that differ much from those of their close relatives, and somewhat less constrained in their responses to chilling. Responses to photoperiod seem evolutionarily labile, with little variation across most species (XX days per standard unit of photoperiod) and a few exceptions from the genus \emph{Fagus}, known as particularly sensitive to photoperiod \citep{fu2019}.\\ 
 
+
+Why would distantly related species respond more similarly to photoperiod than they do to forcing or chilling? Clearly, daylength is a more 'reliable' cue as it varies less than forcing or chilling both across years and along evolutionary time. As such it would have enabled species scheduling their phenological events to match most suitable environmental conditions \citep{jackson2009plant}. The adaptation to shifting daylength may have occurred very early in the evolution of photoperiodic sensing---i.e., as early as in cianobacteria \citep{hut2011evolution, serrano2017evolution}. If responses to photoperiod had evolved early in plants and kept more or less constant afterwards in absence of novel selective advantages---i.e., consistent with an Early Burst model of evolution---that would be consistent with our pattern of little variation in the responses to photoperiod across species and clades. Further analyses of Early Burst evolution in photoperiodic responses for a wider set of species could test this interpretation.\\  
+% IMC May6 - Previous comments below 
+% IMC Apr26 - Perhaps this last bit reads a bit ranty, but I'm guessing we want to discuss at least a bit the differential/similar evolution of the sensitivities to each cue.
 %\subsection*{Phylogenetic signal in phenological responses}
 % EMW (28Mar2022): I don't think we should say 'interacting cues' when we don't model interactions, but maybe you mean something else?
 % EMW (26Apr2022): Edits below to take or leave. 
-The above patterns were strongly phylogenetically clustered for forcing ($\lambda = 0.68$), moderately so for chilling ($\lambda = 0.56$) and weakly for photoperiod ($\lambda= 0.24$) (see Fig. \ref{fig:muplot_force}, Table \ref{tab:modelanglamb}), suggesting that species responses to cues widely differ in how they are affected by evolutionary relatedness. Sensitivity to photoperiod treatments did not vary across clades while responses to forcing tend to be more similar among closely related species (Fig. \ref{fig:muplot_all}). Along evolution, tree species would have been constrained % I'm aware the term constrained is contentious in this context, so perhaps we can use something else
-in their ability to develop responses to forcing that differ much from those of their close relatives, and somewhat less constrained in their responses to chilling.\\ % EMW (26Apr2022): Why no interpretation of photoperiod at the end here? And do we need to interpret these along with sigma?
+% EMW (26Apr2022): Why no interpretation of photoperiod at the end here? And do we need to interpret these along with sigma?
 
 
-\subsection*{Cue sensitivities: are there major shifts when phylogeny is accounted for?}
+Phenological responses to forcing are strongly structured across the phylogeny, with certain clades emerging as significantly more sensitive than others (Fig. \ref{} a). For example, species from the Ericaceae, Rhamnaceae, Ulmaceae, or from the genus \emph{Quercus} are particularly sensitive to forcing (advancing their budburst more than 10 days per standardized unit of forcing). Low sensitivity to forcing is also structured and patent for clades such as the Sapindaceae, Cornaceae or Juglandaceae families. Less than forcing but still phylogenetically structured, responses to chilling were coincident in their higher sensitivity for clades such as Rhamnaceae, Ulmaceae, or Fagacea. While these coincidences would suggest the existance of syndromes where genetic basis for responses to one cue (e.g., forcing) could have been selected for along responses to another cue (e.g. chilling). However, correlation among responses to both cues is far from perfect (see Supporting Information XX) as responses to chilling are more variable and clades such as \emph{Tilia} and Ericaceae with strong responses to forcing and weak responses to chilling. Further, species in genera such as \emph{Betula} and \emph{Populus} display strong intra-clade differences in their responses to chilling. This results have implications for further analyses as they support use of species complexes as done in Ettinger et al. given the strong structuring of closely related species.\\ %IMC(may22): This paragraph could use some heavy editing to be shortened.
+
+
+%\subsection*{Cue sensitivities: are there major shifts when phylogeny is accounted for?}
 % EMW (26Apr2022): I like the title of this section! But I think we can re-write to simplify and focus more on the biological inference of this section.... one question though before we do that: What formatting should we have for this paper? Should we be writing a combined results and discussion? Or keep them separate?
-Accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients both for angiosperms (Fig. \ref{}) and gymnosperms (Fig. \ref{}). Not accounting for phylogeny (or assuming $\lambda$ \= 0) biased model coefficients, particularly so for forcing and somewhat less for chilling (Fig. \ref{}). Specifically, species sensitivities to forcing and chilling were underestimated on average (by XX and XX days per unit of standardized cue, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{}), likely due to their low estimated $\lambda$ values. Model intercepts were not affected either (Fig. \ref{}).\\ 
+Accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients both for angiosperms (Fig. \ref{}) and gymnosperms (Fig. \ref{}). Not accounting for phylogeny (or assuming $\lambda$ \= 0) biased model coefficients, particularly so for forcing and somewhat less for chilling (Fig. \ref{}). Specifically, species sensitivities to forcing and chilling were underestimated on average (by XX and XX days per unit of standardized cue, respectively). Not accounting for phylogeny had a strong effect in decreasing cross-species variance in their responses to forcing (Var $\beta_{phylo}$ = 9.13; Var $\beta_{non-phylo}$ = 4.99), chilling (Var $\beta_{phylo}$ = 22.71; Var $\beta_{non-phylo}$ = 16.53), and somewhat less to photoperiod (Var $\beta_{phylo}$ = 0.86; Var $\beta_{non-phylo}$ = 0.67). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{}), likely due to their low estimated $\lambda$ values. Model intercepts were not affected either (Fig. \ref{}).\\ 
 %\todo{If we want to make the point of with and without lambda results, we could just include a scatterplot? With lambda on x and lambda=0 on Y?} % One plot for each cue? % EMW (19Mar2022): Sure! 
 %IMC(22Apr22): Done
 
@@ -385,33 +405,13 @@ Assuming phylogenetic structuring to follow a Brownian Model of evolution ($\lam
 
 
 
-\subsection*{Model accuracy}
+%\subsection*{Model accuracy}
 %IMCapr25 - I'd like to include a little subsection here on model accuracy, comparing R2s, LOO, or something similar for our models. Unfortunately, I can't find an easy way to do that (for stanfit objects: https://discourse.mc-stan.org/t/best-way-to-do-prediction-on-new-data-r-rstan-stanfit/1772/17) any help with this is much appreciated. 
 % EMW (26Apr2022): To use loo we just need a generated quantities block, right? If so I can try to help code that with Deirdre.
 
 %\item Perhaps we can compare the new results against those in Ailene's paper more closely \ref{fig:muplot_angio}, and \ref{fig:muplot_gymno}.
 %\todo{Careful in comparing with Ailene's results too closely as the species list has changed some} % We added data from 2016-2019 papers.
 %IMC(22Apr22): It seems we are not conducting direct comparison against results in Ettinger et al. 2020. 
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Discussion
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Discussion}
-% EMW (26Apr2022): Some great text here! Would flow really well with a combined R&D.
-
-Tree phenological responses to environmental cues have been subjected to evolutionary constraints so that closely related species tend to show similar responses to forcing and to less extent, to chilling (Fig. \ref{}). Although our findings coincide in their ranking of cue importance with previous ones \citep{ettinger2020}, they highlight the need to account for phylogeny in multi-species, multi-cue modelling of phenological responses to cues. Indeed, our results indicate that ignoring the phenology (or imposing stronger phylogenetic relationships than they actually are) would induce significant bias in estimated model coefficients, thus compromising the ability of non-phylogenetic models to generate accurate inference and prediction.\\ 
-
-Interestingly, phylogenetic signal differs markedly across cues (Fig. \ref{}). Responses to photoperiod seem evolutionarily labile, with little variation across most species (XX days per standard unit of photoperiod) and a few exceptions from the genus \emph{Fagus}, known as particularly sensitive to photoperiod \citep{fu2019}. But why would distantly related species respond more similarly to photoperiod than they do to forcing or chilling? Clearly, daylength is a more 'reliable' cue as it varies less than forcing or chilling both across years and along evolutionary time. As such it would have enabled species scheduling their phenological events to match most suitable environmental conditions \citep{jackson2009plant}. The adaptation to shifting daylength may have occurred very early in the evolution of photoperiodic sensing---i.e., as early as in cianobacteria \citep{hut2011evolution, serrano2017evolution}. If responses to photoperiod had evolved early in plants and kept more or less constant afterwards in absence of novel selective advantages---i.e., consistent with an Early Burst model of evolution---that would be consistent with our pattern of little variation in the responses to photoperiod across species and clades. Further analyses of Early Burst evolution in photoperiodic responses for a wider set of species could test this interpretation.   
-% IMC Apr26 - Perhaps this last bit reads a bit ranty, but I'm guessing we want to discuss at least a bit the differential/similar evolution of the sensitivities to each cue.
-
-Phenological responses to forcing are strongly structured across the phylogeny, with certain clades emerging as significantly more sensitive than others (Fig. \ref{} a). For example, species from the Ericaceae, Rhamnaceae, Ulmaceae, or from the genus Quercus are particularly sensitive to forcing (advancing their budburst more than 10 days per standardized unit of forcing). Low sensitivity to forcing is also structured and patent for clades such as the Sapindaceae, Cornaceae or Juglandaceae families. Less than forcing but still phylogenetically structured, responses to chilling were coincident in their higher sensitivity for clades such as Rhamnaceae, Ulmaceae, or Fagacea. While these coincidences would suggest the existance of syndromes where genetic basis for responses to one cue (e.g., forcing) could have been selected for along responses to another cue (e.g. chilling). However, correlation among responses to both cues is far from perfect (see Supporting Information XX) as responses to chilling are more variable and clades such as Tilia and Ericaceae with strong responses to forcing and weak responses to chilling. Further, species in genera such as Betula and Populus display strong intra-clade differences in their responses to chilling. This results have implications for further analyses as they support use of species complexes as done in Ettinger et al. given the strong structuring of closely related species.
-
 
 % IMC Apr26 - I have the feeling to be rewriting results again? consider moving up if not too redundant and uninteresting for the discussion.
 
@@ -430,9 +430,13 @@ Phenological responses to forcing are strongly structured across the phylogeny, 
 \begin{enumerate}
 \item Random discussion points with no home, yet ... 
 \begin{enumerate}
-\item This is a case where phylogeny makes a big difference! Changes overall forcing cues? 
-\item Reduced uncertainty in species estimates (I think?) with including phylogeny (goes with above point perhaps also)
+%\item This is a case where phylogeny makes a big difference! Changes overall forcing cues? 
+% IMC May6 - sort of dealt with 
+\item Reduced uncertainty in species estimates (I think?) with including phylogeny (goes with above point perhaps also) / mention to shifts in model accuracy
 \item Even with phylogeny added FagSyl is still freakish for photoperiod cue ... suggesting we've been studying an extreme species as one of our focal species (maybe?)
+\item Implications for the declining sensitivities debate?
+\item Highlight/discuss the advantages of pushing methodologies such as the one here
+
 \end{enumerate}
 \end{enumerate}
 
