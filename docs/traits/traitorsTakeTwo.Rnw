@@ -113,32 +113,43 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 @
 
 \begin{enumerate}
-\item Functional traits did influence the timing of budburst date in response to forcing, chilling, and photoperiod cues
-\item Trait effects varied with species and trait values
-\item In modeling the effects of traits on cue responses we found:
+\item Traits differed in whether they strengthed or weakended species advances with increasing cues.
 \begin{enumerate}
+\item In modeling the effects of traits on cue responses we found: references Fig. \ref{fig:slopes}
 \item unique responses in height to forcing, a smaller advance in budburst with increasing forcing when height effects were included
 \item increasing chilling \& photoperiod lead to a stronger advance in budburst when height's effects were incldued
-\item the trait effect of SLA resulted in weaker responses to increased forcing and chilling cues, but stronger responses with longer photoperiods. 
+\item the trait effect of SLA resulted in a smaller shift in budburst in response to increased forcing and chilling cues, but a larger shift with longer photoperiods. 
 \item For both log10 seed mass and LNC the trait effect was consistent across all three cues
-\item the advance in budburst dates with increasing cues were stronger when the effect of log10 seed mass was accounted for
+\item the advance in budburst dates with increasing cues were greater when the effect of log10 seed mass was accounted for
 \item in contrast, the the advance when the effects of LNC were included was smaller as cues increased
 \end{enumerate}
-\item Triats varied in whether responses in cue slopes followed the predicted gradients in trait values:
+\item Functional traits did influence the timing of budburst date in response to forcing, chilling, and photoperiod cues
 \begin{enumerate}
-\item taller species and species with larger seeds had stronger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling, , 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean}) and (\Sexpr{smBCSpMean} mg per standardized chilling, \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, respectively) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod, \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height and \Sexpr{smBPSpMean} mg per standardized  photoperiod, \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean} for seed mass)
-\item but taller species had weaker responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing, \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}), while large seeded species had stronger cue responses to forcing (\Sexpr{smBFSpMean} mg per standardized forcing, \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}), as we predicted
-\item Species with large trait values of both leaf traits, SLA and LNC, had weaker cue responses to forcing and chilling ((\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing, \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling, \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}) for SLA and (\Sexpr{lncBFSpMean} mg/g per standardized forcing, \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized, \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}) for LNC)
-\item but species with large SLA had stronger responses to photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod, \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}), while large LNC speices had weaker photoperiod cue responses (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod, \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean})
+\item but varied by trait and species whether responses in cue slopes followed the predicted gradients in trait values
+\item strongest effects for chilling 
+\item weakest effects observed for photoperiod
+\end{enumerate}
+\item The strength of species cue responses were associated with species trait values: referencing Fig. \ref{fig:cuetraits}
+\begin{enumerate}
+\item taller species and species with larger seeds had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean}) and (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, respectively) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height and \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean} for seed mass)
+\item but taller species had weaker responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing; \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}), while large seeded species had stronger cue responses to forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}), as we predicted
+\item Species with large trait values of both leaf traits, SLA and LNC, had weaker cue responses to forcing and chilling (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean} for SLA and \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean} for LNC)
+\item but species with large SLA had stronger responses to photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}), while large LNC speices had weaker photoperiod cue responses (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean})
+\end{enumerate}
+\item Our trait model includes partial pooling across studies, allowing us to better partition the variance caused by study level differences: reference Fig. \ref{figure:TraitDistributions}
+\begin{enumerate}
+\item allows us to better account for differences in tree age, timing of sampling, local adaptation, or human error
+\item see a lot of variation in height data, which is our most commonly measured trait with measurements from 22 %double check this
+studies
+\item Seed mass comes from five studies and is least variable 
 \end{enumerate}
 \end{enumerate}
-
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
-    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modeled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the speceis level means from the raw data, denoted as a purple stars.}
-    \label{figure:TraitDistributions}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
+    \caption{Comparisons of estimated cue responses of a representative species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Points represent the raw budburst data for each respective species. Dark bands represent the 50\% uncertainty interval for the posterior cue estimates for the full model, while opaque bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero.}
+    \label{fig:slopes}
 \end{figure}
 
 \begin{figure}[h!]
@@ -150,9 +161,9 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
-    \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Points represent the raw budburst data for each respective species. Dark bands represent the 50\% uncertainty interval for the posterior cue estimates for the full model, while opaque bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero.}
-    \label{fig:slopes}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
+    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modeled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the speceis level means from the raw data, denoted as a purple stars.}
+    \label{figure:TraitDistributions}
 \end{figure}
 
 \section{Discussion}
