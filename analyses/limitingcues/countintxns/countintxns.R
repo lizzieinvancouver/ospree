@@ -9,9 +9,6 @@
 ################
 ## To do here ##
 ################
-# (*) Decide how to deal with forcing having varying night and day treatments (do I mean check that it is NOT what they varied? I think if I take forcemean spbydatasetID.dfI should capture this)
-# (*) Make heatmaps ...
-# (*) Deal with 'CHECK WHY' below
 
 # housekeeping
 rm(list=ls()) # remove everything currently held in the R memory
@@ -20,7 +17,7 @@ options(stringsAsFactors=FALSE)
 runninginR <- FALSE
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
+if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
  } else if(length(grep("ailene", getwd())>0)){  setwd("/Users/aileneettinger/Documents/GitHub/ospree/analyses")
 } else setwd("~/Documents/git/ospree/analyses")
@@ -34,6 +31,7 @@ print('Code also relies on sourcing limitingcues/source/countintxns_cleanosp.R (
 # All OSPREE data #
 ###################
 dat <- read.csv("output/ospree_clean.csv", header = TRUE)
+# dat <- read.csv("..//docs/limitingcues/ospree_forknb_limcue.csv")
 dat <- dat[dat$woody=="yes",]
 dat <- dat[which(dat$datasetID!="spann04"),] # seems only to treatments during bud formation (I think)
 dat$fieldsample.date <- as.Date(dat$fieldsample.date, format="%d-%b-%Y")
@@ -765,7 +763,7 @@ bb.ddatefx$datasetIDstudy <- paste(bb.ddatefx$datasetID, bb.ddatefx$study)
 bb.dates2weeks.count <- countfieldsample(bb.ddatefx, 14)
 bb.uniquedates.df <- fieldsample.getuniquedates(bb.ddatefx, 14)
 # Now (not pretty part) we'll take all NA dates ...
-# Note that for some reason we don't have to do these gymnastics above (CHECK WHY before finishing limitingcues! Assume it is due to the fact that we removed NAs for the budburst analyses ... )
+# Note that for some reason we don't have to do these gymnastics above (I presume because we removed NAs for the budburst analyses ... )
 bbselectNA <- subset(bb.uniquedates.df, is.na(date)==TRUE)
 bb$fieldsample.date.merge <- bb$fieldsample.date
 bb$fieldsample.date.merge[paste(bb$datasetID, bb$study) %in% unique(bbselectNA$datasetIDstudy)] <- NA
