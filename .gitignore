@@ -8,7 +8,7 @@
 *.Rhistory
 *.docx
 analyses/.Rhistory
-
+*.Rapp.history
 *.DS_Store
 
 analyses/output/dailyclim/percbb_dailyclimALL.csv
