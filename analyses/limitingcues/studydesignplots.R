@@ -21,7 +21,7 @@ rm(list=ls()) # remove everything currently held in the R memory
 options(stringsAsFactors=FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
+if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else setwd("~/Documents/git/ospree/analyses")
 
@@ -38,6 +38,7 @@ source("misc/getcuesbystudy_fxs.R") # f(x) counts up cues
 
 # the below should already have cleaned lat/long
 dat <- read.csv("output/ospree_clean.csv",header = TRUE)
+# dat <- read.csv("..//docs/limitingcues/ospree_forknb_limcue.csv")
 dat <- dat[dat$woody=="yes",]
 dat <- dat[which(dat$datasetID!="spann04"),] # seems only to treatments during bud formation
 
