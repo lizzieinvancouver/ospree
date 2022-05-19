@@ -112,18 +112,40 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 @
 
+% Request -- Fig 2 -- relabel with actual trait names on the x axis (and give units). Units on the y axis too please (standardized units). And please show ALL the traits we are talking about (mv from supp!) in one big figure. 
+
+% Overall comments ... 
+% I like the second section a lot and think you should consider starting with it. 
+% I like section 3 a lot too ... I do think it would benefit from some early sentences saying something like: height and SLA showed the strongest responses and seed mass and LNC the weakest (or maybe that fits in section 2? I am not sure).
+% I think you can cut section 1 for now, unless you can explain what it's doing. 
+% I like the sound of section 4 ... it has good stuff! I wonder if we could move it up ... results often start a little dry so a dry opener reminding folks of our cool models could work (you could also leave it last for now and consider later moving up). If you move it up then you can attack Fig 1 and Fig 3 together I think. Here's some draft text ... may be 1-2 paragraphs. 
+\iffalse 
 \begin{enumerate}
-\item Traits differed in whether they strengthen or weaken species advances with increasing cues.
+\item Our models jointly estimated species traits and phenological cues from large databases, while accounting for significant variation. 
+\item For traits, our models suggest important study-level variation across traits ... [you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). 
+\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
+\item We combined these trait-level estimates with estimates of forcing, chilling and photoperiod cues from a large meta-analysis of experiments where cues were generally independently manipulated (fig 1).  [We can work on updating the caption of fig 1 later to explain this more I think.]
+\item Together this joint model produced estimates of how species-level traits may predict species-level phenological cues.
+\end{enumerate}
+\fi
+
 \begin{enumerate}
-\item Feference Fig. \ref{fig:slopes}
-\item unique responses in height to forcing, a smaller advance in budburst with increasing forcing when height effects were included
+\item Traits differed in whether they strengthen or weaken species advances with increasing cues. 
+% Okay, so this is HARD. I don't have an exact solution, but I think we probably need to pick the language we deem best and stick with it. 'Strong' and 'weak' are not natural words for advances (for example, is strong a big in magnitude advance or a really fast one?), especially when they relate to time (but strong/weak work for me in your section 2 below). I am also not sure how easily readers can get 'species advances,' without more clearly introducing your meaning. 
+% I would also be consistent in referring to the cues, and only shift to 'changes in budburst' or such by paragraph or in a way that the reader can follow. 
+% There's also a language order regarding cues: photoperiod, forcing and chilling are cues. But we also in the lab use 'cue' interchangeably with 'cue level.' That can work, and I think it works here well, just be careful (and switch to a stricter cue versus cue level terminology if you need to). 
+% You should also commit to a cue order (I think you have, but just to be sure): Ailene likes chilling, forcing, photoperiod (the order the cues sort of matter through time) and I often do forcing, chilling, photoperiod (the order to me of how much people think about them). Then stay consistent in figures and text. 
+\begin{enumerate}
+\item Feference Fig. \ref{fig:slopes} % I love the sound of Feference!
+\item unique responses in height to forcing, a smaller advance in budburst with increasing forcing when height effects were included % I don't fully understand this previous or the next sentence -- it reads as though we're contrasting (do we have models without height we plan to report?) ... wait, wait, I get it! You're talking about the counterfactual shown in Fig 1. I think we just keep this in a caption?s
 \item increasing chilling \& photoperiod led to a stronger advance in budburst when height's effects were included
-\item the trait effect of SLA resulted in a smaller shift in budburst in response to increased forcing and chilling cues, but a larger shift with longer photoperiods. 
-\item For both log10 seed mass and LNC the trait effect was consistent across all three cues
-\item the advance in budburst dates with increasing cues were greater when the effect of log10 seed mass was accounted for
+\item the trait effect of SLA resulted in a smaller shift in budburst in response to increased forcing and chilling cues, but a larger shift with longer photoperiods. % why not consider reporting this as something more like: species with thinner leaves (higher SLA) had greater forcing cues and weaker chilling and photoperiod cues? (or flip it.) ... wait you say this all below!
+\item For both log10 seed mass and LNC the trait effect was consistent across all three cues % Yes, but for seed mass they all overlap zero so I am not sure I would call it an 'effect' ... and for LNC they're pretty weak. I think we should lead with that perhaps.
+\item the advance in budburst dates with increasing cues were greater when the effect of log10 seed mass was accounted for % Again, I don't know what you mean here. 
 \item in contrast, the the advance when the effects of LNC were included was smaller as cues increased
 \end{enumerate}
-\item Functional traits did influence the timing of budburst date in response to forcing, chilling, and photoperiod cues
+% The below would be a strong place to start ... why not start with this paragraph?
+\item Functional traits did influence the timing of budburst date in response to forcing, chilling, and photoperiod cues % Or, functional traits explained across-species variation in forcing, chilling, and photoperiod cues? We want to remember that our analyses are across species, not within species, right? Or maybe you mean something that I am missing. 
 \begin{enumerate}
 \item but varied by trait and species whether responses in cue slopes followed the predicted gradients in trait values
 \item strongest effects for chilling 
@@ -131,8 +153,12 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \end{enumerate}
 \item The strength of species cue responses were associated with species trait values: referencing Fig. \ref{fig:cuetraits}
 \begin{enumerate}
-\item taller species and species with larger seeds had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean}) and (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, respectively) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height and \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean} for seed mass)
+% I like this! For the sake of our readers, I would say 'chilling cues' not 'responses to chilling cues.' If you want to be didactic you can define what we mean in the intro or methods ('we refer to these responses simply as cues ... ' or such)
+% I am not sure we should report the seed mass relationships as actually existing ... I might report height and mass separately. 
+\item [As predicted?] taller species and species with larger seeds had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean}) and (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, respectively) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height and \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean} for seed mass). Though relationships with seed mass were extremely weak.
+% Both the below look like zero relationship possibly to me. I think you could call height x force extremely weak but seed mass is pretty non-existent. I suggest stating in the methods that 90% is your interval and you consider estimates that overlap zero in the 10-90% range as no relationship ... then update your results. If you want to go by another plan, that could work, but you need to spell it out and stick to it for the reader. 
 \item but taller species had weaker responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing; \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}), while large seeded species had stronger cue responses to forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}), as we predicted
+% throw your audience and me a bone and remind me what SLA and LNC trend with (thinner leaves, higher nitrogen etc. -- go for words instead of acronyms in each section opener I think) ... again: weaker cues (not responses to cues)
 \item Species with large trait values of both leaf traits, SLA and LNC, had weaker cue responses to forcing and chilling (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean} for SLA and \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean} for LNC)
 \item but species with large SLA had stronger responses to photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}), while large LNC species had weaker photoperiod cue responses (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean})
 \end{enumerate}
