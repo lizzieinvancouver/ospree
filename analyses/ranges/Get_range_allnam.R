@@ -24,6 +24,8 @@ library(rworldmap)
 #install.packages("rworldxtra")
 library(rworldxtra)
 
+runforlizzie <- TRUE # flag that sets up the data structure as Lizzie has it in June 2022
+
 worldmap <- getMap(resolution="high")
 
 NamMap=worldmap[worldmap@data$NAME %in% c("Canada", "United States", "Mexico"),]
@@ -32,13 +34,17 @@ NamMap=worldmap[worldmap@data$NAME %in% c("Canada", "United States", "Mexico"),]
 e <- c( -170, -60, 15, 75)
 NamMap <- crop(NamMap, e)
 
+if(!runforlizzie){
 climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
 #climatedrive = "/Volumes/climdata/" # Cat's climate drive
-#climatedrive = "~/Desktop" 
 ## load climate data rasters (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #nafiles <- dir(climatedrive)[grep("tmincrop1980", dir(climatedrive))]
-
+}
+if(runforlizzie){
+climatedrive = "/Volumes/osprwhee/princetonclimate/"
+nafiles <- dir(climatedrive)[grep("daily", dir(climatedrive))]
+}
 
 if(FALSE){
   ### Attempt to stack raster layers for princeton to maybe make more streamlined...
@@ -59,11 +65,18 @@ if(FALSE){
   tmaxlist.nam <- lapply(tmaxlist.nam, function(x)
   {values(x)<-values(x)-273.15;
   return(x)})
-  
+
+  # allclimyrs <- 1979:2016 # Lizzie added
+
   maxL <- setNames(tmaxlist.nam, paste0("tmaxclean",c(1979:2016)))
   
-  for(i in 1:(length(maxL))){
-    writeRaster(maxL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tmaxclean",i+1978), overwrite=TRUE, format="CDF")
+    for(i in 1:(length(maxL))){
+            if(!runforlizzie)
+                writeRaster(maxL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tmaxclean",i+1978), overwrite=TRUE, format="CDF")
+            }
+    if(runforlizzie){
+            writeRaster(maxL[[i]], filename=paste0("/Volumes/osprwhee/princetonclimate/tmaxclean",i+1978), overwrite=TRUE, format="CDF")
+            }
   }
   
   #for (i in seq(tmaxlist.nam))
@@ -88,8 +101,13 @@ if(FALSE){
   
   minL <- setNames(tminlist.nam, paste0("tmincrop",c(1979:2016)))
   
-  for(i in 1:(length(minL))){
-    writeRaster(minL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tminclean",i+1978), overwrite=TRUE, format="CDF")
+    for(i in 1:(length(minL))){
+        if(!runforlizzie){
+            writeRaster(minL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tminclean",i+1978), overwrite=TRUE, format="CDF")
+        }
+        if(runforlizzie)
+              writeRaster(minL[[i]], filename=paste0("/Volumes/osprwhee/princetonclimate/tminclean",i+1978), overwrite=TRUE, format="CDF")
+            }
   }
 }
 
