@@ -1,0 +1,48 @@
+## Started 8 June 2022 ##
+## Notes by Lizzie, corresponding with Cat ... ##
+## How to run the North American climate data for the ranges OSPREE analysis ##
+
+Step 1: Grab the climate data from http://hydrology.princeton.edu/data/pgf/v3/0.25deg/daily/ (see get_princeton.R which automates some of this)
+
+Next steps: Now you need to run the files.
+
+Cat wrote, "you have to rotate the files because they’re under a funny extent system (0 to 360 for longitude) and you have to adjust the temp because they’re in Kelvin. You can see how I do that in ranges/Get_range_allnam.R lines 43 to 94. This is also the script for my original code. I think made updates to STV under the ranges/fix_stv_nam.R and fix_stv_nam_synthesis.R"
+
+The tmin crop (and tmax crop) files should come from the ranges/Get__range_allnam.R script on lines 43 to 94. 
+
+Order of operations is:
+Get_range_allnam.R
+Get_range_nam_climate_synthesis.R
+fix_stv_nam.R 
+fix_stv_nam_synthesis.R
+
+Step 2: Get_range_allnam.R -- Lizzie made a lot of edits to this since it has a ton of paths. Sorry this is likely a pain to update for anyone else.
+
+Also I added a flag (named firstrun) to the first chunk that was if(FALSE){} ... as Cat explained: "you just have to run that code once, so flip it back to FALSE once you’ve got the files all cleaned on your computer."
+
+That's where I am now... and it's semi-running. And I changed paths throughout to run for either Cat's machine or mine, but then I found more that needed changing and am pretty tired so giving up for now. 
+
+
+
+
+SIDE BAR on computer memory: 
+
+I had issues with getting this to run on my machine, so I followed the advice here (pasted below also): https://stackoverflow.com/questions/51295402/r-on-macos-error-vector-memory-exhausted-limit-reached
+
+Error: vector memory exhausted (limit reached?)
+
+After doing some more reading, I found this thread, which clarifies the problem with Rstudio, and identifies a solution, shown below:
+
+Step 1: Open terminal,
+
+Step 2:
+
+cd ~
+touch .Renviron
+open .Renviron
+
+Step 3: Save the following as the first line of .Renviron:
+
+R_MAX_VSIZE=100Gb 
+
+Note: This limit includes both physical and virtual memory; so setting _MAX_VSIZE=16Gb on a machine with 16Gb of physical memory may not prevent this error. You may have to play with this parameter, depending on the specs of your machine
