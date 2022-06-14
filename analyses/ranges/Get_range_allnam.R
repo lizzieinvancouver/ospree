@@ -25,7 +25,11 @@ library(rworldmap)
 library(rworldxtra)
 
 firstrun <- TRUE
-runforlizzie <- TRUE # flag that sets up the data structure as Lizzie has it in June 2022
+runforothers <- TRUE # flag that sets up the data structure as Lizzie has it in June 2022
+if(runforothers){ # Add your paths here if you are not Cat ...
+    pathtoclimate <- "/Volumes/whooshdrive/princetonclimate/"
+    pathtorangesfolder <- "~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges/"
+    }
 
 worldmap <- getMap(resolution="high")
 
@@ -35,15 +39,15 @@ NamMap=worldmap[worldmap@data$NAME %in% c("Canada", "United States", "Mexico"),]
 e <- c( -170, -60, 15, 75)
 NamMap <- crop(NamMap, e)
 
-if(!runforlizzie){
+if(!runforothers){
 climatedrive = "/n/wolkovich_lab/Lab/Cat" # Cat's climate drive
 #climatedrive = "/Volumes/climdata/" # Cat's climate drive
-## load climate data rasters (these data are not currently in the ospree folder 
+## load climate data rastlers (these data are not currently in the ospree folder 
 nafiles <- dir(climatedrive)[grep("princetonclimdata", dir(climatedrive))]
 #nafiles <- dir(climatedrive)[grep("tmincrop1980", dir(climatedrive))]
 }
-if(runforlizzie){
-climatedrive = "/Volumes/osprwhee/princetonclimate/"
+if(runforothers){
+climatedrive = pathtoclimate
 nafiles <- dir(climatedrive)[grep("daily", dir(climatedrive))]
 }
 
@@ -51,10 +55,10 @@ if(firstrun){
   ### Attempt to stack raster layers for princeton to maybe make more streamlined...
   allclimyrs <- 1979:2016
   e <- extent(190, 300, 15, 75)
-  if(!runforlizzie){
+  if(!runforothers){
   tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmax",allclimyrs,collapse="|"), full.names = TRUE)
   }
-  if(runforlizzie){ 
+  if(runforothers){ 
   namaxfiles <- dir(climatedrive)[grep("tmax_daily", dir(climatedrive))]
   tmaxlist <- paste(climatedrive, namaxfiles, sep="")
    }
@@ -75,21 +79,23 @@ if(firstrun){
 
   maxL <- setNames(tmaxlist.nam, paste0("tmaxclean",c(1979:2016)))
   
-    for(i in 1:(length(maxL))){
-            if(!runforlizzie)
+    if(!runforothers){
+        for(i in 1:(length(maxL))){
                 writeRaster(maxL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tmaxclean",i+1978), overwrite=TRUE, format="CDF")
             }
-    if(runforlizzie){
-            writeRaster(maxL[[i]], filename=paste0("/Volumes/osprwhee/princetonclimate/tmaxclean",i+1978), overwrite=TRUE, format="CDF")
-            }
-  }
+    }
+    if(runforothers){
+        for(i in 1:(length(maxL))){
+            writeRaster(maxL[[i]], filename=paste0(pathtoclimate,"tmaxclean",i+1978), overwrite=TRUE, format="CDF")
+        }
+     }
   
   #for (i in seq(tmaxlist.nam))
   # assign(paste0("tmax", i+1979), tmaxlist.nam[[i]])
-  if(!runforlizzie){ 
+  if(!runforothers){ 
       tminlist <- list.files(path=paste(climatedrive, nafiles, sep="/"), pattern=paste0("tmin",allclimyrs, collapse="|"), full.names = TRUE)
   }
-  if(runforlizzie){ 
+  if(runforothers){ 
   naminfiles <- dir(climatedrive)[grep("tmin_daily", dir(climatedrive))]
   tminlist <- paste(climatedrive, naminfiles, sep="")
    }
@@ -111,25 +117,38 @@ if(firstrun){
   minL <- setNames(tminlist.nam, paste0("tmincrop",c(1979:2016)))
   
     for(i in 1:(length(minL))){
-        if(!runforlizzie){
+        if(!runforothers){
             writeRaster(minL[[i]], filename=paste0("/Volumes/timemachine/princetonclimdata/tminclean",i+1978), overwrite=TRUE, format="CDF")
         }
-        if(runforlizzie)
-              writeRaster(minL[[i]], filename=paste0("/Volumes/osprwhee/princetonclimate/tminclean",i+1978), overwrite=TRUE, format="CDF")
+        if(runforothers)
+              writeRaster(minL[[i]], filename=paste0(pathtoclimate,"tminclean",i+1978), overwrite=TRUE, format="CDF")
             }
   }
 
-# Lizzie writes ... THE BELOW paths need to be updated, but I am getting really tired and cross-eyed.... 
+# Lizzie writes: the below is still not working for runforothers ...  
 allclimyrs <- 1979:2016 #1979:2016
-tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmaxcrop",allclimyrs,collapse="|"), full.names = TRUE)
+if(!runforothers){
+    tmaxlist <- list.files(path=paste(climatedrive,nafiles, sep="/"),
+                           pattern=paste0("tmaxcrop",allclimyrs,collapse="|"), full.names = TRUE)
+}
+if(runforothers){
+    tmaxlist <- list.files(path=paste(pathtoclimate, nafiles, sep="/"),
+                           pattern=paste0("tmaxcrop",allclimyrs,collapse="|"), full.names = TRUE)
+    }
 tmaxlist.tobrick <- lapply(tmaxlist, function(x)
 {x <- brick(x);
 return(x)})
 
 for (i in seq(tmaxlist.tobrick))
   assign(paste0("tmax", i+1978), tmaxlist.tobrick[[i]])
-
-tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"), pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
+if(!runforothers){
+    tminlist <- list.files(path=paste(climatedrive,nafiles, sep="/"),
+                           pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
+}
+if(runforothers){
+    tminlist <- list.files(path=paste(pathtoclimate, nafiles, sep="/"),
+                           pattern=paste0("tmincrop",allclimyrs,collapse="|"), full.names = TRUE)
+    }
 tminlist.tobrick <- lapply(tminlist, function(x)
 {x <- brick(x);
 return(x)})
@@ -139,11 +158,11 @@ for (i in seq(tminlist.tobrick))
 
 ## Lizzie added! I copied and pasted these from below ...
 # because tmin1980 does not seem to exist until later, but is called below 
-if(!runforlizzie){
+if(!runforothers){
   tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tminclean1980.nc")
 }
-if(runforlizzie){
-  tmin1980 <- brick("/Volumes/osprwhee/princetonclimate/tminclean1980.nc")
+if(runforothers){
+  tmin1980 <- brick(paste(pathtoclimate,"tminclean1980.nc", sep=""))
 }
 
 ## End of Lizzie added
@@ -383,11 +402,11 @@ period <- 1980:2016
 
 Climate.in.range.list<-extractchillforce(period)
 
-if(!runforlizzie){
+if(!runforothers){
     save(Climate.in.range.list,file = "/n/wolkovich_lab/Lab/Cat/Climate.in.range.allyearsstacked.RData")
 }
-if(runforlizzie){
-    save(Climate.in.range.list,file = "Volumes/osprwhee/princetonclimate/Climate.in.range.allyearsstacked.RData")
+if(runforothers){
+    save(Climate.in.range.list,file = paste(pathtoclimate,"Climate.in.range.allyearsstacked.RData", sep=""))
     }
 
 
@@ -395,14 +414,14 @@ if(FALSE){
   for(i in 1:length(spslist)){ #i=1
     Climate.in.range<-extractchillforce(spslist[6]) ## 1, 4, 5 
 
-    if(!runforlizzie){
+    if(!runforothers){
     write.csv(Climate.in.range, file = paste("~/Documents/git/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
                                              period[1],max(period),"csv",sep="."))
     }
-        if(!runforlizzie){
+        if(runforothers){
     write.csv(Climate.in.range, file =
-        paste("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges/climoutput/Climate.in.range",spslist[i],
-                                             period[1],max(period),"csv",sep="."))
+        paste(pathtorangesfolder,"climoutput/Climate.in.range.",spslist[i], ".",
+                                             period[1],".", max(period),".csv",sep=""))
     }
     
   }
@@ -410,11 +429,11 @@ if(FALSE){
   
   
 if(FALSE){
-    if(!runforlizzie){
+    if(!runforothers){
         load("~/Desktop/Misc/Ospree Misc/Climate.in.range.allyearsstacked.RData")
     }
-    if(runforlizzie){
-        load("Volumes/osprwhee/princetonclimate/Climate.in.range.allyearsstacked.RData")
+    if(runforothers){
+        load(paste(pathtoclimate,"Climate.in.range.allyearsstacked.RData", sep=""))
      }
     
     ## corrections
@@ -457,12 +476,12 @@ if(FALSE){
       sps.1<-rbind(sps.1,temp.sps)
       
     }
-    if(!runforlizzie){
+    if(!runforothers){
     namesave <- paste("~/Desktop/allnam_fullextract.csv",sep="")
     write.csv(sps.1,file = namesave)
     }
-    if(!runforlizzie){
-    namesave <- paste("/Volumes/osprwhee/princetonclimate/allnam_fullextract.csv",sep="")
+    if(runforothers){
+    namesave <- paste(pathtoclimate,"allnam_fullextract.csv",sep="")
     write.csv(sps.1,file = namesave)
    }
   }
@@ -475,8 +494,14 @@ if(FALSE){
   
   
   
-  ## synthetize and summarize data geographically and temporally
-  dat = read.csv("~/Desktop/Misc/Ospree Misc/allnam_fullextract.csv")
+## synthetize and summarize data geographically and temporally
+  if(!runforothers){
+      dat = read.csv("~/Desktop/Misc/Ospree Misc/allnam_fullextract.csv")
+  }
+if(runforothers){
+      dat = read.csv(paste(pathtoclimate,"allnam_fullextract.csv", sep=""))
+
+    }
   dat <- dat[,-1]
   dat$year <- rep(1980:2016, each=44622)
   
@@ -492,10 +517,10 @@ if(FALSE){
   #plot(worldmap,col="grey",border="grey",xlim=c(-10,50),ylim=c(32,72))
   
 ## load species list
-if(!runforlizzie){
+if(!runforothers){
     species.list <- read.csv("~/Documents/git/ospree/analyses/output/masterspecieslist.csv")
 }
-if(runforlizzie){
+if(runforothers){
     species.list <- read.csv("~/Documents/git/projects/budreview/ospree/analyses/output/masterspecieslist.csv")
     }
   species.list <- as.vector(species.list$x)
@@ -584,19 +609,19 @@ if(runforlizzie){
   #sorauc <- getspsshape(spslist,15,tmin[[1]])
   #cornmas <- getspsshape(spslist,9,tmin[[1]])
 
-if(!runforlizzie){
+if(!runforothers){
   tmin1980 <- brick("~/Desktop/Misc/Ospree misc/tminclean1980.nc")
 }
-if(runforlizzie){
+if(runforothers){
   tmin1980 <- brick("/Volumes/osprwhee/princetonclimate/tminclean1980.nc")
   }
   
 ## plot shape with data on top
-  if(!runforlizzie){
+  if(!runforothers){
   dir.fig = "~/Documents/git/ospree/analyses/ranges/figures/nam_sps_climate_maps/"
   dir.out <- "~/Documents/git/ospree/analyses/ranges/output/"
   }
-  if(runforlizzie){
+  if(runforothers){
   dir.fig = "~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges/figures/nam_sps_climate_maps/"
   dir.out <- "~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges/output/"
   }
