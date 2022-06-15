@@ -126,21 +126,25 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 %DL: It doesn't do much, so I did cut it
 
 % I like the sound of section 4 ... it has good stuff! I wonder if we could move it up ... results often start a little dry so a dry opener reminding folks of our cool models could work (you could also leave it last for now and consider later moving up). If you move it up then you can attack Fig 1 and Fig 3 together I think. Here's some draft text ... may be 1-2 paragraphs. 
-\iffalse 
+%\iffalse 
 \begin{enumerate}
 \item Our models jointly estimated species traits and phenological cues from large databases, while accounting for significant variation. 
-\item For traits, our models suggest important study-level variation across traits ... [you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). 
+\item For traits, our models suggest important study-level variation across traits. For most of our models, species level variation was greater than study level variation (\ref{supp - Table 3}, \ref{supp - Table 4}, \ref{supp - Table 5}). Our height model however, had greater study level variation than species level variation (\ref{supp - Table 2}). 
+
+[you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). 
+%DL: 
 \item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
 \item We combined these trait-level estimates with estimates of forcing, chilling and photoperiod cues from a large meta-analysis of experiments where cues were generally independently manipulated (fig 1).  [We can work on updating the caption of fig 1 later to explain this more I think.]
 \item Together this joint model produced estimates of how species-level traits may predict species-level phenological cues.
 \end{enumerate}
-\fi
+%\fi
 
 % The below would be a strong place to start ... why not start with this paragraph?
+% DL: I like the idea of havinging figure 1 and 3 discussed in the same paragraph, so I am going to use your suggested text above and leave this second as the second section
 
 \begin{enumerate}
 \item Traits differed in whether they lead to greater advances and earlier budburst with increasing cues.
-\begin{enumerate}
+%\begin{enumerate}
 \item Height and SLA showed the greatest responses to changes in cues level, while seed mass and LNC had the weakest
 \item Taller species had extremely weak responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing; \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}).
 \item But as predicted, taller species had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height. Though relationships with seed mass were extremely weak.
@@ -149,20 +153,18 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 % throw your audience and me a bone and remind me what SLA and LNC trend with (thinner leaves, higher nitrogen etc. -- go for words instead of acronyms in each section opener I think) ... again: weaker cues (not responses to cues)
 \item Species that produced thin leaves, with a great surface area or less leaf mass and high specific leaf area had weaker forcing and chilling cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}
 \item but species with large SLA had stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean})
-\item Species that produce leaves with high photosynthetic rates, and high leaf nitrogen contents as a result of having more photosynetheic machinery, showed weak trait responses. The effects of LNC on forcing and chilling cue responses were weak, at \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean} for each cue respectively
-\item  while large LNC species had weaker photoperiod cues (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean})
-
+\item Species that produce leaves with high photosynthetic rates, and high leaf nitrogen contents as a result of having more photosynetheic machinery, showed weak trait responses. The relationship between LNC and forcing and chilling cues were weak, at \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}, and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean} for each cue respectively
 \end{enumerate}
 
-
-\item Our trait model includes partial pooling across studies, allowing us to better partition the variance caused by study level differences: reference Fig. \ref{figure:TraitDistributions}
 \begin{enumerate}
+\item For traits, our models suggest important study-level variation across traits ... [you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). \ref{figure:TraitDistributions}
+%\begin{enumerate}
 %\item allows us to better account for differences in tree age, timing of sampling, local adaptation, or human error
 \item see a lot of variation in height data, which is our most commonly measured trait with measurements from 22 %double check this
 studies
 \item Seed mass comes from five studies and is least variable 
 \end{enumerate}
-\end{enumerate}
+
 
 \begin{figure}[h!]
     \centering
