@@ -129,42 +129,31 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 %\iffalse 
 \begin{enumerate}
 \item Our models jointly estimated species traits and phenological cues from large databases, while accounting for significant variation. 
-\item For traits, our models suggest important study-level variation across traits. For most of our models, species level variation was greater than study level variation (\ref{supp - Table 3}, \ref{supp - Table 4}, \ref{supp - Table 5}). Our height model however, had greater study level variation than species level variation (\ref{supp - Table 2}). 
-
-[you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). 
-%DL: 
-\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
+\begin{enumerate}
+\item Across our trait models, we found important study-level variation across traits. Study level variation in our SLA model was aproximately half the value of the species level variations (\Sexpr{slaSigmaSp} and \Sexpr{slaSigmaStudy} respectivley), while study level variation in seed mass and LNC was proportionally less than that of the species level variation (seed mass: \Sexpr{seedSigmaSp}, \Sexpr{seedSigmaStudy}; LNC: \Sexpr{slaSigmaSp}, \Sexpr{slaSigmaStudy} for species and study level variation respectivley))  (\ref{supp - Table 3}, \ref{supp - Table 4}, \ref{supp - Table 5}). Our height model, however, had greater study level variation (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaStudy}) \ref{supp - Table2}. 
+\item ...provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3).  DL: what do you mean by this? Report the muSp and CI for species that we have good estimates for and for species we have bad estimates for?
+%\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
 \item We combined these trait-level estimates with estimates of forcing, chilling and photoperiod cues from a large meta-analysis of experiments where cues were generally independently manipulated (fig 1).  [We can work on updating the caption of fig 1 later to explain this more I think.]
 \item Together this joint model produced estimates of how species-level traits may predict species-level phenological cues.
 \end{enumerate}
+
 %\fi
 
 % The below would be a strong place to start ... why not start with this paragraph?
 % DL: I like the idea of havinging figure 1 and 3 discussed in the same paragraph, so I am going to use your suggested text above and leave this second as the second section
-
+\item Traits differed in whether they led to greater advances and earlier budburst with increasing cues.
 \begin{enumerate}
-\item Traits differed in whether they lead to greater advances and earlier budburst with increasing cues.
-%\begin{enumerate}
-\item Height and SLA showed the greatest responses to changes in cues level, while seed mass and LNC had the weakest
+\item Height and SLA showed the greatest responses to changes in cues level, while seed mass and LNC had the smallest responses.
 \item Taller species had extremely weak responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing; \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}).
-\item But as predicted, taller species had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean} for height. Though relationships with seed mass were extremely weak.
-\item We did not find a relationship between seed mass and cue responses any of our three cues (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}, (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}))
+\item But as predicted, these taller species also had larger cue responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}. 
+\item We did not find a relationship between seed mass and cue responses for any of our three cues (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}, (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}))
 
 % throw your audience and me a bone and remind me what SLA and LNC trend with (thinner leaves, higher nitrogen etc. -- go for words instead of acronyms in each section opener I think) ... again: weaker cues (not responses to cues)
-\item Species that produced thin leaves, with a great surface area or less leaf mass and high specific leaf area had weaker forcing and chilling cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}
-\item but species with large SLA had stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean})
-\item Species that produce leaves with high photosynthetic rates, and high leaf nitrogen contents as a result of having more photosynetheic machinery, showed weak trait responses. The relationship between LNC and forcing and chilling cues were weak, at \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}, and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean} for each cue respectively
+\item High SLA species, that produced thin leaves with a greater surface area or relatively lower investment to leaf mass, had weaker forcing and chilling cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}
+\item But stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean})
+\item As we predicted, species that produce leaves with high nitrogen content, which reflects high photosynthetic rates, showed weak trait responses, with small responses to both forcing and chilling cues at \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized chilling; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}, and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean} for each cue respectively
 \end{enumerate}
-
-\begin{enumerate}
-\item For traits, our models suggest important study-level variation across traits ... [you should compare the sigmas of studies versus species to give readers a sense of this], and provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3). \ref{figure:TraitDistributions}
-%\begin{enumerate}
-%\item allows us to better account for differences in tree age, timing of sampling, local adaptation, or human error
-\item see a lot of variation in height data, which is our most commonly measured trait with measurements from 22 %double check this
-studies
-\item Seed mass comes from five studies and is least variable 
 \end{enumerate}
-
 
 \begin{figure}[h!]
     \centering
@@ -195,6 +184,13 @@ studies
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
     \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modelled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
     \label{figure:TraitDistributions}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/sigmaSpStudy.pdf} 
+   % \caption{Comparison of the posteriro density for the sigma_sp and sigma_study of a. height, b. SLA, c. LNC, and d. seed mass }
+    \label{fig:sigmaDensities}
 \end{figure}
 
 \section{Discussion}
