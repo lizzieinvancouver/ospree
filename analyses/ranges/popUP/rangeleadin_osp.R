@@ -19,10 +19,13 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 # libraries
+install.packages(
+  "https://win-builder.r-project.org/5yFs1HoUI204/StanHeaders_2.21.0-6.zip",
+  repos = NULL, type = "win.binary"
+)
 library(shinystan)
 library(reshape2)
 library(rstan)
-library(rstanarm)
 library(dplyr)
 library(ggplot2)
 # Setting working directory. Add in your own path in an if statement for your file structure
@@ -33,8 +36,8 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/GitHub/ospree/analyses/ranges") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/ranges") 
-} else if(length(grep("danielbuonaiuto", getwd()))>0) { 
-  setwd("~/Documents/git/ospree/analyses/ranges") 
+} else if(length(grep("dbuonaiuto", getwd()))>0) { 
+  setwd("~/Documents/GitHub/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
 
@@ -83,17 +86,15 @@ bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
 
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
 
-
-rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STV.csv") ### updated STV
-rangiesEu2<-read.csv("output/Synthesis_climate_EUspsw.csv") ### updated STV
-rangiesEu2<-dplyr::filter(rangiesEu2,variable=="Mean.Chill.Portions")
-rangiesEu<-rbind(rangiesEu,rangiesEu2)
-
-rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv") ## updated stv
+####read in data files
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinal.csv") ### updated STV
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho.csv") ## updated stv
 
 rangiesEu$continent<-"Europe"
 rangiesEu<-dplyr::select(rangiesEu,-X)
 rangiesNa$continent<-"N. America"
+rangiesNa<-dplyr::select(rangiesNa,-X)
+
 rangies<-rbind(rangiesEu,rangiesNa)
 
 ###GDD2LF
@@ -101,7 +102,7 @@ ggdlf<-filter(rangies,variable=="GDD.lastfrost")
 ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
 colnames(ggdlf)[1]<-"complex.wname"
 
-#stv.eu<-read.csv("output/Synthesis_climate_EUsps_STV.csv")
+
 ##STV
 STV<-filter(rangies,variable=="MeanTmins")
 STV<-dplyr::select(STV,species,Temp.SD,continent)
@@ -124,34 +125,47 @@ ggdlf<-dplyr::left_join(ggdlf,CP)
 
 head(ggdlf)
 
+## now we have the north american version coded as Alnus rugosa, so we can ignore below
 ## remove duplicat4e for alnus incana only if you are running everything together
-ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+#ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
 
 #bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
-
+###need to recode all North America species names to match format of bb.stan
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betulent")]<- "Betula_lenta"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="popugran")]<- "Populus_grandidentata"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="querrubr")]<- "Quercus_rubra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acerpens")]<- "Acer_pensylvanicum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betupapy")]<- "Betula_papyrifera"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="fraxnigr")]<- "Fraxinus_nigra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="alnurubr")]<- "Alnus_rubra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="pseumenz")]<- "Pseudotsuga_menziesii"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="prunpens")]<- "Prunus_pensylvanica"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betualle")]<- "Betula_alleghaniensis"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acersacr")]<- "Acer_saccharum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acerrubr")]<- "Acer_rubrum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="corycorn")]<- "Corylus_cornuta"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="piceglau")]<- "Picea_glauca"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="fagugran")]<- "Fagus_grandifolia"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="robipseu")]<- "Robinia_pseudoacacia"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="poputrem")]<- "Populus_tremuloides"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="alnurugo")]<- "Alnus_incana"
 goodsp<-intersect(unique(bb.stan$complex.wname),ggdlf$complex.wname)
 
 intersect(ggdlf$complex.wname,unique(bb.stan$complex.wname))
+setdiff(ggdlf$complex.wname,unique(bb.stan$complex.wname))
+
 bb.stan<-filter(bb.stan,complex.wname %in% goodsp)
 ggdlf<-filter(ggdlf,complex.wname %in% goodsp)
-unique(bb.stan$GDD.z)
+
 
 bb.stan<-left_join(bb.stan,ggdlf)
-##Range size
-area<-read.csv("output/rangeareas.csv")
-area$continent[area$continent=="europe"]<-"Europe"
-area$continent[area$continent=="north america"]<-"N. America"
-colnames(area)[2]<-"complex.wname"
 
-
-bb.stan<-left_join(bb.stan,area)
-
+######zscore and center
 bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
-bb.stan$range.cent<-bb.stan$range_area-mean(bb.stan$range_area)
 bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
 bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
-bb.stan$range.z<-(bb.stan$range_area-mean(bb.stan$range_area))/sd(bb.stan$range_area)
+
 
 bb.stan$GDD.z<-(bb.stan$GDD-mean(bb.stan$GDD))/sd(bb.stan$GDD)
 bb.stan$CP.z<-(bb.stan$ChP-mean(bb.stan$ChP))/sd(bb.stan$ChP)
@@ -241,21 +255,6 @@ bb.3param.cp <- with(bb.stan,
                            n_spec = length(unique(bb.stan$complex.wname)),
                            climvar=unique(bb.stan$CP.z)
                       ))
-
-
-if (FALSE){ #skip area model
-bb.3param.area <- with(bb.stan, 
-                        list(yPhenoi = resp, 
-                             forcingi = force.z,
-                             photoi = photo.z,
-                             chillingi = chill.z,
-                             species = latbinum,
-                             N = nrow(bb.stan),
-                             n_spec = length(unique(bb.stan$complex.wname)),
-                             climvar=unique(bb.stan$range.z)
-                        ))
-
-}
 
 threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
                  iter = 4000, warmup=2500)
