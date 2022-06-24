@@ -19,10 +19,6 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 # libraries
-install.packages(
-  "https://win-builder.r-project.org/5yFs1HoUI204/StanHeaders_2.21.0-6.zip",
-  repos = NULL, type = "win.binary"
-)
 library(shinystan)
 library(reshape2)
 library(rstan)
@@ -37,7 +33,9 @@ if(length(grep("Lizzie", getwd())>0)) {
 } else if(length(grep("catchamberlain", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/ranges") 
 } else if(length(grep("dbuonaiuto", getwd()))>0) { 
-  setwd("~/Documents/GitHub/ospree/analyses/ranges") 
+  setwd("~/Documents/git/ospree/analyses/ranges") 
+} else if(length(grep("danielbuonaiuto", getwd()))>0) { 
+  setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
 
@@ -125,9 +123,7 @@ ggdlf<-dplyr::left_join(ggdlf,CP)
 
 head(ggdlf)
 
-## now we have the north american version coded as Alnus rugosa, so we can ignore below
-## remove duplicat4e for alnus incana only if you are running everything together
-#ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+
 
 #bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
 ###need to recode all North America species names to match format of bb.stan
@@ -149,6 +145,9 @@ ggdlf$complex.wname[which(ggdlf$complex.wname=="fagugran")]<- "Fagus_grandifolia
 ggdlf$complex.wname[which(ggdlf$complex.wname=="robipseu")]<- "Robinia_pseudoacacia"
 ggdlf$complex.wname[which(ggdlf$complex.wname=="poputrem")]<- "Populus_tremuloides"
 ggdlf$complex.wname[which(ggdlf$complex.wname=="alnurugo")]<- "Alnus_incana"
+
+ggdlf<-dplyr::filter(ggdlf,(complex.wname!="Alnus_incana") | (continent!="Europe"))
+
 goodsp<-intersect(unique(bb.stan$complex.wname),ggdlf$complex.wname)
 
 intersect(ggdlf$complex.wname,unique(bb.stan$complex.wname))
