@@ -487,8 +487,9 @@ ggpubr::ggarrange(oneone,twotwo,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
 
 gddplotscont<-ggpubr::ggarrange(euplotgdd,namplotgdd,common.legend = TRUE,labels = c("a)","b)"),ncol=2,widths=c(.4,.6))
+jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(gddplot,gddplotscont,nrow=2,ncol=1,heights=c(6,5))
-
+dev.off()
 library(tidybayes)
 
 
