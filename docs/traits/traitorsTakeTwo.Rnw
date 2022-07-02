@@ -127,21 +127,39 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 % I like the sound of section 4 ... it has good stuff! I wonder if we could move it up ... results often start a little dry so a dry opener reminding folks of our cool models could work (you could also leave it last for now and consider later moving up). If you move it up then you can attack Fig 1 and Fig 3 together I think. Here's some draft text ... may be 1-2 paragraphs. 
 %\iffalse 
+
+{\bf Some text for intro and methods... } \\ % There's probably two goals of trait ecology -- improve mechanistic understanding and effectively 'getting rid of species' 
+A major goal of trait ecology has been to predict species-level characteristics by their traits alone; to do this, we need to be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
+\\ While phenology in observational data is often considered highly variable, it is actually highly predictable in experiments where the major cues (forcing, chilling, photoperiod) are known and thus we focus on cues here. 
+
 \begin{enumerate}
-\item Our models jointly estimated species traits and phenological cues from large databases, while accounting for significant variation. 
+\item Quick overview of models again ... (but try not to repeat ourselves from methods)
 \begin{enumerate}
-\item Across our trait models, we found important study-level variation across traits. Study level variation in our SLA model was aproximately half the value of the species level variations (\Sexpr{slaSigmaSp} and \Sexpr{slaSigmaStudy} respectivley), while study level variation in seed mass and LNC was proportionally less than that of the species level variation (seed mass: \Sexpr{seedSigmaSp}, \Sexpr{seedSigmaStudy}; LNC: \Sexpr{slaSigmaSp}, \Sexpr{slaSigmaStudy} for species and study level variation respectivley))  (\ref{supp - Table 3}, \ref{supp - Table 4}, \ref{supp - Table 5}). Our height model, however, had greater study level variation (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaStudy}) \ref{supp - Table2}. 
-\item ...provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3).  DL: what do you mean by this? Report the muSp and CI for species that we have good estimates for and for species we have bad estimates for?
+\item Our models jointly estimated species traits and phenological cues to predict phenological variation in days to budburst. 
+\item Because we drew on large trait databases for our analyses we partitioned trait variation due to species versus study-level effects, then used the species-level estimates of traits (with study removed) to examine how traits predicted phenological cues (which in turn predict budburst), while allowing for residual variation in cues to be explained by a species effect. 
+\item (Maybe move to methods): This model is a departure from current efforts in several ways: first, while these steps are often done separately, while our models allow them to be jointly estimated at once which uniquely allow separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue. 
+\end{enumerate}
+\item Review of trait model part ... 
+\begin{enumerate}
+% EMW2Jul -- redo below to reference figure, and perhaps open with height
+\item Across our trait models, we found important study-level variation across traits. Study-level variation in our SLA model was approximately half the value of the species level variations (\Sexpr{slaSigmaSp} and \Sexpr{slaSigmaStudy} respectivley), while study-level variation in seed mass and LNC was considerably less than that of the species level variation (seed mass: \Sexpr{seedSigmaSp}, \Sexpr{seedSigmaStudy}; LNC: \Sexpr{slaSigmaSp}, \Sexpr{slaSigmaStudy} for species and study level variation respectivley))  (\ref{supp - Table 3}, \ref{supp - Table 4}, \ref{supp - Table 5}). Our height model, however, had greater study level variation (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaStudy}) \ref{supp - Table2}. 
+% \item ...provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3).  DL: what do you mean by this? Report the muSp and CI for species that we have good estimates for and for species we have bad estimates for?
 %\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
-\item We combined these trait-level estimates with estimates of forcing, chilling and photoperiod cues from a large meta-analysis of experiments where cues were generally independently manipulated (fig 1).  [We can work on updating the caption of fig 1 later to explain this more I think.]
-\item Together this joint model produced estimates of how species-level traits may predict species-level phenological cues.
+\end{enumerate}
+\item Very short paragraph reminding audience of the model and connecting to current figure 1. 
+% EMW2Jul -- should current Fig 3 move up to after the sigmas one and before Fig 2 (full model figure)?
+% Also, are we adding conceptual part to current Fig 1? I can then help more with the caption. 
+% Possible to have the same species across all traits for Fig 1? And maybe we just show two very contrasting results (whichever trait has the strongest/biggest relationship versus the one with the weakest/smallest)? 
+\item We next combined these trait-level estimates (fig 3) with data on forcing, chilling and photoperiod values from a large meta-analysis of experiments (fig 1) to test if traits (height, SLA, seed mass, LNC) predicted phenological cues. 
+\item For some traits we found much of the phenological cue could be explained by trait variation (see panel ?? in Fig 1), while for others traits were weak predictors (see XX in Fig 1). 
+\end{enumerate}
 \end{enumerate}
 
 %\fi
 
 % The below would be a strong place to start ... why not start with this paragraph?
 % DL: I like the idea of havinging figure 1 and 3 discussed in the same paragraph, so I am going to use your suggested text above and leave this second as the second section
-\item Traits differed in whether they led to greater advances and earlier budburst with increasing cues.
+\item Traits differed in whether they led to greater advances (earlier budburst) with increasing cues.
 \begin{enumerate}
 \item Height and SLA showed the greatest responses to changes in cues level, while seed mass and LNC had the smallest responses.
 \item Taller species had extremely weak responses with forcing (\Sexpr{htBFSpMean} m per standardized forcing; \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}).
@@ -149,7 +167,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \item We did not find a relationship between seed mass and cue responses for any of our three cues (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}, \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}, (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}))
 
 % throw your audience and me a bone and remind me what SLA and LNC trend with (thinner leaves, higher nitrogen etc. -- go for words instead of acronyms in each section opener I think) ... again: weaker cues (not responses to cues)
-\item High SLA species, that produced thin leaves with a greater surface area or relatively lower investment to leaf mass, had weaker forcing and chilling cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}
+\item High SLA species, which produce thin leaves with a greater surface area or relatively lower investment to leaf mass, had weaker forcing and chilling cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}, \Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}
 \item But stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean})
 \item As we predicted, species that produce leaves with high nitrogen content, which reflects high photosynthetic rates, showed weak trait responses, with small responses to both forcing and chilling cues at \Sexpr{lncBFSpMean} mg/g per standardized forcing; \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) and (\Sexpr{lncBCSpMean} mg/g per standardized chilling; \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}, and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean} for each cue respectively
 \end{enumerate}
@@ -158,7 +176,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
-    \caption{Comparisons of estimated cue responses of a representative species with a trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Points represent the raw budburst data for each respective species. Dark bands represent the 50\% uncertainty interval for the posterior cue estimates for the full model, while opaque bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero.}
+    \caption{Comparisons of estimated cue responses of a representative species with a trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Some traits strongly predicted phenological responses to cues, as seen by comparing the model estimates including trait (darker bands epresent the 50\% uncertainty interval for the posterior cue estimates for the full model) versus without (lighter bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero), which is especially obvious in the species with the higher trait value. Points represent the raw budburst data for each respective species. We show the full range of all treatment values (x axis) though most species cover only a portion. } % EMW2Jul -- do we also show full range of days to event values? 
         \label{supp-fig:slopes}
 \end{figure}
     
