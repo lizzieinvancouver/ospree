@@ -85,9 +85,16 @@ bb.stan$latbi <- paste(bb.stan$genus, bb.stan$species, sep="_")
 bb.stan$latbinum <- as.numeric(as.factor(bb.stan$latbi))
 
 ####read in data files
-rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinal.csv") ### updated STV
-rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho.csv") ## updated stv
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinalchill.csv") ### updated STV
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho_chill.csv") ## updated stv
 
+NAnames<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho.csv")
+
+species<-rep(unique(NAnames$species),each=7)
+rangiesNa$species<-species
+colnames(rangiesNa)
+colnames(rangiesEu)
+rangiesNa<-rangiesNa[,c(1,2,3,4,5,7,6)]
 rangiesEu$continent<-"Europe"
 rangiesEu<-dplyr::select(rangiesEu,-X)
 rangiesNa$continent<-"N. America"
