@@ -222,18 +222,20 @@ bb.e<-ggplot(betaSTV.eu,aes(STV.z,mean))+geom_point(color="white")
 namplotstv<-bb.na+geom_abline(data=cuebertNAstv,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameansNAstv,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("North America")+ylab("Cue sensitivity")+theme(legend.position = "none")+ylim(-40,0) 
+  xlab("North America")+ylab("Cue sensitivity")+theme(legend.position = "none")
++ylim(-40,0) 
 
 
 europlotstv<-bb.e+ geom_abline(data=cueberteustv,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswustv,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("Europe")+ylab("Cue sensitivity")+theme(legend.position = "none")+
-  scale_x_continuous(breaks=c(-1.5,0.5))+ylim(-40,5)
+  xlab("Europe")+ylab("Cue sensitivity")+theme(legend.position = "none")
++
+  scale_x_continuous(breaks=c(-1.5,2))+ylim(-40,5)
 
 
 
-twostv<-ggpubr::ggarrange(europlotstv,namplotstv,nrow=1,ncol=2,widths = c(.4,.6),labels=c("b)","c)"))
+twostv<-ggpubr::ggarrange(europlotstv,namplotstv,nrow=1,ncol=2,widths = c(.5,.6),labels=c("b)","c)"))
 
 jpeg("./figures/mockstv.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(stvfull,twostv,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)"))
@@ -241,19 +243,19 @@ dev.off()
 
 ggpubr::ggarrange(ggpubr::ggarrange(stvfull,twostv,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)")),ggpubr::ggarrange(gddfull,two,nrow=2, ncol=1,common.legend = TRUE,labels=c("a)")))
 
-#europlot2<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
- # geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
-#  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
- # xlab("Europe")+ylab("Cue sensitivity")+
-  #theme(legend.position = "none")
+europlot2<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+ylab("Cue sensitivity")+
+  theme(legend.position = "none")
 
-#europlot3<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
- # geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
-  #ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  #xlab("Europe")+ylab("")+
-  #theme(legend.position = "none")
-  #theme(axis.text.y=element_blank(),
-   #     axis.ticks.y=element_blank() 
+europlot3<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+ylab("")+
+  theme(legend.position = "none")
+  theme(axis.text.y=element_blank(),
+        axis.ticks.y=element_blank() 
   )
 
 
@@ -388,7 +390,7 @@ betameanGDD2<-scrapegrandies(threeparam_jnt.meangdd)
 
 gddplot<-ggplot(betameanGDD,aes(GDD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))#+
   geom_rect(xmin=-0.7,xmax=0,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 gddplot<-gddplot+geom_abline(data=cuebertmeanGDD,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
@@ -406,7 +408,7 @@ betameanCP2<-scrapegrandies(threeparam_jnt.cp)
 
 cpplot<-ggplot(betameanCP,aes(CP.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))#+
   geom_rect(xmin=-0.8,xmax=0.3,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 cpplot<-cpplot+geom_abline(data=cuebertmeanCP,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
@@ -481,14 +483,15 @@ euplotcp<-bbb.eu+geom_abline(data=cueberteucp,aes(intercept=mu,slope=trait_beta,
 
 
 oneone<-ggpubr::ggarrange(gddplot,cpplot,common.legend = TRUE,labels = c("a)","b)"))
-twotwo<-ggpubr::ggarrange(euplotgdd,namplotgdd,euplotcp,namplotcp,nrow=1,ncol=4,labels=c("c)","d)","e)","f)"),widths=c(.2,.3,.2,.3))
+twotwo<-ggpubr::ggarrange(euplotgdd,namplotgdd,euplotcp,namplotcp,nrow=1,ncol=4,labels=c("c)","d)","e)","f)"),widths=c(.25,.3,.25,.3))
 jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(oneone,twotwo,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
 
 gddplotscont<-ggpubr::ggarrange(euplotgdd,namplotgdd,common.legend = TRUE,labels = c("a)","b)"),ncol=2,widths=c(.4,.6))
+jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(gddplot,gddplotscont,nrow=2,ncol=1,heights=c(6,5))
-
+dev.off()
 library(tidybayes)
 
 
