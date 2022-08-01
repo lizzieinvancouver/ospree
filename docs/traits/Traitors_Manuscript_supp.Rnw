@@ -6,18 +6,83 @@
 
 \section{Supplementary Material}
 
+\begin{table}[ht]
+\centering
+\caption{Summary of dataset} 
+\begin{tabular}{llrrlll}
+  \hline
+traitname & unitname & no.obs & no.spp & database & datasetid & reference \\ 
+  \hline
+Height & m &  26 &   8 & bien & 10\_bien & http://datadryad.org/resource/doi:10.5061/dryad.j25t0 \\ 
+  Height & m &   2 &   2 & bien & 12\_bien & http://datadryad.org/resource/doi:10.5061/dryad.m88g7 \\ 
+  Height & m &  27 &  19 & bien & 14\_bien & http://datadryad.org/resource/doi:10.5061/dryad.r3n45 \\ 
+  Height & m &  18 &  16 & bien & 18\_bien &  \\ 
+  Height & m &  90 &  19 & bien & 20\_bien & http://www.leda-traitbase.org/LEDAportal/ \\ 
+  Height & m &  10 &  10 & bien & 21\_bien &  \\ 
+  Height & m &  21 &  14 & bien & 22\_bien & Moles, Angela \\ 
+  Height & m & 47036 &  19 & bien & 24\_bien & Reams, Greg \\ 
+  Height & m &   5 &   5 & bien & 25\_bien & Grime, Hodgson, \& Hunt \\ 
+  Height & m &   8 &   5 & bien & 26\_bien &  \\ 
+  Height & m &  18 &   1 & bien & 3\_bien & http://datadryad.org/resource/doi:10.5061/dryad.1cn19 \\ 
+  Height & m & 120 &   1 & bien & 5\_bien & http://datadryad.org/resource/doi:10.5061/dryad.4q78p \\ 
+  Height & m &  20 &   1 & bien & 7\_bien & http://datadryad.org/resource/doi:10.5061/dryad.6nc8c \\ 
+  Height & m &   2 &   1 & try & 156\_try & Bond-Lamberty et al. (2002) \\ 
+  Height & m & 275 &   3 & try & 186\_try & unpub. \\ 
+  Height & m &  28 &  19 & try & 20\_try & Wright et al. (2004) \\ 
+  Height & m &   2 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
+  Height & m &  21 &  21 & try & 251\_try & Schweingruber \& Landolt (2005) \\ 
+  Height & m &  35 &   2 & try & 275\_try & unpub. \\ 
+  Height & m &   5 &   5 & try & 28\_try & Moles et al. (2004) \\ 
+  Height & m &   1 &   1 & try & 54\_try & Cavender-Bares et al. (2006) \\ 
+  Height & m &  11 &  10 & try & 86\_try & Diaz et al. (2004) \\ 
+  LNC & mg/g & 287 &  12 & try & 130\_try & Craine et al. (2009) \\ 
+  LNC & mg/g &  44 &   2 & try & 154\_try & Wilson et al. (2000) \\ 
+  LNC & mg/g &   7 &   4 & try & 180\_try & Wenxuan et al. (2012) \\ 
+  LNC & mg/g &   7 &   3 & try & 181\_try & Yahan et al. (2011) \\ 
+  LNC & mg/g &  65 &  32 & try & 20\_try & Wright et al. (2004) \\ 
+  LNC & mg/g &   3 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
+  LNC & mg/g & 120 &  20 & try & 240\_try & Vergutz et al. 2012 \\ 
+  LNC & mg/g &  24 &   8 & try & 286\_try & Atkin et al. (2015) \\ 
+  LNC & mg/g &  72 &  22 & try & 342\_try & Maire et al. (2015) \\ 
+  LNC & mg/g &   2 &   1 & try & 37\_try & Cornelissen et al. (2003) \\ 
+  LNC & mg/g & 3216 &  37 & try & 412\_try & unpub. \\ 
+  LNC & mg/g &   6 &   2 & try & 443\_try & Wang et al. 2017 \\ 
+  Seed mass & mg &   3 &   3 & bien & 12\_bien & http://datadryad.org/resource/doi:10.5061/dryad.m88g7 \\ 
+  Seed mass & mg &   4 &   2 & bien & 17\_bien & http://ucjeps.berkeley.edu/EFT.html \\ 
+  Seed mass & mg & 250 &  37 & bien & 19\_bien & http://www.kew.org/data/sid \\ 
+  Seed mass & mg &  12 &  12 & bien & 2\_bien & http://datadryad.org/resource/doi:10.5061/dryad.12b0h \\ 
+  Seed mass & mg &  12 &   7 & bien & 9\_bien & http://datadryad.org/resource/doi:10.5061/dryad.h9083 \\ 
+  SLA & mm2 mg-1 &  44 &   2 & try & 154\_try & Wilson et al. (2000) \\ 
+  SLA & mm2 mg-1 & 204 &   3 & try & 186\_try & unpub. \\ 
+  SLA & mm2 mg-1 &  93 &  33 & try & 20\_try & Wright et al. (2004) \\ 
+  SLA & mm2 mg-1 &   2 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
+  SLA & mm2 mg-1 & 102 &  18 & try & 25\_try & Kleyer et al. (2008) \\ 
+  SLA & mm2 mg-1 &  83 &   2 & try & 275\_try & unpub. \\ 
+  SLA & mm2 mg-1 &  40 &  11 & try & 286\_try & Atkin et al. (2015) \\ 
+  SLA & mm2 mg-1 &  86 &  23 & try & 342\_try & Maire et al. (2015) \\ 
+  SLA & mm2 mg-1 & 615 &  14 & try & 37\_try & Cornelissen et al. (2003) \\ 
+  SLA & mm2 mg-1 & 6307 &  37 & try & 412\_try & unpub. \\ 
+  SLA & mm2 mg-1 &   6 &   2 & try & 443\_try & Wang et al. 2017 \\ 
+  SLA & mm2 mg-1 &  20 &   2 & try & 50\_try & Shipley et al. (2002) \\ 
+  SLA & mm2 mg-1 &  42 &   2 & try & 54\_try & Cavender-Bares et al. (2006) \\ 
+  SLA & mm2 mg-1 &   1 &   1 & try & 65\_try & unpub. \\ 
+  SLA & mm2 mg-1 &  11 &  10 & try & 86\_try & Diaz et al. (2004) \\ 
+  \end{tabular}
+\end{table}
+
+
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_supp.pdf} 
     \caption{Estimated trait values for seed mass (a-c) and LNC (d-f) traits, correlated against species level cue responses to forcing (a \& d), chilling (b \& e), and photoperiod cues (c \& f). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The pink shading represents the distribution of the posterior estimates. Our model of seed mass estimated a negative correlation between height values and the response to forcing, chilling, and photoperiod cue responses (a - c). The estimated LNC values positively corrleating with the response in forcing, chilling, and photoperiod (d - f). The species used in our illustrative examples in S\ref{fig:slopes} are highlighted in each panel, with the relative small seeded species, \textit{Populus tremula} shown in green, and the large seeded species, \textit{Aesculus hippocastanum} shown in purple in panels a to c. In panels d to f, the species with low LNC, \textit{Alnus glutinosa} is shown in green, and the species with high LNC, \textit{Quercus ilex} shown in purple.}
-    \label{fig:cuetraits}
+    \label{supp-fig:cuetraits}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
     \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Associations between seed mass and forcing, chilling, and photoperiod are depicted on panels a to c and associations between LNC and each cue in panel d to f. The green points represent the budburst data for \textit{Populus tremula}, a relatively small seeded species, while the green points are budburst data of the large seeded species, \textit{Aesculus hippocastanum}. Dark bands represent the 50\% credible interval for the posterior cue estimates for the full model. Opaque bands represent the 50\% credible interval for the posterior cue estimates with a trait effect of zero. The negative value of the seed mass model's slope for each cue produces a more negative effect on the day of budburst when seed mass is included in the model. This suggests that trees that produce large seeds advance their budburst dates at a higher rate to increasing cues (a-c). The effect of seed mass however, is relatively small compared to that observed from other traits. Estimates of the cue responses in our LNC model were all positive and produced more positive slopes in the full model. This indicates that high SLA values are less responsive in their budburst to increasing forcing, chilling, and photoperiod values (d to f). The greater effect of slopes on taller trees and high SLA species is a artifact of the trait value itself being larger and not a reflection on the magnitidue of the response.}
-    \label{fig:slopes}
+    \label{supp-fig:slopes}
 \end{figure}
 
 % latex table generated in R 3.6.3 by xtable 1.8-4 package
@@ -46,6 +111,7 @@ mu\_grand & 12.62 & 1.83 & 8.95 & 12.63 & 16.21 & 1.00 \\
   sigmaPhotoSp & 3.45 & 0.93 & 1.87 & 3.36 & 5.51 & 1.00 \\ 
   sigmapheno\_y & 14.22 & 0.25 & 13.74 & 14.22 & 14.72 & 1.00 \\ 
   \end{tabular}
+  \label{supp-table:ht}
 \end{table}
 
 \begin{table}[ht]
@@ -72,6 +138,7 @@ mu\_grand & 16.54 & 1.57 & 13.51 & 16.53 & 19.54 & 1.01 \\
   sigmaPhotoSp & 3.72 & 0.89 & 2.24 & 3.64 & 5.75 & 1.00 \\ 
   sigmapheno\_y & 14.21 & 0.26 & 13.71 & 14.21 & 14.72 & 1.00 \\ 
   \end{tabular}
+  \label{supp-table:sla}
 \end{table}
 
 \begin{table}[ht]
@@ -98,6 +165,7 @@ mu\_grand & 1.84 & 0.48 & 0.90 & 1.84 & 2.77 & 1.00 \\
   sigmaPhotoSp & 3.76 & 0.91 & 2.23 & 3.67 & 5.80 & 1.00 \\ 
   sigmapheno\_y & 14.16 & 0.25 & 13.69 & 14.15 & 14.64 & 1.00 \\ 
   \end{tabular}
+  \label{supp-table:seedmass}
 \end{table}
 
 \begin{table}[ht]
@@ -124,6 +192,7 @@ mu\_grand & 22.65 & 1.41 & 19.90 & 22.65 & 25.44 & 1.00 \\
   sigmaPhotoSp & 3.85 & 0.88 & 2.37 & 3.77 & 5.80 & 1.00 \\ 
   sigmapheno\_y & 14.22 & 0.26 & 13.73 & 14.21 & 14.73 & 1.00 \\ 
   \end{tabular}
+  \label{supp-table:lnc}
 \end{table}
 
 
