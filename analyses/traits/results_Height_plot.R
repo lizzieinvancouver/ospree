@@ -94,7 +94,7 @@ betaTraitPhotoeff <- mean(posterior_ht$betaTraitxPhoto) #-0.1920812
 # betaTraitPhotoeff.26 <- mean(posterior_htOld$betaTraitxPhoto) #-0.2202021
 
 ## Species to plot and other plotting parameters
-plot.sp <- c("Corylus_avellana", "Acer_pseudoplatanus") 
+plot.sp <- c("Populus_tremula", "Acer_pseudoplatanus") 
 col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
 col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
 col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
@@ -104,15 +104,22 @@ col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38
 # ### Forcing
 # par(mar = c(5, 5, 2, 2), mfrow=c(1,3))
 xrange <- seq(-2.5, 2.5, by = 0.25)
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
-     xlab = "Forcing (z-scored)", ylab = "Day of phenological event",
+
+ospreeBB <- ospreeData
+ospreeBB$forceadj1 <- ospreeBB$response.time
+for(j in 1:nrow(ospreeBB)){
+  ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospreeBB$chill.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospreeBB$photo.z[j]
+}
+
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), max(ospreeBB$forceadj1)),
+     xlab = expression("Forcing (z-scored"*~degree*C*")"), ylab = "Day of phenological event",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
      cex.lab = 1.2)
 axis(side = 1, at = seq(min(xrange), max(xrange), by = .5), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(-20, 100, by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
-mtext(side = 3, text = "Height, Forcing", adj = 0, cex = 1.2)
+axis(side = 2, at = seq(round(min(ospreeBB$forceadj1),0), round(max(ospreeBB$forceadj1),0), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -150,15 +157,21 @@ put.fig.letter(label=my.label, location= "topleft", font=2)
 ### Chilling
 # par(mar = c(5, 5, 2, 2))
 xrange <- seq(-2, 5, by = 0.25)
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
-     xlab = "Chilling (z-scored)", ylab = "Day of phenological event",
+ospreeBB <- ospreeData
+ospreeBB$chilladj1 <- ospreeBB$response.time
+for(j in 1:nrow(ospree.temp)){
+  ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
+}
+
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$chilladj1), max(ospreeBB$chilladj1)),
+     xlab = expression("Chilling (z-scored"*~degree*C*")"), ylab = "Day of phenological event",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
      cex.lab = 1.2)
 axis(side = 1, at = seq(min(xrange), max(xrange), by = 1), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(-20, 100, by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
-mtext(side = 3, text = "Height, Chilling", adj = 0, cex = 1.2)
+axis(side = 2, at = seq(round(min(ospreeBB$chilladj1),0), round(max(ospreeBB$chilladj1)), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -197,15 +210,21 @@ put.fig.letter(label=my.label, location= "topleft", font=2)
 # ### Photoperiod
 # par(mar = c(5, 5, 2, 2))
 xrange <- seq(-1.5, 2.5, by = 0.25)
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 100),
-     xlab = "Photoperiod (z-scored)", ylab = "Day of phenological event",
+ospreeBB <- ospreeData
+ospreeBB$photoadj1 <- ospreeBB$response.time
+for(j in 1:nrow(ospree.temp)){
+  ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j]
+}
+
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), max(ospreeBB$photoadj1)),
+     xlab = "Photoperiod (z-scored hours)", ylab = "Day of phenological event",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
      cex.lab = 1.2)
 axis(side = 1, at = seq(min(xrange), max(xrange), by = 0.5), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(-20, 100, by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
-mtext(side = 3, text = "Height, Photoperiod", adj = 0, cex = 1.2)
+axis(side = 2, at = seq(round(min(ospreeBB$photoadj1),0), round(max(ospreeBB$photoadj1)), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -228,7 +247,7 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
+legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
                               expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
