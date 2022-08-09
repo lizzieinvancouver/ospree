@@ -121,7 +121,7 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-my.label <- paste("a", ".", sep="")
+my.label <- paste("d", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
 #                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
@@ -172,7 +172,7 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-my.label <- paste("b", ".", sep="")
+my.label <- paste("e", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
 #                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
@@ -230,7 +230,7 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Populus
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
-my.label <- paste("c", ".", sep="")
+my.label <- paste("f", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 #dev.off()
 
