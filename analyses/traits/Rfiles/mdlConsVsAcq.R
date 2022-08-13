@@ -47,17 +47,19 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   text(labels=label[1], x=this.x, y=this.y, xpd=T, cex = 2, ...)
 }
 
-pdf("figures/slopesConsAcqu_maintext.pdf", width = 12, height = 16)
-par(mar = c(5, 5, 2, 2), mfrow=c(4,3))
-source("results_Height_plot.R")
+pdf("figures/slopesConsAcqu_maintext_samespp.pdf", width = 12, height = 12)
+par(mar = c(5, 5, 2, 2), mfrow=c(3,3))
+source("Rfiles/concept_fig.R")
+#source("results_Height_plot.R")
 source("results_SLA_plot.R")
-source("results_SeedMass_plot.R")
+#source("results_SeedMass_plot.R")
 source("results_LNC_plot.R")
 dev.off()
 
 
-#pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 8)
-#par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
-# source("results_SeedMass_plot.R")
-# source("results_LNC_plot.R")
-# dev.off()
+pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 12)
+par(mar = c(5, 5, 2, 2), mfrow=c(3,3))
+source("Rfiles/concept_fig.R")
+source("results_Height_plot.R")
+source("results_SeedMass_plot.R")
+dev.off()

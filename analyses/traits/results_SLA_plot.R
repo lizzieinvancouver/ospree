@@ -76,12 +76,13 @@ xrange <- seq(-2.5, 2.5, by = 0.25)
 
 ospreeBB <- ospreeData
 ospreeBB$forceadj1 <- ospreeBB$response.time
+
 for(j in 1:nrow(ospreeBB)){
-    ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospreeBB$chill.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospreeBB$photo.z[j]
+    ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospreeBB$chill.z[j] - photoeff * ospreeBB$photo.z[j]
 }
 
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), max(ospreeBB$forceadj1)),
-     xlab = expression("Forcing (z-scored"*~degree*C*")"), ylab = "Day of phenological event",
+     xlab = expression("Forcing (z-scored"*~degree*C*")"), ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
@@ -111,7 +112,7 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-my.label <- paste("d", ".", sep="")
+my.label <- paste("a", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
 #                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
@@ -129,11 +130,11 @@ xrange <- seq(-2, 2, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$chilladj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
-    ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
+    ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff * ospree.temp$photo.z[j]
 }
 
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$chilladj1), max(ospreeBB$chilladj1)),
-     xlab = expression("Chilling (z-scored"*~degree*C*")"), ylab = "Day of phenological event",
+     xlab = expression("Chilling (z-scored"*~degree*C*")"), ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
@@ -163,7 +164,7 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-my.label <- paste("e", ".", sep="")
+my.label <- paste("b", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
 #                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
@@ -182,11 +183,11 @@ xrange <- seq(-1.5, 1.5, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$photoadj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
-    ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j]
+    ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff * ospree.temp$chill.z[j]
 }
 
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), max(ospreeBB$photoadj1)),
-     xlab = "Photoperiod (z-scored hours)", ylab = "Day of phenological event",
+     xlab = "Photoperiod (z-scored hours)", ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
@@ -222,7 +223,7 @@ legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Fagus g
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp[2], col.sp[1], NA, NA),
        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
-my.label <- paste("f", ".", sep="")
+my.label <- paste("c", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 #dev.off()
 
