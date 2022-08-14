@@ -103,6 +103,39 @@ Key Words: Budburst phenology, functional traits, Trees, climate change
 
 \section{Introduction}
 
+Invasive plants are shaping plant communities worldwide, filling vacant niches and displacing native plants through the novel community landscapes and changes in resource availability.
+
+\begin{enumerate}
+\item many studies have tried to predict species invasive potential based on functional traits and the links between traits, resource use, and growth strategies
+\item the same traits we associate with native plants tracking changes in climate may also allow invasive species greater fitness and adaptive advantage to invasive species
+\item traits that promote earlier growth in the spring = priority effects and less competitive temporal niche
+\item understanding the links between species traits’, climate, and temporal niche will provide greater insight into likely responses of species fitness and community dynamics in response to climate change
+\end{enumerate}
+
+\begin{enumerate}
+\item Functional traits: decades of work associating easy to measure traits related to growth and competition
+\item drawing bread generalizable trends independent of species 
+\begin{enumerate}
+\item Early vs late - expect species like many invasive, with fast growth strategies, all along fast axes = high sea, high photosynthesis (LNC), small seeds
+\end{enumerate}
+
+\item Phenology is similarity a well studied traits not included in broader framework
+\item invasives fill empty niche early in the growing season
+\item studies of woody plants - focus on how app are responding to changes in climate and the effect of key abiotic cues on growth and phenology
+
+\item In woody plants there are 3 key cues - chilling, forcing, photoperiod
+\item We assume these cues would relate to broader growth strategies 
+\begin{enumerate}
+\item Particularly tradeoff in resource investment and chilling
+\item Forcing vs risk frost
+\item Photoperiod and photosynthetic potential 
+\end{enumerate}
+\item Relate cues to traits
+\item Predictions, limitations of previous work
+\item Our aims
+
+\end{enumerate}
+
 {\bf Some text for intro and methods... } \\ % There's probably two goals of trait ecology -- improve mechanistic understanding and effectively 'getting rid of species' 
 A major goal of trait ecology has been to predict species-level characteristics by their traits alone; to do this, we need to be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
 \\ While phenology in observational data is often considered highly variable, it is actually highly predictable in experiments where the major cues (forcing, chilling, photoperiod) are known and thus we focus on cues here. 
@@ -181,7 +214,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext_samespp.pdf} 
     \caption{Comparisons of estimated cue responses of a representative species with a trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Some traits strongly predicted phenological responses to cues, as seen by comparing the model estimates including trait (darker bands epresent the 50\% uncertainty interval for the posterior cue estimates for the full model) versus without (lighter bands represent the 50\% uncertainty interval interval for the posterior cue estimates with a trait effect of zero), which is especially obvious in the species with the higher trait value. Points represent the raw budburst data for each respective species. We show the full range of all treatment values (x axis) though most species cover only a portion. } % EMW2Jul -- do we also show full range of days to event values? 
         \label{fig:slopes}
 \end{figure}
