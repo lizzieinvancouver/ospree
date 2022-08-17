@@ -125,8 +125,9 @@ CP.plot<-ggplot(CP,aes(Temp.Mean,Geo.Mean))+geom_point(aes(color=continent))+geo
   ggthemes::theme_few()
 
 
-
+jpeg("figures/onetonesAUG2022.jpeg")
 ggpubr::ggarrange(VarGDD2lf.plot,GDD.plot,CP.plot,nrow=1, ncol=3,common.legend = TRUE)
+dev.off()
 
 ggdlf<-left_join(ggdlf,STV)
 ggdlf<-left_join(ggdlf,GDD)
