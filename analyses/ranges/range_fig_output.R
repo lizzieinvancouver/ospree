@@ -219,7 +219,7 @@ namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,colo
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none")+ylab("")+ylim(-40,5)
+  theme(legend.position = "none")+ylab("")
 
 europlot<-aa.e+ geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
