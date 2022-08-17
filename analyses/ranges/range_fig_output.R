@@ -309,10 +309,12 @@ europlot3<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,co
 
 ###table of results
 if(FALSE){
-cp_summary <- summary(threeparam_jnt.cp, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-gdd_summary <- summary(threeparam_jnt.meangdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-stv_summary <- summary(threeparam_jnt.stv, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-gddlf_summary <- summary(threeparam_jnt.gdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
+cp_summary <- summary(threeparam_jnt.cp, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+cp_summary <- summary(threeparam_jnt.cp, probs = c(0.025,.25,.75, 0.975))$summary
+
+gdd_summary <- summary(threeparam_jnt.meangdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+stv_summary <- summary(threeparam_jnt.stv, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+gddlf_summary <- summary(threeparam_jnt.gdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
 
 cp_summary<-as.data.frame(cp_summary)
 cp_summary$climate<-"Mean Chill Portions"
@@ -329,8 +331,8 @@ gddlf_summary$climate<-"Var. GGD to last frost"
 sums<-rbind(cp_summary,gdd_summary,stv_summary,gddlf_summary)
 sums$paremeter<-rownames(cp_summary)
 
-sums<-dplyr::select(sums,mean,`10%`,`90%`,paremeter,climate)
-goot<-pivot_wider(data = sums, id_cols = climate, names_from =paremeter, values_from = c("mean","10%", "90%"))
+sums<-dplyr::select(sums,mean,`2.5%`,`25%`,`75%`, `97.5%`,paremeter,climate)
+goot<-tidyr::pivot_wider(data = sums, id_cols = climate, names_from =paremeter, values_from = c("mean","10%", "90%"))
 colnames(goot)
 
 ###use this for table
@@ -602,3 +604,15 @@ ggplot(contcomps,aes(continent,Estimate))+geom_violin(aes(fill=cues,color=cues),
   theme(strip.background = element_blank(),
         strip.text = element_blank())
 dev.off()
+
+
+
+####for understanding
+gdd_summary.eu <- summary(gdd_jnt.eu,pars = c("muChillSp","muPhotoSp","muForceSp","betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+gdd_summary.eu<-as.data.frame(gdd_summary.eu)
+gdd_summary.eu<-dplyr::select(gdd_summary.eu, mean,`2.5%`,`25%`,`75%`,`97.5%`)
+
+
+cp_summary.eu <- summary(cp_jnt.eu,pars = c("muChillSp","muPhotoSp","muForceSp","betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+cp_summary.eu<-as.data.frame(cp_summary.eu)
+cp_summary.eu<-dplyr::select(cp_summary.eu, mean,`2.5%`,`25%`,`75%`,`97.5%`)
