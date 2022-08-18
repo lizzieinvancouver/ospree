@@ -142,10 +142,26 @@ A major goal of trait ecology has been to predict species-level characteristics 
 
 \section{Predictions}
 \begin{enumerate}
-\item species that budburst under low chilling, low forcing, and short photoperiod conditionsshould have traits associated with acquisitive growth, but low competitiveness
-\item Will have: high SLA, high LNC, shorter heights, and lower seed mass
-\item Species that budburst later under high chilling or high forcing temperatures, with long photoperiods should have traits more associated with conservative growth and higher competitive abilities
-\item Will have: low SLA, low LNC, greater heights and heavier seeds. 
+\item Chilling Species with high chilling requirements will have traits associated with greater protection from harsh conditions and higher competitive abilities, but requiring longer periods to ac- cumulate chilling and days to budburst.
+\begin{enumerate}
+\item SLA should positively correlate with increasing chill requirements since leaves with large SLA are less frost tolerant
+\item Height should positively correlate since there will be more competition for light
+\item Seed mass may negatively correlate, as later species have less time for seed development
+\end{enumerate}
+
+\item Forcing Species with low forcing requirements will express traits related to frost tolerance and high productivity through faster resource acquisition.
+\begin{enumerate}
+\item Leaves should have smaller SLA because smaller, thicker leaves are more frost tolerant • \item Shorter in height, as there is less competition for light prior to canopy closure
+\item Seed mass may be greater as there is more time for seed development
+\item LNC will be greater and is a proxy for photosynthetic rates
+\end{enumerate}
+
+\item Photoperiod Species with high photoperiod requirements will budburst later and should have traits associated with greater competitive abilities.
+\begin{enumerate}
+\item SLA should positively correlate with increasing photoperiod requirements
+\item Height should positively correlate since there will be more competition for light
+\item LNC will be lower in later budbursting species
+\end{enumerate}
 \end{enumerate}
 
 \section{Methods}
