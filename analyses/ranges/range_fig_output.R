@@ -30,7 +30,10 @@ load("popupmods.Rda")
 ###
 
 
-concordance<-unique(dplyr::select(bb.stan,complex,complex.wname)) ### for adding ordinal data
+concordance<-unique(dplyr::select(bb.stan,latbinum,complex.wname)) ### for adding ordinal data
+
+concordance.na<-unique(dplyr::select(bb.stan.nam,latbinum,complex.wname))
+concordance.eu<-unique(dplyr::select(bb.stan.eu,latbinum,complex.wname))
 ###z-score orginal variable for plotting because the model ran on zscored bariables
 ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)
 ggdlf$STV.z<-(ggdlf$STV-mean(ggdlf$STV))/sd(ggdlf$STV)
@@ -48,15 +51,35 @@ scrapebetas<-function(x){ # this one takes the species level beta values
   goo$cue[grepl("betaForcing", goo$rowname)]<-"force"
   goo$cue[grepl("betaChill", goo$rowname)]<-"chill"
   goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
-  goo$complex<-c(99,99,99,rep(1:38,3))
+  goo$latbinum<-c(99,99,99,rep(1:38,3))
   goo<-left_join(goo,concordance)
   }
-
+scrapebetas.na<-function(x){ # this one takes the species level beta values
+  goo <- summary(x)$summary
+  goo<-as.data.frame(goo)
+  goo<-tibble::rownames_to_column(goo, var = "rowname")
+  goo<-dplyr::filter(goo,grepl("beta",rowname))
+  goo$cue[grepl("betaForcing", goo$rowname)]<-"force"
+  goo$cue[grepl("betaChill", goo$rowname)]<-"chill"
+  goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
+  goo$latbinum<-c(99,99,99,rep(1:17,3))
+  goo<-left_join(goo,concordance.na)
+}
+scrapebetas.eu<-function(x){ # this one takes the species level beta values
+  goo <- summary(x)$summary
+  goo<-as.data.frame(goo)
+  goo<-tibble::rownames_to_column(goo, var = "rowname")
+  goo<-dplyr::filter(goo,grepl("beta",rowname))
+  goo$cue[grepl("betaForcing", goo$rowname)]<-"force"
+  goo$cue[grepl("betaChill", goo$rowname)]<-"chill"
+  goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
+  goo$latbinum<-c(99,99,99,rep(1:21,3))
+  goo<-left_join(goo,concordance.eu)
+}
 
 
 scrapeslopes<-function(x){ 
 sample <- rstan::extract(x)### takes a while
-
 sample.force <- melt(sample$betaTraitxForcing)
 sample.force2 <- melt(sample$muForceSp)
 
@@ -124,7 +147,7 @@ cuey %>% dplyr::group_by(cue) %>% dplyr::summarise(mu=mean(mu),trait_beta_sd=sd(
 
 betas<-scrapebetas(threeparam_jnt.gdd)
 betasggdf<-left_join(betas,ggdlf)
-betasggdf<-filter(betasggdf,complex!=99)
+betasggdf<-filter(betasggdf,latbinum!=99)
 cuebert<-scrapeslopes(threeparam_jnt.gdd)
 betameans<-scrapegrandies(threeparam_jnt.gdd)
 
@@ -132,7 +155,7 @@ range(betasggdf$Temp.SD.z)
 a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
   geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color=
-                                                                                                     "lightgray",alpha=0.001)
+                                                                                                     "lightgray",alpha=0.001)+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 
 gddfull<-a+geom_abline(data=cuebert,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
@@ -175,26 +198,37 @@ cueberteu<-scrapeslopes(gddlf_jnt.eu)
 betameanswu<-scrapegrandies(gddlf_jnt.eu)
 
 
-betasggdf.na<-filter(betasggdf,continent=="N. America")
-betasggdf.eu<-filter(betasggdf,continent=="Europe")
+###to add species points
+betas.na<-scrapebetas.na(gddlf_jnt.nam)
+ggdlf.na<-filter(ggdlf,continent=="N. America")
+betasggdf.na<-left_join(betas.na,ggdlf.na)
 
-aa.na<-ggplot(betasggdf.na,aes(Temp.SD.z,mean))+geom_point(color="white")
-aa.e<-ggplot(betasggdf.eu,aes(Temp.SD.z,mean))+geom_point(color="white")
+#betasggdf.na<-filter(betasggdf,continent=="N. America")
+#betasggdf.eu<-filter(betasggdf,continent=="Europe")
+betas.eu<-scrapebetas.eu(gddlf_jnt.eu)
+ggdlf.eu<-filter(ggdlf,continent=="Europe")
+betasggdf.eu<-left_join(betas.eu,ggdlf.eu)
+
+range(betasggdf.eu$Temp.SD.z,na.rm=TRUE)
+
+aa.na<-ggplot(betasggdf.na,aes(Temp.SD.z,mean))+geom_point(aes(color=cue))+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
+aa.e<-ggplot(betasggdf.eu,aes(Temp.SD.z,mean))+geom_point(aes(color=cue),shape=4)+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 
 namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameansNA,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none")+ylab("")+ylim(-40,5)
+  theme(legend.position = "none")+ylab("")
 
 europlot<-aa.e+ geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
   geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("Europe")+ylab("Cue sensitivity")+
-  theme(legend.position = "none")+scale_x_continuous(breaks=c(-.8,-.7))#+ylim(-40,5)
+  theme(legend.position = "none")
 
-two<-ggpubr::ggarrange(europlot,namplot,nrow=1,ncol=2,widths = c(.2,.5),labels = c("b)","c)"))
+
+two<-ggpubr::ggarrange(europlot,namplot,nrow=1,ncol=2,widths = c(.4,.5),labels = c("b)","c)"))
 #twob<-ggpubr::ggarrange(europlot2,namplot,nrow=1,ncol=2,widths = c(.5,.5),labels = c("b)","c)"))
 #twoc<-ggpubr::ggarrange(europlot,europlot3,nrow=1,ncol=2,widths = c(.2,.4),labels = c("b)","c)"))
 
@@ -274,11 +308,13 @@ europlot3<-aa.na+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,co
 
 
 ###table of results
+if(FALSE){
+cp_summary <- summary(threeparam_jnt.cp, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+cp_summary <- summary(threeparam_jnt.cp, probs = c(0.025,.25,.75, 0.975))$summary
 
-cp_summary <- summary(threeparam_jnt.cp, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-gdd_summary <- summary(threeparam_jnt.meangdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-stv_summary <- summary(threeparam_jnt.stv, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
-gddlf_summary <- summary(threeparam_jnt.gdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.1, 0.9))$summary
+gdd_summary <- summary(threeparam_jnt.meangdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+stv_summary <- summary(threeparam_jnt.stv, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+gddlf_summary <- summary(threeparam_jnt.gdd, pars = c("betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
 
 cp_summary<-as.data.frame(cp_summary)
 cp_summary$climate<-"Mean Chill Portions"
@@ -295,8 +331,8 @@ gddlf_summary$climate<-"Var. GGD to last frost"
 sums<-rbind(cp_summary,gdd_summary,stv_summary,gddlf_summary)
 sums$paremeter<-rownames(cp_summary)
 
-sums<-dplyr::select(sums,mean,`10%`,`90%`,paremeter,climate)
-goot<-pivot_wider(data = sums, id_cols = climate, names_from =paremeter, values_from = c("mean","10%", "90%"))
+sums<-dplyr::select(sums,mean,`2.5%`,`25%`,`75%`, `97.5%`,paremeter,climate)
+goot<-tidyr::pivot_wider(data = sums, id_cols = climate, names_from =paremeter, values_from = c("mean","10%", "90%"))
 colnames(goot)
 
 ###use this for table
@@ -380,17 +416,18 @@ beetas<-rbind(beetas_summary_eu,beetas_summary_nam)
 beetas<-select(beetas, mean,`10%`,`25%`,`75%`,`90%`, continent)
 
 xtable(beetas)
-
+}
 ###### make of figure of the means just because #######
 betasM<-scrapebetas(threeparam_jnt.meangdd)
 betameanGDD<-dplyr::left_join(betasM,ggdlf,by="complex.wname")
-betameanGDD<-filter(betameanGDD,complex!=99)
+betameanGDD<-filter(betameanGDD,latbinum!=99)
 cuebertmeanGDD<-scrapeslopes(threeparam_jnt.meangdd)
 betameanGDD2<-scrapegrandies(threeparam_jnt.meangdd)
 
 gddplot<-ggplot(betameanGDD,aes(GDD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))#+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
   geom_rect(xmin=-0.7,xmax=0,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 gddplot<-gddplot+geom_abline(data=cuebertmeanGDD,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
@@ -402,13 +439,14 @@ gddplot<-gddplot+geom_abline(data=cuebertmeanGDD,aes(intercept = mu,slope= trait
 
 betasC<-scrapebetas(threeparam_jnt.cp)
 betameanCP<-dplyr::left_join(betasC,ggdlf,by="complex.wname")
-betameanCP<-filter(betameanCP,complex!=99)
+betameanCP<-filter(betameanCP,latbinum!=99)
 cuebertmeanCP<-scrapeslopes(threeparam_jnt.cp)
 betameanCP2<-scrapegrandies(threeparam_jnt.cp)
 
 cpplot<-ggplot(betameanCP,aes(CP.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2.5)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))#+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
   geom_rect(xmin=-0.8,xmax=0.3,ymin=-70,ymax=25,color="lightgray",alpha=0.001)
 
 cpplot<-cpplot+geom_abline(data=cuebertmeanCP,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
@@ -426,28 +464,54 @@ betameansNAgdd<-scrapegrandies(gdd_jnt.nam)
 cueberteugdd<-scrapeslopes(gdd_jnt.eu)
 betameanswugdd<-scrapegrandies(gdd_jnt.eu)
 
+
+
 cuebertNAcp<-scrapeslopes(cp_jnt.nam)
 betameansNAcp<-scrapegrandies(cp_jnt.nam)
 cueberteucp<-scrapeslopes(cp_jnt.eu)
 betameanswucp<-scrapegrandies(cp_jnt.eu)
 
-betameanGDD.na<-filter(betameanGDD,continent=="N. America")
-betameanGDD.eu<-filter(betameanGDD,continent!="N. America")
+#betameanGDD.na<-filter(betameanGDD,continent=="N. America")
+#betameanGDD.eu<-filter(betameanGDD,continent!="N. America")
+betas.gdd.na<-scrapebetas.na(gdd_jnt.nam)
+ggdlf.na<-filter(ggdlf,continent=="N. America")
+betameanGDD.na<-left_join(betas.gdd.na,ggdlf.na)
+betameanGDD.na<-filter(betameanGDD.na,latbinum!=99)
+
+betas.gdd.eu<-scrapebetas.eu(gdd_jnt.eu)
+ggdlf.eu<-filter(ggdlf,continent=="Europe")
+betameanGDD.eu<-left_join(betas.gdd.eu,ggdlf.eu)
+betameanGDD.eu<-filter(betameanGDD.eu,latbinum!=99)
+
+
 
 aaa.eu<-ggplot(betameanGDD.eu,aes(GDD.z,mean))+
-  geom_point(color="white")
+  geom_point(aes(color=cue),shape=4)+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 aaa.na<-ggplot(betameanGDD.na,aes(GDD.z,mean))+
-  geom_point(color="white")
+  geom_point(aes(color=cue))+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 
 
-betameanCP.na<-filter(betameanCP,continent=="N. America")
-betameanCP.eu<-filter(betameanCP,continent!="N. America")
+#betameanCP.na<-filter(betameanCP,continent=="N. America")
+#betameanCP.eu<-filter(betameanCP,continent!="N. America")
+betas.cp.na<-scrapebetas.na(cp_jnt.nam)
+#ggdlf.na<-filter(ggdlf,continent=="N. America")
+betameanCP.na<-left_join(betas.cp.na,ggdlf.na)
+betameanCP.na<-filter(betameanCP.na,latbinum!=99)
+
+betas.cp.eu<-scrapebetas.eu(cp_jnt.eu)
+#ggdlf.eu<-filter(ggdlf,continent=="Europe")
+betameanCP.eu<-left_join(betas.cp.eu,ggdlf.eu)
+betameanCP.eu<-filter(betameanCP.eu,latbinum!=99)
+
+
+
+
 
 bbb.eu<-ggplot(betameanCP.eu,aes(CP.z,mean))+
-  geom_point(color="white")
+  geom_point(aes(color=cue),shape=4)+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 
 bbb.na<-ggplot(betameanCP.na,aes(CP.z,mean))+
-  geom_point(color="white")
+  geom_point(aes(color=cue))+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
 
 
 namplotgdd<-aaa.na+geom_abline(data=cuebertNAgdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
@@ -455,7 +519,7 @@ namplotgdd<-aaa.na+geom_abline(data=cuebertNAgdd,aes(intercept=mu,slope=trait_be
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("North America")+
   ylab("Cue sensitivity")+
-  theme(legend.position = "none")+ylim(-40,5)
+  theme(legend.position = "none")
 
 
 euplotgdd<-aaa.eu+geom_abline(data=cueberteugdd,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
@@ -488,11 +552,30 @@ jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
 ggpubr::ggarrange(oneone,twotwo,nrow=2,ncol=1,heights=c(6,5))
 dev.off()
 
-gddplotscont<-ggpubr::ggarrange(euplotgdd,namplotgdd,common.legend = TRUE,labels = c("a)","b)"),ncol=2,widths=c(.4,.6))
-jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
-ggpubr::ggarrange(gddplot,gddplotscont,nrow=2,ncol=1,heights=c(6,5))
+jpeg("./figures/EUgdd.jpeg",width = 10,height=8, units = "in",res = 300)
+euplotgdd
 dev.off()
-library(tidybayes)
+
+jpeg("./figures/EUcp.jpeg",width = 10,height=8, units = "in",res = 300)
+euplotcp
+dev.off()
+
+jpeg("./figures/NAMgdd.jpeg",width = 10,height=8, units = "in",res = 300)
+namplotgdd
+dev.off()
+
+jpeg("./figures/NAMcp.jpeg",width = 10,height=8, units = "in",res = 300)
+namplotcp
+dev.off()
+
+ggpubr::ggarrange(euplotgdd,namplotgdd,euplotcp,namplotcp,nrow=2,ncol=2,labels=c("c)","d)","e)","f)"),widths=c(.3,.3,.3,.3))
+
+
+#gddplotscont<-ggpubr::ggarrange(euplotgdd,namplotgdd,common.legend = TRUE,labels = c("a)","b)"),ncol=2,widths=c(.4,.6))
+#jpeg("./figures/mock2.jpeg",width = 10,height=8, units = "in",res = 300)
+#ggpubr::ggarrange(gddplot,gddplotscont,nrow=2,ncol=1,heights=c(6,5))
+#dev.off()
+#library(tidybayes)
 
 
 get_variables(gddlf_jnt.nam)
@@ -521,3 +604,15 @@ ggplot(contcomps,aes(continent,Estimate))+geom_violin(aes(fill=cues,color=cues),
   theme(strip.background = element_blank(),
         strip.text = element_blank())
 dev.off()
+
+
+
+####for understanding
+gdd_summary.eu <- summary(gdd_jnt.eu,pars = c("muChillSp","muPhotoSp","muForceSp","betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+gdd_summary.eu<-as.data.frame(gdd_summary.eu)
+gdd_summary.eu<-dplyr::select(gdd_summary.eu, mean,`2.5%`,`25%`,`75%`,`97.5%`)
+
+
+cp_summary.eu <- summary(cp_jnt.eu,pars = c("muChillSp","muPhotoSp","muForceSp","betaTraitxForcing","betaTraitxPhoto","betaTraitxChill"), probs = c(0.025,.25,.75, 0.975))$summary
+cp_summary.eu<-as.data.frame(cp_summary.eu)
+cp_summary.eu<-dplyr::select(cp_summary.eu, mean,`2.5%`,`25%`,`75%`,`97.5%`)
