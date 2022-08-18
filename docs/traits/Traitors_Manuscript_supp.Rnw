@@ -71,12 +71,7 @@ Height & m &  26 &   8 & bien & 10\_bien & http://datadryad.org/resource/doi:10.
 \end{table}
 
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_supp.pdf} 
-    \caption{Estimated trait values for seed mass (a-c) and LNC (d-f) traits, correlated against species level cue responses to forcing (a \& d), chilling (b \& e), and photoperiod cues (c \& f). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The pink shading represents the distribution of the posterior estimates. Our model of seed mass estimated a negative correlation between height values and the response to forcing, chilling, and photoperiod cue responses (a - c). The estimated LNC values positively corrleating with the response in forcing, chilling, and photoperiod (d - f). The species used in our illustrative examples in S\ref{fig:slopes} are highlighted in each panel, with the relative small seeded species, \textit{Populus tremula} shown in green, and the large seeded species, \textit{Aesculus hippocastanum} shown in purple in panels a to c. In panels d to f, the species with low LNC, \textit{Alnus glutinosa} is shown in green, and the species with high LNC, \textit{Quercus ilex} shown in purple.}
-    \label{supp-fig:cuetraits}
-\end{figure}
+
 
 \begin{figure}[h!]
     \centering
