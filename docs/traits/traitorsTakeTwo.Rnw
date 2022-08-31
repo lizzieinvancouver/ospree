@@ -308,6 +308,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \begin{enumerate}
 \item We next combined these trait-level estimates (Fig. \ref{fig:cuetraits}) with data on forcing, chilling and photoperiod values from a large meta-analysis of experiments to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). 
 \item For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f in Fig \ref{fig:cuetraits}), while for others traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}). 
+\item 
 \end{enumerate}
 
 % The below would be a strong place to start ... why not start with this paragraph?
@@ -341,7 +342,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_maintext.pdf} 
-    \caption{Estimated trait values for height (a-c) and SLA (d-f) traits, correlated against species level cue responses to forcing (a \& d), chilling (b \& e), and photoperiod cues (c \& f). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The pink shading represents the distribution of the posterior estimates.  The species depicted in Fig \ref{fig:slopes} are highlighted in each panel, with the acquisitive species shown in green, and the conservative species, shown in purple.}
+    \caption{Estimated trait values for height (a-c), SLA (d-f), log10 Seed mass (g-i), and LNC (j-l), correlated against species level cue responses to forcing (a, d, g \& j), chilling (b, e, h \& k), and photoperiod cues (c, f, i \& l). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The 50\% confidence interval is depicted by the pink band.  The species depicted in Fig \ref{fig:slopes} are highlighted in each panel, with the acquisitive species shown in green, and the conservative species, shown in purple.}
     \label{fig:cuetraits}
 \end{figure}
 
