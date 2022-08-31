@@ -1,77 +1,75 @@
+%%% start preambling . . .  %%%
 \documentclass{article}
+
+% required 
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{textcomp}%amoung other things, it allows degrees C to be added
+\usepackage{float}
+\usepackage[utf8]{inputenc} % allow funny letters in citaions 
+\usepackage[nottoc]{tocbibind} %should add Refences to the table of contents?
+\usepackage{amsmath} % making nice equations 
+\usepackage{listings} % add in stan code
+\usepackage{xcolor}
+\usepackage{capt-of}%alows me to set a caption for code in appendix 
+\usepackage[export]{adjustbox} % adding a box around a map
+\usepackage{lineno}
+\linenumbers
+% recommended! Uncomment the below line and change the path for your computer!
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
+%put your Fig.s in one place! Also, note that here 'Fig.s' is the folder and 'demoFig' is what each 
+% Fig. produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
+% make your captioning look better
+\usepackage[small]{caption}
+
+\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{hyperref}
+
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Draft early 2022}
+\fancyhead[RO]{Temporal Ecology Lab}
+% more optionals! %
+
+\graphicspath{ {./Figures/} }% tell latex where to find photos 
+\externaldocument[supp-]{Traitors_Manuscript_supp}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 
 
 \section{Supplementary Material}
+\begin{landscape}
+<<label=suppTableHt, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
 
-\begin{table}[ht]
-\centering
-\caption{Summary of dataset} 
-\begin{tabular}{llrrlll}
-  \hline
-traitname & unitname & no.obs & no.spp & database & datasetid & reference \\ 
-  \hline
-Height & m &  26 &   8 & bien & 10\_bien & http://datadryad.org/resource/doi:10.5061/dryad.j25t0 \\ 
-  Height & m &   2 &   2 & bien & 12\_bien & http://datadryad.org/resource/doi:10.5061/dryad.m88g7 \\ 
-  Height & m &  27 &  19 & bien & 14\_bien & http://datadryad.org/resource/doi:10.5061/dryad.r3n45 \\ 
-  Height & m &  18 &  16 & bien & 18\_bien &  \\ 
-  Height & m &  90 &  19 & bien & 20\_bien & http://www.leda-traitbase.org/LEDAportal/ \\ 
-  Height & m &  10 &  10 & bien & 21\_bien &  \\ 
-  Height & m &  21 &  14 & bien & 22\_bien & Moles, Angela \\ 
-  Height & m & 47036 &  19 & bien & 24\_bien & Reams, Greg \\ 
-  Height & m &   5 &   5 & bien & 25\_bien & Grime, Hodgson, \& Hunt \\ 
-  Height & m &   8 &   5 & bien & 26\_bien &  \\ 
-  Height & m &  18 &   1 & bien & 3\_bien & http://datadryad.org/resource/doi:10.5061/dryad.1cn19 \\ 
-  Height & m & 120 &   1 & bien & 5\_bien & http://datadryad.org/resource/doi:10.5061/dryad.4q78p \\ 
-  Height & m &  20 &   1 & bien & 7\_bien & http://datadryad.org/resource/doi:10.5061/dryad.6nc8c \\ 
-  Height & m &   2 &   1 & try & 156\_try & Bond-Lamberty et al. (2002) \\ 
-  Height & m & 275 &   3 & try & 186\_try & unpub. \\ 
-  Height & m &  28 &  19 & try & 20\_try & Wright et al. (2004) \\ 
-  Height & m &   2 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
-  Height & m &  21 &  21 & try & 251\_try & Schweingruber \& Landolt (2005) \\ 
-  Height & m &  35 &   2 & try & 275\_try & unpub. \\ 
-  Height & m &   5 &   5 & try & 28\_try & Moles et al. (2004) \\ 
-  Height & m &   1 &   1 & try & 54\_try & Cavender-Bares et al. (2006) \\ 
-  Height & m &  11 &  10 & try & 86\_try & Diaz et al. (2004) \\ 
-  LNC & mg/g & 287 &  12 & try & 130\_try & Craine et al. (2009) \\ 
-  LNC & mg/g &  44 &   2 & try & 154\_try & Wilson et al. (2000) \\ 
-  LNC & mg/g &   7 &   4 & try & 180\_try & Wenxuan et al. (2012) \\ 
-  LNC & mg/g &   7 &   3 & try & 181\_try & Yahan et al. (2011) \\ 
-  LNC & mg/g &  65 &  32 & try & 20\_try & Wright et al. (2004) \\ 
-  LNC & mg/g &   3 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
-  LNC & mg/g & 120 &  20 & try & 240\_try & Vergutz et al. 2012 \\ 
-  LNC & mg/g &  24 &   8 & try & 286\_try & Atkin et al. (2015) \\ 
-  LNC & mg/g &  72 &  22 & try & 342\_try & Maire et al. (2015) \\ 
-  LNC & mg/g &   2 &   1 & try & 37\_try & Cornelissen et al. (2003) \\ 
-  LNC & mg/g & 3216 &  37 & try & 412\_try & unpub. \\ 
-  LNC & mg/g &   6 &   2 & try & 443\_try & Wang et al. 2017 \\ 
-  Seed mass & mg &   3 &   3 & bien & 12\_bien & http://datadryad.org/resource/doi:10.5061/dryad.m88g7 \\ 
-  Seed mass & mg &   4 &   2 & bien & 17\_bien & http://ucjeps.berkeley.edu/EFT.html \\ 
-  Seed mass & mg & 250 &  37 & bien & 19\_bien & http://www.kew.org/data/sid \\ 
-  Seed mass & mg &  12 &  12 & bien & 2\_bien & http://datadryad.org/resource/doi:10.5061/dryad.12b0h \\ 
-  Seed mass & mg &  12 &   7 & bien & 9\_bien & http://datadryad.org/resource/doi:10.5061/dryad.h9083 \\ 
-  SLA & mm2 mg-1 &  44 &   2 & try & 154\_try & Wilson et al. (2000) \\ 
-  SLA & mm2 mg-1 & 204 &   3 & try & 186\_try & unpub. \\ 
-  SLA & mm2 mg-1 &  93 &  33 & try & 20\_try & Wright et al. (2004) \\ 
-  SLA & mm2 mg-1 &   2 &   2 & try & 236\_try & Prentice et al. (2011) \\ 
-  SLA & mm2 mg-1 & 102 &  18 & try & 25\_try & Kleyer et al. (2008) \\ 
-  SLA & mm2 mg-1 &  83 &   2 & try & 275\_try & unpub. \\ 
-  SLA & mm2 mg-1 &  40 &  11 & try & 286\_try & Atkin et al. (2015) \\ 
-  SLA & mm2 mg-1 &  86 &  23 & try & 342\_try & Maire et al. (2015) \\ 
-  SLA & mm2 mg-1 & 615 &  14 & try & 37\_try & Cornelissen et al. (2003) \\ 
-  SLA & mm2 mg-1 & 6307 &  37 & try & 412\_try & unpub. \\ 
-  SLA & mm2 mg-1 &   6 &   2 & try & 443\_try & Wang et al. 2017 \\ 
-  SLA & mm2 mg-1 &  20 &   2 & try & 50\_try & Shipley et al. (2002) \\ 
-  SLA & mm2 mg-1 &  42 &   2 & try & 54\_try & Cavender-Bares et al. (2006) \\ 
-  SLA & mm2 mg-1 &   1 &   1 & try & 65\_try & unpub. \\ 
-  SLA & mm2 mg-1 &  11 &  10 & try & 86\_try & Diaz et al. (2004) \\ 
-  \end{tabular}
-\end{table}
+source("..//..//analyses/traits/Rfiles/sm_tables.R")
+#get_variables(mdl.traitphen)
 
-
-
+print(xtable(tabTest , caption="Data sources"), include.rownames= T, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+ 
+@
+\end{landscape}
 
 \begin{figure}[h!]
     \centering
@@ -80,115 +78,217 @@ Height & m &  26 &   8 & bien & 10\_bien & http://datadryad.org/resource/doi:10.
     \label{supp-fig:slopes}
 \end{figure}
 
-% latex table generated in R 3.6.3 by xtable 1.8-4 package
-% Thu Mar 17 13:45:36 2022
-\begin{table}[ht]
-\centering
-\caption{Height model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 12.62 & 1.83 & 8.95 & 12.63 & 16.21 & 1.00 \\ 
-  muPhenoSp & 32.13 & 2.69 & 26.94 & 32.12 & 37.43 & 1.00 \\ 
-  muForceSp & -10.81 & 2.81 & -16.34 & -10.77 & -5.33 & 1.00 \\ 
-  muChillSp & -4.42 & 4.05 & -12.71 & -4.35 & 3.34 & 1.00 \\ 
-  muPhotoSp & 1.44 & 2.23 & -2.98 & 1.44 & 5.77 & 1.00 \\ 
-  betaTraitxForce & 0.18 & 0.19 & -0.21 & 0.18 & 0.56 & 1.00 \\ 
-  betaTraitxChill & -0.51 & 0.28 & -1.04 & -0.52 & 0.06 & 1.00 \\ 
-  betaTraitxPhoto & -0.30 & 0.16 & -0.62 & -0.30 & 0.02 & 1.00 \\ 
-  sigma\_sp & 5.91 & 0.76 & 4.61 & 5.84 & 7.58 & 1.00 \\ 
-  sigma\_study & 7.51 & 1.20 & 5.49 & 7.38 & 10.24 & 1.00 \\ 
-  sigma\_traity & 5.39 & 0.02 & 5.36 & 5.39 & 5.43 & 1.00 \\ 
-  sigmaPhenoSp & 15.17 & 2.07 & 11.23 & 15.11 & 19.42 & 1.00 \\ 
-  sigmaForceSp & 4.95 & 1.18 & 2.99 & 4.84 & 7.56 & 1.00 \\ 
-  sigmaChillSp & 8.63 & 2.19 & 5.25 & 8.33 & 13.72 & 1.00 \\ 
-  sigmaPhotoSp & 3.45 & 0.93 & 1.87 & 3.36 & 5.51 & 1.00 \\ 
-  sigmapheno\_y & 14.22 & 0.25 & 13.74 & 14.22 & 14.72 & 1.00 \\ 
-  \end{tabular}
-  \label{supp-table:ht}
-\end{table}
 
-\begin{table}[ht]
-\centering
-\caption{SLA model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 16.54 & 1.57 & 13.51 & 16.53 & 19.54 & 1.01 \\ 
-  muPhenoSp & 31.39 & 2.51 & 26.51 & 31.35 & 36.45 & 1.00 \\ 
-  muForceSp & -10.95 & 2.67 & -16.44 & -10.89 & -5.87 & 1.01 \\ 
-  muChillSp & -16.49 & 4.62 & -26.03 & -16.33 & -7.86 & 1.01 \\ 
-  muPhotoSp & 0.97 & 2.56 & -4.29 & 1.02 & 5.74 & 1.02 \\ 
-  betaTraitxForce & 0.15 & 0.15 & -0.13 & 0.15 & 0.45 & 1.01 \\ 
-  betaTraitxChill & 0.34 & 0.25 & -0.12 & 0.33 & 0.84 & 1.01 \\ 
-  betaTraitxPhoto & -0.19 & 0.14 & -0.47 & -0.19 & 0.10 & 1.02 \\ 
-  sigma\_sp & 7.78 & 0.97 & 6.12 & 7.70 & 9.89 & 1.00 \\ 
-  sigma\_study & 3.27 & 0.96 & 1.82 & 3.12 & 5.49 & 1.00 \\ 
-  sigma\_traity & 6.17 & 0.05 & 6.07 & 6.16 & 6.26 & 1.00 \\ 
-  sigmaPhenoSp & 13.96 & 2.10 & 10.03 & 13.91 & 18.20 & 1.00 \\ 
-  sigmaForceSp & 4.91 & 1.13 & 3.07 & 4.79 & 7.43 & 1.00 \\ 
-  sigmaChillSp & 10.48 & 2.29 & 6.60 & 10.28 & 15.35 & 1.00 \\ 
-  sigmaPhotoSp & 3.72 & 0.89 & 2.24 & 3.64 & 5.75 & 1.00 \\ 
-  sigmapheno\_y & 14.21 & 0.26 & 13.71 & 14.21 & 14.72 & 1.00 \\ 
-  \end{tabular}
-  \label{supp-table:sla}
-\end{table}
+<<label=suppTableHt, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
+load("..//..//analyses/traits/output/height_raw_37spp_wp.Rda")
+#get_variables(mdl.traitphen)
 
-\begin{table}[ht]
-\centering
-\caption{Seed mass model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 1.84 & 0.48 & 0.90 & 1.84 & 2.77 & 1.00 \\ 
-  muPhenoSp & 31.43 & 2.70 & 26.33 & 31.40 & 36.84 & 1.00 \\ 
-  muForceSp & -8.04 & 1.57 & -11.19 & -8.03 & -4.98 & 1.00 \\ 
-  muChillSp & -9.36 & 2.79 & -15.05 & -9.28 & -4.02 & 1.00 \\ 
-  muPhotoSp & -1.44 & 1.27 & -3.90 & -1.47 & 1.06 & 1.00 \\ 
-  betaTraitxForce & -0.29 & 0.67 & -1.58 & -0.29 & 1.03 & 1.00 \\ 
-  betaTraitxChill & -1.08 & 1.09 & -3.20 & -1.09 & 1.07 & 1.00 \\ 
-  betaTraitxPhoto & -0.59 & 0.58 & -1.74 & -0.59 & 0.54 & 1.00 \\ 
-  sigma\_sp & 1.62 & 0.19 & 1.30 & 1.60 & 2.03 & 1.00 \\ 
-  sigma\_study & 0.97 & 0.10 & 0.77 & 0.97 & 1.16 & 1.00 \\ 
-  sigma\_traity & 0.25 & 0.01 & 0.23 & 0.25 & 0.27 & 1.00 \\ 
-  sigmaPhenoSp & 14.93 & 2.29 & 10.62 & 14.89 & 19.61 & 1.00 \\ 
-  sigmaForceSp & 4.92 & 0.99 & 3.18 & 4.85 & 7.06 & 1.00 \\ 
-  sigmaChillSp & 10.65 & 2.53 & 6.44 & 10.37 & 16.20 & 1.00 \\ 
-  sigmaPhotoSp & 3.76 & 0.91 & 2.23 & 3.67 & 5.80 & 1.00 \\ 
-  sigmapheno\_y & 14.16 & 0.25 & 13.69 & 14.15 & 14.64 & 1.00 \\ 
-  \end{tabular}
-  \label{supp-table:seedmass}
-\end{table}
+sumt <- summary(mdl.traitphen)$summary
 
-\begin{table}[ht]
-\centering
-\caption{LNC model estimates} 
-\begin{tabular}{lrrrrrr}
-  \hline
-Variable & mean & sd & X2.5. & X50. & X97.5. & Rhat \\ 
-  \hline
-mu\_grand & 22.65 & 1.41 & 19.90 & 22.65 & 25.44 & 1.00 \\ 
-  muPhenoSp & 31.21 & 2.51 & 26.35 & 31.15 & 36.32 & 1.00 \\ 
-  muForceSp & -19.42 & 5.45 & -30.39 & -19.50 & -8.61 & 1.01 \\ 
-  muChillSp & -26.48 & 7.09 & -40.56 & -26.52 & -12.15 & 1.00 \\ 
-  muPhotoSp & -10.07 & 4.89 & -19.99 & -10.02 & -0.60 & 1.01 \\ 
-  betaTraitxForce & 0.48 & 0.23 & 0.02 & 0.48 & 0.95 & 1.01 \\ 
-  betaTraitxChill & 0.70 & 0.30 & 0.09 & 0.70 & 1.30 & 1.00 \\ 
-  betaTraitxPhoto & 0.33 & 0.20 & -0.06 & 0.33 & 0.73 & 1.01 \\ 
-  sigma\_sp & 5.12 & 0.61 & 4.05 & 5.07 & 6.44 & 1.00 \\ 
-  sigma\_study & 3.54 & 0.97 & 2.07 & 3.40 & 5.78 & 1.00 \\ 
-  sigma\_traity & 5.13 & 0.06 & 5.02 & 5.13 & 5.25 & 1.00 \\ 
-  sigmaPhenoSp & 14.07 & 1.96 & 10.46 & 13.96 & 18.13 & 1.00 \\ 
-  sigmaForceSp & 4.51 & 1.03 & 2.70 & 4.42 & 6.76 & 1.00 \\ 
-  sigmaChillSp & 8.92 & 2.02 & 5.73 & 8.63 & 13.60 & 1.00 \\ 
-  sigmaPhotoSp & 3.85 & 0.88 & 2.37 & 3.77 & 5.80 & 1.00 \\ 
-  sigmapheno\_y & 14.22 & 0.26 & 13.73 & 14.21 & 14.73 & 1.00 \\ 
-  \end{tabular}
-  \label{supp-table:lnc}
-\end{table}
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
 
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp", # muAlphaForce
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto",
+                 "sigma_sp",
+                 "sigma_study",
+                 "sigma_traity",
+                 "sigmaPhenoSp",
+                 "sigmaForceSp",
+                 "sigmaChillSp",
+                 "sigmaPhotoSp", #sigma_alpha_photo
+                 "sigmapheno_y")
+esti <- sumt[mu_params, col4table]
 
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("mu_grand",
+                  "muPhenoSp",
+                  "muForceSp",
+                  "muChillSp",
+                  "muPhotoSp",
+                  "betaTraitxForce",
+                  "betaTraitxChill",
+                  "betaTraitxPhoto",
+                  "sigma_sp",
+                  "sigma_study",
+                  "sigma_traity",
+                  "sigmaPhenoSp",
+                  "sigmaForceSp",
+                  "sigmaChillSp",
+                  "sigmaPhotoSp",
+                  "sigmapheno_y")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+print(xtable(esti.table , caption="Height model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+ 
+@
+ 
+
+<<label=suppTableSLA, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
+load("..//..//analyses/traits/output/sla_raw_37spp_wp.Rda")
+#get_variables(mdl.traitphen)
+
+sumt <- summary(mdl.traitphen)$summary
+
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
+
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp", # muAlphaForce
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto",
+                 "sigma_sp",
+                 "sigma_study",
+                 "sigma_traity",
+                 "sigmaPhenoSp",
+                 "sigmaForceSp",
+                 "sigmaChillSp",
+                 "sigmaPhotoSp", #sigma_alpha_photo
+                 "sigmapheno_y")
+esti <- sumt[mu_params, col4table]
+
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("mu_grand",
+                  "muPhenoSp",
+                  "muForceSp",
+                  "muChillSp",
+                  "muPhotoSp",
+                  "betaTraitxForce",
+                  "betaTraitxChill",
+                  "betaTraitxPhoto",
+                  "sigma_sp",
+                  "sigma_study",
+                  "sigma_traity",
+                  "sigmaPhenoSp",
+                  "sigmaForceSp",
+                  "sigmaChillSp",
+                  "sigmaPhotoSp",
+                  "sigmapheno_y")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+print(xtable(esti.table , caption="SLA model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+ 
+@
+
+<<label= suppTableSeedMass, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
+load("..//..//analyses/traits/output/seedmasslog10_raw_37spp_wp.Rda")
+#get_variables(mdl.traitphen)
+
+sumt <- summary(mdl.traitphen)$summary
+
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
+
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp", # muAlphaForce
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto",
+                 "sigma_sp",
+                 "sigma_study",
+                 "sigma_traity",
+                 "sigmaPhenoSp",
+                 "sigmaForceSp",
+                 "sigmaChillSp",
+                 "sigmaPhotoSp", #sigma_alpha_photo
+                 "sigmapheno_y")
+esti <- sumt[mu_params, col4table]
+
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("mu_grand",
+                  "muPhenoSp",
+                  "muForceSp",
+                  "muChillSp",
+                  "muPhotoSp",
+                  "betaTraitxForce",
+                  "betaTraitxChill",
+                  "betaTraitxPhoto",
+                  "sigma_sp",
+                  "sigma_study",
+                  "sigma_traity",
+                  "sigmaPhenoSp",
+                  "sigmaForceSp",
+                  "sigmaChillSp",
+                  "sigmaPhotoSp",
+                  "sigmapheno_y")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+print(xtable(esti.table , caption=" Log10 Seed mass model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+ 
+@
+
+<<label= suppTableLNC, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
+load("..//..//analyses/traits/output/lnc_raw_37spp_wp.Rda")
+#get_variables(mdl.traitphen)
+
+sumt <- summary(mdl.traitphen)$summary
+
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
+
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp", # muAlphaForce
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto",
+                 "sigma_sp",
+                 "sigma_study",
+                 "sigma_traity",
+                 "sigmaPhenoSp",
+                 "sigmaForceSp",
+                 "sigmaChillSp",
+                 "sigmaPhotoSp", #sigma_alpha_photo
+                 "sigmapheno_y")
+esti <- sumt[mu_params, col4table]
+
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("mu_grand",
+                  "muPhenoSp",
+                  "muForceSp",
+                  "muChillSp",
+                  "muPhotoSp",
+                  "betaTraitxForce",
+                  "betaTraitxChill",
+                  "betaTraitxPhoto",
+                  "sigma_sp",
+                  "sigma_study",
+                  "sigma_traity",
+                  "sigmaPhenoSp",
+                  "sigmaForceSp",
+                  "sigmaChillSp",
+                  "sigmaPhotoSp",
+                  "sigmapheno_y")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+print(xtable(esti.table , caption="LNC model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+ 
+@
 \end{document}

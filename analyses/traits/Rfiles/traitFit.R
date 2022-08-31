@@ -172,6 +172,7 @@ for(traiti in 1:length(traitModelNames)){
 			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
 			geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 			theme_classic() +  
+		  scale_y_discrete(limits=rev) +
 			theme(text = element_text(size=16))+
 	 			 geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
 	 			 labs(title = "Log Seed Mass", y = "Species", x =expression(Log[10]~Trait~Value))+ 
@@ -192,6 +193,7 @@ for(traiti in 1:length(traitModelNames)){
 			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
 				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 				theme_classic() +  
+		    scale_y_discrete(limits=rev) +
 				theme(text = element_text(size=16))+
 	  		geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
 	  		labs(title = "Height (m)", y = "Species", x ="Trait Value")+ 
@@ -212,6 +214,7 @@ for(traiti in 1:length(traitModelNames)){
 			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
 				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 				theme_classic() +  
+		    scale_y_discrete(limits=rev) +
 				theme(text = element_text(size=16))+
 	  		geom_point(data = meanRealTrait, aes(x = meanTrait,y = species, colour = "purple"), shape = 8, size = 3)+
 	  		labs(title = traitName, y = "Species", x ="Trait Value")+ 
