@@ -291,7 +291,7 @@ TraitDistributions (current Fig 4)
 \begin{enumerate}
 \item Quick overview of models again ... (but try not to repeat ourselves from methods)
 \begin{enumerate}
-\item Our models jointly estimated species traits and the phenological cues to understand connections between phenology (specifically days to budburst) and other plant traits. %EMW16Aug2022: Did we ever plan to ref the concept + data figure here? I can't recall where I suggested it but here could work maybe. 
+\item Our models jointly estimated species traits and the phenological cues to understand connections between phenology (specifically days to budburst) and other plant traits.
 \item Because we drew on large trait databases for our analyses we partitioned trait variation due to species versus study-level effects. We then used the species-level estimates of traits (ie., estimates of species with study removed) to examine how traits predicted phenological cues, which in turn predict budburst, while allowing for residual variation in cues to be explained by a species effect. %EMW4Sep2022: This is a good transition to next section
 \item (Move to methods): This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow them to be jointly estimated at once. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue. 
 \end{enumerate}
@@ -299,30 +299,25 @@ TraitDistributions (current Fig 4)
 
 \item Review of trait model part ... comparing study variation to species level variation
 \begin{enumerate}
-% EMW2Jul -- redo below to reference figure, and perhaps open with height -Done!
-%EMW16Aug2022: First two #s are identical, so fix. 
-%EMW4Sep2022: #s are identical
+
 \item Across our models, we found important study-level variation across traits. 
-\item In our height model, study level variaition was greater (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaStudy}) (Fig. \ref{fig:sigmaDensities}). 
+\item In our height model, study level variaition was greater (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaSp}) (Fig. \ref{fig:sigmaDensities}). 
 \item In contrast, study level variation in our SLA model was approximately half the value of the species level variations (\Sexpr{slaSigmaSp} and \Sexpr{slaSigmaStudy} respectivley).
-\item In the seed mass and LNC models it was considerably less than that of the species level variation (seed mass: \Sexpr{seedSigmaSp}, \Sexpr{seedSigmaStudy}; LNC: \Sexpr{slaSigmaSp}, \Sexpr{slaSigmaStudy} for species and study level variation respectivley)  (Fig. \ref{fig:sigmaDensities}). 
+\item In the seed mass and LNC models it was considerably less than that of the species level variation (seed mass: \Sexpr{seedSigmaSp}, \Sexpr{seedSigmaStudy}; LNC: \Sexpr{lncSigmaSp}, \Sexpr{lncSigmaStudy} for species and study level variation respectivley)  (Fig. \ref{fig:sigmaDensities}). 
 % \item ...provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3).  DL: what do you mean by this? Report the muSp and CI for species that we have good estimates for and for species we have bad estimates for?
 %\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
 \end{enumerate}
 
 \item Very short paragraph reminding audience of the model and connecting figure on cue-trait relationships. 
-% EMW2Jul -- should current Fig 3 move up to after the sigmas one and before Fig 2 (full model figure)?
-% Also, are we adding co nceptual part to current Fig 1? I can then help more with the caption. 
-%EMW16Aug2022: Are the figure references below correct? I wanted to check before commenting as I was not always sure. 
 %EMW4Sep2022: first fig ref should be TraitDistributions (if we keep in main text; did we decide? ... just now I like it)
+%DL5Sep2022: We didn't decide, but I would be happy to keep it in the main text and move the model fit (fig 4) to the supplement.
 \begin{enumerate}
 \item We next combined these trait-level estimates (Fig. \ref{fig:cuetraits}) with data on forcing, chilling and photoperiod values from a large meta-analysis of experiments to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). 
 \item For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f in Fig \ref{fig:cuetraits}), while for others traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}). 
 \item 
 \end{enumerate}
 
-% The below would be a strong place to start ... why not start with this paragraph?
-% DL: I like the idea of havinging figure 1 and 3 discussed in the same paragraph, so I am going to use your suggested text above and leave this second as the second section
+%Dl - keeping the below comment to keep in in my thoughts
 % EMW2Jul  -- I wonder if 'responses to changes in cues level' or similar is the best way to explain all of this? We may sometimes want to say that traits were not predictive of responses (see above)? Or I think I like what you had but I cut: differed in whether they led to greater advances (earlier budburst) with increasing cues. I think things like 'taller species had larger responses to chilling' also work. 
 \item Discuss how Height and SLA were partially in line with predictions %EMW16Aug2022: Can you jot down own predictions at end of intro so I can refer back?
 \begin{enumerate}
