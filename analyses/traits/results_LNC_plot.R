@@ -1,9 +1,9 @@
-# rm(list=ls())
-# options(stringsAsFactors = FALSE)
+rm(list=ls())
+options(stringsAsFactors = FALSE)
 ## Load libraries
-# library(rstan)
-# require(shinystan)
-# library(hdrcde) ## better quantiles
+library(rstan)
+require(shinystan)
+ library(hdrcde) ## better quantiles
 # 
 # ## Set seed
 # set.seed(202109)
@@ -17,9 +17,9 @@
 #     ospree <- read.csv("../../data/Ospree_traits/bbstan_allspp.utah.csv", stringsAsFactors = FALSE, header = TRUE)
 #     posterior_lnc <- extract(readRDS(file = "../../data/Ospree_traits/LNC_stanfit.RDS"))
 # } else{
-#     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-#     traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-#     ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
+     traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+    traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+    ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
      posterior_lnc <- rstan::extract(readRDS(file = "output/LNC_stanfit_37spp_wp.RDS"))
 # #     posterior_lncOld <- extract(readRDS(file = "output/LNC_stanfit.RDS"))
 # # }
@@ -62,7 +62,7 @@ betaTraitPhotoeff <- mean(posterior_lnc$betaTraitxPhoto) # -0.02442036
 # betaTraitPhotoeff.26 <- mean(posterior_lncOld$betaTraitxPhoto) # -0.09637305
 
 ## Species to plot and other plotting parameters
-plot.sp <- c("Quercus_ilex", "Fagus_grandifolia") 
+plot.sp <- c("Quercus_ilex","Alnus_incana") 
 col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9))
 col1.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2))
 col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
@@ -76,7 +76,7 @@ xrange <- seq(-2.5, 2.5, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$forceadj1 <- ospreeBB$response.time
     for(j in 1:nrow(ospreeBB)){
-        ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospreeBB$chill.z[j] - photoeff * ospreeBB$photo.z[j]
+        ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - chilleff * ospreeBB$chill.z[j] - photoeff * ospreeBB$photo.z[j]
     }
 
 
@@ -97,8 +97,8 @@ for(i in 1:length(plot.sp)){
         stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$alphaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
         stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$betaForceSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
     }
-    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
-    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
+    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
+    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
     polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
 }
@@ -130,7 +130,7 @@ xrange <- seq(-2, 2, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$chilladj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
-    ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff * ospree.temp$photo.z[j]
+    ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff * ospree.temp$force.z[j] - photoeff * ospree.temp$photo.z[j]
 }
 
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$chilladj1), max(ospreeBB$chilladj1)),
@@ -150,8 +150,8 @@ for(i in 1:length(plot.sp)){
         stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$alphaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
         stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$betaChillSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
     }
-    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
-    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
+    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
+    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
     polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
 }
@@ -183,7 +183,7 @@ xrange <- seq(-2.5, 2.5, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$photoadj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
-    ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff * ospree.temp$chill.z[j]
+    ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff * ospree.temp$force.z[j] - chilleff * ospree.temp$chill.z[j]
 }
 
 plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), max(ospreeBB$photoadj1)),
@@ -203,8 +203,8 @@ for(i in 1:length(plot.sp)){
         stor1[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$alphaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
         stor2[k, ] <- rnorm(n = length(xrange), mean = posterior_lnc$alphaPhenoSp[k, which(specieslist == plot.sp[i])] + posterior_lnc$betaPhotoSp[k, which(specieslist == plot.sp[i])] * xrange, sd = posterior_lnc$sigmapheno_y[k])
     }
-    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
-    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdr(X, prob = c(50))$hdr[1, ])
+    temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
+    temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
     polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
 }
@@ -217,7 +217,7 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
-legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Fagus grandifolia"), ")")),
+legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
                               expression(paste("Conservative  (", italic("Quercus ilex"), ")")),
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
