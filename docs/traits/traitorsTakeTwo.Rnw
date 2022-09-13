@@ -137,7 +137,7 @@ Invasive plants are shaping plant communities worldwide, filling vacant niches a
 \end{enumerate}
 
 {\bf Some text for intro and methods... } \\ % There's probably two goals of trait ecology -- improve mechanistic understanding and effectively 'getting rid of species' 
-A major goal of trait ecology has been to predict species-level characteristics by their traits alone; to do this, we need to be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
+A major goal of trait ecology has been to predict species-level characteristics by their traits alone. If successful, we would then be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
 \\ While phenology in observational data is often considered highly variable, it is actually highly predictable in experiments where the major cues (forcing, chilling, photoperiod) are known and thus we focus on cues here. 
 
 \section{Predictions}
@@ -184,8 +184,17 @@ Trait data for ten functional trait was received from the TRY databases for 96 o
 
 \subsection*{Joint model of trait and phenology}
 
+%EMW13Sep2022: I would try to re-do the explanation following some of what is below (but need to adjust):
+Our models jointly estimated species traits and the phenological cues to understand connections between phenology (specifically days to budburst) and other plant traits.... Because we drew on large trait databases for our analyses we partitioned trait variation due to species versus study-level effects. We then used the species-level estimates of traits (ie., estimates of species with study removed) to examine how traits predicted phenological cues, which in turn predict budburst, while allowing for residual variation in cues to be explained by a species effect)
+
+%EMW13Sep2022: Avoid 'parameter' and 'sub-models' and other mathy terms unless you absolutely need them. Plus all the assumptions are not exactly assumptions to me -- they're our model, and we need to communicate to our audience what our model does, why and how -- quickly. You do need to define your terms, but you can call something just the greek letter, you don't have to say 'parameter [greek letter].' All these things just confuse readers without adding a lot of exactness to me. 
+
+This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow them to be jointly estimated at once. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue (cite slopes (current Fig 3)). %EMW13Sep2022: I think above we can start to cite slopes figure. 
+
+%EMW13Sep2022:  Slim down to just introduce the math terms mostly, and anything else critical. 
 To understand the implications of linking traits directly to cue responses, we developed a joint hierarchical Bayesian model. Our model is composed of two sub-models, a trait model and a phenology model, that are co-estimated and linked by a shared parameter. Since each trait varied in the number of studies in which it is included as well as the number of individuals for which it is measured, we chose to model each trait separately. The first part of the joint model is a hierarchical intercept only model where the response variable $Y_{i,j}$ is the observed trait value of species $i$ from study $j$, and is assumed to be normally distributed. We further assume that the observed trait value is composed of a ``grand'' species trait value $\alpha_{\text{trait},i}$ that is shared across all individuals of a species and that is independent of environment, a hierarchical grouping term on the intercept for study, $\alpha_{\text{study},j}$, to account for study-level differences in environment or observation methods, and random error. This results in the following sub-model for each trait:
 %should we define every term in our model so we can be specific when we discuss them? I (Faith) usually do this, but our model (models?) is so long!
+%EMW13Sep2022: If this is cumbersome, we should give terms in groups -- for example 'b1, b2, b3 are slopes of the cues' etc. We can then add a full table of the terms in the supp if needed. 
 %Our model uses species-level trait values in our first model to predict species sensitivities to forcing, chilling, and photoperiod experimental cues. In addition to including partial pooling across species, the trait portion of the model includes a study level effect, thereby accounting for not only differences across species, but also the effects of methodological differences, and differences across habitats. The first model in our analysis calculates the latent variable that is then incorporated into the second phenology model. Values close to zero reflect small relationships between traits and cues values, while greater values represent high correlations between traits and phenological cues. This model was developed and validated using test data.{}
  % How much detail is needed - justify our approach or just include the model?
  %Do we include code for combining the effect of the grand mean with the species level effect?
@@ -206,8 +215,10 @@ with:
   \boldsymbol{\alpha_{\text{study}}} \sim \mathcal{N}(0,\sigma_{\alpha_{\text{study}}}) \nonumber
 \end{align}
 
+%EMW13Sep2022: Define your terms, but skip extras -- for example, "The mean effect of study is assumed to be centered at $0$ with standard deviation $\sigma_{\alpha_{\text{study}}}" is just writing out what the math says -- add it to the equation if it not there already and done. 
 Parameters $\mu_{\alpha_{\text{trait}}}$ and $\sigma_{\alpha_{\text{trait}}}$ represent the mean trait value across all species and the standard deviation in trait values between species, respectively. The mean effect of study is assumed to be centered at $0$ with standard deviation $\sigma_{\alpha_{\text{study}}}$.\\
 
+%EMW13Sep2022: Again, this is spelling out what the math says (it's like someone read the math aloud -- this is multiplied by that etc. -- we assume our readers understand basic equations and basic math) and not very necessary. We do need to define terms, but see above for our goals here. 
 The second part of the joint model is a hierarchical linear model where the normally distributed response variable $Z_{i,k}$ is the day of budburst for species $i$ experiencing forcing ($F_k$), chilling ($C_k$), and photoperiod ($P_k$). This sub-model is linked to the trait sub-model via the shared parameters $\alpha_{\text{trait},i}$, representing the ``grand'' trait values of species that are independent of study. The overall structure of the phenology sub-model is similar to that of (Ettinger2020), except species' responses to forcing ($\beta_{\text{force},i}$), chilling ($\beta_{\text{chill},i}$), and photoperiod ($\beta_{\text{photo},i}$) are treated not as single parameters but as a combination of parameters, a species-specific response that is independent of its trait value (e.g., $\alpha_{\text{force},i}$) and an effect of its trait value (e.g., $\beta_{\text{trait}.\text{force}}$) that is multiplied by $\alpha_{\text{trait},i}$ and does not differ between species. In other words, species responses to cues interact with their ``grand'' trait values, and we assume this interaction is independent of species identity. The phenology sub-model can thus be written as:
 
 \begin{equation}
@@ -243,7 +254,7 @@ Parameters $\mu_{\alpha_{\text{pheno}}}$, $\mu_{\alpha_{\text{force}}}$, $\mu_{\
 Forcing, chilling, and photoperiod ($F_k$, $C_k$, $P_k$) were z-scored to account for differences in the scale of predictors across studies (Gelman2006) %what is this citation? Gelman and Hill - 2007?
 , as well as differences in the natural units for the cues. We assumed parameters had weakly informative prior distributions (generally normal or half-normal distributions) that we obtained from a series of prior predictive checks where the objective was to produce a wide but also plausible range of trait and phenology values (e.g., budburst dates between days $0-365$). The joint model was coded in the Stan programming language (Stan citation) and fit to the trait and phenology data (see above) using the rstan package (version, citation). For all traits, model fits were deemed valid based on \textit{Stan's} diagnostic metrics, including no divergences across $1000$ iterations, high effective sample size (\textit{n\_eff}), and scale reduction factor $\hat{R}$ close to 1 across $4$ chains. We quantify 90\% uncertainty interval interval of posterior distributions using the highest probability density index.   
 
-% add paragraph about priors
+% add paragraph about priors %EMW13Sep2022: or a sentence or two max -- seems like you have them above I think. 
 We selected our priors using our prior knowledge of functional trait diversity in deciduous species and cue responses. In doing so, we assume that stronger environmental cues will result in earlier budburst dates, as reflected by negative cue values. Priors of the phenology portion of our model reflect this, and are centered on negative values. 
 
 % \begin{align*}
@@ -269,6 +280,7 @@ We selected our priors using our prior knowledge of functional trait diversity i
 %As such, we model each trait individually using the same model specified above, but with the appropriate priors for each trait. Priors were tested using prior predictive checks. All analyses were done in Stan (version) using the rstan package (version) in R (version). 
 
 % I wrote this up in case we want to include it
+%EMW13Sep2022: Nice!
 Finally, we used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). \\
 
 
@@ -284,7 +296,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 \iffalse
 sigmaDensities (current Fig 1) 
 cuetraits (current Fig 2) 
-slopes (current Fig 3) -- can you label briefly what each of the three top panels shows (I actually recommend starting an issue on this so we can iterate on it quickly)? The middle is when the trait does not matter? But the other two show what -- are they same outcome with just aquisiitive vs. conservative flipped?
+slopes (current Fig 3) 
 TraitDistributions (current Fig 4)
 \fi
 
@@ -293,9 +305,7 @@ TraitDistributions (current Fig 4)
 \begin{enumerate}
 \item Our models jointly estimated species traits and the phenological cues to understand connections between phenology (specifically days to budburst) and other plant traits.
 \item Because we drew on large trait databases for our analyses we partitioned trait variation due to species versus study-level effects. We then used the species-level estimates of traits (ie., estimates of species with study removed) to examine how traits predicted phenological cues, which in turn predict budburst, while allowing for residual variation in cues to be explained by a species effect. %EMW4Sep2022: This is a good transition to next section
-\item (Move to methods): This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow them to be jointly estimated at once. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue. 
 \end{enumerate}
-
 
 \item Review of trait model part ... comparing study variation to species level variation
 \begin{enumerate}
@@ -311,6 +321,7 @@ TraitDistributions (current Fig 4)
 \item Very short paragraph reminding audience of the model and connecting figure on cue-trait relationships. 
 %EMW4Sep2022: first fig ref should be TraitDistributions (if we keep in main text; did we decide? ... just now I like it)
 %DL5Sep2022: We didn't decide, but I would be happy to keep it in the main text and move the model fit (fig 4) to the supplement.
+%EMW13Sep2022: Let's do that then.
 \begin{enumerate}
 \item We next combined these trait-level estimates (Fig. \ref{fig:cuetraits}) with data on forcing, chilling and photoperiod values from a large meta-analysis of experiments to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). 
 \item For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while for others traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}). 
@@ -322,12 +333,17 @@ TraitDistributions (current Fig 4)
 \begin{enumerate}
 \item Across traits, height, SLA, and LNC showed the greatest responses to changes in cues level, though the direction of responses were consistent across cues for only LNC and not height or SLA (Fig. \ref{fig:cuetraits} a-f and j-l). 
 %DLSept6 I can change the order of the traits in the plot if this makes it into the final version so it will be a-i
+%EMW13Sep2022: Yes, we should do that eventually. Not critical now, but good to remember to do. 
 \item Taller species had extremely weak responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}).
 \item However, as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}, both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. 
+%EMW13Sep2022: I really like the above sentence -- well done in reminding the readers (me included) of the strategies. Can we transition with that to the next sentence somehow? For example, 'Species conservative in SLA (species low in SLA, which produce thicker leaves with a relatively higher investment in leaf mass) also generally followed these trends, as we predicted (did we predict that? If not, try to adjust), though only for chilling. Across the range of trait values, low SLA (conservative) species did generally have a greater advance in budburst in response to chilling than high SLA (acquisitive species) (\ref{fig:cuetraits} b) ... [and then try to reverse the rest and end on forcing and photoperiod.]
+%EMW13Sep2022: Can you next just say relationships with forcing and photoperiod were weak? I am not sure why we need 'While our model did estimate stronger photoperiod cues as photoperiod increased'? Do you mean SLA? If you do, I would introduce photoperiod first -- as in line with predictions, but weak and then forcing as no relationship. 
 \item High SLA species, which produce thin leaves with a relatively lower investment in leaf mass, had weaker forcing cues, contrary to our predictions, resulting in delayed budburst as forcing cues increased ((\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}). However, as we predicted, chilling cues were also weak (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}). Across the range of trait values, low SLA (conservative) species did generally have a greater advance in budburst in response to chilling than high SLA (acquisitive species) (\ref{fig:cuetraits} b), again following the predicted gradient in growth strategies.
 \item While our model did estimate stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}) as photoperiod increased, the effect on budburst dates were negligible (\ref{fig:cuetraits}), suggesting no relationship between SLA and photoperiod. 
-%DL6Sept: the use of the word stronger might be confusing given that the bands are pretty flat, would it be less confusing to say "resulting in delaying effects"?
-\item We found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates, showed weaker trait responses to all three cues, resulting in delayed budburst when trait effects were accounted for  (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}; \Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}; and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval:\Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}. These findings are partially in line with our predictions as we predicted that LNC would have a weak relationship with chilling, but contrary to our predictions, increases in forcing and photoperiod also produced weaker, delaying effects on budburst.  
+%DL6Sept: the use of the word stronger might be confusing given that the bands are pretty flat, would it be less confusing to say "resulting in delaying effects"? %EMW13Sep2022: see above
+%EMW13Sep2022: Can we remind again here below of which is conservative?
+\item We found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates, showed weaker trait responses to all three cues, resulting in delayed budburst when trait effects were accounted for  (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}; \Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}; and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval:\Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}. These findings are partially in line with our predictions as we predicted that LNC would have a weak relationship with chilling, but contrary to our predictions, increases in forcing and photoperiod also produced weaker, delaying effects on budburst.  %EMW13Sep2022: Why are these weak effects? They read a fairly strong compared to height ... and they look strong in the figure. I must be missing something. Do you just mean they have a little higher uncertainty? If so, I am not sure I would try to get in the weeds on that -- focus more on what was in line or not. 
+%EMW13Sep2022: Also, can you try following the above format used for height and SLA for LNC? That is, link to conservative/aquisitive somehow as you go through predictions. You might then start with chilling again, then photoperiod and then forcing. 
 
 
 \end{enumerate}
