@@ -141,11 +141,14 @@ A major goal of trait ecology has been to predict species-level characteristics 
 \\ While phenology in observational data is often considered highly variable, it is actually highly predictable in experiments where the major cues (forcing, chilling, photoperiod) are known and thus we focus on cues here. 
 
 \section{Predictions}
-%EMW4Sep2022: Thank you! In the end, I found I just need info on SLA, so added those requests below. 
 \begin{enumerate}
 \item Chilling Species with high chilling requirements will have traits associated with greater protection from harsh conditions and higher competitive abilities, but requiring longer periods to ac- cumulate chilling and days to budburst. %EMW4Sep2022: Side note -- I know these are not how you would add them, but a reminder to keep the organization consistent -- we're  generally talking about how traits relate to cues, not how cues relate to traits ... 
 \begin{enumerate}
 \item SLA should positively correlate with increasing chill requirements since leaves with large SLA are less frost tolerant %EMW4Sep2022: So the hypothesis is not that early species have leaves that can withstand frost, but that they are more okay to lose their leaves? I would double check with Cat that this makes sense to her, or ask her to point you towards the lit on it. 
+% number trich, and water potential and water solutes
+% could be more recent 
+
+
 \item Height should positively correlate since there will be more competition for light
 \item Seed mass may negatively correlate, as later species have less time for seed development
 \end{enumerate}
@@ -309,19 +312,14 @@ TraitDistributions (current Fig 4)
 
 \item Review of trait model part ... comparing study variation to species level variation
 \begin{enumerate}
-
 \item Across our models, we found important study-level variation across traits. 
 \item In our height model, study level variation was greater (\Sexpr{htSigmaStudy}) than species level variation (\Sexpr{htSigmaSp}) (Fig. \ref{fig:sigmaDensities}). 
 \item In contrast, study level variation in our SLA model was approximately half the value of the species level variations (\Sexpr{slaSigmaSp} and \Sexpr{slaSigmaStudy} respectively).
 \item In the seed mass and LNC models it was considerably less than that of the species level variation (seed mass species level variation: \Sexpr{seedSigmaSp} and study level variation: \Sexpr{seedSigmaStudy}; LNC species level variation: \Sexpr{lncSigmaSp} and study level variation \Sexpr{lncSigmaStudy})  (Fig. \ref{fig:sigmaDensities}). 
-% \item ...provided estimates of species-level traits with lower uncertainty than simply using the raw data (Fig 3).  DL: what do you mean by this? Report the muSp and CI for species that we have good estimates for and for species we have bad estimates for?
-%\item For most (?) traits we estimated average trait values similar to averages from the raw data, but for some (examples? Maybe horse chestnut and height? Pick one with lots of data) these large study-level effects impacted species-level mean estimates. % not sure we need this...
 \end{enumerate}
 
 \item Very short paragraph reminding audience of the model and connecting figure on cue-trait relationships. 
-%EMW4Sep2022: first fig ref should be TraitDistributions (if we keep in main text; did we decide? ... just now I like it)
-%DL5Sep2022: We didn't decide, but I would be happy to keep it in the main text and move the model fit (fig 4) to the supplement.
-%EMW13Sep2022: Let's do that then.
+
 \begin{enumerate}
 \item We next combined these trait-level estimates (Fig. \ref{fig:cuetraits}) with data on forcing, chilling and photoperiod values from a large meta-analysis of experiments to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). 
 \item For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while for others traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}). 
@@ -335,14 +333,17 @@ TraitDistributions (current Fig 4)
 %DLSept6 I can change the order of the traits in the plot if this makes it into the final version so it will be a-i
 %EMW13Sep2022: Yes, we should do that eventually. Not critical now, but good to remember to do. 
 \item Taller species had extremely weak responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}).
-\item However, as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}, both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. 
-%EMW13Sep2022: I really like the above sentence -- well done in reminding the readers (me included) of the strategies. Can we transition with that to the next sentence somehow? For example, 'Species conservative in SLA (species low in SLA, which produce thicker leaves with a relatively higher investment in leaf mass) also generally followed these trends, as we predicted (did we predict that? If not, try to adjust), though only for chilling. Across the range of trait values, low SLA (conservative) species did generally have a greater advance in budburst in response to chilling than high SLA (acquisitive species) (\ref{fig:cuetraits} b) ... [and then try to reverse the rest and end on forcing and photoperiod.]
-%EMW13Sep2022: Can you next just say relationships with forcing and photoperiod were weak? I am not sure why we need 'While our model did estimate stronger photoperiod cues as photoperiod increased'? Do you mean SLA? If you do, I would introduce photoperiod first -- as in line with predictions, but weak and then forcing as no relationship. 
-\item High SLA species, which produce thin leaves with a relatively lower investment in leaf mass, had weaker forcing cues, contrary to our predictions, resulting in delayed budburst as forcing cues increased ((\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}). However, as we predicted, chilling cues were also weak (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}). Across the range of trait values, low SLA (conservative) species did generally have a greater advance in budburst in response to chilling than high SLA (acquisitive species) (\ref{fig:cuetraits} b), again following the predicted gradient in growth strategies.
-\item While our model did estimate stronger photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}) as photoperiod increased, the effect on budburst dates were negligible (\ref{fig:cuetraits}), suggesting no relationship between SLA and photoperiod. 
-%DL6Sept: the use of the word stronger might be confusing given that the bands are pretty flat, would it be less confusing to say "resulting in delaying effects"? %EMW13Sep2022: see above
+\item However, as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}), both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. 
+\item Species with low SLA, with the conservative strategy relatively higher investments in leaf mass and thicker leaves, also followed these general trends in response to chilling cues (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}), as we predicted. Across the range of trait values, low SLA (conservative) species did generally have a greater advance in budburst in response to chilling than high SLA (acquisitive species) (Fig. \ref{fig:cuetraits} b). 
+\item Species with more acquisitive growth strategies, and therefore thin leaves and a lower investment in leaf mass that leads to high SLA values, had weaker responses to photoperiod cues (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}), but in line with our predictions, increasing photoperiod did result in greater advances in budburst (Fig. \ref{fig:cuetraits} f).  
+\item Contrary to our predictions, SLA had a weak relationship with forcing cues ((\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), with high SLA individuals experiencing a slight delay in budbrst in response forcing  (Fig. \ref{fig:cuetraits} d).
+
 %EMW13Sep2022: Can we remind again here below of which is conservative?
-\item We found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates, showed weaker trait responses to all three cues, resulting in delayed budburst when trait effects were accounted for  (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}; \Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}; and \Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval:\Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}. These findings are partially in line with our predictions as we predicted that LNC would have a weak relationship with chilling, but contrary to our predictions, increases in forcing and photoperiod also produced weaker, delaying effects on budburst.  %EMW13Sep2022: Why are these weak effects? They read a fairly strong compared to height ... and they look strong in the figure. I must be missing something. Do you just mean they have a little higher uncertainty? If so, I am not sure I would try to get in the weeds on that -- focus more on what was in line or not. 
+\item We found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates and acquisitive growth, were less responsive to cues when trait effects were accounted for (Fig. \ref{fig:cuetraits} j-i)). These findings are partially in line with our predictions as we predicted that high LNC individuals (acquisitive) would be less responsive to chilling (\Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}). 
+\item But contrary to our predictions, increases in photoperiod (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval:\Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}) and forcing (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}) also produced delaying effects on budburst. 
+%EMW13Sep2022: Why are these weak effects? They read a fairly strong compared to height ... and they look strong in the figure. I must be missing something. Do you just mean they have a little higher uncertainty? If so, I am not sure I would try to get in the weeds on that -- focus more on what was in line or not. 
+%DLSept22: I think the weaker stronger language is confusing, what I meant by weaker was a less negative response (ie positive slope), so by weaker I meant that species respond less to increases in that cue.
+
 %EMW13Sep2022: Also, can you try following the above format used for height and SLA for LNC? That is, link to conservative/aquisitive somehow as you go through predictions. You might then start with chilling again, then photoperiod and then forcing. 
 
 
@@ -385,15 +386,6 @@ TraitDistributions (current Fig 4)
     % a smaller advance in budburst with increasing forcing when height effects were included % I don't fully understand this previous or the next sentence -- it reads as though we're contrasting (do we have models without height we plan to report?) ... wait, wait, I get it! You're talking about the counterfactual shown in Fig 1. I think we just keep this in a caption?s
 %     \label{fig:slopes}
 % \end{figure}
-
-
-
-\begin{figure}[h!]
-    \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
-    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modelled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
-    \label{figure:TraitDistributions}
-\end{figure}
 
 
 \section{Discussion}
