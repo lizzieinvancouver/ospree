@@ -58,7 +58,7 @@
 
 
 \section{Supplementary Material}
-\begin{landscape}
+
 <<label=suppTableHt, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
@@ -66,10 +66,31 @@ require(rstan)
 source("..//..//analyses/traits/Rfiles/sm_tables.R")
 #get_variables(mdl.traitphen)
 
-print(xtable(tabTest , caption="Data sources"), include.rownames= T, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+
+print(datasource,
+      include.rownames=FALSE, 
+      hline.after = c(-1,0,nrow(datasource)),
+      caption.placement="top",
+      tabular.environment = "longtable", 
+      floating = FALSE,
+      #align=c(rep('|c',  ncol(datasource)),'p{4in}'),
+      # tabular="\\textwidth",
+      include.colnames = TRUE, 
+      # add.to.row = list(pos = list(0),
+      #                   command = "\\hline \\endhead "),
+      # sanitize.text.function = identity
+      )
  
 @
-\end{landscape}
+
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
+    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modelled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
+    \label{figure:TraitDistributions}
+\end{figure}
 
 \begin{figure}[h!]
     \centering
@@ -242,7 +263,7 @@ print(xtable(esti.table , caption=" Log10 Seed mass model estimates"),include.ro
 <<label= suppTableLNC, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
-load("..//..//analyses/traits/output/lnc_raw_37spp_wp.Rda")
+load("..//..//analyses/traits/output/lnc_raw_37spp.Rda")
 #get_variables(mdl.traitphen)
 
 sumt <- summary(mdl.traitphen)$summary
