@@ -259,6 +259,9 @@ totallynew <- stan("stan/betan_threeslopeintercept_cp.stan",
                chains = 4,
                seed = 117 
                )
+
+summary(totallynew, pars = list("a_z", "lambda_a", "tau_a", "b_zf", "lambda_bf", "tau_bf", "b_zc", "lambda_bc", "tau_bc", "b_zp", "lambda_bp", "tau_bp", "sigma_y"))$summary
+
 }
 
 ## Fit model here ... using code that Lizzie updated priors for
