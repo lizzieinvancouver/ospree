@@ -241,9 +241,11 @@ simu_inits <- function(chain_id) {
                 phypriors))
 }
 
-## Fit model
-testme <- stan("stan/uber_threeslopeintercept_modified_cholesky.stan",
-               data=append(list(N=nrow(d),
+## Lizzie also tried to adapt a speedier PMM that Mike Betancourt sent ...
+# ... a litte faster I think, but likely not critical to use
+if(FALSE){
+totallynew <- stan("stan/betan_threeslopeintercept_cp.stan",
+               data=list(N=nrow(d),
                                 n_sp=nspecies,
                                 sp=d$sppnum,
                                 x1=d$force.z,
@@ -251,12 +253,30 @@ testme <- stan("stan/uber_threeslopeintercept_modified_cholesky.stan",
                                 x3=d$photo.z,
                                 y=d$resp,
                                 Vphy=vcv(phylo, corr = TRUE)),
-                           phypriors),
                init = simu_inits,
                iter = 2000,
                warmup = 1000,
                chains = 4,
-               seed = 117,
+               seed = 117 
+               )
+}
+
+## Fit model here ... using code that Lizzie updated priors for
+# It ran for Lizzie in well under and hour on her laptop
+testme <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan",
+               data=list(N=nrow(d),
+                                n_sp=nspecies,
+                                sp=d$sppnum,
+                                x1=d$force.z,
+                                x2 = d$chill.z,
+                                x3=d$photo.z,
+                                y=d$resp,
+                                Vphy=vcv(phylo, corr = TRUE)),
+               init = simu_inits,
+               iter = 2000,
+               warmup = 1000, # half the iter as warmp is default FYI
+               chains = 4,
+               seed = 117 
 )
 
 ## Save fitted posterior
@@ -267,6 +287,39 @@ summary(testme)$summary
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
 summary(testme, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+
+## Compare prior and posterior
+# Plotting f(x) from Mike Betancourt
+c_dark <- c("#8F2727")
+c_dark_highlight <- c("#7C0000")
+
+plot_marginal <- function(values, name, display_xlims, title="") {
+  bin_lims <- range(values)
+  delta <- diff(bin_lims) / 50
+  breaks <- seq(bin_lims[1], bin_lims[2] + delta, delta)
+  
+  hist(values, breaks=breaks, prob=T,
+       main=title, xlab=name, xlim=display_xlims,
+       ylab="", yaxt='n',
+       col=c_dark, border=c_dark_highlight)
+}
+
+post_samples <- extract(testme)
+plot_marginal(post_samples$b_zc, "b_zc", c(-20, 2))
+
+# Prior for b_zc us normal(-2, 10) so I think the below works ... 
+yhere <- dnorm(x=seq(-20, 2, by=0.01), mean=-2, sd=10)
+points(x=seq(-20, 2, by=0.01), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+
+plot_marginal(post_samples$lam_interceptsbc, "Lambda for chilling", c(-0.1, 1.1))
+yhere <- dbeta(x=seq(-0.1, 1.1, by=0.001), 1, 1)
+points(x=seq(-0.1, 1.1, by=0.001), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+# We could, err, functionalize this or clean up in many ways ... but it's a start!
+## END compare prior and posterior
+
+
 
 # Reinstating some useful plotting code
 # See also https://github.com/lizzieinvancouver/pmm/blob/5014539f8a7cfc659298d20d49a0935a8ced305d/analyses/phlyo_opsree_compact.R
