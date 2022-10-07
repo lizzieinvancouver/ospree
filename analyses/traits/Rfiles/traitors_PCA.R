@@ -4,8 +4,8 @@
 
 ## Load libraries
 
-rm(list = ls()) 
-options(stringsAsFactors = FALSE)
+# rm(list = ls())
+# options(stringsAsFactors = FALSE)
 
 library(tidyr)
 library(plyr)
@@ -16,14 +16,14 @@ library(ggbiplot)
 
 # Set working directory: 
 # Anyone else working with this code should add their info/path here
-if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
-} else if
-(length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
-} 
+# if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
+# } else if
+# (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
+# } 
 
 # Get the data
-dat1 <- read.csv("input/try_bien_nodups_1.csv") 
-dat2 <- read.csv("input/try_bien_nodups_2.csv") 
+dat1 <- read.csv("../../analyses/traits/input/try_bien_nodups_1.csv") 
+dat2 <- read.csv("../../analyses/traits/input/try_bien_nodups_2.csv") 
 
 dat <- rbind(dat1, dat2)
 names(dat)
@@ -48,18 +48,20 @@ sm <- height[!height$speciesname %in% a.lot.ht, ]
 lg <- height[height$speciesname %in% a.lot.ht, ]
 
 # now sampling for species with a lot of data
-ht <- data.frame(speciesname = character(), height = numeric())
-species <- unique(lg$speciesname)
-
-for (sp in 1: length(species)){
-    testsp <- subset(lg, speciesname == species[sp])
-    mysample <- sample_n(testsp, 5000)
-    #dfadd <- data.frame(speciesname = species[sp], traitvalue = mysample)
-    # mysample$speciesname <- species[sp]
-    ht <- rbind(ht, mysample)
-}
-
-ht.sample <- rbind(sm, ht)
+# ht <- data.frame(speciesname = character(), height = numeric())
+# species <- unique(lg$speciesname)
+# 
+# for (sp in 1: length(species)){
+#     testsp <- subset(lg, speciesname == species[sp])
+#     mysample <- sample_n(testsp, 5000)
+#     #dfadd <- data.frame(speciesname = species[sp], traitvalue = mysample)
+#     # mysample$speciesname <- species[sp]
+#     ht <- rbind(ht, mysample)
+# }
+# 
+# ht.sample <- rbind(sm, ht)
+ht.sample <- read.csv("../../analyses/traits/input/height_37spp_subsampled.csv")
+ht.sample <- ht.sample[, c("traitname", "traitvalue", "unitname", "latitude", "longitude", "piname", "speciesname", "database", "datasetid", "reference", "origref", "observationid")]
 
 trt.dat <- rbind(other.trt, ht.sample)
 #write.csv(trt.dat, "input/trt.dat.htsampled.csv")
@@ -100,52 +102,52 @@ colnames(mtrt.lab) <- c("SLA","LNC","LDMC", "LCC")
 mtrt.cc <- mtrt.lab[complete.cases(mtrt.lab), ]
 
 # making a pca for the 40 studies that have complete data for these four traits
-lab.Pca <- prcomp(mtrt.cc, center = TRUE, scale. = TRUE)
-summary(lab.Pca)
-
-ggbiplot(lab.Pca, labels = rownames(mtrt.cc))
-
-ggbiplot(lab.Pca)
+# lab.Pca <- prcomp(mtrt.cc, center = TRUE, scale. = TRUE)
+# summary(lab.Pca)
+# 
+# ggbiplot(lab.Pca, labels = rownames(mtrt.cc))
+# 
+# ggbiplot(lab.Pca)
 
 ##################################################################
 # Ideally we would use data from unique individuals to make the PCA, which is denoted by observationid
-obid <- subset(trt.dat, !is.na(observationid))
-length(unique(obid$observationid)) # we have 29292 unique obid's
-
-trt.obid <- obid %>%
-    group_by(observationid, speciesname) %>%
-    summarise(no_rows = length(unique(traitname)), .groups = "drop")
-
-temp <- subset(trt.obid, no_rows > 3)
-obid4 <- unique(temp$observationid)
-
-obid.sub <- obid[obid$observationid %in% obid4,]
-
-trts <- c("Specific_leaf_area","Leaf_nitrogen_.N._content_per_leaf_dry_mass",
-  "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass")
-
-obid.sub <- obid[obid$traitname %in% trts,]
-
-mtrt.obid <- tapply(obid.sub$traitvalue,
-                   obid.sub[c("observationid","traitname")], 
-                   mean)
-
-colnames(mtrt.obid) <- c("C", "LDMC", "N", "SLA")
-
-mtrt.obid.cc <- mtrt.obid[complete.cases(mtrt.obid), ]
-
-# making a pca for the 40 studies that have complete data for these four traits
-obid.Pca <- prcomp(mtrt.obid.cc, center = TRUE, scale. = TRUE)
-summary(obid.Pca)
-
-ggbiplot(obid.Pca, labels = rownames(mtrt.obid.cc))
-
-ggbiplot(obid.Pca)
-
-# How many species is represented in the matrix?
-obs.rep <- rownames(mtrt.obid.cc)
-spp <- obid[obid$observationid %in% obs.rep,]
-spp.obsid <- unique(spp$speciesname)
+# obid <- subset(trt.dat, !is.na(observationid))
+# length(unique(obid$observationid)) # we have 29292 unique obid's
+# 
+# trt.obid <- obid %>%
+#     group_by(observationid, speciesname) %>%
+#     summarise(no_rows = length(unique(traitname)), .groups = "drop")
+# 
+# temp <- subset(trt.obid, no_rows > 3)
+# obid4 <- unique(temp$observationid)
+# 
+# obid.sub <- obid[obid$observationid %in% obid4,]
+# 
+# trts <- c("Specific_leaf_area","Leaf_nitrogen_.N._content_per_leaf_dry_mass",
+#   "Leaf_dry_matter_content", "Leaf_carbon_.C._content_per_leaf_dry_mass")
+# 
+# obid.sub <- obid[obid$traitname %in% trts,]
+# 
+# mtrt.obid <- tapply(obid.sub$traitvalue,
+#                    obid.sub[c("observationid","traitname")], 
+#                    mean)
+# 
+# colnames(mtrt.obid) <- c("C", "LDMC", "N", "SLA")
+# 
+# mtrt.obid.cc <- mtrt.obid[complete.cases(mtrt.obid), ]
+# 
+# # making a pca for the 40 studies that have complete data for these four traits
+# obid.Pca <- prcomp(mtrt.obid.cc, center = TRUE, scale. = TRUE)
+# summary(obid.Pca)
+# 
+# ggbiplot(obid.Pca, labels = rownames(mtrt.obid.cc))
+# 
+# ggbiplot(obid.Pca)
+# 
+# # How many species is represented in the matrix?
+# obs.rep <- rownames(mtrt.obid.cc)
+# spp <- obid[obid$observationid %in% obs.rep,]
+# spp.obsid <- unique(spp$speciesname)
 #"Prunus_padus"        "Betula_albosinensis" "Ulmus_parvifolia"    "Rhododendron_simsii"
 ##############################################################################################
 ## PCA of the geometric means
@@ -176,32 +178,40 @@ rownames(mat) <- species
 mat2 <- mat[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")]
 mat2 <- mat2[complete.cases(mat2), ]
 
-write.csv(mat2, "geoPCA_mat.csv")
+#write.csv(mat2, "../../analyses/traits/geoPCA_mat.csv")
 ## Standardize (normalize) trait values
 mat.stan <- mat2[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
 ## PCA plots 
-trtGeoPca <- prcomp(mat2, center = TRUE, scale. = TRUE)
-summary(trtGeoPca)
+mat2
+# trtGeoPca <- stats::prcomp(mat.stan, center = TRUE, scale. = TRUE)
+# 
+# summary(trtGeoPca)
+# # 
+# explVar <- trtGeoPca$sdev^2 / sum(trtGeoPca$sdev^2)
+# 
+# pca1 <- format(round(explVar[1] *100, 1), nsmall =1)
+# pca2 <- round(explVar[2] *100, 1)
 
-ggbiplot(trtGeoPca, labels = rownames(mat2))
+#ggbiplot(trtGeoPca, labels = rownames(mat2))
+#ggbiplot(trtGeoPca) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-pcageom <- ggbiplot(trtGeoPca) + xlim(-3,3)
-
-
-# Finally, making a plot comparable to the one with data of multiple traits per individual
-mat.comp <- mat[, c("SLA","N","LDMC", "C")]
-mat.comp <- mat.comp[complete.cases(mat.comp), ]
-
-mat.comp <- mat.comp[c("Prunus_padus","Betula_albosinensis", "Ulmus_parvifolia","Rhododendron_simsii"),]
-mat.comp
-
-geo.obsid <- prcomp(mat.comp, center = TRUE, scale. = TRUE)
-summary(geo.obsid)
-
-ggbiplot(geo.obsid, labels = rownames(mat.comp))
-
-ggbiplot(geo.obsid)
-
-traitors_sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa",
-"Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
+# pcageom <- ggbiplot(trtGeoPca) + xlim(-3,3)
+# 
+# 
+# # Finally, making a plot comparable to the one with data of multiple traits per individual
+# mat.comp <- mat[, c("SLA","N","LDMC", "C")]
+# mat.comp <- mat.comp[complete.cases(mat.comp), ]
+# 
+# mat.comp <- mat.comp[c("Prunus_padus","Betula_albosinensis", "Ulmus_parvifolia","Rhododendron_simsii"),]
+# mat.comp
+# 
+# geo.obsid <- prcomp(mat.comp, center = TRUE, scale. = TRUE)
+# summary(geo.obsid)
+# 
+# ggbiplot(geo.obsid, labels = rownames(mat.comp))
+# 
+# ggbiplot(geo.obsid)
+# 
+# traitors_sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa",
+# "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")

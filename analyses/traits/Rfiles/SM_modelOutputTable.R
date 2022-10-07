@@ -52,7 +52,7 @@ htChillMax <- max(htChillSpMean)
 # species with the largest chill response - 7 and 29
 # "Betula_papyrifera", "Quercus_ilex" 
 
-muSp <- apply(posterior_sm$muSp, MARGIN = 2, FUN = mean)
+#muSp <- apply(posterior_sm$muSp, MARGIN = 2, FUN = mean)
 
 #species with the smallest chill response - "Betula_populifolia" 
 ##### SLA ###############################
@@ -75,7 +75,7 @@ upper_slaBPSpMean <- as.numeric(round(HPDI(data.frame(slaModelFit$betaTraitxPhot
 slaBPSpMean; lower_slaBPSpMean; upper_slaBPSpMean
 
 ##### LNC ###############################
-lncModel <- readRDS(paste("../../analyses/traits/output/", "LNC_stanfit_37spp_wp.RDS", sep = ""))
+lncModel <- readRDS(paste("../../analyses/traits/output/", "LNC_stanfit_37spp.RDS", sep = ""))
 lncModelFit <- rstan::extract(lncModel)
 
 lncBFSpMean <- as.numeric(round(mean(lncModelFit$betaTraitxForce),1))
@@ -93,7 +93,7 @@ lower_lncBPSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxPhot
 upper_lncBPSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxPhoto), prob = 0.90)[2],1))
 lncBPSpMean; lower_lncBPSpMean; upper_lncBPSpMean
 
-lncmuSp <- apply(posterior_sm$muSp, MARGIN = 2, FUN = mean)
+#lncmuSp <- apply(posterior_sm$muSp, MARGIN = 2, FUN = mean)
 
 
 ##### seed mass  ###############################
@@ -114,6 +114,7 @@ smBPSpMean <- as.numeric(round(mean(smModelFit$betaTraitxPhoto),1))
 lower_smBPSpMean <- as.numeric(round(HPDI(data.frame(smModelFit$betaTraitxPhoto), prob = 0.90)[1],1))
 upper_smBPSpMean <- as.numeric(round(HPDI(data.frame(smModelFit$betaTraitxPhoto), prob = 0.90)[2],1))
 smBPSpMean; lower_smBPSpMean; upper_smBPSpMean
+
 
 smchill <- data.frame(smModelFit$alphaChillSp)
 smChillSpMean <- colMeans(smchill)
@@ -259,32 +260,48 @@ upper_smMin <- as.numeric(round(HPDI( as.vector(longMeans$traitMean[longMeans$sp
 load("../../analyses/traits/output/height_raw_37spp_wp.Rda")
 htSum <- summary(mdl.traitphen)$summary 
 
-htSigmaSp <- as.numeric(round((htSum[grep("sigma_sp", rownames(htSum)), "mean"]),2))
-htSigmaStudy <- as.numeric(round((htSum[grep("sigma_study", rownames(htSum)), "mean"]),2))
+htSigmaSp <- as.numeric(round((htSum[grep("sigma_sp", rownames(htSum)), "mean"]),1))
+htSigmaStudy <- as.numeric(round((htSum[grep("sigma_study", rownames(htSum)), "mean"]),1))
 
 #SLA
 load("../../analyses/traits/output/sla_raw_37spp_wp.Rda")
 slaSum <- summary(mdl.traitphen)$summary 
 
-slaSigmaSp <- as.numeric(round((slaSum[grep("sigma_sp", rownames(slaSum)), "mean"]),2))
-slaSigmaStudy <- as.numeric(round((slaSum[grep("sigma_study", rownames(slaSum)), "mean"]),2))
+slaSigmaSp <- as.numeric(round((slaSum[grep("sigma_sp", rownames(slaSum)), "mean"]),1))
+slaSigmaStudy <- as.numeric(round((slaSum[grep("sigma_study", rownames(slaSum)), "mean"]),1))
 
 #seed
 load("../../analyses/traits/output/seedmasslog10_raw_37spp_wp.Rda")
 seedSum <- summary(mdl.traitphen)$summary 
 
-seedSigmaSp <- as.numeric(round((seedSum[grep("sigma_sp", rownames(seedSum)), "mean"]),2))
-seedSigmaStudy <- as.numeric(round((seedSum[grep("sigma_study", rownames(seedSum)), "mean"]),2))
+seedSigmaSp <- as.numeric(round((seedSum[grep("sigma_sp", rownames(seedSum)), "mean"]),1))
+seedSigmaStudy <- as.numeric(round((seedSum[grep("sigma_study", rownames(seedSum)), "mean"]),1))
 
 #LNC
-load("../../analyses/traits/output/lnc_raw_37spp_wp.Rda")
+load("../../analyses/traits/output/lnc_raw_37spp.Rda")
 lncSum <- summary(mdl.traitphen)$summary 
 
-lncSigmaSp <- as.numeric(round((lncSum[grep("sigma_sp", rownames(lncSum)), "mean"]),2))
-lncSigmaStudy <- as.numeric(round((lncSum[grep("sigma_study", rownames(lncSum)), "mean"]),2))
+lncSigmaSp <- as.numeric(round((lncSum[grep("sigma_sp", rownames(lncSum)), "mean"]),1))
+lncSigmaStudy <- as.numeric(round((lncSum[grep("sigma_study", rownames(lncSum)), "mean"]),1))
 
+# Values for methods: #####################################
+# PCA:
 
+pca1 <- 32.0
+pca2 <- 24.2
 
+# tried sourcing code and extracting numbers, but always got the error message:
+#cannot rescale a constant/zero column to unit variance.
+
+# source("../../analyses/traits/rfiles/traitors_PCA.R")
+# 
+# trtGeoPca <- stats::prcomp(mat2, center = TRUE, scale. = TRUE)
+# explVar <- trtGeoPca$sdev^2 / sum(trtGeoPca$sdev^2)
+# 
+# pca1 <- format(round(explVar[1] *100, 1), nsmall =1)
+# pca2 <- round(explVar[2] *100, 1)
+# 
+# str(mat2)
 # load("output/sla_raw_37spp_wp.Rda")
 # #get_variables(mdl.traitphen)
 # 
@@ -330,7 +347,7 @@ lncSigmaStudy <- as.numeric(round((lncSum[grep("sigma_study", rownames(lncSum)),
 # 
 # esti.table <- sumt[mu_params, col4table]
 # row.names(esti.table) <- row.names(esti)
-# 
+
 # write.csv(esti.table, "slaMdlOutput.csv", row.names = T)
 
 

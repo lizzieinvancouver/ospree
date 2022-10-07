@@ -50,7 +50,7 @@
 % more optionals! %
 
 %\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
-\externaldocument[supp-]{Traitors_Manuscript_supp}
+\externaldocument[supp-]{Traitors_Manuscript_supp.Rnw}
 
 %%% end preambling. %%%
 
@@ -177,6 +177,12 @@ A major goal of trait ecology has been to predict species-level characteristics 
 \fi
 
 \section{Methods - pre-outline methods}
+<<label=runcode1,  echo=FALSE>>=
+#setwd("../../analyses/traits")
+
+source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
+
+@
 
 For our analysis, we combined phenological data from the OSPREE database (Ettinger2020) with functional trait data from the TRY(Kattge2020) and BIEN (Enquist2016) trait databases. \\
 
@@ -186,12 +192,12 @@ The OSPREE database contains phenological data for woody, deciduous species from
 \item (budburst OR leaf-out) AND (photoperiod OR daylength) AND temperature* 
 \item (budburst OR leaf-out) AND dorman*.
 \end{itemize}
- From this subsequent review, we an additional 12 papers met our selection criteria. For additional information on the construction of the OSPREE database and methods of cue estimates, see (OSPREE). Our analysis used all available budburst data for our 37 focal species, with the data originating from 28 unique studies. \\ % If other ms are published first, do we need to also include this?
+ From this subsequent review, we added an additional 12 papers that met our selection criteria. For additional information on the construction of the OSPREE database and methods of cue estimates, see (Ettinger2020). Our analysis used all available budburst data for our 37 focal species, with the data originating from 28 unique studies. \\ % If other ms are published first, do we need to also include this?
 
 %Describe TRY and BIEN breifly 
 Both TRY and BIEN are large databases compiling plant trait data across many individuals, species, and studies. We initially collected all available trait data for the 234 species for which there is budburst data in the OSPREE database. 
 
-Trait data for ten functional trait was received from the TRY databases for 96 of our species (Table S1 - table of requested traits for each database). Additional trait Data was also obtained from the BIEN database using the BIEN R package (Maitner2017). All trait data were requested or downloaded in December 2018. For our analysis, we only included trait data from adult individuals with a minimum height of 1.42 m and we removed all data from experiments or growing in non-natural habitats. Traits were also grouped where appropriate, for example, with separate entries for SLA values with petioles, without petioles, and for which no petiole presence was specified were all categorized as simply SLA in our analysis (see Table S1). Duplicated data across the datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait. This resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principle component explained 32.2\% of variation while the second explained 23.4\% of the variation (Fig. S1). Due to strong association between the SLA and LDMC leaf traits, and similarly between stem specific density (SSD) and height, we further reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species we could include in our analysis as we had had at least one trait measurement for 37 species (height n = 47781, seed mass n = 281, LNC n = 3853, SLA n = 7656). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis (n = 27318). This reduces the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded seed mass data from the HE Marx dataset from BIEN, as it consisted of only one value, making it challenging to include the study level effect in our model.\\ 
+Trait data for ten functional trait was received from the TRY databases for 96 of our species (Table S1 - table of requested traits for each database). Additional trait Data was obtained from the BIEN database using the BIEN R package (Maitner2017). All trait data were requested or downloaded in December 2018. We only included trait data from adult individuals with a minimum height of 1.42 m and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as simply SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, whichr resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principle component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between the SLA and LDMC leaf traits, and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species we could include in our analysis as we had had at least one trait measurement for 37 species (height n = 47781, seed mass n = 281, LNC n = 3853, SLA n = 7656). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis (n = 27318). This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study level effect in our model.\\ 
 
 \subsection*{Joint model of trait and phenology}
 
@@ -200,12 +206,12 @@ Our models jointly estimated species traits and the phenological cues to underst
 
 %EMW13Sep2022: Avoid 'parameter' and 'sub-models' and other mathy terms unless you absolutely need them. Plus all the assumptions are not exactly assumptions to me -- they're our model, and we need to communicate to our audience what our model does, why and how -- quickly. You do need to define your terms, but you can call something just the greek letter, you don't have to say 'parameter [greek letter].' All these things just confuse readers without adding a lot of exactness to me. 
 
-This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow them to be jointly estimated at once. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue (cite slopes (current Fig 3)). %EMW13Sep2022: I think above we can start to cite slopes figure. 
+This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow use to jointly estimate species trait effects and responses to phenological cues. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue (cite slopes (current Fig 3)). %EMW13Sep2022: I think above we can start to cite slopes figure. 
 
 %EMW13Sep2022:  Slim down to just introduce the math terms mostly, and anything else critical. 
 \begin{enumerate}
 \item To study the direct link between traits and cue responses, we developed a joint hierarchical Bayesian model that consists of both a trait model and a phenology model.
-\item We modeled traits indiviudally due to variation in study number and the number of individual trait measurements.
+\item Each trait was modeled indiviudally because of differences in study number and the number of individual trait measurements.
 \item The first part of the joint model is a hierarchical intercept only model where $Y_{i,j}$ is the observed trait value of species $i$ from study $j$.
 \item The observed trait value is composed of $\alpha_{\text{trait},i}$, the ``grand'' species trait value across all individuals of a species independent of environment, and the study level variation, $\alpha_{\text{study},j}$ that represents study-level differences in environment or observation methods, and random error.
 \end{enumerate}
@@ -219,7 +225,7 @@ This results in the following sub-model for each trait:
  %Do we include code for combining the effect of the grand mean with the species level effect?
 \begin{equation}
 \label{TraitsLine_main}
-Y_{i,j} \sim \mathcal{N}( \mu_{i,j}, \sigma_{\text{trait}})
+Y_{i,j} \sim normal( \mu_{i,j}, \sigma_{\text{trait}})
 \end{equation}
 where $\sigma_{\text{trait}}$ represents random error in the trait value (i.e., independent of study or species) and:
 \begin{equation}
@@ -229,9 +235,9 @@ where $\sigma_{\text{trait}}$ represents random error in the trait value (i.e., 
 with:
 \begin{align}
 \boldsymbol{\alpha_{\text{trait}}} = \{\alpha_{\text{trait},1}, \ldots, \alpha_{\text{trait},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{trait}}} \sim \mathcal{N}(\mu_{\alpha_{\text{trait}}},\sigma_{\alpha_{\text{trait}}}) \\
+  \boldsymbol{\alpha_{\text{trait}}} \sim normal(\mu_{\alpha_{\text{trait}}},\sigma_{\alpha_{\text{trait}}}) \\
 \boldsymbol{\alpha_{\text{study}}} = \{\alpha_{\text{study},1}, \ldots, \alpha_{\text{study},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{study}}} \sim \mathcal{N}(0,\sigma_{\alpha_{\text{study}}}) \nonumber
+  \boldsymbol{\alpha_{\text{study}}} \sim normal(0,\sigma_{\alpha_{\text{study}}}) \nonumber
 \end{align}
 
 %EMW13Sep2022: Define your terms, but skip extras -- for example, "The mean effect of study is assumed to be centered at $0$ with standard deviation $\sigma_{\alpha_{\text{study}}}" is just writing out what the math says -- add it to the equation if it not there already and done. 
@@ -250,7 +256,7 @@ The phenology part of the joint model can thus be written as:
 
 \begin{equation}
 \label{phen_main}
-Z_{i,k}  \sim \mathcal{N}( \mu_{i,k}, \sigma_{\text{pheno}})
+Z_{i,k}  \sim normal( \mu_{i,k}, \sigma_{\text{pheno}})
 \end{equation}
 where $\sigma_{\text{pheno}}$ represents random error in budburst day and:
 \begin{equation}
@@ -267,18 +273,18 @@ with:
 and all species-specific parameters are, as in the trait sub-model, given hierarchical structure whereby:
 \begin{align}
 \boldsymbol{\alpha_{\text{pheno}}} = \{\alpha_{\text{pheno},1}, \ldots, \alpha_{\text{pheno},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{pheno}}} \sim \mathcal{N}(\mu_{\alpha_{\text{pheno}}},\sigma_{\alpha_{\text{pheno}}}) \\
+  \boldsymbol{\alpha_{\text{pheno}}} \sim normal(\mu_{\alpha_{\text{pheno}}},\sigma_{\alpha_{\text{pheno}}}) \\
 \boldsymbol{\alpha_{\text{force}}} = \{\alpha_{\text{force},1}, \ldots, \alpha_{\text{force},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{force}}} \sim \mathcal{N}(\mu_{\alpha_{\text{force}}},\sigma_{\alpha_{\text{force}}}) \nonumber \\
+  \boldsymbol{\alpha_{\text{force}}} \sim normal(\mu_{\alpha_{\text{force}}},\sigma_{\alpha_{\text{force}}}) \nonumber \\
 \boldsymbol{\alpha_{\text{chill}}} = \{\alpha_{\text{chill},1}, \ldots, \alpha_{\text{chill},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{chill}}} \sim \mathcal{N}(\mu_{\alpha_{\text{chill}}},\sigma_{\alpha_{\text{chill}}}) \nonumber \\
+  \boldsymbol{\alpha_{\text{chill}}} \sim normal(\mu_{\alpha_{\text{chill}}},\sigma_{\alpha_{\text{chill}}}) \nonumber \\
 \boldsymbol{\alpha_{\text{photo}}} = \{\alpha_{\text{photo},1}, \ldots, \alpha_{\text{photo},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{photo}}} \sim \mathcal{N}(\mu_{\alpha_{\text{photo}}},\sigma_{\alpha_{\text{photo}}}) \nonumber
+  \boldsymbol{\alpha_{\text{photo}}} \sim normal(\mu_{\alpha_{\text{photo}}},\sigma_{\alpha_{\text{photo}}}) \nonumber
 \end{align}
 
 % Parameters $\mu_{\alpha_{\text{pheno}}}$, $\mu_{\alpha_{\text{force}}}$, $\mu_{\alpha_{\text{chill}}}$, $\mu_{\alpha_{\text{photo}}}$ represent the mean budburst day, response to forcing, response to chilling, and response to photo period across all species, respectively. Parameters $\sigma_{\alpha_{\text{pheno}}}$, $\sigma_{\alpha_{\text{force}}}$ , $\sigma_{\alpha_{\text{chill}}}$ , $\sigma_{\alpha_{\text{photo}}}$ are the standard deviations between species.
 
-Parameters had weakly informative prior distributions (generally normal or half-normal distributions) that we obtained using our prior knowledge of functional trait diversity in deciduous species and cue responses and validated using a series of prior predictive checks. 
+Parameters had weakly informative prior distributions (generally normal or half-normal distributions) that we obtained using our prior knowledge of functional trait diversity in deciduous species and cue responses. Priors were also validated using a series of prior predictive checks. 
 The joint model was coded in the Stan programming language (Stan citation) and fit to the trait and phenology data (see above) using the rstan package (version, citation).
 Model fits were deemed valid based on \textit{Stan's} diagnostic metrics, including no divergences across $1000$ iterations, high effective sample size (\textit{n\_eff}), and scale reduction factor $\hat{R}$ close to 1 across $4$ chains.  
 
@@ -310,15 +316,9 @@ Model fits were deemed valid based on \textit{Stan's} diagnostic metrics, includ
 % I wrote this up in case we want to include it
 %EMW13Sep2022: Nice!
 Finally, we used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and individual traits. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). \\
-
+% DLOct6: We don't actually show any of the results from this, but presumably I should add something to the supplement? 
 
 \section{Results}
-<<label=runcode1,  echo=FALSE>>=
-#setwd("../../analyses/traits")
-
-source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
-
-@
 
 %EMWOct6: I think we're finally done with the results as an outline! Let's switch to text. I believe it's basically written if you just removed the enumerate commands and make some paragraphs. 
 % I can't tell how the audience will response to our use of small, large and whether we will be forced to add 'weak/strong' also in relation to uncertainty but I like how it reads now so suggest we wait on co-authors for feedback. 
@@ -338,12 +338,12 @@ cuetraits (current Fig 3)
 \item Because we drew on large trait databases, which combine data across many studies, for our analyses we partitioned trait variation due to species versus study-level effects. We then used the species-level estimates of traits (ie., estimates of species with study removed) to examine how traits predicted phenological cues, which in turn predicted budburst, while allowing for residual variation in cues to be explained by a species effect. %EMW4Sep2022: This is a good transition to next section
 \end{enumerate}
 
-\item Review of trait model part ... comparing study variation to species level variation
+\item Review of trait model part ... comparing study variation to species-level variation
 \begin{enumerate} %EMWOct6: Add units -- even though it's variance it's in the natural units. Or, if standardized, say 'all standardized units' for the first time a number is given in this paragraph (I also took out a lot of 'model' in this section -- it's the results, it's clear we're talking about models (I hope) based on the methods. Also, hyphenate noun-noun combos (study-level etc.). I also tried to keep it study:species more consistently when natural. 
 \item Across our models, we found study-level variation across traits that was often comparable with or greater than variation across species. 
-\item Variation across studies was greatest for height (\Sexpr{htSigmaStudy} compared to (\Sexpr{htSigmaSp} species-level variation, Fig. \ref{fig:sigmaDensities}). 
-\item For seed mass and LNC study-level variation was less than that of the species-level variation (seed mass study-level variation: \Sexpr{seedSigmaStudy};versus species level variation: \Sexpr{seedSigmaSp}; LNC study-level variation \Sexpr{lncSigmaStudy} versus species-level variation: \Sexpr{lncSigmaSp})  (Fig. \ref{fig:sigmaDensities}). 
-\item At the lowest end, study-level variation in SLA was approximately half the value of the species level variations (and \Sexpr{slaSigmaStudy} versus \Sexpr{slaSigmaSp}, respectively).
+\item Variation across studies was greatest for height (\Sexpr{htSigmaStudy} m compared to \Sexpr{htSigmaSp} m species-level variation, Fig. \ref{fig:sigmaDensities}). 
+\item For seed mass and LNC study-level variation was less than that of the species-level variation (seed mass study-level variation: \Sexpr{seedSigmaStudy} mg; versus species level variation: \Sexpr{seedSigmaSp} mg; LNC study-level variation \Sexpr{lncSigmaStudy} mg g\textsuperscript{-1} versus species-level variation: \Sexpr{lncSigmaSp} mg g\textsuperscript{-1})  (Fig. \ref{fig:sigmaDensities}). 
+\item At the lowest end, study-level variation in SLA was approximately half the value of the species level variations (and \Sexpr{slaSigmaStudy} mm\textsuperscript{2} mg\textsuperscript{-1} versus \Sexpr{slaSigmaSp} mm\textsuperscript{2} mg\textsuperscript{-1}, respectively).
 \item The magnitude of study-level variation here suggests models using large trait databases that fail to separate out study from species-level variation will misestimate species' traits. %EMWOct6: This is more discusssion-y, but I think we should try to sneak it in here. 
 \end{enumerate}
 
