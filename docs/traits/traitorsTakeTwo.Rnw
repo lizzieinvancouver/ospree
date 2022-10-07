@@ -405,7 +405,7 @@ cuetraits (current Fig 3)
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/cuetrait_wtrend_maintext.pdf} 
-    \caption{Estimated trait values for height (a-c), SLA (d-f), log10 Seed mass (g-i), and LNC (j-l), correlated against species level cue responses to forcing (a, d, g \& j), chilling (b, e, h \& k), and photoperiod cues (c, f, i \& l). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response. The 50\% confidence interval is depicted by the pink band.  The species depicted in Fig \ref{fig:slopes} are highlighted in each panel, with the acquisitive species shown in green, and the conservative species, shown in purple.}
+    \caption{Estimated trait values for height (a-c), SLA (d-f), log10 Seed mass (g-i), and LNC (j-l), correlated against species level cue responses to standarsized forcing (a, d, g \& j), chilling (b, e, h \& k), and photoperiod cues (c, f, i \& l). Parameters were estimated using our joint trait-phenology model, with the grey line depicting the mean linear relationship between estimated trait effects and the slope of the cue response and the pink band the 50\% confidence interval.  The species depicted in Fig \ref{fig:slopes} are highlighted in each panel, with the acquisitive species, such as \emph{Alnus incana} shown in green, and the conservative species, such as \emph{Quercus ilex}  (a-c & j-l) or \emph{Aesculus hippocastanum} (d-i), shown in purple.}
     \label{fig:cuetraits}
 \end{figure}
 
