@@ -200,121 +200,46 @@ Both TRY and BIEN are large databases compiling plant trait data across many ind
 Trait data for ten functional trait was received from the TRY databases for 96 of our species (Table S1 - table of requested traits for each database). Additional trait Data was obtained from the BIEN database using the BIEN R package (Maitner2017). All trait data were requested or downloaded in December 2018. We only included trait data from adult individuals with a minimum height of 1.42 m and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as simply SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, which resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principle component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between the SLA and LDMC leaf traits, and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species we could include in our analysis as we had had at least one trait measurement for 37 species (height n = 47781, seed mass n = 281, LNC n = 3853, SLA n = 7656). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis (n = 27318). This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.\\ 
 
 \subsection*{Joint model of trait and phenology}
+To understand connections between phenology and other species traits, we built a joint model for each trait (height, LMA, LNC and seed mass) with the major phenological cues (forcing, chilling, photoperiod) to predict day of year of budburst. This approach allowed us to jointly estimate species trait effects and responses to phenological cues in one model, carrying though all uncertainty across varying datasets and approaches (e.g., TRY and BIEN observational databases of traits and the database of experiments in plant phenology, OSPREE). As phenological cues are the most proximate drivers of variation in budburst (cite Ettinger2020), and appear to represent different strategies along a continuum from acquisitive to conservative, our model allow traits to influence each cue separately (cite slopes (current Fig 3)). \\
 
-%EMW13Sep2022: I would try to re-do the explanation following some of what is below (but need to adjust):
-Our models jointly estimated species traits and the phenological cues to understand connections between phenology (specifically days to budburst) and other plant traits.... Because we drew on large trait databases for our analyses we partitioned trait variation due to species versus study-level effects. We then used the species-level estimates of traits (ie., estimates of species with study removed) to examine how traits predicted phenological cues, which in turn predict budburst, while allowing for residual variation in cues to be explained by a species effect)
-
-%EMW13Sep2022: Avoid 'parameter' and 'sub-models' and other mathy terms unless you absolutely need them. Plus all the assumptions are not exactly assumptions to me -- they're our model, and we need to communicate to our audience what our model does, why and how -- quickly. You do need to define your terms, but you can call something just the greek letter, you don't have to say 'parameter [greek letter].' All these things just confuse readers without adding a lot of exactness to me. 
-
-This model is a departure from current efforts in several ways: first, while these steps would normally be done separately, our models allow use to jointly estimate species trait effects and responses to phenological cues. This allows separating out the trait versus residual species effect; second, we focus on phenological cues as predictors for day of budburst and thus allow traits to influence each cue (cite slopes (current Fig 3)). %EMW13Sep2022: I think above we can start to cite slopes figure. 
-
-%EMW13Sep2022:  Slim down to just introduce the math terms mostly, and anything else critical. 
-\begin{enumerate}
-\item To study the direct link between traits and cue responses, we developed a joint hierarchical Bayesian model that consists of both a trait model and a phenology model.
-\item Each trait was modeled individually because of differences in study number and the number of individual trait measurements.
-\item The first part of the joint model is a hierarchical intercept only model where $Y_{i,j}$ is the observed trait value of species $i$ from study $j$.
-\item The observed trait value is composed of $\alpha_{\text{trait},i}$, the ``grand'' species trait value across all individuals of a species independent of environment, and the study-level variation, $\alpha_{\text{study},j}$ that represents study-level differences in environment or observation methods, and random error.
-\end{enumerate}
-
-This results in the following sub-model for each trait:
-%EMWOct6: Switch from N to normal in the equations. N looks fancier, but normal is easier for everyone to get (this is a Gelman recommendation that I agree with). 
-%should we define every term in our model so we can be specific when we discuss them? I (Faith) usually do this, but our model (models?) is so long!
-%EMW13Sep2022: If this is cumbersome, we should give terms in groups -- for example 'b1, b2, b3 are slopes of the cues' etc. We can then add a full table of the terms in the supp if needed. 
-%Our model uses species-level trait values in our first model to predict species sensitivities to forcing, chilling, and photoperiod experimental cues. In addition to including partial pooling across species, the trait portion of the model includes a study-level effect, thereby accounting for not only differences across species, but also the effects of methodological differences, and differences across habitats. The first model in our analysis calculates the latent variable that is then incorporated into the second phenology model. Values close to zero reflect small relationships between traits and cues values, while greater values represent high correlations between traits and phenological cues. This model was developed and validated using test data.{}
- % How much detail is needed - justify our approach or just include the model?
- %Do we include code for combining the effect of the grand mean with the species-level effect?
-\begin{equation}
-\label{TraitsLine_main}
-Y_{i,j} \sim normal( \mu_{i,j}, \sigma_{\text{trait}})
-\end{equation}
-where $\sigma_{\text{trait}}$ represents random error in the trait value (i.e., independent of study or species) and:
-\begin{equation}
-\label{TraitsLine_main2}
-\mu_{i,j} = \alpha_{\text{trait},i}+\alpha_{\text{study},j}
-\end{equation}
-with:
+The joint model includes a hierarchical linear model to partition variation in observed trait values ($y_{\text{trait}[i]}$) to effects of species, study, and residual variation ($\sigma_{\text{trait}}$, sometimes called `measurement error').
+% General on eqns: Gelman and Hill discusses how to write equations starting on page 262, with some good alternatives. I like to use words instead of letters for indexing when possible (so `sp' and `study' below) and i is often used for the observation-level in statistics, so should not be used otherwise. 
+% There could be a couple things off about this equation (that we can hopefully catch and fix) but I think it works mostly. 
+% The previous draft of equations seemed to use some cool labeling techniques for equations; it would be great to add these back in, especially if we plan to reference eqn numbers (maybe less necessary if not). 
+% Ailene likes to order cues by the temporal order that they effect plants (chilling, forcing, photoperiod) -- given that we seem to find this is also the order of effect size across cues I think it seems reasonable, and I have tried to implement it. But I probably messed it up some places (and if you like this we should follow it throughout the text). 
 \begin{align}
-\boldsymbol{\alpha_{\text{trait}}} = \{\alpha_{\text{trait},1}, \ldots, \alpha_{\text{trait},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{trait}}} \sim normal(\mu_{\alpha_{\text{trait}}},\sigma_{\alpha_{\text{trait}}}) \\
-\boldsymbol{\alpha_{\text{study}}} = \{\alpha_{\text{study},1}, \ldots, \alpha_{\text{study},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{study}}} \sim normal(0,\sigma_{\alpha_{\text{study}}}) \nonumber
+\mu_{trait} & = \alpha_{\text{grand trait}} + \alpha_{\text{sp[sp]}} + \alpha_{\text{study[study id]}}\\
+\alpha_{\text{trait sp[sp]}} &  \sim normal(0, \sigma_{\alpha_{\text{trait sp}}}) \nonumber \\
+\alpha_{\text{study[study id]}} & \sim normal(0,\sigma_{\alpha_{\text{study}}}) \nonumber \\
+y_{\text{trait}[i]} & \sim normal( \mu_{trait}, \sigma_{\text{trait}}) \nonumber 
+\end{align}
+It estimates a separate value for each species ($\alpha_{\text{sp[sp]}}$), and study ($\alpha_{\text{study[study id]}}$), while partially pooling across species and studies to yield overall estimates of variance across each ($\sigma_{\alpha_{\text{sp}}}$ and $\sigma_{\alpha_{\text{study}}}$, respectively). This partial pooling (often called `random effects') controls for variation in sample size and variability to yield more accurate estimates for each species. \\
+
+These species-level estimates of traits ($\alpha_{\text{trait sp[sp id]}}$) were then used a predictors of species-level estimates of each phenological cue ($\beta_{\text{force[sp]}}$, $\beta_{\text{chill[sp]}}$, $\beta_{\text{photo[sp]}}$) 
+\begin{align}
+\beta_{\text{chill[sp]}} & = \alpha_{\text{chill}[sp]} + \beta_{\text{trait}.\text{chill}} \times \alpha_{\text{trait sp[sp]}} \nonumber \\
+\beta_{\text{force[sp]}} & = \alpha_{\text{force}[sp]} + \beta_{\text{trait}.\text{force}} \times \alpha_{\text{trait sp[sp]}} \\
+\beta_{\text{photo[sp]}} & = \alpha_{\text{photo}[sp]} + \beta_{\text{trait}.\text{photo}} \times \alpha_{\text{trait sp[sp]}} \nonumber 
 \end{align}
 
-%EMW13Sep2022: Define your terms, but skip extras -- for example, "The mean effect of study is assumed to be centered at $0$ with standard deviation $\sigma_{\alpha_{\text{study}}}" is just writing out what the math says -- add it to the equation if it not there already and done. 
-Parameters $\mu_{\alpha_{\text{trait}}}$ and $\sigma_{\alpha_{\text{trait}}}$ represent the mean trait value across all species and the standard deviation in trait values between species, respectively. \\
-%The mean effect of study is assumed to be centered at $0$ with standard deviation $\sigma_{\alpha_{\text{study}}}$.\\
+This model allows an overall effect of each trait---estimated across species---on each phenological cue ($\beta_{\text{trait}.\text{chill}}$, $\beta_{\text{trait}.\text{force}}$, $\beta_{\text{trait}.\text{photo}}$), while also allowing for species-level variation in cues that is not explained by traits ($\alpha_{\text{chill}[sp]} $, $\alpha_{\text{force}[sp]}$, $\alpha_{\text{photo}[sp]}$; this importantly means that variation across species is not forced onto the trait effect). Thus the model tests the power of traits to predict species-level differences.\\
 
-%EMW13Sep2022: Again, this is spelling out what the math says (it's like someone read the math aloud -- this is multiplied by that etc. -- we assume our readers understand basic equations and basic math) and not very necessary. We do need to define terms, but see above for our goals here. 
-\begin{enumerate}
-\item The ``grand'' trait values of species that are independent of study, $\alpha_{\text{trait},i}$, links the trait model to the phenology part of the joint model.
-\item The strucutre of the phenology model is similar to that of (Ettinger2020), except species' responses to forcing ($\beta_{\text{force},i}$), chilling ($\beta_{\text{chill},i}$), and photoperiod ($\beta_{\text{photo},i}$) are the species-specific response independent of a species trait value (e.g., $\alpha_{\text{force},i}$) combined with the effect of its trait value (e.g., $\beta_{\text{trait}.\text{force}}$) multiplied by $\alpha_{\text{trait},i}$.
-\item Here $Z_{i,k}$ is the day of budburst for species $i$ experiencing forcing ($F_k$), chilling ($C_k$), and photoperiod ($P_k$).
-\item Each cue was z-scored to account for differences in the scale of predictors across studies (Gelman2006), as well as differences in the natural units for the cues  %what is this citation? Gelman and Hill - 2007?.
-\end {enumerate}
-
-The phenology part of the joint model can thus be written as:
-
-\begin{equation}
-\label{phen_main}
-Z_{i,k}  \sim normal( \mu_{i,k}, \sigma_{\text{pheno}})
-\end{equation}
-where $\sigma_{\text{pheno}}$ represents random error in budburst day and:
-\begin{equation}
-\label{phen_main2}
-\mu_{i,k} = \alpha_{\text{pheno},i}+\beta_{\text{force},i} \times F_k + \beta_{\text{chill},i} \times C_k + \beta_{\text{photo},i} \times P_k
-\end{equation}
-with:
+Days to budburst ($y_{\text{pheno[i]}}$) is then predicted by the phenological cues and variation across experiments in chilling, forcing and photoperiod levels ($C_i$, $F_i$, $P_i$, respectively, which we z-scored to allow direct comparison of cues), with residual variation allowed across species ($\alpha_{\text{pheno[sp]}}$) and observations ($\sigma_{\text{pheno}}$):
 \begin{align}
-\label{betaEq}
-\beta_{\text{force},i} = \alpha_{\text{force},i} + \beta_{\text{trait}.\text{force}} \times \alpha_{\text{trait},i} \\
-\beta_{\text{chill},i} = \alpha_{\text{chill},i} + \beta_{\text{trait}.\text{chill}} \times \alpha_{\text{trait},i} \nonumber \\
-\beta_{\text{photo},i} = \alpha_{\text{photo},i} + \beta_{\text{trait}.\text{photo}} \times \alpha_{\text{trait},i} \nonumber 
-\end{align} 
-and all species-specific parameters are, as in the trait sub-model, given hierarchical structure whereby:
+\mu_{pheno} & = \alpha_{\text{pheno[sp]}}+ \beta_{\text{chill[sp]}} \times C_i + \beta_{\text{force[sp]}}\times F_i + \beta_{\text{photo[sp]}} \times P_i\\
+y_{\text{pheno[i]}} & \sim normal( \mu_{pheno}, \sigma_{\text{pheno}}) \nonumber 
+\end{align}
+The model includes partial pooling for residual variation in days to budburst across species and variation in each phenological cue not attributed to the trait:
 \begin{align}
-\boldsymbol{\alpha_{\text{pheno}}} = \{\alpha_{\text{pheno},1}, \ldots, \alpha_{\text{pheno},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{pheno}}} \sim normal(\mu_{\alpha_{\text{pheno}}},\sigma_{\alpha_{\text{pheno}}}) \\
-\boldsymbol{\alpha_{\text{force}}} = \{\alpha_{\text{force},1}, \ldots, \alpha_{\text{force},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{force}}} \sim normal(\mu_{\alpha_{\text{force}}},\sigma_{\alpha_{\text{force}}}) \nonumber \\
-\boldsymbol{\alpha_{\text{chill}}} = \{\alpha_{\text{chill},1}, \ldots, \alpha_{\text{chill},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{chill}}} \sim normal(\mu_{\alpha_{\text{chill}}},\sigma_{\alpha_{\text{chill}}}) \nonumber \\
-\boldsymbol{\alpha_{\text{photo}}} = \{\alpha_{\text{photo},1}, \ldots, \alpha_{\text{photo},n}\}^T & \text{ such that }
-  \boldsymbol{\alpha_{\text{photo}}} \sim normal(\mu_{\alpha_{\text{photo}}},\sigma_{\alpha_{\text{photo}}}) \nonumber
+\alpha_{\text{pheno}} \sim normal(\mu_{\alpha_{\text{pheno}}},\sigma_{\alpha_{\text{pheno}}}) \\
+\alpha_{\text{force}} \sim normal(\mu_{\alpha_{\text{force}}},\sigma_{\alpha_{\text{force}}}) \nonumber \\
+\alpha_{\text{chill}} \sim normal(\mu_{\alpha_{\text{chill}}},\sigma_{\alpha_{\text{chill}}}) \nonumber \\
+\alpha_{\text{photo}} \sim normal(\mu_{\alpha_{\text{photo}}},\sigma_{\alpha_{\text{photo}}}) \nonumber
 \end{align}
 
-% Parameters $\mu_{\alpha_{\text{pheno}}}$, $\mu_{\alpha_{\text{force}}}$, $\mu_{\alpha_{\text{chill}}}$, $\mu_{\alpha_{\text{photo}}}$ represent the mean budburst day, response to forcing, response to chilling, and response to photo period across all species, respectively. Parameters $\sigma_{\alpha_{\text{pheno}}}$, $\sigma_{\alpha_{\text{force}}}$ , $\sigma_{\alpha_{\text{chill}}}$ , $\sigma_{\alpha_{\text{photo}}}$ are the standard deviations between species.
+We chose weakly informative priors, and validated them using a series of prior predictive checks. The model was coded in the Stan programming language (Stan citation), fit using the rstan package (version, citation) with 1,000 iterations per chain across 4 chain (4,000 total sampling iterations), and all models met basic diagnostic checks, including no divergences, high effective sample size (\textit{n\_eff}), and $\hat{R}$ close to 1.  % EMW14Oct2022:  check my guesses on the iterations. 
 
-Parameters had weakly informative prior distributions (generally normal or half-normal distributions) that we obtained using our prior knowledge of functional trait diversity in deciduous species and cue responses. Priors were also validated using a series of prior predictive checks. 
-The joint model was coded in the Stan programming language (Stan citation) and fit to the trait and phenology data (see above) using the rstan package (version, citation).
-Model fits were deemed valid based on \textit{Stan's} diagnostic metrics, including no divergences across $1000$ iterations, high effective sample size (\textit{n\_eff}), and scale reduction factor $\hat{R}$ close to 1 across $4$ chains.  
-
-% add paragraph about priors %EMW13Sep2022: or a sentence or two max -- seems like you have them above I think. 
-% We selected our priors using our prior knowledge of functional trait diversity in deciduous species and cue responses. In doing so, we assume that stronger environmental cues will result in earlier budburst dates, as reflected by negative cue values. Priors of the phenology portion of our model reflect this, and are centered on negative values. 
-
-% \begin{align*}
-%\hat{trait_i} &= \mu_{grand_{sp}} + \alpha study_{study_i} \\
-%\mu_{grand_{sp}} &= \alpha_{grand} + \alpha sp_{sp_i} \\
-%\alpha_{grand}  & \sim N(0, \sigma_{grand})\\
-%\alpha sp & \sim N(0, \sigma_{sp}) \\
-%\alpha study& \sim N(0, \sigma_{study}) \\
-%trait_i & \sim N(\hat{trait}_i, \sigma_{trait}) \\
-%\vspace{1ex}\\
-
-%\hat{pheno}_i  &= \alpha pheno_{sp_i} + \beta force_{sp_i} * Forcing_{i} + \beta photo_{sp_i}  * Photo_{i} + \beta chill_{sp_i} * Chill_{i} \\
-%\beta force_{sp} &= \alpha force_{sp} + \beta trait.force * \alpha sp_{sp}\\
-%\beta chill_{sp} &= \alpha chill_{sp} + \beta trait.chill * \alpha sp_{sp}\\
-%\beta photo_{sp} &= \alpha photo_{sp} + \beta trait.photo * \alpha sp_{sp}\\
-%\alpha pheno & \sim N(\mu_{pheno}, \sigma_{pheno}) \\
-%\alpha force& \sim N(\mu_{force}, \sigma_{force}) \\
-%\alpha chill & \sim N(\mu_{chill}, \sigma_{chill}) \\
-%\alpha photo & \sim N(\mu_{photo}, \sigma_{photo}) \\
-%pheno_{i} & \sim N(\hat{pheno_i}, \sigma_{pheno}) \\
-%\end{align*}
-
-%As such, we model each trait individually using the same model specified above, but with the appropriate priors for each trait. Priors were tested using prior predictive checks. All analyses were done in Stan (version) using the rstan package (version) in R (version). 
-
-% I wrote this up in case we want to include it
-%EMW13Sep2022: Nice!
+% EMW14Oct2022: Given the length of the methods -- let's move this methods (and results) to the supp. 
 Finally, we used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). \\
 % DLOct6: We don't actually show any of the results from this, but presumably I should add something to the supplement? 
 

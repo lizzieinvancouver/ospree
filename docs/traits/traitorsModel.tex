@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+
+\def\labelitemi{--}
+\parindent=0pt
+
+\begin{document}
+\bibliographystyle{/Users/Lizzie/Documents/EndnoteRelated/Bibtex/styles/besjournals}
+\renewcommand{\refname}{\CHead{}}
+
+\subsection*{Joint model of trait and phenology}
+To understand connections between phenology and other species traits, we built a joint model for each trait (height, LMA, LNC and seed mass) with the major phenological cues (forcing, chilling, photoperiod) to predict day of year of budburst. This approach allowed us to jointly estimate species trait effects and responses to phenological cues in one model, carrying though all uncertainty across varying datasets and approaches (e.g., TRY and BIEN observational databases of traits and the database of experiments in plant phenology, OSPREE). As phenological cues are the most proximate drivers of variation in budburst (cite Ettinger2020), and appear to represent different strategies along a continuum from aquisitive to conservative, our model allow traits to influence each cue separately (cite slopes (current Fig 3)). \\
+
+The joint model includes a hierarchical linear model to partition variation in observed trait values ($y_{\text{trait}[i]}$) to effects of species, study, and residual variation ($\sigma_{\text{trait}}$, sometimes called `measurement error').
+% General on eqns: Gelman and Hill discusses how to write equations starting on page 262, with some good alternatives. I like to use words instead of letters for indexing when possible (so `sp' and `study' below) and i is often used for the observation-level in statistics, so should not be used otherwise. 
+% There could be a couple things off about this equation (that we can hopefully catch and fix) but I think it works mostly. 
+% The previous draft of equations seemed to use some cool labeling techniques for equations; it would be great to add these back in, especially if we plan to reference eqn numbers (maybe less necessary if not). 
+% Ailene likes to order cues by the temporal order that they effect plants (chilling, forcing, photoperiod) -- given that we seem to find this is also the order of effect size across cues I think it seems reasonable, and I have tried to implement it. But I probably messed it up some places (and if you like this we should follow it throughout the text). 
+\begin{align}
+\mu_{trait} & = \alpha_{\text{grand trait}} + \alpha_{\text{sp[sp]}} + \alpha_{\text{study[study id]}}\\
+\alpha_{\text{trait sp[sp]}} &  \sim normal(0, \sigma_{\alpha_{\text{trait sp}}}) \nonumber \\
+\alpha_{\text{study[study id]}} & \sim normal(0,\sigma_{\alpha_{\text{study}}}) \nonumber \\
+y_{\text{trait}[i]} & \sim normal( \mu_{trait}, \sigma_{\text{trait}}) \nonumber 
+\end{align}
+It estimates a separate value for each species ($\alpha_{\text{sp[sp]}}$), and study ($\alpha_{\text{study[study id]}}$), while partially pooling across species and studies to yield overall estimates of variance across each ($\sigma_{\alpha_{\text{sp}}}$ and $\sigma_{\alpha_{\text{study}}}$, respectively). This partial pooling (often called `random effects') controls for variation in sample size and variability to yield more accurate estimates for each species. \\
+
+These species-level estimates of traits ($\alpha_{\text{trait sp[sp id]}}$) were then used a predictors of species-level estimates of each phenological cue ($\beta_{\text{force[sp]}}$, $\beta_{\text{chill[sp]}}$, $\beta_{\text{photo[sp]}}$) 
+\begin{align}
+\beta_{\text{chill[sp]}} & = \alpha_{\text{chill}[sp]} + \beta_{\text{trait}.\text{chill}} \times \alpha_{\text{trait sp[sp]}} \nonumber \\
+\beta_{\text{force[sp]}} & = \alpha_{\text{force}[sp]} + \beta_{\text{trait}.\text{force}} \times \alpha_{\text{trait sp[sp]}} \\
+\beta_{\text{photo[sp]}} & = \alpha_{\text{photo}[sp]} + \beta_{\text{trait}.\text{photo}} \times \alpha_{\text{trait sp[sp]}} \nonumber 
+\end{align}
+
+This model allows an overall effect of each trait---estimated across species---on each phenological cue ($\beta_{\text{trait}.\text{chill}}$, $\beta_{\text{trait}.\text{force}}$, $\beta_{\text{trait}.\text{photo}}$), while also allowing for species-level variation in cues that is not explained by traits ($\alpha_{\text{chill}[sp]} $, $\alpha_{\text{force}[sp]}$, $\alpha_{\text{photo}[sp]}$; this importantly means that variation across species is not forced onto the trait effect). Thus the model tests the power of traits to predict species-level differences.\\
+
+Days to budburst ($y_{\text{pheno[i]}}$) is then predicted by the phenological cues and variation across experiments in chilling, forcing and photoperiod levels ($C_i$, $F_i$, $P_i$, respectively, which we z-scored to allow direct comparison of cues), with residual variation allowed across species ($\alpha_{\text{pheno[sp]}}$) and observations ($\sigma_{\text{pheno}}$):
+\begin{align}
+\mu_{pheno} & = \alpha_{\text{pheno[sp]}}+ \beta_{\text{chill[sp]}} \times C_i + \beta_{\text{force[sp]}}\times F_i + \beta_{\text{photo[sp]}} \times P_i\\
+y_{\text{pheno[i]}} & \sim normal( \mu_{pheno}, \sigma_{\text{pheno}}) \nonumber 
+\end{align}
+The model includes partial pooling for residual variation in days to budburst across species and variation in each phenological cue not attributed to the trait:
+\begin{align}
+\alpha_{\text{pheno}} \sim normal(\mu_{\alpha_{\text{pheno}}},\sigma_{\alpha_{\text{pheno}}}) \\
+\alpha_{\text{force}} \sim normal(\mu_{\alpha_{\text{force}}},\sigma_{\alpha_{\text{force}}}) \nonumber \\
+\alpha_{\text{chill}} \sim normal(\mu_{\alpha_{\text{chill}}},\sigma_{\alpha_{\text{chill}}}) \nonumber \\
+\alpha_{\text{photo}} \sim normal(\mu_{\alpha_{\text{photo}}},\sigma_{\alpha_{\text{photo}}}) \nonumber
+\end{align}
+
+
+
+\end{document}
