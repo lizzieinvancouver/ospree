@@ -68,22 +68,30 @@ source("..//..//analyses/traits/Rfiles/sm_tables.R")
 
 datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
 
-print(datasource,
-      include.rownames=FALSE, 
-      hline.after = c(-1,0,nrow(datasource)),
-      caption.placement="top",
-      tabular.environment = "longtable", 
-      floating = FALSE,
-      #align=c(rep('|c',  ncol(datasource)),'p{4in}'),
-      # tabular="\\textwidth",
-      include.colnames = TRUE, 
-      # add.to.row = list(pos = list(0),
-      #                   command = "\\hline \\endhead "),
-      # sanitize.text.function = identity
-      )
+# print(datasource,
+#       include.rownames=FALSE, 
+#       hline.after = c(-1,0,nrow(datasource)),
+#       caption.placement="top",
+#       tabular.environment = "longtable", 
+#       floating = FALSE,
+#       #align=c(rep('|c',  ncol(datasource)),'p{4in}'),
+#       # tabular="\\textwidth",
+#       include.colnames = TRUE, 
+#       # add.to.row = list(pos = list(0),
+#       #                   command = "\\hline \\endhead "),
+#       # sanitize.text.function = identity
+#       )
+#  
+
  
 @
 
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.png}
+    \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 speices for which complete trait data was available}
+    \label{figure:pca}
+\end{figure}
 
 \begin{figure}[h!]
     \centering
