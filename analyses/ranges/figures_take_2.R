@@ -71,7 +71,7 @@ betaTraitxForceMean <- colMeans(betaTraitxForce)
 ###data
 
 
-#pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16, width = 12)
+pdf(paste("figures", "trait_decomp", ".pdf", sep = ""), height = 16, width = 12)
 col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
 
 par(mar = c(5, 5, 2, 2), mfrow = c(2,3))
@@ -294,3 +294,4 @@ points(
   #bps_df[,"betaPhotoSpMean"],
   #length = 0
 )
+dev.off()
