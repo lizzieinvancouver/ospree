@@ -4,7 +4,7 @@
 rm(list=ls()) 
 options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
-
+graphics.off()
 # libraries
 library(shinystan)
 library(reshape2)
@@ -26,7 +26,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 
 load("popupmods.Rda")
-
+tidybayes::get_variables(threeparam_jnt.cp)
 ###
 
 
@@ -53,7 +53,21 @@ scrapebetas<-function(x){ # this one takes the species level beta values
   goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
   goo$latbinum<-c(99,99,99,rep(1:38,3))
   goo<-left_join(goo,concordance)
-  }
+}
+
+
+scrapealphas<-function(x){ # this one takes the species level alphas values
+  goo <- summary(x)$summary
+  goo<-as.data.frame(goo)
+  goo<-tibble::rownames_to_column(goo, var = "rowname")
+  goo<-dplyr::filter(goo,grepl("alpha",rowname) &!grepl("Pheno",rowname))
+  goo$cue[grepl("alphaForcing", goo$rowname)]<-"force"
+  goo$cue[grepl("alphaChill", goo$rowname)]<-"chill"
+  goo$cue[grepl("alphaPhoto", goo$rowname)]<-"photo"
+  goo$latbinum<-c(rep(1:38,3))
+  goo<-left_join(goo,concordance)
+}
+
 scrapebetas.na<-function(x){ # this one takes the species level beta values
   goo <- summary(x)$summary
   goo<-as.data.frame(goo)
@@ -147,21 +161,63 @@ cuey %>% dplyr::group_by(cue) %>% dplyr::summarise(mu=mean(mu),trait_beta_sd=sd(
 
 betas<-scrapebetas(threeparam_jnt.gdd)
 betasggdf<-left_join(betas,ggdlf)
-betasggdf<-filter(betasggdf,latbinum!=99)
+betasggdf<-dplyr::filter(betasggdf,latbinum!=99)
 cuebert<-scrapeslopes(threeparam_jnt.gdd)
 betameans<-scrapegrandies(threeparam_jnt.gdd)
+
+alphas<-scrapealphas(threeparam_jnt.gdd)
+alphasggdf<-left_join(alphas,ggdlf)
+
+ggplot(alphasggdf,aes(Temp.SD.z,mean))+
+  geom_point(aes(color=cue,shape=continent),size=2)
 
 range(betasggdf$Temp.SD.z)
 a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
-  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color=
-                                                                                                     "lightgray",alpha=0.001)+geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
+  facet_wrap(~cue,scales="free_y")
 
 gddfull<-a+geom_abline(data=cuebert,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
   geom_abline(data=betameans,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Interannual variation in GDD before last frost")+ylab("Cue sensitivity")
   
+aa<-ggplot(alphasggdf,aes(Temp.SD.z,mean))+
+  geom_point(aes(color=cue,shape=continent),size=2)+
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
+  geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
+  facet_wrap(~cue,scales="free_y")+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Interannual variation in GDD before last frost")+ylab("Alpha Cue")
+  
+
+
+
+
+
+head(betasggdf)
+head(alphasggdf)
+
+betasggdf$diff<-betasggdf$mean-alphasggdf$mean
+betasggdf$diff.25<-betasggdf$`25%`-alphasggdf$`25%`
+betasggdf$diff.75<-betasggdf$`75%`-alphasggdf$`75%`
+
+aaa<-ggplot(betasggdf,aes(Temp.SD.z,diff))+
+  geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)+
+  geom_errorbar(aes(ymin=diff.25,ymax=diff.75,color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
+  facet_wrap(~cue,scales="free_y")+
+  geom_abline(data=cuebert,aes(intercept = 0,slope= trait_beta,color=cue),alpha=0.05)+
+  
+  geom_abline(data=betameans,aes(intercept = 0,slope= trait_beta,color=cue),size=1)+
+  scale_shape_manual(values=c(4,16))+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Inerannual variation in GDD before last frost")
+
+jpeg("figures/trait_dcom_gg2lfggplot.jpeg", width = 10,height=12,units = "in", res=300)
+ggpubr::ggarrange(aaa,aa,gddfull,nrow=3,common.legend = TRUE) 
+dev.off()
 
 ### next plot:
 betasS<-scrapebetas(threeparam_jnt.stv)
