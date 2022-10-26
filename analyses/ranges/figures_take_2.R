@@ -27,10 +27,15 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 load("popupmods.Rda")
 
-ModelFit <- rstan::extract(threeparam_jnt.gdd)
-tidybayes::get_variables(threeparam_jnt.gdd)
+#1 ModelFit <- rstan::extract(threeparam_jnt.gdd)
+# 2 ModelFit <- rstan::extract(threeparam_jnt.meangdd)
+ ModelFit <- rstan::extract(threeparam_jnt.cp)
 ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)
-muGrandSp <-ggdlf$Temp.SD.z#data.frame(ModelFit$)### in there model this is  mu_grand + muSp[i]; its about the trait
+ggdlf$GDD.z<-(ggdlf$GDD-mean(ggdlf$GDD))/sd(ggdlf$GDD)
+ggdlf$CP.z<-(ggdlf$ChP-mean(ggdlf$ChP))/sd(ggdlf$ChP)
+#muGrandSp <-ggdlf$Temp.SD.z#data.frame(ModelFit$)### in there model this is  mu_grand + muSp[i]; its about the trait
+#muGrandSp<-ggdlf$GDD.z
+muGrandSp<-ggdlf$CP.z
 muGrandSpMean <- muGrandSp
 
 betaForceSp <- data.frame(ModelFit$betaForcingSp)
@@ -71,7 +76,7 @@ betaTraitxForceMean <- colMeans(betaTraitxForce)
 ###data
 
 
-pdf(paste("figures", "trait_decomp", ".pdf", sep = ""), height = 16, width = 12)
+pdf(paste("figures/", "trait_decomp_meanCP", ".pdf", sep = ""), height = 16, width = 12)
 col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
 
 par(mar = c(5, 5, 2, 2), mfrow = c(2,3))
