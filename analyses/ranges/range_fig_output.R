@@ -159,19 +159,23 @@ scrapegrandies<-function(x){
 cuey %>% dplyr::group_by(cue) %>% dplyr::summarise(mu=mean(mu),trait_beta_sd=sd(trait_beta),trait_beta=mean(trait_beta))
 }  
 
-betas<-scrapebetas(threeparam_jnt.gdd)
+
+modz<-threeparam_jnt.gdd
+  
+betas<-scrapebetas(modz)
 betasggdf<-left_join(betas,ggdlf)
 betasggdf<-dplyr::filter(betasggdf,latbinum!=99)
-cuebert<-scrapeslopes(threeparam_jnt.gdd)
-betameans<-scrapegrandies(threeparam_jnt.gdd)
-
-alphas<-scrapealphas(threeparam_jnt.gdd)
+cuebert<-scrapeslopes(modz)
+betameans<-scrapegrandies(modz)
+alphas<-scrapealphas(modz)
 alphasggdf<-left_join(alphas,ggdlf)
 
-ggplot(alphasggdf,aes(Temp.SD.z,mean))+
-  geom_point(aes(color=cue,shape=continent),size=2)
+betasggdf$diff<-betasggdf$mean-alphasggdf$mean
+betasggdf$diff.25<-betasggdf$`25%`-alphasggdf$`25%`
+betasggdf$diff.75<-betasggdf$`75%`-alphasggdf$`75%`
 
-range(betasggdf$Temp.SD.z)
+
+
 a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
   geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
@@ -182,7 +186,7 @@ a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
 gddfull<-a+geom_abline(data=cuebert,aes(intercept = mu,slope= trait_beta,color=cue),alpha=0.05)+
   
   geom_abline(data=betameans,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Interannual variation in GDD before last frost")+ylab("Cue sensitivity")
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Envrioment")+ylab("Cue sensitivity")
   
 aa<-ggplot(alphasggdf,aes(Temp.SD.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
@@ -190,19 +194,9 @@ aa<-ggplot(alphasggdf,aes(Temp.SD.z,mean))+
   geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
   facet_wrap(~cue,scales="free_y")+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Interannual variation in GDD before last frost")+ylab("Alpha Cue")
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")+ylab("Alpha Cue")
   
 
-
-
-
-
-head(betasggdf)
-head(alphasggdf)
-
-betasggdf$diff<-betasggdf$mean-alphasggdf$mean
-betasggdf$diff.25<-betasggdf$`25%`-alphasggdf$`25%`
-betasggdf$diff.75<-betasggdf$`75%`-alphasggdf$`75%`
 
 aaa<-ggplot(betasggdf,aes(Temp.SD.z,diff))+
   geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)+
@@ -213,7 +207,7 @@ aaa<-ggplot(betasggdf,aes(Temp.SD.z,diff))+
   
   geom_abline(data=betameans,aes(intercept = 0,slope= trait_beta,color=cue),size=1)+
   scale_shape_manual(values=c(4,16))+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Inerannual variation in GDD before last frost")
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")
 
 jpeg("figures/trait_dcom_gg2lfggplot.jpeg", width = 10,height=12,units = "in", res=300)
 ggpubr::ggarrange(aaa,aa,gddfull,nrow=3,common.legend = TRUE) 
@@ -222,7 +216,7 @@ dev.off()
 ### next plot:
 betasS<-scrapebetas(threeparam_jnt.stv)
 betaSTV<-dplyr::left_join(betasS,ggdlf,by="complex.wname")
-betaSTV<-filter(betasggdf,complex!=99)
+#betaSTV<-dplyr::filter(betasggdf,complex!=99)
 cuebertSTV<-scrapeslopes(threeparam_jnt.stv)
 betameansSTV<-scrapegrandies(threeparam_jnt.stv)
 
@@ -237,7 +231,7 @@ stvfull<-b+geom_abline(data=cuebertSTV,aes(intercept = mu,slope= trait_beta,colo
   
   geom_abline(data=betameansSTV,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("STV")+ylab("Cue sensitivity")
+  xlab("STV")+ylab("Cue sensitivity")+facet_wrap(~cue)
 
 ggpubr::ggarrange(gddfull,stvfull,common.legend = TRUE,labels = c("a)","b)"))
 
