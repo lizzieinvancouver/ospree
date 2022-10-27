@@ -383,7 +383,7 @@ bb.area.eu <- with(bb.stan.eu,
                    ))
 
 }
-
+bb.stan.eu$scaleSD<-bb.stan.eu$Temp.SD.z*4
 bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -392,7 +392,7 @@ bb.gddlf.eu <- with(bb.stan.eu,
                            species = latbinum,
                            N = nrow(bb.stan.eu),
                            n_spec = length(unique(bb.stan.eu$complex.wname)),
-                           climvar=unique(bb.stan.eu$Temp.SD.z)
+                           climvar=unique(bb.stan.eu$scaleSD)
                            
                       ))
 
@@ -459,7 +459,8 @@ bb.cp.nam <- with(bb.stan.nam,
 gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gddlf.eu,
                           iter = 5000, warmup=4000) #
 
-#check_all_diagnostics(gddlf_jnt.eu)
+check_all_diagnostics(gddlf_jnt.eu)
+summary(gddlf_jnt.eu)
 stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.stv.eu,
                    iter = 5000, warmup=4000) #runs
 #check_all_diagnostics(stv_jnt.eu)

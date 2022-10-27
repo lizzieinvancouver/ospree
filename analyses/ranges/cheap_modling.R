@@ -27,8 +27,8 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
-rangiesEu<-read.csv("output/Synthesis_climate_EUsps_corr.csv")
-rangiesNa<-read.csv("output/Synthesis_climate_Namsps_weighted.csv")
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinalchill.csv")
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho_chill.csv")
 
 #area<-read.csv("output/rangeareas.csv")
 #head(rangiesNa,14)

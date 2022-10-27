@@ -94,7 +94,7 @@ model{
 
 
 
-   // sigmaPhenoSp ~ normal(0, 5); //priors for phenology 
+    sigmaPhenoSp ~ normal(0, 10); //priors for phenology 
     muPhenoSp ~ normal(60, 20);
     alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp); 
 

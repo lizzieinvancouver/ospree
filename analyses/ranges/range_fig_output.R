@@ -12,6 +12,7 @@ library(rstan)
 library(rstanarm)
 library(dplyr)
 library(ggplot2)
+library(shinystan)
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges") 
@@ -24,7 +25,7 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-
+launch_shinystan(gddlf_jnt.eu)
 load("popupmods.Rda")
 tidybayes::get_variables(threeparam_jnt.cp)
 ###
@@ -39,6 +40,7 @@ ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)
 ggdlf$STV.z<-(ggdlf$STV-mean(ggdlf$STV))/sd(ggdlf$STV)
 ggdlf$GDD.z<-(ggdlf$GDD-mean(ggdlf$GDD))/sd(ggdlf$GDD)
 ggdlf$CP.z<-(ggdlf$ChP-mean(ggdlf$ChP))/sd(ggdlf$ChP)
+ggdlf$SDscale<-ggdlf$Temp.SD.z*4
 
 #extract paramenter 
 summary((threeparam_jnt.gdd))$summary
@@ -72,22 +74,47 @@ scrapebetas.na<-function(x){ # this one takes the species level beta values
   goo <- summary(x)$summary
   goo<-as.data.frame(goo)
   goo<-tibble::rownames_to_column(goo, var = "rowname")
-  goo<-dplyr::filter(goo,grepl("beta",rowname))
+  goo<-dplyr::filter(goo,grepl("beta",rowname)&!grepl("Trait",rowname))
   goo$cue[grepl("betaForcing", goo$rowname)]<-"force"
   goo$cue[grepl("betaChill", goo$rowname)]<-"chill"
   goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
-  goo$latbinum<-c(99,99,99,rep(1:17,3))
+  goo$latbinum<-c(rep(1:17,3))
   goo<-left_join(goo,concordance.na)
+}
+
+
+scrapealphas.na<-function(x){ # this one takes the species level alphas values
+  goo <- summary(x)$summary
+  goo<-as.data.frame(goo)
+  goo<-tibble::rownames_to_column(goo, var = "rowname")
+  goo<-dplyr::filter(goo,grepl("alpha",rowname) &!grepl("Pheno",rowname))
+  goo$cue[grepl("alphaForcing", goo$rowname)]<-"force"
+  goo$cue[grepl("alphaChill", goo$rowname)]<-"chill"
+  goo$cue[grepl("alphaPhoto", goo$rowname)]<-"photo"
+  goo$latbinum<-c(rep(1:17,3))
+  goo<-left_join(goo,concordance.na)
+}
+
+scrapealphas.eu<-function(x){ # this one takes the species level alphas values
+  goo <- summary(x)$summary
+  goo<-as.data.frame(goo)
+  goo<-tibble::rownames_to_column(goo, var = "rowname")
+  goo<-dplyr::filter(goo,grepl("alpha",rowname) &!grepl("Pheno",rowname))
+  goo$cue[grepl("alphaForcing", goo$rowname)]<-"force"
+  goo$cue[grepl("alphaChill", goo$rowname)]<-"chill"
+  goo$cue[grepl("alphaPhoto", goo$rowname)]<-"photo"
+  goo$latbinum<-c(rep(1:21,3))
+  goo<-left_join(goo,concordance.eu)
 }
 scrapebetas.eu<-function(x){ # this one takes the species level beta values
   goo <- summary(x)$summary
   goo<-as.data.frame(goo)
-  goo<-tibble::rownames_to_column(goo, var = "rowname")
-  goo<-dplyr::filter(goo,grepl("beta",rowname))
+  goo<-tibble::rownames_to_column(goo, var = "rowname") 
+  goo<-dplyr::filter(goo,grepl("beta",rowname)& !grepl("Trait",rowname))
   goo$cue[grepl("betaForcing", goo$rowname)]<-"force"
   goo$cue[grepl("betaChill", goo$rowname)]<-"chill"
   goo$cue[grepl("betaPhoto", goo$rowname)]<-"photo"
-  goo$latbinum<-c(99,99,99,rep(1:21,3))
+  goo$latbinum<-c(rep(1:21,3))
   goo<-left_join(goo,concordance.eu)
 }
 
@@ -158,9 +185,9 @@ scrapegrandies<-function(x){
   cuey<-rbind(photoyb,chillyb,forcyb)
 cuey %>% dplyr::group_by(cue) %>% dplyr::summarise(mu=mean(mu),trait_beta_sd=sd(trait_beta),trait_beta=mean(trait_beta))
 }  
+if(FALSE){
 
-
-modz<-threeparam_jnt.gdd
+modz<-threeparam_jnt.cp
   
 betas<-scrapebetas(modz)
 betasggdf<-left_join(betas,ggdlf)
@@ -176,10 +203,10 @@ betasggdf$diff.75<-betasggdf$`75%`-alphasggdf$`75%`
 
 
 
-a<-ggplot(betasggdf,aes(Temp.SD.z,mean))+
+a<-ggplot(betasggdf,aes(CP.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
   geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
-  geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
+  #geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
   facet_wrap(~cue,scales="free_y")
 
@@ -188,17 +215,17 @@ gddfull<-a+geom_abline(data=cuebert,aes(intercept = mu,slope= trait_beta,color=c
   geom_abline(data=betameans,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Envrioment")+ylab("Cue sensitivity")
   
-aa<-ggplot(alphasggdf,aes(Temp.SD.z,mean))+
+aa<-ggplot(alphasggdf,aes(CP.z,mean))+
   geom_point(aes(color=cue,shape=continent),size=2)+
   geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue))+scale_shape_manual(values=c(4,16))+
-  geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
+  #geom_rect(xmin=-.85,xmax=-.65,ymin=-70,ymax=25,color= "lightgray",alpha=0.001)+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
   facet_wrap(~cue,scales="free_y")+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")+ylab("Alpha Cue")
   
 
 
-aaa<-ggplot(betasggdf,aes(Temp.SD.z,diff))+
+aaa<-ggplot(betasggdf,aes(CP.z,diff))+
   geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)+
   geom_errorbar(aes(ymin=diff.25,ymax=diff.75,color=cue))+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
@@ -209,7 +236,7 @@ aaa<-ggplot(betasggdf,aes(Temp.SD.z,diff))+
   scale_shape_manual(values=c(4,16))+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")
 
-jpeg("figures/trait_dcom_gg2lfggplot.jpeg", width = 10,height=12,units = "in", res=300)
+jpeg("figures/trait_dcom_CPggplot.jpeg", width = 10,height=12,units = "in", res=300)
 ggpubr::ggarrange(aaa,aa,gddfull,nrow=3,common.legend = TRUE) 
 dev.off()
 
@@ -241,17 +268,117 @@ ggpubr::ggarrange(gddfull,stvfull,common.legend = TRUE)
 ####continent only
 
 
+
+
+}
 #### Growing degree to last frost
-cuebertNA<-scrapeslopes(gddlf_jnt.nam)
-betameansNA<-scrapegrandies(gddlf_jnt.nam)
-cueberteu<-scrapeslopes(gddlf_jnt.eu)
-betameanswu<-scrapegrandies(gddlf_jnt.eu)
+modna<-gddlf_jnt.nam
+modeu<-gddlf_jnt.eu
 
 
-###to add species points
-betas.na<-scrapebetas.na(gddlf_jnt.nam)
-ggdlf.na<-filter(ggdlf,continent=="N. America")
+cuebertNA<-scrapeslopes(modna)
+betameansNA<-scrapegrandies(modna)
+cueberteu<-scrapeslopes(modeu)
+betameanswu<-scrapegrandies(modeu)
+
+
+betas.na<-scrapebetas.na(modna)
+ggdlf.na<-dplyr::filter(ggdlf,continent=="N. America")
 betasggdf.na<-left_join(betas.na,ggdlf.na)
+
+alphas.na<-scrapealphas.na(modna)
+ggdlf.na<-dplyr::filter(ggdlf,continent=="N. America")
+
+alphasggdf.na<-left_join(alphas.na,ggdlf.na,by="complex.wname")
+
+
+aa.na<-ggplot(betasggdf.na,aes(Temp.SD.z,mean))+geom_point(aes(color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")
+
+namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameansNA,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("North America")+
+  ylab("Cue sensitivity")+
+  theme(legend.position = "none")+ylab("")
+
+aa.na.alpha<-ggplot(alphasggdf.na,aes(Temp.SD.z,mean))+geom_point(aes(color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("North America")+
+  ylab("Cue sensitivity")+
+  theme(legend.position = "none")+ylab("")
+
+#ggplot(betasggdf.na,aes(Temp.SD.z,meanDiff))+
+ # geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)
+  #geom_errorbar(aes(ymin=diff.25,ymax=diff.75,color=cue))+
+  #geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
+  #facet_wrap(~cue,scales="free_y")+
+  #geom_abline(data=cuebertNA,aes(intercept = 0,slope= trait_beta,color=cue),alpha=0.05)+
+  
+#  geom_abline(data=betameansNA,aes(intercept = 0,slope= trait_beta,color=cue),size=1)+
+  #scale_shape_manual(values=c(4,16))+
+ # ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")
+
+jpeg("figures/NorAmeritrait_dcom_gdd2pfggplot.jpeg", width = 10,height=12,units = "in", res=300)
+ggpubr::ggarrange(aa.na.alpha,namplot,nrow=2,common.legend = TRUE)
+dev.off()
+
+
+betas.eu<-scrapebetas.eu(modeu)
+ggdlf.eu<-dplyr::filter(ggdlf,continent=="Europe")
+betasggdf.eu<-left_join(betas.eu,ggdlf.eu)
+
+alphas.eu<-scrapealphas.eu(modeu)
+ggdlf.eu<-dplyr::filter(ggdlf,continent=="Europe")
+
+alphasggdf.eu<-left_join(alphas.eu,ggdlf.eu,by="complex.wname")
+
+
+
+
+
+aa.eu<-ggplot(betasggdf.eu,aes(SDscale,mean))+geom_point(aes(color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")
+
+euplot<-aa.eu+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+
+  ylab("Cue sensitivity")+
+  theme(legend.position = "none")+ylab("")
+
+aa.eu.alpha<-ggplot(alphasggdf.eu,aes(SDscale,mean))+geom_point(aes(color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  xlab("Europe")+
+  ylab("Cue sensitivity")+
+  theme(legend.position = "none")+ylab("")
+
+#aaa.eu<-ggplot(betasggdf.eu,aes(Temp.SD.z,diff))+
+ # geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)+
+#  geom_errorbar(aes(ymin=diff.25,ymax=diff.75,color=cue))+
+ # geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+
+#  facet_wrap(~cue,scales="free_y")+
+#  geom_abline(data=cueberteu,aes(intercept = 0,slope= trait_beta,color=cue),alpha=0.05)+
+  
+#  geom_abline(data=betameanswu,aes(intercept = 0,slope= trait_beta,color=cue),size=1)+
+  #scale_shape_manual(values=c(4,16))+
+ # ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")
+
+
+jpeg("figuresEurotrait_dcom_gdd2pfggplot.jpeg", width = 10,height=12,units = "in", res=300)
+ggpubr::ggarrange(aa.eu.alpha,euplot,nrow=2,common.legend = TRUE)
+dev.off()
+
+
+
+
+
+
+
+####
+
 
 #betasggdf.na<-filter(betasggdf,continent=="N. America")
 #betasggdf.eu<-filter(betasggdf,continent=="Europe")
