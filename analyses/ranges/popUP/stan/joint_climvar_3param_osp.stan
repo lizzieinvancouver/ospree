@@ -76,20 +76,20 @@ model{
 
     //MODEL 2 -----------------------------------------------
     //priors - level 1
-    sigmapheno_y ~ normal(0, 5); // prior for general variance around the mean 
+    sigmapheno_y ~ normal(0, 10); // prior for general variance around the mean 
 
     //priors level 2
 
     sigmaForceSp ~ normal(0, 20);// prior for forcing 
-    muForceSp ~ normal(0, 10);
+    muForceSp ~ normal(0, 20);
     alphaForcingSp ~ normal(muForceSp, sigmaForceSp);
     
     sigmaPhotoSp ~ normal(0, 5);// prior for photoperiod
-    muPhotoSp ~ normal(0, 10);
+    muPhotoSp ~ normal(0, 20);
     alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp); 
     
-    sigmaChillSp ~ normal(0, 10);// prior for photoperiod
-    muChillSp ~ normal(0, 10);
+    sigmaChillSp ~ normal(0, 15);// prior for photoperiod
+    muChillSp ~ normal(0, 20);
     alphaChillSp ~ normal(muChillSp, sigmaChillSp); 
 
 
