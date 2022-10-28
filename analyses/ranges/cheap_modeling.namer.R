@@ -1,5 +1,5 @@
 ###cheap modeling NA sps
-
+### 27 OCt 2022 Dan changed this to Europe
 ####### Started 8 June 2020 ##
 ## By Lizzie ##
 #### First plots of the Europe species cliamte and range and cue relationship by Dan June 8 2020.
@@ -25,7 +25,7 @@ if(length(grep("Lizzie", getwd())>0)) {
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
-rangies<-read.csv("output/Synthesis_climate_NAMsps.csv")
+rangies<-read.csv("output/Synthesis_climate_EUsps_STVfinalchill.csv")
 unique(rangies$species)
 
 ##fix species names
@@ -76,7 +76,7 @@ colnames(posties)[6]<-"species" ##merge them
 
 list2env(Y, envir = .GlobalEnv)
 ###make the data sheets
-
+library(dplyr)
 GDD.lastfrost<-left_join(posties,GDD.lastfrost)
 GDD.lastfrost.NA<-filter(GDD.lastfrost,species %in% unique(rangies$species))
 
@@ -97,7 +97,7 @@ rangegeo<-left_join(posties,rangegeo)
 rangegeo.NA<-filter(rangegeo,species %in% unique(rangies$species))
 
 #####plots
-
+library(ggplot2)
 lastfrosta<-ggplot(GDD.lastfrost.NA,aes(Geo.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)#+theme(legend.position = "none") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 lastfrostb<-ggplot(GDD.lastfrost.NA,aes(Temp.SD,b_chill))+geom_smooth(method="lm",aes())+stat_summary(aes(color=species))+theme_bw(base_size = 11)+theme(legend.position = "none") #+geom_point(aes(color=species),size=0.3,alpha=0.6)
 

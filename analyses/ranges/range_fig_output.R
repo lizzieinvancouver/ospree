@@ -42,6 +42,8 @@ ggdlf$GDD.z<-(ggdlf$GDD-mean(ggdlf$GDD))/sd(ggdlf$GDD)
 ggdlf$CP.z<-(ggdlf$ChP-mean(ggdlf$ChP))/sd(ggdlf$ChP)
 ggdlf$SDscale<-ggdlf$Temp.SD.z*4
 
+
+head(ggdlf)
 #extract paramenter 
 summary((threeparam_jnt.gdd))$summary
 ######FUNS
@@ -338,7 +340,7 @@ alphasggdf.eu<-left_join(alphas.eu,ggdlf.eu,by="complex.wname")
 
 
 
-aa.eu<-ggplot(betasggdf.eu,aes(SDscale,mean))+geom_point(aes(color=cue))+
+aa.eu<-ggplot(betasggdf.eu,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")
 
 euplot<-aa.eu+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
@@ -348,7 +350,7 @@ euplot<-aa.eu+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color
   ylab("Cue sensitivity")+
   theme(legend.position = "none")+ylab("")
 
-aa.eu.alpha<-ggplot(alphasggdf.eu,aes(SDscale,mean))+geom_point(aes(color=cue))+
+aa.eu.alpha<-ggplot(alphasggdf.eu,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
   ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
   xlab("Europe")+

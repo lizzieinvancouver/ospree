@@ -104,31 +104,31 @@ rangies<-rbind(rangiesEu,rangiesNa)
 
 ###GDD2LF
 ggdlf<-filter(rangies,variable=="GDD.lastfrost")
-ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
-colnames(ggdlf)[1]<-"complex.wname"
+#ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
+colnames(ggdlf)[5]<-"complex.wname"
 
 
 ##STV
-STV<-filter(rangies,variable=="MeanTmins")
-STV<-dplyr::select(STV,species,Temp.SD,continent)
-colnames(STV)[c(1,2)]<-c("complex.wname","STV")
+#STV<-filter(rangies,variable=="MeanTmins")
+#STV<-dplyr::select(STV,species,Temp.SD,continent)
+#colnames(STV)[c(1,2)]<-c("complex.wname","STV")
 
 ##MeanForcing
 GDD<-filter(rangies,variable=="GDD")
-GDD<-dplyr::select(GDD,species,Geo.Mean,continent)
-colnames(GDD)[c(1,2)]<-c("complex.wname","GDD")
+#GDD<-dplyr::select(GDD,species,Geo.Mean,continent)
+colnames(GDD)[c(1,2,3,4)]<-c("Temp.Mean.GDD","Temp.SD.GDD","Geo.Mean.GDD","Geo.SD.GDD")
+colnames(GDD)[5]<-"complex.wname"
+#CP<-filter(rangies,variable=="Mean.Chill.Portions")
+#CP<-dplyr::select(CP,species,Geo.Mean,continent)
+#colnames(CP)[c(1,2)]<-c("complex.wname","ChP")
 
-CP<-filter(rangies,variable=="Mean.Chill.Portions")
-CP<-dplyr::select(CP,species,Geo.Mean,continent)
-colnames(CP)[c(1,2)]<-c("complex.wname","ChP")
+GDD<-select(GDD,-variable)
 
-
-
-ggdlf<-left_join(ggdlf,STV)
+#ggdlf<-left_join(ggdlf,STV)
 ggdlf<-left_join(ggdlf,GDD)
-ggdlf<-dplyr::left_join(ggdlf,CP)
+#ggdlf<-dplyr::left_join(ggdlf,CP)
 
-head(ggdlf)
+#head(ggdlf)
 
 
 
@@ -163,6 +163,20 @@ setdiff(ggdlf$complex.wname,unique(bb.stan$complex.wname))
 bb.stan<-filter(bb.stan,complex.wname %in% goodsp)
 ggdlf<-filter(ggdlf,complex.wname %in% goodsp)
 
+##########correlations
+a<-ggplot(ggdlf,aes(Temp.SD,Geo.SD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+b<-ggplot(ggdlf,aes(Temp.SD,Temp.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+c<-ggplot(ggdlf,aes(Geo.SD,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+d<-ggplot(ggdlf,aes(Temp.Mean,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+
+
+e<-ggplot(ggdlf,aes(Temp.SD,Temp.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+g<-ggplot(ggdlf,aes(Geo.SD,Geo.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+
+
+h<-ggplot(ggdlf,aes(Temp.SD.GDD,Temp.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+i<-ggplot(ggdlf,aes(Geo.SD.GDD,Geo.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+ggpubr::ggarrange(a,b,c,d,e,g,h,i,common.legend = TRUE)
 
 bb.stan<-left_join(bb.stan,ggdlf)
 
@@ -177,152 +191,7 @@ bb.stan$GDD.z<-(bb.stan$GDD-mean(bb.stan$GDD))/sd(bb.stan$GDD)
 bb.stan$CP.z<-(bb.stan$ChP-mean(bb.stan$ChP))/sd(bb.stan$ChP)
 
 
-if(FALSE){ # Skip the force-only model for now...
-bb.force.only <- with(bb.stan, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z, 
-                       species = latbinum,
-                       N = nrow(bb.stan),
-                       n_spec = length(unique(bb.stan$complex.wname)),
-                       climvar=bb.stan$Temp.SD.z
-                  ))
 
-forceonly = stan('popUP/stan/jointish_climvar_db.stan', data = bb.force.only,
-              iter = 6000, warmup=4000)
-
-
-
-goobsum<-summary(forceonly )$summary
-
-goobsum[grep("muPhenoSp", rownames(goobsum)),]
-goobsum[grep("muForceSp", rownames(goobsum)),] #
-goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
-}
-
-if(FALSE){ # Skip the original for now.
-og.ospree <- with(bb.stan, 
-                  list(y = resp, 
-                       force = force.z,
-                       photo = photo.z,
-                       chill = chill.z,
-                       sp = latbinum,
-                       N = nrow(bb.stan),
-                       n_sp = length(unique(bb.stan$complex.wname))
-                  ))
-
-
-###run original Ospree model for comparision
-m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = og.ospree,
-              iter = 4000, warmup=2500) 
-}
-### run range model for all 3 parameters of interest, gdd2lf, stv, range area
-bb.3param.gddlf <- with(bb.stan, 
-                      list(yPhenoi = resp, 
-                           forcingi = force.z,
-                           photoi = photo.z,
-                           chillingi = chill.z,
-                           species = latbinum,
-                           N = nrow(bb.stan),
-                           n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$Temp.SD.z)
-                      ))
-
-
-bb.3param.stv <- with(bb.stan, 
-                        list(yPhenoi = resp, 
-                             forcingi = force.z,
-                             photoi = photo.z,
-                             chillingi = chill.z,
-                             species = latbinum,
-                             N = nrow(bb.stan),
-                             n_spec = length(unique(bb.stan$complex.wname)),
-                             climvar=unique(bb.stan$STV.z)
-                        ))
-
-
-bb.3param.gdd <- with(bb.stan, 
-                      list(yPhenoi = resp, 
-                           forcingi = force.z,
-                           photoi = photo.z,
-                           chillingi = chill.z,
-                           species = latbinum,
-                           N = nrow(bb.stan),
-                           n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$GDD.z)
-))
-
-bb.3param.cp <- with(bb.stan, 
-                      list(yPhenoi = resp, 
-                           forcingi = force.z,
-                           photoi = photo.z,
-                           chillingi = chill.z,
-                           species = latbinum,
-                           N = nrow(bb.stan),
-                           n_spec = length(unique(bb.stan$complex.wname)),
-                           climvar=unique(bb.stan$CP.z)
-                      ))
-
-threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                 iter = 4000, warmup=2500)
-
-threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                          iter = 4000, warmup=2500)
-
-threeparam_jnt.cp = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.cp, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                          iter = 4000, warmup=2500)
-
-threeparam_jnt.meangdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gdd, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
-                         iter = 4000, warmup=2500)
-
-#summary(threeparam_jnt.cp)
-#threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
- #                         iter = 4000, warmup=2500)
-
-
-
-if(FALSE){ # Skip extracting original model unless you want to compare the parameters
-m2lni.sum <- summary(m2l.ni)$summary
-m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
-m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
-betasOSP<-as.data.frame(m2lni.sum[grep("b_", rownames(m2lni.sum)),])
-betasOSP$cue<-NA
-betasOSP$cue[grepl("b_force", rownames(betasOSP))]<-"force"
-betasOSP$cue[grepl("b_photo", rownames(betasOSP))]<-"photo"
-betasOSP$cue[grepl("b_chill", rownames(betasOSP))]<-"chill"
-
-betasOSP$param<-NA
-betasOSP$param[grepl("mu", rownames(betasOSP))]<-"mu"
-betasOSP$param[grepl("sigma", rownames(betasOSP))]<-"sigma"
-betasOSP$param[is.na(betasOSP$param)]<-"beta[sp]"
-
-betasOSP$model<-"OSPREE"
-}
-
-###get excited to make some plots with Dan's clunky code below
-summy<-summary(threeparam_jnt.cp)$summary
-
-summy[grep("betaTrait", rownames(summy)),]
-
-
-
-
-
-
-outy<-rbind(stvout,gddlfout)#,areaout)
-
-
-
-
-write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
-
-# On 26 March 2021 the code above runs!
-
-###now plot it
-
-# Who knows about the below ...}
-
-
-##
 ## NAM (North America) only
 
 bb.stan.nam <- filter(bb.stan, continent=="N. America")
@@ -348,41 +217,8 @@ bb.gddlf.nam <- with(bb.stan.nam,
                        climvar=unique(bb.stan.nam$Temp.SD.z)
                   ))
 
-bb.stv.nam <- with(bb.stan.nam, 
-                     list(yPhenoi = resp, 
-                          forcingi = force.z,
-                          photoi = photo.z,
-                          chillingi = chill.z,
-                          species = latbinum,
-                          N = nrow(bb.stan.nam),
-                          n_spec = length(unique(bb.stan.nam$complex.wname)),
-                          climvar=unique(bb.stan.nam$STV.z)
-                     ))
-if(FALSE){ #skip area models now
-bb.area.nam <- with(bb.stan.nam, 
-                   list(yPhenoi = resp, 
-                        forcingi = force.z,
-                        photoi = photo.z,
-                        chillingi = chill.z,
-                        species = latbinum,
-                        N = nrow(bb.stan.nam),
-                        n_spec = length(unique(bb.stan.nam$complex.wname)),
-                        climvar=unique(bb.stan.nam$range.z)
-                   ))
 
 
-bb.area.eu <- with(bb.stan.eu, 
-                   list(yPhenoi = resp, 
-                        forcingi = force.z,
-                        photoi = photo.z,
-                        chillingi = chill.z,
-                        species = latbinum,
-                        N = nrow(bb.stan.eu),
-                        n_spec = length(unique(bb.stan.eu$complex.wname)),
-                        climvar=unique(bb.stan.eu$range.z)
-                   ))
-
-}
 bb.stan.eu$scaleSD<-bb.stan.eu$Temp.SD.z*4
 bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
@@ -392,7 +228,7 @@ bb.gddlf.eu <- with(bb.stan.eu,
                            species = latbinum,
                            N = nrow(bb.stan.eu),
                            n_spec = length(unique(bb.stan.eu$complex.wname)),
-                           climvar=unique(bb.stan.eu$scaleSD)
+                           climvar=unique(bb.stan.eu$Temp.SD)
                            
                       ))
 
@@ -459,10 +295,11 @@ bb.cp.nam <- with(bb.stan.nam,
 gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gddlf.eu,
                           iter = 5000, warmup=4000) #
 
-check_all_diagnostics(gddlf_jnt.eu)
-summary(gddlf_jnt.eu)
-stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.stv.eu,
-                   iter = 5000, warmup=4000) #runs
+#check_all_diagnostics(gddlf_jnt.eu)
+#summary(gddlf_jnt.eu)
+#launch_shinystan(gddlf_jnt.eu)
+#stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.stv.eu,
+ #                  iter = 5000, warmup=4000) #runs
 #check_all_diagnostics(stv_jnt.eu)
 
 #stv_area.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.area.eu,
@@ -485,8 +322,8 @@ gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', d
 #launch_shinystan(gddlf_jnt.nam)
 
 
-stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.stv.nam,
-                     iter = 4000, warmup=3000) ## Dan ran this too.
+#stv_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.stv.nam,
+#                     iter = 4000, warmup=3000) ## Dan ran this too.
 
 #check_all_diagnostics(stv_jnt.nam)
 #area_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.area.nam,
@@ -499,23 +336,23 @@ gdd_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gdd.eu,
                    iter = 5000, warmup=4000) #
 
 
-cp_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.cp.eu,
-                 iter = 5000, warmup=4000)
+#cp_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.cp.eu,
+#                 iter = 5000, warmup=4000)
 
 gdd_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.gdd.nam,
                  iter = 5000, warmup=4000) #
 
 #check_all_diagnostics(gddlf_jnt.eu)
-cp_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.cp.nam,
-                iter = 5000, warmup=4000)
+#cp_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.cp.nam,
+ #               iter = 5000, warmup=4000)
 
-check_all_diagnostics(cp_jnt.eu)
+#check_all_diagnostics(cp_jnt.eu)
 
 save.image("popupmods.Rda")
 
 stop()
 
-
+if (FALSE){
 stvout.eu<-scrape(stv_jnt.eu)
 stvout.nam<-scrape(stv_jnt.nam)
 
@@ -607,3 +444,189 @@ goober2 = stan('popUP/stan/seq_climvar.stan', data=bb.seq.gddlf,
 goobsum2Cont <- summary(goober2)$summary
 
     }
+
+
+if(FALSE){ # Skip the force-only model for now...
+  bb.force.only <- with(bb.stan, 
+                        list(yPhenoi = resp, 
+                             forcingi = force.z, 
+                             species = latbinum,
+                             N = nrow(bb.stan),
+                             n_spec = length(unique(bb.stan$complex.wname)),
+                             climvar=bb.stan$Temp.SD.z
+                        ))
+  
+  forceonly = stan('popUP/stan/jointish_climvar_db.stan', data = bb.force.only,
+                   iter = 6000, warmup=4000)
+  
+  
+  
+  goobsum<-summary(forceonly )$summary
+  
+  goobsum[grep("muPhenoSp", rownames(goobsum)),]
+  goobsum[grep("muForceSp", rownames(goobsum)),] #
+  goobsum[grep("betaTraitxPheno", rownames(goobsum)),]## 
+}
+
+if(FALSE){ # Skip the original for now.
+  og.ospree <- with(bb.stan, 
+                    list(y = resp, 
+                         force = force.z,
+                         photo = photo.z,
+                         chill = chill.z,
+                         sp = latbinum,
+                         N = nrow(bb.stan),
+                         n_sp = length(unique(bb.stan$complex.wname))
+                    ))
+  
+  
+  ###run original Ospree model for comparision
+  m2l.ni = stan('..//bb_analysis/stan/nointer_2level.stan', data = og.ospree,
+                iter = 4000, warmup=2500) 
+}
+if (FALSE){
+  ### run range model for all 3 parameters of interest, gdd2lf, stv, range area
+  bb.3param.gddlf <- with(bb.stan, 
+                          list(yPhenoi = resp, 
+                               forcingi = force.z,
+                               photoi = photo.z,
+                               chillingi = chill.z,
+                               species = latbinum,
+                               N = nrow(bb.stan),
+                               n_spec = length(unique(bb.stan$complex.wname)),
+                               climvar=unique(bb.stan$Temp.SD.z)
+                          ))
+  
+  
+  bb.3param.stv <- with(bb.stan, 
+                        list(yPhenoi = resp, 
+                             forcingi = force.z,
+                             photoi = photo.z,
+                             chillingi = chill.z,
+                             species = latbinum,
+                             N = nrow(bb.stan),
+                             n_spec = length(unique(bb.stan$complex.wname)),
+                             climvar=unique(bb.stan$STV.z)
+                        ))
+  
+  
+  bb.3param.gdd <- with(bb.stan, 
+                        list(yPhenoi = resp, 
+                             forcingi = force.z,
+                             photoi = photo.z,
+                             chillingi = chill.z,
+                             species = latbinum,
+                             N = nrow(bb.stan),
+                             n_spec = length(unique(bb.stan$complex.wname)),
+                             climvar=unique(bb.stan$GDD.z)
+                        ))
+  
+  bb.3param.cp <- with(bb.stan, 
+                       list(yPhenoi = resp, 
+                            forcingi = force.z,
+                            photoi = photo.z,
+                            chillingi = chill.z,
+                            species = latbinum,
+                            N = nrow(bb.stan),
+                            n_spec = length(unique(bb.stan$complex.wname)),
+                            climvar=unique(bb.stan$CP.z)
+                       ))
+  
+  threeparam_jnt.gdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gddlf, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                            iter = 4000, warmup=2500)
+  
+  threeparam_jnt.stv = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.stv, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                            iter = 4000, warmup=2500)
+  
+  threeparam_jnt.cp = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.cp, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                           iter = 4000, warmup=2500)
+  
+  threeparam_jnt.meangdd = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.gdd, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+                                iter = 4000, warmup=2500)
+  
+  #summary(threeparam_jnt.cp)
+  #threeparam_jnt.area = stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.3param.area, # this stan code is similar to joint_climvar_3param_emw.stan but with a more reasonable prior for the intercept mu
+  #                         iter = 4000, warmup=2500)
+  
+}
+
+if(FALSE){ # Skip extracting original model unless you want to compare the parameters
+  m2lni.sum <- summary(m2l.ni)$summary
+  m2lni.sum[grep("mu_", rownames(m2lni.sum)),]
+  m2lni.sum[grep("sigma_", rownames(m2lni.sum)),]
+  betasOSP<-as.data.frame(m2lni.sum[grep("b_", rownames(m2lni.sum)),])
+  betasOSP$cue<-NA
+  betasOSP$cue[grepl("b_force", rownames(betasOSP))]<-"force"
+  betasOSP$cue[grepl("b_photo", rownames(betasOSP))]<-"photo"
+  betasOSP$cue[grepl("b_chill", rownames(betasOSP))]<-"chill"
+  
+  betasOSP$param<-NA
+  betasOSP$param[grepl("mu", rownames(betasOSP))]<-"mu"
+  betasOSP$param[grepl("sigma", rownames(betasOSP))]<-"sigma"
+  betasOSP$param[is.na(betasOSP$param)]<-"beta[sp]"
+  
+  betasOSP$model<-"OSPREE"
+}
+
+###get excited to make some plots with Dan's clunky code below
+summy<-summary(threeparam_jnt.cp)$summary
+
+summy[grep("betaTrait", rownames(summy)),]
+
+
+
+
+
+
+outy<-rbind(stvout,gddlfout)#,areaout)
+
+
+
+
+write.csv(outy,"betasandmorefromPOPUP.csv",row.names = FALSE)
+
+# On 26 March 2021 the code above runs!
+
+###now plot it
+
+# Who knows about the below ...}
+
+if(FALSE){ #skip area models now
+  bb.area.nam <- with(bb.stan.nam, 
+                      list(yPhenoi = resp, 
+                           forcingi = force.z,
+                           photoi = photo.z,
+                           chillingi = chill.z,
+                           species = latbinum,
+                           N = nrow(bb.stan.nam),
+                           n_spec = length(unique(bb.stan.nam$complex.wname)),
+                           climvar=unique(bb.stan.nam$range.z)
+                      ))
+  
+  
+  bb.area.eu <- with(bb.stan.eu, 
+                     list(yPhenoi = resp, 
+                          forcingi = force.z,
+                          photoi = photo.z,
+                          chillingi = chill.z,
+                          species = latbinum,
+                          N = nrow(bb.stan.eu),
+                          n_spec = length(unique(bb.stan.eu$complex.wname)),
+                          climvar=unique(bb.stan.eu$range.z)
+                     ))
+  
+}
+
+bb.stv.nam <- with(bb.stan.nam, 
+                   list(yPhenoi = resp, 
+                        forcingi = force.z,
+                        photoi = photo.z,
+                        chillingi = chill.z,
+                        species = latbinum,
+                        N = nrow(bb.stan.nam),
+                        n_spec = length(unique(bb.stan.nam$complex.wname)),
+                        climvar=unique(bb.stan.nam$STV.z)
+  
+                                         ))
+}
+##
