@@ -164,31 +164,38 @@ bb.stan<-filter(bb.stan,complex.wname %in% goodsp)
 ggdlf<-filter(ggdlf,complex.wname %in% goodsp)
 
 ##########correlations
-a<-ggplot(ggdlf,aes(Temp.SD,Geo.SD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
-b<-ggplot(ggdlf,aes(Temp.SD,Temp.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
-c<-ggplot(ggdlf,aes(Geo.SD,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
-d<-ggplot(ggdlf,aes(Temp.Mean,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+ggdlf %>%
+  dplyr::group_by(continent) %>%
+  dplyr::summarize(COR=cor(Temp.SD,Geo.SD))
 
+jpeg("figures/clim_params.jpeg",width=8,height=6,units = "in",res=300)
+ggplot(ggdlf,aes(Geo.SD,Temp.SD))+geom_point(aes(color=continent))+stat_smooth(method="lm",aes(color=continent),se=FALSE,linetype="dashed",size=.4)+
+  scale_color_viridis_d(begin = 0,end=.5)+ggthemes::theme_few(base_size = 10)+ylab("Temporal standard deviations \nof GDDs to last frost")+
+  xlab("Geographic standard deviations \nof GDDs to last frost")+annotate("text", x = 40, y = 10, 
+                                                                label = "Correlation:\nEurope= 0.62 \nN. America= 0.87")
+dev.off()
 
-e<-ggplot(ggdlf,aes(Temp.SD,Temp.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
-g<-ggplot(ggdlf,aes(Geo.SD,Geo.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
+a<-ggplot(ggdlf,aes(Temp.SD,Geo.SD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))
+b<-ggplot(ggdlf,aes(Temp.SD,Temp.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))
+c<-ggplot(ggdlf,aes(Geo.SD,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))
+d<-ggplot(ggdlf,aes(Temp.Mean,Geo.Mean))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))
+
 
 
 h<-ggplot(ggdlf,aes(Temp.SD.GDD,Temp.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
 i<-ggplot(ggdlf,aes(Geo.SD.GDD,Geo.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
-ggpubr::ggarrange(a,b,c,d,e,g,h,i,common.legend = TRUE)
+ggpubr::ggarrange(a,b,c,d,common.legend = TRUE)
 
-bb.stan<-left_join(bb.stan,ggdlf)
-
+g
 ######zscore and center
 bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
-bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
+#bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
 bb.stan$Temp.SD.z<-(bb.stan$Temp.SD-mean(bb.stan$Temp.SD))/sd(bb.stan$Temp.SD)
-bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
+#bb.stan$STV.z<-(bb.stan$STV-mean(bb.stan$STV))/sd(bb.stan$STV)
 
 
-bb.stan$GDD.z<-(bb.stan$GDD-mean(bb.stan$GDD))/sd(bb.stan$GDD)
-bb.stan$CP.z<-(bb.stan$ChP-mean(bb.stan$ChP))/sd(bb.stan$ChP)
+#bb.stan$GDD.z<-(bb.stan$GDD-mean(bb.stan$GDD))/sd(bb.stan$GDD)
+#bb.stan$CP.z<-(bb.stan$ChP-mean(bb.stan$ChP))/sd(bb.stan$ChP)
 
 
 
@@ -214,12 +221,12 @@ bb.gddlf.nam <- with(bb.stan.nam,
                        species = latbinum,
                        N = nrow(bb.stan.nam),
                        n_spec = length(unique(bb.stan.nam$complex.wname)),
-                       climvar=unique(bb.stan.nam$Temp.SD.z)
+                       climvar=unique(bb.stan.nam$Temp.SD)
                   ))
 
 
 
-bb.stan.eu$scaleSD<-bb.stan.eu$Temp.SD.z*4
+#bb.stan.eu$scaleSD<-bb.stan.eu$Temp.SD.z*4
 bb.gddlf.eu <- with(bb.stan.eu, 
                       list(yPhenoi = resp, 
                            forcingi = force.z,
@@ -233,66 +240,9 @@ bb.gddlf.eu <- with(bb.stan.eu,
                       ))
 
 
-bb.stv.eu <- with(bb.stan.eu, 
-                    list(yPhenoi = resp, 
-                         forcingi = force.z,
-                         photoi = photo.z,
-                         chillingi = chill.z,
-                         species = latbinum,
-                         N = nrow(bb.stan.eu),
-                         n_spec = length(unique(bb.stan.eu$complex.wname)),
-                         climvar=unique(bb.stan.eu$STV.z)
-                    ))
-
-
-bb.gdd.eu <- with(bb.stan.eu, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z,
-                       photoi = photo.z,
-                       chillingi = chill.z,
-                       species = latbinum,
-                       N = nrow(bb.stan.eu),
-                       n_spec = length(unique(bb.stan.eu$complex.wname)),
-                       climvar=unique(bb.stan.eu$GDD.z)
-                  ))
-
-bb.cp.eu <- with(bb.stan.eu, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z,
-                       photoi = photo.z,
-                       chillingi = chill.z,
-                       species = latbinum,
-                       N = nrow(bb.stan.eu),
-                       n_spec = length(unique(bb.stan.eu$complex.wname)),
-                       climvar=unique(bb.stan.eu$CP.z)
-                  ))
-
-bb.gdd.nam <- with(bb.stan.nam, 
-                  list(yPhenoi = resp, 
-                       forcingi = force.z,
-                       photoi = photo.z,
-                       chillingi = chill.z,
-                       species = latbinum,
-                       N = nrow(bb.stan.nam),
-                       n_spec = length(unique(bb.stan.nam$complex.wname)),
-                       climvar=unique(bb.stan.nam$GDD.z)
-                  ))
-
-bb.cp.nam <- with(bb.stan.nam, 
-                 list(yPhenoi = resp, 
-                      forcingi = force.z,
-                      photoi = photo.z,
-                      chillingi = chill.z,
-                      species = latbinum,
-                      N = nrow(bb.stan.nam),
-                      n_spec = length(unique(bb.stan.nam$complex.wname)),
-                      climvar=unique(bb.stan.nam$CP.z)
-                 ))
-
-
 
 ###models
-gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gddlf.eu,
+gddlf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.gddlf.eu,
                           iter = 5000, warmup=4000) #
 
 #check_all_diagnostics(gddlf_jnt.eu)
@@ -314,6 +264,22 @@ gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp.stan', data =bb.gddlf.
 gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.gddlf.nam,
                      iter = 4000, warmup=3000) # Purring away now!
 # (NCP on photo got it down to 1 divergent trans, NCP on forcing took it home!)
+
+
+summy.eu<- summary(gddlf_jnt.eu)$summary
+summy.nam<- summary(gddlf_jnt.nam)$summary
+
+
+summy.eu[grep(c("betaTrait"), rownames(summy.eu)),]
+summy.eu[grep(c("mu"), rownames(summy.eu)),]
+summy.eu[grep(c("sigma"), rownames(summy.eu)),]
+
+
+summy.nam[grep(c("betaTrait"), rownames(summy.nam)),]
+summy.nam[grep(c("mu"), rownames(summy.nam)),]
+summy.nam[grep(c("sigma"), rownames(summy.nam)),]
+
+save.image("popupmods.Rda")
 
 
 
@@ -348,7 +314,6 @@ gdd_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data
 
 #check_all_diagnostics(cp_jnt.eu)
 
-save.image("popupmods.Rda")
 
 stop()
 
@@ -630,3 +595,60 @@ bb.stv.nam <- with(bb.stan.nam,
                                          ))
 }
 ##
+bb.stv.eu <- with(bb.stan.eu, 
+                  list(yPhenoi = resp, 
+                       forcingi = force.z,
+                       photoi = photo.z,
+                       chillingi = chill.z,
+                       species = latbinum,
+                       N = nrow(bb.stan.eu),
+                       n_spec = length(unique(bb.stan.eu$complex.wname)),
+                       climvar=unique(bb.stan.eu$STV.z)
+                  ))
+
+
+bb.gdd.eu <- with(bb.stan.eu, 
+                  list(yPhenoi = resp, 
+                       forcingi = force.z,
+                       photoi = photo.z,
+                       chillingi = chill.z,
+                       species = latbinum,
+                       N = nrow(bb.stan.eu),
+                       n_spec = length(unique(bb.stan.eu$complex.wname)),
+                       climvar=unique(bb.stan.eu$GDD.z)
+                  ))
+
+bb.cp.eu <- with(bb.stan.eu, 
+                 list(yPhenoi = resp, 
+                      forcingi = force.z,
+                      photoi = photo.z,
+                      chillingi = chill.z,
+                      species = latbinum,
+                      N = nrow(bb.stan.eu),
+                      n_spec = length(unique(bb.stan.eu$complex.wname)),
+                      climvar=unique(bb.stan.eu$CP.z)
+                 ))
+
+bb.gdd.nam <- with(bb.stan.nam, 
+                   list(yPhenoi = resp, 
+                        forcingi = force.z,
+                        photoi = photo.z,
+                        chillingi = chill.z,
+                        species = latbinum,
+                        N = nrow(bb.stan.nam),
+                        n_spec = length(unique(bb.stan.nam$complex.wname)),
+                        climvar=unique(bb.stan.nam$GDD.z)
+                   ))
+
+bb.cp.nam <- with(bb.stan.nam, 
+                  list(yPhenoi = resp, 
+                       forcingi = force.z,
+                       photoi = photo.z,
+                       chillingi = chill.z,
+                       species = latbinum,
+                       N = nrow(bb.stan.nam),
+                       n_spec = length(unique(bb.stan.nam$complex.wname)),
+                       climvar=unique(bb.stan.nam$CP.z)
+                  ))
+
+

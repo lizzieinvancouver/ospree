@@ -25,9 +25,9 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-launch_shinystan(gddlf_jnt.eu)
+#launch_shinystan(gddlf_jnt.eu)
 load("popupmods.Rda")
-tidybayes::get_variables(threeparam_jnt.cp)
+#tidybayes::get_variables(threeparam_jnt.cp)
 ###
 
 
@@ -36,16 +36,16 @@ concordance<-unique(dplyr::select(bb.stan,latbinum,complex.wname)) ### for addin
 concordance.na<-unique(dplyr::select(bb.stan.nam,latbinum,complex.wname))
 concordance.eu<-unique(dplyr::select(bb.stan.eu,latbinum,complex.wname))
 ###z-score orginal variable for plotting because the model ran on zscored bariables
-ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)
-ggdlf$STV.z<-(ggdlf$STV-mean(ggdlf$STV))/sd(ggdlf$STV)
-ggdlf$GDD.z<-(ggdlf$GDD-mean(ggdlf$GDD))/sd(ggdlf$GDD)
-ggdlf$CP.z<-(ggdlf$ChP-mean(ggdlf$ChP))/sd(ggdlf$ChP)
-ggdlf$SDscale<-ggdlf$Temp.SD.z*4
+#ggdlf$Temp.SD.z<-(ggdlf$Temp.SD-mean(ggdlf$Temp.SD))/sd(ggdlf$Temp.SD)
+#ggdlf$STV.z<-(ggdlf$STV-mean(ggdlf$STV))/sd(ggdlf$STV)
+#ggdlf$GDD.z<-(ggdlf$GDD-mean(ggdlf$GDD))/sd(ggdlf$GDD)
+#ggdlf$CP.z<-(ggdlf$ChP-mean(ggdlf$ChP))/sd(ggdlf$ChP)
+#ggdlf$SDscale<-ggdlf$Temp.SD.z*4
 
 
 head(ggdlf)
 #extract paramenter 
-summary((threeparam_jnt.gdd))$summary
+#summary((threeparam_jnt.gdd))$summary
 ######FUNS
 scrapebetas<-function(x){ # this one takes the species level beta values
   goo <- summary(x)$summary
@@ -150,7 +150,7 @@ photoyb<-left_join(sample.photo,sample.photo2)
 photoyb$cue<-"photo"
 
 cuey<-rbind(photoyb,chillyb,forcyb)
-cuey<- cuey %>% dplyr::group_by(cue) %>% sample_n(100)}
+cuey<- cuey %>% dplyr::group_by(cue) %>% sample_n(1000)}
 
 
 
@@ -294,22 +294,24 @@ ggdlf.na<-dplyr::filter(ggdlf,continent=="N. America")
 alphasggdf.na<-left_join(alphas.na,ggdlf.na,by="complex.wname")
 
 
-aa.na<-ggplot(betasggdf.na,aes(Temp.SD.z,mean))+geom_point(aes(color=cue))+
-  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")
+alphasggdf.na$trait<-"alphas"
+betasggdf.na$trait<-"betas"
 
-namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
-  geom_abline(data=betameansNA,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("North America")+
+namcomp<-rbind(betasggdf.na,alphasggdf.na)
+
+
+aa.na<-ggplot(betasggdf.na,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
+geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue,width=0))#+#+
+ # geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue)
+
+namplot<-aa.na+geom_abline(data=cuebertNA,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.01)+
+  geom_abline(data=betameansNA,aes(intercept = mu,slope= trait_beta,color=cue),size=1.5)+
+  ggthemes::theme_few(base_size = 8)+scale_color_viridis_d(option="plasma")+ylim(-50,20)+
+  xlab("North America \nstandard deviation of \nGDDs to last frost")+
   ylab("Cue sensitivity")+
   theme(legend.position = "none")+ylab("")
 
-aa.na.alpha<-ggplot(alphasggdf.na,aes(Temp.SD.z,mean))+geom_point(aes(color=cue))+
-  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("North America")+
-  ylab("Cue sensitivity")+
-  theme(legend.position = "none")+ylab("")
+
 
 #ggplot(betasggdf.na,aes(Temp.SD.z,meanDiff))+
  # geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)
@@ -333,30 +335,43 @@ betasggdf.eu<-left_join(betas.eu,ggdlf.eu)
 
 alphas.eu<-scrapealphas.eu(modeu)
 ggdlf.eu<-dplyr::filter(ggdlf,continent=="Europe")
+alphasggdf.eu<-left_join(alphas.eu,ggdlf.eu)
 
-alphasggdf.eu<-left_join(alphas.eu,ggdlf.eu,by="complex.wname")
+alphasggdf.eu$trait<-"alphas"
+betasggdf.eu$trait<-"betas"
 
+eurocomp<-rbind(betasggdf.eu,alphasggdf.eu)
+plot.e<-ggplot(eurocomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
+plot.a<-ggplot(namcomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
+ggpubr::ggarrange(plot.e,plot.a,nrow=2)
 
-
+data.frame(alphasggdf.eu$mean, alphasggdf.eu$cue,alphasggdf.eu$complex.wname)
 
 
 aa.eu<-ggplot(betasggdf.eu,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
-  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")
+  geom_errorbar(aes(ymin=`25%`,ymax=`75%`,color=cue,width=0))#+
+  #geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue)
 
-euplot<-aa.eu+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.05)+
-  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1)+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
-  xlab("Europe")+
-  ylab("Cue sensitivity")+
-  theme(legend.position = "none")+ylab("")
+euplot<-aa.eu+geom_abline(data=cueberteu,aes(intercept=mu,slope=trait_beta,color=cue),alpha=0.01)+
+  geom_abline(data=betameanswu,aes(intercept = mu,slope= trait_beta,color=cue),size=1.5)+
+  ggthemes::theme_few(base_size = 8)+scale_color_viridis_d(option="plasma")+ylim(-50,20)+
+  xlab("Europe \nstandard deviation of \nGDDs to last frost")+
+  theme(legend.position = "none")+ylab("Estimated cue sensitivity")+scale_x_continuous(breaks=c(0,1,2,3))
 
 aa.eu.alpha<-ggplot(alphasggdf.eu,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
   geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
-  ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+
+  ggthemes::theme_few()+scale_color_viridis_d(option="plasma",begin=0.2)+
   xlab("Europe")+
   ylab("Cue sensitivity")+
   theme(legend.position = "none")+ylab("")
 
+
+aa.na.alpha<-ggplot(alphasggdf.na,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
+  geom_text(aes(label=complex.wname),hjust=0, vjust=0,size=2)+facet_wrap(~cue,scales="free_y")+
+  ggthemes::theme_few(base_size = 10)+scale_color_viridis_d(option="plasma",begin = 0.2)+
+  xlab("North America")+
+  ylab("Cue sensitivity")+
+  theme(legend.position = "none")+ylab("")
 #aaa.eu<-ggplot(betasggdf.eu,aes(Temp.SD.z,diff))+
  # geom_point(aes(color=cue,shape=continent),size=2)+facet_wrap(~cue)+
 #  geom_errorbar(aes(ymin=diff.25,ymax=diff.75,color=cue))+
@@ -369,15 +384,66 @@ aa.eu.alpha<-ggplot(alphasggdf.eu,aes(Temp.SD,mean))+geom_point(aes(color=cue))+
  # ggthemes::theme_few()+scale_color_viridis_d(option="plasma")+xlab("Environment")
 
 
-jpeg("figuresEurotrait_dcom_gdd2pfggplot.jpeg", width = 10,height=12,units = "in", res=300)
-ggpubr::ggarrange(aa.eu.alpha,euplot,nrow=2,common.legend = TRUE)
+jpeg("figures/mock1.jpeg", width = 6,height=4,units = "in", res=250)
+
+ggpubr::ggarrange(euplot,namplot,ncol=2,common.legend = TRUE,widths=c(.4,.7),labels = c("a)","b)"),label.y = 1.03,label.x = -0.01)
 dev.off()
 
 
 
+ggdlfmany<-dplyr::select(ggdlf,Temp.SD,complex.wname,continent)
+ggdlfmanyF<-ggdlfmany
+ggdlfmanyF$cue<-"force"
+
+ggdlfmanyP<-ggdlfmany
+ggdlfmanyP$cue<-"photo"
+
+ggdlfmanyC<-ggdlfmany
+ggdlfmanyC$cue<-"chill"
+
+ggdlfmany<-rbind(ggdlfmanyF,ggdlfmanyP,ggdlfmanyC)
+ggdlfmany<-distinct(ggdlfmany)
+
+
+trait.eu<-as.data.frame(summy.eu[grep(c("betaTrait"), rownames(summy.eu)),])
+trait.eu$cue<-c("force","photo","chill")
+traitnam<-as.data.frame(summy.nam[grep(c("betaTrait"), rownames(summy.nam)),])
+traitnam$cue<-c("force","photo","chill")
+
+
+traitnam$continent<- "N. America"
+trait.eu$continent<- "Europe"
+testimates<-rbind(traitnam,trait.eu)
+
+
+testimates<-dplyr::select(testimates,mean,cue,continent)
+str(testimates)
+
+alphas.eu2<-select(alphas.eu,mean,cue,complex.wname)
+alphas.nam2<-select(alphas.na,mean,cue,complex.wname)
+
+alphas.nam2$continent<- "N. America"
+alphas.eu2$continent<- "Europe"
+aestimates<-rbind(alphas.nam2,alphas.eu2)
 
 
 
+colnames(aestimates)[1]<-"alpha"
+goober<-merge(aestimates,testimates,by=c("continent","cue"))
+
+
+
+betas.na2<-select(betas.na,mean,cue,complex.wname)
+betas.eu2<-select(betas.eu,mean,cue,complex.wname)
+
+betafor<-rbind(betas.na2,betas.eu2)
+
+colnames(betafor)[1]<-"cue_beta"
+goober<-left_join(goober,betafor)
+
+checky<-merge(goober,ggdlfmany)
+checky$check<-(checky$alpha+(checky$mean*checky$Temp.SD))
+head(arrange(checky,cue_beta),10)
 
 ####
 
