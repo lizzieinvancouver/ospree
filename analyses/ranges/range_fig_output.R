@@ -289,9 +289,9 @@ ggdlf.na<-dplyr::filter(ggdlf,continent=="N. America")
 betasggdf.na<-left_join(betas.na,ggdlf.na)
 
 alphas.na<-scrapealphas.na(modna)
-ggdlf.na<-dplyr::filter(ggdlf,continent=="N. America")
 
-alphasggdf.na<-left_join(alphas.na,ggdlf.na,by="complex.wname")
+
+alphasggdf.na<-left_join(alphas.na,ggdlf.na)
 
 
 alphasggdf.na$trait<-"alphas"
@@ -343,7 +343,10 @@ betasggdf.eu$trait<-"betas"
 eurocomp<-rbind(betasggdf.eu,alphasggdf.eu)
 plot.e<-ggplot(eurocomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
 plot.a<-ggplot(namcomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
-ggpubr::ggarrange(plot.e,plot.a,nrow=2)
+
+jpeg("figures/alpha_beta_comps.jpeg", width = 10,height=12,units = "in", res=300)
+ggpubr::ggarrange(plot.e,plot.a,nrow=2,labels = c("EU","NA"))
+dev.off()
 
 data.frame(alphasggdf.eu$mean, alphasggdf.eu$cue,alphasggdf.eu$complex.wname)
 
