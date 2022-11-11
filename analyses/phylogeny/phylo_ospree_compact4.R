@@ -4,13 +4,13 @@
 ## But edits by Deirdre to be used for testing new stan model that should run faster. ##
 # not that the R code doesn't change, just stan
 
-# 
+# housekeeping
 rm(list=ls())
 options(stringsAsFactors = FALSE)
 rstan_options(auto_write = TRUE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
+if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 

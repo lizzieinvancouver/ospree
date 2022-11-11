@@ -1,0 +1,16 @@
+Started 10 November 2022
+From Alcala...
+All That You Can't Leave Behind
+
+Some notes on why we did not include all the climate predictors in our analyses in the end, from Lizzie meeting with Dan 27-28 October 2022 in Boston and then discussing with Nacho today ... 
+
+(1) Dan made a compelling case that many of our hypotheses were about the magnitude of cues available to species (how much forcing or chilling or variability in these are there across a range, effectively) and this REALLY differed from the sd(GDD until last frost) hypothesis which is about risk. Risk can lead to selection (especially variation and risk), but for these other hypotheses we only have variation -- what's the risk or reward that would drive selection? 
+
+We'd need to figure this out before moving forward with these ideas. On the note, JD asked if maybe we should look at relative cues within species (is photoperiod stronger than chill in certain cases etc.)? Compare each species F, C and P cues -- or maybe just C and P since those are more 'cues' and it's easier to look at TWO things relative to one another than three. 
+
+(2) We made A LOT of predictions, which would require a LOT of models to run... and we don't have much data. We got worried we'd find spurious correlations and we were not sure how to avoid that. Sometimes it's much better not to run a million models.
+
+(3) Similarly, we realized some variables may correlate with others we don't have. Does chilling in Europe actually correlate with mean temperature or aridity for example? We'd probably want to answer some of those questions to use all the cool data we have... 
+
+Misc: 
+Nacho asked if we may be over-estimating the range space based on our maps. Depending on follow-up questions could be better to have finer scale maps.  
