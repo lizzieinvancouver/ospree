@@ -1,4 +1,6 @@
 # started Jan 31, 2022 by Deirdre
+rm(list=ls())
+options(stringsAsFactors = FALSE)
 
 # aim of this code is to make a conceptual figure for the traitors ms:
 
@@ -109,17 +111,18 @@ legend("bottomleft",legend = c(expression("betaTraitxChill = -0.5"),
                             expression("betaTraitxChill = 0"),
                             expression("betaTraitxChill = 0.5"),
                             expression("betaTraitxChill = 1")),
-       col = c("black", "black", "black", "black","black"),
+       #col = c("black", "black", "black", "black","black"),
        #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
-       pt.bg = c( "#cc6a70ff", "#7e4e90ff","#55C667FF","#287D8EFF", "cyan4"),
+       col = c( "#cc6a70ff", "#7e4e90ff","#55C667FF","#287D8EFF", "cyan4"),
        inset = 0.02, pch = c(21, 21, 21, 21,21 ), cex = 0.75, bty = "n")
 
-
+par(mfrow = c(1,3))
 ## Ok, if the above is correct, then yes the intercepts can vary
+pdf("figures/conceptualFigure3.pdf", width = 12, height = 5)
 
-alphaChillSp <- -0.5
+alphaChillSp <- -2
 mu_grand_sp <- c(2,10)
-betaTraitxChill <- c(-0.5,0, 0.5) # Start with a positive value, I also want to try: negative values, larger values, smaller values
+#betaTraitxChill <- c(-0.5, -1, 0, 0.5, 1) # Start with a positive value, I also want to try: negative values, larger values, smaller values
 betaTraitxChillT0 <- 0
 
 alphaPhenoSp <- c(10,50)
@@ -134,11 +137,47 @@ chilli <- rnorm(2000, 20, 10) #x-axis
 
 #colors <- c("#cc6a70ff", "#7e4e90ff","#55C667FF","#287D8EFF", "cyan4")
 
-plot(chilli,yPhenoi, type = "n", xlim = c(-15,15), ylim =c(-150, 100))
+#plot(chilli,yPhenoi, type = "n", xlim = c(-15,15), ylim =c(-150, 100))
 par(mfrow = c(1,3))
 
+betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
   b <- 1
+  gm <- 1
+  a <- 1
   
+  betaChillSp = alphaChillSp + betaTraitxChill[b] * mu_grand_sp[gm]
+  yPhenoi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSp * chilli
+  
+  betaChillSpT0 = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
+  yPhenoiT0 <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
+  
+  b<- 2
+  gm <- 1
+  a <- 2
+  betaChillSpHi = alphaChillSp + betaTraitxChill[b] * mu_grand_sp[gm]
+  yPhenoiHi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpHi * chilli
+  
+  betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
+  yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
+  
+  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue")
+  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3)
+  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
+  points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+  
+  legend("topright",legend = c(expression("Conservative (betaTraitxCue = +ve)"),
+                               expression("Conservative (trait effect = 0)"),
+                               expression("Acquisitive (betaTraitxCue = +ve)"),
+                               expression("Acquisitive (trait effect = 0)")),
+         
+         #col = c("black", "black", "black", "black"),
+         #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
+         col = c("forestgreen", "palegreen3", "mediumpurple1", "purple4"),
+         inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
+  
+## Now the slope is 0
+  b <- 3
   gm <- 1
   a <- 1
   
@@ -156,10 +195,58 @@ par(mfrow = c(1,3))
   betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
   yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
   
-  plot(chilli,yPhenoi, type = "n", xlim = c(-15,15), ylim =c(0, 100))
-  points(chilli,yPhenoi, type = "l", col= "darkmagenta", lwd = 3)
-  points(chilli,yPhenoiT0, type = "l", col= "darkorchid1", lwd = 3)
+  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue")
+  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3)
+  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
   points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
-  points(chilli,yPhenoiT0Hi, type = "l", col= "chartreuse3", lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+
+  legend("topright",legend = c(expression("Conservative (betaTraitxCue = 0)"),
+                               expression("Conservative (trait effect = 0)"),
+                               expression("Acquisitive (betaTraitxCue = 0)"),
+                               expression("Acquisitive (trait effect = 0)")),
+         
+         #col = c("black", "black", "black", "black"),
+         #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
+         col = c("forestgreen", "palegreen3", "mediumpurple1", "purple4"),
+         inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
   
+  ## Now the slope is +ve
+  betaTraitxChill <- c(-0.45, -0.85, 0, 0.2,0.4)
+  b <- 5
+  gm <- 1
+  a <- 1
+  
+  betaChillSp = alphaChillSp + betaTraitxChill[b] * mu_grand_sp[gm]
+  yPhenoi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSp * chilli
+  
+  betaChillSpT0 = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
+  yPhenoiT0 <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
+  
+ 
+  b <- 4
+  gm <- 1
+  a <- 2
+  betaChillSpHi = alphaChillSp + betaTraitxChill[b] * mu_grand_sp[gm]
+  yPhenoiHi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpHi * chilli
+  
+  betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
+  yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
+  
+  plot(chilli,yPhenoi, type = "n", xlim = c(-10,10), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue")
+  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3, lty = 1)
+  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
+  points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+  
+  legend("topright",legend = c(expression("Conservative (betaTraitxCue = -ve)"),
+                               expression("Conservative (trait effect = 0)"),
+                               expression("Acquisitive (betaTraitxCue = -ve)"),
+                               expression("Acquisitive (trait effect = 0)")),
+         
+         #col = c("black", "black", "black", "black"),
+         #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
+         col = c("forestgreen", "palegreen3", "mediumpurple1", "purple4"),
+         inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
+dev.off()
   
