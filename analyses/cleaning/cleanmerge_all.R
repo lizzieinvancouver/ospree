@@ -68,7 +68,7 @@ source("cleaning/clean_latlong.R") # Updated by Ailene in August 2019
 
 # 11. Remove duplicate lines
 
-source("cleaning/clean_duplicates.R") # removes 239 rows as of 22 August 2019
+source("cleaning/clean_duplicates.R") # removes 234 rows as of 17 November 2022 
 
 # 12. Write out the final file! 
 
