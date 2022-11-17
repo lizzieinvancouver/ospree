@@ -58,12 +58,15 @@ d.woody[which(d.woody$species=="setchuensis"),"species"] <- "setchuenensis"
 d.woody[which(d.woody$species=="amerciana"),"species"] <- "americana"
 d.woody[which(d.woody$species=="styrraciflua"),"species"] <- "styraciflua"
 d.woody[which(d.woody$species=="patraea"),"species"] <- "petraea"
+d.woody[which(d.woody$genus=="Acer" & d.woody$species=="pseudolatauns"), "species"] <- "pseudoplatanus" 
+
 
 # genus problems
 d.woody[which(d.woody$genus=="Pseduotsuga"),"genus"] = "Pseudotsuga"
 d.woody[which(d.woody$genus=="Betula "),"genus"] = "Betula"
 d.woody[which(d.woody$genus=="Pinus "),"genus"] = "Pinus"
 d.woody[which(d.woody$genus=="Sorbus "),"genus"] = "Sorbus"
+d.woody[which(d.woody$genus=="Cornus" & d.woody$species=="cornuta"), "genus"] = "Corylus" # Lizzie adds in Nov 2022 that this does not seem to be an issue anymore
 
 ## save
 #write.csv(d.woody,paste(out.folder,"ospree_clean_woody.csv",sep=""))
