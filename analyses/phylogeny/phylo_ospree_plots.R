@@ -1028,58 +1028,58 @@ mean(extract(fitlambest)[["lam_interceptsa"]],na.rm = T)
 
 if(agiosponly){
   par(mfrow=c(1,4))
-  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,4),ylab="density",
+  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,3),ylab="density",
        xlab="lambda", main="")
   
-  lines(density(extract(fitlambest)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlambest)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
   lines(density(extract(fitlambest)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(fitlambest)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(fitlambest)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
-  text(0.50,3.5,"intercept",col='grey')
-  text(0.8,2,"force",col='indianred3')
-  text(0.6,2.7,"chill",col='cyan4')
-  text(0.8,0.75,"photo",col='orange')
-  text(0,4,"a",cex=1.5)
+  #text(0.50,3.5,"intercept",col='grey')
+  text(0.8,2,"forcing",col='indianred3')
+  text(0.6,2.7,"chilling",col='cyan4')
+  text(0.15,1.6,"photoperiod",col='orange')
+  text(0,3,"a",cex=1.5)
   
   
-  plot(x=NULL,y=NULL, xlim=c(0,25), ylim=c(0,1),ylab="density",
+  plot(x=NULL,y=NULL, xlim=c(0,15), ylim=c(0,1),ylab="density",
        xlab="sigma", main="")
   
-  lines(density(extract(fitlambest)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlambest)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
   lines(density(extract(fitlambest)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(fitlambest)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(fitlambest)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
-  text(19,0.3,"intercept",col='grey')
-  text(5,0.45,"force",col='indianred3')
-  text(9,0.4,"chill",col='cyan4')
-  text(5.1,0.8,"photo",col='orange')
+  #text(19,0.3,"intercept",col='grey')
+  text(5,0.45,"forcing",col='indianred3')
+  text(9,0.4,"chilling",col='cyan4')
+  text(4.5,0.8,"photoperiod",col='orange')
   text(0,1,"b",cex=1.5)
   
   
-  plot(x=NULL,y=NULL, xlim=c(0,25), ylim=c(0,1),ylab="density",
+  plot(x=NULL,y=NULL, xlim=c(0,15), ylim=c(0,1),ylab="density",
        xlab="sigma (lambda = 0)", main="")
   
-  lines(density(extract(fitlam0)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlam0)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
   lines(density(extract(fitlam0)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(fitlam0)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(fitlam0)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
-  text(19,0.3,"intercept",col='grey')
-  text(5,0.45,"force",col='indianred3')
-  text(9,0.4,"chill",col='cyan4')
-  text(5.1,0.8,"photo",col='orange')
+  #text(19,0.3,"intercept",col='grey')
+  text(5,0.5,"forcing",col='indianred3')
+  text(9,0.4,"chilling",col='cyan4')
+  text(4.5,0.8,"photoperiod",col='orange')
   text(0,1,"c",cex=1.5)
   
-  plot(x=NULL,y=NULL, xlim=c(0,55), ylim=c(0,1),ylab="density",
+  plot(x=NULL,y=NULL, xlim=c(0,20), ylim=c(0,1),ylab="density",
        xlab="sigma (lambda = 1)", main="")
   
-  lines(density(extract(fitlam1)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
   lines(density(extract(fitlam1)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
   lines(density(extract(fitlam1)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
   lines(density(extract(fitlam1)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
-  text(19,0.3,"intercept",col='grey')
-  text(5,0.45,"force",col='indianred3')
-  text(9,0.4,"chill",col='cyan4')
-  text(5.1,0.8,"photo",col='orange')
+  #text(19,0.3,"intercept",col='grey')
+  text(5,0.3,"forcing",col='indianred3')
+  text(9,0.37,"chilling",col='cyan4')
+  text(4.1,0.78,"photoperiod",col='orange')
   text(0,1,"d",cex=1.5)
   
   
