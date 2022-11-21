@@ -49,7 +49,7 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
 
 pdf("figures/slopesConsAcqu_maintext_samespp.pdf", width = 12, height = 12)
 par(mar = c(5, 5, 2, 2), mfrow=c(3,3))
-source("Rfiles/concept_fig.R")
+#source("Rfiles/concept_fig.R")
 #source("results_Height_plot.R")
 source("results_SLA_plot.R")
 #source("results_SeedMass_plot.R")
@@ -59,7 +59,7 @@ dev.off()
 
 pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 12)
 par(mar = c(5, 5, 2, 2), mfrow=c(3,3))
-source("Rfiles/concept_fig.R")
+#source("Rfiles/concept_fig.R")
 source("results_Height_plot.R")
 source("results_SeedMass_plot.R")
 dev.off()
