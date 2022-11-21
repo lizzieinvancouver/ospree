@@ -1,13 +1,12 @@
-## Started 9 September 2021 ##
-## By Nacho, copies Nacho's Phylo_ospree_reanalyses.R code ##
+## Started mid November 2022 ##
+## From files started September 2021 (that copied Nacho's Phylo_ospree_reanalyses.R code)
+## By Nacho, with some edits by Lizzie ##
 
-## But edits by Deirdre to be used for testing new stan model that should run faster. ##
-# not that the R code doesn't change, just stan
+## Runs (or reads) the phylogeny models, extracts some output
+## Does some basic plotting
 
-# 
 rm(list=ls())
 options(stringsAsFactors = FALSE)
-rstan_options(auto_write = TRUE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
@@ -23,15 +22,20 @@ if(length(grep("Lizzie", getwd())>0)) {
 
 
 # Loading packages
-library(shinystan)
 library(caper)
 library(pez)
-library(rstan)
 library(phytools)
+library(rstan)
+library(shinystan)
 library(plyr)
 library(dplyr)
 
 options(mc.cores = parallel::detectCores())
+
+#'###############################
+# Flags for how to run the code #
+#'###############################
+runmodels <- FALSE
 
 
 #'######################################
@@ -167,7 +171,7 @@ if(!nocrops & agiosponly){
 } 
 
 
-# Step 1: Get spps and VCVPHY in same order
+# Get spps and VCVPHY in same order
 # bb.stan$spps[phylo$tip.label]
 phylo$tip.label
 d <- bb.stan[match(phylo$tip.label, bb.stan$spps),] # hmmm, only gives ONE match
@@ -178,10 +182,8 @@ d <- d[order(d$sppnum),]
 # Tilia_cordata versus Tilia_Cordata in phylo
 nspecies <- max(d$sppnum)
 
-
-
 ## remove outliers
-d$resp
+# d$resp
 head(d)
 ff = subset(d,latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
 d = subset(d,!latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
@@ -205,43 +207,9 @@ nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 
 
-
-
-# Step 2: Run some version of the model 
-
-# This model uses Geoff's new version of the stan code
-# but it take ages to run, argh!
-
-
-## Two slope, one intercept model
-### Set priors
-phypriors <- list(
-  a_z_prior_mu = 30,
-  a_z_prior_sigma = 10,
-  lam_interceptsa_prior_alpha = 1, # 
-  lam_interceptsa_prior_beta = 1, # 
-  sigma_interceptsa_prior_mu = 40,
-  sigma_interceptsa_prior_sigma = 20,
-  b_zf_prior_mu = -4,
-  b_zf_prior_sigma = 5,
-  lam_interceptsbf_prior_alpha = 1, #
-  lam_interceptsbf_prior_beta = 1, # 
-  sigma_interceptsbf_prior_mu = 5,
-  sigma_interceptsbf_prior_sigma = 5,
-  b_zc_prior_mu = -8,
-  b_zc_prior_sigma = 5,
-  lam_interceptsbc_prior_alpha = 1, #
-  lam_interceptsbc_prior_beta = 1, # 
-  sigma_interceptsbc_prior_mu = 5,
-  sigma_interceptsbc_prior_sigma = 5,
-  b_zp_prior_mu = -3,
-  b_zp_prior_sigma = 5,
-  lam_interceptsbp_prior_alpha = 1, #
-  lam_interceptsbp_prior_beta = 1, # 
-  sigma_interceptsbp_prior_mu = 5,
-  sigma_interceptsbp_prior_sigma = 5,
-  sigma_y_mu_prior = 20,
-  sigma_y_mu_sigma = 1)
+#'###################################
+# Run or read in the models      ####
+#'###################################
 
 # Function for generating "good" initial values
 simu_inits <- function(chain_id) {
@@ -275,13 +243,14 @@ if(FALSE){
                      seed = 117 
   )
   
-  summary(totallynew, pars = list("a_z", "lambda_a", "tau_a", "b_zf", "lambda_bf", "tau_bf", "b_zc", "lambda_bc", "tau_bc", "b_zp", "lambda_bp", "tau_bp", "sigma_y"))$summary
+summary(totallynew, pars = list("a_z", "lambda_a", "tau_a", "b_zf", "lambda_bf", "tau_bf", "b_zc", "lambda_bc", "tau_bc", "b_zp", "lambda_bp", "tau_bp", "sigma_y"))$summary
   
 }
 
-## Fit model here ... using code that Lizzie updated priors for
-# It ran for Lizzie in well under and hour on her laptop
-testme <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan",
+## Fit model here ... using code for which Lizzie updated priors
+
+if(runmodels){
+fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan",
                data=list(N=nrow(d),
                          n_sp=nspecies,
                          sp=d$sppnum,
@@ -292,32 +261,66 @@ testme <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.st
                          Vphy=vcv(phylo, corr = TRUE)),
                init = simu_inits,
                iter = 4000,
-               warmup = 2000, # half the iter as warmp is default FYI
+               warmup = 2000, # half the iter as warmp is default, but leaving in case we want to change
                chains = 4,
                seed = 117 
 )
 
 ## Save fitted posterior
-saveRDS(testme, "output/testme_priorupdate_noout_angio191.rds")
-#testme = readRDS("output/testme_priorupdate_noout_lam1.rds")
-testme = readRDS("output/testme_priorupdate_noout_gymno_lam1.rds")
+saveRDS(fit, "output/fit_priorupdate_noout_angio191.rds")
 
+fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_lamb0.stan",
+               data=list(N=nrow(d),
+                         n_sp=nspecies,
+                         sp=d$sppnum,
+                         x1=d$force.z,
+                         x2 = d$chill.z,
+                         x3=d$photo.z,
+                         y=d$resp,
+                         Vphy=vcv(phylo, corr = TRUE)),
+               init = simu_inits,
+               iter = 4000,
+               warmup = 2000, 
+               chains = 4,
+               seed = 117 
+               )
+saveRDS(fit, "output/fit_priorupdate_noout_angio191_lamb0.rds")
 
+}
+
+if(!runmodels){
+fit <-  readRDS("output/fit_priorupdate_noout_angio191.rds")
+fitlamb0 <-  readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
+}
+
+#'###################################
+# Analyze model fit            ####
+#'###################################
 
 ## Summarize full fit
-summary(testme)$summary
+summary(fit)$summary
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
-summary(testme, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
-summary(testme, pars = list("a_z", "sigma_interceptsa", 
+summary(fit, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+summary(fit, pars = list("a_z", "sigma_interceptsa", 
                             "b_zf", "sigma_interceptsbf", 
                             "b_zc", "sigma_interceptsbc", 
                             "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
 
 
 source("source/stan_utility.R")
-check_all_diagnostics(testme)
+check_all_diagnostics(fit)
 
+
+## Estimate uncertainty for each species -- but across them
+# Lizzie is working on this ... 
+if(FALSE){
+
+}
+
+#'###################################
+# Some plots ...               ####
+#'###################################
 
 ## Compare prior and posterior
 # Plotting f(x) from Mike Betancourt
@@ -335,7 +338,7 @@ plot_marginal <- function(values, name, display_xlims, title="") {
        col=c_dark, border=c_dark_highlight)
 }
 
-post_samples <- extract(testme)
+post_samples <- extract(fit)
 plot_marginal(post_samples$b_zc, "b_zc", c(-20, 2))
 
 # Prior for b_zc us normal(-2, 10) so I think the below works ... 
@@ -354,11 +357,8 @@ points(x=seq(-0.1, 1.1, by=0.001), yhere,
 
 
 # Reinstating some useful plotting code
+
 # See also https://github.com/lizzieinvancouver/pmm/blob/5014539f8a7cfc659298d20d49a0935a8ced305d/analyses/phlyo_opsree_compact.R
-source("source/stan_utility.R")
-fit <- readRDS("output/testme.rds")
-fit <- testme
-check_all_diagnostics(fit)
 
 names(fit)[grep(pattern = "^a\\[", x = names(fit))] <- phylo$tip.label
 names(fit)[grep(pattern = "^b_force", x = names(fit))] <- phylo$tip.label
@@ -378,12 +378,10 @@ dev.off()
 
 
 
-
-
 source("source/bb_muplotphylo.R")
-modelhere <- testme3
+modelhere <- fit
 figpath <- "figures"
-figpathmore <- "testme3"
+figpathmore <- "fit"
 library(RColorBrewer)
 cols <- adjustcolor("indianred3", alpha.f = 0.3) 
 my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
@@ -393,9 +391,9 @@ alphahere = 0.4
 muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5)
 
 par(mfrow=c(2,3))
-hist(extract(modelhere)[["null_interceptsbf"]], main="force")
-hist(extract(modelhere)[["null_interceptsbc"]], main="chill")
-hist(extract(modelhere)[["null_interceptsbp"]], main="photo")
+hist(extract(modelhere)[["sigma_interceptsbf"]], main="force")
+hist(extract(modelhere)[["sigma_interceptsbc"]], main="chill")
+hist(extract(modelhere)[["sigma_interceptsbp"]], main="photo")
 
 hist(extract(modelhere)[["lam_interceptsbf"]], main="lambda force")
 hist(extract(modelhere)[["lam_interceptsbc"]], main="lambda chill")
@@ -403,16 +401,15 @@ hist(extract(modelhere)[["lam_interceptsbp"]], main="lambda photo")
 
 
 lamf.int <- mean(extract(modelhere)[["lam_interceptsbf"]])
-nullf.int <- mean(extract(modelhere)[["null_interceptsbf"]])
-lamf.int / (nullf.int + lamf.int)
+sigmaf.int <- mean(extract(modelhere)[["sigma_interceptsbf"]])
+lamf.int / (sigmaf.int + lamf.int)
 
 lamc.int <- mean(extract(modelhere)[["lam_interceptsbc"]])
-nullc.int <- mean(extract(modelhere)[["null_interceptsbc"]])
-lamc.int / (nullc.int + lamc.int)
+sigmac.int <- mean(extract(modelhere)[["sigma_interceptsbc"]])
+lamc.int / (sigmac.int + lamc.int)
 
 lamp.int <- mean(extract(modelhere)[["lam_interceptsbp"]])
-nullp.int <- mean(extract(modelhere)[["null_interceptsbp"]])
-lamp.int / (nullp.int + lamp.int)
+sigmap.int <- mean(extract(modelhere)[["sigma_interceptsbp"]])
+lamp.int / (sigmap.int + lamp.int)
 
 
-## END TEST
