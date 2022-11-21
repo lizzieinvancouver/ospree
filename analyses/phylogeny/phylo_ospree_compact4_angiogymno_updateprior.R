@@ -313,8 +313,45 @@ check_all_diagnostics(fit)
 
 
 ## Estimate uncertainty for each species -- but across them
-# Lizzie is working on this ... 
+# Lizzie is working on this ... following some of phylo_ospree_corplots.R
 if(FALSE){
+    
+postfit <- extract(fit)
+whichquantiles <- c(0.1, 0.5, 0.9) # need to give three to work with below code
+
+# grab the quantiles (giving df cols generic names so we can switch it up)
+# extract posteriors for species-level estimates
+chillarray <- postfit$b_chill
+forcearray <- postfit$b_force
+photoarray <- postfit$b_photo
+intarray <- postfit$a
+
+# create dataframe to fill (ALERT: goes chill, force, photo, intercept)
+lengthhere <- ncol(chillarray)
+modquant <- data.frame(spnum=c(paste("sp", c(1:(4*lengthhere)), sep="")),
+    cue=rep(c("chill", "force", "photo", "intercept"), each=lengthhere),
+    qlow=rep(0, 4*lengthhere), qmid=rep(0, 4*lengthhere),
+    qhigh=rep(0, 4*lengthhere))
+
+arrays <- list(chillarray, forcearray, photoarray, intarray)
+
+for(whicharray in c(1:length(arrays))){
+    arrayhere <- arrays[[whicharray]]
+    for(i in c(1:ncol(arrayhere))){
+        quanthere <- quantile(arrayhere[,i], probs = whichquantiles)
+        if(whicharray==1){start <- 0}
+        if(whicharray==2){start <- lengthhere}
+        if(whicharray==3){start <- lengthhere*2}
+        if(whicharray==4){start <- lengthhere*3}
+        modquant$qlow[start+i] <- quanthere[[1]]
+        modquant$qmid[start+i] <- quanthere[[2]]
+        modquant$qhigh[start+i] <- quanthere[[3]]
+    }
+}
+
+    
+# postfitlamb0 <- extract(fit0) # need to do... 
+
 
 }
 
@@ -338,15 +375,15 @@ plot_marginal <- function(values, name, display_xlims, title="") {
        col=c_dark, border=c_dark_highlight)
 }
 
-post_samples <- extract(fit)
-plot_marginal(post_samples$b_zc, "b_zc", c(-20, 2))
+postfit <- extract(fit) # if not done above
+plot_marginal(postfit$b_zc, "b_zc", c(-20, 2))
 
 # Prior for b_zc us normal(-2, 10) so I think the below works ... 
 yhere <- dnorm(x=seq(-20, 2, by=0.01), mean=-2, sd=10)
 points(x=seq(-20, 2, by=0.01), yhere, 
        col="darkblue", type="l", lwd=2, yaxt="n")
 
-plot_marginal(post_samples$lam_interceptsbc, "Lambda for chilling", c(-0.1, 1.1))
+plot_marginal(postfit$lam_interceptsbc, "Lambda for chilling", c(-0.1, 1.1))
 yhere <- dbeta(x=seq(-0.1, 1.1, by=0.001), 1, 1)
 points(x=seq(-0.1, 1.1, by=0.001), yhere, 
        col="darkblue", type="l", lwd=2, yaxt="n")
