@@ -1,0 +1,98 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+
+\usepackage{alltt}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{siunitx}
+\usepackage{amssymb} % for math symbols
+\usepackage{amsmath} % for aligning equations
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{mdframed}
+\usepackage{natbib}
+\usepackage{comment}
+\usepackage{booktabs}
+\usepackage[colorinlistoftodos]{todonotes} % to make comments on the margin
+\usepackage[small]{caption}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+\topmargin -1.5cm        
+\oddsidemargin -0.04cm   
+\evensidemargin -0.04cm
+\textwidth 16.59cm
+\textheight 21.94cm 
+%\pagestyle{empty} %comment if want page numbers
+\parskip 7.2pt
+\renewcommand{\baselinestretch}{1.5}
+\parindent 0pt
+%\usepackage{lineno}
+%\linenumbers
+\begin{document}
+
+{\bf Extras that may be useful to try to sneak into intro/abstract?} Not sure ... just parking them here:
+
+An overlooked question so far is whether we could gain any additional information by accounting for independent phylogenetic structuring in each species responses to each predictor in a multi-linear response model setting. Typical methods are good to account for species non-independence but provide little insight relative to phylogenetic effects on each predictor.
+
+The plasticity of these responses may ultimately determine species ability to withstand ongoing environmental change because non-plastic species may undergo developmental events under unadequate conditions---e.g. a species advancing flowering too much could see increased the risk of frost events. Phenology describes the responses to seasonal change in environmental cues and while it is often regarded to as a rather plastic trait, it is still unknown whether or not phenology is a phylogenetically conserved trait. 
+
+More interestingly, given that phylogeny can act as a proxy for other (unaccounted) traits that may be linked to phenology, including it in models could lead to more accurate predictions.
+
+How plants respond to environmental cues--i.e. temperature, daylight--may determine their resilience or vulnerability to ongoing climate change.
+
+Phenology has been regarded to as a rather plastic trait, thus with a lot of variation both intra- and inter-specifically....
+
+Variation in phenology could have randomly accummulated across species (and then phenology would be an evolutionary labile trait), or be structured in the phylogeny so that closely related species resemble more each other in their phenological responses (conserved trait).
+
+Current methods advanced our understanding of how specific lineages have adapted phenotypic responses to the environment, but don't capture the complexity of responses that depend on interacting environmental cues. 
+
+While current methods have advanced much of our understanding of how specific lineages adapted phenotypic responses to the environment, they were not originally designed to capture the complexity of phenotypes evolved in response to multiple interacting cues. For example, typical phylogenetic regression accounts for phylogenetic relationships as a grouping factor either explicitly (Phylogenetic Mixed Model; \cite{housworth2004phylogenetic}) or implicitly (Phylogenetic Generalized Linear Models; \cite{revell2010phylogenetic}), assuming all phylogenetic structuring to only affect model intercepts (or residuals). This assumption is known to be little reallistic, particularly in presence of type II error hidden by markedly different clade-structured responses (or phylogenetic non-stationarity) \citep{davies2019phylogenetically}. Here we present one possible approach that accounts for more complex interactions among predictors, which would be reflected in the species-level slopes being allowed to vary as a function of the phylogeny, rather than keeping slopes constant and only allowing the intercepts (or residuals) to vary. Beyond answering the above questions, our approach has the potential to provide further insights as to whether or not accounting for phylogeny is needed in multi-species phenological studies.
+
+Tackling the evolutionary constraints of phenological responses to multiple cues simultaneously would allow answering questions such as: have specific lineages adapted more strongly to some of the cues or to any combination of cues? Is there any cue that is particularly labile? These questions are highly relevant because answering them would (i) inform about the need to account for phylogeny in phenological models and predictions, and (ii) expand our knowledge on how phenological responses have been constrained so far, which would be relevant in a context where species' sensitivities to warming temperatures seem to decline, and extend to other responses to global change.
+
+additional questions remain open: in a multi-species context, have specific lineages adapted more strongly to some of the cues? or to any combination of cues? Is there any cue that is particularly labile?\\
+
+
+{\bf Extras that may be useful to try to sneak into discussion?} Not sure ... just parking them here:
+
+Here we used Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to show that ...  tree species responses to cues are conserved phylogenetically, compare the phylogenetic signal in the responses to different cues and, phylogenetically informed models can improve predictive accuracy of phenology.
+
+Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been constrained through evolution and thus are not independent.  
+
+Whether or not phenology is conserved has implications for the need to account for phylogenetic autocorrelation in cross-species analyses.
+
+And beyond work on phylogenetic conservatisms, previous comparative research on phenological responses to cues (experimental or observational) has either:\\
+
+- Ignored phylogenetic relationships (or the fact that species are not independent units)\\
+- Accounted for phylogenetic relationships assuming that they are \emph{stationary} across predictors-traits and can be modelled by including phylogenetic Variance-Covariance in model residuals. This is the rationale behind common-use PGLS approaches but it \"hides\" the partial phylogenetic constraints to model predictors.\\ 
+
+The potential interest of findings in this direction stem from:\\
+- better predictions of phenology (or need to account for it in models)\\
+- better understanding of the mechanistic basis of plant responses to climate\\
+- better design the next generation of experiments \\
+
+\emph{Not shown: commented out extras I don't think we need} but am not yet ready to completely delete (info on refs etc.)\\
+
+\begin{comment}
+Ref ..
+\begin{itemize}
+\item Focused on flowering (and leafout some) times and shifts in them (but see \cite{joly2019importance}, and add REFs!! on other phenological stages: budburst, ripening)
+\item Studied trait correlation \citep{bolmgren2008time} (not a limitation, but a different focus)
+\item Studied different evolutionary models best fitting the data \citep{rafferty2017global}
+\item measured shifts based on field observation data for both climate and phenology (when slopes are available, they represent shifts with time, not shifts with the environment).
+\end{itemize}
+
+
+Previous work has looked at the phylogenetic conservatism of phenology across plant species, finding that, first flowering is significantly conserved \citep{davies2013phylogenetic} and, when using OU models so are shifts in first flowering and the slopes of the relationship between flowering and year \citep{rafferty2017global}. Research in this area has focused on the phenotype (phenological event or its shifts) rather than on the cues---i.e. how shifts in the environment trigger species responses. \\ 
+
+\end{comment}
+
+
+\end{document}
+
+
+
+
+
+

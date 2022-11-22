@@ -24,7 +24,7 @@ if(length(grep("deirdreloughnan", getwd())>0)) {
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
 	filePathData <- "output/"
-traitModelNames <- grep("_37spp_wp.RDS", list.files(filePathData), value = TRUE) 
+traitModelNames <- grep("_37spp.RDS", list.files(filePathData), value = TRUE) 
 
 #Make a dataframe for saving traiit estimates for results section
 traits <- c("Height","SLA", "SeedMass_log10", "LNC")
@@ -66,7 +66,7 @@ for(traiti in 1:length(traitModelNames)){
 
 	#Load SLA model fit
 	slaModel <- readRDS(paste(filePathData,traitModelNames[traiti], sep = "/"))
-	traitName <- gsub("_stanfit_37spp_wp.RDS", "", traitModelNames[traiti])
+	traitName <- gsub("_stanfit_37spp.RDS", "", traitModelNames[traiti])
 	slaModelFit <- rstan::extract(slaModel)
 
 	#sensible cue values
@@ -133,7 +133,7 @@ for(traiti in 1:length(traitModelNames)){
 	#--------------
 #traiti <- "SeedMass_log10_stanfit.RDS"
 	# traiti <- 3
-	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp_wp.RDS"){
+	if(traitModelNames[traiti] == "SeedMass_log10_stanfit_37spp.RDS"){
 		slaData <- traitsData[traitsData$traitname == "SeedMass_log10",]
 		specieslist <- sort(unique(slaData$speciesname))
 		slaData$traitvalue_log <- log10(slaData$traitvalue)

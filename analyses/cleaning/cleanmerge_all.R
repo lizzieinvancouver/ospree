@@ -11,7 +11,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+if(length(grep("lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else if
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
 } else if
@@ -58,7 +58,7 @@ source("cleaning/clean_woody_sps.R") # removes 3409 rows of non-woody species
 
 # Run the below every so often (commented out because it is slow) 
 # This checks the species list against www.theplantlist.org ... ask for manchecksp to see non-matches
-# source("cleaning/clean_spp_match.R") ##Re-run by Dan B Sept 16
+# source("cleaning/clean_spp_match.R") ## Re-run by Lizzie 17 Nov 2022 
 
 # 9. Clean response and response time columns.
 source("cleaning/clean_responsetime.R") # Updated by Dan B 25 Aug 2019
@@ -68,7 +68,7 @@ source("cleaning/clean_latlong.R") # Updated by Ailene in August 2019
 
 # 11. Remove duplicate lines
 
-source("cleaning/clean_duplicates.R") # removes 239 rows as of 22 August 2019
+source("cleaning/clean_duplicates.R") # removes 234 rows as of 17 November 2022 
 
 # 12. Write out the final file! 
 

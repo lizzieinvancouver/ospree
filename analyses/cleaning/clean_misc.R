@@ -16,7 +16,7 @@ d$datasetID[d$datasetID=="fu_2018"] <- "fu18"
 d$figure.table..if.applicable.[which(d$datasetID=="campbell75" &
     d$figure.table..if.applicable=="table1")] <- "table2"
 
-# Fix a bunch of silly entries on genus names in new dat
+# Fix a bunch of silly entries on genus names in new dat (some more get fixed in clean_woody_sps.R)
 d$genus[d$genus=="Populus "] <- "Populus"
 d$genus[d$genus=="Olea "] <- "Olea"
 d$genus[d$genus=="alnus"] <- "Alnus"

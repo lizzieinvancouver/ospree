@@ -74,7 +74,7 @@ specieslist <- sort(unique(heightData$speciesname))
 
 # Write a loop to run all the different traits plots:
 ################################
-files <- list.files(path = "output", pattern ="_37spp_wp.RDS" )
+files <- list.files(path = "output", pattern ="_37spp.RDS" )
 files
   
   Model <- readRDS(paste("output/", files[1], sep = ""))

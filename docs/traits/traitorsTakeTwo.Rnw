@@ -97,44 +97,53 @@ Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
 \newpage
 
-\section{Summary}
+\section*{Summary}
 
 Key Words: Budburst phenology, functional traits, Trees, climate change
 
-\section{Introduction} %EMW16Aug2022: After we square away results (soon I think) -- let's tackle the methods, then move to intro
-
-Invasive plants are shaping plant communities worldwide, filling vacant niches and displacing native plants through the novel community landscapes and changes in resource availability.
+\section*{Introduction} %EMW16Aug2022: After we square away results (soon I think) -- let's tackle the methods, then move to intro
 
 \begin{enumerate}
-\item many studies have tried to predict species invasive potential based on functional traits and the links between traits, resource use, and growth strategies
-\item the same traits we associate with native plants tracking changes in climate may also allow invasive species greater fitness and adaptive advantage to invasive species
-\item traits that promote earlier growth in the spring = priority effects and less competitive temporal niche
-\item understanding the links between species traits’, climate, and temporal niche will provide greater insight into likely responses of species fitness and community dynamics in response to climate change
-\end{enumerate}
+\item Invasive plants are shaping plant communities worldwide, filling vacant niches and displacing native plants through the novel competitive landscapes and changes in resource availability.
 
 \begin{enumerate}
-\item Functional traits: decades of work associating easy to measure traits related to growth and competition
-\item drawing bread generalizable trends independent of species 
+\item To predict species invasive potential, several studies have measured quantifiable functional traits and drawn links between traits, resource use, and growth strategies \citep{}.
+\item Traits that promote earlier growth in the spring can lead to priority effects, with the earlier growth of one species inferring greater resource availability and a compeitive advantage on later developing species \citep{}.
+\item However, the same traits we associate with native plants' abilities to track changes in climate may also allow invasive species greater fitness and adaptive advantage to invasive species \citep{}.
+\item Understanding the links between species' traits, climate factors, and species' temporal niche will provide insight into likely responses of species fitness and community dynamics in response to climate change and plant invasions.
+\end{enumerate}
+
+\item Through decades of work, generalizable trends between easy to measure plant traits and differences in growth and competitive strategies have been drawn for diverse and globally distributed species.
+% \begin{enumerate}
+% \item This work has produced several schemes, included the leaf economic specturm and wood economic spectrum, with well defined axes along which most species fall \citep{Chave2009, Westoby2001}.
 \begin{enumerate}
-\item Early vs late - expect species like many invasive, with fast growth strategies, all along fast axes = high sea, high photosynthesis (LNC), small seeds
+\item Acquisitive vs Conservative:  One of the cornerstone axes of variation along which plant growth and strategies can be defined is from acquisitive to conservative growth.
+\item Species that are able to efficiently acquire resrouces, with relatively higher growth rate experience tradeoffs with higher growth potential coming at the cost of being less competitive. These traits can confir competitve advantages to invasive species for example.
+\item Species with slower growth are better able to withstand lower resource availability, but invest more in tissue longevity and their ability to withstand competitive landscapes.
 \end{enumerate}
-
-\item Phenology is similarity a well studied traits not included in broader framework
-\item invasives fill empty niche early in the growing season
-\item studies of woody plants - focus on how app are responding to changes in climate and the effect of key abiotic cues on growth and phenology
-
-\item In woody plants there are 3 key cues - chilling, forcing, photoperiod
-\item We assume these cues would relate to broader growth strategies 
-\begin{enumerate}
-\item Particularly tradeoff in resource investment and chilling
-\item Forcing vs risk frost
-\item Photoperiod and photosynthetic potential 
+% \item Previous work has focused, however, on traits associated with species abiotic and biotic niches, few studies have explored the relationship of species temporal niche within the broader functional trait framework \citep{}.
+% \end{enumerate}
 \end{enumerate}
-\item Relate cues to traits
-\item Predictions, limitations of previous work
-\item Our aims
+% 
+% \item The timing of species phenological events are often a independently measured functional trait that is not often linked to other functional traits.  
+% \begin{enumerate}
+% \item invasives fill empty niche early in the growibng season
+% % \item studies of woody plants - focus on how app are responding to changes in climate and the effect of key abiotic cues on growth and phenology
+% \end{enumerate}
 
-\end{enumerate}
+% \item In woody plants there are 3 key cues - chilling, forcing, photoperiod
+% \begin{enumerate}
+% \item We assume these cues would relate to broader growth strategies
+% \item Particularly tradeoff in resource investment and chilling
+% \item Forcing vs risk frost
+% \item Photoperiod and photosynthetic potential
+% \item Relate cues to traits
+% \end{enumerate}
+% 
+% \item Predictions, limitations of previous work
+% \item Our aims
+
+
 
 {\bf Some text for intro and methods... } \\ % There's probably two goals of trait ecology -- improve mechanistic understanding and effectively 'getting rid of species' 
 A major goal of trait ecology has been to predict species-level characteristics by their traits alone. If successful, we would then be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
