@@ -59,6 +59,11 @@
 
 \section{Supplementary Material}
 
+\subsection{Methods}
+
+We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). 
+
+
 <<label=suppTableHt, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
@@ -102,8 +107,8 @@ datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= 
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp_samespp.pdf} 
-    \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Associations between seed mass and forcing, chilling, and photoperiod are depicted on panels a to c and associations between LNC and each cue in panel d to f. The green points represent the budburst data for \textit{Populus tremula}, a relatively small seeded species, while the green points are budburst data of the large seeded species, \textit{Aesculus hippocastanum}. Dark bands represent the 50\% credible interval for the posterior cue estimates for the full model. Opaque bands represent the 50\% credible interval for the posterior cue estimates with a trait effect of zero. The negative value of the seed mass model's slope for each cue produces a more negative effect on the day of budburst when seed mass is included in the model. This suggests that trees that produce large seeds advance their budburst dates at a higher rate to increasing cues (a-c). The effect of seed mass however, is relatively small compared to that observed from other traits. Estimates of the cue responses in our LNC model were all positive and produced more positive slopes in the full model. This indicates that high SLA values are less responsive in their budburst to increasing forcing, chilling, and photoperiod values (d to f). The greater effect of slopes on taller trees and high SLA species is a artifact of the trait value itself being larger and not a reflection on the magnitidue of the response.}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp_concept.pdf} 
+    \caption{Functional traits may contribute to the species responses to forcing, chilling, or photoperiod cues in several ways. a) If traits are contribute negatively to the timing of phenological events, we expect the phenological response to be stronger and budburst earlier with increasing cue values. b) But if traits have no effects on the timing of budburst then cue responses will be zero and equivalent to the cue only trends. c) Lastly, traits that have a positive contribution to the timing of phenological events produce weaker responses with later budburst dates. The effect of height on phenological cue responses was weaker in response to forcing cues, but stronger in response to both chilling and photoperiod. In contrast, seed mass has a negligble effect on forcing and photoperiod cue responses, but a greater response with chilling. Band represent the 50\% uncertainty intervals of the model estimates.}
     \label{supp-fig:slopes}
 \end{figure}
 
@@ -111,7 +116,7 @@ datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= 
 <<label=suppTableHt, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
-load("..//..//analyses/traits/output/height_raw_37spp_wp.Rda")
+load("..//..//analyses/traits/output/height_raw_37spp.Rda")
 #get_variables(mdl.traitphen)
 
 sumt <- summary(mdl.traitphen)$summary
@@ -165,7 +170,7 @@ print(xtable(esti.table , caption="Height model estimates"),include.rownames= T,
 <<label=suppTableSLA, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
-load("..//..//analyses/traits/output/sla_raw_37spp_wp.Rda")
+load("..//..//analyses/traits/output/sla_raw_37spp.Rda")
 #get_variables(mdl.traitphen)
 
 sumt <- summary(mdl.traitphen)$summary
@@ -218,7 +223,7 @@ print(xtable(esti.table , caption="SLA model estimates"),include.rownames= T, ca
 <<label= suppTableSeedMass, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
-load("..//..//analyses/traits/output/seedmasslog10_raw_37spp_wp.Rda")
+load("..//..//analyses/traits/output/seedmasslog10_raw_37spp.Rda")
 #get_variables(mdl.traitphen)
 
 sumt <- summary(mdl.traitphen)$summary
