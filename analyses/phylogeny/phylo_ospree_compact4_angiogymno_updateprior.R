@@ -211,19 +211,6 @@ phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 # Run or read in the models      ####
 #'###################################
 
-# Function for generating "good" initial values
-simu_inits <- function(chain_id) {
-  a_z.temp <- rnorm(n = nspecies, mean = phypriors[["a_z_prior_mu"]], sd = phypriors[["a_z_prior_sigma"]])
-  b_zf.temp <- rnorm(n = nspecies, mean = phypriors[["b_zf_prior_mu"]], sd = phypriors[["b_zf_prior_sigma"]])
-  b_zc.temp <- rnorm(n = nspecies, mean = phypriors[["b_zc_prior_mu"]], sd = phypriors[["b_zc_prior_sigma"]])
-  b_zp.temp <- rnorm(n = nspecies, mean = phypriors[["b_zp_prior_mu"]], sd = phypriors[["b_zp_prior_sigma"]])
-  return(append(list(a = a_z.temp,
-                     b_force = b_zf.temp,
-                     b_chill = b_zc.temp,
-                     b_photo = b_zp.temp),
-                phypriors))
-}
-
 ## Lizzie also tried to adapt a speedier PMM that Mike Betancourt sent ...
 # ... a litte faster I think, but likely not critical to use
 if(FALSE){
@@ -236,7 +223,6 @@ if(FALSE){
                                x3=d$photo.z,
                                y=d$resp,
                                Vphy=vcv(phylo, corr = TRUE)),
-                     init = simu_inits,
                      iter = 2000,
                      warmup = 1000,
                      chains = 4,
@@ -259,7 +245,6 @@ fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan"
                          x3=d$photo.z,
                          y=d$resp,
                          Vphy=vcv(phylo, corr = TRUE)),
-               init = simu_inits,
                iter = 4000,
                warmup = 2000, # half the iter as warmp is default, but leaving in case we want to change
                chains = 4,
@@ -278,7 +263,6 @@ fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_
                          x3=d$photo.z,
                          y=d$resp,
                          Vphy=vcv(phylo, corr = TRUE)),
-               init = simu_inits,
                iter = 4000,
                warmup = 2000, 
                chains = 4,
@@ -301,7 +285,6 @@ fitlamb0 <-  readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
 summary(fit)$summary
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
-summary(fit, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
 summary(fit, pars = list("a_z", "sigma_interceptsa", 
                             "b_zf", "sigma_interceptsbf", 
                             "b_zc", "sigma_interceptsbc", 

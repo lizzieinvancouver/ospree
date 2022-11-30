@@ -85,7 +85,7 @@ model {
     a_z ~ normal(30, 10); // Same as before, seems okay
     b_zf ~ normal(-2, 10); // updated prior ... I think we should also try 0, 10
     b_zc ~ normal(-2, 10); // updated prior
-    b_zp ~ normal(0, 5); // updated prior
+    b_zp ~ normal(0, 10); // updated prior
 
     
     // I don't have a good sense of how to set these, so keeping a little wide
