@@ -282,14 +282,15 @@ fitlamb0 <-  readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
 #'###################################
 
 ## Summarize full fit
-summary(fit)$summary
+# summary(fit)$summary
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
-summary(fit, pars = list("a_z", "sigma_interceptsa", 
-                            "b_zf", "sigma_interceptsbf", 
-                            "b_zc", "sigma_interceptsbc", 
-                            "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
+fitsum <- summary(fit, pars = list("a_z", "sigma_interceptsa", 
+                            "b_zf", "sigma_interceptsbf", "lam_interceptsbf", 
+                            "b_zc", "sigma_interceptsbc", "lam_interceptsbc",
+                            "b_zp", "sigma_interceptsbp", "lam_interceptsbp","sigma_y"))$summary
 
+fitsumdf <- as.data.frame(fitsum)
 
 source("source/stan_utility.R")
 check_all_diagnostics(fit)
@@ -336,7 +337,12 @@ minmaxcues <-
     ddply(modquant, c("cue"), summarise,
       max = max(qmid),
       min = min(qmid))
-minmaxcues$diff
+
+minmaxcues$diff <- minmaxcues$min - minmaxcues$max
+minmaxcues$xdiff <- minmaxcues$min/minmaxcues$max
+    
+chillphotocue <- fitsumdf$mean[which(rownames(fitsumdf)=="b_zc")]/fitsumdf$mean[which(rownames(fitsumdf)=="b_zp")]
+
 
 ## Average the species posteriors ...
 chillspmean <- rowSums(chillarray)/ncol(chillarray)
