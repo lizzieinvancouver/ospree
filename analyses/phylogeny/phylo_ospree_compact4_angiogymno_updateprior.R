@@ -268,7 +268,7 @@ fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_
                chains = 4,
                seed = 117 
                )
-saveRDS(fit, "output/fit_priorupdate_noout_angio191_lamb0.rds")
+saveRDS(fitlamb0, "output/fit_priorupdate_noout_angio191_lamb0.rds")
 
 }
 
@@ -315,7 +315,6 @@ modquant <- data.frame(spnum=c(paste("sp", c(1:(4*lengthhere)), sep="")),
     cue=rep(c("chill", "force", "photo", "intercept"), each=lengthhere),
     qlow=rep(0, 4*lengthhere), qmid=rep(0, 4*lengthhere),
     qhigh=rep(0, 4*lengthhere))
-
 arrays <- list(chillarray, forcearray, photoarray, intarray)
 
 for(whicharray in c(1:length(arrays))){
@@ -332,11 +331,39 @@ for(whicharray in c(1:length(arrays))){
     }
 }
 
+# get min and max by cue ...
+minmaxcues <-
+    ddply(modquant, c("cue"), summarise,
+      max = max(qmid),
+      min = min(qmid))
+minmaxcues$diff
+
+## Average the species posteriors ...
+chillspmean <- rowSums(chillarray)/ncol(chillarray)
+forcespmean <- rowSums(forcearray)/ncol(forcearray)
+photospmean <- rowSums(photoarray)/ncol(photoarray)
+
+postfitlamb0 <- extract(fitlamb0)
+
+chillarray0 <- postfitlamb0$b_chill
+forcearray0 <- postfitlamb0$b_force
+photoarray0 <- postfitlamb0$b_photo
+chillspmean0 <- rowSums(chillarray0)/ncol(chillarray0)
+forcespmean0 <- rowSums(forcearray0)/ncol(forcearray0)
+photospmean0 <- rowSums(photoarray0)/ncol(photoarray0)
+
+chillspmean0 <- rowSums(chillarray0)/ncol(chillarray0)
+forcespmean0 <- rowSums(forcearray0)/ncol(forcearray0)
+photospmean0 <- rowSums(photoarray0)/ncol(photoarray0)
+
+# Need to finish this...
+quantile(chillspmean, probs = whichquantiles)
+quantile(chillspmean0, probs = whichquantiles)
     
-# postfitlamb0 <- extract(fit0) # need to do... 
-
-
 }
+
+
+
 
 #'###################################
 # Some plots ...               ####
