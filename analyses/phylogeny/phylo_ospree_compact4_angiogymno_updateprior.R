@@ -295,13 +295,13 @@ fitsumdf <- as.data.frame(fitsum)
 source("source/stan_utility.R")
 check_all_diagnostics(fit)
 
+#####################
+## Code to pull posteriors of each que and get quantiles
+## We may not actually need this now, but we may someday!
+#####################
 
-## Estimate uncertainty for each species -- but across them
-# Lizzie is working on this ... following some of phylo_ospree_corplots.R
-if(FALSE){
-    
 postfit <- extract(fit)
-whichquantiles <- c(0.1, 0.5, 0.9) # need to give three to work with below code
+whichquantiles <- c(0.05, 0.5, 0.95) # need to give three to work with below code
 
 # grab the quantiles (giving df cols generic names so we can switch it up)
 # extract posteriors for species-level estimates
@@ -333,6 +333,8 @@ for(whicharray in c(1:length(arrays))){
 }
 
 # get min and max by cue ...
+# Can use someday with \Sexpr{} to get actualy #s on comparisons we make in paper
+
 minmaxcues <-
     ddply(modquant, c("cue"), summarise,
       max = max(qmid),
@@ -343,8 +345,11 @@ minmaxcues$xdiff <- minmaxcues$min/minmaxcues$max
     
 chillphotocue <- fitsumdf$mean[which(rownames(fitsumdf)=="b_zc")]/fitsumdf$mean[which(rownames(fitsumdf)=="b_zp")]
 
+#####################
+## Estimate uncertainty for each species -- but across them
+#####################
 
-## Average the species posteriors ...
+## Average the species posteriors ... (keep iterations together, again would be good if someone checked this...)
 chillspmean <- rowSums(chillarray)/ncol(chillarray)
 forcespmean <- rowSums(forcearray)/ncol(forcearray)
 photospmean <- rowSums(photoarray)/ncol(photoarray)
@@ -362,12 +367,17 @@ chillspmean0 <- rowSums(chillarray0)/ncol(chillarray0)
 forcespmean0 <- rowSums(forcearray0)/ncol(forcearray0)
 photospmean0 <- rowSums(photoarray0)/ncol(photoarray0)
 
-# Need to finish this...
-quantile(chillspmean, probs = whichquantiles)
-quantile(chillspmean0, probs = whichquantiles)
-    
-}
+# I think this should estimate overall uncertainity ... though would be good to check
+quantchillsp <- quantile(chillspmean, probs = whichquantiles)
+quantchill0sp <- quantile(chillspmean0, probs = whichquantiles)
+quantforcesp <- quantile(forcespmean, probs = whichquantiles)
+quantforce0sp <- quantile(forcespmean0, probs = whichquantiles)
+quantphotosp <- quantile(photospmean, probs = whichquantiles)
+quantphoto0sp <- quantile(photospmean0, probs = whichquantiles)
 
+chillperimprove <- round(abs(1-((quantchillsp[1]-quantchillsp[3])/(quantchill0sp[1]-quantchill0sp[3])))*100, 0)
+forceperimpove <- round(abs(1-((quantforcesp[1]-quantforcesp[3])/(quantforce0sp[1]-quantforce0sp[3])))*100, 0)
+photoperimpove <- round(abs(1-((quantphotosp[1]-quantphotosp[3])/(quantphoto0sp[1]-quantphoto0sp[3])))*100, 0)
 
 
 
@@ -441,7 +451,7 @@ my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
 my.pch <- rep(15:18, each=12)
 alphahere = 0.4
 
-muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5)
+# muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5) # hmm, seems broken
 
 par(mfrow=c(2,3))
 hist(extract(modelhere)[["sigma_interceptsbf"]], main="force")
