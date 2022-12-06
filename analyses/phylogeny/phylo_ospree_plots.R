@@ -397,11 +397,6 @@ if(gymnosperm){
 
 
 par(mfrow=c(1,3))
-plot(cueforce_lam0, cueforce, 
-     xlab="sensitivity to forcing (lambda=0)",
-     ylab="sensitivity to forcing", pch=16, col=adjustcolor(1,0.5),cex=1.2, cex.lab=1.5)
-abline(a=0,b=1, col='grey')  
-abline(lm(cueforce~cueforce_lam0))
 
 
 plot(cuechill_lam0, cuechill, 
@@ -409,6 +404,14 @@ plot(cuechill_lam0, cuechill,
      ylab="sensitivity to chilling", pch=16, col=adjustcolor(1,0.5),cex=1.2, cex.lab=1.5)
 abline(a=0,b=1, col='grey')  
 abline(lm(cuechill~cuechill_lam0))
+
+
+plot(cueforce_lam0, cueforce, 
+     xlab="sensitivity to forcing (lambda=0)",
+     ylab="sensitivity to forcing", pch=16, col=adjustcolor(1,0.5),cex=1.2, cex.lab=1.5)
+abline(a=0,b=1, col='grey')  
+abline(lm(cueforce~cueforce_lam0))
+
 
 
 plot(cuephoto_lam0, cuephoto, 
@@ -536,23 +539,23 @@ cuealphasdlow1 = summary(fitlam1)$summary[posspsindata.01[[4]],"25%"]
 
 par(mfrow=c(1,3))
 
-indvarest = cueforcesdup - cueforcesdlow 
-indvarlam0 = cueforcesdup0 - cueforcesdlow0
-indvarlam1 = cueforcesdup1 - cueforcesdlow1
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0,lambda1=indvarlam1),
-        ylab="Estimate uncertainty (days/std units of forcing)")
-
 indvarest = cuechillsdup - cuechillsdlow 
 indvarlam0 = cuechillsdup0 - cuechillsdlow0
-indvarlam1 = cuechillsdup1 - cuechillsdlow1
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0,lambda1=indvarlam1),
-        ylab="Estimate uncertainty (days/std units of chilling)")
+#indvarlam1 = cuechillsdup1 - cuechillsdlow1
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of chilling)",outline=F,ylim=c(0,10))
+
+indvarest = cueforcesdup - cueforcesdlow 
+indvarlam0 = cueforcesdup0 - cueforcesdlow0
+#indvarlam1 = cueforcesdup1 - cueforcesdlow1
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of forcing)",outline=F,ylim=c(0,10))
 
 indvarest = cuephotosdup - cuephotosdlow 
 indvarlam0 = cuephotosdup0 - cuephotosdlow0
-indvarlam1 = cuephotosdup1 - cuephotosdlow1
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0,lambda1=indvarlam1),
-        ylab="Estimate uncertainty (days/std units of photoperiod)")
+#indvarlam1 = cuephotosdup1 - cuephotosdlow1
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of photoperiod)",outline=F,ylim=c(0,4))
 
 indvarest = cuealphasdup - cuealphasdlow 
 indvarlam0 = cuealphasdup0 - cuealphasdlow0
@@ -660,7 +663,7 @@ cuechill=cuechill0
 cueforce=cueforce0
 cuephoto=cuephoto0
 
-par(mfrow=c(2,3),mar=c(5,5,1,1))
+par(mfrow=c(1,3),mar=c(5,5,1,1))
 plot(cuechill,cueforce, pch=16)
 abline(lm(cueforce~cuechill))
 chilquad = cuechill^2
@@ -707,25 +710,8 @@ summary(lm(cuealpha~cuealpha0))
 
 ### plot correlations angio ----
 dev.off()
-par(mfrow=c(2,4))
+par(mfrow=c(1,3))
 
-plot(cueforce0, cueforce, 
-     xlab="sensitivity to forcing (lambda=0)",
-     ylab="sensitivity to forcing", 
-     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
-     xlim=c(-20,5),ylim=c(-20,5))
-for(i in 1:length(cueforce0)){
-lines(c(cueforcesdlow0[i],cueforcesdup0[i]),
-      rep(cueforce[i],2), col=adjustcolor("darkgrey",0.4))
-lines(rep(cueforce0[i],2),
-      c(cueforcesdlow[i],cueforcesdup[i]),
-        col=adjustcolor("darkgrey",0.4))
-  
-  }
-
-abline(a=0,b=1, col='black', lty=2, lwd=1.5)  
-abline(lm(cueforce~cueforce0), lwd=1.5)
-mtext("a)", side = 3, adj = 0)
 
 
 plot(cuechill0, cuechill, 
@@ -743,6 +729,24 @@ for(i in 1:length(cueforce0)){
   }
 abline(a=0,b=1, col='black', lty=2, lwd=1.5)  
 abline(lm(cuechill~cuechill0), lwd=1.5)
+mtext("a)", side = 3, adj = 0)
+
+plot(cueforce0, cueforce, 
+     xlab="sensitivity to forcing (lambda=0)",
+     ylab="sensitivity to forcing", 
+     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlim=c(-20,5),ylim=c(-20,5))
+for(i in 1:length(cueforce0)){
+  lines(c(cueforcesdlow0[i],cueforcesdup0[i]),
+        rep(cueforce[i],2), col=adjustcolor("darkgrey",0.4))
+  lines(rep(cueforce0[i],2),
+        c(cueforcesdlow[i],cueforcesdup[i]),
+        col=adjustcolor("darkgrey",0.4))
+  
+}
+
+abline(a=0,b=1, col='black', lty=2, lwd=1.5)  
+abline(lm(cueforce~cueforce0), lwd=1.5)
 mtext("b)", side = 3, adj = 0)
 
 plot(cuephoto0, cuephoto, 
@@ -1027,7 +1031,7 @@ dev.off()
 mean(extract(fitlambest)[["lam_interceptsa"]],na.rm = T)
 
 if(agiosponly){
-  par(mfrow=c(1,4))
+  par(mfrow=c(1,3))
   plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,3),ylab="density",
        xlab="lambda", main="")
   
@@ -1069,18 +1073,18 @@ if(agiosponly){
   text(4.5,0.8,"photoperiod",col='orange')
   text(0,1,"c",cex=1.5)
   
-  plot(x=NULL,y=NULL, xlim=c(0,20), ylim=c(0,1),ylab="density",
-       xlab="sigma (lambda = 1)", main="")
+  #plot(x=NULL,y=NULL, xlim=c(0,20), ylim=c(0,1),ylab="density",
+  #     xlab="sigma (lambda = 1)", main="")
   
   #lines(density(extract(fitlam1)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
-  lines(density(extract(fitlam1)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
-  lines(density(extract(fitlam1)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
-  lines(density(extract(fitlam1)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
   #text(19,0.3,"intercept",col='grey')
-  text(5,0.3,"forcing",col='indianred3')
-  text(9,0.37,"chilling",col='cyan4')
-  text(4.1,0.78,"photoperiod",col='orange')
-  text(0,1,"d",cex=1.5)
+  #text(5,0.3,"forcing",col='indianred3')
+  #text(9,0.37,"chilling",col='cyan4')
+  #text(4.1,0.78,"photoperiod",col='orange')
+  #text(0,1,"d",cex=1.5)
   
   
   

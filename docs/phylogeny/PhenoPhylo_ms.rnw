@@ -120,17 +120,10 @@ While we focused on spring phenology here, our modeling approach suggests a path
 % EMW (28Mar2022): I vote for the first one, but both are great!
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/muplot_phylo_allcue_angio.pdf}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/
+  Fig1_phylo_muplots191.pdf}
   \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:muplot_all}
-  \end{center}
-\end{figure}
-
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1b_phylo_muplots_gymno.pdf}
-  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 19 gymnosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
-  \label{fig:muplot_allgymno}
   \end{center}
 \end{figure}
 
@@ -145,7 +138,7 @@ While we focused on spring phenology here, our modeling approach suggests a path
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Est_correls_vs_lamb01_angio.pdf}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig3_correlations_lambestvslamb0.pdf}
   \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for angiosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
   \label{fig:correls_angio}
   \end{center}
