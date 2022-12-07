@@ -8,14 +8,14 @@
 ## - trying uncentered variables
 ## - adding chilling
 
-#### remove objects (activate if needed) ####
-rm(list=ls())
-options(stringsAsFactors = FALSE)
-rstan_options(auto_write = TRUE)
+#### remove objects (activate if needed)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("Lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny") 
+  setwd("~/Documents/git/projects/treegarden ####
+rm(list=ls())
+options(stringsAsFactors = FALSE)
+rstan_options(auto_write = TRUE)/budreview/ospree/analyses/phylogeny") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/phylogeny") 
@@ -242,14 +242,14 @@ agiosponly <- T
 ## load model
 
 if(agiosponly & lambdazero){
-  fit <- readRDS("output/testme_priorupdate_noout_angio191_lam0.rds")
+  fit <- readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
 } else {
   fit <- readRDS("output/testme_lambdaest_nooutlier.rds")
 }
 
 
 
-if(agiosponly){
+if(agiosponly & !lambdazero){
     fit <- readRDS("output/testme_priorupdate_noout_angio191.rds")
 } else {
   fit <- readRDS("output/testme_priorupdate_noout_gymno.rds")
@@ -308,15 +308,15 @@ alphahere = 0.4
 names(fit)
 row.names(summary(modelhere)$summary)
 
-if(agiosponly){
+if(agiosponly & !lambdazero){
   
   posspsindata <- list(10:200,202:392,394:584)
-  #posspsindata <- list(6:196,198:388,389:579)
   
 } else {
+
+  posspsindata <- list(6:196,198:388,390:580)
   
-  posspsindata <- list(10:28,30:48,50:68)
-  
+
 }
 
 set.seed(117)
