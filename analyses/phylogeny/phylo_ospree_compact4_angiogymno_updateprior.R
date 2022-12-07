@@ -476,3 +476,33 @@ sigmap.int <- mean(extract(modelhere)[["sigma_interceptsbp"]])
 lamp.int / (sigmap.int + lamp.int)
 
 
+#'######################################################################
+# Checking average pheno-sensistivities given clades (Oaks) ####
+#'######################################################################
+
+
+quercusforcing = forcearray[,164:175]
+colnames(quercusforcing) = phylo$tip.label[164:175]
+colMeans(quercusforcing)
+oakadvforce = round(mean(colMeans(quercusforcing)),2)
+
+quercuschilling = chillarray[,164:175]
+colnames(quercuschilling) = phylo$tip.label[164:175]
+colMeans(quercuschilling)
+oakadvchill = round(mean(colMeans(quercuschilling)),2)
+
+
+
+quercusforcing = forcearray0[,164:175]
+colnames(quercusforcing) = phylo$tip.label[164:175]
+colMeans(quercusforcing)
+oakadvforce0 = round(mean(colMeans(quercusforcing)),2)
+
+quercuschilling = chillarray0[,164:175]
+colnames(quercuschilling) = phylo$tip.label[164:175]
+colMeans(quercuschilling)
+oakadvchill0 = round(mean(colMeans(quercuschilling)),2)
+
+(oakadvforce-oakadvforce0)/oakadvforce
+(oakadvchill-oakadvchill0)/oakadvchill
+
