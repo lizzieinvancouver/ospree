@@ -250,7 +250,7 @@ if(agiosponly & lambdazero){
 
 
 if(agiosponly & !lambdazero){
-    fit <- readRDS("output/testme_priorupdate_noout_angio191.rds")
+    fit <- readRDS("output/fit_priorupdate_noout_angio191.rds")
 } else {
   fit <- readRDS("output/testme_priorupdate_noout_gymno.rds")
 }
@@ -261,9 +261,18 @@ summary(fit)$summary
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
 tableresults = summary(fit, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults = summary(fit, pars = list("a_z", #"lam_interceptsa", 
+                                        "sigma_interceptsa", "b_zf", 
+                                        #"lam_interceptsbf", 
+                                        "sigma_interceptsbf", "b_zc", 
+                                        #"lam_interceptsbc", 
+                                        "sigma_interceptsbc", "b_zp", 
+                                        #"lam_interceptsbp", 
+                                        "sigma_interceptsbp", "sigma_y"))$summary
 
-#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/angio_noout_lamest_updt.csv")
-#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/gymno_noout_lamest.csv")
+#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),c(1,3,4,6,8:10)], file = "output/angio_noout_lambest191.csv")
+#write.csv(tableresults[c(1,3,5,7,2,4,6,8,9),c(1,3,4,6,8:10)], file = "output/angio_noout_lamb0_191.csv")
+
 
 
 ## Diagnose model

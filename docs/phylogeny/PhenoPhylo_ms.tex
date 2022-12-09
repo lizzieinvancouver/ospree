@@ -21,8 +21,14 @@
 \title{Unravelling the phenology-phylogeny tangle.}
 % alternative titles:
 %% An expanded bayesian phylogenetic mixed model to unravel the phenology-phylogeny tangle. %% this sounds too methodsy
+%% Emphasizing species-level differences to unravel the phenology-phylogeny tangle
+
 \usepackage{Sweave}
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+
+%\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
 \maketitle
 
@@ -33,7 +39,7 @@ The Wolkovich Lab in 2019 \& collaborators $^{1,2,3,4}$ % Will Pearse, Jonathan 
 $^{1}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4;\\
 $^{2}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
 $^{3}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
-$^{4}$Edificio Ciencias, Campus Universitario 28805 Alcal<U+00E1> de Henares, Madrid, Spain\\
+$^{4}$Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
  
 
 \vspace{2ex}
@@ -42,6 +48,69 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 \renewcommand{\thefigure}{\arabic{figure}}
 \renewcommand{\labelitemi}{$-$}
 \setkeys{Gin}{width=0.8\textwidth}
+
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Abstract}
+
+{\bf Not updated yet ... } 
+
+%Mitigation and adaptation of human systems to climate change relies on accurate ecological forecasting as it informs of threats and opportunities for key ecosystem services. Yet, predictions of biological responses to warming remain elusive.     
+
+%is a valuable tool to adapt human systems to  
+%Plants have evolved responses to environmental cues able to inform them about the temporal distribution of key resources---i.e. energy and light. Full understanding of these responses is needed 
+
+%The responses to individual cues such as forcing (or spring warming) have shown to be subjected to some degree of evolutionary conservatism. Yet, plants do not respond to isolated cues but to a combination of interacting cues, which difficults accurate predictions of phenology in the face of environmental change. Whether and how evolution has constrained phenological responses to combinations of interacting cues is not yet understood even when this knowledge could enhance model predictions and inform how different plant lineages have adapted to environmental change along their evolutionary histories. Here we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if phenological responses to three major interacting cues are conserved phylogenetically when considered jointly, (b) compare the phylogenetic signal in the responses to different cues and, (c) test whether coefficient estimates differ between models assuming phylogenetic independence among species and models that explicitly incorporate phylogeny. Results show non-random phylogenetic structuring of phenological responses, highly variable across species and cues. More interestingly, regression coefficients shift when models control for phylogenetic effects, particularly so for forcing, which becomes the most important cue. Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been jointly constrained through evolution and thus are not independent.  
+
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Meeting call notes: https://github.com/lizzieinvancouver/ospree/wiki/Phylogeny-and-phenology
+
+% Baby (ecological forecasting), warewolf (species diversity), silver bullet
+
+\section*{Introduction}
+Predicting the biological impacts of climate change has major implications for the future sustainability of ecosystems. With rising global temperatures species have shifted northward in space and earlier in time on average \citep{IPCC:2014sm}. These shifts can have cascading consequences on many ecosystem services including carbon storage, which determines future climate change itself, making both mitigation and human adaptation to future warming dependent on accurate ecological forecasts. 
+% Carbon storage and thus, future climate change itself, depends on accurate forecasts of shifts in plant phenology. But forecasts to date have struggled to reproduce important non-linearities in responses, and the high variability observed in responses to date. 
+% Progress towards predicting non-linearities has come from mechanistic models that incorporate multiple predictors. 
+
+While ecological forecasting has improved over recent years \citep{dietze2017ecological,lewis2022power}, it remains a challenge to reproduce the high variability observed in responses to date \citep{IPCC:2014sm}. Some of this variability results from the complexity of climate change itself, including regional and seasonal variation in warming that underlies average trends alongside shifts in other climate axes (e.g. precipitation). Much of it, however, is driven by species-specific variation, reflecting evolved differences in species' sensitivities to underlying environmental cues and their interactions, which we know well for only a few well-studied species. In the absence of detailed data on individual species, species groupings (e.g., functional groups) have been included in ecosystem models, and show promise, but these still fail to capture important variability. Improving forecasts, thus, will require models that accurately predict species-level differences in responses to complex environmental change.
+% Understanding how different species lineages have evolved their phenotypic responses to the combined effects of environmental change would greatly aid prediction
+% IMC - perhaps before ´improving forecasts´ mention that much forecasting happens at the functional group level (because lack good enough species-level information), hindering insights and biasing forecasts towards those well known species. %EMW29Nov -- got some of this point in, but not all. 
+
+Recent efforts that have attempted to model species responses to the environment \citep{diez2012forecasting} are often confounded by data availability---especially the common problem of data highly biased to some species and sparse across others. The rise of Bayesian hierarchical models can allow inference across species in such cases. However, underlying most hierarchical models is an implicity assumption that all species are exchangeable, and they thus partially pool (`shrink') towards estimates for species with the most data (and least variable responses) (CITES), making inference at the species-level unreliable \citep{ettinger2020}. Including the evolutionary history of species relationships in models of species responses could at once provide more robust species-level estimates than current approaches and a better understanding of the evolutionary constraints that might limit future adaptation to change. For example, strong phylogenetic niche conservatism \citep{wiens2010niche} could potentially inhibit adaptive responses by drawing species back to an evolutionary conserved theorectical optimum which is no onger optimal under new conditions. Evidence that species' climatic niches show strong evolutionary conservatism \citep{wiens2005niche}, thus, has major implications for projecting species range shifts, a key response to environmental change \citep{urban353others}. More recent work has demonstrated the strength of evolutionary conservatims in species temporal responses, and multiple studies have found dates of budburst, leafout and first flowering are more similar among closely related species \citep{kochmer1986constraints,willis2008phylogenetic,davies2013phylogenetic}. 
+%[JD or Nacho add a sentence or two here on how evolutionary responses can be phylogenetically structured for climate change stuff {\bf beyond} phenology and then transition to next paragraph on phenology.]
+ 
+Research using long-term observational data has especially highlighted the role that evolutionary history may play in structuring plant phenological responses---which are critical to accurate forecasts of carbon storage. Phylogenetic signal in plant phenology \citep{davies2013phylogenetic, rafferty2017global}) suggests species responses to cues have diverged over macro-evolutionary timescales, helping explain species present day differences. Almost all these studies, however, have focused on the phenotype (e.g., day of year of a phenological event), which is strongly determined by the local environment (e.g., the climate where phenology was measured). More direct measures of species intrinsic responses to the environment may derive from studies examining species long-term change over time \citep[e.g.,][]{willis2008phylogenetic}---likely capturing a composite of multiple cues---or change per C \citep{yang2021afm}---argued to be a proxy for forcing---and similar metrics, instead of day of year \citep[e.g.,][]{CaraDonna2015}. However, approaches using traditional phylogenetic comparative methods \citep[e.g.,][]{willis2008phylogeneticCaraDonna2015,yang2021afm}, have produced conflicting results. Evidence for phylogenetic conservatism appears to depend on method and species, even varying from one site to the next for the same clade \citep[e.g.,][]{rafferty2017global}, which violates the fundamental idea of shared evolutionary history---the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait. %EMW29Nov -- I think we need to slim above paragraph, no?
+
+If closely related species have similar phenological responses to environmental cues it could facilitate forecasting to unmeasured species, and yield insights into how evolutionary history may constrain future response, but testing for this will require addressing a second major hurdle in ecological forecasting---underlying environmental cues that are complex and interacting. Decades of research have informed our understanding of how species use environmental cues to time their phenotypic responses with the temporal distribution of key resources and to avoid periods of high abiotic or biotic stress \citep{larcher1980,bonamour2019}. Commonly, however, responses to environmental cues, and their evolution, are studied individually, for example, linking a given phenotypic response to a single cue, such as time of leafout and summed heat during early spring \citep[e.g.,][]{davies2013phylogenetic}. Such efforts ignore a more likely scenario for most phenotypic traits where multiple cues interacting along evolutionary history have shaped responses \citep{Ackerly:2009ly}. For many plant species, phenolological events are determined by a combination of temperature and light \citep{chuinearees}, and it is likely that additional cues (such as soil moisture) and species' physiology, further mediate species responses, but are often less well understood \citep{chuinearees}.  % IMC - I guess it is somehow implicit in the last sentence, but maybe either here or in the next paragraph we could make it more explicit here that these additional cues (that we know less of or have not measured) can be accounted for (or will emerge) in models as latent processes?
+
+Spring plant phenology may represent our best opportunity to improve forecasts of species’ responses to interacting environmental cues. Beyond being the most studied biological impact of climate change, the primary interacting cue system is well established \citep{chuinearees}, especially for temperate woody species where phenology is generally thought to be determined by two components of temperature---chilling (cool temperatures during dormancy period over winter) and forcing (warm temperatures, generally in the spring)---and photoperiod \citep{XXX}. Plant phenology is also one of few phenotypic traits with extensive experimental data on responses to multiple environmental cues across species. Recent multi-species analyses considering forcing, chilling and photoperiod have shown that chilling and forcing together often determine complex non-linear responses to warming, but cannot forecast beyond several well-studied species \citep{ettinger2020}. %These studies have also found remarkable variation across species in their sensitivities to cues, aligning with long-term observational data across thousands of species \citep{XXX}, and suggesting that current models and forecasts fail to capture the complexity of species-specific responses. 
+
+Useful species-level forecasts of phenological responses will require new approaches that better model the evolution of species responses. Our understanding of the underlying cues that drive spring phenology suggest we need to model phenology as a composite outcome of the underlying cues---chilling, forcing and photoperiod---allowing evolution in the responses to each. By allowing non-stationarity in species responses across phylogeny \citep{davies2019phylogenetically}, such an approach would depart from most previous work and assumptions of traditional phylogenetic comparative methods \citep[e.g. ][]{freckleton2002phylogenetic,ives2011generalized,hadfield2010mcmc}, and move towards integrating evolutionary history in models of phenological responses to environmental change.  
+
+Here we present a novel Bayesian framework that extends upon phylogenetic mixed models \citep{housworth2004phylogenetic} to examine how chilling, forcing (metrics of temperature) and photoperiod together determine plant phenology. We illustrate our method with an unprecedented dataset on phenological responses to environmental cues determined experimentally for 192 deciduous woody species \cite[by far the most studied group of species in phenology experiments, see][]{ettinger2020}. Our method allows us to ask: which cue has the largest effect on budburst, how do cues vary across species, and how evolutionary history has shaped species responses to individual cues? Our results allow us to identify historical regime shifts \citep{uyeda2017evolution} in phenological responses across the plant phylogeny, and have relevance for forecasting under ongoing change.
+
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Methods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Methods}
+
 
 \clearpage
 
@@ -68,13 +137,6 @@ List of 7
 
 Number of species in tree before: 0
 Number of species in tree now:    24 
-***************************************************************
-*                          Note:                              *
-*    force.ultrametric does not include a formal method to    *
-*    ultrametricize a tree & should only be used to coerce    *
-*   a phylogeny that fails is.ultramtric due to rounding --   *
-*    not as a substitute for formal rate-smoothing methods.   *
-***************************************************************
 [1] "n_eff / iter looks reasonable for all parameters"
 [1] "Rhat looks reasonable for all parameters"
 [1] "0 of 8000 iterations ended with a divergence (0%)"
@@ -89,11 +151,11 @@ By allowing species responses to vary, based on a model including their shared e
 
 \emph{Differences across clades \& cues}
 
-The large differences across species generally occurred coherently within clades, producing striking differences between clades. Oaks and beeches (Fagaceae), elms (Ulmaceae) and buckthorns (Rhamnaceae) are highly sensitive to chilling while rhododendrons (Ericaceae), butterfly bushes (Scrophulariaceae) or spindles (Celastraceae) show little to no response to chilling (Fig. \ref{fig:muplot_all} a). %IMC: not sure if we need some natural history here or some mention to research for some of these clades. Lizzie, if you want to mention-cite something here, please jump in. % EMW (21Nov2022 and 1 Dec2022) I can work with JD to add more here later.
+The large differences across species generally occurred coherently within clades, producing striking differences between them. Oaks and beeches (Fagaceae), elms (Ulmaceae) and buckthorns (Rhamnaceae) are highly sensitive to chilling while rhododendrons (Ericaceae), butterfly bushes (Scrophulariaceae) or spindles (Celastraceae) show little to no response to chilling (Fig. \ref{fig:muplot_all} a). %IMC: not sure if we need some natural history here or some mention to research for some of these clades. Lizzie, if you want to mention-cite something here, please jump in. % EMW (21Nov2022 and 1 Dec2022) I can work with JD to add more here later.
 % JD I think some biogeography may be useful here, for example, I think rhododendrons & buddleia are native to the Himalaya, but both are also now widespread and invasive ... need to do a little more digging on the exact species.   
 Similar clade-level variation was observed for forcing, where some of these clades---e.g., Ericaceae, Rhamnaceae, Ulmaceae, or Fagaceae---were particularly sensitive (advancing their budburst more than 10 days per standardized unit of forcing) and others such as the Sapindaceae, Cornaceae or Juglandaceae families show little response (Fig. \ref{fig:muplot_all} b). %JD - perhaps could link back to invasiveness? Species more sensitive to forcing more invasive?
 
-Some species responded strongly to both temperature cues (chilling and forcing), which could suggest the existence of syndromes where the genetic basis for responses to one cue (e.g., forcing) has been been selected for alongside responses to another cue (e.g. chilling). We might expect, for example, early-season species to be sensitive to multiple cues as mistiming phenology could result in exposure to harsh conditions, leading to tissue loss or death \citep{frostbook}, and sensitivity to multiple cues likely provides greater insurance against mistiming \citep{memegan2021}. Alternatively or additionally, linkage or pleiotropism among loci associated with sensitivity to different cues \citep{nakagawa2005} could induce correlated cues. However, the correlation in species sensitivities across cues was weak (\emph{r} = 0.31; between forcing an chilling) and some genera, such as \emph{Tilia} and Ericaceae[genus?], displayed strong responses to forcing but weak responses to chilling, while others, such as XXXXExamplesXXXX, show strong responses to chilling but weak responses to forcing (Fig. \ref{fig:muplot_all}). Species sensitivity to one cue, thus, does not constrain sensitivity to another cue, and selection might operate independently on responses to different cues \citep{bonamour2019}.
+Some species responded strongly to both temperature cues (chilling and forcing), which could suggest the existence of syndromes where the genetic basis for responses to one cue (e.g., forcing) has been been selected for alongside responses to another cue (e.g. chilling). We might expect, for example, early-season species to be sensitive to multiple cues as mistiming phenology could result in exposure to harsh conditions, leading to tissue loss or death \citep{frostbook}, and sensitivity to multiple cues likely provides greater insurance against mistiming \citep{memegan2021}. Alternatively or additionally, linkage or pleiotropism among loci associated with sensitivity to different cues \citep{nakagawa2005} could induce correlated cues. However, the correlation in species sensitivities across cues was weak (\emph{r} = 0.31; between forcing an chilling) and some genera, such as \emph{Tilia} and Ericaceae[genus?], displayed strong responses to forcing but weak responses to chilling, while others, such as \emph{Acer} (Sapindaceae), show moderately strong responses to chilling but weak responses to forcing (Fig. \ref{fig:muplot_all}). Species sensitivity to one cue, thus, does not constrain sensitivity to another cue, and selection might operate independently on responses to different cues \citep{bonamour2019}.
 
 In contrast to both chilling and forcing, species-level responses to photoperiod were almost uniform---present across nearly all species. This provides novel insight on a large debate over the prevalence of photoperiod cues in temperate trees, where previous experiments  \citep{Basler:2012,zohner2016} and modeling exercises \citep[e.g.,][]{Hunter:1992jw,schaber20203} suggested important variability across species that may constrain the responses of certain species to warming \citep{way2015}. Our results suggest variability is limited to a handful of species in Fagaceae, which have been heavily studied, especially \emph{Fagus sylvatica} \citep[e.g.,][]{Basler:2012,zohner2016,kramer2017}. These same few species are also where most evidence of local adaptation in photoperiod cues for spring phenology comes from \citep[e.g.,][]{kramer2017}, in contrast with common garden studies of other species, which found little evidence of local adaptation in spring (but not fall) phenology \citep{aitken2016}. The uniformity of response to photoperiod that we found supports this latter view of generally low local adaptation in photoperiod cues for spring phenology: given that studies spanned a range of latitudes (with many species studied in only a narrow latitudinal range), if local adaptation was high in photoperiod cues we would expect more variability across species. 
 
@@ -102,15 +164,15 @@ Our results suggest that while chilling and forcing are the dominant cues in ter
 
 \emph{Phylogenetic structure of phenological cues}
 
-Variation---or lack thereof---in cues across species and clades, alongside related estimates from our modeling approach, provides possible insights into the evolution of cues across the phylogeny. While responses to each cue were phylogenetically structured, the strength of phylogenetic conservatism in response differs between cues (Fig. \ref{fig:phylosig_all}). Responses to temperature (forcing and chilling) were moderately structured ($\lambda = 0.65$ and $\lambda = 0.54$, for forcing and chilling, respectively), with closely related species exhibiting more similar sensitivities than distantly related species. Phylogenetic structure in species responses to photoperiod was comparatively weaker ($\lambda= 0.39$) (see Fig. \ref{Fig:muplot_all}, Table \ref{tab:modelanglamb}), emphasizing again that photoperiod diverges from other climate cues. In addition to being weaker and more uniform across species, sensitivity to photoperiod appears to also be less evolutionarily constrained than sensitivities to temperature cues. % While our approach is unique in focusing on species cues, our results support previous work showing phylogenetic signal in plant phenological timing observed from floras or long-term data \cite{kochmer1986constraints,davies2013phylogenetic}. 
+Variation---or lack thereof---in cues across species and clades, alongside related estimates from our modeling approach, provides possible insights into the evolution of cues across the phylogeny. While responses to each cue were phylogenetically structured, the strength of phylogenetic conservatism in response differs between cues (Fig. \ref{fig:phylosig_all}). Responses to temperature (forcing and chilling) were moderately structured ($\lambda = 0.65$ and $\lambda = 0.54$, for forcing and chilling, respectively), with closely related species exhibiting more similar sensitivities than distantly related species. Phylogenetic structure in species responses to photoperiod was comparatively weaker ($\lambda= 0.39$) (see Fig. \ref{Fig:phylosig_all}, Table \ref{tab:modelanglamb}), emphasizing again that photoperiod diverges from other climate cues. In addition to being weaker and more uniform across species, sensitivity to photoperiod appears to also be less evolutionarily constrained than sensitivities to temperature cues. % While our approach is unique in focusing on species cues, our results support previous work showing phylogenetic signal in plant phenological timing observed from floras or long-term data \cite{kochmer1986constraints,davies2013phylogenetic}. 
 
 What might drive phylogenetic structure in species temperature responses? Differences between species in their responses represent shifts in the slope of the relationship between the observed phenology and the cue. Thus, the observed phylogenetic structure in temperature responses (forcing and chilling) would be consistent with an interaction with a non-measured trait that moderates responses, and which also covaries with phylogeny \citep{davies2019phylogenetically}. This fits fundamentally with the idea that early-season phenology plays a critical role in shaping species temporal niches \citep{gotelli1996} and thus should covary with a suite of life-history traits, including whether species are early-active with rapid return on investment trait, or start later in the season and have traits associated with higher competitive abilities \citep[e.g.,][]{Grime:1977sw,wolkovich2014aob}. Geography may drive structured phylogenetic variation, especially in regions where clades have radiated such that close relatives have experienced the same suite of environmental cues and thus been subject to similar selection regimes. Conversely, if species are not generally geographically constrained, as may be more likely the case, especially across deep time \citep{fitzturelli2006}, then we might expect phylogenetic structure in phenology to also weaken, especially when aggregating across locations with different cues \citep{davies2013phylogenetic}.
 
 % EMW (21Nov2022): Do we want to mention any molecular work on photoperiod (or other cues)?
-Weak phylogenetic signal in photoperiod sensitivity (Fig. \ref{fig:phylosig_all}) might seem at odds with observations that distantly related species respond more similarly (and less variably) to photoperiod than they do to forcing or chilling. However, somewhat counterintuitively, both uniform and random responses can manifest as low phylogenetic signal when estimated by Brownian motion expectations (see Wiens et al.). Rapid local adaptation within species might thus erase the phylogenetic structure in photoperiod responses, but seems at odds with the uniformity we find in species' responses. Alternatively, if responses to photoperiod evolved early in plants, as we suggest above, and subsequent selection on photoperiod sensitivity was constrained by stabilizing selection operating on other life-history attributes sensitive to photoperiod \citep[e.g.,][]{Rinne:1994,Wilczek2014,azeez2015}, we would predict both low interspecific variation and weak phylogenetic signal in responses, matching observations. This latter interpretation is also consistent with our estimates of lower $\sigma$ for photoperiod responses (CITE FIGURE). Here, as in more traditional phylogenetic comparative methods, $\sigma$ represents the rate of evolution, and thus our results suggest photoperiod responses are also evolving slower than temperature responses. However, we also show (see Appendix XXX) that an early burst model of evolution, in which trait variation accumulates rapidly early in the history of a clade and then slows through time, consistent with our interpretation of photoperiod evolution.
+Weak phylogenetic signal in photoperiod sensitivity (Fig. \ref{fig:phylosig_all}) might seem at odds with observations that distantly related species respond more similarly (and less variably) to photoperiod than they do to forcing or chilling. However, somewhat counterintuitively, both uniform and random responses can manifest as low phylogenetic signal when estimated by Brownian motion expectations (see Wiens et al.). Rapid local adaptation within species might thus erase the phylogenetic structure in photoperiod responses, but seems at odds with the uniformity we find in species' responses. Alternatively, if responses to photoperiod evolved early in plants, as we suggest above, and subsequent selection on photoperiod sensitivity was constrained by stabilizing selection operating on other life-history attributes sensitive to photoperiod \citep[e.g.,][]{Rinne:1994,Wilczek2014,azeez2015}, we would predict both low interspecific variation and weak phylogenetic signal in responses, matching observations. This latter interpretation is also consistent with our estimates of lower $\sigma$ for photoperiod responses (Fig. \ref{fig:phylosig_all}). Here, as in more traditional phylogenetic comparative methods, $\sigma$ represents the rate of evolution, and thus our results suggest photoperiod responses are also evolving slower than temperature responses. However, we also show (see Appendix XXX) that an early burst model of evolution, in which trait variation accumulates rapidly early in the history of a clade and then slows through time, consistent with our interpretation of photoperiod evolution.
 %JD - Call out to Will for assistance ...
 
-Phylogenetic conservatism (high $\lambda$) and slow evolutionary rates (low $\sigma$) in traits has sometimes been interpreted as indicative of evolutionary constraints to adaptive change (cite Wiens et al. and others cites XXX). If this were the case, we might then suggest that species with strong forcing response might be more vulnerable to future warming because phylogenetic conservatism ($\lambda$) in responses to forcing is higher compared to other cues, and it evolutionary rate ($\sigma$) is lower. This is misleading, however, as estimates of $\lambda$ are independent from the rate of evolution, and macroevolutionary rates estimated on phylogenetic trees that integrate across millions of years of evolutionary history, and thus do not necessarily inform us of maximum possible rates of evolution over much shorter timescales. Indeed, there is accumulating evidence for rapid evolution to shifting climates \citep{bradshaw2006,franks2014}. Our estimates of phylogenetic structure are thus more useful in improving our understanding of the evolutionary history of species phenological cues, and show the importance of robustly estimating species differences in ecological forecasts. 
+Phylogenetic conservatism (high $\lambda$) and slow evolutionary rates (low $\sigma$) in traits has sometimes been interpreted as indicative of evolutionary constraints to adaptive change (cite Wiens et al. and others cites XXX). If this were the case, we might then suggest that species with strong forcing response might be more vulnerable to future warming because phylogenetic conservatism ($\lambda$) in responses to forcing is higher compared to other cues, and its evolutionary rate ($\sigma$) is lower. This is misleading, however, as estimates of $\lambda$ are independent from the rate of evolution, and macroevolutionary rates are estimated on phylogenetic trees that integrate across millions of years of evolutionary history, and thus do not necessarily inform us of maximum possible rates of evolution over much shorter timescales. Indeed, there is accumulating evidence for rapid evolution to shifting climates \citep{bradshaw2006,franks2014}. Our estimates of phylogenetic structure are thus more useful in improving our understanding of the evolutionary history of species phenological cues, and show the importance of robustly estimating species-level differences in ecological forecasts. 
 
 % I'm commenting out this bit but leave it here in case we want to mention some of it in methods or an appendix
 %From a statistical perspective, accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients (Fig. \ref{fig:correls_angio}). Not accounting for phylogeny (or assuming $\lambda$ = 0) biased model coefficients, particularly so for forcing and somewhat less for chilling (Fig. \ref{fig:correls_angio}). Specifically, species sensitivities to forcing and chilling were underestimated on average (model slopes shifted by 7.2\% and 3.7\%, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{fig:correls_angio}), likely associated to their low estimated $\lambda$ values. Model intercepts were not affected either (Fig. \ref{fig:correls_angio}).\\ 
@@ -120,12 +182,12 @@ Phylogenetic conservatism (high $\lambda$) and slow evolutionary rates (low $\si
 Our results highlight that species-level variability can be extremely high---when properly estimated. Our approach, which partially pooled species responses based on their shared evolutionary history, did not have major effects on the overall average across species (model slopes for forcing and chilling shifted by 7.2\% and 3.7\%, respectively; Fig. \ref{fig:correls_angio}), but estimated substantially higher variation across species compared with widely used hierarchical models. This was especially noticeable in temperature responses (for chilling variance across species was $\beta_{phylo}$ = 23.45 compared to $\beta_{non-phylo}$ = 17.47, for forcing it was $\beta_{phylo}$ = 8.74 compared to $\beta_{non-phylo}$ = 5.01) while photoperiod, which had low phylogenetic structure was more similar across approaches (variance of $\beta_{phylo}$ = 0.82 compared to $\beta_{non-phylo}$ = 0.93). Counterintuitively, induced reductions in cross-species variance, far from increasing estimation accuracy could lead to increased type-II error by failing to detect actual relationships among cue and responses that would only emerge when phylogeny is correctly accounted for (see Supporting Information XX). % EMWDec1 -- I am not sure what we mean in this last sentence, but it sounds important ... but since I am not sure what we mean I apologize if I put it in the wrong place 
 
 % EMWDec2 -- not the most striking improvements! Might be better to remove these and just point to a figure ... but at least this gives a reminder of how to use \Sxpr (Sweave)
-The increase in variability across species in our model with phylogenetic structure decreased the uncertainty in estimates for each  individual species temperature responses (by 6\% for chilling, 6\% for forcing and 2\% for photoperiod). Thus, traditional approaches that partially pool across species (most hierarchical models in ecology) may also lead to less precise predictions and forecasts of phenology for individual species, although overall model accuracy might still appear reasonable (see Appendix XX in Supporting Information).
+The increase in variability across species in our model with phylogenetic structure decreased the uncertainty in estimates for each individual species temperature responses (by 2\% for chilling, 0\% for forcing and 5\% for photoperiod). Thus, traditional approaches that partially pool across species (most hierarchical models in ecology) may also lead to less precise predictions and forecasts of phenology for individual species, although overall model accuracy might still appear reasonable (see Appendix XX in Supporting Information).
 
 % EMWDec1 -- need to check below about oaks and make sure we see this difference in lamba0 models... (and we could perhaps contrast this oak bit a little more)
-Our results could help inform which clades will be more sensitive to different axes of climate change---e.g., changes temperatures over winter (associated with chilling) versus spring (associated with forcing). For example, using a hierarchical model would not have identified oaks (genus \emph{Quercus}) as being among the most sensitive taxa to forcing and chilling (see e.g., \citep{ettinger2020}), but we show that species within this genus advance phenology by 2 days per standard unit of forcing and 4 days per standard unit of chilling. These results highlight the need to move beyond current very general classifications currently used in models \citep[e.g., functional groups ... Cat/Dan, can you offer better ref?][]{Moorcroft:2003dz} or groupings at coarse taxonomic levels \citep[e.g.,][]{ettinger2020} to make improved ecological forecasts for individual species. 
+Our results could help inform which clades will be more sensitive to different axes of climate change---e.g., changes temperatures over winter (associated with chilling) versus spring (associated with forcing). For example, using a hierarchical model would not have identified oaks (genus \emph{Quercus}) as being among the most sensitive taxa to forcing and chilling (see e.g., \citep{ettinger2020}), but we show that, on average, species within this genus advance phenology by -13.04 days per standard unit of forcing and -17.22 days per standard unit of chilling. Hierarchical models, even if non-phylogenetic ($\lambda$ = 0), would also capture oak phenological advances as a response to forcing (-11.1 days per standard unit) and chilling (-13.38 days per standard unit). These results highlight the need to move beyond current very general classifications currently used in models \citep[e.g., functional groups ... Cat/Dan, can you offer better ref?][]{Moorcroft:2003dz} or groupings at coarse taxonomic levels \citep[e.g.,][]{ettinger2020} to make improved ecological forecasts for individual species. 
 
-The contrasts between temperature sensitivities and photoperiod sensitivities---in both their variability across species and phylogenetic structure---also allow for improved multi-species forecasts. For temperature responses, the large variability among species makes predicting species individual responses challenging, but the phylogenetic structure in responses lets us borrow  information from close relatives to improve our predictions. While this must be done with care \citep{molina2018assessing}, especially given our very limited sampling of species, our results could provide reasonable predictions for many temperate woody plant species from clades for which we have multiple species and experimental observations at varying treatment levels. For photoperiod, the weak phylogenetic structure in responses indicates that phylogeny retains little information, but because species responses are generally more uniform, we can be more confident in assuming the mean species response across species, comforted in the knowledge that small errors will likely not have large impact given the relatively weak overall contribution of this cue, except for \emph{Fagus sylvatica}. As \emph{Fagus sylvatica} is nearly five times more sensitive to photoperiod than most other measured tree species, our results caution against using it to draw inferences of photoperiod responses more widely. 
+The contrasts between temperature sensitivities and photoperiod sensitivities---in both their variability across species and phylogenetic structure---also allow for improved multi-species forecasts. For temperature responses, the large variability among species makes predicting species individual responses challenging, but the phylogenetic structure in responses lets us borrow information from close relatives to improve our predictions. While this must be done with care \citep{molina2018assessing}, especially given our very limited sampling of species, our results could provide reasonable predictions for many temperate woody plant species from clades for which we have multiple species and experimental observations at varying treatment levels (e.g., ANY EXAMPLES HERE?). For photoperiod, the weak phylogenetic structure in responses indicates that phylogeny retains little information, but because species responses are generally more uniform, we can be more confident in assuming the mean species response across species, comforted in the knowledge that small errors will likely not have large impact given the relatively weak overall contribution of this cue, except for \emph{Fagus sylvatica}. As \emph{Fagus sylvatica} is nearly five times more sensitive to photoperiod than most other measured tree species, our results caution against using it to draw inferences of photoperiod responses more widely. 
 % The genus \emph{Fagus} is recognized as being particularly sensitive to photoperiod \citep{fu2019}. Specifically, \emph{Fagus sylvatica} is nearly five times more sensitive to photoperiod than most other measured tree species. The question arises as to whether species with outlying responses should be chosen as the model from which to extrapolate knowledge as done with \emph{Fagus sylvatica} in the phenology literature (REFs for PEP75?!). %HELP with references on Fagus would be appreciated. % EMW (21Nov2022) I'll add more here later
 
 While we focused on spring phenology here, our modeling approach suggests a path towards more robust forecasting via useful species-level estimates of climate change responses. Our results show how including the phylogenetic relationship of species can overcome major limitations of most current hierarchical models (producing biased model estimates, underestimating the full variability across species, and increasing uncertainty around individual species' estimates) while at once providing insight into the evolutionary history of biological responses. [And, bam, something a little more here ... ]
@@ -146,65 +208,74 @@ While we focused on spring phenology here, our modeling approach suggests a path
 % EMW (28Mar2022): I vote for the first one, but both are great!
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/muplot_phylo_allcue_angio.pdf}
-  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191.pdf}
+  \caption{Phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue, as estimated by our hierarchical phylogenetic model. Species sensitivities are shown along with 95\% Credible Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:muplot_all}
   \end{center}
 \end{figure}
 
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1b_phylo_muplots_gymno.pdf}
-  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 19 gymnosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
-  \label{fig:muplot_allgymno}
-  \end{center}
-\end{figure}
-
+\clearpage
 
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig2_lambdas_sigmas.pdf}
-  \caption{Density plots for the posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey). Panels correspond to angiosperms (a-d) and gymnosperms (e-h). Note that lambda estimations corresponding to  panels c-d and g-h as they are constrained to be either equal zero or equal 1.}
+  \caption{Density plots comparing the posterior distributions of phylogenetic parameters $\lambda$ and $\sigma$ estimated for each cue in the model: chilling (blue), forcing (red), and photoperiod (orange). Panels correspond to $\lambda$ (a) and $\sigma$ (b) from the phylogenetic model, and to $\sigma$ (c) from the non-phylogenetic model (where $\lambda$ is constrained to be equal zero).}
   \label{fig:phylosig_all}
   \end{center}
 \end{figure}
 
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Est_correls_vs_lamb01_angio.pdf}
-  \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for angiosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig3_correlations_lambestvslamb0.pdf}
+  \caption{Correlations between model parameters as estimated by the full model and the models where $\lambda$ is constrained to be equal zero. Panels correspond to sensitivity to chilling (a), to forcing (b), and to photoperiod (d).}
   \label{fig:correls_angio}
   \end{center}
 \end{figure}
 
-\begin{figure} [H]
-  \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Est_correls_vs_lamb01_gymno.pdf}
-  \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for gymnosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
-  \label{fig:correls_gymno}
-  \end{center}
-\end{figure}
+\clearpage
 
 
 
-\begin{table}[H]
-\begin{center}
-\caption{Full model parameters estimated for 192 angiosperm species.}
-\begin{tabular}{@{}lcccccc@{}}                      
-\end{tabular}
-\end{center}
-\label{tab:modelanglamb}
-\end{table}
-
-
-\begin{table}[H]
- \begin{center}
-\caption{Full model parameters estimated for 19 gymnosperm species.}
-\begin{tabular}{@{}lcccccc@{}}
-\end{tabular}
-\end{center}
-\label{tab:modelgymlamb}
-\end{table}
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Fri Dec 09 21:09:23 2022
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+  \hline
+a\_z & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\ 
+  b\_zf & -6.12 & 2.11 & -10.24 & -6.15 & -1.85 & 3989.87 & 1.00 \\ 
+  b\_zc & -6.86 & 2.18 & -10.98 & -6.91 & -2.39 & 7444.80 & 1.00 \\ 
+  b\_zp & -1.22 & 0.77 & -2.73 & -1.22 & 0.36 & 2482.96 & 1.00 \\ 
+  lam\_interceptsa & 0.34 & 0.10 & 0.16 & 0.34 & 0.55 & 7668.82 & 1.00 \\ 
+  lam\_interceptsbf & 0.65 & 0.20 & 0.22 & 0.67 & 0.97 & 630.96 & 1.01 \\ 
+  lam\_interceptsbc & 0.54 & 0.15 & 0.25 & 0.55 & 0.82 & 1834.14 & 1.00 \\ 
+  lam\_interceptsbp & 0.40 & 0.24 & 0.03 & 0.38 & 0.88 & 672.39 & 1.00 \\ 
+  sigma\_interceptsa & 15.99 & 1.15 & 13.98 & 15.91 & 18.47 & 6970.37 & 1.00 \\ 
+  sigma\_interceptsbf & 5.80 & 1.01 & 4.06 & 5.70 & 8.01 & 1043.34 & 1.00 \\ 
+  sigma\_interceptsbc & 7.10 & 0.88 & 5.53 & 7.04 & 8.99 & 1767.13 & 1.00 \\ 
+  sigma\_interceptsbp & 2.36 & 0.41 & 1.61 & 2.34 & 3.23 & 636.82 & 1.01 \\ 
+  sigma\_y & 12.58 & 0.18 & 12.24 & 12.58 & 12.93 & 10904.90 & 1.00 \\ 
+  \end{tabular}
+\endgroup \clearpage \pagebreak 
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Fri Dec 09 21:09:23 2022
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+  \hline
+a\_z & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\ 
+  b\_zf & -7.46 & 0.89 & -9.19 & -7.46 & -5.71 & 2960.28 & 1.00 \\ 
+  b\_zc & -8.75 & 0.81 & -10.29 & -8.76 & -7.11 & 6051.59 & 1.00 \\ 
+  b\_zp & -1.21 & 0.46 & -2.10 & -1.20 & -0.29 & 2175.88 & 1.00 \\ 
+  sigma\_interceptsa & 16.35 & 1.00 & 14.46 & 16.31 & 18.41 & 10178.43 & 1.00 \\ 
+  sigma\_interceptsbf & 5.20 & 0.82 & 3.76 & 5.15 & 6.93 & 677.74 & 1.00 \\ 
+  sigma\_interceptsbc & 6.84 & 0.78 & 5.40 & 6.80 & 8.46 & 1815.10 & 1.00 \\ 
+  sigma\_interceptsbp & 2.27 & 0.35 & 1.61 & 2.25 & 2.99 & 649.15 & 1.00 \\ 
+  sigma\_y & 12.57 & 0.18 & 12.23 & 12.57 & 12.94 & 12887.31 & 1.00 \\ 
+  \end{tabular}
+\endgroup \clearpage \pagebreak 
 
 
 \end{document}

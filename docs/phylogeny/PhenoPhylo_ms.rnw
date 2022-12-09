@@ -21,7 +21,13 @@
 \title{Unravelling the phenology-phylogeny tangle.}
 % alternative titles:
 %% An expanded bayesian phylogenetic mixed model to unravel the phenology-phylogeny tangle. %% this sounds too methodsy
+%% Emphasizing species-level differences to unravel the phenology-phylogeny tangle
+
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\SweaveOpts{concordance=FALSE}
+%\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
 \maketitle
 
@@ -41,6 +47,69 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 \renewcommand{\thefigure}{\arabic{figure}}
 \renewcommand{\labelitemi}{$-$}
 \setkeys{Gin}{width=0.8\textwidth}
+
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Abstract}
+
+{\bf Not updated yet ... } 
+
+%Mitigation and adaptation of human systems to climate change relies on accurate ecological forecasting as it informs of threats and opportunities for key ecosystem services. Yet, predictions of biological responses to warming remain elusive.     
+
+%is a valuable tool to adapt human systems to  
+%Plants have evolved responses to environmental cues able to inform them about the temporal distribution of key resources---i.e. energy and light. Full understanding of these responses is needed 
+
+%The responses to individual cues such as forcing (or spring warming) have shown to be subjected to some degree of evolutionary conservatism. Yet, plants do not respond to isolated cues but to a combination of interacting cues, which difficults accurate predictions of phenology in the face of environmental change. Whether and how evolution has constrained phenological responses to combinations of interacting cues is not yet understood even when this knowledge could enhance model predictions and inform how different plant lineages have adapted to environmental change along their evolutionary histories. Here we use Bayesian hierarchical models and the most complete dataset on tree species phenological responses measured in experimental conditions to: (a) test if phenological responses to three major interacting cues are conserved phylogenetically when considered jointly, (b) compare the phylogenetic signal in the responses to different cues and, (c) test whether coefficient estimates differ between models assuming phylogenetic independence among species and models that explicitly incorporate phylogeny. Results show non-random phylogenetic structuring of phenological responses, highly variable across species and cues. More interestingly, regression coefficients shift when models control for phylogenetic effects, particularly so for forcing, which becomes the most important cue. Taken together, our results suggest that phylogeny should be incorporated into studies modelling multi-species phenological responses, as such responses have been jointly constrained through evolution and thus are not independent.  
+
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Introduction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Meeting call notes: https://github.com/lizzieinvancouver/ospree/wiki/Phylogeny-and-phenology
+
+% Baby (ecological forecasting), warewolf (species diversity), silver bullet
+
+\section*{Introduction}
+Predicting the biological impacts of climate change has major implications for the future sustainability of ecosystems. With rising global temperatures species have shifted northward in space and earlier in time on average \citep{IPCC:2014sm}. These shifts can have cascading consequences on many ecosystem services including carbon storage, which determines future climate change itself, making both mitigation and human adaptation to future warming dependent on accurate ecological forecasts. 
+% Carbon storage and thus, future climate change itself, depends on accurate forecasts of shifts in plant phenology. But forecasts to date have struggled to reproduce important non-linearities in responses, and the high variability observed in responses to date. 
+% Progress towards predicting non-linearities has come from mechanistic models that incorporate multiple predictors. 
+
+While ecological forecasting has improved over recent years \citep{dietze2017ecological,lewis2022power}, it remains a challenge to reproduce the high variability observed in responses to date \citep{IPCC:2014sm}. Some of this variability results from the complexity of climate change itself, including regional and seasonal variation in warming that underlies average trends alongside shifts in other climate axes (e.g. precipitation). Much of it, however, is driven by species-specific variation, reflecting evolved differences in species' sensitivities to underlying environmental cues and their interactions, which we know well for only a few well-studied species. In the absence of detailed data on individual species, species groupings (e.g., functional groups) have been included in ecosystem models, and show promise, but these still fail to capture important variability. Improving forecasts, thus, will require models that accurately predict species-level differences in responses to complex environmental change.
+% Understanding how different species lineages have evolved their phenotypic responses to the combined effects of environmental change would greatly aid prediction
+% IMC - perhaps before ´improving forecasts´ mention that much forecasting happens at the functional group level (because lack good enough species-level information), hindering insights and biasing forecasts towards those well known species. %EMW29Nov -- got some of this point in, but not all. 
+
+Recent efforts that have attempted to model species responses to the environment \citep{diez2012forecasting} are often confounded by data availability---especially the common problem of data highly biased to some species and sparse across others. The rise of Bayesian hierarchical models can allow inference across species in such cases. However, underlying most hierarchical models is an implicity assumption that all species are exchangeable, and they thus partially pool (`shrink') towards estimates for species with the most data (and least variable responses) (CITES), making inference at the species-level unreliable \citep{ettinger2020}. Including the evolutionary history of species relationships in models of species responses could at once provide more robust species-level estimates than current approaches and a better understanding of the evolutionary constraints that might limit future adaptation to change. For example, strong phylogenetic niche conservatism \citep{wiens2010niche} could potentially inhibit adaptive responses by drawing species back to an evolutionary conserved theorectical optimum which is no onger optimal under new conditions. Evidence that species' climatic niches show strong evolutionary conservatism \citep{wiens2005niche}, thus, has major implications for projecting species range shifts, a key response to environmental change \citep{urban353others}. More recent work has demonstrated the strength of evolutionary conservatims in species temporal responses, and multiple studies have found dates of budburst, leafout and first flowering are more similar among closely related species \citep{kochmer1986constraints,willis2008phylogenetic,davies2013phylogenetic}. 
+%[JD or Nacho add a sentence or two here on how evolutionary responses can be phylogenetically structured for climate change stuff {\bf beyond} phenology and then transition to next paragraph on phenology.]
+ 
+Research using long-term observational data has especially highlighted the role that evolutionary history may play in structuring plant phenological responses---which are critical to accurate forecasts of carbon storage. Phylogenetic signal in plant phenology \citep{davies2013phylogenetic, rafferty2017global}) suggests species responses to cues have diverged over macro-evolutionary timescales, helping explain species present day differences. Almost all these studies, however, have focused on the phenotype (e.g., day of year of a phenological event), which is strongly determined by the local environment (e.g., the climate where phenology was measured). More direct measures of species intrinsic responses to the environment may derive from studies examining species long-term change over time \citep[e.g.,][]{willis2008phylogenetic}---likely capturing a composite of multiple cues---or change per C \citep{yang2021afm}---argued to be a proxy for forcing---and similar metrics, instead of day of year \citep[e.g.,][]{CaraDonna2015}. However, approaches using traditional phylogenetic comparative methods \citep[e.g.,][]{willis2008phylogeneticCaraDonna2015,yang2021afm}, have produced conflicting results. Evidence for phylogenetic conservatism appears to depend on method and species, even varying from one site to the next for the same clade \citep[e.g.,][]{rafferty2017global}, which violates the fundamental idea of shared evolutionary history---the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait. %EMW29Nov -- I think we need to slim above paragraph, no?
+
+If closely related species have similar phenological responses to environmental cues it could facilitate forecasting to unmeasured species, and yield insights into how evolutionary history may constrain future response, but testing for this will require addressing a second major hurdle in ecological forecasting---underlying environmental cues that are complex and interacting. Decades of research have informed our understanding of how species use environmental cues to time their phenotypic responses with the temporal distribution of key resources and to avoid periods of high abiotic or biotic stress \citep{larcher1980,bonamour2019}. Commonly, however, responses to environmental cues, and their evolution, are studied individually, for example, linking a given phenotypic response to a single cue, such as time of leafout and summed heat during early spring \citep[e.g.,][]{davies2013phylogenetic}. Such efforts ignore a more likely scenario for most phenotypic traits where multiple cues interacting along evolutionary history have shaped responses \citep{Ackerly:2009ly}. For many plant species, phenolological events are determined by a combination of temperature and light \citep{chuinearees}, and it is likely that additional cues (such as soil moisture) and species' physiology, further mediate species responses, but are often less well understood \citep{chuinearees}.  % IMC - I guess it is somehow implicit in the last sentence, but maybe either here or in the next paragraph we could make it more explicit here that these additional cues (that we know less of or have not measured) can be accounted for (or will emerge) in models as latent processes?
+
+Spring plant phenology may represent our best opportunity to improve forecasts of species’ responses to interacting environmental cues. Beyond being the most studied biological impact of climate change, the primary interacting cue system is well established \citep{chuinearees}, especially for temperate woody species where phenology is generally thought to be determined by two components of temperature---chilling (cool temperatures during dormancy period over winter) and forcing (warm temperatures, generally in the spring)---and photoperiod \citep{XXX}. Plant phenology is also one of few phenotypic traits with extensive experimental data on responses to multiple environmental cues across species. Recent multi-species analyses considering forcing, chilling and photoperiod have shown that chilling and forcing together often determine complex non-linear responses to warming, but cannot forecast beyond several well-studied species \citep{ettinger2020}. %These studies have also found remarkable variation across species in their sensitivities to cues, aligning with long-term observational data across thousands of species \citep{XXX}, and suggesting that current models and forecasts fail to capture the complexity of species-specific responses. 
+
+Useful species-level forecasts of phenological responses will require new approaches that better model the evolution of species responses. Our understanding of the underlying cues that drive spring phenology suggest we need to model phenology as a composite outcome of the underlying cues---chilling, forcing and photoperiod---allowing evolution in the responses to each. By allowing non-stationarity in species responses across phylogeny \citep{davies2019phylogenetically}, such an approach would depart from most previous work and assumptions of traditional phylogenetic comparative methods \citep[e.g. ][]{freckleton2002phylogenetic,ives2011generalized,hadfield2010mcmc}, and move towards integrating evolutionary history in models of phenological responses to environmental change.  
+
+Here we present a novel Bayesian framework that extends upon phylogenetic mixed models \citep{housworth2004phylogenetic} to examine how chilling, forcing (metrics of temperature) and photoperiod together determine plant phenology. We illustrate our method with an unprecedented dataset on phenological responses to environmental cues determined experimentally for 192 deciduous woody species \cite[by far the most studied group of species in phenology experiments, see][]{ettinger2020}. Our method allows us to ask: which cue has the largest effect on budburst, how do cues vary across species, and how evolutionary history has shaped species responses to individual cues? Our results allow us to identify historical regime shifts \citep{uyeda2017evolution} in phenological responses across the plant phylogeny, and have relevance for forecasting under ongoing change.
+
+
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Methods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Methods}
+
 
 \clearpage
 
@@ -120,18 +189,18 @@ While we focused on spring phenology here, our modeling approach suggests a path
 % EMW (28Mar2022): I vote for the first one, but both are great!
 \begin{figure} [H]
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/
-  Fig1_phylo_muplots191.pdf}
-  \caption{Phenological sensitivity to thee environmental cues, forcing (a), chilling (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 192 angiosperm species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the model slopes of our hierarchical phylogenetic model. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191.pdf}
+  \caption{Phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue, as estimated by our hierarchical phylogenetic model. Species sensitivities are shown along with 95\% Credible Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:muplot_all}
   \end{center}
 \end{figure}
 
+\clearpage
 
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig2_lambdas_sigmas.pdf}
-  \caption{Density plots for the posterior distribution of phylogenetic signal measured by lambda for each cue included as a predictor in the model for angiosperms: forcing (red), chilling (blue),  photoperiod (orange) and for the model intercept (grey). Panels correspond to angiosperms (a-d) and gymnosperms (e-h). Note that lambda estimations corresponding to  panels c-d and g-h as they are constrained to be either equal zero or equal 1.}
+  \caption{Density plots comparing the posterior distributions of phylogenetic parameters $\lambda$ and $\sigma$ estimated for each cue in the model: chilling (blue), forcing (red), and photoperiod (orange). Panels correspond to $\lambda$ (a) and $\sigma$ (b) from the phylogenetic model, and to $\sigma$ (c) from the non-phylogenetic model (where $\lambda$ is constrained to be equal zero).}
   \label{fig:phylosig_all}
   \end{center}
 \end{figure}
@@ -139,31 +208,50 @@ While we focused on spring phenology here, our modeling approach suggests a path
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig3_correlations_lambestvslamb0.pdf}
-  \caption{Correlations between model parameters as estimated by the full model and the models where lambda is constrained to be equal zero (upper row) or one (bottom row), for angiosperms. Panels correspond to sensitivity to forcing (a,e), to chilling (b,f), to photoperiod (c,g) and to model intercepts (d,h).}
+  \caption{Correlations between model parameters as estimated by the full model and the models where $\lambda$ is constrained to be equal zero. Panels correspond to sensitivity to chilling (a), to forcing (b), and to photoperiod (d).}
   \label{fig:correls_angio}
   \end{center}
 \end{figure}
 
+\clearpage
 
 
-\begin{table}[H]
-\begin{center}
-\caption{Full model parameters estimated for 192 angiosperm species.}
-\begin{tabular}{@{}lcccccc@{}}                      
-\end{tabular}
-\end{center}
-\label{tab:modelanglamb}
-\end{table}
+<<label=source, echo=FALSE, results=hide>>=
+# Set working directory: 
+setwd("..//..//analyses//phylogeny") 
+source("phylo_ospree_tables.R")
+@
 
+<<label=tables1, echo=FALSE, results=tex>>=
+# tablemodelestimate
+print(make.mytable1,
+      floating=FALSE,
+      size="footnotesize",   
+      hline.after=c(-1,0),
+      caption.placement="top", 
+      include.rownames=FALSE,
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
 
-\begin{table}[H]
- \begin{center}
-\caption{Full model parameters estimated for 19 gymnosperm species.}
-\begin{tabular}{@{}lcccccc@{}}
-\end{tabular}
-\end{center}
-\label{tab:modelgymlamb}
-\end{table}
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tables2, echo=FALSE, results=tex>>=
+# tablevaldatsource
+print(make.mytable2,
+      floating=FALSE,
+      size="footnotesize",   
+      hline.after=c(-1,0),
+      caption.placement="top", 
+      include.rownames=FALSE,
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
 
 
 \end{document}
