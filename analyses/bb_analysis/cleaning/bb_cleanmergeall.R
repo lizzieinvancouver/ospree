@@ -9,7 +9,7 @@ rm(list=ls())
 options(stringsAsFactors = FALSE)
 
 # Set working directory: 
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+if(length(grep("lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else if
 (length(grep("Ignacio", getwd()))>0) { setwd("~/GitHub/ospree/analyses") 
 } else if
