@@ -23,3 +23,4 @@ make.mytable2 <- xtable(modellamb0,
                         label="tab:modlamb0")
 
 
+

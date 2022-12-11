@@ -430,6 +430,14 @@ abline(a=0,b=1, col='grey')
 abline(lm(cuephoto~cuephoto_lam0))
 
 
+#'###########################################
+#### check correlations among cues ####
+#'###########################################
+
+cor(cueforce,cuechill)
+cor(cueforce,cuephoto)
+cor(cuephoto,cuechill)
+
 #'###############################################
 #### comparing estimates lambda est vs 1 vs 0 ####
 #'###############################################

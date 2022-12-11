@@ -384,7 +384,20 @@ photoperimpove <- round(abs(1-((quantphotosp[1]-quantphotosp[3])/(quantphoto0sp[
 #'###################################
 # Some plots ...               ####
 #'###################################
+plotting = F
 
+
+source("source/bb_muplotphylo.R")
+modelhere <- fit
+figpath <- "figures"
+figpathmore <- "fit"
+library(RColorBrewer)
+cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
+my.pch <- rep(15:18, each=12)
+alphahere = 0.4
+
+if(plotting){
 ## Compare prior and posterior
 # Plotting f(x) from Mike Betancourt
 c_dark <- c("#8F2727")
@@ -423,33 +436,22 @@ points(x=seq(-0.1, 1.1, by=0.001), yhere,
 
 # See also https://github.com/lizzieinvancouver/pmm/blob/5014539f8a7cfc659298d20d49a0935a8ced305d/analyses/phlyo_opsree_compact.R
 
-names(fit)[grep(pattern = "^a\\[", x = names(fit))] <- phylo$tip.label
-names(fit)[grep(pattern = "^b_force", x = names(fit))] <- phylo$tip.label
-names(fit)[grep(pattern = "^b_chill", x = names(fit))] <- phylo$tip.label
-names(fit)[grep(pattern = "^b_photo", x = names(fit))] <- phylo$tip.label
+#names(fit)[grep(pattern = "^a\\[", x = names(fit))] <- phylo$tip.label
+#names(fit)[grep(pattern = "^b_force", x = names(fit))] <- phylo$tip.label
+#names(fit)[grep(pattern = "^b_chill", x = names(fit))] <- phylo$tip.label
+#names(fit)[grep(pattern = "^b_photo", x = names(fit))] <- phylo$tip.label
 
-pdf(file = "output/estimates1.pdf", onefile = TRUE, height = 35, width = 6)
-plot(fit, pars = c("a_z", "a"))
-plot(fit, pars = c("b_zf", "b_force"))
-plot(fit, pars = c("b_zc", "b_chill"))
-plot(fit, pars = c("b_zp", "b_photo"))
-dev.off()
-pdf(file = "output/estimates2.pdf", onefile = TRUE, height = 11.5, width = 8)
-plot(fit, pars = c("lam_interceptsa", "lam_interceptsbf", "lam_interceptsbc", "lam_interceptsbp"))
-plot(fit, pars = c("sigma_interceptsa", "sigma_interceptsbf", "sigma_interceptsbc", "sigma_interceptsbp", "sigma_y"))
-dev.off()
+#pdf(file = "output/estimates1.pdf", onefile = TRUE, height = 35, width = 6)
+#plot(fit, pars = c("a_z", "a"))
+#plot(fit, pars = c("b_zf", "b_force"))
+#plot(fit, pars = c("b_zc", "b_chill"))
+#plot(fit, pars = c("b_zp", "b_photo"))
+#dev.off()
+#pdf(file = "output/estimates2.pdf", onefile = TRUE, height = 11.5, width = 8)
+#plot(fit, pars = c("lam_interceptsa", "lam_interceptsbf", "lam_interceptsbc", "lam_interceptsbp"))
+#plot(fit, pars = c("sigma_interceptsa", "sigma_interceptsbf", "sigma_interceptsbc", "sigma_interceptsbp", "sigma_y"))
+#dev.off()
 
-
-
-source("source/bb_muplotphylo.R")
-modelhere <- fit
-figpath <- "figures"
-figpathmore <- "fit"
-library(RColorBrewer)
-cols <- adjustcolor("indianred3", alpha.f = 0.3) 
-my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 4)
-my.pch <- rep(15:18, each=12)
-alphahere = 0.4
 
 # muplotfx(modelhere, "", 7, 8, c(0,3), c(-30, 10) , 12, 3.5) # hmm, seems broken
 
@@ -461,7 +463,7 @@ hist(extract(modelhere)[["sigma_interceptsbp"]], main="photo")
 hist(extract(modelhere)[["lam_interceptsbf"]], main="lambda force")
 hist(extract(modelhere)[["lam_interceptsbc"]], main="lambda chill")
 hist(extract(modelhere)[["lam_interceptsbp"]], main="lambda photo")
-
+}
 
 lamf.int <- mean(extract(modelhere)[["lam_interceptsbf"]])
 sigmaf.int <- mean(extract(modelhere)[["sigma_interceptsbf"]])
