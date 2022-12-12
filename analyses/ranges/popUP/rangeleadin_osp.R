@@ -162,6 +162,7 @@ setdiff(ggdlf$complex.wname,unique(bb.stan$complex.wname))
 bb.stan<-filter(bb.stan,complex.wname %in% goodsp)
 ggdlf<-filter(ggdlf,complex.wname %in% goodsp)
 
+bb.stan<-left_join(bb.stan,ggdlf)
 ##########correlations
 ggdlf %>%
   dplyr::group_by(continent) %>%
@@ -185,7 +186,7 @@ h<-ggplot(ggdlf,aes(Temp.SD.GDD,Temp.Mean.GDD))+geom_point(aes(color=continent))
 i<-ggplot(ggdlf,aes(Geo.SD.GDD,Geo.Mean.GDD))+geom_point(aes(color=continent))+geom_smooth(method="lm",aes(color=continent))+facet_wrap(~continent,scales="free")
 ggpubr::ggarrange(a,b,c,d,common.legend = TRUE)
 
-g
+
 ######zscore and center
 bb.stan$Temp.SD.cent<-bb.stan$Temp.SD-mean(bb.stan$Temp.SD)
 #bb.stan$STV.cent<-bb.stan$STV-mean(bb.stan$STV)
