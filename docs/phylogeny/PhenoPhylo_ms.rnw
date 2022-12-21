@@ -178,7 +178,7 @@ While we focused on spring phenology here, our approach suggests a path forward 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
+\clearpage
 \section*{Methods \& Materials} 
 \iffalse
 Chunks to maybe work in... 
@@ -187,7 +187,6 @@ Chunks to maybe work in...
 \item In a first attempt at establishing whether or not it is important, we compare results from a common hierarchical model with partial pooling on the slopes that does not allow for phylogenetic constraints to affect slope estimates against results from a phylogenetic hierarchical model allowing phylogeny to constrain partially pooled slopes. 
 \end{itemize}
 \fi
-
 \subsection*{Phenological and Phylogenetic Data}
 % See _README_paperresearchmethods.txt
 \emph{Phenological data:} To estimate phenological responses to chilling, forcing and photoperiod we used data from phenological experiments of temperate woody species conducted in controlled environments, brought together in the Observed Spring Phenology Responses in Experimental Environments (OSPREE) database. In July 2019, we updated an earlier version of this database \citep{wolkovich2019} by reviewing all papers found through searching ISI Web of Science and Google Scholar with the following terms: 
@@ -230,16 +229,17 @@ where
 \end{align}
 
 Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forcing, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{chill,j}$, $\beta_{force,j}$, $\beta_{photo,j}$, representing species' responses (or sensitivities) to each of the cues. These responses, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
+
 \begin{align}
     \label{phybetas}
   \boldsymbol{\alpha} = \{\alpha_1, \ldots, \alpha_n\}^T & \text{ such that }
   \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
-  \boldsymbol{\beta_{chill}} =  \{\beta_{chill,1}, \ldots, \beta_{chill,n}\}^T & \text{ such that }
-  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_1},\boldsymbol{\Sigma_{\beta_1}}) \nonumber \\
-  \boldsymbol{\beta_{force}} =  \{\beta_{forcing,1}, \ldots, \beta_{force,n}\}^T & \text{ such that }
-  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_2},\boldsymbol{\Sigma_{\beta_2}}) \nonumber \\
-  \boldsymbol{\beta_{photo} =  \{\beta_{photo,1}, \ldots, \beta_{photo,n}\}^T & \text{ such that }
-  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_3}}) \nonumber
+  \boldsymbol{\beta_{chill}} =  \{\beta_{1,1}, \ldots, \beta_{1,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_1},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
+  \boldsymbol{\beta_{force}} =  \{\beta_{2,1}, \ldots, \beta_{2,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_2},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
+  \boldsymbol{\beta_{photo}} =  \{\beta_{3,1}, \ldots, \beta_{3,n}\}^T & \text{ such that }
+  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
 \end{align}
 
 \noindent where the means of the multivariate normal distributions are root trait values (i.e., values of cue responses prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ % we need to decide for a nomenclature that is as widespread/easy to understand as possible. Other papers use bold V, or C to refer to the VCV matrix. Any suggestions are welcome
