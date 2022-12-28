@@ -446,9 +446,9 @@ cor(cuephoto,cuechill)
 ## load models
 agiosponly=T
 if(agiosponly){
-  fitlam0 <- readRDS("output/testme_priorupdate_noout_angio191_lam0.rds")
-  fitlam1 <- readRDS("output/testme_priorupdate_noout_angio191_lam1.rds")
-  fitlambest <- readRDS("output/testme_priorupdate_noout_angio191.rds")
+  fitlam0 <- readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
+  fitlam1 <- readRDS("output/fit_priorupdate_noout_angio191_lamb1.rds")
+  fitlambest <- readRDS("output/fit_priorupdate_noout_angio191.rds")
 } else {
   fitlam0 <- readRDS("output/testme_gymno_lambda0.rds")
   fitlam1 <- readRDS("output/testme_gymno_lambda1.rds")

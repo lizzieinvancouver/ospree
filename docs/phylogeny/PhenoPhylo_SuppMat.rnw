@@ -27,11 +27,10 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 % any other ideas are welcome:
 
 
-\usepackage{Sweave}
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
 
-
+\SweaveOpts{concordance=FALSE}
 %\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
 \maketitle
@@ -103,6 +102,7 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
   \end{center}
 \end{figure}
 
+\clearpage
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_comparison_eachsps_uncertainty.pdf}
@@ -111,7 +111,7 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
   \end{center}
 \end{figure}
 
-
+\clearpage
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_bias_sens_phylo_nonphylo.pdf}
