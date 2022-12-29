@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
+\usepackage{longtable}
 \usepackage{xr-hyper}
 % \externaldocument{limitingcues_supp}
 
@@ -85,6 +86,48 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 \clearpage
 \section*{Supporting Figures and Tables}
 
+
+
+<<label=runcode2, echo=FALSE, results=tex>>=
+# load models and data to report numbers of things
+## Set Working Directory
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+@
+
+
+<<label=tablesupp1, echo=FALSE, results=tex>>=
+# tablespslevestimate
+print(make.mytable3,
+      floating=FALSE,
+      size="footnotesize",   
+      hline.after=c(-1,0),
+      caption.placement="top", 
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp2, echo=FALSE, results=tex>>=
+# tablespslevestimatelamb0
+print(make.mytable4,
+      floating=FALSE,
+      size="footnotesize",   
+      hline.after=c(-1,0),
+      caption.placement="top", 
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
+
+
 \begin{figure} [H]
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_ phylo_muplots191_lamb0.pdf}
@@ -120,6 +163,16 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
   \end{center}
 \end{figure}
 
+
+
+\clearpage
+\begin{figure} [H]
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_marginal_plots_betas_lambda.pdf}
+  \caption{Marginal plots contrasting the posterior distributions (in red) of estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) against prior distributions (blue). Lower panels show marginal plots for the posterior distributions of phylogenetic parameter $\lambda$ fitted for chilling (d), forcing (e) and photoperiod (f).}
+  \label{fig:marginalplots}
+  \end{center}
+\end{figure}
 
 
 

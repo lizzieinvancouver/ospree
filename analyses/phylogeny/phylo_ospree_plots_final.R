@@ -270,6 +270,7 @@ names(fitlam0)[grep(pattern = "^b_photo", x = names(fitlam0))] <- phylo$tip.labe
 
 
 
+
 # get model estimates per species ----
 
 ## where species are
@@ -277,7 +278,33 @@ names(fitlam0)[grep(pattern = "^b_photo", x = names(fitlam0))] <- phylo$tip.labe
   posspsindata.est <- list(10:200,202:392,394:584)
   posspsindata.01 <- list(6:196,198:388,390:580)
 
-
+  
+## make tables for species-level estimates (supp) ----
+  tableresults.est = summary(fitlambest)$summary
+  tableresults.est0 = summary(fitlam0)$summary
+  
+  spslevtable = cbind(tableresults.est[posspsindata.est[[2]],c("mean","2.5%","97.5%")],
+                      tableresults.est[posspsindata.est[[1]],c("mean","2.5%","97.5%")],
+                      tableresults.est[posspsindata.est[[3]],c("mean","2.5%","97.5%")])
+  
+  colnames(spslevtable) = c("b_chill","b_chill_low","b_chill_up",
+                            "b_force","b_force_low","b_force_up",
+                            "b_photo","b_photo_low","b_photo_up")
+  rownames(spslevtable) = gsub("_"," ",rownames(spslevtable),fixed = T) 
+    
+  spslevtable0 = cbind(tableresults.est0[posspsindata.01[[2]],c("mean","2.5%","97.5%")],
+                       tableresults.est0[posspsindata.01[[1]],c("mean","2.5%","97.5%")],
+                       tableresults.est0[posspsindata.01[[3]],c("mean","2.5%","97.5%")])
+  colnames(spslevtable0) = c("b_chill","b_chill_low","b_chill_up",
+                            "b_force","b_force_low","b_force_up",
+                            "b_photo","b_photo_low","b_photo_up")
+  rownames(spslevtable0) = gsub("_"," ",rownames(spslevtable0),fixed = T) 
+  
+  
+  #write.csv(spslevtable, file = "output/spslevestimates191.csv")
+  #write.csv(spslevtable0, file = "output/spslevestimateslamb0_191.csv")
+  
+  
 ## forcing
 cueforce = summary(fitlambest)$summary[posspsindata.est[[1]],"mean"]
 cueforcesdup = summary(fitlambest)$summary[posspsindata.est[[1]],"75%"]

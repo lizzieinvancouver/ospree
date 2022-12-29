@@ -295,10 +295,12 @@ fitsumdf <- as.data.frame(fitsum)
 source("source/stan_utility.R")
 check_all_diagnostics(fit)
 
-#####################
-## Code to pull posteriors of each que and get quantiles
-## We may not actually need this now, but we may someday!
-#####################
+
+
+#'####################
+#' Code to pull posteriors of each cue and get quantiles  ----
+#' We may not actually need this now, but we may someday!
+#'####################
 
 postfit <- extract(fit)
 whichquantiles <- c(0.05, 0.5, 0.95) # need to give three to work with below code
@@ -333,7 +335,7 @@ for(whicharray in c(1:length(arrays))){
 }
 
 # get min and max by cue ...
-# Can use someday with \Sexpr{} to get actualy #s on comparisons we make in paper
+# Can use someday with \Sexpr{} to get actual y #s on comparisons we make in paper
 
 minmaxcues <-
     ddply(modquant, c("cue"), summarise,
@@ -345,9 +347,9 @@ minmaxcues$xdiff <- minmaxcues$min/minmaxcues$max
     
 chillphotocue <- fitsumdf$mean[which(rownames(fitsumdf)=="b_zc")]/fitsumdf$mean[which(rownames(fitsumdf)=="b_zp")]
 
-#####################
-## Estimate uncertainty for each species -- but across them
-#####################
+#'####################
+#' Estimate uncertainty for each species -- but across them ----
+#'###################
 
 ## Average the species posteriors ... (keep iterations together, again would be good if someone checked this...)
 chillspmean <- rowSums(chillarray)/ncol(chillarray)
@@ -410,22 +412,62 @@ plot_marginal <- function(values, name, display_xlims, title="") {
   
   hist(values, breaks=breaks, prob=T,
        main=title, xlab=name, xlim=display_xlims,
-       ylab="", yaxt='n',
-       col=c_dark, border=c_dark_highlight)
+       #ylab="", yaxt='n',
+       col=c_dark, border=c_dark_highlight,
+       cex.lab=1.25)
+  box(which = "plot", lty = "solid")
+  
 }
 
-postfit <- extract(fit) # if not done above
-plot_marginal(postfit$b_zc, "b_zc", c(-20, 2))
 
+## make plots
+par(mfrow=c(2,3))
+
+postfit <- extract(fit) # if not done above
+plot_marginal(postfit$b_zc, "b_chilling", c(-20, 2))
 # Prior for b_zc us normal(-2, 10) so I think the below works ... 
 yhere <- dnorm(x=seq(-20, 2, by=0.01), mean=-2, sd=10)
 points(x=seq(-20, 2, by=0.01), yhere, 
        col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+
+postfit <- extract(fit) # if not done above
+plot_marginal(postfit$b_zf, "b_forcing", c(-20, 2))
+# Prior for b_zc us normal(-2, 10) so I think the below works ... 
+yhere <- dnorm(x=seq(-20, 2, by=0.01), mean=-2, sd=10)
+points(x=seq(-20, 2, by=0.01), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+
+postfit <- extract(fit) # if not done above
+plot_marginal(postfit$b_zp, "b_photoperiod", c(-20, 2))
+# Prior for b_zc us normal(-2, 10) so I think the below works ... 
+yhere <- dnorm(x=seq(-20, 2, by=0.01), mean=0, sd=5)
+points(x=seq(-20, 2, by=0.01), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
+
 
 plot_marginal(postfit$lam_interceptsbc, "Lambda for chilling", c(-0.1, 1.1))
 yhere <- dbeta(x=seq(-0.1, 1.1, by=0.001), 1, 1)
 points(x=seq(-0.1, 1.1, by=0.001), yhere, 
        col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("d", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+plot_marginal(postfit$lam_interceptsbf, "Lambda for forcing", c(-0.1, 1.1))
+yhere <- dbeta(x=seq(-0.1, 1.1, by=0.001), 1, 1)
+points(x=seq(-0.1, 1.1, by=0.001), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("e", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+plot_marginal(postfit$lam_interceptsbp, "Lambda for photoperiod", c(-0.1, 1.1))
+yhere <- dbeta(x=seq(-0.1, 1.1, by=0.001), 1, 1)
+points(x=seq(-0.1, 1.1, by=0.001), yhere, 
+       col="darkblue", type="l", lwd=2, yaxt="n")
+mtext("f", side = 3, adj = 0.05,line=-2,cex=1.5)
+
 
 # We could, err, functionalize this or clean up in many ways ... but it's a start!
 ## END compare prior and posterior
@@ -495,10 +537,10 @@ oakadvchill = round(mean(colMeans(quercuschilling)),2)
 
 
 
-quercusforcing = forcearray0[,164:175]
-colnames(quercusforcing) = phylo$tip.label[164:175]
-colMeans(quercusforcing)
-oakadvforce0 = round(mean(colMeans(quercusforcing)),2)
+quercusforcing0 = forcearray0[,164:175]
+colnames(quercusforcing0) = phylo$tip.label[164:175]
+colMeans(quercusforcing0)
+oakadvforce0 = round(mean(colMeans(quercusforcing0)),2)
 
 quercuschilling = chillarray0[,164:175]
 colnames(quercuschilling) = phylo$tip.label[164:175]
@@ -508,3 +550,212 @@ oakadvchill0 = round(mean(colMeans(quercuschilling)),2)
 (oakadvforce-oakadvforce0)/oakadvforce
 (oakadvchill-oakadvchill0)/oakadvchill
 
+
+
+
+#'###############################################
+#### comparing estimates lambda est vs 1 vs 0 ####
+#'###############################################
+
+
+## load models
+agiosponly=T
+if(agiosponly){
+  fitlam0 <- readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
+  fitlambest <- readRDS("output/fit_priorupdate_noout_angio191.rds")
+} else {
+  fitlam0 <- readRDS("output/testme_gymno_lambda0.rds")
+  fitlambest <- readRDS("output/testmegymno.rds")
+}
+
+
+
+## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
+tableresults.0 = summary(fitlam0, pars = list("a_z", "sigma_interceptsa", "b_zf", "sigma_interceptsbf", "b_zc", "sigma_interceptsbc", "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.est = summary(fitlambest, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+
+#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/angio_noout_lamest191.csv")
+#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/gymno_noout_lamest.csv")
+
+
+
+## rename model to include species names
+names(fitlambest)[grep(pattern = "^a\\[", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_force", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_chill", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_photo", x = names(fitlambest))] <- phylo$tip.label
+
+names(fitlam0)[grep(pattern = "^a\\[", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_force", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_chill", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_photo", x = names(fitlam0))] <- phylo$tip.label
+
+
+
+
+# get model estimates per species ----
+
+## where species are
+
+posspsindata.est <- list(10:200,202:392,394:584)
+posspsindata.01 <- list(6:196,198:388,390:580)
+
+
+## forcing
+cueforce = summary(fitlambest)$summary[posspsindata.est[[1]],"mean"]
+cueforcesdup = summary(fitlambest)$summary[posspsindata.est[[1]],"75%"]
+cueforcesdlow = summary(fitlambest)$summary[posspsindata.est[[1]],"25%"]
+
+cueforce0 = summary(fitlam0)$summary[posspsindata.01[[1]],"mean"]
+cueforcesdup0 = summary(fitlam0)$summary[posspsindata.01[[1]],"75%"]
+cueforcesdlow0 = summary(fitlam0)$summary[posspsindata.01[[1]],"25%"]
+
+
+## chill
+cuechill = summary(fitlambest)$summary[posspsindata.est[[2]],"mean"]
+cuechillsdup = summary(fitlambest)$summary[posspsindata.est[[2]],"75%"]
+cuechillsdlow = summary(fitlambest)$summary[posspsindata.est[[2]],"25%"]
+
+cuechill0 = summary(fitlam0)$summary[posspsindata.01[[2]],"mean"]
+cuechillsdup0 = summary(fitlam0)$summary[posspsindata.01[[2]],"75%"]
+cuechillsdlow0 = summary(fitlam0)$summary[posspsindata.01[[2]],"25%"]
+
+
+## photo
+cuephoto = summary(fitlambest)$summary[posspsindata.est[[3]],"mean"]
+cuephotosdup = summary(fitlambest)$summary[posspsindata.est[[3]],"75%"]
+cuephotosdlow = summary(fitlambest)$summary[posspsindata.est[[3]],"25%"]
+
+cuephoto0 = summary(fitlam0)$summary[posspsindata.01[[3]],"mean"]
+cuephotosdup0 = summary(fitlam0)$summary[posspsindata.01[[3]],"75%"]
+cuephotosdlow0 = summary(fitlam0)$summary[posspsindata.01[[3]],"25%"]
+
+
+
+
+##### comparing uncertainty around individual species estimations----
+
+par(mfrow=c(1,3))
+
+indvarest = cuechillsdup - cuechillsdlow 
+indvarlam0 = cuechillsdup0 - cuechillsdlow0
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of chilling)",outline=F,ylim=c(0,10),cex.lab=1.25)
+mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+indvarest = cueforcesdup - cueforcesdlow 
+indvarlam0 = cueforcesdup0 - cueforcesdlow0
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of forcing)",outline=F,ylim=c(0,10),cex.lab=1.25)
+mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+indvarest = cuephotosdup - cuephotosdlow 
+indvarlam0 = cuephotosdup0 - cuephotosdlow0
+boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+        ylab="Estimate uncertainty (days/std units of photoperiod)",
+        outline=F,ylim=c(0,4),cex.lab=1.25)
+mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+
+
+mean(indvarest);mean(indvarlam0)
+
+
+
+##### comparing bias in average estimating ----
+
+
+mean(cueforce-cueforce0)
+mean(cuechill-cuechill0)
+mean(cuephoto-cuephoto0)
+
+
+par(mfrow=c(1,3))
+
+hist(cuechill-cuechill0,30, main='',
+     xlab="Chilling_phylo - Chilling_non-phylo")
+box(which = "plot", lty = "solid")
+mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+hist(cueforce-cueforce0,30,main='',
+     xlab="Forcing_phylo - Forcing_non-phylo")
+box(which = "plot", lty = "solid")
+mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+hist(cuephoto-cuephoto0,30,main='',
+     xlab="Photoperiod_phylo - Photoperiod_non-phylo")
+box(which = "plot", lty = "solid")
+mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+
+
+
+### plot correlations angio ----
+dev.off()
+par(mfrow=c(1,3))
+
+
+plot(cuechill0, cuechill, 
+     xlab="sensitivity to chilling (lambda=0)",
+     ylab="sensitivity to chilling", 
+     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlim=c(-30,5),ylim=c(-30,5))
+for(i in 1:length(cueforce0)){
+  lines(c(cuechillsdlow0[i],cuechillsdup0[i]),
+        rep(cuechill[i],2), col=adjustcolor("darkgrey",0.4))
+  lines(rep(cuechill0[i],2),
+        c(cuechillsdlow[i],cuechillsdup[i]),
+        col=adjustcolor("darkgrey",0.4))
+  
+}
+abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
+abline(v=mean(cuechill0), col='black', lty=2, lwd=1.5)  
+#abline(lm(cuechill~cuechill0), lwd=1.5)
+mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+plot(cueforce0, cueforce, 
+     xlab="sensitivity to forcing (lambda=0)",
+     ylab="sensitivity to forcing", 
+     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlim=c(-20,5),ylim=c(-20,5))
+for(i in 1:length(cueforce0)){
+  lines(c(cueforcesdlow0[i],cueforcesdup0[i]),
+        rep(cueforce[i],2), col=adjustcolor("darkgrey",0.4))
+  lines(rep(cueforce0[i],2),
+        c(cueforcesdlow[i],cueforcesdup[i]),
+        col=adjustcolor("darkgrey",0.4))
+  
+}
+
+abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
+abline(v=mean(cueforce0), col='black', lty=2, lwd=1.5)  
+#abline(lm(cueforce~cueforce0), lwd=1.5)
+mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+plot(cuephoto0, cuephoto, 
+     xlab="sensitivity to photoperiod (lambda=0)",
+     ylab="sensitivity to photoperiod", 
+     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlim=c(-10,3),ylim=c(-10,3))
+for(i in 1:length(cuephoto0)){
+  lines(c(cuephotosdlow0[i],cuephotosdup0[i]),
+        rep(cuephoto[i],2), col=adjustcolor("darkgrey",0.4))
+  
+  lines(rep(cuephoto0[i],2),
+        c(cuephotosdlow[i],cuephotosdup[i]),
+        col=adjustcolor("darkgrey",0.4))
+}
+abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
+abline(v=mean(cuephoto0), col='black', lty=2, lwd=1.5)  
+#abline(lm(cuephoto~cuephoto0), lwd=1.5)
+mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
+
+
+
+cbind(cuephoto0, cuephoto)
+cbind(cueforce0, cueforce)
+
+
+
+
+# end ----
