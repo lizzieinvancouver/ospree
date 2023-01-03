@@ -281,7 +281,67 @@ summy.nam[grep(c("sigma"), rownames(summy.nam)),]
 
 save.image("popupmods.Rda")
 
+if(FALSE){
+## START Lizzie (Jan 2023: Playing around with figures) ###
 
+## North America 
+namforalpha <- summy.nam[grep(c("alphaForcingSp\\["), rownames(summy.nam)),]
+namforbeta <- summy.nam[grep(c("betaForcingSp\\["), rownames(summy.nam)),]
+namforbetatrait <- summy.nam[grep(c("betaTraitxForcing"), rownames(summy.nam)),]
+
+# Sanity check -- rebuild the math... namforbeta = namforalpha + forbeta*range
+testy <- namforalpha[,"mean"] + namforbetatrait[["mean"]]*bb.gddlf.nam$climvar
+plot(namforbeta[,"mean"]~testy)
+# Good news, math works!
+
+## Europe
+euforalpha <- summy.eu[grep(c("alphaForcingSp\\["), rownames(summy.eu)),]
+euforbeta <- summy.eu[grep(c("betaForcingSp\\["), rownames(summy.eu)),]
+euforbetatrait <- summy.eu[grep(c("betaTraitxForcing"), rownames(summy.eu)),]
+
+# Sanity check -- rebuild the math... euforbeta = euforalpha + forbeta*range
+testy <- euforalpha[,"mean"] + euforbetatrait[["mean"]]*bb.gddlf.eu$climvar
+# plot(euforbeta[,"mean"]~testy)
+# Good news, math works!
+
+par(mfrow=c(2,2))
+pchhere <- 16
+plot(namforalpha[,"mean"]~bb.gddlf.nam$climvar, pch=pchhere, main="N. America", xlab="Range climate", ylab="unexplained by range")
+plot(namforbeta[,"mean"]~bb.gddlf.nam$climvar, pch=pchhere, main="N. America", xlab="Range climate", ylab="full cue by range")
+plot(euforalpha[,"mean"]~bb.gddlf.eu$climvar, pch=pchhere, main="Europe", xlab="Range climate", ylab="unexplained by range")
+plot(euforbeta[,"mean"]~bb.gddlf.eu$climvar, pch=pchhere, main="Europe", xlab="Range climate", ylab="full cue by range")
+
+# What about ratios?
+quartz()
+par(mfrow=c(1,2))
+hist(namforalpha[,"mean"]/namforbeta[,"mean"])
+hist(euforalpha[,"mean"]/euforbeta[,"mean"])
+
+# Okay, get out of negative zone ...
+valueadded <- 60
+namforalphaadd <- namforalpha[,"mean"] + valueadded
+namforbetaaadd <- namforbeta[,"mean"] + valueadded
+euforalphaadd <- euforalpha[,"mean"] + valueadded
+euforbetaaadd <- euforbeta[,"mean"] + valueadded
+
+# Get ratios ...
+par(mfrow=c(1,2))
+hist((namforbetaaadd-namforalphaadd)/namforbetaaadd)
+hist((euforbetaaadd-euforalphaadd)/euforbetaaadd)
+
+# Take the mean of the absolute differences for the species-level
+quartz()
+par(mfrow=c(1,2))
+hist(abs(namforbeta[,"mean"]-namforalpha[,"mean"]))
+hist(abs(euforbeta[,"mean"]-euforalpha[,"mean"]))
+
+# Variance instead?
+var(namforalpha[,"mean"])/var(namforbeta[,"mean"])
+var(euforalpha[,"mean"])/var(euforbeta[,"mean"])
+
+
+## END Lizzie (Jan 2023: Playing around with figures) ###
+}
 
 #check_all_diagnostics(gddlf_jnt.nam)
 #summary(gddlf_jnt.nam)
@@ -297,7 +357,8 @@ save.image("popupmods.Rda")
 
 #check_all_diagnostics(area_jnt.nam)
 
-
+# mean GDD predictor models, no longer using
+if(FALSE){ 
 gdd_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gdd.eu,
                    iter = 5000, warmup=4000) #
 
@@ -306,7 +367,8 @@ gdd_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp.stan', data = bb.gdd.eu,
 #                 iter = 5000, warmup=4000)
 
 gdd_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.gdd.nam,
-                 iter = 5000, warmup=4000) #
+                  iter = 5000, warmup=4000) #
+}
 
 #check_all_diagnostics(gddlf_jnt.eu)
 #cp_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.cp.nam,
