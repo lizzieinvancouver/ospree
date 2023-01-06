@@ -1,0 +1,121 @@
+\documentclass{article}
+
+% required 
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{textcomp}%amoung other things, it allows degrees C to be added
+\usepackage{float}
+\usepackage[utf8]{inputenc} % allow funny letters in citaions 
+\usepackage[nottoc]{tocbibind} %should add Refences to the table of contents?
+\usepackage{amsmath} % making nice equations 
+\usepackage{listings} % add in stan code
+\usepackage{xcolor}
+\usepackage{capt-of}%alows me to set a caption for code in appendix 
+\usepackage[export]{adjustbox} % adding a box around a map
+\usepackage{lineno}
+\linenumbers
+% recommended! Uncomment the below line and change the path for your computer!
+% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
+%put your Fig.s in one place! Also, note that here 'Fig.s' is the folder and 'demoFig' is what each 
+% Fig. produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
+% make your captioning look better
+\usepackage[small]{caption}
+\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{hyperref}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Draft 2022}
+\fancyhead[RO]{Temporal Ecology Lab}
+% more optionals! %
+
+\graphicspath{ {./Figures/} }% tell latex where to find photos 
+\externaldocument[supp-]{Synchrony_Manuscript_supp}
+
+%%% end preambling. %%%
+
+\begin{document}
+
+
+\title{Traitors Discussion}
+\date{\today}
+
+\maketitle 
+
+BROAD outline ...
+
+\begin{enumerate}
+
+\item Recap main result: 1-3 sentences
+\begin{enumerate}
+\item Some functional traits of woody plants relate to phenological responses in spring budburst
+\item Results were in line with our predictions for chilling cues, but less so for forcing and photoperiod
+\item Results suggest phenology does align with established gradients in trait variation---gradient from acquisitive early bb sp to conservative late bb species
+\end{enumerate}
+
+\item Discuss deviations from predictions in more detail---discuss in context of trait lit
+\begin{enumerate}
+\item Not all our predicted trends were observed---may indicate variable roles of cues or tradeoffs in how traits mediate environmental factors and biotic interactions
+\item Height and forcing: spring temperatures relate to wood traits and resource allocation to lateral growth, e.g. cambial meristem (Lenz2016), growth and height (Clements1972, Marquis2020)
+\item We predicted to find strong relationships between species photoperiod cues and LNC (LNC related to photosynthetic rates) but trends were weak
+\item Previous on budburst phenology and functional traits have found species specific trends, with some showing no relationships (Kitamura2007), while find similar results to our own (Osada2017)
+\item Osada2017 - also found wood and leaf traits to relate to budburst, like SLA
+\item Similarly to budburst, the timing of first-flowering were positively correlated with traits, with shorter spp flowering earlier for example (Konig2018)
+\end{enumerate}
+
+\item Discuss findings in context of cues
+\begin{enumerate}
+\item Our results are in line with previous studies on species cues---strongest cue responses to chilling and forcing, weak responses to photoperiod
+\item High fitness costs of premature growth may select for stronger responses chilling cues
+\item Photoperiod cues may be driven by clade specific responses - cite Nacho's paper?
+\item Results suggest that traits select less for photoperiod cues and are more correlated with temperature cues. 
+\item But given that cues like, forcing and chilling, are correlated in how they shape phenology, other traits may have complex interactive effects not addressed by this model
+\end{enumerate}
+
+\item Limitations and future directions
+\begin{enumerate}
+\item Limitations:
+\begin{enumerate}
+\item Despite using global trait databases, there was only a few species with numerous traits represented---small subset of woody plant diversity and biased toward wells studied spp
+\item trait and phenology data collected independently of each other---more variation than if sampled the same populations and individuals---we account for this with study level effects
+\item Our results are therefore general trends across populations and species, but we need more data and species and site specific data to make predictions, particularly at the population scale
+\end{enumerate}
+\item Future directions:
+\begin{enumerate}
+\item Forecasting future conditions ...
+\item Chilling likely to be met earlier, warmer springs...
+\item Our results suggest that acquisitive species will have an advantage under these novel conditions, potentially benefiting from longer growing seasons or longer periods of reduced competition in the spring
+\item Link to invasive species perhaps---greater potential to shift phenologically---higher rates leaf production and favourable wood anatomy (Yin2016)
+\item how communities respond to novel species invasions and shifts in phenology will depend on species temporal niche and the ability of native species to fill available niche and resist invasions (Schuster2021)
+\end{enumerate}
+\end{enumerate}
+
+\item Conclusion
+\begin{enumerate}
+\item Modelled joint relationships between functional traits and budburst cue responses and found associations between traits and species responses 
+\item species with acquisitive growth traits were less responsive to temperature and photoperiod cues while species with conservative traits had stronger cue responses
+\item Provide insights into how we may be able to use traits to predict species cue requirements and possible changes in species budburst
+\item the varying responses and deviation observed from our predictions also highlights gaps in our current knowledge of how traits mediate abiotic conditions
+\item Complex relationships between traits, phenology, and environmental cues necessary to predict species future responses to climate change and cascading effects to trophic interactions and ecosystem services
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
