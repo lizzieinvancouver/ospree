@@ -266,8 +266,8 @@ gddlf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', d
 # (NCP on photo got it down to 1 divergent trans, NCP on forcing took it home!)
 
 
-summy.eu<- summary(gddlf_jnt.eu)$summary
-summy.nam<- summary(gddlf_jnt.nam)$summary
+summy.eu <- summary(gddlf_jnt.eu)$summary
+summy.nam <- summary(gddlf_jnt.nam)$summary
 
 
 summy.eu[grep(c("betaTrait"), rownames(summy.eu)),]
@@ -281,67 +281,6 @@ summy.nam[grep(c("sigma"), rownames(summy.nam)),]
 
 save.image("popupmods.Rda")
 
-if(FALSE){
-## START Lizzie (Jan 2023: Playing around with figures) ###
-
-## North America 
-namforalpha <- summy.nam[grep(c("alphaForcingSp\\["), rownames(summy.nam)),]
-namforbeta <- summy.nam[grep(c("betaForcingSp\\["), rownames(summy.nam)),]
-namforbetatrait <- summy.nam[grep(c("betaTraitxForcing"), rownames(summy.nam)),]
-
-# Sanity check -- rebuild the math... namforbeta = namforalpha + forbeta*range
-testy <- namforalpha[,"mean"] + namforbetatrait[["mean"]]*bb.gddlf.nam$climvar
-plot(namforbeta[,"mean"]~testy)
-# Good news, math works!
-
-## Europe
-euforalpha <- summy.eu[grep(c("alphaForcingSp\\["), rownames(summy.eu)),]
-euforbeta <- summy.eu[grep(c("betaForcingSp\\["), rownames(summy.eu)),]
-euforbetatrait <- summy.eu[grep(c("betaTraitxForcing"), rownames(summy.eu)),]
-
-# Sanity check -- rebuild the math... euforbeta = euforalpha + forbeta*range
-testy <- euforalpha[,"mean"] + euforbetatrait[["mean"]]*bb.gddlf.eu$climvar
-# plot(euforbeta[,"mean"]~testy)
-# Good news, math works!
-
-par(mfrow=c(2,2))
-pchhere <- 16
-plot(namforalpha[,"mean"]~bb.gddlf.nam$climvar, pch=pchhere, main="N. America", xlab="Range climate", ylab="unexplained by range")
-plot(namforbeta[,"mean"]~bb.gddlf.nam$climvar, pch=pchhere, main="N. America", xlab="Range climate", ylab="full cue by range")
-plot(euforalpha[,"mean"]~bb.gddlf.eu$climvar, pch=pchhere, main="Europe", xlab="Range climate", ylab="unexplained by range")
-plot(euforbeta[,"mean"]~bb.gddlf.eu$climvar, pch=pchhere, main="Europe", xlab="Range climate", ylab="full cue by range")
-
-# What about ratios?
-quartz()
-par(mfrow=c(1,2))
-hist(namforalpha[,"mean"]/namforbeta[,"mean"])
-hist(euforalpha[,"mean"]/euforbeta[,"mean"])
-
-# Okay, get out of negative zone ...
-valueadded <- 60
-namforalphaadd <- namforalpha[,"mean"] + valueadded
-namforbetaaadd <- namforbeta[,"mean"] + valueadded
-euforalphaadd <- euforalpha[,"mean"] + valueadded
-euforbetaaadd <- euforbeta[,"mean"] + valueadded
-
-# Get ratios ...
-par(mfrow=c(1,2))
-hist((namforbetaaadd-namforalphaadd)/namforbetaaadd)
-hist((euforbetaaadd-euforalphaadd)/euforbetaaadd)
-
-# Take the mean of the absolute differences for the species-level
-quartz()
-par(mfrow=c(1,2))
-hist(abs(namforbeta[,"mean"]-namforalpha[,"mean"]))
-hist(abs(euforbeta[,"mean"]-euforalpha[,"mean"]))
-
-# Variance instead?
-var(namforalpha[,"mean"])/var(namforbeta[,"mean"])
-var(euforalpha[,"mean"])/var(euforbeta[,"mean"])
-
-
-## END Lizzie (Jan 2023: Playing around with figures) ###
-}
 
 #check_all_diagnostics(gddlf_jnt.nam)
 #summary(gddlf_jnt.nam)
@@ -377,8 +316,6 @@ gdd_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data
 #check_all_diagnostics(cp_jnt.eu)
 
 
-stop()
-
 if (FALSE){
 stvout.eu<-scrape(stv_jnt.eu)
 stvout.nam<-scrape(stv_jnt.nam)
@@ -411,8 +348,52 @@ outycont<-rbind(stvcont,gddcont)#,areacont)
 write.csv(dplyr::filter(outycont, grepl("Trait",rowname)),"seperate_ests.csv",row.names=FALSE)
 
 write.csv(outycont,"betasandmorefromPOPUP_continent.csv",row.names = FALSE)
+}
+
+## Making a table with some basics so Lizzie can plot output (Jan 2023) ...
+# Europe
+euchillalpha <- summy.eu[grep(c("alphaChillSp\\["), rownames(summy.eu)),]
+euchillbeta <- summy.eu[grep(c("betaChillSp\\["), rownames(summy.eu)),]
+euchillbetatrait <- summy.eu[grep(c("betaTraitxChill"), rownames(summy.eu)),]
+euforalpha <- summy.eu[grep(c("alphaForcingSp\\["), rownames(summy.eu)),]
+euforbeta <- summy.eu[grep(c("betaForcingSp\\["), rownames(summy.eu)),]
+euforbetatrait <- summy.eu[grep(c("betaTraitxForcing"), rownames(summy.eu)),]
+euphotoalpha <- summy.eu[grep(c("alphaPhotoSp\\["), rownames(summy.eu)),]
+euphotobeta <- summy.eu[grep(c("betaPhotoSp\\["), rownames(summy.eu)),]
+euphotobetatrait <- summy.eu[grep(c("betaTraitxPhoto"), rownames(summy.eu)),]
+
+# North America 
+namchillalpha <- summy.nam[grep(c("alphaChillSp\\["), rownames(summy.nam)),]
+namchillbeta <- summy.nam[grep(c("betaChillSp\\["), rownames(summy.nam)),]
+namchillbetatrait <- summy.nam[grep(c("betaTraitxChill"), rownames(summy.nam)),]
+namforalpha <- summy.nam[grep(c("alphaForcingSp\\["), rownames(summy.nam)),]
+namforbeta <- summy.nam[grep(c("betaForcingSp\\["), rownames(summy.nam)),]
+namforbetatrait <- summy.nam[grep(c("betaTraitxForcing"), rownames(summy.nam)),]
+namphotoalpha <- summy.nam[grep(c("alphaPhotoSp\\["), rownames(summy.nam)),]
+namphotobeta <- summy.nam[grep(c("betaPhotoSp\\["), rownames(summy.nam)),]
+namphotobetatrait <- summy.nam[grep(c("betaTraitxPhoto"), rownames(summy.nam)),]
 
 
+spnumeu <- length(unique(bb.stan.eu$latbinum))
+spnumnam <- length(unique(bb.stan.nam$latbinum))
+modelmeans <- data.frame(continent=c(rep("europe", spnumeu), rep("North America", spnumnam)),
+                         latbi=c(unique(bb.stan.eu$latbi), unique(bb.stan.nam$latbi)),
+                         rangeclim=c(bb.gddlf.eu$climvar, bb.gddlf.nam$climvar),   
+                         latbinum=c(unique(bb.stan.eu$latbinum), unique(bb.stan.nam$latbinum)),
+                         alphachill=c(euchillalpha[,"mean"], namchillalpha[,"mean"]),
+                         betachill=c(euchillbeta[,"mean"], namchillbeta[,"mean"]),
+                         alphaforce=c(euforalpha[,"mean"], namforalpha[,"mean"]),
+                         betaforce=c(euforbeta[,"mean"], namforbeta[,"mean"]),
+                         alphaphoto=c(euphotoalpha[,"mean"], namphotoalpha[,"mean"]),
+                         betaphoto=c(euphotobeta[,"mean"], namphotobeta[,"mean"]),
+                         betatraitchill=c(rep(euchillbetatrait[["mean"]], spnumeu),
+                                          rep(namchillbetatrait[["mean"]], spnumnam)),  
+                         betatraitforce=c(rep(euforbetatrait[["mean"]], spnumeu),
+                                          rep(namforbetatrait[["mean"]], spnumnam)),  
+                         betatraitphoto=c(rep(euphotobetatrait[["mean"]], spnumeu),
+                                          rep(namphotobetatrait[["mean"]], spnumnam)))
+
+write.csv(modelmeans, "output/gddrangemodelmeans.csv", row.names = FALSE)
 
 
 # Lizzie playing around with another model
