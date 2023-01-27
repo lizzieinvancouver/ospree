@@ -214,7 +214,7 @@ phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 ## Fit model here ... using code for which Lizzie updated priors
 
 if(runmodels){
-fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan",
+fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_nonzpriors.stan",
                data=list(N=nrow(d),
                          n_sp=nspecies,
                          sp=d$sppnum,
@@ -232,7 +232,7 @@ fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan"
 ## Save fitted posterior
 saveRDS(fit, "output/fit_priorupdate_noout_angio191_nonz.rds")
 
-fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_lamb0.stan",
+fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_nonzpriors_lamb0.stan",
                data=list(N=nrow(d),
                          n_sp=nspecies,
                          sp=d$sppnum,
