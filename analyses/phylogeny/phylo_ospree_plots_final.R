@@ -224,7 +224,7 @@ d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
 nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 
-
+#write.csv(as.data.frame(phylo$tip.label),file = "output/sps_list_phylo.csv")
 
 ## get ailene´s model table
 #source("../../analyses/bb_analysis/maketables.forsupp/mod_table.R")
@@ -500,6 +500,58 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 cbind(cuephoto0, cuephoto)
 cbind(cueforce0, cueforce)
+
+
+### make forecasting figure ----
+
+## load climate data for EUsps 
+load("../phylogeny/output/Forcechill.in.range.EUsp.RData")
+
+## load species names
+spslistranges = read.csv("~/GitHub/ospree/analyses/phylogeny/figures/forecast_figure/sps_list_fromranges.csv")
+
+
+## assign names to list of climate data
+names(Climate.in.range.list) = spslistranges[,2]
+
+## check species for which we have model parameters
+spslistranges[,2][which(spslistranges[,2] %in% phylo$tip.label)] ## all 30
+
+
+## select data for one species and one year
+sps1 <- Climate.in.range.list[[1]][[1]]
+dim(sps1)
+sps1 <- subset(as.data.frame(sps1[,,1]), !is.na(x))
+plot(sps1$x,sps1$y,col=sps1$Forcing)
+
+
+fit.sum <- summary(fitlambest)$summary
+
+
+# Select the species and temperature change that you want
+sp<-c("Betula_pendula","Fagus_sylvatica")
+
+sp.numinlist <- c(7,12)
+sp.numinphylo <- which(phylo$tip.label %in% sp)
+
+tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
+
+#Define the function we will use to estimate budburst
+
+getspest.bb <- function(fit, forcing, daylength, chilling){
+  #s=1
+  listofdraws <- extract(fitlambest)
+  avgbb <- listofdraws$a[,sp.numinphylo[s]] + listofdraws$b_force[,sp.numinphylo[s]]*forcing +
+    listofdraws$b_photo[,sp.numinphylo[s]]*daylength + listofdraws$b_chill[,sp.numinphylo[s]]*chilling
+  
+
+  yebbest <- list(avgbb, warmsprbb, warmwinbb, warmsprwinbb)
+  return(yebbest)
+}
+
+
+
+
 
 
 
