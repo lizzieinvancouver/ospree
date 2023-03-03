@@ -65,7 +65,7 @@ species.list.maps <- unlist(lapply(strsplit(sub(".*/", "", zipped_names),"_"),
 
 # get a list of species in ospree for which we have EU maps
 spslist <- species.list[which(species.list %in% species.list.maps)]
-
+write.csv(spslist,file = "~/GitHub/ospree/analyses/phylogeny/figures/forecast_figure/sps_list_fromranges.csv")
 
 # define period
 period<-1950:1961
