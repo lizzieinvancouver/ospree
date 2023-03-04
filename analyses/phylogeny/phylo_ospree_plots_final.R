@@ -518,12 +518,7 @@ names(Climate.in.range.list) = spslistranges[,2]
 spslistranges[,2][which(spslistranges[,2] %in% phylo$tip.label)] ## all 30
 
 
-## select data for one species and one year
-sps1 <- Climate.in.range.list[[1]][[1]]
-dim(sps1)
-sps1 <- subset(as.data.frame(sps1[,,1]), !is.na(x))
-plot(sps1$x,sps1$y,col=sps1$Forcing)
-
+#
 
 fit.sum <- summary(fitlambest)$summary
 
@@ -537,21 +532,91 @@ sp.numinphylo <- which(phylo$tip.label %in% sp)
 tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
+sps.i <- Climate.in.range.list[[sp.numinlist[1]]][[1]]
 
-getspest.bb <- function(fit, forcing, daylength, chilling){
+getspest.bb <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
   #s=1
-  listofdraws <- extract(fitlambest)
-  avgbb <- listofdraws$a[,sp.numinphylo[s]] + listofdraws$b_force[,sp.numinphylo[s]]*forcing +
-    listofdraws$b_photo[,sp.numinphylo[s]]*daylength + listofdraws$b_chill[,sp.numinphylo[s]]*chilling
+  #fit=fitlambest
+  #sps.i =sps1
+  listofdraws <- extract(fit)
+  listofdraws0 <- extract(fit0)
   
+  forcing <- sps.i[i,"Forcing"]
+  chilling <- sps.i[i,"Chilling"]
 
-  yebbest <- list(avgbb, warmsprbb, warmwinbb, warmsprwinbb)
+  forcing2 <- sps.i2[i,"Forcing"]
+  chilling2 <- sps.i2[i,"Chilling"]
+  
+  avgbbsps1 <- listofdraws$a[,sp.numinphylo[1]] + listofdraws$b_force[,sp.numinphylo[1]]*forcing +
+    listofdraws$b_photo[,sp.numinphylo[1]]*photoper + listofdraws$b_chill[,sp.numinphylo[1]]*chilling/240
+  
+  avgbbsps2 <- listofdraws$a[,sp.numinphylo[2]] + listofdraws$b_force[,sp.numinphylo[2]]*forcing2 +
+    listofdraws$b_photo[,sp.numinphylo[2]]*photoper + listofdraws$b_chill[,sp.numinphylo[2]]*chilling2/240
+  
+  avgbbsps1.0 <- listofdraws0$a[,sp.numinphylo[1]] + listofdraws0$b_force[,sp.numinphylo[1]]*forcing +
+    listofdraws0$b_photo[,sp.numinphylo[1]]*photoper + listofdraws0$b_chill[,sp.numinphylo[1]]*chilling/240
+  
+  avgbbsps2.0 <- listofdraws0$a[,sp.numinphylo[2]] + listofdraws0$b_force[,sp.numinphylo[2]]*forcing2 +
+    listofdraws0$b_photo[,sp.numinphylo[2]]*photoper + listofdraws0$b_chill[,sp.numinphylo[2]]*chilling2/240
+  
+  
+  yebbest <- list(BBsps1lam=avgbbsps1,BBsps2lam=avgbbsps2,BBsps1lam0=avgbbsps1.0,BBsps2lam0=avgbbsps2.0)
   return(yebbest)
 }
 
 
 
+## explore original data that fed the model
+sps.i.in.d <- subset(d, spps==spslist[7])
+sps.i.in.d2 <- subset(d, spps==spslist[1])
 
+
+## forcing values do not compare
+hist(sps.i.in.d$force)
+hist(sps.i[,3,1])
+
+## chilling values compare
+hist(sps.i.in.d$chill)
+hist(sps.i[,4,1]/240)
+
+
+
+## get BB estimate for the historical period for both species at selected site
+## in the middle of europe (9.875, 48.125
+# select data for one species and one year
+
+## Betula pendula
+sps1 <- Climate.in.range.list[[7]][[1]]
+sps1 <- sps1[which(sps1[,1,1]==9.875 & sps1[,2,1]==48.125),3:4,1:11]
+sps1 <- as.data.frame(t(sps1))
+
+# Acer campestris
+sps2 <- Climate.in.range.list[[1]][[1]]
+sps2 <- sps2[which(sps2[,1,1]==9.875 & sps2[,2,1]==48.125),3:4,1:11]
+sps2 <- as.data.frame(t(sps2))
+
+sps.names = c("Betula_pendula","Acer_campestre")
+sp.numinphylo <- which(phylo$tip.label %in% sps.names)
+
+listestsbb = list()
+nyears = nrow(sps1)
+for (i in nyears){ #i=1
+  estbbyear.1 <- getspest.bb(fitlambest,fitlam0,sps.names, sps1,sps2, 12,i)
+  
+  mean(estbbyear.1$BBsps1lam)
+  mean(estbbyear.1$BBsps2lam)
+  mean(estbbyear.1$BBsps1lam0)
+  mean(estbbyear.1$BBsps2lam0)
+
+  
+  }
+
+
+hist(estbbyear.1$BBsps1lam,xlim=c(-150,10))
+hist(estbbyear.1$BBsps2lam,30,col="black",add=T)
+
+hist(estbbyear.1$BBsps1lam0,xlim=c(-150,10))
+hist(estbbyear.1$BBsps2lam0,30,col="black",add=T)
 
 
 
