@@ -601,22 +601,26 @@ sp.numinphylo <- which(phylo$tip.label %in% sps.names)
 listestsbb = list()
 nyears = nrow(sps1)
 for (i in nyears){ #i=1
-  estbbyear.1 <- getspest.bb(fitlambest,fitlam0,sps.names, sps1,sps2, 12,i)
+  estbbyear.1 <- getspest.bb(fitlambest,fitlam0,sps.names, sps1,sps2, 14,i)
   
-  mean(estbbyear.1$BBsps1lam)
-  mean(estbbyear.1$BBsps2lam)
-  mean(estbbyear.1$BBsps1lam0)
-  mean(estbbyear.1$BBsps2lam0)
-
   
   }
 
 
-hist(estbbyear.1$BBsps1lam,xlim=c(-150,10))
-hist(estbbyear.1$BBsps2lam,30,col="black",add=T)
 
-hist(estbbyear.1$BBsps1lam0,xlim=c(-150,10))
-hist(estbbyear.1$BBsps2lam0,30,col="black",add=T)
+mean(estbbyear.1$BBsps1lam)
+mean(estbbyear.1$BBsps2lam)
+mean(estbbyear.1$BBsps1lam0)
+mean(estbbyear.1$BBsps2lam0)
+
+
+## Betula pendula
+plot(density(estbbyear.1$BBsps1lam),lwd=2)
+lines(density(estbbyear.1$BBsps1lam0),lwd=2,col="grey")
+
+# Acer campestris
+plot(density(estbbyear.1$BBsps2lam),lwd=2)
+lines(density(estbbyear.1$BBsps2lam0),lwd=2,col="grey")
 
 
 
