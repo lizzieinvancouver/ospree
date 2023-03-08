@@ -1,7 +1,5 @@
-%%% start preambling . . .  %%%
 \documentclass{article}
 
-% required 
 \usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
 
 \usepackage{Sweave}
@@ -19,12 +17,7 @@
 \usepackage[export]{adjustbox} % adding a box around a map
 \usepackage{lineno}
 \linenumbers
-% recommended! Uncomment the below line and change the path for your computer!
-% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
-%put your Fig.s in one place! Also, note that here 'Fig.s' is the folder and 'demoFig' is what each 
-% Fig. produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
-% make your captioning look better
-%\SweaveOpts{prefix.string=/Users/Deirdre/Documents/github/ospree/analyses/traitors/Figures/demoFig, eps=FALSE} 
+
 \usepackage[small]{caption}
 
 \usepackage{xr-hyper} %refer to Fig.s in another document
@@ -52,14 +45,14 @@
 %\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
 \externaldocument[supp-]{Traitors_Manuscript_supp.Rnw}
 
-%%% end preambling. %%%
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
-%\renewcommand{\refname}{\CHead{}}%not sure what this was supposed to do 
+
 \renewcommand{\bibname}{References}%names reference list 
 
-\SweaveOpts{concordance=TRUE} % For RStudio hiccups
+
 
 
 \title{Woody plant phenological responses are strongly associated with key functional traits}
@@ -101,64 +94,38 @@ Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
 Key Words: Budburst phenology, functional traits, Trees, climate change
 
-\section*{Introduction} %EMW16Aug2022: After we square away results (soon I think) -- let's tackle the methods, then move to intro
-% 
-\begin{enumerate}
-\item Invasive plants are shaping plant communities worldwide, filling vacant niches and displacing native plants through the novel competitive landscapes and changes in resource availability they create.
+\section*{Introduction} 
 
-\begin{enumerate}
-\item To predict species invasive potential, several studies have measured quantifiable functional traits and drawn links between traits, resource use, and growth strategies \citep{}.
-\item Traits that promote earlier growth in the spring can lead to priority effects, with the earlier growing species benefiting from more available light and soil nutrients \citep{}.
-\item Many of the same traits that allow species to invade also allow native plants to track advances in spring temperatures and climate. \citep{}.
-\item Understanding the links between species' traits, climate factors, and species' temporal niche will provide insight into likely responses of species fitness and community dynamics in response to climate change and plant invasions.
-\end{enumerate}
- 
-\item Through decades of work, we have identified generalizable trends between easy to measure plant traits and differences in growth and competitive strategies that are applicable to diverse and globally distributed species.
-\begin{enumerate}
- \item This work has produced several schemes, included the leaf economic spectrum and wood economic spectrum, with well defined axes along which most species fall (Chave2009, Westoby2001).
-\begin{enumerate}
-\item Acquisitive vs Conservative:  One of the cornerstone axes of variation along which plant growth and strategies can be defined is from acquisitive to conservative growth.
-\item Species that are able to efficiently acquire resources, with relatively higher growth rate experience tradeoffs with higher growth potential coming at the cost of being weaker competitors. These traits can incur competitive advantages to invasive species or species adapting to optimal growth conditions earlier in the year.
-\item Species with slower growth are better able to withstand lower resource availability, but invest more in tissue longevity and their ability to withstand competition.
-\item Previous work has focused, however, on traits associated with species abiotic and biotic niches, with few studies exploring the relationship of species temporal niche within the broader functional trait framework \citep{}.
-\end{enumerate}
-\end{enumerate}
- \item To integrate phenology into the broader trait framework we require a greater understanding of how the timing of phenological events is shaped by environmental conditions.
-\begin{enumerate}
-\item In woody plants there are 3 primary cues - chilling, forcing, photoperiod - that are the determinants of spring budburst.
- \item The transition of buds from winter endodormancy to ectodormancy is governed by exposure to chilling temperatures for extended periods of time (Cook2012), while spring forcing temperatures are needed to initiate spring growth following this dormancy release. The effects of warming winter and spring temperatures, while they can lead to earlier dormancy breaking and spring growth, may be tempered by species photoperiod requirements, as daylengths remain constants.
- \item Field observations of phenology are highly variable, but under controlled cue exposure, phenological events such as budburst are highly predictable. 
-\item Decades of experimental work have shown increases in all three of these cues lead to the advance of spring budburst, but responses are highly species specific, with interactions between cues having compensatory effects (Harrington2015, Flynn2018, Caffarra2011, Zohner2016).
-\item Given the importance of these cues in determining the timing of growth, other traits related to species fitness under variable resource availabilities and and competitive landscapes may also influence cue responses and the timing of phenological events.
- \end{enumerate}
+The timing of spring life history events, or phenologies, are ecologically important and shape both ecosystem services and community dynamics. The timing of when spring growth starts defines the start and overall length of the growing season, determining the potential of forest carbon storage and the abundance and identity of species interactoins with herbivores or pollinators. Climate change, however, is causing species phenological events to shift, altering phenological cues and causing many species to start growing earlier.
+\\
 
- \item A primary goal of trait ecology is to predict species-level characteristics by traits alone, but how well this can be applied to a highly variable and species specific trait such as phenology is unclear.
-\begin{enumerate}
-\item If successful, this approach allows us to replace species distinctions in models with species' trait values. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species growth strategies and phenological responses for which we only have trait values.
-\item Drawing on previous studies, we would expect species with high chilling requirements will budburst later in the spring and possess traits favourable under competitive conditions associated with conservative growth strategies.
-\item Conversely, species with low forcing, chilling, and photoperiod requirements that budburst earlier in the spring benefit from having traits favourable under high light conditions prior to canopy closure and faster therefore possess a trait syndrome associated with acquisitive growth strategies.
-\end{enumerate}
+Amidst these trends, we still see high variability spring phenology across years and species. In one of the most well studied systems, forests, we see the budburst and leaf out of understory plants first, followed later in the season by budburst of taller trees. It is long known that this inter-annual variation is driven by shifts in temperature and recent advances in our understanding of budburst phenology underscore this (cite Flynn, and Laube). These advances have also identified important differences across species, but have provided limited reasons for species differences.
+\\
 
-\item In this study, we test for associations between plant phenological responses to environmental cues and common functional traits.
-\begin{enumerate}
-\item  Using available trait data from trait databases and budburst data for tree species in controlled environmental studies from the Observed Spring Phenology Response in Experimental Environments (OSPREE),
-we explicitly test for the relative differences in functional traits and the timing of bud-burst in response to experimental forcing, chilling, and photoperiod cues.
-\item We predict that species with trait values associated with acquisitive growth, including  shorter heights, high specific leaf area (SLA), high leaf nitrogen content per mass (LNC), and lower seed mass, strategies will budburst earlier than species with conservative traits, such as low SLA, low LNC, greater heights and heavier seeds (Fig. \ref{fig:slopes} a-c).
-\item We predict that species with high leaf traits such as SLA and LNC will be less responsive to forcing cues, with low chilling and photoperiod requirements (Fig. \ref{fig:slopes} d-i).
-\item Traits syndromes most associated with competitive abilities, including taller trees and larger seem masses, conversely, we predict to have stronger chilling and photoperiod cue responses (Fig. \ref{supp-fig:slopes} a-c). 
+Within a community different species can start growth each year across several weeks, and will thus experience different selective pressures. %emwMar6 -- may be useful to give example span of diff species in one community if we have it in a citation. 
+Species that budburst early experience greater abiotic pressures, such as the risk of tissue loss from false spring events and frost damage, as well as the benefit of more light reaching the canopy floor and resource availability. In contrast, late species have greater selection from biotic pressures, as compeition for resources is greater and less light available through the canopy.
+\\
 
-%EMW4Sep2022: Side note -- I know these are not how you would add them, but a reminder to keep the organization consistent -- we're  generally talking about how traits relate to cues, not how cues relate to traits ... 
-\end{enumerate}
- \end{enumerate}
+These differences in the selective pressures acting at different points in the growing season could shape a number of different plant attributes. Species with earlier budburst may produce cheaper leaves that can be more easily replaced if damaged. But later budbursting species would benefit from investing in long-lived leaves that infer greater resource acquisition and retention. These differences in traits and trade-offs in plants' allocation of resources to growth and tissue quality can be related to a full framework of species growth strategies and functional traits.
+\\
 
-{\bf Some text for intro and methods... } \\ % There's probably two goals of trait ecology -- improve mechanistic understanding and effectively 'getting rid of species' 
-A major goal of trait ecology has been to predict species-level characteristics by their traits alone. If successful, we would then be able to replace species distinctions in models with species' traits. To that aim, our models are designed to attribute phenological variation (days to budburst) to species' trait values, while allowing for residual variation explained by species (partially-pooled). When traits explain a significant portion of variation, species will explain only a small amount, and suggest we may be able to predict species for which we only have trait values. 
+A goal of trait ecologyis to use traits as species-level proxies for characteristics that predict patterns in species growth and species interactions. Many leaf and wood traits follow predictable gradients in species trait values, having associations that range from acquisitive (fast) growth strategies to more conservative (slow) growth strategies. Collectively, these trait relationships led to the development of the leaf economic spectrum and the wood economic spectrum. These frameworks have been built into decades of research linking functional traits to species responses to abiotic and biotic factors and community assembly. But these frameworks have limitations, one of which is their limited ability to predict how variable traits are, a reason sometimes given for why phenology is excluded from studies of functional traits. % Note: try holding back point that phenology is NOT variable, once you include cues
+% themselves can be highly variable, both across and within spp, highlighting the need for trait research that spans diverse species across geographic scales---Violle paper ‘viva la variability. 
+Integrating phenology within functional traits could both advance the functional trait framework and potentially help explain why species phenologies differ. %emwMar6 -- 'the biotic community' they interact with is too much -- I think 'growth strategies' can cover competition, and you can get more into biotic stuff in the discussion.... And then I made more edits to merge 6 & 7, so moving this comment up. 
+\\
+
+As outlined above, early to late season differences in selection pressures --- where early season species have high access to resources but risk tissue loss and damage, while late season species experience a highly competitive but less environmentally risky environment -- would predict variation in leaf and wood traits with phenology. Shrubs and other woody understory species that tend to budburst earlier--- when soil resources and light availability is greatest--- would have traits associated with acquisitive growth, being shorter in stature, with leaf traits favourable to higher light availability and tolerance of late spring frost (high SLA, high LNC).  %low forcing, chilling, and photoperiod 
+Canopy species that budburst later must be better competitors, and so would have traits associated with conservative growth, including taller heights and the greater wood densities this requires, as well as low SLA and LNC. % high forcing, chilling, and photoperiod requirements % early-late
+This acquisitive to conservative continuum for early to late species may also predict seed size to increase with later budburst. This gradient of early to late growth may be driven by the same climate cues as phenology, with early species responding to low force (spring temperatures), chilling (winter temperatures), short photoperiods (daylengths). In contrast, later species are more likely to respond to high chill or photoperiod or both cues, and likely higher forcing as well. % may be short para on its own
+\\
+
+We used available trait data from trait databases and bb data from the OSPREE database of controlled environment studies of woody plant species to test for associations between budburst responses to environmental cues and common functional traits
+%Angert lab meeting:  need to better define chilling, forcing, photoperiod  %emwMar6  -- yes, we'll have to see how working out 'This gradient of early-late = driven by cues' goes ... we should have these well (and quickly defined) for the reader BEFORE we get here. 
+We focus on the effects of forcing, chilling, and photoperiod cues and four commonly measured traits — SLA, LNC, height, \& seed mass. Our model attributes phenological variation (day of budburst) to species’ trait values while including residual variation from species (partial-pooling). When traits explain a significant portion of the variation, species will explain only a small amount, which may allow us tp predict species growth strategies and phenological responses from trait values.
+\\
 
 
-
-
-
-\section{Methods - pre-outline methods}
+\section{Methods}
 <<label=runcode1,  echo=FALSE>>=
 #setwd("../../analyses/traits")
 
@@ -175,7 +142,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 % Also, the below is a weird choice -- is this the ONLY single study seed mass observation or something? It needs a better justification than what we have now, which reads we 'we removed data because including it was hard.' (Eek! I bet we have a better rationale). 
 % In addition we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.
 
-Our analysis combine phenological data from the OSPREE database (Ettinger2020) with functional trait data from the TRY (Kattge2020) and BIEN (Enquist2016) trait databases. The OSPREE database contains phenological data for woody, deciduous species from experiments of phenological cues. We updated OSPREE since its initial publication, using the original search terms:
+Our analysis combines phenological data from the OSPREE database (Ettinger2020) with functional trait data from the TRY (Kattge2020) and BIEN (Enquist2016) trait databases. The OSPREE database contains phenological data for woody, deciduous species from experiments of phenological cues. We updated OSPREE since its initial publication, using the original search terms:
 \begin{itemize}
 \item (budburst OR leaf-out) AND (photoperiod OR daylength) AND temperature*  (yielded additional 623 publications since previous OSPREE publication)
 \item (budburst OR leaf-out) AND dorman* (yielded additional 270 publications since previous OSPREE publication).
@@ -186,10 +153,10 @@ Trait data was obtained from TRY and BIEN - two large trait databases compiling 
 
 %EMW19Oct2022  I would have a subsection on criteria for inclusion in this project -- could separate out traits and OSPREE in separate paragraphs I think. 
  
-We began by searching for all available trait data for the 234 woody species with budburst data in the OSPREE database. The TRY database included 96 of theses species for ten functional traits (Table S1 - table of requested traits for each database). Using the BIEN R package (Maitner2017), we downloaded trait data for 94 species for 13 traits. All trait data were requested or downloaded in December 2018. Only trait data from adult individuals with a minimum height of 1.42 m was included in our analyses and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, which resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principle component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between specific leaf area (SLA) and leaf dry matter content (LDMC), and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species with at least one trait measurement per trait to 37 species with data from \Sexpr{nStudy} studies (height n = \Sexpr{nHt}, seed mass n = \Sexpr{nSM}, LNC n = \Sexpr{nLNC}, SLA n = \Sexpr{nSLA}). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis. This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.\\ 
+We began by searching for all available trait data for the 234 woody species with budburst data in the OSPREE database. The TRY database included 96 of these species for ten functional traits (Table S1 - table of requested traits for each database). Using the BIEN R package (Maitner2017), we downloaded trait data for 94 species for 13 traits. All trait data were requested or downloaded in December 2018. Only trait data from adult individuals with a minimum height of 1.42 m was included in our analyses and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, which resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between specific leaf area (SLA) and leaf dry matter content (LDMC), and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species with at least one trait measurement per trait to 37 species with data from \Sexpr{nStudy} studies (height n = \Sexpr{nHt}, seed mass n = \Sexpr{nSM}, LNC n = \Sexpr{nLNC}, SLA n = \Sexpr{nSLA}). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis. This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition, we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.\\ 
 
 \subsection*{Joint model of trait and phenology}
-To understand connections between phenology and other species traits, we built a joint model for each trait (height, SLA, LNC, and seed mass) with the major phenological cues (forcing, chilling, and photoperiod) to predict day of year of budburst. This approach allowed us to jointly estimate species trait effects and responses to phenological cues in one model, carrying through all uncertainty across varying datasets and approaches (e.g., TRY and BIEN observational databases of traits and the database of experiments in plant phenology, OSPREE). As phenological cues are the most proximate drivers of variation in budburst (cite Ettinger2020), and appear to represent different strategies along a continuum from acquisitive to conservative, our model allow traits to influence each cue separately (cite slopes (current Fig 3)). \\
+To understand connections between phenology and other species traits, we built a joint model for each trait (height, SLA, LNC, and seed mass) with the major phenological cues (forcing, chilling, and photoperiod) to predict day of year of budburst. This approach allowed us to jointly estimate species trait effects and responses to phenological cues in one model, carrying through all uncertainty across varying datasets and approaches (e.g., TRY and BIEN observational databases of traits and the database of experiments in plant phenology, OSPREE). As phenological cues are the most proximate drivers of variation in budburst (cite Ettinger2020), and appear to represent different strategies along a continuum from acquisitive to conservative, our model allows traits to influence each cue separately (cite slopes (current Fig 3)). \\
 
 The joint model includes a hierarchical linear model to partition variation in observed trait values ($y_{\text{trait}[i]}$) to the effects of species, study, and residual variation ($\sigma_{\text{trait}}$, sometimes called `measurement error').
 % General on eqns: Gelman and Hill discusses how to write equations starting on page 262, with some good alternatives. I like to use words instead of letters for indexing when possible (so `sp' and `study' below) and i is often used for the observation-level in statistics, so should not be used otherwise. 
@@ -204,7 +171,7 @@ y_{\text{trait}[i]} & \sim normal( \mu_{trait}, \sigma_{\text{trait}}) \nonumber
 \end{align}
 It estimates a separate value for each species ($\alpha_{\text{sp[sp]}}$), and study ($\alpha_{\text{study[study id]}}$), while partially pooling across species and studies to yield overall estimates of variance across each ($\sigma_{\alpha_{\text{sp}}}$ and $\sigma_{\alpha_{\text{study}}}$, respectively). This partial pooling (often called `random effects') controls for variation in sample size and variability to yield more accurate estimates for each species. \\
 
-These species-level estimates of traits ($\alpha_{\text{trait sp[sp id]}}$) were then used a predictors of species-level estimates of each phenological cue ($\beta_{\text{force[sp]}}$, $\beta_{\text{chill[sp]}}$, $\beta_{\text{photo[sp]}}$) 
+These species-level estimates of traits ($\alpha_{\text{trait sp[sp id]}}$) were then used as predictors of species-level estimates of each phenological cue ($\beta_{\text{force[sp]}}$, $\beta_{\text{chill[sp]}}$, $\beta_{\text{photo[sp]}}$) 
 \begin{align}
 \beta_{\text{chill[sp]}} & = \alpha_{\text{chill}[sp]} + \beta_{\text{trait}.\text{chill}} \times \alpha_{\text{trait sp[sp]}} \nonumber \\
 \beta_{\text{force[sp]}} & = \alpha_{\text{force}[sp]} + \beta_{\text{trait}.\text{force}} \times \alpha_{\text{trait sp[sp]}} \\
@@ -231,7 +198,6 @@ We chose weakly informative priors, and validated them using a series of prior p
 
 \section{Results}
 
-%EMWOct6: I think we're finally done with the results as an outline! Let's switch to text. I believe it's basically written if you just removed the enumerate commands and make some paragraphs. 
 % I can't tell how the audience will response to our use of small, large and whether we will be forced to add 'weak/strong' also in relation to uncertainty but I like how it reads now so suggest we wait on co-authors for feedback. 
 
 %EMWOct6: Keeping track of figures (updated) ... and making some notes 
@@ -251,7 +217,6 @@ cuetraits (current Fig 3)
     \label{fig:sigmaDensities}
 \end{figure}
 
-%EMWOct6: I flipped the order of the last two figures to fit with the text.
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext_samespp_concept.pdf} 
@@ -290,19 +255,49 @@ Our approach used models that jointly estimated species traits and phenological 
 
 Across our models, we found study-level variation across traits was comparable with or greater than variation across species. Variation across studies was greatest for height (\Sexpr{htSigmaStudy} m compared to \Sexpr{htSigmaSp} m species-level variation, Fig. \ref{fig:sigmaDensities}).  For seed mass and LNC study-level variation was less than that of the species-level variation (seed mass study-level variation: \Sexpr{seedSigmaStudy} mg; versus species-level variation: \Sexpr{seedSigmaSp} mg; LNC study-level variation \Sexpr{lncSigmaStudy} mg g\textsuperscript{-1} versus species-level variation: \Sexpr{lncSigmaSp} mg g\textsuperscript{-1})  (Fig. \ref{fig:sigmaDensities}). At the lowest end, study-level variation in SLA was approximately half the value of the species-level variations (and \Sexpr{slaSigmaStudy} mm\textsuperscript{2} mg\textsuperscript{-1} versus \Sexpr{slaSigmaSp} mm\textsuperscript{2} mg\textsuperscript{-1}, respectively). The magnitude of study-level variation we observed suggests that models using large trait databases that fail to separate out study from species-level variation may misestimate species' traits.\\
 
-We next combined the species-level trait estimates with data on forcing, chilling and photoperiod values from the OSPREE database of phenological experiments  in order to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while others traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}).\\
+We next combined the species-level trait estimates with data on forcing, chilling and photoperiod values from the OSPREE database of phenological experiments  in order to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while other traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}).\\
 
 Across traits, height, SLA, and LNC strongly predicted responses to different cue-levels (forcing, chilling, photoperiod), with a consistent direction of responses across cues for only LNC and not height or SLA (Fig. \ref{fig:cuetraits} a-f and j-l). %change the order of the plots so line up with how they are discussed.
-Taller species had small responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}). But as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}), both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. \\
+Taller species had small responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}). But as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}), both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. \\
 
 Species' SLA did not strongly predict responses to chilling (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}, Fig. \ref{fig:slopes} b). However, SLA did relate strongly to photoperiod (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}). Thus, species with more acquisitive growth strategies (thin leaves and a lower investment in leaf mass that leads to high SLA values), had larger responses to photoperiod cues, contrary to our predictions. In line with our predictions, species with high SLA values (acquisitive strategy) had a smaller response to forcing cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), with low SLA species being more responsive to forcing  (Fig. \ref{fig:cuetraits} d).\\
 
 For LNC, we found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates and acquisitive growth, were less responsive to cues (Fig. \ref{fig:cuetraits} j-i)). These findings are in line with our predictions that high LNC species (acquisitive) would be less responsive to chilling (\Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}), with similar responses to photoperiod (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}) and to forcing cues (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}). \\
 
-Of our four traits, seed mass had the weakest responses across the three cues (Fig. \ref{fig:cuetraits} g-i). While the direction of the species responses were in line with out predictions, we did not find a considerable relationship between seed mass and cue responses for forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) or photoperiod or chilling (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}).
+Of our four traits, seed mass had the weakest responses across the three cues (Fig. \ref{fig:cuetraits} g-i). While the direction of the species responses were in line without predictions, we did not find a considerable relationship between seed mass and cue responses for forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) or photoperiod or chilling (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}).
 
 
 \section{Discussion}
+
+{\bf Move to discussion or such ...}
+\item Timing of plant phenological events define species' temporal niche = the partitioning of resources across species over time (Gotelli \& Granves 1996 - ch5). % Try to keep as general idea
+\begin{enumerate} 
+\item temporal niche differences determine the abiotic environment during growth and biotic interactions -- for example, competitive landscape and pressures from herbivory/disease. % keep this short
+%Angert lab meeting: several people felt bringing up herbivore damage and disease was tangential and confusing for a paper focused on plant phenology. ... %emwMar6 -- I think this will work better in the discussion where you can flesh it out more. 
+\item Distribution of temporal niche within community influences its potential invasibility--- invasive spp tend to be early bb with the can fill vacant niche space early in the season. 
+%20FebDL: I moved this to the end of the paragraph
+% \item This diversity of selective pressures (biotic and abiotic) is likely to correlate with diversity in other plant traits as well % skip traits later -- but love this phrasing!
+% \item A more holistic framework of the drivers of species temporal niches differences = important --- climate change is changing environmental conditions and habitats = shifting phenologies % may not need this
+\end{enumerate}
+
+%emwMar6 -- mv below points may work in discussion 
+you can save your point about 'traits are often pretty distal to the processes they are supposed to capture'  for the discussion
+
+Despite the lack of integration between functional trait and phenological research, both are likely to shape species growth strategies
+
+more constant light compensates for their slower overall growth rates.  %emwMar6 -- too complex for intro
+
+Associations are intuitive but few studies have tested for similar gradients in growth strategies in phenological events across diverse species
+
+% Save some of below for discussion? And cut otherwise this paragraph
+%\item Previous studies of budburst in woody trees have shown 3 cues are most important for spp responses:
+%\begin{enumerate}
+%\item Chilling - the period of cold temperatures from late fall to late winter, % releases buds from dormancy % skip dormancy in this paper!
+%\item Forcing - the occurrence of warm temperatures in spring % that initiate bud development 
+%\item Photoperiod - daylength
+%\item While field observations of phenology are highly variable — under controlled environments and set cues, bb is highly predictable
+%\item This suggests there is potential to use phenological data from controlled environment studies to identifying the relationship between species cue responses and traits
+%\end{enumerate}
 
 % Scrape
 
