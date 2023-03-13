@@ -280,6 +280,203 @@ extractchillforce <- function(spslist,tmin,tmax,tavg,period){
   
 }
 
+extractchillforcelow.chill <- function(spslist,tmin,tmax,tavg,period){
+  
+  ## define array to store results
+  nsps <- length(spslist)
+  nyears <- length(period)
+  minmaxtemps.eachsps <- list()
+  
+  
+  ## subset climate years
+  yearsinclim <- as.numeric(format(as.Date(names(tmin),format="X%Y.%m.%d"),"%Y"))
+  
+  ras.numpixels <- tmin[[1]]
+  values(ras.numpixels) <- 1:ncell(ras.numpixels)
+  
+  
+  ## commence loop  
+  for (i in 1:nsps){#i=1
+    spsi<-spslist[i]
+    print(spsi)
+    
+    #fullnamei<-fullnames[i]
+    
+    ## load shape
+    
+    path.source.i <- "../../data/distributiondata/chorological_maps_dataset_20170220.zip"
+    
+    # get the file address for target file
+    zipped_name.i <- grep(paste(spsi,'_plg',sep=""), 
+                          unzip(path.source.i,
+                                list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
+    
+    if(length(zipped_name.i)==0){
+      
+      specific <- unlist(strsplit(spsi,"_"))[2]
+      zipped_name.i <- grep(paste(spsi,specific,'plg',sep="_"), 
+                            unzip(path.source.i,
+                                  list = TRUE)$Name, ignore.case = TRUE, value = TRUE)
+      
+    }
+    
+    # extract target file
+    unzip(path.source.i, files=zipped_name.i)
+    
+    # load shapefile
+    spsshape <- shapefile(zipped_name.i[3])
+    
+    ## need to re-project shape from lamber equal area to geographic
+    spsshapeproj <- spTransform(spsshape,proj4string(ras.numpixels))
+    #lines(spsshapeproj)
+    
+    # get list of pixels to extract data (speeds things up)
+    pixels.sps.i <- unique(sort(unlist(extract(ras.numpixels,spsshapeproj))))
+    npix <- length(pixels.sps.i) # number of pixels
+    #area.pixels.sps.i <- values(ras.areas)[pixels.sps.i]
+    
+    
+    
+    # create an array to store results
+    yearlyresults <- array(NA,dim=c(npix,4,length(period)))
+    colnames(yearlyresults) <- c("x","y",
+                                 "Forcing","Chilling")
+    
+    
+    
+    ## loop across years to extract each years averages and stddevs
+    
+    for(j in 1950:1960){#j=1950
+      print(paste(i,j))
+      
+      ## load two consecutive years each time
+      yearsinperiod <- which(yearsinclim%in%c(j,j+1))
+      climsub.min <- subset(tmin,yearsinperiod)
+      climsub.max <- subset(tmax,yearsinperiod)
+      climsub.avg <- subset(tavg,yearsinperiod)
+      
+      ## subset climate by months & days (1st Sep - 30Apr; 1March - 30April)
+      chillsubmin <- subset(climsub.min,244:485)
+      chillsubmax <- subset(climsub.max,244:485)
+      forcesub <- subset(climsub.avg,425:485)
+      values(chillsubmin) <- values(chillsubmin)+2
+      
+      ## find if there are NAs in some pixels (due to overlap with lakes or sea)
+      nas <- which(is.na(values(chillsubmin)[pixels.sps.i]))
+      #nas2 <- which(is.na(values(chillsubmax)[pixels.sps.i]))
+      #nasf <- which(is.na(values(forcesub)[pixels.sps.i]))
+      
+      
+      ## remove NAs if necessary
+      if(length(nas)>0){
+        # extract values and format to compute means and sdevs
+        ch1 <- chillsubmin[pixels.sps.i][-nas,]
+        ch2 <- chillsubmax[pixels.sps.i][-nas,]
+        ff <- forcesub[pixels.sps.i][-nas,]
+        
+        # add coordinates and names
+        chcoord <- coordinates(ras.numpixels)[pixels.sps.i[-nas],]
+        yearlyresults[-nas,1:2,] <- chcoord
+        
+      } else {
+        
+        ch1 <- chillsubmin[pixels.sps.i]
+        ch2 <- chillsubmax[pixels.sps.i]
+        ff <- forcesub[pixels.sps.i]
+        
+        # add coordinates and names
+        chcoord <- coordinates(ras.numpixels)[pixels.sps.i,]
+        yearlyresults[,1:2,] <- chcoord
+        
+      }
+      
+      # build final data to extract climate for chilling and forcing 
+      ch1 <- cbind(chcoord,ch1[,1:ncol(ch1)])
+      ch2 <- cbind(chcoord,ch2[,1:ncol(ch2)])
+      ff <- cbind(chcoord,ff[,1:ncol(ff)])
+      
+      
+      
+      ## dates in data
+      datesch <- as.Date(colnames(ch1),format="X%Y.%m.%d")[3:ncol(ch1)]
+      datesff <- as.Date(colnames(ff),format="X%Y.%m.%d")[3:ncol(ff)]
+      
+      
+      
+      ## calculate chilling (Utah) and Forcing across the period
+      
+      ## forcing
+      
+      #gddseachcelleachday <- apply(ff[,3:ncol(ff)],2,function(x){
+      # Tb <- 10
+      #gdd <- ifelse((x-Tb)<0,0,x-Tb)
+      #return(gdd)})
+      #gddssum <- rowSums(gddseachcelleachday)
+      forcing <- rowMeans(ff[,3:ncol(ff)])
+      #hist(forcing)
+      
+      
+      ## chilling
+      #library(abind)
+      minmaxtemp <- abind(ch1,ch2, along = 3)
+      
+      ## compute chilling
+      nodata <- which(apply(minmaxtemp,1,function(x){return(ifelse(sum(is.na(x[,1:2]))>0,T,F))}))
+      if(length(nodata)>0){minmaxtemp=minmaxtemp[-nodata,,]}
+      
+      chillunitseachcelleachday <- do.call(rbind,
+                                           apply(minmaxtemp,1,function(x){
+                                             #x <- minmaxtemp[300,,]
+                                             #if(sum(is.na(x[3:nrow(x),2]))<151){
+                                             extracweathdf <- data.frame(
+                                               Year=as.numeric(format(datesch,"%Y")),
+                                               Month=as.numeric(format(datesch,"%m")),
+                                               Day=as.numeric(format(datesch,"%d")),
+                                               Tmax=x[3:nrow(x),2],
+                                               Tmin=x[3:nrow(x),1]
+                                             )
+                                             weather <- fix_weather(extracweathdf)
+                                             hourtemps <- stack_hourly_temps(weather,latitude=x[2])
+                                             chll <- chilling(hourtemps,244,120)
+                                             
+                                             
+                                             #}
+                                             return(chll)
+                                           }
+                                           ))
+      
+      
+      
+      ## store results
+      ## 
+      if(length(nas)==0){
+        
+        yearlyresults[,3,which(period == j)] <- forcing
+        yearlyresults[,4,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+      }
+      
+      if(length(nas)>0 & length(forcing)==length(chillunitseachcelleachday$Utah_Model)){  
+        
+        yearlyresults[-nas,3,which(period == j)] <- forcing
+        yearlyresults[-nas,4,which(period == j)] <- chillunitseachcelleachday$Utah_Model
+      }
+      if(length(nas)>0 & length(forcing)>length(chillunitseachcelleachday$Utah_Model)){  
+        
+        yearlyresults[-nas,3,which(period == j)] <- forcing
+        yearlyresults[-nas,4,which(period == j)][1:length(chillunitseachcelleachday$Utah_Model)] <- chillunitseachcelleachday$Utah_Model
+      }
+      
+      
+    }    
+    
+    minmaxtemps.eachsps[[i]] <- yearlyresults
+    
+  }  
+  
+  return(minmaxtemps.eachsps)
+  
+}
+
 
 ## apply extracting function ----
 
@@ -290,8 +487,17 @@ for(i in 1:length(spslist)){
   Climate.in.range.list[[i]]<-extractchillforce(spslist[i],tmin,tmax,tavg,period)
 }
 
+## 2sps example Acer campestre and Betula pendula
+Climate.in.range.list<-list()
+for(i in c(1,7)){
+  Climate.in.range.list[[i]]<-extractchillforcelow.chill(spslist[i],tmin,tmax,tavg,period)
+}
+
+
 length(Climate.in.range.list)
-save(Climate.in.range.list,file = "../phylogeny/output/Forcechill.in.range.EUsp.RData")
+#save(Climate.in.range.list,file = "../phylogeny/output/Forcechill.in.range.EUsp.RData")
+save(Climate.in.range.list,file = "../phylogeny/output/Forcechill.in.range.EU.AcecamBetpen.RData")
+
 #load("output/Climate.in.range.EUspFULLstvfinal.RData")
 #load("~/Desktop/Climate.in.range.EUspFULL.RData")
 

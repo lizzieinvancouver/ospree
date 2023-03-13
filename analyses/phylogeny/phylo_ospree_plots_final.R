@@ -506,13 +506,18 @@ cbind(cueforce0, cueforce)
 
 ## load climate data for EUsps 
 load("../phylogeny/output/Forcechill.in.range.EUsp.RData")
+Climate.in.range.list.all = Climate.in.range.list
+load("../phylogeny/output/Forcechill.in.range.EU.AcecamBetpen.RData")
+Climate.in.range.list.2sps = Climate.in.range.list
+
+
 
 ## load species names
 spslistranges = read.csv("~/GitHub/ospree/analyses/phylogeny/figures/forecast_figure/sps_list_fromranges.csv")
 
 
 ## assign names to list of climate data
-names(Climate.in.range.list) = spslistranges[,2]
+names(Climate.in.range.list.all) = spslistranges[,2]
 
 ## check species for which we have model parameters
 spslistranges[,2][which(spslistranges[,2] %in% phylo$tip.label)] ## all 30
@@ -529,7 +534,6 @@ sp<-c("Betula_pendula","Fagus_sylvatica")
 sp.numinlist <- c(7,12)
 sp.numinphylo <- which(phylo$tip.label %in% sp)
 
-tempforecast<-c(1,2,3,4,5,6,7)#enter in the amount of warming (in degrees C) you want to forecast 
 
 #Define the function we will use to estimate budburst
 sps.i <- Climate.in.range.list[[sp.numinlist[1]]][[1]]
@@ -569,7 +573,7 @@ getspest.bb <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
 ## explore original data that fed the model
 sps.i.in.d <- subset(d, spps==spslist[7])
 sps.i.in.d2 <- subset(d, spps==spslist[1])
-
+nrow(sps.i.in.d)
 
 ## forcing values do not compare
 hist(sps.i.in.d$force)
@@ -586,32 +590,127 @@ hist(sps.i[,4,1]/240)
 # select data for one species and one year
 
 ## Betula pendula
-sps1 <- Climate.in.range.list[[7]][[1]]
+sps1 <- Climate.in.range.list.all[[7]][[1]]
 sps1 <- sps1[which(sps1[,1,1]==9.875 & sps1[,2,1]==48.125),3:4,1:11]
 sps1 <- as.data.frame(t(sps1))
 
 # Acer campestris
-sps2 <- Climate.in.range.list[[1]][[1]]
+sps2 <- Climate.in.range.list.all[[1]][[1]]
 sps2 <- sps2[which(sps2[,1,1]==9.875 & sps2[,2,1]==48.125),3:4,1:11]
 sps2 <- as.data.frame(t(sps2))
+
+## Betula pendula low chilling
+sps1.lowchill <- Climate.in.range.list.2sps[[7]][[1]]
+sps1.lowchill <- sps1.lowchill[which(sps1.lowchill[,1,1]==9.875 & sps1.lowchill[,2,1]==48.125),3:4,1:11]
+sps1.lowchill <- as.data.frame(t(sps1.lowchill))
+
+# Acer campestris low chilling
+sps2.lowchill <- Climate.in.range.list.2sps[[1]][[1]]
+sps2.lowchill <- sps2.lowchill[which(sps2.lowchill[,1,1]==9.875 & sps2.lowchill[,2,1]==48.125),3:4,1:11]
+sps2.lowchill <- as.data.frame(t(sps2.lowchill))
+
 
 sps.names = c("Betula_pendula","Acer_campestre")
 sp.numinphylo <- which(phylo$tip.label %in% sps.names)
 
-listestsbb = list()
 nyears = nrow(sps1)
-for (i in nyears){ #i=1
-  estbbyear.1 <- getspest.bb(fitlambest,fitlam0,sps.names, sps1,sps2, 14,i)
+
+listestsbb.1lam=
+listestsbb.2lam=
+listestsbb.10=
+listestsbb.20=
+listestsbb.lowch.1lam=
+listestsbb.lowch.2lam=
+listestsbb.lowch.10=
+listestsbb.lowch.20= list()
+
+for (i in 1:nyears){ #i=1
+print(i)
+  listestsbb.1lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                sps1,sps2, 14,i)$BBsps1lam
+  listestsbb.2lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                sps1,sps2, 14,i)$BBsps2lam
+  listestsbb.10[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                sps1,sps2, 14,i)$BBsps1lam0
+  listestsbb.20[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                sps1,sps2, 14,i)$BBsps2lam0
   
+  listestsbb.lowch.1lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                    sps1.lowchill,sps2.lowchill, 14,i)$BBsps1lam
+  listestsbb.lowch.2lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                           sps1.lowchill,sps2.lowchill, 14,i)$BBsps2lam
+  listestsbb.lowch.10[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                           sps1.lowchill,sps2.lowchill, 14,i)$BBsps1lam0
+  listestsbb.lowch.20[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
+                                           sps1.lowchill,sps2.lowchill, 14,i)$BBsps2lam0
   
-  }
+}
+
+
+## explore results
+i=2
+mean(listestsbb[[i]]$BBsps1lam)
+mean(listestsbb[[i]]$BBsps2lam)
+mean(listestsbb[[i]]$BBsps1lam0)
+mean(listestsbb[[i]]$BBsps2lam0)
+
+mean(listestsbb.lowch[[i]]$BBsps1lam)
+mean(listestsbb.lowch[[i]]$BBsps2lam)
+mean(listestsbb.lowch[[i]]$BBsps1lam0)
+mean(listestsbb.lowch[[i]]$BBsps2lam0)
+
+
+##### make plot ----
+
+normalchill.sps1lam.mean =mean(unlist(listestsbb.1lam))
+normalchill.sps1lam0.mean = mean(unlist(listestsbb.10))
+lowchill.sps1lam.mean = mean(unlist(listestsbb.lowch.1lam))
+lowchill.sps1lam0.mean =mean(unlist(listestsbb.lowch.10))
+
+normalchill.sps1lam.ci = quantile(unlist(listestsbb.1lam))[c(2,4)]
+normalchill.sps1lam0.ci = quantile(unlist(listestsbb.10))[c(2,4)]
+lowchill.sps1lam.ci = quantile(unlist(listestsbb.lowch.1lam))[c(2,4)]
+lowchill.sps1lam0.ci = quantile(unlist(listestsbb.lowch.10))[c(2,4)]
+
+normalchill.sps2lam0.mean = mean(unlist(listestsbb.20))
+normalchill.sps2lam.mean =mean(unlist(listestsbb.2lam))
+lowchill.sps2lam.mean = mean(unlist(listestsbb.lowch.2lam))
+lowchill.sps2lam0.mean =mean(unlist(listestsbb.lowch.20))
+
+normalchill.sps2lam.ci = quantile(unlist(listestsbb.2lam))[c(2,4)]
+normalchill.sps2lam0.ci = quantile(unlist(listestsbb.20))[c(2,4)]
+lowchill.sps2lam.ci = quantile(unlist(listestsbb.lowch.2lam))[c(2,4)]
+lowchill.sps2lam0.ci = quantile(unlist(listestsbb.lowch.20))[c(2,4)]
 
 
 
-mean(estbbyear.1$BBsps1lam)
-mean(estbbyear.1$BBsps2lam)
-mean(estbbyear.1$BBsps1lam0)
-mean(estbbyear.1$BBsps2lam0)
+dev.off()
+
+
+
+plot(x=NA, 
+     y=NA, 
+     xlab="shift in budbreak (# days)",
+     ylab="species", 
+     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlim=c(-170,0),ylim=c(0,8))
+points(c(normalchill.sps1lam.mean,
+         normalchill.sps1lam0.mean,
+         lowchill.sps1lam.mean,
+         lowchill.sps1lam0.mean),8:5,pch=19,col="lightgreen")
+points(c(normalchill.sps1lam.ci,
+         normalchill.sps1lam0.ci,
+         lowchill.sps1lam.ci,
+         lowchill.sps1lam0.ci),sort(rep(8:5,2),decreasing = T),pch=19,col="grey")
+
+points(c(normalchill.sps2lam.mean,
+         normalchill.sps2lam0.mean,
+         lowchill.sps2lam.mean,
+         lowchill.sps2lam0.mean),4:1,pch=19,col="darkgreen")
+points(c(normalchill.sps2lam.ci,
+         normalchill.sps2lam0.ci,
+         lowchill.sps2lam.ci,
+         lowchill.sps2lam0.ci),sort(rep(4:1,2),decreasing = T),pch=19,col="grey")
 
 
 ## Betula pendula
