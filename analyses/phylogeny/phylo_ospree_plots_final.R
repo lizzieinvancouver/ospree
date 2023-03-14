@@ -9,21 +9,24 @@
 ## - adding chilling
 
 #### remove objects (activate if needed)
+#### remove objects (activate if needed)
+# rm(list=ls())
+options(stringsAsFactors = FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/projects/treegarden ####
-rm(list=ls())
-options(stringsAsFactors = FALSE)
-rstan_options(auto_write = TRUE)/budreview/ospree/analyses/phylogeny") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
+if(length(grep("lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+} else if (length(grep("ailene", getwd()))>0){
+  setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/phylogeny") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+}else
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+
 
 
 # Loading packages
@@ -504,16 +507,15 @@ cbind(cueforce0, cueforce)
 
 ### make forecasting figure ----
 
-## load climate data for EUsps 
+## load climate data for EUsps (14Mar2023: I don't have these so cannot run this part of code -- Lizzie) 
 load("../phylogeny/output/Forcechill.in.range.EUsp.RData")
 Climate.in.range.list.all = Climate.in.range.list
 load("../phylogeny/output/Forcechill.in.range.EU.AcecamBetpen.RData")
 Climate.in.range.list.2sps = Climate.in.range.list
 
 
-
 ## load species names
-spslistranges = read.csv("~/GitHub/ospree/analyses/phylogeny/figures/forecast_figure/sps_list_fromranges.csv")
+spslistranges = read.csv("figures/forecast_figure/sps_list_fromranges.csv") # (14Mar2023: Updated path, please check -- Lizzie)
 
 
 ## assign names to list of climate data
@@ -527,13 +529,63 @@ spslistranges[,2][which(spslistranges[,2] %in% phylo$tip.label)] ## all 30
 
 fit.sum <- summary(fitlambest)$summary
 
-
 # Select the species and temperature change that you want
 sp<-c("Betula_pendula","Fagus_sylvatica")
 
 sp.numinlist <- c(7,12)
 sp.numinphylo <- which(phylo$tip.label %in% sp)
 
+##
+## Checking by hand by Lizzie
+
+# Step 1 for me is to check the model, I pulled what I think is the model I ran in January and has natural units
+checkmodel  <- readRDS("output/fit_priorupdate_noout_angio191_lamb0_nonz.rds")
+tail(fit.sum)
+tail(summary(checkmodel)$summary)
+# Hmm, a_z -- which is the grand mean of the intercept is higher in mine. It looks much more like what I expect
+# Also, see Ettinger et al 2020: Table S6: Estimates from models fit with predictors on their natural scales, those means 60+ while Table S5: Estimates from models fit with standardized predictors -- has #s around 30
+## So -- **Check your model is the natural units one!**
+
+# Step 2: I will check the equations by just writing them out myself ... 
+listofdraws <- extract(fitlambest)
+forcingsp7 <- listofdraws$b_force[,7]
+chillingsp7 <- listofdraws$b_chill[,7]
+asp7 <- listofdraws$a[,7]
+
+forcingsp12 <- listofdraws$b_force[,12]
+chillingsp12 <- listofdraws$b_chill[,12]
+asp12 <- listofdraws$a[,12]
+
+mean(forcingsp7)
+mean(chillingsp7)
+mean(asp7)
+
+# sp7historical, then warmed (I just guessed at #s from email)
+mean(asp7) + mean(forcingsp7)*5 + mean(chillingsp7)*(2000/240)
+mean(asp7) + mean(forcingsp7)*7 + mean(chillingsp7)*(2400/240)
+# sp12historical, then warmed 
+mean(asp12) + mean(forcingsp12)*5 + mean(chillingsp12)*(2000/240)
+mean(asp12) + mean(forcingsp12)*7 + mean(chillingsp12)*(2400/240)
+## So -- these seem fine to me ...
+
+# Step 3: try above with other model
+listofdraws <- extract(checkmodel)
+forcingsp7 <- listofdraws$b_force[,7]
+chillingsp7 <- listofdraws$b_chill[,7]
+asp7 <- listofdraws$a[,7]
+
+forcingsp12 <- listofdraws$b_force[,12]
+chillingsp12 <- listofdraws$b_chill[,12]
+asp12 <- listofdraws$a[,12]
+
+mean(asp7) + mean(forcingsp7)*5 + mean(chillingsp7)*(2000/240)
+mean(asp7) + mean(forcingsp7)*7 + mean(chillingsp7)*(2400/240)
+mean(asp12) + mean(forcingsp12)*5 + mean(chillingsp12)*(2000/240)
+mean(asp12) + mean(forcingsp12)*7 + mean(chillingsp12)*(2400/240)
+## So -- these numbers are more reasonable ...
+
+## End Checking by hand by Lizzie
+##
 
 #Define the function we will use to estimate budburst
 sps.i <- Climate.in.range.list[[sp.numinlist[1]]][[1]]

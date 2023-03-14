@@ -9,21 +9,22 @@
 ## - adding chilling
 
 #### remove objects (activate if needed)
+# rm(list=ls())
+options(stringsAsFactors = FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
-  setwd("~/Documents/git/projects/treegarden ####
-rm(list=ls())
-options(stringsAsFactors = FALSE)
-rstan_options(auto_write = TRUE)/budreview/ospree/analyses/phylogeny") 
-} else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
+if(length(grep("lizzie", getwd())>0)) { 
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+} else if (length(grep("ailene", getwd()))>0){
+  setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/analyses/phylogeny") 
 } else if(length(grep("catchamberlain", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/phylogeny") 
-}else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
+}else
+  setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny")
 
 
 # Loading packages
@@ -36,6 +37,7 @@ library(plyr)
 library(dplyr)
 
 options(mc.cores = parallel::detectCores())
+rstan_options(auto_write = TRUE) 
 
 
 #'######################################
