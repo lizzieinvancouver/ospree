@@ -309,5 +309,8 @@ Associations are intuitive but few studies have tested for similar gradients in 
 %\item The strength of species cue responses were associated with species trait values: referencing Fig. \ref{fig:cuetraits}
 %\begin{enumerate}
 
+\pagebreak
+\bibliographystyle{refs/bibstyles/amnat.bst}% 
+\bibliography{refs/traitors_mar23.bib}
 
 \end{document}
