@@ -514,6 +514,23 @@ load("../phylogeny/output/Forcechill.in.range.EU.AcecamBetpen.RData")
 Climate.in.range.list.2sps = Climate.in.range.list
 
 
+## load models
+  fitlam0 <- readRDS("~/MEGA/Work_UAH_BeaGal/SIDE PROJECTS/OSPREE/Phylogeny/outputs/fit_priorupdate_noout_angio191_lamb0_nonz.rds")
+  fitlambest <- readRDS("~/MEGA/Work_UAH_BeaGal/SIDE PROJECTS/OSPREE/Phylogeny/outputs/fit_priorupdate_noout_angio191_nonz.rds")
+
+
+## rename models to include species names
+names(fitlambest)[grep(pattern = "^a\\[", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_force", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_chill", x = names(fitlambest))] <- phylo$tip.label
+names(fitlambest)[grep(pattern = "^b_photo", x = names(fitlambest))] <- phylo$tip.label
+
+names(fitlam0)[grep(pattern = "^a\\[", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_force", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_chill", x = names(fitlam0))] <- phylo$tip.label
+names(fitlam0)[grep(pattern = "^b_photo", x = names(fitlam0))] <- phylo$tip.label
+
+
 ## load species names
 spslistranges = read.csv("figures/forecast_figure/sps_list_fromranges.csv") # (14Mar2023: Updated path, please check -- Lizzie)
 
@@ -547,7 +564,7 @@ tail(summary(checkmodel)$summary)
 ## So -- **Check your model is the natural units one!**
 
 # Step 2: I will check the equations by just writing them out myself ... 
-listofdraws <- extract(fitlambest)
+listofdraws <- extract(fitlamb0)
 forcingsp7 <- listofdraws$b_force[,7]
 chillingsp7 <- listofdraws$b_chill[,7]
 asp7 <- listofdraws$a[,7]
@@ -593,13 +610,52 @@ sps.i <- Climate.in.range.list[[sp.numinlist[1]]][[1]]
 getspest.bb <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
   #s=1
   #fit=fitlambest
+  #fit0=fitlam0
+  #i=1
   #sps.i =sps1
+  dim(sps.i)
+  #sps.i2 =sps2
+  #photoper = 12
+  listofdraws <- extract(fit)
+  listofdraws0 <- extract(fit0)
+  
+  forcing <- sps.i[,3,i]
+  chilling <- sps.i[,4,i]
+
+  forcing2 <- sps.i2[,3,i]
+  chilling2 <- sps.i2[,4,i]
+  
+  avgbbsps1 <- listofdraws$a[,sp.numinphylo[1]] + listofdraws$b_force[,sp.numinphylo[1]]*forcing +
+    listofdraws$b_photo[,sp.numinphylo[1]]*photoper + listofdraws$b_chill[,sp.numinphylo[1]]*chilling/240
+  
+  avgbbsps2 <- listofdraws$a[,sp.numinphylo[2]] + listofdraws$b_force[,sp.numinphylo[2]]*forcing2 +
+    listofdraws$b_photo[,sp.numinphylo[2]]*photoper + listofdraws$b_chill[,sp.numinphylo[2]]*chilling2/240
+  
+  avgbbsps1.0 <- listofdraws0$a[,sp.numinphylo[1]] + listofdraws0$b_force[,sp.numinphylo[1]]*forcing +
+    listofdraws0$b_photo[,sp.numinphylo[1]]*photoper + listofdraws0$b_chill[,sp.numinphylo[1]]*chilling/240
+  
+  avgbbsps2.0 <- listofdraws0$a[,sp.numinphylo[2]] + listofdraws0$b_force[,sp.numinphylo[2]]*forcing2 +
+    listofdraws0$b_photo[,sp.numinphylo[2]]*photoper + listofdraws0$b_chill[,sp.numinphylo[2]]*chilling2/240
+  
+  
+  yebbest <- list(BBsps1lam=avgbbsps1,BBsps2lam=avgbbsps2,BBsps1lam0=avgbbsps1.0,BBsps2lam0=avgbbsps2.0)
+  return(yebbest)
+}
+
+getspest.bb.maps <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
+  #s=1
+  #fit=fitlambest
+  #fit0=fitlam0
+  #i=1
+  #sps.i =sps1
+  #sps.i2 =sps2
+  #photoper = 12
   listofdraws <- extract(fit)
   listofdraws0 <- extract(fit0)
   
   forcing <- sps.i[i,"Forcing"]
   chilling <- sps.i[i,"Chilling"]
-
+  
   forcing2 <- sps.i2[i,"Forcing"]
   chilling2 <- sps.i2[i,"Chilling"]
   
@@ -621,22 +677,6 @@ getspest.bb <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
 }
 
 
-
-## explore original data that fed the model
-sps.i.in.d <- subset(d, spps==spslist[7])
-sps.i.in.d2 <- subset(d, spps==spslist[1])
-nrow(sps.i.in.d)
-
-## forcing values do not compare
-hist(sps.i.in.d$force)
-hist(sps.i[,3,1])
-
-## chilling values compare
-hist(sps.i.in.d$chill)
-hist(sps.i[,4,1]/240)
-
-
-
 ## get BB estimate for the historical period for both species at selected site
 ## in the middle of europe (9.875, 48.125
 # select data for one species and one year
@@ -655,12 +695,13 @@ sps2 <- as.data.frame(t(sps2))
 sps1.lowchill <- Climate.in.range.list.2sps[[7]][[1]]
 sps1.lowchill <- sps1.lowchill[which(sps1.lowchill[,1,1]==9.875 & sps1.lowchill[,2,1]==48.125),3:4,1:11]
 sps1.lowchill <- as.data.frame(t(sps1.lowchill))
+sps1.lowchill$Forcing <- sps1.lowchill$Forcing+2
 
 # Acer campestris low chilling
 sps2.lowchill <- Climate.in.range.list.2sps[[1]][[1]]
 sps2.lowchill <- sps2.lowchill[which(sps2.lowchill[,1,1]==9.875 & sps2.lowchill[,2,1]==48.125),3:4,1:11]
 sps2.lowchill <- as.data.frame(t(sps2.lowchill))
-
+sps2.lowchill$Forcing <- sps2.lowchill$Forcing+2
 
 sps.names = c("Betula_pendula","Acer_campestre")
 sp.numinphylo <- which(phylo$tip.label %in% sps.names)
@@ -700,17 +741,6 @@ print(i)
 
 
 ## explore results
-i=2
-mean(listestsbb[[i]]$BBsps1lam)
-mean(listestsbb[[i]]$BBsps2lam)
-mean(listestsbb[[i]]$BBsps1lam0)
-mean(listestsbb[[i]]$BBsps2lam0)
-
-mean(listestsbb.lowch[[i]]$BBsps1lam)
-mean(listestsbb.lowch[[i]]$BBsps2lam)
-mean(listestsbb.lowch[[i]]$BBsps1lam0)
-mean(listestsbb.lowch[[i]]$BBsps2lam0)
-
 
 ##### make plot ----
 
@@ -742,10 +772,11 @@ dev.off()
 
 plot(x=NA, 
      y=NA, 
-     xlab="shift in budbreak (# days)",
+     xlab="predicted budbreak (DOY)",
      ylab="species", 
      pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
-     xlim=c(-170,0),ylim=c(0,8))
+     xlim=c(0,50),ylim=c(0,8)
+     )
 points(c(normalchill.sps1lam.mean,
          normalchill.sps1lam0.mean,
          lowchill.sps1lam.mean,
