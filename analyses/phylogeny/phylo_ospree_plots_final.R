@@ -552,6 +552,8 @@ sp<-c("Betula_pendula","Fagus_sylvatica")
 sp.numinlist <- c(7,12)
 sp.numinphylo <- which(phylo$tip.label %in% sp)
 
+
+if(FALSE){
 ##
 ## Checking by hand by Lizzie
 
@@ -603,6 +605,8 @@ mean(asp12) + mean(forcingsp12)*7 + mean(chillingsp12)*(2400/240)
 
 ## End Checking by hand by Lizzie
 ##
+}
+
 
 #Define the function we will use to estimate budburst
 sps.i <- Climate.in.range.list[[sp.numinlist[1]]][[1]]
@@ -619,11 +623,12 @@ getspest.bb <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
   listofdraws <- extract(fit)
   listofdraws0 <- extract(fit0)
   
-  forcing <- sps.i[,3,i]
-  chilling <- sps.i[,4,i]
-
-  forcing2 <- sps.i2[,3,i]
-  chilling2 <- sps.i2[,4,i]
+  forcing <- sps.i[i,"Forcing"]
+  chilling <- sps.i[i,"Chilling"]
+  
+  forcing2 <- sps.i2[i,"Forcing"]
+  chilling2 <- sps.i2[i,"Chilling"]
+  
   
   avgbbsps1 <- listofdraws$a[,sp.numinphylo[1]] + listofdraws$b_force[,sp.numinphylo[1]]*forcing +
     listofdraws$b_photo[,sp.numinphylo[1]]*photoper + listofdraws$b_chill[,sp.numinphylo[1]]*chilling/240
@@ -647,30 +652,55 @@ getspest.bb.maps <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
   #fit=fitlambest
   #fit0=fitlam0
   #i=1
+  #photoper = 14
+  #sps1 <- Climate.in.range.list.all[[7]][[1]]
+  #sps2 <- Climate.in.range.list.all[[1]][[1]]
   #sps.i =sps1
   #sps.i2 =sps2
-  #photoper = 12
+  
+  
   listofdraws <- extract(fit)
   listofdraws0 <- extract(fit0)
   
-  forcing <- sps.i[i,"Forcing"]
-  chilling <- sps.i[i,"Chilling"]
+  forcing <- sps.i[,3,i]
+  chilling <- sps.i[,4,i]
   
-  forcing2 <- sps.i2[i,"Forcing"]
-  chilling2 <- sps.i2[i,"Chilling"]
+  forcing2 <- sps.i2[,3,i]
+  chilling2 <- sps.i2[,4,i]
   
-  avgbbsps1 <- listofdraws$a[,sp.numinphylo[1]] + listofdraws$b_force[,sp.numinphylo[1]]*forcing +
-    listofdraws$b_photo[,sp.numinphylo[1]]*photoper + listofdraws$b_chill[,sp.numinphylo[1]]*chilling/240
+  alphasps1 <- mean(listofdraws$a[,sp.numinphylo[1]],na.rm = T)
+  bforcesps1 <- mean(listofdraws$b_force[,sp.numinphylo[1]],na.rm = T)
+  bchillsps1 <- mean(listofdraws$b_chill[,sp.numinphylo[1]],na.rm = T)
+  bphotosps1 <- mean(listofdraws$b_photo[,sp.numinphylo[1]],na.rm = T)
   
-  avgbbsps2 <- listofdraws$a[,sp.numinphylo[2]] + listofdraws$b_force[,sp.numinphylo[2]]*forcing2 +
-    listofdraws$b_photo[,sp.numinphylo[2]]*photoper + listofdraws$b_chill[,sp.numinphylo[2]]*chilling2/240
+  alphasps2 <- mean(listofdraws$a[,sp.numinphylo[2]],na.rm = T)
+  bforcesps2 <- mean(listofdraws$b_force[,sp.numinphylo[2]],na.rm = T)
+  bchillsps2 <- mean(listofdraws$b_chill[,sp.numinphylo[2]],na.rm = T)
+  bphotosps2 <- mean(listofdraws$b_photo[,sp.numinphylo[2]],na.rm = T)
   
-  avgbbsps1.0 <- listofdraws0$a[,sp.numinphylo[1]] + listofdraws0$b_force[,sp.numinphylo[1]]*forcing +
-    listofdraws0$b_photo[,sp.numinphylo[1]]*photoper + listofdraws0$b_chill[,sp.numinphylo[1]]*chilling/240
+  alphasps10 <- mean(listofdraws0$a[,sp.numinphylo[1]],na.rm = T)
+  bforcesps10 <- mean(listofdraws0$b_force[,sp.numinphylo[1]],na.rm = T)
+  bchillsps10 <- mean(listofdraws0$b_chill[,sp.numinphylo[1]],na.rm = T)
+  bphotosps10 <- mean(listofdraws0$b_photo[,sp.numinphylo[1]],na.rm = T)
   
-  avgbbsps2.0 <- listofdraws0$a[,sp.numinphylo[2]] + listofdraws0$b_force[,sp.numinphylo[2]]*forcing2 +
-    listofdraws0$b_photo[,sp.numinphylo[2]]*photoper + listofdraws0$b_chill[,sp.numinphylo[2]]*chilling2/240
+  alphasps20 <- mean(listofdraws0$a[,sp.numinphylo[2]],na.rm = T)
+  bforcesps20 <- mean(listofdraws0$b_force[,sp.numinphylo[2]],na.rm = T)
+  bchillsps20 <- mean(listofdraws0$b_chill[,sp.numinphylo[2]],na.rm = T)
+  bphotosps20 <- mean(listofdraws0$b_photo[,sp.numinphylo[2]],na.rm = T)
   
+  avgbbsps1 <- alphasps1 + bforcesps1*forcing +
+    bphotosps1*photoper + bchillsps1*chilling/240
+  
+  avgbbsps2 <- alphasps2 + bforcesps2*forcing2 +
+    bphotosps2*photoper + bchillsps2*chilling2/240
+  
+  avgbbsps1.0 <- alphasps10 + bforcesps10*forcing +
+    bphotosps10*photoper + bchillsps10*chilling/240
+  
+  avgbbsps2.0 <- alphasps20 + bforcesps20*forcing2 +
+    bphotosps20*photoper + bchillsps20*chilling2/240
+  
+
   
   yebbest <- list(BBsps1lam=avgbbsps1,BBsps2lam=avgbbsps2,BBsps1lam0=avgbbsps1.0,BBsps2lam0=avgbbsps2.0)
   return(yebbest)
@@ -717,6 +747,7 @@ listestsbb.lowch.2lam=
 listestsbb.lowch.10=
 listestsbb.lowch.20= list()
 
+## loop to predict for a single site
 for (i in 1:nyears){ #i=1
 print(i)
   listestsbb.1lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
@@ -738,6 +769,44 @@ print(i)
                                            sps1.lowchill,sps2.lowchill, 14,i)$BBsps2lam0
   
 }
+
+
+## loop to predict across multiple sites ----
+
+nyears = 11
+nrowallsitessps1 = dim(sps1)[1]
+nrowallsitessps2 = dim(sps2)[1]
+storeresultssps1 = array(NA, dim=c(nrowallsitessps1,nyears,4))
+storeresultssps2 = array(NA, dim=c(nrowallsitessps2,nyears,4))
+
+for (i in 1:nyears){ #i=1
+  print(i)
+  storeresultssps1[,i,1] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                     sps1,sps2, 14,i)$BBsps1lam
+  storeresultssps2[,i,1] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                     sps1,sps2, 14,i)$BBsps2lam
+  storeresultssps1[,i,2] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                   sps1,sps2, 14,i)$BBsps1lam0
+  storeresultssps2[,i,2] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                   sps1,sps2, 14,i)$BBsps2lam0
+  
+  storeresultssps1[,i,3] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                           sps1.lowchill,sps2.lowchill, 14,i)$BBsps1lam
+  storeresultssps2[,i,3] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                           sps1.lowchill,sps2.lowchill, 14,i)$BBsps2lam
+  storeresultssps1[,i,4] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                         sps1.lowchill,sps2.lowchill, 14,i)$BBsps1lam0
+  storeresultssps2[,i,4] = getspest.bb.maps(fitlambest,fitlam0,sps.names, 
+                                         sps1.lowchill,sps2.lowchill, 14,i)$BBsps2lam0
+  
+}
+
+
+
+## explore preliminary results
+
+plot(sps1[,1,1],sps1[,2,1],col=storeresultssps1[,1,1])
+plot(sps2[,1,1],sps2[,2,1],col=storeresultssps2[,1,1])
 
 
 ## explore results
@@ -778,21 +847,21 @@ plot(x=NA,
      xlim=c(0,50),ylim=c(0,8)
      )
 points(c(normalchill.sps1lam.mean,
-         normalchill.sps1lam0.mean,
          lowchill.sps1lam.mean,
+         normalchill.sps1lam0.mean,
          lowchill.sps1lam0.mean),8:5,pch=19,col="lightgreen")
 points(c(normalchill.sps1lam.ci,
-         normalchill.sps1lam0.ci,
          lowchill.sps1lam.ci,
+         normalchill.sps1lam0.ci,
          lowchill.sps1lam0.ci),sort(rep(8:5,2),decreasing = T),pch=19,col="grey")
 
 points(c(normalchill.sps2lam.mean,
-         normalchill.sps2lam0.mean,
          lowchill.sps2lam.mean,
+         normalchill.sps2lam0.mean,
          lowchill.sps2lam0.mean),4:1,pch=19,col="darkgreen")
 points(c(normalchill.sps2lam.ci,
-         normalchill.sps2lam0.ci,
          lowchill.sps2lam.ci,
+         normalchill.sps2lam0.ci,
          lowchill.sps2lam0.ci),sort(rep(4:1,2),decreasing = T),pch=19,col="grey")
 
 
