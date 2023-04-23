@@ -713,25 +713,27 @@ getspest.bb.maps <- function(fit,fit0,sps.names, sps.i,sps.i2, photoper,i){
 
 ## Betula pendula
 sps1 <- Climate.in.range.list.all[[7]][[1]]
-sps1 <- sps1[which(sps1[,1,1]==9.875 & sps1[,2,1]==48.125),3:4,1:11]
-sps1 <- as.data.frame(t(sps1))
+#sps1 <- sps1[which(sps1[,1,1]==9.875 & sps1[,2,1]==48.125),3:4,1:11]
+#sps1 <- as.data.frame(t(sps1))
 
 # Acer campestris
 sps2 <- Climate.in.range.list.all[[1]][[1]]
-sps2 <- sps2[which(sps2[,1,1]==9.875 & sps2[,2,1]==48.125),3:4,1:11]
-sps2 <- as.data.frame(t(sps2))
+#sps2 <- sps2[which(sps2[,1,1]==9.875 & sps2[,2,1]==48.125),3:4,1:11]
+#sps2 <- as.data.frame(t(sps2))
 
 ## Betula pendula low chilling
 sps1.lowchill <- Climate.in.range.list.2sps[[7]][[1]]
-sps1.lowchill <- sps1.lowchill[which(sps1.lowchill[,1,1]==9.875 & sps1.lowchill[,2,1]==48.125),3:4,1:11]
-sps1.lowchill <- as.data.frame(t(sps1.lowchill))
-sps1.lowchill$Forcing <- sps1.lowchill$Forcing+2
+#sps1.lowchill <- sps1.lowchill[which(sps1.lowchill[,1,1]==9.875 & sps1.lowchill[,2,1]==48.125),3:4,1:11]
+#sps1.lowchill <- as.data.frame(t(sps1.lowchill))
+#sps1.lowchill$Forcing <- sps1.lowchill$Forcing+2
+sps1.lowchill[,3,] <- ifelse(is.na(sps1.lowchill[,3,]),NA,sps1.lowchill[,3,]+2)
 
 # Acer campestris low chilling
 sps2.lowchill <- Climate.in.range.list.2sps[[1]][[1]]
-sps2.lowchill <- sps2.lowchill[which(sps2.lowchill[,1,1]==9.875 & sps2.lowchill[,2,1]==48.125),3:4,1:11]
-sps2.lowchill <- as.data.frame(t(sps2.lowchill))
-sps2.lowchill$Forcing <- sps2.lowchill$Forcing+2
+#sps2.lowchill <- sps2.lowchill[which(sps2.lowchill[,1,1]==9.875 & sps2.lowchill[,2,1]==48.125),3:4,1:11]
+#sps2.lowchill <- as.data.frame(t(sps2.lowchill))
+#sps2.lowchill$Forcing <- sps2.lowchill$Forcing+2
+sps2.lowchill[,3,] <- ifelse(is.na(sps2.lowchill[,3,]),NA,sps2.lowchill[,3,]+2)
 
 sps.names = c("Betula_pendula","Acer_campestre")
 sp.numinphylo <- which(phylo$tip.label %in% sps.names)
@@ -747,7 +749,7 @@ listestsbb.lowch.2lam=
 listestsbb.lowch.10=
 listestsbb.lowch.20= list()
 
-## loop to predict for a single site
+## loop to predict for a single site ----
 for (i in 1:nyears){ #i=1
 print(i)
   listestsbb.1lam[[i]] = getspest.bb(fitlambest,fitlam0,sps.names, 
@@ -803,15 +805,7 @@ for (i in 1:nyears){ #i=1
 
 
 
-## explore preliminary results
-
-plot(sps1[,1,1],sps1[,2,1],col=storeresultssps1[,1,1])
-plot(sps2[,1,1],sps2[,2,1],col=storeresultssps2[,1,1])
-
-
-## explore results
-
-##### make plot ----
+##### make plot (single points comparing dates)----
 
 normalchill.sps1lam.mean =mean(unlist(listestsbb.1lam))
 normalchill.sps1lam0.mean = mean(unlist(listestsbb.10))
@@ -845,7 +839,7 @@ plot(x=NA,
      ylab="species", 
      pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
      xlim=c(0,50),ylim=c(0,8)
-     )
+)
 points(c(normalchill.sps1lam.mean,
          lowchill.sps1lam.mean,
          normalchill.sps1lam0.mean,
@@ -872,6 +866,229 @@ lines(density(estbbyear.1$BBsps1lam0),lwd=2,col="grey")
 # Acer campestris
 plot(density(estbbyear.1$BBsps2lam),lwd=2)
 lines(density(estbbyear.1$BBsps2lam0),lwd=2,col="grey")
+
+
+
+
+## explore preliminary results ----
+
+# make dataframe with data
+
+dfsps1 = data.frame(longitude = sps1[,1,1], latitude = sps1[,2,1],
+                    pmm = rowMeans(storeresultssps1[,1:11,1],na.rm=T), 
+                    pmm2C = rowMeans(storeresultssps1[,1:11,3],na.rm=T),
+                    lmm = rowMeans(storeresultssps1[,1:11,2],na.rm=T), 
+                    lmm2C = rowMeans(storeresultssps1[,1:11,4],na.rm=T))
+
+dfsps2 = data.frame(longitude = sps2[,1,1], latitude = sps2[,2,1],
+                    pmm = rowMeans(storeresultssps2[,1:11,1],na.rm=T), 
+                    pmm2C = rowMeans(storeresultssps2[,1:11,3],na.rm=T),
+                    lmm = rowMeans(storeresultssps2[,1:11,2],na.rm=T), 
+                    lmm2C = rowMeans(storeresultssps2[,1:11,4],na.rm=T))
+
+dfsps1 = na.omit(dfsps1)
+dfsps2 = na.omit(dfsps2)
+summary(dfsps1$pmm)
+
+
+# make color scale for plotting
+#install.packages("dichromat")
+#newmap <- getMap(resolution="high") 
+library(dichromat)
+MrWhite_palette <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))
+
+cols <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$pmm,
+                                             dfsps1$pmm2C,
+                                             dfsps1$lmm,
+                                             dfsps1$lmm2C),breaks = 50))]
+cols2 <- MrWhite_palette(50)[as.numeric(cut(c(dfsps2$pmm,
+                                              dfsps2$pmm2C,
+                                              dfsps2$lmm,
+                                              dfsps2$lmm2C),breaks = 50))]
+colspmm <- cols[1:length(dfsps1$pmm)]
+colspmm2C <- cols[(length(dfsps1$pmm)+1):(length(dfsps1$pmm)*2)]
+colslmm <- cols[(length(dfsps1$pmm)*2+1):(length(dfsps1$pmm)*3)]
+colslmm2C <- cols[(length(dfsps1$pmm)*3+1):(length(dfsps1$pmm)*4)]
+
+colspmmsp2 <- cols2[1:length(dfsps2$pmm)]
+colspmm2Csp2 <- cols2[(length(dfsps2$pmm)+1):(length(dfsps2$pmm)*2)]
+colslmmsp2 <- cols2[(length(dfsps2$pmm)*2+1):(length(dfsps2$pmm)*3)]
+colslmm2Csp2 <- cols2[(length(dfsps2$pmm)*3+1):(length(dfsps2$pmm)*4)]
+
+
+
+##### make maps ----
+
+#library(rworldmap)
+#newmap = getMap(resolution="high")
+dev.off()
+par(mfrow=c(2,2))
+
+#sps1 pmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen PMM")
+points(dfsps1$longitude,dfsps1$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colspmm,0.4))
+
+#sps1 pmm low chill
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen PMM2C")
+points(dfsps1$longitude,dfsps1$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colspmm2C,0.4))
+
+#sps1 lmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen LMM")
+points(dfsps1$longitude,dfsps1$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colslmm,0.4))
+
+#sps1 lmm low chill
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen LMM (+2C)")
+points(dfsps1$longitude,dfsps1$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colslmm2C,0.4))
+
+# legend
+points(c(-9,-6,-3,0,3),rep(65,5),pch=15,cex=3,
+       col=c("#9e0142","#f46d43","#fee08b","#66c2a5","#5e4fa2"))
+
+#quantile(c(dfsps1$pmm,dfsps1$pmm2C,dfsps1$lmm,dfsps1$lmm2C))
+text(c(-9,-6,-3,0,3),rep(67.5,5),
+     labels=c("6.9","","22.7","","31.7"),cex=0.9)
+
+
+dev.off()
+par(mfrow=c(2,2))
+
+#sps2 pmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMM")
+points(dfsps2$longitude,dfsps2$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colspmmsp2,0.4))
+
+#sps1 pmm low chill
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMM2C")
+points(dfsps2$longitude,dfsps2$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colspmm2Csp2,0.4))
+
+#sps1 lmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam LMM")
+points(dfsps2$longitude,dfsps2$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colslmmsp2,0.4))
+
+#sps1 lmm low chill
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam LMM (+2C)")
+points(dfsps2$longitude,dfsps2$latitude,pch=19,cex=0.6,
+       col=adjustcolor(colslmm2Csp2,0.4))
+
+# legend
+points(c(-9,-6,-3,0,3),rep(65,5),pch=15,cex=3,
+       col=c("#9e0142","#f46d43","#fee08b","#66c2a5","#5e4fa2"))
+
+#quantile(c(dfsps2$pmm,dfsps2$pmm2C,dfsps2$lmm,dfsps2$lmm2C))
+text(c(-9,-6,-3,0,3),rep(67.5,5),
+     labels=c("4.7","","33.9","","77.9"),cex=0.9)
+gradient.rect(7,0,9,6,col=smoothColors("red",38,"blue"),border=NA)
+
+
+## Make final maps ----
+par(mfrow=c(1,3))
+
+## PMM vs LMM comparison
+dfsps1$pmmvslmm = dfsps1$pmm-dfsps1$lmm
+dfsps2$pmmvslmm = dfsps2$pmm-dfsps2$lmm
+colspmmvslmm <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$pmmvslmm,
+                                             dfsps2$pmmvslmm),
+                                           breaks = 50))]
+colspmmvslmmsps1 <- colspmmvslmm[1:length(dfsps1$pmmvslmm)]
+colspmmvslmmsps2 <- colspmmvslmm[(length(dfsps1$pmmvslmm)+1):length(colspmmvslmm)]
+
+dev.off()
+# Betpen PMM vs LMM
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen PMM vs LMM")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colspmmvslmmsps1,0.4))
+
+# Acecam PMM vs LMM
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMM vs LMM")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colspmmvslmmsps2,0.4))
+hist(dfsps2$pmmvslmm,col="grey",border=NA,
+     xlim=c(-8,2),main="",xlab="Budbreak difference PMM - LMM")
+hist(dfsps1$pmmvslmm,col="black",border=NA,add=T)
+
+
+
+## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
+dfsps1$absforecast = (dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C)
+dfsps2$absforecast = (dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C)
+
+colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast,
+                                                     dfsps2$absforecast),
+                                                   breaks = 50))]
+colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
+colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
+
+# Betpen absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen PMMcurr-2C vs LMMcurr-2C")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colsabsforecastsps1,0.4))
+
+# Acecam absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMMcurr-2C vs LMMcurr-2C")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colsabsforecastsps2,0.4))
+hist(dfsps2$absforecast,col="grey",border=NA,
+     xlim=c(-1.6,0.2),main="",xlab="PMM - LMM, current - 2C")
+hist(dfsps1$absforecast,col="black",border=NA,add=T)
+
+
+
+#LMM_Acer - LMM_betula  (2)
+dfsps1$coords = paste(dfsps1$longitude,dfsps1$latitude)
+dfsps2$coords = paste(dfsps2$longitude,dfsps2$latitude)
+coincidsps1 = which(dfsps1$coords %in% dfsps2$coords)
+coincidsps2 = which(dfsps2$coords %in% dfsps1$coords)
+
+dfsps2$lmmacervslmmbet = NA
+dfsps2$lmmacervslmmbet[coincidsps2] = dfsps2$lmm[coincidsps2] - dfsps1$lmm[coincidsps1]
+
+
+#PMM_Acer - PMM_betula (3)
+dfsps2$pmmacervspmmbet = NA
+dfsps2$pmmacervspmmbet[coincidsps2] = dfsps2$pmm[coincidsps2] - dfsps1$pmm[coincidsps1]
+
+colsacervsbet <- MrWhite_palette(50)[as.numeric(cut(c(dfsps2$pmmacervspmmbet,
+                                                        dfsps2$lmmacervslmmbet),
+                                                      breaks = 50))]
+colsacervsbetpmm <- colsacervsbet[1:length(dfsps2$pmmacervspmmbet)]
+colsacervsbetlmm <- colsacervsbet[(length(dfsps2$pmmacervspmmbet)+1):length(colsacervsbet)]
+
+# Acecam - Betpen pmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMM vs Betpen PMM")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colsacervsbetpmm,0.4))
+
+# Acecam - Betpen lmm
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam LMM vs Betpen LMM")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colsacervsbetlmm,0.4))
+hist(dfsps2$pmmacervspmmbet,col="grey",border=NA,
+     xlim=c(-5,30),main="",xlab="BB diff. Acer - Betula")
+hist(dfsps2$lmmacervslmmbet,col=adjustcolor("black",0.6),border=NA,add=T)
+
+
+
 
 
 
