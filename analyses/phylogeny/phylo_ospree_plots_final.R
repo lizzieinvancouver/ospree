@@ -10,6 +10,8 @@
 
 #### remove objects (activate if needed)
 #### remove objects (activate if needed)
+#### get ready ####
+
 # rm(list=ls())
 options(stringsAsFactors = FALSE)
 
@@ -1086,6 +1088,60 @@ points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
 hist(dfsps2$pmmacervspmmbet,col="grey",border=NA,
      xlim=c(-5,30),main="",xlab="BB diff. Acer - Betula")
 hist(dfsps2$lmmacervslmmbet,col=adjustcolor("black",0.6),border=NA,add=T)
+
+
+## plotting coloured histograms as legends
+
+##### plotting colored histograms ----
+library(RColorBrewer)
+library(colorspace)
+## setting values for density lines
+
+
+dfsps1$pmmvslmm
+dfsps2$pmmvslmm
+
+
+
+
+## plotting histograms
+#par(mfrow=c(2,2),mar=c(5,5,2,5))
+dev.off()
+
+
+#pmm vs lmm                                                
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(42)[1:42]
+                                                  
+hist(dfsps2$pmmvslmm,35,border=MrWhite_palette30,col=MrWhite_palette30,
+     xlim=c(-8,2),main="",xlab="Budbreak difference PMM - LMM")
+hist(dfsps1$pmmvslmm,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=T)
+#hist(dfsps1$pmmvslmm,xlim=c(-0.1,0.1),30,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=F,main="",xlab="Budbreak difference PMM - LMM")
+
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(30)[1:30]
+                                                  
+hist(dfsps2$absforecast,30,border=MrWhite_palette30,col=MrWhite_palette30,
+     xlim=c(-1.6,0.2),main="",xlab="PMM - LMM, current - 2C")
+hist(dfsps1$absforecast,col=MrWhite_palette30[30],border=MrWhite_palette30[30],add=T)
+hist(dfsps1$absforecast,xlim=c(-0.02,0.02),30,col=MrWhite_palette30[30],border=MrWhite_palette30[30],add=F,main="",xlab="PMM - LMM, current - 2C")
+
+
+#acecam vs betpen
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(38)[1:38]
+                                                  
+hist(dfsps2$pmmacervspmmbet,30,border=adjustcolor(MrWhite_palette30,1),
+     col=adjustcolor(MrWhite_palette30,1),
+     xlim=c(-5,40),main="",xlab="BB diff. Acer - Betula")
+hist(dfsps2$lmmacervslmmbet,30,
+     col=adjustcolor(MrWhite_palette30[6:38],0.6),
+     border=adjustcolor("black",1),add=T)
+hist(dfsps2$lmmacervslmmbet,30, xlim=c(-5,40),
+     col=adjustcolor(MrWhite_palette30[6:38],1),
+     border=MrWhite_palette30[6:38],add=F,
+     main="",xlab="BB diff. Acer - Betula")
 
 
 
