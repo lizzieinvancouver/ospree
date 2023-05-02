@@ -1,3 +1,4 @@
+% This version works!
 \documentclass{article}
 
 \usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
@@ -22,7 +23,6 @@
 
 \usepackage{xr-hyper} %refer to Fig.s in another document
 \usepackage{hyperref}
-
 \setlength{\captionmargin}{30pt}
 \setlength{\abovecaptionskip}{0pt}
 \setlength{\belowcaptionskip}{10pt}
@@ -96,35 +96,37 @@ Key Words: Budburst phenology, functional traits, Trees, climate change
 
 \section*{Introduction} 
 
-The timing of spring life history events---phenologies--- is ecologically important to both ecosystem services and community dynamics. The beginning of spring growth defines the start and overall length of the growing season, shapes forest carbon storage, and what species of herbivores or pollinators a plant interacts with \citep{Cleland2007a,Beard2019,Gu2022}. Climate change, however, is causing species phenological events to shift, altering phenological cues, leading many species to start their growth earlier in the spring \citep{Menzel2006,Vitasse2021}.
+The timing of spring growth is ecologically important, shaping both ecosystem services and community dynamics. These life history events---or phenologies--- define the start and overall length of the growing season, shapeing forest carbon storage and what species of herbivores or pollinators a plant interacts with \citep{Cleland2007a,Beard2019,Gu2022}. Climate change, however, is causing noticeable advances in spring phenological events for many species \citep{Menzel2006,Vitasse2021}.
 \\
 
-Amidst these trends, we see high variability in spring phenology across years and species. Temperate forests are one of the best studied systems in which we see variation in budburst across species. Starting with understory plants, budburst progress from the understory to taller, canopy species across the spring. Across different species, their start of growth each year can span several weeks \citep{Richardson2009}, and lead to differences in the environment in which a species grows.
-
-In addition to within season differences in species phenology, there is high inter-annual variation driven by shifts in temperature. Recent advances in our understanding of budburst phenology underscore this \citep{Laube2014b,Flynn2018}. These advances identified important differences across species, but provided limited reasons for species differences \citep{Laube2014b,Chuine2016,Flynn2018}.
+Amidst these trends, we see high variability in spring phenology across years and species. Temperate forests are one of the best studied systems in which we see variation in leafout across species. Starting with understory plants, leafout often progresses to taller, canopy species across the spring and can span several weeks \citep{Richardson2009}. These species differences create a gradient in the photoperiod and temperatures under which species within communities grow.
+\\
+% This paragraph had "different" used a lot
+Changing environmental conditions across the spring may cause species that leafout at different times to experience different selective pressures. Recent advances in our understanding of leafout phenology underscore this and have identified important trends across species \citep{Laube2014b,Flynn2018}. But this work has provided limited reasons for species differences \citep{Laube2014b,Chuine2016,Flynn2018}.
 \\
 
 %The reader was just left with 'limited reasons for species differences' and now you need a tiny bridge to get them to 'selective pressures.'
-Environmental conditions across the spring mean species that budburst at different times may experience different selective pressures. Species that budburst early experience greater abiotic pressures, such as the risk of tissue loss from false spring events and frost damage, as well as the benefit of more light reaching the canopy floor and resource availability \citep{Rathcke1985a, Hufkens2012}. In contrast, late species have greater selection from biotic pressures, as competition for resources is greater and less light available through the canopy \citep{Lopez2008, Wolkovich2014}.
+In addition to gradients in environmental conditions across the spring, the relative importance of selective pressures also change. Species that budburst early experience greater abiotic pressures, such as the risk of tissue loss from false spring events and frost damage, as well as the benefit of more light reaching the canopy floor and resource availability \citep{Rathcke1985a, Hufkens2012}. In contrast, late species have greater selection from biotic pressures, as competition for resources is greater and less light available through the canopy \citep{Lopez2008, Wolkovich2014}.
 \\
 
-Differences in the timing of selective pressures within the growing season could shape a number of different plant attributes. Species with earlier budburst may produce cheaper leaves that can be more easily replaced if damaged \citep{Reich1999}. But later budbursting species would benefit from investing in long-lived leaves that infer greater resource acquisition and retention \citep{Gorne2020}. These differences in traits and trade-offs in plants' allocation of resources to growth and tissue quality can be related to a broader framework of species growth strategies and functional traits \citep{Wolkovich2014}.
+Differences in the timing of selective pressures within the growing season could shape a number of plant and leaf attributes. Species with earlier budburst may produce cheaper leaves that can be more easily replaced if damaged \citep{Reich1999}. But later budbursting species would benefit from investing in long-lived leaves that infer greater resource acquisition and retention \citep{Gorne2020}. These differences in traits and trade-offs in plants' allocation of resources to growth and tissue quality can be related to a broader framework of species growth strategies and functional traits \citep{Wolkovich2014}.
 \\
 
 %May need slightly better transition here -- see what you think. I can also work on it in next draft. 
-A goal of trait ecology is to use traits as species-level proxies for characteristics that predict patterns in species growth and species interactions \citep{McGill2006}. Many leaf and wood traits follow predictable gradients in species trait values, having associations that range from acquisitive (fast) growth strategies to more conservative (slow) growth strategies \citep{Westoby1998,Westoby2006,Wright2004,Diaz2016}. Collectively, these trait relationships led to the development of the leaf economic spectrum and the wood economic spectrum \citep{Wright2004,Chave2009}. 
+Decades of research on trait ecology has identified certain traits as species-level proxies for characteristics that predict patterns in species growth and interactions \citep{McGill2006}. Many leaf and wood traits follow predictable gradients in species trait values, having associations that range from acquisitive (fast) growth strategies to more conservative (slow) growth strategies \citep{Westoby1998,Westoby2006,Wright2004,Diaz2016}. Collectively, these trait relationships led to the development of the leaf economic spectrum and the wood economic spectrum \citep{Wright2004,Chave2009}. 
+\\
 
-These frameworks have been built into decades of research linking functional traits to species responses to abiotic and biotic factors and community assembly, but they also have limitations. One limitation is their limited ability to predict how variable traits are \citep{Violle2012}, a reason sometimes given for why phenology is excluded from studies of functional traits. % Note: try holding back point that phenology is NOT variable, once you include cues
+These functinal trait frameworks have been built into decades of research linking functional traits to species responses to abiotic and biotic factors and community assembly, but they also have limitations. One concern is their limited ability to predict how variable traits are \citep{Violle2012}, a reason sometimes given for why phenology is excluded from studies of functional traits. % Note: try holding back point that phenology is NOT variable, once you include cues
 % themselves can be highly variable, both across and within spp, highlighting the need for trait research that spans diverse species across geographic scales---Violle paper ‘viva la variability. 
 Integrating phenology with other functional traits could both advance the functional trait framework and help explain why species phenologies differ. %emwMar6 -- 'the biotic community' they interact with is too much -- I think 'growth strategies' can cover competition, and you can get more into biotic stuff in the discussion.... And then I made more edits to merge 6 & 7, so moving this comment up. 
 \\
 % have predictions mirror each other for readers
-Integrating phenology into functional traits is possible considering the early-late selective environment of spring temperature forests. Differences in selective pressures predict variation in leaf and wood traits with phenology---where early season species trade off high access to resources with risks of tissue loss and damage. In contrast, late season species tradeoffs between a highly competitive but less risky environment. Shrubs and other woody understory species that tend to budburst earlier \citep{Donnelly2019}--- when soil resources and light availability is greatest--- would have traits associated with acquisitive growth; they thus would be shorter, with leaf traits favourable to higher light availability and tolerance of late spring frost (high specific leaf area (SLA) and leaf nitrogen content (LNC)).  %low forcing, chilling, and photoperiod 
-Canopy species that budburst later would have traits associated with conservative growth, including taller heights and therefore greater wood densities \citep{Laughlin2010}, as well as low SLA and LNC. % high forcing, chilling, and photoperiod requirements % early-late
+Integrating phenology into functional traits is possible considering the early-late selective environment of spring temperature forests. Differences in selective pressures predict variation in leaf and wood traits with phenology---where early season species trade off high access to resources with risks of tissue loss and damage. In contrast, late season species trade off between a highly competitive but less risky environment. Shrubs and other woody understory species that tend to budburst earlier \citep{Donnelly2019}---when soil resources and light availability is greatest--- would have traits associated with acquisitive growth; they thus would be shorter, with leaf traits favourable to higher light availability and tolerance of late spring frost (high specific leaf area (SLA) and leaf nitrogen content (LNC)).  %low forcing, chilling, and photoperiod 
+Canopy species that budburst later---when compeititon for soil resources is greatest---would have traits associated with conservative growth; being taller with denser wood \citep{Laughlin2010}, with leaf traits suited for more variable light (low SLA and LNC). % high forcing, chilling, and photoperiod requirements % early-late
 Increasing seed size may similarly be predicted from this acquisitive to conservative continuum from early to late budbursting species. 
 \\
-
-We predict this gradient of early to late growth to be driven by the same climate cues as phenology, with early species responding to low forcing (spring temperatures), low chilling (winter temperatures), and short photoperiods (daylengths). In contrast, later species are more likely to respond to high chill or photoperiod or both cues, and likely higher forcing as well. % may be short para on its own
+% DLMay2: I am not sure what you mean below, the cue identity doesn't vary strongly or the magnitude?
+Testing these predictions requires a reliable way to define early to late phenology, as phenology varies strongly across sites. The underlying cues that predict early to late phenology, however, generally do not vary strongly (CITES). Early species generally have weak (small) responses to all three major cues of spring leafout: warm spring temperatures (forcing), cool winter temperatures (chilling) and daylength (photoperiod). In contrast, later species are more likely to respond to high chill or photoperiod or both cues, and likely higher forcing as well. % may be short para on its own
 \\
 
 We used available data from trait databases and budburst data from the OSPREE database of controlled environment studies of woody plant species to test for associations between budburst responses to environmental cues and common functional traits.
@@ -149,7 +151,7 @@ source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 % Also, the below is a weird choice -- is this the ONLY single study seed mass observation or something? It needs a better justification than what we have now, which reads we 'we removed data because including it was hard.' (Eek! I bet we have a better rationale). 
 % In addition we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.
 
-Our analysis combines phenological data from the OSPREE database (Ettinger2020) with functional trait data from the TRY (Kattge2020) and BIEN (Enquist2016) trait databases. The OSPREE database contains phenological data for woody, deciduous species from experiments of phenological cues. We updated OSPREE since its initial publication, using the original search terms:
+Our analysis combines phenological data from the OSPREE database \citep{Ettinger2020} with functional trait data from the TRY \citep{Kattge2020} and BIEN \citep{Maitner2018} trait databases. The OSPREE database contains phenological data for woody, deciduous species from experiments of phenological cues. We updated OSPREE since its initial publication, using the original search terms:
 \begin{itemize}
 \item (budburst OR leaf-out) AND (photoperiod OR daylength) AND temperature*  (yielded additional 623 publications since previous OSPREE publication)
 \item (budburst OR leaf-out) AND dorman* (yielded additional 270 publications since previous OSPREE publication).
@@ -160,7 +162,7 @@ Trait data was obtained from TRY and BIEN - two large trait databases compiling 
 
 %EMW19Oct2022  I would have a subsection on criteria for inclusion in this project -- could separate out traits and OSPREE in separate paragraphs I think. 
  
-We began by searching for all available trait data for the 234 woody species with budburst data in the OSPREE database. The TRY database included 96 of these species for ten functional traits (Table S1 - table of requested traits for each database). Using the BIEN R package (Maitner2017), we downloaded trait data for 94 species for 13 traits. All trait data were requested or downloaded in December 2018. Only trait data from adult individuals with a minimum height of 1.42 m was included in our analyses and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, which resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between specific leaf area (SLA) and leaf dry matter content (LDMC), and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species with at least one trait measurement per trait to 37 species with data from \Sexpr{nStudy} studies (height n = \Sexpr{nHt}, seed mass n = \Sexpr{nSM}, LNC n = \Sexpr{nLNC}, SLA n = \Sexpr{nSLA}). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis. This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition, we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.\\ 
+We began by searching for all available trait data for the 234 woody species with budburst data in the OSPREE database. The TRY database included 96 of these species for ten functional traits (Table S1 - table of requested traits for each database). Using the BIEN R package \citep{Maitner2017}, we downloaded trait data for 94 species for 13 traits. All trait data were requested or downloaded in December 2018. Only trait data from adult individuals with a minimum height of 1.42 m was included in our analyses and we removed all data from experiments or from plants growing in non-natural habitats. Traits were also grouped where appropriate, for example, with traits denoted as SLA, SLA  with petioles, and SLA without petioles all categorized as simply SLA in our analysis (see Table S1). Duplicated data in both the TRY and BIEN datasets were also removed (n = 434905). Finally, we subsetted the data to include only species for which we had a complete dataset for each species and trait, which resulted in a dataset of only 26 species and six functional traits. After performing a PCA, we further refined our trait selection, and only included traits that did not show strong correlations. In this analysis, the principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{supp- figure:pca}). Due to strong association between specific leaf area (SLA) and leaf dry matter content (LDMC), and between stem specific density (SSD) and height, we reduced the number of traits in our analysis to include only height, seed mass, LNC, and SLA. By including only these four traits, we were able to increase the number of species with at least one trait measurement per trait to 37 species with data from \Sexpr{nStudy} studies (height n = \Sexpr{nHt}, seed mass n = \Sexpr{nSM}, LNC n = \Sexpr{nLNC}, SLA n = \Sexpr{nSLA}). Given the abundance of height data and overrepresentation of height measurements for six of our focal species, we randomly sampled 3000 height measurements for each of these species to include in our analysis. This was done to reduce the effect of trait values from these frequently measured species from overwhelming the partial pooling effect in our model. In addition, we excluded the single seed mass observation from the HE Marx dataset from BIEN, as it was difficult to include include the study-level effect in our model.\\ 
 
 \subsection*{Joint model of trait and phenology}
 To understand connections between phenology and other species traits, we built a joint model for each trait (height, SLA, LNC, and seed mass) with the major phenological cues (forcing, chilling, and photoperiod) to predict day of year of budburst. This approach allowed us to jointly estimate species trait effects and responses to phenological cues in one model, carrying through all uncertainty across varying datasets and approaches (e.g., TRY and BIEN observational databases of traits and the database of experiments in plant phenology, OSPREE). As phenological cues are the most proximate drivers of variation in budburst (cite Ettinger2020), and appear to represent different strategies along a continuum from acquisitive to conservative, our model allows traits to influence each cue separately (cite slopes (current Fig 3)). \\
@@ -276,25 +278,24 @@ Of our four traits, seed mass had the weakest responses across the three cues (F
 
 \section{Discussion}
 
-{\bf Move to discussion or such ...}
+\begin{enumerate}
 \item Timing of plant phenological events define species' temporal niche = the partitioning of resources across species over time (Gotelli \& Granves 1996 - ch5). % Try to keep as general idea
-\begin{enumerate} 
 \item temporal niche differences determine the abiotic environment during growth and biotic interactions -- for example, competitive landscape and pressures from herbivory/disease. % keep this short
 %Angert lab meeting: several people felt bringing up herbivore damage and disease was tangential and confusing for a paper focused on plant phenology. ... %emwMar6 -- I think this will work better in the discussion where you can flesh it out more. 
 \item Distribution of temporal niche within community influences its potential invasibility--- invasive spp tend to be early bb with the can fill vacant niche space early in the season. 
 %20FebDL: I moved this to the end of the paragraph
 % \item This diversity of selective pressures (biotic and abiotic) is likely to correlate with diversity in other plant traits as well % skip traits later -- but love this phrasing!
 % \item A more holistic framework of the drivers of species temporal niches differences = important --- climate change is changing environmental conditions and habitats = shifting phenologies % may not need this
+
+\item you can save your point about 'traits are often pretty distal to the processes they are supposed to capture'  for the discussion
+
+\item Despite the lack of integration between functional trait and phenological research, both are likely to shape species growth strategies
+
+\item more constant light compensates for their slower overall growth rates.  %emwMar6 -- too complex for intro
+
+\item Associations are intuitive but few studies have tested for similar gradients in growth strategies in phenological events across diverse species
 \end{enumerate}
 
-%emwMar6 -- mv below points may work in discussion 
-you can save your point about 'traits are often pretty distal to the processes they are supposed to capture'  for the discussion
-
-Despite the lack of integration between functional trait and phenological research, both are likely to shape species growth strategies
-
-more constant light compensates for their slower overall growth rates.  %emwMar6 -- too complex for intro
-
-Associations are intuitive but few studies have tested for similar gradients in growth strategies in phenological events across diverse species
 
 % Save some of below for discussion? And cut otherwise this paragraph
 %\item Previous studies of budburst in woody trees have shown 3 cues are most important for spp responses:
@@ -316,9 +317,9 @@ Associations are intuitive but few studies have tested for similar gradients in 
 %\end{enumerate}
 %\item The strength of species cue responses were associated with species trait values: referencing Fig. \ref{fig:cuetraits}
 %\begin{enumerate}
-
 \pagebreak
 \bibliographystyle{refs/bibstyles/amnat.bst}% 
 \bibliography{refs/traitors_mar23.bib}
+
 
 \end{document}
