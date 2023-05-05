@@ -288,6 +288,12 @@ d$fieldsample.date[which(d$datasetID=="fu19")] <- "01-Jan-2016"
 ### We mis-entered a species from Flynn & Wolkovich (yes, we mis-entered our own data)
 d$genus[which(d$datasetID=="flynn18" & d$genus=="Cornus")] <- "Corylus"
 
+### Need to correct photoperiod of Karlsson03:
+d$photoperiod_day[which(d$datasetID == "karlsson03")] <- "ambient room"
+d$photoperiod_night[which(d$datasetID == "karlsson03")] <- "ambient room"
+
+d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == 3)] <- as.numeric(d$response.time[which(d$datasetID == "anzanello18" & d$chilltemp == 3)])/24
+
 ### We have a mis-spelling (well, bad capital letter) in one species and ahh! I found and fixed some whitespace and other problems!
 d$species[which(d$species=="Cordata")] <- "cordata"
 d$species[which(d$species=="communis L.")] <- "communis"
