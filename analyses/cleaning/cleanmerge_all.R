@@ -44,7 +44,7 @@ source("cleaning/clean_addata.R")
 source("cleaning/clean_misc.R") # Updated by Lizzie 8 August 2020
 # The other error comes from making a temporary numeric column for cleaning linkosalo06
 
-# 4. Clean up response variable names
+# 5. Clean up response variable names
 source("cleaning/clean_respvar.R") # Updated 22 August by Lizzie
 
 # 6. Clean up photoperiod #
