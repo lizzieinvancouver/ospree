@@ -1026,32 +1026,131 @@ hist(dfsps2$pmmvslmm,col="grey",border=NA,
 hist(dfsps1$pmmvslmm,col="black",border=NA,add=T)
 
 
+## absolute of forecast ratio:(PMM - PMM+2)/(LMM-LMM+2) (4)
+dfsps1$absforecast.ratio = (dfsps1$pmm - dfsps1$pmm2C)/(dfsps1$lmm - dfsps1$lmm2C)
+dfsps2$absforecast.ratio = (dfsps2$pmm - dfsps2$pmm2C)/(dfsps2$lmm - dfsps2$lmm2C)
+qq = quantile(dfsps2$absforecast.ratio,c(0.025,0.975))
+dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio<qq[1])] = NA
+dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio>qq[2])] = NA
+summary(dfsps1$absforecast.ratio)
+
+hist(dfsps2$absforecast.ratio)
+colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.ratio,
+                                                        dfsps2$absforecast.ratio),
+                                                      breaks = 50))]
+colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
+colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
+
+# Betpen absolute forecast ratio
+dev.off()
+par(mfrow=c(1,3))
+
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betula pendula")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps1,0.6))
+
+# Acecam absolute forecast ratio
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acer campestris")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps2,0.6))
+
+
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(42)[1:42]
+hist(dfsps2$absforecast,30,border=MrWhite_palette30,
+     col=adjustcolor(MrWhite_palette30,0.8),
+     #xlim=c(-1.6,0.2),
+     #ylim=c(0,15000),
+     main="",xlab="ratio PMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
+hist(dfsps1$absforecast.ratio,30,col=adjustcolor(MrWhite_palette30[20:23],0.4),
+     border="black",add=T)
+
+
+
+
+## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
+dfsps1$absforecast = abs((dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C))
+dfsps1$lmmcurrvs2C = abs(dfsps1$lmm - dfsps1$lmm2C)
+dfsps2$absforecast = abs((dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C))
+dfsps2$lmmcurrvs2C = abs(dfsps2$lmm - dfsps2$lmm2C)
+dfsps1$absforecast.std = dfsps1$absforecast/dfsps1$lmmcurrvs2C 
+dfsps2$absforecast.std = dfsps2$absforecast/dfsps2$lmmcurrvs2C 
+summary(dfsps2$absforecast.std)
+
+mean(dfsps1$lmmcurrvs2C)
+mean(dfsps2$lmmcurrvs2C)
+
+
+dfsps2$absforecast.std[dfsps2$absforecast.std>quantile(dfsps2$absforecast.std,0.975)]=NA
+
+colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.std,
+                                                     dfsps2$absforecast.std),
+                                                   breaks = 50))]
+colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast.std)]
+colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast.std)+1):length(colsabsforecast)]
+
+# Betpen absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betula pendula")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps1,0.6))
+
+# Acecam absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acer campestris")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps2,0.6))
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(39)[1:39]
+hist(dfsps2$absforecast.std,30,border=MrWhite_palette30,
+ col=adjustcolor(MrWhite_palette30,0.8),
+  #xlim=c(-1.6,0.2),
+  #ylim=c(0,15000),
+  main="",xlab="PMM(0C-2C)-LMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
+hist(dfsps1$absforecast.std,30,col=adjustcolor(MrWhite_palette30,0.6),
+border="black",add=T)
+                                                  
 
 ## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
 dfsps1$absforecast = (dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C)
 dfsps2$absforecast = (dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C)
 
+
 colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast,
-                                                     dfsps2$absforecast),
-                                                   breaks = 50))]
+                                                        dfsps2$absforecast),
+                                                      breaks = 50))]
 colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
 colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
 
 # Betpen absolute forecast
+dev.off()
+par(mfrow=c(1,3))
+
 plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Betpen PMMcurr-2C vs LMMcurr-2C")
-points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.6,
-       col=adjustcolor(colsabsforecastsps1,0.4))
+     main="Betula pendula")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps1,0.6))
 
 # Acecam absolute forecast
 plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Acecam PMMcurr-2C vs LMMcurr-2C")
-points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
-       col=adjustcolor(colsabsforecastsps2,0.4))
-hist(dfsps2$absforecast,col="grey",border=NA,
-     xlim=c(-1.6,0.2),main="",xlab="PMM - LMM, current - 2C")
-hist(dfsps1$absforecast,col="black",border=NA,add=T)
-
+     main="Acer campestris")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps2,0.6))
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(30)[1:30]
+hist(dfsps2$absforecast,30,border=MrWhite_palette30,
+col=adjustcolor(MrWhite_palette30,0.8),
+xlim=c(-1.5,0.1),
+#ylim=c(0,15000),
+main="",xlab="difference PMM(0C-2C)-LMM(0C-2C)",cex.lab=1.2)
+hist(dfsps1$absforecast,1,col=adjustcolor(MrWhite_palette30[30],0.6),
+border="black",add=T)
+                                                  
 
 
 #LMM_Acer - LMM_betula  (2)
@@ -1102,6 +1201,29 @@ dfsps1$pmmvslmm
 dfsps2$pmmvslmm
 
 
+## explore histograms
+par(mfrow=c(2,4),mar=c(5,5,2,2))
+
+hist(dfsps1$pmm,main = "Betpen PMM", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps1$pmm),lty=2,lwd=2)
+hist(dfsps1$lmm,main = "Betpen LMM", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps1$lmm),lty=2,lwd=2)
+hist(dfsps1$pmm2C,main = "Betpen PMM 2C", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps1$pmm2C),lty=2,lwd=2)
+hist(dfsps1$lmm2C,main = "Betpen LMM 2C", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps1$lmm2C),lty=2,lwd=2)
+hist(dfsps2$pmm,main = "Acecam PMM", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps2$pmm),lty=2,lwd=2)
+hist(dfsps2$lmm,main = "Acecam LMM", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps2$lmm),lty=2,lwd=2)
+hist(dfsps2$pmm2C,main = "Acecam PMM 2C", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps2$pmm2C),lty=2,lwd=2)
+hist(dfsps2$lmm2C,main = "Acecam LMM 2C", xlab="predicted BB DOY",xlim=c(0,75))
+abline(v=mean(dfsps2$lmm2C),lty=2,lwd=2)
+
+
+dev.off()
+
 
 
 ## plotting histograms
@@ -1126,6 +1248,17 @@ hist(dfsps2$absforecast,30,border=MrWhite_palette30,col=MrWhite_palette30,
      xlim=c(-1.6,0.2),main="",xlab="PMM - LMM, current - 2C")
 hist(dfsps1$absforecast,col=MrWhite_palette30[30],border=MrWhite_palette30[30],add=T)
 hist(dfsps1$absforecast,xlim=c(-0.02,0.02),30,col=MrWhite_palette30[30],border=MrWhite_palette30[30],add=F,main="",xlab="PMM - LMM, current - 2C")
+
+
+
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(20)[1:20]
+                                                  
+hist(dfsps2$absforecast.std,30,border=MrWhite_palette30,col=MrWhite_palette30,
+     #xlim=c(-1.6,1.2),
+     main="",xlab="PMM - LMM, current - 2C")
+hist(dfsps1$absforecast.std,col=MrWhite_palette30[11],border=MrWhite_palette30[11],add=T)
 
 
 #acecam vs betpen
