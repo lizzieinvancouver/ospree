@@ -12,6 +12,7 @@ require(phytools)
 require(rstan)
 
 setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny/burstmodels")
+#setwd("~/GitHub/ospree/analyses/phylogeny/burstmodels/")
 
 # Set number of cores available
 ## options(mc.cores = parallel::detectCores())
