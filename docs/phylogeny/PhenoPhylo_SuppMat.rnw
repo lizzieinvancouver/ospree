@@ -9,15 +9,18 @@
 \usepackage{lineno}
 \usepackage{longtable}
 \usepackage{xr-hyper}
-% \externaldocument{limitingcues_supp}
+%\externaldocument{PhenoPhylo_ms}
 
 \def\labelitemi{--}
 \renewcommand{\baselinestretch}{1.2}
 \parindent=0pt
 \parskip=5pt
 
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
 
-
+\SweaveOpts{concordance=FALSE}
+%\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
 \title{Supplementary Material\\
 Phylogenetic estimates of species-level phenology improve ecological forecasting}
@@ -26,14 +29,6 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 %% Emphasizing species-level differences to unravel the phenology-phylogeny tangle
 %% Unravelling the phenology-phylogeny tangle ...
 % any other ideas are welcome:
-
-
-\begin{document}
-%\SweaveOpts{concordance=TRUE}
-
-\SweaveOpts{concordance=FALSE}
-%\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
-
 \maketitle
 
 \noindent Authors:\\
@@ -48,8 +43,8 @@ $^{4}$Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, 
 
 \vspace{2ex}
 $^*$Corresponding author: ignacio.moralesc@uah.es\\
-\renewcommand{\thetable}{\arabic{table}}
-\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\labelitemi}{$-$}
 \setkeys{Gin}{width=0.8\textwidth}
 
@@ -70,7 +65,10 @@ Most current phylogenetic regression approaches aimed at controlling for phyloge
 
 Because we are specifically interested in estimating the phylogenetic structure of each cue, our approach explicitly partitions variance into specific components relative to the model intercept and predictor (cue) slopes (see equation \ref{eqfive}). The multivariate normal distributions of the intercept and slope terms include each a variance term (see equation \ref{phybetas}), modelled with a $\lambda$ scaling parameter. The interpretation of $\lambda$s in our models are analogous to Pagel's $\lambda$  \citep{pagel1999inferring} parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating absence of phylogenetic relatedness, and values of 1 indicating \emph{Brownian Motion} evolution (BM). Estimated $\lambda$s are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing us to compare among responses known to interact with each other and estimated simultaneously. This approach has the further benefit of adjusting our partial pooling (`random effect' of species) based on evolutionary distance, more strongly pooling closely related species, and only weakly pooling distantly related species \citep[see Gaussian process models in][]{BDA}. \\% While most current approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.
 
-A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accummulated along the evolutionary process and considered in concert. \\ 
+A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. \\ 
+
+\subsection{Forecasting for two species}
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}) versus poorly sampled  (\emph{Acer campestre}) species. For this, we fit our models using natural (not-scored units) then applied a 2\degree warming to historical data from XXXX-XXXX for each gridcell in the range (ranges extracted from XXX) using XXX climate data, recalculated chilling units and projected the change in budburst date. 
 
 \clearpage
 
@@ -137,7 +135,7 @@ cat(" \\clearpage \\pagebreak ")
 \end{figure}
 
 \clearpage
-\begin{figure} [H]
+\begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSX_Sindromes_lamb_lamb0.pdf}
   \caption{Correlations among estimated sensitivities to the environmental cues comparing forcing vs. chilling (a,d), forcing vs. photoperiod (b,e) and chilling vs. photoperiod (c,f). Upper panels show correlations among estimated sensitivities by the phylogenetic model and lower panels show results for the non-phylogenetic model.}
@@ -146,7 +144,7 @@ cat(" \\clearpage \\pagebreak ")
 \end{figure}
 
 \clearpage
-\begin{figure} [H]
+\begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_comparison_eachsps_uncertainty.pdf}
   \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (lambdaest), and the non-phylogenetic model with $\lambda$ = 0 (lambda0). The non-phylogenetic model increases uncertainty.}
@@ -155,7 +153,7 @@ cat(" \\clearpage \\pagebreak ")
 \end{figure}
 
 \clearpage
-\begin{figure} [H]
+\begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_bias_sens_phylo_nonphylo.pdf}
   \caption{Bias in estimation of sensitivity to chilling (a), forcing (b) and photoperiod (c). Histograms show the difference between the phylogenetic model with estimated $\lambda$ against the non-phylogenetic model with $\lambda$ = 0. Positive values indicate that sensitivities estimated by the non-phylogenetic model are smaller than those estimated by the phylogenetic model.}
@@ -166,7 +164,7 @@ cat(" \\clearpage \\pagebreak ")
 
 
 \clearpage
-\begin{figure} [H]
+\begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_marginal_plots_betas_lambda.pdf}
   \caption{Marginal plots contrasting the posterior distributions (in red) of estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) against prior distributions (blue). Lower panels show marginal plots for the posterior distributions of phylogenetic parameter $\lambda$ fitted for chilling (d), forcing (e) and photoperiod (f).}
@@ -174,6 +172,21 @@ cat(" \\clearpage \\pagebreak ")
   \end{center}
 \end{figure}
 
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/burstmodelfigquick.pdf}
+  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package)), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
+  \label{fig:burstmodels}
+  \end{center}
+\end{figure}
+
+
+\clearpage
+\section*{Stan code}
+\begin{verbatim}
+\end{verbatim}
 
 
 

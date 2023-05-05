@@ -1,0 +1,38 @@
+Started 11 Dec 2021
+Phylo scratch notes (not posting)
+
+
+Outline draft before edits to make it a ms started (as best I can tell):
+https://github.com/lizzieinvancouver/ospree/blob/d265c27185a7da8ada920f2e5c536d5c90ca791d/docs/phylogeny/PhenoPhylo_Outline.pdf ... or see PhenoPhylo_OutlineDec2021.pdf!
+
+https://github.com/lizzieinvancouver/ospree/commit/d265c27185a7da8ada920f2e5c536d5c90ca791d
+
+https://github.com/lizzieinvancouver/ospree/wiki/Phylogeny-and-phenology
+
+
+From 25 Nov 2021 call
+
+
+- modeling species attributes ... where the trait is a phenotype itself is made of underlying traits that respond to different cues. (For example, plant height or growth is a function of responses to water and nutrients.)
+
+- instead of specific hypothesis, we can set up as 'maybe current models are fine, but we don't without exploring complexity' ... first attempt to explore this
+
+- declining sensitivity suggests other cues really matter and they may be constrained (by evolutionary conservatism) to higher or lower degrees?
+
+- What are the biggest cues?  [Note to self: magnitude of cues here is important! These are our best estimates, better than budburst.] How variable are they across species? What are the evolutionary constraints on each cue across species? (My phrasing not great here.)
+
+- JD says focus on conservatism tells you more about differences between clades (but not how fast species can change, since our models integrate over fast and slow evolution, they do not estimate the fastest rates possible) ... so higher conservatism means bigger differences between clades
+
+- Our focus is temperate woods species generally, which is where much of carbon storage, climate change etc. happens. (It's also where we have the data.)
+
+- What does Jonathan mean about slope and intercept? Where he thinks of Bx (slope X x) as an interaction.
+
+- We propose one resolution/method ...
+
+- Journals: NEE, ELE (not R&S), PNAS ... maybe GCB after?
+
+- Latent trait: When phylogeny no longer matters, then it is no longer latent.
+
+- 9 December for outline
+
+- 13-23 December for writing
