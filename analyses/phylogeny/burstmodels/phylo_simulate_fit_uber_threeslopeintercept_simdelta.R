@@ -191,12 +191,20 @@ if(!usefastslowdelta){
 
 # Plot posteriors of sigmas ...
 # saved as sigmadeltasim_constantdelta and sigmadeltasim_varydelta
-pdf("..//figures/burstmodelfigquick.pdf", width=6, height=4)
 testmepost <- extract(testme)
-xlim <- c(2, 8)
-ylim <- c(0, 2.1)
-plot(density(testmepost$sigma_interceptsbf), col="red", xlim=xlim, ylim=ylim,
-   main="", xlab="Sigmas") 
-lines(density(testmepost$sigma_interceptsbc), col="blue", xlim=xlim, ylim=ylim) 
-lines(density(testmepost$sigma_interceptsbp), col="orange", xlim=xlim, ylim=ylim) 
+
+pdf("..//figures/burstmodelfigquick.pdf", width=6, height=6)
+plot(x=NULL,y=NULL, xlim=c(2,8), ylim=c(0,2.1),ylab="density",
+     xlab="sigma",cex.lab=1.2, main="")
+
+lines(density(testmepost$sigma_interceptsbf), col='indianred3',lwd=1.8)
+lines(density(testmepost$sigma_interceptsbc), col='cyan4',lwd=1.8)
+lines(density(testmepost$sigma_interceptsbp), col='orange',lwd=1.8)
+#text(0.50,3.5,"intercept",col='grey')
+text(5.9,1.2,"forcing",col='indianred3')
+text(4.7,1.78,"chilling",col='cyan4')
+text(4,2,"photoperiod",col='orange')
+
 dev.off()
+
+
