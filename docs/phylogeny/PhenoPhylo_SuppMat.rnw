@@ -31,15 +31,22 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 % any other ideas are welcome:
 \maketitle
 
+
 \noindent Authors:\\
-The Wolkovich Lab in 2019 \& collaborators $^{1,2,3,4}$ % Will Pearse, Jonathan Davies also
-\vspace{2ex}\\
+Ignacio Morales Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3,4}$ Daniel M. Buonaiuto,$^{5,6,7}$ Catherine J. Chamberlain,$^{5,6,8}$ Ailene K. Ettinger,$^{9}$ Mira Garner,$^{3,10}$ Faith A. M. Jones,$^{3,11}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{12}$ \& E. M. Wolkovich$^{3,5,6}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
-$^{1}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4;\\
-$^{2}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
-$^{3}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
-$^{4}$Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
- 
+$^{1}$Edificio Ciencias, Campus Universitario 28805 Alcal\'a de Henares, Madrid, Spain\\
+ $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{4}$Getty\\
+$^{5}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
+$^{6}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA\\
+$^{7}$Department of Environmental Conservation, University of Massachusetts-Amherst, 160 Holdsworth Way, Amherst, MA, USA\\  % 01003
+ $^{8}$The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\ %27701
+$^{9}$The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ % 98121
+$^{10}$Morton Arboretum, USA  \\ 
+$^{11}$Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ % Faith
+$^{12}$ Imperial College, UK\\
 
 \vspace{2ex}
 $^*$Corresponding author: ignacio.moralesc@uah.es\\
@@ -92,7 +99,7 @@ source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
 @
 
 
-<<label=tables1, echo=FALSE, results=tex>>=
+<<label=tablesupp1, echo=FALSE, results=tex>>=
 # tablemodelestimate
 print(make.mytable1,
       floating=FALSE,
@@ -107,7 +114,7 @@ print(make.mytable1,
 cat(" \\clearpage \\pagebreak ")
 @
 
-<<label=tables2, echo=FALSE, results=tex>>=
+<<label=tablesupp2, echo=FALSE, results=tex>>=
 # tablevaldatsource
 print(make.mytable2,
       floating=FALSE,
@@ -130,7 +137,7 @@ source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
 @
 
 
-<<label=tablesupp1, echo=FALSE, results=tex>>=
+<<label=tablesupp3, echo=FALSE, results=tex>>=
 # tablespslevestimate
 print(make.mytable3,
       floating=FALSE,
@@ -145,7 +152,7 @@ print(make.mytable3,
 cat(" \\clearpage \\pagebreak ")
 @
 
-<<label=tablesupp2, echo=FALSE, results=tex>>=
+<<label=tablesupp4, echo=FALSE, results=tex>>=
 # tablespslevestimatelamb0
 print(make.mytable4,
       floating=FALSE,
@@ -186,6 +193,15 @@ cat(" \\clearpage \\pagebreak ")
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_comparison_eachsps_uncertainty.pdf}
   \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (lambdaest), and the non-phylogenetic model with $\lambda$ = 0 (lambda0). The non-phylogenetic model increases uncertainty.}
   \label{fig:suppuncertainties}
+  \end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Boxplot_bayesR2.pdf}
+  \caption{Comparison of overall model accuracy as measured by Bayes \emph{R}^{2} for the phylogenetic model (PMM) and the non-phylogenetic model (HMM). There are no differences in accuracy even if individual species estimates markedly differ between models.}
+  \label{fig:accuracycomp}
   \end{center}
 \end{figure}
 

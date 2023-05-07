@@ -45,7 +45,7 @@ make.mytable2 <- xtable(modellamb0,
 
 make.mytable3 <- xtable(modelspslevest, 
                         caption="Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\\% (low) and 97.5\\% (up) Credible Intervals. Values correspond to the full model accounting for phylogenetic relationships.",
-                        label="tab:tablesupp1")
+                        label="tab:tablesupp3")
 
 align(make.mytable3) <- c( 'p{0.10}',  'p{1.50in}', 'c{0.32in}', 'c{0.32in}', 
                            'c{0.32in}', 'c{0.32in}','c{0.32in}', 'c{0.32in}' , 
