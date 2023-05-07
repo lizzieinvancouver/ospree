@@ -1134,7 +1134,7 @@ plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
      main="Betula pendula")
 points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
        col=adjustcolor(colsabsforecastsps1,0.6))
-
+colsabsforecastsps1
 # Acecam absolute forecast
 plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
      main="Acer campestris")

@@ -74,8 +74,16 @@ Because we are specifically interested in estimating the phylogenetic structure 
 
 A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. \\ 
 
-\subsection{Forecasting for two species}
-We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}) versus poorly sampled  (\emph{Acer campestre}) species. For this, we fit our models using natural (not-scored units) then applied a 2\degree warming to historical data from XXXX-XXXX for each gridcell in the range (ranges extracted from XXX) using XXX climate data, recalculated chilling units and projected the change in budburst date. 
+\subsection{Does accounting for phylogenetic relationships affect forecasts?}
+%\subsection{Forecasting for two species}
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, n \= 311) versus poorly sampled  (\emph{Acer campestre}, n \= 6) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2\degreeC warming with respect to  historica. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic \emph{vs}. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how the phenological shift expected due to warming differs as a result of using a phylogenetic model instead of a non-phylogenetic model.  
+
+
+Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed on Jan 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and  chilling (Utah units from from 1 September through 30 April). Yearly values for each location %% 
+
+%We used minimum and maximum daily temperatures within species ranges were then used to compute Growing Degree Days (GDD), Growing Degree Days until the last frost (GDDlf) and Spring Temperature Variability (STV). GDD was calculated as the summed temperatures above 10$\degree$C recorded from January 1st until May 31st.
+
+%then applied a 2\degreeC warming to historical data from XXXX-XXXX for each gridcell in the range (ranges extracted from XXX) using XXX climate data, recalculated chilling units and projected the change in budburst date. 
 
 \clearpage
 
@@ -214,6 +222,15 @@ cat(" \\clearpage \\pagebreak ")
   \end{center}
 \end{figure}
 
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig_forecasting_maps.pdf}
+  \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestris} (b).  .}
+  \label{fig:pmmvshmm}
+  \end{center}
+\end{figure}
 
 
 \clearpage
