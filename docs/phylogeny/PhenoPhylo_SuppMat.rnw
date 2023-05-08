@@ -9,7 +9,7 @@
 \usepackage{lineno}
 \usepackage{longtable}
 \usepackage{xr-hyper}
-%\externaldocument{PhenoPhylo_ms}
+\externaldocument{PhenoPhylo_ms}
 
 \def\labelitemi{--}
 \renewcommand{\baselinestretch}{1.2}
@@ -76,7 +76,7 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 
 \subsection{Does accounting for phylogenetic relationships affect forecasts?}
 %\subsection{Forecasting for two species}
-We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, n \= 311) versus poorly sampled  (\emph{Acer campestre}, n \= 6) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2\degreeC warming with respect to  historica. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic \emph{vs}. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how the phenological shift expected due to warming differs as a result of using a phylogenetic model instead of a non-phylogenetic model.  
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, $n=311$) versus poorly sampled  (\emph{Acer campestre}, $n=6$) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2\degreeC warming with respect to  historica. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic \emph{vs}. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how the phenological shift expected due to warming differs as a result of using a phylogenetic model instead of a non-phylogenetic model.  
 
 
 Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed on Jan 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and  chilling (Utah units from from 1 September through 30 April). Yearly values for each location %% 
