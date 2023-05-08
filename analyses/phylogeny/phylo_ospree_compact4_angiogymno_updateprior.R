@@ -36,12 +36,13 @@ options(mc.cores = parallel::detectCores())
 # Flags for how to run the code #
 #'###############################
 runmodels <- FALSE
-
+runbbstanleadin <- FALSE # leave as false to speed up Supp and ms. compilation
 
 #'######################################
 #### get data through bbstanleadin ####
 #'######################################
 
+if(runbbstanleadin){
 # Flags to choose for bbstanleadin.R #
 setwd("..//bb_analysis") 
 getwd()
@@ -205,6 +206,17 @@ d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
 
 nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
+
+# save for faster loading-compiling
+#write.csv(d,file = "input/datasetforphyloms.csv")
+#write.tree(phylo, file = "input/phyloforphyloms.tre")
+
+} else {
+  
+  d = read.csv("input/datasetforphyloms.csv")
+  phylo = read.tree("input/phyloforphyloms.tre")
+  
+}
 
 
 #'###################################
