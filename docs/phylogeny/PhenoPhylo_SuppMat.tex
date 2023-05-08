@@ -32,15 +32,22 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 % any other ideas are welcome:
 \maketitle
 
+
 \noindent Authors:\\
-The Wolkovich Lab in 2019 \& collaborators $^{1,2,3,4}$ % Will Pearse, Jonathan Davies also
-\vspace{2ex}\\
+Ignacio Morales Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3,4}$ Daniel M. Buonaiuto,$^{5,6,7}$ Catherine J. Chamberlain,$^{5,6,8}$ Ailene K. Ettinger,$^{9}$ Mira Garner,$^{3,10}$ Faith A. M. Jones,$^{3,11}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{12}$ \& E. M. Wolkovich$^{3,5,6}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
-$^{1}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4;\\
-$^{2}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
-$^{3}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
-$^{4}$Edificio Ciencias, Campus Universitario 28805 Alcal<U+00E1> de Henares, Madrid, Spain\\
- 
+$^{1}$Edificio Ciencias, Campus Universitario 28805 Alcal\'a de Henares, Madrid, Spain\\
+ $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{4}$Getty\\
+$^{5}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
+$^{6}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA\\
+$^{7}$Department of Environmental Conservation, University of Massachusetts-Amherst, 160 Holdsworth Way, Amherst, MA, USA\\  % 01003
+ $^{8}$The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\ %27701
+$^{9}$The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ % 98121
+$^{10}$Morton Arboretum, USA  \\ 
+$^{11}$Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ % Faith
+$^{12}$ Imperial College, UK\\
 
 \vspace{2ex}
 $^*$Corresponding author: ignacio.moralesc@uah.es\\
@@ -68,8 +75,16 @@ Because we are specifically interested in estimating the phylogenetic structure 
 
 A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which is distributed as a multivariate normal with VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues. The $\sigma_\beta_1^2$, $\sigma_\beta_2^2$, and $\sigma_\beta_3^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues (i.e., forcing, chilling, and photoperiod, respectively). This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. \\ 
 
-\subsection{Forecasting for two species}
-We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}) versus poorly sampled  (\emph{Acer campestre}) species. For this, we fit our models using natural (not-scored units) then applied a 2\degree warming to historical data from XXXX-XXXX for each gridcell in the range (ranges extracted from XXX) using XXX climate data, recalculated chilling units and projected the change in budburst date. 
+\subsection{Does accounting for phylogenetic relationships affect forecasts?}
+%\subsection{Forecasting for two species}
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, n \= 311) versus poorly sampled  (\emph{Acer campestre}, n \= 6) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2\degreeC warming with respect to  historica. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic \emph{vs}. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how the phenological shift expected due to warming differs as a result of using a phylogenetic model instead of a non-phylogenetic model.  
+
+
+Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. For each species' range, we extracted climate data corresponding to all grid cells contained within the range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed on Jan 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and  chilling (Utah units from from 1 September through 30 April). Yearly values for each location %% 
+
+%We used minimum and maximum daily temperatures within species ranges were then used to compute Growing Degree Days (GDD), Growing Degree Days until the last frost (GDDlf) and Spring Temperature Variability (STV). GDD was calculated as the summed temperatures above 10$\degree$C recorded from January 1st until May 31st.
+
+%then applied a 2\degreeC warming to historical data from XXXX-XXXX for each gridcell in the range (ranges extracted from XXX) using XXX climate data, recalculated chilling units and projected the change in budburst date. 
 
 \clearpage
 
@@ -88,9 +103,51 @@ We forecasted estimated shifts in species phenologies from our phylogenetic and 
 
 
 
+% latex table generated in R 4.2.0 by xtable 1.8-4 package
+% Sun May  7 22:52:17 2023
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+  \hline
+a\_z & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\ 
+  b\_zf & -6.12 & 2.11 & -10.24 & -6.15 & -1.85 & 3989.87 & 1.00 \\ 
+  b\_zc & -6.86 & 2.18 & -10.98 & -6.91 & -2.39 & 7444.80 & 1.00 \\ 
+  b\_zp & -1.22 & 0.77 & -2.73 & -1.22 & 0.36 & 2482.96 & 1.00 \\ 
+  lam\_interceptsa & 0.34 & 0.10 & 0.16 & 0.34 & 0.55 & 7668.82 & 1.00 \\ 
+  lam\_interceptsbf & 0.65 & 0.20 & 0.22 & 0.67 & 0.97 & 630.96 & 1.01 \\ 
+  lam\_interceptsbc & 0.54 & 0.15 & 0.25 & 0.55 & 0.82 & 1834.14 & 1.00 \\ 
+  lam\_interceptsbp & 0.40 & 0.24 & 0.03 & 0.38 & 0.88 & 672.39 & 1.00 \\ 
+  sigma\_interceptsa & 15.99 & 1.15 & 13.98 & 15.91 & 18.47 & 6970.37 & 1.00 \\ 
+  sigma\_interceptsbf & 5.80 & 1.01 & 4.06 & 5.70 & 8.01 & 1043.34 & 1.00 \\ 
+  sigma\_interceptsbc & 7.10 & 0.88 & 5.53 & 7.04 & 8.99 & 1767.13 & 1.00 \\ 
+  sigma\_interceptsbp & 2.36 & 0.41 & 1.61 & 2.34 & 3.23 & 636.82 & 1.01 \\ 
+  sigma\_y & 12.58 & 0.18 & 12.24 & 12.58 & 12.93 & 10904.90 & 1.00 \\ 
+  \end{tabular}
+\endgroup \clearpage \pagebreak 
+% latex table generated in R 4.2.0 by xtable 1.8-4 package
+% Sun May  7 22:52:17 2023
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+  \hline
+a\_z & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\ 
+  b\_zf & -7.46 & 0.89 & -9.19 & -7.46 & -5.71 & 2960.28 & 1.00 \\ 
+  b\_zc & -8.75 & 0.81 & -10.29 & -8.76 & -7.11 & 6051.59 & 1.00 \\ 
+  b\_zp & -1.21 & 0.46 & -2.10 & -1.20 & -0.29 & 2175.88 & 1.00 \\ 
+  sigma\_interceptsa & 16.35 & 1.00 & 14.46 & 16.31 & 18.41 & 10178.43 & 1.00 \\ 
+  sigma\_interceptsbf & 5.20 & 0.82 & 3.76 & 5.15 & 6.93 & 677.74 & 1.00 \\ 
+  sigma\_interceptsbc & 6.84 & 0.78 & 5.40 & 6.80 & 8.46 & 1815.10 & 1.00 \\ 
+  sigma\_interceptsbp & 2.27 & 0.35 & 1.61 & 2.25 & 2.99 & 649.15 & 1.00 \\ 
+  sigma\_y & 12.57 & 0.18 & 12.23 & 12.57 & 12.94 & 12887.31 & 1.00 \\ 
+  \end{tabular}
+\endgroup \clearpage \pagebreak 
+
+
 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Fri May  5 12:03:09 2023
+% Sun May  7 22:52:17 2023
 \begingroup\footnotesize
 \begin{longtable}{p{1.50in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.2in}c{0.3in}c{0.1in}}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\% (low) and 97.5\% (up) Credible Intervals. Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -295,11 +352,11 @@ Populus deltoides & -15.16 & -25.05 & -5.82 & -6.43 & -13.73 & 1.82 & -0.97 & -5
   Stachyurus praecox & -6.22 & -18.40 & 6.27 & -6.02 & -16.95 & 5.21 & -1.08 & -5.46 & 3.37 \\ 
   Stachyurus sinensis & -6.14 & -16.90 & 4.62 & -5.65 & -17.01 & 5.99 & -0.97 & -5.47 & 3.62 \\ 
   \hline
-\label{tab:tablesupp1}
+\label{tab:tablesupp3}
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Fri May  5 12:03:09 2023
+% Sun May  7 22:52:17 2023
 \begingroup\footnotesize
 \begin{longtable}{p{1.50in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.2in}c{0.3in}c{0.1in}}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\% (low) and 97.5\% (up) Credible Intervals. Values correspond to the non phylogenetic model.} \\ 
@@ -539,6 +596,15 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
 \clearpage
 \begin{figure}
   \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Boxplot_bayesR2.pdf}
+  \caption{Comparison of overall model accuracy as measured by Bayes \emph{R}^{2} for the phylogenetic model (PMM) and the non-phylogenetic model (HMM). There are no differences in accuracy even if individual species estimates markedly differ between models.}
+  \label{fig:accuracycomp}
+  \end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}
+  \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_bias_sens_phylo_nonphylo.pdf}
   \caption{Bias in estimation of sensitivity to chilling (a), forcing (b) and photoperiod (c). Histograms show the difference between the phylogenetic model with estimated $\lambda$ against the non-phylogenetic model with $\lambda$ = 0. Positive values indicate that sensitivities estimated by the non-phylogenetic model are smaller than those estimated by the phylogenetic model.}
   \label{fig:biasestimation}
@@ -546,12 +612,21 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
 \end{figure}
 
 
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig_forecasting_maps.pdf}
+  \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestris} (b).  .}
+  \label{fig:pmmvshmm}
+  \end{center}
+\end{figure}
+
 
 \clearpage
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_marginal_plots_betas_lambda.pdf}
-  \caption{Marginal plots contrasting the posterior distributions (in red) of estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) against prior distributions (blue). Lower panels show marginal plots for the posterior distributions of phylogenetic parameter $\lambda$ fitted for chilling (d), forcing (e) and photoperiod (f).}
+  \caption{Marginal plots contrasting the posterior distributions (in red) of estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) against prior distributions (blue). Lower panels show marginal plots for the posterior distributions of phylogenetic parameter $\lambda$ fitted for chilling (d), forcing (e) and photoperiod (f). See \emph{Stan code} section below for details on prior and parameter specification of the models.}
   \label{fig:marginalplots}
   \end{center}
 \end{figure}
@@ -566,8 +641,112 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
   \end{center}
 \end{figure}
 
-\section{Stan code}
+
+\clearpage
+\section*{Stan code}
 \begin{verbatim}
+
+// the purpose of this code is to test the new phylogeny model on the ospree phylogeny model:
+// 1. comment out the creation of sigma_mat from the function (line 16)
+// 2. creating the matrix for the intercept and each slope (84-87)
+// 3. add cholesky decomposition of the matricies line 95-98
+// 4. add use multi_normal_cholesky distribution and rep_vector to return a matrix of size n_sp consisting of copies of the vcv matrix (101-104)
+
+functions {
+  matrix lambda_vcv(matrix vcv, real lambda, real sigma){
+    matrix[rows(vcv),cols(vcv)] local_vcv;
+   // matrix[rows(vcv),cols(vcv)] sigma_mat;  
+    local_vcv = vcv * lambda;
+    for(i in 1:rows(local_vcv))
+      local_vcv[i,i] = vcv[i,i];
+      return(quad_form_diag(local_vcv, rep_vector(sigma, rows(vcv))));
+    //sigma_mat = diag_matrix(rep_vector(sigma, rows(vcv)));
+    //return(sigma_mat * local_vcv * sigma_mat);
+  }
+}
+
+data {
+  int<lower=1> N;
+  int<lower=1> n_sp;
+  int<lower=1, upper=n_sp> sp[N];
+  vector[N] y; 		// response
+  vector[N] x1; 	// predictor (forcing)
+  vector[N] x2; 	// predictor (chilling)
+  vector[N] x3; 	// predictor (photoperiod)
+  matrix[n_sp,n_sp]Vphy;     // phylogeny
+}
+
+parameters {
+  real<lower=0> sigma_y;    
+  real<lower=0, upper=1> lam_interceptsa;       
+  real<lower=0> sigma_interceptsa;
+  real<lower=0, upper=1> lam_interceptsbf;       
+  real<lower=0> sigma_interceptsbf;   
+  real<lower=0, upper=1> lam_interceptsbc;       
+  real<lower=0> sigma_interceptsbc; 
+  real<lower=0, upper=1> lam_interceptsbp;       
+  real<lower=0> sigma_interceptsbp; 
+  vector[n_sp] b_force; // slope of forcing effect
+  real b_zf;
+  vector[n_sp] b_chill; // slope of chilling effect
+  real b_zc;
+  vector[n_sp] b_photo; // slope of photo effect
+  real b_zp;
+  vector[n_sp] a; // intercept
+  real a_z;
+
+}
+
+model {
+       real yhat[N];
+       
+        matrix[n_sp,n_sp] vcv_a;     // phylogeny
+        matrix[n_sp,n_sp] vcv_bf;     // phylogeny
+        matrix[n_sp,n_sp] vcv_bc;     // phylogeny
+        matrix[n_sp,n_sp] vcv_bp;     // phylogeny
+
+       
+       	for(i in 1:N){
+            yhat[i] = 
+	      a[sp[i]] + b_force[sp[i]] * x1[i] + b_chill[sp[i]] * x2[i] + b_photo[sp[i]] * x3[i];
+			     	}
+			     	
+	vcv_a = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsa, sigma_interceptsa));
+  vcv_bf = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbf, sigma_interceptsbf));
+  vcv_bc = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbc, sigma_interceptsbc));
+  vcv_bp = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbp, sigma_interceptsbp));
+
+
+  a ~ multi_normal_cholesky(rep_vector(a_z,n_sp), vcv_a); 
+  b_force ~ multi_normal_cholesky(rep_vector(b_zf,n_sp), vcv_bf); 
+  b_chill ~ multi_normal_cholesky(rep_vector(b_zc,n_sp), vcv_bc);
+  b_photo ~ multi_normal_cholesky(rep_vector(b_zp,n_sp),vcv_bp);
+  
+  y ~ normal(yhat, sigma_y);
+
+ // Priors -- keep in Stan code, better for reproducibility and runs faster
+    a_z ~ normal(30, 10); // Same as before, seems okay
+    b_zf ~ normal(-2, 10); // updated prior ... I think we should also try 0, 10
+    b_zc ~ normal(-2, 10); // updated prior
+    b_zp ~ normal(0, 5); // updated prior
+
+    // All below: same as before, seems okay
+    lam_interceptsa ~ beta(1, 1);
+    lam_interceptsbf ~ beta(1, 1);
+    lam_interceptsbc~ beta(1, 1);
+    lam_interceptsbp ~ beta(1, 1);
+
+    // I don't have a good sense of how to set these, so keeping a little wide
+    sigma_interceptsa ~ normal(30, 20);
+    sigma_interceptsbf ~ normal(1, 5);
+    sigma_interceptsbc ~ normal(1, 5);
+    sigma_interceptsbp ~ normal(1, 5);
+    
+    sigma_y ~ normal(10, 10); // updated prior
+  
+}
+
+
 \end{verbatim}
 
 
