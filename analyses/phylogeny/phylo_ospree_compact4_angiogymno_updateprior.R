@@ -702,72 +702,232 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 
 
+### compute some correlations for the text----
+
+corpmmchillforce = cor(cuechill,cueforce)
+corpmmhmmchill = cor(cuechill,cuechill0)
+corpmmhmmforce = cor(cueforce,cueforce0)
+corpmmhmmphoto = cor(cuephoto,cuephoto0)
+
+
+### compute some other values (e.g. shift in slopes pmm vs hmm) for the text----
+
+shiftpmmhmmchill = mean(cuechill - cuechill0)/mean(cuechill0)
+shiftpmmhmmforce = mean(cueforce - cueforce0)/mean(cueforce0)
+
+
+
 ### plot correlations angio ----
 dev.off()
 par(mfrow=c(1,3))
 
+virid <-  colorRampPalette(c("yellow","darkcyan","purple"))
+
+colschill <- virid(30)[as.numeric(cut(c(cuechill0, cuechill),breaks = 30))]
+colschillhmm <- colschill[1:length(cuechill0)]
+colschillpmm <- colschill[(length(cuechill0)+1):length(colschill)]
+
 
 plot(cuechill0, cuechill, 
-     xlab="sensitivity to chilling (lambda=0)",
-     ylab="sensitivity to chilling", 
-     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlab="sensitivity to chilling HMM",
+     ylab="sensitivity to chilling PMM", 
+     pch=16, col=adjustcolor(colschillpmm,0.4),cex=1.2, cex.lab=1.5,
      xlim=c(-30,5),ylim=c(-30,5))
+abline(v=mean(cuechill0), col='grey', lty=2, lwd=2)  
+
 for(i in 1:length(cueforce0)){
   lines(c(cuechillsdlow0[i],cuechillsdup0[i]),
-        rep(cuechill[i],2), col=adjustcolor("darkgrey",0.4))
+        rep(cuechill[i],2), col=adjustcolor(colschillpmm[i],0.2))
   lines(rep(cuechill0[i],2),
         c(cuechillsdlow[i],cuechillsdup[i]),
-        col=adjustcolor("darkgrey",0.4))
-  
+        col=adjustcolor(colschillhmm[i],0.2))
 }
+points(cuechill0, cuechill,pch=16, col=adjustcolor(colschillpmm,0.4),cex=1.2)
+
 abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
-abline(v=mean(cuechill0), col='black', lty=2, lwd=1.5)  
 #abline(lm(cuechill~cuechill0), lwd=1.5)
 mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
 
+
+colsforce <- virid(30)[as.numeric(cut(c(cueforce0, cueforce),breaks = 30))]
+colsforcehmm <- colsforce[1:length(cueforce0)]
+colsforcepmm <- colsforce[(length(cueforce0)+1):length(colsforce)]
+
 plot(cueforce0, cueforce, 
-     xlab="sensitivity to forcing (lambda=0)",
-     ylab="sensitivity to forcing", 
-     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlab="sensitivity to forcing HMM",
+     ylab="sensitivity to forcing PMM", 
+     pch=16, col=adjustcolor(colsforcepmm,0.4),cex=1.2, cex.lab=1.5,
      xlim=c(-20,5),ylim=c(-20,5))
+abline(v=mean(cueforce0), col='grey', lty=2, lwd=2)  
+
 for(i in 1:length(cueforce0)){
   lines(c(cueforcesdlow0[i],cueforcesdup0[i]),
-        rep(cueforce[i],2), col=adjustcolor("darkgrey",0.4))
+        rep(cueforce[i],2), col=adjustcolor(colsforcepmm[i],0.2))
   lines(rep(cueforce0[i],2),
         c(cueforcesdlow[i],cueforcesdup[i]),
-        col=adjustcolor("darkgrey",0.4))
+        col=adjustcolor(colsforcehmm[i],0.2))
   
 }
+points(cueforce0, cueforce,pch=16, col=adjustcolor(colsforcepmm,0.4),cex=1.2)
 
 abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
-abline(v=mean(cueforce0), col='black', lty=2, lwd=1.5)  
 #abline(lm(cueforce~cueforce0), lwd=1.5)
 mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
 
+colsphoto <- virid(30)[as.numeric(cut(c(cuephoto0, cuephoto),breaks = 30))]
+colsphotohmm <- colsphoto[1:length(cuephoto0)]
+colsphotopmm <- colsphoto[(length(cuephoto0)+1):length(colsphoto)]
+
 plot(cuephoto0, cuephoto, 
-     xlab="sensitivity to photoperiod (lambda=0)",
-     ylab="sensitivity to photoperiod", 
-     pch=16, col=adjustcolor("darkgrey",0.4),cex=1.2, cex.lab=1.5,
+     xlab="sensitivity to photoperiod HMM",
+     ylab="sensitivity to photoperiod PMM", 
+     pch=16, col=adjustcolor(colsphotohmm,0.4),cex=1.2, cex.lab=1.5,
      xlim=c(-10,3),ylim=c(-10,3))
+abline(v=mean(cuephoto0), col='grey', lty=2, lwd=2)  
+
 for(i in 1:length(cuephoto0)){
   lines(c(cuephotosdlow0[i],cuephotosdup0[i]),
-        rep(cuephoto[i],2), col=adjustcolor("darkgrey",0.4))
+        rep(cuephoto[i],2), col=adjustcolor(colsphotohmm[i],0.2))
   
   lines(rep(cuephoto0[i],2),
         c(cuephotosdlow[i],cuephotosdup[i]),
-        col=adjustcolor("darkgrey",0.4))
+        col=adjustcolor(colsphotohmm[i],0.2))
 }
+points(cuephoto0, cuephoto,pch=16, col=adjustcolor(colsphotopmm,0.4),cex=1.2)
+
 abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)  
-abline(v=mean(cuephoto0), col='black', lty=2, lwd=1.5)  
 #abline(lm(cuephoto~cuephoto0), lwd=1.5)
 mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 
 
-cbind(cuephoto0, cuephoto)
-cbind(cueforce0, cueforce)
 
 
+
+#'###########################################
+#### make mu plots combined with phylogenetic structuring for Fig1_phylo_muplots191.pdf####
+#'###########################################
+
+## mu plots all predictors and species clumped
+plotting = F
+lambdazero = F
+
+if(plotting){
+source("source/bb_muplotphylo.R")
+modelhere <- fitlambest
+
+library(RColorBrewer)
+cols <- adjustcolor("indianred3", alpha.f = 0.3) 
+my.pal <- rep(brewer.pal(n = 12, name = "Paired"), 17)
+my.pch <- rep(16, each=192)
+alphahere = 0.4
+
+
+names(fit)
+row.names(summary(modelhere)$summary)
+
+if(!lambdazero){
+  
+  posspsindata <- list(10:200,202:392,394:584)
+  
+} else {
+  
+  posspsindata <- list(6:196,198:388,390:580)
+  
+  
+}
+
+
+
+## MAKE PLOTS
+dev.off()
+  ## for forcing
+  set.seed(117)
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(0,191), c(-30, 5) , 18, 3.2, 
+                         posspsindata,1,14)
+  
+  ## for chilling
+  set.seed(117)
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(0,191), c(-30, 5) , 18, 3.2, 
+                         posspsindata,2,14)
+  
+  ## for photoperiod
+  set.seed(117)
+  muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                         c(0,191), c(-30, 5) , 18, 3.2, 
+                         posspsindata,3,14)
+
+
+}
+
+#'###########################################
+#### plotting lambdas and sigmas for fig2 - Fig2_lambdas_sigmas.pdf----
+#'###########################################
+
+
+
+if(plotting){
+  dev.off()
+    par(mfrow=c(1,3))
+  plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,3),ylab="density",
+       xlab="lambda", main="")
+  
+  #lines(density(extract(fitlambest)[["lam_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(fitlambest)[["lam_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(fitlambest)[["lam_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(fitlambest)[["lam_interceptsbp"]]), col='orange',lwd=1.8)
+  #text(0.50,3.5,"intercept",col='grey')
+  text(0.8,2,"forcing",col='indianred3')
+  text(0.6,2.7,"chilling",col='cyan4')
+  text(0.15,1.6,"photoperiod",col='orange')
+  text(0,3,"a",cex=1.5)
+  
+  
+  plot(x=NULL,y=NULL, xlim=c(0,15), ylim=c(0,1),ylab="density",
+       xlab="sigma", main="")
+  
+  #lines(density(extract(fitlambest)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  lines(density(extract(fitlambest)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  lines(density(extract(fitlambest)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  lines(density(extract(fitlambest)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  #text(19,0.3,"intercept",col='grey')
+  text(5,0.45,"forcing",col='indianred3')
+  text(9,0.4,"chilling",col='cyan4')
+  text(4.5,0.8,"photoperiod",col='orange')
+  text(0,1,"b",cex=1.5)
+  
+  
+  #plot(x=NULL,y=NULL, xlim=c(0,15), ylim=c(0,1),ylab="density",
+  #     xlab="sigma (lambda = 0)", main="")
+  
+  #lines(density(extract(fitlam0)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlam0)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  #lines(density(extract(fitlam0)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  #lines(density(extract(fitlam0)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  #text(19,0.3,"intercept",col='grey')
+  #text(5,0.5,"forcing",col='indianred3')
+  #text(9,0.4,"chilling",col='cyan4')
+  #text(4.5,0.8,"photoperiod",col='orange')
+  #text(0,1,"c",cex=1.5)
+  
+  #plot(x=NULL,y=NULL, xlim=c(0,20), ylim=c(0,1),ylab="density",
+  #     xlab="sigma (lambda = 1)", main="")
+  
+  #lines(density(extract(fitlam1)[["sigma_interceptsa"]]),  col='grey',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbf"]]), col='indianred3',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbc"]]), col='cyan4',lwd=1.8)
+  #lines(density(extract(fitlam1)[["sigma_interceptsbp"]]), col='orange',lwd=1.8)
+  #text(19,0.3,"intercept",col='grey')
+  #text(5,0.3,"forcing",col='indianred3')
+  #text(9,0.37,"chilling",col='cyan4')
+  #text(4.1,0.78,"photoperiod",col='orange')
+  #text(0,1,"d",cex=1.5)
+  
+  
+  
+}
 
 
 # end ----
