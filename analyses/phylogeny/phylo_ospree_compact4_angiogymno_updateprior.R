@@ -646,7 +646,11 @@ cuephotosdlow0 = summary(fitlam0)$summary[posspsindata.01[[3]],"25%"]
 
 
 ##### comparing uncertainty around individual species estimations----
+plotting = F
+lambdazero = F
 
+if(plotting){
+  
 par(mfrow=c(1,3))
 
 indvarest = cuechillsdup - cuechillsdlow 
@@ -672,7 +676,7 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 mean(indvarest);mean(indvarlam0)
 
-
+}
 
 ##### comparing bias in average estimating ----
 
@@ -681,7 +685,11 @@ mean(cueforce-cueforce0)
 mean(cuechill-cuechill0)
 mean(cuephoto-cuephoto0)
 
+plotting = F
+lambdazero = F
 
+if(plotting){
+  dev.off()
 par(mfrow=c(1,3))
 
 hist(cuechill-cuechill0,30, main='',
@@ -699,7 +707,7 @@ hist(cuephoto-cuephoto0,30,main='',
 box(which = "plot", lty = "solid")
 mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
-
+}
 
 
 ### compute some correlations for the text----
@@ -718,6 +726,11 @@ shiftpmmhmmforce = mean(cueforce - cueforce0)/mean(cueforce0)
 
 
 ### plot correlations angio ----
+plotting = F
+lambdazero = F
+
+if(plotting){
+  
 dev.off()
 par(mfrow=c(1,3))
 
@@ -800,7 +813,7 @@ abline(a=0,b=1, col='darkgrey', lty=2, lwd=1.5)
 mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 
-
+}
 
 
 
@@ -813,7 +826,7 @@ plotting = F
 lambdazero = F
 
 if(plotting){
-source("source/bb_muplotphylo.R")
+source("..//..//analyses/phylogeny/source/bb_muplotphylo.R")
 modelhere <- fitlambest
 
 library(RColorBrewer)
