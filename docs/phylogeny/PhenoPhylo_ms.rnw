@@ -119,6 +119,7 @@ We illustrate our method with an unprecedented dataset on phenological responses
 
 <<label=runcode, echo=FALSE, results=hide>>=
 # load models and data to report numbers of things
+#setwd("C:/Users/Ignacio/Documents/GitHub/ospree/docs/phylogeny/")
 source("..//..//analyses/phylogeny/phylo_ospree_compact4_angiogymno_updateprior.R")
 @
 
@@ -300,7 +301,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 
 %IMC 22mar - we should decide among one of the next two figures, instead of having separate figures per cues?
 % EMW (28Mar2022): I vote for the first one, but both are great!
-\begin{figure} [H]
+\begin{figure} 
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191.pdf}
   \caption{Phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue, as estimated by our hierarchical phylogenetic model. Species sensitivities are shown along with 50\% Credible Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
@@ -310,7 +311,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 
 \clearpage
 
-\begin{figure} [H]
+\begin{figure} 
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig2_lambdas_sigmas.pdf}
   \caption{Density plots comparing the posterior distributions of phylogenetic parameters $\lambda$ and $\sigma$ estimated for each cue in the model: chilling (blue), forcing (red), and photoperiod (orange). Panels correspond to $\lambda$ (a) and $\sigma$ (b) from the phylogenetic model, and to $\sigma$ (c) from the non-phylogenetic model (where $\lambda$ is constrained to be equal zero).}
@@ -318,7 +319,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
   \end{center}
 \end{figure}
 
-\begin{figure} [H]
+\begin{figure} 
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig3_correlations_lambestvslamb0_cols.pdf}
   \caption{Correlations between model parameters as estimated by the model including phylogenetic structure on each phenological cue ($y$-axis), and the more commonly used hierarchical model where species are exchangeable (where $\lambda$ is constrained to be equal zero, $x$-axis). While species with large amounts of data may be estimated similarly by both models, in the more commonly used hierarchical model ($x$-axis) many species are pulled towards the overall average (shown by dashed black lines). The strength of pulling is particularly patent for forcing (b). Panels correspond to sensitivity to chilling (a), to forcing (b), and to photoperiod (c). Dashed grey lines show the one to one relationship (with intercept equal zero and slope equal one).}
@@ -329,7 +330,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 
 
 
-\begin{figure} [H]
+\begin{figure} 
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig4_forecasting_diffstdpmm-lmm.pdf}
   \caption{Forecasted shifts can be substantially different for poorly sampled species in well-sampled clades in our phylogenetic mixed model compared to traditional hierarchical approaches. Here we show ...}

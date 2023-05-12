@@ -176,7 +176,7 @@ cat(" \\clearpage \\pagebreak ")
 
 
 
-\begin{figure} [H]
+\begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_ phylo_muplots191_lamb0.pdf}
   \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% Credible Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}

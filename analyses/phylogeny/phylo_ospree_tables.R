@@ -77,3 +77,6 @@ command <- paste0("\\hline\n\\endhead\n",
 add.to.row$command <- command
 
 
+if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/docs/phylogeny") 
+}

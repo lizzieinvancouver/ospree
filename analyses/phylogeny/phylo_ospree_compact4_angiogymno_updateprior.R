@@ -943,4 +943,8 @@ if(plotting){
 }
 
 
+if(length(grep("Ignacio", getwd()))>0) { 
+  setwd("~/GitHub/ospree/docs/phylogeny/") 
+}
+
 # end ----
