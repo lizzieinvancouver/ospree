@@ -3,12 +3,13 @@
 \renewcommand{\baselinestretch}{1.1}
 \usepackage{graphicx}
 \usepackage{natbib}
-\usepackage{gensymb}
+%\usepackage{gensymb}
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
-\usepackage{xr-hyper}
-\externaldocument{PhenoPhylo_SuppMat}
+\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{hyperref}
+\externaldocument[supp-]{PhenoPhylo_SuppMat}
 
 \def\labelitemi{--}
 \renewcommand{\baselinestretch}{1.2}
@@ -31,13 +32,13 @@
 
 \SweaveOpts{concordance=FALSE}
 %\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
-
+\author{}
 \maketitle
 
 \noindent Authors:\\
 Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3,4}$ Daniel M. Buonaiuto,$^{5,6,7}$ Catherine J. Chamberlain,$^{5,6,8}$ Ailene K. Ettinger,$^{9}$ Mira Garner,$^{3,10}$ Faith A. M. Jones,$^{3,11}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{12}$ \& E. M. Wolkovich$^{3,5,6}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
-$^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcalá, Alcalá de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
+$^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal?, Alcal? de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
 $^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
 $^{4}$Getty\\
@@ -126,7 +127,7 @@ source("..//..//analyses/phylogeny/phylo_ospree_compact4_angiogymno_updateprior.
 \section*{Results \& Discussion}
 % Are we in past or present tense here? (asks Lizzie)
 
-Most species respond to all three primary cues---forcing, chilling, and photoperiod (Fig. \ref{fig:muplot_all}, Supporting Table \ref{tab:modelanglamb})\citep[see also][]{Laube:2014a,ettinger2020}---with responses to chilling approximately five-fold greater than to photoperiod (phenological advances of 6.8 days per standardized unit vs 1.2 days, for chilling and photoperiod, respectively; see Table \ref{tab:modelanglamb}). However, these average estimates fail to capture the large differences in species' responses to both chilling and forcing (Fig. \ref{fig:muplot_all}, Supporting Table \ref{tab:tablesupp3}). By allowing species responses to vary, based on a model including their shared evolutionary history, we found species differences dwarfed the mean differences between cues, especially temperature cues (Fig. \ref{fig:muplot_all}). The largest in magnitude cue---chilling---varied 25-fold between species, while variation to forcing varied 6-fold. These results suggest the strong current focus on comparing between the three cues may miss the largest variation, and highlights why robust phenological forecasts must account for both the complexity of multiple cues and species-level variation in responses to them. % Or: These results stress the importance of comparing both strength and variation among cues, and highlights why robust phenological forecasts must account for both the complexity of multiple cues and species-level variation in responses to them. 
+Most species respond to all three primary cues---forcing, chilling, and photoperiod (Fig. \ref{fig:muplot_all}, Supporting Table \ref{tab:modelanglamb})\citep[see also][]{Laube:2014a,ettinger2020}---with responses to chilling approximately five-fold greater than to photoperiod (phenological advances of 6.8 days per standardized unit vs 1.2 days, for chilling and photoperiod, respectively; see Table \ref{tab:modelanglamb}). However, these average estimates fail to capture the large differences in species' responses to both chilling and forcing (Fig. \ref{fig:muplot_all}, Supporting Table \ref{supp-tab:tablesupp3}). By allowing species responses to vary, based on a model including their shared evolutionary history, we found species differences dwarfed the mean differences between cues, especially temperature cues (Fig. \ref{fig:muplot_all}). The largest in magnitude cue---chilling---varied 25-fold between species, while variation to forcing varied 6-fold. These results suggest the strong current focus on comparing between the three cues may miss the largest variation, and highlights why robust phenological forecasts must account for both the complexity of multiple cues and species-level variation in responses to them. % Or: These results stress the importance of comparing both strength and variation among cues, and highlights why robust phenological forecasts must account for both the complexity of multiple cues and species-level variation in responses to them. 
 
 \emph{Differences across clades \& cues}
 
@@ -159,7 +160,7 @@ Differences between species in their temperature responses represent shifts in t
 %18Dec2022 -- suggested cut  (and re-arrange)
 % Geography may drive structured phylogenetic variation, especially in regions where clades have radiated such that close relatives have experienced the same suite of environmental cues and thus been subject to similar selection regimes. Conversely, if species are not generally geographically constrained, as may be more likely the case, especially across deep time \citep{fitzturelli2006}, then we might expect phylogenetic structure in phenology to also weaken, especially when aggregating across locations with different cues \citep{davies2013phylogenetic}.
 
-Weak phylogenetic signal in photoperiod sensitivity (Fig. \ref{fig:phylosig_all}) might seem at odds with the uniformity of species response. However, somewhat counterintuitively, both uniform and random responses can manifest as low phylogenetic signal when indexed by Brownian motion expectations \citep{wiens2010niche}. While rapid local adaptation within species might erase the phylogenetic structure in photoperiod responses, it does not agree with the uniformity we find in species' responses. However, if responses to photoperiod evolved early in plants, as seems likely \citep{serrano2017}, and subsequent selection on photoperiod sensitivity was constrained by stabilizing selection operating on other life-history attributes sensitive to photoperiod \citep[e.g.,][]{Rinne:1994,Wilczek2014,azeez2015}, we would predict both low interspecific variation and weak phylogenetic signal in responses, matching observations. This latter interpretation is also consistent with our estimates of lower $\sigma$ for photoperiod responses (Fig. \ref{fig:phylosig_all}). Here, as in more traditional phylogenetic comparative methods, $\sigma$ represents the rate of evolution, and thus our results suggest photoperiod responses are also evolving slower than temperature responses (see Fig. \ref{fig:burstmodels}).
+Weak phylogenetic signal in photoperiod sensitivity (Fig. \ref{fig:phylosig_all}) might seem at odds with the uniformity of species response. However, somewhat counterintuitively, both uniform and random responses can manifest as low phylogenetic signal when indexed by Brownian motion expectations \citep{wiens2010niche}. While rapid local adaptation within species might erase the phylogenetic structure in photoperiod responses, it does not agree with the uniformity we find in species' responses. However, if responses to photoperiod evolved early in plants, as seems likely \citep{serrano2017}, and subsequent selection on photoperiod sensitivity was constrained by stabilizing selection operating on other life-history attributes sensitive to photoperiod \citep[e.g.,][]{Rinne:1994,Wilczek2014,azeez2015}, we would predict both low interspecific variation and weak phylogenetic signal in responses, matching observations. This latter interpretation is also consistent with our estimates of lower $\sigma$ for photoperiod responses (Fig. \ref{fig:phylosig_all}). Here, as in more traditional phylogenetic comparative methods, $\sigma$ represents the rate of evolution, and thus our results suggest photoperiod responses are also evolving slower than temperature responses (see Fig. \ref{supp-fig:burstmodels}).
 %18Dec2022 -- suggested cut  
 % However, we also show (see Appendix XXX) that an early burst model of evolution, in which trait variation accumulates rapidly early in the history of a clade and then slows through time, consistent with our interpretation of photoperiod evolution.
 
@@ -174,7 +175,7 @@ Our results highlight that species-level variability can be extremely high---whe
 
 The consequences of including shared evolutionary history in forecasting are most apparent for poorly sampled species nested within more well-sampled clades. For example, forecasts for \emph{Acer campestre}, which has only 6 observations, shift by up to 35\% in our phylogenetically informed model compared to one without phylogeny (Fig. \ref{fig:forecast}). In contrast, forecasts for \emph{Betula pendula}, which is one of the most sampled species, are nearly identical across models (Fig. \ref{fig:forecast}). This occurs because cue estimates for \emph{Acer campestre} in the phylogenetically informed model are strongly influenced by other \emph{Acer} species, which diverge from other clades. In the non-phylogentically informed model all species are equally exchangeable and thus \emph{Acer campestre} is pulled strongly towards well-sampled species, such as \emph{Betula pendula} (n \= 311), leading to forecasted shifts that are more similar across all species---especially poorly sampled species (Fig. \ref{fig:forecast}). 
 
-The increase in variability across species in our model with phylogenetic structure also decreased the uncertainty in estimates for each individual species temperature responses (Fig. \ref{fig:suppuncertainties}). Thus, traditional (non-phylogentically informed) approaches that partially pool across species (most hierarchical models in ecology) may also lead to less precise predictions and forecasts of phenology for individual species, although overall model accuracy might still appear reasonable (see Fig. \ref{fig:accuracycomp})).
+The increase in variability across species in our model with phylogenetic structure also decreased the uncertainty in estimates for each individual species temperature responses (Fig. \ref{supp-fig:suppuncertainties}). Thus, traditional (non-phylogentically informed) approaches that partially pool across species (most hierarchical models in ecology) may also lead to less precise predictions and forecasts of phenology for individual species, although overall model accuracy might still appear reasonable (see Fig. \ref{supp-fig:accuracycomp})).
 %21Dec2022 -- ref new supp figure later (instead of the below that I commented out)
 % The increase in variability across species in our model with phylogenetic structure decreased the uncertainty in estimates for each individual species temperature responses (by \Sexpr{chillperimprove}\% for chilling, \Sexpr{forceperimpove}\% for forcing and \Sexpr{photoperimpove}\% for photoperiod)
 
