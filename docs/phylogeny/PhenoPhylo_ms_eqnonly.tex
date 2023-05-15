@@ -17,6 +17,7 @@
 
 \begin{document}
 For each observation $i$ of species $j$, we assumed that the timing of phenological events were generated from the following sampling distribution:
+
 \begin{align}
   \label{modely}
   y_{i,j} \sim \mathcal{N}(\mu_j, \sigma_e^2)
@@ -26,7 +27,7 @@ where
   \label{modelmu}
   \mu_j = \alpha_j + \beta_{chill,j} X_{chill} + \beta_{force,j} X_{force} + \beta_{photo,j} X_{photo}
 \end{align}
-where $\sigma_e^2$ represents random error unrelated to the phylogeny. 
+and $\sigma_e^2$ represents random error unrelated to the phylogeny. 
 
 Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forcing, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{chill,j}$, $\beta_{force,j}$, $\beta_{photo,j}$, representing species' responses (or sensitivities) to each of the cues. These responses, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
 
@@ -34,12 +35,12 @@ Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forc
     \label{phybetas}
   \boldsymbol{\alpha} = [\alpha_1, \ldots, \alpha_n]^T & \text{ such that }
   \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
-  \boldsymbol{\beta_{chill}} =  [\beta_{1,1}, \ldots, \beta_{1,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_1},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
-  \boldsymbol{\beta_{force}} =  [\beta_{2,1}, \ldots, \beta_{2,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_2},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
-  \boldsymbol{\beta_{photo}} =  [\beta_{3,1}, \ldots, \beta_{3,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
+  \boldsymbol{\beta_{chill}} =  [\beta_{1,1}, \ldots, \beta_{chill,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_{chill}},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
+  \boldsymbol{\beta_{force}} =  [\beta_{2,1}, \ldots, \beta_{force,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_{force}},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
+  \boldsymbol{\beta_{photo}} =  [\beta_{3,1}, \ldots, \beta_{photo,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_{photo}},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
 \end{align}
 
 \noindent where the means of the multivariate normal distributions are root trait values (i.e., values of cue responses prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ % we need to decide for a nomenclature that is as widespread/easy to understand as possible. Other papers use bold V, or C to refer to the VCV matrix. Any suggestions are welcome
@@ -63,6 +64,6 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
   \mu_j = \mu_\alpha + \mu_{\beta_{chill}} X_{chill} + \mu_{\beta_{force}} X_{force} + \mu_{\beta_{photo}} X_{photo} + e_{\alpha_{j}} + e_{\beta_{force,j}} + e_{\beta_{chill,j}} + e_{\beta_{photo,j}}
 \end{align}
 
-\noindent where the residual phylogenetic error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}.
+\noindent where the residual phylogenetic error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}. Model code, including priors used here, are given in the supplement. 
 
 \end{document}

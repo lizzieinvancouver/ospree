@@ -167,9 +167,6 @@ Phylogenetic conservatism (high $\lambda$) and slow evolutionary rates (low $\si
 Our results highlight that species-level variability can be extremely high---when properly estimated. Our approach, which partially pooled species responses based on their shared evolutionary history, did not have major effects on the overall average (model slopes for forcing and chilling shifted by 7.2\% and 3.7\%, respectively; Fig. \ref{fig:correls_angio}), but estimated substantially higher variation across species compared with more widely used hierarchical models. This was especially noticeable in temperature responses (for chilling variance across species means, $\beta_{chill,j}$ in eqn. \ref{modelmu}, was estimated as 23.45 in the phylogenetic model, versus 17.47 in the non-phylogenetic model; variance across means of $\beta_{force,j}$: 8.74 compared to 5.01) while photoperiod, which had low phylogenetic structure, was more similar across approaches (variance across means of $\beta_{photo,j}$: 0.82 compared to 0.93). % The code is in lines 375-386 of phylo_ospree_plots_final.R; would be good to just use  (e.g., 17.4104964162322 ) here instead ... 
 
 
-
-
-
 The consequences of including shared evolutionary history in forecasting are most apparent for poorly sampled species nested within more well-sampled clades. For example, forecasts for \emph{Acer campestre}, which has only 6 observations, shift by up to 35\% in our phylogenetically informed model compared to one without phylogeny (Fig. \ref{fig:forecast}). In contrast, forecasts for \emph{Betula pendula}, which is one of the most sampled species, are nearly identical across models (Fig. \ref{fig:forecast}). This occurs because cue estimates for \emph{Acer campestre} in the phylogenetically informed model are strongly influenced by other \emph{Acer} species, which diverge from other clades. In the non-phylogentically informed model all species are equally exchangeable and thus \emph{Acer campestre} is pulled strongly towards well-sampled species, such as \emph{Betula pendula} ($n = 311$), leading to forecasted shifts that are more similar across all species---especially poorly sampled species (Fig. \ref{fig:forecast}). 
 
 The increase in variability across species in our model with phylogenetic structure also decreased the uncertainty in estimates for each individual species temperature responses (Fig. \ref{fig:suppuncertainties}). Thus, traditional (non-phylogentically informed) approaches that partially pool across species (most hierarchical models in ecology) may also lead to less precise predictions and forecasts of phenology for individual species, although overall model accuracy might still appear reasonable (see Fig. \ref{fig:accuracycomp})).
@@ -181,7 +178,9 @@ The increase in variability across species in our model with phylogenetic struct
 %18Dec2022 -- suggested cut  
 % Our results could help inform which clades will be more sensitive to different axes of climate change---e.g., changes temperatures over winter (associated with chilling) versus spring (associated with forcing). For example, using a hierarchical model would not have identified oaks (genus \emph{Quercus}) as being among the most sensitive taxa to forcing and chilling (see e.g., \citep{ettinger2020}), but we show that, on average, species within this genus advance phenology by -13.09 days per standard unit of forcing and -17.33 days per standard unit of chilling. Hierarchical models, even if non-phylogenetic ($\lambda$ = 0), would also capture oak phenological advances as a response to forcing (-11.14 days per standard unit) and chilling (-13.36 days per standard unit). These results highlight the need to move beyond current very general classifications currently used in models \citep[e.g., functional groups ... Cat/Dan, can you offer better ref?][]{Moorcroft:2003dz} or groupings at coarse taxonomic levels \citep[e.g.,][]{ettinger2020} to make improved ecological forecasts for individual species. 
 
-The contrasts between temperature sensitivities and photoperiod sensitivities---in both their variability across species and phylogenetic structure---have important implications for generating multi-species forecasts. Notably, photoperiod cues appear weaker, more uniform across species, and less phylogenetically constrained than temperature cues. For temperature responses, the large variability among species makes predicting species individual responses challenging, but the phylogenetic structure in responses lets us borrow information from close relatives to improve our predictions. While this must be done with care \citep{molina2018assessing}, our results could provide reasonable predictions for many temperate woody plant species from clades for which we have multiple species and experimental observations at varying treatment levels (e.g., Betulaceae). 
+The contrasts between temperature sensitivities and photoperiod sensitivities---in both their variability across species and phylogenetic structure---have important implications for generating multi-species forecasts. Notably, photoperiod cues appear weaker, more uniform across species, and less phylogenetically constrained than temperature cues. For temperature responses, the large variability among species makes predicting species individual responses challenging, but the phylogenetic structure in responses lets us borrow information from close relatives to improve our predictions. However, given that Brownian motion (our assumed model of evolution) is an extremely noisy process, we recommend imputation \citep{molina2018assessing} only for missing taxa that are closely related to the species in our dataset.
+% While this must be done with care , our results could provide reasonable predictions for many temperate woody plant species from clades for which we have multiple species and experimental observations at varying treatment levels (e.g., Betulaceae),. 
+
 % For photoperiod, the weak phylogenetic structure in responses indicates that phylogeny retains little information, but because species responses are generally more uniform, we can be more confident in assuming the mean species response across species, comforted in the knowledge that small errors will likely not have large impact given the relatively weak overall contribution of this cue, except for \emph{Fagus sylvatica}.
 % The genus \emph{Fagus} is recognized as being particularly sensitive to photoperiod \citep{fu2019}. Specifically, \emph{Fagus sylvatica} is nearly five times more sensitive to photoperiod than most other measured tree species. The question arises as to whether species with outlying responses should be chosen as the model from which to extrapolate knowledge as done with \emph{Fagus sylvatica} in the phenology literature (REFs for PEP75?!). %HELP with references on Fagus would be appreciated. % EMW (21Nov2022) I'll add more here later
 
@@ -243,7 +242,7 @@ where
   \label{modelmu}
   \mu_j = \alpha_j + \beta_{chill,j} X_{chill} + \beta_{force,j} X_{force} + \beta_{photo,j} X_{photo}
 \end{align}
-where $\sigma_e^2$ represents random error unrelated to the phylogeny. 
+and $\sigma_e^2$ represents random error unrelated to the phylogeny. 
 
 Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forcing, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{chill,j}$, $\beta_{force,j}$, $\beta_{photo,j}$, representing species' responses (or sensitivities) to each of the cues. These responses, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
 
@@ -251,12 +250,12 @@ Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forc
     \label{phybetas}
   \boldsymbol{\alpha} = [\alpha_1, \ldots, \alpha_n]^T & \text{ such that }
   \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
-  \boldsymbol{\beta_{chill}} =  [\beta_{1,1}, \ldots, \beta_{1,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_1},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
-  \boldsymbol{\beta_{force}} =  [\beta_{2,1}, \ldots, \beta_{2,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_2},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
-  \boldsymbol{\beta_{photo}} =  [\beta_{3,1}, \ldots, \beta_{3,n}]^T & \text{ such that }
-  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_3},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
+  \boldsymbol{\beta_{chill}} =  [\beta_{1,1}, \ldots, \beta_{chill,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_{chill}},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
+  \boldsymbol{\beta_{force}} =  [\beta_{2,1}, \ldots, \beta_{force,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_{force}},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
+  \boldsymbol{\beta_{photo}} =  [\beta_{3,1}, \ldots, \beta_{photo,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_{photo}},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
 \end{align}
 
 \noindent where the means of the multivariate normal distributions are root trait values (i.e., values of cue responses prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ % we need to decide for a nomenclature that is as widespread/easy to understand as possible. Other papers use bold V, or C to refer to the VCV matrix. Any suggestions are welcome
