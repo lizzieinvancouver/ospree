@@ -55,6 +55,22 @@ make.mytable1 <- xtable(modellambest,
 #align(make.mytable1) <- c( 'p{0.20}',  'p{0.20in}', 'p{0.25in}', 'r{0.25in}', 'p{0.35in}', 'p{0.35in}')
 
 
+names(modellamb0)[names(modellamb0)=="X"] <- "Parameter"
+lookupmodelnames0 <- c("a_z"="$\\mu_{\\alpha}$",
+                      "b_zf"="$\\mu_{\\beta_{force}}$",
+                      "b_zc"="$\\mu_{\\beta_{chill}}$",
+                      "b_zp"="$\\mu_{\\beta_{photo}}$",
+                      "sigma_interceptsa"="$\\sigma_{\\alpha}$",
+                      "sigma_interceptsbf"="$\\sigma_{\\beta_{force}}$",
+                      "sigma_interceptsbc"="$\\sigma_{\\beta_{chill}}$",
+                      "sigma_interceptsbp"="$\\sigma_{\\beta_{photo}}$",
+                      "sigma_y"="$\\sigma_y$")
+modellamb0$Parameter <- unname(lookupmodelnames0[modellamb0$Parameter])
+names(modellamb0)[names(modellamb0)=="X2.5."] <- "2.5\\%"
+names(modellamb0)[names(modellamb0)=="X50."] <- "50\\%"
+names(modellamb0)[names(modellamb0)=="X97.5."] <- "97.5\\%"
+names(modellamb0)[names(modellamb0)=="n_eff"] <- "$n_{eff}$"
+
 make.mytable2 <- xtable(modellamb0, 
                         caption="Model parameters for non-phylogenetic model (lambda = 0) estimated for 191 tree species.",
                         label="tab:modlamb0")
