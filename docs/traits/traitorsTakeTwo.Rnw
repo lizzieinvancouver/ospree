@@ -95,11 +95,11 @@ Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 Key Words: Budburst phenology, functional traits, Trees, climate change
 
 \section*{Introduction} 
-
-The timing of spring growth is ecologically important, shaping both ecosystem services and community dynamics. These life history events---or phenologies--- define the start and overall length of the growing season, shapeing forest carbon storage and what species of herbivores or pollinators a plant interacts with \citep{Cleland2007a,Beard2019,Gu2022}. Climate change, however, is causing noticeable advances in spring phenological events for many species \citep{Menzel2006,Vitasse2021}.
+% EMWMay9 -- clean up opening paragraphs, used differ* less ... fix integrating stuff later; add CITES and fix that sentence
+The timing of spring growth is ecologically important, shaping both ecosystem services and community dynamics. These life history events---or phenologies--- define the start and overall length of the growing season, shaping forest carbon storage and species interactions \citep{Cleland2007a,Beard2019,Gu2022}. Climate change, however, is causing noticeable advances in spring phenological events for many species \citep{Menzel2006,Vitasse2021}.
 \\
-
-Amidst these trends, we see high variability in spring phenology across years and species. Temperate forests are one of the best studied systems in which we see variation in species' leafout. Starting with understory plants, leafout often progresses to taller, canopy species across the spring and can span several weeks \citep{Richardson2009}. These species differences create a gradient in the photoperiod and temperatures under which different species within communities grow.
+% EMWMay9 -- selective pressure introduced below, maybe don't nee here 
+Amidst these trends, we see high variability in spring phenology across years and species. Temperate forests are one of the best studied systems in which we see variation in species' leafout. Starting with understory plants, leafout often progresses to taller, canopy species across the spring and can span several weeks \citep{Richardson2009}. % These species differences create a gradient in the photoperiod and temperatures under which different species within communities grow. % EMWMay9 -- tweak a little
 \\
 
 % This paragraph had "different" used a lot
@@ -117,13 +117,13 @@ Differences in the timing of selective pressures within the growing season could
 Decades of research on trait ecology has identified certain traits as species-level proxies for characteristics that predict patterns in growth strategies and interactions \citep{McGill2006}. Many leaf and wood traits follow predictable gradients in species trait values, having associations that range from acquisitive (fast) growth strategies to more conservative (slow) growth strategies \citep{Westoby1998,Westoby2006,Wright2004,Diaz2016}. Collectively, these trait relationships led to the development of the leaf economic spectrum and the wood economic spectrum \citep{Wright2004,Chave2009}. 
 \\
 
-These functinal trait frameworks have been built into decades of research linking functional traits to species responses to abiotic and biotic factors and community assembly, but they also have limitations. One concern is their limited ability to predict how variable traits are \citep{Violle2012}, a reason sometimes given for why phenology is excluded from studies of functional traits. % Note: try holding back point that phenology is NOT variable, once you include cues
+These functional trait frameworks have been built into decades of research linking functional traits to species responses to abiotic and biotic factors and community assembly, but they also have limitations. One concern is their limited ability to predict how variable traits are \citep{Violle2012}, a reason sometimes given for why phenology is excluded from studies of functional traits. % Note: try holding back point that phenology is NOT variable, once you include cues
 % themselves can be highly variable, both across and within spp, highlighting the need for trait research that spans diverse species across geographic scales---Violle paper ‘viva la variability. 
 Including phenology with other functional traits could both advance the functional trait framework and help explain why species phenologies differ. %emwMar6 -- 'the biotic community' they interact with is too much -- I think 'growth strategies' can cover competition, and you can get more into biotic stuff in the discussion.... And then I made more edits to merge 6 & 7, so moving this comment up. 
 \\
 
 % have predictions mirror each other for readers
-
+% EMWMay9 -- fix opening
 Integrating phenology into functional traits is possible considering the early-late selective environment of spring temperature forests. Differences in selective pressures predict variation in leaf and wood traits with phenology---where early season species trade off high access to resources with risks of tissue loss and damage. In contrast, late season species trade off between a highly competitive but less risky environment. Shrub and woody understory pecies that tend to budburst earlier \citep{Donnelly2019}---under greater soil resources and light availability--- would have traits associated with acquisitive growth; they thus would be shorter, with leaf traits favourable to higher light availability and tolerance of late spring frost (high specific leaf area (SLA) and leaf nitrogen content (LNC)).  %low forcing, chilling, and photoperiod 
 Canopy species that budburst later---when compeititon for soil resources is greatest---would have traits associated with conservative growth; being taller with denser wood \citep{Laughlin2010}, with leaf traits suited for more variable light (low SLA and LNC). % high forcing, chilling, and photoperiod requirements % early-late
 Increasing seed size may similarly be predicted from this acquisitive to conservative continuum from early to late budbursting species. 
@@ -135,7 +135,9 @@ Testing these predictions requires a reliable way to define early to late phenol
 
 We used available data from trait databases and budburst data from the OSPREE database of controlled environment studies of woody plant species to test for associations between budburst responses to environmental cues and common functional traits.
 %Angert lab meeting:  need to better define chilling, forcing, photoperiod  %emwMar6  -- yes, we'll have to see how working out 'This gradient of early-late = driven by cues' goes ... we should have these well (and quickly defined) for the reader BEFORE we get here. 
-We focus on the effects of forcing, chilling, and photoperiod cues and four commonly measured traits---SLA, LNC, height, and seed mass. To combine these diverse and messy datasets we present a new hierarchical Bayesian joint model that predicts phenological responces to cues based on species-level trait values. Our model attributes phenological variation to species’ trait values while including residual variation from species (partial-pooling). When traits explain a significant portion of the variation, species will explain only a small amount, which may allow us to predict species growth strategies and phenological responses from trait values.
+We focus on the effects of forcing, chilling, and photoperiod cues and four commonly measured traits---SLA, LNC, height, and seed mass. \\
+
+To combine these diverse and messy datasets we present a new hierarchical Bayesian joint model that predicts phenological responces to cues based on species-level trait values. Our model attributes phenological variation to species’ trait values while including residual variation from species (partial-pooling). When traits explain a significant portion of the variation, species will explain only a small amount, which may allow us to predict species growth strategies and phenological responses from trait values.
 \\
 
 

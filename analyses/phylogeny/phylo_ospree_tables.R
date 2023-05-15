@@ -6,7 +6,7 @@
 options(stringsAsFactors=FALSE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
-if(length(grep("Lizzie", getwd())>0)) { 
+if(length(grep("lizzie", getwd())>0)) { 
   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/phylogeny") 
 } else if (length(grep("ailene", getwd()))>0) {setwd("/Users/aileneettinger/git/ospree/analyses/phylogeny")
 }else if(length(grep("Ignacio", getwd()))>0) { 
@@ -28,14 +28,31 @@ colnames(modelspslevest) = colnames(modelspslev0) = c("Species","b.chill","low",
                           "b.force","low","up",
                           "b.photo","low","up")
 
+names(modellambest)[names(modellambest)=="X"] <- "Parameter"
+lookupmodelnames <- c("a_z"="$\\mu_{\\alpha}$",
+                      "b_zf"="$\\mu_{\\beta_{force}}$",
+                      "b_zc"="$\\mu_{\\beta_{chill}}$",
+                      "b_zp"="$\\mu_{\\beta_{photo}}$",
+                      "lam_interceptsa"="$\\lambda_{\\alpha}$",
+                      "lam_interceptsbf"="$\\lambda_{\\beta_{force}}$",
+                      "lam_interceptsbc"="$\\lambda_{\\beta_{chill}}$",
+                      "lam_interceptsbp"="$\\lambda_{\\beta_{photo}}$",
+                      "sigma_interceptsa"="$\\sigma_{\\alpha}$",
+                      "sigma_interceptsbf"="$\\sigma_{\\beta_{force}}$",
+                      "sigma_interceptsbc"="$\\sigma_{\\beta_{chill}}$",
+                      "sigma_interceptsbp"="$\\sigma_{\\beta_{photo}}$",
+                      "sigma_y"="$\\sigma_y$")
+modellambest$Parameter <- unname(lookupmodelnames[modellambest$Parameter])
+names(modellambest)[names(modellambest)=="X2.5."] <- "2.5\\%"
+names(modellambest)[names(modellambest)=="X50."] <- "50\\%"
+names(modellambest)[names(modellambest)=="X97.5."] <- "97.5\\%"
+names(modellambest)[names(modellambest)=="n_eff"] <- "$n_{eff}$"
 
 make.mytable1 <- xtable(modellambest, 
                         caption="Full model parameters estimated for 191 tree species.",
                         label="tab:modelanglamb")
 
-
 #align(make.mytable1) <- c( 'p{0.20}',  'p{0.20in}', 'p{0.25in}', 'r{0.25in}', 'p{0.35in}', 'p{0.35in}')
-
 
 
 make.mytable2 <- xtable(modellamb0, 

@@ -393,7 +393,10 @@ chillperimprove <- round(abs(1-((quantchillsp[1]-quantchillsp[3])/(quantchill0sp
 forceperimpove <- round(abs(1-((quantforcesp[1]-quantforcesp[3])/(quantforce0sp[1]-quantforce0sp[3])))*100, 0)
 photoperimpove <- round(abs(1-((quantphotosp[1]-quantphotosp[3])/(quantphoto0sp[1]-quantphoto0sp[3])))*100, 0)
 
-
+# change in mu values
+bzfchange <- 100*round(1-(mean(postfit$b_zf)/mean(postfitlamb0$b_zf)), 2)
+bzcchange <- 100*round(1-(mean(postfit$b_zc)/mean(postfitlamb0$b_zc)), 2)
+bzpchange <- 100*round(1-(mean(postfit$b_zp)/mean(postfitlamb0$b_zp)), 2)
 
 #'###################################
 # Some plots ...               ####
