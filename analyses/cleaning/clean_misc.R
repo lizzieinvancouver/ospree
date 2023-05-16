@@ -297,6 +297,9 @@ d$chilldays[which(d$datasetID == "anzanello18" & d$chilltemp == 3)] <- as.numeri
 # fixing spann04, which should be flowerburst (Lizzie Feb 2021)
 d$respvar[d$respvar=="percentbudburst" & d$datasetID=="spann04"] <- "percentflower"
 
+# fixing charrier11, incorrect sample date for exp1 (Mira May 2023)
+d$fieldsample.date[d$fieldsample.date=="29-Nov-08" & d$datasetID=="charrier11"] <- "29-Jan-09"
+
 ### We have a mis-spelling (well, bad capital letter) in one species and ahh! I found and fixed some whitespace and other problems!
 d$species[which(d$species=="Cordata")] <- "cordata"
 d$species[which(d$species=="communis L.")] <- "communis"
