@@ -36,9 +36,9 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 
 
 \noindent Authors:\\
-Ignacio Morales Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3}$ Daniel M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{8}$ Mira Garner,$^{3,9}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{11}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
+Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3}$ Daniel M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{8}$ Mira Garner,$^{3,9}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{11}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
-$^{1}$Edificio Ciencias, Campus Universitario 28805 Alcal\'a de Henares, Madrid, Spain\\
+$^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
 $^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
 $^{4}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
@@ -111,7 +111,7 @@ source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
 print(make.mytable1,
       # floating=FALSE, % see https://stat.ethz.ch/pipermail/r-help/2011-August/286473.html for why this doesn't work
       size="footnotesize",
-      hline.after=c(-1,0),
+      hline.after=c(-1,0,13),
       caption.placement="top",
       include.rownames=FALSE,
       sanitize.text.function = function(x){x}
@@ -126,7 +126,7 @@ cat(" \\clearpage \\pagebreak ")
 # tablevaldatsource
 print(make.mytable2,
       size="footnotesize",
-      hline.after=c(-1,0),
+      hline.after=c(-1,0,9),
       caption.placement="top",
       include.rownames=FALSE,
       #tabular.environment = "longtable",

@@ -308,6 +308,30 @@ source("source/stan_utility.R")
 check_all_diagnostics(fit)
 
 
+## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
+tableresults = summary(fit, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults0 = summary(fitlamb0, pars = list("a_z", #"lam_interceptsa", 
+                                        "sigma_interceptsa", "b_zf", 
+                                        #"lam_interceptsbf", 
+                                        "sigma_interceptsbf", "b_zc", 
+                                        #"lam_interceptsbc", 
+                                        "sigma_interceptsbc", "b_zp", 
+                                        #"lam_interceptsbp", 
+                                        "sigma_interceptsbp", "sigma_y"))$summary
+
+#write.csv(tableresults[c(1,4,7,10,2,5,8,11,3,6,9,12,13),c(1,3,4,6,8:10)], file = "output/angio_noout_lambest191.csv")
+#write.csv(tableresults0[c(1,3,5,7,2,4,6,8,9),c(1,3,4,6,8:10)], file = "output/angio_noout_lamb0_191.csv")
+
+# save citable values in text
+chillsens = abs(round(tableresults["b_zc","mean"],1))
+photosens = abs(round(tableresults["b_zp","mean"],1))
+forcesens = abs(round(tableresults["b_zf","mean"],1))
+
+phylosigchill = abs(round(tableresults["lam_interceptsbc","mean"],2))
+phylosigphoto = abs(round(tableresults["lam_interceptsbp","mean"],2))
+phylosigforce = abs(round(tableresults["lam_interceptsbf","mean"],2))
+
+
 
 #'####################
 #' Code to pull posteriors of each cue and get quantiles  ----
@@ -715,10 +739,10 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 ### compute some correlations for the text----
 
-corpmmchillforce = cor(cuechill,cueforce)
-corpmmhmmchill = cor(cuechill,cuechill0)
-corpmmhmmforce = cor(cueforce,cueforce0)
-corpmmhmmphoto = cor(cuephoto,cuephoto0)
+corpmmchillforce = round(cor(cuechill,cueforce),2)
+corpmmhmmchill = round(cor(cuechill,cuechill0),2)
+corpmmhmmforce = round(cor(cueforce,cueforce0),2)
+corpmmhmmphoto = round(cor(cuephoto,cuephoto0),2)
 
 
 ### compute some other values (e.g. shift in slopes pmm vs hmm) for the text----
