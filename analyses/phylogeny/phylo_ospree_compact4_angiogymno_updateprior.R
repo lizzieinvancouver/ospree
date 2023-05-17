@@ -401,9 +401,6 @@ chillspmean0 <- rowSums(chillarray0)/ncol(chillarray0)
 forcespmean0 <- rowSums(forcearray0)/ncol(forcearray0)
 photospmean0 <- rowSums(photoarray0)/ncol(photoarray0)
 
-chillspmean0 <- rowSums(chillarray0)/ncol(chillarray0)
-forcespmean0 <- rowSums(forcearray0)/ncol(forcearray0)
-photospmean0 <- rowSums(photoarray0)/ncol(photoarray0)
 
 # I think this should estimate overall uncertainity ... though would be good to check
 quantchillsp <- quantile(chillspmean, probs = whichquantiles)
@@ -421,6 +418,8 @@ photoperimpove <- round(abs(1-((quantphotosp[1]-quantphotosp[3])/(quantphoto0sp[
 bzfchange <- 100*round(1-(mean(postfit$b_zf)/mean(postfitlamb0$b_zf)), 2)
 bzcchange <- 100*round(1-(mean(postfit$b_zc)/mean(postfitlamb0$b_zc)), 2)
 bzpchange <- 100*round(1-(mean(postfit$b_zp)/mean(postfitlamb0$b_zp)), 2)
+
+
 
 #'###################################
 # Some plots ...               ####
@@ -737,13 +736,20 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 }
 
 
-### compute some correlations for the text----
+### compute some correlations and variances for the text----
 
 corpmmchillforce = round(cor(cuechill,cueforce),2)
 corpmmhmmchill = round(cor(cuechill,cuechill0),2)
 corpmmhmmforce = round(cor(cueforce,cueforce0),2)
 corpmmhmmphoto = round(cor(cuephoto,cuephoto0),2)
 
+varpmmchill = round(var(cuechill),2)
+varpmmforce  = round(var(cueforce),2)
+varpmmphoto = round(var(cuephoto),2)
+
+varhmmchill = round(var(cuechill0),2)
+varhmmforce  = round(var(cueforce0),2)
+varhmmphoto = round(var(cuephoto0),2)
 
 ### compute some other values (e.g. shift in slopes pmm vs hmm) for the text----
 

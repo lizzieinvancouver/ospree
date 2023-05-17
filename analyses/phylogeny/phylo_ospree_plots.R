@@ -587,7 +587,7 @@ mean(indvarest);mean(indvarlam0)
 t.test(indvarest,indvarlam0)
 t.test(indvarest,indvarlam1)
 
-67*4
+
 
 ##### comparing overall variances across species responses ----
 
@@ -604,19 +604,6 @@ var(cuephoto0)
 var(cuephoto1)
 
 
-##### comparing variances ----
-
-var(cueforce)
-var(cueforce0)
-var(cueforce1)
-
-var(cuechill)
-var(cuechill0)
-var(cuechill1)
-
-var(cuephoto)
-var(cuephoto0)
-var(cuephoto1)
 
 
 ##### comparing bias in average estimating ----
