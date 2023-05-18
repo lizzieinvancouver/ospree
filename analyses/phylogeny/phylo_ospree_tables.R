@@ -72,7 +72,7 @@ names(modellamb0)[names(modellamb0)=="X97.5."] <- "97.5\\%"
 names(modellamb0)[names(modellamb0)=="n_eff"] <- "$n_{eff}$"
 
 make.mytable2 <- xtable(modellamb0, 
-                        caption="Model parameters for non-phylogenetic model (lambda = 0) estimated for 191 tree species.",
+                        caption="Model parameters for non-phylogenetic model ($\\lambda$ = 0) estimated for 191 tree species.",
                         label="tab:modlamb0")
 
 

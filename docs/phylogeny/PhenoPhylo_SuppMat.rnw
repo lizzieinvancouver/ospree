@@ -129,6 +129,7 @@ print(make.mytable2,
       hline.after=c(-1,0,9),
       caption.placement="top",
       include.rownames=FALSE,
+       sanitize.text.function = function(x){x}
       #tabular.environment = "longtable",
       #add.to.row=add.to.row
       )
@@ -243,7 +244,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/burstmodelfigquick.pdf}
-  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package)), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
+  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
   \label{fig:burstmodels}
   \end{center}
 \end{figure}
