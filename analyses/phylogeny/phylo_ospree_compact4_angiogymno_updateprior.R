@@ -711,6 +711,11 @@ mean(cueforce-cueforce0)
 mean(cuechill-cuechill0)
 mean(cuephoto-cuephoto0)
 
+foldminmaxchill = round(abs(min(cuechill))/abs(max(cuechill)),0)
+foldminmaxforce = round(abs(min(cueforce))/abs(max(cueforce)),0)
+foldminmaxphoto = round(abs(min(cuephoto))/abs(max(cuephoto)),0)
+
+
 plotting = F
 lambdazero = F
 
