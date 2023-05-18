@@ -894,9 +894,10 @@ summary(dfsps1$pmm)
 
 
 # make color scale for plotting
+library(dichromat)
+library(rworldmap)
 #install.packages("dichromat")
 #newmap <- getMap(resolution="high") 
-library(dichromat)
 MrWhite_palette <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
                                                 "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))
 
@@ -1119,7 +1120,8 @@ border="black",add=T)
 dfsps1$absforecast = (dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C)
 dfsps2$absforecast = (dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C)
 
-
+#write.csv(dfsps1, file = "output/Betpen_forecast_figures.csv")
+#write.csv(dfsps2, file = "output/Acecam_forecast_figures.csv")
 colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast,
                                                         dfsps2$absforecast),
                                                       breaks = 50))]
@@ -1132,14 +1134,13 @@ par(mfrow=c(1,3))
 
 plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
      main="Betula pendula")
-points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps1,0.6))
-colsabsforecastsps1
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.3,
+       col=adjustcolor(colsabsforecastsps1,1))
 # Acecam absolute forecast
 plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Acer campestris")
-points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps2,0.6))
+     main="Acer campestre")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.3,
+       col=adjustcolor(colsabsforecastsps2,1))
 #pmm vs lmm curr-2C
 MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
                                                   "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(30)[1:30]

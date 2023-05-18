@@ -7,12 +7,10 @@
 \usepackage{amsmath}
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
-\usepackage{parskip}
 \usepackage{longtable}
 \usepackage{xr-hyper} %refer to Fig.s in another document
 \usepackage{hyperref}
-\externaldocument[main-]{PhenoPhylo_ms} %DLMay11: I think you are missing the segment that gets added to the label that gets cross referened, here I just use "main-" and added "supp-" to the maintext.
-\usepackage{hyperref} %DLMay11: two packages for the url formatting
+\externaldocument{PhenoPhylo_ms} 
 \urlstyle{same}
 
 \def\labelitemi{--}
@@ -39,20 +37,19 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 
 
 \noindent Authors:\\
-Ignacio Morales Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3,4}$ Daniel M. Buonaiuto,$^{5,6,7}$ Catherine J. Chamberlain,$^{5,6,8}$ Ailene K. Ettinger,$^{9}$ Mira Garner,$^{3,10}$ Faith A. M. Jones,$^{3,11}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{12}$ \& E. M. Wolkovich$^{3,5,6}$  \vspace{2ex}\\
+Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoff Legault,$^{3}$ Daniel M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{8}$ Mira Garner,$^{3,9}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse$^{11}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
-$^{1}$Edificio Ciencias, Campus Universitario 28805 Alcal\'a de Henares, Madrid, Spain\\
+$^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
 $^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
-$^{4}$Getty\\
-$^{5}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
-$^{6}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA\\
-$^{7}$Department of Environmental Conservation, University of Massachusetts-Amherst, 160 Holdsworth Way, Amherst, MA, USA\\  % 01003
- $^{8}$The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\ %27701
-$^{9}$The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ % 98121
-$^{10}$Morton Arboretum, USA  \\ 
-$^{11}$Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ % Faith
-$^{12}$ Imperial College, UK\\
+$^{4}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
+$^{5}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA\\
+$^{6}$Department of Environmental Conservation, University of Massachusetts-Amherst, 160 Holdsworth Way, Amherst, MA, USA\\  % 01003
+ $^{7}$The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\ %27701
+$^{8}$The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ % 98121
+$^{9}$Morton Arboretum, USA  \\ 
+$^{10}$Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ % Faith
+$^{11}$ Imperial College, UK\\
 
 \vspace{2ex}
 $^*$Corresponding author: ignacio.moralesc@uah.es\\
@@ -82,12 +79,12 @@ A traditional interpretation of $\sigma^2$s under Brownian Motion evolution, is 
 
 \subsection{Does accounting for phylogenetic relationships affect forecasts?}
 %\subsection{Forecasting for two species}
-We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, $n=311$) versus poorly sampled  (\emph{Acer campestre}, $n=6$) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2$^{\circ}$C of warming. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic \emph{vs}. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how phenological shifts expected due to warming differ as a result of using a phylogenetic model instead of a non-phylogenetic model.  
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, $n=311$) versus poorly sampled  (\emph{Acer campestre}, $n=6$) species. For this, we followed the next steps. First we fit our models (i.e., phylogenetic and non-phylogenetic) using natural (non-Z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2$^{\circ}$C of warming. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic vs. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how phenological shifts expected due to warming differ as a result of using a phylogenetic model instead of a non-phylogenetic model.  
 
-Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. We extracted climate data corresponding to all grid cells contained within each species' range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed on May 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and  chilling (Utah units from from 1 September through 30 April). Utah units were calculated using the chillR package in R \citep{luedeling2015package}. We used yearly values of forcing and chilling computed for each location (i.e., grid cell) as inputs in the models to predict date of budburst under each scenario for each 12637 locations for \emph{Betula pendula} and 7537 locations for \emph{Acer campestris}. Lastly, we compared model forecasts from phylogenetic and non-phylogenetic models (i.e., simply by calculating the difference PMM-HMM) and quantified the bias in forecasted phenological shifts due to warming resultinf from using non-phylogenetic models instead of phylogenetic ones (i.e., calculating the difference $[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]$).%DLMay11 I am not sure what is meant by "[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]", should it be referenced values in the source code using \Sexpr? It seems to be generating some warnings
+Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. We extracted climate data corresponding to all grid cells contained within each species' range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed on May 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and  chilling (Utah units from from 1 September through 30 April). Utah units were calculated using the chillR package in R. We used yearly values of forcing and chilling computed for each location (i.e., grid cell) as inputs in the models to predict date of budburst under each scenario for each 12637 locations for \emph{Betula pendula} and 7537 locations for \emph{Acer campestre}. Lastly, we compared model forecasts from phylogenetic and non-phylogenetic models (i.e., simply by calculating the difference PMM-HMM) and quantified the bias in forecasted phenological shifts due to warming resulting from using non-phylogenetic models instead of phylogenetic ones (i.e., calculating the difference $[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]$).%DLMay11 I am not sure what is meant by "[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]", should it be referenced values in the source code using \Sexpr? It seems to be generating some warnings
 
 %IMC8May23- The below bit has been copied from cut text of the main file. Perhaps this would be its place, but it would likely need some rewriting. The point is: on average, across all species,  using HMM instead of PMM can bias model estimates particularly for phylogenetically structured cues. Yet, biases differ much between over and under-represented species. 
-Across all 191 species, accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients (Fig. \ref{main-fig:correls_angio}). Not accounting for phylogeny (i.e., assuming $\lambda$ = 0 as done in HMM) biased model coefficients on average, particularly so for forcing and somewhat less for chilling (Fig. \ref{main-fig:correls_angio}). Specifically, species sensitivities to forcing and chilling were underestimated on average (model slopes shifted by 7.2\% and 3.7\%, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{main-fig:correls_angio}), likely associated to their low estimated $\lambda$ values. However, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
+Across all 191 species, accounting for the effects of phylogenetic structuring on the effects of jointly modelled cues had an effect on model coefficients (Fig. \ref{fig:correls_angio}). Not accounting for phylogeny (i.e., assuming $\lambda$ = 0 as done in HMM) biased model coefficients on average, particularly so for forcing and somewhat less for chilling (Fig. \ref{fig:correls_angio}). Specifically, species sensitivities to forcing and chilling were underestimated on average (model slopes shifted by 7.2\% and 3.7\%, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{fig:correls_angio}), likely associated to their low estimated $\lambda$ values. However, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
 
 \clearpage
 
@@ -107,50 +104,62 @@ Across all 191 species, accounting for the effects of phylogenetic structuring o
 
 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Mon May 15 15:33:07 2023
+% Thu May 18 21:53:08 2023
+\begin{table}[ht]
+\centering
+\caption{Full model parameters estimated for 191 tree species.} 
+\label{tab:modelanglamb}
 \begingroup\footnotesize
 \begin{tabular}{lrrrrrrr}
   \hline
-X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+Parameter & mean & sd & 2.5\% & 50\% & 97.5\% & $n_{eff}$ & Rhat \\ 
   \hline
-a\_z & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\ 
-  b\_zf & -6.12 & 2.11 & -10.24 & -6.15 & -1.85 & 3989.87 & 1.00 \\ 
-  b\_zc & -6.86 & 2.18 & -10.98 & -6.91 & -2.39 & 7444.80 & 1.00 \\ 
-  b\_zp & -1.22 & 0.77 & -2.73 & -1.22 & 0.36 & 2482.96 & 1.00 \\ 
-  lam\_interceptsa & 0.34 & 0.10 & 0.16 & 0.34 & 0.55 & 7668.82 & 1.00 \\ 
-  lam\_interceptsbf & 0.65 & 0.20 & 0.22 & 0.67 & 0.97 & 630.96 & 1.01 \\ 
-  lam\_interceptsbc & 0.54 & 0.15 & 0.25 & 0.55 & 0.82 & 1834.14 & 1.00 \\ 
-  lam\_interceptsbp & 0.40 & 0.24 & 0.03 & 0.38 & 0.88 & 672.39 & 1.00 \\ 
-  sigma\_interceptsa & 15.99 & 1.15 & 13.98 & 15.91 & 18.47 & 6970.37 & 1.00 \\ 
-  sigma\_interceptsbf & 5.80 & 1.01 & 4.06 & 5.70 & 8.01 & 1043.34 & 1.00 \\ 
-  sigma\_interceptsbc & 7.10 & 0.88 & 5.53 & 7.04 & 8.99 & 1767.13 & 1.00 \\ 
-  sigma\_interceptsbp & 2.36 & 0.41 & 1.61 & 2.34 & 3.23 & 636.82 & 1.01 \\ 
-  sigma\_y & 12.58 & 0.18 & 12.24 & 12.58 & 12.93 & 10904.90 & 1.00 \\ 
-  \end{tabular}
-\endgroup \clearpage \pagebreak 
+$\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\ 
+  $\mu_{\beta_{force}}$ & -6.12 & 2.11 & -10.24 & -6.15 & -1.85 & 3989.87 & 1.00 \\ 
+  $\mu_{\beta_{chill}}$ & -6.86 & 2.18 & -10.98 & -6.91 & -2.39 & 7444.80 & 1.00 \\ 
+  $\mu_{\beta_{photo}}$ & -1.22 & 0.77 & -2.73 & -1.22 & 0.36 & 2482.96 & 1.00 \\ 
+  $\lambda_{\alpha}$ & 0.34 & 0.10 & 0.16 & 0.34 & 0.55 & 7668.82 & 1.00 \\ 
+  $\lambda_{\beta_{force}}$ & 0.65 & 0.20 & 0.22 & 0.67 & 0.97 & 630.96 & 1.01 \\ 
+  $\lambda_{\beta_{chill}}$ & 0.54 & 0.15 & 0.25 & 0.55 & 0.82 & 1834.14 & 1.00 \\ 
+  $\lambda_{\beta_{photo}}$ & 0.40 & 0.24 & 0.03 & 0.38 & 0.88 & 672.39 & 1.00 \\ 
+  $\sigma_{\alpha}$ & 15.99 & 1.15 & 13.98 & 15.91 & 18.47 & 6970.37 & 1.00 \\ 
+  $\sigma_{\beta_{force}}$ & 5.80 & 1.01 & 4.06 & 5.70 & 8.01 & 1043.34 & 1.00 \\ 
+  $\sigma_{\beta_{chill}}$ & 7.10 & 0.88 & 5.53 & 7.04 & 8.99 & 1767.13 & 1.00 \\ 
+  $\sigma_{\beta_{photo}}$ & 2.36 & 0.41 & 1.61 & 2.34 & 3.23 & 636.82 & 1.01 \\ 
+  $\sigma_y$ & 12.58 & 0.18 & 12.24 & 12.58 & 12.93 & 10904.90 & 1.00 \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table} \clearpage \pagebreak 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Mon May 15 15:33:07 2023
+% Thu May 18 21:53:08 2023
+\begin{table}[ht]
+\centering
+\caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species.} 
+\label{tab:modlamb0}
 \begingroup\footnotesize
 \begin{tabular}{lrrrrrrr}
   \hline
-X & mean & sd & X2.5. & X50. & X97.5. & n\_eff & Rhat \\ 
+Parameter & mean & sd & 2.5\% & 50\% & 97.5\% & $n_{eff}$ & Rhat \\ 
   \hline
-a\_z & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\ 
-  b\_zf & -7.46 & 0.89 & -9.19 & -7.46 & -5.71 & 2960.28 & 1.00 \\ 
-  b\_zc & -8.75 & 0.81 & -10.29 & -8.76 & -7.11 & 6051.59 & 1.00 \\ 
-  b\_zp & -1.21 & 0.46 & -2.10 & -1.20 & -0.29 & 2175.88 & 1.00 \\ 
-  sigma\_interceptsa & 16.35 & 1.00 & 14.46 & 16.31 & 18.41 & 10178.43 & 1.00 \\ 
-  sigma\_interceptsbf & 5.20 & 0.82 & 3.76 & 5.15 & 6.93 & 677.74 & 1.00 \\ 
-  sigma\_interceptsbc & 6.84 & 0.78 & 5.40 & 6.80 & 8.46 & 1815.10 & 1.00 \\ 
-  sigma\_interceptsbp & 2.27 & 0.35 & 1.61 & 2.25 & 2.99 & 649.15 & 1.00 \\ 
-  sigma\_y & 12.57 & 0.18 & 12.23 & 12.57 & 12.94 & 12887.31 & 1.00 \\ 
-  \end{tabular}
-\endgroup \clearpage \pagebreak 
+$\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\ 
+  $\mu_{\beta_{force}}$ & -7.46 & 0.89 & -9.19 & -7.46 & -5.71 & 2960.28 & 1.00 \\ 
+  $\mu_{\beta_{chill}}$ & -8.75 & 0.81 & -10.29 & -8.76 & -7.11 & 6051.59 & 1.00 \\ 
+  $\mu_{\beta_{photo}}$ & -1.21 & 0.46 & -2.10 & -1.20 & -0.29 & 2175.88 & 1.00 \\ 
+  $\sigma_{\alpha}$ & 16.35 & 1.00 & 14.46 & 16.31 & 18.41 & 10178.43 & 1.00 \\ 
+  $\sigma_{\beta_{force}}$ & 5.20 & 0.82 & 3.76 & 5.15 & 6.93 & 677.74 & 1.00 \\ 
+  $\sigma_{\beta_{chill}}$ & 6.84 & 0.78 & 5.40 & 6.80 & 8.46 & 1815.10 & 1.00 \\ 
+  $\sigma_{\beta_{photo}}$ & 2.27 & 0.35 & 1.61 & 2.25 & 2.99 & 649.15 & 1.00 \\ 
+  $\sigma_y$ & 12.57 & 0.18 & 12.23 & 12.57 & 12.94 & 12887.31 & 1.00 \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table} \clearpage \pagebreak 
 
 
 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Mon May 15 15:33:07 2023
+% Thu May 18 21:53:08 2023
 \begingroup\footnotesize
 \begin{longtable}{p{1.50in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.2in}c{0.3in}c{0.1in}}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\% (low) and 97.5\% (up) Credible Intervals. Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -359,7 +368,7 @@ Populus deltoides & -15.16 & -25.05 & -5.82 & -6.43 & -13.73 & 1.82 & -0.97 & -5
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.2.0 by xtable 1.8-4 package
-% Mon May 15 15:33:07 2023
+% Thu May 18 21:53:08 2023
 \begingroup\footnotesize
 \begin{longtable}{p{1.50in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.32in}c{0.2in}c{0.3in}c{0.1in}}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\% (low) and 97.5\% (up) Credible Intervals. Values correspond to the non phylogenetic model.} \\ 
@@ -572,7 +581,7 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_ phylo_muplots191_lamb0.pdf}
-  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% Credible Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% uncertainty Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:suppmuplot_all} %DLMay11 this fig label is in the main text too, so added supp
   \end{center}
 \end{figure}
@@ -618,7 +627,7 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig_forecasting_maps.pdf}
-  \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestris} (b).  .}
+  \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestre} (b).  .}
   \label{fig:pmmvshmm}
   \end{center}
 \end{figure}
@@ -638,7 +647,7 @@ Populus deltoides & -18.11 & -28.51 & -7.77 & -6.23 & -15.95 & 4.03 & -1.26 & -5
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/burstmodelfigquick.pdf}
-  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package)), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
+  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
   \label{fig:burstmodels}
   \end{center}
 \end{figure}
