@@ -69,14 +69,20 @@ $^2$  Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massac
 
 $^3$  Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
 
-$^4$  XXXX \\
+% $^4$  $GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
 
-$^5$  XXXX\\
+% $^5$  $Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\ 
 
-$^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+% $^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
 
-$^7$  XXXX \\
+% $^7$ $The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\
+% 
+% $^8$ $The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
 %Fix numbers once I have everyone's affiliations
+
+% $^{9} $Morton Arboretum, USA  \\ 
+% 
+% $^{10} $Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ 
 
 Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
