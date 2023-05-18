@@ -47,7 +47,7 @@
 
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=FALSE}
 
 
 \renewcommand{\bibname}{References}%names reference list 
