@@ -24,9 +24,9 @@ modellamb0 <- read.csv("output/angio_noout_lamb0_191.csv")
 modelspslevest <- read.csv("output/spslevestimates191.csv")
 modelspslev0 <- read.csv("output/spslevestimateslamb0_191.csv")
 
-colnames(modelspslevest) = colnames(modelspslev0) = c("Species","b.chill","low","up",
-                          "b.force","low","up",
-                          "b.photo","low","up")
+colnames(modelspslevest) = colnames(modelspslev0) = c("Species","$\\beta_{chill,j}$","lowUI","upUI",
+                          "$\\beta_{force,j}$","lowUI","upUI",
+                          "$\\beta_{photo,j}$","lowUI","upUI")
 
 names(modellambest)[names(modellambest)=="X"] <- "Parameter"
 lookupmodelnames <- c("a_z"="$\\mu_{\\alpha}$",
@@ -49,7 +49,7 @@ names(modellambest)[names(modellambest)=="X97.5."] <- "97.5\\%"
 names(modellambest)[names(modellambest)=="n_eff"] <- "$n_{eff}$"
 
 make.mytable1 <- xtable(modellambest, 
-                        caption="Full model parameters estimated for 191 tree species.",
+                        caption="Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\\%, 50\\%, and 97.5\\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.",
                         label="tab:modelanglamb")
 
 #align(make.mytable1) <- c( 'p{0.20}',  'p{0.20in}', 'p{0.25in}', 'r{0.25in}', 'p{0.35in}', 'p{0.35in}')
@@ -72,17 +72,19 @@ names(modellamb0)[names(modellamb0)=="X97.5."] <- "97.5\\%"
 names(modellamb0)[names(modellamb0)=="n_eff"] <- "$n_{eff}$"
 
 make.mytable2 <- xtable(modellamb0, 
-                        caption="Model parameters for non-phylogenetic model ($\\lambda$ = 0) estimated for 191 tree species.",
+                        caption="Model parameters for non-phylogenetic model ($\\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\\%, 50\\%, and 97.5\\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.",
                         label="tab:modlamb0")
 
 
 make.mytable3 <- xtable(modelspslevest, 
-                        caption="Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\\% (low) and 97.5\\% (up) Credible Intervals. Values correspond to the full model accounting for phylogenetic relationships.",
+                        caption="Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\\beta_{chill,j}$), forcing ($\\beta_{force,j}$) and photoperiod ($\\beta_{photo,j}$), along with their corresponding 2.5\\% (low) and 97.5\\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.",
                         label="tab:tablesupp3")
 
+if(FALSE){
 align(make.mytable3) <- c( 'p{0.10}',  'p{1.50in}', 'c{0.32in}', 'c{0.32in}', 
                            'c{0.32in}', 'c{0.32in}','c{0.32in}', 'c{0.32in}' , 
-                           'c{0.2in}', 'c{0.3in}', 'c{0.1in}')
+                          'c{0.2in}', 'c{0.3in}', 'c{0.1in}')
+}
 
 add.to.row <- list(pos = list(0), command = NULL)
 command <- paste0("\\hline\n\\endhead\n",
@@ -95,11 +97,15 @@ add.to.row$command <- command
 
 
 make.mytable4 <- xtable(modelspslev0, 
-                        caption="Estimated sensitivities of 191 tree species to three environmental cues: chilling (b.chill), forcing (b.force) and photoperiod (b.photo), along with their corresponding 2.5\\% (low) and 97.5\\% (up) Credible Intervals. Values correspond to the non phylogenetic model.",
+                        caption="Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\\beta_{chill,j}$), forcing ($\\beta_{force,j}$) and photoperiod ($\\beta_{photo,j}$), along with their corresponding 2.5\\% (low) and 97.5\\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.",
                         label="tab:tablesupp2")
+
+if(FALSE){
 align(make.mytable4) <- c( 'p{0.10}',  'p{1.50in}', 'c{0.32in}', 'c{0.32in}', 
                            'c{0.32in}', 'c{0.32in}','c{0.32in}', 'c{0.32in}' , 
-                           'c{0.2in}', 'c{0.3in}', 'c{0.1in}')
+                          'c{0.2in}', 'c{0.3in}', 'c{0.1in}')
+}
+
 add.to.row <- list(pos = list(0), command = NULL)
 command <- paste0("\\hline\n\\endhead\n",
                   "\\hline\n",
