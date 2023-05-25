@@ -8,6 +8,9 @@
 
 #fu_2018 does not list provenance location- only that all sapings are from the same origin
 
+## Charrier11 - provenance.long was inputted in population.detail for exp2, fix here
+d[d$datasetID=="charrier11" & d$study=="exp2",]$provenance.long <- d[d$datasetID=="charrier11" & d$study=="exp2",]$population.detail 
+
 #Add provenance lat/long for fu19 (ms says Sonian Forest, Brussels and google tells me the lat/long below).
 d[d$datasetID=="fu19",]$provenance.lat <- 50.78
 d[d$datasetID=="fu19",]$provenance.long <- 4.36

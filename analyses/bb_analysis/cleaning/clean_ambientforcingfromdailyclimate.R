@@ -132,7 +132,7 @@ bb.sub <- subset(bb, select=-c(expstartdate, response.time.integer, bbdate, last
 d$chilldays <- ifelse(is.na(d$chilldays), "", d$chilldays)
 d$uniqueID <- paste(d$datasetID, d$fieldsample.date2, d$forcetemp, d$chilltemp, 
                         d$chilldays,d$chillphotoperiod, d$photoperiod_day)
-addavgbbtemp <- merge(d, bb.sub, by="uniqueID", all.y=TRUE) ## 7857 rows of data (so subsets down to only data with ambient forcing)
+addavgbbtemp <- left_join(d, bb.sub) #, by="uniqueID", all.y=TRUE ## 7857 rows of data (so subsets down to only data with ambient forcing)
 d <- full_join(d, bb.sub) ## is still full dataset 11959 rows
 
 if(FALSE){
@@ -174,7 +174,7 @@ d$forcetemp<-ifelse(d$forcetemp=="ambient + 2.25", d$avg_bbtemp + 2.25, d$forcet
 d$forcetemp<-ifelse(d$forcetemp=="ambient + 4.5", d$avg_bbtemp + 4.5, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient + 6.75", d$avg_bbtemp + 6.75, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient + 9", d$avg_bbtemp + 9, d$forcetemp)
-d$forcetemp<-ifelse(d$forcetemp=="ambient-1", d$avg_bbtemp-1, d$forcetemp)
+d$forcetemp<-ifelse(d$forcetemp=="ambient-1", d$avg_bbtemp - 1, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient+0", d$avg_bbtemp + 0, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient+1", d$avg_bbtemp + 1, d$forcetemp)
 d$forcetemp<-ifelse(d$forcetemp=="ambient+2", d$avg_bbtemp + 2, d$forcetemp)
