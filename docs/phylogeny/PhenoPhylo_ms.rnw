@@ -328,7 +328,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 
 \begin{figure} 
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig4_forecasting_diffstdpmm-lmm.pdf}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig4_forecasting_diffstdpmm-lmm_pngnice.pdf}
   \caption{Comparison of forecasts of phenological shifts (i.e., computed as the difference between predictions under current climate vs. a 2$^{\circ}$C warmer climate) resulting from a phylogenetic (PMM) and a non-phylogenetic (HMM) approach. Forecasted shifts are negligible for well sampled species (\emph{Betula pendula}, $n = 311$, a), but can be substantially different for poorly sampled species in well-sampled clades (\emph{Acer campestre}, $n = 6$, b). The maps show the difference in number of days between the shifts predicted by PMM and HMM, with values colored according to histograms in panel c (days here are relative to start of forcing conditions, not calendar days). See Supplementary Material for details on forecast calculation.}
   \label{fig:forecast}
   \end{center}

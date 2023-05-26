@@ -228,7 +228,7 @@ cat(" \\clearpage \\pagebreak ")
 \clearpage
 \begin{figure}
   \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig_forecasting_maps.pdf}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Figsupp_forecasting_maps_pngnice.pdf}
   \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestre} (b).}
   \label{fig:pmmvshmm}
   \end{center}
