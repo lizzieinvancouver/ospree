@@ -69,15 +69,22 @@ $^2$  Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massac
 
 $^3$  Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
 
-% $^4$  $GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
+$^1$ Department of Forest and Conservation, Faculty of Forestry, University of British Columbia, 2424 Main Mall
+Vancouver, BC Canada V6T 1Z4. \\
 
-% $^5$  $Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\ 
+$^2$  Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\ \\
 
-% $^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+$^3$  Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
 
-% $^7$ $The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\
-% 
-% $^8$ $The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
+$^4$  GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
+
+$^5$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\ 
+
+$^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+
+$^7$ The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\
+
+$^8$ $The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
 %Fix numbers once I have everyone's affiliations
 
 % $^{9} $Morton Arboretum, USA  \\ 
@@ -112,7 +119,7 @@ Predicting these changes requires understanding the drivers of phenology both at
 \\
 
 %The reader was just left with 'limited reasons for species differences' and now you need a tiny bridge to get them to 'selective pressures.'
-At the ultimate level, predictions for why species vary may come from considering how selective pressures change as the early season progresses. Species that start growth first often risk high tissues loss, for example, due to frost damage \citep{Sakai1987,Augspurger2009} or high herbivore apparency \citep{Wainwright2012}, but they often benefit from higher resource availability \citep{Rathcke1985a,Hufkens2012}. In contrast, later species have greater selection from many biotic pressures, especially high competition for resources  \citep{Lopez2008, Wolkovich2014}.
+At the ultimate level, predictions for why species vary may come from considering how selective pressures change as the early season progresses. Species that start growth first often risk high tissues loss, for example, due to frost damage \citep{Sakai1987,Augspurger2009} or high herbivore apparency \citep{Wainwright2012}, but they often benefit from higher resource availability \citep{Rathcke1985a,Hufkens2012}. In contrast, later species have greater selection from many biotic pressures, especially high competition for resources  \citep{Lopez2008,Wolkovich2014}.
 % Wainwright: Seasonal priority effects: implications for invasion and 6 restoration in a semi-arid system.
 %Frost example?
 \\
@@ -338,7 +345,7 @@ Of our four traits, seed mass had the weakest responses across the three cues (F
 %\begin{enumerate}
 \pagebreak
 \bibliographystyle{refs/bibstyles/amnat.bst}% 
-\bibliography{refs/traitors_mar23.bib}
+\bibliography{refs/traitors_may32022.bib}
 
 
 \end{document}
