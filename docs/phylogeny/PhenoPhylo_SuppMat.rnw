@@ -151,14 +151,19 @@ source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
 
 <<label=tablesupp3, echo=FALSE, results=tex>>=
 # tablespslevestimate
+format_italics <- function(x) {
+  paste0("\\emph{", x, "}")
+}
+
 print(make.mytable3,
       size="footnotesize",
       hline.after=c(-1,0),
       caption.placement="top",
+      #caption_width = "1.4\\textwidth",
       include.rownames=FALSE,
       tabular.environment = "longtable",
       add.to.row=add.to.row,
-      sanitize.text.function = function(x){x}
+      sanitize.text.function = format_italics
       )
 
 cat(" \\clearpage \\pagebreak ")
@@ -173,7 +178,7 @@ print(make.mytable4,
       include.rownames=FALSE,
       tabular.environment = "longtable",
       add.to.row=add.to.row,
-      sanitize.text.function = function(x){x}
+      sanitize.text.function = format_italics
       )
 
 cat(" \\clearpage \\pagebreak ")
@@ -228,7 +233,7 @@ cat(" \\clearpage \\pagebreak ")
 \clearpage
 \begin{figure}
   \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Figsupp_forecasting_maps_pngnice.pdf}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Figsupp_forecasting_maps_pngnice.pdf}
   \caption{Maps comparing projections of phylogenetic (PMM) against non-phylogenetic (HMM) models into the European distributions of two overlapping species, one well represented in the dataset \emph{Betula pendula} (a) and one underrepresented \emph{Acer campestre} (b).}
   \label{fig:pmmvshmm}
   \end{center}
