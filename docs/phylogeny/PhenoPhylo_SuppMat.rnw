@@ -8,6 +8,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
 \usepackage{longtable}
+\usepackage{caption}
 \usepackage{xr-hyper} %refer to Fig.s in another document
 \usepackage{hyperref}
 \externaldocument{PhenoPhylo_ms} 
