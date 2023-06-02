@@ -34,7 +34,7 @@
 \maketitle
 
 \noindent Authors:\\
-Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin Sodhi,$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
+Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi,$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
 $^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
@@ -299,7 +299,7 @@ The above specification is equivalent to writing equation \ref{modelmu} in terms
 % EMW (28Mar2022): I vote for the first one, but both are great!
 \begin{figure} 
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191.pdf}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191_clades.pdf}
   \caption{Phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured as change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue, as estimated by our hierarchical phylogenetic model. Species sensitivities are shown along with 50\% uncertainty intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81 My.}
   \label{fig:muplot_all}
   \end{center}
