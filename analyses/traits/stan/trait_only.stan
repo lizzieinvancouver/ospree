@@ -7,16 +7,14 @@ data {
     int < lower = 1 > n_spec; // number of random effect levels (species) 
     int < lower = 1, upper = n_spec > species[N]; // id of random effect (species)
     //Priors
-    real prior_mu_grand; 
-    real prior_sigma_grand;
-    real prior_mu_sp;
-    real prior_sigma_sp_mu;
-    real prior_sigma_sp_sigma;
-    real prior_mu_study;
-    real prior_sigma_study_mu;
-    real prior_sigma_study_sigma;
-    real prior_sigma_traity_mu;
-    real prior_sigma_traity_sigma;
+  //   real prior_mu_grand_mu; 
+  // real prior_mu_grand_sigma;
+  // real prior_sigma_sp_mu;
+  // real prior_sigma_sp_sigma;
+  // real prior_sigma_study_mu;
+  // real prior_sigma_study_sigma;
+  // real prior_sigma_traity_mu;
+  // real prior_sigma_traity_sigma;
 }
 
 parameters{
@@ -41,13 +39,16 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(prior_sigma_traity_mu, prior_sigma_traity_sigma); // trt.var 0.5
-    sigma_sp ~ normal(prior_sigma_sp_mu, prior_sigma_sp_sigma); //sigma_species 10
-    mu_grand ~ normal(prior_mu_grand, prior_sigma_grand); // 
+
+    sigmaTrait_y ~ normal(3, 5); // trt.var 0.5
+    sigma_sp ~ normal(4, 5); //sigma_species 10
+    
+    mu_grand ~ normal(20, 10); // 
     muSp ~ normal(0, sigma_sp); //
 
-    sigma_study ~ normal(prior_sigma_study_mu, prior_sigma_study_sigma); //sigma.study 5
-    muStudy ~ normal(prior_mu_study, sigma_study);//
+    sigma_study ~ normal(2, 5); //sigma.study 5
+    muStudy ~ normal(0, sigma_study);//
+
     
     // run the actual model - likelihood
     yTraiti ~ normal(y_hat, sigmaTrait_y);
