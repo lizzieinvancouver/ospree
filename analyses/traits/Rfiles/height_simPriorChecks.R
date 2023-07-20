@@ -64,13 +64,16 @@ sigmaTrait_y <- 2
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
 names(trt.dat) <- c("rep")
 trt.dat$rep <- c(1:Nrep)
-trt.dat$study <- rep(rep(c(1:Nstudy), each = Nspp), each = Nrep)
-trt.dat$species <- rep(rep(c(1:Nspp), times = Nstudy), each = Nrep)
+# trt.dat$study <- rep(rep(c(1:Nstudy), each = Nspp), each = Nrep)
+# trt.dat$species <- rep(rep(c(1:Nspp), times = Nstudy), each = Nrep)
+trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
+trt.dat$species <- rep(1:Nspp, Nstudy)
 
 # now generating the species trait data, here it is for LNC
 #the alphaTraitSp in Faiths original code:
 alphaTraitSp <- rnorm(Nspp, 0, sigma.species)
-trt.dat$alphaTraitSp <- rep(rep(alphaTraitSp, times = Nstudy), each = Nrep) 
+trt.dat$alphaTraitSp <- rep(alphaTraitSp, times = Nstudy)
+  #rep(rep(alphaTraitSp, times = Nstudy), each = Nrep) 
 
 #now generating the effects of study
 muStudy <- rnorm(Nstudy, 0, sigma.study) #intercept for each study
@@ -91,10 +94,9 @@ for (i in 1:Ntrt){
   trt.dat$yTraiti[i] <-  trt.dat$alphaTraitSp[i] + trt.dat$muStudy[i] +  mu.grand + trt.dat$trt.er[i]
 }
 
-
-hist( trt.dat$yTraiti)
-hist(trt.dat$mu_grand_sp)
-head(trt.dat, 50)
+# hist( trt.dat$yTraiti)
+# hist(trt.dat$mu_grand_sp)
+# head(trt.dat, 50)
 
 #### Pheno data generation ##############################
 
@@ -155,10 +157,9 @@ pheno.dat$alphaChillSp <- rep(alphaChillSp, each = nRep)
 sigmapheno_y <- 5
 pheno.dat$ePhen <- rnorm(Nph, 0, sigmapheno_y)
 
-head(pheno.datTrait,50)
 # Add trait values for each species
 pheno.datTrait <- merge(pheno.dat, unique(trt.dat[,c("species","mu_grand_sp")]), by = "species")
-
+head(pheno.datTrait,50)
 
 #slopes for each cue, combining trait and non-trait aspect of the slope.
 
@@ -195,6 +196,7 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
                  N = Ntrt,
                  n_spec = Nspp,
                  trait_species = as.numeric(as.factor(trt.dat$species)),
+                 species = as.numeric(as.factor(trt.dat$species)),
                  n_study = Nstudy,
                  study = as.numeric(as.factor(trt.dat$study )),
                  prior_mu_grand_mu = 20,
@@ -207,6 +209,7 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
                  prior_sigma_traity_sigma = 5,
                  Nph = nrow(pheno.datTrait),
                  phenology_species = as.numeric(as.factor(pheno.datTrait$species )),
+                 species2 = as.numeric(as.factor(pheno.datTrait$species )),
                  yPhenoi = pheno.datTrait$yPhenoi,
                  forcei = pheno.datTrait$forcei,
                  chilli = pheno.datTrait$chilli,
@@ -247,7 +250,59 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
 if(runStan == TRUE){
 
 #Run model
+  mdl.trait <- stan("stan/joint_3cue_newprior.stan",
+                       data = all.data,
+                       iter = itterNumber,
+                       warmup = warmupNumber,
+                       chains = 4,
+                       cores = 4,
+                       include = FALSE, pars = c("y_hat"))
   
+  postMeanSLA <- rstan::extract(mdl.trait)
+  # 
+  #plot main effects of cues
+  postMeanSLAdf <- data.frame(postMeanSLA)
+  #
+  # 
+  #       
+  png("simPosteriorHist_trait_dl.png")
+  par(mfrow=c(3,4))
+  #       #Compare results to simulated values
+  hist(postMeanSLAdf$muSp, main = paste("muSp is " , signif(alphaTraitSp,3), sep = ""))
+  abline(v = muSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$muStudy, main = paste("muStudy is " , signif(muStudy,3), sep = ""))
+  abline(v = muForceSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(muChillSp,3), sep = ""))
+  abline(v = muChillSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$muPhotoSp, main = paste("muPhotoSp is " , signif(muPhotoSp,3), sep = ""))
+  abline(v = muPhotoSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
+  abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(betaTraitxForce,3), sep = ""))
+  abline(v = betaTraitxForce, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
+  abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(betaTraitxPhoto,3), sep = ""))
+  abline(v = betaTraitxPhoto, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$sigmaChillSp, main = paste("sigmaChillSp is " , signif(sigmaChillSp,3), sep = ""))
+  abline(v = sigmaChillSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$sigmaForceSp, main = paste("sigmaForceSp is " , signif(sigmaForceSp,3), sep = ""))
+  abline(v = sigmaForceSp, col="red", lwd=3, lty=2)
+  # 
+  hist(postMeanSLAdf$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(sigmaPhotoSp,3), sep = ""))
+  abline(v = sigmaPhotoSp, col="red", lwd=3, lty=2) 
+  dev.off()
+  par(mfrow=c(1,1))
+  # 
   mdl.traitphenSim <- stan("stan/phenology_combined.stan",
                       data = all.data,
                       iter = itterNumber,
@@ -256,7 +311,8 @@ if(runStan == TRUE){
                       cores = 4,
                       include = FALSE, pars = c("y_hat"))
 
-	save(mdl.traitphenSim, file = "Rfiles/phenologyMeanTrait_sim.RData")
+	save(mdl.traitphenSim, file = "phenologyMeanTrait_sim_dlcode.RData")
+	sum.jfcp <- summary(mdl.traitphenSim)$summary
 
 }
 
@@ -276,10 +332,23 @@ if(runStan == TRUE){
       labs(title = "main intercept, cue slopes and general error")
 # 
 #       
-      png("figures/simPosteriorHist_height.png")
-       par(mfrow=c(3,4))
+      png("simPosteriorHist_height_dl2.png")
+       par(mfrow=c(4,4))
 #       #Compare results to simulated values
-      hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(muPhenoSp,3), sep = ""))
+       # hist(postMeanSLAdf$mu_grand, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
+       # abline(v = mu_grand, col="red", lwd=3, lty=2)
+       # 
+       hist(postMeanSLAdf$sigma_sp, main = paste("sigmaSp_ is " , signif(sigmapheno_y,3), sep = ""))
+       abline(v = sigma.species, col="red", lwd=3, lty=2)
+       
+       hist(postMeanSLAdf$sigma_study, main = paste("sigmaStudy is " , signif(sigmapheno_y,3), sep = ""))
+       abline(v = sigma.study, col="red", lwd=3, lty=2)
+       
+       hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
+       abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
+       
+       
+       hist(postMeanSLAdf$muPhenoSp, main = paste("muPhenoSp is " , signif(muPhenoSp,3), sep = ""))
        abline(v = muPhenoSp, col="red", lwd=3, lty=2)
 # 
        hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
@@ -314,9 +383,9 @@ if(runStan == TRUE){
        dev.off()
       par(mfrow=c(1,1))
 # 
-# png("figures/simulatedPairs.png")
- pairs(mdl.traitphenSim, pars = c("muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
-# dev.off()
+ png("simulatedPairs.png")
+ pairs(mdl.traitphenSim, pars = c("mu_grand", "sigma_sp", "sigma_study","sigma_traity","muForceSp", "muChillSp", "muPhotoSp", "betaTraitxForce", "betaTraitxChill", "betaTraitxPhoto", "lp__")) 
+ dev.off()
 # pairs(mdl.traitphen, pars = c("muForceSp", "muChillSp", "muPhotoSp", "sigmapheno_y", "lp__")) 
 # 
 # 
@@ -491,4 +560,50 @@ if(BayesSweave == TRUE){
 	#For the BayesClass sweave documents 
 	setwd("/home/faith/Documents/github/bayes2020/Projects/Faith/traitorsModel")
 }
+	sum.jfcp <- summary(mdl.traitphenSim)$summary
+	
+	mu_grand <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp))]
+	sigma_sp <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp))]
+	sigma_studyesti <- sum.jfcp[grep("sigma_study", rownames(sum.jfcp))]
+	sigmaTrait_y <- sum.jfcp[grep("sigma_traity", rownames(sum.jfcp))]
+	
+	mu_chillsp <- sum.jfcp[grep("muChillSp", rownames(sum.jfcp))]
+	sigma_chillsp <- sum.jfcp[grep("sigmaChillSp", rownames(sum.jfcp))]
+	beta_tc <- sum.jfcp[grep("betaTraitxChill", rownames(sum.jfcp))]
+	
+	mu_photosp <- sum.jfcp[grep("muPhotoSp", rownames(sum.jfcp))]
+	sigma_photosp <- sum.jfcp[grep("sigmaPhotoSp", rownames(sum.jfcp))]
+	beta_tp <- sum.jfcp[grep("betaTraitxPhoto", rownames(sum.jfcp))]
+	
+	mu_forcesp <- sum.jfcp[grep("muForceSp", rownames(sum.jfcp))]
+	mu_phenosp <- sum.jfcp[grep("muPhenoSp", rownames(sum.jfcp))]
+	alpha.forcingsp <- sum.jfcp[grep("alphaForcingSp", rownames(sum.jfcp))]
+	sigma_forcesp <- sum.jfcp[grep("sigmaForceSp", rownames(sum.jfcp))]
+	sigma_phenosp <- sum.jfcp[grep("sigmaPhenoSp", rownames(sum.jfcp))]
+	sigma_phenoy <- sum.jfcp[grep("sigmapheno_y", rownames(sum.jfcp))]
+	beta_tf <- sum.jfcp[grep("betaTraitxForce", rownames(sum.jfcp))]
+	
+	mdl.out <- data.frame( "Parameter" = c("mu_grand","sigma_sp","sigma_study","sigmaTrait_y","mu_forcesp","mu_chillsp","mu_photosp","mu_phenosp","sigma_forcesp","sigma_chillsp","sigma_photosp", "sigma_phenosp", "sigma_phenoy", "beta_tf", "beta_tc","beta_tp"),  "Test.data.values" = c(mu.grand, sigma.species, sigma.study, trt.var,                                                                    muForceSp, muChillSp, muPhotoSp, muPhenoSp, sigmaForceSp, sigmaChillSp, sigmaPhotoSp, sigmaPhenoSp,sigmapheno_y, betaTraitxForce, betaTraitxChill, betaTraitxPhoto) ,
+	                       "Estiamte"= c(mu_grand[1], sigma_sp, sigma_studyesti, sigmaTrait_y,  mu_forcesp, mu_chillsp, mu_photosp, mu_phenosp, sigma_forcesp, sigma_chillsp, sigma_photosp, sigma_phenosp, sigma_phenoy, beta_tf, beta_tc,  beta_tp)
+	                       
+	)
+	
+	mdl.out
+	
+	muPhenoSp <- sum.jfcp[grep("alphaPhenoSp", rownames(sum.jfcp))]
+	muStudyEsti <- sum.jfcp[grep("muStudy", rownames(sum.jfcp))]
+	
+	pdf("muPhenoSp_esti.pdf")
+	plot(muPhenoSp ~ alphaPhenoSp, xlab = "simulated muPhenoSp", ylab = "mdl estimated muPhenoSp")
+	abline(0,1)
+	dev.off()
+	
+	pdf("study_esti.pdf")
+	plot(muStudyEsti ~ muStudy, xlab = "simulated muStudy", ylab = "mdl estimated muStudy")
+	abline(0,1)
+	dev.off()
+	
+	
+	
+	
 	

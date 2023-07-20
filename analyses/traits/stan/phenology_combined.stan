@@ -8,14 +8,14 @@ data {
   int<lower = 1, upper = n_study> study[N]; // id of random effect (study)
   vector[N] yTraiti; // Observed trait
   //Priors
-  real prior_mu_grand_mu; 
-  real prior_mu_grand_sigma;
-  real prior_sigma_sp_mu;
-  real prior_sigma_sp_sigma;
-  real prior_sigma_study_mu;
-  real prior_sigma_study_sigma;
-  real prior_sigma_traity_mu;
-  real prior_sigma_traity_sigma;
+  // real prior_mu_grand_mu; 
+  // real prior_mu_grand_sigma;
+  // real prior_sigma_sp_mu;
+  // real prior_sigma_sp_sigma;
+  // real prior_sigma_study_mu;
+  // real prior_sigma_study_sigma;
+  // real prior_sigma_traity_mu;
+  // real prior_sigma_traity_sigma;
   // Phenology
   int<lower = 1> Nph; // Sample size for phenology data
   int<lower = 1, upper = n_spec> phenology_species[Nph]; // id of random effect (species)
@@ -23,30 +23,30 @@ data {
   vector[Nph] forcei; // predictor forcing 
   vector[Nph] chilli; // predictor chilling
   vector[Nph] photoi; // predictor photoperiod
-  real prior_muForceSp_mu;
-  real prior_muForceSp_sigma;
-  real prior_muChillSp_mu;
-  real prior_muChillSp_sigma;
-  real prior_muPhotoSp_mu;
-  real prior_muPhotoSp_sigma;
-  real prior_muPhenoSp_mu;
-  real prior_muPhenoSp_sigma;
-  real prior_sigmaForceSp_mu;
-  real prior_sigmaForceSp_sigma;
-  real prior_sigmaChillSp_mu;
-  real prior_sigmaChillSp_sigma;
-  real prior_sigmaPhotoSp_mu;
-  real prior_sigmaPhotoSp_sigma;
-  real prior_sigmaPhenoSp_mu;
-  real prior_sigmaPhenoSp_sigma;
-  real prior_betaTraitxForce_mu;
-  real prior_betaTraitxForce_sigma;
-  real prior_betaTraitxChill_mu;
-  real prior_betaTraitxChill_sigma;
-  real prior_betaTraitxPhoto_mu;
-  real prior_betaTraitxPhoto_sigma;
-  real prior_sigmaphenoy_mu;
-  real prior_sigmaphenoy_sigma;
+  // real prior_muForceSp_mu;
+  // real prior_muForceSp_sigma;
+  // real prior_muChillSp_mu;
+  // real prior_muChillSp_sigma;
+  // real prior_muPhotoSp_mu;
+  // real prior_muPhotoSp_sigma;
+  // real prior_muPhenoSp_mu;
+  // real prior_muPhenoSp_sigma;
+  // real prior_sigmaForceSp_mu;
+  // real prior_sigmaForceSp_sigma;
+  // real prior_sigmaChillSp_mu;
+  // real prior_sigmaChillSp_sigma;
+  // real prior_sigmaPhotoSp_mu;
+  // real prior_sigmaPhotoSp_sigma;
+  // real prior_sigmaPhenoSp_mu;
+  // real prior_sigmaPhenoSp_sigma;
+  // real prior_betaTraitxForce_mu;
+  // real prior_betaTraitxForce_sigma;
+  // real prior_betaTraitxChill_mu;
+  // real prior_betaTraitxChill_sigma;
+  // real prior_betaTraitxPhoto_mu;
+  // real prior_betaTraitxPhoto_sigma;
+  // real prior_sigmaphenoy_mu;
+  // real prior_sigmaphenoy_sigma;
 }
 
 parameters{
@@ -110,10 +110,10 @@ model{
   muSp ~ normal(0, sigma_sp);
   muStudy ~ normal(0, sigma_study);
   //// priors
-  mu_grand ~ normal(prior_mu_grand_mu, prior_mu_grand_sigma);
-  sigma_sp ~ normal(prior_sigma_sp_mu, prior_sigma_sp_sigma);
-  sigma_study ~ normal(prior_sigma_study_mu, prior_sigma_study_sigma);
-  sigma_traity ~ normal(prior_sigma_traity_mu, prior_sigma_traity_sigma);
+  mu_grand ~ normal(20,10);
+  sigma_sp ~ normal(4,5);
+  sigma_study ~ normal(2,5);
+  sigma_traity ~ normal(3,5);
 
   // Phenology
   //// likelihood
@@ -125,23 +125,23 @@ model{
   alphaChillSp ~ normal(muChillSp, sigmaChillSp);
   alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);
   //// priors
-  muPhenoSp ~ normal(prior_muPhenoSp_mu, prior_muPhenoSp_sigma);
-  sigmaPhenoSp ~ normal(prior_sigmaPhenoSp_mu, prior_sigmaPhenoSp_sigma);
+  muPhenoSp ~ normal(40,10);
+  sigmaPhenoSp ~ normal(5,5);
   
-  sigmapheno_y ~ normal(prior_sigmaphenoy_mu, prior_sigmaphenoy_sigma);
+  sigmapheno_y ~ normal(10,5);
 
-  muForceSp ~ normal(prior_muForceSp_mu,  prior_muForceSp_sigma);
-  sigmaForceSp ~ normal(prior_sigmaForceSp_mu, prior_sigmaForceSp_sigma);
+  muForceSp ~ normal(-15,10);
+  sigmaForceSp ~ normal(5,5);
 
-  muChillSp ~ normal(prior_muChillSp_mu, prior_muChillSp_sigma);
-  sigmaChillSp ~ normal(prior_sigmaChillSp_mu, prior_sigmaChillSp_sigma);
+  muChillSp ~ normal(-15,10);
+  sigmaChillSp ~ normal(5,5);
    
-  muPhotoSp ~ normal(prior_muPhotoSp_mu, prior_muPhotoSp_sigma);
-  sigmaPhotoSp ~ normal(prior_sigmaPhotoSp_mu, prior_sigmaPhotoSp_sigma);
+  muPhotoSp ~ normal(-15,10);
+  sigmaPhotoSp ~ normal(5,5);
         
-  betaTraitxForce ~ normal(prior_betaTraitxForce_mu, prior_betaTraitxForce_sigma);
-  betaTraitxPhoto ~ normal(prior_betaTraitxPhoto_mu, prior_betaTraitxPhoto_sigma);
-  betaTraitxChill ~ normal(prior_betaTraitxChill_mu, prior_betaTraitxChill_sigma); 
+  betaTraitxForce ~ normal(0,1);
+  betaTraitxPhoto ~ normal(0,1);
+  betaTraitxChill ~ normal(0,1); 
 
 }
 
