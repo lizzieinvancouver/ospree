@@ -257,44 +257,44 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
        # hist(postMeanSLAdf$mu_grand, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
        # abline(v = mu_grand, col="red", lwd=3, lty=2)
        # 
-       hist(postMeanSLAdf$sigma_sp, main = paste("sigmaSp_ is " , signif(sigmapheno_y,3), sep = ""))
+       hist(postMeanSLA$sigma_sp, main = paste("sigmaSp_ is " , signif(sigmapheno_y,3), sep = ""))
        abline(v = sigma.species, col="red", lwd=3, lty=2)
        
-       hist(postMeanSLAdf$sigma_study, main = paste("sigmaStudy is " , signif(sigmapheno_y,3), sep = ""))
+       hist(postMeanSLA$sigma_study, main = paste("sigmaStudy is " , signif(sigmapheno_y,3), sep = ""))
        abline(v = sigma.study, col="red", lwd=3, lty=2)
        
-       hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
+       hist(postMeanSLA$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
        abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
       
 # 
-       hist(postMeanSLAdf$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
+       hist(postMeanSLA$muForceSp, main = paste("muForceSp is " , signif(muForceSp,3), sep = ""))
        abline(v = muForceSp, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$muChillSp, main = paste("muChillSp is " , signif(muChillSp,3), sep = ""))
+       hist(postMeanSLA$muChillSp, main = paste("muChillSp is " , signif(muChillSp,3), sep = ""))
        abline(v = muChillSp, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$muPhotoSp, main = paste("muPhotoSp is " , signif(muPhotoSp,3), sep = ""))
+       hist(postMeanSLA$muPhotoSp, main = paste("muPhotoSp is " , signif(muPhotoSp,3), sep = ""))
        abline(v = muPhotoSp, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
+       hist(postMeanSLA$sigmapheno_y, main = paste("sigmapheno_y is " , signif(sigmapheno_y,3), sep = ""))
        abline(v = sigmapheno_y, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$betaTraitxForce, main = paste("betaTraitxForce is " , signif(betaTraitxForce,3), sep = ""))
+       hist(postMeanSLA$betaTraitxForce, main = paste("betaTraitxForce is " , signif(betaTraitxForce,3), sep = ""))
       abline(v = betaTraitxForce, col="red", lwd=3, lty=2)
 # 
-      hist(postMeanSLAdf$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
+      hist(postMeanSLA$betaTraitxChill, main = paste("betaTraitxChill is " , signif(betaTraitxChill,3), sep = ""))
        abline(v = betaTraitxChill, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(betaTraitxPhoto,3), sep = ""))
+       hist(postMeanSLA$betaTraitxPhoto, main = paste("betaTraitxPhoto is " , signif(betaTraitxPhoto,3), sep = ""))
        abline(v = betaTraitxPhoto, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$sigmaChillSp, main = paste("sigmaChillSp is " , signif(sigmaChillSp,3), sep = ""))
+       hist(postMeanSLA$sigmaChillSp, main = paste("sigmaChillSp is " , signif(sigmaChillSp,3), sep = ""))
        abline(v = sigmaChillSp, col="red", lwd=3, lty=2)
 # 
-       hist(postMeanSLAdf$sigmaForceSp, main = paste("sigmaForceSp is " , signif(sigmaForceSp,3), sep = ""))
+       hist(postMeanSLA$sigmaForceSp, main = paste("sigmaForceSp is " , signif(sigmaForceSp,3), sep = ""))
        abline(v = sigmaForceSp, col="red", lwd=3, lty=2)
 # 
-      hist(postMeanSLAdf$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(sigmaPhotoSp,3), sep = ""))
+      hist(postMeanSLA$sigmaPhotoSp, main = paste("sigmaPhotoSp is " , signif(sigmaPhotoSp,3), sep = ""))
        abline(v = sigmaPhotoSp, col="red", lwd=3, lty=2) 
        dev.off()
       par(mfrow=c(1,1))
@@ -339,14 +339,17 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
 	muPhenoSp <- sum.jfcp[grep("alphaPhenoSp", rownames(sum.jfcp))]
 	muTraitSp <- sum.jfcp[grep("muSp", rownames(sum.jfcp))]
 	muStudyEsti <- sum.jfcp[grep("muStudy", rownames(sum.jfcp))]
+	muGrandSp <- sum.jfcp[grep("mu_grand_sp", rownames(sum.jfcp))]
 	
-	pdf("muRespSp_study_esti_discourse.pdf",width = 10, height = 5)
-	par(mfrow = c(1,3))
+	pdf("GeoffsMdl_5_5_comparisons.pdf",width = 6, height = 6)
+	par(mfrow = c(2,2))
 	plot(muTraitSp ~ alphaTraitSp, xlab = "simulated muTraitSp", ylab = "mdl estimated muTraitSp")
 	abline(0,1)
 	plot(muStudyEsti ~ muStudy, xlab = "simulated muStudy", ylab = "mdl estimated muStudy")
 	abline(0,1)
 	plot(muPhenoSp ~ alphaPhenoSp, xlab = "simulated muPhenoSp", ylab = "mdl estimated muPhenoSp")
+	abline(0,1)
+	plot(muGrandSp ~ unique(trt.dat$mu_grand_sp), xlab = "simulated muGrandSp", ylab = "mdl estimated muGrandSp")
 	abline(0,1)
 	dev.off()
 	
