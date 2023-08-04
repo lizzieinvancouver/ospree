@@ -429,10 +429,11 @@ if(priorCheck == TRUE){
 	  muStudy <- rnorm(Nstudy, 0, sigmaStudy)
 	  priorCheckTrait$muStudy[priorCheckTrait$simRep == ir] <- rep(muStudy, each = nRep)
 	  
-	  #general varience
-	  priorCheckTrait$sigmaTrait_y[priorCheckTrait$simRep == ir] <- rtruncnorm(all.data$prior_sigma_traity_mu,  a = 0, all.data$prior_sigma_traity_sigma)
-	  priorCheckTrait$e[priorCheckTrait$simRep == ir] <- rnorm(Ntrt, 0, sigmaTrait_y)
+	  #general varience - pick one value for the whole rep, adn use to get general varience for each row of teh data 
+	  priorCheckTrait$sigmaTrait_y[priorCheckTrait$simRep == ir] <- rtruncnorm(1,  a = 0, all.data$prior_sigma_traity_sigma)
+	  priorCheckTrait$e[priorCheckTrait$simRep == ir] <- rnorm(Ntrt, 0, priorCheckTrait$sigmaTrait_y[1])
 	  
+      #add up all the simulated values to get expected budburst date
 	  priorCheckTrait$yTraiti <- muGrand + priorCheckTrait$muSp + priorCheckTrait$muStudy + priorCheckTrait$e
 	}# end simulating new priors, from here vectorize code
 
@@ -440,19 +441,19 @@ if(priorCheck == TRUE){
 	priorCheckTrait$muGrandSp <- muGrand + priorCheckTrait$muSp
 
 	
-	png("figures/priorChecks/density_Trait_Prior_Height.png")
+	png("figures/priorChecks/density_Trait_Prior_height.png")
 	plot(density(priorCheckTrait$yTraiti), xlab = "Predicted day of budburst", main = "Height Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/GrandSp_PlotPrior_Height.png")
-	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muGrandSp, xlab = "muGrandSp", ylab = "Trait", main = "LNC Prior Check")
+	png("figures/priorChecks/GrandSp_PlotPrior_height.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muGrandSp, xlab = "muGrandSp", ylab = "Trait", main = "Height Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/MuSp_PlotPrior_Height.png")
+	png("figures/priorChecks/MuSp_PlotPrior_height.png")
 	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Trait", main = "Height Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/MuStudy_PlotPrior_Height.png")
+	png("figures/priorChecks/MuStudy_PlotPrior_height.png")
 	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Trait", main = "Height Prior Check")
 	dev.off()
 #####################################################################################
@@ -513,8 +514,8 @@ if(priorCheck == TRUE){
 
 
 		#general varience
-		priorCheckPheno$sigmapheno_y[priorCheckPheno$simRep == ir] <- rtruncnorm(all.data$prior_sigmaphenoy_mu,  a = 0, all.data$prior_sigmaphenoy_sigma)
-		priorCheckPheno$e[priorCheckPheno$simRep == ir] <- rnorm(Nph, 0, sigmapheno_y)
+		priorCheckPheno$sigmapheno_y[priorCheckPheno$simRep == ir] <- rtruncnorm(1,  a = 0, all.data$prior_sigmaphenoy_sigma)
+		priorCheckPheno$e[priorCheckPheno$simRep == ir] <- rnorm(Nph, 0, priorCheckPheno$sigmapheno_y[1])
 
 	}# end simulating new priors, from here vectorize code
 		#slopes for each cue, combining trait and non-trait aspect of the slope.
@@ -537,19 +538,19 @@ if(priorCheck == TRUE){
 	priorCheckPheno_posF <- priorCheckPheno[priorCheckPheno$betaForceSp > 0,]
 	plot(priorCheckPheno_posF$betaForceSp ~ priorCheckPheno_posF$alphaTraitSp )
 
-	png("figures/priorChecks/densityYPrior_Height.png")
+	png("figures/priorChecks/densityYPrior_height.png")
 	plot(density(priorCheckPheno$yPhenoi), xlab = "Predicted day of budburst", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/photoPlotPrior_Height.png")
+	png("figures/priorChecks/photoPlotPrior_height.png")
 	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$photoi, xlab = "Photoperiod", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/forcingPlotPrior_Height.png")
+	png("figures/priorChecks/forcingPlotPrior_height.png")
 	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$forcei, xlab = "Forcing", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/chillingPlotPrior_Height.png")
+	png("figures/priorChecks/chillingPlotPrior_height.png")
 	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$chilli, xlab = "Chillina", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
