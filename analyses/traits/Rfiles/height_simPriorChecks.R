@@ -23,8 +23,8 @@ set.seed(1984)
 #Set flags
 #_-----------------------
 
-runStan <- TRUE
-Midge <- TRUE
+runStan <- FALSE
+Midge <- FALSE
 priorCheck <- TRUE
 BayesSweave <- FALSE
 
@@ -35,11 +35,10 @@ if(Midge == TRUE){
 } 
 
 
-
 if(Midge == FALSE){
 # Anyone else working with this code should add their info/path here
 	if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
-		} else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
+		} else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/take2/ospree/analyses/traits")
 		} else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
 		} 
 }
@@ -55,21 +54,21 @@ Nspp <- 20 # number of species
 Ntrt <- Nspp * Nstudy * Nrep # total number of traits observations
 Ntrt
 
-mu.grand <- 15 # the grand mean of the LNC model
+mu.grand <- 15 # the grand mean of the Height model
 sigma.species <- 5 # we want to keep the variaiton across spp. high
-sigma.study <- 2
+sigma.study <- 5 # changed to match sigma species
 sigmaTrait_y <- 2
 
-#make a dataframe for LNC
+#make a dataframe for Height
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
 names(trt.dat) <- c("rep")
 trt.dat$rep <- c(1:Nrep)
-# trt.dat$study <- rep(rep(c(1:Nstudy), each = Nspp), each = Nrep)
-# trt.dat$species <- rep(rep(c(1:Nspp), times = Nstudy), each = Nrep)
-trt.dat$study <- rep(c(1:Nstudy), each = Nspp)
-trt.dat$species <- rep(1:Nspp, Nstudy)
+trt.dat$study <- rep(rep(c(1:Nstudy), each = Nspp), each = Nrep)
+trt.dat$species <- rep(rep(c(1:Nspp), times = Nstudy), each = Nrep)
+#trt.dat$study2 <- rep(c(1:Nstudy), each = Nspp) # Faith changed these lines to the above that are different in heigh?simPriorChecks?review.R
+#trt.dat$species2 <- rep(1:Nspp, Nstudy)
 
-# now generating the species trait data, here it is for LNC
+# now generating the species trait data, here it is for Height
 #the alphaTraitSp in Faiths original code:
 alphaTraitSp <- rnorm(Nspp, 0, sigma.species)
 trt.dat$alphaTraitSp <- rep(alphaTraitSp, times = Nstudy)
@@ -137,7 +136,7 @@ betaTraitxPhoto <- -0.2
 betaTraitxChill <- -0.4
 
 #Species level slopes sans trait data
-muForceSp <- -15
+muForceSp <- -10
 sigmaForceSp <- 4
 alphaForceSp <- rnorm(n_spec, muForceSp, sigmaForceSp)
 pheno.dat$alphaForceSp <- rep(alphaForceSp, each = nRep)
@@ -441,20 +440,20 @@ if(priorCheck == TRUE){
 	priorCheckTrait$muGrandSp <- muGrand + priorCheckTrait$muSp
 
 	
-	png("figures/priorChecks/density_Trait_Prior_LNC.png")
-	plot(density(priorCheckTrait$yTraiti), xlab = "Predicted day of budburst", main = "LNC Prior Check")
+	png("figures/priorChecks/density_Trait_Prior_Height.png")
+	plot(density(priorCheckTrait$yTraiti), xlab = "Predicted day of budburst", main = "Height Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/GrandSp_PlotPrior_LNC.png")
+	png("figures/priorChecks/GrandSp_PlotPrior_Height.png")
 	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muGrandSp, xlab = "muGrandSp", ylab = "Trait", main = "LNC Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/MuSp_PlotPrior_LNC.png")
-	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Trait", main = "LNC Prior Check")
+	png("figures/priorChecks/MuSp_PlotPrior_Height.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muSp, xlab = "MuSp", ylab = "Trait", main = "Height Prior Check")
 	dev.off()
 	
-	png("figures/priorChecks/MuStudy_PlotPrior_LNC.png")
-	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Trait", main = "LNC Prior Check")
+	png("figures/priorChecks/MuStudy_PlotPrior_Height.png")
+	plot(priorCheckTrait$yTraiti ~ priorCheckTrait$muStudy, xlab = "MuStudy", ylab = "Trait", main = "Height Prior Check")
 	dev.off()
 #####################################################################################
 	
@@ -538,20 +537,20 @@ if(priorCheck == TRUE){
 	priorCheckPheno_posF <- priorCheckPheno[priorCheckPheno$betaForceSp > 0,]
 	plot(priorCheckPheno_posF$betaForceSp ~ priorCheckPheno_posF$alphaTraitSp )
 
-	png("figures/priorChecks/densityYPrior_LNC.png")
-	plot(density(priorCheckPheno$yPhenoi), xlab = "Predicted day of budburst", main = "LNC Prior Check")
+	png("figures/priorChecks/densityYPrior_Height.png")
+	plot(density(priorCheckPheno$yPhenoi), xlab = "Predicted day of budburst", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/photoPlotPrior_LNC.png")
-	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$photoi, xlab = "Photoperiod", ylab = "Phenological Date", main = "LNC Prior Check")
+	png("figures/priorChecks/photoPlotPrior_Height.png")
+	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$photoi, xlab = "Photoperiod", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/forcingPlotPrior_LNC.png")
-	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$forcei, xlab = "Forcing", ylab = "Phenological Date", main = "LNC Prior Check")
+	png("figures/priorChecks/forcingPlotPrior_Height.png")
+	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$forcei, xlab = "Forcing", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
-	png("figures/priorChecks/chillingPlotPrior_LNC.png")
-	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$chilli, xlab = "Chillina", ylab = "Phenological Date", main = "LNC Prior Check")
+	png("figures/priorChecks/chillingPlotPrior_Height.png")
+	plot(priorCheckPheno$yPhenoi ~ priorCheckPheno$chilli, xlab = "Chillina", ylab = "Phenological Date", main = "Height Prior Check")
 	dev.off()
 
 }
