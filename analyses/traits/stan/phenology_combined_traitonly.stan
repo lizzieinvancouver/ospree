@@ -110,7 +110,7 @@ model{
   muSp ~ normal(0, sigma_sp);
   muStudy ~ normal(0, sigma_study);
   //// priors
-  mu_grand ~ normal(20,10);
+  mu_grand ~ normal(10,10);
   sigma_sp ~ normal(4,5);
   sigma_study ~ normal(2,5);
   sigma_traity ~ normal(3, 5);
