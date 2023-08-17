@@ -19,7 +19,9 @@ Here, we propose a novel approach that uniquely incorporates shared evolutionary
 \vspace{0.25ex}\\
 Our results have important implications for improving ecological forecasting with continued climate change. As spring phenology impacts a suite of ecosystem services, including carbon sequestration, our new estimates can be scaled up to impact forecasts of climate change itself. At the same time our novel approach extends to forecasting far beyond the case study of phenology we present here.
 \vspace{1.5ex}\\
-We believe that our manuscript aligns well with the scope and objectives of \emph{Nature Climate Change}, and we have not submitted it elsewhere. We have suggested three possible reviewers (see online submission system: XX, XX2, XX3). We are grateful for your consideration, and look forward to hearing from you.
+We believe that our manuscript aligns well with the scope and objectives of \emph{Nature Climate Change}, and we have not submitted it elsewhere. We have suggested three possible reviewers (see online submission system: Carl Boettinger, Meredith Zettlemoyer, David Inouye). We are grateful for your consideration, and look forward to hearing from you.
+
+
 \vspace{1.5ex}\\
 \noindent Sincerely,\\
 \vspace{1.5ex}\\
