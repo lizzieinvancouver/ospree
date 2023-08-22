@@ -30,16 +30,16 @@ data {
     // int < lower = 1, upper = n_spec > species2[Nph]; // id of random effect (species)
     
     //Priors
-    real prior_mu_grand; 
-    real prior_sigma_grand;
-    real prior_mu_sp;
-    real prior_sigma_sp_mu;
-    real prior_sigma_sp_sigma;
-    real prior_mu_study;
-    real prior_sigma_study_mu;
-    real prior_sigma_study_sigma;
-    real prior_sigma_traity_mu;
-    real prior_sigma_traity_sigma;
+    // real prior_mu_grand; 
+    // real prior_sigma_grand;
+    // real prior_mu_sp;
+    // real prior_sigma_sp_mu;
+    // real prior_sigma_sp_sigma;
+    // real prior_mu_study;
+    // real prior_sigma_study_mu;
+    // real prior_sigma_study_sigma;
+    // real prior_sigma_traity_mu;
+    // real prior_sigma_traity_sigma;
 }
 
 parameters{
@@ -49,7 +49,7 @@ parameters{
     vector[n_spec] muSp_raw;
     vector[n_study] muStudy_raw;
     
-    real <lower =0> sigmaTrait_y; // overall variation accross observations
+    real <lower =0> sigma_traity; // overall variation accross observations
     real mu_grand; // Grand mean for trait value 
     //level 2
     real <lower = 0> sigma_sp; // variation of intercept amoung species
@@ -60,10 +60,14 @@ parameters{
 
 transformed parameters{
     vector[N] y_hat;
+    vector[n_spec] mu_grand_sp;
     
     vector[n_spec] muSp = muSp_raw * sigma_sp;
     vector[n_study] muStudy = muStudy_raw * sigma_study;
     
+    for(i in 1:n_spec){
+    mu_grand_sp[i] = mu_grand + muSp[i];
+  }
     for (i in 1:N)
     y_hat[i] = mu_grand + muSp[species[i]] + muStudy[study[i]];
     }
@@ -71,16 +75,16 @@ transformed parameters{
 model{ 
     //MODEL 1 ---------------------------------------------
     //assign priors
-    sigmaTrait_y ~ normal(prior_sigma_traity_mu, prior_sigma_traity_sigma); // trt.var 0.5
-    sigma_sp ~ normal(prior_sigma_sp_mu, prior_sigma_sp_sigma); //sigma_species 10
-    mu_grand ~ normal(prior_mu_grand, prior_sigma_grand); // 
-    muSp_raw ~ normal(prior_mu_sp, sigma_sp); //
+    sigma_traity ~ normal(3,5); // trt.var 0.5
+    sigma_sp ~ normal(4,5); //sigma_species 
+    mu_grand ~ normal(10,10); // 
+    muSp_raw ~ normal(0, sigma_sp); //
 
-    sigma_study ~ normal(prior_sigma_study_mu, prior_sigma_study_sigma); //sigma.study 5
-    muStudy_raw ~ normal(prior_mu_study, sigma_study);//
+    sigma_study ~ normal(2,5); //sigma.study 
+    muStudy_raw ~ normal(0, sigma_study);//
     
     // run the actual model - likihood
-        yTraiti ~ normal(y_hat, sigmaTrait_y);
+        yTraiti ~ normal(y_hat, sigma_traity);
     }
 
 generated quantities {
