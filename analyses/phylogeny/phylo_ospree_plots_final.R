@@ -1280,6 +1280,23 @@ hist(dfsps2$lmmacervslmmbet,30, xlim=c(-5,40),
 
 
 
+## Chill portions - Supp Analysis ----
+
+## load data
+fitlam0 <- readRDS("output/fit_priorupdate_noout_angio191_lamb0chillports.rds")
+fitlambest <- readRDS("output/fit_priorupdate_noout_angio191chillports.rds")
+
+
+## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
+tableresults.0 = summary(fitlam0, pars = list("a_z", "sigma_interceptsa", "b_zf", "sigma_interceptsbf", "b_zc", "sigma_interceptsbc", "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.est = summary(fitlambest, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+
+#write.csv(tableresults.est[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/angio_noout_lamest191_chillports.csv")
+#write.csv(tableresults.0[c(1,3,5,7,2,4,6,8,9),], file = "output/angio_noout_lam0191_chillports.csv")
+
+
+
+
 
 
 
