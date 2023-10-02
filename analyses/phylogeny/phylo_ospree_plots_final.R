@@ -1283,8 +1283,11 @@ hist(dfsps2$lmmacervslmmbet,30, xlim=c(-5,40),
 ## Chill portions - Supp Analysis ----
 
 ## load data
-fitlam0 <- readRDS("output/fit_priorupdate_noout_angio191_lamb0chillports.rds")
-fitlambest <- readRDS("output/fit_priorupdate_noout_angio191chillports.rds")
+#fitlam0 <- readRDS("output/fit_priorupdate_noout_angio191_lamb0chillports.rds")
+#fitlambest <- readRDS("output/fit_priorupdate_noout_angio191chillports.rds")
+
+fitlam0 <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191_lamb0chillports.rds")
+fitlambest <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191chillports.rds")
 
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
