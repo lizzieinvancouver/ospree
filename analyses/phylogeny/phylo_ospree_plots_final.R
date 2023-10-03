@@ -229,6 +229,19 @@ d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
 nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 
+## remove names of species that are wrong (e.g. Juglans spp) 
+idswrong = which(d$spps == "Juglans_spp")
+d <- d[-idswrong,]
+phylo <- drop.tip(phylo, "Juglans_spp")
+
+nspecies <- length(phylo$tip.label)
+phymatch2 <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+d2 <- merge(d, phymatch2, by.x="spps", by.y="tip")
+d2 <- d2[order(d2$sppnum.y),]
+d2$sppnum <- d2$sppnum.y
+d <- d2
+
+
 #write.csv(as.data.frame(phylo$tip.label),file = "output/sps_list_phylo.csv")
 
 ## get ailene´s model table
@@ -1288,18 +1301,36 @@ hist(dfsps2$lmmacervslmmbet,30, xlim=c(-5,40),
 
 fitlam0 <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191_lamb0chillports.rds")
 fitlambest <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191chillports.rds")
+fitlam0v2 <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191_lamb0chillports_v2.rds")
+fitlambestv2 <- readRDS("D:/Data_Harvard/git sandbox/fit_priorupdate_noout_angio191chillports_v2.rds")
+fitlam0orig <- readRDS("output/fit_priorupdate_noout_angio191_lamb0.rds")
+fitlambestorig <- readRDS("output/fit_priorupdate_noout_angio191.rds")
 
 
 ## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
 tableresults.0 = summary(fitlam0, pars = list("a_z", "sigma_interceptsa", "b_zf", "sigma_interceptsbf", "b_zc", "sigma_interceptsbc", "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
 tableresults.est = summary(fitlambest, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.0v2 = summary(fitlam0v2, pars = list("a_z", "sigma_interceptsa", "b_zf", "sigma_interceptsbf", "b_zc", "sigma_interceptsbc", "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.estv2 = summary(fitlambestv2, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.0orig = summary(fitlam0orig, pars = list("a_z", "sigma_interceptsa", "b_zf", "sigma_interceptsbf", "b_zc", "sigma_interceptsbc", "b_zp", "sigma_interceptsbp", "sigma_y"))$summary
+tableresults.estorig = summary(fitlambestorig, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
 
-#write.csv(tableresults.est[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/angio_noout_lamest191_chillports.csv")
-#write.csv(tableresults.0[c(1,3,5,7,2,4,6,8,9),], file = "output/angio_noout_lam0191_chillports.csv")
+## get table comparing results
+cbind(tableresults.est[c(1,4,7,10,2,5,8,11,3,6,9,12,13),1],
+      tableresults.estv2[c(1,4,7,10,2,5,8,11,3,6,9,12,13),1],
+      tableresults.estorig[c(1,4,7,10,2,5,8,11,3,6,9,12,13),1])
 
+## get table comparing results (non-phylo)
+cbind(tableresults.0[c(1,3,5,7,2,4,6,8,9),1],
+      tableresults.0v2[c(1,3,5,7,2,4,6,8,9),1],
+      tableresults.0orig[c(1,3,5,7,2,4,6,8,9),1])
 
+## save definitive tables
 
+#write.csv(tableresults.estv2[c(1,4,7,10,2,5,8,11,3,6,9,12,13),c(1,3,4,6,8:10)], file = "output/angio_noout_lambest191_chillports.csv")
+#write.csv(tableresults.0v2[c(1,3,5,7,2,4,6,8,9),c(1,3,4,6,8:10)], file = "output/angio_noout_lamb0_191_chillports.csv")
 
+## Leave Clade Out analyses - Supp Analysis ----
 
 
 

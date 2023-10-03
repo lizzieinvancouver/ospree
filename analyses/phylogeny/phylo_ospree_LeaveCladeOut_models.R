@@ -205,10 +205,18 @@ d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
 nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 
+
 ## remove names of species that are wrong (e.g. Juglans spp) 
 idswrong = which(d$spps == "Juglans_spp")
 d <- d[-idswrong,]
 phylo <- drop.tip(phylo, "Juglans_spp")
+
+nspecies <- length(phylo$tip.label)
+phymatch2 <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+d2 <- merge(d, phymatch2, by.x="spps", by.y="tip")
+d2 <- d2[order(d2$sppnum.y),]
+d2$sppnum <- d2$sppnum.y
+d <- d2
 #d$chill.z = as.numeric(scale(d$chill.ports))
 
 

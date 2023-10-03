@@ -77,3 +77,11 @@ model {
     sigma_y ~ normal(10, 10); // updated prior
   
 }
+
+generated quantities {
+  real yhat[N];
+       	for(i in 1:N){
+            yhat[i] = 
+	      a[sp[i]] + b_force[sp[i]] * x1[i] ;
+			     	}
+}
