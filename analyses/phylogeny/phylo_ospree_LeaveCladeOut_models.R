@@ -230,7 +230,7 @@ phylo <- drop.tip(phylo, "Juglans_spp")
 generatoprune <- names(sort(table(d$genus), decreasing=T))
 listmodels <- list()
 listmodelslamb0 <- list()
-
+runphylomodel=F
 for(i in 1:25){#i=1
  print(generatoprune[i])
   d_i <- d
@@ -247,7 +247,7 @@ for(i in 1:25){#i=1
  d2 <- d2[order(d2$sppnum.y),]
  
  
- 
+ if(runphylomodel){
  fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_leavecladeout.stan",
              data=list(N=nrow(d2),
                        n_sp=nspecies,
@@ -260,24 +260,22 @@ for(i in 1:25){#i=1
              chains = 4,
              seed = 117 
  )
- 
+ }
  ## Save fitted posterior
- listmodels[[i]]<-fit
+ #listmodels[[i]]<-fit
  #saveRDS(fit, "output/fit_priorupdate_noout_angio191chillports.rds")
  #saveRDS(listmodels, "output/fit_list_leave_clade_out.rds")
  #listmodels[[5]]
  
  
  
- fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_lamb0.stan",
-                  data=list(N=nrow(d),
+ fitlamb0 <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors_lamb0_leavecladeout.stan",
+                  data=list(N=nrow(d2),
                             n_sp=nspecies,
-                            sp=d$sppnum,
-                            x1=d$force.z,
-                            x2 = d$chill.z,
-                            x3=d$photo.z,
-                            y=d$resp,
-                            Vphy=vcv(phylo, corr = TRUE)),
+                            sp=d2$sppnum.y,
+                            x1=d2$force.z,
+                            y=d2$resp,
+                            Vphy=vcv(phylosub, corr = TRUE)),
                   iter = 4000,
                   warmup = 2000, 
                   chains = 4,
@@ -286,10 +284,11 @@ for(i in 1:25){#i=1
  
  #saveRDS(fitlamb0, "output/fit_priorupdate_noout_angio191_lamb0chillports.rds")
  listmodelslamb0[[i]]<-fitlamb0
- 
+ }
  
  }
-}  
+saveRDS(listmodelslamb0, "output/fit_list_leave_clade_out_lamb0.rds")
+
 
 
 
