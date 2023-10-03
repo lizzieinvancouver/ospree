@@ -36,7 +36,8 @@ options(mc.cores = parallel::detectCores())
 # Flags for how to run the code #
 #'###############################
 runmodels <- FALSE
-runbbstanleadin <- FALSE # leave as false to speed up Supp and ms. compilation
+runbbstanleadin <- T # leave as false to speed up Supp and ms. compilation
+runwithchillports <- T
 
 #'######################################
 #### get data through bbstanleadin ####
@@ -207,6 +208,20 @@ d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
 nspecies = 191
 phylo <- drop.tip(phylo, "Acer_pseudolatauns")
 
+
+
+## remove names of species that are wrong (e.g. Juglans spp) 
+idswrong = which(d$spps == "Juglans_spp")
+d <- d[-idswrong,]
+phylo <- drop.tip(phylo, "Juglans_spp")
+
+nspecies <- length(phylo$tip.label)
+phymatch2 <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+d2 <- merge(d, phymatch2, by.x="spps", by.y="tip")
+d2 <- d2[order(d2$sppnum.y),]
+d2$sppnum <- d2$sppnum.y
+d <- d2
+
 # save for faster loading-compiling
 #write.csv(d,file = "input/datasetforphyloms.csv")
 #write.tree(phylo, file = "input/phyloforphyloms.tre")
@@ -218,32 +233,17 @@ phylo <- drop.tip(phylo, "Acer_pseudolatauns")
   
 }
 
+if(runwithchillports){
+  
+  d$chill.z = as.numeric(scale(d$chill.ports))
+  
+}
+
 
 #'###################################
 # Run or read in the models      ####
 #'###################################
 
-## Lizzie also tried to adapt a speedier PMM that Mike Betancourt sent ...
-# ... a litte faster I think, but likely not critical to use
-if(FALSE){
-  totallynew <- stan("stan/betan_threeslopeintercept_cp.stan",
-                     data=list(N=nrow(d),
-                               n_sp=nspecies,
-                               sp=d$sppnum,
-                               x1=d$force.z,
-                               x2 = d$chill.z,
-                               x3=d$photo.z,
-                               y=d$resp,
-                               Vphy=vcv(phylo, corr = TRUE)),
-                     iter = 2000,
-                     warmup = 1000,
-                     chains = 4,
-                     seed = 117 
-  )
-  
-summary(totallynew, pars = list("a_z", "lambda_a", "tau_a", "b_zf", "lambda_bf", "tau_bf", "b_zc", "lambda_bc", "tau_bc", "b_zp", "lambda_bp", "tau_bp", "sigma_y"))$summary
-  
-}
 
 ## Fit model here ... using code for which Lizzie updated priors
 
@@ -984,5 +984,29 @@ if(plotting){
 if(length(grep("Ignacio", getwd()))>0) { 
   setwd("~/GitHub/ospree/docs/phylogeny/") 
 }
+
+## Speedier version of PMM ----
+## Lizzie also tried to adapt a speedier PMM that Mike Betancourt sent ...
+# ... a litte faster I think, but likely not critical to use
+if(FALSE){
+  totallynew <- stan("stan/betan_threeslopeintercept_cp.stan",
+                     data=list(N=nrow(d),
+                               n_sp=nspecies,
+                               sp=d$sppnum,
+                               x1=d$force.z,
+                               x2 = d$chill.z,
+                               x3=d$photo.z,
+                               y=d$resp,
+                               Vphy=vcv(phylo, corr = TRUE)),
+                     iter = 2000,
+                     warmup = 1000,
+                     chains = 4,
+                     seed = 117 
+  )
+  
+  summary(totallynew, pars = list("a_z", "lambda_a", "tau_a", "b_zf", "lambda_bf", "tau_bf", "b_zc", "lambda_bc", "tau_bc", "b_zp", "lambda_bp", "tau_bp", "sigma_y"))$summary
+  
+}
+
 
 # end ----
