@@ -145,6 +145,37 @@ print(make.mytable2,
 cat(" \\clearpage \\pagebreak ")
 @
 
+<<label=tablesupp5, echo=FALSE, results=tex>>=
+print(make.mytable5,
+      # floating=FALSE, % see https://stat.ethz.ch/pipermail/r-help/2011-August/286473.html for why this doesn't work
+      size="footnotesize",
+      hline.after=c(-1,0,13),
+      caption.placement="top",
+      include.rownames=FALSE,
+      sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp6, echo=FALSE, results=tex>>=
+# tablevaldatsource
+print(make.mytable6,
+      size="footnotesize",
+      hline.after=c(-1,0,9),
+      caption.placement="top",
+      include.rownames=FALSE,
+       sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
 
 <<label=runcode2, echo=FALSE, results=tex>>=
 # load models and data to report numbers of things

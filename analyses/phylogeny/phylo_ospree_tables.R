@@ -23,6 +23,8 @@ modellambest <- read.csv("output/angio_noout_lambest191.csv")
 modellamb0 <- read.csv("output/angio_noout_lamb0_191.csv")
 modelspslevest <- read.csv("output/spslevestimates191.csv")
 modelspslev0 <- read.csv("output/spslevestimateslamb0_191.csv")
+modellambestchillports <- read.csv("output/angio_noout_lambest191_chillports.csv")
+modellamb0chillports <- read.csv("output/angio_noout_lamb0_191_chillports.csv")
 
 colnames(modelspslevest) = colnames(modelspslev0) = c("Species","$\\beta_{chill,j}$","lowUI","upUI",
                           "$\\beta_{force,j}$","lowUI","upUI",
@@ -114,6 +116,38 @@ command <- paste0("\\hline\n\\endhead\n",
                   "\\endfoot\n",
                   "\\endlastfoot\n")
 add.to.row$command <- command
+
+
+
+### new tables for supp with chill portions results
+names(modellambestchillports)[names(modellambestchillports)=="X"] <- "Parameter"
+modellambestchillports$Parameter <- unname(lookupmodelnames[modellambestchillports$Parameter])
+names(modellambestchillports)[names(modellambestchillports)=="X2.5."] <- "2.5\\%"
+names(modellambestchillports)[names(modellambestchillports)=="X50."] <- "50\\%"
+names(modellambestchillports)[names(modellambestchillports)=="X97.5."] <- "97.5\\%"
+names(modellambestchillports)[names(modellambestchillports)=="n_eff"] <- "$n_{eff}$"
+
+make.mytable5 <- xtable(modellambestchillports, 
+                        caption="Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\\%, 50\\%, and 97.5\\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.",
+                        label="tab:modelanglambchillports")
+
+#align(make.mytable1) <- c( 'p{0.20}',  'p{0.20in}', 'p{0.25in}', 'r{0.25in}', 'p{0.35in}', 'p{0.35in}')
+
+
+names(modellamb0chillports)[names(modellamb0chillports)=="X"] <- "Parameter"
+modellamb0chillports$Parameter <- unname(lookupmodelnames0[modellamb0chillports$Parameter])
+names(modellamb0chillports)[names(modellamb0chillports)=="X2.5."] <- "2.5\\%"
+names(modellamb0chillports)[names(modellamb0chillports)=="X50."] <- "50\\%"
+names(modellamb0chillports)[names(modellamb0chillports)=="X97.5."] <- "97.5\\%"
+names(modellamb0chillports)[names(modellamb0chillports)=="n_eff"] <- "$n_{eff}$"
+
+make.mytable6 <- xtable(modellamb0chillports, 
+                        caption="Model parameters for non-phylogenetic model ($\\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\\%, 50\\%, and 97.5\\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.",
+                        label="tab:modlamb0chillports")
+
+
+
+
 
 
 if(length(grep("Ignacio", getwd()))>0) { 
