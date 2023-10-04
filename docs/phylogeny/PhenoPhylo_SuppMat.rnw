@@ -296,6 +296,17 @@ cat(" \\clearpage \\pagebreak ")
 
 
 \clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
+
+
+
+\clearpage
 \section*{Stan code}
 
 \subsection*{Annotated example code}

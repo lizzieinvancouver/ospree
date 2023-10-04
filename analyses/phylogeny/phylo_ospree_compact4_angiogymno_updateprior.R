@@ -1009,4 +1009,16 @@ if(FALSE){
 }
 
 
+
+## get location x study ----
+
+studyloc <- unique(paste(d$datasetID,d$provenance.long,d$provenance.lat,sep="_"))
+studyloc1 <- unlist(lapply(strsplit(studyloc,"_"), FUN=function(x){x[1]}))
+studyloclon <- as.numeric(unlist(lapply(strsplit(studyloc,"_"), FUN=function(x){x[2]})))
+studyloclat <- as.numeric(unlist(lapply(strsplit(studyloc,"_"), FUN=function(x){x[3]})))
+datalocs <- data.frame(x=studyloclon,y=studyloclat,id=studyloc1)
+
+#write.csv(datalocs, file = "output/locationsxstudy.csv")
+
+
 # end ----
