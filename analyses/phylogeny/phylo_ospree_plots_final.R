@@ -46,206 +46,191 @@ options(mc.cores = parallel::detectCores())
 #'######################################
 #### get data through bbstanleadin ####
 #'######################################
-
-# Flags to choose for bbstanleadin.R #
-setwd("..//bb_analysis") 
-
-# Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
-use.flags.for.mainmodel <- FALSE
-use.flags.for.allsppmodel <- TRUE
-use.yourown.flagdesign <- FALSE
-nocrops <- TRUE
-agiosponly <- T
-gymnosonly <- F
-
-if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
-   use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
-   & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
-
-if(use.flags.for.mainmodel){
-  use.chillports = FALSE
-  use.zscore = TRUE
-  use.allspp =FALSE # for the main model this is false
-  use.multcuespp = FALSE
-  use.cropspp = FALSE
-  # Default is species complex use  alltypes of designs
-  use.expramptypes.fp = TRUE
-  use.exptypes.fp = FALSE
-  use.expchillonly = FALSE
-}
-
-if(use.flags.for.allsppmodel){
-  use.chillports = FALSE
-  use.zscore = TRUE
-  use.allspp = TRUE
-  use.multcuespp = FALSE
-  use.cropspp = TRUE
-  use.expramptypes.fp = FALSE
-  use.exptypes.fp = FALSE
-  use.expchillonly = FALSE
-}
-
-if(use.yourown.flagdesign){
-  use.chillports = F # change to false for using utah instead of chill portions (most models use chill portions z)
-  use.zscore = TRUE # change to false to use raw predictors
+runbbstanleadin=T
+if(runbbstanleadin){
+  # Flags to choose for bbstanleadin.R #
+  setwd("..//bb_analysis") 
+  getwd()
+  # Master flags! Here you pick if you want the flags for the main model (figure in main text) versus the all spp model (supp)
+  use.flags.for.mainmodel <- FALSE
+  use.flags.for.allsppmodel <- TRUE
+  use.yourown.flagdesign <- FALSE
+  nocrops <- TRUE
+  agiosponly <- TRUE
   
-  # Default is species complex and no crops
-  use.allspp = F
-  use.multcuespp = FALSE
-  use.cropspp = FALSE
+  if(use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.yourown.flagdesign |
+     use.yourown.flagdesign  & use.flags.for.allsppmodel | use.flags.for.mainmodel==TRUE & use.flags.for.allsppmodel
+     & use.yourown.flagdesign) print("ALERT! You have set too many master flags to true, you must pick only one!")
   
-  # Default is species complex use  alltypes of designs
-  use.expramptypes.fp = TRUE
-  use.exptypes.fp = FALSE
+  if(use.flags.for.mainmodel){
+    use.chillports = FALSE
+    use.zscore = TRUE
+    use.allspp =FALSE # for the main model this is false
+    use.multcuespp = FALSE
+    use.cropspp = FALSE
+    # Default is species complex use  alltypes of designs
+    use.expramptypes.fp = TRUE
+    use.exptypes.fp = FALSE
+    use.expchillonly = FALSE
+  }
   
-  #Default is all chilling data
-  use.expchillonly = FALSE # change to true for only experimental chilling 
-  #note: with only exp chilling, there is only exp photo and force too.
-  #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+  if(use.flags.for.allsppmodel){
+    use.chillports = FALSE
+    use.zscore = TRUE
+    use.allspp = TRUE
+    use.multcuespp = FALSE
+    use.cropspp = TRUE
+    use.expramptypes.fp = FALSE
+    use.exptypes.fp = FALSE
+    use.expchillonly = FALSE
+  }
+  
+  if(use.yourown.flagdesign){
+    use.chillports = F # change to false for using utah instead of chill portions (most models use chill portions z)
+    use.zscore = TRUE # change to false to use raw predictors
+    
+    # Default is species complex and no crops
+    use.allspp = F
+    use.multcuespp = FALSE
+    use.cropspp = FALSE
+    
+    # Default is species complex use  alltypes of designs
+    use.expramptypes.fp = TRUE
+    use.exptypes.fp = FALSE
+    
+    #Default is all chilling data
+    use.expchillonly = FALSE # change to true for only experimental chilling 
+    #note: with only exp chilling, there is only exp photo and force too.
+    #also: subsetting to exp chill only reduces dataset to 3 species, <9 studies
+  }
+  
+  source("..//bb_analysis/source/bbstanleadin.R")
+  
+  namesdat <- unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
+  bb.stan$spps <- paste(bb.stan$genus,bb.stan$species,sep="_")
+  bb.stan$phylo <- paste(bb.stan$genus,bb.stan$species,sep="_")
+  
+  
+  #'###################################
+  #### get phylogeny              ####
+  #'###################################
+  
+  setwd("..//phylogeny") 
+  source("source/get_phylo_models.R")
+  
+  ## read and pre-process phylogeny
+  #phylo <- read.tree("../../data/phylogeny/SBphylo_62complex.tre")
+  #phylo <- read.tree("../../data/phylogeny/SBphylo_101sps.tre")
+  phylo <- phy.plants.ospree
+  
+  
+  namesphy <- phylo$tip.label
+  phylo <- force.ultrametric(phylo, method="extend")
+  phylo$node.label <- seq(1,length(phylo$node.label),1)
+  is.ultrametric(phylo)
+  #plot(phylo, cex=0.7)
+  VCVPHY <- vcv.phylo(phylo,corr=TRUE)
+  
+  
+  
+  ## deal with subgrouping
+  
+  if(nocrops & agiosponly){
+    gymno <- c("Metasequoia_glyptostroboides",  "Pseudotsuga_menziesii","Larix_laricina",
+               "Larix_gmelinii", "Larix_decidua" ,"Larix_kaempferi",   
+               "Pinus_nigra","Pinus_sylvestris","Pinus_banksiana",  
+               "Pinus_contorta","Pinus_wallichiana","Pinus_strobus", 
+               "Picea_abies"   ,"Picea_mariana" ,"Picea_glauca" ,
+               "Cedrus_libani" ,"Abies_alba"    ,"Abies_homolepis","Ginkgo_biloba")
+    croplist <- read.csv("../../data/croplist/agricultural_species.csv")
+    cropgymno <- c(croplist$Species_name,gymno)
+    bb.stan$crops <- ifelse(bb.stan$spps %in% cropgymno, "cropgymno","nocrop")
+    cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="cropgymno")])
+    bb.stan <- subset(bb.stan, crops == "nocrop")
+    phylo <- drop.tip(phylo, cropspps)
+    VCVPHY<-vcv.phylo(phylo,corr=T)
+  } 
+  
+  if(nocrops & !agiosponly){
+    croplist <- read.csv("../../data/croplist/agricultural_species.csv")
+    bb.stan$crops <- ifelse(bb.stan$spps %in% croplist$Species_name, "crop","nocrop")
+    cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="crop")])
+    bb.stan <- subset(bb.stan, crops == "nocrop")
+    phylo <- drop.tip(phylo, cropspps)
+    VCVPHY<-vcv.phylo(phylo,corr=T)
+  } 
+  
+  
+  if(!nocrops & agiosponly){
+    gymno <- c("Metasequoia_glyptostroboides",  "Pseudotsuga_menziesii","Larix_laricina",
+               "Larix_gmelinii", "Larix_decidua" ,"Larix_kaempferi",   
+               "Pinus_nigra","Pinus_sylvestris","Pinus_banksiana",  
+               "Pinus_contorta","Pinus_wallichiana","Pinus_strobus", 
+               "Picea_abies"   ,"Picea_mariana" ,"Picea_glauca" ,
+               "Cedrus_libani" ,"Abies_alba"    ,"Abies_homolepis","Ginkgo_biloba")
+    cropgymno <- c(gymno)
+    bb.stan$crops <- ifelse(bb.stan$spps %in% cropgymno, "cropgymno","nocrop")
+    cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="cropgymno")])
+    bb.stan <- subset(bb.stan, crops == "nocrop")
+    phylo <- drop.tip(phylo, cropspps)
+    VCVPHY<-vcv.phylo(phylo,corr=T)
+  } 
+  
+  
+  # Get spps and VCVPHY in same order
+  # bb.stan$spps[phylo$tip.label]
+  phylo$tip.label
+  d <- bb.stan[match(phylo$tip.label, bb.stan$spps),] # hmmm, only gives ONE match
+  
+  phymatch <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+  d <- merge(bb.stan, phymatch, by.x="spps", by.y="tip")
+  d <- d[order(d$sppnum),]
+  # Tilia_cordata versus Tilia_Cordata in phylo
+  nspecies <- max(d$sppnum)
+  
+  ## remove outliers
+  # d$resp
+  head(d)
+  ff = subset(d,latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+  d = subset(d,!latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
+  nspecies = 192
+  phylo <- drop.tip(phylo, c("Populus_balsamifera","Populus_tremuloides"))
+  d$sppnum <- as.numeric(as.factor(d$sppnum))
+  
+  
+  ## remove names of species that are wrong (e.g. Acer pseudolatanus) Malyshev2018
+  idswrong = which(d$spps == "Acer_pseudolatauns")
+  d$spps[idswrong] = "Acer_pseudoplatanus"
+  d$species[idswrong] = "pseudoplatanus"
+  d$latbi[idswrong] = "Acer_pseudoplatanus"
+  d$phylo[idswrong] = "Acer_pseudoplatanus"
+  
+  #d$sppnum[which(d$latbi=="Acer_pseudoplatanus")]
+  d$sppnum[idswrong] = 127
+  d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
+  
+  nspecies = 191
+  phylo <- drop.tip(phylo, "Acer_pseudolatauns")
+  
+  
+  
+  ## remove names of species that are wrong (e.g. Juglans spp) 
+  idswrong = which(d$spps == "Juglans_spp")
+  d <- d[-idswrong,]
+  phylo <- drop.tip(phylo, "Juglans_spp")
+  
+  nspecies <- length(phylo$tip.label)
+  phymatch2 <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
+  d2 <- merge(d, phymatch2, by.x="spps", by.y="tip")
+  d2 <- d2[order(d2$sppnum.y),]
+  d2$sppnum <- d2$sppnum.y
+  d <- d2
+  
+  # save for faster loading-compiling
+  #write.csv(d,file = "input/datasetforphyloms.csv")
+  #write.tree(phylo, file = "input/phyloforphyloms.tre")
+  
 }
-
-source("..//bb_analysis/source/bbstanleadin.R")
-
-namesdat <- unique(paste(bb.stan$genus,bb.stan$species,sep="_"))
-bb.stan$spps <- paste(bb.stan$genus,bb.stan$species,sep="_")
-bb.stan$phylo <- paste(bb.stan$genus,bb.stan$species,sep="_")
-
-
-#'###################################
-#### get phylogeny              ####
-#'###################################
-
-setwd("..//phylogeny") 
-source("source/get_phylo_models.R")
-
-## read and pre-process phylogeny
-#phylo <- read.tree("../../data/phylogeny/SBphylo_62complex.tre")
-#phylo <- read.tree("../../data/phylogeny/SBphylo_101sps.tre")
-phylo <- phy.plants.ospree
-
-
-namesphy <- phylo$tip.label
-phylo <- force.ultrametric(phylo, method="extend")
-phylo$node.label <- seq(1,length(phylo$node.label),1)
-is.ultrametric(phylo)
-#plot(phylo, cex=0.7)
-VCVPHY <- vcv.phylo(phylo,corr=TRUE)
-
-
-
-## deal with subgrouping
-if(nocrops & agiosponly){
-  gymno <- c("Metasequoia_glyptostroboides",  "Pseudotsuga_menziesii","Larix_laricina",
-             "Larix_gmelinii", "Larix_decidua" ,"Larix_kaempferi",   
-             "Pinus_nigra","Pinus_sylvestris","Pinus_banksiana",  
-             "Pinus_contorta","Pinus_wallichiana","Pinus_strobus", 
-             "Picea_abies"   ,"Picea_mariana" ,"Picea_glauca" ,
-             "Cedrus_libani" ,"Abies_alba"    ,"Abies_homolepis","Ginkgo_biloba")
-  croplist <- read.csv("../../data/croplist/agricultural_species.csv")
-  cropgymno <- c(croplist$Species_name,gymno)
-  bb.stan$crops <- ifelse(bb.stan$spps %in% cropgymno, "cropgymno","nocrop")
-  cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="cropgymno")])
-  bb.stan <- subset(bb.stan, crops == "nocrop")
-  phylo <- drop.tip(phylo, cropspps)
-  VCVPHY<-vcv.phylo(phylo,corr=T)
-} 
-
-if(nocrops & !agiosponly){
-  croplist <- read.csv("../../data/croplist/agricultural_species.csv")
-  bb.stan$crops <- ifelse(bb.stan$spps %in% croplist$Species_name, "crop","nocrop")
-  cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="crop")])
-  bb.stan <- subset(bb.stan, crops == "nocrop")
-  phylo <- drop.tip(phylo, cropspps)
-  VCVPHY<-vcv.phylo(phylo,corr=T)
-} 
-
-
-if(!nocrops & agiosponly){
-  gymno <- c("Metasequoia_glyptostroboides",  "Pseudotsuga_menziesii","Larix_laricina",
-             "Larix_gmelinii", "Larix_decidua" ,"Larix_kaempferi",   
-             "Pinus_nigra","Pinus_sylvestris","Pinus_banksiana",  
-             "Pinus_contorta","Pinus_wallichiana","Pinus_strobus", 
-             "Picea_abies"   ,"Picea_mariana" ,"Picea_glauca" ,
-             "Cedrus_libani" ,"Abies_alba"    ,"Abies_homolepis","Ginkgo_biloba")
-  croplist <- read.csv("../../data/croplist/agricultural_species.csv")
-  cropgymno <- c(gymno)
-  bb.stan$crops <- ifelse(bb.stan$spps %in% cropgymno, "cropgymno","nocrop")
-  cropspps <- unique(bb.stan$spps[which(bb.stan$crops=="cropgymno")])
-  bb.stan <- subset(bb.stan, crops == "nocrop")
-  phylo <- drop.tip(phylo, cropspps)
-  VCVPHY<-vcv.phylo(phylo,corr=T)
-} 
-
-if(nocrops & gymnosonly){
-  gymno <- c("Metasequoia_glyptostroboides",  "Pseudotsuga_menziesii","Larix_laricina",
-             "Larix_gmelinii", "Larix_decidua" ,"Larix_kaempferi",   
-             "Pinus_nigra","Pinus_sylvestris","Pinus_banksiana",  
-             "Pinus_contorta","Pinus_wallichiana","Pinus_strobus", 
-             "Picea_abies"   ,"Picea_mariana" ,"Picea_glauca" ,
-             "Cedrus_libani" ,"Abies_alba"    ,"Abies_homolepis","Ginkgo_biloba")
-  croplist <- read.csv("../../data/croplist/agricultural_species.csv")
-  angio <- unique(bb.stan$spps)[which(!unique(bb.stan$spps)%in%gymno)]
-  cropangio <- unique(c(angio,croplist$Species_name))
-  bb.stan <- subset(bb.stan, ! spps %in% cropangio)
-  dropforgymno <- which(!phylo$tip.label %in% gymno)
-  phylo <- drop.tip(phylo, dropforgymno)
-  VCVPHY<-vcv.phylo(phylo,corr=T)
-} 
-
-
-# Step 1: Get spps and VCVPHY in same order
-# bb.stan$spps[phylo$tip.label]
-phylo$tip.label
-d <- bb.stan[match(phylo$tip.label, bb.stan$spps),] # hmmm, only gives ONE match
-
-phymatch <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
-d <- merge(bb.stan, phymatch, by.x="spps", by.y="tip")
-d <- d[order(d$sppnum),]
-# Tilia_cordata versus Tilia_Cordata in phylo
-nspecies <- max(d$sppnum)
-
-
-#### remove outliers ####
-d$resp
-head(d)
-ff = subset(d,latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
-d = subset(d,!latbi %in% c("Populus_balsamifera","Populus_tremuloides"))
-nspecies = 192
-phylo <- drop.tip(phylo, c("Populus_balsamifera","Populus_tremuloides"))
-d$sppnum <- as.numeric(as.factor(d$sppnum))
-
-
-## remove names of species that are wrong (e.g. Acer pseudolatanus) Malyshev2018
-idswrong = which(d$spps == "Acer_pseudolatauns")
-d$spps[idswrong] = "Acer_pseudoplatanus"
-d$species[idswrong] = "pseudoplatanus"
-d$latbi[idswrong] = "Acer_pseudoplatanus"
-d$phylo[idswrong] = "Acer_pseudoplatanus"
-
-#d$sppnum[which(d$latbi=="Acer_pseudoplatanus")]
-d$sppnum[idswrong] = 127
-d$sppnum[which(d$sppnum>137)] = d$sppnum[which(d$sppnum>137)]-1
-
-nspecies = 191
-phylo <- drop.tip(phylo, "Acer_pseudolatauns")
-
-## remove names of species that are wrong (e.g. Juglans spp) 
-idswrong = which(d$spps == "Juglans_spp")
-d <- d[-idswrong,]
-phylo <- drop.tip(phylo, "Juglans_spp")
-
-nspecies <- length(phylo$tip.label)
-phymatch2 <- data.frame(tip=phylo$tip.label, sppnum=c(1:length(phylo$tip.label)))
-d2 <- merge(d, phymatch2, by.x="spps", by.y="tip")
-d2 <- d2[order(d2$sppnum.y),]
-d2$sppnum <- d2$sppnum.y
-d <- d2
-
-
-#write.csv(as.data.frame(phylo$tip.label),file = "output/sps_list_phylo.csv")
-
-## get ailene´s model table
-#source("../../analyses/bb_analysis/maketables.forsupp/mod_table.R")
 
 
 #'###############################################
@@ -1330,7 +1315,115 @@ cbind(tableresults.0[c(1,3,5,7,2,4,6,8,9),1],
 #write.csv(tableresults.estv2[c(1,4,7,10,2,5,8,11,3,6,9,12,13),c(1,3,4,6,8:10)], file = "output/angio_noout_lambest191_chillports.csv")
 #write.csv(tableresults.0v2[c(1,3,5,7,2,4,6,8,9),c(1,3,4,6,8:10)], file = "output/angio_noout_lamb0_191_chillports.csv")
 
+
+
 ## Leave Clade Out analyses - Supp Analysis ----
+
+## load models
+#fitlam0 <- readRDS("output/testme_yhat_noout_lamb0.rds")
+#fitlam1 <- readRDS("output/testme_yhat_noout_lamb1.rds")
+#fitlambest <- readRDS("output/testme_yhat_noout.rds")
+#write.csv(d, file = "E:/OSPREE/phylodata.csv")
+#d <- read.csv("E:/OSPREE/phylodata.csv")
+#phylo = read.tree("input/phyloforphyloms.tre")
+#rm(list=ls())
+#memory.limit(size=32000)
+
+## Function to compute R2
+bayes_R2_mine <- function(d,yhat) {
+  y <- d$resp
+  ypred <- yhat
+  e <- -1 * sweep(ypred, 2, y)
+  var_ypred <- apply(ypred, 1, var)
+  var_e <- apply(e, 1, var)
+  R2post <- var_ypred / (var_ypred + var_e)
+  return(R2post)
+}
+
+
+## Load list of model outputs
+#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
+fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+
+
+## Loop to get posterior R2 for each LOO run
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+r2s_posterior <- array(NA, dim=c(8000, 25))
+colnames(r2s_posterior)<-generatoprune
+
+for(i in 1:25){#i=1
+  print(generatoprune[i])
+  d_i <- d
+  spsingenus_i <- unique(subset(d_i, genus == generatoprune[i])$spps)
+
+  if(length(spsingenus_i) > 1){
+    
+    ## subset and re-order data after removing each genus
+    dsub <- subset(d_i, genus != generatoprune[i])
+    phylosub <- drop.tip(phylo, spsingenus_i)
+    nspecies <- length(phylosub$tip.label)
+    phymatch <- data.frame(tip=phylosub$tip.label, sppnum=c(1:length(phylosub$tip.label)))
+    d2 <- merge(dsub, phymatch, by.x="spps", by.y="tip")
+    d2 <- d2[,-c(36:38)]
+    d2 <- d2[order(d2$sppnum.y),]
+    
+    ## retrieve yhats
+    yhat <- extract(fitlist[[i]])$yhat
+    
+    ## compute and save R2
+    
+    bayesR2_i <- bayes_R2_mine(d2,yhat)
+    r2s_posterior[,i] <- bayesR2_i 
+        
+  }
+}
+
+
+# save outputs for quick comparative analyses
+#write.csv(r2s_posterior, file = "output/posterior_r2_nonphyloLOO.csv")
+#write.csv(r2s_posterior, file = "output/posterior_r2_phyloLOO.csv")
+
+r2s_posterior0 <- read.csv("output/posterior_r2_nonphyloLOO.csv")
+r2s_posterior <- read.csv("output/posterior_r2_phyloLOO.csv")
+
+r2resultsummary <- data.frame(HMM = colMeans(r2s_posterior0)[2:26],
+           PMM = colMeans(r2s_posterior)[2:26],
+           leftoutclade = names(colMeans(r2s_posterior)[2:26]))
+
+#write.csv(r2resultsummary, file = "output/posterior_r2_summary.csv")
+
+
+
+
+
+
+## compare R2
+boxplot(cbind(bayes_R2_mine(d,list_of_draws),
+              bayes_R2_mine(d,list_of_draws0)),ylab="Bayes R2")
+
+
+## plot predictions
+plot(colMeans(list_of_draws$yhat),d$resp)
+abline(lm(d$resp~colMeans(list_of_draws$yhat)),col="grey")
+summary(lm(d$resp~colMeans(list_of_draws$yhat)))
+
+plot(colMeans(list_of_draws0$yhat),d$resp)
+abline(lm(d$resp~colMeans(list_of_draws0$yhat)),col="grey")
+summary(lm(d$resp~colMeans(list_of_draws0$yhat)))
+
+plot(colMeans(list_of_draws1$yhat),d$resp)
+abline(lm(d$resp~colMeans(list_of_draws1$yhat)),col="grey")
+summary(lm(d$resp~colMeans(list_of_draws1$yhat)))
+
+
+
+plot(density(yhat[1,]),col=adjustcolor("lightblue",0.05))
+for(i in 1:100){
+  ff=sample(1:4000,1)
+  print(ff)
+  lines(density(yhat[ff,]),col=adjustcolor("lightblue",0.05))
+}
+lines(density(d$resp),col="darkblue",lwd=2)  
 
 
 

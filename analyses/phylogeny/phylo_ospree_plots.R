@@ -1156,20 +1156,29 @@ if(!agiosponly){
   
 }
 
-## check model R2s ----
+## Leave Clade Out - R2s ----
 
 
 ## load models
-agiosponly=T
-if(agiosponly){
-  fitlam0 <- readRDS("output/testme_yhat_noout_lamb0.rds")
-  fitlam1 <- readRDS("output/testme_yhat_noout_lamb1.rds")
-  fitlambest <- readRDS("output/testme_yhat_noout.rds")
-} else {
-  fitlam0 <- readRDS("output/testme_yhat_noout_lamb0_gymno.rds")
-  fitlam1 <- readRDS("output/testme_yhat_noout_lamb1_gymno.rds")
-  fitlambest <- readRDS("output/testme_yhat_noout_gymno.rds")
+  #fitlam0 <- readRDS("output/testme_yhat_noout_lamb0.rds")
+  #fitlam1 <- readRDS("output/testme_yhat_noout_lamb1.rds")
+  #fitlambest <- readRDS("output/testme_yhat_noout.rds")
+
+## Load list of model outputs
+fitlam0 <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
+fitlambest <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+
+## Function to compute R2
+bayes_R2_mine <- function(d,list_of_draws) {
+  y <- d$resp
+  ypred <- list_of_draws$yhat
+  e <- -1 * sweep(ypred, 2, y)
+  var_ypred <- apply(ypred, 1, var)
+  var_e <- apply(e, 1, var)
+  R2post <- var_ypred / (var_ypred + var_e)
+  return(R2post)
 }
+
 
 
 ## first we retrieve yhats
@@ -1192,16 +1201,6 @@ print(ff)
 lines(density(d$resp),col="darkblue",lwd=2)  
 
 
-
-bayes_R2_mine <- function(d,list_of_draws) {
-  y <- d$resp
-  ypred <- list_of_draws$yhat
-  e <- -1 * sweep(ypred, 2, y)
-  var_ypred <- apply(ypred, 1, var)
-  var_e <- apply(e, 1, var)
-  R2post <- var_ypred / (var_ypred + var_e)
-  return(R2post)
-  }
 
 mean(bayes_R2_mine(d,list_of_draws))
 mean(bayes_R2_mine(d,list_of_draws0))
@@ -1228,15 +1227,14 @@ summary(lm(d$resp~colMeans(list_of_draws1$yhat)))
 
 
 
-
+## old code to evaluate models R2, LOO ----
 ## load function
-remotes::install_github("avehtari/ROS-Examples",subdir = "rpackage")
+#remotes::install_github("avehtari/ROS-Examples",subdir = "rpackage")
+#theme_set(bayesplot::theme_default(base_family = "sans"))
 library("rosdata")
 library("rstanarm")
 library("loo")
-library("ggplot2")
 library("bayesplot")
-theme_set(bayesplot::theme_default(base_family = "sans"))
 library("latex2exp")
 library("foreign")
 library("bayesboot")
@@ -1367,24 +1365,12 @@ bayes_R2_res(fitlam0)
 bayes_R2_res(fitlam1)
 bayes_R2_res(fitlambest)
 fit = fitlambest
-?get_y
-fit$[[""]]
-rstanarm::get_x(fit)
-rstanarm::posterior_epred(fit)
 
-loo::extract_log_lik(stanfit = fit,
-                     parameter_name = "log_lik",
-                     merge_chains = FALSE)
-
-?loo.function(as.array(fit))
-?loo
-pp_check(fit, ndraws=20)
-
-class(fit)
-?loo(fitlam0)
 
 
 #'################
+
+
 #### END TEST ####
 #'################
 
