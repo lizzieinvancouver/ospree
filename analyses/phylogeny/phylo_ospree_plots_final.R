@@ -1347,11 +1347,13 @@ boxplot(cbind(bayes_R2_mine(d,list_of_draws),
 
 
 ## Load list of model outputs
-fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
-#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
-#fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_all.rds")
-fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0_all.rds")
+#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
+fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_all.rds")
+#fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0_all.rds")
 names(fitlist[[1]])
+
+##### Loop to compare R2 for each LOO run ----
 
 ## Loop to get posterior R2 for each LOO run
 generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
@@ -1440,6 +1442,58 @@ yhats_bf_posterior0<-read.csv("output/posterior_yhats_bf_nonphyloLOO.csv")
 boxplot(cbind(PMM=yhats_bf_posterior[,3],
               HMM=yhats_bf_posterior0[,3]),
         ylab="Correlation sensitivity to forcing vs. LOO")
+
+
+##### Loop to measure distance in days among slopes full vs LOO ----
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+bfdiffdays_posterior <- array(NA, dim=c(25, 4))
+row.names(bfdiffdays_posterior)<-generatoprune
+colnames(bfdiffdays_posterior)<-c("b_force_diffdaysavg",
+                                  "b_force_absdiffdaysavg",
+                                  "b_force_diffdayssum",
+                                  "b_force_diffdaysSD")
+
+for(i in 1:25){#i=1
+  print(generatoprune[i])
+  spsingenus_i <- unique(subset(d_i, genus == generatoprune[i])$spps)
+  torem <- which(d$genus==generatoprune[i])
+  spstorem <- which(phylo$tip.label %in% spsingenus_i)
+  yhat.all <- extract(fitlist.orig)$yhat[,-torem]
+  bforce.all <- extract(fitlist.orig)$b_force[,-spstorem]
+  
+  
+  if(length(spsingenus_i) > 1){
+    
+    ## retrieve yhats
+    yhat <- extract(fitlist[[i]])$yhat
+    bforce <- extract(fitlist[[i]])$b_force
+    
+    bfdiffdays_posterior[i,1] <- mean(colMeans(bforce)-colMeans(bforce.all))
+    bfdiffdays_posterior[i,2] <- mean(abs(colMeans(bforce)-colMeans(bforce.all)))
+    bfdiffdays_posterior[i,3] <- sum(abs(colMeans(bforce)-colMeans(bforce.all)))
+    bfdiffdays_posterior[i,2] <- sd(colMeans(bforce)-colMeans(bforce.all))
+    
+  }
+}
+
+# save outputs for quick comparative analyses
+#write.csv(bfdiffdays_posterior, file = "output/posterior_bfdiffdays_phyloLOO.csv")
+#write.csv(bfdiffdays_posterior, file = "output/posterior_bfdiffdays_nonphyloLOO.csv")
+
+bfdiffdays_posterior <- read.csv("output/posterior_bfdiffdays_phyloLOO.csv")
+bfdiffdays_posterior0 <- read.csv("output/posterior_bfdiffdays_nonphyloLOO.csv")
+
+cbind(bfdiffdays_posterior[,3],
+      bfdiffdays_posterior0[,3])
+
+colSums(bfdiffdays_posterior[,2:4],na.rm = T)
+colSums(bfdiffdays_posterior0[,2:4],na.rm = T)
+
+colMeans(bfdiffdays_posterior[,2:4],na.rm = T)
+colMeans(bfdiffdays_posterior0[,2:4],na.rm = T)
+
+
+boxplot(bfdiffdays_posterior[,2],bfdiffdays_posterior0[,2])
 
 
 
