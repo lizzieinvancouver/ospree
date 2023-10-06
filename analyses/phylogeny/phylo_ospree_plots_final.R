@@ -1340,11 +1340,18 @@ bayes_R2_mine <- function(d,yhat) {
   return(R2post)
 }
 
+## compare R2 for supp figure
+boxplot(cbind(bayes_R2_mine(d,list_of_draws),
+              bayes_R2_mine(d,list_of_draws0)),ylab="Bayes R2")
+
+
 
 ## Load list of model outputs
-#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
-fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
-
+fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
+#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+#fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_all.rds")
+fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0_all.rds")
+names(fitlist[[1]])
 
 ## Loop to get posterior R2 for each LOO run
 generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
@@ -1369,7 +1376,8 @@ for(i in 1:25){#i=1
     
     ## retrieve yhats
     yhat <- extract(fitlist[[i]])$yhat
-    
+    dim(yhat)
+    yhat[1:10, 1:100]
     ## compute and save R2
     
     bayesR2_i <- bayes_R2_mine(d2,yhat)
@@ -1395,11 +1403,44 @@ r2resultsummary <- data.frame(HMM = colMeans(r2s_posterior0)[2:26],
 
 
 
+##### Loop to compare estimates yhats and slopes ----
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+yhats_bf_posterior <- array(NA, dim=c(25, 2))
+row.names(yhats_bf_posterior)<-generatoprune
+colnames(yhats_bf_posterior)<-c("yhats","b_force")
 
+for(i in 1:25){#i=1
+  print(generatoprune[i])
+  spsingenus_i <- unique(subset(d_i, genus == generatoprune[i])$spps)
+  torem <- which(d$genus==generatoprune[i])
+  spstorem <- which(phylo$tip.label %in% spsingenus_i)
+  yhat.all <- extract(fitlist.orig)$yhat[,-torem]
+  bforce.all <- extract(fitlist.orig)$b_force[,-spstorem]
+  
+  
+  if(length(spsingenus_i) > 1){
+    
+    ## retrieve yhats
+    yhat <- extract(fitlist[[i]])$yhat
+    bforce <- extract(fitlist[[i]])$b_force
+    
+    yhats_bf_posterior[i,1] <- cor(colMeans(yhat),colMeans(yhat.all))
+    yhats_bf_posterior[i,2] <- cor(colMeans(bforce),colMeans(bforce.all))
+    
+  }
+}
 
-## compare R2
-boxplot(cbind(bayes_R2_mine(d,list_of_draws),
-              bayes_R2_mine(d,list_of_draws0)),ylab="Bayes R2")
+# save outputs for quick comparative analyses
+#write.csv(yhats_bf_posterior, file = "output/posterior_yhats_bf_phyloLOO.csv")
+#write.csv(yhats_bf_posterior, file = "output/posterior_yhats_bf_nonphyloLOO.csv")
+
+yhats_bf_posterior<-read.csv("output/posterior_yhats_bf_phyloLOO.csv")
+yhats_bf_posterior0<-read.csv("output/posterior_yhats_bf_nonphyloLOO.csv")
+
+boxplot(cbind(PMM=yhats_bf_posterior[,3],
+              HMM=yhats_bf_posterior0[,3]),
+        ylab="Correlation sensitivity to forcing vs. LOO")
+
 
 
 ## plot predictions
