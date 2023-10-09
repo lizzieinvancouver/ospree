@@ -1316,19 +1316,10 @@ cbind(tableresults.0[c(1,3,5,7,2,4,6,8,9),1],
 #write.csv(tableresults.0v2[c(1,3,5,7,2,4,6,8,9),c(1,3,4,6,8:10)], file = "output/angio_noout_lamb0_191_chillports.csv")
 
 
+## Comparing R2 among PMM HMM - Supp Analysis ----
 
-## Leave Clade Out analyses - Supp Analysis ----
-
-## load models
 #fitlam0 <- readRDS("output/testme_yhat_noout_lamb0.rds")
-#fitlam1 <- readRDS("output/testme_yhat_noout_lamb1.rds")
 #fitlambest <- readRDS("output/testme_yhat_noout.rds")
-#write.csv(d, file = "E:/OSPREE/phylodata.csv")
-#d <- read.csv("E:/OSPREE/phylodata.csv")
-#phylo = read.tree("input/phyloforphyloms.tre")
-#rm(list=ls())
-#memory.limit(size=32000)
-
 ## Function to compute R2
 bayes_R2_mine <- function(d,yhat) {
   y <- d$resp
@@ -1340,20 +1331,228 @@ bayes_R2_mine <- function(d,yhat) {
   return(R2post)
 }
 
+list_of_draws <- extract(fitlambest)
+list_of_draws0 <- extract(fitlam0)
+
 ## compare R2 for supp figure
 boxplot(cbind(bayes_R2_mine(d,list_of_draws),
               bayes_R2_mine(d,list_of_draws0)),ylab="Bayes R2")
 
 
 
+## Leave One Clade Out (LOCO) analyses - Supp Analysis ----
+
+
+## load models, data, phylogeny
+#d <- read.csv("E:/OSPREE/phylodata.csv")
+#phylo = read.tree("input/phyloforphyloms.tre")
+#rm(list=ls())
+#memory.limit(size=32000)
+
+
 ## Load list of model outputs
+#fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+#fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_all.rds")
 #fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
-fitlist <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
-fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_all.rds")
 #fitlist.orig <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0_all.rds")
 names(fitlist[[1]])
 
-##### Loop to compare R2 for each LOO run ----
+
+##### Predict for held out clade in each LOCO run ----
+
+#from Lizzie's email oct7th
+# For the PMM: grab your full VCV (from the whole tree, 
+# not the subset), and all your parameters (from the model based 
+# on the subset) and then use those to get an intercept and slope 
+# for each of your hold out species. Something like:
+library(geiger)
+#install.packages("Rphylopars")
+#install.packages("doBy")
+library(Rphylopars)
+
+
+# grab parameters from subset model: 
+fitlistall <- readRDS("E:/OSPREE/fit_list_leave_clade_out.rds")
+
+
+
+## impute using Rphylopars for phylo model PMM.
+listpredparam <- list()
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+
+for(i in 1:25){
+  
+  print(generatoprune[i])
+  spsingenus_i <- unique(subset(d, genus == generatoprune[i])$spps)
+  
+  if(length(spsingenus_i)>1){
+    fitlist = fitlistall[[i]]
+    
+    
+    # retrieve and predict useful parameters
+    interceptsa <- extract(fitlist)$lam_interceptsa
+    a_z <- extract(fitlist)$a
+    sigma_a <- extract(fitlist)$sigma_interceptsa
+    lam_interceptsbf <- extract(fitlist)$lam_interceptsbf
+    mean(interceptsa)
+    b_zf <- extract(fitlist)$b_zf
+    sigma_b <- extract(fitlist)$sigma_interceptsbf
+    b_force <- extract(fitlist)$b_force
+    
+    
+    # Generate intercept
+    ## first rescale tree
+    scaledtree_intercept_a <- rescale(phylo, model = "lambda", mean(interceptsa))
+    scaledtree_intercept_b <- rescale(phylo, model = "lambda", mean(lam_interceptsbf))
+    
+    phylosub <- drop.tip(phylo, spsingenus_i)
+    trait_data_sub <- data.frame(species= phylosub$tip.label, 
+                                 V1=colMeans(a_z),
+                                 V2=colMeans(b_force))
+    spps  <- data.frame(species= phylo$tip.label)
+    trait_data <- merge(spps, trait_data_sub, by.x="species", by.y = "species", all= T)
+    
+    PPE_a <- phylopars(trait_data = trait_data[,c(1,2)], tree = scaledtree_intercept_a, model = "lambda",
+                       pheno_error = TRUE, phylo_correlated = TRUE, pheno_correlated = F)
+    PPE_b <- phylopars(trait_data = trait_data[,c(1,3)], tree = scaledtree_intercept_b, model = "lambda",
+                       pheno_error = TRUE, phylo_correlated = TRUE, pheno_correlated = F)
+    
+    listpredparam[[i]] <- data.frame(intercept=PPE_a$anc_recon[1:191,],
+                                     slope=PPE_b$anc_recon[1:191,])
+    # Ancestral state reconstruction and species mean prediction
+    
+  }
+}
+
+
+listpredparam.phylo <- readRDS("E:/OSPREE/LOCO.predicted.parameters.rds")
+
+listpredparam[[1]]
+
+## impute using random draws for non-phylo model HDM.
+#For the DHM, you just have to take random draws from the intercept 
+#normal (rnorm(n hold-out-spp, mu_a, sigma_a)) and slope normal (rnorm(n 
+#hold-out-spp, mu_b, sigma_b)) then -- again -- use your new 
+#species-level slopes and the hold out species forcing (x data) to 
+#predict the hold out data.
+
+# grab parameters from subset model: 
+fitlistall <- readRDS("E:/OSPREE/fit_list_leave_clade_out_lamb0.rds")
+
+
+
+## impute using Rphylopars for phylo model PMM.
+listpredparam <- list()
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+
+for(i in 1:25){#i=1
+  
+  print(generatoprune[i])
+  spsingenus_i <- unique(subset(d, genus == generatoprune[i])$spps)
+  
+  if(length(spsingenus_i)>1){
+    fitlist = fitlistall[[i]]
+    tableresults.0 = summary(fitlist, pars = list("a_z", "sigma_interceptsa", 
+                                                  "b_zf", "sigma_interceptsbf",
+                                                  "sigma_y"))$summary
+    
+    # retrieve and predict useful parameters
+    a_z <- extract(fitlist)$a_z
+    a_each <- extract(fitlist)$a
+    sigma_a <- extract(fitlist)$sigma_interceptsa
+    b_zf <- extract(fitlist)$b_zf
+    sigma_b <- extract(fitlist)$sigma_interceptsbf
+    b_force <- extract(fitlist)$b_force
+    
+    
+    # Generate data to store
+    phylosub <- drop.tip(phylo, spsingenus_i)
+    trait_data_sub <- data.frame(species= phylosub$tip.label, 
+                                 V1=colMeans(a_each),
+                                 V2=colMeans(b_force))
+    spps  <- data.frame(species= phylo$tip.label)
+    trait_data <- merge(spps, trait_data_sub, by.x="species", by.y = "species", all= T)
+    
+    # Generate intercepts and slopes
+    holder <- which(trait_data[,1]%in% spsingenus_i)
+    trait_data[holder,2] <-  mean(rnorm(10000, mean(a_z),mean(sigma_a)))
+    trait_data[holder,3] <-  mean(rnorm(10000, mean(b_zf),mean(sigma_b)))
+    
+    
+    listpredparam[[i]] <- trait_data
+
+  }
+}
+
+#saveRDS(listpredparam, file="E:/OSPREE/LOCO.predicted.parameterslamb0.rds")
+listpredparam.nonphylo <- readRDS("E:/OSPREE/LOCO.predicted.parameterslamb0.rds")
+
+l
+
+#Either, way use your new species-level slopes and the hold out species 
+#forcing (x data) to predict the hold out data.
+storeobsvspred <- list()
+
+for(i in 1:25){#i=1
+  
+  print(generatoprune[i])
+  spsingenus_i <- unique(subset(d, genus == generatoprune[i])$spps)
+  
+  nsps <- length(spsingenus_i)
+  if(nsps>1){
+  predparam0 <- listpredparam.nonphylo[[i]]
+  predparam <- listpredparam.phylo[[i]]
+  storeobsvspred_j <- list()
+  for(j in 1:nsps){#j=1
+    
+    d_j <- subset(d, spps == spsingenus_i[j])
+    predparam0_j <- predparam0[which(predparam0[,1] == spsingenus_i[j]),]
+    predparam_j <- predparam[which(row.names(predparam) == spsingenus_i[j]),]
+    observed.resp <- d_j$resp
+    
+    predicted.respHDM <- as.numeric(predparam0_j[3])*d_j$force.z + as.numeric(predparam0_j[2])   
+    predicted.respPMM <-  as.numeric(predparam_j[2])*d_j$force.z + as.numeric(predparam_j[1])
+      
+    storeobsvspred_j[[j]] <- data.frame(species = spsingenus_i[j], 
+               obs = observed.resp,
+               predHDM = predicted.respHDM,
+               predPMM = predicted.respPMM)
+    
+  }
+  storeobsvspred[[i]] <- do.call(rbind,storeobsvspred_j)
+  
+  }
+}
+
+
+LOO_obs_pred <- do.call(rbind,storeobsvspred)
+write.csv(LOO_obs_pred, file = "output/LOCO_observed_vs_predicted.csv")
+
+
+## plot results
+par(mfrow=c(1,2))
+plot(LOO_obs_pred[,3],LOO_obs_pred[,2],
+     ylab = "observed response (num. days)",
+     xlab = "predicted by HMM (num. days)",
+     pch=19, col=adjustcolor(1,0.5),
+     ylim=c(0,150),xlim=c(0,70))
+abline(lm(LOO_obs_pred[,2]~LOO_obs_pred[,3]),col="red")
+mtext("a", side = 3, adj = 0.05,line=0.5,cex=1.5)
+text(10,150, paste("r = ", round(cor(LOO_obs_pred[,2],LOO_obs_pred[,3]),3)))
+
+plot(LOO_obs_pred[,4],LOO_obs_pred[,2],
+     ylab = "observed response (num. days)",
+     xlab = "predicted by PMM (num. days)",
+     pch=19, col=adjustcolor(1,0.5),
+     ylim=c(0,150),xlim=c(0,70))
+abline(lm(LOO_obs_pred[,2]~LOO_obs_pred[,4]),col="red")
+mtext("b", side = 3, adj = 0.05,line=0.5,cex=1.5)
+text(10,150, paste("r = ", round(cor(LOO_obs_pred[,2],LOO_obs_pred[,4]),3)))
+
+
+
+
+##### Loop to compare R2 for each LOCO run ----
 
 ## Loop to get posterior R2 for each LOO run
 generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
@@ -1519,6 +1718,63 @@ for(i in 1:100){
   lines(density(yhat[ff,]),col=adjustcolor("lightblue",0.05))
 }
 lines(density(d$resp),col="darkblue",lwd=2)  
+
+
+
+##### old code to run simulating with fastBM----
+
+
+# retrieve useful parameters
+interceptsa <- extract(fitlist)$lam_interceptsa
+a_z <- extract(fitlist)$a_z
+sigma_a <- extract(fitlist)$sigma_interceptsa
+lam_interceptsbf <- extract(fitlist)$lam_interceptsbf
+b_zf <- extract(fitlist)$b_zf
+sigma_b <- extract(fitlist)$sigma_interceptsbf
+
+
+# Generate intercept
+## first rescale tree
+scaledtree_intercept <- rescale(phylo, model = "lambda", mean(interceptsa))
+
+## then simulate species-level intercepts
+intercepts <- fastBM(scaledtree_intercept, 
+                     a = mean(a_z), 
+                     mu = 0,
+                     sig2 = mean(sigma_a) ^ 2) 
+
+# Generate bf slope 
+scaledtree_bf <- rescale(phylo, model = "lambda", mean(lam_interceptsbf))
+
+slopes_bf <- fastBM(scaledtree_bf, 
+                    a = mean(b_zf), 
+                    mu = 0,
+                    sig2 = mean(sigma_b)^2) 
+
+
+# use these parameters to predict for left out species
+generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
+
+i=1
+print(generatoprune[i])
+spsingenus_i <- unique(subset(d, genus == generatoprune[i])$spps)
+d_i <- subset(d, spps %in% spsingenus_i)
+leftoutpredictedvsobs <- array(NA, dim = c(length(spsingenus_i),2))
+
+
+
+## subset and re-order data after removing each genus
+dsub <- subset(d_i, genus != generatoprune[i])
+phylosub <- drop.tip(phylo, spsingenus_i)
+nspecies <- length(phylosub$tip.label)
+phymatch <- data.frame(tip=phylosub$tip.label, sppnum=c(1:length(phylosub$tip.label)))
+d2 <- merge(dsub, phymatch, by.x="spps", by.y="tip")
+d2 <- d2[,-c(36:38)]
+d2 <- d2[order(d2$sppnum.y),]
+
+
+
+
 
 
 
