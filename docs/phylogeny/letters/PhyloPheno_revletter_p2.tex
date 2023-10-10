@@ -131,7 +131,7 @@ Done.\\
 We thank the reviewer for acknowledging interest and value in our work, and for pointing out issues in need for attention. We agree that understanding the intricated relationships between forcing and chilling is complicated and have now expanded in the discussion on this point (see lines XXX-XXX), as well as on data limitations. 
 \textcolor{teal}{not so sure what tweaked bits of the discussion to add here. Help here would be appreciated Lizzie-Jonathan.} 
 
-Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree as long as it is ultrametric and has branch lengths. Actually, genome based trees could potentially do a better job at retrieving clade differences than molecular trees based on one or a few markers. 
+Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree as long as it is ultrametric and has branch lengths. Actually, genome based trees could potentially do a better job at retrieving clade differences than molecular trees based on one or a few markers. We are now explicit about this posibility in our methods (see lines XXX-XXX). 
 \textcolor{teal}{please Jonathan, review this part.} 
 
 Finally, we have conducted an exhaustive revision and corrected typos and grammar. Please see our detailed response to reviewer's comments below. \\
@@ -141,49 +141,79 @@ Finally, we have conducted an exhaustive revision and corrected typos and gramma
 \emph{My two major concerns are as the following:}\\
 \emph{(1) Regarding chilling, the authors stated that they estimated field chilling by Utah units. However, the Utah model was first used for agricultural crops and assumes that temperatures between 1.4 and 15.9 \degree C affect dormancy release differently. The assumption of the Utah model was against the recent findings that a wide range of temperatures (-2 to 10\degreeC) have very similar effects on dormancy releases (Baumgarten et al 2021, \url{doi: 10.1111/nph.17270}). How do you prove the Utah model is suitable for species investigated in this study? To strength the findings, more reliable and various algorithms should be included (e.g., $<$5\degree C model). Furthermore, the start date of chilling accumulation is unclear, and 33 papers where the data of this study is from often used different dates. How to deal with this problem? Another problem is why just estimated field chilling? Did all papers use natural chilling treatments rather than artificial chilling treatments?}\\
 
-\textcolor{blue}{Best way to deal with this if not too hard: We also could do chill portions instead of Utah chill and report those in the supp, that would be a STRONG reply and a good way to say to the editor we ran all new tests, got new data (chill portions) etc.}\\
+%\textcolor{blue}{Best way to deal with this if not too hard: We also could do chill portions instead of Utah chill and report those in the supp, that would be a STRONG reply and a good way to say to the editor we ran all new tests, got new data (chill portions) etc.}\\
+The reviewer raises an important point here, which we address in a two-fold manner. First, we have clarified further the rationale underlying the use of estimated field chilling. We realize we may have overlooked this issue as we had discussed it in depth in a previous work \citep{ettinger2020}. Research on temperate tree phenology relies on modelled estimates of chilling---i.e., two most common metrics are Utah units and chill portions---each with limitations and underlying assumptions. These models are hypotheses ultimately affected by a lack of understanding of how chilling works---e.g., below what temperature does chilling start accummulating? Hence, it is likely that estimates of chilling are inaccurate for many species and yet, they are our best guess. We now elaborate on this issue in our discussion (see lines XXX-XXX).
+\textcolor{teal}{Lizzie or Ailene, I would need help editing this response and adding any additional text on chilling to the ms (I made a first, raw attempt). This is very clear in Ettinger et al. 2020, so maybe a summary of what's there? I put this in the methods, but if you think it does not fit there an alternative would be to use a subsection in the Supp. Inf. where we place new analyses and some text justifying why we estimated chilling as we did.}\\
+
+Second, we thank the reviewer's suggestion to include additional algorithms. We ran both our models (PMM and HMM) using chill portions instead of Utah units. The results are added as two new tables in Supporting Information, showing coincident results, which strengthens our findings.\\  
+
 
 \emph{(2) In some papers, forcing temperatures differed between day and night. Sometimes, the forcing temperature is always changing (e.g., gradually increased ), how to determine forcing temperature in these cases? Similarly, some experimental papers used a changing photoperiod (e.g., gradually increased daylength), how to determine the daylength in this case? All these details could not be found in Methods \& Materials.}\\
 
-This is a great point and something we thought and worked deeply on (indeed our efforts led us to write an entire paper on the complexity and importance of this problem, see \urel{https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2435.14329}). We apologize this was not clear enough before and have now clarified our methods in lines XX-XX.... To address different day/night or ramped temperatures we take a weighted hourly average over the full period of forcing. We also adjusted for differences caused by co-varying thermo- and photo-periodicity for both the forcing temperatures and photoperiod values. \\
+This is a great point and something we thought and worked deeply on (indeed our efforts led us to write an entire paper on the complexity and importance of this problem, see \urel{https://besjournals.onlinelibrary.wiley.com/doi/10.1111/1365-2435.14329}). We apologize this was not clear enough before and have now clarified our methods in lines XX-XX.  \\
+%\textcolor{blue}{Tweak methods to make sure we're clear on this, then line reference here.}\\
+\textcolor{teal}{Lizzie, I think I may need some help to edit this response in the ms too.}\\
 
-\textcolor{blue}{Tweak methods to make sure we're clear on this, then line reference here.}\\
 
 \emph{Besides, there are some minor points:}\\
 
-\textcolor{blue}{A lot of the non-method points below are a touch weird to me ... for example, `suggest add some evolutionary prospectives' makes me think this person wants us to go crazy with what the phylogeny tells us; I advise against this. I suggest really minor edits for most of these points and then reference lines where we already do what they're asking ... for example the whole paragraph `Weak phylogenetic signal in photoperiod sensitivity...' is about evolutionary perspectives. }\\
+%\textcolor{blue}{A lot of the non-method points below are a touch weird to me ... for example, `suggest add some evolutionary prospectives' makes me think this person wants us to go crazy with what the phylogeny tells us; I advise against this. I suggest really minor edits for most of these points and then reference lines where we already do what they're asking ... for example the whole paragraph `Weak phylogenetic signal in photoperiod sensitivity...' is about evolutionary perspectives. }\\
 
 \emph{Abstract:}\\
 \emph{Add one or two lines for introduction of the dataset you applied for the analysis and construction of ecological models.}\\
+Done, see lines XXX-XXX.\\
 
 \emph{Introduction:}\\
 \emph{Line 10. ``High variability observed in responses....". Please tell what Kind of variability?}\\
+Done, see lines XXX-XXX.\\
+
 \emph{Line 13- 15. ``Much of it, however,... few well-studied species". Not logical. Please check and revise.}\\
+Done, see lines XXX-XXX.\\
+
 \emph{Line 24-27. check and improve the expressions. Besides, in this section there is a lack of state of the art about the phylogenetic signals in plant phenophases and their relationship with climatic responses. The author should discuss it.}\\
+\textcolor{teal}{not sure what to do about mentioned expressions, help Lizzie, Jonathan}. We now provide a bit more background on phylogenetic signals of plant phenophases below, see lines XXX-XXX.\\
+
 \emph{What is the mechanism of shared evolutionary traits in plant phenophases, and how to predict these with climatic variations should be discussed in the introduction part.}\\
+One often invoked mechanism is phylogenetic conservatism or the fact that ``the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait'' (see lines XXX-XXX). Plant phenophases, as mentioned in the introduction can be considered as traits, and their sensitivity of such phenophases to temperature and daylight have proven to be phylogenetically conserved. We are now more explicit about how, while some previous works have explored phylogenetic signal in phenology (e.g., \cite{davies2013phylogenetic}, much of it had not focused on the phylogenetic signal of phenological sensitivity to cues, which we address in our paper (see lines XXX).
+\textcolor{teal}{Jonathan, please review this bit, I gave a try but not so sure what else the reviewer wants from us}.\\
 
 \emph{Results and Discussion:}\\
-\emph{I suggest add some evolutionary prospectives and their relationship with phenological sensitivity to three environmental cues, chilling, forcing, and photoperiod.
-Figure 4 is not precise and should be revised to reflect the frequency distribution and future forecasting.}\\
-\emph{What are the limitations of this model? The study for further research should be added in the discussion section also.}\\
+\emph{I suggest add some evolutionary prospectives and their relationship with phenological sensitivity to three environmental cues, chilling, forcing, and photoperiod.}\\
+We believe the whole section ``Phylogenetic structure of phenological cues'' and especially its third and fourth paragraphs discuss in depth the evolutionary implications and interpretation of our results. We purposely avoided overinterpreting our results but would be happy to add additional prospectives if the reviewer wishes to provide more specific guidelines of what additional points should be covered.\\
 
-\textcolor{blue}{Could reference a new paragraph about non-temperate and Southern Hemisphere species here.}\\
+\emph{Figure 4 is not precise and should be revised to reflect the frequency distribution and future forecasting.}\\
+We disagree with the reviewer in this point. The figure shows shifts in the forecasts and frequency distributions of these shifts. In addition, we provide a complementary figure (Fig. S6 in Supporting information) that specifically shows differences in forecasts. The point of the figure(s) is to compare forecasts among methods and show when their results are discrepant---i.e., underrepresented species. We would argue that igure(s) 4 and S6 serve this purpose.\\
+
+
+\emph{What are the limitations of this model? The study for further research should be added in the discussion section also.}\\
+We have now included a new paragraph discussing the major limitations of our model and data (e.g., the need for a dated phylogenetic tree, missrepresentation of non-temperate and Southern Hemisphere species) and suggest future research venues to address these limitations.
+\textcolor{teal}{I have not yet done this, but will draft (by the end of today) a new paragraph on model-data limitations and potentialities at the end of the discussion. Please review.}.\\
+%\textcolor{blue}{Could reference a new paragraph about non-temperate and Southern Hemisphere species here.}\\
 
 \emph{Methods section:}\\
 \emph{What are the criteria for choosing the citations after yielding the search from ISI Web of Science and Google Scholar?}\\
-
 We review all citations, then included those where we could calculate chilling, forcing and photoperiod treatments, see line XX. \\
 
 \emph{Line 260-263.``For our analysis here, ...resulting in 44 studies from 33 papers". These lines are unclear, and no parameter was discussed to extract the results. The author should revise these lines.}\\
-\emph{Line 275. How do the Polytomies work and affect only 46 out of 191 species? Please discuss in detail. Line 287-295. These are very common and should be discussed further in one or two lines.}\\
+We have clarified the paper selection criteria, which required either raw experimental data or including a figure from where data could be extracted, see lines XXX-XXX. 
 
-\textcolor{blue}{Maybe cite a paper that explain polytomies?}\\
+\emph{Line 275. How do the Polytomies work and affect only 46 out of 191 species? Please discuss in detail. Line 287-295. These are very common and should be discussed further in one or two lines.}\\
+Polytomies represent parts of the phylogenetic tree lacking resolution. These nuances are relatively common in plant phylogenies, and its presence is increased in our case where we favored increasing taxonomic representation at the cost of having a less resolved tree. While having a fully resolved tree would lead our PMM to detect even more subtle variation among congeneric species within the same polytomic genus, our approach shows how a non-resolved tree performs better than no tree at all (the HMM assumes all species are in the same polytomy). 
+
+We now briefly discuss this issue, as suggested (see lines XXX).
+
+\textcolor{teal}{Jonathan, could you  cite a paper that explain polytomies to back up this response?}\\
+
 
 \emph{The authors should describe the importance and significance of the Bayesian hierarchical phylogenetic model in this section.}\\
+We stress the importance of our PMM and how it differs from previous approaches in lines XXX-XXX.\textcolor{teal}{TO DO!}
+
 
 \emph{The authors should add a detailed description table of all studies for this research.}\\
+We thank all reviewers for this suggestion. We have added a map, a table and a figure in the Supporting Information with a description of studies, their geographic distribution and the underlying data (see Table SXX, Figs. SXX, SXX).
+%\textcolor{blue}{Yes! Deirdre made an awesome table for one of her papers, she might be able to help ... though we should try to evenly pass out tasks.}\\
 
-\textcolor{blue}{Yes! Deirdre made an awesome table for one of her papers, she might be able to help ... though we should try to evenly pass out tasks.}\\
+
 
 {\bf Reviewer \#3:}\\
 
@@ -192,16 +222,17 @@ We review all citations, then included those where we could calculate chilling, 
 Thank you!\\
 
 \emph{First, the conclusion of this study was largely based on the comparisons between the results of the phylogenetic and the non-phylogenetic (traditional) mixed models. However, doing so won't allow us to concluded that the phylogenetic models are *better / improved* than the traditional models. To prove this, one needs to compare the phylogenetic models against the "true" parameters and to compare the non-phylogenetic models against the "true" parameters, then compare which models' results are closer to the "true" parameters. This is easy for simulation but no so for empirical studies as the "true" parameters are unknown in general. However, this study used data collected from controlled experiments, which should allow the users to calculate an approximate of the "true" parameter. I did not see any visualization of the raw data, which should be the baseline of the comparisons instead of the results of the non-phylogenetic models.}\\
-
-\textcolor{blue}{Some nice visualizations of the raw data in the supp would work.}\\
+We thank all reviewers for a consistent suggestion about a better description of data and data sources. We have added a map, a table and a figure in the Supporting Information with a description of studies, their geographic distribution and the underlying data (see Table SXX, Figs. SXX, SXX).
+%\textcolor{blue}{Some nice visualizations of the raw data in the supp would work.}\\
 
 \emph{Second, similar as the first point, to compare the performance of the phylogenetic and the non-phylogenetic models in forecasting, one needs to compare with the "true" patterns. Given that the authors used some historical time windows, this should be doable. Again, the fact that having different results when fitting the phylogenetic and the non-phylogenetic models do not necessarily mean that the phylogenetic models are better. One needs to compare with the "true" parameters.}\\
+We agree that to compare the performance of the phylogenetic and the non-phylogenetic models in forecasting, we would have needed the "true" values, which unfortunately do not exist for our data (even for historical time windows, we would lack accurate response data for most of the species in our dataset). Yet, the reviewer's comment seemed relevant enough to run some extra analyses to compare model performance. We have implemented a Leave-One-Clade-Out cross validation where we re-run models leaving one multi-species genus out at a time. First, we checked how stable model coefficients were to subsetting data. Second, we used fitted models to predict the observed response variable of the left out species. Both analyses confirmed that PMM outperforms HMM: model coefficients are more similar between subset models and full models, and subset models do a better job at predicting observed responses of left out species. We have included a new section in the Supporting information with full details of the new methods and results, which further confirm that the phylogenetic model outperforms the non-phylogenetic approach, at least for our dataset.
+%\textcolor{blue}{It seems like the reviewer specifically does not want us to do simulations ... Not clear what they want though.... Perhaps subset the data and do CV using the current model and lambda=0 models? TO DISCUSS.}\\
 
-\textcolor{blue}{It seems like the reviewer specifically does not want us to do simulations ... Not clear what they want though.... Perhaps subset the data and do CV using the current model and lambda=0 models? TO DISCUSS.}\\
 
 \emph{Third, the authors set up the phylogenetic model with the phylogenetic var-covar matrix of the form $\sigma\lambda\Sigma$, which is equal to the traditional model when $\lambda=0$, and when $\lambda>0$, it will be a phylogenetic model. This method, however, indicate that it is an 'either / or' logic here. In real world, it is most likely that we have both phylogenetic and non-phylogenetic components of variations. A better way would to set an additional non-phylogenetic term along with the phylogenetic term explicitly (e.g., $\lambda \Sigma + (1-\lambda)I$). In this way, both the phylogenetic and the non-phylogenetic terms can be estimated simultaneously, and one can test whether the phylogenetic component is necessary.}\\
-
-\textcolor{blue}{Get Will to write a response to this (start asking NOW and ask OFTEN so he does this by deadline). We could also add something to the supp explaining the model more.....}\\
+We thank the reviewer for noticing this and have included a new section in the Supporting Information explaining how their suggested approach is mathematically equivalent to what we do (see section ``XXX'' in the Supporting Information)
+%\textcolor{blue}{Get Will to write a response to this (start asking NOW and ask OFTEN so he does this by deadline). We could also add something to the supp explaining the model more.....}\\
 
 \emph{Also, why did not include "study" as a random term here? I expect multiple measurements from the same study, right?}\\
 
@@ -229,5 +260,14 @@ Thank you! \textcolor{blue}{This actually is a lovely paragraph .... including o
 \emph{L275: With a branch length of 0? Or do you mean with a branch length of the congeneric basal node age?}\\
 \emph{Eqn 3: what is n?? Number of species? If so, you already used *j* to represent species in eqn. 1, why use a different letter here?}\\
 \emph{L308: Trait *i*? *i* was used previously for observations, can you use a different letter to be less confusion?}\\
+
+
+
+
+\bibliography{phylorefs}
+\bibliographystyle{amnat}
+
+
+
 
 \end{document}
