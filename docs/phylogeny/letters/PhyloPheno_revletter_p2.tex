@@ -16,7 +16,10 @@
 
 
 \begin{document}
-Editor and reviewer comments (we provide below the full context of each review) are in \emph{italics}, while our responses are in regular text. \textcolor{blue}{Comments by Lizzie (that need to be deleted) are in blue.}\\ % and all in-text citations generally cross-reference to the main text.
+Editor and reviewer comments (we provide below the full context of each review) are in \emph{italics}, while our responses are in regular text. 
+%\textcolor{blue}{Comments by Lizzie (that need to be deleted) are in blue.}
+\textcolor{teal}{Comments by Nacho (that need to be deleted).}
+\\ % and all in-text citations generally cross-reference to the main text.
 
 {\bf Editor's comments:} \\
 
@@ -226,41 +229,49 @@ We thank all reviewers for a consistent suggestion about a better description of
 %\textcolor{blue}{Some nice visualizations of the raw data in the supp would work.}\\
 
 \emph{Second, similar as the first point, to compare the performance of the phylogenetic and the non-phylogenetic models in forecasting, one needs to compare with the "true" patterns. Given that the authors used some historical time windows, this should be doable. Again, the fact that having different results when fitting the phylogenetic and the non-phylogenetic models do not necessarily mean that the phylogenetic models are better. One needs to compare with the "true" parameters.}\\
-We agree that to compare the performance of the phylogenetic and the non-phylogenetic models in forecasting, we would have needed the "true" values, which unfortunately do not exist for our data (even for historical time windows, we would lack accurate response data for most of the species in our dataset). Yet, the reviewer's comment seemed relevant enough to run some extra analyses to compare model performance. We have implemented a Leave-One-Clade-Out cross validation where we re-run models leaving one multi-species genus out at a time. First, we checked how stable model coefficients were to subsetting data. Second, we used fitted models to predict the observed response variable of the left out species. Both analyses confirmed that PMM outperforms HMM: model coefficients are more similar between subset models and full models, and subset models do a better job at predicting observed responses of left out species. We have included a new section in the Supporting information with full details of the new methods and results, which further confirm that the phylogenetic model outperforms the non-phylogenetic approach, at least for our dataset.
+
+We agree that to compare the performance of the phylogenetic and the non-phylogenetic models in forecasting, we would have needed the "true" values, which unfortunately do not exist for our data (even for historical time windows, we would lack accurate response data for most of the species in our dataset). Yet, the reviewer's comment seemed relevant enough to run some extra analyses to compare model performance. We have implemented a Leave-One-Clade-Out cross validation where we re-run models leaving one multi-species genus out at a time. First, we checked how stable model coefficients were to subsetting data. Second, we used fitted models to predict the observed response variable of the left out species. Both analyses confirmed that PMM outperforms HMM: model coefficients are more similar between subset models and full models, and subset models do a better job at predicting observed responses of left out species. We have included a new section in the Supporting information (see ``Model Cross Validation'') with full details of the new methods and results, which further confirm that the phylogenetic model outperforms the non-phylogenetic approach, at least for our dataset.\\
 %\textcolor{blue}{It seems like the reviewer specifically does not want us to do simulations ... Not clear what they want though.... Perhaps subset the data and do CV using the current model and lambda=0 models? TO DISCUSS.}\\
 
 
 \emph{Third, the authors set up the phylogenetic model with the phylogenetic var-covar matrix of the form $\sigma\lambda\Sigma$, which is equal to the traditional model when $\lambda=0$, and when $\lambda>0$, it will be a phylogenetic model. This method, however, indicate that it is an 'either / or' logic here. In real world, it is most likely that we have both phylogenetic and non-phylogenetic components of variations. A better way would to set an additional non-phylogenetic term along with the phylogenetic term explicitly (e.g., $\lambda \Sigma + (1-\lambda)I$). In this way, both the phylogenetic and the non-phylogenetic terms can be estimated simultaneously, and one can test whether the phylogenetic component is necessary.}\\
-We thank the reviewer for noticing this and have included a new section in the Supporting Information explaining how their suggested approach is mathematically equivalent to what we do (see section ``XXX'' in the Supporting Information)
+
+We thank the reviewer for noticing this and have included a new section in the Supporting Information explaining how their suggested approach is mathematically equivalent to what we do (see section ``XXX'' in the Supporting Information).
 %\textcolor{blue}{Get Will to write a response to this (start asking NOW and ask OFTEN so he does this by deadline). We could also add something to the supp explaining the model more.....}\\
 
 \emph{Also, why did not include "study" as a random term here? I expect multiple measurements from the same study, right?}\\
 
-This is a great question and something we are actively working on. Some of the major differences between studies are accounted for in how we have carefully calculated the treatments of chilling, forcing and photoperiod. Beyond that, some species in our data occur across many studies, but most occur in only one study (CHECK?) making it very difficult to separate out species versus study effects. This is not a new problem (see cite Kharouba et al. PNAS for more discussion), but a difficult one. We're currently working on a version of this model with statistical expert Michael Betancourt to try to tease out species (in a phylogenetic framework) from study using far more data and still struggling. This goal unfortunately is not possible for this dataset currently, which we now acknowledge in the methods (lines XX-XX). \\
+This is a great question and something we are actively working on. Some of the major differences between studies are accounted for in how we have carefully calculated the treatments of chilling, forcing and photoperiod. Beyond that, some species in our data occur across many studies, but most occur in only one study (162 out of 191 species) making it very difficult to separate out species versus study effects. This is not a new problem (see \cite{kharouba2018} for more discussion), but a difficult one. We're currently working on a version of this model with statistical expert Michael Betancourt to try to tease out species (in a phylogenetic framework) from study using far more data and still struggling. This goal unfortunately is not possible for this dataset currently, which we now acknowledge in the methods (lines XX-XX). \\
 
-\textcolor{blue}{We can add a half or full sentence to methods along the lines of `Many species occurred in only one study, making it difficult to separate the effects of study and species, thus we do not include study as a separate parameter here and average over it in our model estimates.' }\\
+%\textcolor{blue}{We can add a half or full sentence to methods along the lines of `Many species occurred in only one study, making it difficult to separate the effects of study and species, thus we do not include study as a separate parameter here and average over it in our model estimates.' }\\
 
 
 \emph{Minor comments:}\\
 \emph{L80-84: Disagree about the claim here. The models described in Ives and Helmus 2011, as well as Hadfield 2010 also allowed different estimations of the phylogenetic components of different predictors. In other words, the model described here can be fitted with those approches too.}\\
+We have edited this bit as we see how it may have been confusing, by removing references to the models by Ives and Helmus and by Hadfield and making explicit that we meant how traditional phylogenetic models were concerned with phylogenetic correction. We would like to mention that we did reach out to Anthony Ives to try to code our PMM model in ``phyr'' and never could. However we would like to see these methods used more, so if the reviewer can provide code to implement the PMM models in these packages then we will happily test and include it.
 
-\textcolor{blue}{Hmm, we could just remove the two refs and leave Freckleton. We never got these models to work in other packages.. My last email from Tony Ives is: ``It
-should take (phylogenetically) random slopes pretty easily. Having multiple observations for
-the same species shouldn't be a problem; you can just include a species-level random effect.
-(Okay, to do this in phyr you have to code the matrices yourself, but you've already done
-that for stan).' but I think adding a species level random effect is not what we want... I suggest we pull the refs but reply in saying we did reach out to Tony to try to code these in phyr and never could. However we'd like to see these methods used more, so if the reviewer can provide code to implement the models we have here in these packages then we'll happily test and include it ... TO DISCUSS though a minor point.}\\
+%\textcolor{blue}{Hmm, we could just remove the two refs and leave Freckleton. We never got these models to work in other packages.. My last email from Tony Ives is: ``Itshould take (phylogenetically) random slopes pretty easily. Having multiple observations for the same species shouldn't be a problem; you can just include a species-level random effect. (Okay, to do this in phyr you have to code the matrices yourself, but you've already done that for stan).' but I think adding a species level random effect is not what we want... I suggest we pull the refs but reply in saying we did reach out to Tony to try to code these in phyr and never could. However we'd like to see these methods used more, so if the reviewer can provide code to implement the models we have here in these packages then we'll happily test and include it ... TO DISCUSS though a minor point.}\\
 
 \emph{L100-108: In theory, models without considering auto-correlations should still give unbiased estimations of the mean.}\\
+We did not intend to imply that HMM estimates were biased. We simply report how much coefficients shift from one model to the other, showing that shifts are not too large. This issue has been amply discussed in papers comparing coefficients among models with and without considering auto-correlations (see e.g., \cite{mauricio2009coefficient}). If the reviewer wishes, we could include some discussion of the topic but we fear doing so would divert attention. Alternatively, we now go further comparing the PMM and HMM outcomes in the new Supporting section on model cross-validation, and hope the discussion therein satisfies the reviewer. 
+
 
 \emph{L174-188: Good discussion here.}\\
 
-Thank you! \textcolor{blue}{This actually is a lovely paragraph .... including our sigma simulations.}\\
+Thank you!\\ %\textcolor{blue}{This actually is a lovely paragraph .... including our sigma simulations.}\\
 
 \emph{L263: What is the total number of data points?}\\
-\emph{L275: With a branch length of 0? Or do you mean with a branch length of the congeneric basal node age?}\\
-\emph{Eqn 3: what is n?? Number of species? If so, you already used *j* to represent species in eqn. 1, why use a different letter here?}\\
-\emph{L308: Trait *i*? *i* was used previously for observations, can you use a different letter to be less confusion?}\\
+Included.\\ 
 
+\emph{L275: With a branch length of 0? Or do you mean with a branch length of the congeneric basal node age?}\\
+Thanks for spotting this, corrected.\\
+
+\emph{Eqn 3: what is n?? Number of species? If so, you already used *j* to represent species in eqn. 1, why use a different letter here?}\\
+We have now reviewed and corrected mathematical notation in our equations.\\
+
+
+\emph{L308: Trait *i*? *i* was used previously for observations, can you use a different letter to be less confusion?}\\
+We have now reviewed and corrected mathematical notation in our equations.\\
 
 
 

@@ -1774,8 +1774,16 @@ d2 <- d2[order(d2$sppnum.y),]
 
 
 
+### How many species per study
 
-
-
+spssxstudy <- as.data.frame(array(NA, dim=c(191,2)))
+for(i in 1:191){#i=1
+  print(i)
+  sps_i <- phylo$tip.label[i]
+  d_i <- subset(d, spps == sps_i)
+  spssxstudy[i,1] <- phylo$tip.label[i]
+  spssxstudy[i,2] <- length(unique(d_i$datasetID))
+  }
+length(which(spssxstudy[,2]>1))
 
 # end ----
