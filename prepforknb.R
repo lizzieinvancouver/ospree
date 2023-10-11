@@ -11,4 +11,4 @@ dknb<-subset(d,select=c("datasetID","study","Entered.By",
       "respvar","response","response.time", "n", "error.type","resp_error",                  
         "figure.table..if.applicable.","growing.lat","growing.long","field.chill.units",           
         "cu.model"))
-write.csv(dknb,"output/ospreebb2019update_forknb.csv", row.names = FALSE)
+write.csv(dknb,"output/ospree2019update_forknb.csv", row.names = FALSE)
