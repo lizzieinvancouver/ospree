@@ -112,7 +112,7 @@ However, as explained in the main text, these biases do not apply homogeneously 
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Jun 23 18:05:26 2023
+% Wed Oct 11 18:11:43 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -140,7 +140,7 @@ $\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Jun 23 18:05:26 2023
+% Wed Oct 11 18:11:43 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -163,11 +163,64 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \end{tabular}
 \endgroup
 \end{table} \clearpage \pagebreak 
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Wed Oct 11 18:11:44 2023
+\begin{table}[ht]
+\centering
+\caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
+\label{tab:modelanglambchillports}
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+Parameter & mean & sd & 2.5\% & 50\% & 97.5\% & $n_{eff}$ & Rhat \\ 
+  \hline
+$\mu_{\alpha}$ & 30.07 & 3.46 & 23.26 & 30.09 & 37.05 & 13454.54 & 1.00 \\ 
+  $\mu_{\beta_{force}}$ & -6.21 & 2.03 & -10.14 & -6.25 & -2.07 & 3322.83 & 1.00 \\ 
+  $\mu_{\beta_{chill}}$ & -5.81 & 1.98 & -9.58 & -5.86 & -1.77 & 8346.15 & 1.00 \\ 
+  $\mu_{\beta_{photo}}$ & -1.33 & 0.77 & -2.81 & -1.36 & 0.24 & 2598.50 & 1.00 \\ 
+  $\lambda_{\alpha}$ & 0.35 & 0.10 & 0.17 & 0.35 & 0.56 & 7138.11 & 1.00 \\ 
+  $\lambda_{\beta_{force}}$ & 0.66 & 0.21 & 0.20 & 0.68 & 0.97 & 428.34 & 1.00 \\ 
+  $\lambda_{\beta_{chill}}$ & 0.52 & 0.13 & 0.26 & 0.52 & 0.77 & 2850.91 & 1.00 \\ 
+  $\lambda_{\beta_{photo}}$ & 0.46 & 0.25 & 0.04 & 0.45 & 0.93 & 335.00 & 1.03 \\ 
+  $\sigma_{\alpha}$ & 16.00 & 1.14 & 13.96 & 15.93 & 18.43 & 6926.49 & 1.00 \\ 
+  $\sigma_{\beta_{force}}$ & 5.44 & 0.98 & 3.78 & 5.35 & 7.57 & 919.27 & 1.00 \\ 
+  $\sigma_{\beta_{chill}}$ & 6.89 & 0.75 & 5.56 & 6.85 & 8.47 & 2579.79 & 1.00 \\ 
+  $\sigma_{\beta_{photo}}$ & 2.36 & 0.40 & 1.64 & 2.33 & 3.21 & 754.25 & 1.01 \\ 
+  $\sigma_y$ & 12.08 & 0.17 & 11.76 & 12.08 & 12.42 & 9826.08 & 1.00 \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table} \clearpage \pagebreak 
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Wed Oct 11 18:11:44 2023
+\begin{table}[ht]
+\centering
+\caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
+\label{tab:modlamb0chillports}
+\begingroup\footnotesize
+\begin{tabular}{lrrrrrrr}
+  \hline
+Parameter & mean & sd & 2.5\% & 50\% & 97.5\% & $n_{eff}$ & Rhat \\ 
+  \hline
+$\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\ 
+  $\mu_{\beta_{force}}$ & -7.39 & 0.83 & -8.99 & -7.38 & -5.75 & 3253.91 & 1.00 \\ 
+  $\mu_{\beta_{chill}}$ & -7.35 & 0.69 & -8.71 & -7.36 & -5.99 & 7607.11 & 1.00 \\ 
+  $\mu_{\beta_{photo}}$ & -1.36 & 0.45 & -2.23 & -1.36 & -0.47 & 2528.36 & 1.00 \\ 
+  $\sigma_{\alpha}$ & 16.50 & 1.00 & 14.66 & 16.45 & 18.58 & 11407.70 & 1.00 \\ 
+  $\sigma_{\beta_{force}}$ & 4.91 & 0.76 & 3.57 & 4.85 & 6.56 & 706.89 & 1.00 \\ 
+  $\sigma_{\beta_{chill}}$ & 6.51 & 0.65 & 5.33 & 6.49 & 7.87 & 2590.38 & 1.00 \\ 
+  $\sigma_{\beta_{photo}}$ & 2.20 & 0.34 & 1.56 & 2.20 & 2.90 & 540.06 & 1.01 \\ 
+  $\sigma_y$ & 12.08 & 0.17 & 11.76 & 12.08 & 12.42 & 14353.28 & 1.00 \\ 
+   \hline
+\end{tabular}
+\endgroup
+\end{table} \clearpage \pagebreak 
+
 
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Jun 23 18:05:26 2023
+% Wed Oct 11 18:11:44 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -376,7 +429,7 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Jun 23 18:05:26 2023
+% Wed Oct 11 18:11:44 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.} \\ 
@@ -661,9 +714,111 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 
 
 \clearpage
-\section*{Stan code}
-\begin{verbatim}
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
 
+
+
+\clearpage
+\section*{Stan code}
+
+\subsection*{Annotated example code}
+We wrote our model using the Stan programming language and as such, the model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example code with a single intercept and slope and annotations for the different components of our model code. Additional annotations are denoted in the code by a double forward slash.\\
+
+The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda and sigma parameters and generates a matrix of the correct size and scaling.\\
+
+\begin{verbatim}
+functions {
+  //correlation matrix with lambda and sigma
+  matrix lambda_vcv(matrix vcv, real lambda, real sigma){ 
+  matrix[rows(vcv),cols(vcv)] local_vcv; //blank matrix - size vcv
+  local_vcv = vcv * lambda; 
+  
+  for(i in 1:rows(local_vcv))
+      local_vcv[i,i] = vcv[i,i]; 
+      return(quad_form_diag(local_vcv, rep_vector(sigma, rows(vcv))));
+  }
+}
+\end{verbatim}
+
+The data block declares the data type and includes associated dimensions and restrictions to the data. In the below example, this includes defining the overall size of the dataset, the number of species used for partial pooling, the response and predictor variables, and finally the phylogeny. \\
+
+\begin{verbatim}
+data {
+  int<lower=1> N; //sample size
+  int<lower=1> n_sp; //number of species
+  int<lower=1, upper=n_sp> sp[N]; //species
+  vector[N] y; // response
+  vector[N] x1; // predictor
+  matrix[n_sp,n_sp]Vphy;     // phylogeny
+}
+\end{verbatim}
+
+The parameters block defines the model parameters included in our model. In our simple model we include phylogenetic effects on both the intercept and slope, with lambda and sigma parameters for each, and their respective root trait values. This is in addition to parameters for the intercept, slope, and error.\\
+
+\begin{verbatim}
+parameters {
+  real<lower=0> sigma_y; //error    
+  real<lower=0, upper=1> lam_interceptsa; //lambda for the intercept       
+  real<lower=0> sigma_interceptsa; //sigma for the intercept
+  real<lower=0, upper=1> lam_interceptsb; //lambda for predictor    
+  real<lower=0> sigma_interceptsb; //sigma for forcing
+  
+  vector[n_sp] b; // slope of predictor effect
+  real b_z; // root trait value for predictor    
+  vector[n_sp] a; // intercept
+  real a_z; // root trait value for the intercept
+
+}
+\end{verbatim}
+
+Finally the model block is where we define the model structure, sampling statements, and prior distributions for our parameters. We define the prior distribution for each of the parameters listed above.\\
+
+\begin{verbatim}
+model {
+  real yhat[N]; //predicted y value from below model
+       
+  // phylogenetic matrices generated by function model block
+  matrix[n_sp,n_sp] vcv_a;     
+  matrix[n_sp,n_sp] vcv_b;    
+  
+  // linear regression model with one intercept and one predictor
+  for(i in 1:N){
+    yhat[i] = a[sp[i]] + b[sp[i]] * x1[i];
+}
+			     	
+  vcv_a = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsa, sigma_interceptsa));
+  vcv_b = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsb, sigma_interceptsb));
+ 
+  a ~ multi_normal_cholesky(rep_vector(a_z,n_sp), vcv_a); 
+  b ~ multi_normal_cholesky(rep_vector(b_z,n_sp), vcv_b); 
+  
+  y ~ normal(yhat, sigma_y);
+
+  // Priors 
+  a_z ~ normal(60, 10); 
+  b_z ~ normal(0, 10);  
+  
+  lam_interceptsa ~ beta(1, 1);
+  lam_interceptsb ~ beta(1, 1);
+  
+  sigma_interceptsa ~ normal(30, 20);
+  sigma_interceptsb ~ normal(1, 5);
+   
+  sigma_y ~ normal(10, 10);
+  
+}
+\end{verbatim}
+
+\subsection*{Full model Stan code}
+Below is the full model used to conduct our analyses. Our full model includes a single intercept and three predictor parameters, but consists of the four program blocks outlined above. Parameters listed in the parameter block are defined in the Bayesian hierarchical phylogenetic model section of the main text and in equations \ref{modely} to \ref{phybetas}.
+
+\begin{verbatim}
 functions {
   matrix lambda_vcv(matrix vcv, real lambda, real sigma){
     matrix[rows(vcv),cols(vcv)] local_vcv; 
@@ -678,11 +833,11 @@ data {
   int<lower=1> N;
   int<lower=1> n_sp;
   int<lower=1, upper=n_sp> sp[N];
-  vector[N] y; 		// response
-  vector[N] x1; 	// predictor (forcing)
-  vector[N] x2; 	// predictor (chilling)
-  vector[N] x3; 	// predictor (photoperiod)
-  matrix[n_sp,n_sp]Vphy;     // phylogeny
+  vector[N] y; 	// response
+  vector[N] x1; // predictor (forcing)
+  vector[N] x2; // predictor (chilling)
+  vector[N] x3; // predictor (photoperiod)
+  matrix[n_sp,n_sp]Vphy;  // phylogeny
 }
 
 parameters {
@@ -703,22 +858,21 @@ parameters {
   real b_zp;
   vector[n_sp] a; // intercept
   real a_z;
-
 }
 
 model {
-       real yhat[N];
+  real yhat[N];
        
-        matrix[n_sp,n_sp] vcv_a;     // phylogeny
-        matrix[n_sp,n_sp] vcv_bf;     // phylogeny
-        matrix[n_sp,n_sp] vcv_bc;     // phylogeny
-        matrix[n_sp,n_sp] vcv_bp;     // phylogeny
+  matrix[n_sp,n_sp] vcv_a; 
+  matrix[n_sp,n_sp] vcv_bf;     
+  matrix[n_sp,n_sp] vcv_bc;    
+  matrix[n_sp,n_sp] vcv_bp;     
 
-       
-       	for(i in 1:N){
-            yhat[i] = 
-	      a[sp[i]] + b_force[sp[i]] * x1[i] + b_chill[sp[i]] * x2[i] + b_photo[sp[i]] * x3[i];
-			     	}
+  // linear regression model with one intercept and three predictors
+  for(i in 1:N){
+    yhat[i] = 
+	  a[sp[i]] + b_force[sp[i]] * x1[i] + b_chill[sp[i]] * x2[i] + b_photo[sp[i]] * x3[i];
+  }
 			     	
 	vcv_a = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsa, sigma_interceptsa));
   vcv_bf = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbf, sigma_interceptsbf));
@@ -732,27 +886,25 @@ model {
   b_photo ~ multi_normal_cholesky(rep_vector(b_zp,n_sp),vcv_bp);
   
   y ~ normal(yhat, sigma_y);
-
-    a_z ~ normal(30, 10); // prior
-    b_zf ~ normal(-2, 10); //  prior 
-    b_zc ~ normal(-2, 10); //  prior
-    b_zp ~ normal(0, 5); //  prior
-
-    lam_interceptsa ~ beta(1, 1);
-    lam_interceptsbf ~ beta(1, 1);
-    lam_interceptsbc~ beta(1, 1);
-    lam_interceptsbp ~ beta(1, 1);
-
-    sigma_interceptsa ~ normal(30, 20);
-    sigma_interceptsbf ~ normal(1, 5);
-    sigma_interceptsbc ~ normal(1, 5);
-    sigma_interceptsbp ~ normal(1, 5);
-    
-    sigma_y ~ normal(10, 10); // prior
   
+  //Priors
+  a_z ~ normal(30, 10); 
+  b_zf ~ normal(-2, 10); 
+  b_zc ~ normal(-2, 10);
+  b_zp ~ normal(0, 5); 
+
+  lam_interceptsa ~ beta(1, 1);
+  lam_interceptsbf ~ beta(1, 1);
+  lam_interceptsbc~ beta(1, 1);
+  lam_interceptsbp ~ beta(1, 1);
+
+  sigma_interceptsa ~ normal(30, 20);
+  sigma_interceptsbf ~ normal(1, 5);
+  sigma_interceptsbc ~ normal(1, 5);
+  sigma_interceptsbp ~ normal(1, 5);
+    
+  sigma_y ~ normal(10, 10); 
 }
-
-
 \end{verbatim}
 
 
