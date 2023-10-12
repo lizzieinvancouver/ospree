@@ -132,6 +132,51 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 
 
+\subsection*{Details on data sources and dataset structure.}
+
+We provide additional details on data sources and geographic bias in this section. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables in our data. Second, we show a map (Fig. \ref{fig:mapstudylocations}) with locations of provenance for the data utilized in this work, most of which are European. Further experimental research on the phenology of extra temperate, Southern Hemisphere tree species will be needed to determine the extent to which the results in this work would hold using a more comprehensive dataset. More interestingly, extended data would provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing new exciting questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? %% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf}
+  \caption{Raw distribution of data including response (days to budburst) and predictor variables (forcing, chilling and photoperiod) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
+  \label{fig:raw2ddata}
+  \end{center}
+\end{figure}
+\clearpage
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
+\clearpage
+
+
+
+<<label=spptab,echo=FALSE,results=tex>>=
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+source("../../analyses/phylogeny/makesptab_forsupp.R")
+
+colnames(reftable)<-c("Species","Num.Studies","Reference")
+reftable<-as.data.frame(reftable)
+ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
+                    label="tab:ref",align=c(
+                      "p{0.01\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.40\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
+@
+
+
+
+\clearpage
 
 
 \bibliography{phylorefs}
@@ -257,21 +302,6 @@ print(make.mytable4,
 cat(" \\clearpage \\pagebreak ")
 @
 
-
-<<label=spptab,echo=FALSE,results=tex>>=
-source("../../analyses/phylogeny/makesptab_forsupp.R")
-
-colnames(reftable)<-c("Species","Num.Studies","Reference")
-reftable<-as.data.frame(reftable)
-ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
-                    label="tab:ref",align=c(
-                      "p{0.01\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.40\\textwidth}"))
-
-print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
-@
 
 
 
