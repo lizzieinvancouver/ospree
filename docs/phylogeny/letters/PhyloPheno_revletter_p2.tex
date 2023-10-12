@@ -7,6 +7,13 @@
 \usepackage{lineno}
 \usepackage{xcolor}
 \usepackage{xr-hyper}
+\usepackage[parfill]{parskip}
+\usepackage{pifont}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{nth}
+\usepackage{siunitx}
+
 \externaldocument{..//PhenoPhylo_ms}
 % Cross reference line numbers with main text: see https://github.com/temporalecologylab/labgit/wiki/LaTeX#cross-referencing-
 \newcommand{\R}[1]{\label{#1}\linelabel{#1}}
@@ -32,7 +39,7 @@ We review below, point-by-point, all the changes made in responses to the review
 
 \emph{Please note that the reviewers have also highlighted that sharing of the code and data will be an important part in ensuring that this paper has broad impact and use for the community; therefore please do let me know if you think at this point that you will not share the data/code on publication of the work.}\\
 
-Our labs are committed to open and reproducible science and share all possible data and code. We certainly will make the full dataset available on KNB, as well as the specific subsets requested by reviewers. Further, we have posted a GitHub repo with annotated code for both Stan models, and analyses in R of models outcomes.\\
+Our labs are committed to open and reproducible science and share all possible data and code. The full dataset is already available on KNB, as well as the specific subsets requested by reviewers. Further, we have posted a GitHub repo with annotated code for both Stan models, and analyses in R of models outcomes.\\
 
 {\bf Reviewer comments:} \\
 
@@ -50,9 +57,9 @@ We thank the reviewer for their positive comments and are excited they see the b
 
 %\textcolor{blue}{Add a map to the supp (I imagine you could do this quickly, but Cat could maybe help if you need it) and mention the geographical distribution in the main text methods ... something like: Across all studies in OSPREE, most studies were limited to North America (n=??) and Europe (n=??), with only XX in (insert other continents). Given our need of daily gridded data for chilling we only include studies from Europe and North America, with most of these sites in temperate areas and a few in European Mediterranean areas (see Map in Supp). Be sure to state in our response that we included ALL studies using our standardized search criteria and did not set out to be as limited as we may have ended up .... that said, we DO have some data from Mediterranean areas etc.}\\
 
-The review makes a fair point, we should have included a more graphic description of our dataset. We now include both an appendix showing the location of studies in the dataset (see Supporting Fig. SXX), a summary of the data that also accommodates a request by reviewer3 (see Supporting Table SXX), and have made the following edits to the methods in the main text (see lines XXx-XX). We would like to highlight that the geographical bias present in our dataset mirrors the existing bias in the literature. We have incorporated all studies meeting our standardized search criteria (refer to Methods, lines XX-XX), resulting in a limited yet valuable dataset that accurately represents species from temperate biomes in the Northern Hemisphere, including Mediterranean regions.\\
+The reviewer makes a fair point, we should have included a more graphic description of our dataset. We now include both an appendix showing the location of studies in the dataset (see Supporting Fig. SXX), a summary of the data that also accommodates a request by reviewer3 (see Supporting Table SXX), and have made the following edits to the methods in the main text (see lines XXx-XX). We would like to highlight that the geographical bias present in our dataset mirrors the existing bias in the literature. We have incorporated all studies meeting our standardized search criteria (refer to Methods, lines XX-XX), resulting in a limited yet valuable dataset that accurately represents species from temperate biomes in the Northern Hemisphere, including Mediterranean regions.\\
 
-``In our dataset most studies come from Europe (n=37) and a few from North America (n=7). The same bias towards Europe is found across the full OSPREE dataset with less North American (n=19) than European (n=60) studies and only 3 studies located in the Southern Hemisphere. Given our need of daily gridded data for chilling we only include studies from Europe and North America, with most of these sites in temperate areas and a few in European Mediterranean areas (see Map in Supp).''\\
+``In our dataset most studies come from Europe (n=37) and a few from North America (n=7). The same bias towards Europe is found across the full OSPREE dataset with less North American (n=19) than European (n=60) studies and only 3 studies located in the Southern Hemisphere. Given our need of daily gridded data for chilling we only include studies from Europe and North America, with most of these sites in temperate areas and a few in European Mediterranean areas (see Map in Supporting Fig. S6).''\\
 
 We recognize that there are limitations to the available data and this was, in part, the motivation for devloping the model we present here. Using Bayesian methods that allow us to quantify uncertainty, and leveraging information on plant evolutionary relationships (which covary with biogeography) to generate more robust predictions.\\ 
 
@@ -73,16 +80,16 @@ We agree. As outlined above, we believe there is little data to address this gap
 
 %\textcolor{blue}{Make up a cute repo with the Stan code as it is now (general and simple), and a version that is better annotated and specific to this model? If you need help Deirdre knows this model well. Ailene previously posted the data, so you could ask her to help us post the updated data and maybe she can include the subset there? And/or include on GitHub....}\\
 
-These are great points and we are happy to address them. As the reviewer noted, some of the data are already available on a federated data repository (KNB) with no limits on using the data. We will update this entry with the full raw data and---given the reviewer's request---a subset specific to this paper is now available, together with the phylogenetic tree used to conduct analyses. Additionally, we made a GitHub repo -- see LINK%\url{https://github.com/MoralesCastilla/PhyloPhenoTangle}, 
+These are great points and we are happy to address them. As the reviewer noted, some of the data are already available on a federated data repository (KNB) with no limits on using the data. We have updated this entry with the full raw data and---given the reviewer's request---a subset specific to this paper is now available, together with the phylogenetic tree used to conduct analyses. Additionally, we have posted a GitHub repo -- see LINK \url{https://github.com/MoralesCastilla/PhenoPhyloMM}, 
 where fully annotated code to conduct models in Stan and to analyse model outcomes in R, is available.\\
 
 \emph{Minor comments:}\\
 
 \emph{Abstract}\\
 \emph{- First sentence to open the paper is important but here is unclear – is ‘adaptation’ referring to humans or societal adaptation to climate change? Or plant adaptation to climate change and therefore it should read “Knowledge of plants abilities to adapt to climate change hinges on accurate ecological forecasting to predict shifts in key ecosystem services such as carbon storage and biodiversity maintenance” as it isn’t the ability of plants to adapt that hinges on the ecological forecasting itself but the knowledge or quantification of this adaptation hinges on the ecological forecasting.}\\
-\textcolor{teal}{I see the point of the reviewer, but then it would not be the knowledge but the little or unsufficient knowledge we have. Any ideas on edits here are welcome, Lizzie, Jonathan.}\\
 
 We apologise for this lack of clarity, we were referring to societal adaptation, and we have rephrased this setence as follows: \emph{Our ability to adapt to climate change requires accurate ecological forecasting to predict shifts in key ecosystem services, such as carbon storage and biodiversity maintenance.}// %JD Not changed main text -  LW may want to rephrase this ...
+\textcolor{teal}{Lizzie, confirm-edit this rephrasing and I'll change it in the main text.}\\
 
 
 \emph{Introduction}\\
@@ -90,7 +97,7 @@ We apologise for this lack of clarity, we were referring to societal adaptation,
 Done.\\
 
 \emph{- The second and third paragraph of the introduction end on very similar concluding sentences making the introduction feel repetitive on the point that species-specific models are important. Although this is an important implication of the study, it would be good to see the concepts merged together in one paragraph or less repetition of this topic in these two paragraphs}\\
-\textcolor{teal}{Should we join the two paragraphs or remove the last sentence from the second?. It does not feel so repetitive to me, but ok editing to show our good intent.}\\
+Done, we have now deleted the last sentence from the first of these two paragraphs.\\
 %JD I suggest dleteing the last sentence from the first of these two paras (lines 20-21)
 
 \emph{- Line 31: remove ‘at once’}\\
@@ -103,8 +110,9 @@ Edited, the sentence still needed an adversative conjunction.\\
 Done.\\
 
 \emph{- Line 44: elaborate on conflicting results as this statement comes across as vague. Provide some detail on the conflicting results.}\\
-\textcolor{teal}{We have some commented out text above this sentece that should be usable. Please Lizzie, could you help here?}\\
+%\textcolor{teal}{We have some commented out text above this sentece that should be usable. Please Lizzie, could you help here?}\\
 %JD I have added some details to main text - LW to smooth over
+Done, we now clarify how previous results differed, see lines XXX-XX.
 
 \emph{Results and discussion}\\
 \emph{- Lines 140-156: Your results suggest that there is limited variability in species-level responses to photoperiod which is an interesting and unique result compared to previously published data. However there are limited species (and mainly those that are well studied and therefore have a better sampling of their populations across a broad geographic range) that have high variability. Could you test if variability in photoperiod is related to sampling effort or coverage? Perhaps you don’t see a signal at the species-level here as the day-length in the local environments does not vary very much between populations, especially compared to variation in chilling and forcing.}\\
@@ -137,18 +145,18 @@ Done.\\
 
 %\textcolor{blue}{Add some text here we completely agree about the complexity of understanding forcing versus chilling ... tweak some bits of the discussion and reference those lines in a response here. We also need to clarify we calculated chilling across all studies using start dates and we did it for field chilling and experimentally-applied chilling ... }\\
 
-We thank the reviewer for acknowledging interest and value in our work, and for pointing out issues in need for attention. We agree that understanding the intricated relationships between forcing and chilling is complicated and have now expanded in the discussion on this point (see lines XXX-XXX), as well as on data limitations. 
-\textcolor{teal}{not so sure what tweaked bits of the discussion to add here. Help here would be appreciated Lizzie-Jonathan.} 
-The reviewer is of course correct that our model can only be as good as the data that informs it, and is thus no different to any model fit in ecology. However, an advatage of Bayesian approach is that we are able to better accommodate uncertainty in our estimates, which might arise from multiple sources, including measurement or experimental error, and limited sample size. Critically, by partially pooling across species amd weighting by phylogeny, we gain strength from species estimates that are informed by more data, such as within Betula and Fagaceae, but avoid skewing estimates for phylogenetically distant clade that may have been exposed to different selective regimes. As we mention in comments to Reviewer #1, above, part of the motivation for devloping the model we present here was to help improve estimates when the avilable data are limited. %JD do we need to make changes to the main text - perhaps useful to add something more about advantages of our methoid whe data are limited (perhaps if you follow LWs suggestion above to add some text on uneven sample sizes and variances  
-The reviewer raises another interating point on the fitting of our model to species in different geographical sites, which can be extremely challenging when data are observational as disentangling cues, which often covary, present numerous difficulties. The data we inlcude here are from experimental manipulations, allowing us to more easily compare treatements across datasests. Nonetheless, species with diffeeremnt geographoc origins will likely have adapted in response to local climates, and thus we might expect them to respond to cues differently. Our model allows species to have individualistic respones, which we argue is one major advance of our approach, and also to have responses that can covary by phylogenetic relatedness, which might capture shared historical selective regimes.   
+We thank the reviewer for acknowledging interest and value in our work, and for pointing out issues in need for attention. We agree that understanding the intricated relationships between forcing and chilling is complicated and have now expanded in the discussion on this point (see lines XXX-XXX), as well as on data limitations.\\ 
+%\textcolor{teal}{not so sure what tweaked bits of the discussion to add here. Help here would be appreciated Lizzie-Jonathan.} 
+The reviewer is of course correct that our model can only be as good as the data that informs it, and is thus no different to any model fit in ecology. However, an advatage of Bayesian approach is that we are able to better accommodate uncertainty in our estimates, which might arise from multiple sources, including measurement or experimental error, and limited sample size. Critically, by partially pooling across species and weighting by phylogeny, we gain strength from species estimates that are informed by more data, such as within Betula and Fagaceae, but avoid skewing estimates for phylogenetically distant clade that may have been exposed to different selective regimes. As we mention in comments to Reviewer \#1, above, part of the motivation for devloping the model we present here was to help improve estimates when the avilable data are limited. \textcolor{teal}{we may need to add something more about advantages of our method when data are limited-add some text on uneven sample sizes and variances. Lizzie-Nacho}  %JD do we need to make changes to the main text - perhaps useful to add something more about advantages of our methoid when data are limited (perhaps if you follow LWs suggestion above to add some text on uneven sample sizes and variances  
+\\
+The reviewer raises another interesting point on the fitting of our model to species in different geographical areas, which can be extremely challenging when data are observational as disentangling cues, which often covary, present numerous difficulties. The data we include here are from experimental manipulations, allowing us to more easily compare treatements across datasets. Nonetheless, species with diferent geographic origins will likely have adapted in response to local climates, and thus we might expect them to respond to cues differently. Our model allows species to have individualistic respones, which we argue is one major advance of our approach, and also to have responses that can covary by phylogenetic relatedness, which might capture shared historical selective regimes.\\   
 
 Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree. In our current implementation, we assume the phylogeny has branch lengths proportional to time. However, different assumptions could be made, and if the genes underlying plant responses to particular cues are known, it could be possible to estimate branch lengths directly from mutational changes along these sequences. In the absence fo such detailed gene specific data, evolutionary time provides a useful proxy for species differences. We are now explicit about this in our methods (see lines XXX-XXX). 
-\textcolor{teal}{please Jonathan, review this part.} 
 %JD I think we just need to clarify that we use time as a proxy for species differences, but it could be possible to change this assumption.
+\textcolor{teal}{I have tried to include this idea in the methods, but please check the English there.}\\
 
 Finally, we have conducted an exhaustive revision and corrected typos and grammar. Please see our detailed response to reviewer's comments below. \\
 
-%\textcolor{blue}{I am not really sure what the `model also work on phylogenetic trees originated from genome datasets' thing means ... we could clarify the methods behind the off-the-shelf tree in the methods section with a half-sentence .... Jonathan suggested we could also say you can put in whatever kind of tree you want; so if you had a tree based more on the underlying genes you could add that ... but need to check with Will if tree always will need to be ultrametric.}\\
 
 \emph{My two major concerns are as the following:}\\
 \emph{(1) Regarding chilling, the authors stated that they estimated field chilling by Utah units. However, the Utah model was first used for agricultural crops and assumes that temperatures between 1.4 and 15.9 \degree C affect dormancy release differently. The assumption of the Utah model was against the recent findings that a wide range of temperatures (-2 to 10\degreeC) have very similar effects on dormancy releases (Baumgarten et al 2021, \url{doi: 10.1111/nph.17270}). How do you prove the Utah model is suitable for species investigated in this study? To strength the findings, more reliable and various algorithms should be included (e.g., $<$5\degree C model). Furthermore, the start date of chilling accumulation is unclear, and 33 papers where the data of this study is from often used different dates. How to deal with this problem? Another problem is why just estimated field chilling? Did all papers use natural chilling treatments rather than artificial chilling treatments?}\\
@@ -157,7 +165,7 @@ Finally, we have conducted an exhaustive revision and corrected typos and gramma
 The reviewer raises an important point here, which we address in a two-fold manner. First, we have clarified further the rationale underlying the use of estimated field chilling. We realize we may have overlooked this issue as we had discussed it in depth in a previous work \citep{ettinger2020}. Research on temperate tree phenology relies on modelled estimates of chilling---i.e., two most common metrics are Utah units and chill portions---each with limitations and underlying assumptions. These models are hypotheses ultimately affected by a lack of understanding of how chilling works---e.g., below what temperature does chilling start accummulating? Hence, it is likely that estimates of chilling are inaccurate for many species and yet, they are our best guess. We now elaborate on this issue in our discussion (see lines XXX-XXX).
 \textcolor{teal}{Lizzie or Ailene, I would need help editing this response and adding any additional text on chilling to the ms (I made a first, raw attempt). This is very clear in Ettinger et al. 2020, so maybe a summary of what's there? I put this in the methods, but if you think it does not fit there an alternative would be to use a subsection in the Supp. Inf. where we place new analyses and some text justifying why we estimated chilling as we did.}\\
 
-Second, we thank the reviewer's suggestion to include additional algorithms. We ran both our models (PMM and HMM) using chill portions instead of Utah units. The results are added as two new tables in Supporting Information, showing coincident results, which strengthens our findings.\\  
+Second, we thank the reviewer's suggestion to include additional algorithms. We ran both our models (PMM and HMM) using chill portions instead of Utah units. The results are added as two new tables in Supporting Information (new Tables S3 and S4), showing coincident results, which strengthens our findings.\\  
 
 
 \emph{(2) In some papers, forcing temperatures differed between day and night. Sometimes, the forcing temperature is always changing (e.g., gradually increased ), how to determine forcing temperature in these cases? Similarly, some experimental papers used a changing photoperiod (e.g., gradually increased daylength), how to determine the daylength in this case? All these details could not be found in Methods \& Materials.}\\
@@ -183,10 +191,11 @@ Done, see lines XXX-XXX.\\
 Done, see lines XXX-XXX.\\
 
 \emph{Line 24-27. check and improve the expressions. Besides, in this section there is a lack of state of the art about the phylogenetic signals in plant phenophases and their relationship with climatic responses. The author should discuss it.}\\
-\textcolor{teal}{not sure what to do about mentioned expressions, help Lizzie, Jonathan}. We now provide a bit more background on phylogenetic signals of plant phenophases below, see lines XXX-XXX.\\
+We now provide a bit more background on phylogenetic signals of plant phenophases below, see lines XXX-XXX.
 %JD I think we just have to be clear in defining 'exchangeable' (all species represent samples drawn form the same underlying distribution) and 'pooling' (species estimates are pulled towards taxa with greater sampling, for we have greater confidence in estimates)
 %JD I have added more information on phylo signal in responses to cues around original lines 45-47 [LW to review]. Could expand this ...
-
+\textcolor{teal}{please Lizzie, check JDs edits to the intro}. 
+\\
 
 \emph{What is the mechanism of shared evolutionary traits in plant phenophases, and how to predict these with climatic variations should be discussed in the introduction part.}\\
 One often invoked mechanism is phylogenetic conservatism or the fact that ``the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait'' (see lines XXX-XXX). Plant phenophases, as mentioned in the introduction can be considered as traits, and their sensitivity of such phenophases to temperature and daylight have proven to be phylogenetically conserved. We are now more explicit about how, while some previous works have explored phylogenetic signal in phenology (e.g., \cite{davies2013phylogenetic}, much of it had not focused on the phylogenetic signal of phenological sensitivity to cues, which we address in our paper (see lines XXX).
@@ -250,7 +259,37 @@ We agree that to compare the performance of the phylogenetic and the non-phyloge
 
 \emph{Third, the authors set up the phylogenetic model with the phylogenetic var-covar matrix of the form $\sigma\lambda\Sigma$, which is equal to the traditional model when $\lambda=0$, and when $\lambda>0$, it will be a phylogenetic model. This method, however, indicate that it is an 'either / or' logic here. In real world, it is most likely that we have both phylogenetic and non-phylogenetic components of variations. A better way would to set an additional non-phylogenetic term along with the phylogenetic term explicitly (e.g., $\lambda \Sigma + (1-\lambda)I$). In this way, both the phylogenetic and the non-phylogenetic terms can be estimated simultaneously, and one can test whether the phylogenetic component is necessary.}\\
 
-We thank the reviewer for noticing this and have included a new section in the Supporting Information explaining how their suggested approach is mathematically equivalent to what we do (see section ``XXX'' in the Supporting Information).
+We agree with the reviewer about the importance of including both phylogenetic variation and variation that is independent of phylogeny in the model. In fact, our model already includes both components of variation. In Equation (1), $\sigma_e^2$ is a variance term that is completely independent of phylogeny. Furthermore, in contrast to the reviewer's statement, it is not  the case that our phylogenetic variance-covariance matrix has the form $\lambda \bm{\Sigma}$ (we omit the leading $\sigma$ term in the reviewer's first equation under the assumption that $\bm{\Sigma}$ is already a variance-covariance matrix). Rather, the phyogenetic variance-covariance matrix in Equation (4) represents a $\lambda$ transformation of a variance-covariance matrix, which is exactly equal to reviewer's suggested equation, $\lambda \bm{\Sigma} + (1 - \lambda)\sigma^2\bm{I}$ (note we have added $\sigma^2$ before $\bm{I}$ as we believe this was the reviewer's intention, given that $\sigma^2$ will generally be much larger than $1-\lambda$) . To illustrate:\\
+
+\begin{multline} \lambda \bm{\Sigma} + (1 - \lambda) \sigma^2{\bf I} =
+  \begin{bmatrix}
+    \lambda\sigma^2 & \lambda\sigma_{12} & \lambda\sigma_{1,3} \\
+    \lambda\sigma_{2,1} & \lambda\sigma^2 & \lambda\sigma_{2,3} \\
+    \lambda\sigma_{3,1} & \lambda\sigma_{3,2} & \lambda\sigma^2 \\
+  \end{bmatrix}
+  +
+  \begin{bmatrix}
+    \sigma^2 - \lambda\sigma^2 & 0 & 0 \\
+    0 & \sigma^2 - \lambda\sigma^2 & 0 \\
+    0 & 0 & \sigma^2-\lambda\sigma^2 \\
+  \end{bmatrix}
+  \\=
+  \begin{bmatrix}
+    \lambda\sigma_1^2 + \sigma^2 - \lambda\sigma_1^2 & \lambda\sigma_{12} +0 & \lambda\sigma_{1,3} +0\\
+    \lambda\sigma_{2,1} +0 & \lambda\sigma_2^2 + \sigma^2 - \lambda\sigma_2^2 & \lambda\sigma_{2,3} +0\\
+    \lambda\sigma_{3,1} +0 & \lambda\sigma_{3,2} +0 & \lambda\sigma_3^2 + \sigma_3^2 - \lambda\sigma^2 \\
+  \end{bmatrix}
+  \\=
+  \begin{bmatrix}
+    \sigma^2 & \lambda\sigma_{12} & \lambda\sigma_{1,3}\\
+    \lambda\sigma_{2,1} & \sigma^2 & \lambda\sigma_{2,3}\\
+    \lambda\sigma_{3,1}& \lambda\sigma_{3,2} & \sigma^2\\
+  \end{bmatrix}
+  \\
+\end{multline}
+
+Assuming that the covariance terms above, $\sigma_{x,y}=\sigma_i \rho_{xy}$, where $\rho_{xy}$ is the phylogenetic correlation, this matches Equation (4) in our paper.\\
+%We thank the reviewer for noticing this and have included a new section in the Supporting Information explaining how their suggested approach is mathematically equivalent to what we do (see section ``XXX'' in the Supporting Information).
 %\textcolor{blue}{Get Will to write a response to this (start asking NOW and ask OFTEN so he does this by deadline). We could also add something to the supp explaining the model more.....}\\
 
 \emph{Also, why did not include "study" as a random term here? I expect multiple measurements from the same study, right?}\\

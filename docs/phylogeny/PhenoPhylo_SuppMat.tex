@@ -94,7 +94,45 @@ Our forecasted bias from HMM compared to PMM (Fig. \ref{fig:forecast}) would lik
 
 However, as explained in the main text, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
 
+
+\subsection*{Leave-One-Clade-Out model cross validation.}
+
+Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
+
+\begin{enumerate}
+
+\item Identify the top 25 genera with more observations in the dataset and at least two species. 
+\item Iteratively subset the dataset leaving out one of these genera at a time.
+\item Run both PMM and HMM for each subset of data recording the posterior distribution of predicted values. 
+\item Compare the observed response of left out species against the predicted response for those species inferred by the subset version of the models that excluded those species.
+\item Compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
+\end{enumerate}
+
+Due to time constraints, we ran this analyses for a simplified version of the PMM and HMM models that only included forcing. Results showed that predicted response values by the PMM model were more correlated with the observed responses of left out species than predictions by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients as estimated by PMM than by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
+The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by  the phylogenetic mixed model (PMM; panel a) and the hierarchical mixed model (HMM; panel b).}
+  \label{fig:LOCO_obsvspred} 
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
+  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
+  \label{fig:LOCO_slopescors}
+  \end{center}
+\end{figure}
+
 \clearpage
+
+
+
 
 
 \bibliography{phylorefs}
@@ -112,7 +150,7 @@ However, as explained in the main text, these biases do not apply homogeneously 
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:43 2023
+% Thu Oct 12 17:59:30 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -140,7 +178,7 @@ $\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:43 2023
+% Thu Oct 12 17:59:30 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -164,7 +202,7 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:44 2023
+% Thu Oct 12 17:59:30 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -192,7 +230,7 @@ $\mu_{\alpha}$ & 30.07 & 3.46 & 23.26 & 30.09 & 37.05 & 13454.54 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:44 2023
+% Thu Oct 12 17:59:30 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -220,7 +258,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:44 2023
+% Thu Oct 12 17:59:30 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -429,7 +467,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Wed Oct 11 18:11:44 2023
+% Thu Oct 12 17:59:30 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.} \\ 
@@ -637,6 +675,211 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \label{tab:tablesupp2}
 \end{longtable}
 \endgroup \clearpage \pagebreak 
+
+% latex table generated in R 4.0.4 by xtable 1.8-4 package
+% Thu Oct 12 17:59:31 2023
+\begingroup\footnotesize
+\begin{longtable}{p{0.15\textwidth}p{0.15\textwidth}p{0.40\textwidth}}
+\caption{\textbf{Species and references for included in the phylogenetic model.}} \\ 
+  \hline
+Species & Num.Studies & Reference \\ 
+  \hline \endhead  \hline
+Acer barbinerve &   1 & \citep{zohner2016} \\ 
+  Acer campestre &   1 & \citep{zohner2016} \\ 
+  Acer ginnala &   1 & \citep{zohner2016} \\ 
+  Acer negundo &   1 & \citep{Laube:2014a} \\ 
+  Acer pensylvanicum &   1 & \citep{flynn2018} \\ 
+  Acer platanoides &   1 & \citep{zohner2016} \\ 
+  Acer pseudoplatanus &   4 & \citep{Basler:2012,Basler:2014aa,Laube:2014a,malyshev2018} \\ 
+  Acer rubrum &   2 & \citep{flynn2018,nanninga17} \\ 
+  Acer saccharinum &   1 & \citep{Webb:1977} \\ 
+  Acer tataricum &   1 & \citep{Laube:2014a} \\ 
+  Aesculus flava &   1 & \citep{zohner2016} \\ 
+  Aesculus hippocastanum &   3 & \citep{Basler:2012,Laube:2014a,zohner2016} \\ 
+  Aesculus parviflora &   1 & \citep{zohner2016} \\ 
+  Alnus glutinosa &   2 & \citep{Heide:1993,Myking:1998aa} \\ 
+  Alnus incana &   3 & \citep{flynn2018,Heide:1993,zohner2016} \\ 
+  Alnus maximowiczii &   1 & \citep{zohner2016} \\ 
+  Amelanchier florida &   1 & \citep{zohner2016} \\ 
+  Amelanchier laevis &   1 & \citep{zohner2016} \\ 
+  Amorpha fruticosa &   1 & \citep{Laube:2014a} \\ 
+  Aronia melanocarpa &   2 & \citep{flynn2018,zohner2016} \\ 
+  Berberis dielsiana &   1 & \citep{zohner2016} \\ 
+  Betula alleghaniensis &   2 & \citep{Calme:1994aa,flynn2018} \\ 
+  Betula lenta &   2 & \citep{flynn2018,zohner2016} \\ 
+  Betula nana &   1 & \citep{zohner2016} \\ 
+  Betula papyrifera &   3 & \citep{flynn2018,man17,nanninga17} \\ 
+  Betula pendula &  10 & \citep{Basler:2012,Heide:1993,Laube:2014a,Laube:2014b,Li:2005aa,Linkosalo:2006aa,Myking:1995,Myking:1998aa,Rinne:1997aa,Skuterud:1994aa} \\ 
+  Betula populifolia &   1 & \citep{zohner2016} \\ 
+  Betula pubescens &   6 & \citep{Caffarra:2011a,Caffarra:2011b,Heide:1993,Myking:1995,Myking:1997aa,Rinne:1994} \\ 
+  Buddleja albiflora &   1 & \citep{zohner2016} \\ 
+  Buddleja alternifolia &   1 & \citep{zohner2016} \\ 
+  Buddleja davidii &   1 & \citep{zohner2016} \\ 
+  Caragana pygmaea &   1 & \citep{zohner2016} \\ 
+  Carpinus betulus &   4 & \citep{Heide:1993a,Laube:2014a,vitra17,zohner2016} \\ 
+  Carpinus laxiflora &   1 & \citep{zohner2016} \\ 
+  Carpinus monbeigiana &   1 & \citep{zohner2016} \\ 
+  Carya cordiformis &   1 & \citep{zohner2016} \\ 
+  Carya laciniosa &   1 & \citep{zohner2016} \\ 
+  Celtis caucasica &   1 & \citep{zohner2016} \\ 
+  Celtis laevigata &   1 & \citep{zohner2016} \\ 
+  Celtis occidentalis &   1 & \citep{zohner2016} \\ 
+  Cephalanthus occidentalis &   1 & \citep{zohner2016} \\ 
+  Cercidiphyllum japonicum &   1 & \citep{zohner2016} \\ 
+  Cercidiphyllum magnificum &   1 & \citep{zohner2016} \\ 
+  Cercis canadensis &   1 & \citep{zohner2016} \\ 
+  Cercis chinensis &   1 & \citep{zohner2016} \\ 
+  Cladrastis lutea &   1 & \citep{zohner2016} \\ 
+  Cornus alba &   2 & \citep{Laube:2014a,zohner2016} \\ 
+  Cornus kousa &   1 & \citep{zohner2016} \\ 
+  Cornus mas &   2 & \citep{Laube:2014a,Laube:2014b} \\ 
+  Corylopsis sinensis &   1 & \citep{zohner2016} \\ 
+  Corylopsis spicata &   1 & \citep{zohner2016} \\ 
+  Corylus cornuta &   1 & \citep{flynn2018} \\ 
+  Decaisnea fargesii &   1 & \citep{zohner2016} \\ 
+  Deutzia gracilis &   1 & \citep{zohner2016} \\ 
+  Deutzia scabra &   1 & \citep{zohner2016} \\ 
+  Elaeagnus ebbingei &   1 & \citep{zohner2016} \\ 
+  Eleutherococcus senticosus &   1 & \citep{zohner2016} \\ 
+  Eleutherococcus setchuenensis &   1 & \citep{zohner2016} \\ 
+  Eleutherococcus sieboldianus &   1 & \citep{zohner2016} \\ 
+  Euonymus europaeus &   1 & \citep{zohner2016} \\ 
+  Euonymus latifolius &   1 & \citep{zohner2016} \\ 
+  Fagus crenata &   1 & \citep{zohner2016} \\ 
+  Fagus engleriana &   1 & \citep{zohner2016} \\ 
+  Fagus grandifolia &   1 & \citep{flynn2018} \\ 
+  Fagus orientalis &   1 & \citep{zohner2016} \\ 
+  Fagus sylvatica &  12 & \citep{Basler:2012,Basler:2014aa,Caffarra:2011a,Falusi:1990aa,Falusi:1996aa,Falusi:1997aa,Falusi:2003aa,Heide:1993a,Laube:2014a,malyshev2018,vitra17,zohner2016} \\ 
+  Forsythia ovata &   1 & \citep{zohner2016} \\ 
+  Forsythia suspensa &   1 & \citep{zohner2016} \\ 
+  Fraxinus americana &   1 & \citep{Webb:1977} \\ 
+  Fraxinus chinensis &   1 & \citep{Laube:2014a} \\ 
+  Fraxinus excelsior &   2 & \citep{Basler:2012,Laube:2014a} \\ 
+  Fraxinus latifolia &   1 & \citep{zohner2016} \\ 
+  Fraxinus nigra &   1 & \citep{flynn2018} \\ 
+  Fraxinus ornus &   1 & \citep{zohner2016} \\ 
+  Fraxinus pennsylvanica &   1 & \citep{Laube:2014a} \\ 
+  Hamamelis japonica &   1 & \citep{zohner2016} \\ 
+  Hamamelis vernalis &   1 & \citep{zohner2016} \\ 
+  Hamamelis virginiana &   1 & \citep{flynn2018} \\ 
+  Heptacodium miconioides &   1 & \citep{zohner2016} \\ 
+  Hibiscus syriacus &   1 & \citep{zohner2016} \\ 
+  Hydrangea arborescens &   1 & \citep{zohner2016} \\ 
+  Hydrangea involucrata &   1 & \citep{zohner2016} \\ 
+  Hydrangea serrata &   1 & \citep{zohner2016} \\ 
+  Ilex mucronata &   1 & \citep{flynn2018} \\ 
+  Juglans ailantifolia &   1 & \citep{Laube:2014a} \\ 
+  Juglans cinerea &   1 & \citep{Laube:2014a} \\ 
+  Kalmia angustifolia &   1 & \citep{flynn2018} \\ 
+  Ligustrum tschonoskii &   1 & \citep{zohner2016} \\ 
+  Liquidambar orientalis &   1 & \citep{zohner2016} \\ 
+  Liquidambar styraciflua &   1 & \citep{zohner2016} \\ 
+  Liriodendron tulipifera &   1 & \citep{zohner2016} \\ 
+  Lonicera alpigena &   1 & \citep{zohner2016} \\ 
+  Lonicera caerulea &   1 & \citep{zohner2016} \\ 
+  Lonicera canadensis &   1 & \citep{flynn2018} \\ 
+  Lonicera maximowiczii &   1 & \citep{zohner2016} \\ 
+  Lyonia ligustrina &   1 & \citep{flynn2018} \\ 
+  Nothofagus antarctica &   1 & \citep{zohner2016} \\ 
+  Nyssa sylvatica &   1 & \citep{flynn2018} \\ 
+  Oemleria cerasiformis &   1 & \citep{zohner2016} \\ 
+  Orixa japonica &   1 & \citep{zohner2016} \\ 
+  Ostrya carpinifolia &   1 & \citep{zohner2016} \\ 
+  Ostrya virginiana &   1 & \citep{zohner2016} \\ 
+  Paeonia rockii &   1 & \citep{zohner2016} \\ 
+  Parrotia persica &   1 & \citep{zohner2016} \\ 
+  Parrotiopsis jaquemontiana &   1 & \citep{zohner2016} \\ 
+  Photinia villosa &   1 & \citep{zohner2016} \\ 
+  Populus deltoides &   1 & \citep{Thielges:1976aa} \\ 
+  Populus grandidentata &   1 & \citep{flynn2018} \\ 
+  Populus koreana &   1 & \citep{zohner2016} \\ 
+  Populus tremula &   3 & \citep{Heide:1993,Laube:2014a,Laube:2014b} \\ 
+  Prinsepia sinensis &   1 & \citep{zohner2016} \\ 
+  Prinsepia uniflora &   1 & \citep{zohner2016} \\ 
+  Prunus padus &   3 & \citep{Heide:1993,Myking:1998aa,zohner2016} \\ 
+  Prunus pensylvanica &   1 & \citep{flynn2018} \\ 
+  Prunus serotina &   1 & \citep{Laube:2014a} \\ 
+  Prunus serrulata &   1 & \citep{zohner2016} \\ 
+  Prunus tenella &   1 & \citep{zohner2016} \\ 
+  Ptelea trifoliata &   1 & \citep{zohner2016} \\ 
+  Pyrus elaeagnifolia &   1 & \citep{zohner2016} \\ 
+  Pyrus ussuriensis &   1 & \citep{zohner2016} \\ 
+  Quercus alba &   1 & \citep{flynn2018} \\ 
+  Quercus bicolor &   1 & \citep{Laube:2014a} \\ 
+  Quercus coccifera &   1 & \citep{Sanz-Perez:2010aa} \\ 
+  Quercus ellipsoidalis &   1 & \citep{nanninga17} \\ 
+  Quercus faginea &   2 & \citep{Sanz-Perez:2009aa,Sanz-Perez:2010aa} \\ 
+  Quercus ilex &   3 & \citep{Morin:2010aa,Sanz-Perez:2009aa,Sanz-Perez:2010aa} \\ 
+  Quercus petraea &   3 & \citep{Basler:2012,Basler:2014aa,vitra17} \\ 
+  Quercus pubescens &   1 & \citep{Morin:2010aa} \\ 
+  Quercus robur &   5 & \citep{Laube:2014a,Laube:2014b,malyshev2018,Morin:2010aa,zohner2016} \\ 
+  Quercus rubra &   3 & \citep{Calme:1994aa,flynn2018,Laube:2014a} \\ 
+  Quercus shumardii &   1 & \citep{zohner2016} \\ 
+  Quercus velutina &   1 & \citep{flynn2018} \\ 
+  Rhamnus alpina &   1 & \citep{zohner2016} \\ 
+  Rhamnus cathartica &   2 & \citep{nanninga17,zohner2016} \\ 
+  Rhamnus frangula &   1 & \citep{flynn2018} \\ 
+  Rhododendron canadense &   1 & \citep{zohner2016} \\ 
+  Rhododendron dauricum &   1 & \citep{zohner2016} \\ 
+  Rhododendron mucronulatum &   1 & \citep{zohner2016} \\ 
+  Rhododendron prinophyllum &   1 & \citep{flynn2018} \\ 
+  Ribes alpinum &   1 & \citep{zohner2016} \\ 
+  Ribes divaricatum &   1 & \citep{zohner2016} \\ 
+  Ribes glaciale &   1 & \citep{zohner2016} \\ 
+  Robinia pseudoacacia &   2 & \citep{Laube:2014a,Laube:2014b} \\ 
+  Rosa hugonis &   1 & \citep{zohner2016} \\ 
+  Rosa majalis &   1 & \citep{zohner2016} \\ 
+  Salix gracilistyla &   1 & \citep{zohner2016} \\ 
+  Salix repens &   1 & \citep{zohner2016} \\ 
+  Salix smithiana &   1 & \citep{Caffarra:2011a} \\ 
+  Sambucus pubens &   1 & \citep{zohner2016} \\ 
+  Sambucus tigranii &   1 & \citep{zohner2016} \\ 
+  Sinowilsonia henryi &   1 & \citep{zohner2016} \\ 
+  Sorbus aria &   1 & \citep{zohner2016} \\ 
+  Sorbus aucuparia &   2 & \citep{Basler:2012,Heide:1993} \\ 
+  Sorbus commixta &   1 & \citep{zohner2016} \\ 
+  Sorbus decora &   1 & \citep{zohner2016} \\ 
+  Sorbus torminalis &   1 & \citep{malyshev2018} \\ 
+  Spiraea canescens &   1 & \citep{zohner2016} \\ 
+  Spiraea chamaedryfolia &   1 & \citep{zohner2016} \\ 
+  Spiraea japonica &   1 & \citep{zohner2016} \\ 
+  Spirea alba &   1 & \citep{flynn2018} \\ 
+  Stachyurus praecox &   1 & \citep{zohner2016} \\ 
+  Stachyurus sinensis &   1 & \citep{zohner2016} \\ 
+  Symphoricarpos albus &   2 & \citep{Laube:2014a,Laube:2014b} \\ 
+  Syringa josikaea &   1 & \citep{zohner2016} \\ 
+  Syringa reticulata &   1 & \citep{zohner2016} \\ 
+  Syringa villosa &   1 & \citep{zohner2016} \\ 
+  Syringa vulgaris &   3 & \citep{Basler:2012,Laube:2014a,Laube:2014b} \\ 
+  Tilia cordata &   3 & \citep{Basler:2012,Caffarra:2011a,malyshev2018} \\ 
+  Tilia dasystyla &   1 & \citep{zohner2016} \\ 
+  Tilia japonica &   1 & \citep{zohner2016} \\ 
+  Tilia platyphyllos &   1 & \citep{zohner2016} \\ 
+  Toona sinensis &   1 & \citep{zohner2016} \\ 
+  Ulmus americana &   1 & \citep{zohner2016} \\ 
+  Ulmus glabra &   1 & \citep{Ghelardini:2010aa} \\ 
+  Ulmus laevis &   1 & \citep{zohner2016} \\ 
+  Ulmus macrocarpa &   1 & \citep{Ghelardini:2010aa} \\ 
+  Ulmus minor &   1 & \citep{Ghelardini:2010aa} \\ 
+  Ulmus parvifolia &   1 & \citep{Ghelardini:2010aa} \\ 
+  Ulmus pumila &   1 & \citep{Ghelardini:2010aa} \\ 
+  Ulmus villosa &   1 & \citep{Ghelardini:2010aa} \\ 
+  Vaccinium myrtilloides &   1 & \citep{flynn2018} \\ 
+  Viburnum betulifolium &   1 & \citep{zohner2016} \\ 
+  Viburnum buddleifolium &   1 & \citep{zohner2016} \\ 
+  Viburnum carlesii &   1 & \citep{zohner2016} \\ 
+  Viburnum cassinoides &   1 & \citep{flynn2018} \\ 
+  Viburnum lantanoides &   1 & \citep{flynn2018} \\ 
+  Viburnum opulus &   1 & \citep{zohner2016} \\ 
+  Viburnum plicatum &   1 & \citep{zohner2016} \\ 
+  Weigela coraeensis &   1 & \citep{zohner2016} \\ 
+  Weigela florida &   1 & \citep{zohner2016} \\ 
+  Weigela maximowiczii &   1 & \citep{zohner2016} \\ 
+  \hline
+\label{tab:ref}
+\end{longtable}
+\endgroup
+
 
 \begin{figure}
   \begin{center}

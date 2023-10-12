@@ -93,7 +93,45 @@ Our forecasted bias from HMM compared to PMM (Fig. \ref{fig:forecast}) would lik
 
 However, as explained in the main text, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
 
+
+\subsection*{Leave-One-Clade-Out model cross validation.}
+
+Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
+
+\begin{enumerate}
+
+\item Identify the top 25 genera with more observations in the dataset and at least two species. 
+\item Iteratively subset the dataset leaving out one of these genera at a time.
+\item Run both PMM and HMM for each subset of data recording the posterior distribution of predicted values. 
+\item Compare the observed response of left out species against the predicted response for those species inferred by the subset version of the models that excluded those species.
+\item Compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
+\end{enumerate}
+
+Due to time constraints, we ran this analyses for a simplified version of the PMM and HMM models that only included forcing. Results showed that predicted response values by the PMM model were more correlated with the observed responses of left out species than predictions by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients as estimated by PMM than by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
+The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by  the phylogenetic mixed model (PMM; panel a) and the hierarchical mixed model (HMM; panel b).}
+  \label{fig:LOCO_obsvspred} 
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
+  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
+  \label{fig:LOCO_slopescors}
+  \end{center}
+\end{figure}
+
 \clearpage
+
+
+
 
 
 \bibliography{phylorefs}
@@ -218,6 +256,23 @@ print(make.mytable4,
 
 cat(" \\clearpage \\pagebreak ")
 @
+
+
+<<label=spptab,echo=FALSE,results=tex>>=
+source("../../analyses/phylogeny/makesptab_forsupp.R")
+
+colnames(reftable)<-c("Species","Num.Studies","Reference")
+reftable<-as.data.frame(reftable)
+ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
+                    label="tab:ref",align=c(
+                      "p{0.01\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.40\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
+@
+
 
 
 \begin{figure}
