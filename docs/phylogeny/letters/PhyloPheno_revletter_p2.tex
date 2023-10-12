@@ -54,6 +54,8 @@ The review makes a fair point, we should have included a more graphic descriptio
 
 ``In our dataset most studies come from Europe (n=37) and a few from North America (n=7). The same bias towards Europe is found across the full OSPREE dataset with less North American (n=19) than European (n=60) studies and only 3 studies located in the Southern Hemisphere. Given our need of daily gridded data for chilling we only include studies from Europe and North America, with most of these sites in temperate areas and a few in European Mediterranean areas (see Map in Supp).''\\
 
+We recognize that there are limitations to the available data and this was, in part, the motivation for devloping the model we present here. Using Bayesian methods that allow us to quantify uncertainty, and leveraging information on plant evolutionary relationships (which covary with biogeography) to generate more robust predictions.\\ 
+
 \emph{Interestingly, phenological studies in the southern hemisphere are showing differing responses to climate than northern hemisphere studies (Chambers et al. 2013, Everingham et al 2021). And some studies have shown precipitation in the season prior to the phenological event (e.g. flowering; Everingham et al. 2021) is more correlated with shifts in flowering time than temperature especially in regions where inter-annual temperature varies much less and so the ‘chilling’ period prior to flowering is not as pronounced as the northern hemisphere and may not be a driving factor of within-species cues. Likewise, ‘leaf-out’ is a less important or not-existent phenological event in regions outside of north America, Europe and Eastern Asia as many species outside of these regions are evergreen. You suggest all species in your data “respond to all three primary cues – forcing, chilling, and photoperiod” however, how general is this response across other species outside of your study regions?}\\
 
 %\textcolor{blue}{I would ask Dan/Faith/Mira/someone or someone to double-check these refs, but they are ALL observational so we need to politely point that out in our response (I started something below) and it wouldn't hurt to add a paragraph to the discussion about how exciting our method is and -- if we had data from more species, especially underrepresented areas -- then we could start to better understand the evolutionary history ... this would be easy to add to the paper and could make it sound all the more exciting, so much potential!}\\
@@ -65,7 +67,7 @@ We are now more explicit in the discussion about the limitations of current data
 
 \emph{I believe the paper would significantly improve if this gap in the data and/or methods was addressed, ideally through the inclusion of more Southern Hemispheric or evergreen species data and the inclusion of other important phenological drivers and cues where relevant. Otherwise, a strong discussion of the transferability of this phylogenetic estimation of species-level phenology to other regions/phenological events/climatic drivers (e.g. precipitation), is required, especially in order to make the concluding impact statement the authors have drawn on such a broad scale “While we focused on spring phenology here, our approach suggests a path forward for more general forecasting of species-level climate change responses[....] Using this approach improved forecasts of phenological responses to climate change and could help anticipate impacts on critical ecosystem services from species-level shifts and thus aid mitigation and human adaption to warming.”}\\
 
-We completely agree. As outlined above, we believe there is little data to address this gap currently but we now highlight in the discussion how much could be learned---both important to forecasting and to fundamentally understand the underlying evolutionary history of phenological cues--through more efforts to increase data beyond the temperate zone, especially in the Southern Hemisphere. \\
+We agree. As outlined above, we believe there is little data to address this gap currently but we now highlight in the discussion how much could be learned---both important to forecasting and to fundamentally understand the underlying evolutionary history of phenological cues--through more efforts to increase data beyond the temperate zone, especially in the Southern Hemisphere. \\
 
 \emph{I also am concerned about the accessibility of the source code and data used to test and present the Bayesian hierarchical phylogenetic model in this study. Transparency of code does not equate to reproducibility of methods/analyses. If the authors believe that this robust new method will improve phenological forecasting predictions, their code and data should be reproducible to be implemented in future studies. As with my point above, please indicate the subset of data used in this study (locations, studies, references etc) rather than citing the original OSPREE dataset so that others can reproduce your Stan code. Likewise, making the Stan code more accessible through more comments (comments of the models - names or short description) rather than just the parts of the models ("slope" "intercept" "phylogeny") may allow other researchers to utilise your methods in Stan. Perhaps even making the source code open on a shared repository (e.g. GitHub) would also improve user accessibility in the future.}\\
 
@@ -80,6 +82,8 @@ where fully annotated code to conduct models in Stan and to analyse model outcom
 \emph{- First sentence to open the paper is important but here is unclear – is ‘adaptation’ referring to humans or societal adaptation to climate change? Or plant adaptation to climate change and therefore it should read “Knowledge of plants abilities to adapt to climate change hinges on accurate ecological forecasting to predict shifts in key ecosystem services such as carbon storage and biodiversity maintenance” as it isn’t the ability of plants to adapt that hinges on the ecological forecasting itself but the knowledge or quantification of this adaptation hinges on the ecological forecasting.}\\
 \textcolor{teal}{I see the point of the reviewer, but then it would not be the knowledge but the little or unsufficient knowledge we have. Any ideas on edits here are welcome, Lizzie, Jonathan.}\\
 
+We apologise for this lack of clarity, we were referring to societal adaptation, and we have rephrased this setence as follows: \emph{Our ability to adapt to climate change requires accurate ecological forecasting to predict shifts in key ecosystem services, such as carbon storage and biodiversity maintenance.}// %JD Not changed main text -  LW may want to rephrase this ...
+
 
 \emph{Introduction}\\
 \emph{- Line 22: replace ‘confounded’ with ‘limited’ or ‘restricted’}\\
@@ -87,6 +91,7 @@ Done.\\
 
 \emph{- The second and third paragraph of the introduction end on very similar concluding sentences making the introduction feel repetitive on the point that species-specific models are important. Although this is an important implication of the study, it would be good to see the concepts merged together in one paragraph or less repetition of this topic in these two paragraphs}\\
 \textcolor{teal}{Should we join the two paragraphs or remove the last sentence from the second?. It does not feel so repetitive to me, but ok editing to show our good intent.}\\
+%JD I suggest dleteing the last sentence from the first of these two paras (lines 20-21)
 
 \emph{- Line 31: remove ‘at once’}\\
 Done.\\
@@ -99,6 +104,7 @@ Done.\\
 
 \emph{- Line 44: elaborate on conflicting results as this statement comes across as vague. Provide some detail on the conflicting results.}\\
 \textcolor{teal}{We have some commented out text above this sentece that should be usable. Please Lizzie, could you help here?}\\
+%JD I have added some details to main text - LW to smooth over
 
 \emph{Results and discussion}\\
 \emph{- Lines 140-156: Your results suggest that there is limited variability in species-level responses to photoperiod which is an interesting and unique result compared to previously published data. However there are limited species (and mainly those that are well studied and therefore have a better sampling of their populations across a broad geographic range) that have high variability. Could you test if variability in photoperiod is related to sampling effort or coverage? Perhaps you don’t see a signal at the species-level here as the day-length in the local environments does not vary very much between populations, especially compared to variation in chilling and forcing.}\\
@@ -133,9 +139,12 @@ Done.\\
 
 We thank the reviewer for acknowledging interest and value in our work, and for pointing out issues in need for attention. We agree that understanding the intricated relationships between forcing and chilling is complicated and have now expanded in the discussion on this point (see lines XXX-XXX), as well as on data limitations. 
 \textcolor{teal}{not so sure what tweaked bits of the discussion to add here. Help here would be appreciated Lizzie-Jonathan.} 
+The reviewer is of course correct that our model can only be as good as the data that informs it, and is thus no different to any model fit in ecology. However, an advatage of Bayesian approach is that we are able to better accommodate uncertainty in our estimates, which might arise from multiple sources, including measurement or experimental error, and limited sample size. Critically, by partially pooling across species amd weighting by phylogeny, we gain strength from species estimates that are informed by more data, such as within Betula and Fagaceae, but avoid skewing estimates for phylogenetically distant clade that may have been exposed to different selective regimes. As we mention in comments to Reviewer #1, above, part of the motivation for devloping the model we present here was to help improve estimates when the avilable data are limited. %JD do we need to make changes to the main text - perhaps useful to add something more about advantages of our methoid whe data are limited (perhaps if you follow LWs suggestion above to add some text on uneven sample sizes and variances  
+The reviewer raises another interating point on the fitting of our model to species in different geographical sites, which can be extremely challenging when data are observational as disentangling cues, which often covary, present numerous difficulties. The data we inlcude here are from experimental manipulations, allowing us to more easily compare treatements across datasests. Nonetheless, species with diffeeremnt geographoc origins will likely have adapted in response to local climates, and thus we might expect them to respond to cues differently. Our model allows species to have individualistic respones, which we argue is one major advance of our approach, and also to have responses that can covary by phylogenetic relatedness, which might capture shared historical selective regimes.   
 
-Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree as long as it is ultrametric and has branch lengths. Actually, genome based trees could potentially do a better job at retrieving clade differences than molecular trees based on one or a few markers. We are now explicit about this posibility in our methods (see lines XXX-XXX). 
+Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree. In our current implementation, we assume the phylogeny has branch lengths proportional to time. However, different assumptions could be made, and if the genes underlying plant responses to particular cues are known, it could be possible to estimate branch lengths directly from mutational changes along these sequences. In the absence fo such detailed gene specific data, evolutionary time provides a useful proxy for species differences. We are now explicit about this in our methods (see lines XXX-XXX). 
 \textcolor{teal}{please Jonathan, review this part.} 
+%JD I think we just need to clarify that we use time as a proxy for species differences, but it could be possible to change this assumption.
 
 Finally, we have conducted an exhaustive revision and corrected typos and grammar. Please see our detailed response to reviewer's comments below. \\
 
@@ -175,10 +184,15 @@ Done, see lines XXX-XXX.\\
 
 \emph{Line 24-27. check and improve the expressions. Besides, in this section there is a lack of state of the art about the phylogenetic signals in plant phenophases and their relationship with climatic responses. The author should discuss it.}\\
 \textcolor{teal}{not sure what to do about mentioned expressions, help Lizzie, Jonathan}. We now provide a bit more background on phylogenetic signals of plant phenophases below, see lines XXX-XXX.\\
+%JD I think we just have to be clear in defining 'exchangeable' (all species represent samples drawn form the same underlying distribution) and 'pooling' (species estimates are pulled towards taxa with greater sampling, for we have greater confidence in estimates)
+%JD I have added more information on phylo signal in responses to cues around original lines 45-47 [LW to review]. Could expand this ...
+
 
 \emph{What is the mechanism of shared evolutionary traits in plant phenophases, and how to predict these with climatic variations should be discussed in the introduction part.}\\
 One often invoked mechanism is phylogenetic conservatism or the fact that ``the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait'' (see lines XXX-XXX). Plant phenophases, as mentioned in the introduction can be considered as traits, and their sensitivity of such phenophases to temperature and daylight have proven to be phylogenetically conserved. We are now more explicit about how, while some previous works have explored phylogenetic signal in phenology (e.g., \cite{davies2013phylogenetic}, much of it had not focused on the phylogenetic signal of phenological sensitivity to cues, which we address in our paper (see lines XXX).
 \textcolor{teal}{Jonathan, please review this bit, I gave a try but not so sure what else the reviewer wants from us}.\\
+%JD I am on this!
+
 
 \emph{Results and Discussion:}\\
 \emph{I suggest add some evolutionary prospectives and their relationship with phenological sensitivity to three environmental cues, chilling, forcing, and photoperiod.}\\
@@ -206,7 +220,7 @@ Polytomies represent parts of the phylogenetic tree lacking resolution. These nu
 We now briefly discuss this issue, as suggested (see lines XXX).
 
 \textcolor{teal}{Jonathan, could you  cite a paper that explain polytomies to back up this response?}\\
-
+%JD I am on this!
 
 \emph{The authors should describe the importance and significance of the Bayesian hierarchical phylogenetic model in this section.}\\
 We stress the importance of our PMM and how it differs from previous approaches in lines XXX-XXX.\textcolor{teal}{TO DO!}
