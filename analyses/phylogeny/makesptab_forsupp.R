@@ -1,7 +1,7 @@
 
 library(tidyr)
-
-d = read.csv("input/datasetforphyloms.csv")
+library(dplyr)
+d = read.csv("../../analyses/phylogeny/input/datasetforphyloms.csv")
 d$spname<-paste(d$genus,d$species,sep=" ")
 spnames<-sort(unique(d$spname))
 
@@ -11,11 +11,11 @@ refs<-c("Basler:2012","Basler:2014aa","Caffarra:2011a","Caffarra:2011b","Calme:1
         "Falusi:2003aa","Falusi:1990aa","Falusi:1996aa",
         "Falusi:1997aa","flynn2018","Ghelardini:2010aa","Heide:1993","Heide:1993a",
         "Laube:2014a","Laube:2014b",
-        "Li:2005aa","Linkosalo:2006aa","malyshev2018","Man:2010aa",
+        "Li:2005aa","Linkosalo:2006aa","malyshev2018","man17",
         "Morin:2010aa","Myking:1995","Myking:1997aa",
-        "Myking:1998aa","Pagter:2015","Rinne:1994",
+        "Myking:1998aa","nanninga17","Rinne:1994",
         "Rinne:1997aa","Sanz-Perez:2009aa","Sanz-Perez:2010aa",
-        "Skuterud:1994aa","Thielges:1976aa","ettinger2020","Webb:1977","zohner2016")
+        "Skuterud:1994aa","Thielges:1976aa","vitra17","Webb:1977","zohner2016")
 reftable<-cbind(datasetIDs,refs)
 colnames(reftable)<-c("datasetID","ref")
 #merge in refs
