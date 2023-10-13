@@ -88,7 +88,7 @@ where fully annotated code to conduct models in Stan and to analyse model outcom
 \emph{Abstract}\\
 \emph{- First sentence to open the paper is important but here is unclear – is ‘adaptation’ referring to humans or societal adaptation to climate change? Or plant adaptation to climate change and therefore it should read “Knowledge of plants abilities to adapt to climate change hinges on accurate ecological forecasting to predict shifts in key ecosystem services such as carbon storage and biodiversity maintenance” as it isn’t the ability of plants to adapt that hinges on the ecological forecasting itself but the knowledge or quantification of this adaptation hinges on the ecological forecasting.}\\
 
-We apologise for this lack of clarity, we were referring to societal adaptation, and we have rephrased this setence as follows: \emph{Our ability to adapt to climate change requires accurate ecological forecasting to predict shifts in key ecosystem services, such as carbon storage and biodiversity maintenance.}// %JD Not changed main text -  LW may want to rephrase this ...
+We apologise for this lack of clarity, we were referring to societal adaptation, and we have rephrased this setence as follows: \emph{Our ability to adapt to climate change requires accurate ecological forecasting to predict shifts in key ecosystem services, such as carbon storage and biodiversity maintenance.}// %JD LW may want to rephrase this ...
 \textcolor{teal}{Lizzie, confirm-edit this rephrasing and I'll change it in the main text.}\\
 
 
@@ -98,7 +98,7 @@ Done.\\
 
 \emph{- The second and third paragraph of the introduction end on very similar concluding sentences making the introduction feel repetitive on the point that species-specific models are important. Although this is an important implication of the study, it would be good to see the concepts merged together in one paragraph or less repetition of this topic in these two paragraphs}\\
 Done, we have now deleted the last sentence from the first of these two paragraphs.\\
-%JD I suggest dleteing the last sentence from the first of these two paras (lines 20-21)
+%JD I have suggested deleting the last sentence from the first of these two paras
 
 \emph{- Line 31: remove ‘at once’}\\
 Done.\\
@@ -120,6 +120,7 @@ Done, we now clarify how previous results differed, see lines XXX-XX.
 We agree that this is a surprising finding, which is why we devote a substantial portion of the discussion to interpret this finding. We would like to note that our method already addresses issues with sample size (weighting and pulling estimates accordingly) and we are more explicit about it in the methods (\textcolor{blue}{see lines XXX-XXX, TO DO}). In addition, the variability in sampled photoperiods is very high--i.e., from 6h to 24h; see new Fig. SXXX in the Appendix---given our focus on experimental cutting studies. We do detect a signal of photoperiod at the species-level, but its magnitude and variability is lower for this cue than for forcing and chilling.\\
 
 %\textcolor{blue}{I would (1) edit this section a TINY amount to mention the range of photoperiods in the treatments and (2) edit the methods a bit to say that these methods are especially robust to uneven sample sizes and variances.}\\
+%JD I have addedd some text in the Discussion (around lines 224-229) that addresses some of this - text starting "Another advantage of our Bayesian approach ..."
 
 \emph{- Line 201: place a full stop at the end of the paragraph}\\
 Done.\\
@@ -147,13 +148,19 @@ Done.\\
 
 We thank the reviewer for acknowledging interest and value in our work, and for pointing out issues in need for attention. We agree that understanding the intricated relationships between forcing and chilling is complicated and have now expanded in the discussion on this point (see lines XXX-XXX), as well as on data limitations.\\ 
 %\textcolor{teal}{not so sure what tweaked bits of the discussion to add here. Help here would be appreciated Lizzie-Jonathan.} 
-The reviewer is of course correct that our model can only be as good as the data that informs it, and is thus no different to any model fit in ecology. However, an advatage of Bayesian approach is that we are able to better accommodate uncertainty in our estimates, which might arise from multiple sources, including measurement or experimental error, and limited sample size. Critically, by partially pooling across species and weighting by phylogeny, we gain strength from species estimates that are informed by more data, such as within Betula and Fagaceae, but avoid skewing estimates for phylogenetically distant clade that may have been exposed to different selective regimes. As we mention in comments to Reviewer \#1, above, part of the motivation for devloping the model we present here was to help improve estimates when the avilable data are limited. \textcolor{teal}{we may need to add something more about advantages of our method when data are limited-add some text on uneven sample sizes and variances. Lizzie-Nacho}  %JD do we need to make changes to the main text - perhaps useful to add something more about advantages of our methoid when data are limited (perhaps if you follow LWs suggestion above to add some text on uneven sample sizes and variances  
+%JD see response below
+
+The reviewer is of course correct that our model can only be as good as the data that informs it, and is thus no different to any model fit in ecology. However, an advantage of our Bayesian approach is that we are better able to accommodate imprecision in the data that informs our model, which might arise from multiple sources, including measurement or experimental error, and the general stochasticity associated with limited sample size and unblanced species representation. Critically, by partially pooling across species and weighting by phylogeny, we gain strength from species estimates that are informed by more data, such as within Betula and Fagaceae, but avoid skewing estimates for phylogenetically distant clade that may have been exposed to different selective regimes. As we mention in comments to Reviewer \#1, above, part of the motivation for devloping the model we present here was to help improve estimates when the avilable data are limited. \textcolor{teal}{we may need to add something more about advantages of our method when data are limited-add some text on uneven sample sizes and variances. Lizzie-Nacho}  %JD do we need to make changes to the main text - perhaps useful to add something more about advantages of our method when data are limited (perhaps wrap this in with LWs suggestion, above, to add some text on uneven sample sizes and variances 
+%JD update - I have added some text around lines 228 - text starting "Another advantage of our Bayesian approach ...".
 \\
+
+
 The reviewer raises another interesting point on the fitting of our model to species in different geographical areas, which can be extremely challenging when data are observational as disentangling cues, which often covary, present numerous difficulties. The data we include here are from experimental manipulations, allowing us to more easily compare treatements across datasets. Nonetheless, species with diferent geographic origins will likely have adapted in response to local climates, and thus we might expect them to respond to cues differently. Our model allows species to have individualistic respones, which we argue is one major advance of our approach, and also to have responses that can covary by phylogenetic relatedness, which might capture shared historical selective regimes.\\   
 
 Regarding whether or not phylogenomic trees could be utilized with our method, yes, our method would potentially work with any phylogenetic tree. In our current implementation, we assume the phylogeny has branch lengths proportional to time. However, different assumptions could be made, and if the genes underlying plant responses to particular cues are known, it could be possible to estimate branch lengths directly from mutational changes along these sequences. In the absence fo such detailed gene specific data, evolutionary time provides a useful proxy for species differences. We are now explicit about this in our methods (see lines XXX-XXX). 
 %JD I think we just need to clarify that we use time as a proxy for species differences, but it could be possible to change this assumption.
 \textcolor{teal}{I have tried to include this idea in the methods, but please check the English there.}\\
+%JD Done
 
 Finally, we have conducted an exhaustive revision and corrected typos and grammar. Please see our detailed response to reviewer's comments below. \\
 
@@ -193,19 +200,20 @@ Done, see lines XXX-XXX.\\
 \emph{Line 24-27. check and improve the expressions. Besides, in this section there is a lack of state of the art about the phylogenetic signals in plant phenophases and their relationship with climatic responses. The author should discuss it.}\\
 We now provide a bit more background on phylogenetic signals of plant phenophases below, see lines XXX-XXX.
 %JD I think we just have to be clear in defining 'exchangeable' (all species represent samples drawn form the same underlying distribution) and 'pooling' (species estimates are pulled towards taxa with greater sampling, for we have greater confidence in estimates)
-%JD I have added more information on phylo signal in responses to cues around original lines 45-47 [LW to review]. Could expand this ...
+%JD I have added more information on phylo signal in responses to cues around original lines 45-47 (text starting "with some studies reporting evidence of phylogenetic structure... " [LW to review]. Could expand this ...
 \textcolor{teal}{please Lizzie, check JDs edits to the intro}. 
 \\
 
 \emph{What is the mechanism of shared evolutionary traits in plant phenophases, and how to predict these with climatic variations should be discussed in the introduction part.}\\
-One often invoked mechanism is phylogenetic conservatism or the fact that ``the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait'' (see lines XXX-XXX). Plant phenophases, as mentioned in the introduction can be considered as traits, and their sensitivity of such phenophases to temperature and daylight have proven to be phylogenetically conserved. We are now more explicit about how, while some previous works have explored phylogenetic signal in phenology (e.g., \cite{davies2013phylogenetic}, much of it had not focused on the phylogenetic signal of phenological sensitivity to cues, which we address in our paper (see lines XXX).
+We now expand on putative mechanisms underlying phylogenetic conservatism in phenological traits (see lines XXX-XXX), specifically, clarify what phylogenetic conservatism represents -  that more closely related species share more similar phenologies, likely reflecting evolutionary conservatism in responses to common cues. We also discuss two broad mechanisms that could give rsie to patterns of evolutionary conservatism in phenology. First, close relatives will tend to share similar ecologies and physiologies, and thus be sensitive to similar environmental pressures. Second, close relatives derive from common geographic centers of origin, and thus their ancestors will have been exposed to---and have adapted to---similar environmental cues (see lines XXX-XXX). Importantly, underlying both mechanisms is evolved plant senstivity to environmental cues.
+%One often invoked mechanism is phylogenetic conservatism or the fact that ``the common ancestor of two sets of species cannot possess two separate evolutionary histories for the same trait'' (see lines XXX-XXX). Plant phenophases, as mentioned in the introduction can be considered as traits, and their sensitivity of such phenophases to temperature and daylight have proven to be phylogenetically conserved. We are now more explicit about how, while some previous works have explored phylogenetic signal in phenology (e.g., \cite{davies2013phylogenetic}, much of it had not focused on the phylogenetic signal of phenological sensitivity to cues, which we address in our paper (see lines XXX).
 \textcolor{teal}{Jonathan, please review this bit, I gave a try but not so sure what else the reviewer wants from us}.\\
-%JD I am on this!
+%JD I have now expanded on phylo conservatims in the discussion (around lines 40-53, text starting "Phylogenetic signal in plant phenology, including dates of budburst ...
 
 
 \emph{Results and Discussion:}\\
 \emph{I suggest add some evolutionary prospectives and their relationship with phenological sensitivity to three environmental cues, chilling, forcing, and photoperiod.}\\
-We believe the whole section ``Phylogenetic structure of phenological cues'' and especially its third and fourth paragraphs discuss in depth the evolutionary implications and interpretation of our results. We purposely avoided overinterpreting our results but would be happy to add additional prospectives if the reviewer wishes to provide more specific guidelines of what additional points should be covered.\\
+We provide an evolutionary perspective in the section ``Phylogenetic structure of phenological cues'' and especially its third and fourth paragraphs discuss in depth the evolutionary implications and interpretation of our results. We purposely avoided overinterpreting our results but would be happy to add additional prospectives if the reviewer wishes to provide more specific guidelines of what additional points should be covered.\\
 
 \emph{Figure 4 is not precise and should be revised to reflect the frequency distribution and future forecasting.}\\
 We disagree with the reviewer in this point. The figure shows shifts in the forecasts and frequency distributions of these shifts. In addition, we provide a complementary figure (Fig. S6 in Supporting information) that specifically shows differences in forecasts. The point of the figure(s) is to compare forecasts among methods and show when their results are discrepant---i.e., underrepresented species. We would argue that igure(s) 4 and S6 serve this purpose.\\
@@ -224,12 +232,13 @@ We review all citations, then included those where we could calculate chilling, 
 We have clarified the paper selection criteria, which required either raw experimental data or including a figure from where data could be extracted, see lines XXX-XXX. 
 
 \emph{Line 275. How do the Polytomies work and affect only 46 out of 191 species? Please discuss in detail. Line 287-295. These are very common and should be discussed further in one or two lines.}\\
-Polytomies represent parts of the phylogenetic tree lacking resolution. These nuances are relatively common in plant phylogenies, and its presence is increased in our case where we favored increasing taxonomic representation at the cost of having a less resolved tree. While having a fully resolved tree would lead our PMM to detect even more subtle variation among congeneric species within the same polytomic genus, our approach shows how a non-resolved tree performs better than no tree at all (the HMM assumes all species are in the same polytomy). 
+Polytomies represent parts of the phylogenetic tree lacking resolution. In our dataset, polytomies were introduced when we added species missing from the mega-phylogeny of plants. We now explain this in more detail and provide an example of \emph{Acer}, for which several species where inluded in the OSPREE dataset but the megatree lacked species-level resolution within the genus. We now make clear that while errors in phylogenetic topology and branching times could impact model estimates, if errors were large the contribution of phylogeny would effectively be scaled to zero by the $\lambda$ transformation that is simultanesouly fit in our model. To assess whether the inclusion of polytomies in our data biased model estimates, we ran sensitivity analyses excluding these species from models.
+%These nuances are relatively common in plant phylogenies, and its presence is increased in our case where we favored increasing taxonomic representation at the cost of having a less resolved tree. While having a fully resolved tree would lead our PMM to detect even more subtle variation among congeneric species within the same polytomic genus, our approach shows how a non-resolved tree performs better than no tree at all (the HMM assumes all species are in the same polytomy). 
 
-We now briefly discuss this issue, as suggested (see lines XXX).
+%We now briefly discuss this issue, as suggested (see lines XXX).
 
 \textcolor{teal}{Jonathan, could you  cite a paper that explain polytomies to back up this response?}\\
-%JD I am on this!
+%JD I have revised this section to describe how polytomies arise in our data (I do not think we need a citation) and why they are not a problem for our model. Someone please review these changes!
 
 \emph{The authors should describe the importance and significance of the Bayesian hierarchical phylogenetic model in this section.}\\
 We stress the importance of our PMM and how it differs from previous approaches in lines XXX-XXX.\textcolor{teal}{TO DO!}
