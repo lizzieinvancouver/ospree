@@ -25,6 +25,8 @@ modelspslevest <- read.csv("output/spslevestimates191.csv")
 modelspslev0 <- read.csv("output/spslevestimateslamb0_191.csv")
 modellambestchillports <- read.csv("output/angio_noout_lambest191_chillports.csv")
 modellamb0chillports <- read.csv("output/angio_noout_lamb0_191_chillports.csv")
+modellambestnopolit <- read.csv("output/angio_noout_lamest1158nopolit.csv")[,c(1,2,4,5,7,9,10,11)]
+
 
 colnames(modelspslevest) = colnames(modelspslev0) = c("Species","$\\beta_{chill,j}$","lowUI","upUI",
                           "$\\beta_{force,j}$","lowUI","upUI",
@@ -146,6 +148,17 @@ make.mytable6 <- xtable(modellamb0chillports,
                         label="tab:modlamb0chillports")
 
 
+### new tables for no polytomies results
+names(modellambestnopolit)[names(modellambestnopolit)=="X"] <- "Parameter"
+modellambestnopolit$Parameter <- unname(lookupmodelnames[modellambestnopolit$Parameter])
+names(modellambestnopolit)[names(modellambestnopolit)=="X2.5."] <- "2.5\\%"
+names(modellambestnopolit)[names(modellambestnopolit)=="X50."] <- "50\\%"
+names(modellambestnopolit)[names(modellambestnopolit)=="X97.5."] <- "97.5\\%"
+names(modellambestnopolit)[names(modellambestnopolit)=="n_eff"] <- "$n_{eff}$"
+
+make.mytable7 <- xtable(modellambestnopolit, 
+                        caption="Model parameters estimated for 158 tree species not affected by polytomies in the phylogenetic tree, including mean, standard deviation (sd), 2.5\\%, 50\\%, and 97.5\\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. Note that most species from well-represented genera (e.g., Quercus, Fagus, Acer), are absent from this analysis.",
+                        label="tab:modelnopolyt")
 
 
 

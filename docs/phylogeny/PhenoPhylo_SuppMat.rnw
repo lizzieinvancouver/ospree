@@ -66,6 +66,50 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 
 \section*{Extended Methods}
 
+\subsection*{Details on data: sources and structure.}
+
+In this section we provide additional details on how our dataset is structured, what are the data sources and the geographic bias existing in the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables in our data. Second, we show a map (Fig. \ref{fig:mapstudylocations}) with locations of provenance for the data utilized in this work, most of which are European. Further experimental research on the phenology of extra temperate, Southern Hemisphere tree species will be needed to determine the extent to which the results in this work would hold using a more comprehensive dataset. More interestingly, extended data would provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing new exciting questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources where data was compiled from.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
+\clearpage
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
+  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
+  \label{fig:raw2ddata}
+  \end{center}
+\end{figure}
+\clearpage
+
+
+
+<<label=spptab,echo=FALSE,results=tex>>=
+
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+source("../../analyses/phylogeny/makesptab_forsupp.R")
+
+colnames(reftable)<-c("Species","Num.Studies","Reference")
+reftable<-as.data.frame(reftable)
+ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
+                    label="tab:ref",align=c(
+                      "p{0.01\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.40\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
+@
+
+
+
+\clearpage
+
 \subsection*{Interpretation of $\lambda_j$ and $\sigma_j^2$ on slopes and intercepts}
 
 Most current phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units \citep[i.e. usually species, see][]{revell2010phylogenetic} assume the $\lambda$ scaling parameter is constant across the full set of predictors in the model. Thus, $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix. While useful for correcting for phylogenetic non-independence, this approach does not allow for different tempos and modes of evolution across different predictors. 
@@ -111,6 +155,7 @@ Due to time constraints, we ran this analyses for a simplified version of the PM
 The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
 
 
+\clearpage
 
 \begin{figure}
   \begin{center}
@@ -122,7 +167,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 \begin{figure}
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
   \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
   \label{fig:LOCO_slopescors}
   \end{center}
@@ -132,51 +177,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 
 
-\subsection*{Details on data sources and dataset structure.}
 
-We provide additional details on data sources and geographic bias in this section. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables in our data. Second, we show a map (Fig. \ref{fig:mapstudylocations}) with locations of provenance for the data utilized in this work, most of which are European. Further experimental research on the phenology of extra temperate, Southern Hemisphere tree species will be needed to determine the extent to which the results in this work would hold using a more comprehensive dataset. More interestingly, extended data would provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing new exciting questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? %% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
-
-\clearpage
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
-  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
-  \label{fig:raw2ddata}
-  \end{center}
-\end{figure}
-\clearpage
-
-\clearpage
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
-  \label{fig:mapstudylocations}
-  \end{center}
-\end{figure}
-\clearpage
-
-
-
-<<label=spptab,echo=FALSE,results=tex>>=
-source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
-source("../../analyses/phylogeny/makesptab_forsupp.R")
-
-colnames(reftable)<-c("Species","Num.Studies","Reference")
-reftable<-as.data.frame(reftable)
-ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
-                    label="tab:ref",align=c(
-                      "p{0.01\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.40\\textwidth}"))
-
-print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
-@
-
-
-
-\clearpage
 
 
 \bibliography{phylorefs}
@@ -303,6 +304,22 @@ cat(" \\clearpage \\pagebreak ")
 @
 
 
+<<label=tablesupp7, echo=FALSE, results=tex>>=
+# tablespslevestimatenopolyt
+print(make.mytable7,
+      size="footnotesize",
+      hline.after=c(-1,0),
+      caption.placement="top",
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row,
+      sanitize.text.function = format_italics
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
 
 
 \begin{figure}
@@ -376,16 +393,6 @@ cat(" \\clearpage \\pagebreak ")
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/burstmodelfigquick.pdf}
   \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
   \label{fig:burstmodels}
-  \end{center}
-\end{figure}
-
-
-\clearpage
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
-  \label{fig:mapstudylocations}
   \end{center}
 \end{figure}
 

@@ -1721,69 +1721,18 @@ lines(density(d$resp),col="darkblue",lwd=2)
 
 
 
-##### old code to run simulating with fastBM----
+## Removing polytomies Sensitivity analyses  ----
+## load models
+  fitlambest <- readRDS("output/fit_priorupdate_noout_angio158_nopolyt.rds")
 
+## Summarize lambdas, b_zf, b_zc, , b_zp, intercept mean, and sigmas
+tableresults.est = summary(fitlambest, pars = list("a_z", "lam_interceptsa", "sigma_interceptsa", "b_zf", "lam_interceptsbf", "sigma_interceptsbf", "b_zc", "lam_interceptsbc", "sigma_interceptsbc", "b_zp", "lam_interceptsbp", "sigma_interceptsbp", "sigma_y"))$summary
 
-# retrieve useful parameters
-interceptsa <- extract(fitlist)$lam_interceptsa
-a_z <- extract(fitlist)$a_z
-sigma_a <- extract(fitlist)$sigma_interceptsa
-lam_interceptsbf <- extract(fitlist)$lam_interceptsbf
-b_zf <- extract(fitlist)$b_zf
-sigma_b <- extract(fitlist)$sigma_interceptsbf
-
-
-# Generate intercept
-## first rescale tree
-scaledtree_intercept <- rescale(phylo, model = "lambda", mean(interceptsa))
-
-## then simulate species-level intercepts
-intercepts <- fastBM(scaledtree_intercept, 
-                     a = mean(a_z), 
-                     mu = 0,
-                     sig2 = mean(sigma_a) ^ 2) 
-
-# Generate bf slope 
-scaledtree_bf <- rescale(phylo, model = "lambda", mean(lam_interceptsbf))
-
-slopes_bf <- fastBM(scaledtree_bf, 
-                    a = mean(b_zf), 
-                    mu = 0,
-                    sig2 = mean(sigma_b)^2) 
-
-
-# use these parameters to predict for left out species
-generatoprune <- names(sort(table(d$genus), decreasing=T))[1:25]
-
-i=1
-print(generatoprune[i])
-spsingenus_i <- unique(subset(d, genus == generatoprune[i])$spps)
-d_i <- subset(d, spps %in% spsingenus_i)
-leftoutpredictedvsobs <- array(NA, dim = c(length(spsingenus_i),2))
+#write.csv(tableresults.est[c(1,4,7,10,2,5,8,11,3,6,9,12,13),], file = "output/angio_noout_lamest1158nopolit.csv")
 
 
 
-## subset and re-order data after removing each genus
-dsub <- subset(d_i, genus != generatoprune[i])
-phylosub <- drop.tip(phylo, spsingenus_i)
-nspecies <- length(phylosub$tip.label)
-phymatch <- data.frame(tip=phylosub$tip.label, sppnum=c(1:length(phylosub$tip.label)))
-d2 <- merge(dsub, phymatch, by.x="spps", by.y="tip")
-d2 <- d2[,-c(36:38)]
-d2 <- d2[order(d2$sppnum.y),]
 
 
-
-### How many species per study
-
-spssxstudy <- as.data.frame(array(NA, dim=c(191,2)))
-for(i in 1:191){#i=1
-  print(i)
-  sps_i <- phylo$tip.label[i]
-  d_i <- subset(d, spps == sps_i)
-  spssxstudy[i,1] <- phylo$tip.label[i]
-  spssxstudy[i,2] <- length(unique(d_i$datasetID))
-  }
-length(which(spssxstudy[,2]>1))
 
 # end ----
