@@ -70,6 +70,8 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 \subsection*{Details on data: sources and structure.}
 
 In this section we provide additional details on how our dataset is structured, what are the data sources and the geographic bias existing in the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables in our data. Second, we show a map (Fig. \ref{fig:mapstudylocations}) with locations of provenance for the data utilized in this work, most of which are European. Further experimental research on the phenology of extra temperate, Southern Hemisphere tree species will be needed to determine the extent to which the results in this work would hold using a more comprehensive dataset. More interestingly, extended data would provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing new exciting questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources where data was compiled from.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+
+
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
@@ -91,7 +93,7 @@ In this section we provide additional details on how our dataset is structured, 
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begingroup\footnotesize
 \begin{longtable}{p{0.15\textwidth}p{0.15\textwidth}p{0.40\textwidth}}
 \caption{\textbf{Species and references for included in the phylogenetic model.}} \\ 
@@ -327,7 +329,7 @@ However, as explained in the main text, these biases do not apply homogeneously 
 
 \subsection*{Leave-One-Clade-Out model cross validation.}
 
-Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
+Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
 
 \begin{enumerate}
 
@@ -382,7 +384,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -410,7 +412,7 @@ $\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -434,7 +436,7 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -462,7 +464,7 @@ $\mu_{\alpha}$ & 30.07 & 3.46 & 23.26 & 30.09 & 37.05 & 13454.54 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -490,7 +492,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -699,7 +701,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.} \\ 
@@ -909,7 +911,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \endgroup \clearpage \pagebreak 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Fri Oct 13 14:00:17 2023
+% Sat Oct 14 18:25:22 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrr}
 \caption{Model parameters estimated for 158 tree species not affected by polytomies in the phylogenetic tree, including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. Note that most species from well-represented genera (e.g., Quercus, Fagus, Acer), are absent from this analysis.} \\ 
@@ -962,7 +964,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \clearpage
 \begin{figure}
   \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_comparison_eachsps_uncertainty.pdf}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_cue_uncert_lambest0.pdf}
   \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (lambdaest), and the non-phylogenetic model with $\lambda$ = 0 (lambda0). The non-phylogenetic model increases uncertainty.}
   \label{fig:suppuncertainties}
   \end{center}
