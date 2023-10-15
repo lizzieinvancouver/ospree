@@ -71,51 +71,8 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 In this section we provide additional details on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
 %14OctEMW -- the map shows up first?! Above you say it is second ... either switch the figures or rephrase. 
 
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, and are colored according to the study IDs shown in the legend (see XXX for full information on study IDs).} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
-  %14OctEMW -- I don't see anywhere in the text where you help reads translate from studyID shown here to a reference, you need that. 
-  \label{fig:mapstudylocations}
-  \end{center}
-\end{figure}
-\clearpage
 
-\begin{figure}
-  \begin{center}
-  %14OctEMW -- please check the \circ! It looked bad, but maybe the ^ fixed it?!
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
-  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $^\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
-  \label{fig:raw2ddata}
-  \end{center}
-\end{figure}
-\clearpage
-
-
-  %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
   
-    %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
-<<label=spptab,echo=FALSE,results=tex>>=
-
-source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
-source("../../analyses/phylogeny/makesptab_forsupp.R")
-
-colnames(reftable)<-c("Species","Num.Studies","Reference")
-reftable<-as.data.frame(reftable)
-ref.table <- xtable(reftable, caption="\\textbf{Species and references for included in the phylogenetic model.}",
-                    label="tab:ref",align=c(
-                      "p{0.01\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.15\\textwidth}",
-                      "p{0.40\\textwidth}"))
-
-print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = identity) 
-@
-
-
-
-\clearpage
-
 \subsection*{Interpretation of $\lambda_j$ and $\sigma_j^2$ on slopes and intercepts}
 
 Most current phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units \citep[i.e. usually species, see][]{revell2010phylogenetic} assume the $\lambda$ scaling parameter is constant across the full set of predictors in the model. Thus, $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix. While useful for correcting for phylogenetic non-independence, this approach does not allow for different tempos and modes of evolution across different predictors. 
@@ -163,27 +120,6 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 \clearpage
 
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
-  \label{fig:LOCO_obsvspred} 
-  \end{center}
-\end{figure}
-
-\begin{figure}
-  \begin{center}
-  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
-  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
-  \label{fig:LOCO_slopescors}
-  \end{center}
-\end{figure}
-
-\clearpage
-
-
-
-
 
 
 \bibliography{phylorefs}
@@ -197,6 +133,32 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 \clearpage
 \section*{Supporting Figures and Tables}
 
+
+  %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
+    %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
+<<label=spptab,echo=FALSE,results=tex>>=
+
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+source("../../analyses/phylogeny/makesptab_forsupp.R")
+format_italics <- function(x) {
+  paste0("\\emph{", x, "}")
+}
+colnames(reftable)<-c("Species","Num.Studies","Reference")
+reftable<-as.data.frame(reftable)
+ref.table <- xtable(reftable, caption="Species and references for included in the phylogenetic model.",
+                    label="tab:ref",align=c(
+                      "p{0.01\\textwidth}",
+                      "p{0.3\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.40\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = format_italics) 
+
+@
+
+
+
+\clearpage
 
 <<label=runcode2, echo=FALSE, results=tex>>=
 # load models and data to report numbers of things
@@ -327,6 +289,26 @@ cat(" \\clearpage \\pagebreak ")
 
 
 
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, and are colored according to the study IDs shown in the legend (see XXX for full information on study IDs).} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
+  %14OctEMW -- I don't see anywhere in the text where you help reads translate from studyID shown here to a reference, you need that. 
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
+\clearpage
+
+\begin{figure}
+  \begin{center}
+  %14OctEMW -- please check the \circ! It looked bad, but maybe the ^ fixed it?!
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
+  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $^\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
+  \label{fig:raw2ddata}
+  \end{center}
+\end{figure}
+\clearpage
+
 
 \begin{figure}
   \begin{center}
@@ -381,6 +363,27 @@ cat(" \\clearpage \\pagebreak ")
   \label{fig:pmmvshmm}
   \end{center}
 \end{figure}
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
+  \label{fig:LOCO_obsvspred} 
+  \end{center}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
+  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
+  \label{fig:LOCO_slopescors}
+  \end{center}
+\end{figure}
+
+\clearpage
+
+
 
 
 \clearpage

@@ -291,7 +291,7 @@ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\
 \end{bmatrix}
 \end{align}
 
-\noindent where $\sigma_i^2$ is the rate of evolution across a tree for trait $k$ (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the phylogenetic signal or extent of phylogenetic relatedness on each model parameter (i.e., $\alpha_{j}$, $\beta_{force,j}$, $\beta_{force,j}$, $\beta_{photo,j}$), and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
+\noindent where $\sigma_i^2$ is the rate of evolution across a tree for a given trait or predictor (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the phylogenetic signal or extent of phylogenetic relatedness on each model parameter (i.e., $\alpha_{j}$, $\beta_{force,j}$, $\beta_{force,j}$, $\beta_{photo,j}$), and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
 
 The above specification is equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
 

@@ -9,7 +9,7 @@
 \begin{letter}{}
 \includegraphics[width=0.3\textwidth]{logo_uah.png}
 
-\opening{Dear Dr. Wake:} % EMW14Oct  -- I think you can address to the editor you've been corresponding with (but not critical). 
+\opening{Dear Dr. Armarego-Marriot:} % EMW14Oct  -- I think you can address to the editor you've been corresponding with (but not critical). %IMC15OCT done
 
 \noindent Please consider our paper, entitled `Phylogenetic estimates of species-level phenology improve ecological forecasting' as a Letter in \emph{Nature Climate Change}. Our research addresses the critical challenge of accurately predicting the impacts of climate change on plant phenology---with consequences for key ecosystem services---and highlights the importance of incorporating both species variability and phylogenetic information in forecasts.
 \vspace{1.5ex}\\

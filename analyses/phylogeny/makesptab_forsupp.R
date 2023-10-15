@@ -41,3 +41,23 @@ for (i in 1:length(spnames)){
 head(sp.df)
 sp.df$refxtab<-paste("\\citep{",sp.df$ref,"}", sep="")
 reftable<-subset(sp.df,select=c(spname, numstuds,refxtab))
+
+
+#colnames(reftable)<-c("Species","Num.Studies","Reference")
+#reftable<-as.data.frame(reftable)
+
+#ref.table <- xtable(reftable, 
+#                        caption="Species and references for included in the phylogenetic model.",
+#                        label="tab:ref")
+
+
+#add.to.row <- list(pos = list(0), command = NULL)
+#command <- paste0("\\hline\n\\endhead\n",
+#                  "\\hline\n",
+#                  "\\multicolumn{", dim(reftable)[2] + 0, "}{l}",
+#                  "{\\footnotesize Continued on next page}\n",
+#                  "\\endfoot\n",
+#                  "\\endlastfoot\n")
+#add.to.row$command <- command
+#
+
