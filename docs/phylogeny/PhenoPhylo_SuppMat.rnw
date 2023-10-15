@@ -37,7 +37,7 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 
 
 \noindent Authors:\\
-Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi,$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
+Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
 $^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
@@ -66,9 +66,9 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 
 \section*{Extended Methods}
 
-\subsection*{Details on data: sources and structure.}
+\subsection*{Details on data: sources and structure}
 
-In this section we provide additional details on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+We provide several additional details here on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
 %14OctEMW -- the map shows up first?! Above you say it is second ... either switch the figures or rephrase. 
 
 
@@ -101,20 +101,21 @@ Our forecasted bias from HMM compared to PMM (Fig. \ref{fig:forecast}) would lik
 However, as explained in the main text, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
 
 
-\subsection*{Leave-One-Clade-Out model cross validation.}
+\subsection*{Leave-One-Clade-Out cross validation}
 
-Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
+% EMWOct15 -- REF!! Also, I just don't think you need this repetitive text from the letter. You just need to explain your method. 
+% Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. 
+As an additional test to compare our presented phylogenetic mixed model (PMM) versus more traditional hierarchical models (HMM), we developed a cross-validation approach in which we left out data from different clades and assessed model performance. We then tested how well each model predicted held-out responses, and also tested the stability in modelled estimates of species responses to a given cue. Specifically, our Leave-One-Clade-Out cross validation followed these steps:
 
 \begin{enumerate}
-
-\item Identify the top 25 genera with more observations in the dataset and at least two species. 
-\item Iteratively subset the dataset leaving out one of these genera at a time.
+% \item For genera with at least two species, select the top 25 genera with the most observations. % EMWOct15 -- not sure what 'more observations' meant? Do you mean what I wrote below? (I also don't see this as a first step so moved it._
+\item Iteratively subset the dataset leaving out one genera at a time. For our approach here, we report results from leaving out (iteratively) the 25 genera with at least two species, and (of those genera) the highest number of observations. 
 \item Run both PMM and HMM for each subset of data recording the posterior distribution of predicted values. 
-\item Compare the observed response of left out species against the predicted response for those species inferred by the subset version of the models that excluded those species.
+\item Compare the observed response of left out (held out) species against the predicted response for those species inferred by the subset version of the models that excluded those species. % EMWOct15: Are you taking the posterior means here? Be specific if possible. 
 \item Compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
-\end{enumerate}
+\end{enumerate} % EMWOct15: Difference between the last two steps is not clear ... is one about predicting held out response and one about slope stability? If so, say so. 
 
-Due to time constraints, we ran this analyses for a simplified version of the PMM and HMM models that only included forcing. Results showed that predicted response values by the PMM model were more correlated with the observed responses of left out species than predictions by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients as estimated by PMM than by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
+Given the computational resources of leave-one-out  cross-validation, we used a version of the PMM and HMM models that only included an intercept and forcing response (slope). Our results showed that predicted responses by the PMM model were more correlated with the observed responses of held out species than predicted responses by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients when estimated by PMM compared to by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
 The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
 
 
@@ -145,7 +146,7 @@ format_italics <- function(x) {
 }
 colnames(reftable)<-c("Species","Num.Studies","Reference")
 reftable<-as.data.frame(reftable)
-ref.table <- xtable(reftable, caption="Species and references for included in the phylogenetic model.",
+ref.table <- xtable(reftable, caption="Species and references for data included in the phylogenetic model using Utah chill units.",
                     label="tab:ref",align=c(
                       "p{0.01\\textwidth}",
                       "p{0.3\\textwidth}",
@@ -291,8 +292,9 @@ cat(" \\clearpage \\pagebreak ")
 
 \begin{figure}
   \begin{center}
+  % EMWOct15 -- Much better! Be sure to check my edits to match the update... also the Morin ref should be capitalized. 
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, and are colored according to the study IDs shown in the legend (see XXX for full information on study IDs).} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
+  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, with different colors for each unique paper.} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
   %14OctEMW -- I don't see anywhere in the text where you help reads translate from studyID shown here to a reference, you need that. 
   \label{fig:mapstudylocations}
   \end{center}
@@ -368,7 +370,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}
@@ -411,9 +413,9 @@ cat(" \\clearpage \\pagebreak ")
 \section*{Stan code}
 
 \subsection*{Annotated example code}
-We wrote our model using the Stan programming language and as such, the model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example code with a single intercept and slope and annotations for the different components of our model code. Additional annotations are denoted in the code by a double forward slash.\\
+We wrote our model using the Stan programming language. The model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example model with a single intercept and slope and annotations for the different components of our model code. Additional annotations within the Stan code are denoted by a double forward slash.\\
 
-The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda and sigma parameters and generates a matrix of the correct size and scaling.\\
+The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda ($\lambda$) and sigma ($\sigma$) parameters, and generates a matrix of the correct size and scaling.\\
 
 \begin{verbatim}
 functions {
