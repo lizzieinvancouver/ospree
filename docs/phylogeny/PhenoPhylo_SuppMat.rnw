@@ -68,13 +68,14 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 
 \subsection*{Details on data: sources and structure.}
 
-In this section we provide additional details on how our dataset is structured, what are the data sources and the geographic bias existing in the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables in our data. Second, we show a map (Fig. \ref{fig:mapstudylocations}) with locations of provenance for the data utilized in this work, most of which are European. Further experimental research on the phenology of extra temperate, Southern Hemisphere tree species will be needed to determine the extent to which the results in this work would hold using a more comprehensive dataset. More interestingly, extended data would provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing new exciting questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources where data was compiled from.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
-
+In this section we provide additional details on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+%14OctEMW -- the map shows up first?! Above you say it is second ... either switch the figures or rephrase. 
 
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing provenance locations of samples utilized in the experimental studies comprising our dataset, which is a subset of the OSPREE dataset. Dots in the map showing the locations are colored according to the studies shown in the legend.}
+  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, and are colored according to the study IDs shown in the legend (see XXX for full information on study IDs).} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
+  %14OctEMW -- I don't see anywhere in the text where you help reads translate from studyID shown here to a reference, you need that. 
   \label{fig:mapstudylocations}
   \end{center}
 \end{figure}
@@ -82,15 +83,18 @@ In this section we provide additional details on how our dataset is structured, 
 
 \begin{figure}
   \begin{center}
+  %14OctEMW -- please check the \circ! It looked bad, but maybe the ^ fixed it?!
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
-  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
+  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $^\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
   \label{fig:raw2ddata}
   \end{center}
 \end{figure}
 \clearpage
 
 
-
+  %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
+  
+    %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
 <<label=spptab,echo=FALSE,results=tex>>=
 
 source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
@@ -162,7 +166,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by  the phylogenetic mixed model (PMM; panel a) and the hierarchical mixed model (HMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}
