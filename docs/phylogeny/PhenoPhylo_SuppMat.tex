@@ -38,7 +38,7 @@ Phylogenetic estimates of species-level phenology improve ecological forecasting
 
 
 \noindent Authors:\\
-Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi,$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
+Ignacio Morales-Castilla,$^{1}$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
 \emph{Author affiliations:}\\
 $^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
  $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
@@ -67,9 +67,9 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 
 \section*{Extended Methods}
 
-\subsection*{Details on data: sources and structure.}
+\subsection*{Details on data: sources and structure}
 
-In this section we provide additional details on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
+We provide several additional details here on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled. The data can be accessed at \url{https://knb.ecoinformatics.org/view/doi:10.5063/F18P5XZF}.%% IMC - a bit of a rant here, Lizzie, please feel free to tear this apart as I'm not sure we need it, I just though putting together the map and table in the same section would make sense.
 %14OctEMW -- the map shows up first?! Above you say it is second ... either switch the figures or rephrase. 
 
 
@@ -88,7 +88,7 @@ While the lambdas estimated through our fitting process will resemble those of l
 %Estimated $\lambda$ values are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing us to compare among responses known to interact with each other and estimated simultaneously. This approach has the further benefit of adjusting our partial pooling (`random effect' of species) based on evolutionary distance, more strongly pooling closely related species, and only weakly pooling distantly related species \citep[see Gaussian process models in][]{BDA}. % While most current approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.
 
 %DLMay11 I think it should be $\sigma_{\beta_1}^2$ below,  but someone should double check
-A traditional interpretation of $\sigma^2$ values under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which parameterises a multivariate normal with a VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accummulated along evolution independently from the cues, and is perhaps most comparable to the interpretation of lambda in a PGLS as measuring phylogenetic signal in the residuals. The $\sigma_{\beta_{chill}}^2$, $\sigma_{\beta_{force}}^2$, and $\sigma_{\beta_{photo}}^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues. This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. 
+A traditional interpretation of $\sigma^2$ values under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which parameterises a multivariate normal with a VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accumulated along evolution independently from the cues, and is perhaps most comparable to the interpretation of lambda in a PGLS as measuring phylogenetic signal in the residuals. The $\sigma_{\beta_{chill}}^2$, $\sigma_{\beta_{force}}^2$, and $\sigma_{\beta_{photo}}^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues. This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. 
 
 \subsection*{Does accounting for phylogenetic relationships affect forecasts?}
 %\subsection{Forecasting for two species}
@@ -102,20 +102,21 @@ Our forecasted bias from HMM compared to PMM (Fig. \ref{fig:forecast}) would lik
 However, as explained in the main text, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
 
 
-\subsection*{Leave-One-Clade-Out model cross validation.}
+\subsection*{Leave-One-Clade-Out cross validation}
 
-Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. This issue is well known in the ecological forecasting literature (REF!!), and is often dealt with using different cross-validation schemes. Here, we conduct a cross-validation analysis to test for the ability of each PMM and HMM model to accurately predict observed response values for species left out from the analysis and, to test for stability in modelled estimates of species sensitivities to a given cue. Specifically, our Leave-One-Clade-Out approach to cross validation followed the next steps:
+% EMWOct15 -- REF!! Also, I just don't think you need this repetitive text from the letter. You just need to explain your method. 
+% Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. 
+As an additional test to compare our presented phylogenetic mixed model (PMM) versus more traditional hierarchical models (HMM), we developed a cross-validation approach in which we left out data from different clades and assessed model performance. We then tested how well each model predicted held-out responses, and also tested the stability in modelled estimates of species responses to a given cue. Specifically, our Leave-One-Clade-Out cross validation followed these steps:
 
 \begin{enumerate}
-
-\item Identify the top 25 genera with more observations in the dataset and at least two species. 
-\item Iteratively subset the dataset leaving out one of these genera at a time.
+% \item For genera with at least two species, select the top 25 genera with the most observations. % EMWOct15 -- not sure what 'more observations' meant? Do you mean what I wrote below? (I also don't see this as a first step so moved it._
+\item Iteratively subset the dataset leaving out one genus at a time. For our approach here, we report results from leaving out (iteratively) the 25 genera with the highest number of observations and at least two species. 
 \item Run both PMM and HMM for each subset of data recording the posterior distribution of predicted values. 
-\item Compare the observed response of left out species against the predicted response for those species inferred by the subset version of the models that excluded those species.
-\item Compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
-\end{enumerate}
+\item To test how well subset models predict observed responses, we compare the observed response of left out (held out) species against the posterior means of predicted responses for those species, inferred by the subset version of the models that excluded those species. % EMWOct15: Are you taking the posterior means here? Be specific if possible. 
+\item To test the stability of model coefficients, we compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
+\end{enumerate} % EMWOct15: Difference between the last two steps is not clear ... is one about predicting held out response and one about slope stability? If so, say so. 
 
-Due to time constraints, we ran this analyses for a simplified version of the PMM and HMM models that only included forcing. Results showed that predicted response values by the PMM model were more correlated with the observed responses of left out species than predictions by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients as estimated by PMM than by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
+Given the computational resources of leave-one-out  cross-validation, we used a version of the PMM and HMM models that only included an intercept and forcing response (slope). Our results showed that predicted responses by the PMM model were more correlated with the observed responses of held out species than predicted responses by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients when estimated by PMM compared to by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
 The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
 
 
@@ -138,10 +139,10 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
   %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
     %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begingroup\footnotesize
 \begin{longtable}{p{0.3\textwidth}p{0.15\textwidth}p{0.40\textwidth}}
-\caption{Species and references for included in the phylogenetic model.} \\ 
+\caption{Species and references for data included in the phylogenetic model using Utah chill units.} \\ 
   \hline
 \emph{Species} & \emph{Num.Studies} & \emph{Reference} \\ 
   \hline \endhead  \hline
@@ -347,7 +348,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -375,7 +376,7 @@ $\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -399,7 +400,7 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -427,7 +428,7 @@ $\mu_{\alpha}$ & 30.07 & 3.46 & 23.26 & 30.09 & 37.05 & 13454.54 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -455,7 +456,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -664,7 +665,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.} \\ 
@@ -874,7 +875,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \endgroup \clearpage \pagebreak 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Sun Oct 15 17:57:41 2023
+% Mon Oct 16 00:35:47 2023
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrr}
 \caption{Model parameters estimated for 158 tree species not affected by polytomies in the phylogenetic tree, including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. Note that most species from well-represented genera (e.g., Quercus, Fagus, Acer), are absent from this analysis.} \\ 
@@ -908,8 +909,9 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 
 \begin{figure}
   \begin{center}
+  % EMWOct15 -- Much better! Be sure to check my edits to match the update... also the Morin ref should be capitalized. 
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
-  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, and are colored according to the study IDs shown in the legend (see XXX for full information on study IDs).} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
+  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, with different colors for each unique paper.} %14OctEMW -- just confirming this is provenance? People get picky about the term so I switched. .. you also NEED to refer to a table in this caption so people can translate the names here for studyID. 
   %14OctEMW -- I don't see anywhere in the text where you help reads translate from studyID shown here to a reference, you need that. 
   \label{fig:mapstudylocations}
   \end{center}
@@ -930,7 +932,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_ phylo_muplots191_lamb0.pdf}
-  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored acording to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% uncertainty Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored according to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% uncertainty Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:suppmuplot_all} 
   \end{center}
 \end{figure}
@@ -948,7 +950,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_cue_uncert_lambest0.pdf}
-  \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (lambdaest), and the non-phylogenetic model with $\lambda$ = 0 (lambda0). The non-phylogenetic model increases uncertainty.}
+  \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (PMM), and the non-phylogenetic model with $\lambda$ = 0 (HMM). The non-phylogenetic model increases uncertainty.}
   \label{fig:suppuncertainties}
   \end{center}
 \end{figure}
@@ -985,7 +987,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for left out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}
@@ -1028,9 +1030,9 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \section*{Stan code}
 
 \subsection*{Annotated example code}
-We wrote our model using the Stan programming language and as such, the model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example code with a single intercept and slope and annotations for the different components of our model code. Additional annotations are denoted in the code by a double forward slash.\\
+We wrote our model using the Stan programming language. The model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example model with a single intercept and slope and annotations for the different components of our model code. Additional annotations within the Stan code are denoted by a double forward slash.\\
 
-The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda and sigma parameters and generates a matrix of the correct size and scaling.\\
+The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda ($\lambda$) and sigma ($\sigma$) parameters, and generates a matrix of the correct size and scaling.\\
 
 \begin{verbatim}
 functions {
