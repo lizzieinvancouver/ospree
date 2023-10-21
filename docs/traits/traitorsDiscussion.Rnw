@@ -1,0 +1,143 @@
+% This version works!
+\documentclass{article}
+
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{amsmath}
+\usepackage{textcomp}%amoung other things, it allows degrees C to be added
+\usepackage{float}
+\usepackage[utf8]{inputenc} % allow funny letters in citaions 
+\usepackage[nottoc]{tocbibind} %should add Refences to the table of contents?
+\usepackage{amsmath} % making nice equations 
+\usepackage{listings} % add in stan code
+\usepackage{xcolor}
+\usepackage{capt-of}%alows me to set a caption for code in appendix 
+\usepackage[export]{adjustbox} % adding a box around a map
+\usepackage{lineno}
+\linenumbers
+
+\usepackage[small]{caption}
+
+\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{hyperref}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+% optional: muck with spacing
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  % same as oddsidemargin but for left-hand pages
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  % sets leading space for paragraphs
+% optional: cute, fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LO]{Draft early 2022}
+\fancyhead[RO]{Temporal Ecology Lab}
+% more optionals! %
+
+%\graphicspath{ {./DoseResponse_WriteupImages/} }% tell latex where to find photos 
+\externaldocument[supp-]{Traitors_Manuscript_supp.Rnw}
+
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+
+\renewcommand{\bibname}{References}%names reference list 
+
+
+\section*{Discussion}
+
+\begin{enumerate}
+\item Across our four models---species' traits influenced the timing of budburst date in response to its three major cues
+\item But the magnitiude and consistently of trait effects across cues varied by trait and across species.
+\end{enumerate}
+
+% \subsection*{Budburst cue responses in relation to traits}
+% \begin{enumerate}
+% \item Gradients in budburst phenology were generally well aligned with well established trait variation from acquisitive to conservative growth strategies, but some deviation were found in relation to specific budburst cues.
+% \begin{enumerate}
+% \item Species with traits related to acquisitive growth strategies = weaker responses to chilling = species that budburst 
+% \item But prediction that sp w/ low forcing responses = acquisitive growth strategies---only supported for our two leaf traits and seed mass--- tall trees = low forcing responses
+% \item We predicted photoperiod and chilling to have similar relationships with traits---only partially supported
+% \item We found low photoperiod responses for species with traits values for height, LNC, and seed mass associated with acquisitive growth, but not SLA (Fig 3)
+% \item In general---evidence that cues responses that lead to gradients in bb timing are generally aligned with similar gradients from acquisitive to conservative growth strategies. 
+% \end{enumerate}
+% \end{enumerate}
+
+\subsection*{Traits and phenology in forests}
+\begin{enumerate}
+%what does our result suggest about temporal assembly of trees in forest
+% \item Phenology = largely excluded from studies of trait relationships to growth strategies---but clearly bb timing follows similar gradients
+\item Gradients in budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies, but some deviations were found in relation to specific budburst cues.
+% \item Collectivley, suite of traits a spp possesses shapes their temporal niche and ability to withstand selctive pressures across the season.
+\begin{enumerate}
+\item We found early bb species = traits that allow them to grow quickly and benefit from high light availability in the early season open canopy---more photosyntheitc potential and faster reproduction---beneficial for early succesion spp, like \emph{Alnus} (Fig. \ref{fig:cuetraits})
+\item But late budbursting species filled different trait space---traits that infer greater competitive abilities and slower growth---beneficial for late successsion, canopy spp, such as \emph{Quercus} (Fig. \ref{fig:cuetraits})
+\item This suggests the assembly of forest communities is driven by varying selective pressures, such as strong abiotic filters early in the growing season, and greater biotic pressures later in the season.
+\item Including phenology in the trait framework allows us to tease apart underlying mechanisms shaping species temporal niche variation across communites
+\end{enumerate}
+
+\item The traits whose cue responses deviated from our expectation also offer novel insights into the tradeoffs between traits and environmental cues
+\begin{enumerate}
+\item All traits included in this study are associated with many aspects of plant growth---adaptive for other reasons than those we predicted
+\item We found short trees = strong responses to forcing---could prevent frost damage or xylem cavitation with false spring, Clemnets et al 1972, Marquis et al 2020, influence cambial meristem growth Lenz et al 2016
+\item Similarly, greater forcing response of high SLA indiviudals could other attributes associated with SLA---relative growth rates, leaf longevity---and not photosynetheic potential
+\item Highlights the complexity of determining drivers of spp trait profiles, but furthers our understanding of how traits could affect community dynamics under variable environments
+\end{enumerate}
+% \item Our findings support that species with traits associated with acquisitive growth strategies have cue responses that faciliate earlier bb in temperate forests
+% \item In constrast, species with more conservative growth strategies are more likely to have cue responses that result in later budburst
+\subsection*{Phenology-trait relationships under future climates}
+\item Incorporating phenology into species trait syndromes, is necessary to infer how species are likely to respond to climate change.
+\begin{enumerate}
+\item Well documented taht species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
+\item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
+\item Future climates could result in more stressful environments for conservative spp---constrained by chilling and photoperiod requirements---might experience greater levels of competiton, while hotter summers = greater drought stress
+\item In addition to altering the distribution of speceis temporal niche within a community, species trait syndromes have the potential to reshape spp assemblages and community dynamics.
+\end{enumerate}
+
+\item Cascading impacts of species trait syndromes and temporal niche can determine the invasibility of forest communities
+\begin{enumerate}
+\item Invasive species = more sensitive to seasonal variation---greater ablity to shift their phenologies (Wilsey et al., 2011; Fridley, 2012)
+\item Also tend to bb early---possess the same traits that allow native species to track changes in temperature and fill vacant niche early in season
+\item Includes traits like higher rates of leaf production and differences in wood anatomy = faster growth (Yin et al., 2016).
+\item Knowing the association between phenology and other traits will allow us to better predict the vulnerability of forest communities to species invasions and mitigate thier impacts. 
+\end{enumerate}
+
+\end{enumerate}
+
+% \item This provides novel insights---spring phenology reshapes other phenological events---may be equally dependent on traits 
+% \begin{enumerate}
+% \item How do trait-phenology relationships influence subsequent phenological events---flowering time, fruit set
+% \end{enumerate}
+
+%what does this mean more broadly and to other systems---woody plant systems, grassland ecosystems etc
+
+% \end{enumerate}
+% \item Spp traits and inherent niche profiles---influence spp ability to survive and establish---could lead to novel communities under future climates.
+% \begin{enumerate}
+% \item species range ships and success at range limits
+% 
+
+
+\subsection*{Trait response models capture important trait variability}
+\begin{enumerate}
+\item Our study is one of the first to jointly model budburst phenological cues and timing with other trait relationships. 
+\begin{enumerate}
+\item This approach allowed us to identify trends in phenological responses to cues based on species-level trait variation
+\item Also accounting for the high degrees of uncertainty that arise from using varying datasets and indiviudals from across diverse forest communities.
+\item But = a first step to identify general trends that scale across populations and species
+\item Accurrately predictions of individual trait-cue relationships requires data from finer scales---with trait and phenological data at the individual level within the same populations.
+\item Also need to addresss the complex interactions between traits that shape species temporal niche will require holistic approaches that integrate diverse tratis, biogeographic factors, and the imporant role of specie evolutionary history.
+\end{enumerate}
+\end{enumerate}
+\end{document}
+
+\end{document}
