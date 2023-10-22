@@ -5,7 +5,7 @@
 
 \usepackage{Sweave}
 \usepackage{graphicx}
-\usepackage{natbib}
+\usepackage[sort&compress, numbers, super]{natbib}
 \usepackage{amsmath}
 \usepackage{textcomp}%amoung other things, it allows degrees C to be added
 \usepackage{float}
@@ -249,6 +249,118 @@ cuetraits (current Fig 3)
 
 
 
+
+    
+    % a smaller advance in budburst with increasing forcing when height effects were included % I don't fully understand this previous or the next sentence -- it reads as though we're contrasting (do we have models without height we plan to report?) ... wait, wait, I get it! You're talking about the counterfactual shown in Fig 1. I think we just keep this in a caption?s
+%     \label{fig:slopes}
+% \end{figure}
+
+Our approach used models that jointly estimated species traits and phenological cues to understand the connections between phenology, with a focus on days to budburst, and other plant traits. Since our trait data was from large trait databases, which combine data across many studies, our analysis partitioned the trait variation due to species from the study-level effects. Then using the species-level estimates of traits (ie. species-level estimates with effects of study removed), we examined how traits predicted phenological cues and budburst, while allowing for residual variation in cues to be explained by a species effect.\\
+
+Across our models, we found species-level variation across traits was comparable with or greater than variation across study. Variation across studies was greatest for height (\Sexpr{htSigmaStudy} m compared to \Sexpr{htSigmaSp} m species-level variation, Fig. \ref{fig:sigmaDensities}).  For seed mass and LNC study-level variation was less than that of the species-level variation (seed mass study-level variation: \Sexpr{seedSigmaStudy} mg; versus species-level variation: \Sexpr{seedSigmaSp} mg; LNC study-level variation \Sexpr{lncSigmaStudy} mg g\textsuperscript{-1} versus species-level variation: \Sexpr{lncSigmaSp} mg g\textsuperscript{-1})  (Fig. \ref{fig:sigmaDensities}). At the lowest end, study-level variation in SLA was approximately half the value of the species-level variations (and \Sexpr{slaSigmaStudy} mm\textsuperscript{2} mg\textsuperscript{-1} versus \Sexpr{slaSigmaSp} mm\textsuperscript{2} mg\textsuperscript{-1}, respectively). The magnitude of study-level variation we observed suggests that models using large trait databases that fail to separate out study from species-level variation may misestimate species' traits.\\
+
+We combined the species-level trait estimates with data on forcing, chilling and photoperiod values from the OSPREE database of phenological experiments  in order to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while other traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}).\\
+
+Across traits, height, SLA, and LNC strongly predicted responses to different cue-levels (forcing, chilling, photoperiod), with a consistent direction of responses across cues for only LNC and not height or SLA (Fig. \ref{fig:cuetraits} a-f and j-l). %change the order of the plots so line up with how they are discussed.
+Taller species had small responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}). But as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}), both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. \\
+
+Species' SLA did not strongly predict responses to chilling (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}, Fig. \ref{fig:slopes} b). However, SLA did relate strongly to photoperiod (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}). Thus, species with more acquisitive growth strategies (thin leaves and a lower investment in leaf mass that leads to high SLA values), had larger responses to photoperiod cues, contrary to our predictions. In line with our predictions, species with high SLA values (acquisitive strategy) had a smaller response to forcing cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), with low SLA species being more responsive to forcing  (Fig. \ref{fig:cuetraits} d).\\
+
+For LNC, we found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates and acquisitive growth, were less responsive to cues (Fig. \ref{fig:cuetraits} j-i)). These findings are in line with our predictions that high LNC species (acquisitive) would be less responsive to chilling (\Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}), with similar responses to photoperiod (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}) and to forcing cues (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}). \\
+
+Of our four traits, seed mass had the weakest responses across the three cues (Fig. \ref{fig:cuetraits} g-i). While the direction of the species responses were in line without predictions, we did not find a considerable relationship between seed mass and cue responses for forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) or photoperiod or chilling (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}).
+
+\section*{Discussion}
+
+\begin{enumerate}
+\item Across our four models---species' traits influenced the timing of budburst date in response to its three major cues
+\item But the magnitude and consistently of trait effects across cues varied by trait and across species.
+\end{enumerate}
+
+% \subsection*{Budburst cue responses in relation to traits}
+% \begin{enumerate}
+% \item Gradients in budburst phenology were generally well aligned with well established trait variation from acquisitive to conservative growth strategies, but some deviation were found in relation to specific budburst cues.
+% \begin{enumerate}
+% \item Species with traits related to acquisitive growth strategies = weaker responses to chilling = species that budburst 
+% \item But prediction that sp w/ low forcing responses = acquisitive growth strategies---only supported for our two leaf traits and seed mass--- tall trees = low forcing responses
+% \item We predicted photoperiod and chilling to have similar relationships with traits---only partially supported
+% \item We found low photoperiod responses for species with traits values for height, LNC, and seed mass associated with acquisitive growth, but not SLA (Fig 3)
+% \item In general---evidence that cues responses that lead to gradients in bb timing are generally aligned with similar gradients from acquisitive to conservative growth strategies. 
+% \end{enumerate}
+% \end{enumerate}
+
+\subsection*{Traits and phenology in forests}
+\begin{enumerate}
+%what does our result suggest about temporal assembly of trees in forest
+% \item Phenology = largely excluded from studies of trait relationships to growth strategies---but clearly bb timing follows similar gradients
+\item Gradients in budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies, but some deviations were found in relation to specific budburst cues.
+% \item Collectivley, suite of traits a spp possesses shapes their temporal niche and ability to withstand selctive pressures across the season.
+\begin{enumerate}
+\item We found early bb species = traits that allow them to grow quickly and benefit from high light availability in the early season open canopy---more photosynthetic potential and faster reproduction---beneficial for early succession spp, like \emph{Alnus} (Fig. \ref{fig:cuetraits})
+\item But late budbursting species filled different trait space---traits that infer greater competitive abilities and slower growth---beneficial for late succession, canopy spp, such as \emph{Quercus} (Fig. \ref{fig:cuetraits})
+\item This suggests the assembly of forest communities is driven by varying selective pressures, such as strong abiotic filters early in the growing season, and greater biotic pressures later in the season.
+\item Including phenology in the trait framework allows us to tease apart underlying mechanisms shaping species temporal niche variation across communities
+\end{enumerate}
+
+\item The traits whose cue responses deviated from our expectation also offer novel insights into the tradeoffs between traits and environmental cues
+\begin{enumerate}
+\item All traits included in this study are associated with many aspects of plant growth---adaptive for other reasons than those we predicted
+\item We found short trees = strong responses to forcing---could prevent frost damage or xylem cavitation with false spring, Clemnets et al 1972, Marquis et al 2020, influence cambial meristem growth Lenz et al 2016
+\item Similarly, greater forcing response of high SLA individuals could other attributes associated with SLA---relative growth rates, leaf longevity---and not photosynthetic potential
+\item Highlights the complexity of determining drivers of spp trait profiles, but furthers our understanding of how traits could affect community dynamics under variable environments
+\end{enumerate}
+% \item Our findings support that species with traits associated with acquisitive growth strategies have cue responses that faciliate earlier bb in temperate forests
+% \item In constrast, species with more conservative growth strategies are more likely to have cue responses that result in later budburst
+\subsection*{Phenology-trait relationships under future climates}
+\item Incorporating phenology into species trait syndromes, is necessary to infer how species are likely to respond to climate change.
+\begin{enumerate}
+\item Well documented that species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
+\item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
+\item Future climates could result in more stressful environments for conservative spp---constrained by chilling and photoperiod requirements---might experience greater levels of competition, while hotter summers = greater drought stress
+\item In addition to altering the distribution of species temporal niche within a community, species trait syndromes have the potential to reshape spp assemblages and community dynamics.
+\end{enumerate}
+
+\item Cascading impacts of species trait syndromes and temporal niche can determine the invasibility of forest communities
+\begin{enumerate}
+\item Invasive species = more sensitive to seasonal variation---greater ability to shift their phenologies (Wilsey et al., 2011; Fridley, 2012)
+\item Also tend to bb early---possess the same traits that allow native species to track changes in temperature and fill vacant niche early in season
+\item Includes traits like higher rates of leaf production and differences in wood anatomy = faster growth (Yin et al., 2016).
+\item Knowing the association between phenology and other traits will allow us to better predict the vulnerability of forest communities to species invasions and mitigate their impacts. 
+\end{enumerate}
+
+\end{enumerate}
+
+% \item This provides novel insights---spring phenology reshapes other phenological events---may be equally dependent on traits 
+% \begin{enumerate}
+% \item How do trait-phenology relationships influence subsequent phenological events---flowering time, fruit set
+% \end{enumerate}
+
+%what does this mean more broadly and to other systems---woody plant systems, grassland ecosystems etc
+
+% \end{enumerate}
+% \item Spp traits and inherent niche profiles---influence spp ability to survive and establish---could lead to novel communities under future climates.
+% \begin{enumerate}
+% \item species range ships and success at range limits
+% 
+
+
+\subsection*{Trait response models capture important trait variability}
+\begin{enumerate}
+\item Our study is one of the first to jointly model budburst phenological cues and timing with other trait relationships. 
+\begin{enumerate}
+\item This approach allowed us to identify trends in phenological responses to cues based on species-level trait variation
+\item Also accounting for the high degrees of uncertainty that arise from using varying datasets and individuals from across diverse forest communities.
+\item While we were able to only include a small number of spp = a first step to identify general trends that scale across populations and species
+\item Accurate predictions of individual trait-cue relationships requires data from finer scales---with trait and phenological data at the individual level within the same populations.
+\item Our approach allows us to better address the complex interactions between traits that shape species temporal niche---contributing to a more holistic approach and potential to better forecast changes in species temporal niche under future climate change.
+\end{enumerate}
+\end{enumerate}
+
+
+\pagebreak
+\bibliographystyle{refs/bibstyles/science.bst}% 
+\bibliography{refs/traitors_may32022.bib}
+
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/sigmaSpStudy.pdf} 
@@ -284,118 +396,6 @@ cuetraits (current Fig 3)
 %     \centering
 %  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
 %     \caption{Comparisons of estimated cue responses of a species with an trait value associated with acquisitive growth strategies, shown in green, or conservative growth strategies, shown in purple. Associations between seed mass and forcing, chilling, and photoperiod are depicted on panels a to c and associations between LNC and each cue in panel d to f. The green points represent the budburst data for \textit{Populus tremula}, a relatively small seeded species, while the green points are budburst data of the large seeded species, \textit{Aesculus hippocastanum}. Dark bands represent the 50\% credible interval for the posterior cue estimates for the full model. Opaque bands represent the 50\% credible interval for the posterior cue estimates with a trait effect of zero. The negative value of the seed mass model's slope for each cue produces a more negative effect on the day of budburst when seed mass is included in the model. This suggests that trees that produce large seeds advance their budburst dates at a higher rate to increasing cues (a-c). The effect of seed mass however, is relatively small compared to that observed from other traits. Estimates of the cue responses in our LNC model were all positive and produced more positive slopes in the full model. This indicates that high SLA values are less responsive in their budburst to increasing forcing, chilling, and photoperiod values (d to f). The greater effect of slopes on taller trees and high SLA species is a artifact of the trait value itself being larger and not a reflection on the magnitude of the response.}
-
-    
-    % a smaller advance in budburst with increasing forcing when height effects were included % I don't fully understand this previous or the next sentence -- it reads as though we're contrasting (do we have models without height we plan to report?) ... wait, wait, I get it! You're talking about the counterfactual shown in Fig 1. I think we just keep this in a caption?s
-%     \label{fig:slopes}
-% \end{figure}
-
-Our approach used models that jointly estimated species traits and phenological cues to understand the connections between phenology, with a focus on days to budburst, and other plant traits. Since our trait data was from large trait databases, which combine data across many studies, our analysis partitioned the trait variation due to species from the study-level effects. Then using the species-level estimates of traits (ie. species-level estimates with effects of study removed), we examined how traits predicted phenological cues and budburst, while allowing for residual variation in cues to be explained by a species effect.\\
-
-Across our models, we found species-level variation across traits was comparable with or greater than variation across study. Variation across studies was greatest for height (\Sexpr{htSigmaStudy} m compared to \Sexpr{htSigmaSp} m species-level variation, Fig. \ref{fig:sigmaDensities}).  For seed mass and LNC study-level variation was less than that of the species-level variation (seed mass study-level variation: \Sexpr{seedSigmaStudy} mg; versus species-level variation: \Sexpr{seedSigmaSp} mg; LNC study-level variation \Sexpr{lncSigmaStudy} mg g\textsuperscript{-1} versus species-level variation: \Sexpr{lncSigmaSp} mg g\textsuperscript{-1})  (Fig. \ref{fig:sigmaDensities}). At the lowest end, study-level variation in SLA was approximately half the value of the species-level variations (and \Sexpr{slaSigmaStudy} mm\textsuperscript{2} mg\textsuperscript{-1} versus \Sexpr{slaSigmaSp} mm\textsuperscript{2} mg\textsuperscript{-1}, respectively). The magnitude of study-level variation we observed suggests that models using large trait databases that fail to separate out study from species-level variation may misestimate species' traits.\\
-
-We combined the species-level trait estimates with data on forcing, chilling and photoperiod values from the OSPREE database of phenological experiments  in order to test if traits (height, SLA, seed mass, LNC) related to phenological cues and species budburst dates (Fig. \ref{fig:slopes}). For some traits we found much of the variation in phenological cues across species could be explained by trait variation (see panel a-f and j-l in Fig \ref{fig:cuetraits}), while other traits were weak predictors (see g-i in Fig \ref{fig:cuetraits}).\\
-
-Across traits, height, SLA, and LNC strongly predicted responses to different cue-levels (forcing, chilling, photoperiod), with a consistent direction of responses across cues for only LNC and not height or SLA (Fig. \ref{fig:cuetraits} a-f and j-l). %change the order of the plots so line up with how they are discussed.
-Taller species had small responses to forcing (\Sexpr{htBFSpMean} m per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_htBFSpMean}, \Sexpr{upper_htBFSpMean}). But as we predicted, taller species had larger responses to chilling (\Sexpr{htBCSpMean} m per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_htBCSpMean}, \Sexpr{upper_htBCSpMean})) and photoperiod (\Sexpr{htBPSpMean} m per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_htBPSpMean}, \Sexpr{upper_htBPSpMean}), both of which are cues that would generally lead to later budburst and fit within an overall conservative growth strategy. \\
-
-Species' SLA did not strongly predict responses to chilling (\Sexpr{slaBCSpMean} mm\textsuperscript{2}/mg per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_slaBCSpMean}, \Sexpr{upper_slaBCSpMean}, Fig. \ref{fig:slopes} b). However, SLA did relate strongly to photoperiod (\Sexpr{slaBPSpMean} mm\textsuperscript{2}/mg per standardized photoperiod; \Sexpr{lower_slaBPSpMean}, \Sexpr{upper_slaBPSpMean}). Thus, species with more acquisitive growth strategies (thin leaves and a lower investment in leaf mass that leads to high SLA values), had larger responses to photoperiod cues, contrary to our predictions. In line with our predictions, species with high SLA values (acquisitive strategy) had a smaller response to forcing cues (\Sexpr{slaBFSpMean} mm\textsuperscript{2}/mg per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_slaBFSpMean}, \Sexpr{upper_slaBFSpMean}), with low SLA species being more responsive to forcing  (Fig. \ref{fig:cuetraits} d).\\
-
-For LNC, we found that species that produce leaves with high nitrogen content, which relate to high photosynthetic rates and acquisitive growth, were less responsive to cues (Fig. \ref{fig:cuetraits} j-i)). These findings are in line with our predictions that high LNC species (acquisitive) would be less responsive to chilling (\Sexpr{lncBCSpMean} mg/g per standardized chilling; 90\% uncertainty interval: \Sexpr{lower_lncBCSpMean}, \Sexpr{upper_lncBCSpMean}), with similar responses to photoperiod (\Sexpr{lncBPSpMean} mg/g per standardized photoperiod; 90\% uncertainty interval: \Sexpr{lower_lncBPSpMean}, \Sexpr{upper_lncBPSpMean}) and to forcing cues (\Sexpr{lncBFSpMean} mg/g per standardized forcing; 90\% uncertainty interval: \Sexpr{lower_lncBFSpMean}, \Sexpr{upper_lncBFSpMean}). \\
-
-Of our four traits, seed mass had the weakest responses across the three cues (Fig. \ref{fig:cuetraits} g-i). While the direction of the species responses were in line without predictions, we did not find a considerable relationship between seed mass and cue responses for forcing (\Sexpr{smBFSpMean} mg per standardized forcing; \Sexpr{lower_smBFSpMean}, \Sexpr{upper_smBFSpMean}) or photoperiod or chilling (\Sexpr{smBCSpMean} mg per standardized chilling; \Sexpr{lower_smBCSpMean}, \Sexpr{upper_smBCSpMean}). \Sexpr{smBPSpMean} mg per standardized  photoperiod; \Sexpr{lower_smBPSpMean},  \Sexpr{upper_smBPSpMean}).
-
-
-\section*{Discussion}
-
-\begin{enumerate}
-\item Across our four models---species' traits influenced the timing of budburst date in response to its three major cues
-\item But the magnitiude and consistently of trait effects across cues varied by trait and across species.
-\end{enumerate}
-
-% \subsection*{Budburst cue responses in relation to traits}
-% \begin{enumerate}
-% \item Gradients in budburst phenology were generally well aligned with well established trait variation from acquisitive to conservative growth strategies, but some deviation were found in relation to specific budburst cues.
-% \begin{enumerate}
-% \item Species with traits related to acquisitive growth strategies = weaker responses to chilling = species that budburst 
-% \item But prediction that sp w/ low forcing responses = acquisitive growth strategies---only supported for our two leaf traits and seed mass--- tall trees = low forcing responses
-% \item We predicted photoperiod and chilling to have similar relationships with traits---only partially supported
-% \item We found low photoperiod responses for species with traits values for height, LNC, and seed mass associated with acquisitive growth, but not SLA (Fig 3)
-% \item In general---evidence that cues responses that lead to gradients in bb timing are generally aligned with similar gradients from acquisitive to conservative growth strategies. 
-% \end{enumerate}
-% \end{enumerate}
-
-\subsection*{Traits and phenology in forests}
-\begin{enumerate}
-%what does our result suggest about temporal assembly of trees in forest
-% \item Phenology = largely excluded from studies of trait relationships to growth strategies---but clearly bb timing follows similar gradients
-\item Gradients in budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies, but some deviations were found in relation to specific budburst cues.
-% \item Collectivley, suite of traits a spp possesses shapes their temporal niche and ability to withstand selctive pressures across the season.
-\begin{enumerate}
-\item We found early bb species = traits that allow them to grow quickly and benefit from high light availability in the early season open canopy---more photosyntheitc potential and faster reproduction---beneficial for early succesion spp, like \emph{Alnus} (Fig. \ref{fig:cuetraits})
-\item But late budbursting species filled different trait space---traits that infer greater competitive abilities and slower growth---beneficial for late successsion, canopy spp, such as \emph{Quercus} (Fig. \ref{fig:cuetraits})
-\item This suggests the assembly of forest communities is driven by varying selective pressures, such as strong abiotic filters early in the growing season, and greater biotic pressures later in the season.
-\item Including phenology in the trait framework allows us to tease apart underlying mechanisms shaping species temporal niche variation across communites
-\end{enumerate}
-
-\item The traits whose cue responses deviated from our expectation also offer novel insights into the tradeoffs between traits and environmental cues
-\begin{enumerate}
-\item All traits included in this study are associated with many aspects of plant growth---adaptive for other reasons than those we predicted
-\item We found short trees = strong responses to forcing---could prevent frost damage or xylem cavitation with false spring, Clemnets et al 1972, Marquis et al 2020, influence cambial meristem growth Lenz et al 2016
-\item Similarly, greater forcing response of high SLA indiviudals could other attributes associated with SLA---relative growth rates, leaf longevity---and not photosynetheic potential
-\item Highlights the complexity of determining drivers of spp trait profiles, but furthers our understanding of how traits could affect community dynamics under variable environments
-\end{enumerate}
-% \item Our findings support that species with traits associated with acquisitive growth strategies have cue responses that faciliate earlier bb in temperate forests
-% \item In constrast, species with more conservative growth strategies are more likely to have cue responses that result in later budburst
-\subsection*{Phenology-trait relationships under future climates}
-\item Incorporating phenology into species trait syndromes, is necessary to infer how species are likely to respond to climate change.
-\begin{enumerate}
-\item Well documented taht species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
-\item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
-\item Future climates could result in more stressful environments for conservative spp---constrained by chilling and photoperiod requirements---might experience greater levels of competiton, while hotter summers = greater drought stress
-\item In addition to altering the distribution of speceis temporal niche within a community, species trait syndromes have the potential to reshape spp assemblages and community dynamics.
-\end{enumerate}
-
-\item Cascading impacts of species trait syndromes and temporal niche can determine the invasibility of forest communities
-\begin{enumerate}
-\item Invasive species = more sensitive to seasonal variation---greater ablity to shift their phenologies (Wilsey et al., 2011; Fridley, 2012)
-\item Also tend to bb early---possess the same traits that allow native species to track changes in temperature and fill vacant niche early in season
-\item Includes traits like higher rates of leaf production and differences in wood anatomy = faster growth (Yin et al., 2016).
-\item Knowing the association between phenology and other traits will allow us to better predict the vulnerability of forest communities to species invasions and mitigate thier impacts. 
-\end{enumerate}
-
-\end{enumerate}
-
-% \item This provides novel insights---spring phenology reshapes other phenological events---may be equally dependent on traits 
-% \begin{enumerate}
-% \item How do trait-phenology relationships influence subsequent phenological events---flowering time, fruit set
-% \end{enumerate}
-
-%what does this mean more broadly and to other systems---woody plant systems, grassland ecosystems etc
-
-% \end{enumerate}
-% \item Spp traits and inherent niche profiles---influence spp ability to survive and establish---could lead to novel communities under future climates.
-% \begin{enumerate}
-% \item species range ships and success at range limits
-% 
-
-
-\subsection*{Trait response models capture important trait variability}
-\begin{enumerate}
-\item Our study is one of the first to jointly model budburst phenological cues and timing with other trait relationships. 
-\begin{enumerate}
-\item This approach allowed us to identify trends in phenological responses to cues based on species-level trait variation
-\item Also accounting for the high degrees of uncertainty that arise from using varying datasets and indiviudals from across diverse forest communities.
-\item But = a first step to identify general trends that scale across populations and species
-\item Accurrately predictions of individual trait-cue relationships requires data from finer scales---with trait and phenological data at the individual level within the same populations.
-\item Also need to addresss the complex interactions between traits that shape species temporal niche will require holistic approaches that integrate diverse tratis, biogeographic factors, and the imporant role of specie evolutionary history.
-\end{enumerate}
-\end{enumerate}
-\end{document}
-
-\pagebreak
-\bibliographystyle{refs/bibstyles/amnat.bst}% 
-\bibliography{refs/traitors_may32022.bib}
 
 
 \end{document}
