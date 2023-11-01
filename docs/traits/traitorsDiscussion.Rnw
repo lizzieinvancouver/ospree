@@ -57,7 +57,9 @@
 
 \begin{enumerate}
 \item Across our four models---species' traits influenced the timing of budburst date in response to its three major cues
-\item But the magnitude and consistently of trait effects across cues varied by trait and across species. %Oct31 -- Two things (1) the analysis uses species variation, so saying 'across species' does not make much sense; (2) the statement is pretty vague ... can you make any big points? It varied by traits and cues, but showed strong effects for these traits and/or these cues (or weak effects?)? Or you might foreshadow your section below: budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies -- suggesting it fits well in the frameworks ... 
+\item Whether trait effects led to advanced or delayed budburst phenology was generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies
+\item Responses were greatest for traits relating to growth strategies, with SLA, LNC and height all depicting strong responses across our three cues, while our reproductive trait---seed mass------showed weak response
+ %Oct31 -- Two things (1) the analysis uses species variation, so saying 'across species' does not make much sense; (2) the statement is pretty vague ... can you make any big points? It varied by traits and cues, but showed strong effects for these traits and/or these cues (or weak effects?)? Or you might foreshadow your section below: budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies -- suggesting it fits well in the frameworks ... 
 \item Something about variation perhaps? %Oct31 -- since your model is really good at partitioning this. 
 \end{enumerate}
 
@@ -81,7 +83,7 @@
 \end{enumerate}
 
 \subsection*{Phenology-trait relationships under future climates}
-\item Incorporating phenology into species trait syndromes, is necessary to infer how species are likely to respond to climate change. %Oct31 -- good point, flip it around to drop the PV and it will be even better
+\item It is necessary to incorporate phenology into species trait syndromes for us infer species responses to climate change. %Oct31 -- good point, flip it around to drop the PV and it will be even better
 \begin{enumerate}
 \item Well documented that species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
 \item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
