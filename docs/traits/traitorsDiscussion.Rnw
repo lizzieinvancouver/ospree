@@ -57,15 +57,15 @@
 
 \begin{enumerate}
 \item Across our four models---species' traits influenced the timing of budburst date in response to its three major cues
-\item Whether trait effects led to advanced or delayed budburst phenology was generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies
-\item Responses were greatest for traits relating to growth strategies, with SLA, LNC and height all depicting strong responses across our three cues, while our reproductive trait---seed mass------showed weak response
+\item Whether trait effects led to advanced or delayed budburst phenology was generally aligned with well known gradients in traits that span from acquisitive to conservative growth strategies
+\item Responses were greatest for traits relating to resource acquisition and structure, with SLA, LNC and height all depicting strong responses across our three cues, while our reproductive trait---seed mass------showed weak response
  %Oct31 -- Two things (1) the analysis uses species variation, so saying 'across species' does not make much sense; (2) the statement is pretty vague ... can you make any big points? It varied by traits and cues, but showed strong effects for these traits and/or these cues (or weak effects?)? Or you might foreshadow your section below: budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies -- suggesting it fits well in the frameworks ... 
-\item Something about variation perhaps? %Oct31 -- since your model is really good at partitioning this. 
+\item Findings also highlight importance of considering variation across studies---often comparable to the differences observed across species. %Oct31 -- since your model is really good at partitioning this. 
 \end{enumerate}
 
 \subsection*{Traits and phenology in forests}
 \begin{enumerate}
-\item Gradients in budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies, 
+\item Gradients in budburst phenology were generally aligned with well known gradients in traits, spanning acquisitive to conservative growth strategies.
 %Oct31 -- you should build out a short paragraph on this above FIRST, before you get to the caveats (but actually your points fit so just delete: but some deviations were found in relation to specific budburst cues.
 \begin{enumerate}
 \item We found early bb species = traits that allow them to grow quickly and benefit from high light availability in the early season open canopy---more photosynthetic potential and faster reproduction---beneficial for early succession spp, like \emph{Alnus} (Fig. \ref{fig:cuetraits})
@@ -82,24 +82,6 @@
 \item Highlights the complexity of determining drivers of spp trait profiles, but furthers our understanding of how traits could affect community dynamics under variable environments
 \end{enumerate}
 
-\subsection*{Phenology-trait relationships under future climates}
-\item It is necessary to incorporate phenology into species trait syndromes for us infer species responses to climate change. %Oct31 -- good point, flip it around to drop the PV and it will be even better
-\begin{enumerate}
-\item Well documented that species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
-\item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
-\item Future climates could result in more stressful environments for conservative spp---constrained by chilling and photoperiod requirements---might experience greater levels of competition, while hotter summers = greater drought stress
-\item In addition to altering the distribution of species temporal niche within a community, species trait syndromes have the potential to reshape spp assemblages and community dynamics.
-\end{enumerate}
-
-\item Cascading impacts of species trait syndromes and temporal niche can determine the invasibility of forest communities %Oct31 -- I like this, can you tie it back a touch more to your results/study here?
-\begin{enumerate}
-\item Invasive species = more sensitive to seasonal variation---greater ability to shift their phenologies (Wilsey et al., 2011; Fridley, 2012)
-\item Also tend to bb early---possess the same traits that allow native species to track changes in temperature and fill vacant niche early in season
-\item Includes traits like higher rates of leaf production and differences in wood anatomy = faster growth (Yin et al., 2016).
-\item Knowing the association between phenology and other traits will allow us to better predict the vulnerability of forest communities to species invasions and mitigate their impacts. 
-\end{enumerate}
-
-\end{enumerate}
 
 \subsection*{Trait response models capture important trait variability} %Oct31 -- what about moving this up to be second section? I like it, but it feels less exciting to end on and the last point flows to forecasting. If you keep it here I suggest you end on the application of this model to other traits (e.g., height and water or nitrogen).
 \begin{enumerate}
@@ -112,5 +94,27 @@
 \item Our approach allows us to better address the complex interactions between traits that shape species temporal niche---contributing to a more holistic approach and potential to better forecast changes in species temporal niche under future climate change.
 \end{enumerate}
 \end{enumerate}
+
+\subsection*{Phenology-trait relationships under future climates}
+\item It is necessary to incorporate phenology into species trait syndromes for us infer species responses to climate change.
+\begin{enumerate}
+\item Well documented that species phenologies are shifting with climate change---but still high degree of unexplained variation---our work suggests other traits are related to phenology cue responses as well
+\item Our results suggest spp with acquisitive growth strategies = likely to facilitate adaption to future climates---not limited by chilling and photoperiod requirements and possess traits = faster growth and resource acquisition
+\item Future climates could result in more stressful environments for conservative spp---constrained by chilling and photoperiod requirements---might experience greater levels of competition, while hotter summers = greater drought stress
+\item In addition to altering the distribution of species temporal niche within a community, species trait syndromes have the potential to reshape spp assemblages and community dynamics.
+\end{enumerate}
+
+\item Cascading impacts of species trait syndromes and temporal niche can determine the invasibility of forest communities %Oct31 -- I like this, can you tie it back a touch more to your results/study here?
+\begin{enumerate}
+\item Invasive species = more sensitive to seasonal variation---greater ability to shift their phenologies (Wilsey et al., 2011; Fridley, 2012)
+\item Also tend to bb early---possess the same traits that allow native species to track changes in temperature and fill vacant niche early in season
+\item Our results can be used to characterize the trait syndromes of native forest communities and identify whether open temporal niche space is likely to be filled by invasive species.
+\item Will also help us predict species potential to shift ranges and invade novel communities as regions of suitable habitat change with climate change.
+% \item Includes traits like higher rates of leaf production and differences in wood anatomy = faster growth (Yin et al., 2016).
+\item Knowing the association between phenology and other traits will allow us to better predict the vulnerability of forest communities to species invasions and mitigate their impacts. 
+\end{enumerate}
+
+\end{enumerate}
+
 
 \end{document}
