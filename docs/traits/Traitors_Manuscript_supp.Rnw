@@ -20,6 +20,7 @@
 \usepackage{capt-of}%alows me to set a caption for code in appendix 
 \usepackage[export]{adjustbox} % adding a box around a map
 \usepackage{lineno}
+\usepackage{lscape}
 \linenumbers
 % recommended! Uncomment the below line and change the path for your computer!
 % \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
@@ -51,7 +52,7 @@
 % more optionals! %
 
 \graphicspath{ {./Figures/} }% tell latex where to find photos 
-\externaldocument[supp-]{Traitors_Manuscript_supp}
+\externaldocument{traitorsTakeTwo}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -63,15 +64,11 @@
 
 We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). 
 
-
-<<label=suppTableHt, echo=FALSE , results=tex>>=
+<<label=tableDataSources, echo=FALSE , results=tex>>=
 require(xtable)
-require(rstan)
-
-source("..//..//analyses/traits/Rfiles/sm_tables.R")
 #get_variables(mdl.traitphen)
-
-datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
+datasource <- print(xtable(smTab37 , caption="Data sources", label = "tableDataSources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
 
 # print(datasource,
 #       include.rownames=FALSE, 
@@ -93,7 +90,7 @@ datasource <- print(xtable(tabTest , caption="Data sources"), include.rownames= 
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.png}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 speices for which complete trait data was available}
     \label{figure:pca}
 \end{figure}

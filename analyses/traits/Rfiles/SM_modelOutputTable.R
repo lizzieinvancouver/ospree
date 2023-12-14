@@ -7,7 +7,7 @@
 library(rstan)
 require(shinystan)
 library(hdrcde) ## better quantiles
-library(tidybayes)
+# library(tidybayes)
 library(rethinking)
 library(reshape2)
 # setwd("~/Documents/github/ospree/analyses/traits")
@@ -25,10 +25,10 @@ specieslist <-  c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","
 #   xhpdi <- HPDI(x, prob = 0.90)
 #   return(xhpdi)
 # }
-# files <- list.files(path = "output", pattern ="_37spp_wp.RDS" )
+# files <- list.files(path = "output", pattern ="_37spp.RDS" )
 # files
 
-htModel <- readRDS(paste("../../analyses/traits/output/", "height_stanfit_37spp_wp.RDS", sep = ""))
+htModel <- readRDS(paste("../../analyses/traits/output/", "height_stanfit_37spp.RDS", sep = ""))
 htModelFit <- rstan::extract(htModel)
 
 htBFSpMean <- as.numeric(round(mean(htModelFit$betaTraitxForce),1))
@@ -56,7 +56,7 @@ htChillMax <- max(htChillSpMean)
 
 #species with the smallest chill response - "Betula_populifolia" 
 ##### SLA ###############################
-slaModel <- readRDS(paste("../../analyses/traits/output/", "SLA_stanfit_37spp_wp.RDS", sep = ""))
+slaModel <- readRDS(paste("../../analyses/traits/output/", "SLA_stanfit_37spp.RDS", sep = ""))
 slaModelFit <- rstan::extract(slaModel)
 
 slaBFSpMean <- as.numeric(round(mean(slaModelFit$betaTraitxForce),1))
@@ -97,7 +97,7 @@ lncBPSpMean; lower_lncBPSpMean; upper_lncBPSpMean
 
 
 ##### seed mass  ###############################
-smModel <- readRDS(paste("../../analyses/traits/output/", "SeedMass_log10_stanfit_37spp_wp.RDS", sep = ""))
+smModel <- readRDS(paste("../../analyses/traits/output/", "SeedMass_log10_stanfit_37spp.RDS", sep = ""))
 smModelFit <- rstan::extract(smModel)
 
 smBFSpMean <- as.numeric(round(mean(smModelFit$betaTraitxForce),1))
@@ -257,21 +257,21 @@ lower_smMin<- as.numeric(round(HPDI( as.vector(longMeans$traitMean[longMeans$spe
 upper_smMin <- as.numeric(round(HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == "Betula_populifolia"]) , prob=0.90 )[1],1))
 
 ###########################################################
-load("../../analyses/traits/output/height_raw_37spp_wp.Rda")
+load("../../analyses/traits/output/height_raw_37spp.Rda")
 htSum <- summary(mdl.traitphen)$summary 
 
 htSigmaSp <- as.numeric(round((htSum[grep("sigma_sp", rownames(htSum)), "mean"]),1))
 htSigmaStudy <- as.numeric(round((htSum[grep("sigma_study", rownames(htSum)), "mean"]),1))
 
 #SLA
-load("../../analyses/traits/output/sla_raw_37spp_wp.Rda")
+load("../../analyses/traits/output/sla_raw_37spp.Rda")
 slaSum <- summary(mdl.traitphen)$summary 
 
 slaSigmaSp <- as.numeric(round((slaSum[grep("sigma_sp", rownames(slaSum)), "mean"]),1))
 slaSigmaStudy <- as.numeric(round((slaSum[grep("sigma_study", rownames(slaSum)), "mean"]),1))
 
 #seed
-load("../../analyses/traits/output/seedmasslog10_raw_37spp_wp.Rda")
+load("../../analyses/traits/output/seedmasslog10_raw_37spp.Rda")
 seedSum <- summary(mdl.traitphen)$summary 
 
 seedSigmaSp <- as.numeric(round((seedSum[grep("sigma_sp", rownames(seedSum)), "mean"]),1))
@@ -290,6 +290,56 @@ lncSigmaStudy <- as.numeric(round((lncSum[grep("sigma_study", rownames(lncSum)),
 pca1 <- 32.0
 pca2 <- 24.2
 
+#Values for the methods:
+traitsData1 <- read.csv("../../analyses/traits/input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+traitsData2 <- read.csv("../../analyses/traits/input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+
+traitsData <- rbind(traitsData1,traitsData2)
+
+traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+
+# Subset data to traitors species list
+traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
+
+# SLA trait only
+nStudy <- length(unique(traitsData$reference))
+
+slaData <- traitsData[traitsData$traitname == "Specific_leaf_area",]
+nSLA <- nrow(slaData)
+
+htData <- traitsData[traitsData$traitname == "Plant_height_vegetative",]
+nHt <- nrow(htData)
+
+lncData <- traitsData[traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass",]
+nLNC <- nrow(lncData)
+
+smData <- traitsData[traitsData$traitname == "seed mass",]
+nSM <- nrow(smData)
+
+#27318)
+heightData <- read.csv("../../analyses/traits/input/height_37spp_subsampled.csv")
+nHtSub <- nrow(heightData)
+
+nHt - nHtSub
+
+# How much more were the six spp sampled compared to others?
+htData$count <-1
+htSp <- aggregate(htData["count"], htData[c("speciesname")], FUN = sum)
+
+few <- subset(htSp, count < 1500)
+meanFew <- mean(few$count)
+
+many <- subset(htSp, count > 1500)
+meanMany <- mean(many$count)
+
+(meanFew/meanMany) * 100
+
+htMany <- round((meanMany/meanFew),0)
+
+
+# Make table of references:
+smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
+
 # tried sourcing code and extracting numbers, but always got the error message:
 #cannot rescale a constant/zero column to unit variance.
 
@@ -302,7 +352,7 @@ pca2 <- 24.2
 # pca2 <- round(explVar[2] *100, 1)
 # 
 # str(mat2)
-# load("output/sla_raw_37spp_wp.Rda")
+# load("output/sla_raw_37spp.Rda")
 # #get_variables(mdl.traitphen)
 # 
 # sumt <- summary(mdl.traitphen)$summary
@@ -352,7 +402,7 @@ pca2 <- 24.2
 
 
 # # what studies had the largest study effects for each trait?
-# load("..//..//analyses/traits/output/height_raw_37spp_wp.Rda")
+# load("..//..//analyses/traits/output/height_raw_37spp.Rda")
 # # get_variables(mdl.traitphen)
 # 
 # traitsData1 <- read.csv("..//..//analyses/traits/input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
