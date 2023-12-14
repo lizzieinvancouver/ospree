@@ -8,7 +8,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{longtable}
-\usepackage{natbib}
+\usepackage[sort&compress, numbers, super]{natbib}
 \usepackage{amsmath}
 \usepackage{textcomp}%amoung other things, it allows degrees C to be added
 \usepackage{float}
@@ -55,20 +55,21 @@
 \externaldocument{traitorsTakeTwo}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
+\SweaveOpts{concordance=FALSE}
 
+\renewcommand{\bibname}{References}%names reference list 
 
 \section{Supplementary Material}
 
 \subsection{Methods}
 
-We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship (Freckleton2002). We obtained a rooted phylogenetic tree by pruning the tree developed by (Smith2018a) and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R (Orme2013). 
+We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018a} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orme2013}. 
 
 <<label=tableDataSources, echo=FALSE , results=tex>>=
 require(xtable)
 #get_variables(mdl.traitphen)
 smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
-datasource <- print(xtable(smTab37 , caption="Data sources", label = "tableDataSources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+datasource <- print(xtable(smTab37 , caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableDataSources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
 
 # print(datasource,
 #       include.rownames=FALSE, 
@@ -91,21 +92,21 @@ datasource <- print(xtable(smTab37 , caption="Data sources", label = "tableDataS
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
-    \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 speices for which complete trait data was available}
+    \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 species for which complete trait data was available}
     \label{figure:pca}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
-    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modelled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
+    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits -- a. height, b. SLA, c. seed mass, and d. LNC -- were modeled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
     \label{figure:TraitDistributions}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp_concept.pdf} 
-    \caption{Functional traits may contribute to the species responses to forcing, chilling, or photoperiod cues in several ways. a) If traits are contribute negatively to the timing of phenological events, we expect the phenological response to be stronger and budburst earlier with increasing cue values. b) But if traits have no effects on the timing of budburst then cue responses will be zero and equivalent to the cue only trends. c) Lastly, traits that have a positive contribution to the timing of phenological events produce weaker responses with later budburst dates. The effect of height on phenological cue responses was weaker in response to forcing cues, but stronger in response to both chilling and photoperiod. In contrast, seed mass has a negligble effect on forcing and photoperiod cue responses, but a greater response with chilling. Band represent the 50\% uncertainty intervals of the model estimates.}
+    \caption{Functional traits may contribute to the species responses to forcing, chilling, or photoperiod cues in several ways. a) If traits are contribute negatively to the timing of phenological events, we expect the phenological response to be stronger and budburst earlier with increasing cue values. b) But if traits have no effects on the timing of budburst then cue responses will be zero and equivalent to the cue only trends. c) Lastly, traits that have a positive contribution to the timing of phenological events produce weaker responses with later budburst dates. The effect of height on phenological cue responses was weaker in response to forcing cues, but stronger in response to both chilling and photoperiod. In contrast, seed mass has a negligible effect on forcing and photoperiod cue responses, but a greater response with chilling. Band represent the 50\% uncertainty intervals of the model estimates.}
     \label{supp-fig:slopes}
 \end{figure}
 
@@ -322,4 +323,9 @@ row.names(esti.table) <- row.names(esti)
 print(xtable(esti.table , caption="LNC model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
+\pagebreak
+\bibliographystyle{refs/bibstyles/science.bst}% 
+\bibliography{refs/traitors_mar23.bib}
+
+
 \end{document}
