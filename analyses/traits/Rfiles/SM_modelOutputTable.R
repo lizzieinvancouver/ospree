@@ -60,6 +60,8 @@ slaModel <- readRDS(paste("../../analyses/traits/output/", "SLA_stanfit_37spp.RD
 slaModelFit <- rstan::extract(slaModel)
 
 slaBFSpMean <- as.numeric(round(mean(slaModelFit$betaTraitxForce),1))
+# round(quantile(slaModelFit$betaTraitxForce, prob = 0.05),1)
+# round(quantile(slaModelFit$betaTraitxForce, prob = 0.95),1)
 lower_slaBFSpMean <- as.numeric(round(HPDI(data.frame(slaModelFit$betaTraitxForce), prob = 0.90)[1],1))
 upper_slaBFSpMean <- as.numeric(round(HPDI(data.frame(slaModelFit$betaTraitxForce), prob = 0.90)[2],1))
 slaBFSpMean; lower_slaBFSpMean; upper_slaBFSpMean
@@ -71,7 +73,7 @@ slaBCSpMean; lower_slaBCSpMean; upper_slaBCSpMean
 
 slaBPSpMean <- as.numeric(round(mean(slaModelFit$betaTraitxPhoto),1))
 lower_slaBPSpMean <- as.numeric(round(HPDI(data.frame(slaModelFit$betaTraitxPhoto), prob = 0.90)[1],1))
-upper_slaBPSpMean <- as.numeric(round(HPDI(data.frame(slaModelFit$betaTraitxPhoto), prob = 0.90)[2],1))
+upper_slaBPSpMean <- format(round(quantile(slaModelFit$betaTraitxPhoto, prob = 0.95),1), nsmall =1)
 slaBPSpMean; lower_slaBPSpMean; upper_slaBPSpMean
 
 ##### LNC ###############################
