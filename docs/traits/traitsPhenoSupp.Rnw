@@ -2,34 +2,28 @@
 \documentclass{article}
 
 % required 
-\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
-
+\usepackage[hyphens]{url} 
 \usepackage{Sweave}
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage[sort&compress, numbers, super]{natbib}
 \usepackage{amsmath}
-\usepackage{textcomp}%amoung other things, it allows degrees C to be added
+\usepackage{textcomp}
 \usepackage{float}
-\usepackage[utf8]{inputenc} % allow funny letters in citaions 
-\usepackage[nottoc]{tocbibind} %should add Refences to the table of contents?
-\usepackage{amsmath} % making nice equations 
-\usepackage{listings} % add in stan code
+\usepackage[utf8]{inputenc} 
+\usepackage[nottoc]{tocbibind} 
+\usepackage{amsmath} 
+\usepackage{listings} 
 \usepackage{xcolor}
-\usepackage{capt-of}%alows me to set a caption for code in appendix 
-\usepackage[export]{adjustbox} % adding a box around a map
+\usepackage{capt-of}
+\usepackage[export]{adjustbox} 
 \usepackage{lineno}
 \usepackage{lscape}
 \linenumbers
-% recommended! Uncomment the below line and change the path for your computer!
-% \SweaveOpts{prefix.string=/Users/Lizzie/Documents/git/teaching/demoSweave/Fig.s/demoFig, eps=FALSE} 
-%put your Fig.s in one place! Also, note that here 'Fig.s' is the folder and 'demoFig' is what each 
-% Fig. produced will be titled plus its number or label (e.g., demoFig-nqpbetter.pdf')
-% make your captioning look better
 \usepackage[small]{caption}
 
-\usepackage{xr-hyper} %refer to Fig.s in another document
+\usepackage{xr-hyper} 
 \usepackage{hyperref}
 
 \setlength{\captionmargin}{30pt}
@@ -52,7 +46,7 @@
 % more optionals! %
 
 \graphicspath{ {./Figures/} }% tell latex where to find photos 
-\externaldocument{traitorsTakeTwo}
+\externaldocument{traitsPhenoSupp}
 
 \begin{document}
 \SweaveOpts{concordance=FALSE}
@@ -70,21 +64,6 @@ require(xtable)
 #get_variables(mdl.traitphen)
 smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
 datasource <- print(xtable(smTab37 , caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableDataSources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
-
-# print(datasource,
-#       include.rownames=FALSE, 
-#       hline.after = c(-1,0,nrow(datasource)),
-#       caption.placement="top",
-#       tabular.environment = "longtable", 
-#       floating = FALSE,
-#       #align=c(rep('|c',  ncol(datasource)),'p{4in}'),
-#       # tabular="\\textwidth",
-#       include.colnames = TRUE, 
-#       # add.to.row = list(pos = list(0),
-#       #                   command = "\\hline \\endhead "),
-#       # sanitize.text.function = identity
-#       )
-#  
 
  
 @
@@ -160,7 +139,7 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="Height model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of tree height for our 37 focal species ($n$ = 42781)"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
  
@@ -214,7 +193,7 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="SLA model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of specific leaf area for our 37 focal species ($n$ = 7656)."),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
 
@@ -267,7 +246,7 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption=" Log10 Seed mass model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of seed mass data for our 37 focal species ($n$ = 281)."),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
 
@@ -320,12 +299,12 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="LNC model estimates"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of leaf nitrogen content for our 37 focal species ($n$ = 3853.)"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
-\pagebreak
+\newpage
 \bibliographystyle{refs/bibstyles/science.bst}% 
 \bibliography{refs/traitors_mar23.bib}
-
+\newpage
 
 \end{document}
