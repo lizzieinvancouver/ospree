@@ -51,31 +51,33 @@
 
 \title{Woody plant phenological responses are strongly associated with key functional traits}
 \date{\today}
-\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{4}$,\\
-Catherine Chamberlain$^{5}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales Castilla $^{6}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1-3}$}
+\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3}$,\\
+Catherine Chamberlain$^{4}$, Ailene Ettinger$^{5}$, Mira Garner$^{6}$, Ignacio Morales-Castilla $^{7,8}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1,9,10}$}
 \maketitle 
 
 $^1$ Department of Forest and Conservation, Faculty of Forestry, University of British Columbia, 2424 Main Mall
 Vancouver, BC Canada V6T 1Z4. \\
 
-$^2$  Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\ \\
+$^2$  Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umeå, Sweden
 
-$^3$  Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
+$^3$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\
 
-$^{10} $Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ 
+%Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\ \\
+%Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
 
-$^4$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\
+$^4$ The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\
 
-$^7$ The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\
+$^5$ The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
 
-$^8$ The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
+$^6$ Mira's new affiliation  \\
 
-$^5$ Mira's new affiliation  \\
+$^7$ GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
 
-$^4$  GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
+$^8$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
 
-$^6$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+$^9$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\ \\
 
+$^10$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
 
 Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
@@ -91,7 +93,9 @@ Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
 \section*{Summary}
 
-Species phenologies---the timing of recurring life history events---can vary substantially with environmental variation. While climate change has triggered shifts in phenology and changed proximate drivers like temperature, the ultimate drivers of species-level variation are still poorly understood. In temperate forests, phenological variation across species may be driven by trade-offs between early season conditions, when the risk of tissue loss is high but resources abundant, and the more benign late season conditions, when competition is greater. This idea fits within fundamental theories of plant growth strategies and infers suites of traits that may co-vary with phenologies. But testing the role of phenology within a functional trait framework is challenging given its variability across environments. Here, we use a meta-analysis of controlled environment experiments to overcome this challenge and pair it with plant trait data from major databases. We found height, specific leaf area (SLA), and leaf nitrogen content (LNC) to have strong relationships with cue responses and budburst, but not always in the direction predicted. The conservative phenotype of tall trees with low LNC both showed the strongest responses to chilling and photoperiod and impacts on phenology. Cues, however, varied in their relationship to SLA, with low SLA species responding to forcing as predicted, but not photoperiod. Our findings demonstrate important relationships between phenological cues and broader trait phenotypes, showing that leafout phenology generally fits within a functional trait framework of acquisitive to conservative growth strategies. By better understanding these broader trait relationships, we can predict the ultimate drivers shaping species phenotypes and their influence on community dynamics. \\
+Species phenologies---the timing of recurring life history events---can vary substantially with environmental variation. While climate change has triggered shifts in phenology and changed proximate drivers like temperature, the ultimate drivers of species-level variation are still poorly understood %DLFeb29: coauthor comment: physiological vs. evolutionary instead of proximate vs ultimate.
+In temperate forests, phenological variation across species may be driven by trade-offs between early season conditions, when the risk of tissue loss is high but soil resources abundant %DLFeb29: coauthor comment: I don't think I'd say resources abundant here, because light, pollinators etc are less available. It seems more about lack or competition, which you go on to say.
+, and the more benign late season conditions, when competition is greater. This idea fits within the acquisitive-conservative framework of plant growth strategies of the leaf economic specturm, and infers suites of traits that may co-vary with phenologies. But testing the role of phenology within a functional trait framework is challenging given the variability in phenological events and plant traits across environments. Here, we use a meta-analysis of controlled environment experiments to overcome this challenge and pair it with plant trait data from major databases. We found height, specific leaf area (SLA), and leaf nitrogen content (LNC) to have strong relationships with cue responses and budburst, but to differ in the direction of these relationships between cue. The conservative, more competitive, phenotype of tall trees with low LNC both showed the strongest responses to chilling, photoperiod and impacts on phenology. Cues, however, varied in their relationship to SLA, with low SLA species responding to forcing, but not photoperiod. Our findings demonstrate important relationships between phenological cues and broader trait phenotypes, showing that leafout phenology generally fits within a functional trait framework of acquisitive to conservative growth strategies. By better understanding these broader trait relationships, we can predict the ultimate drivers shaping species phenotypes and their influence on community dynamics. \\
 
 Key Words: Budburst phenology, functional traits, Trees, climate change 
 
@@ -99,14 +103,13 @@ Key Words: Budburst phenology, functional traits, Trees, climate change
 
 The timing of life history events---phenology---can shape both ecosystem services and community dynamics. Spring phenology, for example, defines the start and overall length of the growing season---shaping forest carbon storage and species interactions \citep{Cleland2007a,Beard2019,Gu2022}. As climate change has caused spring growth to advance in many systems \citep{Menzel2006,Vitasse2021}, there is growing concern over how these changes may impact communities and ecosystems.
 \\
-
-Predicting these changes requires understanding the drivers of phenology both at a proximate scale---the environmental triggers of phenology, such as temperature and daylength---and at a more ultimate scale, of how timing may assemble species within a community \citep{Ovaskainen2013,Wolkovich2021}. At the proximate level, changing environmental conditions across the winter and spring cause species to start growth at different times. This has been especially well documented for the start of growth in woody plants each year \citep{Laube2014b,Flynn2018}, with similar trends  observed for spring phenological events across taxa, including in the timing of egg laying in birds \citep{Crick1997,DAlba2010} and the advance of spawning in amphibians \citep{Tryjanowski2003,Kusano2008}. But this work has provided limited insights into the drivers of species differences \citep{Laube2014b,Chuine2016,Flynn2018}. 
+%DLFeb29: confusion what is meant by proximate and ultimate
+Predicting these changes requires understanding the drivers of phenology both at a proximate scale---the environmental triggers of phenology, such as temperature and daylength---and at an ultimate scale, of how timing may assemble species within a community \citep{Ovaskainen2013,Wolkovich2021}. At the proximate level, changing environmental conditions across the winter and spring cause species to start growth at different times. This has been especially well documented for the start of growth in woody plants each year \citep{Laube2014b,Flynn2018}, with similar trends  observed for spring phenological events across taxa, including in the timing of egg laying in birds \citep{Crick1997,DAlba2010} and the advance of spawning in amphibians \citep{Tryjanowski2003,Kusano2008}. But this work has provided limited insights into the drivers of species differences \citep{Laube2014b,Chuine2016,Flynn2018}. 
+\\
+At the ultimate level, our predictions for why phenologies vary generally stem from our understanding of how selective pressures change across the growing season. Species that start growth early often risk high tissue loss---due to frost damage \citep{Sakai1987,Augspurger2009} or high herbivore apparency \citep{Wainwright2012}---but benefit from higher resource availability \citep{Rathcke1985a,Hufkens2012}. In contrast, later species face greater biotic pressures, especially from high competition for resources  \citep{Lopez2008,Wolkovich2014}.
 \\
 
-At the ultimate level, our predictions for why phenologies vary generally stem from our understanding of how selective pressures change as the early season progresses. Species that start growth early often risk high tissue loss---due to frost damage \citep{Sakai1987,Augspurger2009} or high herbivore apparency \citep{Wainwright2012}---but benefit from higher resource availability \citep{Rathcke1985a,Hufkens2012}. In contrast, later species face greater biotic pressures, especially from high competition for resources  \citep{Lopez2008,Wolkovich2014}.
-\\
-
-Differences in the timing of selective pressures within the growing season could shape a number of species attributes. Species with earlier growth may produce cheaper tissues that can be more easily replaced if damaged \citep{Reich1999}. But later species would benefit from investing in tissues that infer greater resource acquisition and retention \citep{Gorne2020}. These differences in traits, and trade-offs in allocation of resources to growth and tissue quality can be related to a broader framework of species growth strategies and functional traits \citep{Wolkovich2014}.
+Differences in the timing of selective pressures within the growing season could shape a number of species attributes. Species with earlier growth may produce cheaper tissues that can be more easily replaced if damaged \citep{Reich1999}. But later species would benefit from investing in tissues that infer greater resource retention \citep{Gorne2020}. These differences in traits, and trade-offs in allocation of resources to growth and tissue quality can be related to a broader framework of species growth strategies and functional traits \citep{Wolkovich2014}.
 \\
 
 In plants, several well studied traits have been identified as species-level proxies for varying growth strategies and responses to biotic interactions \citep{McGill2006}. These leaf and wood traits follow gradients in their trait values, having associations that range from acquisitive (fast) growth strategies to more conservative (slow) growth strategies \citep{Westoby1998,Westoby2006,Wright2004,Diaz2016}. Collectively, these trait relationships led to the development of the leaf economic spectrum and the wood economic spectrum \citep{Wright2004,Chave2009}. 
