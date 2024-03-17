@@ -370,7 +370,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (HMM; panel a) and a more traditional hierarchical mixed model (PMM; panel b).}
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}
