@@ -8,14 +8,15 @@
 \usepackage[utf8]{inputenc}
 \usepackage{lineno}
 \usepackage{xr-hyper} %refer to Fig.s in another document
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \externaldocument{PhenoPhylo_SuppMat}
 
 \def\labelitemi{--}
 \renewcommand{\baselinestretch}{1.2}
 \parindent=0pt
 \parskip=5pt
-
+\newcommand{\R}[1]{\label{}\linelabel{#1}}
+\newcommand{\lr}[1]{line~\lineref{#1}} % Not actually sure I needed this
 
 \title{Phylogenetic estimates of species-level phenology improve ecological forecasting}
 % alternative titles:
@@ -61,7 +62,7 @@ $^*$Corresponding author: ignacio.moralesc@uah.es\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Abstract
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\linenumbers
 \section*{Abstract} % 150 words currently
 Our ability to adapt to climate change requires accurate ecological forecasting of shifts in key ecosystem services, such as carbon storage and biodiversity maintenance. Current forecasts, however, have failed to capture important variability in biological responses, especially across species. \R{whatisyourpaper1}Here, we present a novel method using Bayesian hierarchical phylogenetic models to overcome this challenge and estimate species-level responses.  
 Combining our new method with phenological experiments manipulating temperature and daylength cues of woody species, we find species differences dwarfed the mean differences between cues, especially for temperature, suggesting the current focus on comparing across cues misses most variation. Further, our model provides insights on how evolutionary history has shaped responses to cues, suggesting stronger evolutionary dynamics in responses to temperature---especially cool winter temperatures---than daylength. Our \R{whatisyourpaper2}new approach provides a major advance in ecological forecasting, with implications for predicting the impacts of climate change and other anthropogenic forces on ecosystems.
@@ -79,7 +80,7 @@ Combining our new method with phenological experiments manipulating temperature 
 
 % Baby (ecological forecasting), warewolf (species diversity), silver bullet
 
-\linenumbers
+
 \section*{Introduction}
 The biological impacts of climate change will have major implications for ecosystem functioning and stability. With rising global temperatures many species have shifted their geographic distributions northward in space and recurring life-history events---their phenology---earlier in time \citep{IPCC:2014sm,parmesan2003}, against a background of high variability. These shifts have cascading consequences on many ecosystem services including carbon storage, making both mitigation and human adaptation to future warming dependent on accurate ecological forecasts \citep{richardson2013}. 
 % Carbon storage and thus, future climate change itself, depends on accurate forecasts of shifts in plant phenology. But forecasts to date have struggled to reproduce important non-linearities in responses, and the high variability observed in responses to date. 

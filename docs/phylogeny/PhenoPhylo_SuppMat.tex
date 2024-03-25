@@ -10,7 +10,7 @@
 \usepackage{longtable}
 \usepackage{caption}
 \usepackage{xr-hyper} %refer to Fig.s in another document
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \externaldocument{PhenoPhylo_ms} 
 \urlstyle{same}
 
@@ -116,6 +116,8 @@ As an additional test to compare our presented phylogenetic mixed model (PMM) ve
 \item To test the stability of model coefficients, we compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
 \end{enumerate} % EMWOct15: Difference between the last two steps is not clear ... is one about predicting held out response and one about slope stability? If so, say so. 
 
+Traditional cross-validation methods generally leave out a randomly selected proportion of the data (e.g., 20\% in 5-fold cross validation) assuming sampling is completely random (that is, that researchers gathering data would be equally likely to select each observation) and thus ignores potentially important structure in the data that may covary with sampling. In contrast, our method leverages phylogenetic structure, dropping out data in a way that may more accurately reflect differences across differently sampled data. Because of the presence of phylogenetic structure in ecological trait data and the tendency for such datasets to sample across taxa unevenly, we often omit sets of taxa (e.g., clades) sharing similar trait values across different natural sampling regimes. Our results show that the outcomes of this structured omission varies for each model. In HMM, excluding a well-sampled clade would tend to skew parameter estimates more (because it is likely to shift the grand mean towards which all species pool) than in PMM, where the partial pooling co-varies with phylogeny and thus species-level estimates are more stable. 
+
 Given the computational resources of leave-one-out  cross-validation, we used a version of the PMM and HMM models that only included an intercept and forcing response (slope). Our results showed that predicted responses by the PMM model were more correlated with the observed responses of held out species than predicted responses by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients when estimated by PMM compared to by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
 The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
 
@@ -139,7 +141,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
   %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
     %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begingroup\footnotesize
 \begin{longtable}{p{0.3\textwidth}p{0.15\textwidth}p{0.40\textwidth}}
 \caption{Species and references for data included in the phylogenetic model using Utah chill units.} \\ 
@@ -348,7 +350,7 @@ The algorithms and code to develop these analyses are available in GitHub \url{h
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -376,7 +378,7 @@ $\mu_{\alpha}$ & 30.63 & 3.41 & 23.94 & 30.66 & 37.26 & 12315.84 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics.} 
@@ -400,7 +402,7 @@ $\mu_{\alpha}$ & 31.79 & 1.28 & 29.29 & 31.77 & 34.35 & 13779.62 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begin{table}[ht]
 \centering
 \caption{Model parameters estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -428,7 +430,7 @@ $\mu_{\alpha}$ & 30.07 & 3.46 & 23.26 & 30.09 & 37.05 & 13454.54 & 1.00 \\
 \endgroup
 \end{table} \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begin{table}[ht]
 \centering
 \caption{Model parameters for non-phylogenetic model ($\lambda$ = 0) estimated for 191 tree species including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. This model uses Chill Portions instead of chilling Utah units.} 
@@ -456,7 +458,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the full model accounting for phylogenetic relationships.} \\ 
@@ -665,7 +667,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \end{longtable}
 \endgroup \clearpage \pagebreak 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrrrr}
 \caption{Estimated sensitivities of 191 tree species to three environmental cues: chilling ($\beta_{chill,j}$), forcing ($\beta_{force,j}$) and photoperiod ($\beta_{photo,j}$), along with their corresponding 2.5\% (low) and 97.5\% (up) uncertainty intervals (UI). Values correspond to the non phylogenetic model.} \\ 
@@ -875,7 +877,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \endgroup \clearpage \pagebreak 
 
 % latex table generated in R 4.0.4 by xtable 1.8-4 package
-% Mon Oct 16 00:35:47 2023
+% Sun Mar 24 22:47:09 2024
 \begingroup\footnotesize
 \begin{longtable}{lrrrrrrr}
 \caption{Model parameters estimated for 158 tree species not affected by polytomies in the phylogenetic tree, including mean, standard deviation (sd), 2.5\%, 50\%, and 97.5\% uncertainty intervals (z-scored model, thus predictors are directly comparable to one another), alongside model diagnostics. Note that most species from well-represented genera (e.g., Quercus, Fagus, Acer), are absent from this analysis.} \\ 
@@ -987,7 +989,7 @@ $\mu_{\alpha}$ & 31.32 & 1.25 & 28.82 & 31.32 & 33.77 & 13796.71 & 1.00 \\
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (PMM; panel a) and a more traditional hierarchical mixed model (HMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (HMM; panel a) and a more traditional hierarchical mixed model (PMM; panel b).}
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}

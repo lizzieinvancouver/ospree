@@ -10,7 +10,7 @@
 \usepackage{longtable}
 \usepackage{caption}
 \usepackage{xr-hyper} %refer to Fig.s in another document
-\usepackage{hyperref}
+%\usepackage{hyperref}
 \externaldocument{PhenoPhylo_ms} 
 \urlstyle{same}
 
