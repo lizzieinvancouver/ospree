@@ -11,11 +11,11 @@
 
 \opening{Dear Dr. Armarego-Marriot:} % EMW14Oct  -- I think you can address to the editor you've been corresponding with (but not critical). %IMC15OCT done
 
-\noindent Please consider our revised manuscript `Phylogenetic estimates of species-level phenology ecological forecasting' as an Article in \emph{Nature Climate Change}. This manuscript proposes a novel approach to incorporating phylogenetic relationships into models aimed at ecological forecasting. Results from our phenology-based case study demonstrate that this approach significantly enhances forecast accuracy.
+\noindent Please consider our revised manuscript `Phylogenetic estimates of species-level phenology improve ecological forecasting' as an Article in \emph{Nature Climate Change}. This manuscript proposes a novel approach to incorporating phylogenetic relationships into models aimed at ecological forecasting. Results from our phenology-based case study demonstrate that this approach significantly enhances forecast accuracy.
 
 
 \vspace{1.5ex}\\
-\noindent We have edited our manuscript to acknowledge more clearly how our approach is preferable to others, emphasizing the benefits of fitting a Bayesian phylogenetic mixed model (PMM), as requested by reviewer \#3. In response to reviewer \#3, we have also incorporated RMSE as an additional metric for evaluating prediction accuracy in our cross-validation analysis, with results reinforcing our previously submitted conclusions. Finally, we have made minor corrections (e.g., legend of Fig. S9) and small edits to the text to accommodate the manuscript to NCC format standards. We believe these changes both strengthen the manuscript and address the reviewer's concerns. 
+\noindent We have edited our manuscript to acknowledge more clearly how our approach is preferable to others, emphasizing the benefits of fitting a Bayesian phylogenetic mixed model (PMM), as requested by reviewer \#3. In response to reviewer \#3, we have also incorporated RMSE as an additional metric for evaluating prediction accuracy in our cross-validation analysis, with results reinforcing our previously submitted conclusions. Finally, we have made minor corrections (e.g., legend of Fig. S9) and small edits to the text to meet NCC format standards. We believe these changes both strengthen the manuscript and address the reviewer's concerns. 
 
 
 \vspace{1.5ex}\\
