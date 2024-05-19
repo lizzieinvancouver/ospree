@@ -52,6 +52,8 @@
 \SweaveOpts{concordance=FALSE}
 
 \renewcommand{\bibname}{References}%names reference list 
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 
 \section{Supplementary Material}
 
