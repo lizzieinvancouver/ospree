@@ -19,7 +19,7 @@
 
 
 \vspace{1.5ex}\\
-\noindent We detail our changes, point-by-point, in the following pages (note that reviewer comments are in \emph{italics}, while our responses are in regular text). The main text of our revised manuscript has 5,260 words including methods and legends, it has 54 references and contains 4 figures. This manuscript is not under consideration elsewhere.  We hope that you will find it suitable for publication in \emph{Nature Climate Change}, and look forward to hearing from you.
+\noindent We detail our changes, point-by-point, in the following pages (note that reviewer comments are in \emph{italics}, while our responses are in regular text). The main text of our revised manuscript has 5,060 words including methods, it has 54 references and contains 4 figures. This manuscript is not under consideration elsewhere.  We hope that you will find it suitable for publication in \emph{Nature Climate Change}, and look forward to hearing from you.
 \vspace{2.5ex}\\
 
 

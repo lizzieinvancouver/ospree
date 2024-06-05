@@ -12,7 +12,7 @@
 \usepackage{xr-hyper} %refer to Fig.s in another document
 %\usepackage{hyperref}
 \externaldocument{PhenoPhylo_ms} 
-\urlstyle{same}
+%\urlstyle{same}
 
 \def\labelitemi{--}
 \renewcommand{\baselinestretch}{1.2}
@@ -25,7 +25,7 @@
 \SweaveOpts{concordance=FALSE}
 %\bibliographystyle{..//..//refs/bibstyles/naturemag}% 
 
-\title{Supplementary Material\\
+\title{Supplementary Information\\
 Phylogenetic estimates of species-level phenology improve ecological forecasting}
 % alternative titles:
 %% An expanded bayesian phylogenetic mixed model to unravel the phenology-phylogeny tangle. %% this sounds too methodsy
