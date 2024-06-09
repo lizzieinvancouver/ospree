@@ -21,7 +21,7 @@
     # traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
     # traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
     # ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", stringsAsFactors = FALSE, header = TRUE)
-     posterior_sm <- rstan::extract(readRDS(file = "output/SeedMass_log10_stanfit_37spp_wp.RDS"))
+     posterior_sm <- rstan::extract(readRDS(file = "output/SeedMass_log10_stanfit_37spp.RDS"))
 #     posterior_smOld <- extract(readRDS(file = "output/SeedMass_log10_stanfit.RDS"))
 #     
 # }
@@ -73,10 +73,14 @@ betaTraitPhotoeff <- mean(posterior_sm$betaTraitxPhoto) # -0.6908688
 # betaTraitPhotoeff.26 <- mean(posterior_smOld$betaTraitxPhoto) #-0.6908688
 
 ## Species to plot and other plotting parameters
-plot.sp <- c("Alnus_incana", "Aesculus_hippocastanum") 
-col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
-col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
-col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
+plot.sp <- c("Alnus_incana", "Quercus robur") 
+# col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
+# col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
+# col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5),rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
+
+col.sp <- c("#8F2727","#487575")
+col2.sp <- c("#DCBCBC")
+col1.sp <- c("#6B8E8E")
 
 #pdf(file = "figures/results_seedmass_37spp_ac.pdf", width = 15, height = 5)
 ## Plotting
@@ -95,9 +99,9 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), m
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.2)
-axis(side = 1, at = seq(min(xrange), max(xrange), by = .5), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(round(min(ospreeBB$forceadj1),0), round(max(ospreeBB$forceadj1),0), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+     cex.lab = 1.5)
+axis(side = 1, at = seq(min(xrange), max(xrange), by = .5), tcl = -.5,  cex.axis = 1.25)
+axis(side = 2, at = seq(round(min(ospreeBB$forceadj1),0), round(max(ospreeBB$forceadj1),0), by = 20), tcl = -.5, las = 1,  cex.axis = 1.25)
 mtext(side = 3, text = "Seed Mass", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
@@ -146,9 +150,9 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$chilladj1), m
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.2)
-axis(side = 1, at = seq(min(xrange), max(xrange), by = 1), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(round(min(ospreeBB$chilladj1),0), round(max(ospreeBB$chilladj1)), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+     cex.lab = 1.5)
+axis(side = 1, at = seq(min(xrange), max(xrange), by = 1), tcl = -.5,  cex.axis = 1.25)
+axis(side = 2, at = seq(round(min(ospreeBB$chilladj1),0), round(max(ospreeBB$chilladj1)), by = 20), tcl = -.5, las = 1,  cex.axis = 1.25)
 mtext(side = 3, text = "Seed Mass", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
@@ -198,9 +202,9 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), m
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.2)
-axis(side = 1, at = seq(min(xrange), max(xrange), by = 0.5), tcl = -.5, cex.axis = 0.9)
-axis(side = 2, at = seq(round(min(ospreeBB$photoadj1),0), round(max(ospreeBB$photoadj1)), by = 20), tcl = -.5, las = 1, cex.axis = 0.9)
+     cex.lab = 1.5)
+axis(side = 1, at = seq(min(xrange), max(xrange), by = 0.5), tcl = -.5,  cex.axis = 1.25)
+axis(side = 2, at = seq(round(min(ospreeBB$photoadj1),0), round(max(ospreeBB$photoadj1)), by = 20), tcl = -.5, las = 1,  cex.axis = 1.25)
 mtext(side = 3, text = "Seed Mass", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
@@ -225,7 +229,7 @@ for(i in 1:length(plot.sp)){
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1)
 }
 legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
-                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),
+                              expression(paste("Conservative  (", italic("Quercus robur"), ")")),
                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
                               expression(paste("Full model", "  (50% interval)"))),
        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
