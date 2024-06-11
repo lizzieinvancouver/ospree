@@ -83,7 +83,7 @@ We used a phylogenetic generalized least-squares regression model (PGLS) to test
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp_concept.pdf} 
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
     \caption{Functional traits may contribute to the species responses to forcing, chilling, or photoperiod cues in several ways. a) If traits are contribute negatively to the timing of phenological events, we expect the phenological response to be stronger and budburst earlier with increasing cue values. b) But if traits have no effects on the timing of budburst then cue responses will be zero and equivalent to the cue only trends. c) Lastly, traits that have a positive contribution to the timing of phenological events produce weaker responses with later budburst dates. The effect of height on phenological cue responses was weaker in response to forcing cues, but stronger in response to both chilling and photoperiod. In contrast, seed mass has a negligible effect on forcing and photoperiod cue responses, but a greater response with chilling. Band represent the 50\% uncertainty intervals of the model estimates.}
     \label{fig:slopesSupp}
 \end{figure}
