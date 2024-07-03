@@ -57,7 +57,7 @@ source("results_LNC_plot.R")
 dev.off()
 
 
-pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 12)
+pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 8)
 par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
 #source("Rfiles/concept_fig.R")
 source("results_Height_plot.R")

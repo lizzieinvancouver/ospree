@@ -6,9 +6,13 @@
 
 #setwd("~/Documents/github/ospree/analyses/traits")
 
-col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9))
-col1.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2))
-col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
+# col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9))
+# col1.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2))
+# col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
+
+col.sp <- c("#1D4F4F","#8F2727")
+col1.sp <- c("#6B8E8E")
+col2.sp <- c("#DCBCBC")
 
 put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL, 
                            offset=c(0, 0), ...) {
@@ -141,6 +145,7 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
 #par(mfrow = c(1,3))
 ## Ok, if the above is correct, then yes the intercepts can vary
 #pdf("figures/conceptualFigure3.pdf", width = 12, height = 5)
+layout(matrix(c(1,4,7,2,5,8,3,6,9), nrow = 3, ncol = 3))
 
 alphaChillSp <- -2
 mu_grand_sp <- c(2,10)
@@ -181,15 +186,18 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
   
   betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
   yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
-  
-  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.2)
+ 
+  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.5, cex.axis = 1.25)
   my.label <- paste("a", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
+  u <- par("usr") # The coordinates of the plot area
+  rect(u[1], u[3], u[2], u[4], col="grey88", border=NA)
   
-  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3)
-  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
-  points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
-  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+  
+  points(chilli,yPhenoi, type = "l", col= col.sp[1], lwd = 3)
+  points(chilli,yPhenoiT0, type = "l", col= col1.sp, lwd = 3)
+  points(chilli,yPhenoiHi, type = "l", col= col.sp[2], lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= col2.sp, lwd = 3)
   
   legend("topright",legend = c(expression("Conservative (- betaTraitxCue)"),
                                expression("Conservative (trait effect = 0)"),
@@ -198,7 +206,7 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
          
          #col = c("black", "black", "black", "black"),
          #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
-         col = c("forestgreen", "palegreen3", "purple4", "mediumpurple1"),
+         col = c(col.sp[1],col1.sp,col.sp[2],col2.sp[1]),
          inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
   
 ## Now the slope is 0
@@ -220,15 +228,23 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
   betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
   yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
   
-  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.2)
+  plot(chilli,yPhenoi, type = "n", xlim = c(-11,17), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.5, cex.axis = 1.25)
   my.label <- paste("b", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
+  u <- par("usr") # The coordinates of the plot area
+  rect(u[1], u[3], u[2], u[4], col="grey88", border=NA)
   
-  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
-  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3)
-  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
-  points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
- 
+  
+  points(chilli,yPhenoiT0, type = "l", col= col.sp[1], lwd = 3)
+  points(chilli,yPhenoi, type = "l", col= col1.sp, lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= col.sp[2], lwd = 3)
+  points(chilli,yPhenoiHi, type = "l", col= col2.sp, lwd = 3)
+  
+  # points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
+  # points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3)
+  # points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+  # points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
+  # 
   legend("topright",legend = c(expression("Conservative (betaTraitxCue = 0)"),
                                expression("Conservative (trait effect = 0)"),
                                expression("Acquisitive (betaTraitxCue = 0)"),
@@ -236,7 +252,7 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
          
          #col = c("black", "black", "black", "black"),
          #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
-         col = c("forestgreen", "palegreen3", "purple4", "mediumpurple1"),
+         col = c(col.sp[1],col1.sp,col.sp[2],col2.sp[1]),
          inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
   
   ## Now the slope is +ve
@@ -261,14 +277,21 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
   betaChillSpT0Hi = alphaChillSp + betaTraitxChillT0 * mu_grand_sp[gm]
   yPhenoiT0Hi <- alphaPhenoSp[a] + betaForceSp * forcei + betaPhotoSp * photoi + betaChillSpT0 * chilli
   
-  plot(chilli,yPhenoi, type = "n", xlim = c(-10,10), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.2)
+  plot(chilli,yPhenoi, type = "n", xlim = c(-10,10), ylim =c(0, 100), ylab = "Day of budburst", xlab = "Standardized cue", cex.lab = 1.5, cex.axis = 1.25)
   my.label <- paste("c", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
+  u <- par("usr") # The coordinates of the plot area
+  rect(u[1], u[3], u[2], u[4], col="grey88", border=NA)
   
-  points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3, lty = 1)
-  points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
-  points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
-  points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
+  points(chilli,yPhenoi, type = "l", col= col.sp[1], lwd = 3)
+  points(chilli,yPhenoiT0, type = "l", col= col1.sp, lwd = 3)
+  points(chilli,yPhenoiHi, type = "l", col= col.sp[2], lwd = 3)
+  points(chilli,yPhenoiT0Hi, type = "l", col= col2.sp, lwd = 3)
+  # 
+  # points(chilli,yPhenoi, type = "l", col= "purple4", lwd = 3, lty = 1)
+  # points(chilli,yPhenoiT0, type = "l", col= "mediumpurple1", lwd = 3)
+  # points(chilli,yPhenoiHi, type = "l", col= "forestgreen", lwd = 3)
+  # points(chilli,yPhenoiT0Hi, type = "l", col= "palegreen3", lwd = 3)
   
   legend("topright",legend = c(expression("Conservative (+ betaTraitxCue)"),
                                expression("Conservative (trait effect = 0)"),
@@ -277,7 +300,25 @@ betaTraitxChill <- c(-0.45, -0.85, 0, 0.45, 0.85)
          
          #col = c("black", "black", "black", "black"),
          #pt.bg = c("#042333ff","#cc6a70ff","#593d9cff","#f9b641ff","#13306dff","#efe350ff","#eb8055ff"),
-         col = c("forestgreen", "palegreen3", "purple4", "mediumpurple1"),
+         col = c(col.sp[1],col1.sp,col.sp[2],col2.sp[1]),
          inset = 0.02, lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 1, bty = "n")
+
 #dev.off()
   
+#   x <- seq(1,100, 5)
+#   y <- seq(1,100, 5)
+#   
+#   pdf("defenceConcept.pdf", width = 8 , height = 7)
+#   plot(x,y, type = "n", xlim = c(0,15), ylim =c(-30, 5), ylab = "Species-level cue slope", xlab = "Trait value", cex.lab = 1.8, xaxt = "n", yaxt = "n")
+#   
+#   abline(a= -5, b = -0.8, col = "cyan4", lwd =5)
+#   abline(a= -12, b = -0.8, col = "goldenrod", lwd =5)
+#   abline(a= -17, b = -0.8, col = "#CC6677", lwd =5)
+#   
+#   legend("topright",legend = c(expression("Chilling"),
+#                             expression("Forcing"),
+#                             expression("Photoperiod")),
+#          col = c("#CC6677", "goldenrod","cyan4"), lty = c(1,1,1,1), lwd = c(5,5,5,5), cex = 2, bty = "n")
+# dev.off()
+                              
+         

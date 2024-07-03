@@ -68,9 +68,11 @@ plot.sp <- c( "Quercus_robur", "Alnus_incana")
 # col1.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2))
 # col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
 
-col.sp <- c("#487575","#8F2727")
-col1.sp <- c("#DCBCBC")
-col2.sp <- c("#6B8E8E")
+ par(bg = "white")
+ col.sp <- c("#6B8E8E","#DCBCBC")
+ col1.sp <- c( "#1D4F4F", "#8F2727")
+ col.pt <- c("#1D4F4F", "#8F2727")
+
 # c_light <- c("#DCBCBC")
 # c_light_highlight <- c("#C79999")
 # c_mid <- c("#B97C7C")
@@ -104,6 +106,7 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), m
 axis(side = 1, at = seq(min(xrange), max(xrange), by = .5), tcl = -.5, cex.axis = 1.25)
 axis(side = 2, at = seq(round(min(ospreeBB$forceadj1),0), round(max(ospreeBB$forceadj1),0), by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
 mtext(side = 3, text = "SLA", adj = 0, cex = 1.2)
+
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -115,8 +118,9 @@ for(i in 1:length(plot.sp)){
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
-    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
+    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col.sp[i], border = NA)
 }
+
 for(i in 1:length(plot.sp)){
     ospree.temp <- subset(ospreeData, ospreeData$speciesname == plot.sp[i])
     ## Add adjusted columns
@@ -124,7 +128,7 @@ for(i in 1:length(plot.sp)){
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$forceadj1[j] = ospree.temp$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
     }
-    points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1.25)
+    points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.25)
 }
 my.label <- paste("d", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -167,7 +171,7 @@ for(i in 1:length(plot.sp)){
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
-    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
+    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col.sp[i], border = NA)
 }
 for(i in 1:length(plot.sp)){
     ospree.temp <- subset(ospreeData, ospreeData$speciesname == plot.sp[i])
@@ -176,7 +180,7 @@ for(i in 1:length(plot.sp)){
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
     }
-    points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1.25)
+    points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.25)
 }
 my.label <- paste("e", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -220,7 +224,7 @@ for(i in 1:length(plot.sp)){
     temp1.hdr <- apply(stor1, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     temp2.hdr <- apply(stor2, MARGIN = 2, FUN = function(X) hdrcde::hdr(X, prob = c(50))$hdr[1, ])
     polygon(x = c(xrange, rev(xrange)), y = c(temp1.hdr[1, ], rev(temp1.hdr[2, ])), col = col1.sp[i], border = NA)
-    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col2.sp[i], border = NA)
+    polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = col.sp[i], border = NA)
 }
 for(i in 1:length(plot.sp)){
         ospree.temp <- subset(ospreeData, ospreeData$speciesname == plot.sp[i])
@@ -229,7 +233,7 @@ for(i in 1:length(plot.sp)){
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j]
     }
-    points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.sp[i], cex = 1.25)
+    points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.25)
 }
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
 #                               expression(paste("Conservative  (", italic("Quercus robur"), ")")),
