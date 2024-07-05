@@ -1,6 +1,8 @@
 ####### Started 8 June 2020 ##
 ## By Lizzie ##
 #### First plots of the Europe species cliamte and range and cue relationship by Dan June 8 2020.
+###updating by Dan March 28 2024 (wow)
+
 # housekeeping
 rm(list=ls())
 options(stringsAsFactors = FALSE)
@@ -25,11 +27,97 @@ if(length(grep("Lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
-load("cheap.mods.Rda")
+#load("cheap.mods.Rda")
 posties<-read.csv("output/cue_posteriors.csv") ##read in both data
-rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinalchill.csv")
-rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho_chill.csv")
+####read in data files
+rangiesEu<-read.csv("output/Synthesis_climate_EUsps_STVfinalchill.csv") ### updated STV
+rangiesNa<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho_chill.csv") ## updated stv
 
+NAnames<-read.csv("output/Synthesis_climate_NAMsps_STVfinal_nacho.csv")
+
+species<-rep(unique(NAnames$species),each=7)
+rangiesNa$species<-species
+colnames(rangiesNa)
+colnames(rangiesEu)
+rangiesNa<-rangiesNa[,c(1,2,3,4,5,7,6)]
+rangiesEu$continent<-"Europe"
+rangiesEu<-dplyr::select(rangiesEu,-X)
+rangiesNa$continent<-"N. America"
+rangiesNa<-dplyr::select(rangiesNa,-X)
+
+rangies<-rbind(rangiesEu,rangiesNa)
+
+###GDD2LF
+ggdlf<-filter(rangies,variable=="GDD.lastfrost")
+#ggdlf<-dplyr::select(ggdlf,species,Temp.SD,continent)
+colnames(ggdlf)[5]<-"complex.wname"
+
+
+##STV
+#STV<-filter(rangies,variable=="MeanTmins")
+#STV<-dplyr::select(STV,species,Temp.SD,continent)
+#colnames(STV)[c(1,2)]<-c("complex.wname","STV")
+
+##MeanForcing
+GDD<-filter(rangies,variable=="GDD")
+#GDD<-dplyr::select(GDD,species,Geo.Mean,continent)
+colnames(GDD)[c(1,2,3,4)]<-c("Temp.Mean.GDD","Temp.SD.GDD","Geo.Mean.GDD","Geo.SD.GDD")
+colnames(GDD)[5]<-"complex.wname"
+#CP<-filter(rangies,variable=="Mean.Chill.Portions")
+#CP<-dplyr::select(CP,species,Geo.Mean,continent)
+#colnames(CP)[c(1,2)]<-c("complex.wname","ChP")
+
+GDD<-select(GDD,-variable)
+
+#ggdlf<-left_join(ggdlf,STV)
+ggdlf<-left_join(ggdlf,GDD)
+#ggdlf<-dplyr::left_join(ggdlf,CP)
+
+#head(ggdlf)
+
+
+
+#bb.stan<-filter(bb.stan,complex.wname!="Ulmus_minor")
+###need to recode all North America species names to match format of bb.stan
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betulent")]<- "Betula_lenta"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="popugran")]<- "Populus_grandidentata"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="querrubr")]<- "Quercus_rubra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acerpens")]<- "Acer_pensylvanicum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betupapy")]<- "Betula_papyrifera"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="fraxnigr")]<- "Fraxinus_nigra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="alnurubr")]<- "Alnus_rubra"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="pseumenz")]<- "Pseudotsuga_menziesii"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="prunpens")]<- "Prunus_pensylvanica"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="betualle")]<- "Betula_alleghaniensis"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acersacr")]<- "Acer_saccharum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="acerrubr")]<- "Acer_rubrum"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="corycorn")]<- "Corylus_cornuta"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="piceglau")]<- "Picea_glauca"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="fagugran")]<- "Fagus_grandifolia"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="robipseu")]<- "Robinia_pseudoacacia"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="poputrem")]<- "Populus_tremuloides"
+ggdlf$complex.wname[which(ggdlf$complex.wname=="alnurugo")]<- "Alnus_incana"
+
+posties$complex.wname<-posties$latbi
+unique(posties$complex.wname)
+
+posto<-left_join(posties,ggdlf)
+
+ggplot(posto,aes(Temp.SD,b_force))+stat_summary()+geom_smooth(method="lm")+facet_wrap(~continent)
+ggplot(posto,aes(Geo.SD,b_force))+stat_summary()+geom_smooth(method="lm")+facet_wrap(~continent,scales="free")
+
+goo<-posto %>% dplyr::group_by(complex.wname,continent,Temp.SD) %>%dplyr::summarise(meanchill=mean(b_chill),sdchill=sd(b_chill),
+                                                              meanforce=mean(b_force),sdforce=sd(b_force),
+                                                              meanphoto=mean(b_photo),sdphoto=sd(b_photo))
+goo.e<-filter(goo,continent=="Europe")
+goo.a<-filter(goo,continent!="Europe")
+mod.alt.c<-brm(meanchill|mi(sdchill)~Temp.SD,data=goo.e)
+mod.alt.ca<-brm(meanchill|mi(sdchill)~Temp.SD,data=goo.a)
+conditional_effects(mod.alt.ca)
+
+
+
+stop("below is old")
 #area<-read.csv("output/rangeareas.csv")
 #head(rangiesNa,14)
 ##clean North America names

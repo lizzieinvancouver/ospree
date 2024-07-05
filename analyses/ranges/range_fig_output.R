@@ -9,7 +9,7 @@ graphics.off()
 library(shinystan)
 library(reshape2)
 library(rstan)
-library(rstanarm)
+#library(rstanarm)
 library(dplyr)
 library(ggplot2)
 library(shinystan)
@@ -341,8 +341,8 @@ alphasggdf.eu$trait<-"alphas"
 betasggdf.eu$trait<-"betas"
 
 eurocomp<-rbind(betasggdf.eu,alphasggdf.eu)
-plot.e<-ggplot(eurocomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
-plot.a<-ggplot(namcomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname),)
+plot.e<-ggplot(eurocomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname))+geom_smooth(aes(color=trait),method="lm",level=.5)
+plot.a<-ggplot(namcomp,aes(Temp.SD,mean))+geom_point(aes(shape=trait))+facet_wrap(~cue)+geom_line(aes(group=complex.wname))+geom_smooth(aes(color=trait),method="lm",level=.5)
 
 jpeg("figures/alpha_beta_comps.jpeg", width = 10,height=12,units = "in", res=300)
 ggpubr::ggarrange(plot.e,plot.a,nrow=2,labels = c("EU","NA"))
