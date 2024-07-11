@@ -1,0 +1,215 @@
+\documentclass{article}
+%\documentclass[11pt]{article}
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{natbib}
+\usepackage{pdflscape}
+\usepackage{array}
+\usepackage{authblk}
+\usepackage{textcomp, gensymb}
+\usepackage{amsmath}
+%\usepackage[backend=bibtex]{biblatex}
+\usepackage[small]{caption}
+
+%\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+
+\setkeys{Gin}{width=0.8\textwidth}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{10pt}
+\setlength{\belowcaptionskip}{10pt}
+
+ \topmargin -1.5cm 
+ \oddsidemargin -0.04cm 
+ \evensidemargin -0.04cm 
+ \textwidth 16.59cm
+ \textheight 21.94cm 
+ \parskip 7.2pt 
+
+\renewcommand{\baselinestretch}{1.1}
+\parindent 0pt
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage{xr-hyper} %refer to Fig.s in another document
+%\usepackage{xr}
+%\usepackage{hyperref}
+
+\externaldocument{PhenoPhylo_SuppMat_submit}
+\externaldocument{PhenoPhylo_ExtDat}
+
+%\def\labelitemi{--}
+%\parskip=5pt
+%\newcommand{\R}[1]{\label{}\linelabel{#1}}
+%\newcommand{\lr}[1]{line~\lineref{#1}} 
+
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\bibliographystyle{naturemag}% 
+
+
+%\section*{Title} 
+\title{Phylogenetic estimates of species-level phenology improve ecological forecasting}
+
+\maketitle
+
+
+%\author{}
+
+\section*{Author list} 
+%\noindent Authors:\\
+Ignacio Morales-Castilla,$^{1}*$ T. J. Davies,$^{2,3}$ Geoffrey Legault,$^{3}$ D. M. Buonaiuto,$^{4,5,6}$ Catherine J. Chamberlain,$^{4,5,7}$ Ailene K. Ettinger,$^{5,8}$ Mira Garner,$^{3}$ Faith A. M. Jones,$^{3,10}$ Deirdre Loughnan,$^{3}$ William D. Pearse,$^{11}$ Darwin S. Sodhi$^{3}$ \& E. M. Wolkovich$^{3,4,5}$  \vspace{2ex}\\
+
+\section*{Affiliations} 
+%\emph{Author affiliations:}\\
+$^{1}$GloCEE - Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)
+ $^{2}$Botany, Faculty of Sciences, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{3}$Forest \& Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall, Vancouver, BC V6T 1Z4, Canada\\
+$^{4}$Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA\\
+$^{5}$Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA\\
+$^{6}$Department of Environmental Conservation, University of Massachusetts-Amherst, 160 Holdsworth Way, Amherst, MA, USA\\  % 01003
+ $^{7}$The Nature Conservancy, 334 Blackwell St Ste 300, Durham, NC, USA \\ %27701
+$^{8}$The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ % 98121
+$^{10}$Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umea, Sweden\\ % Faith
+$^{11}$Department of Life Sciences, Imperial College London, Silwood Park, Ascot, Berkshire, SL5 7PY, UK\\
+
+\vspace{2ex}
+$^*$Corresponding author: Ignacio Morales-Castilla; e-mail: ignacio.moralesc@uah.es\\
+
+
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\labelitemi}{$-$}
+
+\clearpage
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Abstract
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\linenumbers
+\section*{Abstract} % edited version proposed by editors
+The ability to adapt to climate change requires accurate ecological forecasting. Current forecasts, however, have failed to capture important variability in biological responses, especially across species. Here, we present a novel method using Bayesian hierarchical phylogenetic models to overcome this challenge and estimate species-level responses. We apply our method to phenological experiments manipulating temperature and daylength and show species differences are larger than the average differences between cues. We illustrate how a focus on certain clades can bias prediction, but that predictions may be improved by integrating information on phylogeny. Our model demonstrates an underlying phylogenetic structure in plant phenological responses to temperature cues, whereas responses to photoperiod appear weaker, more uniform across species, and less phylogenetically constrained. Our approach provides an advance in ecological forecasting, with implications for predicting the impacts of climate change and other anthropogenic forces on ecosystems.
+
+\clearpage
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Longer Methods and Materials
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\clearpage
+\section*{Methods} 
+\iffalse
+Chunks to maybe work in... 
+\begin{itemize}
+\item Common phylogenetic regression accounts for phylogenetic relationships as a grouping factor either explicitly (PMM) or implicitly (PGLS). Here we present one possible approach that accounts for more complex interactions going on among predictors, which would be reflected in the species-level slopes being allowed to vary as a function of the phylogeny, rather than keeping slopes constant and only allowing the intercepts (or residuals) to vary. 
+\item In a first attempt at establishing whether or not it is important, we compare results from a common hierarchical model with partial pooling on the slopes that does not allow for phylogenetic constraints to affect slope estimates against results from a phylogenetic hierarchical model allowing phylogeny to constrain partially pooled slopes. 
+\end{itemize}
+\fi
+\subsection*{Phenological and Phylogenetic Data}
+% See _README_paperresearchmethods.txt
+\emph{Phenological data:} To estimate phenological responses to chilling, forcing and photoperiod we used data from phenological experiments in controlled environments of temperate woody species, brought together in the Observed Spring Phenology Responses in Experimental Environments (OSPREE) database. In July 2019, we updated an earlier version of this database \citep{wolkovich2019} by reviewing all papers found through searching ISI Web of Science and Google Scholar with the following terms: 
+\begin{enumerate}
+\item TOPIC = (budburst OR leaf-out) AND (photoperiod OR daylength) AND temperature*, which yielded 623 publications
+\item TOPIC = (budburst OR leaf-out) AND dorman*, which yielded 270 publications
+\end{enumerate}
+We scraped data from all papers of woody species that tested for photoperiod and/or temperature effects on budburst, leafout, or flowering, resulting in data from 155 experiments across 97 papers in the updated database. \citet{ettinger2020}, which used a portion (72 experiments across 49 papers) of the earlier OSPREE database, provides extensive methods on  database creation and cleaning.
+
+We focused on angiosperms (as gymnosperms are very poorly represented in spring phenology experiments), and included all budburst experiments where we could quantify chilling, forcing and photoperiod levels, resulting in 44 studies from 33 papers, and 2940 data points. 
+In our dataset most studies come from Europe ($n$=37) and a few from North America ($n$=7). The same bias towards Europe is found across the full OSPREE dataset with less North American ($n$=19) than European ($n$=60) studies and only 3 studies located in the Southern Hemisphere. Given our need of daily gridded data for estimating chilling we only include studies from Europe and North America (see Fig. \ref{fig:mapstudylocations}). Our final dataset is both geographically and taxonomically limited, mirroring the existing literature on phenological experiments and highlighting a critical need to expand this literature. 
+
+Across experiments chilling treatments were often fully or partially applied in the field, thus we estimated chilling---both in the field and applied in controlled environments---using Utah units with the \verb|chillR| package. We estimated field chilling from 1 September to the date given for when samples were taken from the field using daily temperature data (converted to hourly) from both European \citep[E-OBS, version 16, calculating the average of minimum and maximum daily temps,][]{cornes2018} and North American \citep[v3,][]{princetonclimate} gridded climate datasets. We also converted experimental chilling into Utah chill units, based on reported treatments (for studies with a mix of field and experimental treatments, we added field and experimentally applied Utah units). To avoid numerical instability in our models (from having predictor values on very different scales), we divided Utah units by 240 (roughly equivalent to 10 days of average chilling). 
+
+
+We report the Utah model because a small number of studies reported chilling only in Utah units, thus using this common metric allowed us to include the most data. The Utah model relies on the assumption that temperatures between 1.4 and 15.9\degree C affect endodormancy release differently, though recent findings show possibly similar effects for a wide range of temperatures \citep[-2 to 10\degree C, see][]{baum2021}. Because chilling is a latent process an accurate model of it, especially for the 191 species in our dataset, is not currently possible \citep{ettinger2020}. We found consistent results, however, using another common model of chilling---chill portions, suggesting our results are robust to the exact chilling metric used (see Tables \ref{tab:modelanglambchillports} and \ref{tab:modlamb0chillports} in Supplementary Information).  
+
+
+Forcing and photoperiod treatments occurred after chilling treatments; we report photoperiod as the length of light and weighted these treatments by the reported photo- and thermo-periodicity \citep{buonaiuto2023experimental}. Most studies reported two temperatures per day across the whole experiment, one for day and night, but some had ramped temperatures and/or photoperiods (or other complexities). In these cases we built an hourly model of the full treatment period until budburst and took the mean value. % 
+For a phylogenetic tree, we pruned the megatree for seed plants \citep{smith2018constructing} to extract the sub-tree containing only the species present in the OSPREE dataset, species not included in the megatree were added to the congeneric basal node age \citep[using the function `congeneric.merge' in][]{pearse2015pez}, and assigned branch lengths to maintain tree ultrametricity. This addition of species to the tree can introduce poltyomies (multifurcations) when many species are added to the same ancestral node, as was the case for \emph{Acer}, for which several species where included in the OSPREE dataset but the megatree lacked species-level resolution within the genus. In total, our pruned tree had 8 polytomies affecting 46 out of 191 species. Our Bayesian hierarchical model, described below, is informed by the phylogenetic structure describing species evolutionary relationships. Errors in phylogenetic topology and branching times could thus impact model estimates, although if errors were large the contribution of phylogeny would simply be scaled to zero. To assess whether the inclusion of polytomies in our data biased model estimates, we ran sensitivity analyses excluding these species from models (see Table \ref{tab:modelnopolyt} in Supplementary Information). Our approach assumes a tree where branch lengths represent time, but it could be possible to change this assumption. For example, if the genes underlying plant responses to particular cues were known, branch lengths would directly represent mutational changes along gene sequences. In the absence of such detailed gene specific data, evolutionary time provides a useful proxy for species differences.\\ 
+
+
+\subsection*{Bayesian hierarchical phylogenetic model}
+Commonly used phylogenetic regression methods today (e.g., phylogenetic generalized least squares models, PGLS, \cite{freckleton2002phylogenetic}; phylogenetic mixed models, PMM, \cite{housworth2004phylogenetic}) were originally conceived as statistical corrections for phylogenetic non-independence across observations---generally species---thus allowing multi-species studies to meet the assumptions of linear regression \citep{freckleton2002phylogenetic}. These corrections incorporated phylogenetic structure by estimating the magnitude of a transformation of a variance-covariance (VCV) matrix whose elements were derived from the amount of evolutionary history (branch lengths) shared between species on a phylogeny. The most commonly used transformation was Pagel's $\lambda$---a multiplier of the off-diagonal elements---where estimates of $\lambda = 1$ essentially left the VCV untransformed and suggested that the residuals of the regression had phylogenetic signal consistent with Brownian motion; estimates of $\lambda = 0$ suggested no phylogenetic signal. 
+Because the original aim of these methods was to correct for statistical bias introduced by shared evolutionary history among species, the underlying assumption of phylogenetic regressions is that phylogenetic relatedness would only affect either model residuals \citep[in PGLS approaches,][]{freckleton2002phylogenetic} or model intercepts \citep[e.g., in many PMM approaches,][]{housworth2004phylogenetic}.
+
+Because our aim is to understand how evolution may have imprinted biological responses to multiple interactive cues, our approach expands the above methods by explicitly incorporating phylogenetic structure across model intercepts and slopes. Doing so allows explicitly estimating the amount of phylogenetic relatedness in species sensitivities to each cue, when these sensitivities are modelled in a multi-predictor regression setting.  
+
+For each observation $i$ of species $j$, we assumed that the timing of phenological events were generated from the following sampling distribution:
+
+\begin{align}
+  \label{modely}
+  y_{i,j} \sim \mathcal{N}(\mu_j, \sigma_e^2)
+\end{align}
+where
+\begin{align}
+  \label{modelmu}
+  \mu_j = \alpha_j + \beta_{chill,j} X_{chill} + \beta_{force,j} X_{force} + \beta_{photo,j} X_{photo}
+\end{align}
+and $\sigma_e^2$ represents random error unrelated to the phylogeny. 
+
+Predictors $X_{chill}$, $X_{force}$, $X_{photo}$ are standardized chilling, forcing, and photoperiod, and their effects on the phenology of species $j$ are determined by parameters $\beta_{chill,j}$, $\beta_{force,j}$, $\beta_{photo,j}$, representing species responses (or sensitivities) to each of the cues. These responses, including the species-specific intercept $\alpha_j$, are elements of the following normal random vectors:
+
+\begin{align}
+    \label{phybetas}
+  \boldsymbol{\alpha} = [\alpha_1, \ldots, \alpha_n]^T & \text{ such that }
+  \boldsymbol{\alpha} \sim \mathcal{N}(\mu_{\alpha},\boldsymbol{\Sigma_{\alpha}}) \\
+  \boldsymbol{\beta_{chill}} =  [\beta_{chill,1}, \ldots, \beta_{chill,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{chill}} \sim \mathcal{N}(\mu_{\beta_{chill}},\boldsymbol{\Sigma_{\beta_{chill}}}) \nonumber \\
+  \boldsymbol{\beta_{force}} =  [\beta_{force,1}, \ldots, \beta_{force,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{force}} \sim \mathcal{N}(\mu_{\beta_{force}},\boldsymbol{\Sigma_{\beta_{force}}}) \nonumber \\
+  \boldsymbol{\beta_{photo}} =  [\beta_{photo,1}, \ldots, \beta_{photo,n}]^T & \text{ such that }
+  \boldsymbol{\beta_{photo}} \sim \mathcal{N}(\mu_{\beta_{photo}},\boldsymbol{\Sigma_{\beta_{photo}}}) \nonumber
+\end{align}
+
+\noindent where the means of the multivariate normal distributions are root trait values (i.e., values of cue responses prior to evolving across a phylogenetic tree) and $\boldsymbol{\Sigma_i}$ are $n \times n$ phylogenetic variance-covariance matrices of the form: \\ 
+\begin{align}
+  \label{phymat}
+\begin{bmatrix}
+  \sigma^2_i & \lambda_i \times \sigma_{i} \times \rho_{12} & \ldots & \lambda_i \times \sigma_{i} \times \rho_{1n} \\
+  \lambda_i \times \sigma_i \times \rho_{21} & \sigma^2_i & \ldots & \lambda_i \times \sigma_{i} \times \rho_{2n} \\
+  \vdots & \vdots & \ddots & \vdots \\
+  \lambda_i \times \sigma_i \times \rho_{n1} & \lambda_i \times \sigma_i \times \rho_{n2} & \ldots & \sigma^2_i \\
+\end{bmatrix}
+\end{align}
+
+\noindent where $\sigma_i^2$ is the rate of evolution across a tree for a given trait or predictor (here assumed to be constant along all branches), $\lambda_i$ scales branch lengths and therefore is a measure of the phylogenetic signal or extent of phylogenetic relatedness on each model parameter (i.e., $\alpha_{j}$, $\beta_{force,j}$, $\beta_{force,j}$, $\beta_{photo,j}$), and $\rho_{xy}$ is the phylogenetic correlation between species $x$ and $y$, or the fraction of the tree shared by the two species.
+
+The above specification is equivalent to writing equation \ref{modelmu} in terms of root trait values and residuals, such that:
+
+\begin{align}
+  \label{eqfive}
+  \mu_j = \mu_\alpha + \mu_{\beta_{chill}} X_{chill} + \mu_{\beta_{force}} X_{force} + \mu_{\beta_{photo}} X_{photo} + e_{\alpha_{j}} + e_{\beta_{force,j}} + e_{\beta_{chill,j}} + e_{\beta_{photo,j}}
+\end{align}
+
+\noindent where the residual phylogenetic error terms (e.g., $e_{\alpha_{j}}$) are elements of normal random vectors from multivariate normal distributions centered on $0$ with the same phylogenetic variance-covariance matrices as in equation \ref{phymat}. Model code, including priors used here, are given in the supplement. We fit all models to our data using \verb|RStan| using 4 chains of 4,000 iterations with a warmup of 2,000 each (resulting 8,000 posterior samples), and assessed fit via $\hat{R}$ near 1 and adequate effective sample sizes (see Tables \ref{tab:modelanglamb}-\ref{tab:modlamb0}). 
+
+To assess if the phylogenetic mixed model (PMM) presents any advantages with respect commonly used hierarchical mixed models \citep[HMM; see e.g., ][]{ettinger2020}, beyond fitting evolutionary parameters to model predictors, we compare results of PMM and HMM. HMM is a simplified version of PMM where off-diagonal elements of the variance-covariance phylogenetic matrices are multiplied by zero ($\lambda$ = 0). Both models account for differences in sample sizes and variances for each species, by partially pooling across all data while a the same time providing species-level estimates; however the PMM will pool more strongly to closely-related species when $\lambda$ is high. Additional grouping factors beyond species could be added to these models. For example, similar approaches can be used to estimate study or location effects.
+
+
+\section*{References} 
+\bibliography{phylorefs}
+\bibliographystyle{naturemag}
+
+\clearpage
+\section*{Methods-only references} 
+%\bibliography{phylorefs_methods}
+%\bibliographystyle{amnat}
+
+%\begin{thebibliography}{10}
+%\setcounter{NAT@ctr}{\value{firstbib}}
+
+
+
+
+
+
+
+\end{document}

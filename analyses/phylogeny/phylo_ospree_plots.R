@@ -1037,7 +1037,7 @@ dev.off()
 mean(extract(fitlambest)[["lam_interceptsa"]],na.rm = T)
 
 if(agiosponly){
-  par(mfrow=c(1,3))
+  par(mfrow=c(1,2))
   plot(x=NULL,y=NULL, xlim=c(0,1), ylim=c(0,3),ylab="density",
        xlab="lambda", main="")
   
@@ -1155,6 +1155,19 @@ if(!agiosponly){
   
   
 }
+
+
+phylosigDF <- data.frame(
+lambda.forcing = extract(fitlambest)[["lam_interceptsbf"]], 
+lambda.chilling = extract(fitlambest)[["lam_interceptsbc"]], 
+lambda.photo = extract(fitlambest)[["lam_interceptsbp"]], 
+sigma.forcing = extract(fitlambest)[["sigma_interceptsbf"]],
+sigma.chilling = extract(fitlambest)[["sigma_interceptsbc"]], 
+sigma.photo = extract(fitlambest)[["sigma_interceptsbp"]]
+)
+
+write.csv(phylosigDF, file = "output/Source_Fig2_PosteriorPhyloParmeters.csv")
+
 
 ## Leave Clade Out - R2s ----
 

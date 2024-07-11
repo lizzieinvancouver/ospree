@@ -317,7 +317,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_ phylo_muplots191_lamb0.pdf}
-  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The same phylogenetic tree is shown in each panel, colored according to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown along with 50\% uncertainty Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
+  \caption{Non-phylogenetic phenological sensitivity to three environmental cues, chilling (a), forcing (b) and photoperiod (c) measured in change in days to budburst per standardized unit (z-transformation) of the cues across 191 tree species. Sensitivity estimates are computed by commonly used hierarchical model where phylogenetic distances are not accounted for ($\lambda$ = 0). The database used to fit the model comprised 44 studies, 191 species and 2940 observations. The same phylogenetic tree is shown in each panel, colored according to an estimation of ancestral character states, being the states at the tips the species' sensitivities to a cue. Species sensitivities are shown as mean values $+/-$ 50\% uncertainty Intervals in the diagrams. Note that the color scale varies in each panel. Total tree depth is 81. My.}
   \label{fig:suppmuplot_all} 
   \end{center}
 \end{figure}
@@ -326,7 +326,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSX_Sindromes_lamb_lamb0.pdf}
-  \caption{Correlations among estimated sensitivities to the environmental cues comparing forcing vs. chilling (a,d), forcing vs. photoperiod (b,e) and chilling vs. photoperiod (c,f). Upper panels show correlations among estimated sensitivities by the phylogenetic model and lower panels show results for the non-phylogenetic model.}
+  \caption{Correlations among estimated sensitivities to the environmental cues comparing forcing vs. chilling (a,d), forcing vs. photoperiod (b,e) and chilling vs. photoperiod (c,f). Upper panels show correlations among estimated sensitivities by the phylogenetic model and lower panels show results for the non-phylogenetic model. The database used to fit both models comprised 44 studies, 191 species and 2940 observations.}
   \label{fig:suppcorrelsens}
   \end{center}
 \end{figure}
@@ -335,7 +335,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXX_cue_uncert_lambest0.pdf}
-  \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (PMM), and the non-phylogenetic model with $\lambda$ = 0 (HMM). The non-phylogenetic model increases uncertainty.}
+  \caption{Comparison of uncertainty around estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) of individual species between the phylogenetic model with estimated $\lambda$ (PMM), and the non-phylogenetic model with $\lambda$ = 0 (HMM). The non-phylogenetic model increases uncertainty. Box plots are calculated for $n = 191$ uncertaity measures corresponding to each species in our dataset. Box upper and lower limits represent the first and third quartiles (25th and 75th percentiles, respectively), the median is represented as the horizontal line internal to the box and whiskers reach 1.5 times the interquartile range.}
   \label{fig:suppuncertainties}
   \end{center}
 \end{figure}
@@ -344,7 +344,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/Boxplot_bayesR2.pdf}
-  \caption{Comparison of overall model accuracy as measured by Bayes \emph{R2} for the phylogenetic model (PMM) and the non-phylogenetic model (HMM). There are no differences in accuracy even if individual species estimates markedly differ between models.}
+  \caption{Comparison of overall model accuracy as measured by Bayes \emph{R^2} for the phylogenetic model (PMM) and the non-phylogenetic model (HMM). There are no differences in accuracy even if individual species estimates markedly differ between models. Bayes \emph{R^2} was computed across the posterior distributions of predicted values for each model ($n = 636$ for PMM and $n = 649$ for HMM). Box upper and lower limits represent the first and third quartiles (25th and 75th percentiles, respectively), the median is represented as the horizontal line internal to the box and whiskers reach 1.5 times the interquartile range.}
   \label{fig:accuracycomp}
   \end{center}
 \end{figure}
@@ -372,7 +372,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSXXX_LOCO_observed_vs_predicted}
-  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the new phylogenetic mixed model we present (HMM; panel a) and a more traditional hierarchical mixed model (PMM; panel b).}
+  \caption{Comparison of observed vs. predicted values of our response variable (number of days to budburst) for held out species in our cross-validation analyses, as modelled by the more traditional hierarchical mixed model(HMM; panel a) and the new phylogenetic mixed model we present (PMM; panel b). Observed and predicted values according the Leave-One-Clade-Out scheme were for the 2435 observations belonging to the 112 species in the 25 genera with more records. }
   \label{fig:LOCO_obsvspred} 
   \end{center}
 \end{figure}
@@ -380,7 +380,7 @@ cat(" \\clearpage \\pagebreak ")
 \begin{figure}
   \begin{center}
   \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXX_LOO_cors_sensitivity_forcing.pdf}
-  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM).}
+  \caption{Comparison of correlations between estimated slopes for species in subset models after leaving out a genus, and the full model including forcing as the predictor, for both the phylogenetic mixed model (PMM) and the hierarchical mixed model (HMM). Box plots are computed across $n = 25$ iterations where one genus with at least 2 species was left out. Box upper and lower limits represent the first and third quartiles (25th and 75th percentiles, respectively), the median is represented as the horizontal line internal to the box and whiskers reach 1.5 times the interquartile range.}
   \label{fig:LOCO_slopescors}
   \end{center}
 \end{figure}

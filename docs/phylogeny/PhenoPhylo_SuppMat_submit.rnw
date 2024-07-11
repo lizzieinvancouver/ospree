@@ -1,0 +1,524 @@
+\documentclass[11pt]{article}
+\usepackage[top=1.00in, bottom=1.0in, left=1.1in, right=1.1in]{geometry}
+\renewcommand{\baselinestretch}{1.1}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{textcomp, gensymb} 
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{lineno}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{xr-hyper} %refer to Fig.s in another document
+%\usepackage{hyperref}
+\externaldocument{PhenoPhylo_ms_submit} 
+\externaldocument{PhenoPhylo_ExtDat} 
+
+%\urlstyle{same}
+
+\def\labelitemi{--}
+\renewcommand{\baselinestretch}{1.2}
+\parindent=0pt
+\parskip=5pt
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+
+\SweaveOpts{concordance=FALSE}
+\bibliographystyle{naturemag}% 
+
+\title{Supplementary Information\\
+Phylogenetic estimates of species-level phenology improve ecological forecasting}
+\maketitle
+
+
+
+\vspace{2ex}
+$^*$Corresponding author: ignacio.moralesc@uah.es\\
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\labelitemi}{$-$}
+\setkeys{Gin}{width=0.8\textwidth}
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extended Methods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Extended Methods}
+
+\subsection*{Details on data: sources and structure}
+
+We provide several additional details here on how our dataset is structured, including the data sources and the geographical bias of the data. First, in Fig. \ref{fig:raw2ddata} we show the distribution of the response and predictor variables. Second, we show a map (Fig. \ref{fig:mapstudylocations}) of the locations where woody plant samples were collected. As our data are geographically limited to mainly temperate Europe and North America, further experimental research on the phenology of extra-temperate woody species will be important for determining the extent to which the results in this work hold in other biomes and climates. Such data would also provide a more representative picture of how cues affect phenology in different parts of the world and would allow addressing questions such as, is variability in cue sensitivity across species larger in temperate than tropical latitudes? Third, we provide a table (\ref{tab:ref}) identifying the original sources from which the data were compiled. The data can be accessed at \url{https://knb.ecoinformatics.org/view/doi:10.5063/F18P5XZF}.
+
+
+  
+\subsection*{Interpretation of $\lambda_j$ and $\sigma_j^2$ on slopes and intercepts}
+
+Most current phylogenetic regression approaches aimed at controlling for phylogenetic non-independence of analysis units \citep[i.e. usually species, see][]{revell2010phylogenetic} assume the $\lambda$ scaling parameter is constant across the full set of predictors in the model. Thus, $\lambda$ is estimated as a single parameter based on one single residual term VCV matrix. While useful for correcting for phylogenetic non-independence, this approach does not allow for different tempos and modes of evolution across different predictors. 
+
+In models with multiple cues, species responses to all cues are estimated as similarly phylogenetically structured, but this may not be the case. For example, in a PGLS model with three cues, it would be possible to have a high (close to 1) value of $\lambda$, due to either a strong phylogenetic signal in the response, but no phylogenetic structuring in the cues, or one or more predictors being strongly phylogenetically structured. In the latter case, phylogenetic structuring of responses to cues could be correlated (i.e., responses to cues evolving in a correlated fashion) or uncorrelated (i.e., independent evolution of responses to cues). Distinguishing among these different situations is challenging, in part because the phylogeny is constant across all data, and also because in practice multiple process affect the evolution of traits that each leave a signature of some kind in the data. Perhaps, in part, due to the complexity of the problem, most modern approaches take the conservative approach of focusing on whether model residuals are phylogenetically structured (i.e. in PGLS) or the amount of model variance attributable to the phylogeny and independent from other sources of variation \citep[i.e., in PMM, see][]{housworth2004phylogenetic}.
+
+Because we are specifically interested in estimating the phylogenetic structure of each cue, our approach explicitly partitions variance into specific components relative to the model intercept and predictor (cue) slopes (see equation \ref{eqfive}). The multivariate normal distributions of the intercept and slope terms each include a variance term (see equation \ref{phybetas}), modelled with a $\lambda$ scaling parameter. The interpretation of $\lambda$s in our models are analogous to Pagel's $\lambda$  \citep{pagel1999inferring} parameter \citep{housworth2004phylogenetic}, constrained to range from 0 to 1, with values of 0 indicating no phylogenetic signal, and values of 1 phylogenetic signal consistent with Brownian motion evolution (BM). 
+
+
+While the lambdas estimated through our fitting process will resemble those of lambdas estimated from non-phylogenetically informed models, our approach gives a number of benefits. First, the uncertainty associated with estimating parameters across shared data (the phylogeny) is directly incorporated into the fitting process itself: our posterior estimates are joint across that shared data and the uncertainty it introduces to our fitting process. Second, we expect our cues and their evolution to both be correlated, and assessing both simultaneously allows uncertainty in our ability to unpick precise evolutionary process is, again, incorporated into our uncertainty estimates. Third, this approach adjusts our partial pooling (`random effect' of species) based on evolutionary distance, more strongly pooling closely related species, and only weakly pooling distantly related species \citep[see Gaussian process models in][]{BDA}. This is particularly important for the practising ecologist who, unlike an evolutionary biologist, is not interested in controlling for past evolution \emph{per se}, but is interested in using that past information to predict slopes for (un)measured species on the basis of their evolutionary history.
+
+%Estimated $\lambda$ values are not fully equivalent to computing phylogenetic signal of the slopes of each cue separately (i.e., fitting a multilevel regression model with species as a grouping factor on intercepts, and subsequently estimating phylogenetic signal for model slopes). Instead, they are a relative metric of phylogenetic relatedness allowing us to compare among responses known to interact with each other and estimated simultaneously. This approach has the further benefit of adjusting our partial pooling (`random effect' of species) based on evolutionary distance, more strongly pooling closely related species, and only weakly pooling distantly related species \citep[see Gaussian process models in][]{BDA}. % While most current approaches compute only one $\lambda$, our approach computes four, one independent of the predictors, and one for each predictor.
+
+%DLMay11 I think it should be $\sigma_{\beta_1}^2$ below,  but someone should double check
+A traditional interpretation of $\sigma^2$ values under Brownian Motion evolution, is an `evolutionary rate' or phenotypic accumulation over time \citep{revell2008phylogenetic}. In PGLS, $\sigma_\epsilon^2$ is estimated for the model error term, which parameterises a multivariate normal with a VCV matrix given by $\sigma_\epsilon^2$$\boldsymbol{\Sigma_i}$. Here, similar to our approach to $\lambda$, we estimate four $\sigma^2$ values, corresponding to each model parameter. In our particular case (i.e., modelling a phenological response to three environmental cues), $\sigma_\alpha^2$ for the intercept could be interpreted as the phenological variation across species accumulated along evolution independently from the cues, and is perhaps most comparable to the interpretation of lambda in a PGLS as measuring phylogenetic signal in the residuals. The $\sigma_{\beta_{chill}}^2$, $\sigma_{\beta_{force}}^2$, and $\sigma_{\beta_{photo}}^2$, corresponding to model slopes, would represent the phylogenetic variance linked to species responses to each of the modelled cues. This is, the variability in how species shift their phenology responding to temperature and light, accumulated along the evolutionary process and considered in concert. 
+
+\subsection*{Does accounting for phylogenetic relationships affect forecasts?}
+%\subsection{Forecasting for two species}
+We forecasted estimated shifts in species phenologies from our phylogenetic and non-phylogenetic models for two species with overlapping European ranges to show the impact of differences across models in a well (\emph{Betula pendula}, $n=311$) versus poorly sampled  (\emph{Acer campestre}, $n=6$) species. For this, we first fit our phylogenetic and non-phylogenetic models using natural (i.e., not z-scored) units. Second, we projected fitted models to the European geographic range of each species using two climate scenarios within species distributions: a scenario of historical climate (1980-2016) and a scenario of 2$^{\circ}$C of warming. These projections yield four predictions for each species: phylogenetic-historical, phylogenetic-warmer, non-phylogenetic-historical and non-phylogenetic-warmer. Third, for each species we compared phylogenetic vs. non-phylogenetic models (see Fig. \ref{fig:pmmvshmm}). Finally, for each species we quantified how phenological shifts expected due to warming differ as a result of using a phylogenetic model instead of a non-phylogenetic model.  
+
+Species distributional data were extracted from published distributional maps \citep{caudullo2017chorological}. We extracted climate data corresponding to all grid cells contained within each species' range from daily gridded meteorological datasets. Specifically, we extracted minimum and maximum daily temperatures from the E-OBS dataset v.25 at 0.25 latitudinal degrees (\url{https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-gridded-observations-europe?tab=overview}; last accessed in May 2023). Daily temperatures were used to compute both forcing (mean daily temperature from March 1st through April 30th) and chilling (Utah units from from 1 September through 30 April). Utah units were calculated using the chillR package in R. We used yearly values of forcing and chilling computed for each location (i.e., grid cell) as inputs in the models to predict date of budburst under each scenario for each 12637 locations for \emph{Betula pendula} and 7537 locations for \emph{Acer campestre}. Lastly, we compared model forecasts from phylogenetic and non-phylogenetic models (i.e., by calculating the difference PMM-HMM) and quantified the change in forecasted phenological shifts due to warming resulting from using non-phylogenetic models instead of phylogenetic ones (i.e., calculating the difference $[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]$).%DLMay11 I am not sure what is meant by "[PMM_{historical} -PMM_{warming}]-[HMM_{historical}-HMM_{warming}]", should it be referenced values in the source code using \Sexpr? It seems to be generating some warnings
+
+%IMC8May23- The point is: on average, across all species,  using HMM instead of PMM can bias model estimates particularly for phylogenetically structured cues. Yet, biases differ much between over and under-represented species. 
+Our forecasted bias from HMM compared to PMM (Fig. \ref{fig:forecast}) would likely extend to many other species, based on shifts in estimated responses to temperature and daylength (model coefficients) across our studied species. Across all 191 species, accounting for phylogenetic structuring shifted many species estimates (Fig. \ref{fig:correls_angio}). Not accounting for phylogeny (i.e., assuming $\lambda$ = 0 as done in HMM) biased model coefficients on average, particularly so for forcing and somewhat less for chilling (Fig. \ref{fig:correls_angio}). Specifically, species sensitivities to forcing and chilling were underestimated on average (model slopes shifted by 7.2\% and 3.7\%, respectively). Sensitivities to photoperiod, which showed weak phylogenetic signal were not biased in non-phylogenetic models (Fig. \ref{fig:correls_angio}), likely associated to their low estimated $\lambda$ values. 
+
+However, as explained in the main text, these biases do not apply homogeneously to all species. Over represented species (i.e., high number of observations) suffer little to no bias if a non-phylogenetic model is used and underrepresented species can experience large shifts when phylogenetic relationships are ignored (see Fig. \ref{fig:pmmvshmm}). Interestingly the bias in forecasts for underrepresented species does not distribute homogeneously across the geography, indicating that ignoring phylogeny can lead to biased forecasts for these species, more so in particular regions (coinciding with coldest locations in our example; Fig. \ref{fig:pmmvshmm}b).\\ 
+
+
+\subsection*{Leave-One-Clade-Out cross validation}
+
+% EMWOct15 -- REF!! Also, I just don't think you need this repetitive text from the letter. You just need to explain your method. 
+% Forecasts derived from our models showed virtually identical results for overrepresented species and markedly different predictions for species with few observations in the dataset (see Fig. \ref{fig:pmmvshmm}). Our data does not allow testing which divergent forecasted values would be more accurate (either those from PMM or from HMM) because we do not have future neither past observational data against which testing model predictions. 
+As an additional test to compare our presented phylogenetic mixed model (PMM) versus more traditional hierarchical models (HMM), we developed a cross-validation approach in which we left out data from different clades and assessed model performance. We then tested how well each model predicted held-out responses, and also tested the stability in modelled estimates of species responses to a given cue. Specifically, our Leave-One-Clade-Out cross validation followed these steps:
+
+\begin{enumerate}
+% \item For genera with at least two species, select the top 25 genera with the most observations. % EMWOct15 -- not sure what 'more observations' meant? Do you mean what I wrote below? (I also don't see this as a first step so moved it._
+\item Iteratively subset the dataset leaving out one genus at a time. For our approach here, we report results from leaving out (iteratively) the 25 genera with the highest number of observations and at least two species. 
+\item Run both PMM and HMM for each subset of data recording the posterior distribution of predicted values. 
+\item To test how well subset models predict observed responses, we compare the observed response of left out (held out) species against the posterior means of predicted responses for those species, inferred by the subset version of the models that excluded those species. % EMWOct15: Are you taking the posterior means here? Be specific if possible. 
+\item To test the stability of model coefficients, we compare model coefficients (i.e., slopes) estimated by the subset version of the models and the full models, only for species left in.
+\end{enumerate} % EMWOct15: Difference between the last two steps is not clear ... is one about predicting held out response and one about slope stability? If so, say so. 
+
+Traditional cross-validation methods generally leave out a randomly selected proportion of the data (e.g., 20\% in 5-fold cross validation) assuming sampling is completely random (that is, that researchers gathering data would be equally likely to select each observation) and thus ignores potentially important structure in the data that may covary with sampling. In contrast, our method leverages phylogenetic structure, dropping out data in a way that may more accurately reflect differences across differently sampled data. Because of the presence of phylogenetic structure in ecological trait data and the tendency for such datasets to sample across taxa unevenly, we often omit sets of taxa (e.g., clades) sharing similar trait values across different natural sampling regimes. Our results show that the outcomes of this structured omission varies for each model. In HMM, excluding a well-sampled clade would tend to skew parameter estimates more (because it is likely to shift the grand mean towards which all species pool) than in PMM, where the partial pooling co-varies with phylogeny and thus species-level estimates are more stable. 
+
+Given the computational resources of leave-one-out  cross-validation, we used a version of the PMM and HMM models that only included an intercept and forcing response (slope). Our results showed that predicted responses by the PMM model were more correlated with the observed responses of held out species than predicted responses by the HMM model (Fig. \ref{fig:LOCO_obsvspred}). Results also supported a higher stability of model coefficients when estimated by PMM compared to by HMM (Fig. \ref{fig:LOCO_slopescors}). %IMC this still needs work and details.
+The algorithms and code to develop these analyses are available in GitHub \url{https://github.com/MoralesCastilla/PhenoPhyloMM/}.
+
+
+\clearpage
+
+
+
+\bibliography{phylorefs}
+%\bibliographystyle{amnat}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Supporting Figures and Tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\section*{Supplementary Figures and Tables}
+
+
+  %14OctEMW -- not sp bad, but can you make it bigger? I would make species bigger (0.2 or 0.3) num studies a bit smaller (0.1?) and make the last part (0.40) as big as you can once species is fixed ...  not sure why the caption is bold? 
+    %14OctEMW --  Also, this table needs to be WITH the other tables ... and your figures are spread out -- please keep all tables and figures together I think. 
+<<label=spptab,echo=FALSE,results=tex>>=
+
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+source("../../analyses/phylogeny/makesptab_forsupp.R")
+format_italics <- function(x) {
+  paste0("\\emph{", x, "}")
+}
+colnames(reftable)<-c("Species","Num.Studies","Reference")
+reftable<-as.data.frame(reftable)
+ref.table <- xtable(reftable, caption="Species and references for data included in the phylogenetic model using Utah chill units.",
+                    label="tab:ref",align=c(
+                      "p{0.01\\textwidth}",
+                      "p{0.3\\textwidth}",
+                      "p{0.15\\textwidth}",
+                      "p{0.40\\textwidth}"))
+
+print(ref.table, include.rownames=FALSE, hline.after = c(-1,0),floating= FALSE,size="\\footnotesize",caption.placement="top",tabular.environment = "longtable", tabular="\\textwidth",include.colnames = TRUE, add.to.row = list(pos = list(0),command = "\\hline \\endhead "),sanitize.text.function = format_italics) 
+
+@
+
+
+
+\clearpage
+
+<<label=runcode2, echo=FALSE, results=tex>>=
+# load models and data to report numbers of things
+## Set Working Directory
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+@
+
+
+<<label=tablesupp1, echo=FALSE, results=tex>>=
+print(make.mytable1,
+      # floating=FALSE, % see https://stat.ethz.ch/pipermail/r-help/2011-August/286473.html for why this doesn't work
+      size="footnotesize",
+      hline.after=c(-1,0,13),
+      caption.placement="top",
+      include.rownames=FALSE,
+      sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp2, echo=FALSE, results=tex>>=
+# tablevaldatsource
+print(make.mytable2,
+      size="footnotesize",
+      hline.after=c(-1,0,9),
+      caption.placement="top",
+      include.rownames=FALSE,
+       sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp5, echo=FALSE, results=tex>>=
+print(make.mytable5,
+      # floating=FALSE, % see https://stat.ethz.ch/pipermail/r-help/2011-August/286473.html for why this doesn't work
+      size="footnotesize",
+      hline.after=c(-1,0,13),
+      caption.placement="top",
+      include.rownames=FALSE,
+      sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp6, echo=FALSE, results=tex>>=
+# tablevaldatsource
+print(make.mytable6,
+      size="footnotesize",
+      hline.after=c(-1,0,9),
+      caption.placement="top",
+      include.rownames=FALSE,
+       sanitize.text.function = function(x){x}
+      #tabular.environment = "longtable",
+      #add.to.row=add.to.row
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
+
+<<label=runcode2, echo=FALSE, results=tex>>=
+# load models and data to report numbers of things
+## Set Working Directory
+source("..//..//analyses/phylogeny/phylo_ospree_tables.R")
+@
+
+
+<<label=tablesupp3, echo=FALSE, results=tex>>=
+# tablespslevestimate
+format_italics <- function(x) {
+  paste0("\\emph{", x, "}")
+}
+
+print(make.mytable3,
+      size="footnotesize",
+      hline.after=c(-1,0),
+      caption.placement="top",
+      #caption_width = "1.4\\textwidth",
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row,
+      sanitize.text.function = format_italics
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+<<label=tablesupp4, echo=FALSE, results=tex>>=
+# tablespslevestimatelamb0
+print(make.mytable4,
+      size="footnotesize",
+      hline.after=c(-1,0),
+      caption.placement="top",
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row,
+      sanitize.text.function = format_italics
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
+<<label=tablesupp7, echo=FALSE, results=tex>>=
+# tablespslevestimatenopolyt
+print(make.mytable7,
+      size="footnotesize",
+      hline.after=c(-1,0),
+      caption.placement="top",
+      include.rownames=FALSE,
+      tabular.environment = "longtable",
+      add.to.row=add.to.row,
+      sanitize.text.function = format_italics
+      )
+
+cat(" \\clearpage \\pagebreak ")
+@
+
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/Fig1_phylo_muplots191_clades.pdf}
+  \caption{\bold{Fig. 1 Phenological sensitivity to three environmental cues across 191 woody species estimated by a Phylogenetic Mixed Model.} The environmental cues are chilling (a), forcing (b) and photoperiod (c) measured as change in days to budburst per standardized unit ($z$-transformation) of the cues. The database used to fit the Phylogenetic Mixed Model comprised 44 studies, 191 species (all named in this version) and 2940 observations. The same phylogenetic tree is shown in each panel, colored according to an estimation of ancestral character states, being the states at the tips the species sensitivities to a cue, as estimated by our hierarchical phylogenetic model. Species sensitivities are shown as mean values $+/-$ 50\% uncertainty intervals. Note that the color scale varies in each panel. Total tree depth is 81 My.}
+    \label{fig:muplot191names}
+    \end{center}
+\end{figure}
+\clearpage
+
+
+
+\begin{figure}
+  \begin{center}
+  %14OctEMW -- please check the \circ! It looked bad, but maybe the ^ fixed it?!
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/rawplots_2Ds.pdf} %EMWOct12 -- Nacho -- check \circ works here!
+  \caption{Distribution of data including response (days to budburst) and predictor variables (forcing in $^\circ$C, chilling in Utah units, and photoperiod in hours of light per day) in our dataset. The upper panels show distribution of experimental treatments for forcing, chilling and photoperiod ordered vertically with respect the phylogenetic tree. Colors quantify the response variable. The lower panels show response vs. predictor variables with colors indicating the frequency at which a treatment-response is found in the dataset.}
+  \label{fig:raw2ddata}
+  \end{center}
+\end{figure}
+\clearpage
+
+
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXXXX_map_study_locations_legend.pdf}
+  \caption{Map showing locations from which woody plant samples were taken for experiments in meta-analytic dataset, which is a subset of the OSPREE dataset. Dots in the map show the locations, with different colors for each unique paper.}  
+  \label{fig:mapstudylocations}
+  \end{center}
+\end{figure}
+\clearpage
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=16cm]{../../analyses/phylogeny/figures/FigSX_Sindromes_lamb_lamb0.pdf}
+  \caption{Correlations among estimated sensitivities to the environmental cues comparing forcing vs. chilling (a,d), forcing vs. photoperiod (b,e) and chilling vs. photoperiod (c,f). Upper panels show correlations among estimated sensitivities by the phylogenetic model and lower panels show results for the non-phylogenetic model. The database used to fit both models comprised 44 studies, 191 species and 2940 observations.}
+  \label{fig:suppcorrelsens}
+  \end{center}
+\end{figure}
+
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/FigSXX_marginal_plots_betas_lambda.pdf}
+  \caption{Marginal plots contrasting the posterior distributions (in red) of estimated sensitivities to chilling (a), forcing (b) and photoperiod (c) against prior distributions (blue). Lower panels show marginal plots for the posterior distributions of phylogenetic parameter $\lambda$ fitted for chilling (d), forcing (e) and photoperiod (f). See \emph{Stan code} section below for details on prior and parameter specification of the models.}
+  \label{fig:marginalplots}
+  \end{center}
+\end{figure}
+
+
+\clearpage
+\begin{figure}
+  \begin{center}
+  \includegraphics[width=14cm]{../../analyses/phylogeny/figures/burstmodelfigquick.pdf}
+  \caption{Estimates of sigmas using our phylogenetic model and simulated data with responses to forcing and photoperiod generated from a delta model of evolution (fastBM in phytools package), with delta set to 2 for forcing and to 0.5 for photoperiod (intercept and chilling generated from lambda model with a lambda of 1).}
+  \label{fig:burstmodels}
+  \end{center}
+\end{figure}
+
+
+
+\clearpage
+\section*{Stan code}
+
+\subsection*{Annotated example code}
+We wrote our model using the Stan programming language. The model code consists of four program blocks. Below we have included a breakdown of our code structure for a simplified example model with a single intercept and slope and annotations for the different components of our model code. Additional annotations within the Stan code are denoted by a double forward slash.\\
+
+The Stan code begins with a function block in which the phylogenetic variance-covariance matrices are generated. Below the function defines the correlation matrix with lambda ($\lambda$) and sigma ($\sigma$) parameters, and generates a matrix of the correct size and scaling.\\
+
+\begin{verbatim}
+functions {
+  //correlation matrix with lambda and sigma
+  matrix lambda_vcv(matrix vcv, real lambda, real sigma){ 
+  matrix[rows(vcv),cols(vcv)] local_vcv; //blank matrix - size vcv
+  local_vcv = vcv * lambda; 
+  
+  for(i in 1:rows(local_vcv))
+      local_vcv[i,i] = vcv[i,i]; 
+      return(quad_form_diag(local_vcv, rep_vector(sigma, rows(vcv))));
+  }
+}
+\end{verbatim}
+
+The data block declares the data type and includes associated dimensions and restrictions to the data. In the below example, this includes defining the overall size of the dataset, the number of species used for partial pooling, the response and predictor variables, and finally the phylogeny. \\
+
+\begin{verbatim}
+data {
+  int<lower=1> N; //sample size
+  int<lower=1> n_sp; //number of species
+  int<lower=1, upper=n_sp> sp[N]; //species
+  vector[N] y; // response
+  vector[N] x1; // predictor
+  matrix[n_sp,n_sp]Vphy;     // phylogeny
+}
+\end{verbatim}
+
+The parameters block defines the model parameters included in our model. In our simple model we include phylogenetic effects on both the intercept and slope, with lambda and sigma parameters for each, and their respective root trait values. This is in addition to parameters for the intercept, slope, and error.\\
+
+\begin{verbatim}
+parameters {
+  real<lower=0> sigma_y; //error    
+  real<lower=0, upper=1> lam_interceptsa; //lambda for the intercept       
+  real<lower=0> sigma_interceptsa; //sigma for the intercept
+  real<lower=0, upper=1> lam_interceptsb; //lambda for predictor    
+  real<lower=0> sigma_interceptsb; //sigma for forcing
+  
+  vector[n_sp] b; // slope of predictor effect
+  real b_z; // root trait value for predictor    
+  vector[n_sp] a; // intercept
+  real a_z; // root trait value for the intercept
+
+}
+\end{verbatim}
+
+Finally the model block is where we define the model structure, sampling statements, and prior distributions for our parameters. We define the prior distribution for each of the parameters listed above.\\
+
+\begin{verbatim}
+model {
+  real yhat[N]; //predicted y value from below model
+       
+  // phylogenetic matrices generated by function model block
+  matrix[n_sp,n_sp] vcv_a;     
+  matrix[n_sp,n_sp] vcv_b;    
+  
+  // linear regression model with one intercept and one predictor
+  for(i in 1:N){
+    yhat[i] = a[sp[i]] + b[sp[i]] * x1[i];
+}
+			     	
+  vcv_a = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsa, sigma_interceptsa));
+  vcv_b = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsb, sigma_interceptsb));
+ 
+  a ~ multi_normal_cholesky(rep_vector(a_z,n_sp), vcv_a); 
+  b ~ multi_normal_cholesky(rep_vector(b_z,n_sp), vcv_b); 
+  
+  y ~ normal(yhat, sigma_y);
+
+  // Priors 
+  a_z ~ normal(60, 10); 
+  b_z ~ normal(0, 10);  
+  
+  lam_interceptsa ~ beta(1, 1);
+  lam_interceptsb ~ beta(1, 1);
+  
+  sigma_interceptsa ~ normal(30, 20);
+  sigma_interceptsb ~ normal(1, 5);
+   
+  sigma_y ~ normal(10, 10);
+  
+}
+\end{verbatim}
+
+\subsection*{Full model Stan code}
+Below is the full model used to conduct our analyses. Our full model includes a single intercept and three predictor parameters, but consists of the four program blocks outlined above. Parameters listed in the parameter block are defined in the Bayesian hierarchical phylogenetic model section of the main text and in equations \ref{modely} to \ref{phybetas}.
+
+\begin{verbatim}
+functions {
+  matrix lambda_vcv(matrix vcv, real lambda, real sigma){
+    matrix[rows(vcv),cols(vcv)] local_vcv; 
+    local_vcv = vcv * lambda;
+    for(i in 1:rows(local_vcv))
+      local_vcv[i,i] = vcv[i,i];
+      return(quad_form_diag(local_vcv, rep_vector(sigma, rows(vcv))));
+  }
+}
+
+data {
+  int<lower=1> N;
+  int<lower=1> n_sp;
+  int<lower=1, upper=n_sp> sp[N];
+  vector[N] y; 	// response
+  vector[N] x1; // predictor (forcing)
+  vector[N] x2; // predictor (chilling)
+  vector[N] x3; // predictor (photoperiod)
+  matrix[n_sp,n_sp]Vphy;  // phylogeny
+}
+
+parameters {
+  real<lower=0> sigma_y;    
+  real<lower=0, upper=1> lam_interceptsa;       
+  real<lower=0> sigma_interceptsa;
+  real<lower=0, upper=1> lam_interceptsbf;       
+  real<lower=0> sigma_interceptsbf;   
+  real<lower=0, upper=1> lam_interceptsbc;       
+  real<lower=0> sigma_interceptsbc; 
+  real<lower=0, upper=1> lam_interceptsbp;       
+  real<lower=0> sigma_interceptsbp; 
+  vector[n_sp] b_force; // slope of forcing effect
+  real b_zf;
+  vector[n_sp] b_chill; // slope of chilling effect
+  real b_zc;
+  vector[n_sp] b_photo; // slope of photo effect
+  real b_zp;
+  vector[n_sp] a; // intercept
+  real a_z;
+}
+
+model {
+  real yhat[N];
+       
+  matrix[n_sp,n_sp] vcv_a; 
+  matrix[n_sp,n_sp] vcv_bf;     
+  matrix[n_sp,n_sp] vcv_bc;    
+  matrix[n_sp,n_sp] vcv_bp;     
+
+  // linear regression model with one intercept and three predictors
+  for(i in 1:N){
+    yhat[i] = 
+	  a[sp[i]] + b_force[sp[i]] * x1[i] + b_chill[sp[i]] * x2[i] + b_photo[sp[i]] * x3[i];
+  }
+			     	
+	vcv_a = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsa, sigma_interceptsa));
+  vcv_bf = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbf, sigma_interceptsbf));
+  vcv_bc = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbc, sigma_interceptsbc));
+  vcv_bp = cholesky_decompose(lambda_vcv(Vphy, lam_interceptsbp, sigma_interceptsbp));
+
+
+  a ~ multi_normal_cholesky(rep_vector(a_z,n_sp), vcv_a); 
+  b_force ~ multi_normal_cholesky(rep_vector(b_zf,n_sp), vcv_bf); 
+  b_chill ~ multi_normal_cholesky(rep_vector(b_zc,n_sp), vcv_bc);
+  b_photo ~ multi_normal_cholesky(rep_vector(b_zp,n_sp),vcv_bp);
+  
+  y ~ normal(yhat, sigma_y);
+  
+  //Priors
+  a_z ~ normal(30, 10); 
+  b_zf ~ normal(-2, 10); 
+  b_zc ~ normal(-2, 10);
+  b_zp ~ normal(0, 5); 
+
+  lam_interceptsa ~ beta(1, 1);
+  lam_interceptsbf ~ beta(1, 1);
+  lam_interceptsbc~ beta(1, 1);
+  lam_interceptsbp ~ beta(1, 1);
+
+  sigma_interceptsa ~ normal(30, 20);
+  sigma_interceptsbf ~ normal(1, 5);
+  sigma_interceptsbc ~ normal(1, 5);
+  sigma_interceptsbp ~ normal(1, 5);
+    
+  sigma_y ~ normal(10, 10); 
+}
+\end{verbatim}
+
+
+
+\end{document}

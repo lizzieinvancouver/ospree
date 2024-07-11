@@ -282,6 +282,49 @@ names(fitlam0)[grep(pattern = "^b_photo", x = names(fitlam0))] <- phylo$tip.labe
   posspsindata.01 <- list(6:196,198:388,390:580)
 
   
+#### combining mu plots (Fig1) with phylogenetic structuring ----
+  
+  
+  dev.off()
+  if(agiosponly){
+    ## for forcing
+    set.seed(117)
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(0,191), c(-30, 5) , 18, 3.2, 
+                           posspsindata,1,14)
+    
+    ## for chilling
+    set.seed(117)
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(0,191), c(-30, 5) , 18, 3.2, 
+                           posspsindata,2,14)
+    
+    ## for photoperiod
+    set.seed(117)
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(0,191), c(-30, 5) , 18, 3.2, 
+                           posspsindata,3,14)
+  }
+  
+  if(gymnosperm){
+    ## for forcing
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(1,19), c(-20, 2) , 18, 3.2, 
+                           posspsindata,1,12.2)
+    
+    ## for chilling
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(1,19), c(-23, 15) , 18, 3.2, 
+                           posspsindata,2,21.2)
+    
+    ## for photoperiod
+    muplotfx_phylo_contmap(modelhere, "", 7, 8, 
+                           c(1,19), c(-7, 14) , 18, 3.2, 
+                           posspsindata,3,11.7)
+  }
+  
+  
+  
 ## make tables for species-level estimates (supp) ----
   tableresults.est = summary(fitlambest)$summary
   tableresults.est0 = summary(fitlam0)$summary
@@ -344,21 +387,21 @@ cuephotosdlow0 = summary(fitlam0)$summary[posspsindata.01[[3]],"25%"]
 
 par(mfrow=c(1,3))
 
-indvarest = cuechillsdup - cuechillsdlow 
-indvarlam0 = cuechillsdup0 - cuechillsdlow0
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+indvarestchill = indvarest = cuechillsdup - cuechillsdlow 
+indvarlam0chill = indvarlam0 = cuechillsdup0 - cuechillsdlow0
+boxplot(cbind(PMM=indvarest,HMM=indvarlam0),
         ylab="Estimate uncertainty (days/std units of chilling)",outline=F,ylim=c(0,10),cex.lab=1.25)
 mtext("a", side = 3, adj = 0.05,line=-2,cex=1.5)
 
-indvarest = cueforcesdup - cueforcesdlow 
-indvarlam0 = cueforcesdup0 - cueforcesdlow0
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+indvarestforce = indvarest = cueforcesdup - cueforcesdlow 
+indvarlam0force = indvarlam0 = cueforcesdup0 - cueforcesdlow0
+boxplot(cbind(PMM=indvarest,HMM=indvarlam0),
         ylab="Estimate uncertainty (days/std units of forcing)",outline=F,ylim=c(0,10),cex.lab=1.25)
 mtext("b", side = 3, adj = 0.05,line=-2,cex=1.5)
 
-indvarest = cuephotosdup - cuephotosdlow 
-indvarlam0 = cuephotosdup0 - cuephotosdlow0
-boxplot(cbind(lambdaest=indvarest,lambda0=indvarlam0),
+indvarestphoto = indvarest = cuephotosdup - cuephotosdlow 
+indvarlam0photo = indvarlam0 = cuephotosdup0 - cuephotosdlow0
+boxplot(cbind(PMM=indvarest,HMM=indvarlam0),
         ylab="Estimate uncertainty (days/std units of photoperiod)",
         outline=F,ylim=c(0,4),cex.lab=1.25)
 mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
@@ -367,6 +410,9 @@ mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 mean(indvarest);mean(indvarlam0)
 
+## save uncertainty table (Extended Data Fig.3)
+#write.csv(cbind(indvarestchill,indvarlam0chill,indvarestforce
+#,indvarlam0force,indvarestphoto,indvarlam0photo),file = "output/Extended_Data_Fig3.csv")
 
 
 ##### comparing overall variances across species responses ----
@@ -412,6 +458,13 @@ box(which = "plot", lty = "solid")
 mtext("c", side = 3, adj = 0.05,line=-2,cex=1.5)
 
 
+## save uncertainty table (Extended Data Fig.7)
+#write.csv(cbind(cueforce,cueforce0,cuechill,cuechill0,cuephoto,cuephoto0),
+#          file = "output/Extended_Data_Fig7.csv")
+
+
+
+
 
 ## identify which species/clades have greater differences
 sort(cueforce-cueforce0)
@@ -438,7 +491,7 @@ mean(abs(cuechill)[108:111])
 mean(abs(cueforce-cueforce0)[108:111]+abs(cuechill-cuechill0)[108:111])
 
 
-### plot correlations angio ----
+### plot correlations angio (Supplementary Fig. S3)----
 dev.off()
 par(mfrow=c(1,3))
 
@@ -890,6 +943,8 @@ dfsps1 = na.omit(dfsps1)
 dfsps2 = na.omit(dfsps2)
 summary(dfsps1$pmm)
 
+#write.csv(dfsps1, file = "output/SourceData_Betpen_Figs4_ED2.csv")
+#write.csv(dfsps2, file = "output/SourceData_Acecam_Figs4_ED2.csv")
 
 # make color scale for plotting
 library(dichromat)
@@ -998,121 +1053,7 @@ gradient.rect(7,0,9,6,col=smoothColors("red",38,"blue"),border=NA)
 
 ## Make final maps ----
 par(mfrow=c(1,3))
-
-## PMM vs LMM comparison
-dfsps1$pmmvslmm = dfsps1$pmm-dfsps1$lmm
-dfsps2$pmmvslmm = dfsps2$pmm-dfsps2$lmm
-colspmmvslmm <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$pmmvslmm,
-                                             dfsps2$pmmvslmm),
-                                           breaks = 50))]
-colspmmvslmmsps1 <- colspmmvslmm[1:length(dfsps1$pmmvslmm)]
-colspmmvslmmsps2 <- colspmmvslmm[(length(dfsps1$pmmvslmm)+1):length(colspmmvslmm)]
-
-dev.off()
-# Betpen PMM vs LMM
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Betpen PMM vs LMM")
-points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.6,
-       col=adjustcolor(colspmmvslmmsps1,0.4))
-
-# Acecam PMM vs LMM
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Acecam PMM vs LMM")
-points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
-       col=adjustcolor(colspmmvslmmsps2,0.4))
-hist(dfsps2$pmmvslmm,col="grey",border=NA,
-     xlim=c(-8,2),main="",xlab="Budbreak difference PMM - LMM")
-hist(dfsps1$pmmvslmm,col="black",border=NA,add=T)
-
-
-## absolute of forecast ratio:(PMM - PMM+2)/(LMM-LMM+2) (4)
-dfsps1$absforecast.ratio = (dfsps1$pmm - dfsps1$pmm2C)/(dfsps1$lmm - dfsps1$lmm2C)
-dfsps2$absforecast.ratio = (dfsps2$pmm - dfsps2$pmm2C)/(dfsps2$lmm - dfsps2$lmm2C)
-qq = quantile(dfsps2$absforecast.ratio,c(0.025,0.975))
-dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio<qq[1])] = NA
-dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio>qq[2])] = NA
-summary(dfsps1$absforecast.ratio)
-
-hist(dfsps2$absforecast.ratio)
-colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.ratio,
-                                                        dfsps2$absforecast.ratio),
-                                                      breaks = 50))]
-colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
-colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
-
-# Betpen absolute forecast ratio
-dev.off()
-par(mfrow=c(1,3))
-
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Betula pendula")
-points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps1,0.6))
-
-# Acecam absolute forecast ratio
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Acer campestris")
-points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps2,0.6))
-
-
-#pmm vs lmm curr-2C
-MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
-                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(42)[1:42]
-hist(dfsps2$absforecast,30,border=MrWhite_palette30,
-     col=adjustcolor(MrWhite_palette30,0.8),
-     #xlim=c(-1.6,0.2),
-     #ylim=c(0,15000),
-     main="",xlab="ratio PMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
-hist(dfsps1$absforecast.ratio,30,col=adjustcolor(MrWhite_palette30[20:23],0.4),
-     border="black",add=T)
-
-
-
-
-## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
-dfsps1$absforecast = abs((dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C))
-dfsps1$lmmcurrvs2C = abs(dfsps1$lmm - dfsps1$lmm2C)
-dfsps2$absforecast = abs((dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C))
-dfsps2$lmmcurrvs2C = abs(dfsps2$lmm - dfsps2$lmm2C)
-dfsps1$absforecast.std = dfsps1$absforecast/dfsps1$lmmcurrvs2C 
-dfsps2$absforecast.std = dfsps2$absforecast/dfsps2$lmmcurrvs2C 
-summary(dfsps2$absforecast.std)
-
-mean(dfsps1$lmmcurrvs2C)
-mean(dfsps2$lmmcurrvs2C)
-
-
-dfsps2$absforecast.std[dfsps2$absforecast.std>quantile(dfsps2$absforecast.std,0.975)]=NA
-
-colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.std,
-                                                     dfsps2$absforecast.std),
-                                                   breaks = 50))]
-colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast.std)]
-colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast.std)+1):length(colsabsforecast)]
-
-# Betpen absolute forecast
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Betula pendula")
-points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps1,0.6))
-
-# Acecam absolute forecast
-plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
-     main="Acer campestris")
-points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
-       col=adjustcolor(colsabsforecastsps2,0.6))
-#pmm vs lmm curr-2C
-MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
-                                                  "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(39)[1:39]
-hist(dfsps2$absforecast.std,30,border=MrWhite_palette30,
- col=adjustcolor(MrWhite_palette30,0.8),
-  #xlim=c(-1.6,0.2),
-  #ylim=c(0,15000),
-  main="",xlab="PMM(0C-2C)-LMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
-hist(dfsps1$absforecast.std,30,col=adjustcolor(MrWhite_palette30,0.6),
-border="black",add=T)
-                                                  
+library(viridis)
 
 ## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
 dfsps1$absforecast = (dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C)
@@ -1123,6 +1064,10 @@ dfsps2$absforecast = (dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C)
 colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast,
                                                         dfsps2$absforecast),
                                                       breaks = 50))]
+colsabsforecast <- rev(viridis(50))[as.numeric(cut(c(dfsps1$absforecast,
+                                                        dfsps2$absforecast),
+                                                      breaks = 50))]
+
 colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
 colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
 
@@ -1142,6 +1087,8 @@ points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.3,
 #pmm vs lmm curr-2C
 MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
                                                   "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(30)[1:30]
+MrWhite_palette30 <-  viridis(30)[30:1]
+
 hist(dfsps2$absforecast,30,border=MrWhite_palette30,
 col=adjustcolor(MrWhite_palette30,0.8),
 xlim=c(-1.5,0.1),
@@ -1234,10 +1181,15 @@ dev.off()
 MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
                                                   "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(42)[1:42]
                                                   
+MrWhite_palette30 <-  viridis(42)[42:1]
+
+
+par(mfrow=c(1,2),mar=c(5,5,2,5))
+
 hist(dfsps2$pmmvslmm,35,border=MrWhite_palette30,col=MrWhite_palette30,
      xlim=c(-8,2),main="",xlab="Budbreak difference PMM - LMM")
-hist(dfsps1$pmmvslmm,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=T)
-#hist(dfsps1$pmmvslmm,xlim=c(-0.1,0.1),30,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=F,main="",xlab="Budbreak difference PMM - LMM")
+#hist(dfsps1$pmmvslmm,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=T)
+hist(dfsps1$pmmvslmm,xlim=c(-0.1,0.1),30,col=MrWhite_palette30[38],border=MrWhite_palette30[38],add=F,main="",xlab="Budbreak difference PMM - LMM")
 
 #pmm vs lmm curr-2C
 MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
@@ -1318,6 +1270,8 @@ cbind(tableresults.0[c(1,3,5,7,2,4,6,8,9),1],
 
 ## Comparing R2 among PMM HMM - Supp Analysis ----
 
+fitlambest <- readRDS("~/MEGA/Work_UAH_BeaGal/SIDE PROJECTS/OSPREE/Phylogeny/outputs/testme_yhat_noout.rds")
+
 #fitlam0 <- readRDS("output/testme_yhat_noout_lamb0.rds")
 #fitlambest <- readRDS("output/testme_yhat_noout.rds")
 ## Function to compute R2
@@ -1335,10 +1289,10 @@ list_of_draws <- extract(fitlambest)
 list_of_draws0 <- extract(fitlam0)
 
 ## compare R2 for supp figure
-boxplot(cbind(bayes_R2_mine(d,list_of_draws),
-              bayes_R2_mine(d,list_of_draws0)),ylab="Bayes R2")
+boxplot(cbind(bayes_R2_mine(d,list_of_draws$yhat),
+              bayes_R2_mine(d,list_of_draws0$yhat)),ylab="Bayes R2")
 
-
+write.csv(bayes_R2_mine(d,list_of_draws$yhat),file = "output/Extended_Data_Fig4.csv")
 
 ## Leave One Clade Out (LOCO) analyses - Supp Analysis ----
 
@@ -1487,7 +1441,7 @@ for(i in 1:25){#i=1
 #saveRDS(listpredparam, file="E:/OSPREE/LOCO.predicted.parameterslamb0.rds")
 listpredparam.nonphylo <- readRDS("E:/OSPREE/LOCO.predicted.parameterslamb0.rds")
 
-l
+
 
 #Either, way use your new species-level slopes and the hold out species 
 #forcing (x data) to predict the hold out data.
@@ -1526,7 +1480,8 @@ for(i in 1:25){#i=1
 
 
 LOO_obs_pred <- do.call(rbind,storeobsvspred)
-write.csv(LOO_obs_pred, file = "output/LOCO_observed_vs_predicted.csv")
+#write.csv(LOO_obs_pred, file = "output/LOCO_observed_vs_predicted.csv")
+LOO_obs_pred <- read.csv("output/LOCO_observed_vs_predicted.csv")[,-1]
 
 
 ## plot results
@@ -1637,10 +1592,13 @@ for(i in 1:25){#i=1
 
 yhats_bf_posterior<-read.csv("output/posterior_yhats_bf_phyloLOO.csv")
 yhats_bf_posterior0<-read.csv("output/posterior_yhats_bf_nonphyloLOO.csv")
-
+dev.off()
 boxplot(cbind(PMM=yhats_bf_posterior[,3],
               HMM=yhats_bf_posterior0[,3]),
         ylab="Correlation sensitivity to forcing vs. LOO")
+
+#write.csv(cbind(PMM=yhats_bf_posterior[,3],
+#HMM=yhats_bf_posterior0[,3]), file = "output/Extended_Data_Fig6.csv")
 
 
 ##### Loop to measure distance in days among slopes full vs LOO ----
@@ -1732,7 +1690,122 @@ tableresults.est = summary(fitlambest, pars = list("a_z", "lam_interceptsa", "si
 
 
 
+## Old code for mapping ----
 
+## PMM vs LMM comparison
+dfsps1$pmmvslmm = dfsps1$pmm-dfsps1$lmm
+dfsps2$pmmvslmm = dfsps2$pmm-dfsps2$lmm
+colspmmvslmm <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$pmmvslmm,
+                                                     dfsps2$pmmvslmm),
+                                                   breaks = 50))]
+colspmmvslmmsps1 <- colspmmvslmm[1:length(dfsps1$pmmvslmm)]
+colspmmvslmmsps2 <- colspmmvslmm[(length(dfsps1$pmmvslmm)+1):length(colspmmvslmm)]
+
+dev.off()
+# Betpen PMM vs LMM
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betpen PMM vs LMM")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colspmmvslmmsps1,0.4))
+
+# Acecam PMM vs LMM
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acecam PMM vs LMM")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.6,
+       col=adjustcolor(colspmmvslmmsps2,0.4))
+hist(dfsps2$pmmvslmm,col="grey",border=NA,
+     xlim=c(-8,2),main="",xlab="Budbreak difference PMM - LMM")
+hist(dfsps1$pmmvslmm,col="black",border=NA,add=T)
+
+
+
+#### 1.1. absolute of forecast ratio:(PMM - PMM+2)/(LMM-LMM+2) (4)----
+dfsps1$absforecast.ratio = (dfsps1$pmm - dfsps1$pmm2C)/(dfsps1$lmm - dfsps1$lmm2C)
+dfsps2$absforecast.ratio = (dfsps2$pmm - dfsps2$pmm2C)/(dfsps2$lmm - dfsps2$lmm2C)
+qq = quantile(dfsps2$absforecast.ratio,c(0.025,0.975))
+dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio<qq[1])] = NA
+dfsps2$absforecast.ratio[which(dfsps2$absforecast.ratio>qq[2])] = NA
+summary(dfsps1$absforecast.ratio)
+
+hist(dfsps2$absforecast.ratio)
+colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.ratio,
+                                                        dfsps2$absforecast.ratio),
+                                                      breaks = 50))]
+colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast)]
+colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast)+1):length(colsabsforecast)]
+
+# Betpen absolute forecast ratio
+dev.off()
+par(mfrow=c(1,3))
+
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betula pendula")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps1,0.6))
+
+# Acecam absolute forecast ratio
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acer campestris")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps2,0.6))
+
+
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                         "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(42)[1:42]
+hist(dfsps2$absforecast,30,border=MrWhite_palette30,
+     col=adjustcolor(MrWhite_palette30,0.8),
+     #xlim=c(-1.6,0.2),
+     #ylim=c(0,15000),
+     main="",xlab="ratio PMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
+hist(dfsps1$absforecast.ratio,30,col=adjustcolor(MrWhite_palette30[20:23],0.4),
+     border="black",add=T)
+
+
+
+
+## absolute of forecast:(PMM - PMM+2) - (LMM-LMM+2) (4)
+dfsps1$absforecast = abs((dfsps1$pmm - dfsps1$pmm2C) - (dfsps1$lmm - dfsps1$lmm2C))
+dfsps1$lmmcurrvs2C = abs(dfsps1$lmm - dfsps1$lmm2C)
+dfsps2$absforecast = abs((dfsps2$pmm - dfsps2$pmm2C) - (dfsps2$lmm - dfsps2$lmm2C))
+dfsps2$lmmcurrvs2C = abs(dfsps2$lmm - dfsps2$lmm2C)
+dfsps1$absforecast.std = dfsps1$absforecast/dfsps1$lmmcurrvs2C 
+dfsps2$absforecast.std = dfsps2$absforecast/dfsps2$lmmcurrvs2C 
+summary(dfsps2$absforecast.std)
+
+mean(dfsps1$lmmcurrvs2C)
+mean(dfsps2$lmmcurrvs2C)
+
+
+dfsps2$absforecast.std[dfsps2$absforecast.std>quantile(dfsps2$absforecast.std,0.975)]=NA
+
+colsabsforecast <- MrWhite_palette(50)[as.numeric(cut(c(dfsps1$absforecast.std,
+                                                        dfsps2$absforecast.std),
+                                                      breaks = 50))]
+colsabsforecastsps1 <- colsabsforecast[1:length(dfsps1$absforecast.std)]
+colsabsforecastsps2 <- colsabsforecast[(length(dfsps1$absforecast.std)+1):length(colsabsforecast)]
+
+# Betpen absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Betula pendula")
+points(dfsps1$longitude, dfsps1$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps1,0.6))
+
+# Acecam absolute forecast
+plot(newmap, col="lightgrey",xlim=c(-9,40),ylim=c(35,69),border="lightgrey",
+     main="Acer campestris")
+points(dfsps2$longitude, dfsps2$latitude, pch=19, cex=0.8,
+       col=adjustcolor(colsabsforecastsps2,0.6))
+#pmm vs lmm curr-2C
+MrWhite_palette30 <-  colorRampPalette(c("#9e0142","#d53e4f","#f46d43","#fdae61","#fee08b",
+                                         "#e6f598","#abdda4","#66c2a5","#3288bd","#5e4fa2"))(39)[1:39]
+hist(dfsps2$absforecast.std,30,border=MrWhite_palette30,
+     col=adjustcolor(MrWhite_palette30,0.8),
+     #xlim=c(-1.6,0.2),
+     #ylim=c(0,15000),
+     main="",xlab="PMM(0C-2C)-LMM(0C-2C)/LMM(0C-2C)",cex.lab=1.2)
+hist(dfsps1$absforecast.std,30,col=adjustcolor(MrWhite_palette30,0.6),
+     border="black",add=T)
 
 
 # end ----

@@ -1,0 +1,7 @@
+\contentsline {section}{\numberline {1}Extended Methods}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Details on data: sources and structure}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Interpretation of $\lambda _j$ and $\sigma _j^2$ on slopes and intercepts}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Does accounting for phylogenetic relationships affect forecasts?}{3}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Leave-One-Clade-Out cross validation}{5}{subsection.1.4}%
+\contentsline {section}{\numberline {2}Supplementary Tables}{10}{section.2}%
+\contentsline {section}{\numberline {3}Supplementary Figures}{30}{section.3}%
