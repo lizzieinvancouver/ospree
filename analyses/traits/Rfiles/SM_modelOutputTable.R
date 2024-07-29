@@ -37,13 +37,13 @@ upper_htBFSpMean <- as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxForce)
 htBFSpMean; lower_htBFSpMean; upper_htBFSpMean
 
 htBCSpMean <- as.numeric(round(mean(htModelFit$betaTraitxChill),1))
-lower_htBCSpMean <- as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxChill), prob = 0.90)[1],1))
+lower_htBCSpMean <- format(as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxChill), prob = 0.90)[1],1)), nsmall = 1)
 upper_htBCSpMean <- as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxChill), prob = 0.90)[2],1))
 htBCSpMean; lower_htBCSpMean; upper_htBCSpMean
 
 htBPSpMean <- as.numeric(round(mean(htModelFit$betaTraitxPhoto),1))
 lower_htBPSpMean <- as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxPhoto), prob = 0.90)[1],1))
-upper_htBPSpMean <- as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxPhoto), prob = 0.90)[2],1))
+upper_htBPSpMean <- format(as.numeric(round(HPDI(data.frame(htModelFit$betaTraitxPhoto), prob = 0.90)[2],1)), nsmall = 1)
 htBPSpMean; lower_htBPSpMean; upper_htBPSpMean
 
 htchill <- data.frame(htModelFit$alphaChillSp)
@@ -81,7 +81,7 @@ lncModel <- readRDS(paste("../../analyses/traits/output/", "LNC_stanfit_37spp.RD
 lncModelFit <- rstan::extract(lncModel)
 
 lncBFSpMean <- as.numeric(round(mean(lncModelFit$betaTraitxForce),1))
-lower_lncBFSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxForce), prob = 0.90)[1],1))
+lower_lncBFSpMean <- format(as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxForce), prob = 0.90)[1],1)), nsmall =1)
 upper_lncBFSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxForce), prob = 0.90)[2],1))
 lncBFSpMean; lower_lncBFSpMean; upper_lncBFSpMean
 
