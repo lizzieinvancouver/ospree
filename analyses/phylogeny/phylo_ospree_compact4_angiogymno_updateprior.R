@@ -246,8 +246,9 @@ if(runwithchillports){
 
 
 ## Fit model here ... using code for which Lizzie updated priors
-
-if(runmodels){
+##dan is writing out the data at this point to use in Egret
+write.csv(d,"..//..//..//egret/analyses/input/ospreeforegret.csv")
+write.tree(phylo,"..//..//..//egret/analyses/input/ospreeforegret.tre")
 fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan",
                data=list(N=nrow(d),
                          n_sp=nspecies,
@@ -259,7 +260,7 @@ fit <- stan("stan/uber_threeslopeintercept_modified_cholesky_updatedpriors.stan"
                          Vphy=vcv(phylo, corr = TRUE)),
                iter = 4000,
                warmup = 2000, # half the iter as warmp is default, but leaving in case we want to change
-               chains = 4,
+               chains = 1,
                seed = 117 
 )
 

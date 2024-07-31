@@ -114,7 +114,7 @@ goo.a<-filter(goo,continent!="Europe")
 mod.alt.c<-brm(meanchill|mi(sdchill)~Temp.SD,data=goo.e)
 mod.alt.ca<-brm(meanchill|mi(sdchill)~Temp.SD,data=goo.a)
 conditional_effects(mod.alt.ca)
-
+conditional_effects(mod.alt.c)
 
 
 stop("below is old")
