@@ -55,16 +55,18 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-\section{Supplementary Material}
+\title{Supplementary Material: Woody plant phenological responses are strongly associated with key functional traits}
+\date{}
+\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
+Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1,3,4}$}
+\maketitle 
 
-\subsection{Methods}
+\subsection*{Methods}
 
 We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018a} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orme2013}. \\
 
-\bibliographystyle{refs/bibstyles/science.bst}% 
-\bibliography{refs/traitors_mar23.bib}
 \newpage
-
+\section*{Figures \& Tables}
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
@@ -83,8 +85,8 @@ We used a phylogenetic generalized least-squares regression model (PGLS) to test
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_supp.pdf} 
-    \caption{Functional traits may contribute to the species responses to forcing, chilling, or photoperiod cues in several ways. a) If traits are contribute negatively to the timing of phenological events, we expect the phenological response to be stronger and budburst earlier with increasing cue values. b) But if traits have no effects on the timing of budburst then cue responses will be zero and equivalent to the cue only trends. c) Lastly, traits that have a positive contribution to the timing of phenological events produce weaker responses with later budburst dates. The effect of height on phenological cue responses was weaker in response to forcing cues, but stronger in response to both chilling and photoperiod. In contrast, seed mass has a negligible effect on forcing and photoperiod cue responses, but a greater response with chilling. Band represent the 50\% uncertainty intervals of the model estimates.}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_maintext.pdf} 
+    \caption{ We expected species with traits associated with acquisitive (e.g, low specific leaf area, SLA, and leaf nitrogen content, LNC)  versus conservative (e.g., high SLA and LNC) growth strategies would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. We show an example here with an acquistive species, \emph{Alnus incana} shown in red, and a conservative species, \emph{Quercus robur} shown in blue, for SLA (\textbf{a-c}) and LNC (\textbf{d-f}). Our joint model estimated later budburst due to trait effects for both SLA and LNC in response to forcing (\textbf{a, d,}) and chilling (\textbf{b, e}) and for LNC in response to photoperiod (\textbf{f}). Only in response to photoperiod did we estimate the effect of SLA to lead to slightly earlier budburst with longer photoperiods  (\textbf{c}). The coloured bands represent the 50\% uncertainty intervals of the model estimates and points individual trati measurements.} 
     \label{fig:slopesSupp}
 \end{figure}
 
@@ -93,7 +95,7 @@ We used a phylogenetic generalized least-squares regression model (PGLS) to test
 require(xtable)
 #get_variables(mdl.traitphen)
 smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
-datasource <- print(xtable(smTab37 , caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableDataSources"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+datasource <- print(xtable(smTab37 , caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableRefs"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
 
  
 @
@@ -147,10 +149,62 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="Summary of model estimates using measurements of tree height for our 37 focal species ($n$ = 42781)"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of tree height for our 37 focal species ($n$ = 42781)", label = "tableHt"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
  
+<<label= suppTableSeedMass, echo=FALSE , results=tex>>=
+require(xtable)
+require(rstan)
+load("..//..//analyses/traits/output/seedmasslog10_raw_37spp.Rda")
+#get_variables(mdl.traitphen)
+
+sumt <- summary(mdl.traitphen)$summary
+
+col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
+
+mu_params <-   c("mu_grand",
+                 "muPhenoSp",
+                 "muForceSp", # muAlphaForce
+                 "muChillSp",
+                 "muPhotoSp",
+                 "betaTraitxForce",
+                 "betaTraitxChill",
+                 "betaTraitxPhoto",
+                 "sigma_sp",
+                 "sigma_study",
+                 "sigma_traity",
+                 "sigmaPhenoSp",
+                 "sigmaForceSp",
+                 "sigmaChillSp",
+                 "sigmaPhotoSp", #sigma_alpha_photo
+                 "sigmapheno_y")
+esti <- sumt[mu_params, col4table]
+
+#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
+rownames(esti) =c("mu_grand",
+                  "muPhenoSp",
+                  "muForceSp",
+                  "muChillSp",
+                  "muPhotoSp",
+                  "betaTraitxForce",
+                  "betaTraitxChill",
+                  "betaTraitxPhoto",
+                  "sigma_sp",
+                  "sigma_study",
+                  "sigma_traity",
+                  "sigmaPhenoSp",
+                  "sigmaForceSp",
+                  "sigmaChillSp",
+                  "sigmaPhotoSp",
+                  "sigmapheno_y")
+
+esti.table <- sumt[mu_params, col4table]
+row.names(esti.table) <- row.names(esti)
+
+print(xtable(esti.table , caption="Summary of model estimates using measurements of seed mass data for our 37 focal species ($n$ = 281).", label = "tableSM"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+ 
+@
 
 <<label=suppTableSLA, echo=FALSE , results=tex>>=
 require(xtable)
@@ -201,62 +255,11 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="Summary of model estimates using measurements of specific leaf area for our 37 focal species ($n$ = 7656)."),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(xtable(esti.table , caption="Summary of model estimates using measurements of specific leaf area for our 37 focal species ($n$ = 7656).", label = "tableSLA"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
 
-<<label= suppTableSeedMass, echo=FALSE , results=tex>>=
-require(xtable)
-require(rstan)
-load("..//..//analyses/traits/output/seedmasslog10_raw_37spp.Rda")
-#get_variables(mdl.traitphen)
 
-sumt <- summary(mdl.traitphen)$summary
-
-col4table <- c("mean","sd","2.5%","50%","97.5%","Rhat")
-
-mu_params <-   c("mu_grand",
-                 "muPhenoSp",
-                 "muForceSp", # muAlphaForce
-                 "muChillSp",
-                 "muPhotoSp",
-                 "betaTraitxForce",
-                 "betaTraitxChill",
-                 "betaTraitxPhoto",
-                 "sigma_sp",
-                 "sigma_study",
-                 "sigma_traity",
-                 "sigmaPhenoSp",
-                 "sigmaForceSp",
-                 "sigmaChillSp",
-                 "sigmaPhotoSp", #sigma_alpha_photo
-                 "sigmapheno_y")
-esti <- sumt[mu_params, col4table]
-
-#temp <- c(mugrandtrait, muStudy, muGrandSpname, betaForceSpname)
-rownames(esti) =c("mu_grand",
-                  "muPhenoSp",
-                  "muForceSp",
-                  "muChillSp",
-                  "muPhotoSp",
-                  "betaTraitxForce",
-                  "betaTraitxChill",
-                  "betaTraitxPhoto",
-                  "sigma_sp",
-                  "sigma_study",
-                  "sigma_traity",
-                  "sigmaPhenoSp",
-                  "sigmaForceSp",
-                  "sigmaChillSp",
-                  "sigmaPhotoSp",
-                  "sigmapheno_y")
-
-esti.table <- sumt[mu_params, col4table]
-row.names(esti.table) <- row.names(esti)
-
-print(xtable(esti.table , caption="Summary of model estimates using measurements of seed mass data for our 37 focal species ($n$ = 281)."),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
- 
-@
 
 <<label= suppTableLNC, echo=FALSE , results=tex>>=
 require(xtable)
@@ -307,9 +310,13 @@ rownames(esti) =c("mu_grand",
 esti.table <- sumt[mu_params, col4table]
 row.names(esti.table) <- row.names(esti)
 
-print(xtable(esti.table , caption="Summary of model estimates using measurements of leaf nitrogen content for our 37 focal species ($n$ = 3853.)"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
+print(
+    xtable(esti.table , caption="Summary of model estimates using measurements of leaf nitrogen content for our 37 focal species ($n$ = 3853.)", label = "tableLNC"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
+\newpage
+\bibliographystyle{refs/bibstyles/science.bst}% 
+\bibliography{refs/traitors_mar23.bib}
 
 
 \end{document}
