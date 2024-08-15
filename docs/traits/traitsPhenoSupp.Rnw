@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage{tabularx}
 \usepackage{longtable}
-\usepackage[sort&compress, numbers, super]{natbib}
+\usepackage{natbib}
 \usepackage{amsmath}
 \usepackage{textcomp}
 \usepackage{float}
@@ -61,15 +61,14 @@
 Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1,3,4}$}
 \maketitle 
 
-\subsection*{Methods}
+\subsection*{Additional methods}
 
 We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018a} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orme2013}. \\
 
-\newpage
 \section*{Figures \& Tables}
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
+ \includegraphics[width= 0.5 \textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 species for which complete trait data was available}
     \label{fig:pca}
 \end{figure}
@@ -91,14 +90,85 @@ We used a phylogenetic generalized least-squares regression model (PGLS) to test
 \end{figure}
 
 \newpage
-<<label=table1, echo=FALSE , results=tex>>=
-require(xtable)
-#get_variables(mdl.traitphen)
-smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
-datasource <- print(xtable(smTab37 , caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableRefs"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+\begin{table}[ht!]
+\centering
+\caption{Bibliographic information for trait data sources from both BIEN and Try trait databases.} 
+\label{tableRefs}
+\begin{tabular}{llllrr}
+  \hline
+Database & Reference & Trait name & Unit & No. observations & No. Species \\ 
+  \hline
+bien & \cite{McHugh2015} & Height & m &  26 &   8 \\ 
+  bien & \cite{Marx2016} & Height & m &   2 &   2 \\ 
+  bien & \cite{Price2014} & Height & m &  27 &  19 \\ 
+  bien & Unpublished & Height & m &  18 &  16 \\ 
+  bien & \cite{Kleyer2008} & Height & m &  90 &  19 \\ 
+  bien & Unpublished & Height & m &  10 &  10 \\ 
+  bien & Moles, Angela; unpublished & Height & m &  21 &  14 \\ 
+  bien & Reams, Greg; unpublished & Height & m & 47036 &  19 \\ 
+  bien & Grime, Hodgson, \& Hunt; unpublished & Height & m &   5 &   5 \\ 
+  bien & Unpublished & Height & m &   8 &   5 \\ 
+  bien & \cite{Perez-de-lis2017} & Height & m &  18 &   1 \\ 
+  bien & \cite{Robinson2015} & Height & m & 120 &   1 \\ 
+  bien & \cite{Anderson-teixeira2015} & Height & m &  20 &   1 \\ 
+  try & \cite{BondLamberty2002} & Height & m &   2 &   1 \\ 
+  try & Unpublished & Height & m & 275 &   3 \\ 
+  try & \cite{Wright2004} & Height & m &  28 &  19 \\ 
+  try & \cite{Prentice2011} & Height & m &   2 &   2 \\ 
+  try & \cite{xylemdatabase} & Height & m &  21 &  21 \\ 
+  try & Unpublished & Height & m &  35 &   2 \\ 
+  try & \cite{Moles2004} & Height & m &   5 &   5 \\ 
+  try & \cite{CavenderBares2006} & Height & m &   1 &   1 \\ 
+  try & \cite{Diaz2004} & Height & m &  11 &  10 \\ 
+  try & \cite{Craine2009} & LNC & mg/g & 287 &  12 \\ 
+  try & \cite{Wilson2000} & LNC & mg/g &  44 &   2 \\ 
+  try & \cite{Wenxuan2011} & LNC & mg/g &   7 &   4 \\ 
+  try & \cite{Yahan2013} & LNC & mg/g &   7 &   3 \\ 
+  try & \cite{Wright2004} & LNC & mg/g &  65 &  32 \\ 
+  try & \cite{Prentice2011} & LNC & mg/g &   3 &   2 \\ 
+  try & \cite{Vergutz2012} & LNC & mg/g & 120 &  20 \\ 
+  try & \cite{Atkin2015} & LNC & mg/g &  24 &   8 \\ 
+  try & \cite{Maire2015} & LNC & mg/g &  72 &  22 \\ 
+  try & \cite{Cornelissen2003} & LNC & mg/g &   2 &   1 \\ 
+  try & Unpublished & LNC & mg/g & 3216 &  37 \\ 
+  try & \cite{Wang2017} & LNC & mg/g &   6 &   2 \\ 
+  bien & \cite{Marx2016} & Seed mass & mg &   3 &   3 \\ 
+  bien & Unpublished & Seed mass & mg &   4 &   2 \\ 
+  bien & \cite{kewSeed} & Seed mass & mg & 250 &  37 \\ 
+  bien & \cite{Ameztegui2017} & Seed mass & mg &  12 &  12 \\ 
+  bien & \cite{Paine2015} & Seed mass & mg &  12 &   7 \\ 
+  try & \cite{Wilson2000} & SLA & mm2 mg-1 &  44 &   2 \\ 
+  try & Unpublished & SLA & mm2 mg-1 & 204 &   3 \\ 
+  try & \cite{Wright2004} & SLA & mm2 mg-1 &  93 &  33 \\ 
+  try & \cite{Prentice2011} & SLA & mm2 mg-1 &   2 &   2 \\ 
+  try & \cite{Kleyer2008} & SLA & mm2 mg-1 & 102 &  18 \\ 
+  try & Unpublished & SLA & mm2 mg-1 &  83 &   2 \\ 
+  try & \cite{Atkin2015} & SLA & mm2 mg-1 &  40 &  11 \\ 
+  try & \cite{Maire2015} & SLA & mm2 mg-1 &  86 &  23 \\ 
+  try & \cite{Cornelissen2003} & SLA & mm2 mg-1 & 615 &  14 \\ 
+  try & Unpublished & SLA & mm2 mg-1 & 6307 &  37 \\ 
+  try & \cite{Wang2017} & SLA & mm2 mg-1 &   6 &   2 \\ 
+  try & \cite{Shipley2002} & SLA & mm2 mg-1 &  20 &   2 \\ 
+  try & \cite{CavenderBares2006} & SLA & mm2 mg-1 &  42 &   2 \\ 
+  try & Unpublished & SLA & mm2 mg-1 &   1 &   1 \\ 
+  try & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\ 
+  \end{tabular}
+\end{table}
 
- 
-@
+\clearpage
+% <<label=table1, echo=FALSE , results=tex>>=
+% require(xtable)
+% #get_variables(mdl.traitphen)
+% smTab37 <- read.csv("../../analyses/traits/input/sm_table_37spp.csv")
+% 
+% tabSub <- smTab37[, c("database",  "source" ,"traitname", "unitname", "no.obs", "no.spp")]
+% tabSub <- gsub("\\cite","\cite", tabSub$source)
+% head(tabSub)
+% 
+% datasource <- print(xtable(tabSub, caption="Bibliographic information for trait data sources from both BIEN and Try trait databases.", label = "tableRefs"), include.rownames= F, caption.placement="top", hline.after=c(-1,0),tablular.environment = "longtable", xtable.floating = T)
+% 
+%  
+% @
 
 <<label=suppTableHt, echo=FALSE , results=tex>>=
 require(xtable)
@@ -152,7 +222,8 @@ row.names(esti.table) <- row.names(esti)
 print(xtable(esti.table , caption="Summary of model estimates using measurements of tree height for our 37 focal species ($n$ = 42781)", label = "tableHt"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
- 
+
+\clearpage
 <<label= suppTableSeedMass, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
@@ -206,6 +277,7 @@ print(xtable(esti.table , caption="Summary of model estimates using measurements
  
 @
 
+\clearpage
 <<label=suppTableSLA, echo=FALSE , results=tex>>=
 require(xtable)
 require(rstan)
@@ -259,7 +331,7 @@ print(xtable(esti.table , caption="Summary of model estimates using measurements
  
 @
 
-
+\clearpage
 
 <<label= suppTableLNC, echo=FALSE , results=tex>>=
 require(xtable)
@@ -314,8 +386,9 @@ print(
     xtable(esti.table , caption="Summary of model estimates using measurements of leaf nitrogen content for our 37 focal species ($n$ = 3853.)", label = "tableLNC"),include.rownames= T, caption.placement="top", hline.after=c(-1,0))
  
 @
-\newpage
-\bibliographystyle{refs/bibstyles/science.bst}% 
+
+\clearpage
+\bibliographystyle{refs/bibstyles/amnat.bst}% 
 \bibliography{refs/traitors_mar23.bib}
 
 
