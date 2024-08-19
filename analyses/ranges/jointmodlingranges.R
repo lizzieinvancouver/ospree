@@ -21,6 +21,8 @@ if(length(grep("lizzie", getwd())>0)) {
   setwd("~/Documents/git/ospree/analyses/ranges") 
 } else if(length(grep("dbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/ranges") 
+}else if(length(grep("deirdreloughnan", getwd()))>0) { 
+  setwd("~/Documents/github/ospree/analyses/ranges") 
 } else if(length(grep("danielbuonaiuto", getwd()))>0) { 
   setwd("~/Documents/git/ospree/analyses/ranges") 
 }else setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
@@ -198,10 +200,10 @@ lf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =
 #STV
 stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.stv.eu,
                 iter = 5000, warmup=4000)
-
+save(stv_jnt.eu, "stv_jnt_eu.Rda")
 stv_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.stv.nam,
                  iter = 5000, warmup=4000)
-
+save(stv_jnt.nam, "stv_jnt_eu.Rda")
 ###mean GDD in range
 GDD_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.GDD.eu,
                  iter = 5000, warmup=4000)
