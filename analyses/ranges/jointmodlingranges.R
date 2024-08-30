@@ -232,9 +232,6 @@ save(CP_jnt_nam, file = "output/CP_jnt_nam.Rda")
 
 }
 
-
-
-
 #quick checks
 summy.eu <- summary(stv_jnt.eu)$summary
 summy.nam <- summary(stv_jnt.nam)$summary
