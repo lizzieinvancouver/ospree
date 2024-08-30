@@ -42,6 +42,7 @@ use.expramptypes.fp = FALSE
 use.exptypes.fp = FALSE
 use.expchillonly = FALSE
 
+run.models = TRUE
 
 setwd("..//bb_analysis")
 source("source/bbstanleadin.R")
@@ -190,34 +191,49 @@ bb.CP.eu <- with(bb.stan.eu,
 
 ###models#####
 ##Lastfrost
-lf_jnt.nam = stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data =bb.lf.nam,
+
+if (run.models== TRUE ){
+
+lf_jnt_eu= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.lf.eu,
+    iter = 5000, warmup=4000)
+
+save(lf_jnt_eu, file = "output/lf_jnt_eu.Rda")
+  
+lf_jnt_nam = stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data =bb.lf.nam,
                      iter = 4000, warmup=3000) # Purring away now!
-
-lf_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.lf.eu,
-                   iter = 5000, warmup=4000)
-
+save(lf_jnt_nam, file = "output/lf_jnt_nam.Rda")
 
 #STV
-stv_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.stv.eu,
+stv_jnt_eu= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.stv.eu,
                 iter = 5000, warmup=4000)
-save(stv_jnt.eu, "stv_jnt_eu.Rda")
-stv_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.stv.nam,
-                 iter = 5000, warmup=4000)
-save(stv_jnt.nam, "stv_jnt_eu.Rda")
-###mean GDD in range
-GDD_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.GDD.eu,
-                 iter = 5000, warmup=4000)
+save(stv_jnt_eu, file = "output/stv_jnt_eu.Rda")
 
-GDD_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.GDD.nam,
+stv_jnt_nam= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.stv.nam,
+                 iter = 5000, warmup=4000)
+save(stv_jnt_nam, file = "output/stv_jnt_nam.Rda")
+
+###mean GDD in range
+GDD_jnt_eu= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.GDD.eu,
+                 iter = 5000, warmup=4000)
+save(GDD_jnt_eu, file = "output/GDD_jnt_eu.Rda")
+
+GDD_jnt_nam= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.GDD.nam,
                   iter = 5000, warmup=4000)
+save(GDD_jnt_nam, file = "output/GDD_jnt_nam.Rda")
 
 #mean CP in range
-CP_jnt.eu= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.CP.eu,
+CP_jnt_eu= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.CP.eu,
                  iter = 5000, warmup=4000)
+save(CP_jnt_eu, file = "output/CP_jnt_eu.Rda")
 
-CP_jnt.nam= stan('popUP/stan/joint_climvar_3param_osp_ncpPhotoForce.stan', data = bb.CP.nam,
+CP_jnt_nam= stan('popUP/stan/joint_climvar_3param_widerPrior.stan', data = bb.CP.nam,
                   iter = 5000, warmup=4000)
-check_all_diagnostics(CP_jnt.eu)
+save(CP_jnt_nam, file = "output/CP_jnt_nam.Rda")
+
+}
+
+
+
 
 #quick checks
 summy.eu <- summary(stv_jnt.eu)$summary
