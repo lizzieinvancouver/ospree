@@ -125,7 +125,7 @@ for(j in 1:nrow(ospreeBB)){
   ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - mean(chilleff) * ospreeBB$chill.z[j] - mean(photoeff) * ospreeBB$photo.z[j]
 }
 
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), 160),
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), 120),
      xlab = expression("Forcing (z-scored"*~degree*C*")"), ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
@@ -148,29 +148,46 @@ for(i in 1:length(plot.sp)){
     polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = colAlpha[i], border = NA)
 }
 for(i in 1:length(plot.sp)){
+  i <-1
     ospree.temp <- subset(ospreeData, ospreeData$speciesname == plot.sp[i])
     ## Add adjusted columns
     ospree.temp$forceadj1 <- ospree.temp$response.time
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$forceadj1[j] = ospree.temp$response.time[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
     }
-    points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.5)
+    points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
 my.label <- paste("a", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Corylus avellana"), ")")),
-#                               expression(paste("Conservative  (", italic("Acer pseudoplatanus"), ")")),
+
+legend(-.10,115, c(expression(paste("Acquisitive  (", italic("A. incana"), ")")),
+                   expression(paste("Conservative  (", italic("Q. rubra"), ")"))),
+       lty = c(1,1), col = c(col1.sp[2], col1.sp[1]),
+       bty = "n", 
+       lwd = 10,  text.width = 2)
+
+text(0.3,117, "Full model")
+
+legend(-1.5, 115, c("",""), lty = c(1,1), col = c(colAlpha[2], colAlpha[1]),  text.width = 3.3, bty = "n", cex = 1, lwd =10)
+text(-1,117, "Trait effect = 0")
+
+
+legend(-2.5,120, c("",""), pch = c(21, 21), pt.bg = c(col1.sp[2], col1.sp[1]),  text.width = 4.8, bty = "n", cex = 1.5)
+text(-2.2,117, "Raw data")
+
+
+# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
+#                               expression(paste("Conservative  (", italic("Quercus rubra"), ")")),
 #                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
 #                               expression(paste("Full model", "  (50% interval)"))),
-#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
-#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
-# dev.off()
+#        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col1.sp, NA, NA),
+#        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.75, bty = "n")
 
 # pdf(file = "figures/results_height_chilling_37spp_ac.pdf", width = 7, height = 6)
 ## Plotting
 ### Chilling
 # par(mar = c(5, 5, 2, 2))
-xrange <- seq(-2, 5, by = 0.25)
+xrange <- seq(-2.5, 2.5, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$chilladj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
@@ -178,7 +195,7 @@ for(j in 1:nrow(ospree.temp)){
 }
 
 
-plot(NA, xlim = c(min(xrange),2.5), ylim = c(min(ospreeBB$chilladj1), 160),
+plot(NA, xlim = c(min(xrange),2.5), ylim = c(min(ospreeBB$chilladj1), 120),
      xlab = expression("Chilling (z-scored"*~degree*C*")"), ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
@@ -207,7 +224,7 @@ for(i in 1:length(plot.sp)){
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$chilladj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - photoeff[which(specieslist == plot.sp[i])] * ospree.temp$photo.z[j]
     }
-    points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.5)
+    points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
 my.label <- paste("b", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -224,14 +241,14 @@ put.fig.letter(label=my.label, location= "topleft", font=2)
 # ## Plotting
 # ### Photoperiod
 # par(mar = c(5, 5, 2, 2))
-xrange <- seq(-1.5, 2.5, by = 0.25)
+xrange <-seq(-2.5, 2.5, by = 0.25)
 ospreeBB <- ospreeData
 ospreeBB$photoadj1 <- ospreeBB$response.time
 for(j in 1:nrow(ospree.temp)){
   ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff * ospree.temp$force.z[j] - chilleff * ospree.temp$chill.z[j]
 }
 
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), 160),
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), 120),
      xlab = "Photoperiod (z-scored hours)", ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
@@ -260,7 +277,7 @@ for(i in 1:length(plot.sp)){
     for(j in 1:nrow(ospree.temp)){
         ospree.temp$photoadj1[j] = ospree.temp$response.time[j] - forceeff[which(specieslist == plot.sp[i])] * ospree.temp$force.z[j] - chilleff[which(specieslist == plot.sp[i])] * ospree.temp$chill.z[j]
     }
-    points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.5)
+    points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
 #                               expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),
