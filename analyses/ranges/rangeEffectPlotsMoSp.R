@@ -18,7 +18,8 @@ setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 #####################
 ### READ IN DATA ####
 #####################
-## Lizzie says: I doubt that  we need ALL this! 
+## Lizzie says: I doubt that we need ALL this! 
+## I just copy and pasted from jointmodlingranges.R 
 ## Would be nicer to WRITE out what we need in jointmodlingranges.R 
 
 ######################################
@@ -181,8 +182,13 @@ bb.CP.eu <- with(bb.stan.eu,
                        
                   ))
 
-### END OF READ IN DATA 
+#########################
+### END READ IN DATA ####
+#########################
 
+##
+## Make plots of all species: cue vs. range predictor
+##
 
 # Following Deirdre's code from cue_slope_plot_sm.pdf
 
@@ -244,19 +250,111 @@ makecuebyrangeplot.nam <- function(posthere, name, maintext, rangevar, betasp, i
      abline(a=intercepthere, b=slopehere, col = "grey")
 }
 
-# For now, read in one model ..
-load("output/CP_jnt_nam.Rda")
-load("output/CP_jnt_eu.Rda")
+makecuebyrangeplotalpha.nam <- function(posthere, name, maintext, rangevar, alphasp){
+     plot( x= unique(bb.stan.nam[[rangevar]]), y = apply(posthere[[alphasp]], MARGIN = 2, FUN = mean), type="n", 
+          xlim = c(min(unique(bb.stan.nam[[rangevar]])), max(unique(bb.stan.nam[[rangevar]]))), 
+          ylim = c(quantile(posthere[[alphasp]], probs=c(0.1)), quantile(posthere[[alphasp]], probs=c(0.9))), 
+          ylab = expression("Alpha for each sp"), 
+          xlab = name, cex.lab = 1.5,
+          main=maintext)  # blank plot with x range 
+     arrows(
+         unique(bb.stan.nam[[rangevar]]), # x mean
+          apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[2,], 
+          unique(bb.stan.nam[[rangevar]]),
+         apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[4,], 
+         length = 0
+       )
+}
 
+
+makecuebyrangeplotalpha.eu <- function(posthere, name, maintext, rangevar, alphasp){
+     plot( x= unique(bb.stan.eu[[rangevar]]), y = apply(posthere[[alphasp]], MARGIN = 2, FUN = mean), type="n", 
+          xlim = c(min(unique(bb.stan.eu[[rangevar]])), max(unique(bb.stan.eu[[rangevar]]))), 
+          ylim = c(quantile(posthere[[alphasp]], probs=c(0.1)), quantile(posthere[[alphasp]], probs=c(0.9))), 
+          ylab = expression("Alpha for each sp"), 
+          xlab = name, cex.lab = 1.5,
+          main=maintext)  # blank plot with x range 
+     arrows(
+         unique(bb.stan.eu[[rangevar]]), # x mean
+          apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[2,], 
+          unique(bb.stan.eu[[rangevar]]),
+         apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[4,], 
+         length = 0
+       )
+}
+
+# For now, read in one model ..
 load("output/lf_jnt_nam.Rda")
 load("output/lf_jnt_eu.Rda")
 
+load("output/stv_jnt_nam.Rda")
+load("output/stv_jnt_eu.Rda")
 
-if(FALSE){
+load("output/CP_jnt_nam.Rda")
+load("output/CP_jnt_eu.Rda")
+
+load("output/GDD_jnt_nam.Rda")
+load("output/GDD_jnt_eu.Rda")
+
+
+if(FALSE){ # for testing ... 
 whichmodel=CP_jnt_nam
 colname="Temp.Mean.CP"
 namegraph="Temp.Mean.CP NAM"
 }
+
+if(FALSE){ # for testing ... 
+whichmodel=lf_jnt_eu
+colname="SD.lastfrost"
+namegraph="SD.lastfrost Europe"
+}
+
+
+dosomething.nam.alphaalso <- function(whichmodel, colname, namegraph){
+     post <- rstan::extract(whichmodel)
+     forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
+     chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
+     photoeff <- apply(post[["betaPhotoSp"]], MARGIN = 2, FUN = mean)
+     betaTraitForceeff <- mean(post[["betaTraitxForcing"]])
+     betaTraitChilleff <- mean(post[["betaTraitxChill"]]) 
+     betaTraitPhotoeff <- mean(post[["betaTraitxPhoto"]]) 
+     pdf(paste("figures/helpme/cuebyrangepredict", namegraph, ".pdf"), width=8, height=6)
+     par(mfrow=c(2,3))
+     makecuebyrangeplotalpha.nam(posthere=post, namegraph, "chill", colname, "alphaChillSp")
+     makecuebyrangeplotalpha.nam(posthere=post, namegraph, "force", colname, "alphaForcingSp")
+     makecuebyrangeplotalpha.nam(posthere=post, namegraph, "photo", colname, "alphaPhotoSp")
+     makecuebyrangeplot.nam(posthere=post, namegraph, "chill", colname, "betaChillSp", mean(post$muChillSp), betaTraitChilleff, 
+          "muChillSp", "betaTraitxChill")
+     makecuebyrangeplot.nam(posthere=post, namegraph, "force", colname, "betaForcingSp", mean(post$muForceSp), betaTraitForceeff,
+          "muForceSp", "betaTraitxForcing")
+     makecuebyrangeplot.nam(posthere=post, namegraph, "photo", colname, "betaPhotoSp", mean(post$muPhotoSp), betaTraitPhotoeff, 
+          "muPhotoSp", "betaTraitxPhoto")
+     dev.off()
+}
+
+
+dosomething.eu.alphaalso <- function(whichmodel, colname, namegraph){
+     post <- rstan::extract(whichmodel)
+     forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
+     chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
+     photoeff <- apply(post[["betaPhotoSp"]], MARGIN = 2, FUN = mean)
+     betaTraitForceeff <- mean(post[["betaTraitxForcing"]])
+     betaTraitChilleff <- mean(post[["betaTraitxChill"]]) 
+     betaTraitPhotoeff <- mean(post[["betaTraitxPhoto"]]) 
+     pdf(paste("figures/helpme/cuebyrangepredict", namegraph, ".pdf"), width=8, height=6)
+     par(mfrow=c(2,3))
+     makecuebyrangeplotalpha.eu(posthere=post, namegraph, "chill", colname, "alphaChillSp")
+     makecuebyrangeplotalpha.eu(posthere=post, namegraph, "force", colname, "alphaForcingSp")
+     makecuebyrangeplotalpha.eu(posthere=post, namegraph, "photo", colname, "alphaPhotoSp")
+     makecuebyrangeplot.eu(posthere=post, namegraph, "chill", colname, "betaChillSp", mean(post$muChillSp), betaTraitChilleff, 
+          "muChillSp", "betaTraitxChill")
+     makecuebyrangeplot.eu(posthere=post, namegraph, "force", colname, "betaForcingSp", mean(post$muForceSp), betaTraitForceeff,
+          "muForceSp", "betaTraitxForcing")
+     makecuebyrangeplot.eu(posthere=post, namegraph, "photo", colname, "betaPhotoSp", mean(post$muPhotoSp), betaTraitPhotoeff, 
+          "muPhotoSp", "betaTraitxPhoto")
+     dev.off()
+}
+
 
 dosomething.nam <- function(whichmodel, colname, namegraph){
      post <- rstan::extract(whichmodel)
@@ -297,18 +395,20 @@ dosomething.eu <- function(whichmodel, colname, namegraph){
 }
 
 
-
+dosomething.nam.alphaalso(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM walpha")
+dosomething.eu.alphaalso(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe walpha")
 
 dosomething.nam(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM")
 dosomething.eu(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe")
 
+dosomething.nam.alphaalso(stv_jnt_nam, colname="STV", namegraph="STV NAM walpha")
+dosomething.eu.alphaalso(stv_jnt_eu, colname="STV", namegraph="STV Europe walpha")
+dosomething.nam(stv_jnt_nam, colname="STV", namegraph="STV NAM")
+dosomething.eu(stv_jnt_eu, colname="STV", namegraph="STV Europe")
+
 dosomething.nam(CP_jnt_nam, colname="Temp.Mean.CP", namegraph="Temp.Mean.CP NAM")
 dosomething.eu(CP_jnt_eu, colname="Temp.Mean.CP", namegraph="Temp.Mean.CP Europe")
 
-if(FALSE){
-whichmodel=lf_jnt_eu
-colname="SD.lastfrost"
-namegraph="SD.lastfrost Europe"
-}
-
+dosomething.nam(GDD_jnt_nam, colname="Temp.Mean.GDD", namegraph="GDD NAM")
+dosomething.eu(GDD_jnt_eu, colname="Temp.Mean.GDD", namegraph="GDD Europe")
 
