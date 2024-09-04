@@ -10,6 +10,8 @@ options(stringsAsFactors = FALSE)
 options(mc.cores = parallel::detectCores())
 
 library(rstan)
+library(ggplot2) # alpha!
+
 
 setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
@@ -181,82 +183,132 @@ bb.CP.eu <- with(bb.stan.eu,
 
 ### END OF READ IN DATA 
 
-# For now, read in one model ..
-load("output/CP_jnt_nam.Rda")
-post <- rstan::extract(CP_jnt_nam)
-
-if(FALSE){
-colnames(post$alphaPhenoSp) <- specieslist
-colnames(post$alphaForcingSp) <- specieslist
-colnames(post$alphaChillSp) <- specieslist
-colnames(post$alphaPhotoSp) <- specieslist
-}
-
-## Obtain mean effect of forcing, chilling, photoperiod, interaction
-forceeff <- apply(post$betaForcingSp, MARGIN = 2, FUN = mean)
-chilleff <- apply(post$betaChillSp, MARGIN = 2, FUN = mean)
-photoeff <- apply(post$betaPhotoSp, MARGIN = 2, FUN = mean)
-# mugrandeff <- apply(post$mu_grand_sp, MARGIN = 2, FUN = mean)
-betaTraitForceeff <- mean(post$betaTraitxForcing)
-betaTraitChilleff <- mean(post$betaTraitxChill) 
-betaTraitPhotoeff <- mean(post$betaTraitxPhoto) 
 
 # Following Deirdre's code from cue_slope_plot_sm.pdf
 
-plot( x= unique(bb.stan.nam$Temp.Mean.CP), y = chilleff, type="n", 
-	xlim = c(min(unique(bb.stan.nam$Temp.Mean.CP)), max(unique(bb.stan.nam$Temp.Mean.CP))), 
-	ylim = c(quantile(post$betaChillSp, probs=c(0.25)), quantile(post$betaChillSp, probs=c(0.75))), 
-	ylab = expression("Response to cue (standardized)"), 
-	xlab = "Temp.Mean.CP", cex.lab = 1.5) # blank plot with x range 
-arrows(
-    unique(bb.stan.nam$Temp.Mean.CP), # x mean
-	apply(post$betaChillSp, MARGIN = 2, FUN = quantile)[2,], 
-	unique(bb.stan.nam$Temp.Mean.CP),
-    apply(post$betaChillSp, MARGIN = 2, FUN = quantile)[4,], 
-    length = 0
-  )
-
-# Now add the fit line ... but should limit to quantiles!
-# Also, not clear to me why the light pink with alpha does now work ... 
-for(j in 1:1000){
-    abline(a = post$muChillSp[j], b = post$betaTraitxChill[j], col="lightpink") # alpha("lightpink", 0.015))
-  }
-abline(a=mean(post$muChillSp), b=betaTraitChilleff, col = "grey")
-
-
 if(FALSE){ # for testing .. 
-	rangevar <- "Temp.Mean.CP"
-	betasp <- "betaChillSp"
-	intercepthere  <- mean(post$muChillSp)
-	slopehere  <- betaTraitChilleff
+     rangevar <- "Temp.Mean.CP"
+     betasp <- "betaChillSp"
+     intercepthere  <- mean(post$muChillSp)
+     slopehere  <- betaTraitChilleff
+     intpostlines <- "muChillSp"
+     slopepostlines <- "betaTraitxChill"
 }
 
-makecuebyrangeplot <- function(rangevar, betasp, intercepthere, slopehere){
-	plot( x= unique(bb.stan.nam[[rangevar]]), y = chilleff, type="n", 
-		xlim = c(min(unique(bb.stan.nam[[rangevar]])), max(unique(bb.stan.nam[[rangevar]]))), 
-		ylim = c(quantile(post[[betasp]], probs=c(0.25)), quantile(post[[betasp]], probs=c(0.75))), 
-		ylab = expression("Response to cue (standardized)"), 
-		xlab = "Temp.Mean.CP", cex.lab = 1.5) # blank plot with x range 
-	arrows(
-	    unique(bb.stan.nam[[rangevar]]), # x mean
-		apply(post[[betasp]], MARGIN = 2, FUN = quantile)[2,], 
-		unique(bb.stan.nam[[rangevar]]),
-	    apply(post[[betasp]], MARGIN = 2, FUN = quantile)[4,], 
-	    length = 0
-	  )
 
-	# Now add the fit line ... but should limit to quantiles!
-	# Also, not clear to me why the light pink with alpha does now work ... 
-	#for(j in 1:1000){
-	#    abline(a = post$muChillSp[j], b = post$betaTraitxChill[j], col="lightpink") # alpha("lightpink", 0.015))
-	#  }
-	abline(a=intercepthere, b=slopehere, col = "grey")
-
+makecuebyrangeplot.eu <- function(posthere, name, maintext, rangevar, betasp, intercepthere, slopehere, 
+     intpostlines, slopepostlines){
+     plot( x= unique(bb.stan.eu[[rangevar]]), y = apply(posthere[[betasp]], MARGIN = 2, FUN = mean), type="n", 
+          xlim = c(min(unique(bb.stan.eu[[rangevar]])), max(unique(bb.stan.eu[[rangevar]]))), 
+          ylim = c(quantile(posthere[[betasp]], probs=c(0.1)), quantile(posthere[[betasp]], probs=c(0.9))), 
+          ylab = expression("Response to cue (standardized)"), 
+          xlab = name, cex.lab = 1.5,
+          main=maintext)  # blank plot with x range 
+     # Now add the fit lines ... 
+     # for(j in 1:1000){
+     #    abline(a = posthere[[intpostlines]][j], b = posthere[[slopepostlines]][j], col=alpha("lightpink", 0.15)) 
+     #  }
+     arrows(
+         unique(bb.stan.eu[[rangevar]]), # x mean
+          apply(posthere[[betasp]], MARGIN = 2, FUN = quantile)[2,], 
+          unique(bb.stan.eu[[rangevar]]),
+         apply(posthere[[betasp]], MARGIN = 2, FUN = quantile)[4,], 
+         length = 0
+       )
+     abline(a = quantile(posthere[[intpostlines]], probs=c(0.25)), b = quantile(posthere[[slopepostlines]], probs=(0.25)), col="lightpink") 
+     abline(a = quantile(posthere[[intpostlines]], probs=c(0.75)), b = quantile(posthere[[slopepostlines]], probs=(0.75)), col="lightpink") 
+     abline(a=intercepthere, b=slopehere, col = "grey")
 }
 
-par(mfrow=c(1,3))
-makecuebyrangeplot("Temp.Mean.CP", "betaChillSp", mean(post$muChillSp), betaTraitChilleff)
-makecuebyrangeplot("Temp.Mean.CP", "betaForcingSp", mean(post$muForceSp), betaTraitForceeff)
-makecuebyrangeplot("Temp.Mean.CP", "betaPhotoSp", mean(post$muPhotoSp), betaTraitPhotoeff)
+makecuebyrangeplot.nam <- function(posthere, name, maintext, rangevar, betasp, intercepthere, slopehere, 
+     intpostlines, slopepostlines){
+     plot( x= unique(bb.stan.nam[[rangevar]]), y = apply(posthere[[betasp]], MARGIN = 2, FUN = mean), type="n", 
+          xlim = c(min(unique(bb.stan.nam[[rangevar]])), max(unique(bb.stan.nam[[rangevar]]))), 
+          ylim = c(quantile(posthere[[betasp]], probs=c(0.1)), quantile(posthere[[betasp]], probs=c(0.9))), 
+          ylab = expression("Response to cue (standardized)"), 
+          xlab = name, cex.lab = 1.5,
+          main=maintext)  # blank plot with x range 
+     # Now add the fit lines ... 
+     # for(j in 1:1000){
+     #    abline(a = posthere[[intpostlines]][j], b = posthere[[slopepostlines]][j], col=alpha("lightpink", 0.15)) 
+     #  }
+     arrows(
+         unique(bb.stan.nam[[rangevar]]), # x mean
+          apply(posthere[[betasp]], MARGIN = 2, FUN = quantile)[2,], 
+          unique(bb.stan.nam[[rangevar]]),
+         apply(posthere[[betasp]], MARGIN = 2, FUN = quantile)[4,], 
+         length = 0
+       )
+     abline(a = quantile(posthere[[intpostlines]], probs=c(0.25)), b = quantile(posthere[[slopepostlines]], probs=(0.25)), col="lightpink") 
+     abline(a = quantile(posthere[[intpostlines]], probs=c(0.75)), b = quantile(posthere[[slopepostlines]], probs=(0.75)), col="lightpink") 
+     abline(a=intercepthere, b=slopehere, col = "grey")
+}
+
+# For now, read in one model ..
+load("output/CP_jnt_nam.Rda")
+load("output/CP_jnt_eu.Rda")
+
+load("output/lf_jnt_nam.Rda")
+load("output/lf_jnt_eu.Rda")
+
+
+if(FALSE){
+whichmodel=CP_jnt_nam
+colname="Temp.Mean.CP"
+namegraph="Temp.Mean.CP NAM"
+}
+
+dosomething.nam <- function(whichmodel, colname, namegraph){
+     post <- rstan::extract(whichmodel)
+     forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
+     chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
+     photoeff <- apply(post[["betaPhotoSp"]], MARGIN = 2, FUN = mean)
+     betaTraitForceeff <- mean(post[["betaTraitxForcing"]])
+     betaTraitChilleff <- mean(post[["betaTraitxChill"]]) 
+     betaTraitPhotoeff <- mean(post[["betaTraitxPhoto"]]) 
+     pdf(paste("figures/helpme/cuebyrangepredict", namegraph, ".pdf"), width=8, height=4)
+     par(mfrow=c(1,3))
+     makecuebyrangeplot.nam(posthere=post, namegraph, "chill", colname, "betaChillSp", mean(post$muChillSp), betaTraitChilleff, 
+          "muChillSp", "betaTraitxChill")
+     makecuebyrangeplot.nam(posthere=post, namegraph, "force", colname, "betaForcingSp", mean(post$muForceSp), betaTraitForceeff,
+          "muForceSp", "betaTraitxForcing")
+     makecuebyrangeplot.nam(posthere=post, namegraph, "photo", colname, "betaPhotoSp", mean(post$muPhotoSp), betaTraitPhotoeff, 
+          "muPhotoSp", "betaTraitxPhoto")
+     dev.off()
+}
+
+dosomething.eu <- function(whichmodel, colname, namegraph){
+     post <- rstan::extract(whichmodel)
+     forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
+     chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
+     photoeff <- apply(post[["betaPhotoSp"]], MARGIN = 2, FUN = mean)
+     betaTraitForceeff <- mean(post[["betaTraitxForcing"]])
+     betaTraitChilleff <- mean(post[["betaTraitxChill"]]) 
+     betaTraitPhotoeff <- mean(post[["betaTraitxPhoto"]]) 
+     pdf(paste("figures/helpme/cuebyrangepredict", namegraph, ".pdf"), width=8, height=4)
+     par(mfrow=c(1,3))
+     makecuebyrangeplot.eu(posthere=post, namegraph, "chill", colname, "betaChillSp", mean(post$muChillSp), betaTraitChilleff, 
+          "muChillSp", "betaTraitxChill")
+     makecuebyrangeplot.eu(posthere=post, namegraph, "force", colname, "betaForcingSp", mean(post$muForceSp), betaTraitForceeff,
+          "muForceSp", "betaTraitxForcing")
+     makecuebyrangeplot.eu(posthere=post, namegraph, "photo", colname, "betaPhotoSp", mean(post$muPhotoSp), betaTraitPhotoeff, 
+          "muPhotoSp", "betaTraitxPhoto")
+     dev.off()
+}
+
+
+
+
+dosomething.nam(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM")
+dosomething.eu(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe")
+
+dosomething.nam(CP_jnt_nam, colname="Temp.Mean.CP", namegraph="Temp.Mean.CP NAM")
+dosomething.eu(CP_jnt_eu, colname="Temp.Mean.CP", namegraph="Temp.Mean.CP Europe")
+
+if(FALSE){
+whichmodel=lf_jnt_eu
+colname="SD.lastfrost"
+namegraph="SD.lastfrost Europe"
+}
 
 
