@@ -2,7 +2,8 @@
 ## By Lizzie ##
 
 ## Trying to make the main ranger figures, adapted from traitors ##
-## REMEMBER: We should also make the decompose figures ##
+## REMEMBER: We should also make the last part of decompose figures  ##
+## That is, the first plot in things like: chill_bdecompSeedMass_stanfit.pdf
 
 # housekeeping
 rm(list=ls())
@@ -11,7 +12,6 @@ options(mc.cores = parallel::detectCores())
 
 library(rstan)
 library(ggplot2) # alpha!
-
 
 setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/ranges")
 
@@ -250,21 +250,6 @@ makecuebyrangeplot.nam <- function(posthere, name, maintext, rangevar, betasp, i
      abline(a=intercepthere, b=slopehere, col = "grey")
 }
 
-makecuebyrangeplotalpha.nam <- function(posthere, name, maintext, rangevar, alphasp){
-     plot( x= unique(bb.stan.nam[[rangevar]]), y = apply(posthere[[alphasp]], MARGIN = 2, FUN = mean), type="n", 
-          xlim = c(min(unique(bb.stan.nam[[rangevar]])), max(unique(bb.stan.nam[[rangevar]]))), 
-          ylim = c(quantile(posthere[[alphasp]], probs=c(0.1)), quantile(posthere[[alphasp]], probs=c(0.9))), 
-          ylab = expression("Alpha for each sp"), 
-          xlab = name, cex.lab = 1.5,
-          main=maintext)  # blank plot with x range 
-     arrows(
-         unique(bb.stan.nam[[rangevar]]), # x mean
-          apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[2,], 
-          unique(bb.stan.nam[[rangevar]]),
-         apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[4,], 
-         length = 0
-       )
-}
 
 
 makecuebyrangeplotalpha.eu <- function(posthere, name, maintext, rangevar, alphasp){
@@ -283,6 +268,24 @@ makecuebyrangeplotalpha.eu <- function(posthere, name, maintext, rangevar, alpha
        )
 }
 
+
+makecuebyrangeplotalpha.nam <- function(posthere, name, maintext, rangevar, alphasp){
+     plot( x= unique(bb.stan.nam[[rangevar]]), y = apply(posthere[[alphasp]], MARGIN = 2, FUN = mean), type="n", 
+          xlim = c(min(unique(bb.stan.nam[[rangevar]])), max(unique(bb.stan.nam[[rangevar]]))), 
+          ylim = c(quantile(posthere[[alphasp]], probs=c(0.1)), quantile(posthere[[alphasp]], probs=c(0.9))), 
+          ylab = expression("Alpha for each sp"), 
+          xlab = name, cex.lab = 1.5,
+          main=maintext)  # blank plot with x range 
+     arrows(
+         unique(bb.stan.nam[[rangevar]]), # x mean
+          apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[2,], 
+          unique(bb.stan.nam[[rangevar]]),
+         apply(posthere[[alphasp]], MARGIN = 2, FUN = quantile)[4,], 
+         length = 0
+       )
+}
+
+
 # For now, read in one model ..
 load("output/lf_jnt_nam.Rda")
 load("output/lf_jnt_eu.Rda")
@@ -295,6 +298,19 @@ load("output/CP_jnt_eu.Rda")
 
 load("output/GDD_jnt_nam.Rda")
 load("output/GDD_jnt_eu.Rda")
+
+# grep stan output to look at values
+sumer <- summary(lf_jnt_nam)$summary
+# sumer <- summary(lf_jnt_eu)$summary
+sumer[grep("betaTraitxChill", rownames(sumer)), c("2.5%", "mean", "97.5%")]
+sumer[grep("betaTraitxForcing", rownames(sumer)), c("2.5%", "mean", "97.5%")]
+sumer[grep("betaTraitxPhoto", rownames(sumer)), c("2.5%", "mean", "97.5%")]
+
+if(FALSE){ # Reminder to self ... the below is the same as betaChillSp
+     posthere <- rstan::extract(lf_jnt_nam)
+     apply(posthere[["alphaChillSp"]], MARGIN = 2, FUN = mean) + 
+          mean(posthere[["betaTraitxChill"]])*unique(bb.stan.nam[["SD.lastfrost"]])
+}
 
 
 if(FALSE){ # for testing ... 
@@ -310,7 +326,7 @@ namegraph="SD.lastfrost Europe"
 }
 
 
-dosomething.nam.alphaalso <- function(whichmodel, colname, namegraph){
+dosomething.nam.multi <- function(whichmodel, colname, namegraph){
      post <- rstan::extract(whichmodel)
      forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
      chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
@@ -333,7 +349,7 @@ dosomething.nam.alphaalso <- function(whichmodel, colname, namegraph){
 }
 
 
-dosomething.eu.alphaalso <- function(whichmodel, colname, namegraph){
+dosomething.eu.multi <- function(whichmodel, colname, namegraph){
      post <- rstan::extract(whichmodel)
      forceeff <- apply(post[["betaForcingSp"]], MARGIN = 2, FUN = mean)
      chilleff <- apply(post[["betaChillSp"]], MARGIN = 2, FUN = mean)
@@ -394,15 +410,15 @@ dosomething.eu <- function(whichmodel, colname, namegraph){
      dev.off()
 }
 
-
-dosomething.nam.alphaalso(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM walpha")
-dosomething.eu.alphaalso(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe walpha")
+# Make a lot of plots
+dosomething.nam.multi(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM walpha")
+dosomething.eu.multi(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe multi")
 
 dosomething.nam(lf_jnt_nam, colname="SD.lastfrost", namegraph="SD.lastfrost NAM")
 dosomething.eu(lf_jnt_eu, colname="SD.lastfrost", namegraph="SD.lastfrost Europe")
 
-dosomething.nam.alphaalso(stv_jnt_nam, colname="STV", namegraph="STV NAM walpha")
-dosomething.eu.alphaalso(stv_jnt_eu, colname="STV", namegraph="STV Europe walpha")
+dosomething.nam.multi(stv_jnt_nam, colname="STV", namegraph="STV NAM walpha")
+dosomething.eu.multi(stv_jnt_eu, colname="STV", namegraph="STV Europe multi")
 dosomething.nam(stv_jnt_nam, colname="STV", namegraph="STV NAM")
 dosomething.eu(stv_jnt_eu, colname="STV", namegraph="STV Europe")
 
