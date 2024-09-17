@@ -44,36 +44,36 @@ posterior_sm <- rstan::extract(readRDS(file = "output/SeedMass_log10_stanfit_37s
 
 hist(posterior_ht$sigma_study)
 
-pdf("figures/studySpNew.pdf", width = 15, height = 4.5)
-par(mfrow = c(1,4), mar = c(5.1, 4.5, 4.1, 2.1))
-plot(density(posterior_ht$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
-lines(density(posterior_ht$sigma_sp), col = "sienna3", lwd =3)
-text(3, 0.68, "Height", cex = 2)
-my.label <- paste("a", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-
-plot(density(posterior_sla$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
-lines(density(posterior_sla$sigma_sp), col = "sienna3", lwd =3)
-text(2, 0.68, "SLA", cex = 2)
-my.label <- paste("b", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-
-plot(density(posterior_lnc$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
-lines(density(posterior_lnc$sigma_sp), col = "sienna3", lwd =3)
-text(2, 0.68, "LNC", cex = 2)
-my.label <- paste("c", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-
-plot(density(posterior_sm$sigma_study), xlim = c(0, 20), ylim = c(0, 4.5), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
-lines(density(posterior_sm$sigma_sp), col = "sienna3", lwd =3)
-text(4, 4.3, "Seed Mass", cex = 2)
-my.label <- paste("d", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-legend("topright",legend = c("Species variation", "Study variation"),
-       col = c("sienna3", "goldenrod"),
-       lwd = 5, bty = "n", cex = 1.25)
-
-dev.off()
+# pdf("figures/studySpNew.pdf", width = 15, height = 4.5)
+# par(mfrow = c(1,4), mar = c(5.1, 4.5, 4.1, 2.1))
+# plot(density(posterior_ht$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
+# lines(density(posterior_ht$sigma_sp), col = "sienna3", lwd =3)
+# text(3, 0.68, "Height", cex = 2)
+# my.label <- paste("a", ".", sep="")
+# put.fig.letter(label=my.label, location= "topleft", font=2)
+# 
+# plot(density(posterior_sla$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
+# lines(density(posterior_sla$sigma_sp), col = "sienna3", lwd =3)
+# text(2, 0.68, "SLA", cex = 2)
+# my.label <- paste("b", ".", sep="")
+# put.fig.letter(label=my.label, location= "topleft", font=2)
+# 
+# plot(density(posterior_lnc$sigma_study), xlim = c(0, 20), ylim = c(0, 0.7), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
+# lines(density(posterior_lnc$sigma_sp), col = "sienna3", lwd =3)
+# text(2, 0.68, "LNC", cex = 2)
+# my.label <- paste("c", ".", sep="")
+# put.fig.letter(label=my.label, location= "topleft", font=2)
+# 
+# plot(density(posterior_sm$sigma_study), xlim = c(0, 20), ylim = c(0, 4.5), col = "goldenrod", lwd = 3, xlab = "Variance", ylab = "Density", cex.lab = 1.75, main = "", cex.axis = 1.5)
+# lines(density(posterior_sm$sigma_sp), col = "sienna3", lwd =3)
+# text(4, 4.3, "Seed Mass", cex = 2)
+# my.label <- paste("d", ".", sep="")
+# put.fig.letter(label=my.label, location= "topleft", font=2)
+# legend("topright",legend = c("Species variation", "Study variation"),
+#        col = c("sienna3", "goldenrod"),
+#        lwd = 5, bty = "n", cex = 1.25)
+# 
+# dev.off()
 
 
 # But maybe we don't want to be using a density plot, making a histogram plot instead

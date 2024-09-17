@@ -137,7 +137,7 @@ files
   
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
-pdf(paste("figures/cue", "trait_wtrend_maintext_Qrobur", ".pdf", sep = ""), height = 16, width = 12)
+pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), height = 16, width = 12)
   par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
   plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression("Response to cue (standardized)"), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
