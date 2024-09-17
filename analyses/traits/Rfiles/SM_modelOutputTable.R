@@ -91,7 +91,7 @@ upper_lncBCSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxChil
 lncBCSpMean; lower_lncBCSpMean; upper_lncBCSpMean
 
 lncBPSpMean <- as.numeric(round(mean(lncModelFit$betaTraitxPhoto),1))
-lower_lncBPSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxPhoto), prob = 0.90)[1],1))
+lower_lncBPSpMean <- format(as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxPhoto), prob = 0.90)[1],1)), nsmall =1)
 upper_lncBPSpMean <- as.numeric(round(HPDI(data.frame(lncModelFit$betaTraitxPhoto), prob = 0.90)[2],1))
 lncBPSpMean; lower_lncBPSpMean; upper_lncBPSpMean
 

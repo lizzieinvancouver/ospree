@@ -13,7 +13,7 @@ setwd("~/Documents/github/ospree/analyses/traits")
 
 traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
 traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
-ospree <- read.csv("input/bbstan_allspp_utah.csv", stringsAsFactors = FALSE, header = TRUE)
+ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", stringsAsFactors = FALSE, header = TRUE)
 
 traitsData <- rbind(traitsData1,traitsData2)
 
@@ -47,9 +47,10 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   text(labels=label[1], x=this.x, y=this.y, xpd=T, cex = 2, ...)
 }
 
-pdf("figures/slopesConsAcqu_maintext_newCol.pdf", width = 12, height = 12)
-par(mar = c(5, 5, 2, 2), mfrow=c(3,3))
-source("Rfiles/concept_fig.R")
+pdf("figures/slopesConsAcqu_sla_lnc_100.pdf", width = 12, height = 8)
+par(mar = c(5.2, 5, 2, 2), mfrow=c(2,3), mgp = c(3,0.5, 0))
+#source("Rfiles/concept_fig.R")
+#par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
 #source("results_Height_plot.R")
 source("results_SLA_plot.R")
 #source("results_SeedMass_plot.R")
@@ -57,8 +58,8 @@ source("results_LNC_plot.R")
 dev.off()
 
 
-pdf("figures/slopesConsAcqu_supp.pdf", width = 12, height = 8)
-par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
+pdf("figures/slopesConsAcqu_ht_sm_100.pdf", width = 12, height = 8)
+par(mar = c(5.2, 5, 2, 2), mfrow=c(2,3), mgp = c(3,0.5, 0))
 #source("Rfiles/concept_fig.R")
 source("results_Height_plot.R")
 source("results_SeedMass_plot.R")

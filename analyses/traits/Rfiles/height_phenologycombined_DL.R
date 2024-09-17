@@ -28,6 +28,7 @@ if (MidgeFlag == TRUE){
   traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 }
 
+
 traitsData <- rbind(traitsData1,traitsData2)
 
 traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
@@ -38,6 +39,10 @@ traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 # height trait only
 height <- traitsData[traitsData$traitname == "Plant_height_vegetative",]
 
+height <- traitsData[traitsData$traitname == "seed mass",]
+ht <- height[complete.cases(height$traitvalue),]
+unique(height$speciesname) #71, 64
+#ht <- height[complete.cases(height$traitvalue),] # 66 
 #### Removing dups and resampling height #########################
 small <- subset(height, traitvalue < 1.42) # this is 2.1% of the data 
 

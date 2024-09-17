@@ -37,7 +37,7 @@ Ntrt
 mu.grand <- 15 # the grand mean of the LNC model
 sigma.species <- 5 # we want to keep the variaiton across spp. high
 sigma.study <- 5
-sigmaTrait_y <- 2
+
 
 #make a dataframe for LNC
 trt.dat <- data.frame(matrix(NA, Ntrt, 1))
@@ -54,7 +54,7 @@ muStudy <- rnorm(Nstudy, 0, sigma.study)
 trt.dat$muStudy <- rep(muStudy, each = Nrep*Nspp) 
 
 # general variance
-trt.var <- 5 #sigmaTrait_y in the stan code
+trt.var <- 2 #sigmaTrait_y in the stan code
 trt.dat$trt.er <- rnorm(Ntrt, 0, trt.var)
 
 # generate yhat - heights -  for this first trt model
@@ -236,8 +236,19 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
 
 	save(mdl.traitphenSim, file = "phenologyMeanTrait_sim_5_5.RData")
 	sum.jfcp <- summary(mdl.traitphenSim)$summary
+	
+	mdl.traitphenCent <- stan("stan/phenology_combined_priorcentred.stan",
+	                         data = all.data,
+	                         iter = itterNumber,
+	                         warmup = warmupNumber,
+	                         chains = 4,
+	                         cores = 4,
+	                         include = FALSE, pars = c("y_hat"))
+	
+	save(mdl.traitphenCent, file = "phenologyMeanTrait_sim_5_5.RData")
+	sum.jfcp <- summary(mdl.traitphenCent)$summary
  
- load("Rfiles/phenologyMeanTrait_sim_posF.RData")
+ #load("Rfiles/phenologyMeanTrait_sim_posF.RData")
 # 
  postMeanSLA <- rstan::extract(mdl.traitphenSim)
 # 
@@ -306,7 +317,7 @@ all.data <- list(yTraiti = trt.dat$yTraiti,
 # 
 #
 
-	sum.jfcp <- summary(mdl.traitphenSim)$summary
+	sum.jfcp <- summary(mdl.traitphenCent)$summary
 	
 	mu_grand <- sum.jfcp[grep("mu_grand", rownames(sum.jfcp)),c("mean","2.5%","97.5%")]
 	sigma_sp <- sum.jfcp[grep("sigma_sp", rownames(sum.jfcp)), c("mean","2.5%","97.5%")]

@@ -132,9 +132,12 @@ files
   col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
   col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
   
+  c_red <- c("#8F2727")
+  c_teal <- c("#487575")
+  
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
-pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16, width = 12)
+pdf(paste("figures/cue", "trait_wtrend_maintext_Qrobur", ".pdf", sep = ""), height = 16, width = 12)
   par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
   plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression("Response to cue (standardized)"), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
@@ -158,7 +161,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
  #  "Populus_tremula" = acquis "Acer_pseudoplatanus"= conservative 
   ## Old spp = Corylus avellana
   arrows(
@@ -166,7 +169,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -174,23 +177,24 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
 
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bfs_df[4,"force25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bfs_df[4,"force75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bfs_df[32,"force25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bfs_df[32,"force75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bfs_df[4,"betaForceSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bfs_df[4,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bfs_df[32,"betaForceSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bfs_df[32,"betaForceSpMean"],
+    length = 0, lwd = 4, col = c_teal
+    )
   
   my.label <- paste("a", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -240,7 +244,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -248,7 +252,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -256,23 +260,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bcs_df[4,"chill25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bcs_df[4,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bcs_df[32,"chill25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bcs_df[32,"chill75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bcs_df[4,"betaChillSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bcs_df[4,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bcs_df[32,"betaChillSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bcs_df[32,"betaChillSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("b", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -322,7 +326,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
  
   # Corylus avellana
   arrows(
@@ -330,7 +334,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -338,23 +342,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bps_df[4,"photo25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bps_df[4,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bps_df[32,"photo25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bps_df[32,"photo75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bps_df[4,"betaPhotoSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bps_df[4,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bps_df[32,"betaPhotoSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bps_df[32,"betaPhotoSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("c", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -423,7 +427,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
   
   # Fagus grandifolia and Quercus ilex 
   arrows(
@@ -431,7 +435,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -439,23 +443,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
 
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bfs_df[29,"force25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bfs_df[29,"force75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bfs_df[32,"force25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bfs_df[32,"force75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bfs_df[29,"betaForceSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bfs_df[29,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bfs_df[32,"betaForceSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bfs_df[32,"betaForceSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("d", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -503,7 +507,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -511,7 +515,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -519,23 +523,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bcs_df[29,"chill25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bcs_df[29,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bcs_df[32,"chill25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bcs_df[32,"chill75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bcs_df[29,"betaChillSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bcs_df[29,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bcs_df[32,"betaChillSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bcs_df[32,"betaChillSpMean"],
+    length = 0, lwd =4, col = c_teal)
   
   my.label <- paste("e", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -582,7 +586,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
   
 
   arrows(
@@ -590,7 +594,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -598,23 +602,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bps_df[29,"photo25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bps_df[29,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bps_df[32,"photo25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bps_df[32,"photo75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bps_df[29,"betaPhotoSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bps_df[29,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bps_df[32,"betaPhotoSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bps_df[32,"betaPhotoSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("f", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -687,7 +691,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
   
   # Populus and acer
   arrows(
@@ -695,7 +699,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -703,23 +707,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bfs_df[4,"force25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bfs_df[4,"force75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bfs_df[32,"force25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bfs_df[32,"force75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bfs_df[4,"betaForceSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bfs_df[4,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bfs_df[32,"betaForceSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bfs_df[32,"betaForceSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("g", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -766,7 +770,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -774,7 +778,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -782,23 +786,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bcs_df[4,"chill25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bcs_df[4,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bcs_df[32,"chill25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bcs_df[32,"chill75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bcs_df[4,"betaChillSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bcs_df[4,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bcs_df[32,"betaChillSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bcs_df[32,"betaChillSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("h", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -845,7 +849,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -853,7 +857,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -861,23 +865,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[4,"muGrandSpMean"], # x mean
-    bps_df[4,"photo25"], # y 25
-    mg_df[4,"muGrandSpMean"],
-    bps_df[4,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bps_df[32,"photo25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bps_df[32,"photo75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[4,"trait25"], # x mean
-    bps_df[4,"betaPhotoSpMean"], # y 25
-    mg_df[4,"trait75"], # x mean
-    bps_df[4,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bps_df[32,"betaPhotoSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bps_df[32,"betaPhotoSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("i", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -947,7 +951,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "grey")
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
   
   # Fagus grandifolia and Quercus ilex
   arrows(
@@ -955,7 +959,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -963,23 +967,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bfs_df[29,"force25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bfs_df[29,"force75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bfs_df[32,"force25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bfs_df[32,"force75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bfs_df[29,"betaForceSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bfs_df[29,"betaForceSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bfs_df[32,"betaForceSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bfs_df[32,"betaForceSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("j", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -1026,7 +1030,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "grey")
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -1034,7 +1038,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -1042,23 +1046,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bcs_df[29,"chill25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bcs_df[29,"chill75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bcs_df[32,"chill25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bcs_df[32,"chill75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bcs_df[29,"betaChillSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bcs_df[29,"betaChillSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bcs_df[32,"betaChillSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bcs_df[32,"betaChillSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("k", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -1105,7 +1109,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
   for(j in 1:length(int_fifty[,1])){
     abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
   }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "grey")
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -1113,7 +1117,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[1]
+    length = 0 , lwd = 4, col = c_red
   )
   
   arrows(
@@ -1121,23 +1125,23 @@ pdf(paste("figures/cue", "trait_wtrend_maintext", ".pdf", sep = ""), height = 16
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[1])
+    length = 0, lwd = 4, col = c_red)
   
   # Acer pseudoplatanus
   arrows(
-    mg_df[29,"muGrandSpMean"], # x mean
-    bps_df[29,"photo25"], # y 25
-    mg_df[29,"muGrandSpMean"],
-    bps_df[29,"photo75"],
-    length = 0 , lwd = 3, col = col.sp[2]
+    mg_df[32,"muGrandSpMean"], # x mean
+    bps_df[32,"photo25"], # y 25
+    mg_df[32,"muGrandSpMean"],
+    bps_df[32,"photo75"],
+    length = 0 , lwd = 4, col = c_teal
   )
   
   arrows(
-    mg_df[29,"trait25"], # x mean
-    bps_df[29,"betaPhotoSpMean"], # y 25
-    mg_df[29,"trait75"], # x mean
-    bps_df[29,"betaPhotoSpMean"],
-    length = 0, lwd = 3, col = col.sp[2])
+    mg_df[32,"trait25"], # x mean
+    bps_df[32,"betaPhotoSpMean"], # y 25
+    mg_df[32,"trait75"], # x mean
+    bps_df[32,"betaPhotoSpMean"],
+    length = 0, lwd = 4, col = c_teal)
   
   my.label <- paste("l", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)

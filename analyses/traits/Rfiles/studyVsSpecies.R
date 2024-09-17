@@ -84,18 +84,23 @@ col4.sp <- c( rgb(34 / 255, 166 / 255, 167 / 255, alpha = 0.5))
 col5.sp <- c( rgb(141 / 255, 34 / 255, 171 / 255, alpha = 0.5))
 
 
-pdf("figures/studySpHist.pdf", width = 17, height = 4.5)
+pdf("figures/studySpHist.pdf", width = 15, height = 4)
 par(mfrow = c(1,4), mar = c(5.1, 4.5, 4.1, 2.1))
-hist(posterior_ht$sigma_study, col = col2.sp, prob = T, xlim = c(0, 20), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
+hist(posterior_ht$sigma_study, col = col2.sp, prob = T, xlim = c(0, 18), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
 axis(side = 1, at = seq(-20,30, by = 2), cex.axis =1.75)
 axis(side = 2, at = seq(-1,2, by = 0.1), cex.axis =1.75)
 
 hist(posterior_ht$sigma_sp, col = col1.sp, prob = T, add =T)
 text(3, 1.5, "Height", cex = 2)
+
+legend("topright",legend = c("Species variation", "Study variation"),
+       col = c("sienna3", "goldenrod"),
+       lwd = 5, bty = "n", cex = 1.5)
+
 my.label <- paste("a", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 
-hist(posterior_sla$sigma_study, col = col2.sp, prob = T, xlim = c(0, 20), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
+hist(posterior_sla$sigma_study, col = col2.sp, prob = T, xlim = c(0, 18), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
 axis(side = 1, at = seq(-20,30, by = 2), cex.axis =1.75)
 axis(side = 2, at = seq(-1,2, by = 0.1), cex.axis =1.75)
 
@@ -104,7 +109,7 @@ text(2, 1.5, "SLA", cex = 2)
 my.label <- paste("b", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 
-hist(posterior_lnc$sigma_study, col = col2.sp, prob = T, xlim = c(0, 20), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
+hist(posterior_lnc$sigma_study, col = col2.sp, prob = T, xlim = c(0, 18), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 25, xaxt="n", yaxt = "n")
 axis(side = 1, at = seq(-20,30, by = 2), cex.axis =1.75)
 axis(side = 2, at = seq(-1,2, by = 0.1), cex.axis =1.75)
 
@@ -113,7 +118,7 @@ text(2, 1.5, "LNC", cex = 2)
 my.label <- paste("c", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 
-hist(posterior_sm$sigma_study, col = col2.sp, prob = T, xlim = c(0, 20), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 2, xaxt="n", yaxt = "n")
+hist(posterior_sm$sigma_study, col = col2.sp, prob = T, xlim = c(0, 18), ylim = c(0, 1.5), main = "", xlab = "Variance", ylab = "Posterior bin probabilities", cex.lab = 1.75, breaks = 2, xaxt="n", yaxt = "n")
 axis(side = 1, at = seq(-20,30, by = 2), cex.axis =1.75)
 axis(side = 2, at = seq(-1,2, by = 0.1), cex.axis =1.75)
 
@@ -122,8 +127,8 @@ text(4, 1.5, "Seed mass", cex = 2)
 my.label <- paste("d", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 
-legend("topright",legend = c("Species variation", "Study variation"),
-       col = c("sienna3", "goldenrod"),
-       lwd = 5, bty = "n", cex = 1.25)
+# legend("topright",legend = c("Species variation", "Study variation"),
+#        col = c("sienna3", "goldenrod"),
+#        lwd = 5, bty = "n", cex = 1.5)
 dev.off()
 

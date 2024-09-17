@@ -1,55 +1,55 @@
-traitname,unitname,no.obs,no.spp,database,datasetid,reference
-Height,m,26,8,bien,10_bien,http://datadryad.org/resource/doi:10.5061/dryad.j25t0
-Height,m,2,2,bien,12_bien,http://datadryad.org/resource/doi:10.5061/dryad.m88g7
-Height,m,27,19,bien,14_bien,http://datadryad.org/resource/doi:10.5061/dryad.r3n45
-Height,m,18,16,bien,18_bien,NA
-Height,m,90,19,bien,20_bien,http://www.leda-traitbase.org/LEDAportal/
-Height,m,10,10,bien,21_bien,NA
-Height,m,21,14,bien,22_bien,"Moles, Angela"
-Height,m,47036,19,bien,24_bien,"Reams, Greg"
-Height,m,5,5,bien,25_bien,"Grime, Hodgson, & Hunt"
-Height,m,8,5,bien,26_bien,NA
-Height,m,18,1,bien,3_bien,http://datadryad.org/resource/doi:10.5061/dryad.1cn19
-Height,m,120,1,bien,5_bien,http://datadryad.org/resource/doi:10.5061/dryad.4q78p
-Height,m,20,1,bien,7_bien,http://datadryad.org/resource/doi:10.5061/dryad.6nc8c
-Height,m,2,1,try,156_try,Bond-Lamberty et al. (2002)
-Height,m,275,3,try,186_try,unpub.
-Height,m,28,19,try,20_try,Wright et al. (2004)
-Height,m,2,2,try,236_try,Prentice et al. (2011)
-Height,m,21,21,try,251_try,Schweingruber & Landolt (2005)
-Height,m,35,2,try,275_try,unpub.
-Height,m,5,5,try,28_try,Moles et al. (2004)
-Height,m,1,1,try,54_try,Cavender-Bares et al. (2006)
-Height,m,11,10,try,86_try,Diaz et al. (2004)
-LNC,mg/g,287,12,try,130_try,Craine et al. (2009)
-LNC,mg/g,44,2,try,154_try,Wilson et al. (2000)
-LNC,mg/g,7,4,try,180_try,Wenxuan et al. (2012)
-LNC,mg/g,7,3,try,181_try,Yahan et al. (2011)
-LNC,mg/g,65,32,try,20_try,Wright et al. (2004)
-LNC,mg/g,3,2,try,236_try,Prentice et al. (2011)
-LNC,mg/g,120,20,try,240_try,Vergutz et al. 2012
-LNC,mg/g,24,8,try,286_try,Atkin et al. (2015)
-LNC,mg/g,72,22,try,342_try,Maire et al. (2015)
-LNC,mg/g,2,1,try,37_try,Cornelissen et al. (2003)
-LNC,mg/g,3216,37,try,412_try,unpub.
-LNC,mg/g,6,2,try,443_try,Wang et al. 2017
-Seed mass,mg,3,3,bien,12_bien,http://datadryad.org/resource/doi:10.5061/dryad.m88g7
-Seed mass,mg,4,2,bien,17_bien,http://ucjeps.berkeley.edu/EFT.html
-Seed mass,mg,250,37,bien,19_bien,http://www.kew.org/data/sid
-Seed mass,mg,12,12,bien,2_bien,http://datadryad.org/resource/doi:10.5061/dryad.12b0h
-Seed mass,mg,12,7,bien,9_bien,http://datadryad.org/resource/doi:10.5061/dryad.h9083
-SLA,mm2 mg-1,44,2,try,154_try,Wilson et al. (2000)
-SLA,mm2 mg-1,204,3,try,186_try,unpub.
-SLA,mm2 mg-1,93,33,try,20_try,Wright et al. (2004)
-SLA,mm2 mg-1,2,2,try,236_try,Prentice et al. (2011)
-SLA,mm2 mg-1,102,18,try,25_try,Kleyer et al. (2008)
-SLA,mm2 mg-1,83,2,try,275_try,unpub.
-SLA,mm2 mg-1,40,11,try,286_try,Atkin et al. (2015)
-SLA,mm2 mg-1,86,23,try,342_try,Maire et al. (2015)
-SLA,mm2 mg-1,615,14,try,37_try,Cornelissen et al. (2003)
-SLA,mm2 mg-1,6307,37,try,412_try,unpub.
-SLA,mm2 mg-1,6,2,try,443_try,Wang et al. 2017
-SLA,mm2 mg-1,20,2,try,50_try,Shipley et al. (2002)
-SLA,mm2 mg-1,42,2,try,54_try,Cavender-Bares et al. (2006)
-SLA,mm2 mg-1,1,1,try,65_try,unpub.
-SLA,mm2 mg-1,11,10,try,86_try,Diaz et al. (2004)
+traitname,unitname,no.obs,no.spp,database,datasetid,reference,source
+Height,m,26,8,bien,10_bien,doi:10.5061/dryad.j25t0,\citep{McHugh2015}
+Height,m,2,2,bien,12_bien,doi:10.5061/dryad.m88g7,\citep{Marx2016}
+Height,m,27,19,bien,14_bien,doi:10.5061/dryad.r3n45,\citep{Price2014}
+Height,m,18,16,bien,18_bien,NA,Unpublished
+Height,m,90,19,bien,20_bien,LEDA traitbase,\citep{Kleyer2008}
+Height,m,10,10,bien,21_bien,NA,Unpublished
+Height,m,21,14,bien,22_bien,"Moles, Angela","Moles, Angela; unpublished"
+Height,m,47036,19,bien,24_bien,"Reams, Greg","Reams, Greg; unpublished"
+Height,m,5,5,bien,25_bien,"Grime, Hodgson, & Hunt","Grime, Hodgson, & Hunt; unpublished"
+Height,m,8,5,bien,26_bien,NA,Unpublished
+Height,m,18,1,bien,3_bien,doi:10.5061/dryad.1cn19,\citep{Perez-de-lis2017}
+Height,m,120,1,bien,5_bien,doi:10.5061/dryad.4q78p,\citep{Robinson2015}
+Height,m,20,1,bien,7_bien,doi:10.5061/dryad.6nc8c,\citep{Anderson-teixeira2015}
+Height,m,2,1,try,156_try,Bond-Lamberty et al. (2002),\citep{BondLamberty2002}
+Height,m,275,3,try,186_try,unpub.,Unpublished
+Height,m,28,19,try,20_try,Wright et al. (2004),\citep{Wright2004}
+Height,m,2,2,try,236_try,Prentice et al. (2011),\citep{Prentice2011}
+Height,m,21,21,try,251_try,Schweingruber & Landolt (2005),\citep{xylemdatabase}
+Height,m,35,2,try,275_try,unpub.,Unpublished
+Height,m,5,5,try,28_try,Moles et al. (2004),\citep{Moles2004}
+Height,m,1,1,try,54_try,Cavender-Bares et al. (2006),\citep{CavenderBares2006}
+Height,m,11,10,try,86_try,Diaz et al. (2004),\citep{Diaz2004}
+LNC,mg/g,287,12,try,130_try,Craine et al. (2009),\citep{Craine2009}
+LNC,mg/g,44,2,try,154_try,Wilson et al. (2000),\citep{Wilson2000}
+LNC,mg/g,7,4,try,180_try,Wenxuan et al. (2012),\citep{Wenxuan2012}
+LNC,mg/g,7,3,try,181_try,Yahan et al. (2011),\citep{Yahan2013}
+LNC,mg/g,65,32,try,20_try,Wright et al. (2004),\citep{Wright2004}
+LNC,mg/g,3,2,try,236_try,Prentice et al. (2011),\citep{Prentice2011}
+LNC,mg/g,120,20,try,240_try,Vergutz et al. 2012,\citep{Vergutz2012}
+LNC,mg/g,24,8,try,286_try,Atkin et al. (2015),\citep{Atkin2015}
+LNC,mg/g,72,22,try,342_try,Maire et al. (2015),\citep{Maire2015}
+LNC,mg/g,2,1,try,37_try,Cornelissen et al. (2003),\citep{Cornelissen2003}
+LNC,mg/g,3216,37,try,412_try,unpub.,Unpublished
+LNC,mg/g,6,2,try,443_try,Wang et al. 2017,\citep{Wang2017}
+Seed mass,mg,3,3,bien,12_bien,doi:10.5061/dryad.m88g7,\citep{Marx2016}
+Seed mass,mg,4,2,bien,17_bien,http://ucjeps.berkeley.edu/EFT.html,Unpublished
+Seed mass,mg,250,37,bien,19_bien,KEW database,\citep{kewSeed}
+Seed mass,mg,12,12,bien,2_bien,doi:10.5061/dryad.12b0h,\citep{Ameztegui2017}
+Seed mass,mg,12,7,bien,9_bien,doi:10.5061/dryad.h9083,\citep{Paine2015}
+SLA,mm2 mg-1,44,2,try,154_try,Wilson et al. (2000),\citep{Wilson2000}
+SLA,mm2 mg-1,204,3,try,186_try,unpub.,Unpublished
+SLA,mm2 mg-1,93,33,try,20_try,Wright et al. (2004),\citep{Wright2004}
+SLA,mm2 mg-1,2,2,try,236_try,Prentice et al. (2011),\citep{Prentice2011}
+SLA,mm2 mg-1,102,18,try,25_try,Kleyer et al. (2008),\citep{Kleyer2008}
+SLA,mm2 mg-1,83,2,try,275_try,unpub.,Unpublished
+SLA,mm2 mg-1,40,11,try,286_try,Atkin et al. (2015),\citep{Atkin2015}
+SLA,mm2 mg-1,86,23,try,342_try,Maire et al. (2015),\citep{Maire2015}
+SLA,mm2 mg-1,615,14,try,37_try,Cornelissen et al. (2003),\citep{Cornelissen2003}
+SLA,mm2 mg-1,6307,37,try,412_try,unpub.,Unpublished
+SLA,mm2 mg-1,6,2,try,443_try,Wang et al. 2017,\citep{Wang2017}
+SLA,mm2 mg-1,20,2,try,50_try,Shipley et al. (2002),\citep{Shipley2002}
+SLA,mm2 mg-1,42,2,try,54_try,Cavender-Bares et al. (2006),\citep{CavenderBares2006}
+SLA,mm2 mg-1,1,1,try,65_try,unpub.,Unpublished
+SLA,mm2 mg-1,11,10,try,86_try,Diaz et al. (2004),\citep{Diaz2004}
