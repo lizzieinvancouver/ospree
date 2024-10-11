@@ -17,7 +17,7 @@
 \usepackage[export]{adjustbox} 
 \usepackage{lineno}
 \linenumbers
-
+\linespread{1.25}
 \usepackage[small]{caption}
 
 \usepackage{xr-hyper}
@@ -48,7 +48,7 @@
 \renewcommand{\bibname}{References}
 
 
-\title{Woody plant phenological responses are strongly associated with key functional traits}
+\title{How budburst timing shapes woody plant strategies and traits}
 \date{\today}
 \author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
 Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$ and E M Wolkovich$^{1,3,4}$}
