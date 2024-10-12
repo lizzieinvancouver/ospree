@@ -5,7 +5,7 @@
 
 \usepackage{Sweave}
 \usepackage{graphicx}
-\usepackage[sort&compress, numbers, super]{natbib}
+\usepackage[sort&compress]{natbib}
 \usepackage{amsmath}
 \usepackage{textcomp}
 \usepackage{float}
@@ -48,7 +48,7 @@
 \renewcommand{\bibname}{References}
 
 
-\title{How budburst timing shapes woody plant strategies and traits}
+\title{Budburst timing within a functional trait framework}
 \date{\today}
 \author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
 Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$ and E M Wolkovich$^{1,3,4}$}
@@ -87,7 +87,7 @@ Species-level variation in phenology---the timing of recurring life history even
 %GCH: 300 word max, current 284
 % Phenologies---the timing of recurring life history events---can vary substantially in different environments and for different species. While climate change has shifted phenology by altering its proximate drivers---such as temperature---changes in the ultimate drivers that select for species-level variation in phenology remain poorly explained. Theory suggests that species-level variation in phenology can result from shifting environmental pressures that favour different strategies across the early (spring) growing season: from the early season, where higher abiotic risks and greater availability of nutrients and light favour acquisitive growth strategies, to later when a more benign environment and greater competition favour conservative growth strategies. From this we can infer suites of traits that may co-vary with species phenologies, but the high variability in traits---and especially phenology---across environments, have made testing the role of phenology within a trait framework challenging. Using a modelling framework that accommodates this variability we performed a meta-analysis using phenological data from controlled environment experiments and plant traits to test the relationships between traits and cues for tree budburst (forcing, chilling, and photoperiod). We found that earlier species (which have smaller responses to all cues) are shorter with denser, lower nitrogen leaves, while later-active species (which have larger responses to chilling and photoperiod) were taller with low nitrogen leaves. How budburst timing related to leaf density, however, was less in line with our predictions, as species with denser leaves had large responses to only some cues. Our findings show how spring leafout phenology fits within a functional trait framework of acquisitive to conservative growth strategies, and better predicts how communities may shift in their growth strategies alongside changing phenology with climate change. \\
 
-Key Words: Budburst, spring phenology, functional traits, trees, climate change, forest communities 
+Key Words: Budburst, spring phenology, traits, trees, climate change, forest communities 
 %GCB: 6-10 keywords
 % 3569 words
 \section*{Introduction} 
@@ -214,7 +214,7 @@ We thank the researchers who measured the traits and conducted the experiments p
 The phenological data used for this manuscript is a subset of the existing OSPREE dataset (doi:10.5063/F1CZ35KB) and the trait data a subset of the the TRY database (doi:10.1111/gcb.14904) and the BIEN database (doi: 10.1111/2041-210X.1286).
 
 \pagebreak
-\bibliographystyle{refs/bibstyles/gcb}% 
+\bibliographystyle{refs/bibstyles/amnat}% 
 \bibliography{refs/traitors_mar23.bib}
 \newpage
 
