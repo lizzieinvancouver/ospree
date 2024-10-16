@@ -210,6 +210,12 @@ Our results could further help identify which species are most likely to be nega
 \section*{Acknowledgements}
 We thank the researchers who measured the traits and conducted the experiments producing the data used in this manuscript. 
 
+\section*{Author Contributions Statement}
+DL, FAMJ, GL, MG, DS, and EMW planned and designed the study. All authors conducted the literature review and cleaned the database. DL, FAMJ, GL, and EMW performed the data analysis and contributed code. DL, FAMJ, and GL created the figures. DL and EMW wrote the initial draft and all authors reviewed and revised the manuscript. 
+
+\section*{Competing Interests Statement}
+The authors declare no competing interests.
+
 \section*{Data availability statement}
 The phenological data used for this manuscript is a subset of the existing OSPREE dataset (doi:10.5063/F1CZ35KB) and the trait data a subset of the the TRY database (doi:10.1111/gcb.14904) and the BIEN database (doi: 10.1111/2041-210X.1286).
 
