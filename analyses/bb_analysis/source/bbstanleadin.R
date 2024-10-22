@@ -623,15 +623,15 @@ if (use.allspp==FALSE & use.multcuespp==FALSE & use.cropspp==TRUE &
 }
 
 ## AT THE END ...
-str(datalist.bb)
-print("Unique forcing types are ...")
-print(unique(bb.stan$force_type))
-print("Unique photo types are ...")
-print(unique(bb.stan$photo_type))
-print("Unique chilling types are ...")
-print(unique(bb.stan$chill_type))
-print("Range of chilling is ...")
-print(range(datalist.bb$chil))
+# str(datalist.bb)
+# print("Unique forcing types are ...")
+# print(unique(bb.stan$force_type))
+# print("Unique photo types are ...")
+# print(unique(bb.stan$photo_type))
+# print("Unique chilling types are ...")
+# print(unique(bb.stan$chill_type))
+# print("Range of chilling is ...")
+# print(range(datalist.bb$chil))
 
 
 
