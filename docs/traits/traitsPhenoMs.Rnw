@@ -91,7 +91,7 @@ Running title: Budburst responses associated with traits
 %GCH: 350 word max, current 284
 1. Phenologies---the timing of recurring life history events---can vary substantially in different environments and for different species. While climate change has shifted phenology by altering its proximate drivers---such as temperature---changes in the ultimate drivers that select for species-level variation in phenology remain poorly explained. Theory suggests that species-level variation in phenology can result from shifting environmental pressures that favour different strategies across the early (spring) growing season: from the early season, where higher abiotic risks and greater availability of nutrients and light favour acquisitive growth strategies, to later when a more benign environment and greater competition favour conservative growth strategies. From this we can infer suites of traits that may co-vary with species phenologies, but the high variability in traits---and especially phenology---across environments, have made testing the role of phenology within a trait framework challenging.\\
 2. Using a modelling framework that accommodates this variability we performed a meta-analysis using phenological data from controlled environment experiments and plant traits to test the relationships between traits and cues for tree budburst (forcing, chilling, and photoperiod). \\
-3. We found that earlier species (which have smaller responses to all cues) are shorter with denser, lower nitrogen leaves, while later-active species (which have larger responses to chilling and photoperiod) were taller with low nitrogen leaves. How budburst timing related to leaf density, however, was less in line with our predictions, as species with denser leaves had large responses to only some cues. \\
+3. We found that earlier species are shorter with denser, lower nitrogen leaves, while later-active species were taller with low nitrogen leaves. How budburst timing related to leaf density, however, was less in line with our predictions, as species with denser leaves had large responses to only some cues. \\
 4. Synthesis: Our findings show how spring leafout phenology fits within a functional trait framework of acquisitive to conservative growth strategies, and better predicts how communities may shift in their growth strategies alongside changing phenology with climate change. \\
 
 Key Words: Budburst, spring phenology, traits, trees, climate change, forest communities 
@@ -121,7 +121,7 @@ To test our predicted relationships between budburst responses to environmental 
 source("../../analyses/traits/Rfiles/SM_modelOutputTable.R")
 
 @
-We merged three major databases for our analysis. We gathered phenological data from the OSPREE database \citep{Ettinger2020}, which contains budburst data for woody, species from experiments of forcing, chilling and photoperiod. \color{purple} This database was constructed by performing a systematic review of the literature, using the following two search terms to search both ISI Web of Science and Google Scholar:\\
+We merged three major databases for our analysis. We gathered phenological data from the OSPREE database \citep{Ettinger2020}, which contains budburst data for woody, species from experiments of forcing, chilling and photoperiod. \color{purple} This database was constructed by performing a systematic review of the literature, using the following two search terms to search both ISI Web of Science and Google Scholar:\\ %emwNov28 -- a LOT of passive voice added ... can you take most of it out? 
 
 1. TOPIC = (budburst OR leafout) AND (photoperiod or daylength) AND temperature*\\
 2. TOPIC = (budburst OR leafout) AND dorman*\\
@@ -134,10 +134,13 @@ For our analysis, we only include species for which we had a complete trait prof
 We initially considered six commonly measured traits---SLA, leaf dry matter content (LDMC), height, seed mass, stem specific density (SSD), and LNC---for which 26 species had at least one trait measurement for each trait. We then used a principle component analysis (PCA) to understand trait correlations and adjusted which traits we included. A PCA of our six initial traits identified high correlations between SLA and LDMC, and between height and SSD. The first principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{fig:pca}). By excluding one trait from each of these highly correlated trait pairs (specifically LDMC and SSD) we increased the number of species in our dataset from the 26 species with six traits, to 37 species for which we had complete datasets for four traits. The data for these 37 species were from \Sexpr{nStudy} unique studies (samples sizes: height $n$ = \Sexpr{nHt}, seed mass $n$ = \Sexpr{nSM}, LNC $n$ = \Sexpr{nLNC}, SLA $n$ = \Sexpr{nSLA}). We subsampled height measurements to reduce the influence of the 13 most frequently measured tree species on our height model. Since these 13 species were measured \Sexpr{htMany} times more frequently than other species, for each species, we randomly sampled 3000 height measurements.\\
 
 \subsection*{Joint model of trait and phenology}
+%emwNov28 -- when you remove the color, make sure you add in the whitespace between words. I am happy to glance through this again, including for phrasing if you remove 'true' but up to you!
 To understand connections between phenology and species traits, we developed and then parameterized a joint model for each trait: height, SLA, LNC, and seed mass. Our model is a joint model insofar as it involves two \color{purple} sub-models---one that models trait observations and a second that uses shared latent processes to model phenological observations. In particular, we assume that trait values are the result of multiple sources of variation, include species and study-level variation, combining into a ``true'' trait value that we observe (trait sub-model). This ``true'' trait value has a separate interaction with the environmental cues (forcing, chilling, and photoperiod) that determine phenology---specifically the day of year of budburst (phenology sub-model).\color{black}  Below we describe the two sub-models, noting which parameters are shared across sub-models and which are independent.
 
 %DLnov26: I feel like the below might be confusing, maybe some readers will not udnerstand what we mean by "true":
 %In particular, we assume that species ``true'' trait values determine observed trait values across different studies (trait sub-model), and separately, that the same ``true'' trait values interact with phenological cues (forcing, chilling, and photoperiod) to determine observed phenology, specifically the day of year of budburst (phenology sub-model). Below we describe the two sub-models, noting which parameters are shared across sub-models and which are independent.
+
+%emwNov28 -- can you just remove 'true' (one trait value, instead of a true trait value ... for example)? It's not clear you need it. You could also edit: This ``true'' trait value has a separate interaction ... --> This trait value (insert PARAMETER) has a separate interaction ... 
 
 \subsection*{Trait sub-model}
 
@@ -152,6 +155,7 @@ with
 \end{align}
 \noindent where $\alpha_{\text{species}_i}$ and $\alpha_{\text{study}_j}$ are elements of the normal random vectors:
 
+%emwNov28 -- can you align below at the = ? I think adding & will help ...
 \begin{align}
  \color{purple} \boldsymbol{\alpha_{\text{trait}}} = \alpha_{\text{grand trait}} + \alpha_{\text{species}_i}\nonumber\color{black} \\
   \boldsymbol{\alpha_{\text{species}}} = \{\alpha_{\text{species}_1}, ..., \alpha_{\text{species}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{species}}} \sim \mathcal{N}(0, \sigma_{\text{species}}^2) \\
