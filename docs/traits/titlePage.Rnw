@@ -1,0 +1,104 @@
+% A title page must be submitted as a separate 'Title page' file designation and should contain the manuscript title; author names, institutions and addresses; acknowledgements, author contributions, data availability statement and conflict of interest statement.
+%Please ensure that no author names/identifiable information is included in the document/file names.
+% statement of inclusion: Our study was a global review and was based on a meta-analysis of secondary data rather than primary data. As such, there was no local data collection. However, the geographical distribution of the authorship team broadly represents the major regions of interest in the meta-analysis, supporting the inclusion of  data from peer-reviewed studies published in local languages and ensuring the appropriate interpretation of data and results from each region
+%Our study brings together authors from a number of different countries
+% All authors were engaged early on with the research and study design to ensure that the diverse sets of perspectives they represent was considered from the onset. 
+%file designation “Main Document”.
+\documentclass{article}
+
+\usepackage[hyphens]{url} % this wraps my URL versus letting it spill across the page, a bad habit LaTeX has
+
+\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage[sort&compress]{natbib}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage[utf8]{inputenc} 
+\usepackage[nottoc]{tocbibind} 
+\usepackage{listings} 
+\usepackage{xcolor}
+\usepackage{capt-of}
+\usepackage[export]{adjustbox} 
+\usepackage{lineno}
+\linenumbers
+\linespread{1.5}
+\usepackage[small]{caption}
+
+\usepackage{xr-hyper}
+\usepackage{hyperref}
+\setlength{\captionmargin}{30pt}
+\setlength{\abovecaptionskip}{0pt}
+\setlength{\belowcaptionskip}{10pt}
+
+\topmargin -1.5cm        
+\oddsidemargin 0.5cm   
+\evensidemargin 0.5cm  
+\textwidth 15.59cm
+\textheight 21.94cm 
+% \renewcommand{\baselinestretch}{1.5} % 1.5 lines between lines
+\parindent 0pt		  
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\fancyhead[LO]{Draft early 2024}
+%\fancyhead[RO]{Temporal Ecology Lab}
+% more optionals! %
+\externaldocument{traitsPhenoSupp}
+
+
+\begin{document}
+\SweaveOpts{concordance=FALSE}
+
+
+\renewcommand{\bibname}{References}
+
+
+\title{Budburst timing within a functional trait framework}
+\date{\today}
+\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
+Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$ and E M Wolkovich$^{1,3,4}$}
+\maketitle 
+
+$^1$ Department of Forest and Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall
+Vancouver, BC Canada V6T 1Z4. \\
+
+$^2$  Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umeå, Sweden\\
+
+$^3$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
+
+$^4$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
+
+$^5$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\
+
+$^6$ The Nature Conservancy, 334 Blackwell St, \#300, Durham, NC, USA \\
+
+$^7$ The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
+
+$^8$ GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
+
+$^9$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+
+Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
+
+Running title: Budburst responses associated with traits
+%GCB: 45 characters including spaces, current: 41
+
+
+\section*{Acknowledgements}
+We thank the researchers who measured the traits and conducted the experiments producing the data used in this manuscript. 
+
+\section*{Author Contributions Statement}
+DL, FAMJ, GL, MG, DS, and EMW planned and designed the study. All authors conducted the literature review and cleaned the database. DL, FAMJ, GL, and EMW performed the data analysis and contributed code. DL, FAMJ, and GL created the figures. DL and EMW wrote the initial draft and all authors reviewed and revised the manuscript. 
+
+\section*{Competing Interests Statement}
+The authors declare no competing interests.
+
+\section*{Data availability statement}
+The phenological data used for this manuscript is a subset of the existing OSPREE dataset (doi:10.5063/F1CZ35KB) and the trait data a subset of the the TRY database (doi:10.1111/gcb.14904) and the BIEN database (doi: 10.1111/2041-210X.1286).
+
+\section*{Statement of inclusion}
+%Our study was a global review and was based on a meta-analysis of secondary data rather than primary data. As such, there was no local data collection. However, the geographical distribution of the authorship team broadly represents the major regions of interest in the meta-analysis, supporting the inclusion of  data from peer-reviewed studies published in local languages and ensuring the appropriate interpretation of data and results from each region
+%Our study brings together authors from a number of different countries
+% All authors were engaged early on with the research and study design to ensure that the diverse sets of perspectives they represent was considered from the onset. 
+
+\end{document}

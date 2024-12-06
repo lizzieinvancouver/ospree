@@ -58,8 +58,8 @@
 
 \title{Supplementary Material: Budburst timing within a functional trait framework}
 \date{}
-\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
-Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1,3,4}$}
+% \author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
+% Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$, and E M Wolkovich$^{1,3,4}$}
 \maketitle 
 
 % \subsection*{Additional methods}

@@ -54,31 +54,31 @@
 
 
 \title{Budburst timing within a functional trait framework}
-\date{\today}
-\author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
-Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$ and E M Wolkovich$^{1,3,4}$}
+\date{}
+% \author{Deirdre Loughnan$^{1}$, Faith A M Jones$^{1,2}$, Geoffrey Legault$^{1}$, Daniel Buonaiuto$^{3,4,5}$,\\
+% Catherine Chamberlain$^{3,4,6}$, Ailene Ettinger$^{7}$, Mira Garner$^{1}$, Ignacio Morales-Castilla $^{8,9}$, \\Darwin Sodhi$^{1}$ and E M Wolkovich$^{1,3,4}$}
 \maketitle 
 
-$^1$ Department of Forest and Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall
-Vancouver, BC Canada V6T 1Z4. \\
-
-$^2$  Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umeå, Sweden\\
-
-$^3$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
-
-$^4$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
-
-$^5$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\
-
-$^6$ The Nature Conservancy, 334 Blackwell St, \#300, Durham, NC, USA \\
-
-$^7$ The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
-
-$^8$ GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
-
-$^9$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
-
-Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
+% $^1$ Department of Forest and Conservation Sciences, Faculty of Forestry, University of British Columbia, 2424 Main Mall
+% Vancouver, BC Canada V6T 1Z4. \\
+% 
+% $^2$  Department of Wildlife, Fish and Environmental Studies, Swedish University of Agricultural Sciences, 901 83 Umeå, Sweden\\
+% 
+% $^3$ Arnold Arboretum of Harvard University, 1300 Centre Street, Boston, Massachusetts, USA;\\
+% 
+% $^4$ Organismic \& Evolutionary Biology, Harvard University, 26 Oxford Street, Cambridge, Massachusetts, USA;\\
+% 
+% $^5$ Department of Environmental Conservation, University of Massachusetts, Amherst, 160 Holdsworth Way, Amherst, MA, USA\\
+% 
+% $^6$ The Nature Conservancy, 334 Blackwell St, \#300, Durham, NC, USA \\
+% 
+% $^7$ The Nature Conservancy of Washington, 74 Wall Street, Seattle, WA  USA \\ 
+% 
+% $^8$ GloCEE---Global Change Ecology and Evolution Group, Department of Life Sciences, University of Alcal\'a, Alcal\'a de Henares, Spain\\ % (ORCID: 0000-0002-8570-9312)\\
+% 
+% $^9$ Edificio Ciencias, Campus Universitario 28805 Alcalá de Henares, Madrid, Spain\\
+% 
+% Corresponding Author: Deirdre Loughnan deirdre.loughnan@ubc.ca \\
 
 Running title: Budburst responses associated with traits
 %GCB: 45 characters including spaces, current: 41
