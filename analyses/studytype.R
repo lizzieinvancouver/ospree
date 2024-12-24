@@ -18,7 +18,7 @@ library(tidyr)
 library(ggplot2)
 library(lubridate)
 
-if(length(grep("Lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
+if(length(grep("lizzie", getwd())>0)) { setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses") 
 } else
   setwd("~/Documents/git/ospree/analyses")
 ospree <- read.csv("output/ospree_clean.csv", header=TRUE)
