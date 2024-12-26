@@ -154,7 +154,6 @@ with
 \end{align}
 \noindent where $\alpha_{\text{species}_i}$ and $\alpha_{\text{study}_j}$ are elements of the normal random vectors:
 
-%emwNov28 -- can you align below at the = ? I think adding & will help ...
 \begin{align}
 \boldsymbol{\alpha_{\text{trait}}} &= \alpha_{\text{grand trait}} + \alpha_{\text{species}_i}\nonumber\\
   \boldsymbol{\alpha_{\text{species}}} &= \{\alpha_{\text{species}_1}, ..., \alpha_{\text{species}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{species}}} \sim \mathcal{N}(0, \sigma_{\text{species}}^2) \\
@@ -190,9 +189,11 @@ and
   \boldsymbol{\alpha_{\text{photoperiod}}} &= \{\alpha_{\text{photoperiod}_1}, ..., \alpha_{\text{photoperiod}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{photoperiod}}} \sim \mathcal{N}(\mu_{\text{photoperiod}}, \sigma_{\text{photoperiod}}^2) \nonumber
 \end{align}
 
-\noindent The model partitions day of budburst for species ($k$) as combination of their overall mean day of budburst without the influence of chilling, forcing, or photoperiod treatments ($\alpha_{\text{pheno},k}$, normally distributed with a mean of $\mu_{\text{pheno}}$ and variance $\sigma_{\text{pheno}}^2$) combined with the effects of treatments both dependent and independent of trait values. The parameters $\alpha_{\text{chilling},k}$, $\alpha_{\text{forcing},k}$, and $\alpha_{\text{photoperiod},k}$ represent the trait-independent responses of species $k$ to chilling, forcing, and photoperiod treatments respectively, each with an associated mean ($\mu_{\text{chilling}}$, $\mu_{\text{forcing}}$, $\mu_{\text{photoperiod}}$) and variance ($\sigma_{\text{chilling}}^2$, $\sigma_{\text{forcing}}^2$, $\sigma_{\text{photoperiod}}^2$) across species.
-%Dec6emw -- can you make the below sentence mirror the form of the PREVIOUS sentence and give the equations in the methods all one check again?
- The effect of the species trait value, $\alpha_{\text{trait},k}$---the parameter shared with trait sub-model above---on its responses to chilling, forcing, and photoperiod are described by parameters $\beta_{\text{trait.chilling}}$, $\beta_{\text{trait.forcing}}$, $\beta_{\text{trait.photoperiod}}$. Finally, $\sigma_{\text{d}}^2$ is the variance arising from measurement error.\\
+\noindent The model partitions day of budburst for species ($k$) as combination of their overall mean day of budburst without the influence of chilling, forcing, or photoperiod treatments ($\alpha_{\text{pheno},k}$, normally distributed with a mean of $\mu_{\text{pheno}}$ and variance $\sigma_{\text{pheno}}^2$) combined with the effects of treatments both dependent and independent of trait values. 
+
+
+The parameters $\alpha_{\text{chilling},k}$, $\alpha_{\text{forcing},k}$, and $\alpha_{\text{photoperiod},k}$ represent the trait-independent responses of species $k$ to chilling, forcing, and photoperiod treatments respectively, each with an associated mean ($\mu_{\text{chilling}}$, $\mu_{\text{forcing}}$, $\mu_{\text{photoperiod}}$) and variance ($\sigma_{\text{chilling}}^2$, $\sigma_{\text{forcing}}^2$, $\sigma_{\text{photoperiod}}^2$) across species. %Dec6emw -- can you make the below sentence mirror the form of the PREVIOUS sentence and give the equations in the methods all one check again?
+The shared parameter between the trait and phenology sub-model, $\alpha_{\text{trait},k}$, represents the effect of the species trait value on its responses to chilling ($\beta_{\text{trait.chilling}}$), forcing ($\beta_{\text{trait.forcing}}$), and photoperiod ($\beta_{\text{trait.photoperiod}}$). Finally, $\sigma_{\text{d}}^2$ is the variance arising from measurement error.\\
 
 We chose weakly informative priors, and validated them using a series of prior predictive checks. The model was coded in the Stan programming language, fit using the rstan package (v. 3.3.6) \citep{rstan2018}, with 1,000 iterations per chain across 4 chains (4,000 total sampling iterations), and all models met basic diagnostic checks, including no divergences, high effective sample size (\textit{n\_eff}), and $\hat{R}$ close to 1, fitting the data well (Fig \ref{fig:TraitDistributions}). Here we present our model estimates as the means and 90\% posterior uncertainty intervals.
 
