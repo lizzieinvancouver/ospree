@@ -29,17 +29,28 @@
 
 Reviewer comments are italicized and our detailed explanation of changes are in regular text. \\
 
+\textbf{Associate Editor's comments:}\\
+
+\emph{Handling Editor Comments for Authors:
+Both reviewers felt this ms has potential to offer insights into whether functional traits of woody species can be used (in place of species identities) to predict the relationships between leaf budburst timing and abiotic conditions. However, the reviewers struggled to understand the framing, methods, results, and conclusions, in part due to a lack of clarity and sufficient detail, and in part because of contradictory information. The constructive comments from the reviewers should help this work reach its potential, but addressing these issues will likely mean the ms will change substantially.}
+
 \textbf {Reviewer 1 -- comments:} \\
 
 \textbf{Major comment:}\\
 
 \emph{1. I find the approach they have chosen to analyse the data very exciting. However, I cannot follow all the conclusions (in particular from Figure 2). I wonder if the lines shown represent some kind of significance test indicating that there are significant linear correlations between x and y? You need to clarify this. Additionally, I wonder if the analyses from Figure 4 are relevant for your study?}\\
 
+% We thank the reviewer for this positive feedback and are glad to hear they find the approach exciting. for their helpful suggestions to improve the manuscript. In addressing the reviewer's helpful suggestions, we believe we have greatly improved the manuscript. We have updated.... We believe the revised manuscript further clarifies our results and ......\\
+
 \textbf{Minor comments:}\\
 
 \emph{L9: You can shorten this sentence by only writing “spring growing”.}\\
 
+We have made these changes (line \lr{R1_L9}.\\
+
 \emph{L15: In my opinion, here and elsewhere, it is important to point out that you worked with trees. Later on, the introduction repeatedly refers to ‘plants’, suggesting that herbaceous species and trees were considered in this study.}\\
+
+Done (line \lr{R1_L15}).\\
 
 \emph{L17: Please briefly describe what forcing and chilling mean.}\\
 
