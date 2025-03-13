@@ -10,16 +10,14 @@
 \usepackage{subcaption}
 
 \setlength\parindent{0pt}
-
 \usepackage{xr}
-\usepackage{xr-hyper}
 
-\externaldocument{traitsPhenoMS}
+\usepackage{lineno}
+\usepackage{xr-hyper}
+\externaldocument{traitsPhenoMs}
 \externaldocument{traitsPhenoSupp}
 
-% line numbers for letter
-\usepackage{lineno}
-\newcommand{\R}[1]{\label{#1}\linelabel{#1}}
+\externaldocument{..//..//..//phencc}
 \newcommand{\lr}[1]{line~\lineref{#1}}
 
 %\lr{refline1}
@@ -32,7 +30,7 @@ Reviewer comments are italicized and our detailed explanation of changes are in 
 \textbf{Associate Editor's comments:}\\
 
 \emph{Handling Editor Comments for Authors:
-Both reviewers felt this ms has potential to offer insights into whether functional traits of woody species can be used (in place of species identities) to predict the relationships between leaf budburst timing and abiotic conditions. However, the reviewers struggled to understand the framing, methods, results, and conclusions, in part due to a lack of clarity and sufficient detail, and in part because of contradictory information. The constructive comments from the reviewers should help this work reach its potential, but addressing these issues will likely mean the ms will change substantially.}
+Both reviewers felt this ms has potential to offer insights into whether functional traits of woody species can be used (in place of species identities) to predict the relationships between leaf budburst timing and abiotic conditions. However, the reviewers struggled to understand the framing, methods, results, and conclusions, in part due to a lack of clarity and sufficient detail, and in part because of contradictory information. The constructive comments from the reviewers should help this work reach its potential, but addressing these issues will likely mean the ms will change substantially.}\\
 
 \textbf {Reviewer 1 -- comments:} \\
 
@@ -46,37 +44,65 @@ Both reviewers felt this ms has potential to offer insights into whether functio
 
 \emph{L9: You can shorten this sentence by only writing “spring growing”.}\\
 
-We have made these changes (line \lr{R1_L9}.\\
+We have made these changes (\lr{R1_9}).\\
 
 \emph{L15: In my opinion, here and elsewhere, it is important to point out that you worked with trees. Later on, the introduction repeatedly refers to ‘plants’, suggesting that herbaceous species and trees were considered in this study.}\\
 
-Done (line \lr{R1_L15}).\\
+Done (\lr{R1_15}).\\
 
 \emph{L17: Please briefly describe what forcing and chilling mean.}\\
 
 \emph{L18: What do you mean with “earlier species”? Please be more precise here and for example write “earlier growing species”.}\\
 
+We have changed this wording to improve clarity here and throughout the manuscript (e.g. \lr{R1_18} and \lr{R1_48})
+
 \emph{L18-19: Is this actually the main findings of your study? Was the study not primarily about the different responses of species to environmental factors explained by traits?}\\
 
 \emph{L 25: “Budburst” is already used in the title. You should consider another keyword.}\\
 
+We have changed "budburst" to "leafout" to no longer replicate the terminology used in the title. 
+
 \emph{L40-42: Nice to know that egg laying is also shifting but is this relevant for your study? I Would rather name and describe more examples of plants and especially trees.}\\
 
-\emph{L45: As you show an example for animals a few lines before writing “species” here is misleading. You should write “plants” or even more specific “trees”.}\\
+We have revised this sentence to be more focused on examples of phenological shifts in plants ( \lr{R1_40}).\\
+
+\emph{L45: As you show an example for animals a few s before writing “species” here is misleading. You should write “plants” or even more specific “trees”.}\\
+
+Done ( \lr{R1_45}).\\
 
 \emph{L48: “later growing species”}\\
+Done (\lr{R1_48}).\\
 
 \emph{L50: You can delete “For plants,”.}\\
+Done ( \lr{R1_50}).\\
 
 \emph{L68-70: This statement is very strict. I would phrase it a bit more carefully (e.g. ‘to the best of our knowledge’). For example, in a study cited by you (Sporbert et al. 2022), trait-phenology interactions in herbaceous plants from different sites were examined. Whether there are similar examples for trees, I cannot say.}\\
 
+We agree with the reviewer that this sentence was too strict. To address the reviewer comments we have revised this sentence to:
+
+\begin{quote}
+To the best of our knowledge, studies have generally only examined the relationship between traits and phenology for a single or limited number of sites (as reviewed by \citet[][]{Wolkovich2014c} and \citet[][]{Wolkovich2021}, but see \citet[][]{Sporbert2022} and \citet[][]{Rauschkolb2024}) where the problem of proximate drivers causing phenological variation can be more easily ignored.
+\end{quote}
+
 \emph{L75: What do you mean with “which do not generally vary strongly across space and time”? Is it important to mention this in the context of your study?}\\
+
+We see the reviewer's points and agree that this is not important to our study. We have removed this phrase from  \lr{R1_75}.\\
 
 \emph{L107: To my knowledge OSPREE focusses on temperate tree species. This information should be added.}\\
 
+Done ( \lr{R1_107})
+
 \emph{L115: Articles can’t manipulate something. Researchers manipulated the abiotic factors. Please reformulate.}\\
 
+We see the reviewer's points and appreciate the need to be accurate, we have revised this sentence as follows (\lr{R1_115}:\\
+
+\begin{quote}
+We then scraped the data from all articles of woody species reporting experiments that manipulated both photoperiod and/or temperature cues of budburst, leafout, or flowering phenology, and for which there was a quantifiable response to each cue.
+\end{quote}
+
 \emph{L121: Instead of “used” you can write “considered”.}\\
+
+The appreciate the importance of word choice in methods and feel the word "considered" implies that we thought carefully about the subset of data where as "used" clearly implies what data was utilized in the analysis.  
 
 \emph{L130: Are the 96 species from TRY additional ones to the species extracted from BIEN meaning that you considered 190 species in total?}\\
 
@@ -88,11 +114,17 @@ Done (line \lr{R1_L15}).\\
 
 \emph{L142: “the” instead of “our”.}\\
 
+Done ( \lr{R1_142}).\\
+
 \emph{L149: Please delete “also”.}\\
+
+Done ( \lr{R1_149}).\\
 
 \emph{L150-151: I appreciate that you have considered the different data available for the different species. However, I am not sure whether the approach chosen here is correct. What was the reason for you randomly selecting 3000 times? Could it be that, due to the 3000-fold random drawing, species with relatively few data points are always drawn with the same data points? This then leads to the fact that there are species with and without variability in the 3000 data points.}\\
 
 \emph{L153: Maybe better to write “traits” instead of “trait”?}\\
+
+Done ( \lr{R1_153}).\\
 
 \emph{L153: I think it would be very helpful for readers to visualise the structure of the data analysis in a graph. The data filtering process could also be included here.}\\
 

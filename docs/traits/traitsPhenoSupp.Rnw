@@ -47,7 +47,7 @@
 % more optionals! %
 
 \graphicspath{ {./Figures/} }% tell latex where to find photos 
-\externaldocument{traitsPhenoSupp}
+\externaldocument{traitsPhenoMs}
 
 \begin{document}
 \SweaveOpts{concordance=FALSE}
