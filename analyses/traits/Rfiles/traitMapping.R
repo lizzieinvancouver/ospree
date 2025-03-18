@@ -24,16 +24,20 @@ traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
 traitData <- rbind(traitsData1,traitsData2)
 
+traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+
+traitData  <- subset(traitData , traitData$speciesname %in% traitors.sp)
+
+
+
 #subset to our four traits:
 traitName <- c("Plant_height_vegetative", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Specific_leaf_area", "seed mass")
 fourTrt <- traitData[traitData$traitname %in% traitName,]
 
-ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
-
-traitLL <- unique(fourTrt[,c("traitname", "latitude", "longitude")])
+traitLL <- fourTrt[,c("traitname", "latitude", "longitude")]
 traitLL <- traitLL[complete.cases(traitLL),]
 
-phenoLL <- unique(ospree[,c("provenance.lat", "provenance.long")])
+phenoLL <- ospree[,c("provenance.lat", "provenance.long")]
 phenoLL <- phenoLL[complete.cases(phenoLL),]
 
 coord <- st_as_sf(traitLL, coords = c("longitude","latitude"), agr = "traitname", crs = 4326)
