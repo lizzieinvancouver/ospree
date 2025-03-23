@@ -71,14 +71,14 @@ betaTraitPhotoeff <- mean(posterior_sla$betaTraitxPhoto) # -0.1439842
 
 ## Species to plot and other plotting parameters
 plot.sp <- c( "Quercus_rubra", "Alnus_incana") 
- col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9))
- colAlpha <- c(rgb(107 / 255, 142 / 255, 142 / 255, alpha = 0.8), rgb(220 / 255, 188 / 255, 188 / 255, alpha = 0.8))
-# col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
-
- par(bg = "white")
- col.sp <- c("#6B8E8E","#DCBCBC")
- col1.sp <- c( "#1D4F4F", "#8F2727")
- col.pt <- c("#1D4F4F", "#8F2727")
+#  col.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9))
+#  colAlpha <- c(rgb(107 / 255, 142 / 255, 142 / 255, alpha = 0.8), rgb(220 / 255, 188 / 255, 188 / 255, alpha = 0.8))
+# # col2.sp <- c(rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4), rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5))
+# 
+#  par(bg = "white")
+#  col.sp <- c("#6B8E8E","#DCBCBC")
+#  col1.sp <- c( "#1D4F4F", "#8F2727")
+#  col.pt <- c("#1D4F4F", "#8F2727")
 
 # c_light <- c("#DCBCBC")
 # c_light_highlight <- c("#C79999")
@@ -90,6 +90,7 @@ plot.sp <- c( "Quercus_rubra", "Alnus_incana")
 # c_light_teal <- c("#6B8E8E")
 # c_mid_teal <- c("#487575")
 # c_dark_teal <- c("#1D4F4F")
+
 
 #pdf(file = "figures/results_sla_37spp_ac.pdf", width = 15, height = 5)
 ## Plotting
@@ -104,14 +105,14 @@ for(j in 1:nrow(ospreeBB)){
     ospreeBB$forceadj1[j] = ospreeBB$response.time[j] - mean(chilleff) * ospreeBB$chill.z[j] - mean(photoeff) * ospreeBB$photo.z[j]
 }
 
-plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(0, 120),
+plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(-20, 120),
      xlab = expression("Forcing (z-scored"*~degree*C*")"), ylab = "Day of budburst",
      bty = "n",
      xaxt = "n",
      yaxt = "n",
      cex.lab = 1.5)
 axis(side = 1, at = seq(-3,3, by = .5), tcl = -.5, cex.axis = 1.25, las = 2)
-axis(side = 2, at = seq(-20,220, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
+axis(side = 2, at = seq(-40,220, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
 mtext(side = 3, text = "SLA", adj = 0, cex = 1.2)
 
 ## Add species to plot
@@ -140,20 +141,20 @@ for(i in 1:length(plot.sp)){
 my.label <- paste("a", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 
-legend(-.10,115, c(expression(paste("Acquisitive  (", italic("A. incana"), ")")),
-                   expression(paste("Conservative  (", italic("Q. rubra"), ")"))),
-       lty = c(1,1), col = c(col1.sp[2], col1.sp[1]),
-       bty = "n", 
-       lwd = 10,  text.width = 2)
+# legend(-.10,115, c(expression(paste("Acquisitive  (", italic("A. incana"), ")")),
+#                    expression(paste("Conservative  (", italic("Q. rubra"), ")"))),
+#        lty = c(1,1), col = c(col1.sp[2], col1.sp[1]),
+#        bty = "n", 
+#        lwd = 10,  text.width = 2)
 
-text(0.3,117, "Full model")
+# text(0.3,117, "Full model")
+# 
+# legend(-1.5, 115, c("",""), lty = c(1,1), col = c(colAlpha[2], colAlpha[1]),  text.width = 3.3, bty = "n", cex = 1, lwd =10)
+# text(-1,117, "Trait effect = 0")
+# 
 
-legend(-1.5, 115, c("",""), lty = c(1,1), col = c(colAlpha[2], colAlpha[1]),  text.width = 3.3, bty = "n", cex = 1, lwd =10)
-text(-1,117, "Trait effect = 0")
-
-
-legend(-2.5,120, c("",""), pch = c(21, 21), pt.bg = c(col1.sp[2], col1.sp[1]),  text.width = 4.8, bty = "n", cex = 1.5)
-text(-2.2,117, "Raw data")
+# legend(-2.5,120, c("",""), pch = c(21, 21), pt.bg = c(col1.sp[2], col1.sp[1]),  text.width = 4.8, bty = "n", cex = 1.5)
+# text(-2.2,117, "Raw data")
 
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
 #                               expression(paste("Conservative  (", italic("Quercus rubra"), ")")),

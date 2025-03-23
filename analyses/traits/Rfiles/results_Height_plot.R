@@ -104,10 +104,12 @@ betaTraitPhotoeff <- mean(posterior_ht$betaTraitxPhoto) #-0.1920812
 # focal.sp <- c( "Quercus_rubra", "Alnus_incana") 
 
 plot.sp <- c("Quercus_rubra", "Alnus_incana") 
-colAlpha <- c(rgb(107 / 255, 142 / 255, 142 / 255, alpha = 0.8), rgb(220 / 255, 188 / 255, 188 / 255, alpha = 0.8))
-col.sp <- c("#6B8E8E","#DCBCBC")
-col1.sp <- c( "#1D4F4F", "#8F2727")
-col.pt <- c("#1D4F4F", "#8F2727")
+# colAlpha <- c(rgb(107 / 255, 142 / 255, 142 / 255, alpha = 0.8), rgb(220 / 255, 188 / 255, 188 / 255, alpha = 0.8))
+# col.sp <- c("#6B8E8E","#DCBCBC")
+# col1.sp <- c( "#1D4F4F", "#8F2727")
+# col.pt <- c("#1D4F4F", "#8F2727")
+
+
 
 # col.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.9), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.8))
 # col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
@@ -116,7 +118,7 @@ col.pt <- c("#1D4F4F", "#8F2727")
 # pdf(file = "figures/results_height_37spp_ac.pdf", width = 15, height = 5)
 # ## Plotting
 # ### Forcing
-# par(mar = c(5, 5, 2, 2), mfrow=c(1,3))
+# par(mar = c(5, 5, 2, 2), mfrow=c(1,1))
 xrange <- seq(-2.5, 2.5, by = 0.25)
 
 ospreeBB <- ospreeData
@@ -148,7 +150,7 @@ for(i in 1:length(plot.sp)){
     polygon(x = c(xrange, rev(xrange)), y = c(temp2.hdr[1, ], rev(temp2.hdr[2, ])), col = colAlpha[i], border = NA)
 }
 for(i in 1:length(plot.sp)){
-  i <-1
+
     ospree.temp <- subset(ospreeData, ospreeData$speciesname == plot.sp[i])
     ## Add adjusted columns
     ospree.temp$forceadj1 <- ospree.temp$response.time

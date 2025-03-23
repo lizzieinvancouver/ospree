@@ -24,10 +24,10 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
                      topleft = c(0.05,0.98),
                      topcenter = c(0.5525,0.98),
                      topright = c(0.985, 0.98),
-                     bottomleft = c(0.015, 0.02), 
+                     bottomleft = c(0.1, 0.02), 
                      bottomcenter = c(0.5525, 0.02), 
                      bottomright = c(0.985, 0.02),
-                     c(0.015, 0.98) )
+                     c(0.1, 0.98) )
   } else {
     coords <- c(x,y)
   }
@@ -132,16 +132,34 @@ files
   col1.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.2), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.14))
   col2.sp <- c( rgb(149 / 255, 216 / 255, 64 / 255, alpha = 0.5), rgb(72 / 255, 38 / 255, 119 / 255, alpha = 0.4))
   
-  c_red <- c("#8F2727")
-  c_teal <- c("#487575")
+  c_blue <- c("#8F2727")
+  c_yellow <- c("#487575")
   
+  c_yellow <- c("#ffac38")
+  c_blue <- c("#025196")
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
 pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), height = 16, width = 12)
   par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to cue (", beta[forcing], ", standardized)")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+#  mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
+ #  "Populus_tremula" = acquis "Acer_pseudoplatanus"= conservative 
+  ## Old spp = Corylus avellana
+  arrows(
+    mg_df[6,"muGrandSpMean"], # x mean
+    bfs_df[6,"force25"], # y 25
+    mg_df[6,"muGrandSpMean"],
+    bfs_df[6,"force75"],
+    length = 0 , lwd = 4, col = c_blue
+  )
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bfs_df[,"force25"], # y 25
@@ -157,27 +175,13 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[,"betaForceSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
- #  "Populus_tremula" = acquis "Acer_pseudoplatanus"= conservative 
-  ## Old spp = Corylus avellana
-  arrows(
-    mg_df[6,"muGrandSpMean"], # x mean
-    bfs_df[6,"force25"], # y 25
-    mg_df[6,"muGrandSpMean"],
-    bfs_df[6,"force75"],
-    length = 0 , lwd = 4, col = c_red
-  )
   
   arrows(
     mg_df[6,"trait25"], # x mean
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
 
   # Acer pseudoplatanus
   arrows(
@@ -185,7 +189,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"force25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bfs_df[32,"force75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -193,7 +197,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bfs_df[32,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_teal
+    length = 0, lwd = 4, col = c_yellow
     )
   
   my.label <- paste("a", ".", sep="")
@@ -222,9 +226,17 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   
   #pdf(paste("figures/chill", files[i], ".pdf", sep = ""))
   #pdf(paste("figures/chill", "lnc", ".pdf", sep = ""), height = 5, width = 5)
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to cue (", beta[chilling], ", standardized)")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40, 5), ylab = expression(paste("Response to cue chilling cues (", beta[chilling], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
+  
+  # Corylus avellana
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bcs_df[,"chill25"], # y 25
@@ -240,19 +252,13 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[,"betaChillSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
-  # Corylus avellana
   arrows(
     mg_df[6,"muGrandSpMean"], # x mean
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -260,7 +266,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -268,7 +274,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"chill25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bcs_df[32,"chill75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -276,7 +282,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bcs_df[32,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("b", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -304,9 +310,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   
   #pdf(paste("figures/photo", files[i], ".pdf", sep = ""))
   #pdf(paste("figures/photo", "height", ".pdf", sep = ""), height = 5, width = 5)
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to cue (", beta[photoperiod], ", standardized)")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-10,5), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
+ 
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bps_df[,"photo25"], # y 25
@@ -322,19 +335,15 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[,"betaPhotoSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
- 
+  
   # Corylus avellana
   arrows(
     mg_df[6,"muGrandSpMean"], # x mean
+    
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -342,7 +351,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -350,7 +359,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"photo25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bps_df[32,"photo75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -358,7 +367,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bps_df[32,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("c", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -405,9 +414,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to cue (", beta[forcing], ", standardized)")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+ 
+  #mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bfs_df[,"force25"], # y 25
@@ -423,11 +439,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[,"betaForceSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
   
   # Fagus grandifolia and Quercus ilex 
   arrows(
@@ -435,7 +446,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -443,7 +454,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
 
   arrows(
@@ -451,7 +462,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"force25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bfs_df[32,"force75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -459,7 +470,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bfs_df[32,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("d", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -485,9 +496,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to cue (", beta[chilling], ", standardized)")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40,5), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab =1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+#  mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bcs_df[,"chill25"], # y 25
@@ -503,11 +521,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[,"betaChillSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -515,7 +528,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -523,7 +536,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -531,7 +544,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"chill25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bcs_df[32,"chill75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -539,7 +552,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bcs_df[32,"betaChillSpMean"],
-    length = 0, lwd =4, col = c_teal)
+    length = 0, lwd =4, col = c_yellow)
   
   my.label <- paste("e", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -564,9 +577,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to cue (", beta[photoperiod], ", standardized)")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")),cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")),cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bps_df[,"photo25"], # y 25
@@ -582,19 +602,13 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[,"betaPhotoSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
-  
 
   arrows(
     mg_df[6,"muGrandSpMean"], # x mean
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -602,7 +616,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -610,7 +624,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"photo25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bps_df[32,"photo75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -618,7 +632,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bps_df[32,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("f", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -669,9 +683,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to cue (", beta[forcing], ", standardized)")), xlab = "Seed mass (mg)",  cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = "Seed mass (mg)",  cex.lab =1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+ # mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bfs_df[,"force25"], # y 25
@@ -687,19 +708,13 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[,"betaForceSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
-  
   # Populus and acer
   arrows(
     mg_df[6,"muGrandSpMean"], # x mean
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -707,7 +722,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -715,7 +730,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"force25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bfs_df[32,"force75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -723,7 +738,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bfs_df[32,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("g", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -748,9 +763,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to cue (", beta[chilling], ", standardized)")), xlab = "Seed mass (mg)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = "Seed mass (mg)", cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+ # mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bcs_df[,"chill25"], # y 25
@@ -766,11 +788,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[,"betaChillSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -778,7 +795,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -786,7 +803,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -794,7 +811,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"chill25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bcs_df[32,"chill75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -802,7 +819,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bcs_df[32,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("h", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -827,9 +844,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to cue (", beta[photoperiod], ", standardized)")), xlab = "Seed mass (mg)", cex.lab =1.5 ) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = "Seed mass (mg)", cex.lab =1.5 ) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)  
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bps_df[,"photo25"], # y 25
@@ -845,11 +869,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[,"betaPhotoSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)  
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -857,7 +876,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -865,7 +884,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -873,7 +892,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"photo25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bps_df[32,"photo75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -881,7 +900,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bps_df[32,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("i", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -929,9 +948,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to cue (", beta[forcing], ", standardized)")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+ 
+  #mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bfs_df[,"force25"], # y 25
@@ -947,11 +973,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[,"betaForceSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Forcing", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxForceMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muForceSpMean, b=betaTraitxForceMean, col = "black")
   
   # Fagus grandifolia and Quercus ilex
   arrows(
@@ -959,7 +980,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[6,"force25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bfs_df[6,"force75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -967,7 +988,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[6,"betaForceSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bfs_df[6,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -975,7 +996,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"force25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bfs_df[32,"force75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -983,7 +1004,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bfs_df[32,"betaForceSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("j", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -1008,9 +1029,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to cue (", beta[chilling], ", standardized)")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab =1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bcs_df[,"chill25"], # y 25
@@ -1026,11 +1054,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[,"betaChillSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Chilling", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxChillMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muChillSpMean, b=betaTraitxChillMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -1038,7 +1061,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"chill25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bcs_df[6,"chill75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -1046,7 +1069,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[6,"betaChillSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bcs_df[6,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -1054,7 +1077,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"chill25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bcs_df[32,"chill75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -1062,7 +1085,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bcs_df[32,"betaChillSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("k", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)
@@ -1087,9 +1110,16 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to cue (", beta[photoperiod], ", standardized)")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
+  
+  #mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
+  for(j in 1:length(int_fifty[,1])){
+    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("gray", 0.1))
+  }
+  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
+  
   arrows(
     mg_df[,"muGrandSpMean"], # x mean
     bps_df[,"photo25"], # y 25
@@ -1105,11 +1135,6 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[,"betaPhotoSpMean"],
     length = 0
   )
-  mtext(side = 3, text = "Photoperiod", adj = 0, cex = 1.25)
-  for(j in 1:length(int_fifty[,1])){
-    abline(a = int_fifty[j,], b = betaTraitxPhotoMean, col=alpha("lightpink", 0.015))
-  }
-  abline(a=muPhotoSpMean, b=betaTraitxPhotoMean, col = "black")
   
   # Corylus avellana
   arrows(
@@ -1117,7 +1142,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"photo25"], # y 25
     mg_df[6,"muGrandSpMean"],
     bps_df[6,"photo75"],
-    length = 0 , lwd = 4, col = c_red
+    length = 0 , lwd = 4, col = c_blue
   )
   
   arrows(
@@ -1125,7 +1150,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[6,"betaPhotoSpMean"], # y 25
     mg_df[6,"trait75"], # x mean
     bps_df[6,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_red)
+    length = 0, lwd = 4, col = c_blue)
   
   # Acer pseudoplatanus
   arrows(
@@ -1133,7 +1158,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"photo25"], # y 25
     mg_df[32,"muGrandSpMean"],
     bps_df[32,"photo75"],
-    length = 0 , lwd = 4, col = c_teal
+    length = 0 , lwd = 4, col = c_yellow
   )
   
   arrows(
@@ -1141,7 +1166,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"], # y 25
     mg_df[32,"trait75"], # x mean
     bps_df[32,"betaPhotoSpMean"],
-    length = 0, lwd = 4, col = c_teal)
+    length = 0, lwd = 4, col = c_yellow)
   
   my.label <- paste("l", ".", sep="")
   put.fig.letter(label=my.label, location= "topleft", font=2)

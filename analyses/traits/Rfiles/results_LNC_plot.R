@@ -34,6 +34,7 @@ posterior_lnc <- rstan::extract(readRDS(file = "output/LNC_stanfit_37spp.RDS"))
  # traitsData <- subset(traitsData, traitsData$speciesname %in% traitors.sp)
 
 # LNC trait only
+
 lncData <- traitsData[traitsData$traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass", ]
 
 # Subset ospree data
