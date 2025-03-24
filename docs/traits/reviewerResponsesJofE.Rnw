@@ -219,6 +219,10 @@ For the relationship between SLA and frost resistance see: Bucher SF, Rosbakh S.
 
 \color{purple} \emph{I’m not very familiar with Bayesian statistics but the statistical analysis needs to be described in more detail to make them understandable for a broader readership. In the methods section it is not even mentioned that Bayesian statistics were applied. This is only stated within the introduction. Please provide all relevant details within the methods section.}\\ \color{black}
 
+%fajMar2025 I have aded reviewer comments here based on my changes to teh manuscript, but I didn't run teh eupdatd manuccript so I wasnt sure of the line numbers. 
+\color{blue} We thank the reviewer for pointing out this oversight, and have added in more details and restructured the method section to make model fitting details clearer to readers. Firstly, we have now specified that the model is Bayesian in line \textbf{159}. Secondly, we have added citations to Stan and clarified how it relates to Bayesian modelling and to R and rstan, as well as moved all relevant details on general model fitting to earlier in the manuscript, lines \textbf{167 - ???}, before we start specifying the structure of the two parts of the model. \\ \color{black}
+
+
 \textbf{Results}\\
 
 \emph{L204-205: Why were these species selected to represent typical acquisitive/ conservative species? Alnus incana (“acquisitive”) and Quercus rubra (“conservative”) are very closely together in terms of SLA that is a proxy for acquisitive/conservative growth strategies. Why not using two species that are more towards the ends of the acquisitive/conservative spectrum?}\\
