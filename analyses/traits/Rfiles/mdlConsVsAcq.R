@@ -47,14 +47,20 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   text(labels=label[1], x=this.x, y=this.y, xpd=T, cex = 2, ...)
 }
 
-pdf("figures/slopesConsAcqu_sla_lnc_100.pdf", width = 12, height = 8)
-par(mar = c(5.2, 5, 2, 2), mfrow=c(2,3), mgp = c(3,0.5, 0))
+colAlpha <- c(rgb(2 / 255, 81 / 255, 150 / 255, alpha = 0.3), rgb(255 / 255, 172 / 255, 56 / 255, alpha = 0.3))
+#col1.sp <- c("#025196","#ffac38")
+col1.sp <- c(rgb(2 / 255, 81 / 255, 150 / 255, alpha = 0.8), rgb(255 / 255, 172 / 255, 56 / 255, alpha = 0.8))
+
+col.pt <- c("#025196", "#ffac38")
+
+pdf("figures/slopesConsAcqu_sla_lnc_100_nc.pdf", width = 12, height = 16)
+par(mar = c(5.2, 5, 2, 2), mfrow=c(4,3), mgp = c(3,0.5, 0))
 #source("Rfiles/concept_fig.R")
 #par(mar = c(5, 5, 2, 2), mfrow=c(2,3))
-#source("results_Height_plot.R")
-source("results_SLA_plot.R")
-#source("results_SeedMass_plot.R")
-source("results_LNC_plot.R")
+source("Rfiles/results_Height_plot.R")
+source("Rfiles/results_SLA_plot.R")
+source("Rfiles/results_SeedMass_plot.R")
+source("Rfiles/results_LNC_plot.R")
 dev.off()
 
 

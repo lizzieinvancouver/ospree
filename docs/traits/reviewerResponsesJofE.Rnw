@@ -127,6 +127,8 @@ Yes, this value is the number of datapoints duplicated between the try and BIEN 
 
 \emph{L142: Please reformulate. For example “[…] and to adjust which traits should be included for further analyses.”}\\
 
+We acknowledge that it might not be clear what traits we used for our PCA and how we decided which of the correlated traits to remove. We have revised this section of the methods to provide greater detail and clarify how we selected the four focal traits (\lr{R1_142a} to \lr{R1_142b}).
+
 \emph{L142: “the” instead of “our”.}\\
 
 Done (\lr{R1_142}).\\
@@ -137,27 +139,47 @@ Done (\lr{R1_149}).\\
 
  \emph{L150-151: I appreciate that you have considered the different data available for the different species. However, I am not sure whether the approach chosen here is correct. What was the reason for you randomly selecting 3000 times? Could it be that, due to the 3000-fold random drawing, species with relatively few data points are always drawn with the same data points? This then leads to the fact that there are species with and without variability in the 3000 data points.}\\
 
+We apologize for the lack of clarity. We include all data for the 24 species that had fewer then 3000 observations per species and only subset the data for the 13 highly sampled species, each of which had over 3000 observations per species. To clarify this point and provide greater justification for why this subsampling was performed, we have revised the text from \lr{R1_149} to \lr{R1_149}.
+
 \emph{L153: Maybe better to write “traits” instead of “trait”?}\\
 
 Done (\lr{R1_153}).\\
 
 \emph{L153: I think it would be very helpful for readers to visualise the structure of the data analysis in a graph. The data filtering process could also be included here.}\\
 
+We agree that having a visual to depict our data structure and cleaning would be very useful and have created an additional figure in the Supplementary Material (Fig. \ref{fig:database}).\\
+
 \emph{L160: Please shorten: “[…] that determines the day of year of budburst”.}\\
+
+Done \lr{R1_160}.\\
 
 \emph{L212: How do you conclude that SLA is not related to chilling or forcing, unlike to photoperiod? For example, the mean slope for chilling is 0.34 (see Table S4). Or have I not understood this table correctly? But also, if I look at Figure 2, I would not conclude that there are no effects for the two cues.}\\
 
+To assessing whether a trait has a relationship with a cue requires the reader to consider the uncertainty interval in addition to the mean estimate. Since the 90\% uncertainty intervals for the trait-cue parameter crosses zero, it infer it has a relatively weak effect (for example, the mean is 0.34, with an UI of -0.13 to 0.83). We have revised both the methods (starting on \lr{R1_sigTest}) and the table caption to help readers interpret our results. In addition we have revised the tables to include both the 50\% and 90\% uncertainty interval to help compare the relative strength of relationships. 
+
 \emph{L222-231: These are definitely interesting analyses. But I don't understand how they are relevant to your study. If they are relevant, then these results would have to be taken up again in the discussion.}\\
+
+We agree that we did not adequately highlight the importance of this finding in our discussion. This analysis highlights one of the major strengths of our model, as we were able to partition both the species and study-level variation. We believe this analysis is important, as we found that for our  height model the effects of the study-level differences were greater than that of species. We have revised this section of the results and added text to the discussion to address this point further.
 
 \emph{L244-245: The examples presented are studies with herbaceous species. I think it's important not to lump together the results of different growth forms. For example, Horbach et al. showed that phenology-trait relationships for herbaceous species and for trees can differ greatly (https://doi.org/10.1016/j.flora.2023.152218).}\\
 
+We see the reviewer's point and have revised the citations to only include examples from other studies of woody plants. 
+
 \emph{L261: Are these results not be visualised with even greater clarity in Figure 3?}\\
+
+We agree with the reviewer, however, following revisions to address comments from reviewer 2, this sentence has been deleted. 
 
 \emph{L446: The authors are missing.}\\
 
+We have updated the bibliography style file and fixed this formatting issue.
+
 \emph{Figure 1: I really like this figure. You also analysed seed mass. Could you add this trait to the “early” and “late” boxes?}\\
 
+We thank the reviewer for catching this and have added this trait to the figure.
+
 \emph{Figure 2: The y-axes names are really cryptic. It would be helpful if simpler formulations could be used here. In addition, the labels on both axes have to be larger.}\\
+
+We thank the reviewer for this insight, we have updated the y-axis labels and corrected the figures to make them larger.
 
 \emph{Figure 3: How can the points reflect both the raw phenological data and individual trait measurement at the same time? This description of the figure is misleading. Finally, I would only write the name of the columns (“Forcing”, “Chilling” and “Photoperiod”) once at the top.}\\
 
