@@ -74,6 +74,13 @@
     \label{fig:pca}
 \end{figure}
 
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width= 0.5 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf}
+    \caption{Trait data was obstained from the try and BIEN trait databases and budburst data from the OSPREE databases, with a focus on the subset of species \citep[analyzed by][]{Moralles2024}. Data was cleaned extensively and subset to only include traits for adult trees growing under natural conditions.}
+    \label{fig:database}
+\end{figure}
+
 \newpage
 \begin{figure}[h!]
     \centering
@@ -159,7 +166,7 @@ bien & \cite{McHugh2015} & Height & m &  26 &   8 \\
 \clearpage
 \begin{table}[ht]
 \centering
-\caption{Summary of model estimates using measurements of tree height for our 37 focal species ($n$ = 42781)} 
+\caption{Summary of model estimates using trait measurements from our four individual trait models, using data from 37 focal species. In addition to the mean estimated values, we report the 50\% and 90\% uncertainty intervals. The strength of the relationship can be assessed by comparing across these uncertainty intervals, with paremeters with uncertainty intervals that cross zero depicting weaker relationships.  % ($n$ = 42781)} 
 \label{tableHt}
 \begin{tabular}{rrrrrrr}
   \hline
