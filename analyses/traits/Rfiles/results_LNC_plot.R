@@ -95,7 +95,7 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), 1
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3,3, by = 0.5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
 mtext(side = 3, text = "LNC", adj = 0, cex = 1.2)
@@ -121,7 +121,7 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("d", ".", sep="")
+my.label <- paste("j", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus glutinosa"), ")")),
 #                               expression(paste("Conservative  (", italic("Quercus ilex"), ")")),
@@ -148,10 +148,10 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$chilladj1), 1
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3,3, by = 0.5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
-mtext(side = 3, text = "LNC", adj = 0, cex = 1.2)
+#mtext(side = 3, text = "LNC", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -174,7 +174,7 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("e", ".", sep="")
+my.label <- paste("k", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus glutinosa"), ")")),
 #                               expression(paste("Conservative  (", italic("Quercus ilex"), ")")),
@@ -201,10 +201,10 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), 1
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3,3, by = 0.5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
-mtext(side = 3, text = "LNC", adj = 0, cex = 1.2)
+#mtext(side = 3, text = "LNC", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -233,7 +233,7 @@ for(i in 1:length(plot.sp)){
 #                               expression(paste("Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col1.sp[2], col1.sp[1], NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.75, bty = "n")
-my.label <- paste("f", ".", sep="")
+my.label <- paste("l", ".", sep="")
 put.fig.letter(label=my.label, location= "topleft", font=2)
 #dev.off()
 

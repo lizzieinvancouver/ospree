@@ -21,7 +21,7 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   }
   if(is.null(x) | is.null(y)) {
     coords <- switch(location,
-                     topleft = c(0.05,0.98),
+                     topleft = c(0.15,0.98),
                      topcenter = c(0.5525,0.98),
                      topright = c(0.985, 0.98),
                      bottomleft = c(0.1, 0.02), 
@@ -140,8 +140,8 @@ files
   
   #pdf(paste("figures/force", files[i], ".pdf", sep = ""))
 pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), height = 16, width = 12)
-  par(mar = c(5, 5, 2, 2), mfrow = c(4,3))
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  par(mar = c(5.5, 5, 2, 2), mfrow = c(4,3))
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing (", beta[forcing], ")")), xlab = "Height (m)", cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -226,7 +226,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   
   #pdf(paste("figures/chill", files[i], ".pdf", sep = ""))
   #pdf(paste("figures/chill", "lnc", ".pdf", sep = ""), height = 5, width = 5)
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40, 5), ylab = expression(paste("Response to cue chilling cues (", beta[chilling], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40, 5), ylab = expression(paste("Response to cue chilling (", beta[chilling], ")")), xlab = "Height (m)", cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -310,7 +310,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   
   #pdf(paste("figures/photo", files[i], ".pdf", sep = ""))
   #pdf(paste("figures/photo", "height", ".pdf", sep = ""), height = 5, width = 5)
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-10,5), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = "Height (m)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-10,5), ylab = expression(paste("Response to photoperiod (", beta[photoperiod], ")")), xlab = "Height (m)", cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -414,7 +414,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing (", beta[forcing], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
  
@@ -496,7 +496,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40,5), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(-40,5), ylab = expression(paste("Response to chilling (", beta[chilling], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")), cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -577,7 +577,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")),cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod (", beta[photoperiod], ")")), xlab = expression(paste("SLA (", mm^2, mg^-1, ")")),cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -683,7 +683,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = "Seed mass (mg)",  cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing (", beta[forcing], ")")), xlab = "Seed mass (mg)",  cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -763,7 +763,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = "Seed mass (mg)", cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling (", beta[chilling], ")")), xlab = "Seed mass (mg)", cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -844,7 +844,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = "Seed mass (mg)", cex.lab =1.5 ) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod (", beta[photoperiod], ")")), xlab = "Seed mass (mg)", cex.lab = 1.75 ) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -948,7 +948,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muForceSp, ModelFit.muForceSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muForceSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing cues (", beta[forcing], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bfs_df$betaForceSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bfs_df$force25), max(bfs_df$force75)), ylab = expression(paste("Response to forcing (", beta[forcing], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
  
@@ -1029,7 +1029,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muChillSp, ModelFit.muChillSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muChillSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling cues (", beta[chilling], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab =1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bcs_df$betaChillSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bcs_df$chill25), max(bcs_df$chill75)), ylab = expression(paste("Response to chilling (", beta[chilling], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   
@@ -1110,7 +1110,7 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
   int_fifty <- subset(muPhotoSp, ModelFit.muPhotoSp > int_quan[1,])
   int_fifty <- subset( int_fifty, ModelFit.muPhotoSp < int_quan[2,])
   
-  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod cues (", beta[photoperiod], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.5) # blank plot with x range 
+  plot( x= mg_df$muGrandSpMean, y = bps_df$betaPhotoSpMean, type="n", xlim = c(min(mg_df$trait25), max(mg_df$trait75)), ylim = c(min(bps_df$photo25), max(bps_df$photo75)), ylab = expression(paste("Response to photoperiod (", beta[photoperiod], ")")), xlab = expression(paste("LNC (mg ",g^-1, ")")), cex.lab = 1.75) # blank plot with x range 
   # 3 columns, mean, quantile
   # min and max defined by quantiles
   

@@ -179,35 +179,56 @@ We thank the reviewer for catching this and have added this trait to the figure.
 
 \emph{Figure 2: The y-axes names are really cryptic. It would be helpful if simpler formulations could be used here. In addition, the labels on both axes have to be larger.}\\
 
-We thank the reviewer for this insight, we have updated the y-axis labels and corrected the figures to make them larger.
+We apologize for the lack of clarity in our y-axis names, we have simplified them and made them larger.
 
 \emph{Figure 3: How can the points reflect both the raw phenological data and individual trait measurement at the same time? This description of the figure is misleading. Finally, I would only write the name of the columns (“Forcing”, “Chilling” and “Photoperiod”) once at the top.}\\
 
+We appreciate the reviewer for catching this mistake, we have updated the figure legend to explain that the the points reflect the only the raw budburst data. We are unsure if the reviewer's reference to the name of the columns is in reference to the trait plot label at the upper left corner or the x-axis label. We have simplified the figure to only include the trait label once for each row of plots, but can also revise the name of the x-axis if this is what the reviewer meant. 
+
 \emph{Figure 2 and 3: I am colour-blind, with a red-green deficiency. I can hardly distinguish the colours you have chosen. This should be adjusted.}\\
+
+Thank you for bringing this to our attention. We have updated our figure colours to be blue and yellow, which should be discernible to people with protanopia, deuteranopia, or tritanopia. \\
 
 \textbf {Reviewer 2 -- comments}\\
 
 \emph{This study investigates the role of functional traits for mediating phenological responses of bud burst timing to different environmental cues (forcing, chilling, photoperiod). The authors compiled data on phenological experiments on woody species from a database and combined them with trait data from other databases. While the manuscript is generally very interesting and well written I see major problems regarding the underlying assumptions and clarity of the manuscript.}\\
 
+We are glad that the reviewer found our manuscript very interesting and well written. 
+
 \emph{The underlying assumptions and hypotheses presented in the introduction are not supported by suitable references and largely contradict the current literature (see comments below). Acquisitive plants relate to high SLA, nitrogen rich leaves and low resistance (e.g. against frost) but higher competitive ability. In contrast, conservative growth strategies relate to low SLA, nitrogen poor leaves with high resistance (e.g. against frost). With competition playing a minor role in spring but being more important later in the season as stated by the authors I would expect more conservative strategies to be present in spring to ensure frost resistance and expect more acquisitive strategies later in the season when the risk of frost events is low, but competition is high. The assumptions and hypotheses by the authors presented in Figure 1 and throughout the manuscript are in parts opposing to these assumptions. In addition, the authors define the terms “acquisitive” and “conservative” differently throughout the manuscript (e.g., Introduction: acquisitive = high SLA, Figure 1: acquisitive = low SLA), which leads to confusion and makes it difficult to understand what the authors mean.}\\
 
+We agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion. We also appreciate the reviewer for identifying several places where typos in the text and figure have lead to contradictions and confusion. We have expanded on our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and the nuance of how we define acquisitive and conservative growth strategies.  
+
 \emph{The results should be presented more clearly, and the discussion should directly refer to the results instead of reiterating statements from the introduction or making claims that are not adequately supported by the presented results.}\\
+
+We acknowledge that the results of trait studies can be challenging to write clearly and have expanded on both the results and discussion to better do so. 
 
 \textbf{Summary}\\
 
 \emph{L10-12: Why do you expect that? I would expect exactly the opposite.}\\
 
+Our predictions are based on the functional trait literature, including \citep[classic work by][]{Reich1992, Westoby1998, Poorter2006}, but we have provided more detail in the main text to better reflect the nuance of this work and more clearly support our predictions. 
+
 \emph{L16: Add information here whether the traits are coming from the same experiments or if they were derived by databases.}\\
+
+Done (\R{R2_16}).
 
 \emph{L18: This indicates a more conservative strategy of early species.}\\
 
+We apologize for the confusion. We have revised this section of the abstract to clarify our main finding and in response to a comment from the other Reviewer as well (\lr{R2_Aa} to \lr{R2_Ab}). 
+
 \emph{L19: Where did the high nitrogen leaves belong to if early and late species had low nitrogen?}\\
 
+Thank you for bringing our attention to this typo, it has been corrected on \lr{R2_Aa}.
+
 \emph{L20: Not clear what the authors want to say here. Maybe be more precise about the patterns regarding late species.}\\
+
+As mentioned above, we have revised this section to improve clarity and better communicate our primary findings. 
 
 \textbf{Introduction}\\
 
 \emph{General comment: I find the wording for “proximate” and “ultimate” level a bit complicated even though it is well explained. Maybe it's a language related issue, but I would consider using more intuitive words to describe the different factors (abiotic cues vs. plant traits).}\\
+
 
 \emph{From the introduction I get the impression that the authors aim to understand not only interspecific but also intraspecific phenological variability through plant functional traits. However, as they used only database information for the traits they cannot account for intraspecific trait variability in relation to phenological variability, or do I get anything wrong?}\\
 

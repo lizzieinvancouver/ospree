@@ -132,7 +132,7 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$forceadj1), 1
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3,3, by = .5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
 mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
@@ -202,10 +202,10 @@ plot(NA, xlim = c(min(xrange),2.5), ylim = c(min(ospreeBB$chilladj1), 120),
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3, 3, by = 0.5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
-mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
+#mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
@@ -255,10 +255,10 @@ plot(NA, xlim = c(min(xrange), max(xrange)), ylim = c(min(ospreeBB$photoadj1), 1
      bty = "n",
      xaxt = "n",
      yaxt = "n",
-     cex.lab = 1.5)
+     cex.lab = 1.75)
 axis(side = 1, at = seq(-3,3, by = 0.5), tcl = -.5, cex.axis = 1.25, las = 2)
 axis(side = 2, at = seq(-40,200, by = 20), tcl = -.5, las = 1, cex.axis = 1.25)
-mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
+#mtext(side = 3, text = "Height", adj = 0, cex = 1.2)
 ## Add species to plot
 for(i in 1:length(plot.sp)){
     stor1 <- matrix(NA, ncol = length(xrange), nrow = 4000)
