@@ -229,16 +229,28 @@ As mentioned above, we have revised this section to improve clarity and better c
 
 \emph{General comment: I find the wording for “proximate” and “ultimate” level a bit complicated even though it is well explained. Maybe it's a language related issue, but I would consider using more intuitive words to describe the different factors (abiotic cues vs. plant traits).}\\
 
+We agree that this is a complicated topic, but after discussing this and alternative phrasings with coauthors, we think the terms "proximate" and "ultimate" are best and true to how the topic is discussed in the literature. 
 
 \emph{From the introduction I get the impression that the authors aim to understand not only interspecific but also intraspecific phenological variability through plant functional traits. However, as they used only database information for the traits they cannot account for intraspecific trait variability in relation to phenological variability, or do I get anything wrong?}\\
 
+We agree with the reviewer that in using data from multiple databases, we are not able to make inferences about the relationships between intraspecific trait variability and phenology. To address this confusion, we have revised \lr{R2_intraa} to \lr{R2_intrab} to read as follows:
+
+\begin{quote}
+\end{quote}
+
 \emph{L55-57: I find this statement quite counterintuitive. Also, in the two references (Reich et al., 1999; Gorne et al., 2020) I can’t find any link to phenology or related statement that would support this sentence.}\\
 
+We agree that how we referenced the literature in this sentence could lead to confusion and have revised both the sentence and the references used to more clearly make our argument.  
+%DL comments: I struggled with this edit, let me know what you think.
+
 \emph{L68-70: Please reevaluate this statement. There are publications on phenology-trait relationships also across sites check e.g., (Rauschkolb et al., 2024; Sporbert et al., 2022).}\\
+
+We agree that our phrasing was too strict and have revised this sentence from \lr{R1_68a} to \lr{R1_68b} to:
 
 \emph{L74-75: This sentence is not clear to me. Please improve clarity of the statement.}\\
 
 \emph{L76-80: This seems counterintuitive to me as early-flowering species are repeatedly shown to experience more pronounced phenological advancements in response to climate warming compared to species that flower later (Dunne et al., 2003; Fitter and Fitter, 2002; Lesica and Kittelson, 2010; Menzel et al., 2006; Pareja-Bonilla et al., 2023).}\\
+
 \emph{The Laube et al. (2014) reference does speak of early vs. late successional species while I understand this paragraph (and this manuscript overall) aiming at understanding differences between early and late bud bursting species. It needs to be defined more clearly what this the key message of this paragraph.}\\
 
 \emph{L84-85: Not clear what “strong gradients in potential selective environments” exactly means in this context.}\\
@@ -254,11 +266,19 @@ For the relationship between SLA and frost resistance see: Bucher SF, Rosbakh S.
 
 \emph{There are many different species numbers mentioned based on different databases. Please clarify for how many species information on all relevant variables was available and how many species were included in the analysis. Otherwise, it creates the impression that this study is based on 234 species while there is only trait information for about 95 species, in the end the authors speak of 37 species.}\\
 
+We apologize for the confusion in our discussion of how data was obtained and cleaned to meet our study criteria. We have created a new figure to better depict this in the Supplementary material (Fig. \ref{fig:database}) to address this.
+
 \emph{It would be also helpful to learn more about the experiments were the phenology data was derived from and to provide a map with the geographic locations of the included experiments. Only in the discussion the authors speak of  a “global” study.}\\
+
+We have added additional detail regarding the OSPREE database (\lr{R2_global}) and the made additional reference to the global nature of the three data bases used in our analysis (\lr{R2_global}). We have also added a map of the budburst data, as well as data for the three traits for which the site coordinates were known to the supplementary material (Fig. \ref{fig:map}).
 
 \emph{L153-162.: Why were not all traits included in one model to evaluate the influence of each of the traits in the phenological response? The model description is overall insufficient as it is not clear which methods or software was overall used.}\\
 
+Given the complexity of the joint modelling approach we used, we deemed it more valuable to model each trait individually and focus on estimating the complex latent processes that link the tree traits to phenological cues. In choosing this model structure, we were also able to explicitly estimate different sources of variation (including species and study-level effects).The software used to write and run our analysis was referenced on \lr{R2_rstanRef} and we have added additional information and references regarding the Stan and R programming languages (\lr{R2_stana} to \lr{R2_stanb}.\\
+
 \emph{L163-172: The model description is overall insufficient as it is not clear which methods or software was overall used.}\\
+
+To provide more clarity, we have included the Stan code for our joint Bayesian model in the supplementary material. As mentioned above, we have also added additional references for the softwares used in our analysis (\lr{R2_rstanRef} and \lr{R2_stana}). 
 
 \color{purple} \emph{I’m not very familiar with Bayesian statistics but the statistical analysis needs to be described in more detail to make them understandable for a broader readership. In the methods section it is not even mentioned that Bayesian statistics were applied. This is only stated within the introduction. Please provide all relevant details within the methods section.}\\ \color{black}
 
