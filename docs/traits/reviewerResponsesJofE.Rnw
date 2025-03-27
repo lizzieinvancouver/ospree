@@ -197,7 +197,7 @@ We are glad that the reviewer found our manuscript very interesting and well wri
 
 \emph{The underlying assumptions and hypotheses presented in the introduction are not supported by suitable references and largely contradict the current literature (see comments below). Acquisitive plants relate to high SLA, nitrogen rich leaves and low resistance (e.g. against frost) but higher competitive ability. In contrast, conservative growth strategies relate to low SLA, nitrogen poor leaves with high resistance (e.g. against frost). With competition playing a minor role in spring but being more important later in the season as stated by the authors I would expect more conservative strategies to be present in spring to ensure frost resistance and expect more acquisitive strategies later in the season when the risk of frost events is low, but competition is high. The assumptions and hypotheses by the authors presented in Figure 1 and throughout the manuscript are in parts opposing to these assumptions. In addition, the authors define the terms “acquisitive” and “conservative” differently throughout the manuscript (e.g., Introduction: acquisitive = high SLA, Figure 1: acquisitive = low SLA), which leads to confusion and makes it difficult to understand what the authors mean.}\\
 
-We agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion. We also appreciate the reviewer for identifying several places where typos in the text and figure have lead to contradictions and confusion. We have expanded on our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and the nuance of how we define acquisitive and conservative growth strategies.  
+We agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion. We also appreciate the reviewer for identifying a typos within our figure that lead to the contradiction with our text and confusion. We have also expanded on our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and the nuance of how we define acquisitive and conservative growth strategies.  
 
 \emph{The results should be presented more clearly, and the discussion should directly refer to the results instead of reiterating statements from the introduction or making claims that are not adequately supported by the presented results.}\\
 
@@ -207,7 +207,7 @@ We acknowledge that the results of trait studies can be challenging to write cle
 
 \emph{L10-12: Why do you expect that? I would expect exactly the opposite.}\\
 
-Our predictions are based on the functional trait literature, including \citep[classic work by][]{Reich1992, Westoby1998, Poorter2006}, but we have provided more detail in the main text to better reflect the nuance of this work and more clearly support our predictions. 
+Our predictions are based on the functional trait literature, including \citep[work by][]{Wright2004,Reich2014, Westoby1998, Poorter2006}, which posit that resource-rich environments (such as the high light and soil nutrient environments in the spring) favour fast growth and traits that facilitate the aquisition of resources, while later in the season when light and nutrients are more limited, growth strategies that conserve resources are favoured. We have revised this statment to be more explicit on \lr{R1_9}.\\
 
 \emph{L16: Add information here whether the traits are coming from the same experiments or if they were derived by databases.}\\
 
@@ -215,21 +215,21 @@ Done (\R{R2_16}).
 
 \emph{L18: This indicates a more conservative strategy of early species.}\\
 
-We apologize for the confusion. We have revised this section of the abstract to clarify our main finding and in response to a comment from the other Reviewer as well (\lr{R2_Aa} to \lr{R2_Ab}). 
+We apologize for the confusion. We have revised this section of the abstract to clarify our main finding and address any previous confusion (\lr{R2_Aa} to \lr{R2_Ab}). 
 
 \emph{L19: Where did the high nitrogen leaves belong to if early and late species had low nitrogen?}\\
 
-Thank you for bringing our attention to this typo, it has been corrected on \lr{R2_Aa}.
+Thank you for bringing our attention to this typo, this typo has been removed as the sentence is now revised \lr{R2_Aa}.
 
 \emph{L20: Not clear what the authors want to say here. Maybe be more precise about the patterns regarding late species.}\\
 
-As mentioned above, we have revised this section to improve clarity and better communicate our primary findings. 
+As mentioned above, we have revised this section to improve clarity and better communicate our primary findings (\lr{R2_Aa} to \lr{R2_Ab}). 
 
 \textbf{Introduction}\\
 
 \emph{General comment: I find the wording for “proximate” and “ultimate” level a bit complicated even though it is well explained. Maybe it's a language related issue, but I would consider using more intuitive words to describe the different factors (abiotic cues vs. plant traits).}\\
 
-We agree that this is a complicated topic, but after discussing this and alternative phrasings with coauthors, we think the terms "proximate" and "ultimate" are best and true to how the topic is discussed in the literature. 
+We agree and appreciate that this is a complicated concept, but after discussing this and alternative phrasings with coauthors, we think the terms "proximate" and "ultimate" are best and true to how the topic is discussed in the literature. 
 
 \emph{From the introduction I get the impression that the authors aim to understand not only interspecific but also intraspecific phenological variability through plant functional traits. However, as they used only database information for the traits they cannot account for intraspecific trait variability in relation to phenological variability, or do I get anything wrong?}\\
 
@@ -240,7 +240,7 @@ We agree with the reviewer that in using data from multiple databases, we are no
 
 \emph{L55-57: I find this statement quite counterintuitive. Also, in the two references (Reich et al., 1999; Gorne et al., 2020) I can’t find any link to phenology or related statement that would support this sentence.}\\
 
-We agree that how we referenced the literature in this sentence could lead to confusion and have revised both the sentence and the references used to more clearly make our argument.  
+We agree that our references were for general concepts and not directly related to phenology, which could lead to confusion. We have revised both the sentence and the references used to more clearly make our argument.  
 %DL comments: I struggled with this edit, let me know what you think.
 
 \emph{L68-70: Please reevaluate this statement. There are publications on phenology-trait relationships also across sites check e.g., (Rauschkolb et al., 2024; Sporbert et al., 2022).}\\
