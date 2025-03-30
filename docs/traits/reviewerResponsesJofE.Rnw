@@ -41,7 +41,7 @@ We are happy to hear that the novelty and value of our work was appreciated by b
 
 \emph{1. I find the approach they have chosen to analyse the data very exciting. However, I cannot follow all the conclusions (in particular from Figure 2). I wonder if the lines shown represent some kind of significance test indicating that there are significant linear correlations between x and y? You need to clarify this. Additionally, I wonder if the analyses from Figure 4 are relevant for your study?}\\
 
-We thank the reviewer for this positive feedback and are glad to hear they find the approach exciting. We agree with the reviewer and have added additional information to our methods (\lr{R1_sigTest}) and the figure and table captions to clarify how to interpret our results and assess the strength of these relationships. We have also revised the Tables of model estimates to include multiple uncertainty intervals for readers to better interpret the results and model fits. With regards the the analysis from Figure 4, we do think they are relevant for this study, as they highlight the strong effects study-level variation can have on trait estimates when using data from trait databases and importance if estimating this variation in these types of analyses. We agree that this point could have been made more clearly and have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added additional text to the discussion to do so (\lr{R1_studySpDisca} to \lr{R1_studySpDiscb}.\\
+We thank the reviewer for this positive feedback and are glad to hear they find the approach exciting. We agree with the reviewer and have added additional information to our methods (\lr{R1_sigTest}) and the figure and table captions to clarify how to interpret our results and assess the strength of these relationships. We have also revised the Tables of model estimates to include multiple uncertainty intervals for readers to better interpret the results and model fits. With regards the the analysis from Figure 4, we do think they are relevant for this study, as they highlight the strong effects study-level variation can have on trait estimates when using data from trait databases and importance if estimating this variation in these types of analyses. We agree that this point could have been made more clearly and have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added additional text to the discussion to do so (\lr{R1_studySpDisca} to \lr{R1_studySpDiscb}).\\
 
 \textbf{Minor comments:}\\
 
@@ -55,7 +55,7 @@ Done (\lr{R1_15}).\\
 
 \emph{L17: Please briefly describe what forcing and chilling mean.}\\
 
-Done (\lr{R1_17})
+Done (\lr{R1_17})\\
 
 \emph{L18: What do you mean with “earlier species”? Please be more precise here and for example write “earlier growing species”.}\\
 
@@ -63,7 +63,7 @@ We have changed this wording to improve clarity here and throughout the manuscri
 
 \emph{L18-19: Is this actually the main findings of your study? Was the study not primarily about the different responses of species to environmental factors explained by traits?}\\
 
-Thank you for drawing our attention to this, we have revised this section of the abstract to further clarify the main finding of our paper and to address comments from the second reviewer as well (\lr{R2_Aa} to \lr{R2_Ab}. \\
+Thank you for drawing our attention to this, we have revised this section of the abstract to further clarify the main finding of our paper and to address comments from the second reviewer as well (\lr{R2_Aa} to \lr{R2_Ab}). \\
 
 \emph{L 25: “Budburst” is already used in the title. You should consider another keyword.}\\
 
@@ -294,7 +294,7 @@ As previously mentioned the software used to write and run our analysis was refe
 
 \emph{I’m not very familiar with Bayesian statistics but the statistical analysis needs to be described in more detail to make them understandable for a broader readership. In the methods section it is not even mentioned that Bayesian statistics were applied. This is only stated within the introduction. Please provide all relevant details within the methods section.}\\ 
 
-We thank the reviewer for pointing out this oversight, and have added in more details to make model fitting details clearer to readers. Firstly, we have now specified that the model is Bayesian on \lr{R2_Bayes}. Secondly, we have added citations to Stan and clarified how it relates to Bayesian modelling and to R and rstan (\lr{R2_stana} to \lr{R2_stanb}) as well as added additional details on general model structure to \lr{R2_mdl1}. We have also added additional in-text references to the parameters to help link the text to the equations (\lr{R2_mdlParm}, \R{R2_mdlParm2}) \\ \color{black}
+We thank the reviewer for pointing out this oversight, and have added in more details to make model fitting details clearer to readers. Firstly, we have now specified that the model is Bayesian on \lr{R2_Bayes}. Secondly, we have added citations to Stan and clarified how it relates to Bayesian modelling and to R and rstan (\lr{R2_stana} to \lr{R2_stanb}) as well as added additional details on general model structure to \lr{R2_mdl1}. We have also added additional in-text references to the parameters to help link the text to the equations (\lr{R2_mdlParm}, \lr{R2_mdlParm2}) \\
 
 \textbf{Results}\\
 
@@ -322,28 +322,50 @@ We have moved this figure to supplementary material so all traits can be shown t
 
 \emph{Figure 4: What are the implications of the presented results? It should be discussed within the discussion section.}\\
 
-We agree that the importance of this result was not clear and have added the below text to the discussion starting on \lr{}:
+We agree that the importance of this result was not clear and have added the below text to the discussion starting on \lr{studySpVara} :
 
 \begin{quote}
+ In addition to identifying traits that also relate to phenological cues and the timing of spring budburst, out results also provide important insight into the use of data from large databases to estimate ecological processes. By partitioning the different sources of variation that contribute to the observed trait values, we were able to demonstrate the considerable effects study-level variation can have on trait values, which for some traits even exceeded the species-level variation. This variation is the result of a myriad of factors, including observer error or differences in methodologies, and persist in any database pooling data from diverse sources. To the best of our knowledge, our results provide some of the strongest evidence for why it is important for analyses using data from aggregate databases to account for the effects of this and other sources of variation in their analyses.
 \end{quote}
 
 \textbf{Discussion}\\
 
 \emph{The presented results are not sufficiently discussed. Rather it is my impression that new results are introduced that were not presented within the results section. In general, many arguments from the introduction are repeated without support by literature and also with no clear relationship to the presented results.}\\
 
+\lr{R2_discResulta} 
+
 \emph{L235-236: From the presented results it is not clear to me how trait effects were associated with earlier or later phenology and how the results relate to the referenced growth strategy papers. Was there any test that included the phenological niche (timing of budburst or similar)?}\\
+
+\lr{R2_bbCues1}
 
 \emph{L240-241: This is partly contradictory with results presented in the results section. Not all of the three traits showed large responses to all three cures.}\\
 
+We agree that our initial phrasing was too vague and have revised this sentence on \lr{R2_240} to read as follows:
+
+\begin{quote}
+We found the largest budburst responses occurred for traits related to resource acquisition and structure, with SLA, LNC, and height all showing large responses to at least one of our three cues.
+\end{quote}
+
 \emph{L244: When speaking of ‘more local studies’ – what is the geographic range of the data that is the basis of this study? Maybe include a map with geographic locations of the included studies. Where do the authors present the relationship between plant height and bud burst? I only find the results of the traits with regard to the cue responses but no general relationships.}\\
+
+As discussed above, out study was based on global trait and experimental budburst data. In addition to mentioning this more explicitly in the text (\lr{R2_global}), we have also added a figure with a map to the supplementary material (Fig. \ref{fig:map}). The relationship between budburst and height are now more explicitly discussed in the results, from \lr{R2_244a} to  \lr{R2_244b}. These relationships are also illustrated in panels a to c in the revised Fig \ref{fig:fig:TraitDistributions}, which was moved to the supplementary material. In addition to illustrating how well our model fits the data for two example species, this figure illustrates the effect of each trait on estimates of budburst. The bands represent the 50\% uncertainty interval of the model, with the darker bands including the effects of a trait and the lighter bands without the effects of traits. The differences in the slopes of the bands illustrate the strength of the relationship between each trait and budburst. 
+
 
 \emph{L251-253: Again, I can’t find clear support for this statement in the presented results. Also, it is not clear why low LNC should be associated with an acquisitive strategy. This would rather imply a conservative strategy that could be expected for early species that face risk of frost.}\\
 
+We see the Reviewer's point and have revised this sentence to better represent the findings of our study. We also thank the Reviewer for pointing out this typo and have corrected it. Our revision of this section of the discussion begins on \lr{R2_251a} and ends \lr{R2_251b}.
+
 \emph{L256-257: How does greater competitive ability and slower growth fit together? This doesn’t make sense in my opinion.}\\
+
+We have revised this sentence to address this and the above comment  (\lr{R2_251a} to \lr{R2_251b}.
 
 \emph{L260: This is the first time that species successional position is mentioned but it seems to be one of the reasons for selecting the two exemplary species. I get the impression that the authors use early vs. late bud burst and early vs. late successional positions interchangeably throughout the manuscript, which are very different things.}\\
 
+As discussed above, we selected these two species based on our knowledge of their overall ecology and life history strategies---which included their successional stage. But it is not our intent to use early vs. late interchangeably with early vs. late succession and agree that they are very different concepts. Starting on \lr{R2_260} have revised this section of the discussion and our language to better reflect our intent of simply linking traits to broader concepts, such as succession. 
+
 \emph{L268-270: Contradicts statement from L240-241. Further the given explanation is not clear.}\\
+
+As discussed above, we have revised the language used on \lr{R2_240} to better reflect the nuance of our results and to correct this contradiction. We have also provided additional detail from \lr{R2_268a} to \lr{R2_268b} to make our argument clearer. 
 
 \emph{L282-285: Interesting but formulated too vague. Which traits and trait combinations and maybe more interesting which growth strategies would relate to stronger or less strong responses according to your results?}\\
 
