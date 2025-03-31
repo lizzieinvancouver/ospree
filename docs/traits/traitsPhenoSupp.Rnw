@@ -44,7 +44,7 @@
 % \pagestyle{fancy}
 % \fancyhead[LO]{Draft early 2022}
 % \fancyhead[RO]{Temporal Ecology Lab}
-% more optionals! %
+% more optional! %
 
 \graphicspath{ {./Figures/} }% tell latex where to find photos 
 \externaldocument{traitsPhenoMs}
@@ -67,19 +67,30 @@
 % We used a phylogenetic generalized least-squares regression model (PGLS) to test the relationship between day of budburst and each trait. This analysis allowed us to test for phylogenetic non-independence in the phenology-trait relationship \citep{Freckleton2002}. We obtained a rooted phylogenetic tree by pruning the tree developed by \citep{Smith2018a} and performed the PGLS analysis using the mean trait values and mean posterior estimates of the cue responses from our joint model. The PGLS was run using the "Caper" package in R \citep{Orme2013}. \\
 % 
 \section*{Figures \& Tables}
+
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.5 \textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
+ \includegraphics[width= 0.9 \textwidth]{..//..//analyses/traits/figures/traitMap.pdf}
+    \caption{We obtained data from the TRY and BIEN plant trait databases and the OSPREE database of plant phenology experiments for temperate tree species. Following our cleaning steps and species selection, our final dataset included 37 species from 24 unique datasources for the trait data and 34 unique studies for the budburst data. Our data is focused on temperate ecosystems globally with most data originating from North America and Europe. }
+    \label{fig:map}
+\end{figure}
+
+\newpage
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 species for which complete trait data was available}
     \label{fig:pca}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.5 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf}
-    \caption{Trait data was obtained from the try and BIEN trait databases and budburst data from the OSPREE databases, with a focus on the subset of species \citep[analyzed by][]{Morales2024}. Data was cleaned extensively and subset to only include traits for adult trees growing under natural conditions.}
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf}
+    \caption{Trait data was obtained from the try and BIEN trait databases and budburst data from the OSPREE databases, with a focus on the subset of species \citep[analyzed by][]{Morales2024}. Data was cleaned extensively, as depicted by the various boxes, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
     \label{fig:database}
 \end{figure}
+
 
 \newpage
 \begin{figure}[h!]
@@ -92,13 +103,13 @@
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
-     \caption{ We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. Here we show an example with an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow, using estimates from our height (\textbf{a-c}), SLA (\textbf{d-f}), seed mass (\textbf{g-i}), and LNC (\textbf{j-l}) models to estimate the day of budburst. \textbf{a,d} The effect of height and SLA on budburst timing was smallest in response to forcing, \textbf{b} with the greatest effect of height on budburst occurring in response to chilling, \textbf{c} followed by photoperiod, \textbf{e} while the greatest effect of SLA on budburst was only in relation to photoperiod. \textbf{g,h,i,} The effect of seed mass on budburst timing was negligible for all cues.  \textbf{j,k,l}, But LNC had a considerable effect on budburst timing in relation to all three cues. The strength of the relationships can be assess by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval (UI) without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the 50\% UI with the effects of traits. Points represent the raw budburst data.}  
-    \label{fig:slopesSupp}
+ \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
+     \caption{ Here we show an example with an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow, using estimates from our height (\textbf{a-c}), SLA (\textbf{d-f}), seed mass (\textbf{g-i}), and LNC (\textbf{j-l}) models to estimate the day of budburst. \textbf{a,d} The effect of height and SLA on budburst timing was smallest in response to forcing, \textbf{b} while the greatest effect of height on budburst was in response to chilling, \textbf{c} followed by photoperiod. \textbf{e} The greatest effect of SLA on budburst was only in relation to photoperiod. \textbf{g,h,i,} A negligible effect was found between seed mass and all three cues.  \textbf{j,k,l}, But LNC had a considerable effect on budburst timing in relation to each cue. The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval (UI) without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the 50\% UI with the effects of traits. Points represent the raw budburst data.}  
+    \label{fig:slopes}
 \end{figure}
-
+%We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. 
 \newpage
-\begin{table}[ht!]
+\begin{table}[h!]
 \centering
 \caption{Bibliographic information for trait data sources from both BIEN and Try trait databases. Datasets without references or incomplete references are denoted below as `unreferenced'.} 
 \label{tableRefs}
@@ -163,227 +174,115 @@ bien & \cite{McHugh2015} & Height & m &  26 &   8 \\
   \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
 \label{tableHt}
-\begin{tabular}{rlrrrrrrr}
+\begin{tabular}{rrrrrr}
   \hline
-  & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & X5. & X25. & X75. & X95. \\ 
   \hline
-$\mu_{grand.trait}$ & 12.71 & 9.39 & 11.44 & 14.04 & 15.82 \\ 
-  $\mu_{k,g}$ & 32.07 & 27.82 & 30.27 & 33.85 & 36.46 \\ 
-  $\mu_{force}$ & -10.74 & -15.50 & -12.60 & -8.79 & -6.20 \\ 
-  $\mu_{chill}$ & -4.08 & -10.84 & -6.80 & -1.36 & 2.64 \\ 
-  $\mu_{photoperiod}$ & 1.11 & -2.57 & -0.28 & 2.55 & 4.62 \\ 
-  $\beta_{trait.force}$ & 0.16 & -0.15 & 0.03 & 0.29 & 0.48 \\ 
-  $\beta_{trait.chill}$ & -0.54 & -0.99 & -0.73 & -0.35 & -0.07 \\ 
-  $\beta_{trait.photoperiod}$ & -0.25 & -0.49 & -0.35 & -0.15 & 0.02 \\ 
-  $\sigma_{species}$ & 5.91 & 4.79 & 5.37 & 6.38 & 7.28 \\ 
-  $\sigma_{study}$ & 7.53 & 5.78 & 6.67 & 8.28 & 9.68 \\ 
-  $\sigma_{trait}$ & 5.39 & 5.36 & 5.38 & 5.41 & 5.42 \\ 
-  $\sigma_{pheno}$ & 15.11 & 11.80 & 13.77 & 16.44 & 18.56 \\ 
-  $\sigma_{force}$ & 4.96 & 3.27 & 4.13 & 5.66 & 7.06 \\ 
-  $\sigma_{chill}$ & 8.53 & 5.62 & 7.03 & 9.76 & 12.40 \\ 
-  $\sigma_{photo}$ & 3.25 & 1.97 & 2.64 & 3.77 & 4.76 \\ 
-  $\sigma_{d}$ & 14.18 & 13.76 & 14.00 & 14.35 & 14.61 \\ 
+$\mu_{grand.trait}$ & 12.70 & 9.40 & 11.40 & 14.00 & 15.8 \\ 
+  $\mu_{k,g}$ & 32.10 & 27.80 & 30.30 & 33.90 & 36.5 \\ 
+  $\mu_{force}$ & -10.70 & -15.50 & -12.60 & -8.80 & -6.2 \\ 
+  $\mu_{chill}$ & -4.10 & -10.80 & -6.80 & -1.40 & 2.6 \\ 
+  $\mu_{photo}$ & 1.10 & -2.60 & -0.30 & 2.50 & 4.6 \\ 
+  $\beta_{trait.force}$ & 0.20 & -0.20 & 0.00 & 0.30 & 0.5 \\ 
+  $\beta_{trait.chill}$ & -0.50 & -1.00 & -0.70 & -0.30 & -0.1 \\ 
+  $\beta_{trait.photo}$ & -0.20 & -0.50 & -0.40 & -0.10 & 0.0 \\ 
+  $\sigma_{species}$ & 5.90 & 4.80 & 5.40 & 6.40 & 7.3 \\ 
+  $\sigma_{study}$ & 7.50 & 5.80 & 6.70 & 8.30 & 9.7 \\ 
+  $\sigma_{trait}$ & 5.40 & 5.40 & 5.40 & 5.40 & 5.4 \\ 
+  $\sigma_{pheno}$ & 15.10 & 11.80 & 13.80 & 16.40 & 18.6 \\ 
+  $\sigma_{force}$ & 5.00 & 3.30 & 4.10 & 5.70 & 7.1 \\ 
+  $\sigma_{chill}$ & 8.50 & 5.60 & 7.00 & 9.80 & 12.4 \\ 
+  $\sigma_{photo}$ & 3.20 & 2.00 & 2.60 & 3.80 & 4.8 \\ 
+  $\sigma_{d}$ & 14.20 & 13.80 & 14.00 & 14.30 & 14.6 \\ 
   \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
 \label{tableSLA}
-\begin{tabular}{rlrrrrrrr}
+\begin{tabular}{rrrrrr}
   \hline
-  & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & X5. & X25. & X75. & X95. \\ 
   \hline
-$\mu_{grand.trait}$ & 16.85 & 14.45 & 15.81 & 17.83 & 19.33 \\ 
-  $\mu_{k,g}$ & 31.33 & 27.17 & 29.62 & 33.00 & 35.55 \\ 
-  $\mu_{force}$ & -11.40 & -16.15 & -13.07 & -9.55 & -7.17 \\ 
-  $\mu_{chill}$ & -16.66 & -24.60 & -19.78 & -13.35 & -9.09 \\ 
-  $\mu_{photoperiod}$ & 1.85 & -2.40 & 0.21 & 3.57 & 5.77 \\ 
-  $\beta_{trait.force}$ & 0.17 & -0.06 & 0.07 & 0.26 & 0.42 \\ 
-  $\beta_{trait.chill}$ & 0.34 & -0.06 & 0.17 & 0.50 & 0.74 \\ 
-  $\beta_{trait.photoperiod}$ & -0.23 & -0.46 & -0.33 & -0.14 & 0.00 \\ 
-  $\sigma_{species}$ & 7.78 & 6.40 & 7.11 & 8.36 & 9.39 \\ 
-  $\sigma_{study}$ & 3.28 & 1.99 & 2.56 & 3.85 & 5.05 \\ 
-  $\sigma_{trait}$ & 6.17 & 6.08 & 6.13 & 6.20 & 6.25 \\ 
-  $\sigma_{pheno}$ & 13.92 & 10.70 & 12.44 & 15.30 & 17.56 \\ 
-  $\sigma_{force}$ & 4.97 & 3.34 & 4.20 & 5.63 & 6.98 \\ 
-  $\sigma_{chill}$ & 10.57 & 7.21 & 8.90 & 11.96 & 14.79 \\ 
-  $\sigma_{photo}$ & 3.48 & 2.33 & 2.91 & 3.95 & 4.96 \\ 
-  $\sigma_{d}$ & 14.17 & 13.76 & 14.00 & 14.34 & 14.60 \\ 
+$\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\ 
+  $\mu_{k,g}$ & 31.3 & 27.2 & 29.6 & 33.0 & 35.6 \\ 
+  $\mu_{force}$ & -11.4 & -16.2 & -13.1 & -9.6 & -7.2 \\ 
+  $\mu_{chill}$ & -16.7 & -24.6 & -19.8 & -13.3 & -9.1 \\ 
+  $\mu_{photo}$ & 1.9 & -2.4 & 0.2 & 3.6 & 5.8 \\ 
+  $\beta_{trait.force}$ & 0.2 & -0.1 & 0.1 & 0.3 & 0.4 \\ 
+  $\beta_{trait.chill}$ & 0.3 & -0.1 & 0.2 & 0.5 & 0.7 \\ 
+  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.3 & -0.1 & 0.0 \\ 
+  $\sigma_{species}$ & 7.8 & 6.4 & 7.1 & 8.4 & 9.4 \\ 
+  $\sigma_{study}$ & 3.3 & 2.0 & 2.6 & 3.8 & 5.1 \\ 
+  $\sigma_{trait}$ & 6.2 & 6.1 & 6.1 & 6.2 & 6.3 \\ 
+  $\sigma_{pheno}$ & 13.9 & 10.7 & 12.4 & 15.3 & 17.6 \\ 
+  $\sigma_{force}$ & 5.0 & 3.3 & 4.2 & 5.6 & 7.0 \\ 
+  $\sigma_{chill}$ & 10.6 & 7.2 & 8.9 & 12.0 & 14.8 \\ 
+  $\sigma_{photo}$ & 3.5 & 2.3 & 2.9 & 3.9 & 5.0 \\ 
+  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\ 
   \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
 \label{tableSM}
-\begin{tabular}{rlrrrrrrr}
+\begin{tabular}{rrrrrr}
   \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\  
+ & mean & X5. & X25. & X75. & X95. \\ 
   \hline
-$\mu_{grand.trait}$ & 1.87 & 1.05 & 1.53 & 2.22 & 2.69 \\ 
-  $\mu_{k,g}$ & 31.35 & 27.11 & 29.57 & 33.05 & 35.80 \\ 
-  $\mu_{force}$ & -8.17 & -10.82 & -9.20 & -7.14 & -5.56 \\ 
-  $\mu_{chill}$ & -9.41 & -14.03 & -11.20 & -7.55 & -4.84 \\ 
-  $\mu_{photoperiod}$ & -1.26 & -3.35 & -2.06 & -0.45 & 0.77 \\ 
-  $\beta_{trait.force}$ & -0.30 & -1.40 & -0.76 & 0.15 & 0.86 \\ 
-  $\beta_{trait.chill}$ & -1.09 & -2.92 & -1.79 & -0.35 & 0.68 \\ 
-  $\beta_{trait.photoperiod}$ & -0.56 & -1.50 & -0.94 & -0.18 & 0.43 \\ 
-  $\sigma_{species}$ & 1.62 & 1.34 & 1.49 & 1.74 & 1.95 \\ 
-  $\sigma_{study}$ & 0.97 & 0.80 & 0.90 & 1.04 & 1.14 \\ 
-  $\sigma_{trait}$ & 0.25 & 0.23 & 0.24 & 0.26 & 0.27 \\ 
-  $\sigma_{pheno}$ & 14.84 & 11.23 & 13.30 & 16.34 & 18.60 \\ 
-  $\sigma_{force}$ & 4.92 & 3.44 & 4.23 & 5.53 & 6.68 \\ 
-  $\sigma_{chill}$ & 10.67 & 7.10 & 8.83 & 12.14 & 15.44 \\ 
-  $\sigma_{photo}$ & 3.58 & 2.30 & 2.97 & 4.09 & 5.15 \\ 
-  $\sigma_{d}$ & 14.12 & 13.73 & 13.95 & 14.29 & 14.53 \\ 
+$\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\ 
+  $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\ 
+  $\mu_{force}$ & -8.2 & -10.8 & -9.2 & -7.1 & -5.6 \\ 
+  $\mu_{chill}$ & -9.4 & -14.0 & -11.2 & -7.5 & -4.8 \\ 
+  $\mu_{photo}$ & -1.3 & -3.4 & -2.1 & -0.4 & 0.8 \\ 
+  $\beta_{trait.force}$ & -0.3 & -1.4 & -0.8 & 0.1 & 0.9 \\ 
+  $\beta_{trait.chill}$ & -1.1 & -2.9 & -1.8 & -0.4 & 0.7 \\ 
+  $\beta_{trait.photo}$ & -0.6 & -1.5 & -0.9 & -0.2 & 0.4 \\ 
+  $\sigma_{species}$ & 1.6 & 1.3 & 1.5 & 1.7 & 2.0 \\ 
+  $\sigma_{study}$ & 1.0 & 0.8 & 0.9 & 1.0 & 1.1 \\ 
+  $\sigma_{trait}$ & 0.2 & 0.2 & 0.2 & 0.3 & 0.3 \\ 
+  $\sigma_{pheno}$ & 14.8 & 11.2 & 13.3 & 16.3 & 18.6 \\ 
+  $\sigma_{force}$ & 4.9 & 3.4 & 4.2 & 5.5 & 6.7 \\ 
+  $\sigma_{chill}$ & 10.7 & 7.1 & 8.8 & 12.1 & 15.4 \\ 
+  $\sigma_{photo}$ & 3.6 & 2.3 & 3.0 & 4.1 & 5.1 \\ 
+  $\sigma_{d}$ & 14.1 & 13.7 & 14.0 & 14.3 & 14.5 \\ 
   \end{tabular}
 \end{table}
 
-\begin{table}[ht]
+\begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
 \label{tableLNC}
-\begin{tabular}{rlrrrrrrr}
+\begin{tabular}{rrrrrr}
   \hline
-   & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & X5. & X25. & X75. & X95. \\ 
   \hline
-$\mu_{grand.trait}$ & 22.61 & 20.42 & 21.71 & 23.50 & 24.90 \\ 
-  $\mu_{k,g}$ & 31.14 & 27.06 & 29.45 & 32.75 & 35.34 \\ 
-  $\mu_{force}$ & -19.33 & -27.92 & -22.86 & -15.83 & -10.46 \\ 
-  $\mu_{chill}$ & -27.10 & -38.52 & -31.74 & -22.39 & -15.38 \\ 
-  $\mu_{photoperiod}$ & -9.40 & -17.01 & -12.53 & -6.18 & -1.88 \\ 
-  $\beta_{trait.force}$ & 0.47 & 0.08 & 0.32 & 0.62 & 0.84 \\ 
-  $\beta_{trait.chill}$ & 0.72 & 0.22 & 0.51 & 0.91 & 1.21 \\ 
-  $\beta_{trait.photoperiod}$ & 0.31 & -0.00 & 0.18 & 0.44 & 0.63 \\ 
-  $\sigma_{species}$ & 5.12 & 4.20 & 4.68 & 5.50 & 6.19 \\ 
-  $\sigma_{study}$ & 3.55 & 2.21 & 2.86 & 4.09 & 5.35 \\ 
-  $\sigma_{trait}$ & 5.13 & 5.04 & 5.09 & 5.17 & 5.23 \\ 
-  $\sigma_{pheno}$ & 14.05 & 10.88 & 12.72 & 15.27 & 17.42 \\ 
-  $\sigma_{force}$ & 4.59 & 3.03 & 3.83 & 5.22 & 6.58 \\ 
-  $\sigma_{chill}$ & 8.92 & 6.12 & 7.49 & 10.05 & 12.47 \\ 
-  $\sigma_{photo}$ & 3.59 & 2.41 & 3.03 & 4.08 & 5.05 \\ 
-  $\sigma_{d}$ & 14.17 & 13.76 & 14.00 & 14.34 & 14.59 \\ 
+$\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\ 
+  $\mu_{k,g}$ & 31.1 & 27.1 & 29.4 & 32.8 & 35.3 \\ 
+  $\mu_{force}$ & -19.3 & -27.9 & -22.9 & -15.8 & -10.5 \\ 
+  $\mu_{chill}$ & -27.1 & -38.5 & -31.7 & -22.4 & -15.4 \\ 
+  $\mu_{photo}$ & -9.4 & -17.0 & -12.5 & -6.2 & -1.9 \\ 
+  $\beta_{trait.force}$ & 0.5 & 0.1 & 0.3 & 0.6 & 0.8 \\ 
+  $\beta_{trait.chill}$ & 0.7 & 0.2 & 0.5 & 0.9 & 1.2 \\ 
+  $\beta_{trait.photo}$ & 0.3 & -0.0 & 0.2 & 0.4 & 0.6 \\ 
+  $\sigma_{species}$ & 5.1 & 4.2 & 4.7 & 5.5 & 6.2 \\ 
+  $\sigma_{study}$ & 3.6 & 2.2 & 2.9 & 4.1 & 5.3 \\ 
+  $\sigma_{trait}$ & 5.1 & 5.0 & 5.1 & 5.2 & 5.2 \\ 
+  $\sigma_{pheno}$ & 14.0 & 10.9 & 12.7 & 15.3 & 17.4 \\ 
+  $\sigma_{force}$ & 4.6 & 3.0 & 3.8 & 5.2 & 6.6 \\ 
+  $\sigma_{chill}$ & 8.9 & 6.1 & 7.5 & 10.1 & 12.5 \\ 
+  $\sigma_{photo}$ & 3.6 & 2.4 & 3.0 & 4.1 & 5.0 \\ 
+  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\ 
   \end{tabular}
 \end{table}
 
-% \clearpage
-% \begin{table}[ht]
-% \centering
-% \caption{Summary of model estimates using trait measurements from our four individual trait models, using data from 37 focal species. In addition to the mean estimated values, we report the 50\% and 90\% uncertainty intervals. The strength of the relationship can be assessed by comparing across these uncertainty intervals, with paremeters with uncertainty intervals that cross zero depicting weaker relationships.  % ($n$ = 42781)} 
-% \label{tableHt}
-% \begin{tabular}{rrrrrrr}
-%   \hline
-%  & mean & sd & 2.5\% & 50\% & 97.5\% & Rhat \\ 
-%   \hline
-% $\mu_{grand.trait}$ & 12.71 & 1.96 & 8.73 & 12.75 & 16.46 & 1.00 \\ 
-%   $\mu_{k,g}$ & 32.07 & 2.63 & 26.97 & 32.05 & 37.30 & 1.00 \\ 
-%   $\mu_{force}$ & -10.74 & 2.86 & -16.63 & -10.66 & -5.38 & 1.01 \\ 
-%   $\mu_{chill}$ & -4.08 & 4.13 & -12.46 & -4.02 & 3.99 & 1.01 \\ 
-%   $\mu_{photo}$ & 1.11 & 2.18 & -3.37 & 1.14 & 5.27 & 1.01 \\ 
-%   $\beta_{trait.force}$ & 0.16 & 0.19 & -0.21 & 0.16 & 0.55 & 1.01 \\ 
-%   $\beta_{trait.chill}$ & -0.54 & 0.28 & -1.07 & -0.54 & 0.02 & 1.01 \\ 
-%   $\beta_{trait.photo}$ & -0.25 & 0.15 & -0.54 & -0.25 & 0.08 & 1.00 \\ 
-%   $\sigma_{species}$ & 5.91 & 0.76 & 4.63 & 5.84 & 7.57 & 1.00 \\ 
-%   $\sigma_{study}$ & 7.53 & 1.22 & 5.52 & 7.40 & 10.28 & 1.00 \\ 
-%   $\sigma_{trait}$ & 5.39 & 0.02 & 5.36 & 5.39 & 5.43 & 1.00 \\ 
-%   $\sigma_{pheno}$ & 15.11 & 2.05 & 11.20 & 15.06 & 19.36 & 1.00 \\ 
-%   $\sigma_{force}$ & 4.96 & 1.16 & 3.01 & 4.85 & 7.55 & 1.00 \\ 
-%   $\sigma_{chill}$ & 8.53 & 2.10 & 5.21 & 8.26 & 13.38 & 1.00 \\ 
-%   $\sigma_{photo}$ & 3.25 & 0.86 & 1.79 & 3.17 & 5.15 & 1.00 \\ 
-%   $\sigma_{d}$ & 14.18 & 0.26 & 13.69 & 14.18 & 14.70 & 1.00 \\ 
-%   \end{tabular}
-% \end{table}
-% \clearpage
-% 
-% \clearpage
-% 
-% \begin{table}[ht]
-% \centering
-% \caption{Summary of model estimates using measurements of seed mass data for our 37 focal species ($n$ = 281).} 
-% \label{tableSM}
-% \begin{tabular}{rrrrrrr}
-%   \hline
-%  & mean & sd & 2.5\% & 50\% & 97.5\% & Rhat \\ 
-%   \hline
-% $\mu_{grand.trait}$ & 1.87 & 0.50 & 0.89 & 1.88 & 2.84 & 1.00 \\ 
-%   $\mu_{k,g}$ & 31.35 & 2.64 & 26.32 & 31.27 & 36.76 & 1.00 \\ 
-%   $\mu_{force}$ & -8.17 & 1.60 & -11.35 & -8.16 & -5.07 & 1.00 \\ 
-%   $\mu_{chill}$ & -9.41 & 2.82 & -15.21 & -9.43 & -3.92 & 1.00 \\ 
-%   $\mu_{photo}$ & -1.26 & 1.25 & -3.72 & -1.27 & 1.19 & 1.00 \\ 
-%   $\beta_{trait.force}$ & -0.30 & 0.69 & -1.61 & -0.31 & 1.06 & 1.00 \\ 
-%   $\beta_{trait.chill}$ & -1.09 & 1.09 & -3.28 & -1.08 & 1.01 & 1.00 \\ 
-%   $\beta_{trait.photo}$ & -0.56 & 0.58 & -1.68 & -0.56 & 0.62 & 1.00 \\ 
-%   $\sigma_{species}$ & 1.62 & 0.19 & 1.30 & 1.61 & 2.05 & 1.00 \\ 
-%   $\sigma_{study}$ & 0.97 & 0.10 & 0.77 & 0.97 & 1.17 & 1.00 \\ 
-%   $\sigma_{trait}$ & 0.25 & 0.01 & 0.23 & 0.25 & 0.27 & 1.00 \\ 
-%   $\sigma_{pheno}$ & 14.84 & 2.25 & 10.58 & 14.79 & 19.42 & 1.00 \\ 
-%   $\sigma_{force}$ & 4.92 & 0.98 & 3.22 & 4.85 & 7.03 & 1.00 \\ 
-%   $\sigma_{chill}$ & 10.67 & 2.57 & 6.55 & 10.33 & 16.65 & 1.00 \\ 
-%   $\sigma_{photo}$ & 3.58 & 0.86 & 2.13 & 3.49 & 5.52 & 1.00 \\ 
-%   $\sigma_{d}$ & 14.12 & 0.25 & 13.66 & 14.12 & 14.61 & 1.00 \\ 
-%   \end{tabular}
-% \end{table}
-% \clearpage
-% 
-% \begin{table}[ht]
-% \centering
-% \caption{Summary of model estimates using measurements of specific leaf area for our 37 focal species ($n$ = 7656).} 
-% \label{tableSLA}
-% \begin{tabular}{rrrrrrr}
-%   \hline
-%  & mean & sd & 2.5\% & 50\% & 97.5\% & Rhat \\ 
-%   \hline
-% $\mu_{grand.trait}$ & 16.85 & 1.47 & 14.03 & 16.85 & 19.71 & 1.01 \\ 
-%   $\mu_{k,g}$ & 31.33 & 2.55 & 26.45 & 31.30 & 36.39 & 1.00 \\ 
-%   $\mu_{force}$ & -11.40 & 2.71 & -17.29 & -11.33 & -6.42 & 1.01 \\ 
-%   $\mu_{chill}$ & -16.66 & 4.70 & -26.35 & -16.61 & -7.84 & 1.00 \\ 
-%   $\mu_{photo}$ & 1.85 & 2.47 & -3.13 & 1.98 & 6.47 & 1.00 \\ 
-%   $\beta_{trait.force}$ & 0.17 & 0.15 & -0.11 & 0.17 & 0.47 & 1.01 \\ 
-%   $\beta_{trait.chill}$ & 0.34 & 0.25 & -0.13 & 0.34 & 0.83 & 1.00 \\ 
-%   $\beta_{trait.photo}$ & -0.23 & 0.14 & -0.50 & -0.24 & 0.05 & 1.00 \\ 
-%   $\sigma_{species}$ & 7.78 & 0.93 & 6.21 & 7.70 & 9.77 & 1.00 \\ 
-%   $\sigma_{study}$ & 3.28 & 0.97 & 1.87 & 3.13 & 5.57 & 1.00 \\ 
-%   $\sigma_{trait}$ & 6.17 & 0.05 & 6.07 & 6.16 & 6.27 & 1.00 \\ 
-%   $\sigma_{pheno}$ & 13.92 & 2.11 & 10.10 & 13.79 & 18.34 & 1.00 \\ 
-%   $\sigma_{force}$ & 4.97 & 1.12 & 3.07 & 4.87 & 7.49 & 1.00 \\ 
-%   $\sigma_{chill}$ & 10.57 & 2.30 & 6.79 & 10.33 & 15.56 & 1.00 \\ 
-%   $\sigma_{photo}$ & 3.48 & 0.81 & 2.14 & 3.40 & 5.36 & 1.00 \\ 
-%   $\sigma_{d}$ & 14.17 & 0.26 & 13.66 & 14.17 & 14.68 & 1.00 \\ 
-%   \end{tabular}
-% \end{table}
-% \clearpage
-% 
-% \begin{table}[ht]
-% \centering
-% \caption{Summary of model estimates using measurements of leaf nitrogen content for our 37 focal species ($n$ = 3853.)} 
-% \label{tableLNC}
-% \begin{tabular}{rrrrrrr}
-%   \hline
-%  & mean & sd & 2.5\% & 50\% & 97.5\% & Rhat \\ 
-%   \hline
-% $\mu_{grand.trait}$ & 22.61 & 1.37 & 19.91 & 22.60 & 25.32 & 1.01 \\ 
-%   $\mu_{k,g}$ & 31.14 & 2.52 & 26.33 & 31.09 & 36.29 & 1.00 \\ 
-%   $\mu_{force}$ & -19.33 & 5.37 & -30.02 & -19.45 & -8.62 & 1.02 \\ 
-%   $\mu_{chill}$ & -27.10 & 7.04 & -40.56 & -27.27 & -12.84 & 1.01 \\ 
-%   $\mu_{photo}$ & -9.40 & 4.67 & -18.09 & -9.41 & -0.37 & 1.02 \\ 
-%   $\beta_{trait.force}$ & 0.47 & 0.23 & 0.01 & 0.47 & 0.93 & 1.02 \\ 
-%   $\beta_{trait.chill}$ & 0.72 & 0.30 & 0.12 & 0.72 & 1.29 & 1.01 \\ 
-%   $\beta_{trait.photo}$ & 0.31 & 0.19 & -0.06 & 0.31 & 0.68 & 1.02 \\ 
-%   $\sigma_{species}$ & 5.12 & 0.61 & 4.09 & 5.06 & 6.48 & 1.00 \\ 
-%   $\sigma_{study}$ & 3.55 & 0.98 & 2.03 & 3.44 & 5.83 & 1.00 \\ 
-%   $\sigma_{trait}$ & 5.13 & 0.06 & 5.02 & 5.13 & 5.25 & 1.00 \\ 
-%   $\sigma_{pheno}$ & 14.05 & 1.97 & 10.30 & 13.97 & 18.23 & 1.00 \\ 
-%   $\sigma_{force}$ & 4.59 & 1.09 & 2.80 & 4.47 & 7.05 & 1.00 \\ 
-%   $\sigma_{chill}$ & 8.92 & 1.97 & 5.74 & 8.71 & 13.44 & 1.00 \\ 
-%   $\sigma_{photo}$ & 3.59 & 0.81 & 2.25 & 3.52 & 5.41 & 1.00 \\ 
-%   $\sigma_{d}$ & 14.17 & 0.26 & 13.67 & 14.17 & 14.67 & 1.00 \\ 
-%   \end{tabular}
-% \end{table}
+
 \newpage
 \section*{Stan model code}
 
