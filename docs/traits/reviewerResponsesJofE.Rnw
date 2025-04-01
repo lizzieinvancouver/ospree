@@ -18,7 +18,6 @@
 \externaldocument{traitsPhenoMs}
 \externaldocument{traitsPhenoSupp}
 
-\externaldocument{..//..//..//phencc}
 \newcommand{\lr}[1]{line~\lineref{#1}}
 
 %\lr{refline1}
@@ -115,7 +114,7 @@ The appreciate the importance of word choice in methods and feel the word "consi
 
 \emph{L130: Are the 96 species from TRY additional ones to the species extracted from BIEN meaning that you considered 190 species in total?}\\
 
-We agree that our discussion of what data was obtained from the databases and how it was cleaned could be more detailed. We have revised the text to be more explicit as well as created a diagram  in the Supplementary material (Fig. \ref{fig:database}) of how the number of species and number of data points changed based on our cleaning. \\
+We agree that our discussion of what data was obtained from the databases and how it was cleaned could be more detailed. We have revised the text to be more explicit as well as created a diagram  in the Supplementary material (Fig. S3) of how the number of species and number of data points changed based on our cleaning. \\
 
 \emph{L132: How is this really specific threshold (1.38m) defined?}\\
 
@@ -123,7 +122,7 @@ We selected this threshold to standardize the age and size of trees included in 
 
 \emph{L136: What does this n refer to? Is it the duplicates that were removed? If so, is this information important?}\\
 
-Yes, this value is the number of datapoints duplicated between the try and BIEN databases. We believe including this number is useful for anyone who trying to replicate our results and requested data from both these databases. We have included this data cleaning step in our new supplementary figure (Fig \ref{fig:databse}), but could remove it from the text if the reviewer would like us to.\\
+Yes, this value is the number of datapoints duplicated between the try and BIEN databases. We believe including this number is useful for anyone who trying to replicate our results and requested data from both these databases. We have included this data cleaning step in our new supplementary figure (Fig S3), but could remove it from the text if the reviewer would like us to.\\
 
 \emph{L142: Please reformulate. For example “[…] and to adjust which traits should be included for further analyses.”}\\
 
@@ -147,7 +146,7 @@ Done (\lr{R1_153}).\\
 
 \emph{L153: I think it would be very helpful for readers to visualise the structure of the data analysis in a graph. The data filtering process could also be included here.}\\
 
-We agree that having a visual to depict our data structure and cleaning would be very useful and have created an additional figure in the Supplementary Material (Fig. \ref{fig:database}).\\
+We agree that having a visual to depict our data structure and cleaning would be very useful and have created an additional figure in the Supplementary Material (Fig. S3).\\
 
 \emph{L160: Please shorten: “[…] that determines the day of year of budburst”.}\\
 
@@ -207,7 +206,7 @@ We acknowledge that the results of trait studies can be challenging to write cle
 
 \emph{L10-12: Why do you expect that? I would expect exactly the opposite.}\\
 
-Our predictions are based on the functional trait literature, including \citep[work by][]{Wright2004,Reich2014,Westoby1998,Poorter2006}, which posit that resource-rich environments (such as the high light and soil nutrient environments in the spring) favour fast growth and traits that facilitate the acquisition of resources, while later in the season when light and nutrients are more limited, growth strategies that conserve resources are favoured. We have revised this statement to be more explicit on \lr{R1_9}.\\
+Our predictions are based on the functional trait literature, including \citep[work by][]{Wright2004,Reich2014,Westoby1998,Poorter2009}, which posit that resource-rich environments (such as the high light and soil nutrient environments in the spring) favour fast growth and traits that facilitate the acquisition of resources, while later in the season when light and nutrients are more limited, growth strategies that conserve resources are favoured. We have revised this statement to be more explicit on \lr{R1_9}.\\
 
 \emph{L16: Add information here whether the traits are coming from the same experiments or if they were derived by databases.}\\
 
@@ -256,7 +255,7 @@ We have revised this section of the manuscript substantially from \lr{R2_74a} to
 We thank the Reviewer for this point, as it was not clear that we were only discussing findings from experiments and not addressing the strong evidence of phenological advances in response to climate change observed in the field. We have addressed this omission and revised this section of the introduction as follows:
 
 \begin{quote}
-Recent climate change has caused plant phenology to shift earlier with warming \citep{Fritter2002,Menzel2006}, but shifts across individual species have been shown to vary substantially in both space \citep{Vitasse2013} and time \citep{Yu2010,Rudolf2019}. But experiments conducted under controlled environments have shown that it is possible to consistently defining early to late phenology from the known underlying cues \citep{Chuine1999,Harrington2015,Flynn2018}. This work has found early species to generally have smaller advances in phenology when the three major cues of spring leafout are weaker: low spring temperatures (forcing), insufficient winter temperatures (chilling) and shorter daylengths (photoperiod). In contrast, later species have larger responses to high chilling and/or long photoperiods \citep{Laube2014b,Flynn2018}, and likely larger forcing responses. 
+Recent climate change has caused plant phenology to shift earlier with warming \citep{Fitter2002,Menzel2006}, but shifts across individual species have been shown to vary substantially in both space \citep{Vitasse2013} and time \citep{Yu2010,Rudolf2019}. But experiments conducted under controlled environments have shown that it is possible to consistently defining early to late phenology from the known underlying cues \citep{Chuine1999,Harrington2015,Flynn2018}. This work has found early species to generally have smaller advances in phenology when the three major cues of spring leafout are weaker: low spring temperatures (forcing), insufficient winter temperatures (chilling) and shorter daylengths (photoperiod). In contrast, later species have larger responses to high chilling and/or long photoperiods \citep{Laube2014b,Flynn2018}, and likely larger forcing responses. 
 \end{quote}
 
 \emph{The Laube et al. (2014) reference does speak of early vs. late successional species while I understand this paragraph (and this manuscript overall) aiming at understanding differences between early and late bud bursting species. It needs to be defined more clearly what this the key message of this paragraph.}\\
@@ -270,19 +269,27 @@ We have addressed this comment on \lr{R2_84} by explicitly stating that we mean 
 \emph{L86-87: There are contradictions within this statement: Acquisitive leaves are linked to high SLA and high nitrogen content but are less resistant to frost damage. Thus, I would not expect acquisitive plants to show early budburst but rather conservative plants that have a higher resistance.
 For the relationship between SLA and frost resistance see: Bucher SF, Rosbakh S. Foliar summer frost resistance measured via electrolyte leakage approach as related to plant distribution, community composition and plant traits. Funct Ecol. 2021; 35: 590–600. https://doi.org/10.1111/1365-2435.13740}\\
 
+We agree that making predictions of how traits should relate to phenology based on the literature do produce contractions depending on the suite of species or environmental cues considered. The predictions we would make based on the frost tolerance literature is an excellent example of this. This is particularly true for SLA, which can be related to several other ecological processes, including species growth rates, photosynthesis rate, decomposition rates, and herbivore resistance \citep{delaRiva2016}, and can lead to different predictions depending on the literature cited. But our goal was to explore how gradients in phenology fit within the suite of traits on which the leaf economic spectrum and wood economic spectrum are based. We have revised this section of the text from \lr{R2_86a} to \lr{R2_86b} to better address this complexity and discuss more broadly the different factors that shape species traits as well ad added additional citations to better support the literature on which we based our predictions. \\
+
 \emph{L87-88: But early species face the highest risk of frost damage so should rather invest in resistance (would be related to low SLA and a more conservative strategy). See also comment regarding L76-80.}\\
+
+As discussed above, we see the reviewer's point and have revised this section of the manuscript (\lr{R2_86a} to \lr{R2_86b}) to address the complexity of these interactions and added additional citations to clarify what literature we based our predictions on.  
 
 \emph{L90-91: Wouldn’t leaves that are suited for variable or less favorable light conditions be linked to higher SLA?}\\
 
+We see the reviewer's point and have revised this sentence to now read (\lr{R2_86b} :
+\begin{quote}
+But broadly we predict acquisitive species to be shorter, with leaf traits favorable to low light conditions found in the understory later in the growing season, producing cheap leaves with high specific leaf area (SLA) that are nitrogen rich \citep{Reich1997,Wright2004,Diaz2016}.
+\end{quote}
 \textbf{Methods}\\
 
 \emph{There are many different species numbers mentioned based on different databases. Please clarify for how many species information on all relevant variables was available and how many species were included in the analysis. Otherwise, it creates the impression that this study is based on 234 species while there is only trait information for about 95 species, in the end the authors speak of 37 species.}\\
 
-We apologize for the confusion in our discussion of how data was obtained and cleaned to meet our study criteria. We have created a new supplementary figure to better depict the different stages of our data selection and how the number of species and observations changed at each step (Fig. \ref{fig:database}).\\
+We apologize for the confusion in our discussion of how data was obtained and cleaned to meet our study criteria. We have created a new supplementary figure to better depict the different stages of our data selection and how the number of species and observations changed at each step (Fig. S3).\\
 
 \emph{It would be also helpful to learn more about the experiments were the phenology data was derived from and to provide a map with the geographic locations of the included experiments. Only in the discussion the authors speak of  a “global” study.}\\
 
-We have added additional detail regarding the OSPREE database (\lr{R2_global}) and the made additional reference to the global nature of the three databases used in our analysis (\lr{R2_global}). We have also added a map of the budburst data, as well as data for the three traits (SLA, height, and LNC) for which the site coordinates were known (Fig. \ref{fig:map}). Unfortunatley no coordinates were provided for any of the seed mass data.
+We have added additional detail regarding the OSPREE database (\lr{R2_global}) and the made additional reference to the global nature of the three databases used in our analysis (\lr{R2_global}). We have also added a map of the budburst data, as well as data for the three traits (SLA, height, and LNC) for which the site coordinates were known (Fig. S1). Unfortunately no coordinates were provided for any of the seed mass data.
 
 \emph{L153-162.: Why were not all traits included in one model to evaluate the influence of each of the traits in the phenological response? The model description is overall insufficient as it is not clear which methods or software was overall used.}\\
 
@@ -352,7 +359,7 @@ We found the largest budburst responses occurred for traits related to resource 
 
 \emph{L244: When speaking of ‘more local studies’ – what is the geographic range of the data that is the basis of this study? Maybe include a map with geographic locations of the included studies. Where do the authors present the relationship between plant height and bud burst? I only find the results of the traits with regard to the cue responses but no general relationships.}\\
 
-As discussed above, out study was based on global trait and experimental budburst data. In addition to mentioning this more explicitly in the text (\lr{R2_global}), we have also added a figure with a map to the supplementary material (Fig. \ref{fig:map}). The relationship between budburst and height are now more explicitly discussed in the results, from \lr{R2_244a} to  \lr{R2_244b}. These relationships are also illustrated in panels a to c in the revised Fig \ref{fig:fig:TraitDistributions}, which was moved to the supplementary material. In addition to illustrating how well our model fits the data for two example species, this figure illustrates the effect of each trait on estimates of budburst. The bands represent the 50\% uncertainty interval of the model, with the darker bands including the effects of a trait and the lighter bands without the effects of traits. The differences in the slopes of the bands illustrate the strength of the relationship between each trait and budburst. 
+As discussed above, out study was based on global trait and experimental budburst data. In addition to mentioning this more explicitly in the text (\lr{R2_global}), we have also added a figure with a map to the supplementary material (Fig. S1). The relationship between budburst and height are now more explicitly discussed in the results, from \lr{R2_244a} to \lr{R2_244b}. These relationships are also illustrated in panels a to c in the revised Fig S5, which was moved to the supplementary material. In addition to illustrating how well our model fits the data for two example species, this figure illustrates the effect of each trait on estimates of budburst. The bands represent the 50\% uncertainty interval of the model, with the darker bands including the effects of a trait and the lighter bands without the effects of traits. The differences in the slopes of the bands illustrate the strength of the relationship between each trait and budburst. \\
 
 
 \emph{L251-253: Again, I can’t find clear support for this statement in the presented results. Also, it is not clear why low LNC should be associated with an acquisitive strategy. This would rather imply a conservative strategy that could be expected for early species that face risk of frost.}\\

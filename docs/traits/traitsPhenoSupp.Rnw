@@ -83,6 +83,7 @@
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for six functional traits. Points represent the 26 species for which complete trait data was available}
     \label{fig:pca}
 \end{figure}
+\newpage
 
 \begin{figure}[h!]
     \centering
@@ -90,7 +91,6 @@
     \caption{Trait data was obtained from the try and BIEN trait databases and budburst data from the OSPREE databases, with a focus on the subset of species \citep[analyzed by][]{Morales2024}. Data was cleaned extensively, as depicted by the various boxes, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
     \label{fig:database}
 \end{figure}
-
 
 \newpage
 \begin{figure}[h!]
@@ -174,6 +174,7 @@ bien & \cite{McHugh2015} & Height & m &  26 &   8 \\
   \end{tabular}
 \end{table}
 
+\newpage
 \begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
@@ -201,6 +202,7 @@ $\mu_{grand.trait}$ & 12.70 & 9.40 & 11.40 & 14.00 & 15.8 \\
   \end{tabular}
 \end{table}
 
+\newpage
 \begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
@@ -228,6 +230,7 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
   \end{tabular}
 \end{table}
 
+\newpage
 \begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
@@ -255,6 +258,7 @@ $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
   \end{tabular}
 \end{table}
 
+\newpage
 \begin{table}[ht!]
 \centering
 \caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting negligible relationships} 
@@ -283,7 +287,7 @@ $\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\
 \end{table}
 
 
-\newpage
+\clearpage
 \section*{Stan model code}
 
 \begin{verbatim}
