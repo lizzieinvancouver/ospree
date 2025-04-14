@@ -1,18 +1,23 @@
 rm(list=ls())
 options(stringsAsFactors = FALSE)
 
-require(ggbiplot)
-require(gridExtra)
+#require(ggbiplot)
+# require(gridExtra)
 require(ggplot2)
-require(bayesplot)
-require(dplyr)
+# require(bayesplot)
+# require(dplyr)
 
 # maping packages:
-library(tmap)
-library(tmaptools)
+# library(tmap)
+# library(tmaptools)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
 library(sf)
-library(raster)
+# library(raster)
 library(viridis)
+
+
 
 if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
 } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
@@ -36,12 +41,42 @@ fourTrt <- traitData[traitData$traitname %in% traitName,]
 
 traitLL <- fourTrt[,c("traitname", "latitude", "longitude")]
 traitLL <- traitLL[complete.cases(traitLL),]
+ 
 
 phenoLL <- ospree[,c("provenance.lat", "provenance.long")]
 phenoLL <- phenoLL[complete.cases(phenoLL),]
+phenoLL$traitname <- "Budburst"
+colnames(phenoLL)[colnames(phenoLL) == "provenance.lat"] <- "latitude"
+colnames(phenoLL)[colnames(phenoLL) == "provenance.long"] <- "longitude"
 
-coord <- st_as_sf(traitLL, coords = c("longitude","latitude"), agr = "traitname", crs = 4326)
-coordPheno <- st_as_sf(phenoLL, coords = c("provenance.long", "provenance.lat"), crs = 4326)
+trtLL <- unique(rbind(traitLL, phenoLL))
+# 
+# coord <- st_as_sf(traitLL, coords = c("longitude","latitude"), agr = "traitname", crs = 4326)
+# coordPheno <- st_as_sf(phenoLL, coords = c("provenance.long", "provenance.lat"), crs = 4326)
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+pdf("figures/traitMap.pdf", width = 8, height =4)
+mapPlot <- ggplot(data = world) +
+  geom_sf(color = "black", fill = "white") +
+ geom_point(data = trtLL, mapping = aes(y = latitude, x = longitude, fill = traitname), pch = 21) + 
+  labs(fill = "") +
+  xlab ("") + ylab ("") +
+  theme(panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(), 
+    panel.background = element_blank(), 
+    panel.border = element_rect(colour = "black", fill=NA),
+    legend.key=element_rect(fill="white"),
+    legend.key.size = unit(1, "cm"),
+    legend.position=c(.1,.4), legend.text = element_text(size = 15)) + 
+    scale_fill_manual(values = c("Plant_height_vegetative"="#648fff",
+    "Leaf_nitrogen_.N._content_per_leaf_dry_mass"="#B12A90FF",
+    "Specific_leaf_area"= "#E16462FF",
+    "Budburst"="#FCA636FF"),
+    breaks = c("Plant_height_vegetative", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Specific_leaf_area", "Budburst"), label = c("Height", "LNC", "SLA", "Budburst"),guide = guide_legend(override.aes = list(size = 3)))
+mapPlot
+dev.off()
+
 
 #coord$continent <- as.factor(coord$continent)
 data("World")
