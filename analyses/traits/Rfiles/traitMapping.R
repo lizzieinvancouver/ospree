@@ -33,8 +33,6 @@ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","A
 
 traitData  <- subset(traitData , traitData$speciesname %in% traitors.sp)
 
-
-
 #subset to our four traits:
 traitName <- c("Plant_height_vegetative", "Leaf_nitrogen_.N._content_per_leaf_dry_mass", "Specific_leaf_area", "seed mass")
 fourTrt <- traitData[traitData$traitname %in% traitName,]
@@ -42,7 +40,6 @@ fourTrt <- traitData[traitData$traitname %in% traitName,]
 traitLL <- fourTrt[,c("traitname", "latitude", "longitude")]
 traitLL <- traitLL[complete.cases(traitLL),]
  
-
 phenoLL <- ospree[,c("provenance.lat", "provenance.long")]
 phenoLL <- phenoLL[complete.cases(phenoLL),]
 phenoLL$traitname <- "Budburst"
@@ -78,55 +75,55 @@ mapPlot
 dev.off()
 
 
-#coord$continent <- as.factor(coord$continent)
-data("World")
-
-pdf("figures/traitMap.pdf", width = 8, height =4)
-tm_shape(World)  +
-  tm_polygons(fill = "gray72" , border.col = "gray72") +
-  tm_legend(show = T) +
- # tm_borders(col = "gray72")+ 
-  tm_shape(subset(coord, traitname == traitName[1])) +
-  tm_dots(fill= "#648fff", shape = 21) +
-  tm_shape(subset(coord, traitname == traitName[2])) +
-  tm_dots(fill= "#785ef0",  shape = 21) +
-  tm_shape(subset(coord, traitname == traitName[3])) +
-  tm_dots(fill= "#dc267f",  shape = 21) + 
-  tm_shape(coordPheno) +
-  tm_dots(fill= "#FFB000", shape = 21) + 
-  tm_layout(legend.outside = F, scale =1.25) +
-tm_add_legend("topright", fill = c( "#648fff","#785ef0","#dc267f",  "#FFB000"),bg = c(21,21,21,21), labels = c(expression("Height ("*italic("n")*"= 42781)"), expression("LNC ("*italic("n")*"= 3853)"), expression("LNC ("*italic("n")*"= 7656)"), expression("Budbusrt ("*italic("n")*"= 1670)")), orientation ="landscape", frame = F,legend.width =108 ,legend.text.size =30)
-dev.off()
-
-s = tm_shape(World, crs = "+proj=eqearth")
-s + tm_polygons(
-  fill = "HPI",
-  fill.scale = tm_scale_continuous(values = "pu_gn"),
-  fill.legend = 
-    tm_legend(
-      title = "Happy Planex Index", 
-      orientation = "landscape", 
-      width = 60))
-
-tm_shape(World)  +
-  tm_polygons(col = "gray72", border.col = "gray72") +
-  tm_dots(fill= "#fe6100", shape = 21) 
-
-  tm_shape(World) +
-    tm_polygons()+
-    tm_dots(col = coord)
-  
-  
-tm_shape(World)  +
-    tm_polygons(fill = "gray72" , border.col = "gray72") +
-    tm_legend(show = T) +
-    # tm_borders(col = "gray72")+ 
-    tm_dots(subset(coord, traitname == traitName[2]), fill = "#648fff") +
-  tm_dots(subset(coord, traitname == traitName[2]), fill = "#785ef0") +
-  tm_dots(subset(coord, traitname == traitName[3]), fill = "#dc267f") +
-  tm_dots(coordPheno,fill= "#fe6100", shape = 21) + 
-  tm_layout(legend.outside = F) +
-  tm_add_legend("topright", fill = c( "#648fff","#785ef0","#dc267f", "#fe6100"),bg = c(21,21,21,21), labels = c("Leaf nitrogen content", "Specific leaf area", "Height", "Budburst"), orientation ="landscape", frame = F, height =3)
+# #coord$continent <- as.factor(coord$continent)
+# data("World")
+# 
+# pdf("figures/traitMap.pdf", width = 8, height =4)
+# tm_shape(World)  +
+#   tm_polygons(fill = "gray72" , border.col = "gray72") +
+#   tm_legend(show = T) +
+#  # tm_borders(col = "gray72")+ 
+#   tm_shape(subset(coord, traitname == traitName[1])) +
+#   tm_dots(fill= "#648fff", shape = 21) +
+#   tm_shape(subset(coord, traitname == traitName[2])) +
+#   tm_dots(fill= "#785ef0",  shape = 21) +
+#   tm_shape(subset(coord, traitname == traitName[3])) +
+#   tm_dots(fill= "#dc267f",  shape = 21) + 
+#   tm_shape(coordPheno) +
+#   tm_dots(fill= "#FFB000", shape = 21) + 
+#   tm_layout(legend.outside = F, scale =1.25) +
+# tm_add_legend("topright", fill = c( "#648fff","#785ef0","#dc267f",  "#FFB000"),bg = c(21,21,21,21), labels = c(expression("Height ("*italic("n")*"= 42781)"), expression("LNC ("*italic("n")*"= 3853)"), expression("LNC ("*italic("n")*"= 7656)"), expression("Budbusrt ("*italic("n")*"= 1670)")), orientation ="landscape", frame = F,legend.width =108 ,legend.text.size =30)
+# dev.off()
+# 
+# s = tm_shape(World, crs = "+proj=eqearth")
+# s + tm_polygons(
+#   fill = "HPI",
+#   fill.scale = tm_scale_continuous(values = "pu_gn"),
+#   fill.legend = 
+#     tm_legend(
+#       title = "Happy Planex Index", 
+#       orientation = "landscape", 
+#       width = 60))
+# 
+# tm_shape(World)  +
+#   tm_polygons(col = "gray72", border.col = "gray72") +
+#   tm_dots(fill= "#fe6100", shape = 21) 
+# 
+#   tm_shape(World) +
+#     tm_polygons()+
+#     tm_dots(col = coord)
+#   
+#   
+# tm_shape(World)  +
+#     tm_polygons(fill = "gray72" , border.col = "gray72") +
+#     tm_legend(show = T) +
+#     # tm_borders(col = "gray72")+ 
+#     tm_dots(subset(coord, traitname == traitName[2]), fill = "#648fff") +
+#   tm_dots(subset(coord, traitname == traitName[2]), fill = "#785ef0") +
+#   tm_dots(subset(coord, traitname == traitName[3]), fill = "#dc267f") +
+#   tm_dots(coordPheno,fill= "#fe6100", shape = 21) + 
+#   tm_layout(legend.outside = F) +
+#   tm_add_legend("topright", fill = c( "#648fff","#785ef0","#dc267f", "#fe6100"),bg = c(21,21,21,21), labels = c("Leaf nitrogen content", "Specific leaf area", "Height", "Budburst"), orientation ="landscape", frame = F, height =3)
 
     
   
