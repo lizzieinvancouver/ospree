@@ -32,8 +32,7 @@ Reviewer comments are italicized and our detailed explanation of changes are in 
 \emph{Comments for Authors:
 Both reviewers felt this ms has potential to offer insights into whether functional traits of woody species can be used (in place of species identities) to predict the relationships between leaf budburst timing and abiotic conditions. However, the reviewers struggled to understand the framing, methods, results, and conclusions, in part due to a lack of clarity and sufficient detail, and in part because of contradictory information. The constructive comments from the reviewers should help this work reach its potential, but addressing these issues will likely mean the ms will change substantially.}\\
 
-%emwApr20 -- Calling this a typo makes it sound like you're blowing off the reviewer's concerns, even if it was a typo, this does not make for a strong response letter. Also, the editor is looking for big changes, so you should add a sentence here saying you overhauled the text, ... in addition to many changes throughout the text, we moved one overly confusing figure to the supplement and added XX additional figures to the supplement to clarify our workflow and methods. 
-We are happy to hear that the novelty and value of our work was appreciated by both reviewers, and we appreciate their comments to improve the manuscript. We have revised the text to add greater detail to our methods and results to better support our framing and methods. We have also addressed the contradictory information, which was in error (due mainly to switching between LMA and SLA) for which we apologize. In addressing the reviewer comments, we believe the revised manuscript clarifies our findings and provides insight into how functional traits of woody species relate to budburst timing and abiotic cues. \\
+We are happy to hear that the novelty and value of our work was appreciated by both reviewers and we appreciate their comments to improve the manuscript. We have made many changes throughout the text, including revisions to add greater detail to our methods and results to better support our framing and methods. We have also addressed the contradictory information, which was in error (due mainly to switching between leaf mass area and specific leaf area) for which we apologize. We also moved an overly confusing figure to the supplementary material and have added two additional figures to the supplement to clarify our workflow and methods. In addressing the reviewer comments, we believe the revised manuscript clarifies our findings and provides insight into how functional traits of woody species relate to budburst timing and abiotic cues. \\
 
 \textbf {Reviewer 1 -- comments:} \\
 
@@ -41,7 +40,7 @@ We are happy to hear that the novelty and value of our work was appreciated by b
 
 \emph{1. I find the approach they have chosen to analyse the data very exciting. However, I cannot follow all the conclusions (in particular from Figure 2). I wonder if the lines shown represent some kind of significance test indicating that there are significant linear correlations between x and y? You need to clarify this. Additionally, I wonder if the analyses from Figure 4 are relevant for your study?}\\
 
-We thank the reviewer for this positive feedback and are glad to hear they find the approach exciting. We agree with the reviewer that we should provide more guidance for how our results should be interpreted and how to assess the strength of these relationship. We have added additional information to our methods (\lr{R1_sigTest}) and the figure and table captions to help with this. We have also revised the Tables of model estimates to include multiple uncertainty intervals for readers to better interpret the results and model fits. With regards to the the analysis from Figure 4, we do think they are relevant for this study, as they highlight the strong effects study-level variation can have on trait estimates when using data from trait databases and importance of accounting for this variation in these types of analyses. We agree that this point could have been made more clearly and have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added additional text to the discussion to do so (\lr{studySpVara} to \lr{studySpVarb}).\\ %emwApr20 --  Nice.
+We thank the reviewer for this positive feedback and are glad to hear they find the approach exciting. We agree with the reviewer that we should provide more guidance for how our results should be interpreted and how to assess the strength of these relationship. We have added additional information to our methods (\lr{R1_sigTest}) and the figure and table captions to help with this. We have also revised the tables of model estimates to include multiple uncertainty intervals for readers to better interpret the results and model fits. With regards to the the analysis from Figure 4, we do think they are relevant for this study, as they highlight the strong effects study-level variation can have on trait estimates when using data from trait databases and importance of accounting for this variation in these types of analyses. We agree that this point could have been made more clearly and have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added additional text to the discussion to do so (\lr{studySpVara} to \lr{studySpVarb}).\\ 
 
 \textbf{Minor comments:}\\
 
@@ -65,7 +64,7 @@ We have changed this wording to improve clarity here and throughout the manuscri
 
 Thank you for drawing our attention to this, we have revised this section of the abstract to further clarify the main finding of our paper and to address comments from the second reviewer as well (\lr{R2_Aa} to \lr{R2_Ab}). \\
 
-\emph{L 25: “Budburst” is already used in the title. You should consider another keyword.}\\
+\emph{L25: “Budburst” is already used in the title. You should consider another keyword.}\\
 
 We see the reviewer's point and have changed "budburst" to "leafout" (while we realize these are not the same events, they are highly related) to no longer replicate the terminology used in the title. \\
 
@@ -83,7 +82,7 @@ Done (\lr{R1_48}).\\
 
 \emph{L50: You can delete `For plants,'.}\\
 
-Done (\lr{R1_50}).\\ %DLeditsMarch31: maybe just delete this sentence? %emwApr20 -- I don't know what sentence this is so I cannot help. 
+In revising the manuscript, we have deleted this sentence.\\
 
 \emph{L68-70: This statement is very strict. I would phrase it a bit more carefully (e.g. ‘to the best of our knowledge’). For example, in a study cited by you (Sporbert et al. 2022), trait-phenology interactions in herbaceous plants from different sites were examined. Whether there are similar examples for trees, I cannot say.}\\
 
@@ -112,7 +111,7 @@ We then scraped the data from all articles of woody species reporting experiment
 \emph{L121: Instead of “used” you can write “considered”.}\\
 
 %emwApr20 -- I see your point but I would switch to another word to show you're trying -- obtained? 
-We appreciate the importance of word choice in methods but feel the word "considered" implies that we thought carefully about the subset of data, but that "used" clearly implies what data was included in the analysis.  \\
+We appreciate the importance of word choice and agree with the reviewer that a different word would be stronger. We have changed the word "used" to "obtained" to improve the clarity of our methods (\lr{R1_121}).\\
 
 \emph{L130: Are the 96 species from TRY additional ones to the species extracted from BIEN meaning that you considered 190 species in total?}\\
 
@@ -128,7 +127,6 @@ Yes, this value is the number of datapoints duplicated between the TRY and BIEN 
 
 \emph{L142: Please reformulate. For example “[…] and to adjust which traits should be included for further analyses.”}\\
 
-%emwApr20 -- I would 'acknowledge' a little less in this letter, it sounds sort of annoyed to me. 
 Good point, we can see now how it was fully clear what traits we used for our PCA and how we decided which of the correlated traits to remove. We have revised this section of the methods to provide greater detail and clarify how we selected the four focal traits (\lr{R1_142a} to \lr{R1_142b}).\\
 
 \emph{L142: “the” instead of “our”.}\\
@@ -137,11 +135,11 @@ Done (\lr{R1_142a}).\\
 
 \emph{L149: Please delete “also”.}\\
 
-Done (\lr{R1_149}).\\
+Done (\lr{R1_149a}).\\
 
  \emph{L150-151: I appreciate that you have considered the different data available for the different species. However, I am not sure whether the approach chosen here is correct. What was the reason for you randomly selecting 3000 times? Could it be that, due to the 3000-fold random drawing, species with relatively few data points are always drawn with the same data points? This then leads to the fact that there are species with and without variability in the 3000 data points.}\\
 
-We apologize for the lack of clarity. We include all data for the 24 species that had fewer then 3000 observations per species and only subset the data for the 13 highly sampled species, each of which had over 3000 observations per species. To clarify this point and provide greater justification for why this subsampling was performed, we have revised the text from \lr{R1_149} to \lr{R1_149}.\\ %emwApr20 -- repeated line #
+We apologize for the lack of clarity. We include all data for the 24 species that had fewer then 3000 observations per species and only subset the data for the 13 highly sampled species, each of which had over 3000 observations per species. To clarify this point and provide greater justification for why this subsampling was performed, we have revised the text from \lr{R1_149a} to \lr{R1_149b}.\\ 
 
 \emph{L153: Maybe better to write “traits” instead of “trait”?}\\
 
@@ -161,7 +159,7 @@ To assessing whether a trait has a relationship with a cue requires the reader t
 
 \emph{L222-231: These are definitely interesting analyses. But I don't understand how they are relevant to your study. If they are relevant, then these results would have to be taken up again in the discussion.}\\
 
-We agree that we did not well highlight the importance of this finding in our discussion. This analysis highlights one of the major strengths of our model, as we were able to partition both the species and study-level variation. We believe this analysis is important, as we found that some traits---particularly height in our data---are strongly impacted by study-level differences that can influence how the data should be interpreted. We have revised this section of the results and added text to the discussion to address this point further.\\ %emwApr20 -- add line #s
+We agree that we did not well highlight the importance of this finding in our discussion. This analysis highlights one of the major strengths of our model, as we were able to partition both the species and study-level variation. We believe this analysis is important, as we found that some traits---particularly height in our data---are strongly impacted by study-level differences that can influence how the data should be interpreted. We have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added text to the discussion to address this point further (\lr{studySpVara} to \lr{studySpVarb}).\\
 
 \emph{L244-245: The examples presented are studies with herbaceous species. I think it's important not to lump together the results of different growth forms. For example, Horbach et al. showed that phenology-trait relationships for herbaceous species and for trees can differ greatly (https://doi.org/10.1016/j.flora.2023.152218).}\\
 
@@ -199,11 +197,11 @@ We are glad that the reviewer found our manuscript interesting and well written.
 
 \emph{The underlying assumptions and hypotheses presented in the introduction are not supported by suitable references and largely contradict the current literature (see comments below). Acquisitive plants relate to high SLA, nitrogen rich leaves and low resistance (e.g. against frost) but higher competitive ability. In contrast, conservative growth strategies relate to low SLA, nitrogen poor leaves with high resistance (e.g. against frost). With competition playing a minor role in spring but being more important later in the season as stated by the authors I would expect more conservative strategies to be present in spring to ensure frost resistance and expect more acquisitive strategies later in the season when the risk of frost events is low, but competition is high. The assumptions and hypotheses by the authors presented in Figure 1 and throughout the manuscript are in parts opposing to these assumptions. In addition, the authors define the terms “acquisitive” and “conservative” differently throughout the manuscript (e.g., Introduction: acquisitive = high SLA, Figure 1: acquisitive = low SLA), which leads to confusion and makes it difficult to understand what the authors mean.}\\
 
-We completely agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion, and we have worked to provide an improved overview of the literature now. Further, we especially thank the reviewer for catching a major error within our figure that lead to the contradiction with our text and confusion (EXPLAIN A LITTLE?). We have also expanded our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and better explain the nuance of how we define acquisitive and conservative growth strategies.  \\
+We completely agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion, and we have worked to provide an improved overview of the literature now. Further, we especially thank the reviewer for catching a major error within our figure that lead to the contradiction with our text and confusion. We initially designed Figure 1 with leaf mass are, which is a key trait to the leaf economic spectrum and the inverse of specific leaf area and therefore has the opposite predicted response. But the figure was later changed to have specific leaf area instead in order to better match the text. We have also expanded our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and better explain the nuance of how we define acquisitive and conservative growth strategies.  \\
 
 \emph{The results should be presented more clearly, and the discussion should directly refer to the results instead of reiterating statements from the introduction or making claims that are not adequately supported by the presented results.}\\
 
-We have added additional detail to the results section and used different terms to make them clearer (for example from \lr{results1} to \lr{results1b} and from \lr{R2_244a} to \lr{R2_244b}) and have expanded on discussion to directly reference the results (see for example \lr{R2_discResulta} to \lr{R2_discResultb} and \lr{studySpVara} to \lr{studySpVarb}). \\
+We have added additional detail to the results section and used different terms to make them clearer (for example from \lr{results1} to \lr{results1b} and have expanded on discussion to directly reference the results (see for example \lr{R2_discResulta} to \lr{R2_discResultb} and \lr{studySpVara} to \lr{studySpVarb}). \\
 
 \textbf{Summary}\\
 
@@ -272,7 +270,6 @@ We have addressed this comment on \lr{R2_84} by explicitly stating that we mean 
 \emph{L86-87: There are contradictions within this statement: Acquisitive leaves are linked to high SLA and high nitrogen content but are less resistant to frost damage. Thus, I would not expect acquisitive plants to show early budburst but rather conservative plants that have a higher resistance.
 For the relationship between SLA and frost resistance see: Bucher SF, Rosbakh S. Foliar summer frost resistance measured via electrolyte leakage approach as related to plant distribution, community composition and plant traits. Funct Ecol. 2021; 35: 590–600. https://doi.org/10.1111/1365-2435.13740}\\
 
-%emwApr20 -- check that we do what I say below a little. Also, do we now cite these papers mentioned by the reviewer? We probably should if not. 
 This is a good point as there are alternative predictions possible based on the literature. As our goal was to explore how gradients in phenology fit within the suite of traits on which the leaf economic spectrum and wood economic spectrum are based, we focused our predictions following those spectra, but we should have acknowledged the potential for other predictions (the predictions we would make based on the frost tolerance literature is an excellent example of this) more in the introduction. We have thus revised this section of the text from \lr{R2_86a} to \lr{R2_86b} to better address this complexity and discuss more broadly the different factors that shape species traits as well as added additional citations for the literature on which we based our predictions.
 % We agree that making predictions of how traits should relate to phenology based on the literature do produce contractions depending on the suite of species or environmental cues considered. The predictions we would make based on the frost tolerance literature is an excellent example of this and is particularly true for SLA, which can be related to several other ecological processes (including species growth rates, photosynthesis rate, decomposition rates, and herbivore resistance \citep{delaRiva2016}). This complexity can lead to different predictions depending on the processes considered and literature cited.. \\
 
@@ -298,7 +295,7 @@ We have added additional detail regarding the OSPREE database (\lr{R2_global}) a
 
 \emph{L153-162.: Why were not all traits included in one model to evaluate the influence of each of the traits in the phenological response? The model description is overall insufficient as it is not clear which methods or software was overall used.}\\
 
-Given the complexity of the joint modelling approach we used, we deemed it more valuable to model each trait individually and focus on estimating the complex latent processes that link the tree traits to phenological cues. Our modelling approach represents a considerable advance in how phenology-trait relationships are estimated, as we were able to estimate cues responses while also partitioning the variance from species and study-level differences. We reference the software used to write and run our analysis on \lr{R2_rstanRefa} and we have added additional information and references regarding the Stan and R programming languages (\lr{R2_stana} to \lr{R2_stanb}).\\ %emwApr20 -- it's not helpful to say 'we said this!' even if we did. 
+Given the complexity of the joint modelling approach we used, we deemed it more valuable to model each trait individually and focus on estimating the complex latent processes that link the tree traits to phenological cues. Our modelling approach represents a considerable advance in how phenology-trait relationships are estimated, as we were able to estimate cues responses while also partitioning the variance from species and study-level differences. We reference the software used to write and run our analysis on \lr{R2_rstanRefa} and we have added additional information and references regarding the Stan and R programming languages (\lr{R2_stana} to \lr{R2_stanb}).\\ 
 
 \emph{L163-172: The model description is overall insufficient as it is not clear which methods or software was overall used.}\\
 
@@ -320,7 +317,7 @@ We appreciate that interpreting our model findings can be challenging. We have r
 
 \emph{Figure 1: The presented framework of early-budbursting species being related to ‘acquisitive growth’ and late-budbursting species being related to ‘conservative growth’ is not in line with literature and seems counterintuitive (see also comments regarding the introduction). Also, the presented trait expressions are not all correctly assigned to acquisitive and conservative (e.g. high SLA should be related to acquisitive growth and not conservative).}\\
 
-We thank the reviewer for finding this error and apologize for it. Our initial figure had included LMA (the original trait used in the leaf economic spectrum and inverse of SLA), but we changed it to be in line with our study and introduced an error. \\
+We thank the reviewer for finding this error and apologize for it. Our initial figure had included leaf mass area (the original trait used in the leaf economic spectrum and inverse of SLA), but we changed it to be in line with our study and introduced an error. \\
 
 \emph{Figure 2: The y-axes should be unified to allow a better comparison between the figures and traits.}\\
 
@@ -328,7 +325,7 @@ Done. \\
 
 \emph{Figure 3: It is not clear what is exactly shown here. The legend does not help to understand what this figure shows. According to the axes we again see the relationship between day of budburst and the three cues as in Figure 2. Then it is not clear where the traits are incorporated in the figures. Also, it is not clear why only height and seed mass are presented.}\\
 
-We have moved this figure to the supplementary material so all traits can be shown together. We have also revised the results section to more directly discuss what is shown in this figure (\lr{R2_244a} to \lr{R2_244b}). A more detailed explanation of the legend has been added to the figure caption to clarify how traits are related to each figure and what the individual points represent. \\
+We have moved this figure to the supplementary material so all traits can be shown together. We have also revised the figure caption to more directly discuss what is shown in this figure and to clarify how traits are related to each figure and what the individual points represent. \\
 
 \emph{“The effect of height on budburst timing was smaller in response to forcing cues, but larger in response to both b, chilling and c, photoperiod” I don’t see any relationship for photoperiod. Please clarify.}\\
 
@@ -362,7 +359,7 @@ We found the largest budburst responses occurred for traits related to resource 
 
 \emph{L244: When speaking of ‘more local studies’ – what is the geographic range of the data that is the basis of this study? Maybe include a map with geographic locations of the included studies. Where do the authors present the relationship between plant height and bud burst? I only find the results of the traits with regard to the cue responses but no general relationships.}\\
 
-As discussed above, out study was based on global trait and experimental budburst data. In addition to mentioning this more explicitly in the text (\lr{R2_global}), we have also added a figure with a map to the supplementary material (Fig. S1). The relationship between budburst and height are now more explicitly discussed in the results, from \lr{R2_244a} to \lr{R2_244b}. These relationships are also illustrated in panels a to c in the revised Fig S5, which was moved to the supplementary material. In addition to illustrating how well our model fits the data for two example species, this figure illustrates the effect of each trait on estimates of budburst. The bands represent the 50\% uncertainty interval of the model, with the darker bands including the effects of a trait and the lighter bands without the effects of traits. The differences in the slopes of the bands illustrate the strength of the relationship between each trait and budburst. \\
+As discussed above, out study was based on global trait and experimental budburst data. In addition to mentioning this more explicitly in the text (\lr{R2_global}), we have also added a figure with a map to the supplementary material (Fig. S1). The relationship between budburst and height are illustrated in panels a to c in the revised Fig S5, which was moved to the supplementary material. In addition to illustrating how well our model fits the data for two example species, this figure illustrates the effect of each trait on estimates of budburst. The bands represent the 50\% uncertainty interval of the model, with the darker bands including the effects of a trait and the lighter bands without the effects of traits. The differences in the slopes of the bands illustrate the strength of the relationship between each trait and budburst. \\
 
 
 \emph{L251-253: Again, I can’t find clear support for this statement in the presented results. Also, it is not clear why low LNC should be associated with an acquisitive strategy. This would rather imply a conservative strategy that could be expected for early species that face risk of frost.}\\

@@ -70,7 +70,7 @@
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.9 \textwidth]{..//..//analyses/traits/figures/traitMap.pdf} %emwApr20 -- nice!
+ \includegraphics[width= 0.9 \textwidth]{..//..//analyses/traits/figures/traitMap.pdf}
     \caption{We obtained data from the TRY and BIEN plant trait databases and the OSPREE database of plant phenology experiments for temperate tree species. Following our cleaning of the data and selection of uncorrelated traits, our final dataset included 37 species from 24 unique datasources for the trait data and 34 unique studies for the budburst data. Our data is focused on temperate ecosystems globally with most data originating from North America and Europe. }
     \label{fig:map}
 \end{figure}
@@ -87,7 +87,7 @@
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} %emwApr20 -- great new figure! But some typos in the PDF, could someone else read the supp for typos for us? 
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} 
     \caption{Our initial aim was to include all species from \citep[analyzed by][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
     \label{fig:database}
 \end{figure}
@@ -104,9 +104,11 @@
 \begin{figure}[h!]
     \centering
  \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
-     \caption{ Here we show an example with an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow, using the posterior estimates from our height (\textbf{a-c}), SLA (\textbf{d-f}), seed mass (\textbf{g-i}), and LNC (\textbf{j-l}) models to estimate the day of budburst. \textbf{a,d,} The effect of height on budburst timing was smallest in response to forcing, \textbf{b} while the greatest effect of height on budburst was in response to chilling, \textbf{c,} followed by photoperiod. \textbf{e,} The greatest effect of SLA on budburst was only in relation to photoperiod. \textbf{g,h,i,} Seed mass had a negligible effect on our estimates budburst.  \textbf{j,k,l}, But LNC had a considerable effect on budburst timing in relation to each cue. The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
+     \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (\textbf{a-c}), SLA (\textbf{d-f}), seed mass (\textbf{g-i}), and LNC (\textbf{j-l}) models were used to estimate the day of budburst for the two species. \textbf{a,d,} The effect of height on budburst timing was smallest in response to forcing, \textbf{b} while the greatest effect of height on budburst was in response to chilling, \textbf{c,} followed by photoperiod. \textbf{e,} The greatest effect of SLA on budburst was only in relation to photoperiod. \textbf{g,h,i,} Seed mass had a negligible effect on our estimates budburst.  \textbf{j,k,l}, But LNC had a considerable effect on budburst timing in relation to each cue. The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
     \label{fig:slopes}
 \end{figure}
+
+
 %We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. 
 \newpage
 \begin{table}[h!]
