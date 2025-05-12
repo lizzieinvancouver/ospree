@@ -138,11 +138,11 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("d", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
+my.label <- paste("(d", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
 
-# legend(-.10,115, c(expression(paste("Acquisitive  (", italic("A. incana"), ")")),
-#                    expression(paste("Conservative  (", italic("Q. rubra"), ")"))),
+# legend(-.10,115, c(expression(paste("(Acquisitive  (", italic("A. incana"), ")")),
+#                    expression(paste("(Conservative  (", italic("Q. rubra"), ")"))),
 #        lty = c(1,1), col = c(col1.sp[2], col1.sp[1]),
 #        bty = "n", 
 #        lwd = 10,  text.width = 2)
@@ -156,17 +156,17 @@ put.fig.letter(label=my.label, location= "topleft", font=2)
 # legend(-2.5,120, c("",""), pch = c(21, 21), pt.bg = c(col1.sp[2], col1.sp[1]),  text.width = 4.8, bty = "n", cex = 1.5)
 # text(-2.2,117, "Raw data")
 
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
-#                               expression(paste("Conservative  (", italic("Quercus rubra"), ")")),
-#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+# legend("topright", legend = c(expression(paste("(Acquisitive  (", italic("Alnus incana"), ")")),
+#                               expression(paste("(Conservative  (", italic("Quercus rubra"), ")")),
+#                               expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col1.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.75, bty = "n")
 
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
-#                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
-#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+# legend("topright", legend = c(expression(paste("(Acquisitive  (", italic("Quercus ilex"), ")")),
+#                               expression(paste("(Conservative  (", italic("Fagus grandifolia"), ")")),
+#                               expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
 #dev.off()
@@ -213,12 +213,12 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("e", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Quercus ilex"), ")")),
-#                               expression(paste("Conservative  (", italic("Fagus grandifolia"), ")")),
-#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+my.label <- paste("(e", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
+# legend("topright", legend = c(expression(paste("(Acquisitive  (", italic("Quercus ilex"), ")")),
+#                               expression(paste("(Conservative  (", italic("Fagus grandifolia"), ")")),
+#                               expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
 #dev.off()
@@ -266,14 +266,14 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
-#                               expression(paste("Conservative  (", italic("Quercus rubra"), ")")),
-#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+# legend("topright", legend = c(expression(paste("(Acquisitive  (", italic("Alnus incana"), ")")),
+#                               expression(paste("(Conservative  (", italic("Quercus rubra"), ")")),
+#                               expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp[2], col.sp[1], NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1, bty = "n")
-my.label <- paste("f", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
+my.label <- paste("(f", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
 #dev.off()
 
 # pdf("figures/sla_prior_post_dist_wide.pdf", width = 15, height = 25)

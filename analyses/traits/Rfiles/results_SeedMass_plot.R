@@ -131,11 +131,11 @@ for(i in 1:length(plot.sp)){
     }
     points(forceadj1 ~ jitter(force.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("g", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-# legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
-#                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+my.label <- paste("(g", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
+# legend("topleft", legend = c(expression(paste("(Acquisitive  (", italic("Populus tremula"), ")")),
+#                              expression(paste("(Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
 # dev.off()
@@ -182,11 +182,11 @@ for(i in 1:length(plot.sp)){
     }
     points(chilladj1 ~ jitter(chill.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-my.label <- paste("h", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
-# legend("topleft", legend = c(expression(paste("Acquisitive  (", italic("Populus tremula"), ")")),
-#                              expression(paste("Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+my.label <- paste("(h", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
+# legend("topleft", legend = c(expression(paste("(Acquisitive  (", italic("Populus tremula"), ")")),
+#                              expression(paste("(Conservative  (", italic("Aesculus hippocastanum"), ")")),                              expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 0.85, bty = "n")
 #dev.off()
@@ -234,14 +234,14 @@ for(i in 1:length(plot.sp)){
     }
     points(photoadj1 ~ jitter(photo.z, factor = 0.75), data = ospree.temp, pch = 21, col = "black", bg = col.pt[i], cex = 1.75)
 }
-# legend("topright", legend = c(expression(paste("Acquisitive  (", italic("Alnus incana"), ")")),
-#                               expression(paste("Conservative  (", italic("Quercus rubra"), ")")),
-#                               expression(paste("Trait effect", " = 0", "  (50% interval)", sep = "")),
-#                               expression(paste("Full model", "  (50% interval)"))),
+# legend("topright", legend = c(expression(paste("(Acquisitive  (", italic("Alnus incana"), ")")),
+#                               expression(paste("(Conservative  (", italic("Quercus rubra"), ")")),
+#                               expression(paste("(Trait effect", " = 0", "  (50% interval)", sep = "")),
+#                               expression(paste("(Full model", "  (50% interval)"))),
 #        col = c("black", "black", rgb(0, 0, 0, alpha = 0.18), rgb(0, 0, 0, alpha = 0.85)), pt.bg = c(col1.sp, NA, NA),
 #        inset = 0.02, pch = c(21, 21, 15, 15), cex = 1.75, bty = "n")
-my.label <- paste("i", ".", sep="")
-put.fig.letter(label=my.label, location= "topleft", font=2)
+my.label <- paste("(i", ")", sep="")
+put.fig.letter(label=my.label, location= "topleft", font=1)
 #dev.off()
 
 # pdf("figures/seedmass_prior_post_dist_narrow.pdf", width = 15, height = 25)

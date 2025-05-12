@@ -32,7 +32,7 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   }
   if(is.null(x) | is.null(y)) {
     coords <- switch(location,
-                     topleft = c(0.05,0.98),
+                     topleft = c(0.05,0.97),
                      topcenter = c(0.5525,0.98),
                      topright = c(0.985, 0.98),
                      bottomleft = c(0.015, 0.02), 

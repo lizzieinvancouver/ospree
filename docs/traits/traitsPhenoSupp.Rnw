@@ -74,12 +74,11 @@
     \caption{We obtained data from the TRY and BIEN plant trait databases and the OSPREE database of plant phenology experiments for temperate tree species. Following our cleaning of the data and selection of uncorrelated traits, our final dataset included 37 species from 24 unique datasources for the trait data and 34 unique studies for the budburst data. Our data is focused on temperate ecosystems globally with most data originating from North America and Europe. }
     \label{fig:map}
 \end{figure}
-%DLeditsMarch31: need to look into the unexpected budburst and LNC values
 \newpage
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/PCA_geometricmean.pdf}
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/pcaGeo.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for the six functional traits with complete trait data. Points represent the 26 species for which complete trait data was available.}
     \label{fig:pca}
 \end{figure}
@@ -95,8 +94,8 @@
 \newpage
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.png} 
-    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits---a. height, b. SLA, c. seed mass, and d. LNC--- were modeled individually, with the calculated trait value being used to jointly model species responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 66\% interval and the thinner black line the 97\% interval. Overall species level model posterior distributions were well aligned with the raw data, shown in red, and the species level means from the raw data, denoted as a purple stars.}
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.pdf} 
+    \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits---(a) height, (b) SLA, (c) seed mass, and (d) LNC--- were modeled individually, with the calculated trait value being used to jointly model species' responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 50\% uncertainty interval and the thinner black line the 95\% uncertainty interval. Overall species-level model posterior distributions were well-aligned with the raw data, shown in red, and the species-level means from the raw data, denoted as a purple stars.}
     \label{fig:TraitDistributions}
 \end{figure}
 \newpage
@@ -104,7 +103,7 @@
 \begin{figure}[h!]
     \centering
  \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
-     \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (\textbf{a-c}), SLA (\textbf{d-f}), seed mass (\textbf{g-i}), and LNC (\textbf{j-l}) models were used to estimate the day of budburst for the two species. \textbf{a,d,} The effect of height on budburst timing was smallest in response to forcing, \textbf{b} while the greatest effect of height on budburst was in response to chilling, \textbf{c,} followed by photoperiod. \textbf{e,} The greatest effect of SLA on budburst was only in relation to photoperiod. \textbf{g,h,i,} Seed mass had a negligible effect on our estimates budburst.  \textbf{j,k,l}, But LNC had a considerable effect on budburst timing in relation to each cue. The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
+     \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (a-c), SLA (d-f), seed mass (g-i), and LNC (j-l) models were used to estimate the day of budburst for the two species. The effect of height on budburst timing was smallest in response to forcing (a), while the greatest effect of height on budburst was in response to chilling (b), followed by photoperiod (c). The greatest effect of SLA on budburst was only in relation to photoperiod (f). Seed mass had a negligible effect on our estimates budburst (g-i). But LNC had a considerable effect on budburst timing in relation to each cue (j-l). The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
     \label{fig:slopes}
 \end{figure}
 
@@ -113,73 +112,73 @@
 \newpage
 \begin{table}[h!]
 \centering
-\caption{Bibliographic information for trait data sources from both BIEN and Try trait databases. Datasets without references or incomplete references are denoted below as `unreferenced'.} 
+\caption{Bibliographic information for trait data sources from both BIEN and TRY trait databases. Datasets without references or incomplete references are denoted below as `unreferenced'.} 
 \label{tableRefs}
 \begin{tabular}{llllrr}
   \hline
 Database & Reference & Trait name & Unit & No. observations & No. Species \\ 
   \hline
-bien & \cite{McHugh2015} & Height & m &  26 &   8 \\ 
-  bien & \cite{Marx2016} & Height & m &   2 &   2 \\ 
-  bien & \cite{Price2014} & Height & m &  27 &  19 \\ 
-  bien & Unreferenced & Height & m &  18 &  16 \\ 
-  bien & \cite{Kleyer2008} & Height & m &  90 &  19 \\ 
-  bien & Unreferenced & Height & m &  10 &  10 \\ 
-  bien & Moles, Angela; unreferenced & Height & m &  21 &  14 \\ 
-  bien & Reams, Greg; unreferenced & Height & m & 47036 &  19 \\ 
-  bien & Grime, Hodgson, \& Hunt; unreferenced & Height & m &   5 &   5 \\ 
-  bien & Unreferenced & Height & m &   8 &   5 \\ 
-  bien & \cite{Perez-de-lis2017} & Height & m &  18 &   1 \\ 
-  bien & \cite{Robinson2015} & Height & m & 120 &   1 \\ 
-  bien & \cite{Anderson-teixeira2015} & Height & m &  20 &   1 \\ 
-  try & \cite{BondLamberty2002} & Height & m &   2 &   1 \\ 
-  try & Unpublished & Height & m & 275 &   3 \\ 
-  try & \cite{Wright2004} & Height & m &  28 &  19 \\ 
-  try & \cite{Prentice2011} & Height & m &   2 &   2 \\ 
-  try & \cite{xylemdatabase} & Height & m &  21 &  21 \\ 
-  try & Unpublished & Height & m &  35 &   2 \\ 
-  try & \cite{Moles2004} & Height & m &   5 &   5 \\ 
-  try & \cite{CavenderBares2006} & Height & m &   1 &   1 \\ 
-  try & \cite{Diaz2004} & Height & m &  11 &  10 \\ 
-  try & \cite{Craine2009} & LNC & mg/g & 287 &  12 \\ 
-  try & \cite{Wilson2000} & LNC & mg/g &  44 &   2 \\ 
-  try & \cite{Wenxuan2011} & LNC & mg/g &   7 &   4 \\ 
-  try & \cite{Yahan2013} & LNC & mg/g &   7 &   3 \\ 
-  try & \cite{Wright2004} & LNC & mg/g &  65 &  32 \\ 
-  try & \cite{Prentice2011} & LNC & mg/g &   3 &   2 \\ 
-  try & \cite{Vergutz2012} & LNC & mg/g & 120 &  20 \\ 
-  try & \cite{Atkin2015} & LNC & mg/g &  24 &   8 \\ 
-  try & \cite{Maire2015} & LNC & mg/g &  72 &  22 \\ 
-  try & \cite{Cornelissen2003} & LNC & mg/g &   2 &   1 \\ 
-  try & Unpublished & LNC & mg/g & 3216 &  37 \\ 
-  try & \cite{Wang2017} & LNC & mg/g &   6 &   2 \\ 
-  bien & \cite{Marx2016} & Seed mass & mg &   3 &   3 \\ 
-  bien & Unreferenced & Seed mass & mg &   4 &   2 \\ 
-  bien & \cite{kewSeed} & Seed mass & mg & 250 &  37 \\ 
-  bien & \cite{Ameztegui2017} & Seed mass & mg &  12 &  12 \\ 
-  bien & \cite{Paine2015} & Seed mass & mg &  12 &   7 \\ 
-  try & \cite{Wilson2000} & SLA & mm2 mg-1 &  44 &   2 \\ 
-  try & Unpublished & SLA & mm2 mg-1 & 204 &   3 \\ 
-  try & \cite{Wright2004} & SLA & mm2 mg-1 &  93 &  33 \\ 
-  try & \cite{Prentice2011} & SLA & mm2 mg-1 &   2 &   2 \\ 
-  try & \cite{Kleyer2008} & SLA & mm2 mg-1 & 102 &  18 \\ 
-  try & Unpublished & SLA & mm2 mg-1 &  83 &   2 \\ 
-  try & \cite{Atkin2015} & SLA & mm2 mg-1 &  40 &  11 \\ 
-  try & \cite{Maire2015} & SLA & mm2 mg-1 &  86 &  23 \\ 
-  try & \cite{Cornelissen2003} & SLA & mm2 mg-1 & 615 &  14 \\ 
-  try & Unpublished & SLA & mm2 mg-1 & 6307 &  37 \\ 
-  try & \cite{Wang2017} & SLA & mm2 mg-1 &   6 &   2 \\ 
-  try & \cite{Shipley2002} & SLA & mm2 mg-1 &  20 &   2 \\ 
-  try & \cite{CavenderBares2006} & SLA & mm2 mg-1 &  42 &   2 \\ 
-  try & Unpublished & SLA & mm2 mg-1 &   1 &   1 \\ 
-  try & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\ 
+BIEN & \cite{McHugh2015} & Height & m &  26 &   8 \\ 
+  BIEN & \cite{Marx2016} & Height & m &   2 &   2 \\ 
+  BIEN & \cite{Price2014} & Height & m &  27 &  19 \\ 
+  BIEN & Unreferenced & Height & m &  18 &  16 \\ 
+  BIEN & \cite{Kleyer2008} & Height & m &  90 &  19 \\ 
+  BIEN & Unreferenced & Height & m &  10 &  10 \\ 
+  BIEN & Moles, Angela; unreferenced & Height & m &  21 &  14 \\ 
+  BIEN & Reams, Greg; unreferenced & Height & m & 47036 &  19 \\ 
+  BIEN & Grime, Hodgson, \& Hunt; unreferenced & Height & m &   5 &   5 \\ 
+  BIEN & Unreferenced & Height & m &   8 &   5 \\ 
+  BIEN & \cite{Perez-de-lis2017} & Height & m &  18 &   1 \\ 
+  BIEN & \cite{Robinson2015} & Height & m & 120 &   1 \\ 
+  BIEN & \cite{Anderson-teixeira2015} & Height & m &  20 &   1 \\ 
+  TRY & \cite{BondLamberty2002} & Height & m &   2 &   1 \\ 
+  TRY & Unpublished & Height & m & 275 &   3 \\ 
+  TRY & \cite{Wright2004} & Height & m &  28 &  19 \\ 
+  TRY & \cite{Prentice2011} & Height & m &   2 &   2 \\ 
+  TRY & \cite{xylemdatabase} & Height & m &  21 &  21 \\ 
+  TRY & Unpublished & Height & m &  35 &   2 \\ 
+  TRY & \cite{Moles2004} & Height & m &   5 &   5 \\ 
+  TRY & \cite{CavenderBares2006} & Height & m &   1 &   1 \\ 
+  TRY & \cite{Diaz2004} & Height & m &  11 &  10 \\ 
+  TRY & \cite{Craine2009} & LNC & mg/g & 287 &  12 \\ 
+  TRY & \cite{Wilson2000} & LNC & mg/g &  44 &   2 \\ 
+  TRY & \cite{Wenxuan2011} & LNC & mg/g &   7 &   4 \\ 
+  TRY & \cite{Yahan2013} & LNC & mg/g &   7 &   3 \\ 
+  TRY & \cite{Wright2004} & LNC & mg/g &  65 &  32 \\ 
+  TRY & \cite{Prentice2011} & LNC & mg/g &   3 &   2 \\ 
+  TRY & \cite{Vergutz2012} & LNC & mg/g & 120 &  20 \\ 
+  TRY & \cite{Atkin2015} & LNC & mg/g &  24 &   8 \\ 
+  TRY & \cite{Maire2015} & LNC & mg/g &  72 &  22 \\ 
+  TRY & \cite{Cornelissen2003} & LNC & mg/g &   2 &   1 \\ 
+  TRY & Unpublished & LNC & mg/g & 3216 &  37 \\ 
+  TRY & \cite{Wang2017} & LNC & mg/g &   6 &   2 \\ 
+  BIEN & \cite{Marx2016} & Seed mass & mg &   3 &   3 \\ 
+  BIEN & Unreferenced & Seed mass & mg &   4 &   2 \\ 
+  BIEN & \cite{kewSeed} & Seed mass & mg & 250 &  37 \\ 
+  BIEN & \cite{Ameztegui2017} & Seed mass & mg &  12 &  12 \\ 
+  BIEN & \cite{Paine2015} & Seed mass & mg &  12 &   7 \\ 
+  TRY & \cite{Wilson2000} & SLA & mm2 mg-1 &  44 &   2 \\ 
+  TRY & Unpublished & SLA & mm2 mg-1 & 204 &   3 \\ 
+  TRY & \cite{Wright2004} & SLA & mm2 mg-1 &  93 &  33 \\ 
+  TRY & \cite{Prentice2011} & SLA & mm2 mg-1 &   2 &   2 \\ 
+  TRY & \cite{Kleyer2008} & SLA & mm2 mg-1 & 102 &  18 \\ 
+  TRY & Unpublished & SLA & mm2 mg-1 &  83 &   2 \\ 
+  TRY & \cite{Atkin2015} & SLA & mm2 mg-1 &  40 &  11 \\ 
+  TRY & \cite{Maire2015} & SLA & mm2 mg-1 &  86 &  23 \\ 
+  TRY & \cite{Cornelissen2003} & SLA & mm2 mg-1 & 615 &  14 \\ 
+  TRY & Unpublished & SLA & mm2 mg-1 & 6307 &  37 \\ 
+  TRY & \cite{Wang2017} & SLA & mm2 mg-1 &   6 &   2 \\ 
+  TRY & \cite{Shipley2002} & SLA & mm2 mg-1 &  20 &   2 \\ 
+  TRY & \cite{CavenderBares2006} & SLA & mm2 mg-1 &  42 &   2 \\ 
+  TRY & Unpublished & SLA & mm2 mg-1 &   1 &   1 \\ 
+  TRY & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\ 
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableHt}
 \begin{tabular}{rrrrrr}
   \hline
@@ -207,7 +206,7 @@ $\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
   \hline
@@ -235,7 +234,7 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableSM}
 \begin{tabular}{rrrrrr}
   \hline
@@ -263,7 +262,7 @@ $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimat for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with paremeters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableLNC}
 \begin{tabular}{rrrrrr}
   \hline

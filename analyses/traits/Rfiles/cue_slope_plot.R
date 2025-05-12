@@ -21,7 +21,7 @@ put.fig.letter <- function(label, location="topleft", x=NULL, y=NULL,
   }
   if(is.null(x) | is.null(y)) {
     coords <- switch(location,
-                     topleft = c(0.15,0.98),
+                     topleft = c(0.15,0.97),
                      topcenter = c(0.5525,0.98),
                      topright = c(0.985, 0.98),
                      bottomleft = c(0.1, 0.02), 
@@ -200,8 +200,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     length = 0, lwd = 4, col = c_yellow
     )
   
-  my.label <- paste("a", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(a", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font=1)
 
   #------------------------------------------------------------------------------#
   betaChillSp <- data.frame(ModelFit$betaChillSp)
@@ -284,8 +284,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("b", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(b", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   #dev.off()
   #------------------------------------------------------------------------------#
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
@@ -369,8 +369,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("c", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(c", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
 ###############################################
   # SLA
   Model <- readRDS(paste("output/", files[4], sep = ""))
@@ -472,8 +472,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("d", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(d", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   
   ######################################################
   betaChillSp <- data.frame(ModelFit$betaChillSp)
@@ -554,8 +554,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"],
     length = 0, lwd =4, col = c_yellow)
   
-  my.label <- paste("e", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(e", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   #######################################################################
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -634,8 +634,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("f", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(f", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   #dev.off()
   ####################
   # Seed mass
@@ -740,8 +740,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("g", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(g", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   betaChillSp <- data.frame(ModelFit$betaChillSp)
   betaChillSpMean <- colMeans(betaChillSp)
@@ -821,8 +821,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("h", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(h", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -902,8 +902,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("i", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(i", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   ####################
   # LNC
@@ -1006,8 +1006,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bfs_df[32,"betaForceSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("j", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(j", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   betaChillSp <- data.frame(ModelFit$betaChillSp)
   betaChillSpMean <- colMeans(betaChillSp)
@@ -1087,8 +1087,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bcs_df[32,"betaChillSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("k", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(k", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   betaPhotoSp <- data.frame(ModelFit$betaPhotoSp)
   betaPhotoSpMean <- colMeans(betaPhotoSp)
@@ -1168,8 +1168,8 @@ pdf(paste("figures/cue", "trait_wtrend_maintext_Qrubra", ".pdf", sep = ""), heig
     bps_df[32,"betaPhotoSpMean"],
     length = 0, lwd = 4, col = c_yellow)
   
-  my.label <- paste("l", ".", sep="")
-  put.fig.letter(label=my.label, location= "topleft", font=2)
+  my.label <- paste("(l", ")", sep="")
+  put.fig.letter(label=my.label, location= "topleft", font =1)
   ###############################################################
   dev.off()
   

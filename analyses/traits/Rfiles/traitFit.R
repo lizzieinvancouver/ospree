@@ -12,7 +12,6 @@ library(bayesplot)
 library(tidybayes)
 library(gridExtra) # for arranging plots 
 library(patchwork) # another way of arranging plots 
-library(rethinking)
 
 #set the traits we are assessing
 #this code will only work if you have the model outputs saved locally 
@@ -108,7 +107,7 @@ for(traiti in 1:length(traitModelNames)){
 	#Make a plot of intercept vs full pericted value
 	#---------------------------------------------------
 
-	plot(yPhenoi ~ alphaPhenoSpMean)
+	# plot(yPhenoi ~ alphaPhenoSpMean)
 
 
 	#Explore the relationship between slope and intercept 
@@ -169,7 +168,7 @@ for(traiti in 1:length(traitModelNames)){
 	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue_log), alpha = 0.5)
 	  
 		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue_log, colour = "black"))+
-			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean), .width = c(.90, .50))+
 			geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 			theme_classic() +  
 		  scale_y_discrete(limits=rev) +
@@ -190,7 +189,7 @@ for(traiti in 1:length(traitModelNames)){
 	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
 	  
 		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
-			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean), .width = c(.90, .50))+
 				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 				theme_classic() +  
 		    scale_y_discrete(limits=rev) +
@@ -211,7 +210,7 @@ for(traiti in 1:length(traitModelNames)){
 	    geom_point(data = slaData, aes(y = speciesname, x = traitvalue), alpha = 0.5)
 	  
 		traitFit <- ggplot(data = slaData, aes(y = speciesname, x = traitvalue, colour = "black"))+
-			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean))+
+			stat_eye(data = longMeans, aes(y = speciesname, x = traitMean), .width = c(.90, .50))+
 				geom_point( alpha = 0.5, size = 1.2, aes(colour = "red"))+
 				theme_classic() +  
 		    scale_y_discrete(limits=rev) +
@@ -247,20 +246,20 @@ for(traiti in 1:length(traitModelNames)){
 		#Mean trait value
 	  	traitsDF$GrandMean[traiti] <- mean(slaModelFit$mu_grand)
 		#Uncertainty around mu grand
-		traitsDF$GrandMean_upper[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[2]
-		traitsDF$GrandMean_lower[traiti] <- HPDI( as.vector(slaModelFit$mu_grand) , prob=0.90 )[1]
+		traitsDF$GrandMean_upper[traiti] <- quantile(slaModelFit$mu_grand, prob=0.95 )
+		traitsDF$GrandMean_lower[traiti] <- quantile(slaModelFit$mu_grand , prob=0.05 )
 
 		#speciesSigma
 		traitsDF$SpeciesSigma[traiti] <- mean(slaModelFit$sigma_sp)
 		#Uncertainty around speciesSigma
-		traitsDF$SpeciesSigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[2]
-		traitsDF$SpeciesSigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_sp) , prob=0.90 )[1]
+		traitsDF$SpeciesSigma_upper[traiti] <- quantile(slaModelFit$sigma_sp, prob=0.95 )
+		traitsDF$SpeciesSigma_lower[traiti] <- quantile(slaModelFit$sigma_sp, prob=0.05 )
 
 		#studySigma
 		traitsDF$StudySigma[traiti] <- mean(slaModelFit$sigma_study)
 		#Uncertainty around studySigma
-		traitsDF$StudySigma_upper[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[2]
-		traitsDF$StudySigma_lower[traiti] <- HPDI( as.vector(slaModelFit$sigma_study) , prob=0.90 )[1]
+		traitsDF$StudySigma_upper[traiti] <- quantile(slaModelFit$sigma_study, prob=0.95 )
+		traitsDF$StudySigma_lower[traiti] <- quantile(slaModelFit$sigma_study, prob=0.05 )
 
 
 
@@ -269,8 +268,8 @@ for(traiti in 1:length(traitModelNames)){
 		#max trait value species id
         traitsDF$MaxValueSp[traiti] <- as.character(speciesMeans$speciesname[speciesMeans$traitMean == max(speciesMeans$traitMean)])
 		#Uncertainty around max species
-		traitsDF$MaxValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]]) , prob=0.90 )[2]
-		traitsDF$MaxValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]]) , prob=0.90 )[1]
+		traitsDF$MaxValue_upper[traiti] <- quantile(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]], prob=0.95 )
+		traitsDF$MaxValue_lower[traiti] <- quantile(longMeans$traitMean[longMeans$speciesname == traitsDF$MaxValueSp[traiti]], prob=0.05 )
 
 
 
@@ -279,25 +278,19 @@ for(traiti in 1:length(traitModelNames)){
 		#min trait value species id
         traitsDF$MinValueSp[traiti] <- as.character(speciesMeans$speciesname[speciesMeans$traitMean == min(speciesMeans$traitMean)])
         #Uncertainty around max species
-		traitsDF$MinValue_upper[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[2]
-		traitsDF$MinValue_lower[traiti] <- HPDI( as.vector(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]]) , prob=0.90 )[1]
-
-
-
-
-
-
+		traitsDF$MinValue_upper[traiti] <- quantile(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]], prob=0.95 )
+		traitsDF$MinValue_lower[traiti] <- quantile(longMeans$traitMean[longMeans$speciesname == traitsDF$MinValueSp[traiti]], prob=0.05 )
 	
 }
 
 
 
 	#this plotting code needs the patchwork library 
-	  png("figures/FourTraitFit_37spp_wp.png", width = 14, height = 15, units = "in", res = 72)
+	  pdf("figures/FourTraitFit_37spp_wp.pdf", width = 12, height = 14)
 	    combined <- traitPlotList[[1]] + traitPlotList[[4]] + traitPlotList[[3]]+ traitPlotList[[2]]  & theme(legend.position = "bottom") # combien plots and put legend at teh bottom
 	    combined[[2]] <- combined[[2]] + theme(axis.title.y = element_blank() )#Remove y labels from plots 2 and 4
 	    combined[[4]] <- combined[[4]] + theme(axis.title.y = element_blank() )
-		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a")#add letter annotation to plots 
+		combined + plot_layout(guides = "collect") + plot_annotation(tag_levels = "a", tag_prefix = "(", tag_suffix = ")")#add letter annotation to plots 
 	  dev.off()
 	  
 

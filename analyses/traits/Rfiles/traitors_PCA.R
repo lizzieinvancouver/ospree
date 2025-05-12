@@ -102,12 +102,12 @@ colnames(mtrt.lab) <- c("SLA","LNC","LDMC", "LCC")
 mtrt.cc <- mtrt.lab[complete.cases(mtrt.lab), ]
 
 # making a pca for the 40 studies that have complete data for these four traits
-# lab.Pca <- prcomp(mtrt.cc, center = TRUE, scale. = TRUE)
-# summary(lab.Pca)
+lab.Pca <- prcomp(mtrt.cc, center = TRUE, scale. = TRUE)
+summary(lab.Pca)
 # 
-# ggbiplot(lab.Pca, labels = rownames(mtrt.cc))
+ggbiplot(lab.Pca, labels = rownames(mtrt.cc))
 # 
-# ggbiplot(lab.Pca)
+ggbiplot(lab.Pca)
 
 ##################################################################
 # Ideally we would use data from unique individuals to make the PCA, which is denoted by observationid
@@ -171,20 +171,20 @@ for(i in 1:length(species)){
         mat[i, j] <- subset(temp, traitname == traits[j])$geomean[1]
     }
 }
-colnames(mat) <- c("Height", "SLA",  "N", "SSD", "LDMC", "seed", "C")
+colnames(mat) <- c("Height", "SLA",  "LNC", "SSD", "LDMC", "seed", "C")
 rownames(mat) <- species
 
 ## With the above 8 traits, we would only have 13 species represented, without leaf lifespan and C, we have 26 species
-mat2 <- mat[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")]
+mat2 <- mat[, c("Height", "SLA",  "LNC", "SSD", "LDMC", "seed")]
 mat2 <- mat2[complete.cases(mat2), ]
 
 #write.csv(mat2, "../../analyses/traits/geoPCA_mat.csv")
 ## Standardize (normalize) trait values
-mat.stan <- mat2[, c("Height", "SLA",  "N", "SSD", "LDMC", "seed")] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
+mat.stan <- mat2[, c("Height", "SLA",  "LNC", "SSD", "LDMC", "seed")] <- apply(mat2[, 1:6], MARGIN = 2, FUN = function(X){ decostand(X, method = "standardize")})
 
 ## PCA plots 
 mat2
-# trtGeoPca <- stats::prcomp(mat.stan, center = TRUE, scale. = TRUE)
+trtGeoPca <- stats::prcomp(mat.stan, center = TRUE, scale. = TRUE)
 # 
 # summary(trtGeoPca)
 # # 
@@ -193,10 +193,12 @@ mat2
 # pca1 <- format(round(explVar[1] *100, 1), nsmall =1)
 # pca2 <- round(explVar[2] *100, 1)
 
-#ggbiplot(trtGeoPca, labels = rownames(mat2))
-#ggbiplot(trtGeoPca) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
+ggbiplot(trtGeoPca, labels = rownames(mat2))
+ggbiplot(trtGeoPca) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))
 
-# pcageom <- ggbiplot(trtGeoPca) + xlim(-3,3)
+pdf("figures/pcaGeo.pdf", height = 5, width = 5)
+ pcageom <- ggbiplot(trtGeoPca) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black")) + xlim(-3,1.5) + xlab("Standardized PC1 (32.2% explained variation)")+ ylab("Standardized PC2 (23.4% explained variation)"); pcageom
+ dev.off()
 # 
 # 
 # # Finally, making a plot comparable to the one with data of multiple traits per individual
