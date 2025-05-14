@@ -17,8 +17,6 @@ library(sf)
 # library(raster)
 library(viridis)
 
-
-
 if(length(grep("deirdreloughnan", getwd())>0)) {  setwd("~/Documents/github/ospree/analyses/traits")
 } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
 } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
@@ -39,7 +37,7 @@ fourTrt <- traitData[traitData$traitname %in% traitName,]
 
 traitLL <- fourTrt[,c("traitname", "latitude", "longitude")]
 traitLL <- traitLL[complete.cases(traitLL),]
- 
+
 phenoLL <- ospree[,c("provenance.lat", "provenance.long")]
 phenoLL <- phenoLL[complete.cases(phenoLL),]
 phenoLL$traitname <- "Budburst"
@@ -48,6 +46,35 @@ colnames(phenoLL)[colnames(phenoLL) == "provenance.long"] <- "longitude"
 
 trtLL <- unique(rbind(traitLL, phenoLL))
 # 
+
+ne_download(scale = 50, type = "MSR_50M", category = "raster", destdir = "~/input/")
+# load after having downloaded
+rst <- ne_load(scale = 50, type = "MSR_50M", category = "raster", destdir = "~/input/")
+# plot
+library(terra)
+ocean <- st_read("input/ne_50m_ocean/ne_50m_ocean.shp")
+
+col.ht <- c(rgb(100 / 255, 143 / 255, 255 / 255, alpha = 0.5), rgb(100 / 255, 143 / 255, 255 / 255))
+col.lnc <- c(rgb(193 / 255, 90 / 255, 99 / 255, alpha = 0.4), rgb(193 / 255, 90 / 255, 99 / 255))
+col.sla <- c(rgb(093 / 255, 168 / 255, 153 / 255, alpha = 0.4), rgb(093 / 255, 168 / 255, 153 / 255))
+col.pheno <- c(rgb(252 / 255, 166/ 255, 54 / 255, alpha = 0.4), rgb(252 / 255, 166/ 255, 54 / 255))
+
+pdf("figures/mapOcean.pdf" , width = 8, height = 4)
+plot(rst,col=grey(0:100/100), legend=FALSE)
+coast <- ne_coastline() 
+lines(coast, col = "gray1") 
+plot(ocean, add=T, col="white", border=adjustcolor("lightgrey",0.01))
+
+points(subset(traitData, traitname == "Plant_height_vegetative")$longitude, subset(traitData, traitname == "Plant_height_vegetative")$latitude, pch = 21,col = "gray3", bg = col.ht, cex = 0.85)
+points(subset(traitData, traitname == "Specific_leaf_area")$longitude, subset(traitData, traitname == "Specific_leaf_area")$latitude, pch = 21,col = "gray3", bg = col.sla, cex = 0.85)
+points(subset(traitData, traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass")$longitude, subset(traitData, traitname == "Leaf_nitrogen_.N._content_per_leaf_dry_mass")$latitude, pch = 21,col = "gray3", bg = col.lnc, cex = 0.85)
+points(phenoLL$longitude, phenoLL$latitude, pch = 21,col = "gray3", bg = col.pheno, cex = 0.85)
+
+legend(-180, 0, c( "Height", "LNC", "SLA", "Budburst"),
+  col = c(col.ht[2],col.lnc[2], col.sla[2] , col.pheno[2]), pch = 19, cex = 1.25, bty = "n" )
+dev.off()
+
+
 # coord <- st_as_sf(traitLL, coords = c("longitude","latitude"), agr = "traitname", crs = 4326)
 # coordPheno <- st_as_sf(phenoLL, coords = c("provenance.long", "provenance.lat"), crs = 4326)
 
