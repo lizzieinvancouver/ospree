@@ -110,7 +110,6 @@ We then scraped the data from all articles of woody species reporting experiment
 
 \emph{L121: Instead of “used” you can write “considered”.}\\
 
-%emwApr20 -- I see your point but I would switch to another word to show you're trying -- obtained? 
 We appreciate the importance of word choice and agree with the reviewer that a different word would be stronger. We have changed the word "used" to "obtained" to improve the clarity of our methods (\lr{R1_121}).\\
 
 \emph{L130: Are the 96 species from TRY additional ones to the species extracted from BIEN meaning that you considered 190 species in total?}\\

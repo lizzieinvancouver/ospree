@@ -182,7 +182,7 @@ BIEN & \cite{McHugh2015} & Height & m &  26 &   8 \\
 \label{tableHt}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & X5. & X25. & X75. & X95. \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\ 
   \hline
 $\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\ 
   $\mu_{k,g}$ & 32.1 & 27.8 & 30.3 & 33.9 & 36.5 \\ 
@@ -210,7 +210,7 @@ $\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & X5. & X25. & X75. & X95. \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\ 
   \hline
 $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\ 
   $\mu_{k,g}$ & 31.3 & 27.2 & 29.6 & 33.0 & 35.6 \\ 
@@ -238,7 +238,7 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
 \label{tableSM}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & X5. & X25. & X75. & X95. \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\ 
   \hline
 $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\ 
   $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\ 
@@ -266,7 +266,7 @@ $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
 \label{tableLNC}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & X5. & X25. & X75. & X95. \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\ 
   \hline
 $\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\ 
   $\mu_{k,g}$ & 31.1 & 27.1 & 29.4 & 32.8 & 35.3 \\ 
@@ -408,7 +408,7 @@ model{
 \end{verbatim}
 
 \clearpage
-\bibliographystyle{refs/bibstyles/amnat.bst}% 
+\bibliographystyle{refs/bibstyles/besjournals.bst}% 
 \bibliography{refs/traitors_mar23.bib}
 
 
