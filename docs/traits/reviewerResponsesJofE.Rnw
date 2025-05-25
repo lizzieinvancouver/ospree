@@ -88,8 +88,8 @@ In revising the manuscript, we have deleted this sentence.\\
 
 We agree with the reviewer that this sentence was too strict. To address the reviewer comments we have revised this sentence from \lr{R1_68a} to \lr{R1_68b} to:
 
-\begin{quote} %emwApr20 -- see my edits in main text
-To the best of our knowledge, studies have generally only examined the relationship between traits and phenology for a single or limited number of sites (as reviewed by \citet[][]{Wolkovich2014c} and \citet[][]{Wolkovich2021}, but see \citet[][]{Sporbert2022} and \citet[][]{Rauschkolb2024}) where the problem of proximate drivers causing phenological variation can be more easily ignored.
+\begin{quote} %emwMay25 -- be sure to go through and paste in all the updated text to make sure you don't misquote yourself here (some reviewers will think you are not being honest about your edits if they do not match).
+Most studies have generally only examined the relationship between traits and phenology for a single or limited number of sites (as reviewed by \citet[][]{Wolkovich2014c} and \citet[][]{Wolkovich2021}, but see \citet[][]{Sporbert2022} and \citet[][]{Rauschkolb2024}) where the problem of proximate drivers causing phenological variation can be more easily ignored.
 \end{quote}
 
 \emph{L75: What do you mean with “which do not generally vary strongly across space and time”? Is it important to mention this in the context of your study?}\\
@@ -126,7 +126,7 @@ Yes, this value is the number of datapoints duplicated between the TRY and BIEN 
 
 \emph{L142: Please reformulate. For example “[…] and to adjust which traits should be included for further analyses.”}\\
 
-Good point, we can see now how it was fully clear what traits we used for our PCA and how we decided which of the correlated traits to remove. We have revised this section of the methods to provide greater detail and clarify how we selected the four focal traits (\lr{R1_142a} to \lr{R1_142b}).\\
+Good point, we can see now how it was not fully clear what traits we used for our PCA and how we decided which of the correlated traits to remove. We have revised this section of the methods to provide greater detail and clarify how we selected the four focal traits (\lr{R1_142a} to \lr{R1_142b}).\\
 
 \emph{L142: “the” instead of “our”.}\\
 
@@ -154,11 +154,11 @@ Done \lr{R1_160}.\\
 
 \emph{L212: How do you conclude that SLA is not related to chilling or forcing, unlike to photoperiod? For example, the mean slope for chilling is 0.34 (see Table S4). Or have I not understood this table correctly? But also, if I look at Figure 2, I would not conclude that there are no effects for the two cues.}\\
 
-To assessing whether a trait has a relationship with a cue requires the reader to consider the uncertainty interval in addition to the mean estimate. Since the 90\% uncertainty intervals for the trait-cue parameter crosses zero, we interpret to have a relatively weak effect (for example, the mean is 0.34, with an UI of -0.13 to 0.83). We have revised both the methods (starting on \lr{R1_sigTest}) and the table captions to help readers interpret our results. In addition we have revised the tables to include both the 50\% and 90\% uncertainty interval to help compare the relative strength of relationships. \\
+To assess whether a trait has a relationship with a cue requires considering the uncertainty interval in addition to the mean estimate. Since the 90\% uncertainty intervals for the trait-cue parameter crosses zero, we interpret to have a relatively weak effect (for example, the mean is 0.34, with an UI of -0.13 to 0.83). We have revised both the methods (starting on \lr{R1_sigTest}) and the table captions to help readers interpret our results. In addition we have revised the tables to include both the 50\% and 90\% uncertainty interval to help compare the relative strength of relationships. \\
 
 \emph{L222-231: These are definitely interesting analyses. But I don't understand how they are relevant to your study. If they are relevant, then these results would have to be taken up again in the discussion.}\\
 
-We agree that we did not well highlight the importance of this finding in our discussion. This analysis highlights one of the major strengths of our model, as we were able to partition both the species and study-level variation. We believe this analysis is important, as we found that some traits---particularly height in our data---are strongly impacted by study-level differences that can influence how the data should be interpreted. We have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added text to the discussion to address this point further (\lr{studySpVara} to \lr{studySpVarb}).\\
+We agree that we did not discuss enough the importance of this finding in our discussion. This analysis highlights one of the major strengths of our model, as we were able to partition both the species and study-level variation. We believe this analysis is important, as we found that some traits---particularly height in our data---are strongly impacted by study-level differences that can influence how the data should be interpreted. We have revised this section of the results (\lr{R1_studySpa} to \lr{R1_studySpb}) and added text to the discussion to address this point further (\lr{studySpVara} to \lr{studySpVarb}).\\
 
 \emph{L244-245: The examples presented are studies with herbaceous species. I think it's important not to lump together the results of different growth forms. For example, Horbach et al. showed that phenology-trait relationships for herbaceous species and for trees can differ greatly (https://doi.org/10.1016/j.flora.2023.152218).}\\
 
@@ -196,11 +196,13 @@ We are glad that the reviewer found our manuscript interesting and well written.
 
 \emph{The underlying assumptions and hypotheses presented in the introduction are not supported by suitable references and largely contradict the current literature (see comments below). Acquisitive plants relate to high SLA, nitrogen rich leaves and low resistance (e.g. against frost) but higher competitive ability. In contrast, conservative growth strategies relate to low SLA, nitrogen poor leaves with high resistance (e.g. against frost). With competition playing a minor role in spring but being more important later in the season as stated by the authors I would expect more conservative strategies to be present in spring to ensure frost resistance and expect more acquisitive strategies later in the season when the risk of frost events is low, but competition is high. The assumptions and hypotheses by the authors presented in Figure 1 and throughout the manuscript are in parts opposing to these assumptions. In addition, the authors define the terms “acquisitive” and “conservative” differently throughout the manuscript (e.g., Introduction: acquisitive = high SLA, Figure 1: acquisitive = low SLA), which leads to confusion and makes it difficult to understand what the authors mean.}\\
 
-We completely agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion, and we have worked to provide an improved overview of the literature now. Further, we especially thank the reviewer for catching a major error within our figure that lead to the contradiction with our text and confusion. We initially designed Figure 1 with leaf mass are, which is a key trait to the leaf economic spectrum and the inverse of specific leaf area and therefore has the opposite predicted response. But the figure was later changed to have specific leaf area instead in order to better match the text. We have also expanded our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and better explain the nuance of how we define acquisitive and conservative growth strategies.  \\
+We completely agree with the reviewer that this literature has many contradictory examples and requires careful and nuanced discussion, and we have worked to provide an improved overview of the literature now.  We especially thank the reviewer for catching a major error within our figure that lead to the contradiction with our text and confusion. We initially designed Figure 1 with leaf mass area (LMA, a key trait to the leaf economic spectrum and the inverse of specific leaf area, SLA) that has the opposite predicted response and introduced this error when switching from LMA to SLA.
+
+We have also expanded our discussion of the literature in both the introduction and discussion and have added additional citations to support our predictions and better explain the nuance of how we define acquisitive and conservative growth strategies.  \\
 
 \emph{The results should be presented more clearly, and the discussion should directly refer to the results instead of reiterating statements from the introduction or making claims that are not adequately supported by the presented results.}\\
 
-We have added additional detail to the results section and used different terms to make them clearer (for example from \lr{results1} to \lr{results1b} and have expanded on discussion to directly reference the results (see for example \lr{R2_discResulta} to \lr{R2_discResultb} and \lr{studySpVara} to \lr{studySpVarb}). \\
+We have added additional detail to the results section and used different terms to make them clearer (for example from \lr{results1} to \lr{results1b}) and have expanded on discussion to directly reference the results (see for example \lr{R2_discResulta} to \lr{R2_discResultb} and \lr{studySpVara} to \lr{studySpVarb}). \\
 
 \textbf{Summary}\\
 
@@ -228,7 +230,7 @@ We have revised this section to improve clarity and better communicate our prima
 
 \emph{General comment: I find the wording for “proximate” and “ultimate” level a bit complicated even though it is well explained. Maybe it's a language related issue, but I would consider using more intuitive words to describe the different factors (abiotic cues vs. plant traits).}\\
 
-We appreciate that the reviewer found this concept to be well explained and agree it is complicated; we have tried many different ways to express these concepts. After discussing this with authors in the field, and trying several alternative phrasings, we think the terms "proximate" and "ultimate" are useful and accurate to how the topic is discussed in the literature, but we have worked on the surrounding text to make them easier to understand. \\
+We appreciate that the reviewer found this concept to be well explained and agree it is complicated; we have tried many different ways to express these concepts. After discussing this with authors in the field, and trying several alternative phrasings, we think the terms "proximate" and "ultimate" are useful and accurate to how the topic is discussed in the literature, but we have worked on the surrounding text to make these terms easier to understand. \\
 
 \emph{From the introduction I get the impression that the authors aim to understand not only interspecific but also intraspecific phenological variability through plant functional traits. However, as they used only database information for the traits they cannot account for intraspecific trait variability in relation to phenological variability, or do I get anything wrong?}\\
 
@@ -260,7 +262,7 @@ Recent climate change has caused plant phenology to shift earlier with warming \
 
 \emph{The Laube et al. (2014) reference does speak of early vs. late successional species while I understand this paragraph (and this manuscript overall) aiming at understanding differences between early and late bud bursting species. It needs to be defined more clearly what this the key message of this paragraph.}\\
 
-We see the reviewer's point and have revised this paragraph to streamline our argument, revising how we present these the examples. By elaborating on our two plant examples and removing the reference to how this can also be observed more broadly in animals as well, we hope our message is now clear (\lr{R2_Laubea} to \lr{R2_Laubeb}). \\
+We see the reviewer's point and have revised this paragraph to streamline our argument, revising how we present these examples. By elaborating on our two plant examples and removing the reference to how this can also be observed more broadly in animals as well, we hope our message is now clear (\lr{R2_Laubea} to \lr{R2_Laubeb}). \\
 
 \emph{L84-85: Not clear what “strong gradients in potential selective environments” exactly means in this context.}\\
 
@@ -269,7 +271,7 @@ We have addressed this comment on \lr{R2_84} by explicitly stating that we mean 
 \emph{L86-87: There are contradictions within this statement: Acquisitive leaves are linked to high SLA and high nitrogen content but are less resistant to frost damage. Thus, I would not expect acquisitive plants to show early budburst but rather conservative plants that have a higher resistance.
 For the relationship between SLA and frost resistance see: Bucher SF, Rosbakh S. Foliar summer frost resistance measured via electrolyte leakage approach as related to plant distribution, community composition and plant traits. Funct Ecol. 2021; 35: 590–600. https://doi.org/10.1111/1365-2435.13740}\\
 
-This is a good point as there are alternative predictions possible based on the literature. As our goal was to explore how gradients in phenology fit within the suite of traits on which the leaf economic spectrum and wood economic spectrum are based, we focused our predictions following those spectra, but we should have acknowledged the potential for other predictions (the predictions we would make based on the frost tolerance literature is an excellent example of this) more in the introduction. We have thus revised this section of the text from \lr{R2_86a} to \lr{R2_86b} to better address this complexity and discuss more broadly the different factors that shape species traits as well as added additional citations for the literature on which we based our predictions.
+This is a good point as there are alternative predictions possible based on the literature. As our goal was to explore how gradients in phenology fit within the suite of traits on which the leaf economic spectrum and wood economic spectrum are based, we focused our predictions following those spectra, but we should have acknowledged the potential for other predictions (the predictions we would make based on the frost tolerance literature is an excellent example of this) more in the introduction. We have thus revised this section of the text from \lr{R2_86a} to \lr{R2_86b} to better address this complexity and discuss more broadly the different factors that shape species traits as well as added additional citations for the literature on which we based our predictions.\\
 % We agree that making predictions of how traits should relate to phenology based on the literature do produce contractions depending on the suite of species or environmental cues considered. The predictions we would make based on the frost tolerance literature is an excellent example of this and is particularly true for SLA, which can be related to several other ecological processes (including species growth rates, photosynthesis rate, decomposition rates, and herbivore resistance \citep{delaRiva2016}). This complexity can lead to different predictions depending on the processes considered and literature cited.. \\
 
 \emph{L87-88: But early species face the highest risk of frost damage so should rather invest in resistance (would be related to low SLA and a more conservative strategy). See also comment regarding L76-80.}\\
@@ -342,7 +344,7 @@ We agree that the importance of this result was not clear and have added the bel
 
 \emph{The presented results are not sufficiently discussed. Rather it is my impression that new results are introduced that were not presented within the results section. In general, many arguments from the introduction are repeated without support by literature and also with no clear relationship to the presented results.}\\
 
-We apologize for the lack of clarity here. To address it, we have made substantial revisions to the discussion to more explicitly link it to our results, such as from \lr{R2_discResulta} to \lr{R2_discResultb}, \lr{studySpVara} and \lr{studySpVarb}, and \lr{R2_discResults2a}to \lr{R2_discResults2b}, as well as additional citations, such as on \lr{R2_newcite} and \lr{R2_newcite2}.\\
+We apologize for the lack of clarity here. To address it, we have made substantial revisions to the discussion to more explicitly link it to our results, such as from \lr{R2_discResulta} to \lr{R2_discResultb}, \lr{studySpVara} and \lr{studySpVarb}, and \lr{R2_discResults2a} to \lr{R2_discResults2b}, as well as additional citations, such as on \lr{R2_newcite} and \lr{R2_newcite2}.\\
 
 \emph{L235-236: From the presented results it is not clear to me how trait effects were associated with earlier or later phenology and how the results relate to the referenced growth strategy papers. Was there any test that included the phenological niche (timing of budburst or similar)?}\\
 
@@ -382,7 +384,7 @@ As discussed above, we have revised the language used on \lr{R2_240} to better r
 We have revised this section of the manuscript from \lr{R2_282a} to \lr{R2_282b} to read as follows:
 
 \begin{quote}
-Our results suggest that these same species are likely to have acquisitive traits, such as short heights and high LNC that allow them to grow quickly and benefit from the greater availability of nutrients in the early spring. Understanding these trait-phenology relationships may provide insight into how climate change may alter species coexistence \citep{Rudolf2019}. A greater understanding of trait-phenology relationships may also improve our ability to manage species invasions, as invasive species to have earlier phenologies \citep{Polgar2014,Alexander2019,Zettlemoyer2019} and fast growth \citep{Fridley2022}.
+Our results suggest that these same species are likely to have acquisitive traits, such as short heights and high LNC that allow them to grow quickly and benefit from the greater availability of nutrients in the early spring. Understanding these trait-phenology relationships may provide insight into how climate change may alter species coexistence \citep{Rudolf2019}. A greater understanding of trait-phenology relationships may also improve our ability to manage species invasions, as invasive species to have earlier phenologies \citep{Polgar2014,Alexander2019,Zettlemoyer2019} and fast growth \citep{Fridley2022}. %emwMay25 -- update from main text
 \end{quote}
 \pagebreak
 \bibliographystyle{refs/bibstyles/besjournals}% 

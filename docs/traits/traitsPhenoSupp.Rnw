@@ -87,7 +87,7 @@
 \begin{figure}[h!]
     \centering
  \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} 
-    \caption{Our initial aim was to include all species from \citep[analyzed by][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
+    \caption{Our initial aim was to include all species from \citet[][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
     \label{fig:database}
 \end{figure}
 
