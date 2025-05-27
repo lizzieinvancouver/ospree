@@ -85,7 +85,7 @@ Running title: Budburst responses associated with traits
 
 
 \section*{Acknowledgements}
-We thank the researchers who measured the traits and conducted the experiments producing the data used in this manuscript. 
+We thank two anonymous reviewers and all the researchers who measured the traits and conducted the experiments producing the data used in this manuscript.
 
 \section*{Author Contributions Statement}
 DL, FAMJ, GL, MG, DS, and EMW planned and designed the study. All authors conducted the literature review and cleaned the database. DL, FAMJ, GL, and EMW performed the data analysis and contributed code. DL, FAMJ, and GL created the figures. DL and EMW wrote the initial draft and all authors reviewed and revised the manuscript. 
@@ -97,8 +97,7 @@ The authors declare no competing interests.
 The phenological data used for this manuscript is a subset of the existing OSPREE dataset (doi:10.5063/F1CZ35KB) and the trait data a subset of the the TRY database (doi:10.1111/gcb.14904) and the BIEN database (doi: 10.1111/2041-210X.1286).
 
 \section*{Statement of inclusion}
-%Our study was a global review and was based on a meta-analysis of secondary data rather than primary data. As such, there was no local data collection. However, the geographical distribution of the authorship team broadly represents the major regions of interest in the meta-analysis, supporting the inclusion of  data from peer-reviewed studies published in local languages and ensuring the appropriate interpretation of data and results from each region
-%Our study brings together authors from a number of different countries
-% All authors were engaged early on with the research and study design to ensure that the diverse sets of perspectives they represent was considered from the onset. 
+Our study was a collaborative effort from authors from different countries and backgrounds. As such, their unique perspectives contributed to the construction and update of the OSPREE database, as well as the development of the research questions and methods. Our study does not include primary data as it is a meta-analysis that uses data from three open-sourced databases.
+
 
 \end{document}
