@@ -33,7 +33,7 @@ library(dplyr)
 options(mc.cores = parallel::detectCores())
 
 
-
+load("PMM4rangers.Rda")
 #'######################################
 #### load data and phylogeny ####
 #'######################################
@@ -118,7 +118,7 @@ key<-left_join(key,goo)
   )
   
   ## Save fitted posterior
-#  saveRDS(fitlambest, "fit_model_PMM.rds")
+ # saveRDS(fitlambest, "fit_model_PMM.rds")
 
 
   
@@ -141,6 +141,7 @@ sample.photo$cue<-"photoperiod"
 sort(table(key$latbi))      
 posto<-merge(posto,key,by="sppnum")  
 
+posto %>% group_by(biogeography,cue) %>% summarise(mean=mean(cue_estimate),Q_95 = quantile(cue_estimate, 0.95))
 
 library(ggplot2)
 library(bayesplot)
@@ -151,7 +152,7 @@ p1<-ggplot(posto,aes(cue_estimate,biogeography))+stat_interval(.width=c(.5,.75,.
   facet_wrap(~cue,scales = "free_x")+geom_vline(xintercept = 0,color="firebrick4",linetype="dashed")+
   ggthemes::theme_few()+scale_color_brewer()+xlab("estimated effect")+ylab("") 
 
-jpeg("..//figures/NAvEuPMM.jpeg",width=6, height=1.25,unit='in',res=200)
+jpeg("figures/NAvEuPMM.jpeg",width=6, height=2,unit='in',res=200)
 p1
   dev.off()
 
@@ -227,12 +228,12 @@ ggplot(postoW,aes(STV,cue_estimate))+stat_pointinterval()+facet_grid(cue~biogeog
 
 ggplot(postoW,aes(STV,cue_estimate))+stat_pointinterval()+facet_wrap(~cue)+geom_smooth(method="lm")+ggthemes::theme_few()
 }
-
+jpeg("figures/NAvEuPMM_subsetwrangermaps.jpeg",width=6, height=1,unit='in',res=200)
 ggplot(postoW,aes(cue_estimate,biogeography))+stat_interval(.width=c(.5,.75,.95))+
   stat_pointinterval(aes(x = cue_estimate), .width = c(0),size=12)+
   facet_wrap(~cue,scales = "free_x")+geom_vline(xintercept = 0,color="firebrick4",linetype="dashed")+
   ggthemes::theme_few()+scale_color_brewer()+xlab("estimated effect")+ylab("") 
-
+dev.off()
 
 sumz<-postoW %>% dplyr::group_by(complex.wname,cue,biogeography)%>% dplyr::summarise(mean_cue=mean(cue_estimate),sd=sd(cue_estimate))
 sumz<-merge(sumz,ggdlf)
@@ -247,6 +248,9 @@ chill.eu<-filter(sumz,biogeography!="North America" & cue=="chilling")
 
 force.na<-filter(sumz,biogeography=="North America" & cue=="forcing")
 force.eu<-filter(sumz,biogeography!="North America" & cue=="forcing")
+
+photo.na<-filter(sumz,biogeography=="North America" & cue=="photoperiod")
+photo.eu<-filter(sumz,biogeography!="North America" & cue=="photoperiod")
 
 ###measurement variable 
 modChill<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=chilldat)
@@ -280,8 +284,12 @@ modForcestv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=forcedat)
 
 modNAChill<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=chill.na)
 modEuChill<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=chill.eu)
+
+
 bayes_R2(modEuChill)
 bayes_R2(modNAChill)
+
+
 
 modNAChill2<-brm(mean_cue|se(sd,sigma=TRUE)~Geo.SD,data=chill.na)
 modEuChill2<-brm(mean_cue|se(sd,sigma=TRUE)~Geo.SD,data=chill.eu)
@@ -289,9 +297,132 @@ modEuChill2<-brm(mean_cue|se(sd,sigma=TRUE)~Geo.SD,data=chill.eu)
 modNAChillstv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=chill.na)
 modEuChillstv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=chill.eu)
 
+modNAForcestv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=force.na)
+modEuForcestv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=force.eu)
 
-fixef(modChill,probs = c(.05,.25,.75,.95))
-fixef(modChillstv,probs = c(.05,.25,.75,.95))
+modNAForce<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=force.na)
+modEuForce<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=force.eu)
+
+
+
+
+
+###plot NA STV
+newdaterSTVeu<-data.frame(STV=seq(min(chill.eu$STV),max(chill.eu$STV),by=.01),sd=mean(chill.eu$sd))
+STVEUpred<-epred_draws(modEuChillstv,newdata = newdaterSTVeu,ndraws = 1000)
+plota<-ggplot()+geom_line(data=STVEUpred,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=chill.eu,aes(STV,mean_cue))+geom_errorbar(data=chill.eu,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("chilling sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")+coord_cartesian(ylim=c(-40,20))
+
+
+newdaterSTVna<-data.frame(STV=seq(min(chill.na$STV),max(chill.na$STV),by=.01),sd=mean(chill.na$sd))
+STVNApred<-epred_draws(modNAChillstv,newdata = newdaterSTVna,ndraws = 1000)
+
+plotb<-ggplot()+geom_line(data=STVNApred,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=chill.na,aes(STV,mean_cue))+geom_errorbar(data=chill.na,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("chilling sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")+coord_cartesian(ylim=c(-40,20))
+
+#ggdd2lf
+newdaterVareu<-data.frame(Temp.SD=seq(min(chill.eu$Temp.SD),max(chill.eu$Temp.SD),by=.01),sd=mean(chill.eu$sd))
+VarEUpred<-epred_draws(modEuChill,newdata = newdaterVareu,ndraws = 1000)
+plotc<-ggplot()+geom_line(data=VarEUpred,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=chill.eu,aes(Temp.SD,mean_cue))+geom_errorbar(data=chill.eu,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("chilling sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")+coord_cartesian(ylim=c(-40,20))
+
+
+newdaterVarNA<-data.frame(Temp.SD=seq(min(chill.na$Temp.SD),max(chill.na$Temp.SD),by=.01),sd=mean(chill.na$sd))
+VarNApred<-epred_draws(modNAChill,newdata = newdaterVarNA,ndraws = 1000)
+plotd<-ggplot()+geom_line(data=VarNApred,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=chill.na,aes(Temp.SD,mean_cue))+geom_errorbar(data=chill.na,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("chilling sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")+coord_cartesian(ylim=c(-40,20))
+
+jpeg("figures/contz_chill.jpeg",width=6, height=6,unit='in',res=200)
+ggpubr::ggarrange(plota,plotb,plotc,plotd,labels = c("a)", "b)","c)","d)"))
+dev.off()
+
+#photoperiod
+
+modNAPhotostv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=photo.na)
+modEuPhotostv<-brm(mean_cue|se(sd,sigma=TRUE)~STV,data=photo.eu)
+
+modNAPhoto<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=photo.na)
+modEuPhoto<-brm(mean_cue|se(sd,sigma=TRUE)~Temp.SD,data=photo.eu)
+
+newdaterSTVeu.photo<-data.frame(STV=seq(min(photo.eu$STV),max(photo.eu$STV),by=.01),sd=mean(photo.eu$sd))
+STVEUpred.photo<-epred_draws(modEuPhotostv,newdata = newdaterSTVeu.photo,ndraws = 1000)
+plotaa<-ggplot()+geom_line(data=STVEUpred.photo,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=photo.eu,aes(STV,mean_cue))+geom_errorbar(data=photo.eu,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("photoperiod sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+newdaterSTVna.photo<-data.frame(STV=seq(min(photo.na$STV),max(photo.na$STV),by=.01),sd=mean(photo.na$sd))
+STVNApred.photo<-epred_draws(modNAPhotostv,newdata = newdaterSTVna.photo,ndraws = 1000)
+plotbb<-ggplot()+geom_line(data=STVNApred.photo,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=photo.na,aes(STV,mean_cue))+geom_errorbar(data=photo.na,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("photoperiod sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+newdaterVareu.photo<-data.frame(Temp.SD=seq(min(photo.eu$Temp.SD),max(photo.eu$Temp.SD),by=.01),sd=mean(photo.eu$sd))
+VarEUpred.photo<-epred_draws(modEuPhoto,newdata = newdaterVareu.photo,ndraws = 1000)
+plotcc<-ggplot()+geom_line(data=VarEUpred.photo,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=photo.eu,aes(Temp.SD,mean_cue))+geom_errorbar(data=photo.eu,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("photoperiod sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+
+newdaterVarNA.photo<-data.frame(Temp.SD=seq(min(photo.na$Temp.SD),max(photo.na$Temp.SD),by=.01),sd=mean(photo.na$sd))
+VarNApred.photo<-epred_draws(modNAPhoto,newdata = newdaterVarNA.photo,ndraws = 1000)
+plotdd<-ggplot()+geom_line(data=VarNApred.photo,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=photo.na,aes(Temp.SD,mean_cue))+geom_errorbar(data=photo.na,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("photoperiod sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+jpeg("figures/contz_photo.jpeg",width=6, height=6,unit='in',res=200)
+ggpubr::ggarrange(plotaa,plotbb,plotcc,plotdd,labels = c("a)", "b)","c)","d)"))
+dev.off()
+
+
+###forcing
+
+newdaterSTVeu.force<-data.frame(STV=seq(min(force.eu$STV),max(force.eu$STV),by=.01),sd=mean(force.eu$sd))
+STVEUpred.force<-epred_draws(modEuForcestv,newdata = newdaterSTVeu.force,ndraws = 1000)
+plotaaa<-ggplot()+geom_line(data=STVEUpred.force,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=force.eu,aes(STV,mean_cue))+geom_errorbar(data=force.eu,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("forcing sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+
+newdaterSTVna.force<-data.frame(STV=seq(min(force.na$STV),max(force.na$STV),by=.01),sd=mean(force.na$sd))
+STVNApred.force<-epred_draws(modNAForcestv,newdata = newdaterSTVna.force,ndraws = 1000)
+plotbbb<-ggplot()+geom_line(data=STVNApred.force,aes(STV,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=force.na,aes(STV,mean_cue))+geom_errorbar(data=force.na,aes(x=STV,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("forcing sensitivity")+xlab("STV")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+newdaterVareu.force<-data.frame(Temp.SD=seq(min(force.eu$Temp.SD),max(force.eu$Temp.SD),by=.01),sd=mean(force.eu$sd))
+VarEUpred.force<-epred_draws(modEuForce,newdata = newdaterVareu.force,ndraws = 1000)
+plotccc<-ggplot()+geom_line(data=VarEUpred.force,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=force.eu,aes(Temp.SD,mean_cue))+geom_errorbar(data=force.eu,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("forcing sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+
+newdaterVarNA.force<-data.frame(Temp.SD=seq(min(force.na$Temp.SD),max(force.na$Temp.SD),by=.01),sd=mean(force.na$sd))
+VarNApred.force<-epred_draws(modNAForce,newdata = newdaterVarNA.force,ndraws = 1000)
+plotddd<-ggplot()+geom_line(data=VarNApred.force,aes(Temp.SD,.epred,group=.draw),linewidth=.01)+
+  geom_point(data=force.na,aes(Temp.SD,mean_cue))+geom_errorbar(data=force.na,aes(x=Temp.SD,ymin=mean_cue-sd,ymax=mean_cue+sd),width=0)+
+  ggthemes::theme_few()+ylab("forcing sensitivity")+xlab("Standard deviation \nGrowing Degree Days to Last Frost")+geom_hline(yintercept = 0,linetype="dotted")
+
+
+jpeg("figures/contz_force.jpeg",width=6, height=6,unit='in',res=200)
+ggpubr::ggarrange(plotaaa,plotbbb,plotccc,plotddd,labels = c("a)", "b)","c)","d)"))
+dev.off()
+
+fixef(modNAChill,probs = c(.05,.25,.75,.95))
+fixef(modNAChillstv,probs = c(.05,.25,.75,.95))
+
+fixef(modEuChill,probs = c(.05,.25,.75,.95))
+fixef(modEuChillstv,probs = c(.05,.25,.75,.95))
 
 fixef(modForce,probs = c(.05,.25,.75,.95))
 fixef(modForcestv,probs = c(.05,.25,.75,.95))
