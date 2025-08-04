@@ -137,7 +137,7 @@ We then scraped the data from all articles reporting experiments that manipulate
 We gathered trait data from the TRY and BIEN (v. 4.0) databases \citep{Maitner2018,tryDB}, both of which are large trait databases that include plant trait observations across many individuals, species, and studies (Table \ref{tableRefs}) and are available through slightly different mechanisms. BIEN is accessible via the BIEN R package  \citep[here we used v. 1.2.5,][]{Maitner2018}, and TRY is requested. \color{red}\R{R2_144}We obtained data from the BIEN databases on 5 December 2018 and the TRY data on 10 April 2019.\color{black} We initially searched for trait data on the subset of 234 OSPREE species used in \citet[][]{Morales2024}. From BIEN, this resulted in 94 of the 234 species available in the database, for which there were 13 unique traits. From the TRY database we received data for 10 unique traits for 96  of the 234 requested species \citep{tryDB}. As we were interested in the trait-phenology relationships of adult trees we subset the available data to only include traits measured from adult individuals. \color{red}\R{R2_150}We assumed that by subsetting tree heights to be 2 m or greater we would be removing any data from samplings \citep{NRCan}. We further removed all data from manipulative experiments or from plants growing in non-natural habitats. We also grouped trait values where appropriate, for example pooling trait values for specific leaf area (SLA) with those denoted as `SLA  with petioles', and `SLA without petioles' in our analysis (see Table \ref{tableRefs}). We also removed data that was duplicated in both the TRY and BIEN datasets ($n$ = 434,905). For a full depiction of our data cleaning process and decisions see Fig. \ref{fig:database}.\\ %Based on our selection criteria, our final dataset included data for 11 leaf or structural traits from 91 of the species also represented in the OSPREE database, with each species differing in the number and types of traits measured. \\  
 
 For our analysis, we only included species for which we had a complete trait profile (i.e., all traits measured for all species). %, subsetting the phenology and trait data to include only species for which we had at least one measurement for each trait.
-For this profile,\color{red}\R{em10} we initially considered six commonly measured traits:SLA, leaf dry matter content (LDMC), height, seed mass, stem specific density (SSD), and LNC. \color{black}Each of the 26 species had at least one trait measurement for each of the traits. We then used a principle component analysis (PCA) to identify which (if any) of our six traits were strongly correlated. The first principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{fig:pca}), with high correlations between SLA and LDMC, and between height and SSD (Fig. \ref{fig:pca}). By excluding the trait from each of these highly correlated trait pairs with the least amount of data (specifically LDMC and SSD) we were able to increase the number of species in our dataset from the 26 species with complete data for six traits, to 37 species with complete data for four traits. The data for these 37 species were from \Sexpr{nStudy} unique studies (sample sizes: height $n$ = \Sexpr{nHt}, seed mass $n$ = \Sexpr{nSM}, LNC $n$ = \Sexpr{nLNC}, SLA $n$ = \Sexpr{nSLA}). We subsampled the height measurements of the 13 most frequently measured trees to reduce their influence on our height model. Since each of these 13 species were measured over 19 times more frequently than most other species, we randomly sampled 3000 height measurements for each individual species, while including all height data for the remaining, less frequently measured, 24 species. 
+For this profile,\color{red}\R{em10} we initially considered six commonly measured traits:SLA, leaf dry matter content (LDMC), height, seed mass, stem specific density (SSD), and LNC. \color{black}Each of the 26 species had at least one trait measurement for each of the traits. We then used a principle component analysis (PCA) to identify which (if any) of our six traits were strongly correlated. The first principal component explained \Sexpr{pca1}\% of variation while the second explained \Sexpr{pca2}\% of the variation (Fig. \ref{fig:pca}), with high correlations between SLA and LDMC, and between height and SSD (Fig. \ref{fig:pca}). By excluding the trait from each of these highly correlated trait pairs with the least amount of data (specifically LDMC and SSD) we were able to increase the number of species in our dataset from the 26 species with complete data for six traits, to 37 species with complete data for four traits. The data for these 37 species were from \Sexpr{nStudy} unique studies (sample sizes: height $n$ = \Sexpr{nHt}, seed mass $n$ = \Sexpr{nSM}, LNC $n$ = \Sexpr{nLNC}, SLA $n$ = \Sexpr{nSLA}). We subsampled the height measurements of the 13 most frequently measured trees to reduce their influence on our height model. Since each of these 13 species were measured over 19 times more frequently than most other species, we randomly sampled 3000 height measurements for each individual species, while including all height data for the remaining, less frequently measured, 24 species. \color{red}This subsampling was not required for any of the other traits included in our study.\color{black}
 
 \subsection*{Joint model of trait and phenology} 
 
@@ -148,7 +148,7 @@ To understand connections between phenology and species traits, we developed a B
 Our trait sub-model describes the processes that shape a given trait observations for $1$ to $n$ species across each of the $1$ to $m$ studies in our trait dataset. We use hierarchical modeling to partition trait values \color{red}\R{R2_190}by the error across all observations not otherwise explained by the model ($\sigma_{\text{m}}^2$, often considered measurement error)\color{black}, species identity ($\alpha_{\text{species}_i}$), and study ($\alpha_{\text{study}_j}$). In particular, we assume that a trait observation for species $i$ from study $j$, $Y_{\text{trait}_{i,j}}$, has the following normal distribution:
 
 \begin{align}
-  Y_{\text{trait}_{i,j}} \sim \mathcal{N}(\mu_{i,j}, \sigma_{\text{m}}^2)
+  Y_{\text{trait}_{i,j}} \sim \emph{Normal}(\mu_{i,j}, \sigma_{\text{m}}^2)
 \end{align}
 with
 \begin{align}
@@ -156,20 +156,50 @@ with
 \end{align}
 \noindent where $\alpha_{\text{species}_i}$ and $\alpha_{\text{study}_j}$ are elements of the normal random vectors:
 
+
 \begin{align}
-\boldsymbol{\alpha_{\text{trait}}} &= \alpha_{\text{grand trait}} + \alpha_{\text{species}_i}\nonumber\\
-  \boldsymbol{\alpha_{\text{species}}} &= \{\alpha_{\text{species}_1}, ..., \alpha_{\text{species}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{species}}} \sim \mathcal{N}(0, \sigma_{\text{species}}^2) \\
-  \boldsymbol{\alpha_{\text{study}}} &= \{\alpha_{\text{study}_1}, ..., \alpha_{\text{study}_m}\}^T \text{ such that } \boldsymbol{\alpha_{\text{study}}} \sim \mathcal{N}(0, \sigma_{\text{study}}^2) \nonumber\\
+    \label{}
+  \boldsymbol{\alpha_{\text{species}}} &= \begin{bmatrix}
+ \alpha_{\text{species}_1} \\ 
+ \alpha_{\text{species}_2} \\ 
+ \ldots \\
+ \alpha_{\text{species}_n}
+ \end{bmatrix}
+ & \text{ such that }
+ \boldsymbol{\alpha_{\text{species}}} \sim {Normal}(0, \sigma_{\text{species}}^2) \\
 \end{align}
 
-\noindent The latent parameter or overall mean trait value ($\alpha_{\text{grand trait}}$) represents a trait value that is independent of the species ($\alpha_{\text{species},i}$) and study-level ($\alpha_{\text{study},j}$) offsets from that trait value. The $\sigma^2_{\text{m}}$ parameter is the measurement error, and $\sigma^2_{\text{species}}$ and $\sigma^2_{\text{study}}$ represent species and study-level variances in trait values. Of these parameters, the $\boldsymbol{\alpha_{\text{trait}}}$ is shared by the phenology sub-model.
+
+\begin{align}
+\boldsymbol{\alpha_{\text{trait}}} &= \alpha_{\text{grand trait}} + \alpha_{\text{species}_i}\nonumber\\
+  \label{}
+  \boldsymbol{\alpha_{\text{species}}} &= \begin{bmatrix}
+ \alpha_{\text{species}_1} \\ 
+ \alpha_{\text{species}_2} \\ 
+ \ldots \\
+ \alpha_{\text{species}_n}
+ \end{bmatrix}
+ & \text{ such that }
+ \boldsymbol{\alpha_{\text{species}}} \sim \emph{Normal}(0, \sigma_{\text{species}}^2) \\
+ \label{}
+\boldsymbol{\alpha_{\text{study}}} &= \begin{bmatrix}
+\alpha_{\text{study}_1} \\ 
+\alpha_{\text{study}_2} \\ 
+\ldots \\
+\alpha_{\text{study}_n}
+\end{bmatrix}
+& \text{ such that }
+\boldsymbol{\alpha_{\text{study}}} \sim \emph{Normal}(0, \sigma_{\text{study}}^2) \\
+\end{align}
+
+\noindent \color{red}\R{R2_194}Mathematically, the latent parameter or overall mean trait value ($\alpha_{\text{grand trait}}$) represents a trait value that is independent of the other parameters in the model, namely the parameter for species ($\alpha_{\text{species},i}$) and study-level ($\alpha_{\text{study},j}$) offsets from that trait value.\color{black} The $\sigma^2_{\text{m}}$ parameter is the measurement error, and $\sigma^2_{\text{species}}$ and $\sigma^2_{\text{study}}$ represent species and study-level variances in trait values. Of these parameters, the $\boldsymbol{\alpha_{\text{trait}}}$ is shared by the phenology sub-model.
 
 \subsection*{Phenology sub-model}
 
 Our phenology sub-model describes the processes that determine the relationships between traits and environmental cues and their effects on phenological observations for $1$ to $n$ species, specifically the timing (day of year) of budburst from the updated OSPREE dataset. The observations of budburst for species $k$ under $g$ treatment levels of each cue ($c_g, f_g, p_g$, for chilling, forcing and photoperiod treatments, respectively, which we $z$-scored to allow direct comparison between cues) is represented by parameter $Y_{\text{pheno}_{k,g}}$, and assumed to follow a normal distribution:
 
 \begin{align}
-  Y_{\text{pheno}_{k,g}} \sim \mathcal{N}(\mu_{k,g}, \sigma_{\text{d}}^2)
+  Y_{\text{pheno}_{k,g}} \sim \emph{Normal}(\mu_{k,g}, \sigma_{\text{d}}^2)
 \end{align}
 with
 \begin{align} 
@@ -185,10 +215,10 @@ and
 \noindent where $\alpha_{\text{pheno}_k}$, $\alpha_{\text{chilling}_k}$, $\alpha_{\text{forcing}_k}$, and $\alpha_{\text{photoperiod}_k}$ are elements of the normal random vectors:
 
 \begin{align}
-  \boldsymbol{\alpha_{\text{pheno}}} &= \{\alpha_{\text{pheno}_1}, ..., \alpha_{\text{pheno}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{pheno}}} \sim \mathcal{N}(\mu_{\text{pheno}}, \sigma_{\text{pheno}}^2) \\
-  \boldsymbol{\alpha_{\text{chilling}}} &= \{\alpha_{\text{chilling}_1}, ..., \alpha_{\text{chilling}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{chilling}}} \sim \mathcal{N}(\mu_{\text{chilling}}, \sigma_{\text{chilling}}^2) \nonumber \\
-  \boldsymbol{\alpha_{\text{forcing}}} &= \{\alpha_{\text{forcing}_1}, ..., \alpha_{\text{forcing}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{forcing}}} \sim \mathcal{N}(\mu_{\text{forcing}}, \sigma_{\text{forcing}}^2) \nonumber \\
-  \boldsymbol{\alpha_{\text{photoperiod}}} &= \{\alpha_{\text{photoperiod}_1}, ..., \alpha_{\text{photoperiod}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{photoperiod}}} \sim \mathcal{N}(\mu_{\text{photoperiod}}, \sigma_{\text{photoperiod}}^2) \nonumber
+  \boldsymbol{\alpha_{\text{pheno}}} &= \{\alpha_{\text{pheno}_1}, ..., \alpha_{\text{pheno}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{pheno}}} \sim \emph{Normal}(\mu_{\text{pheno}}, \sigma_{\text{pheno}}^2) \\
+  \boldsymbol{\alpha_{\text{chilling}}} &= \{\alpha_{\text{chilling}_1}, ..., \alpha_{\text{chilling}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{chilling}}} \sim \emph{Normal}(\mu_{\text{chilling}}, \sigma_{\text{chilling}}^2) \nonumber
+  \boldsymbol{\alpha_{\text{forcing}}} &= \{\alpha_{\text{forcing}_1}, ..., \alpha_{\text{forcing}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{forcing}}} \sim \emph{Normal}(\mu_{\text{forcing}}, \sigma_{\text{forcing}}^2) \nonumber 
+  \boldsymbol{\alpha_{\text{photoperiod}}} &= \{\alpha_{\text{photoperiod}_1}, ..., \alpha_{\text{photoperiod}_n}\}^T \text{ such that } \boldsymbol{\alpha_{\text{photoperiod}}} \sim \emph{Normal}(\mu_{\text{photoperiod}}, \sigma_{\text{photoperiod}}^2) \nonumber
 \end{align}
 
 \noindent The model partitions day of budburst for species ($k$) as a combination of the overall mean day of budburst without the influence of chilling, forcing, or photoperiod treatments ($\alpha_{\text{pheno},k}$, normally distributed with a mean of $\mu_{\text{pheno}}$ and variance $\sigma_{\text{pheno}}^2$) combined with the effects of treatments both dependent and independent of trait values. The parameters $\alpha_{\text{chilling}_k}$, $\alpha_{\text{forcing}_k}$, and $\alpha_{\text{photoperiod}_k}$ represent the trait-independent responses of species $k$ to chilling, forcing, and photoperiod treatments respectively, each with an associated mean ($\mu_{\text{chilling}}$, $\mu_{\text{forcing}}$, $\mu_{\text{photoperiod}}$) and variance ($\sigma_{\text{chilling}}^2$, $\sigma_{\text{forcing}}^2$, $\sigma_{\text{photoperiod}}^2$) across species. The shared parameter between the trait and phenology sub-model, $\alpha_{\text{trait}_k}$, represents the effect of the species trait value on its responses to chilling ($\beta_{\text{trait.chilling}}$), forcing ($\beta_{\text{trait.forcing}}$), and photoperiod ($\beta_{\text{trait.photoperiod}}$). Finally, $\sigma_{\text{d}}^2$ is the variance arising from measurement error for the observed day of budburst.\\
