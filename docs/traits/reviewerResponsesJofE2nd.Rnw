@@ -121,31 +121,45 @@ We agree with the reviewer that referencing studies on herbaceous plants may be 
 
 \emph{L105: LNC not spelled out in the text before. Would be possible to do in L99.}\\
 
-Done (\lr{R2_105})\\
+Done (\lr{R2_105}).\\
 
 \emph{Consider switching paragraph 4 and 6 to improve reading flow and logical structure as they seem to be topic wise related.}\\
 
-ya sure
+\color{purple} ya sure.... \color{black}
 
 \textbf{Methods}\\
 
 \emph{L124-136 seem irrelevant for the present study. Already described in Ettinger et al., 2020. Rather briefly describe the data OSPREE contains and link to the original publication (Wolkovich et al., 2019), as is done with TRY and BIEN later.}\\
 
-How to deal with super contradictory reviews?
+We added this additional information regarding our methods in response to comments made in the first round of revisions and have left it in the current version to ensure our work is accessible to readers at all levels.
 
 \emph{L144: Which data did you use? If the updated one then just mention this date maybe.}\\
 
+We have revised the methods on \lr{R2_144} to clarify that we obtained the data from BIEN on 5 December 2018 and the TRY data on 10 April 2019.
+
 \emph{L150: Why do you think the DBH standard height is a good proxy for being an adult individual? In forest understories, many individuals reach this height without being adult, really, so I think this needs some more justification. Otherwise you could run into the issue of comparing rejuvenation and adult trees, likely affecting your results.}\\
+
+We agree that different species can have different dbh at maturity and that it can vary with habitat conditions. We have re-ran our analysis for tree height using data of for individuals more than 2m in height, thereby excluding saplings based on the definition provided by the Government of Canada's Department of Natural Resources \cirep{NRCan}. 
 
 \emph{L165: Fig S2 mentioned after Fig S3 (L157).}\\
 
+Thank you for finding is typo, it has been corrected. 
+
 \emph{L170: Subsampling of height to reduce the influence of most frequently measured species on the model. What about the other traits? Was no subsampling needed here because species were measured more or less equally?}\\
+
+Yes that is correct, this clarification was added to \lr{R2_170}.  
 
 \emph{L190: How do you obtain measurement error variance?}\\
 
+The measurement error is estimated as $\sigma_{\text{m}}^2$ in our model and is now more explicitly stated in our methods on \lr{R2_190}.
+
 \emph{L191: What is N?}\\
 
+Here N refers to the normal distribution, which we now refer to explicitly in all equations. 
+
 \emph{L193: What is meant by the T in ${..}^T$? Total? Does the (4) refer to one of the formulas?}\\
+
+The superscript T is used to concisely denote a transposed matrix. To further readers understanding of the equations, we have simplifed the notation of our equations.  
 
 \emph{L194: How do you obtain alpha(grand trait) as being independent of species and study-level offsets from that trait value?}\\
 
