@@ -31,17 +31,17 @@ dat2 <- read.csv("input/try_bien_nodups_2.csv")
 
 # Percentage of data that is height?
 #nrow(heighter)/nrow(dat)
-traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
-#
+ traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
+ #
 # # Subset data to traitors species list
  tdat <- subset(dat, dat$speciesname %in% traitors.sp)
 
  height <- subset(tdat, traitname == "Plant_height_vegetative")
 
 # For this trait we are really only interested in adults - selecting only values greater than 1.42 m, the height at which you can measure DBH
-small <- subset(height, traitvalue < 1.42) # this is 2.1% of the data 
+small <- subset(height, traitvalue < 2) # this is 2.1% of the data 
 
-adult <- subset(height, traitvalue > 1.42)
+adult <- subset(height, traitvalue > 2)
 
 #other.trt <- subset(dat, traitname != "Plant_height_vegetative")
 

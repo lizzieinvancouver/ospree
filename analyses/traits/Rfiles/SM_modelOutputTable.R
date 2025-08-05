@@ -26,7 +26,7 @@ specieslist <-  c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","
 # files <- list.files(path = "output", pattern ="_37spp.RDS" )
 # files
 
-htModel <- readRDS(paste("../../analyses/traits/output/", "height_stanfit_37spp.RDS", sep = ""))
+htModel <- readRDS(paste("../../analyses/traits/output/", "height_stanfit_37spp_Aug252025.RDS", sep = ""))
 htModelFit <- rstan::extract(htModel)
 
 htBFSpMean <- as.numeric(round(mean(htModelFit$betaTraitxForce),1))

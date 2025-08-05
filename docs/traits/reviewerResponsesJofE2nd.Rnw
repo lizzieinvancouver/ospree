@@ -200,20 +200,40 @@ As mentioned above, we have removed the redundant information in bracket on \lr(
 
 \emph{L273: "the trait effects of height and LNC were associated with earlier or later phenology". Which one is related to earlier, which one to later phenology? This is formulated a bit confusing here.}\\
 
+We can see your point and have revised this sentence to prevent any confusion (\lr{R2_273}).\\
+
 \emph{L275: I miss a discrimination between early and late budbursting species here or in the Results. From the text only, I understand that the ones responding strongly to the cues are the late budbursting species and oppositely for the early ones. I am not sure, though, if this is a general assumption based on literature or if this is derived from the results. If it is part of the results, what is the threshold to classify early vs late species?
 An overview of which species is considered early and late and an average of their relationships with traits associated to the different growth strategies would improve the understanding of this part. Also I think that some references to back up the these relationships of budbursting timing with cue intensity are useful.}\\
 
+As discussed above we have added additional detail to better explain what we mean by early versus late budbursting species based on their cue responses (e.g. \lr{em13} to \lr{em13b}). This inference is based on both the literature, including work by \citet{Flynn2018}, and based on our model estimates in Fig S5 where estimated day of budburst was shown on the y-axis for our illustrative early and late species. 
+.......
+
 \emph{L285: The study is definitely more global than local scale studies but since basically South America, Africa, and Australia is missing, I would rather call it intercontinental or large scale.}\\
+
+We see your point and now refer to our work as large scale on \lr{R2_285}.
 
 \emph{L295: Have you checked whether this isn't done already? Usually study site is included as random effect in modelling, so this should account for study-site related variation, right? Also, what does this imply for interspecific variation? That interspecific differences are stronger than trait differences between sites/forest stands? Could this also be a result of different species occurring at different study sites or did you consider overlapping species only?}\\
 
+.....
+
 \emph{L300: shorter heights not for response to forcing. Any idea why the relationship is different for this cue?}\\
+....
 
 \emph{L314: Any examples for the multiple aspects of species growth and adaptations from the literature? What about intraspecific variation?}\\
 
+....
+
 \emph{L315: the response to forcing may be large but according to Table S2 it is a weak relationship, which you also state in your Results. I don't quite understand why this point is being picked up here as it was a "significant" relationship.}\\
 
+Thank you for bringing our attention to this typo, we have corrected it and \lr{R2_315} now reads:
+
+\begin{quote}
+Contrary to our predictions, we found a negligible response to forcing with tree height...
+\end{quote}
+
 \emph{L315: If a large response means high sensitivity to cues, then a large response for short trees, i.e., fast budburst when spring temperature rises only a bit, would rather increase the change of frost damage under a late spring frost event, right? If this is correct, then the large response could hint to a phenological adaptation of understory trees (since you included trees > 1.38 m height) to light variability throughout the year.}\\
+
+We apologize for the confusion that this typo created and have revised the text on \lr{R2_315} to reflect the fact that the relationship between height and spring temperatures is not statistically meaningful and agree with the above point that is should not be discussed as if it were.
 
 \emph{L316: SLA is an adaptation to competition for light as leaf area increases with high SLA to capture more photons per area leaf. That way, it is not suprising that you find the strongest relationship with photoperiod only. However, I would have expected as well that photoperiod and temperature are quite closely related, so you could discuss towards this direction.}\\
 

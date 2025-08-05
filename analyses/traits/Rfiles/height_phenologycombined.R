@@ -20,21 +20,21 @@ MidgeFlag <-TRUE
     } else if (length(grep("faith", getwd())>0)) { setwd("/home/faith/Documents/github/ospree/analyses/traits")
     } else if (length(grep("Lizzie", getwd())>0)) {   setwd("~/Documents/git/projects/treegarden/budreview/ospree/analyses/traits") 
     } 
-  traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
-  traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
+  # traitsData1 <- read.csv("input/try_bien_nodups_1.csv", stringsAsFactors = FALSE)
+  # traitsData2 <- read.csv("input/try_bien_nodups_2.csv", stringsAsFactors = FALSE)
 
   ospree <- read.csv("input/bbstan_allspp_utah_37spp.csv", header = TRUE)
   heightData <- read.csv("input/height_377spp_subsampled.csv")
 
 
-traitsData <- rbind(traitsData1,traitsData2)
-head(traitsData)
+# traitsData <- rbind(traitsData1,traitsData2)
+# head(traitsData)
 
 traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus","Acer_saccharum","Aesculus_hippocastanum","Alnus_glutinosa","Alnus_incana","Betula_papyrifera","Betula_pendula","Betula_populifolia","Betula_pubescens","Corylus_avellana","Fagus_grandifolia","Fagus_sylvatica","Fraxinus_excelsior","Fraxinus_nigra","Hamamelis_virginiana","Juglans_cinerea","Juglans_regia","Populus_grandidentata","Populus_tremula","Prunus_avium","Prunus_padus","Prunus_pensylvanica","Prunus_persica","Prunus_serotina","Quercus_alba","Quercus_coccifera","Quercus_ellipsoidalis","Quercus_ilex","Quercus_petraea","Quercus_robur","Quercus_rubra","Quercus_shumardii","Quercus_velutina","Rhamnus_cathartica","Sorbus_aucuparia","Ulmus_pumila")
 
 # traitors.sp <- c("Acer_pensylvanicum", "Acer_pseudoplatanus", "Acer_saccharum", "Aesculus_hippocastanum", "Alnus_glutinosa", "Alnus_incana", "Betula_pendula", "Betula_populifolia", "Corylus_avellana", "Fagus_grandifolia","Fagus_sylvatica", "Fraxinus_excelsior", "Juglans_regia", "Populus_tremula", "Prunus_padus", "Prunus_serotina", "Quercus_alba", "Quercus_coccifera", "Quercus_ilex", "Quercus_petraea", "Quercus_robur", "Quercus_rubra", "Quercus_velutina", "Rhamnus_cathartica", "Sorbus_aucuparia", "Ulmus_pumila")
 
-heightData  <- subset(heightData , heightData $speciesname %in% traitors.sp)
+# heightData  <- subset(heightData , heightData $speciesname %in% traitors.sp)
 
 
 # Read Ospree data and subset
@@ -105,9 +105,9 @@ mdl.traitphen <- stan("stan/phenology_combined.stan",
                       chains = 4,
                       include = FALSE, pars = c("y_hat"))
 
-save(mdl.traitphen, file = "output/height_raw_37spp.Rda")
+save(mdl.traitphen, file = "output/height_raw_37spp_Aug32025.Rda")
 #saveRDS(object = mdl.traitphen, file = "height_stanfit.RDS")
-
+load("output/height_raw_37spp_Aug32025.Rda")
 # N effective?
 range(summary(mdl.traitphen)$summary[, "n_eff"])
 range(summary(mdl.traitphen)$summary[, "Rhat"])
@@ -138,4 +138,4 @@ plot(mdl.traitphen, pars = c("betaTraitxPhoto", "betaPhotoSp"))
 dev.off()
 
 
-saveRDS(object = mdl.traitphen, file = "height_stanfit_37spp.RDS")
+saveRDS(object = mdl.traitphen, file = "height_stanfit_37spp_Aug252025.RDS")
