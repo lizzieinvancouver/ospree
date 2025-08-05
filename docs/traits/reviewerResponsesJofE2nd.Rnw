@@ -143,7 +143,7 @@ We agree that different species can have different dbh at maturity and that it c
 
 \emph{L165: Fig S2 mentioned after Fig S3 (L157).}\\
 
-Thank you for finding is typo, it has been corrected. 
+Thank you for identifying this typo, it has been corrected. 
 
 \emph{L170: Subsampling of height to reduce the influence of most frequently measured species on the model. What about the other traits? Was no subsampling needed here because species were measured more or less equally?}\\
 
@@ -159,27 +159,40 @@ Here N refers to the normal distribution, which we now refer to explicitly in al
 
 \emph{L193: What is meant by the T in ${..}^T$? Total? Does the (4) refer to one of the formulas?}\\
 
-The superscript T is used to concisely denote a transposed matrix. To further readers understanding of the equations, we have simplifed the notation of our equations.  
+The superscript T is used to concisely denote a transposed matrix. To further readers understanding of the equations, we have simplified the notation of our equations. We have updated the equation numbers to no longer include the spurious reference to an equation 4. \\ 
 
 \emph{L194: How do you obtain alpha(grand trait) as being independent of species and study-level offsets from that trait value?}\\
 
 \emph{L216: s. L190}\\
 
+Here N again refers to the normal distribution, which is now written in full for each equation. \\
+
 \textbf{Results}\\
 
 \emph{Fig. 2: What does a large and a small response to a cue, respectively, mean? This is needed to explain thoroughly as it is the basis for further discussion. Does a large response mean, that budburst happens way earlier or does it mean that a low cue intensity is needed to trigger budburst? Please add a simple explanatory sentence to get this right as reader.}\\
+
+We agree that having a clear definition of what we mean by large and small responses would help readers interpret our results and reduce confusion. We now define these terms from \lr{R2_cueSizea} to \lr{R2_cueSizeb} in the introduction, from \lr{R2_cueSize2a} to \lr{R2_cueSize2b} in the results, in the discussion on \lr{em13}, as well as by modifying the figure caption and adding arrows to Fig 2. 
 
 \emph{L244-246: indication of SLA and relationship to photoperiod rather fits to Discussion}\\
 
 \emph{L250-252: move to Discussion.}\\
 
+We have moved this sentence and incorporated it into the dicussion on \lr{R2_250}.\\
+
 \emph{L256: add space before "For height"}\\
+
+\Done \lr{R2_256}.\\
 
 \emph{L254-267: variation =/= variance. What you show is variance as derived from your model. Variance is just one measure of variation. Please stay consistent here.}\\
 
+We have substituted the term variance where appropriate throughout the manuscript, in particular in the paragraph starting on \lr{R2_Vara} to \lr{R2_Varb}.\\
+
 \emph{L264: use directly $\sigma$2study or delete bracket as it was mentionend in the beginning of the paragraph}\\
 
+We see how this information was redundant and have removed the bracket on \lr(R2_264}.
+
 \emph{L266: s. L264}\\
+As mentioned above, we have removed the redundant information in bracket on \lr(R2_266}, which to address the comment below was moved to the discussion.
 
 \emph{L265: move to Discussion.}\\
 
@@ -226,17 +239,25 @@ The data used here stem from forests, so I miss some habitat specific discussion
 
 \emph{Table S2-5: From the caption, I take that the 50\% and 90\% UI are provided but what is shown are values for 5\% to 95\% of the posterior distribution. This is confusing and would benefit from some more explanation for readers that are not familiar with Bayesian approaches, i.e., add some explanation that 5-95\% equals the 90\% UI and 25-75\% the 50\% UI.}\\
 
+We can see how our column names could lead to this confusion and have revised the table captions to better explain that the values shown span the uncertainty intervals. 
+
 \textbf{Figures}\\
 
 \emph{Fig. 2 shows the estimated species-level response with the 50\% UI but it is stated in the Methods in L226 that you show the 90\% UI, and the 50\% UI in the supplementary. This is confusing. Furthermore, maybe add log10 to the x axis of Fig. 2 for seed mass as at the first glimpse a negative seed mass is confusing.}\\
 
-\emph{Also, if the relationship is weak or crosses zero, then I strongly encourage to also show this somehow in the figure by e.g., dashed lines or removal of the response line. Otherwise, it is just confusing and the tables in the supplementary need to be studied carefully and compared to Fig. 2 for each trait.}\\
+We can see how our wording may have created some confusion, we have now revised \lr{R2_Fig2} to \lr{R2_Fig2} to clarify that we discuss the 90\% UI in the text, but depict the 50\% UI in the figures. We have also revised the x axis label for seed mass to better represent how the data was modeled.
 
-\emph{To read this figure properly, I would appreciate some annotation in the plot stating what a small or large response mean, e.g., earlier budburst, later budburst.}\\
+\emph{Also, if the relationship is weak or crosses zero, then I strongly encourage to also show this somehow in the figure by e.g., dashed lines or removal of the response line. Otherwise, it is just confusing and the tables in the supplementary need to be studied carefully and compared to Fig. 2 for each trait. To read this figure properly, I would appreciate some annotation in the plot stating what a small or large response mean, e.g., earlier budburst, later budburst.}\\
+
+These are both great suggestions to improve our figure. We have removed the response lines from figures with weak responses. We have also added arrows to the figures to illustrate what we mean by small and large responses and updated the figure caption to better explain this.
 
 \emph{In Fig. S3, the number of unique traits is different (8 and 11, instead of 10 and 13 as stated in the text). Please correct where needed.}\\
 
+Thank you for pointing out this discrepency. In Figure S3 we were only referring to the number of cleanined trait names and have updated the figure to reflect this. 
+
 \emph{Fig. S5: I find it difficult to understand this figure. How do I assess the effect size of a trait on budburst? When I understand correctly, then it related to the 50\% UI of the full model vs. trait effect = 0. What does trait effect = 0 mean, though? I think, some clarification in the caption or in the Methods is beneficial to correctly read the figure.}\\
+
+We agree that this figure is complicated and requires an understanding of the model structure. Since it is also not not frequently referred to in the results, we have decided to remove it from the supplementary material. 
 
 \pagebreak
 \bibliographystyle{refs/bibstyles/besjournals}% 

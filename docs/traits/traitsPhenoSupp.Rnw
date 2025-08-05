@@ -78,18 +78,18 @@
 
 \begin{figure}[h!]
     \centering
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} 
+    \caption{Our initial aim was to include all species from \citet[][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
+    \label{fig:database}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
  \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/pcaGeo.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for the six functional traits with complete trait data. Points represent the 26 species for which complete trait data was available.}
     \label{fig:pca}
 \end{figure}
 \newpage
-
-\begin{figure}[h!]
-    \centering
- \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} 
-    \caption{Our initial aim was to include all species from \citet[][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
-    \label{fig:database}
-\end{figure}
 
 \newpage
 \begin{figure}[h!]
@@ -100,12 +100,12 @@
 \end{figure}
 \newpage
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
-     \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (a-c), SLA (d-f), seed mass (g-i), and LNC (j-l) models were used to estimate the day of budburst for the two species. The effect of height on budburst timing was smallest in response to forcing (a), while the greatest effect of height on budburst was in response to chilling (b), followed by photoperiod (c). The greatest effect of SLA on budburst was only in relation to photoperiod (f). Seed mass had a negligible effect on our estimates budburst (g-i). But LNC had a considerable effect on budburst timing in relation to each cue (j-l). The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
-    \label{fig:slopes}
-\end{figure}
+% \begin{figure}[h!]
+%     \centering
+%  \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
+%      \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (a-c), SLA (d-f), seed mass (g-i), and LNC (j-l) models were used to estimate the day of budburst for the two species. The effect of height on budburst timing was smallest in response to forcing (a), while the greatest effect of height on budburst was in response to chilling (b), followed by photoperiod (c). The greatest effect of SLA on budburst was only in relation to photoperiod (f). Seed mass had a negligible effect on our estimates budburst (g-i). But LNC had a considerable effect on budburst timing in relation to each cue (j-l). The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
+%     \label{fig:slopes}
+% \end{figure}
 
 
 %We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. 
@@ -178,7 +178,7 @@ BIEN & \cite{McHugh2015} & Height & m &  26 &   8 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableHt}
 \begin{tabular}{rrrrrr}
   \hline
@@ -206,7 +206,7 @@ $\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
   \hline
@@ -234,7 +234,7 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableSM}
 \begin{tabular}{rrrrrr}
   \hline
@@ -262,7 +262,7 @@ $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well as the 50\% and 90\% uncertainty interval (UI). The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
 \label{tableLNC}
 \begin{tabular}{rrrrrr}
   \hline
