@@ -78,7 +78,7 @@
 
 \begin{figure}[h!]
     \centering
- \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf} 
+ \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/metaanalysisDecisionTree.pdf}
     \caption{Our initial aim was to include all species from \citet[][]{Morales2024}, however trait data was only available for a subset of these species. Data was cleaned extensively, with each step depicted by a box, and subset to only include traits for adult trees growing under natural conditions for which we had a complete suite of trait values.}
     \label{fig:database}
 \end{figure}
@@ -94,196 +94,196 @@
 \newpage
 \begin{figure}[h!]
     \centering
- \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.pdf} 
+ \includegraphics[width=\textwidth]{..//..//analyses/traits/figures/FourTraitFit_37spp_wp.pdf}
     \caption{Comparisons of estimated model fits and raw data from joint models of trait effects on budburst phenological cues for 37 species of woody deciduous plants. Four functional traits---(a) height, (b) SLA, (c) seed mass, and (d) LNC--- were modeled individually, with the calculated trait value being used to jointly model species' responses to standardized chilling, forcing, and photoperiod cues. Model posteriors are shown in black, with the thicker line depicting the 50\% uncertainty interval and the thinner black line the 95\% uncertainty interval. Overall species-level model posterior distributions were well-aligned with the raw data, shown in red, and the species-level means from the raw data, denoted as a purple stars.}
     \label{fig:TraitDistributions}
 \end{figure}
 \newpage
 
-% \begin{figure}[h!]
-%     \centering
-%  \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
-%      \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (a-c), SLA (d-f), seed mass (g-i), and LNC (j-l) models were used to estimate the day of budburst for the two species. The effect of height on budburst timing was smallest in response to forcing (a), while the greatest effect of height on budburst was in response to chilling (b), followed by photoperiod (c). The greatest effect of SLA on budburst was only in relation to photoperiod (f). Seed mass had a negligible effect on our estimates budburst (g-i). But LNC had a considerable effect on budburst timing in relation to each cue (j-l). The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
-%     \label{fig:slopes}
-% \end{figure}
-
-
-%We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues. 
+% % \begin{figure}[h!]
+% %     \centering
+% %  \includegraphics[width= 0.75\textwidth]{..//..//analyses/traits/figures/slopesConsAcqu_4trt.pdf} 
+% %      \caption{ Here we show the relationship between traits and the three phenological cues using as an example an acquisitive species, \emph{Alnus incana} shown in blue, and a conservative species, \emph{Quercus rubra} shown in yellow. The posterior estimates from our height (a-c), SLA (d-f), seed mass (g-i), and LNC (j-l) models were used to estimate the day of budburst for the two species. The effect of height on budburst timing was smallest in response to forcing (a), while the greatest effect of height on budburst was in response to chilling (b), followed by photoperiod (c). The greatest effect of SLA on budburst was only in relation to photoperiod (f). Seed mass had a negligible effect on our estimates budburst (g-i). But LNC had a considerable effect on budburst timing in relation to each cue (j-l). The strength of the relationships can be assessed by comparing the colored bands, with the lighter bands depicting the estimated 50\% uncertainty interval without the effect of traits  ($\mu_{k,g}$ equal to zero) and darker bands the estimated budburst with the effects of traits included. Points represent the raw budburst data.}  
+% %     \label{fig:slopes}
+% % \end{figure}
+% 
+% 
+% %We expected species with traits associated with acquisitive (e.g, short species with high specific leaf area, SLA, and high leaf nitrogen content, LNC)  versus conservative growth strategies (e.g., tall species with low SLA and low LNC leaves) would have different budburst responses to phenological cues. Our joint model allows traits of species to influence their responses to cues.
 \newpage
 \begin{table}[h!]
 \centering
-\caption{Bibliographic information for trait data sources from both BIEN and TRY trait databases. Datasets without references or incomplete references are denoted below as `unreferenced'.} 
+\caption{Bibliographic information for trait data sources from both BIEN and TRY trait databases. Datasets without references or incomplete references are denoted below as `unreferenced'.}
 \label{tableRefs}
 \begin{tabular}{llllrr}
   \hline
-Database & Reference & Trait name & Unit & No. observations & No. Species \\ 
+Database & Reference & Trait name & Unit & No. observations & No. Species \\
   \hline
-BIEN & \cite{McHugh2015} & Height & m &  26 &   8 \\ 
-  BIEN & \cite{Marx2016} & Height & m &   2 &   2 \\ 
-  BIEN & \cite{Price2014} & Height & m &  27 &  19 \\ 
-  BIEN & Unreferenced & Height & m &  18 &  16 \\ 
-  BIEN & \cite{Kleyer2008} & Height & m &  90 &  19 \\ 
-  BIEN & Unreferenced & Height & m &  10 &  10 \\ 
-  BIEN & Moles, Angela; unreferenced & Height & m &  21 &  14 \\ 
-  BIEN & Reams, Greg; unreferenced & Height & m & 47036 &  19 \\ 
-  BIEN & Grime, Hodgson, \& Hunt; unreferenced & Height & m &   5 &   5 \\ 
-  BIEN & Unreferenced & Height & m &   8 &   5 \\ 
-  BIEN & \cite{Perez-de-lis2017} & Height & m &  18 &   1 \\ 
-  BIEN & \cite{Robinson2015} & Height & m & 120 &   1 \\ 
-  BIEN & \cite{Anderson-teixeira2015} & Height & m &  20 &   1 \\ 
-  TRY & \cite{BondLamberty2002} & Height & m &   2 &   1 \\ 
-  TRY & Unpublished & Height & m & 275 &   3 \\ 
-  TRY & \cite{Wright2004} & Height & m &  28 &  19 \\ 
-  TRY & \cite{Prentice2011} & Height & m &   2 &   2 \\ 
-  TRY & \cite{xylemdatabase} & Height & m &  21 &  21 \\ 
-  TRY & Unpublished & Height & m &  35 &   2 \\ 
-  TRY & \cite{Moles2004} & Height & m &   5 &   5 \\ 
-  TRY & \cite{CavenderBares2006} & Height & m &   1 &   1 \\ 
-  TRY & \cite{Diaz2004} & Height & m &  11 &  10 \\ 
-  TRY & \cite{Craine2009} & LNC & mg/g & 287 &  12 \\ 
-  TRY & \cite{Wilson2000} & LNC & mg/g &  44 &   2 \\ 
-  TRY & \cite{Wenxuan2011} & LNC & mg/g &   7 &   4 \\ 
-  TRY & \cite{Yahan2013} & LNC & mg/g &   7 &   3 \\ 
-  TRY & \cite{Wright2004} & LNC & mg/g &  65 &  32 \\ 
-  TRY & \cite{Prentice2011} & LNC & mg/g &   3 &   2 \\ 
-  TRY & \cite{Vergutz2012} & LNC & mg/g & 120 &  20 \\ 
-  TRY & \cite{Atkin2015} & LNC & mg/g &  24 &   8 \\ 
-  TRY & \cite{Maire2015} & LNC & mg/g &  72 &  22 \\ 
-  TRY & \cite{Cornelissen2003} & LNC & mg/g &   2 &   1 \\ 
-  TRY & Unpublished & LNC & mg/g & 3216 &  37 \\ 
-  TRY & \cite{Wang2017} & LNC & mg/g &   6 &   2 \\ 
-  BIEN & \cite{Marx2016} & Seed mass & mg &   3 &   3 \\ 
-  BIEN & Unreferenced & Seed mass & mg &   4 &   2 \\ 
-  BIEN & \cite{kewSeed} & Seed mass & mg & 250 &  37 \\ 
-  BIEN & \cite{Ameztegui2017} & Seed mass & mg &  12 &  12 \\ 
-  BIEN & \cite{Paine2015} & Seed mass & mg &  12 &   7 \\ 
-  TRY & \cite{Wilson2000} & SLA & mm2 mg-1 &  44 &   2 \\ 
-  TRY & Unpublished & SLA & mm2 mg-1 & 204 &   3 \\ 
-  TRY & \cite{Wright2004} & SLA & mm2 mg-1 &  93 &  33 \\ 
-  TRY & \cite{Prentice2011} & SLA & mm2 mg-1 &   2 &   2 \\ 
-  TRY & \cite{Kleyer2008} & SLA & mm2 mg-1 & 102 &  18 \\ 
-  TRY & Unpublished & SLA & mm2 mg-1 &  83 &   2 \\ 
-  TRY & \cite{Atkin2015} & SLA & mm2 mg-1 &  40 &  11 \\ 
-  TRY & \cite{Maire2015} & SLA & mm2 mg-1 &  86 &  23 \\ 
-  TRY & \cite{Cornelissen2003} & SLA & mm2 mg-1 & 615 &  14 \\ 
-  TRY & Unpublished & SLA & mm2 mg-1 & 6307 &  37 \\ 
-  TRY & \cite{Wang2017} & SLA & mm2 mg-1 &   6 &   2 \\ 
-  TRY & \cite{Shipley2002} & SLA & mm2 mg-1 &  20 &   2 \\ 
-  TRY & \cite{CavenderBares2006} & SLA & mm2 mg-1 &  42 &   2 \\ 
-  TRY & Unpublished & SLA & mm2 mg-1 &   1 &   1 \\ 
-  TRY & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\ 
+  BIEN & \cite{McHugh2015} & Height & m &  26 &   8 \\
+  BIEN & \cite{Marx2016} & Height & m &   2 &   2 \\
+  BIEN & \cite{Price2014} & Height & m &  27 &  19 \\
+  BIEN & Unreferenced & Height & m &  18 &  16 \\
+  BIEN & \cite{Kleyer2008} & Height & m &  90 &  19 \\
+  BIEN & Unreferenced & Height & m &  10 &  10 \\
+  BIEN & Moles, Angela; unreferenced & Height & m &  21 &  14 \\
+  BIEN & Reams, Greg; unreferenced & Height & m & 47036 &  19 \\
+  BIEN & Grime, Hodgson, \& Hunt; unreferenced & Height & m &   5 &   5 \\
+  BIEN & Unreferenced & Height & m &   8 &   5 \\
+  BIEN & \cite{Perez-de-lis2017} & Height & m &  18 &   1 \\
+  BIEN & \cite{Robinson2015} & Height & m & 120 &   1 \\
+  BIEN & \cite{Anderson-teixeira2015} & Height & m &  20 &   1 \\
+  TRY & \cite{BondLamberty2002} & Height & m &   2 &   1 \\
+  TRY & Unpublished & Height & m & 275 &   3 \\
+  TRY & \cite{Wright2004} & Height & m &  28 &  19 \\
+  TRY & \cite{Prentice2011} & Height & m &   2 &   2 \\
+  TRY & \cite{xylemdatabase} & Height & m &  21 &  21 \\
+  TRY & Unpublished & Height & m &  35 &   2 \\
+  TRY & \cite{Moles2004} & Height & m &   5 &   5 \\
+  TRY & \cite{CavenderBares2006} & Height & m &   1 &   1 \\
+  TRY & \cite{Diaz2004} & Height & m &  11 &  10 \\
+  TRY & \cite{Craine2009} & LNC & mg/g & 287 &  12 \\
+  TRY & \cite{Wilson2000} & LNC & mg/g &  44 &   2 \\
+  TRY & \cite{Wenxuan2011} & LNC & mg/g &   7 &   4 \\
+  TRY & \cite{Yahan2013} & LNC & mg/g &   7 &   3 \\
+  TRY & \cite{Wright2004} & LNC & mg/g &  65 &  32 \\
+  TRY & \cite{Prentice2011} & LNC & mg/g &   3 &   2 \\
+  TRY & \cite{Vergutz2012} & LNC & mg/g & 120 &  20 \\
+  TRY & \cite{Atkin2015} & LNC & mg/g &  24 &   8 \\
+  TRY & \cite{Maire2015} & LNC & mg/g &  72 &  22 \\
+  TRY & \cite{Cornelissen2003} & LNC & mg/g &   2 &   1 \\
+  TRY & Unpublished & LNC & mg/g & 3216 &  37 \\
+  TRY & \cite{Wang2017} & LNC & mg/g &   6 &   2 \\
+  BIEN & \cite{Marx2016} & Seed mass & mg &   3 &   3 \\
+  BIEN & Unreferenced & Seed mass & mg &   4 &   2 \\
+  BIEN & \cite{kewSeed} & Seed mass & mg & 250 &  37 \\
+  BIEN & \cite{Ameztegui2017} & Seed mass & mg &  12 &  12 \\
+  BIEN & \cite{Paine2015} & Seed mass & mg &  12 &   7 \\
+  TRY & \cite{Wilson2000} & SLA & mm2 mg-1 &  44 &   2 \\
+  TRY & Unpublished & SLA & mm2 mg-1 & 204 &   3 \\
+  TRY & \cite{Wright2004} & SLA & mm2 mg-1 &  93 &  33 \\
+  TRY & \cite{Prentice2011} & SLA & mm2 mg-1 &   2 &   2 \\
+  TRY & \cite{Kleyer2008} & SLA & mm2 mg-1 & 102 &  18 \\
+  TRY & Unpublished & SLA & mm2 mg-1 &  83 &   2 \\
+  TRY & \cite{Atkin2015} & SLA & mm2 mg-1 &  40 &  11 \\
+  TRY & \cite{Maire2015} & SLA & mm2 mg-1 &  86 &  23 \\
+  TRY & \cite{Cornelissen2003} & SLA & mm2 mg-1 & 615 &  14 \\
+  TRY & Unpublished & SLA & mm2 mg-1 & 6307 &  37 \\
+  TRY & \cite{Wang2017} & SLA & mm2 mg-1 &   6 &   2 \\
+  TRY & \cite{Shipley2002} & SLA & mm2 mg-1 &  20 &   2 \\
+  TRY & \cite{CavenderBares2006} & SLA & mm2 mg-1 &  42 &   2 \\
+  TRY & Unpublished & SLA & mm2 mg-1 &   1 &   1 \\
+  TRY & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
 \label{tableHt}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\
   \hline
-$\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\ 
-  $\mu_{k,g}$ & 32.1 & 27.8 & 30.3 & 33.9 & 36.5 \\ 
-  $\mu_{force}$ & -10.7 & -15.5 & -12.6 & -8.8 & -6.2 \\ 
-  $\mu_{chill}$ & -4.1 & -10.8 & -6.8 & -1.4 & 2.6 \\ 
-  $\mu_{photo}$ & 1.1 & -2.6 & -0.3 & 2.5 & 4.6 \\ 
-  $\beta_{trait.force}$ & 0.2 & -0.2 & 0.0 & 0.3 & 0.5 \\ 
-  $\beta_{trait.chill}$ & -0.5 & -1.0 & -0.7 & -0.3 & -0.1 \\ 
-  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.4 & -0.1 & 0.0 \\ 
-  $\sigma_{species}$ & 5.9 & 4.8 & 5.4 & 6.4 & 7.3 \\ 
-  $\sigma_{study}$ & 7.5 & 5.8 & 6.7 & 8.3 & 9.7 \\ 
-  $\sigma_{trait}$ & 5.4 & 5.4 & 5.4 & 5.4 & 5.4 \\ 
-  $\sigma_{pheno}$ & 15.1 & 11.8 & 13.8 & 16.4 & 18.6 \\ 
-  $\sigma_{force}$ & 5.0 & 3.3 & 4.1 & 5.7 & 7.1 \\ 
-  $\sigma_{chill}$ & 8.5 & 5.6 & 7.0 & 9.8 & 12.4 \\ 
-  $\sigma_{photo}$ & 3.2 & 2.0 & 2.6 & 3.8 & 4.8 \\ 
-  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\ 
+$\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
+  $\mu_{k,g}$ & 32.1 & 27.8 & 30.3 & 33.9 & 36.5 \\
+  $\mu_{force}$ & -10.7 & -15.5 & -12.6 & -8.8 & -6.2 \\
+  $\mu_{chill}$ & -4.1 & -10.8 & -6.8 & -1.4 & 2.6 \\
+  $\mu_{photo}$ & 1.1 & -2.6 & -0.3 & 2.5 & 4.6 \\
+  $\beta_{trait.force}$ & 0.2 & -0.2 & 0.0 & 0.3 & 0.5 \\
+  $\beta_{trait.chill}$ & -0.5 & -1.0 & -0.7 & -0.3 & -0.1 \\
+  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.4 & -0.1 & 0.0 \\
+  $\sigma_{species}$ & 5.9 & 4.8 & 5.4 & 6.4 & 7.3 \\
+  $\sigma_{study}$ & 7.5 & 5.8 & 6.7 & 8.3 & 9.7 \\
+  $\sigma_{trait}$ & 5.4 & 5.4 & 5.4 & 5.4 & 5.4 \\
+  $\sigma_{pheno}$ & 15.1 & 11.8 & 13.8 & 16.4 & 18.6 \\
+  $\sigma_{force}$ & 5.0 & 3.3 & 4.1 & 5.7 & 7.1 \\
+  $\sigma_{chill}$ & 8.5 & 5.6 & 7.0 & 9.8 & 12.4 \\
+  $\sigma_{photo}$ & 3.2 & 2.0 & 2.6 & 3.8 & 4.8 \\
+  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\
   \hline
-$\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\ 
-  $\mu_{k,g}$ & 31.3 & 27.2 & 29.6 & 33.0 & 35.6 \\ 
-  $\mu_{force}$ & -11.4 & -16.2 & -13.1 & -9.6 & -7.2 \\ 
-  $\mu_{chill}$ & -16.7 & -24.6 & -19.8 & -13.3 & -9.1 \\ 
-  $\mu_{photo}$ & 1.9 & -2.4 & 0.2 & 3.6 & 5.8 \\ 
-  $\beta_{trait.force}$ & 0.2 & -0.1 & 0.1 & 0.3 & 0.4 \\ 
-  $\beta_{trait.chill}$ & 0.3 & -0.1 & 0.2 & 0.5 & 0.7 \\ 
-  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.3 & -0.1 & 0.0 \\ 
-  $\sigma_{species}$ & 7.8 & 6.4 & 7.1 & 8.4 & 9.4 \\ 
-  $\sigma_{study}$ & 3.3 & 2.0 & 2.6 & 3.8 & 5.1 \\ 
-  $\sigma_{trait}$ & 6.2 & 6.1 & 6.1 & 6.2 & 6.3 \\ 
-  $\sigma_{pheno}$ & 13.9 & 10.7 & 12.4 & 15.3 & 17.6 \\ 
-  $\sigma_{force}$ & 5.0 & 3.3 & 4.2 & 5.6 & 7.0 \\ 
-  $\sigma_{chill}$ & 10.6 & 7.2 & 8.9 & 12.0 & 14.8 \\ 
-  $\sigma_{photo}$ & 3.5 & 2.3 & 2.9 & 3.9 & 5.0 \\ 
-  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\ 
+$\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
+  $\mu_{k,g}$ & 31.3 & 27.2 & 29.6 & 33.0 & 35.6 \\
+  $\mu_{force}$ & -11.4 & -16.2 & -13.1 & -9.6 & -7.2 \\
+  $\mu_{chill}$ & -16.7 & -24.6 & -19.8 & -13.3 & -9.1 \\
+  $\mu_{photo}$ & 1.9 & -2.4 & 0.2 & 3.6 & 5.8 \\
+  $\beta_{trait.force}$ & 0.2 & -0.1 & 0.1 & 0.3 & 0.4 \\
+  $\beta_{trait.chill}$ & 0.3 & -0.1 & 0.2 & 0.5 & 0.7 \\
+  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.3 & -0.1 & 0.0 \\
+  $\sigma_{species}$ & 7.8 & 6.4 & 7.1 & 8.4 & 9.4 \\
+  $\sigma_{study}$ & 3.3 & 2.0 & 2.6 & 3.8 & 5.1 \\
+  $\sigma_{trait}$ & 6.2 & 6.1 & 6.1 & 6.2 & 6.3 \\
+  $\sigma_{pheno}$ & 13.9 & 10.7 & 12.4 & 15.3 & 17.6 \\
+  $\sigma_{force}$ & 5.0 & 3.3 & 4.2 & 5.6 & 7.0 \\
+  $\sigma_{chill}$ & 10.6 & 7.2 & 8.9 & 12.0 & 14.8 \\
+  $\sigma_{photo}$ & 3.5 & 2.3 & 2.9 & 3.9 & 5.0 \\
+  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
 \label{tableSM}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\
   \hline
-$\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\ 
-  $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\ 
-  $\mu_{force}$ & -8.2 & -10.8 & -9.2 & -7.1 & -5.6 \\ 
-  $\mu_{chill}$ & -9.4 & -14.0 & -11.2 & -7.5 & -4.8 \\ 
-  $\mu_{photo}$ & -1.3 & -3.4 & -2.1 & -0.4 & 0.8 \\ 
-  $\beta_{trait.force}$ & -0.3 & -1.4 & -0.8 & 0.1 & 0.9 \\ 
-  $\beta_{trait.chill}$ & -1.1 & -2.9 & -1.8 & -0.4 & 0.7 \\ 
-  $\beta_{trait.photo}$ & -0.6 & -1.5 & -0.9 & -0.2 & 0.4 \\ 
-  $\sigma_{species}$ & 1.6 & 1.3 & 1.5 & 1.7 & 2.0 \\ 
-  $\sigma_{study}$ & 1.0 & 0.8 & 0.9 & 1.0 & 1.1 \\ 
-  $\sigma_{trait}$ & 0.2 & 0.2 & 0.2 & 0.3 & 0.3 \\ 
-  $\sigma_{pheno}$ & 14.8 & 11.2 & 13.3 & 16.3 & 18.6 \\ 
-  $\sigma_{force}$ & 4.9 & 3.4 & 4.2 & 5.5 & 6.7 \\ 
-  $\sigma_{chill}$ & 10.7 & 7.1 & 8.8 & 12.1 & 15.4 \\ 
-  $\sigma_{photo}$ & 3.6 & 2.3 & 3.0 & 4.1 & 5.1 \\ 
-  $\sigma_{d}$ & 14.1 & 13.7 & 14.0 & 14.3 & 14.5 \\ 
+$\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
+  $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\
+  $\mu_{force}$ & -8.2 & -10.8 & -9.2 & -7.1 & -5.6 \\
+  $\mu_{chill}$ & -9.4 & -14.0 & -11.2 & -7.5 & -4.8 \\
+  $\mu_{photo}$ & -1.3 & -3.4 & -2.1 & -0.4 & 0.8 \\
+  $\beta_{trait.force}$ & -0.3 & -1.4 & -0.8 & 0.1 & 0.9 \\
+  $\beta_{trait.chill}$ & -1.1 & -2.9 & -1.8 & -0.4 & 0.7 \\
+  $\beta_{trait.photo}$ & -0.6 & -1.5 & -0.9 & -0.2 & 0.4 \\
+  $\sigma_{species}$ & 1.6 & 1.3 & 1.5 & 1.7 & 2.0 \\
+  $\sigma_{study}$ & 1.0 & 0.8 & 0.9 & 1.0 & 1.1 \\
+  $\sigma_{trait}$ & 0.2 & 0.2 & 0.2 & 0.3 & 0.3 \\
+  $\sigma_{pheno}$ & 14.8 & 11.2 & 13.3 & 16.3 & 18.6 \\
+  $\sigma_{force}$ & 4.9 & 3.4 & 4.2 & 5.5 & 6.7 \\
+  $\sigma_{chill}$ & 10.7 & 7.1 & 8.8 & 12.1 & 15.4 \\
+  $\sigma_{photo}$ & 3.6 & 2.3 & 3.0 & 4.1 & 5.1 \\
+  $\sigma_{d}$ & 14.1 & 13.7 & 14.0 & 14.3 & 14.5 \\
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships} 
+\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
 \label{tableLNC}
 \begin{tabular}{rrrrrr}
   \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\ 
+ & mean & 5\% & 25\% & 75\% & 95\% \\
   \hline
-$\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\ 
-  $\mu_{k,g}$ & 31.1 & 27.1 & 29.4 & 32.8 & 35.3 \\ 
-  $\mu_{force}$ & -19.3 & -27.9 & -22.9 & -15.8 & -10.5 \\ 
-  $\mu_{chill}$ & -27.1 & -38.5 & -31.7 & -22.4 & -15.4 \\ 
-  $\mu_{photo}$ & -9.4 & -17.0 & -12.5 & -6.2 & -1.9 \\ 
-  $\beta_{trait.force}$ & 0.5 & 0.1 & 0.3 & 0.6 & 0.8 \\ 
-  $\beta_{trait.chill}$ & 0.7 & 0.2 & 0.5 & 0.9 & 1.2 \\ 
-  $\beta_{trait.photo}$ & 0.3 & 0.0 & 0.2 & 0.4 & 0.6 \\ 
-  $\sigma_{species}$ & 5.1 & 4.2 & 4.7 & 5.5 & 6.2 \\ 
-  $\sigma_{study}$ & 3.6 & 2.2 & 2.9 & 4.1 & 5.3 \\ 
-  $\sigma_{trait}$ & 5.1 & 5.0 & 5.1 & 5.2 & 5.2 \\ 
-  $\sigma_{pheno}$ & 14.0 & 10.9 & 12.7 & 15.3 & 17.4 \\ 
-  $\sigma_{force}$ & 4.6 & 3.0 & 3.8 & 5.2 & 6.6 \\ 
-  $\sigma_{chill}$ & 8.9 & 6.1 & 7.5 & 10.1 & 12.5 \\ 
-  $\sigma_{photo}$ & 3.6 & 2.4 & 3.0 & 4.1 & 5.0 \\ 
-  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\ 
+$\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\
+  $\mu_{k,g}$ & 31.1 & 27.1 & 29.4 & 32.8 & 35.3 \\
+  $\mu_{force}$ & -19.3 & -27.9 & -22.9 & -15.8 & -10.5 \\
+  $\mu_{chill}$ & -27.1 & -38.5 & -31.7 & -22.4 & -15.4 \\
+  $\mu_{photo}$ & -9.4 & -17.0 & -12.5 & -6.2 & -1.9 \\
+  $\beta_{trait.force}$ & 0.5 & 0.1 & 0.3 & 0.6 & 0.8 \\
+  $\beta_{trait.chill}$ & 0.7 & 0.2 & 0.5 & 0.9 & 1.2 \\
+  $\beta_{trait.photo}$ & 0.3 & 0.0 & 0.2 & 0.4 & 0.6 \\
+  $\sigma_{species}$ & 5.1 & 4.2 & 4.7 & 5.5 & 6.2 \\
+  $\sigma_{study}$ & 3.6 & 2.2 & 2.9 & 4.1 & 5.3 \\
+  $\sigma_{trait}$ & 5.1 & 5.0 & 5.1 & 5.2 & 5.2 \\
+  $\sigma_{pheno}$ & 14.0 & 10.9 & 12.7 & 15.3 & 17.4 \\
+  $\sigma_{force}$ & 4.6 & 3.0 & 3.8 & 5.2 & 6.6 \\
+  $\sigma_{chill}$ & 8.9 & 6.1 & 7.5 & 10.1 & 12.5 \\
+  $\sigma_{photo}$ & 3.6 & 2.4 & 3.0 & 4.1 & 5.0 \\
+  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\
   \end{tabular}
 \end{table}
 
@@ -294,43 +294,43 @@ $\mu_{grand.trait}$ & 22.6 & 20.4 & 21.7 & 23.5 & 24.9 \\
 \begin{verbatim}
 
 data {
-  int<lower = 1> n_spec; 
-  int<lower = 1> N; 
-  int<lower = 1, upper = n_spec> trait_species[N]; 
-  int<lower = 1> n_study; 
-  int<lower = 1, upper = n_study> study[N]; 
-  vector[N] yTraiti; 
+  int<lower = 1> n_spec;
+  int<lower = 1> N;
+  int<lower = 1, upper = n_spec> trait_species[N];
+  int<lower = 1> n_study;
+  int<lower = 1, upper = n_study> study[N];
+  vector[N] yTraiti;
 
-  int<lower = 1> Nph; 
-  int<lower = 1, upper = n_spec> phenology_species[Nph]; 
-  vector[Nph] yPhenoi; 
-  vector[Nph] forcei; 
-  vector[Nph] chilli; 
-  vector[Nph] photoi; 
+  int<lower = 1> Nph;
+  int<lower = 1, upper = n_spec> phenology_species[Nph];
+  vector[Nph] yPhenoi;
+  vector[Nph] forcei;
+  vector[Nph] chilli;
+  vector[Nph] photoi;
 }
 
 parameters{
 
-  real mu_grand; 
-  vector[n_spec] muSp; 
-  vector[n_study] muStudy; 
-  real<lower = 0> sigma_traity; 
-  real<lower = 0> sigma_sp; 
-  real<lower = 0> sigma_study; 
+  real mu_grand;
+  vector[n_spec] muSp;
+  vector[n_study] muStudy;
+  real<lower = 0> sigma_traity;
+  real<lower = 0> sigma_sp;
+  real<lower = 0> sigma_study;
 
-  real alphaForceSp[n_spec]; 
-  real muForceSp; 
+  real alphaForceSp[n_spec];
+  real muForceSp;
   real<lower = 0> sigmaForceSp;
-  real alphaChillSp[n_spec]; 
-  real muChillSp; 
+  real alphaChillSp[n_spec];
+  real muChillSp;
   real<lower = 0> sigmaChillSp;
   real alphaPhotoSp[n_spec];
   real muPhotoSp;
   real<lower = 0> sigmaPhotoSp;
   real alphaPhenoSp[n_spec];
   real muPhenoSp;
-  real<lower = 0> sigmaPhenoSp; 
-  real betaTraitxForce; 
+  real<lower = 0> sigmaPhenoSp;
+  real betaTraitxForce;
   real betaTraitxChill;
   real betaTraitxPhoto;
   real<lower = 0> sigmapheno_y;
@@ -338,12 +338,12 @@ parameters{
 
 transformed parameters{
 
-  vector[N] y_hat; 
+  vector[N] y_hat;
   vector[n_spec] mu_grand_sp;
 
-  real betaForceSp[n_spec];     
-  real betaPhotoSp[n_spec];     
-  real betaChillSp[n_spec];     
+  real betaForceSp[n_spec];
+  real betaPhotoSp[n_spec];
+  real betaChillSp[n_spec];
 
   for(i in 1:n_spec){
     mu_grand_sp[i] = mu_grand + muSp[i];
@@ -371,23 +371,23 @@ model{
   sigma_sp ~ normal(4,5);
   sigma_study ~ normal(2,5);
   sigma_traity ~ normal(3,5);
- 
+
   for (i in 1:Nph){
-    yPhenoi[i] ~ normal(alphaPhenoSp[phenology_species[i]] + 
-    betaForceSp[phenology_species[i]] * forcei[i] + 
-    betaPhotoSp[phenology_species[i]] * photoi[i] + 
+    yPhenoi[i] ~ normal(alphaPhenoSp[phenology_species[i]] +
+    betaForceSp[phenology_species[i]] * forcei[i] +
+    betaPhotoSp[phenology_species[i]] * photoi[i] +
     betaChillSp[phenology_species[i]] * chilli[i],
     sigmapheno_y);
   }
-  
+
   alphaPhenoSp ~ normal(muPhenoSp, sigmaPhenoSp);
-  alphaForceSp ~ normal(muForceSp, sigmaForceSp); 
+  alphaForceSp ~ normal(muForceSp, sigmaForceSp);
   alphaChillSp ~ normal(muChillSp, sigmaChillSp);
   alphaPhotoSp ~ normal(muPhotoSp, sigmaPhotoSp);
-  
+
   muPhenoSp ~ normal(40,10);
   sigmaPhenoSp ~ normal(5,5);
-  
+
   sigmapheno_y ~ normal(10,5);
 
   muForceSp ~ normal(-15,10);
@@ -395,13 +395,13 @@ model{
 
   muChillSp ~ normal(-15,10);
   sigmaChillSp ~ normal(5,5);
-   
+
   muPhotoSp ~ normal(-15,10);
   sigmaPhotoSp ~ normal(5,5);
-        
+
   betaTraitxForce ~ normal(0,1);
   betaTraitxPhoto ~ normal(0,1);
-  betaTraitxChill ~ normal(0,1); 
+  betaTraitxChill ~ normal(0,1);
 
 }
 
