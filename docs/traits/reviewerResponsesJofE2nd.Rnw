@@ -243,7 +243,7 @@ We apologize for the confusion that this typo created and have revised the text 
 We also expected SLA to relate to both photoperiod and temperature and were surprised to only find relationships with photoperiod. To address this more explicitly, we have revised \lr{R2_316} to \lr{R2_316b} to now read:
 
 \begin{quote}
-Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature with small thicker leaves reducing the effects of frost damage in the spring and influencing leaf size as cold temperatures can reduce leaf growth rates (CITES).
+Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature and frost risk. Species with high SLA, that are have a greater surface area also have a thicker leaf boundary layer and lower heat transfer and greater risk of frost damage \citep{lusk2018}.
 \end{quote}
 
 \emph{L327: I think you should mention that Macgregor et al, 2019 focus on Lepidoptera (butterflies s.l.), and not on plants which can be misleading. I suggest you stick to relationships of phenological change and performance in woody plants here.}\\
