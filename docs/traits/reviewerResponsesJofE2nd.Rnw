@@ -32,13 +32,13 @@ Reviewer comments are italicized and our detailed explanation of changes are in 
 \emph{Comments for Authors:
 I appreciate the authors' efforts to address the reviewer comments by undertaking substantial revisions. This version is improved in many ways. However, the review process has identified some lingering issues. Most of these issues relate to a lack of clarity in the methods and confusion around how the results have been interpreted, concerns that are similar to those expressed in the first round of review. As a side note, I agree with Reviewer 2 that the frequent use of em dashes in the text is distracting and reduces clarity. Please consider splitting the content into multiple sentences, offsetting phrases with commas, or otherwise editing to reduce the reliance on em dashes.}\\
 
-We are glad that our previous edits addressed many of the reviewers comments and improved the manuscript. To address the lingering issues, we have added additional details and clarifications throughout the methods and results (for examples see \lr{R2_cueSizea}, \lr{R2_150}, \lr{R2_170}, and \lr{R2_cueSize2a}). We have also revised our sentence structure to remove em dashes throughout to improve clarity and improve flow (see for examples see \lr{em4}, \lr{em6} and \lr{em8}).\\
+We are glad that our previous edits addressed many of the reviewers comments and improved the manuscript. To address the lingering issues, we have added additional details and clarifications throughout the methods and results (for examples see \lr{R2_cueSizea}, \lr{R2_150}, \lr{R2_170}, and \lr{R2_cueSize2a}). We have also revised our sentence structure to remove em dashes throughout to improve clarity and improve flow (such as on \lr{em4}, \lr{em6} and \lr{em8}).\\
 
 \textbf {Reviewer 1 -- comments:} \\
 
 \emph{Thank you very much for the extensive revision of the paper.}\\
 
-We thank the reviewer for acknowledging the extent of the revisions and are happy to see they have addressed most of the reviewer comments.\\
+We thank the reviewer for their helpful comments and are happy to see our revisions have addressed most of the reviewer comments.\\
 
 \textbf {Minor Comments:}\\
 
@@ -54,7 +54,7 @@ Our aim was to highlight the difference between our predictions pertaining to cu
 
 \emph{I like the idea and the approach of the study and further think it is an interesting topic with current relevance. Reading the manuscript, I had some trouble understanding the main results, primarily due to a lacking definition of what a large/small response to a cue means and contradicting sentences that confused me. The Discussion would benefit from an additional subsection or a restructuring to facilitate the reading flow and logica of the text. Please find more information in the attached document where major and minor issues are addressed in detail.}\\
 
-We are happy to hear the reviewer believes the topic is interesting and current and that they like the approach we used. We agree with the reviewer that we could be more explicit in how we define large/small responses to cues and have revised the text to address this in the the introduction (\lr{R2_cueSizea}), and discussion (\lr{R2_cueSize3a}). In revising the text in the results (\lr{R2_cueSize2a}), we believe we have provided additional information that will reduce confusion in how we interpreted the results. We have also made extensive changes to the discussion, restructuring it to improve the flow and logic (including on \lr{R2_250}, \lr{em13}, and the new section on future outlooks and applications).\\
+We are happy to hear the reviewer believes the topic is interesting and current and that they like the approach we used. We agree with the reviewer that we could be more explicit in how we define large/small responses to cues and have revised the text to address this in the the introduction (\lr{R2_cueSizea}), and discussion (\lr{R2_cueSize3a}). In revising the text in the results (\lr{R2_cueSize2a}), we believe we have provided additional information that will reduce confusion in how we interpreted the results. We have also revised Fig 2 to improve clarity and highlight our main findings. Finally, we made extensive changes to the discussion, restructuring it to improve the flow and logic (including on \lr{R2_250}, \lr{em13}, and the our new section on future outlooks and applications).\\
 
 \textbf{General:}\\
 
@@ -96,7 +96,7 @@ We agree that using the same language as Flynn \& Wolkovich (2018) would improve
 
 \emph{L59: Sporbert et al. (2022) refers to herbaceous species which should be added because they have different phenology and other trait strategies, compared to trees}\\
 
-This reference was suggested in the previous round of revisions, but we can see how referencing work pertaining only to herbaceous species could add confusion. We have revised \lr{R2_treeHerb1} to no longer reference this work here and are more explicit when we site it on \lr{R2_treeHerb1}.\\
+This reference was suggested in the previous round of revisions, but we can see how referencing work pertaining only to herbaceous species could add confusion. We have revised \lr{R2_treeHerb1} to no longer reference this work here and are more explicit when we cite it on \lr{R2_treeHerb1}.\\
 
 \emph{L71: remove comma before opening bracket}\\
 
@@ -119,7 +119,7 @@ The reviewer is correct that we are referring to the gradient that occurs within
 
 \emph{L96: Bucher \& Rosbakh, 2021 also focused on herbaceous plants only which, again, behave different to trees. This has to be mentioned here.}\\
 
-We agree with the reviewer that referencing studies on herbaceous plants may be confusing and have removed it from the current version, as it was a suggested in the previous round of revisions that is not critical to the main focus of our paper. \\
+We can see how referencing studies on herbaceous plants may be confusing and have removed it from the current version, as it was a suggested in the previous round of revisions that is not critical to the main focus of our paper. \\
 
 
 \emph{L105: LNC not spelled out in the text before. Would be possible to do in L99.}\\
@@ -134,15 +134,15 @@ We have switched these paragraphs to improve the flow.\\
 
 \emph{L124-136 seem irrelevant for the present study. Already described in Ettinger et al., 2020. Rather briefly describe the data OSPREE contains and link to the original publication (Wolkovich et al., 2019), as is done with TRY and BIEN later.}\\
 
-We added this additional information regarding our methods in response to comments made in the first round of revisions and have left it in the current version to ensure our work is accessible to readers at all levels.\\
+We added this additional information regarding our methods in response to comments made in the first round of revisions and have left it in the current version to ensure our work is as accessible as possible to our readers.\\
 
 \emph{L144: Which data did you use? If the updated one then just mention this date maybe.}\\
 
-We have revised the methods on \lr{R2_144} to clarify that we obtained the data from BIEN on 5 December 2018 and the TRY data on 10 April 2019.\\
+We have revised the methods on \lr{R2_144} to simply state that we obtained the data from BIEN on 5 December 2018 and the TRY data on 10 April 2019.\\
 
 \emph{L150: Why do you think the DBH standard height is a good proxy for being an adult individual? In forest understories, many individuals reach this height without being adult, really, so I think this needs some more justification. Otherwise you could run into the issue of comparing rejuvenation and adult trees, likely affecting your results.}\\
 
-We agree that different species can have different dbh at maturity and that it can vary with habitat conditions. We have re-ran our analysis for tree height using data of for individuals more than 2m in height, thereby excluding saplings based on the definition provided by the Government of Canada's Department of Natural Resources \citep{NRCan}. \\
+We agree that different species can have different DBH at maturity and that it can vary with habitat conditions, making it challenging to define a single threshold at which to subset adult trees. The Government of Canada's Department of Natural Resources defines a sapling as individuals less than 2m in height \citep{NRCan}. We have re-ran our analysis for tree height using data from individuals more than 2m in height to further ensure that we are using data from adult trees, with resulted in no changes to our overall findings. \\
 
 \emph{L165: Fig S2 mentioned after Fig S3 (L157).}\\
 
@@ -150,41 +150,45 @@ Thank you for identifying this typo, it has been corrected. \\
 
 \emph{L170: Subsampling of height to reduce the influence of most frequently measured species on the model. What about the other traits? Was no subsampling needed here because species were measured more or less equally?}\\
 
-Yes that is correct, this clarification was added to \lr{R2_170}.  \\
+Yes, other traits did not need to be subsampled.We have now added this clarification to \lr{R2_170}.  \\
 
 \emph{L190: How do you obtain measurement error variance?}\\
 
-The measurement error is estimated as $\sigma_{\text{m}}^2$ in our model and is now more explicitly stated in our methods on \lr{R2_190}.\\
+The measurement error is estimated as $\sigma_{\text{m}}^2$ in our model and is now explicitly named as such in our methods on \lr{R2_190}.\\
 
 \emph{L191: What is N?}\\
 
-Here N refers to the normal distribution, which we now refer to explicitly in all equations.\\ 
+Here \emph{N} refers to the normal distribution, which we now refer to explicitly in all equations.\\ 
 
 \emph{L193: What is meant by the T in ${..}^T$? Total? Does the (4) refer to one of the formulas?}\\
 
-The superscript T is used to concisely denote a transposed matrix. To further readers understanding of the equations, we have simplified the notation of our equations. We have updated the equation numbers to no longer include the spurious reference to an equation 4. \\ 
+The superscript T is used to concisely denote a transposed matrix. To further readers understanding of the equations, we have simplified the equations and include more recognizable matrix notation. We have also updated the equation numbers to no longer include the spurious reference to an equation 4. \\ 
 
 \emph{L194: How do you obtain alpha(grand trait) as being independent of species and study-level offsets from that trait value?}\\
 
+The $\alpha_{\text{grand trait}}$ is the grand mean of the trait values across all species, which we are able to calculate mathematically as a separate parameter from the species and study-level offsets. We now clarify this on \lr{R2_194}.\\
+
 \emph{L216: s. L190}\\
 
-Here N again refers to the normal distribution, which is now written in full for each equation. \\
+The measurement error... \\
 
 \textbf{Results}\\
 
 \emph{Fig. 2: What does a large and a small response to a cue, respectively, mean? This is needed to explain thoroughly as it is the basis for further discussion. Does a large response mean, that budburst happens way earlier or does it mean that a low cue intensity is needed to trigger budburst? Please add a simple explanatory sentence to get this right as reader.}\\
 
-We agree that having a clear definition of what we mean by large and small responses would help readers interpret our results and reduce confusion. We now define these terms from \lr{R2_cueSizea} to \lr{R2_cueSizeb} in the introduction, from \lr{R2_cueSize2a} to \lr{R2_cueSize2b} in the results, in the discussion on \lr{em13}, as well as by modifying the figure caption and adding arrows to Fig 2. \\
+We agree that having a clear definition of what we mean by large and small responses would help readers interpret our results and reduce confusion. We now define these terms from \lr{R2_cueSizea} to \lr{R2_cueSizeb} in the introduction, from \lr{R2_cueSize2a} to \lr{R2_cueSize2b} in the results, in the discussion on \lr{em13}. We have also annotated Figure 2 and modified the figure caption to also include this information. \\
 
 \emph{L244-246: indication of SLA and relationship to photoperiod rather fits to Discussion}\\
 
+We see the reviewer's point and have moved and revised this sentence on \lr{R2_244}.
+
 \emph{L250-252: move to Discussion.}\\
 
-We have moved this sentence and incorporated it into the dicussion on \lr{R2_250}.\\
+We have moved this sentence and incorporated it into the discussion on \lr{R2_250}.\\
 
 \emph{L256: add space before "For height"}\\
 
-Done \lr{R2_256}.\\
+Done (\lr{R2_256}).\\
 
 \emph{L254-267: variation =/= variance. What you show is variance as derived from your model. Variance is just one measure of variation. Please stay consistent here.}\\
 
@@ -195,9 +199,12 @@ We have substituted the term variance where appropriate throughout the manuscrip
 We see how this information was redundant and have removed the bracket on \lr{R2_264}.\\
 
 \emph{L266: s. L264}\\
+
 As mentioned above, we have removed the redundant information in bracket on \lr{R2_266}, which to address the comment below was moved to the discussion.\\
 
 \emph{L265: move to Discussion.}\\
+
+Done (\lr{R2_266}).\\
 
 \textbf{Discussion}\\
 
@@ -208,7 +215,8 @@ We can see your point and have revised this sentence to prevent any confusion (\
 \emph{L275: I miss a discrimination between early and late budbursting species here or in the Results. From the text only, I understand that the ones responding strongly to the cues are the late budbursting species and oppositely for the early ones. I am not sure, though, if this is a general assumption based on literature or if this is derived from the results. If it is part of the results, what is the threshold to classify early vs late species?
 An overview of which species is considered early and late and an average of their relationships with traits associated to the different growth strategies would improve the understanding of this part. Also I think that some references to back up the these relationships of budbursting timing with cue intensity are useful.}\\
 
-As discussed above we have added additional detail to better explain what we mean by early versus late budbursting species based on their cue responses (e.g. \lr{em13} to \lr{em13b}). This inference is based on both the literature, including work by \citet{Flynn2018}, and based on our model estimates in Fig S5 where estimated day of budburst was shown on the y-axis for our illustrative early and late species. We have also added several citations pertaining to these relationships between budburst timing and cue intensity in controlled environment experiments on \lr{R2_275}.\\
+We have added additional detail to better explain what we mean by early versus late budbursting species based on their cue responses (e.g. \lr{em13} to \lr{em13b}). This inference is based on both the literature, including work by \citet{Flynn2018}, and based on our model estimates% in Fig S5 where estimated day of budburst was shown on the y-axis for our illustrative early and late species. 
+We have also added several citations pertaining to these relationships between budburst timing and cue intensity in controlled environment experiments on \lr{R2_275}.\\
 
 \emph{L285: The study is definitely more global than local scale studies but since basically South America, Africa, and Australia is missing, I would rather call it intercontinental or large scale.}\\
 
@@ -216,15 +224,15 @@ We see your point and now refer to our work as large scale on \lr{R2_285}.\\
 
 \emph{L295: Have you checked whether this isn't done already? Usually study site is included as random effect in modelling, so this should account for study-site related variation, right? Also, what does this imply for interspecific variation? That interspecific differences are stronger than trait differences between sites/forest stands? Could this also be a result of different species occurring at different study sites or did you consider overlapping species only?}\\
 
-We completely agree with the reviewer that one source of variation that is captured in our study-level estimate is due to site. We have now added this to our list of factors on \lr{R2_295}. Previous meta-analyses of phenology had included study as a random effect (see \citet{Zettlemoyer2022,Liu2022} for examples). But they do not explicitly report the extent of variation nor use it to infer the relative effect of study as a major source of variation.
+We completely agree with the reviewer that one source of variation that is captured in our study-level estimate is due to site. We have now added this to our list of factors on \lr{R2_295}. Previous meta-analyses of phenology have included study as a random effect (see \citet{Zettlemoyer2022,Liu2022} for examples). But it is less commonly included in the trait literature and rarely do studies explicitly report the extent of variation due to study or discuss it as a potentially large source of variation when using data from large databases.\\
 
 \emph{L300: shorter heights not for response to forcing. Any idea why the relationship is different for this cue?}\\
 
-We were surprised that only one of our traits was related to all three of our cues, with only leaf nitrogen content showing a large relationship to forcing. This may be because other factors, including winter intensity or soil moisture exerts stronger selection that spring temperatures alone.\\
+We were surprised that only one of our traits was related to all three cues, with only leaf nitrogen content showing a large relationship to forcing. This may be because other factors, including winter intensity or soil moisture exerts stronger selection that spring temperatures alone.\\
 
 \emph{L314: Any examples for the multiple aspects of species growth and adaptations from the literature? What about intraspecific variation?}\\
 
-We can see how this statment would benefit from examples of the different ways in which a single trait can relate to growth form or function. We now elaborate on the different reasons why height and SLA can vary on \lr{R2_314} to \lr{R2_314b}.
+We can see how this statement would benefit from examples of the different ways in which a single trait can relate to growth form or function. We now elaborate on the different reasons why height and SLA can vary from \lr{R2_314} to \lr{R2_314b}.\\
 
 \emph{L315: the response to forcing may be large but according to Table S2 it is a weak relationship, which you also state in your Results. I don't quite understand why this point is being picked up here as it was a "significant" relationship.}\\
 
@@ -243,7 +251,7 @@ We apologize for the confusion that this typo created and have revised the text 
 We also expected SLA to relate to both photoperiod and temperature and were surprised to only find relationships with photoperiod. To address this more explicitly, we have revised \lr{R2_316} to \lr{R2_316b} to now read:
 
 \begin{quote}
-Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature and frost risk. Species with high SLA, that are have a greater surface area also have a thicker leaf boundary layer and lower heat transfer and greater risk of frost damage \citep{lusk2018}.
+Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature and frost risk. Leaves that differ in SLA due to variation in leaf area will also vary in the thickness of their leaf boundary layer and heat transfer, contributing to the risk of frost damage in the spring \citep{lusk2018}.
 \end{quote}
 
 \emph{L327: I think you should mention that Macgregor et al, 2019 focus on Lepidoptera (butterflies s.l.), and not on plants which can be misleading. I suggest you stick to relationships of phenological change and performance in woody plants here.}\\
@@ -252,17 +260,15 @@ We can see how this reference may be misleading and have therefore removed it fr
 
 \emph{L331: Forest species or forest understory species would be more accurate here.}\\
 
-We updated this sentence to specify that were are referring to the plant species to accurately reflect the studies of tree and herbaceous species we reference here (\lr{R2_331}). \\
+We updated this sentence to specify that we are referring to the plant species to accurately reflect the studies of tree and herbaceous referenced here (\lr{R2_331}). \\
 
 \emph{L332: Temperature and frost may change under future climate but what about photoperiod? Isn't this a rather restricting cue in a sense that it does not change substantially in future but when species are sensitive to forcing and to photoperiod at the same time, then it can become a phenological issue when spring temperature advances but photoperiod stays the same. This could be discussed as well here in terms of growth strategies. The referenced Guy (2014) refers to some climax species being phenologically inflexible which could result in a disadvantage under future climate conditions.}\\
 
-While advances in phenology are widely assumed to be due to warming spring, previous work has shown that changes in chilling have a greater impact than forcing \citep{Ettinger2020}. As winter temperatures warm, the accumulation of chilling will change. 
-
-CITE OSPREE
+While advances in phenology are widely assumed to be due to warming spring, previous work has shown that changes in chilling have a greater impact than forcing \citep{Ettinger2020}. As winter temperatures warm, the accumulation of chilling will change, with species potentially experiencing sufficient chilling earlier in the year \citep{Guy2014}. Since chilling and photoperiod appear to compensatory effect in woody species \citep{Flynn2018}, which may allow species to still budburst under shorter photoperiods. We now discuss this point in greater detail from \lr{R2_332a} to \lr{R2_332b}. 
 
 \emph{L341: I agree. Can you give some specific examples how exactly this could help management decisions?}\\
 
-We agree that this important point should have been more developed, we have expanded on this idea from \lr{R2_341a} to \lr{R2_341b}.\\
+We agree that this important point should have been more developed and have expanded on this idea from \lr{R2_341a} to \lr{R2_341b}.\\
 
 \emph{L358: If we know which species are most vulnerable because they fail to adapt phenologically, how would you prevent their loss in communities by being outcompeted by better adapted species? I think "Develop more effective management practices" needs some further explanation here.}\\
 
@@ -288,7 +294,7 @@ We can see how our column names could lead to this confusion and have revised th
 
 \emph{Fig. 2 shows the estimated species-level response with the 50\% UI but it is stated in the Methods in L226 that you show the 90\% UI, and the 50\% UI in the supplementary. This is confusing. Furthermore, maybe add log10 to the x axis of Fig. 2 for seed mass as at the first glimpse a negative seed mass is confusing.}\\
 
-We can see how our wording may have created some confusion, we have now revised \lr{R2_Fig2} to \lr{R2_Fig2} to clarify that we discuss the 90\% UI in the text, but depict the 50\% UI in the figures. We have also revised the x axis label for seed mass to better represent how the data was modeled.\\
+We can see how our wording may have created some confusion, we have now revised \lr{R2_Fig2} to \lr{R2_Fig2} to clarify that we discuss the 90\% UI in the text, but depict the 50\% UI in the figures. We have also revised the x-axis label for seed mass to better represent how the data was transformed prior to being modeled.\\
 
 \emph{Also, if the relationship is weak or crosses zero, then I strongly encourage to also show this somehow in the figure by e.g., dashed lines or removal of the response line. Otherwise, it is just confusing and the tables in the supplementary need to be studied carefully and compared to Fig. 2 for each trait. To read this figure properly, I would appreciate some annotation in the plot stating what a small or large response mean, e.g., earlier budburst, later budburst.}\\
 
@@ -296,7 +302,7 @@ These are both great suggestions to improve our figure. We have removed the resp
 
 \emph{In Fig. S3, the number of unique traits is different (8 and 11, instead of 10 and 13 as stated in the text). Please correct where needed.}\\
 
-Thank you for pointing out this discrepency. In Figure S3 we were only referring to the number of cleanined trait names and have updated the figure to reflect this. \\
+Thank you for pointing out this discrepancy. In Figure S3 we were only referring to the number of cleaned trait names and have updated the figure to now reflect this. \\
 
 \emph{Fig. S5: I find it difficult to understand this figure. How do I assess the effect size of a trait on budburst? When I understand correctly, then it related to the 50\% UI of the full model vs. trait effect = 0. What does trait effect = 0 mean, though? I think, some clarification in the caption or in the Methods is beneficial to correctly read the figure.}\\
 
