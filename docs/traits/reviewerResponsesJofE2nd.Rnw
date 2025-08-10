@@ -128,8 +128,8 @@ Done (\lr{R2_105}).\\
 
 \emph{Consider switching paragraph 4 and 6 to improve reading flow and logical structure as they seem to be topic wise related.}\\
 
-We have switched these paragraphs to improve the flow.\\
-
+While we can see how the topics of these paragraphs are related, after consulting with our coauthors, we felt the current order in which topics are introduced was clearest.\\
+%dleditAug9: I moved it and read through the introduction and hated it so I switched it back.
 \textbf{Methods}\\
 
 \emph{L124-136 seem irrelevant for the present study. Already described in Ettinger et al., 2020. Rather briefly describe the data OSPREE contains and link to the original publication (Wolkovich et al., 2019), as is done with TRY and BIEN later.}\\
