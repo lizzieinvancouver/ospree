@@ -170,7 +170,7 @@ The $\alpha_{\text{grand trait}}$ is the grand mean of the trait values across a
 
 \emph{L216: s. L190}\\
 
-The measurement error... \\
+I apologize if I am misunderstanding the reviewer's point here, but I assume they are again asking how $\sigma_{\text{d}}^2$ is estimated. Since this is a joint model, we are able to estimate the error, commonly referred to as measurement error (\lr{R2_216}), for the traits and phenology separately in each submodel. We have revised \lr{216} to explicitly explain this. \\
 
 \textbf{Results}\\
 
