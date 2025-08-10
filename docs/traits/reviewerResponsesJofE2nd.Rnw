@@ -239,8 +239,7 @@ We can see how this statement would benefit from examples of the different ways 
 Thank you for bringing our attention to this typo, we have corrected it and \lr{R2_315} now reads:
 
 \begin{quote}
-Since we only found responses to chilling and photoperiod with tree height...
-\end{quote}
+Since we only found a responses to chilling and photoperiod with tree height, the reliance on these cues could prevent frost damage or xylem cavitation under a late spring frost \citep{Clements1972,Marquis2020} and influence annual cambial meristem growth \citep{Lenz2016}.\end{quote}
 
 \emph{L315: If a large response means high sensitivity to cues, then a large response for short trees, i.e., fast budburst when spring temperature rises only a bit, would rather increase the change of frost damage under a late spring frost event, right? If this is correct, then the large response could hint to a phenological adaptation of understory trees (since you included trees > 1.38 m height) to light variability throughout the year.}\\
 
@@ -272,6 +271,12 @@ We agree that this important point should have been more developed and have expa
 
 \emph{L358: If we know which species are most vulnerable because they fail to adapt phenologically, how would you prevent their loss in communities by being outcompeted by better adapted species? I think "Develop more effective management practices" needs some further explanation here.}\\
 
+We agree that this phrasing was vague and it would be useful to develop this idea further. We have revised this section of the manuscript from \lr{R2_358} to \lr{R2_358b} to now read:
+
+\begin{quote}
+By identifying key trait-cue relationships that shape spring growth, we can develop more effective management practices that remove competing invasive species and benefit native species by reducing early season competition for resources.
+\end{quote}
+
 \textbf{General comments to discussion:}\\
 
 \emph{I feel that the last three paragraphs could be summarised in a "conclusion and outlook part" or in an "application part" as they aim to improve management decisions and practices.}\\
@@ -280,9 +285,14 @@ We have added an additional subheading that now reads "Future outlook and applic
 
 \emph{Do you have any explanation why SLA and LNC behave so differently in predicting response to photoperiod, even though they tend to be highly correlated traits?}\\
 
+We were surprised by this finding as well. Given that both these traits are associated with multiple ecological functions, one possible explanation is that there are tradeoffs in how other cues are shaping these traits. For example, we did not consider the effects of how water availability may shape SLA or whether LNC is being shaped by differences in herbivore pressure or defence compounds, as opposed to photoperiod and selection in response to photosynethic potential.
+
 \emph{The estimated model fits and raw data do not work as well for tree height as for the other traits. Why? What are the consequences for inference?}\\
 
+We believe the reviewer is referring to the model fits shown in Figure S4, in which case the discrepancies between the species-level posterior distributions and the species-level means from the raw data seen for height are due to the high study-level variation observed for this trait. This was the one trait for which the variation due to study exceeded that due to species (as depicted in figure 2). We have revised the caption for figure S4 to better explain the data depicted.
+
 \emph{The data used here stem from forests, so I miss some habitat specific discussion. It is discussed rather generally but especially the cue photoperiod is particularly important in deciduous forest understories and successions and may be different in coniferous forests, shrub- and grasslands, or other habitats.}\\
+
 
 \textbf{Tables}\\
 
