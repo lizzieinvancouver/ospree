@@ -293,6 +293,7 @@ We believe the reviewer is referring to the model fits shown in Figure S4, in wh
 
 \emph{The data used here stem from forests, so I miss some habitat specific discussion. It is discussed rather generally but especially the cue photoperiod is particularly important in deciduous forest understories and successions and may be different in coniferous forests, shrub- and grasslands, or other habitats.}\\
 
+We can see the reviewers point and now clarify this point on \lr{R2_forests} as well as added a sentence to highlight the potential for alternate cues to drive trait-phenology relationships in other communities from \lr{R2_forests2} to \lr{R2_forests2b}.
 
 \textbf{Tables}\\
 
