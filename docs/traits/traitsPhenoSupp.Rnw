@@ -174,83 +174,99 @@ Database & Reference & Trait name & Unit & No. observations & No. Species \\
   TRY & \cite{Diaz2004} & SLA & mm2 mg-1 &  11 &  10 \\
   \end{tabular}
 \end{table}
-
-<<label= tableht, echo=FALSE , results= tex >>=
-
-require(xtable)
-require(rstan)
-mdl.traitphen <- load("output/height_raw_37spp_Aug32025.Rda")
-sumt <- summary(mdl.traitphen)$summary
-fit <- data.frame(rstan::extract(mdl.traitphen))
- 
-mu_params <-   c("mu_grand",
-                 "muPhenoSp",
-                 "muForceSp", # muAlphaForce
-                 "muChillSp",
-                 "muPhotoSp",
-                 "betaTraitxForce",
-                 "betaTraitxChill",
-                 "betaTraitxPhoto",
-                 "sigma_sp",
-                 "sigma_study",
-                 "sigma_traity",
-                 "sigmaPhenoSp",
-                 "sigmaForceSp",
-                 "sigmaChillSp",
-                 "sigmaPhotoSp", #sigma_alpha_photo
-                 "sigmapheno_y")
-
-esti <- round(data.frame(sumt[mu_params, "mean"]),2)
-
-quantile2575 <- function(x){
-  returnQuanilte <- quantile(x, prob = c(0.05, 0.25, 0.75,0.95))
-  return(returnQuanilte)
-}
-
-bf_quan <- t(apply(fit, 2, quantile2575) )
-temp <- bf_quan[mu_params, ]
-
-
-ht2m <- cbind(esti, temp)
-colnames(ht2m) <- c("mean", "5%","25%", "75%","95%")
-# write.csv(esti.table, "slaMdlOutput.csv", row.names = T)
-print(xtable(meanz4, caption="Summary output from a joint Bayesian model of height and budburst phenology in which species are partially pooled. The effect of transect is modeled as a dummy variable and latitude as continuous, with an interaction term between latitude and transect. The model includes environmental cues as $z$-scored continuous variables, allowing comparisons to be made across cues.",label = "tabHt"),include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
-
-
-@
+% 
+% <<label= tableht, echo=FALSE , results= tex >>=
+% 
+% require(xtable)
+% require(rstan)
+% load("..//..//analyses/traits/output/height_raw_37spp_Aug32025.Rda")
+% sumt <- summary(mdl.traitphen)$summary
+% fit <- data.frame(rstan::extract(mdl.traitphen))
+%  
+% mu_params <-   c("mu_grand",
+%                  "muPhenoSp",
+%                  "muForceSp", # muAlphaForce
+%                  "muChillSp",
+%                  "muPhotoSp",
+%                  "betaTraitxForce",
+%                  "betaTraitxChill",
+%                  "betaTraitxPhoto",
+%                  "sigma_sp",
+%                  "sigma_study",
+%                  "sigma_traity",
+%                  "sigmaPhenoSp",
+%                  "sigmaForceSp",
+%                  "sigmaChillSp",
+%                  "sigmaPhotoSp", #sigma_alpha_photo
+%                  "sigmapheno_y")
+% 
+% esti <- round(data.frame(sumt[mu_params, "mean"]),2)
+% 
+% quantile2575 <- function(x){
+%   returnQuanilte <- quantile(x, prob = c(0.05, 0.25, 0.75,0.95))
+%   return(returnQuanilte)
+% }
+% 
+% bf_quan <- t(apply(fit, 2, quantile2575) )
+% temp <- bf_quan[mu_params, ]
+% 
+% 
+% ht2m <- cbind(esti, temp)
+% colnames(ht2m) <- c("mean", "5%","25%", "75%","95%")
+% # write.csv(esti.table, "slaMdlOutput.csv", row.names = T)
+% print(xtable(round(ht2m,1), caption="Summary of estimates from our model of height ($n$ = 42781) ",label = "tabHt"),include.rownames=TRUE, caption.placement="top", hline.after=c(-1,0))
+% 
+% 
+% @
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
+\caption{Summary of estimates from our model of height ($n$ = 42781) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
 \label{tableHt}
 \begin{tabular}{rrrrrr}
   \hline
  & mean & 5\% & 25\% & 75\% & 95\% \\
   \hline
-$\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
-  $\mu_{k,g}$ & 32.1 & 27.8 & 30.3 & 33.9 & 36.5 \\
-  $\mu_{force}$ & -10.7 & -15.5 & -12.6 & -8.8 & -6.2 \\
-  $\mu_{chill}$ & -4.1 & -10.8 & -6.8 & -1.4 & 2.6 \\
-  $\mu_{photo}$ & 1.1 & -2.6 & -0.3 & 2.5 & 4.6 \\
-  $\beta_{trait.force}$ & 0.2 & -0.2 & 0.0 & 0.3 & 0.5 \\
-  $\beta_{trait.chill}$ & -0.5 & -1.0 & -0.7 & -0.3 & -0.1 \\
-  $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.4 & -0.1 & 0.0 \\
-  $\sigma_{species}$ & 5.9 & 4.8 & 5.4 & 6.4 & 7.3 \\
-  $\sigma_{study}$ & 7.5 & 5.8 & 6.7 & 8.3 & 9.7 \\
-  $\sigma_{trait}$ & 5.4 & 5.4 & 5.4 & 5.4 & 5.4 \\
-  $\sigma_{pheno}$ & 15.1 & 11.8 & 13.8 & 16.4 & 18.6 \\
-  $\sigma_{force}$ & 5.0 & 3.3 & 4.1 & 5.7 & 7.1 \\
-  $\sigma_{chill}$ & 8.5 & 5.6 & 7.0 & 9.8 & 12.4 \\
-  $\sigma_{photo}$ & 3.2 & 2.0 & 2.6 & 3.8 & 4.8 \\
-  $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\
+$\mu_{grand.trait}$ & 13.3 & 10.0 & 11.9 & 14.6 & 16.5 \\ 
+$\mu_{k,g}$ & 32.1 & 27.7 & 30.3 & 33.9 & 36.6 \\ 
+$\mu_{force}$ & -10.7 & -15.2 & -12.5 & -8.8 & -6.2 \\
+$\mu_{chill}$ & -4.0 & -11.1 & -6.5 & -1.1 & 2.8 \\ 
+$\mu_{photo}$ & 1.0 & -2.7 & -0.5 & 2.5 & 4.7 \\
+$\beta_{trait.force}$ & 0.2 & -0.1 & 0.0 & 0.3 & 0.5 \\ 
+$\beta_{trait.chill}$ & -0.5 & -1.0 & -0.7 & -0.3 & -0.1 \\ 
+$\beta_{trait.photo}$ & -0.2 & -0.5 & -0.4 & -0.1 & 0.0 \\ 
+$\sigma_{species}$ & 6.0 & 4.9 & 5.5 & 6.5 & 7.3 \\
+$\sigma_{study}$ & 7.5 & 5.7 & 6.6 & 8.3 & 9.8 \\
+$\sigma_{trait}$ & 5.4 & 5.4 & 5.4 & 5.4 & 5.4 \\
+$\sigma_{pheno}$ & 15.1 & 11.8 & 13.6 & 16.4 & 18.6 \\
+$\sigma_{force}$ & 5. & 3.3 & 4.2 & 5.7 & 7. \\
+$\sigma_{chill}$ & 8.8 & 5.8 & 7.2 & 10.0 & 12.7 \\ 
+$\sigma_{photo}$ & 3.5 & 2.2 & 2.9 & 4.1 & 5.3 \\ 
+$\sigma_{d}$ & 14.2 & 13.8 & 14. & 14.3 & 14.6 \\
+% $\mu_{grand.trait}$ & 12.7 & 9.4 & 11.4 & 14.0 & 15.8 \\
+%   $\mu_{k,g}$ & 32.1 & 27.8 & 30.3 & 33.9 & 36.5 \\
+%   $\mu_{force}$ & -10.7 & -15.5 & -12.6 & -8.8 & -6.2 \\
+%   $\mu_{chill}$ & -4.1 & -10.8 & -6.8 & -1.4 & 2.6 \\
+%   $\mu_{photo}$ & 1.1 & -2.6 & -0.3 & 2.5 & 4.6 \\
+%   $\beta_{trait.force}$ & 0.2 & -0.2 & 0.0 & 0.3 & 0.5 \\
+%   $\beta_{trait.chill}$ & -0.5 & -1.0 & -0.7 & -0.3 & -0.1 \\
+%   $\beta_{trait.photo}$ & -0.2 & -0.5 & -0.4 & -0.1 & 0.0 \\
+%   $\sigma_{species}$ & 5.9 & 4.8 & 5.4 & 6.4 & 7.3 \\
+%   $\sigma_{study}$ & 7.5 & 5.8 & 6.7 & 8.3 & 9.7 \\
+%   $\sigma_{trait}$ & 5.4 & 5.4 & 5.4 & 5.4 & 5.4 \\
+%   $\sigma_{pheno}$ & 15.1 & 11.8 & 13.8 & 16.4 & 18.6 \\
+%   $\sigma_{force}$ & 5.0 & 3.3 & 4.1 & 5.7 & 7.1 \\
+%   $\sigma_{chill}$ & 8.5 & 5.6 & 7.0 & 9.8 & 12.4 \\
+%   $\sigma_{photo}$ & 3.2 & 2.0 & 2.6 & 3.8 & 4.8 \\
+%   $\sigma_{d}$ & 14.2 & 13.8 & 14.0 & 14.3 & 14.6 \\
   \end{tabular}
 \end{table}
 
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
+\caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
   \hline
@@ -278,7 +294,7 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
+\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
 \label{tableSM}
 \begin{tabular}{rrrrrr}
   \hline
@@ -306,7 +322,7 @@ $\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
 \newpage
 \begin{table}[ht!]
 \centering
-\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships}
+\caption{Summary of estimates from our model of leaf nitrogen content (LNC, $n$ = 3853) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
 \label{tableLNC}
 \begin{tabular}{rrrrrr}
   \hline

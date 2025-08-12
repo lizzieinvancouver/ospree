@@ -110,7 +110,7 @@ We see the reviewers point and have revised the text on \lr{R2_treeHerb2} to spe
 
 We see the reviewer's point and have added the below sentence from \lr{R2_73} to \lr{R2_73b}:
 \begin{quote}
-Even at smaller spatial scales, however, habitat conditions can create considerable intraspecific variation, leading to differences in both traits and phenological events (CITE).
+But habitat conditions can still create considerable intraspecific variation, which for some traits has been shown to be considerable or even exceed interspecific trait variation \citep{Albert2011,Siefert2015,Zuleta2022}. 
 \end{quote}
 
 \emph{L92: What exactly is meant by "strong gradients in frost risk or nutrient availability in spring"? Do you mean compared to the whole year or within spring or between sites in spring? Fig. 1 refers to a gradient in growth strategies based on traits, so please explain what you mean by gradient in the text. Also are there any references backing up Fig. 1?}\\
@@ -170,7 +170,7 @@ The $\alpha_{\text{grand trait}}$ is the grand mean of the trait values across a
 
 \emph{L216: s. L190}\\
 
-I apologize if I am misunderstanding the reviewer's point here, but I assume they are again asking how $\sigma_{\text{d}}^2$ is estimated. Since this is a joint model, we are able to estimate the error, commonly referred to as measurement error (\lr{R2_216}), for the traits and phenology separately in each submodel. We have revised \lr{216} to explicitly explain this. \\
+I apologize if I am misunderstanding the reviewer's point here, but I assume they are again asking how $\sigma_{\text{d}}^2$ is estimated. Since this is a joint model, we are able to estimate the error, commonly referred to as measurement error (\lr{R2_216}), for the traits and phenology separately in each submodel. We have revised \lr{R2_216} to explicitly explain this. \\
 
 \textbf{Results}\\
 
@@ -215,7 +215,7 @@ We can see your point and have revised this sentence to prevent any confusion (\
 \emph{L275: I miss a discrimination between early and late budbursting species here or in the Results. From the text only, I understand that the ones responding strongly to the cues are the late budbursting species and oppositely for the early ones. I am not sure, though, if this is a general assumption based on literature or if this is derived from the results. If it is part of the results, what is the threshold to classify early vs late species?
 An overview of which species is considered early and late and an average of their relationships with traits associated to the different growth strategies would improve the understanding of this part. Also I think that some references to back up the these relationships of budbursting timing with cue intensity are useful.}\\
 
-We have added additional detail to better explain what we mean by early versus late budbursting species based on their cue responses (e.g. \lr{em13} to \lr{em13b}). This inference is based on both the literature, including work by \citet{Flynn2018}, and based on our model estimates% in Fig S5 where estimated day of budburst was shown on the y-axis for our illustrative early and late species. 
+We have added additional detail to better explain what we mean by early versus late budbursting species based on their cue responses (e.g. \lr{em13}). This inference is based on both the literature, including work by \citet{Flynn2018}, and based on our model estimates% in Fig S5 where estimated day of budburst was shown on the y-axis for our illustrative early and late species. 
 We have also added several citations pertaining to these relationships between budburst timing and cue intensity in controlled environment experiments on \lr{R2_275}.\\
 
 \emph{L285: The study is definitely more global than local scale studies but since basically South America, Africa, and Australia is missing, I would rather call it intercontinental or large scale.}\\
@@ -239,7 +239,8 @@ We can see how this statement would benefit from examples of the different ways 
 Thank you for bringing our attention to this typo, we have corrected it and \lr{R2_315} now reads:
 
 \begin{quote}
-Since we only found a responses to chilling and photoperiod with tree height, the reliance on these cues could prevent frost damage or xylem cavitation under a late spring frost \citep{Clements1972,Marquis2020} and influence annual cambial meristem growth \citep{Lenz2016}.\end{quote}
+Since we only found a responses to chilling and photoperiod with tree height, the reliance on these cues could prevent frost damage or xylem cavitation under a late spring frost \citep{Clements1972,Marquis2020} and influence annual cambial meristem growth \citep{Lenz2016}.
+\end{quote}
 
 \emph{L315: If a large response means high sensitivity to cues, then a large response for short trees, i.e., fast budburst when spring temperature rises only a bit, would rather increase the change of frost damage under a late spring frost event, right? If this is correct, then the large response could hint to a phenological adaptation of understory trees (since you included trees > 1.38 m height) to light variability throughout the year.}\\
 
@@ -250,7 +251,7 @@ We apologize for the confusion that this typo created and have revised the text 
 We also expected SLA to relate to both photoperiod and temperature and were surprised to only find relationships with photoperiod. To address this more explicitly, we have revised \lr{R2_316} to \lr{R2_316b} to now read:
 
 \begin{quote}
-Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature and frost risk. Leaves that differ in SLA due to variation in leaf area will also vary in the thickness of their leaf boundary layer and heat transfer, contributing to the risk of frost damage in the spring \citep{lusk2018}.
+Similarly, the lack of a relationship between SLA and temperature was surprising, given that SLA can also mitigate the effects of temperature and frost risk. Differences in leaf area will also cause the thickness of the leaf boundary layer to change, altering the rate of heat transfer and the risk of frost damage in the spring \citep{lusk2018}.
 \end{quote}
 
 \emph{L327: I think you should mention that Macgregor et al, 2019 focus on Lepidoptera (butterflies s.l.), and not on plants which can be misleading. I suggest you stick to relationships of phenological change and performance in woody plants here.}\\
@@ -271,11 +272,7 @@ We agree that this important point should have been more developed and have expa
 
 \emph{L358: If we know which species are most vulnerable because they fail to adapt phenologically, how would you prevent their loss in communities by being outcompeted by better adapted species? I think "Develop more effective management practices" needs some further explanation here.}\\
 
-We agree that this phrasing was vague and it would be useful to develop this idea further. We have revised this section of the manuscript from \lr{R2_358} to \lr{R2_358b} to now read:
-
-\begin{quote}
-By identifying key trait-cue relationships that shape spring growth, we can develop more effective management practices that remove competing invasive species and benefit native species by reducing early season competition for resources.
-\end{quote}
+We agree that this phrasing was vague and it would be useful to develop this idea further. We have revised this section of the manuscript extensively to discuss several applications of our approach, from \lr{R2_358} to \lr{R2_358b}.
 
 \textbf{General comments to discussion:}\\
 
@@ -293,7 +290,7 @@ We believe the reviewer is referring to the model fits shown in Figure S4, in wh
 
 \emph{The data used here stem from forests, so I miss some habitat specific discussion. It is discussed rather generally but especially the cue photoperiod is particularly important in deciduous forest understories and successions and may be different in coniferous forests, shrub- and grasslands, or other habitats.}\\
 
-We can see the reviewers point and now clarify this point on \lr{R2_forests} as well as added a sentence to highlight the potential for alternate cues to drive trait-phenology relationships in other communities from \lr{R2_forests2} to \lr{R2_forests2b}.
+We can see the reviewers point and now clarify this point on \lr{R2_forest} as well as added a sentence to highlight the potential for alternate cues to drive trait-phenology relationships in other communities from \lr{R2_forest2} to \lr{R2_forest2b}.
 
 \textbf{Tables}\\
 
