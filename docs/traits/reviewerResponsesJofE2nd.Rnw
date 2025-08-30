@@ -110,9 +110,9 @@ We see the reviewers point and have revised the text on \lr{R2_treeHerb2} to spe
 \emph{L73: whether the problem of proximate drivers causing phenological variation can be more easily ignored depends on not only on a limited number of sites but rather on the environmental conditions these sites reflect. Consider a semi-dry grassland, a mesophilic grassland, and an urban park, all sharing some species and all being spatially close to each other but phenology and other traits, as well as their relationship may differ strongly. In other words, intraspecific variation is strongly habitat-specific and can even exceed interspecific variation.}\\
 
 %emwAug25 -- I made edits here, see updates in main text and adjust (I mean, I made lots of edits, I am just remembering to flag this one but you have to check throughout). 
-We see the reviewer's point and have added the below sentence from \lr{R2_73} to \lr{R2_73b}:
+We see the reviewer's point and have addressed this on \lr{R2_73} to \lr{R2_73b} and with the addition of the following sentence starting on \lr{R2_732}:
 \begin{quote}
-But habitat conditions can still create considerable intraspecific variation, which for some traits has been shown to be considerable or even exceed interspecific trait variation \citep{Albert2011,Siefert2015,Zuleta2022}. 
+The consistency of these relationships, alongside increasing evidence that intra-specific variation in tree spring phenology is low given the same climate \citep{Zeng2024,Aitken2016}, allows us to estimate early to later active species across plant communities and diverse species assemblages.
 \end{quote}
 
 \emph{L92: What exactly is meant by "strong gradients in frost risk or nutrient availability in spring"? Do you mean compared to the whole year or within spring or between sites in spring? Fig. 1 refers to a gradient in growth strategies based on traits, so please explain what you mean by gradient in the text. Also are there any references backing up Fig. 1?}\\
