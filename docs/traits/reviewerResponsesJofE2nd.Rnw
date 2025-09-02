@@ -70,7 +70,6 @@ We agree with the reviewer and have revised the text on \lr{R2_treeHerb1}, \lr{R
 
 \emph{The study needs more clarification of the Methods and Results for readers that are not familiar with the statistics used here, mainly regarding the modelling part, and a more thorough explanation of the variables used to infer phenology-trait relationships. Until the end I found it hard to understand what a large response to a cue actually means here. Traditionally, I understand a large response as high sensitivity to a cue but certain sentences throughout the manuscript imply the opposite, which is confusing and makes an understanding of the main findings hard. For example in L299 "Species with small cue responses, an indication of earlier budburst, ..." or in L332 "with smaller responses to all cues, especially chilling and photoperiod, [species] would tend to advance more with warming (Guy, 2014). Our results suggest that these same species are likely to have acquisitive traits". A definition needs to be stated clear and simple in the Methods or Results to be able to follow later on. E.g., "a strong response /large coefficient to a cue indicates that budburst happens later/earlier. Consequently, a weak response (towards zero) indicates...".}\\
 
-%emwAug25 -- fix below
 We agree and have worked to keep our text descriptions as clear and consistent throughout. We have adjusted our writing in the introduction for this (\lr{largeSmall} and \lr{R2_cueSizea}) and have included additional information to both the methods and results sections to better familiarize readers with our methods and how to interpret our results. We have also added further justification for our variables, including references for the expected trait-phenology relationships in the caption of figure 1. To further highlight the nuance of cue responses under experimental conditions versus observational studies, we have revised the text from \lr{R2_cueSizea} to \lr{R2_cueSizeb}, \lr{R2_cueSize2a} to \lr{R2_cueSize2b}, and \lr{R2_cueSize3a} to \lr{R2_cueSize3b}. We agree this is confusing, especially given the expanding literature and terminology, including regarding `sensitivity,' which has been defined in contrasting ways \citep{Flynn2018,Ettinger2021, Zettlemoyer2022b}. This is one of the reasons we avoid using this term here (though we now cite papers that discuss this in detail). But we believe these edits have improved the paper and thank the reviewer for their help here. \\
 
 \textbf{Minor comments:}\\
@@ -91,9 +90,9 @@ Done (\lr{R2_lnc}).\\
 
 Done (\lr{R2_40}).\\
 
-\emph{L44: unclear what is meant with architectures. Tree architecture, morphology, branching? The cited reference (Flynn \& Wolkovich, 2018) compares trees and shrubs, i.e., growth form, but does not mention architecture explicitly, so please be more explicit here.}\\ %emwAug25 -- I think you can make the change one other place, you can mention that here so you look especially thoughtful!
+\emph{L44: unclear what is meant with architectures. Tree architecture, morphology, branching? The cited reference (Flynn \& Wolkovich, 2018) compares trees and shrubs, i.e., growth form, but does not mention architecture explicitly, so please be more explicit here.}\\ 
 
-We agree that using the same language as Flynn \& Wolkovich (2018) would improve clarity and have revised the text to now refer to "growth form" on \lr{R2_44}.\\
+We agree that using the same language as Flynn \& Wolkovich (2018) would improve clarity and have revised the text to now refer to "growth form" on \lr{R2_44} and in the caption of Figure 2.\\
 
 \emph{L59: Sporbert et al. (2022) refers to herbaceous species which should be added because they have different phenology and other trait strategies, compared to trees}\\
 
@@ -109,7 +108,6 @@ We see the reviewers point and have revised the text on \lr{R2_treeHerb2} to spe
 
 \emph{L73: whether the problem of proximate drivers causing phenological variation can be more easily ignored depends on not only on a limited number of sites but rather on the environmental conditions these sites reflect. Consider a semi-dry grassland, a mesophilic grassland, and an urban park, all sharing some species and all being spatially close to each other but phenology and other traits, as well as their relationship may differ strongly. In other words, intraspecific variation is strongly habitat-specific and can even exceed interspecific variation.}\\
 
-%emwAug25 -- I made edits here, see updates in main text and adjust (I mean, I made lots of edits, I am just remembering to flag this one but you have to check throughout). 
 We see the reviewer's point and have addressed this from \lr{R2_73} to \lr{R2_73b} and with the addition of the following sentence starting on \lr{R2_732}:
 \begin{quote}
 The consistency of these relationships, alongside increasing evidence that intra-specific variation in tree spring phenology is low given the same climate \citep{Zeng2024,Aitken2016}, allows us to estimate early to later active species across plant communities and diverse species assemblages.
@@ -146,7 +144,6 @@ We have revised the methods on \lr{R2_144} to simply state that we obtained the 
 
 \emph{L150: Why do you think the DBH standard height is a good proxy for being an adult individual? In forest understories, many individuals reach this height without being adult, really, so I think this needs some more justification. Otherwise you could run into the issue of comparing rejuvenation and adult trees, likely affecting your results.}\\
 
-%emwAug25 -- I made edits here, see updates in main text and adjust here
 We agree that different species can have different DBH at maturity and that it can vary with habitat conditions, making it challenging to define a single threshold at which to subset adult trees. The Government of Canada's Department of Natural Resources defines a sapling as individuals less than 2m in height \citep{NRCan}. We have re-ran our analysis for tree height using data from individuals more than 2m in height to further ensure that we are using data from adult trees, with resulted in no changes to our overall findings (\lr{R2_150}). \\
 
 \emph{L165: Fig S2 mentioned after Fig S3 (L157).}\\
@@ -229,7 +226,7 @@ We see your point and now refer to our work as large scale on \lr{R2_285}.\\
 
 \emph{L295: Have you checked whether this isn't done already? Usually study site is included as random effect in modelling, so this should account for study-site related variation, right? Also, what does this imply for interspecific variation? That interspecific differences are stronger than trait differences between sites/forest stands? Could this also be a result of different species occurring at different study sites or did you consider overlapping species only?}\\
 
-We completely agree with the reviewer that one source of variation that is captured in our study-level estimate is due to site. We have now added this to our list of factors on \lr{R2_295}. Previous meta-analyses of phenology have included study as a random effect (see \citet{Zettlemoyer2022,Liu2022} for examples). But it is less commonly included in the trait literature and rarely do studies explicitly report the extent of variation due to study or discuss it as a potentially large source of variation when using data from large databases.\\ %emwAug25 --we should add citations here of papers that do not separate out study so we make a stronger case. 
+We completely agree with the reviewer that one source of variation that is captured in our study-level estimate is due to site. We have now added this to our list of factors on \lr{R2_295}. Previous meta-analyses of phenology have included study as a random effect (see \citet{Zettlemoyer2022,Liu2022} for examples). But it is less commonly included in the trait literature (as is the case in \citet{Moles2014,Bruelheide2018,Maynard2022}) and rarely do studies explicitly report the extent of variation due to study or discuss it as a potentially large source of variation when using data from large databases.\\ 
 
 \emph{L300: shorter heights not for response to forcing. Any idea why the relationship is different for this cue?}\\
 
@@ -237,7 +234,7 @@ We were surprised that only one of our traits was related to all three cues, wit
 
 \emph{L314: Any examples for the multiple aspects of species growth and adaptations from the literature? What about intraspecific variation?}\\
 
-We can see how this statement would benefit from examples of the different ways in which a single trait can relate to growth form or function. We now elaborate on the different reasons why height and SLA can vary from \lr{R2_314} to \lr{R2_314b}. Additionally, we now address intraspecific variation from \lr{R2_732} to \lr{R2_732b}; while intraspecific variation may be high for other phenological events (such as budset), research to date suggests it is low for woody plant budburst. \\ %emwAug25 -- I would also address intraspecific variation in your reply. See and fix my edits here. 
+We can see how this statement would benefit from examples of the different ways in which a single trait can relate to growth form or function. We now elaborate on the different reasons why height and SLA can vary from \lr{R2_314} to \lr{R2_314b}. Additionally, we now address intraspecific variation from \lr{R2_732} to \lr{R2_732b}; while intraspecific variation may be high for other phenological events (such as budset), research to date suggests it is low for woody plant budburst. \\ 
 
 \emph{L315: the response to forcing may be large but according to Table S2 it is a weak relationship, which you also state in your Results. I don't quite understand why this point is being picked up here as it was a "significant" relationship.}\\
 
@@ -253,7 +250,6 @@ We apologize for the confusion that this typo created and have revised the text 
 
 \emph{L316: SLA is an adaptation to competition for light as leaf area increases with high SLA to capture more photons per area leaf. That way, it is not suprising that you find the strongest relationship with photoperiod only. However, I would have expected as well that photoperiod and temperature are quite closely related, so you could discuss towards this direction.}\\
 
-%emwAug25 -- see edits in main text
 We also expected SLA to relate to both photoperiod and temperature and were surprised to only find relationships with photoperiod. To address this more explicitly, we have revised \lr{R2_316} to \lr{R2_316b} to now read:
 
 \begin{quote}
@@ -271,7 +267,9 @@ We updated this sentence to specify that we are referring to the plant species t
 %emwAug25 -- see edits in main text, I might just say here how important these points are and that you have updated to try to highlight the uncertainty and complexity and then ref the line ##
 \emph{L332: Temperature and frost may change under future climate but what about photoperiod? Isn't this a rather restricting cue in a sense that it does not change substantially in future but when species are sensitive to forcing and to photoperiod at the same time, then it can become a phenological issue when spring temperature advances but photoperiod stays the same. This could be discussed as well here in terms of growth strategies. The referenced Guy (2014) refers to some climax species being phenologically inflexible which could result in a disadvantage under future climate conditions.}\\
 
-While advances in phenology are widely assumed to be due to warming spring, previous work has shown that changes in chilling have a greater impact than forcing \citep{Ettinger2020a}. As winter temperatures warm, the accumulation of chilling will change, with species potentially experiencing sufficient chilling earlier in the year \citep{Guy2014}. Since chilling and photoperiod appear to compensatory effect in woody species \citep{Flynn2018}, which may allow species to still budburst under shorter photoperiods. We now discuss this point in greater detail from \lr{R2_332a} to \lr{R2_332b}. \\
+We agree with the reviewer that changes in temperature may pose issues for species that respond to both forcing and photoperiod cues. We have revised this section of the text from \lr{R2_332a} to \lr{R2_332b} to better highlight the complexity of how these cues shape phenology and the uncertainty.
+% 
+% While advances in phenology are widely assumed to be due to warming spring, previous work has shown that changes in chilling have a greater impact than forcing \citep{Ettinger2020a}. As winter temperatures warm, the accumulation of chilling will change, with species potentially experiencing sufficient chilling earlier in the year \citep{Guy2014}. Since chilling and photoperiod appear to compensatory effect in woody species \citep{Flynn2018}, which may allow species to still budburst under shorter photoperiods. We now discuss this point in greater detail from \lr{R2_332a} to \lr{R2_332b}. \\
 
 \emph{L341: I agree. Can you give some specific examples how exactly this could help management decisions?}\\
 

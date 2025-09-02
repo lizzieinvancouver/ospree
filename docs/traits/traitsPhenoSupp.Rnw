@@ -68,13 +68,7 @@
 % 
 \section*{Figures \& Tables}
 
-\begin{figure}[h!]
-    \centering
- \includegraphics[width= 0.9 \textwidth]{..//..//analyses/traits/figures/traitMap.pdf}
-    \caption{We obtained data from the TRY and BIEN plant trait databases and the OSPREE database of plant phenology experiments for temperate tree species. Following our cleaning of the data and selection of uncorrelated traits, our final dataset included 37 species from 24 unique datasources for the trait data and 34 unique studies for the budburst data. Our data is focused on temperate ecosystems globally with most data originating from North America and Europe. }
-    \label{fig:map}
-\end{figure}
-\newpage
+
 
 \begin{figure}[h!]
     \centering
@@ -88,6 +82,14 @@
  \includegraphics[width= 0.75 \textwidth]{..//..//analyses/traits/figures/pcaGeo.pdf}
     \caption{A projection of tree traits across the first and second principle component axis. Arrows represent the direction of vectors for the six functional traits with complete trait data. Points represent the 26 species for which complete trait data was available.}
     \label{fig:pca}
+\end{figure}
+\newpage
+
+\begin{figure}[h!]
+    \centering
+ \includegraphics[width= 0.9 \textwidth]{..//..//analyses/traits/figures/traitMap.pdf}
+    \caption{We obtained data from the TRY and BIEN plant trait databases and the OSPREE database of plant phenology experiments for temperate tree species. Following our cleaning of the data and selection of uncorrelated traits, our final dataset included 37 species from 24 unique datasources for the trait data and 34 unique studies for the budburst data. Our data is focused on temperate ecosystems globally with most data originating from North America and Europe. }
+    \label{fig:map}
 \end{figure}
 \newpage
 
@@ -266,6 +268,34 @@ $\sigma_{d}$ & 14.2 & 13.8 & 14. & 14.3 & 14.6 \\
 \newpage
 \begin{table}[ht!]
 \centering
+\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
+\label{tableSM}
+\begin{tabular}{rrrrrr}
+  \hline
+ & mean & 5\% & 25\% & 75\% & 95\% \\
+  \hline
+$\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
+  $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\
+  $\mu_{force}$ & -8.2 & -10.8 & -9.2 & -7.1 & -5.6 \\
+  $\mu_{chill}$ & -9.4 & -14.0 & -11.2 & -7.5 & -4.8 \\
+  $\mu_{photo}$ & -1.3 & -3.4 & -2.1 & -0.4 & 0.8 \\
+  $\beta_{trait.force}$ & -0.3 & -1.4 & -0.8 & 0.1 & 0.9 \\
+  $\beta_{trait.chill}$ & -1.1 & -2.9 & -1.8 & -0.4 & 0.7 \\
+  $\beta_{trait.photo}$ & -0.6 & -1.5 & -0.9 & -0.2 & 0.4 \\
+  $\sigma_{species}$ & 1.6 & 1.3 & 1.5 & 1.7 & 2.0 \\
+  $\sigma_{study}$ & 1.0 & 0.8 & 0.9 & 1.0 & 1.1 \\
+  $\sigma_{trait}$ & 0.2 & 0.2 & 0.2 & 0.3 & 0.3 \\
+  $\sigma_{pheno}$ & 14.8 & 11.2 & 13.3 & 16.3 & 18.6 \\
+  $\sigma_{force}$ & 4.9 & 3.4 & 4.2 & 5.5 & 6.7 \\
+  $\sigma_{chill}$ & 10.7 & 7.1 & 8.8 & 12.1 & 15.4 \\
+  $\sigma_{photo}$ & 3.6 & 2.3 & 3.0 & 4.1 & 5.1 \\
+  $\sigma_{d}$ & 14.1 & 13.7 & 14.0 & 14.3 & 14.5 \\
+  \end{tabular}
+\end{table}
+
+\newpage
+\begin{table}[ht!]
+\centering
 \caption{Summary of estimates from our model of specific leaf area (SLA, $n$ = 7656) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
 \label{tableSLA}
 \begin{tabular}{rrrrrr}
@@ -291,33 +321,6 @@ $\mu_{grand.trait}$ & 16.8 & 14.5 & 15.8 & 17.8 & 19.3 \\
   \end{tabular}
 \end{table}
 
-\newpage
-\begin{table}[ht!]
-\centering
-\caption{Summary of estimates from our model of seed mass ($n$ = 281) using data from 37 focal species. Values represent the mean estimate for model parameters as well \color{red}as the lower and upper limits (25\%--75\%) of the 50\% uncertainty interval and the lower and upper limits (5\%--95\%) of the 90\% uncertainty interval (UI)\color{black}. The strength of the relationship can be assessed by comparing across UI, with parameters with intervals that cross zero depicting weak relationships.}
-\label{tableSM}
-\begin{tabular}{rrrrrr}
-  \hline
- & mean & 5\% & 25\% & 75\% & 95\% \\
-  \hline
-$\mu_{grand.trait}$ & 1.9 & 1.0 & 1.5 & 2.2 & 2.7 \\
-  $\mu_{k,g}$ & 31.4 & 27.1 & 29.6 & 33.1 & 35.8 \\
-  $\mu_{force}$ & -8.2 & -10.8 & -9.2 & -7.1 & -5.6 \\
-  $\mu_{chill}$ & -9.4 & -14.0 & -11.2 & -7.5 & -4.8 \\
-  $\mu_{photo}$ & -1.3 & -3.4 & -2.1 & -0.4 & 0.8 \\
-  $\beta_{trait.force}$ & -0.3 & -1.4 & -0.8 & 0.1 & 0.9 \\
-  $\beta_{trait.chill}$ & -1.1 & -2.9 & -1.8 & -0.4 & 0.7 \\
-  $\beta_{trait.photo}$ & -0.6 & -1.5 & -0.9 & -0.2 & 0.4 \\
-  $\sigma_{species}$ & 1.6 & 1.3 & 1.5 & 1.7 & 2.0 \\
-  $\sigma_{study}$ & 1.0 & 0.8 & 0.9 & 1.0 & 1.1 \\
-  $\sigma_{trait}$ & 0.2 & 0.2 & 0.2 & 0.3 & 0.3 \\
-  $\sigma_{pheno}$ & 14.8 & 11.2 & 13.3 & 16.3 & 18.6 \\
-  $\sigma_{force}$ & 4.9 & 3.4 & 4.2 & 5.5 & 6.7 \\
-  $\sigma_{chill}$ & 10.7 & 7.1 & 8.8 & 12.1 & 15.4 \\
-  $\sigma_{photo}$ & 3.6 & 2.3 & 3.0 & 4.1 & 5.1 \\
-  $\sigma_{d}$ & 14.1 & 13.7 & 14.0 & 14.3 & 14.5 \\
-  \end{tabular}
-\end{table}
 
 \newpage
 \begin{table}[ht!]
