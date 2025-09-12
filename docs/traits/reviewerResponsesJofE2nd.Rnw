@@ -54,7 +54,7 @@ Our aim was to highlight the difference between our predictions pertaining to cu
 
 \emph{I like the idea and the approach of the study and further think it is an interesting topic with current relevance. Reading the manuscript, I had some trouble understanding the main results, primarily due to a lacking definition of what a large/small response to a cue means and contradicting sentences that confused me. The Discussion would benefit from an additional subsection or a restructuring to facilitate the reading flow and logica of the text. Please find more information in the attached document where major and minor issues are addressed in detail.}\\
 
-We are happy to hear the reviewer believes the topic is interesting and current and that they like the approach we used. We agree with the reviewer that we could be more explicit in how we introduce large/small responses to cues and have revised the text to address this in the the introduction (\lr{R2_cueSizea}), and discussion (\lr{R2_cueSize3a}). In revising the text in the results (\lr{R2_cueSize2a}), we believe we have provided additional information that will reduce confusion in how we interpreted the results. We have also revised Fig 2 to improve clarity and highlight our main findings. Finally, we made extensive changes to the discussion, restructuring it to improve the flow and logic (including on \lr{R2_250}, \lr{em13}, and the our new section on future outlooks and applications).\\
+We are happy to hear the reviewer believes the topic is interesting and current and that they like the approach we used. We agree with the reviewer that we could be more explicit in how we introduce large/small responses to cues and have revised the text to address this in the the introduction (\lr{R2_cueSizea}), and discussion (\lr{R2_cueSize3a}). In revising the text in the results (\lr{R2_cueSize2a}), we believe we have provided additional information that will reduce confusion in how we interpreted the results. We have also revised Fig 2 to improve clarity and highlight our main findings. Finally, we made extensive changes to the discussion, restructuring it to improve the flow and logic (including on \lr{R2_250}, \lr{em13}, and in our new section on future outlooks and applications).\\
 
 \textbf{General:}\\
 
@@ -172,7 +172,7 @@ The $\alpha_{\text{grand trait}}$ is the grand mean of the trait values across a
 
 \emph{L216: s. L190}\\
 
-We believe the reviewer is asking how $\sigma_{\text{d}}^2$ is estimated, which we now see we could have made clearer. Since this is a joint model, we are able to estimate the error, commonly referred to as measurement error, for the traits and phenology separately in each submodel. We have revised \lr{R2_216} to explicitly explain this. \\
+We believe the reviewer is asking how $\sigma_{\text{d}}^2$ is estimated, which we now see we could have made clearer. Since this is a joint model, we are able to estimate the error, commonly referred to as measurement error, for traits and phenology separately in each submodel. We have revised \lr{R2_216} to explicitly explain this. \\
 
 \textbf{Results}\\
 
@@ -262,7 +262,7 @@ We can see how this reference may be misleading and have therefore removed it fr
 
 \emph{L331: Forest species or forest understory species would be more accurate here.}\\
 
-We updated this sentence to specify that we are referring to the plant species to accurately reflect the studies of tree and herbaceous plants referenced here (\lr{R2_331}). \\
+We updated this sentence to specify that we are referring to plant species to accurately reflect the studies of tree and herbaceous plants referenced here (\lr{R2_331}). \\
 
 %emwAug25 -- see edits in main text, I might just say here how important these points are and that you have updated to try to highlight the uncertainty and complexity and then ref the line ##
 \emph{L332: Temperature and frost may change under future climate but what about photoperiod? Isn't this a rather restricting cue in a sense that it does not change substantially in future but when species are sensitive to forcing and to photoperiod at the same time, then it can become a phenological issue when spring temperature advances but photoperiod stays the same. This could be discussed as well here in terms of growth strategies. The referenced Guy (2014) refers to some climax species being phenologically inflexible which could result in a disadvantage under future climate conditions.}\\
@@ -277,7 +277,7 @@ We agree that this important point should have been more developed and have expa
 
 \emph{L358: If we know which species are most vulnerable because they fail to adapt phenologically, how would you prevent their loss in communities by being outcompeted by better adapted species? I think "Develop more effective management practices" needs some further explanation here.}\\
 
-We agree that this phrasing was vague and it would be useful to develop this idea further. We have revised this section of the manuscript extensively to discuss several applications of our approach, from \lr{R2_358} to \lr{R2_358b}.\\
+We can see how this phrasing was vague and that it would be useful to develop this idea further. We have revised this section of the manuscript extensively to discuss several applications of our approach (\lr{R2_358} to \lr{R2_358b}).\\
 
 \textbf{General comments to discussion:}\\
 
@@ -295,7 +295,7 @@ We believe the reviewer is referring to the model fits shown in Figure S4, in wh
 
 \emph{The data used here stem from forests, so I miss some habitat specific discussion. It is discussed rather generally but especially the cue photoperiod is particularly important in deciduous forest understories and successions and may be different in coniferous forests, shrub- and grasslands, or other habitats.}\\
 
-We can see the reviewers point and now clarify this point on \lr{R2_forest} and have added a sentence to highlight the potential for alternate cues to drive trait-phenology relationships in other communities from \lr{R2_forest2} to \lr{R2_forest2b}.\\
+We see the reviewers point and now clarify this point on \lr{R2_forest} and have added a sentence to highlight the potential for alternate cues to drive trait-phenology relationships in other communities from \lr{R2_forest2} to \lr{R2_forest2b}.\\
 
 \textbf{Tables}\\
 
