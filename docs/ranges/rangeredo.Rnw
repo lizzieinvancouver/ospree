@@ -37,18 +37,20 @@ Other
 \SweaveOpts{concordance=TRUE}
 \maketitle
 
-\section*{Abstract}
+\section*{Abstract} 
+A fundamental assumption of phenological modeling is that spring phenology is shaped by a trade-off between risk of damage from late season frost and and extending the growing season. Implicit in this trade off is that in regions with less predictable starts to spring, species are at more risk of late season frost, and evolve to integrate multiple environmental cues to prevent premature leafout, while species found in more predictable spring environments do not require such assurances. While this assumption has
+
 \section*{Introduction}
 
 Phenology, the timing of annual life cycle events, allows for organisms to match critical life-cycle transitions with optimum environmental conditions. Through the phenology of spring budburst, temperate woody plants balance the resource and competition advantages of precocious leafout with the risk of damage from late season freezes \citep{Savage:2013aa}. To navigate this trade-off, woody plants have evolved complex physiological responses to sense environmental cues that signal the arrival of appropriate conditions for resuming growth \citep{Polgar2011}. Decades of research on phenology  suggest that warming spring temperatures (forcing), cool winter temperatures (chilling) and day length (photoperiod) are the primary environmental cues for woody plant phenology in temperate regions \citep{Ettinger:2020aa,Forrest2010}. These studies also demonstrate the there are substantial cue-use differences among species, with some species relying more heavily on some cues over others \citep{Laube:2014aa,Pau2011}. Yet, our knowledge about why species differ in their cue responses is currently limited, and better understanding the ecological and evolutionary drivers that shape phenological cues is critical for our ability to predict the magnitude and impacts of phenological shifts with climate change.
 
 
-The predictability of the arrival spring may strongly influence the evolution of phenological cues \citep{Zohner:2017aa,Zohner:2017ua,Dawson2025}. In regions where the start of spring is unpredictable, species should evolve stronger dependence on chilling and photoperiod cues to prevent premature leafout and exposure to frost damage. In contrast, in regions where the seasonal warming reliably indicates the start of spring, species should respond strongly to forcing and not chilling or photoperiod. This spring predictability hypothesis (hereafter:SPH) is intuitive and has found some recent support in the literature \citep{Zohner:2017aa}. However, the SPH hinges on the assumption that species phenological responses are at a stable equilibrium with their environment, as assertion that is not well supported \citep{Normand2011,Lechowicz1984}. It is also unclear the time scale at which season predictability would shape cue responses. Spring predictability could drive selective pressure to increase chilling and/or photoperiod sensitivity on an evolutionary time scale, or define species ranges based on their inherited cue sensitivities on an ecological time scale. Testing the predictions of SPH across multiple geographic scales can serve to evaluate this hypothesis, and offer an improved understanding of the drivers of biogeographic patterns of phenology cue sensitivity.
+The predictability of the arrival spring may strongly influence the evolution of phenological cues \citep{Zohner:2017aa,Zohner:2017ua,Dawson2025}. In regions where the start of spring is unpredictable, species should evolve stronger dependence on chilling and photoperiod cues to prevent premature leafout and exposure to frost damage. In contrast, in regions where the seasonal warming reliably indicates the start of spring, species should respond strongly to forcing and not chilling or photoperiod. This spring predictability hypothesis (hereafter:SPH) is intuitive and has found some recent support in the literature \citep{Zohner:2017aa}. However, the SPH hinges on the assumption that species phenological responses are at a stable equilibrium with their environment, which may not be the case \citep{Normand2011,Lechowicz1984}. It is also unclear the time scale at which season predictability would shape cue responses. Spring predictability could drive selective pressure to increase chilling and/or photoperiod sensitivity on an evolutionary time scale, or define species ranges based on their inherited cue sensitivities on an ecological time scale. Testing the predictions of SPH across multiple geographic scales can serve to evaluate this hypothesis, and offer an improved understanding of the drivers of biogeographic patterns of phenology cue sensitivity.
 
 \subsection*{Spatial predictions of the SPH}
 Global circulation patterns generate substantially different spring climatic conditions on either side of the North Atlantic \citep{}. In Eastern North America, the spring is marked by instability, while in Europe, the arrival of spring is generally more consistent (Figure \ref{fig:mappy}). Given these contrasting climate regimes, the SPH predicts that North American species should have stronger sensitivity to chilling and photoperiod and weaker to forcing \citep{Dawson2025}. We tested these predictions by comparing the cue sensitivities of North American and Europe species estimated from Bayesian hierarchical models.
 
-It is also possible that that phenological responses to cues play a more important role in determining species range limits \citep{Chuine2010}. The distributions of species that rely primarily on forcing, should be restricted geographic regions where spring predictability is high, while species that rely more heavily on chilling and photoperiod can persist in regions where spring predictability is low. If this is the case, the SPH predicts that within each continent, species with higher chilling and photoperiod cue responses should be associated with lower spring predictability across their ranges. We tested this prediction by regressing the species-level posterior estimates of forcing, chilling and photoperiod sensitivity from our previously described model against the two metrics of spring predictability, % analyzed the relationship between spring predictability and cue responses using a Bayesian hierarchical framewor
+It is also possible that that phenological responses to cues play a more important role in determining species range limits \citep{Chuine2001}. The distributions of species that rely primarily on forcing, should be restricted geographic regions where spring predictability is high, while species that rely more heavily on chilling and photoperiod can persist in regions where spring predictability is low. If this is the case, the SPH predicts that within each continent, species with higher chilling and photoperiod cue responses should be associated with lower spring predictability across their ranges. We tested this prediction by regressing the species-level posterior estimates of forcing, chilling and photoperiod sensitivity from our previously described model against the two metrics of spring predictability, % analyzed the relationship between spring predictability and cue responses using a Bayesian hierarchical framewor
 with separate models for each cue by continent.
 %Spring Temperature Variability (STV), defined as the standard deviation of mean minimum temperature from March-May \citep{Zohner:2017aa}, and the standard deviation in growing degree days to last frost. 
 
@@ -83,22 +85,22 @@ To assess the relationship between spring predictability---estimated across spec
 To assess variation within and across sites, we designed a two-level, hierarchical model using data from the OSPREE database. We subset ted the studies to include only those that had multiple provenance locations. Since chilling estimates were either from experimental chilling, from field chilling or a combination of both, we removed `chilling' as a predictor for this model since it correlated so strongly with provenance latitude and would result in nonidentifiability in our results.  We used a Bayesian mixed-effects hierarchical model approach to analyze our data to best estimate the day of budburst. We fit a Gaussian distribution model using study, species and population as intercepts, forcing and photoperiod as predictors (fixed effects) and species nested within population (i.e., site) as modeled groups (random effects). The Bayesian model was fit using Stan modeling language \citep{Carpenter2017}(\texttt{www.mc-stan.org}), accessed via the \textit{rstan} package (version 2.15.1), version 2.3.1, in R \citep{R}, version 3.3.1. We ran four chains, with 2,500 warm-up iterations followed by 3,000 sampling iterations, resulting in 12,000 posterior samples for each parameter. 
 
 
-For all models assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2006}. 
+For all models assessed good model performance through $\hat{R}$ close to 1 and high $n_{eff}$ as well as visual consideration of chain convergence and posteriors \citep{Gelman2007}. 
   
 \section*{Results}
 \subsection*{Inter-continental Climatic Pattern}
-We found no substantial differences in cue sensitivity between continents (Figure: \ref{fig:cont}). Mean forcing sensitivity for European species was -6.76 UI_{95}(-17.80,2.08)  and -7.94 UI_{95}(-17.90,1.93) for North American species. Mean chilling sensitivity for European species was -8.44 UI_{95}(-22.60,4.69) and -8.76 UI_{95}(-26.90,4.82) for North American species. Mean photoperiod sensitivity for European species was -1.36 UI_{95}(-5.91,2.89) and -1.35 UI_{95}(-5.88,2.98) for North American species.
+We found no substantial differences in cue sensitivity between continents (Figure: \ref{fig:cont}). Mean forcing sensitivity for European species was -6.76 $UI_{95}(-17.80,2.08)$  and -7.94 $UI_{95}[-17.90,1.93]$ for North American species. Mean chilling sensitivity for European species was -8.44 $UI_{95}(-22.60,4.69)$ and -8.76 $UI_{95}[-26.90,4.82]$ for North American species. Mean photoperiod sensitivity for European species was -1.36 $UI_{95}[-5.91,2.89]$ and -1.35 $UI_{95}[-5.88,2.98]$ for North American species.
 
 
 \subsection*{Within continenent ranges}
-We found mixed support for the continent level predictions of the SPH. With STV as the metric for spring predictability, we found that in Europe---spring predictability across a species' range had no clear relationship to forcing or photoperiod cues cues (mean forcing effect: -0.59, UI_{95}[-4.44,3,01], mean photoperiod effect: 1.34, UI_{95}[-0.49, 3.24]). Contrary to the predictor of the SPH, decreasing spring predictability was associated with weaker chilling sensitivity (mean chilling effect: 6.37, UI_{95}[3.99, 7.97]). 
+We found mixed support for the continent level predictions of the SPH. With STV as the metric for spring predictability, we found that in Europe---spring predictability across a species' range had no clear relationship to forcing or photoperiod cues cues (mean forcing effect: -0.59 $UI_{95}[-4.44,3,01]$, mean photoperiod effect: 1.34, $UI_{95}[-0.49, 3.24]$). Contrary to the predictor of the SPH, decreasing spring predictability was associated with weaker chilling sensitivity (mean chilling effect: 6.37 $UI_{95}[3.99, 7.97]$). 
 
-For North American species, spring predictability also had no clear relationship to forcing or photoperiod cue sensitivity (mean forcing effect: -0.05, UI{95}[-2.26, 2.06], mean photoperiod effect: 0.15 UI_{95}[-0.93, 1.21]). For chilling, decreasing spring predictability was associated with increased chilling sensitivity (mean chilling effect: -3.45, UI_{95}[-7.50, 0.69]), supporting the prediction of the SPH.
+For North American species, spring predictability also had no clear relationship to forcing or photoperiod cue sensitivity (mean forcing effect: $-0.05, UI{95}[-2.26, 2.06]$, mean photoperiod effect: $0.15 UI_{95}[-0.93, 1.21]$). For chilling, decreasing spring predictability was associated with increased chilling sensitivity (mean chilling effect: $-3.45, UI_{95}[-7.50, 0.69]$), supporting the prediction of the SPH.
 
-With standard deviation in growing degree days to last frost as the metric for spring predictability, we observed different relationships between spring predictability and species-level cue sensitivity than we found using STV. For European species, we found decreasing spring predictability was associated with both higher forcing sensitivity (mean forcing effect: -3.61, UI_{95}[9.04, 1.64]) and chilling sensitivity (mean chilling effect: -5.27, UI_{95}[11.45, 1.36]), while there was no clear effect of spring predictability on photoperiod sensitivity (mean photoperiod sensitivity:-0.80, UI_{95}[-3.62, 2.09]). 
+With standard deviation in growing degree days to last frost as the metric for spring predictability, we observed different relationships between spring predictability and species-level cue sensitivity than we found using STV. For European species, we found decreasing spring predictability was associated with both higher forcing sensitivity (mean forcing effect: -3.61 $UI_{95}[9.04, 1.64]$) and chilling sensitivity (mean chilling effect: -5.27, $UI_{95}[11.45, 1.36]$), while there was no clear effect of spring predictability on photoperiod sensitivity (mean photoperiod sensitivity:-0.80 $UI_{95}[-3.62, 2.09]$). 
 
 
-For North American species, decreased predictability was associated with weaker forcing sensitivity though the strength of this association was relatively weak (mean forcing effect: 0.09 UI_{95}[-0.04,0.24]). There was no clear relationship between spring predictability and chilling sensitivity (mean chilling effect: -0.02 UI_{95}[-0.34, 0.31]). For photoperiod sensitivity, we observed a moderate association between decreasing spring predictability and photoperiod sensitivity (mean photoperiod effect: -0.04, UI_{95}[-0.11, 0.04]). 
+For North American species, decreased predictability was associated with weaker forcing sensitivity though the strength of this association was relatively weak (mean forcing effect: 0.09 $UI_{95}[-0.04,0.24]$). There was no clear relationship between spring predictability and chilling sensitivity (mean chilling effect: -0.02 $UI_{95}[-0.34, 0.31]$). For photoperiod sensitivity, we observed a moderate association between decreasing spring predictability and photoperiod sensitivity (mean photoperiod effect: -0.04 $UI_{95}[-0.11, 0.04]$). 
 
 \subsection*{Intra-and Interspecific cue variation}
 While we detected limited population level variation in forcing and photoperiod cue sensitivity, though this within species variation was less substantial than among species variation (Fig. \ref{fig:popy}). Notably, we found the largest source of variation in phenological cue estimates was the study effect Fig. \ref{fig:popy}). This result does not support the assertion that local adaptation is masking relationships between cue sensitivity and range-level climatic patterns.
@@ -142,7 +144,7 @@ In this study we found limited support for the assertion that the predictability
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/concept figure maps with SDev of GDDlf.png} 
-    \caption{Contrasting patterns of spring predictability in North America and Europe.}
+    \caption{Contrasting patterns of spring predictability in North America and Europe. Here we represent spring predictability as the standard deviation in growing degree days to the last frost.}
     \label{fig:mappy}
 \end{figure}
 
@@ -150,28 +152,28 @@ In this study we found limited support for the assertion that the predictability
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/NAvEuPMM.jpeg} 
-    \caption{No difference between continents}
+    \caption{Estimated effect size of chilling, forcing and photoperiod on spring phenology of North American and European woody plant taxa. Point represent the mean posterior estimate and colored bars the 50, 75 and 95\% credible intervals respectively.}
     \label{fig:cont}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/contz_force.jpeg} 
-    \caption{Forcing}
+    \caption{The relationship between species level estimates of forcing sensitivity and level of spring predictibility across the species range. The points represent mean model estimates of forcing sensitivity for each species in the study, and the bars the 95\% uncertainty interval. The lines represent 1000 draws from the posterior distrubution capturing the relationship between STV (a,b) or the standard deviation in growing degree days to last frost (c,d) and cue sensitivity for European and North American species respectively.}
     \label{fig:force}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/contz_photo.jpeg} 
-    \caption{Photoperiod}
+    \caption{The relationship between species level estimates of photoperiod sensitivity and level of spring predictibility across the species range. The points represent mean model estimates of photoperiod sensitivity for each species in the study, and the bars the 95\% uncertainty interval. The lines represent 1000 draws from the posterior distrubution capturing the relationship between STV (a,b) or the standard deviation in growing degree days to last frost (c,d) and cue sensitivity for European and North American species respectively.}
     \label{fig:photo}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
  \includegraphics[width=\textwidth]{..//..//analyses/ranges/figures/contz_chill.jpeg} 
-    \caption{Chilling}
+    \caption{The relationship between species level estimates of chilling sensitivity and level of spring predictibility across the species range. The points represent mean model estimates of chilling sensitivity for each species in the study, and the bars the 95\% uncertainty interval. The lines represent 1000 draws from the posterior distrubution capturing the relationship between STV (a,b) or the standard deviation in growing degree days to last frost (c,d) and cue sensitivity for European and North American species respectively.}
     \label{fig:chill}
 \end{figure}
 
