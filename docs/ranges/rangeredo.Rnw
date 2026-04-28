@@ -38,7 +38,12 @@ Other
 \maketitle
 
 \section*{Abstract} 
-A fundamental assumption of phenological modeling is that spring phenology is shaped by a trade-off between risk of damage from late season frost and and extending the growing season. Implicit in this trade off is that in regions with less predictable starts to spring, species are at more risk of late season frost, and evolve to integrate multiple environmental cues to prevent premature leafout, while species found in more predictable spring environments do not require such assurances. While this assumption has
+A fundamental assumption of phenological modeling is that spring phenology is shaped by a trade-off between risk of damage from late season frost and and extending the growing season. Implicit in this trade off is that in regions with less predictable starts to spring, species are at more risk of late season frost, and evolve to integrate multiple environmental cues to prevent premature leafout, while species found in more predictable spring environments do not require such assurances. This exception--- the spring predictability hypothesis (SPH)---is pervasive in the literature and is often invoked to explain the competitive success of invasive plants in novel climate conditions, but has not been rigorously interrogated.
+
+We combined estimates of species-level phenological cues with climate data from species range for woody plants from temperate North American and Europe to test whether inter- and intra-contitinental patterns of cue sensitivity matched the predictions of the SPH....
+finish
+
+
 
 \section*{Introduction}
 
@@ -50,7 +55,7 @@ The predictability of the arrival spring may strongly influence the evolution of
 \subsection*{Spatial predictions of the SPH}
 Global circulation patterns generate substantially different spring climatic conditions on either side of the North Atlantic \citep{}. In Eastern North America, the spring is marked by instability, while in Europe, the arrival of spring is generally more consistent (Figure \ref{fig:mappy}). Given these contrasting climate regimes, the SPH predicts that North American species should have stronger sensitivity to chilling and photoperiod and weaker to forcing \citep{Dawson2025}. We tested these predictions by comparing the cue sensitivities of North American and Europe species estimated from Bayesian hierarchical models.
 
-It is also possible that that phenological responses to cues play a more important role in determining species range limits \citep{Chuine2001}. The distributions of species that rely primarily on forcing, should be restricted geographic regions where spring predictability is high, while species that rely more heavily on chilling and photoperiod can persist in regions where spring predictability is low. If this is the case, the SPH predicts that within each continent, species with higher chilling and photoperiod cue responses should be associated with lower spring predictability across their ranges. We tested this prediction by regressing the species-level posterior estimates of forcing, chilling and photoperiod sensitivity from our previously described model against the two metrics of spring predictability, % analyzed the relationship between spring predictability and cue responses using a Bayesian hierarchical framewor
+It is also possible that that phenological responses to cues play a more important role in determining species range limits \citep{Chuine2010}. The distributions of species that rely primarily on forcing, should be restricted geographic regions where spring predictability is high, while species that rely more heavily on chilling and photoperiod can persist in regions where spring predictability is low. If this is the case, the SPH predicts that within each continent, species with higher chilling and photoperiod cue responses should be associated with lower spring predictability across their ranges. We tested this prediction by regressing the species-level posterior estimates of forcing, chilling and photoperiod sensitivity from our previously described model against the two metrics of spring predictability, % analyzed the relationship between spring predictability and cue responses using a Bayesian hierarchical framewor
 with separate models for each cue by continent.
 %Spring Temperature Variability (STV), defined as the standard deviation of mean minimum temperature from March-May \citep{Zohner:2017aa}, and the standard deviation in growing degree days to last frost. 
 
