@@ -6,7 +6,6 @@
 # housekeeping
 rm(list=ls())
 options(stringsAsFactors = FALSE)
-rstan_options(auto_write = TRUE)
 
 # Setting working directory. Add in your own path in an if statement for your file structure
 if(length(grep("lizzie", getwd())>0)) { 
@@ -121,6 +120,8 @@ ggplot(betpen, aes(x=photo, y= resp, color=chill)) +
 geom_point()+
 facet_wrap(.~datasetID)
 
+if(FALSE){
+  # Below run slow and with divergent transitions; I should cut soon. 
 library(rstanarm)
 
 fsmod <- stan_lmer(resp~photo+force+chill+1|datasetID, data=fagsyl)
@@ -128,11 +129,12 @@ bpmod <- stan_lmer(resp~photo+force+chill+1|datasetID, data=betpen)
 
 fsmodsimple <- stan_glm(resp~photo+force+chill, data=fagsyl)
 bpmodsimple <- stan_glm(resp~photo+force+chill, data=betpen)
+}
 
 ##
 library(rstan)
 d <- fagsyl
-goo <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
+fsmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
                data=list(N=nrow(d),
                                 n_study=length(unique(d$datasetID)),
                                 study=as.numeric(as.factor(d$datasetID)),
@@ -144,3 +146,19 @@ goo <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
                warmup = 1000,
                chains = 4
                )
+
+summary(fsmod, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+
+fsmodsimple <- stan("..//misc/photoperiodlooksee/threeslope.stan",
+               data=list(N=nrow(d),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=d$resp),
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(fsmodsimple, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary

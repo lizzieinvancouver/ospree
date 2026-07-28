@@ -38,5 +38,4 @@ model {
 	b_chill ~ normal(0, 30);
 	
 	y ~ normal(yhat, sigma_y);
-
 }
