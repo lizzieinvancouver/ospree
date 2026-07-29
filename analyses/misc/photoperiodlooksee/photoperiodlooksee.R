@@ -1,7 +1,7 @@
 ## Started 28 July 2026 ##
 ## By Lizzie, at the start I copy...
 ## phylo_ospree_compact4betan.R which copies Nacho's Phylo_ospree_reanalyses.R code...
-## They're probably identical through there ##
+## (They're probably identical in those two R scripts since Deirdre says she copied the latter) ##
 
 # housekeeping
 rm(list=ls())
@@ -149,6 +149,21 @@ fsmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
 
 summary(fsmod, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
 
+fsmodwintxn <- stan("..//misc/photoperiodlooksee/threeslopeswstudywintxn.stan",
+               data=list(N=nrow(d),
+                                n_study=length(unique(d$datasetID)),
+                                study=as.numeric(as.factor(d$datasetID)),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=d$resp),
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(fsmodwintxn, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "b_cp", "sigma_y"))$summary
+
 
 fsmodsimple <- stan("..//misc/photoperiodlooksee/threeslope.stan",
                data=list(N=nrow(d),
@@ -162,3 +177,52 @@ fsmodsimple <- stan("..//misc/photoperiodlooksee/threeslope.stan",
                )
 
 summary(fsmodsimple, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+## Now betula, overwriting d
+d <- betpen
+bpmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
+               data=list(N=nrow(d),
+                                n_study=length(unique(d$datasetID)),
+                                study=as.numeric(as.factor(d$datasetID)),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=d$resp),
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(bpmod, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+bpmodwintxn <- stan("..//misc/photoperiodlooksee/threeslopeswstudywintxn.stan",
+               data=list(N=nrow(d),
+                                n_study=length(unique(d$datasetID)),
+                                study=as.numeric(as.factor(d$datasetID)),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=d$resp),
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(bpmodwintxn, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "b_cp", "sigma_y"))$summary
+
+
+bpmodsimple <- stan("..//misc/photoperiodlooksee/threeslope.stan",
+               data=list(N=nrow(d),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=d$resp),
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(bpmodsimple, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+## Which studies co-varied thermo and photo?
+plot(force~forcetemp, data=bb.stan)
