@@ -102,6 +102,15 @@ bb.stan$phylo <- paste(bb.stan$genus,bb.stan$species,sep="_")
 # END of copying code (right before 'get phylogeny')
 ###############
 
+
+## Which studies co-varied thermo and photo?
+plot(force~forcetemp, data=bb.stan)
+dcov <- bb.stan[which(bb.stan$force != bb.stan$forcetemp),]
+plot(force~forcetemp, data=dcov)
+abline(0,1)
+unique(dcov$datasetID) # 14 studies out of 56 total (but not sure which vary photoperiod)
+
+## Look at photoperiod responses in two particular species
 fagsyl <- subset(bb.stan, latbi=="Fagus_sylvatica")
 betpen <- subset(bb.stan, species=="pendula")
 
@@ -224,5 +233,4 @@ bpmodsimple <- stan("..//misc/photoperiodlooksee/threeslope.stan",
 
 summary(bpmodsimple, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
 
-## Which studies co-varied thermo and photo?
-plot(force~forcetemp, data=bb.stan)
+
