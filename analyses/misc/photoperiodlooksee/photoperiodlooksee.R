@@ -102,6 +102,37 @@ bb.stan$phylo <- paste(bb.stan$genus,bb.stan$species,sep="_")
 # END of copying code (right before 'get phylogeny')
 ###############
 
+# libs here
+library(ggplot2)
+
+## What about that percent % data?
+dim(bb.resp)
+table(bb.resp$respvar)
+dim(bb.noNA)
+table(bb.noNA$respvar)
+dperc <- subset(bb.resp, respvar=="percentbudburst")
+table(dperc$datasetID)
+table(dperc$genus) # Betula and Fagus are still top...
+
+fsperc <- subset(dperc, genus=="Fagus" & species=="sylvatica")
+unique(fsperc$datasetID) # oy, just Falusi studies
+
+ggplot(fsperc, aes(x=photo, y= resp, color=chill)) +
+geom_point()+
+facet_wrap(.~datasetID)
+
+bpperc <- subset(dperc, genus=="Betula" & species=="pendula")
+unique(bpperc$datasetID) # a better mix ... but Juntilla has >100% budburst ... hmm
+
+ggplot(bpperc, aes(x=photo, y= resp, color=chill)) +
+geom_point()+
+facet_wrap(.~datasetID)
+
+# Okay, so NONE of the above look like critical photoperiod
+
+# And do we have Populus (model species) data?
+poppy <- subset(bb.resp, genus=="Populus")
+unique(poppy$species)
 
 ## Which studies co-varied thermo and photo?
 plot(force~forcetemp, data=bb.stan)
@@ -113,8 +144,6 @@ unique(dcov$datasetID) # 14 studies out of 56 total (but not sure which vary pho
 ## Look at photoperiod responses in two particular species
 fagsyl <- subset(bb.stan, latbi=="Fagus_sylvatica")
 betpen <- subset(bb.stan, species=="pendula")
-
-library(ggplot2)
 
 unique(fagsyl$datasetID)
 
@@ -129,18 +158,8 @@ ggplot(betpen, aes(x=photo, y= resp, color=chill)) +
 geom_point()+
 facet_wrap(.~datasetID)
 
-if(FALSE){
-  # Below run slow and with divergent transitions; I should cut soon. 
-library(rstanarm)
 
-fsmod <- stan_lmer(resp~photo+force+chill+1|datasetID, data=fagsyl)
-bpmod <- stan_lmer(resp~photo+force+chill+1|datasetID, data=betpen)
-
-fsmodsimple <- stan_glm(resp~photo+force+chill, data=fagsyl)
-bpmodsimple <- stan_glm(resp~photo+force+chill, data=betpen)
-}
-
-##
+## Stan models! Tried running in rstanarm but annoying output and slow (and diverging)
 library(rstan)
 d <- fagsyl
 fsmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
