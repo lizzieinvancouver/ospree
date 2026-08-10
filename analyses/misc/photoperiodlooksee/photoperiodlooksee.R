@@ -162,7 +162,40 @@ facet_wrap(.~datasetID)
 ## Stan models! Tried running in rstanarm but annoying output and slow (and diverging)
 library(rstan)
 d <- fagsyl
-fsmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
+
+fsmod <- stan("..//misc/photoperiodlooksee/threeslope.stan",
+               data=list(N=nrow(d),
+                                n_study=length(unique(d$datasetID)),
+                                study=as.numeric(as.factor(d$datasetID)),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=(d$resp+0.0001)), # tacky! 
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(fsmod, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+
+fsmodlog <- stan("..//misc/photoperiodlooksee/threeslopelognormal.stan",
+               data=list(N=nrow(d),
+                                n_study=length(unique(d$datasetID)),
+                                study=as.numeric(as.factor(d$datasetID)),
+                                force=d$force.z,
+                                chill = d$chill.z,
+                                photo=d$photo.z,
+                                y=(d$resp+0.0001)), # tacky! 
+               iter = 2000,
+               warmup = 1000,
+               chains = 4
+               )
+
+summary(fsmodlog, pars = list("a", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+
+
+fsmodstudy <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
                data=list(N=nrow(d),
                                 n_study=length(unique(d$datasetID)),
                                 study=as.numeric(as.factor(d$datasetID)),
@@ -175,7 +208,7 @@ fsmod <- stan("..//misc/photoperiodlooksee/threeslopeswstudy.stan",
                chains = 4
                )
 
-summary(fsmod, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
+summary(fsmodstudy, pars = list("mu_a", "sigma_a_study", "b_force", "b_photo", "b_chill", "sigma_y"))$summary
 
 fsmodwintxn <- stan("..//misc/photoperiodlooksee/threeslopeswstudywintxn.stan",
                data=list(N=nrow(d),
