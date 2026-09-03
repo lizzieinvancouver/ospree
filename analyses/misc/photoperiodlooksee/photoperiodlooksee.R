@@ -147,6 +147,7 @@ betpen <- subset(bb.stan, species=="pendula")
 
 unique(fagsyl$datasetID)
 
+# Saved as fagsyldays.pdf
 ggplot(fagsyl, aes(x=photo, y= resp, color=chill)) +
 geom_point()+
 facet_wrap(.~datasetID)
@@ -154,6 +155,7 @@ facet_wrap(.~datasetID)
 unique(betpen$latbi)
 unique(betpen$datasetID)
 
+# Saved as betpen.pdf
 ggplot(betpen, aes(x=photo, y= resp, color=chill)) +
 geom_point()+
 facet_wrap(.~datasetID)
