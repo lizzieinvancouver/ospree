@@ -160,8 +160,46 @@ ggplot(betpen, aes(x=photo, y= resp, color=chill)) +
 geom_point()+
 facet_wrap(.~datasetID)
 
+###Dan adds
+colnames(bb.stan)
 
-## Stan models! Tried running in rstanarm but annoying output and slow (and diverging)
+#how often are ospree studyies
+photosum<-bb.stan %>% group_by(datasetID,study,photo) %>% count() %>% group_by(datasetID,study) %>% count()
+photosum<-filter(photosum,n>1)
+phtosum.good<-filter(photosum,n>2)
+nrow(phtosum.good)/
+nrow(photosum)
+#only 13/35  experiments use more than 2 photoperiods
+
+threshes<-filter(bb.stan,datasetID %in% phtosum.good$datasetID)
+threshes<-left_join(phtosum.good,bb.stan)
+nolaub<-filter(threshes,datasetID!="laube14a")
+laub<-filter(threshes,datasetID=="laube14a")
+jpeg("~/Documents/git/ospree/analyses/misc/photoperiodlooksee/figures/threshholds.jpeg",width = 10,height=7, unit='in',res=200)
+ggplot(nolaub,aes(photo,resp))+stat_summary(aes(color=spps,group=spps))+
+  stat_summary(fun = mean, geom = "line",aes(color=spps))+
+  facet_wrap(~datasetID,scales="free_y")+geom_vline(xintercept=12)
+dev.off()
+
+jpeg("~/Documents/git/ospree/analyses/misc/photoperiodlooksee/figures/laube.jpeg",width = 10,height=7, unit='in',res=200)
+ggplot(laub,aes(photo,resp))+geom_point(aes(color=chill))+
+  stat_summary(fun = mean, geom = "line",aes(group=chill))+facet_wrap(~spps,scales="free_y")+
+  geom_vline(xintercept = 12,linetype="dotted")
+dev.off()
+set.seed(923)
+examp<-data.frame(photoperiod=seq(0,24,by=1),doy=c(rnorm(13,90,10),rnorm(12,30,10)),
+                  experiment=c("","","","","","","two","","","","","","two","one","","","one","","two","","one",
+                               "","","",""),
+                  line=c(NA,NA,NA,NA,NA,NA,"two",NA,NA,NA,NA,NA,"two","one",NA,NA,"one",NA,"two",NA,"one",
+                  NA,NA,NA,NA))
+jpeg("~/Documents/git/ospree/analyses/misc/photoperiodlooksee/figures/true_effect.jpeg",width = 10,height=7, unit='in',res=200)
+ggplot(examp,aes(photoperiod,doy))+geom_point(size=4,aes(color=experiment,shape=experiment))+
+  geom_errorbar(aes(x=photoperiod,ymin=doy-10,ymax=doy+10,color=experiment),width=0)+
+  geom_vline(xintercept=12,linetype="dotted")+
+  ggthemes::theme_few()+scale_color_manual(values=c("black","royalblue","purple3"))+
+  scale_shape_manual(values=c(16,15, 17))+theme(legend.position = "none")
+dev.off()
+## Stan models! Tried running in rstanarm but geom_segment()## Stan models! Tried running in rstanarm but annoying output and slow (and diverging)
 library(rstan)
 d <- fagsyl
 
